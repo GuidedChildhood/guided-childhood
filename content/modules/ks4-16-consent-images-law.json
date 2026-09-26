@@ -14,7 +14,7 @@
       "Manage AI"
     ],
     "character_cast": "DiGi only",
-    "evidence_anchor": "Image based abuse data",
+    "evidence_anchor": "Protection of Children Act 1978, UKCIS 2024, RSHE 2025, KCSIE 2026",
     "statutory_hooks": [
       "RSHE",
       "UK law on under 18 images"
@@ -83,7 +83,7 @@
         },
         {
           "word": "indecent image",
-          "meaning": "The legal term for a sexual image. In UK law this applies to any image of a person under 18."
+          "meaning": "The law's term for a nude or sexual image of a person under 18."
         },
         {
           "word": "Report Remove",
@@ -182,7 +182,7 @@
       "question": "Someone said yes to a photo being shared last month. Today they ask for it to be deleted. The other person says you already agreed. Who is right?"
     },
     {
-      "body": "In UK law it is illegal to make, hold or share a sexual image of anyone under 18. That is the whole rule, and it has no exceptions for circumstances people assume are fine. It applies even if the image is of yourself. It applies even if you are under 18 too. It applies even if both people agreed.",
+      "body": "In UK law it is illegal to make, hold or share a sexual image of anyone under 18. It applies even if the image is of yourself. It applies even if you are under 18 too. It applies even if both people agreed.",
       "type": "concept",
       "emoji": "⚖️",
       "phase": "teach",
@@ -191,10 +191,10 @@
       "minutes": 1
     },
     {
-      "body": "The law calls these indecent images, and the age line is 18, not 16, which surprises many people. The reason the law is written this bluntly is protection: it makes every image of an under 18 person legally untouchable, so nobody can claim a loophole. Past eighteen the rule changes shape rather than disappearing: sharing an intimate image of an adult without their consent is also a crime.",
+      "body": "The law calls these indecent images, and the age line is 18, not 16, which surprises many people. The reason the law is written this bluntly is protection: agreeing is no defence, so nobody can pressure a young person and then claim they said yes. Past eighteen the rule changes shape rather than disappearing: sharing an intimate image of an adult without their consent is also a crime.",
       "type": "concept",
       "phase": "teach",
-      "script": "Answer the question honestly now: the law is written to make images of under 18s untouchable with no loopholes, and that blanket rule catches this situation too. Then say the reassurance clearly, because it is true and it matters: police guidance treats young people in these situations as children to protect first, not criminals to charge. The law exists to protect you, not to trap you. Do not let the room leave with fear and no options. One more sentence before you move on, and say it plainly: the protection does not stop on someone's eighteenth birthday, it changes shape. Sharing an intimate image of an adult without their consent is its own offence. Pupils often assume the whole subject expires at eighteen and it does not.",
+      "script": "Answer the question honestly now: the law is written so that agreeing is never a defence for images of under 18s, and that blanket rule catches this situation too. Then say the reassurance clearly, because it is true and it matters: the guidance schools and police follow says the law exists to protect young people, not to criminalise them. The law exists to protect you, not to trap you. Do not let the room leave with fear and no options. One more sentence before you move on, and say it plainly: the protection does not stop on someone's eighteenth birthday, it changes shape. Sharing an intimate image of an adult without their consent is its own offence. Pupils often assume the whole subject expires at eighteen and it does not.",
       "heading": "Why it is written that bluntly",
       "minutes": 1
     },
@@ -208,7 +208,7 @@
           "title": "Making"
         },
         {
-          "text": "Having it on a device. A photo that arrives unasked in a group chat still counts, so delete and report, never save.",
+          "text": "Keeping it on a device. If one arrives that you never asked for, do not save, show or forward it: tell an adult, then delete it.",
           "emoji": "📱",
           "title": "Holding"
         },
@@ -218,18 +218,18 @@
           "title": "Sharing"
         },
         {
-          "text": "Making one with an app. An image a computer generated, or edited onto someone under 18, is treated exactly like a photograph.",
+          "text": "Making one with an app. If it looks like a real photo of someone under 18, the law treats it exactly like a photograph.",
           "emoji": "🤖",
           "title": "Generating"
         }
       ],
-      "script": "Walk the four steps steadily. The one pupils most often get wrong is holding: an image that lands in a group chat you never asked for still creates a legal problem on your device, and the right move is delete, do not forward, and tell an adult. Forwarding deserves a moment too, because whoever forwards is legally sharing, and adding I am just passing it on changes nothing. Point at the verdict chips and repeat the frame: illegal under 18, no exceptions, and the purpose is protection first. The fourth one is the newest and the one adults get wrong too. An image generated or edited by an app is treated the same as a photograph, so a face pasted onto a body by an app is the same offence. Say that once, flatly, and do not dwell: the point is that the word real is not a defence.",
-      "caption": "All four are offences when the person in the image is under 18. There is no consent exception, no same age exception, and no exception for an image a computer made.",
+      "script": "Walk the four steps steadily. The one pupils most often get wrong is holding: the law has a defence for an image you never asked for and did not keep, so the move is: nothing saved, shown or sent on, and an adult told before it is deleted. Forwarding deserves a moment too, because whoever forwards is legally sharing, and adding I am just passing it on changes nothing. Point at the verdict chips and repeat the frame: illegal under 18, agreeing is no defence, and the purpose is protection first. The fourth one is the newest and the one adults get wrong too. An image generated or edited by an app that looks like a real photo is treated the same as a photograph, so a face pasted onto a body by an app is the same offence. Say that once, flatly, and do not dwell: the point is that the word real is not a defence.",
+      "caption": "All four are offences when the person in the image is under 18. Agreeing does not make it legal, being the same age does not, and a fake that looks like a real photo counts too.",
       "heading": "Four things the law covers",
       "minutes": 3,
       "verdicts": [
         "Illegal under 18",
-        "No exceptions",
+        "Agreeing is no defence",
         "Protection first"
       ]
     },
@@ -274,7 +274,7 @@
       "extension": true
     },
     {
-      "body": "The single most used pressure line is everyone sends them, and it is simply false. Most young people do not, whatever the loudest voices claim. Pressure comes in soft forms too: guilt, sulking, repeated asking, or making you feel boring or cold for saying no. All of it is coercion, and a yes it produces is not consent.",
+      "body": "A pressure line you will hear is everyone sends them, and it is simply false. Most young people have never sent one, whatever the loudest voices claim. Pressure comes in soft forms too: guilt, sulking, repeated asking, or making you feel boring or cold for saying no. All of it is coercion, and a yes it produces is not consent.",
       "type": "concept",
       "emoji": "🛑",
       "phase": "teach",
@@ -311,7 +311,7 @@
           "title": "Is there real consent?"
         },
         {
-          "text": "Under 18, the law says no: making, holding or sharing, no exceptions. That answers the question for you.",
+          "text": "Under 18, the law says no: making, holding or sharing, and agreeing is no defence. That answers the question for you.",
           "emoji": "⚖️",
           "title": "What does the law say?"
         },
@@ -341,10 +341,10 @@
       "minutes": 1
     },
     {
-      "body": "Report Remove, run by Childline and the Internet Watch Foundation, lets anyone under 18 report an image of themselves confidentially and have it taken down from the open web, without needing a parent present and without going to the police themselves. Alongside it, a trusted adult, your school DSL or Childline on 0800 1111 can help you carry it, because nobody should carry this alone.",
+      "body": "Report Remove, run by Childline and the Internet Watch Foundation, lets anyone under 18 report an image of themselves confidentially. If the image breaks the law, they work to get it taken down and stop it being posted again, and nobody has to go to the police themselves. Alongside it, a trusted adult, your school DSL or Childline on 0800 1111 can help you carry it, because nobody should carry this alone.",
       "type": "concept",
       "phase": "teach",
-      "script": "Spell out how Report Remove works: childline.org.uk, search Report Remove, prove your age, report the image confidentially, and the IWF works to remove it. Say plainly that asking for help is the strong move, not the embarrassing one. Then say: if this applies to you or a friend, come and talk to me after the lesson, or any adult you trust, today. If a pupil does, follow your safeguarding policy, do not promise secrecy, and involve your DSL the same day. Say this, as written: The same door opens the other way round, and almost nobody says this out loud. If it is your own behaviour worrying you, if you pressured somebody, or sent something on, or did something you have not been able to stop thinking about since, telling an adult early is still the thing that changes what happens next, and it is treated very differently from being found out later. If somebody has hurt you, every route on this slide is yours. And if you have been physically hurt, that is a GP, or 111, or A and E, and going is not an admission of anything. None of these doors close because time has passed. The own behaviour lines are the reason this slide now runs slightly longer, and they are worth the seconds. Say them in exactly the same voice as the rest, with no warning and no weight, because a pupil who is in that position will be listening very hard for a change of tone and will stop listening if they hear one. Do not look at anybody while you read it. Know your own school process first, because the question that follows is always what would actually happen.",
+      "script": "Spell out how Report Remove works: childline.org.uk, search Report Remove, prove your age, report the image confidentially, and the IWF works to remove it. Say plainly that asking for help is the strong move, not the embarrassing one. Then say: if this applies to you or a friend, come and talk to me after the lesson, or any adult you trust, today. If a pupil does, follow your safeguarding policy, do not promise secrecy, and involve your DSL the same day. Say this, as written: The same door opens the other way round, and almost nobody says this out loud. If it is your own behaviour worrying you, if you pressured somebody, or sent something on, or did something you have not been able to stop thinking about since, telling an adult early is still the thing that changes what happens next. If somebody has hurt you, every route on this slide is yours. And if you have been physically hurt, that is a GP, or 111, or A and E, and going is not an admission of anything. None of these doors close because time has passed. The own behaviour lines are the reason this slide now runs slightly longer, and they are worth the seconds. Say them in exactly the same voice as the rest, with no warning and no weight, because a pupil who is in that position will be listening very hard for a change of tone and will stop listening if they hear one. Do not look at anybody while you read it. Know your own school process first, because the question that follows is always what would actually happen.",
       "heading": "And something can be done",
       "minutes": 1
     },
@@ -373,7 +373,7 @@
         {
           "text": "Nothing can be done once an image is out",
           "correct": false,
-          "feedback": "This myth keeps people silent and it is wrong. Report Remove takes images of under 18s down from the open web, and schools and police can act on the sharing. Something can always be done."
+          "feedback": "This myth keeps people silent and it is wrong. Report Remove works to get images of under 18s taken down, and schools and police can act on the sharing. Something can always be done."
         },
         {
           "text": "They should stay quiet, because reporting gets you in trouble",
@@ -426,21 +426,21 @@
             "handle": "Case 3"
           },
           {
-            "why": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Holding and forwarding are both offences when the person is under 18, and forwarding is legally the same act as sharing. The person in the image needs protecting, not an audience.",
+            "why": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Forwarding is legally the same act as sharing, and the law only protects someone who did not ask for an image and did not keep it. The person in the image needs protecting, not an audience.",
             "text": "An image of a Year 10 pupil is going around a group chat. Someone sends it to you with the words: have you seen this.",
             "answer": 2,
             "avatar": "⚖️",
             "handle": "Case 4"
           },
           {
-            "why": "This is a criminal threat, and complying never ends it. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
+            "why": "This is a criminal threat, and sending more is no guarantee it stops: they will likely ask for more. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
             "text": "Someone is told: send another one or the first one goes to everyone you know.",
             "answer": 2,
             "avatar": "⚖️",
             "handle": "Case 5"
           },
           {
-            "why": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove takes images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
+            "why": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove works to take images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
             "text": "Casey says: if a photo of you is already out there, you are the one in trouble and nothing can be done, so the safest thing is to stay quiet. Do you agree with Casey? Explain your reasoning.",
             "answer": 2,
             "avatar": "⚖️",
@@ -502,9 +502,9 @@
       "minutes": 2,
       "options": [
         {
-          "text": "It is not your fault, you will not be in trouble, and Report Remove plus a trusted adult can actually fix this",
+          "text": "It is not your fault, you will not be in trouble, and Report Remove plus a trusted adult can actually help",
           "correct": true,
-          "feedback": "Exactly right, all three parts. Not their fault, not in trouble, and real help exists: Report Remove from Childline and the IWF takes images down confidentially, and a trusted adult means they are not carrying it alone."
+          "feedback": "Exactly right, all three parts. Not their fault, not in trouble, and real help exists: Report Remove from Childline and the IWF works to take images down confidentially, and a trusted adult means they are not carrying it alone."
         },
         {
           "text": "Tell them to delete their accounts and hope it blows over",
@@ -534,7 +534,7 @@
         "Real consent is freely given, specific, ongoing and revocable. A yes under pressure is not consent, and any yes can be taken back.",
         "UK law: making, holding or sharing a sexual image of anyone under 18 is illegal, even of yourself, even if you are under 18 too, with no consent exception.",
         "Everyone sends them is a pressure line, not a fact. Most people do not, and naming the technique takes its power away.",
-        "If an image is out there: not your fault, not in trouble. Report Remove from Childline and the IWF takes it down confidentially, and a trusted adult helps you carry it."
+        "If an image is out there: not your fault, not in trouble. Report Remove from Childline and the IWF works to take it down confidentially, and a trusted adult helps you carry it."
       ],
       "script": "Read the four points yourself rather than asking pupils to perform them, it suits the register of this module. Then repeat the open door, slowly: if anything in this lesson was close to home for you or a friend, come and find me after class, or any adult you trust, today. Nobody is in trouble for asking. If anyone does come to you, follow your school safeguarding policy and involve your DSL the same day.",
       "heading": "What to keep",
@@ -574,7 +574,7 @@
       "lines": [
         "Three questions before anything is shared: is there real consent, what does the law say, what are my options? ⭐",
         "The law is on your side here. Under 18, it answers the second question for you, and it exists to protect you, never to trap you.",
-        "If something is already out there, for you or a friend: it is not your fault, you are not in trouble, and Report Remove can take it down. Help is real.",
+        "If something is already out there, for you or a friend: it is not your fault, you are not in trouble, and Report Remove can help take it down. Help is real.",
         "You deserve people who respect your no without a fight. That is the standard. Look after yourselves, and I am always in your corner."
       ],
       "phase": "close",
@@ -584,7 +584,7 @@
     }
   ],
   "dsl_note": {
-    "note": "This module covers consent, indecent images of under 18s and coercion, and may prompt disclosures during or after the lesson, including image sharing that has already happened, ongoing pressure, or threats such as demands backed by a threat to share. Teachers have been briefed to listen calmly, never promise secrecy, and follow the school safeguarding policy, passing any disclosure to the DSL the same day. Pupils are signposted throughout to Report Remove (Childline and the Internet Watch Foundation) for confidential removal of images of under 18s, and to Childline on 0800 1111, with the consistent message that they are not in trouble and it is not their fault. The platform records no disclosures and stores no pupil responses from this lesson: all worksheet and exit quiz work is on paper and handled inside school. If a threat to share images is disclosed, treat it as potential sextortion and follow your policy and local police guidance without asking the pupil to gather or show evidence.",
+    "note": "This module covers consent, indecent images of under 18s and coercion, and may prompt disclosures during or after the lesson, including image sharing that has already happened, ongoing pressure, or threats such as demands backed by a threat to share. Teachers have been briefed to listen calmly, never promise secrecy, and follow the school safeguarding policy, passing any disclosure to the DSL the same day. Pupils are signposted throughout to Report Remove (Childline and the Internet Watch Foundation) for confidential removal of images of under 18s, and to Childline on 0800 1111, with the consistent message that they are not in trouble and it is not their fault. The platform records no disclosures and stores no pupil responses from this lesson: all worksheet and exit quiz work is on paper and handled inside school. If a threat to share images is disclosed, treat it as potential sextortion: the NCA alert directs the DSL to refer it to the police and/or children's social care. Do not view or ask to see any image, and ask the pupil not to delete messages, because they may be evidence.",
     "required": true,
     "concern_form_linked": true
   },
@@ -619,7 +619,7 @@
   },
   "sort_order": 16,
   "parent_note": {
-    "taught": "Today we covered consent, images and UK law in a calm, factual way: real consent is freely given and can always be taken back, and the law makes any sexual image of an under 18 illegal to make, hold or share, even of yourself, with no exceptions. We also made sure every pupil knows about Report Remove, the confidential Childline and Internet Watch Foundation tool that gets images of under 18s taken down, and that asking for help never gets them in trouble.",
+    "taught": "Today we covered consent, images and UK law in a calm, factual way: real consent is freely given and can always be taken back, and the law makes any sexual image of an under 18 illegal to make, hold or share, even of yourself, and agreeing is no defence. We also made sure every pupil knows about Report Remove, the confidential Childline and Internet Watch Foundation tool that works to get images of under 18s taken down, and that asking for help never gets them in trouble.",
     "headline": "What we taught today, and one thing to try at home",
     "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them what the three questions are, and let the conversation be short if they want it short: they know the answers now.",
     "try_this": "Look up Report Remove together at childline.org.uk, just so it is a known name in your house before anyone ever needs it. Knowing the route in advance is what makes a young person use it.",
@@ -629,7 +629,7 @@
   "video_beats": [],
   "teacher_notes": {
     "send": {
-      "eal": "Consent needs exact pre teaching: a yes freely given, that can be taken back. Report Remove is a name, teach it as one: the confidential route that takes images down.",
+      "eal": "Consent needs exact pre teaching: a yes freely given, that can be taken back. Report Remove is a name, teach it as one: the confidential route that works to take images down.",
       "sensory": "Stillness in this room is information, not disengagement. No cold calling in this module, ever, and any pupil may keep their card face down throughout.",
       "attention": "Short scenarios, immediate votes, and the law facts in their exact scripted words. A pupil who blurts is redirected to the options question, which is always a safe place to land.",
       "communication": "The three questions are printed as a card each pupil keeps. Answers in this lesson may be written, pointed or silent: the knowledge is for them, not for display."
@@ -686,7 +686,7 @@
       },
       {
         "word": "indecent image",
-        "definition": "The legal term for a sexual image. In UK law this applies to any image of a person under 18."
+        "definition": "The law's term for a nude or sexual image of a person under 18."
       },
       {
         "word": "Report Remove",
@@ -720,7 +720,7 @@
         "teaching_point": "The evidence consistently shows most young people do not. The belief that everyone does is itself the pressure."
       },
       {
-        "answer": "That it is not their fault, that they are not in trouble, and that Report Remove is free, confidential and works.",
+        "answer": "That it is not their fault, that they are not in trouble, and that Report Remove is free, confidential and can get images taken down.",
         "format": "short_answer",
         "question": "A friend tells you an image of them is out there. What do you say?",
         "teaching_point": "Three parts. Watch for answers that reach the tool but skip the two reassurances that let someone use it."
@@ -770,13 +770,13 @@
     "misconceptions": [
       "It is legal if you are both under 18 and both agree (it is not, the law covers making, holding and sharing any sexual image of an under 18 with no consent or same age exception, and the age line is 18, not 16)",
       "Everyone sends them (false, the evidence consistently shows most young people do not, and the line is a pressure technique designed to isolate the person saying no)",
-      "If an image of you is out there you are in trouble and nothing can be done (wrong on both counts, police and school guidance protects the young person first, and Report Remove from Childline and the IWF gets images taken down confidentially)"
+      "If an image of you is out there you are in trouble and nothing can be done (wrong on both counts, police and school guidance protects the young person first, and Report Remove from Childline and the IWF works to get images taken down confidentially)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Read the consent properties and the law slide aloud word for word from the pack, draw the three questions tool on the board, run both discussions as timed pair and group talk with a watch, deliver the scenario by reading the message aloud in a flat neutral voice, and run the worksheet and the two exit questions exactly as printed. The Report Remove signpost and the closing open door must be said aloud even with no screen.",
     "passport_stage": "independent",
     "commitment_stem": "My commitment: before anything is shared I will ask the three questions, and if it ever matters, for me or a friend, I know about Report Remove and I will not stay quiet.",
     "differentiation": {
-      "stretch": "Early finishers take the stretch question: why does the law deliberately have no consent exception for under 18s, and who would benefit if it did? Push for the protective logic: a blanket rule leaves no loophole for anyone to exploit.",
+      "stretch": "Early finishers take the stretch question: why does the law deliberately have no consent exception for under 18s, and who would benefit if it did? Push for the protective logic: a rule where agreeing is no defence leaves no room for pressure dressed up as a yes.",
       "support": "Bookmark strips with the three questions on every table. Support pairs work worksheet items one to three with the teacher, reading each situation aloud and running the three questions verbally before writing."
     },
     "prior_knowledge": [
@@ -806,19 +806,19 @@
       {
         "n": 4,
         "item": "An image of a Year 10 pupil is going around a group chat. Someone sends it to you with the words: have you seen this.",
-        "teaching_point": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Holding and forwarding are both offences when the person is under 18, and forwarding is legally the same act as sharing. The person in the image needs protecting, not an audience.",
+        "teaching_point": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Forwarding is legally the same act as sharing, and the law only protects someone who did not ask for an image and did not keep it. The person in the image needs protecting, not an audience.",
         "expected_verdict": "Get help now"
       },
       {
         "n": 5,
         "item": "Someone is told: send another one or the first one goes to everyone you know.",
-        "teaching_point": "This is a criminal threat, and complying never ends it. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
+        "teaching_point": "This is a criminal threat, and sending more is no guarantee it stops: they will likely ask for more. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
         "expected_verdict": "Get help now"
       },
       {
         "n": 6,
         "item": "Casey says: if a photo of you is already out there, you are the one in trouble and nothing can be done, so the safest thing is to stay quiet. Do you agree with Casey? Explain your reasoning.",
-        "teaching_point": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove takes images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
+        "teaching_point": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove works to take images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
         "expected_verdict": "Get help now"
       }
     ],
@@ -829,7 +829,7 @@
       "Coercion produces a yes that is not consent.",
       "In UK law an indecent image is any sexual image of a person under 18.",
       "Everyone is not sending them. The belief that they are is itself the pressure.",
-      "Report Remove is free, confidential, and it works."
+      "Report Remove is free and confidential, and it can get images taken down."
     ],
     "hard_questions": [
       {
@@ -838,7 +838,7 @@
       },
       {
         "question": "Everyone sends them.",
-        "answer": "Surveys put it well below everyone, and the belief that everybody does is itself a pressure technique. Whatever the number is, it does not change the law or what happens if an image moves, and those are the two things that will actually affect you."
+        "answer": "Large studies of under 18s put it at about one in five or fewer, and the belief that everybody does is itself a pressure technique. Whatever the number is, it does not change the law or what happens if an image moves, and those are the two things that will actually affect you."
       },
       {
         "question": "If there is already an image of me out there, am I in trouble?",
@@ -847,6 +847,58 @@
       {
         "question": "What if I agreed at the time and I do not now?",
         "answer": "Then consent has ended, and it is allowed to end. Consent is not a form you signed once. Somebody who tells you that you cannot change your mind is telling you something about themselves."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "It is illegal to make, keep or share a sexual image of anyone under 18, even an image of yourself, and agreeing is no defence.",
+        "source": "Protection of Children Act 1978 (PCA) s.1 makes it an offence to take, make, distribute or show an indecent photograph or pseudo photograph of a child, and s.7(6) defines a child as a person under 18; the Criminal Justice Act 1988 s.160 covers having one. DfE, RSHE statutory guidance, July 2025: keeping or forwarding indecent or sexual images of someone under 18 is a crime, even if the photo is of themselves or of someone who has consented. Scotland and Northern Ireland set the same age of 18 (Civic Government (Scotland) Act 1982 s.52; Protection of Children (Northern Ireland) Order 1978, article 2). The one narrow defence, PCA s.1A, covers a 16 or 17 year old and a spouse, civil partner or partner they live with in an enduring family relationship, and only while the image stays between the two of them; marriage under 18 has been void in England and Wales since 27 February 2023.",
+        "status": "verified"
+      },
+      {
+        "claim": "If an image arrives that you never asked for, do not save, show or forward it: tell an adult, then delete it.",
+        "source": "Criminal Justice Act 1988 s.160(2)(c): it is a defence to prove the image was sent without any prior request and was not kept for an unreasonable time. The defence covers having it, not showing or forwarding it, because parting with an image to another person is distributing it (PCA 1978 s.1(2)). UKCIS, Sharing nudes and semi nudes: advice for education settings, updated 11 March 2024, section 2.5: young people who receive an image are advised to delete it from their devices and accounts and not to share it further.",
+        "status": "verified"
+      },
+      {
+        "claim": "An image made or edited by an app that looks like a real photo of someone under 18 is treated the same as a photograph.",
+        "source": "PCA 1978 s.7(7): a pseudo photograph is an image, whether made by computer graphics or otherwise, which appears to be a photograph, and s.7(8) treats it as showing a child where the predominant impression is that the person shown is a child. DfE, RSHE 2025: the crime applies even if the image was created using AI generated imagery. KCSIE 2026, footnote 145: taking and sharing nude photographs of those aged under 18, including those generated using AI, is a criminal offence. Drawings and cartoons fall under a separate law, the Coroners and Justice Act 2009 s.62.",
+        "status": "verified"
+      },
+      {
+        "claim": "Sharing an intimate image of an adult without their consent is also a crime, and so is threatening to share one.",
+        "source": "Sexual Offences Act 2003 s.66B, inserted by the Online Safety Act 2023 and in force from 31 January 2024: it is an offence to intentionally share a photograph or film which shows, or appears to show, another person in an intimate state without their consent or a reasonable belief in it, and to threaten to share one, whether or not the image exists. It has no age limit, so it protects under 18s too. DfE, RSHE 2025: sharing indecent images of people over 18 without consent is a crime.",
+        "status": "verified"
+      },
+      {
+        "claim": "Most young people have never sent a nude: large studies of under 18s put it at about one in five or fewer.",
+        "source": "Madigan and colleagues, JAMA Pediatrics 2018, a meta analysis of 39 studies and 110,380 young people under 18: 14.8 percent had sent a sext and 27.4 percent had received one. Mori and colleagues, Journal of Adolescent Health 2022, 28 studies and 48,024 young people, data from 2016 on: 19.3 percent had sent one and 34.8 percent had received one. Rates rise with age, and a sext in these studies can be a sexual message as well as an image.",
+        "status": "verified"
+      },
+      {
+        "claim": "Report Remove, from Childline and the Internet Watch Foundation, lets anyone under 18 in the UK report a sexual image of themselves confidentially. If it breaks the law, they work to get it taken down and stop it being posted again.",
+        "source": "Internet Watch Foundation, Report Remove: for young people under 18 in the UK to confidentially report sexual images and videos of themselves. The IWF reviews each report and works to have it removed if it breaks the law, and makes a hash, a digital fingerprint, that tech platforms use to help stop it being shared or uploaded again. Young people do not need to give their real name; those aged 13 or over are asked to prove their age with ID through Yoti. It was built with law enforcement so that children are not unnecessarily visited by the police. Removal is not guaranteed: in 2025 the IWF took action on 1,175 of the 1,894 reports it received.",
+        "status": "verified"
+      },
+      {
+        "claim": "If an image of you has been shared, you will not be in trouble for asking for help, and the law exists to protect young people, not to criminalise them.",
+        "source": "DfE, RSHE statutory guidance, July 2025: pupils should understand that they will not be in trouble for asking for help, either at school or with the police, if an image of themselves has been shared. KCSIE 2026 para 557: staff should explain that the law exists to protect children and young people, not criminalise them. CEOP Education, for 11 to 18 year olds: if you have been pressured to share an image of yourself, you will not be in trouble. UKCIS 2024: the police must still record an incident, and where there is no exploitation, grooming, profit motive, malicious intent or extensive sharing they can record it as outcome 21, further action not in the public interest, which is a police decision.",
+        "status": "verified"
+      },
+      {
+        "claim": "If someone threatens to share an image unless you send more, sending more is no guarantee it stops: they will likely ask for more. It is never the young person's fault.",
+        "source": "CEOP Education, Online blackmail, for 11 to 18 year olds: don't send them anything as they will just ask for more; block and report the account, tell an adult you trust, and it is never your fault if you are blackmailed online. NCA and CEOP Education, Financially motivated sexual extortion: alert for education settings, April 2024: there is no guarantee that paying will stop the threats, and once you have shown you can pay, they will likely ask for more; avoid deleting anything that could be used as evidence; a child or young person is never to blame; the designated safeguarding person should immediately refer a disclosure to the police and/or local authority children's services.",
+        "status": "verified"
+      },
+      {
+        "claim": "Consent means agreeing by choice, with the freedom and capacity to choose, and it can be taken back at any time, even after a yes.",
+        "source": "Sexual Offences Act 2003 s.74: a person consents if he agrees by choice, and has the freedom and capacity to make that choice. DfE, RSHE statutory guidance, July 2025: sexual consent and their capacity to give, withhold or remove consent at any time, even if initially given. KCSIE 2026 para 543: consent can be withdrawn at any time during sexual activity, and each time activity occurs.",
+        "status": "verified"
+      },
+      {
+        "claim": "Sharing an image without consent sits inside a wider group of behaviours called sexual harassment, and upskirting is a criminal offence.",
+        "source": "KCSIE 2026 para 539: sexual harassment means unwanted conduct of a sexual nature, online and offline. Para 540 lists examples including upskirting (this is a criminal offence), and online sexual harassment such as making or sharing nudes or semi nudes, sharing unwanted explicit content, and coercing others into sharing images of themselves. Sexual Offences Act 2003 s.67A, in force from 12 April 2019: operating equipment or recording an image beneath someone's clothing without consent, to see their genitals or buttocks, is an offence.",
+        "status": "verified"
       }
     ]
   }

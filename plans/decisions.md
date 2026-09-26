@@ -520,3 +520,28 @@ globals.css turns every animation off under reduced motion, so those phones
 got all three at once. It is a timer now (0.15s, 0.95s, 1.75s); reduced
 motion only drops the slide. Also ran migrations 353 and 354 on the live
 database, with Justin's yes.
+## 26 September 2026: three flagged lessons now say what their sources say
+
+The V1 checks on ks4-16 (consent and the law), ks4-18 (radicalisation) and
+ks2-07 (privacy): every claim read against its primary source, 10 confirmed,
+24 corrected, 1 cut. The ones a DSL would catch: "no exceptions" to the image
+law (s.1A is one), Report Remove "takes images down" (the IWF works to, and
+acted on 1,175 of 1,894 reports in 2025), KCSIE "names incel culture" (it names
+misogyny; RSHE names incels), "misogyny is the most common on ramp" (no UK
+source ranks it) and "you will never know" about screenshots (Snapchat tells
+the sender). Each lesson gains its evidence panel and four hard questions.
+Migrations 350 to 352, hash proved; check-source-claims pins 38 of the old
+lines, and the RSHE map was re-attested on production. 353 and 354 are taken
+elsewhere, so the entrepreneur lesson checks for a free number. PR 1163.
+
+## 26 September 2026: the second standalone lesson, Could you be an entrepreneur?
+
+The second free standalone lesson (Years 8 and 9, 31 slides, 61 minutes) sits
+beside "What problem would you solve?", outside the scheme; each free bar names
+the other. Look, weigh, try: the ways to work, the honest UK figures (38 in 100
+businesses started in 2019 still going at five years; full time take home
+£22,800 against £29,000), no personality test, what under 18s may do, one money
+mule line. It ranks no path and names nobody. A second check of the wording
+against the primaries corrected 9 of 20 claims. The 7pm rule is taught (the
+2026 Act's 8pm is not in force), and check-source-claims fails any slide saying
+8pm. Migration 355, hash proved. PR 1166.

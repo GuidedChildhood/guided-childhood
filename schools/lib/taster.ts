@@ -39,8 +39,13 @@ export function isTasterModule(moduleId: string): boolean {
  *  tracked or put on the passport. It gets its own bar rather than the
  *  taster's, because the taster's bar sells the scheme and a lead from here
  *  would be sent the scheme's letter. It can join the scheme later by moving
- *  into the manifest and out of this list. */
-export const STANDALONE_MODULES = ['what-problem-would-you-solve'] as const
+ *  into the manifest and out of this list.
+ *
+ *  "Could you be an entrepreneur?" joined it on 26 September 2026, Justin's
+ *  fifth decision in plans/2026-09-24-simon-squibb-weighed.md: the real UK
+ *  figures on working for yourself, and a small safe way to try it, for the
+ *  same Year 8 and Year 9 classes, outside the scheme for the same reason. */
+export const STANDALONE_MODULES = ['what-problem-would-you-solve', 'could-you-be-an-entrepreneur'] as const
 
 export function isStandaloneModule(moduleId: string): boolean {
   return (STANDALONE_MODULES as readonly string[]).includes(moduleId)
@@ -50,10 +55,20 @@ export function isStandaloneModule(moduleId: string): boolean {
  *  read, the way the manifest does for the scheme. Keep it the row's title. */
 const STANDALONE_TITLES: Record<string, string> = {
   'what-problem-would-you-solve': 'What problem would you solve?',
+  'could-you-be-an-entrepreneur': 'Could you be an entrepreneur?',
 }
 
 export function standaloneTitle(moduleId: string): string | undefined {
   return STANDALONE_TITLES[moduleId]
+}
+
+/** The other standalone lessons, so each one's free bar can name the rest. A
+ *  teacher who has just taught one is the likeliest person to teach the next,
+ *  and the two were written to sit side by side. */
+export function otherStandaloneLessons(moduleId: string): { moduleId: string; title: string }[] {
+  return STANDALONE_MODULES
+    .filter(id => id !== moduleId)
+    .map(id => ({ moduleId: id, title: STANDALONE_TITLES[id] ?? id }))
 }
 
 /** The same four shapes as the taster, for a standalone lesson. A separate

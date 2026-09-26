@@ -113,7 +113,7 @@ export const RSHE_2026: Rshe2026Requirement[] = [
     kcsie: '',
     verdict: 'FULL',
     modules: ['ks2-07-privacy-reputation'],
-    evidence: ['location leaks', 'privacy is not hiding everything', 'privacy switch and a location switch'],
+    evidence: ['location leaks', 'privacy is not hiding everything', 'privacy settings, which choose who sees your posts', 'the camera setting that saves where each photo was taken'],
     note: '',
   },
   {
@@ -311,7 +311,7 @@ export const RSHE_2026: Rshe2026Requirement[] = [
     kcsie: 'para 165 conduct: explicit images, including those generated using AI; and the definition section, which states images may be digitally altered or wholly generated using artificial intelligence, including what are sometimes described as deepfakes or deep nudes',
     verdict: 'FULL',
     modules: ['ks4-16-consent-images-law'],
-    evidence: ['any image of a person under 18', 'treated exactly like a photograph', 'intimate image of an adult without their consent'],
+    evidence: ['nude or sexual image of a person under 18', 'agreeing is no defence', 'the law treats it exactly like a photograph', 'intimate image of an adult without their consent'],
     note: '',
   },
   {

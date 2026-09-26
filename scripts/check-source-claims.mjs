@@ -47,6 +47,10 @@ const KS3_10 = 'ks3-10-mood-and-screens'
 const KS3_11 = 'ks3-11-social-workarounds'
 const KS4_17 = 'ks4-17-sextortion'
 const SA_PROBLEM = 'what-problem-would-you-solve'
+const SA_ENTRE = 'could-you-be-an-entrepreneur'
+const KS4_16 = 'ks4-16-consent-images-law'
+const KS4_18 = 'ks4-18-radicalisation-misogyny'
+const KS2_07 = 'ks2-07-privacy-reputation'
 
 // [module, source, never | null, always | null, why]
 const CLAIMS = [
@@ -185,6 +189,110 @@ const CLAIMS = [
   // Bastani et al 2025, the same trial ks3-24 rests on.
   [SA_PROBLEM, 'Bastani', null, 'say it as a borrowed result', 'maths, older pupils, so it is borrowed'],
   [SA_PROBLEM, 'Bastani', null, 'no positive effect observed', 'the limit the paper states itself'],
+
+  // ks4-16, consent, images and the law, 25 September 2026 (migration 350).
+  // legislation.gov.uk, UKCIS March 2024, RSHE July 2025, KCSIE 2026, the IWF.
+  [KS4_16, 'PCA 1978', 'no exceptions', null,
+   's.1A is a narrow defence for 16 and 17 year olds living together as partners, so there is one'],
+  [KS4_16, 'RSHE 2025', null, 'agreeing is no defence', 'a crime even of someone who has consented'],
+  [KS4_16, 'CJA 1988', null, 'the law only protects someone who did not ask for an image and did not keep it',
+   'the s.160(2)(c) defence, which a received image is not left without'],
+  [KS4_16, 'PCA 1978', null, 'If it looks like a real photo of someone under 18, the law treats it exactly like a photograph.',
+   'a pseudo photograph is one that appears to be a photograph (s.7(7)); a cartoon is a different law'],
+  [KS4_16, 'IWF', 'takes images down', null, 'the IWF works to remove an image that breaks the law, and acted on 1,175 of 1,894 reports in 2025'],
+  [KS4_16, 'IWF', 'can take it down', null, 'same: it cannot promise every copy'],
+  [KS4_16, 'IWF', 'free, confidential and works', null, 'same'],
+  [KS4_16, 'NCA', 'never ends it', null, 'no guarantee it stops, and they will likely ask for more'],
+  [KS4_16, 'CEOP', null, 'sending more is no guarantee it stops', "CEOP: don't send them anything as they will just ask for more"],
+  [KS4_16, 'Madigan 2018, Mori 2022', 'single most used pressure line', null, 'nothing ranks the pressure lines'],
+  [KS4_16, 'Madigan 2018, Mori 2022', null, 'Most young people have never sent one', 'about one in five or fewer have sent one'],
+  [KS4_16, 'KCSIE 2026', null, 'the law exists to protect young people, not to criminalise them', 'para 557'],
+  [KS4_16, 'NCA', null, "the NCA alert directs the DSL to refer it to the police and/or children's social care",
+   'the referral the alert directs'],
+
+  // ks4-18, radicalisation and misogyny, 25 September 2026 (migration 351).
+  [KS4_18, 'Prevent', 'most common on ramp', null,
+   'no UK source ranks misogyny, and Prevent does not record it as a category'],
+  [KS4_18, 'Prevent', 'most common pipeline entrance', null, 'same'],
+  [KS4_18, 'Prevent', 'most common version', null, 'same, in the parent note'],
+  [KS4_18, 'DSIT 2026', null, 'Misogyny is a common way in', 'what the sources support'],
+  [KS4_18, 'KCSIE 2026', 'KCSIE names misogynistic content and incel culture', null,
+   'KCSIE names misogyny (paras 23, 34, 160, 193) and never incels'],
+  [KS4_18, 'KCSIE 2026', 'both name misogyny and incel culture', null, 'same'],
+  [KS4_18, 'RSHE 2025', null, 'the RSHE guidance names misogyny and so called incels', 'RSHE items 9 and 12'],
+  [KS4_18, 'Educate Against Hate', 'one playbook and three targets', null,
+   'the sources say radicalisation is like grooming; isolate, flatter, escalate is this lesson\'s own model'],
+  [KS4_18, 'Educate Against Hate', /same playbook as (every|any) other grooming/i, null, 'same'],
+  [KS4_18, 'the lesson', 'Attention, belonging, then isolation', null,
+   'contradicted the slides; the steps are isolate, flatter, escalate'],
+  [KS4_18, 'Rathje 2021', 'strongest attention fuel', null,
+   'Rathje measured sharing of US political posts, not attention, and compared a few language features'],
+  [KS4_18, 'Regehr 2025', 'single most engineered thing', null, 'no source for the superlative'],
+  [KS4_18, 'Regehr 2025', 'the drift is the design', null, 'drift is recorded; design is not'],
+  [KS4_18, 'Educate Against Hate', 'single most radicalising', null, 'judging can push someone deeper; nothing ranks it'],
+  [KS4_18, 'Home Office', 'never be in trouble', null,
+   'no source promises it; the DfE suggests saying you are not in any trouble, and a referral is no record'],
+  [KS4_18, 'NCA', 'Paying never ends it', null, 'no guarantee paying stops the threats'],
+  [KS4_18, 'NCA', 'almost always continue', null, 'they will likely ask for more'],
+
+  // ks2-07, privacy and reputation, 25 September 2026 (migration 352). Each
+  // app's own help pages, the NCSC, CEOP, Apple, YouGov 2017 and ONS 2020.
+  [KS2_07, 'Snapchat, Instagram', 'you will never know', null,
+   'Snapchat tells the sender about a screenshot, and Instagram blocks some'],
+  [KS2_07, 'Snapchat', null, 'nobody can stop a person photographing a screen with another phone',
+   "Snapchat's own safety page: a picture of the Snap with another device"],
+  [KS2_07, 'Instagram, Snapchat', /only removes it from your view/i, null,
+   'unsend and delete for everyone take a message out of the chat'],
+  [KS2_07, 'Instagram, Snapchat', /delete only removes your copy/i, null, 'same'],
+  [KS2_07, 'Instagram', null, 'Instagram keeps deleted posts for 30 days', 'Recently deleted'],
+  [KS2_07, 'NCSC', 'unlock forgotten passwords', null,
+   "the NCSC names a first pet's name as a security question; streets and teachers were never sourced"],
+  [KS2_07, 'Apple', 'location switch', null, 'location in a photo is the camera setting, not a switch in each app'],
+  [KS2_07, 'YouGov 2017', 'secondary schools, clubs', null, 'only employers are sourced as looking people up'],
+  [KS2_07, 'ONS 2020', null, 'someone from their own school', 'what the ONS asked about, online bullying'],
+
+  // Could you be an entrepreneur?, the second standalone lesson, 26 September
+  // 2026. ONS Business demography 2024, ONS EMP01, DBT Business population
+  // estimates 2025, HMRC Personal incomes 2023 to 2024, DWP Family Resources
+  // Survey 2024 to 2025, GEM UK 2024/25, Stephan, Rauch and Hatak 2023,
+  // Blanchflower and Oswald 1998, gov.uk and legislation.gov.uk, each
+  // platform's own terms, Cifas and the Home Office, all read in the original.
+  // The myths the lesson tests ("most fail in the first year", "pays more")
+  // appear on purpose in the sort and the quiz options, so they are pinned to
+  // the slides that answer them (below), not banned from the whole module.
+  [SA_ENTRE, 'ONS Business demography', /\b[5-9]\d ?(%|percent|in 100) of (new )?(businesses|start ?ups) fail/i, null,
+   'the popular failure figures are not the ONS ones: about 95 in 100 of the businesses born in 2019 lasted a year'],
+  [SA_ENTRE, 'ONS Business demography', null, 'the figures record that a business stopped trading, not why',
+   'a death on the register means it stopped trading, and the data do not say why'],
+  [SA_ENTRE, 'Stephan, Rauch and Hatak 2023', /entrepreneurs are happier/i, null,
+   'a little more satisfied with their work on average and no more stressed, and less happy when pushed into it'],
+  [SA_ENTRE, 'Oosterbeek 2010, von Graevenitz 2010', /(reveals?|uncovers?|shows? you) (whether you have )?(a |your )?(hidden )?(talent|gift)/i, null,
+   'no study shows a small try reveals a talent; the lesson says it shows what the work is like'],
+  [SA_ENTRE, 'Oosterbeek 2010, von Graevenitz 2010', /(beats|better than|more than) (a|any) (personality )?quiz/i, null,
+   'no study tests a small try against a quiz'],
+  [SA_ENTRE, 'Cifas 2026', 'more than 13,000', null, 'Cifas says nearly 13,000; the higher figure is a secondary misreading'],
+  [SA_ENTRE, 'Cifas 2026', /\b69 ?(%|percent)/, null, 'Cifas says 70 percent; 69 is a secondary misreading'],
+  [SA_ENTRE, 'Cifas 2026', null, 'nearly 13,000 cases of this in the first half of 2026, up 70 percent', 'the Cifas figures, as Cifas gives them'],
+  [SA_ENTRE, 'Home Office 2024', null, 'treats a child drawn in as a victim to protect',
+   'financial exploitation of a child is child criminal exploitation, and the child is the victim'],
+  [SA_ENTRE, 'the lesson', 'Squibb', null, 'Justin decided the lesson neither names him nor uses his figures'],
+  [SA_ENTRE, 'Bjorvatn 2020', null, 'A job, a business, or both at once are all good ways to work.',
+   'an entrepreneurship show that set business against school cost pupils schooling; the lesson ranks no path'],
+  // What the second check against the primaries corrected on 26 September,
+  // so none of it comes back.
+  [SA_ENTRE, 'Stephan 2023, Stephan 2018', /what matters more is why/i, null,
+   'neither source compares the motive gap with the self employed versus employee gap; why they do it also matters'],
+  [SA_ENTRE, 'Zhao 2010, Rauch and Frese 2007', /quizz?es tell you (very )?little/i, null,
+   'no source tests quizzes, and personality is moderately linked, so a quiz is only part of the picture'],
+  [SA_ENTRE, 'Zhao 2010, Rauch and Frese 2007', /traits (help|matter) a little/i, null,
+   'both meta analyses call the links moderate'],
+  [SA_ENTRE, 'Blanchflower and Oswald 1998', /childhood test scores/i, null,
+   'the 1958 measure was a teacher\'s personality rating at age 7'],
+  [SA_ENTRE, 'gov.uk trading allowance', /first £1,000[^.]*nothing to tell HMRC/i, null,
+   'the allowance counts takings before costs, and above £1,000 HMRC must be told'],
+  [SA_ENTRE, 'legislation.gov.uk', 'keeps an adult responsible until 18', null,
+   'no law does; the age 18 comes from the platforms\' own terms'],
+
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -217,6 +325,45 @@ const FIELD_CLAIMS = [
   // The stat pupils read has to say whose expectation it is.
   [SA_PROBLEM, 'WEF', m => m.slides[5].claim, null, 'Employers say people alone do 47 percent of work tasks today',
    'an employer estimate, said as one, on the slide the class reads'],
+  // Could you be an entrepreneur?: each figure on the slide the class reads,
+  // because the same numbers also sit in scripts and notes, and a wall that
+  // lost one would still pass a whole module search.
+  [SA_ENTRE, 'ONS Business demography', m => m.slides[10].claim, null,
+   'about 95 in 100 were still going a year later, 56 after three years and 38 after five',
+   'the 2019 cohort as ONS gives it: 94.6, 55.9 and 38.4 percent'],
+  [SA_ENTRE, 'ONS EMP01', m => m.slides[7].claim, null, 'More than 1 in 8 people in work in the UK are self employed',
+   '4,530,513 of 34,477,788 is 13.1 percent, more than one in eight'],
+  [SA_ENTRE, 'DBT Business population estimates', m => m.slides[7].claim, null, '3 in 4 employ nobody but their owners',
+   '75 percent did not employ anyone aside from the owners'],
+  [SA_ENTRE, 'HMRC Personal incomes', m => m.slides[5].script, null,
+   'more than a quarter of the people with any income from working for themselves also had employment income that year',
+   '1.56 million of 5.34 million, 29 percent, and HMRC counts pay or some taxable benefits, so not "a job"'],
+  [SA_ENTRE, 'DWP Family Resources Survey', m => m.slides[12].claim, null,
+   'the typical person takes home £22,800 a year. The typical full time employee takes home £29,000',
+   'the full time medians after tax, 2024 to 2025'],
+  [SA_ENTRE, 'Stephan, Rauch and Hatak 2023', m => m.slides[14].body, null,
+   'a little more satisfied with their work than employees, and no more stressed', 'work satisfaction d = 0.129, negative wellbeing d = 0.000'],
+  [SA_ENTRE, 'GEM UK 2024/25', m => m.slides[16].body, null,
+   '58 in 100 adults who saw a good chance to start a business said fear of failing would stop them',
+   'the fear of failure rate is asked only of adults who see a good opportunity'],
+  [SA_ENTRE, 'Blanchflower and Oswald 1998', m => m.slides[18].body, null, 'did not strongly predict',
+   'childhood psychological test scores are not strongly correlated with later self employment'],
+  // The child employment rule in force is 7pm. The Children's Wellbeing and
+  // Schools Act 2026 rewrites it to 8pm, but that section is not yet in force,
+  // and legislation.gov.uk shows the new text first, so a quick reader would
+  // teach it. Nothing a pupil or teacher reads in the slides may say 8pm.
+  [SA_ENTRE, 'CYPA 1933 s.18 as in force', m => JSON.stringify(m.slides), /\b8 ?(pm|p\.m\.)|\b8\.00\b/i, null,
+   'the 8pm finish is not in force; the rule is never before 7am or after 7pm'],
+  [SA_ENTRE, 'gov.uk Child employment', m => m.slides[20].steps[1].text, null, 'Never in school hours, before 7am or after 7pm',
+   'the hours rule in force'],
+  [SA_ENTRE, 'Children (NI) Order 1995 art. 135', m => m.slides[20].steps[1].title, null, 'From 13 or 14',
+   'Northern Ireland allows part time work from 13 everywhere, and some councils elsewhere allow it'],
+  [SA_ENTRE, 'CYPA 1933 s.20', m => m.slides[20].steps[0].text, null, 'No selling or busking in the street',
+   'street trading is banned for children of school age; "on your own" wrongly implied an adult makes it legal'],
+  [SA_ENTRE, 'Companies Act 2006 s.157', m => m.slides[20].steps[2].text, null, 'You can be a company director',
+   'a director must be at least 16, UK wide'],
+  [SA_ENTRE, 'platform terms', m => m.slides[20].steps[3].text, null, 'Until then, an adult is responsible',
+   'every selling and payment service checked needs an adult under 18'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
@@ -246,7 +393,7 @@ for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
     bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${show(always)}"\n         ${why}`)
   }
 }
-for (const id of [KS3_24, KS2_25, SA_PROBLEM]) {
+for (const id of [KS3_24, KS2_25, SA_PROBLEM, SA_ENTRE]) {
   const m = M(id)
   for (const [a, b] of TWINS) {
     const x = m.teacher_notes?.[a], y = m.assessment?.[b]
