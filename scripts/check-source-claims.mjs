@@ -47,6 +47,9 @@ const KS3_10 = 'ks3-10-mood-and-screens'
 const KS3_11 = 'ks3-11-social-workarounds'
 const KS4_17 = 'ks4-17-sextortion'
 const SA_PROBLEM = 'what-problem-would-you-solve'
+const KS4_16 = 'ks4-16-consent-images-law'
+const KS4_18 = 'ks4-18-radicalisation-misogyny'
+const KS2_07 = 'ks2-07-privacy-reputation'
 
 // [module, source, never | null, always | null, why]
 const CLAIMS = [
@@ -185,6 +188,67 @@ const CLAIMS = [
   // Bastani et al 2025, the same trial ks3-24 rests on.
   [SA_PROBLEM, 'Bastani', null, 'say it as a borrowed result', 'maths, older pupils, so it is borrowed'],
   [SA_PROBLEM, 'Bastani', null, 'no positive effect observed', 'the limit the paper states itself'],
+
+  // ks4-16, consent, images and the law, 25 September 2026 (migration 350).
+  // legislation.gov.uk, UKCIS March 2024, RSHE July 2025, KCSIE 2026, the IWF.
+  [KS4_16, 'PCA 1978', 'no exceptions', null,
+   's.1A is a narrow defence for 16 and 17 year olds living together as partners, so there is one'],
+  [KS4_16, 'RSHE 2025', null, 'agreeing is no defence', 'a crime even of someone who has consented'],
+  [KS4_16, 'CJA 1988', null, 'the law only protects someone who did not ask for an image and did not keep it',
+   'the s.160(2)(c) defence, which a received image is not left without'],
+  [KS4_16, 'PCA 1978', null, 'If it looks like a real photo of someone under 18, the law treats it exactly like a photograph.',
+   'a pseudo photograph is one that appears to be a photograph (s.7(7)); a cartoon is a different law'],
+  [KS4_16, 'IWF', 'takes images down', null, 'the IWF works to remove an image that breaks the law, and acted on 1,175 of 1,894 reports in 2025'],
+  [KS4_16, 'IWF', 'can take it down', null, 'same: it cannot promise every copy'],
+  [KS4_16, 'IWF', 'free, confidential and works', null, 'same'],
+  [KS4_16, 'NCA', 'never ends it', null, 'no guarantee it stops, and they will likely ask for more'],
+  [KS4_16, 'CEOP', null, 'sending more is no guarantee it stops', "CEOP: don't send them anything as they will just ask for more"],
+  [KS4_16, 'Madigan 2018, Mori 2022', 'single most used pressure line', null, 'nothing ranks the pressure lines'],
+  [KS4_16, 'Madigan 2018, Mori 2022', null, 'Most young people have never sent one', 'about one in five or fewer have sent one'],
+  [KS4_16, 'KCSIE 2026', null, 'the law exists to protect young people, not to criminalise them', 'para 557'],
+  [KS4_16, 'NCA', null, "the NCA alert directs the DSL to refer it to the police and/or children's social care",
+   'the referral the alert directs'],
+
+  // ks4-18, radicalisation and misogyny, 25 September 2026 (migration 351).
+  [KS4_18, 'Prevent', 'most common on ramp', null,
+   'no UK source ranks misogyny, and Prevent does not record it as a category'],
+  [KS4_18, 'Prevent', 'most common pipeline entrance', null, 'same'],
+  [KS4_18, 'Prevent', 'most common version', null, 'same, in the parent note'],
+  [KS4_18, 'DSIT 2026', null, 'Misogyny is a common way in', 'what the sources support'],
+  [KS4_18, 'KCSIE 2026', 'KCSIE names misogynistic content and incel culture', null,
+   'KCSIE names misogyny (paras 23, 34, 160, 193) and never incels'],
+  [KS4_18, 'KCSIE 2026', 'both name misogyny and incel culture', null, 'same'],
+  [KS4_18, 'RSHE 2025', null, 'the RSHE guidance names misogyny and so called incels', 'RSHE items 9 and 12'],
+  [KS4_18, 'Educate Against Hate', 'one playbook and three targets', null,
+   'the sources say radicalisation is like grooming; isolate, flatter, escalate is this lesson\'s own model'],
+  [KS4_18, 'Educate Against Hate', /same playbook as (every|any) other grooming/i, null, 'same'],
+  [KS4_18, 'the lesson', 'Attention, belonging, then isolation', null,
+   'contradicted the slides; the steps are isolate, flatter, escalate'],
+  [KS4_18, 'Rathje 2021', 'strongest attention fuel', null,
+   'Rathje measured sharing of US political posts, not attention, and compared a few language features'],
+  [KS4_18, 'Regehr 2025', 'single most engineered thing', null, 'no source for the superlative'],
+  [KS4_18, 'Regehr 2025', 'the drift is the design', null, 'drift is recorded; design is not'],
+  [KS4_18, 'Educate Against Hate', 'single most radicalising', null, 'judging can push someone deeper; nothing ranks it'],
+  [KS4_18, 'Home Office', 'never be in trouble', null,
+   'no source promises it; the DfE suggests saying you are not in any trouble, and a referral is no record'],
+  [KS4_18, 'NCA', 'Paying never ends it', null, 'no guarantee paying stops the threats'],
+  [KS4_18, 'NCA', 'almost always continue', null, 'they will likely ask for more'],
+
+  // ks2-07, privacy and reputation, 25 September 2026 (migration 352). Each
+  // app's own help pages, the NCSC, CEOP, Apple, YouGov 2017 and ONS 2020.
+  [KS2_07, 'Snapchat, Instagram', 'you will never know', null,
+   'Snapchat tells the sender about a screenshot, and Instagram blocks some'],
+  [KS2_07, 'Snapchat', null, 'nobody can stop a person photographing a screen with another phone',
+   "Snapchat's own safety page: a picture of the Snap with another device"],
+  [KS2_07, 'Instagram, Snapchat', /only removes it from your view/i, null,
+   'unsend and delete for everyone take a message out of the chat'],
+  [KS2_07, 'Instagram, Snapchat', /delete only removes your copy/i, null, 'same'],
+  [KS2_07, 'Instagram', null, 'Instagram keeps deleted posts for 30 days', 'Recently deleted'],
+  [KS2_07, 'NCSC', 'unlock forgotten passwords', null,
+   "the NCSC names a first pet's name as a security question; streets and teachers were never sourced"],
+  [KS2_07, 'Apple', 'location switch', null, 'location in a photo is the camera setting, not a switch in each app'],
+  [KS2_07, 'YouGov 2017', 'secondary schools, clubs', null, 'only employers are sourced as looking people up'],
+  [KS2_07, 'ONS 2020', null, 'someone from their own school', 'what the ONS asked about, online bullying'],
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in

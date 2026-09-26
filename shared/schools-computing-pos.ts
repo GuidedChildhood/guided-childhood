@@ -112,7 +112,7 @@ export const COMPUTING_POS: ComputingStatement[] = [
       { phrase: 'report button and a block button', modules: ['ks2-08-kind-safe-online'] },
       { phrase: 'bullying', modules: ['ks2-08-kind-safe-online'] },
       { phrase: 'anybody can say they are anybody', modules: ['ks2-07-privacy-reputation'] },
-      { phrase: 'privacy switch and a location switch', modules: ['ks2-07-privacy-reputation'] },
+      { phrase: 'privacy settings, which choose who sees your posts', modules: ['ks2-07-privacy-reputation'] },
       { phrase: 'the internet remembers', modules: ['ks2-07-privacy-reputation'] },
       { phrase: 'tell a grown up', modules: ['ks2-07-privacy-reputation'] },
     ],

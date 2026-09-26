@@ -11,9 +11,9 @@
   "a coverage claim cannot be edited into existence.",
   "Regenerate with: npm run rshe-evidence (prints the SQL to run against production)."
  ],
- "generatedAt": "2026-09-20",
- "source": "production schools.school_lessons, after migrations 309 to 316, with 312 to 315 carried in hash verified chunks and proved by their own migration history entries",
- "pairsChecked": 147,
+ "generatedAt": "2026-09-26",
+ "source": "production schools.school_lessons, after migrations 350 to 352, each hash proved against its content/modules file",
+ "pairsChecked": 149,
  "failures": [],
- "requirementsHash": "7e22bf1d949d90fdcee14b38141b3d9ccdb118bace79c7bc21387a5ab5207898"
+ "requirementsHash": "c046530ebf6df34a55d359c42a2dfcf8aad397a56b13984fe69878b5d542aba0"
 }
