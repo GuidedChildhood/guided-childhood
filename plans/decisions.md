@@ -533,3 +533,15 @@ the sender). Each lesson gains its evidence panel and four hard questions.
 Migrations 350 to 352, hash proved; check-source-claims pins 38 of the old
 lines, and the RSHE map was re-attested on production. 353 and 354 are taken
 elsewhere, so the entrepreneur lesson checks for a free number. PR 1163.
+
+## 26 September 2026: the second standalone lesson, Could you be an entrepreneur?
+
+The second free standalone lesson (Years 8 and 9, 31 slides, 61 minutes) sits
+beside "What problem would you solve?", outside the scheme; each free bar names
+the other. Look, weigh, try: the ways to work, the honest UK figures (38 in 100
+businesses started in 2019 still going at five years; full time take home
+£22,800 against £29,000), no personality test, what under 18s may do, one money
+mule line. It ranks no path and names nobody. A second check of the wording
+against the primaries corrected 9 of 20 claims. The 7pm rule is taught (the
+2026 Act's 8pm is not in force), and check-source-claims fails any slide saying
+8pm. Migration 355, hash proved. PR 1166.

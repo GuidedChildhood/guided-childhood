@@ -47,6 +47,7 @@ const KS3_10 = 'ks3-10-mood-and-screens'
 const KS3_11 = 'ks3-11-social-workarounds'
 const KS4_17 = 'ks4-17-sextortion'
 const SA_PROBLEM = 'what-problem-would-you-solve'
+const SA_ENTRE = 'could-you-be-an-entrepreneur'
 const KS4_16 = 'ks4-16-consent-images-law'
 const KS4_18 = 'ks4-18-radicalisation-misogyny'
 const KS2_07 = 'ks2-07-privacy-reputation'
@@ -249,6 +250,49 @@ const CLAIMS = [
   [KS2_07, 'Apple', 'location switch', null, 'location in a photo is the camera setting, not a switch in each app'],
   [KS2_07, 'YouGov 2017', 'secondary schools, clubs', null, 'only employers are sourced as looking people up'],
   [KS2_07, 'ONS 2020', null, 'someone from their own school', 'what the ONS asked about, online bullying'],
+
+  // Could you be an entrepreneur?, the second standalone lesson, 26 September
+  // 2026. ONS Business demography 2024, ONS EMP01, DBT Business population
+  // estimates 2025, HMRC Personal incomes 2023 to 2024, DWP Family Resources
+  // Survey 2024 to 2025, GEM UK 2024/25, Stephan, Rauch and Hatak 2023,
+  // Blanchflower and Oswald 1998, gov.uk and legislation.gov.uk, each
+  // platform's own terms, Cifas and the Home Office, all read in the original.
+  // The myths the lesson tests ("most fail in the first year", "pays more")
+  // appear on purpose in the sort and the quiz options, so they are pinned to
+  // the slides that answer them (below), not banned from the whole module.
+  [SA_ENTRE, 'ONS Business demography', /\b[5-9]\d ?(%|percent|in 100) of (new )?(businesses|start ?ups) fail/i, null,
+   'the popular failure figures are not the ONS ones: about 95 in 100 of the businesses born in 2019 lasted a year'],
+  [SA_ENTRE, 'ONS Business demography', null, 'the figures record that a business stopped trading, not why',
+   'a death on the register means it stopped trading, and the data do not say why'],
+  [SA_ENTRE, 'Stephan, Rauch and Hatak 2023', /entrepreneurs are happier/i, null,
+   'a little more satisfied with their work on average and no more stressed, and less happy when pushed into it'],
+  [SA_ENTRE, 'Oosterbeek 2010, von Graevenitz 2010', /(reveals?|uncovers?|shows? you) (whether you have )?(a |your )?(hidden )?(talent|gift)/i, null,
+   'no study shows a small try reveals a talent; the lesson says it shows what the work is like'],
+  [SA_ENTRE, 'Oosterbeek 2010, von Graevenitz 2010', /(beats|better than|more than) (a|any) (personality )?quiz/i, null,
+   'no study tests a small try against a quiz'],
+  [SA_ENTRE, 'Cifas 2026', 'more than 13,000', null, 'Cifas says nearly 13,000; the higher figure is a secondary misreading'],
+  [SA_ENTRE, 'Cifas 2026', /\b69 ?(%|percent)/, null, 'Cifas says 70 percent; 69 is a secondary misreading'],
+  [SA_ENTRE, 'Cifas 2026', null, 'nearly 13,000 cases of this in the first half of 2026, up 70 percent', 'the Cifas figures, as Cifas gives them'],
+  [SA_ENTRE, 'Home Office 2024', null, 'treats a child drawn in as a victim to protect',
+   'financial exploitation of a child is child criminal exploitation, and the child is the victim'],
+  [SA_ENTRE, 'the lesson', 'Squibb', null, 'Justin decided the lesson neither names him nor uses his figures'],
+  [SA_ENTRE, 'Bjorvatn 2020', null, 'A job, a business, or both at once are all good ways to work.',
+   'an entrepreneurship show that set business against school cost pupils schooling; the lesson ranks no path'],
+  // What the second check against the primaries corrected on 26 September,
+  // so none of it comes back.
+  [SA_ENTRE, 'Stephan 2023, Stephan 2018', /what matters more is why/i, null,
+   'neither source compares the motive gap with the self employed versus employee gap; why they do it also matters'],
+  [SA_ENTRE, 'Zhao 2010, Rauch and Frese 2007', /quizz?es tell you (very )?little/i, null,
+   'no source tests quizzes, and personality is moderately linked, so a quiz is only part of the picture'],
+  [SA_ENTRE, 'Zhao 2010, Rauch and Frese 2007', /traits (help|matter) a little/i, null,
+   'both meta analyses call the links moderate'],
+  [SA_ENTRE, 'Blanchflower and Oswald 1998', /childhood test scores/i, null,
+   'the 1958 measure was a teacher\'s personality rating at age 7'],
+  [SA_ENTRE, 'gov.uk trading allowance', /first £1,000[^.]*nothing to tell HMRC/i, null,
+   'the allowance counts takings before costs, and above £1,000 HMRC must be told'],
+  [SA_ENTRE, 'legislation.gov.uk', 'keeps an adult responsible until 18', null,
+   'no law does; the age 18 comes from the platforms\' own terms'],
+
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -281,6 +325,45 @@ const FIELD_CLAIMS = [
   // The stat pupils read has to say whose expectation it is.
   [SA_PROBLEM, 'WEF', m => m.slides[5].claim, null, 'Employers say people alone do 47 percent of work tasks today',
    'an employer estimate, said as one, on the slide the class reads'],
+  // Could you be an entrepreneur?: each figure on the slide the class reads,
+  // because the same numbers also sit in scripts and notes, and a wall that
+  // lost one would still pass a whole module search.
+  [SA_ENTRE, 'ONS Business demography', m => m.slides[10].claim, null,
+   'about 95 in 100 were still going a year later, 56 after three years and 38 after five',
+   'the 2019 cohort as ONS gives it: 94.6, 55.9 and 38.4 percent'],
+  [SA_ENTRE, 'ONS EMP01', m => m.slides[7].claim, null, 'More than 1 in 8 people in work in the UK are self employed',
+   '4,530,513 of 34,477,788 is 13.1 percent, more than one in eight'],
+  [SA_ENTRE, 'DBT Business population estimates', m => m.slides[7].claim, null, '3 in 4 employ nobody but their owners',
+   '75 percent did not employ anyone aside from the owners'],
+  [SA_ENTRE, 'HMRC Personal incomes', m => m.slides[5].script, null,
+   'more than a quarter of the people with any income from working for themselves also had employment income that year',
+   '1.56 million of 5.34 million, 29 percent, and HMRC counts pay or some taxable benefits, so not "a job"'],
+  [SA_ENTRE, 'DWP Family Resources Survey', m => m.slides[12].claim, null,
+   'the typical person takes home £22,800 a year. The typical full time employee takes home £29,000',
+   'the full time medians after tax, 2024 to 2025'],
+  [SA_ENTRE, 'Stephan, Rauch and Hatak 2023', m => m.slides[14].body, null,
+   'a little more satisfied with their work than employees, and no more stressed', 'work satisfaction d = 0.129, negative wellbeing d = 0.000'],
+  [SA_ENTRE, 'GEM UK 2024/25', m => m.slides[16].body, null,
+   '58 in 100 adults who saw a good chance to start a business said fear of failing would stop them',
+   'the fear of failure rate is asked only of adults who see a good opportunity'],
+  [SA_ENTRE, 'Blanchflower and Oswald 1998', m => m.slides[18].body, null, 'did not strongly predict',
+   'childhood psychological test scores are not strongly correlated with later self employment'],
+  // The child employment rule in force is 7pm. The Children's Wellbeing and
+  // Schools Act 2026 rewrites it to 8pm, but that section is not yet in force,
+  // and legislation.gov.uk shows the new text first, so a quick reader would
+  // teach it. Nothing a pupil or teacher reads in the slides may say 8pm.
+  [SA_ENTRE, 'CYPA 1933 s.18 as in force', m => JSON.stringify(m.slides), /\b8 ?(pm|p\.m\.)|\b8\.00\b/i, null,
+   'the 8pm finish is not in force; the rule is never before 7am or after 7pm'],
+  [SA_ENTRE, 'gov.uk Child employment', m => m.slides[20].steps[1].text, null, 'Never in school hours, before 7am or after 7pm',
+   'the hours rule in force'],
+  [SA_ENTRE, 'Children (NI) Order 1995 art. 135', m => m.slides[20].steps[1].title, null, 'From 13 or 14',
+   'Northern Ireland allows part time work from 13 everywhere, and some councils elsewhere allow it'],
+  [SA_ENTRE, 'CYPA 1933 s.20', m => m.slides[20].steps[0].text, null, 'No selling or busking in the street',
+   'street trading is banned for children of school age; "on your own" wrongly implied an adult makes it legal'],
+  [SA_ENTRE, 'Companies Act 2006 s.157', m => m.slides[20].steps[2].text, null, 'You can be a company director',
+   'a director must be at least 16, UK wide'],
+  [SA_ENTRE, 'platform terms', m => m.slides[20].steps[3].text, null, 'Until then, an adult is responsible',
+   'every selling and payment service checked needs an adult under 18'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
@@ -310,7 +393,7 @@ for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
     bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${show(always)}"\n         ${why}`)
   }
 }
-for (const id of [KS3_24, KS2_25, SA_PROBLEM]) {
+for (const id of [KS3_24, KS2_25, SA_PROBLEM, SA_ENTRE]) {
   const m = M(id)
   for (const [a, b] of TWINS) {
     const x = m.teacher_notes?.[a], y = m.assessment?.[b]

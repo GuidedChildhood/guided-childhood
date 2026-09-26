@@ -1,0 +1,1046 @@
+{
+  "row": {
+    "title": "Could you be an entrepreneur?",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 8 and 9",
+    "sort_order": 901,
+    "efcw_strands": [],
+    "ailit_domains": [],
+    "character_cast": "Orbit opens, DiGi closes on trying something small",
+    "evidence_anchor": "ONS Business demography 2024: of UK businesses started in 2019, 38 in 100 were still going five years later",
+    "statutory_hooks": [],
+    "single_action_outcome": "I can weigh up working for myself with real figures, and plan a small try."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "eyebrow": "KS3 . Years 8 and 9",
+      "title": "Could you be an entrepreneur?",
+      "body": "Not a yes or a no. A way to find out.",
+      "script": "Read the title and the line under it, then stop. Nobody leaves today with a yes or a no, and nobody is asked to pitch a business. The lesson gives them the real picture of working for yourself, and one small, safe way to find out whether it suits them."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Orbit",
+      "lines": [
+        "Orbit here.",
+        "People keep asking if I want to be an entrepreneur. So I asked what one actually does all week.",
+        "Today we look at the real numbers. Then you decide how to find out for yourself."
+      ],
+      "script": "Let Orbit land and say the lines. Then ask the room the question Orbit asked, in your own voice: what does an entrepreneur actually do all week? Do not take answers yet. The class talks two slides from now, before anyone is taught anything."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can weigh up working for myself with real figures, and plan a small try.",
+      "why": "Whatever you end up doing, choose it knowing the real picture, not a guess.",
+      "gains": [
+        "The ways people really work",
+        "The honest numbers: how long, how much, how it feels",
+        "A small, safe way to try it before you are 18"
+      ],
+      "script": "Land the outcome as a choice they will make with real figures, not a careers talk and not a pitch. The why line is ours, so say it as ours. Name the tool they leave with, three words, one per gain: look, weigh, try. The third gain matters most, because it is the part they can do this month."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "minutes": 3,
+      "seconds": 90,
+      "prompt": "Picture someone who works for themselves. What do they do all day? What do they earn? How do they feel about it? Tell your partner what you pictured.",
+      "lookFor": "Most pictures are the famous version: a founder with an office, staff and a lot of money, who loves every minute. Put three of the pictures on the board as claims to test. Each cycle comes back to them.",
+      "script": "Give them three seconds of quiet thinking, then ninety seconds in pairs. Listen for the famous version and do not correct it yet. Take three claims to the board in the pupils' own words, for example: they are rich, they have staff, they are happier. The lesson tests each one against real figures."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Three words for today",
+      "words": [
+        {
+          "word": "entrepreneur",
+          "meaning": "Someone who starts something of their own, knowing it might not work. It can be tiny, and sit alongside a job."
+        },
+        {
+          "word": "self employed",
+          "meaning": "Working for yourself, not for an employer, so you earn what your work brings in."
+        },
+        {
+          "word": "risk",
+          "meaning": "The chance something goes wrong, and what it would cost you if it did."
+        }
+      ],
+      "script": "Entrepreneur is the word the lesson questions. It gets used for the famous few, and it fits someone selling cakes on a Saturday just as well. Self employed is the word the official figures use for people who work for themselves, so it is the one the numbers speak in. Risk pays off in the third cycle, where the aim is to make it small."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🧭",
+      "heading": "Four ways to work",
+      "body": "Work for an employer, who pays you a wage. Work for yourself with no staff, which is how most self employed people work. Run a business with staff. Or mix them: plenty of people have a job and work for themselves as well.",
+      "script": "Here is how I would sort someone I know: a hairdresser who rents a chair in a salon and also teaches one evening a week at a college. That is two of the four at once. Say the point plainly: working for yourself is not one thing, and it is rarely all or nothing. The mix is common: HMRC's own tables show that more than a quarter of the people with any income from working for themselves also had employment income that year, meaning pay from a job or some taxable benefits."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "extension": true,
+      "prompt": "A hairdresser could work in a salon for a wage, rent a chair in someone else's salon, or open a salon with staff. What changes for them each time? Think about pay, hours and who decides.",
+      "lookFor": "Pupils usually see the money first. Push for the other changes: who sets the hours, who finds the customers, what happens in a quiet week, and who they can ask for help.",
+      "script": "Three seconds of thinking, then sixty seconds in pairs. Take one answer for each of the three ways and write them side by side. Keep the quiet week answer on the board, because the next cycle puts a number on it."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 2,
+      "figure": "1 in 8",
+      "claim": "More than 1 in 8 people in work in the UK are self employed, about 4.5 million people. Most businesses are small: 3 in 4 employ nobody but their owners.",
+      "source": "Office for National Statistics, Labour Force Survey, May to July 2026; Department for Business and Trade, Business population estimates 2025",
+      "script": "Say where the numbers come from before the numbers: the government's big survey of who works and how, and its count of every business in the country. The first counts people and the second counts businesses, so they are different counts. The point for the board: the founder with an office and staff is the rare picture. More than half of all UK businesses are one person working alone, with no staff."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which picture of working for yourself is the most common in the UK?",
+      "options": [
+        {
+          "text": "A founder with an office and a team of staff",
+          "correct": false,
+          "feedback": "That is the famous picture, and it is the rare one. Three in four UK businesses employ nobody except the people who own them."
+        },
+        {
+          "text": "Someone working alone, with no staff",
+          "correct": true,
+          "feedback": "Yes. More than half of UK businesses are one person with no staff. It is the ordinary version, and it is the one most people who work for themselves live."
+        },
+        {
+          "text": "Running a famous app that millions use",
+          "correct": false,
+          "feedback": "Those are real, and they make the news because they are rare. Three in four UK businesses have no staff at all."
+        }
+      ],
+      "script": "Everyone commits before you reveal: fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is the founder with a team, because it is the picture people have seen most. Go back to the board claims from the start and change they have staff to a few do."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "The honest numbers, in three questions",
+      "caption": "Ask these about any way of working, including a job.",
+      "steps": [
+        {
+          "title": "Does it last?",
+          "text": "How many new businesses are still going after one, three and five years.",
+          "emoji": "⏳"
+        },
+        {
+          "title": "What does it pay?",
+          "text": "What a typical person takes home, and how steady it is.",
+          "emoji": "💷"
+        },
+        {
+          "title": "How does it feel?",
+          "text": "Whether people who work for themselves are happier, or more stressed.",
+          "emoji": "🙂"
+        }
+      ],
+      "script": "Point to each question in turn and say only the question. The answers are the next six slides. Then point at the caption: these are fair questions about a job too, and nothing today says one way of working beats another. We are weighing, not selling."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 2,
+      "figure": "38 in 100",
+      "claim": "Of UK businesses started in 2019, about 95 in 100 were still going a year later, 56 after three years and 38 after five.",
+      "source": "Office for National Statistics, Business demography, UK: 2024, released 20 November 2025",
+      "script": "Say it as a group of real businesses followed over time: every new business on the official register in 2019, about 364,000 of them. Two things to land. Most got through the first year, so the saying that most fail in year one is wrong. And by year five most had stopped, so the risk is real. One limit, said out loud: the figures record that a business stopped trading, not why. Most closures do mean it did not work out, but not all: some owners close to move on to something better."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Your cousin says most new businesses fail in their first year. What do the UK figures show?",
+      "options": [
+        {
+          "text": "Your cousin is right, and most close within months",
+          "correct": false,
+          "feedback": "The figures say the opposite. About 95 in 100 of the businesses started in 2019 were still going a year later."
+        },
+        {
+          "text": "Most last a year, and most stop by year five",
+          "correct": true,
+          "feedback": "Yes. About 95 in 100 lasted a year, and 38 in 100 were still going after five. Both halves matter."
+        },
+        {
+          "text": "Almost all of them keep going for years and years",
+          "correct": false,
+          "feedback": "Not quite. By five years, most of the businesses started in 2019 had stopped trading, so the risk is real."
+        }
+      ],
+      "script": "Whiteboards or fingers, and wait three seconds before anyone shows. The popular wrong answer is the cousin's, because it is said so often it sounds like a fact. Ask the room which half of the right answer surprised them. If one of the board claims was about failing, give it its verdict now."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 2,
+      "figure": "£22,800",
+      "claim": "Working full time for themselves, the typical person takes home £22,800 a year. The typical full time employee takes home £29,000. A few earn far more, and pay is less steady.",
+      "source": "Department for Work and Pensions, Family Resources Survey 2024 to 2025, working age adults, pay after tax; HMRC, Personal incomes 2023 to 2024",
+      "script": "Typical here means the middle person, if you lined everyone up by pay. So half the people working full time for themselves take home less than £22,800, and half take home more, and the employee figure is worked out the same way. Two limits to say. The survey itself warns that income from working for yourself is irregular and hard to pin down, and that its measure probably underestimates what working for yourself brings in. And a small number do very well: about 2 in 100 people with income from working for themselves made £100,000 or more from it."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which is the fairest thing to say about pay?",
+      "options": [
+        {
+          "text": "Working for yourself always pays more than a job",
+          "correct": false,
+          "feedback": "Not on the figures. Working full time, the typical person who works for themselves takes home less than the typical employee."
+        },
+        {
+          "text": "The typical one takes home less, and a few far more",
+          "correct": true,
+          "feedback": "Yes. The middle person takes home less than the middle employee, a small number earn far more, and pay is less steady."
+        },
+        {
+          "text": "Everyone earns about the same, whichever way they work",
+          "correct": false,
+          "feedback": "The figures show a real gap in the middle, about £6,000 a year, and a wider spread of pay for people who work for themselves."
+        }
+      ],
+      "script": "Fingers up for one, two or three, and wait three seconds. The popular wrong answer is the first. Ask the room where they have seen that idea, and whose pay they were shown. Then ask what nobody posts: the middle person, and the quiet month. Give the board claim that they are rich its verdict."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🙂",
+      "heading": "A little happier at work, and no more stressed",
+      "body": "Across 94 studies in 82 countries, people who work for themselves were on average a little more satisfied with their work than employees, and no more stressed. The difference is small. Why they do it also matters: people who chose it are usually happier with it than people who had no other option.",
+      "script": "This brings together many studies, so it is stronger than any one survey. Say the size honestly: small means small. The Office for National Statistics found much the same in its 2023 figures: people who work for themselves were about as satisfied with life, and about as anxious, as employees. Where the satisfaction comes from, a large study across 23 countries put it down mainly to more interesting work and more say over it. Then land the part that matters most: why someone works for themselves makes a real difference to how it feels."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Who is most likely to be happy working for themselves?",
+      "options": [
+        {
+          "text": "Someone who chose it because they wanted to",
+          "correct": true,
+          "feedback": "Yes. People who chose it are usually happier with it than people who felt they had no other option."
+        },
+        {
+          "text": "Anyone, because being your own boss is always better",
+          "correct": false,
+          "feedback": "Not on the evidence. On average the difference is small, and it depends on why someone is doing it."
+        },
+        {
+          "text": "Someone who lost their job and had no other option",
+          "correct": false,
+          "feedback": "On average, people who felt they had no other option were less happy with it than people who chose it. That is about the choice, not the person."
+        }
+      ],
+      "script": "Whiteboards, and wait three seconds before anyone shows. The popular wrong answer is the second, because be your own boss sounds like it must be better. Ask what the evidence said about the size of the difference. If a pupil's family works for themselves, for whatever reason, keep it general: this is an average across thousands of people, and it says nothing about any one family."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🧪",
+      "heading": "Try a small version before you decide",
+      "body": "In a big UK survey, 58 in 100 adults who saw a good chance to start a business said fear of failing would stop them. You can make that risk smaller. Try a tiny version first, for a few people, with an adult who knows. If it goes wrong you lose very little, and you find out what the work is really like.",
+      "script": "Say whose survey it is: the Global Entrepreneurship Monitor, which interviewed over 8,000 UK adults, and 58 in 100 is the highest it has ever recorded. The argument of this cycle is ours, so say it as ours: you cannot remove the fear, but you can make the cost of failing small. What trying shows you is what the work is really like and whether you enjoy it. It does not prove a talent, and it does not need to."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "You want to find out if making and selling bracelets suits you. What is the best first step?",
+      "options": [
+        {
+          "text": "Borrow money to buy lots of beads and packaging",
+          "correct": false,
+          "feedback": "That makes the risk big before you know anything. If nobody wants them, you still owe the money back."
+        },
+        {
+          "text": "Make five, and offer them to family, with an adult",
+          "correct": true,
+          "feedback": "Yes. It costs almost nothing, an adult knows, and within a week you know whether you enjoyed it and whether anyone wanted one."
+        },
+        {
+          "text": "Wait until you are 18, then start a big shop online",
+          "correct": false,
+          "feedback": "You do not have to wait to find out. A small try now, with an adult, tells you things a plan on paper cannot."
+        }
+      ],
+      "script": "Fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is the last, because waiting feels safe. Ask what the small try tells them by next week that waiting never will: whether they enjoy it, and whether anyone wants it. Then point out that the right answer has an adult in it, and say why in a sentence: the adult is who keeps a small try safe."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🧩",
+      "heading": "There is no single entrepreneur type",
+      "body": "Personality is only part of the picture. A British study followed thousands of people born in one week in 1958. How their teachers rated their personality at age 7 did not strongly predict who later worked for themselves. Some traits, such as drive and self belief, are linked to starting a business, but only moderately, and entrepreneurs come in all sorts.",
+      "script": "Say what the study was: the National Child Development Study, which set out to follow everyone born in Great Britain in one week of March 1958, and later checked who worked for themselves in their twenties and thirties. The researchers called the result relatively disappointing. Here is what I would notice first: personality is only part of the picture, so no quiz can give you a yes or a no. Other studies find some traits matter a moderate amount, so say moderately: not nothing, and not everything."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "prompt": "You can think like an entrepreneur inside any school or job. The lunch queue takes too long, and you do not run the school. What could you spot, ask about and try? Who would you ask first?",
+      "lookFor": "Being entrepreneurial is a way of working as well as a job title. The same moves work inside a school or any job: notice a problem, ask the people it affects, and try a small fix with the right permission.",
+      "script": "Three seconds of thinking, then sixty seconds in pairs. Take two ideas, and ask each pair who they would need to ask first: a teacher, the kitchen staff or the school council. That question is the point. Inside any job, the entrepreneurial move starts with asking the people in charge."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "What you can try before 18",
+      "steps": [
+        {
+          "title": "Now",
+          "text": "Small tries for people you know, with an adult. No selling or busking in the street.",
+          "emoji": "🌱"
+        },
+        {
+          "title": "From 13 or 14",
+          "text": "Part time work. Never in school hours, before 7am or after 7pm.",
+          "emoji": "🕖"
+        },
+        {
+          "title": "From 16",
+          "text": "You can be a company director.",
+          "emoji": "📄"
+        },
+        {
+          "title": "At 18",
+          "text": "Selling and payment apps on your own. Until then, an adult is responsible.",
+          "emoji": "🔑"
+        }
+      ],
+      "script": "Walk the four steps from left to right and let the class read the details. The idea behind them: you can try things now, and until 18 the selling and payment apps make an adult responsible, partly because the law protects young people from being tied into deals. Street trading means selling things, or performing for money, in the street or a public place. A child of school age cannot do it, apart from a few council areas in England, Wales and Scotland where a child of 14 or over may work for their own parent. Part time work starts at 13 in Northern Ireland and in some council areas elsewhere. A job usually needs a permit or notice from the employer, a parent or carer usually signs, and it is at most 2 hours on a school day."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "A stranger online offers you £50, or game skins, for the use of your bank account. What do you do?",
+      "options": [
+        {
+          "text": "Say yes once, since it is only one payment",
+          "correct": false,
+          "feedback": "Once is enough to be caught up in a crime. Moving money for someone else is one way criminals hide stolen money."
+        },
+        {
+          "text": "Ask them to explain the job properly first",
+          "correct": false,
+          "feedback": "There is no safe version of this job, and replying keeps you talking to them. Stop replying and tell a parent or carer."
+        },
+        {
+          "text": "Stop replying, and tell a parent or carer",
+          "correct": true,
+          "feedback": "Yes. This is one way criminals recruit young people to move stolen money. Telling an adult is right, even if you already replied."
+        }
+      ],
+      "script": "Whiteboards, and wait three seconds before anyone shows. This is the one safety line in the lesson, so say it plainly. Criminals recruit young people to move stolen money through their accounts, and call it easy money or a business opportunity. The fraud prevention service Cifas recorded nearly 13,000 cases of this in the first half of 2026, up 70 percent on the same months of 2025. If it has already happened, telling an adult is still right: the government's guidance treats a child drawn in as a victim to protect. If a pupil says this has happened to them, follow your school's safeguarding procedures."
+    },
+    {
+      "type": "tryit",
+      "phase": "teach",
+      "minutes": 3,
+      "heading": "Plan one small try",
+      "body": "Look, weigh, try, for something you enjoy doing or making. Write the smallest version you could try this month, who it is for, and the adult who will know about it. Then write one thing you want to find out about the work.",
+      "script": "Three minutes, on their own, in the booklet. Circulate. If a pupil plans something big, ask what the smallest version would be, for three people, by the end of the month. If a pupil plans to sell online or to strangers, redirect them to family, people they know or school, with an adult who knows. The best first tries cost little or nothing."
+    },
+    {
+      "type": "interactive",
+      "component": "star-breath",
+      "phase": "practise",
+      "minutes": 1,
+      "config": {
+        "heading": "Half time",
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then stand up, swap seats with your partner, and tell them your small try in one sentence.",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then everyone stands, swaps seats with their partner and says their small try in one sentence. Nothing is marked. Then straight into the sort."
+    },
+    {
+      "type": "interactive",
+      "component": "verdict-sort",
+      "phase": "practise",
+      "minutes": 4,
+      "caption": "Sort the six together before the sheet.",
+      "config": {
+        "label": "True, myth or it depends? . tap the class verdict",
+        "verdicts": [
+          "True",
+          "Myth",
+          "It depends"
+        ],
+        "posts": [
+          {
+            "handle": "Claim 1",
+            "avatar": "📉",
+            "text": "Most new businesses fail in their first year.",
+            "answer": 1,
+            "why": "Myth. About 95 in 100 of the UK businesses started in 2019 were still going a year later."
+          },
+          {
+            "handle": "Claim 2",
+            "avatar": "🧍",
+            "text": "Most UK businesses have no staff.",
+            "answer": 0,
+            "why": "True. Three in four UK businesses employ nobody but the people who own them."
+          },
+          {
+            "handle": "Claim 3",
+            "avatar": "💷",
+            "text": "Working for yourself pays more than a job.",
+            "answer": 2,
+            "why": "It depends. The typical person working full time for themselves takes home less, and a few earn far more."
+          },
+          {
+            "handle": "Claim 4",
+            "avatar": "🧬",
+            "text": "You can tell from someone's personality if they will be an entrepreneur.",
+            "answer": 1,
+            "why": "Myth. How teachers rated children's personality at 7 did not strongly predict who later worked for themselves, and traits are only part of the picture."
+          },
+          {
+            "handle": "Claim 5",
+            "avatar": "🙂",
+            "text": "People who work for themselves are happier.",
+            "answer": 2,
+            "why": "It depends. A little more satisfied with their work on average, and mostly when they chose it."
+          },
+          {
+            "handle": "Claim 6",
+            "avatar": "⏳",
+            "text": "You have to wait until you are 18 to try anything.",
+            "answer": 1,
+            "why": "Myth. Small tries with an adult who knows can start now, and a part time job can start at 14, or 13 in some places."
+          }
+        ],
+        "doneTitle": "Sorted",
+        "doneEmoji": "✅",
+        "doneBody": "Look, weigh, try: the real picture first, then a small version."
+      },
+      "script": "Read each claim aloud and take a class verdict before you reveal it: hands up for each of the three. Claim five causes the argument, because it is marked it depends and some will say true. Push back with the evidence: a little, on average, and mostly for people who chose it. Then go back to the board claims from the start and give each one its verdict."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Sam, in Year 9, loves fixing bikes and is not sure he wants to work for himself. Which plan fits the evidence best?",
+      "options": [
+        {
+          "text": "Stop caring about school, since real entrepreneurs start young",
+          "correct": false,
+          "feedback": "Nothing here says a business beats school, and there is no deadline for starting one. School keeps every door open, including this one."
+        },
+        {
+          "text": "Fix a few bikes for people he knows, with an adult, and see",
+          "correct": true,
+          "feedback": "Yes. A small try shows him what the work is really like, costs little, and keeps every other option open while he finds out."
+        },
+        {
+          "text": "Take a quiz online to find out whether he is the entrepreneur type",
+          "correct": false,
+          "feedback": "A quiz can only tell him part of the picture, and it cannot show him what fixing bikes for people is really like."
+        }
+      ],
+      "script": "The first of three prove questions. Pupils answer on their own on whiteboards, wait three seconds, then show. The popular wrong answer is the quiz, because quizzes feel scientific. Ask what a quiz cannot show him that fixing a few bikes would."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Which sentence gives the most honest picture of working for yourself?",
+      "options": [
+        {
+          "text": "It is the fast way to get rich and be happier",
+          "correct": false,
+          "feedback": "The typical person working for themselves takes home less than the typical employee, and is only a little more satisfied at work."
+        },
+        {
+          "text": "Common, usually small, and pay is less steady",
+          "correct": true,
+          "feedback": "Yes. More than 1 in 8 workers do it, most businesses have no staff, and pay is less steady than a wage, with a few doing very well."
+        },
+        {
+          "text": "It almost always ends in failure, so do not try",
+          "correct": false,
+          "feedback": "Most new businesses get through their first year, and closing is not always failing. A small try costs little and shows you what it is like."
+        }
+      ],
+      "script": "The second prove question. Whiteboards, wait three seconds, then show. Both wrong answers are loud versions of the story: one says get rich, one says do not bother. The honest picture is quieter than both."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Why try a small version before deciding anything big?",
+      "options": [
+        {
+          "text": "It proves whether you have a talent for business",
+          "correct": false,
+          "feedback": "One small try cannot prove a talent. It shows you what the work is like, which is the thing you actually need to know first."
+        },
+        {
+          "text": "It shows you what the work is really like",
+          "correct": true,
+          "feedback": "Yes. You find out whether you enjoy the work and whether anyone wants it, and if it goes wrong you have lost very little."
+        },
+        {
+          "text": "It means you will never have to take a risk",
+          "correct": false,
+          "feedback": "Every try carries some risk. A small version keeps the risk small, so failing costs little and you can try again."
+        }
+      ],
+      "script": "The last prove question. Whiteboards, wait three seconds, then show. Then put all three answers up together and let them mark their own. Nobody reads a score out."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "Look, weigh, try",
+      "points": [
+        "Look at every way to work: most people who work for themselves have no staff, and many mix it with a job.",
+        "Weigh the real numbers: most businesses last a year and most stop by five, pay is less steady, and choosing it matters.",
+        "Try a small version, with an adult who knows, to find out what the work is really like."
+      ],
+      "script": "Read them. Do not add to them. Then ask for hands: who has a small try in mind for this month?"
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Your mission, this week",
+      "lines": [
+        "My mission for you this week: find an adult you know who works for themselves, or once did.",
+        "Ask them three things. What is a normal week like? What is the best part? What do they wish they had known?",
+        "Then tell them your small try, and ask what they would change."
+      ],
+      "script": "The handover. Say nothing over it. If a pupil knows nobody who works for themselves, a relative, a neighbour or someone at school will do, or an adult at home can help them find someone they know. Ask them to say the mission back: one adult, three questions, one small try."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "One last thing",
+      "lines": [
+        "You do not have to decide what you will be yet.",
+        "A job, a business, or both at once are all good ways to work.",
+        "Try something small, notice what you enjoy, and let that tell you what comes next."
+      ],
+      "script": "Close on the third line and stop. It is the lesson in one sentence. Do not add a warning or a careers line after it."
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson is about working for yourself and carries no disclosure prompt. Two safety lines are written into the script: small tries happen with people pupils already know and an adult who knows about them, and any offer of money or a job from someone they do not know goes to a parent or carer first. The money mule question rehearses that. Home Office guidance treats a child recruited to move money as a victim of child criminal exploitation, so if a pupil says this has happened to them, follow your school's safeguarding procedures. The same guidance warns that misuse can still be recorded against a bank account, which is one more reason to tell an adult early. A family business that closed, or money worries at home, may sit behind a pupil's answers, so keep examples general.",
+    "required": false,
+    "concern_form_linked": false
+  },
+  "key_stage": "KS3",
+  "module_id": "could-you-be-an-entrepreneur",
+  "assessment": {
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "Which is the most common kind of UK business?",
+          "answer": 2,
+          "options": [
+            "A company with over 50 staff",
+            "A shop with a few staff",
+            "The owners, with no staff"
+          ],
+          "teaching_point": "Three in four UK businesses employ nobody except the people who own them."
+        },
+        {
+          "q": "Of UK businesses started in 2019, how many were still going five years later?",
+          "answer": 0,
+          "options": [
+            "About 38 in 100",
+            "About 5 in 100",
+            "About 95 in 100"
+          ],
+          "teaching_point": "Most got through their first year, and about 38 in 100 were still going after five."
+        },
+        {
+          "q": "Who is most likely to be happy working for themselves?",
+          "answer": 1,
+          "options": [
+            "Anyone who is their own boss",
+            "Someone who chose it",
+            "Someone with no other option"
+          ],
+          "teaching_point": "On average the difference is small, and people who chose it are usually happier with it than people who had no other option."
+        },
+        {
+          "q": "What is the best way to find out if it suits you, and keep the risk small?",
+          "answer": 0,
+          "options": [
+            "A small try, with an adult who knows",
+            "A big loan and a shop",
+            "A personality quiz online"
+          ],
+          "teaching_point": "A small try shows what the work is really like, and if it goes wrong you lose very little."
+        }
+      ]
+    },
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "About how many people in work in the UK work for themselves?",
+          "answer": 1,
+          "options": [
+            "1 in 50",
+            "1 in 8",
+            "1 in 2"
+          ],
+          "teaching_point": "More than 1 in 8 people in work are self employed, about 4.5 million people."
+        },
+        {
+          "q": "Of new UK businesses, how many are still going a year later?",
+          "answer": 2,
+          "options": [
+            "About 20 in 100",
+            "About half",
+            "About 95 in 100"
+          ],
+          "teaching_point": "Most get through their first year. By five years, about 38 in 100 are still going."
+        },
+        {
+          "q": "Working full time, who usually takes home more?",
+          "answer": 0,
+          "options": [
+            "The typical employee",
+            "The typical person working for themselves",
+            "They take home the same"
+          ],
+          "teaching_point": "The typical full time employee takes home £29,000 a year, against £22,800 for someone working for themselves, though a few of them earn far more."
+        },
+        {
+          "q": "What can a personality quiz tell you about whether working for yourself would suit you?",
+          "answer": 1,
+          "options": [
+            "Everything you need to know",
+            "Only part of the picture",
+            "Exactly which job to do"
+          ],
+          "teaching_point": "Personality is only moderately linked to working for yourself. Trying a small version shows you what the work is actually like."
+        },
+        {
+          "question": "In one sentence, name something you enjoy doing or making that other people might find useful.",
+          "format": "short_answer",
+          "answer": "Any real skill or interest, said plainly.",
+          "teaching_point": "Keep the sentence. The lesson ends with a small try built on it."
+        }
+      ]
+    }
+  },
+  "sort_order": 901,
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child weighed up working for yourself with real UK figures: how many people do it, how long new businesses last, what people take home and how it feels. They learned there is no single entrepreneur type, and that a small try, with an adult who knows, is a good way to find out whether it suits them. Nothing in the lesson ranks a business above a job or university.",
+    "try_this": "Your child has a mission this week: to ask an adult they know who works for themselves, or once did, about a normal week, the best part and what they wish they had known. If that could be you or someone you know, help them set it up. If they plan a small try, like baking or fixing something for people you know, be the adult who knows about it, and look after any money.",
+    "family_question": "What do you enjoy doing that could help other people, and what would the smallest try of it look like?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "The three tool words, look, weigh and try, translate cleanly and are worth having in first language on the desk. Give the figures on a strip with the numbers large, and let pupils sort the claims before they read the reasons.",
+      "sensory": "The sort runs on paper if the board version is too busy. No sound is needed at any point, and the half time swap can be done seated for any pupil who needs it.",
+      "attention": "One cycle at a time, each ending in a choice. The plan can be done as three separate boxes rather than one page, with a tick after each, and the figures can stay on the desk.",
+      "communication": "Pupils may write their answers rather than say them, and may do the mission in writing or with an adult alongside. Nobody has to present a plan to the room."
+    },
+    "tool": {
+      "heading": "Look, weigh, try",
+      "strapline": "A way to find out, at any age, without risking anything big.",
+      "lines": [
+        "Look: at every way to work, not only the famous one.",
+        "Weigh: the real numbers, how long, how much and how it feels.",
+        "Try: a small version, with an adult who knows, before you decide."
+      ]
+    },
+    "i_can": [
+      "I can name the ways people work, and say which is most common.",
+      "I can use real figures to weigh up how long businesses last, what they pay and how it feels.",
+      "I can plan a small, safe way to try it, with an adult who knows."
+    ],
+    "cycles": [
+      {
+        "verb": "Look",
+        "title": "Ways to work",
+        "minutes": 8,
+        "outcome": "I can name four ways to work, and say which is most common."
+      },
+      {
+        "verb": "Weigh",
+        "title": "The honest numbers",
+        "minutes": 14,
+        "outcome": "I can use real figures on how long businesses last, what they pay and how it feels."
+      },
+      {
+        "verb": "Try",
+        "title": "Try a small version",
+        "minutes": 15,
+        "outcome": "I can plan a small, safe try, with an adult who knows, to find out what the work is like."
+      }
+    ],
+    "timing": "61 minutes: starter 9, cycle one 8, cycle two 14, cycle three 15, practise 5, prove 6, close 4",
+    "keywords": [
+      {
+        "word": "entrepreneur",
+        "definition": "Someone who starts and runs something of their own, like a business, and takes the chance that it might not work. It can be tiny, and it can sit alongside a job."
+      },
+      {
+        "word": "self employed",
+        "definition": "Working for yourself rather than for an employer. Nobody pays a wage, so what you earn is what your work brings in."
+      },
+      {
+        "word": "risk",
+        "definition": "The chance that something goes wrong, and what it would cost if it did. Trying a small version first makes a risk smaller."
+      }
+    ],
+    "equipment": "Projector. Printed pupil booklet or plain paper. Pens. Mini whiteboards if you have them. No pupil devices, accounts or money are needed: nothing is sold or set up in the lesson.",
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "Which is the most common kind of UK business?",
+          "answer": 2,
+          "options": [
+            "A company with over 50 staff",
+            "A shop with a few staff",
+            "The owners, with no staff"
+          ],
+          "teaching_point": "Three in four UK businesses employ nobody except the people who own them."
+        },
+        {
+          "q": "Of UK businesses started in 2019, how many were still going five years later?",
+          "answer": 0,
+          "options": [
+            "About 38 in 100",
+            "About 5 in 100",
+            "About 95 in 100"
+          ],
+          "teaching_point": "Most got through their first year, and about 38 in 100 were still going after five."
+        },
+        {
+          "q": "Who is most likely to be happy working for themselves?",
+          "answer": 1,
+          "options": [
+            "Anyone who is their own boss",
+            "Someone who chose it",
+            "Someone with no other option"
+          ],
+          "teaching_point": "On average the difference is small, and people who chose it are usually happier with it than people who had no other option."
+        },
+        {
+          "q": "What is the best way to find out if it suits you, and keep the risk small?",
+          "answer": 0,
+          "options": [
+            "A small try, with an adult who knows",
+            "A big loan and a shop",
+            "A personality quiz online"
+          ],
+          "teaching_point": "A small try shows what the work is really like, and if it goes wrong you lose very little."
+        }
+      ]
+    },
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "About how many people in work in the UK work for themselves?",
+          "answer": 1,
+          "options": [
+            "1 in 50",
+            "1 in 8",
+            "1 in 2"
+          ],
+          "teaching_point": "More than 1 in 8 people in work are self employed, about 4.5 million people."
+        },
+        {
+          "q": "Of new UK businesses, how many are still going a year later?",
+          "answer": 2,
+          "options": [
+            "About 20 in 100",
+            "About half",
+            "About 95 in 100"
+          ],
+          "teaching_point": "Most get through their first year. By five years, about 38 in 100 are still going."
+        },
+        {
+          "q": "Working full time, who usually takes home more?",
+          "answer": 0,
+          "options": [
+            "The typical employee",
+            "The typical person working for themselves",
+            "They take home the same"
+          ],
+          "teaching_point": "The typical full time employee takes home £29,000 a year, against £22,800 for someone working for themselves, though a few of them earn far more."
+        },
+        {
+          "q": "What can a personality quiz tell you about whether working for yourself would suit you?",
+          "answer": 1,
+          "options": [
+            "Everything you need to know",
+            "Only part of the picture",
+            "Exactly which job to do"
+          ],
+          "teaching_point": "Personality is only moderately linked to working for yourself. Trying a small version shows you what the work is actually like."
+        },
+        {
+          "question": "In one sentence, name something you enjoy doing or making that other people might find useful.",
+          "format": "short_answer",
+          "answer": "Any real skill or interest, said plainly.",
+          "teaching_point": "Keep the sentence. The lesson ends with a small try built on it."
+        }
+      ]
+    },
+    "worksheet": {
+      "title": "Look, weigh, try",
+      "directions": "Sort the six claims first, then plan your own small try one word at a time.",
+      "verdict_options": [
+        "True",
+        "Myth",
+        "It depends"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "stem": "True, myth or it depends?",
+        "text": "Most new businesses fail in their first year."
+      },
+      {
+        "n": 2,
+        "stem": "True, myth or it depends?",
+        "text": "Most UK businesses have no staff."
+      },
+      {
+        "n": 3,
+        "stem": "True, myth or it depends?",
+        "text": "Working for yourself pays more than a job."
+      },
+      {
+        "n": 4,
+        "stem": "True, myth or it depends?",
+        "text": "You can tell from someone's personality if they will be an entrepreneur."
+      },
+      {
+        "n": 5,
+        "stem": "True, myth or it depends?",
+        "text": "People who work for themselves are happier."
+      },
+      {
+        "n": 6,
+        "stem": "True, myth or it depends?",
+        "text": "You have to wait until you are 18 to try anything."
+      },
+      {
+        "n": 7,
+        "stem": "Something I enjoy doing or making:",
+        "text": "Look. Which way of working could it fit?"
+      },
+      {
+        "n": 8,
+        "stem": "The smallest version I could try this month:",
+        "text": "Weigh. What would it cost, in money and time, if it went wrong?"
+      },
+      {
+        "n": 9,
+        "stem": "Who it is for, and the adult who will know:",
+        "text": "Try. One thing I want to find out about the work."
+      }
+    ],
+    "teacher_tip": "Do not let it turn into a business pitch, or a careers talk that ranks one path above another. The lesson fails if a pupil leaves thinking a business beats a job or university, or that school matters less. It is about weighing real figures and trying something small, with an adult who knows.",
+    "evidence_base": [
+      {
+        "claim": "Of 363,825 UK businesses born in 2019, 94.6 percent were still active after one year, 74.7 after two, 55.9 after three, 45.0 after four and 38.4 after five. Births are new VAT or PAYE registrations, so small unregistered businesses, like most young people's side businesses, are missing. Survived means active at any point in the next calendar year, so the one year rate is generous. A death means the business stopped trading, and no reason is recorded.",
+        "source": "Office for National Statistics, Business demography, UK: 2024, released 20 November 2025, Table 4.1 and Figure 2",
+        "status": "verified"
+      },
+      {
+        "claim": "4,530,513 people were self employed in their main job, out of 34,477,788 people in work aged 16 and over, in May to July 2026: 13.1 percent, more than 1 in 8. The share is calculated from the two figures (series MGRQ and MGRZ). ONS warns that some Labour Force Survey estimates remain volatile.",
+        "source": "Office for National Statistics, EMP01 SA: Full time, part time and temporary workers, released 15 September 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "There were an estimated 5.7 million UK private sector businesses at the start of 2025. 1.4 million (25 percent) had employees and 4.3 million (75 percent) did not employ anyone aside from the owners. 3.0 million of those were sole proprietorships, one owner and no staff, which is 53 percent of all businesses. These count businesses, not people.",
+        "source": "Department for Business and Trade, Business population estimates for the UK and regions 2025, 2 October 2025 (official statistics in development)",
+        "status": "verified"
+      },
+      {
+        "claim": "5.34 million people had some self employment income in 2023 to 2024, taxpayers or not. 1.56 million of them (29 percent) also had employment income, which HMRC defines as pay from employment plus some taxable benefits. 2.45 million (46 percent) made less than £10,000 from self employment, including 633,000 with no taxable profit, and 104,000 (1.9 percent) made £100,000 or more. The percentages are calculated from the table.",
+        "source": "HMRC, Personal incomes statistics, tax year 2023 to 2024, published 29 April 2026, Table 3.10 and its notes",
+        "status": "verified"
+      },
+      {
+        "claim": "The median net annual earnings of working age people working full time for themselves were £22,800, against £29,000 for full time employees, 21 percent lower, after tax, National Insurance and pension contributions, in 2024 to 2025 prices. DWP notes that irregular income could contribute to inaccuracy, and that its earnings measures are likely to underestimate the true benefits of self employment.",
+        "source": "Department for Work and Pensions, Family Resources Survey, financial year 2024 to 2025, published 26 March 2026, Table 8.2a and the background information and methodology",
+        "status": "verified"
+      },
+      {
+        "claim": "A meta analysis of 319 effect sizes from 94 studies in 82 countries. Entrepreneurs report slightly higher work satisfaction than employees (d = 0.129) and life satisfaction (d = 0.056), and on average no difference in negative wellbeing such as stress and burnout (d = 0.000); where the rule of law is strong they report less, and where it is weak, more. Necessity entrepreneurs showed lower positive wellbeing and life satisfaction than employees, and in a review of 144 studies opportunity entrepreneurs were, with one exception, happier than necessity entrepreneurs. Across 23 countries the higher work satisfaction came mainly from more interesting work and more autonomy. Adults, self report, and not randomised.",
+        "source": "Stephan, Rauch and Hatak (2023), Entrepreneurship Theory and Practice 47(2), 553 to 593; Stephan (2018), Academy of Management Perspectives 32(3); Benz and Frey (2008), Journal of Economic Behavior and Organization 68, 445 to 455",
+        "status": "verified"
+      },
+      {
+        "claim": "In the year ending March 2023, life satisfaction averaged 7.60 out of 10 for the self employed and 7.56 for employees, and anxiety 3.00 against 3.16. Holding other factors constant, in Great Britain, the self employed showed no significant difference in either. Official statistics in development, and the latest available.",
+        "source": "Office for National Statistics, Personal well being, Annual Population Survey, year ending March 2023, released 7 November 2023",
+        "status": "verified"
+      },
+      {
+        "claim": "8,229 UK adults were interviewed in 2024. Among adults aged 18 to 64 who saw good opportunities to start a business, 58 percent said fear of failure would prevent them, the highest level recorded. About 12 percent of adults aged 18 to 64 were starting or running a new business.",
+        "source": "Global Entrepreneurship Monitor, United Kingdom 2024/2025 National Report, launched 25 September 2025",
+        "status": "verified"
+      },
+      {
+        "claim": "The National Child Development Study set out to follow everyone born in Great Britain in one week of March 1958. Personality ratings by a school teacher at age 7 were not strongly correlated with self employment at about 23 and 33, which the authors call relatively disappointing. Across studies, personality is moderately linked to starting and running a business: the five broad traits together give a multiple R of .36 for intentions and .31 for performance, and traits such as need for achievement and self efficacy show moderate links.",
+        "source": "Blanchflower and Oswald (1998), What makes an entrepreneur?, Journal of Labor Economics 16(1), 26 to 60; Zhao, Seibert and Lumpkin (2010), Journal of Management 36(2), 381 to 404; Rauch and Frese (2007), European Journal of Work and Organizational Psychology 16(4)",
+        "status": "verified"
+      },
+      {
+        "claim": "A UK study of 870 identical and 857 same sex non identical twin pairs found relatively high heritabilities for entrepreneurship, with little effect of family environment. Swedish adoption data found that, for the link between a parent and child both running businesses, factors after birth account for about twice as much as those before it, suggesting role models. The two measure different things.",
+        "source": "Nicolaou, Shane, Cherkas, Hunkin and Spector (2008), Management Science 54(1), 167 to 179; Lindquist, Sol and van Praag (2015), Journal of Labor Economics 33(2), 269 to 296",
+        "status": "verified"
+      },
+      {
+        "claim": "A year of running a mini company did not raise Dutch college students' self rated skills and lowered their wish to start a business on average. A German university course raised self rated skills while intentions fell somewhat, which the authors read as students learning about their own aptitude. Both samples were older students, so neither predicts effects on Year 8 and 9 pupils. No study tests a small try against a quiz, so the lesson says only that trying shows what the work is like.",
+        "source": "Oosterbeek, van Praag and IJsselstein (2010), European Economic Review 54(3), 442 to 454; von Graevenitz, Harhoff and Weber (2010), Journal of Economic Behavior and Organization 76(1), 90 to 112",
+        "status": "verified"
+      },
+      {
+        "claim": "In US firms started from 1989 to 1992, owners of about a third of the firms that closed judged them successful at closure, and successful closures were often owners moving on to better alternatives. The majority of business exits are unsuccessful. Owners judged success themselves.",
+        "source": "Bates (2005), Journal of Business Venturing 20(3), 343 to 358; Headd (2003), Small Business Economics 21(1), from its working paper; Coad (2014), International Small Business Journal 32(7)",
+        "status": "verified"
+      },
+      {
+        "claim": "In a randomised trial with more than 2,000 secondary school students in Tanzania, paid to watch, an entrepreneurship TV show discouraged investment in schooling without convincingly replacing it with another valuable activity. It is why this lesson never sets business against school. Older pupils than Year 8 and 9.",
+        "source": "Bjorvatn, Cappelen, Sekei, Sørensen and Tungodden (2020), Teaching through television, Management Science 66(6), 2308 to 2325",
+        "status": "verified"
+      },
+      {
+        "claim": "Children may work part time from 14, or from 13 in Northern Ireland and in some council areas elsewhere, and never during school hours, before 7am or after 7pm, or for more than 2 hours on a school day or 12 hours in a school week. Most councils need the employer to get a permit, with a parent's agreement; in Northern Ireland the employer gives notice and the parent's written consent is required. Street trading is banned for children of school age, apart from byelaws in some areas of England, Wales and Scotland letting children of 14 or over work for their own parent (Children and Young Persons Act 1933 s.20; the Scottish Act of 1937 s.30); Northern Ireland has no exception (Children (NI) Order 1995 art. 135(4)). In England, Wales and Scotland the Children's Wellbeing and Schools Act 2026 will move the latest finish to 8pm once ministers bring it into force; it is not in force yet and does not cover Northern Ireland, so the lesson teaches 7pm. A company director must be at least 16 (Companies Act 2006 s.157, UK wide).",
+        "source": "gov.uk Child employment and child work permits; gov.scot Employment of children; legislation.gov.uk, read 26 September 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "eBay UK: 18 and over. Etsy: 13 to 17 only through a parent's account. Vinted: 18 and over, or through a parent's account. Depop: sign up at 13, but PayPal and Depop Payments at 18. Facebook Marketplace: adults. PayPal UK: 18 and over. Stripe: 13 to 17 only with an adult representative who is responsible for the account. Selling your own personal items is unlikely to be taxed, and trading income of £1,000 or less a year, counted before costs, usually needs no tax and no report, at any age.",
+        "source": "Each platform's own help pages and terms, read 26 September 2026; gov.uk trading allowance guidance and ITTOIA 2005 s.783A",
+        "status": "verified"
+      },
+      {
+        "claim": "Cases linked to money muling rose 70 percent on the first half of 2025, with nearly 13,000 recordings to the National Fraud Database in January to June 2026; 57 percent involved under 30s and 17 percent under 21s. Recruitment lures include job scams and business opportunities. Home Office guidance says recruiters offer cash or in game currencies or skins for bank details, that financial exploitation of a child is child criminal exploitation, and that those drawn in should be seen as victims first, though misuse can still be recorded and accounts closed.",
+        "source": "Cifas, Fraudscape 2026 six month update, 4 August 2026, and Fraudscape 2026, 12 March 2026; Home Office, Money laundering linked financial exploitation: guidance for frontline professionals, 1 March 2024",
+        "status": "verified"
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Do I need money to start?",
+        "answer": "No. The best first tries cost little or nothing: a skill, a few materials and people you know. Borrowing money makes the risk big before you know anything, so leave that until a small version has shown that people want it."
+      },
+      {
+        "question": "Can I earn money from it now?",
+        "answer": "In small ways, with an adult looking after the money. Selling a few of your own old things is not usually taxed. If you take in £1,000 or less in a tax year from making or doing things, counting everything before costs, it is usually tax free and you usually do not need to tell HMRC; above that, you do. Selling and payment apps need an adult until you are 18, so money goes through a parent or carer."
+      },
+      {
+        "question": "Are some people just born entrepreneurs?",
+        "answer": "Not in the sense that it is decided at birth. Some traits are moderately linked to it, and genes explain some of the differences between people, but how teachers rated children's personality at 7 did not strongly predict who later worked for themselves. In a Swedish study of adopted children, when it came to following a parent into running a business, the parents who raised them mattered about twice as much as the parents they were born to."
+      },
+      {
+        "question": "Should I skip college or university to start a business?",
+        "answer": "This lesson does not rank any path above another. You can work for yourself after any route, or alongside a job. A small try now costs very little and keeps every option open, including that one."
+      },
+      {
+        "question": "My family's business closed. Does that mean it failed?",
+        "answer": "Not necessarily. It is common: most of the businesses started in 2019 had stopped within five years, for all sorts of reasons the figures do not record. A business that closed is something someone had the nerve to try."
+      },
+      {
+        "question": "Someone online says I can make thousands a month from home. Is it real?",
+        "answer": "Be very careful. Offers of easy money from strangers are one way criminals recruit young people, sometimes to move stolen money through their accounts. Do not reply, and tell a parent or carer. If you already replied, tell them anyway: the guidance treats young people drawn in as victims to protect."
+      }
+    ],
+    "misconceptions": [
+      "That most new businesses fail in their first year. About 95 in 100 of the UK businesses started in 2019 were still going a year later, though most had stopped by year five.",
+      "That working for yourself pays more. The typical person working full time for themselves takes home less than the typical employee, while a few earn far more.",
+      "That you can tell from someone's personality whether they will be an entrepreneur. How teachers rated children at 7 did not strongly predict it, and traits are only moderately linked.",
+      "That you have to wait until 18 to try anything. Small tries with an adult who knows can start now, and a part time job from 14, or 13 in some places."
+    ],
+    "paper_fallback": "Everything runs without screens. The six claims are on the sheet as a three column sort, the plan is written in the booklet, and the prove questions work on mini whiteboards or with fingers. The figures can be read aloud from the teacher notes.",
+    "commitment_stem": "My commitment: the small thing I will try this month, and the adult who will know about it, is...",
+    "differentiation": {
+      "stretch": "Ask the strongest pupils to compare two ways of working with the same skill, a salon job and renting a chair, using the lesson's figures, and to name one thing the figures cannot tell them about their own case.",
+      "support": "Offer a short list of small tries to choose from: baking for a family event, fixing bikes for people they know, helping a younger cousin with reading, making cards. Give the three mission questions on a strip, and let the plan be three boxes, one per word of the tool."
+    },
+    "prior_knowledge": [
+      "Helpful but not needed: What problem would you solve?, the first standalone lesson, for its three moves of naming a problem, asking three people and building the smallest version.",
+      "Pupils have usually heard the word entrepreneur about someone famous and rich. This lesson checks that picture against real figures."
+    ],
+    "parent_questions": [
+      {
+        "question": "Is this lesson telling my child to start a business?",
+        "answer": "No. It gives them the real UK figures on working for yourself, the good and the hard, and treats a job, a business or both at once as equally good ways to work. The only things it asks of them are to ask an adult about their work, and to plan a small try with an adult who knows."
+      },
+      {
+        "question": "Will my child be asked to sell anything or handle money?",
+        "answer": "No. Nothing is sold, set up or paid for in the lesson. If your child plans a small try at home, the lesson tells them an adult should know about it and look after any money, because selling apps and payment services need an adult until 18."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "What the survival figures do and do not say",
+        "body": "ONS follows every business on the official register born in a given year. Of the 363,825 born in 2019, 94.6 percent were active a year later and 38.4 percent five years later. Only registered businesses count, so most small side businesses are missing; active means trading at any point in the next year; and a death means the business stopped trading, with no record of why. Most closures do mean it did not work out, though studies in the US find some owners close to move on to something better."
+      },
+      {
+        "heading": "What typical means on the pay slide",
+        "body": "The DWP figure is the median: line everyone up by take home pay and read off the middle person. Working full time, the middle person working for themselves takes home £22,800 and the middle employee £29,000. The spread matters as much as the middle: in 2023 to 2024, 46 percent of people with self employment income made under £10,000 from it, many of them alongside a job, and 1.9 percent made £100,000 or more."
+      },
+      {
+        "heading": "Why the lesson never sets business against school",
+        "body": "In a randomised trial in Tanzania, an entrepreneurship TV show for secondary pupils discouraged investment in schooling without convincingly replacing it with anything valuable (Bjorvatn and colleagues, 2020). Studies of business programmes for students often find keenness falls a little afterwards, which fits students learning what the work is like. So the lesson treats a job, a business and both at once as equal, and treats trying as finding out, never as a pitch."
+      }
+    ],
+    "essential_question": "Could working for myself suit me, and how would I find out?",
+    "learning_objective": "To weigh up working for yourself using real UK figures on how long businesses last, what they pay and how it feels, and to plan a small, safe try that shows what the work is like.",
+    "key_learning_points": [
+      "There are several ways to work, and they mix. More than 1 in 8 UK workers are self employed, and most businesses have no staff.",
+      "Most new businesses last their first year and most have stopped by year five. Closing is not always failing.",
+      "Working full time, the typical person who works for themselves takes home less than the typical employee, a few earn far more, and pay is less steady.",
+      "On average people who work for themselves are a little more satisfied at work and no more stressed, mostly when they chose it.",
+      "There is no single entrepreneur type. A small try with an adult who knows shows what the work is really like."
+    ]
+  }
+}
