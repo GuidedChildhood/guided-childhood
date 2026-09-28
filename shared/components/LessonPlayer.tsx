@@ -11,6 +11,7 @@ import { CHARACTERS, type CharacterKey } from '../schools-curriculum'
 import { isCharacterKey } from '../intro-characters'
 import type { Register } from '../friend-register'
 import AnimatedIntro from './AnimatedIntro'
+import HappyIcon, { isHappyIconName } from './HappyIcon'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
 import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
@@ -638,6 +639,28 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
 
 // Animated flow diagram: steps drop in one by one with connectors, verdict
 // chips pop at the end. Built from data, no images, photocopies cleanly.
+// THE SLIDE'S PICTURE, DRAWN OR TYPED (26 September 2026). A concept slide or
+// a diagram step may name a drawn Happy News icon in place of its emoji
+// (Justin: "don't use the flower icons, use Happy News style icons"). The icon
+// wins; a name we do not draw falls back to the emoji, so a typo in a row costs
+// a picture, never the slide. It sits in the same box the emoji did and sizes
+// off that box's font size, a fifth larger because a glyph carries its own air
+// and the drawing does not.
+function hasMark(icon?: string, emoji?: string): boolean {
+  return isHappyIconName(icon) || !!emoji
+}
+
+function SlideMark({ icon, emoji }: { icon?: string; emoji?: string }) {
+  if (isHappyIconName(icon)) {
+    return (
+      <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+        <HappyIcon name={icon} size="1.2em" />
+      </span>
+    )
+  }
+  return emoji ? <>{emoji}</> : null
+}
+
 function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -710,7 +733,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
                     {!last && <span aria-hidden style={{ flex: 1, height: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginLeft: '10px' }} />}
                   </div>
                   <div style={{ ...card, flex: 1, padding: 'clamp(12px, 2vh, 22px) clamp(16px, 1.4vw, 26px)' }}>
-                    {step.emoji && <div style={{ fontSize: WALL.emojiSmall, lineHeight: 1, marginBottom: 'clamp(6px, 1.2vh, 12px)' }}>{step.emoji}</div>}
+                    {hasMark(step.icon, step.emoji) && <div style={{ fontSize: WALL.emojiSmall, lineHeight: 1, marginBottom: 'clamp(6px, 1.2vh, 12px)' }}><SlideMark icon={step.icon} emoji={step.emoji} /></div>}
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.2 }}>{step.title}</div>
                     {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.3, marginTop: '6px' }}>{step.text}</div>}
                   </div>
@@ -731,7 +754,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
                     {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginTop: '4px' }} />}
                   </div>
                   <div style={{ ...card, flex: 1, display: 'flex', gap: '14px', alignItems: 'center', padding: '14px 18px', marginBottom: last ? 0 : '12px' }}>
-                    {step.emoji && <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
+                    {hasMark(step.icon, step.emoji) && <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0, lineHeight: 1 }}><SlideMark icon={step.icon} emoji={step.emoji} /></span>}
                     <div>
                       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
                       {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
@@ -1045,7 +1068,7 @@ function SlideBody({
       // follows, the body settles last. Each piece staggers in.
       return (
         <div style={{ textAlign: 'center' }}>
-          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, WALL.emoji, 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, 'clamp(10px, 2vh, 22px)', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
+          {hasMark(slide.icon, slide.emoji) && <div data-reveal style={{ fontSize: room(projector, WALL.emoji, 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, 'clamp(10px, 2vh, 22px)', '16px'), lineHeight: 1 }}><SlideMark icon={slide.icon} emoji={slide.emoji} /></div>}
           <h2 data-reveal style={{
             fontFamily: 'var(--font-display)', fontSize: room(projector, WALL.display, 'clamp(1.7rem, 5.5vw, 2.4rem)'),
             fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: room(projector, '24px', '18px'),

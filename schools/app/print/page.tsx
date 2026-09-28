@@ -56,8 +56,12 @@ export default async function PrintRoomPage() {
 
   const manifestByModule = new Map(CURRICULUM.map(m => [m.moduleId, m]))
   // The print room is the scheme's, so a standalone lesson (lib/taster.ts)
-  // stays out of it: its pack opens from its own lesson page.
-  const live = (lessons ?? []).filter(l => !isStandaloneModule(l.module_id))
+  // stays out of it: its pack opens from its own lesson page. The manifest is
+  // the test as well as the standalone list (26 September 2026): a standalone
+  // row is applied to production before the code naming it merges, and in that
+  // window "not standalone" read it as a scheme lesson. Only the manifest's
+  // own lessons are the scheme's, so only they are listed here.
+  const live = (lessons ?? []).filter(l => manifestByModule.has(l.module_id) && !isStandaloneModule(l.module_id))
   const byStage = KEY_STAGE_ORDER
     .map(ks => ({ ks, rows: live.filter(l => (manifestByModule.get(l.module_id)?.keyStage ?? l.key_stage) === ks) }))
     .filter(g => g.rows.length > 0)

@@ -193,6 +193,11 @@ export type ConceptSlide = SlideBase & {
   heading: string
   body: string
   emoji?: string
+  // A drawn Happy News icon by name (shared/components/HappyIcon.tsx), in
+  // place of the emoji. Justin, 26 September 2026: "don't use the flower
+  // icons, use Happy News style icons". Loose like the character fields and
+  // resolved at render: a name we do not draw falls back to the emoji.
+  icon?: string
 }
 
 export type QuoteSlide = SlideBase & {
@@ -267,8 +272,9 @@ export type DiagramSlide = SlideBase & {
   type: 'diagram'
   heading: string
   caption?: string
-  // Steps render as an animated flow, top to bottom with connectors.
-  steps: { emoji: string; title: string; text?: string }[]
+  // Steps render as an animated flow, top to bottom with connectors. A step
+  // carries an emoji or a drawn icon (as ConceptSlide.icon); the icon wins.
+  steps: { emoji?: string; icon?: string; title: string; text?: string }[]
   // Optional verdict chips rendered after the flow (believe / pause / do not share).
   verdicts?: string[]
 }

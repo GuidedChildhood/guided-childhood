@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import DigiCharacter from '../DigiCharacter'
 import FriendPlate from '../FriendPlate'
+import HappyIcon, { isHappyIconName } from '../HappyIcon'
 import PassportPage from '../PassportPage'
 import { PASSPORT_STAGES, type PassportStage } from '../../passport-stages'
 import { isTaught, markTaught, readTaught, unmarkTaught } from '../../schools-taught'
@@ -41,11 +42,16 @@ const prefersReducedMotion = () =>
 // Post cards the class flicks into verdict piles. Tap a card, tap a
 // verdict, it flies to the pile and the tally animates. The core detective
 // drill for module 12 and its cousins.
-type SortPost = { handle: string; avatar: string; text: string; answer: number; why?: string }
+// A card may name a drawn Happy News icon in place of its emoji avatar, and the
+// finish a drawn icon in place of its emoji (26 September 2026, the smart
+// glasses lesson: "use Happy News style icons"). The icon wins; a name we do
+// not draw falls back to the emoji, as on the slides.
+type SortPost = { handle: string; avatar: string; icon?: string; text: string; answer: number; why?: string }
 function VerdictSort({ config }: {
   config: {
     verdicts?: string[]
     posts?: SortPost[]
+    doneIcon?: string
     // The three labels were hardcoded for the teen misinformation module,
     // which meant a Reception class sorting real from made up was told it
     // was "sorting the feed" and congratulated as a detective. Same drill,
@@ -110,7 +116,9 @@ function VerdictSort({ config }: {
 
       {done ? (
         <div style={{ padding: '30px 0' }}>
-          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '8px' }}>{doneEmoji}</div>
+          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '8px' }}>
+            {isHappyIconName(config.doneIcon) ? <HappyIcon name={config.doneIcon} size="1.4em" /> : doneEmoji}
+          </div>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>{doneTitle}</p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>{doneBody}</p>
         </div>
@@ -122,7 +130,7 @@ function VerdictSort({ config }: {
             boxShadow: '0 6px 0 var(--border)', textAlign: 'left',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>{post.avatar}</span>
+              <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>{isHappyIconName(post.icon) ? <HappyIcon name={post.icon} size={28} /> : post.avatar}</span>
               <span style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{post.handle}</span>
               <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{index + 1} of {posts.length}</span>
             </div>
