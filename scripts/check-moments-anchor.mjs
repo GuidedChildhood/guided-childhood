@@ -51,13 +51,35 @@ if (sections) {
   if (!row) {
     fail.push(`${SECTIONS}: the moments row is gone from the passport sections.`)
   } else {
-    if (!new RegExp(`href:\\s*'/dashboard/pathway#${ANCHOR}'`).test(row[0])) {
-      fail.push(`${SECTIONS}: the moments row no longer links to /dashboard/pathway#${ANCHOR}. The number counts open rows in \`concerns\`, and that anchor is the only place a parent can see those rows. Anywhere else and the count and the destination are reading different tables again, which is the 8 August bug.`)
+    // 28 September 2026: the row points at its own page now. The anchor sat
+    // inside the folded record, a closed <details>, and iPhone Safari does not
+    // open one for a fragment, so "Start here" scrolled nowhere. The page
+    // renders the same list from the same table, with the tools on each row.
+    if (!/href:\s*withOrigin\('\/dashboard\/pathway\/moments', 'passport'\)/.test(row[0])) {
+      fail.push(`${SECTIONS}: the moments row no longer links to /dashboard/pathway/moments. The number counts open rows in \`concerns\`, and that page is where a parent sees those rows with DiGi and the scripts beside each one. Anywhere else and the count and the destination are reading different tables again, which is the 8 August bug.`)
+    }
+    if (/#working-on/.test(row[0])) {
+      fail.push(`${SECTIONS}: the moments row points at #working-on again. That list is inside the folded record, which iPhone Safari does not open for a link, so the tap goes nowhere (28 September).`)
     }
     if (/\/dashboard\/moments/.test(row[0])) {
       fail.push(`${SECTIONS}: the moments row points at /dashboard/moments, which lists daily_moments, the general card library. The count is the parent's own concerns. That is two different tables and it is exactly what Justin tapped into on 8 August.`)
     }
   }
+}
+
+// ── 1b. THE PAGE IS THE LIST, WITH THE TOOLS AND THE TRACKING LINE ──────────
+const PAGE = 'app/(dashboard)/dashboard/pathway/moments/page.tsx'
+const page = read(PAGE)
+if (page) {
+  const bare = code(page)
+  if (!/from\('concerns'\)[\s\S]{0,120}\.in\('status', \['open', 'improving'\]\)/.test(bare)) fail.push(`${PAGE}: does not read the open rows in \`concerns\`, which is what the passport counts.`)
+  if (!/<WorkingOn/.test(bare)) fail.push(`${PAGE}: does not render the list of moments.`)
+  if (!/data-moments-tracking/.test(bare)) fail.push(`${PAGE}: the line saying these stay on the daily check in and are tracked is gone.`)
+}
+const working = read('components/tracker/WorkingOn.tsx')
+if (working) {
+  const bare = code(working)
+  if (!/data-moment-tools/.test(bare) || !/\/dashboard\/digi\?ask=/.test(bare) || !/\/dashboard\/scripts\?q=/.test(bare)) fail.push('components/tracker/WorkingOn.tsx: a moment no longer offers Ask DiGi and the scripts for it.')
 }
 
 // ── 2. THE LIST CARRIES THE ANCHOR ──────────────────────────────────────────

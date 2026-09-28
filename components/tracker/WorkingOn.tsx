@@ -314,6 +314,35 @@ export default function WorkingOn({
                     )}
                   </div>
                 )}
+                {/* THE TOOLS, before the verdict (28 September 2026). Justin:
+                    a parent opening a moment should be able to "try with our
+                    tools, either ask DiGi to help or go straight to the
+                    scripts". DiGi opens with the question already written;
+                    the scripts open already searched for this worry. */}
+                <div data-moment-tools style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+                  <a
+                    href={`/dashboard/digi?ask=${encodeURIComponent(`Help me with ${c.label.toLowerCase()} for ${childName}. What should I try first?`)}`}
+                    style={{
+                      background: 'var(--terracotta)', border: 'var(--edge)', color: 'var(--ink)',
+                      borderRadius: 'var(--radius-btn)', padding: '9px 12px', textDecoration: 'none', flex: '1 1 0', textAlign: 'center', whiteSpace: 'nowrap',
+                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
+                      boxShadow: '0 5px 0 var(--terracotta-dark)',
+                    }}
+                  >
+                    Ask DiGi
+                  </a>
+                  <a
+                    href={`/dashboard/scripts?q=${encodeURIComponent(c.label)}`}
+                    style={{
+                      background: '#fff', border: 'var(--edge)', color: 'var(--ink)',
+                      borderRadius: 'var(--radius-btn)', padding: '9px 12px', textDecoration: 'none', flex: '1 1 0', textAlign: 'center', whiteSpace: 'nowrap',
+                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
+                      boxShadow: '0 5px 0 var(--ink)',
+                    }}
+                  >
+                    Scripts for it
+                  </a>
+                </div>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => markSolved(c.slug)}

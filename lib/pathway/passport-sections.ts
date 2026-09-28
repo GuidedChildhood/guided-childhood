@@ -210,8 +210,13 @@ export async function buildPassportSections(
         // further down THIS page, so this is an anchor rather than a route.
         // That also answers the second half of what Justin asked for: getting
         // back is scrolling up or the back gesture, because you never left.
-        href: '/dashboard/pathway#working-on',
-        help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
+        //
+        // 28 September 2026: a page now, not the anchor. The list moved into
+        // the folded record, and iPhone Safari does not open a closed
+        // <details> for a fragment, so the anchor scrolled nowhere. See
+        // app/(dashboard)/dashboard/pathway/moments/page.tsx.
+        href: withOrigin('/dashboard/pathway/moments', 'passport'),
+        help: 'Open a moment, ask DiGi or use the words it gives you, and mark it resolved when it is done.',
       },
       {
         key: 'lessons', emoji: '📚', label: 'Lessons and tests',
