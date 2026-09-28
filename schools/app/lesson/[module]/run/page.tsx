@@ -183,7 +183,9 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           ...PAGE.page, color: 'var(--ink)',
           margin: 'var(--space-2) 0',
         }}>
-          {lesson.title}, start to finish
+          {/* A title that is a question already ends its own sentence: all three
+              free lessons do, and "glasses?, start to finish" is what they got. */}
+          {/[?!.]$/.test(lesson.title) ? `${lesson.title} Start to finish` : `${lesson.title}, start to finish`}
         </h1>
         <p style={{ ...body, maxWidth: '640px', marginBottom: '8px' }}>
           Everything below comes from the lesson itself: what to do before, what happens in each

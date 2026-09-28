@@ -564,3 +564,15 @@ says "Today counts" and how far along the minutes are.
 
 - Justin: "Start here" on Moments to resolve should open his moments, each with Ask DiGi and the scripts for it, and say they stay on the daily check in and are tracked as the ratings climb.
 - The passport row now opens /dashboard/pathway/moments instead of #working-on, which sits in the folded record that iPhone Safari does not open for a link. WorkingOn gains Ask DiGi (question prefilled) and Scripts for it (searched) on every moment. check-moments-anchor holds the row to the page.
+
+## 28 September 2026: the third standalone lesson, Should people wear smart glasses?
+
+The third and last free standalone lesson the taster wall allows (Years 5 and 6,
+32 slides, 57 minutes), promised to Votes for Schools and built on their vote
+(58,767 young people). The tool is ask, say, tell, taught by Bloop in a code beat
+and a clip whose words two speech models matched to its script. It weighs the
+good bits against the worries and never calls the glasses good or bad. Each free
+bar now names the other lessons with their own years. 23 claims pinned, each shown
+to fire. Migration 356, hash proved. If Votes for Schools declines to let us quote
+the pupils' comments, the three quote slides swap to their public page. PR 1171,
+and the run sheet's question mark heading fix in the follow up PR.
