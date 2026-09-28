@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { bestJobsFor, KIND_TINT, type BestJob } from '@/lib/quests/best-jobs'
 import { playKidSound } from '@/lib/sound/kidSounds'
@@ -92,6 +93,28 @@ export default function KidAskForJob({
   // toast at the far edge of the screen. The tile itself says Sent for a
   // beat, then leaves.
   const [sentTitle, setSentTitle] = useState<string | null>(null)
+  // AFTER A PITCH, A CHOICE (28 September 2026). Justin: when a child adds a
+  // job "it should ask if I want to add others, but also take me back to home
+  // if no, and complete the five a day, then take them on the flow, always
+  // giving them a reminder to request screen time here". Before this a sent
+  // idea only earned a toast and the child was left on the page, with the five
+  // a day waiting somewhere behind them. Now a sheet asks: another idea, or
+  // back to my day. Back waits for the tick to land first, so home opens with
+  // the ask row done and the next step live.
+  const [pitched, setPitched] = useState<string | null>(null)
+  const [leaving, setLeaving] = useState(false)
+  const tickRef = useRef<Promise<unknown> | null>(null)
+  const router = useRouter()
+
+  async function backToDay() {
+    if (leaving) return
+    setLeaving(true)
+    playKidSound('tap')
+    // Never held hostage by a slow tick: a second and a half at most.
+    await Promise.race([tickRef.current ?? Promise.resolve(), new Promise(r => setTimeout(r, 1500))])
+    router.push(`/k/${token}`)
+    router.refresh()
+  }
 
   const say = (msg: string) => { setNote(msg); setTimeout(() => setNote(null), 3500) }
   const pending = asks.filter(a => a.status === 'pending').length
@@ -113,7 +136,6 @@ export default function KidAskForJob({
     setAsks(prev => [{ id: localId, title: clean, emoji, status: 'pending' }, ...prev])
     setSentTitle(clean)
     setTimeout(() => setSentTitle(null), 1200)
-    say('Quest idea sent to your grown up! ⭐')
     try {
       const res = await fetch('/api/quests/request', {
         method: 'POST',
@@ -146,11 +168,12 @@ export default function KidAskForJob({
         // five and dedupes the done list, so a repeat costs nothing, and a
         // child who has just sent their idea should never be interrupted by a
         // failure to tick a box about it.
-        fetch('/api/kid/day', {
+        tickRef.current = fetch('/api/kid/day', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token, step: 'ask' }),
         }).catch(() => { /* the day simply stays as it was */ })
+        setPitched(clean)
       }
     } catch {
       setAsks(prev => prev.filter(a => a.id !== localId))
@@ -357,6 +380,49 @@ export default function KidAskForJob({
       {note && (
         <div role="status" style={{ position: 'fixed', left: '50%', bottom: 22, transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: HAPPY.ink, color: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
           {note}
+        </div>
+      )}
+
+      {pitched && (
+        <div data-pitched-sheet role="dialog" aria-modal="true" aria-label="Idea sent" style={{ position: 'fixed', inset: 0, zIndex: 70, background: 'rgba(26,26,46,0.45)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '16px 16px calc(16px + env(safe-area-inset-bottom, 0px))' }}>
+          <div style={{ width: '100%', maxWidth: 480, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', boxShadow: `0 5px 0 ${HAPPY.ink}`, padding: '20px 18px 18px', textAlign: 'center' }}>
+            <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 54, height: 54, borderRadius: '50%', background: HAPPY.green, color: '#fff', border: `2px solid ${HAPPY.ink}`, fontSize: 26, fontWeight: 900, marginBottom: 10 }}>✓</span>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: HAPPY.ink, lineHeight: 1.15, margin: '0 0 6px' }}>
+              Sent to your grown up!
+            </p>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 16px' }}>
+              &ldquo;{pitched}&rdquo; is on their phone. {pending < MAX_PENDING ? 'Got another idea?' : 'That is five waiting, so that is plenty for now.'}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {pending < MAX_PENDING && (
+                <button
+                  data-pitch-another
+                  onClick={() => { setPitched(null); playKidSound('tap') }}
+                  style={{ padding: '14px 18px', borderRadius: 'var(--radius-btn)', cursor: 'pointer', border: `2px solid ${HAPPY.ink}`, background: '#fff', color: HAPPY.ink, boxShadow: `0 5px 0 ${HAPPY.ink}`, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)' }}
+                >
+                  Yes, pitch another
+                </button>
+              )}
+              <button
+                data-back-to-day
+                onClick={backToDay}
+                disabled={leaving}
+                style={{ padding: '14px 18px', borderRadius: 'var(--radius-btn)', cursor: leaving ? 'default' : 'pointer', border: `2px solid ${HAPPY.ink}`, background: HAPPY.butter, color: HAPPY.ink, boxShadow: `0 5px 0 ${HAPPY.ink}`, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', opacity: leaving ? 0.7 : 1 }}
+              >
+                {leaving ? 'Off we go...' : 'No, back to my day ›'}
+              </button>
+            </div>
+            {/* The screen time reminder, every time. The ask lives on its own
+                page; a child who has just helped out is the child most likely
+                to want it next. */}
+            <a
+              href={`/k/${token}/ask`}
+              data-screen-time-door
+              style={{ display: 'block', marginTop: 14, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: HAPPY.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}
+            >
+              Want screen time? Ask for it here
+            </a>
+          </div>
         </div>
       )}
     </div>

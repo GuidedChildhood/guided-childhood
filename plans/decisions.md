@@ -554,3 +554,8 @@ week off one save; now a save today ticks it and a save earlier this week
 settles it ("Sorted this week", not a tick), like quests. The confirmation
 claims the ten minutes only when the rungs ticked today add up; otherwise it
 says "Today counts" and how far along the minutes are.
+
+## 28 September 2026: after a pitch, another idea or back to the day
+
+- Justin: when a child pitches a job, ask if they want another; if not, take them home to carry on the five a day, and always remind them they can ask for screen time.
+- KidAskForJob opens a sheet on a send the server accepted: "Yes, pitch another" or "No, back to my day", which waits for the ask tick then refreshes home so the next step is live. A "Want screen time? Ask for it here" link is on every sheet. Pinned by scripts/check-pitch-then-day.mjs.

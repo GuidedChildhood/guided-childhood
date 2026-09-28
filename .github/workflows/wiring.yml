@@ -300,6 +300,7 @@ jobs:
       # sheet in the shop is the real catalogue. See the header of
       # check-stickers-land.mjs.
       - run: node --experimental-strip-types scripts/check-stickers-land.mjs
+      - run: node scripts/check-pitch-then-day.mjs
 
       # The client boundary. A server file that CALLS a named export of a
       # 'use client' module crashes on every request, and neither tsc nor
