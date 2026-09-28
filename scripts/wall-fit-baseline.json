@@ -1080,5 +1080,8 @@
   "could-you-be-an-entrepreneur s1": {
     "wall": 77,
     "laptop": 89
+  },
+  "should-people-wear-smart-glasses s1": {
+    "laptop": 89
   }
 }

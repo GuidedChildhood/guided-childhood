@@ -48,6 +48,7 @@ const KS3_11 = 'ks3-11-social-workarounds'
 const KS4_17 = 'ks4-17-sextortion'
 const SA_PROBLEM = 'what-problem-would-you-solve'
 const SA_ENTRE = 'could-you-be-an-entrepreneur'
+const SA_GLASSES = 'should-people-wear-smart-glasses'
 const KS4_16 = 'ks4-16-consent-images-law'
 const KS4_18 = 'ks4-18-radicalisation-misogyny'
 const KS2_07 = 'ks2-07-privacy-reputation'
@@ -293,6 +294,44 @@ const CLAIMS = [
   [SA_ENTRE, 'legislation.gov.uk', 'keeps an adult responsible until 18', null,
    'no law does; the age 18 comes from the platforms\' own terms'],
 
+  // Should people wear smart glasses?, the third standalone lesson, 28
+  // September 2026. Every line below was corrected or confirmed against the
+  // original page by four checkers: Meta's UK pages and leaflets, the BBC, the
+  // Highway Code and THINK!, the College of Optometrists, JCQ and the DfE, and
+  // the Votes for Schools results page. The myth the lesson tests ("it is
+  // against the law to film anyone") is a quiz option on purpose, so it is
+  // pinned to the feedback that answers it (below), not banned from the module.
+  [SA_GLASSES, 'Meta UK privacy page', null, 'Meta says that if its glasses detect the light has been covered or tampered with, the camera switches off',
+   'the switch off is Meta\'s own claim and depends on the glasses detecting it'],
+  [SA_GLASSES, 'BBC, 8 January 2026', null, 'some ways of hiding the light still work',
+   'the BBC confirmed some methods hide the light while recording, so the light is not enough on its own'],
+  [SA_GLASSES, 'Meta UK privacy policy, Gen 3 leaflet', null, 'Meta says its glasses are for ages 13 and up',
+   'Meta\'s own age line; the Supplemental Terms say less and are not the source'],
+  [SA_GLASSES, 'Meta translation help page', /translat[^.]{0,60}\bout loud\b/i, null,
+   'nothing Meta publishes says the other person hears it out loud; they read it in the Meta AI app'],
+  [SA_GLASSES, 'Meta translation help page', null, '20 languages with an internet connection and six without one',
+   'the 20 needs the internet, and six work offline'],
+  [SA_GLASSES, 'College of Optometrists, PubMed search', /smart glasses (can |will |do )?(damage|harm|hurt|ruin) (your |children'?s |our |the )?eyes(?!\?)/i, null,
+   'no study has tested smart glasses and children\'s eyesight'],
+  [SA_GLASSES, 'College of Optometrists, PubMed search', null, 'whether wearing smart glasses affects children\'s eyesight',
+   'the honest gap, said as one'],
+  [SA_GLASSES, 'Highway Code Rule 1', null, 'avoid unnecessary distractions', 'the Highway Code\'s own words for pedestrians'],
+  [SA_GLASSES, 'THINK!', null, 'doubles between the ages of 9 and 11', 'the ages THINK! gives, the years this lesson is for'],
+  [SA_GLASSES, 'Engadget, EFF, June 2026', /glasses (can|will) recogni[sz]e (people|faces|who)/i, null,
+   'face recognition has not launched: the code was reported and appears to have been removed'],
+  [SA_GLASSES, 'Engadget, EFF, June 2026', null, 'Meta has not launched face recognition on its glasses',
+   'Meta: nothing has shipped and no final decision has been made'],
+  [SA_GLASSES, 'JCQ 2026', null, /says no smart glasses/i, 'JCQ names smart glasses, and the poster outside each exam room says so'],
+  [SA_GLASSES, 'DfE Mobile phones in schools 2026', /DfE[^.]{0,120}\b(bans?|names?) smart glasses/i, null,
+   'the guidance covers smart technology that can record, but does not name glasses'],
+  [SA_GLASSES, 'DfE Mobile phones in schools 2026', null, 'The guidance does not name smart glasses', 'what the guidance actually says'],
+  [SA_GLASSES, 'Votes for Schools results page', null, '52.4 percent of primary pupils said people should wear smart glasses',
+   'the primary question was should people wear them'],
+  [SA_GLASSES, 'Votes for Schools results page', null, '52.6 percent of secondary voters said they would not wear them',
+   'the secondary question was would you wear them, so the two are never added together'],
+  [SA_GLASSES, 'Votes for Schools results page', null, '63 percent of boys said they would wear them against 30 percent of girls',
+   'the gender split, at secondary'],
+
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -364,6 +403,21 @@ const FIELD_CLAIMS = [
    'a director must be at least 16, UK wide'],
   [SA_ENTRE, 'platform terms', m => m.slides[20].steps[3].text, null, 'Until then, an adult is responsible',
    'every selling and payment service checked needs an adult under 18'],
+  // Should people wear smart glasses?: what the class reads on the wall, since
+  // the same facts also sit in scripts and notes.
+  [SA_GLASSES, 'Meta UK privacy policy, Gen 3 leaflet', m => m.slides[7].caption, null, 'Meta says its glasses are for ages 13 and up',
+   'the age line on the slide that shows the new glasses'],
+  [SA_GLASSES, 'Votes for Schools results page', m => m.slides[8].figure, null, '58,767', 'young people who took part in the vote'],
+  [SA_GLASSES, 'Votes for Schools', m => [9, 12, 15].map(i => m.slides[i].label).join(' | '), null,
+   /^[^|]*Votes for Schools, September 2026[^|]*\|[^|]*Votes for Schools, September 2026[^|]*\|[^|]*Votes for Schools, September 2026[^|]*$/,
+   'every pupil quote on the wall carries the credit, as promised to Votes for Schools'],
+  [SA_GLASSES, 'Sexual Offences Act 2003 s67, and the law on filming in public', m => m.slides[17].options[2].feedback, null,
+   'not usually against the law to film in a public place', 'the answer to the myth, on the slide that tests it'],
+  [SA_GLASSES, 'the clip, checked with two speech models', m => m.slides[19].alternative.spoken.join(' | '), null,
+   'Ask first! Is it OK if I take your photo? | Someone filming you? Say, please stop, thank you. | Still filming? Tell an adult you trust.',
+   'the words Bloop actually says in job 20310134, so the alternative never drifts from the film'],
+  [SA_GLASSES, 'Meta UK privacy page', m => m.slides[26].options.find(o => o.correct).text, null, 'So people nearby can tell the camera is on',
+   'the light is a warning for people nearby, not a torch'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
@@ -393,7 +447,7 @@ for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
     bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${show(always)}"\n         ${why}`)
   }
 }
-for (const id of [KS3_24, KS2_25, SA_PROBLEM, SA_ENTRE]) {
+for (const id of [KS3_24, KS2_25, SA_PROBLEM, SA_ENTRE, SA_GLASSES]) {
   const m = M(id)
   for (const [a, b] of TWINS) {
     const x = m.teacher_notes?.[a], y = m.assessment?.[b]

@@ -1,0 +1,1029 @@
+{
+  "row": {
+    "title": "Should people wear smart glasses?",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 5 and 6",
+    "sort_order": 902,
+    "efcw_strands": [],
+    "ailit_domains": [],
+    "character_cast": "Bloop opens and teaches ask, say, tell; DiGi closes",
+    "evidence_anchor": "Votes for Schools, September 2026: 58,767 pupils voted on smart glasses, and just over half of primary pupils said people should wear them",
+    "statutory_hooks": [],
+    "single_action_outcome": "I can weigh up smart glasses, and use ask, say, tell with any camera."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "bloop",
+      "eyebrow": "KS2 · Years 5 and 6",
+      "title": "Should people wear smart glasses?",
+      "body": "Nearly 59,000 pupils voted on it. Now it is your turn to think it through.",
+      "script": "Read the title and the line under it, then stop. Nobody leaves today with a yes or a no to smart glasses. They leave able to weigh them up, and with three responses they can use with any camera: glasses, phones or anything else."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "bloop",
+      "heading": "Bloop",
+      "lines": [
+        "Bloop here! I was building a robot, and I am one piece short. Again.",
+        "At the park, someone wore glasses with a tiny camera in them. I did not know if they were filming me.",
+        "So today I want to find out: should people wear smart glasses?"
+      ],
+      "script": "Let Bloop land and say the lines. Then ask the room Bloop's question in your own voice: would you want to know if someone's glasses were filming you? Do not take answers yet. The class talks two slides from now."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can weigh up smart glasses, and use ask, say, tell with any camera.",
+      "why": "Cameras are now small enough to wear on your face, so it helps to know what to say.",
+      "gains": [
+        "What smart glasses can do, even the newest",
+        "The good bits and the worries, in pupils' own words",
+        "Ask, say, tell: the words to use"
+      ],
+      "script": "Land the outcome as weighing up, not deciding for anyone. The why line is ours, so say it as ours. Name the tool they leave with, three words: ask, say, tell. It works with a phone camera just as well as with glasses, which is why it is worth learning at ten."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "minutes": 3,
+      "seconds": 90,
+      "prompt": "Imagine a friend's glasses could take photos and videos. Would you want to know when they were filming? Why? Tell your partner.",
+      "lookFor": "Most pupils say yes: it is their face and their choice. Some mention a light, or asking first. Keep one reason on the board in the pupils' own words, because the lesson comes back to it.",
+      "script": "Give them three seconds of quiet thinking, then ninety seconds in pairs. Listen for it is my face and my choice, and write that reason on the board as the class says it. Do not correct anything yet. If a pupil tells a story about being filmed, thank them and keep it general: the lesson is about what anyone can do, not about one person."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Three words for today",
+      "words": [
+        {
+          "word": "smart glasses",
+          "meaning": "Glasses with a tiny camera, microphones and speakers built in."
+        },
+        {
+          "word": "permission",
+          "meaning": "Asking first, and waiting for a yes, before you film or photograph someone."
+        },
+        {
+          "word": "privacy",
+          "meaning": "Choosing what other people see or know about you, like your face."
+        }
+      ],
+      "script": "Smart glasses is the thing we are weighing up. Permission is the heart of the lesson: the ask in ask, say, tell. Privacy is why permission matters, because your face is yours. Ask two pupils to say each word back in a sentence of their own."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "icon": "glasses",
+      "heading": "Glasses that can see and hear",
+      "body": "Smart glasses look like normal glasses, but they have a tiny camera, microphones and speakers. They can take photos and videos, play music and answer questions out loud. Some newer ones show messages inside the lens.",
+      "script": "Here is what I would notice first: from the outside, smart glasses look like any other glasses. That is the whole reason this lesson exists. You cannot always tell what someone is wearing. Walk through the three parts: the camera sees, the microphones hear, the speakers talk back. Then the newest part: a few now have a small screen inside the lens that only the wearer can see."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which of these can smart glasses do?",
+      "options": [
+        {
+          "text": "Take photos and videos, and answer questions out loud",
+          "correct": true,
+          "feedback": "Right. They have a camera, microphones and speakers, so they can film, listen and talk back to the wearer."
+        },
+        {
+          "text": "Read what people are thinking",
+          "correct": false,
+          "feedback": "Not that. The glasses can only see and hear what is around them, through a camera and microphones."
+        },
+        {
+          "text": "Nothing at all, they are ordinary glasses with a fancy name",
+          "correct": false,
+          "feedback": "They look ordinary, which is the tricky part, but inside there is a camera, microphones and speakers."
+        }
+      ],
+      "script": "Everyone commits before you reveal: fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is the last one, because smart glasses look so ordinary. Ask what makes them different from the glasses some pupils are wearing right now."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "What Meta launched in September 2026",
+      "caption": "Meta says its glasses are for ages 13 and up.",
+      "steps": [
+        {
+          "icon": "camera",
+          "title": "A pair with a camera",
+          "text": "Photos and 3K video, with a light that blinks when it films."
+        },
+        {
+          "icon": "music",
+          "title": "A pair with no camera",
+          "text": "Music, calls and questions. Nothing on these can film you."
+        },
+        {
+          "icon": "glasses",
+          "title": "A pair with a screen",
+          "text": "Messages and directions inside the lens, worked by a wristband."
+        }
+      ],
+      "script": "Point to each pair in turn. These came out on 23 September 2026 from Meta, the company behind Facebook and Instagram, so this is as new as it gets. The middle one is worth a pause: a pair built with no camera at all, which answers the biggest worry people have. Then point at the caption. The company says these are for ages 13 and up, so most people in this room will meet them on other people first."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 1,
+      "figure": "58,767",
+      "claim": "pupils voted on smart glasses in September 2026. Just over half of primary pupils said people should wear them. Just over half of secondary pupils said they would not wear them.",
+      "source": "Votes for Schools, Would you wear smart glasses?, 7 to 14 September 2026",
+      "script": "Say whose vote it was: Votes for Schools asks classes across the country a question every week, and this was the question. Nearly 59,000 pupils, split almost down the middle. The point to land: sensible people disagree about smart glasses, which is why we weigh them up rather than just say yes or no."
+    },
+    {
+      "type": "quote",
+      "phase": "teach",
+      "minutes": 1,
+      "label": "A pupil who voted yes · Votes for Schools, September 2026",
+      "text": "My auntie uses these and she is partially blind, they really help her, so I think yes.",
+      "script": "Read it aloud, then have the class read it back together. This is a real comment from the Votes for Schools vote. It is the first good thing on our list, and the next slide explains how the glasses do it."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "icon": "eye",
+      "heading": "Good bits: help for people who cannot see well",
+      "body": "For people who are blind or partially sighted, smart glasses can describe what is in front of them, or call a volunteer who sees through the glasses and helps. The charity RNIB says they help, but they do not replace a cane or a guide dog.",
+      "script": "This is the auntie in the pupil's comment. The wearer can ask the glasses what is in front of them, or use a service called Be My Eyes to reach a volunteer who looks through the camera and talks them through it. RNIB, the sight loss charity, says Meta's glasses can help, and that they do not replace a mobility cane or a guide dog. So the same camera that worries some people is the part that helps here."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "icon": "translate",
+      "heading": "Good bits: reading a menu abroad",
+      "body": "Smart glasses can translate words you look at, like a menu or a street sign, into your own language. They can also help with a conversation in another language.",
+      "script": "Pupils in the vote loved this one. On holiday, you look at a menu in Spanish and hear it in English. With a conversation, the wearer hears the translation and the other person can read it on a phone. Ask who has ever been stuck with a sign they could not read, without asking anyone to share more than that."
+    },
+    {
+      "type": "quote",
+      "phase": "teach",
+      "minutes": 1,
+      "label": "A pupil who voted no · Votes for Schools, September 2026",
+      "text": "The glasses are really cool and would help us to learn sometimes, but sometimes they might learn for us and we might not learn and get lazy.",
+      "script": "Read it aloud, then have the class read it back. This pupil spotted something wise: a tool that does the thinking for you can stop you learning. It is the first worry. Keep it on the board, because one of the class rules later should be about keeping your own thinking."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "icon": "camera",
+      "heading": "The worry: filmed without being asked",
+      "body": "Meta's camera glasses have a white light that blinks when they film. But some people have found ways to hide the light, and people filmed in the street have said they never saw one. That is a privacy worry.",
+      "script": "Meta says that if its glasses detect the light has been covered or tampered with, the camera switches off. But in January 2026 the BBC confirmed that some ways of hiding the light still work, and none of the women who told the BBC they had been filmed saw a light. So the light helps, and it is not enough on its own. That is why the lesson ends with ask, say, tell."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "prompt": "At every age, more girls than boys voted no. Why might some people worry more about being filmed? Talk it through with your partner.",
+      "lookFor": "Listen for being filmed without knowing, being posted online, and feeling watched. Keep it about people in general, never about anyone in the room. The point to land: people can feel very differently about the same camera, and asking first respects that.",
+      "script": "Three seconds of thinking, then sixty seconds in pairs. The result is from the vote itself: girls said no more often than boys at every age. Take two answers and write them up. If the talk drifts towards a real incident, bring it back to people in general, and follow your school's safeguarding procedures if a pupil tells you something has happened to them."
+    },
+    {
+      "type": "quote",
+      "phase": "teach",
+      "minutes": 1,
+      "label": "A pupil who voted no · Votes for Schools, September 2026",
+      "text": "If you are on a road, a notification could pop up, and if you are distracted, an accident could happen.",
+      "script": "Read it aloud, then have the class read it back. This is the second worry from the vote, and it is backed by the evidence on the next slide."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "icon": "crossing",
+      "heading": "The worry: eyes off the road",
+      "body": "The Highway Code says keep looking and listening for traffic while you cross. Between the ages of 9 and 11, the number of children hurt on the roads while walking doubles. Even Meta warns that looking at the screen in its glasses may distract you.",
+      "script": "This one is about your age group. The government's road safety campaign says the number of child pedestrian casualties doubles between 9 and 11, the years when many children start walking on their own, and its advice is eyes up: put the phone away near traffic. Meta's own safety page says focusing on the display may temporarily distract you and tells wearers to take care around traffic. Messages can wait until you are across."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which is the fairest thing to say about smart glasses?",
+      "options": [
+        {
+          "text": "They are only for spying on people",
+          "correct": false,
+          "feedback": "Some people misuse them, but they also translate menus and describe the room to people who cannot see well."
+        },
+        {
+          "text": "They can help some people, and worry others",
+          "correct": true,
+          "feedback": "Right. They help with translation and sight loss, and people worry about filming, roads and relying on them."
+        },
+        {
+          "text": "It is against the law to film anyone at all",
+          "correct": false,
+          "feedback": "In England it is not usually against the law to film in a public place, which is exactly why asking first matters."
+        }
+      ],
+      "script": "Whiteboards or fingers, and wait three seconds before anyone shows. The popular wrong answer is the last one, because it feels like it ought to be the law. It usually is not, in a public place, and that is the reason the class needs its own rules. Some filming is a crime, and the next cycle names where."
+    },
+    {
+      "type": "digi",
+      "phase": "teach",
+      "minutes": 1,
+      "character": "bloop",
+      "heading": "Ask, say, tell, in Bloop's words",
+      "lines": [
+        "Ask permission first: \"Is it OK if I take your photo?\" If they say no, the camera stays down.",
+        "Say: \"Please stop filming me. Thank you.\" You can say it calmly and politely.",
+        "Tell a trusted adult if it keeps happening, or if it happens somewhere private."
+      ],
+      "script": "Let Bloop say the three lines, then read them again with the class joining in. These are the words pupils in the vote asked for: one class told Votes for Schools they had practised what to say, and made it polite with please and thank you. The next slide shows Bloop doing all three."
+    },
+    {
+      "type": "video",
+      "phase": "teach",
+      "minutes": 1,
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260928_120721_20310134-e5f8-4a9e-8b34-ecab20273493.mp4",
+      "caption": "Bloop shows ask, say, tell",
+      "alternative": {
+        "spoken": [
+          "Ask first! Is it OK if I take your photo?",
+          "Someone filming you? Say, please stop, thank you.",
+          "Still filming? Tell an adult you trust."
+        ],
+        "described": "Bloop, the round green Planet Friend, stands in a bright, empty classroom wearing chunky black smart glasses, with bunting and alphabet posters on the wall behind. Bloop holds up one finger while asking, raises both open paws calmly for please stop, then winks and points towards the classroom door for tell."
+      },
+      "script": "Play the clip once through. Then ask the class to do each action with Bloop: one finger for ask, an open hand for say, pointing to a trusted adult for tell."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Your friend points their smart glasses at you and you think they are filming. You do not like it. What could you say first?",
+      "options": [
+        {
+          "text": "\"Please stop filming me. Thank you.\"",
+          "correct": true,
+          "feedback": "Right. It is calm, clear and polite, and it gives them the chance to stop. If they do not, that is the moment to tell."
+        },
+        {
+          "text": "Nothing, and hope they stop on their own",
+          "correct": false,
+          "feedback": "You are allowed to say how you feel. A calm please stop filming me gives them the chance to stop."
+        },
+        {
+          "text": "Grab the glasses off their face straight away",
+          "correct": false,
+          "feedback": "Grabbing could hurt someone or break the glasses, and it can turn into a fight. Saying it calmly comes first."
+        }
+      ],
+      "script": "Fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is saying nothing, because it feels awkward to speak up. Ask three pupils to say the words out loud, calmly, as if they meant it. Practising the words is the point."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Where to be extra careful",
+      "caption": "Meta's own advice: turn the glasses off in sensitive places, such as a changing room or school.",
+      "steps": [
+        {
+          "icon": "lock",
+          "title": "Private places",
+          "text": "Toilets and changing rooms. Filming someone there can be a crime."
+        },
+        {
+          "icon": "quiz",
+          "title": "Tests",
+          "text": "GCSE exam rules say no smart glasses in the room."
+        },
+        {
+          "icon": "crossing",
+          "title": "Roads",
+          "text": "Eyes up. Keep looking and listening while you cross."
+        }
+      ],
+      "script": "Walk the three places one at a time. For private places, keep it simple: cameras never belong there, and filming someone there can be a crime. For tests, the rules for GCSEs name smart glasses, and the poster outside every exam room says no smart glasses. For roads, it is the eyes up rule from earlier. Then point at the caption: even the company that makes them says turn them off in places like these."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "At a birthday party, Sam wants to film everyone doing a funny dance. What should Sam do first?",
+      "options": [
+        {
+          "text": "Film it, then show everyone afterwards",
+          "correct": false,
+          "feedback": "Filming first takes away everyone's choice. Asking first lets people say no before anything is recorded."
+        },
+        {
+          "text": "Ask everyone first, and leave out anyone who says no",
+          "correct": true,
+          "feedback": "Right. Ask, and a no means no. Anyone who says no stays out of the video, and nobody has to explain why."
+        },
+        {
+          "text": "Film it, as long as the glasses light is on",
+          "correct": false,
+          "feedback": "The light shows the camera is on, but it does not ask anyone. People still need to be asked first."
+        }
+      ],
+      "script": "Whiteboards, and wait three seconds before anyone shows. The popular wrong answer is the light one, because it sounds like a warning is the same as asking. It is not: a warning tells people, asking lets them choose. Ask the class what Sam could say, word for word."
+    },
+    {
+      "type": "interactive",
+      "component": "star-breath",
+      "phase": "practise",
+      "minutes": 1,
+      "config": {
+        "heading": "Half time",
+        "prompt": "Two breaths with Bloop: in as Bloop grows, out as Bloop shrinks. Then stand up, face your partner, and do ask, say, tell with an action for each.",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then everyone stands, faces their partner and does the three actions from the clip: one finger, an open hand, pointing to a trusted adult. Nothing is marked. Then straight into the sort."
+    },
+    {
+      "type": "interactive",
+      "component": "verdict-sort",
+      "phase": "practise",
+      "minutes": 4,
+      "caption": "Sort the six together before the sheet.",
+      "config": {
+        "label": "Go ahead, ask first, or not here? · tap the class verdict",
+        "verdicts": [
+          "Go ahead",
+          "Ask first",
+          "Not here"
+        ],
+        "posts": [
+          {
+            "handle": "Situation 1",
+            "avatar": "",
+            "icon": "translate",
+            "text": "Reading a menu in Spain with the translation on.",
+            "answer": 0,
+            "why": "Go ahead. Nobody is being filmed, and it helps you."
+          },
+          {
+            "handle": "Situation 2",
+            "avatar": "",
+            "icon": "camera",
+            "text": "Filming your cousin doing a silly dance.",
+            "answer": 1,
+            "why": "Ask first. It is their face and their choice."
+          },
+          {
+            "handle": "Situation 3",
+            "avatar": "",
+            "icon": "lock",
+            "text": "Walking into the changing rooms at the swimming pool.",
+            "answer": 2,
+            "why": "Not here. Cameras never belong in changing rooms, and Meta itself says turn the glasses off in places like this."
+          },
+          {
+            "handle": "Situation 4",
+            "avatar": "",
+            "icon": "quiz",
+            "text": "Sitting a test.",
+            "answer": 2,
+            "why": "Not here. The rules for GCSE exams say no smart glasses in the room."
+          },
+          {
+            "handle": "Situation 5",
+            "avatar": "",
+            "icon": "eye",
+            "text": "Your grandad, who is partially sighted, asks his glasses what is in front of him in the park.",
+            "answer": 0,
+            "why": "Go ahead. This is one of the ways the glasses help people who cannot see well."
+          },
+          {
+            "handle": "Situation 6",
+            "avatar": "",
+            "icon": "crossing",
+            "text": "Crossing a busy road while messages pop up in the lens.",
+            "answer": 2,
+            "why": "Not here, not now. Eyes up, and keep looking and listening while you cross. Messages can wait."
+          }
+        ],
+        "doneTitle": "Sorted",
+        "doneIcon": "star",
+        "doneBody": "Ask, say, tell, and know the places to be extra careful."
+      },
+      "script": "Read each situation aloud and take a class verdict before you tap: hands up for each of the three. Situation 5 causes the argument, because it uses the camera. Push the class to say what is different: the grandad is using it to help himself, not recording anyone for a video. Then go back to the reason on the board from the start and check it still holds."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 3,
+      "label": "Your class rules",
+      "heading": "Write your class's smart glasses rules",
+      "body": "Bloop wants to wear smart glasses at school. Like the pupils who voted, write three rules to tell Bloop: one about asking, one about places, and one about keeping your own thinking. Use ask, say or tell in at least one rule.",
+      "script": "Three minutes, in pairs, in the booklet. Circulate. If a rule bans everything, ask what it would do to the grandad from the sort. If a rule allows everything, ask what it would do to the person being filmed. Collect three rules for the class list, one of each kind."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Why do Meta's camera glasses have a light that blinks when they film?",
+      "options": [
+        {
+          "text": "So people nearby can tell the camera is on",
+          "correct": true,
+          "feedback": "Right. It is a warning for people nearby. It can be hidden, so asking first still matters."
+        },
+        {
+          "text": "So the photos and videos come out brighter",
+          "correct": false,
+          "feedback": "The light is not for the picture. It is a warning light that shows people nearby the camera is filming."
+        },
+        {
+          "text": "So the person wearing them can see in the dark",
+          "correct": false,
+          "feedback": "It is not a torch. It blinks to show people nearby that the camera is on."
+        }
+      ],
+      "script": "The first of three prove questions. Pupils answer on their own on whiteboards, wait three seconds, then show. The popular wrong answer is the torch one. Ask what the light cannot do on its own, and take the answer from the worry slide: it can be hidden."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Someone at a sleepover has new smart glasses. Which rule would help most?",
+      "options": [
+        {
+          "text": "Film everything, and delete the bad ones later",
+          "correct": false,
+          "feedback": "Once a photo is taken or shared, people have lost their choice. Asking first keeps everyone's choice."
+        },
+        {
+          "text": "Ask before any photo, and a no means no",
+          "correct": true,
+          "feedback": "Right. Everyone gets to choose, before anything is recorded, and nobody has to explain a no."
+        },
+        {
+          "text": "Film the funniest moments, even when people are asleep",
+          "correct": false,
+          "feedback": "People who are asleep cannot say yes or no, so filming them takes away their choice. Ask when everyone can answer."
+        }
+      ],
+      "script": "The second prove question. Whiteboards, wait three seconds, then show. Both wrong answers sound fun in the moment. Ask which one the person in the photo would pick."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Someone keeps filming you after you said please stop. What should you do next?",
+      "options": [
+        {
+          "text": "Keep it to yourself so nobody gets in trouble",
+          "correct": false,
+          "feedback": "Telling is how it stops, not a way of getting anyone in trouble. A trusted adult can help."
+        },
+        {
+          "text": "Film them back, so it is fair",
+          "correct": false,
+          "feedback": "Filming them back turns it into two people doing the thing that upset you. Tell a trusted adult instead."
+        },
+        {
+          "text": "Tell a trusted adult, like a teacher or someone at home",
+          "correct": true,
+          "feedback": "Right. That is the tell step. A trusted adult can help make it stop, and you have done nothing wrong."
+        }
+      ],
+      "script": "The last prove question. Whiteboards, wait three seconds, then show. Then put all three answers up together and let them mark their own. Nobody reads a score out. Name the trusted adults in school by name before you move on."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "Ask, say, tell",
+      "points": [
+        "Smart glasses can film, translate and help people who cannot see well. Meta says they are for ages 13 and up.",
+        "Ask permission before you film anyone, and a no means no. Say please stop if you do not want to be filmed.",
+        "Tell a trusted adult if it keeps happening or happens somewhere private. And keep your eyes up near roads."
+      ],
+      "script": "Read them. Do not add to them. Then ask for hands: who can say all three words with the actions?"
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "bloop",
+      "heading": "Your mission, this week",
+      "lines": [
+        "My mission for you: ask someone at home, would they wear smart glasses?",
+        "Then tell them your class's three rules, and ask which one they would add.",
+        "And practise ask, say, tell together. It works for phones and cameras too."
+      ],
+      "script": "The handover. Say nothing over it. Ask them to say the mission back: one question, three rules, one practice at home."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "One last thing",
+      "lines": [
+        "Smart glasses are not good or bad on their own.",
+        "It is how people use them, and whether they ask first.",
+        "Ask, say, tell works for every camera you will meet."
+      ],
+      "script": "Close on the last line and stop. It is the lesson in one sentence. Do not add a warning after it."
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson is about cameras in glasses and carries no disclosure prompt: every discussion is about people in general. It teaches pupils to tell a trusted adult if filming keeps happening or happens somewhere private, so a pupil may tell you something. If a pupil says they have been filmed without consent, especially in a private place such as a toilet or changing room, or that images of them have been shared, follow your school's safeguarding procedures. Filming someone in a private place can be a crime, and the new offence of taking an intimate image without consent (Crime and Policing Act 2026) is passed but not yet in force. Children under 10 in England and Wales cannot be found guilty of a crime, so a report about a young pupil is a safeguarding matter first.",
+    "required": false,
+    "concern_form_linked": false
+  },
+  "key_stage": "KS2",
+  "module_id": "should-people-wear-smart-glasses",
+  "assessment": {
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "What does the light on the front of camera smart glasses do?",
+          "answer": 1,
+          "options": [
+            "Makes photos brighter",
+            "Shows people nearby the camera is on",
+            "Lets the glasses see in the dark"
+          ],
+          "teaching_point": "It is a warning light for people nearby. It can be hidden, so asking first still matters."
+        },
+        {
+          "q": "You want to take a photo of a friend. What is the permission rule?",
+          "answer": 0,
+          "options": [
+            "Ask first, and a no means no",
+            "Take it, then ask if you can keep it",
+            "Only ask if the light is off"
+          ],
+          "teaching_point": "Permission comes before the photo, and a no means no."
+        },
+        {
+          "q": "Someone keeps filming you after you said please stop. What next?",
+          "answer": 2,
+          "options": [
+            "Film them back",
+            "Keep it to yourself",
+            "Tell a trusted adult"
+          ],
+          "teaching_point": "That is the tell step. A trusted adult can help make it stop."
+        },
+        {
+          "q": "Which of these is a way smart glasses can help?",
+          "answer": 0,
+          "options": [
+            "Describing what is in front of someone who cannot see well",
+            "Doing your homework thinking for you",
+            "Filming in changing rooms"
+          ],
+          "teaching_point": "They can describe what is in front of someone who is blind or partially sighted, or call a volunteer to help."
+        }
+      ]
+    },
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "What do smart glasses have built in that normal glasses do not?",
+          "answer": 1,
+          "options": [
+            "A torch",
+            "A camera, microphones and speakers",
+            "A heater for cold days"
+          ],
+          "teaching_point": "Most smart glasses have a tiny camera, microphones and speakers. Some also show messages in the lens."
+        },
+        {
+          "q": "How many pupils voted on smart glasses with Votes for Schools in September 2026?",
+          "answer": 2,
+          "options": [
+            "About 500",
+            "About 5,000",
+            "Nearly 59,000"
+          ],
+          "teaching_point": "58,767 pupils voted, from primary and secondary schools."
+        },
+        {
+          "q": "What age does Meta say its smart glasses are for?",
+          "answer": 0,
+          "options": [
+            "13 and up",
+            "Any age",
+            "18 and up"
+          ],
+          "teaching_point": "Meta says its glasses are for ages 13 and up."
+        },
+        {
+          "q": "Before you take a photo of someone, what is the kind thing to do?",
+          "answer": 1,
+          "options": [
+            "Take it quickly before they notice",
+            "Ask them first",
+            "Take it and show them later"
+          ],
+          "teaching_point": "Asking first gives them the choice. The lesson calls that asking permission."
+        },
+        {
+          "question": "In one sentence, say one thing smart glasses could help with, and one thing that might worry you.",
+          "format": "short_answer",
+          "answer": "One real use and one real worry, said plainly.",
+          "teaching_point": "Keep the sentence. The lesson weighs both sides before anyone writes a rule."
+        }
+      ]
+    }
+  },
+  "sort_order": 902,
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child weighed up smart glasses, the glasses with a tiny camera, microphones and speakers that Meta and others now sell. They looked at the good bits, like translating a menu and helping people who cannot see well, and the worries, like being filmed without being asked and looking at messages near roads. They learned three responses that work with any camera: ask before you film anyone, say please stop if you do not want to be filmed, and tell a trusted adult if it keeps happening. The lesson was built on a national vote by 58,767 pupils.",
+    "try_this": "Your child has a mission: to ask you whether you would wear smart glasses, tell you their class's three rules, and practise ask, say, tell with you. You could try it with a phone: ask before you take a family photo, and let a no mean no.",
+    "family_question": "Would you want to know if someone's glasses were filming you, and what would you say?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "The three tool words, ask, say and tell, translate cleanly and are worth having in first language on the desk with the actions drawn beside them. Give the two script lines, please stop filming me and is it OK if I take your photo, on a card to practise from.",
+      "sensory": "The clip has sound and can be played quietly or read from the alternative under it. The sort runs on paper if the board version is too busy, and the half time actions can be done seated for any pupil who needs it.",
+      "attention": "One cycle at a time, each ending in a choice. The three actions give every pupil something to do with their hands, and the class rules can be done as three separate boxes with a tick after each.",
+      "communication": "Pupils may point to an action card instead of saying the words, and may write their rules rather than read them out. Nobody has to perform the words alone; the class says them together."
+    },
+    "tool": {
+      "heading": "Ask, say, tell",
+      "strapline": "Three responses that work with any camera, glasses or phone.",
+      "lines": [
+        "Ask: permission before you film or take a photo of anyone, and a no means no.",
+        "Say: \"Please stop filming me. Thank you.\" Calm and polite is fine.",
+        "Tell: a trusted adult if it keeps happening, or if it happens somewhere private."
+      ]
+    },
+    "i_can": [
+      "I can say what smart glasses can do, including the newest ones.",
+      "I can weigh up the good bits and the worries, using pupils' own words.",
+      "I can use ask, say, tell with any camera, and name the places to be extra careful."
+    ],
+    "cycles": [
+      {
+        "verb": "Find out",
+        "title": "What smart glasses can do",
+        "minutes": 8,
+        "outcome": "I can say what smart glasses can do, including the newest ones."
+      },
+      {
+        "verb": "Weigh",
+        "title": "Good bits and worries",
+        "minutes": 14,
+        "outcome": "I can weigh up the good bits and the worries, using pupils' own words."
+      },
+      {
+        "verb": "Respond",
+        "title": "Ask, say, tell",
+        "minutes": 8,
+        "outcome": "I can use ask, say, tell with any camera, and name the places to be extra careful."
+      }
+    ],
+    "timing": "57 minutes: starter 9, cycle one 8, cycle two 14, cycle three 8, practise 8, prove 6, close 4",
+    "keywords": [
+      {
+        "word": "smart glasses",
+        "definition": "Glasses with a tiny camera, microphones and speakers built in, linked to a phone. Some newer ones show messages inside the lens."
+      },
+      {
+        "word": "permission",
+        "definition": "Asking first, and waiting for a yes, before you do something that affects someone else, like taking their photo."
+      },
+      {
+        "word": "privacy",
+        "definition": "Choosing what other people see or know about you, like your face, your voice or where you are."
+      }
+    ],
+    "equipment": "Projector with sound for the clip. Printed pupil booklet or plain paper. Pens. Mini whiteboards if you have them. No smart glasses, phones or pupil devices are needed, and nothing is filmed in the lesson.",
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "What does the light on the front of camera smart glasses do?",
+          "answer": 1,
+          "options": [
+            "Makes photos brighter",
+            "Shows people nearby the camera is on",
+            "Lets the glasses see in the dark"
+          ],
+          "teaching_point": "It is a warning light for people nearby. It can be hidden, so asking first still matters."
+        },
+        {
+          "q": "You want to take a photo of a friend. What is the permission rule?",
+          "answer": 0,
+          "options": [
+            "Ask first, and a no means no",
+            "Take it, then ask if you can keep it",
+            "Only ask if the light is off"
+          ],
+          "teaching_point": "Permission comes before the photo, and a no means no."
+        },
+        {
+          "q": "Someone keeps filming you after you said please stop. What next?",
+          "answer": 2,
+          "options": [
+            "Film them back",
+            "Keep it to yourself",
+            "Tell a trusted adult"
+          ],
+          "teaching_point": "That is the tell step. A trusted adult can help make it stop."
+        },
+        {
+          "q": "Which of these is a way smart glasses can help?",
+          "answer": 0,
+          "options": [
+            "Describing what is in front of someone who cannot see well",
+            "Doing your homework thinking for you",
+            "Filming in changing rooms"
+          ],
+          "teaching_point": "They can describe what is in front of someone who is blind or partially sighted, or call a volunteer to help."
+        }
+      ]
+    },
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "What do smart glasses have built in that normal glasses do not?",
+          "answer": 1,
+          "options": [
+            "A torch",
+            "A camera, microphones and speakers",
+            "A heater for cold days"
+          ],
+          "teaching_point": "Most smart glasses have a tiny camera, microphones and speakers. Some also show messages in the lens."
+        },
+        {
+          "q": "How many pupils voted on smart glasses with Votes for Schools in September 2026?",
+          "answer": 2,
+          "options": [
+            "About 500",
+            "About 5,000",
+            "Nearly 59,000"
+          ],
+          "teaching_point": "58,767 pupils voted, from primary and secondary schools."
+        },
+        {
+          "q": "What age does Meta say its smart glasses are for?",
+          "answer": 0,
+          "options": [
+            "13 and up",
+            "Any age",
+            "18 and up"
+          ],
+          "teaching_point": "Meta says its glasses are for ages 13 and up."
+        },
+        {
+          "q": "Before you take a photo of someone, what is the kind thing to do?",
+          "answer": 1,
+          "options": [
+            "Take it quickly before they notice",
+            "Ask them first",
+            "Take it and show them later"
+          ],
+          "teaching_point": "Asking first gives them the choice. The lesson calls that asking permission."
+        },
+        {
+          "question": "In one sentence, say one thing smart glasses could help with, and one thing that might worry you.",
+          "format": "short_answer",
+          "answer": "One real use and one real worry, said plainly.",
+          "teaching_point": "Keep the sentence. The lesson weighs both sides before anyone writes a rule."
+        }
+      ]
+    },
+    "worksheet": {
+      "title": "Ask, say, tell",
+      "directions": "Sort the six situations first, then write your class's three rules.",
+      "verdict_options": [
+        "Go ahead",
+        "Ask first",
+        "Not here"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Reading a menu in Spain with the translation on."
+      },
+      {
+        "n": 2,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Filming your cousin doing a silly dance."
+      },
+      {
+        "n": 3,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Walking into the changing rooms at the swimming pool."
+      },
+      {
+        "n": 4,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Sitting a test."
+      },
+      {
+        "n": 5,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Your grandad, who is partially sighted, asks his glasses what is in front of him in the park."
+      },
+      {
+        "n": 6,
+        "stem": "Go ahead, ask first, or not here?",
+        "text": "Crossing a busy road while messages pop up in the lens."
+      },
+      {
+        "n": 7,
+        "stem": "Our rule about asking:",
+        "text": "Ask. Who do we ask, and what do we do with a no?"
+      },
+      {
+        "n": 8,
+        "stem": "Our rule about places:",
+        "text": "Say. Where should the glasses come off or the camera stay off?"
+      },
+      {
+        "n": 9,
+        "stem": "Our rule about thinking:",
+        "text": "Tell. How do we keep doing our own thinking, and who do we tell if something goes wrong?"
+      }
+    ],
+    "teacher_tip": "Do not let it become a lesson about banning smart glasses, or about how cool they are. The lesson fails if a pupil leaves thinking glasses are simply bad, or that filming people is fine because it is legal. It is about weighing them up and having the words ready: ask, say, tell.",
+    "evidence_base": [
+      {
+        "claim": "58,767 pupils voted in the Votes for Schools smart glasses vote, 7 to 14 September 2026: 11,010 aged 5 to 11 and 47,756 aged 11 to 16 and over. 52.4 percent of primary pupils said people should wear smart glasses, the most supportive age group, and the yes vote declined with age. 52.6 percent of secondary voters said they would not wear them. At all ages girls voted no more than boys; at secondary, 63 percent of boys said they would wear them against 30 percent of girls. The pupil comments quoted in the lesson are from the same vote.",
+        "source": "Votes for Schools, Would you wear smart glasses? results, and the comments sent to Guided Childhood, September 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "On 23 September 2026 Meta launched Ray Ban Meta (Gen 3), with a 12 MP camera and 3K video and, like every earlier generation, an LED light on the frame that shows people nearby when it is taking photos or video; Ray Ban Meta Audio, its first audio glasses, built without a camera; and UK sales of Meta Ray Ban Display, which has a display inside the lens, comes with the Meta Neural Band wristband, and can show captions or translate some languages. UK shop prices on 26 September 2026: Gen 3 from £409, Audio from £319, Display from £749. Dates are Meta's US dates.",
+        "source": "Meta newsroom, 23 September 2026 (Introducing Ray Ban Meta Audio; New features for Meta Ray Ban Display); Meta blog, 23 September 2026; Meta UK shop pages, read 26 September 2026; Meta newsroom, 17 September 2025",
+        "status": "verified"
+      },
+      {
+        "claim": "Meta's UK privacy policy says children below the age of 13 are not permitted to use Meta Wearable Products, and the Ray Ban Meta Gen 3 safety leaflet says: For ages 13 and up. Do not allow children under 13 to use the Product.",
+        "source": "Meta Supplemental Platforms Technologies Privacy Policy (UK), effective 29 June 2026; Ray Ban Meta Collection AI Glasses Gen 3 health and safety leaflet",
+        "status": "verified"
+      },
+      {
+        "claim": "Meta says each pair has a bright white capture LED that blinks when content is being captured for your gallery, and that if the glasses detect the light was covered, tampered with or destroyed, they automatically disable the camera. Its UK advice to wearers says stop recording if anyone would rather you did not, and turn off your glasses in sensitive spaces such as the doctor's surgery, a changing room or school.",
+        "source": "Meta, Privacy on AI glasses (UK page), read 26 September 2026; Meta, Your questions answered, 7 July 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "The BBC confirmed that some methods can successfully hide the LED light while recording (8 January 2026), and reported that none of the women who spoke to it, among seven in the UK, US and Australia filmed for social media content, said they saw any light (24 January 2026). In the first report Sussex Police told a woman it is not illegal to film people in public.",
+        "source": "BBC News, 8 January 2026 and 24 January 2026, read directly",
+        "status": "verified"
+      },
+      {
+        "claim": "In England, members of the public do not need a permit to film or photograph in public places. Some filming is a crime: voyeurism, which includes recording someone using a lavatory or undressed where privacy is expected, for a sexual purpose (Sexual Offences Act 2003 s67 and s68); recording beneath clothing (s67A); and harassment by repeated conduct that alarms or distresses (Protection from Harassment Act 1997). A new offence of taking an intimate image without consent is passed but not in force (Crime and Policing Act 2026, Schedule 13). Children under 10 cannot be guilty of an offence in England and Wales (Children and Young Persons Act 1933 s50).",
+        "source": "Home Office stop and search code of practice, para 4.13.1; legislation.gov.uk, read 26 September 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "DfE guidance on mobile phones in schools became statutory on 29 June 2026, and schools should follow it from 1 September 2026. All schools should be mobile phone free by default, and policies should cover other smart technology with similar functionality, such as the ability to record audio or video. The guidance does not name smart glasses. Allowing a disabled pupil access to a device they need may be a reasonable adjustment.",
+        "source": "Department for Education, Mobile phones in schools, updated 29 June 2026; Children's Wellbeing and Schools Act 2026 s36",
+        "status": "verified"
+      },
+      {
+        "claim": "For GCSE and A level exams from 1 September 2026, candidates must not be in possession of devices including smart glasses, and the poster displayed outside each exam room says NO SMART GLASSES. The 2026 key stage 2 test guidance tells schools to collect all mobile phones and smart watches before the tests; it does not name smart glasses.",
+        "source": "JCQ Instructions for conducting examinations 2026, para 18.4(e) and Appendix 6; Standards and Testing Agency, 2026 key stage 2 test administration guidance, section 8.4",
+        "status": "verified"
+      },
+      {
+        "claim": "The Highway Code tells pedestrians to keep looking and listening for traffic while they cross (Rule 7) and to avoid unnecessary distractions (Rule 1). The government's THINK! campaign says the number of child pedestrian casualties doubles between the ages of 9 and 11, and its EYES UP message prompts children to put their phone away near traffic. Meta's safety page for its Display glasses says focusing on the display may temporarily distract you or reduce your awareness of your surroundings, and lists traffic among situations needing care.",
+        "source": "The Highway Code, rules for pedestrians; DfT THINK! Safe Adventures, launched April 2024; Meta Ray Ban Display health and safety warnings",
+        "status": "verified"
+      },
+      {
+        "claim": "In a US simulator study, 77 children aged 10 to 11 crossing a virtual road while on a phone call were less attentive to traffic and had more collisions and close calls. It tested a phone call, not a screen or smart glasses.",
+        "source": "Stavrinos, Byington and Schwebel (2009), Pediatrics 123(2), e179 to e185",
+        "status": "verified"
+      },
+      {
+        "claim": "Meta's UK accessibility page says Meta AI describes surroundings for people who are blind or have low vision, and connects them with sighted volunteers. Since 13 November 2024, saying Hey Meta, Be My Eyes connects the wearer to a volunteer who views their surroundings through the glasses, available from the start in the UK. RNIB says Ray Ban Meta glasses can assist blind and partially sighted people but do not replace a mobility cane or guide dog (on its shop blog, which sells them). Guide Dogs says they can help with navigation, locating objects and day to day tasks, and recommends another mobility aid such as a long cane.",
+        "source": "Meta UK accessibility page; Be My Eyes, 13 November 2024; RNIB Shop blog, August 2026; Guide Dogs, December 2024, updated April 2025",
+        "status": "verified"
+      },
+      {
+        "claim": "Ray Ban Meta and Oakley Meta glasses can translate text you are looking at, from restaurant menus to street signs, and can translate a conversation: the wearer hears the translation and the other person can read it in the Meta AI app. Meta says live translation covers 20 languages with an internet connection and six without one.",
+        "source": "Meta, Real time translation (UK page) and help centre, read 26 September 2026; Meta blog, 23 June 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "No study we could find has tested whether wearing smart glasses affects children's eyesight. The College of Optometrists says there is no evidence that looking at screens will cause your eyes any harm, that looking at a screen for a long time can be tiring, and recommends the 20:20:20 rule. Meta's Display safety page says the glasses are not recommended for younger or smaller children and that eye strain may result from children's use.",
+        "source": "College of Optometrists, Screen use, updated February 2026; PubMed search, 26 September 2026; Meta Ray Ban Display health and safety warnings",
+        "status": "verified"
+      },
+      {
+        "claim": "Meta has not launched face recognition on its glasses. Code for a face recognition feature was reported in the Meta AI app in June 2026 and appears to have been removed in a 5 June update; Meta said nothing had shipped and no final decision had been made.",
+        "source": "Engadget, reporting WIRED, 4 June 2026; Electronic Frontier Foundation, 8 June 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "Childline tells children not to upload pictures of friends without their permission, and CEOP Education tells young people to get permission before posting a picture or video of someone. The ICO says that if an image of you is posted online you can ask for it to be removed, starting with the account owner.",
+        "source": "Childline, Staying safe online (Deaf Zone); CEOP Education, Sharing pictures and videos (11 to 18); ICO, Taking photos in schools",
+        "status": "verified"
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Is it against the law to film someone without asking?",
+        "answer": "In a public place in England, usually not, which is exactly why asking first matters: the law does not do it for you. Some filming is a crime, like filming someone in a toilet or changing room, or filming someone again and again to scare or upset them."
+      },
+      {
+        "question": "Can smart glasses recognise my face?",
+        "answer": "Meta has not launched face recognition on its glasses. Code for it was reported in its app in June 2026 and then appears to have been removed, and Meta said no final decision had been made. So not today, and it is worth keeping an eye on."
+      },
+      {
+        "question": "Will smart glasses hurt my eyes?",
+        "answer": "We could not find any study that has tested smart glasses and children's eyes. Eye experts say there is no evidence that screens harm your eyes, but a long time on a screen can be tiring, so rest your eyes every 20 minutes by looking 20 feet away for 20 seconds. Meta itself says its screen glasses are not for younger children."
+      },
+      {
+        "question": "Why can a blind pupil use glasses with a camera when others cannot?",
+        "answer": "Because for them the camera is a tool, like a cane: it describes the world out loud. Schools must make reasonable adjustments for disabled pupils, and the same ask first rule still applies to any photo of someone else."
+      },
+      {
+        "question": "What if the light is covered?",
+        "answer": "Meta says its glasses switch the camera off if they detect the light has been covered. The BBC found some ways to hide it still work. That is why the light is a help, not a replacement for asking first."
+      },
+      {
+        "question": "What if someone posts a photo of me online?",
+        "answer": "Tell a trusted adult. You can ask for a photo of you to be taken down, starting with the person who posted it, and an adult can help you do that."
+      }
+    ],
+    "misconceptions": [
+      "That smart glasses always show a light when they film, so you would always know. The light can be hidden, and people who were filmed have said they never saw one.",
+      "That it is against the law to film anyone without asking. In a public place it usually is not, which is why asking first matters.",
+      "That smart glasses are only for spying. They also translate menus and describe the room to people who cannot see well.",
+      "That saying no to a photo is rude. A no means no, and asking first is the polite thing."
+    ],
+    "paper_fallback": "Everything runs without screens except the clip, whose words are printed in the notes. The six situations are on the sheet as a three column sort, the class rules are written in the booklet, and the prove questions work on mini whiteboards or with fingers.",
+    "commitment_stem": "My commitment: the rule I will keep, and the words I will use, are...",
+    "differentiation": {
+      "stretch": "Ask the strongest pupils to write a rule that works for a blind grandad and for someone being filmed at the same time, and to say which piece of evidence from the lesson their rule rests on.",
+      "support": "Give the three responses on a card with the actions drawn beside them, and the two script lines to read from. Offer rule starters: we always ask before, we never film in, we keep our own thinking by."
+    },
+    "prior_knowledge": [
+      "Helpful but not needed: a lesson on privacy and personal information, such as what to keep private online and why your picture is personal information.",
+      "Pupils have usually seen phones take photos and may have heard of smart glasses from adverts or older siblings. This lesson checks that picture against real facts."
+    ],
+    "parent_questions": [
+      {
+        "question": "Is this lesson telling my child that smart glasses are bad?",
+        "answer": "No. It looks at the good bits, like translation and help for people who cannot see well, and the worries, like filming without asking. It gives your child three responses for any camera: ask first, say please stop, and tell a trusted adult."
+      },
+      {
+        "question": "My child is under 13. Can they have smart glasses?",
+        "answer": "Meta says its glasses are for ages 13 and up. The lesson is mostly about being around other people's glasses, which is how most children will meet them."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "What the recording light does and does not do",
+        "body": "Meta's camera glasses have a white capture LED that blinks while photos or video are captured, and Meta says the camera is disabled if the glasses detect the light has been covered. The BBC confirmed in January 2026 that some methods can still hide it, and women filmed for social media said they saw no light. Meta's promise covers captures for the gallery; whether the light shows when the assistant uses the camera is not stated on Meta's own pages."
+      },
+      {
+        "heading": "Why ask first is taught as respect, not law",
+        "body": "In England you do not need a permit to film in a public place, so the law does not require asking. Some filming is a crime: voyeurism in private places, recording beneath clothing, and harassment. The lesson teaches asking first as the respectful default because the law leaves the everyday cases to people, and because pupils in the vote asked for rules."
+      },
+      {
+        "heading": "Why the vote split by age and by sex",
+        "body": "In the Votes for Schools results, primary pupils were the most supportive and the yes vote declined with age. At every age girls voted no more than boys, most sharply at secondary, where 63 percent of boys but 30 percent of girls said they would wear the glasses. The vote did not ask why, so the lesson asks pupils to think about it rather than giving an answer."
+      }
+    ],
+    "essential_question": "Should people wear smart glasses, and what should I do when a camera is on me?",
+    "learning_objective": "To weigh up what smart glasses can do, using real facts and pupils' own words, and to use three responses with any camera: ask permission first, say please stop, and tell a trusted adult.",
+    "key_learning_points": [
+      "Smart glasses have a camera, microphones and speakers, and some have a screen in the lens. Meta says its glasses are for ages 13 and up.",
+      "They can help: translating a menu and describing the world to people who cannot see well.",
+      "People worry about being filmed without being asked, because the recording light can be hidden, and about messages near roads.",
+      "Ask permission before filming anyone and a no means no; say please stop; tell a trusted adult if it keeps happening or happens somewhere private.",
+      "Some places need extra care: private places, tests and roads."
+    ]
+  }
+}

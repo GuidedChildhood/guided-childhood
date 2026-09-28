@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
-import { otherStandaloneLessons } from '@/lib/taster'
+import { otherStandaloneLessons, standaloneYears } from '@/lib/taster'
 
 // THE BAR ON A STANDALONE LESSON (24 September 2026).
 //
@@ -14,6 +14,11 @@ import { otherStandaloneLessons } from '@/lib/taster'
 // Since the second standalone lesson (26 September 2026) it also names the
 // other one. It is the one link a teacher who liked this lesson would want, and
 // it keeps them among the free lessons rather than sending them to the scheme.
+//
+// Since the third (the same day), the first for primary, the years come from
+// the list rather than the sentence: this bar used to say "any Year 8 or Year 9
+// class" whatever the lesson, and each other lesson is named with its own
+// years, because they are no longer all for the same classes.
 
 const eyebrow: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -22,6 +27,7 @@ const eyebrow: React.CSSProperties = {
 
 export default function StandaloneBar({ moduleId }: { moduleId: string }) {
   const others = otherStandaloneLessons(moduleId)
+  const years = standaloneYears(moduleId)
   return (
     <section style={{
       background: '#fff', border: '2px solid var(--terracotta)',
@@ -39,7 +45,7 @@ export default function StandaloneBar({ moduleId }: { moduleId: string }) {
         color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '56ch',
       }}>
         This lesson is not part of our scheme of work, so nothing here is counted, mapped or
-        tracked. Read the plan, play the slides and print the pack, with any Year 8 or Year 9 class.
+        tracked. Read the plan, play the slides and print the pack, with {years?.anyClass ?? 'any class'}.
       </p>
       {/* The gold Teach button sits just below this bar on the lesson page,
           so the bar offers the other thing a teacher needs: the paper. */}
@@ -51,11 +57,12 @@ export default function StandaloneBar({ moduleId }: { moduleId: string }) {
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
           color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '12px',
         }}>
-          Also free, for the same classes:{' '}
+          Also free:{' '}
           {others.map((o, i) => (
             <span key={o.moduleId}>
-              {i > 0 && ', '}
+              {i > 0 && (i === others.length - 1 ? ' and ' : ', ')}
               <Link href={`/lesson/${o.moduleId}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>{o.title}</Link>
+              {o.years && ` (${o.years})`}
             </span>
           ))}
         </p>
