@@ -369,6 +369,8 @@ export async function getTodayLoop(
     && !!(agreementRow as { signed_by_child?: boolean } | null)?.signed_by_child
   const agreementUpdatedAt = !agreementSigned ? null : (agreementRow?.updated_at as string | null)
     ?? (agreementRow?.created_at as string | null) ?? null
+  const agreementSavedToday = !!agreementUpdatedAt
+    && new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date(agreementUpdatedAt)) === today
   const agreementFreshThisWeek = agreementUpdatedAt
     ? (Date.now() - new Date(agreementUpdatedAt).getTime()) < 7 * 86_400_000
     : false
@@ -762,7 +764,18 @@ export async function getTodayLoop(
       key: 'agreement' as const,
       label: agreementOutgrown ? 'Update the deal' : agreementReviewDue ? 'Review the deal' : 'The deal',
       href: withChild('/dashboard/agreement?from=today'),
-      done: agreementFreshThisWeek && !agreementReviewDue && !agreementOutgrown,
+      // ── TICKED TODAY, OR SETTLED THIS WEEK (28 September 2026) ──────────
+      //
+      // Justin, opening the app on a Monday: the road already had "The deal"
+      // ticked green, and the day's confirmation listed it as something he
+      // had done. It was saved on Friday. This rung was the last one still
+      // green for a week off one save, which is the same fault the quests
+      // rung had on 16 September. A save today ticks it; a save earlier this
+      // week settles it (clear), so it is behind you on the road without
+      // claiming you did it today.
+      done: agreementSavedToday && !agreementReviewDue && !agreementOutgrown,
+      clear: agreementFreshThisWeek && !agreementSavedToday && !agreementReviewDue && !agreementOutgrown,
+      note: agreementFreshThisWeek && !agreementSavedToday && !agreementReviewDue && !agreementOutgrown ? 'Sorted this week' : undefined,
     }] : []),
     {
       key: 'script',
