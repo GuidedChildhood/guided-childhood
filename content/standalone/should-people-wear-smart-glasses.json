@@ -41,11 +41,11 @@
       "phase": "starter",
       "minutes": 2,
       "outcome": "I can weigh up smart glasses, and use ask, say, tell with any camera.",
-      "why": "Cameras are now small enough to wear on your face, so it helps to know what to do and what to say.",
+      "why": "Cameras are now small enough to wear on your face, so it helps to know what to say.",
       "gains": [
-        "What smart glasses can do, including the newest ones",
+        "What smart glasses can do, even the newest",
         "The good bits and the worries, in pupils' own words",
-        "Ask, say, tell: what to do and what to say"
+        "Ask, say, tell: the words to use"
       ],
       "script": "Land the outcome as weighing up, not deciding for anyone. The why line is ours, so say it as ours. Name the tool they leave with, three words: ask, say, tell. It works with a phone camera just as well as with glasses, which is why it is worth learning at ten."
     },
@@ -67,15 +67,15 @@
       "words": [
         {
           "word": "smart glasses",
-          "meaning": "Glasses with a tiny camera, microphones and speakers built in. Some show messages inside the lens."
+          "meaning": "Glasses with a tiny camera, microphones and speakers built in."
         },
         {
           "word": "permission",
-          "meaning": "Asking first, and waiting for a yes, before you do something that affects someone else."
+          "meaning": "Asking first, and waiting for a yes, before you film or photograph someone."
         },
         {
           "word": "privacy",
-          "meaning": "Choosing what other people see or know about you, like your face or where you are."
+          "meaning": "Choosing what other people see or know about you, like your face."
         }
       ],
       "script": "Smart glasses is the thing we are weighing up. Permission is the heart of the lesson: the ask in ask, say, tell. Privacy is why permission matters, because your face is yours. Ask two pupils to say each word back in a sentence of their own."
