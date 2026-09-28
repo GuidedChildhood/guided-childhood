@@ -13,7 +13,7 @@
       "Engage with AI"
     ],
     "character_cast": "DiGi only",
-    "evidence_anchor": "KCSIE and RSHE naming misogyny",
+    "evidence_anchor": "RSHE 2025, KCSIE 2026, Educate Against Hate, UCL and Kent on TikTok feeds",
     "statutory_hooks": [
       "Prevent",
       "KCSIE",
@@ -91,33 +91,33 @@
         },
         {
           "word": "algorithm",
-          "meaning": "The system that picks your next clip. It optimises for your attention, not your wellbeing."
+          "meaning": "The system that picks your next clip. It is built to keep you watching, which is not the same as what is good for you."
         }
       ],
-      "script": "Say each word, class repeats it back, no exceptions even at KS4, shared language matters in this lesson more than most. Pause on grooming: you have met this word in other lessons about people who target bodies and money. Today the same word, the same playbook, aimed at beliefs. That connection is half the lesson.",
+      "script": "Say each word, class repeats it back, no exceptions even at KS4, shared language matters in this lesson more than most. Pause on grooming: you have met this word in other lessons about people who target bodies and money. Today the same word, and similar moves, aimed at beliefs. That connection is half the lesson.",
       "heading": "Words we need today",
       "minutes": 2
     },
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Thirty seconds of silent thinking, then hands. This should be near unanimous, the three lifelines were the whole of last module. Land the bridge to today: last week we studied people who groom for money. Today we study people who groom for beliefs, and you are about to see it is the same playbook.",
+      "script": "Thirty seconds of silent thinking, then hands. This should be near unanimous, the three lifelines were the whole of last module. Land the bridge to today: last week we studied people who groom for money. Today we study people who groom for beliefs, and you are about to see how similar the moves are.",
       "minutes": 3,
       "options": [
         {
           "text": "Do not pay, do not keep it secret, report it",
           "correct": true,
-          "feedback": "Exactly. Paying never ends it, secrecy is the blackmailer's only real power, and reporting works. The police and CEOP treat the young person as the victim, every time, and you are not in trouble."
+          "feedback": "Exactly. Paying is no guarantee it stops, and they will likely ask for more. Telling someone breaks the secrecy the blackmail depends on. It is never your fault, and you are not in trouble for asking for help."
         },
         {
           "text": "Pay once to make it stop, then block them",
           "correct": false,
-          "feedback": "Paying proves you can pay, and the demands almost always continue. The lifelines start with do not pay."
+          "feedback": "Paying proves you can pay, and they will likely ask for more. The lifelines start with do not pay."
         },
         {
           "text": "Delete everything and tell nobody",
           "correct": false,
-          "feedback": "Secrecy is the lever the whole scam relies on. Telling a trusted adult takes the blackmailer's power away, and you are not in trouble for telling."
+          "feedback": "Deleting can lose the evidence, and secrecy is the lever the whole scam relies on. Telling a trusted adult takes the blackmailer's power away, and you are not in trouble for telling."
         }
       ],
       "question": "Retrieval from last module. Someone is being blackmailed with a private image and the blackmailer is demanding money. What were the three lifelines?"
@@ -172,7 +172,7 @@
           "title": "The drip feed"
         }
       ],
-      "script": "Walk the four steps as they build and keep your tone forensic, like an engineer explaining a machine. The key line to land on step two: the algorithm is not evil and it is not on anyone's side, it optimises for attention, and outrage happens to be the strongest attention fuel we have ever found. On step four, name the defence pupils will reach for: it is just jokes, it does not affect me. The drip feed works precisely because every individual clip feels too small to matter.",
+      "script": "Walk the four steps as they build and keep your tone forensic, like an engineer explaining a machine. The key line to land on step two: the algorithm is not evil and it is not on anyone's side. It learns from what gets a reaction, and attacks on the other side get a lot of reaction: in one study of 2.7 million political posts, each word about the other side raised the odds of a share by about two thirds. On step four, name the defence pupils will reach for: it is just jokes, it does not affect me. The drip feed works precisely because every individual clip feels too small to matter.",
       "caption": "Nobody chooses the destination. The feed moves the floor one clip at a time.",
       "heading": "How a pipeline works",
       "minutes": 3
@@ -202,16 +202,16 @@
       "question": "Why do pipelines open with harmless content instead of leading with the extreme content?"
     },
     {
-      "body": "For teenage boys in the UK, the most common pipeline entrance is misogyny: content that starts as dating or confidence advice and escalates into contempt for women and girls. Underneath it is an idea about other people: that attraction is a ranking, that women owe men something, and that anyone struggling has been cheated rather than simply being young. Every part of that is a claim about how people should be treated, and it falls apart the moment it meets a real person.",
+      "body": "For teenage boys, one common and well documented way in is misogyny: content that starts as dating or confidence advice and escalates into contempt for women and girls. Underneath it is an idea about other people: that attraction is a ranking, that women owe men something, and that anyone struggling has been cheated rather than simply being young. Every part of that is a claim about how people should be treated, and it falls apart the moment it meets a real person.",
       "type": "concept",
       "emoji": "🎯",
       "phase": "teach",
-      "script": "Name it plainly and without apology, the naming is the respectful part. Keep your tone level and do not editorialise about any individual. Say this, as written: And it is not only about women, which is worth saying plainly. The same machine runs on race, on religion, on disability, on sexual orientation and on trans people, and it runs the same way every time: a stereotype arrives as a joke, agreeing with it gets rewarded, and the feed learns to bring more. The damage is not the joke. It is that a stereotype repeated often enough stops sounding like an opinion and starts sounding like a fact about somebody you have never met. That is how prejudice gets built one post at a time, and it is the same road by which treating a person as though their answer does not matter starts to seem ordinary. Read the added lines at the same flat pace as the rest. The list of characteristics is deliberately said once and not dwelt on, because a register change here turns the slide into a lecture and the class stops listening. The sentence that does the work is the last one: a stereotype is how somebody becomes a category, and a category is easier to treat badly than a person. If a pupil argues that a joke is only a joke, the honest answer is that the joke is not the damage, the repetition is.",
-      "heading": "Misogyny is the most common on ramp",
+      "script": "Name it plainly and without apology, the naming is the respectful part. Keep your tone level and do not editorialise about any individual. Say this, as written: And it is not only about women, which is worth saying plainly. The same machine runs on race, on religion, on disability, on sexual orientation and on trans people, and it usually runs the same way: a stereotype arrives as a joke, agreeing with it gets rewarded, and the feed learns to bring more. The damage is not the joke. It is that a stereotype repeated often enough stops sounding like an opinion and starts sounding like a fact about somebody you have never met. That is how prejudice gets built one post at a time, and it is the same road by which treating a person as though their answer does not matter starts to seem ordinary. Read the added lines at the same flat pace as the rest. The list of characteristics is deliberately said once and not dwelt on, because a register change here turns the slide into a lecture and the class stops listening. The sentence that does the work is the last one: a stereotype is how somebody becomes a category, and a category is easier to treat badly than a person. If a pupil argues that a joke is only a joke, the honest answer is that the joke is not the damage, the repetition is.",
+      "heading": "Misogyny is a common way in",
       "minutes": 1
     },
     {
-      "body": "It is common enough that the safeguarding guidance every school follows, Keeping Children Safe in Education, and the RSHE curriculum both name misogyny and incel culture directly. Hear this clearly: this content is aimed at you, which makes you the target, not the accused. The manipulation is the enemy in this room, and it is the only enemy in this room.",
+      "body": "It is common enough that schools in England now treat misogyny as a safeguarding issue, and the RSHE guidance names misogyny and so called incels directly. Hear this clearly: this content is aimed at you, which makes you the target, not the accused. The manipulation is the enemy in this room, and it is the only enemy in this room.",
       "type": "concept",
       "phase": "teach",
       "script": "Read the last two sentences word for word, do not improvise them and do not skip them. Expect the room to tense slightly, that is normal and it passes. Two handling notes. If a pupil defends a named influencer, do not debate the man, redirect to the machinery: fine, run him through the pipeline check when we get to it, who wants you angry, what happens if you keep watching. If a pupil voices views that genuinely concern you, stay calm, do not shame them in front of the room, note it and follow your school's Prevent and safeguarding routes afterwards.",
@@ -253,9 +253,9 @@
           "title": "Escalate"
         }
       ],
-      "script": "Build the three steps and let the recognition do the work: ask the class where they have seen isolate, flatter, escalate before. They have, in the grooming and sextortion modules. The sentence to land: groomers do not have different playbooks for bodies, money and beliefs, they have one playbook and three targets. If anyone finds this uncomfortable in a personal way, that is a sign the lesson matters. Remind the room quietly that talking to you or any trusted adult afterwards is always open, and nobody is in trouble for it.",
-      "caption": "You already know this pattern. Same playbook you studied for other grooming, aimed at your beliefs instead of your body or your money.",
-      "heading": "Belief grooming runs the grooming playbook",
+      "script": "Build the three steps and let the recognition do the work: ask the class where they have seen moves like these before. They have, in the sextortion module: the flattery, the speed, the order to tell nobody. The sentence to land: groomers use similar moves whether they are after your body, your money or your beliefs. If anyone finds this uncomfortable in a personal way, that is a sign the lesson matters. Remind the room quietly that talking to you or any trusted adult afterwards is always open, and nobody is in trouble for it.",
+      "caption": "You already know moves like these from other grooming. Here they are aimed at your beliefs instead of your body or your money.",
+      "heading": "Belief grooming works like other grooming",
       "minutes": 3
     },
     {
@@ -337,8 +337,8 @@
       "type": "discussion",
       "phase": "teach",
       "prompt": "A mate is sliding down a pipeline. What could you actually say that pulls him back, rather than pushing him deeper?",
-      "script": "Groups of three or four, ninety seconds. This discussion decides whether the lesson survives contact with real life, so collect one answer per group and push on the how. The trap to name out loud: calling him an idiot or a weirdo is the single most radicalising thing a friend can do, because the pipeline told him everyone would mock him and you just proved it right. The move that works is separating the mate from the machine: I am not against you, I am against the thing farming you.",
-      "lookFor": "Mockery and contempt push deeper, they prove the us versus them story true. What pulls back: staying his mate, real belonging, and naming the manipulation, not the mate. Get curious, not superior.",
+      "script": "Groups of three or four, ninety seconds. This discussion decides whether the lesson survives contact with real life, so collect one answer per group and push on the how. The trap to name out loud: calling him an idiot or a weirdo is likely to push him further in, because the pipeline told him everyone would mock him and you just proved it right. The move that works is separating the mate from the machine: I am not against you, I am against the thing farming you.",
+      "lookFor": "Mockery and contempt can push someone deeper, because they seem to prove the us versus them story true. What pulls back: staying his mate, real belonging, and naming the manipulation, not the mate. Get curious, not superior.",
       "minutes": 2,
       "seconds": 90,
       "extension": true
@@ -386,7 +386,7 @@
       "type": "interactive",
       "phase": "practise",
       "config": {},
-      "script": "The pipeline check needs one more piece of evidence: why this content finds people at all. Race the two posts once and let the outrage post win by miles, then ask what that means for a feed that learns from reactions: the angriest voice gets the megaphone, not the truest one. Run the calm rerun and watch the gap close. Connect it to the pipeline: nobody chooses to walk down it, the feed escorts them, one engineered reaction at a time, and stepping back is the brake.",
+      "script": "The pipeline check needs one more piece of evidence: why this content finds people at all. Race the two posts once and let the outrage post win by miles, then ask what that means for a feed that learns from reactions: the angriest voice gets the megaphone, whether or not it is true. Run the calm rerun and watch the gap close. Connect it to the pipeline: nobody chooses to walk down it, the feed escorts them, one engineered reaction at a time, and stepping back is the brake.",
       "caption": "Outrage against honesty, raced. The pipeline runs on the winner.",
       "minutes": 4,
       "component": "spread-race",
@@ -408,9 +408,9 @@
       "minutes": 2,
       "options": [
         {
-          "text": "The escalation step of a pipeline. Feeds drift towards hotter content because hotter holds attention, and that drift is the design, not your choices",
+          "text": "The escalation step of a pipeline. Feeds can drift towards hotter content because it holds attention, and the drift says more about the feed than about you",
           "correct": true,
-          "feedback": "Right. The drift says nothing about who you are, it says everything about what holds attention. Seeing the drift is question two of the check working: what happens if I keep watching?"
+          "feedback": "Right. The drift says little about who you are, and a lot about what holds attention. Seeing the drift is question two of the check working: what happens if I keep watching?"
         },
         {
           "text": "The feed has worked out what you secretly believe",
@@ -420,7 +420,7 @@
         {
           "text": "Nothing, recommendations are basically random",
           "correct": false,
-          "feedback": "Recommendations are the opposite of random. They are the single most engineered thing on your screen, and escalation is a known pattern of that engineering."
+          "feedback": "Recommendations are the opposite of random. They are built to learn what holds your attention, and drifting towards hotter content is a pattern researchers have recorded."
         }
       ],
       "question": "Exit check one. Your recommendations have drifted from gym clips to clips about how women ruin men's lives. You never searched for any of that. What is actually happening?"
@@ -463,9 +463,9 @@
       "phase": "close",
       "points": [
         "Pipelines open with ordinary content and escalate one clip at a time. Nobody chooses the destination, the feed moves the floor.",
-        "Misogyny is the most common on ramp aimed at teenage boys in the UK. The content targets you. You are not the problem, the manipulation is.",
-        "Belief grooming runs the same playbook as every other grooming: isolate, flatter, escalate.",
-        "The pipeline check: who wants me angry, what happens if I keep watching, who am I being turned against? And if it has a grip on you or a mate, talk to someone. You will not be in trouble."
+        "Misogyny is a common way in aimed at teenage boys. The content targets you. You are not the problem, the manipulation is.",
+        "Belief grooming works like other grooming: isolate, flatter, escalate.",
+        "The pipeline check: who wants me angry, what happens if I keep watching, who am I being turned against? And if it has a grip on you or a mate, talk to someone. Asking for help does not get you into trouble."
       ],
       "script": "Return to evidence item one, the discipline post from the start of the lesson, and ask for verdicts again. Most of the room will now say eyes open, it depends what it feeds you next, and that shift in answer is your proof the lesson worked. Then the recap, read by four pupils, one point each.",
       "heading": "What to remember",
@@ -506,7 +506,7 @@
         "Let me be straight with you, because you are old enough for straight.",
         "Somewhere out there, someone profits when you are angry and alone. Their whole business is reaching you in that moment before anyone who actually cares about you does.",
         "So carry the check: who wants me angry, what happens if I keep watching, who am I being turned against?",
-        "And if a pipeline already has a grip on you or on a mate, that is not weakness and it is not shame, that is the manipulation working as designed. Talk to someone. The way out is a conversation, and you will never be in trouble for starting it."
+        "And if a pipeline already has a grip on you or on a mate, that is not weakness and it is not shame, that is the manipulation working as designed. Talk to someone. The way out is a conversation, and asking for help does not get you into trouble."
       ],
       "phase": "close",
       "script": "Let DiGi land the ending, the lines appear on their own, do not talk over them. As the class leaves, stay near the door. This is the module where a pupil is most likely to hang back with a question that is not really a question. If anyone does, listen calmly, thank them, and follow your school's Prevent and safeguarding routes. The platform records nothing, so your conversation and your DSL are the record.",
@@ -515,7 +515,7 @@
     }
   ],
   "dsl_note": {
-    "note": "The Prevent duty applies to this module. If a pupil discloses contact with extremist content, groups or individuals, or expresses views that concern staff during or after the lesson, follow the school's Prevent and safeguarding procedures the same day: stay calm, do not debate the pupil publicly, record what was said and refer to the DSL, who decides on next steps including local authority Prevent or Channel referral where appropriate. KCSIE names misogynistic content and incel culture as safeguarding concerns, so treat sustained hostile views towards women and girls as a safeguarding matter, not only a behaviour matter. The platform records no disclosures: nothing pupils say or write in this lesson is stored by Guided Childhood, so staff notes and the school's own reporting routes are the only record.",
+    "note": "The Prevent duty applies to this module. If a pupil discloses contact with extremist content, groups or individuals, or expresses views that concern staff during or after the lesson, follow the school's Prevent and safeguarding procedures the same day: stay calm, do not debate the pupil publicly, record what was said and refer to the DSL, who decides on next steps including local authority Prevent or Channel referral where appropriate. KCSIE 2026 names misogyny within child on child abuse and harassment (paragraphs 23, 34 and 193) and misogynistic influencers among the online harms schools teach about (paragraph 160), and the RSHE guidance names so called incels, so treat sustained hostile views towards women and girls as a safeguarding matter, not only a behaviour matter. The platform records no disclosures: nothing pupils say or write in this lesson is stored by Guided Childhood, so staff notes and the school's own reporting routes are the only record.",
     "required": true,
     "concern_form_linked": true
   },
@@ -550,7 +550,7 @@
   },
   "sort_order": 18,
   "parent_note": {
-    "taught": "Today we looked at how online pipelines work: content that starts as gym, money or confidence advice and is escalated by recommendations towards us versus them thinking, with misogyny the most common version aimed at teenage boys. We taught the pipeline check, three calm questions: who wants me angry, what happens if I keep watching, who am I being turned against?",
+    "taught": "Today we looked at how online pipelines work: content that starts as gym, money or confidence advice and is escalated by recommendations towards us versus them thinking, with misogyny a common version aimed at teenage boys. We taught the pipeline check, three calm questions: who wants me angry, what happens if I keep watching, who am I being turned against?",
     "headline": "What we taught today, and one thing to try at home",
     "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them who profits when content makes people angry, and listen to how precisely they can answer.",
     "try_this": "Ask your teenager to teach you the three questions, then run them together on one video from your own feed, not theirs. Doing it on your feed first keeps it a skill you share rather than an inspection.",
@@ -588,7 +588,7 @@
       },
       {
         "verb": "Recognise",
-        "title": "Belief grooming runs the grooming playbook",
+        "title": "Belief grooming works like other grooming",
         "minutes": 9,
         "outcome": "I can recognise when content is grooming my beliefs."
       },
@@ -619,7 +619,7 @@
       },
       {
         "word": "algorithm",
-        "definition": "The system that picks your next clip. It optimises for your attention, not your wellbeing."
+        "definition": "The system that picks your next clip. It is built to keep you watching, which is not the same as what is good for you."
       }
     ],
     "equipment": "Nothing beyond the board. No real account, channel or personality is shown or named.",
@@ -637,16 +637,16 @@
         "teaching_point": "It has to, or nobody would enter it. Pupils expecting it to start extreme will not see it coming."
       },
       {
-        "answer": "Attention, belonging, then isolation.",
+        "answer": "Isolate, flatter, escalate.",
         "format": "short_answer",
         "question": "Name the three stages of the grooming playbook.",
-        "teaching_point": "The same playbook, pointed at belief. Isolation is the stage that does the damage."
+        "teaching_point": "The grooming moves, pointed at belief. Isolate comes first because it cuts off every voice that could pull you back."
       },
       {
         "answer": "paid",
         "format": "fill_blank",
         "question": "Anger keeps you watching, and someone is ___ for that.",
-        "teaching_point": "Follow the money. Anger is not a side effect, it is the business."
+        "teaching_point": "Follow the money. Anger holds attention, and attention is what gets paid for."
       },
       {
         "answer": "The pipeline check",
@@ -678,7 +678,7 @@
         "teaching_point": "Carried forward from ks4-15. Outrage is the one that matters most today."
       },
       {
-        "answer": "Your attention, not your wellbeing.",
+        "answer": "Keeping you watching, which is not the same as what is good for you.",
         "format": "short_answer",
         "question": "What does an algorithm optimise for?",
         "teaching_point": "Carried forward from ks2-06. It is the engine under the pipeline."
@@ -728,7 +728,7 @@
       {
         "n": 2,
         "item": "You followed a confidence channel a month ago. This week your recommendations are full of clips saying modern women only respect money and looks, and men who disagree are brainwashed.",
-        "teaching_point": "This is escalation seen from the inside: question two fails. The drift is the design, not a reflection of you, and changing what you feed the algorithm changes the drift.",
+        "teaching_point": "This is escalation seen from the inside: question two fails. The drift comes from what holds attention, not from who you are, and changing what you feed the algorithm changes the drift.",
         "expected_verdict": "Step back"
       },
       {
@@ -740,7 +740,7 @@
       {
         "n": 4,
         "item": "A mate has gone quiet with his old friends. He spends every night in a forum that says school, girls and his family are all against men like them, and he gets furious when anyone questions it.",
-        "teaching_point": "Isolation has already happened and the us versus them story is doing his thinking. This is past a feed decision, it needs a conversation with him and with a trusted adult. He is not in trouble and neither are you.",
+        "teaching_point": "Isolation has already happened and the us versus them story is doing his thinking. This is past a feed decision, it needs a conversation with him and with a trusted adult. Asking for help does not get him or you into trouble.",
         "expected_verdict": "Talk to someone"
       },
       {
@@ -761,8 +761,8 @@
     "key_learning_points": [
       "Nobody starts at the extreme. The movement is gradual and that is the design.",
       "A pipeline starts with content that is reasonable, or funny, or true.",
-      "Belief grooming uses the same playbook as any other grooming: attention, belonging, then isolation.",
-      "Misogyny is the most common on ramp, and RSHE 2025 names it.",
+      "Belief grooming works like other grooming: isolate, flatter, escalate.",
+      "Misogyny is a common way in, and RSHE 2025 names it.",
       "Anger keeps you watching, and someone is paid for that."
     ],
     "hard_questions": [
@@ -780,7 +780,59 @@
       },
       {
         "question": "Only loners get radicalised.",
-        "answer": "That is the comforting version and it does not hold. It reaches ordinary people with friends and families, through a feed, at home. Believing it only happens to somebody else is the single most useful thing about you, from the point of view of the people doing it."
+        "answer": "That is the comforting version and it does not hold. It reaches ordinary people with friends and families, through a feed, at home. Believing it only happens to somebody else is the blind spot it gets through."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "A feed can drift from ordinary content to misogynistic content without anyone searching for it.",
+        "source": "Regehr, Shaughnessy and colleagues at UCL and the University of Kent, Safer scrolling, published by ASCL in February 2024 and peer reviewed in Frontiers in Psychology 2025: four TikTok accounts modelled on young people, which only watched, with no liking, commenting or searching, saw misogynistic content on the For You page rise from 13 percent to 56 percent after five days. Four accounts on one platform, so it shows what a feed can serve, not what every teenager sees. DSIT, 10 February 2026: boys are particularly at risk of being algorithmically served misogynistic and harmful content, often without seeking it out.",
+        "status": "verified"
+      },
+      {
+        "claim": "Feeds learn from reactions, and attacks on the other side get a lot of them.",
+        "source": "Rathje, Van Bavel and van der Linden, PNAS 2021, 2.7 million posts from US news media and members of Congress on Facebook and Twitter: each word about the political out group raised the odds of a share by 67 percent, the strongest of the language features tested. It is correlational and measures sharing, not attention. Milli and colleagues, PNAS Nexus 2025, 806 US adults: Twitter's engagement based ranking amplified emotionally charged, out group hostile content compared with a time ordered feed.",
+        "status": "verified"
+      },
+      {
+        "claim": "Radicalisation works like grooming: it offers belonging, status and someone to blame, and cuts off other voices.",
+        "source": "Educate Against Hate (Department for Education): young people should be protected from being groomed and exploited by extremists; push factors include a sense of not belonging, a lack of self esteem and struggling with a sense of identity, and the ideology appears to make sense of feelings of grievance or injustice. DfE, The Prevent duty: practical guidance for designated safeguarding leads, September 2026: factors that may increase a learner's susceptibility include social isolation, unmet emotional or social needs, feelings of grievance or injustice, and online influences. Isolate, flatter, escalate is this lesson's teaching model of those moves, not a term from the guidance.",
+        "status": "verified"
+      },
+      {
+        "claim": "Misogyny is a common way in aimed at teenage boys, and it reaches them at school as well as online.",
+        "source": "DSIT, 10 February 2026: boys are particularly at risk of being algorithmically served misogynistic and harmful content, often without seeking it out. DfE, Parent, Pupil and Learner Voice, December 2025 fieldwork: 44 percent of Year 10 and 11 pupils had heard comments by other pupils at school, on at least some days in the past week, that they would describe as misogynistic (63 percent in March 2025). DfE, RSHE 2025 para 81: young people may be more vulnerable to sexist and misogynistic influencers when they have low self esteem, are being bullied, or have other challenges in their lives. Prevent does not record misogyny as a category (incel extremism was 95 of 10,293 referrals in the year to September 2025), so no UK source ranks it as the most common way in, and the lesson does not claim that.",
+        "status": "verified"
+      },
+      {
+        "claim": "Schools in England treat misogyny as a safeguarding issue, and the RSHE guidance names misogyny and so called incels.",
+        "source": "KCSIE 2026, in force from 1 September 2026: children can abuse other children online through abusive, harassing and misogynistic or misandrist messages (para 23); dismissing sexual harassment as banter can lead to a culture of unacceptable behaviour and misogyny (para 34); preventative education covers misogynistic influencers (para 160); child on child abuse includes harmful sexual behaviour and sexual harassment, which may include misogyny (para 193). KCSIE does not mention incels. DfE, RSHE statutory guidance, July 2025: pupils should be equipped to recognise misogyny and other forms of prejudice, and should discuss the sexual norms endorsed by so called involuntary celibates (incels) or online influencers. Both apply in England.",
+        "status": "verified"
+      },
+      {
+        "claim": "These communities teach that attraction is a ranking, that women owe men something, and that anyone at the bottom has been cheated.",
+        "source": "Educate Against Hate, Incels: a guide for those teaching Year 10 and above, v1.1, November 2025: some incels express intense hatred for women, believing that they are entitled to sexual and romantic attention, and the black pill holds that their lives cannot be improved. Sparks, Zidenberg and Olver, Current Psychiatry Reports 2022, a review: a looks based hierarchy, higher sexual entitlement, and the belief that one cannot transcend that hierarchy. Whittaker, Costello and Thomas for the Commission for Countering Extremism, 2024, 561 adult incels: some believe that 80 percent of women desire only 20 percent of men.",
+        "status": "verified"
+      },
+      {
+        "claim": "If you are blackmailed with an image, paying is no guarantee it stops and they will likely ask for more; it is never your fault.",
+        "source": "NCA and CEOP Education, Financially motivated sexual extortion: alert for education settings, April 2024: there is no guarantee that paying will stop the threats, and once you have shown you can pay they will likely ask for more; avoid deleting anything that could be used as evidence; a child or young person is never to blame if they have been a victim. CEOP Education, for 11 to 18 year olds: if you have been pressured to share an image of yourself, you will not be in trouble.",
+        "status": "verified"
+      },
+      {
+        "claim": "Asking for help does not get you into trouble, and a Prevent referral is about safeguarding, not punishment.",
+        "source": "Home Office, Prevent factsheet, 6 August 2026: a Prevent referral does not lead to a criminal record, it is about safeguarding those at risk of radicalisation; Channel is voluntary and consent based, with consent through a parent or guardian for under 18s. DfE, Prevent duty guidance for designated safeguarding leads, September 2026, suggests saying to a learner: you're not in any trouble, I want to understand.",
+        "status": "verified"
+      },
+      {
+        "claim": "Mockery and contempt can push someone deeper, so stay his mate and get curious rather than superior.",
+        "source": "Educate Against Hate, Manosphere explainer, v1.2: avoid judgmental language, because criticising their beliefs or telling them they are wrong can make them defensive, pushing them deeper into echo chambers and making them less likely to be honest about their thoughts and feelings. DfE, Prevent duty guidance for designated safeguarding leads, September 2026: the aim is to understand, rather than to challenge or debate beliefs.",
+        "status": "verified"
+      },
+      {
+        "claim": "A stereotype repeated often enough starts to sound like a fact, which is how prejudice gets built.",
+        "source": "DfE, RSHE statutory guidance, July 2025, item 9: how stereotypes, in particular those based on sex, gender reassignment, race, religion, sexual orientation or disability, can cause damage, for example by normalising non consensual behaviour or encouraging prejudice. Fazio, Brashier, Payne and Marsh, Journal of Experimental Psychology: General 2015: repeated statements are perceived to be more truthful than new ones, even when people know better. Those studies used general knowledge statements, so applying them to stereotypes is this lesson's step.",
+        "status": "verified"
       }
     ]
   }

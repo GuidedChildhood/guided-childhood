@@ -13,7 +13,7 @@
       "Engage with AI"
     ],
     "character_cast": "Bloop",
-    "evidence_anchor": "Footprint permanence research",
+    "evidence_anchor": "CEOP and NCSC advice, the apps' own help pages, ONS 2020 on online bullying",
     "statutory_hooks": [
       "EfCW privacy and reputation"
     ],
@@ -78,7 +78,7 @@
         },
         {
           "word": "screenshot",
-          "meaning": "A photo of a screen. Anyone can take one of anything you send, and you will never know they did."
+          "meaning": "A photo of a screen. Some apps tell you when someone takes one, but nobody can stop a person photographing a screen with another phone."
         },
         {
           "word": "digital footprint",
@@ -102,7 +102,7 @@
         {
           "text": "The feed learned what you watched and served you more of it",
           "correct": true,
-          "feedback": "Exactly. You watch, it learns, it serves more. That loop never switches off, and today you will see it also learns from what you SHARE, not just what you watch."
+          "feedback": "Exactly. You watch, it learns, it serves more. That loop keeps going unless someone changes the settings, and today you will see it also learns from what you SHARE, not just what you watch."
         },
         {
           "text": "Skateboarding videos are the only videos left",
@@ -165,7 +165,7 @@
           "title": "Where you are"
         },
         {
-          "text": "Passwords, and the clue questions behind them: pet names, your street, your favourite teacher.",
+          "text": "Passwords, and the secret questions that get you back into an account, like your first pet's name.",
           "emoji": "🔑",
           "title": "What unlocks things"
         },
@@ -205,11 +205,11 @@
       "question": "Which of these is the editor most likely to say YES to publishing?"
     },
     {
-      "body": "Here is the strange rule of sharing online: sending is instant, but unsending is impossible. The moment something leaves your device, anyone who sees it can screenshot it, save it or forward it, and you will never know. Pressing delete only removes it from YOUR view, like turning your back on a poster that is still on the wall. That is why editors decide BEFORE they publish, not after. Before is a choice. After is a hope.",
+      "body": "Here is the strange rule of sharing online: sending is instant, but taking it back is not. The moment something leaves your device, anyone who sees it can screenshot it, save it or forward it, and you may never know. Some apps let you unsend a message, but that cannot take back a screenshot, a save or a forward. That is why editors decide BEFORE they publish, not after. Before is a choice. After is a hope.",
       "type": "concept",
       "emoji": "🐘",
       "phase": "teach",
-      "script": "The elephant never forgets, and neither does the internet. Do the poster demo: stick a piece of paper on the board, then turn your back on it and announce, deleted! Ask the class: is it gone? They can all still see it. That is exactly what delete does online. Repeat the line and have them say it back: before is a choice, after is a hope. Say this, as written: And here is the part that surprises people: online, anybody can say they are anybody. A grown up can make an account that says they are eleven, with a photo that is not theirs. That is not a reason to be frightened of everyone, it is a reason to have one rule. If someone you have not met asks you anything about yourself, asks for a photo, or asks you to keep the chat secret, you stop and you tell a grown up. Every single time. The added lines matter and the register matters more. Say it the way you would say look both ways: a fact, then a rule, no fear. Anybody can claim to be anybody, so the rule is not about spotting the bad one, it is about what you do when someone you have not met asks for something. Land the three asks, information, a photo, or secrecy, and the one answer: stop and tell a grown up. If any child looks worried, follow it up afterwards rather than in front of the room.",
+      "script": "The elephant never forgets, and neither does the internet. Do the poster demo: stick a piece of paper on the board and have one pupil copy it onto their own sheet. Then take the poster down and announce, deleted! Ask the class: is it gone? The poster is, the copy is not. That is exactly what delete does online. Repeat the line and have them say it back: before is a choice, after is a hope. Say this, as written: And here is the part that surprises people: online, anybody can say they are anybody. A grown up can make an account that says they are eleven, with a photo that is not theirs. That is not a reason to be frightened of everyone, it is a reason to have one rule. If someone you have not met asks you anything about yourself, asks for a photo, or asks you to keep the chat secret, you stop and you tell a grown up. Every single time. The added lines matter and the register matters more. Say it the way you would say look both ways: a fact, then a rule, no fear. Anybody can claim to be anybody, so the rule is not about spotting the bad one, it is about what you do when someone you have not met asks for something. Land the three asks, information, a photo, or secrecy, and the one answer: stop and tell a grown up. If any child looks worried, follow it up afterwards rather than in front of the room.",
       "heading": "The internet remembers",
       "minutes": 2
     },
@@ -242,7 +242,7 @@
           "title": "Fourteen screens light up"
         },
         {
-          "text": "Silently. No alert, no permission, no way for you to know it happened.",
+          "text": "Some apps send an alert and some do not. Nothing can stop a photo of the screen taken on another phone.",
           "emoji": "📸",
           "title": "Someone screenshots it"
         },
@@ -260,18 +260,18 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Quick whole class check, hands or devices. If anyone picks the five minute answer, do not mock it, it is a really common belief among adults too. Bring back the poster on the board: did turning your back make it disappear? Same rule, every time.",
+      "script": "Quick whole class check, hands or devices. If anyone picks the five minute answer, do not mock it, it is a really common belief among adults too. Bring back the poster demo: the poster came down, the copy stayed. Same rule, every time.",
       "minutes": 2,
       "options": [
         {
-          "text": "It might still exist on other phones, because delete only removes YOUR copy",
+          "text": "It might still exist on other phones, because delete cannot reach a screenshot or a forward",
           "correct": true,
           "feedback": "Right. Two minutes is plenty of time for a screenshot, and forwarded copies do not vanish when yours does. This is exactly why editors decide before sending."
         },
         {
           "text": "It is gone everywhere, delete means delete",
           "correct": false,
-          "feedback": "Delete removes it from your view, like turning your back on the poster. Screenshots and forwarded copies live on devices you cannot reach."
+          "feedback": "Delete can take it out of the chat, but not out of screenshots, saved copies or forwards. Those live on devices you cannot reach."
         },
         {
           "text": "It is fine as long as you deleted it within five minutes",
@@ -283,11 +283,11 @@
       "extension": true
     },
     {
-      "body": "Your digital footprint is like a garden: it grows whether you tend it or not. Every post, comment, quiz answer and shared photo is a seed, and years from now, secondary schools, clubs and even employers may wander through and look around. Ignore the garden and weeds grow that you did not choose. Tend it, and it becomes a garden you are proud to show people: your art, your goals, your best jokes. Same garden, same you. The only difference is whether the editor showed up.",
+      "body": "Your digital footprint is like a garden: it grows whether you tend it or not. Every post, comment, quiz answer and shared photo is a seed, and years from now, even an employer may wander through and look around. Ignore the garden and weeds grow that you did not choose. Tend it, and it becomes a garden you are proud to show people: your art, your goals, your best jokes. Same garden, same you. The only difference is whether the editor showed up.",
       "type": "concept",
       "emoji": "🌱",
       "phase": "teach",
-      "script": "Make this future feel real without making it heavy. Say: one day, someone deciding whether to pick you for a team, a school or a job will type your name into a search bar. Pause. What do you want them to find? Take two or three answers, they are usually lovely: my football highlights, my art, my baking. Exactly. That garden does not grow by accident. You plant it.",
+      "script": "Make this future feel real without making it heavy. Say: one day, someone deciding whether to give you a job may type your name into a search bar. Pause. What do you want them to find? Take two or three answers, they are usually lovely: my football highlights, my art, my baking. Exactly. That garden does not grow by accident. You plant it.",
       "heading": "Your footprint grows either way",
       "minutes": 2
     },
@@ -311,8 +311,8 @@
           "title": "Three: could it hurt future me?"
         }
       ],
-      "script": "This is the tool of the whole mission, so take your time as it builds. Get the class chanting the three questions back: would I shout it in assembly, does it give away where I am, could it hurt future me. Twice through, louder the second time. Then the verdicts: every share test ends in one of these three, and think twice is a real verdict, it means fix something first, crop the photo, ask a friend, ask a grown up. Run the test live on the pizza photo from earlier: assembly, fine. Location, none. Future me, delighted. Share it! Finish with the settings line, which is new and is the one thing on this slide a child can act on tonight. Say it simply: apps have a settings page, and two of the switches on it are privacy and location. Location off means the photo stops carrying a map. Do not walk through any one app, because they all differ and they all change. The point is that the switches exist and are theirs to find, with a grown up.",
-      "caption": "Three questions before anything leaves your hands. Any question fails, the editor holds it back. And one more thing you can do before any of this: most apps have a settings page with a privacy switch and a location switch on it. Turning location off means a photo stops carrying a little map of where you were.",
+      "script": "This is the tool of the whole mission, so take your time as it builds. Get the class chanting the three questions back: would I shout it in assembly, does it give away where I am, could it hurt future me. Twice through, louder the second time. Then the verdicts: every share test ends in one of these three, and think twice is a real verdict, it means fix something first, crop the photo, ask a friend, ask a grown up. Run the test live on the pizza photo from earlier: assembly, fine. Location, none. Future me, delighted. Share it! Finish with the settings line, which is new and is the one thing on this slide a child can act on tonight. Say it simply: in the app, the privacy settings decide who can see what you post, and on the phone, the camera can store the place each photo was taken. A grown up can help with both, and switching the camera location off changes new photos, not old ones. Do not walk through any one app or phone, because they all differ and they all change. The point is that the settings exist and are theirs to find, with a grown up.",
+      "caption": "Three questions before anything leaves your hands. Any question fails, the editor holds it back. And two things a grown up can help with before any of this: the app's privacy settings, which choose who sees your posts, and the camera setting that saves where each photo was taken.",
       "heading": "The share test",
       "minutes": 4,
       "verdicts": [
@@ -332,7 +332,7 @@
       "avatar": "🐶",
       "handle": "QuizzyPaws",
       "prompt": "Cute puppy, ten second quiz. Run the share test on it. Which question fires first, and why would a puppy quiz want your pet's name?",
-      "script": "Let them enjoy how cute it looks first, that is the whole trick. Then run the test together. Assembly test: would you shout your street name in assembly? Hmm. Location test: it literally asks for a street. Future me test: here is the detective reveal, pet name, street, favourite teacher are the exact backup questions that unlock forgotten passwords. Ask: who might collect answers like that, and what could they open with them? A puppy quiz does not need any of it to tell you that you are a golden retriever. The questions ARE the product.",
+      "script": "Let them enjoy how cute it looks first, that is the whole trick. Then run the test together. Assembly test: would you shout your street name in assembly? Hmm. Location test: it literally asks for a street. Future me test: here is the detective reveal, a first pet's name is a common secret question for getting back into an account, and where you live is the kind of fact used to pretend to be you. Ask: who might collect answers like that, and what could they open with them? A puppy quiz does not need any of it to tell you that you are a golden retriever. The questions ARE the product.",
       "minutes": 2,
       "platform": "feed",
       "extension": true
@@ -346,12 +346,12 @@
         {
           "text": "Skip it, or play with made up answers, because those are password clue questions",
           "correct": true,
-          "feedback": "Detective work. Pet names and streets unlock forgotten passwords, so they live in the vault. A quiz that needs them is collecting keys, not matching puppies."
+          "feedback": "Detective work. A first pet's name is a common secret question for getting back into an account, so it lives in the vault. A quiz that needs them is collecting keys, not matching puppies."
         },
         {
           "text": "Answer honestly, it is only a puppy quiz",
           "correct": false,
-          "feedback": "The quiz is the costume, the questions are the point. Real pet names and streets are the clue questions behind passwords, and honest answers hand over the keys."
+          "feedback": "The quiz is the costume, the questions are the point. A real pet's name is a common secret question behind accounts, and honest answers hand over the keys."
         },
         {
           "text": "Answer, but only if the quiz has lots of likes",
@@ -394,7 +394,7 @@
         "label": "The share test · tap the class verdict",
         "posts": [
           {
-            "why": "Pet names and streets are the backup questions that unlock passwords. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
+            "why": "A first pet's name is a common secret question for getting back into an account, and where you live helps someone pretend to be you. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
             "text": "A quiz app promises to reveal your superhero name if you type in your first pet's name and the street you live on.",
             "answer": 2,
             "avatar": "🔒",
@@ -469,7 +469,7 @@
         {
           "text": "Pet names are keys, so if I have shared mine anywhere, I should pick a different backup question",
           "correct": true,
-          "feedback": "Editor level thinking. Backup questions unlock accounts, so the answers belong in the vault, and an answer you have posted about is a key left in the door."
+          "feedback": "Editor level thinking. Backup questions unlock accounts, so the answers belong in the vault, and an answer you have posted about is a key left in the door. Even better, a grown up can help turn on a second check, like a code sent to a phone."
         },
         {
           "text": "Pet names are safe because pets do not use the internet",
@@ -487,18 +487,18 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, the deleted is not gone principle, and the one parents most often get wrong at home. If a pupil answers false but cannot say why, prompt for the poster on the board, the reason matters as much as the verdict.",
+      "script": "Second exit check, the deleted is not gone principle, and the one parents most often get wrong at home. If a pupil answers false but cannot say why, prompt with the poster demo: the poster came down, the copy stayed. The reason matters as much as the verdict.",
       "minutes": 2,
       "options": [
         {
           "text": "False. Screenshots and forwarded copies can outlive your delete, so the real decision happens before you press send",
           "correct": true,
-          "feedback": "Exactly right. Delete removes your copy, not the copies on other devices. Before is a choice, after is a hope, which is why the share test runs first."
+          "feedback": "Exactly right. Delete cannot reach the copies on other devices, like screenshots and forwards. Before is a choice, after is a hope, which is why the share test runs first."
         },
         {
           "text": "True. Deleting removes it from the internet completely",
           "correct": false,
-          "feedback": "Delete only removes it from your view. Anyone who screenshotted or forwarded it still has a copy you cannot reach. The share test runs BEFORE send for exactly this reason."
+          "feedback": "Delete can take it out of the chat at most. Anyone who screenshotted or forwarded it still has a copy you cannot reach. The share test runs BEFORE send for exactly this reason."
         }
       ],
       "question": "Exit check. You posted something, regretted it, and deleted it straight away. True or false: it is definitely gone."
@@ -660,7 +660,7 @@
       },
       {
         "word": "screenshot",
-        "definition": "A photo of a screen. Anyone can take one of anything you send, and you will never know they did."
+        "definition": "A photo of a screen. Some apps tell you when someone takes one, but nobody can stop a person photographing a screen with another phone."
       },
       {
         "word": "digital footprint",
@@ -751,11 +751,11 @@
       }
     ],
     "misconceptions": [
-      "Deleting a post removes it from the internet (delete only removes your copy, screenshots and forwarded copies live on devices you cannot reach)",
-      "Privacy risks only come from strangers (most oversharing happens in friendly places like group chats, and kind friends can still screenshot and forward)",
+      "Deleting a post removes it from the internet (delete cannot reach screenshots or forwarded copies, which live on devices you cannot reach)",
+      "Privacy risks only come from strangers (a lot of oversharing happens in friendly places like group chats, and kind friends can still screenshot and forward)",
       "Being private means sharing nothing (privacy is choosing, the vault list is four items, and sharing art, sport and jokes is encouraged when the share test passes)"
     ],
-    "paper_fallback": "The whole lesson runs from the printed pack. Read the group chat and quiz app scenarios aloud in character from the pack, draw the four step journey of a shared photo on the board one arrow at a time, and do the poster demo for deleted is not gone (stick paper on the board, turn your back, ask if it is gone). The share test bookmark replaces the diagram slide, the class chants the three questions from it, and the two exit checks run as the printed quiz.",
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the group chat and quiz app scenarios aloud in character from the pack, draw the four step journey of a shared photo on the board one arrow at a time, and do the poster demo for deleted is not gone (stick paper on the board, have a pupil copy it, take the poster down, ask if it is gone). The share test bookmark replaces the diagram slide, the class chants the three questions from it, and the two exit checks run as the printed quiz.",
     "passport_stage": "builder",
     "commitment_stem": "My commitment: before I share anything this week, I will ask the three share test questions, starting with",
     "differentiation": {
@@ -771,7 +771,7 @@
       {
         "n": 1,
         "item": "A quiz app promises to reveal your superhero name if you type in your first pet's name and the street you live on.",
-        "teaching_point": "Pet names and streets are the backup questions that unlock passwords. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
+        "teaching_point": "A first pet's name is a common secret question for getting back into an account, and where you live helps someone pretend to be you. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
         "expected_verdict": "Keep it private"
       },
       {
@@ -810,14 +810,14 @@
     "key_learning_points": [
       "You are the editor of your own story, and every share is an editing decision.",
       "Private information is yours to give, and most people asking do not need it.",
-      "Anyone can screenshot anything you send, and you will never know.",
+      "Anyone can copy anything you send, with a screenshot or another phone, and you may never know.",
       "Your digital footprint grows whether you look after it or not.",
       "The share test is run before you share, never after."
     ],
     "hard_questions": [
       {
         "question": "I deleted it, so it is gone.",
-        "answer": "It is gone from your screen, which is not the same as gone. Anybody could have screenshotted it, the company still holds it, and that is before it was sent on. Deleting is worth doing. It is just not a rubber."
+        "answer": "It might be gone from the chat or your page, which is not the same as gone. Anybody could have screenshotted or saved it, and the app may keep a copy for a while: Instagram keeps deleted posts for 30 days. Deleting is worth doing. It is just not a rubber."
       },
       {
         "question": "So I should not share anything ever?",
@@ -825,11 +825,53 @@
       },
       {
         "question": "Only strangers are the risk.",
-        "answer": "Most of what goes wrong involves somebody the person already knew. That is uncomfortable and it is what the evidence says. It is also why the test is about the information, not about who is asking."
+        "answer": "When children are picked on online, most say it was someone from their own school, so it is not only strangers. That is uncomfortable, and it is what a national survey found. It is also why the test is about the information, not about who is asking."
       },
       {
         "question": "What if it is already out there?",
         "answer": "Then you tell somebody today, and you are not in trouble. Things that feel unfixable at eleven at night are usually a lot more fixable with an adult and a morning. Come and find me or any adult here."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "Some apps tell you when someone takes a screenshot, but nobody can stop a person photographing a screen with another phone.",
+        "source": "Snapchat Support: the Chat screen shows 'A screenshot has been taken of your Chat', and a Story shows its owner if a screenshot was taken; its safety page adds that people you send Snaps to can still take a screenshot or take a picture of the Snap with another device. Instagram (Meta help): screenshots are disabled for disappearing photos and videos sent in a chat, and it flags a screenshot if it detects one.",
+        "status": "verified"
+      },
+      {
+        "claim": "Unsend and delete for everyone can take a message out of the chat, but not what someone already saw, screenshotted, saved or forwarded.",
+        "source": "Instagram (Meta help): once you unsend a message it is no longer visible to people in the chat, but they may have already seen it. Snapchat Support: when you delete a message it tries to remove it from its servers and your friends' devices, your friends can see that a message was deleted, and they can still take a screenshot before you delete it.",
+        "status": "verified"
+      },
+      {
+        "claim": "An app may keep a deleted post for a while: Instagram keeps deleted posts in Recently deleted for 30 days.",
+        "source": "Instagram (Meta help): deleted content moves to Recently Deleted and is automatically deleted 30 days later; completing the deletion process can take up to 90 days, and copies may remain in backup storage after that.",
+        "status": "verified"
+      },
+      {
+        "claim": "A first pet's name is a common secret question for getting back into an account, and quizzes can collect facts like it.",
+        "source": "NCSC, Setting up 2 step verification (2SV): some services use memorable information or a security question, such as 'What was the name of your first pet?', which does not offer the same protection, so turn on 2SV where it is available. GOV.UK, Stop! Think Fraud: fraudsters use fake content including quizzes, and can use facts such as your birthday, where you live, family relationships or pet names to steal your identity.",
+        "status": "verified"
+      },
+      {
+        "claim": "Your name, date of birth, address or school, and a school uniform can all show who you are and where to find you.",
+        "source": "CEOP Education, a parent's guide to personal information: personal information includes a child's name, date of birth, home address or school name, and photos or videos, and an identifier like a school uniform might show where a child is, lives or goes to school.",
+        "status": "verified"
+      },
+      {
+        "claim": "An app's privacy settings choose who sees your posts, and a phone's camera can save where each photo was taken; a grown up can help with both.",
+        "source": "Apple Support, personal safety user guide: when Location Services is on for the Camera app it records the location where a photo or video is taken, and it can be turned off in Settings, Privacy and Security, Location Services, Camera, Never; photos already taken keep their location unless it is removed. The ICO Children's code tells online services that settings must be high privacy by default (standard 7) and that geolocation must be switched off by default for children (standard 10).",
+        "status": "verified"
+      },
+      {
+        "claim": "One day an employer may look you up online.",
+        "source": "YouGov, 10 April 2017, a survey of UK business decision makers: 48 percent said they would or do check an applicant's LinkedIn profile, 46 percent said the same for Facebook, and 19 percent had turned down a candidate because of their online activity.",
+        "status": "verified"
+      },
+      {
+        "claim": "When children are bullied online, most say it was someone from their own school, so the risk is not only strangers.",
+        "source": "ONS, Online bullying in England and Wales, year ending March 2020: 7 in 10 (70 percent) children aged 10 to 15 who experienced online bullying said it was by someone from their school. The year ending March 2023 release puts it at 64.7 percent.",
+        "status": "verified"
       }
     ]
   }
