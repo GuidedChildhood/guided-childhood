@@ -6,7 +6,7 @@ Volume I, published by the OECD this month.
 The main issue. The three LinkedIn posts in `linkedin-series.md` are cut from the
 same material and can run either side of it.
 
-About 1,380 words.
+About 1,370 words.
 
 **England is not the UK.** England pulls ahead of Scotland and Wales, so England's
 figures are stronger than the UK average. The copy says England where the number
