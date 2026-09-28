@@ -129,7 +129,10 @@ else ok.push('B: the book passes the age flag, the deal and readOnly to the stri
 // ── C: the road ─────────────────────────────────────────────────────────────
 if (!/select\('updated_at, created_at, signed_by_parent, signed_by_child, review_date, agreement_type'\)/.test(road)) problems.push('C: the road does not read the review date')
 else if (!/\.\.\.\(anyQuests && !agreementSigned \? \[\{\s*key: 'agreement' as const,\s*label: 'Make the deal',[\s\S]{0,200}?done: false,/.test(road)) problems.push('C: the road does not ask a family with a job and no signed deal to make one')
-else if (!/agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementFreshThisWeek && !agreementReviewDue/.test(road)) problems.push('C: the weekly rung does not become the review on the review date')
+// 28 September 2026: done is "saved today" and a save earlier this week is
+// clear rather than green (see daily-tasks). Both still stand down on the
+// review date, which is what this check protects.
+else if (!/agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementSavedToday && !agreementReviewDue/.test(road) || !/clear: agreementFreshThisWeek && !agreementSavedToday && !agreementReviewDue/.test(road)) problems.push('C: the weekly rung does not become the review on the review date')
 else if (!/agreementReviewDate <= today/.test(road) || !/agreementUpdatedAt\.slice\(0, 10\) < agreementReviewDate/.test(road)) problems.push('C: review due is not "date passed and not touched since"')
 else ok.push('C: the road asks for the deal once there is a job, and for the review when its date comes')
 if (/leadKey[\s\S]{0,600}'agreement'/.test(road)) problems.push('C: the agreement became the day\'s lead; it is a recommendation, never the one tick')
@@ -181,7 +184,7 @@ if (o) {
   else if (!/written for First screens/.test(o.outgrownLine.text) || !/Update it together/.test(o.outgrownLine.cta)) problems.push(`H: the outgrown deal line reads "${o.outgrownLine.text}"`)
   else ok.push('H: a deal written for a younger stage reads as outgrown, only when behind')
 }
-if (!/label: agreementOutgrown \? 'Update the deal' : agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementFreshThisWeek && !agreementReviewDue && !agreementOutgrown/.test(road)) problems.push('H: the road does not say Update the deal for an outgrown one')
+if (!/label: agreementOutgrown \? 'Update the deal' : agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementSavedToday && !agreementReviewDue && !agreementOutgrown/.test(road) || !/clear: agreementFreshThisWeek && !agreementSavedToday && !agreementReviewDue && !agreementOutgrown/.test(road)) problems.push('H: the road does not say Update the deal for an outgrown one')
 else ok.push('H: the road says Update the deal when the child has moved on')
 const sheet = read('components/deal/FamilyDealSheet.tsx')
 const kidDeal = read('app/k/[token]/deal/page.tsx')
