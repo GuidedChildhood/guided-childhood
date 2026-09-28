@@ -44,8 +44,16 @@ export function isTasterModule(moduleId: string): boolean {
  *  "Could you be an entrepreneur?" joined it on 26 September 2026, Justin's
  *  fifth decision in plans/2026-09-24-simon-squibb-weighed.md: the real UK
  *  figures on working for yourself, and a small safe way to try it, for the
- *  same Year 8 and Year 9 classes, outside the scheme for the same reason. */
-export const STANDALONE_MODULES = ['what-problem-would-you-solve', 'could-you-be-an-entrepreneur'] as const
+ *  same Year 8 and Year 9 classes, outside the scheme for the same reason.
+ *
+ *  "Should people wear smart glasses?" joined it the same day, and it is the
+ *  third and last the taster wall allows. Justin promised Votes for Schools a
+ *  lesson built on their national vote (58,767 pupils, September 2026) and
+ *  asked for it free, so every school that voted can teach it, customer or
+ *  not. It is the first for primary: Years 5 and 6, which is why a lesson now
+ *  carries its own year groups instead of the bar assuming Years 8 and 9.
+ *  plans/2026-09-26-smart-glasses-lesson-plan.md. */
+export const STANDALONE_MODULES = ['what-problem-would-you-solve', 'could-you-be-an-entrepreneur', 'should-people-wear-smart-glasses'] as const
 
 export function isStandaloneModule(moduleId: string): boolean {
   return (STANDALONE_MODULES as readonly string[]).includes(moduleId)
@@ -56,19 +64,34 @@ export function isStandaloneModule(moduleId: string): boolean {
 const STANDALONE_TITLES: Record<string, string> = {
   'what-problem-would-you-solve': 'What problem would you solve?',
   'could-you-be-an-entrepreneur': 'Could you be an entrepreneur?',
+  'should-people-wear-smart-glasses': 'Should people wear smart glasses?',
 }
 
 export function standaloneTitle(moduleId: string): string | undefined {
   return STANDALONE_TITLES[moduleId]
 }
 
+/** Who each lesson is for, said the two ways the bar needs it: the band as a
+ *  heading says it ("Years 5 and 6") and the band a sentence about one class
+ *  needs ("any Year 5 or Year 6 class"). Keep `band` the row's year_band. */
+const STANDALONE_YEARS: Record<string, { band: string; anyClass: string }> = {
+  'what-problem-would-you-solve': { band: 'Years 8 and 9', anyClass: 'any Year 8 or Year 9 class' },
+  'could-you-be-an-entrepreneur': { band: 'Years 8 and 9', anyClass: 'any Year 8 or Year 9 class' },
+  'should-people-wear-smart-glasses': { band: 'Years 5 and 6', anyClass: 'any Year 5 or Year 6 class' },
+}
+
+export function standaloneYears(moduleId: string): { band: string; anyClass: string } | undefined {
+  return STANDALONE_YEARS[moduleId]
+}
+
 /** The other standalone lessons, so each one's free bar can name the rest. A
  *  teacher who has just taught one is the likeliest person to teach the next,
- *  and the two were written to sit side by side. */
-export function otherStandaloneLessons(moduleId: string): { moduleId: string; title: string }[] {
+ *  and with a primary lesson among them each is named with its own years, so
+ *  a Year 9 teacher is never sent to a Year 5 lesson without being told. */
+export function otherStandaloneLessons(moduleId: string): { moduleId: string; title: string; years: string }[] {
   return STANDALONE_MODULES
     .filter(id => id !== moduleId)
-    .map(id => ({ moduleId: id, title: STANDALONE_TITLES[id] ?? id }))
+    .map(id => ({ moduleId: id, title: STANDALONE_TITLES[id] ?? id, years: STANDALONE_YEARS[id]?.band ?? '' }))
 }
 
 /** The same four shapes as the taster, for a standalone lesson. A separate
