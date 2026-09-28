@@ -361,6 +361,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       firstDay={firstDay}
       childName={childName}
       minutes={minutes}
+      minutesDone={steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)}
       streak={todayStreak}
       doneLabels={steps.filter(t => t.done).map(t => t.label)}
       left={steps.length - doneCount}

@@ -130,6 +130,19 @@ for (const rel of [BIG, STRIP]) {
   else ok.push('the first day close says getting to know you and the four setup moves, once per family')
 }
 
+// ── NO GREEN FROM LAST WEEK, NO MINUTES NOT SPENT (28 September 2026) ────────
+// Justin, on a Monday: the road had "The deal" ticked from a Friday save, and
+// the confirmation said "Your 10 minutes, done" after a two minute check in.
+{
+  const tasks = read('lib/pathway/daily-tasks.ts')
+  const flow = read('components/daily/DayTickFlow.tsx')
+  const big = read('components/daily/TodayPathBig.tsx')
+  if (!/done: agreementSavedToday && /.test(tasks) || !/clear: agreementFreshThisWeek && !agreementSavedToday/.test(tasks)) problems.push('the deal rung is green for a week off one save again; a save today ticks it, earlier this week settles it')
+  else if (!/\(minutesDone \?\? minutes\) >= minutes \? `Your \$\{minutes\} minutes, done` : 'Today counts'/.test(flow)) problems.push('DayTickFlow claims the full minutes whatever was spent; it must say Today counts until the ticked rungs add up')
+  else if (!/minutesDone=\{steps\.filter\(t => t\.done\)/.test(big)) problems.push('TodayPathBig no longer passes the minutes spent today to DayTickFlow')
+  else ok.push('no rung is green from last week, and the confirmation claims only the minutes spent')
+}
+
 if (problems.length > 0) {
   console.error('check-today-tick FAILED\n')
   for (const p of problems) console.error('  ' + p)

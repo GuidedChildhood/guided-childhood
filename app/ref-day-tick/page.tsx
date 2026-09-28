@@ -12,6 +12,8 @@ import DayTickFlow from '@/components/daily/DayTickFlow'
 
 function Fixture() {
   const first = useSearchParams().get('first') === '1'
+  // ?part=1: only the check in done, two of the ten minutes, the Monday Justin saw.
+  const part = useSearchParams().get('part') === '1'
   return (
     <main style={{ background: 'var(--app-bg)', minHeight: '100vh' }}>
       <DayTickFlow
@@ -25,8 +27,9 @@ function Fixture() {
         } : null}
         childName="Teo"
         minutes={10}
+        minutesDone={part ? 2 : 10}
         streak={first ? 1 : 4}
-        doneLabels={['Check in']}
+        doneLabels={part ? ['Check in'] : ['Check in', 'A lesson together', 'Tonight\'s words']}
         left={3}
         next={{ label: 'A lesson together', href: '#' }}
         facts={{ next_line: 'A lesson day: the next one on the path' } as never}

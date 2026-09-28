@@ -54,6 +54,8 @@ type Props = {
   firstDay?: { moves: FirstMove[] } | null
   childName?: string
   minutes: number
+  /** Minutes actually spent today, from the rungs ticked TODAY (lib/pathway/task-minutes). */
+  minutesDone?: number
   /** Consecutive days INCLUDING today. */
   streak: number
   doneLabels: string[]
@@ -65,7 +67,7 @@ type Props = {
 
 const NAME = 'daytick'
 
-export default function DayTickFlow({ firstDay = null, childName, minutes, streak, doneLabels, left, next, facts, onClose }: Props) {
+export default function DayTickFlow({ firstDay = null, childName, minutes, minutesDone, streak, doneLabels, left, next, facts, onClose }: Props) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const [beat, setBeat] = useState(0)
 
@@ -106,10 +108,20 @@ export default function DayTickFlow({ firstDay = null, childName, minutes, strea
     },
   ] : [
     {
+      // ── ONLY CLAIM THE MINUTES THAT WERE SPENT (28 September 2026) ──────
+      //
+      // Justin, after a check in on a Monday: "it says 10 mins done when
+      // not." This opens when the day's one tick lands, which keeps the
+      // streak, and a check in is a couple of minutes, not ten. So the
+      // headline says the ten are done only when the ticked rungs add up to
+      // them; otherwise it says what is true, that today counts, and how far
+      // along the minutes are.
       icon: 'cheer',
-      title: `Your ${minutes} minutes, done`,
-      body: `Today counts for ${kid}.${did ? ` You did: ${did}.` : ''}`,
-      chips: [`🔥 ${streak} day${streak === 1 ? '' : 's'}`, `✓ ${doneLabels.length} done`],
+      title: (minutesDone ?? minutes) >= minutes ? `Your ${minutes} minutes, done` : 'Today counts',
+      body: (minutesDone ?? minutes) >= minutes
+        ? `Today counts for ${kid}.${did ? ` You did: ${did}.` : ''}`
+        : `${did ? `${did.charAt(0).toUpperCase()}${did.slice(1)} keeps` : 'That keeps'} the streak going for ${kid}. About ${minutesDone ?? 0} of your ${minutes} minutes so far.`,
+      chips: [`🔥 ${streak} day${streak === 1 ? '' : 's'}`, `✓ ${doneLabels.length} done today`],
     },
     {
       icon: 'wins',

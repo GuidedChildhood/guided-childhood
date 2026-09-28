@@ -545,3 +545,12 @@ mule line. It ranks no path and names nobody. A second check of the wording
 against the primaries corrected 9 of 20 claims. The 7pm rule is taught (the
 2026 Act's 8pm is not in force), and check-source-claims fails any slide saying
 8pm. Migration 355, hash proved. PR 1166.
+
+## 28 September 2026: no green from last week, no minutes not spent
+
+Justin on a Monday: after a check in the road had "The deal" ticked and the
+confirmation said "Your 10 minutes, done". The deal rung was green for a
+week off one save; now a save today ticks it and a save earlier this week
+settles it ("Sorted this week", not a tick), like quests. The confirmation
+claims the ten minutes only when the rungs ticked today add up; otherwise it
+says "Today counts" and how far along the minutes are.
