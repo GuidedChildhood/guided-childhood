@@ -10,10 +10,13 @@ import { HAPPY, CRAYON } from '../happy-news'
 
 const INK = HAPPY.ink
 
-export type HappyIconName =
-  | 'time' | 'wins' | 'passport' | 'lessons' | 'deal' | 'make' | 'ask' | 'print' | 'games' | 'tell' | 'friends'
-  | 'jobs' | 'quiz' | 'balance' | 'read' | 'homework' | 'move' | 'maths' | 'tidy' | 'kind' | 'phonebed'
-  | 'hand' | 'cheer' | 'heart' | 'sprout' | 'flame' | 'calendar' | 'bag'
+// The names as data as well as a type (26 September 2026), because a lesson
+// slide names its icon in the database: the player has to ask at run time
+// whether a name is one we draw, and a type alone cannot answer that.
+export const HAPPY_ICON_NAMES = [
+  'time', 'wins', 'passport', 'lessons', 'deal', 'make', 'ask', 'print', 'games', 'tell', 'friends',
+  'jobs', 'quiz', 'balance', 'read', 'homework', 'move', 'maths', 'tidy', 'kind', 'phonebed',
+  'hand', 'cheer', 'heart', 'sprout', 'flame', 'calendar', 'bag',
   // ── THE JOBS A FAMILY ACTUALLY PUTS ON THE BOARD (16 September 2026) ────
   // Justin, holding two pages of The Happy Newspaper beside the jobs board:
   // "colours are right but the icons could be more happy news style like
@@ -24,19 +27,34 @@ export type HappyIconName =
   // thirty odd jobs that are really on boards today, read out of the live
   // quests table rather than guessed, so the set covers what exists rather
   // than what a template file imagines.
-  | 'teeth' | 'laundry' | 'shoes' | 'clothes' | 'dishes' | 'plug' | 'phone'
-  | 'plate' | 'teddy' | 'sun' | 'pan' | 'bowl' | 'star' | 'tree' | 'bed'
-  | 'ball' | 'paint' | 'car' | 'bin' | 'tv' | 'paw' | 'music' | 'shower' | 'bike'
+  'teeth', 'laundry', 'shoes', 'clothes', 'dishes', 'plug', 'phone',
+  'plate', 'teddy', 'sun', 'pan', 'bowl', 'star', 'tree', 'bed',
+  'ball', 'paint', 'car', 'bin', 'tv', 'paw', 'music', 'shower', 'bike',
   // ── THE LESSON OBJECTS (20 September 2026) ─────────────────────────────
   // Justin: "can we use happy news icons on lessons, since we have icons".
   // The schools Hub drew fourteen emoji on its tiles, another company's
   // artwork in another company's style; these are the objects a lesson and
   // its documents are actually about, in the same hand as the rest.
-  | 'lock' | 'magnifier' | 'shield' | 'compass' | 'letters' | 'access'
+  'lock', 'magnifier', 'shield', 'compass', 'letters', 'access',
+  // ── THE SMART GLASSES LESSON (26 September 2026) ──────────────────────
+  // Justin: "don't use the flower icons, use Happy News style icons". The
+  // first lesson drawn in this hand rather than in emoji: the glasses, the
+  // camera, the crossing, the translation and the eye that says what it sees.
+  'glasses', 'camera', 'crossing', 'translate', 'eye',
+] as const
 
+export type HappyIconName = typeof HAPPY_ICON_NAMES[number]
 
-export default function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: number }) {
-  const s = { width: size, height: size, viewBox: '0 0 64 64', fill: 'none', stroke: INK, strokeWidth: 3, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true }
+export function isHappyIconName(name: unknown): name is HappyIconName {
+  return typeof name === 'string' && (HAPPY_ICON_NAMES as readonly string[]).includes(name)
+}
+
+// A number is pixels, as every caller has always passed. A string is any CSS
+// length, so a slide can size an icon with the same clamp the wall sizes an
+// emoji with; it goes in the style, because an SVG attribute cannot hold one.
+export default function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: number | string }) {
+  const box = typeof size === 'number' ? { width: size, height: size } : { style: { width: size, height: size } }
+  const s = { ...box, viewBox: '0 0 64 64', fill: 'none', stroke: INK, strokeWidth: 3, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true }
   switch (name) {
     case 'time':
       // A timer, and the job ticked beside it: time you earned.
@@ -662,6 +680,69 @@ export default function HappyIcon({ name, size = 40 }: { name: HappyIconName; si
           <path d="M29 18v14h13l6 13" strokeWidth="3.5" />
           <path d="M29 25h10" strokeWidth="3.5" />
           <path d="M22 28a13 13 0 1 0 17 17" strokeWidth="3.5" />
+        </svg>
+      )
+    case 'glasses':
+      // Smart glasses from the front: the camera in one corner, the little
+      // recording light in the other, and a screen floating in one lens.
+      return (
+        <svg {...s}>
+          <path d="M5 27H2M59 27h3" strokeWidth="3.5" />
+          <rect x="5" y="22" width="23" height="22" rx="8" fill={CRAYON.sky} />
+          <rect x="36" y="22" width="23" height="22" rx="8" fill={CRAYON.sky} />
+          <path d="M28 29q4-4 8 0" />
+          <path d="M8 23.5h17M39 23.5h17" strokeWidth="5" />
+          <circle cx="9.5" cy="28.5" r="2.6" fill={INK} stroke="#fff" strokeWidth="1.5" />
+          <circle cx="54.5" cy="28.5" r="2.2" fill={CRAYON.coral} strokeWidth="1.8" />
+          <rect x="41" y="32" width="13" height="7" rx="2" fill="#fff" strokeWidth="2" />
+          <path d="M44 35.5h7" strokeWidth="2" />
+        </svg>
+      )
+    case 'camera':
+      // A camera with its light on: the moment to ask first.
+      return (
+        <svg {...s}>
+          <path d="M22 20l4-7h12l4 7" fill={CRAYON.butter} />
+          <rect x="7" y="20" width="50" height="34" rx="8" fill={CRAYON.butter} />
+          <circle cx="32" cy="37" r="11" fill="#fff" />
+          <circle cx="32" cy="37" r="5" fill={CRAYON.sky} strokeWidth="2.5" />
+          <rect x="45" y="25" width="7" height="5" rx="1.5" fill="#fff" strokeWidth="2" />
+          <circle cx="14" cy="27" r="2.4" fill={CRAYON.coral} strokeWidth="2" />
+        </svg>
+      )
+    case 'crossing':
+      // A zebra crossing and its orange globe: where eyes belong on the road.
+      return (
+        <svg {...s}>
+          <circle cx="12" cy="11" r="7" fill={CRAYON.butter} />
+          <rect x="9.5" y="18" width="5" height="40" rx="1.5" fill="#fff" />
+          <path d="M9.5 25h5M9.5 33h5M9.5 41h5M9.5 49h5" strokeWidth="3.5" />
+          <path d="M37 24h12l1 3H36z" fill="#fff" strokeWidth="2.5" />
+          <path d="M34 32h18l1.5 5h-21z" fill="#fff" strokeWidth="2.5" />
+          <path d="M30 42h26l2.5 7h-31z" fill="#fff" strokeWidth="2.5" />
+          <path d="M25 54h36l2 6H23z" fill="#fff" strokeWidth="2.5" />
+        </svg>
+      )
+    case 'translate':
+      // Two speech bubbles, one word in two languages: the menu read abroad.
+      return (
+        <svg {...s}>
+          <path d="M6 8h26a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5H18l-8 7v-7H6a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5z" transform="translate(2 0)" fill={CRAYON.paper} />
+          <path d="M14 27l5-13 5 13M16 22h6" strokeWidth="2.5" />
+          <path d="M30 28h28a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5h-4v7l-8-7H30a5 5 0 0 1-5-5V33a5 5 0 0 1 5-5z" transform="translate(-2 0)" fill={CRAYON.sky} />
+          <path d="M38 47v-7a3.5 3.5 0 0 1 7 0v7" strokeWidth="2.5" />
+          <path d="M37 35q2-2 4 0t4 0" strokeWidth="2.2" />
+        </svg>
+      )
+    case 'eye':
+      // An eye with sound coming off it: glasses that say what is in front of
+      // someone who cannot see it well.
+      return (
+        <svg {...s}>
+          <path d="M4 36q14-17 28-17t28 17q-14 17-28 17T4 36z" fill="#fff" />
+          <circle cx="32" cy="36" r="9" fill={CRAYON.green} />
+          <circle cx="32" cy="36" r="3.6" fill={INK} stroke="none" />
+          <path d="M47 7q4 4 0 8M53 4q7 7 0 14" strokeWidth="2.6" />
         </svg>
       )
   }
