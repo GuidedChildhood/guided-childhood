@@ -578,6 +578,17 @@ jobs:
       # Structure and density are checked above. This one checks whether the
       # claims are TRUE, against the four verification passes of 11 September.
       - run: node scripts/check-source-claims.mjs
+      # And the copy does not read as machine written. Justin, 29 September
+      # 2026: no words or punctuation that let an algorithm, or a reader, place
+      # it as machine written. This also became the first thing enforcing "no
+      # dashes in any copy, ever", which had been non negotiable 4 since the
+      # start and checked by hand until now. It sweeps pack folders dated
+      # 2026-09-28 or later, so it holds new writing to the rule without
+      # demanding a rewrite of the July archive; --all asks for that debt.
+      # A date rather than a diff against origin/main, because this job checks
+      # out at depth 1 and a merge-base there would throw, sweep nothing and
+      # pass green.
+      - run: node scripts/check-ai-tells.mjs
       # And a teacher can SEE what was checked: every source row shows one of
       # the three badges or the checker's own note, never a note hidden behind
       # a badge it did not choose (24 were, until 23 September 2026).

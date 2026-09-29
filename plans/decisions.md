@@ -570,3 +570,14 @@ says "Today counts" and how far along the minutes are.
 - Justin pasted Nate's transcript on editing video with Claude and HyperFrames and asked for the same as a system for social media, a one to one video, and talking heads made into finished videos.
 - Every point went through feedback-filter (`plans/2026-09-29-nate-video-method-weighed.md`): the mechanics adopted (transcribe, cut, plan beats, skills, verify), the register declined (high energy is not how we speak to a parent at 11 o'clock), generated people declined, music parked.
 - The system is `.claude/skills/talking-head-video`: three lanes (long form, family account shorts, one to one), Justin's recording page, the read sheet format, and a Learned section that each video adds to. The first HyperFrames video, the 10 second intro, is at `videos/guided-childhood-intro/`. The student kit is copied at `hyperframes-student-kit/`.
+## 28 September 2026: the third standalone lesson, Should people wear smart glasses?
+
+The third and last free standalone lesson the taster wall allows (Years 5 and 6,
+32 slides, 57 minutes), promised to Votes for Schools and built on their vote
+(58,767 young people). The tool is ask, say, tell, taught by Bloop in a code beat
+and a clip whose words two speech models matched to its script. It weighs the
+good bits against the worries and never calls the glasses good or bad. Each free
+bar now names the other lessons with their own years. 23 claims pinned, each shown
+to fire. Migration 356, hash proved. If Votes for Schools declines to let us quote
+the pupils' comments, the three quote slides swap to their public page. PR 1171,
+and the run sheet's question mark heading fix in the follow up PR.

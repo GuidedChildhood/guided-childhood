@@ -11,7 +11,7 @@
 // beat and governance tests.
 
 import { readFileSync } from 'node:fs'
-import { TASTER_MODULES, isTasterModule, isTasterPath, STANDALONE_MODULES, isStandaloneModule, isStandalonePath } from '../schools/lib/taster.ts'
+import { TASTER_MODULES, isTasterModule, isTasterPath, STANDALONE_MODULES, isStandaloneModule, isStandalonePath, standaloneYears } from '../schools/lib/taster.ts'
 import { isOpenPath, OPEN_PATHS } from '../schools/lib/access.ts'
 
 // EXACTLY what schools/proxy.ts does to decide whether a request needs a
@@ -97,6 +97,17 @@ for (const path of [
     `${STANDALONE_MODULES.length} standalone lessons. Each is a lesson outside the scheme; add one on purpose.`)
   for (const id of STANDALONE_MODULES) {
     ok(`${id} is not a taster module`, !isTasterModule(id), 'a standalone lesson would get the bar and the letter that sell the scheme')
+    // The free bar tells a teacher which classes the lesson is for, and since
+    // the third lesson (Years 5 and 6, 26 September 2026) they are not all the
+    // same. The years the bar says are the years the lesson's own row says.
+    {
+      const file = new URL(`../content/standalone/${id}.json`, import.meta.url)
+      let band = null
+      try { band = JSON.parse(readFileSync(file, 'utf8')).row?.year_band ?? null } catch { band = null }
+      ok(`${id} has its lesson file`, band !== null, `content/standalone/${id}.json is missing or has no row.year_band`)
+      ok(`${id} names its years on the free bar`, standaloneYears(id)?.band === band,
+        `the bar would say "${standaloneYears(id)?.band ?? 'nothing'}" and the lesson says "${band}"`)
+    }
     ok(`${id} is not in the manifest`, !manifest.includes(`moduleId: '${id}'`), 'in the manifest it would be counted, mapped, tracked and put on the passport')
     for (const path of [
       `/lesson/${id}`,
