@@ -813,8 +813,15 @@ export default async function JoinPage() {
             Find your child's stage.<br />
             <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Free.</em>
           </h2>
+          {/* The three questions this names have to be the three /starter-pack
+              actually asks. This said "how you are feeling", which was the old
+              third question: it was cut when the flow came down to three and
+              the time one took its place (see the THREE QUESTIONS note in
+              starter-pack/page.tsx). So the page promised a parent one thing
+              and the flow asked another, on the page whose only job is to get
+              them into that flow. */}
           <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.97rem', lineHeight: 1.85, marginBottom: '32px' }}>
-            Their age, the worry on your mind, and how you are feeling. Three questions. Your personalised pathway is waiting on the other side.
+            Their age, what you are dealing with, and how much time you can give it. Three questions. Your personalised pathway is waiting on the other side.
           </p>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '17px 36px', display: 'inline-flex' }}>
             Start the check, it is free →
