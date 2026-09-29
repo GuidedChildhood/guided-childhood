@@ -39,6 +39,3 @@ Thumbs.db
 !examples/short-form/assets/*.json
 
 # Three finished videos explicitly supplied for the public showcase.
-!examples/showcase/curiosity-reel-2.mp4
-!examples/showcase/curiosity-reel-1.mp4
-!examples/showcase/ais-live-ad.mp4
