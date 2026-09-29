@@ -48,3 +48,32 @@ export function PrintBrandFooter() {
     </div>
   )
 }
+
+// The compact mark: logo and name on one line, for sheets that are already
+// tight on a page (the star chart fills A4 to the row). It sits where an
+// eyebrow would, so adding it never pushes a sheet onto a second page.
+export function PrintBrandMark({ label }: { label?: string }) {
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+      <span style={{
+        width: '16px', height: '16px', background: LOGO_GOLD, borderRadius: '5px',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact',
+      }}>
+        <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: '1.2px', height: '7.5px' }}>
+          {LOGO_BARS.map((h, i) => (
+            <span key={i} style={{ width: '1.5px', height: `${(h / 14) * 7.5}px`, background: '#fff', borderRadius: '1px', display: 'inline-block' }} />
+          ))}
+        </span>
+      </span>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '12px', color: 'var(--ink)', letterSpacing: '-0.01em', textTransform: 'none' }}>
+        {BRAND_NAME}
+      </span>
+      {label && (
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          · {label}
+        </span>
+      )}
+    </span>
+  )
+}

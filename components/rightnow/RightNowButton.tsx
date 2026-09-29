@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import ScriptFridgeCard from '@/components/rightnow/ScriptFridgeCard'
 import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
 import { currentChildId } from '@/lib/children/current'
 import HappyIcon from '@/components/kid/HappyIcon'
@@ -797,13 +798,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
               0%, 100% { opacity: 1; }
               50% { opacity: 0.55; }
             }
-            @media print {
-              body * { visibility: hidden; }
-              .rightnow-sheet, .rightnow-sheet * { visibility: visible; }
-              .rightnow-sheet { position: absolute !important; inset: 0 !important; }
-              .rightnow-sheet .no-print { display: none !important; }
-            }
           `}</style>
+          {/* Print the card prints this, not the sheet: a branded fridge card
+              on one side of A4 (ScriptFridgeCard, 29 September 2026). */}
+          {script && !failed && <ScriptFridgeCard script={script} moment={pickedLabel} />}
         </div>,
         document.body
       )}

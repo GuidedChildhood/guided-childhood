@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import PrintButton from './PrintButton'
-import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 export const metadata = {
   title: 'Conversation Scripts | Guided Childhood',
@@ -52,6 +52,11 @@ export default function ScriptsPage() {
 
       {/* ── Hero ─────────────────────────────────────── */}
       <section style={{ padding: 'clamp(40px, 6vw, 72px) 24px 32px', maxWidth: '760px', margin: '0 auto' }}>
+        {/* The logo on paper: the site header is no-print, so without this
+            the printout had no brand at the top (29 September 2026 audit). */}
+        <div className="print-only" style={{ display: 'none' }}>
+          <PrintBrandHeader />
+        </div>
         <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>Five stages · Ages 4 to 16</p>
         <h1 style={{ marginBottom: '16px', letterSpacing: '-.04em' }}>
           The conversations<br />
@@ -187,7 +192,9 @@ export default function ScriptsPage() {
                     Not this
                   </div>
                   <p style={{ fontSize: '.92rem', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
-                    "{stage.script.notThis}"
+                    {/* The words already carry their own quote marks, so no
+                        second pair here (they printed as ""Just five""). */}
+                    {stage.script.notThis}
                   </p>
                 </div>
 
@@ -297,6 +304,7 @@ export default function ScriptsPage() {
           .no-print { display: none !important; }
           .print-only { display: block !important; }
           body { background: #fff !important; }
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           .script-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ddd !important; margin-bottom: 24px; }
           section:first-of-type { padding-top: 20px !important; }
           @page { margin: 20mm; }

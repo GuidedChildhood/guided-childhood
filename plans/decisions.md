@@ -581,3 +581,8 @@ bar now names the other lessons with their own years. 23 claims pinned, each sho
 to fire. Migration 356, hash proved. If Votes for Schools declines to let us quote
 the pupils' comments, the three quote slides swap to their public page. PR 1171,
 and the run sheet's question mark heading fix in the follow up PR.
+
+## 29 September 2026: every print is branded; the script prints as a fridge card
+
+- Justin asked for every print option to be a professional, branded card fit for the fridge. Audit of all 13 print surfaces as A4 PDFs.
+- Print the card on a Right now script now prints ScriptFridgeCard: one A4 page, card in a dotted cut line, logo top and foot, big Say this, colours forced. Star chart and kid photo sheets gain the logo; the public scripts page gains a header logo, forced colours and loses doubled quote marks; quest sheets force colours. check-print-brand holds all 13.

@@ -557,6 +557,7 @@ jobs:
       # elements with one id is a win for whichever is first in the document.
       # The guard holds the link and, more importantly, the id being unique.
       - run: node scripts/check-moments-anchor.mjs
+      - run: node scripts/check-print-brand.mjs
       # Agreed counts like done, and never reads like it. Migration 306 gave a
       # device a third answer, so a family who decided a screen runs on an
       # agreement rather than on controls can finish a stage without lying in
