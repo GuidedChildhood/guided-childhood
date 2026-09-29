@@ -20,9 +20,15 @@ export type KidLessonItem = {
 }
 
 export default function KidLessonList({
-  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme, planetLine,
+  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme, planetLine, together = false,
 }: {
   backHref: string
+  /**
+   * Under 7 (the Foundation stage) these are done together: the grown up reads
+   * each slide out and the child answers. Joint watching with talk is where
+   * learning sticks at that age (29 September 2026 lessons plan).
+   */
+  together?: boolean
   /** A lesson opened a planet on the star system and the child has not flown there yet (Planet Friends slice 3b). */
   planetLine?: { text: string; href: string } | null
   childName: string
@@ -67,7 +73,9 @@ export default function KidLessonList({
           </div>
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.6, margin: '10px 0 20px' }}>
-          Picked for your age, {childName}. Do them in order, top to bottom, one a week is perfect. Pass one and your grown up sees the tick straight away.
+          {together
+            ? `Picked for your age, ${childName}. Do these with your grown up: they read it out, you answer the questions. One a week is perfect.`
+            : `Picked for your age, ${childName}. Do them in order, top to bottom, one a week is perfect. Pass one and your grown up sees the tick straight away.`}
         </p>
 
         {items.length === 0 ? (

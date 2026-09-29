@@ -244,7 +244,10 @@ async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string
 export async function lessonsPassedCount(admin: Admin, childId: string): Promise<number | null> {
   try {
     const [a, b] = await Promise.all([
-      admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true }).eq('child_id', childId).eq('passed', true),
+      // Not school lessons: since 29 September 2026 a star lesson pass also
+      // writes a school_lesson completion, and the mission is already counted
+      // below, so counting both would open two planets for one lesson.
+      admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true }).eq('child_id', childId).eq('passed', true).neq('lesson_source', 'school_lesson'),
       admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true }).eq('child_id', childId).eq('status', 'done'),
     ])
     if (a.error && b.error) return null

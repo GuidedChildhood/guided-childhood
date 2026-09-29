@@ -71,7 +71,9 @@ export function passParts(stamp: Stamp, opts: { childParam?: string | null } = {
       key: 'lessons', label: 'Every lesson',
       count: lt > 0 ? `${ld} of ${lt}` : 'None yet',
       done: lessonsDone,
-      href: `/dashboard/lessons?stage=${stamp.id}${q}`,
+      // The child's school lessons since 29 September 2026, the same rows as
+      // this count (lib/lessons/school-path).
+      href: `/dashboard/lessons/path?stage=${stamp.id}${q}`,
       pct: lt > 0 ? Math.round((ld / lt) * 100) : 0,
     },
     {

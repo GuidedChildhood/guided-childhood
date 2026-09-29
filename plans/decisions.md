@@ -586,3 +586,9 @@ and the run sheet's question mark heading fix in the follow up PR.
 
 - Justin asked for every print option to be a professional, branded card fit for the fridge. Audit of all 13 print surfaces as A4 PDFs.
 - Print the card on a Right now script now prints ScriptFridgeCard: one A4 page, card in a dotted cut line, logo top and foot, big Say this, colours forced. Star chart and kid photo sheets gain the logo; the public scripts page gains a header logo, forced colours and loses doubled quote marks; quest sheets force colours. check-print-brand holds all 13.
+
+## 29 September 2026: lessons, the child learns the school version and the parent closes it
+
+- Justin chose it. The child app's lesson list is now the school modules for the child's stage (lib/lessons/school-path), opened through /k/[token]/school/[id] on the existing star lesson player. A 70 percent pass writes a school_lesson completion, ticks the five a day and the passport, and pushes the parent the module's family question to ask at tea.
+- The passport counts school modules (3, 10, 10, 7, 2 per stage). Its row and the stamp card open /dashboard/lessons/path, the same list, with Do it together under 7. The parent library stays as the parent's own learning.
+- DiGi is handed matching lessons (lib/digi/lesson-match) and links the right one. Misspelled algorithm clip removed (migration 357). check-lesson-path holds it all. PR 1177.

@@ -929,7 +929,7 @@ export default function PassportBook({
                   const ld = stamp.lessonsDone ?? 0
                   const slug = STAGE_SLUGS[stamp.id - 1] ?? 'foundation'
                   const tasks: { label: string; done: boolean; detail: string; href: string }[] = [
-                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons?stage=${stamp.id}` },
+                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons/path?stage=${stamp.id}${childId ? `&child=${childId}` : ''}` },
                     // Back to "Read the scripts", and this time the label is
                     // true. It said Read, then Use when reading counted for
                     // nothing, and now Read again because migration 183 makes

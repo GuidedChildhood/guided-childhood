@@ -388,7 +388,7 @@ export async function getPathwayPosition(
 
   const lessonsDetail = p.lessonsTotal > 0 ? `${p.lessonsDone} of ${p.lessonsTotal} done` : `${p.lessonsPct}%`
   const actionable = [
-    { label: 'the stage lessons', pct: p.lessonsPct, href: `/dashboard/lessons?stage=${stage.id}`, detail: lessonsDetail },
+    { label: 'the stage lessons', pct: p.lessonsPct, href: `/dashboard/lessons/path?stage=${stage.id}`, detail: lessonsDetail },
     { label: 'the word for word scripts', pct: p.scriptsPct, href: '/dashboard/scripts', detail: `${p.scriptsPct}%` },
     { label: 'the device setup', pct: p.devicesPct, href: '/dashboard/devices', detail: `${p.devicesPct}%` },
   ].filter(t => t.pct < 100).sort((a, b) => a.pct - b.pct)
