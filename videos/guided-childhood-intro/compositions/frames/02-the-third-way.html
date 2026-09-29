@@ -1,0 +1,325 @@
+<template>
+  <style>
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:italic}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2")format("woff2");font-display:swap;font-weight:400;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2")format("woff2");font-display:swap;font-weight:500;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-display:swap;font-weight:600;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2")format("woff2");font-display:swap;font-weight:700;font-style:normal}
+
+    /* Frame root: styled via #root only (never a class on the composition element).
+       container-type: size makes every cqw / cqh below resolve against the 1920x1080 frame. */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+      color: #1A1A2E;
+    }
+
+    /* Depth layers: field (0) · pathway line (1) · cutouts and pills (2) · copy and ornament (3).
+       Every layer is a full-frame clip so the ground is a clip, not a background on #root. */
+    [id="02-the-third-way-field"],
+    [id="02-the-third-way-pathway"],
+    [id="02-the-third-way-cast"],
+    [id="02-the-third-way-copy"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    [id="02-the-third-way-field"] { background: #FFFBEE; }
+
+    /* Pathway: an ink stroke that self draws (svg-path-draw). fill none so only the pen shows. */
+    [id="02-the-third-way-pathway"] svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    [id="02-the-third-way-line"] {
+      fill: none;
+      stroke: #1A1A2E;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Planet Friends: 14% of frame height, positioned by station in script so feet land on the line. */
+    [class~="02-the-third-way-friend"] {
+      position: absolute;
+      width: 14cqh;
+      height: 14cqh;
+      object-fit: contain;
+      will-change: transform, opacity;
+    }
+
+    /* Age badge pills: mono ramp, 3px ink outline, 4px hard shadow, pastel fills per station. */
+    [class~="02-the-third-way-pill"] {
+      position: absolute;
+      display: inline-block;
+      font-family: plexMono, monospace;
+      font-weight: 600;
+      font-size: 1.2cqw;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #1A1A2E;
+      padding: 0.6cqw 1.25cqw;
+      border: 3px solid #1A1A2E;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #1A1A2E;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    [class~="02-the-third-way-pill-sky"]      { background: #F9F8F6; }
+    [class~="02-the-third-way-pill-mint"]     { background: #E8F0EE; }
+    [class~="02-the-third-way-pill-lavender"] { background: #F5F3FF; }
+    [class~="02-the-third-way-pill-peach"]    { background: #FFF6DE; }
+    [class~="02-the-third-way-pill-butter"]   { background: #EDC35F; }
+
+    /* Headline: headline ramp, flat charcoal on cream, centred in the upper third. */
+    [id="02-the-third-way-headline"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 16.5cqh;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 4.5cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+      white-space: nowrap;
+    }
+    [class~="02-the-third-way-hw"] {
+      display: inline-block;
+      margin: 0 0.32cqw;
+      will-change: transform, opacity;
+    }
+
+    /* Sub line: subtitle ramp, Nunito 700, muted ink, beneath the row. */
+    [id="02-the-third-way-subline"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 70cqh;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 700;
+      font-size: 1.8cqw;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: #52526A;
+      white-space: nowrap;
+    }
+    [class~="02-the-third-way-sw"] {
+      display: inline-block;
+      margin: 0 0.22cqw;
+      will-change: transform, opacity;
+    }
+
+    /* One hand-drawn outline star, top right corner (ornament layer). */
+    [id="02-the-third-way-star-wrap"] {
+      position: absolute;
+      top: 7cqh;
+      right: 5.5cqw;
+      width: 7cqw;
+      height: 7cqw;
+    }
+    [id="02-the-third-way-star-wrap"] svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    [id="02-the-third-way-star"] {
+      fill: none;
+      stroke: #1A1A2E;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+
+  <div data-hf-id="hf-o02r" id="root" data-composition-id="02-the-third-way" data-start="0" data-duration="3.5" data-width="1920" data-height="1080">
+    <!-- Layer 0: cream field -->
+    <div data-hf-id="hf-h4g1" id="02-the-third-way-field" class="clip" data-start="0" data-duration="3.5" data-track-index="0"></div>
+
+    <!-- Layer 1: the pathway line -->
+    <div data-hf-id="hf-i3fa" id="02-the-third-way-pathway" class="clip" data-start="0" data-duration="3.5" data-track-index="1">
+      <svg data-hf-id="hf-m4cd" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path data-hf-id="hf-7mpy" id="02-the-third-way-line" d="M 200 640 L 1720 530" />
+      </svg>
+    </div>
+
+    <!-- Layer 2: the five Planet Friends and their age pills -->
+    <div data-hf-id="hf-1gik" id="02-the-third-way-cast" class="clip" data-start="0" data-duration="3.5" data-track-index="2">
+      <img data-hf-id="hf-gb5e" class="02-the-third-way-friend" src="assets/pebble-this-stages-planet-friend.png" alt="Pebble, ages 4 to 7">
+      <img data-hf-id="hf-1hef" class="02-the-third-way-friend" src="assets/bloop-the-ages-8-to-10-planet-friend.png" alt="Bloop, ages 8 to 10">
+      <img data-hf-id="hf-wqeo" class="02-the-third-way-friend" src="assets/orbit-the-ages-11-to-13-planet-friend.png" alt="Orbit, ages 11 to 12">
+      <img data-hf-id="hf-mwij" class="02-the-third-way-friend" src="assets/nova-the-ages-13-to-15-planet-friend.png" alt="Nova, ages 13 to 15">
+      <img data-hf-id="hf-8hqb" class="02-the-third-way-friend" src="assets/cosmo-the-ages-16-planet-friend.png" alt="Cosmo, 16 plus">
+
+      <span data-hf-id="hf-uu6f" class="02-the-third-way-pill 02-the-third-way-pill-sky">4 TO 7</span>
+      <span data-hf-id="hf-r1yi" class="02-the-third-way-pill 02-the-third-way-pill-mint">8 TO 10</span>
+      <span data-hf-id="hf-v15z" class="02-the-third-way-pill 02-the-third-way-pill-lavender">11 TO 12</span>
+      <span data-hf-id="hf-52pq" class="02-the-third-way-pill 02-the-third-way-pill-peach">13 TO 15</span>
+      <span data-hf-id="hf-fibr" class="02-the-third-way-pill 02-the-third-way-pill-butter">16 PLUS</span>
+    </div>
+
+    <!-- Layer 3: headline, sub line, ornament -->
+    <div data-hf-id="hf-d0vt" id="02-the-third-way-copy" class="clip" data-start="0" data-duration="3.5" data-track-index="3">
+      <div data-hf-id="hf-2xnl" id="02-the-third-way-star-wrap">
+        <svg data-hf-id="hf-0q00" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path data-hf-id="hf-lpq5" id="02-the-third-way-star" d="M 50 5 L 62 36 L 95 39 L 69 59 L 78 92 L 50 72 L 22 90 L 31 58 L 5 37 L 38 36 Z" />
+        </svg>
+      </div>
+
+      <div data-hf-id="hf-egz0" id="02-the-third-way-headline">
+        <span data-hf-id="hf-gb7v" class="02-the-third-way-hw">There</span>
+        <span data-hf-id="hf-jzyf" class="02-the-third-way-hw">is</span>
+        <span data-hf-id="hf-kody" class="02-the-third-way-hw">a</span>
+        <span data-hf-id="hf-wrhw" class="02-the-third-way-hw">third</span>
+        <span data-hf-id="hf-82wc" class="02-the-third-way-hw">way.</span>
+      </div>
+
+      <div data-hf-id="hf-s8uk" id="02-the-third-way-subline">
+        <span data-hf-id="hf-nr1y" class="02-the-third-way-sw">From</span>
+        <span data-hf-id="hf-b46w" class="02-the-third-way-sw">first</span>
+        <span data-hf-id="hf-qpv2" class="02-the-third-way-sw">screen</span>
+        <span data-hf-id="hf-itnr" class="02-the-third-way-sw">to</span>
+        <span data-hf-id="hf-1eyx" class="02-the-third-way-sw">16.</span>
+        <span data-hf-id="hf-z34x" class="02-the-third-way-sw">Ten</span>
+        <span data-hf-id="hf-k7wv" class="02-the-third-way-sw">minutes</span>
+        <span data-hf-id="hf-geeh" class="02-the-third-way-sw">a</span>
+        <span data-hf-id="hf-kk3o" class="02-the-third-way-sw">day,</span>
+        <span data-hf-id="hf-zpaa" class="02-the-third-way-sw">together.</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var ID = "02-the-third-way";
+      var byId = function (s) { return document.getElementById(ID + "-" + s); };
+      var byClass = function (s) {
+        return Array.prototype.slice.call(document.querySelectorAll('[class~="' + ID + "-" + s + '"]'));
+      };
+
+      /* ---------- Pathway geometry ----------
+         A gentle rising curve sampled into a polyline, so every station's y comes from the
+         same function that draws the line: the friends stand exactly on the path. */
+      var X0 = 200, X1 = 1720, Y0 = 640, RISE = 110, SAMPLES = 64;
+      var yAt = function (x) {
+        var u = (x - X0) / (X1 - X0);
+        return Y0 - RISE * Math.pow(u, 1.5);
+      };
+      var pts = [];
+      for (var i = 0; i <= SAMPLES; i++) {
+        var px = X0 + ((X1 - X0) * i) / SAMPLES;
+        pts.push([px, yAt(px)]);
+      }
+      var line = byId("line");
+      line.setAttribute(
+        "d",
+        pts.map(function (p, k) { return (k ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ")
+      );
+
+      /* Cumulative polyline length: the fraction of the draw at which the pen reaches x. */
+      var cum = [0];
+      for (var j = 1; j < pts.length; j++) {
+        cum.push(cum[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
+      }
+      var total = cum[cum.length - 1];
+      var fracAt = function (x) {
+        var u = ((x - X0) / (X1 - X0)) * SAMPLES;
+        var k = Math.min(SAMPLES - 1, Math.max(0, Math.floor(u)));
+        var f = u - k;
+        return (cum[k] + (cum[k + 1] - cum[k]) * f) / total;
+      };
+
+      /* ---------- Stations ----------
+         Five slots at 336px pitch, 288 to 1632: the row spans 70% of the width. */
+      var STATIONS = [288, 624, 960, 1296, 1632];
+      var FRIEND = 1080 * 0.14; /* 14% of frame height, matches the 14cqh box */
+      var friends = byClass("friend");
+      var pills = byClass("pill");
+      STATIONS.forEach(function (x, k) {
+        var y = yAt(x);
+        friends[k].style.left = (x - FRIEND / 2).toFixed(1) + "px";
+        /* The cutouts' feet sit at about 86% of the image height; land them on the stroke. */
+        friends[k].style.top = (y - FRIEND * 0.86).toFixed(1) + "px";
+        pills[k].style.left = x.toFixed(1) + "px";
+        pills[k].style.top = (y + 22).toFixed(1) + "px";
+      });
+
+      /* ---------- svg-path-draw setup: measured lengths, never guessed ---------- */
+      var lineLen = line.getTotalLength();
+      line.style.strokeDasharray = String(lineLen);
+      line.style.strokeDashoffset = String(lineLen);
+      var star = byId("star");
+      var starLen = star.getTotalLength();
+      star.style.strokeDasharray = String(starLen);
+      star.style.strokeDashoffset = String(starLen);
+
+      /* ---------- Timeline ---------- */
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* dynamic-content-sequencing: per word stagger computed from the word count so a
+         line fills its window exactly, no per word offsets hand keyed. */
+      var wordReveal = function (els, start, end, dur, rise) {
+        var n = els.length;
+        var stagger = n > 1 ? (end - start - dur) / (n - 1) : 0;
+        els.forEach(function (el, k) {
+          tl.fromTo(
+            el,
+            { y: rise, opacity: 0 },
+            { y: 0, opacity: 1, duration: dur, ease: "power3.out" },
+            start + k * stagger
+          );
+        });
+      };
+
+      /* Scene 1 (0.0 to 0.8s): headline lands word by word; the corner star draws itself in. */
+      wordReveal(byClass("hw"), 0.04, 0.8, 0.5, 28);
+      tl.to(star, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 0.15);
+
+      /* Scene 2 (0.8 to 2.1s): the pathway self draws at pen speed; as the pen reaches each
+         station its Planet Friend slides a short distance up into the slot (item stagger
+         assemble, low drama), then the badge pill pops beneath it (spring-pop-entrance, power3 settle). */
+      var DRAW_AT = 0.8, DRAW_DUR = 0.9;
+      tl.to(line, { strokeDashoffset: 0, duration: DRAW_DUR, ease: "none" }, DRAW_AT);
+      STATIONS.forEach(function (x, k) {
+        var at = DRAW_AT + DRAW_DUR * fracAt(x);
+        tl.fromTo(
+          friends[k],
+          { y: 44, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
+          at
+        );
+        tl.fromTo(
+          pills[k],
+          { xPercent: -50, scale: 0, opacity: 0, y: 12 },
+          { xPercent: -50, scale: 1, opacity: 1, y: 0, duration: 0.42, ease: "power3.out" },
+          at + 0.14
+        );
+      });
+
+      /* Scene 3 (2.1 to 3.0s): the sub line reveals word by word, then everything holds still. */
+      wordReveal(byClass("sw"), 2.1, 2.97, 0.42, 18);
+
+      /* Pin the timeline's end to the frame's 3.0s duration (a zero length proxy tween, no motion). */
+      tl.to({ v: 0 }, { v: 1, duration: 0, ease: "none" }, 3.0);
+
+      window.__timelines[ID] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

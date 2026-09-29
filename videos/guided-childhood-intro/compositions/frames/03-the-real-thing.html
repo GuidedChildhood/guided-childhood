@@ -1,0 +1,288 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:italic}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2")format("woff2");font-display:swap;font-weight:400;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2")format("woff2");font-display:swap;font-weight:500;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-display:swap;font-weight:600;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2")format("woff2");font-display:swap;font-weight:700;font-style:normal}
+
+    /* Frame 3 · The real thing · 1920x1080 · 2.0s · silent
+       Tokens from frame.md: cream ground, white cards, 3px ink outline,
+       6px/4px hard offset shadows, 28px featured radius, 50px pills,
+       nunito display, plexMono labels. Everything sits above y = 900
+       (the 83% caption keep-out). */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+      color: #1A1A2E;
+    }
+    #root .clip {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* full-bleed cream ground, its own clip on the lowest track */
+    #rt03-bg {
+      background: #FFFBEE;
+    }
+
+    /* ornament wreath: hand-drawn SVG stickers behind the content */
+    #rt03-ornaments {
+      z-index: 1;
+    }
+    .rt03-orn {
+      position: absolute;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    .rt03-orn svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* split tilt stage: perspective lives on the clip, preserve-3d on stage + cards */
+    #rt03-stage-clip {
+      z-index: 2;
+      perspective: 1600px;
+    }
+    #rt03-stage {
+      position: absolute;
+      left: 420px;
+      top: 290px;
+      width: 1080px;
+      height: 550px;
+      display: flex;
+      gap: 80px;
+      transform-style: preserve-3d;
+    }
+    .rt03-card {
+      position: relative;
+      width: 500px;
+      height: 550px;
+      background: #FFFFFF;
+      border: 3px solid #1A1A2E;
+      border-radius: 28px;
+      box-shadow: 6px 6px 0 #1A1A2E;
+      transform-style: preserve-3d;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    /* a white mat around each screen so the card reads as a white card with
+       the ink outline even where the screen itself is dark edge to edge */
+    .rt03-screen {
+      position: absolute;
+      inset: 14px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+    .rt03-screen img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* badge pills sit on the stage clip (the parent), never inside a tilted card */
+    .rt03-pill {
+      position: absolute;
+      top: 840px;
+      font-family: plexMono, monospace;
+      font-weight: 600;
+      font-size: 1.35cqw;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #1A1A2E;
+      padding: 15px 30px 14px;
+      border: 3px solid #1A1A2E;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #1A1A2E;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    #rt03-pill-stars {
+      left: 670px;
+      background: #EDC35F;
+    }
+    #rt03-pill-passport {
+      left: 1250px;
+      background: #E8F0EE;
+    }
+
+    /* headline, upper third, flat ink on cream */
+    #rt03-headline-clip {
+      z-index: 3;
+    }
+    #rt03-headline {
+      position: absolute;
+      left: 0;
+      top: 150px;
+      width: 100%;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 4.5cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+    }
+    .rt03-word {
+      display: inline-block;
+      will-change: transform;
+    }
+  </style>
+
+  <div data-hf-id="hf-8hpb" id="root" data-composition-id="03-the-real-thing" data-width="1920" data-height="1080" data-duration="2.5">
+
+    <div data-hf-id="hf-b9ew" id="rt03-bg" class="clip" data-start="0" data-duration="2.5" data-track-index="0"></div>
+
+    <div data-hf-id="hf-vyet" id="rt03-ornaments" class="clip" data-start="0" data-duration="2.5" data-track-index="1">
+      <!-- star, top left, cropping past the corner (stars only: DiGi is a star) -->
+      <div data-hf-id="hf-1kgx" class="rt03-orn" style="left:-60px; top:-30px; width:230px; height:230px;">
+        <svg data-hf-id="hf-s2sp" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-gs10" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#FFFFFF" />
+        </svg>
+      </div>
+      <!-- star, top right, cropping past the corner -->
+      <div data-hf-id="hf-myko" class="rt03-orn" style="left:1740px; top:-70px; width:260px; height:260px;">
+        <svg data-hf-id="hf-bx25" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-ffbc" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#EDC35F" />
+        </svg>
+      </div>
+      <!-- big star, right edge, cropping past it -->
+      <div data-hf-id="hf-lakx" class="rt03-orn" style="left:1800px; top:480px; width:170px; height:170px;">
+        <svg data-hf-id="hf-d3z8" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-sngg" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#EDC35F" />
+        </svg>
+      </div>
+      <!-- star, left edge, cropping past it -->
+      <div data-hf-id="hf-9ytj" class="rt03-orn" style="left:-70px; top:560px; width:180px; height:180px;">
+        <svg data-hf-id="hf-cpo7" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-i9cq" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#FFF4F2" />
+        </svg>
+      </div>
+      <!-- small star, lower left, still above the keep-out -->
+      <div data-hf-id="hf-7gdf" class="rt03-orn" style="left:220px; top:740px; width:80px; height:80px;">
+        <svg data-hf-id="hf-dwla" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-676u" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#F5F3FF" />
+        </svg>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-x5ka" id="rt03-stage-clip" class="clip" data-start="0" data-duration="2.5" data-track-index="2">
+      <div data-hf-id="hf-x7dt" id="rt03-stage">
+        <div data-hf-id="hf-ws2k" class="rt03-card" id="rt03-card-left">
+          <div data-hf-id="hf-l5wq" class="rt03-screen">
+            <img data-hf-id="hf-s4pv" src="assets/kid-page.png" alt="">
+          </div>
+        </div>
+        <div data-hf-id="hf-s04z" class="rt03-card" id="rt03-card-right">
+          <div data-hf-id="hf-a1ny" class="rt03-screen">
+            <img data-hf-id="hf-goo1" src="assets/an-earned-passport-page-the-foundation-s.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div data-hf-id="hf-240s" class="rt03-pill" id="rt03-pill-stars">Stars earned</div>
+      <div data-hf-id="hf-whdj" class="rt03-pill" id="rt03-pill-passport">Passport stamped</div>
+    </div>
+
+    <div data-hf-id="hf-63z7" id="rt03-headline-clip" class="clip" data-start="0" data-duration="2.5" data-track-index="3">
+      <div data-hf-id="hf-u4vp" id="rt03-headline"><span data-hf-id="hf-7vvc" class="rt03-word">Ten</span> <span data-hf-id="hf-a14y" class="rt03-word">minutes</span> <span data-hf-id="hf-ikc8" class="rt03-word">a</span> <span data-hf-id="hf-asyl" class="rt03-word">day.</span> <span data-hf-id="hf-go3r" class="rt03-word">Together.</span></div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var FRAME_ID = "03-the-real-thing";
+      var q = function (sel) { return document.querySelector(sel); };
+      var qa = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
+
+      var cardLeft = q("#rt03-card-left");
+      var cardRight = q("#rt03-card-right");
+      var pillStars = q("#rt03-pill-stars");
+      var pillPassport = q("#rt03-pill-passport");
+      var words = qa(".rt03-word");
+      var ornaments = qa(".rt03-orn");
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0 to 0.9s): split-tilt-cards.
+         Each screen slides in from its own wing with a mirrored rotationY,
+         overshooting the tilt then pivoting into place near flat. */
+      var TILT = 5;            // settled tilt, near flat as the packet asks
+      var OVERSHOOT = 16;      // pivot-into-place feel
+      var SLIDE = 420;         // from the wings
+      var ENTRY = 0.8;
+
+      tl.fromTo(cardLeft,
+        { x: -SLIDE, rotationY: TILT + OVERSHOOT, opacity: 0 },
+        { x: 0, rotationY: TILT, opacity: 1, duration: ENTRY, ease: "power3.out" },
+        0);
+      tl.fromTo(cardRight,
+        { x: SLIDE, rotationY: -TILT - OVERSHOOT, opacity: 0 },
+        { x: 0, rotationY: -TILT, opacity: 1, duration: ENTRY, ease: "power3.out" },
+        0.1);
+
+      /* the ornament wreath settles around the pair while they land */
+      ornaments.forEach(function (el, i) {
+        tl.fromTo(el,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.25 + i * 0.07);
+      });
+
+      /* Scene 2 (0.9 to 1.5s): headline lands word by word.
+         The per word stagger is derived from the word count so the whole
+         line fits its window, rather than hand keyed per word. */
+      var WORD_DUR = 0.36;
+      var WORD_WINDOW = 0.3;
+      var WORD_STAGGER = Math.min(0.08, WORD_WINDOW / words.length);
+      words.forEach(function (el, i) {
+        tl.fromTo(el,
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: WORD_DUR, ease: "power3.out" },
+          0.9 + i * WORD_STAGGER);
+      });
+
+      /* badge pills spring pop onto the bottom edge of each card (smooth settle).
+         The pills are positioned at their centre point, so the centring offset
+         is folded into the tween rather than a CSS transform. */
+      var POP = 0.44;
+      tl.fromTo(pillStars,
+        { scale: 0, opacity: 0, xPercent: -50, yPercent: -50 },
+        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, duration: POP, ease: "power3.out" },
+        1.0);
+      tl.fromTo(pillPassport,
+        { scale: 0, opacity: 0, xPercent: -50, yPercent: -50 },
+        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, duration: POP, ease: "power3.out" },
+        1.06);
+
+      /* Scene 3 (1.5 to 2.0s): held read. The only motion is the sanctioned
+         subtle jitter on the two cards, lowest amplitude, counter phase,
+         one finite half sine out and back (no repeat, no yoyo), ending at rest. */
+      var JIT = 1.5;           // px, 2px default divided by root 2 for two elements
+      tl.to(cardLeft, { y: -JIT, duration: 0.25, ease: "sine.inOut" }, 1.5);
+      tl.to(cardLeft, { y: 0, duration: 0.25, ease: "sine.inOut" }, 1.75);
+      tl.to(cardRight, { y: JIT, duration: 0.25, ease: "sine.inOut" }, 1.5);
+      tl.to(cardRight, { y: 0, duration: 0.25, ease: "sine.inOut" }, 1.75);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FRAME_ID] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

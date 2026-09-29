@@ -1,0 +1,246 @@
+{
+  "summary": {
+    "webAnimations": 5,
+    "cssDeclarations": 37,
+    "scrollTargets": 45,
+    "cdpAnimations": 101,
+    "canvases": 0
+  },
+  "namedAnimations": [
+    "chip-float",
+    "passportPageIn"
+  ],
+  "scrollTriggeredElements": 45,
+  "representativeAnimations": [
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "chip-float",
+      "targetSelector": "div.chip.chip-1",
+      "targetRect": {
+        "x": 996.8125,
+        "y": 429.3371276855469,
+        "width": 200.25,
+        "height": 55.484375,
+        "top": 429.3371276855469,
+        "right": 1197.0625,
+        "bottom": 484.8215026855469,
+        "left": 996.8125
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "transform": "translateY(-7px)",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 6000,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "chip-float",
+      "targetSelector": "div.chip.chip-2",
+      "targetRect": {
+        "x": 1183.1875,
+        "y": 290.79827880859375,
+        "width": 365.296875,
+        "height": 55.484375,
+        "top": 290.79827880859375,
+        "right": 1548.484375,
+        "bottom": 346.28265380859375,
+        "left": 1183.1875
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "transform": "translateY(-7px)",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 6000,
+        "delay": -1300,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "chip-float",
+      "targetSelector": "div.chip.chip-3",
+      "targetRect": {
+        "x": 1313.359375,
+        "y": 545.8323364257812,
+        "width": 276.359375,
+        "height": 55.484375,
+        "top": 545.8323364257812,
+        "right": 1589.71875,
+        "bottom": 601.3167114257812,
+        "left": 1313.359375
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "transform": "translateY(-7px)",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 6000,
+        "delay": -2600,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "chip-float",
+      "targetSelector": "div.chip.chip-4",
+      "targetRect": {
+        "x": 1240,
+        "y": 707.9783935546875,
+        "width": 277.5625,
+        "height": 55.484375,
+        "top": 707.9783935546875,
+        "right": 1517.5625,
+        "bottom": 763.4627685546875,
+        "left": 1240
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "transform": "translateY(-7px)",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 6000,
+        "delay": -3900,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "chip-float",
+      "targetSelector": "div.chip.chip-5",
+      "targetRect": {
+        "x": 996.8125,
+        "y": 644.25048828125,
+        "width": 252.4375,
+        "height": 55.484375,
+        "top": 644.25048828125,
+        "right": 1249.25,
+        "bottom": 699.73486328125,
+        "left": 996.8125
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "transform": "translateY(-7px)",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "replace",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 6000,
+        "delay": -5200,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    }
+  ]
+}

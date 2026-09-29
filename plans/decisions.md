@@ -565,6 +565,11 @@ says "Today counts" and how far along the minutes are.
 - Justin: "Start here" on Moments to resolve should open his moments, each with Ask DiGi and the scripts for it, and say they stay on the daily check in and are tracked as the ratings climb.
 - The passport row now opens /dashboard/pathway/moments instead of #working-on, which sits in the folded record that iPhone Safari does not open for a link. WorkingOn gains Ask DiGi (question prefilled) and Scripts for it (searched) on every moment. check-moments-anchor holds the row to the page.
 
+## 29 September 2026: a video system from Nate Herk's method, weighed first
+
+- Justin pasted Nate's transcript on editing video with Claude and HyperFrames and asked for the same as a system for social media, a one to one video, and talking heads made into finished videos.
+- Every point went through feedback-filter (`plans/2026-09-29-nate-video-method-weighed.md`): the mechanics adopted (transcribe, cut, plan beats, skills, verify), the register declined (high energy is not how we speak to a parent at 11 o'clock), generated people declined, music parked.
+- The system is `.claude/skills/talking-head-video`: three lanes (long form, family account shorts, one to one), Justin's recording page, the read sheet format, and a Learned section that each video adds to. The first HyperFrames video, the 10 second intro, is at `videos/guided-childhood-intro/`. The student kit is copied at `hyperframes-student-kit/`.
 ## 28 September 2026: the third standalone lesson, Should people wear smart glasses?
 
 The third and last free standalone lesson the taster wall allows (Years 5 and 6,

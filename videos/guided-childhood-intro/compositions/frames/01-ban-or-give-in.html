@@ -1,0 +1,248 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+
+    /* Frame 01 — Ban or give in. Three centred beats: pop, relay swap, hard flip to ink.
+       Root is styled via #root only; every authored class carries the ban01- prefix
+       (the frame id starts with a digit, so the literal id is not a valid CSS selector;
+       element ids keep the verbatim 01-ban-or-give-in- prefix and are fetched by id). */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+    }
+
+    .ban01-layer {
+      position: absolute;
+      inset: 0;
+    }
+    .ban01-ground {
+      background: #FFFBEE; /* cream */
+    }
+    .ban01-ink {
+      background: #1A1A2E; /* text-dark as the ink field; opacity is snapped by the timeline */
+      opacity: 0;
+    }
+    .ban01-stage {
+      z-index: 2;
+    }
+
+    /* Ornament layer: two hand-drawn stars, cropping past the frame edge.
+       Cream fill on the cream field reads as an outline; the timeline snaps it to butter on ink. */
+    .ban01-star {
+      position: absolute;
+      z-index: 1;
+      overflow: visible;
+    }
+    .ban01-star path {
+      fill: #FFFBEE;
+      stroke: #1A1A2E;
+      stroke-width: 3;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+    }
+    .ban01-star-tl {
+      left: -6cqw;
+      top: -10cqh;
+      width: 16cqw;
+      height: 16cqw;
+      transform: rotate(-14deg);
+    }
+    .ban01-star-br {
+      left: 92.5cqw;
+      top: 58cqh;
+      width: 13.5cqw;
+      height: 13.5cqw;
+      transform: rotate(16deg);
+    }
+
+    /* One centre anchor for every beat. */
+    .ban01-line {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    .ban01-half {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    .ban01-half-l {
+      clip-path: inset(0 50% 0 0);
+    }
+    .ban01-half-r {
+      clip-path: inset(0 0 0 50%);
+    }
+    .ban01-q {
+      font-weight: 800;
+      font-size: 12cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+      white-space: nowrap;
+    }
+    .ban01-l2-cut {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+    }
+    .ban01-l3 {
+      z-index: 4;
+      flex-direction: column;
+      gap: 0.1em;
+      font-size: 6.5cqw;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #FFFBEE;
+    }
+    .ban01-row {
+      display: flex;
+      gap: 0.3em;
+      white-space: nowrap;
+    }
+    .ban01-w {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <div data-hf-id="hf-0y6f" id="root" data-composition-id="01-ban-or-give-in" data-start="0" data-duration="3.2" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-v06i" class="clip ban01-layer ban01-ground" id="01-ban-or-give-in-ground" data-start="0" data-duration="3.2" data-track-index="0"></div>
+    <div data-hf-id="hf-klfz" class="clip ban01-layer ban01-ink" id="01-ban-or-give-in-ink" data-start="0" data-duration="3.2" data-track-index="1"></div>
+
+    <div data-hf-id="hf-y5de" class="clip ban01-layer ban01-stage" id="01-ban-or-give-in-stage" data-start="0" data-duration="3.2" data-track-index="2">
+      <svg data-hf-id="hf-q6wb" class="ban01-star ban01-star-tl" id="01-ban-or-give-in-star-tl" viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true">
+        <path data-hf-id="hf-mbm2" d="M 0.02 -1.02 L 0.28 -0.35 L 0.97 -0.29 L 0.44 0.15 L 0.61 0.83 L 0.01 0.47 L -0.57 0.81 L -0.43 0.14 L -0.94 -0.31 L -0.27 -0.38 Z" />
+      </svg>
+      <svg data-hf-id="hf-iz7z" class="ban01-star ban01-star-br" id="01-ban-or-give-in-star-br" viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true">
+        <path data-hf-id="hf-paiq" d="M -0.01 -1.0 L 0.27 -0.37 L 0.95 -0.31 L 0.42 0.13 L 0.59 0.81 L 0.0 0.45 L -0.59 0.82 L -0.41 0.15 L -0.96 -0.30 L -0.26 -0.36 Z" />
+      </svg>
+
+      <!-- Beat 1: the line is drawn twice inside two clip-path halves so it can shrink and split off both edges. -->
+      <div data-hf-id="hf-m07a" class="ban01-line" id="01-ban-or-give-in-l1">
+        <div data-hf-id="hf-qk5y" class="ban01-half ban01-half-l" id="01-ban-or-give-in-l1-left"><div data-hf-id="hf-02gy" class="ban01-q">Ban it all?</div></div>
+        <div data-hf-id="hf-y0qr" class="ban01-half ban01-half-r" id="01-ban-or-give-in-l1-right"><div data-hf-id="hf-dcyu" class="ban01-q">Ban it all?</div></div>
+      </div>
+
+      <!-- Beat 2: pops into the same centre; the outer wrapper is what the flip cuts. -->
+      <div data-hf-id="hf-wqnd" class="ban01-l2-cut" id="01-ban-or-give-in-l2-cut">
+        <div data-hf-id="hf-i239" class="ban01-line" id="01-ban-or-give-in-l2"><div data-hf-id="hf-h6tq" class="ban01-q">Or give in?</div></div>
+      </div>
+
+      <!-- Beat 3: cream on ink, per word reveal across two rows, then a still hold. -->
+      <div data-hf-id="hf-ew9u" class="ban01-line ban01-l3" id="01-ban-or-give-in-l3">
+        <div data-hf-id="hf-8kf1" class="ban01-row"><span data-hf-id="hf-643w" class="ban01-w">Neither</span><span data-hf-id="hf-clr2" class="ban01-w">teaches</span><span data-hf-id="hf-k9ra" class="ban01-w">your</span></div>
+        <div data-hf-id="hf-egdt" class="ban01-row"><span data-hf-id="hf-wck1" class="ban01-w">child</span><span data-hf-id="hf-ks1s" class="ban01-w">a</span><span data-hf-id="hf-vve7" class="ban01-w">thing.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var ID = "01-ban-or-give-in";
+      var DURATION = 2.8;
+      var FLIP_AT = 1.6; // Scene 3: the field hard flips to ink
+      var SNAP = 0.002; // a two millisecond ramp reads as a hard cut and lands on the flip frame
+
+      var byId = function (suffix) {
+        return document.getElementById(ID + "-" + suffix);
+      };
+
+      var l1 = byId("l1");
+      var l1Left = byId("l1-left");
+      var l1Right = byId("l1-right");
+      var l2 = byId("l2");
+      var l2Cut = byId("l2-cut");
+      var l3 = byId("l3");
+      var ink = byId("ink");
+      var starPaths = [byId("star-tl").querySelector("path"), byId("star-br").querySelector("path")];
+      var words = Array.prototype.slice.call(l3.querySelectorAll(".ban01-w"));
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Full-length driver so the timeline's duration is exactly the frame's 2.8s.
+      tl.to({ t: 0 }, { t: 1, duration: DURATION, ease: "none" }, 0);
+
+      // Scene 1 (0.0 to 0.8): "Ban it all?" spring pops into dead centre, smooth long tail, no overshoot.
+      tl.fromTo(
+        l1,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" },
+        0
+      );
+
+      // Scene 2 (0.8 to 1.6): relay swap. The prior line shrinks and split slides off both edges
+      // with a clip fade; the next line scale pops into the same centre while the halves are
+      // still at speed, so the two halves read as one move.
+      var EXIT_AT = 0.8;
+      var EXIT_DUR = 0.38;
+      var OVERLAP = 0.16;
+      tl.fromTo(
+        l1Left,
+        { x: 0, scale: 1, opacity: 1 },
+        { x: -1100, scale: 0.55, opacity: 0, duration: EXIT_DUR, ease: "power2.in" },
+        EXIT_AT
+      );
+      tl.fromTo(
+        l1Right,
+        { x: 0, scale: 1, opacity: 1 },
+        { x: 1100, scale: 0.55, opacity: 0, duration: EXIT_DUR, ease: "power2.in" },
+        EXIT_AT
+      );
+      tl.fromTo(
+        l2,
+        { scale: 0.5, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        EXIT_AT + EXIT_DUR - OVERLAP
+      );
+
+      // Scene 3 (1.6 to 2.8): whole-state swap at one threshold. Field to ink, the prior beat
+      // cut away, the corner stars to a butter fill. Each is an instant state change.
+      tl.fromTo(ink, { opacity: 0 }, { opacity: 1, duration: SNAP, ease: "none" }, FLIP_AT - SNAP);
+      tl.fromTo(l2Cut, { opacity: 1 }, { opacity: 0, duration: SNAP, ease: "none" }, FLIP_AT - SNAP);
+      tl.fromTo(
+        starPaths,
+        { fill: "#FFFBEE" },
+        { fill: "#EDC35F", duration: SNAP, ease: "none" },
+        FLIP_AT - SNAP
+      );
+
+      // Per word reveal. Start times are derived from the content: a base step per word plus
+      // a small per character term, so longer words earn a hair more room. The whole group
+      // lands inside half a second, then holds still to the end of the frame.
+      var WORDS_AT = FLIP_AT + 0.04;
+      var STEP_BASE = 0.05;
+      var SEC_PER_CHAR = 0.006;
+      var WORD_POP = 0.4;
+      var at = WORDS_AT;
+      words.forEach(function (w) {
+        tl.fromTo(
+          w,
+          { opacity: 0, scale: 0.6, y: 24 },
+          { opacity: 1, scale: 1, y: 0, duration: WORD_POP, ease: "power3.out" },
+          at
+        );
+        at += STEP_BASE + w.textContent.length * SEC_PER_CHAR;
+      });
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[ID] = tl;
+    })();
+  </script>
+</template>
