@@ -45,6 +45,7 @@ export default async function QuestPrintPage() {
           .no-print { display: none !important; }
           .quest-sheet { page-break-after: always; border: 2px solid #1A1A2E !important; }
           body { background: #fff !important; }
+          .quest-sheet { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
       `}</style>
 

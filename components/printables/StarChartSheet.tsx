@@ -18,6 +18,7 @@
 // wear different chrome.
 
 import HappyIcon from '@/components/kid/HappyIcon'
+import { PrintBrandMark } from '@gc/shared/components/PrintBrand'
 import { jobIconFor } from '@/lib/quests/job-icon'
 
 export type SheetJob = { emoji: string; text: string; stars: number }
@@ -98,8 +99,10 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
       <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 22 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-              The star reward chart
+            {/* The brand, in the eyebrow's own line so the chart still fills
+                exactly one A4 page (29 September 2026 print audit). */}
+            <div data-print-brand>
+              <PrintBrandMark label="Star reward chart" />
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.05 }}>
               {name ? `${name}'s star chart` : 'My star chart'}
@@ -184,8 +187,8 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
           deal written on it. Prints on its own sheet after the chart. */}
       <div className="print-sheet cut-page" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 22, marginTop: 24 }}>
         <div style={{ textAlign: 'center', marginBottom: 4 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-            Cut out and keep
+          <div data-print-brand>
+            <PrintBrandMark label="Cut out and keep" />
           </div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.1 }}>
             {name ? `${name}'s gold stars` : 'Gold stars to cut out'}

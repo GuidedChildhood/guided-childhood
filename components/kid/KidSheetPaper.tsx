@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import { PrintBrandMark } from '@gc/shared/components/PrintBrand'
 import type { DrawnSpec } from '@/components/printables/drawn'
 
 // The paper: one printable sheet as it lands on the printer.
@@ -57,15 +58,27 @@ export default function KidSheetPaper({ sheet, onFailed, onLoaded }: {
 
   return (
     <div className="kid-sheet-paper">
-      <style>{`@media print {
+      {/* THE BRAND ON EVERY PAGE (29 September 2026 print audit). The drawn
+          sheets carry the logo in their own paper; these photo sheets carried
+          none. A print only line under each page, with the picture capped so
+          the line always lands on the same sheet as it rather than on a
+          second page of its own. */}
+      <style>{`
+      .kid-sheet-brand { display: none; }
+      @media print {
         .kid-sheet-writein { page-break-before: always; break-before: page; }
         .kid-sheet-extra { page-break-before: always; break-before: page; }
+        .kid-sheet-page { break-inside: avoid; page-break-inside: avoid; }
+        .kid-sheet-page img { width: auto !important; max-width: 100% !important; max-height: 258mm; margin: 0 auto; }
+        .kid-sheet-page.has-heading { padding-top: 0 !important; padding-bottom: 0 !important; }
+        .kid-sheet-page.has-heading img { max-height: 200mm; }
+        .kid-sheet-brand { display: flex !important; justify-content: center; align-items: center; gap: 10px; margin-top: 3mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       }`}</style>
       {sheet.heading ? (
         // The composed sheet: crisp text, clean art, a sprinkle of stars to
         // colour. What lands on paper is a real colouring sheet, not a photo
         // of one.
-        <div style={{ maxWidth: 700, margin: '0 auto', padding: '26px 22px 40px', textAlign: 'center' }}>
+        <div className="kid-sheet-page has-heading" style={{ maxWidth: 700, margin: '0 auto', padding: '26px 22px 40px', textAlign: 'center' }}>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(44px, 13vw, 72px)',
             letterSpacing: '0.04em', textTransform: 'uppercase', lineHeight: 1, color: '#1A1A2E',
@@ -83,17 +96,24 @@ export default function KidSheetPaper({ sheet, onFailed, onLoaded }: {
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={sheet.url} alt={sheet.title} loading="eager" decoding="sync" onError={fail} onLoad={onLoaded} style={{ width: '100%', display: 'block' }} />
+          <div className="kid-sheet-brand" aria-hidden><PrintBrandMark /><span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#C99A28' }}>guidedchildhood.com</span></div>
         </div>
       ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={sheet.url} alt={sheet.title} loading="eager" decoding="sync" onError={fail} onLoad={onLoaded} style={{ width: '100%', display: 'block' }} />
+        <div className="kid-sheet-page">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={sheet.url} alt={sheet.title} loading="eager" decoding="sync" onError={fail} onLoad={onLoaded} style={{ width: '100%', display: 'block' }} />
+          <div className="kid-sheet-brand" aria-hidden><PrintBrandMark /><span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#C99A28' }}>guidedchildhood.com</span></div>
+        </div>
       )}
 
       {/* The remaining pages of a multi page craft, each its own sheet of
           paper, so the bucket craft keeps the cut out bucket it exists for. */}
       {(sheet.extraUrls ?? []).map(u => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img key={u} className="kid-sheet-extra" src={u} alt={sheet.title} loading="eager" decoding="sync" style={{ width: '100%', display: 'block', marginTop: 14 }} />
+        <div key={u} className="kid-sheet-extra kid-sheet-page">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={u} alt={sheet.title} loading="eager" decoding="sync" style={{ width: '100%', display: 'block', marginTop: 14 }} />
+          <div className="kid-sheet-brand" aria-hidden><PrintBrandMark /><span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#C99A28' }}>guidedchildhood.com</span></div>
+        </div>
       ))}
 
       {/* The write in page, its own sheet of paper when printed. On screen it
@@ -114,6 +134,7 @@ export default function KidSheetPaper({ sheet, onFailed, onLoaded }: {
               <div style={{ flex: 1, borderBottom: '2.5px dotted #B9B9CC', height: '100%' }} />
             </div>
           ))}
+          <div className="kid-sheet-brand" aria-hidden><PrintBrandMark /><span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#C99A28' }}>guidedchildhood.com</span></div>
         </div>
       )}
     </div>
