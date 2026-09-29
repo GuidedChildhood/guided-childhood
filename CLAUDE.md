@@ -32,7 +32,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
-- Emails or any copy         → research/01 voice rules; no dashes ever in copy
+- Emails or any copy         → research/01 voice rules + .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
 - Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) AND .claude/skills/content-engine/linkedin-engagement.md (hooks, dwell time, real photos, no body links) before drafting
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)

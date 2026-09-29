@@ -10,7 +10,9 @@ the Wrong Villain "beta = 0.061" post, which reached about 73,911 impressions. I
 engineers exactly what made that post and its image work, turns it into a repeatable template,
 and folds in best in class 2026 LinkedIn tactics so future posts can hit the same way.
 
-Use it alongside content-engine (voice, hidden thread, evidence discipline) and
+Use it alongside content-engine (voice, hidden thread, evidence discipline),
+content-engine/ai-tells.md (the words and punctuation that read as machine
+written, half of it enforced by scripts/check-ai-tells.mjs) and
 linkedin-engagement.md (the algorithm rules). Where this skill and the older engagement notes seem
 to disagree on CTAs, this skill wins, because it is modelled on the post that actually performed.
 
