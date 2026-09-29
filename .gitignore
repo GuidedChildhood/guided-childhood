@@ -30,3 +30,17 @@ schools/.next/
 undefined/
 .ux-shots/
 __pycache__/
+
+# HyperFrames video work (29 September 2026). The student kit's example renders
+# and teaching project videos are 376 MB and re-clone from
+# github.com/nateherkai/hyperframes-student-kit; its skills, scripts, docs and
+# style library are what we use. Snapshots, renders and capture screenshots
+# regenerate from the project files.
+hyperframes-student-kit/**/*.mp4
+hyperframes-student-kit/**/*.wav
+hyperframes-student-kit/node_modules/
+videos/*/snapshots/
+videos/*/renders/
+videos/*/capture/screenshots/
+videos/*/node_modules/
+videos/*/.media/

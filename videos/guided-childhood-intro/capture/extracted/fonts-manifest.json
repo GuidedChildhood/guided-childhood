@@ -1,0 +1,116 @@
+{
+  "files": [
+    {
+      "file": "ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono Medium",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Medium",
+      "weight": 500,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono SemiBold",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-SemiBold",
+      "weight": 600,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono",
+      "subfamily": "Bold",
+      "postscript": "IBMPlexMono-Bold",
+      "weight": 700,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2",
+      "family": "Nunito",
+      "rawFamily": "Nunito ExtraLight",
+      "subfamily": "Italic",
+      "postscript": "Nunito-ExtraLightItalic",
+      "weight": 200,
+      "style": "italic",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2",
+      "family": "Nunito",
+      "rawFamily": "Nunito ExtraLight",
+      "subfamily": "Regular",
+      "postscript": "Nunito-ExtraLight",
+      "weight": 200,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "IBM Plex Mono",
+      "weights": [
+        400,
+        500,
+        600,
+        700
+      ],
+      "variable": false,
+      "fileCount": 4,
+      "files": [
+        "ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2",
+        "ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2",
+        "ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2",
+        "ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2"
+      ]
+    },
+    {
+      "family": "Nunito",
+      "weights": [
+        200
+      ],
+      "variable": true,
+      "fileCount": 2,
+      "files": [
+        "nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2",
+        "nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-09-28T13:07:56.586Z",
+    "tool": "fontkit"
+  }
+}

@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta name="hf-scene-parts" content="{&quot;shared&quot;:&quot;45793aaa848456af&quot;,&quot;scenes&quot;:{&quot;01-ban-or-give-in&quot;:&quot;3af5d097b7570a32&quot;,&quot;02-the-third-way&quot;:&quot;99a8c3f829344260&quot;,&quot;03-the-real-thing&quot;:&quot;360c98c947315e0f&quot;,&quot;04-stage-check&quot;:&quot;7f3a53d0c3befaff&quot;}}"><script data-hf-gsap-fallback>
+(function(){
+  var cdnBase="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/";
+  var loaded={};
+  function loadFallback(file){
+    if(loaded[file])return loaded[file];
+    return loaded[file]=new Promise(function(ok,fail){
+      var s=document.createElement("script");
+      s.src=cdnBase+file;s.onload=ok;s.onerror=fail;
+      document.head.appendChild(s);
+    });
+  }
+  document.addEventListener("error",function(e){
+    var t=e.target;
+    if(!t||t.tagName!=="SCRIPT"||!t.src)return;
+    var m=t.src.match(/gsap[^/]*\/dist\/(.+\.js)/);
+    if(m)loadFallback(m[1]);
+  },true);
+})();
+</script>
+<meta name="hyperframes-studio-preview"><base href="/api/projects/guided-childhood-intro/preview/"><style data-hyperframes-text-rendering="true">html,body,*{text-rendering:geometricPrecision}</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #FFFBEE;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }</style><style data-hf-scene="01-ban-or-give-in">@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+
+    /* Frame 01 — Ban or give in. Three centred beats: pop, relay swap, hard flip to ink.
+       Root is styled via #root only; every authored class carries the ban01- prefix
+       (the frame id starts with a digit, so the literal id is not a valid CSS selector;
+       element ids keep the verbatim 01-ban-or-give-in- prefix and are fetched by id). */
+    [data-composition-id="01-ban-or-give-in"] [data-hf-authored-id="root"] {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+    }
+
+    [data-composition-id="01-ban-or-give-in"] .ban01-layer {
+      position: absolute;
+      inset: 0;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-ground {
+      background: #FFFBEE; /* cream */
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-ink {
+      background: #1A1A2E; /* text-dark as the ink field; opacity is snapped by the timeline */
+      opacity: 0;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-stage {
+      z-index: 2;
+    }
+
+    /* Ornament layer: two hand-drawn stars, cropping past the frame edge.
+       Cream fill on the cream field reads as an outline; the timeline snaps it to butter on ink. */
+    [data-composition-id="01-ban-or-give-in"] .ban01-star {
+      position: absolute;
+      z-index: 1;
+      overflow: visible;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-star path {
+      fill: #FFFBEE;
+      stroke: #1A1A2E;
+      stroke-width: 3;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-star-tl {
+      left: -6cqw;
+      top: -10cqh;
+      width: 16cqw;
+      height: 16cqw;
+      transform: rotate(-14deg);
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-star-br {
+      left: 92.5cqw;
+      top: 58cqh;
+      width: 13.5cqw;
+      height: 13.5cqw;
+      transform: rotate(16deg);
+    }
+
+    /* One centre anchor for every beat. */
+    [data-composition-id="01-ban-or-give-in"] .ban01-line {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-half {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-half-l {
+      clip-path: inset(0 50% 0 0);
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-half-r {
+      clip-path: inset(0 0 0 50%);
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-q {
+      font-weight: 800;
+      font-size: 12cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+      white-space: nowrap;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-l2-cut {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-l3 {
+      z-index: 4;
+      flex-direction: column;
+      gap: 0.1em;
+      font-size: 6.5cqw;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #FFFBEE;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-row {
+      display: flex;
+      gap: 0.3em;
+      white-space: nowrap;
+    }
+    [data-composition-id="01-ban-or-give-in"] .ban01-w {
+      display: inline-block;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }</style><style data-hf-scene="02-the-third-way">@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:italic}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2")format("woff2");font-display:swap;font-weight:400;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2")format("woff2");font-display:swap;font-weight:500;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-display:swap;font-weight:600;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2")format("woff2");font-display:swap;font-weight:700;font-style:normal}
+
+    /* Frame root: styled via #root only (never a class on the composition element).
+       container-type: size makes every cqw / cqh below resolve against the 1920x1080 frame. */
+    [data-composition-id="02-the-third-way"] [data-hf-authored-id="root"] {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+      color: #1A1A2E;
+    }
+
+    /* Depth layers: field (0) · pathway line (1) · cutouts and pills (2) · copy and ornament (3).
+       Every layer is a full-frame clip so the ground is a clip, not a background on #root. */
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-field"],
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-pathway"],
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-cast"],
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-copy"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-field"] { background: #FFFBEE; }
+
+    /* Pathway: an ink stroke that self draws (svg-path-draw). fill none so only the pen shows. */
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-pathway"] svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-line"] {
+      fill: none;
+      stroke: #1A1A2E;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Planet Friends: 14% of frame height, positioned by station in script so feet land on the line. */
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-friend"] {
+      position: absolute;
+      width: 14cqh;
+      height: 14cqh;
+      object-fit: contain;
+      will-change: transform, opacity;
+    }
+
+    /* Age badge pills: mono ramp, 3px ink outline, 4px hard shadow, pastel fills per station. */
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill"] {
+      position: absolute;
+      display: inline-block;
+      font-family: plexMono, monospace;
+      font-weight: 600;
+      font-size: 1.2cqw;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #1A1A2E;
+      padding: 0.6cqw 1.25cqw;
+      border: 3px solid #1A1A2E;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #1A1A2E;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill-sky"]      { background: #F9F8F6; }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill-mint"]     { background: #E8F0EE; }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill-lavender"] { background: #F5F3FF; }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill-peach"]    { background: #FFF6DE; }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-pill-butter"]   { background: #EDC35F; }
+
+    /* Headline: headline ramp, flat charcoal on cream, centred in the upper third. */
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-headline"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 16.5cqh;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 4.5cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+      white-space: nowrap;
+    }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-hw"] {
+      display: inline-block;
+      margin: 0 0.32cqw;
+      will-change: transform, opacity;
+    }
+
+    /* Sub line: subtitle ramp, Nunito 700, muted ink, beneath the row. */
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-subline"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 70cqh;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 700;
+      font-size: 1.8cqw;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: #52526A;
+      white-space: nowrap;
+    }
+    [data-composition-id="02-the-third-way"] [class~="02-the-third-way-sw"] {
+      display: inline-block;
+      margin: 0 0.22cqw;
+      will-change: transform, opacity;
+    }
+
+    /* One hand-drawn outline star, top right corner (ornament layer). */
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-star-wrap"] {
+      position: absolute;
+      top: 7cqh;
+      right: 5.5cqw;
+      width: 7cqw;
+      height: 7cqw;
+    }
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-star-wrap"] svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    [data-composition-id="02-the-third-way"] [id="02-the-third-way-star"] {
+      fill: none;
+      stroke: #1A1A2E;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }</style><style data-hf-scene="03-the-real-thing">@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+    @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_italic-s.p.41mo0bzhzg2la.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:italic}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_400_normal-s.p.3xdfs0-p_zi4c.woff2")format("woff2");font-display:swap;font-weight:400;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_500_normal-s.p.11q3guvgd1r20.woff2")format("woff2");font-display:swap;font-weight:500;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-display:swap;font-weight:600;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2")format("woff2");font-display:swap;font-weight:700;font-style:normal}
+
+    /* Frame 3 · The real thing · 1920x1080 · 2.0s · silent
+       Tokens from frame.md: cream ground, white cards, 3px ink outline,
+       6px/4px hard offset shadows, 28px featured radius, 50px pills,
+       nunito display, plexMono labels. Everything sits above y = 900
+       (the 83% caption keep-out). */
+    [data-composition-id="03-the-real-thing"] [data-hf-authored-id="root"] {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+      color: #1A1A2E;
+    }
+    [data-composition-id="03-the-real-thing"] [data-hf-authored-id="root"] .clip {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* full-bleed cream ground, its own clip on the lowest track */
+    [data-composition-id="03-the-real-thing"] #rt03-bg {
+      background: #FFFBEE;
+    }
+
+    /* ornament wreath: hand-drawn SVG stickers behind the content */
+    [data-composition-id="03-the-real-thing"] #rt03-ornaments {
+      z-index: 1;
+    }
+    [data-composition-id="03-the-real-thing"] .rt03-orn {
+      position: absolute;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    [data-composition-id="03-the-real-thing"] .rt03-orn svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* split tilt stage: perspective lives on the clip, preserve-3d on stage + cards */
+    [data-composition-id="03-the-real-thing"] #rt03-stage-clip {
+      z-index: 2;
+      perspective: 1600px;
+    }
+    [data-composition-id="03-the-real-thing"] #rt03-stage {
+      position: absolute;
+      left: 420px;
+      top: 290px;
+      width: 1080px;
+      height: 550px;
+      display: flex;
+      gap: 80px;
+      transform-style: preserve-3d;
+    }
+    [data-composition-id="03-the-real-thing"] .rt03-card {
+      position: relative;
+      width: 500px;
+      height: 550px;
+      background: #FFFFFF;
+      border: 3px solid #1A1A2E;
+      border-radius: 28px;
+      box-shadow: 6px 6px 0 #1A1A2E;
+      transform-style: preserve-3d;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    /* a white mat around each screen so the card reads as a white card with
+       the ink outline even where the screen itself is dark edge to edge */
+    [data-composition-id="03-the-real-thing"] .rt03-screen {
+      position: absolute;
+      inset: 14px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+    [data-composition-id="03-the-real-thing"] .rt03-screen img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* badge pills sit on the stage clip (the parent), never inside a tilted card */
+    [data-composition-id="03-the-real-thing"] .rt03-pill {
+      position: absolute;
+      top: 840px;
+      font-family: plexMono, monospace;
+      font-weight: 600;
+      font-size: 1.35cqw;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #1A1A2E;
+      padding: 15px 30px 14px;
+      border: 3px solid #1A1A2E;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #1A1A2E;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    [data-composition-id="03-the-real-thing"] #rt03-pill-stars {
+      left: 670px;
+      background: #EDC35F;
+    }
+    [data-composition-id="03-the-real-thing"] #rt03-pill-passport {
+      left: 1250px;
+      background: #E8F0EE;
+    }
+
+    /* headline, upper third, flat ink on cream */
+    [data-composition-id="03-the-real-thing"] #rt03-headline-clip {
+      z-index: 3;
+    }
+    [data-composition-id="03-the-real-thing"] #rt03-headline {
+      position: absolute;
+      left: 0;
+      top: 150px;
+      width: 100%;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 4.5cqw;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: #1A1A2E;
+    }
+    [data-composition-id="03-the-real-thing"] .rt03-word {
+      display: inline-block;
+      will-change: transform;
+    }</style><style data-hf-scene="04-stage-check">@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-display:swap;font-weight:200 1000;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-display:swap;font-weight:600;font-style:normal}
+    @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_700_normal-s.p.2dfeoyem8ph0h.woff2")format("woff2");font-display:swap;font-weight:700;font-style:normal}
+
+    /* Root styled by #root only (lint: subcomposition_root_styled_by_class). No background here:
+       the cream ground is its own full-duration clip on track 0. */
+    [data-composition-id="04-stage-check"] [data-hf-authored-id="root"] {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: nunito, sans-serif;
+      color: #1A1A2E;
+    }
+
+    /* Every timed layer is a full-frame box. Prefixed so sibling frames cannot collide. */
+    [data-composition-id="04-stage-check"] .sc04-layer {
+      position: absolute;
+      inset: 0;
+    }
+    [data-composition-id="04-stage-check"] .sc04-ground {
+      background: #FFFBEE;
+    }
+
+    /* Corner ornaments: the hand-drawn outline stars from the design truth, three per frame,
+       one butter filled. Ink stroke, no blur, cropping toward the edges. */
+    [data-composition-id="04-stage-check"] .sc04-orn {
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    [data-composition-id="04-stage-check"] .sc04-orn svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    [data-composition-id="04-stage-check"] #sc04-orn-a { left: 128px; top: 118px; }
+    [data-composition-id="04-stage-check"] #sc04-orn-b { left: 1710px; top: 150px; width: 96px; height: 96px; }
+    [data-composition-id="04-stage-check"] #sc04-orn-c { left: 190px; top: 760px; width: 72px; height: 72px; }
+
+    /* The lockup: one centred column, about half the frame wide, all inside the top 80%. */
+    [data-composition-id="04-stage-check"] .sc04-stack {
+      position: absolute;
+      left: 410px;
+      top: 0;
+      width: 1100px;
+      height: 1080px;
+    }
+
+    /* The DiGi star mark: ~16% of frame height, upper centre. The PNG carries opaque 6px border
+       bands and a faint white glow across its whole square, so the img is clipped to the star's
+       own silhouette (traced from its alpha channel, +3.5px margin) and floats clean on cream. */
+    [data-composition-id="04-stage-check"] #sc04-mark {
+      position: absolute;
+      left: 50%;
+      top: 104px;
+      width: 214px;
+      height: 214px;
+      margin-left: -107px;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    [data-composition-id="04-stage-check"] #sc04-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      clip-path: polygon(83.1% 46.1%, 80.4% 48.3%, 78.1% 50.1%, 75.7% 51.7%, 74.3% 53.2%, 72.2% 54.4%, 71.6% 55.9%, 72.7% 58.4%, 73.1% 60.9%, 73.3% 63.4%, 74.4% 67.0%, 75.5% 71.2%, 76.8% 76.5%, 76.9% 81.2%, 75.0% 83.9%, 72.0% 85.1%, 67.4% 82.8%, 63.0% 79.7%, 59.7% 77.5%, 57.0% 76.2%, 54.4% 74.0%, 52.3% 72.8%, 50.4% 71.9%, 48.6% 71.9%, 46.7% 72.8%, 44.6% 74.0%, 42.0% 76.2%, 39.3% 77.5%, 35.9% 79.7%, 31.6% 82.8%, 27.0% 85.1%, 24.0% 83.9%, 22.1% 81.2%, 22.1% 76.5%, 23.4% 71.2%, 24.5% 67.0%, 25.7% 63.4%, 25.8% 60.9%, 26.3% 58.4%, 27.4% 55.9%, 26.7% 54.4%, 24.7% 53.2%, 23.2% 51.7%, 20.9% 50.1%, 18.6% 48.3%, 16.4% 46.1%, 13.4% 43.6%, 9.5% 40.5%, 9.0% 37.5%, 9.7% 34.7%, 12.5% 32.6%, 18.8% 32.4%, 23.5% 32.3%, 27.2% 32.2%, 30.3% 32.2%, 32.9% 32.2%, 35.1% 32.2%, 36.1% 31.2%, 36.8% 29.9%, 37.4% 28.2%, 38.2% 26.5%, 38.9% 24.3%, 39.8% 22.2%, 40.9% 19.6%, 42.1% 16.5%, 43.7% 13.5%, 45.6% 9.1%, 48.1% 7.3%, 50.8% 7.3%, 53.4% 9.1%, 55.2% 13.5%, 56.9% 16.5%, 58.1% 19.6%, 59.1% 22.2%, 60.1% 24.3%, 60.8% 26.5%, 61.6% 28.2%, 62.1% 29.9%, 62.9% 31.2%, 63.9% 32.2%, 66.0% 32.2%, 68.7% 32.2%, 71.8% 32.2%, 75.5% 32.3%, 80.2% 32.4%, 86.4% 32.6%, 89.3% 34.7%, 90.0% 37.5%, 89.5% 40.5%, 85.6% 43.6%);
+    }
+
+    /* Question: display ramp, ink, centred, fit to measure (five words at 74px sits ~52% wide). */
+    [data-composition-id="04-stage-check"] #sc04-q {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 336px;
+      text-align: center;
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 74px;
+      line-height: 1.1;
+      letter-spacing: 0.005em;
+      color: #1A1A2E;
+      white-space: nowrap;
+    }
+    [data-composition-id="04-stage-check"] .sc04-w {
+      display: inline-block;
+      will-change: transform;
+    }
+
+    /* The site's own CTA: butter fill, ink text, 16px radius, hard 5px drop in butter dark. */
+    [data-composition-id="04-stage-check"] #sc04-btn-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 466px;
+      height: 128px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    [data-composition-id="04-stage-check"] #sc04-btn {
+      display: inline-block;
+      height: 120px;
+      line-height: 120px;
+      padding: 0 68px;
+      background: #EDC35F;
+      color: #1A1A2E;
+      border-radius: 16px;
+      box-shadow: rgb(201, 154, 40) 0px 5px 0px 0px; /* 0 5px 0 #C99A28, written in computed order so the press tween aligns its numbers */
+      font-family: nunito, sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      letter-spacing: 0.005em;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    /* Sub line: mono ramp, muted ink, tracked caps. */
+    [data-composition-id="04-stage-check"] #sc04-sub {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 634px;
+      text-align: center;
+      font-family: plexMono, monospace;
+      font-weight: 600;
+      font-size: 25px;
+      letter-spacing: 0.14em;
+      color: #52526A;
+      white-space: nowrap;
+    }
+
+    /* URL: mono ramp, butter dark, wipes in left to right via a clip mask. */
+    [data-composition-id="04-stage-check"] #sc04-url {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 704px;
+      text-align: center;
+      font-family: plexMono, monospace;
+      font-weight: 700;
+      font-size: 38px;
+      letter-spacing: 0.04em;
+      color: #1A1A2E; /* ink, not butter dark: butter dark failed the 3:1 contrast check on cream */
+      white-space: nowrap;
+    }
+    [data-composition-id="04-stage-check"] #sc04-url-mask {
+      display: inline-block;
+      clip-path: inset(0 100% 0 0);
+    }</style>
+  <script data-hyperframes-preview-runtime="1" src="/api/runtime.js"></script>
+<meta name="hyperframes-project-signature" content="9f93a2f85137977c3ccbd2e1">
+</head>
+  <body>
+    <div data-hf-id="hf-199x" id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+      <div data-hf-scene-no-swap="a script outside the scene selects #el-01-ban-or-give-in" data-composition-file="compositions/frames/01-ban-or-give-in.html" data-height="1080" data-width="1920" data-hf-scene="01-ban-or-give-in" data-hf-id="hf-iy6h" id="el-01-ban-or-give-in" class="scene" data-composition-id="01-ban-or-give-in" data-start="0" data-duration="3.2" data-track-index="0"><div style="width:1920px;height:1080px" data-hf-inner-root="true" data-hf-authored-id="root" data-hf-id="hf-0y6f" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-v06i" class="clip ban01-layer ban01-ground" id="01-ban-or-give-in-ground" data-start="0" data-duration="3.2" data-track-index="0"></div>
+    <div data-hf-id="hf-klfz" class="clip ban01-layer ban01-ink" id="01-ban-or-give-in-ink" data-start="0" data-duration="3.2" data-track-index="1"></div>
+
+    <div data-hf-id="hf-y5de" class="clip ban01-layer ban01-stage" id="01-ban-or-give-in-stage" data-start="0" data-duration="3.2" data-track-index="2">
+      <svg data-hf-id="hf-q6wb" class="ban01-star ban01-star-tl" id="01-ban-or-give-in-star-tl" viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true">
+        <path data-hf-id="hf-mbm2" d="M 0.02 -1.02 L 0.28 -0.35 L 0.97 -0.29 L 0.44 0.15 L 0.61 0.83 L 0.01 0.47 L -0.57 0.81 L -0.43 0.14 L -0.94 -0.31 L -0.27 -0.38 Z" />
+      </svg>
+      <svg data-hf-id="hf-iz7z" class="ban01-star ban01-star-br" id="01-ban-or-give-in-star-br" viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true">
+        <path data-hf-id="hf-paiq" d="M -0.01 -1.0 L 0.27 -0.37 L 0.95 -0.31 L 0.42 0.13 L 0.59 0.81 L 0.0 0.45 L -0.59 0.82 L -0.41 0.15 L -0.96 -0.30 L -0.26 -0.36 Z" />
+      </svg>
+
+      <!-- Beat 1: the line is drawn twice inside two clip-path halves so it can shrink and split off both edges. -->
+      <div data-hf-id="hf-m07a" class="ban01-line" id="01-ban-or-give-in-l1">
+        <div data-hf-id="hf-qk5y" class="ban01-half ban01-half-l" id="01-ban-or-give-in-l1-left"><div data-hf-id="hf-02gy" class="ban01-q">Ban it all?</div></div>
+        <div data-hf-id="hf-y0qr" class="ban01-half ban01-half-r" id="01-ban-or-give-in-l1-right"><div data-hf-id="hf-dcyu" class="ban01-q">Ban it all?</div></div>
+      </div>
+
+      <!-- Beat 2: pops into the same centre; the outer wrapper is what the flip cuts. -->
+      <div data-hf-id="hf-wqnd" class="ban01-l2-cut" id="01-ban-or-give-in-l2-cut">
+        <div data-hf-id="hf-i239" class="ban01-line" id="01-ban-or-give-in-l2"><div data-hf-id="hf-h6tq" class="ban01-q">Or give in?</div></div>
+      </div>
+
+      <!-- Beat 3: cream on ink, per word reveal across two rows, then a still hold. -->
+      <div data-hf-id="hf-ew9u" class="ban01-line ban01-l3" id="01-ban-or-give-in-l3">
+        <div data-hf-id="hf-8kf1" class="ban01-row"><span data-hf-id="hf-643w" class="ban01-w">Neither</span><span data-hf-id="hf-clr2" class="ban01-w">teaches</span><span data-hf-id="hf-k9ra" class="ban01-w">your</span></div>
+        <div data-hf-id="hf-egdt" class="ban01-row"><span data-hf-id="hf-wck1" class="ban01-w">child</span><span data-hf-id="hf-ks1s" class="ban01-w">a</span><span data-hf-id="hf-vve7" class="ban01-w">thing.</span></div>
+      </div>
+    </div>
+  </div></div>
+
+      <div data-hf-scene-no-swap="a script outside the scene selects #el-02-the-third-way" data-composition-file="compositions/frames/02-the-third-way.html" data-height="1080" data-width="1920" data-hf-scene="02-the-third-way" data-hf-id="hf-4bew" id="el-02-the-third-way" class="scene" data-composition-id="02-the-third-way" data-start="2.8" data-duration="3.5" data-track-index="1"><div style="width:1920px;height:1080px" data-hf-inner-root="true" data-hf-authored-id="root" data-hf-id="hf-o02r" data-width="1920" data-height="1080">
+    <!-- Layer 0: cream field -->
+    <div data-hf-id="hf-h4g1" id="02-the-third-way-field" class="clip" data-start="0" data-duration="3.5" data-track-index="0"></div>
+
+    <!-- Layer 1: the pathway line -->
+    <div data-hf-id="hf-i3fa" id="02-the-third-way-pathway" class="clip" data-start="0" data-duration="3.5" data-track-index="1">
+      <svg data-hf-id="hf-m4cd" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path data-hf-id="hf-7mpy" id="02-the-third-way-line" d="M 200 640 L 1720 530" />
+      </svg>
+    </div>
+
+    <!-- Layer 2: the five Planet Friends and their age pills -->
+    <div data-hf-id="hf-1gik" id="02-the-third-way-cast" class="clip" data-start="0" data-duration="3.5" data-track-index="2">
+      <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-gb5e" class="02-the-third-way-friend" src="assets/pebble-this-stages-planet-friend.png" alt="Pebble, ages 4 to 7">
+      <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-1hef" class="02-the-third-way-friend" src="assets/bloop-the-ages-8-to-10-planet-friend.png" alt="Bloop, ages 8 to 10">
+      <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-wqeo" class="02-the-third-way-friend" src="assets/orbit-the-ages-11-to-13-planet-friend.png" alt="Orbit, ages 11 to 12">
+      <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-mwij" class="02-the-third-way-friend" src="assets/nova-the-ages-13-to-15-planet-friend.png" alt="Nova, ages 13 to 15">
+      <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-8hqb" class="02-the-third-way-friend" src="assets/cosmo-the-ages-16-planet-friend.png" alt="Cosmo, 16 plus">
+
+      <span data-hf-id="hf-uu6f" class="02-the-third-way-pill 02-the-third-way-pill-sky">4 TO 7</span>
+      <span data-hf-id="hf-r1yi" class="02-the-third-way-pill 02-the-third-way-pill-mint">8 TO 10</span>
+      <span data-hf-id="hf-v15z" class="02-the-third-way-pill 02-the-third-way-pill-lavender">11 TO 12</span>
+      <span data-hf-id="hf-52pq" class="02-the-third-way-pill 02-the-third-way-pill-peach">13 TO 15</span>
+      <span data-hf-id="hf-fibr" class="02-the-third-way-pill 02-the-third-way-pill-butter">16 PLUS</span>
+    </div>
+
+    <!-- Layer 3: headline, sub line, ornament -->
+    <div data-hf-id="hf-d0vt" id="02-the-third-way-copy" class="clip" data-start="0" data-duration="3.5" data-track-index="3">
+      <div data-hf-id="hf-2xnl" id="02-the-third-way-star-wrap">
+        <svg data-hf-id="hf-0q00" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path data-hf-id="hf-lpq5" id="02-the-third-way-star" d="M 50 5 L 62 36 L 95 39 L 69 59 L 78 92 L 50 72 L 22 90 L 31 58 L 5 37 L 38 36 Z" />
+        </svg>
+      </div>
+
+      <div data-hf-id="hf-egz0" id="02-the-third-way-headline">
+        <span data-hf-id="hf-gb7v" class="02-the-third-way-hw">There</span>
+        <span data-hf-id="hf-jzyf" class="02-the-third-way-hw">is</span>
+        <span data-hf-id="hf-kody" class="02-the-third-way-hw">a</span>
+        <span data-hf-id="hf-wrhw" class="02-the-third-way-hw">third</span>
+        <span data-hf-id="hf-82wc" class="02-the-third-way-hw">way.</span>
+      </div>
+
+      <div data-hf-id="hf-s8uk" id="02-the-third-way-subline">
+        <span data-hf-id="hf-nr1y" class="02-the-third-way-sw">From</span>
+        <span data-hf-id="hf-b46w" class="02-the-third-way-sw">first</span>
+        <span data-hf-id="hf-qpv2" class="02-the-third-way-sw">screen</span>
+        <span data-hf-id="hf-itnr" class="02-the-third-way-sw">to</span>
+        <span data-hf-id="hf-1eyx" class="02-the-third-way-sw">16.</span>
+        <span data-hf-id="hf-z34x" class="02-the-third-way-sw">Ten</span>
+        <span data-hf-id="hf-k7wv" class="02-the-third-way-sw">minutes</span>
+        <span data-hf-id="hf-geeh" class="02-the-third-way-sw">a</span>
+        <span data-hf-id="hf-kk3o" class="02-the-third-way-sw">day,</span>
+        <span data-hf-id="hf-zpaa" class="02-the-third-way-sw">together.</span>
+      </div>
+    </div>
+  </div></div>
+
+      <div data-hf-scene-no-swap="a script outside the scene selects #el-03-the-real-thing" data-composition-file="compositions/frames/03-the-real-thing.html" data-height="1080" data-width="1920" data-hf-scene="03-the-real-thing" data-hf-id="hf-u8oc" id="el-03-the-real-thing" class="scene" data-composition-id="03-the-real-thing" data-start="5.8" data-duration="2.5" data-track-index="0"><div style="width:1920px;height:1080px" data-hf-inner-root="true" data-hf-authored-id="root" data-hf-id="hf-8hpb" data-width="1920" data-height="1080">
+
+    <div data-hf-id="hf-b9ew" id="rt03-bg" class="clip" data-start="0" data-duration="2.5" data-track-index="0"></div>
+
+    <div data-hf-id="hf-vyet" id="rt03-ornaments" class="clip" data-start="0" data-duration="2.5" data-track-index="1">
+      <!-- star, top left, cropping past the corner (stars only: DiGi is a star) -->
+      <div data-hf-id="hf-1kgx" class="rt03-orn" style="left:-60px; top:-30px; width:230px; height:230px;">
+        <svg data-hf-id="hf-s2sp" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-gs10" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#FFFFFF" />
+        </svg>
+      </div>
+      <!-- star, top right, cropping past the corner -->
+      <div data-hf-id="hf-myko" class="rt03-orn" style="left:1740px; top:-70px; width:260px; height:260px;">
+        <svg data-hf-id="hf-bx25" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-ffbc" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#EDC35F" />
+        </svg>
+      </div>
+      <!-- big star, right edge, cropping past it -->
+      <div data-hf-id="hf-lakx" class="rt03-orn" style="left:1800px; top:480px; width:170px; height:170px;">
+        <svg data-hf-id="hf-d3z8" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-sngg" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#EDC35F" />
+        </svg>
+      </div>
+      <!-- star, left edge, cropping past it -->
+      <div data-hf-id="hf-9ytj" class="rt03-orn" style="left:-70px; top:560px; width:180px; height:180px;">
+        <svg data-hf-id="hf-cpo7" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-i9cq" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#FFF4F2" />
+        </svg>
+      </div>
+      <!-- small star, lower left, still above the keep-out -->
+      <div data-hf-id="hf-7gdf" class="rt03-orn" style="left:220px; top:740px; width:80px; height:80px;">
+        <svg data-hf-id="hf-dwla" viewBox="0 0 100 100" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linejoin="round">
+          <path data-hf-id="hf-676u" d="M50 6 L61 37 L94 38 L67 58 L77 91 L50 71 L23 91 L33 58 L6 38 L39 37 Z" fill="#F5F3FF" />
+        </svg>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-x5ka" id="rt03-stage-clip" class="clip" data-start="0" data-duration="2.5" data-track-index="2">
+      <div data-hf-id="hf-x7dt" id="rt03-stage">
+        <div data-hf-id="hf-ws2k" class="rt03-card" id="rt03-card-left">
+          <div data-hf-id="hf-l5wq" class="rt03-screen">
+            <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-s4pv" src="assets/kid-page.png" alt="">
+          </div>
+        </div>
+        <div data-hf-id="hf-s04z" class="rt03-card" id="rt03-card-right">
+          <div data-hf-id="hf-a1ny" class="rt03-screen">
+            <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-goo1" src="assets/an-earned-passport-page-the-foundation-s.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div data-hf-id="hf-240s" class="rt03-pill" id="rt03-pill-stars">Stars earned</div>
+      <div data-hf-id="hf-whdj" class="rt03-pill" id="rt03-pill-passport">Passport stamped</div>
+    </div>
+
+    <div data-hf-id="hf-63z7" id="rt03-headline-clip" class="clip" data-start="0" data-duration="2.5" data-track-index="3">
+      <div data-hf-id="hf-u4vp" id="rt03-headline"><span data-hf-id="hf-7vvc" class="rt03-word">Ten</span> <span data-hf-id="hf-a14y" class="rt03-word">minutes</span> <span data-hf-id="hf-ikc8" class="rt03-word">a</span> <span data-hf-id="hf-asyl" class="rt03-word">day.</span> <span data-hf-id="hf-go3r" class="rt03-word">Together.</span></div>
+    </div>
+
+  </div></div>
+
+      <div data-hf-scene-no-swap="a script outside the scene selects #el-04-stage-check" data-composition-file="compositions/frames/04-stage-check.html" data-height="1080" data-width="1920" data-hf-scene="04-stage-check" data-hf-id="hf-w97n" id="el-04-stage-check" class="scene" data-composition-id="04-stage-check" data-start="7.8" data-duration="2.2" data-track-index="1"><div style="width:1920px;height:1080px" data-hf-inner-root="true" data-hf-authored-id="root" data-hf-id="hf-1u21" data-width="1920" data-height="1080">
+    <!-- Track 0: the cream ground, full duration -->
+    <div data-hf-id="hf-h8qo" class="clip sc04-layer sc04-ground" data-start="0" data-duration="2.2" data-track-index="0"></div>
+
+    <!-- Track 1: the lockup -->
+    <div data-hf-id="hf-4us7" class="clip sc04-layer" data-start="0" data-duration="2.2" data-track-index="1">
+      <div data-hf-id="hf-oufk" class="sc04-orn" id="sc04-orn-a">
+        <svg data-hf-id="hf-ithg" viewBox="0 0 100 100" aria-hidden="true">
+          <path data-hf-id="hf-nxdw" d="M50 4 L61.8 33.8 L93.8 35.8 L69 56.2 L77 87.2 L50 70 L23 87.2 L31 56.2 L6.2 35.8 L38.2 33.8 Z" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div data-hf-id="hf-zpx7" class="sc04-orn" id="sc04-orn-b">
+        <svg data-hf-id="hf-koho" viewBox="0 0 100 100" aria-hidden="true">
+          <path data-hf-id="hf-rps1" d="M50 4 L61.8 33.8 L93.8 35.8 L69 56.2 L77 87.2 L50 70 L23 87.2 L31 56.2 L6.2 35.8 L38.2 33.8 Z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div data-hf-id="hf-tk7e" class="sc04-orn" id="sc04-orn-c">
+        <svg data-hf-id="hf-jhkl" viewBox="0 0 100 100" aria-hidden="true">
+          <path data-hf-id="hf-iz24" d="M50 4 L61.8 33.8 L93.8 35.8 L69 56.2 L77 87.2 L50 70 L23 87.2 L31 56.2 L6.2 35.8 L38.2 33.8 Z" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <div data-hf-id="hf-dvod" class="sc04-stack">
+        <div data-hf-id="hf-5lav" id="sc04-mark">
+          <img loading="lazy" data-hf-preview-lazy data-hf-id="hf-edfy" src="assets/icon-apple-touch-icon-unsized.png" alt="">
+        </div>
+
+        <div data-hf-id="hf-5vkt" id="sc04-q"><span data-hf-id="hf-rubd" class="sc04-w">What</span> <span data-hf-id="hf-n3pb" class="sc04-w">stage</span> <span data-hf-id="hf-td1j" class="sc04-w">is</span> <span data-hf-id="hf-xve8" class="sc04-w">your</span> <span data-hf-id="hf-lf0c" class="sc04-w">child?</span></div>
+
+        <div data-hf-id="hf-09u9" id="sc04-btn-wrap">
+          <div data-hf-id="hf-60e9" id="sc04-btn">Find my child's stage</div>
+        </div>
+
+        <div data-hf-id="hf-bqui" id="sc04-sub"><span data-hf-id="hf-6fip" class="sc04-w">THREE</span> <span data-hf-id="hf-ey52" class="sc04-w">QUESTIONS.</span> <span data-hf-id="hf-xabc" class="sc04-w">NO</span> <span data-hf-id="hf-g0am" class="sc04-w">SIGN</span> <span data-hf-id="hf-uvy0" class="sc04-w">UP.</span></div>
+
+        <div data-hf-id="hf-okxz" id="sc04-url"><span data-hf-id="hf-nw7o" id="sc04-url-mask">guidedchildhood.com</span></div>
+      </div>
+    </div>
+  </div></div>
+
+    </div>
+
+    
+  <script>window.__timelines = window.__timelines || {};
+window.__timelines["main"] = gsap.timeline({ paused: true });
+(function() {
+  var tl = window.__timelines["main"];
+  tl.to("#el-01-ban-or-give-in", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 2.8);
+  tl.fromTo("#el-02-the-third-way", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 2.8);
+  tl.to("#el-02-the-third-way", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 5.8);
+  tl.fromTo("#el-03-the-real-thing", { x: 1920, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 5.8);
+  tl.to("#el-03-the-real-thing", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 7.8);
+  tl.fromTo("#el-04-stage-check", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 7.8);
+  tl.to({}, { duration: 10 }, 0);
+})();</script><script data-hf-scene="01-ban-or-give-in">(function(){
+  var __hfCompId = "01-ban-or-give-in";
+  var __hfTimelineCompId = "01-ban-or-give-in";
+  var __hfErrorLabel = "[HyperFrames] composition script error:";
+  var __hfAuthoredRootId = "root";
+  var __hfCompositionSrc = "compositions/frames/01-ban-or-give-in.html";
+  var __hfAuthoredRootAttr = "data-hf-authored-id";
+  var __hfEscapeAttr = function(value) {
+    return (value + "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  };
+  var __hfRootSelector = "[data-composition-id=\"01-ban-or-give-in\"]" || (__hfCompId
+    ? '[data-composition-id="' + __hfEscapeAttr(__hfCompId) + '"]'
+    : "");
+  var __hfRoot = null;
+  var __hfRootSelectorPattern = "\\[\\s*data-composition-id\\s*=\\s*(?:\"01-ban-or-give-in\"|'01-ban-or-give-in')\\s*\\]";
+  var __hfTimingSelectorPattern = "\\s*\\[\\s*data-(?:start|duration)\\s*=\\s*(?:\"[^\"]*\"|'[^']*')\\s*\\]";
+  var __hfAuthoredRootIdForms = ["root"];
+  var __hfAuthoredRootSelector = __hfAuthoredRootId
+    ? "[" + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(__hfAuthoredRootId) + '"]'
+    : "";
+  var __hfIsSelectorNameChar = function(char) {
+    return !!char && /[\w-]/.test(char);
+  };
+  var __hfReplaceAuthoredRootIdSelectors = function(selector) {
+    if (!__hfAuthoredRootSelector || !__hfAuthoredRootIdForms.length || typeof selector !== "string") {
+      return selector;
+    }
+    var result = "";
+    var bracketDepth = 0;
+    var quote = null;
+    for (var index = 0; index < selector.length; index += 1) {
+      var char = selector[index];
+      var previousChar = index > 0 ? selector[index - 1] : "";
+      if (quote) {
+        result += char;
+        if (char === quote && previousChar !== "\\") {
+          quote = null;
+        }
+        continue;
+      }
+      if (char === '"' || char === "'") {
+        quote = char;
+        result += char;
+        continue;
+      }
+      if (char === "[") {
+        bracketDepth += 1;
+        result += char;
+        continue;
+      }
+      if (char === "]") {
+        bracketDepth = Math.max(0, bracketDepth - 1);
+        result += char;
+        continue;
+      }
+      if (char === "#" && bracketDepth === 0) {
+        var matchedForm = null;
+        for (var formIndex = 0; formIndex < __hfAuthoredRootIdForms.length; formIndex += 1) {
+          var form = __hfAuthoredRootIdForms[formIndex];
+          if (selector.slice(index + 1, index + 1 + form.length) === form) {
+            matchedForm = form;
+            break;
+          }
+        }
+        if (matchedForm) {
+          var nextChar = selector[index + 1 + matchedForm.length];
+          if (!__hfIsSelectorNameChar(nextChar)) {
+            result += __hfAuthoredRootSelector;
+            index += matchedForm.length;
+            continue;
+          }
+        }
+      }
+      result += char;
+    }
+    return result;
+  };
+  var __hfNormalizeSelector = function(selector) {
+    if (!__hfCompId || typeof selector !== "string") return selector;
+    var normalized = selector
+      .replace(new RegExp(__hfRootSelectorPattern + '(?:' + __hfTimingSelectorPattern + ')+', 'g'), __hfRootSelector)
+      .replace(new RegExp('(?:' + __hfTimingSelectorPattern + ')+' + __hfRootSelectorPattern, 'g'), __hfRootSelector);
+    if (__hfAuthoredRootSelector) {
+      normalized = __hfReplaceAuthoredRootIdSelectors(normalized);
+    }
+    return normalized;
+  };
+  var __hfFindRoot = function() {
+    if (!__hfRoot && __hfRootSelector) {
+      __hfRoot = window.document.querySelector(__hfRootSelector);
+    }
+    return __hfRoot;
+  };
+  var __hfContains = function(node) {
+    var root = __hfFindRoot();
+    return !root || node === root || root.contains(node);
+  };
+  var __hfQueryAll = function(selector) {
+    var root = __hfFindRoot();
+    if (!root || typeof selector !== "string") {
+      return window.document.querySelectorAll(selector);
+    }
+    return Array.prototype.filter.call(window.document.querySelectorAll(__hfNormalizeSelector(selector)), function(node) {
+      return __hfContains(node);
+    });
+  };
+  var __hfQueryOne = function(selector) {
+    var matches = __hfQueryAll(selector);
+    return matches[0] || null;
+  };
+  var __hfGetElementById = function(id) {
+    var found = window.document.getElementById(id);
+    if (found && __hfContains(found)) return found;
+    var root = __hfFindRoot();
+    if (!root) return found || null;
+    var idValue = id + "";
+    if (__hfAuthoredRootId && __hfAuthoredRootId === idValue && root.getAttribute && root.getAttribute(__hfAuthoredRootAttr) === idValue) {
+      return root;
+    }
+    if (root.id === idValue) return root;
+    if (typeof root.querySelector !== "function") return null;
+    try {
+      var authoredRootMatch = root.querySelector('[' + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(idValue) + '"]');
+      if (authoredRootMatch) return authoredRootMatch;
+    } catch {}
+    if (typeof CSS !== "undefined" && CSS && typeof CSS.escape === "function") {
+      try {
+        return root.querySelector("#" + CSS.escape(idValue)) || null;
+      } catch {}
+    }
+    try {
+      return root.querySelector('[id="' + __hfEscapeAttr(idValue) + '"]') || null;
+    } catch {}
+    return null;
+  };
+  var __hfScopedDocument = typeof Proxy === "function"
+    ? new Proxy(window.document, {
+        get: function(target, prop, receiver) {
+          if (prop === "querySelector") return __hfQueryOne;
+          if (prop === "querySelectorAll") return __hfQueryAll;
+          if (prop === "getElementById") return __hfGetElementById;
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      })
+    : window.document;
+  var __hfTimelineRegistryProxy = null;
+  var __hfGetTimelineRegistry = function() {
+    window.__timelines = window.__timelines || {};
+    if (!__hfCompId || __hfCompId === __hfTimelineCompId || typeof Proxy !== "function") {
+      return window.__timelines;
+    }
+    if (!__hfTimelineRegistryProxy) {
+      __hfTimelineRegistryProxy = new Proxy(window.__timelines, {
+        get: function(target, prop, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.get(target, prop, target);
+          }
+          var authoredValue = Reflect.get(target, prop, target);
+          return authoredValue === undefined
+            ? Reflect.get(target, __hfTimelineCompId, target)
+            : authoredValue;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.set(target, prop, value, target);
+          }
+          // The authored node remains in the compiled DOM when its local id
+          // differs from the runtime mount id, so readiness legitimately sees
+          // both compositions. Publish the same timeline under both identities
+          // instead of replacing one with the other.
+          var authoredSet = Reflect.set(target, __hfCompId, value, target);
+          var runtimeSet = Reflect.set(target, __hfTimelineCompId, value, target);
+          return authoredSet && runtimeSet;
+        },
+      });
+    }
+    return __hfTimelineRegistryProxy;
+  };
+  var __hfScopedWindow = typeof Proxy === "function"
+    ? new Proxy(window, {
+        get: function(target, prop, receiver) {
+          if (prop === "__timelines") return __hfGetTimelineRegistry();
+          // Inside a sub-composition, __hyperframes is passed as a bare script
+          // param bound to the SCOPED variant (per-comp getVariables). But
+          // authors routinely write the documented window.__hyperframes.
+          // getVariables() form, which would otherwise fall through to the host
+          // page's base __hyperframes and return the WRONG (or empty) variables
+          // for this instance. Route it to the scoped variant too so both
+          // spellings resolve to this composition's own variables.
+          // (__hfScopedHyperframes is a hoisted var assigned below, before any
+          // sub-comp script -- the only code that reads this -- runs.)
+          if (prop === "__hyperframes") return __hfScopedHyperframes;
+          // Native window methods must stay bound to the real window. Handed
+          // back unbound, "this" at call time is this Proxy and Chrome rejects
+          // it with "Illegal invocation", which broke window.addEventListener,
+          // setTimeout, matchMedia and getComputedStyle inside every
+          // sub-composition -- including the window.addEventListener("hf-seek",
+          // ...) form the Three.js and TypeGPU adapters document. The sibling
+          // document and gsap proxies here already bind.
+          //
+          // Only bind non-constructors. Function.prototype.bind drops static
+          // members, so binding a class exposed on window (window.Texts and
+          // friends) would silently strip its statics. Built-in methods have
+          // no .prototype; classes and constructor functions do.
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" && value.prototype === undefined
+            ? value.bind(target)
+            : value;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop === "__timelines") {
+            // Common authoring boilerplate assigns the registry back to
+            // itself (window.__timelines = window.__timelines || {}). The
+            // getter above returns our proxy; do not replace the canonical
+            // registry with that proxy or later wrappers will stack proxies.
+            if (value === __hfTimelineRegistryProxy) return true;
+            target.__timelines = value || {};
+            __hfTimelineRegistryProxy = null;
+            return true;
+          }
+          return Reflect.set(target, prop, value, target);
+        },
+      })
+    : window;
+  var __hfResolveGsapTarget = function(target) {
+    if (typeof target === "string") return __hfQueryAll(target);
+    if (!Array.isArray(target)) return target;
+    return target.reduce(function(resolved, item) {
+      if (typeof item === "string") {
+        return resolved.concat(Array.prototype.slice.call(__hfQueryAll(item)));
+      }
+      resolved.push(item);
+      return resolved;
+    }, []);
+  };
+  var __hfScopeTimeline = function(timeline) {
+    if (!timeline || timeline.__hfScopedCompositionRoot === __hfFindRoot()) return timeline;
+    ["to", "from", "fromTo", "set"].forEach(function(method) {
+      var original = timeline[method];
+      if (typeof original !== "function") return;
+      timeline[method] = function(target) {
+        var args = Array.prototype.slice.call(arguments);
+        args[0] = __hfResolveGsapTarget(target);
+        return original.apply(timeline, args);
+      };
+    });
+    try {
+      Object.defineProperty(timeline, "__hfScopedCompositionRoot", {
+        value: __hfFindRoot(),
+        configurable: true,
+      });
+    } catch {
+      // Best-effort: timelines coming from user code may have a frozen target
+      // or a non-extensible defineProperty path. Swallow — the scoped root
+      // is an enrichment, not a correctness invariant for playback.
+    }
+    return timeline;
+  };
+  var __hfBaseGsap = typeof gsap === "undefined" ? window.gsap : gsap;
+  var __hfScopedGsap = !__hfBaseGsap || typeof Proxy !== "function"
+    ? __hfBaseGsap
+    : new Proxy(__hfBaseGsap, {
+        get: function(target, prop, receiver) {
+          if (prop === "timeline") {
+            return function() {
+              return __hfScopeTimeline(target.timeline.apply(target, arguments));
+            };
+          }
+          if (prop === "to" || prop === "from" || prop === "fromTo" || prop === "set") {
+            return function(firstArg) {
+              var args = Array.prototype.slice.call(arguments);
+              args[0] = __hfResolveGsapTarget(firstArg);
+              return target[prop].apply(target, args);
+            };
+          }
+          if (prop === "utils" && target.utils && typeof Proxy === "function") {
+            return new Proxy(target.utils, {
+              get: function(utilsTarget, utilsProp, utilsReceiver) {
+                if (utilsProp === "toArray") {
+                  return function(firstArg) {
+                    var args = Array.prototype.slice.call(arguments);
+                    args[0] = __hfResolveGsapTarget(firstArg);
+                    return utilsTarget.toArray.apply(utilsTarget, args);
+                  };
+                }
+                if (utilsProp === "selector") {
+                  return function(base) {
+                    var baseEl = typeof base === "string" ? __hfQueryOne(base) : base;
+                    var root = baseEl || __hfFindRoot();
+                    return function(selector) {
+                      if (!root || typeof selector !== "string") return [];
+                      return Array.prototype.filter.call(
+                        window.document.querySelectorAll(__hfNormalizeSelector(selector)),
+                        function(node) {
+                          return node === root || (typeof root.contains === "function" && root.contains(node));
+                        },
+                      );
+                    };
+                  };
+                }
+                var value = Reflect.get(utilsTarget, utilsProp, utilsTarget);
+                return typeof value === "function" ? value.bind(utilsTarget) : value;
+              },
+            });
+          }
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+  var __hfBaseHyperframes = window.__hyperframes;
+  var __hfScopedHyperframes = !__hfBaseHyperframes
+    ? __hfBaseHyperframes
+    : Object.assign({}, __hfBaseHyperframes, {
+        assetUrl: function(path) {
+          var page = window.document.baseURI;
+          return new URL(path, __hfCompositionSrc ? new URL(__hfCompositionSrc, page) : page).href;
+        },
+        getVariables: function() {
+          var byComp = window.__hfVariablesByComp;
+          var scoped = byComp && __hfTimelineCompId ? byComp[__hfTimelineCompId] : null;
+          return scoped ? Object.assign({}, scoped) : {};
+        },
+      });
+  var __hfRun = function() {
+    try {
+      (function(document, gsap, window, __hyperframes) {
+
+    (function () {
+      var ID = "01-ban-or-give-in";
+      var DURATION = 2.8;
+      var FLIP_AT = 1.6; // Scene 3: the field hard flips to ink
+      var SNAP = 0.002; // a two millisecond ramp reads as a hard cut and lands on the flip frame
+
+      var byId = function (suffix) {
+        return document.getElementById(ID + "-" + suffix);
+      };
+
+      var l1 = byId("l1");
+      var l1Left = byId("l1-left");
+      var l1Right = byId("l1-right");
+      var l2 = byId("l2");
+      var l2Cut = byId("l2-cut");
+      var l3 = byId("l3");
+      var ink = byId("ink");
+      var starPaths = [byId("star-tl").querySelector("path"), byId("star-br").querySelector("path")];
+      var words = Array.prototype.slice.call(l3.querySelectorAll(".ban01-w"));
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Full-length driver so the timeline's duration is exactly the frame's 2.8s.
+      tl.to({ t: 0 }, { t: 1, duration: DURATION, ease: "none" }, 0);
+
+      // Scene 1 (0.0 to 0.8): "Ban it all?" spring pops into dead centre, smooth long tail, no overshoot.
+      tl.fromTo(
+        l1,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" },
+        0
+      );
+
+      // Scene 2 (0.8 to 1.6): relay swap. The prior line shrinks and split slides off both edges
+      // with a clip fade; the next line scale pops into the same centre while the halves are
+      // still at speed, so the two halves read as one move.
+      var EXIT_AT = 0.8;
+      var EXIT_DUR = 0.38;
+      var OVERLAP = 0.16;
+      tl.fromTo(
+        l1Left,
+        { x: 0, scale: 1, opacity: 1 },
+        { x: -1100, scale: 0.55, opacity: 0, duration: EXIT_DUR, ease: "power2.in" },
+        EXIT_AT
+      );
+      tl.fromTo(
+        l1Right,
+        { x: 0, scale: 1, opacity: 1 },
+        { x: 1100, scale: 0.55, opacity: 0, duration: EXIT_DUR, ease: "power2.in" },
+        EXIT_AT
+      );
+      tl.fromTo(
+        l2,
+        { scale: 0.5, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        EXIT_AT + EXIT_DUR - OVERLAP
+      );
+
+      // Scene 3 (1.6 to 2.8): whole-state swap at one threshold. Field to ink, the prior beat
+      // cut away, the corner stars to a butter fill. Each is an instant state change.
+      tl.fromTo(ink, { opacity: 0 }, { opacity: 1, duration: SNAP, ease: "none" }, FLIP_AT - SNAP);
+      tl.fromTo(l2Cut, { opacity: 1 }, { opacity: 0, duration: SNAP, ease: "none" }, FLIP_AT - SNAP);
+      tl.fromTo(
+        starPaths,
+        { fill: "#FFFBEE" },
+        { fill: "#EDC35F", duration: SNAP, ease: "none" },
+        FLIP_AT - SNAP
+      );
+
+      // Per word reveal. Start times are derived from the content: a base step per word plus
+      // a small per character term, so longer words earn a hair more room. The whole group
+      // lands inside half a second, then holds still to the end of the frame.
+      var WORDS_AT = FLIP_AT + 0.04;
+      var STEP_BASE = 0.05;
+      var SEC_PER_CHAR = 0.006;
+      var WORD_POP = 0.4;
+      var at = WORDS_AT;
+      words.forEach(function (w) {
+        tl.fromTo(
+          w,
+          { opacity: 0, scale: 0.6, y: 24 },
+          { opacity: 1, scale: 1, y: 0, duration: WORD_POP, ease: "power3.out" },
+          at
+        );
+        at += STEP_BASE + w.textContent.length * SEC_PER_CHAR;
+      });
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[ID] = tl;
+    })();
+  
+      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
+    } catch (_err) {
+      console.error(__hfErrorLabel, __hfCompId, _err);
+    }
+  };
+  // What the script started on the global gsap timeline, by any route, for a scene swap to revert.
+  // Only a page with a scene manifest can swap; elsewhere the first script stores null and none records.
+  var __hfRecordAnimations = function(run) {
+    if (window.__hfSceneAnimations === undefined) {
+      window.__hfSceneAnimations = window.document.querySelector("meta[name=\"hf-scene-parts\"]")
+        ? {}
+        : null;
+    }
+    var byComp = window.__hfSceneAnimations;
+    var globalTimeline = __hfBaseGsap && __hfBaseGsap.globalTimeline;
+    if (!byComp || !globalTimeline || !__hfTimelineCompId) return run();
+    var before = globalTimeline.getChildren(false);
+    // A set completes as it is made and would leave the timeline before the diff below.
+    var autoRemove = globalTimeline.autoRemoveChildren;
+    globalTimeline.autoRemoveChildren = false;
+    run();
+    globalTimeline.autoRemoveChildren = autoRemove;
+    var recorded = (byComp[__hfTimelineCompId] = byComp[__hfTimelineCompId] || []);
+    globalTimeline.getChildren(false).forEach(function(animation) {
+      if (before.indexOf(animation) >= 0) return;
+      recorded.push(animation);
+      // Dropped as the timeline drops a finished tween (it keeps a paused one); moved back, a tween re-adds itself.
+      if (autoRemove && !animation.getChildren && animation.totalProgress() === 1) globalTimeline.remove(animation);
+    });
+  };
+  __hfFindRoot();
+  __hfRecordAnimations(__hfRun);
+})();</script><script data-hf-scene="02-the-third-way">(function(){
+  var __hfCompId = "02-the-third-way";
+  var __hfTimelineCompId = "02-the-third-way";
+  var __hfErrorLabel = "[HyperFrames] composition script error:";
+  var __hfAuthoredRootId = "root";
+  var __hfCompositionSrc = "compositions/frames/02-the-third-way.html";
+  var __hfAuthoredRootAttr = "data-hf-authored-id";
+  var __hfEscapeAttr = function(value) {
+    return (value + "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  };
+  var __hfRootSelector = "[data-composition-id=\"02-the-third-way\"]" || (__hfCompId
+    ? '[data-composition-id="' + __hfEscapeAttr(__hfCompId) + '"]'
+    : "");
+  var __hfRoot = null;
+  var __hfRootSelectorPattern = "\\[\\s*data-composition-id\\s*=\\s*(?:\"02-the-third-way\"|'02-the-third-way')\\s*\\]";
+  var __hfTimingSelectorPattern = "\\s*\\[\\s*data-(?:start|duration)\\s*=\\s*(?:\"[^\"]*\"|'[^']*')\\s*\\]";
+  var __hfAuthoredRootIdForms = ["root"];
+  var __hfAuthoredRootSelector = __hfAuthoredRootId
+    ? "[" + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(__hfAuthoredRootId) + '"]'
+    : "";
+  var __hfIsSelectorNameChar = function(char) {
+    return !!char && /[\w-]/.test(char);
+  };
+  var __hfReplaceAuthoredRootIdSelectors = function(selector) {
+    if (!__hfAuthoredRootSelector || !__hfAuthoredRootIdForms.length || typeof selector !== "string") {
+      return selector;
+    }
+    var result = "";
+    var bracketDepth = 0;
+    var quote = null;
+    for (var index = 0; index < selector.length; index += 1) {
+      var char = selector[index];
+      var previousChar = index > 0 ? selector[index - 1] : "";
+      if (quote) {
+        result += char;
+        if (char === quote && previousChar !== "\\") {
+          quote = null;
+        }
+        continue;
+      }
+      if (char === '"' || char === "'") {
+        quote = char;
+        result += char;
+        continue;
+      }
+      if (char === "[") {
+        bracketDepth += 1;
+        result += char;
+        continue;
+      }
+      if (char === "]") {
+        bracketDepth = Math.max(0, bracketDepth - 1);
+        result += char;
+        continue;
+      }
+      if (char === "#" && bracketDepth === 0) {
+        var matchedForm = null;
+        for (var formIndex = 0; formIndex < __hfAuthoredRootIdForms.length; formIndex += 1) {
+          var form = __hfAuthoredRootIdForms[formIndex];
+          if (selector.slice(index + 1, index + 1 + form.length) === form) {
+            matchedForm = form;
+            break;
+          }
+        }
+        if (matchedForm) {
+          var nextChar = selector[index + 1 + matchedForm.length];
+          if (!__hfIsSelectorNameChar(nextChar)) {
+            result += __hfAuthoredRootSelector;
+            index += matchedForm.length;
+            continue;
+          }
+        }
+      }
+      result += char;
+    }
+    return result;
+  };
+  var __hfNormalizeSelector = function(selector) {
+    if (!__hfCompId || typeof selector !== "string") return selector;
+    var normalized = selector
+      .replace(new RegExp(__hfRootSelectorPattern + '(?:' + __hfTimingSelectorPattern + ')+', 'g'), __hfRootSelector)
+      .replace(new RegExp('(?:' + __hfTimingSelectorPattern + ')+' + __hfRootSelectorPattern, 'g'), __hfRootSelector);
+    if (__hfAuthoredRootSelector) {
+      normalized = __hfReplaceAuthoredRootIdSelectors(normalized);
+    }
+    return normalized;
+  };
+  var __hfFindRoot = function() {
+    if (!__hfRoot && __hfRootSelector) {
+      __hfRoot = window.document.querySelector(__hfRootSelector);
+    }
+    return __hfRoot;
+  };
+  var __hfContains = function(node) {
+    var root = __hfFindRoot();
+    return !root || node === root || root.contains(node);
+  };
+  var __hfQueryAll = function(selector) {
+    var root = __hfFindRoot();
+    if (!root || typeof selector !== "string") {
+      return window.document.querySelectorAll(selector);
+    }
+    return Array.prototype.filter.call(window.document.querySelectorAll(__hfNormalizeSelector(selector)), function(node) {
+      return __hfContains(node);
+    });
+  };
+  var __hfQueryOne = function(selector) {
+    var matches = __hfQueryAll(selector);
+    return matches[0] || null;
+  };
+  var __hfGetElementById = function(id) {
+    var found = window.document.getElementById(id);
+    if (found && __hfContains(found)) return found;
+    var root = __hfFindRoot();
+    if (!root) return found || null;
+    var idValue = id + "";
+    if (__hfAuthoredRootId && __hfAuthoredRootId === idValue && root.getAttribute && root.getAttribute(__hfAuthoredRootAttr) === idValue) {
+      return root;
+    }
+    if (root.id === idValue) return root;
+    if (typeof root.querySelector !== "function") return null;
+    try {
+      var authoredRootMatch = root.querySelector('[' + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(idValue) + '"]');
+      if (authoredRootMatch) return authoredRootMatch;
+    } catch {}
+    if (typeof CSS !== "undefined" && CSS && typeof CSS.escape === "function") {
+      try {
+        return root.querySelector("#" + CSS.escape(idValue)) || null;
+      } catch {}
+    }
+    try {
+      return root.querySelector('[id="' + __hfEscapeAttr(idValue) + '"]') || null;
+    } catch {}
+    return null;
+  };
+  var __hfScopedDocument = typeof Proxy === "function"
+    ? new Proxy(window.document, {
+        get: function(target, prop, receiver) {
+          if (prop === "querySelector") return __hfQueryOne;
+          if (prop === "querySelectorAll") return __hfQueryAll;
+          if (prop === "getElementById") return __hfGetElementById;
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      })
+    : window.document;
+  var __hfTimelineRegistryProxy = null;
+  var __hfGetTimelineRegistry = function() {
+    window.__timelines = window.__timelines || {};
+    if (!__hfCompId || __hfCompId === __hfTimelineCompId || typeof Proxy !== "function") {
+      return window.__timelines;
+    }
+    if (!__hfTimelineRegistryProxy) {
+      __hfTimelineRegistryProxy = new Proxy(window.__timelines, {
+        get: function(target, prop, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.get(target, prop, target);
+          }
+          var authoredValue = Reflect.get(target, prop, target);
+          return authoredValue === undefined
+            ? Reflect.get(target, __hfTimelineCompId, target)
+            : authoredValue;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.set(target, prop, value, target);
+          }
+          // The authored node remains in the compiled DOM when its local id
+          // differs from the runtime mount id, so readiness legitimately sees
+          // both compositions. Publish the same timeline under both identities
+          // instead of replacing one with the other.
+          var authoredSet = Reflect.set(target, __hfCompId, value, target);
+          var runtimeSet = Reflect.set(target, __hfTimelineCompId, value, target);
+          return authoredSet && runtimeSet;
+        },
+      });
+    }
+    return __hfTimelineRegistryProxy;
+  };
+  var __hfScopedWindow = typeof Proxy === "function"
+    ? new Proxy(window, {
+        get: function(target, prop, receiver) {
+          if (prop === "__timelines") return __hfGetTimelineRegistry();
+          // Inside a sub-composition, __hyperframes is passed as a bare script
+          // param bound to the SCOPED variant (per-comp getVariables). But
+          // authors routinely write the documented window.__hyperframes.
+          // getVariables() form, which would otherwise fall through to the host
+          // page's base __hyperframes and return the WRONG (or empty) variables
+          // for this instance. Route it to the scoped variant too so both
+          // spellings resolve to this composition's own variables.
+          // (__hfScopedHyperframes is a hoisted var assigned below, before any
+          // sub-comp script -- the only code that reads this -- runs.)
+          if (prop === "__hyperframes") return __hfScopedHyperframes;
+          // Native window methods must stay bound to the real window. Handed
+          // back unbound, "this" at call time is this Proxy and Chrome rejects
+          // it with "Illegal invocation", which broke window.addEventListener,
+          // setTimeout, matchMedia and getComputedStyle inside every
+          // sub-composition -- including the window.addEventListener("hf-seek",
+          // ...) form the Three.js and TypeGPU adapters document. The sibling
+          // document and gsap proxies here already bind.
+          //
+          // Only bind non-constructors. Function.prototype.bind drops static
+          // members, so binding a class exposed on window (window.Texts and
+          // friends) would silently strip its statics. Built-in methods have
+          // no .prototype; classes and constructor functions do.
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" && value.prototype === undefined
+            ? value.bind(target)
+            : value;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop === "__timelines") {
+            // Common authoring boilerplate assigns the registry back to
+            // itself (window.__timelines = window.__timelines || {}). The
+            // getter above returns our proxy; do not replace the canonical
+            // registry with that proxy or later wrappers will stack proxies.
+            if (value === __hfTimelineRegistryProxy) return true;
+            target.__timelines = value || {};
+            __hfTimelineRegistryProxy = null;
+            return true;
+          }
+          return Reflect.set(target, prop, value, target);
+        },
+      })
+    : window;
+  var __hfResolveGsapTarget = function(target) {
+    if (typeof target === "string") return __hfQueryAll(target);
+    if (!Array.isArray(target)) return target;
+    return target.reduce(function(resolved, item) {
+      if (typeof item === "string") {
+        return resolved.concat(Array.prototype.slice.call(__hfQueryAll(item)));
+      }
+      resolved.push(item);
+      return resolved;
+    }, []);
+  };
+  var __hfScopeTimeline = function(timeline) {
+    if (!timeline || timeline.__hfScopedCompositionRoot === __hfFindRoot()) return timeline;
+    ["to", "from", "fromTo", "set"].forEach(function(method) {
+      var original = timeline[method];
+      if (typeof original !== "function") return;
+      timeline[method] = function(target) {
+        var args = Array.prototype.slice.call(arguments);
+        args[0] = __hfResolveGsapTarget(target);
+        return original.apply(timeline, args);
+      };
+    });
+    try {
+      Object.defineProperty(timeline, "__hfScopedCompositionRoot", {
+        value: __hfFindRoot(),
+        configurable: true,
+      });
+    } catch {
+      // Best-effort: timelines coming from user code may have a frozen target
+      // or a non-extensible defineProperty path. Swallow — the scoped root
+      // is an enrichment, not a correctness invariant for playback.
+    }
+    return timeline;
+  };
+  var __hfBaseGsap = typeof gsap === "undefined" ? window.gsap : gsap;
+  var __hfScopedGsap = !__hfBaseGsap || typeof Proxy !== "function"
+    ? __hfBaseGsap
+    : new Proxy(__hfBaseGsap, {
+        get: function(target, prop, receiver) {
+          if (prop === "timeline") {
+            return function() {
+              return __hfScopeTimeline(target.timeline.apply(target, arguments));
+            };
+          }
+          if (prop === "to" || prop === "from" || prop === "fromTo" || prop === "set") {
+            return function(firstArg) {
+              var args = Array.prototype.slice.call(arguments);
+              args[0] = __hfResolveGsapTarget(firstArg);
+              return target[prop].apply(target, args);
+            };
+          }
+          if (prop === "utils" && target.utils && typeof Proxy === "function") {
+            return new Proxy(target.utils, {
+              get: function(utilsTarget, utilsProp, utilsReceiver) {
+                if (utilsProp === "toArray") {
+                  return function(firstArg) {
+                    var args = Array.prototype.slice.call(arguments);
+                    args[0] = __hfResolveGsapTarget(firstArg);
+                    return utilsTarget.toArray.apply(utilsTarget, args);
+                  };
+                }
+                if (utilsProp === "selector") {
+                  return function(base) {
+                    var baseEl = typeof base === "string" ? __hfQueryOne(base) : base;
+                    var root = baseEl || __hfFindRoot();
+                    return function(selector) {
+                      if (!root || typeof selector !== "string") return [];
+                      return Array.prototype.filter.call(
+                        window.document.querySelectorAll(__hfNormalizeSelector(selector)),
+                        function(node) {
+                          return node === root || (typeof root.contains === "function" && root.contains(node));
+                        },
+                      );
+                    };
+                  };
+                }
+                var value = Reflect.get(utilsTarget, utilsProp, utilsTarget);
+                return typeof value === "function" ? value.bind(utilsTarget) : value;
+              },
+            });
+          }
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+  var __hfBaseHyperframes = window.__hyperframes;
+  var __hfScopedHyperframes = !__hfBaseHyperframes
+    ? __hfBaseHyperframes
+    : Object.assign({}, __hfBaseHyperframes, {
+        assetUrl: function(path) {
+          var page = window.document.baseURI;
+          return new URL(path, __hfCompositionSrc ? new URL(__hfCompositionSrc, page) : page).href;
+        },
+        getVariables: function() {
+          var byComp = window.__hfVariablesByComp;
+          var scoped = byComp && __hfTimelineCompId ? byComp[__hfTimelineCompId] : null;
+          return scoped ? Object.assign({}, scoped) : {};
+        },
+      });
+  var __hfRun = function() {
+    try {
+      (function(document, gsap, window, __hyperframes) {
+
+    (function () {
+      var ID = "02-the-third-way";
+      var byId = function (s) { return document.getElementById(ID + "-" + s); };
+      var byClass = function (s) {
+        return Array.prototype.slice.call(document.querySelectorAll('[class~="' + ID + "-" + s + '"]'));
+      };
+
+      /* ---------- Pathway geometry ----------
+         A gentle rising curve sampled into a polyline, so every station's y comes from the
+         same function that draws the line: the friends stand exactly on the path. */
+      var X0 = 200, X1 = 1720, Y0 = 640, RISE = 110, SAMPLES = 64;
+      var yAt = function (x) {
+        var u = (x - X0) / (X1 - X0);
+        return Y0 - RISE * Math.pow(u, 1.5);
+      };
+      var pts = [];
+      for (var i = 0; i <= SAMPLES; i++) {
+        var px = X0 + ((X1 - X0) * i) / SAMPLES;
+        pts.push([px, yAt(px)]);
+      }
+      var line = byId("line");
+      line.setAttribute(
+        "d",
+        pts.map(function (p, k) { return (k ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ")
+      );
+
+      /* Cumulative polyline length: the fraction of the draw at which the pen reaches x. */
+      var cum = [0];
+      for (var j = 1; j < pts.length; j++) {
+        cum.push(cum[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
+      }
+      var total = cum[cum.length - 1];
+      var fracAt = function (x) {
+        var u = ((x - X0) / (X1 - X0)) * SAMPLES;
+        var k = Math.min(SAMPLES - 1, Math.max(0, Math.floor(u)));
+        var f = u - k;
+        return (cum[k] + (cum[k + 1] - cum[k]) * f) / total;
+      };
+
+      /* ---------- Stations ----------
+         Five slots at 336px pitch, 288 to 1632: the row spans 70% of the width. */
+      var STATIONS = [288, 624, 960, 1296, 1632];
+      var FRIEND = 1080 * 0.14; /* 14% of frame height, matches the 14cqh box */
+      var friends = byClass("friend");
+      var pills = byClass("pill");
+      STATIONS.forEach(function (x, k) {
+        var y = yAt(x);
+        friends[k].style.left = (x - FRIEND / 2).toFixed(1) + "px";
+        /* The cutouts' feet sit at about 86% of the image height; land them on the stroke. */
+        friends[k].style.top = (y - FRIEND * 0.86).toFixed(1) + "px";
+        pills[k].style.left = x.toFixed(1) + "px";
+        pills[k].style.top = (y + 22).toFixed(1) + "px";
+      });
+
+      /* ---------- svg-path-draw setup: measured lengths, never guessed ---------- */
+      var lineLen = line.getTotalLength();
+      line.style.strokeDasharray = String(lineLen);
+      line.style.strokeDashoffset = String(lineLen);
+      var star = byId("star");
+      var starLen = star.getTotalLength();
+      star.style.strokeDasharray = String(starLen);
+      star.style.strokeDashoffset = String(starLen);
+
+      /* ---------- Timeline ---------- */
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* dynamic-content-sequencing: per word stagger computed from the word count so a
+         line fills its window exactly, no per word offsets hand keyed. */
+      var wordReveal = function (els, start, end, dur, rise) {
+        var n = els.length;
+        var stagger = n > 1 ? (end - start - dur) / (n - 1) : 0;
+        els.forEach(function (el, k) {
+          tl.fromTo(
+            el,
+            { y: rise, opacity: 0 },
+            { y: 0, opacity: 1, duration: dur, ease: "power3.out" },
+            start + k * stagger
+          );
+        });
+      };
+
+      /* Scene 1 (0.0 to 0.8s): headline lands word by word; the corner star draws itself in. */
+      wordReveal(byClass("hw"), 0.04, 0.8, 0.5, 28);
+      tl.to(star, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 0.15);
+
+      /* Scene 2 (0.8 to 2.1s): the pathway self draws at pen speed; as the pen reaches each
+         station its Planet Friend slides a short distance up into the slot (item stagger
+         assemble, low drama), then the badge pill pops beneath it (spring-pop-entrance, power3 settle). */
+      var DRAW_AT = 0.8, DRAW_DUR = 0.9;
+      tl.to(line, { strokeDashoffset: 0, duration: DRAW_DUR, ease: "none" }, DRAW_AT);
+      STATIONS.forEach(function (x, k) {
+        var at = DRAW_AT + DRAW_DUR * fracAt(x);
+        tl.fromTo(
+          friends[k],
+          { y: 44, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
+          at
+        );
+        tl.fromTo(
+          pills[k],
+          { xPercent: -50, scale: 0, opacity: 0, y: 12 },
+          { xPercent: -50, scale: 1, opacity: 1, y: 0, duration: 0.42, ease: "power3.out" },
+          at + 0.14
+        );
+      });
+
+      /* Scene 3 (2.1 to 3.0s): the sub line reveals word by word, then everything holds still. */
+      wordReveal(byClass("sw"), 2.1, 2.97, 0.42, 18);
+
+      /* Pin the timeline's end to the frame's 3.0s duration (a zero length proxy tween, no motion). */
+      tl.to({ v: 0 }, { v: 1, duration: 0, ease: "none" }, 3.0);
+
+      window.__timelines[ID] = tl;
+      tl.seek(0);
+    })();
+  
+      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
+    } catch (_err) {
+      console.error(__hfErrorLabel, __hfCompId, _err);
+    }
+  };
+  // What the script started on the global gsap timeline, by any route, for a scene swap to revert.
+  // Only a page with a scene manifest can swap; elsewhere the first script stores null and none records.
+  var __hfRecordAnimations = function(run) {
+    if (window.__hfSceneAnimations === undefined) {
+      window.__hfSceneAnimations = window.document.querySelector("meta[name=\"hf-scene-parts\"]")
+        ? {}
+        : null;
+    }
+    var byComp = window.__hfSceneAnimations;
+    var globalTimeline = __hfBaseGsap && __hfBaseGsap.globalTimeline;
+    if (!byComp || !globalTimeline || !__hfTimelineCompId) return run();
+    var before = globalTimeline.getChildren(false);
+    // A set completes as it is made and would leave the timeline before the diff below.
+    var autoRemove = globalTimeline.autoRemoveChildren;
+    globalTimeline.autoRemoveChildren = false;
+    run();
+    globalTimeline.autoRemoveChildren = autoRemove;
+    var recorded = (byComp[__hfTimelineCompId] = byComp[__hfTimelineCompId] || []);
+    globalTimeline.getChildren(false).forEach(function(animation) {
+      if (before.indexOf(animation) >= 0) return;
+      recorded.push(animation);
+      // Dropped as the timeline drops a finished tween (it keeps a paused one); moved back, a tween re-adds itself.
+      if (autoRemove && !animation.getChildren && animation.totalProgress() === 1) globalTimeline.remove(animation);
+    });
+  };
+  __hfFindRoot();
+  __hfRecordAnimations(__hfRun);
+})();</script><script data-hf-scene="03-the-real-thing">(function(){
+  var __hfCompId = "03-the-real-thing";
+  var __hfTimelineCompId = "03-the-real-thing";
+  var __hfErrorLabel = "[HyperFrames] composition script error:";
+  var __hfAuthoredRootId = "root";
+  var __hfCompositionSrc = "compositions/frames/03-the-real-thing.html";
+  var __hfAuthoredRootAttr = "data-hf-authored-id";
+  var __hfEscapeAttr = function(value) {
+    return (value + "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  };
+  var __hfRootSelector = "[data-composition-id=\"03-the-real-thing\"]" || (__hfCompId
+    ? '[data-composition-id="' + __hfEscapeAttr(__hfCompId) + '"]'
+    : "");
+  var __hfRoot = null;
+  var __hfRootSelectorPattern = "\\[\\s*data-composition-id\\s*=\\s*(?:\"03-the-real-thing\"|'03-the-real-thing')\\s*\\]";
+  var __hfTimingSelectorPattern = "\\s*\\[\\s*data-(?:start|duration)\\s*=\\s*(?:\"[^\"]*\"|'[^']*')\\s*\\]";
+  var __hfAuthoredRootIdForms = ["root"];
+  var __hfAuthoredRootSelector = __hfAuthoredRootId
+    ? "[" + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(__hfAuthoredRootId) + '"]'
+    : "";
+  var __hfIsSelectorNameChar = function(char) {
+    return !!char && /[\w-]/.test(char);
+  };
+  var __hfReplaceAuthoredRootIdSelectors = function(selector) {
+    if (!__hfAuthoredRootSelector || !__hfAuthoredRootIdForms.length || typeof selector !== "string") {
+      return selector;
+    }
+    var result = "";
+    var bracketDepth = 0;
+    var quote = null;
+    for (var index = 0; index < selector.length; index += 1) {
+      var char = selector[index];
+      var previousChar = index > 0 ? selector[index - 1] : "";
+      if (quote) {
+        result += char;
+        if (char === quote && previousChar !== "\\") {
+          quote = null;
+        }
+        continue;
+      }
+      if (char === '"' || char === "'") {
+        quote = char;
+        result += char;
+        continue;
+      }
+      if (char === "[") {
+        bracketDepth += 1;
+        result += char;
+        continue;
+      }
+      if (char === "]") {
+        bracketDepth = Math.max(0, bracketDepth - 1);
+        result += char;
+        continue;
+      }
+      if (char === "#" && bracketDepth === 0) {
+        var matchedForm = null;
+        for (var formIndex = 0; formIndex < __hfAuthoredRootIdForms.length; formIndex += 1) {
+          var form = __hfAuthoredRootIdForms[formIndex];
+          if (selector.slice(index + 1, index + 1 + form.length) === form) {
+            matchedForm = form;
+            break;
+          }
+        }
+        if (matchedForm) {
+          var nextChar = selector[index + 1 + matchedForm.length];
+          if (!__hfIsSelectorNameChar(nextChar)) {
+            result += __hfAuthoredRootSelector;
+            index += matchedForm.length;
+            continue;
+          }
+        }
+      }
+      result += char;
+    }
+    return result;
+  };
+  var __hfNormalizeSelector = function(selector) {
+    if (!__hfCompId || typeof selector !== "string") return selector;
+    var normalized = selector
+      .replace(new RegExp(__hfRootSelectorPattern + '(?:' + __hfTimingSelectorPattern + ')+', 'g'), __hfRootSelector)
+      .replace(new RegExp('(?:' + __hfTimingSelectorPattern + ')+' + __hfRootSelectorPattern, 'g'), __hfRootSelector);
+    if (__hfAuthoredRootSelector) {
+      normalized = __hfReplaceAuthoredRootIdSelectors(normalized);
+    }
+    return normalized;
+  };
+  var __hfFindRoot = function() {
+    if (!__hfRoot && __hfRootSelector) {
+      __hfRoot = window.document.querySelector(__hfRootSelector);
+    }
+    return __hfRoot;
+  };
+  var __hfContains = function(node) {
+    var root = __hfFindRoot();
+    return !root || node === root || root.contains(node);
+  };
+  var __hfQueryAll = function(selector) {
+    var root = __hfFindRoot();
+    if (!root || typeof selector !== "string") {
+      return window.document.querySelectorAll(selector);
+    }
+    return Array.prototype.filter.call(window.document.querySelectorAll(__hfNormalizeSelector(selector)), function(node) {
+      return __hfContains(node);
+    });
+  };
+  var __hfQueryOne = function(selector) {
+    var matches = __hfQueryAll(selector);
+    return matches[0] || null;
+  };
+  var __hfGetElementById = function(id) {
+    var found = window.document.getElementById(id);
+    if (found && __hfContains(found)) return found;
+    var root = __hfFindRoot();
+    if (!root) return found || null;
+    var idValue = id + "";
+    if (__hfAuthoredRootId && __hfAuthoredRootId === idValue && root.getAttribute && root.getAttribute(__hfAuthoredRootAttr) === idValue) {
+      return root;
+    }
+    if (root.id === idValue) return root;
+    if (typeof root.querySelector !== "function") return null;
+    try {
+      var authoredRootMatch = root.querySelector('[' + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(idValue) + '"]');
+      if (authoredRootMatch) return authoredRootMatch;
+    } catch {}
+    if (typeof CSS !== "undefined" && CSS && typeof CSS.escape === "function") {
+      try {
+        return root.querySelector("#" + CSS.escape(idValue)) || null;
+      } catch {}
+    }
+    try {
+      return root.querySelector('[id="' + __hfEscapeAttr(idValue) + '"]') || null;
+    } catch {}
+    return null;
+  };
+  var __hfScopedDocument = typeof Proxy === "function"
+    ? new Proxy(window.document, {
+        get: function(target, prop, receiver) {
+          if (prop === "querySelector") return __hfQueryOne;
+          if (prop === "querySelectorAll") return __hfQueryAll;
+          if (prop === "getElementById") return __hfGetElementById;
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      })
+    : window.document;
+  var __hfTimelineRegistryProxy = null;
+  var __hfGetTimelineRegistry = function() {
+    window.__timelines = window.__timelines || {};
+    if (!__hfCompId || __hfCompId === __hfTimelineCompId || typeof Proxy !== "function") {
+      return window.__timelines;
+    }
+    if (!__hfTimelineRegistryProxy) {
+      __hfTimelineRegistryProxy = new Proxy(window.__timelines, {
+        get: function(target, prop, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.get(target, prop, target);
+          }
+          var authoredValue = Reflect.get(target, prop, target);
+          return authoredValue === undefined
+            ? Reflect.get(target, __hfTimelineCompId, target)
+            : authoredValue;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.set(target, prop, value, target);
+          }
+          // The authored node remains in the compiled DOM when its local id
+          // differs from the runtime mount id, so readiness legitimately sees
+          // both compositions. Publish the same timeline under both identities
+          // instead of replacing one with the other.
+          var authoredSet = Reflect.set(target, __hfCompId, value, target);
+          var runtimeSet = Reflect.set(target, __hfTimelineCompId, value, target);
+          return authoredSet && runtimeSet;
+        },
+      });
+    }
+    return __hfTimelineRegistryProxy;
+  };
+  var __hfScopedWindow = typeof Proxy === "function"
+    ? new Proxy(window, {
+        get: function(target, prop, receiver) {
+          if (prop === "__timelines") return __hfGetTimelineRegistry();
+          // Inside a sub-composition, __hyperframes is passed as a bare script
+          // param bound to the SCOPED variant (per-comp getVariables). But
+          // authors routinely write the documented window.__hyperframes.
+          // getVariables() form, which would otherwise fall through to the host
+          // page's base __hyperframes and return the WRONG (or empty) variables
+          // for this instance. Route it to the scoped variant too so both
+          // spellings resolve to this composition's own variables.
+          // (__hfScopedHyperframes is a hoisted var assigned below, before any
+          // sub-comp script -- the only code that reads this -- runs.)
+          if (prop === "__hyperframes") return __hfScopedHyperframes;
+          // Native window methods must stay bound to the real window. Handed
+          // back unbound, "this" at call time is this Proxy and Chrome rejects
+          // it with "Illegal invocation", which broke window.addEventListener,
+          // setTimeout, matchMedia and getComputedStyle inside every
+          // sub-composition -- including the window.addEventListener("hf-seek",
+          // ...) form the Three.js and TypeGPU adapters document. The sibling
+          // document and gsap proxies here already bind.
+          //
+          // Only bind non-constructors. Function.prototype.bind drops static
+          // members, so binding a class exposed on window (window.Texts and
+          // friends) would silently strip its statics. Built-in methods have
+          // no .prototype; classes and constructor functions do.
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" && value.prototype === undefined
+            ? value.bind(target)
+            : value;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop === "__timelines") {
+            // Common authoring boilerplate assigns the registry back to
+            // itself (window.__timelines = window.__timelines || {}). The
+            // getter above returns our proxy; do not replace the canonical
+            // registry with that proxy or later wrappers will stack proxies.
+            if (value === __hfTimelineRegistryProxy) return true;
+            target.__timelines = value || {};
+            __hfTimelineRegistryProxy = null;
+            return true;
+          }
+          return Reflect.set(target, prop, value, target);
+        },
+      })
+    : window;
+  var __hfResolveGsapTarget = function(target) {
+    if (typeof target === "string") return __hfQueryAll(target);
+    if (!Array.isArray(target)) return target;
+    return target.reduce(function(resolved, item) {
+      if (typeof item === "string") {
+        return resolved.concat(Array.prototype.slice.call(__hfQueryAll(item)));
+      }
+      resolved.push(item);
+      return resolved;
+    }, []);
+  };
+  var __hfScopeTimeline = function(timeline) {
+    if (!timeline || timeline.__hfScopedCompositionRoot === __hfFindRoot()) return timeline;
+    ["to", "from", "fromTo", "set"].forEach(function(method) {
+      var original = timeline[method];
+      if (typeof original !== "function") return;
+      timeline[method] = function(target) {
+        var args = Array.prototype.slice.call(arguments);
+        args[0] = __hfResolveGsapTarget(target);
+        return original.apply(timeline, args);
+      };
+    });
+    try {
+      Object.defineProperty(timeline, "__hfScopedCompositionRoot", {
+        value: __hfFindRoot(),
+        configurable: true,
+      });
+    } catch {
+      // Best-effort: timelines coming from user code may have a frozen target
+      // or a non-extensible defineProperty path. Swallow — the scoped root
+      // is an enrichment, not a correctness invariant for playback.
+    }
+    return timeline;
+  };
+  var __hfBaseGsap = typeof gsap === "undefined" ? window.gsap : gsap;
+  var __hfScopedGsap = !__hfBaseGsap || typeof Proxy !== "function"
+    ? __hfBaseGsap
+    : new Proxy(__hfBaseGsap, {
+        get: function(target, prop, receiver) {
+          if (prop === "timeline") {
+            return function() {
+              return __hfScopeTimeline(target.timeline.apply(target, arguments));
+            };
+          }
+          if (prop === "to" || prop === "from" || prop === "fromTo" || prop === "set") {
+            return function(firstArg) {
+              var args = Array.prototype.slice.call(arguments);
+              args[0] = __hfResolveGsapTarget(firstArg);
+              return target[prop].apply(target, args);
+            };
+          }
+          if (prop === "utils" && target.utils && typeof Proxy === "function") {
+            return new Proxy(target.utils, {
+              get: function(utilsTarget, utilsProp, utilsReceiver) {
+                if (utilsProp === "toArray") {
+                  return function(firstArg) {
+                    var args = Array.prototype.slice.call(arguments);
+                    args[0] = __hfResolveGsapTarget(firstArg);
+                    return utilsTarget.toArray.apply(utilsTarget, args);
+                  };
+                }
+                if (utilsProp === "selector") {
+                  return function(base) {
+                    var baseEl = typeof base === "string" ? __hfQueryOne(base) : base;
+                    var root = baseEl || __hfFindRoot();
+                    return function(selector) {
+                      if (!root || typeof selector !== "string") return [];
+                      return Array.prototype.filter.call(
+                        window.document.querySelectorAll(__hfNormalizeSelector(selector)),
+                        function(node) {
+                          return node === root || (typeof root.contains === "function" && root.contains(node));
+                        },
+                      );
+                    };
+                  };
+                }
+                var value = Reflect.get(utilsTarget, utilsProp, utilsTarget);
+                return typeof value === "function" ? value.bind(utilsTarget) : value;
+              },
+            });
+          }
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+  var __hfBaseHyperframes = window.__hyperframes;
+  var __hfScopedHyperframes = !__hfBaseHyperframes
+    ? __hfBaseHyperframes
+    : Object.assign({}, __hfBaseHyperframes, {
+        assetUrl: function(path) {
+          var page = window.document.baseURI;
+          return new URL(path, __hfCompositionSrc ? new URL(__hfCompositionSrc, page) : page).href;
+        },
+        getVariables: function() {
+          var byComp = window.__hfVariablesByComp;
+          var scoped = byComp && __hfTimelineCompId ? byComp[__hfTimelineCompId] : null;
+          return scoped ? Object.assign({}, scoped) : {};
+        },
+      });
+  var __hfRun = function() {
+    try {
+      (function(document, gsap, window, __hyperframes) {
+
+    (function () {
+      var FRAME_ID = "03-the-real-thing";
+      var q = function (sel) { return document.querySelector(sel); };
+      var qa = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
+
+      var cardLeft = q("#rt03-card-left");
+      var cardRight = q("#rt03-card-right");
+      var pillStars = q("#rt03-pill-stars");
+      var pillPassport = q("#rt03-pill-passport");
+      var words = qa(".rt03-word");
+      var ornaments = qa(".rt03-orn");
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0 to 0.9s): split-tilt-cards.
+         Each screen slides in from its own wing with a mirrored rotationY,
+         overshooting the tilt then pivoting into place near flat. */
+      var TILT = 5;            // settled tilt, near flat as the packet asks
+      var OVERSHOOT = 16;      // pivot-into-place feel
+      var SLIDE = 420;         // from the wings
+      var ENTRY = 0.8;
+
+      tl.fromTo(cardLeft,
+        { x: -SLIDE, rotationY: TILT + OVERSHOOT, opacity: 0 },
+        { x: 0, rotationY: TILT, opacity: 1, duration: ENTRY, ease: "power3.out" },
+        0);
+      tl.fromTo(cardRight,
+        { x: SLIDE, rotationY: -TILT - OVERSHOOT, opacity: 0 },
+        { x: 0, rotationY: -TILT, opacity: 1, duration: ENTRY, ease: "power3.out" },
+        0.1);
+
+      /* the ornament wreath settles around the pair while they land */
+      ornaments.forEach(function (el, i) {
+        tl.fromTo(el,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.25 + i * 0.07);
+      });
+
+      /* Scene 2 (0.9 to 1.5s): headline lands word by word.
+         The per word stagger is derived from the word count so the whole
+         line fits its window, rather than hand keyed per word. */
+      var WORD_DUR = 0.36;
+      var WORD_WINDOW = 0.3;
+      var WORD_STAGGER = Math.min(0.08, WORD_WINDOW / words.length);
+      words.forEach(function (el, i) {
+        tl.fromTo(el,
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: WORD_DUR, ease: "power3.out" },
+          0.9 + i * WORD_STAGGER);
+      });
+
+      /* badge pills spring pop onto the bottom edge of each card (smooth settle).
+         The pills are positioned at their centre point, so the centring offset
+         is folded into the tween rather than a CSS transform. */
+      var POP = 0.44;
+      tl.fromTo(pillStars,
+        { scale: 0, opacity: 0, xPercent: -50, yPercent: -50 },
+        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, duration: POP, ease: "power3.out" },
+        1.0);
+      tl.fromTo(pillPassport,
+        { scale: 0, opacity: 0, xPercent: -50, yPercent: -50 },
+        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, duration: POP, ease: "power3.out" },
+        1.06);
+
+      /* Scene 3 (1.5 to 2.0s): held read. The only motion is the sanctioned
+         subtle jitter on the two cards, lowest amplitude, counter phase,
+         one finite half sine out and back (no repeat, no yoyo), ending at rest. */
+      var JIT = 1.5;           // px, 2px default divided by root 2 for two elements
+      tl.to(cardLeft, { y: -JIT, duration: 0.25, ease: "sine.inOut" }, 1.5);
+      tl.to(cardLeft, { y: 0, duration: 0.25, ease: "sine.inOut" }, 1.75);
+      tl.to(cardRight, { y: JIT, duration: 0.25, ease: "sine.inOut" }, 1.5);
+      tl.to(cardRight, { y: 0, duration: 0.25, ease: "sine.inOut" }, 1.75);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FRAME_ID] = tl;
+      tl.seek(0);
+    })();
+  
+      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
+    } catch (_err) {
+      console.error(__hfErrorLabel, __hfCompId, _err);
+    }
+  };
+  // What the script started on the global gsap timeline, by any route, for a scene swap to revert.
+  // Only a page with a scene manifest can swap; elsewhere the first script stores null and none records.
+  var __hfRecordAnimations = function(run) {
+    if (window.__hfSceneAnimations === undefined) {
+      window.__hfSceneAnimations = window.document.querySelector("meta[name=\"hf-scene-parts\"]")
+        ? {}
+        : null;
+    }
+    var byComp = window.__hfSceneAnimations;
+    var globalTimeline = __hfBaseGsap && __hfBaseGsap.globalTimeline;
+    if (!byComp || !globalTimeline || !__hfTimelineCompId) return run();
+    var before = globalTimeline.getChildren(false);
+    // A set completes as it is made and would leave the timeline before the diff below.
+    var autoRemove = globalTimeline.autoRemoveChildren;
+    globalTimeline.autoRemoveChildren = false;
+    run();
+    globalTimeline.autoRemoveChildren = autoRemove;
+    var recorded = (byComp[__hfTimelineCompId] = byComp[__hfTimelineCompId] || []);
+    globalTimeline.getChildren(false).forEach(function(animation) {
+      if (before.indexOf(animation) >= 0) return;
+      recorded.push(animation);
+      // Dropped as the timeline drops a finished tween (it keeps a paused one); moved back, a tween re-adds itself.
+      if (autoRemove && !animation.getChildren && animation.totalProgress() === 1) globalTimeline.remove(animation);
+    });
+  };
+  __hfFindRoot();
+  __hfRecordAnimations(__hfRun);
+})();</script><script data-hf-scene="04-stage-check">(function(){
+  var __hfCompId = "04-stage-check";
+  var __hfTimelineCompId = "04-stage-check";
+  var __hfErrorLabel = "[HyperFrames] composition script error:";
+  var __hfAuthoredRootId = "root";
+  var __hfCompositionSrc = "compositions/frames/04-stage-check.html";
+  var __hfAuthoredRootAttr = "data-hf-authored-id";
+  var __hfEscapeAttr = function(value) {
+    return (value + "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  };
+  var __hfRootSelector = "[data-composition-id=\"04-stage-check\"]" || (__hfCompId
+    ? '[data-composition-id="' + __hfEscapeAttr(__hfCompId) + '"]'
+    : "");
+  var __hfRoot = null;
+  var __hfRootSelectorPattern = "\\[\\s*data-composition-id\\s*=\\s*(?:\"04-stage-check\"|'04-stage-check')\\s*\\]";
+  var __hfTimingSelectorPattern = "\\s*\\[\\s*data-(?:start|duration)\\s*=\\s*(?:\"[^\"]*\"|'[^']*')\\s*\\]";
+  var __hfAuthoredRootIdForms = ["root"];
+  var __hfAuthoredRootSelector = __hfAuthoredRootId
+    ? "[" + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(__hfAuthoredRootId) + '"]'
+    : "";
+  var __hfIsSelectorNameChar = function(char) {
+    return !!char && /[\w-]/.test(char);
+  };
+  var __hfReplaceAuthoredRootIdSelectors = function(selector) {
+    if (!__hfAuthoredRootSelector || !__hfAuthoredRootIdForms.length || typeof selector !== "string") {
+      return selector;
+    }
+    var result = "";
+    var bracketDepth = 0;
+    var quote = null;
+    for (var index = 0; index < selector.length; index += 1) {
+      var char = selector[index];
+      var previousChar = index > 0 ? selector[index - 1] : "";
+      if (quote) {
+        result += char;
+        if (char === quote && previousChar !== "\\") {
+          quote = null;
+        }
+        continue;
+      }
+      if (char === '"' || char === "'") {
+        quote = char;
+        result += char;
+        continue;
+      }
+      if (char === "[") {
+        bracketDepth += 1;
+        result += char;
+        continue;
+      }
+      if (char === "]") {
+        bracketDepth = Math.max(0, bracketDepth - 1);
+        result += char;
+        continue;
+      }
+      if (char === "#" && bracketDepth === 0) {
+        var matchedForm = null;
+        for (var formIndex = 0; formIndex < __hfAuthoredRootIdForms.length; formIndex += 1) {
+          var form = __hfAuthoredRootIdForms[formIndex];
+          if (selector.slice(index + 1, index + 1 + form.length) === form) {
+            matchedForm = form;
+            break;
+          }
+        }
+        if (matchedForm) {
+          var nextChar = selector[index + 1 + matchedForm.length];
+          if (!__hfIsSelectorNameChar(nextChar)) {
+            result += __hfAuthoredRootSelector;
+            index += matchedForm.length;
+            continue;
+          }
+        }
+      }
+      result += char;
+    }
+    return result;
+  };
+  var __hfNormalizeSelector = function(selector) {
+    if (!__hfCompId || typeof selector !== "string") return selector;
+    var normalized = selector
+      .replace(new RegExp(__hfRootSelectorPattern + '(?:' + __hfTimingSelectorPattern + ')+', 'g'), __hfRootSelector)
+      .replace(new RegExp('(?:' + __hfTimingSelectorPattern + ')+' + __hfRootSelectorPattern, 'g'), __hfRootSelector);
+    if (__hfAuthoredRootSelector) {
+      normalized = __hfReplaceAuthoredRootIdSelectors(normalized);
+    }
+    return normalized;
+  };
+  var __hfFindRoot = function() {
+    if (!__hfRoot && __hfRootSelector) {
+      __hfRoot = window.document.querySelector(__hfRootSelector);
+    }
+    return __hfRoot;
+  };
+  var __hfContains = function(node) {
+    var root = __hfFindRoot();
+    return !root || node === root || root.contains(node);
+  };
+  var __hfQueryAll = function(selector) {
+    var root = __hfFindRoot();
+    if (!root || typeof selector !== "string") {
+      return window.document.querySelectorAll(selector);
+    }
+    return Array.prototype.filter.call(window.document.querySelectorAll(__hfNormalizeSelector(selector)), function(node) {
+      return __hfContains(node);
+    });
+  };
+  var __hfQueryOne = function(selector) {
+    var matches = __hfQueryAll(selector);
+    return matches[0] || null;
+  };
+  var __hfGetElementById = function(id) {
+    var found = window.document.getElementById(id);
+    if (found && __hfContains(found)) return found;
+    var root = __hfFindRoot();
+    if (!root) return found || null;
+    var idValue = id + "";
+    if (__hfAuthoredRootId && __hfAuthoredRootId === idValue && root.getAttribute && root.getAttribute(__hfAuthoredRootAttr) === idValue) {
+      return root;
+    }
+    if (root.id === idValue) return root;
+    if (typeof root.querySelector !== "function") return null;
+    try {
+      var authoredRootMatch = root.querySelector('[' + __hfAuthoredRootAttr + '="' + __hfEscapeAttr(idValue) + '"]');
+      if (authoredRootMatch) return authoredRootMatch;
+    } catch {}
+    if (typeof CSS !== "undefined" && CSS && typeof CSS.escape === "function") {
+      try {
+        return root.querySelector("#" + CSS.escape(idValue)) || null;
+      } catch {}
+    }
+    try {
+      return root.querySelector('[id="' + __hfEscapeAttr(idValue) + '"]') || null;
+    } catch {}
+    return null;
+  };
+  var __hfScopedDocument = typeof Proxy === "function"
+    ? new Proxy(window.document, {
+        get: function(target, prop, receiver) {
+          if (prop === "querySelector") return __hfQueryOne;
+          if (prop === "querySelectorAll") return __hfQueryAll;
+          if (prop === "getElementById") return __hfGetElementById;
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      })
+    : window.document;
+  var __hfTimelineRegistryProxy = null;
+  var __hfGetTimelineRegistry = function() {
+    window.__timelines = window.__timelines || {};
+    if (!__hfCompId || __hfCompId === __hfTimelineCompId || typeof Proxy !== "function") {
+      return window.__timelines;
+    }
+    if (!__hfTimelineRegistryProxy) {
+      __hfTimelineRegistryProxy = new Proxy(window.__timelines, {
+        get: function(target, prop, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.get(target, prop, target);
+          }
+          var authoredValue = Reflect.get(target, prop, target);
+          return authoredValue === undefined
+            ? Reflect.get(target, __hfTimelineCompId, target)
+            : authoredValue;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop !== __hfCompId) {
+            return Reflect.set(target, prop, value, target);
+          }
+          // The authored node remains in the compiled DOM when its local id
+          // differs from the runtime mount id, so readiness legitimately sees
+          // both compositions. Publish the same timeline under both identities
+          // instead of replacing one with the other.
+          var authoredSet = Reflect.set(target, __hfCompId, value, target);
+          var runtimeSet = Reflect.set(target, __hfTimelineCompId, value, target);
+          return authoredSet && runtimeSet;
+        },
+      });
+    }
+    return __hfTimelineRegistryProxy;
+  };
+  var __hfScopedWindow = typeof Proxy === "function"
+    ? new Proxy(window, {
+        get: function(target, prop, receiver) {
+          if (prop === "__timelines") return __hfGetTimelineRegistry();
+          // Inside a sub-composition, __hyperframes is passed as a bare script
+          // param bound to the SCOPED variant (per-comp getVariables). But
+          // authors routinely write the documented window.__hyperframes.
+          // getVariables() form, which would otherwise fall through to the host
+          // page's base __hyperframes and return the WRONG (or empty) variables
+          // for this instance. Route it to the scoped variant too so both
+          // spellings resolve to this composition's own variables.
+          // (__hfScopedHyperframes is a hoisted var assigned below, before any
+          // sub-comp script -- the only code that reads this -- runs.)
+          if (prop === "__hyperframes") return __hfScopedHyperframes;
+          // Native window methods must stay bound to the real window. Handed
+          // back unbound, "this" at call time is this Proxy and Chrome rejects
+          // it with "Illegal invocation", which broke window.addEventListener,
+          // setTimeout, matchMedia and getComputedStyle inside every
+          // sub-composition -- including the window.addEventListener("hf-seek",
+          // ...) form the Three.js and TypeGPU adapters document. The sibling
+          // document and gsap proxies here already bind.
+          //
+          // Only bind non-constructors. Function.prototype.bind drops static
+          // members, so binding a class exposed on window (window.Texts and
+          // friends) would silently strip its statics. Built-in methods have
+          // no .prototype; classes and constructor functions do.
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" && value.prototype === undefined
+            ? value.bind(target)
+            : value;
+        },
+        set: function(target, prop, value, receiver) {
+          if (prop === "__timelines") {
+            // Common authoring boilerplate assigns the registry back to
+            // itself (window.__timelines = window.__timelines || {}). The
+            // getter above returns our proxy; do not replace the canonical
+            // registry with that proxy or later wrappers will stack proxies.
+            if (value === __hfTimelineRegistryProxy) return true;
+            target.__timelines = value || {};
+            __hfTimelineRegistryProxy = null;
+            return true;
+          }
+          return Reflect.set(target, prop, value, target);
+        },
+      })
+    : window;
+  var __hfResolveGsapTarget = function(target) {
+    if (typeof target === "string") return __hfQueryAll(target);
+    if (!Array.isArray(target)) return target;
+    return target.reduce(function(resolved, item) {
+      if (typeof item === "string") {
+        return resolved.concat(Array.prototype.slice.call(__hfQueryAll(item)));
+      }
+      resolved.push(item);
+      return resolved;
+    }, []);
+  };
+  var __hfScopeTimeline = function(timeline) {
+    if (!timeline || timeline.__hfScopedCompositionRoot === __hfFindRoot()) return timeline;
+    ["to", "from", "fromTo", "set"].forEach(function(method) {
+      var original = timeline[method];
+      if (typeof original !== "function") return;
+      timeline[method] = function(target) {
+        var args = Array.prototype.slice.call(arguments);
+        args[0] = __hfResolveGsapTarget(target);
+        return original.apply(timeline, args);
+      };
+    });
+    try {
+      Object.defineProperty(timeline, "__hfScopedCompositionRoot", {
+        value: __hfFindRoot(),
+        configurable: true,
+      });
+    } catch {
+      // Best-effort: timelines coming from user code may have a frozen target
+      // or a non-extensible defineProperty path. Swallow — the scoped root
+      // is an enrichment, not a correctness invariant for playback.
+    }
+    return timeline;
+  };
+  var __hfBaseGsap = typeof gsap === "undefined" ? window.gsap : gsap;
+  var __hfScopedGsap = !__hfBaseGsap || typeof Proxy !== "function"
+    ? __hfBaseGsap
+    : new Proxy(__hfBaseGsap, {
+        get: function(target, prop, receiver) {
+          if (prop === "timeline") {
+            return function() {
+              return __hfScopeTimeline(target.timeline.apply(target, arguments));
+            };
+          }
+          if (prop === "to" || prop === "from" || prop === "fromTo" || prop === "set") {
+            return function(firstArg) {
+              var args = Array.prototype.slice.call(arguments);
+              args[0] = __hfResolveGsapTarget(firstArg);
+              return target[prop].apply(target, args);
+            };
+          }
+          if (prop === "utils" && target.utils && typeof Proxy === "function") {
+            return new Proxy(target.utils, {
+              get: function(utilsTarget, utilsProp, utilsReceiver) {
+                if (utilsProp === "toArray") {
+                  return function(firstArg) {
+                    var args = Array.prototype.slice.call(arguments);
+                    args[0] = __hfResolveGsapTarget(firstArg);
+                    return utilsTarget.toArray.apply(utilsTarget, args);
+                  };
+                }
+                if (utilsProp === "selector") {
+                  return function(base) {
+                    var baseEl = typeof base === "string" ? __hfQueryOne(base) : base;
+                    var root = baseEl || __hfFindRoot();
+                    return function(selector) {
+                      if (!root || typeof selector !== "string") return [];
+                      return Array.prototype.filter.call(
+                        window.document.querySelectorAll(__hfNormalizeSelector(selector)),
+                        function(node) {
+                          return node === root || (typeof root.contains === "function" && root.contains(node));
+                        },
+                      );
+                    };
+                  };
+                }
+                var value = Reflect.get(utilsTarget, utilsProp, utilsTarget);
+                return typeof value === "function" ? value.bind(utilsTarget) : value;
+              },
+            });
+          }
+          var value = Reflect.get(target, prop, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+  var __hfBaseHyperframes = window.__hyperframes;
+  var __hfScopedHyperframes = !__hfBaseHyperframes
+    ? __hfBaseHyperframes
+    : Object.assign({}, __hfBaseHyperframes, {
+        assetUrl: function(path) {
+          var page = window.document.baseURI;
+          return new URL(path, __hfCompositionSrc ? new URL(__hfCompositionSrc, page) : page).href;
+        },
+        getVariables: function() {
+          var byComp = window.__hfVariablesByComp;
+          var scoped = byComp && __hfTimelineCompId ? byComp[__hfTimelineCompId] : null;
+          return scoped ? Object.assign({}, scoped) : {};
+        },
+      });
+  var __hfRun = function() {
+    try {
+      (function(document, gsap, window, __hyperframes) {
+
+    (function () {
+      var ID = "04-stage-check";
+      var DURATION = 2.2;
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---------- Scene 1 (0.0 to 0.7s): the mark blooms, the question lands ---------- */
+
+      // spring-pop-entrance, playful variant: the one bloom from zero with overshoot and a hint of rotation.
+      tl.fromTo(
+        "#sc04-mark",
+        { scale: 0, opacity: 0, rotation: -14 },
+        { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: "back.out(1.8)" },
+        0.02
+      );
+
+      // Corner ornaments settle in quietly behind the bloom (smooth, no overshoot).
+      var orns = ["#sc04-orn-a", "#sc04-orn-b", "#sc04-orn-c"];
+      var ornRot = [-12, 9, -7];
+      orns.forEach(function (sel, i) {
+        tl.fromTo(
+          sel,
+          { scale: 0, opacity: 0, rotation: ornRot[i] - 20 },
+          { scale: 1, opacity: 1, rotation: ornRot[i], duration: 0.42, ease: "power3.out" },
+          0.12 + i * 0.06
+        );
+      });
+
+      // dynamic-content-sequencing: per word start times precomputed once from a base + stagger,
+      // never inside an onUpdate. Five words land inside one beat.
+      var Q_START = 0.34, Q_STAGGER = 0.06, Q_DUR = 0.34;
+      var qWords = gsap.utils.toArray("#sc04-q .sc04-w");
+      var qTimes = qWords.map(function (_, i) { return Q_START + i * Q_STAGGER; });
+      qWords.forEach(function (el, i) {
+        tl.fromTo(
+          el,
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: Q_DUR, ease: "power3.out" },
+          qTimes[i]
+        );
+      });
+
+      /* ---------- Scene 2 (0.7 to 1.5s): the button rises, presses, springs back; sub line reveals ---------- */
+
+      // spring-pop-entrance, smooth: the button rises into its slot beneath the question.
+      var BTN_IN = 0.72, BTN_IN_DUR = 0.42;
+      tl.fromTo(
+        "#sc04-btn",
+        { scale: 0.7, y: 36, opacity: 0 },
+        { scale: 1, y: 0, opacity: 1, duration: BTN_IN_DUR, ease: "power3.out" },
+        BTN_IN
+      );
+
+      // press-release-spring: linear press (button sinks 4px toward its shadow, shadow shrinks 5px to 1px),
+      // then a back.out(2) release starting exactly where the press ends (state continuity by adjacency).
+      // Both tweens are plain .to so their start values are read when the playhead first reaches them
+      // (after the entrance has landed at scale 1), never captured at build time mid-entrance.
+      var REST_SHADOW = "rgb(201, 154, 40) 0px 5px 0px 0px";
+      var PRESSED_SHADOW = "rgb(201, 154, 40) 0px 1px 0px 0px";
+      var PRESS_START = BTN_IN + BTN_IN_DUR + 0.02; // 1.16
+      var PRESS_DUR = 0.12;
+      var RELEASE_START = PRESS_START + PRESS_DUR;   // 1.28
+      var RELEASE_DUR = 0.5;
+      tl.to(
+        "#sc04-btn",
+        { scale: 0.93, y: 4, boxShadow: PRESSED_SHADOW, duration: PRESS_DUR, ease: "power1.in", lazy: false },
+        PRESS_START
+      );
+      tl.to(
+        "#sc04-btn",
+        { scale: 1, y: 0, boxShadow: REST_SHADOW, duration: RELEASE_DUR, ease: "back.out(2)", lazy: false },
+        RELEASE_START
+      );
+
+      // dynamic-content-sequencing again: the sub line reveals per word as the button recovers.
+      var S_START = RELEASE_START + 0.02, S_STAGGER = 0.05, S_DUR = 0.3;
+      var sWords = gsap.utils.toArray("#sc04-sub .sc04-w");
+      var sTimes = sWords.map(function (_, i) { return S_START + i * S_STAGGER; });
+      sWords.forEach(function (el, i) {
+        tl.fromTo(
+          el,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: S_DUR, ease: "power2.out" },
+          sTimes[i]
+        );
+      });
+
+      /* ---------- Scene 3 (1.5 to 2.2s): the URL wipes in left to right, then everything holds ---------- */
+
+      // stat-bars-and-fills used as a mask wipe: a clip-path inset fill from the left edge, never a width tween.
+      var URL_START = 1.52, URL_DUR = 0.5;
+      tl.fromTo(
+        "#sc04-url-mask",
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: URL_DUR, ease: "power2.out" },
+        URL_START
+      );
+
+      // Final frame of the film: pin the timeline to exactly 2.2s and hold the resolved state. No exit.
+      var hold = { t: 0 };
+      tl.to(hold, { t: 1, duration: DURATION - (URL_START + URL_DUR), ease: "none" }, URL_START + URL_DUR);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[ID] = tl;
+    })();
+  
+      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
+    } catch (_err) {
+      console.error(__hfErrorLabel, __hfCompId, _err);
+    }
+  };
+  // What the script started on the global gsap timeline, by any route, for a scene swap to revert.
+  // Only a page with a scene manifest can swap; elsewhere the first script stores null and none records.
+  var __hfRecordAnimations = function(run) {
+    if (window.__hfSceneAnimations === undefined) {
+      window.__hfSceneAnimations = window.document.querySelector("meta[name=\"hf-scene-parts\"]")
+        ? {}
+        : null;
+    }
+    var byComp = window.__hfSceneAnimations;
+    var globalTimeline = __hfBaseGsap && __hfBaseGsap.globalTimeline;
+    if (!byComp || !globalTimeline || !__hfTimelineCompId) return run();
+    var before = globalTimeline.getChildren(false);
+    // A set completes as it is made and would leave the timeline before the diff below.
+    var autoRemove = globalTimeline.autoRemoveChildren;
+    globalTimeline.autoRemoveChildren = false;
+    run();
+    globalTimeline.autoRemoveChildren = autoRemove;
+    var recorded = (byComp[__hfTimelineCompId] = byComp[__hfTimelineCompId] || []);
+    globalTimeline.getChildren(false).forEach(function(animation) {
+      if (before.indexOf(animation) >= 0) return;
+      recorded.push(animation);
+      // Dropped as the timeline drops a finished tween (it keeps a paused one); moved back, a tween re-adds itself.
+      if (autoRemove && !animation.getChildren && animation.totalProgress() === 1) globalTimeline.remove(animation);
+    });
+  };
+  __hfFindRoot();
+  __hfRecordAnimations(__hfRun);
+})();</script></body>
+</html>

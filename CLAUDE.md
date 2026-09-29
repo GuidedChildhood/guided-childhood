@@ -41,6 +41,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Marketing pages            → docs/06 + docs/09 (delivery model)
 - Ban resilience             → docs/11 (social_media_law config flag)
 - UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
+- Any video from footage (talking head, reel, one to one) → .claude/skills/talking-head-video (HyperFrames + the student kit; silent-ugc rules win on vertical)
 
 ## CONTEXT BUDGET — what a session pays before it starts
 

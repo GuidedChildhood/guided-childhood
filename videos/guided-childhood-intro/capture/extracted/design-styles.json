@@ -1,0 +1,383 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "nunito",
+      "fontSize": "67.2px",
+      "fontWeight": "900",
+      "lineHeight": "70.56px",
+      "letterSpacing": "-2.352px",
+      "color": "#1A1A2E",
+      "sampleText": "A clear digital pathway from first screen to 16."
+    },
+    {
+      "role": "heading",
+      "fontFamily": "nunito",
+      "fontSize": "43.2px",
+      "fontWeight": "900",
+      "lineHeight": "46.656px",
+      "letterSpacing": "-1.296px",
+      "color": "#1A1A2E",
+      "sampleText": "The expert in your pocket at 11 o’clock."
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "nunito",
+      "fontSize": "27.2px",
+      "fontWeight": "900",
+      "lineHeight": "30.464px",
+      "letterSpacing": "-0.544px",
+      "color": "#1A1A2E",
+      "sampleText": "The moments you will recognise"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "nunito",
+      "fontSize": "19px",
+      "fontWeight": "800",
+      "lineHeight": "21.28px",
+      "letterSpacing": "-0.38px",
+      "color": "#1A1A2E",
+      "sampleText": "Ten minutes a day"
+    },
+    {
+      "role": "body",
+      "fontFamily": "nunito",
+      "fontSize": "19px",
+      "fontWeight": "400",
+      "lineHeight": "31.35px",
+      "letterSpacing": "normal",
+      "color": "#52526A",
+      "sampleText": "What to say, what to set and what to do next at every age. T"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "nunito",
+      "fontSize": "17px",
+      "fontWeight": "800",
+      "lineHeight": "19.04px",
+      "letterSpacing": "-0.34px",
+      "color": "#1A1A2E",
+      "sampleText": "The settings that matter"
+    },
+    {
+      "role": "code",
+      "fontFamily": "ui-sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "letterSpacing": "normal",
+      "color": "#000000",
+      "sampleText": "Guided Childhood · A clear digital pathway from first screen"
+    },
+    {
+      "role": "link",
+      "fontFamily": "nunito",
+      "fontSize": "13.12px",
+      "fontWeight": "700",
+      "lineHeight": "21.648px",
+      "letterSpacing": "-0.07872px",
+      "color": "#52526A",
+      "sampleText": "How It Works"
+    },
+    {
+      "role": "label",
+      "fontFamily": "plexMono",
+      "fontSize": "10.88px",
+      "fontWeight": "600",
+      "lineHeight": "17.952px",
+      "letterSpacing": "0.8704px",
+      "color": "#FFFFFF",
+      "sampleText": "New law"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "14px",
+    "16px",
+    "20px",
+    "50%",
+    "100px"
+  ],
+  "shadows": [
+    {
+      "value": "rgb(234, 234, 240) 0px 5px 0px 0px",
+      "count": 13
+    },
+    {
+      "value": "rgb(201, 154, 40) 0px 5px 0px 0px",
+      "count": 10
+    },
+    {
+      "value": "rgba(26, 26, 46, 0.12) 0px 8px 24px 0px",
+      "count": 5
+    },
+    {
+      "value": "rgba(26, 26, 46, 0.12) 0px 18px 50px 0px",
+      "count": 5
+    },
+    {
+      "value": "rgba(26, 26, 46, 0.05) 0px 3px 0px 0px",
+      "count": 3
+    }
+  ],
+  "buttons": [
+    {
+      "label": "×",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgba(255, 255, 255, 0.7)",
+      "boxShadow": "none",
+      "fontSize": "19px",
+      "fontWeight": "400",
+      "height": "43.9982px"
+    },
+    {
+      "label": "Get Started",
+      "background": "#EDC35F",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "11px 22px",
+      "borderRadius": "100px",
+      "border": "0px none rgb(26, 26, 46)",
+      "boxShadow": "rgb(201, 154, 40) 0px 4px 0px 0px",
+      "fontSize": "14.5px",
+      "fontWeight": "700",
+      "height": "45.9112px"
+    },
+    {
+      "label": "Find my child’s stage",
+      "background": "#EDC35F",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "17px 42px",
+      "borderRadius": "16px",
+      "border": "0px none rgb(26, 26, 46)",
+      "boxShadow": "rgb(201, 154, 40) 0px 5px 0px 0px",
+      "fontSize": "19px",
+      "fontWeight": "700",
+      "height": "65.3329px"
+    },
+    {
+      "label": "Stage1",
+      "background": "color(srgb 1 0.992941 0.97)",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "0px",
+      "borderRadius": "50%",
+      "border": "1.86916px solid rgb(254, 240, 138)",
+      "boxShadow": "rgb(234, 234, 240) 0px 5px 0px 0px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "71.9918px"
+    },
+    {
+      "label": "Stage2",
+      "background": "color(srgb 0.973529 0.989412 1)",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "0px",
+      "borderRadius": "50%",
+      "border": "1.86916px dashed rgb(186, 230, 253)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "71.9918px"
+    },
+    {
+      "label": "Stage3",
+      "background": "color(srgb 1 0.980588 0.977059)",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "0px",
+      "borderRadius": "50%",
+      "border": "1.86916px dashed rgb(254, 205, 211)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "71.9918px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(26, 26, 46)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "306.586px"
+    },
+    {
+      "label": "card",
+      "background": "#FFFBEE",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "22px 20px",
+      "borderRadius": "20px",
+      "border": "0px solid rgb(26, 26, 46)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "306.586px"
+    },
+    {
+      "label": "card",
+      "background": "#2E2818",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "22px 20px",
+      "borderRadius": "20px",
+      "border": "0px solid rgb(26, 26, 46)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "306.586px"
+    },
+    {
+      "label": "card",
+      "background": "#F5F3FF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1A1A2E",
+      "padding": "22px 20px",
+      "borderRadius": "20px",
+      "border": "0px solid rgb(26, 26, 46)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "306.586px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#FFFFFF",
+    "backgroundImage": "",
+    "backdropFilter": "blur(20px)",
+    "color": "#1A1A2E",
+    "padding": "0px 28px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "63.9895px"
+  },
+  "chips": [
+    {
+      "label": "New law",
+      "background": "transparent",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgba(255, 255, 255, 0.75)",
+      "boxShadow": "none",
+      "fontSize": "10.88px",
+      "fontWeight": "600",
+      "height": "17.9468px"
+    },
+    {
+      "label": "🌙Bedtime battles",
+      "background": "#FFFFFF",
+      "color": "#1A1A2E",
+      "padding": "9px 14px 9px 9px",
+      "borderRadius": "14px",
+      "border": "0.934579px solid rgb(234, 234, 240)",
+      "boxShadow": "rgba(26, 26, 46, 0.12) 0px 8px 24px 0px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "51.8546px"
+    },
+    {
+      "label": "160 scripts",
+      "background": "#FFFFFF",
+      "color": "#52526A",
+      "padding": "7px 14px",
+      "borderRadius": "100px",
+      "border": "0.934579px solid rgb(234, 234, 240)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "38.9603px"
+    },
+    {
+      "label": "Online now",
+      "background": "#FFFFFF",
+      "color": "#EDC35F",
+      "padding": "4px 10px",
+      "borderRadius": "100px",
+      "border": "0px solid rgb(237, 195, 95)",
+      "boxShadow": "none",
+      "fontSize": "9.92px",
+      "fontWeight": "600",
+      "height": "24.3283px"
+    }
+  ],
+  "statCells": [
+    {
+      "background": "transparent",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(26, 26, 46)",
+      "boxShadow": "none",
+      "numberFontSize": "41.6px",
+      "numberFontWeight": "900",
+      "numberColor": "#1A1A2E"
+    }
+  ],
+  "tabs": [],
+  "backgrounds": [
+    {
+      "value": "radial-gradient(90% 130% at 88% 45%, rgb(250, 237, 194) 0%, rgb(253, 246, 222) 42%, rgb(255, 251, 238) 72%)",
+      "area": 2680320
+    },
+    {
+      "value": "linear-gradient(160deg, rgb(107, 35, 51) 0%, rgb(87, 28, 42) 55%, rgb(74, 23, 35) 100%)",
+      "area": 213431
+    }
+  ],
+  "glass": [
+    {
+      "backdropFilter": "blur(20px)",
+      "background": "rgba(255, 255, 255, 0.96)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 131460
+    }
+  ]
+}
