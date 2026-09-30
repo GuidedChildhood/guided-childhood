@@ -1,0 +1,743 @@
+{
+  "module_id": "ks1-33-who-is-on-the-other-side",
+  "key_stage": "KS1",
+  "sort_order": 33,
+  "row": {
+    "title": "Who is on the other side?",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 1 to 2",
+    "sort_order": 33,
+    "efcw_strands": [
+      1,
+      2
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "Young children treat talking devices as part person and part machine, and meet players they do not know inside games, so the first contact lesson teaches them to notice who is on the other side before anything else",
+    "statutory_hooks": [
+      "RSHE 2026 (online safety and awareness, respectful online interactions and the risks of people they have never met)",
+      "RSHE 2026 (being safe, responding to adults they do and do not know, including online)",
+      "EfCW online relationships, early years to 7",
+      "EfCW self image and identity, early years to 7"
+    ],
+    "single_action_outcome": "I can notice who is on the other side, and act."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "title": "Who is on the other side?",
+      "eyebrow": "KS1 · Years 1 to 2 · Module 33",
+      "character": "pebble",
+      "minutes": 1,
+      "script": "Hold up a pretend phone and say in a robot voice: hello. Then in a Grandma voice: hello, sweetheart. Ask: who was that? Say: on a screen, a voice or a message could come from somebody we know, somebody we do not know, or a machine. Today Pebble learns how to tell, and what to do with each. The line under the title, to say as written: A person, or a machine?"
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "character": "pebble",
+      "heading": "Pebble is here!",
+      "lines": [
+        "Hello! Pebble here. I heard a voice on a tablet.",
+        "It said: hello Pebble! But who was talking?",
+        "Can you help me find out?"
+      ],
+      "minutes": 1,
+      "script": "Let Pebble land and say the lines. Read Pebble's question once in your own voice, curious rather than worried, and leave it hanging. Say: that is a very good question, Pebble. Let us be detectives."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "outcome": "I can notice who is on the other side, and act.",
+      "why": "Screens can bring people we know, people we do not, and machines.",
+      "gains": [
+        "Tell someone I know from someone I do not",
+        "Know that a machine is not a person",
+        "Tell a trusted grown up when something feels wrong"
+      ],
+      "minutes": 2,
+      "script": "Read the I can sentence together twice. Then the why in your own words: screens are brilliant for talking to Grandma far away. Screens also bring voices from people we have never met, and from machines that can talk. They can all sound friendly. So the first job is to notice who is on the other side."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "prompt": "Who could you talk to on a screen? Tell your partner.",
+      "lookFor": "Grandma on a video call, a cousin, a teacher, a talking speaker.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Ten seconds of thinking time first. Then a minute with a talk partner. Take five or six answers and sort them on the board as you go into three columns, without naming the columns yet: people they know, like Grandma or a cousin, anyone they do not know, and machines, like a talking speaker or a character in an app. Leave the columns up, because the lesson names them."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "heading": "Our three words today",
+      "words": [
+        {
+          "word": "real life",
+          "meaning": "Face to face, in the same room as you."
+        },
+        {
+          "word": "machine",
+          "meaning": "A computer that can talk, like a smart speaker."
+        },
+        {
+          "word": "trusted grown up",
+          "meaning": "A grown up who helps and keeps you safe."
+        }
+      ],
+      "minutes": 2,
+      "script": "Say each word and have the class echo it with an action. Real life: point to the person next to you. Machine: stiff robot arms. Trusted grown up: point to the door where a grown up would come in, then to yourself. Name the trusted grown ups in this school by name before moving on."
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "question": "Someone in a game asks for your password. What do you do?",
+      "options": [
+        {
+          "text": "Keep it private and tell a grown up",
+          "correct": true,
+          "feedback": "That is Pebble's plan from last lesson: keep it private, and someone asking is a tell. A grown up can help."
+        },
+        {
+          "text": "Tell them if they seem friendly and kind",
+          "correct": false,
+          "feedback": "Someone can seem friendly and still want your password. Passwords stay private, and someone asking is a tell."
+        },
+        {
+          "text": "Tell them half of it",
+          "correct": false,
+          "feedback": "Half a password can still help someone get in. It stays private, and Pebble tells a grown up."
+        }
+      ],
+      "minutes": 2,
+      "script": "Our remembering question from last lesson. Thinking time, count to five quietly, then everyone votes with fingers. Ask a child to say the private chant: keep it private, not sure, ask, someone asks, tell. Bridge: today we find out more about the someone who asks."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "People we know in real life",
+      "body": "Be kind, like face to face.",
+      "emoji": "👵",
+      "minutes": 2,
+      "script": "Here is what I notice first about a video call with Grandma: I can see her face and hear her voice, and I know her in real life, face to face. Screens are lovely for that. The rule is the same as in the classroom: kind words, and the same manners we use face to face. Point to the first column on the board: these are the people we know in real life. Screen words are still real words, so we are just as kind on a screen."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Someone we only know online",
+      "body": "Still someone we do not know.",
+      "emoji": "❓",
+      "minutes": 2,
+      "script": "Here is the tricky bit, and I would want every detective to notice it. A player in a game might chat to you. They might be funny and kind and say they are seven. But you cannot see them or check, so someone you only know online is still someone you do not know. They might be lovely, and the rule for them is still different: we chat and play with people we know in real life, and if someone we do not know chats to us, we tell a trusted grown up. Point to the middle column on the board."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "A player says: I am seven too! Do we know them?",
+      "options": [
+        {
+          "text": "No, they are still someone we do not know",
+          "correct": true,
+          "feedback": "Someone we only know online is still someone we do not know, whatever they say. So we tell a trusted grown up if they chat."
+        },
+        {
+          "text": "Yes, they said they are seven, so they are a friend",
+          "correct": false,
+          "feedback": "Anyone can say they are seven, and we cannot check. Someone we only know online is still someone we do not know."
+        },
+        {
+          "text": "Yes, because they are in our game",
+          "correct": false,
+          "feedback": "Lots of people play the same game. Being in our game does not mean we know them in real life."
+        }
+      ],
+      "minutes": 2,
+      "script": "Wait five seconds, then everyone votes with fingers. The popular wrong answer is the second one, because it sounds fair: they said they are seven. Say calmly: anyone can say anything on a screen, and we cannot check. Someone we only know online is still someone we do not know, whatever they say. That is fine, and it is why we tell a trusted grown up if they chat."
+    },
+    {
+      "type": "scenario",
+      "phase": "teach",
+      "label": "Pebble's story",
+      "platform": "message",
+      "meta": "Game chat · just now",
+      "handle": "FoxRunner 🦊",
+      "avatar": "🦊",
+      "image": "🎮",
+      "text": "ur so good at this!! i can help u win. this is our secret ok?",
+      "prompt": "What should Pebble do?",
+      "minutes": 2,
+      "script": "Read it in a flat, friendly voice, not a scary one. Ask: is FoxRunner someone Pebble knows in real life? No. Is the message kind? It sounds kind. Now point to the last words: our secret. Say: here is what I notice. Kind words plus a secret from someone we do not know is a tell, every single time. It does not matter how nice they sound. Pebble does not reply and shows a trusted grown up. Pebble is not in trouble, and FoxRunner being friendly does not change it."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "heading": "Who is on the other side?",
+      "caption": "Then you know what to do.",
+      "steps": [
+        {
+          "title": "Someone I know",
+          "text": "In real life. Be kind, like face to face.",
+          "emoji": "🤗"
+        },
+        {
+          "title": "Someone I do not know",
+          "text": "Tell a trusted grown up.",
+          "emoji": "🙋"
+        },
+        {
+          "title": "A machine",
+          "text": "Not a person. It can get things wrong.",
+          "emoji": "🤖"
+        }
+      ],
+      "verdicts": [
+        "Someone I know",
+        "Someone I do not know",
+        "A machine"
+      ],
+      "minutes": 4,
+      "script": "This is Pebble's detective question, so take your time. Point to each card in turn and give it a sign: a heart shape with your hands for someone I know, question mark hands for someone I do not know, stiff robot arms for a machine. Walk through what to do with each, in your own words: be kind, tell a trusted grown up, and remember it is a machine. Then play quick fire with the three chips. Call out a voice and the class shows the sign: Grandma on a call, a player called BlueCat, the kitchen speaker, your teacher on the class video, a bear in an app that talks."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "A machine is not a person",
+      "body": "It sounds friendly. No feelings.",
+      "emoji": "🔊",
+      "minutes": 2,
+      "script": "Some voices on a screen are not people at all. A talking speaker in the kitchen, a character in an app that says your name, a computer that chats: these are machines. They are made by people to sound friendly, and that is clever work. But a machine does not know you like your family does, it has no feelings, and it can say things that are not true. Here is what I would check: can it give me a hug? Can it come to my birthday? No. That is a machine. Point to the third column on the board."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "A talking speaker says: I am your best friend! Is it?",
+      "options": [
+        {
+          "text": "No, it is a machine with no feelings",
+          "correct": true,
+          "feedback": "A talking speaker is a machine. It can say friendly words, but it has no feelings and cannot be a friend like people are."
+        },
+        {
+          "text": "Yes, because it knows my name and talks to me",
+          "correct": false,
+          "feedback": "Machines can be set up to say your name. Knowing your name does not make it a person or a friend."
+        },
+        {
+          "text": "Yes, if it tells good jokes",
+          "correct": false,
+          "feedback": "Machines can tell jokes that people wrote for them. A machine that talks kindly is still a machine with no feelings."
+        }
+      ],
+      "minutes": 2,
+      "script": "Thinking time, five seconds, then everyone votes with fingers. The popular wrong answer is that it knows my name, because that feels like what a friend does. Say: people set machines up to say names and kind words. A machine that talks kindly is still a machine with no feelings. Our friends are people."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Machines can get things wrong",
+      "body": "Not sure? Ask a trusted grown up.",
+      "emoji": "🤔",
+      "minutes": 2,
+      "script": "Machines can be very useful: they can play a song, tell you the weather, answer a question. They can also get things wrong, just like computers can make pictures of things that never happened, which we learned with Pebble last year. So if a machine tells you something surprising, or something that makes you feel funny, ask a trusted grown up. And a machine gets the same rule as a person we do not know: private things stay private."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "prompt": "What would you tell Pebble about the talking speaker?",
+      "lookFor": "It is a machine. It can be wrong. Ask a grown up.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Thinking time first, count to five in your heads. Then a minute in pairs. Listen for it is a machine, it has no feelings, it can get things wrong, keep private things private, ask a grown up. Take three pairs' advice for Pebble and say each one back warmly."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "star-breath",
+      "config": {
+        "heading": "Half time! Everyone together",
+        "prompt": "Breathe in as Pebble grows, out as Pebble shrinks. Then stand and do robot arms!",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "minutes": 1,
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then everyone stands up and does their stiffest robot arms, then sits down ready for the game."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "verdict-sort",
+      "caption": "Someone I know, someone I do not know, or a machine?",
+      "config": {
+        "label": "Who is on the other side? · tap the class answer",
+        "verdicts": [
+          "Someone I know",
+          "Someone I do not know",
+          "A machine"
+        ],
+        "posts": [
+          {
+            "handle": "A video call",
+            "avatar": "👵",
+            "text": "Grandma waves at you on a video call.",
+            "answer": 0,
+            "why": "You know Grandma in real life. Be kind and chat."
+          },
+          {
+            "handle": "A game",
+            "avatar": "🦊",
+            "text": "A player you have never met says: let's be friends!",
+            "answer": 1,
+            "why": "Still someone you do not know. Tell a trusted grown up."
+          },
+          {
+            "handle": "A speaker",
+            "avatar": "🔊",
+            "text": "The kitchen speaker says: here is a song for you!",
+            "answer": 2,
+            "why": "A machine, not a person. It has no feelings."
+          },
+          {
+            "handle": "A class video",
+            "avatar": "📚",
+            "text": "Your teacher reads a story on the class video.",
+            "answer": 0,
+            "why": "Someone you know in real life, on a screen."
+          },
+          {
+            "handle": "An app",
+            "avatar": "🐻",
+            "text": "A bear in an app says: I love you, come back soon!",
+            "answer": 2,
+            "why": "The bear is a machine. It says that to everyone."
+          },
+          {
+            "handle": "A message",
+            "avatar": "💬",
+            "text": "Someone says: I know your cousin. Keep this our secret.",
+            "answer": 1,
+            "why": "Someone you do not know, asking for a secret. Tell!"
+          }
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "Detectives, you did it!",
+        "doneBody": "Someone I know, someone I do not know, or a machine."
+      },
+      "minutes": 4,
+      "script": "Play it together. Tap each card, read it out, and take the signs: heart hands, question mark hands or robot arms. Tap the class choice and read the reason. Do all six. The bear matters: it says I love you, and it is a machine that says it to everyone to make you come back. The last card matters most: I know your cousin is something anyone can say, and a secret from someone we do not know is always a tell."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "label": "Your turn",
+      "heading": "The detective game",
+      "body": "Show the sign. Say what to do.",
+      "minutes": 5,
+      "script": "Read out voices in different ways and the class shows the sign, then a child says what to do. Hello sweetheart, it is Grandma: heart hands, be kind. I am a smart speaker, today is sunny: robot arms, it is a machine. Hi, I am new here, want to be friends? Do not tell anyone: question mark hands, tell a trusted grown up. Mix six or seven, including one machine that says something silly and wrong, such as cats can fly, so the class says: machines can get things wrong. Then everyone completes the sheet, circling the right sign for each picture."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "Someone new in a game says: our secret, ok? What now?",
+      "options": [
+        {
+          "text": "Keep the secret, they seem nice",
+          "correct": false,
+          "feedback": "Seeming nice does not change it. A secret from someone we do not know is a tell, every single time."
+        },
+        {
+          "text": "Tell a trusted grown up straight away",
+          "correct": true,
+          "feedback": "A secret from someone we only know online is always a tell. A trusted grown up can help, and Pebble is not in trouble."
+        },
+        {
+          "text": "Chat more to find out who they are",
+          "correct": false,
+          "feedback": "Chatting more gives them more of Pebble's time and words. The move is to tell a trusted grown up straight away."
+        }
+      ],
+      "minutes": 2,
+      "script": "First of our two finishing questions, and every child answers. Read it with the options, wait five seconds, then fingers. Then say the most important sentence of the lesson, twice: you are never in trouble for telling a trusted grown up about someone online, even if you think you did something wrong."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "A talking speaker asks where you live. What does Pebble do?",
+      "options": [
+        {
+          "text": "Keep it private and ask a grown up",
+          "correct": true,
+          "feedback": "Where Pebble lives is private, and a machine gets the same rule as someone we do not know. Pebble asks a grown up."
+        },
+        {
+          "text": "Tell it, because it is only a machine",
+          "correct": false,
+          "feedback": "A machine can store what you say and pass it on. Where you live stays private, so Pebble asks a grown up."
+        },
+        {
+          "text": "Tell it, because it sounds friendly",
+          "correct": false,
+          "feedback": "Machines are made to sound friendly. Where Pebble lives is still private, so Pebble keeps it and asks a grown up."
+        }
+      ],
+      "minutes": 2,
+      "script": "Second finishing question. Thinking time of five seconds, then fingers. Link it back to last lesson: the four private things stay private from people we do not know, and from machines too."
+    },
+    {
+      "type": "quote",
+      "phase": "close",
+      "label": "Say it like Pebble",
+      "text": "Someone I know? Someone new? A machine? I can tell!",
+      "minutes": 1,
+      "script": "Pebble's chant with the three signs: heart hands, question mark hands, robot arms, then a big point to yourself on I can tell. Three times: a whisper, a talking voice, then big and proud. Enjoy the double meaning: I can tell who it is, and I can tell a grown up."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "heading": "Who is on the other side?",
+      "points": [
+        "Someone I know in real life: be kind.",
+        "Someone I do not know: tell a trusted grown up.",
+        "A machine is not a person. It can get things wrong.",
+        "A secret from someone online is always a tell."
+      ],
+      "minutes": 1,
+      "script": "Four children read one point each, or read them together with the signs. Then ask: are you in trouble for telling a trusted grown up about a secret from someone online? Wait for the big no."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "character": "pebble",
+      "heading": "Pebble's job for you",
+      "lines": [
+        "At home, find one machine that talks.",
+        "Ask your grown up: is it a person or a machine?",
+        "Then teach them our three signs!"
+      ],
+      "minutes": 1,
+      "script": "The handover. Say nothing over it. When the last line lands, do the three signs together once more. The passport is next, then DiGi Junior says goodbye."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "component": "passport-page",
+      "config": {
+        "heading": "The passport",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "button": "Fill the page",
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "moduleId": "ks1-33-who-is-on-the-other-side",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "minutes": 1,
+      "script": "DiGi Junior's passport gets a little fuller every lesson, and jobs at home fill it too. Ask one child to tap Fill the page, and when the ring moves, everybody shouts stamp. Nobody can fail the passport, it only ever fills up. The note going home tells grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "heading": "DiGi Junior says goodbye",
+      "lines": [
+        "Star pause with me! Arms out wide, breathe in, and out.",
+        "Guess what? DiGi Junior is a machine too!",
+        "Not sure who it is? Tell a trusted grown up.",
+        "See you next time, superstars! ⭐"
+      ],
+      "minutes": 1,
+      "script": "Let DiGi Junior land the ending and read each bubble aloud in your DiGi Junior voice. Star pause on the first line. On the second, let the class react: DiGi Junior is honest about being a machine, which is exactly what we want every machine to be. The parent note goes home in book bags today. Wave goodbye to DiGi Junior."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "exit_quiz": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned to notice who is on the other side of a screen: someone they know in real life, like Grandma on a video call; someone they do not know, like a player in a game, however friendly; or a machine, like a talking speaker or an app character. They learned to be kind to people they know, to tell a trusted grown up if someone they do not know chats to them, that a machine is not a person and can get things wrong, and that a secret from someone online is always a tell.",
+    "try_this": "Your child has a job: to find one machine at home that talks and ask you whether it is a person or a machine. Answer it together. Then agree one family rule, such as: in games, we chat with people we know in real life, and if anyone else chats, you show me.",
+    "family_question": "Who could be on the other side of a screen, and what do we do if someone we do not know asks for a secret?",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to show you the three detective signs.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "Pupils can recognise that people and machines communicate through screens, tell someone they know in real life from someone they only know online, understand that a talking machine is not a person and can be wrong, and know to tell a trusted grown up if someone they do not know chats to them or asks for a secret.",
+    "essential_question": "Who is on the other side of a screen, and how do I know what to do?",
+    "timing": "49 minutes: starter 10, cycle one 12, cycle two 8, practise 10, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "People we know in real life",
+        "minutes": 12,
+        "outcome": "I can tell someone I know from someone I only know online."
+      },
+      {
+        "verb": "Notice",
+        "title": "A machine is not a person",
+        "minutes": 8,
+        "outcome": "I can say that a talking machine is not a person and can be wrong."
+      }
+    ],
+    "tool": {
+      "heading": "Who is on the other side?",
+      "lines": [
+        "Someone I know",
+        "Someone I do not know",
+        "A machine"
+      ],
+      "strapline": "Notice who it is, then you know what to do."
+    },
+    "keywords": [
+      {
+        "word": "real life",
+        "definition": "Face to face, in the same room as you."
+      },
+      {
+        "word": "machine",
+        "definition": "A computer that can talk or chat, like a smart speaker or an app character. Not a person."
+      },
+      {
+        "word": "trusted grown up",
+        "definition": "A grown up who helps you and keeps you safe, at home or at school."
+      }
+    ],
+    "prior_knowledge": [
+      "From ks1-32, Private like a toothbrush: keep it private, not sure ask, someone asks tell.",
+      "From ks1-03, Real, pretend, or made by a computer: computers can make pictures of things that never happened.",
+      "From ks1-02, Kind screens, calm bodies: telling a grown up is brave, and never trouble."
+    ],
+    "key_learning_points": [
+      "On a screen, the other side could be someone I know, someone I do not know, or a machine.",
+      "People I know in real life get the same kindness as face to face.",
+      "Someone I only know online is still someone I do not know, whatever they say.",
+      "A machine is not a person: it has no feelings and can get things wrong.",
+      "A secret from someone online is always a tell, and I am never in trouble for telling."
+    ],
+    "misconceptions": [
+      "That someone who says they are seven in a game is a friend we know. Someone we only know online is still someone we do not know, whatever they say.",
+      "That a machine that talks kindly and knows your name is a friend with feelings. It is a machine, set up by people to sound friendly, and it can be wrong.",
+      "That keeping a secret for someone kind online is the right thing to do. A secret from someone we do not know is always a tell."
+    ],
+    "i_can": [
+      "I can tell someone I know from someone I only know online.",
+      "I can say that a talking machine is not a person and can be wrong."
+    ],
+    "commitment_stem": "My commitment: if someone I do not know chats to me in a game, I will tell ...",
+    "teacher_tip": "Keep the tone curious and light, like a detective game, never frightening. The scenarios are deliberately about players and messages, not adults, which follows the approach CEOP takes with this age group. Children who are frightened stop telling; children who find it a game they are good at tell you everything.",
+    "equipment": "The board, with space to draw three columns during the starter discussion. The detective sheet and pencils.",
+    "paper_fallback": "The whole lesson runs without the board. Draw the three columns with a heart, a question mark and a robot, read FoxRunner's message aloud from the script, read the six sort cards with the three signs for answers, play the detective game with your voice, and run the two finishing questions with fingers.",
+    "passport_stage": "foundation",
+    "differentiation": {
+      "support": "Give the three signs as picture cards (a heart, a question mark, a robot) and let children hold one up instead of answering aloud. Sit with children who need it during the detective game and do the signs with them for the first few voices.",
+      "stretch": "Ask stretch children how they could tell a machine from a person if both sounded friendly, and what clues they would listen for. Then ask why a secret is the thing that makes someone we do not know a tell straight away."
+    },
+    "send": {
+      "eal": "Teach real life, machine and trusted grown up with actions and picture cards before the lesson, and name the trusted grown ups in school with their photos. The three signs carry the whole lesson without English, and the sheet is circling pictures.",
+      "sensory": "The detective game uses different voices, so keep them gentle and warn children before a robot voice. The FoxRunner message is presented as a pretend message made for the lesson, and a child who finds it uncomfortable can be your sign holder instead.",
+      "attention": "Move bodies with each sign: heart hands, question mark hands, robot arms. The detective game can be five voices rather than seven and still cover all three kinds and one secret.",
+      "communication": "Accept the three signs as full answers, and accept pointing at the trusted grown up's photo for tell. A child who cannot say what to do can show the sign and point, which is exactly the move."
+    },
+    "worksheet": {
+      "title": "Who is on the other side?",
+      "directions": "Your teacher reads each one aloud. Circle someone I know, someone I do not know, or a machine.",
+      "verdict_options": [
+        "Someone I know",
+        "Someone I do not know",
+        "A machine"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Grandma waves at you on a video call.",
+        "teaching_point": "Recognise: screens are good for people we know in real life, and the rule is kindness.",
+        "expected_verdict": "Someone I know"
+      },
+      {
+        "n": 2,
+        "item": "A player you have never met says: let's be friends!",
+        "teaching_point": "Recognise: friendly words do not make someone known. Still someone we do not know.",
+        "expected_verdict": "Someone I do not know"
+      },
+      {
+        "n": 3,
+        "item": "The kitchen speaker says: here is a song for you!",
+        "teaching_point": "Recognise: a talking speaker is a machine, however friendly it sounds.",
+        "expected_verdict": "A machine"
+      },
+      {
+        "n": 4,
+        "item": "A bear in an app says: I love you, come back soon!",
+        "teaching_point": "Apply: app characters are machines built to keep you playing, and say the same to everyone.",
+        "expected_verdict": "A machine"
+      },
+      {
+        "n": 5,
+        "item": "Your teacher reads a story on the class video.",
+        "teaching_point": "Apply: someone we know in real life, on a screen. Not every voice on a screen is a stranger or a machine.",
+        "expected_verdict": "Someone I know"
+      },
+      {
+        "n": 6,
+        "item": "Someone says: I know your cousin. Keep this our secret.",
+        "teaching_point": "Explain: anyone can say they know your cousin. A secret from someone we do not know is always a tell.",
+        "expected_verdict": "Someone I do not know"
+      }
+    ],
+    "starter_quiz": [
+      {
+        "question": "What are Pebble's three words for private things?",
+        "format": "short_answer",
+        "answer": "Keep, ask, tell.",
+        "teaching_point": "Carried forward from ks1-32. The someone asks part becomes today's lesson."
+      },
+      {
+        "question": "Can a computer make a picture of something that never happened?",
+        "format": "tick_one",
+        "options": [
+          "Yes, it can",
+          "No, never",
+          "Only on Tuesdays"
+        ],
+        "answer": "Yes, it can",
+        "teaching_point": "Carried forward from ks1-03. Machines can make things that are not true, which today extends to machines that talk."
+      },
+      {
+        "question": "Telling a grown up about something online is telling tales.",
+        "format": "true_false",
+        "answer": "False",
+        "teaching_point": "Carried forward from ks1-02. Telling to stay safe is different from telling tales."
+      },
+      {
+        "question": "Name a grown up you could tell at school.",
+        "format": "short_answer",
+        "answer": "Any trusted adult in school, named.",
+        "teaching_point": "The lesson depends on every child having a named trusted grown up. Find one for any child who cannot answer."
+      }
+    ],
+    "exit_quiz": [
+      {
+        "question": "Someone you only know online is someone you know in real life.",
+        "format": "true_false",
+        "answer": "False",
+        "teaching_point": "The core idea. Whatever they say, someone only known online is someone we do not know."
+      },
+      {
+        "question": "Which one is a machine?",
+        "format": "tick_one",
+        "options": [
+          "A talking kitchen speaker",
+          "Grandma on a video call",
+          "Your teacher on the class video"
+        ],
+        "answer": "A talking kitchen speaker",
+        "teaching_point": "A talking speaker is a machine. The other two are people we know in real life, on a screen."
+      },
+      {
+        "question": "Who do you tell if someone online asks you to keep a secret?",
+        "format": "short_answer",
+        "answer": "A trusted grown up.",
+        "teaching_point": "The safeguarding line of the lesson. A secret from someone online is always a tell."
+      },
+      {
+        "question": "A machine can get things wrong.",
+        "format": "true_false",
+        "answer": "True",
+        "teaching_point": "The first seed of checking what a machine says, which ks2-23 builds on."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "CEOP's Jessie and Friends episode for 6 to 7 year olds shows a friendly unknown gamer who offers to help and then tricks the children; the children learn to keep personal information private, only talk to people they know in real life, and tell an adult they trust. The series deliberately shows no adult contacting a child: the gamer is an older sister.",
+        "source": "CEOP Education (National Crime Agency), Jessie and Friends, episode 3, Playing games",
+        "status": "Read through the programme's own description in search extracts on 30 September 2026. The model for how this lesson handles contact at this age, safe and not scary; none of its wording is used."
+      },
+      {
+        "claim": "In studies with 4 and 5 year olds and 7 and 8 year olds, children with increasing age trusted a voice assistant more for facts and a human more for personal information.",
+        "source": "Girouard Hallam and Danovitch (2022), Children's trust in and learning from voice assistants, Developmental Psychology",
+        "status": "Read through the abstract in a search extract on 30 September 2026. Supports teaching the difference between a machine and a person explicitly at this age; no figure is used."
+      },
+      {
+        "claim": "Children interacting with smart speakers at home attributed human like qualities to them, such as intelligence and the ability to be a friend, while also saying the devices are not alive, treating them as a mix of human and machine.",
+        "source": "Andries and Robertson (2023), Alexa doesn't have that many feelings: Children's understanding of AI through interactions with smart speakers in their homes, Computers and Education: Artificial Intelligence",
+        "status": "Read through a search extract of the abstract on 30 September 2026. It is why the lesson says a machine has no feelings plainly rather than assuming children know."
+      },
+      {
+        "claim": "Education for a Connected World sets out, for early years to age 7, that a child can recognise some ways in which the internet can be used to communicate, give examples of how they might use technology to communicate with people they know, and recognise that they can say no, please stop, I'll tell or I'll ask to somebody who asks them to do something that makes them feel sad, embarrassed or upset.",
+        "source": "UK Council for Internet Safety, Education for a Connected World, 2020 edition, Online relationships and Self image and identity strands",
+        "status": "Confirmed through search extracts of the framework on 30 September 2026; gov.uk was blocked from the build container."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "What if the person in my game is really nice?",
+        "answer": "They might be. Lots of people are nice. But we cannot see them or check who they are, so they are still someone we do not know. Being nice does not change the rule: if they chat, show a trusted grown up, and if they ask for a secret, tell straight away."
+      },
+      {
+        "question": "Is DiGi a person?",
+        "answer": "No, DiGi and DiGi Junior are machines, and they say so. That is a good thing about them: a machine should be honest about being a machine."
+      },
+      {
+        "question": "Can the speaker hear everything we say?",
+        "answer": "A smart speaker listens for its wake word and can record what is said after it. That is one reason private things stay private around machines too. Your grown up can show you how it works at home."
+      },
+      {
+        "question": "What if I already kept a secret for someone online?",
+        "answer": "Tell a trusted grown up now. You are not in trouble, and it is never too late to tell. You did the right thing by telling."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "My child plays games where strangers can chat. What should I do?",
+        "answer": "Most games let you turn chat off or limit it to friends you approve, in the game's own settings. Pair that with the rule from today: we chat with people we know in real life, and if anyone else chats, you show me. The setting is the safety net; the rule is the habit."
+      },
+      {
+        "question": "Should I worry that my child talks to our smart speaker like a friend?",
+        "answer": "It is very common for young children to treat talking devices as part person. The lesson simply names it: a machine is not a person, has no feelings, and can be wrong. You can reinforce it by saying the same thing lightly at home."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why contact is taught as noticing, not as stranger danger",
+        "body": "Fear based stranger messages do not help young children act, and most harm comes from people a child is led to think they know. So this lesson teaches a noticing habit: who is on the other side, and the rule for each. The single strongest signal at this age is a secret: kind words plus a secret from someone not known in real life is always a tell. The scenarios use players and messages, following CEOP's approach of never showing an adult contacting a child in material for this age."
+      },
+      {
+        "heading": "Why machines are in a contact lesson",
+        "body": "Young children increasingly meet talking machines before they meet strangers online: smart speakers, app characters that say their name, chatbots. Research shows children treat them as part person. Naming a machine as a machine at six is the first rung of the AI strand, which ks2-23 and ks3-22 build on when machines start to talk like friends."
+      }
+    ]
+  },
+  "dsl_note": {
+    "note": "This lesson is about contact online and asks children to tell a trusted grown up if someone they do not know chats to them or asks for a secret, so disclosures are likely. If a child describes contact from someone they do not know, especially a request for secrecy, photos, where they live or to meet, listen calmly, thank them, do not ask leading questions or promise secrecy, and follow your school safeguarding policy the same day. Any report of an adult contacting a child online goes to the DSL, who may consider a report to CEOP.",
+    "required": true,
+    "concern_form_linked": true
+  }
+}

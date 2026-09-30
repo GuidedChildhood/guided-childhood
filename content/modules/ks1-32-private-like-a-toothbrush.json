@@ -1,0 +1,763 @@
+{
+  "module_id": "ks1-32-private-like-a-toothbrush",
+  "key_stage": "KS1",
+  "sort_order": 32,
+  "row": {
+    "title": "Private like a toothbrush",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 1 to 2",
+    "sort_order": 32,
+    "efcw_strands": [
+      3,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "Five to seven year olds know some things are private but not yet that sharing online is seen and copied differently from sharing face to face, so the habit is taught before the first account",
+    "statutory_hooks": [
+      "RSHE 2026 (online safety and awareness, caution about sharing information about themselves online)",
+      "RSHE 2026 (being safe, the concept of privacy)",
+      "EfCW privacy and security, early years to 7",
+      "EfCW online reputation, early years to 7"
+    ],
+    "single_action_outcome": "I can keep private things private, and ask before I share."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "title": "Private like a toothbrush",
+      "eyebrow": "KS1 · Years 1 to 2 · Module 32",
+      "character": "pebble",
+      "minutes": 1,
+      "script": "Hold up a toothbrush if you have one, or mime brushing your teeth. Ask: would you lend your toothbrush to someone at the park? Wait for the big yuck. Say: some things are just for you and your family. Today Pebble learns that some information is like that too, and what to do with it on a screen. The line under the title, to say as written: Some things are just for you."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "character": "pebble",
+      "heading": "Pebble is here!",
+      "lines": [
+        "Hello! Pebble here, and I am puzzled.",
+        "A game asked me my name and where I live.",
+        "Should I tell it? What do you think?"
+      ],
+      "minutes": 1,
+      "script": "Let Pebble land and say the lines. Read Pebble's question in your own voice and leave it hanging. Do not answer it yet. Say: Pebble is not sure, and that is a very good place to start. Let us find out."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "outcome": "I can keep private things private, and ask before I share.",
+      "why": "Online, lots of people can see and copy things.",
+      "gains": [
+        "Know what private information is",
+        "Keep it private online",
+        "Ask before sharing a photo of anyone"
+      ],
+      "minutes": 2,
+      "script": "Read the I can sentence together twice. Then the why in your own words: when you tell a friend something in the classroom, one friend hears it. On a screen, lots of people you cannot see might see it, and they can copy it. So we need a plan for private things. Point at the three things we will learn today."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "prompt": "What is something that is just yours, like a toothbrush?",
+      "lookFor": "Toothbrush, pyjamas, a special teddy, a diary.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Ten seconds of thinking time first. Then a minute with a talk partner. Take four or five answers and enjoy them: a toothbrush, pyjamas, a special teddy, a diary. Say: these are things we keep for ourselves and our family. Some information is just like that, and that is what we are learning about."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "heading": "Our three words today",
+      "words": [
+        {
+          "word": "private",
+          "meaning": "Just for you and the people who look after you."
+        },
+        {
+          "word": "password",
+          "meaning": "A secret word that locks your things."
+        },
+        {
+          "word": "share",
+          "meaning": "To let other people see or have something."
+        }
+      ],
+      "minutes": 2,
+      "script": "Say each word and have the class echo it with an action. Private: hug yourself. Password: turn a pretend key in a lock. Share: open your hands out wide. Do them in a row twice. Land private: it just means it belongs to you and your family, and there is nothing naughty or scary about it."
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "question": "A box pops up: tap for gems! What does Pebble do?",
+      "options": [
+        {
+          "text": "Paws off, look up, ask a grown up",
+          "correct": true,
+          "feedback": "That is Pebble's move from Reception. A box that wants something means paws off, look up, and ask a grown up first."
+        },
+        {
+          "text": "Tap it quickly before anybody sees",
+          "correct": false,
+          "feedback": "A quick secret tap means nobody can help if it costs money. Paws off, look up, and ask a grown up instead."
+        },
+        {
+          "text": "Tap yes so it goes away",
+          "correct": false,
+          "feedback": "Tapping yes can agree to paying or sharing. Pebble's move is paws off, look up, and ask a grown up."
+        }
+      ],
+      "minutes": 2,
+      "script": "Our remembering question from Reception. Thinking time, count to five quietly, then everyone votes with fingers: one, two or three. Ask a child to show the paws off move. Bridge to today: that was about taps that want something. Today it is about information that wants to stay with us."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Private is like a toothbrush",
+      "body": "Just for you and your family.",
+      "emoji": "🪥",
+      "minutes": 2,
+      "script": "Here is what I notice first about a toothbrush: my family knows where it is, and that is fine, but I would not hand it to a stranger at the park. Private information is like that. Your family and your teacher know where you live, and that is fine. On a screen, we keep it private. Say this part clearly too: private is different from a secret worry. If something makes you worried or sad, that is never a thing to keep private from your grown up. Private things stay away from people online; worries always go to a grown up."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "heading": "Four things that stay private",
+      "caption": "Keep these private online.",
+      "steps": [
+        {
+          "title": "Where I live",
+          "text": "My house number and my street.",
+          "emoji": "🏠"
+        },
+        {
+          "title": "My school",
+          "text": "Its name, and my uniform in photos.",
+          "emoji": "🏫"
+        },
+        {
+          "title": "My password",
+          "text": "The secret word that locks my things.",
+          "emoji": "🔑"
+        },
+        {
+          "title": "My birthday",
+          "text": "The whole date, with the year.",
+          "emoji": "🎂"
+        }
+      ],
+      "verdicts": [
+        "Private",
+        "Fine to share"
+      ],
+      "minutes": 4,
+      "script": "Point to each card one at a time and do an action. Where I live: make a roof with your arms. My school: point at the room. My password: turn the pretend key. My birthday: blow out candles. Then play quick fire with the two chips at the bottom. Call out a thing and the class shows a hug for private or open hands for fine to share. Your favourite colour: fine to share. Your street: private. Your favourite animal: fine to share. Your password: private, even with your best friend. Keep the pace up and enjoy the fine to share ones, because most things about us are lovely to share."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "Which one should Pebble keep private online?",
+      "options": [
+        {
+          "text": "The colour Pebble likes the very best",
+          "correct": false,
+          "feedback": "A favourite colour is fine to share. It does not tell anybody where Pebble lives or how to get into Pebble's things."
+        },
+        {
+          "text": "Pebble's house number and street",
+          "correct": true,
+          "feedback": "Where Pebble lives is private. Pebble's family knows it, and online it stays private, because lots of people could see it."
+        },
+        {
+          "text": "Pebble's favourite animal at the zoo",
+          "correct": false,
+          "feedback": "A favourite animal is lovely to share. The private things are where you live, your school, your password and your birthday."
+        }
+      ],
+      "minutes": 2,
+      "script": "Thinking time, five seconds, then everyone votes with fingers. The popular wrong answer is none at all: a few children will say everything about you is private. Say: most things about us are lovely to share. It is the four things on our cards that stay private online. Ask one child to name all four."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Online, many people can see",
+      "body": "Once shared, it can be copied.",
+      "emoji": "👀",
+      "minutes": 2,
+      "script": "Here is what I would want you to notice. If I whisper something to one friend, one friend hears it. If I put it on a screen, lots of people might see it, people I cannot see and do not know, and they can copy it and pass it on. Even if I delete it, a copy might stay. Act it out: whisper to one child, then pretend to press send and have the whole class put their hands to their ears. That is why private things stay off screens, and why we ask a grown up before we share anything about ourselves."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "heading": "Keep, ask, tell",
+      "caption": "Pebble's plan for private things.",
+      "steps": [
+        {
+          "title": "Keep it private",
+          "text": "Where I live, my school, my password.",
+          "emoji": "🤗"
+        },
+        {
+          "title": "Not sure? Ask",
+          "text": "Ask a grown up before you share.",
+          "emoji": "🙋"
+        },
+        {
+          "title": "Someone asks? Tell",
+          "text": "Tell a grown up straight away.",
+          "emoji": "🗣️"
+        }
+      ],
+      "verdicts": [
+        "Keep it private",
+        "Ask first",
+        "Tell a grown up"
+      ],
+      "minutes": 3,
+      "script": "This is Pebble's plan, so walk it one step at a time and give each an action: a hug for keep it private, a hand up for ask, a hand cupped to your mouth for tell. Say why the last one matters most: if someone online asks for your private things, you are not in trouble for telling, and a grown up needs to know. Chant the three with actions twice, then point at the three chips at the bottom. We will use them in the game after half time."
+    },
+    {
+      "type": "scenario",
+      "phase": "teach",
+      "label": "Pebble's story",
+      "platform": "message",
+      "meta": "Game chat · just now",
+      "handle": "CoinKing 👑",
+      "avatar": "👑",
+      "image": "🎮",
+      "text": "hi!! tell me ur password and ill give u 1000 free coins!!",
+      "prompt": "What should Pebble do with this message?",
+      "minutes": 2,
+      "script": "Read the message in a flat, ordinary voice, not a scary one. Ask: what does CoinKing want? A password. Is a password private? Yes. So what is Pebble's plan? Keep it private, and someone asks, so tell a grown up. Say: free coins are exactly the kind of thing people offer when they want something back. Pebble does not reply and shows a grown up straight away."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "Someone in a game asks for Pebble's password. What now?",
+      "options": [
+        {
+          "text": "Keep it private and tell a grown up",
+          "correct": true,
+          "feedback": "A password is private, and someone asking for it is a tell. Pebble keeps it private and shows a grown up."
+        },
+        {
+          "text": "Tell them, because free coins are fun",
+          "correct": false,
+          "feedback": "Free coins are what the player offers to get the password. Passwords stay private, and someone asking is a tell."
+        },
+        {
+          "text": "Tell them, but only half of it",
+          "correct": false,
+          "feedback": "Half a password still helps someone get in. The whole password stays private, and Pebble tells a grown up."
+        }
+      ],
+      "minutes": 2,
+      "script": "Wait five seconds, then everyone shows fingers. The popular wrong answer is the free coins one, because coins are exciting. Say kindly: someone offering a prize for a password is a trick, and passwords stay private even from a best friend. Your grown up can know it; nobody in a game needs it."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Ask before you share a photo",
+      "body": "Photos of friends are theirs too.",
+      "emoji": "📸",
+      "minutes": 2,
+      "script": "Photos are private things too, because a photo can show your face, your school uniform or your house. A photo of a friend is partly theirs, so before we share a photo of anyone, we ask them, and we ask our grown up. Once a photo is sent, it can be passed on to people you never meant to see it. And if someone shares a photo of you that you do not like, that is a tell: a grown up can help get it taken down, and you are not in trouble."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "prompt": "Pebble took a funny photo of a friend. What now?",
+      "lookFor": "Ask the friend, and ask a grown up, before sharing.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Thinking time first, count to five in your heads. Then a minute in pairs. Listen for ask the friend, and ask a grown up. Take three answers. If a pair says just send it because it is funny, ask: would the friend want everyone to see it? That is why we ask first."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "star-breath",
+      "config": {
+        "heading": "Half time! Everyone together",
+        "prompt": "Breathe in as Pebble grows, out as Pebble shrinks. Then tell your partner one private thing.",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "minutes": 1,
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs: name one of the four private things, not what it is for you, only which kind. Then straight into the game."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "verdict-sort",
+      "caption": "Keep it private, ask first, or tell?",
+      "config": {
+        "label": "Keep, ask, or tell? · tap the class answer",
+        "verdicts": [
+          "Keep it private",
+          "Ask first",
+          "Tell a grown up"
+        ],
+        "posts": [
+          {
+            "handle": "A game",
+            "avatar": "🏠",
+            "text": "A game asks: what is your address?",
+            "answer": 0,
+            "why": "Where you live stays private online."
+          },
+          {
+            "handle": "Your drawing",
+            "avatar": "🎨",
+            "text": "You want to share your rainbow drawing in the family chat.",
+            "answer": 1,
+            "why": "It is lovely! Ask your grown up before you share."
+          },
+          {
+            "handle": "A player",
+            "avatar": "🔑",
+            "text": "Someone in a game asks for your password.",
+            "answer": 2,
+            "why": "Passwords stay private. Someone asking is a tell."
+          },
+          {
+            "handle": "A photo",
+            "avatar": "📸",
+            "text": "You want to share a funny photo of your friend.",
+            "answer": 1,
+            "why": "Ask your friend and your grown up first."
+          },
+          {
+            "handle": "A video",
+            "avatar": "🏫",
+            "text": "A video says: comment the name of your school!",
+            "answer": 0,
+            "why": "Your school's name stays private online."
+          },
+          {
+            "handle": "A message",
+            "avatar": "💬",
+            "text": "Someone you do not know asks: where are you now?",
+            "answer": 2,
+            "why": "Where you are is private. Tell a grown up straight away."
+          }
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "You sorted them all!",
+        "doneBody": "Keep it private. Not sure? Ask. Someone asks? Tell."
+      },
+      "minutes": 4,
+      "script": "Play it together first. Tap each card, read it out, and take hands up for keep it private, ask first, or tell a grown up. Tap the class choice and read the reason. Do all six. The rainbow drawing matters: sharing is lovely, we just ask first. The last two are both tells, because someone is asking for private things. If the class picks wrong, read the reason and ask what they think now."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "label": "Your turn",
+      "heading": "The private game",
+      "body": "Fine question? Answer it. Private? Keep it.",
+      "minutes": 5,
+      "script": "A game in pairs. One child is the game on the screen and asks questions from the list you give them: what is your favourite colour, what is your address, what is your favourite animal, what is your password, what school do you go to, what is your favourite food. The other child answers the fine questions and, for the private ones, says: that is private, I will ask my grown up. Nobody says their real address, school or password out loud, even in the game. Swap after six questions. Model it once with a child first. Then everyone completes the sheet, circling keep it private, ask first, or tell a grown up for each picture."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "A game says: type your school to win! What does Pebble do?",
+      "options": [
+        {
+          "text": "Keep it private and skip it",
+          "correct": true,
+          "feedback": "A school's name is private online, even for a prize. Pebble keeps it private and can ask a grown up about the game."
+        },
+        {
+          "text": "Type it in to win the prize",
+          "correct": false,
+          "feedback": "The prize is there to get the information. Pebble's school stays private online, so Pebble skips it."
+        },
+        {
+          "text": "Type it, but spell it wrong",
+          "correct": false,
+          "feedback": "A school spelled wrong can still be worked out. The school stays private, so Pebble skips it altogether."
+        }
+      ],
+      "minutes": 2,
+      "script": "First of our two finishing questions, and every child answers. Read it aloud with the options, wait five seconds, then fingers. Ask one child to say which of the four private things this was."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "A friend shared a photo of Pebble. Pebble feels sad. What now?",
+      "options": [
+        {
+          "text": "Share a photo of the friend back",
+          "correct": false,
+          "feedback": "Sharing a photo back makes two sad people. Pebble tells a grown up, who can help get the photo taken down."
+        },
+        {
+          "text": "Tell a grown up",
+          "correct": true,
+          "feedback": "A photo of Pebble that Pebble does not like is a tell. A grown up can help, and Pebble is not in trouble."
+        },
+        {
+          "text": "Keep the sad feeling a secret",
+          "correct": false,
+          "feedback": "A sad feeling kept secret stays big. Pebble tells a grown up, who can help, and Pebble is not in trouble."
+        }
+      ],
+      "minutes": 2,
+      "script": "Second finishing question. Thinking time of five seconds, then fingers. After the answer, say the most important sentence of the lesson: you are never in trouble for telling a grown up about something online that made you feel sad or worried. If a child tells you about a real photo, thank them, do not ask for details in front of the class, and speak to them afterwards."
+    },
+    {
+      "type": "quote",
+      "phase": "close",
+      "label": "Say it like Pebble",
+      "text": "Keep it private. Not sure? Ask. Someone asks? Tell!",
+      "minutes": 1,
+      "script": "Pebble's chant, all together with the actions: hug, hand up, hand cupped to mouth. Three times: a whisper, a talking voice, then big and proud."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "heading": "What we know now",
+      "points": [
+        "Private things are just for you and your family.",
+        "Where you live, your school, your password: keep it private.",
+        "Not sure? Ask a grown up before you share.",
+        "Someone asks for private things? Tell a grown up."
+      ],
+      "minutes": 1,
+      "script": "Choose four children to read one point each, or read them together. Then ask: are you in trouble for telling a grown up that someone asked for your password? Wait for the big no."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "character": "pebble",
+      "heading": "Pebble's job for you",
+      "lines": [
+        "Tonight, tell your grown up the four private things.",
+        "Then make a password rule together.",
+        "Keep it private. Not sure? Ask!"
+      ],
+      "minutes": 1,
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to count the four private things on their fingers once more. The passport is next, then DiGi Junior says goodbye."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "component": "passport-page",
+      "config": {
+        "heading": "The passport",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "button": "Fill the page",
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "moduleId": "ks1-32-private-like-a-toothbrush",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "minutes": 1,
+      "script": "DiGi Junior's passport gets a little fuller every lesson, and jobs at home fill it too. Ask one child to tap Fill the page, and when the ring moves, everybody shouts stamp. Nobody can fail the passport, it only ever fills up. The note going home tells grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "heading": "DiGi Junior says goodbye",
+      "lines": [
+        "Star pause with me! Arms out wide, breathe in, and out.",
+        "Some things are private, like your toothbrush.",
+        "Keep it private. Not sure? Ask. Someone asks? Tell!",
+        "See you next time, superstars! ⭐"
+      ],
+      "minutes": 1,
+      "script": "Let DiGi Junior land the ending and read each bubble aloud in your DiGi Junior voice. Star pause with the class on the first line. The parent note goes home in book bags today with the password rule to make together. Wave goodbye to DiGi Junior."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "exit_quiz": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned that some information is private, like a toothbrush: where they live, their school, their password and their birthday. Online, lots of people can see and copy things, so those stay private. They learned Pebble's plan: keep it private, not sure? ask a grown up before sharing, and if someone asks for private things, tell a grown up. They also learned to ask a friend, and you, before sharing a photo of anyone.",
+    "try_this": "Your child has a job tonight: to tell you the four private things and make a password rule with you. A good first rule at this age is that you know their passwords and nobody else does, not even a best friend. Next time you share a photo of your child, try asking them first, so they see it done.",
+    "family_question": "Which four things stay private online, and what do you do if someone asks for one?",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to teach you the private chant.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "Pupils can identify simple examples of their personal information (where they live, their school, their password, their birthday), understand that information shared online can be seen and copied by many people, and use a simple plan: keep it private, ask a grown up before sharing, and tell a grown up if someone asks for it. They know to ask before sharing a photo of anyone.",
+    "essential_question": "What is private, and what do I do when a screen asks for it?",
+    "timing": "50 minutes: starter 10, cycle one 8, cycle two 13, practise 10, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Private is like a toothbrush",
+        "minutes": 8,
+        "outcome": "I can name four things that are private."
+      },
+      {
+        "verb": "Choose",
+        "title": "Online, many people can see",
+        "minutes": 13,
+        "outcome": "I can keep it private, ask before I share, and tell if someone asks."
+      }
+    ],
+    "tool": {
+      "heading": "Keep, ask, tell",
+      "lines": [
+        "Keep it private",
+        "Not sure? Ask",
+        "Someone asks? Tell"
+      ],
+      "strapline": "Some things are just for you, like a toothbrush."
+    },
+    "keywords": [
+      {
+        "word": "private",
+        "definition": "Just for you and the people who look after you."
+      },
+      {
+        "word": "password",
+        "definition": "A secret word or pattern that locks your things so only you and your grown up can open them."
+      },
+      {
+        "word": "share",
+        "definition": "To let other people see or have something. Online, sharing can reach many people and be copied."
+      }
+    ],
+    "prior_knowledge": [
+      "From eyfs-31, Paws off, ask first: some taps want something, and the move is paws off, look up, ask a grown up.",
+      "From ks1-02, Kind screens, calm bodies: feel it, name it, tell a grown up, and telling is never trouble.",
+      "Children know some things belong to them and their family, like a toothbrush or pyjamas."
+    ],
+    "key_learning_points": [
+      "Private information is just for you and the people who look after you.",
+      "Four things stay private online: where you live, your school, your password, your birthday.",
+      "Online, many people can see what is shared, and it can be copied.",
+      "Keep it private. Not sure? Ask a grown up. Someone asks? Tell a grown up.",
+      "Ask a friend, and a grown up, before sharing a photo of anyone."
+    ],
+    "misconceptions": [
+      "That a password is fine to share with a player who offers free coins. Passwords stay private, and someone asking for one is a tell.",
+      "That private means a secret you keep from grown ups. Private things are kept from people online; worries always go to a grown up.",
+      "That everything about you is private, so nothing can ever be shared. Most things are lovely to share, like a favourite colour; four things stay private online."
+    ],
+    "i_can": [
+      "I can name four things that are private.",
+      "I can keep it private, ask before I share, and tell if someone asks."
+    ],
+    "commitment_stem": "My commitment: my password rule at home is ... and if someone asks for private things, I will tell ...",
+    "teacher_tip": "Never ask children to say or write their real address, school name, birthday or password during this lesson, even to practise. The role play uses the question, not the answer: the child practises saying that is private. It also models the thing you are teaching, which is that the adult in the room does not need them to hand it over.",
+    "equipment": "The board. A toothbrush as a prop if you have a clean one. The circle sheet and pencils.",
+    "paper_fallback": "The whole lesson runs without the board. Draw the four private things as four boxes with a roof, a school, a key and a cake, read CoinKing's message aloud from the script, draw keep, ask and tell as three boxes, read the six sort cards with hands up for each answer, and run the two finishing questions with fingers.",
+    "passport_stage": "foundation",
+    "differentiation": {
+      "support": "Give the four private things as picture cards (a house, a school, a key, a cake) and let children point to the card rather than name it. In the private game, pair a child with an adult first so they hear the words that is private, I will ask my grown up before they say them.",
+      "stretch": "Ask stretch children why a birthday with the year is private but a favourite animal is not, and to think of one more thing that should stay private online, such as a phone number or where you are right now, and say why."
+    },
+    "send": {
+      "eal": "Teach private, password and share with actions and picture cards before the lesson, and put the three tool words on the desk with a hug, a raised hand and a cupped hand drawn beside them. The sort can be done by pointing at pictures.",
+      "sensory": "The lesson is calm and has no loud calls. If a child finds the game chat message unsettling, say it is a pretend message made for the lesson and let them hold the keep it private card while the class talks.",
+      "attention": "Move between each part with the three actions: hug, hand up, cupped hand. The private game can be shortened to three questions each way, keeping at least one private question in each round.",
+      "communication": "Accept the actions as the answer: a hug for keep it private, a raised hand for ask, a cupped hand for tell. In the game, a child can hold up a keep it private card instead of saying the words."
+    },
+    "worksheet": {
+      "title": "Keep, ask, or tell?",
+      "directions": "Your teacher reads each one aloud. Circle keep it private, ask first, or tell a grown up.",
+      "verdict_options": [
+        "Keep it private",
+        "Ask first",
+        "Tell a grown up"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A game asks: what is your address?",
+        "teaching_point": "Recognise: where you live is one of the four private things, and stays private online.",
+        "expected_verdict": "Keep it private"
+      },
+      {
+        "n": 2,
+        "item": "You want to share your rainbow drawing in the family chat.",
+        "teaching_point": "Recognise: sharing is lovely, and asking first is the habit. Not everything is a worry.",
+        "expected_verdict": "Ask first"
+      },
+      {
+        "n": 3,
+        "item": "Someone in a game asks for your password.",
+        "teaching_point": "Apply: a password stays private, and someone asking for it is a tell, not only a keep.",
+        "expected_verdict": "Tell a grown up"
+      },
+      {
+        "n": 4,
+        "item": "You want to share a funny photo of your friend.",
+        "teaching_point": "Apply: a photo of a friend is partly theirs. Ask the friend and a grown up first.",
+        "expected_verdict": "Ask first"
+      },
+      {
+        "n": 5,
+        "item": "A video says: comment the name of your school!",
+        "teaching_point": "Apply: a school's name stays private online, even when a video asks everyone for it.",
+        "expected_verdict": "Keep it private"
+      },
+      {
+        "n": 6,
+        "item": "Someone you do not know asks: where are you now?",
+        "teaching_point": "Explain: where you are right now is private, and someone you do not know asking for it is a tell straight away.",
+        "expected_verdict": "Tell a grown up"
+      }
+    ],
+    "starter_quiz": [
+      {
+        "question": "What does Pebble do when a box pops up?",
+        "format": "short_answer",
+        "answer": "Paws off, look up, ask a grown up.",
+        "teaching_point": "Carried forward from eyfs-31. Asking a grown up comes back today for private information."
+      },
+      {
+        "question": "Which one is just for you and your family?",
+        "format": "tick_one",
+        "options": [
+          "Your toothbrush",
+          "The park swings",
+          "The class books"
+        ],
+        "answer": "Your toothbrush",
+        "teaching_point": "The analogy the lesson is built on. A child who gets this already has the idea of private."
+      },
+      {
+        "question": "If a screen makes you feel yucky, you keep it a secret.",
+        "format": "true_false",
+        "answer": "False",
+        "teaching_point": "Carried forward from ks1-02. Worries always go to a grown up, which the lesson keeps separate from private."
+      },
+      {
+        "question": "Name one thing you like to share.",
+        "format": "short_answer",
+        "answer": "Any, such as toys, drawings, a favourite song.",
+        "teaching_point": "Starts from sharing as a good thing, so private does not arrive as a telling off."
+      }
+    ],
+    "exit_quiz": [
+      {
+        "question": "Which one is private online?",
+        "format": "tick_one",
+        "options": [
+          "Your password",
+          "Your favourite colour",
+          "Your favourite animal"
+        ],
+        "answer": "Your password",
+        "teaching_point": "One of the four private things. The two distractors are lovely to share."
+      },
+      {
+        "question": "Online, lots of people can see and copy what you share.",
+        "format": "true_false",
+        "answer": "True",
+        "teaching_point": "The reason private things stay off screens. Five to seven year olds often do not know it yet."
+      },
+      {
+        "question": "What are Pebble's three words for private things?",
+        "format": "short_answer",
+        "answer": "Keep, ask, tell.",
+        "teaching_point": "The portable plan. If it does not come back, chant it with the actions before home time."
+      },
+      {
+        "question": "Before you share a photo of a friend, you ask them first.",
+        "format": "true_false",
+        "answer": "True",
+        "teaching_point": "The photo habit, taught before the first phone rather than after the first mistake."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "In a study of 18 US families with children aged 5 to 11, the 5 to 7 year olds had gaps in understanding that sharing information online makes it visible in different ways from sharing face to face; most children knew not to share a password or address with an unknown person, and said a child asked for their address in a message should tell a parent or refuse.",
+        "source": "Kumar, Naik, Devkar, Chetty, Clegg and Vitak (2017), No Telling Passcodes Out Because They're Private: Understanding Children's Mental Models of Privacy and Security Online, Proceedings of the ACM on Human Computer Interaction 1 (CSCW), article 64",
+        "status": "Read through the authors' blog summary and the abstract in search extracts on 30 September 2026. A small qualitative US study. It is why the lesson spends a slide on online being seen and copied, and why the plan ends with tell."
+      },
+      {
+        "claim": "Education for a Connected World sets out, for early years to age 7, that a child can identify some simple examples of their personal information (such as name, address, birthday, age, location), explain how passwords protect information and devices, and recognise that information can stay online and could be copied.",
+        "source": "UK Council for Internet Safety, Education for a Connected World, 2020 edition, Privacy and security and Online reputation strands",
+        "status": "The wording was confirmed through search extracts of the framework on 30 September 2026; gov.uk was blocked from the build container."
+      },
+      {
+        "claim": "CEOP's Jessie and Friends, for 4 to 7 year olds, has an episode in which photos taken at a party are shared with other children without permission, and the children turn to their teacher for help.",
+        "source": "CEOP Education (National Crime Agency), Jessie and Friends, episode 2, Sharing pictures",
+        "status": "Read through the programme's own description in search extracts on 30 September 2026. Used as a model for how to teach photo sharing at this age without fear; none of its wording is used."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Can I tell my best friend my password?",
+        "answer": "Your password is private even from your best friend, because friends sometimes fall out, or tell someone else by mistake. Your grown up can know it. That is the password rule you are making tonight."
+      },
+      {
+        "question": "Is my first name private?",
+        "answer": "Your first name on its own is often fine, but ask your grown up what name to use in a game. Lots of children use a made up game name, and that is a clever way to keep private things private."
+      },
+      {
+        "question": "What if I already told a game where I live?",
+        "answer": "Tell your grown up. You are not in trouble. They can check it and help, and now you know for next time."
+      },
+      {
+        "question": "Why does the game want my birthday?",
+        "answer": "Some games need to know how old you are so they can keep you safe. That is a job for your grown up, so it is an ask first."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "Should my child have passwords I do not know?",
+        "answer": "At this age, the lesson teaches that grown ups know their passwords and nobody else does. That is the habit to build now. Children take over their own passwords gradually as they get older."
+      },
+      {
+        "question": "I share photos of my child online. Is that a problem?",
+        "answer": "The lesson does not judge that, and lots of families share photos. It does teach your child to ask before sharing a photo of someone, so asking them before you post one of them is a lovely way to show the same habit."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why private is kept apart from secret",
+        "body": "Safeguarding teaching for young children works hard to say that some secrets should not be kept, especially worries. A privacy lesson that says keep things to yourself risks muddling that. So this lesson draws the line clearly: private information is kept from people online, and worries are always told to a grown up. The toothbrush makes the idea concrete without making it a secret: your family knows where it is."
+      },
+      {
+        "heading": "Why online is taught as seen and copied",
+        "body": "Research with young children found that five to seven year olds understand privacy face to face but not yet how sharing online differs: that many unseen people can see it, and it can be copied and stay. That is the one new idea a child of this age needs before any account of their own, and the lesson spends a slide on it with a whisper against a send."
+      }
+    ]
+  },
+  "dsl_note": {
+    "note": "This lesson teaches children to tell a grown up if someone online asks for their private information or shares a photo of them, so a child may disclose contact from someone they do not know, a request for their address or photos, or a photo shared without consent. Listen calmly, thank them, do not ask leading questions or promise secrecy, and follow your school safeguarding policy the same day. Contact from an unknown adult asking a child for personal information or photos should always go to the DSL.",
+    "required": true,
+    "concern_form_linked": true
+  }
+}

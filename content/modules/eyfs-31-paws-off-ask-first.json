@@ -1,0 +1,723 @@
+{
+  "module_id": "eyfs-31-paws-off-ask-first",
+  "key_stage": "EYFS",
+  "sort_order": 31,
+  "row": {
+    "title": "Paws off, ask first",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Reception",
+    "sort_order": 31,
+    "efcw_strands": [
+      5,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "Almost every app made for children aged 5 and under carries advertising, including pop up videos and nudges to buy, so the youngest users need one move for any tap that wants something",
+    "statutory_hooks": [
+      "EYFS PSED (self regulation, managing self)",
+      "EfCW privacy and security, early years to 7",
+      "EfCW managing online information, early years to 7"
+    ],
+    "single_action_outcome": "I can spot a pop up, take my paws off, and ask."
+  },
+  "slides": [
+    {
+      "type": "interactive",
+      "phase": "connect",
+      "component": "star-breath",
+      "config": {
+        "seconds": 4
+      },
+      "caption": "Follow the star. In as it grows, out as it shrinks.",
+      "minutes": 2,
+      "script": "Settle on the carpet with hands on tummies. Say: star breath first, like every screen lesson. In as the star grows, out as it shrinks, four together without talking. Children who need to move can stand and let their arms rise and fall with the star."
+    },
+    {
+      "type": "title",
+      "phase": "connect",
+      "title": "Paws off, ask first",
+      "body": "Some buttons want something from you.",
+      "eyebrow": "EYFS · Reception · Module 31",
+      "character": "pebble",
+      "minutes": 1,
+      "script": "Hold up your hands like paws and wiggle them, then put them in your lap. Say: today we learn a special Pebble move for our hands. Some things on a screen want us to tap them, and some of those taps want money or take us somewhere new. By home time you will know exactly what to do with your paws."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "character": "pebble",
+      "heading": "Pebble is here!",
+      "lines": [
+        "Hello! Pebble here, with a story.",
+        "I was playing my game. A big box jumped up!",
+        "It said: tap for gems! I nearly tapped. What would you do?"
+      ],
+      "minutes": 1,
+      "script": "Let Pebble land and say the lines. Read Pebble's last question in your own voice, with a little gasp on the big box jumped up, and leave it hanging. Say: Pebble nearly tapped. Let us find out what Pebble could do instead."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "outcome": "I can spot a pop up, take my paws off, and ask.",
+      "why": "Some taps want money or take you somewhere new.",
+      "gains": [
+        "Spot a pop up or an advert",
+        "Take my paws off the screen",
+        "Ask a grown up what it is"
+      ],
+      "minutes": 2,
+      "script": "Read the I can sentence together twice, and on the words paws off, everyone puts their hands in their lap. Then the why in your own words: some taps on a screen are fine, like turning the page of a story. Some taps want money, or take you somewhere you do not know. Today we learn to tell them apart, and what to do."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "prompt": "Tell your partner a game or app you like to play.",
+      "lookFor": "Any game or app. Listen for pop ups they mention.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Thinking time first, ten seconds, fingers on lips. Then one minute with a talk partner. Listen for games and apps by name, and for any child who mentions a box that pops up, gems, coins or adverts. Take three or four answers warmly. Nobody is asked what they tapped; this is only about what they like to play."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "heading": "Our three words today",
+      "words": [
+        {
+          "word": "pop up",
+          "meaning": "A box that jumps onto the screen by surprise."
+        },
+        {
+          "word": "advert",
+          "meaning": "A little show that wants you to buy something."
+        },
+        {
+          "word": "paws off",
+          "meaning": "Hands in your lap, away from the screen."
+        }
+      ],
+      "minutes": 2,
+      "script": "Say each word with its action and the class echoes. Pop up: hands jump up from behind your back. Advert: hold up a pretend toy and say buy me in a funny voice. Paws off: hands straight into your lap. Do all three twice, then play a quick game: say one of the words and the class does the action."
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "question": "The cartoon ends and the next one starts. What do we do?",
+      "options": [
+        {
+          "text": "Wave bye bye, then the next thing",
+          "correct": true,
+          "feedback": "That is Pebble's tool from our last lesson: pick a stop, wave bye bye, and go to a good next thing."
+        },
+        {
+          "text": "Watch the new one, and then the one after",
+          "correct": false,
+          "feedback": "The new one starting is the screen keeping going. The end of the cartoon was the stop, so we wave bye bye."
+        },
+        {
+          "text": "Turn the sound up",
+          "correct": false,
+          "feedback": "Turning the sound up keeps the screen going. The end of the cartoon is a stop, so we wave bye bye and go."
+        }
+      ],
+      "minutes": 2,
+      "script": "Our remembering question from last lesson. Thinking time, count to five quietly, then everyone votes with fingers: one, two or three. Take one answer with the wave. Then bridge: last time we learned the screen keeps going. Today we learn that some things on a screen want something from us, and a new move for our paws."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "A pop up jumps in",
+      "body": "A surprise box that wants a tap.",
+      "emoji": "💥",
+      "minutes": 2,
+      "script": "Here is what I notice first when a box jumps onto a game: it arrives by surprise, it is big and bright, and it has a button right where my finger already is. The people who make the game put it there on purpose, because they want a tap. Some pop ups ask for money, some show an advert, some take you to a new place. Act it out: one hand is the game, the other hand jumps up in front of it. That is a pop up."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "A box pops up: tap for more gems! What does it want?",
+      "options": [
+        {
+          "text": "It wants a tap, and maybe money",
+          "correct": true,
+          "feedback": "A pop up like this is trying to get a tap, and gems often cost real money. So it is a paws off moment."
+        },
+        {
+          "text": "It is a present with nothing to pay",
+          "correct": false,
+          "feedback": "It looks like a present, but boxes like this are often trying to get money for the game. Paws off, and ask a grown up."
+        },
+        {
+          "text": "It is part of the story",
+          "correct": false,
+          "feedback": "It jumped in on top of the game, so it is not the story. Pop ups are often trying to get a tap or money."
+        }
+      ],
+      "minutes": 2,
+      "script": "Wait five seconds before anyone answers, then everyone shows fingers. The popular wrong answer is that the pop up is part of the game, because it looks like the game and uses the game's characters. Say it plainly: pop ups and adverts are often trying to get a tap or money, so tapping them is a job to ask a grown up about. Nobody is in trouble for thinking it was a present; it is made to look like one."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Adverts want you to buy",
+      "body": "A little show that sells you something.",
+      "emoji": "🛍️",
+      "minutes": 2,
+      "script": "An advert is a little show made to sell you something: a toy, a game, a snack, more gems. Grown ups see adverts all the time, and that is fine. An advert's job is to make you want something. Pull a big wanting face and say: I want it! That feeling is what the advert is trying to make. When we feel it, that is a good moment to take our paws off and ask."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "prompt": "How could Pebble tell a cartoon from an advert? Tell your partner.",
+      "lookFor": "Adverts show things to buy. Cartoons tell a story.",
+      "seconds": 60,
+      "minutes": 2,
+      "script": "Thinking time first, count to five in your heads. Then a minute in pairs. Help stuck pairs with a question: does it tell a story, or does it show you something to get? Take three answers. Collect the clues on the board: adverts show a toy or a game, they say buy or get, they have a big button. Cartoons tell a story."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "heading": "Paws off, ask first",
+      "caption": "Grown ups help with taps that want something.",
+      "steps": [
+        {
+          "title": "Paws off",
+          "text": "Hands in your lap, away from the screen.",
+          "emoji": "🐾"
+        },
+        {
+          "title": "Look up",
+          "text": "Find your grown up with your eyes.",
+          "emoji": "👀"
+        },
+        {
+          "title": "Ask a grown up",
+          "text": "Say: what is this? Can I tap it?",
+          "emoji": "🙋"
+        }
+      ],
+      "verdicts": [
+        "Fine to tap",
+        "Paws off and ask"
+      ],
+      "minutes": 4,
+      "script": "This is Pebble's move, so take your time. Point to each step as it appears and do the action with the class. Paws off: both hands straight into your lap, which is the clever bit, because a finger that is not on the screen cannot tap by accident. Look up: eyes up to find the grown up. Ask: what is this, can I tap it? Here is what I would do if a box popped up on my game: paws in my lap, look for my grown up, and ask. Practise it three times, with you shouting pop up and the class doing the move. Then point at the two chips at the bottom: fine to tap, or paws off and ask. The page turn in your story app is fine to tap. A box that wants gems is paws off and ask."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "question": "A box says: tap yes to agree. What does Pebble do?",
+      "options": [
+        {
+          "text": "Paws off, then ask a grown up",
+          "correct": true,
+          "feedback": "Yes and agree boxes are grown up jobs, because they can change things. Paws off, look up, and ask a grown up first."
+        },
+        {
+          "text": "Tap yes quickly so the box goes away",
+          "correct": false,
+          "feedback": "Tapping yes can agree to things Pebble does not understand, like sharing or paying. Paws off and ask a grown up."
+        },
+        {
+          "text": "Tap every button to see what happens",
+          "correct": false,
+          "feedback": "Some buttons buy things or take you somewhere new. Paws off, look up, and ask a grown up what the box means."
+        }
+      ],
+      "minutes": 2,
+      "script": "Thinking time, five seconds, then everyone votes with fingers. The popular wrong answer is tapping yes to make the box go away, because that is what grown ups often do. Say: a yes or agree box can change things, like sharing something or paying, so it is a grown up job every time. Do the move together: paws off, look up, ask."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "heading": "Tapped by mistake? Tell a grown up",
+      "body": "You are not in trouble.",
+      "emoji": "🤝",
+      "minutes": 2,
+      "script": "This is the most important slide for home, so say it slowly. Everybody taps the wrong thing sometimes, grown ups too. If you tap something by mistake, maybe you bought gems, or a new game opened, or a video you did not want started, tell a grown up straight away. You are not in trouble. Grown ups can often sort it out, and they would much rather know. The worst thing is keeping it a secret, because then nobody can help. Say it together: tapped by mistake, tell a grown up."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "star-breath",
+      "config": {
+        "heading": "Half time! Everyone together",
+        "prompt": "Breathe in as Pebble grows, out as Pebble shrinks. Then stand, stretch, and sit with paws in your lap.",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "minutes": 1,
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then everyone stands up, has a big stretch, and sits back down with their paws in their lap, ready for the game."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "component": "verdict-sort",
+      "caption": "Fine to tap, or paws off and ask?",
+      "config": {
+        "label": "Fine to tap, or paws off? · tap the class answer",
+        "verdicts": [
+          "Fine to tap",
+          "Paws off and ask"
+        ],
+        "posts": [
+          {
+            "handle": "Your story app",
+            "avatar": "📖",
+            "text": "The arrow that turns the page in your story.",
+            "answer": 0,
+            "why": "That is how your story works. You know it already."
+          },
+          {
+            "handle": "A pop up",
+            "avatar": "💎",
+            "text": "A box jumps up: tap for more gems!",
+            "answer": 1,
+            "why": "It wants a tap, and maybe money. Paws off and ask."
+          },
+          {
+            "handle": "An advert",
+            "avatar": "🧸",
+            "text": "A little show about a toy, with a big button.",
+            "answer": 1,
+            "why": "An advert wants you to buy. Ask a grown up first."
+          },
+          {
+            "handle": "Your game",
+            "avatar": "🦘",
+            "text": "The jump button in the game you are playing.",
+            "answer": 0,
+            "why": "That button is part of your game. Tap away."
+          },
+          {
+            "handle": "A box",
+            "avatar": "✅",
+            "text": "A box says: tap yes to agree.",
+            "answer": 1,
+            "why": "Yes and agree are grown up jobs. Paws off and ask."
+          },
+          {
+            "handle": "Something new",
+            "avatar": "🌍",
+            "text": "A button takes you to a game you do not know.",
+            "answer": 1,
+            "why": "Somewhere new is for asking first. Your grown up can look."
+          }
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "You sorted them all!",
+        "doneBody": "Fine to tap, and the ones for paws off and ask."
+      },
+      "minutes": 4,
+      "script": "Play it together before we try it with our bodies. Tap the first card and read it out. Hands up for fine to tap, then hands up for paws off and ask, and tap the one the class chose. Read the reason. Do all six. Two cards are fine to tap, the story arrow and the jump button, and they matter: we like our screens, and we know which taps are ours. If the class picks wrong, read the reason and ask what they think now."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "label": "Your turn",
+      "heading": "Paws off practice",
+      "body": "Pop up! Paws off. Look up. Ask.",
+      "minutes": 5,
+      "script": "A body game on the carpet. Every child holds a pretend tablet, flat hands like a book. Say: you are playing your game. Tap, tap, tap. Then call out things that happen. The page turns: children tap the air, fine to tap. Pop up, tap for gems: paws off into laps, look up at you, and everyone says what is this, can I tap it? Mix fine taps and pop ups, getting faster, and include one where you say oops, I tapped buy by mistake: everyone says tell a grown up. Finish with the sheet: children circle fine to tap or paws off and ask for each picture you read out."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "An advert with a big button pops up. What does Pebble do?",
+      "options": [
+        {
+          "text": "Paws off, look up, and ask",
+          "correct": true,
+          "feedback": "An advert wants Pebble to buy, and the button is there to get a tap. Paws off, look up, and ask a grown up."
+        },
+        {
+          "text": "Tap the big button to see",
+          "correct": false,
+          "feedback": "The big button is what the advert wants. Pebble takes paws off first, then asks a grown up what it is."
+        },
+        {
+          "text": "Tap it quickly before anyone sees",
+          "correct": false,
+          "feedback": "A quick secret tap means nobody can help if it costs money. Paws off, look up, and ask a grown up instead."
+        }
+      ],
+      "minutes": 2,
+      "script": "First of our two finishing questions, and every child answers. Read it with drama, read the three answers with actions, wait five seconds, then fingers. Ask one child to show the whole move with their paws."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "question": "Pebble tapped buy by mistake. What now?",
+      "options": [
+        {
+          "text": "Hide the tablet and say nothing",
+          "correct": false,
+          "feedback": "Keeping it secret means nobody can sort it out. Pebble tells a grown up straight away and is not in trouble."
+        },
+        {
+          "text": "Tap buy again to undo it",
+          "correct": false,
+          "feedback": "Tapping buy again could buy it twice. The move after a mistake is to tell a grown up straight away."
+        },
+        {
+          "text": "Tell a grown up straight away",
+          "correct": true,
+          "feedback": "Telling straight away means a grown up can often sort it out. Everyone taps the wrong thing sometimes, and Pebble is not in trouble."
+        }
+      ],
+      "minutes": 2,
+      "script": "Second finishing question. Thinking time of five seconds, then fingers. Land the most important sentence of the lesson after the answer: you are never in trouble for telling a grown up about a tap that went wrong. Say it twice. If a child tells you about money spent at home, thank them for telling you and say that is exactly the right thing to do."
+    },
+    {
+      "type": "quote",
+      "phase": "close",
+      "label": "Say it like Pebble",
+      "text": "Paws off! Look up! Ask a grown up!",
+      "minutes": 1,
+      "script": "Pebble's chant, all together with the actions: paws into laps, eyes up, hand up high. Three times: a whisper, a talking voice, then big and proud. This is the one to say to grown ups at home time."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "heading": "What we know now",
+      "points": [
+        "Some taps want something, like money or somewhere new.",
+        "Pop ups and adverts want you to tap.",
+        "Paws off, look up, ask a grown up.",
+        "Tapped by mistake? Tell a grown up. You are not in trouble."
+      ],
+      "minutes": 1,
+      "script": "Read the four points together, with the paws off action on the third. Then ask: are you in trouble for telling a grown up about a tap that went wrong? Wait for the big no."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "character": "pebble",
+      "heading": "Pebble's job for you",
+      "lines": [
+        "If a box pops up at home, paws off!",
+        "Look up and ask your grown up: what is this?",
+        "Then show them our Pebble paws!"
+      ],
+      "minutes": 1,
+      "script": "The handover. Say nothing over it. When the last line lands, ask the class to show you their Pebble paws once more. The passport is next, then DiGi Junior says goodbye."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "component": "passport-page",
+      "config": {
+        "heading": "The passport",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "button": "Fill the page",
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "moduleId": "eyfs-31-paws-off-ask-first",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "minutes": 1,
+      "script": "DiGi Junior's special book, the passport, gets a little fuller every lesson, and jobs at home fill it too. Ask one child to tap Fill the page, and when the ring moves, everybody shouts stamp. Nobody can fail the passport, it only ever fills up. The note going home tells grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "heading": "DiGi Junior says goodbye",
+      "lines": [
+        "Star pause with me! Arms out wide, breathe in, and out.",
+        "Some buttons want something from you.",
+        "So paws off, look up, and ask.",
+        "See you next time, little stars! ⭐"
+      ],
+      "minutes": 1,
+      "script": "Let DiGi Junior land the ending and read each bubble aloud in your DiGi Junior voice. Star pause with the class on the first line. The parent note goes home in book bags today. Wave goodbye to DiGi Junior with twinkling star fingers, then paws in laps one last time."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "exit_quiz": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 4,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned that some things on a screen want something from them: pop ups, adverts, buy buttons and yes or agree boxes. They learned Pebble's move for any of those: paws off (hands in lap), look up, and ask a grown up. They also learned that if they tap something by mistake, they tell you straight away and they are not in trouble.",
+    "try_this": "Next time your child plays a game, sit with them for a few minutes and point out one pop up or advert together. Ask: what does this one want? Then praise the paws off move if you see it. It is also worth checking that purchases on the device need your password, which your device's own settings can do.",
+    "family_question": "What does a pop up want, and what do your paws do when one appears?",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to show you their Pebble paws.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "Pupils recognise that some things on a screen, such as pop ups, adverts, buy buttons and agree boxes, want something from them, and practise one move for all of them: paws off, look up, ask a grown up. They know to tell a grown up about a mistaken tap without fear of trouble.",
+    "essential_question": "How can I tell when a screen wants something from me, and what do I do?",
+    "timing": "47 minutes: connect 3, starter 9, cycle one 8, cycle two 8, practise 10, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Some taps want something",
+        "minutes": 8,
+        "outcome": "I can spot a pop up or an advert."
+      },
+      {
+        "verb": "Choose",
+        "title": "Paws off, ask first",
+        "minutes": 8,
+        "outcome": "I can take my paws off, look up and ask a grown up."
+      }
+    ],
+    "tool": {
+      "heading": "Paws off, ask first",
+      "lines": [
+        "Paws off",
+        "Look up",
+        "Ask a grown up"
+      ],
+      "strapline": "Some buttons want something from you."
+    },
+    "keywords": [
+      {
+        "word": "pop up",
+        "definition": "A box that jumps onto the screen by surprise, often wanting a tap."
+      },
+      {
+        "word": "advert",
+        "definition": "A little show that wants you to buy something."
+      },
+      {
+        "word": "paws off",
+        "definition": "Hands in your lap, away from the screen, so nothing gets tapped by accident."
+      }
+    ],
+    "prior_knowledge": [
+      "From eyfs-01, Screens and kindness: stop, look, ask a grown up, and that asking is always a good answer.",
+      "From eyfs-30, The screen never says stop: the screen keeps going, so we pick the stop.",
+      "Children have used a tablet or phone game, and many will have seen a box pop up."
+    ],
+    "key_learning_points": [
+      "Some things on a screen want something from you: a tap, money, or to take you somewhere new.",
+      "A pop up is a box that jumps in by surprise. An advert is a little show that wants you to buy.",
+      "Pebble's move for any of them: paws off, look up, ask a grown up.",
+      "Some taps are fine, like turning the page in your story.",
+      "Tapped by mistake? Tell a grown up straight away. You are not in trouble."
+    ],
+    "misconceptions": [
+      "That a pop up is part of the game, so tapping it is fine. Pop ups and adverts are often trying to get a tap or money, so paws off and ask a grown up.",
+      "That you will be in trouble if you tap something by mistake. You will not: telling a grown up straight away means they can often sort it out.",
+      "That yes or agree boxes are just there to be tapped away. They can change things, like sharing or paying, so they are a grown up job."
+    ],
+    "i_can": [
+      "I can spot a pop up or an advert.",
+      "I can take my paws off, look up and ask a grown up."
+    ],
+    "commitment_stem": "My commitment: when a box pops up at home, my paws go ... and I ask ...",
+    "teacher_tip": "Be relaxed about screens in this lesson. The two fine to tap cards in the game matter as much as the four paws off ones, because a child who leaves thinking every tap is dangerous will stop telling you what they tap. The move is for taps that want something, and the message is that grown ups are glad to be asked.",
+    "equipment": "The board. Paper rectangles for pretend tablets if you want props, though flat hands work. The circle sheet and crayons.",
+    "paper_fallback": "The whole lesson runs without the board. Draw a pop up box on the board or a sheet of paper, act out the three steps with the paws off, look up and ask actions, read the six sort cards aloud with hands up for each answer, and read the two finishing questions with fingers for the votes.",
+    "passport_stage": "foundation",
+    "differentiation": {
+      "support": "Pair every word with its action and accept the action as the answer. In the body game, stand beside children who need it and do the paws off move with them, so they learn the move before they have to decide when to use it.",
+      "stretch": "Ask stretch children to spot the clues that make something an advert, such as a big button, the word buy, a toy they want, and to say why a yes or agree box is a grown up job. Then ask them to invent a pop up and say what it wants."
+    },
+    "send": {
+      "eal": "Teach pop up, advert and paws off with actions and a picture card for each before the lesson. The move itself is three gestures, so a child can show it perfectly without any English, and the worksheet is circling pictures.",
+      "sensory": "The pop up game involves sudden calls, so warn children it is coming and keep your voice playful rather than loud. A child who finds it too much can be your helper and hold up the pop up card instead of reacting to it.",
+      "attention": "Move between every part: hands jump for pop up, laps for paws off, eyes up, hands up for ask. The body game can be three rounds rather than ten and still teaches the move.",
+      "communication": "Accept the three actions as a full answer: paws in lap, eyes up, a hand raised. A child who cannot say what is this can point at the screen and look at the grown up, which is exactly the move."
+    },
+    "worksheet": {
+      "title": "Fine to tap, or paws off?",
+      "directions": "Your teacher reads each one aloud. Circle fine to tap, or paws off and ask.",
+      "verdict_options": [
+        "Fine to tap",
+        "Paws off and ask"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "The arrow that turns the page in your story app.",
+        "teaching_point": "Recognise: some taps are just how the app works. The lesson is not that screens are dangerous.",
+        "expected_verdict": "Fine to tap"
+      },
+      {
+        "n": 2,
+        "item": "A box jumps up: tap for more gems!",
+        "teaching_point": "Recognise: a pop up offering gems or coins often leads to spending real money.",
+        "expected_verdict": "Paws off and ask"
+      },
+      {
+        "n": 3,
+        "item": "A little show about a toy, with a big button that says get it.",
+        "teaching_point": "Recognise: an advert wants you to buy. The big button is there to get a tap.",
+        "expected_verdict": "Paws off and ask"
+      },
+      {
+        "n": 4,
+        "item": "The jump button in the game you are playing.",
+        "teaching_point": "Recognise: a game's own controls are fine to use. Knowing which taps are ours keeps the move for the ones that matter.",
+        "expected_verdict": "Fine to tap"
+      },
+      {
+        "n": 5,
+        "item": "A box says: tap yes to agree.",
+        "teaching_point": "Apply: yes, agree and allow boxes can change things, like sharing or paying, so they are a grown up job every time.",
+        "expected_verdict": "Paws off and ask"
+      },
+      {
+        "n": 6,
+        "item": "A button says: watch a video to win a free prize!",
+        "teaching_point": "Explain: a free prize for watching is an advert in disguise. Paws off and ask, and if a tap goes wrong, tell a grown up, because nobody is in trouble.",
+        "expected_verdict": "Paws off and ask"
+      }
+    ],
+    "starter_quiz": [
+      {
+        "question": "What are Pebble's three steps for stopping a screen?",
+        "format": "short_answer",
+        "answer": "Pick a stop, wave bye bye, go to the next thing.",
+        "teaching_point": "Carried forward from eyfs-30. The screen keeps going, and today it also asks for things."
+      },
+      {
+        "question": "You are not sure a picture is real. Who do you ask?",
+        "format": "tick_one",
+        "options": [
+          "A grown up",
+          "The picture",
+          "Nobody"
+        ],
+        "answer": "A grown up",
+        "teaching_point": "Carried forward from eyfs-01. Asking a grown up is the move in both lessons."
+      },
+      {
+        "question": "Every button on a screen is fine to tap.",
+        "format": "true_false",
+        "answer": "False",
+        "teaching_point": "Finds out who already knows some buttons want something. Do not correct yet; the lesson does."
+      },
+      {
+        "question": "Name a game or app you like.",
+        "format": "short_answer",
+        "answer": "Any game or app the child uses.",
+        "teaching_point": "Grounds the lesson in the apps the class actually plays, without asking what they tapped."
+      }
+    ],
+    "exit_quiz": [
+      {
+        "question": "A pop up is a box that jumps onto the screen by surprise.",
+        "format": "true_false",
+        "answer": "True",
+        "teaching_point": "The keyword, checked. A child who can name it can spot it."
+      },
+      {
+        "question": "What does an advert want?",
+        "format": "tick_one",
+        "options": [
+          "For you to buy something",
+          "To tell you a story",
+          "To help you sleep"
+        ],
+        "answer": "For you to buy something",
+        "teaching_point": "An advert's job is to make you want something. That feeling is the cue for paws off."
+      },
+      {
+        "question": "What are Pebble's three steps when a box pops up?",
+        "format": "short_answer",
+        "answer": "Paws off, look up, ask a grown up.",
+        "teaching_point": "The portable move. If it does not come back, do the actions together twice before home time."
+      },
+      {
+        "question": "If you tap something by mistake, you are in trouble.",
+        "format": "true_false",
+        "answer": "False",
+        "teaching_point": "The safeguarding message of the lesson. Children who fear trouble hide mistakes, and hidden mistakes cannot be fixed."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "Of 135 apps played by or marketed to children aged 5 and under, 129 (95 percent) contained at least one type of advertising, including pop up videos interrupting play (35 percent), in app purchase prompts (30 percent) and commercial characters (42 percent).",
+        "source": "Meyer, Adkins, Yuan, Weeks, Chang and Radesky (2019), Advertising in Young Children's Apps: A Content Analysis, Journal of Developmental and Behavioral Pediatrics 40(1), 32 to 39",
+        "status": "The figures were read through the university's release and the abstract in search extracts on 30 September 2026; the full paper was not reachable from the build container. US apps on Google Play. No figure is shown to the children; it is here for the teacher and the parent note."
+      },
+      {
+        "claim": "In apps used by 160 children aged 3 to 5, only 20 percent had no manipulative design features; the rest used features such as pressure from characters, time pressure and lures to keep playing or buy.",
+        "source": "Radesky, Hiniker, McLaren, Akgun, Schaller, Weeks, Campbell and Gearhardt (2022), Prevalence and Characteristics of Manipulative Design in Mobile Applications Used by Children, JAMA Network Open 5(6), e2217641",
+        "status": "Read through the abstract in a search extract on 30 September 2026. US sample. Used for the teacher's explanation that the pop up is placed on purpose; no figure appears on a slide."
+      },
+      {
+        "claim": "Education for a Connected World sets out, for early years to age 7, that a child can explain why they should always ask a trusted adult before sharing any information about themselves online.",
+        "source": "UK Council for Internet Safety, Education for a Connected World, 2020 edition, Privacy and security strand",
+        "status": "Confirmed through a search extract of the framework on 30 September 2026; gov.uk was blocked from the build container."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "What if my grown up is not there?",
+        "answer": "Then the paws stay off until they are. The box can wait. If it will not go away, put the tablet down and go and find your grown up. Nothing on a screen is ever in such a hurry that you cannot ask first."
+      },
+      {
+        "question": "Are gems real money?",
+        "answer": "Often, yes. Gems and coins in a game can be bought with real money from your grown up's account. That is why a box offering gems is a paws off moment."
+      },
+      {
+        "question": "Why do games have adverts?",
+        "answer": "Because the people who make the game earn money when you watch or tap an advert. It is how many free games are paid for. That is fine, and it is also why we know which taps to ask about."
+      },
+      {
+        "question": "What if I already tapped it and spent money?",
+        "answer": "Tell a grown up straight away. You are not in trouble. Grown ups can often sort it out, and the sooner they know, the easier it is."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "How do I stop my child buying things by accident?",
+        "answer": "Most phones and tablets can ask for a password or your approval before any purchase. It takes a few minutes in the device's own settings. The lesson gives your child the habit; the setting gives you the safety net."
+      },
+      {
+        "question": "My child tapped and bought something. What should I say?",
+        "answer": "Thank them for telling you, calmly, before anything else. The lesson promises them they are not in trouble for telling, and keeping that promise is what makes them tell you next time. Then you can look at whether a refund is possible."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why one move for every tap that wants something",
+        "body": "A four year old cannot reliably tell an advert from a game, a paid item from a free one, or an agree box from a helpful message. So the lesson does not ask them to judge each one. It gives them one move for anything that jumps in or asks for something, and puts the judgement with the grown up. It sits with what the national framework asks at this age: ask a trusted adult before sharing any information about yourself online."
+      },
+      {
+        "heading": "Why the fine to tap cards matter",
+        "body": "A lesson that treats every tap as dangerous teaches children that screens are frightening, and a frightened child tells you less. Two of the six sort cards are ordinary taps that are fine: the page turn and the jump button. The skill is telling the two kinds apart, and the default for anything unsure is to ask."
+      }
+    ]
+  },
+  "dsl_note": {
+    "note": "This lesson is about pop ups, adverts and purchases and carries no disclosure prompt. It tells children they are never in trouble for telling a grown up about a tap that went wrong, which may surface stories of money spent, games children are too young for, or messages from people in games. Meet money stories warmly. If a child describes contact from someone they do not know, or content that frightened them, listen calmly, thank them, do not promise secrecy, and follow your school safeguarding policy.",
+    "required": false,
+    "concern_form_linked": true
+  }
+}

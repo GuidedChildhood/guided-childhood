@@ -192,6 +192,26 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
+    // THE UNDER 7 SHELF, 30 September 2026. Since PR 1178 a Foundation child's
+    // own lessons are these rows, and there were three. Justin asked for the
+    // best under 7 lessons there are; these four were built from what Smartie
+    // the Penguin, Jessie and Friends and Common Sense K to 2 do well, and they
+    // reach the EfCW early years to 7 outcomes the first three did not
+    // (plans/2026-09-30-under-7-lessons-plan.md). This one is the nightly fight.
+    n: 30, moduleId: 'eyfs-30-the-screen-never-says-stop', keyStage: 'EYFS', yearBand: 'Reception', minutes: 47,
+    title: 'The screen never says stop',
+    outcome: 'I can pick a stop and wave bye bye to the screen.',
+    blurb: 'Why the next one starts by itself, and a stop picked before the screen goes on.',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior',
+  },
+  {
+    n: 31, moduleId: 'eyfs-31-paws-off-ask-first', keyStage: 'EYFS', yearBand: 'Reception', minutes: 47,
+    title: 'Paws off, ask first',
+    outcome: 'I can spot a pop up, take my paws off, and ask.',
+    blurb: 'Pop ups, adverts and buy buttons, and one move for any tap that wants something.',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior',
+  },
+  {
     n: 2, moduleId: 'ks1-02-kind-screens-calm-bodies', keyStage: 'KS1', yearBand: 'Years 1 to 2', minutes: 48,
     title: 'Kind screens, calm bodies',
     outcome: 'I can name how I feel after screen time and tell a grown up.',
@@ -210,6 +230,23 @@ export const CURRICULUM: CurriculumModule[] = [
     // EfCW managing online information. It is media literacy, not safety, and
     // the matrix prints an honesty note we have to keep.
     rshe: ['deepfakes_ai'],
+  },
+  {
+    n: 32, moduleId: 'ks1-32-private-like-a-toothbrush', keyStage: 'KS1', yearBand: 'Years 1 to 2', minutes: 50,
+    title: 'Private like a toothbrush',
+    outcome: 'I can keep private things private, and ask before I share.',
+    blurb: 'The four things that stay private online, why sharing online is different, and asking before a photo.',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior', dsl: true,
+  },
+  {
+    // Contact at six, taught the way CEOP teaches it: players and messages,
+    // never an adult reaching a child, and the secret as the one signal that
+    // is always a tell. The machine half is the first rung of the AI strand.
+    n: 33, moduleId: 'ks1-33-who-is-on-the-other-side', keyStage: 'KS1', yearBand: 'Years 1 to 2', minutes: 49,
+    title: 'Who is on the other side?',
+    outcome: 'I can notice who is on the other side, and act.',
+    blurb: 'Someone I know, someone I do not know, or a machine, and what to do with each.',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior', dsl: true,
   },
   {
     n: 4, moduleId: 'ks2-04-screen-routines', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 69,

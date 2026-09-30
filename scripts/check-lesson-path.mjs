@@ -29,6 +29,12 @@ if ((progress.match(/schoolCreditKey\(l\.id\)/g) ?? []).length < 2) fail.push('l
 const kidList = read('app/k/[token]/lessons/page.tsx')
 if (!/schoolModulesForStage\(allModules, stageId\)/.test(kidList) || !/hrefFor=\{id => `\/k\/\$\{token\}\/school\/\$\{id\}`\}/.test(kidList)) fail.push('the child lesson list no longer shows and opens the school modules')
 if (!/redirect\(`\/k\/\$\{token\}\/school\/\$\{nextOpenId\}`\)/.test(kidList)) fail.push('the five a day lesson row no longer goes straight into the next school lesson')
+// The child's list is the manifest's teaching order, not build order, and the
+// standalone lessons stay out (30 September 2026: four under 7 lessons arrived
+// as 30 to 33, and sort order alone put Year 1 before them for a Reception child).
+const schoolPath = read('lib/lessons/school-path.ts')
+if (!/positionOf\(r\.module_id/.test(schoolPath) || !/\.sort\(/.test(schoolPath)) fail.push('lib/lessons/school-path.ts no longer orders a stage by the manifest, so a Reception child could get Year 1 lessons first')
+if (!/&& positionOf\(r\.module_id \?\? ''\) !== null/.test(schoolPath)) fail.push('lib/lessons/school-path.ts lets a standalone lesson into the stage, where the passport would count it')
 const opener = read('app/k/[token]/school/[lessonId]/route.ts')
 if (!/from\('kid_lesson_missions'\)[\s\S]{0,200}\.eq\('lesson_id', lessonId\)/.test(opener)) fail.push('the school lesson opener no longer reuses one mission per child per lesson, so stars could mint twice')
 

@@ -1,4 +1,5 @@
 import type { StageId } from '@/lib/pathway/progress'
+import { positionOf } from '@gc/shared/schools-curriculum'
 
 // THE CHILD'S LESSONS ARE THE SCHOOL LESSONS (29 September 2026).
 //
@@ -28,10 +29,29 @@ export const STAGE_KEY_STAGES: Record<StageId, string[]> = {
 
 export type SchoolModule = { id: string; module_id?: string; title: string; key_stage?: string }
 
-/** The stage's school modules, in the order the scheme teaches them. */
+/**
+ * The stage's school modules, in the order the scheme teaches them.
+ *
+ * The rows arrive in sort_order, which is the order they were BUILT (n), not
+ * the order they are taught. Until 30 September 2026 the two agreed for the
+ * Foundation page. Then four under 7 lessons arrived as 30 to 33, and sort
+ * order alone would have given a Reception child the two Year 1 lessons before
+ * the two new Reception ones. So the key stage decides first, EYFS before KS1,
+ * and the manifest's own position inside the key stage decides next, the same
+ * order the curriculum map prints (positionOf in shared/schools-curriculum.ts).
+ *
+ * A row the manifest does not know is left out. Those are the standalone
+ * lessons (smart glasses, the two enterprise lessons), which share the table
+ * and deliberately sit outside the scheme: never counted, never on the
+ * passport (schools/lib/taster.ts). Without this the Builder passport would
+ * have counted the smart glasses lesson as one of its ten.
+ */
 export function schoolModulesForStage<T extends SchoolModule>(rows: T[] | null | undefined, stageId: StageId): T[] {
   const stages = STAGE_KEY_STAGES[stageId] ?? []
-  return (rows ?? []).filter(r => stages.includes(r.key_stage ?? ''))
+  const place = (r: T) => stages.indexOf(r.key_stage ?? '') * 1000 + (positionOf(r.module_id ?? '')?.index ?? 0)
+  return (rows ?? [])
+    .filter(r => stages.includes(r.key_stage ?? '') && positionOf(r.module_id ?? '') !== null)
+    .sort((a, b) => place(a) - place(b))
 }
 
 /** The stage a module belongs to, or null for a key stage no stage claims. */
