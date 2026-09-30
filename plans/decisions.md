@@ -599,3 +599,25 @@ and the run sheet's question mark heading fix in the follow up PR.
 - eyfs-30 The screen never says stop (pick a stop, wave bye bye, next thing; taught as the end of a bit, because a countdown did not help in the family research), eyfs-31 Paws off, ask first, ks1-32 Private like a toothbrush, ks1-33 Who is on the other side? (DSL flagged, with staff briefings). Every one passes the contract, every measurable rubric check and the 12 word ceiling.
 - The child's stage list now follows the manifest's teaching order and leaves the standalone lessons out, which also stops the smart glasses lesson counting on the Builder passport. The ks5-20 sign off moves to thirty two modules. Migration 358, not applied until Justin says yes. PR 1179.
 - The school video remake needs nothing: the 11 live clips were remade on the Planet Friends on 11 September and read no board lettering; the misspelled one was the parent clip, already out.
+
+## 30 September 2026: the launch plan, three lanes, one number, day by day
+
+- Justin asked for the best marketing launch plan across Guided Childhood for
+  parents and schools and the Social Billboard safe playlist, researched
+  against the nearest competitors and a council of the best marketers, day by
+  day in Google Drive.
+- Four research sweeps ran in parallel (parent competitors, school
+  competitors, the playlist market, fourteen marketers checked against their
+  own sources). The plan is `plans/week-of-2026-09-28-marketing-launch-plan.md`,
+  mirrored as a Google Doc with a tracker sheet in Guided Childhood Research,
+  App Launch Marketing.
+- Decided in the plan: the parent app leads with the founding 50 sprint,
+  schools run underneath as distribution through the free lesson and the
+  school link, the playlist stays on its own pages as a dated record of
+  checked channels and touches Justin's LinkedIn once. £0 for thirty days,
+  then at most £100 on a post that already moved stage checks. Every post is
+  judged by stage checks in the following 48 hours.
+- Found on the way: guidedchildhood.co.uk 404s and the July playbook still
+  prints it; the beta kit's three day email gaps break the one a week floor,
+  so the extra touches move to Substack; Safer Internet Day 2027 is 9
+  February, not the 10th.
