@@ -1807,8 +1807,11 @@ export default function LessonPlayer({
         </div>
       </div>
     )
-  } else if (finished && kidMode && !passed && lessonSource === 'lesson') {
+  } else if (finished && kidMode && !passed && (lessonSource === 'lesson' || lessonSource === 'school_lesson')) {
     // The kid near miss, in kid words: warm, one more go, never shame.
+    // School lessons too since 29 September 2026: their pass now ticks the
+    // passport, so a miss has to say so and offer the retake rather than
+    // cheering a run that did not count.
     body = (
       <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>

@@ -558,6 +558,7 @@ jobs:
       # The guard holds the link and, more importantly, the id being unique.
       - run: node scripts/check-moments-anchor.mjs
       - run: node scripts/check-print-brand.mjs
+      - run: node --experimental-strip-types scripts/check-lesson-path.mjs
       # Agreed counts like done, and never reads like it. Migration 306 gave a
       # device a third answer, so a family who decided a screen runs on an
       # agreement rather than on controls can finish a stage without lying in

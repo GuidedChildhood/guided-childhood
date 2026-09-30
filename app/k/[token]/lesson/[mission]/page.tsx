@@ -55,13 +55,14 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
-          <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-sm)" />
+          <KidBackLink href={`/k/${token}/lessons`} color={theme.inkSoft} fontSize="var(--text-sm)" />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
             color: 'var(--ink)', background: 'var(--gold, #F2C94C)', borderRadius: 'var(--radius-pill)',
             padding: '6px 14px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
           }}>
-            Worth ⭐ {mission.stars}
+            {/* A replay pays no stars (the row paid once), so it says so. */}
+            {mission.status === 'done' ? 'Done ✓ play again' : `Worth ⭐ ${mission.stars}`}
           </span>
         </div>
 
@@ -81,7 +82,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
             slides={slides}
             backHref={`/k/${token}`}
             kidMode
-            kidStars={mission.stars}
+            kidStars={mission.status === 'done' ? undefined : mission.stars}
             completeEndpoint="/api/quests/lesson-complete"
             completeBody={{ token, mission_id: mission.id }}
           />

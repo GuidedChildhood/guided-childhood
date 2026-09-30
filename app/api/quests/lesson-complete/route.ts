@@ -4,6 +4,8 @@ import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/ques
 import { getQuestGame } from '@/lib/quest-games/registry'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import { sendPush } from '@/lib/push/send'
+import { getStarLesson, type StarLessonRow } from '@/lib/quests/star-lesson-catalogue'
+import { markStepQuietly } from '@/lib/kid/day-store'
 
 // Monday of this week as an ISO instant, London week convention like the
 // rest of the quests system: the school week mission dedupes against it.
@@ -53,12 +55,60 @@ export async function POST(req: NextRequest) {
     if (!mission || mission.child_id !== link.child_id) {
       return NextResponse.json({ error: 'not found' }, { status: 404 })
     }
-    if (mission.status === 'done') {
-      return NextResponse.json({ stars: 0, already_done: true })
-    }
-
     const correct = Math.max(0, Math.min(50, Number(body.correct) || 0))
     const total = Math.max(0, Math.min(50, Number(body.total) || 0))
+
+    // THE PASSPORT TICK (29 September 2026). Justin chose "the child learns,
+    // the parent closes it": the school version of each lesson lives in the
+    // child's app, and passing its check is what ticks Lessons and tests on
+    // the passport. Before this a finished star lesson paid its stars and was
+    // invisible to the passport, because nothing wrote a completion row.
+    //
+    // A pass is 70 percent, the player's own pass mark. A later failed retake
+    // never takes a pass away, so an existing pass is left alone. It runs on a
+    // retake of a finished mission too (no stars then), because the near miss
+    // screen offers "Have another go" and that go has to be able to count.
+    const passed = total > 0 && correct / total >= 0.7
+    const credit = async (): Promise<boolean> => {
+      const { data: prior } = await supabase
+        .from('lesson_completions')
+        .select('id, passed')
+        .eq('user_id', link.user_id).eq('child_id', link.child_id)
+        .eq('lesson_id', mission.lesson_id).eq('lesson_source', 'school_lesson')
+        .maybeSingle()
+      if (prior?.passed) return false
+      await supabase.from('lesson_completions').upsert({
+        user_id: link.user_id, child_id: link.child_id,
+        lesson_id: mission.lesson_id, lesson_source: 'school_lesson',
+        // Correct answers, the same unit /api/lessons/complete stores.
+        score: correct,
+        passed, completed_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,child_id,lesson_id,lesson_source' })
+      // The five a day's lesson row, ticked by the pass, the same way the
+      // parent library lesson ticked it before the child's list moved here.
+      if (passed) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')
+      return passed
+    }
+
+    // THE PARENT CLOSES IT. The module's own parent note, the one question
+    // to ask at tea, rides the push, so the lesson finishes at the kitchen
+    // table rather than on the screen.
+    const tellParent = async (starsLine: string) => {
+      const module = await getStarLesson(supabase, mission.lesson_id, 'id, title, parent_note') as (StarLessonRow & { parent_note?: unknown }) | null
+      const askLine = askAtTea(module?.parent_note)
+      await notifyParent(
+        req, supabase, link,
+        passed ? `passed ${module?.title ? `"${module.title}"` : 'a star lesson'} 🎬` : `finished a star lesson 🎬`,
+        [`${correct} of ${total} on the check.`, passed && askLine ? `Ask them at tea: ${askLine}` : starsLine].filter(Boolean).join(' '),
+      )
+    }
+
+    if (mission.status === 'done') {
+      // A retake: no stars again, but a first pass still ticks the passport
+      // and still sends the question for tea.
+      if (await credit()) await tellParent('')
+      return NextResponse.json({ stars: 0, already_done: true, passed })
+    }
 
     const { error } = await supabase
       .from('kid_lesson_missions')
@@ -72,7 +122,8 @@ export async function POST(req: NextRequest) {
       .eq('status', 'sent')
     if (error) return NextResponse.json({ error: 'update failed' }, { status: 500 })
 
-    await notifyParent(req, supabase, link, `finished a star lesson 🎬`, `Quiz score ${correct} of ${total}. ${mission.stars} stars landed in their bank.`)
+    await credit()
+    await tellParent(`${mission.stars} stars landed in their bank.`)
     return NextResponse.json({ stars: mission.stars })
   }
 
@@ -296,4 +347,12 @@ async function notifyParent(
         url: '/dashboard',
       })
   } catch { /* push is best effort */ }
+}
+
+// The one question a parent asks at tea, from the module's parent note.
+// Every module carries a family_question (32 of 32 on 29 September 2026).
+function askAtTea(note: unknown): string | null {
+  if (!note || typeof note !== 'object') return null
+  const q = (note as { family_question?: unknown }).family_question
+  return typeof q === 'string' && q.trim() ? q.trim() : null
 }

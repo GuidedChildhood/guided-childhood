@@ -3,7 +3,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
+import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
+import { schoolModulesForStage, isTogetherStage } from '@/lib/lessons/school-path'
+import type { StageId } from '@/lib/pathway/progress'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -13,18 +15,13 @@ import { MAP_LINES } from '@/lib/planet/world'
 import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { PLANET_WORDS } from '@/lib/planet/universe'
 
-// My lessons: the child's own list of the age right stage lessons from the
-// family library, opened from their quest link. No account, no login; the
+// My lessons: the child's own list of the age right stage lessons, the
+// school version since 29 September 2026, opened from their quest link. No account, no login; the
 // token scopes everything. The child takes the choice questions themselves
 // and a pass lands in lesson_completions under the parent, so the parent
 // side shows the same tick a sofa lesson would.
 
 export const dynamic = 'force-dynamic'
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  safety: '🛡️', screen_habits: '📱', wellbeing: '💛',
-  online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
-}
 
 export default async function KidLessonsPage({ params, searchParams }: {
   params: Promise<{ token: string }>
@@ -49,26 +46,14 @@ export default async function KidLessonsPage({ params, searchParams }: {
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
 
-  // The child's stage lessons, and the whole parent lesson list so the free
-  // taste per stage is worked out exactly like the parent hub does it.
-  const { data: allLessons } = await supabase
-    .from('lessons')
-    .select('id, stage_id, category, title, key_message, sort_order')
-    .eq('audience', 'parent')
-    .neq('status', 'stub')
-    // A lesson with no authored deck is NOT a child lesson yet. Without one the
-    // player builds slides from the four text fields, and on the ten lessons
-    // that have no deck those fields are written to the grown up as an
-    // instruction: "practise one sentence with your child", "sit with your child
-    // for their next screen session". A child opening that reads homework set
-    // for somebody else. They belong on the parent hub, which still shows them,
-    // and they come back here the moment a deck is written for them.
-    .not('slides', 'is', null)
-    // Same tie break as lib/content/lesson-access, so the list shows the
-    // lessons in the exact order the access rules read them.
-    .order('sort_order', { ascending: true })
-    .order('id', { ascending: true })
-  const stageLessons = (allLessons ?? []).filter(l => l.stage_id === stage.name.toLowerCase())
+  // THE SCHOOL VERSION (29 September 2026). Justin chose "the child learns,
+  // the parent closes it": this list is the school modules for the child's
+  // stage (lib/lessons/school-path), not the parent library, which is written
+  // to grown ups. Each opens through /k/[token]/school/[id], which reuses the
+  // star lesson player, stars and push, and its pass ticks the passport.
+  const stageId = stage.name.toLowerCase() as StageId
+  const allModules = await listStarLessons(supabase)
+  const stageModules = schoolModulesForStage(allModules, stageId)
 
   // Whether the big end of stage check is already passed, so the card at the
   // bottom of the list says so rather than inviting them to sit it again.
@@ -86,41 +71,19 @@ export default async function KidLessonsPage({ params, searchParams }: {
     stageCheckPassed = !!data?.length
   }
 
-  // The child's own one line per lesson. key_message is written for the grown
-  // up on fifteen of these ("your child holds the keys to four doors"), and this
-  // is the page where the child reads it about themselves. Asked for separately
-  // and failing soft to an empty map, so before migration 156 the column is
-  // simply absent and every lesson keeps the line it has today.
-  const childLines = new Map<string, string>()
-  {
-    const { data } = await supabase
-      .from('lessons')
-      .select('id, child_key_message')
-      .eq('audience', 'parent')
-      .not('child_key_message', 'is', null)
-    for (const r of data ?? []) {
-      if (r.child_key_message) childLines.set(r.id as string, r.child_key_message as string)
-    }
-  }
+  // This child's school lesson passes. Scoped to the child, because the
+  // passport that reads the same rows is scoped to the child.
+  const { data: completionRows } = await supabase
+    .from('lesson_completions')
+    .select('lesson_id, passed, score')
+    .eq('user_id', link.user_id)
+    .eq('child_id', link.child_id)
+    .eq('lesson_source', 'school_lesson')
+  const byLesson = new Map(((completionRows ?? []) as { lesson_id: string; passed: boolean | null; score: number | null }[]).map(c => [c.lesson_id, c]))
 
-  // Passes already on record for this family, columns fail soft: an older
-  // database without the 079 pass columns just shows nothing as passed yet.
-  let completions: { lesson_id: string; passed: boolean | null; score: number | null }[] = []
-  {
-    const { data, error } = await supabase
-      .from('lesson_completions')
-      .select('lesson_id, passed, score')
-      .eq('user_id', link.user_id)
-      .eq('lesson_source', 'lesson')
-    if (!error) {
-      completions = (data ?? []) as { lesson_id: string; passed: boolean | null; score: number | null }[]
-    }
-  }
-  const byLesson = new Map(completions.map(c => [c.lesson_id, c]))
-
-  // The paywall holds on the kid link exactly as it does for the parent:
-  // one free taste per stage, everything open for members and trials, and a
-  // lesson already opened by the family never re locks.
+  // The paywall holds on the kid link as it does for the parent: the first
+  // lesson of the stage is the free taste, and the next one they have not
+  // passed is always open so the path never stalls; beyond that, members.
   const { data: parentProfile } = await supabase
     .from('profiles')
     .select('subscription_status, trial_ends_at, email')
@@ -130,30 +93,27 @@ export default async function KidLessonsPage({ params, searchParams }: {
     parentProfile as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfile as { email?: string | null } | null)?.email,
   )
-  const freeIds = freeLessonIds((allLessons ?? []).map(l => ({ id: l.id, stage_id: l.stage_id, sort_order: l.sort_order })))
-  // The child's next lesson in order is always open to them, so the drip never
-  // stalls behind the paywall; the ones beyond it still wait for membership.
-  const passedIds = new Set(stageLessons.filter(l => { const c = byLesson.get(l.id); return Boolean(c && c.passed !== false) }).map(l => l.id))
-  const nextOpenId = nextOpenLessonId(stageLessons.map(l => ({ id: l.id, stage_id: l.stage_id, sort_order: l.sort_order })), passedIds)
+  const isPassed = (id: string) => byLesson.get(id)?.passed === true
+  const nextOpenId = stageModules.find(m => !isPassed(m.id))?.id ?? null
 
   // The five a day's lesson row asks for the next one they have not passed, so
   // send them into it rather than showing a shelf to pick from. Falling through
   // to the list is the right answer when there is nothing left in the stage: a
   // child who has passed everything should see what they finished, not a
   // redirect to nowhere.
-  if (wantsNext && nextOpenId) redirect(`/k/${token}/lessons/${nextOpenId}`)
+  if (wantsNext && nextOpenId) redirect(`/k/${token}/school/${nextOpenId}`)
 
-  const items: KidLessonItem[] = stageLessons.map(l => {
-    const c = byLesson.get(l.id)
-    const done = Boolean(c && c.passed !== false)
+  const items: KidLessonItem[] = stageModules.map((m, i) => {
+    const c = byLesson.get(m.id)
+    const done = c?.passed === true
     return {
-      id: l.id,
-      title: l.title,
-      emoji: CATEGORY_EMOJI[l.category] ?? '📘',
-      keyMessage: childLines.get(l.id) ?? l.key_message,
+      id: m.id,
+      title: m.title,
+      emoji: '🎬',
+      keyMessage: m.single_action_outcome ?? '',
       done,
       score: done ? c?.score ?? null : null,
-      locked: !paid && !freeIds.has(l.id) && !c && l.id !== nextOpenId,
+      locked: !paid && i > 0 && !c && m.id !== nextOpenId,
     }
   })
 
@@ -193,9 +153,10 @@ export default async function KidLessonsPage({ params, searchParams }: {
       stageName={stage.name}
       ages={stage.ages}
       items={items}
-      hrefFor={id => `/k/${token}/lessons/${id}`}
+      hrefFor={id => `/k/${token}/school/${id}`}
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
+      together={isTogetherStage(stageId)}
     />
     </KidScreenChrome>
   )

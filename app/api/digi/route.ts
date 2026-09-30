@@ -22,6 +22,9 @@ import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
 import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
+import { matchLessons, lessonLinkBlock, type SchoolModuleRow, type ParentLessonRow } from '@/lib/digi/lesson-match'
+import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
+import { schoolModulesForStage } from '@/lib/lessons/school-path'
 import { ownWorryKnowledge } from '@/lib/concerns/related'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream, type TurnUsage } from '@/lib/digi/stream'
@@ -682,6 +685,29 @@ export async function POST(request: Request) {
     }
   } catch { /* moments are a bonus, never block the reply */ }
 
+  // Lessons that may fit what the parent just asked (29 September 2026). Justin:
+  // "make sure DiGi is aware of lesson themes, so if a relevant question gets
+  // asked we have a way of advising the correct lesson." The child's school
+  // lessons for their stage and the family library for the same stage, put
+  // through the script matcher (lib/digi/lesson-match). The catalogue read is
+  // the admin client because schools.school_lessons is service role only.
+  let lessonLinkKnowledge = ''
+  try {
+    const stageKey = stage.name.toLowerCase() as StageId
+    const [modules, parentRows] = await Promise.all([
+      listStarLessons(createAdminClient()),
+      supabase.from('lessons').select('id, title, key_message, category')
+        .eq('stage_id', stageKey).eq('audience', 'parent').neq('status', 'stub'),
+    ])
+    const candidates = matchLessons(
+      String(message),
+      schoolModulesForStage(modules, stageKey) as SchoolModuleRow[],
+      (parentRows.data ?? []) as ParentLessonRow[],
+      child?.id ?? null,
+    )
+    lessonLinkKnowledge = lessonLinkBlock(candidates, child?.name ?? null)
+  } catch { /* lessons are a bonus, never block the reply */ }
+
   let deviceGuideKnowledge = ''
   const deviceGuide = deviceGuideResult.data
   if (deviceGuide) {
@@ -888,7 +914,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + worryStrand.block + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + reflectionGate + laneShape(lane),
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + lessonLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + worryStrand.block + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + reflectionGate + laneShape(lane),
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

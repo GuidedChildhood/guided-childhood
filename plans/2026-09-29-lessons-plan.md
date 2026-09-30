@@ -43,3 +43,12 @@ child's app, ticking the passport. Industry leading, taken from proven apps.
 - The misspelled clip: take it out now, and whether to spend Higgsfield
   credits regenerating the eight clips with blank boards.
 - EYFS and KS1 have only 3 modules between them, so the youngest need more.
+
+## Built (29 September 2026, PR 1177)
+- [x] Clip out (migration 357, live).
+- [x] Child list is the school modules; /k/[token]/school/[id] opens one on the star lesson player.
+- [x] A 70 percent pass writes the school_lesson completion, ticks the five a day and the passport, and pushes the tea question.
+- [x] Passport counts school modules; row and stamp card open /dashboard/lessons/path.
+- [x] Under 7: the child list says do it together; the parent page has Do it together.
+- [x] DiGi matches lessons (lib/digi/lesson-match) and links the right one.
+- [ ] Later: remake the eight clips with blank boards (Higgsfield credits), more EYFS and KS1 modules.

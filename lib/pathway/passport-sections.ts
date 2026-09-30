@@ -233,8 +233,11 @@ export async function buildPassportSections(
         // page was already telling him it was not his page.
         detail: !reached ? 'Ahead'
           : prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
-        href: withOrigin(`/dashboard/lessons?stage=${id}`, 'passport'),
-        help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.',
+        // The child's lessons since 29 September 2026: the school version, in
+        // their own app, counted by the same rows as this detail line. The page
+        // shows the same "n of N" and the question to ask at tea for each pass.
+        href: withOrigin(`/dashboard/lessons/path?stage=${id}${child?.id ? `&child=${child.id}` : ''}`, 'passport'),
+        help: 'Your child does one lesson a week in their own app and passes its check. A failed run does not count, so it can be retaken. Under 7, do it together on your phone.',
       },
       {
         key: 'jobs', emoji: '⭐', label: 'Jobs and routines',

@@ -1,6 +1,9 @@
 import { countsTowardPathway } from './script-status'
 import type { createClient } from '@/lib/supabase/server'
 import { stageDevicePct } from '@/lib/devices/family'
+import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { schoolModulesForStage, schoolCreditKey } from '@/lib/lessons/school-path'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -108,7 +111,13 @@ export async function getStageProgress(
     (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('device_guides').select('device_key, min_age'),
     (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
-    supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
+    // The stage's SCHOOL modules since 29 September 2026: the child learns the
+    // school version in their own app and its pass ticks this row. See
+    // lib/lessons/school-path.ts. Wrapped to the { data } shape of its siblings.
+    // The admin client, because schools.school_lessons is service role only
+    // and a parent's session reads nothing from it (it is the curriculum
+    // catalogue, and only ids, titles and key stages are selected here).
+    listStarLessons(createAdminClient()).then(rows => ({ data: schoolModulesForStage(rows, stageId) })),
     (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     // The family's own device list, from migration 106. Before that migration,
     // or before they have told us, this comes back empty and the catalogue
@@ -174,7 +183,11 @@ export async function getStageProgress(
         return ownedInStage.length > 0 ? Math.round((done / ownedInStage.length) * 100) : 100
       })()
 
-  // Lessons. Counted exactly the way the Lessons page counts them, because
+  // Lessons. Since 29 September 2026 the stage's lessons are its SCHOOL
+  // modules, passed by the child in their own app (lib/lessons/school-path).
+  // The history below is why the count must match what the parent is shown.
+  //
+  // Counted exactly the way the Lessons page counts them, because
   // for months the two disagreed in public.
   //
   // Justin, 8 August 2026: "It says 5 of 37 on passport page but click through
@@ -203,7 +216,7 @@ export async function getStageProgress(
   const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
   const totalLessonsInStage = (lessonsForStage?.length ?? 0) + aiTotal
   const lessonsDone =
-    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
+    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(schoolCreditKey(l.id))).length + aiDone
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
   // Lessons carry the most weight in the passport circle: the stamp is
@@ -252,7 +265,8 @@ export async function getAllStagesProgress(
     (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('device_guides').select('device_key, min_age'),
     (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
-    supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
+    // Every school module, split per stage below (see lib/lessons/school-path.ts).
+    listStarLessons(createAdminClient()).then(rows => ({ data: rows ?? [] })),
     (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     (() => { const q = supabase.from('family_devices').select('guide_key, retired_at, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     childId
@@ -299,9 +313,9 @@ export async function getAllStagesProgress(
       devicesPct = ownedInStage.length > 0 ? Math.round((devicesDone / ownedInStage.length) * 100) : 100
     }
 
-    // Same rule as the single stage version above and as the Lessons page:
-    // family library lessons only, and a pass only. See the long note there.
-    const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
+    // Same rule as the single stage version above: the stage's school
+    // modules, and a pass only. See the long note there.
+    const stageLessons = schoolModulesForStage(lessons, stageId)
     // Plus the AI modules for this stage's band, the same way as above.
     const stageNum = STAGE_ORDER.indexOf(stageId) + 1
     const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
@@ -310,7 +324,7 @@ export async function getAllStagesProgress(
     const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
     const totalLessons = stageLessons.length + aiTotal
     const lessonsDone =
-      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
+      stageLessons.filter(l => passedCompletionKeys.has(schoolCreditKey(l.id))).length + aiDone
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
     const totalContent = stageScripts.length + totalLessons
