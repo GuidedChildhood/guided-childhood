@@ -85,7 +85,10 @@ questions, chant, recap, Pebble's mission, passport, DiGi Junior.
    scripts/module-to-migration.mjs. [x] (also: the child's list follows the
    manifest's teaching order, the ks5-20 sign off counts thirty two, and M32
    and M33 have staff briefings)
-3. Ask Justin before applying 358 to production (it is a database write). [ ]
+3. Ask Justin before applying 358 to production (it is a database write). [x]
+   Justin said yes on 30 September; applied that day, all four rows hash
+   proved against their files, the table went from 32 to 36, and nothing
+   else moved but the ks5-20 sign off line.
 4. Later, with credits: a Pebble clip per lesson on the blank board rule.
 
 ## Also noted today
