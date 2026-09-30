@@ -70,8 +70,12 @@ export const STAGE_BY_NUMBER: PassportStage[] = ['foundation', 'builder', 'explo
 // and readiness for accounts are Social media ready.
 export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'eyfs-01-screens-kindness':                 'safe',    // kind on a screen, ask a grown up
+  'eyfs-30-the-screen-never-says-stop':       'balance', // pick a stop, wave bye bye, go to the next thing
+  'eyfs-31-paws-off-ask-first':               'safe',    // paws off, look up, ask a grown up
   'ks1-02-kind-screens-calm-bodies':          'balance', // the wiggly body when the screen goes off
   'ks1-03-real-pretend-computer':             'ai',      // real, pretend, or made by a computer
+  'ks1-32-private-like-a-toothbrush':         'safe',    // keep it private, not sure ask, someone asks tell
+  'ks1-33-who-is-on-the-other-side':          'ai',      // someone I know, someone I do not know, or a machine
   'ks2-04-screen-routines':                   'balance', // warn, finish, swap
   'ks2-05-gaming-time-spend':                 'balance', // gaming time first, the spend is the trick inside it
   'ks2-06-how-algorithms-work':               'ai',      // you watch, it learns, it serves more

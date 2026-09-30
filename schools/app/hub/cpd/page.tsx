@@ -27,6 +27,22 @@ const BRIEFINGS = [
     line: 'The line that carries the lesson: you are never in trouble for telling.',
   },
   {
+    module: 'M32 · Private like a toothbrush (KS1, Years 1 to 2)',
+    covers: 'The four things that stay private online (where I live, my school, my password, my birthday), why sharing online is seen and copied, asking before sharing a photo of anyone, and Pebble’s plan: keep it private, not sure ask, someone asks tell. One made up game message asks for a password in return for free coins.',
+    register: 'Light and practical. Most things about us are lovely to share, and the lesson says so, so it must not land as share nothing. Keep private separate from secret: private things stay away from people online, worries always go to a grown up.',
+    watchFor: 'A child who says a game or a person asked for their address, school or photo, or that a photo of them was shared and they did not like it. Never ask children to say or write their real address, school or password, even to practise.',
+    disclosure: 'Listen calmly, thank them for telling, do not ask leading questions or promise secrecy, and follow your safeguarding policy the same day. Contact from an unknown adult asking a child for personal information or photos goes to the DSL.',
+    line: 'The line that carries the lesson: keep it private, not sure ask, someone asks tell.',
+  },
+  {
+    module: 'M33 · Who is on the other side? (KS1, Years 1 to 2)',
+    covers: 'Noticing who is on the other side of a screen: someone I know in real life, someone I do not know, or a machine. Someone only known online is still someone we do not know, a talking machine is not a person and can be wrong, and a secret from someone online is always a tell.',
+    register: 'A detective game, curious and never frightening. The scenarios are players and messages, never an adult reaching a child, following CEOP’s approach at this age. A frightened child stops telling; a child who finds this a game they are good at tells you everything.',
+    watchFor: 'A child who describes chatting with someone they do not know in a game, a request for a secret, a photo or where they live, or a device that said something that worried them. Say out loud, more than once, that telling is never trouble, even if they think they did something wrong.',
+    disclosure: 'Listen calmly, thank them, do not ask leading questions or promise secrecy, and bring it to the DSL the same day. Any report of an adult contacting a child online goes to the DSL, who may consider a report to CEOP.',
+    line: 'The line that carries the lesson: a secret from someone online is always a tell.',
+  },
+  {
     module: 'M07 · Privacy and digital reputation (KS2, Years 3 to 6)',
     covers: 'The share test, the vault list, why delete does not unshare, and group chats as the friendly place where oversharing actually happens.',
     register: 'Curious and practical, never scary. Privacy is choosing, not hiding: sharing art, sport and jokes is encouraged when the share test passes, so the lesson must not land as share nothing.',

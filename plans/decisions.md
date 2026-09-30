@@ -592,3 +592,10 @@ and the run sheet's question mark heading fix in the follow up PR.
 - Justin chose it. The child app's lesson list is now the school modules for the child's stage (lib/lessons/school-path), opened through /k/[token]/school/[id] on the existing star lesson player. A 70 percent pass writes a school_lesson completion, ticks the five a day and the passport, and pushes the parent the module's family question to ask at tea.
 - The passport counts school modules (3, 10, 10, 7, 2 per stage). Its row and the stamp card open /dashboard/lessons/path, the same list, with Do it together under 7. The parent library stays as the parent's own learning.
 - DiGi is handed matching lessons (lib/digi/lesson-match) and links the right one. Misspelled algorithm clip removed (migration 357). check-lesson-path holds it all. PR 1177.
+
+## 30 September 2026: four new under 7 lessons, the shelf goes from three to seven
+
+- Justin asked for the best under 7 lessons there are. Researched Smartie the Penguin, Jessie and Friends, Common Sense K to 2 and the EfCW early years to 7 outcomes (`plans/2026-09-30-under-7-lessons-plan.md`), then wrote four in their shape: a friend in a tricky moment and the class decides, a chant with actions, never scary, the move practised with bodies.
+- eyfs-30 The screen never says stop (pick a stop, wave bye bye, next thing; taught as the end of a bit, because a countdown did not help in the family research), eyfs-31 Paws off, ask first, ks1-32 Private like a toothbrush, ks1-33 Who is on the other side? (DSL flagged, with staff briefings). Every one passes the contract, every measurable rubric check and the 12 word ceiling.
+- The child's stage list now follows the manifest's teaching order and leaves the standalone lessons out, which also stops the smart glasses lesson counting on the Builder passport. The ks5-20 sign off moves to thirty two modules. Migration 358, not applied until Justin says yes. PR 1179.
+- The school video remake needs nothing: the 11 live clips were remade on the Planet Friends on 11 September and read no board lettering; the misspelled one was the parent clip, already out.
