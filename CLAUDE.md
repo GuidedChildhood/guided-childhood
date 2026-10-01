@@ -34,6 +34,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
 - Emails or any copy         → research/01 voice rules + .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
 - Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) AND .claude/skills/content-engine/linkedin-engagement.md (hooks, dwell time, real photos, no body links) before drafting
+- Anything in Justin's voice (LinkedIn, Substack, Facebook, talking head, explainers) → content/brand-story/founder-context.md (his true scenes and the GREEN/AMBER/RED privacy levels; one scene when it fits the idea, never invented, never repeated)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)
 - School features            → schools/01 + docs/09
