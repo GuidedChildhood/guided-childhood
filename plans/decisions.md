@@ -254,3 +254,16 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 - Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
 - Still to come, when credits allow: a Pebble clip per lesson on the blank board rule.
+
+## 1 October 2026: the founder context and the weekly image sheet
+
+- Justin's founder biography and story rules (authenticity, GREEN/AMBER/RED)
+  live at `content/brand-story/founder-context.md`, routed from CLAUDE.md for
+  anything in his voice; the content engine, explainer skill and daily desk
+  read it. One true scene when it fits the idea, never invented, never
+  repeated; AMBER flagged for his yes. Private context stays out of the repo.
+- A weekly Google Sheet in the Control Room, "Weekly content and image
+  ideas", one row per post with the image or video idea, who makes it and any
+  founder scene. The `weekly-content-sheet` task creates next week's every
+  Sunday 18:00; the daily desk reads it as its brief. The one reason: Justin
+  asked for the images to be decided a week ahead so filming happens once.

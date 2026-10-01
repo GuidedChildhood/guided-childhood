@@ -366,3 +366,5 @@ thing, with the evidence. Then:
 - The three transcripts weighed: plans/2026-10-01-three-transcripts-weighed.md. Three changes: LinkedIn at 10:00, the enemy is the cliff edge, the profile as a landing page.
 - The explainer video skill and template (.claude/skills/explainer-video, videos/_templates/explainer-draw). First film: the five o'clock fight.
 - The daily content desk runs every weekday at 06:30 and writes "Today's content" into this folder.
+
+**The weekly content and image sheet (added 1 October).** One row per post with the image or video idea, who makes it and any founder scene: [this week](https://docs.google.com/spreadsheets/d/1s0GyT5wYTS1kRyc9VEwAqm1A1KqMXIvEO4hNO51T6hg/edit). A new one lands in the Control Room every Sunday at 18:00 from the `weekly-content-sheet` scheduled task; the daily desk reads it as its brief.
