@@ -1,0 +1,15 @@
+{
+  "title": "The five o'clock fight",
+  "slug": "five-oclock-fight",
+  "series": "GUIDED CHILDHOOD",
+  "idealUser": "A UK parent of an eight year old. The tablet handover at five o'clock turns into a row that ruins the evening.",
+  "beats": [
+    { "headline": "Two more minutes becomes twenty.", "sub": "Then it is a row, and the row is about the tablet but it ruins the evening.", "icon": "clock", "duration": 4.5 },
+    { "headline": "Nine in ten parents have this fight.", "sub": "You are not doing it wrong. Nobody gave you a plan.", "icon": "house", "duration": 4 },
+    { "headline": "The screen was never the prize.", "sub": "A small core of time is theirs, no strings. The rest is earned.", "icon": "star", "duration": 4 },
+    { "headline": "Jobs pay stars. Stars buy minutes.", "sub": "The child pitches a job. You say yes. A timer runs where you can both see it.", "icon": "list", "duration": 4.5 },
+    { "headline": "The deal does the arguing.", "sub": "When the countdown ends, a deal ran out. You did not.", "icon": "bubble", "duration": 4 },
+    { "headline": "What stage is your child?", "sub": "Three questions, no sign up.", "icon": "road", "duration": 4.5 }
+  ],
+  "cta": { "url": "guidedchildhood.com/starter-pack" }
+}

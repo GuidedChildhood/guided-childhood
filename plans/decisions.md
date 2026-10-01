@@ -207,6 +207,49 @@ Titles only. Open the archive at the line number in its own index for the full e
   so the extra touches move to Substack; Safer Internet Day 2027 is 9
   February, not the 10th.
 
+## 30 September 2026: the Control Room, one page that runs the marketing
+
+- Justin asked for the best of everything in Drive reviewed, folders built
+  for the full picture, and one control document that makes the daily task
+  easy, with reminders, filming prompts and the motivation maths.
+- Read every marketing folder and document in Drive (about 30 folders, 60
+  documents). The control page is `plans/2026-09-30-control-room.md`,
+  mirrored as a Google Doc in a new root folder 00 CONTROL ROOM beside the
+  launch plan and the tracker. A second new root folder, 06 Content Library,
+  holds the eleven June to August series packs moved from the root. Nothing
+  deleted; folder ids unchanged so every scheduled task still writes where
+  it did.
+- Five recurring reminders and five launch dates added to Justin's personal
+  Google Calendar (weekday desk 08:05, evening reply and record 21:00,
+  Friday unit and review, Saturday recording block, Sunday founder post and
+  load the week).
+- Decided: no new app or PWA. The one build that earns its place is an admin
+  page in the existing app showing today's Must and live funnel numbers with
+  a DONE button, after two weeks of the manual routine, capped at two days.
+- Justin confirmed no paying sign ups yet, so the first milestone is the
+  first paying parent and revenue today is £0.
+
+## 1 October 2026: the master plan, the content pack, the explainer template, the daily desk
+
+- Justin asked for the full marketing plan built on everything learned, with
+  content ready for LinkedIn (parents and schools), Facebook and Instagram
+  (the family account switch told by Justin alone, Natalia off camera, and
+  The Social Billboard), YouTube for the safe playlist, the attached draw
+  on animation as a template agent, three transcripts folded in, and a daily
+  system that tells him what to post and film.
+- Three transcripts weighed first (`plans/2026-10-01-three-transcripts-weighed.md`):
+  three changes adopted (LinkedIn at 10:00, the enemy is the cliff edge, the
+  profile as a landing page); fake accounts, bought followers, planted
+  comments and mass synthetic UGC declined.
+- The master plan is `plans/2026-10-01-marketing-master-plan.md`, the two
+  week content pack `content/packs/2026-10-01-launch-content-pack/`, both
+  mirrored as Google Docs in 00 CONTROL ROOM.
+- The explainer video skill (`.claude/skills/explainer-video`) and template
+  (`videos/_templates/explainer-draw`): a brief in, a cream and ink draw on
+  film out, landscape and vertical. First film built and checked:
+  `videos/2026-10-01-five-oclock-fight`.
+- A local scheduled task, daily-content-desk, runs weekdays at 06:30 and
+  writes "Today's content" into the Control Room. It never posts.
 ## 30 September 2026: migration 358 is live, the under 7 shelf is seven lessons
 
 - Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
