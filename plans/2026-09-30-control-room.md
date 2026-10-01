@@ -358,3 +358,11 @@ thing, with the evidence. Then:
 5. Sunday: the founding 50 post, with the real seat count in it.
 6. A yes or no on the statutory tracker becoming a free self check for schools in November.
 7. Which checking framework wording is true for the playlist: three gates, five dimensions or fourteen criteria.
+
+## 14. Added 1 October 2026
+
+- [The marketing master plan](https://drive.google.com/drive/folders/1SKfJggHdP7P50gH1c7lrnrQi6b2_kPfP): the road to the first £4,000, channel by channel, the funnel and profile setup, the four formats, what Justin films. Repo: plans/2026-10-01-marketing-master-plan.md.
+- The launch content pack, weeks of 5 and 12 October: every post ready to paste. Repo: content/packs/2026-10-01-launch-content-pack/README.md, Google Doc in this folder.
+- The three transcripts weighed: plans/2026-10-01-three-transcripts-weighed.md. Three changes: LinkedIn at 10:00, the enemy is the cliff edge, the profile as a landing page.
+- The explainer video skill and template (.claude/skills/explainer-video, videos/_templates/explainer-draw). First film: the five o'clock fight.
+- The daily content desk runs every weekday at 06:30 and writes "Today's content" into this folder.

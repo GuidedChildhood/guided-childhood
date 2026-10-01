@@ -643,3 +643,25 @@ and the run sheet's question mark heading fix in the follow up PR.
   a DONE button, after two weeks of the manual routine, capped at two days.
 - Justin confirmed no paying sign ups yet, so the first milestone is the
   first paying parent and revenue today is £0.
+
+## 1 October 2026: the master plan, the content pack, the explainer template, the daily desk
+
+- Justin asked for the full marketing plan built on everything learned, with
+  content ready for LinkedIn (parents and schools), Facebook and Instagram
+  (the family account switch told by Justin alone, Natalia off camera, and
+  The Social Billboard), YouTube for the safe playlist, the attached draw
+  on animation as a template agent, three transcripts folded in, and a daily
+  system that tells him what to post and film.
+- Three transcripts weighed first (`plans/2026-10-01-three-transcripts-weighed.md`):
+  three changes adopted (LinkedIn at 10:00, the enemy is the cliff edge, the
+  profile as a landing page); fake accounts, bought followers, planted
+  comments and mass synthetic UGC declined.
+- The master plan is `plans/2026-10-01-marketing-master-plan.md`, the two
+  week content pack `content/packs/2026-10-01-launch-content-pack/`, both
+  mirrored as Google Docs in 00 CONTROL ROOM.
+- The explainer video skill (`.claude/skills/explainer-video`) and template
+  (`videos/_templates/explainer-draw`): a brief in, a cream and ink draw on
+  film out, landscape and vertical. First film built and checked:
+  `videos/2026-10-01-five-oclock-fight`.
+- A local scheduled task, daily-content-desk, runs weekdays at 06:30 and
+  writes "Today's content" into the Control Room. It never posts.
