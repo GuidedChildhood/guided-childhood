@@ -75,6 +75,32 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .size-square .cta{font-size:28px;padding:22px 34px;}
 .size-square .site{font-size:25px;}
 .card[data-cta="off"] .cta{display:none;}
+
+/* ---------- carousel slides, 1080 x 1350, the SB minimal system ---------- */
+.slide{position:relative;overflow:hidden;width:1080px;height:1350px;padding:96px 88px 88px;
+  display:flex;flex-direction:column;justify-content:space-between;font-family:'Montserrat',sans-serif;}
+.slide[data-tone="black"]{background:var(--tsb-black);color:#fff;}
+.slide[data-tone="white"]{background:#fff;color:var(--tsb-black);}
+.slide[data-tone="yellow"]{background:var(--tsb-yellow);color:var(--tsb-black);}
+.slide .kicker{font-weight:600;font-size:26px;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-bottom:40px;}
+.slide .big{font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.015em;font-size:120px;}
+.slide .big.md{font-size:92px;}
+.slide .big.sm{font-size:72px;text-transform:none;letter-spacing:-.01em;line-height:1.05;}
+.slide .big .hl{color:var(--tsb-yellow);}
+.slide[data-tone="yellow"] .big .hl,.slide[data-tone="white"] .big .hl{color:var(--tsb-red);}
+.slide .body{font-weight:500;font-size:40px;line-height:1.3;margin-top:44px;max-width:900px;}
+.slide .body b{font-weight:800;}
+.slide .list{margin-top:44px;display:flex;flex-direction:column;gap:22px;}
+.slide .list div{font-weight:700;font-size:44px;line-height:1.15;padding-left:48px;position:relative;}
+.slide .list div::before{content:"";position:absolute;left:0;top:.42em;width:22px;height:22px;border-radius:50%;background:var(--tsb-yellow);}
+.slide[data-tone="yellow"] .list div::before{background:var(--tsb-black);}
+.slide .foot{display:flex;justify-content:space-between;align-items:flex-end;font-weight:600;font-size:26px;opacity:.7;letter-spacing:.02em;}
+.slide .foot .n{font-weight:800;}
+.slide .pill{display:inline-flex;align-items:center;gap:14px;background:var(--tsb-yellow);color:var(--tsb-black);
+  font-weight:800;font-size:34px;padding:26px 40px;border-radius:999px;margin-top:56px;align-self:flex-start;}
+.slide[data-tone="yellow"] .pill{background:var(--tsb-black);color:var(--tsb-yellow);}
+.slide .top{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-bottom:60px;}
+.slide .foot .swipe{font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -109,6 +135,37 @@ window.renderDeck = function (deck) {
       </div>`
     sheet.appendChild(el)
   }
+}
+
+/**
+ * A carousel deck: { name, kind: 'carousel', slides: [ { tone, kicker, big, size: 'lg'|'md'|'sm', body, list: [..], pill, foot, hl } ] }
+ * `hl` is a substring of `big` to colour with the accent. Each slide is 1080 x 1350.
+ */
+window.renderCarousel = function (deck) {
+  const sheet = document.getElementById('sheet')
+  sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  const total = deck.slides.length
+  deck.slides.forEach((sl, i) => {
+    const el = document.createElement('section')
+    el.className = 'slide'
+    el.dataset.name = String(i + 1).padStart(2, '0')
+    el.dataset.tone = sl.tone || 'black'
+    let big = esc(sl.big || '').replace(/\n/g, '<br>')
+    if (sl.hl) big = big.replace(esc(sl.hl), `<span class="hl">${esc(sl.hl)}</span>`)
+    const body = sl.body ? `<div class="body">${esc(sl.body).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>')}</div>` : ''
+    const list = sl.list ? `<div class="list">${sl.list.map((x) => `<div>${esc(x)}</div>`).join('')}</div>` : ''
+    const pill = sl.pill ? `<div class="pill">${esc(sl.pill)} <span>→</span></div>` : ''
+    const last = i === total - 1
+    el.innerHTML = `
+      <div class="top">
+        ${sl.kicker ? `<div class="kicker">${esc(sl.kicker)}</div>` : ''}
+        <div class="big ${sl.size || 'lg'}">${big}</div>
+        ${body}${list}${pill}
+      </div>
+      <div class="foot"><span>${esc(sl.foot || deck.foot || 'thesocialbillboard.com')}</span>${i === 0 && !last ? '<span class="swipe">Swipe →</span>' : `<span class="n">${i + 1} / ${total}</span>`}</div>`
+    sheet.appendChild(el)
+  })
 }
 </script>
 </body>

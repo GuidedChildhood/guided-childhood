@@ -35,18 +35,18 @@ for (const deckPath of deckPaths) {
   mkdirSync(outDir, { recursive: true })
 
   await page.goto(TEMPLATE)
-  await page.evaluate((d) => window.renderDeck(d), deck)
+  await page.evaluate((d) => (d.kind === 'carousel' ? window.renderCarousel(d) : window.renderDeck(d)), deck)
   await page.evaluate(() => document.fonts.ready)
   // Background images must have decoded or the first card screenshots the plain navy.
   await page.waitForFunction(() => Array.from(document.images).every((i) => i.complete), null, { timeout: 5000 }).catch(() => {})
   await page.waitForTimeout(300)
 
-  const cards = await page.locator('.card').all()
+  const cards = await page.locator('.card, .slide').all()
   for (let i = 0; i < cards.length; i++) {
     const cardName = await cards[i].getAttribute('data-name')
     const file = join(outDir, `${cardName}.png`)
     await cards[i].screenshot({ path: file })
-    const alt = deck.cards[i].alt
+    const alt = (deck.cards || deck.slides)[i].alt
     if (alt) writeFileSync(join(outDir, `${cardName}.alt.txt`), alt + '\n')
     console.log(`  ${file.replace(HERE + '/', '')}`)
   }
