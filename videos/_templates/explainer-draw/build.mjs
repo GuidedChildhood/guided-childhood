@@ -113,9 +113,11 @@ ${tlJs}
 </html>
 `;
 
-fs.mkdirSync(outDir, { recursive: true });
-fs.writeFileSync(path.join(outDir, vertical ? 'index-vertical.html' : 'index.html'), html);
-if (!fs.existsSync(path.join(outDir, 'assets'))) fs.cpSync(path.join(here, 'assets'), path.join(outDir, 'assets'), { recursive: true });
-for (const f of ['hyperframes.json', 'frame.md']) if (!fs.existsSync(path.join(outDir, f))) fs.copyFileSync(path.join(here, f), path.join(outDir, f));
-fs.writeFileSync(path.join(outDir, 'package.json'), JSON.stringify({ name: path.basename(outDir), private: true, type: 'module', scripts: { check: 'npx --yes hyperframes@0.8.82 check', preview: 'npx --yes hyperframes@0.8.82 preview', render: 'npx --yes hyperframes@0.8.82 render' } }, null, 2));
-console.log(`built ${vertical ? 'vertical' : 'landscape'} ${W}x${H}, ${beats.length} beats, ${total}s -> ${outDir}`);
+// The vertical cut is its own HyperFrames project in <out>/vertical, because render takes a project folder.
+const projDir = vertical ? path.join(outDir, 'vertical') : outDir;
+fs.mkdirSync(projDir, { recursive: true });
+fs.writeFileSync(path.join(projDir, 'index.html'), html);
+if (!fs.existsSync(path.join(projDir, 'assets'))) fs.cpSync(path.join(here, 'assets'), path.join(projDir, 'assets'), { recursive: true });
+for (const f of ['hyperframes.json', 'frame.md']) if (!fs.existsSync(path.join(projDir, f))) fs.copyFileSync(path.join(here, f), path.join(projDir, f));
+fs.writeFileSync(path.join(projDir, 'package.json'), JSON.stringify({ name: path.basename(outDir) + (vertical ? '-vertical' : ''), private: true, type: 'module', scripts: { check: 'npx --yes hyperframes@0.8.82 check', preview: 'npx --yes hyperframes@0.8.82 preview', render: 'npx --yes hyperframes@0.8.82 render' } }, null, 2));
+console.log(`built ${vertical ? 'vertical' : 'landscape'} ${W}x${H}, ${beats.length} beats, ${total}s -> ${projDir}`);

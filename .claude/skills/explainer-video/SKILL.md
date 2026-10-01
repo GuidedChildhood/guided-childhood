@@ -67,7 +67,7 @@ names the source in plain words when it does.
    half drawn icon, the stage check) and read the images. Fix clipping before
    rendering. The pen must sit on the line while it draws.
 6. **Render.** `npm run render` for landscape (LinkedIn, Facebook, YouTube)
-   and `npx --yes hyperframes@0.8.82 render index-vertical.html` for Reels,
+   and `npm run render` inside the `vertical` folder for Reels,
    TikTok and Shorts.
 7. **Write the posts.** One caption per platform, from the beats, in the
    voice rules: LinkedIn (story, question, link in first comment), Facebook
