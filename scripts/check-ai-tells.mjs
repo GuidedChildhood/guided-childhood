@@ -70,7 +70,13 @@ const fail = (file, line, what, detail) => {
 // The ASCII hyphen is legal inside a compound word (phone-free), in a file
 // path and in a URL, and illegal as punctuation between two words, which is
 // the em dash wearing a disguise: "the thing - the other thing".
-const UNICODE_DASH = /[‐-―−]/
+const UNICODE_DASH = /[\u2010-\u2015]/
+// U+2212 is the minus sign, and attached to a number it is arithmetic
+// rather than punctuation: "b = \u2212.024" is a coefficient, not an em dash
+// in disguise. The first research pack to carry effect sizes tripped the
+// old rule seven times on 30 September 2026. A minus NOT followed by a
+// digit or a decimal point is still a dash.
+const MINUS_NOT_A_NUMBER = /\u2212(?![\d.])/
 const HYPHEN_AS_PUNCTUATION = /\S +- +\S/
 
 // ── THE STOCK PHRASES ───────────────────────────────────────────────────────
@@ -132,7 +138,7 @@ const isFiling = line =>
   /^\s*#{1,6}\s/.test(line) ||          // a markdown heading
   /^\s*\|/.test(line) ||                // a row of a planning table
   /^\s*>/.test(line) ||                 // a quoted line
-  /^\s*\*\*[^*]+\*\*\s*[‐-―−]/.test(line) || // **Name** — gloss
+  /^\s*\*\*[^*]+\*\*\s*[‐-―]/.test(line) || // **Name** — gloss
   /"[^"]*[‐-―−][^"]*"/.test(line)            // a quoted document title
 
 // The day this guard landed. A pack folder dated on or after it is swept by
@@ -177,7 +183,7 @@ for (const path of files) {
     // rather than punctuation inside a sentence.
     const line = raw.replace(/^\s*[-*]\s/, '  ').replace(/^\s*-{3,}\s*$/, '')
     if (!isFiling(raw)) {
-      if (UNICODE_DASH.test(line)) fail(rel, n, 'a dash', JSON.stringify(line.trim().slice(0, 70)))
+      if (UNICODE_DASH.test(line) || MINUS_NOT_A_NUMBER.test(line)) fail(rel, n, 'a dash', JSON.stringify(line.trim().slice(0, 70)))
       if (HYPHEN_AS_PUNCTUATION.test(line)) fail(rel, n, 'a hyphen used as punctuation', JSON.stringify(line.trim().slice(0, 70)))
     }
     const low = line.toLowerCase()

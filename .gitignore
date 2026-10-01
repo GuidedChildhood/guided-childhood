@@ -41,6 +41,8 @@ hyperframes-student-kit/**/*.wav
 hyperframes-student-kit/node_modules/
 videos/*/snapshots/
 videos/*/renders/
+videos/*/*/renders/
+videos/*/*/snapshots/
 videos/*/capture/screenshots/
 videos/*/node_modules/
 videos/*/.media/
