@@ -621,3 +621,25 @@ and the run sheet's question mark heading fix in the follow up PR.
   prints it; the beta kit's three day email gaps break the one a week floor,
   so the extra touches move to Substack; Safer Internet Day 2027 is 9
   February, not the 10th.
+
+## 30 September 2026: the Control Room, one page that runs the marketing
+
+- Justin asked for the best of everything in Drive reviewed, folders built
+  for the full picture, and one control document that makes the daily task
+  easy, with reminders, filming prompts and the motivation maths.
+- Read every marketing folder and document in Drive (about 30 folders, 60
+  documents). The control page is `plans/2026-09-30-control-room.md`,
+  mirrored as a Google Doc in a new root folder 00 CONTROL ROOM beside the
+  launch plan and the tracker. A second new root folder, 06 Content Library,
+  holds the eleven June to August series packs moved from the root. Nothing
+  deleted; folder ids unchanged so every scheduled task still writes where
+  it did.
+- Five recurring reminders and five launch dates added to Justin's personal
+  Google Calendar (weekday desk 08:05, evening reply and record 21:00,
+  Friday unit and review, Saturday recording block, Sunday founder post and
+  load the week).
+- Decided: no new app or PWA. The one build that earns its place is an admin
+  page in the existing app showing today's Must and live funnel numbers with
+  a DONE button, after two weeks of the manual routine, capped at two days.
+- Justin confirmed no paying sign ups yet, so the first milestone is the
+  first paying parent and revenue today is £0.
