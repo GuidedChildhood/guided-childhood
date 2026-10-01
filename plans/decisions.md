@@ -272,3 +272,13 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Declined: a mascot for TSB. DiGi belongs to Guided Childhood, a separate
   company; Justin's face does that job at launch. Declined: quote cards and
   a frightening statistic as a hook.
+- Later the same day: competitor creative audit (Qustodio, Bark, Kidslox,
+  Yoto, tonies, Moshi, YouTube Kids, the free video apps, the UK whitelist
+  tools) plus the 2026 format evidence, in
+  `plans/2026-10-01-tsb-creative-research-and-set.md`. Finding: the category
+  sells fear or relief, nobody sells the session that ends by itself, and
+  nobody offers a free playlist with no card. Plain text and the founder
+  letter beat UGC, polish and animation (Motion, 578,750 ads). Seven statics
+  built in `decks/statics-01-launch-set.json`. Parked: the Ofcom stat card
+  (LinkedIn lane only) and the comparison table (landing page, not feed).
+  Declined: fear hooks and five star review stacks.
