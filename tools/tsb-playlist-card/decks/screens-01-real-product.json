@@ -1,0 +1,42 @@
+{
+ "name": "screens-01-real-product",
+ "kind": "carousel",
+ "standalone": true,
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "kicker": "For parents of 3 to 16 year olds",
+   "big": "Your choices.\nA playlist to match.",
+   "hl": "A playlist to match.",
+   "size": "md",
+   "shots": [
+    "shots/criteria-type-tone.png",
+    "shots/criteria-length-time.png"
+   ],
+   "pill": "Create your first playlist, free"
+  },
+  {
+   "tone": "black",
+   "kicker": "Real screens, nothing mocked up",
+   "big": "Set up in under two minutes.",
+   "size": "md",
+   "shots": [
+    "shots/criteria-type-tone.png",
+    "shots/criteria-bedtime.png"
+   ],
+   "pill": "First playlist free. No card."
+  },
+  {
+   "tone": "black",
+   "big": "When it ends,\nit ends.",
+   "hl": "it ends.",
+   "size": "md",
+   "body": "Nothing autoplays after the last one. No up next, no Shorts, no comments.",
+   "shots": [
+    "shots/playlist-list.png"
+   ],
+   "pill": "First playlist free. No card."
+  }
+ ]
+}

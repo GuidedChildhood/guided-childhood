@@ -97,6 +97,10 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .slide .list div{font-weight:700;font-size:44px;line-height:1.15;padding-left:48px;position:relative;}
 .slide .list div::before{content:"";position:absolute;left:0;top:.42em;width:22px;height:22px;border-radius:50%;background:var(--tsb-yellow);}
 .slide[data-tone="yellow"] .list div::before{background:var(--tsb-black);}
+.slide .shots{display:flex;gap:24px;margin-top:40px;width:100%;}
+.slide .shots img{flex:1;min-width:0;height:560px;object-fit:cover;object-position:top;border-radius:20px;border:2px solid #3a3a3a;background:#161616;}
+.slide .shots.one img{height:auto;max-height:640px;object-fit:contain;object-position:top left;width:100%;}
+.slide .shots + .pill{margin-top:40px;}
 .slide .foot{display:flex;justify-content:space-between;align-items:flex-end;font-weight:600;font-size:26px;opacity:.7;letter-spacing:.02em;}
 .slide .foot .n{font-weight:800;}
 .slide .pill{display:inline-flex;align-items:center;gap:14px;background:var(--tsb-yellow);color:var(--tsb-black);
@@ -164,7 +168,7 @@ window.renderCarousel = function (deck) {
       <div class="top">
         ${sl.kicker ? `<div class="kicker">${esc(sl.kicker)}</div>` : ''}
         <div class="big ${sl.size || 'lg'}${sl.letter ? ' letter-head' : ''}">${big}</div>
-        ${body}${list}${sl.sig ? `<div class="sig">${esc(sl.sig)}</div>` : ''}${pill}
+        ${body}${list}${sl.shots ? `<div class="shots${sl.shots.length === 1 ? ' one' : ''}">${sl.shots.map((x) => `<img src="${x}">`).join('')}</div>` : ''}${sl.sig ? `<div class="sig">${esc(sl.sig)}</div>` : ''}${pill}
       </div>
       <div class="foot"><span>${esc(sl.foot || deck.foot || 'thesocialbillboard.com')}</span>${deck.standalone ? '' : (i === 0 && !last ? '<span class="swipe">Swipe →</span>' : `<span class="n">${i + 1} / ${total}</span>`)}</div>`
     sheet.appendChild(el)
