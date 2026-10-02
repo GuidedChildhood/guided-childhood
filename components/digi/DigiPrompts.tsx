@@ -17,6 +17,8 @@ const KIND_LABEL: Record<string, string> = {
   // being kept rather than as another notification, or the whole point of it is
   // lost at the moment a parent looks at their screen.
   follow_up: 'Checking back, as promised',
+  // Only made when a reminder found no push device (migration 359).
+  reminder: 'The reminder you asked for',
 }
 
 // DiGi leads: proactive prompts generated from this family's own data and
