@@ -1,0 +1,83 @@
+{
+ "name": "carousel-01-one-episode",
+ "kind": "carousel",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "kicker": "For the parent on the bedtime shift",
+   "big": "She asked for one episode.\nThat was forty minutes ago.",
+   "hl": "That was forty minutes ago.",
+   "size": "md"
+  },
+  {
+   "tone": "white",
+   "big": "You did not say yes to forty minutes.",
+   "size": "sm",
+   "body": "Nobody did."
+  },
+  {
+   "tone": "white",
+   "big": "The video ended. Something else started. Then something else.",
+   "size": "sm",
+   "body": "That is the design. **Not your child.**"
+  },
+  {
+   "tone": "black",
+   "big": "Blocking is a treadmill.",
+   "size": "md",
+   "body": "Block a channel and it comes back under another name."
+  },
+  {
+   "tone": "black",
+   "big": "Filters let things through.",
+   "size": "md",
+   "body": "The worst moments happen inside the app you installed to keep them safe."
+  },
+  {
+   "tone": "yellow",
+   "big": "The problem was never your child's willpower.",
+   "size": "sm",
+   "body": "It is what the feed puts in front of them."
+  },
+  {
+   "tone": "white",
+   "kicker": "So we built it the other way round",
+   "big": "You set it. We build it.",
+   "size": "md",
+   "list": [
+    "Age",
+    "Tone",
+    "Type",
+    "Time of day",
+    "Length"
+   ],
+   "body": "Five choices, made by you. We build the playlist to match."
+  },
+  {
+   "tone": "black",
+   "big": "When it ends, it ends.",
+   "size": "lg",
+   "list": [
+    "No up next",
+    "No Shorts",
+    "No comments",
+    "Nothing autoplays that you did not choose"
+   ]
+  },
+  {
+   "tone": "white",
+   "big": "Twenty minutes means twenty minutes.",
+   "size": "sm",
+   "body": "The ending is built in. So you do not have to be the ending."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "Try it tonight",
+   "big": "Create your first playlist, free.",
+   "size": "md",
+   "body": "One child profile. No card needed.",
+   "pill": "Link in bio"
+  }
+ ]
+}
