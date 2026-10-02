@@ -11,7 +11,10 @@
 //   3. a tap, the microphone, a new question or leaving the page stops it;
 //   4. only the one line is spoken, never the whole reply;
 //   5. no audio is ever captured, only the browser's words;
-//   6. the microphone is the parent's, never in the child app.
+//   6. the microphone is the parent's, never in the child app;
+//   7. hands free (added the same day) is off on every page open and never
+//      stored, shows that it is listening, never listens while DiGi speaks,
+//      and turns itself off after quiet, on a hidden page or a blocked mic.
 //
 // Node builtins plus --experimental-strip-types. No database, no browser.
 
@@ -31,7 +34,7 @@ if (!/const \[readOn, setReadOn\] = useState\(false\)/.test(chat)) fail.push('Di
 
 // ── 2. SPOKEN ONLY WHEN ASKED FOR ───────────────────────────────────────────
 if (!/if \(readOnRef\.current \|\| spokeIt\)/.test(chat)) fail.push('DigiChat: a reply is read aloud only for the setting or a spoken question')
-if (!/const spokeIt = !text && askedByVoiceRef\.current/.test(chat)) fail.push('DigiChat: a chip tap must never count as a spoken question')
+if (!/const spokeIt = \(!text \|\| handsFreeSend\) && askedByVoiceRef\.current/.test(chat)) fail.push('DigiChat: a chip tap must never count as a spoken question; only hands free sends spoken words itself')
 
 // ── 3. EVERY WAY TO STOP IT ─────────────────────────────────────────────────
 if (!/addEventListener\('pointerdown', stop/.test(chat)) fail.push('DigiChat: a tap anywhere must stop DiGi speaking')
@@ -72,8 +75,17 @@ for (const f of walk('app/k').filter(f => /\.tsx?$/.test(f))) {
   if (/digi-voice|startDictation|canDictate/.test(readFileSync(f, 'utf8'))) fail.push(`${f}: the microphone is for parents; the child app does not listen`)
 }
 
+// ── 7. HANDS FREE ───────────────────────────────────────────────────────────
+if (!/const \[handsFree, setHandsFree\] = useState\(false\)/.test(chat)) fail.push('DigiChat: hands free must start off on every page open')
+if (/localStorage[^\n]*hands|hands[^\n]*localStorage/i.test(chat + voice)) fail.push('hands free must never be remembered: a microphone that opens by itself is the one thing it must not do')
+if (!/if \(!handsFree \|\| loading \|\| speakingText \|\| listening\) return/.test(chat)) fail.push('DigiChat: the hands free loop must never open the microphone while DiGi is thinking or speaking')
+if (!/HANDS_FREE_QUIET_MS/.test(chat) || !/export const HANDS_FREE_QUIET_MS = 2 \* 60 \* 1000/.test(voice)) fail.push('hands free must turn itself off after two quiet minutes')
+if (!/visibilityState === 'hidden'\) endHandsFree\(\)/.test(chat)) fail.push('DigiChat: a hidden page must end hands free')
+if (!/problem === 'blocked'\) \{ endHandsFree\(/.test(chat)) fail.push('DigiChat: a blocked microphone must end hands free, not loop')
+if (!/Listening, just talk/.test(chat)) fail.push('DigiChat: hands free must show that it is listening')
+
 if (fail.length) {
   console.error('check-digi-voice FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log('check-digi-voice: ok (off by default, spoken only when asked, four ways to stop, one line not the reply, words never audio, parents only)')
+console.log('check-digi-voice: ok (off by default, spoken only when asked, four ways to stop, one line not the reply, words never audio, parents only, hands free safe)')

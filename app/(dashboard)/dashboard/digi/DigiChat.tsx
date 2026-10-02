@@ -8,7 +8,7 @@ import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacte
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 import { schoolChipFor } from '@/lib/digi/school-chip'
-import { canDictate, startDictation, readAloud, stopReading, readAloudOn, setReadAloud, type Dictation } from '@/lib/voice/digi-voice'
+import { canDictate, startDictation, readAloud, stopReading, readAloudOn, setReadAloud, HANDS_FREE_PAUSE_MS, HANDS_FREE_QUIET_MS, type Dictation } from '@/lib/voice/digi-voice'
 import { warmVoices } from '@/lib/voice/english-voice'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
@@ -339,6 +339,8 @@ export default function DigiChat({
 
   const toggleMic = () => {
     setMicNote('')
+    // In hands free the microphone button is the way out of it.
+    if (handsFreeRef.current) { endHandsFree(); return }
     if (listening) { dictationRef.current?.stop(); return }
     stopReading(); setSpeakingText(null)
     // Whatever is already in the box stays, and the spoken words follow it.
@@ -361,6 +363,128 @@ export default function DigiChat({
     if (!d) { setMicNote('This browser cannot listen. Use the microphone on your keyboard instead.'); return }
     dictationRef.current = d
     setListening(true)
+  }
+
+  // HANDS FREE (2 October 2026). The rules are in lib/voice/digi-voice
+  // section 4. Off on every page open: plain state, never stored. While it is
+  // on, one effect keeps the loop going: whenever DiGi is not thinking, not
+  // speaking and not already listening, the microphone opens again. A pause
+  // after the parent's last word sends what they said, as a spoken question,
+  // so the answer is read aloud and the loop comes back round.
+  const [handsFree, setHandsFree] = useState(false)
+  const handsFreeRef = useRef(false)
+  const heardAtRef = useRef(0)
+  const voiceSendRef = useRef(false)
+  const sendRef = useRef(sendMessage)
+  useEffect(() => { sendRef.current = sendMessage })
+
+  const endHandsFree = (note = '') => {
+    handsFreeRef.current = false
+    setHandsFree(false)
+    dictationRef.current?.stop()
+    setMicNote(note)
+  }
+
+  const toggleHandsFree = () => {
+    if (handsFreeRef.current) { endHandsFree(); return }
+    dictationRef.current?.stop()
+    stopReading(); setSpeakingText(null)
+    heardAtRef.current = Date.now()
+    handsFreeRef.current = true
+    setHandsFree(true)
+    setMicNote('')
+  }
+
+  const listenHandsFree = () => {
+    if (!handsFreeRef.current || dictationRef.current) return
+    if (Date.now() - heardAtRef.current > HANDS_FREE_QUIET_MS) {
+      endHandsFree('Hands free turned off after two quiet minutes.')
+      return
+    }
+    let words = ''
+    let sent = false
+    let pause: number | undefined
+    const send = () => {
+      if (sent || !words || !handsFreeRef.current) return
+      sent = true
+      window.clearTimeout(pause)
+      dictationRef.current?.stop()
+      askedByVoiceRef.current = true
+      voiceSendRef.current = true
+      setInput('')
+      void sendRef.current(words)
+    }
+    const d = startDictation({
+      onText: w => {
+        if (!w) return
+        words = w
+        heardAtRef.current = Date.now()
+        setInput(w)
+        window.clearTimeout(pause)
+        pause = window.setTimeout(send, HANDS_FREE_PAUSE_MS)
+      },
+      onEnd: problem => {
+        window.clearTimeout(pause)
+        setListening(false)
+        dictationRef.current = null
+        if (problem === 'blocked') { endHandsFree('The microphone is blocked, so hands free is off. Allow it in your browser settings.'); return }
+        // The engine can close the moment the parent stops talking, before
+        // the pause has run. What they said still goes.
+        send()
+      },
+    })
+    if (!d) { endHandsFree('This browser cannot listen, so hands free is off.'); return }
+    dictationRef.current = d
+    setListening(true)
+  }
+
+  useEffect(() => {
+    if (!handsFree || loading || speakingText || listening) return
+    const t = window.setTimeout(listenHandsFree, 400)
+    return () => window.clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handsFree, loading, speakingText, listening])
+
+  // A hidden page never listens.
+  useEffect(() => {
+    if (!handsFree) return
+    const hide = () => { if (document.visibilityState === 'hidden') endHandsFree() }
+    document.addEventListener('visibilitychange', hide)
+    return () => document.removeEventListener('visibilitychange', hide)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handsFree])
+
+  // REMINDERS DiGi has set (migration 359), each with a cancel. Read on open
+  // and again after every answer, since an answer is where one gets set.
+  type Reminder = { id: string; body: string; remind_at: string; repeat_days: number }
+  const [reminders, setReminders] = useState<Reminder[]>([])
+  const loadReminders = () => {
+    fetch('/api/digi/reminders').then(r => r.ok ? r.json() : { reminders: [] })
+      .then(d => setReminders(d.reminders ?? [])).catch(() => {})
+  }
+  useEffect(() => { if (!loading) loadReminders() }, [loading])
+  const cancelReminder = async (id: string) => {
+    setReminders(rs => rs.filter(r => r.id !== id))
+    try { await fetch(`/api/digi/reminders?id=${id}`, { method: 'DELETE' }) } catch { loadReminders() }
+  }
+  const reminderWhen = (iso: string) => {
+    const d = new Date(iso)
+    const day = (x: Date) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(x)
+    const time = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }).format(d)
+    const now = new Date()
+    if (day(d) === day(now)) return time
+    if (day(d) === day(new Date(now.getTime() + 86_400_000))) return `Tomorrow ${time}`
+    return `${new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short' }).format(d)} ${time}`
+  }
+
+  // TELL DIGI WHAT IS HARD (2 October 2026). Justin: "ask the user to tell
+  // DiGi their issues, it will add to the tracker each day until resolved and
+  // assist on methods to resolve". The same continuing tag a script uses, so
+  // the parent types into a clean box and the framing travels with it.
+  const startWorries = () => {
+    setContinuingTopic('what is hard right now')
+    setContinuingPrefix('Here is what is hard for us right now. Please put each worry on my check in so we can track it until it is sorted, and help me with one thing to try first: ')
+    requestAnimationFrame(() => textareaRef.current?.focus())
   }
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -560,8 +684,11 @@ export default function DigiChat({
     // way; a chip tap is never a spoken question.
     stopReading(); setSpeakingText(null)
     if (listening) dictationRef.current?.stop()
-    const spokeIt = !text && askedByVoiceRef.current
+    // Hands free sends the spoken words itself, so it says so (voiceSendRef).
+    const handsFreeSend = voiceSendRef.current
+    const spokeIt = (!text || handsFreeSend) && askedByVoiceRef.current
     askedByVoiceRef.current = false
+    voiceSendRef.current = false
     setMicNote('')
 
     // Held so a failure can hand the words back.
@@ -591,7 +718,9 @@ export default function DigiChat({
     // 1400ms: long enough to read one line of what DiGi is doing, short enough
     // that it never feels like it is stalling on an answer it already has.
     window.setTimeout(() => setThinkingFloor(false), 1400)
-    const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
+    // Words spoken hands free are the parent's own, like typed ones, so a
+    // continuing tag (a script, or what is hard right now) still frames them.
+    const messageText = text && !handsFreeSend ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
     // A new message means the conversation is still going, so any reflection
     // that was waiting to appear stands down and defers to the next real pause.
@@ -1008,7 +1137,26 @@ export default function DigiChat({
                 kind of thing DiGi is for. */}
             <p className="eyebrow" style={{ marginBottom: '10px', fontSize: 'var(--text-sm)' }}>Try asking</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-              {stagePrompts.slice(0, 2).map((prompt, i) => (
+              {/* Still two on the empty page: the worry opener, then one
+                  stage example. The opener tracks what the parent says on
+                  their daily check in until it is sorted. */}
+              <button
+                type="button"
+                onClick={startWorries}
+                style={{
+                  padding: '12px 16px', background: 'var(--cream)', border: 'var(--edge)',
+                  borderRadius: 'var(--radius-tile)', textAlign: 'left', cursor: 'pointer',
+                  fontFamily: 'var(--font-body)', lineHeight: 1.4,
+                }}
+              >
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                  Tell DiGi what is hard right now
+                </span>
+                <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 2 }}>
+                  Each worry goes on your daily check in until it is sorted, with one thing to try.
+                </span>
+              </button>
+              {stagePrompts.slice(0, 1).map((prompt, i) => (
                 <button
                   key={i}
                   onClick={() => sendMessage(prompt)}
@@ -1497,6 +1645,57 @@ export default function DigiChat({
                 </span>
               </div>
             )}
+            {/* The voice row: reminders DiGi has set, each cancellable, and
+                the hands free switch. Only there when it has something in it,
+                so a browser that cannot listen and a family with no reminders
+                see the chat exactly as before. */}
+            {(canMic || reminders.length > 0) && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 6, overflowX: 'auto', flex: '1 1 auto', minWidth: 0, scrollbarWidth: 'none' }}>
+                  {handsFree ? (
+                    <span role="status" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap', alignSelf: 'center' }}>
+                      {listening ? 'Listening, just talk' : speakingText ? 'DiGi is speaking' : loading ? 'DiGi is thinking' : 'Hands free is on'}
+                    </span>
+                  ) : reminders.map(r => (
+                    <span key={r.id} title={r.repeat_days > 0 ? `${r.body}, every day for ${r.repeat_days + 1} days` : r.body} style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0, maxWidth: 240,
+                      background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
+                      padding: '3px 6px 3px 10px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                    }}>
+                      <span aria-hidden>⏰</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', whiteSpace: 'nowrap' }}>{reminderWhen(r.remind_at)}</span>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.body}</span>
+                      <button
+                        type="button"
+                        onClick={() => cancelReminder(r.id)}
+                        aria-label={`Cancel the reminder: ${r.body}`}
+                        style={{ background: 'none', border: 'none', padding: '0 4px', cursor: 'pointer', color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, flexShrink: 0 }}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                {canMic && (
+                  <button
+                    type="button"
+                    onClick={toggleHandsFree}
+                    aria-pressed={handsFree}
+                    aria-label={handsFree ? 'Hands free is on. Tap to turn off' : 'Hands free: talk and DiGi answers aloud'}
+                    title={handsFree ? 'Tap to turn hands free off' : 'Talk to DiGi without touching the screen while this page is open'}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 4, flexShrink: 0, marginLeft: 'auto',
+                      fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-xs)',
+                      color: 'var(--ink)', cursor: 'pointer', lineHeight: 1,
+                      background: handsFree ? 'var(--terracotta)' : 'var(--white)', border: 'var(--edge)',
+                      borderRadius: 'var(--radius-pill)', padding: '5px 10px', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <span aria-hidden>🎧</span>{handsFree ? 'Hands free on' : 'Hands free'}
+                  </button>
+                )}
+              </div>
+            )}
             {/* The compose pill: soft rounded field with a butter send tucked
                 in the corner, the reference feel in our palette. */}
             <div style={{
@@ -1510,7 +1709,7 @@ export default function DigiChat({
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder={listening ? 'Listening, speak now…' : continuingTopic ? 'What is happening, in your own words...' : canMic ? 'Type or tap the mic' : 'Type your question'}
+              placeholder={handsFree ? 'Hands free: just talk, DiGi answers aloud' : listening ? 'Listening, speak now…' : continuingTopic ? 'What is happening, in your own words...' : canMic ? 'Type or tap the mic' : 'Type your question'}
               rows={1}
               style={{
                 flex: 1,
@@ -1535,10 +1734,10 @@ export default function DigiChat({
               <button
                 type="button"
                 onClick={toggleMic}
-                disabled={loading}
+                disabled={loading && !handsFree}
                 aria-pressed={listening}
-                aria-label={listening ? 'Stop listening' : 'Talk to DiGi'}
-                title={listening ? 'Stop listening' : 'Talk to DiGi'}
+                aria-label={handsFree ? 'Turn hands free off' : listening ? 'Stop listening' : 'Talk to DiGi'}
+                title={handsFree ? 'Turn hands free off' : listening ? 'Stop listening' : 'Talk to DiGi'}
                 style={{
                   flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
                   border: listening ? 'none' : 'var(--edge)',

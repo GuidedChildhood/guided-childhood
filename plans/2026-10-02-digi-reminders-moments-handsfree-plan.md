@@ -57,8 +57,9 @@ What fails today:
 
 ## 4. Hands free (no migration)
 
-- A switch in the DiGi chat, parents only, off by default, remembered on that
-  phone. On: the microphone opens, a question sends itself after a short
+- A switch in the DiGi chat, parents only, off every time the page opens and
+  never remembered (a microphone that opens by itself is the one thing this
+  must never do). On: the microphone opens, a question sends itself after a short
   pause, DiGi reads the answer aloud, and the microphone reopens when it
   finishes. A clear "Hands free, listening" sign the whole time.
 - Turns itself off after two quiet minutes, when the page is hidden, or on
@@ -73,8 +74,10 @@ now also returns the moments logged lately and the reminders waiting, so
 
 ## Gates
 
-- [ ] Migration 359 written; applied only on Justin's yes
-- [ ] tsc, check-digi-voice (shown to fire), ai-tells on new copy
-- [ ] Phone 390 and desktop screenshots: reminders strip, hands free on
-- [ ] review.md pass, context-guard
+- [x] Migration 359 written (with grants); applied only on Justin's yes
+- [x] tsc, check-digi-voice (shown to fire on three broken rules), all 102 CI guards, ai-tells on new copy
+- [x] Phone 390 and desktop in Playwright: reminders strip, worry opener, hands free
+      listening; spoken words sent once with the worry framing, microphone
+      reopened after the answer, nothing reopened once switched off
+- [x] review.md pass, context-guard
 - [ ] PR, CI green
