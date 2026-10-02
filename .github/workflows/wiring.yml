@@ -559,6 +559,10 @@ jobs:
       - run: node scripts/check-moments-anchor.mjs
       - run: node scripts/check-print-brand.mjs
       - run: node --experimental-strip-types scripts/check-lesson-path.mjs
+      # DiGi's voice stays an option (2 October 2026): read aloud off until
+      # turned on, spoken only for that or a spoken question, stopped by any
+      # tap, one line not the reply, words never audio, parents only.
+      - run: node --experimental-strip-types scripts/check-digi-voice.mjs
       # Agreed counts like done, and never reads like it. Migration 306 gave a
       # device a third answer, so a family who decided a screen runs on an
       # agreement rather than on controls can finish a stage without lying in

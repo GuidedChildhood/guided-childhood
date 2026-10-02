@@ -254,3 +254,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 - Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
 - Still to come, when credits allow: a Pebble clip per lesson on the blank board rule.
+
+## 2 October 2026: parents can talk to DiGi, and DiGi can read aloud, both optional
+
+- Justin asked for both, "so not annoying". A microphone in DiGi's chat puts the spoken words in the box to check before sending; read aloud is off until turned on, speaks only the one line worth hearing, follows a spoken question, and stops on any tap. Parents only, words never audio (the browser does the listening). check-digi-voice holds it. Plan: plans/2026-10-02-digi-voice-plan.md.

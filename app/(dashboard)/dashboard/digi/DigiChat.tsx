@@ -8,6 +8,8 @@ import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacte
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 import { schoolChipFor } from '@/lib/digi/school-chip'
+import { canDictate, startDictation, readAloud, stopReading, readAloudOn, setReadAloud, type Dictation } from '@/lib/voice/digi-voice'
+import { warmVoices } from '@/lib/voice/english-voice'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -295,6 +297,72 @@ export default function DigiChat({
   const [flagSending, setFlagSending] = useState(false)
   const [flagSent, setFlagSent] = useState(false)
 
+  // VOICE, both ways (2 October 2026, plans/2026-10-02-digi-voice-plan.md).
+  // Justin wanted a parent to be able to talk to DiGi and hear it back, as
+  // options, "so not annoying". The rules live in lib/voice/digi-voice; here
+  // is only the wiring. The microphone shows only where the browser can
+  // listen, set after mount so the server render and the first client render
+  // agree. Read aloud is off until the parent turns it on, remembered per
+  // device. A question asked by voice gets a spoken answer even with it off,
+  // because a parent who spoke is not looking at the screen. Any tap, the
+  // microphone, a new question or leaving the page stops it.
+  const [canMic, setCanMic] = useState(false)
+  const [listening, setListening] = useState(false)
+  const [micNote, setMicNote] = useState('')
+  const [readOn, setReadOn] = useState(false)
+  const [speakingText, setSpeakingText] = useState<string | null>(null)
+  const dictationRef = useRef<Dictation | null>(null)
+  const askedByVoiceRef = useRef(false)
+  const readOnRef = useRef(false)
+  useEffect(() => {
+    setCanMic(canDictate())
+    const on = readAloudOn()
+    setReadOn(on)
+    readOnRef.current = on
+    warmVoices()
+    return () => { stopReading(); dictationRef.current?.stop() }
+  }, [])
+  useEffect(() => {
+    if (!speakingText) return
+    const stop = () => { stopReading(); setSpeakingText(null) }
+    document.addEventListener('pointerdown', stop, { once: true })
+    return () => document.removeEventListener('pointerdown', stop)
+  }, [speakingText])
+
+  const toggleReadAloud = () => {
+    const next = !readOn
+    setReadOn(next)
+    readOnRef.current = next
+    setReadAloud(next)
+    if (!next) { stopReading(); setSpeakingText(null) }
+  }
+
+  const toggleMic = () => {
+    setMicNote('')
+    if (listening) { dictationRef.current?.stop(); return }
+    stopReading(); setSpeakingText(null)
+    // Whatever is already in the box stays, and the spoken words follow it.
+    const before = input.trim()
+    const d = startDictation({
+      onText: words => {
+        if (!words) return
+        askedByVoiceRef.current = true
+        setInput(before ? `${before} ${words}` : words)
+      },
+      onEnd: problem => {
+        setListening(false)
+        dictationRef.current = null
+        if (problem === 'blocked') setMicNote('The microphone is blocked. Allow it in your browser settings, or use the microphone on your keyboard.')
+        else if (problem === 'no-speech') setMicNote('DiGi did not catch that. Tap the microphone and try again.')
+        else if (problem === 'failed') setMicNote('The microphone stopped. You can type instead, or try again.')
+        requestAnimationFrame(() => textareaRef.current?.focus())
+      },
+    })
+    if (!d) { setMicNote('This browser cannot listen. Use the microphone on your keyboard instead.'); return }
+    dictationRef.current = d
+    setListening(true)
+  }
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   // Opening the DiGi tab is always a fresh start. Whatever was said before is
@@ -487,6 +555,15 @@ export default function DigiChat({
     const typed = text ?? input
     if (!typed.trim() || loading) return
 
+    // A new question silences the last answer and closes the microphone. It
+    // counts as asked by voice only when the parent's own words came in that
+    // way; a chip tap is never a spoken question.
+    stopReading(); setSpeakingText(null)
+    if (listening) dictationRef.current?.stop()
+    const spokeIt = !text && askedByVoiceRef.current
+    askedByVoiceRef.current = false
+    setMicNote('')
+
     // Held so a failure can hand the words back.
     //
     // Justin, 2 August, with two screenshots: DiGi timed out and the box was
@@ -638,6 +715,13 @@ export default function DigiChat({
       if (!mainResponse) return 'retry'
 
       showReply(mainResponse)
+      // Spoken only once the whole reply is in, and only when the parent asked
+      // for it: the setting, or a question they spoke.
+      if (readOnRef.current || spokeIt) {
+        if (readAloud(mainResponse, () => setSpeakingText(prev => (prev === mainResponse ? null : prev)))) {
+          setSpeakingText(mainResponse)
+        }
+      }
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
       // The answer has landed. Re-assert the question at the top, trim the
       // trailing space to a viewport, then release the pin so the parent can
@@ -823,7 +907,28 @@ export default function DigiChat({
               <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-xs)' }}>
                 {childName ? `${childName}${stageId ? ` · Stage ${stageId}` : ''}` : 'Your evidence led guide'}
               </p>
-              <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
+                {/* Read aloud: off until the parent turns it on, remembered on
+                    this phone. A question they speak is answered aloud either
+                    way. Beside the name so the header stays one row at 390. */}
+                <button
+                  type="button"
+                  onClick={toggleReadAloud}
+                  aria-pressed={readOn}
+                  aria-label={readOn ? 'Reading answers aloud. Tap to turn off' : 'Read answers aloud'}
+                  title={readOn ? 'DiGi reads each answer aloud. Tap to turn off.' : 'Have DiGi read its answers aloud'}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-xs)',
+                    color: 'var(--ink)', cursor: 'pointer', lineHeight: 1,
+                    background: readOn ? 'var(--terracotta)' : 'var(--white)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-pill)', padding: '3px 9px', whiteSpace: 'nowrap',
+                  }}
+                >
+                  <span aria-hidden>{readOn ? '🔊' : '🔈'}</span>{readOn ? 'On' : 'Aloud'}
+                </button>
+              </div>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
@@ -1036,8 +1141,13 @@ export default function DigiChat({
               {/* DiGi's mark and name sit once above the answer, the reference
                   feel: no coloured bubble, just a clear note from a coach. */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
-                <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} /></div>
+                <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood={speakingText === msg.content ? 'speak' : 'idle'} /></div>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>DiGi</span>
+                {speakingText === msg.content && (
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
+                    Speaking · tap anywhere to stop
+                  </span>
+                )}
               </div>
               {/* The answer flows as plain text on white, its separate points set
                   apart by space, each bold lead in carrying the move. */}
@@ -1400,7 +1510,7 @@ export default function DigiChat({
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder={continuingTopic ? 'What is happening, in your own words...' : 'Type your question'}
+              placeholder={listening ? 'Listening, speak now…' : continuingTopic ? 'What is happening, in your own words...' : canMic ? 'Type or tap the mic' : 'Type your question'}
               rows={1}
               style={{
                 flex: 1,
@@ -1419,6 +1529,28 @@ export default function DigiChat({
               onFocus={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
               onBlur={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--ink)'; document.body.classList.remove('gc-input-focused') }}
             />
+            {/* Talk to DiGi. Only where the browser can listen. The words land
+                in the box to check before sending; nothing sends itself. */}
+            {canMic && (
+              <button
+                type="button"
+                onClick={toggleMic}
+                disabled={loading}
+                aria-pressed={listening}
+                aria-label={listening ? 'Stop listening' : 'Talk to DiGi'}
+                title={listening ? 'Stop listening' : 'Talk to DiGi'}
+                style={{
+                  flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
+                  border: listening ? 'none' : 'var(--edge)',
+                  background: listening ? 'var(--terracotta)' : 'var(--white)',
+                  color: 'var(--ink)', cursor: loading ? 'default' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 'var(--text-lg)', lineHeight: 1,
+                }}
+              >
+                {listening ? '■' : '🎙️'}
+              </button>
+            )}
             <button
               type="submit"
               disabled={loading || !input.trim()}
@@ -1436,6 +1568,11 @@ export default function DigiChat({
               ↑
             </button>
             </div>
+            {micNote && (
+              <p role="status" style={{ margin: '0 6px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+                {micNote}
+              </p>
+            )}
           </form>
         )}
         {!atLimit && (
