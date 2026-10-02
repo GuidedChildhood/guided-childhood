@@ -30,19 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-28 | 290 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-14 · 14 September 2026: the daily jobs guide, start small and build up, advice not a block · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the week row moves with the day, and the five carry a mission · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the front page is the calendar page, and tomorrow's kit is pushed the evening before · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the paper sweep, because the ground moved under every child screen · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the ooooo on the streak bar was two faults, not one · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the child app crashed on Use my time, and the child got the parent's error page · `plans/decisions-archive/2026-09.md`
-- 2026-09-14 · 14 September 2026: the mission rows became doors, and the answer to "does it sync" turned up a dead query · `plans/decisions-archive/2026-09.md`
 - 2026-09-14 · 14 September 2026: the child's tab bar, what is waiting, and the dial in the wrong place · `plans/decisions-archive/2026-09.md`
 - 2026-09-16 · 16 September 2026: the per child passport, and the code gets a front door (session 0u09q9) · `plans/decisions-archive/2026-09.md`
 - 2026-09-16 · 16 September 2026: four answers, and the tracker gets built (session 0u09q9) · `plans/decisions-archive/2026-09.md`
@@ -156,78 +149,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-28 · 28 September 2026: after a pitch, another idea or back to the day · `plans/decisions-archive/2026-09.md`
 - 2026-09-28 · 28 September 2026: Moments to resolve is its own page, with DiGi and scripts on each · `plans/decisions-archive/2026-09.md`
 - 2026-09-28 · 28 September 2026: the third standalone lesson, Should people wear smart glasses? · `plans/decisions-archive/2026-09.md`
+- 2026-09-29 · 29 September 2026: a video system from Nate Herk's method, weighed first · `plans/decisions-archive/2026-09.md`
+- 2026-09-29 · 29 September 2026: every print is branded; the script prints as a fridge card · `plans/decisions-archive/2026-09.md`
+- 2026-09-29 · 29 September 2026: lessons, the child learns the school version and the parent closes it · `plans/decisions-archive/2026-09.md`
+- 2026-09-30 · 30 September 2026: four new under 7 lessons, the shelf goes from three to seven · `plans/decisions-archive/2026-09.md`
+- 2026-09-30 · 30 September 2026: the launch plan, three lanes, one number, day by day · `plans/decisions-archive/2026-09.md`
+- 2026-09-30 · 30 September 2026: the Control Room, one page that runs the marketing · `plans/decisions-archive/2026-09.md`
+- 2026-09-30 · 30 September 2026: migration 358 is live, the under 7 shelf is seven lessons · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 29 September 2026: a video system from Nate Herk's method, weighed first
-
-- Justin pasted Nate's transcript on editing video with Claude and HyperFrames and asked for the same as a system for social media, a one to one video, and talking heads made into finished videos.
-- Every point went through feedback-filter (`plans/2026-09-29-nate-video-method-weighed.md`): the mechanics adopted (transcribe, cut, plan beats, skills, verify), the register declined (high energy is not how we speak to a parent at 11 o'clock), generated people declined, music parked.
-- The system is `.claude/skills/talking-head-video`: three lanes (long form, family account shorts, one to one), Justin's recording page, the read sheet format, and a Learned section that each video adds to. The first HyperFrames video, the 10 second intro, is at `videos/guided-childhood-intro/`. The student kit is copied at `hyperframes-student-kit/`.
-
-## 29 September 2026: every print is branded; the script prints as a fridge card
-
-- Justin asked for every print option to be a professional, branded card fit for the fridge. Audit of all 13 print surfaces as A4 PDFs.
-- Print the card on a Right now script now prints ScriptFridgeCard: one A4 page, card in a dotted cut line, logo top and foot, big Say this, colours forced. Star chart and kid photo sheets gain the logo; the public scripts page gains a header logo, forced colours and loses doubled quote marks; quest sheets force colours. check-print-brand holds all 13.
-
-## 29 September 2026: lessons, the child learns the school version and the parent closes it
-
-- Justin chose it. The child app's lesson list is now the school modules for the child's stage (lib/lessons/school-path), opened through /k/[token]/school/[id] on the existing star lesson player. A 70 percent pass writes a school_lesson completion, ticks the five a day and the passport, and pushes the parent the module's family question to ask at tea.
-- The passport counts school modules (3, 10, 10, 7, 2 per stage). Its row and the stamp card open /dashboard/lessons/path, the same list, with Do it together under 7. The parent library stays as the parent's own learning.
-- DiGi is handed matching lessons (lib/digi/lesson-match) and links the right one. Misspelled algorithm clip removed (migration 357). check-lesson-path holds it all. PR 1177.
-
-## 30 September 2026: four new under 7 lessons, the shelf goes from three to seven
-
-- Justin asked for the best under 7 lessons there are. Researched Smartie the Penguin, Jessie and Friends, Common Sense K to 2 and the EfCW early years to 7 outcomes (`plans/2026-09-30-under-7-lessons-plan.md`), then wrote four in their shape: a friend in a tricky moment and the class decides, a chant with actions, never scary, the move practised with bodies.
-- eyfs-30 The screen never says stop (pick a stop, wave bye bye, next thing; taught as the end of a bit, because a countdown did not help in the family research), eyfs-31 Paws off, ask first, ks1-32 Private like a toothbrush, ks1-33 Who is on the other side? (DSL flagged, with staff briefings). Every one passes the contract, every measurable rubric check and the 12 word ceiling.
-- The child's stage list now follows the manifest's teaching order and leaves the standalone lessons out, which also stops the smart glasses lesson counting on the Builder passport. The ks5-20 sign off moves to thirty two modules. Migration 358, not applied until Justin says yes. PR 1179.
-- The school video remake needs nothing: the 11 live clips were remade on the Planet Friends on 11 September and read no board lettering; the misspelled one was the parent clip, already out.
-
-## 30 September 2026: the launch plan, three lanes, one number, day by day
-
-- Justin asked for the best marketing launch plan across Guided Childhood for
-  parents and schools and the Social Billboard safe playlist, researched
-  against the nearest competitors and a council of the best marketers, day by
-  day in Google Drive.
-- Four research sweeps ran in parallel (parent competitors, school
-  competitors, the playlist market, fourteen marketers checked against their
-  own sources). The plan is `plans/week-of-2026-09-28-marketing-launch-plan.md`,
-  mirrored as a Google Doc with a tracker sheet in Guided Childhood Research,
-  App Launch Marketing.
-- Decided in the plan: the parent app leads with the founding 50 sprint,
-  schools run underneath as distribution through the free lesson and the
-  school link, the playlist stays on its own pages as a dated record of
-  checked channels and touches Justin's LinkedIn once. £0 for thirty days,
-  then at most £100 on a post that already moved stage checks. Every post is
-  judged by stage checks in the following 48 hours.
-- Found on the way: guidedchildhood.co.uk 404s and the July playbook still
-  prints it; the beta kit's three day email gaps break the one a week floor,
-  so the extra touches move to Substack; Safer Internet Day 2027 is 9
-  February, not the 10th.
-
-## 30 September 2026: the Control Room, one page that runs the marketing
-
-- Justin asked for the best of everything in Drive reviewed, folders built
-  for the full picture, and one control document that makes the daily task
-  easy, with reminders, filming prompts and the motivation maths.
-- Read every marketing folder and document in Drive (about 30 folders, 60
-  documents). The control page is `plans/2026-09-30-control-room.md`,
-  mirrored as a Google Doc in a new root folder 00 CONTROL ROOM beside the
-  launch plan and the tracker. A second new root folder, 06 Content Library,
-  holds the eleven June to August series packs moved from the root. Nothing
-  deleted; folder ids unchanged so every scheduled task still writes where
-  it did.
-- Five recurring reminders and five launch dates added to Justin's personal
-  Google Calendar (weekday desk 08:05, evening reply and record 21:00,
-  Friday unit and review, Saturday recording block, Sunday founder post and
-  load the week).
-- Decided: no new app or PWA. The one build that earns its place is an admin
-  page in the existing app showing today's Must and live funnel numbers with
-  a DONE button, after two weeks of the manual routine, capped at two days.
-- Justin confirmed no paying sign ups yet, so the first milestone is the
-  first paying parent and revenue today is £0.
 
 ## 1 October 2026: the master plan, the content pack, the explainer template, the daily desk
 
@@ -250,10 +182,6 @@ Titles only. Open the archive at the line number in its own index for the full e
   `videos/2026-10-01-five-oclock-fight`.
 - A local scheduled task, daily-content-desk, runs weekdays at 06:30 and
   writes "Today's content" into the Control Room. It never posts.
-## 30 September 2026: migration 358 is live, the under 7 shelf is seven lessons
-
-- Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
-- Still to come, when credits allow: a Pebble clip per lesson on the blank board rule.
 
 ## 2 October 2026: parents can talk to DiGi, and DiGi can read aloud, both optional
 
