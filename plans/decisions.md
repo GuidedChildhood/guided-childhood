@@ -301,3 +301,14 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Seedance returns HEVC 10 bit, which Chromium cannot play. Transcode to
   H.264 with a keyframe every second before HyperFrames sees it. The pipeline
   is written up in the project BRIEF.
+- Later on 2 October: the brain film v2. Justin asked for the actual studies
+  going in, the joining shown the way a brain does it, a worked example (a
+  six year old in pyjamas putting the TV on at 9pm) taken step by step to
+  the answer, the free start at the end, and a check on how Duolingo and
+  others do it. Research in `plans/2026-10-02-how-it-works-film-research.md`:
+  Duolingo's Birdbrain uses one named learner and a worked example, Vox
+  withholds the result, nobody uses boxes and arrows, under a minute holds
+  half the audience. v2 is 66 seconds, ten beats, two new Seedance clips,
+  six study cards from `digi/02-scientists.md`, the answer written to DiGi's
+  voice rules and the EB-01 scenario pattern, labelled as the shape of an
+  answer rather than a transcript. Still draft grade and silent.
