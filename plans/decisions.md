@@ -282,3 +282,22 @@ Titles only. Open the archive at the line number in its own index for the full e
   built in `decks/statics-01-launch-set.json`. Parked: the Ofcom stat card
   (LinkedIn lane only) and the comparison table (landing page, not feed).
   Declined: fear hooks and five star review stacks.
+
+## 2 October 2026: why the explainer looked basic, and the DiGi brain film (PR 1184)
+
+- Justin asked why other people's Claude Code motion graphics look amazing
+  when our explainer looked basic. The answer is in the template: every beat
+  drew a four path icon from `icons.json`. The draw on was right, the
+  drawings were not drawings. Fix proven and committed as `tools/ink-trace/`:
+  a real ink illustration from Higgsfield, traced to strokes, drawing itself.
+  The explainer skill now points at it for any beat that is a scene.
+- Justin asked for a cinematic cartoon of DiGi's brain explaining how he
+  works. Built in `videos/2026-10-01-how-digi-works/`: eight Seedance 2.5
+  clips from the DiGi reference art (identity from the image, action only
+  in the prompt), every caption mapped to `digi/00-how-digi-works.md`, the
+  stage check as the end card. Drafted at 480p for 18 credits a clip and
+  upscaled; finalising at 1080p is 72 a clip, 576 for the film, left as
+  Justin's call. No NHS, no clinician names, no outcome claims.
+- Seedance returns HEVC 10 bit, which Chromium cannot play. Transcode to
+  H.264 with a keyframe every second before HyperFrames sees it. The pipeline
+  is written up in the project BRIEF.
