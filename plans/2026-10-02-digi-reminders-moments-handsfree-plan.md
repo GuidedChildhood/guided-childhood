@@ -74,7 +74,7 @@ now also returns the moments logged lately and the reminders waiting, so
 
 ## Gates
 
-- [x] Migration 359 written (with grants); applied only on Justin's yes
+- [x] Migration 359 applied 2 October 2026 on Justin's yes, recorded as 359_digi_reminders
 - [x] tsc, check-digi-voice (shown to fire on three broken rules), all 102 CI guards, ai-tells on new copy
 - [x] Phone 390 and desktop in Playwright: reminders strip, worry opener, hands free
       listening; spoken words sent once with the worry framing, microphone
