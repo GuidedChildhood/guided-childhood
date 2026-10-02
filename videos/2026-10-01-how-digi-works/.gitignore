@@ -1,0 +1,4 @@
+assets/*.mp4
+renders/
+snapshots/
+render.log

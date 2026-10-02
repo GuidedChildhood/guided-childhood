@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+    <style>
+      @font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000;font-style:normal}
+      @font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600;font-style:normal}
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #E9D9BE; container-type: size; font-family: nunito, sans-serif; color: #1A1A2E; }
+      .beat { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+      .beat video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .field { position: absolute; inset: 0; background: #FFFBEE; }
+      .card { position: absolute; left: 5cqw; bottom: 7cqh; width: 46cqw; padding: 2.2cqw 2.6cqw 2.4cqw; background: rgba(255, 251, 238, 0.94); border: 3px solid #1A1A2E; border-radius: 22px; box-shadow: 0 6px 0 #C99A28; opacity: 0; }
+      .eyebrow { font-family: plexMono, monospace; font-weight: 600; font-size: 0.95cqw; letter-spacing: 0.16em; text-transform: uppercase; color: #52526A; margin-bottom: 0.9cqw; }
+      .headline { font-size: 2.9cqw; font-weight: 900; line-height: 1.08; letter-spacing: 0.005em; color: #1A1A2E; }
+      .subline { margin-top: 0.9cqw; font-size: 1.45cqw; font-weight: 600; line-height: 1.32; color: #52526A; }
+      .hw, .sw { display: inline-block; margin-right: 0.06em; will-change: transform, opacity; }
+      .cta .eyebrow-top { position: absolute; top: 7cqh; left: 0; right: 0; text-align: center; font-size: 1.1cqw; letter-spacing: 0.14em; }
+      .cta .star { position: absolute; top: 18cqh; left: 9cqw; width: 30cqw; height: 30cqw; object-fit: contain; }
+      .cta .headline.big { position: absolute; top: 28cqh; left: 46cqw; right: 7cqw; font-size: 4.6cqw; }
+      .cta .subline.big { position: absolute; top: 52cqh; left: 46cqw; right: 7cqw; font-size: 2.0cqw; }
+      .url { position: absolute; top: 66cqh; left: 46cqw; font-size: 1.5cqw; font-family: plexMono, monospace; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1A1A2E; background: #EDC35F; display: inline-block; padding: 0.7cqw 1.6cqw; border: 3px solid #1A1A2E; border-radius: 16px; box-shadow: 0 5px 0 #C99A28; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="48.5" data-width="1920" data-height="1080">
+
+    <div id="beat-0" class="beat">
+      <video id="v0" src="assets/beat-0.mp4" muted playsinline data-start="0.0" data-duration="6.0" data-track-index="0"></video>
+      <div class="card" id="card-0">
+        <div class="eyebrow">HOW DIGI WORKS · 01 OF 08</div>
+        <div class="headline"><span class="hw">He</span>
+<span class="hw">will</span>
+<span class="hw">not</span>
+<span class="hw">come</span>
+<span class="hw">off</span>
+<span class="hw">the</span>
+<span class="hw">tablet.</span>
+</div>
+        <div class="subline"><span class="sw">Every</span>
+<span class="sw">answer</span>
+<span class="sw">DiGi</span>
+<span class="sw">gives</span>
+<span class="sw">starts</span>
+<span class="sw">with</span>
+<span class="sw">a</span>
+<span class="sw">real</span>
+<span class="sw">question</span>
+<span class="sw">from</span>
+<span class="sw">a</span>
+<span class="sw">real</span>
+<span class="sw">parent.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-1" class="beat">
+      <video id="v1" src="assets/beat-1.mp4" muted playsinline data-start="5.5" data-duration="6.0" data-track-index="1"></video>
+      <div class="card" id="card-1">
+        <div class="eyebrow">HOW DIGI WORKS · 02 OF 08</div>
+        <div class="headline"><span class="hw">Here</span>
+<span class="hw">is</span>
+<span class="hw">what</span>
+<span class="hw">happens</span>
+<span class="hw">next.</span>
+</div>
+        <div class="subline"><span class="sw">Inside,</span>
+<span class="sw">step</span>
+<span class="sw">by</span>
+<span class="sw">step,</span>
+<span class="sw">the</span>
+<span class="sw">same</span>
+<span class="sw">way</span>
+<span class="sw">every</span>
+<span class="sw">time.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-2" class="beat">
+      <video id="v2" src="assets/beat-2.mp4" muted playsinline data-start="11.0" data-duration="6.0" data-track-index="0"></video>
+      <div class="card" id="card-2">
+        <div class="eyebrow">HOW DIGI WORKS · 03 OF 08</div>
+        <div class="headline"><span class="hw">First,</span>
+<span class="hw">the</span>
+<span class="hw">research.</span>
+</div>
+        <div class="subline"><span class="sw">Sixty</span>
+<span class="sw">five</span>
+<span class="sw">findings</span>
+<span class="sw">from</span>
+<span class="sw">named</span>
+<span class="sw">researchers.</span>
+<span class="sw">Odgers,</span>
+<span class="sw">Orben,</span>
+<span class="sw">Przybylski,</span>
+<span class="sw">Livingstone</span>
+<span class="sw">and</span>
+<span class="sw">more.</span>
+<span class="sw">Cited</span>
+<span class="sw">by</span>
+<span class="sw">name.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-3" class="beat">
+      <video id="v3" src="assets/beat-3.mp4" muted playsinline data-start="16.5" data-duration="6.0" data-track-index="1"></video>
+      <div class="card" id="card-3">
+        <div class="eyebrow">HOW DIGI WORKS · 04 OF 08</div>
+        <div class="headline"><span class="hw">The</span>
+<span class="hw">findings</span>
+<span class="hw">that</span>
+<span class="hw">fit</span>
+<span class="hw">this</span>
+<span class="hw">question.</span>
+</div>
+        <div class="subline"><span class="sw">Six</span>
+<span class="sw">are</span>
+<span class="sw">picked</span>
+<span class="sw">for</span>
+<span class="sw">every</span>
+<span class="sw">message,</span>
+<span class="sw">never</span>
+<span class="sw">none.</span>
+<span class="sw">Then</span>
+<span class="sw">the</span>
+<span class="sw">model</span>
+<span class="sw">reasons</span>
+<span class="sw">over</span>
+<span class="sw">them.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-4" class="beat">
+      <video id="v4" src="assets/beat-4.mp4" muted playsinline data-start="22.0" data-duration="6.0" data-track-index="0"></video>
+      <div class="card" id="card-4">
+        <div class="eyebrow">HOW DIGI WORKS · 05 OF 08</div>
+        <div class="headline"><span class="hw">Did</span>
+<span class="hw">it</span>
+<span class="hw">work?</span>
+</div>
+        <div class="subline"><span class="sw">A</span>
+<span class="sw">few</span>
+<span class="sw">days</span>
+<span class="sw">later</span>
+<span class="sw">DiGi</span>
+<span class="sw">asks</span>
+<span class="sw">you.</span>
+<span class="sw">Your</span>
+<span class="sw">answer</span>
+<span class="sw">feeds</span>
+<span class="sw">the</span>
+<span class="sw">next</span>
+<span class="sw">one.</span>
+<span class="sw">Across</span>
+<span class="sw">families,</span>
+<span class="sw">only</span>
+<span class="sw">counts</span>
+<span class="sw">travel,</span>
+<span class="sw">never</span>
+<span class="sw">your</span>
+<span class="sw">words.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-5" class="beat">
+      <video id="v5" src="assets/beat-5.mp4" muted playsinline data-start="27.5" data-duration="6.0" data-track-index="1"></video>
+      <div class="card" id="card-5">
+        <div class="eyebrow">HOW DIGI WORKS · 06 OF 08</div>
+        <div class="headline"><span class="hw">Then</span>
+<span class="hw">our</span>
+<span class="hw">own</span>
+<span class="hw">philosophy.</span>
+</div>
+        <div class="subline"><span class="sw">Years</span>
+<span class="sw">with</span>
+<span class="sw">our</span>
+<span class="sw">own</span>
+<span class="sw">children,</span>
+<span class="sw">the</span>
+<span class="sw">researchers</span>
+<span class="sw">we</span>
+<span class="sw">trust,</span>
+<span class="sw">and</span>
+<span class="sw">what</span>
+<span class="sw">the</span>
+<span class="sw">evidence</span>
+<span class="sw">actually</span>
+<span class="sw">supports.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-6" class="beat">
+      <video id="v6" src="assets/beat-6.mp4" muted playsinline data-start="33.0" data-duration="6.0" data-track-index="0"></video>
+      <div class="card" id="card-6">
+        <div class="eyebrow">HOW DIGI WORKS · 07 OF 08</div>
+        <div class="headline"><span class="hw">Then</span>
+<span class="hw">the</span>
+<span class="hw">rails.</span>
+</div>
+        <div class="subline"><span class="sw">Safety</span>
+<span class="sw">first.</span>
+<span class="sw">Never</span>
+<span class="sw">allow</span>
+<span class="sw">or</span>
+<span class="sw">deny.</span>
+<span class="sw">Never</span>
+<span class="sw">invent</span>
+<span class="sw">a</span>
+<span class="sw">study.</span>
+<span class="sw">A</span>
+<span class="sw">person</span>
+<span class="sw">approves</span>
+<span class="sw">anything</span>
+<span class="sw">new.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-7" class="beat">
+      <video id="v7" src="assets/beat-7.mp4" muted playsinline data-start="38.5" data-duration="6.0" data-track-index="1"></video>
+      <div class="card" id="card-7">
+        <div class="eyebrow">HOW DIGI WORKS · 08 OF 08</div>
+        <div class="headline"><span class="hw">One</span>
+<span class="hw">calibrated</span>
+<span class="hw">pathway</span>
+<span class="hw">for</span>
+<span class="hw">your</span>
+<span class="hw">family.</span>
+</div>
+        <div class="subline"><span class="sw">Then</span>
+<span class="sw">it</span>
+<span class="sw">keeps</span>
+<span class="sw">learning.</span>
+</div>
+      </div>
+    </div>
+    <div id="beat-end" class="clip beat cta" data-start="44.0" data-duration="4.5" data-track-index="0">
+      <div class="field"></div>
+      <div class="eyebrow eyebrow-top">GUIDED CHILDHOOD</div>
+      <img class="star" src="assets/digi-cut.png" alt="">
+      <div class="headline big"><span class="hw">What</span>
+<span class="hw">stage</span>
+<span class="hw">is</span>
+<span class="hw">your</span>
+<span class="hw">child?</span>
+</div>
+      <div class="subline big"><span class="sw">Three</span>
+<span class="sw">questions,</span>
+<span class="sw">no</span>
+<span class="sw">sign</span>
+<span class="sw">up.</span>
+</div>
+      <div class="url">guidedchildhood.com/starter-pack</div>
+    </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+
+      tl.fromTo("#beat-0", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.0);
+      tl.fromTo("#card-0", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.7);
+      tl.fromTo("#beat-0 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 0.85);
+      tl.fromTo("#beat-0 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 1.35);
+      tl.to("#card-0", { opacity: 0, duration: 0.3, ease: "power2.in" }, 5.4);
+      tl.fromTo("#beat-1", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 5.5);
+      tl.fromTo("#card-1", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 6.2);
+      tl.fromTo("#beat-1 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 6.35);
+      tl.fromTo("#beat-1 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 6.85);
+      tl.to("#card-1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 10.9);
+      tl.fromTo("#beat-2", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 11.0);
+      tl.fromTo("#card-2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 11.7);
+      tl.fromTo("#beat-2 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 11.85);
+      tl.fromTo("#beat-2 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 12.35);
+      tl.to("#card-2", { opacity: 0, duration: 0.3, ease: "power2.in" }, 16.4);
+      tl.fromTo("#beat-3", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 16.5);
+      tl.fromTo("#card-3", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 17.2);
+      tl.fromTo("#beat-3 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 17.35);
+      tl.fromTo("#beat-3 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 17.85);
+      tl.to("#card-3", { opacity: 0, duration: 0.3, ease: "power2.in" }, 21.9);
+      tl.fromTo("#beat-4", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 22.0);
+      tl.fromTo("#card-4", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 22.7);
+      tl.fromTo("#beat-4 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 22.85);
+      tl.fromTo("#beat-4 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 23.35);
+      tl.to("#card-4", { opacity: 0, duration: 0.3, ease: "power2.in" }, 27.4);
+      tl.fromTo("#beat-5", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 27.5);
+      tl.fromTo("#card-5", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 28.2);
+      tl.fromTo("#beat-5 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 28.35);
+      tl.fromTo("#beat-5 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 28.85);
+      tl.to("#card-5", { opacity: 0, duration: 0.3, ease: "power2.in" }, 32.9);
+      tl.fromTo("#beat-6", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 33.0);
+      tl.fromTo("#card-6", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 33.7);
+      tl.fromTo("#beat-6 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 33.85);
+      tl.fromTo("#beat-6 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 34.35);
+      tl.to("#card-6", { opacity: 0, duration: 0.3, ease: "power2.in" }, 38.4);
+      tl.fromTo("#beat-7", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 38.5);
+      tl.fromTo("#card-7", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 39.2);
+      tl.fromTo("#beat-7 .hw", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 39.35);
+      tl.fromTo("#beat-7 .sw", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.025 }, 39.85);
+      tl.to("#card-7", { opacity: 0, duration: 0.3, ease: "power2.in" }, 43.9);
+      tl.fromTo("#beat-end", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 44.0);
+      tl.fromTo("#beat-end .star", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(1.4)" }, 44.3);
+      tl.fromTo("#beat-end .hw", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.07 }, 44.6);
+      tl.fromTo("#beat-end .sw", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.04 }, 45.3);
+      tl.fromTo("#beat-end .url", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 45.8);
+      tl.to({}, { duration: 48.5 }, 0);
+    </script>
+  </body>
+</html>

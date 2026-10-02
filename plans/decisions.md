@@ -217,6 +217,35 @@ Titles only. Open the archive at the line number in its own index for the full e
   (LinkedIn lane only) and the comparison table (landing page, not feed).
   Declined: fear hooks and five star review stacks.
 
+## 2 October 2026: why the explainer looked basic, and the DiGi brain film (PR 1184)
+
+- Justin asked why other people's Claude Code motion graphics look amazing
+  when our explainer looked basic. The answer is in the template: every beat
+  drew a four path icon from `icons.json`. The draw on was right, the
+  drawings were not drawings. Fix proven and committed as `tools/ink-trace/`:
+  a real ink illustration from Higgsfield, traced to strokes, drawing itself.
+  The explainer skill now points at it for any beat that is a scene.
+- Justin asked for a cinematic cartoon of DiGi's brain explaining how he
+  works. Built in `videos/2026-10-01-how-digi-works/`: eight Seedance 2.5
+  clips from the DiGi reference art (identity from the image, action only
+  in the prompt), every caption mapped to `digi/00-how-digi-works.md`, the
+  stage check as the end card. Drafted at 480p for 18 credits a clip and
+  upscaled; finalising at 1080p is 72 a clip, 576 for the film, left as
+  Justin's call. No NHS, no clinician names, no outcome claims.
+- Seedance returns HEVC 10 bit, which Chromium cannot play. Transcode to
+  H.264 with a keyframe every second before HyperFrames sees it. The pipeline
+  is written up in the project BRIEF.
+- Later on 2 October: the brain film v2. Justin asked for the actual studies
+  going in, the joining shown the way a brain does it, a worked example (a
+  six year old in pyjamas putting the TV on at 9pm) taken step by step to
+  the answer, the free start at the end, and a check on how Duolingo and
+  others do it. Research in `plans/2026-10-02-how-it-works-film-research.md`:
+  Duolingo's Birdbrain uses one named learner and a worked example, Vox
+  withholds the result, nobody uses boxes and arrows, under a minute holds
+  half the audience. v2 is 66 seconds, ten beats, two new Seedance clips,
+  six study cards from `digi/02-scientists.md`, the answer written to DiGi's
+  voice rules and the EB-01 scenario pattern, labelled as the shape of an
+  answer rather than a transcript. Still draft grade and silent.
 ## 2 October 2026: DiGi reminders, log a moment, worries tracked, hands free (PR 1186)
 
 - Justin chose reminders at a set time, log it as a moment, a hands free switch, and worries told to DiGi tracked each day until sorted.
