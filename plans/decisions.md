@@ -267,3 +267,14 @@ Titles only. Open the archive at the line number in its own index for the full e
   founder scene. The `weekly-content-sheet` task creates next week's every
   Sunday 18:00; the daily desk reads it as its brief. The one reason: Justin
   asked for the images to be decided a week ahead so filming happens once.
+
+## 2 October 2026: the handover series is told by Justin alone
+
+- Natalia is not on camera. The six post Inspired by Alma handover (5 to 16
+  October) is rewritten in Justin's first person with read sheets, one
+  Saturday filming session, the switch checklist and the AMBER lines held for
+  his yes: `content/packs/2026-10-02-handover-justin-only/README.md`, Google
+  Doc in the Control Room. It stays step 1 of the parents lane beside the
+  LinkedIn founding 50 post; the reason is that the account's followers are the
+  warmest audience the business has and the series costs nothing but an
+  afternoon. Honest maths in section 1: a first proof, not the £4,000.
