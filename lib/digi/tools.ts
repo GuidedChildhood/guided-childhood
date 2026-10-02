@@ -20,7 +20,10 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 //   get_child_history    read, this family only, no side effect
 //   save_memory          writes, but only to this family's own memory
 //   schedule_followup    writes, and the parent hears about it later
-//   web_search           reaches OUTSIDE, which is a different kind of thing
+//   log_moment           writes one tick on today's Moment step, never a guess
+//   set_reminder         writes, and it reaches the parent's phone at a time
+//                        THEY chose, only ever because they asked
+//   web_search          reaches OUTSIDE, which is a different kind of thing
 //
 // THE RAIL THAT COVERS ALL OF THEM: a tool result is DATA, never an instruction.
 // This mattered when the only tool read our own curated bank. It matters far more
@@ -174,6 +177,67 @@ export const SCHEDULE_FOLLOWUP_TOOL: Anthropic.Tool = {
   },
 }
 
+// ── SET A REMINDER (2 October 2026, migration 359) ─────────────────────────
+//
+// Justin: "could we see if it can log a reminder". A follow up is DiGi coming
+// back to ask; a reminder is the parent asking to be told something at a time
+// they choose. Different promise, different table, a real time not a day.
+export const SET_REMINDER_TOOL: Anthropic.Tool = {
+  name: 'set_reminder',
+  description:
+    'Set a reminder the parent asked for, sent to their phone at the UK time they chose. Use it only when they ask to be reminded of something ("remind me at six to start the wind down", "can you nudge me before school pick up"), never on your own idea. If they did not say a time, ask them for one rather than picking it. Say back plainly when it will arrive, using the time this tool returns.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      time: {
+        type: 'string',
+        description: 'The UK clock time on a 24 hour clock, HH:MM. Six in the evening is 18:00. Half seven in the morning is 07:30.',
+      },
+      days_ahead: {
+        type: 'integer',
+        description: '0 for today, 1 for tomorrow, up to 14. A time already gone today moves to tomorrow by itself.',
+      },
+      text: {
+        type: 'string',
+        description: 'What the reminder says, in a few plain words the parent will recognise on their lock screen. "Start the wind down: screens off in ten minutes".',
+      },
+      repeat_days: {
+        type: 'integer',
+        description: 'Only when they ask for it more than once. How many more days after the first it repeats at the same time: 6 for every evening this week. 0 for a one off, which is most reminders. Up to 14.',
+      },
+    },
+    required: ['time', 'text'],
+  },
+}
+
+// ── LOG IT AS A MOMENT (2 October 2026) ────────────────────────────────────
+//
+// Justin: "add as a moment if appropriate". The moment cards are the library
+// of everyday flashpoints (the morning TV battle, the switch off fight). When
+// a parent tells DiGi one actually happened, filing it against its card ticks
+// today's Moment step exactly as opening the card would, and the family's own
+// record of which moments come up grows from what they said, not only from
+// what they tapped.
+export const LOG_MOMENT_TOOL: Anthropic.Tool = {
+  name: 'log_moment',
+  description:
+    'File something that actually happened today with this child against the moment card it matches in the Guided Childhood library, which ticks today\'s Moment step. Use it when the parent tells you a real everyday flashpoint happened or that they tried something in it (the morning TV standoff, a fight about coming off a game, a phone in bed), not for a hypothetical or something from weeks ago. Give the card title as you would guess it; if it is not an exact title you will be shown the real ones for this child\'s age, and you pick one or log nothing. Never force a match. Mention it in one short line, for example that you have added it to today\'s moments.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      moment: {
+        type: 'string',
+        description: 'The moment card title. Copy it exactly when you have been shown the list.',
+      },
+      note: {
+        type: 'string',
+        description: 'One line on what happened and how it went, in plain words. No names.',
+      },
+    },
+    required: ['moment'],
+  },
+}
+
 // A server side tool: Anthropic runs the search and hands the model the results
 // inside the same turn, so unlike the four above there is nothing for us to
 // execute. max_uses is low on purpose. This exists to answer "is this new app
@@ -190,12 +254,15 @@ export const DIGI_TOOLS = [
   GET_CHILD_HISTORY_TOOL,
   SAVE_MEMORY_TOOL,
   SCHEDULE_FOLLOWUP_TOOL,
+  SET_REMINDER_TOOL,
+  LOG_MOMENT_TOOL,
   WEB_SEARCH_TOOL,
 ] as Anthropic.ToolUnion[]
 
 /** The names we execute ourselves. web_search runs at Anthropic's end. */
 export const CLIENT_TOOL_NAMES = new Set([
   'search_knowledge', 'get_child_history', 'save_memory', 'schedule_followup',
+  'set_reminder', 'log_moment',
 ])
 
 // Told to the model in the dynamic context, so the cached static prompt is
@@ -207,6 +274,9 @@ WHAT YOU CAN DO, NOT JUST SAY:
 - get_child_history: you have a summary of this family. Pull the detail when the specifics would make the answer better, especially to place something in time.
 - save_memory: when something is said that will still matter in a month, keep it. One sentence, and only if you would want it read back in six weeks.
 - schedule_followup: when your answer gives the family something concrete to try, book the check in as part of the advice. Suggesting without following up leaves the parent carrying the job of reporting back, and asking how it went is the half they cannot do for themselves. Tell them you are doing it.
+- set_reminder: only when the parent asks to be reminded. Ask for a time if they gave none. Say back exactly when it will arrive, and that they can cancel it from the reminders list in this chat.
+- log_moment: when the parent tells you an everyday flashpoint really happened today, or how a try went in one, file it against its moment card. Never force a match.
+- A WORRY TOLD TO YOU GOES ON THE TRACKER. When a parent tells you what is hard right now, each ongoing worry is saved with save_memory, kind concern, with concern_slug and concern_label. That puts it on their daily check in, where they score it each day until they mark it sorted. Tell them once, in plain words, that it is on their check in now. Then give one method to try for it, and book the follow up with worry set to that same label, so what they try is recorded against it. One method at a time, never a list of five. A passing grumble is not a worry; a pattern they want to change is.
 - web_search: two uses and no others.
   (1) THE LIVE WORLD. A named app, game, platform, device, or a change in UK law or guidance, where being out of date would make you wrong.
   (2) A NAMED RESEARCHER'S PUBLISHED WORK, when you want a specific figure, a paper title or a year that you are not certain of. Looking up what Orben actually found is a factual question about a real person's real papers, and the answer is on a university or journal page. Prefer this to stating a number from memory, always.
@@ -229,6 +299,8 @@ export async function runDigiTool(ctx: ToolContext, name: string, input: unknown
       case 'get_child_history': return await doChildHistory(ctx, arg)
       case 'save_memory': return await doSaveMemory(ctx, arg)
       case 'schedule_followup': return await doScheduleFollowup(ctx, arg)
+      case 'set_reminder': return await doSetReminder(ctx, arg)
+      case 'log_moment': return await doLogMoment(ctx, arg)
       default: return 'That tool does not exist.'
     }
   } catch {
@@ -328,6 +400,37 @@ async function doChildHistory(ctx: ToolContext, arg: Record<string, unknown>): P
     parts.push('\nScreen minutes recorded, by week:')
     for (const [week, mins] of weekly) {
       parts.push(`- week of ${week}: ${mins} minutes, about ${Math.round(mins / 7)} a day`)
+    }
+  }
+
+  // What the platform holds beyond the scores (2 October 2026). Justin asked
+  // for DiGi to answer questions about what we have on the family, and "what
+  // moments have we done" and "what reminders have I got" had no source.
+  const [moments, reminders] = await Promise.all([
+    (() => { const q = ctx.supabase
+      .from('moment_completions')
+      .select('completed_on, notes, daily_moments(title)')
+      .gte('completed_on', since).order('completed_on', { ascending: false }).limit(20)
+      return ctx.childId ? q.or(`child_id.eq.${ctx.childId},child_id.is.null`) : q })(),
+    ctx.supabase
+      .from('digi_reminders')
+      .select('body, remind_at, repeat_days')
+      .eq('user_id', ctx.userId).eq('status', 'pending').order('remind_at', { ascending: true }).limit(5),
+  ])
+  const done = (moments.data ?? []) as { completed_on: string; notes: string | null; daily_moments: { title: string } | { title: string }[] | null }[]
+  if (done.length > 0) {
+    parts.push('\nMoment cards done or logged:')
+    for (const m of done) {
+      const card = Array.isArray(m.daily_moments) ? m.daily_moments[0] : m.daily_moments
+      parts.push(`- ${m.completed_on}: ${card?.title ?? 'a moment'}${m.notes ? `. "${String(m.notes).slice(0, 120)}"` : ''}`)
+    }
+  }
+  const waiting = reminders.data ?? []
+  if (waiting.length > 0) {
+    const { describeWhen } = await import('@/lib/digi/reminders')
+    parts.push('\nReminders waiting:')
+    for (const r of waiting) {
+      parts.push(`- ${describeWhen(new Date(String(r.remind_at)))}: ${r.body}${Number(r.repeat_days) > 0 ? `, repeating ${r.repeat_days} more day(s)` : ''}`)
     }
   }
 
@@ -433,9 +536,25 @@ async function doScheduleFollowup(ctx: ToolContext, arg: Record<string, unknown>
   // from the model, so the key on the row is the key the bank was ordered by
   // and the band is the one the check in recorded, not the one DiGi inferred.
   const worryName = typeof arg.worry === 'string' ? arg.worry.trim().toLowerCase().replace(/\s+/g, ' ') : ''
-  const worry = worryName
+  let worry = worryName
     ? (ctx.worries ?? []).find(w => w.label.trim().toLowerCase().replace(/\s+/g, ' ') === worryName) ?? null
     : null
+
+  // A WORRY RAISED IN THIS SAME CONVERSATION (2 October 2026). The list above
+  // is what DiGi was shown when the message arrived, so a worry the parent
+  // has only just told it about is not on it, and the method DiGi gives for
+  // that worry used to land unattached. save_memory now runs before the other
+  // tools (app/api/digi/route.ts), so the new row is there to be found. Still
+  // an exact label match, for the reason above.
+  if (worryName && !worry) {
+    let q = ctx.supabase.from('concerns').select('id, label')
+      .eq('user_id', ctx.userId).neq('status', 'resolved')
+      .order('last_flagged_at', { ascending: false }).limit(20)
+    q = ctx.childId ? q.or(`child_id.eq.${ctx.childId},child_id.is.null`) : q
+    const { data: rows } = await q
+    const hit = (rows ?? []).find(r => String(r.label).trim().toLowerCase().replace(/\s+/g, ' ') === worryName)
+    if (hit) worry = { id: hit.id as string, label: hit.label as string, approach: null, band: null }
+  }
 
   const { error } = await ctx.supabase.from('digi_followups').insert({
     user_id: ctx.userId,
@@ -451,4 +570,88 @@ async function doScheduleFollowup(ctx: ToolContext, arg: Record<string, unknown>
   })
   if (error) return 'That did not schedule. Do not promise the parent a follow up.'
   return `Scheduled for ${dueOn}, ${days} day(s) away. Tell the parent you will check back in, warmly and in your own words.`
+}
+
+async function doSetReminder(ctx: ToolContext, arg: Record<string, unknown>): Promise<string> {
+  const { parseClock, resolveReminderTime, describeWhen, MAX_PENDING_REMINDERS } = await import('@/lib/digi/reminders')
+  const clock = parseClock(arg.time)
+  if (!clock) return 'No clear time was given, so nothing was set. Ask the parent what time they want it.'
+  const body = typeof arg.text === 'string' ? arg.text.trim().replace(/\s+/g, ' ').slice(0, 200) : ''
+  if (!body) return 'Nothing to remind them of, so nothing was set.'
+  const repeat = Math.min(14, Math.max(0, Math.round(Number(arg.repeat_days) || 0)))
+
+  const { count } = await ctx.supabase
+    .from('digi_reminders')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', ctx.userId)
+    .eq('status', 'pending')
+  if ((count ?? 0) >= MAX_PENDING_REMINDERS) {
+    return `This family already has ${count} reminders waiting, which is the limit. Nothing was set. Tell the parent, and that they can cancel one from the reminders list in this chat to make room.`
+  }
+
+  const when = resolveReminderTime(clock, Number(arg.days_ahead) || 0)
+  const { error } = await ctx.supabase.from('digi_reminders').insert({
+    user_id: ctx.userId,
+    child_id: ctx.childId,
+    body,
+    remind_at: when.at.toISOString(),
+    repeat_days: repeat,
+  })
+  if (error) return 'That did not set. Do not promise the parent a reminder.'
+
+  const said = describeWhen(when.at)
+  const repeats = repeat > 0 ? `, then at the same time for ${repeat} more day(s)` : ''
+  const rolled = when.rolled ? ' That time had already gone today, so it is tomorrow: say so.' : ''
+  return `Reminder set for ${said}${repeats}.${rolled} Tell the parent when it will arrive, and that it comes as a notification if they have them on, or on Home if not.`
+}
+
+/** The library's age bands a child's band reads from. The two scales were drawn up separately. */
+const MOMENT_BANDS: Record<string, string[]> = {
+  '4-7': ['4-7'],
+  '8-10': ['8-11'],
+  '11-13': ['8-11', '12-15'],
+  '13-15': ['12-15'],
+  '16+': ['16-18'],
+}
+
+const normTitle = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+
+async function doLogMoment(ctx: ToolContext, arg: Record<string, unknown>): Promise<string> {
+  const asked = typeof arg.moment === 'string' ? normTitle(arg.moment) : ''
+  const note = typeof arg.note === 'string' ? arg.note.trim().slice(0, 300) : null
+
+  const { data: rows } = await ctx.supabase
+    .from('daily_moments')
+    .select('id, title, age_bands')
+    .eq('active', true)
+    .order('sort_order', { ascending: true })
+  const bands = ctx.ageBand ? MOMENT_BANDS[ctx.ageBand] : undefined
+  const shelf = (rows ?? []).filter(m => !bands || ((m.age_bands as string[] | null) ?? []).some(b => bands.includes(b)))
+  if (shelf.length === 0) return 'There are no moment cards for this age, so nothing was logged. Do not mention it.'
+
+  // Exact title only. A near miss gets the real list back rather than a guess,
+  // because a moment filed against the wrong card teaches the family's record
+  // something that did not happen.
+  const hit = asked ? shelf.find(m => normTitle(String(m.title)) === asked) : undefined
+  if (!hit) {
+    return [
+      'No card has that exact title. These are the moment cards for this child\'s age. Call log_moment again with one title copied exactly, or log nothing if none of them is genuinely what happened. Do not mention this list to the parent.',
+      ...shelf.map(m => `- ${m.title}`),
+    ].join('\n')
+  }
+
+  const { error } = await ctx.supabase.from('moment_completions').insert({
+    user_id: ctx.userId,
+    child_id: ctx.childId,
+    moment_id: hit.id,
+    notes: note,
+  })
+  if (error && !/duplicate|unique/i.test(error.message)) return 'That did not log. Carry on without mentioning it.'
+
+  const { recordSurfaceEvents } = await import('@/lib/events/record')
+  await recordSurfaceEvents(ctx.supabase, ctx.userId, [{ surface: 'moment', item: hit.id as string, event: 'completed', childId: ctx.childId }])
+
+  return error
+    ? `"${hit.title}" was already logged today, so nothing changed. No need to mention it.`
+    : `Logged against the moment card "${hit.title}", and today's Moment step is ticked. Say so in one short line, no more.`
 }

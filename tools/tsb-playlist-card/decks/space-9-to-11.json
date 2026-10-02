@@ -1,0 +1,47 @@
+{
+  "name": "space-9-to-11",
+  "cards": [
+    {
+      "name": "space-landscape-1200x630",
+      "size": "landscape",
+      "background": "backgrounds/night-sky-landscape.png",
+      "accent": "yellow",
+      "eyebrow": "This week's free playlist",
+      "headline": "Space",
+      "age": "for ages 9 to 11",
+      "meta": ["5 videos", "approx. 40 mins"],
+      "ctaText": "Get the playlist free",
+      "siteNote": "No card needed. Nothing autoplays after it.",
+      "site": "thesocialbillboard.com",
+      "alt": "A dark night sky with stars, a meteor streak and a crescent moon. Text reads: This week's free playlist. Space, for ages 9 to 11. 5 videos, approximately 40 minutes. Get the playlist free at thesocialbillboard.com. No card needed, nothing autoplays after it."
+    },
+    {
+      "name": "space-square-1080x1080",
+      "size": "square",
+      "background": "backgrounds/night-sky-square.png",
+      "accent": "yellow",
+      "eyebrow": "This week's free playlist",
+      "headline": "Space",
+      "age": "for ages 9 to 11",
+      "meta": ["5 videos", "approx. 40 mins"],
+      "ctaText": "Get the playlist free",
+      "siteNote": "No card needed. Nothing autoplays after it.",
+      "site": "thesocialbillboard.com",
+      "alt": "A dark night sky with stars, a meteor streak and a crescent moon. Text reads: This week's free playlist. Space, for ages 9 to 11. 5 videos, approximately 40 minutes. Get the playlist free at thesocialbillboard.com. No card needed, nothing autoplays after it."
+    },
+    {
+      "name": "space-landscape-pink-variant",
+      "size": "landscape",
+      "background": "backgrounds/night-sky-landscape.png",
+      "accent": "pink",
+      "eyebrow": "This week's free playlist",
+      "headline": "Space",
+      "age": "for ages 9 to 11",
+      "meta": ["5 videos", "approx. 40 mins"],
+      "ctaText": "Get the playlist free",
+      "siteNote": "No card needed. Nothing autoplays after it.",
+      "site": "thesocialbillboard.com",
+      "alt": "A dark night sky with stars, a meteor streak and a crescent moon. Text reads: This week's free playlist. Space, for ages 9 to 11. 5 videos, approximately 40 minutes. Get the playlist free at thesocialbillboard.com. No card needed, nothing autoplays after it."
+    }
+  ]
+}
