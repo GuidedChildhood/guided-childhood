@@ -281,3 +281,4 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin said yes; 359 applied and recorded. Through the Supabase MCP any statement containing "drop" waits on a confirmation and times out, so the table went in by execute_sql without a drop and the constraint swap alone through apply_migration.
 - PRs 1187 and 1188 were conflicted against main; main merged into each, no conflicts left by hand, pushed.
 - LinkedIn pack `content/packs/2026-10-02-digi-talks-back/`: three posts (15 of 40 vs 0 of 6, why no "Hey DiGi", tell it what went wrong). The family posts for the worry tracker are now postable after one real use.
+- DiGi's voice: Justin picked Imogen (Higgsfield preset 3811e986-0891-47cf-a1f5-78a1d62a547a, middle aged female) from four samples on 2 October. Used for social videos now; the app needs its own speech service key (ElevenLabs proposed) and a closely matched voice before it replaces the phone's built in voice.
