@@ -186,3 +186,33 @@ Titles only. Open the archive at the line number in its own index for the full e
 ## 2 October 2026: parents can talk to DiGi, and DiGi can read aloud, both optional
 
 - Justin asked for both, "so not annoying". A microphone in DiGi's chat puts the spoken words in the box to check before sending; read aloud is off until turned on, speaks only the one line worth hearing, follows a spoken question, and stops on any tap. Parents only, words never audio (the browser does the listening). check-digi-voice holds it. Plan: plans/2026-10-02-digi-voice-plan.md.
+- Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
+- Still to come, when credits allow: a Pebble clip per lesson on the blank board rule.
+
+## 1 October 2026: The Social Billboard playlist card and Instagram carousels (PR 1184)
+
+- The weekly free playlist image is a template, not a one off:
+  `tools/tsb-playlist-card/`. Higgsfield makes the sky with no text; the words
+  are HTML in Montserrat, the live site font, rendered at 1200 x 630 and
+  1080 x 1080. The accent is the site's own yellow so the post matches the
+  page it lands on; the pink from the brief is kept as a variant.
+- Ages are written "9 to 11", never with a dash, on The Social Billboard too.
+- Six Instagram carousels for the TSB account, researched live against
+  Duolingo, Good Inside, Headspace, Finch and Yoto and weighed through the
+  feedback filter: `plans/2026-10-01-tsb-instagram-carousels.md`, mirrored
+  in Drive, 02 The Social Billboard, Content Engine. Scene first, send to one
+  parent, free offer on slide ten, eight to ten slides. Carousel one is
+  rendered and ready.
+- Declined: a mascot for TSB. DiGi belongs to Guided Childhood, a separate
+  company; Justin's face does that job at launch. Declined: quote cards and
+  a frightening statistic as a hook.
+- Later the same day: competitor creative audit (Qustodio, Bark, Kidslox,
+  Yoto, tonies, Moshi, YouTube Kids, the free video apps, the UK whitelist
+  tools) plus the 2026 format evidence, in
+  `plans/2026-10-01-tsb-creative-research-and-set.md`. Finding: the category
+  sells fear or relief, nobody sells the session that ends by itself, and
+  nobody offers a free playlist with no card. Plain text and the founder
+  letter beat UGC, polish and animation (Motion, 578,750 ads). Seven statics
+  built in `decks/statics-01-launch-set.json`. Parked: the Ofcom stat card
+  (LinkedIn lane only) and the comparison table (landing page, not feed).
+  Declined: fear hooks and five star review stacks.
