@@ -176,6 +176,30 @@ export function stopReading(): void {
   try { window.speechSynthesis.cancel() } catch { /* speech optional */ }
 }
 
+// ── 4. Hands free (2 October 2026) ───────────────────────────────────────────
+//
+// Justin asked whether DiGi could be triggered by voice, "like saying hey
+// DiGi". A wake word means a microphone open all day, which a web page cannot
+// do and which a parenting product should not want. Hands free is the honest
+// version: a switch in the chat that holds a spoken conversation while the
+// page is open. The parent talks, a pause sends it, DiGi answers aloud, and
+// the microphone opens again when DiGi stops.
+//
+// The rules, held in DigiChat and checked by scripts/check-digi-voice.mjs:
+//   off every time the page opens, never remembered, because a microphone
+//   that opens by itself is the one thing this must never do;
+//   a visible listening sign the whole time it is on;
+//   off by itself after HANDS_FREE_QUIET_MS with nothing said, when the page
+//   is hidden, or when the microphone is blocked;
+//   the microphone is never open while DiGi is speaking, so it cannot hear
+//   itself.
+
+/** A pause this long after the last word sends what was said. */
+export const HANDS_FREE_PAUSE_MS = 1800
+
+/** Two quiet minutes and hands free turns itself off. */
+export const HANDS_FREE_QUIET_MS = 2 * 60 * 1000
+
 // ── The remembered setting ───────────────────────────────────────────────────
 
 const KEY = 'gc-digi-read-aloud'

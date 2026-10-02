@@ -216,3 +216,10 @@ Titles only. Open the archive at the line number in its own index for the full e
   built in `decks/statics-01-launch-set.json`. Parked: the Ofcom stat card
   (LinkedIn lane only) and the comparison table (landing page, not feed).
   Declined: fear hooks and five star review stacks.
+
+## 2 October 2026: DiGi reminders, log a moment, worries tracked, hands free (PR 1186)
+
+- Justin chose reminders at a set time, log it as a moment, a hands free switch, and worries told to DiGi tracked each day until sorted.
+- New tools: `set_reminder` (UK clock time, cap five, migration 359 `digi_reminders`, sent by `/api/cron/digi-reminders` every five minutes, Home card when no push device, an hour late is missed not sent) and `log_moment` (exact moment card title or nothing, ticks today's Moment step).
+- Worries: save_memory now runs before other tools, so a follow up booked in the same turn attaches to the worry just raised. "Tell DiGi what is hard right now" opens the chat.
+- Hands free, not a wake word: a page cannot keep a microphone open all day and should not. Off on every page open, never stored, off after two quiet minutes or a hidden page. Guarded in check-digi-voice.
