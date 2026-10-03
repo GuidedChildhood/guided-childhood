@@ -10,9 +10,9 @@ takes a row the day a post goes out).
 | Piece | Status | Waiting on |
 |---|---|---|
 | Friday · Talk to DiGi | Postable | Justin trying the microphone on his iPhone |
-| Friday · Tell DiGi what is hard | **Hold** | PR 1186 merged, migration 359 applied, one real use on his account |
+| Friday · Tell DiGi what is hard | Postable soon | One real use on his account (PR 1186 merged, 359 applied 2 October) |
 | Stories 1, 2, 4 | Postable | Same as the first Friday |
-| Story 3 · Hands free | **Hold** | PR 1186 |
+| Story 3 · Hands free | Postable | Live since PR 1186 merged |
 
 Run them a week apart: voice first, the worry tracker the Friday after, so the
 second can say "typed or out loud" and the first is already seen.

@@ -1,7 +1,7 @@
 # Stories · DiGi you can talk to
 
 Four frames. Stories are where the link sticker lives and where replies come
-from. Frames 1, 2 and 4 are postable now; frame 3 waits for PR 1186.
+from. All four are postable now.
 
 **1 · Hands full** (postable now)
 Screen recording, the microphone tap and the words arriving.
@@ -12,7 +12,7 @@ DiGi's star in its speaking pose, sound on.
 Text: "Ask out loud and it says the one line to say. One tap stops it."
 Link sticker: guidedchildhood.com/starter-pack, label "What stage is your child?"
 
-**3 · Hands free** (HOLD for PR 1186)
+**3 · Hands free** (postable, live since PR 1186)
 The switch above the box turning on, "Listening, just talk" showing.
 Text: "Hands free while the page is open. Talk, pause, DiGi answers out loud.
 It switches itself off when you leave."
