@@ -102,7 +102,7 @@ to build.
 - No self-referral: the same email, the same card or the same household is
   blocked.
 - Each new customer can earn a reward once.
-- A cap of £50 a year per referrer.
+- No yearly cap (Justin, 3 October). Every £5 is only paid after the friend has paid us twice, so each payout already earns more than it costs. A big referrer is a good thing. Instead of a cap, anyone earning more than ten rewards in a month is looked at by hand before that month's PayPal run.
 
 **7. The advertising rule.** UK rules (CAP Code rule 2.1, ASA and CMA
 guidance) say a post sharing a referral link is advertising and must say so.
@@ -135,14 +135,31 @@ Worth revisiting past a few hundred referrals a month.
 - **Social Billboard side:** the same pattern in its own codebase, which needs
   its repo added to a session.
 
-## Decisions needed from Justin
+## The Social Billboard side, with little or no code
 
-1. Cash by PayPal (now recommended, Justin's call 3 October): agreed?
-2. Is "Give £5, get £5" right? The friend gets £5 off their first month, you get £5 once they have stayed two months.
-3. Is a cap of £50 a year per referrer right?
-4. Access to the Social Billboard repo, to build its half.
-5. Ask the accountant once how to log the payouts. They are a marketing
-   cost, but they should confirm.
+The Social Billboard is hosted on Hostinger and its code is not in this repo.
+It can still join in.
+
+- **No code: Stripe promotion codes.** If it takes payment through Stripe,
+  each referrer gets a promotion code in the Stripe dashboard, for example
+  `JUSTIN5`, worth £5 off the first month. Stripe shows which customers used
+  each code. Once a month, someone checks which of those have paid twice and
+  pays the referrer by PayPal. That is about ten minutes a month at our size.
+- **Claude making the changes.** This needs one of two things:
+  - the site's code in a GitHub repo this session can reach, which is the
+    cleanest route, and Hostinger can deploy straight from Git;
+  - or, if it is a Hostinger Website Builder or WordPress site, the no code
+    route above, or a referral plugin.
+
+## Decisions (3 October)
+
+1. Give £5, get £5, cash by PayPal: **agreed**.
+2. Cap: **none**, with a hand check on anyone earning more than ten rewards in
+   a month.
+3. The Social Billboard: depends on what it is built with and how it takes
+   payment (see above).
+4. Tell the accountant the business will pay small referral rewards by
+   PayPal, so they record them as a marketing cost. One email.
 
 Sources: Schmitt, Skiera and Van den Bulte 2011 (Wharton faculty PDF);
 Ryu and Feick 2007 (Baylor summary); Dropbox case studies (saasquatch.com,
