@@ -631,6 +631,11 @@ jobs:
       # thinking model rejects a turn with its reasoning removed. Runs the real
       # stream reader over a synthetic thinking turn.
       - run: node --experimental-strip-types scripts/check-digi-turn.mjs
+      # Give £5, get £5 owes only for friends who paid twice (or 60 days into a
+      # year), a refund voids it, the shared message keeps the CAP Code 2.1
+      # disclosure, and the refer page stays outside the paywall. See the header
+      # of check-referrals.mjs.
+      - run: node --experimental-strip-types scripts/check-referrals.mjs
 
       # What reaches a child's phone is decided in ONE place. kit, events and
       # homework are the child's own business; payments, deadlines and notices
