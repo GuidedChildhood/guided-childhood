@@ -278,3 +278,7 @@ Titles only. Open the archive at the line number in its own index for the full e
   twice; the playlist session's claim that it does is UNVERIFIED). Both go to
   the sign up component as one change. Replace target stays
   /auth/sign-up?role=parent, harmless now, right later.
+- Closed the same evening: the role parameter is disproved by both sessions
+  on a cold load, and the Sign Up button submits with no role chosen. The sign
+  up component change is three things read from the query string: default
+  the role, the parent heading, and what a roleless submit does.
