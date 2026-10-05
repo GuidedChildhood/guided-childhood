@@ -115,6 +115,8 @@ the craft strand.
   image plus the full argument in the post text**, either card one on its own or
   a single card that carries the whole idea, like the three age band card.
 
+The look of every card (formats, real assets, colours, the gold pathway) is
+`brand/GDC_SOCIAL_VISUAL_SYSTEM.md`; read it before briefing any image.
 See `content/brand-story/visual-system.md` for the sizes, the 3:4 safe zone and
 the card types.
 
