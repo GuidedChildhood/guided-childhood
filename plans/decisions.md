@@ -301,3 +301,28 @@ Titles only. Open the archive at the line number in its own index for the full e
 ## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
 
 Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a ten slide carousel (redone the same day with the video method and Instagram and Facebook practice, now in the sb-carousel skill) built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
+## 5 October 2026: one social visual system, the real assets win
+
+- Justin asked for one brand default across Instagram, Facebook, LinkedIn and
+  YouTube from an approved reference board. Installed as
+  `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`, routed from CLAUDE.md, linked from the
+  social skills and `content/brand-story/visual-system.md` rather than copied.
+- The real product assets are the source of truth; the board is composition
+  only. 80 percent editorial, one friend per card, the gold road from
+  `StageRoad.tsx`, friend colour triplets from `shared/schools-curriculum.ts`.
+- Audit of every existing template (keep, update, retire, uncertain) and four
+  open questions in `plans/2026-10-05-social-visual-system.md`. Nothing
+  redesigned until Justin approves. No autoposting until he says a routine may
+  publish.
+
+## 5 October 2026: the six formats built, and the Sunday batch
+
+- Justin approved the six format proposal, the audit, the friend colours,
+  keeping his serif LinkedIn card, and the same look on Saturdays.
+- `tools/social-cards` rebuilt into the six formats; the old decks re-rendered
+  as proof. Audit updates and retirements applied, nothing deleted.
+- The routine is a Sunday batch and Justin posts: the `social-week` skill,
+  `npm run social-week`, the pinned GDC posts page, and the "Sunday social
+  batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
+  today's post first, nothing posts itself. Detail in
+  `plans/2026-10-05-social-visual-system.md`.

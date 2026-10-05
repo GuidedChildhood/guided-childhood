@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Six formats proposal</title>
+<!--
+  A PROPOSAL, not a template. Six cards, one per permanent format in
+  brand/GDC_SOCIAL_VISUAL_SYSTEM.md, built only from approved assets so Justin
+  can agree the look before tools/social-cards is touched.
+
+  The signature is the road. It is the product's own stage road (StageRoad.tsx,
+  butter with a dotted trail) given the product's own chunky button shadow
+  (0 5px 0 the darker gold), so it reads as Guided Childhood and not as a
+  generic swoosh. The characters stand on it. In a carousel it leaves the
+  right edge at the height the next slide picks it up.
+
+  Every colour is a token from shared/tokens.css or a friend triplet from
+  shared/schools-curriculum.ts. The passport cover is rebuilt from the cover
+  styles in components/pathway/PassportBook.tsx, with no child's name.
+-->
+<style>
+@font-face{font-family:'Nunito';font-weight:200 1000;src:url('../../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;src:url('../../../app/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:600;src:url('../../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:700;src:url('../../../app/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');}
+
+:root{
+  --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+  --gold:#EDC35F; --gold-dark:#C99A28; --gold-lt:#FEF7E0;
+  --burgundy:#6B2333;
+  /* friend triplets, shared/schools-curriculum.ts */
+  --orbit-soft:#DCEBF7; --orbit:#3E86BC; --orbit-ink:#1F4E6E;
+  --nova-soft:#ECE3F7;  --nova:#7E5AB0;  --nova-ink:#4A2F73;
+  --bloop:#6C9E38; --pebble:#C99A28; --cosmo:#CE7328;
+  /* stage 3 pastel, shared/tokens.css, for the colour question only */
+  --stage3:#FFF4F2; --stage3-text:#881337;
+  --m:88px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#8a8a8a;font-family:'Nunito',sans-serif;color:var(--ink);display:flex;flex-wrap:wrap;gap:40px;padding:40px}
+
+.card{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--cream)}
+.card.orbit{background:var(--orbit-soft)}
+.card.nova{background:var(--nova-soft)}
+.card.stage3{background:var(--stage3)}
+
+/* The frame: identical on every card, so the feed is recognisable before
+   anyone reads a word. */
+.top{position:absolute;left:var(--m);right:var(--m);top:var(--m);display:flex;justify-content:space-between;align-items:center;
+  font-family:'IBM Plex Mono';font-weight:600;font-size:22px;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow{display:flex;align-items:center;gap:14px}
+.eyebrow i{width:14px;height:14px;border-radius:50%;background:var(--gold-dark);display:block}
+.count{color:var(--ink-soft);font-weight:500}
+.foot{position:absolute;left:var(--m);bottom:72px;display:flex;align-items:center;gap:16px;z-index:5}
+.mark{width:46px;height:46px;border-radius:13px;background:var(--gold);box-shadow:0 4px 0 var(--gold-dark);display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:10px}
+.mark b{display:block;width:5px;border-radius:3px;background:#fff}
+.word{font-weight:800;font-size:28px;letter-spacing:-.01em}
+
+/* Type scale at 1080 wide */
+.h-xl{font-weight:900;font-size:128px;line-height:.93;letter-spacing:-.035em}
+.h-l{font-weight:900;font-size:96px;line-height:.97;letter-spacing:-.03em}
+.h-m{font-weight:900;font-size:76px;line-height:1.02;letter-spacing:-.025em}
+.body{font-weight:650;font-size:36px;line-height:1.32;color:var(--ink-soft)}
+.soft{color:var(--ink-soft)}
+.label{font-family:'IBM Plex Mono';font-weight:600;font-size:20px;letter-spacing:.14em;text-transform:uppercase}
+
+.copy{position:absolute;left:var(--m);right:var(--m);top:200px;isolation:isolate;z-index:2}
+
+/* the gold underline is a stretch of the road, not a highlighter */
+.on-road{position:relative;white-space:nowrap}
+.on-road::after{content:'';position:absolute;left:-4px;right:-8px;bottom:-6px;height:16px;border-radius:8px;background:var(--gold);box-shadow:0 5px 0 var(--gold-dark);z-index:-1}
+
+svg.road{position:absolute;left:0;top:0;width:1080px;height:1350px;pointer-events:none}
+.friend{position:absolute;z-index:3}
+.pill{display:inline-flex;align-items:center;gap:12px;background:var(--gold);box-shadow:0 5px 0 var(--gold-dark);border-radius:18px;padding:20px 30px;font-weight:800;font-size:30px}
+
+/* passport cover, from PassportBook.tsx */
+.passport{width:300px;height:420px;border-radius:14px 18px 18px 14px;background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);
+  box-shadow:inset 0 0 0 2px rgba(237,195,95,.55),inset 0 0 0 5px rgba(237,195,95,.14),inset 12px 0 24px rgba(0,0,0,.25),0 18px 40px rgba(26,26,46,.18);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:34px 22px 26px;text-align:center}
+.passport .t{font-family:'IBM Plex Mono';font-weight:700;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.passport .rule{width:46px;height:1.5px;background:rgba(237,195,95,.55);margin:9px auto 0}
+.crest{width:84px;height:84px;border-radius:50%;margin:0 auto 14px;border:2.5px solid rgba(237,195,95,.85);box-shadow:inset 0 0 0 4px rgba(237,195,95,.18);display:flex;align-items:center;justify-content:center}
+.crest div{display:flex;align-items:flex-end;gap:4.5px;height:34px}
+.crest b{display:block;width:6px;border-radius:3px;background:var(--gold)}
+.passport .n{font-weight:900;font-size:30px;color:var(--gold)}
+.passport .s{font-family:'IBM Plex Mono';font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,195,95,.65);margin-top:6px}
+.chips{display:flex;gap:7px}
+.chips span{width:34px;height:34px;border-radius:50%;background:#FFF7E8;border:1.5px solid var(--gold);overflow:hidden;display:flex}
+.chips img{width:100%;height:100%;object-fit:contain}
+
+.phone{position:absolute;width:420px;border-radius:52px;background:var(--ink);padding:16px;box-shadow:0 30px 60px rgba(26,26,46,.22)}
+.phone img{display:block;width:100%;border-radius:38px}
+.sheet{position:absolute;box-shadow:0 24px 50px rgba(26,26,46,.16);background:#fff}
+</style>
+</head>
+<body>
+
+<!-- ============ 1 · BIG STAT OR HOOK ============ -->
+<section class="card" id="f1-hook">
+  <div class="top"><div class="eyebrow"><i style="background:var(--nova)"></i>The ban, honestly</div><div class="count">1 / 7</div></div>
+  <div class="copy">
+    <div class="h-xl">A ban can<br><span class="on-road">delay access.</span></div>
+    <div class="h-xl soft" style="margin-top:58px">It can't build<br>judgement.</div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1188 C 260 1150, 520 1215, 760 1150 S 1060 1080, 1140 1075" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 1188 C 260 1150, 520 1215, 760 1150 S 1060 1080, 1140 1075" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1188 C 260 1150, 520 1215, 760 1150 S 1060 1080, 1140 1075" stroke="#F9F8F6" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <img class="friend" src="../../../public/digi-squad/friends/nova.png" style="width:400px;right:70px;bottom:205px">
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+<!-- ============ 2 · CHARACTER AND QUESTION (friend colour) ============ -->
+<section class="card orbit" id="f2-orbit-asks">
+  <div class="top" style="color:var(--orbit-ink)"><div class="eyebrow"><i style="background:var(--orbit)"></i>Orbit asks</div><div class="count" style="color:var(--orbit-ink)">1 / 6</div></div>
+  <div class="copy">
+    <div class="h-l">If an AI answer sounds sure of itself, how would you know it's wrong?</div>
+    <div class="body" style="margin-top:40px;max-width:560px;color:var(--orbit-ink)">Ask it at tea tonight. Swipe for three ways to check.</div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#DCEBF7" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <img class="friend" src="../../../public/digi-squad/friends/orbit.png" style="width:470px;right:40px;bottom:180px">
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+<!-- ============ 2b · the same card on the stage 3 pastel, for question 2 ============ -->
+<section class="card stage3" id="f2b-orbit-asks-stage-pastel">
+  <div class="top" style="color:var(--stage3-text)"><div class="eyebrow"><i style="background:var(--stage3-text)"></i>Orbit asks</div><div class="count" style="color:var(--stage3-text)">1 / 6</div></div>
+  <div class="copy">
+    <div class="h-l">If an AI answer sounds sure of itself, how would you know it's wrong?</div>
+    <div class="body" style="margin-top:40px;max-width:560px;color:var(--stage3-text)">Ask it at tea tonight. Swipe for three ways to check.</div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1150 C 300 1190, 600 1120, 1140 1140" stroke="#FFF4F2" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <img class="friend" src="../../../public/digi-squad/friends/orbit.png" style="width:470px;right:40px;bottom:180px">
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+<!-- ============ 3 · PRINTABLE OR OFFLINE ============ -->
+<section class="card" id="f3-printable">
+  <div class="top"><div class="eyebrow"><i></i>Print at home</div><div class="count">Free</div></div>
+  <div class="copy">
+    <div class="h-m">Screen time,<br><span class="on-road">earned</span> on paper.</div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 980 C 240 900, 520 1060, 1140 900" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 980 C 240 900, 520 1060, 1140 900" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 980 C 240 900, 520 1060, 1140 900" stroke="#F9F8F6" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <img class="sheet" src="../../../public/printables/earn-your-screen-time.png" style="width:500px;left:290px;top:430px;transform:rotate(-2.5deg);outline:1px solid rgba(26,26,46,.06)">
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+<!-- ============ 4 · PRODUCT SCREEN ============ -->
+<section class="card" id="f4-product-screen">
+  <div class="top"><div class="eyebrow"><i></i>Inside Guided Childhood</div><div class="count">3 / 7</div></div>
+  <div class="copy" style="right:520px">
+    <div class="label soft">The problem</div>
+    <div class="h-m" style="font-size:58px;margin:14px 0 46px">The fight is about the clock.</div>
+    <div class="label soft">The move</div>
+    <div class="h-m" style="font-size:58px;margin:14px 0 46px">Jobs first, minutes after.</div>
+    <div class="label" style="color:var(--gold-dark)">How we help</div>
+    <div class="h-m" style="font-size:58px;margin-top:14px">Stars become minutes, at <span class="on-road">a rate you set.</span></div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1200 C 300 1230, 560 1120, 760 900 S 1000 520, 1140 470" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 1200 C 300 1230, 560 1120, 760 900 S 1000 520, 1140 470" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1200 C 300 1230, 560 1120, 760 900 S 1000 520, 1140 470" stroke="#F9F8F6" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <div class="phone" style="right:80px;top:190px"><img src="../../../public/marketing/kid-page.png"></div>
+  <div class="label soft" style="position:absolute;right:88px;top:1100px;text-align:right;font-size:17px">A real screen, the child's page</div>
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+<!-- ============ 5 · AGE STAGE AND JOURNEY ============ -->
+<section class="card" id="f5-road-to-16">
+  <div class="top"><div class="eyebrow"><i></i>The road to 16</div><div class="count">1 / 8</div></div>
+  <div class="copy">
+    <div class="h-l">Every age has a job.<br><span class="soft">Here is the road.</span></div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1140 C 140 1140, 220 1085, 340 1065 S 520 1025, 600 935 S 700 790, 840 760" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path id="road5" d="M-40 1140 C 140 1140, 220 1085, 340 1065 S 520 1025, 600 935 S 700 790, 840 760" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1140 C 140 1140, 220 1085, 340 1065 S 520 1025, 600 935 S 700 790, 840 760" stroke="#F9F8F6" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <div class="passport" style="position:absolute;left:800px;top:470px;transform:rotate(4deg) scale(.72);transform-origin:top left">
+    <div><div class="t">Digital Childhood Passport</div><div class="rule"></div></div>
+    <div><div class="crest"><div><b style="height:12px"></b><b style="height:22px"></b><b style="height:34px"></b><b style="height:19px"></b></div></div>
+      <div class="n">Our family</div><div class="s">The journey to 16</div></div>
+    <div class="chips">
+      <span><img src="../../../public/digi-squad/friends/pebble.png"></span><span><img src="../../../public/digi-squad/friends/bloop.png"></span><span><img src="../../../public/digi-squad/friends/orbit.png"></span><span><img src="../../../public/digi-squad/friends/nova.png"></span><span><img src="../../../public/digi-squad/friends/cosmo.png"></span>
+    </div>
+  </div>
+  <div id="cast5"></div>
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+<script>
+// Stand each friend on the road itself, so the cast always sits on the
+// pathway whatever the curve, and put the age under the road, not on it.
+(() => {
+  const road = document.getElementById('road5'), host = document.getElementById('cast5')
+  const L = road.getTotalLength()
+  const cast = [['pebble',.24,'4 to 7','#C99A28'],['bloop',.40,'8 to 10','#6C9E38'],['orbit',.55,'11 to 13','#3E86BC'],['nova',.72,'13 to 15','#7E5AB0'],['cosmo',.88,'16+','#CE7328']]
+  for (const [k,t,age,c] of cast) {
+    const p = road.getPointAtLength(L*t), w = 150
+    host.insertAdjacentHTML('beforeend',
+      `<img class="friend" src="../../../public/digi-squad/friends/${k}.png" style="width:${w}px;left:${p.x-w/2}px;top:${p.y-w+14}px">` +
+      `<div class="label" style="position:absolute;left:${p.x-80}px;width:160px;text-align:center;top:${p.y-w-12}px;color:${c};font-size:19px">${age}</div>`)
+  }
+})()
+</script>
+
+<!-- ============ 6 · PARENT SITUATION ============ -->
+<section class="card nova" id="f6-parent-situation">
+  <div class="top" style="color:var(--nova-ink)"><div class="eyebrow"><i style="background:var(--nova)"></i>A thing parents say</div><div class="count" style="color:var(--nova-ink)">1 / 6</div></div>
+  <div class="copy">
+    <div style="font-weight:900;font-size:220px;line-height:.6;color:var(--nova);height:110px">&ldquo;</div>
+    <div class="h-xl" style="font-size:118px">Everyone else has Snapchat.</div>
+    <div class="body" style="margin-top:44px;color:var(--nova-ink);font-size:40px">What would you say next?</div>
+    <div style="margin-top:48px"><span class="pill">Swipe for the words &rarr;</span></div>
+  </div>
+  <svg class="road" viewBox="0 0 1080 1350"><g fill="none" stroke-linecap="round">
+    <path d="M-40 1170 C 300 1120, 640 1200, 1140 1110" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path d="M-40 1170 C 300 1120, 640 1200, 1140 1110" stroke="#EDC35F" stroke-width="44"/>
+    <path d="M-40 1170 C 300 1120, 640 1200, 1140 1110" stroke="#ECE3F7" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>
+  <img class="friend" src="../../../public/digi-squad/friends/nova.png" style="width:400px;right:70px;bottom:195px">
+  <div class="foot"><div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div><div class="word">Guided Childhood</div></div>
+</section>
+
+</body>
+</html>

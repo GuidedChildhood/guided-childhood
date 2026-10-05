@@ -12,9 +12,11 @@ folder: print files, phone version, imagery, and the Etsy listing package.
 
 **READ FIRST, EVERY TIME:**
 1. `digi-squad/README.md` — the single source of truth for characters. The
-   cast is DiGi (golden star, never the robot or owl), DiGi Junior, Oliver,
-   Zara, Sofia, and the UK animal stage guides (Hog, Robin, Scout, Brock,
-   Vix). Teo, Olga and Alma are legacy. Never render off model.
+   cast is DiGi (golden star, never the robot or owl), DiGi Junior, and the
+   five Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo. Oliver, Zara and
+   Sofia were retired on 23 July 2026; Teo, Olga and Alma are legacy. Never
+   render off model. Listing and promo images also follow
+   `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`.
 2. The design system block in CLAUDE.md and README.md — Nunito display and
    body, IBM Plex Mono labels, house colour tokens, chunky 16px radius
    buttons, no Inter, no purple gradients, no generic AI patterns.
@@ -32,15 +34,16 @@ folder: print files, phone version, imagery, and the Etsy listing package.
 
 | Lane | Character | Why |
 |---|---|---|
-| Screen time charts, routines, bedtime, wind down | Oliver | His lesson topic is literally screen time and sleep |
-| Detective games, real or fake, escape kits, mystery | Zara | Detective missions, ages 8 to 13, the party sweet spot |
-| Privacy, safety, calm down kits, feelings cards | Sofia | Safety Guardian, warm, ages 4 to 9 |
+| Screen time charts, routines, bedtime, wind down | Bloop | Owns routines and gaming in the character bible |
+| Detective games, real or fake, escape kits, mystery | Orbit (Pebble under 8) | Orbit owns scams and checking; Pebble owns real or pretend for the youngest |
+| Privacy and safety | Bloop | Owns privacy |
+| Calm down kits, feelings cards | Pebble | Owns feelings and kindness |
 | Breathing pauses, calm corner, check in cards | DiGi Junior | Already does pause beats in lessons |
 | Early learning cards (phonics, counting, tracing) | UK animal for the stage | One animal per age stage |
 | Whole family products, agreements, bundles | DiGi | The guide who speaks to parents |
 | Classroom and teacher products | Schools team when defined; the squad in classroom staging until then | Feeds the schools funnel, not the parent one |
 
-Characters DEMONSTRATE on every page, never decorate. Oliver is doing the
+Characters DEMONSTRATE on every page, never decorate. Bloop is doing the
 bedtime routine on the bedtime chart. The distancing technique from lessons
 applies to printables too: the character voices the struggle so the child
 agrees with the character, not the instruction.
@@ -75,10 +78,10 @@ step photo instructions, prep time in minutes, mess level, supervision
 level, laminate and cardstock durability instructions, A4 and US Letter,
 ink friendly version.
 
-### 4. Escape and detective kits (£8 to £13, Zara's lane)
+### 4. Escape and detective kits (£8 to £13, Orbit's lane)
 Proof: the escape room shops price 12.99 to 13.99 dollars and segment
 strictly by age; tweens 9 to 13 are the sweet spot. Contents: a story
-briefing from Zara, 6 to 8 puzzles, props to cut out, a hider's guide for
+briefing from Orbit, 6 to 8 puzzles, props to cut out, a hider's guide for
 the parent, printable locks and clue envelopes, a 45 to 90 minute play arc,
 5 to 15 minute setup promise on the cover.
 
@@ -88,7 +91,7 @@ Contents: cute animal or squad outlines with dashed pre writing lines,
 laminate and dry wipe instructions so it is reusable, one skill per set,
 seasonal themes swap in and out.
 
-### 6. Calm down and feelings kits (£5 to £8, Sofia and DiGi Junior)
+### 6. Calm down and feelings kits (£5 to £8, Pebble and DiGi Junior)
 Contents: feelings cards, a breathing exercise poster using DiGi Junior's
 existing pause script style, a calm corner sign, a parent script card in
 Justin's voice. Wellbeing wording rules below are strict here.
@@ -119,9 +122,11 @@ No allow or deny framing, always the calibrated pathway. Wellbeing products
 must pass the claims rule: helps families build healthier habits is fine,
 reduces anxiety is a prohibited medical claim on Etsy and everywhere else.
 
-**3. Imagery on Higgsfield.** Generate every illustration slot with
-generate_image, anchored to the digi-squad reference art files
-(Oliver, Zara, Sofia images in digi-squad/, the golden star for DiGi).
+**3. Imagery on Higgsfield.** The friends themselves are the approved
+cutouts in `public/digi-squad/friends/` and the star in
+`public/digi-squad/DiGi-star.svg`, placed, never regenerated
+(`brand/GDC_SOCIAL_VISUAL_SYSTEM.md` section 15). Generate the scenes,
+objects and textures around them with generate_image.
 House style in every prompt: warm butter and cream background, ink outlines,
 the character's own colour token, Nunito adjacent rounded feel, flat
 sticker friendly shapes, no photorealism, no generic AI gloss. Generate at
