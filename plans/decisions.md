@@ -251,6 +251,35 @@ Titles only. Open the archive at the line number in its own index for the full e
   (LinkedIn lane only) and the comparison table (landing page, not feed).
   Declined: fear hooks and five star review stacks.
 
+## 2 October 2026: why the explainer looked basic, and the DiGi brain film (PR 1184)
+
+- Justin asked why other people's Claude Code motion graphics look amazing
+  when our explainer looked basic. The answer is in the template: every beat
+  drew a four path icon from `icons.json`. The draw on was right, the
+  drawings were not drawings. Fix proven and committed as `tools/ink-trace/`:
+  a real ink illustration from Higgsfield, traced to strokes, drawing itself.
+  The explainer skill now points at it for any beat that is a scene.
+- Justin asked for a cinematic cartoon of DiGi's brain explaining how he
+  works. Built in `videos/2026-10-01-how-digi-works/`: eight Seedance 2.5
+  clips from the DiGi reference art (identity from the image, action only
+  in the prompt), every caption mapped to `digi/00-how-digi-works.md`, the
+  stage check as the end card. Drafted at 480p for 18 credits a clip and
+  upscaled; finalising at 1080p is 72 a clip, 576 for the film, left as
+  Justin's call. No NHS, no clinician names, no outcome claims.
+- Seedance returns HEVC 10 bit, which Chromium cannot play. Transcode to
+  H.264 with a keyframe every second before HyperFrames sees it. The pipeline
+  is written up in the project BRIEF.
+- Later on 2 October: the brain film v2. Justin asked for the actual studies
+  going in, the joining shown the way a brain does it, a worked example (a
+  six year old in pyjamas putting the TV on at 9pm) taken step by step to
+  the answer, the free start at the end, and a check on how Duolingo and
+  others do it. Research in `plans/2026-10-02-how-it-works-film-research.md`:
+  Duolingo's Birdbrain uses one named learner and a worked example, Vox
+  withholds the result, nobody uses boxes and arrows, under a minute holds
+  half the audience. v2 is 66 seconds, ten beats, two new Seedance clips,
+  six study cards from `digi/02-scientists.md`, the answer written to DiGi's
+  voice rules and the EB-01 scenario pattern, labelled as the shape of an
+  answer rather than a transcript. Still draft grade and silent.
 ## 2 October 2026: DiGi reminders, log a moment, worries tracked, hands free (PR 1186)
 
 - Justin chose reminders at a set time, log it as a moment, a hands free switch, and worries told to DiGi tracked each day until sorted.
@@ -282,3 +311,53 @@ Titles only. Open the archive at the line number in its own index for the full e
   on a cold load, and the Sign Up button submits with no role chosen. The sign
   up component change is three things read from the query string: default
   the role, the parent heading, and what a roleless submit does.
+## 2 October 2026: migration 359 live, LinkedIn pack, PRs 1187 and 1188 unblocked
+
+- Justin said yes; 359 applied and recorded. Through the Supabase MCP any statement containing "drop" waits on a confirmation and times out, so the table went in by execute_sql without a drop and the constraint swap alone through apply_migration.
+- PRs 1187 and 1188 were conflicted against main; main merged into each, no conflicts left by hand, pushed.
+- LinkedIn pack `content/packs/2026-10-02-digi-talks-back/`: three posts (15 of 40 vs 0 of 6, why no "Hey DiGi", tell it what went wrong). The family posts for the worry tracker are now postable after one real use.
+- DiGi's voice: Justin picked Imogen (Higgsfield preset 3811e986-0891-47cf-a1f5-78a1d62a547a, middle aged female) from four samples on 2 October. Used for social videos now; the app needs its own speech service key (ElevenLabs proposed) and a closely matched voice before it replaces the phone's built in voice.
+
+## 4 October 2026: Give £5, get £5 built for Guided Childhood (PR 1190, migration 360)
+
+- Justin: cash by PayPal, no cap (a hand check above ten in a month), anyone with an account can share, Guided Childhood first.
+- Friend gets £5 off the first paid month via `STRIPE_REFERRAL_COUPON`. It must be "repeating, 1 month", not "once": the 4 day trial's £0 invoice would spend a once coupon.
+- Sharer is owed £5 at the friend's second paid bill, or 60 days into a year; a refund voids it. A daily cron reads Stripe, not webhooks. Payout is a monthly PayPal file from `/dashboard/admin/referrals`.
+- Refer page lives under settings so the paywall leaves it open. Guarded in check-referrals.
+
+## 5 October 2026: one control document for the Social Billboard parent launch (PR 1192)
+
+- Justin: consolidate, do not write another strategy. `plans/sb-parent-launch-control.md` is now the only place to look for the SB launch; every earlier SB plan is classified in its section 13 (keep, merge, update, hold, retire).
+- Parents first, creators held. Primary CTA everywhere: GET A FREE PLAYLIST. Day 0 to 10 sequence from 5 October, then a weekly rhythm built on the Safe Watch handoff.
+- Founder source is `content/brand-story/founder-context.md`. SB was built with developers, never "vibe coded". The lockdown scene waits until after the family account runs it on 9 October (no scene on two accounts in one fortnight).
+- "When it ends, it ends" waits for Justin's phone test; the full checking framework waits for one confirmed wording. The Space Facebook post's "nine checks" line needs correcting to the bounded check.
+- The playlist card tool gained a series layer (masthead, session bar, chips, Reel covers).
+
+## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
+
+Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a ten slide carousel (redone the same day with the video method and Instagram and Facebook practice, now in the sb-carousel skill) built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
+## 5 October 2026: one social visual system, the real assets win
+
+- Justin asked for one brand default across Instagram, Facebook, LinkedIn and
+  YouTube from an approved reference board. Installed as
+  `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`, routed from CLAUDE.md, linked from the
+  social skills and `content/brand-story/visual-system.md` rather than copied.
+- The real product assets are the source of truth; the board is composition
+  only. 80 percent editorial, one friend per card, the gold road from
+  `StageRoad.tsx`, friend colour triplets from `shared/schools-curriculum.ts`.
+- Audit of every existing template (keep, update, retire, uncertain) and four
+  open questions in `plans/2026-10-05-social-visual-system.md`. Nothing
+  redesigned until Justin approves. No autoposting until he says a routine may
+  publish.
+
+## 5 October 2026: the six formats built, and the Sunday batch
+
+- Justin approved the six format proposal, the audit, the friend colours,
+  keeping his serif LinkedIn card, and the same look on Saturdays.
+- `tools/social-cards` rebuilt into the six formats; the old decks re-rendered
+  as proof. Audit updates and retirements applied, nothing deleted.
+- The routine is a Sunday batch and Justin posts: the `social-week` skill,
+  `npm run social-week`, the pinned GDC posts page, and the "Sunday social
+  batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
+  today's post first, nothing posts itself. Detail in
+  `plans/2026-10-05-social-visual-system.md`.

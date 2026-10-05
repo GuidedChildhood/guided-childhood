@@ -1,0 +1,63 @@
+{
+ "name": "series-04-this-weeks-playlist-space",
+ "kind": "series",
+ "series": "This week's playlist",
+ "issue": "5 to 11 October",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "sky": "backgrounds/night-sky-square.png",
+   "kicker": "World Space Week",
+   "big": "Space",
+   "size": "lg",
+   "chips": [
+    "Ages 9 to 11",
+    "5 videos",
+    "About 40 minutes"
+   ],
+   "ends": "a stargazing guide, so they go outside."
+  },
+  {
+   "tone": "white",
+   "kicker": "What's in it",
+   "big": "Five videos.",
+   "size": "md",
+   "list": [
+    "8 planets, 8 experiments",
+    "The Moon",
+    "The space station, with Tim Peake",
+    "How a telescope is tested",
+    "Start stargazing"
+   ]
+  },
+  {
+   "tone": "black",
+   "big": "Why 40 minutes?",
+   "hl": "40 minutes?",
+   "size": "md",
+   "body": "The UK Chief Medical Officers found the evidence too weak to set a limit. So it's one session, with an end."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "Why it ends outside",
+   "big": "Friday night, look up.",
+   "size": "md",
+   "body": "The Draconids peak on Friday 9 October, best just after dark. No telescope. Just a coat."
+  },
+  {
+   "tone": "white",
+   "kicker": "What we checked, honestly",
+   "big": "Every video opened this week.",
+   "size": "sm",
+   "body": "UK playback, maker, length, content. New channels, so the shorter check, not the full panel."
+  },
+  {
+   "tone": "black",
+   "big": "Get this week's playlist free.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "One child profile. No card needed. Tell us what to build next week."
+  }
+ ]
+}

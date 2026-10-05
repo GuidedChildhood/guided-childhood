@@ -51,7 +51,9 @@
     "rshe-generate": "python3 scripts/rshe/gen_ts.py && python3 scripts/rshe/mkcsv2.py",
     "evidence-guard": "node --experimental-strip-types scripts/check-evidence-status.mjs",
     "your-school-guard": "node scripts/check-your-school-local.mjs",
-    "ai-tells": "node scripts/check-ai-tells.mjs"
+    "ai-tells": "node scripts/check-ai-tells.mjs",
+    "social-cards": "node tools/social-cards/render.mjs",
+    "social-week": "node tools/social-cards/week.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

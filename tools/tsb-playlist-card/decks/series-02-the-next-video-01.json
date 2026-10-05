@@ -1,0 +1,65 @@
+{
+ "name": "series-02-the-next-video-01",
+ "kind": "series",
+ "series": "The next video",
+ "issue": "No. 01",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "big": "The first video wasn't the problem.",
+   "hl": "wasn't the problem.",
+   "size": "lg"
+  },
+  {
+   "tone": "black",
+   "big": "You chose that one.",
+   "size": "lg"
+  },
+  {
+   "tone": "white",
+   "big": "When it ends, YouTube already has suggestions for the next one.",
+   "size": "sm",
+   "body": "Suggested by the app. **Not by you.**"
+  },
+  {
+   "tone": "black",
+   "big": "Then the next.\nThen the next.",
+   "hl": "Then the next.",
+   "size": "md"
+  },
+  {
+   "tone": "white",
+   "big": "In one study, when extra videos played by themselves, children aged 3 to 5 watched for longer.",
+   "size": "sm",
+   "note": "Hiniker and colleagues, 2018. 24 US families."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "So we built it the other way round",
+   "big": "You choose it all.",
+   "size": "md",
+   "list": [
+    "Age",
+    "Subject",
+    "Tone",
+    "Time of day",
+    "How long"
+   ]
+  },
+  {
+   "tone": "black",
+   "big": "You see every video first.",
+   "hl": "every video first.",
+   "size": "md",
+   "body": "About five videos, built around your choices. No Shorts."
+  },
+  {
+   "tone": "white",
+   "big": "Choose the next video back.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "One child profile. No card needed. Link in bio."
+  }
+ ]
+}

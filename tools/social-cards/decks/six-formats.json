@@ -1,0 +1,76 @@
+{
+  "name": "six-formats",
+  "size": "portrait",
+  "numbered": false,
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "nova",
+      "tag": "1 / 7",
+      "eyebrow": "The ban, honestly",
+      "headline": "A ban can<br><mark>delay access.</mark>",
+      "second": "It can't build<br>judgement."
+    },
+    {
+      "name": "question",
+      "type": "question",
+      "lead": "orbit",
+      "tag": "1 / 6",
+      "eyebrow": "Orbit asks",
+      "headline": "If an AI answer sounds sure of itself, how would you know it's wrong?",
+      "body": "Ask it at tea tonight. Swipe for three ways to check."
+    },
+    {
+      "name": "printable",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "Screen time,<br><mark>earned</mark> on paper.",
+      "image": "public/printables/earn-your-screen-time.png"
+    },
+    {
+      "name": "screen",
+      "type": "screen",
+      "lead": null,
+      "tag": "3 / 7",
+      "eyebrow": "Inside Guided Childhood",
+      "steps": [
+        "The fight is about the clock.",
+        "Jobs first, minutes after.",
+        "Stars become minutes, at <mark>a rate you set.</mark>"
+      ],
+      "image": "public/marketing/kid-page.png",
+      "caption": "A real screen, the child's page"
+    },
+    {
+      "name": "road",
+      "type": "road",
+      "lead": null,
+      "tag": "1 / 8",
+      "eyebrow": "The road to 16",
+      "headline": "Every age has a job.",
+      "second": "Here is the road."
+    },
+    {
+      "name": "situation",
+      "type": "situation",
+      "lead": "nova",
+      "tag": "1 / 6",
+      "eyebrow": "A thing parents say",
+      "quote": "Everyone else has Snapchat.",
+      "turn": "What would you say next?",
+      "pill": "Swipe for the words &rarr;"
+    },
+    {
+      "name": "digi",
+      "type": "question",
+      "lead": "digi",
+      "tag": "1 / 5",
+      "eyebrow": "DiGi, what do I say?",
+      "headline": "They want a phone for secondary school. Where do I start?",
+      "body": "Three questions first. Swipe."
+    }
+  ]
+}

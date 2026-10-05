@@ -1,0 +1,37 @@
+{
+ "name": "facebook-cover-01",
+ "kind": "cover",
+ "covers": [
+  {
+   "eyebrow": "YouTube playlists for children, chosen by you",
+   "head": "Your choices.\nA playlist to match.",
+   "hl": "A playlist to match.",
+   "chips": [
+    "Age band",
+    "Subject",
+    "Tone",
+    "Time of day",
+    "How long"
+   ],
+   "offer": "<b>First playlist free.</b> One child profile. No card needed.",
+   "name": "facebook-cover-1640x924",
+   "alt": "Black cover. Text: YouTube playlists for children, chosen by you. Your choices. A playlist to match. Age band, subject, tone, time of day, how long. First playlist free. One child profile. No card needed."
+  },
+  {
+   "eyebrow": "YouTube playlists for children, chosen by you",
+   "head": "Your choices.\nA playlist to match.",
+   "hl": "A playlist to match.",
+   "chips": [
+    "Age band",
+    "Subject",
+    "Tone",
+    "Time of day",
+    "How long"
+   ],
+   "offer": "<b>First playlist free.</b> One child profile. No card needed.",
+   "name": "facebook-cover-safe-zones",
+   "guides": true,
+   "alt": "Spec only, not for upload."
+  }
+ ]
+}

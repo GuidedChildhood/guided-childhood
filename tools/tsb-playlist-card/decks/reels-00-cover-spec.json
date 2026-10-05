@@ -1,0 +1,16 @@
+{
+ "name": "reels-00-cover-spec",
+ "kind": "reels",
+ "covers": [
+  {
+   "name": "reel-cover-safe-zones",
+   "tone": "black",
+   "series": "The next video",
+   "ep": "No. 01",
+   "hook": "You chose this video.\nWho chose the next one?",
+   "hl": "Who chose the next one?",
+   "alt": "Black cover. Text: The next video. You chose this video. Who chose the next one?"
+  }
+ ],
+ "guides": true
+}

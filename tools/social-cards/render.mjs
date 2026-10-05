@@ -11,12 +11,17 @@
  * Uses the same self hosted Nunito and IBM Plex Mono the app and the Etsy
  * branding use, so a card, a printable and the app all match exactly.
  */
-import { chromium } from 'playwright'
+import { createRequire } from 'node:module'
 import { readFileSync, mkdirSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve, basename } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
+// Playwright from the project if installed, else the copy preinstalled in
+// cloud sessions, so the renderer runs in both without an install.
+const require = createRequire(import.meta.url)
+let chromium
+try { ({ chromium } = require('playwright')) } catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')) }
 const TEMPLATE = pathToFileURL(join(HERE, 'template.html')).href
 
 const args = process.argv.slice(2)
