@@ -106,6 +106,22 @@ accounts by 13 November.
 Post IDs are `SB-<date>-D<day>`, for example `SB-2026-10-06-D1`. No child
 data in any link.
 
+**Instagram profile, @thesocialbillboardco (seen 5 October).** The bio led
+with creators and "AI powered tools ... safe content for kids", and there
+were four links, two of them waiting lists for a product that is now live.
+The parent first version:
+
+- Bio: "Playlists built around your choices. / You pick the age, subject and
+  length. You see every video first. / First playlist free. No card."
+- Link 1: **Get a free playlist**,
+  `https://thesocialbillboard.com/safe-youtube-for-kids?utm_source=instagram&utm_medium=bio&utm_campaign=sb_launch`
+- Link 2: **For creators: request a review**, the existing creator waiting
+  list, kept last.
+- Removed: the parent waiting list (replaced by link 1), "Website beta" (a
+  duplicate, and "beta" undercuts the offer), the Chart Show (creator side,
+  back when creators open).
+- Facebook page button: the same link 1 address, with `utm_source=facebook`.
+
 **Open checks before Day 5 (the invitation day).** The free button goes to
 sign up, not log in. The Instagram bio and Facebook button point at the page
 above. Footer legal links work (the app now has privacy and terms routes;
