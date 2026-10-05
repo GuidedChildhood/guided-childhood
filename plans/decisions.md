@@ -257,3 +257,14 @@ Titles only. Open the archive at the line number in its own index for the full e
 - New tools: `set_reminder` (UK clock time, cap five, migration 359 `digi_reminders`, sent by `/api/cron/digi-reminders` every five minutes, Home card when no push device, an hour late is missed not sent) and `log_moment` (exact moment card title or nothing, ticks today's Moment step).
 - Worries: save_memory now runs before other tools, so a follow up booked in the same turn attaches to the worry just raised. "Tell DiGi what is hard right now" opens the chat.
 - Hands free, not a wake word: a page cannot keep a microphone open all day and should not. Off on every page open, never stored, off after two quiet minutes or a hidden page. Guarded in check-digi-voice.
+
+## 5 October 2026: the Social Billboard lane is blocked by the site, not by content
+
+- Verified in a browser: all seven sign in and start free buttons on
+  thesocialbillboard.com/safe-youtube-for-kids are literal REGISTER_URL and
+  LOGIN_URL placeholders, seven footer links are "#", the parents transparency
+  page is a 404 and the creators route shows the parents page. Source is not
+  in this repo or on this Mac (Vite build behind nginx). Every Social
+  Billboard post and email, both sessions, holds until fixed; the daily desk
+  marks those slots BLOCKED. The one reason: a post today sends a parent to a
+  404 from a child safety product.
