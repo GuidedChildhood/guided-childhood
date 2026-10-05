@@ -120,6 +120,20 @@ The parent first version:
   kept last. This is the live sign up page ("Get your channel in front of
   parents"), which replaces the old landingpage creator waiting list.
 
+**Facebook page, The Social Billboard (seen 5 October).** It was categorised as a
+social media agency, had a creator intro and a creator dashboard as its cover.
+The parent first version:
+
+- Categories: Product/service, Education website, App page (or Website).
+- Intro (101 characters max): "Playlists built around your choices. You pick
+  age, subject and length. First playlist free."
+- Button: Sign up, to link 1 with `utm_source=facebook&utm_medium=page_button`.
+- Website field: link 1 with `utm_source=facebook&utm_medium=page_website`.
+- Cover: `renders/facebook-cover/facebook-cover-1640x924.png` (the spec render
+  beside it shows the desktop band and where the profile picture sits).
+- Address and phone left blank: an online service, and the family home stays
+  private. Public email: justin@thesocialbillboard.com.
+
 **Finding, 5 October: there is one sign up page, and it speaks to creators.**
 The site's code routes `/auth/sign-up` to a single page for everyone. Its
 headline is "Get your channel in front of parents", with the parent or

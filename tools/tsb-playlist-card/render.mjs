@@ -38,6 +38,7 @@ for (const deckPath of deckPaths) {
   await page.evaluate((d) => {
     if (d.kind === 'series') return window.renderSeries(d)
     if (d.kind === 'reels') return window.renderReels(d)
+    if (d.kind === 'cover') return window.renderCover(d)
     return d.kind === 'carousel' ? window.renderCarousel(d) : window.renderDeck(d)
   }, deck)
   await page.evaluate(() => document.fonts.ready)
@@ -45,7 +46,7 @@ for (const deckPath of deckPaths) {
   await page.waitForFunction(() => Array.from(document.images).every((i) => i.complete), null, { timeout: 5000 }).catch(() => {})
   await page.waitForTimeout(300)
 
-  const cards = await page.locator('.card, .slide, .reel').all()
+  const cards = await page.locator('.card, .slide, .reel, .cover').all()
   for (let i = 0; i < cards.length; i++) {
     const cardName = await cards[i].getAttribute('data-name')
     const file = join(outDir, `${cardName}.png`)

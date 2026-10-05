@@ -177,6 +177,27 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .reel .guide.ui{bottom:0;height:380px;border-color:#2D9CDB;background:rgba(45,156,219,.12);}
 .reel .guide b{position:absolute;right:16px;top:12px;font-size:22px;letter-spacing:.08em;color:#E91E8C;background:#fff;padding:4px 10px;border-radius:4px;}
 .reel .guide.ui b{color:#2D9CDB;}
+
+/* ---------- Facebook cover, 1640 x 924 ----------
+   Uploaded at 16:9 so the phone shows all of it. Desktop crops to the middle 1640 x 624
+   band, and the profile picture sits over the bottom centre on the phone, so every word
+   lives in the band above that. */
+.cover{position:relative;overflow:hidden;width:1640px;height:924px;background:var(--tsb-black);color:#fff;font-family:'Montserrat',sans-serif;}
+.cover .band{position:absolute;left:0;right:0;top:150px;height:624px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:48px;text-align:center;}
+.cover .eyebrow{font-weight:700;font-size:26px;letter-spacing:.22em;text-transform:uppercase;color:var(--tsb-grey-lt);margin-bottom:26px;}
+.cover .head{font-weight:900;text-transform:uppercase;font-size:92px;line-height:.98;letter-spacing:-.015em;}
+.cover .head .hl{color:var(--tsb-yellow);}
+.cover .chips{justify-content:center;margin-top:40px;}
+.cover .chips span{font-size:30px;padding:12px 24px;}
+.cover .offer{margin-top:34px;font-weight:600;font-size:30px;color:#fff;}
+.cover .offer b{color:var(--tsb-yellow);font-weight:800;}
+.cover .bar{width:1000px;margin-top:40px;display:flex;align-items:center;}
+.cover .sessionbar.done .end span{color:var(--tsb-black);}
+.cover .guide{position:absolute;border:4px dashed #E91E8C;z-index:4;pointer-events:none;}
+.cover .guide.band-g{left:0;right:0;top:150px;height:624px;}
+.cover .guide.pic{left:640px;width:360px;bottom:0;height:200px;border-color:#2D9CDB;border-radius:180px 180px 0 0;}
+.cover .guide b{position:absolute;right:12px;top:8px;font-size:20px;background:#fff;color:#E91E8C;padding:3px 8px;border-radius:4px;}
+.cover .guide.pic b{color:#2D9CDB;right:auto;left:50%;transform:translateX(-50%);top:-34px;}
 </style>
 </head>
 <body>
@@ -310,6 +331,21 @@ window.renderReels = function (deck) {
         <div class="bar">${window.sessionBar(0)}</div>
       </div>
       ${deck.guides ? '<div class="guide grid"><b>GRID CROP 3:4</b></div><div class="guide ui"><b>CAPTION AND BUTTONS</b></div>' : ''}`
+    sheet.appendChild(el)
+  }
+}
+
+/** Facebook cover: { kind: 'cover', covers: [ { name, eyebrow, head, hl, chips, offer, guides, alt } ] } */
+window.renderCover = function (deck) {
+  const sheet = document.getElementById('sheet'); sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  for (const c of deck.covers) {
+    const el = document.createElement('section'); el.className = 'cover'; el.dataset.name = c.name
+    let head = esc(c.head).replace(/\n/g, '<br>'); if (c.hl) head = head.replace(esc(c.hl), `<span class="hl">${esc(c.hl)}</span>`)
+    const chips = (c.chips || []).map((x) => `<span${/^ages? /i.test(x) ? ' class="age"' : ''}>${esc(x)}</span>`).join('')
+    el.innerHTML = `<div class="band"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="head">${head}</div>
+      <div class="chips">${chips}</div><div class="offer">${c.offer || ''}</div><div class="bar">${window.sessionBar(1)}</div></div>
+      ${c.guides ? '<div class="guide band-g"><b>DESKTOP SHOWS THIS BAND</b></div><div class="guide pic"><b>PROFILE PICTURE ON PHONE</b></div>' : ''}`
     sheet.appendChild(el)
   }
 }
