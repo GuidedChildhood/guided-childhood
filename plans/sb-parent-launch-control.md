@@ -153,19 +153,24 @@ SB posts go out at 19:00, clear of the family account's 10:00 slot. Gates:
 **G1** playlist approved and live in Discover. **G2** Justin's phone test of
 the ending. **F** needs filming or a screen recording.
 
+**No video of Justin yet (decided 5 October).** Days 1 to 10 run on cards,
+real screenshots and text. The three video pieces (origin video, product
+demo Reel, I Tried It As A Dad) move to the first week you film, and slot in
+as extra posts without moving anything else.
+
 | Day | Date | What | Where | Status | Gate |
 | --- | --- | --- | --- | --- | --- |
 | 0 | Mon 5 Oct | Setup and audit | | Today | |
-| 1 | Tue 6 Oct | Founder origin video | IG Reel, FB native video | Needs Justin | F |
+| 1 | Tue 6 Oct | Why I Built This, chapter 1: the founder letter | IG carousel, FB post | Ready | |
 | 2 | Wed 7 Oct | The First Video Wasn't The Problem | IG carousel, FB post | Ready | |
 | 3 | Thu 8 Oct | So I Started Choosing It Myself | IG carousel, FB post | Ready, one fact to confirm | |
-| 4 | Fri 9 Oct | Real product demonstration | IG Reel, FB native video | Needs Justin | F |
+| 4 | Fri 9 Oct | How it works: the real screens | IG carousel, FB post | Ready, needs one screenshot | |
 | 5 | Sat 10 Oct | Free playlist invitation | IG single, FB post | Ready once the route is checked | |
 | 6 | Sun 11 Oct | Parent request and question | FB post, IG Story | Ready | |
 | 7 | Mon 12 Oct | This Week's Playlist | IG carousel, FB post, Stories | From Thursday's Safe Watch handoff | G1 |
 | 8 | Tue 13 Oct | Why This Made The Playlist | IG single, FB post | From the handoff; fallback ready | |
 | 9 | Wed 14 Oct | Evidence: why we are building this | IG carousel, FB post | Ready | |
-| 10 | Thu 15 Oct | I Tried It As A Dad | IG Reel, FB native video | Needs Justin | F, G2 |
+| 10 | Thu 15 Oct | What Did We Come Here To Find? | IG carousel, FB post | Ready | |
 
 **After Day 10, the weekly rhythm (not another campaign).**
 
@@ -181,28 +186,63 @@ the ending. **F** needs filming or a screen recording.
 
 ### The posts, Day 1 to Day 10, in full
 
-**DAY 1. Founder origin video.** Reel, 40 seconds, Justin to camera, phone,
-window light, captions on. Cover: `renders/reel-covers/reel-why-i-built-this-ch1.png`
-with a real frame.
+**DAY 1. Why I Built This, chapter 1: the founder letter.** Carousel,
+seven slides, text only, `decks/series-01-why-i-built-this-ch1.json`. Plain
+text letters were the best scoring format in the 1 October creative audit,
+so this is not a lesser version of the video.
+
+1. Justin, dad of three. I was never worried about the first video.
+2. YouTube has extraordinary things on it for children. I still think that.
+   My three have learned real things from it.
+3. Then a video about relationships turned up in the recommendations. I
+   hadn't gone looking for it. The recommendations brought it.
+4. A parent chooses the first video. Who chooses the next one?
+5. I watched my children go from one video to the next in ways I could never
+   have guessed. And I saw how little say a parent has over where a run of
+   recommended videos ends up.
+6. That question is why I built The Social Billboard.
+7. What does your child usually watch after the video you chose? Tell me in
+   the comments. I read every one. Justin
+
+Slide 6 still trails "next chapter: an ordinary lockdown afternoon"; that
+chapter runs from 21 October, so the line stays true.
+
+Instagram caption:
 
 > I was never worried about the first video.
-> I'm Justin, I'm a dad of three, and my kids have learned real things on
-> YouTube. I still think it's extraordinary.
-> But a few years ago a video turned up in the recommendations. It was about
-> relationships. I hadn't gone looking for it.
-> And it made me realise: I choose the first video. I don't choose the next
-> one. Or the one after that.
-> That's why I built The Social Billboard. I'll tell you how, a bit at a time.
+>
+> YouTube has extraordinary things on it for children. My three have learned
+> real things from it, and I still think that.
+>
+> Then a video about relationships turned up in the recommendations. I hadn't
+> gone looking for it. The recommendations brought it.
+>
+> A parent chooses the first video. Who chooses the next one? That question
+> is why I built The Social Billboard.
+>
+> What does your child usually watch after the video you chose?
+>
+> Justin
 
-On screen at the end: "What does your child watch after the one you chose?"
+Facebook (add a real photo of you if you have one; text alone is fine):
 
-Caption (IG and FB): "I was never worried about the first video. It was the
-next one. What does your child usually watch after the one you chose?
-Justin"
+> I'm Justin, and I built The Social Billboard. I want to tell you why, a bit
+> at a time, because it didn't start with an app. It started with a question.
+>
+> YouTube has extraordinary things on it for children. My three have learned
+> real things from it. I've never thought the answer was to switch it off.
+>
+> But a few years ago a video about relationships turned up in the
+> recommendations. I hadn't gone looking for it. The recommendations brought
+> it. And it made me see that as a parent I chose the first video, and had
+> very little say over the next one, or the one after that.
+>
+> That question is the whole reason The Social Billboard exists.
+>
+> When your child finishes the video you chose, what usually comes on next?
 
-If it cannot be filmed in time, run the letter version
-(`decks/series-01-why-i-built-this-ch1.json`, seven slides, same words) and
-move the video to Saturday.
+**When you film it:** the 40 second version of the same words, as a Reel,
+is in `renders/reel-covers/` with its cover. Post it as an extra, any day.
 
 **DAY 2. The First Video Wasn't The Problem.** Carousel, eight slides,
 `decks/series-02-the-next-video-01.json`.
@@ -256,8 +296,8 @@ Facebook:
 > Get a free playlist: https://thesocialbillboard.com/safe-youtube-for-kids
 
 **DAY 3. So I Started Choosing It Myself.** Carousel, seven slides,
-`decks/series-07-why-i-built-this-choosing-it-myself.json`. Slide 1 needs a
-real photo of you at the laptop.
+`decks/series-07-why-i-built-this-choosing-it-myself.json`. Text only; add a
+real photo of you at the laptop to the Facebook version if you have one.
 
 1. So I started choosing it myself.
 2. I'd find videos I thought were right and line them up myself.
@@ -287,23 +327,38 @@ Caption (IG and FB):
 Confirm before it goes: that the first version was built with developers
 (the source says so; you know the detail).
 
-**DAY 4. Real product demonstration.** Reel, 30 seconds. Kept from the 30
-September plan (Post 2, "Show it working"). You on camera for two seconds,
-then a real screen recording.
+**DAY 4. How it works: the real screens.** Carousel, six slides,
+`decks/series-11-how-it-works-real-screens.json`, built from the real
+builder screenshots already on file.
 
-> Here's what I mean by a playlist built around your choices. You choose the
-> age band, the tone, the type of content, the time of day and how long it
-> runs. Then you look through the playlist and decide if it fits your child.
-> There are also hand picked Discovery playlists for each age band. Your
-> first playlist is free, with no card needed. Try it, and tell me the one
-> thing you'd change.
+1. Here's how it works. The real screens.
+2. Step 1: choose the type and the tone. (real screenshot)
+3. Step 2: choose when, and how long. (real screenshot)
+4. Step 3: bedtime is its own setting. (real screenshot)
+5. Step 4: then you see the playlist before they press play. (**needs one
+   new screenshot from your phone: the space playlist, or any real one**)
+6. Your first playlist is free. One child profile. No card needed. GET A
+   FREE PLAYLIST.
 
-Shot order: your face; the criteria screen; the playlist preview; the
-Discovery shelf; the free offer card. If generating takes a while, cut with a
-caption that says so. Blur any email or child name.
+Caption (IG and FB):
 
-Caption: "Here's how it works, on my phone. Get a free playlist: link in bio.
-Then tell me the one thing you'd change."
+> Here's how it works, on the real screens.
+>
+> You choose the type of video and the tone. You choose when it's for and
+> how long it runs. Bedtime is its own setting. Then you see the whole
+> playlist before your child presses play.
+>
+> Your first playlist is free, with one child profile and no card needed.
+> Get a free playlist: link in bio. Then tell me the one thing you'd change.
+
+Facebook adds the link:
+https://thesocialbillboard.com/safe-youtube-for-kids
+
+If Space is approved, the Space Stories (hero card, link sticker, "Look up
+tonight") go up the same evening.
+
+**When you film it:** the 30 second Reel from the 30 September plan, Post 2
+("Show it working"), stays the script.
 
 **DAY 5. Free playlist invitation.** Single image,
 `decks/series-08-free-playlist-invitation.json` ("Your first playlist is
@@ -412,8 +467,24 @@ viewing, fewer children making their planned transition and more parent
 intervention; locking the app did not reduce viewing. Every line above stays
 inside that.
 
-**DAY 10. I Tried It As A Dad.** Reel, 50 seconds, screen recording with your
-voice. This is also the G2 test.
+**DAY 10. What Did We Come Here To Find?** Carousel, seven slides,
+`decks/series-03-come-here-to-find-01.json`: the question, then Space, Age 9,
+20 minutes building up as chips, then the real criteria screen, then GET A
+FREE PLAYLIST.
+
+Caption (IG and FB):
+
+> What did we come here to find?
+>
+> Space. Age 9. Twenty minutes.
+>
+> That's enough to start making a better choice. You set it, you see the
+> playlist, then they press play.
+>
+> Get a free playlist: link in bio. One child profile, no card needed.
+
+**I Tried It As A Dad moves to the first week you film.** The shot list is
+kept here for then:
 
 1. Your face: "I've got twenty minutes and one of mine wants space. Let's see
    what this gives me."
@@ -427,9 +498,9 @@ voice. This is also the G2 test.
 8. Your face: "That's it. First one's free, no card. Tell me what you'd
    change."
 
-If step 7 shows the session ending cleanly, "When it ends, it ends" unlocks
-for every later post. If it does not, we say what does happen and fix the
-copy, not the footage.
+Step 7 is also the G2 test: "When it ends, it ends" unlocks only once it
+shows the session ending cleanly. You can do step 7 alone, as a screen
+recording with no face, at any point.
 
 ---
 
@@ -448,21 +519,51 @@ week; the four channels are new, so they had the bounded check, not the full
 panel; four of five have open YouTube comments; one video has a flame
 experiment captioned for professionals only.
 
-**Where it stands.** Facebook: marked POSTED on 5 October in the posting
-tracker, while the post file itself still says NOT POSTED. Instagram and
-LinkedIn: not posted. Because Days 1 to 6 are the founder launch, Space runs
-on Instagram as Stories only on Friday 9 October (hero card, link sticker,
-"Look up tonight"), if approved. It expires after Saturday 10 October.
+**Where it stands.** Not posted anywhere. Justin confirmed on 5 October the
+Facebook post is not live (the posting tracker's POSTED line is wrong). The
+draft in "1 To post" still carries the "nine checks" paragraph, so post the
+corrected version below instead, once the playlist is APPROVED and the phone
+test passes. Instagram runs Space as Stories only on Friday 9 October (hero
+card, link sticker, "Look up tonight"). The meteor line expires after Friday
+night; World Space Week ends Saturday 10 October.
 
-**The Facebook post needs one edit if it is live.** It says every video went
-through nine checks. Replace that paragraph with:
+**The corrected Facebook post, ready to paste.** Image: the Space card,
+`tools/tsb-playlist-card/decks/space-9-to-11.json` (landscape).
 
+> It's World Space Week, and on Friday night the Draconid meteor shower
+> peaks. It's one of the few that's best in the early evening rather than the
+> small hours, so primary age children can actually stay up for it.
+>
+> So this week's free playlist on The Social Billboard is space for 9 to 11
+> year olds. Five videos, about forty minutes: eight planets in eight
+> experiments, the Moon, a tour of the space station with Tim Peake, how a
+> space telescope gets tested before launch, and a beginner's guide to
+> stargazing. That last one is deliberate. The playlist is built to end with
+> them going outside.
+>
 > Here's the check behind this one. Every video was opened this week: we
 > confirmed it plays in the UK, who made it, how long it runs and what's in
 > it. These channels are new to us, so they've had our shorter check rather
 > than our full panel, and I'd rather tell you that than imply more. Four of
 > the five have open comments on YouTube, which is one more reason to watch
 > from the playlist.
+>
+> Why five videos and forty minutes? The UK Chief Medical Officers say the
+> research isn't strong enough to set a screen time limit at this age. So we
+> build one finite session, sized to the age, that you can see before they
+> press play.
+>
+> Your first playlist is free, with one child profile and no card needed. Try
+> it and tell me honestly what you'd change. Your judgement about what suits
+> your child still matters most.
+>
+> Get a free playlist: https://thesocialbillboard.com/safe-youtube-for-kids
+>
+> Justin, founder of The Social Billboard
+
+Changed from the draft: the nine checks paragraph (overclaim), "no autoplay"
+(waits for the phone test), and the RCPCH line (reworded to what the source
+says).
 
 **Age band question.** The site sells 3 to 6, 7 to 10, 11 to 14 and 15 to
 16; Safe Watch uses 9 to 11. A parent of a nine year old needs to know which
@@ -476,37 +577,35 @@ Ready means the words and the image exist and only need your yes.
 
 | Day | Post | Files |
 | --- | --- | --- |
-| 2 | The First Video Wasn't The Problem | `decks/series-02-the-next-video-01.json`, rendered |
-| 3 | So I Started Choosing It Myself | `decks/series-07-...json`, rendered; needs one real photo |
+| 1 | Why I Built This, chapter 1, the letter | `decks/series-01-...json`, rendered |
+| 2 | The First Video Wasn't The Problem | `decks/series-02-...json`, rendered |
+| 3 | So I Started Choosing It Myself | `decks/series-07-...json`, rendered |
+| 4 | How it works: the real screens | `decks/series-11-...json`, rendered; one screenshot to add |
 | 5 | Free playlist invitation | `decks/series-08-...json`, rendered |
 | 6 | Parent question and request board | copy above; `decks/series-06-...json`, rendered |
 | 8 | Fallback: Why no Shorts? | `decks/series-09-...json`, rendered |
 | 9 | Evidence: does the next video matter? | `decks/series-10-...json`, rendered |
-| 1 | Letter fallback for the origin video | `decks/series-01-...json`, rendered |
+| 10 | What Did We Come Here To Find? | `decks/series-03-...json`, rendered |
+| Space | Corrected Facebook post | section 6, once the playlist is approved |
 
 ## 8. Posts NEEDING JUSTIN
 
 | Day | Post | What is needed |
 | --- | --- | --- |
-| 1 | Founder origin video | 40 seconds to camera, by Tuesday 17:00 |
-| 3 | So I Started Choosing It Myself | A photo of you at the laptop; confirm "built with developers" |
-| 4 | Real product demonstration | A 30 second screen recording of the builder |
+| 1 to 3 | The three founder posts | Read them and say yes; confirm "built with developers" |
+| 4 | How it works | One phone screenshot of a real playlist |
 | 5 | Free playlist invitation | Check the free button reaches sign up, and the bio link |
 | 7 | This Week's Playlist | Approve Thursday's Safe Watch handoff |
 | 8 | Why This Made The Playlist | Comes from that handoff |
-| 10 | I Tried It As A Dad | The full screen recording, including the ending |
-| Space | Facebook post | Confirm it is live, and make the check edit |
 | Space | Playlist | PENDING to APPROVED, or tell me no |
+| Later | Origin video, product Reel, I Tried It As A Dad | The first week you film. Not before. |
 
 ## 9. Posts PUBLISHED
 
-| Date | Platform | Post | Source of record |
-| --- | --- | --- | --- |
-| 5 Oct | Facebook | Space for curious 9 to 11 year olds | Posting tracker says POSTED; the post file says NOT POSTED. Confirm. |
-
-No other Social Billboard post is recorded as published in any document
-reviewed. SB 001 (10 September) and the START HERE posts have no published
-record; if any went out, tell me and they move here.
+None. Justin confirmed on 5 October that the Space Facebook post is not live,
+so the posting tracker's POSTED line is wrong. No other Social Billboard post
+is recorded as published in any document reviewed; if SB 001 or a START
+HERE post went out, tell me and it moves here.
 
 ## 10. Performance and results
 
@@ -524,14 +623,13 @@ what only earns likes.
 
 ## 11. What to do TODAY (Monday 5 October)
 
-1. Check the Space Facebook post. If it is live, make the check edit in
-   section 6.
-2. Approve the Space playlist, or say no.
-3. Day 0 audit on your phone: does GET A FREE PLAYLIST reach sign up; does
+1. Approve the Space playlist, or say no.
+2. Day 0 audit on your phone: does GET A FREE PLAYLIST reach sign up; does
    the Instagram bio link go to the playlist page; does
    /transparency/parents load.
-4. Read Days 1 to 3 and say yes or change them.
-5. Film the Day 1 video (40 seconds) today or before 17:00 tomorrow.
+3. If Space is approved and the route works, post the corrected Space
+   Facebook post (section 6).
+4. Read Days 1 to 3 and say yes or change them. No filming needed this week.
 
 ## 12. What can WAIT
 
@@ -539,7 +637,8 @@ what only earns likes.
   reveal.
 - Any paid test, including the £10 a day plan.
 - The full checking framework post and the parent transparency page link.
-- "When it ends, it ends" and "nothing autoplays" claims, until Day 10's test.
+- "When it ends, it ends" and "nothing autoplays" claims, until the ending is screen recorded.
+- All three video pieces, until the first week you film.
 - The lockdown founder chapter (week of 19 October) and the "how I build
   now" chapter (November, once).
 - The age shelf carousel, the "send this to the parent who" deck, and the
@@ -611,16 +710,17 @@ Generated graphics only for the carousel cards and recurring formats.
 | Day | Real (Justin films or captures) | Built here (cards) | Status |
 | --- | --- | --- | --- |
 | 0 | Phone screenshots: sign up screen, bio link, playlist page | | Justin |
-| 1 | 40 second Reel to camera; one still frame for the cover | Reel cover, letter fallback | Cards rendered; film needed |
+| 1 | | Seven slide letter carousel | Rendered |
 | 2 | | Eight slide carousel | Rendered |
-| 3 | Photo of Justin at the laptop | Seven slide carousel | Rendered; photo needed |
-| 4 | 30 second screen recording of the builder, two seconds of face | Reel cover; Space Story card | Recording needed |
+| 3 | A photo of you at the laptop, optional | Seven slide carousel | Rendered |
+| 4 | One phone screenshot of a real playlist | Six slide real screens carousel; Space Story card | Rendered; one screenshot to add |
 | 5 | | Offer card | Rendered |
 | 6 | | Request board Story card | Rendered |
 | 7 | Screenshot of the new playlist in Discover | Six slide carousel from the handoff; theme background made without text | Waits for Thursday's handoff |
 | 8 | | Single card | Fallback rendered |
 | 9 | | Seven slide research carousel | Rendered |
-| 10 | 50 second screen recording, including the ending | Reel cover | Recording needed |
+| 10 | | Seven slide carousel with the real criteria screen | Rendered |
+| Later | Origin video, product Reel, I Tried It As A Dad | Reel covers | Rendered; filming the first week you choose |
 
 Render everything with `node tools/tsb-playlist-card/render.mjs`; fresh PNGs
 and alt text land in `tools/tsb-playlist-card/out/`. The launch set is copied into `content/packs/2026-10-05-sb-launch-control/renders/` so it can be opened from GitHub.
