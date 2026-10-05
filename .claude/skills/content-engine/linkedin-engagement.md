@@ -85,6 +85,8 @@ time. People follow a person and a journey, not a Canva graphic or an AI diagram
   argument). Never a generic stock or AI infographic for its own sake.
 - When a post has a real photo, weave the photo into the story, do not just attach it.
   The moon post is the template: the image is the hook and the metaphor, not decoration.
+- When a Guided Childhood graphic is the right call (company page, schools, a product
+  screen), it follows `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`.
 
 ---
 

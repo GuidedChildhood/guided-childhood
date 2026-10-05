@@ -2,6 +2,13 @@
 
 **How we actually build the pictures. No dashes in any copy on any card.**
 
+**The look is decided in `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`** (5 October
+2026): the six formats, the real assets, the friend colours, the gold pathway
+and the evidence rule. Read it first. This file keeps the craft: sizes, the
+safe zone, Facebook, the renderer and the last card. Where the two disagree on
+look (the Happy News stickers and colour rotation below), the system file
+wins; the audit is `plans/2026-10-05-social-visual-system.md`.
+
 ---
 
 ## The reference, and how far we take it

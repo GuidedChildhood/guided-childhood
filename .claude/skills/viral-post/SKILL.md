@@ -190,6 +190,12 @@ The image is half the stop scroll. The winning one is an editorial "research car
 and not a busy infographic. Its power is restraint, one big number, one accent colour, a lot of
 calm cream space. Replicate this exact system.
 
+This serif card is a deliberate exception to `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`,
+kept because it is the proven format for Justin's own posts. Whether it stays
+serif is an open question in `plans/2026-10-05-social-visual-system.md`; until
+Justin decides, keep it as is, and use the system file for anything posted as
+Guided Childhood rather than as Justin.
+
 ### The anatomy of the card (top to bottom)
 
 1. **Eyebrow.** Small, uppercase, wide letter spacing, muted terracotta or taupe. The series
