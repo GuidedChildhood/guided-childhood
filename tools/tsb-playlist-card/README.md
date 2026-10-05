@@ -56,6 +56,8 @@ set of series rather than a new design each post. A deck with
   weekly playlist), `photo` or `photoFull` (a labelled slot for a real photo),
   `sky` (a background from `backgrounds/`), `note`, `pill`.
 
+Word budget: `node tools/tsb-playlist-card/check-words.mjs` (12 words on slide 1, 25 after). The method is the `sb-carousel` skill.
+
 `"kind": "reels"` renders 1080 x 1920 Reel covers with every word inside the
 3:4 grid crop and nothing in the bottom 380px. Set `"guides": true` to draw
 the safe zones (`decks/reels-00-cover-spec.json`).

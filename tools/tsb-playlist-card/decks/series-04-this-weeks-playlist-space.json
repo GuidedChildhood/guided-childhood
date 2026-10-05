@@ -16,7 +16,7 @@
     "5 videos",
     "About 40 minutes"
    ],
-   "ends": "a stargazing guide, on purpose, so the last video sends them outside."
+   "ends": "a stargazing guide, so they go outside."
   },
   {
    "tone": "white",
@@ -24,35 +24,33 @@
    "big": "Five videos.",
    "size": "md",
    "list": [
-    "Eight planets in eight experiments",
+    "8 planets, 8 experiments",
     "The Moon",
-    "The space station with Tim Peake",
-    "How a space telescope gets tested",
-    "How to start stargazing"
-   ],
-   "note": "From Royal Observatory Greenwich, the National Space Centre and Maddie Moate."
+    "The space station, with Tim Peake",
+    "How a telescope is tested",
+    "Start stargazing"
+   ]
   },
   {
    "tone": "black",
-   "kicker": "Why this made the playlist",
    "big": "Why 40 minutes?",
    "hl": "40 minutes?",
    "size": "md",
-   "body": "The UK Chief Medical Officers say the research isn't strong enough to set a screen time limit. So we size it as one session, with a real end."
+   "body": "The UK Chief Medical Officers found the evidence too weak to set a limit. So it's one session, with an end."
   },
   {
    "tone": "yellow",
    "kicker": "Why it ends outside",
    "big": "Friday night, look up.",
    "size": "md",
-   "body": "The Draconid meteor shower peaks on Friday 9 October and is best just after dark. No telescope. Just a coat."
+   "body": "The Draconids peak on Friday 9 October, best just after dark. No telescope. Just a coat."
   },
   {
    "tone": "white",
    "kicker": "What we checked, honestly",
    "big": "Every video opened this week.",
    "size": "sm",
-   "body": "It plays in the UK, who made it, how long it runs, what's in it. These channels are new to us, so they had our shorter check, not the full panel. Your judgement about your child matters more than ours."
+   "body": "UK playback, maker, length, content. New channels, so the shorter check, not the full panel."
   },
   {
    "tone": "black",
