@@ -1,0 +1,85 @@
+{
+ "name": "series-12-why-this-made-the-playlist-space",
+ "kind": "series",
+ "series": "Why this made the playlist",
+ "issue": "No. 02",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "sky": "backgrounds/night-sky-square.png",
+   "big": "18 videos opened. 9 kept. 5 made it.",
+   "hl": "5 made it.",
+   "size": "md",
+   "chips": [
+    "Ages 9 to 11",
+    "Space",
+    "About 40 minutes"
+   ]
+  },
+  {
+   "tone": "white",
+   "kicker": "The problem",
+   "big": "You haven't got time to open 18 videos on a school night.",
+   "size": "md",
+   "body": "So we open them, and show you what we found."
+  },
+  {
+   "tone": "black",
+   "big": "Five questions, every video.",
+   "hl": "every video.",
+   "size": "md",
+   "list": [
+    "Plays in the UK?",
+    "Who made it? Who paid?",
+    "How long?",
+    "What's in it?",
+    "Where does the next click go?"
+   ]
+  },
+  {
+   "tone": "white",
+   "kicker": "What got cut",
+   "big": "A brand funded series. A stargazing video that was really a kit advert.",
+   "size": "sm",
+   "body": "A children's playlist shouldn't double as an advert."
+  },
+  {
+   "tone": "black",
+   "kicker": "Also cut",
+   "big": "Two lovely films, one click from “How will the Universe end?”",
+   "hl": "one click",
+   "size": "sm",
+   "body": "Not where a nine year old's evening should go."
+  },
+  {
+   "tone": "white",
+   "kicker": "Nearly got wrong",
+   "big": "An observatory's stargazing guide, presented by a guest.",
+   "size": "sm",
+   "body": "We looked her up. She checks out. You have to look every time."
+  },
+  {
+   "tone": "black",
+   "kicker": "Why about 40 minutes",
+   "big": "There's no official limit at this age.",
+   "size": "sm",
+   "body": "So it's one session for 9 to 11, ending with stargazing."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "Honest limits",
+   "big": "New channels, so our shorter check, not the full panel.",
+   "size": "sm",
+   "body": "Four of five have open YouTube comments. No list is zero risk."
+  },
+  {
+   "tone": "black",
+   "big": "Every week, we open them first.",
+   "hl": "first.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "Your first playlist is free. No card needed. You see every video before they press play."
+  }
+ ]
+}

@@ -207,11 +207,11 @@ as extra posts without moving anything else.
 | 1 | Tue 6 Oct | Why I Built This, chapter 1: the founder letter | IG carousel, FB post | Ready | |
 | 2 | Wed 7 Oct | The First Video Wasn't The Problem | IG carousel, FB post | Ready | |
 | 3 | Thu 8 Oct | So I Started Choosing It Myself | IG carousel, FB post | Ready, one fact to confirm | |
-| 4 | Fri 9 Oct | How it works: the real screens | IG carousel, FB post | Ready, needs one screenshot | |
+| 4 | Fri 9 Oct | Why These Five Made The Space Playlist | IG carousel, FB post | Ready | G1 |
 | 5 | Sat 10 Oct | Free playlist invitation | IG single, FB post | Ready once the route is checked | |
 | 6 | Sun 11 Oct | Parent request and question | FB post, IG Story | Ready | |
 | 7 | Mon 12 Oct | This Week's Playlist | IG carousel, FB post, Stories | From Thursday's Safe Watch handoff | G1 |
-| 8 | Tue 13 Oct | Why This Made The Playlist | IG single, FB post | From the handoff; fallback ready | |
+| 8 | Tue 13 Oct | How it works: the real screens (moved from Day 4) | IG carousel, FB post | Ready, needs one screenshot | |
 | 9 | Wed 14 Oct | Evidence: why we are building this | IG carousel, FB post | Ready | |
 | 10 | Thu 15 Oct | What Did We Come Here To Find? | IG carousel, FB post | Ready | |
 
@@ -370,7 +370,58 @@ Caption (IG and FB):
 Confirm before it goes: that the first version was built with developers
 (the source says so; you know the detail).
 
-**DAY 4. How it works: the real screens.** Carousel, six slides,
+**DAY 4. Why These Five Made The Space Playlist.** Carousel, nine slides,
+`decks/series-12-why-this-made-the-playlist-space.json`, renders in
+`content/packs/2026-10-05-sb-launch-control/renders/day-04-why-this-made-the-playlist-space/`.
+Added 5 October, when Justin approved Space and asked whether to show the
+review behind it. Yes: the review is the proof of the product, and every
+line comes from the Safe Watch handoff ("why we chose this playlist" and the
+internal playlist notes), nothing added. It goes out during Space week,
+which is why it takes Day 4 and How it works moves to Day 8.
+
+1. 18 videos opened. 9 kept. 5 made it. (age chip, Space, about 40 minutes)
+2. The problem: you haven't got time to open 18 videos on a school night.
+3. Five questions, every video: plays in the UK, who made it and who paid,
+   how long, what's in it, where the next click goes.
+4. What got cut: a brand funded series; a stargazing video that was really a
+   kit advert.
+5. Also cut: two lovely films one click from "How will the Universe end?"
+6. Nearly got wrong: the observatory's guide presented by a guest. We looked
+   her up.
+7. Why about 40 minutes: no official limit at this age, so one session.
+8. Honest limits: new channels, shorter check, not the full panel; open
+   YouTube comments on four of five; no list is zero risk.
+9. Every week, we open them first. GET A FREE PLAYLIST.
+
+Caption (IG; Facebook adds the link):
+
+> Why these five made the Space playlist.
+>
+> Eighteen videos opened and checked this week. Nine kept. Five made it.
+>
+> What got cut is the interesting part. A brand funded series from a
+> presenter I rate, because a children's playlist shouldn't double as an
+> advert. A stargazing video that was really a kit advert. Two lovely films
+> that sit one click from "How will the Universe end?"
+>
+> And the one I nearly got wrong: a stargazing guide on an observatory's
+> channel, presented by a guest creator. I looked her up and she checks out,
+> so it stayed. You have to look every time.
+>
+> These channels are new to us, so they had our shorter check, not our full
+> panel. I'd rather tell you that than imply more.
+>
+> Get a free playlist: link in bio. And tell me one thing you'd want us to
+> check that we haven't.
+
+Never on the slides or in the caption: the video links, "safe", "nine
+checks", "no autoplay" (waits for G2).
+
+**From week 2 this is the Tuesday slot.** Every approved handoff already
+writes "why we chose this playlist", so each week's review is a copy job,
+not new research.
+
+**DAY 8. How it works: the real screens (moved from Day 4).** Carousel, six slides,
 `decks/series-11-how-it-works-real-screens.json`, built from the real
 builder screenshots already on file.
 
@@ -397,8 +448,8 @@ Caption (IG and FB):
 Facebook adds the link:
 https://thesocialbillboard.com/safe-youtube-for-kids
 
-If Space is approved, the Space Stories (hero card, link sticker, "Look up
-tonight") go up the same evening.
+On Friday 9 October (Day 4), the Space Stories (hero card, link sticker,
+"Look up tonight") go up alongside the review carousel.
 
 **When you film it:** the 30 second Reel from the 30 September plan, Post 2
 ("Show it working"), stays the script.
@@ -464,9 +515,9 @@ videos and minutes, and an ENDS WITH line; what's in it; why this length;
 the editorial reason; what we checked, honestly; GET A FREE PLAYLIST. Not
 written in advance, because the playlist does not exist yet.
 
-**DAY 8. Why This Made The Playlist.** One editorial decision from the same
-handoff (why it ends where it ends, why this length, why this age). Single
-image in the WHY THIS MADE THE PLAYLIST masthead.
+**WHY THIS MADE THE PLAYLIST, spare.** Day 8 is now How it works. The
+weekly Tuesday review starts on 20 October from that week's handoff. This
+single image stays in the bank for a week with no handoff:
 
 Fallback, ready now (`decks/series-09-why-this-made-the-playlist-shorts.json`):
 
@@ -555,7 +606,11 @@ stargazing guide on purpose; the Draconids peak on Friday 9 October, best
 just after dark. Channels include Royal Observatory Greenwich, the National
 Space Centre and Maddie Moate.
 
-**Status: PENDING.** `LATEST - status.md` has not been changed to APPROVED.
+**Status: APPROVED by Justin, 5 October.** Two steps finish G1: add it in
+admin as This Week's Playlist (title, 9 to 11, After school, 40 minutes) and
+confirm it shows in Discover for a 9 to 11 child. Re-check UK playback in
+send week. The Drive `LATEST - status.md` line still reads PENDING; change
+it to APPROVED so the Safe Watch pipeline sees it.
 
 **Honest limits, from the handoff:** every video opened and checked this
 week; the four channels are new, so they had the bounded check, not the full
@@ -623,24 +678,25 @@ Ready means the words and the image exist and only need your yes.
 | 1 | Why I Built This, chapter 1, the letter | `decks/series-01-...json`, rendered |
 | 2 | The First Video Wasn't The Problem | `decks/series-02-...json`, rendered |
 | 3 | So I Started Choosing It Myself | `decks/series-07-...json`, rendered |
-| 4 | How it works: the real screens | `decks/series-11-...json`, rendered; one screenshot to add |
+| 4 | Why These Five Made The Space Playlist | `decks/series-12-...json`, rendered |
+| 8 | How it works: the real screens | `decks/series-11-...json`, rendered; one screenshot to add |
 | 5 | Free playlist invitation | `decks/series-08-...json`, rendered |
 | 6 | Parent question and request board | copy above; `decks/series-06-...json`, rendered |
-| 8 | Fallback: Why no Shorts? | `decks/series-09-...json`, rendered |
+| Spare | Why no Shorts? | `decks/series-09-...json`, rendered |
 | 9 | Evidence: does the next video matter? | `decks/series-10-...json`, rendered |
 | 10 | What Did We Come Here To Find? | `decks/series-03-...json`, rendered |
-| Space | Corrected Facebook post | section 6, once the playlist is approved |
+| Space | Corrected Facebook post | section 6; playlist approved, waits on the route check and G2 |
 
 ## 8. Posts NEEDING JUSTIN
 
 | Day | Post | What is needed |
 | --- | --- | --- |
 | 1 to 3 | The three founder posts | Read them and say yes; confirm "built with developers" |
-| 4 | How it works | One phone screenshot of a real playlist |
+| 4 | Space review | Add Space in admin and see it in Discover |
+| 8 | How it works | One phone screenshot of a real playlist (the Space one, once it is in Discover) |
 | 5 | Free playlist invitation | Check the free button reaches sign up, and the bio link |
 | 7 | This Week's Playlist | Approve Thursday's Safe Watch handoff |
-| 8 | Why This Made The Playlist | Comes from that handoff |
-| Space | Playlist | PENDING to APPROVED, or tell me no |
+| Space | Playlist | Approved 5 October. Admin entry and the Drive status line |
 | Later | Origin video, product Reel, I Tried It As A Dad | The first week you film. Not before. |
 
 ## 9. Posts PUBLISHED
@@ -666,12 +722,12 @@ what only earns likes.
 
 ## 11. What to do TODAY (Monday 5 October)
 
-1. Approve the Space playlist, or say no.
+1. Space is approved. Add it in admin as This Week's Playlist and check it
+   shows in Discover for a 9 to 11 child; set the Drive status line to APPROVED.
 2. Day 0 audit on your phone: does GET A FREE PLAYLIST reach sign up; does
    the Instagram bio link go to the playlist page; does
    /transparency/parents load.
-3. If Space is approved and the route works, post the corrected Space
-   Facebook post (section 6).
+3. If the route works, post the corrected Space Facebook post (section 6).
 4. Read Days 1 to 3 and say yes or change them. No filming needed this week.
 
 ## 12. What can WAIT
@@ -756,14 +812,25 @@ Generated graphics only for the carousel cards and recurring formats.
 | 1 | | Seven slide letter carousel | Rendered |
 | 2 | | Eight slide carousel | Rendered |
 | 3 | A photo of you at the laptop, optional | Seven slide carousel | Rendered |
-| 4 | One phone screenshot of a real playlist | Six slide real screens carousel; Space Story card | Rendered; one screenshot to add |
+| 4 | | Nine slide Space review carousel; Space Story card | Rendered |
 | 5 | | Offer card | Rendered |
 | 6 | | Request board Story card | Rendered |
 | 7 | Screenshot of the new playlist in Discover | Six slide carousel from the handoff; theme background made without text | Waits for Thursday's handoff |
-| 8 | | Single card | Fallback rendered |
+| 8 | One phone screenshot of the Space playlist in Discover | Six slide real screens carousel | Rendered; one screenshot to add |
 | 9 | | Seven slide research carousel | Rendered |
 | 10 | | Seven slide carousel with the real criteria screen | Rendered |
 | Later | Origin video, product Reel, I Tried It As A Dad | Reel covers | Rendered; filming the first week you choose |
+
+**Reference, 5 October: The Happy Newspaper grid** (Justin's screenshots),
+through the feedback filter, layout only. Adopt: one big headline per square
+on a flat colour, with a small brand mark at the foot (our series system
+already does this); the founder holding the real product, so a photo of
+Justin holding his phone with the Space playlist on screen becomes the
+first real photo to take; the product in an ordinary moment (the phone on
+the kitchen table after school). Adapt: their founder origin caption over a
+photo, which becomes the Day 1 letter with Justin's photo once there is one.
+Decline: the hand lettered type and the rainbow palette, which belong to
+their brand; ours stays black, yellow and pink, with Montserrat.
 
 Render everything with `node tools/tsb-playlist-card/render.mjs`; fresh PNGs
 and alt text land in `tools/tsb-playlist-card/out/`. The launch set is copied into `content/packs/2026-10-05-sb-launch-control/renders/` so it can be opened from GitHub.

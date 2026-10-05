@@ -297,3 +297,7 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Founder source is `content/brand-story/founder-context.md`. SB was built with developers, never "vibe coded". The lockdown scene waits until after the family account runs it on 9 October (no scene on two accounts in one fortnight).
 - "When it ends, it ends" waits for Justin's phone test; the full checking framework waits for one confirmed wording. The Space Facebook post's "nine checks" line needs correcting to the bounded check.
 - The playlist card tool gained a series layer (masthead, session bar, chips, Reel covers).
+
+## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
+
+Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a nine slide carousel built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
