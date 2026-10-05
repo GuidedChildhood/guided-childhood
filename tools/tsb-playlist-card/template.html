@@ -113,8 +113,9 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
    One system for every SB franchise, so a parent knows the series before they read a word.
    Three fixed parts, all derived from the product itself:
    1. The masthead: series name left, issue number right, a hairline under it.
-   2. The session bar: the product's promise drawn as a line with a start dot and an END block.
-      It fills slide by slide and reaches END on the last slide. A post has a beginning and an end.
+   2. The progress line: a start dot and a line that fills slide by slide, so a parent can see how far
+      through the carousel they are. Carousels only. The END block it once ended on was dropped on
+      5 October 2026: Justin read it as strange, and on a single image it meant nothing.
    3. Criteria chips: the same choices a parent makes in the playlist builder (age, subject, time). */
 .masthead{position:absolute;top:56px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:baseline;
   font-weight:800;font-size:24px;letter-spacing:.2em;text-transform:uppercase;padding-bottom:18px;border-bottom:2px solid currentColor;z-index:3;}
@@ -265,10 +266,10 @@ window.renderCarousel = function (deck) {
   })
 }
 
-/** The session bar: the product's own promise, drawn. `frac` is 0 to 1; 1 means the post has reached END. */
+/** The progress line for carousels. `frac` is 0 to 1: how far through the carousel this slide is. */
 window.sessionBar = function (frac) {
   const pct = Math.max(0, Math.min(1, frac)) * 100
-  return `<div class="sessionbar${frac >= 1 ? ' done' : ''}"><span class="start"></span><span class="track"><i style="width:${pct}%"></i></span><span class="end"><span>END</span></span></div>`
+  return `<div class="sessionbar"><span class="start"></span><span class="track"><i style="width:${pct}%"></i></span></div>`
 }
 
 /**
@@ -306,7 +307,7 @@ window.renderSeries = function (deck) {
         <div class="big ${sl.size || 'lg'}">${big}</div>
         ${body}${chips}${ends}${list}${shots}${photo}${note}${pill}
       </div>
-      <div class="foot series"><span class="site">${esc(deck.foot || 'thesocialbillboard.com')}</span>${window.sessionBar(frac)}</div>`
+      <div class="foot series"><span class="site">${esc(deck.foot || 'thesocialbillboard.com')}</span>${total > 1 ? window.sessionBar(frac) : ''}</div>`
     sheet.appendChild(el)
   })
 }
@@ -328,7 +329,6 @@ window.renderReels = function (deck) {
       <div class="safe">
         <div><div class="series">${esc(c.series)}</div><div class="ep">${esc(c.ep || '')}</div></div>
         <div class="hook">${hook}</div>
-        <div class="bar">${window.sessionBar(0)}</div>
       </div>
       ${deck.guides ? '<div class="guide grid"><b>GRID CROP 3:4</b></div><div class="guide ui"><b>CAPTION AND BUTTONS</b></div>' : ''}`
     sheet.appendChild(el)
@@ -344,7 +344,7 @@ window.renderCover = function (deck) {
     let head = esc(c.head).replace(/\n/g, '<br>'); if (c.hl) head = head.replace(esc(c.hl), `<span class="hl">${esc(c.hl)}</span>`)
     const chips = (c.chips || []).map((x) => `<span${/^ages? /i.test(x) ? ' class="age"' : ''}>${esc(x)}</span>`).join('')
     el.innerHTML = `<div class="band"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="head">${head}</div>
-      <div class="chips">${chips}</div><div class="offer">${c.offer || ''}</div><div class="bar">${window.sessionBar(1)}</div></div>
+      <div class="chips">${chips}</div><div class="offer">${c.offer || ''}</div></div>
       ${c.guides ? '<div class="guide band-g"><b>DESKTOP SHOWS THIS BAND</b></div><div class="guide pic"><b>PROFILE PICTURE ON PHONE</b></div>' : ''}`
     sheet.appendChild(el)
   }
