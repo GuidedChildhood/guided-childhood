@@ -1,0 +1,52 @@
+{
+ "name": "reels-01-covers",
+ "kind": "reels",
+ "covers": [
+  {
+   "name": "reel-why-i-built-this-ch1",
+   "tone": "black",
+   "series": "Why I built this",
+   "ep": "Chapter 1",
+   "hook": "I was never worried about the first video.",
+   "hl": "the first video.",
+   "photoFull": "REAL FRAME: Justin to camera, window light",
+   "alt": "Justin to camera. Text: Why I built this, chapter 1. I was never worried about the first video."
+  },
+  {
+   "name": "reel-the-next-video",
+   "tone": "black",
+   "series": "The next video",
+   "ep": "No. 01",
+   "hook": "You chose this video.\nWho chose the next one?",
+   "hl": "Who chose the next one?",
+   "alt": "Black cover. Text: The next video. You chose this video. Who chose the next one?"
+  },
+  {
+   "name": "reel-i-tried-it-as-a-dad",
+   "tone": "yellow",
+   "series": "I tried it as a dad",
+   "ep": "No. 01",
+   "hook": "20 minutes.\nOne space fan.\nLet's see.",
+   "hl": "Let's see.",
+   "alt": "Yellow cover. Text: I tried it as a dad. 20 minutes, one space fan, let's see."
+  },
+  {
+   "name": "reel-this-weeks-playlist",
+   "tone": "black",
+   "series": "This week's playlist",
+   "ep": "Space, ages 9 to 11",
+   "hook": "Why it ends outside.",
+   "hl": "outside.",
+   "alt": "Black cover. Text: This week's playlist, space for ages 9 to 11. Why it ends outside."
+  },
+  {
+   "name": "reel-come-here-to-find",
+   "tone": "white",
+   "series": "What did we come here to find?",
+   "ep": "No. 01",
+   "hook": "Space.\nAge 9.\n20 minutes.",
+   "hl": "20 minutes.",
+   "alt": "White cover. Text: What did we come here to find? Space, age 9, 20 minutes."
+  }
+ ]
+}

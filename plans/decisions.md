@@ -290,6 +290,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Sharer is owed £5 at the friend's second paid bill, or 60 days into a year; a refund voids it. A daily cron reads Stripe, not webhooks. Payout is a monthly PayPal file from `/dashboard/admin/referrals`.
 - Refer page lives under settings so the paywall leaves it open. Guarded in check-referrals.
 
+## 5 October 2026: one control document for the Social Billboard parent launch (PR 1192)
+
+- Justin: consolidate, do not write another strategy. `plans/sb-parent-launch-control.md` is now the only place to look for the SB launch; every earlier SB plan is classified in its section 13 (keep, merge, update, hold, retire).
+- Parents first, creators held. Primary CTA everywhere: GET A FREE PLAYLIST. Day 0 to 10 sequence from 5 October, then a weekly rhythm built on the Safe Watch handoff.
+- Founder source is `content/brand-story/founder-context.md`. SB was built with developers, never "vibe coded". The lockdown scene waits until after the family account runs it on 9 October (no scene on two accounts in one fortnight).
+- "When it ends, it ends" waits for Justin's phone test; the full checking framework waits for one confirmed wording. The Space Facebook post's "nine checks" line needs correcting to the bounded check.
+- The playlist card tool gained a series layer (masthead, session bar, chips, Reel covers).
+
+## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
+
+Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a ten slide carousel (redone the same day with the video method and Instagram and Facebook practice, now in the sb-carousel skill) built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
 ## 5 October 2026: one social visual system, the real assets win
 
 - Justin asked for one brand default across Instagram, Facebook, LinkedIn and

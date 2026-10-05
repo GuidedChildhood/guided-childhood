@@ -40,3 +40,27 @@ text to paste into the post.
 Copy `decks/space-9-to-11.json`, change `headline`, `age`, `meta`, the
 `background` and the `alt`, then render. Keep `eyebrow`, `ctaText`, `siteNote`
 and `site` as they are unless the landing page changes.
+
+## The series layer (5 October 2026)
+
+Every Social Billboard franchise uses one system, so the account reads as a
+set of series rather than a new design each post. A deck with
+`"kind": "series"` gets three things on every slide:
+
+- the masthead: `series` top left, `issue` top right, a hairline under it;
+- the session bar at the foot: a start dot, a track that fills slide by slide,
+  and an END block that fills on the last slide (a session with a beginning
+  and an end, drawn);
+- optional `chips` (the builder's own choices; any chip starting "Age" is
+  pink, because pink always means age band), `ends` (the ENDS WITH line on a
+  weekly playlist), `photo` or `photoFull` (a labelled slot for a real photo),
+  `sky` (a background from `backgrounds/`), `note`, `pill`.
+
+Word budget: `node tools/tsb-playlist-card/check-words.mjs` (12 words on slide 1, 25 after). The method is the `sb-carousel` skill.
+
+`"kind": "reels"` renders 1080 x 1920 Reel covers with every word inside the
+3:4 grid crop and nothing in the bottom 380px. Set `"guides": true` to draw
+the safe zones (`decks/reels-00-cover-spec.json`).
+
+The primary CTA on every pill is "Get a free playlist". The launch decks and
+what each is for are listed in `plans/sb-parent-launch-control.md`.

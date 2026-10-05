@@ -1,0 +1,53 @@
+{
+ "name": "series-01-why-i-built-this-ch1",
+ "kind": "series",
+ "series": "Why I built this",
+ "issue": "Chapter 1",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "white",
+   "kicker": "Justin, dad of three",
+   "big": "I was never worried about the first video.",
+   "hl": "the first video.",
+   "size": "lg"
+  },
+  {
+   "tone": "black",
+   "big": "YouTube has extraordinary things on it for children.",
+   "size": "sm",
+   "body": "I still think that. My three have learned real things from it."
+  },
+  {
+   "tone": "white",
+   "big": "Then a video about relationships turned up in the recommendations.",
+   "size": "sm",
+   "body": "I hadn't gone looking for it. The recommendations brought it."
+  },
+  {
+   "tone": "black",
+   "big": "A parent chooses the first video.\nWho chooses the next one?",
+   "hl": "Who chooses the next one?",
+   "size": "md"
+  },
+  {
+   "tone": "white",
+   "big": "I watched my children go from one video to the next.",
+   "size": "sm",
+   "body": "And I saw how little say a parent has over where it ends up."
+  },
+  {
+   "tone": "yellow",
+   "big": "That question is why I built The Social Billboard.",
+   "size": "sm",
+   "body": "Next chapter: an ordinary lockdown afternoon, and what was really going on."
+  },
+  {
+   "tone": "black",
+   "big": "What does your child usually watch after the video you chose?",
+   "size": "sm",
+   "body": "Tell me in the comments. I read every one.",
+   "sig": "Justin"
+  }
+ ]
+}

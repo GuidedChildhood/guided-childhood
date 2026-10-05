@@ -1,0 +1,51 @@
+{
+ "name": "series-07-why-i-built-this-choosing-it-myself",
+ "kind": "series",
+ "series": "Why I built this",
+ "issue": "Chapter 2",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "white",
+   "kicker": "Justin, dad of three",
+   "big": "So I started choosing it myself.",
+   "hl": "choosing it myself.",
+   "size": "lg"
+  },
+  {
+   "tone": "black",
+   "big": "I'd find videos I thought were right and line them up myself.",
+   "size": "sm"
+  },
+  {
+   "tone": "white",
+   "big": "It took ages. It was hard to keep up. And it didn't fix the real problem.",
+   "size": "sm"
+  },
+  {
+   "tone": "black",
+   "big": "The next video still wasn't mine to choose.",
+   "hl": "wasn't mine to choose.",
+   "size": "md"
+  },
+  {
+   "tone": "yellow",
+   "big": "So I had it built properly.",
+   "size": "md",
+   "body": "With developers. Explaining what was in my head until someone else could build it."
+  },
+  {
+   "tone": "black",
+   "big": "That became The Social Billboard.",
+   "size": "sm",
+   "body": "You choose age, subject, tone, time of day and length. We build the playlist around it."
+  },
+  {
+   "tone": "white",
+   "big": "Tomorrow: the real thing, on my phone.",
+   "size": "md",
+   "body": "What would you want it to find first for your child?",
+   "sig": "Justin"
+  }
+ ]
+}

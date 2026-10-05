@@ -99,7 +99,7 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .slide[data-tone="yellow"] .list div::before{background:var(--tsb-black);}
 .slide .shots{display:flex;gap:24px;margin-top:40px;width:100%;}
 .slide .shots img{flex:1;min-width:0;height:560px;object-fit:cover;object-position:top;border-radius:20px;border:2px solid #3a3a3a;background:#161616;}
-.slide .shots.one img{height:auto;max-height:640px;object-fit:contain;object-position:top left;width:100%;}
+.slide .shots.one img{flex:none;height:auto;max-height:660px;width:auto;max-width:100%;object-fit:contain;}
 .slide .shots + .pill{margin-top:40px;}
 .slide .foot{display:flex;justify-content:space-between;align-items:flex-end;font-weight:600;font-size:26px;opacity:.7;letter-spacing:.02em;}
 .slide .foot .n{font-weight:800;}
@@ -108,6 +108,96 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .slide[data-tone="yellow"] .pill{background:var(--tsb-black);color:var(--tsb-yellow);}
 .slide .top{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-bottom:60px;}
 .slide .foot .swipe{font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+
+/* ---------- the series layer (5 October 2026) ----------
+   One system for every SB franchise, so a parent knows the series before they read a word.
+   Three fixed parts, all derived from the product itself:
+   1. The masthead: series name left, issue number right, a hairline under it.
+   2. The session bar: the product's promise drawn as a line with a start dot and an END block.
+      It fills slide by slide and reaches END on the last slide. A post has a beginning and an end.
+   3. Criteria chips: the same choices a parent makes in the playlist builder (age, subject, time). */
+.masthead{position:absolute;top:56px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:baseline;
+  font-weight:800;font-size:24px;letter-spacing:.2em;text-transform:uppercase;padding-bottom:18px;border-bottom:2px solid currentColor;z-index:3;}
+.masthead .no{font-weight:600;letter-spacing:.12em;opacity:.7;}
+.slide[data-tone="black"] .masthead .name{color:var(--tsb-yellow);}
+.slide.has-mast{padding-top:150px;}
+.sessionbar{display:flex;align-items:center;gap:0;flex:1;margin-right:36px;}
+.sessionbar .start{width:18px;height:18px;border-radius:50%;background:currentColor;flex:none;}
+.sessionbar .track{position:relative;flex:1;height:4px;background:currentColor;opacity:1;}
+.sessionbar .track::before{content:"";position:absolute;inset:0;background:inherit;opacity:.25;}
+.sessionbar .track i{position:absolute;left:0;top:-3px;bottom:-3px;background:var(--tsb-yellow);border-radius:4px;}
+.slide[data-tone="yellow"] .sessionbar .track i,.slide[data-tone="white"] .sessionbar .track i{background:var(--tsb-black);}
+.sessionbar .track{background:transparent;}
+.sessionbar .track::before{background:currentColor;}
+.sessionbar .end{flex:none;font-weight:900;font-size:20px;letter-spacing:.16em;padding:8px 12px;border:3px solid currentColor;border-radius:6px;line-height:1;}
+.sessionbar.done .end{background:currentColor;}
+.slide[data-tone="black"] .sessionbar.done .end span{color:var(--tsb-black);}
+.slide[data-tone="white"] .sessionbar.done .end span,.slide[data-tone="yellow"] .sessionbar.done .end span{color:#fff;}
+.slide[data-tone="yellow"] .sessionbar.done .end span{color:var(--tsb-yellow);}
+.slide .foot.series{align-items:center;opacity:1;}
+.slide .foot.series .site{font-weight:600;font-size:22px;opacity:.7;color:inherit;text-align:left;line-height:1;margin-right:28px;white-space:nowrap;}
+.chips{display:flex;flex-wrap:wrap;gap:16px;margin-top:44px;}
+.chips span{font-weight:800;font-size:34px;padding:14px 26px;border:3px solid currentColor;border-radius:999px;line-height:1;}
+.chips span.age{background:var(--pink);border-color:var(--pink);color:#fff;} /* pink means age band, on every SB asset */
+.ends{margin-top:40px;display:flex;gap:20px;align-items:baseline;max-width:900px;}
+.ends b{flex:none;font-weight:900;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:var(--tsb-yellow);}
+.slide[data-tone="white"] .ends b,.slide[data-tone="yellow"] .ends b{color:var(--tsb-black);}
+.ends span{font-weight:600;font-size:32px;line-height:1.3;}
+.photo{margin-top:40px;width:100%;height:560px;border-radius:20px;background:repeating-linear-gradient(135deg,#d9d6cf 0 18px,#cfccc4 18px 36px);
+  display:flex;align-items:flex-end;padding:24px;color:#4a4740;font-weight:700;font-size:26px;letter-spacing:.04em;}
+.slide[data-tone="black"] .photo{background:repeating-linear-gradient(135deg,#1d1d1d 0 18px,#242424 18px 36px);color:#8a8a8a;}
+.slide .photo.full{position:absolute;inset:0;height:auto;margin:0;border-radius:0;z-index:0;}
+.slide.bg-photo .top,.slide.bg-photo .foot,.slide.bg-photo .masthead{position:relative;z-index:2;}
+.slide.bg-photo .masthead{position:absolute;}
+.slide[data-sky]{background-size:cover;background-position:center;}
+.slide[data-sky] .big{text-shadow:0 2px 24px rgba(0,0,0,.35);}
+.slide .note{margin-top:36px;font-weight:600;font-size:30px;line-height:1.35;opacity:.8;max-width:880px;}
+
+/* ---------- Reel cover, 1080 x 1920 ----------
+   Instagram shows the grid as a 3:4 centre crop (1080 x 1440), so every word sits inside it.
+   The bottom 380px is under the caption and buttons in the feed, so nothing important goes there. */
+.reel{position:relative;overflow:hidden;width:1080px;height:1920px;font-family:'Montserrat',sans-serif;}
+.reel[data-tone="black"]{background:var(--tsb-black);color:#fff;}
+.reel[data-tone="white"]{background:#fff;color:var(--tsb-black);}
+.reel[data-tone="yellow"]{background:var(--tsb-yellow);color:var(--tsb-black);}
+.reel .photo.full{position:absolute;inset:0;height:auto;margin:0;border-radius:0;}
+.reel .safe{position:absolute;left:0;right:0;top:240px;height:1440px;padding:120px 80px 250px;display:flex;flex-direction:column;justify-content:space-between;z-index:2;}
+.reel .series{display:inline-flex;align-self:flex-start;font-weight:900;font-size:30px;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--tsb-yellow);color:var(--tsb-black);padding:16px 24px;border-radius:8px;}
+.reel[data-tone="yellow"] .series{background:var(--tsb-black);color:var(--tsb-yellow);}
+.reel .ep{margin-top:18px;font-weight:700;font-size:26px;letter-spacing:.16em;text-transform:uppercase;opacity:.75;}
+.reel .hook{font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.015em;font-size:118px;}
+.reel .hook .hl{color:var(--tsb-yellow);}
+.reel[data-tone="yellow"] .hook .hl,.reel[data-tone="white"] .hook .hl{color:var(--tsb-red);}
+.reel .bar{display:flex;align-items:center;}
+.reel.bg-photo .photo.full::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.25) 100%);}
+.reel.bg-photo .hook{text-shadow:0 4px 30px rgba(0,0,0,.55);color:#fff;}
+.reel .guide{position:absolute;left:0;right:0;border:4px dashed #E91E8C;z-index:4;pointer-events:none;}
+.reel .guide.grid{top:240px;height:1440px;}
+.reel .guide.ui{bottom:0;height:380px;border-color:#2D9CDB;background:rgba(45,156,219,.12);}
+.reel .guide b{position:absolute;right:16px;top:12px;font-size:22px;letter-spacing:.08em;color:#E91E8C;background:#fff;padding:4px 10px;border-radius:4px;}
+.reel .guide.ui b{color:#2D9CDB;}
+
+/* ---------- Facebook cover, 1640 x 924 ----------
+   Uploaded at 16:9 so the phone shows all of it. Desktop crops to the middle 1640 x 624
+   band, and the profile picture sits over the bottom centre on the phone, so every word
+   lives in the band above that. */
+.cover{position:relative;overflow:hidden;width:1640px;height:924px;background:var(--tsb-black);color:#fff;font-family:'Montserrat',sans-serif;}
+.cover .band{position:absolute;left:0;right:0;top:150px;height:624px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:48px;text-align:center;}
+.cover .eyebrow{font-weight:700;font-size:26px;letter-spacing:.22em;text-transform:uppercase;color:var(--tsb-grey-lt);margin-bottom:26px;}
+.cover .head{font-weight:900;text-transform:uppercase;font-size:92px;line-height:.98;letter-spacing:-.015em;}
+.cover .head .hl{color:var(--tsb-yellow);}
+.cover .chips{justify-content:center;margin-top:40px;}
+.cover .chips span{font-size:30px;padding:12px 24px;}
+.cover .offer{margin-top:34px;font-weight:600;font-size:30px;color:#fff;}
+.cover .offer b{color:var(--tsb-yellow);font-weight:800;}
+.cover .bar{width:1000px;margin-top:40px;display:flex;align-items:center;}
+.cover .sessionbar.done .end span{color:var(--tsb-black);}
+.cover .guide{position:absolute;border:4px dashed #E91E8C;z-index:4;pointer-events:none;}
+.cover .guide.band-g{left:0;right:0;top:150px;height:624px;}
+.cover .guide.pic{left:640px;width:360px;bottom:0;height:200px;border-color:#2D9CDB;border-radius:180px 180px 0 0;}
+.cover .guide b{position:absolute;right:12px;top:8px;font-size:20px;background:#fff;color:#E91E8C;padding:3px 8px;border-radius:4px;}
+.cover .guide.pic b{color:#2D9CDB;right:auto;left:50%;transform:translateX(-50%);top:-34px;}
 </style>
 </head>
 <body>
@@ -173,6 +263,91 @@ window.renderCarousel = function (deck) {
       <div class="foot"><span>${esc(sl.foot || deck.foot || 'thesocialbillboard.com')}</span>${deck.standalone ? '' : (i === 0 && !last ? '<span class="swipe">Swipe →</span>' : `<span class="n">${i + 1} / ${total}</span>`)}</div>`
     sheet.appendChild(el)
   })
+}
+
+/** The session bar: the product's own promise, drawn. `frac` is 0 to 1; 1 means the post has reached END. */
+window.sessionBar = function (frac) {
+  const pct = Math.max(0, Math.min(1, frac)) * 100
+  return `<div class="sessionbar${frac >= 1 ? ' done' : ''}"><span class="start"></span><span class="track"><i style="width:${pct}%"></i></span><span class="end"><span>END</span></span></div>`
+}
+
+/**
+ * A series carousel: the carousel deck plus { series: 'THE NEXT VIDEO', issue: 'No. 01' }.
+ * Every slide gets the masthead and the session bar. Optional per slide: chips: [..], photo: 'label',
+ * photoFull: 'label' (full bleed real photo slot), sky: 'backgrounds/x.png', note: 'small line'.
+ */
+window.renderSeries = function (deck) {
+  const sheet = document.getElementById('sheet')
+  sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  const total = deck.slides.length
+  deck.slides.forEach((sl, i) => {
+    const el = document.createElement('section')
+    el.className = 'slide has-mast' + (sl.photoFull ? ' bg-photo' : '')
+    el.dataset.name = String(i + 1).padStart(2, '0')
+    el.dataset.tone = sl.tone || 'black'
+    if (sl.sky) { el.dataset.sky = '1'; el.style.backgroundImage = `url('${sl.sky}')` }
+    let big = esc(sl.big || '').replace(/\n/g, '<br>')
+    if (sl.hl) big = big.replace(esc(sl.hl), `<span class="hl">${esc(sl.hl)}</span>`)
+    const body = sl.body ? `<div class="body">${esc(sl.body).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>')}</div>` : ''
+    const list = sl.list ? `<div class="list">${sl.list.map((x) => `<div>${esc(x)}</div>`).join('')}</div>` : ''
+    const chips = sl.chips ? `<div class="chips">${sl.chips.map((x) => `<span${/^ages? /i.test(x) ? ' class="age"' : ''}>${esc(x)}</span>`).join('')}</div>` : ''
+    const ends = sl.ends ? `<div class="ends"><b>Ends with</b><span>${esc(sl.ends)}</span></div>` : ''
+    const photo = sl.photo ? `<div class="photo">${esc(sl.photo)}</div>` : ''
+    const shots = sl.shots ? `<div class="shots${sl.shots.length === 1 ? ' one' : ''}">${sl.shots.map((x) => `<img src="${x}">`).join('')}</div>` : ''
+    const note = sl.note ? `<div class="note">${esc(sl.note)}</div>` : ''
+    const pill = sl.pill ? `<div class="pill">${esc(sl.pill)} <span>→</span></div>` : ''
+    const frac = total === 1 ? 1 : i / (total - 1)
+    el.innerHTML = `
+      ${sl.photoFull ? `<div class="photo full">${esc(sl.photoFull)}</div>` : ''}
+      <div class="masthead"><span class="name">${esc(deck.series)}</span><span class="no">${esc(deck.issue || '')}</span></div>
+      <div class="top">
+        ${sl.kicker ? `<div class="kicker">${esc(sl.kicker)}</div>` : ''}
+        <div class="big ${sl.size || 'lg'}">${big}</div>
+        ${body}${chips}${ends}${list}${shots}${photo}${note}${pill}
+      </div>
+      <div class="foot series"><span class="site">${esc(deck.foot || 'thesocialbillboard.com')}</span>${window.sessionBar(frac)}</div>`
+    sheet.appendChild(el)
+  })
+}
+
+/** Reel covers: { kind: 'reels', guides: bool, covers: [ { name, tone, series, ep, hook, hl, photoFull, alt } ] } */
+window.renderReels = function (deck) {
+  const sheet = document.getElementById('sheet')
+  sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  for (const c of deck.covers) {
+    const el = document.createElement('section')
+    el.className = 'reel' + (c.photoFull ? ' bg-photo' : '')
+    el.dataset.name = c.name
+    el.dataset.tone = c.tone || 'black'
+    let hook = esc(c.hook).replace(/\n/g, '<br>')
+    if (c.hl) hook = hook.replace(esc(c.hl), `<span class="hl">${esc(c.hl)}</span>`)
+    el.innerHTML = `
+      ${c.photoFull ? `<div class="photo full">${esc(c.photoFull)}</div>` : ''}
+      <div class="safe">
+        <div><div class="series">${esc(c.series)}</div><div class="ep">${esc(c.ep || '')}</div></div>
+        <div class="hook">${hook}</div>
+        <div class="bar">${window.sessionBar(0)}</div>
+      </div>
+      ${deck.guides ? '<div class="guide grid"><b>GRID CROP 3:4</b></div><div class="guide ui"><b>CAPTION AND BUTTONS</b></div>' : ''}`
+    sheet.appendChild(el)
+  }
+}
+
+/** Facebook cover: { kind: 'cover', covers: [ { name, eyebrow, head, hl, chips, offer, guides, alt } ] } */
+window.renderCover = function (deck) {
+  const sheet = document.getElementById('sheet'); sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  for (const c of deck.covers) {
+    const el = document.createElement('section'); el.className = 'cover'; el.dataset.name = c.name
+    let head = esc(c.head).replace(/\n/g, '<br>'); if (c.hl) head = head.replace(esc(c.hl), `<span class="hl">${esc(c.hl)}</span>`)
+    const chips = (c.chips || []).map((x) => `<span${/^ages? /i.test(x) ? ' class="age"' : ''}>${esc(x)}</span>`).join('')
+    el.innerHTML = `<div class="band"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="head">${head}</div>
+      <div class="chips">${chips}</div><div class="offer">${c.offer || ''}</div><div class="bar">${window.sessionBar(1)}</div></div>
+      ${c.guides ? '<div class="guide band-g"><b>DESKTOP SHOWS THIS BAND</b></div><div class="guide pic"><b>PROFILE PICTURE ON PHONE</b></div>' : ''}`
+    sheet.appendChild(el)
+  }
 }
 </script>
 </body>

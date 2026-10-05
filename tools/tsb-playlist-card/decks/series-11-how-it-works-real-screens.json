@@ -1,0 +1,59 @@
+{
+ "name": "series-11-how-it-works-real-screens",
+ "kind": "series",
+ "series": "How it works",
+ "issue": "The real screens",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "big": "Here's how it works.\nThe real screens.",
+   "hl": "The real screens.",
+   "size": "md"
+  },
+  {
+   "tone": "black",
+   "kicker": "Step 1",
+   "big": "Choose the type and the tone.",
+   "size": "sm",
+   "shots": [
+    "shots/criteria-type-tone.png"
+   ]
+  },
+  {
+   "tone": "black",
+   "kicker": "Step 2",
+   "big": "Choose when, and how long.",
+   "size": "sm",
+   "shots": [
+    "shots/criteria-length-time.png"
+   ]
+  },
+  {
+   "tone": "black",
+   "kicker": "Step 3",
+   "big": "Bedtime is its own setting.",
+   "size": "sm",
+   "shots": [
+    "shots/criteria-bedtime.png"
+   ]
+  },
+  {
+   "tone": "white",
+   "kicker": "Step 4",
+   "big": "Then you see the playlist before they press play.",
+   "size": "sm",
+   "photo": "REAL SCREENSHOT: the space playlist on Justin's phone. A screenshot, not a video."
+  },
+  {
+   "tone": "yellow",
+   "big": "Your first playlist is free.",
+   "size": "md",
+   "list": [
+    "One child profile",
+    "No card needed"
+   ],
+   "pill": "Get a free playlist"
+  }
+ ]
+}
