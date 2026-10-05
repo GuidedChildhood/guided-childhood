@@ -665,8 +665,12 @@ test passes. Instagram runs Space as Stories only on Friday 9 October (hero
 card, link sticker, "Look up tonight"). The meteor line expires after Friday
 night; World Space Week ends Saturday 10 October.
 
-**The corrected Facebook post, ready to paste.** Image: the Space card,
-`tools/tsb-playlist-card/decks/space-9-to-11.json` (landscape).
+**The corrected Facebook post, ready to paste.** Image: the portrait feed
+card, `tools/tsb-playlist-card/decks/space-feed-01.json` (1080 x 1350, in
+`renders/space-facebook/`). It replaced the landscape card on 5 October
+because that one named the age but not what we do; this one says "YouTube
+videos picked for their age. We open every one first.", carries the age in
+pink and the ENDS WITH line, and fills more of a phone screen.
 
 > It's World Space Week, and on Friday night the Draconid meteor shower
 > peaks. It's one of the few that's best in the early evening rather than the
