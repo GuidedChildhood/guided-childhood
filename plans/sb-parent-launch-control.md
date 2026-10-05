@@ -5,6 +5,8 @@ October 2026. It replaces every earlier Social Billboard plan as the place to lo
 older documents stay where they are as source material, classified in section
 13. Nothing here has been published, scheduled or sent.
 
+**The images.** Every rendered card for Days 1 to 10 is in [the renders folder on GitHub](https://github.com/GuidedChildhood/guided-childhood/tree/claude/admiring-bell-nakdyu/content/packs/2026-10-05-sb-launch-control/renders), one folder per day.
+
 **How to use it.** Read section 11 (today), then section 8 (what needs you).
 Everything else is reference. When a post goes out, move it to section 9 and
 write the numbers in section 10.
@@ -123,7 +125,7 @@ check them on a phone).
 | Five real product screenshots (criteria and a playlist) | `tools/tsb-playlist-card/shots/` |
 | SB logo | Drive: "TheSocial Billboard Logo Design (1).png" |
 
-**New, for your yes (rendered drafts in `tools/tsb-playlist-card/out/`).**
+**New, for your yes (rendered drafts in `content/packs/2026-10-05-sb-launch-control/renders/`, one folder per day).**
 One series layer on the existing system, so every post looks like part of one
 account rather than a new design each time:
 
@@ -180,7 +182,7 @@ the ending. **F** needs filming or a screen recording.
 ### The posts, Day 1 to Day 10, in full
 
 **DAY 1. Founder origin video.** Reel, 40 seconds, Justin to camera, phone,
-window light, captions on. Cover: `out/reels-01-covers/reel-why-i-built-this-ch1.png`
+window light, captions on. Cover: `renders/reel-covers/reel-why-i-built-this-ch1.png`
 with a real frame.
 
 > I was never worried about the first video.
@@ -620,5 +622,5 @@ Generated graphics only for the carousel cards and recurring formats.
 | 9 | | Seven slide research carousel | Rendered |
 | 10 | 50 second screen recording, including the ending | Reel cover | Recording needed |
 
-Render everything with `node tools/tsb-playlist-card/render.mjs`; the PNGs
-and alt text land in `tools/tsb-playlist-card/out/`.
+Render everything with `node tools/tsb-playlist-card/render.mjs`; fresh PNGs
+and alt text land in `tools/tsb-playlist-card/out/`. The launch set is copied into `content/packs/2026-10-05-sb-launch-control/renders/` so it can be opened from GitHub.
