@@ -300,4 +300,4 @@ Titles only. Open the archive at the line number in its own index for the full e
 
 ## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
 
-Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a nine slide carousel built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
+Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a ten slide carousel (redone the same day with the video method and Instagram and Facebook practice, now in the sb-carousel skill) built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.

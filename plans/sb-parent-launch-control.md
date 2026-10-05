@@ -370,52 +370,92 @@ Caption (IG and FB):
 Confirm before it goes: that the first version was built with developers
 (the source says so; you know the detail).
 
-**DAY 4. Why These Five Made The Space Playlist.** Carousel, nine slides,
-`decks/series-12-why-this-made-the-playlist-space.json`, renders in
+**DAY 4. Why These Five Made The Space Playlist.** Carousel, ten slides,
+`decks/series-12-why-this-made-the-playlist-space.json` (the brief, the
+sources and the alt text are in the deck), renders in
 `content/packs/2026-10-05-sb-launch-control/renders/day-04-why-this-made-the-playlist-space/`.
 Added 5 October, when Justin approved Space and asked whether to show the
 review behind it. Yes: the review is the proof of the product, and every
-line comes from the Safe Watch handoff ("why we chose this playlist" and the
-internal playlist notes), nothing added. It goes out during Space week,
-which is why it takes Day 4 and How it works moves to Day 8.
+line comes from the Safe Watch handoff, nothing added. Redone the same day
+with the carousel method from the video and current Instagram and Facebook
+practice (the verdicts are below). It goes out during Space week, which is
+why it takes Day 4 and How it works moves to Day 8.
 
-1. 18 videos opened. 9 kept. 5 made it. (age chip, Space, about 40 minutes)
-2. The problem: you haven't got time to open 18 videos on a school night.
-3. Five questions, every video: plays in the UK, who made it and who paid,
-   how long, what's in it, where the next click goes.
-4. What got cut: a brand funded series; a stargazing video that was really a
-   kit advert.
-5. Also cut: two lovely films one click from "How will the Universe end?"
-6. Nearly got wrong: the observatory's guide presented by a guest. We looked
-   her up.
-7. Why about 40 minutes: no official limit at this age, so one session.
-8. Honest limits: new channels, shorter check, not the full panel; open
-   YouTube comments on four of five; no list is zero risk.
-9. Every week, we open them first. GET A FREE PLAYLIST.
+1. Hook: 18 space videos opened. 13 didn't make it. (age chip)
+2. Second hook, because Instagram shows a carousel again from slide 2 to
+   people who scrolled past slide 1: nobody has time to open 18 videos on a
+   school night. So we did.
+3. Cut: a brand funded series, from a presenter I rate.
+4. Cut: a stargazing video that was really a kit advert; two films one click
+   from "How will the Universe end?"
+5. Nearly got wrong: the observatory's guide presented by a guest.
+6. Five questions, every video.
+7. What made it: the five videos, about 40 minutes.
+8. Why five, not fifty: the one small autoplay study (Hiniker, 2018).
+9. Honest limits.
+10. Send this to a parent with a space mad child. GET A FREE PLAYLIST.
 
-Caption (IG; Facebook adds the link):
+Instagram caption:
 
-> Why these five made the Space playlist.
+> Space videos for 9 to 11 year olds: we opened 18 and kept 5. Here's what we cut, and why.
 >
-> Eighteen videos opened and checked this week. Nine kept. Five made it.
+> A brand funded series from a presenter I rate, because a children's playlist shouldn't double as an advert. A stargazing video that was really a kit advert. Two lovely films that sit one click from "How will the Universe end?"
 >
-> What got cut is the interesting part. A brand funded series from a
-> presenter I rate, because a children's playlist shouldn't double as an
-> advert. A stargazing video that was really a kit advert. Two lovely films
-> that sit one click from "How will the Universe end?"
+> The one I nearly got wrong was a stargazing guide on an observatory's channel, presented by a guest creator. I looked her up and she checks out, so it stayed. You have to look every time.
 >
-> And the one I nearly got wrong: a stargazing guide on an observatory's
-> channel, presented by a guest creator. I looked her up and she checks out,
-> so it stayed. You have to look every time.
+> What made it: five videos, about forty minutes, ending with a beginner's guide to stargazing. The Draconid meteor shower peaks tonight, best just after dark.
 >
-> These channels are new to us, so they had our shorter check, not our full
-> panel. I'd rather tell you that than imply more.
+> These channels are new to us, so they had our shorter check, not our full panel. I'd rather tell you that than imply more.
 >
-> Get a free playlist: link in bio. And tell me one thing you'd want us to
-> check that we haven't.
+> Send this to a parent with a space mad child. Your first playlist is free: link in bio.
+>
+> #WorldSpaceWeek #Draconids #ParentingUK
+
+Facebook: all ten as one photo post, the same text with this ending:
+
+> Space videos for 9 to 11 year olds: we opened 18 and kept 5. Here's what we cut, and why.
+>
+> A brand funded series from a presenter I rate, because a children's playlist shouldn't double as an advert. A stargazing video that was really a kit advert. Two lovely films that sit one click from "How will the Universe end?"
+>
+> The one I nearly got wrong was a stargazing guide on an observatory's channel, presented by a guest creator. I looked her up and she checks out, so it stayed. You have to look every time.
+>
+> What made it: five videos, about forty minutes, ending with a beginner's guide to stargazing. The Draconid meteor shower peaks tonight, best just after dark.
+>
+> These channels are new to us, so they had our shorter check, not our full panel. I'd rather tell you that than imply more.
+>
+> What would you want us to check before a video reaches your child? Tell me and it goes on the list.
+>
+> The link to get a free playlist is in the first comment.
+
+First comment, posted straight after:
+
+> Your first playlist is free, one child profile, no card needed: https://thesocialbillboard.com/safe-youtube-for-kids?utm_source=facebook&utm_medium=post&utm_campaign=sb_launch
+
+How to post it (19:00, Friday 9 October):
+- Paste the alt text for each slide from the `.alt.txt` files (Instagram:
+  Advanced settings, Accessibility).
+- Within the hour, share it to your Story with a link sticker to the
+  playlist page, then the Space Stories (hero card, "Look up tonight"). The
+  sticker is the one tappable link on Instagram besides the bio.
+- Reply to every comment in the first hour, in a full sentence, with a
+  question back.
+- Music on the carousel is optional: a quiet track from the library, never a
+  trending sound for its own sake.
 
 Never on the slides or in the caption: the video links, "safe", "nine
 checks", "no autoplay" (waits for G2).
+
+**Expert advice, through the feedback filter (5 October).**
+Adopt: the video's brief (who, why, CTA, slide count, words per slide);
+slide 2 as a second hook; a send prompt as the Instagram call to action,
+because sends to a friend are the signal Instagram weighs most for reach
+beyond followers; search words in the first line of the caption; three
+hashtags at most; alt text; the Story link sticker; replies in the first
+hour; the Facebook link in the first comment with a question to end the
+post. Adapt: a face on slide 1 lifts carousels, so once there is a photo of
+Justin holding the phone with the playlist on screen, it replaces the night
+sky. Decline: "comment YES" style asks (Meta demotes engagement bait),
+chasing trending audio, and paying to boost before any post has a result.
 
 **From week 2 this is the Tuesday slot.** Every approved handoff already
 writes "why we chose this playlist", so each week's review is a copy job,

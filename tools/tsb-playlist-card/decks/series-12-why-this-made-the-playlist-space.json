@@ -4,28 +4,63 @@
  "series": "Why this made the playlist",
  "issue": "No. 02",
  "foot": "thesocialbillboard.com",
+ "brief": {
+  "who": "A UK parent of a 9 to 11 year old who is into space and already watches YouTube.",
+  "why": "Show the work behind one playlist, so a parent sees what we cut and why before they trust what we kept.",
+  "cta": "Send it to a parent with a space mad child; then Get a free playlist.",
+  "slides": 10,
+  "hooks": "Slide 1 is a curiosity gap. Slide 2 stands alone, because Instagram re-shows a carousel from slide 2 to people who scrolled past slide 1.",
+  "source": "Safe Watch handoff, week of 5 October: why we chose this playlist, and the internal playlist notes. Hiniker et al, CHI 2018, already verified for series-10."
+ },
  "slides": [
   {
    "tone": "black",
    "sky": "backgrounds/night-sky-square.png",
-   "big": "18 videos opened. 9 kept. 5 made it.",
-   "hl": "5 made it.",
+   "big": "18 space videos opened. 13 didn't make it.",
+   "hl": "13 didn't make it.",
    "size": "md",
    "chips": [
     "Ages 9 to 11",
-    "Space",
-    "About 40 minutes"
-   ]
+    "World Space Week"
+   ],
+   "alt": "Social Billboard, Why this made the playlist, slide 1 of 10. Night sky with a shooting star. 18 space videos opened. 13 didn't make it. Chips: Ages 9 to 11, World Space Week."
   },
   {
    "tone": "white",
    "kicker": "The problem",
-   "big": "You haven't got time to open 18 videos on a school night.",
+   "big": "Nobody has time to open 18 videos on a school night.",
    "size": "md",
-   "body": "So we open them, and show you what we found."
+   "body": "So we did. Here's what we cut, and why.",
+   "alt": "Social Billboard, Why this made the playlist, slide 2 of 10. The problem. Nobody has time to open 18 videos on a school night. So we did. Here's what we cut, and why."
   },
   {
    "tone": "black",
+   "kicker": "Cut",
+   "big": "A brand funded series, from a presenter I rate.",
+   "hl": "brand funded",
+   "size": "md",
+   "body": "A children's playlist shouldn't double as an advert.",
+   "alt": "Social Billboard, Why this made the playlist, slide 3 of 10. Cut. A brand funded series, from a presenter I rate. A children's playlist shouldn't double as an advert."
+  },
+  {
+   "tone": "white",
+   "kicker": "Cut",
+   "big": "A stargazing video that was really a kit advert.",
+   "size": "md",
+   "body": "And two lovely films one click from “How will the Universe end?”",
+   "alt": "Social Billboard, Why this made the playlist, slide 4 of 10. Cut. A stargazing video that was really a kit advert. And two lovely films one click from “How will the Universe end?”"
+  },
+  {
+   "tone": "black",
+   "kicker": "Nearly got wrong",
+   "big": "An observatory's stargazing guide, presented by a guest.",
+   "hl": "by a guest.",
+   "size": "sm",
+   "body": "We looked her up. She checks out. You have to look every time.",
+   "alt": "Social Billboard, Why this made the playlist, slide 5 of 10. Nearly got wrong. An observatory's stargazing guide, presented by a guest. We looked her up. She checks out. You have to look every time."
+  },
+  {
+   "tone": "white",
    "big": "Five questions, every video.",
    "hl": "every video.",
    "size": "md",
@@ -35,51 +70,47 @@
     "How long?",
     "What's in it?",
     "Where does the next click go?"
-   ]
-  },
-  {
-   "tone": "white",
-   "kicker": "What got cut",
-   "big": "A brand funded series. A stargazing video that was really a kit advert.",
-   "size": "sm",
-   "body": "A children's playlist shouldn't double as an advert."
+   ],
+   "alt": "Social Billboard, Why this made the playlist, slide 6 of 10. Five questions, every video. Plays in the UK? Who made it? Who paid? How long? What's in it? Where does the next click go?"
   },
   {
    "tone": "black",
-   "kicker": "Also cut",
-   "big": "Two lovely films, one click from “How will the Universe end?”",
-   "hl": "one click",
+   "kicker": "What made it",
+   "big": "Five videos. About 40 minutes.",
    "size": "sm",
-   "body": "Not where a nine year old's evening should go."
+   "list": [
+    "8 planets, 8 experiments",
+    "The Moon",
+    "Tim Peake's space station tour",
+    "Testing a space telescope",
+    "Start stargazing"
+   ],
+   "alt": "Social Billboard, Why this made the playlist, slide 7 of 10. What made it. Five videos. About 40 minutes. 8 planets, 8 experiments. The Moon. Tim Peake's space station tour. Testing a space telescope. Start stargazing."
   },
   {
    "tone": "white",
-   "kicker": "Nearly got wrong",
-   "big": "An observatory's stargazing guide, presented by a guest.",
+   "kicker": "Why five, not fifty",
+   "big": "In one small study, autoplay kept young children watching longer.",
    "size": "sm",
-   "body": "We looked her up. She checks out. You have to look every time."
-  },
-  {
-   "tone": "black",
-   "kicker": "Why about 40 minutes",
-   "big": "There's no official limit at this age.",
-   "size": "sm",
-   "body": "So it's one session for 9 to 11, ending with stargazing."
+   "body": "So we start with a short list. Hiniker et al, 2018.",
+   "alt": "Social Billboard, Why this made the playlist, slide 8 of 10. Why five, not fifty. In one small study, autoplay kept young children watching longer. So we start with a short list. Hiniker et al, 2018."
   },
   {
    "tone": "yellow",
    "kicker": "Honest limits",
    "big": "New channels, so our shorter check, not the full panel.",
    "size": "sm",
-   "body": "Four of five have open YouTube comments. No list is zero risk."
+   "body": "Four of five have open YouTube comments. No list is zero risk.",
+   "alt": "Social Billboard, Why this made the playlist, slide 9 of 10. Honest limits. New channels, so our shorter check, not the full panel. Four of five have open YouTube comments. No list is zero risk."
   },
   {
    "tone": "black",
-   "big": "Every week, we open them first.",
-   "hl": "first.",
+   "big": "Send this to a parent with a space mad child.",
+   "hl": "space mad child.",
    "size": "md",
    "pill": "Get a free playlist",
-   "note": "Your first playlist is free. No card needed. You see every video before they press play."
+   "note": "First playlist free. No card needed.",
+   "alt": "Social Billboard, Why this made the playlist, slide 10 of 10. Send this to a parent with a space mad child. Get a free playlist. First playlist free. No card needed."
   }
  ]
 }

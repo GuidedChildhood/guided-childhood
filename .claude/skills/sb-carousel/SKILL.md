@@ -68,6 +68,34 @@ ready to design.
    so Justin can open them from GitHub, and add the day to the posting page if
    one exists for the week.
 
+## Platform rules (Instagram and Facebook)
+
+Adopted 5 October 2026 through the feedback filter; the verdicts are in
+`plans/sb-parent-launch-control.md`, Day 4.
+
+- **Slide 1 is a curiosity gap**, a number or a tension the swipe resolves
+  ("18 space videos opened. 13 didn't make it.").
+- **Slide 2 is a second hook that stands alone.** Instagram shows a carousel
+  again from slide 2 to people who scrolled past slide 1.
+- **Story order:** hook, the problem, the tension (what got cut, what nearly
+  went wrong), the payoff, the honest limit, the ask.
+- **The Instagram ask is a send** ("Send this to a parent with..."), with
+  GET A FREE PLAYLIST as the pill. Sends to a friend are what Instagram
+  weighs most for reach beyond followers. One ask per post.
+- **Caption:** the first line carries the words a parent would search
+  ("space videos for 9 to 11 year olds"), short paragraphs, three hashtags
+  at most, link in bio.
+- **Alt text on every slide**, written into the deck as `alt`; the renderer
+  writes the `.alt.txt` files.
+- **Facebook:** all slides as one photo post, the post ends on a real
+  question, and the link goes in the first comment.
+- **After posting:** share to the Story with a link sticker within the hour,
+  and reply to every comment in the first hour with a question back.
+- **Never:** "comment YES" asks (Meta demotes engagement bait), trending
+  audio for its own sake, or a paid boost before a post has a result.
+- **A face lifts slide 1.** When a real photo of Justin with the product
+  exists, it goes on slide 1 in place of a background.
+
 ## Sizes
 
 | Asset | Size | Note |
