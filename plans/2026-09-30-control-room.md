@@ -368,3 +368,5 @@ thing, with the evidence. Then:
 - The daily content desk runs every weekday at 06:30 and writes "Today's content" into this folder.
 
 **The weekly content and image sheet (added 1 October).** One row per post with the image or video idea, who makes it and any founder scene: [this week](https://docs.google.com/spreadsheets/d/1s0GyT5wYTS1kRyc9VEwAqm1A1KqMXIvEO4hNO51T6hg/edit). A new one lands in the Control Room every Sunday at 18:00 from the `weekly-content-sheet` scheduled task; the daily desk reads it as its brief.
+
+**The Social Billboard weekly playlist post (added 5 October).** The playlist builder session writes the Thursday Safe Watch announcement to [SB Posts, FB and Insta](https://drive.google.com/drive/folders/1Y_31hoVuspJ-5WzJSAyyXGswSWUQEnoE), one file per platform, STATUS line to mark done. It owns Thursday; every other Social Billboard post stays with the parent launch plan and the daily desk, which both read that folder.

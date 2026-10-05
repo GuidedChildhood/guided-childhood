@@ -278,3 +278,14 @@ Titles only. Open the archive at the line number in its own index for the full e
   LinkedIn founding 50 post; the reason is that the account's followers are the
   warmest audience the business has and the series costs nothing but an
   afternoon. Honest maths in section 1: a first proof, not the £4,000.
+
+## 5 October 2026: two sessions, one Social Billboard feed
+
+- The playlist builder session owns the Thursday Social Billboard post (the
+  weekly Safe Watch announcement, written to Drive "SB Posts - FB and Insta").
+  Every other Social Billboard post stays with the parent launch plan and the
+  daily desk, which now read that folder so the sheet and the desk show one
+  feed. Post 4 of the launch plan (what should we curate next) is dropped in
+  favour of the Space announcement on 8 October, with its question kept as
+  the closing line. The one reason: one Thursday, one post, no duplicate
+  free offer in the same week.
