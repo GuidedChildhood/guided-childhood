@@ -282,3 +282,10 @@ Titles only. Open the archive at the line number in its own index for the full e
 - PRs 1187 and 1188 were conflicted against main; main merged into each, no conflicts left by hand, pushed.
 - LinkedIn pack `content/packs/2026-10-02-digi-talks-back/`: three posts (15 of 40 vs 0 of 6, why no "Hey DiGi", tell it what went wrong). The family posts for the worry tracker are now postable after one real use.
 - DiGi's voice: Justin picked Imogen (Higgsfield preset 3811e986-0891-47cf-a1f5-78a1d62a547a, middle aged female) from four samples on 2 October. Used for social videos now; the app needs its own speech service key (ElevenLabs proposed) and a closely matched voice before it replaces the phone's built in voice.
+
+## 4 October 2026: Give £5, get £5 built for Guided Childhood (PR 1190, migration 360)
+
+- Justin: cash by PayPal, no cap (a hand check above ten in a month), anyone with an account can share, Guided Childhood first.
+- Friend gets £5 off the first paid month via `STRIPE_REFERRAL_COUPON`. It must be "repeating, 1 month", not "once": the 4 day trial's £0 invoice would spend a once coupon.
+- Sharer is owed £5 at the friend's second paid bill, or 60 days into a year; a refund voids it. A daily cron reads Stripe, not webhooks. Payout is a monthly PayPal file from `/dashboard/admin/referrals`.
+- Refer page lives under settings so the paywall leaves it open. Guarded in check-referrals.

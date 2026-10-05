@@ -315,6 +315,14 @@ export default function SettingsPage() {
         </div>
         <Link href="/dashboard/how-it-works" className="btn" style={{ padding: '10px 18px', fontSize: 'var(--text-sm)', textDecoration: 'none', flexShrink: 0 }}>Show me</Link>
       </section>
+      {/* Give £5, get £5 (migration 360). Open to every account, paying or not. */}
+      <section style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '18px 22px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '2px', color: 'var(--ink)' }}>Give £5, get £5</h2>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: 0 }}>Your friend gets £5 off. You get £5 when they stay.</p>
+        </div>
+        <Link href="/dashboard/settings/refer" className="btn" style={{ padding: '10px 18px', fontSize: 'var(--text-sm)', textDecoration: 'none', flexShrink: 0 }}>Share</Link>
+      </section>
       <section style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
         <form onSubmit={saveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
