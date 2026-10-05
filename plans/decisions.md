@@ -289,3 +289,11 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Friend gets £5 off the first paid month via `STRIPE_REFERRAL_COUPON`. It must be "repeating, 1 month", not "once": the 4 day trial's £0 invoice would spend a once coupon.
 - Sharer is owed £5 at the friend's second paid bill, or 60 days into a year; a refund voids it. A daily cron reads Stripe, not webhooks. Payout is a monthly PayPal file from `/dashboard/admin/referrals`.
 - Refer page lives under settings so the paywall leaves it open. Guarded in check-referrals.
+
+## 5 October 2026: one control document for the Social Billboard parent launch (PR 1192)
+
+- Justin: consolidate, do not write another strategy. `plans/sb-parent-launch-control.md` is now the only place to look for the SB launch; every earlier SB plan is classified in its section 13 (keep, merge, update, hold, retire).
+- Parents first, creators held. Primary CTA everywhere: GET A FREE PLAYLIST. Day 0 to 10 sequence from 5 October, then a weekly rhythm built on the Safe Watch handoff.
+- Founder source is `content/brand-story/founder-context.md`. SB was built with developers, never "vibe coded". The lockdown scene waits until after the family account runs it on 9 October (no scene on two accounts in one fortnight).
+- "When it ends, it ends" waits for Justin's phone test; the full checking framework waits for one confirmed wording. The Space Facebook post's "nine checks" line needs correcting to the bounded check.
+- The playlist card tool gained a series layer (masthead, session bar, chips, Reel covers).

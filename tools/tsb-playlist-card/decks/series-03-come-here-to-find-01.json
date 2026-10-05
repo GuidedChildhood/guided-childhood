@@ -1,0 +1,63 @@
+{
+ "name": "series-03-come-here-to-find-01",
+ "kind": "series",
+ "series": "What did we come here to find?",
+ "issue": "No. 01",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "yellow",
+   "big": "What did we come here to find?",
+   "size": "lg"
+  },
+  {
+   "tone": "black",
+   "big": "Space.",
+   "size": "lg",
+   "chips": [
+    "Space"
+   ]
+  },
+  {
+   "tone": "black",
+   "big": "Age 9.",
+   "size": "lg",
+   "chips": [
+    "Space",
+    "Age 9"
+   ]
+  },
+  {
+   "tone": "black",
+   "big": "20 minutes.",
+   "size": "lg",
+   "chips": [
+    "Space",
+    "Age 9",
+    "20 minutes"
+   ]
+  },
+  {
+   "tone": "white",
+   "big": "That's enough to start making a better choice.",
+   "size": "md"
+  },
+  {
+   "tone": "black",
+   "kicker": "The real screen",
+   "big": "Set it. Then see the playlist before they press play.",
+   "size": "sm",
+   "shots": [
+    "shots/criteria-length-time.png"
+   ],
+   "note": "Then the playlist appears for you to look through first."
+  },
+  {
+   "tone": "yellow",
+   "big": "Build a free playlist.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "First playlist free. One child profile. No card needed."
+  }
+ ]
+}

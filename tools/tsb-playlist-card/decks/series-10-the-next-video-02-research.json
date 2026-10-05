@@ -1,0 +1,55 @@
+{
+ "name": "series-10-the-next-video-02-research",
+ "kind": "series",
+ "series": "The next video",
+ "issue": "No. 02",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "big": "Does the next video really matter?",
+   "hl": "really matter?",
+   "size": "md"
+  },
+  {
+   "tone": "white",
+   "kicker": "What happened",
+   "big": "Researchers gave 24 families a video app for three weeks and changed one thing: what happened when the playlist ended.",
+   "size": "sm"
+  },
+  {
+   "tone": "black",
+   "kicker": "What they found",
+   "big": "When extra videos played by themselves, children aged 3 to 5 watched for longer.",
+   "size": "sm",
+   "body": "Fewer moved on to what they'd planned next, and more parents had to step in."
+  },
+  {
+   "tone": "white",
+   "kicker": "What it can tell us",
+   "big": "How a video ends can change what a child does next.",
+   "size": "sm"
+  },
+  {
+   "tone": "black",
+   "kicker": "What it can't",
+   "big": "It's one small study, with young children in the US.",
+   "size": "sm",
+   "body": "It says nothing about older children, or about harm. We hold it lightly."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "Why it matters to a parent",
+   "big": "The ending is something you can choose.",
+   "size": "md"
+  },
+  {
+   "tone": "white",
+   "kicker": "What we do differently",
+   "big": "A playlist you see first, sized to the age.",
+   "size": "sm",
+   "pill": "Get a free playlist",
+   "note": "Hiniker, Heung, Hong and Kientz, CHI 2018. Reference in the comments."
+  }
+ ]
+}

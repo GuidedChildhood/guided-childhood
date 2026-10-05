@@ -1,0 +1,20 @@
+{
+ "name": "series-06-parent-request-board-01",
+ "kind": "series",
+ "series": "Parent request board",
+ "issue": "Week 1",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "yellow",
+   "big": "What should we build next?",
+   "size": "md",
+   "chips": [
+    "Age 7: space",
+    "Age 9: football",
+    "Age 12: drawing"
+   ],
+   "note": "Examples, not real requests yet. Tell us yours: an age and one subject. No names, please."
+  }
+ ]
+}

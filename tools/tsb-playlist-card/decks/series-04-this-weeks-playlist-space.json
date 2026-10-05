@@ -1,0 +1,65 @@
+{
+ "name": "series-04-this-weeks-playlist-space",
+ "kind": "series",
+ "series": "This week's playlist",
+ "issue": "5 to 11 October",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "black",
+   "sky": "backgrounds/night-sky-square.png",
+   "kicker": "World Space Week",
+   "big": "Space",
+   "size": "lg",
+   "chips": [
+    "Ages 9 to 11",
+    "5 videos",
+    "About 40 minutes"
+   ],
+   "ends": "a stargazing guide, on purpose, so the last video sends them outside."
+  },
+  {
+   "tone": "white",
+   "kicker": "What's in it",
+   "big": "Five videos.",
+   "size": "md",
+   "list": [
+    "Eight planets in eight experiments",
+    "The Moon",
+    "The space station with Tim Peake",
+    "How a space telescope gets tested",
+    "How to start stargazing"
+   ],
+   "note": "From Royal Observatory Greenwich, the National Space Centre and Maddie Moate."
+  },
+  {
+   "tone": "black",
+   "kicker": "Why this made the playlist",
+   "big": "Why 40 minutes?",
+   "hl": "40 minutes?",
+   "size": "md",
+   "body": "The UK Chief Medical Officers say the research isn't strong enough to set a screen time limit. So we size it as one session, with a real end."
+  },
+  {
+   "tone": "yellow",
+   "kicker": "Why it ends outside",
+   "big": "Friday night, look up.",
+   "size": "md",
+   "body": "The Draconid meteor shower peaks on Friday 9 October and is best just after dark. No telescope. Just a coat."
+  },
+  {
+   "tone": "white",
+   "kicker": "What we checked, honestly",
+   "big": "Every video opened this week.",
+   "size": "sm",
+   "body": "It plays in the UK, who made it, how long it runs, what's in it. These channels are new to us, so they had our shorter check, not the full panel. Your judgement about your child matters more than ours."
+  },
+  {
+   "tone": "black",
+   "big": "Get this week's playlist free.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "One child profile. No card needed. Tell us what to build next week."
+  }
+ ]
+}

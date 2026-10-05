@@ -1,0 +1,41 @@
+{
+ "name": "series-05-one-thing-we-checked-01",
+ "kind": "series",
+ "series": "One thing we checked",
+ "issue": "No. 01",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "white",
+   "kicker": "The broadcaster test",
+   "big": "Would a children's broadcaster air this?",
+   "hl": "air this?",
+   "size": "md"
+  },
+  {
+   "tone": "black",
+   "big": "It's one of our hard gates.",
+   "size": "md",
+   "body": "Fail it, and no other score saves the video. It doesn't reach a playlist."
+  },
+  {
+   "tone": "white",
+   "big": "A gate is not a guarantee.",
+   "size": "md",
+   "body": "It tells you what we ruled out. Your judgement about your own child still matters more than ours."
+  },
+  {
+   "tone": "yellow",
+   "big": "Want the whole framework?",
+   "size": "md",
+   "body": "We're putting the full parent version on one page. Until it's up, ask me anything about it in the comments."
+  },
+  {
+   "tone": "black",
+   "big": "That's one thing we checked.",
+   "size": "md",
+   "pill": "Get a free playlist",
+   "note": "First playlist free. No card needed. Link in bio."
+  }
+ ]
+}
