@@ -1382,32 +1382,46 @@ When a parent asks whether or for how long their child should use any device, do
           if (!wantsTool || round === 2) break
           toolFired = true
 
-          // Every tool the model asked for, in parallel, then all the results in
-          // one user turn. The API requires a tool_result for every tool_use id
-          // in the assistant turn, so a partial reply here would be rejected.
-          const results = await Promise.all(
-            turn.toolUses.map(async t => ({
-              type: 'tool_result' as const,
-              tool_use_id: t.id,
-              content: await runDigiTool({
-                supabase,
-                userId: user.id,
-                childId: (child?.id as string | undefined) ?? null,
-                ageBand: (child?.age_band as string | undefined) ?? null,
-                childName: (child?.name as string | undefined) ?? null,
-                // The worries DiGi can name in schedule_followup, each with the
-                // approach it has not tried yet and the band it stands at now.
-                // Resolved server side from the same strand the prompt showed,
-                // so the model only has to name a worry it can see.
-                worries: liveConcerns.map(c => ({
-                  id: c.id as string,
-                  label: c.label as string,
-                  approach: worryStrand.next.get(c.id as string)?.approach ?? null,
-                  band: worryStrand.next.get(c.id as string)?.band ?? null,
-                })),
-              }, t.name, t.input),
-            }))
-          )
+          // Every tool the model asked for, then all the results in one user
+          // turn. The API requires a tool_result for every tool_use id in the
+          // assistant turn, so a partial reply here would be rejected.
+          //
+          // save_memory FIRST, the rest in parallel after it (2 October 2026).
+          // A parent tells DiGi a new worry and DiGi, in one turn, saves it
+          // and books a follow up for a method to try. Run side by side, the
+          // follow up looked for a worry that was not written yet and landed
+          // unattached, so the method never counted against the worry it was
+          // for. The order costs one save's latency, only on turns that save.
+          const runTool = (t: { name: string; input: unknown }) => runDigiTool({
+            supabase,
+            userId: user.id,
+            childId: (child?.id as string | undefined) ?? null,
+            ageBand: (child?.age_band as string | undefined) ?? null,
+            childName: (child?.name as string | undefined) ?? null,
+            // The worries DiGi can name in schedule_followup, each with the
+            // approach it has not tried yet and the band it stands at now.
+            // Resolved server side from the same strand the prompt showed,
+            // so the model only has to name a worry it can see.
+            worries: liveConcerns.map(c => ({
+              id: c.id as string,
+              label: c.label as string,
+              approach: worryStrand.next.get(c.id as string)?.approach ?? null,
+              band: worryStrand.next.get(c.id as string)?.band ?? null,
+            })),
+          }, t.name, t.input)
+          const ran = new Map<string, string>()
+          const inOrder = [
+            turn.toolUses.filter(t => t.name === 'save_memory'),
+            turn.toolUses.filter(t => t.name !== 'save_memory'),
+          ]
+          for (const batch of inOrder) {
+            await Promise.all(batch.map(async t => { ran.set(t.id, await runTool(t)) }))
+          }
+          const results = turn.toolUses.map(t => ({
+            type: 'tool_result' as const,
+            tool_use_id: t.id,
+            content: ran.get(t.id) ?? 'That did not work just now. Answer from what you already have.',
+          }))
           // Noted so the extraction pass afterwards can stand down. DiGi
           // deciding in the moment what is worth keeping beats a second model
           // guessing at it after the fact, and running both would file the same

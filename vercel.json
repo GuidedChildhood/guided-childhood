@@ -126,6 +126,10 @@
       "schedule": "15 7 * * *"
     },
     {
+      "path": "/api/cron/digi-reminders",
+      "schedule": "*/5 * * * *"
+    },
+    {
       "path": "/api/cron/answer-review",
       "schedule": "0 5 2 * *"
     },

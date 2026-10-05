@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Social Billboard weekly playlist card</title>
+<style>
+/* Montserrat is the live site font (thesocialbillboard.com). Variable file, latin subset, self hosted so a render never depends on Google Fonts. */
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url('fonts/Montserrat-latin-variable.woff2') format('woff2');}
+
+:root{
+  /* Pulled from the live site on 1 October 2026 (computed styles). */
+  --tsb-black:#0A0A0A; --tsb-ink:#161616; --tsb-grey:#A1A1A1; --tsb-grey-lt:#B9B9B9;
+  --tsb-yellow:#FFD100;         /* the site's one accent: every CTA button */
+  --tsb-red:#E8112D;            /* used sparingly on the site, kept here for a variant */
+  --pink:#E91E8C;               /* the colour named in the brief, offered as a variant */
+  --navy:#0B1A3A;               /* the top of the Higgsfield sky */
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
+#sheet{display:flex;flex-direction:column;align-items:flex-start;gap:40px;padding:40px;}
+
+.card{
+  position:relative;overflow:hidden;background:var(--navy);
+  display:flex;flex-direction:column;justify-content:space-between;
+  background-size:cover;background-position:center;
+}
+.card.size-landscape{width:1200px;height:630px;padding:56px 64px 48px;}
+.card.size-square{width:1080px;height:1080px;padding:112px 80px 80px;}
+
+/* Very light grain so the gradient does not band on a phone. */
+.card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:5;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Accent: one colour, on the age line only. Default is the site yellow so the post matches the page it links to. */
+.card{--accent:var(--tsb-yellow);}
+.card[data-accent="pink"]{--accent:var(--pink);}
+.card[data-accent="red"]{--accent:var(--tsb-red);}
+
+.top,.bottom{position:relative;z-index:2;}
+.top{display:flex;flex-direction:column;align-items:flex-start;}
+
+.eyebrow{
+  font-weight:600;font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:var(--tsb-grey-lt);
+  margin-bottom:28px;
+}
+.headline{font-weight:900;text-transform:uppercase;line-height:.92;letter-spacing:-.015em;color:#fff;
+  text-shadow:0 2px 24px rgba(0,0,0,.35);}
+.headline .age{display:block;color:var(--accent);font-weight:800;letter-spacing:-.005em;margin-top:10px;}
+.size-landscape .headline{font-size:148px;}
+.size-landscape .headline .age{font-size:72px;}
+.size-square .headline{font-size:176px;}
+.size-square .headline .age{font-size:84px;}
+
+.meta{
+  margin-top:34px;font-weight:600;font-size:30px;color:#fff;letter-spacing:.01em;
+}
+.meta .dot{color:var(--tsb-grey);padding:0 .45em;}
+
+.bottom{display:flex;flex-direction:column;align-items:flex-end;gap:18px;margin-left:200px;} /* stacked bottom right, so the Moon in the bottom left of the sky stays clear */
+.cta{
+  display:inline-flex;align-items:center;gap:14px;
+  background:var(--tsb-yellow);color:var(--tsb-black);
+  font-weight:800;font-size:24px;letter-spacing:.01em;
+  padding:18px 28px;border-radius:999px;
+}
+.cta .arrow{font-weight:900;}
+.site{font-weight:600;font-size:22px;color:var(--tsb-grey-lt);letter-spacing:.02em;text-align:right;line-height:1.35;}
+.site b{color:#fff;font-weight:700;}
+
+.size-square .eyebrow{font-size:26px;margin-bottom:36px;}
+.size-square .meta{font-size:36px;margin-top:40px;}
+.size-square .cta{font-size:28px;padding:22px 34px;}
+.size-square .site{font-size:25px;}
+.card[data-cta="off"] .cta{display:none;}
+
+/* ---------- carousel slides, 1080 x 1350, the SB minimal system ---------- */
+.slide{position:relative;overflow:hidden;width:1080px;height:1350px;padding:96px 88px 88px;
+  display:flex;flex-direction:column;justify-content:space-between;font-family:'Montserrat',sans-serif;}
+.slide[data-tone="black"]{background:var(--tsb-black);color:#fff;}
+.slide[data-tone="white"]{background:#fff;color:var(--tsb-black);}
+.slide[data-tone="yellow"]{background:var(--tsb-yellow);color:var(--tsb-black);}
+.slide .kicker{font-weight:600;font-size:26px;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-bottom:40px;}
+.slide .big{font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.015em;font-size:120px;}
+.slide .big.md{font-size:92px;}
+.slide .big.sm{font-size:72px;text-transform:none;letter-spacing:-.01em;line-height:1.05;}
+.slide .big .hl{color:var(--tsb-yellow);}
+.slide[data-tone="yellow"] .big .hl,.slide[data-tone="white"] .big .hl{color:var(--tsb-red);}
+.slide .body{font-weight:500;font-size:40px;line-height:1.3;margin-top:44px;max-width:900px;}
+.slide .body.letter{font-size:34px;line-height:1.4;margin-top:30px;}
+.slide .sig{margin-top:30px;font-weight:700;font-size:32px;}
+.slide .big.sm.letter-head{font-size:62px;}
+.slide .body b{font-weight:800;}
+.slide .list{margin-top:44px;display:flex;flex-direction:column;gap:22px;}
+.slide .list div{font-weight:700;font-size:44px;line-height:1.15;padding-left:48px;position:relative;}
+.slide .list div::before{content:"";position:absolute;left:0;top:.42em;width:22px;height:22px;border-radius:50%;background:var(--tsb-yellow);}
+.slide[data-tone="yellow"] .list div::before{background:var(--tsb-black);}
+.slide .shots{display:flex;gap:24px;margin-top:40px;width:100%;}
+.slide .shots img{flex:1;min-width:0;height:560px;object-fit:cover;object-position:top;border-radius:20px;border:2px solid #3a3a3a;background:#161616;}
+.slide .shots.one img{height:auto;max-height:640px;object-fit:contain;object-position:top left;width:100%;}
+.slide .shots + .pill{margin-top:40px;}
+.slide .foot{display:flex;justify-content:space-between;align-items:flex-end;font-weight:600;font-size:26px;opacity:.7;letter-spacing:.02em;}
+.slide .foot .n{font-weight:800;}
+.slide .pill{display:inline-flex;align-items:center;gap:14px;background:var(--tsb-yellow);color:var(--tsb-black);
+  font-weight:800;font-size:34px;padding:26px 40px;border-radius:999px;margin-top:56px;align-self:flex-start;}
+.slide[data-tone="yellow"] .pill{background:var(--tsb-black);color:var(--tsb-yellow);}
+.slide .top{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-bottom:60px;}
+.slide .foot .swipe{font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script>
+/**
+ * deck = { name, cards: [ { name, size: 'landscape'|'square', background, accent, cta,
+ *          eyebrow, headline, age, meta: [..], ctaText, site, alt } ] }
+ * Every text field is plain text. No dashes anywhere in copy; write "9 to 11".
+ */
+window.renderDeck = function (deck) {
+  const sheet = document.getElementById('sheet')
+  sheet.innerHTML = ''
+  for (const c of deck.cards) {
+    const el = document.createElement('section')
+    el.className = 'card size-' + (c.size || 'landscape')
+    el.dataset.name = c.name
+    el.dataset.accent = c.accent || 'yellow'
+    el.dataset.cta = c.cta === false ? 'off' : 'on'
+    if (c.background) el.style.backgroundImage = `url('${c.background}')`
+    const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+    const meta = (c.meta || []).map(esc).join('<span class="dot">•</span>')
+    el.innerHTML = `
+      <div class="top">
+        <div class="eyebrow">${esc(c.eyebrow)}</div>
+        <h1 class="headline">${esc(c.headline)}<span class="age">${esc(c.age)}</span></h1>
+        <div class="meta">${meta}</div>
+      </div>
+      <div class="bottom">
+        <div class="site">${c.siteNote ? esc(c.siteNote) + '<br>' : ''}<b>${esc(c.site || 'thesocialbillboard.com')}</b></div>
+        <div class="cta">${esc(c.ctaText || 'Get the playlist free')}<span class="arrow">→</span></div>
+      </div>`
+    sheet.appendChild(el)
+  }
+}
+
+/**
+ * A carousel deck: { name, kind: 'carousel', slides: [ { tone, kicker, big, size: 'lg'|'md'|'sm', body, list: [..], pill, foot, hl } ] }
+ * `hl` is a substring of `big` to colour with the accent. Each slide is 1080 x 1350.
+ */
+window.renderCarousel = function (deck) {
+  const sheet = document.getElementById('sheet')
+  sheet.innerHTML = ''
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+  const total = deck.slides.length
+  deck.slides.forEach((sl, i) => {
+    const el = document.createElement('section')
+    el.className = 'slide'
+    el.dataset.name = String(i + 1).padStart(2, '0')
+    el.dataset.tone = sl.tone || 'black'
+    let big = esc(sl.big || '').replace(/\n/g, '<br>')
+    if (sl.hl) big = big.replace(esc(sl.hl), `<span class="hl">${esc(sl.hl)}</span>`)
+    const body = sl.body ? `<div class="body${sl.letter ? ' letter' : ''}">${esc(sl.body).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>')}</div>` : ''
+    const list = sl.list ? `<div class="list">${sl.list.map((x) => `<div>${esc(x)}</div>`).join('')}</div>` : ''
+    const pill = sl.pill ? `<div class="pill">${esc(sl.pill)} <span>→</span></div>` : ''
+    const last = i === total - 1
+    el.innerHTML = `
+      <div class="top">
+        ${sl.kicker ? `<div class="kicker">${esc(sl.kicker)}</div>` : ''}
+        <div class="big ${sl.size || 'lg'}${sl.letter ? ' letter-head' : ''}">${big}</div>
+        ${body}${list}${sl.shots ? `<div class="shots${sl.shots.length === 1 ? ' one' : ''}">${sl.shots.map((x) => `<img src="${x}">`).join('')}</div>` : ''}${sl.sig ? `<div class="sig">${esc(sl.sig)}</div>` : ''}${pill}
+      </div>
+      <div class="foot"><span>${esc(sl.foot || deck.foot || 'thesocialbillboard.com')}</span>${deck.standalone ? '' : (i === 0 && !last ? '<span class="swipe">Swipe →</span>' : `<span class="n">${i + 1} / ${total}</span>`)}</div>`
+    sheet.appendChild(el)
+  })
+}
+</script>
+</body>
+</html>

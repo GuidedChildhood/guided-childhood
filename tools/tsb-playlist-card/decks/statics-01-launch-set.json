@@ -1,0 +1,84 @@
+{
+ "name": "statics-01-launch-set",
+ "kind": "carousel",
+ "standalone": true,
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tag": "A letter",
+   "tone": "white",
+   "kicker": "A note from the dad who built it",
+   "big": "I did not build this because YouTube is bad.",
+   "size": "sm",
+   "letter": true,
+   "body": "I built it because the feed is. One video turns into forty minutes of whatever holds attention longest, and the parent is the only ending.\n\nSo you set the age, the tone, the time of day and how long it runs. We build the playlist to match. When it ends, it ends. No up next, no Shorts, no comments.\n\nThe first playlist is free. One child profile. No card. If it does not fit your family, tell me and I will make it better.",
+   "sig": "Justin, founder",
+   "pill": "Create your first playlist, free"
+  },
+  {
+   "tag": "Offer first",
+   "tone": "yellow",
+   "kicker": "For parents of 3 to 16 year olds",
+   "big": "Your first playlist is free.",
+   "size": "lg",
+   "list": [
+    "One child profile",
+    "No card needed",
+    "It stops when it ends"
+   ],
+   "pill": "thesocialbillboard.com"
+  },
+  {
+   "tag": "Contrast",
+   "tone": "black",
+   "big": "The videos come from YouTube.\nThe feed around them does not.",
+   "hl": "The feed around them does not.",
+   "size": "md",
+   "body": "You set the age, the tone, the time of day and the length. We build the playlist to match. Nothing is recommended. Nothing autoplays that you did not choose.",
+   "pill": "First playlist free. No card."
+  },
+  {
+   "tag": "What is not here",
+   "tone": "white",
+   "kicker": "Most of the work went into what we left out",
+   "big": "What isn't here.",
+   "size": "lg",
+   "list": [
+    "No recommendation feed",
+    "No uncontrolled autoplay",
+    "No Shorts",
+    "No comments",
+    "No infinite scroll",
+    "No data sold to anyone, ever"
+   ],
+   "pill": "First playlist free. No card."
+  },
+  {
+   "tag": "Bedtime",
+   "tone": "black",
+   "kicker": "Bedtime",
+   "big": "Calm.\nTwenty minutes.\nThen it stops.",
+   "hl": "Then it stops.",
+   "size": "lg",
+   "body": "You choose calm, you choose the length. The ending is built in, so you do not have to be the ending.",
+   "pill": "First playlist free. No card."
+  },
+  {
+   "tag": "After school",
+   "tone": "yellow",
+   "kicker": "After school",
+   "big": "After school is not bedtime. The playlist should not be either.",
+   "size": "sm",
+   "body": "Energetic or calm. Educational or fun. Twenty minutes or forty. Five choices, made by you, before they press play.",
+   "pill": "First playlist free. No card."
+  },
+  {
+   "tag": "The question",
+   "tone": "white",
+   "big": "Is YouTube a rabbit hole in your house?",
+   "size": "md",
+   "body": "Blocking is a treadmill. Filters let things through. The problem was never your child's willpower, it is what the feed puts in front of them.\n\nSo we built the other way round. You set the shape of the session. We build the playlist. When it ends, it ends.",
+   "pill": "First playlist free. No card."
+  }
+ ]
+}
