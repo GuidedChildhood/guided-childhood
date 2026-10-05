@@ -191,10 +191,9 @@ and not a busy infographic. Its power is restraint, one big number, one accent c
 calm cream space. Replicate this exact system.
 
 This serif card is a deliberate exception to `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`,
-kept because it is the proven format for Justin's own posts. Whether it stays
-serif is an open question in `plans/2026-10-05-social-visual-system.md`; until
-Justin decides, keep it as is, and use the system file for anything posted as
-Guided Childhood rather than as Justin.
+kept for Justin's own posts because it is the proven format (Justin, 5 October
+2026). Anything posted as Guided Childhood rather than as Justin uses the
+system file.
 
 ### The anatomy of the card (top to bottom)
 

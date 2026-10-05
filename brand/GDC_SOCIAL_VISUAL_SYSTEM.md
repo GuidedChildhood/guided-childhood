@@ -124,12 +124,14 @@ Every path below exists in this repo as of 5 October 2026.
 
 - Rendered in code by `components/pathway/PassportBook.tsx` (preview at
   `/ref-passport-book`). Burgundy cover, gold foil.
-- Real screenshots: `public/marketing/passport-desktop-cover.png`,
-  `public/marketing/passport-mobile-stage.png`,
-  `public/marketing/passport-mobile-earned.png`.
+- **Do not use** the screenshots in `public/marketing/passport-*.png` on
+  social: they show the old brown cover and a real child's name. The card
+  maker draws the current burgundy cover from the `PassportBook.tsx` styles,
+  with "Our family" where a name would be.
 - The printed product: `public/shop/passport_printed.webp`.
-- There is no standalone passport illustration file. For a cover on social,
-  screenshot `/ref-passport-book` at the size needed. Never draw a new one.
+- There is no standalone passport illustration file. The cover in
+  `tools/social-cards/template.html` copies the code's styles exactly. Never
+  draw a different one.
 
 ### The logo
 
@@ -141,8 +143,7 @@ Every path below exists in this repo as of 5 October 2026.
 
 ### Product proof
 
-- Real screens: `public/marketing/kid-page.png` and the three passport
-  screenshots above. For anything else, capture the live app with Playwright
+- Real screens: `public/marketing/kid-page.png` (a demo child, Sofia). For anything else, capture the live app with Playwright
   (the `webapp-testing` skill) at 390 wide for phone. A real child's name is
   blurred.
 - Real printables: page previews in `public/printables/*.png` and
@@ -195,7 +196,9 @@ ground and `ink` for its accents. These triplets live in
 | DiGi | `#C99A28` | `#FDF4D9` | `#7A5A0E` |
 
 Headlines stay `--ink` on every ground. A deck keeps one ground per friend, so
-a friend's colour becomes a recognisable series signal.
+a friend's colour becomes a recognisable series signal. **Decided by Justin,
+5 October 2026:** the friend colour, not the app's stage pastels, which put
+Orbit on coral and Bloop on sky.
 
 ### The Passport
 
@@ -260,7 +263,9 @@ background pattern, never a doodle. It is drawn in code, never generated.
 
 ## 8. The six permanent formats
 
-Every visual is one of these. The reference board shows each one's layout.
+Every visual is one of these. The approved renders are in
+`brand/proposals/2026-10-05-six-formats/`, and `tools/social-cards` builds
+every one of them from a JSON deck (`decks/six-formats.json` is the example).
 
 ### 1. Big stat or hook
 A large editorial headline, very little copy, cream, one meaningful character
@@ -340,7 +345,7 @@ All of them are recognisably one world. What changes is the emphasis.
 |---|---|
 | **Instagram** | Instant comprehension, curiosity, saves and shares, the franchises, a strong first slide |
 | **Facebook** | Parent situations, useful answers, DiGi, practical activities, things worth sending to another parent |
-| **LinkedIn** | Evidence, research, schools, product thinking, the founder's view, the most restrained treatment |
+| **LinkedIn** | Evidence, research, schools, product thinking, the founder's view, the most restrained treatment. Justin's own research posts keep the proven serif research card from `viral-post` (decided 5 October 2026); anything posted as Guided Childhood uses this file |
 | **YouTube, TikTok, Reels, Shorts** | The cover frame and the burned in hook follow this file. Video rules stay in `silent-ugc`, `explainer-video` and `talking-head-video`. Every vertical ends at the stage check |
 
 On the family account, Founder Monday stays a real photo (`weekly-rhythm.md`).

@@ -119,23 +119,49 @@ character art, no campaign or register IDs and no paid generation are touched.
   quest board, a lesson slide, the stage check.
 - A schools logo and any school photography.
 
-## Open questions for Justin
+## Decided by Justin, 5 October 2026
 
-1. **Approve the audit verdicts** before any template changes.
-2. **Which colours are the stage colours on social:** the friend triplets
-   (recommended, and what the system uses now) or the stage pastels?
-3. **The LinkedIn research card:** keep its serif look for your own posts
-   (recommended, it is proven) and use this system for the company page, or
-   bring it into Nunito?
-4. **Autoposting:** may a routine publish, or does it stop at drafts in Meta
-   Business Suite and the Control Room for your one tap?
+1. **The audit verdicts: approved and applied.** The updates and retirements
+   above are done (the retired files carry a one line note and stay as
+   history; nothing was deleted).
+2. **Colours: the friend triplets**, not the stage pastels.
+3. **LinkedIn: the serif research card stays for Justin's own posts**;
+   anything posted as Guided Childhood uses the system.
+4. **The routine: a Sunday batch, and Justin posts.** No autoposting.
+5. **Happy News Saturday keeps the same look as every other day.** The day
+   stays; only the sticker look went.
 
-## Recommended next step, once approved
+## What was built after the decisions
 
-Update `tools/social-cards/template.html` into the six formats (new card types
-for hook, friend question, printable, screen, road and situation), drawing the
-real cutouts, the logo from `shared/brand.ts` and the gold pathway in SVG, and
-re-render the three existing decks as the proof. Then capture the missing
-screenshot set with Playwright. Only after that, the routine: a weekly
-scheduled task that reads the weekly content sheet, renders the week's cards
-and leaves them as drafts, publishing only if question 4 says so.
+- `brand/proposals/2026-10-05-six-formats/`: the rendered proposal he approved.
+- `tools/social-cards/`: rebuilt into the six formats (the frame, the road,
+  one lead friend per deck). The three old decks re-rendered as proof;
+  `decks/six-formats.json` shows every format. `npm run social-cards`.
+- `tools/social-cards/week.mjs` (`npm run social-week -- <folder>`): renders a
+  week of decks, writes `THIS-WEEK.md` (swept by `npm run ai-tells`) and builds
+  the page.
+- **The page:** https://claude.ai/artifact/1yUXSQ4EdHBThHkEPfWf7v, "GDC posts".
+  Today's post first, swipe the cards, hold to save, copy the words, tick
+  Posted. Same link every week; it shows a sample week until Sunday.
+- `.claude/skills/social-week/SKILL.md`: the Sunday batch, step by step.
+- **The routine** "Sunday social batch" (`trig_01LXCMUEJTwBSPULSghPAfA4`):
+  Sundays 18:55 UK time, after the 18:00 ideas sheet, a fresh session runs
+  the skill and opens a draft PR. Push notification on finish. Never posts.
+
+## How Justin runs it
+
+- **Sunday evening** (the phone buzzes): open the page, check the week, and
+  either schedule it all in Meta Business Suite (about 20 minutes) or leave
+  it for each morning.
+- **Each morning:** open the pinned page, today's post is at the top, save
+  the cards, copy the words, post, tick Posted. Two minutes.
+
+## Found while building
+
+- `public/marketing/passport-*.png` show the old brown passport cover and a
+  real child's name. Kept off social; the card maker draws the current cover.
+- The routine cannot hold the Google Drive connector when created from a
+  session, so it needs adding on the Routines screen, or it plans from the
+  weekly rhythm instead of the sheet.
+- The local "Instagram carousel generator" (Monday and Friday 07:03) would
+  now duplicate the Sunday batch.

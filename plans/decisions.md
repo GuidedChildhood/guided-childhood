@@ -303,3 +303,15 @@ Titles only. Open the archive at the line number in its own index for the full e
   open questions in `plans/2026-10-05-social-visual-system.md`. Nothing
   redesigned until Justin approves. No autoposting until he says a routine may
   publish.
+
+## 5 October 2026: the six formats built, and the Sunday batch
+
+- Justin approved the six format proposal, the audit, the friend colours,
+  keeping his serif LinkedIn card, and the same look on Saturdays.
+- `tools/social-cards` rebuilt into the six formats; the old decks re-rendered
+  as proof. Audit updates and retirements applied, nothing deleted.
+- The routine is a Sunday batch and Justin posts: the `social-week` skill,
+  `npm run social-week`, the pinned GDC posts page, and the "Sunday social
+  batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
+  today's post first, nothing posts itself. Detail in
+  `plans/2026-10-05-social-visual-system.md`.
