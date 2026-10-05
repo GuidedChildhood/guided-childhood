@@ -268,3 +268,8 @@ Titles only. Open the archive at the line number in its own index for the full e
   Billboard post and email, both sessions, holds until fixed; the daily desk
   marks those slots BLOCKED. The one reason: a post today sends a parent to a
   404 from a child safety product.
+- Same day, traced with the playlist session: the dead links live in one static
+  file on the server (/creators.html, which is the parent landing page) and the
+  real routes exist at /auth/sign-up and /auth/login. A text edit plus one
+  router entry for /transparency/parents, no rebuild. Needs server access,
+  which no session has.
