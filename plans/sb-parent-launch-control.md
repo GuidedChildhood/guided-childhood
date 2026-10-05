@@ -115,8 +115,21 @@ The parent first version:
   length. You see every video first. / First playlist free. No card."
 - Link 1: **Get a free playlist**,
   `https://thesocialbillboard.com/safe-youtube-for-kids?utm_source=instagram&utm_medium=bio&utm_campaign=sb_launch`
-- Link 2: **For creators: request a review**, the existing creator waiting
-  list, kept last.
+- Link 2: **For creators: get your channel reviewed**,
+  `https://thesocialbillboard.com/auth/sign-up?utm_source=instagram&utm_medium=bio&utm_campaign=sb_creators`,
+  kept last. This is the live sign up page ("Get your channel in front of
+  parents"), which replaces the old landingpage creator waiting list.
+
+**Finding, 5 October: there is one sign up page, and it speaks to creators.**
+The site's code routes `/auth/sign-up` to a single page for everyone. Its
+headline is "Get your channel in front of parents", with the parent or
+creator choice further down under "Select Your Role". If GET A FREE PLAYLIST
+lands there, a parent's first screen is a pitch to creators. Check where the
+button lands. If it is this page, the fix (on the Social Billboard site, not
+in this repo) is a parent headline when a parent arrives: "Get your first
+playlist free" over "Choose your child's age and what they love. You see
+every video before they press play. No card needed." That fix comes before
+Day 5's invitation post.
 - Removed: the parent waiting list (replaced by link 1), "Website beta" (a
   duplicate, and "beta" undercuts the offer), the Chart Show (creator side,
   back when creators open).
