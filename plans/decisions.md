@@ -273,3 +273,8 @@ Titles only. Open the archive at the line number in its own index for the full e
   real routes exist at /auth/sign-up and /auth/login. A text edit plus one
   router entry for /transparency/parents, no rebuild. Needs server access,
   which no session has.
+- Same day, later: the sign up page headline is creator copy for every role,
+  and ?role=parent does not pre select the parent role on a cold load (tested
+  twice; the playlist session's claim that it does is UNVERIFIED). Both go to
+  the sign up component as one change. Replace target stays
+  /auth/sign-up?role=parent, harmless now, right later.
