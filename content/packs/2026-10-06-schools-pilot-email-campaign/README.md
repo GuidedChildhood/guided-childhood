@@ -10,9 +10,9 @@ itself.
 
 The contact list is the Google Sheet "Schools pilot email list, October 2026"
 in the Control Room (built from the trust and school websites and gov.uk Get
-Information About Schools, only addresses those sites publish). The radius is
-centred on Cheddar because that is the Wessex Learning Trust's home; if you
-live elsewhere, tell me the town and the distance column is rebuilt.
+Information About Schools, only addresses those sites publish). Distances are straight line
+from Star, by Winscombe, Justin's home (confirmed 6 October), so the first
+line of every email is true as written.
 
 ---
 
@@ -79,7 +79,7 @@ formatting, no logo, no attachment.
 ```
 Hello [first name],
 
-I am a parent [twelve] miles from you in [your town], and I have built a
+I am a parent [number from the sheet] miles from you in Winscombe, and I have built a
 digital literacy and online safety scheme for UK schools. I am looking for
 five schools to run it free for a term before it goes wider, and I would
 like [school name] to be one of them.
@@ -125,7 +125,7 @@ schools.guidedchildhood.com/pilot
 ```
 Hello [first name],
 
-I am a parent [twelve] miles from you in [your town], and I have built a
+I am a parent [number from the sheet] miles from you in Winscombe, and I have built a
 digital literacy scheme for UK schools, Reception to Year 13. I am looking
 for five schools to run it free for a term before it goes wider.
 
@@ -168,7 +168,7 @@ Hello [first name],
 I am writing to you as the DSL rather than to the office, because the part
 of what I have built that matters to you is the part most schemes hide.
 
-I am a parent [twelve] miles from you and I have built a digital literacy
+I am a parent [number from the sheet] miles from you in Winscombe and I have built a digital literacy
 scheme for UK schools. Eighteen of its thirty three modules are safeguarding
 flagged (the count is live on the page, so check it the day you send). For each one the crosswalk lists the statutory ground it stands
 on and the note its teachers get before teaching, and it states the two
@@ -207,7 +207,7 @@ schools.guidedchildhood.com/pilot
 ```
 Hello [first name],
 
-I am a parent in [your town], so your schools are the ones my own children
+I am a parent in Winscombe, so your schools are the ones my own children
 would walk into, and I have built a digital literacy and online safety
 scheme for UK schools, Reception to Year 13.
 
@@ -330,11 +330,9 @@ list.
 
 ## 5. What I need from you
 
-1. Your town, so the first line is true, and the distance column is measured
-   from your house rather than from Cheddar.
-2. A yes that the pilot page still says five places, or the number now left,
-   so email E carries the real number.
-3. Twenty minutes on Wednesday morning to send the first five by hand. I will
+1. Confirmed 6 October: home is Star by Winscombe and the pilot has five
+   places. Email E carries "five" until one is taken.
+2. Twenty minutes on Wednesday morning to send the first five by hand. I will
    have the sheet sorted so the top five rows are the ones to send.
 
 ---
@@ -350,5 +348,5 @@ publish. `schools-reserve-primaries.csv` holds the other 157 primaries within
 15 miles from the register, websites not yet opened, for when the places are
 still open after the first list.
 
-Distances are straight line from Cheddar, marked EST. Named people are
+Distances are straight line from Star by Winscombe, marked EST. Named people are
 reproduced as the schools publish them. Nothing was sent.
