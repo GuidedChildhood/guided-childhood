@@ -1,0 +1,125 @@
+{
+  "rules": {
+    "headPx": 58,
+    "bodyPx": 36,
+    "maxHeadWords": 10,
+    "maxBodyWords": 20,
+    "wordsPerSecond": 3.6,
+    "minHold": 7
+  },
+  "beats": [
+    {
+      "id": "s1",
+      "clock": "9:00 PM",
+      "hold": 7,
+      "rightDelay": 2.2,
+      "left": {
+        "video": "moment.mp4",
+        "tag": "Third night running",
+        "head": "9pm. Pyjamas on. The TV comes back on."
+      },
+      "right": {
+        "digi": "big",
+        "tag": "The same evening, side by side",
+        "head": "Same child. Same clock. One difference."
+      }
+    },
+    {
+      "id": "s2",
+      "clock": "9:00 PM",
+      "left": {
+        "video": "child-20.mp4",
+        "tag": "The cue",
+        "head": "Her eyes lock on. That is a reflex.",
+        "body": "Cuts and sound changes pull a young child's attention automatically. Not a choice.",
+        "src": "Lang, 2000. Anderson and Levin, 1976"
+      },
+      "right": {
+        "digi": "corner",
+        "tag": "A parent, 9:01 PM",
+        "head": "She came down and put the TV on again.",
+        "body": "She is six. What do I do?"
+      }
+    },
+    {
+      "id": "s3",
+      "clock": "9:02 PM",
+      "left": {
+        "video": "child-21.mp4",
+        "tag": "What comes next",
+        "head": "Each clip is a new guess at what comes next.",
+        "body": "Dopamine drives the wanting, not the pleasure. Up next never offers her the end.",
+        "src": "Schultz, 2016. Hiniker and others, 2018"
+      },
+      "right": {
+        "kind": "answer",
+        "digi": "corner",
+        "tag": "DiGi, 9:02 PM",
+        "head": "Tonight is not the night to fight it.",
+        "body": "Sit with her for the last five minutes. Then off at the end of this one, and up together.",
+        "src": "Rails: no blame, no battle at bedtime"
+      }
+    },
+    {
+      "id": "s4",
+      "clock": "9:20 PM",
+      "left": {
+        "video": "child-22.mp4",
+        "tag": "The brake",
+        "head": "She cannot stop by herself yet.",
+        "body": "Stopping needs the front of the brain, which is years from ready at six. The pull wins.",
+        "src": "Diamond, 2013. Casey and others, 2005"
+      },
+      "right": {
+        "digi": "corner",
+        "tag": "9:20 PM, why that works",
+        "head": "The ending is built in.",
+        "body": "Children were less upset when screen time was routine, and when the technology ended it rather than a parent.",
+        "src": "Hiniker and others, 2016"
+      }
+    },
+    {
+      "id": "s5",
+      "clock": "10:10 PM",
+      "left": {
+        "video": "child-24.mp4",
+        "tag": "The light",
+        "head": "Evening light hits a child's melatonin hard.",
+        "body": "Far harder than an adult's. Even dim room light cut preschoolers' melatonin by about three quarters.",
+        "src": "Hartstein and others, 2022"
+      },
+      "right": {
+        "digi": "corner",
+        "tag": "What DiGi asks for tomorrow",
+        "head": "Tomorrow, set the shape of the evening early.",
+        "body": "Screen off at half past seven, then a story with you. A nightly routine means earlier, longer sleep.",
+        "src": "Mindell and others, 2015. AAP, 2016"
+      }
+    },
+    {
+      "id": "s6",
+      "clock": "7:30 AM",
+      "left": {
+        "video": "child-23.mp4",
+        "tag": "The next morning",
+        "head": "A late, irregular bedtime shows up the next day.",
+        "body": "Shorter fuse, less joy, poorer attention. In 10,000 UK children, regular bedtimes meant better behaviour at seven.",
+        "src": "Kelly, Kelly and Sacker, 2013"
+      },
+      "right": {
+        "digi": "big",
+        "tag": "Three nights later",
+        "head": "Did it work? Tell DiGi.",
+        "body": "Your answer feeds the next one. Across families only counts travel, never your words."
+      }
+    },
+    {
+      "id": "cta",
+      "cta": true,
+      "hold": 7,
+      "head": "Start free. Three questions, no sign up.",
+      "body": "Find your child's stage, then ask DiGi your own 9pm question.",
+      "url": "guidedchildhood.com/starter-pack"
+    }
+  ]
+}

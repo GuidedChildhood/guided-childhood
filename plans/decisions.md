@@ -380,3 +380,7 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   emails are in its Drafts and the `school-email-drafts` task writes four a
   day from Wednesday. Sending stays with Justin by design: hand sent, named
   person, four a day.
+
+## 6 October 2026: Social Billboard cards use black, white and yellow only
+
+Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
