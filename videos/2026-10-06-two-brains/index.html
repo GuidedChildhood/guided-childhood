@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000;font-style:normal}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600;font-style:normal}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1A1A2E;container-type:size;font-family:nunito,sans-serif;color:#1A1A2E}
+.beat{position:absolute;inset:0;opacity:0;overflow:hidden}
+.col{position:absolute;top:0;bottom:0;width:50%;overflow:hidden}
+.col.left{left:0;background:#0F1322}.col.right{right:0;background:#FFFBEE}
+.col video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.cream{position:absolute;inset:0;background:#FFFBEE}
+.digi{position:absolute;object-fit:contain}
+.digi.corner{right:3cqw;top:11cqh;width:13cqw;height:13cqw}
+.digi.big{left:50%;transform:translateX(-50%);top:12cqh;width:22cqw;height:22cqw}
+.divider{position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;background:#1A1A2E}
+.clock{position:absolute;left:50%;top:3.2cqh;transform:translateX(-50%);background:#EDC35F;color:#1A1A2E;border:3px solid #1A1A2E;border-radius:14px;box-shadow:0 5px 0 #C99A28;padding:0.55cqw 1.4cqw;font-family:plexMono,monospace;font-weight:600;font-size:1.6cqw;letter-spacing:0.12em;text-transform:uppercase;z-index:3}
+.colhead{position:absolute;top:4.4cqh;font-family:plexMono,monospace;font-weight:600;font-size:1.05cqw;letter-spacing:0.18em;text-transform:uppercase;z-index:3}
+.colhead.lh{left:3cqw;color:#FFFBEE;opacity:0.85}.colhead.rh{right:3cqw;color:#52526A}
+.card{position:absolute;left:3cqw;right:3cqw;bottom:6cqh;padding:1.9cqw 2.2cqw 2.1cqw;background:rgba(255,251,238,0.96);border:3px solid #1A1A2E;border-radius:22px;box-shadow:0 6px 0 #C99A28;opacity:0}
+.col.right .card{background:#FFFBEE}
+.col.right .card.answer{background:#1A1A2E;color:#FFFBEE;border-color:#1A1A2E;box-shadow:0 6px 0 #C99A28}
+.col.right .card.answer .headline{color:#FFFBEE}.col.right .card.answer .body{color:#E8DFC8}.col.right .card.answer .tag{color:#F6DC8A}.col.right .card.answer .src{color:#F0EADA}
+.tag{font-family:plexMono,monospace;font-weight:600;font-size:1.0cqw;letter-spacing:0.16em;text-transform:uppercase;color:#7A5C0E;margin-bottom:0.8cqw}
+.headline{font-size:3.0208333333333335cqw;font-weight:900;line-height:1.06;letter-spacing:-0.01em}
+.body{margin-top:0.9cqw;font-size:1.875cqw;font-weight:650;line-height:1.3;color:#3A3A52}
+.src{margin-top:1.0cqw;font-family:plexMono,monospace;font-weight:600;font-size:1.05cqw;letter-spacing:0.08em;color:#52526A}
+.hw,.sw{display:inline-block;margin-right:0.07em;will-change:transform,opacity}
+.field{position:absolute;inset:0;background:#FFFBEE}
+.eyebrow-top{position:absolute;top:6cqh;left:0;right:0;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:1.1cqw;letter-spacing:0.14em;text-transform:uppercase;color:#52526A}
+.star{position:absolute;top:18cqh;left:9cqw;width:30cqw;height:30cqw;object-fit:contain}
+.cta .headline.big{position:absolute;top:24cqh;left:46cqw;right:6cqw;font-size:4.4cqw}
+.cta .subline.big{position:absolute;top:56cqh;left:46cqw;right:7cqw;font-size:2.2cqw;font-weight:600;line-height:1.3;color:#52526A}
+.url{position:absolute;top:71cqh;left:46cqw;font-size:1.6cqw;font-family:plexMono,monospace;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:#EDC35F;padding:0.7cqw 1.6cqw;border:3px solid #1A1A2E;border-radius:16px;box-shadow:0 5px 0 #C99A28;opacity:0}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="85.5" data-width="1920" data-height="1080">
+<div id="s1" class="beat"><div class="col left"><video id="s1-lv" src="assets/moment.mp4" muted playsinline data-start="0.00" data-duration="7.00" data-track-index="0"></video><div class="card" id="s1-lc"><div class="tag">Third night running</div><div class="headline">9pm. Pyjamas on. The TV comes back on.</div></div></div><div class="col right"><div class="cream"></div><img class="digi big" src="assets/digi-cut.png" alt=""><div class="card " id="s1-rc"><div class="tag">The same evening, side by side</div><div class="headline">Same child. Same clock. One difference.</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:00 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s2" class="beat"><div class="col left"><video id="s2-lv" src="assets/child-20.mp4" muted playsinline data-start="7.00" data-duration="11.78" data-track-index="1"></video><div class="card" id="s2-lc"><div class="tag">The cue</div><div class="headline">Her eyes lock on. That is a reflex.</div><div class="body">Cuts and sound changes pull a young child's attention automatically. Not a choice.</div><div class="src">Lang, 2000. Anderson and Levin, 1976</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s2-rc"><div class="tag">A parent, 9:01 PM</div><div class="headline">She came down and put the TV on again.</div><div class="body">She is six. What do I do?</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:00 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s3" class="beat"><div class="col left"><video id="s3-lv" src="assets/child-21.mp4" muted playsinline data-start="18.78" data-duration="15.67" data-track-index="0"></video><div class="card" id="s3-lc"><div class="tag">What comes next</div><div class="headline">Each clip is a new guess at what comes next.</div><div class="body">Dopamine drives the wanting, not the pleasure. Up next never offers her the end.</div><div class="src">Schultz, 2016. Hiniker and others, 2018</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card answer" id="s3-rc"><div class="tag">DiGi, 9:02 PM</div><div class="headline">Tonight is not the night to fight it.</div><div class="body">Sit with her for the last five minutes. Then off at the end of this one, and up together.</div><div class="src">Rails: no blame, no battle at bedtime</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:02 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s4" class="beat"><div class="col left"><video id="s4-lv" src="assets/child-22.mp4" muted playsinline data-start="34.44" data-duration="14.56" data-track-index="1"></video><div class="card" id="s4-lc"><div class="tag">The brake</div><div class="headline">She cannot stop by herself yet.</div><div class="body">Stopping needs the front of the brain, which is years from ready at six. The pull wins.</div><div class="src">Diamond, 2013. Casey and others, 2005</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s4-rc"><div class="tag">9:20 PM, why that works</div><div class="headline">The ending is built in.</div><div class="body">Children were less upset when screen time was routine, and when the technology ended it rather than a parent.</div><div class="src">Hiniker and others, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:20 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s5" class="beat"><div class="col left"><video id="s5-lv" src="assets/child-24.mp4" muted playsinline data-start="49.00" data-duration="15.11" data-track-index="0"></video><div class="card" id="s5-lc"><div class="tag">The light</div><div class="headline">Evening light hits a child's melatonin hard.</div><div class="body">Far harder than an adult's. Even dim room light cut preschoolers' melatonin by about three quarters.</div><div class="src">Hartstein and others, 2022</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s5-rc"><div class="tag">What DiGi asks for tomorrow</div><div class="headline">Tomorrow, set the shape of the evening early.</div><div class="body">Screen off at half past seven, then a story with you. A nightly routine means earlier, longer sleep.</div><div class="src">Mindell and others, 2015. AAP, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">10:10 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s6" class="beat"><div class="col left"><video id="s6-lv" src="assets/child-23.mp4" muted playsinline data-start="64.11" data-duration="14.00" data-track-index="1"></video><div class="card" id="s6-lc"><div class="tag">The next morning</div><div class="headline">A late, irregular bedtime shows up the next day.</div><div class="body">Shorter fuse, less joy, poorer attention. In 10,000 UK children, regular bedtimes meant better behaviour at seven.</div><div class="src">Kelly, Kelly and Sacker, 2013</div></div></div><div class="col right"><div class="cream"></div><img class="digi big" src="assets/digi-cut.png" alt=""><div class="card " id="s6-rc"><div class="tag">Three nights later</div><div class="headline">Did it work? Tell DiGi.</div><div class="body">Your answer feeds the next one. Across families only counts travel, never your words.</div></div></div><div class="divider"></div><div class="clock"><span class="clk">7:30 AM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="cta" class="beat cta"><div class="field"></div><div class="eyebrow eyebrow-top">GUIDED CHILDHOOD</div><img id="cta-star" class="star" src="assets/digi-cut.png" alt=""><div class="headline big">Start free. Three questions, no sign up.</div><div class="subline big">Find your child's stage, then ask DiGi your own 9pm question.</div><div class="url">guidedchildhood.com/starter-pack</div></div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+tl.fromTo("#s1",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},0.00);
+tl.to("#s1",{opacity:0,duration:0.4,ease:"power2.in"},6.60);
+tl.fromTo("#s1 video",{scale:1},{scale:1.05,duration:7.00,ease:"none"},0.00);
+tl.fromTo("#s1-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},0.40);
+tl.fromTo("#s1-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},2.20);
+tl.fromTo("#s2",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},7.00);
+tl.to("#s2",{opacity:0,duration:0.4,ease:"power2.in"},18.38);
+tl.fromTo("#s2 video",{scale:1},{scale:1.05,duration:11.78,ease:"none"},7.00);
+tl.fromTo("#s2-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},7.40);
+tl.fromTo("#s2-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},11.30);
+tl.fromTo("#s3",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},18.78);
+tl.to("#s3",{opacity:0,duration:0.4,ease:"power2.in"},34.04);
+tl.fromTo("#s3 video",{scale:1},{scale:1.05,duration:15.67,ease:"none"},18.78);
+tl.fromTo("#s3-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},19.18);
+tl.fromTo("#s3-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},23.58);
+tl.fromTo("#s4",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},34.44);
+tl.to("#s4",{opacity:0,duration:0.4,ease:"power2.in"},48.60);
+tl.fromTo("#s4 video",{scale:1},{scale:1.05,duration:14.56,ease:"none"},34.44);
+tl.fromTo("#s4-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},34.84);
+tl.fromTo("#s4-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},39.08);
+tl.fromTo("#s5",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},49.00);
+tl.to("#s5",{opacity:0,duration:0.4,ease:"power2.in"},63.71);
+tl.fromTo("#s5 video",{scale:1},{scale:1.05,duration:15.11,ease:"none"},49.00);
+tl.fromTo("#s5-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},49.40);
+tl.fromTo("#s5-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},53.63);
+tl.fromTo("#s6",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},64.11);
+tl.to("#s6",{opacity:0,duration:0.4,ease:"power2.in"},77.71);
+tl.fromTo("#s6 video",{scale:1},{scale:1.05,duration:14.00,ease:"none"},64.11);
+tl.fromTo("#s6-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},64.51);
+tl.fromTo("#s6-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},69.24);
+tl.fromTo("#cta",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},78.11);
+tl.to("#cta",{opacity:0,duration:0.4,ease:"power2.in"},84.71);
+tl.fromTo("#cta .headline.big",{y:18,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},78.61);
+tl.fromTo("#cta .subline.big",{y:10,opacity:0},{y:0,opacity:1,duration:0.5,ease:"power3.out"},79.41);
+tl.fromTo("#cta .url",{y:10,opacity:0},{y:0,opacity:1,duration:0.4},80.31);
+</script></body></html>
