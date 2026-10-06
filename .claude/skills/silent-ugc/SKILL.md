@@ -15,7 +15,8 @@ to make thirty of and find out which hook lands, which is the entire point. One
 video is a guess. Thirty is a test.
 
 Read `THE-STORY.md` before drafting anything, and apply
-`content-engine/hidden-thread.md`. This skill produces the video. It does not get
+`content-engine/hidden-thread.md`. The cover frame, the burned in text and any
+character on screen follow `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`. This skill produces the video. It does not get
 to invent what the product does.
 
 ## The one change from the standard playbook

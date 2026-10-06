@@ -18,34 +18,45 @@ You are a senior product designer and frontend engineer. Your output should look
 ## This Project's Design System (Guided Childhood)
 
 ```
+The live tokens are shared/tokens.css; if this block and that file disagree,
+the CSS wins. Social images follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md.
+
 Fonts:
-  Display: Hanken Grotesk 700–900 (headlines, display numbers)
-  Body:    Hanken Grotesk 400–600 (paragraphs, UI labels)
-  Mono:    IBM Plex Mono 400–700 (eyebrows, badges, tags, code)
+  Display: Nunito 800 to 900 (headlines, display numbers)
+  Body:    Nunito 400 to 700 (paragraphs, UI labels)
+  Mono:    IBM Plex Mono 500 to 700 (eyebrows, badges, tags, figures)
 
 Colours:
-  --ink:            #1A1A2E   (near-black, primary text)
-  --ink-soft:       #4A4A6A   (body text)
-  --ink-muted:      #8888AA   (secondary labels)
-  --terracotta:     #5B8FA8   (slate teal, primary brand)
-  --terracotta-dark:#3D6478
-  --cream:          #FFFBEE   (warm off-white background)
-  --border:         #E8E4D8
+  --ink:             #1A1A2E   (navy ink, primary text)
+  --ink-soft:        #52526A   (body text)
+  --ink-muted:       #65657C   (secondary labels)
+  --terracotta:      #EDC35F   (butter gold, the brand accent; alias --butter)
+  --terracotta-dark: #C99A28   (gold shadow, eyebrows)
+  --terracotta-lt:   #FEF7E0
+  --cream:           #F9F8F6   (page ground, never flat white)
+  --deep-teal:       #2E2818   (espresso, the serious surface)
+  --retro-green:     #2F8F6B   (done, success)
+  Trap: --gold is the stage 1 pastel, not the brand gold.
 
-Stage palette (5 stages, each has bg / bold / text variants):
-  Stage 1: #FFFBEE / #C8E6C9 / #2D5016  (warm sage)
-  Stage 2: #FFF8F0 / #FFE0B2 / #7C3D00  (warm amber)
-  Stage 3: #FFF0F3 / #F8BBD9 / #880E4F  (rose, CRITICAL)
-  Stage 4: #F0F4FF / #BBDEFB / #0D2A6B  (cool blue)
-  Stage 5: #F5F3FF / #D1C4E9 / #3B1080  (purple)
+Stage palette (pastel / bold / text):
+  Stage 1: #FFFBEE / #FEF08A / #713F12
+  Stage 2: #F0F9FF / #BAE6FD / #0C4A6E
+  Stage 3: #FFF4F2 / #FECDD3 / #881337
+  Stage 4: #FFF2F7 / #FBCFE8 / #831843
+  Stage 5: #F5F3FF / #DDD6FE / #3B0764
+
+Planet Friends (accent / soft / ink, shared/schools-curriculum.ts):
+  Pebble #C99A28 / #FBEED0 / #7A5A0E   Bloop #6C9E38 / #E4F0D4 / #3F5E1E
+  Orbit  #3E86BC / #DCEBF7 / #1F4E6E   Nova  #7E5AB0 / #ECE3F7 / #4A2F73
+  Cosmo  #CE7328 / #FBE4D0 / #8F4A12
 
 Buttons:
   border-radius: 16px
   box-shadow: 0 5px 0 <shadow-colour>
-  font: Hanken Grotesk 700, uppercase optional
-  Variants: btn-gold (terracotta fill), btn-green (stage-1-bold fill)
+  font: Nunito 800
+  Variants: btn-gold (butter fill, #C99A28 shadow), btn-green (retro green)
 
-Motion: GSAP only. Subtle fade-ups (y: 20 → 0, opacity 0 → 1, duration 0.6).
+Motion: GSAP only. Subtle fade-ups (y: 20 to 0, opacity 0 to 1, duration 0.6).
         Staggered reveals on lists. No Three.js. No CSS keyframe animations on
         layout-affecting properties.
 ```
@@ -82,13 +93,13 @@ Before any JSX, write 3 bullet points:
 ### Hero sections
 - Left: eyebrow (IBM Plex Mono, terracotta) → H1 with ONE color accent word → body paragraph → CTAs
 - Right: photo shape cards (colored rounded-rect + cutout image + badge overlays)
-- Background: `#FFFBEE` (cream), never pure white for heroes
+- Background: `var(--cream)` (#F9F8F6), never pure white for heroes
 - H1: `clamp(2.4rem, 4.8vw, 3.9rem)`, weight 900, letter-spacing `-0.04em`
 - NO floating chips unless they serve a specific purpose
 
 ### Stats bars
 - Dark background (`#1A1A2E`), 4-column grid, large white numbers
-- Numbers: `clamp(2.2rem, 3.8vw, 3.2rem)`, Hanken Grotesk 900
+- Numbers: `clamp(2.2rem, 3.8vw, 3.2rem)`, Nunito 900
 - Labels: `0.74rem`, rgba(255,255,255,.55), uppercase, letter-spacing 0.04em
 
 ### Card grids
@@ -112,8 +123,8 @@ Before any JSX, write 3 bullet points:
 | Sloppy | Specific |
 |--------|----------|
 | Blue primary button | Terracotta with 5px bottom shadow |
-| `font-family: Inter` | Hanken Grotesk + IBM Plex Mono |
-| Purple gradient header | Cream (`#FFFBEE`) with sage green accent |
+| `font-family: Inter` | Nunito + IBM Plex Mono |
+| Purple gradient header | Cream (`#F9F8F6`) with one butter gold accent |
 | Generic card with icon + title + body | Photo card with stage color, badge overlays, mono labels |
 | `box-shadow: 0 2px 4px rgba(0,0,0,.1)` | `0 4px 24px rgba(26,26,46,.07)` |
 | Centered hero with stock photo | Left-text with right photo shape cards |

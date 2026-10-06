@@ -56,10 +56,14 @@ names the source in plain words when it does.
    and the hinge. If the idea is about a service that does not exist, stop
    and say so.
 3. **Write the brief.** `videos/<date>-<slug>/brief.json` in the shape of
-   `videos/_templates/explainer-draw/brief.example.json`. Icons come from
+   `videos/_templates/explainer-draw/brief.example.json`. Pictures: for any
+   beat that wants a scene rather than a glyph, generate a real ink
+   illustration on Higgsfield and trace it with `tools/ink-trace/` (read its
+   README), then use those paths for the beat. The stock icons in
    `icons.json` (clock, phone, tablet, house, star, child, bubble, school,
-   play, list, road, tick, hand, pen). Add an icon as stroke paths in a 200 by
-   200 box when none fits; keep it to four paths.
+   play, list, road, tick, hand, pen) are only for a beat that genuinely
+   wants a glyph. The first film used icons on every beat and looked basic
+   because of it (Justin, 1 October 2026).
 4. **Build.** From the template folder:
    `node build.mjs ../../<date>-<slug>/brief.json ../../<date>-<slug>` and
    again with `--vertical`.

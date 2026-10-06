@@ -1,5 +1,7 @@
 # The LinkedIn Featured banner for the schools service
 
+> **Retired on 5 October 2026: superseded by the built banner in `content/linkedin/featured-banner/`. Kept as history; do not send this prompt to an image model.**
+
 One image, one job: a head scrolling past sees the weight of what they are
 legally required to teach, and sees that the answer already exists. Written
 23 September 2026.

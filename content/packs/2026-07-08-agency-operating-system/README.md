@@ -17,7 +17,7 @@ Justin drops an idea in the shared Drive Ideas inbox. The project turns it into 
 Brand line: the voice of children's mental health and teaching digital and AI devices through a calibrated, age based pathway. Not fear, not a ban, capability.
 Pillars: the calm read; the pathway; the parent who did the homework.
 Voice rules: UK English, short sentences, no dashes, no AI isms, one precise number as the hook, concede the strongest counter point every time, never scare always equip, credit before you complicate, never relitigate the ban, one soft PATHWAY call to action.
-Visual: tokens cream, green, coral, gold, lav; Hanken Grotesk plus IBM Plex Mono; chunky rounded; no generic AI gradients, no purple, no stock, no brain scans.
+Visual: superseded 5 October 2026. Send the agency `brand/GDC_SOCIAL_VISUAL_SYSTEM.md` instead (cream, navy ink, gold, Nunito plus IBM Plex Mono, the real characters only, no stock, no brain scans).
 Never look like an agency: post as Justin first person, reply in threads as him, value first, Reddit and Mumsnet stay his own voice.
 
 ## Intake (per idea, from Justin)

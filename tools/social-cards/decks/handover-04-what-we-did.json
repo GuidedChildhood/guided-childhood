@@ -6,7 +6,6 @@
     {
       "name": "cover",
       "type": "cover",
-      "tone": "butter",
       "eyebrow": "Our story · 4 of 6",
       "headline": "Nine at<br>night, at the<br>kitchen table",
       "body": "The idea did not arrive as a business plan."
@@ -14,7 +13,6 @@
     {
       "name": "manage-not-off",
       "type": "text",
-      "tone": "blue",
       "eyebrow": "What we tried",
       "headline": "We tried to<br>manage the<br>devices",
       "body": "Not switch them off. A completely different job, and much harder.",
@@ -23,7 +21,6 @@
     {
       "name": "then-harder",
       "type": "text",
-      "tone": "pink",
       "eyebrow": "Then it got harder",
       "headline": "Then social<br>media. Then<br>a ban at 16.",
       "body": "More screens, more accounts, more places to keep half an eye on.",
@@ -41,7 +38,6 @@
     {
       "name": "in-between",
       "type": "quote",
-      "tone": "green",
       "eyebrow": "What we built",
       "quote": "Not a ban. Not no ban. The bit in between.",
       "attrib": "A little more freedom at each stage, earned."
@@ -49,7 +45,6 @@
     {
       "name": "ask",
       "type": "ask",
-      "tone": "amber",
       "eyebrow": "Before you go",
       "headline": "Keep this one",
       "save": "Save it for the next time the tablet comes off and it turns into a row.",

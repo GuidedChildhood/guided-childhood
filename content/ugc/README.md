@@ -27,9 +27,10 @@ rule and it is why the shotlist exists.
 
 1. **Capture the screens.** Playwright against the fixture routes, mobile
    viewport, PNG per card. See `screens-shotlist.md`. Six to ten stills.
-2. **Lock the creator.** Either a photo of a real mum, which the workflow uses
-   as is, or one generated portrait that gets reused for every clip so the face
-   never drifts.
+2. **Lock the creator.** A photo of a real person who has agreed to it, used
+   as is. Never a generated portrait: a synthetic person presented as a real
+   parent is ruled out in CLAUDE.md and `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`
+   (retired 5 October 2026).
 3. **Write the beats.** Already done, in the two script files. One beat per
    captured still, in the order they appear on screen.
 4. **Render the clips.** Seedance, 9:16, 1080p, fifteen seconds each, all

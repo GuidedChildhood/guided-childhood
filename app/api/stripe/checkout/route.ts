@@ -4,6 +4,7 @@ import { trialDaysToGrant, type AccessProfile } from '@/lib/access'
 import { getTrialConfig } from '@/lib/config/trial'
 import { NextResponse } from 'next/server'
 import { APP_ORIGIN } from '@/lib/config/site'
+import { referralForCheckout, recordReferralStart } from '@/lib/referrals/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -162,6 +163,18 @@ export async function POST(request: Request) {
   // An existing member upgrading from the dashboard charges straight away, so
   // nobody ever gets two free trials. The card is always collected so the
   // founder place is genuinely held.
+  // GIVE £5, GET £5 (migration 360). A friend who arrived on a shared link
+  // gets £5 off their first paid month, and the referral is recorded so the
+  // daily check can owe the person who shared £5 once the friend has stayed.
+  // Best effort: a referral lookup that fails never blocks a checkout.
+  // The coupon must be £5 off, duration "repeating" for 1 month, not "once":
+  // on a trial door the first invoice is the £0 trial one, and a once coupon
+  // is spent there, so the friend would never see the £5.
+  const referral = await referralForCheckout(user.id, profile?.email ?? user.email, profile?.subscription_status)
+    .catch(() => null)
+  const friendCoupon = referral ? process.env.STRIPE_REFERRAL_COUPON : undefined
+  if (referral) await recordReferralStart(user.id, customerId, referral).catch(() => {})
+
   const isTrialDoor = body.from === 'onboarding' || body.from === 'choose'
   const { days: configuredTrialDays } = await getTrialConfig()
   const trialDays = trialDaysToGrant(profile as AccessProfile | null, configuredTrialDays)
@@ -183,9 +196,10 @@ export async function POST(request: Request) {
     ...(process.env.STRIPE_TOS_CONSENT === 'on'
       ? { consent_collection: { terms_of_service: 'required' as const } }
       : {}),
-    metadata: { tier, user_id: user.id },
+    metadata: { tier, user_id: user.id, ...(referral ? { ref_code: referral.code } : {}) },
+    ...(friendCoupon ? { discounts: [{ coupon: friendCoupon }] } : {}),
     subscription_data: {
-      metadata: { tier, user_id: user.id },
+      metadata: { tier, user_id: user.id, ...(referral ? { ref_code: referral.code } : {}) },
       ...(isTrialDoor ? { trial_period_days: trialDays } : {}),
     },
     })
