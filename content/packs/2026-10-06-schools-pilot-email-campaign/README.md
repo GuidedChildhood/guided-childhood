@@ -350,3 +350,17 @@ still open after the first list.
 
 Distances are straight line from Star by Winscombe, marked EST. Named people are
 reproduced as the schools publish them. Nothing was sent.
+
+---
+
+## 7. The drafting routine (added 6 October, afternoon)
+
+Justin connected the hello@guidedchildhood.com mailbox. The five day 1 emails
+(the trust, Churchill Academy, Winscombe Primary, the Kings of Wessex and
+Fairlands) were written into its Drafts by hand on 6 October. From Wednesday
+the local scheduled task `school-email-drafts` runs Monday to Thursday at
+07:00, reads the Control Room sheet, and writes that day's four emails into
+Drafts, addressed and filled in, with duplicate checks against Drafts and
+Sent. It never sends. Justin reads each draft, presses send, and types SENT
+and the date in the sheet. Follow ups E and F are drafted the same way on
+days 5 and 12.

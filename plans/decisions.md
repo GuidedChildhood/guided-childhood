@@ -374,3 +374,9 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   `content/packs/2026-10-06-schools-pilot-email-campaign/`. The one reason:
   four hand sent emails a day to a named person beats any bulk tool, and the
   five places will go before the list runs out.
+- Same day, afternoon: Justin's home is Star by Winscombe, so the sheet was
+  rebuilt from there (his own children's schools and trust are day 1). The
+  Gmail connector now answers for hello@guidedchildhood.com; day 1's five
+  emails are in its Drafts and the `school-email-drafts` task writes four a
+  day from Wednesday. Sending stays with Justin by design: hand sent, named
+  person, four a day.
