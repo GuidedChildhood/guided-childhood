@@ -105,6 +105,13 @@ Adopted 5 October 2026 through the feedback filter; the verdicts are in
 | Facebook cover | 1640 x 924 | Words inside the middle 1640 x 624 band, clear of the profile picture |
 | Weekly card, Facebook and email | 1200 x 630 | `space-9-to-11.json` |
 
+## The weekly playlist session
+
+`weekly-session.md` in this folder is the Monday run: how a well known video
+is shown (only inside a real screenshot or screen recording of our playlist
+page, never lifted), the text limits per asset, how the words come up on the
+Reel, the three formats, and the one prompt Justin pastes each week.
+
 ## References
 
 When Justin shares reference carousels (Pinterest, other accounts), take the
