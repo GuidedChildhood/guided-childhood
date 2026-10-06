@@ -336,3 +336,19 @@ list.
    so email E carries the real number.
 3. Twenty minutes on Wednesday morning to send the first five by hand. I will
    have the sheet sorted so the top five rows are the ones to send.
+
+---
+
+## 6. The list, on file
+
+`schools-send-list.csv` is the sheet as uploaded to the Control Room on
+6 October 2026: 109 rows, the Wessex Learning Trust first, then 36 secondaries,
+all through and studio schools by distance, then the nearest 40 primaries and
+the special and alternative provision schools. Every row has a verified source
+(the school's own site or its gov.uk register entry) and only addresses those
+publish. `schools-reserve-primaries.csv` holds the other 157 primaries within
+15 miles from the register, websites not yet opened, for when the places are
+still open after the first list.
+
+Distances are straight line from Cheddar, marked EST. Named people are
+reproduced as the schools publish them. Nothing was sent.

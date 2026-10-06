@@ -361,3 +361,16 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
   today's post first, nothing posts itself. Detail in
   `plans/2026-10-05-social-visual-system.md`.
+
+## 6 October 2026: the free pilot email campaign, Wessex first, then 15 miles
+
+- Six emails (primary, secondary, DSL, trust, day 5, day 12), ten sending
+  rules and a day by day order, written to the pilot as coded (five places,
+  two lessons plus the Hub, a free term). Contact list built from the trust
+  and school sites and the gov.uk register only: 23 Wessex Learning Trust
+  schools, 50 secondary, special and alternative provision schools and 197
+  primaries within 15 miles of Cheddar, 109 send ready rows in a Control Room
+  sheet, 157 primaries in reserve. Pack:
+  `content/packs/2026-10-06-schools-pilot-email-campaign/`. The one reason:
+  four hand sent emails a day to a named person beats any bulk tool, and the
+  five places will go before the list runs out.
