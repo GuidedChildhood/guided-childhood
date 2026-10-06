@@ -10,9 +10,8 @@
 :root{
   /* Pulled from the live site on 1 October 2026 (computed styles). */
   --tsb-black:#0A0A0A; --tsb-ink:#161616; --tsb-grey:#A1A1A1; --tsb-grey-lt:#B9B9B9;
-  --tsb-yellow:#FFD100;         /* the site's one accent: every CTA button */
+  --tsb-yellow:#FFCE1B;         /* the site's one accent (--color-primaryYellow on the live site): every CTA button */
   --tsb-red:#E8112D;            /* used sparingly on the site, kept here for a variant */
-  --pink:#E91E8C;               /* the colour named in the brief, offered as a variant */
   --navy:#0B1A3A;               /* the top of the Higgsfield sky */
 }
 
@@ -36,7 +35,6 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 
 /* Accent: one colour, on the age line only. Default is the site yellow so the post matches the page it links to. */
 .card{--accent:var(--tsb-yellow);}
-.card[data-accent="pink"]{--accent:var(--pink);}
 .card[data-accent="red"]{--accent:var(--tsb-red);}
 
 .top,.bottom{position:relative;z-index:2;}
@@ -139,7 +137,9 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .slide .foot.series .site{font-weight:600;font-size:22px;opacity:.7;color:inherit;text-align:left;line-height:1;margin-right:28px;white-space:nowrap;}
 .chips{display:flex;flex-wrap:wrap;gap:16px;margin-top:44px;}
 .chips span{font-weight:800;font-size:34px;padding:14px 26px;border:3px solid currentColor;border-radius:999px;line-height:1;}
-.chips span.age{background:var(--pink);border-color:var(--pink);color:#fff;} /* pink means age band, on every SB asset */
+/* The age band is the one filled chip. Brand colours are black, white and yellow only: no pink (Justin, 6 October 2026). */
+.chips span.age{background:#fff;border-color:#fff;color:var(--tsb-black);}
+.slide[data-tone="white"] .chips span.age,.slide[data-tone="yellow"] .chips span.age{background:var(--tsb-black);border-color:var(--tsb-black);color:#fff;}
 .ends{margin-top:40px;display:flex;gap:20px;align-items:baseline;max-width:900px;}
 .ends b{flex:none;font-weight:900;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:var(--tsb-yellow);}
 .slide[data-tone="white"] .ends b,.slide[data-tone="yellow"] .ends b{color:var(--tsb-black);}
@@ -173,10 +173,10 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .reel .bar{display:flex;align-items:center;}
 .reel.bg-photo .photo.full::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.25) 100%);}
 .reel.bg-photo .hook{text-shadow:0 4px 30px rgba(0,0,0,.55);color:#fff;}
-.reel .guide{position:absolute;left:0;right:0;border:4px dashed #E91E8C;z-index:4;pointer-events:none;}
+.reel .guide{position:absolute;left:0;right:0;border:4px dashed #00B8D9;z-index:4;pointer-events:none;}
 .reel .guide.grid{top:240px;height:1440px;}
 .reel .guide.ui{bottom:0;height:380px;border-color:#2D9CDB;background:rgba(45,156,219,.12);}
-.reel .guide b{position:absolute;right:16px;top:12px;font-size:22px;letter-spacing:.08em;color:#E91E8C;background:#fff;padding:4px 10px;border-radius:4px;}
+.reel .guide b{position:absolute;right:16px;top:12px;font-size:22px;letter-spacing:.08em;color:#00B8D9;background:#fff;padding:4px 10px;border-radius:4px;}
 .reel .guide.ui b{color:#2D9CDB;}
 
 /* ---------- Facebook cover, 1640 x 924 ----------
@@ -194,10 +194,10 @@ body{background:#555;font-family:'Montserrat',sans-serif;color:#fff;}
 .cover .offer b{color:var(--tsb-yellow);font-weight:800;}
 .cover .bar{width:1000px;margin-top:40px;display:flex;align-items:center;}
 .cover .sessionbar.done .end span{color:var(--tsb-black);}
-.cover .guide{position:absolute;border:4px dashed #E91E8C;z-index:4;pointer-events:none;}
+.cover .guide{position:absolute;border:4px dashed #00B8D9;z-index:4;pointer-events:none;}
 .cover .guide.band-g{left:0;right:0;top:150px;height:624px;}
 .cover .guide.pic{left:640px;width:360px;bottom:0;height:200px;border-color:#2D9CDB;border-radius:180px 180px 0 0;}
-.cover .guide b{position:absolute;right:12px;top:8px;font-size:20px;background:#fff;color:#E91E8C;padding:3px 8px;border-radius:4px;}
+.cover .guide b{position:absolute;right:12px;top:8px;font-size:20px;background:#fff;color:#00B8D9;padding:3px 8px;border-radius:4px;}
 .cover .guide.pic b{color:#2D9CDB;right:auto;left:50%;transform:translateX(-50%);top:-34px;}
 </style>
 </head>

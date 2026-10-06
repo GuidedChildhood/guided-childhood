@@ -46,7 +46,8 @@ ready to design.
   Name the population (age, country, sample) on the slide.
 - **No dashes anywhere.** "9 to 11", never "9–11". Run `npm run ai-tells` on
   any new copy file.
-- **Pink means age band**, on every asset. Yellow means Social Billboard and
+- **Brand colours are black, white and yellow (#FFCE1B) only. No pink.** The age
+  band is the one filled chip (white on dark slides, black on light). Yellow means Social Billboard and
   action. One yellow element per slide.
 - **Separation.** Guided Childhood appears at most as one small line in a
   founder post. Creators appear only once parent demand is real.

@@ -17,11 +17,11 @@ text to paste into the post.
   small motif bottom left, one small motif top right.
 - The words are HTML on top, in Montserrat, the live site font, self hosted in
   `fonts/`. Text stays crisp and editable; image models still mangle words.
-- Colours come from the live site on 1 October 2026: near black `#0A0A0A`,
-  grey `#A1A1A1`, and the one accent, yellow `#FFD100`, which is every CTA
-  button on thesocialbillboard.com. The age line takes the accent. `accent`
-  in the deck accepts `yellow` (default), `pink` (#E91E8C, the colour in the
-  brief) or `red`.
+- Colours come from the live site: black, white and the one accent, yellow
+  `#FFCE1B` (`--color-primaryYellow` in the site's CSS), which is every CTA
+  button on thesocialbillboard.com. No pink: it is not a brand colour (Justin,
+  6 October 2026). The age line takes the accent. `accent` in the deck accepts
+  `yellow` (default) or `red`.
 
 ## Why the card looks like this (sign ups, not likes)
 
@@ -52,7 +52,7 @@ set of series rather than a new design each post. A deck with
   and an END block that fills on the last slide (a session with a beginning
   and an end, drawn);
 - optional `chips` (the builder's own choices; any chip starting "Age" is
-  pink, because pink always means age band), `ends` (the ENDS WITH line on a
+  the one filled chip, white on dark slides and black on light ones), `ends` (the ENDS WITH line on a
   weekly playlist), `photo` or `photoFull` (a labelled slot for a real photo),
   `sky` (a background from `backgrounds/`), `note`, `pill`.
 
