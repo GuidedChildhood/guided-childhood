@@ -10,12 +10,16 @@
    "sky": "backgrounds/night-sky-square.png",
    "big": "Space",
    "size": "lg",
-   "chips": ["Ages 9 to 11", "5 videos", "About 40 minutes"],
-   "body": "YouTube videos picked for their age. We open every one first.",
-   "ends": "a stargazing guide, so they go outside.",
+   "chips": [
+    "Ages 9 to 11",
+    "5 videos",
+    "About 40 minutes"
+   ],
+   "body": "Hand picked YouTube videos for their age. We open every one first.",
+   "ends": "a stargazing guide.",
    "pill": "Get a free playlist",
-   "note": "First playlist free. No card.",
-   "alt": "Social Billboard, This week's playlist, 5 to 11 October. Night sky with a shooting star. Space. Ages 9 to 11, 5 videos, about 40 minutes. YouTube videos picked for their age. We open every one first. Ends with a stargazing guide, so they go outside. Get a free playlist. First playlist free. No card."
+   "note": "Or build your own. First one free.",
+   "alt": "Social Billboard, This week's playlist, 5 to 11 October. Night sky with a shooting star. Space. Hand picked YouTube videos for their age. We open every one first. Ages 9 to 11, 5 videos, about 40 minutes. Ends with a stargazing guide. Or build your own. First one free. Get a free playlist."
   }
  ]
 }

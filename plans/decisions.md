@@ -361,3 +361,7 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
   today's post first, nothing posts itself. Detail in
   `plans/2026-10-05-social-visual-system.md`.
+
+## 6 October 2026: Social Billboard cards use black, white and yellow only
+
+Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
