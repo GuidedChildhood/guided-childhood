@@ -362,6 +362,25 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   today's post first, nothing posts itself. Detail in
   `plans/2026-10-05-social-visual-system.md`.
 
+## 6 October 2026: the free pilot email campaign, Wessex first, then 15 miles
+
+- Six emails (primary, secondary, DSL, trust, day 5, day 12), ten sending
+  rules and a day by day order, written to the pilot as coded (five places,
+  two lessons plus the Hub, a free term). Contact list built from the trust
+  and school sites and the gov.uk register only: 23 Wessex Learning Trust
+  schools, 50 secondary, special and alternative provision schools and 197
+  primaries within 15 miles of Cheddar, 109 send ready rows in a Control Room
+  sheet, 157 primaries in reserve. Pack:
+  `content/packs/2026-10-06-schools-pilot-email-campaign/`. The one reason:
+  four hand sent emails a day to a named person beats any bulk tool, and the
+  five places will go before the list runs out.
+- Same day, afternoon: Justin's home is Star by Winscombe, so the sheet was
+  rebuilt from there (his own children's schools and trust are day 1). The
+  Gmail connector now answers for hello@guidedchildhood.com; day 1's five
+  emails are in its Drafts and the `school-email-drafts` task writes four a
+  day from Wednesday. Sending stays with Justin by design: hand sent, named
+  person, four a day.
+
 ## 6 October 2026: Social Billboard cards use black, white and yellow only
 
 Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
