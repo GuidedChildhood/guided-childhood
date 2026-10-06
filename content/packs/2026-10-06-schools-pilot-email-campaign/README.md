@@ -240,6 +240,36 @@ Guided Childhood
 schools.guidedchildhood.com/pilot
 ```
 
+### The Wessex line, added to emails A, B, C and D for any Wessex Learning Trust school
+
+The trust published a phone free school day policy in July 2026. Its own
+introduction says schools and parents share responsibility to educate young
+people about safe use of smart technology and social media, and its September
+2026 safeguarding policy commits every school to teaching about AI generated
+content, deepfakes and misinformation. That is the lessons half of a sentence
+the trust has already written. Add this paragraph after "When the term ends
+you decide":
+
+```
+Your trust's phone policy says the schools share the job of educating
+young people about safe use of smart technology, and its safeguarding
+policy names deepfakes and AI generated images. The phone is out of the
+classroom now; this is the lessons half of that sentence, and the mapping
+shows which lesson covers which line.
+```
+
+Three things worth knowing before you send. The trust's CEO is Jayne Keller
+(the governance page still shows Gavin Ball, so never quote him by name).
+Nobody at trust or school level publishes a personal email, so every Wessex
+email goes to the office address "for the attention of" the named person. And
+five of the 23 schools share a head with another, so one email covers two
+schools; the sheet marks which.
+
+The trust runs a three tier system: first schools (2 to 9), middle schools
+(9 to 13) and the Kings of Wessex (13 to 18). First schools get email A as
+primary. The two middle schools span Key Stages 2 and 3, so their pilot code
+is the all through set (primary plus secondary lessons); say so if asked.
+
 ### Email E, the day 5 follow up (any phase)
 
 **Subject:** Re: [original subject]
