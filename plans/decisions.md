@@ -212,6 +212,17 @@ Titles only. Open the archive at the line number in its own index for the full e
   LinkedIn founding 50 post; the reason is that the account's followers are the
   warmest audience the business has and the series costs nothing but an
   afternoon. Honest maths in section 1: a first proof, not the £4,000.
+
+## 5 October 2026: two sessions, one Social Billboard feed
+
+- The playlist builder session owns the Thursday Social Billboard post (the
+  weekly Safe Watch announcement, written to Drive "SB Posts - FB and Insta").
+  Every other Social Billboard post stays with the parent launch plan and the
+  daily desk, which now read that folder so the sheet and the desk show one
+  feed. Post 4 of the launch plan (what should we curate next) is dropped in
+  favour of the Space announcement on 8 October, with its question kept as
+  the closing line. The one reason: one Thursday, one post, no duplicate
+  free offer in the same week.
 ## 1 October 2026: The Social Billboard playlist card and Instagram carousels (PR 1184)
 
 - The weekly free playlist image is a template, not a one off:
@@ -276,6 +287,30 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Worries: save_memory now runs before other tools, so a follow up booked in the same turn attaches to the worry just raised. "Tell DiGi what is hard right now" opens the chat.
 - Hands free, not a wake word: a page cannot keep a microphone open all day and should not. Off on every page open, never stored, off after two quiet minutes or a hidden page. Guarded in check-digi-voice.
 
+## 5 October 2026: the Social Billboard lane is blocked by the site, not by content
+
+- Verified in a browser: all seven sign in and start free buttons on
+  thesocialbillboard.com/safe-youtube-for-kids are literal REGISTER_URL and
+  LOGIN_URL placeholders, seven footer links are "#", the parents transparency
+  page is a 404 and the creators route shows the parents page. Source is not
+  in this repo or on this Mac (Vite build behind nginx). Every Social
+  Billboard post and email, both sessions, holds until fixed; the daily desk
+  marks those slots BLOCKED. The one reason: a post today sends a parent to a
+  404 from a child safety product.
+- Same day, traced with the playlist session: the dead links live in one static
+  file on the server (/creators.html, which is the parent landing page) and the
+  real routes exist at /auth/sign-up and /auth/login. A text edit plus one
+  router entry for /transparency/parents, no rebuild. Needs server access,
+  which no session has.
+- Same day, later: the sign up page headline is creator copy for every role,
+  and ?role=parent does not pre select the parent role on a cold load (tested
+  twice; the playlist session's claim that it does is UNVERIFIED). Both go to
+  the sign up component as one change. Replace target stays
+  /auth/sign-up?role=parent, harmless now, right later.
+- Closed the same evening: the role parameter is disproved by both sessions
+  on a cold load, and the Sign Up button submits with no role chosen. The sign
+  up component change is three things read from the query string: default
+  the role, the parent heading, and what a roleless submit does.
 ## 2 October 2026: migration 359 live, LinkedIn pack, PRs 1187 and 1188 unblocked
 
 - Justin said yes; 359 applied and recorded. Through the Supabase MCP any statement containing "drop" waits on a confirmation and times out, so the table went in by execute_sql without a drop and the constraint swap alone through apply_migration.
