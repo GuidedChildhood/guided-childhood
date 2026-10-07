@@ -47,3 +47,7 @@ videos/*/capture/screenshots/
 videos/*/node_modules/
 videos/*/.media/
 content/packs/2026-10-05-sb-launch-control/sb-launch-images.zip
+
+# Read card PDFs are rebuilt from their JSON by tools/read-cards (7 October 2026)
+content/read-cards/*.pdf
+content/read-cards/*.html

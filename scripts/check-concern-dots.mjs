@@ -492,6 +492,36 @@ check('no sideways overflow at 320',
   !(await s.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)))
 await s.close()
 
+// A TOUGH ROW STAYS OPEN (7 October 2026). Justin: the help "flashes up ask
+// digi but quickly flips to next child". On the DiGi raised fixture row, a
+// one is saved, the read beat passes, and the row must still be open with
+// its two buttons rather than folded to the slim line.
+const n1 = await b.newPage({ viewport: { width: 390, height: 844 } })
+const posted1 = []
+await n1.route('**/api/daily/concern-check', async r => { posted1.push(JSON.parse(r.request().postData() ?? '{}')); await r.fulfill({ status: 200, body: '{"ok":true}' }) })
+await n1.goto(B + '?new=1', { waitUntil: 'domcontentloaded', timeout: 60000 })
+await n1.waitForFunction(() => document.querySelectorAll('[role="radiogroup"]').length === 4, null, { timeout: 20000 })
+const fourth = n1.locator('[role="radiogroup"]').nth(3).locator('[role="radio"]')
+for (let i = 0; i < 12; i++) {
+  await fourth.nth(0).scrollIntoViewIfNeeded().catch(() => {})
+  await fourth.nth(0).click({ timeout: 5000 }).catch(() => {})
+  await n1.waitForTimeout(250)
+  if (await fourth.nth(0).getAttribute('aria-checked') === 'true') break
+  await n1.waitForTimeout(500)
+}
+for (let i = 0; i < 40 && posted1.length === 0; i++) await n1.waitForTimeout(250)
+await n1.waitForTimeout(3200)
+const toughFolded = await n1.evaluate(() => {
+  const folds = [...document.querySelectorAll('.ci-fold')]
+  return folds[3] ? folds[3].classList.contains('ci-folded') : null
+})
+const tTough = await n1.locator('body').innerText()
+check('a tough row saves once', posted1.length === 1 && posted1[0].score === 2, JSON.stringify(posted1))
+check('and stays open after the read beat, not folded', toughFolded === false, String(toughFolded))
+check('with its help still on screen', /Tough one\. Thank you for telling us\./.test(tTough) && /Ask DiGi/.test(tTough) && /Get the words/.test(tTough))
+check('and locked', await fourth.nth(1).isDisabled())
+await n1.close()
+
 const d = await b.newPage({ viewport: { width: 1280, height: 900 } })
 await d.goto(B, { waitUntil: 'domcontentloaded', timeout: 60000 })
 await d.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 30000 })

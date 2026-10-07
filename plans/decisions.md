@@ -381,6 +381,15 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   day from Wednesday. Sending stays with Justin by design: hand sent, named
   person, four a day.
 
+## 7 October 2026: every script Justin has to record, as read cards
+
+- A sweep of the repo and Drive found 29 spoken pieces written for Justin
+  since July, none yet filmed. They are now two printable card decks in
+  `content/read-cards/` (one idea per card, four to a page, setup card per
+  piece), built by `tools/read-cards`. The Penny video uses the 30 September
+  text, which replaced the 29 September cards. The one reason: Justin asked
+  for the scripts in note sized chunks he can read one at a time, so each
+  clip is one card and the cut is mechanical.
 ## 6 October 2026: Social Billboard cards use black, white and yellow only
 
 Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
@@ -396,3 +405,10 @@ Justin: "lets just use one 5 in a row to keep simple?" and "super attractive to 
 ## 7 October 2026: lesson videos are H.264 and ship with the schools site
 
 Justin: the taster's "DiGi opens the lesson" would not play. Every video slide (11 in 6 lessons, both primary pilot lessons among them) was the generator's raw HEVC Main 10, which a school laptop without the hardware decoder shows as a dead play button. The clips are converted to H.264 High 8 bit and served from `schools/public/clips` by absolute address, because the kid app plays the same rows. `check-lesson-clips.mjs` in CI holds every video slide to an H.264 clip that exists, so the next generated clip is converted before it ships. Migration 361, applied after the deploy. PR 1205.
+## 7 October 2026, afternoon: the momentum block rides inside the reviews
+
+Justin: "every now and again email the successes to keep momentum ... top experts quotes and why our system works ... not too often ... support parents with some nuggets on guilt, shouting, losing it", then "yes plus future emails can echo this". Built as one block, not a new email, because the six day floor already enforces not too often. Under the family's own successes in the Sunday review and the monthly review: one finding from `expert_knowledge` with its named source (142 of 142 carry one), matched to the child's age and a live worry; one line on why it works from a seven line registry rotated by the week; one line for the parent linking to the repair script in the scripts table. `lib/email/momentum.ts`, held by `scripts/check-momentum-block.mjs`. The monthly review now says "went to going great" instead of "reached five stars".
+
+## 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite
+
+Justin, with his own Notifications page: "Teo asked same thing 3 times ... it needs to show once", and "once check in done it flashes up ask digi but quickly flips to next child ... goes on alert notification? But only once." Then: "we don't want to miss those issues if dropped off after 2 weeks, also to ask DiGi it needs to know what the issue was." Read off the live tables: three conversations in August and September each booked a follow up, each became a card, none was answered, none expired. Now one unanswered card per child at a time, a due follow up waits behind it (and is let go after ten days waiting), an unanswered card expires after a fortnight and its thread goes onto the tracker as a worry first, and every card opens DiGi on the thread itself rather than its title. A one or two on the check in keeps its row open and plants one invite on Notifications and Home, keyed by the worry, cleared when the worry lifts. `lib/digi/followup-queue.ts`, held by `scripts/check-followup-once.mjs`.

@@ -249,7 +249,9 @@ else {
     if (!new RegExp(`${field}: f\\.${field}`).test(insert)) fail.push(`D: the delivered outcome does not carry ${field} from the follow up, so ${why}`)
     else ok.push(`D: the outcome row carries ${field}`)
   }
-  if (!/select\('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion'\)/.test(cron)) {
+  // The strand columns must all be there; a column after them (due_on, since
+  // 7 October 2026, for the one card per child rule) is allowed.
+  if (!/select\('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion(, [a-z_]+)*'\)/.test(cron)) {
     fail.push(`D: the due follow ups are not selected with the strand columns, so they arrive undefined and the insert writes nulls while looking correct`)
   } else ok.push('D: the due follow ups are read with the strand columns')
 }
