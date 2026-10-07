@@ -384,3 +384,7 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
 ## 6 October 2026: Social Billboard cards use black, white and yellow only
 
 Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
+
+## 7 October 2026: the check in rates on faces, one outcome per tap, two fives still rest a worry
+
+Justin: "Happy face icons, easy messaging, flows super easy ... Tell the user exactly what happens." Five faces replace the stars, because gold stars are the child's currency; the band word sits under each, last time is grey, today is butter. Everything the card says after a tap comes from `lib/concerns/outcome.ts`, unit tested row by row, after the sorted box was found showing on every first five for a month. The save lands in about a second with Change until it does, then the row stays open a read beat before it folds. Change never re opens a saved row: a second post the same day can mark the concern resolved on the server, and a resolved concern is never asked again. Two top scores in a row still rest a worry; the first five now says one more. PR 1200 and the faces PR that stacks on it.

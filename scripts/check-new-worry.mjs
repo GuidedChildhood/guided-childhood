@@ -87,13 +87,19 @@ if (sourceUses === 0) {
 // So the assertion is the rule: the condition must carry a first rating
 // branch, whatever decides which first ratings count. `c.isNew` still passes,
 // which is correct, because it was never wrong, only incomplete.
+// Since 7 October 2026 the buttons are decided by lib/concerns/outcome.ts,
+// which gives them to EVERY low score, first rating or dip, and
+// scripts/check-checkin-outcome.mjs holds that. What this file holds is the
+// wire: the card must still draw them from the outcome rather than from a
+// rule of its own, because a rule of its own is how they narrowed back to
+// dips alone once before.
 const move = card.match(/const nextMove = [^\n]*/)
 if (!move) {
-  fails.push('The next move rule is gone from ConcernCheckIn. Ask DiGi and See the script are what a raised worry arrives WITH.')
-} else if (!/move === 'first'/.test(move[0])) {
-  fails.push('The next moves have narrowed back to dips alone. A first ever row has no last time to dip from, so this hides the buttons from exactly the worry the parent asked about.')
+  fails.push('The next move rule is gone from ConcernCheckIn. Ask DiGi and Get the words are what a raised worry arrives WITH.')
+} else if (!/outcome\?\.actions/.test(move[0])) {
+  fails.push('The next moves no longer come from checkinOutcome. A rule of the card\'s own is how they narrowed back to dips alone once before, and a first ever low score would lose its buttons again.')
 } else {
-  ok.push('a first rating arrives with its two next moves, not only a dip')
+  ok.push('a low score arrives with its two next moves, through the one outcome, first rating or dip')
 }
 
 // The pills are read by a parent, so they clear the AA floor. Gold on white is

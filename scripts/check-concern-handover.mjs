@@ -20,7 +20,7 @@
 //   node scripts/check-concern-handover.mjs        (or BASE=http://localhost:3001)
 
 import { chromium } from 'playwright'
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 
 const BASE = process.env.BASE || 'http://localhost:3000'
 const EXE = process.env.CHROME || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
@@ -33,11 +33,19 @@ const check = (name, ok, detail = '') => {
 }
 
 mkdirSync(OUT, { recursive: true })
-const browser = await chromium.launch({ executablePath: EXE })
+// The container's chromium when it is there, otherwise Playwright's own, so
+// this runs on Justin's Mac as well as in CI (same as check-concern-dots).
+const browser = await chromium.launch(existsSync(EXE) ? { executablePath: EXE } : {})
 
 // 390 is the phone in his hand. 1280 is the width this shipped passing.
 for (const [name, width, height] of [['mobile', 390, 844], ['desktop', 1280, 900]]) {
   const page = await browser.newPage({ viewport: { width, height } })
+  // The fixture has no login, so the real route answers 401, and since
+  // 7 October 2026 a failed save keeps the row OPEN with its error rather
+  // than folding and moving on (the hand over used to fire on the optimistic
+  // paint, before the server had answered). That is the product being right,
+  // so the save is answered here the way check-concern-dots answers it.
+  await page.route('**/api/daily/concern-check', r => r.fulfill({ status: 200, body: '{"ok":true}' }))
   await page.goto(`${BASE}/dev/concern-scale`, { waitUntil: 'networkidle', timeout: 120000 })
   await page.waitForTimeout(800)
 
@@ -46,7 +54,9 @@ for (const [name, width, height] of [['mobile', 390, 844], ['desktop', 1280, 900
   // Answer the first one. The save beat is 2.6s, and the hand over fires when
   // it lands, so the wait is the real thing rather than an arbitrary pause.
   await page.getByRole('radio', { name: /^Getting there/ }).first().click()
-  await page.waitForTimeout(3600)
+  // The save lands after the one second beat, the row folds a read beat
+  // later, then the scroll. Four seconds covers all three with room.
+  await page.waitForTimeout(4200)
   await page.screenshot({ path: `${OUT}/handover-${name}-1.png`, fullPage: false })
 
   // Where did the next question's title end up?

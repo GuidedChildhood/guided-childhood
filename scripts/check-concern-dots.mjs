@@ -6,6 +6,24 @@
 // next one so the user sees progress, we record it for weekly round up, and
 // super simple to use."
 //
+// ── THIRD REWRITE, 7 OCTOBER 2026: FACES, ONE OUTCOME, A READ BEAT ──────────
+//
+// Justin, from the weekly UX walkthrough: "Stars rating needs to be made
+// super easy and quick to do and obvious to do ... Happy face icons, easy
+// messaging, flows super easy ... Tell the user exactly what happens."
+//
+// The stars became five faces with the band word under each, because gold
+// stars are the child's currency and a feeling rating that looks like
+// earning confuses both of them. One face is chosen rather than a cumulative
+// fill. Everything the card says after a tap now comes from ONE function,
+// lib/concerns/outcome.ts, whose table scripts/check-checkin-outcome.mjs
+// holds row by row; what this file holds is the card actually showing it:
+// the comparison in words, what happens next, help on a low score, Change
+// while the save beat runs, a first five that is not sorted and a second
+// that is, and the fold waiting a read beat after the save.
+//
+// The scale still did not move an inch. Face n posts BANDS[n-1].score.
+//
 // ── REWRITTEN TWICE, 13 AND 14 AUGUST 2026 ──────────────────────────────────
 //
 // SECOND REWRITE, 14 August. The five stacked words became five DiGi STARS,
@@ -169,7 +187,7 @@ check('one set of answers per concern', await groups.count() === 3, String(await
 // FIVE WORDS, NOT TEN NUMBERS. The count comes from BANDS, so this is a guard
 // on the shape of the question rather than on a magic number.
 const words = groups.first().locator('[role="radio"]')
-check('five stars, not ten numbers', await words.count() === 5, String(await words.count()))
+check('five faces, not ten numbers', await words.count() === 5, String(await words.count()))
 
 // The words live in the aria-label now, because the control is a star. That is
 // deliberate and it is checked here rather than waived: an unlabelled star row
@@ -202,7 +220,12 @@ async function boxOf(locator, label) {
 // Every word is a real thumb target, and the row is full width, which is the
 // reason for stacking them in the first place.
 const box = await boxOf(words.nth(0), 'the first star')
-if (box) check('each star is a proper tap target', box.height >= 44 && box.width >= 44, `${Math.round(box.width)}x${Math.round(box.height)}`)
+if (box) check('each face is a proper tap target', box.height >= 44 && box.width >= 44, `${Math.round(box.width)}x${Math.round(box.height)}`)
+// THE WORD UNDER EACH FACE, visible, not only in the label. A parent answers
+// in language; the face is the shape of the word, not a replacement for it.
+const captions = await stable(() => words.evaluateAll(els => els.map(e => e.innerText.trim())))
+check('the band word sits under each face',
+  captions.join(' | ') === 'Really tough | Hard going | Up and down | Getting there | Going great', captions.join(' | '))
 // Five of them have to sit on one line at 390, which is the whole reason the
 // row is short enough not to need an accordion.
 //
@@ -269,7 +292,7 @@ const ringed = await stable(() => p.evaluate(() => {
     .filter(r => /last time/i.test(r.getAttribute('aria-label') || ''))
     .map(r => (r.getAttribute('aria-label') || '').split(',')[0].trim())
 }))
-check('last time is marked on the star it belonged to',
+check('last time is marked on the face it belonged to',
   ringed.length === 1 && ringed[0] === 'Hard going',
   `marked ${ringed.join(' / ') || 'none'}`)
 
@@ -286,20 +309,43 @@ check('and last time is named in words too', /last time hard going/i.test(t))
 // should not be shown one back. It says "Getting there today, hard going last
 // time. The line is climbing." So what is checked is that BOTH words are named
 // and the direction is said, not that a particular digit appears.
-await tap(words.nth(3), 'four stars')   // Getting there, against Hard going last time
+await tap(words.nth(3), 'getting there')   // against Hard going last time
 t = await stable(() => p.locator('body').innerText())
 check('one tap picks the answer', /Getting there/i.test(t))
 check('and it says how it compares, in the same words it asked in',
-  /getting there today, hard going last time/i.test(t),
-  t.split('\n').find(l => /last time\./i.test(l)) ?? 'no comparison line')
-check('and it says which way it moved', /the line is climbing/i.test(t))
+  /Getting there, up from hard going\./.test(t),
+  t.split('\n').find(l => /up from/i.test(l)) ?? 'no comparison line')
+check('and it says what happens next', /Stays on your list\./.test(t) && /ask again/i.test(t),
+  t.split('\n').find(l => /Stays on your list/.test(l)) ?? 'no next line')
 check('and it is chosen', (await words.nth(3).getAttribute('aria-checked')) === 'true')
 
-// Changing your mind inside the beat just moves it, and only one posts.
-await tap(words.nth(2), 'three stars')   // Up and down
+// CHANGE, WHILE THE SAVE BEAT RUNS (7 October 2026). It takes the tap back:
+// nothing chosen, nothing posted, the faces open again. It is gone once the
+// answer has landed, deliberately; see the note above SAVE_BEAT_MS in the
+// card for why a second post on the same day is not safe.
+check('and offers Change while the save beat runs', /\bChange\b/.test(t))
+await p.getByRole('button', { name: 'Change' }).first().click()
+await p.waitForTimeout(300)
+check('Change takes the tap back before anything posts',
+  (await words.nth(3).getAttribute('aria-checked')) === 'false' && posted.length === 0)
+
+// HELP ON EVERY LOW SCORE, NOT ONLY A DIP. Justin, 7 October: "special
+// attention if less than 3." One face, whether or not yesterday was better,
+// brings the two buttons with it on the spot.
+await tap(words.nth(0), 'really tough')
 t = await stable(() => p.locator('body').innerText())
-check('tapping another star changes it', /up and down today, hard going last time/i.test(t),
-  t.split('\n').find(l => /last time\./i.test(l)) ?? 'no comparison line')
+check('a low score says tough one, thank you', /Tough one\. Thank you for telling us\./.test(t))
+check('and promises help for tonight', /help for tonight/i.test(t))
+check('with Ask DiGi and Get the words on the row', /Ask DiGi/.test(t) && /Get the words/.test(t))
+check('and still nothing has posted', posted.length === 0, JSON.stringify(posted))
+await p.getByRole('button', { name: 'Change' }).first().click()
+await p.waitForTimeout(300)
+
+// Changing your mind inside the beat just moves it, and only one posts.
+await tap(words.nth(2), 'up and down')
+t = await stable(() => p.locator('body').innerText())
+check('tapping another face changes it', /Up and down, up from hard going\./.test(t),
+  t.split('\n').find(l => /up from/i.test(l)) ?? 'no comparison line')
 check('and nothing has posted yet', posted.length === 0, JSON.stringify(posted))
 
 // The number still reaches the database, because concern_events is what the
@@ -317,7 +363,17 @@ check('then it saves once, with the number behind the word tapped',
   posted.length === 1 && posted[0].score === 6, JSON.stringify(posted))
 t = await stable(() => p.locator('body').innerText())
 check('and the row stays on screen as a record',
-  /up and down today, hard going last time/i.test(t) && /Saved/i.test(t))
+  /Up and down, up from hard going\./.test(t) && /Saved\./.test(t))
+
+// THE FOLD WAITS A READ BEAT (7 October 2026). The save lands in about a
+// second and the row stays open with its line, what happens next and
+// "Saved" beside it, and only then folds. Waited for rather than timed.
+// Attached, not visible: a folded row is a zero height grid row, which is
+// exactly what makes it folded, so a visibility wait would only ever catch
+// it mid transition.
+await p.waitForSelector('.ci-fold.ci-folded', { state: 'attached', timeout: 10000 })
+await p.waitForTimeout(500)
+t = await stable(() => p.locator('body').innerText())
 
 // THE FOLDED LINE KEEPS THE RESULT (1 September 2026). A saved row folds to
 // one slim line, and that line carries the movement rather than the word
@@ -325,8 +381,11 @@ check('and the row stays on screen as a record',
 // which is the opposite of "pops up a result to show it's moved".
 // Fixture row one: 6 (up and down) against last time 3 (hard going) is a
 // band up, so the folded line reads "Up from hard going".
-check('the folded row keeps its verdict', /Up from hard going/i.test(t),
-  t.split('\n').find(l => /up from/i.test(l)) ?? 'no folded verdict')
+// Case sensitive on purpose: the open line says "up from hard going" in
+// lower case, the folded chip says "Up from hard going", and only the chip
+// proves the fold kept the result.
+check('the folded row keeps its verdict', /Up from hard going/.test(t),
+  t.split('\n').find(l => /^Up from/.test(l.trim())) ?? 'no folded verdict')
 
 // THE RUN HAS A PLACE IN IT: one saved of three shows as a counter, so a
 // parent mid list always knows how much is left.
@@ -337,16 +396,17 @@ check('the counter counts the run', /1 of 3/.test(t),
 // chosen dot turned green, which is exactly what 12 August removed: repainting
 // the answer green threw away the brand colour at the one moment the row
 // matters. It presses down and takes a green tick instead.
-// THE STARS FILL IN BUTTER, and they fill CUMULATIVELY: three stars chosen
-// means three filled, not the third one only. That is what makes the row
-// readable at a glance from across the list.
+// THE CHOSEN FACE IS BUTTER AND THE OTHER FOUR ARE NOT. A face is a single
+// answer, not a count, so one fills and the rest stay pale (7 October 2026;
+// the stars before it filled cumulatively, which is the thing that made them
+// read as earning). The first circle in each face is the face itself.
 const filled = await stable(() => p.evaluate(() => {
   const g = document.querySelector('[role="radiogroup"]')
-  return [...g.querySelectorAll('[role="radio"] path')]
-    .map(pth => pth.getAttribute('fill'))
+  return [...g.querySelectorAll('[role="radio"] svg > circle:first-of-type')]
+    .map(c => c.getAttribute('fill'))
 }))
-check('the stars fill in butter, cumulatively',
-  filled.slice(0, 3).every(f => /terracotta\)/.test(f || '')) && !/terracotta\)/.test(filled[3] || ''),
+check('the chosen face is butter and the others are not',
+  /terracotta\)/.test(filled[2] || '') && filled.filter(f => /terracotta\)/.test(f || '')).length === 1,
   filled.join(' | '))
 
 // And it hands over to the next unanswered one.
@@ -389,15 +449,15 @@ check('a saved row is locked', await words.nth(1).isDisabled())
 const second = p.locator('[role="radiogroup"]').nth(1).locator('[role="radio"]')
 await tap(second.nth(4), 'five stars on the second row')
 const t5 = await stable(() => p.locator('body').innerText())
-check('a first five says one more is needed, not that it is sorted',
-  /one more like this/i.test(t5) && !/drop it off your check in/i.test(t5),
-  t5.split('\n').find(l => /one more like this|drop it off/i.test(l)) ?? 'no message')
+check('a first five says great day, one more is needed, not that it is sorted',
+  /Great day\./.test(t5) && /One more like this and it comes off your list\./.test(t5) && !/a week that it held/.test(t5),
+  t5.split('\n').find(l => /one more like this|a week/i.test(l)) ?? 'no message')
 const third = p.locator('[role="radiogroup"]').nth(2).locator('[role="radio"]')
 await tap(third.nth(4), 'five stars on the third row')
 const t55 = await stable(() => p.locator('body').innerText())
-check('a second five in a row says the concern will drop off the check in',
-  /drop it off your check in/i.test(t55) && /log it as a moment/i.test(t55),
-  t55.split('\n').find(l => /drop it off/i.test(l)) ?? 'no message')
+check('a second five in a row says sorted, off your list, checked in a week',
+  /Sorted!/.test(t55) && /Off your list\./.test(t55) && /a week that it held/.test(t55) && /log it as a moment/.test(t55),
+  t55.split('\n').find(l => /Off your list/.test(l)) ?? 'no message')
 await p.close()
 
 // Narrow phone: the longest word still has to fit on one line.
@@ -405,8 +465,9 @@ const s = await b.newPage({ viewport: { width: 320, height: 700 } })
 await s.route('**/api/daily/concern-check', r => r.fulfill({ status: 200, body: '{"ok":true}' }))
 await s.goto(B, { waitUntil: 'domcontentloaded', timeout: 60000 })
 await s.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 30000 })
-// Five 44px targets need 220px of the 320 available, so this is the width that
-// would break first if the stars ever grew.
+// Five 48px targets need 240px of the 320 available, which is exactly the
+// card's content width there, so this is the width that would break first if
+// the faces ever grew.
 await s.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 20000 })
 const row320 = await s.evaluate(() => {
   const rs = [...document.querySelectorAll('[role="radiogroup"]')[0].querySelectorAll('[role="radio"]')]
@@ -414,7 +475,7 @@ const row320 = await s.evaluate(() => {
   const last = rs[4].getBoundingClientRect()
   return { sameRow: Math.abs(last.top - first.top) < 4, right: Math.round(last.right) }
 })
-check('all five stars still fit on one row at 320',
+check('all five faces still fit on one row at 320',
   row320.sameRow && row320.right <= 320, `right edge ${row320.right}`)
 check('no sideways overflow at 320',
   !(await s.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)))
