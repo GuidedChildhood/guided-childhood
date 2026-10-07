@@ -392,3 +392,7 @@ Justin: "Happy face icons, easy messaging, flows super easy ... Tell the user ex
 ## 7 October 2026, later: one five rests a worry, and the faces get the happy news finish
 
 Justin: "lets just use one 5 in a row to keep simple?" and "super attractive to use, happy news styling as usual and slick." `SILVER_RUN` is 1. The weekly return is what makes one safe where it was not in September: a rested worry comes back after seven days to check it held, and a dip or a logged moment brings it back at once. The outcome function, the silver guard and the browser guard read the number rather than assume it. The faces now carry full ink lines on crayon paper, a catch light and the house ledge on the chosen one, and the sorted and tough tiles wear the card's edge and lift. In PR 1201.
+
+## 7 October 2026: lesson videos are H.264 and ship with the schools site
+
+Justin: the taster's "DiGi opens the lesson" would not play. Every video slide (11 in 6 lessons, both primary pilot lessons among them) was the generator's raw HEVC Main 10, which a school laptop without the hardware decoder shows as a dead play button. The clips are converted to H.264 High 8 bit and served from `schools/public/clips` by absolute address, because the kid app plays the same rows. `check-lesson-clips.mjs` in CI holds every video slide to an H.264 clip that exists, so the next generated clip is converted before it ships. Migration 361, applied after the deploy. PR 1205.
