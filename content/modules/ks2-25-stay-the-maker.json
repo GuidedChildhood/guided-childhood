@@ -28,7 +28,7 @@
       "phase": "starter",
       "title": "Stay the maker",
       "script": "Read the title, then the line under it, then stop. Do not open by asking who uses AI at home, and do not open with a warning. Plenty of this class uses it and the lesson only works if that stays completely ordinary. The second line is the whole offer: nobody is being asked to give anything up.",
-      "eyebrow": "KS2 . Years 3 to 6",
+      "eyebrow": "KS2 · Years 3 to 6",
       "minutes": 1,
       "character": "bloop"
     },
@@ -347,7 +347,7 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "label": "Helper or took over . tap the class answer",
+        "label": "Helper or took over · tap the class answer",
         "posts": [
           {
             "why": "Reading was in the way. The job was working out the answer, and that part is still all yours.",

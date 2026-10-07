@@ -248,7 +248,7 @@
         "doneEmoji": "⭐",
         "doneTitle": "All six sorted"
       },
-      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer. The wall counts the votes, it does not mark them, so the verdict and the reason are yours to say. The answers: the football photo is real, the cartoon mouse is pretend, the dog on the moon is computer made, the rainbow is real, the purple elephant is computer made, and Pebble's flying cat is computer made, because looking clear is not proof. If the class picks wrong, do not correct them flatly: give the reason and ask what they think now.",
+      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer. Once you tap, the wall shows the answer and its reason. Read the reason out before you tap Next card. The answers: the football photo is real, the cartoon mouse is pretend, the dog on the moon is computer made, the rainbow is real, the purple elephant is computer made, and Pebble's flying cat is computer made, because looking clear is not proof. If the class picks wrong, do not correct them flatly: give the reason and ask what they think now.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
       "component": "verdict-sort"
