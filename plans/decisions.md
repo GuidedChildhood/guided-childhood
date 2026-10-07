@@ -381,6 +381,15 @@ Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made
   day from Wednesday. Sending stays with Justin by design: hand sent, named
   person, four a day.
 
+## 7 October 2026: every script Justin has to record, as read cards
+
+- A sweep of the repo and Drive found 29 spoken pieces written for Justin
+  since July, none yet filmed. They are now two printable card decks in
+  `content/read-cards/` (one idea per card, four to a page, setup card per
+  piece), built by `tools/read-cards`. The Penny video uses the 30 September
+  text, which replaced the 29 September cards. The one reason: Justin asked
+  for the scripts in note sized chunks he can read one at a time, so each
+  clip is one card and the cut is mechanical.
 ## 6 October 2026: Social Billboard cards use black, white and yellow only
 
 Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
