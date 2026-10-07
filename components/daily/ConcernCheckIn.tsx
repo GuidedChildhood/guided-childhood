@@ -531,9 +531,17 @@ export default function ConcernCheckIn({
   // what makes the chosen one read from across the list. Last time is the
   // GREY face on the band it was (the 18 August rule, same shape as the grey
   // stars), and only that face carries the "what you said last time" label.
+  //
+  // THE HAPPY NEWS FINISH, SAME DAY. Justin: "super attractive to use, happy
+  // news styling as usual and slick." The child's icons are real ink lines on
+  // crayon fills with a white catch light, never a faded wireframe, so the
+  // faces are drawn the same way: ink at full strength on every face, the
+  // waiting ones on crayon paper, last time on grey, today on butter with a
+  // catch light and a chunky ink ledge under it (the wrapper in the row), so
+  // the chosen one sits up off the row the way every house button does.
   function Face({ band, filled, past, size = 40 }: { band: number; filled: boolean; past: boolean; size?: number }) {
-    const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FBF9F4'
-    const op = filled ? 1 : past ? 0.55 : 0.32
+    const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FEF7E0'
+    const op = filled ? 1 : past ? 0.8 : 0.62
     const mouth = [
       'M13 28.5 Q20 21.5 27 28.5',
       'M13.5 27.5 Q20 23.5 26.5 27.5',
@@ -563,6 +571,7 @@ export default function ConcernCheckIn({
           </>
         )}
         <path d={mouth} fill={grin ? 'var(--ink)' : 'none'} fillOpacity={op} stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        {filled && <circle cx="13" cy="10.5" r="2.4" fill="#fff" fillOpacity="0.85" />}
       </svg>
     )
   }
@@ -664,7 +673,9 @@ export default function ConcernCheckIn({
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {baseline
           ? 'One tap each, just to see where things stand. No right answer.'
-          : `One tap each, just to see how it is going. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list.`}
+          : SILVER_RUN === 1
+            ? 'One tap each, just to see how it is going. Going great and it comes off your list.'
+            : `One tap each, just to see how it is going. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list.`}
       </p>
 
       {concerns.map((c, idx) => {
@@ -913,19 +924,32 @@ export default function ConcernCheckIn({
                       aria-label={past && lastBand === n ? `${b.label}, what you said last time` : b.label}
                       disabled={!!isSaved}
                       onClick={() => pick(c.id, b.score)}
+                      className={isSaved ? undefined : 'gc-press'}
                       style={{
                         background: 'none', border: 'none', padding: '4px 2px 2px',
                         cursor: isSaved ? 'default' : 'pointer',
                         flex: '1 1 0', minWidth: 44, minHeight: 48,
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
                       }}
                     >
-                      <Face band={n} filled={filled} past={past} />
+                      {/* The ledge: the house 0 4px 0 ink shadow under the
+                          chosen face, lifted two pixels, so today's answer
+                          sits up off the row like every chunky button does.
+                          The ring is the circle's own edge, so the shadow
+                          follows it exactly. */}
+                      <span style={{
+                        display: 'block', borderRadius: '50%', lineHeight: 0,
+                        boxShadow: filled ? '0 4px 0 var(--ink)' : 'none',
+                        transform: filled ? 'translateY(-2px)' : 'none',
+                        transition: 'transform .18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .18s ease',
+                      }}>
+                        <Face band={n} filled={filled} past={past} />
+                      </span>
                       <span aria-hidden style={{
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-xs)',
+                        fontFamily: 'var(--font-display)', fontWeight: filled ? 900 : 700, fontSize: 'var(--text-xs)',
                         lineHeight: 1.1, textAlign: 'center',
                         color: filled ? 'var(--ink)' : 'var(--ink-muted)',
-                        opacity: filled || past ? 1 : 0.75,
+                        opacity: filled || past ? 1 : 0.8,
                       }}>
                         {b.label}
                       </span>
@@ -943,10 +967,17 @@ export default function ConcernCheckIn({
                   two days a parent most needs to notice are those two. */}
               {outcome && (
                 <div key={value[c.id]} className="ci-pop" style={{ marginTop: '8px' }}>
+                  {/* The two tiles wear the house edge and ledge, the same
+                      finish as last night's words at the top of this card,
+                      so a sorted worry and a tough one both look like a
+                      thing that happened rather than a note in the margin. */}
                   <div style={{
                     background: outcome.kind === 'rest' ? 'var(--tint-green)' : outcome.kind === 'attention' ? 'var(--terracotta-lt)' : 'transparent',
-                    borderRadius: 'var(--radius-tile)',
-                    padding: outcome.kind === 'rest' || outcome.kind === 'attention' ? '11px 13px' : 0,
+                    border: outcome.kind === 'rest' || outcome.kind === 'attention' ? 'var(--edge)' : 'none',
+                    boxShadow: outcome.kind === 'rest' || outcome.kind === 'attention' ? 'var(--lift)' : 'none',
+                    borderRadius: 'var(--radius-btn)',
+                    padding: outcome.kind === 'rest' || outcome.kind === 'attention' ? '12px 14px' : 0,
+                    marginBottom: outcome.kind === 'rest' || outcome.kind === 'attention' ? 4 : 0,
                   }}>
                     <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {outcome.kind === 'rest' ? '🎉 ' : ''}{outcome.line}

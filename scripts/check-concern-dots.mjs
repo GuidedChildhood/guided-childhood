@@ -86,8 +86,13 @@
 //
 // Usage: start the app, then node scripts/check-concern-dots.mjs [baseUrl]
 
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { chromium } from 'playwright'
+
+// The resting rule's one number, read off the source rather than assumed, so
+// the five face assertions below hold whichever way Justin sets it. One since
+// 7 October 2026.
+const SILVER_RUN = Number(readFileSync('lib/concerns/resting.ts', 'utf8').match(/export const SILVER_RUN = (\d+)/)?.[1] ?? 2)
 
 const B = (process.argv[2] ?? process.env.BASE ?? 'http://localhost:3000') + '/dev/concern-scale'
 
@@ -449,9 +454,15 @@ check('a saved row is locked', await words.nth(1).isDisabled())
 const second = p.locator('[role="radiogroup"]').nth(1).locator('[role="radio"]')
 await tap(second.nth(4), 'five stars on the second row')
 const t5 = await stable(() => p.locator('body').innerText())
-check('a first five says great day, one more is needed, not that it is sorted',
-  /Great day\./.test(t5) && /One more like this and it comes off your list\./.test(t5) && !/a week that it held/.test(t5),
-  t5.split('\n').find(l => /one more like this|a week/i.test(l)) ?? 'no message')
+if (SILVER_RUN > 1) {
+  check('a first five says great day, one more is needed, not that it is sorted',
+    /Great day\./.test(t5) && /One more like this and it comes off your list\./.test(t5) && !/a week that it held/.test(t5),
+    t5.split('\n').find(l => /one more like this|a week/i.test(l)) ?? 'no message')
+} else {
+  check('under a rule of one, a first five is sorted on the spot',
+    /Sorted!/.test(t5) && /Off your list\./.test(t5) && /a week that it held/.test(t5) && !/one more like this/i.test(t5),
+    t5.split('\n').find(l => /Off your list|one more/i.test(l)) ?? 'no message')
+}
 const third = p.locator('[role="radiogroup"]').nth(2).locator('[role="radio"]')
 await tap(third.nth(4), 'five stars on the third row')
 const t55 = await stable(() => p.locator('body').innerText())

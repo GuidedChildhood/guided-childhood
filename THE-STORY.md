@@ -97,8 +97,9 @@ Five commitments, and every feature either honours them or does not ship.
 - **The measurement spine.** A parent names concerns, rates them daily on
   five faces, really tough to going great (each face posts its band top onto
   the stored 1 to 10 scale), and the first check in is the baseline every
-  later number is measured against. Two top scores in a row rest a worry;
-  it comes back a week later to check it held. `concern_events` stores the journey. No overall family score is
+  later number is measured against. One going great rests a worry; it
+  comes back a week later to check it held, and a logged moment brings it
+  back sooner. `concern_events` stores the journey. No overall family score is
   ever computed, because a parent asking "where did that number come from"
   deserves an answer we can give.
 - **The teaching spine.** Lessons follow the Rosenshine arc: retrieval

@@ -81,7 +81,7 @@ export function checkinOutcome({ band, lastBand, topRun }: {
     if (run >= SILVER_RUN) {
       return {
         kind: 'rest',
-        line: `Sorted! That is ${count(SILVER_RUN)} great days.`,
+        line: SILVER_RUN === 1 ? 'Sorted! That is a great day.' : `Sorted! That is ${count(SILVER_RUN)} great days.`,
         next: 'Off your list. We will check in a week that it held. If it comes back, log it as a moment.',
         actions: [],
       }

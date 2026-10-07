@@ -26,18 +26,27 @@ check('TOP is the band a top score lands in', TOP === bandOf(TOP_BAND) && TOP ==
 
 const second = o(5, 5, SILVER_RUN - 1)
 check('a five that completes the run rests the worry', second.kind === 'rest', say(second))
-check('and says sorted', /^Sorted!/.test(second.line) && new RegExp(`${['', 'one', 'two', 'three'][SILVER_RUN]} great days`).test(second.line), second.line)
+check('and says sorted', /^Sorted!/.test(second.line) && (SILVER_RUN === 1 ? /a great day/ : new RegExp(`${['', 'one', 'two', 'three'][SILVER_RUN]} great days`)).test(second.line), second.line)
 check('and says it is off the list, checked in a week, and a moment brings it back',
   /^Off your list\./.test(second.next) && /a week that it held/.test(second.next) && /log it as a moment/.test(second.next), second.next)
 check('with no buttons', second.actions.length === 0)
 
+// With a rule of one (7 October 2026) every five is sorted and "nearly" never
+// shows; with a longer run the first five is a win with a finish line. Both
+// are held, so the function stays right if the number moves again.
 const first = o(5, null, 0)
-check('a first ever five is nearly, not sorted', first.kind === 'nearly', say(first))
-check('and says great day', first.line === 'Great day.', first.line)
-check('and says one more is needed', /^One more like this and it comes off your list\.$/.test(first.next), first.next)
-check('with no buttons', first.actions.length === 0)
 const afterLow = o(5, 2, 0)
-check('a five after a low score is also nearly', afterLow.kind === 'nearly', say(afterLow))
+if (SILVER_RUN > 1) {
+  check('a first ever five is nearly, not sorted', first.kind === 'nearly', say(first))
+  check('and says great day', first.line === 'Great day.', first.line)
+  check('and says one more is needed', /^One more like this and it comes off your list\.$/.test(first.next), first.next)
+  check('with no buttons', first.actions.length === 0)
+  check('a five after a low score is also nearly', afterLow.kind === 'nearly', say(afterLow))
+} else {
+  check('a first ever five is sorted under a rule of one', first.kind === 'rest', say(first))
+  check('a five after a low score is sorted too', afterLow.kind === 'rest', say(afterLow))
+  check('and nothing ever says one more is needed', !/one more like this/i.test(first.next + afterLow.next))
+}
 
 for (let run = 0; run <= SILVER_RUN + 1; run++) {
   const r = o(5, 5, run)
@@ -89,7 +98,9 @@ check('the card no longer carries its own four star message', !/Nearly there/.te
 check('the card no longer carries its own verdict line', !/function verdictLine/.test(card))
 check('the card reads the rule from resting.ts', /from '@\/lib\/concerns\/resting'/.test(card))
 const outcome = readFileSync('lib/concerns/outcome.ts', 'utf8').replace(/^\s*\/\/.*$/gm, '')
-check('outcome.ts carries no copy of SILVER_RUN or TOP_BAND', !/SILVER_RUN\s*=/.test(outcome) && !/TOP_BAND\s*=/.test(outcome))
+// A declaration, not a comparison: `SILVER_RUN === 1` is the function reading
+// the rule, `const SILVER_RUN =` would be it carrying a copy.
+check('outcome.ts carries no copy of SILVER_RUN or TOP_BAND', !/(const|let|var)\s+SILVER_RUN\s*=/.test(outcome) && !/(const|let|var)\s+TOP_BAND\s*=/.test(outcome))
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)

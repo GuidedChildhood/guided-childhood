@@ -100,9 +100,10 @@ revised 9 September and 7 October 2026, and recorded in `plans/decisions.md`:
   first and its failure is an error, never a silent Saved. The tap saves
   in about a second; Change works until it lands and not after, because a
   second post the same day can resolve the concern on the server.
-- The second top score in a row rests the worry and says so; the first says
-  one more is needed; logging its moment brings it back
-  (`lib/concerns/resting.ts` is the only copy of the rule).
+- A top score rests the worry and says so on the spot (`SILVER_RUN` in
+  `lib/concerns/resting.ts` is the only copy of the rule, one since
+  7 October 2026); it comes back after a week to check it held, and logging
+  its moment brings it back sooner.
 - The baseline framing tells the parent it is the starting point AND that we
   check in daily and show movement.
 - `scripts/check-concern-dots.mjs` and `scripts/check-checkin-outcome.mjs`

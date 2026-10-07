@@ -4,13 +4,14 @@ From the brief written off the weekly UX walkthrough. Justin: "Stars rating
 needs to be made super easy and quick to do and obvious to do ... Happy face
 icons, easy messaging, flows super easy ... Tell the user exactly what happens."
 
-## Decision taken under the brief's recommendation
+## Decision, Justin, later the same day
 
-Two top scores in a row still rest a worry (`SILVER_RUN = 2`, 9 September).
-The card now says so plainly on the first five, so it reads as one step with
-a visible finish line. Changing to one five is a one line edit to
-`lib/concerns/resting.ts` and `scripts/check-silver-rule.mjs` if Justin wants
-it, and it is his call, not this session's.
+One five rests a worry (`SILVER_RUN = 1`). Justin: "lets just use one 5 in a
+row to keep simple". The weekly return is what keeps it honest: the worry
+comes back after seven days to check it held, and a dip or a logged moment
+brings it back at once. The outcome function, the silver guard and the
+browser guard all read the number rather than assume it, so the rule can move
+again with one edit.
 
 ## PR 1, small, no visual change
 
