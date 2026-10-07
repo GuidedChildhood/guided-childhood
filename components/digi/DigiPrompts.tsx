@@ -1,5 +1,6 @@
 'use client'
 
+import { followUpOpener } from '@/lib/digi/followup-queue'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -139,7 +140,9 @@ export default function DigiPrompts() {
         ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link
-            href={p.href ?? `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
+            href={p.href ?? `/dashboard/digi?q=${encodeURIComponent(
+              p.kind === 'follow_up' ? followUpOpener(p.body) : `You flagged: ${p.title}. Can we talk it through?`,
+            )}`}
             onClick={() => { if (p.href) dismiss(p.id) }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '7px',

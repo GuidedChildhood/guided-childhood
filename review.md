@@ -93,7 +93,12 @@ revised 9 September and 7 October 2026, and recorded in `plans/decisions.md`:
   card renders what it returns and nothing else, so two messages can never
   sit on one row. Every row of its table is a unit test.
 - Special attention on every one or two, not only a dip: Ask DiGi and Get
-  the words appear on the row and stay on its folded line.
+  the words appear on the row, the row stays open rather than folding, and
+  the same invite lands ONCE on Notifications and Home (keyed by the worry
+  in `digi_prompts.source`), clearing when the worry lifts or after a week.
+- DiGi asks "How did that go?" once: one unanswered card per child at a
+  time, a due follow up waits behind it, and an unanswered card expires
+  after a fortnight (`lib/digi/followup-queue.ts` is the only copy).
 - Per child: every child with a live worry needs a scored event today before
   the Today rung ticks. State is keyed by concern id, never by slug.
 - The history row is the record: the scored `concern_events` write comes
