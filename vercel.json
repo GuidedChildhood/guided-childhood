@@ -130,6 +130,10 @@
       "schedule": "*/5 * * * *"
     },
     {
+      "path": "/api/cron/referrals",
+      "schedule": "20 6 * * *"
+    },
+    {
       "path": "/api/cron/answer-review",
       "schedule": "0 5 2 * *"
     },

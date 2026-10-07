@@ -95,9 +95,11 @@ Five commitments, and every feature either honours them or does not ship.
 ## 4. The science, honestly stated
 
 - **The measurement spine.** A parent names concerns, rates them daily on
-  five stars (each star posts its band top onto the stored 1 to 10 scale),
-  and the first check in is the baseline every later number is measured
-  against. `concern_events` stores the journey. No overall family score is
+  five faces, really tough to going great (each face posts its band top onto
+  the stored 1 to 10 scale), and the first check in is the baseline every
+  later number is measured against. One going great rests a worry; it
+  comes back a week later to check it held, and a logged moment brings it
+  back sooner. `concern_events` stores the journey. No overall family score is
   ever computed, because a parent asking "where did that number come from"
   deserves an answer we can give.
 - **The teaching spine.** Lessons follow the Rosenshine arc: retrieval
@@ -151,9 +153,9 @@ Three surfaces, one database, one design language.
 Home is the daily page: one clear lead a day picked by `lib/home/next-up.ts`,
 a Duolingo style winding path (`components/daily/TodayPathBig.tsx`), the
 rotating bonus, the school chest beside the road. Behind it: the check in
-(`components/daily/ConcernCheckIn.tsx`, five stars per named concern posting
-band tops onto the 1 to 10 column, grey stars show last time, first one is
-the baseline), moments (`components/daily/MomentTimeline.tsx`, the day as
+(`components/daily/ConcernCheckIn.tsx`, five faces per named concern posting
+band tops onto the 1 to 10 column, a grey face shows last time, one outcome
+line per tap from `lib/concerns/outcome.ts`, first one is the baseline), moments (`components/daily/MomentTimeline.tsx`, the day as
 tappable tiles, each flagged moment becomes a concern), scripts (the words
 for every hard conversation, stored in the database, five free), the lessons
 hub, the homework decoder and private tutor, devices (per screen setup

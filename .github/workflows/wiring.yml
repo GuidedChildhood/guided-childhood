@@ -190,6 +190,12 @@ jobs:
       # whole time. The wall was wrong, in front of the one audience with no
       # way to know. See the header of check-lesson-counts.mjs.
       - run: node scripts/check-lesson-counts.mjs
+      # Every lesson video plays in every school browser (7 October 2026). The
+      # generator's clips are HEVC Main 10, which a school laptop without the
+      # hardware decoder shows as a black box with a dead play button; the free
+      # taster opened on one. Every video slide must point at an H.264 clip in
+      # schools/public/clips. See the header of check-lesson-clips.mjs and 361.
+      - run: node scripts/check-lesson-clips.mjs
       # THE MODULE CONTRACT, OVER ALL 29 LESSONS (21 September 2026).
       #
       # This has existed since migration 268 and has never run in CI, because
@@ -631,6 +637,11 @@ jobs:
       # thinking model rejects a turn with its reasoning removed. Runs the real
       # stream reader over a synthetic thinking turn.
       - run: node --experimental-strip-types scripts/check-digi-turn.mjs
+      # Give £5, get £5 owes only for friends who paid twice (or 60 days into a
+      # year), a refund voids it, the shared message keeps the CAP Code 2.1
+      # disclosure, and the refer page stays outside the paywall. See the header
+      # of check-referrals.mjs.
+      - run: node --experimental-strip-types scripts/check-referrals.mjs
 
       # What reaches a child's phone is decided in ONE place. kit, events and
       # homework are the child's own business; payments, deadlines and notices

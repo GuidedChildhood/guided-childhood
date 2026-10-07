@@ -64,7 +64,8 @@ const chat = code(read(CHAT))
 // band being a band. A regex over these would pass on a file that returns the
 // wrong answer every time.
 const probe = `
-import { knowledgeTopicFor, orderBank, approachKey, bandOf, bandWord } from './lib/digi/approaches.ts'
+import { knowledgeTopicFor, orderBank, approachKey, bandWord } from './lib/digi/approaches.ts'
+import { bandOf } from './lib/concerns/bands.ts'
 const rows = [
   { id: 'a', finding: 'first', source_name: 'S', topics: ['sleep'], age_bands: ['11-13'] },
   { id: 'b', finding: 'second', source_name: 'S', topics: ['sleep'], age_bands: ['7-10'] },
@@ -248,7 +249,9 @@ else {
     if (!new RegExp(`${field}: f\\.${field}`).test(insert)) fail.push(`D: the delivered outcome does not carry ${field} from the follow up, so ${why}`)
     else ok.push(`D: the outcome row carries ${field}`)
   }
-  if (!/select\('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion'\)/.test(cron)) {
+  // The strand columns must all be there; a column after them (due_on, since
+  // 7 October 2026, for the one card per child rule) is allowed.
+  if (!/select\('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion(, [a-z_]+)*'\)/.test(cron)) {
     fail.push(`D: the due follow ups are not selected with the strand columns, so they arrive undefined and the insert writes nulls while looking correct`)
   } else ok.push('D: the due follow ups are read with the strand columns')
 }

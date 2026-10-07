@@ -1,5 +1,7 @@
 # The Happy Newspaper: teardown notes
 
+> **Retired as a visual reference on 5 October 2026. Kept as history. The social look is now `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`: 80 percent editorial, no stickers or polka dots. What we kept from this teardown is named there.**
+
 Justin, 2 September 2026: "review this site for inspiration", with the shop
 (thehappynewspaper.com/shop) and two screenshots: the Instagram profile and
 the News for Schools page. The site is blocked from the build environment,

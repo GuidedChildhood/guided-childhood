@@ -189,6 +189,40 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Justin said yes. The four lessons went in with a backup first (school_lessons_backup_358), each hash proved against its file (24, 24, 25, 25 slides), home codes written, and the ks5-20 sign off now reads thirty two. The table went from 32 to 36 and no other lesson moved. Recorded as 358_the_under_7_shelf.
 - Still to come, when credits allow: a Pebble clip per lesson on the blank board rule.
 
+## 1 October 2026: the founder context and the weekly image sheet
+
+- Justin's founder biography and story rules (authenticity, GREEN/AMBER/RED)
+  live at `content/brand-story/founder-context.md`, routed from CLAUDE.md for
+  anything in his voice; the content engine, explainer skill and daily desk
+  read it. One true scene when it fits the idea, never invented, never
+  repeated; AMBER flagged for his yes. Private context stays out of the repo.
+- A weekly Google Sheet in the Control Room, "Weekly content and image
+  ideas", one row per post with the image or video idea, who makes it and any
+  founder scene. The `weekly-content-sheet` task creates next week's every
+  Sunday 18:00; the daily desk reads it as its brief. The one reason: Justin
+  asked for the images to be decided a week ahead so filming happens once.
+
+## 2 October 2026: the handover series is told by Justin alone
+
+- Natalia is not on camera. The six post Inspired by Alma handover (5 to 16
+  October) is rewritten in Justin's first person with read sheets, one
+  Saturday filming session, the switch checklist and the AMBER lines held for
+  his yes: `content/packs/2026-10-02-handover-justin-only/README.md`, Google
+  Doc in the Control Room. It stays step 1 of the parents lane beside the
+  LinkedIn founding 50 post; the reason is that the account's followers are the
+  warmest audience the business has and the series costs nothing but an
+  afternoon. Honest maths in section 1: a first proof, not the £4,000.
+
+## 5 October 2026: two sessions, one Social Billboard feed
+
+- The playlist builder session owns the Thursday Social Billboard post (the
+  weekly Safe Watch announcement, written to Drive "SB Posts - FB and Insta").
+  Every other Social Billboard post stays with the parent launch plan and the
+  daily desk, which now read that folder so the sheet and the desk show one
+  feed. Post 4 of the launch plan (what should we curate next) is dropped in
+  favour of the Space announcement on 8 October, with its question kept as
+  the closing line. The one reason: one Thursday, one post, no duplicate
+  free offer in the same week.
 ## 1 October 2026: The Social Billboard playlist card and Instagram carousels (PR 1184)
 
 - The weekly free playlist image is a template, not a one off:
@@ -269,3 +303,128 @@ Titles only. Open the archive at the line number in its own index for the full e
   red) with pointers, marker swipes on the key phrase, clock pops, a whoosh
   on every time jump, a new trailer style score. All per beat in
   `beats.json`. The gentler score is kept as an alternative file.
+## 5 October 2026: the Social Billboard lane is blocked by the site, not by content
+
+- Verified in a browser: all seven sign in and start free buttons on
+  thesocialbillboard.com/safe-youtube-for-kids are literal REGISTER_URL and
+  LOGIN_URL placeholders, seven footer links are "#", the parents transparency
+  page is a 404 and the creators route shows the parents page. Source is not
+  in this repo or on this Mac (Vite build behind nginx). Every Social
+  Billboard post and email, both sessions, holds until fixed; the daily desk
+  marks those slots BLOCKED. The one reason: a post today sends a parent to a
+  404 from a child safety product.
+- Same day, traced with the playlist session: the dead links live in one static
+  file on the server (/creators.html, which is the parent landing page) and the
+  real routes exist at /auth/sign-up and /auth/login. A text edit plus one
+  router entry for /transparency/parents, no rebuild. Needs server access,
+  which no session has.
+- Same day, later: the sign up page headline is creator copy for every role,
+  and ?role=parent does not pre select the parent role on a cold load (tested
+  twice; the playlist session's claim that it does is UNVERIFIED). Both go to
+  the sign up component as one change. Replace target stays
+  /auth/sign-up?role=parent, harmless now, right later.
+- Closed the same evening: the role parameter is disproved by both sessions
+  on a cold load, and the Sign Up button submits with no role chosen. The sign
+  up component change is three things read from the query string: default
+  the role, the parent heading, and what a roleless submit does.
+## 2 October 2026: migration 359 live, LinkedIn pack, PRs 1187 and 1188 unblocked
+
+- Justin said yes; 359 applied and recorded. Through the Supabase MCP any statement containing "drop" waits on a confirmation and times out, so the table went in by execute_sql without a drop and the constraint swap alone through apply_migration.
+- PRs 1187 and 1188 were conflicted against main; main merged into each, no conflicts left by hand, pushed.
+- LinkedIn pack `content/packs/2026-10-02-digi-talks-back/`: three posts (15 of 40 vs 0 of 6, why no "Hey DiGi", tell it what went wrong). The family posts for the worry tracker are now postable after one real use.
+- DiGi's voice: Justin picked Imogen (Higgsfield preset 3811e986-0891-47cf-a1f5-78a1d62a547a, middle aged female) from four samples on 2 October. Used for social videos now; the app needs its own speech service key (ElevenLabs proposed) and a closely matched voice before it replaces the phone's built in voice.
+
+## 4 October 2026: Give £5, get £5 built for Guided Childhood (PR 1190, migration 360)
+
+- Justin: cash by PayPal, no cap (a hand check above ten in a month), anyone with an account can share, Guided Childhood first.
+- Friend gets £5 off the first paid month via `STRIPE_REFERRAL_COUPON`. It must be "repeating, 1 month", not "once": the 4 day trial's £0 invoice would spend a once coupon.
+- Sharer is owed £5 at the friend's second paid bill, or 60 days into a year; a refund voids it. A daily cron reads Stripe, not webhooks. Payout is a monthly PayPal file from `/dashboard/admin/referrals`.
+- Refer page lives under settings so the paywall leaves it open. Guarded in check-referrals.
+
+## 5 October 2026: one control document for the Social Billboard parent launch (PR 1192)
+
+- Justin: consolidate, do not write another strategy. `plans/sb-parent-launch-control.md` is now the only place to look for the SB launch; every earlier SB plan is classified in its section 13 (keep, merge, update, hold, retire).
+- Parents first, creators held. Primary CTA everywhere: GET A FREE PLAYLIST. Day 0 to 10 sequence from 5 October, then a weekly rhythm built on the Safe Watch handoff.
+- Founder source is `content/brand-story/founder-context.md`. SB was built with developers, never "vibe coded". The lockdown scene waits until after the family account runs it on 9 October (no scene on two accounts in one fortnight).
+- "When it ends, it ends" waits for Justin's phone test; the full checking framework waits for one confirmed wording. The Space Facebook post's "nine checks" line needs correcting to the bounded check.
+- The playlist card tool gained a series layer (masthead, session bar, chips, Reel covers).
+
+## 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192)
+
+Justin approved Space for 9 to 11. Day 4 (Fri 9 Oct) is now "Why these five made the Space playlist", a ten slide carousel (redone the same day with the video method and Instagram and Facebook practice, now in the sb-carousel skill) built only from the Safe Watch handoff: 18 opened, 9 kept, 5 made it, the five questions, what got cut, the honest limits. How it works moves to Day 8. From week 2 the review is the standing Tuesday post. The Happy Newspaper grid was taken as a layout reference only.
+## 5 October 2026: one social visual system, the real assets win
+
+- Justin asked for one brand default across Instagram, Facebook, LinkedIn and
+  YouTube from an approved reference board. Installed as
+  `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`, routed from CLAUDE.md, linked from the
+  social skills and `content/brand-story/visual-system.md` rather than copied.
+- The real product assets are the source of truth; the board is composition
+  only. 80 percent editorial, one friend per card, the gold road from
+  `StageRoad.tsx`, friend colour triplets from `shared/schools-curriculum.ts`.
+- Audit of every existing template (keep, update, retire, uncertain) and four
+  open questions in `plans/2026-10-05-social-visual-system.md`. Nothing
+  redesigned until Justin approves. No autoposting until he says a routine may
+  publish.
+
+## 5 October 2026: the six formats built, and the Sunday batch
+
+- Justin approved the six format proposal, the audit, the friend colours,
+  keeping his serif LinkedIn card, and the same look on Saturdays.
+- `tools/social-cards` rebuilt into the six formats; the old decks re-rendered
+  as proof. Audit updates and retirements applied, nothing deleted.
+- The routine is a Sunday batch and Justin posts: the `social-week` skill,
+  `npm run social-week`, the pinned GDC posts page, and the "Sunday social
+  batch" routine (Sundays 18:55 UK). The one reason: one page each morning,
+  today's post first, nothing posts itself. Detail in
+  `plans/2026-10-05-social-visual-system.md`.
+
+## 6 October 2026: the free pilot email campaign, Wessex first, then 15 miles
+
+- Six emails (primary, secondary, DSL, trust, day 5, day 12), ten sending
+  rules and a day by day order, written to the pilot as coded (five places,
+  two lessons plus the Hub, a free term). Contact list built from the trust
+  and school sites and the gov.uk register only: 23 Wessex Learning Trust
+  schools, 50 secondary, special and alternative provision schools and 197
+  primaries within 15 miles of Cheddar, 109 send ready rows in a Control Room
+  sheet, 157 primaries in reserve. Pack:
+  `content/packs/2026-10-06-schools-pilot-email-campaign/`. The one reason:
+  four hand sent emails a day to a named person beats any bulk tool, and the
+  five places will go before the list runs out.
+- Same day, afternoon: Justin's home is Star by Winscombe, so the sheet was
+  rebuilt from there (his own children's schools and trust are day 1). The
+  Gmail connector now answers for hello@guidedchildhood.com; day 1's five
+  emails are in its Drafts and the `school-email-drafts` task writes four a
+  day from Wednesday. Sending stays with Justin by design: hand sent, named
+  person, four a day.
+
+## 7 October 2026: every script Justin has to record, as read cards
+
+- A sweep of the repo and Drive found 29 spoken pieces written for Justin
+  since July, none yet filmed. They are now two printable card decks in
+  `content/read-cards/` (one idea per card, four to a page, setup card per
+  piece), built by `tools/read-cards`. The Penny video uses the 30 September
+  text, which replaced the 29 September cards. The one reason: Justin asked
+  for the scripts in note sized chunks he can read one at a time, so each
+  clip is one card and the cut is mechanical.
+## 6 October 2026: Social Billboard cards use black, white and yellow only
+
+Justin: pink is not a brand colour. The age band is now the one filled chip (white on dark, black on light), the yellow matches the live site's #FFCE1B, and the END block is gone (a plain progress line on carousels only). All launch renders refreshed.
+
+## 7 October 2026: the check in rates on faces, one outcome per tap, two fives still rest a worry
+
+Justin: "Happy face icons, easy messaging, flows super easy ... Tell the user exactly what happens." Five faces replace the stars, because gold stars are the child's currency; the band word sits under each, last time is grey, today is butter. Everything the card says after a tap comes from `lib/concerns/outcome.ts`, unit tested row by row, after the sorted box was found showing on every first five for a month. The save lands in about a second with Change until it does, then the row stays open a read beat before it folds. Change never re opens a saved row: a second post the same day can mark the concern resolved on the server, and a resolved concern is never asked again. Two top scores in a row still rest a worry; the first five now says one more. PR 1200 and the faces PR that stacks on it.
+
+## 7 October 2026, later: one five rests a worry, and the faces get the happy news finish
+
+Justin: "lets just use one 5 in a row to keep simple?" and "super attractive to use, happy news styling as usual and slick." `SILVER_RUN` is 1. The weekly return is what makes one safe where it was not in September: a rested worry comes back after seven days to check it held, and a dip or a logged moment brings it back at once. The outcome function, the silver guard and the browser guard read the number rather than assume it. The faces now carry full ink lines on crayon paper, a catch light and the house ledge on the chosen one, and the sorted and tough tiles wear the card's edge and lift. In PR 1201.
+
+## 7 October 2026: lesson videos are H.264 and ship with the schools site
+
+Justin: the taster's "DiGi opens the lesson" would not play. Every video slide (11 in 6 lessons, both primary pilot lessons among them) was the generator's raw HEVC Main 10, which a school laptop without the hardware decoder shows as a dead play button. The clips are converted to H.264 High 8 bit and served from `schools/public/clips` by absolute address, because the kid app plays the same rows. `check-lesson-clips.mjs` in CI holds every video slide to an H.264 clip that exists, so the next generated clip is converted before it ships. Migration 361, applied after the deploy. PR 1205.
+## 7 October 2026, afternoon: the momentum block rides inside the reviews
+
+Justin: "every now and again email the successes to keep momentum ... top experts quotes and why our system works ... not too often ... support parents with some nuggets on guilt, shouting, losing it", then "yes plus future emails can echo this". Built as one block, not a new email, because the six day floor already enforces not too often. Under the family's own successes in the Sunday review and the monthly review: one finding from `expert_knowledge` with its named source (142 of 142 carry one), matched to the child's age and a live worry; one line on why it works from a seven line registry rotated by the week; one line for the parent linking to the repair script in the scripts table. `lib/email/momentum.ts`, held by `scripts/check-momentum-block.mjs`. The monthly review now says "went to going great" instead of "reached five stars".
+
+## 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite
+
+Justin, with his own Notifications page: "Teo asked same thing 3 times ... it needs to show once", and "once check in done it flashes up ask digi but quickly flips to next child ... goes on alert notification? But only once." Then: "we don't want to miss those issues if dropped off after 2 weeks, also to ask DiGi it needs to know what the issue was." Read off the live tables: three conversations in August and September each booked a follow up, each became a card, none was answered, none expired. Now one unanswered card per child at a time, a due follow up waits behind it (and is let go after ten days waiting), an unanswered card expires after a fortnight and its thread goes onto the tracker as a worry first, and every card opens DiGi on the thread itself rather than its title. A one or two on the check in keeps its row open and plants one invite on Notifications and Home, keyed by the worry, cleared when the worry lifts. `lib/digi/followup-queue.ts`, held by `scripts/check-followup-once.mjs`.

@@ -1,6 +1,6 @@
 ---
 version: alpha
-name: Daisy Days — Frame (video / frame layer)
+name: Guided Childhood explainer frame (video / frame layer, from the Daisy Days preset)
 description: >
   Video-first companion to Daisy Days' design.md. The unit is the frame (1920×1080). Atoms are
   identical and sacred — the sunny-garden pastel palette (cream + turquoise/pink/butter/mint/
@@ -100,7 +100,11 @@ components:
     description: "Makes the headline read 'outlined' like the shapes."
 ---
 
-# Daisy Days — Frame (video / frame layer)
+# Guided Childhood explainer frame (video / frame layer)
+
+Built on the Daisy Days preset, remapped to our tokens. The preset's own
+look (Fredoka, turquoise, ornament doodles) does not apply. Any character or
+cover frame follows `brand/GDC_SOCIAL_VISUAL_SYSTEM.md`.
 
 ## Brand adaptation (READ FIRST — the frontmatter is the source of truth)
 

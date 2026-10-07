@@ -15,6 +15,7 @@ field, ink stroke, butter accent, Nunito 900 headlines, IBM Plex Mono eyebrows.
 ## Read first
 
 - THE-STORY.md sections 1, 2, 3 and 10. The film is a road to the stage check.
+- `content/brand-story/founder-context.md`: Justin's true scenes. The opening beat may be one of them when it is the clearest way into the problem (the Teo dance video for DiGi, the YouTube moment for the playlist). Never invented, AMBER scenes flagged in POSTS.md.
 - `research/homepage-audience-language.md`: the parent's own words for the
   problem. The first beat is always in their words, never ours.
 - The service catalogue (`content/brand-story/service-post-map.md`): the real

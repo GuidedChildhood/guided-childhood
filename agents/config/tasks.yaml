@@ -236,10 +236,11 @@ diego_task:
 
     Write a self-executing ChatGPT image prompt for the LinkedIn post above.
     Under 200 words. Visual concept: two contrasting numbers or statistics side
-    by side — NO bar charts, NO graphs, NO icons. Typography only, minimalist,
-    clean white or very dark background. One highlighted accent colour (burnt
-    orange or coral). Must NOT ask clarifying questions — executes immediately
-    when pasted. End the prompt with only these two fields on their own lines:
+    by side. NO bar charts, NO graphs, NO icons, NO characters, NO people.
+    Typography only, minimalist, on the Guided Childhood cream (#F9F8F6) with
+    navy ink (#1A1A2E) and one gold accent (#EDC35F), never white, never dark,
+    never orange (brand/GDC_SOCIAL_VISUAL_SYSTEM.md, 5 October 2026). Must NOT
+    ask clarifying questions, executes immediately when pasted. End the prompt with only these two fields on their own lines:
     TOPIC: [fill in]
     DATA POINT: [fill in the two contrasting stats]
 

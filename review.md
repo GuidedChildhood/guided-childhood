@@ -69,30 +69,50 @@ a plan, not a ban. Judge every surface as that parent:
 
 ## 4a. The check in test (the first thing a member does each day)
 
-The daily star check in is the retention loop's front door, so any change
-near it is judged against the instrument's own rules, decided 12 to 19
-August 2026 and recorded in `plans/decisions.md`:
+The daily check in is the retention loop's front door, so any change near it
+is judged against the instrument's own rules, decided 12 to 19 August 2026,
+revised 9 September and 7 October 2026, and recorded in `plans/decisions.md`:
 
-- Five stars are five bands. Star n posts the TOP of its band (2, 4, 6, 8,
+- Five faces are five bands. Face n posts the TOP of its band (2, 4, 6, 8,
   10) to `concern_events`; the stored column stays 1 to 10 and every
-  downstream reader (weekly email, What is working, DiGi wisdom) carries on
-  unchanged.
+  downstream reader (weekly email, monthly review, What is working, DiGi
+  wisdom) carries on unchanged.
+- Faces, not stars. Gold stars are the child's currency (jobs earn stars,
+  stars become minutes), and a feeling rating that looks like earning
+  confuses both of them. The faces are drawn in house style, never emoji,
+  at least 48px to tap, with the band word under each.
 - The server compares BANDS, never raw numbers
   (`app/api/daily/concern-check/route.ts`). A within band wobble is not
-  movement.
-- Comparison is said in words, never as two numbers ("up and down today,
-  hard going last time").
-- Last time is grey stars filled to its band; today is gold. Never a single
-  outlined star.
+  movement. `bandOf` lives once, in `lib/concerns/bands.ts`.
+- Comparison is said in words, never as two numbers ("getting there, up
+  from hard going").
+- Last time is a grey face on the band it was; today's face is butter. Never
+  a single outlined star, never a cumulative fill.
+- One tap, one message. `lib/concerns/outcome.ts` is the only source of the
+  line under the faces, what happens next, and which help buttons show. The
+  card renders what it returns and nothing else, so two messages can never
+  sit on one row. Every row of its table is a unit test.
+- Special attention on every one or two, not only a dip: Ask DiGi and Get
+  the words appear on the row, the row stays open rather than folding, and
+  the same invite lands ONCE on Notifications and Home (keyed by the worry
+  in `digi_prompts.source`), clearing when the worry lifts or after a week.
+- DiGi asks "How did that go?" once: one unanswered card per child at a
+  time, a due follow up waits behind it, and an unanswered card expires
+  after a fortnight (`lib/digi/followup-queue.ts` is the only copy).
 - Per child: every child with a live worry needs a scored event today before
   the Today rung ticks. State is keyed by concern id, never by slug.
 - The history row is the record: the scored `concern_events` write comes
-  first and its failure is an error, never a silent Saved.
-- A five star answer rests the worry and says so; logging its moment brings
-  it back (`lib/concerns/resting.ts` is the only copy of the rule).
+  first and its failure is an error, never a silent Saved. The tap saves
+  in about a second; Change works until it lands and not after, because a
+  second post the same day can resolve the concern on the server.
+- A top score rests the worry and says so on the spot (`SILVER_RUN` in
+  `lib/concerns/resting.ts` is the only copy of the rule, one since
+  7 October 2026); it comes back after a week to check it held, and logging
+  its moment brings it back sooner.
 - The baseline framing tells the parent it is the starting point AND that we
   check in daily and show movement.
-- `scripts/check-concern-dots.mjs` passes against the change.
+- `scripts/check-concern-dots.mjs` and `scripts/check-checkin-outcome.mjs`
+  pass against the change.
 
 ## 5. The design test
 

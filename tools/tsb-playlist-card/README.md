@@ -17,11 +17,11 @@ text to paste into the post.
   small motif bottom left, one small motif top right.
 - The words are HTML on top, in Montserrat, the live site font, self hosted in
   `fonts/`. Text stays crisp and editable; image models still mangle words.
-- Colours come from the live site on 1 October 2026: near black `#0A0A0A`,
-  grey `#A1A1A1`, and the one accent, yellow `#FFD100`, which is every CTA
-  button on thesocialbillboard.com. The age line takes the accent. `accent`
-  in the deck accepts `yellow` (default), `pink` (#E91E8C, the colour in the
-  brief) or `red`.
+- Colours come from the live site: black, white and the one accent, yellow
+  `#FFCE1B` (`--color-primaryYellow` in the site's CSS), which is every CTA
+  button on thesocialbillboard.com. No pink: it is not a brand colour (Justin,
+  6 October 2026). The age line takes the accent. `accent` in the deck accepts
+  `yellow` (default) or `red`.
 
 ## Why the card looks like this (sign ups, not likes)
 
@@ -40,3 +40,27 @@ text to paste into the post.
 Copy `decks/space-9-to-11.json`, change `headline`, `age`, `meta`, the
 `background` and the `alt`, then render. Keep `eyebrow`, `ctaText`, `siteNote`
 and `site` as they are unless the landing page changes.
+
+## The series layer (5 October 2026)
+
+Every Social Billboard franchise uses one system, so the account reads as a
+set of series rather than a new design each post. A deck with
+`"kind": "series"` gets three things on every slide:
+
+- the masthead: `series` top left, `issue` top right, a hairline under it;
+- the session bar at the foot: a start dot, a track that fills slide by slide,
+  and an END block that fills on the last slide (a session with a beginning
+  and an end, drawn);
+- optional `chips` (the builder's own choices; any chip starting "Age" is
+  the one filled chip, white on dark slides and black on light ones), `ends` (the ENDS WITH line on a
+  weekly playlist), `photo` or `photoFull` (a labelled slot for a real photo),
+  `sky` (a background from `backgrounds/`), `note`, `pill`.
+
+Word budget: `node tools/tsb-playlist-card/check-words.mjs` (12 words on slide 1, 25 after). The method is the `sb-carousel` skill.
+
+`"kind": "reels"` renders 1080 x 1920 Reel covers with every word inside the
+3:4 grid crop and nothing in the bottom 380px. Set `"guides": true` to draw
+the safe zones (`decks/reels-00-cover-spec.json`).
+
+The primary CTA on every pill is "Get a free playlist". The launch decks and
+what each is for are listed in `plans/sb-parent-launch-control.md`.

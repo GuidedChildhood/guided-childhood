@@ -14,6 +14,8 @@ import {
 import { emailFriend } from '@/lib/email/friends'
 import { APP_ORIGIN } from '@/lib/config/site'
 import type { MonthProgress } from '@/lib/email/month-progress'
+import { bandWordOf, type MomentumBlock } from '@/lib/email/momentum'
+import { bandOf } from '@/lib/concerns/bands'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -588,6 +590,32 @@ function fmtMinsEmail(mins: number): string {
 // their inbox, not only the phone push: the week's own numbers, one warm note,
 // one gentle watch for, and one thing to set up for next week. Nothing is
 // shared or compared, the numbers are the family's own.
+// ── THE MOMENTUM BLOCK (7 October 2026) ─────────────────────────────────────
+//
+// One nugget with its source, one line on why it works, one line for the
+// parent. Picked in lib/email/momentum.ts, drawn here, under the family's
+// own successes in both reviews. Nothing in it is a number without a name
+// beside it, and a week with no fitting nugget simply has no nugget.
+function momentumHtml(m: MomentumBlock): string {
+  const eyebrow = (text: string) => `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:8px">${text}</div>`
+  return `<div style="background:#fff;border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:0 0 20px">
+    ${m.nugget
+      ? `${eyebrow('Worth knowing this week')}
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:${INK};line-height:1.45">${m.nugget.finding}</div>
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:6px">${m.nugget.source}${m.nugget.url ? ` · <a href="${m.nugget.url}" style="color:${BUTTER_DARK};font-weight:700;text-decoration:none">Read it</a>` : ''}</div>
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};line-height:1.5;margin-top:14px">${m.why.line}</div>`
+      : `${eyebrow('Why it works')}
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};line-height:1.5">${m.why.line}</div>`}
+    <div style="border-top:1px solid ${BORDER};margin-top:14px;padding-top:12px">
+      ${eyebrow('For you, not the children')}
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};line-height:1.5">${m.support.line}</div>
+      <div style="margin-top:10px">
+        <a href="${m.support.href}" style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:${BUTTER_DARK};text-decoration:none">${m.support.cta}</a>
+      </div>
+    </div>
+  </div>`
+}
+
 export function weeklyReviewEmail(params: {
   parentName: string
   childLabel: string
@@ -596,8 +624,10 @@ export function weeklyReviewEmail(params: {
   poll?: { question: string; results: { label: string; pct: number }[]; total: number } | null
   /** What has actually moved, one line per worry, longest arc first. */
   movement?: { label: string; from: number; to: number; span: string }[] | null
+  /** A nugget with its source, why it works, a line for the parent. See lib/email/momentum. */
+  momentum?: MomentumBlock | null
 }): EmailContent {
-  const { childLabel, review, unsubscribe, poll, movement } = params
+  const { childLabel, review, unsubscribe, poll, movement, momentum } = params
   const s = review.stats
   const statRow = (label: string, value: string) => `<tr>
     <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
@@ -664,7 +694,7 @@ export function weeklyReviewEmail(params: {
                    holds at every width there is. */''}
              ${movement.slice(0, 3).map(m => `<div style="margin:0 0 12px">
                <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;font-weight:800;color:${INK};line-height:1.3">${m.label}</div>
-               <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;color:${m.to > m.from ? '#2F8F6B' : m.to < m.from ? '#C94F3D' : INK_SOFT};margin-top:2px">${m.from} to ${m.to}${m.span ? ` ${m.span}` : ''}</div>
+               <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;color:${m.to > m.from ? '#2F8F6B' : m.to < m.from ? '#C94F3D' : INK_SOFT};margin-top:2px">${bandOf(m.from) === bandOf(m.to) ? `holding at ${bandWordOf(bandOf(m.to))}` : `${bandWordOf(bandOf(m.from))} to ${bandWordOf(bandOf(m.to))}`}${m.span ? ` ${m.span}` : ''}</div>
              </div>`).join('')}
              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:14px;color:${INK_MUTED};line-height:1.5;margin-top:10px">Your own numbers, one line each. Nothing here is added together or set against anyone else.</div>
              <div style="margin-top:12px">
@@ -672,6 +702,7 @@ export function weeklyReviewEmail(params: {
              </div>
            </div>`
         : '') +
+      (momentum ? momentumHtml(momentum) : '') +
       (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
       (review.suggestion ? p(`<strong>For next week.</strong> ${review.suggestion}`) : '') +
       // Once a month the community bite comes back as the crowd: what every
@@ -745,6 +776,8 @@ export type MonthlyChild = {
   heaviest?: { label: string; minutes: number } | null
   /** What moved this month: worries, lessons, stages. See lib/email/month-progress. */
   progress?: MonthProgress | null
+  /** A nugget with its source, why it works, a line for the parent. See lib/email/momentum. */
+  momentum?: MomentumBlock | null
 }
 
 // ── EVERY CHILD IN THE ONE EMAIL (18 August 2026) ──────────────────────────
@@ -775,7 +808,8 @@ export function monthlyBalanceEmail(params: {
   const many = children.length > 1
 
   const block = (c: MonthlyChild) => {
-    const { childLabel, pace, heaviest, progress } = c
+    const { childLabel, pace, heaviest, progress, momentum } = c
+    const momentumBlock = momentum ? momentumHtml(momentum) : ''
 
     // ── WHAT MOVED, WHICH IS WHY THEY ARE HERE ───────────────────────────
     //
@@ -791,10 +825,10 @@ export function monthlyBalanceEmail(params: {
            <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#236F52;margin-bottom:10px">What moved this month</div>
            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};line-height:1.4">
              ${progress.moved > 0 ? `${progress.moved} of the ${progress.tracked + progress.rested} we are working on moved up.` : `${progress.tracked} still being worked on.`}
-             ${progress.rested > 0 ? ` ${progress.rested} reached five stars and stopped being asked about.` : ''}
+             ${progress.rested > 0 ? ` ${progress.rested} went to going great and came off the list.` : ''}
            </div>
            ${progress.biggestMover
-             ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">The biggest change was ${progress.biggestMover.label}, ${progress.biggestMover.from} star${progress.biggestMover.from === 1 ? '' : 's'} to ${progress.biggestMover.to}.</div>`
+             ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">The biggest change was ${progress.biggestMover.label}, ${bandWordOf(progress.biggestMover.from)} to ${bandWordOf(progress.biggestMover.to)}.</div>`
              : ''}
            ${progress.lessonsPassed > 0 || progress.stagesAwarded > 0
              ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">${[
@@ -813,6 +847,7 @@ export function monthlyBalanceEmail(params: {
           ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};margin:0 0 10px">${childLabel}</div>`
           : '') +
         progressBlock +
+        momentumBlock +
         p('No screen time was logged this month, so there is no minutes figure here. Start a timer any day and next month will have one.')
       )
     }
@@ -833,6 +868,7 @@ export function monthlyBalanceEmail(params: {
         ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};margin:0 0 10px">${childLabel}</div>`
         : '') +
       progressBlock +
+      momentumBlock +
       `<div style="background:${tone.bg};border:1px solid ${tone.border};border-radius:16px;padding:20px 22px;margin:0 0 20px">
          <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:${tone.ink};margin-bottom:10px">${pace.headline}</div>
          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:${INK};letter-spacing:-0.02em">${pace.average} <span style="font-size:19px;font-weight:800">minutes a day</span></div>

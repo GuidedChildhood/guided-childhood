@@ -1,0 +1,21 @@
+{
+ "name": "series-08-free-playlist-invitation",
+ "kind": "series",
+ "series": "Get a free playlist",
+ "issue": "For parents",
+ "foot": "thesocialbillboard.com",
+ "slides": [
+  {
+   "tone": "yellow",
+   "kicker": "Your choices. A playlist to match.",
+   "big": "Your first playlist is free.",
+   "size": "lg",
+   "list": [
+    "One child profile",
+    "No card needed",
+    "You see every video first"
+   ],
+   "pill": "Get a free playlist"
+  }
+ ]
+}

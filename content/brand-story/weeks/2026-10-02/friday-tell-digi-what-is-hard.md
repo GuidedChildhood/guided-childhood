@@ -1,7 +1,7 @@
 # Service Friday · Tell DiGi what is hard
 
-**Status: HOLD.** Not postable until PR 1186 is merged and migration 359 is
-applied, and then not until Justin has used it on his own account once.
+**Status: postable once Justin has used it once on his own account.** PR 1186
+merged and migration 359 applied on 2 October 2026.
 Proposed as service map entry 23. This is THE-STORY.md section 10 in one post:
 you tell it what actually went wrong, it gives you the one thing to do and the
 words, and it keeps track.

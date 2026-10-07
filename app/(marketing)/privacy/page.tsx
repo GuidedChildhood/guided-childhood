@@ -42,6 +42,7 @@ export default function PrivacyPage() {
         <li style={LI}><strong>What you tell us:</strong> the wellbeing check ins you record, the concerns you flag, and the questions you ask DiGi.</li>
         <li style={LI}><strong>How you use the app:</strong> the quests, lessons and scripts you complete, so we can show your progress and pick the next step.</li>
         <li style={LI}><strong>Payment:</strong> your subscription is handled by Stripe. We never see or store your card number.</li>
+        <li style={LI}><strong>If you tell a friend:</strong> your share code, which friends joined with it and how far along they are, and the PayPal email you give us. We use the email only to send you your £5 rewards, and your friends never see it.</li>
       </ul>
 
       <h2 style={H2}>Your child’s information</h2>
@@ -79,6 +80,7 @@ export default function PrivacyPage() {
       <ul>
         <li style={LI}><strong>Supabase</strong> and <strong>Vercel</strong> for secure database and hosting.</li>
         <li style={LI}><strong>Stripe</strong> for payments.</li>
+        <li style={LI}><strong>PayPal</strong> to send referral rewards, if you have asked for one.</li>
         <li style={LI}><strong>Resend</strong> for our emails.</li>
         <li style={LI}><strong>Anthropic</strong> to power DiGi: your questions are sent to the AI model to generate a reply. They are not used to train the model, and they are not sold or shared beyond answering you.</li>
       </ul>

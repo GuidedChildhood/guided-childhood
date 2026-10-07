@@ -4,6 +4,9 @@ import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { categoryForConcern } from '@/lib/content/signal-map'
+import { bandOf } from '@/lib/concerns/bands'
+import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
+import { checkinOutcome, ATTENTION_BAND, type CheckinOutcome } from '@/lib/concerns/outcome'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -40,10 +43,20 @@ import { categoryForConcern } from '@/lib/content/signal-map'
 // app/api/daily/concern-check/route.ts.
 //
 // What survives, because none of it was the problem: the save beat, so the
-// verdict can be read and the answer changed; the green that means set; and
-// the hand over to the next one. A saved row folds to one line that KEEPS its
-// verdict (1 September 2026, "pops up a result to show it's moved"), because
-// the old fold threw the comparison away 2.6 seconds after it appeared.
+// answer can be changed before it lands; the hand over to the next one; and
+// a saved row folding to one line that KEEPS its verdict (1 September 2026,
+// "pops up a result to show it's moved").
+//
+// ── FACES, ONE OUTCOME, A READ BEAT (7 October 2026) ─────────────────────────
+//
+// Justin, from the weekly UX walkthrough: "Stars rating needs to be made
+// super easy and quick to do and obvious to do ... Happy face icons, easy
+// messaging, flows super easy, as it is an important loop. Tell the user
+// exactly what happens." Three moves, each with its own note below: the
+// stars became faces (see Face), everything the card says after a tap comes
+// from lib/concerns/outcome.ts (see the row), and the save lands in about a
+// second while the result stays open long enough to read before the row
+// folds (see SAVE_BEAT_MS and READ_BEAT_MS).
 
 export type ConcernCheckItem = {
   /** The concern's own row id, which is what the save posts. See CheckInRow. */
@@ -64,6 +77,10 @@ export type ConcernCheckItem = {
   /** A DiGi suggestion for THIS worry that is still waiting on an answer. It
    *  is asked above the stars, never on a card days later. See lib/checkin. */
   followUp?: { outcomeId: string; suggestion: string } | null
+  /** How many top band scores sit on the end of its run, before today. Read by
+   *  lib/concerns/scores so the card counts the way the resting rule counts.
+   *  Absent on the fixture, where last time's score stands in for it. */
+  topRun?: number
 }
 
 /** The five bands, worst to best, which is the direction the scale has always
@@ -81,12 +98,12 @@ export const BANDS = [
   { score: 10, label: 'Going great' },
 ] as const
 
-/** Which of the five a number belongs to. 1 to 5, matching BANDS by index+1.
- *  Reads a legacy 1 to 10 score just as happily as a new one, which is how last
- *  time's ring still lands on the right word for a family who has been checking
- *  in since before this changed. */
-export function bandOf(n: number): number {
-  return Math.ceil(Math.min(10, Math.max(1, n)) / 2)
+// Which of the five a number belongs to is bandOf in lib/concerns/bands.ts,
+// shared with the monthly review and DiGi so the three can never disagree.
+
+/** A small run of good days, said as a word. Two in a row rests a worry. */
+function runWord(n: number): string {
+  return ['', 'one', 'two', 'three', 'four', 'five'][n] ?? String(n)
 }
 
 // WHERE A NEW WORRY CAME FROM, SAID BACK.
@@ -166,32 +183,11 @@ export function scoreWord(n: number): string {
   return 'Going great'
 }
 
-// What their answer means against their last one, shown when the save beat
-// starts and left on screen afterwards. Words, because words are what was
-// asked, and the number is nobody's business but the chart's.
-//
-// The dip line is the one that matters most. A parent who says this week was
-// harder has just told us something difficult about their own week, and the
-// answer to that is never a frown or a lower score. It is a next move.
-function verdictLine(score: number, last: number | null): string {
-  const word = scoreWord(score)
-  if (last == null) {
-    return score >= 9
-      ? `First one down, and already going great. One more like this and we mark it done.`
-      : `First one down: ${word.toLowerCase()}. Tomorrow reads against this one.`
-  }
-  const lastWord = scoreWord(last)
-  if (bandOf(score) > bandOf(last)) {
-    return `${word} today, ${lastWord.toLowerCase()} last time. The line is climbing.`
-  }
-  if (bandOf(score) < bandOf(last)) {
-    // The next move is not a sentence any more: when this row saves, the
-    // folded line grows real Ask DiGi and script buttons. See the collapsed
-    // render below.
-    return `${word} today, ${lastWord.toLowerCase()} last time. A dip is information, not a verdict.`
-  }
-  return `Holding at ${word.toLowerCase()}, same as last check in. Steady counts.`
-}
+// The sentence under the faces, what happens next and the help buttons all
+// come from ONE pure function, lib/concerns/outcome.ts, since 7 October 2026.
+// This file used to hold a verdict line, a green box for five, a quiet line
+// for four and another for one to three, and two of them appeared together.
+// Nothing here decides what a tap means any more. It only draws it.
 
 // Which way today's answer moved against last time, for the folded row's
 // verdict chip. 'first' covers both the baseline and any worry's first score.
@@ -203,9 +199,46 @@ function movementOf(score: number | undefined, last: number | null): 'up' | 'dip
   return a > b ? 'up' : a < b ? 'dip' : 'held'
 }
 
-// How long the note sits before the answer posts. Long enough to read the
-// comparison, and tapping a different number starts it over.
-const SAVE_BEAT_MS = 2600
+// How long after the tap the answer posts. About a second, which is enough
+// to see the face light up and tap a different one, and short enough that
+// nothing feels held (Justin, 7 October 2026: "super easy and quick"). It was
+// 2.6 seconds of "Saving." with the parent waiting on it.
+const SAVE_BEAT_MS = 1000
+
+// How long the result stays open AFTER it saves, before the row folds and the
+// next worry slides up. The fold used to land on the same tick as the save,
+// so the only thing a parent got to read was the slim folded line; now the
+// line and what happens next sit there long enough to be read.
+const READ_BEAT_MS = 1800
+
+// ── WHY "CHANGE" ONLY WORKS BEFORE THE SAVE LANDS ────────────────────────────
+//
+// The brief asked for a Change link instead of making the parent wait, and it
+// is here, live for the whole save beat and gone once the answer has posted.
+// It does not re open a saved row, deliberately. A second post for the same
+// worry on the same day is compared against the first one by the route, so
+// "getting there" corrected to "going great" reads as two betters in a row
+// and the server marks the concern RESOLVED, and lib/checkin/today.ts never
+// asks about a resolved concern again. A worry disappearing because a parent
+// corrected a tap is a worse failure than a wrong reading that tomorrow's
+// check in puts right, so the record stands once it lands.
+
+// INK ON WHITE, NOT GOLD ON WHITE.
+//
+// These read as --terracotta-dark on #fff, which is 2.6 to 1. The AA floor
+// for text this size is 4.5. It was legible enough to nobody's complaint
+// while dips were rare; a low score now brings them to a row every family
+// will meet, so the same pairing that was wrong on the house gold buttons is
+// wrong here. The gold stays as the edge, which is decoration and has no
+// floor to clear.
+const pill: React.CSSProperties = {
+  display: 'inline-flex', alignItems: 'center', minHeight: 38,
+  padding: '7px 14px', borderRadius: 'var(--radius-pill)', textDecoration: 'none',
+  border: '2px solid var(--terracotta)', color: 'var(--ink)',
+  boxShadow: '0 3px 0 var(--terracotta)',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+  background: '#fff',
+}
 
 export default function ConcernCheckIn({
   concerns,
@@ -244,6 +277,8 @@ export default function ConcernCheckIn({
   const [saved, setSaved] = useState<Record<string, boolean>>({})
   /** The save came back an error. The row is answerable again and says so. */
   const [failed, setFailed] = useState<Record<string, boolean>>({})
+  /** Saved, read, and folded to its slim line. Lags saved by the read beat. */
+  const [folded, setFolded] = useState<Record<string, boolean>>({})
   const router = useRouter()
   // Did you use last night's words: idle, saving, or the answer given.
   const [words, setWords] = useState<'idle' | 'busy' | 'yes' | 'somewhat' | 'no'>('idle')
@@ -290,6 +325,7 @@ export default function ConcernCheckIn({
 
   const posted = useRef<Record<string, boolean>>({})
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  const foldTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
   // Each row's element, so a finished one can hand over to the next.
   const rows = useRef<Record<string, HTMLDivElement | null>>({})
   // The number as of the last tap, outside React's batching, so the timer that
@@ -377,13 +413,28 @@ export default function ConcernCheckIn({
     if (posted.current[id]) return
     posted.current[id] = true
     if (timers.current[id]) clearTimeout(timers.current[id])
-    setSaved(prev => {
-      const next = { ...prev, [id]: true }
-      // After paint, so the row being left has already settled into its saved
-      // state and the scroll lands on a card that has stopped changing.
-      requestAnimationFrame(() => handOver(id, next))
-      return next
-    })
+    setPending(prev => ({ ...prev, [id]: false }))
+    setSaved(prev => ({ ...prev, [id]: true }))
+    // The row stays open for a read beat with its line and what happens next,
+    // and only then folds and hands over. A skipped row has nothing to read,
+    // so it folds at once. The hand over reads posted.current rather than the
+    // saved state, because a row that failed and was released is unanswered
+    // again and the scroll must be able to land back on it.
+    if (foldTimers.current[id]) clearTimeout(foldTimers.current[id])
+    // A TOUGH ROW STAYS OPEN (7 October 2026). Justin: the help "flashes up
+    // ask digi but quickly flips to next child". A one or two keeps its box
+    // and its two buttons on screen instead of folding to the slim line; the
+    // hand over to the next worry still happens, and the same invite lands
+    // once on Notifications and Home from the save route, so it is there
+    // later whichever way the parent went.
+    const score = typeof body.score === 'number' ? body.score : null
+    const stayOpen = score != null && bandOf(score) <= ATTENTION_BAND
+    foldTimers.current[id] = setTimeout(() => {
+      if (!stayOpen) setFolded(prev => ({ ...prev, [id]: true }))
+      // After paint, so the row being left has already settled into its
+      // folded state and the scroll lands on a card that has stopped changing.
+      requestAnimationFrame(() => handOver(id, posted.current))
+    }, body.score == null ? 0 : READ_BEAT_MS)
     // ── THE SAVE THAT COULD FAIL AND STILL LOOK LIKE A SAVE ──────────────────
     //
     // Justin, 15 August 2026: the check in "loops and cant get out of it ...
@@ -426,6 +477,8 @@ export default function ConcernCheckIn({
         // posted.current the guard at the top of post() would refuse every
         // retry, which is the loop with an error message on it.
         posted.current[id] = false
+        if (foldTimers.current[id]) clearTimeout(foldTimers.current[id])
+        setFolded(prev => ({ ...prev, [id]: false }))
         setSaved(prev => ({ ...prev, [id]: false }))
         setFailed(prev => ({ ...prev, [id]: true }))
       })
@@ -438,78 +491,99 @@ export default function ConcernCheckIn({
     liveValue.current[id] = score
     setValue(prev => ({ ...prev, [id]: score }))
     setTouched(prev => ({ ...prev, [id]: true }))
+    setFailed(prev => ({ ...prev, [id]: false }))
     if (timers.current[id]) clearTimeout(timers.current[id])
     setPending(prev => ({ ...prev, [id]: true }))
     timers.current[id] = setTimeout(() => post(id, { score }), SAVE_BEAT_MS)
   }
 
+  // Change, while the save beat is still running: the tap is taken back and
+  // the faces are open again with nothing chosen. Nothing has posted, so
+  // there is nothing to undo on the server. See the note above SAVE_BEAT_MS
+  // for why this stops once the answer has landed.
+  const change = (id: string) => {
+    if (posted.current[id]) return
+    if (timers.current[id]) clearTimeout(timers.current[id])
+    delete liveValue.current[id]
+    setPending(prev => ({ ...prev, [id]: false }))
+    setTouched(prev => ({ ...prev, [id]: false }))
+    setValue(prev => { const next = { ...prev }; delete next[id]; return next })
+  }
 
-  // ── THE STARS, AND WHY THEY REPLACED THE FIVE STACKED WORDS ────────────────
-  //
-  // Justin, 14 August 2026, after seeing the Duolingo Food and Shopping screen
-  // on Mobbin: "i quite like the food and shopping example as we could use
-  // yellow digi stars but needs to work with what wired in as results weekly
-  // email and progress reports when we change."
-  //
-  // He had asked for an accordion first: titles only, tap to expand. The star
-  // row is better and it is better by being the same idea taken one step
-  // further. An accordion is two taps, open then answer, and it hides the one
-  // thing worth seeing at a glance, which is where each worry stands. A row of
-  // five stars is short enough that nothing needs collapsing at all, shows last
-  // time and today in the same five positions, and takes ONE tap.
-  //
-  // NOTHING DOWNSTREAM CHANGES, which is the constraint he named. The five
-  // stars ARE the five bands: star n posts BANDS[n-1].score, so the numbers
-  // reaching concern_events are the same 2, 4, 6, 8 and 10 they have always
-  // been. The weekly email, the What is working page, scoreWord and every
-  // progress read carry on against identical data. Only the instrument changed.
-  //
-  // The words did not go away either. The band name sits under the row as soon
-  // as a star is tapped, inside the comparison sentence, so a parent still
-  // answers in language rather than in numbers. What went is having to read all
-  // five before answering one.
 
-  // ── LAST TIME IS GREY STARS, NOT ONE OUTLINED ONE (18 August 2026) ────────
+  // ── FACES, NOT STARS (7 October 2026) ─────────────────────────────────────
   //
-  // Justin: "it should be showing in grey stars the day before's rating, if
-  // there was a day before, but allow me to add a new rating on each question
-  // until complete."
+  // Justin: "Happy face icons, easy messaging, flows super easy, as it is an
+  // important loop."
   //
-  // Last time used to be a SINGLE star outlined at that position, on the
-  // reasoning that it made the same spatial comparison a marker would. It does
-  // not read that way. Four gold stars and one outlined fifth reads as a rating
-  // of five that is half drawn, not as "you said four last time", so a parent
-  // looking at a row they had not touched yet saw something that looked already
-  // answered and stopped.
+  // The five stars that replaced the five stacked words on 14 August did one
+  // thing wrong that only showed once the child's side was built: gold stars
+  // are the CHILD'S currency. Jobs earn stars, stars become minutes, and the
+  // passport stamps on a worry going to five stars. A feeling rating that
+  // looks like earning confuses both of them: the parent reads "five stars"
+  // as a reward to award rather than a thing to notice, and the child reads
+  // the parent's check in as their own bank. So the instrument is five faces,
+  // drawn the way the child's app draws everything, a real ink outline and a
+  // confident fill, with the band word under each so a parent still answers
+  // in language. The mouth is the scale: a deep frown, a frown, a straight
+  // line, a smile, an open grin with happy eyes.
   //
-  // Grey stars FILLED to last time's band is the thing every app that shows a
-  // previous rating does, and it cannot be confused with today's answer,
-  // because today's are gold. It also fixes the ambiguity for anybody who
-  // cannot separate the two colours: the grey row sits under the words "last
-  // time", and today's sits under the question.
-  function Star({ filled, past, size = 34 }: { filled: boolean; past: boolean; size?: number }) {
+  // NOTHING DOWNSTREAM CHANGES, which is the constraint from 14 August and
+  // again from 7 October. The five faces ARE the five bands: face n posts
+  // BANDS[n-1].score, so the numbers reaching concern_events are the same
+  // 2, 4, 6, 8 and 10. The weekly email, the monthly review, the What is
+  // working page and DiGi's wisdom bank carry on against identical data.
+  //
+  // One face is chosen, not a cumulative fill. Stars filled up to a count;
+  // a face is a single answer, and the four unchosen faces staying pale is
+  // what makes the chosen one read from across the list. Last time is the
+  // GREY face on the band it was (the 18 August rule, same shape as the grey
+  // stars), and only that face carries the "what you said last time" label.
+  //
+  // THE HAPPY NEWS FINISH, SAME DAY. Justin: "super attractive to use, happy
+  // news styling as usual and slick." The child's icons are real ink lines on
+  // crayon fills with a white catch light, never a faded wireframe, so the
+  // faces are drawn the same way: ink at full strength on every face, the
+  // waiting ones on crayon paper, last time on grey, today on butter with a
+  // catch light and a chunky ink ledge under it (the wrapper in the row), so
+  // the chosen one sits up off the row the way every house button does.
+  function Face({ band, filled, past, size = 40 }: { band: number; filled: boolean; past: boolean; size?: number }) {
+    const fill = filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FEF7E0'
+    const op = filled ? 1 : past ? 0.8 : 0.62
+    const mouth = [
+      'M13 28.5 Q20 21.5 27 28.5',
+      'M13.5 27.5 Q20 23.5 26.5 27.5',
+      'M13.5 26.5 L26.5 26.5',
+      'M13.5 24 Q20 30.5 26.5 24',
+      'M12.5 23 Q20 34 27.5 23 Z',
+    ][Math.min(5, Math.max(1, band)) - 1]
+    const grin = band === 5
     return (
-      <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: 'block' }}>
-        {/* ── THE HAPPY NEWS FINISH (11 September 2026) ──────────────────
-            Justin: "lets improve the look visual on this, more happy news
-            styling we have on child app for reference."
-            The child's app draws everything with a real ink outline and a
-            confident fill, and these stars were the thin version: a pale
-            terracotta edge on gold and a hairline grey on the rest, which at
-            34px reads as a wireframe rather than a thing you have won. Ink on
-            everything, thicker, and the empty ones keep a soft ground so the
-            row still reads as five taps waiting rather than five holes. */}
-        <path
-          d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"
-          fill={filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FBF9F4'}
-          stroke="var(--ink)"
-          strokeOpacity={filled ? 1 : past ? 0.45 : 0.28}
-          strokeWidth={filled ? 2.2 : 1.8}
-          strokeLinejoin="round"
-        />
+      <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden style={{ display: 'block' }}>
+        <circle cx="20" cy="20" r="17.5" fill={fill} stroke="var(--ink)" strokeOpacity={op} strokeWidth={filled ? 2.2 : 1.8} />
+        {grin ? (
+          <>
+            <path d="M11 16.5 Q14 12.5 17 16.5" fill="none" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.1" strokeLinecap="round" />
+            <path d="M23 16.5 Q26 12.5 29 16.5" fill="none" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.1" strokeLinecap="round" />
+          </>
+        ) : (
+          <>
+            <circle cx="14" cy="16.5" r="2.1" fill="var(--ink)" fillOpacity={op} />
+            <circle cx="26" cy="16.5" r="2.1" fill="var(--ink)" fillOpacity={op} />
+          </>
+        )}
+        {band === 1 && (
+          <>
+            <path d="M10.5 11.5 L16 13.5" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2" strokeLinecap="round" />
+            <path d="M29.5 11.5 L24 13.5" stroke="var(--ink)" strokeOpacity={op} strokeWidth="2" strokeLinecap="round" />
+          </>
+        )}
+        <path d={mouth} fill={grin ? 'var(--ink)' : 'none'} fillOpacity={op} stroke="var(--ink)" strokeOpacity={op} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        {filled && <circle cx="13" cy="10.5" r="2.4" fill="#fff" fillOpacity="0.85" />}
       </svg>
     )
   }
+
 
   // Group by child when there is more than one, so a parent always knows whose
   // week they are rating. concerns.child_id has been set on every row since the
@@ -607,34 +681,76 @@ export default function ConcernCheckIn({
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {baseline
           ? 'One tap each, just to see where things stand. No right answer.'
-          : 'One tap each, just to see how it is going. Five stars and it comes off your list.'}
+          : SILVER_RUN === 1
+            ? 'One tap each, just to see how it is going. Going great and it comes off your list.'
+            : `One tap each, just to see how it is going. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list.`}
       </p>
 
       {concerns.map((c, idx) => {
         const isSaved = saved[c.id]
+        const isFolded = folded[c.id]
         const isTouched = touched[c.id]
         const isPending = pending[c.id]
-        const chosenBand = isTouched ? bandOf(value[c.id]) : 0
+        const chosenBand = isTouched && value[c.id] != null ? bandOf(value[c.id]) : 0
         const lastBand = c.lastScore != null ? bandOf(c.lastScore) : 0
-        // ── A NEW ROW STARTS AT ONE STAR, NOT AT NOTHING ──────────────────
+        // ── A FIVE IS SORTED ONLY WHEN IT IS THE SECOND IN A ROW (7 October 2026)
+        //
+        // The rule moved to two top scores in a row on 9 September and this
+        // card was never told: the green "that is sorted" box showed on EVERY
+        // five, including the first, right under a verdict line that said
+        // "one more like this". The run before today is what decides, counted
+        // the way lib/concerns/resting.ts counts it, and last time's score
+        // stands in where the run was not supplied.
+        const topRunBefore = c.topRun ?? (c.lastScore != null && c.lastScore >= TOP_BAND ? 1 : 0)
+        // ── ONE OUTCOME, AND THE ROW DRAWS NOTHING ELSE ──────────────────
+        //
+        // The line, what happens next and the help buttons come from
+        // checkinOutcome and only from there, so two messages can never sit
+        // on one row again. Null until a face is tapped; a skipped row has no
+        // band and so no outcome.
+        const outcome: CheckinOutcome | null = chosenBand > 0
+          ? checkinOutcome({ band: chosenBand, lastBand: lastBand || null, topRun: topRunBefore })
+          : null
+        // ── A NEW ROW STARTS AT REALLY TOUGH, NOT AT NOTHING ──────────────
         //
         // Justin, 11 September 2026: "if first time added from check in we can
         // populate with 1 star meaning just added and needs attention."
         //
         // A row nobody has rated drew five empty outlines, which reads as a
         // form waiting to be filled in rather than as a thing that needs
-        // attention. One star is the honest starting position for something a
-        // parent has just told us is going on: it is on the list because it is
-        // not working.
+        // attention. The first face, grey, is the honest starting position for
+        // something a parent has just told us is going on.
         //
         // It is drawn, NOT stored. A score is the parent's own word about
         // their week, and writing a 2 they never said would put a fake first
-        // point on every line the What is working page draws. So it uses the
-        // same grey the previous rating uses: clearly a starting mark, clearly
-        // not today's gold answer, and gone the moment they tap.
+        // point on every line the What is working page draws. Same grey as
+        // last time's face: clearly a starting mark, clearly not today's
+        // answer, and gone the moment they tap.
         const startBand = c.lastScore == null && c.timesFlagged <= 1 ? 1 : 0
         const ghostBand = Math.max(lastBand, startBand)
         const newChild = grouped && c.childName && c.childName !== concerns[idx - 1]?.childName
+        // ── HELP ON EVERY LOW SCORE, NOT ONLY A DIP ──────────────────────
+        //
+        // The buttons used to belong to a dip, then to a dip or a first
+        // rating under five. Justin, 7 October 2026: "special attention if
+        // less than 3." A parent at really tough needs the words tonight
+        // whether or not yesterday was better, and the outcome says so.
+        const nextMove = (outcome?.actions.length ?? 0) > 0
+        const scriptCat = nextMove ? categoryForConcern(c.slug, c.label) : null
+        const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
+          `${c.label} is ${scoreWord(value[c.id] ?? 2).toLowerCase()} at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
+        )}`
+        // The same two buttons on the open row and on the folded line, so the
+        // help offered at the tap is still there after the row has folded.
+        const actionPills = nextMove && outcome ? (
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {outcome.actions.map(a => a === 'digi'
+              ? <Link key="digi" href={digiHref} style={pill}>Ask DiGi</Link>
+              : scriptCat
+                ? <Link key="script" href={`/dashboard/scripts/category/${scriptCat}`} style={pill}>Get the words</Link>
+                : null)}
+          </div>
+        ) : null
         return (
           <div key={c.id}>
             {newChild && (
@@ -650,79 +766,26 @@ export default function ConcernCheckIn({
                 Justin, 19 August: "you enter stars per line, that line then
                 drops off and moves to the next line, until all done." Then
                 1 September: the fold was eating the one thing worth keeping,
-                the movement. So the slim line a row folds to now carries the
+                the movement. So the slim line a row folds to carries the
                 verdict ("Up from hard going") instead of the word "Saved",
-                and a dip keeps its two next moves as real buttons. The fold
-                itself settles via the grid rows transition in globals.css
-                rather than snapping, and reduced motion keeps the jump. */}
-            {isSaved && (() => {
+                and a low score keeps its two next moves as real buttons. The
+                fold itself settles via the grid rows transition in globals.css
+                rather than snapping, and reduced motion keeps the jump.
+                Since 7 October the fold waits a read beat after the save, so
+                the line under the faces is actually read before it goes. */}
+            {isFolded && (() => {
               const move = movementOf(value[c.id], c.lastScore)
               const verdictText =
-                move === 'up' ? `Up from ${scoreWord(c.lastScore!).toLowerCase()}`
+                outcome?.kind === 'rest' ? 'Sorted, off your list'
+                : move === 'up' ? `Up from ${scoreWord(c.lastScore!).toLowerCase()}`
                 : move === 'dip' ? 'Dipped this time'
                 : move === 'held' ? 'Holding steady'
                 : move === 'first' ? (baseline ? 'Starting point set' : 'First one logged')
                 : 'Skipped'
               const verdictColor =
-                move === 'up' ? '#1F7A54'
+                outcome?.kind === 'rest' || move === 'up' ? '#1F7A54'
                 : move === 'dip' ? 'var(--terracotta-dark)'
                 : 'var(--ink-muted)'
-              // ── A NEW WORRY ARRIVES WITH SOMEWHERE TO GO ─────────────────
-              //
-              // The next moves used to belong to a dip alone, which needs a
-              // last time to have dipped FROM. A worry raised with DiGi
-              // yesterday has no last time, so the one row on the page the
-              // parent had asked for help about was the only row that offered
-              // none, on the very day they first met it here.
-              //
-              // Not on five stars. That answer already has its own card saying
-              // we will drop the worry off the list, and handing a parent a
-              // script for something they have just called sorted is the app
-              // not listening twice in one screen.
-              // 'first' only, never 'skipped': a parent who skipped a row has
-              // told us they do not want to talk about it right now, and two
-              // buttons is not the answer to that.
-              // ── AND THE SETUP ROWS GET THEM TOO (11 September 2026) ─────
-              //
-              // Justin: "make sure again wiring works for this and we pick it
-              // up with first scripts and digi conversations on how to fix
-              // these, so hopefully improves so next check on this might go
-              // up."
-              //
-              // It did not, for the rows that need it most. isNew is false for
-              // a worry seeded at setup, so the two or three stars a parent
-              // gives their own named worry on their first check in led
-              // nowhere: no script, no DiGi opener, nothing until it dipped,
-              // and it cannot dip until there is a second reading.
-              //
-              // A first rating under five stars is the same fact as a dip. It
-              // says this is not working, and the answer to that is a script
-              // and a conversation, whether the row arrived from setup, from
-              // DiGi or from a moment.
-              const nextMove = move === 'dip' || (move === 'first' && bandOf(value[c.id]) < 5)
-              const scriptCat = nextMove ? categoryForConcern(c.slug, c.label) : null
-              const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
-                move === 'dip'
-                  ? `${c.label} dipped at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
-                  : `${c.label} came up at today's check in${c.childName ? ` for ${c.childName}` : ''}. Where do we start?`
-              )}`
-              // INK ON WHITE, NOT GOLD ON WHITE.
-              //
-              // These read as --terracotta-dark on #fff, which is 2.6 to 1. The
-              // AA floor for text this size is 4.5. It has been legible enough
-              // to nobody's complaint because there were two of them on a dip
-              // and dips are rare; a new worry now brings them to a row every
-              // family will meet, so the same pairing that was wrong on the
-              // house gold buttons is wrong here. The gold stays as the edge,
-              // which is decoration and has no floor to clear.
-              const pill: React.CSSProperties = {
-                display: 'inline-flex', alignItems: 'center', minHeight: 38,
-                padding: '7px 14px', borderRadius: 'var(--radius-pill)', textDecoration: 'none',
-                border: '2px solid var(--terracotta)', color: 'var(--ink)',
-                boxShadow: '0 3px 0 var(--terracotta)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                background: '#fff',
-              }
               return (
                 <div className="ci-collapsed" style={{
                   padding: '9px 0',
@@ -743,22 +806,13 @@ export default function ConcernCheckIn({
                       {verdictText}
                     </span>
                   </div>
-                  {/* A dip's next moves, real and one tap away: DiGi opens with
-                      the dip already typed, and the script link lands on the
-                      matched category. This is the wire behind the promise the
-                      old copy made and never kept. */}
-                  {nextMove && (
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', padding: '8px 0 4px 28px' }}>
-                      <Link href={digiHref} style={pill}>Ask DiGi about this</Link>
-                      {scriptCat && (
-                        <Link href={`/dashboard/scripts/category/${scriptCat}`} style={pill}>See the script</Link>
-                      )}
-                    </div>
+                  {actionPills && (
+                    <div style={{ padding: '8px 0 4px 28px' }}>{actionPills}</div>
                   )}
                 </div>
               )
             })()}
-            <div className={`ci-fold${isSaved ? ' ci-folded' : ''}`} aria-hidden={isSaved || undefined}>
+            <div className={`ci-fold${isFolded ? ' ci-folded' : ''}`} aria-hidden={isFolded || undefined}>
             <div className="ci-fold-inner">
             <div
               ref={el => { rows.current[c.id] = el }}
@@ -783,7 +837,7 @@ export default function ConcernCheckIn({
                   )}
                 </div>
                 {!isSaved && (
-                  // A real 44px target like the stars beside it: the padding
+                  // A real 44px target like the faces beside it: the padding
                   // makes the touch area and the negative margin keeps the
                   // visual layout where the small underlined word always sat.
                   <button
@@ -802,7 +856,7 @@ export default function ConcernCheckIn({
                 )}
               </div>
 
-              {/* ── ONE LINE ABOVE THE STARS, AND ONLY WHEN SOMETHING IS
+              {/* ── ONE LINE ABOVE THE FACES, AND ONLY WHEN SOMETHING IS
                   ACTUALLY WAITING (21 September 2026) ────────────────────────
                   The same shape as last night's words at the top of this
                   screen, because it is the same question: did you get to try
@@ -844,32 +898,32 @@ export default function ConcernCheckIn({
               )}
               {c.followUp && !isSaved && (tried[c.id] === 'worked' || tried[c.id] === 'partly' || tried[c.id] === 'no') && (
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)', margin: '10px 0 4px' }}>
-                  {tried[c.id] === 'worked' ? 'Noted. Now the stars.'
-                    : tried[c.id] === 'partly' ? 'Noted. Sort of counts. Now the stars.'
-                    : 'Noted. It stays on the list. Now the stars.'}
+                  {tried[c.id] === 'worked' ? 'Noted. Now, how is it going?'
+                    : tried[c.id] === 'partly' ? 'Noted. Sort of counts. Now, how is it going?'
+                    : 'Noted. It stays on the list. Now, how is it going?'}
                 </p>
               )}
 
-              {/* FIVE STARS, ONE TAP. Each one is a 44px target with its own
-                  label, so it is a proper radio group for a screen reader and a
-                  proper thumb target for everyone else. Last time is the grey
-                  fill (see the 18 August note above), and only the star AT last
-                  time's band carries the "what you said last time" label, so a
-                  screen reader is never told the parent said something they
-                  did not. */}
+              {/* FIVE FACES, ONE TAP. Each one is a 48px target with its word
+                  under it and its own label, so it is a proper radio group for
+                  a screen reader and a proper thumb target for everyone else.
+                  Last time is the grey face (see the note on Face above), and
+                  only the face AT last time's band carries the "what you said
+                  last time" label, so a screen reader is never told the parent
+                  said something they did not. */}
               <div
                 role="radiogroup"
-                aria-label={`${c.label}${c.childName ? `, ${c.childName}` : ''}: how has this week been, one star worst to five stars best`}
-                style={{ display: 'flex', gap: '2px', marginTop: '6px', marginLeft: '-6px' }}
+                aria-label={`${c.label}${c.childName ? `, ${c.childName}` : ''}: how is it going, really tough to going great`}
+                style={{ display: 'flex', marginTop: '8px', marginLeft: '-4px', marginRight: '-4px' }}
               >
                 {BANDS.map((b, i) => {
                   const n = i + 1
-                  const filled = chosenBand >= n
-                  // Grey up to last time's band, and only while today is still
-                  // unanswered. The moment a star is tapped the row is about
-                  // today, and leaving last week's grey underneath would be two
+                  const filled = chosenBand === n
+                  // Grey on last time's face, and only while today is still
+                  // unanswered. The moment a face is tapped the row is about
+                  // today, and leaving last week's grey beside it would be two
                   // answers on one line.
-                  const past = !isTouched && ghostBand >= n
+                  const past = !isTouched && ghostBand === n
                   return (
                     <button
                       key={b.score}
@@ -878,86 +932,93 @@ export default function ConcernCheckIn({
                       aria-label={past && lastBand === n ? `${b.label}, what you said last time` : b.label}
                       disabled={!!isSaved}
                       onClick={() => pick(c.id, b.score)}
+                      className={isSaved ? undefined : 'gc-press'}
                       style={{
-                        background: 'none', border: 'none', padding: '5px 6px',
-                        cursor: isSaved ? 'default' : 'pointer', lineHeight: 0,
-                        minWidth: 44, minHeight: 44,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        background: 'none', border: 'none', padding: '4px 2px 2px',
+                        cursor: isSaved ? 'default' : 'pointer',
+                        flex: '1 1 0', minWidth: 44, minHeight: 48,
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
                       }}
                     >
-                      <Star filled={filled} past={past} />
+                      {/* The ledge: the house 0 4px 0 ink shadow under the
+                          chosen face, lifted two pixels, so today's answer
+                          sits up off the row like every chunky button does.
+                          The ring is the circle's own edge, so the shadow
+                          follows it exactly. */}
+                      <span style={{
+                        display: 'block', borderRadius: '50%', lineHeight: 0,
+                        boxShadow: filled ? '0 4px 0 var(--ink)' : 'none',
+                        transform: filled ? 'translateY(-2px)' : 'none',
+                        transition: 'transform .18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .18s ease',
+                      }}>
+                        <Face band={n} filled={filled} past={past} />
+                      </span>
+                      <span aria-hidden style={{
+                        fontFamily: 'var(--font-display)', fontWeight: filled ? 900 : 700, fontSize: 'var(--text-xs)',
+                        lineHeight: 1.1, textAlign: 'center',
+                        color: filled ? 'var(--ink)' : 'var(--ink-muted)',
+                        opacity: filled || past ? 1 : 0.8,
+                      }}>
+                        {b.label}
+                      </span>
                     </button>
                   )
                 })}
               </div>
 
-              {/* The words did not go anywhere: the band name arrives inside the
-                  comparison the moment a star is tapped, so the answer is still
-                  in language rather than in a count of stars. */}
-              {(isTouched || isSaved) && (
-                // Keyed by the chosen score so changing your answer pops the
-                // new verdict in fresh rather than silently editing the old
-                // sentence. The pop is a one shot scale settle in globals.css,
-                // off under reduced motion.
-                <div key={value[c.id]} className="ci-pop" style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
-                  <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
-                    {`${verdictLine(value[c.id], c.lastScore)}${isSaved ? ' Saved.' : failed[c.id] ? ' That did not save, tap a star to try again.' : isPending ? ' Saving.' : ''}`}
-                  </span>
-                </div>
-              )}
-
-              {/* FIVE STARS MEANS WE STOP ASKING, AND WE SAY SO.
-                  Justin: "we could pop up message when they rate as top doing
-                  great it says we will drop this off checkin but if it comes
-                  back then mark as moment."
-                  The rule itself lives in lib/checkin/today.ts. This is the
-                  half a parent has to be told, because a row silently vanishing
-                  from next week's list is indistinguishable from the app losing
-                  it, and a parent who thinks we lost it stops trusting the
-                  numbers. Saying it at the moment they earn it also makes the
-                  top star mean something: it is the only answer that shortens
-                  next week's list. */}
-              {chosenBand === 5 && (
-                <div style={{
-                  display: 'flex', alignItems: 'flex-start', gap: '9px',
-                  background: 'var(--tint-green)', borderRadius: 'var(--radius-tile)',
-                  padding: '11px 13px', marginTop: '8px',
-                }}>
-                  <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.2, flexShrink: 0 }}>🎉</span>
-                  <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
-                    That is sorted, so we will drop it off your check in. If it comes back, log it as a moment and it returns here on its own.
-                  </span>
-                </div>
-              )}
-
-              {/* AND THE OTHER FOUR STARS MEAN SOMETHING TOO.
-                  Justin, 11 September 2026: "on the star rating we need to be
-                  clear that if under 4 stars means still needs help and we keep
-                  on it until we get a 5 then drops off."
-                  Five stars had a message and one to four had nothing, so the
-                  only answer that was explained was the one that ends the
-                  conversation. A parent tapping two stars learned nothing about
-                  what happens next, and the thing they most need to know at two
-                  stars is that we are staying on it.
-                  Quiet, not a box: five stars is an event and earns the
-                  celebration, this is a standing fact and should not shout over
-                  it every single day. Four is called out separately because
-                  "nearly" is true there and useful, and because a parent who
-                  cannot see the finish line stops aiming at it. */}
-              {(isTouched || isSaved) && chosenBand >= 1 && chosenBand <= 4 && (
-                <div style={{
-                  fontSize: 'var(--text-sm)', color: 'var(--ink-muted)',
-                  lineHeight: 1.5, marginTop: '6px',
-                }}>
-                  {chosenBand === 4
-                    ? 'Nearly there. It stays on your list until five stars, then it is done.'
-                    : 'Still needs help, so it stays on your list and we keep working on it with you.'}
+              {/* THE ONE MESSAGE. The line, what happens next, the help if any,
+                  and the save state. Keyed by the chosen score so changing
+                  your answer pops the new outcome in fresh rather than silently
+                  editing the old sentence. The pop is a one shot scale settle
+                  in globals.css, off under reduced motion. A sorted worry gets
+                  the green ground, a tough one the butter ground, because the
+                  two days a parent most needs to notice are those two. */}
+              {outcome && (
+                <div key={value[c.id]} className="ci-pop" style={{ marginTop: '8px' }}>
+                  {/* The two tiles wear the house edge and ledge, the same
+                      finish as last night's words at the top of this card,
+                      so a sorted worry and a tough one both look like a
+                      thing that happened rather than a note in the margin. */}
+                  <div style={{
+                    background: outcome.kind === 'rest' ? 'var(--tint-green)' : outcome.kind === 'attention' ? 'var(--terracotta-lt)' : 'transparent',
+                    border: outcome.kind === 'rest' || outcome.kind === 'attention' ? 'var(--edge)' : 'none',
+                    boxShadow: outcome.kind === 'rest' || outcome.kind === 'attention' ? 'var(--lift)' : 'none',
+                    borderRadius: 'var(--radius-btn)',
+                    padding: outcome.kind === 'rest' || outcome.kind === 'attention' ? '12px 14px' : 0,
+                    marginBottom: outcome.kind === 'rest' || outcome.kind === 'attention' ? 4 : 0,
+                  }}>
+                    <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
+                      {outcome.kind === 'rest' ? '🎉 ' : ''}{outcome.line}
+                    </p>
+                    <p style={{ margin: '3px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                      {outcome.next}
+                    </p>
+                    {actionPills && <div style={{ marginTop: '9px' }}>{actionPills}</div>}
+                  </div>
+                  <p style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', margin: '6px 0 0',
+                    fontSize: 'var(--text-sm)', fontWeight: 600, color: failed[c.id] ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.4,
+                  }}>
+                    <span>{isSaved ? 'Saved.' : failed[c.id] ? 'That did not save, tap a face to try again.' : 'Saving.'}</span>
+                    {isPending && !isSaved && !failed[c.id] && (
+                      <button
+                        onClick={() => change(c.id)}
+                        style={{
+                          background: 'none', border: 'none', padding: '8px 0', margin: '-8px 0',
+                          minHeight: 32, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                          fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'underline', cursor: 'pointer',
+                        }}
+                      >
+                        Change
+                      </button>
+                    )}
+                  </p>
                 </div>
               )}
 
               {/* Before anything is tapped, last time is said in prose as well
-                  as spatially, because the dashed star alone does not tell a
-                  parent what that star MEANT. */}
+                  as spatially, because the grey face alone does not tell a
+                  parent what that face MEANT. */}
               {/* Body face, not mono: this is a sentence, and the token rule
                   keeps mono for eyebrows and labels only. */}
               {!isTouched && !isSaved && (
@@ -968,7 +1029,7 @@ export default function ConcernCheckIn({
                   {newSourceLine(c) ?? recencyLabel(c, baseline)}
                   {c.lastScore != null
                     ? ` · last time ${scoreWord(c.lastScore).toLowerCase()}`
-                    : startBand > 0 ? ' · one star until you say otherwise' : ''}
+                    : startBand > 0 ? ' · starts at really tough until you say otherwise' : ''}
                 </div>
               )}
             </div>
@@ -977,6 +1038,7 @@ export default function ConcernCheckIn({
           </div>
         )
       })}
+
 
       {allSaved && (
         <div style={{
