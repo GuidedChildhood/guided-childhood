@@ -94,7 +94,7 @@ function Row({ step, onToggle, action, next }: { step: StepState; onToggle?: () 
   // keyboard or a screen reader. Indented to sit under the words, not the tick.
   const doIt = !done && action
     ? next
-      ? <Link href={action.href} className="btn" style={{ fontSize: 'var(--text-sm)', padding: '9px 18px', margin: '0 0 10px 36px' }}>{action.label} →</Link>
+      ? <Link href={action.href} className="btn" style={{ fontSize: 'var(--text-sm)', padding: 'var(--space-2) var(--space-4)', margin: '0 0 10px 36px' }}>{action.label} →</Link>
       : <Link href={action.href} style={{ display: 'inline-block', margin: '0 0 10px 36px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', lineHeight: 1.4 }}>{action.label} →</Link>
     : null
   return <div>{head}{doIt}</div>
