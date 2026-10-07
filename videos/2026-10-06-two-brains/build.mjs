@@ -8,6 +8,11 @@ import { readFileSync, writeFileSync } from 'node:fs'
 const B = JSON.parse(readFileSync(new URL('./beats.json', import.meta.url), 'utf8'))
 const words = (s) => (s || '').trim().split(/\s+/).filter(Boolean).length
 const esc = (s) => String(s || '').replace(/[&<>]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))
+const mark = (text, phrase) => {
+  const t = esc(text || ''); if (!phrase) return t
+  const p = esc(phrase); const i = t.indexOf(p); if (i < 0) throw new Error(`mark "${phrase}" not in "${text}"`)
+  return t.slice(0, i) + `<span class="mk"><i></i><b>${p}</b></span>` + t.slice(i + p.length)
+}
 const span = (s, cls) => (s || '').split(/\s+/).filter(Boolean).map((w) => `<span class="${cls}">${esc(w)}</span>`).join('\n')
 for (const beat of B.beats) for (const side of ['left', 'right']) {
   const c = beat[side]; if (!c) continue
@@ -35,12 +40,16 @@ B.beats.forEach((beat, i) => {
     html += `<div class="field"></div><div class="eyebrow eyebrow-top">GUIDED CHILDHOOD</div><img id="${beat.id}-star" class="star" src="assets/digi-cut.png" alt=""><div class="headline big">${esc(beat.head)}</div><div class="subline big">${esc(beat.body)}</div><div class="url">${esc(beat.url)}</div>`
   } else {
     html += `<div class="col left">`
-    if (L.video) html += `<video id="${beat.id}-lv" src="assets/${L.video}" muted playsinline data-start="${s.toFixed(2)}" data-duration="${d.toFixed(2)}" data-track-index="${track}"></video>`
-    html += `<div class="card" id="${beat.id}-lc">${L.tag ? `<div class="tag">${esc(L.tag)}</div>` : ''}<div class="headline">${esc(L.head)}</div>${L.body ? `<div class="body">${esc(L.body)}</div>` : ''}${L.src ? `<div class="src">${esc(L.src)}</div>` : ''}</div></div>`
+    if (L.video) html += `<video id="${beat.id}-lv" src="assets/${L.video}" muted playsinline data-start="${s.toFixed(2)}" data-duration="${d.toFixed(2)}" data-track-index="${track}" style="transform-origin:${L.zoom || '50% 50%'}"></video>`
+    if (L.hl) {
+      const h = L.hl
+      html += `<div class="hl ${h.shape}" id="${beat.id}-hl" style="left:${h.l}%;top:${h.t}%;width:${h.w}%;height:${h.h}%"></div><div class="ptr" id="${beat.id}-ptr" style="left:${h.l + h.w / 2}%;top:${h.t + h.h}%"></div>`
+    }
+    html += `<div class="card" id="${beat.id}-lc">${L.tag ? `<div class="tag">${esc(L.tag)}</div>` : ''}<div class="headline">${mark(L.head, L.mark)}</div>${L.body ? `<div class="body">${esc(L.body)}</div>` : ''}${L.src ? `<div class="src">${esc(L.src)}</div>` : ''}</div></div>`
     html += `<div class="col right">`
     if (R.video) html += `<video id="${beat.id}-rv" src="assets/${R.video}" muted playsinline data-start="${s.toFixed(2)}" data-duration="${d.toFixed(2)}" data-track-index="${track + 2}"></video>`
     else html += `<div class="cream"></div><img class="digi ${R.digi || 'corner'}" src="assets/digi-cut.png" alt="">`
-    html += `<div class="card ${R.kind || ''}" id="${beat.id}-rc">${R.tag ? `<div class="tag">${esc(R.tag)}</div>` : ''}<div class="headline">${esc(R.head)}</div>${R.body ? `<div class="body">${esc(R.body)}</div>` : ''}${R.src ? `<div class="src">${esc(R.src)}</div>` : ''}</div></div>`
+    html += `<div class="card ${R.kind || ''}" id="${beat.id}-rc">${R.tag ? `<div class="tag">${esc(R.tag)}</div>` : ''}<div class="headline">${mark(R.head, R.mark)}</div>${R.body ? `<div class="body">${esc(R.body)}</div>` : ''}${R.src ? `<div class="src">${esc(R.src)}</div>` : ''}</div></div>`
     html += `<div class="divider"></div><div class="clock"><span class="clk">${esc(beat.clock)}</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div>`
   }
   html += `</div>\n`
@@ -50,10 +59,21 @@ B.beats.forEach((beat, i) => {
   if (beat.cta) {
     tl += `tl.fromTo("#${beat.id} .headline.big",{y:18,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},${(s + 0.5).toFixed(2)});\ntl.fromTo("#${beat.id} .subline.big",{y:10,opacity:0},{y:0,opacity:1,duration:0.5,ease:"power3.out"},${(s + 1.3).toFixed(2)});\ntl.fromTo("#${beat.id} .url",{y:10,opacity:0},{y:0,opacity:1,duration:0.4},${(s + 2.2).toFixed(2)});\n`
   } else {
-    tl += `tl.fromTo("#${beat.id} video",{scale:1},{scale:1.05,duration:${d.toFixed(2)},ease:"none"},${s.toFixed(2)});\n`
+    const zoomTo = L.zoomTo || (L.hl ? 1.18 : 1.08)
+    tl += `tl.fromTo("#${beat.id} video",{scale:1},{scale:${zoomTo},duration:${d.toFixed(2)},ease:"power1.inOut"},${s.toFixed(2)});\n`
+    tl += `tl.fromTo("#${beat.id} .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},${(s + 0.1).toFixed(2)});\n`
+    tl += `tl.fromTo("#${beat.id} .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},${s.toFixed(2)});\n`
+    if (L.hl) {
+      const hs = s + (L.hlAt ?? 1.0)
+      tl += `tl.fromTo("#${beat.id}-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},${hs.toFixed(2)});\n`
+      tl += `tl.to("#${beat.id}-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:${Math.max(1, Math.floor((d - 2) / 0.7))}},${(hs + 0.4).toFixed(2)});\n`
+      tl += `tl.fromTo("#${beat.id}-ptr",{height:0,opacity:0},{height:"${Math.max(6, 100 - (L.hl.t + L.hl.h) - 44)}%",opacity:1,duration:0.5,ease:"power2.out"},${(hs + 0.3).toFixed(2)});\n`
+    }
+    if (L.mark) tl += `tl.to("#${beat.id}-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},${(s + 1.3).toFixed(2)});\n`
     tl += `tl.fromTo("#${beat.id}-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},${(s + 0.4).toFixed(2)});\n`
     const rd = beat.rightDelay ?? 1.6
     tl += `tl.fromTo("#${beat.id}-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},${(s + rd).toFixed(2)});\n`
+    if (R.mark) tl += `tl.to("#${beat.id}-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},${(s + rd + 0.7).toFixed(2)});\n`
   }
 })
 // Sound. The score runs the whole film with a fade in, a dip under the
@@ -67,10 +87,17 @@ if (B.music) {
 }
 let sfxN = 0
 B.beats.forEach((beat, i) => {
-  for (const f of beat.sfx || []) {
-    const at = f.at === 'right' ? beat.rightDelay : f.at
-    const dur = { 'sfx-tv-on.mp3': 3, 'sfx-countdown.mp3': 2, 'sfx-clock.mp3': 5, 'sfx-morning.mp3': 5, 'sfx-chime.mp3': 2 }[f.file] || 3
-    audio += `<audio id="sfx-${++sfxN}" src="assets/${f.file}" data-audio-group="sfx" data-start="${(starts[i].s + at).toFixed(2)}" data-duration="${dur}" data-track-index="${5 + (sfxN % 2)}" data-volume="${f.vol}"></audio>\n`
+  const cues = [...(beat.sfx || [])]
+  if (i > 0) cues.push({ file: 'sfx-whoosh.mp3', at: 0, vol: 0.55 })
+  if (beat.left && beat.left.hl) cues.push({ file: 'sfx-pulse.mp3', at: beat.left.hlAt ?? 1.0, vol: 0.6 })
+  if (beat.left && beat.left.mark) cues.push({ file: 'sfx-marker.mp3', at: 1.3, vol: 0.35 })
+  if (beat.right && beat.right.mark) cues.push({ file: 'sfx-marker.mp3', at: 'rightmark', vol: 0.35 })
+  if (beat.cta) cues.push({ file: 'sfx-riser.mp3', at: -2.4, vol: 0.5 })
+  for (const f of cues) {
+    const at = f.at === 'right' ? beat.rightDelay : f.at === 'rightmark' ? beat.rightDelay + 0.7 : f.at
+    const dur = { 'sfx-tv-on.mp3': 3, 'sfx-countdown.mp3': 2, 'sfx-clock.mp3': 5, 'sfx-morning.mp3': 5, 'sfx-chime.mp3': 2, 'sfx-whoosh.mp3': 2, 'sfx-pulse.mp3': 2, 'sfx-riser.mp3': 3, 'sfx-marker.mp3': 1 }[f.file] || 3
+    if (starts[i].s + at < 0) continue
+    audio += `<audio id="sfx-${++sfxN}" src="assets/${f.file}" data-audio-group="sfx" data-start="${(starts[i].s + at).toFixed(2)}" data-duration="${dur}" data-track-index="${5 + (sfxN % 4)}" data-volume="${f.vol}"></audio>\n`
   }
 })
 const page = `<!DOCTYPE html>
@@ -103,6 +130,15 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .body{margin-top:0.9cqw;font-size:${B.rules.bodyPx / 19.2}cqw;font-weight:650;line-height:1.3;color:#3A3A52}
 .src{margin-top:1.0cqw;font-family:plexMono,monospace;font-weight:600;font-size:1.05cqw;letter-spacing:0.08em;color:#52526A}
 .hw,.sw{display:inline-block;margin-right:0.07em;will-change:transform,opacity}
+.hl{position:absolute;border:4px solid #D4600A;background:rgba(212,96,10,0.22);border-radius:26px;opacity:0;box-shadow:0 0 0 rgba(212,96,10,0);z-index:2}
+.hl.circle{border-radius:50%}
+.ptr{position:absolute;width:4px;height:0;background:#D4600A;transform:translateX(-50%);opacity:0;z-index:2}
+.ptr::after{content:"";position:absolute;left:50%;bottom:-8px;width:18px;height:18px;border-radius:50%;background:#D4600A;transform:translateX(-50%)}
+.mk{position:relative;display:inline-block;white-space:nowrap}
+.mk i{position:absolute;left:-0.12em;right:-0.12em;top:0.08em;bottom:0.02em;background:rgba(212,96,10,0.32);border-radius:0.18em;transform:scaleX(0);transform-origin:left center;z-index:0}
+.mk b{position:relative;z-index:1;font-weight:inherit}
+.col.right .mk i{background:rgba(237,195,95,0.6)}
+.card.answer .mk i{background:rgba(237,195,95,0.35)}
 .field{position:absolute;inset:0;background:#FFFBEE}
 .eyebrow-top{position:absolute;top:6cqh;left:0;right:0;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:1.1cqw;letter-spacing:0.14em;text-transform:uppercase;color:#52526A}
 .star{position:absolute;top:18cqh;left:9cqw;width:30cqw;height:30cqw;object-fit:contain}

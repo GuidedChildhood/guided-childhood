@@ -80,6 +80,23 @@ problem, and the research this week says original beats reposted. The
 vertical cut can take a trending sound at publish time inside TikTok itself,
 where the licence is TikTok's.
 
+## The v3 treatment (7 October, Justin: "more cinematic, Nate Herk style")
+
+What was borrowed from that editing style, in our palette: a punch zoom into
+the part of the picture the caption is about; a translucent highlight shape
+over it (coral on the feed side, butter on the DiGi side, never pure red)
+with a pulsing glow and a pointer down to the caption; a marker swipe over
+the key phrase in each headline; the clock pill popping and the divider
+drawing in on every time jump; a whoosh on each jump, a low pulse when a
+highlight lands, a pen swipe under each marker, a riser into the end card.
+All declared per beat in `beats.json` (`hl`, `zoom`, `zoomTo`, `hlAt`,
+`mark`) and written by the build.
+
+The score is new: a modern documentary trailer underscore (piano motif over a
+slow pulse, string ostinato, drum pulses, a swell around sixty seconds, calm
+outro) at `assets/music-cinematic.mp3`. The gentler first score is kept at
+`assets/music-tender.mp3`; swapping is one line in `beats.json`.
+
 ## Finals
 
 All six clips finalised at 1080p from their drafts (432 credits), the

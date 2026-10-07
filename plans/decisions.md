@@ -263,3 +263,9 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Six Seedance clips finalised at 1080p (432 credits). The readability rule
   from 6 October stays: the build refuses long cards and sets the hold from
   the word count.
+- Later on 7 October: Justin asked for more cinematic music and the Nate Herk
+  editing treatment. Adopted in our palette: punch zooms, translucent
+  highlight shapes (coral on the feed side, butter on DiGi's, never pure
+  red) with pointers, marker swipes on the key phrase, clock pops, a whoosh
+  on every time jump, a new trailer style score. All per beat in
+  `beats.json`. The gentler score is kept as an alternative file.
