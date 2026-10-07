@@ -1,6 +1,8 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { planDeliveries, staleBefore, issueLabelFrom, followUpOpener, CARD_STALE_DAYS, CHECKIN_INVITE_DAYS } from '@/lib/digi/followup-queue'
+import { raiseConcern, toSlug } from '@/lib/concerns/raise'
 
 // DiGi keeps its promise.
 //
@@ -37,15 +39,84 @@ async function handler(request: Request) {
   const admin = createAdminClient()
   const today = londonToday()
 
-  const { data: due } = await admin
+  // ── CARDS EXPIRE, FIRST (7 October 2026) ──────────────────────────────────
+  //
+  // An unanswered "How did that go?" older than a fortnight is dismissed, and
+  // a check in invite older than a week with it. Justin's own page carried
+  // three of the former, the oldest from August. The outcome row underneath
+  // keeps its null verdict: we do not know how it went, and that is the
+  // record. See lib/digi/followup-queue.ts for the rules in one place.
+  const now = new Date()
+  // ── BUT THE ISSUE IS NOT LOST ─────────────────────────────────────────────
+  //
+  // Justin: "we don't want to miss those issues if dropped off after 2
+  // weeks." A stale card whose thread was never attached to a worry becomes
+  // one before the card goes: named from the parent's own trigger words or
+  // the topic, raised through the one raiser every surface uses, and linked
+  // back to the outcome so DiGi's strand knows the two are the same thing.
+  // From then on the daily check in asks about it, which is where parents
+  // answer. A thread with nothing honest to name stays an unanswered outcome.
+  const { data: stale } = await admin.from('digi_prompts').select('id, user_id, child_id, outcome_id')
+    .eq('kind', 'follow_up').in('status', ['pending', 'seen']).lt('created_at', staleBefore(now, CARD_STALE_DAYS)).limit(200)
+  const staleRows = (stale ?? []) as { id: string; user_id: string; child_id: string | null; outcome_id: string | null }[]
+  const outcomeIds = staleRows.map(r => r.outcome_id).filter((id): id is string => !!id)
+  type StaleOutcome = { id: string; concern_id: string | null; topic: string | null; trigger: string | null }
+  const { data: outcomes } = outcomeIds.length
+    ? await admin.from('digi_outcomes').select('id, concern_id, topic, trigger').in('id', outcomeIds)
+    : { data: [] as StaleOutcome[] }
+  const outcomeById = new Map(((outcomes ?? []) as StaleOutcome[]).map(o => [o.id, o]))
+  let raised = 0
+  for (const card of staleRows) {
+    const o = card.outcome_id ? outcomeById.get(card.outcome_id) : null
+    if (!o || o.concern_id) continue
+    const label = issueLabelFrom({ trigger: o.trigger, topic: o.topic })
+    if (!label) continue
+    const slug = await raiseConcern(admin, card.user_id, card.child_id, { slug: toSlug(label), label, source: 'digi' })
+    if (!slug) continue
+    raised++
+    let q = admin.from('concerns').select('id').eq('user_id', card.user_id).eq('slug', slug)
+    q = card.child_id ? q.eq('child_id', card.child_id) : q.is('child_id', null)
+    const { data: row } = await q.maybeSingle()
+    if (row?.id) await admin.from('digi_outcomes').update({ concern_id: row.id }).eq('id', o.id)
+  }
+  await admin.from('digi_prompts').update({ status: 'dismissed' })
+    .eq('kind', 'follow_up').in('status', ['pending', 'seen']).lt('created_at', staleBefore(now, CARD_STALE_DAYS))
+  await admin.from('digi_prompts').update({ status: 'dismissed' })
+    .like('source', 'checkin:%').in('status', ['pending', 'seen']).lt('created_at', staleBefore(now, CHECKIN_INVITE_DAYS))
+
+  const { data: dueRows } = await admin
     .from('digi_followups')
-    .select('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion')
+    .select('id, user_id, child_id, due_on, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion')
     .eq('status', 'pending')
     .lte('due_on', today)
     .limit(200)
-
-  if (!due || due.length === 0) {
+  if (!dueRows || dueRows.length === 0) {
     return NextResponse.json({ ok: true, delivered: 0, day: today })
+  }
+
+  // ── ONE CARD PER CHILD ────────────────────────────────────────────────────
+  //
+  // A due follow up whose child already has an unanswered card waits, and a
+  // follow up that has waited too long is let go. The rule is pure and the
+  // guard runs it; this is only the reading of who already has a card.
+  const userIds = [...new Set(dueRows.map(f => f.user_id as string))]
+  const { data: openCards } = await admin
+    .from('digi_prompts').select('user_id, child_id')
+    .eq('kind', 'follow_up').in('status', ['pending', 'seen']).in('user_id', userIds)
+  const keyOf = (userId: string, childId: string | null) => `${userId}:${childId ?? 'family'}`
+  const pendingKeys = new Set(((openCards ?? []) as { user_id: string; child_id: string | null }[]).map(c => keyOf(c.user_id, c.child_id)))
+  const plan = planDeliveries(
+    dueRows.map(f => ({ id: f.id as string, key: keyOf(f.user_id as string, (f.child_id as string | null) ?? null), onWorry: !!f.concern_id, dueOn: String(f.due_on) })),
+    pendingKeys,
+    today,
+  )
+  if (plan.cancel.length > 0) {
+    await admin.from('digi_followups').update({ status: 'cancelled' }).in('id', plan.cancel)
+  }
+  const deliverIds = new Set(plan.deliver)
+  const due = dueRows.filter(f => deliverIds.has(f.id as string))
+  if (due.length === 0) {
+    return NextResponse.json({ ok: true, delivered: 0, held: plan.hold.length, cancelled: plan.cancel.length, day: today })
   }
 
   // Age bands, read once. Copied onto the outcome rather than joined later, so
@@ -131,6 +202,9 @@ async function handler(request: Request) {
       // Null when the ledger insert failed. The card still goes out: a kept
       // promise with nothing learned from it beats a dropped promise.
       outcome_id: outcome?.id ?? null,
+      // The thread itself, so tapping the card opens DiGi on what it was
+      // about rather than on the words "How did that go?".
+      href: `/dashboard/digi?${f.child_id ? `child=${f.child_id}&` : ''}q=${encodeURIComponent(followUpOpener(f.question))}`,
     })
     if (cardError) continue
 
@@ -140,7 +214,7 @@ async function handler(request: Request) {
     delivered++
   }
 
-  return NextResponse.json({ ok: true, delivered, found: due.length, day: today })
+  return NextResponse.json({ ok: true, delivered, found: dueRows.length, held: plan.hold.length, cancelled: plan.cancel.length, raised, day: today })
 }
 
 export const GET = withHeartbeat('/api/cron/followups', handler)

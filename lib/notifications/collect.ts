@@ -4,6 +4,8 @@
 // then DiGi stepping in, then school and the rest. One shape, newest and
 // most urgent first, each with the one tap that acts on it.
 
+import { followUpOpener } from '@/lib/digi/followup-queue'
+
 type NotifClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
 export type Notification = {
@@ -101,7 +103,11 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `digi-${d.id}`, kind: 'digi', icon: '◎', urgent: false,
       title: d.title as string,
       body: d.body as string,
-      href: (d.href as string | null) || `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${d.title}. Can we talk it through?`)}`,
+      // A follow up card made before 7 October 2026 has no href, and "You
+      // flagged: How did that go?" told DiGi nothing. The thread is the body.
+      href: (d.href as string | null) || `/dashboard/digi?q=${encodeURIComponent(
+        d.kind === 'follow_up' ? followUpOpener(String(d.body)) : `You flagged: ${d.title}. Can we talk it through?`,
+      )}`,
       at: String(d.created_at),
     })
   }

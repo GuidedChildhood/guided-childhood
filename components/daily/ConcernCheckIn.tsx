@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { categoryForConcern } from '@/lib/content/signal-map'
 import { bandOf } from '@/lib/concerns/bands'
 import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
-import { checkinOutcome, type CheckinOutcome } from '@/lib/concerns/outcome'
+import { checkinOutcome, ATTENTION_BAND, type CheckinOutcome } from '@/lib/concerns/outcome'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -421,8 +421,16 @@ export default function ConcernCheckIn({
     // saved state, because a row that failed and was released is unanswered
     // again and the scroll must be able to land back on it.
     if (foldTimers.current[id]) clearTimeout(foldTimers.current[id])
+    // A TOUGH ROW STAYS OPEN (7 October 2026). Justin: the help "flashes up
+    // ask digi but quickly flips to next child". A one or two keeps its box
+    // and its two buttons on screen instead of folding to the slim line; the
+    // hand over to the next worry still happens, and the same invite lands
+    // once on Notifications and Home from the save route, so it is there
+    // later whichever way the parent went.
+    const score = typeof body.score === 'number' ? body.score : null
+    const stayOpen = score != null && bandOf(score) <= ATTENTION_BAND
     foldTimers.current[id] = setTimeout(() => {
-      setFolded(prev => ({ ...prev, [id]: true }))
+      if (!stayOpen) setFolded(prev => ({ ...prev, [id]: true }))
       // After paint, so the row being left has already settled into its
       // folded state and the scroll lands on a card that has stopped changing.
       requestAnimationFrame(() => handOver(id, posted.current))
