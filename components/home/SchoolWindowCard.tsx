@@ -37,6 +37,7 @@ export default function SchoolWindowCard({ data }: { data: SchoolWindowData }) {
   const [done, setDone] = useState<Done>(null)
   const [hidden, setHidden] = useState(true)
   const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(false)
   const storageKey = `${data.dateKey}:${data.window}:${data.childId ?? 'family'}`
 
   useEffect(() => {
@@ -59,26 +60,35 @@ export default function SchoolWindowCard({ data }: { data: SchoolWindowData }) {
     } catch { /* private mode */ }
   }
 
+  // A tap only reads as logged when the route said so. The check in learnt
+  // this the hard way on 19 August: a save that 400ed still showed as saved,
+  // and the parent found out a week later. A failed tap says so and stays.
   async function log(kind: Exclude<Done, null>) {
     if (busy) return
     setBusy(true)
+    setFailed(false)
     try {
+      let res: Response
       if (kind === 'tried') {
-        if (data.momentId) {
-          await fetch('/api/moments/tried', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ momentId: data.momentId, child_id: data.childId ?? undefined, solution: data.copy.move }),
-          })
-        }
+        // Without a deck card to hang the week later question on there is
+        // nothing to schedule, so the tap is recorded locally and says so.
+        if (!data.momentId) { setDone(kind); remember(kind); return }
+        res = await fetch('/api/moments/tried', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ momentId: data.momentId, child_id: data.childId ?? undefined, solution: data.copy.move }),
+        })
       } else {
-        await fetch('/api/daily/feedback', {
+        res = await fetch('/api/daily/feedback', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ moments: kind === 'happened' ? [data.copy.momentKey] : [], child_id: data.childId }),
         })
       }
+      if (!res.ok) { setFailed(true); return }
       setDone(kind)
       remember(kind)
-    } catch { /* the card stays, the parent can tap again */ } finally {
+    } catch {
+      setFailed(true)
+    } finally {
       setBusy(false)
     }
   }
@@ -151,6 +161,11 @@ export default function SchoolWindowCard({ data }: { data: SchoolWindowData }) {
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '10px 0 0', lineHeight: 1.45 }}>
               {data.copy.tapNote} Went fine counts the day as done and flags nothing. I tried it means DiGi asks how it went in a week.
             </p>
+            {failed && (
+              <p role="alert" style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '8px 0 0', lineHeight: 1.45 }}>
+                That did not save. Tap it again, or log it on the Today timeline.
+              </p>
+            )}
           </>
         ) : (
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 700, margin: '14px 0 0', lineHeight: 1.45 }}>
