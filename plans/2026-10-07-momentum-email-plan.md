@@ -7,7 +7,7 @@ automated, not too often, and how it benefits your child, and support parents
 with some nuggets on parents' time, don't get stressed around guilt, shouting,
 losing it, how to help support it."
 
-Not built yet. This is the plan for a yes.
+Justin said yes the same afternoon ("2 yes plus future emails can echo this"). Built as `lib/email/momentum.ts`, drawn by `lib/email/templates.ts` inside the Sunday review and the monthly review, held by `scripts/check-momentum-block.mjs`.
 
 ## What already sends, so nothing is built twice
 

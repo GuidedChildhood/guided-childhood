@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildWeeklyReview } from '@/lib/digi/weekly-review'
+import { buildMomentum, type MomentumBlock } from '@/lib/email/momentum'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyReviewEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
@@ -143,7 +144,14 @@ async function handler(request: Request) {
                 if (movement.length === 0) movement = null
               } catch { /* the rest of the email is worth sending without it */ }
 
-              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll, movement })
+              // Under the family's own movement: one sourced nugget, why it
+              // works, a line for the parent. Read only, and the email is
+              // worth sending without it. See lib/email/momentum.ts.
+              let momentum: MomentumBlock | null = null
+              try {
+                momentum = await buildMomentum(admin, { userId, ageBands: review.stats.ageBands })
+              } catch { /* the review stands on its own */ }
+              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll, movement, momentum })
               const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html, key })
               if (!sent.ok) await admin.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
             }

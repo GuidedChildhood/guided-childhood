@@ -4,6 +4,7 @@ import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { monthlyBalanceEmail, type MonthlyChild } from '@/lib/email/templates'
 import { buildMonthPace } from '@/lib/balance/pace'
 import { buildMonthProgress, progressWorthSending, EMPTY_PROGRESS } from '@/lib/email/month-progress'
+import { buildMomentum } from '@/lib/email/momentum'
 import { sendPush } from '@/lib/push/send'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
@@ -138,6 +139,11 @@ async function handler(req: NextRequest) {
       // than a family's whole review.
       const progress = await buildMonthProgress(supabase, profile.id, child.id, monthStart, monthEnd)
         .catch(() => EMPTY_PROGRESS)
+      // The momentum block under what moved: a sourced nugget for this
+      // child's age and the family's worries, why it works, a line for the
+      // parent. Read only; the review is worth sending without it.
+      const momentum = await buildMomentum(supabase, { userId: profile.id, ageBands: [(child as { age_band?: string | null }).age_band] })
+        .catch(() => null)
 
       // Nothing logged is not a zero minute month, it is a child nobody ran the
       // timer for. Reporting "0 minutes a day, on track" would be a lie dressed
@@ -152,7 +158,7 @@ async function handler(req: NextRequest) {
       if (thisMonth.length === 0) {
         if (!progressWorthSending(progress)) continue
         const childLabelOnly = child.name && child.name !== 'Your child' ? child.name : 'your child'
-        blocks.push({ childLabel: childLabelOnly, pace: null, heaviest: null, progress })
+        blocks.push({ childLabel: childLabelOnly, pace: null, heaviest: null, progress, momentum })
         continue
       }
 
@@ -177,7 +183,7 @@ async function handler(req: NextRequest) {
       const heaviest = top ? { label: `the ${deviceLabel(top[0]).toLowerCase()}`, minutes: top[1] } : null
 
       const childLabel = child.name && child.name !== 'Your child' ? child.name : 'your child'
-        blocks.push({ childLabel, pace, heaviest, progress })
+        blocks.push({ childLabel, pace, heaviest, progress, momentum })
       }
 
       if (blocks.length === 0) { noData += 1; continue }

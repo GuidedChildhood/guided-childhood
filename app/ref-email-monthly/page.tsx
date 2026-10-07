@@ -1,4 +1,5 @@
 import { monthlyBalanceEmail, type MonthlyChild } from '@/lib/email/templates'
+import { pickWhy, pickSupport, weekOf } from '@/lib/email/momentum'
 import { buildMonthPace } from '@/lib/balance/pace'
 
 // The monthly review, rendered, at the three shapes that matter.
@@ -22,6 +23,11 @@ const CHILDREN: MonthlyChild[] = [
     childLabel: 'Timbotee',
     pace: pace(2400, 3100),
     heaviest: { label: 'the tablet', minutes: 1400 },
+    momentum: {
+      nugget: { finding: 'The UK Chief Medical Officers found the evidence does not support a single safe screen time limit. Their advice to families is to protect sleep, keep screens out of the bedroom and keep mealtimes screen free.', source: 'UK Chief Medical Officers', url: null },
+      why: pickWhy(weekOf()),
+      support: pickSupport(weekOf(), '/dashboard/scripts/category/family-rules'),
+    },
     progress: {
       tracked: 4, moved: 3, rested: 2,
       biggestMover: { label: 'Bedtime screens', from: 2, to: 4 },
@@ -32,6 +38,11 @@ const CHILDREN: MonthlyChild[] = [
     childLabel: 'Olga',
     pace: null,
     heaviest: null,
+    momentum: {
+      nugget: { finding: 'The UK Chief Medical Officers found the evidence does not support a single safe screen time limit. Their advice to families is to protect sleep, keep screens out of the bedroom and keep mealtimes screen free.', source: 'UK Chief Medical Officers', url: null },
+      why: pickWhy(weekOf()),
+      support: pickSupport(weekOf(), '/dashboard/scripts/category/family-rules'),
+    },
     progress: {
       tracked: 5, moved: 1, rested: 0,
       biggestMover: { label: 'Coming off screens', from: 1, to: 3 },
@@ -42,6 +53,11 @@ const CHILDREN: MonthlyChild[] = [
     childLabel: 'Teo',
     pace: pace(1800, null),
     heaviest: null,
+    momentum: {
+      nugget: { finding: 'The UK Chief Medical Officers found the evidence does not support a single safe screen time limit. Their advice to families is to protect sleep, keep screens out of the bedroom and keep mealtimes screen free.', source: 'UK Chief Medical Officers', url: null },
+      why: pickWhy(weekOf()),
+      support: pickSupport(weekOf(), '/dashboard/scripts/category/family-rules'),
+    },
     progress: {
       tracked: 6, moved: 0, rested: 0,
       biggestMover: null, lessonsPassed: 1, stagesAwarded: 0,
