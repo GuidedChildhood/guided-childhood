@@ -86,7 +86,7 @@ async function handler(request: Request) {
 
   const { data: dueRows } = await admin
     .from('digi_followups')
-    .select('id, user_id, child_id, due_on, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion')
+    .select('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion, due_on')
     .eq('status', 'pending')
     .lte('due_on', today)
     .limit(200)
