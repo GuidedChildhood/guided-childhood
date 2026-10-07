@@ -40,12 +40,20 @@ const asks = scores => !build(scores).resting.has('c1')
 // ── THE LADDER ──────────────────────────────────────────────────────────────
 check('a worry with no score at all is asked', asks([]))
 check('one bad day is asked', asks([3]))
-check('one good day is STILL asked', asks([10]), 'the whole point of silver')
-check('a good day after a bad one is asked', asks([10, 4]))
-check(`${SILVER_RUN} good days in a row rests it`, !asks([10, 9]))
+// The rule moved from two in a row to one on 7 October 2026 (Justin: "lets
+// just use one 5 in a row to keep simple"), so the rows below read SILVER_RUN
+// rather than assuming a number, and hold whichever way it goes.
+if (SILVER_RUN > 1) {
+  check('one good day is STILL asked', asks([10]), 'the whole point of silver')
+  check('a good day after a bad one is asked', asks([10, 4]))
+} else {
+  check('one good day rests it', !asks([10]), 'one five earns a week off since 7 October 2026')
+  check('a good day after a bad one rests it too', !asks([10, 4]))
+}
+check(`${SILVER_RUN} good day${SILVER_RUN > 1 ? 's in a row' : ''} rests it`, !asks(Array(SILVER_RUN).fill(10)))
 check('three good days in a row rests it', !asks([10, 10, 10]))
 check('a dip after two good days brings it straight back', asks([5, 10, 10]))
-check('a top score at exactly the band counts', !asks([TOP_BAND, TOP_BAND]))
+check('a top score at exactly the band counts', !asks(Array(SILVER_RUN).fill(TOP_BAND)))
 check('one below the band does not', asks([TOP_BAND - 1, TOP_BAND]))
 
 // ── IT COMES BACK WEEKLY ────────────────────────────────────────────────────
@@ -98,8 +106,8 @@ check('a skipped day does not break the run', skipped.topRun.get('c1') === 2, St
 
 // ── THE RUNGS A REPORT NAMES ────────────────────────────────────────────────
 check('never scored reads as new', rungOf(0, false) === 'new')
-check('scored but not there yet reads as working', rungOf(1, true) === 'working')
-check('two in a row reads as silver', rungOf(SILVER_RUN, true) === 'silver')
+check('scored but not there yet reads as working', rungOf(SILVER_RUN - 1, true) === 'working')
+check(`a run of ${SILVER_RUN} reads as silver`, rungOf(SILVER_RUN, true) === 'silver')
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)
