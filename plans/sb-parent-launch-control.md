@@ -178,8 +178,8 @@ account rather than a new design each time:
 - **Session bar:** a line from a start dot to an END block that fills slide
   by slide. It draws the product's promise, a session with a beginning and an
   end.
-- **Chips:** the builder's own choices as pills. Pink always means the age
-  band.
+- **Chips:** the builder's own choices as pills. The age band is the one
+  filled chip. Brand colours are black, white and yellow only; no pink.
 - **Reel covers:** words inside the 3:4 grid crop, nothing in the bottom
   380px.
 
@@ -670,7 +670,7 @@ card, `tools/tsb-playlist-card/decks/space-feed-01.json` (1080 x 1350, in
 `renders/space-facebook/`). It replaced the landscape card on 5 October
 because that one named the age but not what we do; this one says "YouTube
 videos picked for their age. We open every one first.", carries the age in
-pink and the ENDS WITH line, and fills more of a phone screen.
+as the filled chip and the ENDS WITH line, and fills more of a phone screen.
 
 > It's World Space Week, and on Friday night the Draconid meteor shower
 > peaks. It's one of the few that's best in the early evening rather than the
@@ -874,7 +874,7 @@ first real photo to take; the product in an ordinary moment (the phone on
 the kitchen table after school). Adapt: their founder origin caption over a
 photo, which becomes the Day 1 letter with Justin's photo once there is one.
 Decline: the hand lettered type and the rainbow palette, which belong to
-their brand; ours stays black, yellow and pink, with Montserrat.
+their brand; ours stays black, white and yellow, with Montserrat.
 
 Render everything with `node tools/tsb-playlist-card/render.mjs`; fresh PNGs
 and alt text land in `tools/tsb-playlist-card/out/`. The launch set is copied into `content/packs/2026-10-05-sb-launch-control/renders/` so it can be opened from GitHub.

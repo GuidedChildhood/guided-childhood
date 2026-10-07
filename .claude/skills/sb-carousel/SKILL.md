@@ -46,7 +46,8 @@ ready to design.
   Name the population (age, country, sample) on the slide.
 - **No dashes anywhere.** "9 to 11", never "9–11". Run `npm run ai-tells` on
   any new copy file.
-- **Pink means age band**, on every asset. Yellow means Social Billboard and
+- **Brand colours are black, white and yellow (#FFCE1B) only. No pink.** The age
+  band is the one filled chip (white on dark slides, black on light). Yellow means Social Billboard and
   action. One yellow element per slide.
 - **Separation.** Guided Childhood appears at most as one small line in a
   founder post. Creators appear only once parent demand is real.
@@ -104,6 +105,13 @@ Adopted 5 October 2026 through the feedback filter; the verdicts are in
 | Reel cover | 1080 x 1920 | Inside the 3:4 grid crop, nothing in the bottom 380px |
 | Facebook cover | 1640 x 924 | Words inside the middle 1640 x 624 band, clear of the profile picture |
 | Weekly card, Facebook and email | 1200 x 630 | `space-9-to-11.json` |
+
+## The weekly playlist session
+
+`weekly-session.md` in this folder is the Monday run: how a well known video
+is shown (only inside a real screenshot or screen recording of our playlist
+page, never lifted), the text limits per asset, how the words come up on the
+Reel, the three formats, and the one prompt Justin pastes each week.
 
 ## References
 
