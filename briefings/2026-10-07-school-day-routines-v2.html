@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The morning before school and the after school return · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+.lens-panel.build{background:var(--warm);border-color:var(--gold);border-width:2px}
+.lens-panel.build .eyebrow{color:var(--gold-dark)}
+.timeline{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:22px 24px;margin-top:16px}
+.timeline h3{font-weight:700;font-size:1.05rem;margin-bottom:10px}
+.timeline ol{margin-left:20px;color:var(--ink-soft);font-size:15px}
+.timeline li{padding:6px 0;border-bottom:1px solid var(--border)}
+.timeline li:last-child{border-bottom:none}
+.timeline li strong{color:var(--ink)}
+.verdict-tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border-radius:8px;margin-left:6px;vertical-align:middle}
+.verdict-tag.exists{background:var(--green-lt);color:var(--green-dark)}
+.verdict-tag.partial{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict-tag.missing{background:var(--coral-lt);color:var(--coral-dark)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The morning before school and the after school return</h1>
+    <p style="color:var(--ink-soft);max-width:640px">What the evidence and the people in the room say about the two hardest transitions of a school day, and what the product should do at 07:30 and 15:30 so a parent gets the one move and the words, and can log what happened in one tap.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">7 October 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+      <span class="chip">The SaaS Operator</span>
+      <span class="chip">Parent Demand</span>
+      <span class="chip">Schools Digital Learning</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The two flashpoints are not screen problems first. They are sleep and food problems that the screen walks into. Two randomised experiments show ordinary sleep loss makes children irritable and inattentive, the UK cohort shows irregular bedtimes predicting behaviour in a dose response that reverses when bedtimes settle, and in the datasets everyone fights over, enough sleep and breakfast carry associations three to six times the size of technology use. So the morning card leads with last night and food, and the after school card leads with hunger, company and a predictable stopping point.</p>
+      <p>"After school restraint collapse" is a parenting blog term from 2016. The behaviour is real; the mechanism failed replication across 23 labs. Describe the pattern, never name a syndrome. Morning screens causing lateness or bad moods is unsupported: one small French case control is all there is, the DfE publishes no lateness figures, and the 1958 British study of 1,854 matched children found viewers no more tired than matched controls while half the teachers blamed the set.</p>
+      <p>The strongest tension in the sweep is between the brief and the build lenses. The brief wants the right minute, twice a day on school days. The trials say the minute is worth single digit points, ten prompts a week is the arm that raised opt out and helped nobody, web push reaches 5 to 8 percent of a web app's families, and what retains is the log that is the product. Build the window and the loop, default to one window per family, put the card on Home, and read one number in week four.</p>
+      <p>Children already know: 37 percent say their own screen time is too high and two thirds of teenagers have done something about it. The DfE's own survey found 41 percent of primary children at the TV and 28 percent on a device before school, and parents valuing a calm, predictable start over food. The after school hour now has a parent in it for primary children (88 percent accompanied) and nobody in it for many teenagers. In one term three statutory documents landed on this seam and the school has nothing practical to send home. Nothing the law does in 2027 touches either window. The platform mapper found most of the plumbing already built: the 07:30 and 15:30 pushes, the moments that raise a worry, the scripts, the outcomes with a time band. The build is medium and mostly words.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The two flashpoints are paid for the night before and at the last meal, not in the minute they blow up</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Two randomised crossover experiments show that ordinary sleep loss degrades emotion regulation, mood and attention: one hour less for four nights in 8 to 12 year olds (Vriend 2013, n 32), and 6.5 against 10 hours in bed for five nights in 14 to 17 year olds, with parents and teenagers both reporting the irritability (Baum 2014, n 50). In the UK Millennium Cohort (n 10,230) irregular bedtimes predicted behaviour difficulties in a dose response, and the effect reversed when bedtimes became regular (Kelly 2013). In the same adolescent datasets used in the screen time debate, enough sleep (β +0.07 to +0.25) and eating breakfast (β +0.12 to +0.17) carry associations several times the size of technology use (medians β −0.005 to −0.035, at most 0.4 percent of variance) (Orben and Przybylski 2019, n 355,358). In the Selby district of North Yorkshire's 2024 pupil survey (Year 6 n 829, within a county survey of 14,934), 8 percent of Year 6 had nothing to eat before school and 57 percent felt tired at school the day before, up from 47 percent in 2022. NHS guidance lists tiredness and hunger as the first two causes of a tantrum. The 1958 British television study found no difference in morning tiredness between viewers and matched controls, although half the teachers blamed the set anyway (1,854 matched viewers and controls, 1955).</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Child, Historian, Schools</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none on the direction; the Skeptic on any claim about a specific window</span>
+      </div>
+      <div class="cite">Sources: S1, S2, S3, S4, S5, S6, S24</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>"After school restraint collapse" is a description, not a diagnosis, and the mechanism behind it failed replication</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Romper traces the term to psychotherapist and former teacher Andrea Loewen Nair in 2016; a Child Mind Institute psychologist, Dr Dave Anderson, says in print that it "isn't a clinical term" but a description of a phenomenon. No peer reviewed paper names or tests it. Every explanation offered for it borrows willpower depletion, which returned d = 0.04 (95 percent CI −0.07 to 0.15) across 23 labs and 2,141 participants against an original estimate of d = 0.62 (Hagger 2016); the glucose version of the same idea failed a p curve (Vadillo 2016). The nearest physiology is a small rise in cortisol across the day at childcare, strongest under three (Vermeer 2006, r 0.18). UK parents do not use the phrase; Mumsnet says "straight on the telly", "strops", "zombified". Children melting down at 3.30 is a real observation. The label and the mechanism are not science, so the product describes the pattern and never names a syndrome.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Skeptic, Parent Demand</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: S7, S8, S9, S10, S31</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>A stopping point agreed in advance beats a countdown, and the screen is never a reward or a punishment</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In the only diary study of screen endings (28 families, 380 transitions, children 14 to 66 months, parent rated), children were less upset when the screen time had been routine rather than ad hoc, and transitions the technology ended went better than ones a parent interrupted; warned children were more upset, not less, a result the authors suspect is confounded by parents warning when they expect trouble (Hiniker 2016). Advance notice alone did not raise compliance in three noncompliant preschoolers (Wilder 2010). RCPCH tells families to agree the plan in a calm moment; NHS paediatric advice gives a heads up 30 minutes out, a short fixed sequence and the same cue phrase every time; the UK Chief Medical Officers add phones outside the bedroom at bedtime and screen free meals. The most upvoted morning rule on Mumsnet is the home made version: "TV only when shoes are on."</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician, Parent Demand</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the Skeptic on the strength of any one transition study</span>
+      </div>
+      <div class="cite">Sources: S11, S12, S13, S14, S75, S30</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The minute is worth single digits; content fit and about three prompts a week carry the effect, and a daily log is the retention mechanic</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In the one direct test of how often to text parents, three a week beat one and five: five raised opt out by 58 percent and helped nobody (Cortes 2021, 3,473 families randomised). Personalising the content to the child beat generic content by 63 percent on moving up a reading level with the same ping (Doss 2018, n 794). Two microrandomised trials put timing at a few percentage points: a prompt opens the app 3.5 times more often within the hour and changes time to disengagement not at all (Bell 2023); next day engagement rose 3.9 percent, more at weekends than weekday mornings (Bidargaddi 2018). Sensor driven timing did no better than a fixed daily slot and half the users were gone in two weeks either way (Morrison 2017); a contextual nudge fell from +107 percent to +24 percent over six weeks (HeartSteps 2019). Stressed people ignore the prompt built for their stressed moment: 79 percent non engagement, with stress predicting silence (2026). What retains is the log itself: every logging measure tracked outcomes in Noom (n 11,252), and Finch holds 37 percent at day seven on a morning check in loop. The EEF reached the same conclusion from the school side: telling parents their child's days missed moved absence by 0.21 days across five terms among 71,916 pupils with below 95 percent attendance, and "further practical support and tip sharing are required".</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, SaaS Operator, Parent Demand, Schools</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the brief's own premise that the right minute is the edge</span>
+      </div>
+      <div class="cite">Sources: S15, S16, S17, S18, S19, S20, S21, S22, S23, S68</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children already know, and most teenagers are already acting</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Ofcom's 2026 survey of 3,426 children: 37 percent of 8 to 17s say their own screen time is too high (28 percent of 8 to 9s, 44 percent of 16 to 17s, 56 percent of those with a mental health condition), and 65 percent of 13 to 17s have taken at least one step, 29 percent disabling notifications, 21 percent no longer taking a device to bed. Parents are harsher: 55 percent say their child's time is too high. In children's own words the morning is rush, shouting and being late ("My Dad shouting and rowing. Being late for anything", a boy of 11; Children's Commissioner, nearly 2,000 children, 2020) and the return home is a need to "switch off" in a bedroom, often alone (Ofcom Children's Media Lives 2026). Advice that assumes resistance will feel like being managed; advice that assumes alliance will feel like respect.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: S25, S26, S27, S28</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The morning is already a screen moment for a large minority of primary children, and what parents want from a calmer start is predictability, not food</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The DfE's own survey of 5,487 parents in the 750 breakfast club early adopter schools (March 2026) found that before school 41 percent of children watch television and 28 percent use a tablet, phone, computer or console; 80 percent eat breakfast. Parents who use the free club credit it with mornings that are less stressful (68 percent), easier (66 percent) and more predictable (76 percent); the reasons they give are longer working hours (53 percent), the child enjoying it (43 percent) and an easier drop off (35 percent); a smoother morning routine at home is named by 20 percent. Of the parents who do not use it, 32 percent "prefer to have more time with my child in the morning". That is the customer. The state is now paying £1 per child per day for a 30 minute calm start in about 2,750 primaries, and 64 percent of primary heads expect no attendance effect from it.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Schools, Parent Demand, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Schools on any attendance claim (the EEF breakfast result was non significant)</span>
+      </div>
+      <div class="cite">Sources: S65, S66, S67, S69</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Measured, the breakfast window is about 28 minutes online a day for UK 8 to 14s, and the after school hours are spent at home with family, almost never with friends</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Ofcom's passive metering panel (701 children aged 8 to 14, 28 days each, October 2025 to March 2026; Figure 4 of the Children's Online Experiences report) puts the 05:00 to 08:59 window at 25 minutes for 8 to 9s, 28 for 10 to 12s and 32 for 13 to 14s, with the 15:00 to 20:59 block the largest of the day at 1h24 to 2h01. The figures are per visitor per day across smartphones, tablets and computers, average weekdays with weekends (3h24 against 4h07 overall) and exclude TV sets and consoles, so the school morning itself is likely lower and the TV in the kitchen is not counted. In three day diaries from 204 UK 11 to 12 year olds, 30 percent of the 3pm to 6pm window went on screens (about 54 minutes), under 1 percent of the time was with friends, about 46 percent with family or siblings and about 20 percent alone; more time alone was associated with more screen use (Haycraft 2020, cross sectional). The Economist and the Skeptic both reported that no UK daypart figure exists, which was true of the headline Ofcom reports; the metered figure lives in the online experiences report and needs the caveats attached whenever it is used.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Economist, Skeptic (no daypart data in the headline reports)</span>
+      </div>
+      <div class="cite">Sources: S29, S32</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The after school hour now has a parent in it; the 1970s latchkey worry has inverted</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In 1971, 80 percent of English 7 and 8 year olds got to school unaccompanied by an adult; by 1990 it was 9 percent; the share of junior school children accompanied by a parent rose from 14 percent to 64 percent, and escorting children consumed an estimated 904 million hours in 1990 (Hillman, Adams and Whitelegg 1990). National Travel Survey: 88 percent of 7 to 10 year olds and 31 percent of 11 to 13 year olds are usually accompanied by an adult. Only 27 percent of 5 to 7s, 22 percent of 8 to 11s and 10 percent of 12 to 14s use an after school club, so most families do the 3pm to 6pm window themselves (DfE 2025); the market prices that gap at £69.38 a week in England (Coram 2026). The 1958 researchers studied a child coming home to an empty afternoon; today's primary child comes home with a parent in the car or at the gate, which is the opening for a together model rather than a supervision gap.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Economist, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the Child on secondary age children, who are often alone</span>
+      </div>
+      <div class="cite">Sources: S33, S34, S35, S36, S37</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Morning screens causing lateness, mood or school trouble is unsupported, so the product must not claim it</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>No study of before school screen use and lateness, attendance or morning mood was found. The one study that isolates the before school slot is a French case control of 276 children aged 3.5 to 6.5 recruited after a language disorder diagnosis, with exposure from parent recall, a morning exposure odds ratio of 3.40 (1.60 to 7.23) and a combined estimate running from 1.44 to 23.95 (Collet 2019); reverse causation is live, since the child who is hard to get out of the door is the one most likely to be handed a screen. Against matched controls in 1958, television viewers were no more tired in the morning and spent the same time on homework. The DfE publishes no lateness statistics at all; late after registers close is 0.17 percent of primary sessions and 0.31 percent of secondary (FFT 2025) and 0.3 percent of penalty notices (DfE 2024/25); the DfE's £750 a day figure is about absence, not lateness. A school saying it can "instantly see which kids have watched TV before school" is a teacher report of exactly the kind the 1958 controls contradicted.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Academic, Historian, Economist, Schools</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician (keeps Collet as a flag for talking about content, not as a risk figure)</span>
+      </div>
+      <div class="cite">Sources: S38, S24, S39, S40, S41</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Three statutory documents landed on this seam in September 2026, and the school has nothing practical to send home</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Ofsted's toolkit for inspections from 7 September 2026 asks a primary what it does about "the fact that pupils' punctuality and attendance may depend on parents" and "how well staff teach pupils daily routines and habits", and asks every school about home school partnership on phones. The RSHE guidance in force from 1 September 2026 makes "practical steps for improving sleep, such as not using screens in the bedroom" statutory primary content, and at secondary "screen-free time before bed and removing phones from the bedroom". The mobile phones guidance is statutory from 29 June 2026, and the DfE's own parent guidance on screen use for ages 5 to 16, announced 8 June 2026 for the autumn, is not yet published. What schools currently send home about mornings is a punctuality web page: bedtime routine, kit ready the night before, a minutes lost table; none of four checked mentions screens or reaches a parent at the moment it matters. Staff time is the constraint (48.1 hours a week; Magic Breakfast cost 820 staff hours a year), so whatever we hand a school has to cost it one link, once.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Schools</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none; the Historian notes teacher reports of tired pupils are an old and biased instrument</span>
+      </div>
+      <div class="cite">Sources: S70, S71, S72, S73, S74</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Parents have invented the mechanic at home and buy charts and free locks; nobody sells the words for the thirty seconds after the child asks</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>The morning is the fight parents argue about in public (Mumsnet morning TV threads run to 419, 189 and 86 replies) and after school is the one they confess to (14 and 38). The dominant home made fix is the screen as the reward for being ready. What they buy is cheap and physical for the morning, a £1.50 to £20 chart, and a free lock for the afternoon (Google Family Link, 4.6 stars from 42,000 UK ratings), and both fail at the same point: the moment the child asks and the parent has to be the no. Routine apps charge £6 to £13 a month, the one star Joon reviews are about sticker shock, and parents on Reddit report children growing bored of the pet (Choosing Therapy; a competitor puts the fade at four to eight weeks, which is a competitor's claim). 75 percent of UK parents in a commercial survey report a tantrum after a device was refused (Compare and Recycle 2025, n 1,000), and 51 percent in an undated Amazon brand survey of 2,000 parents, from around 2021, call school mornings the most stressful part of the day. At £7.99 to £12.99 a parent prices Guided Childhood against Joon and Family Link, not against a coach, unless the pitch is the words for the moment.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Parent Demand, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the Skeptic on the brand and commercial surveys</span>
+      </div>
+      <div class="cite">Sources: S42, S43, S44, S45, S46, S47</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Everything ever regulated regulates the night; nothing touches 7.30am or 3.30pm</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>The Toddlers' Truce (no television 6pm to 7pm, 1946 to 1957) ended with a minister saying bedtime was the parents' job. The 9pm watershed came out of the 1964 Television Act, with the ITA recommending that material injurious to children be excluded before 9pm and a family viewing period lasting until then (Ofcom 2014). Breakfast television's first act in 1983 was a two hour children's show across the getting ready window, and no regulator ever treated that hour as a children's hour. YouTube turned autoplay off for teens by default in 2021; the UK's under 16 package, announced 15 June 2026 and live Spring 2027 after 116,211 consultation responses, adds for 16 and 17s a default midnight to 6am curfew with notifications disabled and autoplay and personalised feeds off by default, leaves WhatsApp and Signal out and, per NPR, YouTube Kids. Nothing in any of it acts on the school run or the return. The morning is unregulated and unstudied rather than newly dangerous, and the after school moment is old and now has a parent in it.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: S48, S49, S50, S51, S52</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Nudges to parents work when the content fits the child, in the one UK analogue and the best US trials, with a vendor caveat</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Ready4K's three texts a week moved parental involvement at home and school by 0.15 to 0.29 SD and child early literacy by about 0.11 SD overall and 0.31 SD for children below the median (York, Loeb and Doss 2019, 1,031 parents); a coauthor on the differentiated texts paper is at the vendor, and the numbers hold but should be labelled. The closest UK analogue is BRIC, a bedtime routine delivered by seven nights of texts to 50 first time parents of 1 to 3 year olds: 98 percent retention, routine quality improved and parental mood disturbance fell, in a non randomised pilot (Kitsaras 2022). Self directed parenting programmes with no human lose more than 90 percent before completion (Dadds 2019, n 2,967, 7.3 percent completed), and the stated reasons for leaving text programmes are "not helpful" (23 percent) and "too busy" (22 percent).</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, SaaS Operator, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic on vendor involvement and on generalising from literacy to behaviour</span>
+      </div>
+      <div class="cite">Sources: S20, S21, S53, S54, S55</div>
+    </article>
+
+  </section>
+
+  <section id="timelines">
+    <span class="eyebrow">What the lenses agree happens, minute by minute</span>
+    <h2>The Two Transitions</h2>
+    <div class="timeline">
+      <h3>The morning, from the Clinician's timeline with the other lenses' corrections</h3>
+      <ol>
+        <li><strong>06:45 to 07:00, waking.</strong> Won't get up after a late night is sleep debt, and the lever was last night: phone charged outside the bedroom (the Chief Medical Officers' line), screens off an hour before sleep (RCPCH). Fixed wake time even after a late one, light on, recover the sleep tonight. Words: "Same time up, early night tonight." Not a lecture.</li>
+        <li><strong>07:00 to 07:20, the first reach.</strong> Teenagers go back to bed with the phone; younger children ask for the TV before they are dressed. The phone that charged downstairs cannot be reached for, so that fight never starts. For primary: screen only after dressed, teeth and bag by the door, said as "when, then" in the same words every day. Children's own stress words for this hour are shouting and being late, so fewer instructions, a calmer adult, and the parent's own phone away.</li>
+        <li><strong>07:20 to 07:45, dressing and breakfast.</strong> Food before the demand. If a screen is on, pick something with a natural end and say in advance it goes off when the episode ends; let the programme end it rather than a countdown alone. Breakfast screen free, which is the Chief Medical Officers' advice. Talk about what they watched: never discussing content was the pattern the one morning screens study flagged.</li>
+        <li><strong>07:45 to 08:15, the door.</strong> A picture sequence by the door for under sevens and for autistic and ADHD children, and a longer runway. If the fight happens only on school days with a stomach ache or nausea, stop pushing the screen rule: it is school avoidance until shown otherwise, and the move is the school and the GP.</li>
+      </ol>
+    </div>
+    <div class="timeline">
+      <h3>The return, 15:15 to 17:30</h3>
+      <ol>
+        <li><strong>15:15 to 15:30, the gate or the door.</strong> Warm, wordless, a snack in the bag. No "how was your day" for twenty minutes: children answer "fine". For a teenager coming home to an empty house, the message is to the parent who arrives later.</li>
+        <li><strong>15:30 to 15:50, the first twenty minutes.</strong> Describe the pattern to parents, never a syndrome. Unstructured time rather than a scheduled activity. If a screen goes on to calm a young child, that is the use most likely to cost regulation skill later, especially boys and intense temperaments, so a person or a snack before a tablet. Teenagers call this switching off and fourteen year olds call it peaceful; name it as legitimate.</li>
+        <li><strong>15:50 to 16:30, snack, screen, homework.</strong> Decide the stopping point before the screen goes on and let the episode or a visible timer end it. Homework not in the first twenty minutes and never as the second fight of the day; for primary, short and done, or left.</li>
+        <li><strong>16:30 to 17:30, the switch to tea.</strong> Screen free meal, the same cue phrase daily. This is the natural minute for the one tap log, and the log should carry two more facts the evidence says matter: sleep the night before and whether they had eaten, because the two week pattern tells a screen problem from a sleep and food problem.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Is there any UK time of day data on children's screen use?</td><td>Economist and Skeptic: none in Ofcom's headline reports or ONS time use; any before school figure is invented until sourced.</td><td>Child: Figure 4 of Ofcom's 2026 online experiences report carries metered daypart figures from 701 children (breakfast window 28 minutes), verified against the PDF. Schools: the DfE parent survey puts 41 percent at the TV and 28 percent on a device before school.</td><td class="leans green">Child and Schools, with caveats: weekdays and weekends averaged (3h24 against 4h07), TV sets excluded in the metered figure</td></tr>
+        <tr><td>Is the right minute the product's edge?</td><td>The brief: pre empt what happens at the crucial minute. Parent Demand: parents describe exactly those two minutes.</td><td>Skeptic and SaaS Operator: timing is worth single digit points; frequency and content fit carry it; stressed people ignore prompts built for their stressed moment. Schools: the EEF says practical tips inside messages, not more messages.</td><td class="leans coral">Skeptic, SaaS Operator and Schools, strongly: randomised trials</td></tr>
+        <tr><td>Is the after school screen a legitimate way to decompress?</td><td>Child: switching off is real and should be named as legitimate; "give them twenty minutes".</td><td>Clinician: the screen that calms fastest predicts higher reactivity later in boys and intense temperaments (Radesky). Academic: a second cohort found the longitudinal link weak (Coyne).</td><td class="leans green">Both: decompression yes, the device is the wrong tool under six and the bedroom is the issue for teens</td></tr>
+        <tr><td>Does a warning or countdown help the screen come off?</td><td>Clinician: NHS advice gives a heads up and a countdown so the child is not interrupted mid activity.</td><td>Academic and Skeptic: warned children were more upset in the only diary study; notice alone did not raise compliance.</td><td class="leans green">A warning tied to a natural stopping point inside a predictable routine; never a countdown alone</td></tr>
+        <tr><td>Should the morning screen be banned or used as the reward?</td><td>The ban camp on Mumsnet, and the school that "can tell".</td><td>The sequence camp ("TV only when shoes are on"), the when then structure NHS advice uses, and the absence of any lateness or mood evidence.</td><td class="leans green">Sequence, not ban: no evidence for a ban, and the sequence is what parents already do</td></tr>
+        <tr><td>Two cards a day on school days, or fewer?</td><td>The brief: morning and after school, every school day.</td><td>Skeptic: ten a week is the arm that raised opt out and helped nobody. SaaS Operator: web push reaches 5 to 8 percent; the card must live on Home and default to one window per family.</td><td class="leans coral">Build lenses: one window by default, parent chosen, opt up, the Home card doing the work</td></tr>
+        <tr><td>Can we claim lateness as a cost we help with?</td><td>Economist: the DfE prices a missed day at about £750 in lifetime earnings and late after registers close is rising.</td><td>Skeptic, Academic and Schools: no study links morning screens to lateness; the £750 is absence, not lateness; the DfE publishes no lateness figures; 0.3 percent of fines are for lateness.</td><td class="leans coral">Skeptic: do not claim it. Punctuality and calm is the honest claim, and only with a pilot school's register data</td></tr>
+        <tr><td>Does a breakfast club move attendance?</td><td>DfE: schools report improved punctuality and attendance; benefit cost ratio 2.43.</td><td>Schools: the EEF's English result was non significant on attendance and 64 percent of primary heads expect none; the honest claim is a calmer, more predictable morning.</td><td class="leans coral">Schools: punctuality and calm, not attendance</td></tr>
+        <tr><td>Is restraint collapse a useful word for parents?</td><td>Clinician's own practice notes borrow Nair's advice (greet warmly, feed first).</td><td>Clinician, Academic, Skeptic: not a construct, mechanism failed replication; Parent Demand: UK parents do not say it.</td><td class="leans green">Describe the pattern, keep the practical advice, never name a syndrome</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Nine perspectives, six on the evidence and three on the business</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>It is sleep and food before it is a screen</h3>
+        <p>Two randomised crossover experiments (8 to 12 and 14 to 17 year olds) and a London cohort of 6,616 put the morning in the bedroom the night before: phone use in the hour before sleep raises the odds of insufficient weekday sleep by 1.82, in the dark by 2.13, and the same children reach for the phone on waking. Hunger and tiredness are the first causes of a tantrum in NHS guidance and the first words of every expert quoted on the after school collapse. So the pre emptive message at 07:20 and 15:30 is a state check followed by one low demand move, and the referral line matters: a morning fight on school days only, with a stomach ache, is school avoidance until shown otherwise.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Predictability beats quantity</h3>
+        <p>The best evidence on either transition is not about screens at all. Regular routines predict better behaviour, sleep and executive function with a dose response in 10,230 UK children, and the effect reverses when bedtimes become regular, which is the most useful number for a parent because it says the window is open. Household chaos has a small reliable association with executive function (r 0.16 across 16,480 children), and where it is directly assessed, instability matters more than mess. Screens enter as the thing that erodes the routine: they end badly when ad hoc and well when predictable, and warnings alone made children more upset in the one study that measured it.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>The prompt opens the door; what is behind it does the work</h3>
+        <p>Three randomised arms by the Stanford group settle the design: personalised beats generic by 63 percent on the same ping, three texts a week beat one and five (five raised opt out by 58 percent), and which day helps depends on the family. Microrandomised trials put the minute at single digit points and found no change in time to disengagement. Two cards a day on school days is ten a week, the arm that failed. Restraint collapse borrows a mechanism that returned d = 0.04 across 23 labs; the morning screens risk figure is one case control with an interval from 1.44 to 23.95. The one tap log is self report at the worst minute from the engaged minority, so design the loop to learn from drop off too.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The two moments the state has priced at zero</h3>
+        <p>492,800 penalty notices in 2024/25 and 1,400 of them for lateness, against a DfE estimate of about £750 in lifetime earnings per missed secondary day. The after school gap has a price, £69.38 a week in England, but only 13 percent of local authorities have enough care for 12 to 14 year olds and only 10 percent of that age use a club, so 3pm to 6pm is unpaid parent time with a device as co provider. Every regulatory lever since 2021 acts on bedtime and the night. Willingness to pay benchmarks (Qustodio £5 to £7, Bark £8, GoHenry £4 to £10, a club at £69 a week) bracket £12.99 comfortably, if the family feels it twice a day.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Britain has only ever managed the child's day from the evening end</h3>
+        <p>The Toddlers' Truce, family viewing time, the watershed and the Dick Barton writers' code were all about tea to bed; breakfast television's first act in 1983 was a children's show across the getting ready window and no regulator blinked. The 1958 study (1,854 matched viewers and controls) found viewers no more tired in the morning than matched controls while half the teachers blamed the set; it found parental example mattered more than parental control, and recorded, as a finding rather than advice, that the set was already being used as an instrument of discipline, for punishment and reward. The after school moment changed in one way no screen panic captured: four in five 7 and 8 year olds got to school unaccompanied in 1971, fewer than one in ten by 1990, and escorting consumed 904 million hours that year. The parent is in the room now.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>Feed me first, ask me later</h3>
+        <p>Nearly four in ten 8 to 17s say their own screen time is too high and two thirds of teenagers have already done something about it. Children describe the morning as rush, shouting and being late; the phone is the quiet corner inside it. They describe the return home as switching off, often alone, in a house where the parent is on their own screen (36 percent of 2,000 secondary pupils had asked a parent to put the phone down and 46 percent of those said the parent took no notice, as the BBC reported the 2017 HMC survey). What helps is a person, not a rule: "it's enough if they pay attention to me afterward". And a one tap log about them, that they never see, is surveillance; filled in together it is our story.</p>
+      </div>
+      <div class="lens-panel build">
+        <span class="eyebrow">The SaaS Operator</span>
+        <h3>Build the window and the loop; do not build the clock</h3>
+        <p>Web push reaches 5 to 8 percent of a web app's families, so the card has to live on Home. Sensor driven timing did no better than a fixed slot and half the users were gone in two weeks either way; a contextual nudge fell from +107 percent to +24 percent over six weeks; 79 percent of prompts went unanswered precisely when the person's stress threshold was met. What retains is the log that is the product (Noom, Finch at 37 percent day seven). Ask the parent two times at onboarding, default to one window, put the one tap moment on the card, and read one number in week four: card to moment rate, 15 percent or above. And the biggest number in the ledger is not this feature: a four day trial converts 25.5 percent against 42.5 percent for 17 to 32 days.</p>
+      </div>
+      <div class="lens-panel build">
+        <span class="eyebrow">Parent Demand</span>
+        <h3>Nobody sells the thirty seconds after the child asks</h3>
+        <p>The morning is argued in public (419 reply threads), the afternoon confessed in private (14). Parents have already invented the mechanic, the screen as the reward for being ready, and they buy a £2 printable or a £15 chart for the morning and a free lock for the afternoon. Both fail at the same point: the ask. Routine apps at £6 to £13 a month lose the child in four to eight weeks. The purchase trigger is the first six weeks of autumn term and an outside voice, usually the school's note about TV before school. At £7.99 to £12.99 a parent compares us to Joon and Family Link unless the pitch is the words for the moment rather than another chart.</p>
+      </div>
+      <div class="lens-panel build">
+        <span class="eyebrow">Schools Digital Learning</span>
+        <h3>The seam is now statutory, and the school has nothing practical to send home</h3>
+        <p>In one term three official documents landed on the morning and the evening: Ofsted asks a primary what it does about punctuality depending on parents, RSHE makes screens out of the bedroom statutory primary content, and the DfE is paying £1 a child a day for a 30 minute calm start because its own survey found 41 percent of children at the TV and 28 percent on a device before school. Yet the EEF's highest security attendance trial found facts to parents move absence by 0.21 days across five terms and asked for practical tips instead. A school will send one link, once, through the MIS it already has, if the DSL can confirm the logged moment never reaches the school and a pilot can show the register changing. Staff time is the only currency.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li><span class="tag">Check in <span class="verdict-tag partial">partial</span></span><strong>Lead the morning advice with the night before and the last meal, not the screen.</strong> The morning card's first line is a state check ("slept? eaten?") and one low demand move: "Same time up, early night tonight", "food before the demand". Finding 1 drives it; the mapper found the night before move already written in the tonight page and the Morning rows in the moments library. Build: copy. Small.</li>
+        <li><span class="tag">Check in <span class="verdict-tag partial">partial</span></span><strong>Ask the school avoidance question on morning worries: every day, or only school days?</strong> A morning fight that happens only on school days with a stomach ache is emotionally based school avoidance until shown otherwise (Clinician). One flag on the morning worry rows, and DiGi routes to the school and the GP instead of pushing harder on the screen rule. Persistent absence was 22.5 percent in 2021/22 against about 10 to 12 percent before the pandemic (DfE). Small.</li>
+        <li><span class="tag">Stages <span class="verdict-tag partial">partial</span></span><strong>Make the existing 07:30 and 15:30 pushes per family and school day aware, and pin the same card on Home.</strong> Two nullable minute columns on children (school start, home time) in migration 361, two pickers beside the region setting, the slot cron sending at start minus 50 and home plus 15 gated on isSchoolDay, body from the child's band moments row or their top morning worry. The card also renders on Home through the existing SmartAlerts path with ukHour, because web push reaches 5 to 8 percent of families (SaaS Operator). Default to ONE window per family, parent chosen, never both (Finding 4). Never a daily DiGi prompt card: the step in guard fails any cadence trigger. Medium.</li>
+        <li><span class="tag">Scripts <span class="verdict-tag exists">exists</span></span><strong>Put the one tap moment on the card itself.</strong> "It happened" and "Went fine" post to the daily feedback route with the moment key (tv_morning, morning, come_off, homework) and the child, which already raises the worry and wakes the check in; "I tried it" goes through the moments tried route and writes the outcome with its time band. Framed as logging it with the child, not about them (the Child lens). The log is the retention mechanic (Noom, Finch), not the push. Small.</li>
+        <li><span class="tag">Scripts <span class="verdict-tag exists">exists</span></span><strong>Seed the four missing scripts, in the database, never in code.</strong> The first twenty minutes home (feed first, ask later); the snack before the question; how was school without asking it (sit alongside, one specific thing); the stopping point agreed in a calm moment. Nine morning and homework scripts already exist by title; seed idempotently by title. Small.</li>
+        <li><span class="tag">DiGi <span class="verdict-tag exists">exists</span></span><strong>Three rails for the two windows.</strong> Never name restraint collapse as a condition, describe the pattern. At 07:20 lead with sleep and food, at 15:30 with predictability and company, not minutes on screen. The after school screen that calms fastest is the one most likely to cost regulation skill under six, so DiGi offers a person or a snack before a tablet. Thin bank: fewer than three rows tagged morning outside the situations seed; add sourced rows per band from this ledger. Small.</li>
+        <li><span class="tag">Stages <span class="verdict-tag missing">missing</span></span><strong>The after school advice assumes a parent in the room for primary and an empty house for secondary.</strong> 88 percent of 7 to 10s are walked or driven by an adult; many 13 to 16s come home to nobody. Primary cards speak to the parent at the gate (warm, wordless, snack in the bag, no questions for twenty minutes); secondary cards speak to the parent who arrives later (the bedroom, the phone charging downstairs, one specific question at tea). Copy, by band. Small.</li>
+        <li><span class="tag">Schools <span class="verdict-tag missing">missing</span></span><strong>A morning and after school home guide a school can send with one link, once.</strong> Three doors, each costing a school under an hour a year (Schools lens): the Senior Attendance Champion sends it to the half termly late list through the MIS they already use; the PSHE lead attaches it as the parent letter for the statutory sleep lesson in force from 1 September 2026; the breakfast club lead puts it in the welcome pack and the Sunday evening message before each term, reaching the 32 percent of non users who prefer the morning with their child. Built in the schools parent pack pattern (printable, no login), linking new parents to the starter pack; never through the lesson home code. The DSL confirms in writing that a logged moment stays with the family. Medium.</li>
+        <li><span class="tag">Schools <span class="verdict-tag missing">missing</span></span><strong>Prove it in one pilot school with the register data nobody else reads.</strong> L and U marks already sit in every MIS and the DfE publishes none of them. Before and after in one partner primary is the only proof that beats the free stack (Project Evolve, the Children's Commissioner's guide, the funded breakfast club). If a pilot cannot show a punctuality or morning stress change, a head will say the free stack is good enough, and they will be right.</li>
+        <li><span class="tag">Marketing <span class="verdict-tag exists">exists</span></span><strong>Safe to say, with the caveat attached.</strong> "Before school, 41 percent of primary children watch TV and 28 percent are on a device" (DfE parent survey, 5,487 parents in breakfast club schools, verified in the data tables). "About 28 minutes online in the breakfast window on an average day" (Ofcom metered, Figure 4, weekdays and weekends averaged, TV sets excluded). "37 percent of children say their own screen time is too high, and two thirds of teenagers have already done something about it." "88 percent of 7 to 10 year olds are accompanied to school by an adult." "The morning has never had a watershed." Each with its ledger line.</li>
+        <li><span class="tag">Marketing <span class="verdict-tag missing">missing</span></span><strong>Unsafe to say.</strong> "Screens before school triple the risk of language disorder." "After school restraint collapse." "Nine in ten parents argue about tech every week" (a US poll). "Mornings are the most stressful part of the day" (brand PR). "Lateness costs £750 a day" (absence, not lateness). "Breakfast clubs improve attendance" (non significant). "Children need to decompress for exactly twenty minutes" (the window changes by blog).</li>
+        <li><span class="tag">Ban readiness <span class="verdict-tag exists">exists</span></span><strong>The 2027 package leaves both windows to us.</strong> The under 16 ban and the 16 to 17 curfew act on midnight to 6am and account holding; YouTube Kids, the under 13 morning default, is exempt. Say so plainly: a deadline is not a plan, and the two parts of the day the law does not touch are the two the product is built for.</li>
+        <li><span class="tag">Measurement <span class="verdict-tag partial">partial</span></span><strong>One metric, read in week four.</strong> Card to moment rate: the share of delivered cards (push or Home) where the parent taps the moment within 90 minutes, measured in week four, threshold 15 percent, kill or redesign under 10 percent, push opt outs under 5 percent (SaaS Operator). Plus a pure read grouping device sessions and flagged moments by London hour band, which nothing does today.</li>
+        <li><span class="tag">Do not build <span class="verdict-tag missing">missing</span></span><strong>Three things the evidence says to leave alone.</strong> A per family right minute inference layer (no gain over a fixed slot, fast decay, unmeasurable at 325 families). Both windows every school day by default (ten pushes a week is the arm that failed). A parent streak or habit meter around the cards (a broken streak at 07:20 is guilt, and the churn driver is insufficient usage).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>UK context throughout. The only metered daypart figure (Ofcom's CPOM panel) averages weekdays with weekends and excludes smart TVs and consoles, so the school morning itself is probably lower and the kitchen television is uncounted; the DfE parent survey is of families in breakfast club schools, not all families. Almost all children's data starts at age 8; nothing in this ledger asks a child under five about the morning in their own words, so advice for nursery and reception mornings is adult inference and is labelled as such. The nudge evidence is from adult self help apps and from literacy and attendance texting programmes, not from parents of school age children around screens; the nearest UK analogue is a 50 family bedtime pilot. Web push reach of 5 to 8 percent is a single vendor's figure. The product facts (prices, the 4 percent free to paid benchmark, one founder) are as of 7 October 2026. The Skeptic's warning stands over the whole loop: a one tap log is self report at the worst minute of the day from the families who stay, so the loop must learn from drop off as much as from taps.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The Early Years key person. Every lens here is loudest from eight upwards, and the two to seven year olds the product serves at Stage 1 are the children for whom the morning hand over and the hungry 3.30 are the whole day. A nursery or reception practitioner who takes thirty children off their parents at 08:50 and hands them back at 15:15 has seen more of these two minutes than any researcher, knows which drop off rituals work, and would tell us whether a one tap log of a four year old's morning is a kindness or a surveillance habit. If a V3 is worth running, run that one, and brief it with the Child lens's gap and the Clinician's timeline.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source: 75 sources, 53 confirmed, 21 corrected, 1 demoted to a press report</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S1 · <a href="https://doi.org/10.1542/peds.2013-1906">Kelly, Kelly and Sacker, Changes in bedtime schedules and behavioral difficulties in 7 year old children</a> · Pediatrics 2013;132(5):e1184, Millennium Cohort Study n 10,230<span class="note">Every coefficient confirmed via Europe PMC; the UCL news page is dead, so the paper is cited</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S2 · <a href="https://doi.org/10.1093/jpepsy/jst033">Vriend et al, sleep restriction and extension in children 8 to 12</a> · Journal of Pediatric Psychology 2013, randomised crossover n 32<span class="note">Confirmed: one hour less for four nights impaired emotion regulation, affect, memory, attention</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S3 · <a href="https://doi.org/10.1111/jcpp.12125">Baum et al, sleep restriction worsens mood and emotion regulation in adolescents</a> · JCPP 2014, randomised crossover n 50, ages 14 to 17<span class="note">Confirmed, with the age caveat: cannot carry claims about primary age children</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S4 · <a href="https://doi.org/10.1016/j.envint.2018.11.069">Mireku et al, night time screen based media device use and adolescents' sleep (SCAMP)</a> · Environment International 2019;124:66, n 6,616 London pupils 11 to 12<span class="note">Confirmed: OR 1.82 phone, 2.13 in darkness, 1.40 TV</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S5 · <a href="https://ora.ox.ac.uk/objects/uuid:5d844350-a359-47d3-b10c-4bfb93ce613b">Orben and Przybylski, The association between adolescent well-being and digital technology use</a> · Nature Human Behaviour 2019, n 355,358<span class="note">Corrected: the MCS technology median is −0.032, not −0.042; sleep in MCS is +0.070; the rest confirmed from the accepted manuscript</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S6 · <a href="https://healthyschoolsnorthyorks.org/wp-content/uploads/2025/02/NY-GUNY-Selby-2024.pdf">Growing Up in North Yorkshire 2024, Selby district summary</a> · SHEU for North Yorkshire Council, 2024<span class="note">Corrected: 14,934 is the county sample; Selby n 2,020, Year 6 n 829; 8, 57 (47 in 2022), 23 and 29 percent confirmed</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S7 · <a href="https://www.today.com/parents/family/what-is-restraint-collapse-rcna220901">What is restraint collapse (Dr Dave Anderson, Child Mind Institute)</a> · Today.com, 30 July 2025<span class="note">Corrected: Today confirms the not a clinical term quote but does not name who coined the term</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S8 · <a href="https://doi.org/10.1177/1745691616652873">Hagger et al, A multilab preregistered replication of the ego depletion effect</a> · Perspectives on Psychological Science 2016, 23 labs N 2,141<span class="note">Confirmed d 0.04 (−0.07 to 0.15); the prior d 0.62 verified second hand through Carter and McCullough 2014</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S9 · <a href="https://researchonline.lse.ac.uk/id/eprint/109256/1/Bitter_truth_about_glucose_and_willpower_Vadillo_et_al.pdf">Vadillo, Gold and Osman, the bitter truth about sugar and willpower</a> · Psychological Science 2016;27(9):1207<span class="note">Confirmed: 19 articles, 38 contrasts, weak evidential value</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S10 · <a href="https://eric.ed.gov/?id=EJ742888">Vermeer and van IJzendoorn, Children's elevated cortisol levels at daycare</a> · Early Childhood Research Quarterly 2006, 7 studies n 303<span class="note">Confirmed r 0.18 (0.06 to 0.29), most notable under 36 months</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S11 · <a href="http://faculty.washington.edu/jkientz/papers/Hiniker-Tantrums-CHI2016.pdf">Hiniker, Suh, Cao and Kientz, Screen Time Tantrums</a> · CHI 2016, 27 interviews plus 28 family diary, 380 transitions<span class="note">Confirmed in full, including the warning result and its confound; parent diary ratings, small local sample</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S12 · <a href="https://doi.org/10.1901/jaba.2010.43-751">Wilder, Nicholson and Allison, advance notice and compliance in preschoolers</a> · Journal of Applied Behavior Analysis 2010, n 3<span class="note">Confirmed: advance notice ineffective for all three; single case design</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S13 · <a href="https://www.childnet.com/wp-content/uploads/2021/11/rcpch_screen_time_parent_fact_sheet_-_final.pdf">RCPCH, screen time parent fact sheet</a> · RCPCH, January 2019<span class="note">Corrected: no safe amount, the hour before sleep and the calm moment are there; phones out of the bedroom and screen free meals are not, those belong to S75</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S14 · <a href="https://www.wsh.nhs.uk/CMS-Documents/Patient-leaflets/PaediatricDepartment/6339-1-Sleep-a-guide-for-school-age-children.pdf">West Suffolk NHS, Sleep: a guide for school aged children</a> · NHS patient leaflet 6339-2, June 2022<span class="note">Confirmed: heads up, countdown reminders, four to five activities, the same cue phrase, sleep needs by age, longer with ADHD</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S15 · <a href="https://users.nber.org/~cortesk/NBER_w24827_1-3-5_texts.pdf">Cortes, Fricke, Loeb and Song, Too little or too much? Actionable advice in an early childhood text messaging experiment</a> · NBER w24827 (Education Finance and Policy 2021)<span class="note">Corrected: 3,473 families randomised; 648 is only the parent survey subsample; every effect confirmed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S16 · <a href="https://www.nber.org/system/files/working_papers/w24450/w24450.pdf">Doss, Fahle, Loeb and York, More than just a nudge</a> · NBER w24450 (Journal of Human Resources 54(3) 2019), n 794<span class="note">Confirmed; the +0.26 SD is against control, the 63 percent and +0.32 SD against the general texts; York is ParentPowered's founder</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S17 · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6293241/">Bidargaddi et al, To prompt or not to prompt (JOOL)</a> · JMIR mHealth and uHealth 2018, n 1,255<span class="note">Confirmed; the weekday effect alone is not significant and the 12:30 peak is weekends only</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S18 · <a href="https://europepmc.org/article/PMC/PMC10337295">Bell et al, How notifications affect engagement with a behavior change app (Drink Less)</a> · JMIR mHealth and uHealth 2023, n 350<span class="note">Confirmed: 3.52 fold opening within the hour; no change over time; no difference in time to disengagement</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S19 · <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0169162">Morrison et al, timing and frequency of push notifications in a stress management app</a> · PLOS ONE 2017, n 77<span class="note">Confirmed; the 24 percent actioned is derived from means, not stated</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S20 · <a href="https://jhr.uwpress.org/content/54/3/537">York, Loeb and Doss, One step at a time (Ready4K)</a> · Journal of Human Resources 54(3) 2019, 1,031 parents<span class="note">Corrected: the 0.22 to 0.34 figures were from the 2014 draft; the published paper gives involvement +0.15 to 0.29 SD, literacy +0.11, below median +0.31</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S21 · <a href="https://www.nature.com/articles/s41598-026-39518-z">Jaremba et al, Optimizing just in time adaptive interventions for interpersonal distress</a> · Scientific Reports 2026, N 77 analysed<span class="note">Confirmed: 79.3 percent non engagement; stress OR 1.21; all effects under d 0.06</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S22 · <a href="https://europepmc.org/abstract/MED/30192907">Klasnja et al, Efficacy of contextually tailored suggestions for physical activity (HeartSteps)</a> · Annals of Behavioral Medicine 2019, n 44<span class="note">Confirmed: +24 percent averaged, +107 percent at the start, decreasing over time</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S23 · <a href="https://europepmc.org/article/PMC/PMC8663454">Carey et al, Noom engagement and weight loss</a> · JMIR mHealth and uHealth 2021, n 11,252<span class="note">Confirmed: logging measures higher in the moderate and high loss groups; most engagement declined over time</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S24 · <a href="https://www.worldradiohistory.com/BOOKSHELF-ARH/Commentary/Television-and-the-Child-Himmelweit-et-al-1958.pdf">Himmelweit, Oppenheim and Vince, Television and the Child (Nuffield reprint of chapters 1 to 4)</a> · Oxford University Press 1958, 1,854 matched viewers and controls<span class="note">Corrected: 1,854 is children, not pairs; the homework, bedtime, tiredness and teachers findings confirmed; four parental control quotes were not in the reprint and have been removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S25 · <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/2026-children-and-parents-report/children-and-parents-media-use-and-attitudes-report-2025-6.pdf">Ofcom, Children and Parents: Media Use and Attitudes 2026</a> · Ofcom, 21 May 2026, 3,426 children and 5,008 parents<span class="note">Confirmed against the PDF, including mealtimes 57 percent and bedtime 56 percent; the 41 percent of parents of teenagers was not there and has been removed</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S26 · <a href="https://www.childrenscommissioner.gov.uk/blog/children-and-stress-whats-worrying-them-most/">Children's Commissioner for England, Children and stress: what's worrying them most</a> · Published 20 May 2020, fieldwork March 2020, nearly 2,000 children<span class="note">Corrected: the quote is Being late for anything, and the blog date is May 2020</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S27 · <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/children-media-lives-2026/childrens-media-lives-2026-summary-report.pdf">Ofcom, Children's Media Lives 2026 (wave 12)</a> · Ofcom and Revealing Reality, 2026, 17 children<span class="note">Confirmed against the PDF, including Niamh's nine hours; Ben's falling asleep in lessons line is a wave 7 quote reproduced in the 2026 report</span></div></div>
+      <div class="ledger-row"><span class="verdict demoted">Demoted</span><div class="src">S28 · <a href="https://www.bbc.co.uk/news/education-39666863">Digital Awareness UK and HMC survey of 2,000 secondary pupils and 3,000 parents, as reported by the BBC</a> · BBC News, April 2017<span class="note">Demoted to a press report: every figure matches the BBC article, but the primary release could not be located</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S29 · <a href="https://www.ofcom.org.uk/siteassets/resources/documents/online-safety/research-statistics-and-data/protecting-children/childrens-online-experiences-research-report.pdf">Ofcom, Children's Online Experiences report, Figure 4 (CPOM metered panel)</a> · Ofcom, 21 May 2026, 701 children 8 to 14, 28 days each<span class="note">Confirmed against the PDF: 25, 28, 32 minutes at breakfast; 1h24 to 2h01 in the evening; 3h24 weekday against 4h07 weekend; the chart is Figure 4</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S30 · <a href="https://www.mumsnet.com/talk/am_i_being_unreasonable/5080898-for-thinking-its-ok-for-dc-to-watch-tv-before-school">Mumsnet, For thinking it's ok for DC to watch TV before school</a> · Mumsnet AIBU, 23 May 2024, 189 replies<span class="note">Confirmed verbatim</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S31 · <a href="https://www.romper.com/parenting/what-is-restraint-collapse">What is restraint collapse (Andrea Loewen Nair)</a> · Romper, 6 September 2022<span class="note">Corrected: coinage in 2016 confirmed; the article gives no typical age range, so that claim was removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S32 · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7236051/">Haycraft et al, Screen time during the after school period: a contextual perspective</a> · Preventive Medicine Reports 2020, n 204 UK 11 to 12s<span class="note">Confirmed; cross sectional, so alone time is associated with, not predictive of, screen use</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S33 · <a href="https://john-adams.co.uk/wp-content/uploads/2007/11/one%20false%20move.pdf">Hillman, Adams and Whitelegg, One False Move</a> · Policy Studies Institute 1990<span class="note">Confirmed against the full PDF: 14 to 64 percent, 904 million hours (Appendix 4), the 9.30 to 3.00 working day; 80 to 9 percent via PSI's 2013 follow up</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S34 · <a href="https://assets.publishing.service.gov.uk/media/5a8040f240f0b623026926cd/travel-to-school.pdf">DfT National Travel Survey, Travel to school factsheet, England 2014</a> · Department for Transport, published 2015<span class="note">Confirmed: 88 and 31 percent accompanied; 46 percent walk, 46 percent car</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S35 · <a href="https://www.gov.uk/government/statistics/national-travel-survey-2025/nts-2025-travel-to-and-from-school">DfT National Travel Survey 2025, travel to and from school</a> · Department for Transport, updated 11 September 2026<span class="note">Confirmed; 2025 moved to a digital diary</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S36 · <a href="https://explore-education-statistics.service.gov.uk/find-statistics/childcare-and-early-years-survey-of-parents/2025">DfE, Childcare and early years survey of parents 2025</a> · Department for Education, 9 July 2026<span class="note">Confirmed; the 21 and 65 percent are families with 5 to 14 year olds</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S37 · <a href="https://www.coramfamilyandchildcare.org.uk/research/childcare-survey-2026/">Coram Family and Childcare, Childcare Survey 2026</a> · Coram, 12 March 2026<span class="note">Confirmed in full</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S38 · <a href="https://doi.org/10.1111/apa.14639">Collet et al, Case control study found that primary language disorders were associated with screen exposure</a> · Acta Paediatrica 2019;108(6):1103, 167 cases 109 controls<span class="note">Confirmed; parent reported exposure, very wide combined interval</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S39 · <a href="https://ffteducationdatalab.org.uk/2025/09/usage-of-new-attendance-codes-an-update/">FFT Education Datalab, Usage of new attendance codes: an update</a> · FFT, 2 September 2025, about 9,000 schools<span class="note">Confirmed; FFT tracker schools, not national data</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S40 · <a href="https://explore-education-statistics.service.gov.uk/find-statistics/parental-responsibility-measures/2024-25">DfE, Parental responsibility measures 2024/25</a> · Department for Education, 29 January 2026<span class="note">Confirmed: 492,800 notices; 1,400 (0.3 percent) for lateness</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S41 · <a href="https://assets.publishing.service.gov.uk/media/67d2cf8f4702aacd2251cbae/The_impact_of_school_absence_on_lifetime_earnings.pdf">DfE, The impact of school absence on lifetime earnings</a> · Department for Education, March 2025<span class="note">Confirmed: about £750 per extra day in Years 7 to 11; an attainment model association, secondary only</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S42 · <a href="https://www.mumsnet.com/talk/am_i_being_unreasonable/5421064-no-tv-before-school">Mumsnet, No TV before school?!</a> · Mumsnet AIBU, 3 October 2025, 419 replies<span class="note">Confirmed verbatim; the thread opens with a school's message</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S43 · <a href="https://www.compareandrecycle.co.uk/blog/effects-of-screen-time-on-children">Compare and Recycle, Tech Tots Report 2025</a> · Commercial survey, 1,000 UK parents, 15 to 18 July 2025<span class="note">Confirmed; retailer PR survey, and its 6h22m daily figure sits far above Ofcom's measured use</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S44 · <a href="https://www.aboutamazon.co.uk/news/innovation/alexa-lets-get-ready-for-school">Amazon Devices survey of 2,000 UK parents</a> · Brand PR, undated, around 2021<span class="note">Corrected: 51 and 52 percent confirmed; out of bed is 32 not 36 percent; the 139 hours figure is not there and was removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S45 · <a href="https://apps.apple.com/gb/app/google-family-link/id1150085200">Google Family Link, UK App Store</a> · Apple App Store, October 2026<span class="note">Confirmed: free, 4.6 from 42,000 ratings, the bonus time review verbatim</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S46 · <a href="https://www.choosingtherapy.com/joon-app-review/">Joon app review and pricing</a> · Choosing Therapy, updated 30 July 2026, and the UK and US App Store pages<span class="note">Corrected: $89.99 is one of several tiers; US store 4.7 from 6,600; sticker shock confirmed; the four to eight weeks fade is a competitor's claim and is labelled so</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S47 · <a href="https://www.mumsnet.com/talk/parenting/1960771-What-do-your-kids-do-after-school-other-than-stare-at-a-TV">Mumsnet, What do your kids do after school (other than stare at a TV)?!</a> · Mumsnet Parenting, 8 January 2014, 38 replies<span class="note">Confirmed verbatim</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S48 · <a href="https://en.wikipedia.org/wiki/Toddlers%27_Truce">The Toddlers' Truce</a> · Wikipedia, citing Sendall 1982 and BFI Screenonline<span class="note">Confirmed; the Hill quote is from his memoir, not checked against the book</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S49 · <a href="https://www.wired-gov.net/wg/news.nsf/print/TV+watershed+has+been+protecting+viewers+for+50+years+03072014160500">Ofcom, TV watershed has been protecting viewers for 50 years</a> · Ofcom press release, 3 July 2014<span class="note">Corrected: re cited from the RTS article to Ofcom; the ITA recommendation and family viewing until 9pm confirmed; no primary supports a 6pm start, removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S50 · <a href="https://en.wikipedia.org/wiki/Timeline_of_breakfast_television_in_the_United_Kingdom">Timeline of breakfast television in the United Kingdom</a> · Wikipedia, with the Roland Rat and Wide Awake Club pages<span class="note">Confirmed; the 100,000 to 1.8 million figure is widely repeated and its underlying citation was not checked</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S51 · <a href="https://blog.youtube/news-and-events/new-safety-and-digital-wellbeing-options-younger-people-youtube-and-youtube-kids/">YouTube, new safety and digital wellbeing options for younger people</a> · YouTube official blog, 10 August 2021<span class="note">Confirmed verbatim</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S52 · <a href="https://www.gov.uk/government/publications/fact-sheet-new-rules-to-protect-children-online/fact-sheet-new-rules-to-protect-children-online">UK Government fact sheet on the under 16 social media rules, with the 15 July 2026 press release on 16 and 17 year olds</a> · GOV.UK, updated 18 September 2026; NPR 15 June 2026 for the YouTube Kids exemption<span class="note">Corrected: re attributed from the Commons Library briefing, which could not be read in its current form; 116,211 responses; notifications disabled and autoplay and personalised feeds off by default</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S53 · <a href="https://doi.org/10.1186/s40814-022-01039-7">Kitsaras, Pretty and Allan, Bedtime Routines Intervention for Children (BRIC) by text message</a> · Pilot and Feasibility Studies 2022, n 50<span class="note">Confirmed; single arm, no control</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S54 · <a href="https://doi.org/10.1080/15374416.2018.1485109">Dadds et al, Keeping parents involved: predicting attrition in a self directed online programme (ParentWorks)</a> · Journal of Clinical Child and Adolescent Psychology 2019;48(6):881<span class="note">Confirmed: 1,625 never started; 218 (7.3 percent) completed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S55 · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10474505">SMS4dads survival analysis</a> · JMIR Formative Research 2023, n 3,261<span class="note">Confirmed; the reasons are from 202 of the 605 leavers</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S56 · <a href="https://doi.org/10.1001/jamapediatrics.2022.4793">Radesky et al, Longitudinal associations between use of mobile devices for calming and emotional reactivity</a> · JAMA Pediatrics 2023;177(1):62, n 422<span class="note">Corrected: the lag is three months inside a six month study; the 0.13 reverse path is the high surgency subgroup only</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S57 · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10570398/">Coyne et al, Silencing screaming with screens</a> · Emotion 2023;23(8):2194, n 269 dyads<span class="note">Confirmed: longitudinal β −0.04 (p .52)</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S58 · <a href="https://doi.org/10.1037/bul0000311">Andrews, Atkinson, Harris and Gonzalez, household chaos and child executive functions, a meta analysis</a> · Psychological Bulletin 2021;147(1):16, 35 studies n 16,480<span class="note">Corrected: the instability against disorganisation split applies to directly assessed executive function only</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S59 · <a href="https://growth.airship.com/rs/313-QPJ-195/images/Airship-2025-Push-Notification-Benchmarks-EN.pdf">Airship, 2025 Mobile App Push Notification Benchmarks</a> · Airship, 2025 (2024 data)<span class="note">Confirmed; the opt out survey is about brand communications generally</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S60 · <a href="https://gravitec.net/blog/15-must-know-web-push-notification-statistics/">Gravitec, web push notification statistics</a> · Gravitec, vendor dashboard data, 2022<span class="note">Confirmed; single vendor, no external methodology</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S61 · <a href="https://www.revenuecat.com/state-of-subscription-apps">RevenueCat, State of Subscription Apps 2026, with the churn reasons blog</a> · RevenueCat, 2026<span class="note">Corrected: the 37 percent insufficient usage figure is from RevenueCat's blog quoting Google Play survey data (2025 edition); trial conversion by length, day 0 cancellations and month 1 confirmed; the 18.8 percent monthly retention is the 2024 edition and was removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S62 · <a href="https://www.deconstructoroffun.com/blog/x0hd2ssr80y5n7gv0w967pg7hwd7tl">Deconstructor of Fun on Finch, with Sensor Tower data</a> · Industry analysis, 31 March 2026<span class="note">Confirmed as secondary estimates, not Finch disclosures</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S63 · <a href="https://www.tavistockandportman.ac.uk/articles/what-is-emotionally-based-school-avoidance-esba/">Tavistock and Portman, What is emotionally based school avoidance</a> · Professional article, 3 July 2024<span class="note">Corrected: the 22.5 percent persistent absence in 2021/22 holds against DfE; the Not Fine in School membership line is Philippa Perry's via Tavistock, and the group's own site now says 80,000 plus</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S64 · <a href="https://doi.org/10.1038/s41598-026-50892-6">Reynaud et al, A one hour delayed school start improves sleep, sleepiness and inhibitory control, RCT</a> · Scientific Reports 2026, N 50 and 73, ages 11.7 to 14.2<span class="note">Confirmed; only four clusters</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S65 · <a href="https://assets.publishing.service.gov.uk/media/6a901438f5b35599aec18e7f/Data_tables_breakfast_clubs_early_adopters.xlsx">DfE, Breakfast clubs early adopters: results from parents' survey, data tables</a> · Ipsos for the Department for Education, 16 June 2026, published 1 September 2026, 5,487 parents<span class="note">Confirmed in the spreadsheet itself (tables 14, 52, 68, 72, 76, 118); no reduces lateness row exists, so that figure was removed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S66 · <a href="https://www.gov.uk/government/publications/free-breakfast-clubs-guidance-for-schools-and-trusts/free-breakfast-clubs-guidance-for-schools-and-trusts-for-phase-1-of-the-national-rollout-from-april-2026">DfE, Free breakfast clubs: guidance for phase 1 of the national rollout</a> · Department for Education, updated 15 September 2026<span class="note">Confirmed; the benefit cost ratio of 2.43 is for year one</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S67 · <a href="https://www.tes.com/magazine/news/primary/free-breakfast-clubs-wont-improve-school-attendance-say-most-heads">Tes reporting Teacher Tapp: free breakfast clubs won't improve attendance, say most heads</a> · Tes, 24 January 2025, 3,000 primary leaders and teachers<span class="note">Confirmed, including the quoted trust chief executive</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S68 · <a href="https://files.eric.ed.gov/fulltext/ED680930.pdf">EEF, BITUP: updating parents on the number of school days missed, evaluation report</a> · Education Endowment Foundation, 2025; 105 schools analysed, 71,916 eligible pupils<span class="note">Corrected: 0.21 fewer days across five terms among pupils below 95 percent attendance, not per year for all; the EEF quotes confirmed on its project page</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S69 · <a href="https://d2tic4wvo1iusb.cloudfront.net/documents/pages/Attendance-REA-report.pdf?v=1674658557">EEF, Attendance interventions rapid evidence assessment</a> · Education Endowment Foundation, March 2022, 72 studies<span class="note">Corrected: the communication meta analysis pooled 7 studies; Magic Breakfast attendance ES 0.04 (−0.01 to 0.08), non significant; Texting Parents is also UK</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S70 · <a href="https://assets.publishing.service.gov.uk/media/6a915d1c01bbff0bf8f97b51/Schools_inspection_toolkit.pdf">Ofsted, Schools inspection toolkit v2.0</a> · Ofsted, June 2026, for inspections from 7 September 2026<span class="note">Confirmed verbatim</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S71 · <a href="https://assets.publishing.service.gov.uk/media/6970e7e67e827090d02d42e0/Relationships_education_relationships_and_sex_education__RSE__and_health_education__for_intro_1_September_2026_.pdf">DfE, RSHE statutory guidance for introduction 1 September 2026</a> · Department for Education<span class="note">Corrected: the primary and secondary sleep wording confirmed; the guidance does not mention the Children's Commissioner, so that sentence was removed</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src">S72 · <a href="https://assets.publishing.service.gov.uk/media/6a4f9ec6a6586e258d371bd0/Working_together_to_improve_school_attendance_2026.pdf">DfE, Working together to improve school attendance</a> · Department for Education, July 2026 edition, applies from 19 August 2024<span class="note">Corrected to the current edition; the 30 minute register, U as unauthorised and the punctuality expectations confirmed; the policy should, not must, state the times</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S73 · <a href="https://assets.publishing.service.gov.uk/media/67852c953a9388161c5d2335/Wave_3_Summary_Report.pdf">DfE, Working lives of teachers and leaders, wave 3</a> · Department for Education, 2025<span class="note">Confirmed: 48.1 hours, leaders 56.6; Sutton Trust 74 percent confirmed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S74 · <a href="https://www.fryent.brent.sch.uk/parents/attendance-and-punctuality/attendance-and-punctuality-1">Fryent Primary, attendance and punctuality page</a> · School website, illustrative<span class="note">Confirmed; no mention of screens</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src">S75 · <a href="https://assets.publishing.service.gov.uk/media/5c5b1510e5274a316cee5be8/UK_CMO_commentary_on_screentime_and_social_media_map_of_reviews.pdf">UK Chief Medical Officers, commentary on screen time and social media</a> · Davies, Atherton, Calderwood and McBride, 7 February 2019<span class="note">Confirmed against the PDF: leave phones outside the bedroom at bedtime; screen free meal times; research insufficiently conclusive for limits; a precautionary approach</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Nine lenses, six verifiers plus a local read of the spreadsheets and PDFs they could not open · 7 October 2026
+  </footer>
+
+</div>
+</body>
+</html>
