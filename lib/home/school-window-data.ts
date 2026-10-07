@@ -45,7 +45,7 @@ export async function getSchoolWindow(
     const region = await getFamilyRegion(supabase, userId)
     if (!isSchoolDay(new Date(), region)) return null
 
-    // The times, failing soft to the defaults until migration 362 has run.
+    // The times, failing soft to the defaults until migration 363 has run.
     let kids: { school_start_minutes?: number | null; home_minutes?: number | null }[] = []
     const { data, error } = await supabase.from('children').select('school_start_minutes, home_minutes').eq('parent_id', userId)
     if (!error && data) kids = data as typeof kids

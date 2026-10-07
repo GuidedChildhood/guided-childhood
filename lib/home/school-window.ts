@@ -29,7 +29,7 @@
 //    Describe the pattern a parent will recognise. Never the label.
 //
 // Everything here is pure so the cron, the Home card and the guard read the
-// same rule. The times live on children (migration 362): school_start_minutes
+// same rule. The times live on children (migration 363): school_start_minutes
 // and home_minutes, minutes from midnight UK, null meaning the defaults the
 // pushes have always used (07:30 and 15:30).
 

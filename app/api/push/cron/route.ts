@@ -35,7 +35,7 @@ const WINDOW_MINUTES = 10
 // - The windows belong to the family's clock, not ours. A Reception child
 //   starts at 8.50 and is home at 3.20; a Year 9 starts at 8.30 and is home
 //   at 5 after rugby. Each child now carries school_start_minutes and
-//   home_minutes (migration 362), and the family's morning target is 50
+//   home_minutes (migration 363), and the family's morning target is 50
 //   minutes before the earliest start, the afternoon 15 minutes after the
 //   latest home time. Null keeps 07:30 and 15:30, so nobody's push moved
 //   because of the deploy.
@@ -77,7 +77,7 @@ async function runWindowPass(nowMinutes: number) {
   if (users.length === 0) return { sent: 0, due: 0 }
 
   // Children carry the times and the band; the profile carries the calendar.
-  // The times read fails soft to the defaults until migration 362 has run.
+  // The times read fails soft to the defaults until migration 363 has run.
   const [kidsRes, profilesRes] = await Promise.all([
     admin.from('children').select('parent_id, name, age_band, is_primary, school_start_minutes, home_minutes').in('parent_id', users).order('is_primary', { ascending: false })
       .then(r => r.error ? admin.from('children').select('parent_id, name, age_band, is_primary').in('parent_id', users).order('is_primary', { ascending: false }) : r),

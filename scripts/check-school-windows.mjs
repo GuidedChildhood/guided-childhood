@@ -41,14 +41,14 @@ check(homeTarget(15 * 60 + 20) === 15 * 60 + 30, 'A: home at 3:20 lands the afte
 const two = familyTargets([{ school_start_minutes: 8 * 60 + 30, home_minutes: 17 * 60 }, { school_start_minutes: 8 * 60 + 50, home_minutes: 15 * 60 + 20 }])
 check(two.morning === morningTarget(8 * 60 + 30) && two.home === homeTarget(17 * 60), 'A: several children: earliest start, latest home, one push')
 check(SCHOOL_START_OPTIONS.every(m => morningTarget(m) % 30 === 0) && HOME_OPTIONS.every(m => homeTarget(m) % 30 === 0), 'A: every picker option lands on a half hour the cron runs on')
-check(SCHOOL_START_OPTIONS.every(m => m % 15 === 0 && m >= 450 && m <= 570) && HOME_OPTIONS.every(m => m % 15 === 0 && m >= 870 && m <= 1110), 'A: picker ranges match the column checks in migration 362')
+check(SCHOOL_START_OPTIONS.every(m => m % 15 === 0 && m >= 450 && m <= 570) && HOME_OPTIONS.every(m => m % 15 === 0 && m >= 870 && m <= 1110), 'A: picker ranges match the column checks in migration 363')
 
 // ── B: one window, open only inside it ──────────────────────────────────────
 check(openWindow(DEFAULT_MORNING_TARGET, d) === 'morning' && openWindow(DEFAULT_MORNING_TARGET + CARD_OPEN_MINUTES - 1, d) === 'morning', 'B: the morning card is open from the target for the window')
 check(openWindow(DEFAULT_MORNING_TARGET + CARD_OPEN_MINUTES, d) === null && openWindow(12 * 60, d) === null && openWindow(21 * 60, d) === null, 'B: the card is closed outside both windows')
 check(openWindow(DEFAULT_HOME_TARGET + 10, d) === 'home', 'B: the afternoon card is open after the home target')
-const mig = readFileSync('supabase/migrations/362_school_day_windows.sql', 'utf8')
-check(/add column if not exists school_start_minutes int/.test(mig) && /add column if not exists home_minutes int/.test(mig), 'B: migration 362 adds the two times on children')
+const mig = readFileSync('supabase/migrations/363_school_day_windows.sql', 'utf8')
+check(/add column if not exists school_start_minutes int/.test(mig) && /add column if not exists home_minutes int/.test(mig), 'B: migration 363 adds the two times on children')
 check(/alter column slots set default '\{afternoon,evening\}'/.test(mig), 'B: new subscriptions default to one school day window')
 check((mig.match(/where not exists \(select 1 from public\.scripts where title = /g) || []).length === 3, 'B: the three new scripts seed by title, once')
 check(/where not exists \(select 1 from public\.expert_knowledge e where e\.finding = v\.finding\)/.test(mig), 'B: the sourced findings seed once')

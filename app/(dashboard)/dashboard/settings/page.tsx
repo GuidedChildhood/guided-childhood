@@ -48,7 +48,7 @@ interface Child {
   interests: string | null
   is_primary: boolean
   // When school starts and when they are usually home, minutes from midnight
-  // UK (migration 362). The before school and home from school card and push
+  // UK (migration 363). The before school and home from school card and push
   // land 50 minutes before the start and 15 after the home time.
   school_start_minutes: number | null
   home_minutes: number | null
@@ -84,7 +84,7 @@ export default function SettingsPage() {
   const [dobSupported, setDobSupported] = useState(true)
   // False before migration 088: the interests field hides and saves skip it.
   const [interestsSupported, setInterestsSupported] = useState(true)
-  // False before migration 362: the school day times hide and saves skip them.
+  // False before migration 363: the school day times hide and saves skip them.
   const [timesSupported, setTimesSupported] = useState(true)
   const [loading, setLoading] = useState(true)
   // The billing portal button: cancelling, and fixing a card that failed.
@@ -134,7 +134,7 @@ export default function SettingsPage() {
         }
       }
       if (childrenResult.error) {
-        // 362 (school day times) is the newest column, so it steps back first.
+        // 363 (school day times) is the newest column, so it steps back first.
         setTimesSupported(false)
         const withInterests = await supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
         if (!withInterests.error) childrenResult = withInterests
