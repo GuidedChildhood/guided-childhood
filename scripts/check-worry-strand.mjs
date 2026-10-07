@@ -64,7 +64,8 @@ const chat = code(read(CHAT))
 // band being a band. A regex over these would pass on a file that returns the
 // wrong answer every time.
 const probe = `
-import { knowledgeTopicFor, orderBank, approachKey, bandOf, bandWord } from './lib/digi/approaches.ts'
+import { knowledgeTopicFor, orderBank, approachKey, bandWord } from './lib/digi/approaches.ts'
+import { bandOf } from './lib/concerns/bands.ts'
 const rows = [
   { id: 'a', finding: 'first', source_name: 'S', topics: ['sleep'], age_bands: ['11-13'] },
   { id: 'b', finding: 'second', source_name: 'S', topics: ['sleep'], age_bands: ['7-10'] },

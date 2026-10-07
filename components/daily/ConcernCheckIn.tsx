@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { categoryForConcern } from '@/lib/content/signal-map'
+import { bandOf } from '@/lib/concerns/bands'
+import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -64,6 +66,10 @@ export type ConcernCheckItem = {
   /** A DiGi suggestion for THIS worry that is still waiting on an answer. It
    *  is asked above the stars, never on a card days later. See lib/checkin. */
   followUp?: { outcomeId: string; suggestion: string } | null
+  /** How many top band scores sit on the end of its run, before today. Read by
+   *  lib/concerns/scores so the card counts the way the resting rule counts.
+   *  Absent on the fixture, where last time's score stands in for it. */
+  topRun?: number
 }
 
 /** The five bands, worst to best, which is the direction the scale has always
@@ -81,12 +87,12 @@ export const BANDS = [
   { score: 10, label: 'Going great' },
 ] as const
 
-/** Which of the five a number belongs to. 1 to 5, matching BANDS by index+1.
- *  Reads a legacy 1 to 10 score just as happily as a new one, which is how last
- *  time's ring still lands on the right word for a family who has been checking
- *  in since before this changed. */
-export function bandOf(n: number): number {
-  return Math.ceil(Math.min(10, Math.max(1, n)) / 2)
+// Which of the five a number belongs to is bandOf in lib/concerns/bands.ts,
+// shared with the monthly review and DiGi so the three can never disagree.
+
+/** A small run of good days, said as a word. Two in a row rests a worry. */
+function runWord(n: number): string {
+  return ['', 'one', 'two', 'three', 'four', 'five'][n] ?? String(n)
 }
 
 // WHERE A NEW WORRY CAME FROM, SAID BACK.
@@ -607,7 +613,7 @@ export default function ConcernCheckIn({
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {baseline
           ? 'One tap each, just to see where things stand. No right answer.'
-          : 'One tap each, just to see how it is going. Five stars and it comes off your list.'}
+          : `One tap each, just to see how it is going. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list.`}
       </p>
 
       {concerns.map((c, idx) => {
@@ -616,6 +622,17 @@ export default function ConcernCheckIn({
         const isPending = pending[c.id]
         const chosenBand = isTouched ? bandOf(value[c.id]) : 0
         const lastBand = c.lastScore != null ? bandOf(c.lastScore) : 0
+        // ── A FIVE IS SORTED ONLY WHEN IT IS THE SECOND IN A ROW (7 October 2026)
+        //
+        // The rule moved to two top scores in a row on 9 September and this
+        // card was never told: the green "that is sorted" box showed on EVERY
+        // five, including the first, right under a verdict line that said
+        // "one more like this". Two messages on one tap, and the box was the
+        // untrue one. The run before today is what decides, counted the way
+        // lib/concerns/resting.ts counts it, and last time's score stands in
+        // where the run was not supplied.
+        const topRunBefore = c.topRun ?? (c.lastScore != null && c.lastScore >= TOP_BAND ? 1 : 0)
+        const restsToday = topRunBefore + 1 >= SILVER_RUN
         // ── A NEW ROW STARTS AT ONE STAR, NOT AT NOTHING ──────────────────
         //
         // Justin, 11 September 2026: "if first time added from check in we can
@@ -917,7 +934,7 @@ export default function ConcernCheckIn({
                   numbers. Saying it at the moment they earn it also makes the
                   top star mean something: it is the only answer that shortens
                   next week's list. */}
-              {chosenBand === 5 && (
+              {chosenBand === 5 && restsToday && (
                 <div style={{
                   display: 'flex', alignItems: 'flex-start', gap: '9px',
                   background: 'var(--tint-green)', borderRadius: 'var(--radius-tile)',
@@ -925,8 +942,19 @@ export default function ConcernCheckIn({
                 }}>
                   <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.2, flexShrink: 0 }}>🎉</span>
                   <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
-                    That is sorted, so we will drop it off your check in. If it comes back, log it as a moment and it returns here on its own.
+                    That is sorted, {runWord(SILVER_RUN)} great days in a row, so we will drop it off your check in. If it comes back, log it as a moment and it returns here on its own.
                   </span>
+                </div>
+              )}
+              {/* A first five is a win with a finish line, not the finish. The
+                  first ever score already says "one more like this" inside its
+                  verdict line, so this is only for a worry with a last time. */}
+              {chosenBand === 5 && !restsToday && c.lastScore != null && (
+                <div style={{
+                  fontSize: 'var(--text-sm)', color: 'var(--ink-muted)',
+                  lineHeight: 1.5, marginTop: '6px',
+                }}>
+                  Great day. One more like this and it comes off your list.
                 </div>
               )}
 
@@ -950,7 +978,7 @@ export default function ConcernCheckIn({
                   lineHeight: 1.5, marginTop: '6px',
                 }}>
                   {chosenBand === 4
-                    ? 'Nearly there. It stays on your list until five stars, then it is done.'
+                    ? `Nearly there. It stays on your list until ${runWord(SILVER_RUN)} great days in a row, then it is done.`
                     : 'Still needs help, so it stays on your list and we keep working on it with you.'}
                 </div>
               )}

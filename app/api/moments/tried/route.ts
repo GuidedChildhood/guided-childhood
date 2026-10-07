@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { bandOf } from '@/lib/digi/approaches'
+import { bandOf } from '@/lib/concerns/bands'
 import { NextResponse } from 'next/server'
 
 // "I tried this." Which is a different sentence from "I opened this."

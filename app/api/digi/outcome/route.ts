@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { isVerdict } from '@/lib/digi/outcomes'
-import { bandOf } from '@/lib/digi/approaches'
+import { bandOf } from '@/lib/concerns/bands'
 
 // The parent answers "how did that go?".
 //

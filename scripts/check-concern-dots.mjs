@@ -374,15 +374,30 @@ await p.screenshot({ path: process.env.SHOTS ? `${process.env.SHOTS}/checkin-390
 // A saved row cannot be re-answered.
 check('a saved row is locked', await words.nth(1).isDisabled())
 
-// FIVE STARS SAYS IT WILL STOP ASKING. The rule lives in lib/checkin/today.ts;
-// this is the half the parent has to be told, because a row that silently
-// vanishes next week is indistinguishable from the app having lost it.
+// FIVE STARS SAYS WHAT HAPPENS NEXT, AND IT HAS TO BE TRUE.
+//
+// The rule lives in lib/concerns/resting.ts: a worry rests after TWO top
+// scores in a row (9 September 2026). The card said "that is sorted, we will
+// drop it off" on every five, including the first, which was untrue for a
+// month before anyone noticed, because the fixture row this used to tap had
+// no history and the guard asserted the wrong sentence on it.
+//
+// So two rows now, one for each half of the rule. The second row has never
+// been scored, so a five there is the FIRST in a row and must say one more
+// is needed, never that it is sorted. The third row's last score is a legacy
+// 9, top band, so a five there is the second and must say sorted.
 const second = p.locator('[role="radiogroup"]').nth(1).locator('[role="radio"]')
 await tap(second.nth(4), 'five stars on the second row')
 const t5 = await stable(() => p.locator('body').innerText())
-check('five stars says the concern will drop off the check in',
-  /drop it off your check in/i.test(t5) && /log it as a moment/i.test(t5),
-  t5.split('\n').find(l => /drop it off/i.test(l)) ?? 'no message')
+check('a first five says one more is needed, not that it is sorted',
+  /one more like this/i.test(t5) && !/drop it off your check in/i.test(t5),
+  t5.split('\n').find(l => /one more like this|drop it off/i.test(l)) ?? 'no message')
+const third = p.locator('[role="radiogroup"]').nth(2).locator('[role="radio"]')
+await tap(third.nth(4), 'five stars on the third row')
+const t55 = await stable(() => p.locator('body').innerText())
+check('a second five in a row says the concern will drop off the check in',
+  /drop it off your check in/i.test(t55) && /log it as a moment/i.test(t55),
+  t55.split('\n').find(l => /drop it off/i.test(l)) ?? 'no message')
 await p.close()
 
 // Narrow phone: the longest word still has to fit on one line.

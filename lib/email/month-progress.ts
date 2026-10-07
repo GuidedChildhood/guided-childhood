@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { TOP_BAND } from '@/lib/concerns/resting'
+import { bandOf } from '@/lib/concerns/bands'
 
 // WHAT ACTUALLY MOVED THIS MONTH, PER CHILD.
 //
@@ -22,8 +23,8 @@ import { TOP_BAND } from '@/lib/concerns/resting'
 // The five stars are five bands and star n posts the top of its band, so the
 // stored scores are 2, 4, 6, 8 and 10. Comparing 8 against 7 would call a
 // rounding a result. Everything here compares the BAND, which is the only
-// comparison that means what a parent thinks it means.
-export const bandOf = (score: number) => Math.max(1, Math.min(5, Math.ceil(score / 2)))
+// comparison that means what a parent thinks it means, through the one bandOf
+// in lib/concerns/bands.ts that the card itself uses.
 
 export type MonthProgress = {
   /** Live worries this child still has with us at the end of the month. */
