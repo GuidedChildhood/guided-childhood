@@ -56,6 +56,23 @@ B.beats.forEach((beat, i) => {
     tl += `tl.fromTo("#${beat.id}-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},${(s + rd).toFixed(2)});\n`
   }
 })
+// Sound. The score runs the whole film with a fade in, a dip under the
+// morning so the birdsong reads, and a fade out. Effects sit on their beats.
+let audio = ''
+if (B.music) {
+  const m = B.music, fadeOut = total - 3.5
+  const morning = starts[B.beats.findIndex((b) => b.id === 's6')]
+  const lane = [{ t: 0, v: 0 }, { t: 1.8, v: m.vol }, { t: morning.s - 0.5, v: m.vol }, { t: morning.s + 1.2, v: m.vol * 0.6 }, { t: morning.s + morning.d - 1, v: m.vol * 0.6 }, { t: morning.s + morning.d + 1, v: m.vol }, { t: fadeOut, v: m.vol }, { t: total, v: 0 }]
+  audio += `<audio id="music" src="assets/${m.file}" data-audio-group="music" data-start="0" data-duration="${total.toFixed(2)}" data-track-index="4" data-automation='${JSON.stringify({ version: 1, lanes: [{ target: 'volume', points: lane }] })}'></audio>\n`
+}
+let sfxN = 0
+B.beats.forEach((beat, i) => {
+  for (const f of beat.sfx || []) {
+    const at = f.at === 'right' ? beat.rightDelay : f.at
+    const dur = { 'sfx-tv-on.mp3': 3, 'sfx-countdown.mp3': 2, 'sfx-clock.mp3': 5, 'sfx-morning.mp3': 5, 'sfx-chime.mp3': 2 }[f.file] || 3
+    audio += `<audio id="sfx-${++sfxN}" src="assets/${f.file}" data-audio-group="sfx" data-start="${(starts[i].s + at).toFixed(2)}" data-duration="${dur}" data-track-index="${5 + (sfxN % 2)}" data-volume="${f.vol}"></audio>\n`
+  }
+})
 const page = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
@@ -94,7 +111,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .url{position:absolute;top:71cqh;left:46cqw;font-size:1.6cqw;font-family:plexMono,monospace;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:#EDC35F;padding:0.7cqw 1.6cqw;border:3px solid #1A1A2E;border-radius:16px;box-shadow:0 5px 0 #C99A28;opacity:0}
 </style></head><body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="${total.toFixed(1)}" data-width="1920" data-height="1080">
-${html}</div>
+${html}${audio}</div>
 <script>
 window.__timelines = window.__timelines || {};
 var tl = window.__timelines["main"] = gsap.timeline({ paused: true });

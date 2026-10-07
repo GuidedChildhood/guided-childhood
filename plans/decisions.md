@@ -252,3 +252,14 @@ Titles only. Open the archive at the line number in its own index for the full e
 - New tools: `set_reminder` (UK clock time, cap five, migration 359 `digi_reminders`, sent by `/api/cron/digi-reminders` every five minutes, Home card when no push device, an hour late is missed not sent) and `log_moment` (exact moment card title or nothing, ticks today's Moment step).
 - Worries: save_memory now runs before other tools, so a follow up booked in the same turn attaches to the worry just raised. "Tell DiGi what is hard right now" opens the chat.
 - Hands free, not a wake word: a page cannot keep a microphone open all day and should not. Off on every page open, never stored, off after two quiet minutes or a hidden page. Guarded in check-digi-voice.
+
+## 7 October 2026: Two brains, one clock has sound and 1080p clips (PR 1184)
+
+- The child's brain film got an original score and five placed effects,
+  declared in `videos/2026-10-06-two-brains/beats.json` and written by the
+  build. No trending sound: no TikTok account is connected, trending audio is
+  a licence problem off TikTok, and original beats reposted. Add one inside
+  TikTok at publish time if wanted.
+- Six Seedance clips finalised at 1080p (432 credits). The readability rule
+  from 6 October stays: the build refuses long cards and sets the hold from
+  the word count.

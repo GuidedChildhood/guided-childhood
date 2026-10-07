@@ -22,7 +22,14 @@
         "digi": "big",
         "tag": "The same evening, side by side",
         "head": "Same child. Same clock. One difference."
-      }
+      },
+      "sfx": [
+        {
+          "file": "sfx-tv-on.mp3",
+          "at": 1.4,
+          "vol": 0.7
+        }
+      ]
     },
     {
       "id": "s2",
@@ -58,7 +65,19 @@
         "head": "Tonight is not the night to fight it.",
         "body": "Sit with her for the last five minutes. Then off at the end of this one, and up together.",
         "src": "Rails: no blame, no battle at bedtime"
-      }
+      },
+      "sfx": [
+        {
+          "file": "sfx-countdown.mp3",
+          "at": 0.6,
+          "vol": 0.55
+        },
+        {
+          "file": "sfx-chime.mp3",
+          "at": "right",
+          "vol": 0.6
+        }
+      ]
     },
     {
       "id": "s4",
@@ -76,7 +95,14 @@
         "head": "The ending is built in.",
         "body": "Children were less upset when screen time was routine, and when the technology ended it rather than a parent.",
         "src": "Hiniker and others, 2016"
-      }
+      },
+      "sfx": [
+        {
+          "file": "sfx-clock.mp3",
+          "at": 0.3,
+          "vol": 0.5
+        }
+      ]
     },
     {
       "id": "s5",
@@ -111,7 +137,19 @@
         "tag": "Three nights later",
         "head": "Did it work? Tell DiGi.",
         "body": "Your answer feeds the next one. Across families only counts travel, never your words."
-      }
+      },
+      "sfx": [
+        {
+          "file": "sfx-morning.mp3",
+          "at": 0.3,
+          "vol": 0.6
+        },
+        {
+          "file": "sfx-chime.mp3",
+          "at": "right",
+          "vol": 0.5
+        }
+      ]
     },
     {
       "id": "cta",
@@ -121,5 +159,9 @@
       "body": "Find your child's stage, then ask DiGi your own 9pm question.",
       "url": "guidedchildhood.com/starter-pack"
     }
-  ]
+  ],
+  "music": {
+    "file": "music-bed.mp3",
+    "vol": 0.5
+  }
 }

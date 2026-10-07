@@ -59,9 +59,34 @@ original cartoon characters in the same toy world, no real child, no text in
 the clips. DiGi from the reference art. One clip was refused for IP and
 reworded. 90 credits spent.
 
+## Sound (7 October)
+
+Justin approved the draft and asked for sound, ideally something that could
+travel. Two layers, both ours, declared in `beats.json` and written by the
+build:
+
+- **Score.** One 90 second original piece (Sonilo): felt piano, a slow
+  heartbeat pulse, light strings, tender and slightly uneasy at the start,
+  warmer from the middle, calm by the morning. Fades in over two seconds,
+  dips under the morning beat so the birdsong reads, fades out at the end.
+- **Effects.** The TV clicking on (9:00), the countdown blips and the whoosh
+  of the next clip (9:02), the clock ticking (9:20), birdsong and a spoon on
+  a bowl (7:30), and a soft two note chime each time a DiGi card lands.
+
+No voice yet; the film reads silent and the music carries it. Why not a
+trending sound: the TikTok library needs a connected TikTok account
+(none is connected), trending audio on LinkedIn and YouTube is a licensing
+problem, and the research this week says original beats reposted. The
+vertical cut can take a trending sound at publish time inside TikTok itself,
+where the licence is TikTok's.
+
+## Finals
+
+All six clips finalised at 1080p from their drafts (432 credits), the
+pyjamas moment included. Draft and final sources removed; `assets/` holds the
+slowed, column cropped versions the composition uses.
+
 ## Still to do
 
-- Justin to watch the draft and say whether the pace is right.
-- Finalise the five clips at 1080p (72 credits each) once approved.
 - Vertical cut: stack the columns, left above right, same clock.
 - Voice: still silent. Decision pending from the brain film.
