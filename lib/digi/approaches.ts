@@ -1,5 +1,6 @@
 import { readScores } from '@/lib/concerns/scores'
 import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
+import { bandOf } from '@/lib/concerns/bands'
 import { inferSituation } from '@/lib/digi/situation'
 import type { createClient } from '@/lib/supabase/server'
 
@@ -41,11 +42,6 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 //    and hands DiGi a better answer when the parent is already talking. The
 //    twice a week step in cap in lib/config/digi.ts is untouched and stays
 //    the only door DiGi can knock on.
-
-/** Band 1 to 5 from a 0 to 10 score. The arithmetic review.md section 4a fixes. */
-export function bandOf(score: number): number {
-  return Math.ceil(Math.min(10, Math.max(1, score)) / 2)
-}
 
 /** What a band sounds like out loud, the same five words the check in uses. */
 export function bandWord(band: number): string {

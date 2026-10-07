@@ -28,6 +28,9 @@ export type CheckInRow = {
   timesFlagged: number
   lastFlaggedAt: string
   lastScore: number | null
+  /** Top band scores on the end of its run, before today. The card reads it to say
+   *  whether a five today is the one that rests the worry. */
+  topRun: number
   /** Whose worry this is. concerns.child_id has always been set; nothing read it. */
   childId: string | null
   childName: string | null
@@ -553,6 +556,7 @@ export async function getTodayCheckIn(
         timesFlagged: c.times_flagged,
         lastFlaggedAt: c.last_flagged_at,
         lastScore: lastScoreByConcern.get(c.id) ?? null,
+        topRun: read.topRun.get(c.id) ?? 0,
         childId: c.child_id ?? null,
         childName: name && name !== 'Your child' ? name : null,
         source: (c as Row).source ?? null,
