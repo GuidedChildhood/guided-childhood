@@ -1,3 +1,4 @@
+import { pickWhy, pickSupport, weekOf } from '@/lib/email/momentum'
 import { weeklyReviewEmail } from '@/lib/email/templates'
 
 // Harness for the Sunday weekly review email, and specifically for the What
@@ -44,6 +45,11 @@ export default function DevWeeklyReviewEmail() {
         scriptsTried: ['Handing the phone over'],
         ratingShift: null,
       },
+    },
+    momentum: {
+      nugget: { finding: 'The UK Chief Medical Officers found the evidence does not support a single safe screen time limit. Their advice to families is to protect sleep, keep screens out of the bedroom and keep mealtimes screen free.', source: 'UK Chief Medical Officers', url: null },
+      why: pickWhy(weekOf()),
+      support: pickSupport(weekOf(), '/dashboard/scripts/category/family-rules'),
     },
     movement: [
       { label: 'Bedtime', from: 5, to: 8, span: 'over 6 weeks' },
