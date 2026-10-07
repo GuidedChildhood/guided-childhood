@@ -287,6 +287,22 @@ Titles only. Open the archive at the line number in its own index for the full e
 - Worries: save_memory now runs before other tools, so a follow up booked in the same turn attaches to the worry just raised. "Tell DiGi what is hard right now" opens the chat.
 - Hands free, not a wake word: a page cannot keep a microphone open all day and should not. Off on every page open, never stored, off after two quiet minutes or a hidden page. Guarded in check-digi-voice.
 
+## 7 October 2026: Two brains, one clock has sound and 1080p clips (PR 1184)
+
+- The child's brain film got an original score and five placed effects,
+  declared in `videos/2026-10-06-two-brains/beats.json` and written by the
+  build. No trending sound: no TikTok account is connected, trending audio is
+  a licence problem off TikTok, and original beats reposted. Add one inside
+  TikTok at publish time if wanted.
+- Six Seedance clips finalised at 1080p (432 credits). The readability rule
+  from 6 October stays: the build refuses long cards and sets the hold from
+  the word count.
+- Later on 7 October: Justin asked for more cinematic music and the Nate Herk
+  editing treatment. Adopted in our palette: punch zooms, translucent
+  highlight shapes (coral on the feed side, butter on DiGi's, never pure
+  red) with pointers, marker swipes on the key phrase, clock pops, a whoosh
+  on every time jump, a new trailer style score. All per beat in
+  `beats.json`. The gentler score is kept as an alternative file.
 ## 5 October 2026: the Social Billboard lane is blocked by the site, not by content
 
 - Verified in a browser: all seven sign in and start free buttons on

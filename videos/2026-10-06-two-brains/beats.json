@@ -16,13 +16,21 @@
       "left": {
         "video": "moment.mp4",
         "tag": "Third night running",
-        "head": "9pm. Pyjamas on. The TV comes back on."
+        "head": "9pm. Pyjamas on. The TV comes back on.",
+        "zoom": "50% 60%"
       },
       "right": {
         "digi": "big",
         "tag": "The same evening, side by side",
         "head": "Same child. Same clock. One difference."
-      }
+      },
+      "sfx": [
+        {
+          "file": "sfx-tv-on.mp3",
+          "at": 1.4,
+          "vol": 0.7
+        }
+      ]
     },
     {
       "id": "s2",
@@ -32,13 +40,23 @@
         "tag": "The cue",
         "head": "Her eyes lock on. That is a reflex.",
         "body": "Cuts and sound changes pull a young child's attention automatically. Not a choice.",
-        "src": "Lang, 2000. Anderson and Levin, 1976"
+        "src": "Lang, 2000. Anderson and Levin, 1976",
+        "hl": {
+          "shape": "rect",
+          "l": 44,
+          "t": 7,
+          "w": 52,
+          "h": 39
+        },
+        "zoom": "74% 26%",
+        "mark": "reflex"
       },
       "right": {
         "digi": "corner",
         "tag": "A parent, 9:01 PM",
         "head": "She came down and put the TV on again.",
-        "body": "She is six. What do I do?"
+        "body": "She is six. What do I do?",
+        "mark": "TV on again"
       }
     },
     {
@@ -49,7 +67,16 @@
         "tag": "What comes next",
         "head": "Each clip is a new guess at what comes next.",
         "body": "Dopamine drives the wanting, not the pleasure. Up next never offers her the end.",
-        "src": "Schultz, 2016. Hiniker and others, 2018"
+        "src": "Schultz, 2016. Hiniker and others, 2018",
+        "hl": {
+          "shape": "circle",
+          "l": 58,
+          "t": 9,
+          "w": 30,
+          "h": 27
+        },
+        "zoom": "72% 22%",
+        "mark": "what comes next"
       },
       "right": {
         "kind": "answer",
@@ -57,8 +84,21 @@
         "tag": "DiGi, 9:02 PM",
         "head": "Tonight is not the night to fight it.",
         "body": "Sit with her for the last five minutes. Then off at the end of this one, and up together.",
-        "src": "Rails: no blame, no battle at bedtime"
-      }
+        "src": "Rails: no blame, no battle at bedtime",
+        "mark": "not the night"
+      },
+      "sfx": [
+        {
+          "file": "sfx-countdown.mp3",
+          "at": 0.6,
+          "vol": 0.55
+        },
+        {
+          "file": "sfx-chime.mp3",
+          "at": "right",
+          "vol": 0.6
+        }
+      ]
     },
     {
       "id": "s4",
@@ -68,15 +108,34 @@
         "tag": "The brake",
         "head": "She cannot stop by herself yet.",
         "body": "Stopping needs the front of the brain, which is years from ready at six. The pull wins.",
-        "src": "Diamond, 2013. Casey and others, 2005"
+        "src": "Diamond, 2013. Casey and others, 2005",
+        "hl": {
+          "shape": "rect",
+          "l": 12,
+          "t": 0,
+          "w": 48,
+          "h": 24
+        },
+        "zoom": "36% 0%",
+        "mark": "cannot stop",
+        "zoomTo": 1.05,
+        "hlAt": 5.5
       },
       "right": {
         "digi": "corner",
         "tag": "9:20 PM, why that works",
         "head": "The ending is built in.",
         "body": "Children were less upset when screen time was routine, and when the technology ended it rather than a parent.",
-        "src": "Hiniker and others, 2016"
-      }
+        "src": "Hiniker and others, 2016",
+        "mark": "built in"
+      },
+      "sfx": [
+        {
+          "file": "sfx-clock.mp3",
+          "at": 0.3,
+          "vol": 0.5
+        }
+      ]
     },
     {
       "id": "s5",
@@ -86,14 +145,24 @@
         "tag": "The light",
         "head": "Evening light hits a child's melatonin hard.",
         "body": "Far harder than an adult's. Even dim room light cut preschoolers' melatonin by about three quarters.",
-        "src": "Hartstein and others, 2022"
+        "src": "Hartstein and others, 2022",
+        "hl": {
+          "shape": "rect",
+          "l": 35,
+          "t": 4,
+          "w": 36,
+          "h": 27
+        },
+        "zoom": "52% 17%",
+        "mark": "melatonin"
       },
       "right": {
         "digi": "corner",
         "tag": "What DiGi asks for tomorrow",
         "head": "Tomorrow, set the shape of the evening early.",
         "body": "Screen off at half past seven, then a story with you. A nightly routine means earlier, longer sleep.",
-        "src": "Mindell and others, 2015. AAP, 2016"
+        "src": "Mindell and others, 2015. AAP, 2016",
+        "mark": "set the shape"
       }
     },
     {
@@ -104,14 +173,36 @@
         "tag": "The next morning",
         "head": "A late, irregular bedtime shows up the next day.",
         "body": "Shorter fuse, less joy, poorer attention. In 10,000 UK children, regular bedtimes meant better behaviour at seven.",
-        "src": "Kelly, Kelly and Sacker, 2013"
+        "src": "Kelly, Kelly and Sacker, 2013",
+        "hl": {
+          "shape": "rect",
+          "l": 28,
+          "t": 2,
+          "w": 42,
+          "h": 30
+        },
+        "zoom": "50% 16%",
+        "mark": "next day"
       },
       "right": {
         "digi": "big",
         "tag": "Three nights later",
         "head": "Did it work? Tell DiGi.",
-        "body": "Your answer feeds the next one. Across families only counts travel, never your words."
-      }
+        "body": "Your answer feeds the next one. Across families only counts travel, never your words.",
+        "mark": "Did it work?"
+      },
+      "sfx": [
+        {
+          "file": "sfx-morning.mp3",
+          "at": 0.3,
+          "vol": 0.6
+        },
+        {
+          "file": "sfx-chime.mp3",
+          "at": "right",
+          "vol": 0.5
+        }
+      ]
     },
     {
       "id": "cta",
@@ -121,5 +212,9 @@
       "body": "Find your child's stage, then ask DiGi your own 9pm question.",
       "url": "guidedchildhood.com/starter-pack"
     }
-  ]
+  ],
+  "music": {
+    "file": "music-cinematic.mp3",
+    "vol": 0.55
+  }
 }
