@@ -40,7 +40,7 @@ export default async function PilotPage() {
   const full = left !== null && left <= 0
 
   const included = [
-    'Two lessons matched to the phase you teach, on one code for the whole staff room',
+    'Two lessons matched to the phase you teach (four for an all through school, its primary pair and its secondary pair), on one code for the whole staff room',
     'The classroom player with the word for word script on every slide',
     'Every printable for both: the pack, the pupil booklet, the organiser, the two quizzes, the learning record',
     `The compliance Hub, the RSHE mapping matrix and the ${FLAGGED_MODULES.length} staff briefings`,

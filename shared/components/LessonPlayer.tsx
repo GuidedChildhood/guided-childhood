@@ -136,23 +136,35 @@ const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
 // sits under it as a reference line, numbered so an option saying "check one"
 // has something to point at. Off by default and opted into per slide, because
 // a strip on every choice slide is wallpaper by the third one.
+//
+// ONE LINE ON THE WALL (7 October 2026). On a projector it was a column, one
+// check per line at body size, and that column pushed two of the three answers
+// below the fold on the free sample's quiz slides: at 1920 the class saw the
+// question, the checks and answer one, and nothing to choose between. Nobody
+// scrolls a wall. So on the wall the checks run along one line at aside size,
+// which is still a size the back row reads (the legibility floor) and is what
+// a reference line under the question should be. The phone keeps its column.
 function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean }) {
   return (
     <div data-reveal style={{
-      maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '28px', '20px')}`,
+      maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '18px', '20px')}`,
       background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
-      padding: room(projector, '16px 20px', '12px 16px'),
+      padding: room(projector, '10px 20px', '12px 16px'),
+      ...(projector ? { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: '26px', rowGap: '4px' } : {}),
     }}>
       <div style={{
-        ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '8px',
+        ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: room(projector, '0', '8px'),
         fontSize: room(projector, WALL.aside, 'var(--text-xs)'),
       }}>
         {tool.heading ?? 'Your tool'}
       </div>
-      <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <ol style={{
+        margin: 0, padding: 0, listStyle: 'none', display: 'flex', gap: room(projector, '4px 26px', '4px'),
+        flexDirection: projector ? 'row' : 'column', flexWrap: 'wrap',
+      }}>
         {tool.lines.map((line, i) => (
           <li key={i} style={{
-            fontSize: room(projector, WALL.body, 'var(--text-base)'),
+            fontSize: room(projector, WALL.aside, 'var(--text-base)'), fontWeight: projector ? 700 : undefined,
             color: 'var(--ink)', lineHeight: 1.5, display: 'flex', gap: '10px',
           }}>
             <span style={{ color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, flexShrink: 0 }}>{i + 1}</span>
@@ -1989,7 +2001,12 @@ export default function LessonPlayer({
             </button>
           )}
           <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
-            {isSchool ? 'Back to the curriculum' : 'Back to all lessons'}
+            {/* The label follows the link. A standalone lesson is outside the
+                scheme, so its teach route sends it back to its own lesson page,
+                and a button reading "Back to the curriculum" that opened the
+                lesson page was a small lie at the end of the hour (the pilot
+                review, 7 October 2026). */}
+            {isSchool ? (backHref === '/curriculum' ? 'Back to the curriculum' : 'Back to the lesson page') : 'Back to all lessons'}
           </Link>
         </div>
       </div>

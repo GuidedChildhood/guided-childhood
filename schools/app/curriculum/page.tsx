@@ -1,5 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
-import { isTasterModule } from '@/lib/taster'
+import { isTasterModule, TASTER_MODULES } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import Link from 'next/link'
@@ -63,7 +63,14 @@ export default async function CurriculumMapPage() {
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
           {CURRICULUM.length}{' '}modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
-          Pick a module and teach it today. No download wall, no prep, nothing to book.
+          {/* It said "Pick a module and teach it today" above cards that, for a
+              visitor with no code, read Licence needed on all but one (the
+              pilot review, 7 October 2026). Every module IS open to read, and
+              one is open to teach, so that is what it says, with the one named. */}
+          {' '}Every module is open to read, and one is free to teach in full today:{' '}
+          <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+            {CURRICULUM.find(m => m.moduleId === TASTER_MODULES[0])?.title ?? 'the free sample'}
+          </Link>. A licence or a pilot code opens the rest. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>
           {liveCount} of {CURRICULUM.length} modules live{liveCount < CURRICULUM.length ? ' · the rest are in production' : ''}

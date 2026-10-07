@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import ReadingAhead from '@/components/lessons/ReadingAhead'
-import { parseSlides, type LessonSlide, type LessonCycle } from '@gc/shared/lesson-slides'
+import { parseSlides, type LessonSlide, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
 // the design can be checked without a database or a signed in parent.
@@ -209,6 +209,24 @@ async function slidesToRender(): Promise<LessonSlide[]> {
   return parsed
 }
 
+// THE LESSON'S TOOL, BESIDE ITS SLIDES (7 October 2026). The player draws the
+// tool strip on any choice slide that asks for it, from teacher_notes.tool,
+// and this route never passed one, so check-wall-fit measured those slides
+// without the strip. The free sample's quiz slides fitted here and lost two of
+// their three answers on the real wall. check-wall-fit now writes the tool to
+// <GC_DEV_SLIDES>.tool.json for each lesson, and a missing or empty file means
+// no tool, exactly as before.
+async function toolToRender(): Promise<LessonTool | undefined> {
+  const from = process.env.GC_DEV_SLIDES
+  if (!from) return undefined
+  try {
+    const t = JSON.parse(await readFile(`${from}.tool.json`, 'utf8')) as LessonTool | null
+    return t && Array.isArray(t.lines) && t.lines.length ? t : undefined
+  } catch {
+    return undefined
+  }
+}
+
 async function cyclesToRender(): Promise<LessonCycle[]> {
   const from = process.env.GC_DEV_CYCLES
   if (!from) return CYCLES
@@ -220,6 +238,7 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
   const sp = await searchParams
   const slides = await slidesToRender()
   const cycles = await cyclesToRender()
+  const tool = await toolToRender()
   const slideIndex = Math.max(0, Number(sp.slide) || 0)
   const classMode = sp.class === '1'
   const projector = classMode || sp.projector === '1'
@@ -243,6 +262,7 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
       completeEndpoint={null}
       classMode={classMode}
       cycles={cycles}
+      tool={tool}
       projector={projector}
       teacherView={teacherView}
       initialIndex={slideIndex}

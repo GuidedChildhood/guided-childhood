@@ -195,6 +195,7 @@ const settle = async (page, label) => {
   // known words, so two runs can be subtracted.
   const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 } })
   const page = await ctx.newPage()
+  writeFileSync(SLIDES_FILE + '.tool.json', 'null')
   writeFileSync(SLIDES_FILE, JSON.stringify([{
     type: 'recap', phase: 'close', minutes: 2, heading: 'Reference slide',
     points: [
@@ -253,6 +254,11 @@ for (const vp of VIEWPORTS) {
     // The dev route reads this file per request, so writing it here puts this
     // lesson's real rows through the real player with no restart.
     writeFileSync(SLIDES_FILE, JSON.stringify(lesson.slides))
+    // And its tool, beside it: the strip a choice slide can ask for is drawn
+    // from teacher_notes.tool, and measuring without it is how the free
+    // sample's quiz slides passed here and lost two answers on the real wall
+    // (7 October 2026). The dev route reads <file>.tool.json.
+    writeFileSync(SLIDES_FILE + '.tool.json', JSON.stringify(lesson.teacher_notes?.tool ?? null))
     for (let i = 0; i < lesson.slides.length; i += 1) {
       const label = `${lesson.module_id} slide ${i + 1} at ${vp.tag}`
       const url = `${BASE}/dev/lesson-player?class=1&teacher=1&slide=${i}`

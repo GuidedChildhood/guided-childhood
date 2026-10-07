@@ -69,7 +69,7 @@ import { PAGE } from '@gc/shared/page-scale'
 const FAQS = [
   {
     q: 'Does this meet the new statutory RSHE guidance?',
-    a: 'The guidance published in July 2025 comes into force on 1 September 2026, and every module is mapped to the requirements it teaches, requirement by requirement, including the newly named areas. The matrix names what it does not cover as well as what it does, because a scheme that claimed everything would be lying to you. It is public on this site, so you can check the coverage before you spend a penny.',
+    a: 'The guidance published in July 2025 came into force on 1 September 2026, and every module is mapped to the requirements it teaches, requirement by requirement, including the newly named areas. The matrix names what it does not cover as well as what it does, because a scheme that claimed everything would be lying to you. It is public on this site, so you can check the coverage before you spend a penny.',
   },
   {
     q: 'What about KCSIE 2026?',
@@ -171,7 +171,7 @@ const EVIDENCE = [
   {
     label: 'The regulators',
     title: 'Built on the statutory guidance',
-    body: 'The RSHE guidance becomes compulsory on 1 September 2026 and every module is mapped to it, topic by topic, on the public matrix. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
+    body: 'The RSHE guidance became compulsory on 1 September 2026 and every module is mapped to it, topic by topic, on the public matrix. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
     link: { href: '/hub/rshe-mapping', label: 'Read the full mapping matrix' },
   },
   {
@@ -619,7 +619,7 @@ export default async function SchoolsPage() {
             Be one of the first schools to teach it.
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
-            A free one term pilot for the first {PILOT_PLACES} schools who want to get ahead of the statutory September. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
+            A free one term pilot for the first {PILOT_PLACES} schools teaching the new statutory guidance this year. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>

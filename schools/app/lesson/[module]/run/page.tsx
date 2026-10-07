@@ -8,7 +8,8 @@ import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-sta
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LeadLine } from '@/components/YourSchoolLead'
-import { shapeOf } from '@/lib/tracker'
+import { shapeOf, trackerActions } from '@/lib/tracker'
+import { currentAccess } from '@/lib/licence'
 import { asList } from '@/lib/notes'
 import { isStandaloneModule } from '@/lib/taster'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
@@ -142,6 +143,8 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   if (slides.length === 0) notFound()
   const notes = lesson.teacher_notes ?? {}
   const parent = lesson.parent_note ?? {}
+  // Whether this visitor can open the Hub's tracker, for the panel's footnote.
+  const access = await currentAccess()
   // 'after' is an answer, not a page, so it deliberately resolves to nothing
   // here and gets its own line below.
   const placement = notes.passport_stage
@@ -206,6 +209,8 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           <TrackerPanel
             moduleId={lesson.module_id}
             shape={shapeOf(lesson.module_id, notes.i_can)}
+            actions={trackerActions(lesson.module_id)}
+            hubOpen={!!access}
           />
         )}
 
