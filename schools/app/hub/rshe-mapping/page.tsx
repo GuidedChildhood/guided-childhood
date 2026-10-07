@@ -135,7 +135,7 @@ export default async function RsheMappingPage() {
           Statutory coverage, requirement by requirement
         </h1>
         <p style={{ ...body, maxWidth: '640px', marginBottom: '6px' }}>
-          The revised RSHE statutory guidance was published in July 2025 and comes into force on
+          The revised RSHE statutory guidance was published in July 2025 and came into force on
           1 September 2026, a date confirmed by Keeping Children Safe in Education 2026, which calls it
           &ldquo;revised for introduction September 2026&rdquo; at paragraph 159. Below is every digital and
           online requirement it contains, in the guidance&rsquo;s own words, with what this scheme does

@@ -315,7 +315,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             <div style={{ flex: '1 1 180px', minWidth: 0 }}>
               <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>Put this on your child&rsquo;s passport</div>
               <p style={pt}>{qr ? 'Point your phone at the square. ' : ''}It opens your child&rsquo;s own record of what they are learning about being safe and sharp online, and adds today&rsquo;s lesson to it. Free to start, nothing shared back with us.</p>
-              <p style={{ ...pt, marginTop: '4px', color: 'var(--ink-muted)' }}>Or go to <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>{homeCodeLabel(homeCode)}</strong></p>
+              <p style={{ ...pt, marginTop: '4px', color: 'var(--ink-muted)' }}>Or go to <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', overflowWrap: 'anywhere' }}>{homeCodeLabel(homeCode)}</strong></p>
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
           </div>

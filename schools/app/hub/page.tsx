@@ -33,7 +33,7 @@ const DOCS: Doc[] = [
   {
     href: '/hub/rshe-mapping', icon: 'quiz', disc: 'butter', accent: 'var(--green-dark)',
     title: 'RSHE 2025 mapping matrix',
-    body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
+    body: 'Every module mapped to the named topics of the statutory guidance that became compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
   },
   {
     href: '/hub/computing-mapping', icon: 'magnifier', disc: 'sky', accent: 'var(--green-dark)',

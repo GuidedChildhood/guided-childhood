@@ -342,7 +342,7 @@
           "feedback": "Nothing here is trying to make you angry. It is trying to make you panic about time and stock, and panic about running out is urgency."
         }
       ],
-      "question": "Quick fire. A hotel booking site shows: Only 2 rooms left at this price! In high demand, booked 7 times today. Name the technique.",
+      "question": "Quick fire. A hotel site says: Only 2 rooms left! Booked 7 times today. Name the technique.",
       "toolStrip": true
     },
     {

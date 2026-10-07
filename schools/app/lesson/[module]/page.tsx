@@ -16,7 +16,7 @@ import { LessonOpened } from '@/components/tracker/signals'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { evidenceStatus } from '@gc/shared/evidence-status'
 import { asList } from '@/lib/notes'
-import { neighbours, shapeOf } from '@/lib/tracker'
+import { neighbours, shapeOf, trackerActions } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
 import StandaloneBar from '@/app/taster/StandaloneBar'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
@@ -754,6 +754,8 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               moduleId={lesson.module_id}
               shape={shapeOf(lesson.module_id, notes.i_can)}
               runHref={`/lesson/${lesson.module_id}/run`}
+              actions={trackerActions(lesson.module_id)}
+              hubOpen={!!access}
             />
           </div>
         )}
