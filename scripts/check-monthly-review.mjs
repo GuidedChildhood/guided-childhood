@@ -36,7 +36,15 @@ const progress = code(read(PROGRESS))
 if (progress) {
   // review.md 4a: the five stars are five bands and the server compares BANDS,
   // never raw numbers. Comparing 8 against 7 would call a rounding a result.
-  if (!/Math\.ceil\(score \/ 2\)/.test(progress)) {
+  // Since 7 October 2026 the arithmetic lives once, in lib/concerns/bands.ts,
+  // and this file imports it rather than carrying a copy, so either shape
+  // holds: the ceil over two written here, or bandOf brought in from the one
+  // place, actually used, and still the ceil over two there.
+  const bands = code(read('lib/concerns/bands.ts'))
+  const sharedBandOf = /import \{ bandOf \} from '@\/lib\/concerns\/bands'/.test(progress)
+    && /bandOf\(/.test(progress)
+    && /Math\.ceil\(Math\.min\(10, Math\.max\(1, score\)\) \/ 2\)/.test(bands)
+  if (!/Math\.ceil\(score \/ 2\)/.test(progress) && !sharedBandOf) {
     fail.push(`${PROGRESS}: the month no longer compares bands. The five stars are five bands and star n posts the top of its band, so a raw number comparison reports a rounding as a result.`)
   }
   // A worry first asked about on the 20th did not improve from zero.
