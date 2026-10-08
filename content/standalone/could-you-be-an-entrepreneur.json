@@ -18,7 +18,7 @@
       "phase": "starter",
       "minutes": 1,
       "character": "orbit",
-      "eyebrow": "KS3 . Years 8 and 9",
+      "eyebrow": "KS3 · Years 8 and 9",
       "title": "Could you be an entrepreneur?",
       "body": "Not a yes or a no. A way to find out.",
       "script": "Read the title and the line under it, then stop. Nobody leaves today with a yes or a no, and nobody is asked to pitch a business. The lesson gives them the real picture of working for yourself, and one small, safe way to find out whether it suits them."
@@ -391,7 +391,7 @@
       "minutes": 4,
       "caption": "Sort the six together before the sheet.",
       "config": {
-        "label": "True, myth or it depends? . tap the class verdict",
+        "label": "True, myth or it depends? · tap the class verdict",
         "verdicts": [
           "True",
           "Myth",

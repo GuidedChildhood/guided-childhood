@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { PRICING_BANDS, LICENCE_INCLUDES } from '@/lib/pricing'
+import { PRICING_BANDS, LICENCE_INCLUDES, FOUNDING } from '@/lib/pricing'
+import { foundingPlacesLeft } from '@/lib/founding-places'
 import { VAT_LINE } from '@gc/shared/legal'
 import InvoiceForm from './InvoiceForm'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
@@ -28,6 +29,10 @@ const eyebrow: React.CSSProperties = {
 export default async function PricingPage({ searchParams }: { searchParams: Promise<{ school?: string; name?: string; email?: string }> }) {
   const sp = await searchParams
   const prefill = { school_name: sp.school?.slice(0, 200), contact_name: sp.name?.slice(0, 120), email: sp.email?.slice(0, 200) }
+  // Counted from the requests; null when unreadable, and then the offer is
+  // not shown at all rather than shown with a number that might be wrong.
+  const founding = await foundingPlacesLeft()
+  const foundingOpen = founding !== null && founding > 0
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
@@ -42,6 +47,29 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             order. One code opens everything for every teacher on your staff, with no seat counting.
           </p>
         </div>
+
+        {/* The founding schools rate, while places remain (8 October 2026,
+            schools/lib/pricing.ts FOUNDING). Above the bands because it is
+            the price a primary will actually pay this year. */}
+        {foundingOpen && (
+          <div style={{
+            background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
+            padding: 'var(--space-4)', marginBottom: 'var(--space-4)',
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)',
+          }}>
+            <div style={{ flex: '1 1 320px' }}>
+              <p style={{ ...eyebrow, marginBottom: '8px' }}>Founding schools · {founding} of {FOUNDING.places} places left</p>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '6px' }}>
+                Any primary, {FOUNDING.price} a year, held for as long as you stay.
+              </p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+                The first {FOUNDING.places} schools get the full licence below at the founding rate, whatever their size.
+                Pilot schools included. When the places are gone, the bands below are the price.
+              </p>
+            </div>
+            <a href="#invoice" className="btn">Claim a founding place</a>
+          </div>
+        )}
 
         {/* The five bands */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)', marginBottom: '18px' }}>
@@ -146,11 +174,11 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             </div>
           </div>
 
-          <div>
+          <div id="invoice">
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '14px' }}>
               Request your invoice
             </h2>
-            <InvoiceForm prefill={prefill} />
+            <InvoiceForm prefill={prefill} foundingOpen={foundingOpen} />
           </div>
         </div>
 

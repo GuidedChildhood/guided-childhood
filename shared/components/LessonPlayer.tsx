@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
@@ -268,6 +268,28 @@ function ChoiceBlock({
     return () => window.removeEventListener('keydown', onKey)
   })
 
+  // THE BEAT NEVER HIDES WHAT COMES NEXT (7 October 2026). A wrong first pick
+  // opens its why and the retry line above the options, and the pilot review
+  // measured what that does on a wall: 25 right answers across the scheme
+  // pushed 150px or more below the fold, ks4-15 slide 6 by 405px. The teacher
+  // had to scroll a projector mid argument to tap the second go, and the class
+  // saw half the reveal. So each step of the beat brings its own next thing
+  // into view: while the retry is live, the last option still to choose; once
+  // settled, the right answer and its why. 'nearest' moves only as far as it
+  // must, and nothing moves on a slide that already fits.
+  useEffect(() => {
+    if (tries.length === 0) return
+    const live = order.map((_, i) => i).filter(i => !tries.includes(i))
+    const target = settled ? correctIndex : live[live.length - 1]
+    const el = target === undefined || target < 0 ? null
+      : rootRef.current?.querySelector<HTMLElement>(`[data-choice-opt="${target}"]`)
+    if (!el) return
+    const id = requestAnimationFrame(() =>
+      el.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' }))
+    return () => cancelAnimationFrame(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tries.length, settled])
+
   return (
     <div ref={rootRef}>
       <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: room(projector, 'clamp(8px, 1.4vh, 14px)', '14px'), textAlign: 'center' }}>
@@ -341,6 +363,9 @@ function ChoiceBlock({
                 boxShadow: shadow,
                 transform: showRight || showWrong ? 'translateY(2px)' : 'none',
                 transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s',
+                // Clear of the fade at the foot of the stage when the beat
+                // scrolls an option into view.
+                scrollMarginBottom: room(projector, '56px', '24px'),
               }}
             >
               {/* The keycap: which number key picks this one. Sized in em so
@@ -898,13 +923,79 @@ function CharacterBeat({ slide, projector, register = 'playful' }: { slide: Digi
 // Closed by default on purpose. On a projector an open panel would cover
 // the wall with text nobody asked for; the pupil who needs it opens it,
 // and so does the teacher reading it aloud to a silent room.
+//
+// THE FILM FITS THE WALL (7 October 2026). Every clip used to fail to decode
+// on the guard's browser and on many school laptops, so the film drew as a
+// 161px strip of controls and the slide always fitted. Once the clips became
+// H.264 and played, the film drew 1720px wide and 968px tall in a stage about
+// 790px tall: the class saw the picture, and its play controls, the caption
+// and the way into the words were all under the fold, on ten slides in six
+// lessons. On the wall the film now keeps a 16:9 box and takes only the
+// height the stage has left once the caption and the words are counted, so
+// the whole beat is on the wall before anything has loaded. Measured with
+// offsetHeight, which a reveal's transform does not move. A film with an
+// exhibit beside it already sits in half the row and is left alone.
+function useFilmHeight(on: boolean) {
+  const filmRef = useRef<HTMLVideoElement>(null)
+  const [tall, setTall] = useState<number | null>(null)
+
+  useLayoutEffect(() => {
+    if (!on) { setTall(null); return }
+    const film = filmRef.current
+    const stage = film?.closest<HTMLElement>('[data-stage]')
+    const column = stage?.firstElementChild as HTMLElement | null
+    if (!film || !stage || !column) return
+    const px = (el: Element, ...props: string[]) => {
+      const cs = getComputedStyle(el)
+      return props.reduce((n, p) => n + (parseFloat(cs.getPropertyValue(p)) || 0), 0)
+    }
+    const fit = () => {
+      const block = film.parentElement
+      if (!block) return
+      // The block's own rest: the caption and the way into the words.
+      let rest = block.offsetHeight - film.offsetHeight + px(block, 'margin-top', 'margin-bottom')
+      // Then every box on the way up to the stage: its padding and border
+      // (the slide wrapper's 42px was the first version's missing 34px of
+      // overflow), and whatever really stacks beside the path, a cycle map
+      // or a heading. The boxes themselves are flex:1 and stretch to fill the
+      // stage, so their own height says nothing about content, the trap
+      // useFitZoom's notes describe; measuring one gave the film 240px.
+      for (let el: HTMLElement = block; el !== column && el.parentElement; el = el.parentElement) {
+        const up = el.parentElement
+        rest += px(up, 'padding-top', 'padding-bottom', 'border-top-width', 'border-bottom-width')
+        for (const sib of up.children) {
+          if (sib === el || !(sib instanceof HTMLElement) || sib.offsetParent === null) continue
+          if (['absolute', 'fixed'].includes(getComputedStyle(sib).position)) continue
+          rest += sib.offsetHeight + px(sib, 'margin-top', 'margin-bottom')
+        }
+      }
+      // A few pixels under rather than flush, and never so small the film is
+      // a stamp: below 240px the stage scrolls instead, as it always did.
+      setTall(Math.max(240, Math.floor(stage.clientHeight - rest - 8)))
+    }
+    fit()
+    // The stage changes with the window and the teacher's script panel; the
+    // block changes when a late webfont rewraps the caption. Fitting again
+    // after our own change measures the same rest and settles at once.
+    const ro = new ResizeObserver(fit)
+    ro.observe(stage)
+    ro.observe(column)
+    if (film.parentElement) ro.observe(film.parentElement)
+    return () => ro.disconnect()
+  }, [on])
+
+  return { filmRef, tall }
+}
+
 function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boolean }) {
   const alt = slide.alternative
   const silent = alt !== undefined && alt.spoken.length === 0
+  const { filmRef, tall } = useFilmHeight(!!projector && !slide.post)
 
   return (
     <div style={{ maxWidth: room(projector, WALL.wide, '640px'), margin: '0 auto' }}>
       <video
+        ref={filmRef}
         src={slide.src}
         poster={slide.poster}
         controls
@@ -912,7 +1003,11 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
         // Without this the control is announced as bare "video". The caption
         // is the only human name the beat has, so it is the one to use.
         aria-label={slide.caption ?? 'Lesson video'}
-        style={{ width: '100%', borderRadius: 'var(--radius-card)', background: 'var(--ink)', display: 'block' }}
+        style={{
+          width: tall ? `min(100%, ${Math.floor(tall * 16 / 9)}px)` : '100%',
+          ...(projector && !slide.post ? { aspectRatio: '16 / 9', margin: '0 auto' } : {}),
+          borderRadius: 'var(--radius-card)', background: 'var(--ink)', display: 'block',
+        }}
       />
 
       {slide.caption && (
@@ -1534,13 +1629,26 @@ export default function LessonPlayer({
   }, [index])
 
   // Arrow keys drive the deck: the teacher at the projector, the parent on
-  // a laptop. Right or Enter continues once a choice is answered, left goes
-  // back. Touch gets the same via swipe on the slide stage.
+  // a laptop. Right continues once a choice is answered, left goes back.
+  // Touch gets the same via swipe on the slide stage.
+  //
+  // AND THE CLICKER (7 October 2026). This said Right or Enter, and only Right
+  // worked. A presenter clicker, the Logitech R400 kind most staff rooms have,
+  // sends PageDown and PageUp, so a teacher at the front pressed it and nothing
+  // moved, on every slide of every lesson. PageDown, Enter and Space now go
+  // forward and PageUp goes back, as they do in PowerPoint. Enter and Space
+  // already press whatever has focus, so on a button, a link or the script's
+  // summary they stay with it, or one press would count twice. Nothing here
+  // fires while somebody types in a field, or on a held key.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (finished) return
-      if (e.key === 'ArrowRight') { if (canContinue) { e.preventDefault(); advance() } }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); goBack() }
+      if (finished || e.repeat || e.metaKey || e.ctrlKey || e.altKey) return
+      const t = e.target instanceof HTMLElement ? e.target : null
+      if (t?.closest('input, textarea, select, [contenteditable]')) return
+      const pressing = e.key === 'Enter' || e.key === ' '
+      if (pressing && t?.closest('button, a, summary, [role="button"]')) return
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || pressing) { if (canContinue) { e.preventDefault(); advance() } }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goBack() }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)

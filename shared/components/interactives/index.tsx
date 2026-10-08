@@ -39,18 +39,33 @@ const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 // ── verdict-sort ──────────────────────────────────────────────────────
-// Post cards the class flicks into verdict piles. Tap a card, tap a
-// verdict, it flies to the pile and the tally animates. The core detective
-// drill for module 12 and its cousins.
+// Post cards the class sorts into verdict piles. Tap the class verdict, the
+// tally counts it and the card turns over to its answer, then Next card flies
+// it to the pile. The core detective drill for module 12 and its cousins.
 // A card may name a drawn Happy News icon in place of its emoji avatar, and the
 // finish a drawn icon in place of its emoji (26 September 2026, the smart
 // glasses lesson: "use Happy News style icons"). The icon wins; a name we do
 // not draw falls back to the emoji, as on the slides.
-type SortPost = { handle: string; avatar: string; icon?: string; text: string; answer: number; why?: string }
+//
+// THE REVEAL (7 October 2026). Every card has always carried its answer and a
+// why, and the scripts for 25 of the 26 sorts say "tap the class verdict, read
+// the reason" or "then reveal". The sort never showed either. It counted the
+// vote and flew the card away, so a teacher following the script read out a
+// reason the wall did not have, and the finish told the class every card had
+// got a reason. Now the card turns over once the class has voted, showing the
+// marked answer and its why, and the teacher moves on with Next card. The
+// tallies still count what the class said, not what was marked.
+//
+// `items` is the same list under the name four lessons were written with
+// (ks2-26, ks3-27, ks4-28 and ks4-29). Read only as `posts`, their sorts opened
+// on the finish with every tally at nought and a five minute activity gone.
+// Those cards have no handle or avatar, so the header draws without them.
+type SortPost = { handle?: string; avatar?: string; icon?: string; text: string; answer?: number; why?: string }
 function VerdictSort({ config }: {
   config: {
     verdicts?: string[]
     posts?: SortPost[]
+    items?: SortPost[]
     doneIcon?: string
     // The three labels were hardcoded for the teen misinformation module,
     // which meant a Reception class sorting real from made up was told it
@@ -65,15 +80,19 @@ function VerdictSort({ config }: {
   }
 }) {
   const verdicts = config.verdicts ?? ['Believe', 'Pause', 'Do not share']
-  const posts = config.posts ?? []
+  const posts = config.posts ?? config.items ?? []
   const label = config.label ?? 'Sort the feed · tap a verdict'
   const doneTitle = config.doneTitle ?? 'Feed sorted!'
   const doneBody = config.doneBody ?? 'Every card got a verdict and a reason. That is the whole skill.'
   const doneEmoji = config.doneEmoji ?? '🕵️'
   const [index, setIndex] = useState(0)
   const [tallies, setTallies] = useState<number[]>(verdicts.map(() => 0))
+  // The class verdict on the card in front of the room, held while its answer
+  // shows. Null means the class has not voted on this card yet.
   const [picked, setPicked] = useState<number | null>(null)
+  const [leaving, setLeaving] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
+  const revealRef = useRef<HTMLDivElement>(null)
 
   const post = posts[index]
   const done = index >= posts.length
@@ -82,21 +101,92 @@ function VerdictSort({ config }: {
     if (picked !== null || !post) return
     setPicked(v)
     setTallies(t => t.map((n, i) => (i === v ? n + 1 : n)))
-    const dir = v === 0 ? -1 : v === verdicts.length - 1 ? 1 : 0
+  }
+
+  // The card flies toward the side of the verdict the class gave it.
+  const next = () => {
+    if (picked === null || leaving) return
+    const dir = picked === 0 ? -1 : picked === verdicts.length - 1 ? 1 : 0
     if (cardRef.current && !prefersReducedMotion()) {
+      setLeaving(true)
+      if (revealRef.current) gsap.to(revealRef.current, { opacity: 0, duration: 0.3, ease: 'power1.in' })
       gsap.to(cardRef.current, {
         x: dir * 320, y: -40, rotate: dir * 12, opacity: 0, scale: 0.8,
         duration: 0.5, ease: 'power2.in',
-        onComplete: () => { setPicked(null); setIndex(i => i + 1) },
+        onComplete: () => { setLeaving(false); setPicked(null); setIndex(i => i + 1) },
       })
     } else {
       setPicked(null); setIndex(i => i + 1)
     }
   }
 
+  // The same card element carries every post, so whatever the fly out left on
+  // it is still there when the next post arrives. The entrance used to reset
+  // only opacity, its rise and scale, and after a first or last verdict the next
+  // card came in 320px to the side (times the wall zoom) and tilted 12 degrees,
+  // off the edge of the projector in six of the seven sorts the pilot review
+  // ran. Every property the fly out touches is reset here, with or without
+  // motion.
   useEffect(() => {
-    if (cardRef.current && !done && !prefersReducedMotion()) gsap.fromTo(cardRef.current, { opacity: 0, y: 20, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.4)' })
+    const el = cardRef.current
+    if (!el || done) return
+    if (prefersReducedMotion()) { gsap.set(el, { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 }); return }
+    gsap.fromTo(el,
+      { x: 0, rotate: 0, opacity: 0, y: 20, scale: 0.94 },
+      { x: 0, rotate: 0, opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.4)' })
   }, [index, done])
+
+  useEffect(() => {
+    if (picked === null || !revealRef.current || prefersReducedMotion()) return
+    gsap.fromTo(revealRef.current, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' })
+  }, [picked])
+
+  // THE CARD TURNS OVER. Once the class has voted, the back of the card shows
+  // the marked verdict, what the class said where it differs, and the why, and
+  // Next card takes the place of the verdicts. Green when the class matched,
+  // amber when it did not, the same pair the quiz answers use.
+  //
+  // FRONT AND BACK SHARE ONE CELL, and so do the verdicts and Next card. On the
+  // wall this widget is zoomed to fit the room (useFitZoom), and a card that
+  // grew as it turned would shrink the whole sort at the moment the teacher
+  // reads the reason. So each card is as tall as the taller of its two sides
+  // from the start, the back sized for the longest thing the class could have
+  // said, and nothing moves when it turns. The first version put the reason
+  // under the card and kept room for the longest reason in the deck: ks1-03
+  // went from a wall zoom of 1.91 to 1.09 and clipped 155px on a laptop.
+  // Turning the card costs only the gap between a card's text and its reason.
+  const answerOf = (p: SortPost) =>
+    Number.isInteger(p.answer) && verdicts[p.answer as number] !== undefined ? p.answer as number : null
+  // The longest wrong verdict, which is the longest the back's top line can be.
+  const longestMiss = (p: SortPost) => {
+    const ans = answerOf(p)
+    let best = ans === 0 ? Math.min(1, verdicts.length - 1) : 0
+    verdicts.forEach((v, i) => { if (i !== ans && v.length > verdicts[best].length) best = i })
+    return best
+  }
+  // One line saying how the class did, then the answer in bold opening its
+  // own reason. A separate line for the answer cost a line of wall on every
+  // card, and the back's height is what sets the zoom.
+  const backOf = (p: SortPost, said: number) => {
+    const ans = answerOf(p)
+    const right = ans !== null && said === ans
+    return (
+      <>
+        {ans !== null && (
+          <span style={{ ...eyebrow, display: 'block', color: right ? 'var(--retro-green-dark)' : 'var(--stage-1-text)', marginBottom: '6px' }}>
+            {right ? 'The class got it' : `The class said ${verdicts[said]}`}
+          </span>
+        )}
+        <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
+          {ans !== null && <strong style={{ fontFamily: 'var(--font-display)', fontWeight: 900 }}>{verdicts[ans]}.{' '}</strong>}
+          {p.why}
+        </span>
+      </>
+    )
+  }
+  const turned = picked !== null
+  const agreed = turned && !!post && answerOf(post) === picked
+  const nextLabel = `${index === posts.length - 1 ? 'Finish the sort' : 'Next card'} →`
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -125,28 +215,52 @@ function VerdictSort({ config }: {
       ) : (
         <>
           <div ref={cardRef} style={{
-            maxWidth: '400px', margin: '0 auto 18px', background: '#fff',
-            border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '16px 18px',
+            maxWidth: '460px', margin: '0 auto 18px',
+            background: !turned ? '#fff' : agreed ? 'var(--tint-green)' : 'var(--tint-amber)',
+            border: `1.5px solid ${!turned ? 'var(--border)' : agreed ? 'var(--retro-green-dark)' : 'var(--stage-1-text)'}`,
+            borderRadius: 'var(--radius-card)', padding: '16px 18px',
             boxShadow: '0 6px 0 var(--border)', textAlign: 'left',
+            transition: 'background 0.2s, border-color 0.2s',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>{isHappyIconName(post.icon) ? <HappyIcon name={post.icon} size={28} /> : post.avatar}</span>
-              <span style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{post.handle}</span>
+              {(isHappyIconName(post.icon) || post.avatar) && (
+                <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>{isHappyIconName(post.icon) ? <HappyIcon name={post.icon} size={28} /> : post.avatar}</span>
+              )}
+              {post.handle && <span style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{post.handle}</span>}
               <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{index + 1} of {posts.length}</span>
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>{post.text}</p>
+            <div style={{ display: 'grid' }}>
+              <p style={{ gridArea: '1 / 1', visibility: turned ? 'hidden' : 'visible', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>{post.text}</p>
+              <div aria-hidden style={{ gridArea: '1 / 1', visibility: 'hidden' }}>{backOf(post, longestMiss(post))}</div>
+              {turned && <div ref={revealRef} role="status" data-sort-back style={{ gridArea: '1 / 1', alignSelf: 'start' }}>{backOf(post, picked)}</div>}
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {verdicts.map((v, i) => (
-              <button key={v} onClick={() => pick(i)} disabled={picked !== null} style={{
+          <div style={{ display: 'grid' }}>
+            {/* Ink on butter, the house button. The first and last verdicts used
+                --green-dark and --coral, which are both butter now, under white
+                text: 1.67:1 on a projector, readable only because the tallies
+                above repeat the words. */}
+            <div style={{ gridArea: '1 / 1', alignSelf: 'start', visibility: turned ? 'hidden' : 'visible', display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {verdicts.map((v, i) => (
+                <button key={v} type="button" onClick={() => pick(i)} disabled={turned} style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer',
+                  color: 'var(--ink)', background: 'var(--terracotta)',
+                  border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 18px',
+                  boxShadow: '0 4px 0 var(--terracotta-dark)',
+                }}>
+                  {v}
+                </button>
+              ))}
+            </div>
+            <div style={{ gridArea: '1 / 1', alignSelf: 'start', visibility: turned ? 'visible' : 'hidden' }}>
+              <button type="button" onClick={next} disabled={!turned || leaving} style={{
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer',
-                color: '#fff', background: i === 0 ? 'var(--green-dark)' : i === verdicts.length - 1 ? 'var(--coral, #D4600A)' : 'var(--terracotta)',
-                border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 18px',
-                boxShadow: '0 4px 0 rgba(0,0,0,0.18)', opacity: picked !== null ? 0.5 : 1,
+                color: 'var(--ink)', background: 'var(--terracotta)', border: 'none',
+                borderRadius: 'var(--radius-tile)', padding: '12px 22px', boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}>
-                {v}
+                {nextLabel}
               </button>
-            ))}
+            </div>
           </div>
         </>
       )}
@@ -350,7 +464,9 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
       </div>
       {bubbled ? (
         <>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--coral, #D4600A)', marginBottom: '4px' }}>
+          {/* --coral is the butter fill now, and butter on cream measured about
+              1.6:1 on the pilot's ks2-06 wall. Amber ink keeps the warning warm. */}
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
             The bubble just closed.
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', maxWidth: '380px', margin: '0 auto 14px', lineHeight: 1.6 }}>
@@ -460,7 +576,9 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto 12px', lineHeight: 1.6 }}>
             <strong>The outrage post wins by miles.</strong> Not because it is true, because reactions are the fuel. Now calm the reactions: what if people paused instead of raging?
           </p>
-          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
+          {/* Ink on butter like Run the race above it. --green-dark is butter
+              now, so this was white on butter on the free sample's wall. */}
+          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
             Calm the reactions, race again
           </button>
         </>
