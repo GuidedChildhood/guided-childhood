@@ -43,6 +43,9 @@ const BAND_LABELS: Record<string, string> = {
   // A school asking for the free term (schools /pilot, 13 September 2026).
   // Five places; the pilot page counts them from these rows.
   pilot: 'Free one term pilot · lead',
+  // The founding schools rate (8 October 2026): the first fifty schools, any
+  // primary, held while they stay. schools/lib/pricing.ts FOUNDING.
+  founding_primary: 'Founding school, any primary · £195 a year, held while they stay',
   primary_small: 'Primary up to 200 pupils · £495',
   primary_large: 'Primary 200 to 500 · £795',
   secondary: 'Secondary up to 1,000 · £1,495',
