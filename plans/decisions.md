@@ -232,3 +232,7 @@ Justin: rewrite the QuickSend and Qbot launch brief for Guided Childhood with Di
 ## 8 October 2026, afternoon: the DiGi launch film slows down and shows its brain
 
 Justin on the first draft: "slower, more readable", "build on DiGi's brain", "sales short", "soundtrack more of the moment". The film is paced by a rule now (words at 4.8 a second plus a gap, in `beats.json`), which makes it 105 seconds, and a fourth act shows where every answer comes from: the five researchers DiGi leads with for now and why, 142 sourced findings approved by a human, what worked for other families with no family's words shared, and four lines of our own rules. The score is a house underscore composed in code with the kick on Introducing. Cuts offered if 105 is too long. PR 1220.
+
+## 8 October 2026, later: the launch film's researchers layer names four
+
+Justin on the second cut: "Cut Ferguson. Names yes. Pixabay yes. All good." The researchers layer reads "Four researchers lead, for now" (Odgers, Orben, Przybylski, Livingstone), the names are approved on screen, the track is Pixabay under the Pixabay Content Licence, and the level stands. 103 seconds. PR 1220.

@@ -118,3 +118,8 @@ a soundtrack more of the moment.
 - Trimmed on the way: the scene 4 push is now "First school night back. Want
   the 7 o'clock words ready?" and DiGi's reply there is 14 words, so each is
   read in the time it has.
+
+- Justin, later the same afternoon: cut Ferguson, the names stand, the track
+  is from Pixabay (Pixabay Content Licence, commercial use, no credit
+  required), the level is fine. The researchers layer now reads "Four
+  researchers lead, for now".
