@@ -109,7 +109,10 @@ function MapPreview() {
           return (
             <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
               <div style={{ background: ch.soft, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                <FriendMark character={m.character} size={22} />
+                {/* The friend at thumbnail size, not chip size (8 October
+                    2026): the card is the lesson's face, and at 22px the 3D
+                    art read as a dot. */}
+                <FriendMark character={m.character} size={44} ring={false} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>{m.keyStage}</span>
               </div>
               <div style={{ padding: '9px 10px 11px' }}>
@@ -426,7 +429,7 @@ export default async function SchoolsPage() {
                           return (
                             <div key={m.moduleId} style={{ background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: '5px' }}>
-                                <FriendMark character={m.character} size={24} />
+                                <FriendMark character={m.character} size={40} ring={false} />
                                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</span>
                                 {m.crown && <span style={{ marginLeft: 'auto' }} title="Crown module">👑</span>}
                               </div>
