@@ -17,7 +17,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 export type CharacterKey = 'digi' | 'pebble' | 'bloop' | 'orbit' | 'nova' | 'cosmo'
 
 const CHARACTER: Record<CharacterKey, { src: string; name: string; ring: string }> = {
-  digi: { src: '/digi-squad/DiGi-star.svg', name: 'DiGi', ring: 'var(--terracotta)' },
+  digi: { src: '/digi-squad/DiGi-star-3d.png', name: 'DiGi', ring: 'var(--terracotta)' },
   ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { src: c.cutout, name: c.name, ring: c.colour }])),
 } as Record<CharacterKey, { src: string; name: string; ring: string }>
 

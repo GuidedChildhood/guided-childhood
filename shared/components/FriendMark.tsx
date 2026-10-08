@@ -30,6 +30,11 @@ export default function FriendMark({
   ring?: boolean
 }) {
   const c = CHARACTERS[character]
+  // The friend PNGs stand in about two thirds of their square, with clear
+  // space round them for the lesson plates. Without a ring the art is the
+  // thumbnail itself, so it is drawn larger to fill the card instead of
+  // reading as a dot (8 October 2026). DiGi's star art is already tight.
+  const fill = !ring && !!c.img && !c.img.includes('/DiGi-star')
   return (
     <span
       aria-hidden
@@ -50,7 +55,7 @@ export default function FriendMark({
           src={c.img}
           alt=""
           draggable={false}
-          style={{ width: '82%', height: '82%', objectFit: 'contain', display: 'block' }}
+          style={{ width: fill ? '100%' : '82%', height: fill ? '100%' : '82%', objectFit: 'contain', display: 'block', transform: fill ? 'scale(1.2)' : undefined }}
         />
       ) : c.emblem}
     </span>

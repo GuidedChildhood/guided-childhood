@@ -54,7 +54,15 @@ function Tick({ done, faint }: { done: boolean; faint?: boolean }) {
   )
 }
 
-function Row({ step, onToggle }: { step: StepState; onToggle?: () => void }) {
+type StepAction = { href: string; label: string }
+
+// THE ROW LEADS, AS WELL AS RECORDS (7 October 2026). A row still to do
+// carries the tap that does it, under its grey line, and the first of them in
+// running order is drawn as the button: the one next thing, the way a setup
+// checklist (Shopify's, Cleo's) puts each step one tap from being done and
+// makes the next one the obvious one. A done row keeps its date and loses the
+// link, because there is nothing left to do there.
+function Row({ step, onToggle, action, next }: { step: StepState; onToggle?: () => void; action?: StepAction; next?: boolean }) {
   const done = !!step.doneAt
   const date = when(step.doneAt)
   const inner = (
@@ -79,16 +87,29 @@ function Row({ step, onToggle }: { step: StepState; onToggle?: () => void }) {
     display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%',
     padding: '10px 0', minHeight: 44,
   }
-  return onToggle
+  const head = onToggle
     ? <button type="button" onClick={onToggle} aria-pressed={done} style={{ ...frame, background: 'none', border: 'none', cursor: 'pointer' }}>{inner}</button>
     : <div style={frame}>{inner}</div>
+  // Outside the toggle on purpose: a link inside a button is neither, to a
+  // keyboard or a screen reader. Indented to sit under the words, not the tick.
+  const doIt = !done && action
+    ? next
+      ? <Link href={action.href} className="btn" style={{ fontSize: 'var(--text-sm)', padding: 'var(--space-2) var(--space-4)', margin: '0 0 10px 36px' }}>{action.label} →</Link>
+      : <Link href={action.href} style={{ display: 'inline-block', margin: '0 0 10px 36px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', lineHeight: 1.4 }}>{action.label} →</Link>
+    : null
+  return <div>{head}{doIt}</div>
 }
 
-export default function TrackerPanel({ moduleId, shape, runHref }: {
+export default function TrackerPanel({ moduleId, shape, runHref, actions, hubOpen = true }: {
   moduleId: string
   shape: LessonShape
   /** The fuller thing, at the foot, the way the pattern does it. */
   runHref?: string
+  /** The tap that does each step (lib/tracker.ts trackerActions). */
+  actions?: Partial<Record<StepState['id'], StepAction>>
+  /** Whether this visitor can open the Hub's tracker. A free sample visitor
+   *  with no code cannot, and a link to the code page is a dead end there. */
+  hubOpen?: boolean
 }) {
   // Read after mount so the server paint and the first client paint agree,
   // then follow both memories as they change.
@@ -106,6 +127,10 @@ export default function TrackerPanel({ moduleId, shape, runHref }: {
   }, [])
 
   const state = lessonState(moduleId, shape, progress ?? {}, taught)
+  // The one next thing: the first row in running order still to do that has
+  // a tap to do it. Nothing is next until the memory has been read, so the
+  // server paint never draws a button the browser then moves.
+  const nextId = progress ? state.steps.find(s => !s.doneAt && actions?.[s.id])?.id : undefined
   const toggle = (id: StepState['id']) => {
     const s = state.steps.find(x => x.id === id)
     if (s?.doneAt) unmarkStep(moduleId, id); else markStep(moduleId, id)
@@ -139,7 +164,7 @@ export default function TrackerPanel({ moduleId, shape, runHref }: {
       </div>
 
       <div style={{ marginTop: 10, borderTop: '1px solid var(--border)' }}>
-        {state.auto.map(s => <Row key={s.id} step={s} />)}
+        {state.auto.map(s => <Row key={s.id} step={s} action={actions?.[s.id]} next={s.id === nextId} />)}
       </div>
 
       {state.yours.length > 0 && (
@@ -149,16 +174,16 @@ export default function TrackerPanel({ moduleId, shape, runHref }: {
             {state.yours.length === 1 ? 'This one is' : 'These are'} your word rather than ours. We cannot see {state.yours.length === 1 ? 'it' : 'them'} happen, so {state.yours.length === 1 ? 'it does' : 'they do'} not tick {state.yours.length === 1 ? 'itself' : 'themselves'}.
           </p>
           <div style={{ borderTop: '1px solid var(--border)', marginTop: 6 }}>
-            {state.yours.map(s => <Row key={s.id} step={s} onToggle={() => toggle(s.id)} />)}
+            {state.yours.map(s => <Row key={s.id} step={s} onToggle={() => toggle(s.id)} action={actions?.[s.id]} next={s.id === nextId} />)}
           </div>
         </>
       )}
 
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 0' }}>
         Counted on this screen only, in this browser. It names no child and it is never sent anywhere,
-        so a different laptop shows nothing and a shared classroom machine shows the last teacher&rsquo;s.{' '}
-        <Link href="/hub/tracker" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Every lesson and its tick</Link>
-        {runHref ? <>, or <Link href={runHref} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>the run sheet for this one</Link></> : null}.
+        so a different laptop shows nothing and a shared classroom machine shows the last teacher&rsquo;s.
+        {hubOpen ? <>{' '}<Link href="/hub/tracker" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Every lesson and its tick</Link>{runHref ? <>, or <Link href={runHref} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>the run sheet for this one</Link></> : null}.</> : null}
+        {!hubOpen && runHref ? <>{' '}<Link href={runHref} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>The run sheet for this one</Link>.</> : null}
       </p>
     </section>
   )

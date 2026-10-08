@@ -63,7 +63,7 @@ const REGULATORS: Voice[] = [
   {
     name: 'The RSHE guidance',
     who: 'Department for Education, published July 2025',
-    holds: 'Relationships, sex and health education must cover online harms, and the guidance becomes compulsory in schools on 1 September 2026. It names the areas schools must now teach, including deepfakes, misogynistic content, gambling and the harms of pornography.',
+    holds: 'Relationships, sex and health education must cover online harms, and the guidance became compulsory in schools on 1 September 2026. It names the areas schools must now teach, including deepfakes, misogynistic content, gambling and the harms of pornography.',
     align: 'We teach first by construction: every module is mapped to this guidance line by line, and the mapping matrix is public on this site.',
     differ: 'The guidance is mostly about protection from harm. We add the positive capability side: what a child should be able to do well, not only what they should avoid.',
     source: { label: 'gov.uk, RSHE guidance', href: 'https://www.gov.uk/government/publications/relationships-education-relationships-and-sex-education-rse-and-health-education' },

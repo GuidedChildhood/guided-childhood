@@ -153,7 +153,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Whole class, hands or devices for a, b, c. Watch for the first option, some pupils will happily take screens are harmless as the takeaway because it suits them. The feedback line to land out loud: weak link with hours is not a permission slip, it is a redirect. The question moves from how long to what did it do to me.",
+      "script": "Whole class, hands or devices for one, two or three. Watch for the first option, some pupils will happily take screens are harmless as the takeaway because it suits them. The feedback line to land out loud: weak link with hours is not a permission slip, it is a redirect. The question moves from how long to what did it do to me.",
       "minutes": 2,
       "options": [
         {
@@ -468,7 +468,7 @@
         "register": "level",
         "placement": "shaper"
       },
-      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or let one of the class tap it. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
       "minutes": 1,
       "component": "passport-page"
     },

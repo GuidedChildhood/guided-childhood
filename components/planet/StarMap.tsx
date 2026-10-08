@@ -262,7 +262,7 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
           {/* DiGi, the star in the middle */}
           <g data-digi-star transform={`translate(${DIGI.x} ${DIGI.y})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onTapDigi() }} style={{ cursor: 'pointer' }}>
             <circle cx={0} cy={0} r={78} fill="url(#pl-glow)" />
-            <g className="pl-float"><image href="/digi-squad/DiGi-star.svg" x={-40} y={-40} width={80} height={80} /></g>
+            <g className="pl-float"><image href="/digi-squad/DiGi-star-3d.png" x={-40} y={-40} width={80} height={80} /></g>
           </g>
 
           {/* the planets of this tier, far ones first so a near one draws over them */}
@@ -328,7 +328,7 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
         <g data-recentre role="button" aria-label="Back to DiGi" transform="translate(34 34)" onPointerDown={recentre} style={{ cursor: 'pointer' }}>
           <circle cx={0} cy={0} r={22} fill="#FFFFFF" stroke={INK} strokeWidth={2} />
           <circle cx={0} cy={3} r={22} fill="none" stroke={INK} strokeWidth={2} opacity={0.5} />
-          <image href="/digi-squad/DiGi-star.svg" x={-14} y={-14} width={28} height={28} />
+          <image href="/digi-squad/DiGi-star-3d.png" x={-14} y={-14} width={28} height={28} />
         </g>
       )}
 

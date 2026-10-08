@@ -116,9 +116,17 @@ the part that makes them a cast.
 
 **DiGi IS the golden star.** Confirmed by Justin. The green robot
 (`Digi.png`, job `62f19158`) and the owl (`a195409b`) are legacy and must never
-be rendered again. DiGi is drawn in code by `DigiCharacter.tsx` and
-`FriendPlate`, never filmed, which is why DiGi has no intro clip and does not
-need one.
+be rendered again. DiGi is animated in code by `DigiCharacter.tsx` and
+`FriendPlate`, which is why DiGi has no lesson intro clip and does not need one.
+
+**8 October 2026: DiGi in 3D.** Justin: the friends are 3D and DiGi was still
+a flat star. The star was rendered in the friends' style (Higgsfield
+`gpt_image_2_5`, job `5ba895ef`, from Orbit's art and the flat star as
+references; Justin picked it over `2c624ce7`), cut out (job `9199c10c`) and
+saved as `/digi-squad/DiGi-star-3d.png` in both apps. Every surface that drew
+`DiGi-star.svg` now draws it, with the same GSAP moods. The schools home cast
+row plays its idle loop (Kling 3.0, job `dc3673e0`). The flat SVG stays on disk
+for the home screen icon generator (`lib/kid/home-icon.tsx`).
 
 - **DiGi**: the guide. Warm, calm, plain. Speaks to parents and closes every
   lesson. **When wrong: says what it does not know.** That is the whole point of

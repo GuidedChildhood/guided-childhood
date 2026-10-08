@@ -69,7 +69,7 @@ import { PAGE } from '@gc/shared/page-scale'
 const FAQS = [
   {
     q: 'Does this meet the new statutory RSHE guidance?',
-    a: 'The guidance published in July 2025 comes into force on 1 September 2026, and every module is mapped to the requirements it teaches, requirement by requirement, including the newly named areas. The matrix names what it does not cover as well as what it does, because a scheme that claimed everything would be lying to you. It is public on this site, so you can check the coverage before you spend a penny.',
+    a: 'The guidance published in July 2025 came into force on 1 September 2026, and every module is mapped to the requirements it teaches, requirement by requirement, including the newly named areas. The matrix names what it does not cover as well as what it does, because a scheme that claimed everything would be lying to you. It is public on this site, so you can check the coverage before you spend a penny.',
   },
   {
     q: 'What about KCSIE 2026?',
@@ -109,7 +109,10 @@ function MapPreview() {
           return (
             <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
               <div style={{ background: ch.soft, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                <FriendMark character={m.character} size={22} />
+                {/* The friend at thumbnail size, not chip size (8 October
+                    2026): the card is the lesson's face, and at 22px the 3D
+                    art read as a dot. */}
+                <FriendMark character={m.character} size={44} ring={false} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>{m.keyStage}</span>
               </div>
               <div style={{ padding: '9px 10px 11px' }}>
@@ -147,7 +150,9 @@ function MapPreview() {
 // having to remember, the moment the sixth form lessons are written in his
 // voice and the manifest says so.
 const SQUAD: { key: CharacterKey; clip?: string; line: string }[] = [
-  { key: 'digi', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
+  // DiGi's idle loop, animated from the 3D star (Higgsfield job dc3673e0,
+  // 8 October 2026) so the guide moves like the five friends beside it.
+  { key: 'digi', clip: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20261008_111514_dc3673e0-3cbf-4498-86f8-79d9d381e084.mp4', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
   { key: 'pebble', clip: INTRO_CHARACTERS.pebble.clip, line: 'First steps: kindness, feelings, and what is real.' },
   { key: 'bloop', clip: INTRO_CHARACTERS.bloop.clip, line: 'Routines, gaming, privacy, and who really made this.' },
   { key: 'orbit', clip: INTRO_CHARACTERS.orbit.clip, line: 'The questions years: mood, scams, deepfakes, and whether it is doing your thinking.' },
@@ -171,7 +176,7 @@ const EVIDENCE = [
   {
     label: 'The regulators',
     title: 'Built on the statutory guidance',
-    body: 'The RSHE guidance becomes compulsory on 1 September 2026 and every module is mapped to it, topic by topic, on the public matrix. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
+    body: 'The RSHE guidance became compulsory on 1 September 2026 and every module is mapped to it, topic by topic, on the public matrix. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
     link: { href: '/hub/rshe-mapping', label: 'Read the full mapping matrix' },
   },
   {
@@ -426,7 +431,7 @@ export default async function SchoolsPage() {
                           return (
                             <div key={m.moduleId} style={{ background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: '5px' }}>
-                                <FriendMark character={m.character} size={24} />
+                                <FriendMark character={m.character} size={40} ring={false} />
                                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</span>
                                 {m.crown && <span style={{ marginLeft: 'auto' }} title="Crown module">👑</span>}
                               </div>
@@ -619,7 +624,7 @@ export default async function SchoolsPage() {
             Be one of the first schools to teach it.
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
-            A free one term pilot for the first {PILOT_PLACES} schools who want to get ahead of the statutory September. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
+            A free one term pilot for the first {PILOT_PLACES} schools teaching the new statutory guidance this year. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>

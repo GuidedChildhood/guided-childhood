@@ -370,7 +370,7 @@ export function Furniture({ kind, open = false, on = false, using = false, glow 
           <rect x={-40} y={-54} width={80} height={16} rx={4} fill={accent} stroke={INK} strokeWidth={1.4} opacity={0.9} />
           <text x={0} y={-42} textAnchor="middle" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill={INK} letterSpacing={1.5}>DIGI</text>
           <g className={using ? 'pl-wiggle' : 'pl-float'}>
-            <image href="/digi-squad/DiGi-star.svg" x={-30} y={-124} width={60} height={60} />
+            <image href="/digi-squad/DiGi-star-3d.png" x={-30} y={-124} width={60} height={60} />
           </g>
         </g>
       )

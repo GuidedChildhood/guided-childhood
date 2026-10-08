@@ -70,6 +70,24 @@ export const PRICING_BANDS: PricingBand[] = [
   { key: 'trust', tier: 'Trust or MAT', pupils: 'Every school in the trust', price: 'On application', perPupil: 'priced per school, not per pupil', onApplication: true },
 ]
 
+// THE FOUNDING SCHOOLS RATE (Justin, 8 October 2026: "yes on founding
+// rate"). Somerset primaries already pay eLIM £197.40 for an online safety
+// scheme, so our £495 and £795 primary bands read as two and a half to four
+// times the local price (plans/2026-10-07-school-price-against-elim.md).
+// Schools are distribution, not revenue (THE-STORY section 9), so the first
+// fifty schools get any primary at £195 a year, held for as long as they
+// stay. The list prices do not move. The fifty is enforced in code: the
+// places are counted from the requests themselves (founding-places.ts) and
+// the invoice action refuses the band once they are gone.
+export const FOUNDING = {
+  key: 'founding_primary',
+  tier: 'Founding school',
+  pupils: 'Any primary, any size',
+  price: '£195',
+  places: 50,
+  perPupil: 'held for as long as you stay',
+} as const
+
 // One licence, everything in it, opened by one code for the whole staff
 // room. There is no seat counting and no per teacher price, because the
 // thing being bought is whole school delivery: every module, printed,

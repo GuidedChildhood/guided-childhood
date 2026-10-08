@@ -1,7 +1,8 @@
 'use server'
 
 import { db as anon } from '@/lib/supabase/server-db'
-import { PRICING_BANDS } from '@/lib/pricing'
+import { PRICING_BANDS, FOUNDING } from '@/lib/pricing'
+import { foundingPlacesLeft } from '@/lib/founding-places'
 
 // The invoice request letterbox. This posts a row through the anon key into
 // schools.invoice_requests (insert only RLS, migration 195); the parent
@@ -32,7 +33,14 @@ export async function requestInvoice(formData: FormData): Promise<InvoiceRequest
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { ok: false, error: 'That email address does not look right. It is where the invoice goes, so it needs to be exact.' }
   }
-  if (!PRICING_BANDS.some(b => b.key === band)) {
+  if (band === FOUNDING.key) {
+    // The fifty, enforced here and not only on the page: a form left open in
+    // a tab, or a request posted by hand, cannot buy the fifty first place.
+    const left = await foundingPlacesLeft()
+    if (left === null || left <= 0) {
+      return { ok: false, error: `The ${FOUNDING.places} founding places are taken. Pick your school's band, or email hello@guidedchildhood.com and we will talk.` }
+    }
+  } else if (!PRICING_BANDS.some(b => b.key === band)) {
     return { ok: false, error: 'Pick the band that matches your school.' }
   }
 

@@ -78,7 +78,7 @@ export default async function QuestPrintPage() {
               display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center',
             }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={62} height={62} style={{ flexShrink: 0 }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={62} height={62} style={{ flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
                   ⭐ DiGi&apos;s quest board ⭐
@@ -88,7 +88,7 @@ export default async function QuestPrintPage() {
                 </div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={62} height={62} style={{ flexShrink: 0, transform: 'scaleX(-1)' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={62} height={62} style={{ flexShrink: 0, transform: 'scaleX(-1)' }} />
             </div>
 
             {/* The prize and the star track to colour in */}

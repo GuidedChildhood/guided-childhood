@@ -217,7 +217,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "This is the footballer post from evidence item one. Ten seconds of thinking time, then whole class, hands or devices for a, b, c. Watch for the it is probably fake option, wherever the player puts it: assuming everything is fake feels streetwise, but it is the same shortcut as believing everything, just facing the other way. Name that if it comes up, and land the line from the teacher tip: the checks end in believe verdicts too.",
+      "script": "This is the footballer post from evidence item one. Ten seconds of thinking time, then whole class, hands or devices for one, two or three. Watch for the it is probably fake option, wherever the player puts it: assuming everything is fake feels streetwise, but it is the same shortcut as believing everything, just facing the other way. Name that if it comes up, and land the line from the teacher tip: the checks end in believe verdicts too.",
       "minutes": 2,
       "options": [
         {
@@ -312,7 +312,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Whole class on devices or hands for a, b, c. The subtle point to land in feedback: the feeling is not proof of anything, it is a trigger to check. Furious and true both exist.",
+      "script": "Whole class on devices or hands for one, two or three. The subtle point to land in feedback: the feeling is not proof of anything, it is a trigger to check. Furious and true both exist.",
       "minutes": 2,
       "options": [
         {
@@ -589,7 +589,7 @@
         "register": "level",
         "placement": "shaper"
       },
-      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or let one of the class tap it. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
       "minutes": 1,
       "component": "passport-page"
     },

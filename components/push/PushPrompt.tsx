@@ -610,9 +610,14 @@ export default function PushPrompt({ userId, stage }: Props) {
 // When do you want your daily nudge? Three moments, tap to toggle, saved to
 // every device the parent has. The routine choice as personalisation: the same
 // check ins, at the times that fit this family's actual day.
+// The two school day windows follow each child's own school day since
+// 7 October 2026 (Settings sets when school starts and when they are home;
+// lib/home/school-window.ts turns that into the family's targets). One window
+// is the default for a new family, because three prompts a week beat five in
+// the one direct test and five raised opt out by 58 percent. Both is a tap.
 const SLOT_OPTIONS = [
-  { key: 'morning', label: 'Morning 7:30am' },
-  { key: 'afternoon', label: 'After school 3:30pm' },
+  { key: 'morning', label: 'Before school' },
+  { key: 'afternoon', label: 'Home from school' },
   // The evening is at the parent's own time since 13 September 2026: chosen
   // below, or learned from when they usually finish, or 9pm.
   { key: 'evening', label: 'Evening, your time' },
@@ -708,6 +713,11 @@ function NudgeSlots() {
         )
       })}
       {slots.includes('evening') && <ReminderTime />}
+      {(slots.includes('morning') || slots.includes('afternoon')) && (
+        <p style={{ width: '100%', margin: '6px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+          The school day ones land 50 minutes before school starts and 15 minutes after they are usually home, from the times in Settings, on school days only. One window is plenty; add the other if you want both.
+        </p>
+      )}
     </div>
   )
 }

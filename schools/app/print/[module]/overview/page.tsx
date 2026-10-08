@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { parseSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
-import { isStandaloneModule, standaloneTitle } from '@/lib/taster'
+import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { friendFor, printRegister, FriendHeader, PrintSheet } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
@@ -71,12 +71,16 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
   const friend = friendFor((lesson as { character_cast?: string | null }).character_cast, lesson.key_stage)
   const reg = printRegister(lesson.key_stage)
 
+  // A standalone lesson is not in the print room (lib/taster.ts), and the free
+  // sample's visitor usually has no code to open it, so the print room is a
+  // dead end from either: both sheets lead back to their own lesson page.
+  const ownPage = isStandaloneModule(moduleId) || isTasterModule(moduleId)
   return (
     <main style={{ maxWidth: '760px', margin: '0 auto', background: '#fff', color: 'var(--ink)', padding: '0 8px 40px' }}>
       <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', padding: '20px 0 0', marginBottom: '8px' }}>
         {/* A standalone lesson is not in the print room (lib/taster.ts), so
             its sheets lead back to its own lesson page instead. */}
-        <Link href={isStandaloneModule(moduleId) ? `/lesson/${moduleId}` : '/print'} style={{ ...mono, textDecoration: 'none' }}>{isStandaloneModule(moduleId) ? '← The lesson' : '← Print room'}</Link>
+        <Link href={ownPage ? `/lesson/${moduleId}` : '/print'} style={{ ...mono, textDecoration: 'none' }}>{ownPage ? '← The lesson' : '← Print room'}</Link>
         <PrintButton />
       </div>
       <PrintSheet footer={`${lesson.title} · unit overview`} last>

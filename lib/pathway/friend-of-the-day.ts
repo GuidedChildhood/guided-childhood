@@ -61,7 +61,7 @@ const DIGI: CastMember = {
   key: 'digi',
   name: 'DiGi',
   colour: 'var(--gold-dark)',
-  cutout: '/digi-squad/DiGi-star.svg',
+  cutout: '/digi-squad/DiGi-star-3d.png',
 }
 
 /** The whole cast, DiGi first because DiGi is who a family meets first. */

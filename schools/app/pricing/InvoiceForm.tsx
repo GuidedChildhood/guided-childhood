@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { requestInvoice } from './actions'
-import { PRICING_BANDS } from '@/lib/pricing'
+import { PRICING_BANDS, FOUNDING } from '@/lib/pricing'
 
 // The request an invoice form. No card, no checkout: the school tells us
 // who they are and hands over the purchase order number, we raise the
@@ -38,7 +38,9 @@ function check(fd: FormData): Record<string, string> {
   return errs
 }
 
-export default function InvoiceForm({ preselect, prefill }: { preselect?: string; prefill?: { school_name?: string; contact_name?: string; email?: string } }) {
+// While founding places remain the form starts on the founding band, so a
+// pilot school arriving from its end of term link lands on it.
+export default function InvoiceForm({ preselect, prefill, foundingOpen = false }: { preselect?: string; prefill?: { school_name?: string; contact_name?: string; email?: string }; foundingOpen?: boolean }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [errs, setErrs] = useState<Record<string, string>>({})
@@ -90,7 +92,10 @@ export default function InvoiceForm({ preselect, prefill }: { preselect?: string
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="band">Band</label>
-          <select className="input" id="band" name="band" defaultValue={preselect && PRICING_BANDS.some(b => b.key === preselect) ? preselect : 'primary_small'}>
+          <select className="input" id="band" name="band" defaultValue={preselect && PRICING_BANDS.some(b => b.key === preselect) ? preselect : foundingOpen ? FOUNDING.key : 'primary_small'}>
+            {foundingOpen && (
+              <option value={FOUNDING.key}>{FOUNDING.tier} · {FOUNDING.pupils} · {FOUNDING.price}</option>
+            )}
             {PRICING_BANDS.map(b => (
               <option key={b.key} value={b.key}>
                 {b.tier} · {b.pupils} {b.onApplication ? '' : `· ${b.price}`}

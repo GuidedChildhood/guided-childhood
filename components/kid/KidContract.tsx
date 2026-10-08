@@ -31,7 +31,7 @@ export default function KidContract({ childName, level, trust, onAgree }: {
       <div style={{ width: 'min(100%, 440px)' }}>
         <div style={{ textAlign: 'center', marginBottom: '18px' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 64, height: 64, marginBottom: 10 }} />
+          <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: 64, height: 64, marginBottom: 10 }} />
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
             My screen deal
           </p>
