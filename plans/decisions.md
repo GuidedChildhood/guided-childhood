@@ -465,3 +465,7 @@ Justin asked for the evidence on what wins replies from schools, then for the ro
 ## 8 October 2026: DiGi in 3D, and a KS3 lesson on copyright
 
 Justin picked take B of a 3D golden star rendered in the Planet Friends' style; it replaces the flat SVG on every surface (both apps) and the schools home cast row plays its idle loop (PR 1219, job IDs in digi-squad/README.md). And "build suggested" after the Common Sense mapping: ks3-34 Who owns what you make, Orbit and DiGi, our first copyright lesson between KS2 and KS5, every fact from a primary source fetched that day (plans/2026-10-08-copyright-ks3-lesson-plan.md). Contract, rubric and wall fit all pass; ks5-20's sign off becomes thirty three; migration 365 inserts it, proved by hash. Applied 8 October: 37 rows, hash proved; the campaign templates now say 34 modules.
+
+## 8 October 2026: the pilot emails link to the proof, and the form comes after the yes
+
+Justin agreed: a first email links to the proof (mapping, safeguarding crosswalk or free lesson), never to the request form, and a reply is the yes because it is less work than a form and starts a conversation. The connector still wraps any address it saves, so every draft carries "I am happy to send you the link." and Justin swaps it for "Here it is:" and the link before sending (rule 7 has the table). Follow up E now links the /pilot form; new reply G sends the /pilot form when a school says yes.

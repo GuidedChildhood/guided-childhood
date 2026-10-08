@@ -82,18 +82,33 @@ routine, which reads this file from origin/main before it drafts anything.
    nobody has to plan it; the offer with its conditions (twelve weeks, a
    couple of lesson slots and fifteen minutes at the end, nothing charged,
    nothing renews); one ask.
-7. **No links in a first email.** The Gmail connector that writes drafts
-   rewrites every web address it saves into a google.com redirect, even a bare
-   domain with no https (tested 8 October), and those redirects expire and look
-   like phishing to school filters. So a first email names the page ("on our
-   schools website") and offers the link, which goes in the reply, typed by
-   Justin. This also suits the research: a first cold email does at least as
-   well with no link, and lands more often. A draft must never contain a web
-   address; check before saving.
+7. **One link, and Justin pastes it.** Every first email links to the proof
+   (the mapping, the safeguarding crosswalk or the free lesson), never to a
+   form: the proof is what earns the yes. But the Gmail connector that writes
+   drafts rewrites every web address it saves into a google.com redirect, even
+   a bare domain (tested 8 October), and those look like phishing to school
+   filters. So a draft never contains a web address. Instead every email
+   carries the same sentence, "I am happy to send you the link.", and before
+   pressing send Justin swaps it for "Here it is:" with the link pasted on its
+   own line underneath (the table below says which link). Typed in Gmail, the
+   link stays clean. If he forgets, the sentence still reads properly.
+
+   | Email | Paste this link |
+   |---|---|
+   | A, primary | https://schools.guidedchildhood.com/hub/rshe-mapping |
+   | B, secondary | https://schools.guidedchildhood.com/curriculum |
+   | C, DSL | https://schools.guidedchildhood.com/hub/dsl |
+   | D, the trust | https://schools.guidedchildhood.com/hub/rshe-mapping |
+   | E, first follow up | https://schools.guidedchildhood.com/pilot |
+   | F, last note | https://schools.guidedchildhood.com/curriculum |
+
 8. **One ask, and it is interest.** "Would a free term be useful for [school]?
    A yes is enough and I will send the code. If someone else leads on this,
    tell me who and I will write to them instead." The "five minutes on where
-   it falls short" ask lives in the last follow up only.
+   it falls short" ask lives in the last follow up only. A reply is the yes,
+   because it is less work than a form and it starts a conversation. The
+   request form at /pilot comes after the yes (reply G), and is the link in
+   the first follow up (E), once the school has had the proof.
 9. **No price in a first email.** If asked: any primary £195 a year at the
    founding rate, the first 50 schools, held while they stay
    (schools.guidedchildhood.com/pricing).
@@ -188,7 +203,7 @@ sheet does not confirm the person is the DSL (Churchill names two people), and
 ```
 Hello [first name],
 
-I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty four modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open to read with no sign up on our schools website, and I am happy to send you the link.
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty four modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open to read with no sign up on our schools website. I am happy to send you the link.
 
 Since 1 September the revised RSHE guidance has been statutory, and this September's Keeping Children Safe in Education names generative AI and AI generated images among its online risks. The guidance has 57 digital and online requirements, and the scheme teaches all 57.
 
@@ -214,7 +229,7 @@ I am running a free one term pilot with five schools before it goes wider, and I
 
 Since 1 September the revised RSHE guidance has been statutory. It has 57 digital and online requirements, and the scheme teaches all 57. Nobody has to plan it: every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
-Your phone policy says the schools share the job of educating young people about safe use of smart technology, and your safeguarding policy names deepfakes and AI generated images. The phone is out of the classroom now; this is the lessons half of that sentence. The mapping on our schools website shows which lesson covers which line, open with no sign up, and I am happy to send you the link.
+Your phone policy says the schools share the job of educating young people about safe use of smart technology, and your safeguarding policy names deepfakes and AI generated images. The phone is out of the classroom now; this is the lessons half of that sentence. The mapping on our schools website shows which lesson covers which line, open with no sign up. I am happy to send you the link.
 
 The pilot is a code that opens two lessons matched to the school's phase plus the whole Hub, for twelve weeks from the day the school starts. Nothing to install, nothing charged, nothing renews, and no school is asked to decide anything until the term ends.
 
@@ -259,7 +274,9 @@ Hello [first name],
 
 A shorter version, in case the first note sank. Five schools get a free term of online safety lessons: two lessons for your key stages plus the Hub, twelve weeks, nothing charged. [Number] of the five places are still open.
 
-Would it be useful for [school name]? If a yes needs someone else, tell me who and I will write to them instead. Reply no and I will stop.
+Would it be useful for [school name]? A reply is enough, or there is a two minute request form on our schools website that holds a place and tells me where to send the code. I am happy to send you the link.
+
+If a yes needs someone else, tell me who and I will write to them instead. Reply no and I will stop.
 
 Best wishes,
 Justin
@@ -272,13 +289,37 @@ Justin
 ```
 Hello [first name],
 
-Last note from me this term. If the pilot is not right for [school name] now, I would still value five minutes of your view on the free lesson on our schools website (I can send the link): what would stop you teaching it on a Tuesday?
+Last note from me this term. If the pilot is not right for [school name] now, I would still value five minutes of your view on the free lesson on our schools website: what would stop you teaching it on a Tuesday? I am happy to send you the link.
 
 Either way, thank you for reading, and I will not write again this term.
 
 Best wishes,
 Justin
 ```
+
+### Reply G, when a school says yes
+
+Justin types this one in Gmail himself, so the link goes in as it is. Reply in
+the same thread the same day. The form records the school, emails Justin the
+lead and sends the school its own confirmation; the code follows within two
+working days, usually the same day.
+
+**Subject:** Re: [original subject]
+
+```
+Hello [first name],
+
+Thank you, that is brilliant. Your place is held. The quickest way to set it up is the short form on our pilot page. It takes two minutes and tells me where to send the code:
+https://schools.guidedchildhood.com/pilot
+
+If a form is a nuisance, reply with the email the code should go to and I will set it up by hand.
+
+Best wishes,
+Justin
+```
+
+Mark the row YES in the sheet. When the fifth place is taken, stop the first
+emails (section 4).
 
 ---
 
