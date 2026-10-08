@@ -1,46 +1,51 @@
-# 8 October 2026: Lessons, version 5. The child learns it, the parent closes it, both can see it stuck, and the cast carries it
+# 8 October 2026: Lessons, version 6. The child learns it, the parent closes it, both can see it stuck, and the cast carries it
 
-Justin, looking at Lessons for Teo on his phone: "these are really for the
-child to do ... it looks like we are asking the parent to take the lesson.
-Come up with the best way to run this so it is coherent, flows and loops, so
-the parent can be confident the child learns, the lesson is for the child,
-giving the parent options, knowing it is not a lesson for them. What we come
-up with must encourage ticking off on the system (lesson done, passport) and
-the child's app wiring works." Then: "check your advice with as many agents as
-possible ... as if the best school lessons but top known proven methods for
-best results, and the mechanism is easy for parents and gives them a wow
-factor. Do not stop until it scores 10 out of 10." Then, adding the seventh
-lens: "a separate agent that makes sure it all appears easy to use and uses
-images of Planet Friends animations on thumbnails in a really attractive way
-as good as any character SaaS plus the front page and flow and easy to see
+Justin: "these are really for the child to do ... it looks like we are asking
+the parent to take the lesson. Come up with the best way to run this so it is
+coherent, flows and loops, so the parent can be confident the child learns ...
+What we come up with must encourage ticking off on the system (lesson done,
+passport) and the child's app wiring works." Then: "check your advice with as
+many agents as possible ... as if the best school lessons but top known proven
+methods for best results, and the mechanism is easy for parents and gives them
+a wow factor. Do not stop until it scores 10 out of 10." Then, adding the
+seventh lens: "a separate agent that makes sure it all appears easy to use and
+uses images of Planet Friends animations on thumbnails in a really attractive
+way as good as any character SaaS plus the front page and flow and easy to see
 what is outstanding for pass of stage ... better than any character platform
 lesson education tracker ... connected both co viewer or on child's app with
 feedback to parent and PWAs emails linked not over done."
 
-Four versions, each through the same panel. Six lenses to version 3, seven
+Five versions, each through the same panel. Six lenses to version 3, seven
 from version 4: a teacher, a learning scientist, a learning app product lead,
-a parent UX reviewer, a sceptical engineer, a child lens (a 12 year old
-alone, a 5 year old on the sofa) and now a design lead for character led
-learning products. Scores on A (the child learns, best proven methods), B
-(easy for the parent, a wow), C (the loop runs), and for the designer D
-(looks) and E (flow):
+a parent UX reviewer, a sceptical engineer, a child lens (a 12 year old alone,
+a 5 year old on the sofa) and a design lead for character led learning
+products. A, B and C are the child's learning, the parent's ease and wow, and
+whether the loop runs; the designer scores Looks and Flow.
 
-| Lens | v1 | v2 | v3 | v4 |
-|---|---|---|---|---|
-| Teacher | 6/5/5 | 7/8/7 | 9/10/9 | 9/10/10 |
-| Learning scientist | 7/6/6 | 8/8/7 | 9/9/9 | 9/10/9 |
-| Learning app lead | 6/5/5 | 8/8/7 | 9/9/8 | 10/9/9 |
-| Parent UX | 3/4/3 | 8/7/6 | 9/9/7 | 10/10/10 |
-| Sceptical engineer | 4/5/5 | 6/7/5 | 7/8/7 | 8/8/7 |
-| Child lens | 5/5/4 | 7/8/7 | 9/9/9 | 9/9/9 |
-| Designer | | | | D4 / E7 |
+| Lens | v1 | v2 | v3 | v4 | v5 |
+|---|---|---|---|---|---|
+| Teacher | 6/5/5 | 7/8/7 | 9/10/9 | 9/10/10 | 9/10/10 |
+| Learning scientist | 7/6/6 | 8/8/7 | 9/9/9 | 9/10/9 | 8/10/8 |
+| Learning app lead | 6/5/5 | 8/8/7 | 9/9/8 | 10/9/9 | 9/9/8 |
+| Parent UX | 3/4/3 | 8/7/6 | 9/9/7 | 10/10/10 | 10/10/10 |
+| Sceptical engineer | 4/5/5 | 6/7/5 | 7/8/7 | 8/8/7 | 8/8/7 |
+| Child lens | 5/5/4 | 7/8/7 | 9/9/9 | 9/9/9 | 9/9/9 |
+| Designer | | | | Looks 4, Flow 7 | Looks 7, Flow 8 |
 
-The reviews are in the session scratchpad (`lessons-review/round1/` to
-`round4/`). Round 4 converged: three lenses independently found the same
-design error in the retake, three found the same impossible copy, two found
-the same missing column, and the engineer found two things that would have
-changed the signed off classroom lesson. The designer found that the cast is
-already in the database and no surface uses it. Version 5 closes all of it.
+Reviews in `lessons-review/round1/` to `round5/`. Round 5 found two classes of
+problem version 5 had introduced, both now closed: a retake that could never
+pass, found independently by three lenses, with my own guard asserting the
+thing that broke it; and a visual spec whose premise was wrong, because the
+cast is one friend per stage rather than one per module, so a Friend Tile on
+every row was decoration and a padlocked friend put the paywall back into the
+child's picture after three rounds took it out of the child's words. Round 5
+also showed that one pull request was four, and that the content pull request
+gated the whole loop behind 162 new questions. Version 6 reshapes the build
+into five, so a first family is through the loop in two merges.
+
+The visual spec now lives in the repo at `brand/lessons-visual-layer.md`, with
+a pointer in `DESIGN_SYSTEM.md`, because a spec in a session scratchpad is a
+spec the builder reinvents.
 
 ## What is true today (verified in the code, the decks and the live database)
 
@@ -51,792 +56,816 @@ already in the database and no surface uses it. Version 5 closes all of it.
    the child, never checks ownership, resets a passed mission, no paywall
    check. `pushToChild` returns nothing and leaves in quiet hours before any
    read.
-3. **The check does not measure the lesson.** The pass is 70 percent of every
-   choice slide, first tap only, the number written twice and trusted from
-   the client. Measured over the 34 decks: 194 choice slides, of which 117
-   have the right answer more than 20 percent longer than its longest
-   distractor; 68 prove items, 2 per deck, 49 of them over that rule; 10
-   prove items have two options, on which `answerBeat` gives no second go
-   (`retryWorthHaving = optionCount > 2`), including both in the first
-   Reception deck. The starter of a stage's first module recalls a lesson
-   from the previous key stage. `tryAgain` rewinds to the slide before the
-   first wrong answer, re asks the question whose answer just turned green,
-   and banks the previous run's answers rather than clearing them.
-4. **Stars pay on completion, not the pass**, and a fail tells the parent
-   "3 stars landed". A pass is 3, a first film watch 10.
-5. **The child's answers are thrown away.** Migration 239 holds `question`,
-   `chosen`, `correct`, `lesson_id` and `stage_id`; `fetchAnswerFacts`
-   selects `correct`; `recordQuestionAnswers`'s `source` is a literal union.
-6. **The child's stage check draws from the parent library** and trusts
+3. **The check does not measure the lesson.** 194 choice slides across the 34
+   decks, 117 with the right answer more than 20 percent longer than its
+   longest distractor. 68 prove items, two per deck, 49 of them over that
+   rule, 10 with only two options (no second go, `retryWorthHaving =
+   optionCount > 2`), including both in the first Reception deck. Every prove
+   slide declares `minutes: 2`, and ks3-10 declares 69 minutes in total, the
+   classroom hour. **37 of the 68 prove items announce themselves to the child
+   as "Exit check one."**, teacher register and wrong arithmetic once there
+   are four; the other 31 announce nothing, so whether a child knows their
+   first answer counts depends on the deck they drew. `tryAgain` rewinds to
+   the slide before the first wrong answer, re asks the question whose answer
+   just settled green, and banks the previous run's answers rather than
+   clearing them.
+4. **The player's pass is shared with four other products.**
+   `LessonPlayer.tsx:1481` computes `passed` at 0.7 over every choice slide
+   for `lessonSource` of `lesson`, `ai_lesson` and `school_lesson`, across
+   twelve mount points: the parent library, the AI modules, the tutor decks,
+   the adventures, the schools class player and the tracker. Two further files
+   hold their own `PASS_MARK = 0.7` and are the family stage lessons.
+5. **Nineteen files read a deck.** `parseSlides` is called by nine schools
+   surfaces (`class/[lessonId]`, `lesson/[module]`, `lesson/[module]/run`,
+   `teach/[module]`, `hub/vocabulary`, and `print/[module]` with its
+   `booklet`, `organiser` and `overview`), the kid mission page, the kid
+   tutor, the kid lessons page, the parent library player, the AI module
+   player, `TutorLessonCard`, `stage-quiz-gather` and two dev pages.
+   `print/[module]` takes its printed check as `checks.slice(-2)` over every
+   choice slide, and `lesson/[module]/run` sums `slide.minutes` across the
+   deck, so appending anything to a deck silently changes both the printed
+   pack and the hour a teacher is shown.
+6. **Stars pay on completion, not the pass**, and a fail tells the parent "3
+   stars landed". A pass is 3, a first film watch 10. The opener sets 3 while
+   the POST default would set 10.
+7. **The child's answers are thrown away.** Migration 239 holds `question`,
+   `chosen`, `correct`, `lesson_id`, `stage_id`; `fetchAnswerFacts` selects
+   `correct`; the source is a literal union.
+8. **The child's stage check draws from the parent library** and trusts
    `body.correct`.
-7. **The week between lessons is a dice roll.** `pickDay` draws the lesson
-   and the quiz by seed; a drawn undone lesson fails the day; the quiz row
-   links to `?quiz=1`, which the page ignores; `/k/[token]/remember` does not
-   exist; `stepForToday`'s `LEARNING` pair lets a pass tick the quiz step;
-   the five a day cron runs 18:30 London, sends one push a day, and skips any
-   child with no `kid_days` row today; Stage 1's day is four steps, drops
-   homework and maths and keeps the quiz; `KidQuestScreen.tsx:2657` renders
-   every mission row under "Star lessons from your grown up";
-   `lib/planet/server.ts:244` counts a third lesson number, non school passes
-   plus done missions, and persists it to open planets.
-8. **The child meets the classroom deck.** Six to ten classroom slides per
-   module; the half time prompt is in `config.prompt`, not `script`; no saved
-   place; 22 of the 27 KS2 and up decks sit at their core minutes ceiling.
-   **Five schools surfaces render whatever `parseSlides` returns**
-   (`schools/app/class/[lessonId]`, and `print/[module]` plus its
-   `booklet`, `organiser` and `overview`), and the printed check is
-   `checks.slice(-2)`, so appending anything to a deck silently changes the
-   classroom's printed exit quiz.
-9. **The content has three shapes.** 25 decks carry `expected_verdict` and
-   `teaching_point` on every worksheet item; nine carry neither (51 items),
-   six of those as `stem` plus `text` sentence completions; and four
-   (ks2-26, ks3-27, ks4-28, ks4-29) are an older shape throughout, with
-   `teacher_notes.tool` and the worksheet items as plain strings. Every deck
-   has `teacher_notes.misconceptions` and `teacher_notes.commitment_stem`.
-   24 decks already run a `verdict-sort` in their practise phase, 19 of them
-   over the worksheet items.
-10. **Under 7 the grown up's words are stripped**, and the Foundation prove
+9. **The week between lessons is a dice roll**: `pickDay` draws the lesson and
+   the quiz by seed, a drawn undone lesson fails the day, the quiz row links
+   to a page that ignores it, `/k/[token]/remember` does not exist,
+   `stepForToday`'s `LEARNING` pair lets a pass tick the quiz step, the five a
+   day cron runs 18:30 and skips any child with no row today, Stage 1's day is
+   four steps keeping the quiz, `KidQuestScreen.tsx:2657` lists every mission
+   under "Star lessons from your grown up", `lib/planet/server.ts:244` counts
+   a third lesson number (non school passes plus done missions, both as head
+   only counts) and persists it to open planets, and
+   `app/k/[token]/page.tsx:679` hands KidRoad a second lesson pair tied to the
+   stamp.
+10. **The content has three shapes.** 25 decks carry `expected_verdict` and
+    `teaching_point` on every worksheet item; nine carry neither (51 items),
+    six as `stem` plus `text` completions; four (ks2-26, ks3-27, ks4-28,
+    ks4-29) hold `teacher_notes.tool` and the worksheet items as plain
+    strings. Every deck has `misconceptions` and `commitment_stem`. 24 decks
+    already run a `verdict-sort` in practise, 19 over the worksheet items, and
+    the interactive registry is typed `ComponentType<{ config }>`, so a
+    `kidMode` prop needs that type widened or it is dropped in review.
+11. **Under 7 the grown up's words are stripped**, and the Foundation prove
     items are two option slides.
-11. **The tea question is three kinds of question** under one label, and every
-    `taught` line opens "Today we".
 12. **The parent's close does not persist, and Home reads four things.**
-    `DigiPrompts` renders in a closed fold at the foot of Home from day
-    three; `TodayCard`'s only control on a row is the ring that means put
-    away, its label in `aria-label` only; the prompts GET selects neither
-    `cta` nor `reason`, returns the three newest pending rows, and the PATCH
-    writes `status` only; `moment.ts` holds DiGi while any non insight card
-    is pending; `collect.ts:39` lists every pending prompt without `reason`
-    and the Today card counts them; the weekly review cron emails only
-    families with a tick or a check in and selects no `child_id`; Home
-    resolves one child. The passport counts the age band's AI modules,
-    `/path` does not.
-13. **The cast is in the database and no surface uses it.**
-    `school_lessons.character_cast` is set on all 34 rows and
-    `characterKeyFor` resolves every one (7 Pebble, 6 Bloop, 8 Orbit, 3
-    Nova, 2 Cosmo, 6 DiGi, the DiGi ones being the safeguarding modules).
-    `StarLessonRow` declares the column; `listStarLessons` does not select
-    it. The child's list draws one hardcoded clapperboard for all 34
-    (`app/k/[token]/lessons/page.tsx:112`); the pass screen draws
-    `DigiCharacter` for all 34 (`LessonPlayer.tsx:1965`); the Today row
-    would draw the same book as the school week row; the Sunday email has
-    `lib/email/friends.ts` serving 192 square email safe PNGs by stage, not
-    by module.
-14. **The weekly promise runs out.** Modules per stage against the years each
-    covers: Foundation 7 for ages 4 to 7, Builder 9 for 8 to 10, Explorer 9
-    for 11 to 12, Shaper 7 for 13 to 15, Independent 2. A Builder family
-    reaches the end of the lessons in month three of a subscription that can
-    run three years.
+    `DigiPrompts` sits in a closed fold from day three; `TodayCard`'s only row
+    control is the ring that means put away, label in `aria-label` only, and
+    it commits before the fold; the prompts GET selects neither `cta` nor
+    `reason` and returns three newest pending rows; the PATCH writes `status`
+    only; `moment.ts` holds DiGi while any non insight row is pending;
+    `collect.ts:39` lists every pending prompt without `reason` and the Today
+    card counts them; the weekly review cron gates on an approved tick or a
+    scored check in and selects no `child_id`; Home resolves one child.
+    `digi_prompts.title` and `body` are not null and have no field for a
+    parent's own words.
+13. **The cast is one friend per stage and no surface uses it.**
+    `character_cast` is set on all 34 rows and `characterKeyFor` resolves
+    every one: Foundation all Pebble, Builder 8 Bloop and 1 DiGi, Explorer 8
+    Orbit and 1 DiGi, Shaper 3 Nova and 4 DiGi, Independent 2 Cosmo.
+    `listStarLessons` does not select the column although the row type
+    declares it. The child's list draws one hardcoded clapperboard for all 34;
+    the pass screen draws `DigiCharacter` for all 34; the Today row would draw
+    the same book as the school week row; the email serves friends by stage,
+    not by module. The child's app is washed in the child's chosen accent
+    (thirteen, two dark), and the passport's stamp is a 46px circle.
+14. **The weekly promise runs out, and then runs out again.** Foundation 7
+    modules for ages 4 to 7, Builder 9 for 8 to 10, Explorer 9 for 11 to 12,
+    Shaper 7 for 13 to 15, Independent 2. A Builder family reaches the end in
+    month three of a subscription that can run three years, and `age-up` is
+    the one real restock in that time: it already pushes the parent "The
+    Builder stage opens", and nothing on the child's app or the hub names it.
 15. **The parent's name is usually unknown and no pronoun exists.**
-    `lib/email/parent-name.ts` returns null for every starter pack account
-    on purpose; nothing anywhere holds a parent's gender, and
-    `WelcomeWalkthrough.tsx` already sets the rule, they and their, because
-    a wrong guess is worse than a neutral one. Explorer is "Ages 11 to 12"
-    in `stages.ts`.
+    `parent-name.ts` returns null for every starter pack account on purpose;
+    nothing holds a parent's gender, and `WelcomeWalkthrough.tsx` already sets
+    the rule, they and their. `hasKidLink` exists in `suggestions.ts` but is
+    gated to 17:00 to 20:00. Explorer is "Ages 11 to 12" in `stages.ts`.
 
 Keep exactly as it is (every lens said so): the answer beat, the near miss
 screen's words, the next unpassed lesson always open regardless of the
-paywall, stars minted once and never on a replay, stars derived from the
-mission row so they cannot double, the stage check that only asks what the
-lessons asked, the characters and their one friend one tint rule, the
-`FriendPlate` register ladder, the feed mockups, the evidence slides taught
-honestly, the content already written on every module, the child rail, the
-Today card's one row per thing, the five a day's drawn crayon icons and its
-cron's restraint, and the model.
+paywall, stars minted once and derived from the mission row so they cannot
+double, the stage check that only asks what the lessons asked, the characters
+and their one friend one tint rule, the `FriendPlate` register ladder, the
+feed mockups, the evidence slides taught honestly, the content already written
+on every module, the child rail, the Today card's one row per thing, the five
+a day's drawn crayon icons and its cron's restraint, `runAgain`'s existing ref
+clearing, and the model.
 
 ## The model, said once
 
 The child does the lesson in their own app, about fifteen minutes, one a week,
-fronted by the Planet Friend who teaches it, and leaves with a tool they can
-say in a sentence. The pass is four prove items with honest distractors on the
-settled answer; the first tap is the in lesson signal; under 7 the pass is
+fronted by the Planet Friend of their stage, and leaves with a tool they can
+say in a sentence. The pass is the prove items on the settled answer, the
+first tap is the in lesson signal, and the child is told the check has started
+and that the first answer is the one that counts. Under 7 the pass is
 finishing it together. A miss re teaches the idea that failed and asks that
-item's own spare question, nothing else. The week after, the child logs the
-tool on their own phone for seven nights and reads their own pattern; a
-Remember check comes on a schedule and asks the tool on scenarios the child
-has not met; the stage check at the end only asks what the lessons asked,
-missed first. The parent has one job after a pass: let the child teach them
-the tool at tea, ask one follow up, then tap Teo taught me on Home, and the
-child's app carries back what the parent did, in the parent's words, never
-invented. The week's lesson is on the child's app by itself, always, fronted
-by its friend; the parent sees the state and can nudge once, in their own
-name, or do it together on this phone. Every number about lessons comes from
-one function, and the parent and the child see the same road with the stage
-stamp at the end of it. The parent library is for the parent. Nothing claims
-an outcome for a child.
+item's own spare question, nothing else; a second miss hands the lesson to the
+parent, and the third attempt passes by the child saying the idea back, with
+no first time count claimed. The week after, the child logs the tool on their
+own phone for seven nights and reads their own pattern; a Remember check comes
+on a schedule, drawn from every module the child has ever passed, asking
+scenarios they have not met, and a missed question comes back before the
+session ends. The stage check only asks what the lessons asked, missed first.
+The parent has one job after a pass: let the child teach them the tool at tea,
+ask one follow up, then tap Teo taught me on Home, and the child's app carries
+back what the parent did, in the parent's words, never invented. The week's
+lesson is on the child's app by itself, always; the parent sees the state and
+can nudge once per lesson, in their own name, or do it together on this phone,
+which is the main button until the child's first pass. Every number about
+lessons comes from one function, and the parent and the child see the same road
+with the stage stamp at the end of it. Nothing claims an outcome for a child.
 
-## Build: four pull requests
+## Build: five pull requests
 
-Order: **D** (content) merges first because A makes the prove items the pass;
-then **A** (the loop, the pass contract, the hub, the week's mechanics), then
-**B** (the player), then **C** (the week after). Each is mergeable the same
-day, every lesson finish works between merges, and no PR changes the classroom
-lesson. Migration numbers claimed in the draft PR titles, in merge order, and
-re checked against origin/main before the first push: **D takes 366, A takes
-367** (main reached 365 on 8 October). 366 must be applied before PR A
-deploys, because PostgREST returns an error rather than throwing and a missing
-column would silently drop every answer and pay nothing on every finish.
+The loop ships first and the content follows it, because the content is 162 new
+questions and the loop does not need them to run. Order and migrations, re
+checked against origin/main before the first push (main reached 365 on 8
+October): **PR 1 takes 366**, PR 2 and PR 3 take none, **PR 4 takes 367**,
+PR 5 takes none. 366 is applied before PR 1 deploys, because PostgREST
+returns an error rather than throwing, so a missing column would silently drop
+every answer and pay nothing on every finish.
 
-### PR D: the content (migration 366, plus the JSON mirrors, merged first)
+### PR 1: the loop runs (migration 366)
+
+**1.1 Migration 366.** `lesson_question_answers` gains `phase text`,
+`first_correct boolean` and `run_id uuid`; `correct` becomes the settled
+answer and `fetchAnswerFacts` reads `first_correct ?? correct`, so the stage
+check's history survives. `kid_lesson_missions` gains `nudged_at`, `noted_at`
+(the app's note and the parent's nudge are two senders and one column cannot
+cap both), `child_note text` and `done_together boolean`. `digi_prompts` gains
+`parent_note text`, the parent's own optional line to the child.
+`recordQuestionAnswers`'s source union gains `remember`.
+
+**1.2 One lesson path function.** `lib/pathway/lesson-path.ts` exports
+`childLessonPath({ modules, aiModules, completions, missions, passBy,
+childId })` returning `{ school: { done, total, next }, ai: { done, total },
+anyLesson, statusById }`, pure over rows. `missions` is in the signature
+because `anyLesson` is the planets' own number (non school passes plus done
+missions) and routing the planets through this function must not close a
+planet that is open today. `aiModules` filtered through
+`AI_AUDIENCE_TO_STAGE`, imported, never redeclared. Called by `progress.ts`
+twice, the hub, `journey.ts` (gaining a `childId`), `daily-tasks.ts`, Home's
+own count, `lib/planet/server.ts` and the Sunday nudge. `app/k/[token]/page.tsx`
+stops computing its own stage lesson pair and KidRoad takes the school pair.
+`getDailyTasks`, a reader with no caller, goes. `app/api/kid/day/route.ts` is
+not in the list, because 1.5 removes its reason to count lessons.
+
+**Decision 1, recommended: the AI modules leave the lessons count.** The
+child's list teaches AI literacy in five modules, the AI area still counts
+them, and they sit at the top of For you as "Counts toward Teo's AI area".
+Stamps already issued are untouched; the gate applies forward only, and
+`/verify/[code]` says so.
+
+**1.3 One deck filter, found by search and not by a list.**
+`visibleSlides(slides, audience)` in `shared/lesson-slides.ts`, with
+`audience` of `classroom`, `kid` or `together`. Every one of the nineteen
+`parseSlides` callers passes through it. `print/[module]` stops using
+`checks.slice(-2)` and takes the two classroom prove items by flag. The guard
+greps for `parseSlides` and fails on any caller that does not then call
+`visibleSlides`, because naming a list of five was wrong twice. In this PR the
+filter hides nothing yet, so it is provably behaviour preserving: verified on
+all 34 decks that the last two choice slides are the two prove items in every
+one, and the guard asserts `lesson/[module]/run`'s total minutes and the
+phase table's row counts are unchanged per module.
+
+**1.4 The pass contract.** `lessonPassed(answers, { together })` in
+`shared/lesson-slides.ts`: every `prove` item right on its **latest settled
+answer**, a `reserve` standing in for the item named by its `reserve_for`;
+when `together`, every prove item answered. Starter, teach and practise items
+give feedback, are recorded, and never gate.
+
+- **The player's `passed` branches on `lessonSource`.** The school path uses
+  `lessonPassed`; the parent library, the AI modules, the tutor decks, the
+  adventures and the schools players keep 0.7 untouched, and the two family
+  `PASS_MARK` files are not touched at all. The guard asserts no `0.7` on the
+  school branch and that a fixture family deck still passes at 70 percent.
+- **Every answer entry carries its own `run_id`.** `tryAgain` mints a new one
+  and clears only the failed prove items and their reserves; settled correct
+  rows are carried forward with their original `first_correct`, under the new
+  `run_id`. `lessonPassed` reduces by prove item on the latest settled answer.
+  `recordQuestionAnswers` writes only the current run's entries, so history is
+  not double written. Without this the retake posts one answer of four and the
+  route fails it, which is what version 5 specified and what its own guard
+  asserted.
+- `ChoiceBlock` gains `onSettled(correct)`, three signatures plus a settled
+  ref. The payload carries `slide`, `question`, `chosen`, `first_correct`,
+  `settled_correct`, `phase` and `run_id`. The Nearly screen counts prove
+  items only. "Right first time" is built from the **first** run for that
+  mission, never the posted run, and the guard asserts the literal appears
+  only where the first correct count equals the prove count.
+- The route (`app/api/quests/lesson-complete/route.ts`) reads the deck through
+  the admin catalogue, verifies each `question` against the deck slide at
+  `slide`, reads `phase` from the deck, drops what does not match, treats a
+  missing prove answer as a fail, derives `together` from the key stage and
+  never the client, and computes the pass with `lessonPassed`. The client's
+  `correct` and `total` are never read.
+- The mission update is the lock: `.eq('status', 'sent').select('id')`, and
+  the completion, stars, card and push happen only when a row came back. The
+  surviving `status === 'done'` branch answers `{ ok: true, already_passed:
+  true }` and records answers only. Continue is disabled once posting.
+- **`done_together` needs a session, not a query string.** The opener sets a
+  short lived httpOnly cookie scoped to that mission id; the finish writes the
+  flag only when the cookie matches. Otherwise a parent who opens Do it
+  together, reads two slides and stops would have the child's own pass a week
+  later labelled as done with them.
+- Stars on the pass only, through one exported `WEEKLY_LESSON_STARS = 10` used
+  by the opener, the POST and `ensureWeekMission`. A fail pays nothing and the
+  push says the child had a go. A prior `passed: false` completion marks the
+  second attempt, whose push carries the missed item's why line and "Do the
+  tricky bit together, five minutes", opening at the reteach slide (the
+  mission page gains `searchParams`). **On a third attempt** (two prior fails)
+  the route passes `together: true`, because the only spare has already been
+  revealed, and the push and the row claim no count: "Did it together on
+  Saturday."
+- Inside `credit()` on the first pass only, one `digi_prompts` row:
+  `kind: 'celebration'`, `reason: 'lesson_pass:<lesson_id>'`, `child_id`, the
+  href with `child` and `lesson`, `cta: 'Teo taught me'`, and `title` and
+  `body` filled.
+- `recordQuestionAnswers` on every finish, pass or fail.
+- `ensureWeekMission(admin, childId)` in `school-path.ts`: idempotent on the
+  unique key, the next unpassed module at 10 stars, a no op when none is left.
+  Called by the opener, the pass route and the five a day cron.
+
+**1.5 The week's rhythm, in the same PR, so no child meets a day they cannot
+finish.** `pickDay` stops drawing `lesson` and `quiz`; the `LEARNING` pair
+retires; `markStepQuietly(..., 'lesson')` and the dead `?next=1` redirect go,
+with rules 2 and 3 of `check-lesson-path.mjs` rewritten in the same commit;
+`app/api/kid/day/route.ts` drops its missions read and `lessonAlreadyThisWeek`,
+and `loadDay` takes over the due read PR 5 will use; `check-learning-step.mjs`
+is rewritten. The weekly lesson no longer counts toward the five a day, said
+out loud, because the lesson sits above it.
+
+**1.6 The send route, alive and in the parent's own name.**
+`createAdminClient()` for the catalogue reads only, **selecting
+`character_cast`**; a `children` read proving ownership; the lock rule refused
+with 403; a `done` mission answering `already_passed`; the upsert keeping an
+existing row's stars; `pushToChild` returning `{ sent, reason }` as the ping
+route does. **One nudge per mission, ever**: once `nudged_at` is set the route
+is a no op and the button reads back "Orbit asked on Thursday" rather than re
+enabling, so a mission that sits three weeks cannot be nudged three times. The
+nudge says where it came from: "Sam gave Orbit a nudge. Still here when you
+are. No rush."
+
+**1.7 The content the loop reads, and nothing more.** The 34 family questions
+rewritten to teach ("Can you teach me how X works", "Explain to me why X",
+"What would you tell a friend who X"), each gaining `listen_for` (the idea in
+one sentence, written fresh in the second person, never trimmed from `taught`,
+every one of which opens "Today we") and `then_ask` (one why or transfer
+question in the parent's life); none opening with "Which app", "What did you"
+or "Did you". The ten two option prove items outside Foundation raised to
+three options so the settled rule can fail them. Nothing else: the 162 new
+items are PR 4.
+
+**The honest cost of shipping here.** This cohort's gate is the two existing
+prove items, 49 of 68 of which still carry a length cue, and the retake still
+re asks a revealed item until PR 4. No stage stamp rests on it in the
+meantime, and a fortnight of a weaker gate beats a month of no loop. It is
+written here so nobody discovers it later.
+
+**1.8 The walkthrough gate.** 366 applied before the deploy, then on the live
+database with a test family, pasted into the PR body: the Monday row present
+before any tap; a nudge in quiet hours and a second nudge refused; a fail, a
+retake, then a pass (one row per prove item in the payload, the carried ones
+keeping their first attempt, no stars on the fail, paid once on the pass); a
+third attempt passing as together with no count claimed; a double tap on the
+last slide; a `done_together` open abandoned, then the child's own pass, which
+must not read as together; a family deck still passing at 70 percent; the ks3
+kid deck timed on a real phone; the printed classroom pack and the teacher's
+run minutes unchanged.
+
+### PR 2: what the parent sees (no migration)
+
+**2.1 The pass is a row in the Today card, labelled, for every child.** Home
+reads every pending `lesson_pass:` prompt for the family; `TodayCard` takes
+`lessonPasses: []`, one row per child, leading the card above the week brief,
+whose comment is rewritten in the same commit. **At most two lesson rows
+render**, and a Remember row never renders for a child who already has a
+pending pass row, because the promise is one job. The row carries the friend's
+plate, the title, the question, and **the pill on its own line at 44px**, not
+in the 26px control slot where the sentence would make a five line row.
+The PATCH fires at once and Undo is a second PATCH setting the reaction null
+and the status pending, which the locks in 2.2 already allow, because holding
+a write for four seconds while the row's body tap navigates loses taps. On
+commit the row swaps in place and stays for the visit. The prompts GET filters
+lesson rows server side and selects `cta, reason, child_id, parent_note`;
+`collect.ts` selects `reason`, tags them, and the ideas count excludes them;
+`moment.ts` exempts them from the pending count. One exported
+`isLessonRow(reason)` matching `lesson_pass:` and `tool_week:` is used by
+Home's read, the GET filter, the `DigiPrompts` skip, the `moment.ts` exemption
+and the `collect.ts` tag, so PR 5's row inherits all five.
+
+**2.2 The tap, and the parent's words carried back as the tap they are.** The
+PATCH accepts `reaction` only for `kind = 'celebration'` on a lesson reason;
+the `not` write locks on `.is('reaction', null)`, the `helped` write on
+`reaction is null or reaction = 'not'` with `.select('id')` and a zero row
+branch, so the upgrade the plan promises is possible and observable. No stars
+and no quest insert: a tap that pays becomes a currency, and once a parent
+knows it pays, "Teo taught you on Wednesday" stops measuring anything. One
+builder, `taughtMeLine(name, noun, parentLine)` in `lib/lessons/taught-me.ts`,
+used by Home, the push and the week card so all three say the same thing, with
+no pronoun and the name optional:
+
+- "Sam says you taught them the mood audit, at tea."
+- "Your grown up says you taught them the mood audit, at tea."
+- With a typed line: "Sam says: you explained that better than the news did."
+
+The parent's typed line is one optional field beside the pill, labelled so
+they know who reads it: "Add a line Teo will see. Optional.", 120 characters,
+stored in `digi_prompts.parent_note`. **The guard forbids any path passing
+`child_note` into `taughtMeLine`**, because `child_note` is the child's own
+sentence and returning it in their parent's name is the regression round 4
+removed. Three taps: `Teo taught me` on the Today row and the hub row; `Had a
+go, not yet` and `Later` on the hub row. None on any token page. Tap rate per
+pass is instrumented from the first family.
+
+**2.3 The hub's first tab.** Eyebrow from `stages.ts`, heading `Teo's
+lessons`, the line "Teo does these on their own app, one a week. Your job is
+one question at tea.", the three tabs with the order computed before the
+`TABS` block, **the road strip** and its caption from
+`childLessonPath().school`, then the hero, the rows, the stage check card, the
+For you pointer and the school code card. The hero's primary button must be
+visible with no scroll on a 375 by 667 phone.
+
+The hero state is read from the mission row and the latest failed completion,
+capped so it is never a guilt counter: "On Teo's app from today" on Monday,
+"since Monday" inside seven days, "since last week" inside fourteen, then
+"Waiting on Teo's app"; "Passed Tuesday" then "Next: Social workarounds, on
+Teo's app now"; "Had a go on Tuesday. Still on Teo's app, no rush"; and on a
+second fail "Had a go twice. The nothing verdict tripped them", with the
+secondary button relabelled "Do the tricky bit together, five minutes".
+
+Buttons: `Give Teo a nudge` with its three honest states, and `Do it together
+now` at every age, opening the opener, with "Together means you read it out
+and Teo taps the answers. Either way the pass lands on Teo's passport."
+**Until this child's first pass it is primary and full width**, with "Do the
+first one together on this phone, fifteen minutes. Then show Teo the code and
+the rest are theirs", and **it creates the kid link at any age when none
+exists**, because it is the one gold button a family taps an hour after
+paying. `Send to Teo's phone` no longer exists. With no app at Stage 2 and up,
+`Show Teo the code` is secondary; under 7 that block never renders. One line
+framing the week ahead: "Each lesson comes back a week later, then a month
+later. A miss is the point, it is how it sticks."
+
+Every parent facing line that says "app" branches at `isTogetherStage`: the
+heading line, the hero state, the Today row and its done state (which hands
+the parent words to say out loud, "Tell Teo: you taught me the star pause"),
+the alerts row, the Sunday pass line, and no pass push at all under 7, because
+the parent is holding the phone that just showed the pass screen. The alerts
+row also branches on no child app, reading `hasKidLink` unconditionally rather
+than through its evening gate, and is hidden while a pending pass row exists.
+
+Rows: the tick; the count built from the items; "Done together on Saturday" at
+any age when the flag is set; "What the lesson taught" from
+`teacher_notes.tool`; the tea question with `LISTEN FOR` and `THEN ASK`;
+`TEO SAID` when there is one; the three taps; the talked state. Under 7 a row
+shows only "Done together on Saturday" and "What Teo said".
+
+**2.4 Home reads one thing, and the Sunday email says it back from data.**
+`journey.ts`, `suggestions.ts` and `daily-tasks.ts` take the count and the next
+title from 1.2; Home's own `stageLessonRows` goes; `moment.ts` and `word.ts`
+label `/dashboard/lessons` as "Teo's lessons". The weekly cron gates on a
+`school_lesson` completion, **a lesson reaction, or a `remember` answer this
+week**, so a family whose month is a tap and a check still gets the email;
+`gatherWeek` selects `child_id` and titles school ids through
+`starLessonTitles` and `starLessonNotes` (both new, named as new).
+`weeklyReviewEmail` gains a "Lessons this week" block built from
+`stats.lessonPasses[]` and `stats.stuckLesson` in fixed words: the pass with
+its count and day, the taught line or a link to tap it, the child's sentence
+quoted, the Remember result **both ways** ("right first go", or "last week's
+question tripped Teo. It comes back next week. If it helps, the idea is:
+<listen_for>"), and the stuck line once per mission with Orbit's question for
+the parent's own phone. Led by the teaching friend through `emailFriendByCast`,
+whose alt text names the lesson. **Every string from a child or a parent
+passes through an escape helper**, because free text reaches raw HTML today.
+
+**2.5 One door, one lock.** `/dashboard/lessons/path` redirects preserving
+`stage`, `child`, `lesson`, `from`; the first tab scrolls to the lesson;
+`?stage=` opens the first tab; `BackTo` keeps the passport fallback.
+`lockedModuleIds` is used by the child's list, the hub, the opener (reading
+`hasFullAccess`) and the POST.
+
+**2.6 The visual layer for these surfaces**, per `brand/lessons-visual-layer.md`:
+`LessonRoadStrip` taking its length from the function with no strip under four
+modules, the numbered tile as the default with friend art on three rows only,
+the passport's stamp circle as the final node, the Today row's friend plate
+with its accent border, and the email's friend.
+
+### PR 3: what the child sees (no migration)
+
+**3.1 The deck for one child**, through `visibleSlides(slides, 'kid')`, which
+in this PR also hides every `reserve` so the child never answers a spare on a
+first run. A discussion slide becomes "Think it", one word typed or a two chip
+pick before "Show me" reveals the look for line, so nothing is a dead tap; the
+tryit renders the worksheet items as unscored verdict cards minus any item used
+as a prove or reserve in the ten decks with no practise sort, as "Finish the
+sentence" on the six completion decks, and is skipped where a sort already
+does the job; the 24 existing practise sorts get `kidMode` threaded into the
+interactive registry, **which means widening its
+`ComponentType<{ config }>` type**, so no child alone sees a class tally
+reading one, nought, nought, and the label reads "Your turn · tap your
+verdict"; the class tally becomes one tap; the half time slide reads "Two
+breaths with Orbit. Then one thing that surprised you, in your head"; the
+starter is labelled "Warm up from an earlier lesson. No score, have a guess"
+when no passed module precedes and is kept out of the stage pool then; the
+deck's passport slide is skipped; concept slides show their recap line above
+the paragraph; the next lesson's title slide reads the previous commitment from
+`localStorage`.
+
+**A kid minutes contract.** The three content guards skip `kid_only` to
+protect the classroom, which leaves the child's deck unguarded for length at
+the moment it grows. So: a kid minute per slide type (a three option tap is
+under a minute, not the two a classroom slide declares), the "About 15
+minutes" line **computed** from `visibleSlides(slides, 'kid')` rather than
+written, twelve minutes in together mode, and the minutes guard asserting a
+kid ceiling over the kid view instead of skipping it. Saved place per mission,
+capped at the slide before the first prove item, "on this phone".
+
+**3.2 The retake, as a sequence.** `retakePlan(slides, answers)` returns, for
+each failed prove item in deck order, its reteach slide then that item's own
+reserve, then the finish. `reteach` is a start index that plays the next slide
+when it is the same teach pair, because the ideas are taught in pairs (ks3-10
+teaches the evidence at 7 and the number at 8, and names the sneaky verdict at
+14 rather than 13). The plan is non contiguous, so the player holds a
+playlist of indexes and a cursor that `advance`, `goBack` and `isLast` read
+while a plan is active; `tryAgain` reuses `runAgain`'s existing ref clearing
+rather than growing a second path. Until PR 4's content lands there are no
+reserves, so the plan falls back to today's behaviour and the guard says so.
+After a second miss on the same item, `Have another go` gives way to the
+together route, because the only spare has been revealed.
+
+**3.3 The pass screen.** The stage friend at 112 with `arrive`, DiGi at 56
+beside it except on DiGi fronted modules, the tool as the hero, then the three
+tiles, `THE CHECK`, `THE COMMITMENT`, `NEXT UP`, with one mono line under the
+check reading "10 stars in your bank", because 10 is the largest award in the
+app and a balance should not move unexplained. Then the commitment stem with
+its blank, the tea question told to the child first with the grown up's name
+where there is one, "Next up: Social workarounds. Open now, or it is next
+week's card", and the dignity line: "Your passport ticked. Your grown up sees
+the tick, when you have a go, which check question took you two goes, and your
+own words if you choose to show them. Never which answer you picked." Nothing
+about the parent's words. "Show my grown up" writes `child_note` (200
+characters, plain text, bounded by the same child check the complete route
+uses) and is labelled "Add what Teo said" when the opener came from the hub.
+
+**3.4 Together mode for under 7.** The `together_prompt` as a quiet "Say:"
+strip (PR 4 writes them; until then the script channel is passed through for
+`isTogetherStage` only); discussion slides "Ask each other:" with no timer;
+sheet and circle time slides skipped. The deck keeps the lesson: the star
+breath, the friend's question, the three words, the diagram, a photo is real
+and dragons are made up, the sort, who is a grown up you could ask, the two
+prove items, three fingers, the chant, Fill the page showing the real
+passport, the goodbye. Twelve slides, twelve minutes. Pebble at 112, no tile
+row, one textarea, "Tonight at tea, Teo teaches you the star pause. Then tap
+Teo taught me on your Home", and `Back to your Home` to `/dashboard?child=<id>`
+only when the opener came from the hub. **Foundation has no retake path**:
+`together` passes on every prove item answered, so `retakePlan` is never
+reached there.
+
+**3.5 The child's list and its road.** The road strip with the child's theme
+and the child's caption, "You are on lesson 3", never a count of what is
+owed; numbered tiles with friend art on this week, the latest pass and the
+check card; **no padlock and no dimmed friend on any child row**, the order
+sentence doing that work ("After Social workarounds, this one is waiting for
+you"); the tool chip replacing the score line on a passed row; the once line
+reading "Your grown up sees when you open it, when you have a go, and which
+check question took two goes. Never your taps."
+
+**3.6 The stage check asks the child's lessons, marked server side.**
+`stage-quiz-gather.ts` exports `questionsFromSlides` and `standsAlone` and
+gains a source; the kid route passes the child's modules through
+`starLessonDecks(admin, ids)` (new), ordered by `first_correct ?? correct`,
+with at least one application item per lesson, preferring an item unseen in
+any `run_id`; the stage quiz route marks from the pool. Its heading says "the
+questions the lessons asked".
+
+### PR 4: the content (migration 367)
 
 Content lands as a numbered migration with mirrors in `content/modules`,
 because six guards read those files. An out of cycle curriculum pass under the
 term review rule, justified because the child's check is being rewritten.
 
-**D0. The classroom lesson does not change, and that is enforced, not
-asserted.** Every new slide is flagged `kid_only: true`. `visibleSlides(slides,
-audience)` in `shared/lesson-slides.ts` is the one filter, used by the five
-schools surfaces, the kid player and the parent co viewer; `print/[module]`
-stops taking its exit checks with `checks.slice(-2)` and takes the two non
-`kid_only` prove items by flag. `check-lesson-core.mjs`,
-`check-lesson-minutes.mjs` and `check-lesson-rubric.mjs` skip `kid_only`, and
-the guard asserts no schools surface renders one and that every module's
-printed check count is unchanged. Output of all three pasted in the PR body.
-(Engineer 3.)
+**4.1 Four prove items and four spares per KS2 and up deck.** Two new
+`kid_only` prove slides and four `kid_only, reserve` slides, **one reserve per
+prove item**, each carrying `reserve_for` and sharing that item's `reteach`,
+which must resolve to a teach slide below the deck's first prove index. The
+four are ordered in teaching order so the reteach indices ascend. Every prove
+and reserve item is a parallel: the same teaching point on a new scenario,
+never a sentence the practice cards or a teach slide already show. Three
+options; every distractor one of the module's listed `misconceptions`, pulling
+on the same error as the item it mirrors; parallel in grammar; compound stems
+split so each item tests one idea; **no right answer more than 20 percent
+longer than its longest distractor, on prove and reserve items only**. The
+seven Foundation decks keep two prove items at two options: at five the pass
+is finishing it together.
 
-**D1. Four prove items and four spares per KS2 and up deck.** Two new
-`kid_only` prove slides and four `kid_only, reserve` slides, each reserve
-carrying `reserve_for`, the index of the prove item it stands in for, and each
-prove item carrying `reteach`, the index of the slide that teaches it, which
-must be lower than the deck's first prove index. Every prove and reserve item
-is written as a parallel: the same teaching point on a new scenario, never a
-sentence the practice cards or a teach slide already show. Three options;
-every distractor one of the module's listed `misconceptions`, plausible and
-wrong, parallel in grammar; **no right answer more than 20 percent longer than
-its longest distractor, on prove and reserve items only** (122 prove plus 108
-reserve once written; the same rule for the 117 existing teach items is a
-second, named content pass, because binding it here would make PR D unmergeable
-in a day). In at least one item per module the moderate sounding answer is the
-distractor. The two reserves pair first with the two prove items whose
-misconceptions sit first in the module's list, so a spare never lands only on
-the easy item. The seven Foundation decks keep two prove items at two options:
-at five the pass is finishing it together. (Teacher A1, learning scientist,
-app lead, child lens, engineer 2 and 5.)
+**4.2 The child is told the check has started.** Strip "Exit check one." and
+"Exit check two." from the 37 items that carry it, and render a mono eyebrow in
+kid mode instead: `CHECK 1 OF 4 · your first answer is the one that counts`.
+Without it the first tap partly measures whether the child noticed the check
+had begun, which is test craft, and the wording is teacher register for a
+Reception child and wrong arithmetic once there are four.
 
-**D2. The nine decks without verdicts.** Add `expected_verdict` and
-`teaching_point` to the 51 worksheet items that have neither, from the
+**4.3 The nine decks without verdicts.** `expected_verdict` and
+`teaching_point` on the 51 worksheet items that have neither, from the
 module's misconceptions and tool lines, so the spares, the Remember check's
-application item and the child's practice have something to read. On the six
-sentence completion decks the child's practice renders as "Finish the
-sentence", one line typed, which is a stronger form than a verdict card it
-cannot support. (Learning scientist, engineer.)
+application item and the child's practice have something to read.
 
-**D3. Normalise the four older decks.** ks2-26, ks3-27, ks4-28 and ks4-29
-carry `teacher_notes.tool` and their worksheet items as plain strings, and
-three surfaces print the tool as a short name. Normalise to
+**4.4 Normalise the four older decks.** ks2-26, ks3-27, ks4-28 and ks4-29 hold
+`teacher_notes.tool` and their worksheet items as plain strings, and three
+surfaces print the tool as a short name. Normalise to
 `{ heading, strapline, lines }` and to item objects. Headings: The shield;
 Name it, save it, say it; The price, the odds, the loop; Stop it, report it,
-say it. (Designer 7.)
+say it.
 
-**D4. The family question teaches, with a listen for and a then ask.** Every
-`parent_note.family_question` rewritten to "Can you teach me how X works",
-"Explain to me why X", or "What would you tell a friend who X", with the
-parent's own life as the subject where the tool applies. Each gains
-`listen_for` (the idea in one sentence, written fresh in the second person,
-never trimmed from `taught`, every one of which opens "Today we") and
-`then_ask` (one why or transfer question in the parent's life). None opens
-with "Which app", "What did you" or "Did you". (Teacher, learning scientist,
-child lens.)
-
-**D5. The grown up's words on the seven Foundation decks.** A
+**4.5 The grown up's words on the seven Foundation decks.** A
 `together_prompt` per slide, one line, from the classroom script with the cold
 calls and timers removed.
 
-**D6.** Every new or rewritten item listed in the PR body with the teaching
-point it mirrors and the misconception behind each distractor, because a guard
-can check length and shape and cannot tell a misconception from a caricature.
-One human read covers all of them before the pass rests on them. (Teacher,
-app lead 8.)
+**4.6** `visibleSlides` now hides `kid_only` from the classroom, and the
+printed check takes the two classroom prove items by flag. Every new or
+rewritten item is listed in the PR body with the teaching point it mirrors and
+the misconception behind each distractor, including that each reserve's
+distractors pull on the same error as the item it stands in for, because a
+guard can check length and shape and cannot tell a misconception from a
+caricature. The three content guards' output is pasted, with the teacher's
+run minutes and the printed check counts shown unchanged.
 
-### PR A: the loop, the pass contract, the hub and the week's mechanics (large, migration 367)
+### PR 5: the week after (no migration)
 
-**A0. Migration 367.** `lesson_question_answers` gains `phase text`,
-`first_correct boolean` and `run_id uuid`; `correct` becomes the settled
-answer and `fetchAnswerFacts` reads `first_correct ?? correct` so the stage
-check's history survives. `kid_lesson_missions` gains `nudged_at`, `noted_at`
-(the cron's note and the parent's nudge are two senders and one column cannot
-cap both), `child_note text` and `done_together boolean`.
-`recordQuestionAnswers`'s source union gains `remember`. (Engineer 1 and 8,
-app lead 1.)
-
-**A1. One lesson path function.** `lib/pathway/lesson-path.ts` exports
-`childLessonPath({ modules, aiModules, completions, passBy, childId })`
-returning `{ school: { done, total, next }, ai: { done, total }, anyLesson,
-statusById }`, pure over rows, `aiModules` filtered through
-`AI_AUDIENCE_TO_STAGE` imported from `readiness-areas.ts`. `anyLesson` is the
-third count the planets persist, returned explicitly so routing the planets
-through this function cannot close a planet that is open today. `progress.ts`
-calls it in both functions; the hub, `journey.ts` (gaining a `childId`),
-`daily-tasks.ts`, Home's own count, `app/api/kid/day/route.ts`,
-`lib/planet/server.ts` and the Sunday nudge all call it on the same rows.
-Every child facing surface prints the school pair. `getDailyTasks`, a second
-reader with no caller, goes. (Engineer 7 and 9.)
-
-**Decision 1, recommended: the AI modules leave the lessons count.** The
-child's list teaches AI literacy in five modules, the AI area still counts
-them, and they sit at the top of For you as "Counts toward Teo's AI area".
-`/verify/[code]` prints a stage number whose meaning changes either way, so
-the PR says what happens to stamps already issued: nothing, the gate only
-applies forward. (Parent UX, engineer.)
-
-**A2. The send route, alive and in the parent's own name.**
-`createAdminClient()` for the catalogue reads only, **selecting
-`character_cast`**, which `listStarLessons` omits today and every visual
-surface needs; a `children` read proving ownership; the lock rule refused with
-403; a `done` mission answering `{ ok: true, already_passed: true }`; the
-upsert keeping an existing row's stars; `pushToChild` returning
-`{ sent, reason }` as the ping route does. One exported `WEEKLY_LESSON_STARS =
-10` in `school-path.ts`, used by the opener, the POST and
-`ensureWeekMission`, so three writers cannot disagree. The parent's nudge says
-where it came from: "Sam gave Orbit a nudge. Still here when you are. No
-rush." It is a no op inside seven days of `nudged_at`, and when the cron
-already sent this week the button reads "Orbit asked on Thursday". Never "Sent
-by Mum", never the parent hidden inside the character. (Child lens, engineer,
-designer 1.)
-
-**A3. The pass contract, in one PR.** The player and
-`app/api/quests/lesson-complete/route.ts` change together.
-
-- `lessonPassed(answers, { together })` in `shared/lesson-slides.ts`: every
-  `prove` item right on its settled answer, a `reserve` standing in for the
-  item named by its `reserve_for`; when `together` is true, every prove item
-  answered. Starter, teach and practise items give feedback, are recorded,
-  and never gate. `retakePlan(slides, answers)` returns, for each failed
-  prove item in deck order, its `reteach` slide then that item's own reserve,
-  then the finish: settled correct items are carried and never re asked, so a
-  retake is two or four screens rather than ten. `tryAgain` runs the plan,
-  **mints a fresh `run_id` and clears the answer refs from the jump forward**,
-  so one finish is one attempt. `ChoiceBlock` gains `onSettled(correct)`
-  (three signatures plus a settled ref). The Nearly screen counts prove items
-  only. The payload carries `slide`, `question`, `chosen`, `first_correct`,
-  `settled_correct`, `phase` and the `run_id`. (Teacher A1 and A2, learning
-  scientist, engineer 1 and 2.)
-- The route reads the deck through the admin catalogue, verifies each
-  `question` against the deck slide at `slide`, reads `phase` from the deck,
-  drops anything that does not match, treats a missing prove answer as a
-  fail, derives `together` from the module's key stage (never the client),
-  and computes the pass with `lessonPassed`. The client's `correct` and
-  `total` are never read. The two other files holding `PASS_MARK = 0.7` are
-  the family stage lessons and keep it.
-- The mission update is the lock: `.eq('status', 'sent').select('id')`, and
-  the completion, the stars, the card and the push happen only when a row
-  came back. `done_together` is set at the opener, from `?from=hub`, and
-  honoured only on a finish in the same session. Continue is disabled once
-  posting.
-- `recordQuestionAnswers` on every finish, pass or fail, with `phase`,
-  `first_correct`, `correct` and `run_id`.
-- Stars on the pass only, 10. A fail leaves the mission `sent` and pays
-  nothing; the push says the child had a go. A prior `passed: false`
-  completion marks the second attempt, whose push carries the missed item's
-  why line and "Do the tricky bit together, five minutes", opening the opener
-  at the reteach slide (the mission page gains `searchParams`).
-- Inside `credit()` on the first pass only, one `digi_prompts` row:
-  `kind: 'celebration'`, `reason: 'lesson_pass:<lesson_id>'`, `child_id`,
-  `href` with `child` and `lesson`, `cta: 'Teo taught me'`, and **`title` and
-  `body` filled, because both are not null**.
-- The push leads with the parent's action and the count built from the items:
-  "Ask Teo at tea: can you teach me the better, worse or nothing check?
-  (Passed Mood and screens, all four check questions right first time.)"
-- `ensureWeekMission(admin, childId)` in `school-path.ts`: idempotent on the
-  unique key, the next unpassed module at 10 stars, a no op when none is
-  left. Called by the opener, the pass route, the cron, and the hub on render
-  for the page's own child only, never on the `?stage=` preview path.
-
-**A4. The week's rhythm moves here, so no child meets a day they cannot
-finish.** `pickDay` stops drawing `lesson` and `quiz`; the `LEARNING` pair in
-`stepForToday` retires; `markStepQuietly(..., 'lesson')` and the dead
-`?next=1` redirect go, with rules 2 and 3 of `check-lesson-path.mjs` rewritten
-in the same commit; `app/api/kid/day/route.ts` drops its missions read and
-`lessonAlreadyThisWeek`; `check-learning-step.mjs` is rewritten. The weekly
-lesson no longer counts toward the five a day, said out loud, because the
-lesson sits above it. Without this in the same PR as `ensureWeekMission`,
-every child gets a mission row while `pickDay` can still draw it, and an
-undone drawn lesson fails the day. (Engineer 6 and 9, app lead.)
-
-**A5. The pass is a row in the Today card, labelled, for every child.** Home
-reads every pending `lesson_pass:` prompt for the family and `TodayCard` takes
-`lessonPasses: []`, one row per child, leading the card above the week brief
-(whose comment is rewritten in the same commit). The row: the friend's plate
-(below), title "Teo passed Mood and screens", line "Ask at tea: can you teach
-me the better, worse or nothing check?", body tap opening the hub row. The
-control is **a labelled pill, never the ring**, which on every other row means
-put away: `Teo taught me`, with a four second Undo before the PATCH fires,
-because a stray tap sends a child a line about a conversation that never
-happened. On commit the row swaps in place and stays for the visit. The
-prompts GET filters `lesson_pass:` server side and selects `cta, reason,
-child_id`; `collect.ts` selects `reason`, tags the row, and the Today ideas
-count excludes it; `moment.ts` exempts the prefix from the pending count.
-Under 7 the row's title and line read together, and the done state hands the
-parent words to say out loud rather than a screen the child is not looking at.
-(Parent UX 1 to 4, app lead B1, child lens, engineer 4 and 5, designer 5.)
-
-**A6. The tap, with a route, and the parent's words carried back as the tap
-they are.** The PATCH accepts `reaction` only for `kind = 'celebration'` with
-a `lesson_pass:` reason; the `not` write locks on `.is('reaction', null)` and
-the `helped` write on `reaction is null or reaction = 'not'`, so the upgrade
-the plan promises is possible and the guard asserts both halves. No
-`family_quests` insert and no stars: a tap that pays becomes a currency, and
-once a parent knows it pays, "Teo taught you on Wednesday" stops measuring
-anything. Instead one builder, `taughtMeLine(name, noun)` in
-`lib/lessons/taught-me.ts`, used by Home, the push and the week card so all
-three say the same thing, with no pronoun and the name optional, reporting the
-tap rather than inventing a quote:
-
-- "Sam ticked Teo taught me. The mood audit, at tea."
-- "Your grown up ticked Teo taught me. The mood audit, at tea."
-- When the parent typed something: "Sam wrote: you explained that better than
-  the news did."
-
-Three taps: `Teo taught me` on the Today row and the hub row; `Had a go, not
-yet` and `Later` on the hub row. None on any token page. The passport row
-reads "2 of 10 · talked about 2". Tap rate is the number to instrument, and if
-Sunday's untapped line does not lift it the fix is richer words, never stars.
-(Learning scientist, child lens, parent UX, app lead, engineer 4 and 11.)
-
-**A7. Home reads one thing.** `journey.ts` and `suggestions.ts` take the count
-and next title from A1; the alerts row becomes "Teo's next lesson: <module>.
-It is on their app. Do it together or give them a nudge", with no date and
-hidden while a pending pass row exists for that child. `daily-tasks.ts` builds
-the Lesson rung from A1. Home's own `stageLessonRows` goes. `moment.ts` and
-`word.ts` label `/dashboard/lessons` as "Teo's lessons".
-
-**A8. The Sunday email says it back, from data, to the family that did the
-lesson.** The cron gates on `school_lesson` completions as well as ticks and
-check ins; `gatherWeek` selects `child_id` and titles school ids through
-`starLessonTitles` (and `starLessonNotes`). `weeklyReviewEmail` gains a
-"Lessons this week" block built from `stats.lessonPasses[]` and
-`stats.stuckLesson` in fixed words, never the model's summary: the pass with
-its count and day, the taught line or a link to tap it, the child's sentence
-quoted when there is one, the Remember result **both ways** ("got last week's
-question right first go", or "last week's question tripped Teo. It comes back
-next week. If it helps, the idea is: <listen_for>"), and the stuck line once
-per mission with Orbit's question for the parent's own phone. Led by the
-friend who taught the lesson, through a new `emailFriendByCast`, and readable
-with no images at all. (Parent UX, learning scientist 3, engineer 5, designer
-6.)
-
-**A9. One door, one lock.** `/dashboard/lessons/path` redirects preserving
-`stage`, `child`, `lesson`, `from`; the first tab scrolls to the lesson;
-`?stage=` opens the first tab; `BackTo` keeps the passport fallback.
-`lockedModuleIds` in `school-path.ts` is used by the child's list, the hub,
-the opener (reading `hasFullAccess` as the list does) and the POST.
-
-**A10. The hub's first tab.** Eyebrow from `stages.ts`
-(`STAGE 3 · EXPLORER · AGES 11 TO 12`), heading `Teo's lessons`, the line
-"Teo does these on their own app, one a week. Your job is one question at
-tea.", the three tabs with the order computed before the `TABS` block, then
-**the road strip** (the visual spec below) with "2 passed · 8 to go", then the
-hero, then flat rows, the stage check card, the For you pointer and the school
-code card. No stage chips; `See what Stage 4 covers` at the foot.
-
-The hero is the week's lesson, whose row always exists. State read from the
-row and capped so it is never a guilt counter: "On Teo's app from today" on
-Monday, "since Monday" inside seven days, "since last week" inside fourteen,
-then "Waiting on Teo's app". After a pass this week: "Passed Tuesday" with the
-tea question, then "Next: Social workarounds, on Teo's app now". After a fail
-it reads the latest `passed: false` completion: "Had a go on Tuesday. Still on
-Teo's app, no rush", and on a second fail "Had a go twice. The nothing verdict
-tripped them", with the secondary button relabelled "Do the tricky bit
-together, five minutes" and opening at the reteach slide.
-
-Buttons: `Give Teo a nudge` (its three states read from `{ sent, reason }`:
-nudged, quiet hours, no device, the last being honest because the child's week
-card shows the nudge line) and `Do it together now`, every age, opening the
-opener with `from=hub`, with the line "Together means you read it out and Teo
-taps the answers. Either way the pass lands on Teo's passport." **Until this
-child's first pass, `Do it together now` is primary and full width**: "Do the
-first one together on this phone, fifteen minutes. Then show Teo the code and
-the rest are theirs." They swap back after that pass, so a family who pays
-today can reach the moment today rather than waiting on a child opening a
-link. `Send to Teo's phone` no longer exists. With no app at Stage 2 and up,
-`Show Teo the code` is secondary to `/dashboard/setup#share` (the anchor
-exists, and A12 taps it); under 7 the no app block never renders and
-`Do it together now` creates the kid link when none exists. Nothing on the
-parent's side ever reads "waiting for your grown up" on the child's.
-
-Every parent facing line that says "app" branches at `isTogetherStage`: the
-heading line, the hero state ("This week, together", "Done together on
-Saturday"), the Today row and its done state, the alerts row, the Sunday pass
-line, and no pass push at all under 7, because the parent is holding the phone
-that just showed the pass screen. (Parent UX 2 and 3, app lead B2, child lens,
-engineer.)
-
-Rows: the tick; "All four check questions right first time" or "Right first
-time on 3 of 4, the nothing verdict took a second go", built from the count;
-"Done together on Saturday" at any age when `done_together`; "What the lesson
-taught: the mood audit. Close it, ask better, worse or nothing, log one word"
-from `teacher_notes.tool.heading` and its lines; the tea question with
-`LISTEN FOR` and `THEN ASK`; `TEO SAID` when there is one; the three taps; the
-talked state. Under 7 a row shows only "Done together on Saturday" and "What
-Teo said". Two children: the name in the heading, the tab label and the row
-eyebrow, the nudge taking the resolved child's id, `key={child?.id}` kept. The
-library tab's line and the Stage 1 card as in v4, with
-`check-watch-stage-copy.mjs` lines 84 to 90 changed with the copy and the
-identifiers kept.
-
-**A11. Guards rewritten in the same commit as the code**, listed in full
-below.
-
-**A12. The walkthrough gate.** Migration 367 applied before the deploy, then
-on the live database with a test family, pasted into the PR body: the Monday
-row present before any tap; a nudge in quiet hours; a fail, a retake on the
-reserve, then a pass (one attempt per payload, no stars on the fail, paid once
-on the pass); a double tap on the last slide; two children with one sibling
-pass (two Today rows); the Today pill, the Undo, the swap, and the parent's
-line on the child's side with no name on file; a tap after Sunday marked the
-row `seen`; `/dashboard/setup#share` landing; the ks3-10 kid deck timed on a
-real phone (over eighteen minutes, cut the keywords slide, the breath and the
-quote before any scenario, and time one deck per stage); the stage check pool
-size.
-
-### PR B: the player for one child, and for a sofa (medium, no migration)
-
-**B1. The deck for one child**, through `visibleSlides`: a discussion slide
-becomes "Think it", one word typed or a two chip pick before "Show me" reveals
-the `lookFor` line, so nothing is a dead tap; the tryit renders the worksheet
-items as unscored verdict cards minus any item used as a prove or reserve, in
-the ten decks with no practise sort, as "Finish the sentence" on the six
-sentence completion decks, and skipped where a sort already does the job; the
-existing 24 practise sorts get `kidMode` threaded into the interactive
-registry so no child alone sees a class tally reading one, nought, nought, and
-the label reads "Your turn · tap your verdict"; the class tally becomes one
-tap; the half time slide reads "Two breaths with Orbit. Then one thing that
-surprised you, in your head"; the title slide says "About 15 minutes", and
-"About 12 minutes" in together mode; the starter is labelled "Warm up from an
-earlier lesson. No score, have a guess" when no passed module precedes and is
-kept out of the stage pool then; the deck's passport slide is skipped; concept
-slides show their recap line above the paragraph; the next lesson's title
-slide reads the previous commitment from `localStorage`. Saved place per
-mission, capped at the slide before the first prove item, "on this phone".
-
-**B2. The pass screen.** The module's friend at 112 with DiGi at 56 beside it,
-the tool as the hero, then the three tile row, then the commitment stem with
-its blank, then the tea question told to the child first with the grown up's
-first name where there is one, then "Next up: Social workarounds. Open now, or
-it is next week's card", then the dignity line: "Your passport ticked. Your
-grown up sees the tick, when you have a go, which check question took you two
-goes, and your own words if you choose to show them. Never which answer you
-picked." Nothing about stars, nothing about the parent's words. "Show my
-grown up" writes `child_note` (200 characters, plain text) and is labelled
-"Add what Teo said" when the opener came from the hub.
-
-**B3. Together mode for under 7.** `together_prompt` as a quiet "Say:" strip;
-discussion slides "Ask each other:" with no timer; sheet and circle time
-slides skipped. The deck keeps the lesson: star breath, the friend's question,
-the three words, the diagram, a photo is real and dragons are made up, the
-sort, who is a grown up you could ask, the two prove items, three fingers, the
-chant, Fill the page showing the real passport, the goodbye. About twelve
-slides, twelve minutes. Pebble at 112 on the pass screen, no tile row, one
-textarea, "Tonight at tea, Teo teaches you the star pause. Then tap Teo taught
-me on your Home", and `Back to your Home` to `/dashboard?child=<id>` only with
-`from=hub`.
-
-**B4. The stage check asks the child's lessons, marked server side.**
-`stage-quiz-gather.ts` exports `questionsFromSlides` and `standsAlone` and
-gains a source; the kid route passes the child's school modules through
-`starLessonDecks(admin, ids)`, ordered by `first_correct ?? correct`, with at
-least one application item (a reserve the child has not met, else a verdict
-item) per lesson; `orderPoolByHistory` prefers an item unseen in any `run_id`;
-the stage quiz route marks from the pool, not `body.correct`. Its heading says
-"the questions the lessons asked".
-
-**B5. The child's list tells the whole truth**, with the Friend Tiles and the
-road strip from the visual spec, the tool chip, "Passed" with no bare count,
-the locked row reading "After Social workarounds, this one is waiting for
-you", and the once line: "Your grown up sees when you open it, when you have a
-go, and which check question took two goes. Never your taps."
-
-### PR C: the week after (medium, no migration)
-
-**C1. The cron carries the week.** Its own loop before the `kid_days` gate:
+**5.1 The cron carries the week.** Its own loop before the `kid_days` gate:
 `ensureWeekMission` for every child (a `children` read by `parent_id` with the
-age band, so an under 7 child with no `kid_links` row is included), and
-Orbit's note once per mission on the weekday this child most often opens the
-app (one grouped 28 day read, Saturday with no history), setting `noted_at`.
-The note replaces that day's push, never joins it; a mission takes at most one
-note and one nudge, ever; from week three the card alone carries "No rush." At
-Foundation the note goes to the parent through the parent push, once per
-mission. The cron's comment block is rewritten to say all of this, because its
-current rule is one push a day only to a child who has opened the app.
+age band, so an under 7 child with no link is included), and Orbit's note once
+per mission on the weekday this child most often opens the app (one grouped 28
+day read, Saturday with no history), setting `noted_at`. The note replaces
+that day's push, never joins it; a mission takes at most one note and one
+nudge, ever. At Foundation the note goes to the parent through the parent
+push. The cron's comment block is rewritten, because its current rule is one
+push a day only to a child who has opened the app.
 
-**C2. The child's week card**, above `KidFiveADay`, replacing the "Star
-lessons from your grown up" section: this week's lesson with its friend, tool
-and stars, "Any day this week", rotating to the tool line in week two and "No
-rush. It is here when you are" in week three. After a pass it holds the
-commitment, the seven night log (three buttons, `localStorage`, never sent,
-reading the pattern back on night seven and folding to a "Last week" row), and
-the parent's line for seven days. **When `done_together` is set it branches**:
-"Sam did this one with you on Saturday. The tool is yours", with the
-commitment blank and the log unprompted, and the list row keeps a quiet "Go
-through it yourself" that mints nothing, so a lesson done on the parent's
-phone still hands the child their half.
+**5.2 The child's week card**, above `KidFiveADay`, replacing the "Star
+lessons from your grown up" section, with the badge reading `4 / 9`, the
+rotating lines, the seven night log from the pass (three buttons,
+`localStorage`, never sent, reading the pattern back on night seven), the
+parent's line for seven days, the nudge line from `nudged_at` inside seven
+days, and the Remember warning the day before one is due. **When
+`done_together` is set it branches**: "Sam did this one with you on Saturday.
+The tool is yours", with the commitment blank and the log unprompted, and the
+list row keeps a quiet "Go through it yourself" that mints nothing.
 
-**C3. The Remember check, real and scheduled.**
-`app/k/[token]/remember/page.tsx`: the token check; the child's passed
-modules; three questions, one tap each with the why; the lesson's Friend Tile
-beside each question; a token POST recording under `source: 'remember'` with
+**5.3 The Remember check, real and scheduled.**
+`app/k/[token]/remember/page.tsx`: the token check; three questions, one tap
+each with the why; the stage friend once at the head; each question labelled
+with its module title; a token POST recording under `source: 'remember'` with
 `lesson_id` and ticking the quiz step. The page says "No stars, no stamp. This
 one counts toward your five. The one that tripped you first, then two more."
-The due rule in a pure `lib/kid/remember-due.ts`, guarded on fixtures: due 5
-to 9 days after a pass, again at 30, then **every 90 days for as long as the
-child is in the stage, including after the stage check is passed**, because
-that is when it is the only thing left; ranked missed first then longest
-overdue; three a day until every due lesson is covered; never forced on a day
-the next lesson is already passed; a `done_together` pass for a child with
-their own app is not due until the child has met the tool there. **At
-Foundation**: due once at 5 to 9 days, verdict items only, two options, read
-aloud by the grown up ("Grown up, read these out. Three questions, about a
-minute. No score"); with no child app it goes to the parent as one Today row,
-"Ask Teo one from last week", with an `Asked it` pill and no marking.
+
+The due rule in a pure `lib/kid/remember-due.ts`, guarded on fixtures:
+
+- **The pool is every module the child has ever passed**, not the current
+  stage, so a child who ages up still revisits the year they just did.
+- Due 5 to 9 days after a pass, again at 30, then every 90. Where two or more
+  items needed a second go, the short end of the 5 to 9 window.
+- **The draw**: one item per due lesson, through `orderPoolByHistory`,
+  preferring an unused `reserve` unseen in any `run_id`, else a verdict item,
+  never one already met in that lesson's runs. After a miss, the why, then
+  that item again at the end of the three, so the child leaves having
+  produced the answer once.
+- Ranked missed first then longest overdue; three a day until every due lesson
+  is covered; never forced on a day the next lesson is already passed; a
+  `done_together` pass for a child with their own app is not due until the
+  child has met the tool there.
+- **Once every module in the stage is passed the check becomes weekly**, three
+  items across every passed module, because nine lessons on a 90 day cycle is
+  one check a month and the card would name a check that is not due three
+  weeks in four.
+- **At Foundation**: due at 5 to 9 days, again at 30, then the 90 day cycle,
+  in the grown up read form, verdict items, two options, no score shown. With
+  no child app it is one Today row, "Ask Teo one from last week", with an
+  `Asked it` pill and no marking, capped as 2.1 says.
+
 `loadDay` forces the quiz step only when something is due, replacing a middle
-row so a Foundation day stays four.
+row so a Foundation day stays four. A forced check left undone fails the day
+and the daily push names it, which is its carrier for free.
 
-**C4. The week after the modules run out.** Once every module in the stage is
-passed, the child's week card and the hub hero name the Remember check as the
-week's thing ("Nothing new this week. Thursday's Remember check keeps your
-tools sharp") rather than a finished stage check card, and a **Tool of the
-week** row draws one passed module's tool, an unused reserve or worksheet item
-as its scenario, and that module's `then_ask` as the tea question, so the
-parent's row, the tap and the Sunday line keep coming on content PR D already
-wrote. (App lead C2.)
+**5.4 The week after the modules run out.** The week card and the hub hero
+name the Remember check as the week's thing ("Nothing new this week.
+Thursday's Remember check comes back to last week's tools"), and a **Tool of
+the week** row draws one passed module's tool, an unused reserve or worksheet
+item as its scenario, and that module's `then_ask` as the tea question. It is
+written by the cron as a `digi_prompts` row with
+`reason: 'tool_week:<lesson_id>:<iso week>'`, so `isLessonRow` from 2.1 gives
+it Home's read, the GET filter, the `DigiPrompts` skip, the `moment.ts`
+exemption and the `collect.ts` tag without a second mechanism. At Foundation
+its scenario is one verdict the grown up reads out, so the week holds a
+retrieval attempt and not only a conversation. The Sunday block gains a Tool
+of the week line.
 
-## The visual spec
+**5.5 The age up is the restock, so it is named.** `age-up` already pushes the
+parent. On that day the child's week card and the hub hero say it ("Teo is a
+Stage 3 Explorer from today. Nine new lessons, starting with Mood and
+screens"), and the road strip starts again at one with the earned stamp shown
+behind it, so a year of work is visible rather than wiped.
 
-The designer's full spec is in `lessons-review/round4/designer.md`. Its
-surfaces land in the PR that owns them. Nothing is generated, nothing is
-regenerated, no new art is commissioned: everything below is an existing asset.
+## The copy, exact
 
-**The Friend Tile, the one device on every surface.** Ground
-`CHARACTERS[key].soft`, 2px edge `accent`, `--radius-tile`, the friend's
-cutout at 118 percent anchored to the floor, the module's position as a mono
-badge top left. The friend is `characterKeyFor(row.character_cast)`, no new
-mapping. The pose carries the state, so eight Orbit cards are not eight
-identical pictures: passed is `moods.happy` on the friend's soft with its
-accent edge; this week is `moods.thinking` with a 3px accent edge and
-`--lift`; ahead is the base cutout on cream with a hairline border; locked is
-the base cutout at half opacity with a padlock, never hidden, because a child
-should see whose lesson is waiting. DiGi fronted modules draw the 3D star and
-skip the pose swap. Sizes: 76 on the child's list, 56 on hub rows and the week
-card, 44 on the pass screen's Next tile and beside each Remember question, 26
-inside the Today row's existing 38px plate (whose ground becomes the friend's
-soft), 96 in the email. On a load failure `FriendMark` falls back to the
-friend's emblem and the tile keeps its colour, so a failure is a coloured tile
-and never an empty box. No `character_cast` means DiGi, the guide.
+**The Today row.** "Teo passed Mood and screens" / "Ask at tea: can you teach
+me the better, worse or nothing check?" / pill `Teo taught me`. Done: "Teo
+taught you the mood audit" / "Teo's app tells them: Sam says you taught them
+the mood audit, at tea. Next up: Social workarounds." Under 7: "You and Teo
+did Stop, look, ask a grown up" / "Ask again at tea: can you teach me the star
+pause?", and done: "Tell Teo: you taught me the star pause."
 
-**`components/lessons/LessonRoadStrip.tsx`, rendered identically on the
-child's list header and the parent's hub.** Ten dots plus a stamp square,
-geometry borrowed from `StageDot` so the lessons road and the road to 16 are
-one family, the friend mark standing on the current dot (the one place that
-device is used), the stamp as the final node in sage once passed. This is the
-one glance answer to what is outstanding for the pass of the stage, and it is
-the same eleven shapes on both phones. The stamp silhouette is identical on
-the child's check card, the last road node, the passport row and the hub's
-check card.
+**The hub row after a pass.** Eyebrow `TEO PASSED A LESSON`, the title, "What
+the lesson taught: the mood audit. Close it, ask better, worse or nothing, log
+one word.", "All four check questions right first time, Tuesday 4.10pm.",
+`TEO SAID`, `ASK AT TEA`, `LISTEN FOR`, `THEN ASK`, and `Teo taught me` ·
+`Had a go, not yet` · `Later`. Never "Teo learned", "now knows", "can now",
+"Today" or "Sent by".
 
-**The pass screen** (PR B): the module's friend at 112 with `arrive` and the
-register ladder for its key stage, DiGi at 56 to its right, the tool as the
-hero at display weight, then three white tiles, `THE CHECK`, `THE COMMITMENT`,
-`NEXT UP`, the last carrying the next module's tile at 44 so the next friend
-is met before the next lesson. The near miss screen keeps its words and its
-DiGi, with the module friend joining at `thinking`, smaller. No sad pose
-exists and none is made.
+**The pushes.** To the parent: "Ask Teo at tea: can you teach me the better,
+worse or nothing check? (Passed Mood and screens, all four check questions
+right first time.)" Second fail: "Teo had a second go at Mood and screens and
+the nothing verdict tripped them. Do the tricky bit together, five minutes."
+To the child, from the cron: "Orbit has a question for you. Does your feed
+leave you better, worse, or nothing? Fifteen minutes, 10 stars, any day this
+week." The parent's nudge: "Sam gave Orbit a nudge. Still here when you are.
+No rush." After the tap: `taughtMeLine`, as 2.2.
 
-**The hub first tab** (PR A): the road strip above the hero; the hero the only
-card on the page with a shadow; `Do it together now` gold with the house
-shadow, the nudge outline; state lines in mono, never red, never a count of
-days; rows flat with 56 tiles and no buttons. No stage pastels: the friend
-colours carry it. The parent's eye goes strip, hero, rows: outstanding, this
-week, what happened.
-
-**The Today row** (PR A): the friend's plate, the labelled pill on the thumb
-edge, the swap in place on commit. No friend on any other row, in the
-navigation or on the library tab: the parent's app stays an adult's app with
-one warm row.
-
-**The Sunday email** (PR A): a cream panel after the stats table, the
-teaching friend's email PNG at 96 through `emailFriendByCast`, one image per
-email even with two passes, alt text carrying the sentence, and the block
-reading perfectly with no art at all.
-
-**Motion**: GSAP, one timeline, on the pass and nowhere else. 900ms: the week
-dot fills and scales back out, the friend mark travels to the next dot, the
-tool word fades up. `prefers-reduced-motion` respected, which `FriendPlate`
-already checks. The hub has no motion beyond the pill's swap: a parent's
-screen does not perform.
-
-**Restraint, deliberately**: no confetti on the road (`HappyNews` owns
-confetti and two celebrations for one pass is a product that does not trust
-its own news); no friend scene, background illustration or sticker scatter; no
-second animation beyond the register ladder; no friend above 28px on a list
-row; no new icon set, radius or shadow; no art on a push.
+**The child's list card.** "Orbit: the mood audit · 15 min · 10 stars", and
+once: the whole truth line in 3.5.
 
 ## The evidence behind each call
 
 | Call | Evidence | Lens |
 |---|---|---|
-| The pass is the prove items on the settled answer; the first tap is the in lesson signal; feedback on every option | Kornell, Hays and Bjork 2009 (a wrong attempt plus feedback helps later recall); Butler and Roediger 2008; Soderstrom and Bjork 2015 (performance during acquisition is an unreliable index of learning, so the gate is for learning, the first tap is the less contaminated of the two in lesson numbers, and the retention claim comes only from the Remember check at a delay) | Learning scientist, teacher, child lens |
-| Four prove items, honest distractors, no length cue, kept apart from the practice | Haladyna, Downing and Rodriguez 2002 (item writing and item independence); Little, Bjork, Bjork and Angello 2012; Roediger and Karpicke 2006 | Teacher, learning scientist, app lead |
-| One spare per item; the retake re teaches the idea that failed then asks its own spare | Rawson and Dunlosky 2011 (relearning is of the item that failed); Pyc and Rawson 2009 (the attempt must be effortful and successful); Butler 2010 and Pan and Rickard 2018 (transfer to new scenarios); Rosenshine 2012 | Teacher, learning scientist, engineer |
-| Practice before the prove, generating rather than revealing | Rosenshine 2012; Chi and Wylie 2014 (ICAP: a typed completion or a verdict tap is constructive, a reveal is not) | Teacher, learning scientist, child lens |
-| Remember at 5 to 9 days, 30, then every 90 for as long as the stage lasts; three a day until covered; application items | Cepeda et al 2008; Rawson and Dunlosky 2022; Kang 2016; Rohrer and Taylor 2007; Agarwal, Nunes and Blunt 2021 (low stakes retrieval) | Learning scientist, app lead |
+| The pass is the prove items on the settled answer; the first tap is the in lesson signal; feedback on every option | Kornell, Hays and Bjork 2009; Butler and Roediger 2008; Soderstrom and Bjork 2015 (performance during acquisition is an unreliable index of learning, so the gate is for learning, the first tap is the less contaminated of the two in lesson numbers, and the retention claim comes only from the Remember check at a delay) | Learning scientist, teacher, child lens |
+| Four prove items, honest distractors, no length cue, one idea per item, kept apart from the practice | Haladyna, Downing and Rodriguez 2002 (item writing, item independence, parallel forms); Little, Bjork, Bjork and Angello 2012; Roediger and Karpicke 2006 | Teacher, learning scientist, app lead |
+| One spare per item; the retake re teaches the idea that failed then asks its own spare; the third attempt is the child saying it back | Rawson and Dunlosky 2011 (relearning is of the item that failed); Pyc and Rawson 2009 (the attempt must be effortful and successful, not shown then repeated); Butler 2010 and Pan and Rickard 2018 (transfer to new scenarios); Rosenshine 2012; Fiorella and Mayer 2014 | Teacher, learning scientist, engineer |
+| Practice before the check, generating rather than revealing | Rosenshine 2012; Chi and Wylie 2014 (ICAP: a typed completion or a verdict tap is constructive, a reveal is not) | Teacher, learning scientist, child lens |
+| Remember at 5 to 9 days, 30, then every 90, over every module ever passed, weekly once the stage's content is done; one unseen application item per lesson; a missed item asked again before the session ends | Cepeda et al 2008 (the gap scales with how long it must last); Bahrick et al 1993 (widely spaced relearning sustains over years); Rawson and Dunlosky 2022; Kang 2016; Lindsey, Shroyer, Pashler and Mozer 2014 (review by item history beats a fixed schedule); Agarwal, Nunes and Blunt 2021 (low stakes retrieval) | Learning scientist, app lead |
 | Once a week, fixed, forgiving | Dunlosky et al 2013 (distributed practice), and the product's own data once it runs. Duolingo's streak figures are a company blog, read as practice | App lead, child lens |
 | The tea question is the child teaching, with one follow up | Nestojko et al 2014; Fiorella and Mayer 2014; Roscoe and Chi 2007; Kobayashi 2019; Chase et al 2009; Chi et al 1994 | Learning scientist, teacher, child lens |
-| No reward on the parent's tap; the parent's own words instead | Deci, Koestner and Ryan 1999 (expected performance contingent tangible rewards undermine, more so for children), and the product reason: a tap that pays stops measuring anything | Learning scientist, app lead, child lens |
+| No reward on the parent's tap; the parent's own words instead | Deci, Koestner and Ryan 1999 (expected performance contingent tangible rewards undermine, more so for children), and the product reason: a tap that pays stops measuring anything. The child's 10 stars are the app's existing currency for every activity, not a new contingency on this one | Learning scientist, app lead, child lens |
 | The commitment stem and the seven night log | Gollwitzer and Sheeran 2006 (implementation intentions); Harkin et al 2016 (progress monitoring works when the reading is recorded and seen, which is why Sunday reports a miss as well as a hit) | Learning scientist, teacher, child lens |
-| Under 7 the grown up asks and the child taps; the pass is finishing it | Strouse, O'Doherty and Troseth 2013; Whitehurst et al 1988; Hirsh Pasek et al 2015; Takeuchi and Stevens 2011 | Learning scientist, teacher, child lens |
+| Under 7 the grown up asks and the child taps; the pass is finishing it; the Remember check is read aloud | Strouse, O'Doherty and Troseth 2013; Whitehurst et al 1988; Hirsh Pasek et al 2015; Takeuchi and Stevens 2011. The Foundation schedule's shape is a judgement about a five year old's day, not a reading of the spacing work | Learning scientist, teacher, child lens |
 | The parent sees what the lesson taught and a tap that does something | EEF parental engagement (an average across very different programmes, as the toolkit says); Sparx's parent email and Khan's family engagement research, read as practice | App lead, parent UX |
 | The week's lesson is the app's own; the parent's nudge is in the parent's name | Grolnick 2002 and 2009 (autonomy support against control); Children's Commissioner on "they just keep telling us the same thing" | Child lens |
 | The first finished lesson is the onboarding | Khan Academy Kids drops a child into content in the first session; Duolingo runs its first lesson before sign up | App lead |
-| The cast on every thumbnail, one friend one tint, the register ladder | The 5 October brand decision; Duolingo's path nodes and mascot on the path; Khan Academy Kids' library; Finch's one character at the top and plain rows below | Designer |
-| Fifteen minutes on a phone, twelve at five | A judgement, timed on a real phone in A12. The Oak evaluation supports a phone first player, not a length | Child lens, teacher |
+| One friend per stage, so the friend carries stage and state and the number carries the row; the character stands on the current node | The 5 October one friend one tint decision; Duolingo's path; Khan Academy Kids' library; Finch's one character at the top and plain rows below; GoHenry's single bar in the parent's view | Designer |
+| Fifteen minutes on a phone, twelve at five | A judgement, timed on a real phone in 1.8 and guarded by the kid minutes contract. The Oak evaluation supports a phone first player, not a length | Child lens, teacher |
 
 ## What the guard asserts
 
-`scripts/check-lesson-path.mjs`, with rules 1 to 4 rewritten in the commits
-that change them, plus:
+`scripts/check-lesson-path.mjs`, rules rewritten in the commits that change
+them, plus:
 
-1. `lesson-path.ts` takes `passBy`, returns the school pair, the AI pair and
-   `anyLesson`, and is imported by `progress.ts` twice, the hub, `journey.ts`,
-   `daily-tasks.ts`, `app/api/kid/day/route.ts`, `lib/planet/server.ts` and
-   the weekly review; no file under the lessons folder does its own count or
-   redeclares an `age_7:` map; `getDailyTasks` is gone.
+1. `lesson-path.ts` takes `missions` and `passBy`, returns the school pair,
+   the AI pair and `anyLesson`, and is imported by `progress.ts` twice, the
+   hub, `journey.ts`, `daily-tasks.ts`, `lib/planet/server.ts` and the weekly
+   review; no file under the lessons folder does its own count or redeclares
+   an audience map; `getDailyTasks` is gone; `app/k/[token]/page.tsx` does not
+   compute its own stage lesson pair.
 2. Fixture run, no database: two children with one sibling pass, a failed run,
    a retake after a fail, a legacy null child row, a stage with two AI
    modules, and a child with Learn tab passes and no school pass. Assert the
-   pairs per child, the hub's row count equal to the passport's school total,
-   the list header and the road agreeing, and that `anyLesson` never falls.
+   pairs, the hub's row count equal to the passport's school total, the list
+   header and the road agreeing, and `anyLesson` reproducing
+   `lessonsPassedCount` and never falling.
 3. `shared/lesson-slides.ts` exports `lessonPassed`, `reteachIndex`,
-   `retakePlan` and `visibleSlides`; the player and the route import
-   `lessonPassed` in one commit; neither contains `0.7`; `tryAgain` clears the
-   answer refs and mints a `run_id`, and a fixture retake's payload holds
-   only this attempt; a fixture retake shows only a reteach slide and a
-   reserve, never a practise, discussion or breath slide; a fixture deck with
-   a reserve passes when it stands in for the item named by `reserve_for`; a
-   Reception fixture with one settled miss passes with `together`; the route
-   verifies `question` against the deck at `slide`, reads `phase` from the
-   deck, derives `together` from the key stage, fails a run with a missing
-   prove answer, and records with `source`, `phase`, `first_correct` and
-   `run_id`.
-4. Migration 367 exists; `answers.ts` inserts the new columns and its source
-   union holds `remember`; `fetchAnswerFacts` coalesces `first_correct` and
-   `correct`.
-5. The mission update has `.eq('status', 'sent')` and `.select(`; the
+   `retakePlan` and `visibleSlides`. A grep over every `parseSlides` caller
+   fails on any that does not then call `visibleSlides`.
+   `lesson/[module]/run`'s total minutes and the phase table's row counts are
+   unchanged per module; the printed check count is unchanged and, after PR 4,
+   its items are the two classroom prove items.
+4. The school branch of the player contains no `0.7`; a fixture family deck
+   still passes at 70 percent; a fixture retake with one miss and a right
+   reserve passes, its payload holds one row per prove item with exactly one
+   `run_id` per row and the carried rows keeping their first attempt's
+   `first_correct`, and only the new run's rows are written; a fixture retake
+   plays only a teach slide and a reserve; a Reception fixture with one
+   settled miss passes with `together`; a third attempt passes with
+   `together` and the "right first time" literal does not render.
+5. Migration 366 exists; `answers.ts` inserts the new columns and its source
+   union holds `remember`; `fetchAnswerFacts` coalesces.
+6. The mission update has `.eq('status', 'sent')` and `.select(`; the
    completion, stars, card and push sit inside the returned row branch; the
-   `digi_prompts` insert carries `kind`, the `lesson_pass:` reason with the
-   id, `child_id`, `cta`, a non null `title` and `body`, and sits inside
-   `credit()`; the push literal matches.
-6. The send route reads the catalogue through `createAdminClient()` with
-   `character_cast` in the select, reads `children` for ownership, calls
-   `pushToChild(`, returns early on a `done` mission and inside seven days of
-   `nudged_at`, and sets `nudged_at`; `pushToChild` returns `{ sent, reason }`;
-   `WEEKLY_LESSON_STARS` is the one constant three writers use;
-   `ensureWeekMission` is exported and called by the opener, the pass route,
-   the cron and the hub, never on the `?stage=` path.
-7. The lock rule is one function used in four places and the opener reads
-   `hasFullAccess`.
-8. The prompts GET selects `cta, reason, child_id` and filters `lesson_pass:`
-   server side; the PATCH accepts `helped` over an existing `not` exactly
-   once and `not` only over null; no `family_quests` insert exists in the
-   prompts route and none anywhere carries a `Taught:` title; no file under
-   `app/k/` or `app/api/kid/` writes `digi_prompts.reaction`; the weekly
-   review's `seen` write does not touch `reaction`.
-9. `TodayCard` takes `lessonPasses` and renders a labelled `action` with an
-   Undo on those rows and never the ring; `DigiPrompts` skips `lesson_pass:`;
-   `moment.ts` exempts it; `collect.ts` selects `reason`, tags it, and the
-   ideas count excludes it.
-10. The weekly cron gates on `school_lesson` completions; `weekly-review.ts`
-    selects `child_id` and calls `starLessonTitles(`; `templates.ts` renders
-    the block from `stats.lessonPasses` with a miss line as well as a hit, and
-    calls `emailFriendByCast`; the stuck line and a pass line never share a
-    lesson id.
+   surviving done branch records answers and returns `already_passed`;
+   `done_together` is written only on a finish carrying the opener's cookie;
+   the card's reason carries the lesson id and the href carries `lesson=`.
+7. The send route reads the catalogue through the admin client with
+   `character_cast` selected, reads `children` for ownership, calls
+   `pushToChild(`, is a no op once `nudged_at` is set (a fixture three week
+   mission takes one nudge), and `WEEKLY_LESSON_STARS` is the one constant
+   three writers use; `ensureWeekMission` is exported and called by the
+   opener, the pass route and the cron.
+8. `isLessonRow` is used by Home's read, the prompts GET filter, the
+   `DigiPrompts` skip, `moment.ts` and `collect.ts`; the PATCH accepts
+   `helped` over an existing `not` exactly once with `.select(`; no quest
+   insert and no stars anywhere on the tap; no file under `app/k/` or
+   `app/api/kid/` writes `digi_prompts.reaction`; the weekly `seen` write does
+   not touch `reaction`; **no path passes `child_note` into `taughtMeLine`**.
+9. `TodayCard` renders a labelled action with an immediate PATCH and an Undo,
+   never the ring, on at most two lesson rows, with no Remember row beside a
+   pending pass row for the same child.
+10. The weekly cron gates on a completion, a reaction or a `remember` answer;
+    `templates.ts` renders the block from `stats.lessonPasses` with a miss
+    line as well as a hit, calls `emailFriendByCast`, and escapes every string
+    that came from a child or a parent.
 11. No child facing lesson line contains a gendered pronoun for a parent, and
-    every such line renders with a null parent name; `taughtMeLine` is the one
-    builder used by Home, the push and the week card; no card, row or push
-    body contains "learned", "now knows", "can now", "Today" or "Sent by"; no
-    child facing lesson screen contains "screen time"; the pass screen
-    contains no star count; the kid list contains no "ask your grown up to
-    open".
-12. `/path` redirects preserving the four names; `passport-sections.ts` still
-    links it; the first tab carries `data-do-together` and
-    `schoolModulesForStage`; `check-watch-stage-copy.mjs` matches the A1 count
-    and the `TABS` block is free of `childStageNum`.
+    every such line renders with a null parent name; no card, row or push body
+    contains the banned verbs, "Today" or "Sent by"; no child facing lesson
+    screen contains "screen time"; the kid list contains no "ask your grown up
+    to open"; **no child row renders a padlock or a reduced opacity friend**.
+12. `/path` redirects preserving the four names; the first tab carries
+    `data-do-together` and `schoolModulesForStage`; with no passed module for
+    this child `Do it together now` is primary and full width and creates the
+    kid link when none exists; `check-watch-stage-copy.mjs` matches the
+    function's count and the `TABS` block is free of `childStageNum`.
 13. `'lesson'` and `'quiz'` are absent from `ROTATING`; the `LEARNING` pair,
-    `markStepQuietly(..., 'lesson')` and the `?next=1` redirect are gone, with
-    rules 2 and 3 rewritten; `check-learning-step.mjs` rewritten; a fixture
-    day for a child with no passes and nothing due completes without a quiz
-    step; a forced quiz replaces a middle row; `/k/[token]/remember/page.tsx`
-    exists before the href points at it; `questionsFromSlides` and
-    `standsAlone` are exported; `remember-due.ts` passes its fixtures (5 to 9,
-    30, 90s continuing after the stage check, ten due lessons giving three a
-    day until covered, Foundation once only on verdict items, a
+    the dead day tick and the `?next=1` redirect are gone;
+    `check-learning-step.mjs` rewritten; a fixture day for a child with no
+    passes and nothing due completes without a quiz step; a forced quiz
+    replaces a middle row; `/k/[token]/remember/page.tsx` exists before the
+    href points at it; `remember-due.ts` passes its fixtures: the pool is
+    every module ever passed and survives an age up, 5 to 9 then 30 then 90,
+    weekly once the stage's modules are done, ten due lessons giving three a
+    day until covered, an unused unseen reserve preferred then a verdict item
+    and never a met item, a missed item returning at the end of the three,
+    Foundation at 5 to 9 and 30 and then 90 in the read aloud form, a
     `done_together` pass waiting for the child, never on a day the next lesson
-    is passed); the cron's ensure and note sit before the `kid_days` gate and
-    no mission takes a third push, with `noted_at` and `nudged_at` separate.
+    is passed.
 14. The stage pool comes from `schoolModulesForStage` with an application item
-    per lesson, prefers an item unseen in any `run_id`, and the stage quiz
-    route marks from the pool.
+    per lesson, prefers an item unseen in any `run_id`, and the route marks
+    from the pool.
 15. The saved place is capped at the first prove index; `child_note` is capped
-    at 200; `KidQuestScreen.tsx` contains no "from your grown up" and renders
-    no mission list apart from the week card.
-16. Content: every KS2 and up module has four `prove` slides, two of them
-    `kid_only`, and four `kid_only reserve` slides whose `reserve_for`
-    resolves one per prove item; every `reteach` resolves to a teach slide
-    lower than the first prove index; no prove or reserve text matches a
+    at 200 and bounded by the child check; `KidQuestScreen.tsx` contains no
+    "from your grown up" and renders no mission list apart from the week card;
+    the kid minutes ceiling holds over `visibleSlides(slides, 'kid')` and the
+    minutes line is computed, not written.
+16. Content: four `prove` slides per KS2 and up module, two `kid_only`, and
+    four `kid_only reserve` slides whose `reserve_for` resolves one per prove
+    item and whose `reteach` resolves to a teach slide below the first prove
+    index, ascending in deck order; no prove or reserve text matches a
     practice card or a teach sentence in the same deck; no right answer more
-    than 20 percent longer than its longest distractor **on prove and reserve
-    items**; three options on every prove item outside Foundation, which keeps
-    two of two; `listen_for` and `then_ask` on every module; no family
-    question opening with the three banned stems; `together_prompt` on every
-    slide the together deck shows; `expected_verdict` and `teaching_point` on
-    every worksheet item; `tool` an object on all 34.
-17. `visibleSlides` is called by the five schools surfaces, the kid player and
-    the co viewer; no schools surface renders a `kid_only` slide; each
-    module's printed check count is unchanged and its exit checks are the two
-    non `kid_only` prove items; `check-lesson-core.mjs`,
-    `check-lesson-minutes.mjs` and `check-lesson-rubric.mjs` skip `kid_only`
-    and pass, output pasted in PR D's body.
+    than 20 percent longer than its longest distractor on prove and reserve
+    items; three options outside Foundation, which keeps two of two; no prove
+    item's child visible text contains "exit check"; `listen_for` and
+    `then_ask` on every module; no family question opening with the three
+    banned stems; `together_prompt` on every slide the together deck shows;
+    `expected_verdict` and `teaching_point` on every worksheet item; `tool` an
+    object on all 34.
+17. `check-lesson-age-gate.mjs`, `check-watch-stage-copy.mjs`,
+    `check-co-watch.mjs`, `check-digi-step-in.mjs`, `check-day-by-age.mjs` and
+    the three content guards pass, listed in each PR body as run.
 18. The visual layer: `listStarLessons` selects `character_cast`; no lessons
-    surface contains a hardcoded `🎬`; the pass screen renders
-    `FriendPlate` keyed on the module's cast; `LessonRoadStrip` is imported by
-    both the child's list and the hub; the Today row's plate takes the
-    friend's `soft`; `emailFriendByCast` exists and the email block degrades
-    to text; `characterKeyFor` resolves all 34 rows (a fixture over the
-    manifest).
-19. `check-lesson-age-gate.mjs`, `check-watch-stage-copy.mjs`,
-    `check-co-watch.mjs`, `check-digi-step-in.mjs` and `check-day-by-age.mjs`
-    still pass, listed in each PR body as run.
+    surface contains a hardcoded clapperboard; the pass screen renders
+    `FriendPlate` keyed on the module's cast and draws DiGi once;
+    `LessonRoadStrip` is imported by the child's list and the hub, takes its
+    length from the function, takes a theme, uses the passport's stamp circle,
+    and renders nothing under four modules; the Today plate takes the friend's
+    `soft` with an accent border; `emailFriendByCast` exists and the block
+    degrades to text; `characterKeyFor` resolves all 34 rows; the Remember
+    page renders one friend, not one per question.
 
 ## The loop, end to end, after
 
-Monday the cron makes sure Mood and screens is on Teo's app, and Teo's home
-shows the week card with Orbit on it. The hub shows the road strip, the friend
-standing on dot three, seven dots and a stamp ahead of him, and a hero reading
-"On Teo's app from today" with a nudge and Do it together. Thursday evening
-Orbit's note arrives, because Thursday is when Teo opens the app, and it
-replaces that day's push. Teo gets fifteen minutes in the kid register: a word
-typed before each Show me, six real closes to sort, four prove items with
-honest distractors. A miss on the nothing verdict re teaches the mood audit
-slide and asks that item's own spare scenario, two screens, not ten. The pass
-screen gives him Orbit at full size, the tool as the headline, the check, the
-commitment and the next friend, the tea question he will be asked, and the
-dignity line. The route verifies every answer against the deck, locks on the
-status change, records the first tap, the settled answer and the run, writes
-the completion, pays 10 stars once, pushes the parent the question, writes the
-card, and makes sure the next lesson's row exists. Home shows the pass as the
-first row in the Today card, Orbit on its plate, a labelled pill on the thumb
-edge, one row per child. At tea Teo teaches it, the parent asks the then ask
-and taps the pill; the row swaps and stays; Teo's app says "Sam ticked Teo
-taught me. The mood audit, at tea." On the week card Teo logs one word a night
-and on night seven reads his own pattern. Six days later the Remember check is
-forced into his day: the item that tripped him, a scenario he has not met, and
-one more. Sunday's email leads with Orbit, names the pass, the conversation,
-the Remember result either way, and the sentence Teo chose to show. Under 7 the
-Monday row exists without an app, the parent taps Do it together, reads the
-"Say:" strip, the child taps, the pass is finishing it, the parent types what
-Teo said and taps Back to your Home, and the pill waits there with words to
-say out loud. When the stage's modules run out the week card names the
-Remember check and a Tool of the week keeps the parent's row coming. At the
-end of the stage the check asks only what Teo's own lessons asked, on
-scenarios he has not met, the ones he missed first.
+Monday the cron makes sure Mood and screens is on Teo's app, and his week card
+shows Orbit, the tool, `4 / 9`, and "Any day this week". The hub shows the road
+strip, Orbit standing on dot four, five dots and the stamp ahead, and a hero
+reading "On Teo's app from today" with a nudge and Do it together. Thursday
+evening Orbit's note arrives, because Thursday is when Teo opens the app, and
+it replaces that day's push. Teo gets fifteen minutes in the kid register: a
+word typed before each Show me, six real closes to sort, then a mono line
+telling him the check has started and that his first answer is the one that
+counts. A miss on the nothing verdict re teaches the two slides that taught it
+and asks that item's own spare scenario, two screens, not ten. The pass screen
+gives him Orbit at full size, the tool as the headline, the check, the
+commitment, the next friend, ten stars named, the tea question he will be
+asked, and the dignity line. The route verifies every answer against the deck,
+locks on the status change, records the first tap, the settled answer and the
+run, writes the completion, pays 10 stars once, pushes the parent the
+question, writes the card, and makes sure the next lesson's row exists. Home
+shows the pass as the first row in the Today card, Orbit on its plate, a
+labelled button on its own line, one row per child. At tea Teo teaches it, the
+parent asks the then ask, taps the button and types a line; the row swaps and
+stays; Teo's app says "Sam says: you explained that better than the news did."
+On the week card Teo logs one word a night and on night seven reads his own
+pattern. Six days later the Remember check is forced into his day: the item
+that tripped him, a scenario he has not met, and one more, with the missed one
+coming back before the session ends. Sunday's email leads with Orbit, names
+the pass, the conversation, the Remember result either way, and the sentence
+Teo chose to show. Under 7 the Monday row exists without an app, the parent
+taps Do it together, reads the "Say:" strip, the child taps, the pass is
+finishing it, and the pill waits on Home with words to say out loud. When the
+stage's modules run out the check goes weekly and a Tool of the week keeps the
+parent's row coming. On the day Teo ages up his card and the hub name it, and
+the road starts again with the stamp he earned behind it.
 
 ## Decisions for Justin
 
@@ -844,22 +873,20 @@ scenarios he has not met, the ones he missed first.
    13 September gate and show on the first tab as Do it together. Stamps
    already issued are untouched either way.
 2. Stars: 10 for a pass, nothing on the parent's tap, the parent's own words
-   carried back instead (recommended, and all three lenses that argued for
-   stars withdrew). The app lead would also bring a film's first watch from
-   10 to 5 so fifteen minutes with a check outranks pressing play; the plan
-   assumes 10 stays.
-3. Four prove items and four spares on KS2 and up now, in PR D, as child only
-   slides so the classroom deck and its printed pack are untouched
-   (recommended by every lens that scored it). The seven Foundation decks keep
-   two of two.
+   carried back instead (recommended; all three lenses that argued for stars
+   withdrew). The app lead would also bring a film's first watch from 10 to 5
+   so fifteen minutes with a check outranks pressing play; the plan assumes 10
+   stays.
+3. Shipping order: the loop first on the two prove items that exist, the 162
+   new items in PR 4 (recommended by the app lead and supported by the
+   engineer, who found PR A was four PRs). The cost is a fortnight on a weaker
+   gate with no stamp resting on it. The alternative is content first and a
+   month before any family is through the loop.
 4. **The curriculum cadence.** Nine modules is nine weeks against a
-   subscription that can run three years. PR C keeps the week alive with the
-   Remember check and a Tool of the week, which buys months on content that
-   already exists. Whether the scheme grows past nine modules a stage, and at
-   what rate, is a curriculum decision rather than a build one, and it is
-   yours. The plan does not assume it.
-5. The order: D, then A, then B, then C. All four before the schools pilot
-   families reach the first KS3 module.
+   subscription that can run three years. PR 5 keeps the week alive on content
+   that already exists, over every module ever passed, weekly once a stage is
+   done. Whether the scheme grows past nine modules a stage, and at what rate,
+   is a curriculum decision and it is yours. The plan does not assume it.
 
 ## Not building, and why
 
@@ -868,12 +895,14 @@ scenarios he has not met, the ones he missed first.
 - Stars for the parent library, stars on the parent's tap, a first tap bonus
   on a school lesson (it would reward the exact signal the parent reads).
 - A parent dashboard of percentages, a leaderboard, a public streak, a daily
-  pressure on the lesson, a weekly lesson run counter, a date on Home's
-  alerts row.
+  pressure on the lesson, a weekly lesson run counter, a date on Home's alerts
+  row.
 - A lesson day setting, a voice note, a keepsake surface in the child's
   passport, a stage certificate, the class tally rendered as the class the
-  child joined, confetti on the road. Later or never.
-- The 20 percent length rule on the 117 existing teach items: a second,
-  named content pass, so PR D stays a day's work.
-- More Foundation modules in this plan: seven is a term at one a week, and
-  the cadence is decision 4.
+  child joined, confetti on the road, a friend on the Remember page's
+  questions or on any other Home row.
+- The 20 percent length rule on the 117 existing teach items: a second, named
+  content pass, so PR 4 stays reviewable.
+- More Foundation modules in this plan: seven is a term at one a week, and the
+  cadence is decision 4. The seven night log is the first thing to drop if PR
+  5 runs long, because nothing else reads it.
