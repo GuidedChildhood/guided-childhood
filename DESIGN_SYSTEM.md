@@ -79,6 +79,14 @@ rendering; new work names the real token, never the alias.
   comment). `.lift` for cursor lift cards. `prefers-reduced-motion`
   disables both.
 
+## The lessons visual layer
+
+How the Planet Friends carry the lessons across both apps, the tile, the road
+strip, the pass screen and the states: `brand/lessons-visual-layer.md`. Read it
+before touching any lessons surface. The cast is one friend per stage, so the
+friend carries the stage and the state while the number, the title and the tool
+chip carry the row.
+
 ## The two apps
 
 Both import `@gc/shared/tokens.css` first, then their own stylesheet on
