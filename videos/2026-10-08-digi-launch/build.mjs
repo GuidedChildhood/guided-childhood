@@ -553,7 +553,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#F9F8F6}
 .stack{display:flex;flex-direction:column;gap:10px;width:100%}
 .pill6{font-family:plexMono,monospace;font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:2px solid #1A1A2E;border-radius:100px;padding:10px 18px;text-align:center;background:#fff;color:#65657C;opacity:0}
 .layer{position:absolute;left:700px;top:290px;width:1080px;opacity:0}
-.leyebrow{font-family:plexMono,monospace;font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#93711D;margin-bottom:14px}
+.leyebrow{font-family:plexMono,monospace;font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#8A6A1B;margin-bottom:14px}
 .ltitle{font-size:58px;font-weight:900;line-height:1.08;letter-spacing:-.015em;margin-bottom:26px}
 .rows .row{display:flex;align-items:baseline;gap:18px;padding:11px 0;border-top:2px solid #EAEAF0;opacity:0}
 .rows .row b{font-size:36px;font-weight:800;min-width:420px}

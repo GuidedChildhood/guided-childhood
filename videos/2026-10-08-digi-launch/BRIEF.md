@@ -123,3 +123,8 @@ a soundtrack more of the moment.
   is from Pixabay (Pixabay Content Licence, commercial use, no credit
   required), the level is fine. The researchers layer now reads "Four
   researchers lead, for now".
+- Delivered 8 October, evening: `hyperframes check` passes, 0 errors. One
+  warning stood on the delivered render, the brain layer eyebrow at 4.28 to
+  1 on cream; the source now uses `#8A6A1B`, which clears 4.5, so the next
+  render carries it. The renders in the Motion advert folder predate that one
+  shade.
