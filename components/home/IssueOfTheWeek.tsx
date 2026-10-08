@@ -29,6 +29,16 @@ export default function IssueOfTheWeek({ pick }: { pick: IssueOfWeek; childName?
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {pick.issue.name}
           </span>
+          {/* What this card is, in one line, so the age loop is visible: the
+              bank is the problems parents at this age raise, in order, never
+              re offered once done (Justin, 8 October 2026: a user has to
+              understand we check the common issues for the age, so they are
+              on top of them). */}
+          <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: 4 }}>
+            {pick.kept
+              ? `You have done every one for ${BAND_LABEL[pick.band] ?? pick.band}. This week's is a reminder.`
+              : `The problems parents hit at ${BAND_LABEL[pick.band] ?? pick.band}, in the order they come. One a week, so you are ahead of them.`}
+          </span>
           {/* The name and the button, nothing else. The mechanism, the pathway
               and the prevention line used to print here, about 110 words on a
               Home card a parent gives five seconds. They live on the script
