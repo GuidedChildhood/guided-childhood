@@ -1,6 +1,6 @@
 # Content potential: the morning before school and the after school return
 
-Distribution review of the verified V2 briefing (`briefings/2026-10-07-school-day-routines-v2.html`), 7 October 2026. This note ranks, it does not draft. Drafting stays with content-engine and viral-post so the voice and evidence guards run.
+Distribution review of the verified V2 briefing (`briefings/2026-10-07-school-day-routines-v3.html`), 7 October 2026. This note ranks, it does not draft. Drafting stays with content-engine and viral-post so the voice and evidence guards run.
 
 Two facts shape everything below. The morning and after school card is planned (`plans/2026-10-07-school-day-windows-plan.md`), not built, so no post may claim it. And founder-context.md has no true scene set in a school morning or at pick up, so the LinkedIn flagship is a research card or carousel, never a photo, and never an invented scene.
 
