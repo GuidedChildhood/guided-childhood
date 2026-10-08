@@ -1,4 +1,4 @@
-# 8 October 2026: Lessons, version 9. The child learns it, the parent closes it, both can see it stuck, and the cast carries it
+# 8 October 2026: Lessons, version 10. The child learns it, the parent closes it, both can see it stuck, and the cast carries it
 
 Justin: "these are really for the child to do ... it looks like we are asking
 the parent to take the lesson. Come up with the best way to run this so it is
@@ -15,29 +15,51 @@ what is outstanding for pass of stage ... better than any character platform
 lesson education tracker ... connected both co viewer or on child's app with
 feedback to parent and PWAs emails linked not over done."
 
-Five versions, each through the same panel. Six lenses to version 3, seven
+Ten versions, each through the same panel. Six lenses to version 3, seven
 from version 4: a teacher, a learning scientist, a learning app product lead,
 a parent UX reviewer, a sceptical engineer, a child lens (a 12 year old alone,
 a 5 year old on the sofa) and a design lead for character led learning
 products. A, B and C are the child's learning, the parent's ease and wow, and
 whether the loop runs; the designer scores Looks and Flow.
 
-| Lens | v5 | v6 | v7 | v8 |
+| Lens | v6 | v7 | v8 | v9 |
 |---|---|---|---|---|
-| Teacher | 9/10/10 | 9/10/10 | 9/9/9 | 9/10/9 |
-| Learning scientist | 8/10/8 | 9/10/9 | 9/10/9 | 9/10/9 |
-| Learning app lead | 9/9/8 | 10/9/9 | 10/9/9 | 10/9/9 |
-| Parent UX | 10/10/10 | 10/10/10 | 10/10/9 | 10/10/9 |
-| Sceptical engineer | 8/8/7 | 8/9/7 | 7/9/7 | 8/8/7 |
-| Child lens | 9/9/9 | 9/9/9 | 9/9/9 | 10/10/9 |
-| Designer | Looks 7, Flow 8 | Looks 8, Flow 9 | Looks 8.5, Flow 9.5 | Looks 9, Flow 10 |
+| Teacher | 9/10/10 | 9/9/9 | 9/10/9 | **10/10/10** |
+| Learning scientist | 9/10/9 | 9/10/9 | 9/10/9 | 9/10/9 |
+| Learning app lead | 10/9/9 | 10/9/9 | 10/9/9 | **10/10/9** |
+| Parent UX | 10/10/10 | 10/10/9 | 10/10/9 | **10/10/10** |
+| Sceptical engineer | 8/9/7 | 7/9/7 | 8/8/7 | 7/8/7 |
+| Child lens | 9/9/9 | 9/9/9 | 10/10/9 | **10/9/9** |
+| Designer | Looks 8, Flow 9 | 8.5 / 9.5 | 9 / 10 | **9.5 / 10** |
 
-(v1 to v4 scored 3 to 10 and are in the reviews.)
+(v1 to v5 scored 3 to 10 and are in the reviews.)
+
+**Round 9 asked every lens whether to keep revising or to build.** Five of the
+seven said build: the teacher, the parent UX lens, the app lead, the engineer
+(after four named sentences) and the designer (two values, no screenshot
+needed). The learning scientist named one gap, the blueprint, now closed. So
+version 10 is the build brief, not another draft.
 
 (v1 and v2 scored 3 to 7 and are in the reviews.)
 
-Reviews in `lessons-review/round1/` to `round8/`. Round 8 found that version
-8's own headline fix paid nothing: the star bank reads the lesson row where its
+Reviews in `lessons-review/round1/` to `round9/`. Round 9 found that the plan
+had begun naming things the code does not contain. There is no `tally` slide
+type and no `think` type: the union holds fifteen and the decks contain no
+tally at all, so every hide list from version 6 onward named something that
+does not exist, while the one type actually hidden, `discussion`, has 114
+slides including the opening retrieval on all 34 decks and was given no child
+rendering. Round 9 also found the paced row rule written for one row while
+every row after it kept a button the opener now refuses; a strip that would
+have left the client, the route and the answers ledger holding three spellings
+of one question, so the gate would have marked nothing on 21 decks; a `reteach`
+index read against an array 114 slides shorter; a pace predicate that refused
+every retake; a fail update whose claimed lock cannot lock; a second place DiGi
+still goes quiet; a stage check with no file named and a floor top up that
+would rest the stamp on questions a child never met; three more lesson counts
+outside the one function; and a blueprint keyed on slide structure rather than
+on each deck's own stated outcomes. All closed below.
+
+Round 8 had found that version 8's own headline fix paid nothing: the star bank reads the lesson row where its
 status is `done`, sums the stars there and dates them by its completion time,
 and never reads the completions table the payment was keyed to. With a failed
 run no longer marking a lesson done, the first finish would have paid zero, so
@@ -275,8 +297,8 @@ needs no surface.
 `first_correct boolean` and `run_id uuid`; `correct` becomes the settled
 answer and `fetchAnswerFacts` reads `first_correct ?? correct`.
 `kid_lesson_missions` gains `nudged_at`, `noted_at`, `child_note text`,
-`done_together boolean` and **`attempts int not null default 0`**, and its
-status check widens to `('sent', 'done', 'skipped')`. `digi_prompts` gains
+`done_together boolean`, **`attempts int not null default 0`** and
+**`paid_at timestamptz`**, and its status check widens to `('sent', 'done', 'skipped')`. `digi_prompts` gains
 `parent_note text` and a **partial unique index on
 `(child_id, reason)` where `reason like 'tool_week:%'`**, so a weekly row
 cannot double write. `recordQuestionAnswers`'s source union gains `remember`,
@@ -286,9 +308,11 @@ four calling routes.
 
 **1.2 The mission state machine, written down.** Today the route sets
 `status: 'done'` whether or not the run passed. From here: **a fail leaves the
-mission `sent` and increments `attempts`**, under
-`.eq('status', 'sent').select('id')`, which is also the fail push's
-idempotency key; **only a pass flips `status` to `done`**, so `done` means
+mission `sent` and increments `attempts`**, under `.eq('status', 'sent')` **with `.eq('attempts', mission.attempts)`**
+and `.select('id')`. The status predicate alone is not a lock on a fail,
+because a fail leaves the status at `sent`, so a double tap would increment
+twice and push twice, and at two attempts the child loses their own retake. The
+attempt value read at the start of the request is what makes it idempotent; **only a pass flips `status` to `done`**, so `done` means
 passed, which `ensureWeekMission`, the planets' count and `already_passed` all
 assume. Without this sentence the retake after a fail returns no row from the
 lock, falls into the done branch and credits nothing, and the walkthrough's own
@@ -304,7 +328,14 @@ anyLesson, statusById }`, pure over rows, `missions` in the signature because
 must not close a planet that is open today. Called by `progress.ts` twice, the
 hub, `journey.ts` (gaining a `childId`), `daily-tasks.ts`, Home's own count,
 `lib/planet/server.ts` and the Sunday nudge; `app/k/[token]/page.tsx` stops
-computing its own pair and KidRoad takes the school pair; `getDailyTasks` goes.
+computing its own pair and KidRoad takes the school pair; `getDailyTasks` goes. **Three more parent facing counts read the same rows and sit outside the
+function**, all reading nought today and all changing value the day this ships:
+the sticker book's own distinct pass count, which sits beside the passport pair
+so one surface would hold two numbers; the monthly progress email's per child
+count; and the catch up card's. Each is routed through the function or scoped
+away from school passes, and the guard names them. **And the lessons drip email
+switches itself off on a first failed run**, because it gates on any completion
+row and a fail writes one: it gates on a passing completion instead.
 
 **The child's app loses its second lesson door, by deletion.** `focusLesson`
 computes the next unpassed **parent library** lesson, and `learnTile`,
@@ -331,14 +362,26 @@ and asserted per file, because naming a list of five was wrong twice. In this PR
 preserving: verified that in all 34 decks exactly two choice slides carry
 `phase: 'prove'`, both are `choice`, and they are the last two choice slides,
 so `print/[module]` can stop using `checks.slice(-2)` and take the prove items
-by phase with the same output. **The kid audience changes here, on purpose**:
-it hides the classroom only slide types, because version 7 made the filter
-hide nothing and the kid mission page strips only the `script` channel, so the
-first families would still have met the timed discussion slide, the tryit
-naming a printed worksheet, a class tally reading one, nought, nought, and a
-deck declaring 69 minutes, on a phone. The gate can be weak for a fortnight.
-The lesson cannot be a classroom lesson. The kid register renderings and the
-computed eyebrow ship with it. The guard asserts
+by phase with the same output. **The kid audience changes here, on purpose, and it hides
+exactly one type: `discussion`.** There is no `tally` slide type and no `think`
+type: the union holds fifteen and the decks contain no tally at all, because
+the class tally is an `interactive` with a tally config, so every earlier
+version's hide list named something that does not exist. Hiding more than
+`discussion` would be worse: 25 of the 34 decks have a practise phase made only
+of `interactive` and `tryit` slides, so hiding those deletes the practice
+outright and the child goes from a teaching slide to the gate.
+
+And `discussion` cannot simply vanish either. There are 114 of them, 34 of
+which are the starter on every single deck, so dropping them silently takes
+the opening retrieval away from every child. It gets a kid rendering in this
+PR: "Think it" with one word typed or a two chip pick before "Show me" reveals
+the look for line, which is the generation the evidence table calls load
+bearing. The practise `interactive` renders in the kid register too, which
+moves the interactive registry's type widening into this PR, and the tryit
+renders as unscored verdict cards. The computed eyebrow, the computed minutes
+line and **the "Exit check" strip** ship here as well, for the reason in 1.5.
+The gate can be weak for a fortnight. The lesson cannot be a classroom lesson,
+and it cannot be a lesson with no practice and no starter. The guard asserts
 `lesson/[module]/run`'s total minutes and the phase table's row counts are
 unchanged per module.
 
@@ -390,15 +433,28 @@ answered.
   so it stays the server's index authority: it cannot both hide a reserve on a
   first run, which is run state it has no access to, and resolve the posted
   index. 4.3's playlist and cursor decide what plays and map back to that
-  array. The route resolves by `question` first, verbatim and unique, with the
-  index as the tiebreak.
+  array, and **`visibleSlides` returns the stored to filtered index map**
+  alongside it. `reteach` is then a stable key on the teach slide rather than a
+  position: PR 1's kid audience hides 114 `discussion` slides, every one of
+  them before the prove items, so a stored index would land three or four
+  slides late in the child's view and the retake would re teach the wrong idea.
+  The same map fixes the saved place cap. The route resolves by `question` first, verbatim and unique, with the
+  index as the tiebreak. **And the "Exit check" strip lives inside
+  `visibleSlides`, not in the player**, so the client, the route and the
+  answers ledger hold one spelling of a question. Strip it in the page as
+  version 9 said and the player posts the stripped string while the route
+  resolves against the stored one, so on the 21 decks carrying that wording the
+  gate would mark nothing, every row would be dropped by this rule's own test,
+  and a Foundation pass, which needs every prove item answered, could never
+  pass at all. It would also poison the ledger, because the missed first
+  ordering keys on the question text.
 - **No count is claimed that the deck cannot support.** Every count is
   computed from the kid prove count, and **the "right first time" line is
   suppressed while that count is under four**, because for the fortnight
   before PR 5 the gate is the two classroom items and on 21 of the 34 decks
-  both of those have the right answer as the longest option. The push for that
-  cohort reads "Teo finished Mood and screens. Ask at tea: can you teach me
-  the better, worse or nothing check?" The gate can be weak for a fortnight.
+  both of those have the right answer as the longest option. That cohort's push is the one written in the
+  copy block and nowhere else, because two spellings of one sentence is how a
+  builder ships the wrong one The gate can be weak for a fortnight.
   The sentence cannot be wrong for a fortnight.
 - **While a deck has no reserve, a second attempt is the together route**, not
   a solo retake of an item whose answer just settled green.
@@ -440,11 +496,20 @@ answered.
   there was, every pass makes the next row at once, and the stars pay each
   finish, so a keen eleven year old on half term would clear a stage in nine
   days, land nine Remember checks in one week and earn the stamp in a
-  fortnight. The opener itself refuses, with the "on your app Monday" line,
-  when this child already has a mission created inside seven days that is
-  neither `done` nor `skipped`; the child's list shows the next row as paced
+  fortnight. **The refusal applies only where the opener would create a row**, keyed on
+  this child's last *passing* completion inside seven days. Reopening a mission
+  that already exists is always allowed, so a retake the day after a fail is
+  never turned away, and a replay of a lesson passed in September opens with
+  `Done ✓ play again`. Version 9's predicate refused both, because a failed run
+  leaves exactly the row it keyed on. It says the "on your app Monday" line
+  when it does refuse; the child's list shows the next row as paced
   rather than open, so it carries no pill, no gold button and no link and reads
-  "Orbit brings this one on Monday"; and the guard asserts it, excepting a
+  "Orbit brings this one on Monday"; **and so does every row after it**, because for a paying family
+  nothing is locked, so rows five to nine would each carry a tappable button
+  the opener now refuses. Only the week's row opens; the rest read "After
+  lesson 6, this one is waiting for you"; a passed row keeps its link and opens
+  with `Done ✓ play again`; and the refusal, when it fires, names what is
+  available rather than only a date, the Remember check or last week's spare; and the guard asserts it, excepting a
   `skipped` restart **and the first lesson of a stage**, so a family joining on
   a Thursday starts that day. Version 8 asserted behaviour no file
   implemented, and left a gold button on a row that would have bounced the
@@ -477,9 +542,10 @@ where it came from: "Sam gave Orbit a nudge. Still here when you are. No
 rush."
 
 **1.8 The walkthrough gate.** 366 applied before the deploy, then on the live
-database with a test family, pasted into the PR body: a fail leaving the
-mission `sent` with the attempt incremented and nothing paid; the retake
-crediting and paying once; a forged payload claiming both answers right and
+database with a test family, pasted into the PR body: a fail leaving the mission `sent` with the attempt
+incremented and **the ten paid once on that first finish**; a second fail
+paying nothing further; the retake crediting the pass and paying nothing again;
+a double tap on a failing run incrementing the attempt once; a forged payload claiming both answers right and
 failing; a third attempt refused without the cookie or the pill, then passing
 with the pill; a nudge at half nine leaving the button live; a double tap on
 the last slide; a `done_together` open abandoned, then the child's own pass,
@@ -553,7 +619,13 @@ while the ticks beside it use a week. The product already has the doctrine,
 written in the follow up queue: cards expire, at fourteen days, swept daily. So
 both lesson readers ignore a pending pass row older than seven days, the step
 in reader gains the lesson prefix exemption the exported list exists to serve,
-because a celebration is not something DiGi waits on, and the daily sweep that
+because a celebration is not something DiGi waits on, **and so does the second
+suppressor**, the prompts route's own early return when anything is already
+showing, which version 9 left out: a pending lesson row inside its seven day
+window sits in that set, so DiGi's word would never run at all, every day, for
+ever, and it would take one of only three slots so two children would leave
+DiGi one. The lesson rows come from their own read, concatenated after the step
+in has had its chance, gating neither it nor the limit of three. and the daily sweep that
 already dismisses two reasons dismisses this one at fourteen days. The Sunday
 block names an untapped pass once, with its `listen_for`, which is also the
 only second chance the tea question ever gets, since the push fires at whatever
@@ -577,7 +649,11 @@ the loop is a rubber stamp, and shared success criteria is the oldest thing in
 this trade. One builder, `taughtMeLine(name, noun, parentLine)`, with no
 pronoun and the name optional: "Sam says you taught them the mood audit, at
 tea."; "Your grown up says you taught them the mood audit, at tea."; with a
-typed line, "Sam says: you explained that better than the news did." The typed field appears **in the row's done state, after the tap**, labelled
+typed line, "Sam says: you explained that better than the news did." **Its carrier in this PR is the child's push**, named here with a guard,
+because the only other renderer is PR 6's week card while the Today done state
+ships here saying the child's app has been told. Without it release two either
+tells a parent something untrue or rests on an unassigned sentence, and the
+child whose third attempt the parent closed hears nothing at all. The typed field appears **in the row's done state, after the tap**, labelled
 "Add a line Teo will see. Optional.", 120 characters, into `parent_note`.
 **On the pill path the card is suppressed**, because the pill posts the
 completion, a first pass writes the celebration row, and the Today card would
@@ -640,18 +716,20 @@ on Sunday, opened the app on Monday and read four for a different lesson, with
 the road caption beside it counting a different way again. One function returns
 every "to go" string in the product.
 
-**3.8 PR 3's own walkthrough gate**, because 1.8 belongs to PR 1 and this PR
-owns every surface a parent touches: the hub on a 375 by 667 phone with the
-primary button above the fold; two children giving two rows and no third; the
-tap, the swap, the Undo and the row still rendering after a refresh with the
-typed line on it; the Sunday number read beside the child's badge; an under 7
-family with no app seeing the gold button and no code block.
-
 **3.6 One door, one lock**, as before: the redirect preserving four names, the
 scroll to the lesson, `lockedModuleIds` in four places with the opener reading
 `hasFullAccess`.
 
 ### PR 4: what the child sees (no migration, deploys with PR 3)
+
+**3.7 PR 3's own walkthrough gate**, because 1.8 belongs to PR 1 and this PR
+owns every surface a parent touches: the hub for a family with two children, the
+switcher rendered and the primary button still above the fold on a 375 by 667
+phone, which is the shape of miss that survived eight rounds; two rows on Home
+and no third; the
+tap, the swap, the Undo and the row still rendering after a refresh with the
+typed line on it; the Sunday number read beside the child's badge; an under 7
+family with no app seeing the gold button and no code block.
 
 **4.1 The deck for one child**, through `visibleSlides(slides, 'kid')`, a
 stable array per audience with the reserves in it, which from PR 5 also hides
@@ -693,7 +771,13 @@ the screen asking them to be honest. **The second sentence is gated on the same
 count as the parent's line**: in the fortnight before PR 5 the parent is told
 nothing about the first answer, so the eyebrow reads `CHECK 1 OF 2` with "Miss
 one and you still get another go", and the clause about the grown up seeing it
-appears only when it is true.
+appears only when it is true. **The second clause is gated on the option count too.** Ten
+prove items have two options, where the player settles on the first tap and
+offers no second pick, seven of them outside Foundation, and in the interim
+fortnight those are the gate. On a deck where any kid visible prove item has
+two options the line reads "Two last questions. Take your time." The gate can
+be weak for a fortnight; the sentence cannot be wrong for a fortnight, which is
+the plan's own rule turned on its own copy.
 
 **"Exit check" is stripped at render, never edited in content.** Twenty one
 decks carry "Exit check one." or "Exit check two." in the child visible
@@ -728,8 +812,10 @@ Mia."; and the line back to the child reads "Sam saw that you told Mia. That is
 this one passed", never "Sam closed this one with you".
 
 **4.4 The pass screen**: the stage friend at 112, DiGi at 56 except on DiGi
-fronted modules, the tool as the hero, the three tiles with "10 stars in your
-bank" under the check, the commitment stem, the tea question with the grown
+fronted modules, the tool as the hero, the three tiles, with the stars on their own mono row beneath them
+rather than under the check heading, "10 stars in your bank for doing it", so
+the screen does not teach the opposite of the decision that took the stars off
+the check, the commitment stem, the tea question with the grown
 up's name where there is one, the next line, and the dignity line. On a third
 attempt `THE CHECK` tile reads "Did this one out loud with Sam". "Show my
 grown up" writes `child_note`, bounded by the same child check the complete
@@ -749,14 +835,20 @@ email too: "Your grown up sees when you open it, when you have a go, and which
 check question took two goes. Never your taps. On Sunday they get a short note
 with the same things in it."
 
-**4.7 The stage check** from the child's modules, marked server side, ordered
-by first answer history, with an application item per lesson and a preference for an item unseen in any run. **The pool is the prove items this child
+**4.7 The stage check**, in `lib/pathway/stage-quiz-gather.ts`, which today
+reads the parent `lessons` table and keeps `questionsFromSlides` and
+`standsAlone` module private: it reads the school modules through the catalogue
+and exports both. Marked server side, ordered by first answer history, with an
+application item per lesson and a preference for an item unseen in any run. **The pool is the prove items this child
 actually answered**, read from the answers ledger by lesson and falling back to
 the current kid view, because the interim cohort's gate was the two classroom
 items and after 368 those are hidden, so a pool built from the current view
 would ask that cohort questions it never met and break the one rule the stage
-check has. A preference
-for items unseen in any run.
+check has. **And the floor top up goes.** The pool builder tops up from a hand
+written bank whenever it holds fewer than five, so a Foundation child with two
+passes would have the stamp rest on questions they never met while the screen
+told them they had met every one. Under five the check is simply short, and it
+says so. A preference for items unseen in any run.
 
 ### PR 5: the content (migration 368, applied after the deploy)
 
@@ -776,11 +868,21 @@ existing options do and which the answer beat the plan keeps depends on:
 without it the child's four gated questions would verify and explain nothing,
 and the retake would replay the same teach pair with no reason given. Each
 distractor's feedback names the misconception it pulls on, in the child's
-register. **And the four items sample four different teaching points**: each
-maps to a distinct `reteach` pair, strictly ascending and distinct, so four
-items cannot all probe one pair while the rest of the lesson is never
-retrieved, and each is named in the PR body with the teaching point it
-samples. The seven Foundation decks keep their two
+register. **And the four items sample the lesson's own stated outcomes**, not its
+slide structure. Every deck's `objective` slide carries a `gains` array, which
+is what the module says a child will be able to do, and keying the blueprint on
+slides would let four items satisfy every guard while leaving a whole stated
+outcome unasked. On the mood and screens deck that unasked outcome is turning a
+week of honest answers into one calibrated change, which is exactly what the
+tea question, the commitment stem and the seven night log all rest on, and
+since the Remember check and the stage check both draw from what the child
+answered it would have stayed unretrieved for years. So each of a deck's four
+new items maps to a distinct `gains` entry and every entry is sampled by at
+least one item. Counted: 21 decks carry four gains and 13 carry three, nine of
+those at KS2 and up, and on those nine all three are covered with the fourth
+item on the gain the tool and the tea question read. Each item still carries a
+distinct `reteach` key, because the retake needs it, and each is named in the
+PR body with the gain it samples. The seven Foundation decks keep their two
 classroom prove items and pass on answering them.
 
 **5.2** The remaining five Foundation decks get their `together_prompt` lines.
@@ -924,6 +1026,14 @@ the hub cannot disagree, and the cap stops it reading as a number to farm.
 **6.6 The age up is the restock, so it is named** on the child's card and the
 hub hero, with the road restarting at one and the earned stamp behind it.
 
+**6.7 PR 6's walkthrough gate**, because this PR owns the schedule and the one
+thing in the visual layer worth seeing before it is trusted: a nine dot road at
+twice size with quarter rings at one, two, three and four, on Midnight and on
+Ocean; a child with ten due lessons getting three a day until covered; a
+Foundation family's parent row with its `Asked it` pill; a lapsing child's
+overdue check reaching the parent through the re engagement push and not
+through Home; and the Tool of the week written once for an iso week.
+
 ## The copy, exact
 
 **The Today row.** "Teo passed Mood and screens" / "Ask at tea: can you teach
@@ -978,6 +1088,14 @@ running, and this section is called the copy, exact):
 - And "Comes back Thursday" on a passed row carries a week when the due date
   is beyond seven days: "Comes back next Thursday", because the window is 5 to
   9 days and a bare Thursday nine days out reads as the day after tomorrow.
+- The parent's **first** fail push, which today still says three stars landed
+  and is their first signal of a miss: "Teo had a go at Mood and screens. Ten
+  stars landed for doing it, and the check is still waiting. Nothing to do
+  tonight."
+- At Foundation, the week's note, which goes to the parent: "Pebble has this
+  week's lesson ready for you and Mia. Twelve minutes together, any day."
+- And the alerts row for a five year old with no app: "Mia's next lesson: Stop,
+  look, ask a grown up. Twelve minutes together on this phone."
 
 ## The evidence behind each call
 
@@ -985,13 +1103,13 @@ running, and this section is called the copy, exact):
 |---|---|---|
 | The pass is the prove items on the settled answer; the first tap is the in lesson signal; feedback on every option | Kornell, Hays and Bjork 2009; Butler and Roediger 2008; Soderstrom and Bjork 2015 (performance during acquisition is an unreliable index of learning, so the gate is for learning, the first tap is the less contaminated of the two in lesson numbers, and the retention claim comes only from the Remember check at a delay) | Learning scientist, teacher, child lens |
 | Four child only check items, three options each, honest distractors, no length cue, one idea per item, kept apart from the practice, with the classroom's two hidden from the kid view | Haladyna, Downing and Rodriguez 2002 (item writing, item independence, parallel forms); Rodriguez 2005 (three options is the meta analytic optimum); Little, Bjork, Bjork and Angello 2012; Butler 2018; Roediger and Karpicke 2006 | Teacher, learning scientist, app lead |
-| One spare per item; the retake re teaches the idea that failed then asks its own spare; the third attempt is the child saying it back | Rawson and Dunlosky 2011 (relearning is of the item that failed); Pyc and Rawson 2009 (the attempt must be effortful and successful, not shown then repeated); Butler 2010 and Pan and Rickard 2018 (transfer to new scenarios); Rosenshine 2012; Fiorella and Mayer 2014 | Teacher, learning scientist, engineer |
+| One spare per item; the retake re teaches the idea that failed then asks its own spare; the third attempt is the child saying it back | Rawson and Dunlosky 2011 (relearning is of the item that failed); Pyc and Rawson 2009 (the attempt must be effortful and successful, not shown then repeated); Butler 2010 (https://doi.org/10.1037/a0019902); Pan and Rickard 2018 (https://doi.org/10.1037/bul0000151), which reports transfer as limited overall and reliable mainly for rephrased same concept items, which is what a reserve is, so it is not read here as a transfer claim; Rosenshine 2012; Fiorella and Mayer 2014 | Teacher, learning scientist, engineer |
 | Practice before the check, generating rather than revealing | Rosenshine 2012; Chi and Wylie 2014 (ICAP: a typed completion or a verdict tap is constructive, a reveal is not) | Teacher, learning scientist, child lens |
 | Remember at 5 to 9 days, 30, then every 90, over every module ever passed, weekly once the stage's content is done; ranked by history with a 30 day floor; a missed item asked again before the session ends | Cepeda et al 2008 (the gap scales with how long it must last); Bahrick et al 1993 (widely spaced relearning sustains over years); Rawson and Dunlosky 2022; Kang 2016; Lindsey, Shroyer, Pashler and Mozer 2014 (review by item history beats a fixed schedule); Agarwal, Nunes and Blunt 2021 (low stakes retrieval). The cross module pool is mostly spacing with varied context; the interleaving
 work (Rohrer and Taylor 2007, Taylor and Rohrer 2010) is about discriminating
 confusable types within a session, so mixing is cheap and plausibly helps
 discrimination rather than carrying the row. The weekly cadence once a stage is done is a judgement about the card, not a reading of the research | Learning scientist, app lead |
-| Once a week, fixed, forgiving | Dunlosky et al 2013 (distributed practice), and the product's own data once it runs. Duolingo's streak figures are a company blog, read as practice | App lead, child lens |
+| Once a week, fixed, forgiving, and now an enforced cap | **A product judgement, not a reading of the research.** Dunlosky et al 2013 (https://doi.org/10.1177/1529100612453266) and Cepeda et al 2008 (https://doi.org/10.1111/j.1467-9280.2008.02209.x) concern the gap between repetitions of the same material, not the rationing of new material. The cap stands on the plan's own grounds: one tool a week, and Remember checks that do not bunch into one evening. Duolingo's streak figures are a company blog, read as practice | App lead, child lens |
 | The tea question is the child teaching, with one follow up | Nestojko et al 2014; Fiorella and Mayer 2014; Roscoe and Chi 2007; Kobayashi 2019; Chase et al 2009; Chi et al 1994 | Learning scientist, teacher, child lens |
 | No reward on the parent's tap, no bonus on the first answer, and the 10 stars paid on finishing rather than on passing | Deci, Koestner and Ryan 1999 (expected performance contingent tangible rewards undermine, more so for children); Agarwal, Nunes and Blunt 2021 and Agarwal et al 2014 (retrieval lowers anxiety when nothing rides on it). The product reason is the same each time: a reward that hangs on a signal stops that signal measuring anything, and the pass is the signal the parent reads | Learning scientist, app lead, child lens |
 | The commitment stem and the seven night log | Gollwitzer and Sheeran 2006 (implementation intentions); Harkin et al 2016 (progress monitoring works when the reading is recorded and seen, which is why Sunday reports a miss as well as a hit) | Learning scientist, teacher, child lens |
@@ -1056,9 +1174,11 @@ them, plus:
    first time on 3 of 4") is allowed, because version 7's wording would have
    banned the plan's own honest line; and no first time claim of any kind
    renders while the kid prove count is under four.
-8. Migration 366 exists with `attempts`, the widened status check and the
-   partial unique index on the weekly reason; `sanitizeAnswers` preserves
-   `slide`, `phase` and `run_id`; `fetchAnswerFacts` coalesces and is scoped to
+8. Migration 366 exists with `attempts`, **`paid_at`**, the widened status
+   check and the partial unique index on the weekly reason;
+   `lib/quests/bank.ts` selects `paid_at` and keys its mission reduce and its
+   week attribution on it; `sanitizeAnswers` preserves `slide`, `phase`,
+   `run_id`, **`chosenFirst` and `chosen`**; `fetchAnswerFacts` coalesces and is scoped to
    the due lesson ids when the Remember check calls it.
 9. The send route reads the catalogue through the admin client with
    `character_cast` selected, reads `children` for ownership, and **sets
@@ -1076,7 +1196,8 @@ them, plus:
     pending pass row for the same child.
 12. The weekly cron gates on a completion, a reaction, a `remember` answer or a
     stalled mission; the block renders from data with a miss line as well as a
-    hit, calls `emailFriendByCast`, closes with the stage position, and escapes
+    hit, calls `emailFriendByCast`, **closes on passes rather than position**,
+    once per child who passed that week, and escapes
     every string that came from a child or a parent.
 13. No child facing lesson line contains a gendered pronoun for a parent, and
     every such line renders with a null parent name; no card, row or push body
@@ -1110,56 +1231,77 @@ them, plus:
     banned stems; `together_prompt` on every slide the together deck shows;
     `expected_verdict` and `teaching_point` on every worksheet item; `tool` an
     object on all 34.
-17. **No PR before PR 5 changes an option count or a slide on any deck**, and
+17. With no reserve in the deck a second attempt is the together route rather
+    than a solo retake, which is release one's only path after a miss.
+18. **No PR before PR 5 changes an option count or a slide on any deck**, and
     368 is applied after PR 5 deploys, asserted by the printed pack and the run
     minutes pasted after the apply.
-18. The three content guards and `check-lesson-age-gate.mjs`,
+19. The three content guards and `check-lesson-age-gate.mjs`,
     `check-watch-stage-copy.mjs`, `check-co-watch.mjs`,
     `check-digi-step-in.mjs` and `check-day-by-age.mjs` pass, listed in each PR
     body as run.
-19. **A kid run marks against the right slide**: a payload captured from a
+20. **A kid run marks against the right slide**: the "Exit check" strip lives inside
+    `visibleSlides` so the client, the route and the ledger hold one spelling;
+    `reteach` is a stable key and `visibleSlides` returns the stored to
+    filtered index map; a payload captured from a
     filtered kid deck marks correctly, a row whose index is off by the filter
     is not silently dropped, and the audience travels with the run.
-20. `visibleSlides(deck, 'kid')` returns two prove slides on a Foundation deck
+21. `visibleSlides(deck, 'kid')` returns two prove slides on a Foundation deck
     and on any deck with no `kid_only` items, and four on a deck that has
     them, so neither apply order can empty the check; the new slides sit at
     the first prove index and `check-source-claims.mjs` passes after 368.
-21. **A lesson row survives its own tap**: fetched again it still renders, with
+22. **A lesson row survives its own tap**: fetched again it still renders, with
     `parent_note` readable, and the two readers select `child_id`, `reason`,
     `cta`, `reaction` and `parent_note`.
-22. **The stars pay once, on the first finish**: a fixture of three failed
+23. **The stars pay once, on the first finish**: a fixture of three failed
     attempts then a pass pays ten in total; `lib/quests/bank.ts` keys its
     mission reduce on `paid_at` and attributes the week by it; the lesson
     page's badge reads `paid_at`, not the status; and the parent's pill pays
     nothing further.
-23. A fail leaves the mission countable as stalled at ten and twenty one days,
+24. A fail leaves the mission countable as stalled at ten and twenty one days,
     and at `attempts >= 2` at seven; a skipped module is unlocked and
     unlabelled on the child's list; `focusLesson`, `learnTile`, `learnTarget`
     and `dailyLearnDone` are gone.
-24. No child opens two school lessons inside seven days, a `skipped` restart
+25. No child opens two school lessons inside seven days, a `skipped` restart
     excepted; nothing under the kid or together audience renders "Exit check";
     `pushToChild` returns a count.
-25. The kid audience returns at least one practise slide per deck;
+26. The kid audience returns at least one practise slide per deck; it hides
+    `discussion` and nothing else and renders it as "Think it" with a typed
+    word or a chip pick; no clause names a `tally` or a `think` slide type,
+    because neither exists in the union or in any deck;
     `check-module-contract.mjs` passes on all 34 modules after 368 with
     `kid_only` exempt from rule 7 and asserted scriptless at `minutes: 0`; the
     rubric's E20 and E21 exempt `kid_only`; every option of every new item
     carries a non empty `feedback`; each of a deck's four new items maps to a
-    distinct `reteach` pair, strictly ascending.
-26. The hub renders the child switcher for a family with more than one child,
+    distinct `reteach` pair, strictly ascending. Each of a deck's four new items maps
+    to a distinct entry in that deck's `objective.gains` and every entry is
+    sampled; `lib/stickers/book.ts`, `lib/email/month-progress.ts` and
+    `lib/pathway/catchup.ts` take their lesson counts from the one function or
+    are scoped away from school passes; the lessons drip email gates on a
+    passing completion.
+27. The hub renders the child switcher for a family with more than one child,
     every link into it carries the child, and the alerts row renders per child
     capped at two; `listen_for` renders beside the parent's pill; the week card
     renders the nudge line when `nudged_at` is set, which the copy block claims
     and version 8 did not assert.
-27. A pending lesson card older than seven days is ignored by both readers, the
-    step in reader exempts the lesson prefix, and the daily sweep dismisses it
+28. A pending lesson card older than seven days is ignored by both readers, the
+    step in reader exempts the lesson prefix, and so does the prompts route's own
+    early return, so DiGi's word still runs and the limit of three is not
+    spent; and the daily sweep dismisses it
     at fourteen days; an acted card raises no bell count and suppresses no step
     in; the stage check pool for a child whose passes predate 368 holds only
-    items that child answered.
-28. The opener refuses a second school lesson inside seven days, excepting a
-    `skipped` restart and the first lesson of a stage; `done_together` is
+    items that child answered. The stage check's pool builder does not top up from the
+    floor bank: under five items the check is short and says so.
+29. The opener refuses a second school lesson inside seven days, excepting a
+    `skipped` restart and the first lesson of a stage; the refusal fires only
+    where a row would be created, keyed on the last passing completion, so a
+    retake the day after a fail and a replay of a passed lesson both open; the
+    fail update is locked on the attempt value read at the start of the
+    request, because a status preserving update cannot be its own idempotency
+    key; every row after the week's carries no link; `done_together` is
     written only from a parent session route's cookie; the kid ceiling gives
     way on practice first and never on a check item.
-29. The visual layer: `listStarLessons` selects `character_cast`; no lessons
+30. The visual layer: `listStarLessons` selects `character_cast`; no lessons
     surface contains a hardcoded clapperboard; the pass screen renders
     `FriendPlate` keyed on the cast and draws DiGi once; `LessonRoadStrip` is
     imported by the child's list and the hub, takes its length from the

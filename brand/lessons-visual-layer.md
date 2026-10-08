@@ -107,7 +107,7 @@ outstanding for the pass of the stage.
 - Dots 24px, the module numeral Nunito 800 11px, gap 7px, trail 3px dotted.
   Use `StageDot`'s colour recipes **reimplemented at 24**, never the component,
   which prints its numeral at `size * 0.36` and would give 9px. At 24 a passed
-  dot is **solid `--terracotta` with its numeral in `--terracotta-dark`**: the
+  dot is **solid `--terracotta`**: the
   dashed ring on a `--terracotta-lt` ground is four or five ticks at this
   circumference and reads as a rendering fault, so the dashed version stays on
   the 44px passport road.
@@ -120,7 +120,7 @@ outstanding for the pass of the stage.
   | State | Parent app | Child app (themed) |
   |---|---|---|
   | passed | solid `--terracotta`, numeral `--ink` | solid `hex`, numeral `onAccent` |
-  | kept | the passed dot **plus an arc**: solid accent, numeral unchanged, a 3px arc inset 1px in `onAccent` | the same rule, on the theme's own `onAccent` |
+  | kept | the passed dot **plus an arc**: solid `--terracotta`, numeral `--ink`, a 3px arc inset 1px in **`--ink`** | the same rule, the arc in the theme's own `onAccent` |
   | this week | white, 3px `--terracotta` edge, `0 4px 0 var(--terracotta-dark)` | white, 3px `hex` edge, `hexDark` shadow |
   | ahead | `--cream` with `--edge`, numeral `--ink-light` | `panel` with a **2px `inkMuted` edge**, numeral `ink` |
 
@@ -146,13 +146,13 @@ at four. That also writes the geometry a builder could not otherwise invent.
 - **It takes `theme?: KidTheme`.** The child's app is washed in the child's
   chosen accent (`lib/kid/theme.ts`, thirteen accents, two of them dark), so
   the four recipes map onto `{ hex, hexDark, panel, panelBorder, ink,
-  inkMuted }` and default to the parent tokens when no theme is passed.
+  inkMuted, onAccent }` and default to the parent tokens when no theme is passed.
   Without this the road is a smudge on Midnight. The friend's `soft` and
   `accent` never change, per one friend one tint, and that is what keeps the
   two apps one object.
 - **The final node is the passport's own stamp**, a circle at 32px so it reads
-  as the destination rather than a dot that slipped, not a square: `--terracotta` with a white tick when earned, `--cream` with
-  `--edge` and the stage numeral when not, matching
+  as the destination rather than a dot that slipped, not a square: `--terracotta` with a white tick when earned, `--cream` with `--edge` and the stage numeral in Nunito 800 12px when
+  not, matching
   `components/pathway/PassportStamps.tsx`. The same silhouette appears on the
   child's check card at 44, the last road node, the passport row and the hub's
   check card. Four surfaces, one shape. Scaled down, set the tick's stroke to 3
@@ -192,7 +192,7 @@ close all nine rings by about month eight or never open one at all.
 
 **The child's home, above the five a day.** One white card, `--edge`,
 `--radius-card`, the chunky ink shadow, 14px above `KidFiveADay`. The week's
-lesson: tile at 56 with its badge reading `4 / 9`, so the child's most opened
+lesson: tile at 56 with its badge reading `4/9`, so the child's most opened
 screen carries the one number; eyebrow mono caps; title Nunito 900
 `--text-lg`; a mono line reading the friend's name, a middot, the tool
 heading; then "Any day this week". The card is the tap target, no button. The
@@ -216,6 +216,14 @@ its 3px accent edge and drops `--lift` (a lifted tile inside a lifted card is
 two shadows on one object), and the "Do this one next" pill goes. That is the
 Duolingo current node, which carries its character and its ring and nothing
 else. The check card swaps its three emoji for the stamp at 44.
+
+**The paced rows.** Only the week's row opens. Every row after it carries no
+pill, no gold button and no link: the numbered tile, the title, the tool chip,
+and "After lesson 6, this one is waiting for you". The week's own row, before
+its week, reads "Orbit brings this one on Monday". A passed row keeps its link
+and opens with `Done ✓ play again`. Without this the spec puts a gold Go on a
+row the plan paces and the opener refuses, which is a button that bounces six
+days a week on the screen the child opens most.
 
 **The pass screen.** The module's friend at 112 with `FriendPlate`'s `arrive`
 and the register for its key stage, DiGi at 56 to its right (omitted when DiGi
@@ -241,14 +249,17 @@ pose and none is made.
 "What did Teo say?", then the tea line and `Back to your Home`. No tile row: at
 five, three stat boxes are three things to read.
 
-**The Remember page.** The stage friend once at the head at 56, not beside each
-question, because within a stage three tiles are three identical friends and
+**The Remember page.** The stage friend once at the head: a bare cutout at 56,
+`moods.thinking`, no plate and no ring, so it does not read as a page head no
+other page has. Not beside each question, because within a stage three tiles are three identical friends and
 cue nothing. Each question is labelled with its module title in mono caps.
 Three 10px dots for the three questions. `KidStageQuiz`'s own DiGi at 72 on
 the result only.
 
-**The hub first tab.** Eyebrow, heading, the line, the tabs, then the road
-strip and its caption, then the hero, then flat rows. The hero is the only
+**The hub first tab.** Eyebrow, heading, the line, **the child switcher where
+a family has more than one child** (a 32px pill row, each pill carrying
+`?child=`), the tabs, then the road strip and its caption, then the hero, then
+flat rows. The hero is the only
 card on the page with a shadow. `Do it together now` is gold with the chunky
 terracotta shadow, the nudge is outline. State lines are mono, never red,
 never a count of days. Rows are flat, tiles at 56, no buttons. No stage
