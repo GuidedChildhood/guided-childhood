@@ -76,7 +76,7 @@ export default function KidError({ reset, pathname }: {
     >
       <Plate size={92} tint={HAPPY.butterLt}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/digi-squad/DiGi-star.svg" alt="" aria-hidden width={62} height={66} style={{ display: 'block' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" aria-hidden width={62} height={66} style={{ display: 'block' }} />
       </Plate>
 
       <h1 style={{

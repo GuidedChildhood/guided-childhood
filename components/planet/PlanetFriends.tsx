@@ -1067,7 +1067,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
           {overlay === 'night' && (
             <div style={{ ...overlayBase, background: 'linear-gradient(180deg, #14183A 0%, #080A1C 100%)', color: '#F7F7F5' }}>
               <div style={{ position: 'absolute', left: 18, bottom: 18, width: 70, height: 70, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,214,120,0.55) 0%, rgba(255,214,120,0) 70%)' }} aria-hidden />
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={30} height={30} className="pl-float" style={{ position: 'absolute', top: 18, right: 22, width: 30, height: 30, opacity: 0.9 }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={30} height={30} className="pl-float" style={{ position: 'absolute', top: 18, right: 22, width: 30, height: 30, opacity: 0.9 }} />
               {smallRow('asleep', { blanket: true, pyjamas: true }, live.friends)}
               {/* the charging shelf in the dark kitchen, every phone on it (slice 3a) */}
               <svg viewBox="0 0 200 70" width={180} height={63} aria-label="Every MoonPhone on the charging shelf" role="img">

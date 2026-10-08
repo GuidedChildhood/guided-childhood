@@ -84,7 +84,7 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
     }}>
       {/* Header band */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px', flexWrap: 'wrap' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>{band} · Guided Childhood game pack</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
@@ -139,7 +139,7 @@ function StarChartSheet() {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={STAGE_CHARACTERS[0].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 64, height: 64, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px', flexWrap: 'wrap' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>For the fridge · Guided Childhood</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
@@ -197,7 +197,7 @@ function PlanetFriendsColourSheet() {
   return (
     <div className="craft-sheet" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Colour me in · Guided Childhood</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
@@ -235,7 +235,7 @@ function StarTokensSheet() {
   return (
     <div className="craft-sheet" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Cut and keep · Guided Childhood</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
@@ -581,7 +581,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
 
           <Sheet band="Ages 4 to 7" title="My Screen Rules door poster" slug="screen-rules-poster" worth={2} plays="a keep out sign, but yours" lesson="rules the child writes are rules the child keeps">
             <div style={{ border: '3px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '24px', textAlign: 'center', background: '#fff' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="DiGi" style={{ width: '90px', height: '90px', marginBottom: '8px' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" style={{ width: '90px', height: '90px', marginBottom: '8px' }} />
               <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>this room belongs to</div>
               <div style={{ borderBottom: '3px solid var(--ink)', width: '60%', margin: '0 auto 20px', height: '34px' }} />
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '0 0 18px', letterSpacing: '-0.02em' }}>

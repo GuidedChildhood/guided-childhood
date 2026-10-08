@@ -97,6 +97,49 @@ slow pulse, string ostinato, drum pulses, a swell around sixty seconds, calm
 outro) at `assets/music-cinematic.mp3`. The gentler first score is kept at
 `assets/music-tender.mp3`; swapping is one line in `beats.json`.
 
+## The thinking streams (8 October, Justin)
+
+DiGi's side now shows the thinking before the answer. At 9:02 the brain
+lifts out of DiGi and five streams of chips fly into it in order, each with
+a label: the researchers (Orben and Przybylski, Odgers and Jensen,
+Livingstone, Kennedy, Diamond, Hartstein), peer reviewed studies (the five on
+the left side of the film), our philosophy (never allow or deny, connection
+is the protection, the pathway not the ban, repair over punishment), the
+guardrails (safety first, never invent a study, a person approves anything
+new, crisis routes to a human), and parents who said what worked, each chip
+a circumstance and a result. Then the answer card. At 7:30 the houses clip
+runs and the feedback chips fly into the web, followed by two chips for new
+studies added by a person, under "A brain that learns".
+
+Honesty rule applied: no number of parents is claimed. The product's loop
+exists (digi_outcomes, counts only, never words); the volume does not yet.
+The chips are illustrative circumstances, written as "Age 6, bedtime, third
+night: worked", never as quotes from a named family. "New studies are added
+by a person, never by the machine" is the rails rule, stated as it is.
+
+Each stream is declared in `beats.json` under `right.think` and the build
+places, flies and sounds it (a soft whoosh per stream, a glow pulse per
+arrival). Film is now 99.5 seconds.
+
+## v4: the thinking streams (8 October)
+
+Justin asked for DiGi to visibly think. At 9:02 the right column now shows
+five labelled streams flying into the brain in order, each chip a real item:
+the researchers (Orben, Odgers, Livingstone, Kennedy, Diamond, Hartstein),
+the peer reviewed studies (the same six the film cites), our philosophy in
+THE-STORY's own words (never allow or deny, connection is the protection,
+the pathway not the ban, repair over punishment), the guardrails from
+digi/00 (safety first, never invent a study, a person approves anything new,
+crisis routes to a human), then parents who said what worked, each linked to
+a circumstance (age, moment, what was tried, worked or did not). Only then
+does the answer card land. At 7:30 the same mechanism runs again as the
+learning brain: feedback chips and new studies added by a person.
+
+Honesty rule: no number of parents is claimed. The film shows the mechanism,
+every answer teaches the next, and the chips are example circumstances, not
+quotes. The glow pulse is a single element per beat; the per chip pulse was
+dropped because it made the render stall.
+
 ## Finals
 
 All six clips finalised at 1080p from their drafts (432 credits), the

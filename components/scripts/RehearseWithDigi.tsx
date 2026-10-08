@@ -15,7 +15,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 // rehearsing with what feels like a real little person rather than a chat
 // bubble. One familiar face across every rehearsal, from the one source of
 // truth.
-const KID_FACE = characterByKey('pebble')?.cutout ?? '/digi-squad/DiGi-star.svg'
+const KID_FACE = characterByKey('pebble')?.cutout ?? '/digi-squad/DiGi-star-3d.png'
 
 // A rehearsal room for the words, in the same conversation grammar as the
 // DiGi chat: the scenario pinned in the blue pill at the top, the child's

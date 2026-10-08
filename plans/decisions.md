@@ -208,6 +208,11 @@ Justin: "every now and again email the successes to keep momentum ... top expert
 ## 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite
 
 Justin, with his own Notifications page: "Teo asked same thing 3 times ... it needs to show once", and "once check in done it flashes up ask digi but quickly flips to next child ... goes on alert notification? But only once." Then: "we don't want to miss those issues if dropped off after 2 weeks, also to ask DiGi it needs to know what the issue was." Read off the live tables: three conversations in August and September each booked a follow up, each became a card, none was answered, none expired. Now one unanswered card per child at a time, a due follow up waits behind it (and is let go after ten days waiting), an unanswered card expires after a fortnight and its thread goes onto the tracker as a worry first, and every card opens DiGi on the thread itself rather than its title. A one or two on the check in keeps its row open and plants one invite on Notifications and Home, keyed by the worry, cleared when the worry lifts. `lib/digi/followup-queue.ts`, held by `scripts/check-followup-once.mjs`.
+- 8 October: v4 of the two brains film shows DiGi's thinking as five labelled
+  streams into the brain (researchers, studies, philosophy, guardrails,
+  parents who said what worked) before the answer, and the learning brain at
+  7:30. No parent count is claimed until there is one. Render time is now
+  about forty minutes for the heavy right column.
 
 ## 7 October 2026, evening: the pilot review's fixes, and the sort turns its cards over
 
@@ -220,6 +225,10 @@ Justin's wife, a teacher: our school price may be too expensive, because Somerse
 ## 7 October 2026 — the two school day windows: per family pushes and a one tap moment card
 
 Justin asked for the morning before school and the after school return to be researched "so we can build advice in and cleverly pre empt what happens ... as well as giving parents opportunity to log as a moment so we can track and provide best advice", then "Go with all recommendations." The briefing (nine lenses, 75 sources verified, PR 1208) put both moments somewhere other than the screen: sleep and food carry associations several times the size of technology use across 355,358 adolescents, three prompts a week beat five, and the after school fall apart is real but its popular label is a 2016 blog term whose mechanism failed replication. So: the 07:30 and 15:30 broadcasts become per family sends from each child's school start and home time (migration 363, null keeps the old times), one window per family by default, a Home card inside the window with Went fine, It happened and I tried it posting to the routes that already make a tap a moment, three scripts and twelve sourced findings, DiGi rails that lead with sleep and food and never name a syndrome. Guard `check-school-windows.mjs`, 46 checks. PR 1210, draft; 363 to apply.
+
+## 8 October 2026 — migration 363 applied, the three school day PRs merged, 1213 unblocked
+
+Justin merged 1210 (the windows build), 1211 (the flagship post) and 1212 (briefing V3) overnight and said "go with your recommendations". Migration 363 applied through the Supabase MCP: the two time columns on children, new subscriptions default to after school and the evening, the three scripts (9670 to 9672) and twelve sourced findings landed; no family had times set at that moment, so every push and card runs on the old 07:30 and 15:30 until a parent sets their child's school day in Settings. PR 1213 (another session's pilot review) conflicted only because main had moved; a clean merge of main was pushed to its branch and it merges itself once CI is green. The post, the carousel PDF and the research card are in the Control Room folder in Drive, ready to paste.
 
 ## 8 October 2026: the founding schools rate
 
@@ -236,3 +245,23 @@ Justin on the first draft: "slower, more readable", "build on DiGi's brain", "sa
 ## 8 October 2026, later: the launch film's researchers layer names four
 
 Justin on the second cut: "Cut Ferguson. Names yes. Pixabay yes. All good." The researchers layer reads "Four researchers lead, for now" (Odgers, Orben, Przybylski, Livingstone), the names are approved on screen, the track is Pixabay under the Pixabay Content Licence, and the level stands. 103 seconds. PR 1220.
+## 8 October 2026 — the school day post is bulletproofed before it ships; the hostile panel is standard
+
+Justin: attack it from researchers and the ban brigade as usual, remember the 0.4 percent challenges, say yes we get them, tell how we got to the solution and why, invite people to pull it apart. A hostile panel (the Haidt camp, Smartphone Free Childhood and Molly Rose, a methods critic, a clinician) made thirteen sourced attacks and a verifier checked every new figure (9 confirmed, 4 corrected). Three things a reply could not repair went into the body: the bedroom phone is the right villain for the night, the 0.4 percent is given as a correlation in the same units as sleep and breakfast and scoped to every screen for every teenager, and the restraint collapse paragraph concedes the small effects since 2016. The verifier caught that the Selby television in the bedroom line is Year 2, not Year 6. A second post tells the four design choices with reasons, states the kill line and asks to be pulled apart. Our own viral post notes had aimed Rausch and Haidt at the wrong Ferguson paper; fixed. PR 1217. Drive holds post 1, post 2, the attacks and answers, the carousel v2 PDF and the card.
+
+
+## 8 October 2026: the pilot emails, rewritten to the research
+
+Justin asked for the evidence on what wins replies from schools, then for the routine's first emails redone with it. Five lenses ran (the main finding: 8% of primary leaders consult suppliers when choosing edtech, 28% consult other schools, so the pilot is the marketing and the email is only the door). The campaign rules and templates now carry it: one interest ask, under about 200 words, one link, plain subject, the duty and the no planning paragraphs, the pilot's conditions stated, a company and privacy footer, two reworded follow ups, replies measured and nothing else. Nothing had been sent; the five day 1 drafts in hello@ were rewritten in place (they carried Gmail redirect links and "eighteen"). `plans/2026-10-08-school-email-research.md`.
+
+## 8 October 2026: DiGi in 3D, and a KS3 lesson on copyright
+
+Justin picked take B of a 3D golden star rendered in the Planet Friends' style; it replaces the flat SVG on every surface (both apps) and the schools home cast row plays its idle loop (PR 1219, job IDs in digi-squad/README.md). And "build suggested" after the Common Sense mapping: ks3-34 Who owns what you make, Orbit and DiGi, our first copyright lesson between KS2 and KS5, every fact from a primary source fetched that day (plans/2026-10-08-copyright-ks3-lesson-plan.md). Contract, rubric and wall fit all pass; ks5-20's sign off becomes thirty three; migration 365 inserts it, proved by hash. Applied 8 October: 37 rows, hash proved; the campaign templates now say 34 modules.
+
+## 8 October 2026: the pilot emails link to the proof, and the form comes after the yes
+
+Justin agreed: a first email links to the proof (mapping, safeguarding crosswalk or free lesson), never to the request form, and a reply is the yes because it is less work than a form and starts a conversation. The connector still wraps any address it saves, so every draft carries "I am happy to send you the link." and Justin swaps it for "Here it is:" and the link before sending (rule 7 has the table). Follow up E now links the /pilot form; new reply G sends the /pilot form when a school says yes.
+
+## 8 October 2026 — the loop promise on every surface, the pilot drafts set right, the school day posts in their final shape
+
+Three things from Justin's afternoon. The check in, DiGi, the fix of the week, the week later card, the weekly email, Notifications and the Sunday check in now each say in one line that we keep working on open worries, add what is raised with DiGi, work through the age's common issues in order, learn from a Not really, and ask weekly for anything new to track; no DiGi on each check in, by his rule. The DiGi tool reply had been telling the model not to mention a worry it had just put on the tracker; fixed. PR 1224, guard check-loop-promise. The school pilot drafts: the routine had read the campaign pack from a July checkout and drafted four emails from replaced templates, and the five day one drafts were in neither Drafts nor Sent; all nine are now in hello@ from the templates on main, nothing sent, and the routine reads origin/main from now on. The school day posts: recognition first, the parent of three line, post two as the promised part two, two carousels drawn in code (never a generated image), rendered with Playwright, in Drive with the slides as separate images. PR 1225.

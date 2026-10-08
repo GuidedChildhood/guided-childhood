@@ -414,7 +414,11 @@ authors' preset r = .10 threshold for evidentiary value. Three rules:
 1. DROP two flourishes from the old copy until someone reads the full PDF: "79 effect
    sizes" and "pre registered on the Open Science Framework". Neither is pinned to the
    text yet. "46 studies" and the beta are safe.
-2. Know the counterattack: Rausch and Haidt contest Ferguson's methods (SSRN 5224958).
+2. Know the counterattack, and aim it right: Rausch and Haidt's SSRN 5224958 (April 2025)
+   critiques Ferguson's 2024 Psychology of Popular Media meta analysis of social media
+   REDUCTION EXPERIMENTS (27 experiments, d = 0.088), not this 2025 correlational meta
+   analysis, which has four authors (Ferguson, Kaye, Branley Bell and Markey). Verified
+   8 October 2026. Saying "they contested the 0.061 paper" hands them a free correction.
    Concede the dispute exists, then stand on the convergence: NASEM 2024 consensus
    ("did not support the conclusion that social media causes changes in adolescent
    health at the population level"), Orben and Przybylski's 0.4% of variance
