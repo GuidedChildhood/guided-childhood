@@ -23,8 +23,10 @@ line of every email is true as written.
   Hub: the DSL crosswalk, the RSHE mapping, the policy page, the year plan.
 - Everything else stays visible on the map and locked on tap, so staff can see
   the whole scheme before anyone pays.
-- When the term ends the school decides. Licences start at £495 a year on
-  invoice with 30 day terms; the invoice form arrives pre filled.
+- When the term ends the school decides. Any primary pays £195 a year at the
+  founding rate (the first 50 schools, held while they stay); secondary
+  licences start at £1,495. All on invoice with 30 day terms; the invoice form
+  arrives pre filled. No price goes in a first email (rule 9).
 - Open without sign up today: the full curriculum catalogue with a free sample
   lesson, the mapping of the 57 online and digital requirements to the lesson
   that teaches each, and the safeguarding crosswalk.
@@ -36,168 +38,166 @@ Pages: schools.guidedchildhood.com/pilot, /curriculum, /hub/rshe-mapping,
 
 ## 2. The rules of the campaign
 
-1. **One school, one person, one email.** Never an office address when a name
-   is published. When only the office address is published, the subject line
-   carries "for the attention of the PSHE lead" and the first line asks them to
-   pass it on. The sheet says which.
-2. **Four a day, from your own inbox, typed or pasted by you.** No bulk tool,
-   no merge fields left in, no tracking pixels. Monday to Thursday. Twenty a
-   week is the ceiling; the five pilot places will go before the list runs out.
-3. **The trust first, then its schools.** The trust email goes on day one. Its
-   schools are emailed from day three whether or not the trust replies, and the
-   email to each head says the trust office has the same note.
-4. **The subject names their phase.** "Primary" or "Secondary" in the first
-   four words, then the thing they can check.
-5. **Say who you are in one line, and where.** You are a parent in the area who
-   built this; the sheet carries the distance so you can say "twelve miles from
-   you" truthfully. Never claim a connection you do not have.
-6. **Every email ends with a way to say no that is still useful.** Five minutes
-   of their view on where it falls short.
-7. **Two follow ups and stop.** Day 5 and day 12. After that the school goes on
-   the November self check list and is not emailed again this term.
-8. **Business addresses, plain opt out.** These are work addresses at public
-   bodies, which UK rules allow for a relevant business offer, provided you say
-   who you are and stop when asked. The last line of every first email says
-   "If this is not for your school, reply with no and I will not write again."
-   Honour it the same day and mark the sheet.
-9. **Nothing about outcomes for children.** The scheme teaches; it does not
-   promise a result. Never a statistic without its source on the page.
-10. **Log every send in the sheet** (date, person, which email) and every
-    reply in the Notes column. The Friday review reads it.
+Amended 8 October 2026 after the research in
+`plans/2026-10-08-school-email-research.md` (five lenses, the key sources
+checked against the primary). The reason for each rule is there; the rule is
+here. These rules are the standing instructions for the `school-email-drafts`
+routine, which reads this file from origin/main before it drafts anything.
+
+**The facts. Use only these, and check the two live numbers on the day.**
+
+- 33 modules, Reception to Year 13. 17 are safeguarding flagged (the count is
+  live on /hub/dsl; read it there before drafting).
+- The revised RSHE statutory guidance has been in force since 1 September 2026.
+  It has 57 digital and online requirements and the scheme teaches all 57
+  (live on /hub/rshe-mapping).
+- This September's Keeping Children Safe in Education names generative AI and
+  AI generated images among its online risks (KCSIE 2026, paragraph 165).
+- Every lesson opens on the board with the teacher's words on each slide; the
+  printables, parent notes home, policy text and staff briefings are written.
+- The pilot: five schools, one code each, twelve weeks from the day the school
+  starts, two lessons matched to its key stages (all through schools get both
+  pairs) plus the whole Hub. Nothing to install, nothing charged, nothing
+  renews.
+- Distance is from Star, Winscombe. Use the sheet's figure rounded to the
+  nearest mile ("less than a mile" under one), unless Justin has given a road
+  figure, which wins (Churchill Academy: about two miles).
+
+**The rules.**
+
+1. **One school, one person, one email.** When only the office address is
+   published, the subject ends "(for the attention of [full name])".
+2. **Four a day, from hello@guidedchildhood.com, Monday to Thursday.** Plain
+   text, no tracking, no images, no attachment, no bulk tool. Steady, never in
+   bursts.
+3. **The trust first, then its schools from day three.** A head's email never
+   goes before the trust's.
+4. **The subject says plainly what it is.** "A free term of online safety
+   lessons for [school name]". Never a fake "Re:" on a first email, never
+   "Quick question", never the word "survey".
+5. **First name greeting.** "Hello [first name]," and nothing else.
+6. **Under about 200 words, five short paragraphs, in this order:** who you
+   are, how far away, and why them; the duty (RSHE statutory since 1
+   September, 57 requirements, all taught, and for a DSL the KCSIE line);
+   nobody has to plan it; the offer with its conditions (twelve weeks, a
+   couple of lesson slots and fifteen minutes at the end, nothing charged,
+   nothing renews); one ask.
+7. **One link in the body,** plain https on schools.guidedchildhood.com. Never
+   a Gmail redirect (anything starting https://www.google.com/url?q=), never a
+   shortener. Check each draft for this before saving it.
+8. **One ask, and it is interest.** "Would a free term be useful for [school]?
+   A yes is enough and I will send the code. If someone else leads on this,
+   tell me who and I will write to them instead." The "five minutes on where
+   it falls short" ask lives in the last follow up only.
+9. **No price in a first email.** If asked: any primary £195 a year at the
+   founding rate, the first 50 schools, held while they stay
+   (schools.guidedchildhood.com/pricing).
+10. **The opt out and the footer on every first email,** exactly as in the
+    templates below. Honour a no the same day: mark NO in the sheet and keep
+    the row so the school is never emailed again. Never delete the row.
+11. **Two follow ups, reworded, about a week apart, then stop.** School days
+    only. None in half term or the last week of term.
+12. **No claims about other schemes.** If a school says it uses Project Evolve
+    or another scheme, the reply is that this sits beside it (the teacher's
+    words on every slide, parent notes home, the mapping), never that the
+    other one is worse.
+13. **Peer proof only when it is real.** Once a pilot school says yes and agrees
+    to be named, the first line may say "[School] in [village] is running it
+    this term". Never before, never without their permission.
+14. **Nothing about outcomes for children.** The scheme teaches; it does not
+    promise a result.
+15. **Measure replies, never opens or clicks** (school link scanners and Apple
+    Mail fire both). Log every send and reply in the sheet. Do not change the
+    email after a quiet week: forty sends cannot tell two versions apart.
+    Change one thing per ten schools, and only when the same question or
+    objection comes back twice.
 
 ---
 
 ## 3. The emails
 
-Replace the square brackets. Everything else is final. Send as plain text, no
-formatting, no logo, no attachment.
+Replace the square brackets. Everything else is final. Plain text only.
+
+The footer, at the end of every first email after the signature:
+
+```
+Guided Digital Childhood Ltd, company number 17299814, Apple Acre, Star, Winscombe BS25 1QF. I took your name and the school address from the school website and use them only to write about this offer. If you reply no, I keep only a note not to write again. Privacy: https://schools.guidedchildhood.com/privacy
+```
+
+The signature, always:
+
+```
+Best wishes,
+Justin Phillips
+Guided Childhood
+https://schools.guidedchildhood.com/pilot
+```
 
 ### Email A, to a primary head or PSHE lead
 
-**Subject:** Primary: the 57 online requirements, mapped to the lesson that teaches each
+**Subject:** A free term of online safety lessons for [school name]
 
 ```
 Hello [first name],
 
-I am a parent [number from the sheet] miles from you in Winscombe, and I have built a
-digital literacy and online safety scheme for UK schools. I am looking for
-five schools to run it free for a term before it goes wider, and I would
-like [school name] to be one of them.
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am looking for five schools to run it free for a term, and I would like [school name] to be one of them.
 
-The honest reason I am writing to you and not sending a brochure: I want
-to know where it breaks in a real timetable.
+Since 1 September the revised RSHE guidance has been statutory, and it has 57 digital and online requirements. The scheme teaches all 57, and this page shows which lesson covers each, ready for an inspection file, no sign up:
+https://schools.guidedchildhood.com/hub/rshe-mapping
 
-What the pilot is. A code for your school that opens two lessons matched to
-your phase, taught from an interactive player with a word for word script,
-so a teacher who has not prepped can still teach it well. Printable packs,
-a starter and exit quiz, and parent notes that go home. The code also
-opens the whole Hub: the safeguarding crosswalk, the RSHE mapping, the
-policy page and the year plan. Nothing to install and nothing to pay. When
-the term ends you decide.
+Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
-Two things you can check before replying, with no sign up and no call:
+The free term: two lessons matched to your key stages plus the whole Hub, for twelve weeks from the day you start. It needs a couple of lesson slots and fifteen minutes at the end to tell me what worked. Nothing to install, nothing charged, nothing renews.
 
-The mapping. Every one of the 57 online and digital requirements in the
-statutory guidance, in its own words, with the lesson that teaches it.
-schools.guidedchildhood.com/hub/rshe-mapping
+Would a free term be useful for [school name]? A yes is enough and I will send the code. If someone else leads PSHE, tell me who and I will write to them instead.
 
-A whole lesson, free and open, so you can see the standard rather than
-take my word for it.
-schools.guidedchildhood.com/curriculum
-
-If the pilot is not for [school name], I would still take five minutes of
-your view on where it falls short. That is worth more to me than a sale
-right now.
-
-If this is not for your school at all, reply with no and I will not write
-again.
-
-Best wishes,
-Justin Phillips
-Guided Childhood
-schools.guidedchildhood.com/pilot
+If this is not for your school, reply with no and I will not write again.
 ```
 
 ### Email B, to a secondary PSHE, RSHE or computing lead
 
-**Subject:** Secondary: a Year 8 lesson on deepfakes you can teach on Tuesday, free
+**Subject:** A free term of PSHE online safety lessons for [school name]
 
 ```
 Hello [first name],
 
-I am a parent [number from the sheet] miles from you in Winscombe, and I have built a
-digital literacy scheme for UK schools, Reception to Year 13. I am looking
-for five schools to run it free for a term before it goes wider.
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools, Reception to Year 13. I am looking for five schools to run it free for a term, and I would like [school name] to be one of them.
 
-You are usually teaching something else as well as PSHE. So the scheme is
-built to need no prep: an interactive player with a word for word script, a
-starter and exit quiz, printable packs and parent notes, for every lesson.
+Since 1 September the revised RSHE guidance has been statutory. It has 57 digital and online requirements, and the scheme teaches all 57, with a mapping that shows which lesson covers each.
 
-The pilot is a code for [school name] that opens two lessons matched to
-your key stages, plus the Hub (the RSHE mapping, the safeguarding
-crosswalk, the policy page). Nothing to install, nothing to pay, and when
-the term ends you decide.
+Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home and staff briefings are already written. One whole lesson, on misinformation and deepfakes, is open with no sign up, so you can judge the standard for yourself:
+https://schools.guidedchildhood.com/curriculum
 
-Before you reply, two things to check with no sign up:
+The free term: two lessons matched to your key stages plus the whole Hub, for twelve weeks from the day you start. It needs a couple of lesson slots and fifteen minutes at the end to tell me what worked. Nothing to install, nothing charged, nothing renews.
 
-The Year 8 lesson on misinformation and deepfakes, whole and open. If the
-standard is not there, you will see it in five minutes.
-schools.guidedchildhood.com/curriculum
+Would a free term be useful for [school name]? A yes is enough and I will send the code. If a yes needs someone else, tell me who and I will write to them instead.
 
-The mapping. The 57 online and digital requirements in the statutory
-guidance, requirement by requirement, with the lesson that teaches each.
-schools.guidedchildhood.com/hub/rshe-mapping
-
-If it is not for you, I would still value five minutes on where it falls
-short. If it is not for your school at all, reply with no and I will not
-write again.
-
-Best wishes,
-Justin Phillips
-Guided Childhood
-schools.guidedchildhood.com/pilot
+If this is not for your school, reply with no and I will not write again.
 ```
 
 ### Email C, to a Designated Safeguarding Lead
 
-**Subject:** [Primary or Secondary]: the safeguarding crosswalk, open, for the DSL
+**Subject:** A free term of online safety lessons for [school name]
+
+Write "I am writing to you because so much of it is safeguarding" when the
+sheet does not confirm the person is the DSL (Churchill names two people), and
+"I am writing to you as DSL" only when it does.
 
 ```
 Hello [first name],
 
-I am writing to you as the DSL rather than to the office, because the part
-of what I have built that matters to you is the part most schemes hide.
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty three modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open, no sign up:
+https://schools.guidedchildhood.com/hub/dsl
 
-I am a parent [number from the sheet] miles from you in Winscombe and I have built a digital literacy
-scheme for UK schools. Eighteen of its thirty three modules are safeguarding
-flagged (the count is live on the page, so check it the day you send). For each one the crosswalk lists the statutory ground it stands
-on and the note its teachers get before teaching, and it states the two
-rules every lesson keeps: the content is age appropriate and never
-graphic, and the platform records no disclosures, so every concern follows
-your own reporting systems. It is written to be referenced from your
-safeguarding policy and it is open, no sign up:
+Since 1 September the revised RSHE guidance has been statutory, and this September's Keeping Children Safe in Education names generative AI and AI generated images among its online risks. The guidance has 57 digital and online requirements, and the scheme teaches all 57.
 
-schools.guidedchildhood.com/hub/dsl
+Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
-September's safeguarding update named generative AI and AI generated
-images for the first time. The scheme has lessons on exactly that, and the
-mapping shows which:
+The free term is for five schools: two lessons matched to your key stages plus the whole Hub, for twelve weeks from the day you start. It needs a couple of lesson slots and fifteen minutes at the end to tell me what worked. Nothing to install, nothing charged, nothing renews.
 
-schools.guidedchildhood.com/hub/rshe-mapping
+Would a free term be useful for [school name]? A yes is enough and I will send the code. If someone else leads on this, tell me who and I will write to them instead.
 
-I am offering five schools a free term: a code that opens two lessons
-matched to your phase plus the whole Hub, nothing to install, nothing to
-pay, and you decide when the term ends. If [school name] would like one of
-the five, or if you would rather tell me in five minutes what the crosswalk
-is missing, either reply is useful to me.
-
-If this is not for your school at all, reply with no and I will not write
-again.
-
-Best wishes,
-Justin Phillips
-Guided Childhood
-schools.guidedchildhood.com/pilot
+If this is not for your school, reply with no and I will not write again.
 ```
 
 ### Email D, to the Wessex Learning Trust (CEO or director of education)
@@ -207,38 +207,21 @@ schools.guidedchildhood.com/pilot
 ```
 Hello [first name],
 
-I am a parent in Winscombe, so your schools are the ones my own children
-would walk into, and I have built a digital literacy and online safety
-scheme for UK schools, Reception to Year 13.
+I am a parent in Winscombe, so your schools are the ones my own children walk into, and I have built a digital literacy and online safety scheme for UK schools, Reception to Year 13.
 
-I am running a free one term pilot with five schools before it goes wider,
-and I would like one of the five to be a Wessex Learning Trust school of
-your choosing, with the trust able to see everything the school sees.
+I am running a free one term pilot with five schools before it goes wider, and I would like one of the five to be a Wessex Learning Trust school of your choosing, with the trust able to see everything the school sees.
 
-What the pilot opens: a code for the school that unlocks two lessons
-matched to its phase, taught from an interactive player with a word for
-word script so an unprepared teacher can still teach well, plus the whole
-Hub: the safeguarding crosswalk, the mapping of the 57 online and digital
-requirements in the statutory guidance to the lesson that teaches each,
-the policy page and the year plan. Nothing to install and nothing to pay.
-Licences afterwards start at £495 a year on invoice, and no school is
-asked to decide until the term ends.
+Since 1 September the revised RSHE guidance has been statutory. It has 57 digital and online requirements, and the scheme teaches all 57. Nobody has to plan it: every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
-Everything is open to read now without sign up:
-schools.guidedchildhood.com/curriculum (the full catalogue, one lesson
-whole and free)
-schools.guidedchildhood.com/hub/rshe-mapping
-schools.guidedchildhood.com/hub/dsl
+Your phone policy says the schools share the job of educating young people about safe use of smart technology, and your safeguarding policy names deepfakes and AI generated images. The phone is out of the classroom now; this is the lessons half of that sentence, and the mapping shows which lesson covers which line:
+https://schools.guidedchildhood.com/hub/rshe-mapping
 
-I will write to your heads directly in a few days with the same offer, so
-that nothing waits on a central decision; this note is so you hear it from
-me first. If the trust would rather I did not, tell me and I will not.
+The pilot is a code that opens two lessons matched to the school's phase plus the whole Hub, for twelve weeks from the day the school starts. Nothing to install, nothing charged, nothing renews, and no school is asked to decide anything until the term ends.
 
-Best wishes,
-Justin Phillips
-Guided Childhood
-schools.guidedchildhood.com/pilot
+I will write to your heads directly in a few days with the same offer, so that nothing waits on a central decision; this note is so you hear it from me first. If the trust would rather I did not, tell me and I will not.
 ```
+
+The trust footer says "the trust address from the trust website".
 
 ### The Wessex line, added to emails A, B, C and D for any Wessex Learning Trust school
 
@@ -247,15 +230,10 @@ introduction says schools and parents share responsibility to educate young
 people about safe use of smart technology and social media, and its September
 2026 safeguarding policy commits every school to teaching about AI generated
 content, deepfakes and misinformation. That is the lessons half of a sentence
-the trust has already written. Add this paragraph after "When the term ends
-you decide":
+the trust has already written. Add this paragraph after the "Nobody has to plan it" paragraph:
 
 ```
-Your trust's phone policy says the schools share the job of educating
-young people about safe use of smart technology, and its safeguarding
-policy names deepfakes and AI generated images. The phone is out of the
-classroom now; this is the lessons half of that sentence, and the mapping
-shows which lesson covers which line.
+Your trust's phone policy says schools share the job of teaching safe use of smart technology; this is the lessons half of that.
 ```
 
 Three things worth knowing before you send. The trust's CEO is Jayne Keller
@@ -270,39 +248,33 @@ The trust runs a three tier system: first schools (2 to 9), middle schools
 primary. The two middle schools span Key Stages 2 and 3, so their pilot code
 is the all through set (primary plus secondary lessons); say so if asked.
 
-### Email E, the day 5 follow up (any phase)
+### Email E, the first follow up, about a week later (any phase)
+
+Sent as a reply in the same thread, reworded rather than repeated.
 
 **Subject:** Re: [original subject]
 
 ```
 Hello [first name],
 
-One line, in case the first note sank. The pilot is free for a term, opens
-two lessons for your phase plus the Hub, and [number] of the five places
-are still open.
+A shorter version, in case the first note sank. Five schools get a free term of online safety lessons: two lessons for your key stages plus the Hub, twelve weeks, nothing charged. [Number] of the five places are still open.
 
-If a yes needs someone else at [school name], tell me who and I will write
-to them instead.
+Would it be useful for [school name]? If a yes needs someone else, tell me who and I will write to them instead. Reply no and I will stop.
 
 Best wishes,
 Justin
 ```
 
-### Email F, the day 12 close (any phase)
+### Email F, the last note, a week after E (any phase)
 
 **Subject:** Re: [original subject]
 
 ```
 Hello [first name],
 
-Last note from me this term. If the pilot is not right for [school name]
-now, I would still take five minutes of your view on the free lesson at
-schools.guidedchildhood.com/curriculum: what would stop you teaching it on
-a Tuesday?
+Last note from me this term. If the pilot is not right for [school name] now, I would still value five minutes of your view on the free lesson at https://schools.guidedchildhood.com/curriculum: what would stop you teaching it on a Tuesday?
 
-Either way, thank you for reading. In November I will share a free self
-check against the statutory guidance that schools can run without me, and
-I will send it once, if that is welcome.
+Either way, thank you for reading, and I will not write again this term.
 
 Best wishes,
 Justin
@@ -314,17 +286,18 @@ Justin
 
 | Day | Who | Which email |
 |---|---|---|
-| Day 1 (Wed 7 Oct) | Wessex Learning Trust central office | D |
+| Day 1 (the day the trust email goes) | Wessex Learning Trust central office | D |
 | Day 1 | The four nearest secondaries with a named lead | B, or C if only the DSL is named |
 | Day 2 | Four more secondaries | B or C |
 | Day 3 | The four Wessex Learning Trust primaries nearest you | A |
 | Day 4 | Four more Wessex primaries, or the nearest non trust primaries | A |
-| Day 6 (Mon 12 Oct) | Day 5 follow ups to day 1's four | E |
-| Day 6 onward | Four new first emails a day, follow ups on top | A, B, C, then E and F |
+| A week after each first email | The first follow up | E |
+| A week after E | The last note | F |
+| Every sending day | Four new first emails, follow ups on top | A, B, C |
 
 Stop the first emails the day the fifth place is taken. Keep the follow ups.
-Every school that said no or never replied goes on the November self check
-list.
+A school that never replied goes on the November self check list. A school
+that said no is never emailed again (rule 10).
 
 ---
 
@@ -362,5 +335,12 @@ the local scheduled task `school-email-drafts` runs Monday to Thursday at
 07:00, reads the Control Room sheet, and writes that day's four emails into
 Drafts, addressed and filled in, with duplicate checks against Drafts and
 Sent. It never sends. Justin reads each draft, presses send, and types SENT
-and the date in the sheet. Follow ups E and F are drafted the same way on
-days 5 and 12.
+and the date in the sheet. Follow ups E and F are drafted the same way, a week
+apart.
+
+**8 October update.** Nothing had been sent by 8 October. The five day 1 drafts
+were rewritten in place to the amended rules and templates above (they carried
+Gmail redirect links, "eighteen" for seventeen, "for the first time", and three
+asks where one wins). The routine reads sections 2 and 3 of this file from
+origin/main before every run, so the templates here are the only copy; change
+them here, not in the routine.

@@ -448,3 +448,7 @@ Justin merged 1210 (the windows build), 1211 (the flagship post) and 1212 (brief
 ## 8 October 2026: the founding schools rate
 
 Justin: "yes on founding rate". The first 50 schools pay £195 a year for any primary, held while they stay; list prices and secondary are unchanged. Capped in code: band `founding_primary` is counted from `schools.invoice_requests` like the pilot's five, and the invoice action refuses it once the places are gone or the count cannot be read. `/pricing` shows the offer and places left, and the invoice form starts on it while it is open. `plans/2026-10-08-founding-schools-rate-plan.md`.
+
+## 8 October 2026: the pilot emails, rewritten to the research
+
+Justin asked for the evidence on what wins replies from schools, then for the routine's first emails redone with it. Five lenses ran (the main finding: 8% of primary leaders consult suppliers when choosing edtech, 28% consult other schools, so the pilot is the marketing and the email is only the door). The campaign rules and templates now carry it: one interest ask, under about 200 words, one link, plain subject, the duty and the no planning paragraphs, the pilot's conditions stated, a company and privacy footer, two reworded follow ups, replies measured and nothing else. Nothing had been sent; the five day 1 drafts in hello@ were rewritten in place (they carried Gmail redirect links and "eighteen"). `plans/2026-10-08-school-email-research.md`.
