@@ -84,7 +84,12 @@ routine, which reads this file from origin/main before it drafts anything.
    nothing renews); one ask.
 7. **One link in the body,** plain https on schools.guidedchildhood.com. Never
    a Gmail redirect (anything starting https://www.google.com/url?q=), never a
-   shortener. Check each draft for this before saving it.
+   shortener. The Gmail connector that writes drafts rewrites every address it
+   saves into a google.com redirect, even a bare domain (tested 8 October), and
+   those redirects expire in about a day. So a draft is never sent with its
+   own links: the clean body for each school is also written to a
+   `day-N-ready-to-send.md` file beside this one, and Justin pastes it over the
+   draft's body before pressing send.
 8. **One ask, and it is interest.** "Would a free term be useful for [school]?
    A yes is enough and I will send the code. If someone else leads on this,
    tell me who and I will write to them instead." The "five minutes on where
