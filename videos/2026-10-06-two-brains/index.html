@@ -28,7 +28,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .body{margin-top:0.9cqw;font-size:1.875cqw;font-weight:650;line-height:1.3;color:#3A3A52}
 .src{margin-top:1.0cqw;font-family:plexMono,monospace;font-weight:600;font-size:1.05cqw;letter-spacing:0.08em;color:#52526A}
 .hw,.sw{display:inline-block;margin-right:0.07em;will-change:transform,opacity}
-.hl{position:absolute;border:4px solid #D4600A;background:rgba(212,96,10,0.22);border-radius:26px;opacity:0;box-shadow:0 0 0 rgba(212,96,10,0);z-index:2}
+.hl{position:absolute;border:4px solid #D4600A;background:rgba(212,96,10,0.22);border-radius:26px;opacity:0;z-index:2}
 .hl.circle{border-radius:50%}
 .ptr{position:absolute;width:4px;height:0;background:#D4600A;transform:translateX(-50%);opacity:0;z-index:2}
 .ptr::after{content:"";position:absolute;left:50%;bottom:-8px;width:18px;height:18px;border-radius:50%;background:#D4600A;transform:translateX(-50%)}
@@ -37,6 +37,13 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .mk b{position:relative;z-index:1;font-weight:inherit}
 .col.right .mk i{background:rgba(237,195,95,0.6)}
 .card.answer .mk i{background:rgba(237,195,95,0.35)}
+.glow{position:absolute;width:16cqw;height:16cqw;margin:-8cqw 0 0 -8cqw;border-radius:50%;background:radial-gradient(circle,rgba(237,195,95,0.75) 0%,rgba(237,195,95,0.25) 45%,rgba(237,195,95,0) 70%);opacity:0;pointer-events:none;will-change:transform,opacity}
+.hlglow{position:absolute;border-radius:30px;border:10px solid rgba(212,96,10,0.45);opacity:0;pointer-events:none;will-change:transform,opacity}
+.hlglow.circle{border-radius:50%}
+.slabel{position:absolute;left:3cqw;top:9cqh;max-width:26cqw;font-family:plexMono,monospace;font-weight:600;font-size:1.25cqw;line-height:1.3;letter-spacing:0.18em;text-transform:uppercase;color:#52526A;opacity:0;padding:0.45cqw 0.9cqw;border-radius:10px;background:rgba(255,251,238,0.92);border:2px solid #1A1A2E}
+.chip{position:absolute;left:0;top:0;padding:0.7cqw 1.2cqw;background:#FFFBEE;border:2.5px solid #1A1A2E;border-radius:12px;box-shadow:0 4px 0 #C99A28;font-weight:800;font-size:1.5cqw;line-height:1.15;white-space:nowrap;opacity:0;transform-origin:50% 50%;max-width:44cqw;overflow:hidden;text-overflow:ellipsis}
+.chip.butter{background:#FEF7E0;border-color:#C99A28}.chip.coral{background:#FBE9DC;border-color:#D4600A}.chip.green{background:#E8F0EE;border-color:#2F8F6B}
+.slabel.butter{color:#6A4E08}.slabel.coral{color:#7A3406}.slabel.green{color:#1D5A42}
 .field{position:absolute;inset:0;background:#FFFBEE}
 .eyebrow-top{position:absolute;top:6cqh;left:0;right:0;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:1.1cqw;letter-spacing:0.14em;text-transform:uppercase;color:#52526A}
 .star{position:absolute;top:18cqh;left:9cqw;width:30cqw;height:30cqw;object-fit:contain}
@@ -44,43 +51,50 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .cta .subline.big{position:absolute;top:56cqh;left:46cqw;right:7cqw;font-size:2.2cqw;font-weight:600;line-height:1.3;color:#52526A}
 .url{position:absolute;top:71cqh;left:46cqw;font-size:1.6cqw;font-family:plexMono,monospace;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:#EDC35F;padding:0.7cqw 1.6cqw;border:3px solid #1A1A2E;border-radius:16px;box-shadow:0 5px 0 #C99A28;opacity:0}
 </style></head><body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="85.5" data-width="1920" data-height="1080">
+<div id="root" data-composition-id="main" data-start="0" data-duration="98.5" data-width="1920" data-height="1080">
 <div id="s1" class="beat"><div class="col left"><video id="s1-lv" src="assets/moment.mp4" muted playsinline data-start="0.00" data-duration="7.00" data-track-index="0" style="transform-origin:50% 60%"></video><div class="card" id="s1-lc"><div class="tag">Third night running</div><div class="headline">9pm. Pyjamas on. The TV comes back on.</div></div></div><div class="col right"><div class="cream"></div><img class="digi big" src="assets/digi-cut.png" alt=""><div class="card " id="s1-rc"><div class="tag">The same evening, side by side</div><div class="headline">Same child. Same clock. One difference.</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:00 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
-<div id="s2" class="beat"><div class="col left"><video id="s2-lv" src="assets/child-20.mp4" muted playsinline data-start="7.00" data-duration="11.78" data-track-index="1" style="transform-origin:74% 26%"></video><div class="hl rect" id="s2-hl" style="left:44%;top:7%;width:52%;height:39%"></div><div class="ptr" id="s2-ptr" style="left:70%;top:46%"></div><div class="card" id="s2-lc"><div class="tag">The cue</div><div class="headline">Her eyes lock on. That is a <span class="mk"><i></i><b>reflex</b></span>.</div><div class="body">Cuts and sound changes pull a young child's attention automatically. Not a choice.</div><div class="src">Lang, 2000. Anderson and Levin, 1976</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s2-rc"><div class="tag">A parent, 9:01 PM</div><div class="headline">She came down and put the <span class="mk"><i></i><b>TV on again</b></span>.</div><div class="body">She is six. What do I do?</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:00 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
-<div id="s3" class="beat"><div class="col left"><video id="s3-lv" src="assets/child-21.mp4" muted playsinline data-start="18.78" data-duration="15.67" data-track-index="0" style="transform-origin:72% 22%"></video><div class="hl circle" id="s3-hl" style="left:58%;top:9%;width:30%;height:27%"></div><div class="ptr" id="s3-ptr" style="left:73%;top:36%"></div><div class="card" id="s3-lc"><div class="tag">What comes next</div><div class="headline">Each clip is a new guess at <span class="mk"><i></i><b>what comes next</b></span>.</div><div class="body">Dopamine drives the wanting, not the pleasure. Up next never offers her the end.</div><div class="src">Schultz, 2016. Hiniker and others, 2018</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card answer" id="s3-rc"><div class="tag">DiGi, 9:02 PM</div><div class="headline">Tonight is <span class="mk"><i></i><b>not the night</b></span> to fight it.</div><div class="body">Sit with her for the last five minutes. Then off at the end of this one, and up together.</div><div class="src">Rails: no blame, no battle at bedtime</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:02 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
-<div id="s4" class="beat"><div class="col left"><video id="s4-lv" src="assets/child-22.mp4" muted playsinline data-start="34.44" data-duration="14.56" data-track-index="1" style="transform-origin:36% 0%"></video><div class="hl rect" id="s4-hl" style="left:12%;top:0%;width:48%;height:24%"></div><div class="ptr" id="s4-ptr" style="left:36%;top:24%"></div><div class="card" id="s4-lc"><div class="tag">The brake</div><div class="headline">She <span class="mk"><i></i><b>cannot stop</b></span> by herself yet.</div><div class="body">Stopping needs the front of the brain, which is years from ready at six. The pull wins.</div><div class="src">Diamond, 2013. Casey and others, 2005</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s4-rc"><div class="tag">9:20 PM, why that works</div><div class="headline">The ending is <span class="mk"><i></i><b>built in</b></span>.</div><div class="body">Children were less upset when screen time was routine, and when the technology ended it rather than a parent.</div><div class="src">Hiniker and others, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:20 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
-<div id="s5" class="beat"><div class="col left"><video id="s5-lv" src="assets/child-24.mp4" muted playsinline data-start="49.00" data-duration="15.11" data-track-index="0" style="transform-origin:52% 17%"></video><div class="hl rect" id="s5-hl" style="left:35%;top:4%;width:36%;height:27%"></div><div class="ptr" id="s5-ptr" style="left:53%;top:31%"></div><div class="card" id="s5-lc"><div class="tag">The light</div><div class="headline">Evening light hits a child's <span class="mk"><i></i><b>melatonin</b></span> hard.</div><div class="body">Far harder than an adult's. Even dim room light cut preschoolers' melatonin by about three quarters.</div><div class="src">Hartstein and others, 2022</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s5-rc"><div class="tag">What DiGi asks for tomorrow</div><div class="headline">Tomorrow, <span class="mk"><i></i><b>set the shape</b></span> of the evening early.</div><div class="body">Screen off at half past seven, then a story with you. A nightly routine means earlier, longer sleep.</div><div class="src">Mindell and others, 2015. AAP, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">10:10 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
-<div id="s6" class="beat"><div class="col left"><video id="s6-lv" src="assets/child-23.mp4" muted playsinline data-start="64.11" data-duration="14.00" data-track-index="1" style="transform-origin:50% 16%"></video><div class="hl rect" id="s6-hl" style="left:28%;top:2%;width:42%;height:30%"></div><div class="ptr" id="s6-ptr" style="left:49%;top:32%"></div><div class="card" id="s6-lc"><div class="tag">The next morning</div><div class="headline">A late, irregular bedtime shows up the <span class="mk"><i></i><b>next day</b></span>.</div><div class="body">Shorter fuse, less joy, poorer attention. In 10,000 UK children, regular bedtimes meant better behaviour at seven.</div><div class="src">Kelly, Kelly and Sacker, 2013</div></div></div><div class="col right"><div class="cream"></div><img class="digi big" src="assets/digi-cut.png" alt=""><div class="card " id="s6-rc"><div class="tag">Three nights later</div><div class="headline"><span class="mk"><i></i><b>Did it work?</b></span> Tell DiGi.</div><div class="body">Your answer feeds the next one. Across families only counts travel, never your words.</div></div></div><div class="divider"></div><div class="clock"><span class="clk">7:30 AM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s2" class="beat"><div class="col left"><video id="s2-lv" src="assets/child-20.mp4" muted playsinline data-start="7.00" data-duration="11.78" data-track-index="1" style="transform-origin:74% 26%"></video><div class="hlglow rect" id="s2-hlg" style="left:44%;top:7%;width:52%;height:39%"></div><div class="hl rect" id="s2-hl" style="left:44%;top:7%;width:52%;height:39%"></div><div class="ptr" id="s2-ptr" style="left:70%;top:46%"></div><div class="card" id="s2-lc"><div class="tag">The cue</div><div class="headline">Her eyes lock on. That is a <span class="mk"><i></i><b>reflex</b></span>.</div><div class="body">Cuts and sound changes pull a young child's attention automatically. Not a choice.</div><div class="src">Lang, 2000. Anderson and Levin, 1976</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s2-rc"><div class="tag">A parent, 9:01 PM</div><div class="headline">She came down and put the <span class="mk"><i></i><b>TV on again</b></span>.</div><div class="body">She is six. What do I do?</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:00 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s3" class="beat"><div class="col left"><video id="s3-lv" src="assets/child-21.mp4" muted playsinline data-start="18.78" data-duration="25.00" data-track-index="0" style="transform-origin:72% 22%"></video><div class="hlglow circle" id="s3-hlg" style="left:58%;top:9%;width:30%;height:27%"></div><div class="hl circle" id="s3-hl" style="left:58%;top:9%;width:30%;height:27%"></div><div class="ptr" id="s3-ptr" style="left:73%;top:36%"></div><div class="card" id="s3-lc"><div class="tag">What comes next</div><div class="headline">Each clip is a new guess at <span class="mk"><i></i><b>what comes next</b></span>.</div><div class="body">Dopamine drives the wanting, not the pleasure. Up next never offers her the end.</div><div class="src">Schultz, 2016. Hiniker and others, 2018</div></div></div><div class="col right"><video id="s3-rv" src="assets/beat-1.mp4" muted playsinline data-start="18.78" data-duration="25.00" data-track-index="2"></video><div class="glow" id="s3-glow" style="left:52%;top:22%"></div><div class="slabel ink" id="s3-sl-0">The researchers</div><div class="chip ink" id="s3-ch-0-0">Orben and Przybylski</div><div class="chip ink" id="s3-ch-0-1">Odgers and Jensen</div><div class="chip ink" id="s3-ch-0-2">Livingstone, LSE</div><div class="chip ink" id="s3-ch-0-3">Kennedy, Good Inside</div><div class="chip ink" id="s3-ch-0-4">Diamond</div><div class="chip ink" id="s3-ch-0-5">Hartstein</div><div class="slabel ink" id="s3-sl-1">Peer reviewed studies</div><div class="chip ink" id="s3-ch-1-0">Hiniker and others, 2018</div><div class="chip ink" id="s3-ch-1-1">Hartstein and others, 2022</div><div class="chip ink" id="s3-ch-1-2">Kelly, Kelly and Sacker, 2013</div><div class="chip ink" id="s3-ch-1-3">Mindell and others, 2015</div><div class="chip ink" id="s3-ch-1-4">Berridge and Robinson, 2016</div><div class="slabel butter" id="s3-sl-2">Our philosophy</div><div class="chip butter" id="s3-ch-2-0">Never allow or deny</div><div class="chip butter" id="s3-ch-2-1">Connection is the protection</div><div class="chip butter" id="s3-ch-2-2">The pathway, not the ban</div><div class="chip butter" id="s3-ch-2-3">Repair over punishment</div><div class="slabel coral" id="s3-sl-3">The guardrails</div><div class="chip coral" id="s3-ch-3-0">Safety first</div><div class="chip coral" id="s3-ch-3-1">Never invent a study</div><div class="chip coral" id="s3-ch-3-2">A person approves anything new</div><div class="chip coral" id="s3-ch-3-3">Crisis routes to a human</div><div class="slabel green" id="s3-sl-4">Parents who said what worked</div><div class="chip green" id="s3-ch-4-0">Age 6, bedtime, routine ending: worked</div><div class="chip green" id="s3-ch-4-1">Age 7, bedtime, timer and deal: worked</div><div class="chip green" id="s3-ch-4-2">Age 5, bedtime, screen off at 7:30: worked</div><div class="chip green" id="s3-ch-4-3">Age 6, bedtime, warning only: did not work</div><div class="card answer" id="s3-rc"><div class="tag">DiGi, 9:02 PM. One answer, from all of it</div><div class="headline">Tonight is <span class="mk"><i></i><b>not the night</b></span> to fight it.</div><div class="body">Sit with her for the last five minutes. Then off at the end of this one, and up together.</div><div class="src">Rails: no blame, no battle at bedtime</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:02 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s4" class="beat"><div class="col left"><video id="s4-lv" src="assets/child-22.mp4" muted playsinline data-start="43.78" data-duration="14.56" data-track-index="1" style="transform-origin:36% 0%"></video><div class="hlglow rect" id="s4-hlg" style="left:12%;top:0%;width:48%;height:24%"></div><div class="hl rect" id="s4-hl" style="left:12%;top:0%;width:48%;height:24%"></div><div class="ptr" id="s4-ptr" style="left:36%;top:24%"></div><div class="card" id="s4-lc"><div class="tag">The brake</div><div class="headline">She <span class="mk"><i></i><b>cannot stop</b></span> by herself yet.</div><div class="body">Stopping needs the front of the brain, which is years from ready at six. The pull wins.</div><div class="src">Diamond, 2013. Casey and others, 2005</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s4-rc"><div class="tag">9:20 PM, why that works</div><div class="headline">The ending is <span class="mk"><i></i><b>built in</b></span>.</div><div class="body">Children were less upset when screen time was routine, and when the technology ended it rather than a parent.</div><div class="src">Hiniker and others, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">9:20 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s5" class="beat"><div class="col left"><video id="s5-lv" src="assets/child-24.mp4" muted playsinline data-start="58.33" data-duration="15.11" data-track-index="0" style="transform-origin:52% 17%"></video><div class="hlglow rect" id="s5-hlg" style="left:35%;top:4%;width:36%;height:27%"></div><div class="hl rect" id="s5-hl" style="left:35%;top:4%;width:36%;height:27%"></div><div class="ptr" id="s5-ptr" style="left:53%;top:31%"></div><div class="card" id="s5-lc"><div class="tag">The light</div><div class="headline">Evening light hits a child's <span class="mk"><i></i><b>melatonin</b></span> hard.</div><div class="body">Far harder than an adult's. Even dim room light cut preschoolers' melatonin by about three quarters.</div><div class="src">Hartstein and others, 2022</div></div></div><div class="col right"><div class="cream"></div><img class="digi corner" src="assets/digi-cut.png" alt=""><div class="card " id="s5-rc"><div class="tag">What DiGi asks for tomorrow</div><div class="headline">Tomorrow, <span class="mk"><i></i><b>set the shape</b></span> of the evening early.</div><div class="body">Screen off at half past seven, then a story with you. A nightly routine means earlier, longer sleep.</div><div class="src">Mindell and others, 2015. AAP, 2016</div></div></div><div class="divider"></div><div class="clock"><span class="clk">10:10 PM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
+<div id="s6" class="beat"><div class="col left"><video id="s6-lv" src="assets/child-23.mp4" muted playsinline data-start="73.44" data-duration="18.00" data-track-index="1" style="transform-origin:50% 16%"></video><div class="hlglow rect" id="s6-hlg" style="left:28%;top:2%;width:42%;height:30%"></div><div class="hl rect" id="s6-hl" style="left:28%;top:2%;width:42%;height:30%"></div><div class="ptr" id="s6-ptr" style="left:49%;top:32%"></div><div class="card" id="s6-lc"><div class="tag">The next morning</div><div class="headline">A late, irregular bedtime shows up the <span class="mk"><i></i><b>next day</b></span>.</div><div class="body">Shorter fuse, less joy, poorer attention. In 10,000 UK children, regular bedtimes meant better behaviour at seven.</div><div class="src">Kelly, Kelly and Sacker, 2013</div></div></div><div class="col right"><video id="s6-rv" src="assets/beat-4.mp4" muted playsinline data-start="73.44" data-duration="18.00" data-track-index="3"></video><div class="glow" id="s6-glow" style="left:50%;top:20%"></div><div class="slabel green" id="s6-sl-0">What parents say worked, linked to their circumstance</div><div class="chip green" id="s6-ch-0-0">Age 6, bedtime, third night: worked</div><div class="chip green" id="s6-ch-0-1">Age 9, gaming, after school: worked</div><div class="chip green" id="s6-ch-0-2">Age 4, car journey: worked</div><div class="chip green" id="s6-ch-0-3">Age 6, bedtime, warning only: did not work</div><div class="chip green" id="s6-ch-0-4">Age 11, phone at dinner: worked</div><div class="chip green" id="s6-ch-0-5">Age 8, morning, timer: worked</div><div class="slabel ink" id="s6-sl-1">New studies, added by a person</div><div class="chip ink" id="s6-ch-1-0">Hartstein and others, 2022</div><div class="chip ink" id="s6-ch-1-1">Radesky and others, 2022</div><div class="card " id="s6-rc"><div class="tag">A brain that learns</div><div class="headline">Did it work? Tell DiGi.</div><div class="body">Your answer <span class="mk"><i></i><b>teaches the next one</b></span>. New studies are added by a person, never by the machine.</div></div></div><div class="divider"></div><div class="clock"><span class="clk">7:30 AM</span></div><div class="colhead lh">LEFT TO THE FEED</div><div class="colhead rh">WITH DIGI</div></div>
 <div id="cta" class="beat cta"><div class="field"></div><div class="eyebrow eyebrow-top">GUIDED CHILDHOOD</div><img id="cta-star" class="star" src="assets/digi-cut.png" alt=""><div class="headline big">Start free. Three questions, no sign up.</div><div class="subline big">Find your child's stage, then ask DiGi your own 9pm question.</div><div class="url">guidedchildhood.com/starter-pack</div></div>
-<audio id="music" src="assets/music-cinematic.mp3" data-audio-group="music" data-start="0" data-duration="85.50" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1.8,"v":0.55},{"t":63.611111111111114,"v":0.55},{"t":65.31111111111112,"v":0.33},{"t":77.11111111111111,"v":0.33},{"t":79.11111111111111,"v":0.55},{"t":82,"v":0.55},{"t":85.5,"v":0}]}]}'></audio>
+<audio id="music" src="assets/music-cinematic.mp3" data-audio-group="music" data-start="0" data-duration="98.50" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1.8,"v":0.55},{"t":72.94444444444444,"v":0.55},{"t":74.64444444444445,"v":0.33},{"t":90.44444444444444,"v":0.33},{"t":92.44444444444444,"v":0.55},{"t":95,"v":0.55},{"t":98.5,"v":0}]}]}'></audio>
 <audio id="sfx-1" src="assets/sfx-tv-on.mp3" data-audio-group="sfx" data-start="1.40" data-duration="3" data-track-index="6" data-volume="0.7"></audio>
 <audio id="sfx-2" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="7.00" data-duration="2" data-track-index="7" data-volume="0.55"></audio>
 <audio id="sfx-3" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="8.00" data-duration="2" data-track-index="8" data-volume="0.6"></audio>
 <audio id="sfx-4" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="8.30" data-duration="1" data-track-index="5" data-volume="0.35"></audio>
 <audio id="sfx-5" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="12.00" data-duration="1" data-track-index="6" data-volume="0.35"></audio>
 <audio id="sfx-6" src="assets/sfx-countdown.mp3" data-audio-group="sfx" data-start="19.38" data-duration="2" data-track-index="7" data-volume="0.55"></audio>
-<audio id="sfx-7" src="assets/sfx-chime.mp3" data-audio-group="sfx" data-start="23.58" data-duration="2" data-track-index="8" data-volume="0.6"></audio>
+<audio id="sfx-7" src="assets/sfx-chime.mp3" data-audio-group="sfx" data-start="36.18" data-duration="2" data-track-index="8" data-volume="0.6"></audio>
 <audio id="sfx-8" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="18.78" data-duration="2" data-track-index="5" data-volume="0.55"></audio>
 <audio id="sfx-9" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="19.78" data-duration="2" data-track-index="6" data-volume="0.6"></audio>
 <audio id="sfx-10" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="20.08" data-duration="1" data-track-index="7" data-volume="0.35"></audio>
-<audio id="sfx-11" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="24.28" data-duration="1" data-track-index="8" data-volume="0.35"></audio>
-<audio id="sfx-12" src="assets/sfx-clock.mp3" data-audio-group="sfx" data-start="34.74" data-duration="5" data-track-index="5" data-volume="0.5"></audio>
-<audio id="sfx-13" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="34.44" data-duration="2" data-track-index="6" data-volume="0.55"></audio>
-<audio id="sfx-14" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="39.94" data-duration="2" data-track-index="7" data-volume="0.6"></audio>
-<audio id="sfx-15" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="35.74" data-duration="1" data-track-index="8" data-volume="0.35"></audio>
-<audio id="sfx-16" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="39.78" data-duration="1" data-track-index="5" data-volume="0.35"></audio>
-<audio id="sfx-17" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="49.00" data-duration="2" data-track-index="6" data-volume="0.55"></audio>
-<audio id="sfx-18" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="50.00" data-duration="2" data-track-index="7" data-volume="0.6"></audio>
-<audio id="sfx-19" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="50.30" data-duration="1" data-track-index="8" data-volume="0.35"></audio>
-<audio id="sfx-20" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="54.33" data-duration="1" data-track-index="5" data-volume="0.35"></audio>
-<audio id="sfx-21" src="assets/sfx-morning.mp3" data-audio-group="sfx" data-start="64.41" data-duration="5" data-track-index="6" data-volume="0.6"></audio>
-<audio id="sfx-22" src="assets/sfx-chime.mp3" data-audio-group="sfx" data-start="69.24" data-duration="2" data-track-index="7" data-volume="0.5"></audio>
-<audio id="sfx-23" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="64.11" data-duration="2" data-track-index="8" data-volume="0.55"></audio>
-<audio id="sfx-24" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="65.11" data-duration="2" data-track-index="5" data-volume="0.6"></audio>
-<audio id="sfx-25" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="65.41" data-duration="1" data-track-index="6" data-volume="0.35"></audio>
-<audio id="sfx-26" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="69.94" data-duration="1" data-track-index="7" data-volume="0.35"></audio>
-<audio id="sfx-27" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="78.11" data-duration="2" data-track-index="8" data-volume="0.55"></audio>
-<audio id="sfx-28" src="assets/sfx-riser.mp3" data-audio-group="sfx" data-start="75.71" data-duration="3" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-11" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="36.88" data-duration="1" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-12" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="19.68" data-duration="2" data-track-index="5" data-volume="0.3"></audio>
+<audio id="sfx-13" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="23.23" data-duration="2" data-track-index="6" data-volume="0.3"></audio>
+<audio id="sfx-14" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="26.46" data-duration="2" data-track-index="7" data-volume="0.3"></audio>
+<audio id="sfx-15" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="29.37" data-duration="2" data-track-index="8" data-volume="0.3"></audio>
+<audio id="sfx-16" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="32.28" data-duration="2" data-track-index="5" data-volume="0.3"></audio>
+<audio id="sfx-17" src="assets/sfx-clock.mp3" data-audio-group="sfx" data-start="44.08" data-duration="5" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-18" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="43.78" data-duration="2" data-track-index="7" data-volume="0.55"></audio>
+<audio id="sfx-19" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="49.28" data-duration="2" data-track-index="8" data-volume="0.6"></audio>
+<audio id="sfx-20" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="45.08" data-duration="1" data-track-index="5" data-volume="0.35"></audio>
+<audio id="sfx-21" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="49.11" data-duration="1" data-track-index="6" data-volume="0.35"></audio>
+<audio id="sfx-22" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="58.33" data-duration="2" data-track-index="7" data-volume="0.55"></audio>
+<audio id="sfx-23" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="59.33" data-duration="2" data-track-index="8" data-volume="0.6"></audio>
+<audio id="sfx-24" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="59.63" data-duration="1" data-track-index="5" data-volume="0.35"></audio>
+<audio id="sfx-25" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="63.67" data-duration="1" data-track-index="6" data-volume="0.35"></audio>
+<audio id="sfx-26" src="assets/sfx-morning.mp3" data-audio-group="sfx" data-start="73.74" data-duration="5" data-track-index="7" data-volume="0.6"></audio>
+<audio id="sfx-27" src="assets/sfx-chime.mp3" data-audio-group="sfx" data-start="82.04" data-duration="2" data-track-index="8" data-volume="0.5"></audio>
+<audio id="sfx-28" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="73.44" data-duration="2" data-track-index="5" data-volume="0.55"></audio>
+<audio id="sfx-29" src="assets/sfx-pulse.mp3" data-audio-group="sfx" data-start="74.44" data-duration="2" data-track-index="6" data-volume="0.6"></audio>
+<audio id="sfx-30" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="74.74" data-duration="1" data-track-index="7" data-volume="0.35"></audio>
+<audio id="sfx-31" src="assets/sfx-marker.mp3" data-audio-group="sfx" data-start="82.74" data-duration="1" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-32" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="74.34" data-duration="2" data-track-index="5" data-volume="0.3"></audio>
+<audio id="sfx-33" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="77.89" data-duration="2" data-track-index="6" data-volume="0.3"></audio>
+<audio id="sfx-34" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="91.44" data-duration="2" data-track-index="7" data-volume="0.55"></audio>
+<audio id="sfx-35" src="assets/sfx-riser.mp3" data-audio-group="sfx" data-start="89.04" data-duration="3" data-track-index="8" data-volume="0.5"></audio>
 </div>
 <script>
 window.__timelines = window.__timelines || {};
@@ -98,63 +112,170 @@ tl.fromTo("#s2 video",{scale:1},{scale:1.18,duration:11.78,ease:"power1.inOut"},
 tl.fromTo("#s2 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},7.10);
 tl.fromTo("#s2 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},7.00);
 tl.fromTo("#s2-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},8.00);
-tl.to("#s2-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:13},8.40);
+tl.fromTo("#s2-hlg",{scale:1,opacity:0.7},{scale:1.12,opacity:0,duration:1.1,ease:"power1.out",repeat:3,repeatDelay:0.4},8.40);
 tl.fromTo("#s2-ptr",{height:0,opacity:0},{height:"10%",opacity:1,duration:0.5,ease:"power2.out"},8.30);
 tl.to("#s2-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},8.30);
 tl.fromTo("#s2-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},7.40);
 tl.fromTo("#s2-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},11.30);
 tl.to("#s2-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},12.00);
 tl.fromTo("#s3",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},18.78);
-tl.to("#s3",{opacity:0,duration:0.4,ease:"power2.in"},34.04);
-tl.fromTo("#s3 video",{scale:1},{scale:1.18,duration:15.67,ease:"power1.inOut"},18.78);
+tl.to("#s3",{opacity:0,duration:0.4,ease:"power2.in"},43.38);
+tl.fromTo("#s3 video",{scale:1},{scale:1.18,duration:25.00,ease:"power1.inOut"},18.78);
 tl.fromTo("#s3 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},18.88);
 tl.fromTo("#s3 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},18.78);
 tl.fromTo("#s3-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},19.78);
-tl.to("#s3-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:19},20.18);
+tl.fromTo("#s3-hlg",{scale:1,opacity:0.7},{scale:1.12,opacity:0,duration:1.1,ease:"power1.out",repeat:3,repeatDelay:0.4},20.18);
 tl.fromTo("#s3-ptr",{height:0,opacity:0},{height:"20%",opacity:1,duration:0.5,ease:"power2.out"},20.08);
 tl.to("#s3-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},20.08);
 tl.fromTo("#s3-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},19.18);
-tl.fromTo("#s3-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},23.58);
-tl.to("#s3-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},24.28);
-tl.fromTo("#s4",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},34.44);
-tl.to("#s4",{opacity:0,duration:0.4,ease:"power2.in"},48.60);
-tl.fromTo("#s4 video",{scale:1},{scale:1.05,duration:14.56,ease:"power1.inOut"},34.44);
-tl.fromTo("#s4 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},34.54);
-tl.fromTo("#s4 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},34.44);
-tl.fromTo("#s4-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},39.94);
-tl.to("#s4-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:17},40.34);
-tl.fromTo("#s4-ptr",{height:0,opacity:0},{height:"32%",opacity:1,duration:0.5,ease:"power2.out"},40.24);
-tl.to("#s4-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},35.74);
-tl.fromTo("#s4-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},34.84);
-tl.fromTo("#s4-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},39.08);
-tl.to("#s4-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},39.78);
-tl.fromTo("#s5",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},49.00);
-tl.to("#s5",{opacity:0,duration:0.4,ease:"power2.in"},63.71);
-tl.fromTo("#s5 video",{scale:1},{scale:1.18,duration:15.11,ease:"power1.inOut"},49.00);
-tl.fromTo("#s5 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},49.10);
-tl.fromTo("#s5 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},49.00);
-tl.fromTo("#s5-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},50.00);
-tl.to("#s5-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:18},50.40);
-tl.fromTo("#s5-ptr",{height:0,opacity:0},{height:"25%",opacity:1,duration:0.5,ease:"power2.out"},50.30);
-tl.to("#s5-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},50.30);
-tl.fromTo("#s5-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},49.40);
-tl.fromTo("#s5-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},53.63);
-tl.to("#s5-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},54.33);
-tl.fromTo("#s6",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},64.11);
-tl.to("#s6",{opacity:0,duration:0.4,ease:"power2.in"},77.71);
-tl.fromTo("#s6 video",{scale:1},{scale:1.18,duration:14.00,ease:"power1.inOut"},64.11);
-tl.fromTo("#s6 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},64.21);
-tl.fromTo("#s6 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},64.11);
-tl.fromTo("#s6-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},65.11);
-tl.to("#s6-hl",{boxShadow:"0 0 46px rgba(212,96,10,0.55)",duration:0.7,ease:"sine.inOut",yoyo:true,repeat:17},65.51);
-tl.fromTo("#s6-ptr",{height:0,opacity:0},{height:"24%",opacity:1,duration:0.5,ease:"power2.out"},65.41);
-tl.to("#s6-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},65.41);
-tl.fromTo("#s6-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},64.51);
-tl.fromTo("#s6-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},69.24);
-tl.to("#s6-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},69.94);
-tl.fromTo("#cta",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},78.11);
-tl.to("#cta",{opacity:0,duration:0.4,ease:"power2.in"},84.71);
-tl.fromTo("#cta .headline.big",{y:18,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},78.61);
-tl.fromTo("#cta .subline.big",{y:10,opacity:0},{y:0,opacity:1,duration:0.5,ease:"power3.out"},79.41);
-tl.fromTo("#cta .url",{y:10,opacity:0},{y:0,opacity:1,duration:0.4},80.31);
+tl.fromTo("#s3-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},36.18);
+tl.fromTo("#s3-sl-0",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},19.68);
+tl.fromTo("#s3-ch-0-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},20.08);
+tl.to("#s3-ch-0-0",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},20.63);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},21.43);
+tl.fromTo("#s3-ch-0-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},20.40);
+tl.to("#s3-ch-0-1",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},20.95);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},21.75);
+tl.fromTo("#s3-ch-0-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},20.72);
+tl.to("#s3-ch-0-2",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},21.27);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},22.07);
+tl.fromTo("#s3-ch-0-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},21.04);
+tl.to("#s3-ch-0-3",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},21.59);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},22.39);
+tl.fromTo("#s3-ch-0-4",{x:48,y:764,opacity:0,scale:0.85},{y:734,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},21.36);
+tl.to("#s3-ch-0-4",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},21.91);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},22.71);
+tl.fromTo("#s3-ch-0-5",{x:480,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},21.68);
+tl.to("#s3-ch-0-5",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},22.23);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},23.03);
+tl.to("#s3-sl-0",{opacity:0,duration:0.3},22.98);
+tl.fromTo("#s3-sl-1",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},23.23);
+tl.fromTo("#s3-ch-1-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},23.63);
+tl.to("#s3-ch-1-0",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},24.18);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},24.98);
+tl.fromTo("#s3-ch-1-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},23.95);
+tl.to("#s3-ch-1-1",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},24.50);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},25.30);
+tl.fromTo("#s3-ch-1-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},24.27);
+tl.to("#s3-ch-1-2",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},24.82);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},25.62);
+tl.fromTo("#s3-ch-1-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},24.59);
+tl.to("#s3-ch-1-3",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},25.14);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},25.94);
+tl.fromTo("#s3-ch-1-4",{x:48,y:764,opacity:0,scale:0.85},{y:734,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},24.91);
+tl.to("#s3-ch-1-4",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},25.46);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},26.26);
+tl.to("#s3-sl-1",{opacity:0,duration:0.3},26.21);
+tl.fromTo("#s3-sl-2",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},26.46);
+tl.fromTo("#s3-ch-2-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},26.86);
+tl.to("#s3-ch-2-0",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},27.41);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},28.21);
+tl.fromTo("#s3-ch-2-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},27.18);
+tl.to("#s3-ch-2-1",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},27.73);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},28.53);
+tl.fromTo("#s3-ch-2-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},27.50);
+tl.to("#s3-ch-2-2",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},28.05);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},28.85);
+tl.fromTo("#s3-ch-2-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},27.82);
+tl.to("#s3-ch-2-3",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},28.37);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},29.17);
+tl.to("#s3-sl-2",{opacity:0,duration:0.3},29.12);
+tl.fromTo("#s3-sl-3",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},29.37);
+tl.fromTo("#s3-ch-3-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},29.77);
+tl.to("#s3-ch-3-0",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},30.32);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},31.12);
+tl.fromTo("#s3-ch-3-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},30.09);
+tl.to("#s3-ch-3-1",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},30.64);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},31.44);
+tl.fromTo("#s3-ch-3-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},30.41);
+tl.to("#s3-ch-3-2",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},30.96);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},31.76);
+tl.fromTo("#s3-ch-3-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},30.73);
+tl.to("#s3-ch-3-3",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},31.28);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},32.08);
+tl.to("#s3-sl-3",{opacity:0,duration:0.3},32.03);
+tl.fromTo("#s3-sl-4",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},32.28);
+tl.fromTo("#s3-ch-4-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},32.68);
+tl.to("#s3-ch-4-0",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},33.23);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},34.03);
+tl.fromTo("#s3-ch-4-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},33.00);
+tl.to("#s3-ch-4-1",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},33.55);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},34.35);
+tl.fromTo("#s3-ch-4-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},33.32);
+tl.to("#s3-ch-4-2",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},33.87);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},34.67);
+tl.fromTo("#s3-ch-4-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},33.64);
+tl.to("#s3-ch-4-3",{x:379,y:218,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},34.19);
+tl.fromTo("#s3-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},34.99);
+tl.to("#s3-sl-4",{opacity:0,duration:0.3},34.94);
+tl.to("#s3-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},36.88);
+tl.fromTo("#s4",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},43.78);
+tl.to("#s4",{opacity:0,duration:0.4,ease:"power2.in"},57.93);
+tl.fromTo("#s4 video",{scale:1},{scale:1.05,duration:14.56,ease:"power1.inOut"},43.78);
+tl.fromTo("#s4 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},43.88);
+tl.fromTo("#s4 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},43.78);
+tl.fromTo("#s4-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},49.28);
+tl.fromTo("#s4-hlg",{scale:1,opacity:0.7},{scale:1.12,opacity:0,duration:1.1,ease:"power1.out",repeat:3,repeatDelay:0.4},49.68);
+tl.fromTo("#s4-ptr",{height:0,opacity:0},{height:"32%",opacity:1,duration:0.5,ease:"power2.out"},49.58);
+tl.to("#s4-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},45.08);
+tl.fromTo("#s4-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},44.18);
+tl.fromTo("#s4-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},48.41);
+tl.to("#s4-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},49.11);
+tl.fromTo("#s5",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},58.33);
+tl.to("#s5",{opacity:0,duration:0.4,ease:"power2.in"},73.04);
+tl.fromTo("#s5 video",{scale:1},{scale:1.18,duration:15.11,ease:"power1.inOut"},58.33);
+tl.fromTo("#s5 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},58.43);
+tl.fromTo("#s5 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},58.33);
+tl.fromTo("#s5-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},59.33);
+tl.fromTo("#s5-hlg",{scale:1,opacity:0.7},{scale:1.12,opacity:0,duration:1.1,ease:"power1.out",repeat:3,repeatDelay:0.4},59.73);
+tl.fromTo("#s5-ptr",{height:0,opacity:0},{height:"25%",opacity:1,duration:0.5,ease:"power2.out"},59.63);
+tl.to("#s5-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},59.63);
+tl.fromTo("#s5-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},58.73);
+tl.fromTo("#s5-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},62.97);
+tl.to("#s5-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},63.67);
+tl.fromTo("#s6",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},73.44);
+tl.to("#s6",{opacity:0,duration:0.4,ease:"power2.in"},91.04);
+tl.fromTo("#s6 video",{scale:1},{scale:1.18,duration:18.00,ease:"power1.inOut"},73.44);
+tl.fromTo("#s6 .clock",{scale:0.6,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(2.2)"},73.54);
+tl.fromTo("#s6 .divider",{scaleY:0},{scaleY:1,duration:0.5,ease:"power3.out",transformOrigin:"50% 0%"},73.44);
+tl.fromTo("#s6-hl",{scale:1.35,opacity:0},{scale:1,opacity:1,duration:0.45,ease:"back.out(1.8)"},74.44);
+tl.fromTo("#s6-hlg",{scale:1,opacity:0.7},{scale:1.12,opacity:0,duration:1.1,ease:"power1.out",repeat:3,repeatDelay:0.4},74.84);
+tl.fromTo("#s6-ptr",{height:0,opacity:0},{height:"24%",opacity:1,duration:0.5,ease:"power2.out"},74.74);
+tl.to("#s6-lc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},74.74);
+tl.fromTo("#s6-lc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},73.84);
+tl.fromTo("#s6-rc",{y:28,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},82.04);
+tl.fromTo("#s6-sl-0",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},74.34);
+tl.fromTo("#s6-ch-0-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},74.74);
+tl.to("#s6-ch-0-0",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},75.29);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},76.09);
+tl.fromTo("#s6-ch-0-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},75.06);
+tl.to("#s6-ch-0-1",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},75.61);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},76.41);
+tl.fromTo("#s6-ch-0-2",{x:48,y:581,opacity:0,scale:0.85},{y:551,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},75.38);
+tl.to("#s6-ch-0-2",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},75.93);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},76.73);
+tl.fromTo("#s6-ch-0-3",{x:480,y:673,opacity:0,scale:0.85},{y:643,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},75.70);
+tl.to("#s6-ch-0-3",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},76.25);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},77.05);
+tl.fromTo("#s6-ch-0-4",{x:48,y:764,opacity:0,scale:0.85},{y:734,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},76.02);
+tl.to("#s6-ch-0-4",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},76.57);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},77.37);
+tl.fromTo("#s6-ch-0-5",{x:480,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},76.34);
+tl.to("#s6-ch-0-5",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},76.89);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},77.69);
+tl.to("#s6-sl-0",{opacity:0,duration:0.3},77.64);
+tl.fromTo("#s6-sl-1",{y:-10,opacity:0},{y:0,opacity:1,duration:0.35,ease:"power2.out"},77.89);
+tl.fromTo("#s6-ch-1-0",{x:48,y:397,opacity:0,scale:0.85},{y:367,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},78.29);
+tl.to("#s6-ch-1-0",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},78.84);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},79.64);
+tl.fromTo("#s6-ch-1-1",{x:480,y:489,opacity:0,scale:0.85},{y:459,opacity:1,scale:1,duration:0.3,ease:"back.out(1.6)"},78.61);
+tl.to("#s6-ch-1-1",{x:360,y:196,scale:0.15,opacity:0,duration:0.85,ease:"power2.in"},79.16);
+tl.fromTo("#s6-glow",{scale:0.6,opacity:0.9},{scale:1.25,opacity:0,duration:0.5,ease:"power2.out"},79.96);
+tl.to("#s6-sl-1",{opacity:0,duration:0.3},79.91);
+tl.to("#s6-rc .mk i",{scaleX:1,duration:0.45,ease:"power2.out"},82.74);
+tl.fromTo("#cta",{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},91.44);
+tl.to("#cta",{opacity:0,duration:0.4,ease:"power2.in"},98.04);
+tl.fromTo("#cta .headline.big",{y:18,opacity:0},{y:0,opacity:1,duration:0.6,ease:"power3.out"},91.94);
+tl.fromTo("#cta .subline.big",{y:10,opacity:0},{y:0,opacity:1,duration:0.5,ease:"power3.out"},92.74);
+tl.fromTo("#cta .url",{y:10,opacity:0},{y:0,opacity:1,duration:0.4},93.64);
 </script></body></html>

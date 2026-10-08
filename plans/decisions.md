@@ -429,6 +429,11 @@ Justin: "every now and again email the successes to keep momentum ... top expert
 ## 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite
 
 Justin, with his own Notifications page: "Teo asked same thing 3 times ... it needs to show once", and "once check in done it flashes up ask digi but quickly flips to next child ... goes on alert notification? But only once." Then: "we don't want to miss those issues if dropped off after 2 weeks, also to ask DiGi it needs to know what the issue was." Read off the live tables: three conversations in August and September each booked a follow up, each became a card, none was answered, none expired. Now one unanswered card per child at a time, a due follow up waits behind it (and is let go after ten days waiting), an unanswered card expires after a fortnight and its thread goes onto the tracker as a worry first, and every card opens DiGi on the thread itself rather than its title. A one or two on the check in keeps its row open and plants one invite on Notifications and Home, keyed by the worry, cleared when the worry lifts. `lib/digi/followup-queue.ts`, held by `scripts/check-followup-once.mjs`.
+- 8 October: v4 of the two brains film shows DiGi's thinking as five labelled
+  streams into the brain (researchers, studies, philosophy, guardrails,
+  parents who said what worked) before the answer, and the learning brain at
+  7:30. No parent count is claimed until there is one. Render time is now
+  about forty minutes for the heavy right column.
 
 ## 7 October 2026, evening: the pilot review's fixes, and the sort turns its cards over
 

@@ -81,11 +81,73 @@
       "right": {
         "kind": "answer",
         "digi": "corner",
-        "tag": "DiGi, 9:02 PM",
+        "tag": "DiGi, 9:02 PM. One answer, from all of it",
         "head": "Tonight is not the night to fight it.",
         "body": "Sit with her for the last five minutes. Then off at the end of this one, and up together.",
         "src": "Rails: no blame, no battle at bedtime",
-        "mark": "not the night"
+        "mark": "not the night",
+        "video": "beat-1.mp4",
+        "think": {
+          "target": {
+            "x": 52,
+            "y": 22
+          },
+          "streams": [
+            {
+              "label": "The researchers",
+              "color": "ink",
+              "items": [
+                "Orben and Przybylski",
+                "Odgers and Jensen",
+                "Livingstone, LSE",
+                "Kennedy, Good Inside",
+                "Diamond",
+                "Hartstein"
+              ]
+            },
+            {
+              "label": "Peer reviewed studies",
+              "color": "ink",
+              "items": [
+                "Hiniker and others, 2018",
+                "Hartstein and others, 2022",
+                "Kelly, Kelly and Sacker, 2013",
+                "Mindell and others, 2015",
+                "Berridge and Robinson, 2016"
+              ]
+            },
+            {
+              "label": "Our philosophy",
+              "color": "butter",
+              "items": [
+                "Never allow or deny",
+                "Connection is the protection",
+                "The pathway, not the ban",
+                "Repair over punishment"
+              ]
+            },
+            {
+              "label": "The guardrails",
+              "color": "coral",
+              "items": [
+                "Safety first",
+                "Never invent a study",
+                "A person approves anything new",
+                "Crisis routes to a human"
+              ]
+            },
+            {
+              "label": "Parents who said what worked",
+              "color": "green",
+              "items": [
+                "Age 6, bedtime, routine ending: worked",
+                "Age 7, bedtime, timer and deal: worked",
+                "Age 5, bedtime, screen off at 7:30: worked",
+                "Age 6, bedtime, warning only: did not work"
+              ]
+            }
+          ]
+        }
       },
       "sfx": [
         {
@@ -98,7 +160,9 @@
           "at": "right",
           "vol": 0.6
         }
-      ]
+      ],
+      "hold": 25,
+      "rightDelay": 17.4
     },
     {
       "id": "s4",
@@ -185,11 +249,40 @@
         "mark": "next day"
       },
       "right": {
-        "digi": "big",
-        "tag": "Three nights later",
+        "digi": null,
+        "tag": "A brain that learns",
         "head": "Did it work? Tell DiGi.",
-        "body": "Your answer feeds the next one. Across families only counts travel, never your words.",
-        "mark": "Did it work?"
+        "body": "Your answer teaches the next one. New studies are added by a person, never by the machine.",
+        "mark": "teaches the next one",
+        "video": "beat-4.mp4",
+        "think": {
+          "target": {
+            "x": 50,
+            "y": 20
+          },
+          "streams": [
+            {
+              "label": "What parents say worked, linked to their circumstance",
+              "color": "green",
+              "items": [
+                "Age 6, bedtime, third night: worked",
+                "Age 9, gaming, after school: worked",
+                "Age 4, car journey: worked",
+                "Age 6, bedtime, warning only: did not work",
+                "Age 11, phone at dinner: worked",
+                "Age 8, morning, timer: worked"
+              ]
+            },
+            {
+              "label": "New studies, added by a person",
+              "color": "ink",
+              "items": [
+                "Hartstein and others, 2022",
+                "Radesky and others, 2022"
+              ]
+            }
+          ]
+        }
       },
       "sfx": [
         {
@@ -202,7 +295,9 @@
           "at": "right",
           "vol": 0.5
         }
-      ]
+      ],
+      "hold": 18,
+      "rightDelay": 8.6
     },
     {
       "id": "cta",
