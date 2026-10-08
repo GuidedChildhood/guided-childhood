@@ -258,7 +258,7 @@ function FollowUpAnswer({
         }}
       />
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
-        Not really is the most useful answer here. It is how DiGi learns what to suggest you instead.
+        Not really is the most useful answer here. It gets you a different approach next, and it counts for every family on the same worry.
       </p>
       {/* ── AND A WAY TO PUT IT DOWN (18 September 2026) ──────────────────────
           Every other card carries Dismiss in the row beside its link. This

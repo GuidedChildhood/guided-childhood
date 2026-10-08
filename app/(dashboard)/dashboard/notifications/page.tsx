@@ -27,6 +27,10 @@ export default async function NotificationsPage() {
             ? 'Nothing needs you right now.'
             : `${items.length} thing${items.length === 1 ? '' : 's'} here${urgentCount > 0 ? `, ${urgentCount} waiting on you` : ''}. Tap any one to act on it.`}
         </p>
+        {/* What this page is in the loop, said once (Justin, 8 October 2026). */}
+        <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1.55, margin: '6px 0 0' }}>
+          DiGi's check backs, the worries that need a word tonight, and what came up today. Skip one and the tracker still holds it.
+        </p>
       </div>
 
       {items.length === 0 ? (

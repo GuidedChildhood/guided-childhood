@@ -626,8 +626,10 @@ export function weeklyReviewEmail(params: {
   movement?: { label: string; from: number; to: number; span: string }[] | null
   /** A nugget with its source, why it works, a line for the parent. See lib/email/momentum. */
   momentum?: MomentumBlock | null
+  /** Worries still open or improving on the family's check in, so the email can say we are still on them. */
+  openWorries?: number | null
 }): EmailContent {
-  const { childLabel, review, unsubscribe, poll, movement, momentum } = params
+  const { childLabel, review, unsubscribe, poll, movement, momentum, openWorries } = params
   const s = review.stats
   const statRow = (label: string, value: string) => `<tr>
     <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
@@ -701,6 +703,13 @@ export function weeklyReviewEmail(params: {
                <a href="${APP}/dashboard/what-is-working" style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:${BUTTER_DARK};text-decoration:none">See the whole picture &rsaquo;</a>
              </div>
            </div>`
+        : '') +
+      // The promise, every week, not once in seven (Justin, 8 October 2026:
+      // the emails have to carry the same approach as the app). The
+      // momentum block's "we ask the same question on purpose" line rotates;
+      // this one is fixed, and only when there is something still open.
+      (openWorries && openWorries > 0
+        ? p(`${openWorries === 1 ? 'One worry is' : `${openWorries} worries are`} still open on ${childLabel}'s check in. We keep asking, and keep offering the next approach, until each one rests.`)
         : '') +
       (momentum ? momentumHtml(momentum) : '') +
       (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
