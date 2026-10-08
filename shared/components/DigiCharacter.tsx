@@ -89,7 +89,7 @@ export default function DigiCharacter({
       }}
     >
       <Image
-        src="/digi-squad/DiGi-star.svg"
+        src="/digi-squad/DiGi-star-3d.png"
         alt="DiGi, your evidence led guide"
         width={size}
         height={size}

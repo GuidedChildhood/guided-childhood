@@ -215,7 +215,7 @@ function SceneDigi() {
   return (
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
-        <img data-pop src="/digi-squad/DiGi-star.svg" alt="DiGi" width={58} height={62} style={{ flexShrink: 0, display: 'block' }} />
+        <img data-pop src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={58} height={62} style={{ flexShrink: 0, display: 'block' }} />
         <div data-rise style={{ background: '#fff', border: 'var(--edge)', borderRadius: '18px 18px 18px 4px', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
           <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.4, color: INK }}>That is not defiance, that is mid game. Here is the pathway for tonight:</div>
         </div>
@@ -302,7 +302,7 @@ function SceneRemind({ name }: { name: string }) {
   return (
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: INK }}>DiGi</div>
@@ -312,7 +312,7 @@ function SceneRemind({ name }: { name: string }) {
         </div>
       </div>
       <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: INK }}>DiGi</div>
@@ -544,7 +544,7 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
         <div ref={stageRef} style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 22, padding: '40px 28px 0', position: 'relative', maxWidth: 480, width: '100%', margin: '0 auto' }}>
           <div data-part style={{ position: 'relative' }}>
             <div style={{ width: 168, height: 168, borderRadius: '50%', background: '#FEF7E0', border: 'var(--edge)', boxShadow: 'var(--lift)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img data-pop src="/digi-squad/DiGi-star.svg" alt="DiGi" width={140} height={150} style={{ display: 'block' }} />
+              <img data-pop src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={140} height={150} style={{ display: 'block' }} />
             </div>
             <div data-rise style={{ position: 'absolute', right: -14, bottom: 6, background: GREEN, color: '#fff', borderRadius: 'var(--radius-pill)', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6, boxShadow: `0 4px 0 ${GREEN_DARK}` }}>
               <Tick size={16} />

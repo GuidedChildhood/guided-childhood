@@ -606,7 +606,7 @@ export default function StarterPackPage() {
         {step === 'intro' && returning && (
           <div style={{ textAlign: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)',
@@ -640,7 +640,7 @@ export default function StarterPackPage() {
         {step === 'intro' && !returning && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             {schoolName && (
               <p data-school-welcome style={{
@@ -705,7 +705,7 @@ export default function StarterPackPage() {
         {step === 'account' && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
@@ -805,7 +805,7 @@ export default function StarterPackPage() {
         {step === 'reassure' && (
           <div style={{ textAlign: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.2rem)',
@@ -997,7 +997,7 @@ export default function StarterPackPage() {
               background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
               borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginTop: '20px',
             }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={34} height={34} style={{ flexShrink: 0, marginTop: '1px' }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={34} height={34} style={{ flexShrink: 0, marginTop: '1px' }} />
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                 This is the hardest part of parenting right now, and how you are doing matters as much as how they are. We have got you, not just your child.
               </p>

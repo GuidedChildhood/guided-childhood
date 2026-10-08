@@ -75,7 +75,7 @@ export default function HappyScene({
             <img src={friend.cutout} alt={friend.name} style={{ width: 116, height: 116, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 96, height: 96, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
+            <img src="/digi-squad/DiGi-star-3d.png" alt="" style={{ width: 96, height: 96, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
           )}
         </div>
       </div>

@@ -50,7 +50,7 @@ export default function RefOgCard() {
           background: 'var(--terracotta)',
         }} />
         <img
-          src="/digi-squad/DiGi-star.svg"
+          src="/digi-squad/DiGi-star-3d.png"
           alt=""
           style={{ position: 'absolute', right: 60, top: 150, width: 330, height: 330, objectFit: 'contain' }}
         />

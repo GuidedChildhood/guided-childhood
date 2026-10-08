@@ -33,8 +33,8 @@ export default function FriendMark({
   // The friend PNGs stand in about two thirds of their square, with clear
   // space round them for the lesson plates. Without a ring the art is the
   // thumbnail itself, so it is drawn larger to fill the card instead of
-  // reading as a dot (8 October 2026). The star SVG is already tight.
-  const fill = !ring && !!c.img && !c.img.endsWith('.svg')
+  // reading as a dot (8 October 2026). DiGi's star art is already tight.
+  const fill = !ring && !!c.img && !c.img.includes('/DiGi-star')
   return (
     <span
       aria-hidden
