@@ -431,6 +431,19 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety'],
   },
   {
+    // The copyright and ownership strand had nothing between KS2 and KS5
+    // (8 October 2026, after the Common Sense Education mapping showed it as
+    // our thinnest Connected World strand). Taught last in KS3 because it
+    // leans on ks3-12's checking habit and ks3-24's AI line. No RSHE tag: the
+    // RSHE guidance names no copyright requirement; its statutory home is the
+    // KS3 computing programme of study (plans/2026-10-08-copyright-ks3-lesson-plan.md).
+    n: 34, moduleId: 'ks3-34-who-owns-what-you-make', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 59,
+    title: 'Who owns what you make',
+    outcome: 'I can say who owns what I make, and use other people’s work fairly.',
+    blurb: 'Copyright you get for free, what posting gives the app, fair dealing, credit that is not permission, and AI made work.',
+    character: 'orbit', castLine: 'Orbit opens, DiGi closes',
+  },
+  {
     n: 15, moduleId: 'ks4-15-manipulation-persuasion', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 69,
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',
