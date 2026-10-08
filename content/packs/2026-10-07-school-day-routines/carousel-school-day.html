@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>The Wrong Villain, the school day: carousel</title>
+<title>The Wrong Villain, the school day: carousel v3</title>
 <!--
   THE WRONG VILLAIN CAROUSEL, reusable native document (PDF) template for LinkedIn.
   Native PDF carousels are the top of the 2026 reach hierarchy, 2 to 3 times the dwell of a
@@ -64,6 +64,18 @@
   .bar.hot{background:var(--accent);}
   .bar-val{font-family:var(--display);font-weight:700;font-size:28px;}
   .footer{font-family:var(--body);font-size:24px;color:var(--accent);margin-top:26px;}
+  .fig{display:block;margin:0 auto;}
+  .fig .ink{stroke:var(--ink);fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+  .fig .hot{stroke:var(--accent);fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+  .fig .fill{fill:var(--ink);}
+  .fig .fillhot{fill:var(--accent);}
+  .fig .label{font-family:var(--body);font-size:30px;fill:var(--taupe);text-anchor:middle;}
+  .fig .big{font-family:var(--display);font-weight:700;font-size:64px;fill:var(--ink);text-anchor:middle;}
+  .fig .bighot{font-family:var(--display);font-weight:700;font-size:64px;fill:var(--accent);text-anchor:middle;}
+  .two{display:flex;gap:40px;margin-top:40px;}
+  .two > div{flex:1;background:rgba(35,32,25,0.04);border-radius:18px;padding:30px 26px;}
+  .two h3{font-family:var(--display);font-weight:800;font-size:40px;margin:0 0 10px;line-height:1.1;}
+  .two p{font-family:var(--body);font-size:28px;line-height:1.4;margin:0;}
   @media print{
     html,body{background:#fff;}
     .deck{gap:0;padding:0;}
@@ -75,77 +87,120 @@
 <body>
 <div class="deck">
 
-  <!-- SLIDE 1, COVER. The hook and the number. -->
   <section class="slide">
     <p class="eyebrow">The Wrong Villain, the school day</p>
     <div class="mid">
-      <h1>The morning<br>was decided<br>last night.</h1>
-      <p class="lede" style="margin-top:44px;max-width:84%;">In 355,358 adolescents, sleep and breakfast beat the screen in every dataset. The 7.30 television and the 3.30 meltdown, by the evidence.</p>
+      <h1>7.30 and 3.30.<br>Most of the evidence<br>is not about<br>the screen.</h1>
+      <svg class="fig" width="880" height="300" viewBox="0 0 880 300" aria-hidden="true">
+  <circle class="ink" cx="180" cy="130" r="110" style="stroke-width:7"/><line class="ink" x1="276.0" y1="130.0" x2="290.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="180.0" y1="226.0" x2="180.0" y2="240.0" style="stroke-width:5"/><line class="ink" x1="84.0" y1="130.0" x2="70.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="179.99999999999997" y1="34.0" x2="179.99999999999997" y2="20.0" style="stroke-width:5"/><line class="hot" x1="180" y1="130" x2="141.1" y2="168.9" style="stroke-width:9"/><line class="hot" x1="180" y1="130" x2="180.0" y2="215.8"/><circle class="fillhot" cx="180" cy="130" r="9"/><text class="label" x="180" y="290">7.30, shoes not on</text>
+  <circle class="ink" cx="700" cy="130" r="110" style="stroke-width:7"/><line class="ink" x1="796.0" y1="130.0" x2="810.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="700.0" y1="226.0" x2="700.0" y2="240.0" style="stroke-width:5"/><line class="ink" x1="604.0" y1="130.0" x2="590.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="700.0" y1="34.0" x2="700.0" y2="20.0" style="stroke-width:5"/><line class="hot" x1="700" y1="130" x2="753.1" y2="144.2" style="stroke-width:9"/><line class="hot" x1="700" y1="130" x2="700.0" y2="215.8"/><circle class="fillhot" cx="700" cy="130" r="9"/><text class="label" x="700" y="290">3.30, the car</text>
+</svg>
     </div>
     <span class="swipe">Swipe &rsaquo;</span>
     <span class="kmark">The Guided Digital Childhood</span>
   </section>
 
-  <!-- SLIDE 2, THE FINDING. -->
   <section class="slide center">
-    <p class="eyebrow">The finding</p>
-    <p class="lede">Orben and Przybylski at Oxford, Nature Human Behaviour 2019. Three large adolescent datasets, two American and one British, one analysis.</p>
-    <div class="big">0.4%</div>
-    <p class="lede">The most of adolescent wellbeing that technology use explained, a correlation of about 0.06. Same datasets, same units: sleep &beta; +0.07 to +0.25, breakfast &beta; +0.12 to +0.17, technology medians &minus;0.005 to &minus;0.035.</p>
+    <p class="eyebrow">The morning is decided the night before</p>
+    <svg class="fig" width="880" height="260" viewBox="0 0 880 260" aria-hidden="true">
+  <path class="ink" d="M120 60 a70 70 0 1 0 60 110 a55 55 0 0 1 -60 -110 z"/>
+  <text class="label" x="150" y="240">the night before</text>
+  <path class="ink" d="M250 150 H630" style="stroke-dasharray:14 18"/>
+  <path class="hot" d="M600 130 L640 150 L600 170"/>
+  <rect class="ink" x="360" y="80" width="160" height="70" rx="12"/>
+  <rect class="fill" x="372" y="92" width="44" height="26" rx="6"/>
+  <line class="ink" x1="360" y1="150" x2="360" y2="185"/><line class="ink" x1="520" y1="150" x2="520" y2="185"/>
+  <text class="label" x="440" y="240">a regular bedtime</text>
+  <circle class="hot" cx="760" cy="120" r="48"/>
+  <g class="hot"><line x1="830.0" y1="120.0" x2="852.0" y2="120.0"/><line x1="809.5" y1="169.5" x2="825.1" y2="185.1"/><line x1="760.0" y1="190.0" x2="760.0" y2="212.0"/><line x1="710.5" y1="169.5" x2="694.9" y2="185.1"/><line x1="690.0" y1="120.0" x2="668.0" y2="120.0"/><line x1="710.5" y1="70.5" x2="694.9" y2="54.9"/><line x1="760.0" y1="50.0" x2="760.0" y2="28.0"/><line x1="809.5" y1="70.5" x2="825.1" y2="54.9"/></g>
+  <text class="label" x="760" y="240">the morning</text>
+</svg>
+    <h2>10,230 British children.</h2>
+    <p class="lede">In the Millennium Cohort, an irregular bedtime at three, five and seven predicted behaviour at seven, and improved when the bedtime did. Send 32 children aged 8 to 12 to bed an hour later for four nights and their mood moves with it. That one was a randomised experiment.</p>
     <span class="pagenum">2</span>
   </section>
 
-  <!-- SLIDE 3, THE MEANING. -->
   <section class="slide center">
-    <p class="eyebrow">What it means</p>
-    <h2>Small on average, real and concentrated in the children already struggling.</h2>
-    <p class="lede">Not the same as harmless. And it is every screen for every teenager: girls on heavy social media is a bigger number. Sleep and breakfast still sit above it in all three datasets.</p>
+    <p class="eyebrow">The phone is part of the night</p>
+    <svg class="fig" width="880" height="240" viewBox="0 0 880 240" aria-hidden="true">
+  <rect class="ink" x="90" y="30" width="110" height="180" rx="18"/>
+  <line class="ink" x1="125" y1="190" x2="165" y2="190"/>
+  <line class="hot" x1="60" y1="20" x2="230" y2="220" style="stroke-width:9"/>
+  <text class="label" x="145" y="238">not by the bed</text>
+  <path class="hot" d="M330 120 H520" style="stroke-dasharray:14 18"/><path class="hot" d="M490 100 L530 120 L490 140"/>
+  <rect class="ink" x="620" y="60" width="110" height="150" rx="18"/>
+  <path class="ink" d="M675 210 v24 M655 234 h40"/>
+  <path class="hot" d="M740 150 c40 0 40 -40 80 -40" style="stroke-width:7"/>
+  <text class="label" x="700" y="238">charging in the kitchen</text>
+</svg>
+    <div class="huge" style="font-size:120px">1.82&times;</div>
+    <p class="lede">The odds of too little sleep on a school night for 6,616 London pupils aged 11 and 12 with a phone in the hour before sleep. So the bedroom rule comes first, and it is a night rule, not a morning one.</p>
     <span class="pagenum">3</span>
   </section>
 
-  <!-- SLIDE 4, THE HONEST PIVOT. -->
   <section class="slide center">
-    <p class="eyebrow">To be fair</p>
-    <h2>The phone in the bedroom is the right villain for the night.</h2>
-    <p class="lede">The bedroom rule comes first. Among 6,616 London pupils aged 11 and 12, a phone in the hour before sleep meant 1.82 times the odds of too little sleep on a school night, 2.13 in the dark. The television at 7.30 is the wrong villain for the morning.</p>
-    <p class="note" style="margin-top:36px;">Self reported and cross sectional. The pattern is enough to move the charger.</p>
+    <p class="eyebrow">The hour the screen actually fills</p>
+    <h2>It is not the morning.</h2>
+    <svg class="fig" width="880" height="250" viewBox="0 0 880 250" aria-hidden="true">
+  <text class="label" x="250" y="60" style="text-anchor:end;fill:var(--ink)">Breakfast window</text>
+  <rect class="fill" x="280" y="36" width="100" height="34" rx="4"/>
+  <text class="big" x="410" y="68" style="text-anchor:start;font-size:40px">25 to 32 min</text>
+  <text class="label" x="250" y="160" style="text-anchor:end;fill:var(--ink)">After school</text>
+  <rect class="fillhot" x="280" y="136" width="480" height="34" rx="4"/>
+  <text class="bighot" x="280" y="226" style="text-anchor:start;font-size:40px">1h24 to 2h01, the largest of the day</text>
+</svg>
+    <p class="lede">Ofcom's meter, 701 children aged 8 to 14, online time by time of day. In the one diary study of how screen time ends, 380 endings in 28 families, the endings that went well were the routine ones and the ones the programme itself ended. Warned children were more upset, not less.</p>
     <span class="pagenum">4</span>
   </section>
 
-  <!-- SLIDE 5, CREDIBILITY. The experiments. -->
   <section class="slide center">
-    <p class="eyebrow">Not a survey, an experiment</p>
-    <div class="stack">32 children, one hour less<br>for four nights.<br>50 teenagers, 6.5 hours<br>in bed against 10.</div>
-    <div class="rule"></div>
-    <p class="lede">Randomised crossover designs: bedtime moved an hour each way, or 6.5 hours against 10. Mood and control over feelings moved within days. Small samples, and the big numbers are teenagers; the primary age evidence is 10,230 British children in the Millennium Cohort.</p>
+    <p class="eyebrow">To be fair</p>
+    <h2>The case against the morning screen is one study.</h2>
+    <p class="lede">A French case control, 276 children aged three to six, about language delay, screen time from parents' memory. Even in the datasets built to study screens, 355,358 adolescents, Orben and Przybylski at Oxford found sleep and breakfast carried larger associations with wellbeing than technology use in all three.</p>
+    <p class="note" style="margin-top:36px;">Same surveys, same units. Take it as proportion, not proof. With three children and a job, the screen in our house is staying; this is the routine around it.</p>
     <span class="pagenum">5</span>
   </section>
 
-  <!-- SLIDE 6, THE CONTRAST. One piece of data viz. -->
   <section class="slide">
-    <p class="eyebrow">Two children, same twenty minutes of television</p>
-    <h2>What the evidence behind each side of the morning actually weighs.</h2>
-    <div class="bars">
-      <div class="bar-row"><div class="bar-label">Sleep and breakfast, adolescents studied</div><div class="bar-track"><div class="bar" style="width:84%"></div><div class="bar-val">355,358</div></div></div>
-      <div class="bar-row"><div class="bar-label">Morning screens alone, children studied</div><div class="bar-track"><div class="bar hot" style="width:4%"></div><div class="bar-val">276</div></div></div>
-    </div>
-    <p class="note" style="margin-top:44px;">The only study found that isolates the before school slot: a French case control about language delay, ages three to six, screen time from parents' memory.</p>
+    <p class="eyebrow">Two children, same twenty minutes</p>
+    <h2>The television is the thing they have in common.</h2>
+    <div class="two">
+  <div>
+    <svg class="fig" width="200" height="120" viewBox="0 0 200 120" aria-hidden="true"><rect class="ink" x="20" y="40" width="160" height="50" rx="10" style="stroke-width:5"/><rect class="fill" x="32" y="50" width="36" height="20" rx="4"/><line class="ink" x1="20" y1="90" x2="20" y2="112" style="stroke-width:5"/><line class="ink" x1="180" y1="90" x2="180" y2="112" style="stroke-width:5"/></svg>
+    <h3>In bed by eight.</h3>
+    <p>Toast inside her. Twenty minutes of television before school.</p>
+  </div>
+  <div>
+    <svg class="fig" width="200" height="120" viewBox="0 0 200 120" aria-hidden="true"><circle class="hot" cx="100" cy="60" r="44" style="stroke-width:5"/><line class="hot" x1="100" y1="60" x2="100" y2="30" style="stroke-width:5"/><line class="hot" x1="100" y1="60" x2="122" y2="72" style="stroke-width:5"/><circle class="fillhot" cx="100" cy="60" r="5"/></svg>
+    <h3>Up till ten.</h3>
+    <p>Nothing inside him. The same twenty minutes of television.</p>
+  </div>
+</div>
     <span class="pagenum">6</span>
   </section>
 
-  <!-- SLIDE 7, THE POINT. -->
   <section class="slide center">
     <p class="eyebrow">The 3.30 collapse</p>
-    <h2>The meltdown is real. The tank is not.</h2>
-    <p class="lede">The internet calls it after school restraint collapse, and the idea under the name is a tank that drains. 23 labs got 0.04 in 2016 against a claimed 0.62, and only small effects since. A school day does tire a child. Keep the pattern, drop the tank. ADHD, autism or a school worry have their own cause and their own professional.</p>
+    <svg class="fig" width="880" height="230" viewBox="0 0 880 230" aria-hidden="true">
+  <rect class="ink" x="300" y="40" width="280" height="150" rx="22"/>
+  <rect class="fill" x="314" y="120" width="252" height="56" rx="10" style="opacity:.25"/>
+  <line class="hot" x1="270" y1="20" x2="610" y2="210" style="stroke-width:10"/>
+  <text class="label" x="440" y="226">self control is not a tank</text>
+</svg>
+    <h2>Keep the pattern. Drop the tank.</h2>
+    <p class="lede">A school day tires a child, and hunger looks like defiance. The name the internet gives it rests on an idea 23 labs could not find in 2016, and only small effects since. For a child with ADHD, autism or a school worry, the 3.30 has its own cause and its own professional.</p>
     <span class="pagenum">7</span>
   </section>
 
-  <!-- SLIDE 8, THE CLOSE. -->
   <section class="slide center">
-    <p class="eyebrow">The Wrong Villain, continued</p>
-    <h2>Match the response to the evidence.</h2>
-    <p class="lede">A regular bedtime. Something to eat before any screen. The end agreed before the screen goes on, not announced when it is over. The sources are in the comments. If this landed, repost it.</p>
+    <p class="eyebrow">So, tonight</p>
+    <h2>Three things, and they cost nothing.</h2>
+    <svg class="fig" width="880" height="110" viewBox="0 0 880 110" aria-hidden="true">
+  <path class="hot" d="M60 60 l26 26 l50 -56" style="stroke-width:9"/><text class="label" x="240" y="72" style="text-anchor:start;fill:var(--ink);font-size:34px">A regular bedtime</text>
+  <path class="hot" d="M470 60 l26 26 l50 -56" style="stroke-width:9"/><text class="label" x="650" y="72" style="text-anchor:start;fill:var(--ink);font-size:34px">Food before any screen</text>
+</svg>
+    <p class="lede">A regular bedtime, and the phone charging in the kitchen. Something to eat before any screen, at 7.30 and at the gate. The end agreed before the screen goes on, not announced when it is over.</p>
+    <p class="note" style="margin-top:30px;">Which one is yours, the 7.30 or the 3.30? Sources in the comments. If this landed, repost it.</p>
     <p class="footer">The Guided Digital Childhood, guidedchildhood.com</p>
     <span class="pagenum">8</span>
   </section>
