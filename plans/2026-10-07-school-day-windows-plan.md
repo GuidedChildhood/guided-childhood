@@ -1,6 +1,14 @@
 # 7 October 2026: the two school day windows, built on what is already there
 
-From the research briefing `briefings/2026-10-07-school-day-routines.html`
+**Status, 7 October 2026, evening: built in PR 1210 (draft until Justin has
+seen it), migration 363 waiting to be applied.** Two deviations from the plan
+below, both recorded in the PR: the Home card is its own component
+(`components/home/SchoolWindowCard.tsx`) rather than a `slot` kind in the
+alerts rows, because those rows have no body and no buttons and sit under a
+fold; and the migration number is 363, since 361 landed with the lesson clips and 362 with the quiz slides.
+The briefing it rests on is the verified V3 (the Early Years lens added), `briefings/2026-10-07-school-day-routines-v3.html`.
+
+From the research briefing `briefings/2026-10-07-school-day-routines-v3.html`
 (nine lenses, platform mapped) for Justin's ask: "research the best morning
 before school routine and after school return so we can build advice in and
 cleverly pre empt what happens ... as well as giving parents opportunity to

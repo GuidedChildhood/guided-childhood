@@ -11,6 +11,8 @@ import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
+import SchoolWindowCard from '@/components/home/SchoolWindowCard'
+import { getSchoolWindow } from '@/lib/home/school-window-data'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import DigiWordCard from '@/components/home/DigiWordCard'
 import DigiQuestionCard from '@/components/home/DigiQuestionCard'
@@ -651,6 +653,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // categories most likely happening at this hour (UK time), so the grid
   // greets the parent with their probable right now.
   const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
+  // The school day card, in the family's own window on school days, or null
+  // for a quiet Home (lib/home/school-window-data). Read on its own, after
+  // the child is known, and failing soft to nothing.
+  const ukMinute = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', minute: 'numeric' }))
+  const schoolWindow = await getSchoolWindow(
+    supabase, user.id,
+    child?.id ? { id: child.id, name: child.name ?? null, age_band: child.age_band ?? null } : null,
+    ukHour * 60 + ukMinute,
+    new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/London' }),
+  )
   const slotOrder: string[] =
     ukHour < 12 ? ['Morning', 'Transitions', 'Digital', 'School', 'Food', 'Emotions', 'Evening']
     : ukHour < 15 ? ['School', 'Food', 'Digital', 'Transitions', 'Emotions', 'Morning', 'Evening']
@@ -1456,6 +1468,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           and it is already silent once answered, so it costs nothing on the
           other twenty nine days of the month. */}
       {!firstRun && <CommunityBite />}
+
+      {/* Before school and home from school, in this family's own window on
+          school days (migration 362 times, lib/home/school-window). One move,
+          the words, and the one tap log. Quiet the rest of the day. */}
+      {schoolWindow && <SchoolWindowCard data={schoolWindow} />}
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
           finished lands on an overview of what is waiting from their child,

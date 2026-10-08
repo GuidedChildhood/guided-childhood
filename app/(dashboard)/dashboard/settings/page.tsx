@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import SchoolLink from '@/components/digi/SchoolLink'
 import { DEFAULT_REGION, isRegion, REGION_LABEL, REGION_NOTE } from '@/lib/learning/region'
+import { SCHOOL_START_OPTIONS, HOME_OPTIONS, minutesLabel } from '@/lib/home/school-window'
 import type { Region } from '@/lib/learning/holidays'
 import DeleteAccount from '@/components/settings/DeleteAccount'
 import YourAgreements from '@/components/settings/YourAgreements'
@@ -46,6 +47,11 @@ interface Child {
   date_of_birth: string | null
   interests: string | null
   is_primary: boolean
+  // When school starts and when they are usually home, minutes from midnight
+  // UK (migration 363). The before school and home from school card and push
+  // land 50 minutes before the start and 15 after the home time.
+  school_start_minutes: number | null
+  home_minutes: number | null
 }
 
 interface ChildForm {
@@ -59,6 +65,9 @@ interface ChildForm {
   // Month and year is plenty to work from: the toggle swaps the input to a
   // month picker and the save lands on the first of that month.
   monthOnly: boolean
+  // The two school day times as select values, '' meaning the default.
+  schoolStart: string
+  home: string
   saving: boolean
   saved: boolean
 }
@@ -75,6 +84,8 @@ export default function SettingsPage() {
   const [dobSupported, setDobSupported] = useState(true)
   // False before migration 088: the interests field hides and saves skip it.
   const [interestsSupported, setInterestsSupported] = useState(true)
+  // False before migration 363: the school day times hide and saves skip them.
+  const [timesSupported, setTimesSupported] = useState(true)
   const [loading, setLoading] = useState(true)
   // The billing portal button: cancelling, and fixing a card that failed.
   const [portalBusy, setPortalBusy] = useState(false)
@@ -108,7 +119,7 @@ export default function SettingsPage() {
       // that has always existed rather than blanking the whole page.
       let [profileResult, childrenResult] = await Promise.all([
         supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at, school_region, trial_ends_at, plan_choice').eq('id', user.id).single(),
-        supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+        supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary, school_start_minutes, home_minutes').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
       if (profileResult.error) {
         // school_region lands with 129 and wellbeing_consent_at with 120, so
@@ -121,6 +132,12 @@ export default function SettingsPage() {
           profileResult = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at').eq('id', user.id).single() as typeof profileResult
           setRegionSupported(false)
         }
+      }
+      if (childrenResult.error) {
+        // 363 (school day times) is the newest column, so it steps back first.
+        setTimesSupported(false)
+        const withInterests = await supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
+        if (!withInterests.error) childrenResult = withInterests
       }
       if (childrenResult.error) {
         const withDob = await supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
@@ -161,6 +178,8 @@ export default function SettingsPage() {
         date_of_birth: k.date_of_birth ?? null,
         interests: k.interests ?? null,
         is_primary: k.is_primary ?? false,
+        school_start_minutes: typeof k.school_start_minutes === 'number' ? k.school_start_minutes : null,
+        home_minutes: typeof k.home_minutes === 'number' ? k.home_minutes : null,
       })) as Child[]
       setKids(loadedKids)
       setForms(Object.fromEntries(loadedKids.map(k => [k.id, {
@@ -169,6 +188,8 @@ export default function SettingsPage() {
         dob: k.date_of_birth ?? '',
         interests: k.interests ?? '',
         monthOnly: false,
+        schoolStart: k.school_start_minutes != null ? String(k.school_start_minutes) : '',
+        home: k.home_minutes != null ? String(k.home_minutes) : '',
         saving: false,
         saved: false,
       }])))
@@ -213,19 +234,23 @@ export default function SettingsPage() {
     const dobFull = form.dob ? (form.dob.length === 7 ? `${form.dob}-01` : form.dob) : ''
     const band = (dobSupported ? bandForAge(dobFull || null) : null) ?? form.ageBand
     const stage = getStageFromAgeBand(band)
-    const update: Record<string, string | null> = {
+    const update: Record<string, string | number | null> = {
       name: form.name.trim() || 'Your child',
       age_band: band,
       stage_id: stage.name.toLowerCase(),
     }
     if (dobSupported) update.date_of_birth = dobFull || null
     if (interestsSupported) update.interests = form.interests.trim() || null
+    if (timesSupported) {
+      update.school_start_minutes = form.schoolStart ? Number(form.schoolStart) : null
+      update.home_minutes = form.home ? Number(form.home) : null
+    }
     const { error: err } = await supabase
       .from('children')
       .update(update)
       .eq('id', id)
     if (err) { setError(err.message); patchForm(id, { saving: false }); return }
-    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null, interests: form.interests.trim() || null } : k))
+    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null, interests: form.interests.trim() || null, school_start_minutes: form.schoolStart ? Number(form.schoolStart) : null, home_minutes: form.home ? Number(form.home) : null } : k))
     patchForm(id, { saving: false, saved: true, ageBand: band })
     setTimeout(() => patchForm(id, { saved: false }), 2500)
   }
@@ -483,6 +508,32 @@ export default function SettingsPage() {
                   From this birthday: {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.label} · {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.sub}
                 </p>
               )}
+            </div>
+            )}
+            {timesSupported && (
+            <div>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                Their school day
+              </label>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                  School starts
+                  <select className="input" value={form.schoolStart} onChange={e => patchForm(kid.id, { schoolStart: e.target.value })} style={{ minHeight: 44 }}>
+                    <option value="">Not set (8:20am)</option>
+                    {SCHOOL_START_OPTIONS.map(m => <option key={m} value={String(m)}>{minutesLabel(m)}</option>)}
+                  </select>
+                </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                  Usually home by
+                  <select className="input" value={form.home} onChange={e => patchForm(kid.id, { home: e.target.value })} style={{ minHeight: 44 }}>
+                    <option value="">Not set (3:15pm)</option>
+                    {HOME_OPTIONS.map(m => <option key={m} value={String(m)}>{minutesLabel(m)}</option>)}
+                  </select>
+                </label>
+              </div>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px', lineHeight: 1.5 }}>
+                The before school card lands 50 minutes before the start, the home from school card 15 minutes after they are in. School days only, in your region's calendar.
+              </p>
             </div>
             )}
             {!hasDob && (
