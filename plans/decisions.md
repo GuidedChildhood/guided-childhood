@@ -228,3 +228,7 @@ Justin: "yes on founding rate". The first 50 schools pay £195 a year for any pr
 ## 8 October 2026: the DiGi launch film
 
 Justin: rewrite the QuickSend and Qbot launch brief for Guided Childhood with DiGi at the centre, then "build it". The brief sits in `videos/2026-10-08-digi-launch/BRIEF.md` and the film is built the house way (beats.json, build.mjs, GSAP, HyperFrames). Decided on the way: HyperFrames over Remotion, because four films already use it and DiGi's motion is GSAP in the product; the twelve client headshots became twelve memory cards, so no image generation and no faces; the music is composed in code because no catalogue was reachable, and the brief allows a local generate. Every screen is rebuilt from the real component, never a mock up. PR 1220.
+
+## 8 October 2026, afternoon: the DiGi launch film slows down and shows its brain
+
+Justin on the first draft: "slower, more readable", "build on DiGi's brain", "sales short", "soundtrack more of the moment". The film is paced by a rule now (words at 4.8 a second plus a gap, in `beats.json`), which makes it 105 seconds, and a fourth act shows where every answer comes from: the five researchers DiGi leads with for now and why, 142 sourced findings approved by a human, what worked for other families with no family's words shared, and four lines of our own rules. The score is a house underscore composed in code with the kick on Introducing. Cuts offered if 105 is too long. PR 1220.

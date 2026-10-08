@@ -27,11 +27,48 @@ function walk(v, path = '') {
 walk(B)
 
 // ── Time ────────────────────────────────────────────────────────────────────
+// Justin, 8 October 2026: "slower, more readable". So nothing is timed by
+// hand any more: a line is held for its words at P.wps a second plus a gap,
+// never under P.minHold, and a scene is as long as its lines need.
+const P = B.pace
+const wc = (t) => String(t || '').trim().split(/\s+/).filter(Boolean).length
+const hold = (t, wps = P.wps) => Math.max(P.minHold, wc(t) / wps + P.gap)
+function paceChat(msgs, start, firstHold) {
+  let t = start
+  msgs.forEach((m) => {
+    if (m.present) { m.at = 0; t = start + (firstHold ?? hold(m.text)); return }
+    if (m.role === 'digi' && !m.cont) { m.dots = P.dots; t += P.dots }
+    m.at = t
+    t += hold(m.text) + (m.card ? 1.2 : 0)
+  })
+  return t
+}
+for (const sc of B.scenes) {
+  if (sc.kind === 'coldopen') { const end = paceChat(sc.chat, 0, sc.pullBackAt + 2.3); sc.len = end + 0.8 }
+  if (sc.kind === 'comeback') {
+    sc.riseAt = 0.2; sc.notifyAt = 1.3; sc.zoomAt = sc.notifyAt + hold(sc.lock.title + ' ' + sc.lock.body); sc.zEnd = sc.zoomAt + 0.85
+    const end = paceChat(sc.chat, sc.zEnd + 0.3); sc.len = end + 0.8
+  }
+  if (sc.kind === 'remembers') {
+    sc.burstAt = 0.5; sc.blurAt = 4.4; sc.riseAt = 4.6; sc.bannerAt = 5.8
+    sc.tapAt = sc.bannerAt + 0.8 + hold(sc.banner.body); sc.openAt = sc.tapAt + 0.5
+    const end = paceChat(sc.chat, sc.openAt + 1.4); sc.winkAt = end - 0.4; sc.len = end + 1.2
+  }
+  if (sc.kind === 'number') {
+    sc.faceAt = 1.2; sc.jumpAt = [2.2, 2.8]; sc.panAt = 3.4
+    let t = 3.9; sc.float.forEach((c) => { c.at = t; t += Math.max(0.7, hold(c.text) * 0.55) })
+    const last = sc.float[sc.float.length - 1]; sc.len = last.at + hold(last.text) + 0.8
+  }
+  if (sc.kind === 'brain') {
+    let t = 1.8
+    sc.layers.forEach((l) => { const text = [l.title, ...(l.lines || []), ...(l.rows || []).flat()].join(' '); l.at = t; l.hold = Math.max(3, wc(text) / P.brainWps + 1.0) + (l.rows ? l.rows.length * 0.25 : 0); t += l.hold })
+    sc.len = t + 0.6
+  }
+}
 let clock = 0
-for (const sc of B.scenes) { sc.f = B.slow[sc.id] || 1; sc.start = clock; sc.dur = sc.len * sc.f; clock += sc.dur }
+for (const sc of B.scenes) { sc.f = 1; sc.start = clock; sc.dur = sc.len; clock += sc.dur }
 const TOTAL = Math.round(clock * 10) / 10
-const s2 = B.scenes.find((s) => s.id === 's2')
-if (Math.abs(s2.start - B.music.kickAt) > 0.01) throw new Error(`Introducing starts at ${s2.start}, the music kick is at ${B.music.kickAt}`)
+const KICK = Math.round(B.scenes.find((x) => x.id === 's2').start * 100) / 100
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]))
@@ -301,7 +338,7 @@ for (const sc of B.scenes) {
       sfx('sfx-tink', at, 0.4)
     })
     const pAt = T(sc.panAt)
-    to(`#${id}-pan`, { x: -330, duration: 1.0, ease: 'power2.inOut' }, pAt)
+    to(`#${id}-pan`, { x: -260, duration: 1.0, ease: 'power2.inOut' }, pAt)
     to(`#${id}-star .eye`, { x: 11, y: -4, duration: 0.7, ease: 'power2.inOut' }, pAt + 0.2)
     sfx('sfx-whoosh', pAt, 0.4)
     sc.float.forEach((c, i) => {
@@ -311,6 +348,32 @@ for (const sc of B.scenes) {
     })
     to(`#${id}-star .eye`, { x: 4, y: 0, duration: 0.5 }, T(sc.float[2].at) + 0.6)
     blinks(`#${id}-star`, [s + 1.6, T(sc.float[1].at) + 0.4])
+    sceneOut(id, e)
+  }
+  if (sc.kind === 'brain') {
+    const pills = sc.layers.map((l, i) => `<div class="pill6" id="${id}-p${i}">${esc(l.pill)}</div>`).join('')
+    const layers = sc.layers.map((l, i) => `<div class="layer" id="${id}-l${i}"><div class="leyebrow">${esc(l.eyebrow)}</div><div class="ltitle">${esc(l.title)}</div>` +
+      (l.rows ? `<div class="rows">${l.rows.map(([n, w]) => `<div class="row"><b>${esc(n)}</b><span>${esc(w)}</span></div>`).join('')}</div>` : '') +
+      (l.lines ? `<div class="lines">${l.lines.map((x) => `<p>${esc(x)}</p>`).join('')}</div>` : '') + `</div>`).join('')
+    html += `<div id="${id}" class="scene cream"><div class="hl hl6" id="${id}-head">${hw(sc.headline)}</div><div class="brain-left">${star(id + '-star', 250)}<div class="stack">${pills}</div></div>${layers}</div>\n`
+    sceneIn(id, s)
+    fromTo(`#${id}-head .hw`, { opacity: 0, filter: 'blur(14px)', y: 12 }, { opacity: 1, filter: 'blur(0px)', y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08 }, s + 0.1)
+    fromTo(`#${id}-star`, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, s + 0.5)
+    fromTo(`#${id} .pill6`, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.1 }, s + 0.9)
+    sfx('sfx-pop', s + 0.6, 0.45)
+    sc.layers.forEach((l, i) => {
+      const at = s + l.at, out = at + l.hold - 0.45
+      fromTo(`#${id}-l${i}`, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, at)
+      to(`#${id}-p${i}`, { backgroundColor: '#EDC35F', color: '#1A1A2E', boxShadow: '0 4px 0 #1A1A2E', duration: 0.3 }, at)
+      if (i > 0) to(`#${id}-p${i - 1}`, { backgroundColor: '#FFFFFF', color: '#65657C', boxShadow: '0 0 0 #1A1A2E', duration: 0.3 }, at)
+      sfx('sfx-pop', at, 0.5)
+      if (l.rows) { fromTo(`#${id}-l${i} .row`, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.28 }, at + 0.5); l.rows.forEach((_, k) => sfx('sfx-tap', at + 0.5 + k * 0.28, 0.4)) }
+      if (l.lines) fromTo(`#${id}-l${i} p`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.4 }, at + 0.45)
+      to(`#${id}-star .eye`, { x: 9, y: -3, duration: 0.4 }, at + 0.2)
+      to(`#${id}-star .eye`, { x: 0, y: 0, duration: 0.4 }, out - 0.6)
+      to(`#${id}-l${i}`, { opacity: 0, y: -18, duration: 0.35, ease: 'power2.in' }, out)
+    })
+    blinks(`#${id}-star`, [s + 2.6, s + 9.0, s + 16.0, s + 23.0])
     sceneOut(id, e)
   }
   if (sc.kind === 'end') {
@@ -336,9 +399,26 @@ for (const sc of B.scenes) {
 }
 
 // ── Sound ───────────────────────────────────────────────────────────────────
+// The score. Either composed in code (music2.py writes assets/music.json with
+// the kick it was built for) or an outside track, in which case beats.json
+// says where its first kick is (`kick`, seconds into the file) and the build
+// trims or delays it so that kick lands on "Introducing".
 const m = B.music
-const lane = [{ t: 0, v: 0 }, { t: m.fadeIn, v: m.vol }, { t: m.fadeOutFrom, v: m.vol }, { t: TOTAL, v: 0 }]
-let audio = `<audio id="music" src="assets/${m.file}" data-audio-group="music" data-start="0" data-duration="${TOTAL.toFixed(2)}" data-track-index="4" data-automation='${J({ version: 1, lanes: [{ target: 'volume', points: lane }] })}'></audio>\n`
+let musicStart = 0, mediaStart = 0
+if (m.kick != null) {
+  if (m.kick >= KICK) mediaStart = m.kick - KICK
+  else musicStart = KICK - m.kick
+} else {
+  let meta = null
+  try { meta = JSON.parse(readFileSync(new URL('./assets/music.json', import.meta.url), 'utf8')) } catch {}
+  const musicCmd = `python3 tools/music2.py --t0 ${KICK} --len ${Math.ceil(TOTAL + 3)} --out ${m.file}`
+  if (!meta || meta.file !== m.file || Math.abs(meta.t0 - KICK) > 0.02 || meta.len < TOTAL + 1) { console.error(`MUSIC OUT OF STEP: run  ${musicCmd}`); process.exitCode = 1 }
+}
+const musicDur = TOTAL - musicStart
+// The lane is in the clip's own time: a fade in, level, then the fade out over the end card.
+const lane = [{ t: 0, v: 0 }, { t: m.fadeIn, v: m.vol }, { t: Math.max(m.fadeIn + 1, musicDur - m.fadeOutTail), v: m.vol }, { t: musicDur, v: 0 }]
+let audio = `<audio id="music" src="assets/${m.file}" data-audio-group="music" data-start="${musicStart.toFixed(2)}" data-duration="${musicDur.toFixed(2)}"${mediaStart ? ` data-media-start="${mediaStart.toFixed(2)}"` : ''} data-track-index="4" data-automation='${J({ version: 1, lanes: [{ target: 'volume', points: lane }] })}'></audio>\n`
+console.log(`music ${m.file}: starts at ${musicStart.toFixed(2)}s, trimmed ${mediaStart.toFixed(2)}s, kick on Introducing at ${KICK}s`)
 SFX.sort((a, b) => a.at - b.at).forEach((c, i) => {
   audio += `<audio id="sfx-${i + 1}" src="assets/${c.name}.mp3" data-audio-group="sfx" data-start="${c.at.toFixed(2)}" data-duration="${SFX_DUR[c.name]}" data-track-index="${5 + (i % 4)}" data-volume="${c.vol}"></audio>\n`
 })
@@ -439,7 +519,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#F9F8F6}
 .hw{display:inline-block;opacity:0;filter:blur(14px);will-change:transform,opacity,filter}
 #s3-head{left:120px;top:120px;font-size:84px;width:820px;line-height:1.12}
 #s4-head{left:0;right:0;top:66px;text-align:center;font-size:84px}
-.hl5{left:0;right:0;top:380px;text-align:center;font-size:106px;letter-spacing:-.02em}
+.hl5{left:0;right:0;top:380px;text-align:center;font-size:100px;letter-spacing:-.02em}
 .oslot{position:relative;display:inline-block}.olet{display:inline-block}
 .oface{position:absolute;left:50%;top:50%;margin:-42px 0 0 -44px;opacity:0}
 .bigstar{position:absolute;left:960px;top:650px}
@@ -467,6 +547,18 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#F9F8F6}
 .fcard.butter{background:#EDC35F}
 .fcard.sky{background:#DCE7FB;color:#1B2A4A;font-size:46px;font-weight:900;letter-spacing:.02em;width:auto;white-space:nowrap}
 .fcard.digi{display:flex;gap:14px;align-items:flex-start}
+/* Where every answer comes from */
+.hl6{left:0;right:0;top:70px;text-align:center;font-size:84px}
+.brain-left{position:absolute;left:150px;top:300px;width:400px;display:flex;flex-direction:column;align-items:center;gap:30px}
+.stack{display:flex;flex-direction:column;gap:10px;width:100%}
+.pill6{font-family:plexMono,monospace;font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:2px solid #1A1A2E;border-radius:100px;padding:10px 18px;text-align:center;background:#fff;color:#65657C;opacity:0}
+.layer{position:absolute;left:700px;top:290px;width:1080px;opacity:0}
+.leyebrow{font-family:plexMono,monospace;font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#C99A28;margin-bottom:14px}
+.ltitle{font-size:58px;font-weight:900;line-height:1.08;letter-spacing:-.015em;margin-bottom:26px}
+.rows .row{display:flex;align-items:baseline;gap:18px;padding:11px 0;border-top:2px solid #EAEAF0;opacity:0}
+.rows .row b{font-size:36px;font-weight:800;min-width:420px}
+.rows .row span{font-size:30px;font-weight:500;color:#52526A}
+.lines p{font-size:40px;font-weight:600;line-height:1.3;color:#1A1A2E;margin:0 0 12px;opacity:0}
 /* End card */
 .flip{position:absolute;inset:0;perspective:1800px}
 .front{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:44px;backface-visibility:hidden;opacity:0}

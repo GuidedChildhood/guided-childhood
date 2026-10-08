@@ -81,3 +81,40 @@ Render a half size draft first and check it yourself with contact sheets before 
 - Renders: `renders/digi-launch-draft-960.mp4` (half size, draft quality)
   and `renders/digi-launch-1080.mp4` (looks quality). Not committed.
 - Not heard by the builder. The music and sound levels need Justin's ear.
+
+## The second cut, 8 October 2026, afternoon
+
+Justin, after the first draft: slower and more readable; build on DiGi's
+brain (the researchers we use for now and why, the peer reviewed papers,
+what worked for other families, our own philosophy); keep it sales short;
+a soundtrack more of the moment.
+
+- **Pacing is a rule now, not a hand timing.** `beats.json` carries `pace`:
+  a line is held for its words at 4.8 a second plus 0.4, never under a
+  second; typing dots are 0.6; a script card adds 1.2. Every chat and every
+  brain layer is timed from that, and each scene is as long as its lines
+  need. The film is 105 seconds. Where the time went: cold open 16, the
+  check back 16, remembers your family 22, where every answer comes from 29.
+  The two obvious cuts if it must be shorter: the Ferguson row and the
+  families layer (about 8 seconds), or the "Want me to check back" line and
+  the "Go on then" exchange (about 4).
+- **The brain section** (scene 6, "Where every answer comes from") is four
+  layers beside the star, each lighting a pill: the five researchers DiGi
+  leads with for now, each with a four word why taken from
+  `digi/02-scientists.md`; 142 findings every one with a named source
+  (`lib/email/momentum.ts`, 7 October), peer reviewed papers and the big UK
+  datasets, approved by a human first (the research updater's gate); what
+  worked for families like yours, never a family's words
+  (`digi/00-how-digi-works.md`, the Sunday wisdom loop and its privacy rule);
+  and four lines of our own rules from THE-STORY.md. The names are
+  attribution of published work, not endorsement, and no clinician is named.
+- **The score is new:** `tools/music2.py`, a house underscore at 118 bpm
+  (four on the floor, clap, sixteenth hats, a pumping pad, plucks on an
+  I V vi IV in F major, a riser into the first kick). It writes
+  `assets/music.json` with the kick it was composed for and the build refuses
+  to run out of step with it. Still composed in code, still ours; if Justin
+  wants a real track of the moment, drop it in `assets/` and point
+  `beats.json` at it.
+- Trimmed on the way: the scene 4 push is now "First school night back. Want
+  the 7 o'clock words ready?" and DiGi's reply there is 14 words, so each is
+  read in the time it has.
