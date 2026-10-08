@@ -37,7 +37,7 @@ the rest of the path is plain.
 Every lesson thumbnail on every surface is the same object, at different sizes.
 
 ```
- ┌──────────┐   ground : CHARACTERS[key].soft   (child app: t.panel)
+ ┌──────────┐   ground : CHARACTERS[key].soft   (both apps, always)
  │ ③        │   edge   : 1.5px CHARACTERS[key].accent
  │   ◟◝◞    │   radius : var(--radius-tile)
  │  (art)   │   badge  : the module position, mono 700, top left
@@ -46,7 +46,13 @@ Every lesson thumbnail on every surface is the same object, at different sizes.
 ```
 
 **The default is a numbered tile**: the module position at Nunito 900
-`--text-2xl` in `CHARACTERS[key].ink` on the friend's `soft`, no art. Friend
+`--text-2xl` in `CHARACTERS[key].ink` on the friend's `soft`, no art, and that
+centred numeral IS the badge, so a numbered tile never prints its number
+twice. The corner badge renders only on a tile carrying art. The ground is the
+friend's `soft` on both apps, never the child's theme panel, which is a
+translucent white overlay and would vanish inside the cream card; the theme
+carries the road, the page and the text, which `KidLessonList` already
+threads. Friend
 art appears on exactly three rows in a list:
 
 | Row | Art | Edge |
@@ -69,11 +75,15 @@ DiGi fronted modules draw `CHARACTERS.digi.img` (the 3D star) and have no
 pose. On a DiGi fronted pass screen the star renders once, at 112, never
 twice.
 
-Sizes: 76 on the child's list, 56 on hub rows and the week card, 44 on the
-pass screen's Next tile and the stage check card, 26 inside the Today row's
-38px plate, 96 in the email. A load failure falls back to the friend's
-`emblem` through `FriendMark`, so a failure is a coloured tile and never an
-empty box. No `character_cast` means DiGi, the guide.
+Sizes: 76 on the child's list, **72 on the parent's hub hero** (the only
+card on that page with a shadow, so it must outsize the 56 of the rows
+beneath it), 56 on hub rows and the week card, 44 on the pass screen's Next
+tile and the stage check card, 26 inside the Today row's 38px plate, 96 in the
+email. Edges are 2px `accent` at 56 and above; 1.5px is `FriendMark`'s weight
+for a 22px chip and reads as a hairline four times that size. A load failure
+falls back to the friend's `emblem`, which means **adding an `onError` swap to
+`FriendMark`**: it renders `c.img` unconditionally today, so a 404 gives a
+broken image glyph inside the ring. No `character_cast` means DiGi, the guide.
 
 ## `components/lessons/LessonRoadStrip.tsx`
 
@@ -93,6 +103,12 @@ outstanding for the pass of the stage.
   and answers nothing, so Independent shows the stage check card instead, with
   "Two lessons, then the check".
 - Dots 24px, the module numeral Nunito 800 11px, gap 7px, trail 3px dotted.
+  Use `StageDot`'s colour recipes **reimplemented at 24**, never the component,
+  which prints its numeral at `size * 0.36` and would give 9px. At 24 a passed
+  dot is **solid `--terracotta` with its numeral in `--terracotta-dark`**: the
+  dashed ring on a `--terracotta-lt` ground is four or five ticks at this
+  circumference and reads as a rendering fault, so the dashed version stays on
+  the 44px passport road.
   Nine dots and a stamp is 302px, inside a 360px phone less its padding. Past
   nine the dots floor at 18px and the numerals drop before anything overflows.
 - The colour recipes are `StageDot`'s (`components/pathway/StageRoad.tsx`), so
@@ -118,8 +134,15 @@ outstanding for the pass of the stage.
   used.
 - **The caption differs by reader.** The parent's reads "2 passed · 7 to go",
   because the parent is who the remaining lessons are addressed to. The
-  child's reads "You are on lesson 3", because on an unpaid family's list
-  "7 to go" names lessons the child cannot open.
+  child's reads "You are on lesson 4", because on an unpaid family's list
+  "7 to go" names lessons the child cannot open. Both the caption's number and
+  the week card's `4/9` badge read `childLessonPath().school.next.position`, so
+  one lesson never shows two numbers one tap apart.
+- **A passed dot gains a second state.** When that lesson's 90 day retrieval
+  lands it becomes `kept`: solid `--sage` with the numeral in `--ink`. Nine
+  dots then carry twenty seven states across three years instead of nine that
+  stop moving the month a stage is finished, which is the retention mechanism
+  made visible and costs no curriculum.
 - On the day a child ages up the strip starts again at one, with the earned
   stamp shown behind it, so a year of work is visible rather than wiped.
 
@@ -219,7 +242,9 @@ hub has no motion beyond the pill's swap: a parent's screen does not perform.
 - **Every module passed and the check passed**: the week card names the
   Remember check as the week's thing, the strip shows all dots filled and the
   stamp earned.
-- **No child app yet**: the hero's buttons give way to the code block, the
+- **No child app yet**: `Do it together now` stays primary and full width and
+  creates the link, with the code block below it. Never the other way round: a
+  family an hour after paying taps the one gold button, and it must work. The
   tile stays, because it is what the child will meet.
 - **Under four modules in the stage**: no strip, the check card instead.
 - **Art fails to load**: the emblem fallback, the tile keeps its colour.
@@ -227,12 +252,34 @@ hub has no motion beyond the pill's swap: a parent's screen does not perform.
 - **Age up day**: the strip restarts at one with the earned stamp behind it,
   and the child's card and the hub hero name it.
 
+## The locked row, closed in the component as well as the spec
+
+`components/kid/KidLessonList.tsx` dims a locked row to `opacity: 0.75` at the
+shell and appends ' 🔒' to its title. A clean tile inside a dimmed, padlocked
+row still shows the child the paywall, so both go: the row keeps full opacity
+and its own title, and the order sentence carries it ("After Social
+workarounds, this one is waiting for you"). The guard widens from the friend to
+the row. Nor does the week three card fade: "No rush. It is here when you are"
+is the whole message, and a card at 0.85 reads as the app being disappointed in
+the child.
+
+## Two lines the parent is missing
+
+The passed hub row carries the tick, the count, the tool, the tea question and
+the taps, and says nothing about the schedule, so the first a parent hears of a
+Remember check is after it happened. One mono line on the passed row: "Comes
+back Thursday", from `remember-due.ts`. And the Sunday block closes with the
+one number every other surface carries, as text so it survives blocked images:
+"Lesson 4 of 9 in Explorer. Five to go before the stamp."
+
 ## Restraint, deliberately
 
 No confetti on the road (`HappyNews` owns confetti and two celebrations for one
 pass is a product that does not trust its own news). No friend scene, no
 background illustration, no sticker scatter. No second animation beyond the
-register ladder. No friend above 28px on a list row. No friend on the Remember
+register ladder. **No friend art on more than three rows of a list, and none
+outside the tile** (the earlier wording capped art at 28px on a list row,
+which would have deleted the tiles at 76 and 56 that are the whole device). No friend on the Remember
 page's questions, the parent's other rows, the navigation or the library. No
 new icon set, radius or shadow. No art on a push. No stage pastels on the
 lessons surfaces. Friend colour only.
