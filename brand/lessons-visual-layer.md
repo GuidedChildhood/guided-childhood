@@ -111,11 +111,26 @@ outstanding for the pass of the stage.
   the 44px passport road.
   Nine dots and a stamp is 302px, inside a 360px phone less its padding. Past
   nine the dots floor at 18px and the numerals drop before anything overflows.
-- The colour recipes are `StageDot`'s (`components/pathway/StageRoad.tsx`), so
-  the lessons road and the road to 16 are one family: passed is
-  `--terracotta-lt` with a dashed `--terracotta` edge, this week is white with
-  a 3px `--terracotta` edge and the chunky shadow, ahead is `--cream` with
-  `--edge`.
+- **The state table, which is the one thing a builder cannot invent.** Parent
+  tokens first, the child's theme second, so the same component draws on both
+  apps and on all thirteen accents including the two dark ones:
+
+  | State | Parent app | Child app (themed) |
+  |---|---|---|
+  | passed | solid `--terracotta`, numeral `--ink` | solid `hex`, numeral `onAccent` |
+  | kept | solid `--retro-green`, 2px `--retro-green-dark` edge, white numeral | the same on every theme, so one state is one colour in both apps |
+  | this week | white, 3px `--terracotta` edge, `0 4px 0 var(--terracotta-dark)` | white, 3px `hex` edge, `hexDark` shadow |
+  | ahead | `--cream` with `--edge`, numeral `--ink-light` | `panel` with `panelBorder`, numeral `inkMuted` |
+
+  The passed numeral is `--ink` and not `--terracotta-dark`, which is 1.55 to 1
+  against the butter and would vanish at 11px. `kept` is retro green and not
+  `--sage`, which is 1.09 to 1 against an ahead dot in cream, so the only new
+  state in this document would have been invisible. `onAccent` is already
+  decided per theme by luminance in `lib/kid/theme.ts`.
+- **The trail has a colour too**, the way the mini road already solves it
+  (`StageRoad.tsx`): 3px dotted `var(--border)` behind, 3px dotted
+  `var(--terracotta)` filled up to the current dot, and `panelBorder` with
+  `hex` on the themed version.
 - **It takes `theme?: KidTheme`.** The child's app is washed in the child's
   chosen accent (`lib/kid/theme.ts`, thirteen accents, two of them dark), so
   the four recipes map onto `{ hex, hexDark, panel, panelBorder, ink,
@@ -123,26 +138,38 @@ outstanding for the pass of the stage.
   Without this the road is a smudge on Midnight. The friend's `soft` and
   `accent` never change, per one friend one tint, and that is what keeps the
   two apps one object.
-- **The final node is the passport's own stamp**, a circle at 26px, not a
-  square: `--terracotta` with a white tick when earned, `--cream` with
+- **The final node is the passport's own stamp**, a circle at 32px so it reads
+  as the destination rather than a dot that slipped, not a square: `--terracotta` with a white tick when earned, `--cream` with
   `--edge` and the stage numeral when not, matching
   `components/pathway/PassportStamps.tsx`. The same silhouette appears on the
   child's check card at 44, the last road node, the passport row and the hub's
-  check card. Four surfaces, one shape.
+  check card. Four surfaces, one shape. Scaled down, set the tick's stroke to 3
+  rather than the passport's 3.5, which thickens to a blob at this size, and
+  pass `ring={false}` to the friend mark on the current dot with its fill
+  capped at 82 percent, because the mark scales its art to 1.2 without a ring
+  and would crop the pose at 26.
 - `RoadPulseStyle` on the current dot only. The friend mark
   (`FriendMark ring={false}`) stands on that dot, the one place that device is
   used.
-- **The caption differs by reader.** The parent's reads "2 passed · 7 to go",
+- **The caption differs by reader, and one function returns both**, so "to go"
+  always means the total minus the passes and no two surfaces count it
+  differently. The parent's reads "2 passed · 7 to go",
   because the parent is who the remaining lessons are addressed to. The
   child's reads "You are on lesson 4", because on an unpaid family's list
   "7 to go" names lessons the child cannot open. Both the caption's number and
   the week card's `4/9` badge read `childLessonPath().school.next.position`, so
   one lesson never shows two numbers one tap apart.
-- **A passed dot gains a second state.** When that lesson's 90 day retrieval
-  lands it becomes `kept`: solid `--sage` with the numeral in `--ink`. Nine
-  dots then carry twenty seven states across three years instead of nine that
-  stop moving the month a stage is finished, which is the retention mechanism
-  made visible and costs no curriculum.
+- **A passed dot gains a second state, and that state counts.** When a
+  lesson's 90 day retrieval lands the dot becomes `kept`, and each further
+  retrieval it survives closes a quarter of its ring, capped at a closed ring.
+  Each dot would otherwise change twice and stop: nine dots staggered by a week
+  spend all eighteen transitions by about month seven, which is not three
+  years. With the ring, nine dots change something every few weeks out to
+  roughly month twenty, on `remember` rows the product already stores, with no
+  migration and no new content. Capped, so it cannot read as a number to farm.
+  `kept` is resolved inside `statusById` in `lesson-path.ts`, from a `remember`
+  row for that lesson ninety or more days after its pass, so the road and the
+  hub cannot disagree.
 - On the day a child ages up the strip starts again at one, with the earned
   stamp shown behind it, so a year of work is visible rather than wiped.
 
@@ -158,15 +185,22 @@ day before a Remember check is due, the second line reads "Thursday: three
 questions from Mood and screens". After a pass the card holds the seven night
 log (seven 10px dots, filled `--retro-green`), the parent's returned line in a
 `--tint-butter` strip, and "Here when you want it. You have done this week's."
-Week three unpassed the card drops to 0.85 opacity and reads "No rush. It is
-here when you are." Nothing else fades.
+Week three unpassed the card reads "No rush. It is here when you are." and
+does not fade.
 
-**The child's list.** The road strip under the heading, then rows in the
+**The child's list.** DiGi stays at the head beside "My lessons", because DiGi
+hosts every other screen in the child's app and the stage friend's three
+appearances below carry the stage. Then the road strip, then rows in the
 existing shell with the 52px emoji box replaced by the tile at 76 and the
 numbered circle folded into the badge. The tool chip is the row's
 distinctness: mono `--text-xs` 700, the friend's `ink` on its `soft`,
 `--radius-pill`. On a passed row the chip replaces the score line rather than
-adding a fourth. The check card swaps its three emoji for the stamp at 44.
+adding a fourth. **This week's row says so three ways, not five**: the shell's
+terracotta ring, the friend thinking, and the gold Go button. The tile keeps
+its 3px accent edge and drops `--lift` (a lifted tile inside a lifted card is
+two shadows on one object), and the "Do this one next" pill goes. That is the
+Duolingo current node, which carries its character and its ring and nothing
+else. The check card swaps its three emoji for the stamp at 44.
 
 **The pass screen.** The module's friend at 112 with `FriendPlate`'s `arrive`
 and the register for its key stage, DiGi at 56 to its right (omitted when DiGi
@@ -204,9 +238,11 @@ strip, hero, rows: outstanding, this week, what happened. The hero's primary
 button must be visible with no scroll on a 375 by 667 phone.
 
 **The Today row on Home.** The friend inside the existing 38px plate at 26,
-the plate ground taking the friend's `soft` and a 2px `accent` border, because
-Pebble's `soft` and `--terracotta-lt` are the same butter and a ground swap
-alone shows nothing. This is the one stacked row in the card: the two lines of
+the plate keeping its `var(--edge)` and taking only the friend's `soft` as the
+ground. The accent border is withdrawn: it is the one place this spec would
+break the ink edge every other plate in that card shares, and a 26px friend
+cutout standing where a `HappyIcon` was already tells the row apart, even for
+Pebble and DiGi whose `soft` is close to `--terracotta-lt`. This is the one stacked row in the card: the two lines of
 text, then the pill right aligned on its own line at 44px tall, Nunito 800
 `--text-xs`, white ground, 2.5px `--terracotta-dark` border and the 2px
 shadow. **Never the ring**, which on every other row means put away. On commit
