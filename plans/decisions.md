@@ -461,3 +461,9 @@ Justin: attack it from researchers and the ban brigade as usual, remember the 0.
 ## 8 October 2026: the pilot emails, rewritten to the research
 
 Justin asked for the evidence on what wins replies from schools, then for the routine's first emails redone with it. Five lenses ran (the main finding: 8% of primary leaders consult suppliers when choosing edtech, 28% consult other schools, so the pilot is the marketing and the email is only the door). The campaign rules and templates now carry it: one interest ask, under about 200 words, one link, plain subject, the duty and the no planning paragraphs, the pilot's conditions stated, a company and privacy footer, two reworded follow ups, replies measured and nothing else. Nothing had been sent; the five day 1 drafts in hello@ were rewritten in place (they carried Gmail redirect links and "eighteen"). `plans/2026-10-08-school-email-research.md`.
+- 8 October, afternoon: the two brains film is sequential (v5). The split
+  screen with two text streams was the stacked case the research warns
+  against; the best films run problem, turn, solution. Same clock, her brain
+  first, the question as the hinge, DiGi on the same minutes, one side by
+  side at the morning. Glass text over a scrim, never a solid box. Kill
+  stale headless Chromium before any HyperFrames check or render.

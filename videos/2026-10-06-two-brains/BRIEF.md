@@ -140,6 +140,37 @@ every answer teaches the next, and the chips are example circumstances, not
 quotes. The glow pulse is a single element per beat; the per chip pulse was
 dropped because it made the render stall.
 
+## v5: sequential, not split (8 October)
+
+Justin asked whether the split screen was confusing. Research
+(`plans/2026-10-08-two-brains-structure-research.md`) said yes: the best
+films run problem, turn, solution, and split screen only works wordless.
+v5 is a new composition on the same verified copy and clips:
+
+1. Hook, 9:00 PM fills the frame over the pyjamas moment. One line.
+2. Her brain, four beats, the square clip at the left with a blurred still
+   behind it, a glass panel on the right. Highlight, pointer gone (the panel
+   sits beside the picture now), marker swipe on the key phrase.
+3. The turn, 9:01. The clock shakes and goes grey. The brain shrinks to a
+   tile in the corner. The parent's question lands in the centre.
+4. DiGi full frame on the same minutes: the five thinking streams, then
+   the answer at 9:02, why it works at 9:20, tomorrow at 10:10, with the
+   brain tile ticking in the corner so the clock callback is felt.
+5. The morning, the one side by side the research allows: tired breakfast
+   beside a rested one, one label each, and did it work underneath.
+6. Start free.
+
+Text: glass panels (ink at 46 percent over an 18 px backdrop blur, a light
+rim, an inset top highlight), headline words rising from blur to sharp with
+an expo out ease, the mirror look as a gradient fill, white body at 34 px,
+source line in mono. Caps: eight word headlines, eighteen word bodies, held
+by the build from the word count. 93 seconds.
+
+Render lesson: a second headless Chromium left over from a timed out check
+starves the next one, and forty eight of them were alive by lunchtime. Kill
+`hyperframes` processes before a check or render. Blurred backgrounds are
+stills now, not videos, which halved the decode load.
+
 ## Finals
 
 All six clips finalised at 1080p from their drafts (432 credits), the
