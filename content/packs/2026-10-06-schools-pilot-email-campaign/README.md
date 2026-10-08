@@ -82,14 +82,14 @@ routine, which reads this file from origin/main before it drafts anything.
    nobody has to plan it; the offer with its conditions (twelve weeks, a
    couple of lesson slots and fifteen minutes at the end, nothing charged,
    nothing renews); one ask.
-7. **One link in the body,** plain https on schools.guidedchildhood.com. Never
-   a Gmail redirect (anything starting https://www.google.com/url?q=), never a
-   shortener. The Gmail connector that writes drafts rewrites every address it
-   saves into a google.com redirect, even a bare domain (tested 8 October), and
-   those redirects expire in about a day. So a draft is never sent with its
-   own links: the clean body for each school is also written to a
-   `day-N-ready-to-send.md` file beside this one, and Justin pastes it over the
-   draft's body before pressing send.
+7. **No links in a first email.** The Gmail connector that writes drafts
+   rewrites every web address it saves into a google.com redirect, even a bare
+   domain with no https (tested 8 October), and those redirects expire and look
+   like phishing to school filters. So a first email names the page ("on our
+   schools website") and offers the link, which goes in the reply, typed by
+   Justin. This also suits the research: a first cold email does at least as
+   well with no link, and lands more often. A draft must never contain a web
+   address; check before saving.
 8. **One ask, and it is interest.** "Would a free term be useful for [school]?
    A yes is enough and I will send the code. If someone else leads on this,
    tell me who and I will write to them instead." The "five minutes on where
@@ -126,7 +126,7 @@ Replace the square brackets. Everything else is final. Plain text only.
 The footer, at the end of every first email after the signature:
 
 ```
-Guided Digital Childhood Ltd, company number 17299814, Apple Acre, Star, Winscombe BS25 1QF. I took your name and the school address from the school website and use them only to write about this offer. If you reply no, I keep only a note not to write again. Privacy: https://schools.guidedchildhood.com/privacy
+Guided Digital Childhood Ltd, company number 17299814, Apple Acre, Star, Winscombe BS25 1QF. I took your name and the school address from the school website and use them only to write about this offer. If you reply no, I keep only a note not to write again. My privacy notice is on the Guided Childhood Schools website, and I will send it on request.
 ```
 
 The signature, always:
@@ -134,8 +134,7 @@ The signature, always:
 ```
 Best wishes,
 Justin Phillips
-Guided Childhood
-https://schools.guidedchildhood.com/pilot
+Guided Childhood Schools
 ```
 
 ### Email A, to a primary head or PSHE lead
@@ -147,8 +146,7 @@ Hello [first name],
 
 I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am looking for five schools to run it free for a term, and I would like [school name] to be one of them.
 
-Since 1 September the revised RSHE guidance has been statutory, and it has 57 digital and online requirements. The scheme teaches all 57, and this page shows which lesson covers each, ready for an inspection file, no sign up:
-https://schools.guidedchildhood.com/hub/rshe-mapping
+Since 1 September the revised RSHE guidance has been statutory, and it has 57 digital and online requirements. The scheme teaches all 57, and a page on our schools website shows which lesson covers each, ready for an inspection file, with no sign up. I am happy to send you the link.
 
 Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
@@ -170,8 +168,7 @@ I am a parent in Winscombe, about [distance] miles from you, and I have built a 
 
 Since 1 September the revised RSHE guidance has been statutory. It has 57 digital and online requirements, and the scheme teaches all 57, with a mapping that shows which lesson covers each.
 
-Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home and staff briefings are already written. One whole lesson, on misinformation and deepfakes, is open with no sign up, so you can judge the standard for yourself:
-https://schools.guidedchildhood.com/curriculum
+Nobody has to plan it. Every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home and staff briefings are already written. One whole lesson, on misinformation and deepfakes, is open on our schools website with no sign up, so you can judge the standard for yourself. I am happy to send you the link.
 
 The free term: two lessons matched to your key stages plus the whole Hub, for twelve weeks from the day you start. It needs a couple of lesson slots and fifteen minutes at the end to tell me what worked. Nothing to install, nothing charged, nothing renews.
 
@@ -191,8 +188,7 @@ sheet does not confirm the person is the DSL (Churchill names two people), and
 ```
 Hello [first name],
 
-I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty three modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open, no sign up:
-https://schools.guidedchildhood.com/hub/dsl
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty three modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open to read with no sign up on our schools website, and I am happy to send you the link.
 
 Since 1 September the revised RSHE guidance has been statutory, and this September's Keeping Children Safe in Education names generative AI and AI generated images among its online risks. The guidance has 57 digital and online requirements, and the scheme teaches all 57.
 
@@ -218,8 +214,7 @@ I am running a free one term pilot with five schools before it goes wider, and I
 
 Since 1 September the revised RSHE guidance has been statutory. It has 57 digital and online requirements, and the scheme teaches all 57. Nobody has to plan it: every lesson opens on the board with the teacher's words on each slide, and the printables, parent notes home, policy text and staff briefings are already written.
 
-Your phone policy says the schools share the job of educating young people about safe use of smart technology, and your safeguarding policy names deepfakes and AI generated images. The phone is out of the classroom now; this is the lessons half of that sentence, and the mapping shows which lesson covers which line:
-https://schools.guidedchildhood.com/hub/rshe-mapping
+Your phone policy says the schools share the job of educating young people about safe use of smart technology, and your safeguarding policy names deepfakes and AI generated images. The phone is out of the classroom now; this is the lessons half of that sentence. The mapping on our schools website shows which lesson covers which line, open with no sign up, and I am happy to send you the link.
 
 The pilot is a code that opens two lessons matched to the school's phase plus the whole Hub, for twelve weeks from the day the school starts. Nothing to install, nothing charged, nothing renews, and no school is asked to decide anything until the term ends.
 
@@ -277,7 +272,7 @@ Justin
 ```
 Hello [first name],
 
-Last note from me this term. If the pilot is not right for [school name] now, I would still value five minutes of your view on the free lesson at https://schools.guidedchildhood.com/curriculum: what would stop you teaching it on a Tuesday?
+Last note from me this term. If the pilot is not right for [school name] now, I would still value five minutes of your view on the free lesson on our schools website (I can send the link): what would stop you teaching it on a Tuesday?
 
 Either way, thank you for reading, and I will not write again this term.
 
@@ -346,6 +341,7 @@ apart.
 **8 October update.** Nothing had been sent by 8 October. The five day 1 drafts
 were rewritten in place to the amended rules and templates above (they carried
 Gmail redirect links, "eighteen" for seventeen, "for the first time", and three
-asks where one wins). The routine reads sections 2 and 3 of this file from
+asks where one wins), then again with no links once it was clear the
+connector wraps every address (rule 7). The routine reads sections 2 and 3 of this file from
 origin/main before every run, so the templates here are the only copy; change
 them here, not in the routine.
