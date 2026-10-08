@@ -101,7 +101,7 @@ function homeScreen(child) {
       const nx = cx + nodes[i + 1][2], ny = y + step
       path += `<path d="M${x} ${y} C ${x} ${y + step / 2}, ${nx} ${ny - step / 2}, ${nx} ${ny}" fill="none" stroke="${i === 0 ? '#FEF08A' : '#EAEAF0'}" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/>`
     }
-    dots += `<div class="hnode ${st}" style="left:${x - 28}px;top:${y - 28}px">${glyph[i]}${st === 'now' ? '<i class="ring"></i>' : ''}<span class="hlabel">${esc(label)}</span></div>`
+    dots += `<div class="hnode ${st}" data-layout-allow-overlap style="left:${x - 28}px;top:${y - 28}px">${glyph[i]}${st === 'now' ? '<i class="ring"></i>' : ''}<span class="hlabel" data-layout-allow-overlap>${esc(label)}</span></div>`
   })
   return `<div class="home"><div class="htop"><span class="hbrand">${logo(22)}<span>Guided Childhood</span></span><span class="hday">Day 12</span></div>` +
     `<div class="hcard"><h2>Today with ${esc(child)}</h2><p class="hsub">One tick makes today count: check in. The rest is extra, not homework.</p>` +
@@ -111,7 +111,7 @@ function homeScreen(child) {
     `<div class="htabs"><span class="on">Today</span><span>Tracker</span><span>DiGi</span><span>Passport</span></div></div>`
 }
 function banner(id, N) {
-  return `<div class="banner" id="${id}"><div class="bicon">${logo(64)}</div><div class="btext"><div class="bhead"><span class="napp">${esc(N.app)}</span><span class="nwhen">${esc(N.when)}</span></div><div class="btitle">${esc(N.title)}</div><div class="bbody">${esc(N.body)}</div><span class="bact" id="${id}-act">${esc(N.action)}</span></div></div>`
+  return `<div class="banner" id="${id}" data-layout-allow-occlusion><div class="bicon">${logo(64)}</div><div class="btext"><div class="bhead"><span class="napp">${esc(N.app)}</span><span class="nwhen">${esc(N.when)}</span></div><div class="btitle">${esc(N.title)}</div><div class="bbody">${esc(N.body)}</div><span class="bact" id="${id}-act">${esc(N.action)}</span></div></div>`
 }
 // The chat choreography: a user line pops in with the send swoosh; a DiGi
 // line shows the star and three dots first, then the words pop in.
@@ -198,7 +198,7 @@ for (const sc of B.scenes) {
   }
   if (sc.kind === 'comeback') {
     const PX = 1130, PY = 98
-    html += `<div id="${id}" class="scene cream"><div class="homeback" id="${id}-back">${homeScreen(B.family.child)}</div><div class="hl" id="${id}-head">${hw(sc.headline)}</div>` +
+    html += `<div id="${id}" class="scene cream"><div class="homeback" id="${id}-back" data-layout-ignore>${homeScreen(B.family.child)}</div><div class="hl" id="${id}-head">${hw(sc.headline)}</div>` +
       `<div class="cam" id="${id}-cam"><div class="pwrap" id="${id}-pa" style="left:${PX}px;top:${PY}px">${phone(id + '-phoneA', lockScreen(id, sc.lock), false)}</div>` +
       `<div class="pwrap" id="${id}-pb" style="left:${PX}px;top:${PY}px">${phone(id + '-phoneB', chatScreen(id + 'c', sc.chat))}</div></div><div class="veil" id="${id}-veil"></div></div>\n`
     sceneIn(id, s)
@@ -227,7 +227,7 @@ for (const sc of B.scenes) {
   if (sc.kind === 'remembers') {
     const PX = 745, PY = 150
     const cards = sc.cards.map((c, i) => `<div class="mcard" id="${id}-c${i}" style="left:${(c.x / 100 * 1920).toFixed(0)}px;top:${(c.y / 100 * 1080).toFixed(0)}px">${esc(c.text)}${c.chip ? `<br><span class="chip ${c.tone}">${esc(c.chip)}</span>` : ''}</div>`).join('')
-    html += `<div id="${id}" class="scene cream"><div class="hl" id="${id}-head">${hw(sc.headline)}</div><div class="cloud" id="${id}-cloud">${cards}</div>` +
+    html += `<div id="${id}" class="scene cream"><div class="hl" id="${id}-head">${hw(sc.headline)}</div><div class="cloud" id="${id}-cloud" data-layout-ignore>${cards}</div>` +
       `<div class="cam" id="${id}-cam"><div class="pwrap" id="${id}-pw" style="left:${PX}px;top:${PY}px">${phone(id + '-phoneH', homeScreen(B.family.child))}</div>` +
       `<div class="pwrap" id="${id}-pwc" style="left:${PX}px;top:${PY}px">${phone(id + '-phoneC', chatScreen(id + 'c', sc.chat))}</div></div>` +
       banner(id + '-banner', sc.banner) + `<div class="ripple" id="${id}-ripple"></div>` +
@@ -405,8 +405,8 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#F9F8F6}
 .snot{margin-left:auto;font-family:plexMono,monospace;font-size:12px;font-weight:600;color:#65657C}
 /* The lock screen */
 .lock{position:absolute;inset:0;background:linear-gradient(180deg,#FFF6DE 0%,#F9F8F6 58%,#EEE4CF 100%)}
-.ldate{position:absolute;top:86px;left:0;right:0;text-align:center;font-size:22px;font-weight:600;color:#52526A}
-.ltime{position:absolute;top:110px;left:0;right:0;text-align:center;font-size:98px;font-weight:400;letter-spacing:-.02em;line-height:1.1}
+.ldate{position:absolute;top:56px;left:0;right:0;text-align:center;font-size:22px;font-weight:600;color:#52526A}
+.ltime{position:absolute;top:120px;left:0;right:0;text-align:center;font-size:98px;font-weight:400;letter-spacing:-.02em;line-height:1.1}
 .lnoti{position:absolute;left:14px;right:14px;top:300px;background:rgba(255,255,255,.94);border-radius:22px;padding:12px 14px;display:flex;gap:12px;box-shadow:0 10px 28px rgba(26,26,46,.14);opacity:0}
 .nicon{flex-shrink:0}.ntext{flex:1;min-width:0}
 .nhead,.bhead{display:flex;justify-content:space-between;align-items:baseline}
@@ -437,7 +437,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#F9F8F6}
 /* Headlines */
 .hl{position:absolute;font-weight:900;letter-spacing:-.015em;line-height:1.06;color:#1A1A2E}
 .hw{display:inline-block;opacity:0;filter:blur(14px);will-change:transform,opacity,filter}
-#s3-head{left:120px;top:120px;font-size:84px;width:820px}
+#s3-head{left:120px;top:120px;font-size:84px;width:820px;line-height:1.12}
 #s4-head{left:0;right:0;top:66px;text-align:center;font-size:84px}
 .hl5{left:0;right:0;top:380px;text-align:center;font-size:106px;letter-spacing:-.02em}
 .oslot{position:relative;display:inline-block}.olet{display:inline-block}
