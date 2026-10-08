@@ -151,12 +151,12 @@ export default async function CurriculumMapPage() {
                       {/* Character band */}
                       <div style={{ background: ch.soft, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                         <span style={{
-                          width: '32px', height: '32px', borderRadius: '50%', background: '#fff',
+                          width: '52px', height: '52px', borderRadius: '50%', background: '#fff',
                           border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center',
                           justifyContent: 'center', fontSize: 'var(--text-lg)', flexShrink: 0,
                           overflow: 'hidden',
                         }}>
-                          <FriendMark character={m.character} size={28} ring={false} />
+                          <FriendMark character={m.character} size={48} ring={false} />
                         </span>
                         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: ch.ink }}>
                           {m.castLine}
