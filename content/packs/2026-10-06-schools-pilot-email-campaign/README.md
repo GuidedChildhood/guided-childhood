@@ -46,7 +46,7 @@ routine, which reads this file from origin/main before it drafts anything.
 
 **The facts. Use only these, and check the two live numbers on the day.**
 
-- 33 modules, Reception to Year 13. 17 are safeguarding flagged (the count is
+- 34 modules, Reception to Year 13. 17 are safeguarding flagged (the count is
   live on /hub/dsl; read it there before drafting).
 - The revised RSHE statutory guidance has been in force since 1 September 2026.
   It has 57 digital and online requirements and the scheme teaches all 57
@@ -188,7 +188,7 @@ sheet does not confirm the person is the DSL (Churchill names two people), and
 ```
 Hello [first name],
 
-I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty three modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open to read with no sign up on our schools website, and I am happy to send you the link.
+I am a parent in Winscombe, about [distance] miles from you, and I have built a digital literacy and online safety scheme for UK schools. I am writing to you as DSL because so much of it is safeguarding: seventeen of its thirty four modules are flagged, and the crosswalk gives the statutory ground and the teacher's note for each. It is open to read with no sign up on our schools website, and I am happy to send you the link.
 
 Since 1 September the revised RSHE guidance has been statutory, and this September's Keeping Children Safe in Education names generative AI and AI generated images among its online risks. The guidance has 57 digital and online requirements, and the scheme teaches all 57.
 
