@@ -47,3 +47,84 @@ Characters and assets: no image generation at all. DiGi comes from the SVG, the 
 Sound: synthesize subtle chat sounds (a soft send swoosh and a pop), clicks on taps, a soft chime when the worry rests and tinks for the face. Music: source it with the media-use skill (the HeyGen catalogue when signed in, otherwise generate it locally), never Higgsfield. The brief for the track: warm, light, modern keynote underscore, piano or soft synth over a gentle pulse, major key, around 100 to 110 bpm, a clear first downbeat, no vocals, no drops, calm ending. Place it so its first kick lands on "Introducing" at 8 seconds, keep it low under everything, fade it in at the start and out over the end card. Record where it came from and the licence in the project's media ledger. Do not use a commercial library track.
 
 Render a half size draft first and check it yourself with contact sheets before showing me. No dashes of any kind in any on screen text or in the copy strings in code, ages written as 4 to 16, British English throughout, and every line checked against .claude/skills/content-engine/ai-tells.md. DiGi never says yes or no to anything; every reply ends on the next thing to do. Report back in three things: what changed, whether it worked, and what you need from me.
+
+## How it was built, 8 October 2026
+
+- `beats.json` holds every on screen line and its timing; `build.mjs` writes
+  `index.html` (one paused GSAP timeline, HyperFrames owns the audio). The
+  build refuses any dash in copy, a short list of the ai-tells phrases, and a
+  music kick that does not land on "Introducing".
+- Scenes 3 and 4 run 10 percent slower as the brief asks, so the film is
+  46.9 seconds, not 45. Scene lengths otherwise as written.
+- The chat is drawn as the live thread in `DigiChat.tsx` draws it, which is
+  the periwinkle question pill (`#DCE7FB`) with DiGi's answer as plain text
+  under the small star, not the pale sky edged bubble the brief described
+  (that is the history view). Justin's own screenshot of 8 October set the
+  input bar: hands free pill above, butter edge on the pill, grey send
+  circle, the crisis line underneath.
+- DiGi is the star SVG inlined with the eyes, brows and smile as their own
+  groups, so the blink, the look left and right, the wink and the landing
+  squash are GSAP on real geometry. Nothing generated.
+- The faces, the logo and Home are rebuilt from `ConcernCheckIn.tsx`,
+  `shared/brand.ts` and `TodayPathBig.tsx`. The dev server was not started
+  in this worktree, so Home is a faithful rebuild from the component rather
+  than a Playwright capture.
+- Music: no HeyGen sign in, no Lyria key and no MusicGen weights on this Mac,
+  so `tools/music.py` composes the underscore in code (C major, 105 bpm,
+  piano style plucks over a pad, first kick at exactly 8.0 seconds, 48
+  seconds long). Licence: ours, nothing sampled. Swap the file in
+  `beats.json` if a catalogue track is preferred. `tools/sfx.py` synthesises
+  the ten cues the same way.
+- Checked with `tools/frames.mjs`, a headless Playwright grabber that seeks
+  the timeline and tiles contact sheets (`renders/sheet-*.png`), because the
+  in app browser pane only paints while it is on screen.
+- Renders: `renders/digi-launch-draft-960.mp4` (half size, draft quality)
+  and `renders/digi-launch-1080.mp4` (looks quality). Not committed.
+- Not heard by the builder. The music and sound levels need Justin's ear.
+
+## The second cut, 8 October 2026, afternoon
+
+Justin, after the first draft: slower and more readable; build on DiGi's
+brain (the researchers we use for now and why, the peer reviewed papers,
+what worked for other families, our own philosophy); keep it sales short;
+a soundtrack more of the moment.
+
+- **Pacing is a rule now, not a hand timing.** `beats.json` carries `pace`:
+  a line is held for its words at 4.8 a second plus 0.4, never under a
+  second; typing dots are 0.6; a script card adds 1.2. Every chat and every
+  brain layer is timed from that, and each scene is as long as its lines
+  need. The film is 105 seconds. Where the time went: cold open 16, the
+  check back 16, remembers your family 22, where every answer comes from 29.
+  The two obvious cuts if it must be shorter: the Ferguson row and the
+  families layer (about 8 seconds), or the "Want me to check back" line and
+  the "Go on then" exchange (about 4).
+- **The brain section** (scene 6, "Where every answer comes from") is four
+  layers beside the star, each lighting a pill: the five researchers DiGi
+  leads with for now, each with a four word why taken from
+  `digi/02-scientists.md`; 142 findings every one with a named source
+  (`lib/email/momentum.ts`, 7 October), peer reviewed papers and the big UK
+  datasets, approved by a human first (the research updater's gate); what
+  worked for families like yours, never a family's words
+  (`digi/00-how-digi-works.md`, the Sunday wisdom loop and its privacy rule);
+  and four lines of our own rules from THE-STORY.md. The names are
+  attribution of published work, not endorsement, and no clinician is named.
+- **The score is new:** `tools/music2.py`, a house underscore at 118 bpm
+  (four on the floor, clap, sixteenth hats, a pumping pad, plucks on an
+  I V vi IV in F major, a riser into the first kick). It writes
+  `assets/music.json` with the kick it was composed for and the build refuses
+  to run out of step with it. Still composed in code, still ours; if Justin
+  wants a real track of the moment, drop it in `assets/` and point
+  `beats.json` at it.
+- Trimmed on the way: the scene 4 push is now "First school night back. Want
+  the 7 o'clock words ready?" and DiGi's reply there is 14 words, so each is
+  read in the time it has.
+
+- Justin, later the same afternoon: cut Ferguson, the names stand, the track
+  is from Pixabay (Pixabay Content Licence, commercial use, no credit
+  required), the level is fine. The researchers layer now reads "Four
+  researchers lead, for now".
+- Delivered 8 October, evening: `hyperframes check` passes, 0 errors. One
+  warning stood on the delivered render, the brain layer eyebrow at 4.28 to
+  1 on cream; the source now uses `#8A6A1B`, which clears 4.5, so the next
+  render carries it. The renders in the Motion advert folder predate that one
+  shade.
