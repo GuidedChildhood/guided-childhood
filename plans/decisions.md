@@ -444,3 +444,7 @@ Justin asked for the morning before school and the after school return to be res
 ## 8 October 2026: the founding schools rate
 
 Justin: "yes on founding rate". The first 50 schools pay £195 a year for any primary, held while they stay; list prices and secondary are unchanged. Capped in code: band `founding_primary` is counted from `schools.invoice_requests` like the pilot's five, and the invoice action refuses it once the places are gone or the count cannot be read. `/pricing` shows the offer and places left, and the invoice form starts on it while it is open. `plans/2026-10-08-founding-schools-rate-plan.md`.
+
+## 8 October 2026: the DiGi launch film
+
+Justin: rewrite the QuickSend and Qbot launch brief for Guided Childhood with DiGi at the centre, then "build it". The brief sits in `videos/2026-10-08-digi-launch/BRIEF.md` and the film is built the house way (beats.json, build.mjs, GSAP, HyperFrames). Decided on the way: HyperFrames over Remotion, because four films already use it and DiGi's motion is GSAP in the product; the twelve client headshots became twelve memory cards, so no image generation and no faces; the music is composed in code because no catalogue was reachable, and the brief allows a local generate. Every screen is rebuilt from the real component, never a mock up. PR 1220.

@@ -47,3 +47,37 @@ Characters and assets: no image generation at all. DiGi comes from the SVG, the 
 Sound: synthesize subtle chat sounds (a soft send swoosh and a pop), clicks on taps, a soft chime when the worry rests and tinks for the face. Music: source it with the media-use skill (the HeyGen catalogue when signed in, otherwise generate it locally), never Higgsfield. The brief for the track: warm, light, modern keynote underscore, piano or soft synth over a gentle pulse, major key, around 100 to 110 bpm, a clear first downbeat, no vocals, no drops, calm ending. Place it so its first kick lands on "Introducing" at 8 seconds, keep it low under everything, fade it in at the start and out over the end card. Record where it came from and the licence in the project's media ledger. Do not use a commercial library track.
 
 Render a half size draft first and check it yourself with contact sheets before showing me. No dashes of any kind in any on screen text or in the copy strings in code, ages written as 4 to 16, British English throughout, and every line checked against .claude/skills/content-engine/ai-tells.md. DiGi never says yes or no to anything; every reply ends on the next thing to do. Report back in three things: what changed, whether it worked, and what you need from me.
+
+## How it was built, 8 October 2026
+
+- `beats.json` holds every on screen line and its timing; `build.mjs` writes
+  `index.html` (one paused GSAP timeline, HyperFrames owns the audio). The
+  build refuses any dash in copy, a short list of the ai-tells phrases, and a
+  music kick that does not land on "Introducing".
+- Scenes 3 and 4 run 10 percent slower as the brief asks, so the film is
+  46.9 seconds, not 45. Scene lengths otherwise as written.
+- The chat is drawn as the live thread in `DigiChat.tsx` draws it, which is
+  the periwinkle question pill (`#DCE7FB`) with DiGi's answer as plain text
+  under the small star, not the pale sky edged bubble the brief described
+  (that is the history view). Justin's own screenshot of 8 October set the
+  input bar: hands free pill above, butter edge on the pill, grey send
+  circle, the crisis line underneath.
+- DiGi is the star SVG inlined with the eyes, brows and smile as their own
+  groups, so the blink, the look left and right, the wink and the landing
+  squash are GSAP on real geometry. Nothing generated.
+- The faces, the logo and Home are rebuilt from `ConcernCheckIn.tsx`,
+  `shared/brand.ts` and `TodayPathBig.tsx`. The dev server was not started
+  in this worktree, so Home is a faithful rebuild from the component rather
+  than a Playwright capture.
+- Music: no HeyGen sign in, no Lyria key and no MusicGen weights on this Mac,
+  so `tools/music.py` composes the underscore in code (C major, 105 bpm,
+  piano style plucks over a pad, first kick at exactly 8.0 seconds, 48
+  seconds long). Licence: ours, nothing sampled. Swap the file in
+  `beats.json` if a catalogue track is preferred. `tools/sfx.py` synthesises
+  the ten cues the same way.
+- Checked with `tools/frames.mjs`, a headless Playwright grabber that seeks
+  the timeline and tiles contact sheets (`renders/sheet-*.png`), because the
+  in app browser pane only paints while it is on screen.
+- Renders: `renders/digi-launch-draft-960.mp4` (half size, draft quality)
+  and `renders/digi-launch-1080.mp4` (looks quality). Not committed.
+- Not heard by the builder. The music and sound levels need Justin's ear.
