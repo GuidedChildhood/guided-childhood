@@ -17,8 +17,10 @@ L = np.zeros(N); R = np.zeros(N)
 
 def midi(n): return 440.0 * 2 ** ((n - 69) / 12)
 def put(buf, sig, t, pan=0.0, gain=1.0):
-    s = int(t * SR)
-    if s >= N: return
+    s = int(round(t * SR))
+    if s < 0:
+        sig = sig[-s:]; s = 0
+    if s >= N or len(sig) == 0: return
     seg = sig[:N - s] * gain
     L[s:s + len(seg)] += seg * (1 - max(0, pan))
     R[s:s + len(seg)] += seg * (1 + min(0, pan))
@@ -81,11 +83,15 @@ PROG = [
 ARP = [0, 2, 4, 2, 1, 3, 4, 3]
 MOTIF = [(0, 72), (1.5, 71), (2, 67), (3, 69)]  # beat offset, note: the four bar lead line
 
-bar_i = 0; t = 0.0
+# Four intro bars counted back from the kick (the first starts before zero and is clipped), then the groove from T0.
+bars = [(T0 - k * BAR, -1) for k in range(4, 0, -1)]
+t = T0; g = 0
 while t < LEN:
+    bars.append((t, g)); t += BAR; g += 1
+for bar_i, (t, g) in enumerate(bars):
     root, voicing, arp = PROG[bar_i % 4]
-    in_groove = t + 1e-6 >= T0
-    section = (t - T0) / BAR if in_groove else -1
+    in_groove = g >= 0
+    section = g if in_groove else -1
     # Pad, every bar, from the very start.
     put(L, pad_chord(voicing, BAR + 0.6), t, pan=0.15, gain=1.0); put(R, pad_chord(voicing, BAR + 0.6), t, pan=-0.15, gain=0.0)
     # Sparse piano in the intro, a full arpeggio in the groove.
@@ -109,7 +115,6 @@ while t < LEN:
                 put(L, bass(root - 12 if root >= 48 else root, BEAT * 1.6), t + b * BEAT, gain=0.8)
             for k in range(8):
                 put(L, shaker(), t + k * BEAT / 2 + (0.012 if k % 2 else 0), pan=0.3, gain=0.5 if k % 2 == 0 else 0.3)
-    t += BAR; bar_i += 1
 
 mix = np.stack([L, R], axis=1)
 # A gentle fade in over the intro so the pad swells rather than switches on.
