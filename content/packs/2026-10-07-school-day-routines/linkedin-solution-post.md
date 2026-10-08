@@ -6,9 +6,9 @@ Series eyebrow on the card: THE WRONG VILLAIN, THE SCHOOL DAY, KEY INSIGHT 02. F
 
 ## The post
 
-Four choices, one card, every reason. Pull it apart.
+Part two, as promised. Four choices, one card, every reason. Pull it apart.
 
-Last week I posted that the school day's two hardest moments are paid for by sleep and food, not the screen. The question came back: so what do we do at 7.30?
+The last post said the school day's two hardest moments are paid for by sleep and food, not the screen, and that with three children and a job the screen is staying. The question came back: so what do we actually do at 7.30?
 
 What we built, in eight days, and why.
 
@@ -30,9 +30,9 @@ Why. The logging is the product. A tap is a moment, a moment becomes a worry we 
 
 Yes, the card is a screen in a parent's hand at the moment I say the screen is beside the point. One card, one window, and every rule on it needs no app.
 
-What we do not know. Whether anyone taps: our line is fifteen percent of cards tapped by week four, under ten and we redesign or kill it. Whether fifty minutes is right. Whether the no warning finding, from 28 American families with children under five, holds for a nine year old, or for a child with ADHD, where the NHS says the sequence takes longer. Every citation was checked against its source. It is still a hypothesis with a card on it.
+What we do not know. Whether anyone taps: our line is fifteen percent of cards tapped by week four, under ten and we redesign or kill it. Whether fifty minutes is right. Whether the no warning finding, from 28 American families with children under five, holds for a nine year old, or for a child with ADHD, where the NHS says the sequence takes longer. It is still a hypothesis with a card on it.
 
-So pull it apart. If you are a parent, set your child's school day in Settings and tell me in a fortnight what the card got wrong. If you are a researcher, the source ledger is yours for the asking, every figure with its verdict, and I would rather be corrected in public than quietly wrong.
+So pull it apart. If you are a parent, set your child's school day in Settings and tell me in a fortnight what the card got wrong. If you are a researcher, the source ledger is yours for the asking, and I would rather be corrected in public than quietly wrong.
 
 This is The Wrong Villain series continued. The school day, part two.
 
