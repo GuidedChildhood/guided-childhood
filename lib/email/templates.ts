@@ -11,7 +11,7 @@ import {
   bandedWrapper, eyebrow, friendMark, h1, linkList, rule, sectionHead, tickList, p as bp, verb,
   type Band,
 } from '@/lib/email/blocks'
-import { emailFriend } from '@/lib/email/friends'
+import { emailFriend, emailDigi } from '@/lib/email/friends'
 import { APP_ORIGIN } from '@/lib/config/site'
 import type { MonthProgress } from '@/lib/email/month-progress'
 import { bandWordOf, type MomentumBlock } from '@/lib/email/momentum'
@@ -929,6 +929,7 @@ export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = 
     subject: 'The assistant that never just says no',
     html: wrapper(
       heading('An answer, not a ban.') +
+      friendMark({ src: emailDigi().src, alt: emailDigi().alt, line: `This is DiGi, the golden star that answers your questions.` }) +
       p(`Most advice on screens comes down to take it away. That teaches a child nothing for the day they get it back.`) +
       p(`DiGi is different. Ask it anything, the 11pm worry, the game you have never heard of, the friend who just got a phone, and it hands you a calm pathway for your child's exact age. Never allow or deny, always one small step you can actually take tonight.`) +
       p(`It is the part parents tell us they did not know they were missing.`) +
@@ -1418,6 +1419,7 @@ export function digiBrainEmail(params: {
     subject: 'What DiGi is doing while you wait',
     html: wrapper(
       heading('The three seconds after you press send.') +
+      friendMark({ src: emailDigi().src, alt: emailDigi().alt, line: `This is DiGi, the golden star in the app. Here is what it does with your question.` }) +
       p(`DiGi is not a chatbot having a guess, so here is exactly what happens in the pause after you ask it something.`) +
       bullets([
         `<strong>It searches by meaning, not words.</strong> Ask why he screams when I take the iPad away and it finds the research on transitions and endings, even though you never used either word.`,
@@ -1443,6 +1445,7 @@ export function digiLearnsEmail(params: { unsubscribe: string }): EmailContent {
     subject: 'How DiGi gets better',
     html: wrapper(
       heading('It reads what parents actually ask.') +
+      friendMark({ src: emailDigi().src, alt: emailDigi().alt, line: `DiGi, the golden star in the app, gets better in one careful way.` }) +
       p(`Every fortnight DiGi looks at the questions families have really been bringing it. Not what I assumed parents would ask, what they did ask, at the hours they asked it.`) +
       p(`Where there is a gap, it goes looking for the current research on that exact thing, from universities, paediatric bodies and the people who study this for a living. It drafts what it finds into new findings for its own bank.`) +
       p(`Then it stops and waits for me.`) +
@@ -1470,6 +1473,7 @@ export function digiFeedbackLoopEmail(params: {
     subject: 'The one thing I will ask you for',
     html: wrapper(
       heading('Six weeks in, one ask.') +
+      friendMark({ src: emailDigi().src, alt: emailDigi().alt, line: `DiGi, the golden star in the app, will sometimes ask you one small thing.` }) +
       p(`Every so often DiGi will ask whether something it suggested actually worked. It takes a sentence to answer and most people skip it, so here is why it matters more than it looks.`) +
       p(`Those answers are the record of what has genuinely worked. Not what sounds sensible in a book, what a real family tried on a real Tuesday and came back to say helped. A solution proven across many families carries more weight than one that worked once, and DiGi leads with the proven ones.`) +
       p(`It offers them first and stays ready to be wrong. A pattern that helped a hundred families is a good place to start, never a verdict on yours.`) +
@@ -1494,6 +1498,7 @@ export function digiChecksEmail(params: { unsubscribe: string }): EmailContent {
     subject: 'Who checks DiGi',
     html: wrapper(
       heading('The question you would be right to ask.') +
+      friendMark({ src: emailDigi().src, alt: emailDigi().alt, line: `DiGi, the golden star in the app, is checked every week.` }) +
       p(`You have been letting DiGi advise you on your child for six weeks. So who is checking it.`) +
       bullets([
         `<strong>Every Monday</strong> DiGi is put through a fixed set of hard cases, including the ones where the right answer is to send a parent to a professional. It emails me the verdict even when everything passes, because a quiet inbox should mean no problems and never a check that quietly stopped running.`,

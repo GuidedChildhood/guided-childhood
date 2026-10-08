@@ -1,4 +1,6 @@
 import { LEGAL_LINE } from '@gc/shared/legal'
+import { CHARACTERS, CURRICULUM } from '@gc/shared/schools-curriculum'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 // THE SCHOOL'S OWN CONFIRMATION, one per kind of row in the schools letterbox.
 //
@@ -35,9 +37,35 @@ const moduleFromNotes = (notes: string | null) => {
   return /^(eyfs|ks\d)-\d\d-/.test(last) ? last : null
 }
 
-function wrap(paragraphs: string[]): string {
+// THE CAST IN THE LETTERS (8 October 2026). Justin: the characters in the
+// relevant automated emails, and on the school side too. The rule is the one
+// lib/email/friends.ts sets for parents: a character marks the lessons, never
+// money. So the pilot letter carries DiGi, who closes every lesson; the taster
+// letter carries the friend who teaches the lesson they asked for; the invoice
+// letter carries nobody. The images are the email sized copies on the parent
+// app's origin, 192 square and displayed at 72, with alt text that reads as a
+// caption for the readers whose client blocks images on a first open.
+type Mark = { key: string; name: string; line: string }
+
+const markFor = (moduleId: string | null): Mark => {
+  const m = CURRICULUM.find(c => c.moduleId === (moduleId ?? 'ks3-12-misinfo-deepfakes'))
+  const key = m?.character ?? 'orbit'
+  const name = CHARACTERS[key]?.name ?? 'Orbit'
+  return { key, name, line: `${name} teaches this lesson, and the class meets ${name} at the door.` }
+}
+
+function markRow(m: Mark): string {
+  const src = `${APP_ORIGIN}/digi-squad/friends/email/${m.key}.png`
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px"><tr>
+        <td width="72" style="padding-right:14px" valign="middle"><img src="${src}" width="72" height="72" alt="${esc(`${m.name}, from the lessons`)}" style="display:block;border:0;width:72px;height:72px"></td>
+        <td valign="middle" style="font-size:15px;line-height:1.55;color:#4A4A63">${esc(m.line)}</td>
+      </tr></table>`
+}
+
+function wrap(paragraphs: string[], mark?: Mark): string {
   return `
     <div style="font-family:Nunito,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#1A1A2E;max-width:560px">
+      ${mark ? markRow(mark) : ''}
       ${paragraphs.map(p => `<p style="margin:0 0 14px">${p}</p>`).join('')}
       <p style="margin:22px 0 0;font-size:13px;line-height:1.5;color:#65657C">${esc(LEGAL_LINE)}</p>
     </div>`
@@ -62,7 +90,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `If your data protection officer wants the paperwork first, the privacy notice and the data processing agreement are at <a href="${SITE}/dpa" style="color:#C99A28;font-weight:700">${SITE}/dpa</a>, ready to print and sign.`,
         `If you want to try something before the code lands, <a href="${SITE}/lesson/ks3-12-misinfo-deepfakes" style="color:#C99A28;font-weight:700">the sample lesson</a> is open now. It is the real thing, nothing locked.`,
         `Justin`,
-      ]),
+      ], { key: 'digi', name: 'DiGi', line: 'DiGi, the golden star, closes every lesson your classes will see.' }),
     }
   }
 
@@ -77,7 +105,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `Take it into a lesson and see how it lands. When you want the rest of the scheme, the whole staff room runs on one code: <a href="${SITE}/pilot" style="color:#C99A28;font-weight:700">ask for a free term</a> or <a href="${SITE}/pricing" style="color:#C99A28;font-weight:700">see the prices</a>.`,
         `If anything in the lesson did not land the way you expected, reply to this email and tell me. That is how it gets better.`,
         `Justin`,
-      ]),
+      ], markFor(moduleId)),
     }
   }
 
