@@ -448,6 +448,10 @@ Justin merged 1210 (the windows build), 1211 (the flagship post) and 1212 (brief
 ## 8 October 2026: the founding schools rate
 
 Justin: "yes on founding rate". The first 50 schools pay £195 a year for any primary, held while they stay; list prices and secondary are unchanged. Capped in code: band `founding_primary` is counted from `schools.invoice_requests` like the pilot's five, and the invoice action refuses it once the places are gone or the count cannot be read. `/pricing` shows the offer and places left, and the invoice form starts on it while it is open. `plans/2026-10-08-founding-schools-rate-plan.md`.
+## 8 October 2026 — the school day post is bulletproofed before it ships; the hostile panel is standard
+
+Justin: attack it from researchers and the ban brigade as usual, remember the 0.4 percent challenges, say yes we get them, tell how we got to the solution and why, invite people to pull it apart. A hostile panel (the Haidt camp, Smartphone Free Childhood and Molly Rose, a methods critic, a clinician) made thirteen sourced attacks and a verifier checked every new figure (9 confirmed, 4 corrected). Three things a reply could not repair went into the body: the bedroom phone is the right villain for the night, the 0.4 percent is given as a correlation in the same units as sleep and breakfast and scoped to every screen for every teenager, and the restraint collapse paragraph concedes the small effects since 2016. The verifier caught that the Selby television in the bedroom line is Year 2, not Year 6. A second post tells the four design choices with reasons, states the kill line and asks to be pulled apart. Our own viral post notes had aimed Rausch and Haidt at the wrong Ferguson paper; fixed. PR 1217. Drive holds post 1, post 2, the attacks and answers, the carousel v2 PDF and the card.
+
 
 ## 8 October 2026: the pilot emails, rewritten to the research
 
