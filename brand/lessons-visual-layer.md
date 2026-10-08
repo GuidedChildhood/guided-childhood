@@ -40,7 +40,9 @@ Every lesson thumbnail on every surface is the same object, at different sizes.
  ┌──────────┐   ground : CHARACTERS[key].soft   (both apps, always)
  │ ③        │   edge   : 1.5px CHARACTERS[key].accent
  │   ◟◝◞    │   radius : var(--radius-tile)
- │  (art)   │   badge  : the module position, mono 700, top left
+ │  (art)   │   badge  : the module position, mono 700 `--text-xs` in the
+ │▁▁▁▁▁▁▁▁▁▁│             friend's `ink` on a `soft` plate at `--radius-pill`,
+ └──────────┘             4px inset, top left, and only on a tile with art
  │▁▁▁▁▁▁▁▁▁▁│
  └──────────┘
 ```
@@ -57,7 +59,7 @@ art appears on exactly three rows in a list:
 
 | Row | Art | Edge |
 |---|---|---|
-| This week's lesson | `moods.thinking` | 3px `accent` plus `--lift` |
+| This week's lesson | `moods.thinking` | 3px `accent` |
 | The latest pass | `moods.happy` | 2px `accent` |
 | Beside the stage check card | `moods.wave` | 2px `accent` |
 
@@ -109,7 +111,7 @@ outstanding for the pass of the stage.
   dashed ring on a `--terracotta-lt` ground is four or five ticks at this
   circumference and reads as a rendering fault, so the dashed version stays on
   the 44px passport road.
-  Nine dots and a stamp is 302px, inside a 360px phone less its padding. Past
+  Nine dots at 24, nine gaps at 7 and a 32px stamp is 311px, inside a 360px phone less its 16px padding. Past
   nine the dots floor at 18px and the numerals drop before anything overflows.
 - **The state table, which is the one thing a builder cannot invent.** Parent
   tokens first, the child's theme second, so the same component draws on both
@@ -118,15 +120,25 @@ outstanding for the pass of the stage.
   | State | Parent app | Child app (themed) |
   |---|---|---|
   | passed | solid `--terracotta`, numeral `--ink` | solid `hex`, numeral `onAccent` |
-  | kept | solid `--retro-green`, 2px `--retro-green-dark` edge, white numeral | the same on every theme, so one state is one colour in both apps |
+  | kept | the passed dot **plus an arc**: solid accent, numeral unchanged, a 3px arc inset 1px in `onAccent` | the same rule, on the theme's own `onAccent` |
   | this week | white, 3px `--terracotta` edge, `0 4px 0 var(--terracotta-dark)` | white, 3px `hex` edge, `hexDark` shadow |
-  | ahead | `--cream` with `--edge`, numeral `--ink-light` | `panel` with `panelBorder`, numeral `inkMuted` |
+  | ahead | `--cream` with `--edge`, numeral `--ink-light` | `panel` with a **2px `inkMuted` edge**, numeral `ink` |
 
-  The passed numeral is `--ink` and not `--terracotta-dark`, which is 1.55 to 1
-  against the butter and would vanish at 11px. `kept` is retro green and not
-  `--sage`, which is 1.09 to 1 against an ahead dot in cream, so the only new
-  state in this document would have been invisible. `onAccent` is already
-  decided per theme by luminance in `lib/kid/theme.ts`.
+  The passed numeral is `--ink`, not `--terracotta-dark`, which is 1.55 to 1
+against the butter and vanishes at 11px. The child's ahead dot takes a solid
+`inkMuted` edge, not `panelBorder`, which measures 1.21 to 1.64 to 1 over the
+page on all thirteen accents: the strip sits on the themed background rather
+than on a card, so the state that answers its one declared job was the state
+that disappeared. And `kept` is **not a new colour at all**. Retro green
+measures 1.0 to 1 against berry, 1.01 against ocean and lavender and under 2
+against twelve of the thirteen, so a kept dot and a passed dot would have
+differed by hue alone, and retro green already means a logged night on the week
+card. So kept is the passed dot plus time: the same fill, the same numeral, and
+a 3px arc on the perimeter inset 1px in `onAccent`, clockwise from twelve, one
+quarter per retrieval survived, nothing drawn behind the unclosed part, capped
+at four. That also writes the geometry a builder could not otherwise invent.
+`onAccent` is decided per theme by luminance in `lib/kid/theme.ts` and measures
+4.31 to 10.21 to 1.
 - **The trail has a colour too**, the way the mini road already solves it
   (`StageRoad.tsx`): 3px dotted `var(--border)` behind, 3px dotted
   `var(--terracotta)` filled up to the current dot, and `panelBorder` with
@@ -160,8 +172,11 @@ outstanding for the pass of the stage.
   the week card's `4/9` badge read `childLessonPath().school.next.position`, so
   one lesson never shows two numbers one tap apart.
 - **A passed dot gains a second state, and that state counts.** When a
-  lesson's 90 day retrieval lands the dot becomes `kept`, and each further
-  retrieval it survives closes a quarter of its ring, capped at a closed ring.
+  lesson's 90 day retrieval lands the dot becomes `kept`, and each further retrieval it survives closes a quarter of its ring, capped at
+four quarters, **advancing at most once per ninety days per dot**, on a
+`remember` row at least ninety days after the row that last advanced it.
+Without that clause the weekly cadence after a stage is finished would either
+close all nine rings by about month eight or never open one at all.
   Each dot would otherwise change twice and stop: nine dots staggered by a week
   spend all eighteen transitions by about month seven, which is not three
   years. With the ring, nine dots change something every few weeks out to
@@ -189,7 +204,7 @@ Week three unpassed the card reads "No rush. It is here when you are." and
 does not fade.
 
 **The child's list.** DiGi stays at the head beside "My lessons", because DiGi
-hosts every other screen in the child's app and the stage friend's three
+hosts every other screen in the child's app and the stage friend's four
 appearances below carry the stage. Then the road strip, then rows in the
 existing shell with the 52px emoji box replaced by the tile at 76 and the
 numbered circle folded into the badge. The tool chip is the row's
@@ -213,8 +228,12 @@ largest award in the app and the balance should not move unexplained. Then the
 commitment input, the tea question, the next line, the dignity line. No motion
 beyond the arrive.
 
-**The near miss screen.** Words unchanged, DiGi `speak` at 100 unchanged, the
-module friend joining at `thinking`, 56, smaller, no plate. There is no sad
+**The near miss screen.** DiGi `speak` at 100 unchanged, the module friend
+joining at `thinking`, 56, smaller, no plate. The words gain the plan's one
+mono stars line, because the largest award in the app landing unexplained on a
+run the child did not pass is how they conclude the app did not notice. Its
+eyebrow is `THE TRICKY BIT`, not `Retrieval practice`, which is teacher
+register on the one screen where the child has just missed. There is no sad
 pose and none is made.
 
 **The co viewer pass screen, under 7.** The same frame, Pebble at 112
@@ -306,7 +325,9 @@ the taps, and says nothing about the schedule, so the first a parent hears of a
 Remember check is after it happened. One mono line on the passed row: "Comes
 back Thursday", from `remember-due.ts`. And the Sunday block closes with the
 one number every other surface carries, as text so it survives blocked images:
-"Lesson 4 of 9 in Explorer. Five to go before the stamp."
+"Teo has passed 4 of the 9 Explorer lessons. Five to go before the stamp."
+And "Comes back Thursday" carries a week beyond seven days, "Comes back next
+Thursday", because the window is 5 to 9 days.
 
 ## Restraint, deliberately
 
