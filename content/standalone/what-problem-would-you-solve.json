@@ -21,7 +21,7 @@
       "phase": "starter",
       "minutes": 1,
       "character": "orbit",
-      "eyebrow": "KS3 . Years 8 and 9",
+      "eyebrow": "KS3 · Years 8 and 9",
       "title": "What problem would you solve?",
       "body": "Not what you want to be. What you would fix.",
       "script": "Read the title and the line under it, then stop. Do not open with careers, jobs or money. The lesson turns on the swap in that second line: from a job title they are supposed to have ready, to a problem they can see this week. Nobody in the room needs a big idea to take part."
@@ -341,7 +341,7 @@
       "minutes": 4,
       "caption": "Sort the six together before the sheet.",
       "config": {
-        "label": "Who does this part? . tap the class verdict",
+        "label": "Who does this part? · tap the class verdict",
         "verdicts": [
           "You do it",
           "The tool can help",
