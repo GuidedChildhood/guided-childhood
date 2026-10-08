@@ -41,7 +41,7 @@ export default function DigiSquadPage() {
         <div style={{ position: 'absolute', top: '18%', right: '10%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(242,201,76,.08)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '10%', left: '5%', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(175,220,162,.05)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+          <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
             Meet the team
           </div>
@@ -114,7 +114,7 @@ export default function DigiSquadPage() {
       <section className="section-lg" style={{ background: 'var(--deep-teal)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={72} height={72} style={{ margin: '0 auto 16px', display: 'block' }} />
+            <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={72} height={72} style={{ margin: '0 auto 16px', display: 'block' }} />
             <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '12px' }}>The guide</p>
             <h2 style={{ color: '#fff', marginBottom: '16px' }}>DiGi is with your child the whole way</h2>
             <p style={{ color: 'rgba(255,255,255,.6)', fontSize: 'var(--text-md)', maxWidth: '540px', margin: '0 auto', lineHeight: 1.65 }}>
@@ -168,7 +168,7 @@ export default function DigiSquadPage() {
 
             <div className="digi-card" style={{ padding: '24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border)' }}>
-                <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={40} height={40} />
+                <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={40} height={40} />
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>After today&rsquo;s lesson with Bloop</div>
@@ -176,13 +176,13 @@ export default function DigiSquadPage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <img src="/digi-squad/DiGi-star.svg" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <img src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div className="bubble-digi">
                     Bloop helped your child see why their brain keeps wanting more screen time even when they are tired. The words they used: &ldquo;the wanting feeling.&rdquo; Your child now has a name for it.
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <img src="/digi-squad/DiGi-star.svg" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <img src="/digi-squad/DiGi-star-3d.png" alt="" width={26} height={26} style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div className="bubble-digi">
                     Tonight you could ask: &ldquo;What did Bloop say about why it is hard to stop?&rdquo; Just that. Let them explain it back to you.
                   </div>

@@ -16,7 +16,7 @@ export default function SavingPathway({ childName }: { childName?: string }) {
       minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center', padding: '28px 20px', textAlign: 'center',
     }}>
-      <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
+      <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
       <h1 style={{
         fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4.5vw, 2rem)',
         fontWeight: 900, letterSpacing: '-0.02em', color: 'var(--ink)', margin: '18px 0 8px',

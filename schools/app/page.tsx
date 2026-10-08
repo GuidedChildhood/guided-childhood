@@ -150,7 +150,9 @@ function MapPreview() {
 // having to remember, the moment the sixth form lessons are written in his
 // voice and the manifest says so.
 const SQUAD: { key: CharacterKey; clip?: string; line: string }[] = [
-  { key: 'digi', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
+  // DiGi's idle loop, animated from the 3D star (Higgsfield job dc3673e0,
+  // 8 October 2026) so the guide moves like the five friends beside it.
+  { key: 'digi', clip: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20261008_111514_dc3673e0-3cbf-4498-86f8-79d9d381e084.mp4', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
   { key: 'pebble', clip: INTRO_CHARACTERS.pebble.clip, line: 'First steps: kindness, feelings, and what is real.' },
   { key: 'bloop', clip: INTRO_CHARACTERS.bloop.clip, line: 'Routines, gaming, privacy, and who really made this.' },
   { key: 'orbit', clip: INTRO_CHARACTERS.orbit.clip, line: 'The questions years: mood, scams, deepfakes, and whether it is doing your thinking.' },

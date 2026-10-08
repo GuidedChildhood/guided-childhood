@@ -6,7 +6,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 // buddy changes between two of their own screens.
 
 export const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
-  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
+  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star-3d.png' },
   ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.cutout, stageId: c.stageId }])),
 }
 

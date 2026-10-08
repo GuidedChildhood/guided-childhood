@@ -97,7 +97,7 @@ function DigiSpeech({ text }: { text: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '28px' }}>
       <div style={{ flexShrink: 0, animation: 'digiFloat 3.5s ease-in-out infinite' }}>
-        <img src="/digi-squad/DiGi-star.svg" alt="" aria-hidden="true" width={64} height={64} style={{ display: 'block' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" aria-hidden="true" width={64} height={64} style={{ display: 'block' }} />
       </div>
       <div style={{ position: 'relative', flex: 1, paddingTop: '6px' }}>
         {/* Tail — border layer */}
@@ -480,7 +480,7 @@ export default function OnboardingPage() {
             <div style={{ position: 'relative', width: 96, height: 96 }}>
               <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(220,88,50,0.35)', animation: 'pulseRing 2.2s ease-out infinite' }} />
               <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(220,88,50,0.2)', animation: 'pulseRing 2.2s ease-out 1.1s infinite' }} />
-              <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={96} height={96} style={{ animation: 'digiFloat 3.5s ease-in-out infinite', display: 'block', position: 'relative', zIndex: 1 }} />
+              <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width={96} height={96} style={{ animation: 'digiFloat 3.5s ease-in-out infinite', display: 'block', position: 'relative', zIndex: 1 }} />
             </div>
           </div>
 
@@ -840,7 +840,7 @@ export default function OnboardingPage() {
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
         <style>{ANIM}</style>
-        <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'digiFloat 2s ease-in-out infinite' }} />
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'digiFloat 2s ease-in-out infinite' }} />
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-light)', letterSpacing: '0.08em' }}>
           Setting up your pathway...
         </p>

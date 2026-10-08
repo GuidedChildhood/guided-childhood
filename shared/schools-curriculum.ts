@@ -66,7 +66,7 @@ export const CHARACTERS: Record<CharacterKey, {
       thinking: ART + 'hf_20260913_081941_4f68e598-3542-4311-bf32-9a664328403e.png',
     },
   },
-  digi: { name: 'DiGi', emblem: '⭐', img: '/digi-squad/DiGi-star.svg', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' },
+  digi: { name: 'DiGi', emblem: '⭐', img: '/digi-squad/DiGi-star-3d.png', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' },
   nova: {
     name: 'Nova', emblem: '🧭', img: ART + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73',
     moods: {
