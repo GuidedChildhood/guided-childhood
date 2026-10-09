@@ -1926,9 +1926,10 @@ export default function LessonPlayer({
   // phase in their words, a check counted ("Check 1 of 2"), and the minutes
   // LEFT for one child alone, never the classroom's per slide minutes.
   const kidLeft = audience === 'classroom' ? 0 : kidMinutesLeft(slides, index)
+  // No "4 of 29": the bar already shows how far, and a count of slides is a
+  // number for a teacher planning an hour, not for a child doing ten minutes.
   const kidStatus = audience === 'classroom' ? '' : [
     kidEyebrow(slides, index),
-    counter,
     kidLeft >= 1 ? `about ${kidLeft} min left` : 'nearly done',
   ].filter(Boolean).join(' · ')
   const status = finished
@@ -2374,7 +2375,9 @@ export default function LessonPlayer({
           </Link>
         )}
         {projector && rail}
-        <span className="gc-status" style={{
+        {/* The child's line has its own row below: squeezed between the Quests
+            button and the star it showed "WARM UP ·" and nothing else. */}
+        {audience !== 'classroom' && !projector ? <span style={{ flex: 1 }} /> : <span className="gc-status" style={{
           fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '10.5px'), fontWeight: 700,
           letterSpacing: room(projector, '0.06em', '0.14em'), textTransform: 'uppercase', color: 'var(--ink-muted)',
           // The label gives way, never the star: on a narrow phone a long
@@ -2384,7 +2387,7 @@ export default function LessonPlayer({
           textAlign: projector && rail ? 'right' : 'left',
         }}>
           {status}
-        </span>
+        </span>}
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
           {kidMode && typeof kidStars === 'number' && !finished && (
             <span style={{
@@ -2404,6 +2407,16 @@ export default function LessonPlayer({
           {!finished && <DigiCharacter mood={digiMood} size={projector ? 48 : 38} />}
         </span>
       </div>
+
+      {audience !== 'classroom' && !projector && !finished && (
+        <div className="gc-kid-status" style={{
+          flexShrink: 0, padding: '0 clamp(16px, 4vw, 28px) 6px', textAlign: 'center',
+          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
+          textTransform: 'uppercase', color: 'var(--ink-muted)',
+        }}>
+          {status}
+        </div>
+      )}
 
       {/* The rail on a phone: its own row under the header, five equal
           segments with their labels, where five wrapping pills used to be. */}

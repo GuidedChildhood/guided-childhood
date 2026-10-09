@@ -705,7 +705,7 @@ export function kidMinutesLeft(slides: LessonSlide[], index: number): number {
 }
 
 const KID_PHASE: Record<LessonPhase, string> = {
-  connect: 'Hello', starter: 'Warm up', teach: 'Learn it', practise: 'Your turn', prove: 'Check', close: 'Wrap up',
+  connect: 'Hello', starter: 'Warm up', teach: 'Learn it', practise: 'Have a go', prove: 'Check', close: 'Wrap up',
 }
 
 /** The child's eyebrow for a slide: the phase in their words, a check counted. */
