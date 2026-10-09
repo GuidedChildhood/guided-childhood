@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { isTogetherStage } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonStageFor } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { hasFullAccess } from '@/lib/access'
@@ -41,7 +41,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band, accent')
+    .select('name, age_band, accent, date_of_birth')
     .eq('id', link.child_id)
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
@@ -51,7 +51,10 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // stage (lib/lessons/school-path), not the parent library, which is written
   // to grown ups. Each opens through /k/[token]/school/[id], which reuses the
   // star lesson player, stars and push, and its pass ticks the passport.
-  const stageId = stage.name.toLowerCase() as StageId
+  // Lessons follow the school year (sync plan C): a Year 8 child who has
+  // turned 13 gets the KS3 lessons their class meets, not the KS4 ones. The
+  // stage check card below still reads the passport stage.
+  const stageId = lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null } | null)
 
   // Whether the big end of stage check is already passed, so the card at the
   // bottom of the list says so rather than inviting them to sit it again.

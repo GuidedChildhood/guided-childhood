@@ -71,3 +71,72 @@ export const schoolCreditKey = (lessonId: string) => `school_lesson:${lessonId}`
  * learning sticks at that age.
  */
 export const isTogetherStage = (stageId: StageId | null | undefined) => stageId === 'foundation'
+
+// ── A CHILD'S LESSONS FOLLOW THEIR SCHOOL YEAR (9 October 2026) ─────────────
+//
+// Justin, deciding the sync plan's question 2: a child's lessons follow their
+// school year, not their birthday (plans/2026-10-09-curriculum-sync-plan.md,
+// section C). The stage still opens on a birthday elsewhere, and that put a
+// Year 8 child who turned 13 on the KS4 decks (sextortion, consent and the
+// law, self harm content) up to two years before their class met them, alone.
+// Hiding those lessons instead, as the plan's first version said, left the
+// same child a road of nothing but "waits for Year 10". So the lessons come
+// from the key stage the child's school year sits in, and every child meets a
+// lesson in the year their class does.
+//
+// England's school year starts on 1 September, and a child starts Reception
+// in the September after they turn four. With no date of birth the age band
+// decides, as it always has.
+
+const YEAR_KEY_STAGE_STAGE: { upTo: number; stage: StageId }[] = [
+  { upTo: 2, stage: 'foundation' }, // Reception (0) to Year 2: EYFS and KS1
+  { upTo: 6, stage: 'builder' }, // Years 3 to 6: KS2
+  { upTo: 9, stage: 'explorer' }, // Years 7 to 9: KS3
+  { upTo: 11, stage: 'shaper' }, // Years 10 and 11: KS4
+  { upTo: Infinity, stage: 'independent' }, // Years 12 and 13: KS5
+]
+
+/** The English school year a child is in: Reception is 0, Year 6 is 6. Null without a valid date. */
+export function schoolYearFromDob(dob: string | Date | null | undefined, on: Date = new Date()): number | null {
+  if (!dob) return null
+  const birth = typeof dob === 'string' ? new Date(`${dob.slice(0, 10)}T00:00:00Z`) : dob
+  if (Number.isNaN(birth.getTime())) return null
+  // The September that starts the school year we are in, and the September
+  // that starts the cohort the child was born into (1 September to 31 August).
+  const yearStart = on.getUTCMonth() >= 8 ? on.getUTCFullYear() : on.getUTCFullYear() - 1
+  const cohortStart = birth.getUTCMonth() >= 8 ? birth.getUTCFullYear() : birth.getUTCFullYear() - 1
+  return yearStart - cohortStart - 5
+}
+
+/** The stage whose lessons a school year meets. Below Reception counts as Foundation. */
+export function stageForSchoolYear(year: number): StageId {
+  return YEAR_KEY_STAGE_STAGE.find(b => year <= b.upTo)!.stage
+}
+
+const BAND_STAGE: Record<string, StageId> = {
+  '4-7': 'foundation', '8-10': 'builder', '11-13': 'explorer', '13-15': 'shaper', '16+': 'independent',
+}
+
+/**
+ * Whose lessons a child gets: their school year's stage when we know their
+ * date of birth, their age band's otherwise. Every place a lesson is chosen
+ * for a child reads this, and nothing else.
+ */
+export function lessonStageFor(child: { date_of_birth?: string | null; age_band?: string | null } | null | undefined, on: Date = new Date()): StageId {
+  const year = schoolYearFromDob(child?.date_of_birth ?? null, on)
+  if (year !== null) return stageForSchoolYear(year)
+  return BAND_STAGE[child?.age_band ?? ''] ?? 'builder'
+}
+
+const STAGE_RANK: Record<StageId, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
+
+/**
+ * Whether a child may open a module: at or below their lessons' stage. A
+ * module from an earlier stage stays open (a Year 8 child can catch up on a
+ * KS2 lesson); one from a later stage waits for the year their class meets it.
+ */
+export function moduleOpenFor(moduleKeyStage: string | null | undefined, childLessonStage: StageId): boolean {
+  const stage = stageForKeyStage(moduleKeyStage)
+  if (!stage) return true
+  return STAGE_RANK[stage] <= STAGE_RANK[childLessonStage]
+}

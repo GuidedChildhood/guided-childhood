@@ -41,6 +41,7 @@ import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 import { getStickerBook } from '@/lib/stickers/book'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { lessonStageFor } from '@/lib/lessons/school-path'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
 
@@ -443,7 +444,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // stopped counting on 29 September, so the road was promising the buddy
     // for lessons the child could not open in their own app. Fails soft to
     // null, which hides the road's lesson line rather than printing nought.
-    soft(loadChildLessonPath(supabase, { userId: link.user_id, childId: link.child_id, stageId: stageSlug as StageId })),
+    // The road's lessons follow the school year (sync plan C), like the list.
+    soft(loadChildLessonPath(supabase, { userId: link.user_id, childId: link.child_id, stageId: lessonStageFor({ date_of_birth: dob ?? null, age_band: (ageBand as string | null) ?? null }) })),
     // This week at school: the brief, from the date of birth. The module is
     // still loaded lazily, as before, just inside the wave.
     dob

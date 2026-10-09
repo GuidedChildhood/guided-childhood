@@ -3,7 +3,7 @@ import type { StageId } from './progress'
 import { homeSetupCount, toFamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
-import { schoolModulesForStage } from '@/lib/lessons/school-path'
+import { lessonStageFor, schoolModulesForStage } from '@/lib/lessons/school-path'
 import { childLessonPath, type CompletionRow } from './lesson-path'
 import type { PassByRow } from './lesson-credit'
 
@@ -70,7 +70,14 @@ export async function getJourney(
     // The child's school modules for the stage, in teaching order. The admin
     // client, because the curriculum catalogue is service role only; ids and
     // titles are all that is read.
-    listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, stageId)),
+    // Whose stage: the child's school year's, when we know the child (sync
+    // plan C), so this strand names the lesson their own list opens.
+    Promise.all([
+      listStarLessons(createAdminClient()),
+      childId
+        ? supabase.from('children').select('date_of_birth, age_band').eq('id', childId).maybeSingle().then(r => r.data)
+        : Promise.resolve(null),
+    ]).then(([rows, kid]) => schoolModulesForStage(rows, kid ? lessonStageFor(kid as { date_of_birth?: string | null; age_band?: string | null }) : stageId)),
     (() => {
       const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId)
       return childId ? q.or(`child_id.eq.${childId},child_id.is.null`) : q

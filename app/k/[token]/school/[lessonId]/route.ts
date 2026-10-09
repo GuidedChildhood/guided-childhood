@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
+import { lessonStageFor, moduleOpenFor } from '@/lib/lessons/school-path'
 
 // Open one school lesson for the child, from their own list.
 //
@@ -33,8 +34,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
 
   // The lesson has to be a real school lesson: there is no foreign key on the
   // mission row, so this is the only check between a bad id and a dead link.
-  const lesson = await getStarLesson(supabase, lessonId, 'id')
+  const [lesson, { data: child }] = await Promise.all([
+    getStarLesson(supabase, lessonId, 'id, key_stage'),
+    supabase.from('children').select('date_of_birth, age_band').eq('id', link.child_id).maybeSingle(),
+  ])
   if (!lesson) return NextResponse.redirect(new URL(`/k/${token}/lessons`, req.url))
+  // A lesson from a later key stage waits for the year the child's class meets
+  // it (sync plan C). Enforced here, where a mission starts, and not only by
+  // the list leaving it out, because any lesson id can be typed into this URL.
+  if (!moduleOpenFor((lesson as { key_stage?: string | null }).key_stage, lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null } | null))) {
+    return NextResponse.redirect(new URL(`/k/${token}/lessons`, req.url))
+  }
 
   const { data: existing } = await supabase
     .from('kid_lesson_missions')

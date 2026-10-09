@@ -4,10 +4,9 @@ import { createClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
-import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { isTogetherStage } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonStageFor } from '@/lib/lessons/school-path'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
@@ -41,13 +40,13 @@ export default async function ChildLessonPathPage({
   const { child: childParam, stage: stageParam, lesson: focusId, from } = await searchParams
 
   const { data: childRows } = await supabase
-    .from('children').select('id, name, age_band, is_primary')
+    .from('children').select('id, name, age_band, is_primary, date_of_birth')
     .eq('parent_id', user.id).order('is_primary', { ascending: false })
   const child = pickChild(childRows ?? [], childParam)
   if (!child) redirect('/dashboard')
 
-  const own = getStageFromAgeBand(((child as { age_band?: string | null }).age_band as AgeBand | null) ?? '8-10')
-  const ownId = own.name.toLowerCase() as StageId
+  // The child's own lessons follow their school year (sync plan C).
+  const ownId = lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null })
   // ?stage= arrives as a name or as the stage number (the passport and the
   // stamp card pass the number), so both land on the same page.
   const asNum = Number(stageParam)

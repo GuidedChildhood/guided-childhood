@@ -11,7 +11,7 @@ import { countsTowardPathway } from '@/lib/pathway/script-status'
 import { dealOutgrown } from '@/lib/content/agreement-promises'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
-import { schoolModulesForStage } from '@/lib/lessons/school-path'
+import { lessonStageFor, schoolModulesForStage } from '@/lib/lessons/school-path'
 import { childLessonPath } from './lesson-path'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
@@ -291,7 +291,9 @@ export async function getTodayLoop(
     // curriculum catalogue is service role only. Until 9 October 2026 this
     // read the PARENT library, so a lesson day sent the parent to a lesson
     // written for the adult.
-    listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, stageId)),
+    // The child's lessons follow their school year (sync plan C), so the
+    // rung names the lesson their own list opens.
+    listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, child ? lessonStageFor(child) : stageId)),
     // One read serves both questions: which lessons are behind this child
     // (per child, a row with no child speaks for the household), and whether
     // a lesson landed TODAY, which is what ticks a lesson day.

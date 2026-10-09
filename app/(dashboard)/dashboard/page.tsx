@@ -84,6 +84,7 @@ import { getDailyStreak } from '@/lib/pathway/streak'
 import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { lessonStageFor } from '@/lib/lessons/school-path'
 import { passportLessons } from '@/lib/pathway/lesson-path'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
@@ -756,7 +757,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // passport prints. Until 9 October 2026 Home kept a fourth count of its
     // own here, over the PARENT library, which the passport stopped counting
     // on 29 September; the card was asking for lessons the stamp ignores.
-    loadChildLessonPath(supabase, { userId: user.id, childId: child?.id ?? null, stageId: stageSlug, paid: isPaid }),
+    // The child's lessons follow their school year (sync plan C), so the card
+    // names the lessons their own list offers, which for a Year 8 child of 13
+    // is KS3 at Explorer rather than KS4 at Shaper.
+    loadChildLessonPath(supabase, { userId: user.id, childId: child?.id ?? null, stageId: child ? lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null }) : stageSlug, paid: isPaid }),
     wantLessonNudge ? getParentLessons(supabase) : Promise.resolve({ lessons: [] as Awaited<ReturnType<typeof getParentLessons>>['lessons'] }),
     wantLessonNudge && child?.id ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Set<string>()),
     lastCompletion
@@ -1004,6 +1008,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
+    lessonsStageName: child ? (() => { const id = lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null }); return id.charAt(0).toUpperCase() + id.slice(1) })() : undefined,
     // For the setup guides rotation card: first phone ladder from Stage 2,
     // social settings from Stage 3, nothing before either.
     stageId: stage.id,

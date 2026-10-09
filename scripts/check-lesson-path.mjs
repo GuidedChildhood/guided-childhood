@@ -334,8 +334,55 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   globalThis.__visibleSlidesSummary = `${callers.length} callers, ${decks.length} decks, one sort each, ${reasoning} reasoning cards, longest kid deck ${maxKid} min`
 }
 
+// ── 9. A CHILD'S LESSONS FOLLOW THEIR SCHOOL YEAR (sync plan C) ────────────
+//
+// Justin, 9 October 2026: the lessons follow the school year, not the
+// birthday, so a Year 8 child of 13 does KS3 alongside their class and never
+// meets the KS4 safeguarding decks alone two years early. Every place a lesson
+// is chosen for a child reads lessonStageFor, and the opener refuses a later
+// key stage by URL.
+{
+  for (const [file, re] of [
+    ['app/k/[token]/lessons/page.tsx', /lessonStageFor\(/],
+    ['app/k/[token]/page.tsx', /stageId: lessonStageFor\(/],
+    ['app/(dashboard)/dashboard/lessons/path/page.tsx', /lessonStageFor\(/],
+    ['lib/pathway/daily-tasks.ts', /lessonStageFor\(child\)/],
+    ['lib/pathway/journey.ts', /lessonStageFor\(/],
+    ['app/(dashboard)/dashboard/page.tsx', /stageId: child \? lessonStageFor\(/],
+    ['app/k/[token]/school/[lessonId]/route.ts', /moduleOpenFor\(/],
+  ]) if (!re.test(read(file))) fail.push(`${file}: chooses a child's lessons without their school year (lessonStageFor)`)
+
+  const dir = mkdtempSync(join(tmpdir(), 'school-year-'))
+  writeFileSync(join(dir, 'school-path.ts'), read('lib/lessons/school-path.ts')
+    .replace("import type { StageId } from '@/lib/pathway/progress'", "type StageId = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'independent'")
+    .replace("import { positionOf } from '@gc/shared/schools-curriculum'", 'const positionOf = (_id: string) => ({ index: 0 })'))
+  const { schoolYearFromDob, lessonStageFor, moduleOpenFor } = await import(join(dir, 'school-path.ts'))
+  const on = new Date('2026-10-09T12:00:00Z')
+  const cases = [
+    // date of birth, school year on 9 October 2026, the lessons' stage
+    ['2021-12-01', 0, 'foundation'], // Reception
+    ['2019-08-31', 3, 'builder'], // Year 3, the youngest in the year
+    ['2019-09-01', 2, 'foundation'], // Year 2, the oldest in the year below
+    ['2016-01-15', 6, 'builder'], // Year 6 aged 10
+    ['2015-09-20', 6, 'builder'], // Year 6 aged 11: was Explorer by birthday
+    ['2013-10-01', 8, 'explorer'], // Year 8 turning 13: was Shaper by birthday
+    ['2012-09-02', 9, 'explorer'], // Year 9 aged 14: was Shaper by birthday
+    ['2011-10-10', 10, 'shaper'], // Year 10
+    ['2010-09-15', 11, 'shaper'], // Year 11 aged 16: was Independent by birthday
+    ['2010-01-05', 12, 'independent'], // Year 12
+    ['2009-06-30', 13, 'independent'], // Year 13
+  ]
+  for (const [dob, year, stage] of cases) {
+    const gotYear = schoolYearFromDob(dob, on)
+    const gotStage = lessonStageFor({ date_of_birth: dob, age_band: '13-15' }, on)
+    if (gotYear !== year || gotStage !== stage) fail.push(`school year: born ${dob} should be Year ${year} on ${stage} lessons, got Year ${gotYear} on ${gotStage}`)
+  }
+  if (lessonStageFor({ date_of_birth: null, age_band: '11-13' }, on) !== 'explorer') fail.push('school year: with no date of birth the age band must decide')
+  if (moduleOpenFor('KS4', 'explorer') || !moduleOpenFor('KS2', 'explorer') || !moduleOpenFor('KS3', 'explorer')) fail.push('school year: a later key stage must wait and an earlier one stay open')
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)`)
+console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, lessons follow the school year, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)`)
