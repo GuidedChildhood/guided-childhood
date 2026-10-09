@@ -115,8 +115,13 @@ const TWO = (tries) => answerBeat(0, 2, tries)
   ok('Continue is gated on settled, never on answered',
     /const canContinue = !isChoice \|\| settled\b/.test(src),
     'canContinue must read `settled`; `answered` is true from the first tap and unlocks the retry')
+  // Inline, or (since the lessons loop PR, 9 October 2026) through a named
+  // handler that also records the settled answer. Either way the slide has to
+  // reach setSettled(true).
+  const named = src.match(/onSettled=\{(\w+)\}[^\n]*seed=\{runSalt/)
   ok('the settle signal reaches the player',
-    /onSettled=\{\(\) => setSettled\(true\)\}/.test(src),
+    /onSettled=\{\(\) => setSettled\(true\)\}/.test(src)
+      || (!!named && new RegExp(`const ${named[1]} = \\([^)]*\\) => \\{\\s*setSettled\\(true\\)`).test(src)),
     'ChoiceBlock owns the tries, so the player only learns a slide settled if it is told')
   ok('the retry says why it is waiting',
     src.includes("'Have another go to continue'"),

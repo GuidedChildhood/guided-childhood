@@ -14,11 +14,9 @@
 //
 // It lives here rather than in the player because the player is a client
 // module and the print pages are server components: a function exported from
-// a 'use client' file cannot be called on the server. The player still holds
-// its own copy for now, because the lessons loop PR (claude/lessons-loop-pr1)
-// edits the lines around it and moving it would hand that PR a conflict.
-// scripts/check-schools-must-fixes.mjs fails if the two bodies ever differ;
-// once that PR lands, the player imports this one and its copy goes.
+// a 'use client' file cannot be called on the server. The player imports it
+// from here, and scripts/check-schools-must-fixes.mjs fails if a second copy
+// ever grows back.
 
 /** A seeded shuffle of 0..count-1 (Park and Miller, then Fisher and Yates). */
 export function optionOrder(count: number, seed: number): number[] {

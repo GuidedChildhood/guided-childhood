@@ -58,16 +58,12 @@ const read = f => readFileSync(f, 'utf8')
     !/\(startCard\.options \?\? \[\]\)\.map/.test(pack) && !/\(c\.options \?\? \[\]\)\.map/.test(pack),
     'authored order put the right answer at A on 57 of 68 exit questions')
   ok('F2 the card key prints', /data-card-key/.test(pack) && /Answer: \{k\.answer\}/.test(pack))
-  // The player keeps its own copy until the lessons loop PR lands (see
-  // shared/option-order.ts), so the two bodies are held identical here: a
-  // shuffle that drifted on one side would print a key for a card the board
-  // never deals.
-  const body = src => (src.match(/function optionOrder\(count: number, seed: number\): number\[\] \{[\s\S]*?\n\}\n/) || [''])[0]
-  const shared = body(read('shared/option-order.ts'))
-  const inPlayer = body(read('shared/components/LessonPlayer.tsx'))
-  ok('F2 the player and the paper shuffle the same way',
-    !!shared && (inPlayer === '' || inPlayer === shared.replace(/^export /, '')),
-    'shared/option-order.ts and the copy in LessonPlayer.tsx have drifted apart')
+  // One shuffle for the board and the paper. A second copy in the player
+  // could drift, and the key would then letter a card the board never deals.
+  const player = read('shared/components/LessonPlayer.tsx')
+  ok('F2 the player and the paper share one shuffle',
+    /import \{ optionOrder \} from '\.\.\/option-order'/.test(player) && !/function optionOrder\(/.test(player),
+    'import optionOrder from shared/option-order.ts rather than keeping a copy')
 
   const tally = {}
   let n = 0

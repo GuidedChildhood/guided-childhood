@@ -17,6 +17,7 @@ import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, kidEyebrow, kidMinutesLef
 import type { CurriculumBadges } from '../curriculum-badges'
 import { slideNamesTheLead, leadLine, type YourSchool } from '../schools-your-school'
 import Interactive from './interactives'
+import { optionOrder } from '../option-order'
 
 // The cinematic player, v3. One player build lifts every lesson at once
 // because slides are data: full bleed one idea slides on a cream stage,
@@ -103,27 +104,17 @@ function BadgeChips({ badges, projector }: { badges: CurriculumBadges; projector
   )
 }
 
-// The order the options are shown in, for one choice slide in one run. The
-// decks are authored with the right answer wherever it reads best, which on
-// most of them is the middle line, and a child learns that in two lessons.
-// A seeded shuffle hides the pattern; seeding from the run salt plus the
-// slide index means Back then Next shows the same order, and Run it again
-// deals a fresh one.
 /** A run's id: one per pass through the deck (plan v10, 1.5). */
 function newRunId(): string {
   try { return crypto.randomUUID() } catch { return `run-${Date.now()}-${Math.random().toString(36).slice(2)}` }
 }
 
-function optionOrder(count: number, seed: number): number[] {
-  const idx = Array.from({ length: count }, (_, i) => i)
-  let s = (seed % 2147483647) || 1
-  const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
-  for (let i = idx.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1))
-    ;[idx[i], idx[j]] = [idx[j], idx[i]]
-  }
-  return idx
-}
+// The order the options are shown in, for one choice slide in one run, is
+// optionOrder in shared/option-order.ts. A seeded shuffle hides where the
+// author put the right answer; seeding from the run salt plus the slide index
+// means Back then Next shows the same order, and Run it again deals a fresh
+// one. It lives there so the printed start and exit cards deal from the same
+// shuffle on the server (sync plan F2).
 
 const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
 
