@@ -1,0 +1,26 @@
+{
+ "name": "checkin-great",
+ "url": "/ref-baseline-checkin",
+ "seconds": 8,
+ "scrollY": 800,
+ "stubs": [
+  {
+   "match": "/api/daily/concern-check",
+   "method": "POST",
+   "body": "{\"ok\":true}",
+   "json": true,
+   "delayMs": 300
+  }
+ ],
+ "actions": [
+  {
+   "at": 1500,
+   "do": "tap",
+   "selector": "button[aria-label=\"Going great\"]",
+   "nth": 3
+  }
+ ],
+ "swap": {
+  "Mood after screens": "Coming off screens"
+ }
+}
