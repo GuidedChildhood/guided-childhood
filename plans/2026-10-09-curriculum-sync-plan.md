@@ -315,7 +315,7 @@ term the passages move on screen in the classroom deck too. *(Ofsted, DSL)*
   identifier, the first step to holding pupil records. The home code and the
   child's own check are enough.
 
-## Decisions for Justin
+## Decisions for Justin (decided 9 October 2026, all three as recommended)
 
 1. **Does class coverage alone ever count?** Recommended no: the code records
    coverage, the child's own check ticks. Every lens agreed.
