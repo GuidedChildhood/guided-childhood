@@ -220,6 +220,9 @@ export type ChoiceSlide = SlideBase & {
   type: 'choice'
   question: string
   options: ChoiceOption[]
+  // A child only spare (the content PR): the prove question it stands in for,
+  // by that question's text. A right answer on the spare counts for it.
+  reserve_for?: string
   // Show the lesson's tool under the question, for a question whose options
   // refer to it by name or number. Opt in per slide rather than automatic:
   // most choice slides stand on their own and a strip on all of them would be
@@ -887,4 +890,99 @@ export function kidEyebrow(slides: LessonSlide[], index: number): string | null 
     return `Check ${n} of ${checks.length}`
   }
   return KID_PHASE[s.phase]
+}
+
+// ── THE PASS, MARKED ON THE SERVER (plan v10, item 1.5) ─────────────────────
+//
+// The client sends what was tapped, never whether it was right. The route
+// rebuilds the deck the child was shown (visibleSlides, same audience), finds
+// each answer's slide by its question first and its index second, and marks
+// the taps against that slide's own options. A crafted request claiming both
+// answers right therefore marks nothing it did not tap, and the pass, the
+// passport tick and the stars rest on the deck rather than the tap's say so.
+
+export type PostedAnswer = {
+  /** The answer's index in the visible deck; the tiebreak after the question. */
+  slide?: number
+  question: string
+  /** The first option tapped. */
+  chosenFirst?: string
+  /** The option the slide settled on (the second tap after a wrong first). */
+  chosen: string
+  phase?: string
+  run_id?: string
+}
+
+export type MarkedAnswer = {
+  slide: number
+  question: string
+  phase: LessonPhase | null
+  chosenFirst: string
+  chosen: string
+  firstCorrect: boolean
+  correct: boolean
+  runId: string | null
+}
+
+const sameQuestion = (a: string, b: string) => stripExitCheck(a).trim() === stripExitCheck(b).trim()
+
+/** Mark posted taps against the deck itself. Rows that do not resolve, or name an option the slide does not have, are dropped. */
+export function markAnswers(deck: LessonSlide[], posted: PostedAnswer[]): MarkedAnswer[] {
+  const out: MarkedAnswer[] = []
+  for (const p of posted) {
+    if (!p || typeof p.question !== 'string' || typeof p.chosen !== 'string') continue
+    const byQuestion = deck
+      .map((s, i) => ({ s, i }))
+      .filter(({ s }) => s.type === 'choice' && sameQuestion((s as ChoiceSlide).question, p.question))
+    const hit = byQuestion.length === 1 ? byQuestion[0]
+      : byQuestion.find(({ i }) => i === p.slide)
+        ?? (byQuestion.length === 0 && typeof p.slide === 'number' && deck[p.slide]?.type === 'choice' ? { s: deck[p.slide], i: p.slide } : undefined)
+    if (!hit) continue
+    const slide = hit.s as ChoiceSlide
+    const settled = slide.options.find(o => o.text === p.chosen)
+    if (!settled) continue
+    const first = slide.options.find(o => o.text === (p.chosenFirst ?? p.chosen)) ?? settled
+    out.push({
+      slide: hit.i,
+      question: slide.question,
+      phase: slide.phase ?? null,
+      chosenFirst: first.text,
+      chosen: settled.text,
+      firstCorrect: first.correct,
+      correct: settled.correct,
+      runId: typeof p.run_id === 'string' ? p.run_id : null,
+    })
+  }
+  return out
+}
+
+/** The check: every prove question the child's deck carries, spares excluded. */
+export function proveQuestions(deck: LessonSlide[]): ChoiceSlide[] {
+  return deck.filter((s): s is ChoiceSlide => s.type === 'choice' && s.phase === 'prove' && !s.reserve_for)
+}
+
+/**
+ * Whether a run passes a school lesson. Every prove question right on its
+ * latest settled answer, a spare standing in for the question it names. In a
+ * lesson done together with a grown up (under 7, or a retake they opened from
+ * their own app) every prove question answered is the pass: the grown up is
+ * the check, and the answers are a record, not a gate.
+ */
+export function lessonPassed(deck: LessonSlide[], marked: MarkedAnswer[], opts: { together?: boolean } = {}): boolean {
+  const proves = proveQuestions(deck)
+  if (proves.length === 0) return marked.length > 0
+  const latest = new Map<string, MarkedAnswer>()
+  for (const m of marked) {
+    if (m.phase !== 'prove') continue
+    const slide = deck[m.slide] as ChoiceSlide | undefined
+    const key = slide?.reserve_for ? stripExitCheck(slide.reserve_for).trim() : stripExitCheck(m.question).trim()
+    // A spare stands in for its question only when it is right; a wrong spare
+    // never undoes a question already settled right.
+    if (slide?.reserve_for && !m.correct && latest.get(key)?.correct) continue
+    latest.set(key, m)
+  }
+  return proves.every(p => {
+    const m = latest.get(stripExitCheck(p.question).trim())
+    return opts.together ? !!m : !!m?.correct
+  })
 }

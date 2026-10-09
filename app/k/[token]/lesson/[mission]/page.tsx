@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
@@ -33,7 +35,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
 
   const { data: mission } = await supabase
     .from('kid_lesson_missions')
-    .select('id, lesson_id, stars, status, child_id')
+    .select('id, lesson_id, stars, status, child_id, paid_at')
     .eq('id', missionId)
     .maybeSingle()
   if (!mission || mission.child_id !== link.child_id) notFound()
@@ -80,8 +82,15 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
   // slide and the people to tell on the finish (sync plan A6).
   const flagged = !!row.module_id && FLAGGED_MODULES.some(m => m.moduleId === row.module_id)
   // The pill lives in the player's own top bar: the page around a full screen
-  // player is never seen. A replay pays no stars (the row paid once).
-  const kidBadge = mission.status === 'done' ? 'Done ✓ play again' : `Worth ⭐ ${mission.stars}`
+  // player is never seen. It reads what was paid, not the status (plan v10,
+  // 1.5): stars pay on the first finish, pass or not, so a retake after a
+  // fail must not promise stars already banked.
+  const paid = !!mission.paid_at || mission.status === 'done'
+  const kidBadge = mission.status === 'done' ? 'Done ✓ play again'
+    : paid ? `⭐ ${mission.stars} already in your bank`
+    : `Worth ⭐ ${mission.stars}`
+  // A retake a grown up opened from their own app (lib/lessons/together).
+  const together = isTogether((await cookies()).get(TOGETHER_COOKIE)?.value, link.child_id, mission.lesson_id)
 
   return (
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
@@ -115,7 +124,9 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
             register={registerFor(keyStage)}
             tool={notes.tool}
             introEyebrow={introEyebrow}
-            kidStars={mission.status === 'done' ? undefined : mission.stars}
+            // A number only when this finish pays, which is the first one.
+            kidStars={paid ? undefined : mission.stars}
+            together={together}
             completeEndpoint="/api/quests/lesson-complete"
             completeBody={{ token, mission_id: mission.id }}
           />

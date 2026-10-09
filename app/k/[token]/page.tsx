@@ -42,6 +42,7 @@ import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/d
 import { getStickerBook } from '@/lib/stickers/book'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { lessonStageFor } from '@/lib/lessons/school-path'
+import { missionPaidAt } from '@/lib/quests/mission-paid'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
 
@@ -145,7 +146,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // titles read is in wave two, because it needs these ids first.
     supabase
       .from('kid_lesson_missions')
-      .select('id, lesson_id, stars, status, completed_at')
+      .select('id, lesson_id, stars, status, completed_at, paid_at')
       .eq('child_id', link.child_id)
       .order('sent_at', { ascending: false }),
 
@@ -523,7 +524,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     status: m.status,
   }))
   const lessonWeekStars = (missionRows ?? [])
-    .filter(m => m.status === 'done' && m.completed_at && m.completed_at >= new Date(Date.now() - 7 * 86400000).toISOString())
+    .filter(m => { const paid = missionPaidAt(m); return !!paid && paid >= new Date(Date.now() - 7 * 86400000).toISOString() })
     .reduce((sum, m) => sum + m.stars, 0)
 
   // This week at school, phase 2 of the curriculum plan: the same weekly

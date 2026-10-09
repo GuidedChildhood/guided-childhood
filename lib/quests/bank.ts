@@ -1,6 +1,7 @@
 import { STAR_MINUTES } from './templates'
 import { starWeekStart, starWeekEnd, londonMidnightIso, weeklyStarCap } from './star-week'
 import type { Region } from '@/lib/learning/holidays'
+import { missionPaidAt } from './mission-paid'
 
 // The star bank: what a child has earned all time, what has been spent
 // as agreed screen time, and what is left. Earned means approved by the
@@ -119,7 +120,7 @@ export async function getStarBanks(
     // Every quest ever, active or removed: old ticks still count
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', userId),
     supabase.from('quest_ticks').select('quest_id, child_id, status, tick_date').eq('user_id', userId),
-    supabase.from('kid_lesson_missions').select('child_id, stars, status, completed_at').eq('user_id', userId),
+    supabase.from('kid_lesson_missions').select('child_id, stars, status, completed_at, paid_at').eq('user_id', userId),
     supabase.from('star_spends').select('child_id, stars, minutes, created_at').eq('user_id', userId),
     // Watch together lessons (parent_lessons): stars_awarded carries the
     // running total per lesson (10 first completion, +2 per redo), written
@@ -208,8 +209,9 @@ export async function getStarBanks(
           return sum + (starsByQuest.get(qid) ?? 1)
         }, 0)
         + (missionsRes.data ?? [])
-          .filter(m => m.status === 'done' && m.child_id === childId)
-          .filter(m => !inWeek || (String(m.completed_at ?? '') >= weekStartIso && String(m.completed_at ?? '') < weekEndIso))
+          // Paid once, on the first finish, pass or not (lib/quests/mission-paid).
+          .filter(m => !!missionPaidAt(m) && m.child_id === childId)
+          .filter(m => !inWeek || (String(missionPaidAt(m) ?? '') >= weekStartIso && String(missionPaidAt(m) ?? '') < weekEndIso))
           .reduce((sum, m) => sum + (Number(m.stars) || 0), 0)
         // Watch together carries a RUNNING total per lesson (10 first time, +2 a
         // redo) and there is no per completion row, so the week can only be

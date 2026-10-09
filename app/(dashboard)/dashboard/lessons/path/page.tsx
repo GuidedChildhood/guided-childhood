@@ -134,7 +134,7 @@ export default async function ChildLessonPathPage({
                   </p>
                 )}
                 {token && (together || focused) && !done && (
-                  <a href={`/k/${token}/school/${m.id}`} data-do-together style={{
+                  <a href={`/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`} data-do-together style={{
                     display: 'inline-block', marginTop: 10, padding: '10px 16px', borderRadius: 'var(--radius-btn)',
                     background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',

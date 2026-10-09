@@ -47,7 +47,15 @@ if (!/from\('kid_lesson_missions'\)[\s\S]{0,200}\.eq\('lesson_id', lessonId\)/.t
 // ── 3. A PASS TICKS, AND THE PARENT CLOSES IT ───────────────────────────────
 const complete = read('app/api/quests/lesson-complete/route.ts')
 if (!/lesson_source: 'school_lesson'/.test(complete)) fail.push('a star lesson pass no longer writes a school_lesson completion, so the passport never ticks')
-if (!/correct \/ total >= 0\.7/.test(complete)) fail.push('the pass mark is no longer 70 percent')
+// The pass is marked on the server against the deck the child saw (plan v10,
+// 1.5): never the client's correct and total, and never 70 percent of every
+// question including the warm up. Stars pay once on paid_at, and a fail counts
+// one attempt under the attempt it read.
+if (!/const marked = markAnswers\(deck, posted\)/.test(complete) || !/lessonPassed\(deck, marked, \{ together \}\)/.test(complete)) fail.push('the star lesson route no longer marks the taps itself against the deck the child saw')
+if (/Number\(body\.correct\)/.test(complete.slice(complete.indexOf('if (body.mission_id)'), complete.indexOf('if (body.school_week)')))) fail.push('the star lesson route reads the client\'s own score again')
+if (!/\.is\('paid_at', null\)/.test(complete)) fail.push('stars must pay once, locked on paid_at')
+if (!/\.eq\('attempts', attempts\)/.test(complete)) fail.push('a fail must count one attempt, locked on the attempt it read')
+if (!/correctCount \/ choiceCount >= 0\.7/.test(read('shared/components/LessonPlayer.tsx'))) fail.push('the family library, AI modules and tutor decks must still pass at 70 percent')
 if (!/Ask them at tea: \$\{askLine\}/.test(complete) || !/family_question/.test(complete)) fail.push('the push no longer carries the question to ask at tea')
 if (!/markStepQuietly\(supabase, link\.user_id, link\.child_id, 'lesson'\)/.test(complete)) fail.push('a pass no longer ticks the five a day lesson row')
 
@@ -379,6 +387,38 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   }
   if (lessonStageFor({ date_of_birth: null, age_band: '11-13' }, on) !== 'explorer') fail.push('school year: with no date of birth the age band must decide')
   if (moduleOpenFor('KS4', 'explorer') || !moduleOpenFor('KS2', 'explorer') || !moduleOpenFor('KS3', 'explorer')) fail.push('school year: a later key stage must wait and an earlier one stay open')
+}
+
+// ── 10. THE PASS RULE ON A REAL DECK (plan v10, 1.5) ────────────────────────
+{
+  const dir = mkdtempSync(join(tmpdir(), 'pass-rule-'))
+  writeFileSync(join(dir, 'lesson-slides.ts'), read('shared/lesson-slides.ts'))
+  const { visibleSlides, markAnswers, lessonPassed, proveQuestions } = await import(join(dir, 'lesson-slides.ts'))
+  const m = JSON.parse(read('content/modules/ks2-04-screen-routines.json'))
+  const deck = visibleSlides(m.slides, 'kid', { worksheet: { verdict_options: m.teacher_notes.worksheet.verdict_options, items: m.teacher_notes.worksheet_items } }).slides
+  const proves = proveQuestions(deck)
+  const right = q => q.options.find(o => o.correct).text
+  const wrong = q => q.options.find(o => !o.correct).text
+  const at = q => deck.indexOf(q)
+  const tap = (q, first, settled) => ({ slide: at(q), question: q.question, chosenFirst: first, chosen: settled, phase: 'prove' })
+  const eq = (label, got, want) => { if (got !== want) fail.push(`pass rule, ${label}: wanted ${want}, got ${got}`) }
+  eq('two prove questions on the deck', proves.length, 2)
+  eq('both right passes', lessonPassed(deck, markAnswers(deck, proves.map(q => tap(q, right(q), right(q))))), true)
+  eq('one wrong fails', lessonPassed(deck, markAnswers(deck, [tap(proves[0], right(proves[0]), right(proves[0])), tap(proves[1], wrong(proves[1]), wrong(proves[1]))])), false)
+  eq('wrong first then right counts the settled tap', lessonPassed(deck, markAnswers(deck, proves.map(q => tap(q, wrong(q), right(q))))), true)
+  // A forged payload: an option the slide does not have, or a "correct" flag
+  // the route never reads, marks nothing.
+  const forged = proves.map(q => ({ ...tap(q, 'all of them', 'all of them'), correct: true }))
+  eq('a forged payload fails', lessonPassed(deck, markAnswers(deck, forged)), false)
+  eq('a missing answer fails', lessonPassed(deck, markAnswers(deck, [tap(proves[0], right(proves[0]), right(proves[0]))])), false)
+  eq('together: every question answered passes', lessonPassed(deck, markAnswers(deck, proves.map(q => tap(q, wrong(q), wrong(q)))), { together: true }), true)
+  // The warm up no longer decides the lesson: a wrong starter with a right check passes.
+  const starter = deck.find(s => s.type === 'choice' && s.phase === 'starter')
+  if (starter) eq('a wrong warm up does not fail the check', lessonPassed(deck, markAnswers(deck, [{ slide: at(starter), question: starter.question, chosen: wrong(starter), phase: 'starter' }, ...proves.map(q => tap(q, right(q), right(q)))])), true)
+  // A spare stands in for the question it names.
+  const spare = { type: 'choice', phase: 'prove', question: 'A spare', reserve_for: proves[1].question, options: [{ text: 'yes', correct: true, feedback: '' }, { text: 'no', correct: false, feedback: '' }] }
+  const withSpare = [...deck, spare]
+  eq('a right spare stands in', lessonPassed(withSpare, markAnswers(withSpare, [tap(proves[0], right(proves[0]), right(proves[0])), tap(proves[1], wrong(proves[1]), wrong(proves[1])), { slide: withSpare.length - 1, question: 'A spare', chosen: 'yes', phase: 'prove' }])), true)
 }
 
 if (fail.length) {
