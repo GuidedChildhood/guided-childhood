@@ -7,14 +7,18 @@
 // printed exit card kept the authored order, so the paper version of the same
 // question answered A almost every time.
 //
-// One function, so the two cannot drift. The player seeds it from a fresh run
+// One shuffle, so the two cannot drift. The player seeds it from a fresh run
 // salt plus the slide index (Back then Next shows the same order, Run it again
 // deals a fresh one). Paper seeds it from the module and the slide, so a
 // reprint next term matches the answer key printed today.
 //
 // It lives here rather than in the player because the player is a client
 // module and the print pages are server components: a function exported from
-// a 'use client' file cannot be called on the server.
+// a 'use client' file cannot be called on the server. The player still holds
+// its own copy for now, because the lessons loop PR (claude/lessons-loop-pr1)
+// edits the lines around it and moving it would hand that PR a conflict.
+// scripts/check-schools-must-fixes.mjs fails if the two bodies ever differ;
+// once that PR lands, the player imports this one and its copy goes.
 
 /** A seeded shuffle of 0..count-1 (Park and Miller, then Fisher and Yates). */
 export function optionOrder(count: number, seed: number): number[] {
