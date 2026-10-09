@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { parseSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { friendFor, printRegister, FriendHeader, PrintSheet } from '@/components/print/kit'
@@ -63,7 +63,7 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
     .maybeSingle()
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
   const totalMinutes = slides.reduce((n, s) => n + (s.minutes ?? 0), 0)
   // The friend as a mark on a teacher sheet, and its colour on the table

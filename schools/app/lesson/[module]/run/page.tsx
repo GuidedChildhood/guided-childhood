@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
-import { parseSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
@@ -139,7 +139,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   if (slides.length === 0) notFound()
   const notes = lesson.teacher_notes ?? {}
   const parent = lesson.parent_note ?? {}

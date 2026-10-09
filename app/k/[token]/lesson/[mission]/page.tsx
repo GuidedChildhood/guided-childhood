@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { resolveTheme } from '@/lib/kid/theme'
 import KidBackLink from '@/components/kid/KidBackLink'
+import { isTogetherStage, stageForKeyStage } from '@/lib/lessons/school-path'
 
 // A star lesson, the kid version: opened from the child's own quest link,
 // no account, no login. The same lesson the schools product teaches, in
@@ -35,7 +36,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
 
   const [{ data: child }, lesson] = await Promise.all([
     supabase.from('children').select('name, accent').eq('id', link.child_id).maybeSingle(),
-    getStarLesson(supabase, mission.lesson_id, 'id, title, character_cast, slides'),
+    getStarLesson(supabase, mission.lesson_id, 'id, title, character_cast, slides, key_stage, teacher_notes'),
   ])
   if (!lesson) notFound()
   // The colour the child chose in Make it mine, rather than the anthracite
@@ -44,11 +45,19 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
 
   const rawSlides = parseSlides(lesson.slides)
   if (!rawSlides) notFound()
-  // The kid client never receives the teacher script channel.
-  const slides = rawSlides.map(s => {
-    const copy = { ...s }
-    delete (copy as { script?: string }).script
-    return copy
+  // The child's deck, not the classroom's (shared/lesson-slides visibleSlides,
+  // plan v10 item 1.4). Under 7 it is the together deck, because at that age
+  // a grown up reads it out on their phone. The worksheet the class does on
+  // paper becomes the child's own sort; only its items and verdicts are read
+  // here, and teacher_notes itself never reaches the client.
+  const keyStage = (lesson as { key_stage?: string | null }).key_stage ?? null
+  const audience = isTogetherStage(stageForKeyStage(keyStage)) ? 'together' : 'kid'
+  const notes = ((lesson as { teacher_notes?: unknown }).teacher_notes ?? {}) as {
+    worksheet?: { verdict_options?: unknown }
+    worksheet_items?: unknown
+  }
+  const { slides } = visibleSlides(rawSlides, audience, {
+    worksheet: { verdict_options: notes.worksheet?.verdict_options, items: notes.worksheet_items },
   })
 
   return (
@@ -82,6 +91,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
             slides={slides}
             backHref={`/k/${token}`}
             kidMode
+            audience={audience}
             kidStars={mission.status === 'done' ? undefined : mission.stars}
             completeEndpoint="/api/quests/lesson-complete"
             completeBody={{ token, mission_id: mission.id }}

@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { quizQuestions, type QuizBank } from '@/lib/quiz'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
 import { EFCW_STRANDS } from '@gc/shared/efcw'
 import { PASSPORT_STAGES, PLACEMENT_BY_KEY_STAGE } from '@gc/shared/passport-stages'
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
@@ -156,7 +156,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const notes = lesson.teacher_notes ?? {}
   // The page and the area, from the row's key stage (the rule migration 277 wrote).
   // A standalone lesson fills no page: it is outside the scheme, and the

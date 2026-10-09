@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: a tutor lesson deck in the child's player, without a kid
 // link, a database, or a model call. The layout check at 390 and 1280 runs
@@ -86,7 +86,7 @@ const DECK = [
 
 export default function TutorLessonFixturePage() {
   if (process.env.NODE_ENV === 'production') notFound()
-  const slides = parseSlides(DECK)
+  const slides = visibleSlides(parseSlides(DECK), 'classroom')?.slides ?? null
   if (!slides) notFound()
 
   return (

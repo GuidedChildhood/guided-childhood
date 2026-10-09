@@ -13,7 +13,7 @@ import type { Register } from '../friend-register'
 import AnimatedIntro from './AnimatedIntro'
 import HappyIcon, { isHappyIconName } from './HappyIcon'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, kidEyebrow, kidMinutesLeft, type SlideAudience, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import { slideNamesTheLead, leadLine, type YourSchool } from '../schools-your-school'
 import Interactive from './interactives'
@@ -458,6 +458,73 @@ function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; project
         <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, maxWidth: room(projector, WALL.column, '460px'), margin: '18px auto 0' }}>
           <strong>A good answer sounds like:</strong> {slide.lookFor}
         </p>
+      )}
+    </div>
+  )
+}
+
+// THINK IT: a discussion, for one child (plan v10, item 1.4).
+//
+// A child alone has no partner and no class, so the talk timer goes. What
+// stays is the part the evidence calls load bearing: they generate an answer
+// before the lesson gives one. One word typed is enough, and it never leaves
+// the phone (nothing posts it, nothing stores it). Under 7, with a grown up
+// reading it out, it is said out loud instead, and two chips close it.
+//
+// It reveals nothing afterwards. The deck's `lookFor` line is written to the
+// teacher on most decks, so visibleSlides keeps it off the child's client
+// altogether; a child voice version is content, and belongs to the content PR.
+function ThinkItBlock({ slide, together }: { slide: DiscussionSlide; together: boolean }) {
+  const [word, setWord] = useState('')
+  const [done, setDone] = useState<null | 'said' | 'pass' | 'typed'>(null)
+  const chip: React.CSSProperties = {
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
+    borderRadius: 'var(--radius-tile)', padding: '10px 18px', cursor: 'pointer',
+  }
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
+        {together ? 'Say it together' : 'Think it'}
+      </div>
+      <h2 data-reveal style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
+        fontSize: 'clamp(1.3rem, 5vw, 1.75rem)', lineHeight: 1.3, letterSpacing: '-0.02em',
+        maxWidth: '520px', margin: '0 auto 22px',
+      }}>
+        {slide.prompt}
+      </h2>
+      {done ? (
+        <p role="status" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 auto', maxWidth: '420px' }}>
+          {done === 'pass' ? 'That is fine. It comes round again.' : 'Nice. Hold on to it, the next part uses it.'}
+        </p>
+      ) : together ? (
+        <div data-reveal style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => setDone('said')} style={{ ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>We said it ✓</button>
+          <button type="button" onClick={() => setDone('pass')} style={{ ...chip, background: '#fff', border: '1.5px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>Pass for now</button>
+        </div>
+      ) : (
+        <form
+          data-reveal
+          onSubmit={e => { e.preventDefault(); if (word.trim()) setDone('typed') }}
+          style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', maxWidth: '420px', margin: '0 auto' }}
+        >
+          <input
+            value={word}
+            onChange={e => setWord(e.target.value)}
+            maxLength={60}
+            aria-label="Your answer, one word is enough"
+            placeholder="One word is enough"
+            autoComplete="off"
+            style={{
+              flex: '1 1 200px', minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '11px 14px',
+            }}
+          />
+          <button type="submit" disabled={!word.trim()} style={{
+            ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)',
+            opacity: word.trim() ? 1 : 0.5, cursor: word.trim() ? 'pointer' : 'default',
+          }}>Got one</button>
+        </form>
       )}
     </div>
   )
@@ -1079,9 +1146,11 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, onSettled, projector, seed, tool, register, promise, introEyebrow,
+  slide, onAnswered, onSettled, projector, seed, tool, register, promise, introEyebrow, audience = 'classroom',
 }: {
   slide: LessonSlide
+  // Who the deck is for. Only the kid and together audiences change anything.
+  audience?: SlideAudience
   onAnswered: (correct: boolean, chosen: string) => void
   onSettled?: () => void
   projector?: boolean
@@ -1205,7 +1274,9 @@ function SlideBody({
     case 'choice':
       return <ChoiceBlock slide={slide} onAnswered={onAnswered} onSettled={onSettled} projector={projector} seed={seed} tool={tool} />
     case 'discussion':
-      return <DiscussionBlock slide={slide} projector={projector} />
+      return audience === 'classroom'
+        ? <DiscussionBlock slide={slide} projector={projector} />
+        : <ThinkItBlock slide={slide} together={audience === 'together'} />
     case 'stat':
       return <StatBlock slide={slide} projector={projector} />
     case 'scenario':
@@ -1215,7 +1286,7 @@ function SlideBody({
     case 'digi':
       return <CharacterBeat slide={slide} projector={projector} register={register} />
     case 'interactive':
-      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} />
+      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} kidMode={audience !== 'classroom'} />
     case 'video':
       // A film that points at something shows it. See VideoSlide.post: the
       // exhibit is on the wall while the film names it, because a generated
@@ -1299,6 +1370,7 @@ export default function LessonPlayer({
   digiPrompt,
   teacherView = false,
   kidMode = false,
+  audience: audienceProp,
   kidStars,
   completeEndpoint,
   completeBody,
@@ -1329,6 +1401,10 @@ export default function LessonPlayer({
   // Kid mission mode: celebration finish, stars earned, quiz score sent
   // to a token authenticated endpoint instead of the parent session one.
   kidMode?: boolean
+  // Who this deck is for, the same value the page passed to visibleSlides.
+  // Defaults to kid in kidMode and classroom otherwise, so every existing
+  // caller keeps what it had.
+  audience?: SlideAudience
   kidStars?: number
   // null skips the completion write entirely: a lesson DiGi wrote on the fly
   // has no database row to complete against.
@@ -1417,6 +1493,7 @@ export default function LessonPlayer({
   onFinish?: () => void
 }) {
   const projector = projectorProp ?? classMode
+  const audience: SlideAudience = audienceProp ?? (kidMode ? 'kid' : 'classroom')
   // The friend's tokens, or the terracotta the player has always worn. Text
   // on the current pill and the cycle map uses the friend's ink on the soft
   // band, the pairing the school cards already use, so the contrast holds.
@@ -1845,8 +1922,18 @@ export default function LessonPlayer({
   // did: the phase, then the counter.
   const counter = `${index + 1} of ${slides.length}`
   const minutesLine = slide?.minutes ? `~${slide.minutes} min` : ''
+  // The child's line is computed from the deck the child actually has: the
+  // phase in their words, a check counted ("Check 1 of 2"), and the minutes
+  // LEFT for one child alone, never the classroom's per slide minutes.
+  const kidLeft = audience === 'classroom' ? 0 : kidMinutesLeft(slides, index)
+  const kidStatus = audience === 'classroom' ? '' : [
+    kidEyebrow(slides, index),
+    counter,
+    kidLeft >= 1 ? `about ${kidLeft} min left` : 'nearly done',
+  ].filter(Boolean).join(' · ')
   const status = finished
     ? classMode ? 'The showcase' : 'The finish'
+    : audience !== 'classroom' ? kidStatus
     : rail
       ? [counter, minutesLine, cycle ? `${cycle.verb}: ${cycle.title}` : ''].filter(Boolean).join(' · ')
       : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${counter}${minutesLine ? ` · ${minutesLine}` : ''}`
@@ -2133,7 +2220,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} audience={audience} />
           {schoolLead && slideNamesTheLead(slide) && <LeadOnTheWall lead={schoolLead} projector={projector} />}
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>

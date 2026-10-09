@@ -212,8 +212,104 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   }
 }
 
+// ── 8. ONE DECK FILTER, FOUND BY SEARCH (plan v10, item 1.4) ────────────────
+//
+// Every parseSlides caller passes its deck through visibleSlides. Found by
+// walking the source rather than from a list, because naming a list of five
+// callers was wrong twice and there are seventeen.
+{
+  const { readdirSync, statSync } = await import('node:fs')
+  const walk = dir => {
+    const out = []
+    let names = []
+    try { names = readdirSync(dir) } catch { return out }
+    for (const n of names) {
+      if (n === 'node_modules' || n === '.next' || n.startsWith('.')) continue
+      const f = join(dir, n)
+      if (statSync(f).isDirectory()) out.push(...walk(f))
+      else if (/\.(ts|tsx)$/.test(n)) out.push(f)
+    }
+    return out
+  }
+  const callers = []
+  for (const f of [...walk('app'), ...walk('components'), ...walk('lib'), ...walk('schools/app'), ...walk('schools/components'), ...walk('schools/lib'), ...walk('shared')]) {
+    if (f === 'shared/lesson-slides.ts') continue
+    const code = read(f).replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ')
+    if (!/\bparseSlides\(/.test(code)) continue
+    callers.push(f)
+    if (!/\bvisibleSlides\(/.test(code)) fail.push(`${f}: reads a deck with parseSlides and never passes it through visibleSlides`)
+  }
+  if (callers.length < 17) fail.push(`only ${callers.length} parseSlides callers found; the search has gone blind (expected 17 or more)`)
+  // The child's three pages take the child's deck, never the classroom's.
+  for (const [f, re] of [
+    ['app/k/[token]/lesson/[mission]/page.tsx', /visibleSlides\(rawSlides, audience, \{/],
+    ['app/k/[token]/lessons/[lessonId]/page.tsx', /visibleSlides\(rawSlides, 'kid'\)/],
+    ['app/k/[token]/tutor/[id]/page.tsx', /visibleSlides\(rawSlides, 'kid'\)/],
+  ]) if (!re.test(read(f))) fail.push(`${f}: must play the child's deck (visibleSlides kid or together)`)
+  if (!/audience=\{audience\}/.test(read('app/k/[token]/lesson/[mission]/page.tsx'))) fail.push('the mission page must tell the player which audience its deck is for')
+  if (/checks\.slice\(-2\)/.test(read('schools/app/print/[module]/page.tsx'))) fail.push('schools print page: the exit ticket takes the prove items by phase, not the last two choice slides')
+
+  // Run the filter on every real deck.
+  const dir = mkdtempSync(join(tmpdir(), 'visible-slides-'))
+  writeFileSync(join(dir, 'lesson-slides.ts'), read('shared/lesson-slides.ts'))
+  const { visibleSlides, kidMinutesLeft } = await import(join(dir, 'lesson-slides.ts'))
+  const decks = readdirSync('content/modules').filter(f => f.endsWith('.json')).sort()
+  if (decks.length !== 34) fail.push(`expected 34 module decks, found ${decks.length}`)
+  let sorts = 0
+  let maxKid = 0
+  for (const f of decks) {
+    const m = JSON.parse(read(`content/modules/${f}`))
+    const slides = m.slides
+    const worksheet = { verdict_options: m.teacher_notes?.worksheet?.verdict_options, items: m.teacher_notes?.worksheet_items }
+    const id = f.replace(/\.json$/, '')
+
+    // The classroom deck is exactly what was authored: the run page's minutes
+    // and the phase table's rows cannot move.
+    const cls = visibleSlides(slides, 'classroom')
+    if (cls.slides !== slides || cls.storedIndex.some((v, i) => v !== i)) fail.push(`${id}: the classroom deck is not the authored deck`)
+
+    // The print page's prove items by phase are the two it printed before.
+    const choices = slides.filter(s => s.type === 'choice')
+    const byPhase = choices.filter(s => s.phase === 'prove')
+    if (JSON.stringify(byPhase) !== JSON.stringify(choices.slice(-2))) fail.push(`${id}: the prove items by phase are not the last two choice slides, so the print page would change`)
+
+    for (const audience of ['kid', 'together']) {
+      const { slides: v, storedIndex, visibleIndex } = visibleSlides(slides, audience, { worksheet })
+      // The map back to the stored deck holds both ways.
+      storedIndex.forEach((si, k) => { if (visibleIndex[si] !== k) fail.push(`${id} ${audience}: index map disagrees at ${k}`) })
+      const swap = slides.filter(s => s.type === 'discussion' && /^\s*Swap sheets\b/i.test(s.prompt)).length
+      if (slides.length - v.length !== swap) fail.push(`${id} ${audience}: dropped ${slides.length - v.length} slides, expected only the ${swap} swap sheets discussions`)
+      v.forEach((s, k) => {
+        const from = slides[storedIndex[k]]
+        if (s.type !== from.type && !(from.type === 'tryit' && s.type === 'interactive')) fail.push(`${id} ${audience}: slide ${k} changed type`)
+      })
+      if (v.some(s => 'script' in s)) fail.push(`${id} ${audience}: the teacher script reaches the child`)
+      if (v.some(s => s.type === 'discussion' && 'lookFor' in s)) fail.push(`${id} ${audience}: a teacher look for line reaches the child`)
+      if (v.some(s => s.type === 'discussion' && /\bpartner\b|\byour table\b|\bthe board\b/i.test(s.prompt))) fail.push(`${id} ${audience}: a Think it prompt still asks for a partner, a table or a board`)
+      if (v.some(s => s.type === 'choice' && /Exit check/i.test(s.question))) fail.push(`${id} ${audience}: "Exit check" reaches the child`)
+      if (v.filter(s => s.type === 'choice' && s.phase === 'prove').length !== 2) fail.push(`${id} ${audience}: the two prove items must both reach the child`)
+      if (!v.some(s => s.phase === 'practise')) fail.push(`${id} ${audience}: the child's deck has no practice left`)
+      if (!v.some(s => s.type === 'discussion' && s.phase === 'starter')) fail.push(`${id} ${audience}: the starter went; the opening retrieval is the child's too`)
+      if (audience === 'kid') {
+        const sort = v.find((s, k) => s.type === 'interactive' && slides[storedIndex[k]].type === 'tryit')
+        if (sort) {
+          sorts += 1
+          const posts = sort.config.posts
+          if (!posts.length || posts.some(p => !(p.answer >= 0 && p.answer < sort.config.verdicts.length))) fail.push(`${id}: the worksheet sort has a card with no verdict`)
+          if (posts.some(p => /Listen for|\bpupils\b/i.test(p.why))) fail.push(`${id}: a worksheet reason still speaks to the teacher`)
+        }
+        maxKid = Math.max(maxKid, kidMinutesLeft(v, 0))
+      }
+    }
+  }
+  // 25 decks carry verdict worksheets; 23 of them have a practise tryit to
+  // stand in for. Fewer means the conversion broke on a shape it used to read.
+  if (sorts < 23) fail.push(`only ${sorts} decks turned their worksheet into the child's sort (expected 23)`)
+  globalThis.__visibleSlidesSummary = `${callers.length} callers, ${decks.length} decks, ${sorts} worksheet sorts, longest kid deck ${maxKid} min`
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log('check-lesson-path: ok (school lessons counted, every surface reads the one count, ten fixtures agree, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)')
+console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)`)

@@ -8,7 +8,7 @@ import LessonSendButton from '../together/LessonSendButton'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import ReadingAhead from '@/components/lessons/ReadingAhead'
-import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { hasFullAccess } from '@/lib/access'
 import { isParentLessonFree } from '@/lib/content/lesson-access'
@@ -106,7 +106,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
   const childStageName = (childStageLabel && STAGE_LABEL[childStageLabel]?.label.split(' · ')[0]) ?? 'their'
   // Authored deck wins; otherwise build one from the lesson's own four parts
   // so every parent lesson plays as slides, never a flat wall of text.
-  const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label }), 'classroom')?.slides ?? null
 
   // THIS child's completion or the household's. Unscoped with .maybeSingle(),
   // the moment two children each had a row for this lesson the read errored

@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, PrintSheet, Box, WriteLines } from '@/components/print/kit'
@@ -40,7 +40,7 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
     .maybeSingle()
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
   const objective = slides.find((s): s is ObjectiveSlide => s.type === 'objective')
   // An EYFS objective slide carries no gains list (found on the 14 September
