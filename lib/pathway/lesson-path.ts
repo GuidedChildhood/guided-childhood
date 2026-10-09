@@ -107,6 +107,23 @@ export type LessonPathResult = {
   statusById: Record<string, ModuleState>
 }
 
+/**
+ * The passport's lessons pair: the school modules plus the age band's AI
+ * modules, which is how the stamp has read since 13 September 2026.
+ *
+ * Decision 1 in the plan (do the AI modules stay in the stamp's lessons
+ * count) is THIS function. Every surface that talks about the stamp, the
+ * passport in progress.ts and Home's "move the passport on" card, reads it,
+ * so whichever way Justin decides is one edit and the two cannot drift. A
+ * child's own surfaces never read it: they print `school` alone.
+ */
+export function passportLessons(path: LessonPathResult): { done: number; total: number } {
+  return {
+    done: path.school.done + path.ai.done,
+    total: path.school.total + path.ai.total,
+  }
+}
+
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000
 
 export function childLessonPath({
@@ -232,13 +249,18 @@ export function childLessonPath({
     : []
   const aiDone = aiInStage.filter(m => credited.has(`ai_lesson:${m.id}`)).length
 
-  // The planets' number, all time and all stages. Not school completions,
-  // because since 29 September a star lesson pass writes one of those AND
-  // finishes a mission, so counting both would open two planets for one
-  // lesson. This reproduces lib/planet/server.ts exactly.
+  // The planets' number, over whatever rows the caller passes (all time for
+  // the planets and the sticker book, one month for the review email, a week
+  // for the catch up card). Not school completions, because since
+  // 29 September a star lesson pass writes one of those AND finishes a
+  // mission, so counting both would open two planets for one lesson; and a
+  // mission is `done` only on a pass (plan item 1.2). Distinct per source and
+  // lesson, so a household row beside the child's own row for the same lesson
+  // counts once. Over one child's rows that is exactly the head counts
+  // lib/planet/server.ts used to run, because both tables are unique there.
   const anyLesson =
-    comps.filter(c => c.passed === true && c.lesson_source !== 'school_lesson').length +
-    miss.filter(m => m.status === 'done').length
+    new Set(comps.filter(c => c.passed === true && c.lesson_source !== 'school_lesson').map(c => `${c.lesson_source}:${c.lesson_id}`)).size +
+    new Set(miss.filter(m => m.status === 'done').map(m => m.lesson_id)).size
 
   return {
     school: { done: schoolDone, total: mods.length, next },

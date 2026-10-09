@@ -23,7 +23,13 @@ const read = p => { try { return readFileSync(p, 'utf8') } catch { fail.push(`${
 const progress = read('lib/pathway/progress.ts')
 if ((progress.match(/listStarLessons\(createAdminClient\(\)\)/g) ?? []).length < 2) fail.push('lib/pathway/progress.ts: both passport counts must read the school modules through the admin client (schools.school_lessons is service role only)')
 if (/from\('lessons'\)\.select\('id(, stage_id)?'\)/.test(progress)) fail.push('lib/pathway/progress.ts: the passport counts the parent library again')
-if ((progress.match(/schoolCreditKey\(l\.id\)/g) ?? []).length < 2) fail.push('lib/pathway/progress.ts: a lesson is credited by its school_lesson pass')
+// Since 9 October 2026 the count lives in ONE function (lib/pathway/lesson-path.ts),
+// and both passport readings call it. Four readers that each counted lessons
+// their own way is how a hub read "0 of 18" over a list the passport called ten.
+if ((progress.match(/childLessonPath\(\{/g) ?? []).length < 2) fail.push('lib/pathway/progress.ts: both passport counts must come from childLessonPath, the one lesson count')
+const lessonPath = read('lib/pathway/lesson-path.ts')
+if (!/schoolCreditKey\(id\)/.test(lessonPath)) fail.push('lib/pathway/lesson-path.ts: a lesson is credited by its school_lesson pass')
+if (!/import \{ AI_AUDIENCE_TO_STAGE \} from '@\/lib\/pathway\/readiness-areas'/.test(lessonPath)) fail.push('lib/pathway/lesson-path.ts must import the AI audience map, never redeclare it')
 
 // ── 2. THE CHILD'S LIST IS THE SCHOOL PATH ──────────────────────────────────
 const kidList = read('app/k/[token]/lessons/page.tsx')
@@ -93,8 +99,121 @@ if (!/lessonLinkKnowledge = lessonLinkBlock\(candidates/.test(route) || !/moment
   }
 }
 
+// ── 6. EVERY SURFACE READS THE ONE COUNT (plan v10, item 1.3) ──────────────
+//
+// Each of these used to count lessons its own way, and each was defensible on
+// its own. The hub said "0 of 18" over a list the passport called ten, Home
+// asked for lessons the stamp ignored, and the child's road promised the buddy
+// for lessons the child could not open. So every reader is named here.
+const readers = [
+  ['lib/pathway/journey.ts', /childLessonPath\(\{/],
+  ['lib/pathway/daily-tasks.ts', /childLessonPath\(\{/],
+  ['lib/planet/server.ts', /childLessonPath\(\{[\s\S]{0,200}\}\)\.anyLesson/],
+  ['app/(dashboard)/dashboard/page.tsx', /loadChildLessonPath\(supabase/],
+  ['app/(dashboard)/dashboard/page.tsx', /passportLessons\(stageLessonPath\.path\)/],
+  ['app/k/[token]/page.tsx', /loadChildLessonPath\(supabase/],
+  ['app/k/[token]/page.tsx', /stageLessonPath\.path\.school\.done/],
+  ['lib/stickers/book.ts', /lessonsPassedBetween\(supabase, \{ userId, childId \}\)/],
+  ['lib/email/month-progress.ts', /lessonsPassedBetween\(supabase, \{ userId, childId, from, to, household: false \}\)/],
+  ['lib/pathway/catchup.ts', /lessonsPassedBetween\(supabase, \{ userId, childId, from: sinceIso \}\)/],
+  ['lib/pathway/progress.ts', /passportLessons\(path\)/],
+]
+for (const [file, re] of readers) {
+  if (!re.test(read(file))) fail.push(`${file}: no longer reads the one lesson count (lib/pathway/lesson-path.ts)`)
+}
+if ((read('lib/pathway/progress.ts').match(/passportLessons\(path\)/g) ?? []).length < 2) fail.push('lib/pathway/progress.ts: both passport readings must compose the lessons pair through passportLessons, which is decision 1')
+// Home's and the child app's private counts over the PARENT library, gone.
+for (const file of ['app/(dashboard)/dashboard/page.tsx', 'app/k/[token]/page.tsx']) {
+  if (/from\('lessons'\)\.select\('id[^']*'\)[\s\S]{0,80}\.eq\('audience', 'parent'\)/.test(read(file))) fail.push(`${file}: counts the parent library as the child's lessons again`)
+}
+// The child's second lesson door was computed and rendered nowhere. Deleted,
+// not rewired, because a Learn row beside the week card is two rows for one
+// lesson on the child's busiest screen.
+for (const file of ['app/k/[token]/page.tsx', 'app/k/[token]/KidQuestScreen.tsx']) {
+  for (const name of ['focusLesson', 'learnTile', 'learnTarget', 'dailyLearnDone']) {
+    if (new RegExp(`\\b${name}\\b`).test(read(file))) fail.push(`${file}: ${name} is back; a Learn row reads the week's mission, never the next module`)
+  }
+}
+if (/export (async )?function getDailyTasks\b/.test(read('lib/pathway/daily-tasks.ts'))) fail.push('lib/pathway/daily-tasks.ts: getDailyTasks is back, a fifth lesson count nothing called')
+// A failed run writes a completion row, so "any row" switched the lessons
+// email off on a child's first fail.
+if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api/email/cron/route.ts'))) fail.push('app/api/email/cron/route.ts: the lessons drip email must gate on a passing completion, not any row')
+// The parent library drip is the parent's reading, never the child's lesson.
+{
+  const drip = read('app/api/cron/lesson-drip/route.ts')
+  if (/ready on \$\{name\}'s app/.test(drip) || /lands on your progress report/.test(drip)) fail.push('app/api/cron/lesson-drip/route.ts: the parent library push tells the parent it is the child\'s lesson again')
+}
+
+// ── 7. RUN THE ONE COUNT ON FIXTURES ───────────────────────────────────────
+//
+// Pure over rows, so it runs here with nothing mocked. The bug it exists to
+// stop is two loops that agree until one is edited, so the cases below are the
+// ones that made them disagree.
+{
+  const dir = mkdtempSync(join(tmpdir(), 'lesson-path-'))
+  const areas = read('lib/pathway/readiness-areas.ts').match(/export const AI_AUDIENCE_TO_STAGE[^=]*=\s*(\{[^}]*\})/)
+  const creditKey = read('lib/lessons/school-path.ts').match(/export const schoolCreditKey = [^\n]+/)
+  if (!areas || !creditKey) {
+    fail.push('the fixture could not lift AI_AUDIENCE_TO_STAGE or schoolCreditKey from their files')
+  } else {
+    writeFileSync(join(dir, 'readiness-areas.ts'), `export const AI_AUDIENCE_TO_STAGE: Record<string, number> = ${areas[1]}\n`)
+    writeFileSync(join(dir, 'school-path.ts'), `export type SchoolModule = { id: string; title: string }\n${creditKey[0]}\n`)
+    writeFileSync(join(dir, 'lesson-credit.ts'), read('lib/pathway/lesson-credit.ts'))
+    writeFileSync(join(dir, 'lesson-path.ts'), read('lib/pathway/lesson-path.ts')
+      .replace("'@/lib/pathway/readiness-areas'", "'./readiness-areas.ts'")
+      .replace("'@/lib/pathway/lesson-credit'", "'./lesson-credit.ts'")
+      .replace("'@/lib/lessons/school-path'", "'./school-path.ts'"))
+    const { childLessonPath, passportLessons } = await import(join(dir, 'lesson-path.ts'))
+
+    const modules = ['m1', 'm2', 'm3', 'm4'].map(id => ({ id, title: id }))
+    const ai = [{ id: 'a1', audience: 'age_9' }, { id: 'a2', audience: 'age_9' }, { id: 'a3', audience: 'age_11' }]
+    const pass = (id, source = 'school_lesson', passed = true) => ({ lesson_id: id, lesson_source: source, passed })
+    const eq = (label, got, want) => { if (JSON.stringify(got) !== JSON.stringify(want)) fail.push(`lesson path fixture, ${label}: wanted ${JSON.stringify(want)}, got ${JSON.stringify(got)}`) }
+    const run = o => childLessonPath({ modules, aiModules: ai, passBy: null, childId: 'A', stageNum: 2, paid: true, ...o })
+
+    // A sibling's own pass does not fill this child's page.
+    const sibling = run({ completions: [pass('m1')], passBy: [{ lesson_id: 'm1', who: 'child', child_id: 'B' }] })
+    eq('sibling pass', [sibling.school.done, sibling.school.next], [0, { id: 'm1', position: 1 }])
+    // This child's own pass does, and moves next.
+    const own = run({ completions: [pass('m1')], passBy: [{ lesson_id: 'm1', who: 'child', child_id: 'A' }] })
+    eq('own pass', [own.school.done, own.school.next], [1, { id: 'm2', position: 2 }])
+    // A failed run is a lesson still owed.
+    const failed = run({ completions: [pass('m1'), pass('m2', 'school_lesson', false)] })
+    eq('failed run', [failed.school.done, failed.school.next?.id, failed.statusById.m2.state], [1, 'm2', 'thisWeek'])
+    // A retake that passes, with a household row beside the child's own: once.
+    const retake = run({ completions: [pass('m1'), pass('m1'), pass('p1', 'lesson'), pass('p1', 'lesson')], missions: [{ lesson_id: 'm1', status: 'done' }] })
+    eq('retake counts once', [retake.school.done, retake.anyLesson], [1, 2])
+    // A legacy row from before scoring (passed null) still counts.
+    const legacy = run({ completions: [pass('m3', 'school_lesson', null)] })
+    eq('legacy null row', [legacy.school.done, legacy.statusById.m3.state], [1, 'passed'])
+    // The AI modules are their own number, filtered to this stage, and the
+    // passport's pair is the sum: decision 1 lives in passportLessons alone.
+    const withAi = run({ completions: [pass('m1'), pass('a1', 'ai_lesson'), pass('a3', 'ai_lesson')] })
+    eq('AI modules apart', [withAi.school, withAi.ai], [{ done: 1, total: 4, next: { id: 'm2', position: 2 } }, { done: 1, total: 2 }])
+    eq('passport pair', passportLessons(withAi), { done: 2, total: 6 })
+    // A child whose passes are all on the Learn tab: no school module passed,
+    // and the planets stay exactly as open as they were yesterday.
+    const learnTab = run({ completions: [pass('p1', 'lesson'), pass('p2', 'lesson'), pass('p3', 'lesson')] })
+    eq('Learn tab only child', [learnTab.school.done, learnTab.anyLesson], [0, 3])
+    // anyLesson is the planets' old head counts: passed non school completions
+    // plus finished missions, a school pass counted once by its mission.
+    const planets = run({
+      completions: [pass('m1'), pass('p1', 'lesson'), pass('p2', 'lesson', false), pass('a1', 'ai_lesson')],
+      missions: [{ lesson_id: 'm1', status: 'done' }, { lesson_id: 'm2', status: 'sent' }],
+    })
+    eq('anyLesson reproduces the planets', planets.anyLesson, 2 + 1)
+    // A skipped module does not block the road.
+    const skipped = run({ completions: [], missions: [{ lesson_id: 'm1', status: 'skipped' }] })
+    eq('skipped moves next', skipped.school.next, { id: 'm2', position: 2 })
+    // locked is the paywall and nothing else: the first module and this
+    // week's are always open.
+    const free = run({ completions: [], paid: false })
+    eq('free family', ['m1', 'm2'].map(id => free.statusById[id].state), ['thisWeek', 'locked'])
+  }
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log('check-lesson-path: ok (school lessons counted, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)')
+console.log('check-lesson-path: ok (school lessons counted, every surface reads the one count, ten fixtures agree, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)')
