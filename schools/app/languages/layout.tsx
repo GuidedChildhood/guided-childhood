@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 }
 
 export default function LanguagesLayout({ children }: { children: React.ReactNode }) {
-  return <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '56px 20px 90px' }}>{children}</main>
+  return <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '64px 20px 90px' }}>{children}</main>
 }
