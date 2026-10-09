@@ -5,9 +5,10 @@ import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { listStarLessons, getStarLesson } from '@/lib/quests/star-lesson-catalogue'
+import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { schoolModulesForStage, isTogetherStage } from '@/lib/lessons/school-path'
+import { isTogetherStage } from '@/lib/lessons/school-path'
+import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
 
@@ -56,15 +57,16 @@ export default async function ChildLessonPathPage({
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'Your child'
 
   const admin = createAdminClient()
-  const [all, { data: link }, { data: completions }] = await Promise.all([
-    // Admin: schools.school_lessons is service role only (the catalogue).
-    listStarLessons(admin),
+  const [{ modules, path }, { data: link }] = await Promise.all([
+    // The one lesson count (lib/pathway/lesson-path.ts), the same function the
+    // passport reads, so this heading and the passport's row cannot quote
+    // different numbers. Until 9 October 2026 this page counted the child's
+    // own school rows alone and the passport also credited a household pass
+    // and migration 162's who passed rows, which is how the two drifted.
+    loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId }),
     supabase.from('kid_links').select('token').eq('child_id', child.id).maybeSingle(),
-    supabase.from('lesson_completions').select('lesson_id, passed, score')
-      .eq('user_id', user.id).eq('child_id', child.id).eq('lesson_source', 'school_lesson'),
   ])
-  const modules = schoolModulesForStage(all, stageId)
-  const passed = new Set(((completions ?? []) as { lesson_id: string; passed: boolean | null }[]).filter(c => c.passed).map(c => c.lesson_id))
+  const passed = new Set(modules.filter(m => path.statusById[m.id]?.state === 'passed').map(m => m.id))
 
   // The parent notes, for the tea question on each passed lesson. One read of
   // the stage's modules, through the same one door as every school read.
@@ -77,8 +79,8 @@ export default async function ChildLessonPathPage({
 
   const token = (link as { token?: string } | null)?.token ?? null
   const together = isTogetherStage(stageId)
-  const doneCount = modules.filter(m => passed.has(m.id)).length
-  const nextId = modules.find(m => !passed.has(m.id))?.id ?? null
+  const doneCount = path.school.done
+  const nextId = path.school.next?.id ?? null
   const backHref = withChild('/dashboard/pathway#passport', childParam)
 
   return (

@@ -55,7 +55,7 @@ if (!/markStepQuietly\(supabase, link\.user_id, link\.child_id, 'lesson'\)/.test
 const sections = read('lib/pathway/passport-sections.ts')
 if (!/\/dashboard\/lessons\/path\?stage=\$\{id\}/.test(sections)) fail.push('the passport Lessons and tests row does not open the child\'s lesson list, so its count and its destination disagree')
 const path = read('app/(dashboard)/dashboard/lessons/path/page.tsx')
-if (!/schoolModulesForStage\(all, stageId\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules or offers Do it together')
+if (!/loadChildLessonPath\(supabase, \{ userId: user\.id, childId: child\.id, stageId \}\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules through the one lesson count or offers Do it together')
 
 // ── 5. DIGI POINTS AT THE RIGHT LESSON ─────────────────────────────────────
 const route = read('app/api/digi/route.ts')

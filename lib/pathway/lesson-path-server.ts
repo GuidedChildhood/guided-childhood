@@ -16,7 +16,7 @@
 import type { SupabaseClient as AnySupabaseClient } from '@supabase/supabase-js'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
-import { schoolModulesForStage, type SchoolModule } from '@/lib/lessons/school-path'
+import { schoolModulesForStage } from '@/lib/lessons/school-path'
 import { AI_AUDIENCE_TO_STAGE } from './readiness-areas'
 import type { PassByRow } from './lesson-credit'
 import type { StageId } from './progress'
@@ -27,6 +27,9 @@ import {
   type LessonPathResult,
   type MissionRow,
 } from './lesson-path'
+
+/** A catalogue row as listStarLessons returns it: id, title, key stage, outcome. */
+export type CatalogueModule = NonNullable<Awaited<ReturnType<typeof listStarLessons>>>[number]
 
 const STAGE_NUM: Record<StageId, number> = {
   foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
@@ -47,7 +50,7 @@ export async function loadChildLessonPath(
     stageId: StageId
     paid?: boolean
   },
-): Promise<{ modules: SchoolModule[]; path: LessonPathResult }> {
+): Promise<{ modules: CatalogueModule[]; path: LessonPathResult }> {
   const scope = childId ? `child_id.eq.${childId},child_id.is.null` : null
   const [modules, completions, missions, passBy, aiModules] = await Promise.all([
     listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, stageId)),
