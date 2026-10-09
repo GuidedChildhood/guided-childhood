@@ -53,7 +53,8 @@
     "your-school-guard": "node scripts/check-your-school-local.mjs",
     "ai-tells": "node scripts/check-ai-tells.mjs",
     "social-cards": "node tools/social-cards/render.mjs",
-    "social-week": "node tools/social-cards/week.mjs"
+    "social-week": "node tools/social-cards/week.mjs",
+    "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",
