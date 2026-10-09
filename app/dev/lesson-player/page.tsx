@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import ReadingAhead from '@/components/lessons/ReadingAhead'
-import { parseSlides, type LessonSlide, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type LessonSlide, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
 // the design can be checked without a database or a signed in parent.
@@ -204,7 +204,7 @@ async function slidesToRender(): Promise<LessonSlide[]> {
   }
   // parseSlides is the same validator the teach route uses, so a row that
   // would not render in a classroom does not quietly render here either.
-  const parsed = parseSlides(JSON.parse(raw))
+  const parsed = visibleSlides(parseSlides(JSON.parse(raw)), 'classroom')?.slides ?? null
   if (!parsed) throw new Error(`GC_DEV_SLIDES at ${from} did not parse as slides`)
   return parsed
 }

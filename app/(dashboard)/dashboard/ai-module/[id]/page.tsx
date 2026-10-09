@@ -4,7 +4,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 
 // The stage a lesson audience sits in, for the honest Key Stage chip.
@@ -72,8 +72,8 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
   // Authored deck wins; otherwise build one from the lesson's own content so
   // every AI module lesson plays as slides, not a flat wall of text. The
   // authored question, where there is one, replaces the generated close.
-  const slides = parseSlides(lesson.slides)
-    ?? autoSlidesFromLesson({ ...lesson, quiz }, { eyebrow: AUDIENCE_LABEL[lesson.audience]?.label ?? 'AI safety' })
+  const slides = visibleSlides(parseSlides(lesson.slides)
+    ?? autoSlidesFromLesson({ ...lesson, quiz }, { eyebrow: AUDIENCE_LABEL[lesson.audience]?.label ?? 'AI safety' }), 'classroom')?.slides ?? null
 
   if (slides) {
     return (

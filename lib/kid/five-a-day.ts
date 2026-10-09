@@ -72,9 +72,9 @@ export const STEPS: Record<StepKey, StepDef> = {
     // This used to land on the list, which asks a child to pick, and the list
     // opens on lesson one every time. A child who has passed four of them has
     // to find where they got to before they can start, and the row that said
-    // "a lesson" turns into a search. ?next=1 lets the page resolve which one
-    // that is, because only the server knows what has been passed.
-    href: t => `/k/${t}/lessons?next=1`,
+    // "a lesson" turns into a search. (Never drawn since 9 October 2026; the
+    // href stays for a day stored before then, and opens the list.)
+    href: t => `/k/${t}/lessons`,
   },
   quiz: {
     key: 'quiz', emoji: '🧠',
@@ -399,7 +399,10 @@ export function pickDay(
   const { count, drop } = STAGE_DAY[stage] ?? STAGE_DAY[2]
   const tooYoungOrOld = new Set<StepKey>(drop)
   const can = (k: StepKey) => available?.[k] !== false && !tooYoungOrOld.has(k)
-  const pool = ROTATING.filter(can)
+  // The weekly lesson and the daily quiz are never drawn (plan v10, item
+  // 1.6): the lesson is the week's own thing, one a week, on the week card,
+  // and a day that asks for it is a day a child may not be able to finish.
+  const pool = ROTATING.filter(k => !NOT_DRAWN.has(k)).filter(can)
   const n = seed(childId, day)
 
   const ends = [...FIXED_FIRST.filter(can), ...FIXED_LAST.filter(can)]
@@ -432,8 +435,9 @@ export function pickDay(
   return [...FIXED_FIRST.filter(can), ...middle, ...FIXED_LAST.filter(can)]
 }
 
-/** A lesson and the daily quiz are one objective: learn one thing today. */
-const LEARNING: StepKey[] = ['lesson', 'quiz']
+/** Steps a day never draws any more. Kept as step keys so a day stored before
+ *  9 October 2026 still reads back and can still be ticked. */
+const NOT_DRAWN = new Set<StepKey>(['lesson', 'quiz'])
 
 /**
  * Which of today's steps a completed thing actually lands on.
@@ -454,10 +458,11 @@ const LEARNING: StepKey[] = ['lesson', 'quiz']
  * of it. A guard that reimplements the thing it guards proves nothing (learned
  * on 14 September 2026, recorded in plans/decisions.md).
  */
-export function stepForToday(step: StepKey, steps: StepKey[]): StepKey {
-  if (steps.includes(step)) return step
-  if (!LEARNING.includes(step)) return step
-  return LEARNING.find(k => k !== step && steps.includes(k)) ?? step
+export function stepForToday(step: StepKey, _steps: StepKey[]): StepKey {
+  // Until 9 October 2026 a lesson and the quiz stood in for each other here.
+  // Neither is drawn now, so nothing stands in for anything: a step lands on
+  // itself or the caller refuses it.
+  return step
 }
 
 /** Did the whole day land? The streak is this and nothing else. */

@@ -61,7 +61,10 @@ const prefersReducedMotion = () =>
 // on the finish with every tally at nought and a five minute activity gone.
 // Those cards have no handle or avatar, so the header draws without them.
 type SortPost = { handle?: string; avatar?: string; icon?: string; text: string; answer?: number; why?: string }
-function VerdictSort({ config }: {
+function VerdictSort({ config, kidMode = false }: {
+  // One child alone in their own app (plan v10, item 1.4): no class tally of
+  // one, nought and nought, and the card speaks to "you", not "the class".
+  kidMode?: boolean
   config: {
     verdicts?: string[]
     posts?: SortPost[]
@@ -81,7 +84,7 @@ function VerdictSort({ config }: {
 }) {
   const verdicts = config.verdicts ?? ['Believe', 'Pause', 'Do not share']
   const posts = config.posts ?? config.items ?? []
-  const label = config.label ?? 'Sort the feed · tap a verdict'
+  const label = kidMode ? 'Your turn · tap your verdict' : (config.label ?? 'Sort the feed · tap a verdict')
   const doneTitle = config.doneTitle ?? 'Feed sorted!'
   const doneBody = config.doneBody ?? 'Every card got a verdict and a reason. That is the whole skill.'
   const doneEmoji = config.doneEmoji ?? '🕵️'
@@ -174,7 +177,9 @@ function VerdictSort({ config }: {
       <>
         {ans !== null && (
           <span style={{ ...eyebrow, display: 'block', color: right ? 'var(--retro-green-dark)' : 'var(--stage-1-text)', marginBottom: '6px' }}>
-            {right ? 'The class got it' : `The class said ${verdicts[said]}`}
+            {kidMode
+              ? (right ? 'You got it' : `You said ${verdicts[said]}`)
+              : (right ? 'The class got it' : `The class said ${verdicts[said]}`)}
           </span>
         )}
         <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
@@ -191,8 +196,8 @@ function VerdictSort({ config }: {
   return (
     <div style={{ textAlign: 'center' }}>
       <div style={{ ...eyebrow, marginBottom: '10px' }}>{label}</div>
-      {/* Tallies */}
-      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '18px', flexWrap: 'wrap' }}>
+      {/* Tallies. Not for one child: a tally of one is a scoreboard of nobody. */}
+      {!kidMode && <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '18px', flexWrap: 'wrap' }}>
         {verdicts.map((v, i) => (
           <span key={v} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
@@ -202,7 +207,7 @@ function VerdictSort({ config }: {
             {v} · {tallies[i]}
           </span>
         ))}
-      </div>
+      </div>}
 
       {done ? (
         <div style={{ padding: '30px 0' }}>
@@ -327,7 +332,7 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
 // as that friend in the lesson's register, with the half time words under
 // it, which is how every lesson got a pause beat without a film.
 const REGISTERS: Register[] = ['bouncy', 'playful', 'level', 'still']
-function StarBreath({ config }: { config: { seconds?: number; character?: string; register?: string; heading?: string; prompt?: string } }) {
+function StarBreath({ config, kidMode = false }: { kidMode?: boolean; config: { seconds?: number; character?: string; register?: string; heading?: string; prompt?: string } }) {
   const dur = config.seconds ?? 4
   const who = isCharacterKey(config.character) && config.character !== 'digi' ? config.character : null
   const register = REGISTERS.includes(config.register as Register) ? (config.register as Register) : 'playful'
@@ -351,7 +356,12 @@ function StarBreath({ config }: { config: { seconds?: number; character?: string
 
   return (
     <div style={{ textAlign: 'center', padding: '20px 0' }}>
-      <div style={{ ...eyebrow, marginBottom: '20px' }}>{config.heading ?? 'Star breath · everyone together'}</div>
+      <div style={{ ...eyebrow, marginBottom: '20px' }}>
+        {kidMode
+          // A child alone is not "everyone together", whatever the deck says.
+          ? (config.heading ?? 'Star breath').replace(/\s*[!·]?\s*everyone together\s*$/i, '').trim() || 'Star breath'
+          : (config.heading ?? 'Star breath · everyone together')}
+      </div>
       <div ref={starRef} style={{ display: 'inline-flex', margin: '10px 0 24px', transformOrigin: 'center' }}>
         {who ? <FriendPlate character={who} register={register} mood="idle" size={130} /> : <DigiCharacter mood="idle" size={110} />}
       </div>
@@ -595,14 +605,52 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
 // ── class-tally ───────────────────────────────────────────────────────
 // The whole class check for no device rooms: the teacher taps hands
 // counted per option and the bars animate. Works in every module.
-function ClassTally({ config }: { config: { question?: string; options?: string[] } }) {
+function ClassTally({ config, kidMode = false }: { kidMode?: boolean; config: { question?: string; options?: string[] } }) {
   const question = config.question ?? 'What does the class think?'
   const options = config.options ?? ['Yes', 'Not sure', 'No']
   const [counts, setCounts] = useState<number[]>(options.map(() => 0))
   const total = counts.reduce((a, b) => a + b, 0)
+  const [mine, setMine] = useState<number | null>(null)
 
   const bump = (i: number, d: number) =>
     setCounts(c => c.map((n, j) => (j === i ? Math.max(0, n + d) : n)))
+
+  // One child alone: the tally becomes one tap on their own answer. A bar
+  // chart of one hand is not a class picture, it is a child being counted.
+  if (kidMode) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ ...eyebrow, marginBottom: '10px' }}>Your turn · tap your answer</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 2.8vw, 1.45rem)', color: 'var(--ink)', lineHeight: 1.35, maxWidth: '460px', margin: '0 auto 20px' }}>
+          {question}
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '400px', margin: '0 auto' }}>
+          {options.map((opt, i) => (
+            <button
+              key={opt}
+              type="button"
+              aria-pressed={mine === i}
+              onClick={() => setMine(i)}
+              style={{
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
+                background: mine === i ? 'var(--terracotta)' : '#fff',
+                border: `1.5px solid ${mine === i ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+                borderRadius: 'var(--radius-tile)', padding: '12px 16px', cursor: 'pointer',
+                boxShadow: mine === i ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 var(--border)',
+              }}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+        {mine !== null && (
+          <p role="status" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '14px', lineHeight: 1.5 }}>
+            That is yours. There is no wrong answer here, only your reason.
+          </p>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -724,14 +772,18 @@ function PassportBeat({ config }: { config: { placement?: string; moduleId?: str
 }
 
 // The registry: lesson rows name a component by key.
-const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, unknown> }>> = {
-  'verdict-sort': VerdictSort as React.ComponentType<{ config: Record<string, unknown> }>,
-  'signal-meter': SignalMeter as React.ComponentType<{ config: Record<string, unknown> }>,
-  'star-breath': StarBreath as React.ComponentType<{ config: Record<string, unknown> }>,
-  'feed-loop': FeedLoop as React.ComponentType<{ config: Record<string, unknown> }>,
-  'spread-race': SpreadRace as React.ComponentType<{ config: Record<string, unknown> }>,
-  'class-tally': ClassTally as React.ComponentType<{ config: Record<string, unknown> }>,
-  'passport-page': PassportBeat as React.ComponentType<{ config: Record<string, unknown> }>,
+// `kidMode` rides through the registry so a widget can speak to one child
+// rather than a room (plan v10, item 1.4). A widget that ignores it renders
+// exactly as it always has.
+type WidgetProps = { config: Record<string, unknown>; kidMode?: boolean }
+const INTERACTIVES: Record<string, React.ComponentType<WidgetProps>> = {
+  'verdict-sort': VerdictSort as React.ComponentType<WidgetProps>,
+  'signal-meter': SignalMeter as React.ComponentType<WidgetProps>,
+  'star-breath': StarBreath as React.ComponentType<WidgetProps>,
+  'feed-loop': FeedLoop as React.ComponentType<WidgetProps>,
+  'spread-race': SpreadRace as React.ComponentType<WidgetProps>,
+  'class-tally': ClassTally as React.ComponentType<WidgetProps>,
+  'passport-page': PassportBeat as React.ComponentType<WidgetProps>,
 }
 
 // PROJECTOR, THE SECOND ATTEMPT, and the first one is worth recording because
@@ -858,7 +910,7 @@ function useFitZoom(enabled: boolean) {
   return { box, zoom }
 }
 
-export default function Interactive({ component, config, caption, projector }: { component: string; config?: Record<string, unknown>; caption?: string; projector?: boolean }) {
+export default function Interactive({ component, config, caption, projector, kidMode = false }: { component: string; config?: Record<string, unknown>; caption?: string; projector?: boolean; kidMode?: boolean }) {
   const Comp = INTERACTIVES[component]
   const { box, zoom } = useFitZoom(!!projector)
   // The zoom rides on the wrapper, so it reaches the fallback path too. A
@@ -874,11 +926,13 @@ export default function Interactive({ component, config, caption, projector }: {
   }
   return (
     <div>
-      <div ref={box} style={wall}><Comp config={config ?? {}} /></div>
+      <div ref={box} style={wall}><Comp config={config ?? {}} kidMode={kidMode} /></div>
       {/* The caption stays outside the zoom and takes the player's own wall
           scale: it is the teacher's instruction to the room, not part of the
           widget, and it should match every other line of prose on the wall. */}
-      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: projector ? WALL.column : '420px', margin: '18px auto 0' }}>{caption}</p>}
+      {/* Never for one child: the caption is the teacher's instruction to the
+          room ("Sort the six cases together before the sheet"). */}
+      {caption && !kidMode && <p style={{ fontFamily: 'var(--font-body)', fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: projector ? WALL.column : '420px', margin: '18px auto 0' }}>{caption}</p>}
     </div>
   )
 }

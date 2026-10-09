@@ -3,9 +3,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
-import { schoolModulesForStage, isTogetherStage } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
+import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -28,7 +28,6 @@ export default async function KidLessonsPage({ params, searchParams }: {
   searchParams?: Promise<{ next?: string; quiz?: string }>
 }) {
   const { token } = await params
-  const wantsNext = (await searchParams)?.next === '1'
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
 
   const supabase = createAdminClient()
@@ -41,7 +40,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band, accent')
+    .select('name, age_band, accent, date_of_birth')
     .eq('id', link.child_id)
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
@@ -51,9 +50,10 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // stage (lib/lessons/school-path), not the parent library, which is written
   // to grown ups. Each opens through /k/[token]/school/[id], which reuses the
   // star lesson player, stars and push, and its pass ticks the passport.
-  const stageId = stage.name.toLowerCase() as StageId
-  const allModules = await listStarLessons(supabase)
-  const stageModules = schoolModulesForStage(allModules, stageId)
+  // Lessons follow the school year (sync plan C): a Year 8 child who has
+  // turned 13 gets the KS3 lessons their class meets, not the KS4 ones. The
+  // stage check card below still reads the passport stage.
+  const stageId = lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null } | null)
 
   // Whether the big end of stage check is already passed, so the card at the
   // bottom of the list says so rather than inviting them to sit it again.
@@ -71,16 +71,6 @@ export default async function KidLessonsPage({ params, searchParams }: {
     stageCheckPassed = !!data?.length
   }
 
-  // This child's school lesson passes. Scoped to the child, because the
-  // passport that reads the same rows is scoped to the child.
-  const { data: completionRows } = await supabase
-    .from('lesson_completions')
-    .select('lesson_id, passed, score')
-    .eq('user_id', link.user_id)
-    .eq('child_id', link.child_id)
-    .eq('lesson_source', 'school_lesson')
-  const byLesson = new Map(((completionRows ?? []) as { lesson_id: string; passed: boolean | null; score: number | null }[]).map(c => [c.lesson_id, c]))
-
   // The paywall holds on the kid link as it does for the parent: the first
   // lesson of the stage is the free taste, and the next one they have not
   // passed is always open so the path never stalls; beyond that, members.
@@ -93,27 +83,60 @@ export default async function KidLessonsPage({ params, searchParams }: {
     parentProfile as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfile as { email?: string | null } | null)?.email,
   )
-  const isPassed = (id: string) => byLesson.get(id)?.passed === true
-  const nextOpenId = stageModules.find(m => !isPassed(m.id))?.id ?? null
+
+  // Passed, next, locked: from the one lesson count (lib/pathway/lesson-path),
+  // the function the passport, the parent's page and the road all read. Until
+  // 9 October 2026 this page kept its own: the child's rows only (so a pass a
+  // grown up led for the family showed on the passport and not here), no
+  // skipped lessons, and a lock rule of its own. The scores are display only
+  // and still come from the child's own rows.
+  const [{ modules: stageModules, path }, { data: completionRows }] = await Promise.all([
+    loadChildLessonPath(supabase, { userId: link.user_id, childId: link.child_id, stageId, paid }),
+    supabase.from('lesson_completions').select('lesson_id, score')
+      .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson'),
+  ])
+  const scoreOf = new Map(((completionRows ?? []) as { lesson_id: string; score: number | null }[]).map(c => [c.lesson_id, c.score]))
+  const nextOpenId = path.school.next?.id ?? null
+
+  // ONE A WEEK, SAID ON THE LIST (plan v10, 1.5). Only the week's lesson
+  // opens. Inside seven days of a pass, a week's lesson with no mission yet
+  // says the day it opens instead of offering a button the opener would
+  // bounce; a mission that exists always opens (a retake, the week's own).
+  const [{ data: missionRows }, { data: lastPassRow }] = await Promise.all([
+    supabase.from('kid_lesson_missions').select('lesson_id').eq('child_id', link.child_id),
+    supabase.from('lesson_completions').select('completed_at')
+      .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson').eq('passed', true)
+      .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
+  ])
+  const hasMission = new Set(((missionRows ?? []) as { lesson_id: string }[]).map(r => r.lesson_id))
+  const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
+  const weekOpen = !nextOpenId || hasMission.has(nextOpenId) || newMissionAllowed({
+    lastPassAt, isFirstOfStage: stageModules[0]?.id === nextOpenId, isSkippedRestart: false,
+  })
+  const opensOn = lastPassAt
+    ? new Date(Date.parse(lastPassAt) + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'Europe/London' })
+    : null
 
   // The five a day's lesson row asks for the next one they have not passed, so
   // send them into it rather than showing a shelf to pick from. Falling through
   // to the list is the right answer when there is nothing left in the stage: a
   // child who has passed everything should see what they finished, not a
   // redirect to nowhere.
-  if (wantsNext && nextOpenId) redirect(`/k/${token}/school/${nextOpenId}`)
 
-  const items: KidLessonItem[] = stageModules.map((m, i) => {
-    const c = byLesson.get(m.id)
-    const done = c?.passed === true
+  const items: KidLessonItem[] = stageModules.map(m => {
+    const state = path.statusById[m.id]?.state
+    const done = state === 'passed'
     return {
       id: m.id,
       title: m.title,
       emoji: '🎬',
-      keyMessage: m.single_action_outcome ?? '',
+      keyMessage: (m as { single_action_outcome?: string | null }).single_action_outcome ?? '',
       done,
-      score: done ? c?.score ?? null : null,
-      locked: !paid && i > 0 && !c && m.id !== nextOpenId,
+      score: done ? scoreOf.get(m.id) ?? null : null,
+      locked: state === 'locked',
+      waiting: state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
+        : state === 'paced' && !hasMission.has(m.id) ? `After lesson ${stageModules.findIndex(x => x.id === m.id)}, this one is waiting for you`
+        : null,
     }
   })
 

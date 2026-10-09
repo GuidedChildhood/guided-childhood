@@ -1,6 +1,11 @@
 import type { createClient } from '@/lib/supabase/server'
 import type { StageId } from './progress'
 import { homeSetupCount, toFamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
+import { lessonStageFor, schoolModulesForStage } from '@/lib/lessons/school-path'
+import { childLessonPath, type CompletionRow } from './lesson-path'
+import type { PassByRow } from './lesson-credit'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -9,9 +14,6 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 // lessons done. This is what the single spine pathway renders, so a parent
 // sees one clear next step instead of a pile of separate features.
 
-const AUDIENCE_TO_STAGE: Record<string, StageId> = {
-  age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
-}
 function deviceAgeToStage(minAge: number): StageId {
   if (minAge <= 7) return 'foundation'
   if (minAge <= 10) return 'builder'
@@ -29,7 +31,13 @@ export interface Journey {
 export async function getJourney(
   supabase: SupabaseClient,
   userId: string,
-  stageId: StageId
+  stageId: StageId,
+  /**
+   * Whose lessons. The lesson strand is the CHILD's school path since
+   * 9 October 2026, so it reads one child's passes. Null keeps the household
+   * reading for a caller with no child in view.
+   */
+  childId: string | null = null,
 ): Promise<Journey> {
   // The passport counts the same screens the devices page does, so it reads
   // progress the same guarded way: per screen after migration 169, per guide
@@ -51,17 +59,32 @@ export async function getJourney(
     { data: deviceGuides },
     progress,
     { data: concerns },
-    { data: stageLessons },
-    { data: aiLessons },
+    stageModules,
     { data: lessonCompletions },
+    { data: passBy },
     { data: familyDevices },
   ] = await Promise.all([
     supabase.from('device_guides').select('device_key, name, min_age').order('min_age', { ascending: true }),
     readProgress(),
     supabase.from('concerns').select('label, times_flagged').eq('user_id', userId).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(1),
-    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
-    supabase.from('ai_lessons').select('id, title, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    // The child's school modules for the stage, in teaching order. The admin
+    // client, because the curriculum catalogue is service role only; ids and
+    // titles are all that is read.
+    // Whose stage: the child's school year's, when we know the child (sync
+    // plan C), so this strand names the lesson their own list opens.
+    Promise.all([
+      listStarLessons(createAdminClient()),
+      childId
+        ? supabase.from('children').select('date_of_birth, age_band').eq('id', childId).maybeSingle().then(r => r.data)
+        : Promise.resolve(null),
+    ]).then(([rows, kid]) => schoolModulesForStage(rows, kid ? lessonStageFor(kid as { date_of_birth?: string | null; age_band?: string | null }) : stageId)),
+    (() => {
+      const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId)
+      return childId ? q.or(`child_id.eq.${childId},child_id.is.null`) : q
+    })(),
+    childId
+      ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
+      : Promise.resolve({ data: null }),
     supabase.from('family_devices').select('id, label, kind, guide_key, shared, retired_at').eq('user_id', userId),
   ])
 
@@ -112,21 +135,26 @@ export async function getJourney(
   // Moments, the live concerns
   const openConcerns = concerns ?? []
 
-  // Lessons for this stage: general plus ai, next uncompleted, in order
-  const aiInStage = (aiLessons ?? []).filter(l => AUDIENCE_TO_STAGE[l.audience] === stageId)
-  const doneLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
-  const totalLessons = (stageLessons?.length ?? 0) + aiInStage.length
-  const lessonsDone =
-    (stageLessons ?? []).filter(l => doneLessonKeys.has(`lesson:${l.id}`)).length +
-    aiInStage.filter(l => doneLessonKeys.has(`ai_lesson:${l.id}`)).length
-  const nextGeneral = (stageLessons ?? []).find(l => !doneLessonKeys.has(`lesson:${l.id}`))
-  const nextAi = aiInStage.find(l => !doneLessonKeys.has(`ai_lesson:${l.id}`))
-  const nextLessonTitle = nextGeneral?.title ?? nextAi?.title ?? null
-  const nextLessonHref = nextGeneral
-    ? `/dashboard/lessons/${nextGeneral.id}`
-    : nextAi
-    ? `/dashboard/ai-module/${nextAi.id}`
-    : '/dashboard/lessons'
+  // Lessons: the CHILD's school path, from the one lesson count. Until
+  // 9 October 2026 this strand counted the PARENT library and linked the
+  // parent's own player, which is how Home said "Do a lesson with Teo" and
+  // opened a lesson written for the adult. It also counted failed runs as
+  // done. The child learns it in their own app; the parent's row points at
+  // the child's lessons.
+  const path = childLessonPath({
+    modules: stageModules,
+    completions: (lessonCompletions ?? []) as CompletionRow[],
+    passBy: passBy as PassByRow[] | null,
+    childId,
+  })
+  const totalLessons = path.school.total
+  const lessonsDone = path.school.done
+  const nextLessonTitle = path.school.next
+    ? stageModules.find(m => m.id === path.school.next?.id)?.title ?? null
+    : null
+  const nextLessonHref = childId
+    ? `/dashboard/lessons/path?child=${childId}`
+    : '/dashboard/lessons/path'
 
   return {
     devices: {

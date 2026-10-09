@@ -112,11 +112,12 @@ export function nextOn(stickers: readonly MissionSticker[], key: MissionKey): Mi
  *
  * Every destination here is one the five a day already uses, so the mission
  * row and the step row lead to the same place rather than to two ideas of it:
- * lessons go straight to the next unpassed one (`?next=1`), never the shelf.
+ * lessons go to the child's list, where only the week's lesson has a button
+ * (the ?next=1 jump went with the five a day's lesson row, plan v10 item 1.6).
  */
 export function missionHref(kind: StickerRule['kind'], token: string | null): string | null {
   if (!token) return null
-  if (kind === 'lessons' || kind === 'stamp') return `/k/${token}/lessons?next=1`
+  if (kind === 'lessons' || kind === 'stamp') return `/k/${token}/lessons`
   if (kind === 'timer') return `/k/${token}/balance`
   return null
 }
