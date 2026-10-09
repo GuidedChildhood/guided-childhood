@@ -33,7 +33,7 @@ if (!/import \{ AI_AUDIENCE_TO_STAGE \} from '@\/lib\/pathway\/readiness-areas'/
 
 // ── 2. THE CHILD'S LIST IS THE SCHOOL PATH ──────────────────────────────────
 const kidList = read('app/k/[token]/lessons/page.tsx')
-if (!/schoolModulesForStage\(allModules, stageId\)/.test(kidList) || !/hrefFor=\{id => `\/k\/\$\{token\}\/school\/\$\{id\}`\}/.test(kidList)) fail.push('the child lesson list no longer shows and opens the school modules')
+if (!/loadChildLessonPath\(supabase, \{ userId: link\.user_id, childId: link\.child_id, stageId, paid \}\)/.test(kidList) || !/hrefFor=\{id => `\/k\/\$\{token\}\/school\/\$\{id\}`\}/.test(kidList)) fail.push('the child lesson list no longer shows and opens the school modules')
 if (!/redirect\(`\/k\/\$\{token\}\/school\/\$\{nextOpenId\}`\)/.test(kidList)) fail.push('the five a day lesson row no longer goes straight into the next school lesson')
 // The child's list is the manifest's teaching order, not build order, and the
 // standalone lessons stay out (30 September 2026: four under 7 lessons arrived
@@ -117,6 +117,9 @@ const readers = [
   ['lib/email/month-progress.ts', /lessonsPassedBetween\(supabase, \{ userId, childId, from, to, household: false \}\)/],
   ['lib/pathway/catchup.ts', /lessonsPassedBetween\(supabase, \{ userId, childId, from: sinceIso \}\)/],
   ['lib/pathway/progress.ts', /passportLessons\(path\)/],
+  // The child's own list, missed in item 1.3 and found by the sync panel.
+  ['app/k/[token]/lessons/page.tsx', /loadChildLessonPath\(supabase/],
+  ['app/k/[token]/lessons/page.tsx', /path\.statusById\[m\.id\]/],
 ]
 for (const [file, re] of readers) {
   if (!re.test(read(file))) fail.push(`${file}: no longer reads the one lesson count (lib/pathway/lesson-path.ts)`)
@@ -246,7 +249,15 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     ['app/k/[token]/lessons/[lessonId]/page.tsx', /visibleSlides\(rawSlides, 'kid'\)/],
     ['app/k/[token]/tutor/[id]/page.tsx', /visibleSlides\(rawSlides, 'kid'\)/],
   ]) if (!re.test(read(f))) fail.push(`${f}: must play the child's deck (visibleSlides kid or together)`)
-  if (!/audience=\{audience\}/.test(read('app/k/[token]/lesson/[mission]/page.tsx'))) fail.push('the mission page must tell the player which audience its deck is for')
+  {
+    const mission = read('app/k/[token]/lesson/[mission]/page.tsx')
+    if (!/audience=\{audience\}/.test(mission)) fail.push('the mission page must tell the player which audience its deck is for')
+    // The same lesson the class meets, and a way to tell on the flagged ones,
+    // all inside the player (the page around it is never seen).
+    for (const prop of ['character={characterKeyFor(', 'register={registerFor(', 'tool={notes.tool}', 'introEyebrow={introEyebrow}', 'kidBadge={kidBadge}', 'tellHref={flagged ?']) {
+      if (!mission.includes(prop)) fail.push(`the mission page no longer passes ${prop.replace(/[={(]+$/, '')} into the player`)
+    }
+  }
   if (/checks\.slice\(-2\)/.test(read('schools/app/print/[module]/page.tsx'))) fail.push('schools print page: the exit ticket takes the prove items by phase, not the last two choice slides')
 
   // Run the filter on every real deck.
@@ -256,6 +267,7 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   const decks = readdirSync('content/modules').filter(f => f.endsWith('.json')).sort()
   if (decks.length !== 34) fail.push(`expected 34 module decks, found ${decks.length}`)
   let sorts = 0
+  let reasoning = 0
   let maxKid = 0
   for (const f of decks) {
     const m = JSON.parse(read(`content/modules/${f}`))
@@ -268,6 +280,14 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     const cls = visibleSlides(slides, 'classroom')
     if (cls.slides !== slides || cls.storedIndex.some((v, i) => v !== i)) fail.push(`${id}: the classroom deck is not the authored deck`)
 
+    // The classroom never shows a child only slide (sync plan A10).
+    if (f === decks[0]) {
+      const withKid = [...slides, { type: 'choice', phase: 'prove', kid_only: true, question: 'fixture', options: [] }]
+      const shown = visibleSlides(withKid, 'classroom').slides
+      if (shown.length !== slides.length || shown.some(x => x.kid_only)) fail.push('the classroom audience shows a kid_only slide')
+      if (!visibleSlides(withKid, 'kid').slides.some(x => x.kid_only)) fail.push('the kid audience drops a kid_only slide it should show')
+    }
+
     // The print page's prove items by phase are the two it printed before.
     const choices = slides.filter(s => s.type === 'choice')
     const byPhase = choices.filter(s => s.phase === 'prove')
@@ -275,37 +295,43 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
 
     for (const audience of ['kid', 'together']) {
       const { slides: v, storedIndex, visibleIndex } = visibleSlides(slides, audience, { worksheet })
-      // The map back to the stored deck holds both ways.
-      storedIndex.forEach((si, k) => { if (visibleIndex[si] !== k) fail.push(`${id} ${audience}: index map disagrees at ${k}`) })
-      const swap = slides.filter(s => s.type === 'discussion' && /^\s*Swap sheets\b/i.test(s.prompt)).length
-      if (slides.length - v.length !== swap) fail.push(`${id} ${audience}: dropped ${slides.length - v.length} slides, expected only the ${swap} swap sheets discussions`)
+      // The map back to the stored deck holds for every question, which is
+      // what the server marks against.
+      v.forEach((s, k) => { if (s.type === 'choice' && visibleIndex[storedIndex[k]] !== k) fail.push(`${id} ${audience}: index map disagrees at question ${k}`) })
       v.forEach((s, k) => {
         const from = slides[storedIndex[k]]
-        if (s.type !== from.type && !(from.type === 'tryit' && s.type === 'interactive')) fail.push(`${id} ${audience}: slide ${k} changed type`)
+        const allowed = s.type === from.type || (from.type === 'tryit' && ['interactive', 'discussion'].includes(s.type)) || (from.type === 'interactive' && s.type === 'discussion')
+        if (!allowed) fail.push(`${id} ${audience}: slide ${k} changed type from ${from.type} to ${s.type}`)
       })
       if (v.some(s => 'script' in s)) fail.push(`${id} ${audience}: the teacher script reaches the child`)
       if (v.some(s => s.type === 'discussion' && 'lookFor' in s)) fail.push(`${id} ${audience}: a teacher look for line reaches the child`)
-      if (v.some(s => s.type === 'discussion' && /\bpartner\b|\byour table\b|\bthe board\b/i.test(s.prompt))) fail.push(`${id} ${audience}: a Think it prompt still asks for a partner, a table or a board`)
+      if (v.some(s => s.type === 'interactive' && 'caption' in s)) fail.push(`${id} ${audience}: a teacher caption reaches the child`)
+      if (v.some(s => s.type === 'interactive' && s.component === 'passport-page')) fail.push(`${id} ${audience}: the passport beat fills a page before the check is marked`)
+      // Classroom furniture a child alone cannot follow (sync plan A2). Film
+      // narration is exempt: it is spoken in the film and cannot be rewritten.
+      const FURNITURE = /tell your neighbour|the person next to you|your partner|hands up|\bvote\b|on your sheet|write it on|"one hour|before the bell|to the board|class verdict|class answer|Do you agree\? Explain/i
+      v.forEach((s, k) => { if (s.type !== 'video' && FURNITURE.test(JSON.stringify(s))) fail.push(`${id} ${audience}: slide ${k} still speaks to a classroom: ${JSON.stringify(s).match(FURNITURE)[0]}`) })
       if (v.some(s => s.type === 'choice' && /Exit check/i.test(s.question))) fail.push(`${id} ${audience}: "Exit check" reaches the child`)
       if (v.filter(s => s.type === 'choice' && s.phase === 'prove').length !== 2) fail.push(`${id} ${audience}: the two prove items must both reach the child`)
       if (!v.some(s => s.phase === 'practise')) fail.push(`${id} ${audience}: the child's deck has no practice left`)
       if (!v.some(s => s.type === 'discussion' && s.phase === 'starter')) fail.push(`${id} ${audience}: the starter went; the opening retrieval is the child's too`)
+      const practiseSorts = v.filter(s => s.type === 'interactive' && s.component === 'verdict-sort' && s.phase === 'practise')
+      // One practice sort, never the same cards twice (sync plan A1).
+      if (practiseSorts.length > 1) fail.push(`${id} ${audience}: ${practiseSorts.length} practice sorts back to back`)
+      if (practiseSorts.some(s => (s.config.posts ?? s.config.items).length < 4)) fail.push(`${id} ${audience}: a practice sort with fewer than four cards`)
       if (audience === 'kid') {
-        const sort = v.find((s, k) => s.type === 'interactive' && slides[storedIndex[k]].type === 'tryit')
-        if (sort) {
-          sorts += 1
-          const posts = sort.config.posts
-          if (!posts.length || posts.some(p => !(p.answer >= 0 && p.answer < sort.config.verdicts.length))) fail.push(`${id}: the worksheet sort has a card with no verdict`)
-          if (posts.some(p => /Listen for|\bpupils\b/i.test(p.why))) fail.push(`${id}: a worksheet reason still speaks to the teacher`)
-        }
+        if (practiseSorts.length === 1) sorts += 1
+        reasoning += v.filter(s => s.type === 'discussion' && typeof s.prompt === 'string' && /Do you agree\?$/.test(s.prompt)).length
+        if (practiseSorts.some(s => (s.config.posts ?? s.config.items).some(p => /Listen for|\bpupils\b|^Recognise:|^Apply:|Strong answers/i.test(p.why ?? '')))) fail.push(`${id}: a sort reason still speaks to the teacher`)
         maxKid = Math.max(maxKid, kidMinutesLeft(v, 0))
       }
     }
   }
-  // 25 decks carry verdict worksheets; 23 of them have a practise tryit to
-  // stand in for. Fewer means the conversion broke on a shape it used to read.
-  if (sorts < 23) fail.push(`only ${sorts} decks turned their worksheet into the child's sort (expected 23)`)
-  globalThis.__visibleSlidesSummary = `${callers.length} callers, ${decks.length} decks, ${sorts} worksheet sorts, longest kid deck ${maxKid} min`
+  // Every deck gives a child exactly one practice sort, and the twenty
+  // reasoning cards come back as Think it rather than vanishing.
+  if (sorts !== decks.length) fail.push(`${sorts} of ${decks.length} decks give the child exactly one practice sort`)
+  if (reasoning < 20) fail.push(`only ${reasoning} reasoning cards reach the child as Think it (expected 20)`)
+  globalThis.__visibleSlidesSummary = `${callers.length} callers, ${decks.length} decks, one sort each, ${reasoning} reasoning cards, longest kid deck ${maxKid} min`
 }
 
 if (fail.length) {

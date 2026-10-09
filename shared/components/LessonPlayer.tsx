@@ -481,6 +481,15 @@ function ThinkItBlock({ slide, together }: { slide: DiscussionSlide; together: b
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
     borderRadius: 'var(--radius-tile)', padding: '10px 18px', cursor: 'pointer',
   }
+  const quiet: React.CSSProperties = { ...chip, background: '#fff', border: '1.5px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }
+  // On the prompts that ask who they would tell, every answer gets the same
+  // calm line and the people they can tell. "Nobody" is the answer the
+  // teacher's look for line was there to catch, and "Nice" would praise it.
+  const reply = slide.tellPrompt
+    ? 'Thank you. If something ever worries you, you can tell your grown up, a teacher you trust, or Childline on 0800 1111.'
+    : done === 'pass' ? 'That is fine. Have a think as you go.'
+    : slide.kidReveal ? null
+    : 'Nice. Hold on to it, the next part uses it.'
   return (
     <div style={{ textAlign: 'center' }}>
       <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
@@ -494,38 +503,70 @@ function ThinkItBlock({ slide, together }: { slide: DiscussionSlide; together: b
         {slide.prompt}
       </h2>
       {done ? (
-        <p role="status" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 auto', maxWidth: '420px' }}>
-          {done === 'pass' ? 'That is fine. It comes round again.' : 'Nice. Hold on to it, the next part uses it.'}
-        </p>
+        <div role="status" style={{ maxWidth: '440px', margin: '0 auto' }}>
+          {reply && (
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>{reply}</p>
+          )}
+          {/* A reasoning card's reason, shown only after the child committed. */}
+          {!slide.tellPrompt && slide.kidReveal && (
+            <div style={{ textAlign: 'left', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '14px 16px', marginTop: reply ? '12px' : 0 }}>
+              <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>One way to see it</div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{slide.kidReveal}</p>
+            </div>
+          )}
+        </div>
       ) : together ? (
         <div data-reveal style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button type="button" onClick={() => setDone('said')} style={{ ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>We said it ✓</button>
-          <button type="button" onClick={() => setDone('pass')} style={{ ...chip, background: '#fff', border: '1.5px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>Pass for now</button>
+          <button type="button" onClick={() => setDone('pass')} style={quiet}>Pass for now</button>
         </div>
       ) : (
-        <form
-          data-reveal
-          onSubmit={e => { e.preventDefault(); if (word.trim()) setDone('typed') }}
-          style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', maxWidth: '420px', margin: '0 auto' }}
-        >
-          <input
-            value={word}
-            onChange={e => setWord(e.target.value)}
-            maxLength={60}
-            aria-label="Your answer, one word is enough"
-            placeholder="One word is enough"
-            autoComplete="off"
-            style={{
-              flex: '1 1 200px', minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '11px 14px',
-            }}
-          />
-          <button type="submit" disabled={!word.trim()} style={{
-            ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)',
-            opacity: word.trim() ? 1 : 0.5, cursor: word.trim() ? 'pointer' : 'default',
-          }}>Got one</button>
-        </form>
+        <div data-reveal style={{ maxWidth: '440px', margin: '0 auto' }}>
+          <form
+            onSubmit={e => { e.preventDefault(); if (word.trim()) setDone('typed') }}
+            style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}
+          >
+            <input
+              value={word}
+              onChange={e => setWord(e.target.value)}
+              maxLength={60}
+              aria-label="Your answer, one word is enough"
+              placeholder="One word is enough"
+              autoComplete="off"
+              style={{
+                flex: '1 1 200px', minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '11px 14px',
+              }}
+            />
+            <button type="submit" disabled={!word.trim()} style={{
+              ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)',
+              opacity: word.trim() ? 1 : 0.5, cursor: word.trim() ? 'pointer' : 'default',
+            }}>Got one</button>
+          </form>
+          {/* A child who cannot spell the word is not stopped by the box. */}
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '10px' }}>
+            <button type="button" onClick={() => setDone('said')} style={quiet}>I said it out loud</button>
+            <button type="button" onClick={() => setDone('pass')} style={quiet}>Pass for now</button>
+          </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '12px 0 0' }}>
+            Only you see this. It is not saved.
+          </p>
+        </div>
       )}
+    </div>
+  )
+}
+
+// THE PEOPLE TO TELL, on the finish of a DSL flagged lesson played alone
+// (sync plan A6). The school lead stays a route because the harm can be at
+// home; Childline is there for the child who cannot use either.
+function TellBlock({ href }: { href: string }) {
+  return (
+    <div style={{ maxWidth: '360px', margin: '0 auto 18px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '14px 16px', textAlign: 'left' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 8px' }}>
+        If anything in this lesson was about you, or worried you, tell your grown up, a teacher you trust, or Childline on 0800 1111.
+      </p>
+      <Link href={href} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Need to talk to someone?</Link>
     </div>
   )
 }
@@ -1372,6 +1413,8 @@ export default function LessonPlayer({
   kidMode = false,
   audience: audienceProp,
   kidStars,
+  kidBadge,
+  tellHref,
   completeEndpoint,
   completeBody,
   badges,
@@ -1406,6 +1449,14 @@ export default function LessonPlayer({
   // caller keeps what it had.
   audience?: SlideAudience
   kidStars?: number
+  // The child's pill in the player's own top bar, in words ("Done ✓ play
+  // again"), because the page around a full screen player is never seen.
+  // Falls back to the star count.
+  kidBadge?: string
+  // A DSL flagged lesson played by a child alone: a quiet link to the child's
+  // tell page on every slide and the people to tell on the finish (sync plan
+  // A6). Absent everywhere else.
+  tellHref?: string
   // null skips the completion write entirely: a lesson DiGi wrote on the fly
   // has no database row to complete against.
   completeEndpoint?: string | null
@@ -2035,6 +2086,7 @@ export default function LessonPlayer({
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '340px', margin: '0 auto 24px' }}>
           Going over it again is how it sticks. The tricky bit comes round first, then the questions.
         </p>
+        {tellHref && <TellBlock href={tellHref} />}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: '0 auto' }}>
           <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
             Have another go
@@ -2054,7 +2106,8 @@ export default function LessonPlayer({
           <DigiCharacter mood="happy" size={110} />
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
-          You did it! 🎉
+          {/* No party on a lesson about blackmail or self harm. */}
+          {tellHref ? 'Well done for doing that one.' : 'You did it! 🎉'}
         </h2>
         {results.length > 0 && (
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '6px' }}>
@@ -2074,8 +2127,10 @@ export default function LessonPlayer({
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
           {lessonSource === 'lesson'
             ? 'That is a pass, and your grown up just got the good news. One more step down your road to 16.'
+            : tellHref ? 'Your grown up knows you finished it.'
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
+        {tellHref && <TellBlock href={tellHref} />}
         {planetOpened && (
           <div data-planet-opened style={{ maxWidth: '340px', margin: '0 auto 16px', background: '#FFF6DD', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
@@ -2389,13 +2444,13 @@ export default function LessonPlayer({
           {status}
         </span>}
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-          {kidMode && typeof kidStars === 'number' && !finished && (
+          {kidMode && (kidBadge || typeof kidStars === 'number') && !finished && (
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               color: 'var(--ink)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: 'var(--radius-pill)', padding: '4px 11px',
+              borderRadius: 'var(--radius-pill)', padding: '4px 11px', whiteSpace: 'nowrap',
             }}>
-              ⭐ {kidStars}
+              {kidBadge ?? `⭐ ${kidStars}`}
             </span>
           )}
           {/* The module's friend keeps watch beside DiGi and shares his mood:
@@ -2415,6 +2470,11 @@ export default function LessonPlayer({
           textTransform: 'uppercase', color: 'var(--ink-muted)',
         }}>
           {status}
+          {tellHref && (
+            <div style={{ marginTop: '4px', textTransform: 'none', letterSpacing: 0, fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)' }}>
+              <Link href={tellHref} style={{ color: 'var(--ink)' }}>Need to talk to someone?</Link>
+            </div>
+          )}
         </div>
       )}
 
