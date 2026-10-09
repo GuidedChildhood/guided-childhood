@@ -140,3 +140,27 @@ export function moduleOpenFor(moduleKeyStage: string | null | undefined, childLe
   if (!stage) return true
   return STAGE_RANK[stage] <= STAGE_RANK[childLessonStage]
 }
+
+// ── ONE A WEEK, WITH A MECHANISM (plan v10, item 1.5) ────────────────────────
+
+/** The weekly lesson's award. The opener's old self started award was 3. */
+export const WEEKLY_LESSON_STARS = 10
+
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+
+/**
+ * Whether a NEW mission may start today. The pace refuses only where a row
+ * would be created: a child whose last passing school lesson was inside seven
+ * days waits for the next week. Reopening a mission that already exists is
+ * always allowed, so a retake the day after a fail is never turned away; so is
+ * a restart of a skipped lesson and the first lesson of a stage, so a family
+ * joining on a Thursday starts that day.
+ */
+export function newMissionAllowed({
+  lastPassAt, isFirstOfStage, isSkippedRestart, now = Date.now(),
+}: { lastPassAt: string | null; isFirstOfStage: boolean; isSkippedRestart: boolean; now?: number }): boolean {
+  if (isFirstOfStage || isSkippedRestart) return true
+  if (!lastPassAt) return true
+  const at = Date.parse(lastPassAt)
+  return Number.isNaN(at) || now - at >= WEEK_MS
+}

@@ -17,6 +17,11 @@ export type KidLessonItem = {
   done: boolean
   score: number | null
   locked: boolean
+  /** Not open yet, in the child's words, with no button and no link: the
+   *  week's lesson inside the week after a pass ("Opens on Monday"), or a
+   *  later one ("After lesson 4, this one is waiting for you"). Plan v10 1.5:
+   *  a button the opener would bounce is worse than no button. */
+  waiting?: string | null
 }
 
 export default function KidLessonList({
@@ -95,7 +100,7 @@ export default function KidLessonList({
               // The one obvious next thing: the first lesson not yet passed and
               // not locked gets the big Next up treatment, everything else waits
               // its numbered turn.
-              const isNext = !item.done && !item.locked && items.findIndex(i => !i.done && !i.locked) === idx
+              const isNext = !item.done && !item.locked && !item.waiting && items.findIndex(i => !i.done && !i.locked && !i.waiting) === idx
               const inner = (
                 <>
                   <span style={{ position: 'relative', flexShrink: 0 }}>
@@ -138,7 +143,7 @@ export default function KidLessonList({
                       {item.title}{item.locked ? ' 🔒' : ''}
                     </span>
                     <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
-                      {item.locked ? 'Ask your grown up to open this one' : isNext ? item.keyMessage : item.done ? item.keyMessage : `After lesson ${idx}, this one is waiting for you`}
+                      {item.locked ? 'Ask your grown up to open this one' : item.waiting ? item.waiting : isNext ? item.keyMessage : item.done ? item.keyMessage : `After lesson ${idx}, this one is waiting for you`}
                     </span>
                     {item.done ? (
                       <span style={{
@@ -150,7 +155,7 @@ export default function KidLessonList({
                       }}>
                         ✓ Passed{item.score != null ? ` · ${item.score}` : ''}
                       </span>
-                    ) : !item.locked ? (
+                    ) : !item.locked && !item.waiting ? (
                       <span style={{
                         display: 'inline-block', marginTop: '10px',
                         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
@@ -171,7 +176,7 @@ export default function KidLessonList({
                 boxShadow: isNext ? '0 5px 0 var(--terracotta-dark), 0 0 0 3px var(--terracotta)' : '0 5px 0 rgba(0,0,0,0.22)',
                 opacity: item.locked ? 0.75 : 1,
               }
-              return item.locked
+              return item.locked || item.waiting
                 ? <div key={item.id} style={shell}>{inner}</div>
                 : <Link key={item.id} href={hrefFor(item.id)} style={shell}>{inner}</Link>
             })}

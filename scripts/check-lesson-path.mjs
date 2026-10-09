@@ -364,7 +364,19 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   writeFileSync(join(dir, 'school-path.ts'), read('lib/lessons/school-path.ts')
     .replace("import type { StageId } from '@/lib/pathway/progress'", "type StageId = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'independent'")
     .replace("import { positionOf } from '@gc/shared/schools-curriculum'", 'const positionOf = (_id: string) => ({ index: 0 })'))
-  const { schoolYearFromDob, lessonStageFor, moduleOpenFor } = await import(join(dir, 'school-path.ts'))
+  const { schoolYearFromDob, lessonStageFor, moduleOpenFor, newMissionAllowed, WEEKLY_LESSON_STARS } = await import(join(dir, 'school-path.ts'))
+  // ONE A WEEK, WITH A MECHANISM (plan v10, 1.5): only a NEW mission meets the
+  // pace, and the opener reads the paywall where it creates one.
+  const opener = read('app/k/[token]/school/[lessonId]/route.ts')
+  if (!/newMissionAllowed\(/.test(opener) || !/hasFullAccess\(/.test(opener) || !/stars: WEEKLY_LESSON_STARS/.test(opener)) fail.push('the opener must read the paywall and the pace where it creates a mission, at the weekly award')
+  if (WEEKLY_LESSON_STARS !== 10) fail.push('the weekly lesson pays 10 stars')
+  const now = Date.parse('2026-10-09T12:00:00Z')
+  const pace = (lastPassAt, extra = {}) => newMissionAllowed({ lastPassAt, isFirstOfStage: false, isSkippedRestart: false, now, ...extra })
+  if (pace('2026-10-06T12:00:00Z')) fail.push('pace: a pass three days ago must hold a new mission')
+  if (!pace('2026-10-01T12:00:00Z')) fail.push('pace: a pass eight days ago must let a new mission start')
+  if (!pace(null)) fail.push('pace: a child who has never passed must start')
+  if (!pace('2026-10-08T12:00:00Z', { isFirstOfStage: true })) fail.push('pace: the first lesson of a stage always starts')
+  if (!pace('2026-10-08T12:00:00Z', { isSkippedRestart: true })) fail.push('pace: a skipped restart always starts')
   const on = new Date('2026-10-09T12:00:00Z')
   const cases = [
     // date of birth, school year on 9 October 2026, the lessons' stage

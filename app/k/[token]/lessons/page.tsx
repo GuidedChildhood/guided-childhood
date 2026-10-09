@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { isTogetherStage, lessonStageFor } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { hasFullAccess } from '@/lib/access'
@@ -99,12 +99,31 @@ export default async function KidLessonsPage({ params, searchParams }: {
   const scoreOf = new Map(((completionRows ?? []) as { lesson_id: string; score: number | null }[]).map(c => [c.lesson_id, c.score]))
   const nextOpenId = path.school.next?.id ?? null
 
+  // ONE A WEEK, SAID ON THE LIST (plan v10, 1.5). Only the week's lesson
+  // opens. Inside seven days of a pass, a week's lesson with no mission yet
+  // says the day it opens instead of offering a button the opener would
+  // bounce; a mission that exists always opens (a retake, the week's own).
+  const [{ data: missionRows }, { data: lastPassRow }] = await Promise.all([
+    supabase.from('kid_lesson_missions').select('lesson_id').eq('child_id', link.child_id),
+    supabase.from('lesson_completions').select('completed_at')
+      .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson').eq('passed', true)
+      .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
+  ])
+  const hasMission = new Set(((missionRows ?? []) as { lesson_id: string }[]).map(r => r.lesson_id))
+  const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
+  const weekOpen = !nextOpenId || hasMission.has(nextOpenId) || newMissionAllowed({
+    lastPassAt, isFirstOfStage: stageModules[0]?.id === nextOpenId, isSkippedRestart: false,
+  })
+  const opensOn = lastPassAt
+    ? new Date(Date.parse(lastPassAt) + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'Europe/London' })
+    : null
+
   // The five a day's lesson row asks for the next one they have not passed, so
   // send them into it rather than showing a shelf to pick from. Falling through
   // to the list is the right answer when there is nothing left in the stage: a
   // child who has passed everything should see what they finished, not a
   // redirect to nowhere.
-  if (wantsNext && nextOpenId) redirect(`/k/${token}/school/${nextOpenId}`)
+  if (wantsNext && nextOpenId && weekOpen) redirect(`/k/${token}/school/${nextOpenId}`)
 
   const items: KidLessonItem[] = stageModules.map(m => {
     const state = path.statusById[m.id]?.state
@@ -117,6 +136,9 @@ export default async function KidLessonsPage({ params, searchParams }: {
       done,
       score: done ? scoreOf.get(m.id) ?? null : null,
       locked: state === 'locked',
+      waiting: state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
+        : state === 'paced' && !hasMission.has(m.id) ? `After lesson ${stageModules.findIndex(x => x.id === m.id)}, this one is waiting for you`
+        : null,
     }
   })
 
