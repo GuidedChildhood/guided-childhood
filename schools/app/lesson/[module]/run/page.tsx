@@ -100,10 +100,15 @@ const body: React.CSSProperties = {
   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
   color: 'var(--ink-soft)', lineHeight: 1.65,
 }
+// A section may break across pages; the rows inside it may not. Until
+// 9 October 2026 every phase was one unbreakable card, so a phase longer than
+// what was left of a sheet jumped whole to the next one: the KS3 run sheet
+// printed on 13 pages with the first nearly blank and four more half empty.
+// Letting the card break and keeping each slide row whole prints the same
+// content on 8 full pages (schools.css, the gc-run print block).
 const card: React.CSSProperties = {
   background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '22px 24px', boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
-  breakInside: 'avoid',
 }
 
 /** A tick row: an empty square a pen can fill, because this page prints. */
@@ -167,7 +172,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
     .filter(p => p.rows.length > 0)
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
+    <main className="gc-run" style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
         <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
@@ -257,12 +262,12 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
         </section>
 
         {/* ── DURING ── */}
-        <div style={{ ...mono, color: 'var(--green-dark)', margin: '24px 0 8px' }}>During the lesson · {totalMinutes} minutes</div>
+        <div className="gc-keep-next" style={{ ...mono, color: 'var(--green-dark)', margin: '24px 0 8px' }}>During the lesson · {totalMinutes} minutes</div>
         {phases.map(({ phase, rows }) => {
           const phaseMinutes = rows.reduce((t, r) => t + (r.slide.minutes ?? 0), 0)
           return (
             <section key={phase} style={{ ...card, marginBottom: '14px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '8px' }}>
+              <div className="gc-keep-next" style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '8px' }}>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
