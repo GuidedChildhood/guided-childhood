@@ -1,0 +1,5522 @@
+{
+  "lang": "es",
+  "version": 1,
+  "standard": "Castilian",
+  "sources": [
+    {
+      "title": "GCSE French, German and Spanish subject content (DfE, 2022, updated September 2025), Annex C (Spanish grammar and sound symbol correspondences)",
+      "url": "https://www.gov.uk/government/publications/gcse-french-german-and-spanish-subject-content",
+      "licence": "Open Government Licence v3.0, Crown copyright",
+      "fetched": "2026-10-09",
+      "use": "The sound symbol correspondence list (es-s01 to es-s24 cover all 29 Annex C items with Year 4) and the grammar end point."
+    },
+    {
+      "title": "GCSE French, German and Spanish subject content, Annex E: required and optional vocabulary (Spanish sheets)",
+      "url": "https://assets.publishing.service.gov.uk/media/68c2aa12eeb238b20672a9be/French__German_and_Spanish_GCSE_subject_content_annex_E_September_2025.xlsx",
+      "licence": "Open Government Licence v3.0, Crown copyright",
+      "fetched": "2026-10-09",
+      "use": "The licensed core. dfe_annex_e is true when every headword behind the entry appears in Annex E (required or optional, foundation or higher)."
+    },
+    {
+      "title": "AQA GCSE Spanish (8692) specification, Appendix 2 vocabulary",
+      "url": "https://www.aqa.org.uk/subjects/spanish/gcse/spanish-8692/specification/subject-content/vocabulary",
+      "licence": "AQA copyright. Used only as a membership and frequency check; nothing copied.",
+      "fetched": "2026-10-09",
+      "use": "Check only."
+    },
+    {
+      "title": "Pearson Edexcel GCSE Spanish (2024), vocabulary and grammar extract from specification issue 1",
+      "url": "https://qualifications.pearson.com/content/dam/pdf/GCSE/Spanish/2024/specification-and-sample-assessments/vocabulary-and-grammar-updates-from-gcse-spanish-specification-issue-1.pdf",
+      "licence": "Pearson copyright. Used only as a membership check; nothing copied.",
+      "fetched": "2026-10-09",
+      "use": "Check only. gcse_list is true when the entry is in Annex E, or its headwords are on both the AQA and the Edexcel lists."
+    },
+    {
+      "title": "National curriculum in England: languages programmes of study, key stage 2",
+      "url": "https://www.gov.uk/government/publications/national-curriculum-in-england-languages-progammes-of-study/national-curriculum-in-england-languages-progammes-of-study",
+      "licence": "Open Government Licence v3.0, Crown copyright",
+      "fetched": "2026-10-09",
+      "use": "ks2-1 to ks2-12 in statutory order, as in research/languages/2026-10-09-ks2-languages-evidence.md."
+    }
+  ],
+  "spacing": {
+    "rule": "A Year 3 word returns in the next lesson, three lessons later, a unit later and a unit and a half later. Where that falls past lesson 36 it is carried into Year 4 (outline recycled_words_by_lesson). Each lesson has at least 6 recycled words once 6 exist.",
+    "offsets": [
+      1,
+      3,
+      6,
+      9
+    ]
+  },
+  "sounds": [
+    {
+      "id": "es-s01",
+      "grapheme": "a",
+      "ipa": "/a/",
+      "examples": [
+        "hola",
+        "adiós",
+        "mamá"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "teacher_tip": "Short and open, mouth wide, like the a in father said quickly. Never ay as in say."
+    },
+    {
+      "id": "es-s02",
+      "grapheme": "o",
+      "ipa": "/o/",
+      "examples": [
+        "no",
+        "hola",
+        "dos"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "teacher_tip": "Pure and round. Do not slide into ow: no rhymes with nothing in English, keep the lips still."
+    },
+    {
+      "id": "es-s03",
+      "grapheme": "e",
+      "ipa": "/e/",
+      "examples": [
+        "me",
+        "buenos",
+        "tres"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "teacher_tip": "Like the e in bed. Never ee and never silent, even at the end of a word."
+    },
+    {
+      "id": "es-s04",
+      "grapheme": "i",
+      "ipa": "/i/",
+      "examples": [
+        "sí",
+        "días",
+        "adiós"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "teacher_tip": "Like ee in see, but short and clean."
+    },
+    {
+      "id": "es-s05",
+      "grapheme": "u",
+      "ipa": "/u/",
+      "examples": [
+        "buenos",
+        "uno",
+        "tú"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "teacher_tip": "Like oo in moon, short. Never you."
+    },
+    {
+      "id": "es-s06",
+      "grapheme": "ll",
+      "ipa": "/ʝ/",
+      "examples": [
+        "llamo",
+        "llamas",
+        "silla"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "teacher_tip": "Most speakers in Spain and Latin America say ll like the y in yes. In parts of Argentina and Uruguay it sounds like sh. Accept both; model the y."
+    },
+    {
+      "id": "es-s07",
+      "grapheme": "ch",
+      "ipa": "/tʃ/",
+      "examples": [
+        "ocho",
+        "leche",
+        "noche"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "teacher_tip": "As in English church. One of the few sounds English children already have."
+    },
+    {
+      "id": "es-s08",
+      "grapheme": "ñ",
+      "ipa": "/ɲ/",
+      "examples": [
+        "año",
+        "España",
+        "mañana"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "teacher_tip": "Like the ny in canyon. The squiggle is called a tilde; without it the word changes."
+    },
+    {
+      "id": "es-s09",
+      "grapheme": "ca, co, cu",
+      "ipa": "/k/",
+      "examples": [
+        "casa",
+        "cómo",
+        "cuatro"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "teacher_tip": "A hard k sound, with no puff of air after it."
+    },
+    {
+      "id": "es-s10",
+      "grapheme": "ce, ci",
+      "ipa": "/θ/",
+      "examples": [
+        "cinco",
+        "gracias",
+        "once"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "teacher_tip": "In Castilian Spanish ce and ci sound like th in think. In Latin America, the Canaries and parts of Andalucía they sound like s (seseo). Both are correct; we model Castilian and accept s."
+    },
+    {
+      "id": "es-s11",
+      "grapheme": "z",
+      "ipa": "/θ/",
+      "examples": [
+        "diez",
+        "azul",
+        "lápiz"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "teacher_tip": "The same sound as ce and ci: th in think in Castilian, s in Latin America. Spanish writes ce and ci but za, zo, zu."
+    },
+    {
+      "id": "es-s12",
+      "grapheme": "que, qui",
+      "ipa": "/k/",
+      "examples": [
+        "qué",
+        "quince",
+        "pequeño"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "teacher_tip": "The u is silent: que sounds like ke, qui like ki."
+    },
+    {
+      "id": "es-s13",
+      "grapheme": "h",
+      "ipa": "silent",
+      "examples": [
+        "hola",
+        "hay",
+        "hermano"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "teacher_tip": "The h is never said. Hola starts with the o."
+    },
+    {
+      "id": "es-s14",
+      "grapheme": "v and b",
+      "ipa": "/b/",
+      "examples": [
+        "verde",
+        "nueve",
+        "libro"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "teacher_tip": "In Spanish v and b make the same sound. At the start of a word both sound like English b. Children ask with b de burro or v de vaca when spelling."
+    },
+    {
+      "id": "es-s15",
+      "grapheme": "j",
+      "ipa": "/x/",
+      "examples": [
+        "rojo",
+        "jueves",
+        "hijo"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "teacher_tip": "A breathy sound from the back of the throat, like ch in the Scottish loch. Softer, more like h, in the Caribbean, the Canaries and much of Latin America."
+    },
+    {
+      "id": "es-s16",
+      "grapheme": "ga, go, gu",
+      "ipa": "/g/",
+      "examples": [
+        "amigo",
+        "gato",
+        "gusta"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "teacher_tip": "A hard g as in got."
+    },
+    {
+      "id": "es-s17",
+      "grapheme": "ge, gi",
+      "ipa": "/x/",
+      "examples": [
+        "gente",
+        "gigante",
+        "mágico"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "teacher_tip": "Before e and i, g makes the same sound as j. Pair it with j words so children see the link."
+    },
+    {
+      "id": "es-s18",
+      "grapheme": "r (single)",
+      "ipa": "/ɾ/",
+      "examples": [
+        "pero",
+        "tres",
+        "cuatro"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "teacher_tip": "One quick tap of the tongue, like the tt in butter said fast in an American accent."
+    },
+    {
+      "id": "es-s19",
+      "grapheme": "rr, and r at the start",
+      "ipa": "/r/",
+      "examples": [
+        "perro",
+        "rojo",
+        "guitarra"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "teacher_tip": "A rolled r, several taps. An r at the start of a word, or after n, l or s, is rolled too. Pero (but) and perro (dog) are a lovely pair to contrast."
+    },
+    {
+      "id": "es-s20",
+      "grapheme": "ue",
+      "ipa": "/we/",
+      "examples": [
+        "pequeño",
+        "nueve",
+        "buenos"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "teacher_tip": "Two vowels glide into one beat: we as in wet."
+    },
+    {
+      "id": "es-s21",
+      "grapheme": "ie",
+      "ipa": "/je/",
+      "examples": [
+        "bien",
+        "siete",
+        "tiene"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "teacher_tip": "Two vowels glide into one beat: ye as in yes."
+    },
+    {
+      "id": "es-s22",
+      "grapheme": "y",
+      "ipa": "/ʝ/",
+      "examples": [
+        "yo",
+        "ya",
+        "playa"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "teacher_tip": "Before a vowel y sounds like y in yes, the same as ll for most speakers (yeísmo). On its own, y (and) sounds like ee."
+    },
+    {
+      "id": "es-s23",
+      "grapheme": "ay, ey, oy, uy",
+      "ipa": "/ai̯/ /ei̯/ /oi̯/ /ui̯/",
+      "examples": [
+        "hay",
+        "soy",
+        "muy"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "teacher_tip": "At the end of a word y is a vowel and glides: hay sounds like eye, soy like soy sauce, muy like mwee."
+    },
+    {
+      "id": "es-s24",
+      "grapheme": "á, é, í, ó, ú",
+      "ipa": "stress mark",
+      "examples": [
+        "adiós",
+        "fútbol",
+        "pájaro"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "teacher_tip": "The written accent tells you which part of the word to say loudest. It never changes the vowel sound."
+    },
+    {
+      "id": "es-s25",
+      "grapheme": "gue, gui",
+      "ipa": "/ge/ /gi/",
+      "examples": [
+        "guitarra",
+        "hamburguesa",
+        "Miguel"
+      ],
+      "year": 4,
+      "unit": 1,
+      "lesson": null,
+      "teacher_tip": "The u is silent and keeps the g hard: gui sounds like gee in geese."
+    },
+    {
+      "id": "es-s26",
+      "grapheme": "cu + vowel",
+      "ipa": "/kw/",
+      "examples": [
+        "cuatro",
+        "cuando",
+        "cuál"
+      ],
+      "year": 4,
+      "unit": 1,
+      "lesson": null,
+      "teacher_tip": "Cu before another vowel sounds like kw, as in quick. Compare que, where the u is silent."
+    },
+    {
+      "id": "es-s27",
+      "grapheme": "stress without an accent",
+      "ipa": "stress rule",
+      "examples": [
+        "mesa",
+        "profesor",
+        "lápiz"
+      ],
+      "year": 4,
+      "unit": 2,
+      "lesson": null,
+      "teacher_tip": "Words ending in a vowel, n or s stress the next to last part (MEsa). Other words stress the last part (profeSOR). An accent breaks the rule (LÁpiz)."
+    },
+    {
+      "id": "es-s28",
+      "grapheme": "d between vowels",
+      "ipa": "/ð/",
+      "examples": [
+        "nada",
+        "todo",
+        "divertido"
+      ],
+      "year": 4,
+      "unit": 2,
+      "lesson": null,
+      "teacher_tip": "Between vowels d softens, close to th in this. At the start of a word it is a clear d."
+    },
+    {
+      "id": "es-s29",
+      "grapheme": "b and v between vowels",
+      "ipa": "/β/",
+      "examples": [
+        "sábado",
+        "abuela",
+        "nuevo"
+      ],
+      "year": 4,
+      "unit": 3,
+      "lesson": null,
+      "teacher_tip": "Between vowels b and v soften: the lips nearly touch but do not close."
+    },
+    {
+      "id": "es-s30",
+      "grapheme": "güe, güi",
+      "ipa": "/gwe/ /gwi/",
+      "examples": [
+        "pingüino",
+        "bilingüe",
+        "agüita"
+      ],
+      "year": 4,
+      "unit": 3,
+      "lesson": null,
+      "teacher_tip": "The two dots (diéresis) tell you to say the u: pingüino, not pinguino."
+    },
+    {
+      "id": "es-s31",
+      "grapheme": "x",
+      "ipa": "/ks/",
+      "examples": [
+        "taxi",
+        "examen",
+        "México"
+      ],
+      "year": 4,
+      "unit": 4,
+      "lesson": null,
+      "teacher_tip": "Usually ks. In México and a few place names it sounds like j."
+    },
+    {
+      "id": "es-s32",
+      "grapheme": "cc",
+      "ipa": "/kθ/",
+      "examples": [
+        "acción",
+        "lección",
+        "dirección"
+      ],
+      "year": 4,
+      "unit": 4,
+      "lesson": null,
+      "teacher_tip": "The first c is k, the second is the th sound (s in Latin America)."
+    },
+    {
+      "id": "es-s33",
+      "grapheme": "tr, dr, gr, br",
+      "ipa": "/tɾ/ /dɾ/ /gɾ/ /bɾ/",
+      "examples": [
+        "tres",
+        "padre",
+        "gracias"
+      ],
+      "year": 4,
+      "unit": 5,
+      "lesson": null,
+      "teacher_tip": "The r after a consonant is one quick tap. Practise tres slowly, then fast."
+    },
+    {
+      "id": "es-s34",
+      "grapheme": "au, eu, ua",
+      "ipa": "/au̯/ /eu̯/ /wa/",
+      "examples": [
+        "autobús",
+        "Europa",
+        "agua"
+      ],
+      "year": 4,
+      "unit": 5,
+      "lesson": null,
+      "teacher_tip": "Each pair glides into one beat. Agua sounds like ahgwa, two beats not three."
+    },
+    {
+      "id": "es-s35",
+      "grapheme": "ía, ío",
+      "ipa": "/ˈi.a/",
+      "examples": [
+        "día",
+        "tía",
+        "frío"
+      ],
+      "year": 4,
+      "unit": 6,
+      "lesson": null,
+      "teacher_tip": "The accent on í splits the vowels into two beats: dí a. Compare familia, where ia glides into one."
+    },
+    {
+      "id": "es-s36",
+      "grapheme": "the alphabet",
+      "ipa": "letter names",
+      "examples": [
+        "a",
+        "be",
+        "ce"
+      ],
+      "year": 4,
+      "unit": 6,
+      "lesson": null,
+      "teacher_tip": "Letter names for spelling and dictation: a, be, ce, de, e, efe. Spain says uve for v; much of Latin America says ve corta."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "es-g01",
+      "point": "¡ ! and ¿ ?: a question or an exclamation opens with an upside down mark",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Spanish shows a question or an exclamation from its first word, so a reader knows how to say it before starting. Write both marks every time.",
+      "examples": [
+        "¡Hola!",
+        "¿Sí?",
+        "¡Adiós!"
+      ]
+    },
+    {
+      "id": "es-g02",
+      "point": "me llamo and te llamas: me for I, te for you",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Teach both as chunks. Point out that the ending changes with the person: llamo for me, llamas for you. This is the first glimpse of verb endings.",
+      "examples": [
+        "Me llamo Bloop.",
+        "¿Cómo te llamas?",
+        "Me llamo Pebble."
+      ]
+    },
+    {
+      "id": "es-g03",
+      "point": "estoy as a chunk for how I feel",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Estoy bien, estoy mal. Do not explain ser and estar yet; the chunk carries it. Children notice later that soy and estoy both mean I am.",
+      "examples": [
+        "Estoy bien, gracias.",
+        "¿Qué tal? Estoy mal.",
+        "Estoy bien."
+      ]
+    },
+    {
+      "id": "es-g04",
+      "point": "no goes in front of the verb",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "English says I am not; Spanish says I not am. One word, no, before the verb makes any sentence negative.",
+      "examples": [
+        "No estoy bien.",
+        "No, gracias.",
+        "Estoy bien. No estoy mal."
+      ]
+    },
+    {
+      "id": "es-g05",
+      "point": "A question can be a sentence said with a rising voice",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Spanish often keeps the same words and only lifts the voice at the end. The written marks ¿ ? show it.",
+      "examples": [
+        "¿Bien?",
+        "¿Diez? Sí, diez.",
+        "¿Ocho? No, nueve."
+      ]
+    },
+    {
+      "id": "es-g06",
+      "point": "soy and tengo: I am and I have; age uses tengo",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Spanish says I have eight years, not I am eight. A classic error in both directions, so say it aloud: tengo ocho años.",
+      "examples": [
+        "Soy Bloop.",
+        "Tengo siete años.",
+        "¿Cuántos años tienes? Tengo ocho años."
+      ]
+    },
+    {
+      "id": "es-g07",
+      "point": "Every noun is masculine or feminine: un and una",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "Nouns have a gender, even objects. Un goes with masculine nouns, una with feminine. Learn the noun with its un or una, like a surname.",
+      "examples": [
+        "un libro",
+        "una mesa",
+        "No, una mesa."
+      ]
+    },
+    {
+      "id": "es-g08",
+      "point": "el and la mean the",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "El with masculine, la with feminine. Most nouns ending in o are masculine and most ending in a are feminine, with exceptions met later (el día).",
+      "examples": [
+        "el libro",
+        "la mesa",
+        "la silla"
+      ]
+    },
+    {
+      "id": "es-g09",
+      "point": "hay means there is and there are",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "One word, never changes, whether one thing or many. ¿Qué hay? asks what is there.",
+      "examples": [
+        "Hay un libro.",
+        "¿Qué hay? Hay una silla.",
+        "Hay una puerta."
+      ]
+    },
+    {
+      "id": "es-g10",
+      "point": "Colours go after the noun",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "English says a red book; Spanish says a book red. Most adjectives follow the noun.",
+      "examples": [
+        "un libro rojo",
+        "una mesa azul",
+        "Hay un bolígrafo verde."
+      ]
+    },
+    {
+      "id": "es-g11",
+      "point": "Adjectives agree: rojo becomes roja with a feminine noun",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "Adjectives ending in o change to a for feminine nouns. Adjectives ending in another letter (azul, verde, grande) stay the same.",
+      "examples": [
+        "una silla roja",
+        "un libro negro",
+        "una mesa blanca"
+      ]
+    },
+    {
+      "id": "es-g12",
+      "point": "Plurals: add s or es; los and las",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "After a vowel add s (libros). After a consonant add es (profesores). El and la become los and las.",
+      "examples": [
+        "los libros",
+        "las sillas",
+        "Hay tres profesores."
+      ]
+    },
+    {
+      "id": "es-g13",
+      "point": "mi means my",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Mi does not change for masculine or feminine: mi padre, mi madre.",
+      "examples": [
+        "mi madre",
+        "mi padre",
+        "mi madre y mi padre"
+      ]
+    },
+    {
+      "id": "es-g14",
+      "point": "tiene: he or she has; su: his or her",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Su does not show whose: su hermano can be his brother or her brother. Context tells you.",
+      "examples": [
+        "Bloop tiene un hermano.",
+        "Su hermano tiene diez años.",
+        "Pebble tiene una hermana."
+      ]
+    },
+    {
+      "id": "es-g15",
+      "point": "mis: my for more than one",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Mi adds s with a plural noun: mis hermanos, mis libros. Tu and su do the same.",
+      "examples": [
+        "mis hermanos",
+        "mis libros",
+        "Tengo dos hermanas."
+      ]
+    },
+    {
+      "id": "es-g16",
+      "point": "Numbers 16 to 19 are built from diez y",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Dieciséis is diez y seis squeezed into one word. Spotting the parts makes 16 to 19 easy, and the same pattern returns at 21 (veintiuno).",
+      "examples": [
+        "dieciséis",
+        "diecisiete",
+        "Tengo dieciocho libros."
+      ]
+    },
+    {
+      "id": "es-g17",
+      "point": "¿Tienes...? and no tengo",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Ask with tienes and a rising voice. After no tengo the un is usually dropped: no tengo perro.",
+      "examples": [
+        "¿Tienes un gato?",
+        "Sí, tengo un gato.",
+        "No, no tengo perro."
+      ]
+    },
+    {
+      "id": "es-g18",
+      "point": "es plus an adjective that agrees",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "Es means he, she or it is, for what something is like. The adjective agrees with the noun: mi perro es pequeño.",
+      "examples": [
+        "Mi perro es grande.",
+        "Mi gato se llama Bloop.",
+        "Su hermana es pequeña."
+      ]
+    },
+    {
+      "id": "es-g19",
+      "point": "me gusta plus el or la",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "Spanish keeps the article after me gusta: me gusta el pan, not me gusta pan. No me gusta for the negative.",
+      "examples": [
+        "Me gusta el pan.",
+        "No me gusta la leche.",
+        "Me gusta el agua."
+      ]
+    },
+    {
+      "id": "es-g20",
+      "point": "pero joins two ideas that pull different ways",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "Use pero to join a like and a dislike into one longer sentence.",
+      "examples": [
+        "Me gusta el pan pero no me gusta la leche.",
+        "¿Te gusta el agua? Sí, ¿y tú?",
+        "Yo, no."
+      ]
+    },
+    {
+      "id": "es-g21",
+      "point": "me gustan with more than one thing",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "Gusta becomes gustan when the thing liked is plural, because the thing does the pleasing.",
+      "examples": [
+        "Me gustan las naranjas.",
+        "No me gustan los gatos.",
+        "Me gusta la fruta."
+      ]
+    },
+    {
+      "id": "es-g22",
+      "point": "me gusta plus a verb ending in ar, er or ir",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "The verb stays in its dictionary form (the infinitive). Children spot the endings ar, er, ir.",
+      "examples": [
+        "Me gusta cantar.",
+        "¿Te gusta jugar?",
+        "No me gusta cantar."
+      ]
+    },
+    {
+      "id": "es-g23",
+      "point": "mucho after the verb, muy before an adjective",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "Both make things stronger. Mucho goes with gustar; muy goes before a describing word.",
+      "examples": [
+        "Me gusta mucho leer.",
+        "Mi perro es muy grande.",
+        "Estoy muy bien."
+      ]
+    },
+    {
+      "id": "es-g24",
+      "point": "porque gives a reason",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "Porque plus es plus an adjective gives a reason: porque es divertido. One word, no accent.",
+      "examples": [
+        "Me gusta leer porque es divertido.",
+        "También me gusta comer fruta.",
+        "No me gusta cantar porque no es divertido."
+      ]
+    },
+    {
+      "id": "es-g25",
+      "point": "Days have no capital letter; el lunes means on Monday",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Days are masculine and written in lower case. El lunes means on Monday, with no word for on.",
+      "examples": [
+        "el lunes",
+        "Me gusta el viernes.",
+        "El viernes es divertido."
+      ]
+    },
+    {
+      "id": "es-g26",
+      "point": "Hoy es plus a day",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Es links today and the day: hoy es lunes.",
+      "examples": [
+        "Hoy es sábado.",
+        "¿Hoy es domingo? No, hoy es lunes.",
+        "Hoy es viernes."
+      ]
+    },
+    {
+      "id": "es-g27",
+      "point": "Weather with hace: hace sol, hace frío",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Spanish says it makes sun. ¿Qué tiempo hace? asks what the weather is like.",
+      "examples": [
+        "¿Qué tiempo hace? Hace sol.",
+        "Hoy hace frío.",
+        "El lunes hace sol."
+      ]
+    },
+    {
+      "id": "es-g28",
+      "point": "llueve stands alone; hace calor, hace viento",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Llueve is a verb on its own: no hace in front. The others take hace.",
+      "examples": [
+        "Llueve.",
+        "Hoy hace viento.",
+        "No llueve, hace calor."
+      ]
+    },
+    {
+      "id": "es-g29",
+      "point": "cuando joins the weather to what I do; a plus el becomes al",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Cuando starts the first idea, a comma, then the second idea. A plus el always joins to make al.",
+      "examples": [
+        "Cuando hace sol, voy al parque.",
+        "Cuando llueve, no voy al parque.",
+        "Cuando hace frío, me gusta leer."
+      ]
+    },
+    {
+      "id": "es-g30",
+      "point": "tu means your; tú means you",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "The accent is the only difference. ¿Cuál es tu...? asks what your favourite is.",
+      "examples": [
+        "¿Cuál es tu día favorito?",
+        "Mi día favorito es el sábado.",
+        "Tu perro es muy grande."
+      ]
+    },
+    {
+      "id": "es-g31",
+      "point": "está for where something is",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "Está answers ¿dónde?: where something is. Es says what it is like. Introduced here, contrasted in lesson 4 of this unit.",
+      "examples": [
+        "¿Dónde está Bloop?",
+        "Está en el parque.",
+        "El libro está en la mesa."
+      ]
+    },
+    {
+      "id": "es-g32",
+      "point": "con means with",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "Con plus a person or a thing. Note con mi amigo, con mi familia.",
+      "examples": [
+        "Voy al parque con mi amigo.",
+        "Bloop está con Pebble.",
+        "¡Mira! Hay un perro."
+      ]
+    },
+    {
+      "id": "es-g33",
+      "point": "estoy and está with feelings",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "Feelings use estar: estoy feliz, está triste. Feliz and triste do not change for masculine or feminine.",
+      "examples": [
+        "Pebble está triste.",
+        "Ahora estoy feliz.",
+        "Ahora Bloop está feliz."
+      ]
+    },
+    {
+      "id": "es-g34",
+      "point": "es or está: what something is like, or where it is and how it feels",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "Es for what someone or something is like. Está for where it is and how it feels right now. The first explicit contrast; it returns every year.",
+      "examples": [
+        "Bloop es pequeño.",
+        "Bloop está en la casa.",
+        "Pebble está feliz."
+      ]
+    },
+    {
+      "id": "es-g35",
+      "point": "Joining words: y, pero, porque, cuando",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "The four joining words of Year 3 turn short sentences into a longer one. Children choose and say aloud.",
+      "examples": [
+        "Me gusta el parque porque es divertido.",
+        "Hace sol pero hace frío.",
+        "Cuando llueve, estoy triste."
+      ]
+    },
+    {
+      "id": "es-g36",
+      "point": "My key verbs: soy, tengo, estoy, hay, me gusta, voy",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "An end of year map of the six verb chunks children own. Sorting them shows which mean I and which do not.",
+      "examples": [
+        "Soy Pebble y tengo ocho años.",
+        "Hoy estoy bien.",
+        "Me gusta el sábado porque voy al parque."
+      ]
+    },
+    {
+      "id": "es-g37",
+      "point": "ser in the singular: soy, eres, es",
+      "year": 4,
+      "unit": 1,
+      "teacher_explanation": "The three singular forms of to be (what someone is like). Endings show the person.",
+      "examples": [
+        "Soy simpático.",
+        "¿Eres español?",
+        "Mi hermana es alta."
+      ]
+    },
+    {
+      "id": "es-g38",
+      "point": "tener in the singular: tengo, tienes, tiene",
+      "year": 4,
+      "unit": 1,
+      "teacher_explanation": "The three singular forms of to have, and age with tener.",
+      "examples": [
+        "Tengo nueve años.",
+        "¿Tienes hermanos?",
+        "Tiene un perro."
+      ]
+    },
+    {
+      "id": "es-g39",
+      "point": "vivir: vivo en, vives en",
+      "year": 4,
+      "unit": 1,
+      "teacher_explanation": "Where I live: vivo en plus a town. The first er or ir verb children own.",
+      "examples": [
+        "Vivo en Londres.",
+        "¿Dónde vives?",
+        "Vivo en una casa."
+      ]
+    },
+    {
+      "id": "es-g40",
+      "point": "hay and no hay; no hay drops un",
+      "year": 4,
+      "unit": 2,
+      "teacher_explanation": "No hay parque, no hay cine. Hay plus un for one thing, plus a number for more.",
+      "examples": [
+        "En mi pueblo hay un parque.",
+        "No hay cine.",
+        "Hay dos tiendas."
+      ]
+    },
+    {
+      "id": "es-g41",
+      "point": "voy a plus al or a la",
+      "year": 4,
+      "unit": 2,
+      "teacher_explanation": "A plus el makes al; a la stays two words.",
+      "examples": [
+        "Voy al parque.",
+        "Voy a la piscina.",
+        "¿Vas al colegio?"
+      ]
+    },
+    {
+      "id": "es-g42",
+      "point": "estar in the singular: estoy, estás, está",
+      "year": 4,
+      "unit": 3,
+      "teacher_explanation": "Feelings and location in all three singular forms.",
+      "examples": [
+        "Estoy cansado.",
+        "¿Estás bien?",
+        "Mi madre está en casa."
+      ]
+    },
+    {
+      "id": "es-g43",
+      "point": "tener for how the body feels: tengo frío, tengo hambre",
+      "year": 4,
+      "unit": 3,
+      "teacher_explanation": "Spanish says I have cold, I have hunger. A set of chunks with tener.",
+      "examples": [
+        "Tengo hambre.",
+        "Tengo frío.",
+        "¿Tienes sed?"
+      ]
+    },
+    {
+      "id": "es-g44",
+      "point": "quiero plus a noun or a verb",
+      "year": 4,
+      "unit": 4,
+      "teacher_explanation": "Quiero is I want. With por favor it makes a polite request.",
+      "examples": [
+        "Quiero una manzana, por favor.",
+        "Quiero jugar.",
+        "¿Quieres agua?"
+      ]
+    },
+    {
+      "id": "es-g45",
+      "point": "Numbers 21 to 100 by tens and with y",
+      "year": 4,
+      "unit": 4,
+      "teacher_explanation": "Veintiuno to veintinueve are one word; from treinta y uno the y stays separate.",
+      "examples": [
+        "veintiuno",
+        "treinta y dos",
+        "cien"
+      ]
+    },
+    {
+      "id": "es-g46",
+      "point": "Regular ar verbs in the singular: hablo, hablas, habla",
+      "year": 4,
+      "unit": 5,
+      "teacher_explanation": "Take off ar and add o, as, a. The pattern unlocks hundreds of verbs.",
+      "examples": [
+        "Hablo español.",
+        "¿Juegas al fútbol?",
+        "Mi amigo nada."
+      ]
+    },
+    {
+      "id": "es-g47",
+      "point": "How often: siempre, a veces, nunca",
+      "year": 4,
+      "unit": 5,
+      "teacher_explanation": "Frequency words go before the verb. Nunca can stand alone before the verb.",
+      "examples": [
+        "Siempre juego al fútbol.",
+        "A veces leo.",
+        "Nunca nado."
+      ]
+    },
+    {
+      "id": "es-g48",
+      "point": "Telling the time: es la una, son las dos",
+      "year": 4,
+      "unit": 6,
+      "teacher_explanation": "Es for one o'clock, son for the rest, because the hours are plural.",
+      "examples": [
+        "Es la una.",
+        "Son las tres.",
+        "¿Qué hora es?"
+      ]
+    },
+    {
+      "id": "es-g49",
+      "point": "Parts of the day: por la mañana, por la tarde, por la noche",
+      "year": 4,
+      "unit": 6,
+      "teacher_explanation": "Por la mañana means in the morning. Mañana alone means tomorrow.",
+      "examples": [
+        "Por la mañana voy al colegio.",
+        "Por la tarde juego.",
+        "Por la noche leo."
+      ]
+    },
+    {
+      "id": "es-g50",
+      "point": "Regular ar verbs, all six persons, present",
+      "year": 5,
+      "unit": 1,
+      "teacher_explanation": "o, as, a, amos, áis, an. Vosotros is Spain; Latin America uses ustedes for the plural you.",
+      "examples": [
+        "Estudiamos inglés.",
+        "¿Habláis español?",
+        "Mis amigos juegan."
+      ]
+    },
+    {
+      "id": "es-g51",
+      "point": "Opinions with porque plus es or son",
+      "year": 5,
+      "unit": 1,
+      "teacher_explanation": "Es with one thing, son with more than one: las matemáticas son difíciles.",
+      "examples": [
+        "Me gusta el inglés porque es fácil.",
+        "Las ciencias son interesantes.",
+        "No me gusta porque es aburrido."
+      ]
+    },
+    {
+      "id": "es-g52",
+      "point": "estar for location, all persons",
+      "year": 5,
+      "unit": 2,
+      "teacher_explanation": "Estoy, estás, está, estamos, estáis, están. Where people and things are.",
+      "examples": [
+        "La cocina está al lado del salón.",
+        "Estamos en casa.",
+        "¿Dónde están mis libros?"
+      ]
+    },
+    {
+      "id": "es-g53",
+      "point": "Prepositions of place: cerca de, al lado de, delante de, detrás de",
+      "year": 5,
+      "unit": 2,
+      "teacher_explanation": "De plus el makes del.",
+      "examples": [
+        "Mi casa está cerca del parque.",
+        "El perro está detrás de la puerta.",
+        "Al lado de mi casa hay un parque."
+      ]
+    },
+    {
+      "id": "es-g54",
+      "point": "ir in the present: voy, vas, va, vamos, vais, van",
+      "year": 5,
+      "unit": 3,
+      "teacher_explanation": "The most frequent irregular verb pattern after ser and estar.",
+      "examples": [
+        "Vamos al cine.",
+        "¿Adónde vas?",
+        "Mis padres van al mercado."
+      ]
+    },
+    {
+      "id": "es-g55",
+      "point": "ir a plus a verb: the near future",
+      "year": 5,
+      "unit": 3,
+      "teacher_explanation": "Voy a jugar means I am going to play. The first way to talk about the future.",
+      "examples": [
+        "Voy a jugar al fútbol.",
+        "El sábado vamos a ir a la playa.",
+        "¿Qué vas a hacer?"
+      ]
+    },
+    {
+      "id": "es-g56",
+      "point": "Comparisons: más que, menos que",
+      "year": 5,
+      "unit": 4,
+      "teacher_explanation": "Más alto que means taller than. The adjective still agrees.",
+      "examples": [
+        "El elefante es más grande que el perro.",
+        "La tortuga es menos rápida que el gato.",
+        "Mi hermana es más alta que yo."
+      ]
+    },
+    {
+      "id": "es-g57",
+      "point": "Adjective agreement in all four forms",
+      "year": 5,
+      "unit": 4,
+      "teacher_explanation": "Masculine, feminine, singular, plural: blanco, blanca, blancos, blancas.",
+      "examples": [
+        "los gatos negros",
+        "las casas blancas",
+        "Las jirafas son altas."
+      ]
+    },
+    {
+      "id": "es-g58",
+      "point": "Regular er and ir verbs in the present",
+      "year": 5,
+      "unit": 5,
+      "teacher_explanation": "Como, comes, come; vivo, vives, vive. The two other verb families.",
+      "examples": [
+        "Como fruta todos los días.",
+        "Bebo agua.",
+        "¿Dónde vives?"
+      ]
+    },
+    {
+      "id": "es-g59",
+      "point": "Negatives: nunca, nada, no ... ni",
+      "year": 5,
+      "unit": 5,
+      "teacher_explanation": "Spanish keeps no before the verb and adds nunca or nada after: no como nada.",
+      "examples": [
+        "No como nada.",
+        "Nunca bebo café.",
+        "No me gusta ni la carne ni el pescado."
+      ]
+    },
+    {
+      "id": "es-g60",
+      "point": "Possessives with plurals: mis, tus, sus, nuestro",
+      "year": 5,
+      "unit": 6,
+      "teacher_explanation": "Nuestro agrees in four forms: nuestro, nuestra, nuestros, nuestras.",
+      "examples": [
+        "mis amigos",
+        "nuestra clase",
+        "sus padres"
+      ]
+    },
+    {
+      "id": "es-g61",
+      "point": "Question words: qué, quién, dónde, cuándo, cómo, cuánto, por qué",
+      "year": 5,
+      "unit": 6,
+      "teacher_explanation": "All carry an accent when they ask. Questions open with ¿.",
+      "examples": [
+        "¿Quién es?",
+        "¿Cuándo es tu cumpleaños?",
+        "¿Por qué?"
+      ]
+    },
+    {
+      "id": "es-g62",
+      "point": "The past as chunks: fui, fue, visité, comí",
+      "year": 6,
+      "unit": 1,
+      "teacher_explanation": "I went and it was first, then the regular é and í endings for I.",
+      "examples": [
+        "Fui a la playa.",
+        "Fue divertido.",
+        "Comí paella."
+      ]
+    },
+    {
+      "id": "es-g63",
+      "point": "Past time markers: ayer, el fin de semana pasado, el verano pasado",
+      "year": 6,
+      "unit": 1,
+      "teacher_explanation": "A time phrase at the start tells the listener a past tense is coming.",
+      "examples": [
+        "Ayer fui al parque.",
+        "El verano pasado visité España.",
+        "El fin de semana pasado jugué al fútbol."
+      ]
+    },
+    {
+      "id": "es-g64",
+      "point": "querer and poder plus a verb",
+      "year": 6,
+      "unit": 2,
+      "teacher_explanation": "Quiero comer, puedo cocinar. Stem changes e to ie and o to ue.",
+      "examples": [
+        "Quiero probar los tacos.",
+        "¿Puedo beber agua, por favor?",
+        "No puedo comer carne."
+      ]
+    },
+    {
+      "id": "es-g65",
+      "point": "Words that change across the Spanish speaking world",
+      "year": 6,
+      "unit": 2,
+      "teacher_explanation": "Patata and papa, zumo and jugo, coche and carro. Both are right; context decides.",
+      "examples": [
+        "En España: patata.",
+        "En México: papa.",
+        "Zumo o jugo."
+      ]
+    },
+    {
+      "id": "es-g66",
+      "point": "llevar plus clothes, with colour agreement",
+      "year": 6,
+      "unit": 3,
+      "teacher_explanation": "Llevo una camiseta roja. The colour agrees with the clothes.",
+      "examples": [
+        "Llevo una camiseta azul.",
+        "Mi hermano lleva unos vaqueros negros.",
+        "¿Qué llevas?"
+      ]
+    },
+    {
+      "id": "es-g67",
+      "point": "este and esta: this",
+      "year": 6,
+      "unit": 3,
+      "teacher_explanation": "Este with masculine, esta with feminine; estos and estas in the plural.",
+      "examples": [
+        "Me gusta este jersey.",
+        "Esta camiseta es bonita.",
+        "Estos zapatos son grandes."
+      ]
+    },
+    {
+      "id": "es-g68",
+      "point": "Stem changing verbs: juego, prefiero, puedo",
+      "year": 6,
+      "unit": 4,
+      "teacher_explanation": "Inside the verb, u becomes ue, e becomes ie, o becomes ue, except for nosotros and vosotros.",
+      "examples": [
+        "Juego a los videojuegos.",
+        "Prefiero leer.",
+        "No puedo usar el móvil en clase."
+      ]
+    },
+    {
+      "id": "es-g69",
+      "point": "Opinions with creo que and pienso que",
+      "year": 6,
+      "unit": 4,
+      "teacher_explanation": "I think that, plus a sentence. A step toward giving and defending a view.",
+      "examples": [
+        "Creo que internet es útil.",
+        "Pienso que los videojuegos son divertidos.",
+        "Creo que no es seguro."
+      ]
+    },
+    {
+      "id": "es-g70",
+      "point": "me gustaría plus a verb: I would like",
+      "year": 6,
+      "unit": 5,
+      "teacher_explanation": "Polite and future facing: me gustaría ser, me gustaría visitar.",
+      "examples": [
+        "Me gustaría ser veterinaria.",
+        "Me gustaría visitar México.",
+        "¿Qué te gustaría hacer?"
+      ]
+    },
+    {
+      "id": "es-g71",
+      "point": "quiero ser plus a job, with no un",
+      "year": 6,
+      "unit": 5,
+      "teacher_explanation": "Spanish drops the article with jobs: quiero ser profesor.",
+      "examples": [
+        "Quiero ser médico.",
+        "Mi madre es enfermera.",
+        "¿Qué quieres ser?"
+      ]
+    },
+    {
+      "id": "es-g72",
+      "point": "Three time frames in one paragraph",
+      "year": 6,
+      "unit": 6,
+      "teacher_explanation": "Fui (past), voy (present), voy a (future) side by side, the bridge into Year 7.",
+      "examples": [
+        "El año pasado fui a Madrid.",
+        "Ahora voy al colegio.",
+        "El año que viene voy a ir al instituto."
+      ]
+    }
+  ],
+  "words": [
+    {
+      "id": "es-w001",
+      "word": "hola",
+      "english": "hello",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w002",
+      "word": "adiós",
+      "english": "goodbye",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w003",
+      "word": "buenos días",
+      "english": "good morning",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Used until lunch in Spain; after lunch people say buenas tardes. Built from bueno and día.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w004",
+      "word": "sí",
+      "english": "yes",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The accent matters: si without it means if. On the AQA list (one of its 50 most frequent words). The Edexcel list does not list yes at all.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w005",
+      "word": "no",
+      "english": "no, not",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w006",
+      "word": "me llamo",
+      "english": "my name is (I am called)",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From llamarse. Taught as a chunk.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w007",
+      "word": "¿cómo te llamas?",
+      "english": "what is your name?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Taught as a chunk. Literally how do you call yourself.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w008",
+      "word": "y",
+      "english": "and",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w009",
+      "word": "¿qué tal?",
+      "english": "how are you?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Friendly and very common in Spain and Latin America.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w010",
+      "word": "estoy",
+      "english": "I am (how I feel, where I am)",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From estar. A chunk for now: estoy bien. The verb is opened up in Year 4.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w011",
+      "word": "bien",
+      "english": "well, fine",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w012",
+      "word": "mal",
+      "english": "bad, not well",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w013",
+      "word": "gracias",
+      "english": "thank you",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w014",
+      "word": "uno",
+      "english": "one",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Becomes un before a masculine noun: un libro.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w015",
+      "word": "dos",
+      "english": "two",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w016",
+      "word": "tres",
+      "english": "three",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w017",
+      "word": "cuatro",
+      "english": "four",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w018",
+      "word": "cinco",
+      "english": "five",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Castilian ci is said like th in think; in Latin America and the Canary Islands it is s.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w019",
+      "word": "seis",
+      "english": "six",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w020",
+      "word": "siete",
+      "english": "seven",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w021",
+      "word": "ocho",
+      "english": "eight",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w022",
+      "word": "nueve",
+      "english": "nine",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w023",
+      "word": "diez",
+      "english": "ten",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Castilian z is said like th in think; s in Latin America.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w024",
+      "word": "soy",
+      "english": "I am (who I am)",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From ser. Soy is who you are; estoy is how you feel. Both are chunks in Year 3.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w025",
+      "word": "tengo",
+      "english": "I have",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From tener. Age uses tengo: tengo ocho años.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w026",
+      "word": "año",
+      "english": "year",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "años",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Always write the ñ: without it the word means something else.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w027",
+      "word": "¿cuántos años tienes?",
+      "english": "how old are you?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Literally how many years do you have. Taught as a chunk.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w028",
+      "word": "un",
+      "english": "a (masculine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w029",
+      "word": "una",
+      "english": "a (feminine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w030",
+      "word": "libro",
+      "english": "book",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "libros",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w031",
+      "word": "mesa",
+      "english": "table",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "mesas",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w032",
+      "word": "el",
+      "english": "the (masculine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Without an accent; él with an accent means he.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w033",
+      "word": "la",
+      "english": "the (feminine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w034",
+      "word": "puerta",
+      "english": "door",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "puertas",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w035",
+      "word": "silla",
+      "english": "chair",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "sillas",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w036",
+      "word": "hay",
+      "english": "there is, there are",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "One word for both: hay un libro, hay dos libros.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w037",
+      "word": "¿qué?",
+      "english": "what?",
+      "pos": "pronoun",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "With an accent when it asks a question.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w038",
+      "word": "bolígrafo",
+      "english": "pen",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "bolígrafos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Often shortened to boli in Spain. In parts of Latin America people say pluma or lapicera.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w039",
+      "word": "rojo",
+      "english": "red",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "rojos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine roja.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w040",
+      "word": "azul",
+      "english": "blue",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "azules",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The same for masculine and feminine.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w041",
+      "word": "verde",
+      "english": "green",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "verdes",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "The same for masculine and feminine.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w042",
+      "word": "blanco",
+      "english": "white",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "blancos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine blanca.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w043",
+      "word": "negro",
+      "english": "black",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "negros",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine negra.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w044",
+      "word": "clase",
+      "english": "class, classroom",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "clases",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w045",
+      "word": "los",
+      "english": "the (masculine plural)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w046",
+      "word": "las",
+      "english": "the (feminine plural)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w047",
+      "word": "profesor",
+      "english": "teacher",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "profesores",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "A woman teacher is la profesora. In Spain children often call the teacher by first name; seño is common in primary.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w048",
+      "word": "mi",
+      "english": "my",
+      "pos": "determiner",
+      "gender": null,
+      "plural": "mis",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "No accent; mí with an accent means me.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w049",
+      "word": "madre",
+      "english": "mother",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "madres",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Children also say mamá.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w050",
+      "word": "padre",
+      "english": "father",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "padres",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Los padres means the parents. Children also say papá.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w051",
+      "word": "familia",
+      "english": "family",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "familias",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w052",
+      "word": "hermano",
+      "english": "brother",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "hermanos",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Hermanos can mean brothers, or brothers and sisters.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w053",
+      "word": "hermana",
+      "english": "sister",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "hermanas",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w054",
+      "word": "tiene",
+      "english": "he has, she has",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From tener.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w055",
+      "word": "su",
+      "english": "his, her",
+      "pos": "determiner",
+      "gender": null,
+      "plural": "sus",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Su hermano can mean his brother or her brother.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w056",
+      "word": "once",
+      "english": "eleven",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w057",
+      "word": "doce",
+      "english": "twelve",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w058",
+      "word": "trece",
+      "english": "thirteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w059",
+      "word": "catorce",
+      "english": "fourteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w060",
+      "word": "quince",
+      "english": "fifteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w061",
+      "word": "dieciséis",
+      "english": "sixteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Built from diez y seis.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w062",
+      "word": "diecisiete",
+      "english": "seventeen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w063",
+      "word": "dieciocho",
+      "english": "eighteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w064",
+      "word": "diecinueve",
+      "english": "nineteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w065",
+      "word": "veinte",
+      "english": "twenty",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w066",
+      "word": "perro",
+      "english": "dog",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "perros",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w067",
+      "word": "gato",
+      "english": "cat",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "gatos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w068",
+      "word": "pájaro",
+      "english": "bird",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "pájaros",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w069",
+      "word": "¿tienes?",
+      "english": "do you have?",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From tener: tienes means you have. A question by voice alone.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w070",
+      "word": "es",
+      "english": "he is, she is, it is",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From ser.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w071",
+      "word": "grande",
+      "english": "big",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "grandes",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "The same for masculine and feminine.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w072",
+      "word": "pequeño",
+      "english": "small",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "pequeños",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Feminine pequeña.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w073",
+      "word": "se llama",
+      "english": "his name is, her name is, its name is",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From llamarse, like me llamo.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w074",
+      "word": "me gusta",
+      "english": "I like",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Literally it pleases me. Use with one thing or with a verb.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w075",
+      "word": "pan",
+      "english": "bread",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "panes",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w076",
+      "word": "agua",
+      "english": "water",
+      "pos": "noun",
+      "gender": "f",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine, but el agua, because the word starts with a stressed a.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w077",
+      "word": "leche",
+      "english": "milk",
+      "pos": "noun",
+      "gender": "f",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w078",
+      "word": "¿te gusta?",
+      "english": "do you like?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w079",
+      "word": "pero",
+      "english": "but",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w080",
+      "word": "yo",
+      "english": "I",
+      "pos": "pronoun",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Often left out, because the verb already shows who: soy, tengo. Used for emphasis: ¿Y tú? Yo, no.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w081",
+      "word": "tú",
+      "english": "you (one friend)",
+      "pos": "pronoun",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "tú for a friend or a child. Usted is the polite form, met later. Without an accent, tu means your.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w082",
+      "word": "me gustan",
+      "english": "I like (more than one thing)",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w083",
+      "word": "naranja",
+      "english": "orange (the fruit)",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "naranjas",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Also the colour orange in Spain.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w084",
+      "word": "fruta",
+      "english": "fruit",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "frutas",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w085",
+      "word": "jugar",
+      "english": "to play",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Jugar al fútbol: play football. Infinitive; I play is juego (Year 4).",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w086",
+      "word": "fútbol",
+      "english": "football",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w087",
+      "word": "cantar",
+      "english": "to sing",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w088",
+      "word": "mucho",
+      "english": "a lot",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w089",
+      "word": "muy",
+      "english": "very",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w090",
+      "word": "leer",
+      "english": "to read",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w091",
+      "word": "porque",
+      "english": "because",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "One word, no accent. ¿Por qué? is two words and asks why.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w092",
+      "word": "divertido",
+      "english": "fun",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "divertidos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine divertida.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w093",
+      "word": "también",
+      "english": "also, too",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w094",
+      "word": "comer",
+      "english": "to eat",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w095",
+      "word": "lunes",
+      "english": "Monday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "lunes",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "No capital letter for days in Spanish.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w096",
+      "word": "martes",
+      "english": "Tuesday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "martes",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w097",
+      "word": "miércoles",
+      "english": "Wednesday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "miércoles",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w098",
+      "word": "jueves",
+      "english": "Thursday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "jueves",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w099",
+      "word": "viernes",
+      "english": "Friday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "viernes",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w100",
+      "word": "sábado",
+      "english": "Saturday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "sábados",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w101",
+      "word": "domingo",
+      "english": "Sunday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "domingos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w102",
+      "word": "hoy",
+      "english": "today",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w103",
+      "word": "hace",
+      "english": "it is (for weather)",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From hacer. Hace sol: it is sunny, literally it makes sun.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w104",
+      "word": "tiempo",
+      "english": "weather, time",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "¿Qué tiempo hace? means what is the weather like.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w105",
+      "word": "sol",
+      "english": "sun",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w106",
+      "word": "frío",
+      "english": "cold",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Hace frío: it is cold. Also an adjective later: el agua está fría.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w107",
+      "word": "calor",
+      "english": "heat",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Hace calor: it is hot.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w108",
+      "word": "viento",
+      "english": "wind",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Hace viento: it is windy.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w109",
+      "word": "llueve",
+      "english": "it rains, it is raining",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "From llover. In most of Spain and Latin America ll sounds like y.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w110",
+      "word": "cuando",
+      "english": "when",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "No accent when it joins two ideas; ¿cuándo? asks a question.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w111",
+      "word": "voy",
+      "english": "I go",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From ir.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w112",
+      "word": "al",
+      "english": "to the (a + el)",
+      "pos": "contraction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "a + el always joins to make al.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w113",
+      "word": "parque",
+      "english": "park",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "parques",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w114",
+      "word": "tu",
+      "english": "your (one friend)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": "tus",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "No accent; tú with an accent means you.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w115",
+      "word": "día",
+      "english": "day",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "días",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Masculine even though it ends in a: el día.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w116",
+      "word": "favorito",
+      "english": "favourite",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "favoritos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine favorita.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w117",
+      "word": "¿cuál?",
+      "english": "which? what?",
+      "pos": "pronoun",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "¿Cuál es tu día favorito? English says what, Spanish says which.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w118",
+      "word": "¿dónde?",
+      "english": "where?",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w119",
+      "word": "está",
+      "english": "he is, she is, it is (where, how)",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From estar, like estoy.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w120",
+      "word": "casa",
+      "english": "house, home",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "casas",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "En casa means at home.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w121",
+      "word": "en",
+      "english": "in, on, at",
+      "pos": "preposition",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "es-w122",
+      "word": "amigo",
+      "english": "friend",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "amigos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "A girl friend is una amiga.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "es-w123",
+      "word": "con",
+      "english": "with",
+      "pos": "preposition",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w124",
+      "word": "mira",
+      "english": "look",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "From mirar, the tú command. To a whole class: mirad in Spain, miren in Latin America.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "es-w125",
+      "word": "feliz",
+      "english": "happy",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "felices",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "The same for masculine and feminine, which suits the Planet Friends.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w126",
+      "word": "triste",
+      "english": "sad",
+      "pos": "adjective",
+      "gender": null,
+      "plural": "tristes",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The same for masculine and feminine.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w127",
+      "word": "ahora",
+      "english": "now",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "es-w128",
+      "word": "dice",
+      "english": "says",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From decir. Dice Pebble: says Pebble.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w129",
+      "word": "¡vamos!",
+      "english": "let's go!",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From ir. Also means we go.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w130",
+      "word": "aquí",
+      "english": "here",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "es-w131",
+      "word": "escucha",
+      "english": "listen",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From escuchar, the tú command. To a class: escuchad in Spain, escuchen in Latin America.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w132",
+      "word": "repite",
+      "english": "repeat",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "From repetir, the tú command. To a class: repetid in Spain, repitan in Latin America.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w133",
+      "word": "fin",
+      "english": "the end",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "es-w134",
+      "word": "no sé",
+      "english": "I do not know",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From saber. The accent on sé matters: se without it is a different word.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w135",
+      "word": "otra vez",
+      "english": "again",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Literally another time.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "es-w136",
+      "word": "¿cómo se dice?",
+      "english": "how do you say?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Followed by the English word: ¿Cómo se dice dog?",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    }
+  ],
+  "units": [
+    {
+      "year": 3,
+      "unit": 1,
+      "title": "Hello, who I am",
+      "context": "Meeting someone new: greetings, my name, how I feel, numbers 1 to 10 and my age. Planet Friends Bloop and Pebble meet the class.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "¡Hola!",
+          "sounds": [
+            "es-s01",
+            "es-s02"
+          ],
+          "new_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w004",
+            "es-w005"
+          ],
+          "recycled_words": [],
+          "grammar": [
+            "es-g01"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say hello and goodbye in Spanish.",
+            "I can answer yes or no.",
+            "I can say the Spanish a and o sounds."
+          ],
+          "speaking_task": "Walk and greet: children move round the room, meet a partner, say ¡Hola! with a wave, then ¡Adiós! and move on.",
+          "story_or_chant": "Chant with a clap on each word: \"¡Hola, hola, buenos días! ¡Adiós, adiós!\""
+        },
+        {
+          "lesson": 2,
+          "title": "Me llamo",
+          "sounds": [
+            "es-s03",
+            "es-s04"
+          ],
+          "new_words": [
+            "es-w006",
+            "es-w007",
+            "es-w008"
+          ],
+          "recycled_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w004",
+            "es-w005"
+          ],
+          "grammar": [
+            "es-g02"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say my name in Spanish.",
+            "I can ask a friend their name.",
+            "I can hear the difference between e and i."
+          ],
+          "speaking_task": "Name chain: each child asks the next ¿Cómo te llamas? and answers Me llamo plus their name.",
+          "story_or_chant": "Call and response with a puppet: \"¿Cómo te llamas? Me llamo Bloop. ¡Hola, Bloop!\""
+        },
+        {
+          "lesson": 3,
+          "title": "¿Qué tal?",
+          "sounds": [
+            "es-s05"
+          ],
+          "new_words": [
+            "es-w009",
+            "es-w010",
+            "es-w011",
+            "es-w012",
+            "es-w013"
+          ],
+          "recycled_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w006",
+            "es-w007",
+            "es-w008"
+          ],
+          "grammar": [
+            "es-g03"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask how someone is.",
+            "I can say I am well or not well.",
+            "I can say thank you."
+          ],
+          "speaking_task": "Feelings thumbs: the teacher asks ¿Qué tal?; children answer with thumbs and the words estoy bien or estoy mal.",
+          "story_or_chant": "Chant, quiet then loud: \"¿Qué tal? ¿Qué tal? Estoy bien, gracias. ¿Qué tal? Estoy mal.\""
+        },
+        {
+          "lesson": 4,
+          "title": "Uno, dos, tres",
+          "sounds": [
+            "es-s06"
+          ],
+          "new_words": [
+            "es-w014",
+            "es-w015",
+            "es-w016",
+            "es-w017",
+            "es-w018"
+          ],
+          "recycled_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w004",
+            "es-w005",
+            "es-w009",
+            "es-w010",
+            "es-w011",
+            "es-w012",
+            "es-w013"
+          ],
+          "grammar": [
+            "es-g04"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can count from 1 to 5 in Spanish.",
+            "I can say no in front of a word to make it not.",
+            "I can say the ll sound in me llamo."
+          ],
+          "speaking_task": "Show me: the teacher says a number, children show it on their fingers and say it back.",
+          "story_or_chant": "Counting rhyme with a jump on cinco: \"Uno, dos, tres, cuatro, cinco. ¡Hola, hola, hola!\""
+        },
+        {
+          "lesson": 5,
+          "title": "Seis, siete, ocho",
+          "sounds": [
+            "es-s07"
+          ],
+          "new_words": [
+            "es-w019",
+            "es-w020",
+            "es-w021",
+            "es-w022",
+            "es-w023"
+          ],
+          "recycled_words": [
+            "es-w006",
+            "es-w007",
+            "es-w008",
+            "es-w014",
+            "es-w015",
+            "es-w016",
+            "es-w017",
+            "es-w018"
+          ],
+          "grammar": [
+            "es-g05"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can count from 6 to 10 in Spanish.",
+            "I can ask a question with my voice going up.",
+            "I can say the ch sound in ocho."
+          ],
+          "speaking_task": "Guess my number: a partner asks ¿Ocho? and the other answers sí or no, nueve.",
+          "story_or_chant": "Counting rhyme up and down: \"Seis, siete, ocho, nueve, diez. ¡Diez! ¡Diez! ¡Adiós!\""
+        },
+        {
+          "lesson": 6,
+          "title": "Tengo ocho años",
+          "sounds": [
+            "es-s08"
+          ],
+          "new_words": [
+            "es-w024",
+            "es-w025",
+            "es-w026",
+            "es-w027"
+          ],
+          "recycled_words": [
+            "es-w009",
+            "es-w010",
+            "es-w011",
+            "es-w012",
+            "es-w013",
+            "es-w019",
+            "es-w020",
+            "es-w021",
+            "es-w022",
+            "es-w023"
+          ],
+          "grammar": [
+            "es-g06"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-6",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say how old I am.",
+            "I can ask a friend how old they are.",
+            "I can introduce myself in three short sentences."
+          ],
+          "speaking_task": "Introduce yourself to the class: Hola, soy plus name, tengo plus age, adiós.",
+          "story_or_chant": "Bloop introduces itself, the class copies with their own name: \"Hola, soy Bloop. Tengo siete años. ¡Adiós!\""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 2,
+      "title": "In my classroom",
+      "context": "Things around the classroom, used to learn that every noun is masculine or feminine, how to say a and the, colours after the noun, and there is.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Un libro, una mesa",
+          "sounds": [
+            "es-s09"
+          ],
+          "new_words": [
+            "es-w028",
+            "es-w029",
+            "es-w030",
+            "es-w031"
+          ],
+          "recycled_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w004",
+            "es-w005",
+            "es-w014",
+            "es-w015",
+            "es-w016",
+            "es-w017",
+            "es-w018",
+            "es-w024",
+            "es-w025",
+            "es-w026",
+            "es-w027"
+          ],
+          "grammar": [
+            "es-g07"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name a book and a table in Spanish.",
+            "I can sort words into un words and una words.",
+            "I can use un and una."
+          ],
+          "speaking_task": "Point and say: the teacher points to an object, children say un libro or una mesa, and stand up for una.",
+          "story_or_chant": "Rhythm chant: \"Un libro, un libro. Una mesa, una mesa. ¡Uno, dos, tres!\""
+        },
+        {
+          "lesson": 2,
+          "title": "La puerta",
+          "sounds": [
+            "es-s10"
+          ],
+          "new_words": [
+            "es-w032",
+            "es-w033",
+            "es-w034",
+            "es-w035"
+          ],
+          "recycled_words": [
+            "es-w006",
+            "es-w007",
+            "es-w008",
+            "es-w019",
+            "es-w020",
+            "es-w021",
+            "es-w022",
+            "es-w023",
+            "es-w028",
+            "es-w029",
+            "es-w030",
+            "es-w031"
+          ],
+          "grammar": [
+            "es-g08"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-7",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name a door and a chair.",
+            "I can use el and la for the.",
+            "I can say the Spanish ci sound in cinco."
+          ],
+          "speaking_task": "Label hunt: pairs read word cards and stick el or la labels on real objects, reading each one aloud.",
+          "story_or_chant": "Touch and say chant: \"La mesa, la silla, la puerta, el libro. ¡Uno, dos, tres, cuatro!\""
+        },
+        {
+          "lesson": 3,
+          "title": "¿Qué hay?",
+          "sounds": [
+            "es-s11"
+          ],
+          "new_words": [
+            "es-w036",
+            "es-w037",
+            "es-w038"
+          ],
+          "recycled_words": [
+            "es-w009",
+            "es-w010",
+            "es-w011",
+            "es-w012",
+            "es-w013",
+            "es-w024",
+            "es-w025",
+            "es-w026",
+            "es-w027",
+            "es-w032",
+            "es-w033",
+            "es-w034",
+            "es-w035"
+          ],
+          "grammar": [
+            "es-g09"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say what there is using hay.",
+            "I can ask ¿Qué hay?",
+            "I can say the z sound in diez."
+          ],
+          "speaking_task": "Mystery bag: a partner feels inside and asks ¿Qué hay?; the other answers Hay un bolígrafo or Hay un libro.",
+          "story_or_chant": "Question and answer chant: \"¿Qué hay? ¿Qué hay? Hay un libro. ¿Qué hay? ¿Qué hay? Hay un bolígrafo.\""
+        },
+        {
+          "lesson": 4,
+          "title": "Rojo, azul, verde",
+          "sounds": [
+            "es-s12"
+          ],
+          "new_words": [
+            "es-w039",
+            "es-w040",
+            "es-w041"
+          ],
+          "recycled_words": [
+            "es-w001",
+            "es-w002",
+            "es-w003",
+            "es-w004",
+            "es-w005",
+            "es-w014",
+            "es-w015",
+            "es-w016",
+            "es-w017",
+            "es-w018",
+            "es-w028",
+            "es-w029",
+            "es-w030",
+            "es-w031",
+            "es-w036",
+            "es-w037",
+            "es-w038"
+          ],
+          "grammar": [
+            "es-g10"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-4",
+            "ks2-5",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say three colours in Spanish.",
+            "I can put the colour after the thing.",
+            "I can read que and qui with a silent u."
+          ],
+          "speaking_task": "Colour describe: a child holds up an object and says un libro rojo; the class repeats if it is right.",
+          "story_or_chant": "Colour song: \"Rojo, rojo, un libro rojo. Azul, azul, una mesa azul. Verde, verde, un bolígrafo verde.\""
+        },
+        {
+          "lesson": 5,
+          "title": "Una silla roja",
+          "sounds": [
+            "es-s13"
+          ],
+          "new_words": [
+            "es-w042",
+            "es-w043",
+            "es-w044"
+          ],
+          "recycled_words": [
+            "es-w006",
+            "es-w007",
+            "es-w008",
+            "es-w019",
+            "es-w020",
+            "es-w021",
+            "es-w022",
+            "es-w023",
+            "es-w032",
+            "es-w033",
+            "es-w034",
+            "es-w035",
+            "es-w039",
+            "es-w040",
+            "es-w041"
+          ],
+          "grammar": [
+            "es-g11"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-10",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can change rojo to roja for a girl word.",
+            "I can describe a thing in my classroom.",
+            "I can write a short phrase from memory."
+          ],
+          "speaking_task": "Describe and draw: one partner says una silla roja, the other draws it, then they swap.",
+          "story_or_chant": "Chant: \"La clase, la clase: una silla roja, una mesa blanca, un libro negro.\""
+        },
+        {
+          "lesson": 6,
+          "title": "Los libros",
+          "sounds": [
+            "es-s14"
+          ],
+          "new_words": [
+            "es-w045",
+            "es-w046",
+            "es-w047"
+          ],
+          "recycled_words": [
+            "es-w009",
+            "es-w010",
+            "es-w011",
+            "es-w012",
+            "es-w013",
+            "es-w024",
+            "es-w025",
+            "es-w026",
+            "es-w027",
+            "es-w036",
+            "es-w037",
+            "es-w038",
+            "es-w042",
+            "es-w043",
+            "es-w044"
+          ],
+          "grammar": [
+            "es-g12"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-9",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can make a word plural.",
+            "I can use los and las.",
+            "I can find a new word in a picture dictionary."
+          ],
+          "speaking_task": "Count the class: pairs count real objects and say Hay tres libros, Hay cinco sillas.",
+          "story_or_chant": "Counting chant: \"Uno, dos, tres: los libros. Cuatro, cinco, seis: las sillas. ¡Siete, ocho, nueve, diez!\""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 3,
+      "title": "My family and my pets",
+      "context": "Who is in my family and what pets we have, used to learn have, my, his or her, describing with es, and numbers to 20.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Mi familia",
+          "sounds": [
+            "es-s15"
+          ],
+          "new_words": [
+            "es-w048",
+            "es-w049",
+            "es-w050",
+            "es-w051"
+          ],
+          "recycled_words": [
+            "es-w014",
+            "es-w015",
+            "es-w016",
+            "es-w017",
+            "es-w018",
+            "es-w028",
+            "es-w029",
+            "es-w030",
+            "es-w031",
+            "es-w039",
+            "es-w040",
+            "es-w041",
+            "es-w045",
+            "es-w046",
+            "es-w047"
+          ],
+          "grammar": [
+            "es-g13"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name my mother and father in Spanish.",
+            "I can say my with mi.",
+            "I can say the j sound."
+          ],
+          "speaking_task": "Family photo: children show a drawing and say mi madre, mi padre, pointing to each.",
+          "story_or_chant": "Chant: \"Mi madre, mi padre, mi familia. ¡Uno, dos, tres! ¡Hola, familia!\""
+        },
+        {
+          "lesson": 2,
+          "title": "Mi hermano",
+          "sounds": [
+            "es-s16"
+          ],
+          "new_words": [
+            "es-w052",
+            "es-w053",
+            "es-w054",
+            "es-w055"
+          ],
+          "recycled_words": [
+            "es-w019",
+            "es-w020",
+            "es-w021",
+            "es-w022",
+            "es-w023",
+            "es-w032",
+            "es-w033",
+            "es-w034",
+            "es-w035",
+            "es-w042",
+            "es-w043",
+            "es-w044",
+            "es-w048",
+            "es-w049",
+            "es-w050",
+            "es-w051"
+          ],
+          "grammar": [
+            "es-g14"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say brother and sister.",
+            "I can say what someone has with tiene.",
+            "I can use su for his or her."
+          ],
+          "speaking_task": "Find someone who: children ask and answer about brothers and sisters, then report Bloop tiene un hermano.",
+          "story_or_chant": "Chant: \"Tengo un hermano. Tengo una hermana. ¿Y Bloop? Bloop tiene un hermano.\""
+        },
+        {
+          "lesson": 3,
+          "title": "Once a quince",
+          "sounds": [
+            "es-s17"
+          ],
+          "new_words": [
+            "es-w056",
+            "es-w057",
+            "es-w058",
+            "es-w059",
+            "es-w060"
+          ],
+          "recycled_words": [
+            "es-w024",
+            "es-w025",
+            "es-w026",
+            "es-w027",
+            "es-w036",
+            "es-w037",
+            "es-w038",
+            "es-w045",
+            "es-w046",
+            "es-w047",
+            "es-w052",
+            "es-w053",
+            "es-w054",
+            "es-w055"
+          ],
+          "grammar": [
+            "es-g15"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can count from 11 to 15.",
+            "I can use mis for more than one.",
+            "I can say ge and gi like j."
+          ],
+          "speaking_task": "Number bingo: the caller says the numbers, players cover them, and the winner reads the numbers back to check.",
+          "story_or_chant": "Rhyme: \"Once, doce, trece, catorce, quince. ¡Quince! ¡Quince! ¡Adiós!\""
+        },
+        {
+          "lesson": 4,
+          "title": "Dieciséis a veinte",
+          "sounds": [
+            "es-s18"
+          ],
+          "new_words": [
+            "es-w061",
+            "es-w062",
+            "es-w063",
+            "es-w064",
+            "es-w065"
+          ],
+          "recycled_words": [
+            "es-w028",
+            "es-w029",
+            "es-w030",
+            "es-w031",
+            "es-w039",
+            "es-w040",
+            "es-w041",
+            "es-w048",
+            "es-w049",
+            "es-w050",
+            "es-w051",
+            "es-w056",
+            "es-w057",
+            "es-w058",
+            "es-w059",
+            "es-w060"
+          ],
+          "grammar": [
+            "es-g16"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can count from 16 to 20.",
+            "I can see diez and seis inside dieciséis.",
+            "I can tap a single r."
+          ],
+          "speaking_task": "Count around the circle from one to twenty and back; a mistake starts again at uno.",
+          "story_or_chant": "Counting rap: \"Dieciséis, diecisiete, dieciocho, diecinueve, ¡veinte!\""
+        },
+        {
+          "lesson": 5,
+          "title": "Mi perro",
+          "sounds": [
+            "es-s19"
+          ],
+          "new_words": [
+            "es-w066",
+            "es-w067",
+            "es-w068",
+            "es-w069"
+          ],
+          "recycled_words": [
+            "es-w032",
+            "es-w033",
+            "es-w034",
+            "es-w035",
+            "es-w042",
+            "es-w043",
+            "es-w044",
+            "es-w052",
+            "es-w053",
+            "es-w054",
+            "es-w055",
+            "es-w061",
+            "es-w062",
+            "es-w063",
+            "es-w064",
+            "es-w065"
+          ],
+          "grammar": [
+            "es-g17"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name a dog, a cat and a bird.",
+            "I can ask a friend ¿Tienes un perro?",
+            "I can roll the rr in perro."
+          ],
+          "speaking_task": "Pet survey: children ask three friends ¿Tienes un perro? and tally the answers.",
+          "story_or_chant": "Question chant: \"¿Tienes un perro? ¡Sí! ¿Tienes un gato? ¡No! ¿Tienes un pájaro? ¡Sí, sí, sí!\""
+        },
+        {
+          "lesson": 6,
+          "title": "Mi gato es pequeño",
+          "sounds": [
+            "es-s20"
+          ],
+          "new_words": [
+            "es-w070",
+            "es-w071",
+            "es-w072",
+            "es-w073"
+          ],
+          "recycled_words": [
+            "es-w036",
+            "es-w037",
+            "es-w038",
+            "es-w045",
+            "es-w046",
+            "es-w047",
+            "es-w056",
+            "es-w057",
+            "es-w058",
+            "es-w059",
+            "es-w060",
+            "es-w066",
+            "es-w067",
+            "es-w068",
+            "es-w069"
+          ],
+          "grammar": [
+            "es-g18"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-6",
+            "ks2-10",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say what my pet is like.",
+            "I can say my pet's name.",
+            "I can write two sentences about a pet from memory."
+          ],
+          "speaking_task": "Pet show: each child presents a real or made up pet in two sentences to a small group.",
+          "story_or_chant": "Mini poem: \"Mi perro es grande. Mi gato es pequeño. Mi pájaro se llama Pebble.\""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 4,
+      "title": "What I like",
+      "context": "Food and play as context for opinions: I like and I do not like, and, but, because.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Me gusta",
+          "sounds": [
+            "es-s21"
+          ],
+          "new_words": [
+            "es-w074",
+            "es-w075",
+            "es-w076",
+            "es-w077"
+          ],
+          "recycled_words": [
+            "es-w039",
+            "es-w040",
+            "es-w041",
+            "es-w048",
+            "es-w049",
+            "es-w050",
+            "es-w051",
+            "es-w061",
+            "es-w062",
+            "es-w063",
+            "es-w064",
+            "es-w065",
+            "es-w070",
+            "es-w071",
+            "es-w072",
+            "es-w073"
+          ],
+          "grammar": [
+            "es-g19"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say I like a food.",
+            "I can say I do not like a food.",
+            "I can say ie in bien and siete."
+          ],
+          "speaking_task": "Thumbs vote: the teacher holds up a food card; children say me gusta or no me gusta with a gesture.",
+          "story_or_chant": "Chant: \"Me gusta el pan, me gusta el pan. ¡No, no, no! No me gusta la leche.\""
+        },
+        {
+          "lesson": 2,
+          "title": "¿Y tú?",
+          "sounds": [
+            "es-s22"
+          ],
+          "new_words": [
+            "es-w078",
+            "es-w079",
+            "es-w080",
+            "es-w081"
+          ],
+          "recycled_words": [
+            "es-w042",
+            "es-w043",
+            "es-w044",
+            "es-w052",
+            "es-w053",
+            "es-w054",
+            "es-w055",
+            "es-w066",
+            "es-w067",
+            "es-w068",
+            "es-w069",
+            "es-w074",
+            "es-w075",
+            "es-w076",
+            "es-w077"
+          ],
+          "grammar": [
+            "es-g20"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask ¿Te gusta?",
+            "I can join two ideas with pero.",
+            "I can say y and yo."
+          ],
+          "speaking_task": "Opinion ping pong: a partner says what they like and asks ¿y tú?; the other answers and asks back.",
+          "story_or_chant": "Call and response: \"¿Te gusta el pan? ¡Sí! ¿Y tú? Yo, no. ¡Me gusta la leche!\""
+        },
+        {
+          "lesson": 3,
+          "title": "Las naranjas",
+          "sounds": [
+            "es-s23"
+          ],
+          "new_words": [
+            "es-w082",
+            "es-w083",
+            "es-w084"
+          ],
+          "recycled_words": [
+            "es-w045",
+            "es-w046",
+            "es-w047",
+            "es-w056",
+            "es-w057",
+            "es-w058",
+            "es-w059",
+            "es-w060",
+            "es-w070",
+            "es-w071",
+            "es-w072",
+            "es-w073",
+            "es-w078",
+            "es-w079",
+            "es-w080",
+            "es-w081"
+          ],
+          "grammar": [
+            "es-g21"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-4",
+            "ks2-5",
+            "ks2-9",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say I like more than one thing with me gustan.",
+            "I can name fruit and oranges.",
+            "I can say hay, soy and muy."
+          ],
+          "speaking_task": "Fruit stall role play: children sort picture cards into me gusta and me gustan piles and say each aloud.",
+          "story_or_chant": "Song: \"Naranjas, naranjas, me gustan las naranjas. Fruta, fruta, me gusta la fruta.\""
+        },
+        {
+          "lesson": 4,
+          "title": "Me gusta jugar",
+          "sounds": [
+            "es-s24"
+          ],
+          "new_words": [
+            "es-w085",
+            "es-w086",
+            "es-w087"
+          ],
+          "recycled_words": [
+            "es-w048",
+            "es-w049",
+            "es-w050",
+            "es-w051",
+            "es-w061",
+            "es-w062",
+            "es-w063",
+            "es-w064",
+            "es-w065",
+            "es-w074",
+            "es-w075",
+            "es-w076",
+            "es-w077",
+            "es-w082",
+            "es-w083",
+            "es-w084"
+          ],
+          "grammar": [
+            "es-g22"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say I like to play or to sing.",
+            "I can spot verbs ending in ar, er and ir.",
+            "I can find the loud part of a word with an accent."
+          ],
+          "speaking_task": "Mime and guess: one child mimes jugar or cantar, the class says Te gusta jugar.",
+          "story_or_chant": "Action chant: \"Me gusta cantar. Me gusta el fútbol. Me gusta jugar. ¿Y tú?\""
+        },
+        {
+          "lesson": 5,
+          "title": "Mucho",
+          "sounds": [
+            "es-s09",
+            "es-s10"
+          ],
+          "new_words": [
+            "es-w088",
+            "es-w089",
+            "es-w090"
+          ],
+          "recycled_words": [
+            "es-w052",
+            "es-w053",
+            "es-w054",
+            "es-w055",
+            "es-w066",
+            "es-w067",
+            "es-w068",
+            "es-w069",
+            "es-w078",
+            "es-w079",
+            "es-w080",
+            "es-w081",
+            "es-w085",
+            "es-w086",
+            "es-w087"
+          ],
+          "grammar": [
+            "es-g23"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say I like something a lot.",
+            "I can use muy before a describing word.",
+            "I can say hard c and soft c."
+          ],
+          "speaking_task": "Opinion line: children stand on a line from no me gusta to me gusta mucho and say their sentence.",
+          "story_or_chant": "Chant: \"Muy bien, muy bien, me gusta mucho. Leer, leer, me gusta leer.\""
+        },
+        {
+          "lesson": 6,
+          "title": "Porque es divertido",
+          "sounds": [
+            "es-s16",
+            "es-s17"
+          ],
+          "new_words": [
+            "es-w091",
+            "es-w092",
+            "es-w093",
+            "es-w094"
+          ],
+          "recycled_words": [
+            "es-w056",
+            "es-w057",
+            "es-w058",
+            "es-w059",
+            "es-w060",
+            "es-w070",
+            "es-w071",
+            "es-w072",
+            "es-w073",
+            "es-w082",
+            "es-w083",
+            "es-w084",
+            "es-w088",
+            "es-w089",
+            "es-w090"
+          ],
+          "grammar": [
+            "es-g24"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-10",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can give a reason with porque.",
+            "I can say also with también.",
+            "I can write a sentence with a reason from memory."
+          ],
+          "speaking_task": "Opinion chain: each child adds a reason, porque es divertido, to a friend's me gusta sentence.",
+          "story_or_chant": "Chant: \"Me gusta jugar porque es divertido. ¿Y tú? ¡Yo también!\""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 5,
+      "title": "My week and the weather",
+      "context": "Days of the week and the weather, joined into longer sentences with when, and the first question about your favourite.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Los días",
+          "sounds": [
+            "es-s18",
+            "es-s19"
+          ],
+          "new_words": [
+            "es-w095",
+            "es-w096",
+            "es-w097",
+            "es-w098",
+            "es-w099"
+          ],
+          "recycled_words": [
+            "es-w061",
+            "es-w062",
+            "es-w063",
+            "es-w064",
+            "es-w065",
+            "es-w074",
+            "es-w075",
+            "es-w076",
+            "es-w077",
+            "es-w085",
+            "es-w086",
+            "es-w087",
+            "es-w091",
+            "es-w092",
+            "es-w093",
+            "es-w094"
+          ],
+          "grammar": [
+            "es-g25"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say the school days in Spanish.",
+            "I can write the days without a capital letter.",
+            "I can hear r and rr."
+          ],
+          "speaking_task": "Day line up: five children hold day cards and the class puts them in order, saying each one.",
+          "story_or_chant": "Days song: \"Lunes, martes, miércoles, jueves, viernes. ¡Me gusta el viernes!\""
+        },
+        {
+          "lesson": 2,
+          "title": "Hoy es sábado",
+          "sounds": [
+            "es-s13",
+            "es-s15"
+          ],
+          "new_words": [
+            "es-w100",
+            "es-w101",
+            "es-w102"
+          ],
+          "recycled_words": [
+            "es-w066",
+            "es-w067",
+            "es-w068",
+            "es-w069",
+            "es-w078",
+            "es-w079",
+            "es-w080",
+            "es-w081",
+            "es-w088",
+            "es-w089",
+            "es-w090",
+            "es-w095",
+            "es-w096",
+            "es-w097",
+            "es-w098",
+            "es-w099"
+          ],
+          "grammar": [
+            "es-g26"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say all seven days.",
+            "I can say what day it is today.",
+            "I can say a silent h and a strong j."
+          ],
+          "speaking_task": "Daily question: a helper asks the class what day it is and answers with Hoy es plus the day.",
+          "story_or_chant": "Weekend chant: \"Hoy es sábado. ¡Sí, sí, sí! Hoy es domingo. ¡Sí, sí, sí!\""
+        },
+        {
+          "lesson": 3,
+          "title": "¿Qué tiempo hace?",
+          "sounds": [
+            "es-s10",
+            "es-s11"
+          ],
+          "new_words": [
+            "es-w103",
+            "es-w104",
+            "es-w105",
+            "es-w106"
+          ],
+          "recycled_words": [
+            "es-w070",
+            "es-w071",
+            "es-w072",
+            "es-w073",
+            "es-w082",
+            "es-w083",
+            "es-w084",
+            "es-w091",
+            "es-w092",
+            "es-w093",
+            "es-w094",
+            "es-w100",
+            "es-w101",
+            "es-w102"
+          ],
+          "grammar": [
+            "es-g27"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask what the weather is like.",
+            "I can say it is sunny or cold.",
+            "I can say the th sound in hace."
+          ],
+          "speaking_task": "Weather reporter: a child looks out of the window and reports Hoy hace sol or Hoy hace frío.",
+          "story_or_chant": "Weather chant with actions: \"¿Qué tiempo hace? ¿Qué tiempo hace? ¡Hace sol! ¡Hace frío!\""
+        },
+        {
+          "lesson": 4,
+          "title": "Llueve",
+          "sounds": [
+            "es-s06",
+            "es-s22"
+          ],
+          "new_words": [
+            "es-w107",
+            "es-w108",
+            "es-w109"
+          ],
+          "recycled_words": [
+            "es-w074",
+            "es-w075",
+            "es-w076",
+            "es-w077",
+            "es-w085",
+            "es-w086",
+            "es-w087",
+            "es-w095",
+            "es-w096",
+            "es-w097",
+            "es-w098",
+            "es-w099",
+            "es-w103",
+            "es-w104",
+            "es-w105",
+            "es-w106"
+          ],
+          "grammar": [
+            "es-g28"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-7",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say it is raining.",
+            "I can say it is hot or windy.",
+            "I can say ll and y the same way."
+          ],
+          "speaking_task": "Weather map: children read a weather card and say it to the class like a forecaster.",
+          "story_or_chant": "Rain rhyme: \"Llueve, llueve. Hace viento. Hace calor. ¡Hace sol!\""
+        },
+        {
+          "lesson": 5,
+          "title": "Cuando hace sol",
+          "sounds": [
+            "es-s20",
+            "es-s21"
+          ],
+          "new_words": [
+            "es-w110",
+            "es-w111",
+            "es-w112",
+            "es-w113"
+          ],
+          "recycled_words": [
+            "es-w078",
+            "es-w079",
+            "es-w080",
+            "es-w081",
+            "es-w088",
+            "es-w089",
+            "es-w090",
+            "es-w100",
+            "es-w101",
+            "es-w102",
+            "es-w107",
+            "es-w108",
+            "es-w109"
+          ],
+          "grammar": [
+            "es-g29"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can join the weather to what I do with cuando.",
+            "I can say I go to the park.",
+            "I can say ue and ie."
+          ],
+          "speaking_task": "Weather and plans: a partner names the weather and the other answers with a cuando sentence.",
+          "story_or_chant": "Chant: \"Cuando hace sol, voy al parque. Cuando llueve, ¡no, no, no!\""
+        },
+        {
+          "lesson": 6,
+          "title": "Mi día favorito",
+          "sounds": [
+            "es-s24"
+          ],
+          "new_words": [
+            "es-w114",
+            "es-w115",
+            "es-w116",
+            "es-w117"
+          ],
+          "recycled_words": [
+            "es-w082",
+            "es-w083",
+            "es-w084",
+            "es-w091",
+            "es-w092",
+            "es-w093",
+            "es-w094",
+            "es-w103",
+            "es-w104",
+            "es-w105",
+            "es-w106",
+            "es-w110",
+            "es-w111",
+            "es-w112",
+            "es-w113"
+          ],
+          "grammar": [
+            "es-g30"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-6",
+            "ks2-10",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask what your favourite day is.",
+            "I can tell the class my favourite day and why.",
+            "I can write my favourite day from memory."
+          ],
+          "speaking_task": "Class survey: children ask ¿Cuál es tu día favorito?, then one presents the class result.",
+          "story_or_chant": "Rhyme: \"¿Cuál es tu día favorito? Mi día favorito es el sábado, porque voy al parque.\""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 6,
+      "title": "Our story",
+      "context": "¿Dónde está Bloop? A decodable story built only from known words, read aloud, performed, then the end of year check.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "¿Dónde está Bloop?",
+          "sounds": [
+            "es-s01",
+            "es-s02"
+          ],
+          "new_words": [
+            "es-w118",
+            "es-w119",
+            "es-w120",
+            "es-w121"
+          ],
+          "recycled_words": [
+            "es-w085",
+            "es-w086",
+            "es-w087",
+            "es-w095",
+            "es-w096",
+            "es-w097",
+            "es-w098",
+            "es-w099",
+            "es-w107",
+            "es-w108",
+            "es-w109",
+            "es-w114",
+            "es-w115",
+            "es-w116",
+            "es-w117"
+          ],
+          "grammar": [
+            "es-g31"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-7",
+            "ks2-8",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask where someone is.",
+            "I can read the first page of our story.",
+            "I can say where something is with en."
+          ],
+          "speaking_task": "Hide and find: a toy is hidden; children ask ¿Dónde está? and guess ¿Está en la mesa?",
+          "story_or_chant": "Story page 1: \"Hoy es sábado. Hace sol. ¿Dónde está Bloop? ¿Está en la casa? No.\""
+        },
+        {
+          "lesson": 2,
+          "title": "Con Orbit",
+          "sounds": [
+            "es-s03",
+            "es-s04"
+          ],
+          "new_words": [
+            "es-w122",
+            "es-w123",
+            "es-w124"
+          ],
+          "recycled_words": [
+            "es-w088",
+            "es-w089",
+            "es-w090",
+            "es-w100",
+            "es-w101",
+            "es-w102",
+            "es-w110",
+            "es-w111",
+            "es-w112",
+            "es-w113",
+            "es-w118",
+            "es-w119",
+            "es-w120",
+            "es-w121"
+          ],
+          "grammar": [
+            "es-g32"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-7",
+            "ks2-8",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say who I am with using con.",
+            "I can read the second page of our story aloud.",
+            "I can say mira to point something out."
+          ],
+          "speaking_task": "Read in pairs: one reads a sentence, the other points to the picture that matches.",
+          "story_or_chant": "Story page 2: \"Pebble está en el parque con Orbit. ¡Mira! Hay un perro. ¿Es Bloop? No.\""
+        },
+        {
+          "lesson": 3,
+          "title": "Feliz, triste",
+          "sounds": [
+            "es-s05",
+            "es-s13"
+          ],
+          "new_words": [
+            "es-w125",
+            "es-w126",
+            "es-w127"
+          ],
+          "recycled_words": [
+            "es-w091",
+            "es-w092",
+            "es-w093",
+            "es-w094",
+            "es-w103",
+            "es-w104",
+            "es-w105",
+            "es-w106",
+            "es-w114",
+            "es-w115",
+            "es-w116",
+            "es-w117",
+            "es-w122",
+            "es-w123",
+            "es-w124"
+          ],
+          "grammar": [
+            "es-g33"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-7",
+            "ks2-8",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say how someone feels.",
+            "I can read a page of the story with feeling in my voice.",
+            "I can use ahora for now."
+          ],
+          "speaking_task": "Feelings faces: the teacher reads a sentence; children show a happy or sad face and repeat it.",
+          "story_or_chant": "Story page 3: \"Pebble está triste. ¿Dónde está Bloop? ¿Está en la clase? No.\""
+        },
+        {
+          "lesson": 4,
+          "title": "¡Vamos!",
+          "sounds": [
+            "es-s14"
+          ],
+          "new_words": [
+            "es-w128",
+            "es-w129",
+            "es-w130"
+          ],
+          "recycled_words": [
+            "es-w095",
+            "es-w096",
+            "es-w097",
+            "es-w098",
+            "es-w099",
+            "es-w107",
+            "es-w108",
+            "es-w109",
+            "es-w118",
+            "es-w119",
+            "es-w120",
+            "es-w121",
+            "es-w125",
+            "es-w126",
+            "es-w127"
+          ],
+          "grammar": [
+            "es-g34"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-5",
+            "ks2-7",
+            "ks2-8",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can tell es and está apart.",
+            "I can read speech in a speech bubble.",
+            "I can read the end of our story."
+          ],
+          "speaking_task": "Who said it: children read a speech bubble and say who says it, dice Orbit or dice Pebble.",
+          "story_or_chant": "Story page 4: \"«¡Mira!», dice Orbit. «¡Bloop está aquí!» Ahora Pebble está feliz. «¡Vamos!»\""
+        },
+        {
+          "lesson": 5,
+          "title": "Escucha y repite",
+          "sounds": [
+            "es-s19",
+            "es-s23"
+          ],
+          "new_words": [
+            "es-w131",
+            "es-w132",
+            "es-w133"
+          ],
+          "recycled_words": [
+            "es-w100",
+            "es-w101",
+            "es-w102",
+            "es-w110",
+            "es-w111",
+            "es-w112",
+            "es-w113",
+            "es-w122",
+            "es-w123",
+            "es-w124",
+            "es-w128",
+            "es-w129",
+            "es-w130"
+          ],
+          "grammar": [
+            "es-g35"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-6",
+            "ks2-7",
+            "ks2-8",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can read our whole story aloud.",
+            "I can perform the story to an audience.",
+            "I can use joining words to make a longer sentence."
+          ],
+          "speaking_task": "Performance: groups act the story for another class, each child reading one line clearly.",
+          "story_or_chant": "Whole story, with echo reading: \"Escucha y repite: ¡Bloop está aquí! ¡Vamos al parque! Fin.\""
+        },
+        {
+          "lesson": 6,
+          "title": "¡Muy bien!",
+          "sounds": [
+            "es-s08",
+            "es-s12"
+          ],
+          "new_words": [
+            "es-w134",
+            "es-w135",
+            "es-w136"
+          ],
+          "recycled_words": [
+            "es-w103",
+            "es-w104",
+            "es-w105",
+            "es-w106",
+            "es-w114",
+            "es-w115",
+            "es-w116",
+            "es-w117",
+            "es-w125",
+            "es-w126",
+            "es-w127",
+            "es-w131",
+            "es-w132",
+            "es-w133"
+          ],
+          "grammar": [
+            "es-g36"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-7",
+            "ks2-9",
+            "ks2-10",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask how to say a word in Spanish.",
+            "I can say I do not know and ask again.",
+            "I can show what I know in the end of year check."
+          ],
+          "speaking_task": "End of year check: a short talk with a partner about name, age, family, likes and the weather.",
+          "story_or_chant": "Year 3 rap: \"¿Cómo se dice dog? ¡Perro! ¿Otra vez? ¡Perro! No sé, no sé. ¡Sí, sé! ¡Muy bien!\""
+        }
+      ]
+    }
+  ],
+  "outline": [
+    {
+      "year": 4,
+      "unit": 1,
+      "title": "Me and you",
+      "context": "Introductions in more depth: what I am like, who I live with, where I live. Dictation starts this unit.",
+      "sounds": [
+        "es-s25",
+        "es-s26"
+      ],
+      "grammar": [
+        "es-g37",
+        "es-g38",
+        "es-g39"
+      ],
+      "new_word_target": 18,
+      "recycled_words_by_lesson": {
+        "1": [
+          "es-w107",
+          "es-w108",
+          "es-w109",
+          "es-w118",
+          "es-w119",
+          "es-w120",
+          "es-w121",
+          "es-w128",
+          "es-w129",
+          "es-w130",
+          "es-w134",
+          "es-w135",
+          "es-w136"
+        ],
+        "2": [
+          "es-w110",
+          "es-w111",
+          "es-w112",
+          "es-w113",
+          "es-w122",
+          "es-w123",
+          "es-w124",
+          "es-w131",
+          "es-w132",
+          "es-w133"
+        ],
+        "3": [
+          "es-w114",
+          "es-w115",
+          "es-w116",
+          "es-w117",
+          "es-w125",
+          "es-w126",
+          "es-w127",
+          "es-w134",
+          "es-w135",
+          "es-w136"
+        ],
+        "4": [
+          "es-w118",
+          "es-w119",
+          "es-w120",
+          "es-w121",
+          "es-w128",
+          "es-w129",
+          "es-w130"
+        ],
+        "5": [
+          "es-w122",
+          "es-w123",
+          "es-w124",
+          "es-w131",
+          "es-w132",
+          "es-w133"
+        ],
+        "6": [
+          "es-w125",
+          "es-w126",
+          "es-w127",
+          "es-w134",
+          "es-w135",
+          "es-w136"
+        ]
+      }
+    },
+    {
+      "year": 4,
+      "unit": 2,
+      "title": "My town",
+      "context": "Places in my town, what there is and is not, and going to places.",
+      "sounds": [
+        "es-s27",
+        "es-s28"
+      ],
+      "grammar": [
+        "es-g40",
+        "es-g41"
+      ],
+      "new_word_target": 18,
+      "recycled_words_by_lesson": {
+        "1": [
+          "es-w128",
+          "es-w129",
+          "es-w130"
+        ],
+        "2": [
+          "es-w131",
+          "es-w132",
+          "es-w133"
+        ],
+        "3": [
+          "es-w134",
+          "es-w135",
+          "es-w136"
+        ]
+      }
+    },
+    {
+      "year": 4,
+      "unit": 3,
+      "title": "My body and how I feel",
+      "context": "Body, feelings and how the body feels (hungry, cold), with estar opened up.",
+      "sounds": [
+        "es-s29",
+        "es-s30"
+      ],
+      "grammar": [
+        "es-g42",
+        "es-g43"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 4,
+      "title": "At the market",
+      "context": "Food shopping role play: what I want, please, numbers to 100 and prices in euros.",
+      "sounds": [
+        "es-s31",
+        "es-s32"
+      ],
+      "grammar": [
+        "es-g44",
+        "es-g45"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 5,
+      "title": "Sport and hobbies",
+      "context": "What I do and how often, with the first regular verb pattern in the singular.",
+      "sounds": [
+        "es-s33",
+        "es-s34"
+      ],
+      "grammar": [
+        "es-g46",
+        "es-g47"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 4,
+      "unit": 6,
+      "title": "A day in my life",
+      "context": "Telling the time and parts of the day, ending in a Year 4 reader and performance.",
+      "sounds": [
+        "es-s35",
+        "es-s36"
+      ],
+      "grammar": [
+        "es-g48",
+        "es-g49"
+      ],
+      "new_word_target": 16
+    },
+    {
+      "year": 5,
+      "unit": 1,
+      "title": "My school day",
+      "context": "School subjects and opinions with reasons, and ar verbs in all six persons.",
+      "sounds": [
+        "es-s27",
+        "es-s24"
+      ],
+      "grammar": [
+        "es-g50",
+        "es-g51"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 5,
+      "unit": 2,
+      "title": "My home",
+      "context": "Rooms and where things are, with estar for location and prepositions.",
+      "sounds": [
+        "es-s28",
+        "es-s29"
+      ],
+      "grammar": [
+        "es-g52",
+        "es-g53"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 5,
+      "unit": 3,
+      "title": "Weekend plans",
+      "context": "Going out and what I am going to do: ir and the near future.",
+      "sounds": [
+        "es-s25",
+        "es-s26"
+      ],
+      "grammar": [
+        "es-g54",
+        "es-g55"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 5,
+      "unit": 4,
+      "title": "Animals and our planet",
+      "context": "Animals from Spain and Latin America compared, with comparatives and full agreement.",
+      "sounds": [
+        "es-s31",
+        "es-s32"
+      ],
+      "grammar": [
+        "es-g56",
+        "es-g57"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 5,
+      "unit": 5,
+      "title": "Healthy me",
+      "context": "Food, drink and routines with er and ir verbs, and negatives.",
+      "sounds": [
+        "es-s33",
+        "es-s34"
+      ],
+      "grammar": [
+        "es-g58",
+        "es-g59"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 5,
+      "unit": 6,
+      "title": "Our Year 5 play",
+      "context": "A short play written by the class from known language, possessives and the full set of question words.",
+      "sounds": [
+        "es-s35",
+        "es-s36"
+      ],
+      "grammar": [
+        "es-g60",
+        "es-g61"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 6,
+      "unit": 1,
+      "title": "Holidays",
+      "context": "Where I went and what it was like: the past tense as chunks, then the regular I forms.",
+      "sounds": [
+        "es-s27",
+        "es-s24"
+      ],
+      "grammar": [
+        "es-g62",
+        "es-g63"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 2,
+      "title": "Food across the Spanish speaking world",
+      "context": "Dishes and words from Spain and Latin America, with querer and poder plus a verb.",
+      "sounds": [
+        "es-s10",
+        "es-s11"
+      ],
+      "grammar": [
+        "es-g64",
+        "es-g65"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 3,
+      "title": "What I wear",
+      "context": "Clothes and colours with full agreement, llevar, and this and these.",
+      "sounds": [
+        "es-s15",
+        "es-s17"
+      ],
+      "grammar": [
+        "es-g66",
+        "es-g67"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 4,
+      "title": "Digital me",
+      "context": "Screens, games and being online in Spanish: what I use, how often and what I think about it. Ties to the Guided Childhood thread.",
+      "sounds": [
+        "es-s18",
+        "es-s19"
+      ],
+      "grammar": [
+        "es-g68",
+        "es-g69"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 6,
+      "unit": 5,
+      "title": "When I grow up",
+      "context": "Jobs and hopes with me gustaría and quiero ser.",
+      "sounds": [
+        "es-s06",
+        "es-s22"
+      ],
+      "grammar": [
+        "es-g70",
+        "es-g71"
+      ],
+      "new_word_target": 17
+    },
+    {
+      "year": 6,
+      "unit": 6,
+      "title": "Ready for Year 7",
+      "context": "A paragraph in three time frames, a final reader, and the transition record for secondary.",
+      "sounds": [
+        "es-s36"
+      ],
+      "grammar": [
+        "es-g72"
+      ],
+      "new_word_target": 17
+    }
+  ]
+}
