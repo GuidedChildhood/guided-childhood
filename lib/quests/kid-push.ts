@@ -10,20 +10,28 @@ import { inChildQuietHours } from '@/lib/push/quiet-hours'
 
 type PushClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
+/**
+ * What a push did, counted (plan v10, item 1.5). It returned nothing until
+ * 9 October 2026, even on the happy path, so a caller could not tell a sent
+ * nudge from one swallowed by quiet hours, and the send route's one nudge per
+ * lesson would have been spent on a tap at half nine.
+ */
+export type ChildPushResult = { sent: number; reason: 'sent' | 'quiet_hours' | 'not_configured' | 'no_device' | 'failed' }
+
 export async function pushToChild(
   admin: PushClient,
   userId: string,
   childId: string,
   title: string,
   body: string
-) {
+): Promise<ChildPushResult> {
   // Night time. This is the busiest of the three doors to a child's phone,
   // about twenty five call sites, so the gate lives here rather than in each
   // of them: the next feature that nudges a child gets it without knowing it
   // exists, which is the only version of this that stays true.
-  if (inChildQuietHours()) return
+  if (inChildQuietHours()) return { sent: 0, reason: 'quiet_hours' }
 
-  if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) return
+  if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) return { sent: 0, reason: 'not_configured' }
   try {
     // Twice, because device_id arrives with migration 166 and migrations here
     // are run by hand, so there is a window where this code knows about a column
@@ -40,7 +48,7 @@ export async function pushToChild(
     if (error && isMissingColumn(error, 'device_id')) {
       ({ data: subs, error } = await read(LEGACY_COLUMNS))
     }
-    if (!subs?.length) return
+    if (!subs?.length) return { sent: 0, reason: 'no_device' }
 
     // ONE BUZZ PER DEVICE.
     //
@@ -67,6 +75,7 @@ export async function pushToChild(
     webpush.setVapidDetails(process.env.VAPID_EMAIL, VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY)
     const payload = JSON.stringify({ title, body, url })
     const stale: string[] = []
+    let sent = 0
     await Promise.allSettled(
       devices.map(async sub => {
         try {
@@ -74,6 +83,7 @@ export async function pushToChild(
             { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
             payload
           )
+          sent += 1
         } catch (err: unknown) {
           // 404 as well as 410. Apple and Google both answer 404 for an endpoint
           // that no longer exists, and an endpoint that is not there is not
@@ -89,5 +99,6 @@ export async function pushToChild(
       })
     )
     if (stale.length) await admin.from('push_subscriptions').delete().in('endpoint', stale)
-  } catch { /* best effort */ }
+    return { sent, reason: sent > 0 ? 'sent' : 'failed' }
+  } catch { return { sent: 0, reason: 'failed' } }
 }

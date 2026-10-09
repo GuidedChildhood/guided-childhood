@@ -13,7 +13,7 @@ import type { Register } from '../friend-register'
 import AnimatedIntro from './AnimatedIntro'
 import HappyIcon, { isHappyIconName } from './HappyIcon'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, kidEyebrow, kidMinutesLeft, lessonPassed, proveQuestions, type MarkedAnswer, type SlideAudience, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import { slideNamesTheLead, leadLine, type YourSchool } from '../schools-your-school'
 import Interactive from './interactives'
@@ -109,6 +109,11 @@ function BadgeChips({ badges, projector }: { badges: CurriculumBadges; projector
 // A seeded shuffle hides the pattern; seeding from the run salt plus the
 // slide index means Back then Next shows the same order, and Run it again
 // deals a fresh one.
+/** A run's id: one per pass through the deck (plan v10, 1.5). */
+function newRunId(): string {
+  try { return crypto.randomUUID() } catch { return `run-${Date.now()}-${Math.random().toString(36).slice(2)}` }
+}
+
 function optionOrder(count: number, seed: number): number[] {
   const idx = Array.from({ length: count }, (_, i) => i)
   let s = (seed % 2147483647) || 1
@@ -209,11 +214,13 @@ function ChoiceBlock({
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean, chosen: string) => void
-  // Fired once, the moment the slide settles. The player gates Continue on
-  // THIS rather than on onAnswered, because a wrong first pick answers the
-  // slide without settling it, and letting the class move on there would
-  // walk them past the right answer they were about to be shown.
-  onSettled?: () => void
+  // Fired once, the moment the slide settles, with the option it settled on.
+  // The player gates Continue on THIS rather than on onAnswered, because a
+  // wrong first pick answers the slide without settling it, and letting the
+  // class move on there would walk them past the right answer they were about
+  // to be shown. The settled pick travels too (plan v10, 1.5): the server
+  // marks both taps against the deck, and one tap cannot yield two flags.
+  onSettled?: (correct: boolean, chosen: string) => void
   projector?: boolean
   seed?: number
   tool?: LessonTool
@@ -240,7 +247,7 @@ function ChoiceBlock({
     if (tries.length === 0) onAnswered(opt.correct, opt.text)
     const next = [...tries, i]
     setTries(next)
-    if (answerBeat(correctIndex, order.length, next).settled) onSettled?.()
+    if (answerBeat(correctIndex, order.length, next).settled) onSettled?.(opt.correct, opt.text)
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el && !prefersReducedMotion()) {
@@ -481,6 +488,114 @@ function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; project
           </ul>
         </div>
       )}
+    </div>
+  )
+}
+
+// THINK IT: a discussion, for one child (plan v10, item 1.4).
+//
+// A child alone has no partner and no class, so the talk timer goes. What
+// stays is the part the evidence calls load bearing: they generate an answer
+// before the lesson gives one. One word typed is enough, and it never leaves
+// the phone (nothing posts it, nothing stores it). Under 7, with a grown up
+// reading it out, it is said out loud instead, and two chips close it.
+//
+// It reveals nothing afterwards. The deck's `lookFor` line is written to the
+// teacher on most decks, so visibleSlides keeps it off the child's client
+// altogether; a child voice version is content, and belongs to the content PR.
+function ThinkItBlock({ slide, together }: { slide: DiscussionSlide; together: boolean }) {
+  const [word, setWord] = useState('')
+  const [done, setDone] = useState<null | 'said' | 'pass' | 'typed'>(null)
+  const chip: React.CSSProperties = {
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
+    borderRadius: 'var(--radius-tile)', padding: '10px 18px', cursor: 'pointer',
+  }
+  const quiet: React.CSSProperties = { ...chip, background: '#fff', border: '1.5px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }
+  // On the prompts that ask who they would tell, every answer gets the same
+  // calm line and the people they can tell. "Nobody" is the answer the
+  // teacher's look for line was there to catch, and "Nice" would praise it.
+  const reply = slide.tellPrompt
+    ? 'Thank you. If something ever worries you, you can tell your grown up, a teacher you trust, or Childline on 0800 1111.'
+    : done === 'pass' ? 'That is fine. Have a think as you go.'
+    : slide.kidReveal ? null
+    : 'Nice. Hold on to it, the next part uses it.'
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
+        {together ? 'Say it together' : 'Think it'}
+      </div>
+      <h2 data-reveal style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
+        fontSize: 'clamp(1.3rem, 5vw, 1.75rem)', lineHeight: 1.3, letterSpacing: '-0.02em',
+        maxWidth: '520px', margin: '0 auto 22px',
+      }}>
+        {slide.prompt}
+      </h2>
+      {done ? (
+        <div role="status" style={{ maxWidth: '440px', margin: '0 auto' }}>
+          {reply && (
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>{reply}</p>
+          )}
+          {/* A reasoning card's reason, shown only after the child committed. */}
+          {!slide.tellPrompt && slide.kidReveal && (
+            <div style={{ textAlign: 'left', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '14px 16px', marginTop: reply ? '12px' : 0 }}>
+              <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>One way to see it</div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{slide.kidReveal}</p>
+            </div>
+          )}
+        </div>
+      ) : together ? (
+        <div data-reveal style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => setDone('said')} style={{ ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>We said it ✓</button>
+          <button type="button" onClick={() => setDone('pass')} style={quiet}>Pass for now</button>
+        </div>
+      ) : (
+        <div data-reveal style={{ maxWidth: '440px', margin: '0 auto' }}>
+          <form
+            onSubmit={e => { e.preventDefault(); if (word.trim()) setDone('typed') }}
+            style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}
+          >
+            <input
+              value={word}
+              onChange={e => setWord(e.target.value)}
+              maxLength={60}
+              aria-label="Your answer, one word is enough"
+              placeholder="One word is enough"
+              autoComplete="off"
+              style={{
+                flex: '1 1 200px', minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '11px 14px',
+              }}
+            />
+            <button type="submit" disabled={!word.trim()} style={{
+              ...chip, background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)',
+              opacity: word.trim() ? 1 : 0.5, cursor: word.trim() ? 'pointer' : 'default',
+            }}>Got one</button>
+          </form>
+          {/* A child who cannot spell the word is not stopped by the box. */}
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '10px' }}>
+            <button type="button" onClick={() => setDone('said')} style={quiet}>I said it out loud</button>
+            <button type="button" onClick={() => setDone('pass')} style={quiet}>Pass for now</button>
+          </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '12px 0 0' }}>
+            Only you see this. It is not saved.
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// THE PEOPLE TO TELL, on the finish of a DSL flagged lesson played alone
+// (sync plan A6). The school lead stays a route because the harm can be at
+// home; Childline is there for the child who cannot use either.
+function TellBlock({ href }: { href: string }) {
+  return (
+    <div style={{ maxWidth: '360px', margin: '0 auto 18px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '14px 16px', textAlign: 'left' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 8px' }}>
+        If anything in this lesson was about you, or worried you, tell your grown up, a teacher you trust, or Childline on 0800 1111.
+      </p>
+      <Link href={href} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Need to talk to someone?</Link>
     </div>
   )
 }
@@ -1101,11 +1216,13 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, onSettled, projector, seed, tool, register, promise, introEyebrow,
+  slide, onAnswered, onSettled, projector, seed, tool, register, promise, introEyebrow, audience = 'classroom',
 }: {
   slide: LessonSlide
+  // Who the deck is for. Only the kid and together audiences change anything.
+  audience?: SlideAudience
   onAnswered: (correct: boolean, chosen: string) => void
-  onSettled?: () => void
+  onSettled?: (correct: boolean, chosen: string) => void
   projector?: boolean
   seed?: number
   tool?: LessonTool
@@ -1227,7 +1344,9 @@ function SlideBody({
     case 'choice':
       return <ChoiceBlock slide={slide} onAnswered={onAnswered} onSettled={onSettled} projector={projector} seed={seed} tool={tool} />
     case 'discussion':
-      return <DiscussionBlock slide={slide} projector={projector} />
+      return audience === 'classroom'
+        ? <DiscussionBlock slide={slide} projector={projector} />
+        : <ThinkItBlock slide={slide} together={audience === 'together'} />
     case 'stat':
       return <StatBlock slide={slide} projector={projector} />
     case 'scenario':
@@ -1237,7 +1356,7 @@ function SlideBody({
     case 'digi':
       return <CharacterBeat slide={slide} projector={projector} register={register} />
     case 'interactive':
-      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} />
+      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} kidMode={audience !== 'classroom'} />
     case 'video':
       // A film that points at something shows it. See VideoSlide.post: the
       // exhibit is on the wall while the film names it, because a generated
@@ -1321,7 +1440,11 @@ export default function LessonPlayer({
   digiPrompt,
   teacherView = false,
   kidMode = false,
+  audience: audienceProp,
   kidStars,
+  kidBadge,
+  tellHref,
+  together = false,
   completeEndpoint,
   completeBody,
   badges,
@@ -1352,7 +1475,22 @@ export default function LessonPlayer({
   // Kid mission mode: celebration finish, stars earned, quiz score sent
   // to a token authenticated endpoint instead of the parent session one.
   kidMode?: boolean
+  // Who this deck is for, the same value the page passed to visibleSlides.
+  // Defaults to kid in kidMode and classroom otherwise, so every existing
+  // caller keeps what it had.
+  audience?: SlideAudience
   kidStars?: number
+  // The child's pill in the player's own top bar, in words ("Done ✓ play
+  // again"), because the page around a full screen player is never seen.
+  // Falls back to the star count.
+  kidBadge?: string
+  // A DSL flagged lesson played by a child alone: a quiet link to the child's
+  // tell page on every slide and the people to tell on the finish (sync plan
+  // A6). Absent everywhere else.
+  tellHref?: string
+  // A run a grown up opened from their own app (lib/lessons/together): the
+  // pass is every check question answered, because they are the check.
+  together?: boolean
   // null skips the completion write entirely: a lesson DiGi wrote on the fly
   // has no database row to complete against.
   completeEndpoint?: string | null
@@ -1446,6 +1584,7 @@ export default function LessonPlayer({
   onFinish?: () => void
 }) {
   const projector = projectorProp ?? classMode
+  const audience: SlideAudience = audienceProp ?? (kidMode ? 'kid' : 'classroom')
   // The friend's tokens, or the terracotta the player has always worn. Text
   // on the current pill and the cycle map uses the friend's ink on the soft
   // band, the pairing the school cards already use, so the contrast holds.
@@ -1480,7 +1619,18 @@ export default function LessonPlayer({
   // completion write carries these so the stage check can put this child's
   // missed questions first. Keyed by slide index like answersRef, so a
   // retake's fresh answer replaces the old one rather than doubling it.
-  const answerDetailRef = useRef<Record<number, { question: string; chosen: string; correct: boolean }>>({})
+  // Since plan v10 item 1.5 each entry carries both taps, the phase and the
+  // run it belongs to, because the school lesson's server marks the taps
+  // itself and writes only the current run's rows to the ledger.
+  // `correct` keeps its old meaning, the first tap, because the parent
+  // library's route and the ledger have always read it that way; the settled
+  // tap's flag is its own field.
+  const answerDetailRef = useRef<Record<number, { slide: number; question: string; chosenFirst: string; chosen: string; firstCorrect: boolean; correct: boolean; settledCorrect: boolean; phase: string | null; run_id: string }>>({})
+  // One run, one write. A fresh id per run through the deck; a retake mints a
+  // new one and carries forward the rows it keeps under their own.
+  const runIdRef = useRef<string>(newRunId())
+  // The last slide posts once, however fast the second tap lands.
+  const postingRef = useRef(false)
   const slideRef = useRef<HTMLDivElement>(null)
   const barRef = useRef<HTMLDivElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
@@ -1509,7 +1659,27 @@ export default function LessonPlayer({
   // finishing, so the older text built lessons keep working exactly as before.
   const choiceCount = slides.filter(s => s.type === 'choice').length
   const correctCount = Object.values(answersRef.current).filter(Boolean).length
-  const passed = choiceCount === 0 || correctCount / choiceCount >= 0.7
+  // A school lesson passes on its check (plan v10, 1.5): every prove question
+  // right on its settled answer, or answered when a grown up is the check.
+  // The same function the server marks with, over the same deck. The parent
+  // library, the AI modules, the tutor decks and the adventures keep 70
+  // percent of every question, untouched.
+  const marked: MarkedAnswer[] = Object.values(answerDetailRef.current).map(d => ({
+    slide: d.slide, question: d.question, phase: (d.phase as MarkedAnswer['phase']) ?? null,
+    chosenFirst: d.chosenFirst, chosen: d.chosen, firstCorrect: d.firstCorrect, correct: d.settledCorrect, runId: d.run_id,
+  }))
+  const checkTotal = proveQuestions(slides).length
+  const checkRight = proveQuestions(slides).filter(p => {
+    const last = [...marked].reverse().find(m => m.question === p.question)
+    return !!last?.correct
+  }).length
+  const passed = lessonSource === 'school_lesson'
+    ? lessonPassed(slides, marked, { together: together || audience === 'together' })
+    : choiceCount === 0 || correctCount / choiceCount >= 0.7
+  // A deck with spares can take a solo second go; without them the second go
+  // is the together route, not a replay of questions whose answers have just
+  // been shown.
+  const hasSpares = slides.some(s => s.type === 'choice' && !!s.reserve_for)
 
   // The cinematic transition: the slide glides in from the direction of
   // travel, then its pieces build one by one via the data-reveal marks.
@@ -1609,14 +1779,27 @@ export default function LessonPlayer({
     setAnswered(true)
     answersRef.current[index] = correct
     if (slide?.type === 'choice') {
-      answerDetailRef.current[index] = { question: slide.question, chosen, correct }
+      answerDetailRef.current[index] = {
+        slide: index, question: slide.question, phase: slide.phase ?? null, run_id: runIdRef.current,
+        chosenFirst: chosen, firstCorrect: correct, chosen, correct, settledCorrect: correct,
+      }
     }
     setDigiMood(correct ? 'happy' : 'speak')
+  }
+
+  // The settled pick: the second tap after a wrong first, or the first when
+  // it was right. It is what the check reads.
+  const onSettledAnswer = (correct: boolean, chosen: string) => {
+    setSettled(true)
+    const d = answerDetailRef.current[index]
+    if (d) answerDetailRef.current[index] = { ...d, chosen, settledCorrect: correct }
   }
 
   const advance = useCallback(async () => {
     dirRef.current = 1
     if (isLast) {
+      if (postingRef.current) return
+      postingRef.current = true
       setFinished(true)
       setDigiMood(passed ? 'happy' : 'speak')
       // Before the early return, so a school that records no completion still
@@ -1634,13 +1817,22 @@ export default function LessonPlayer({
             lesson_source: lessonSource,
             correct: Object.values(answersRef.current).filter(Boolean).length,
             total: choiceCount,
-            answers: Object.values(answerDetailRef.current),
+            // A school lesson posts what was tapped, never whether it was
+            // right: its route marks both taps against the deck itself. Every
+            // other route keeps the shape it has always read (the first tap
+            // and its flag), so the parent library's ledger does not move.
+            answers: lessonSource === 'school_lesson'
+              ? Object.values(answerDetailRef.current).map(d => ({ slide: d.slide, question: d.question, chosenFirst: d.chosenFirst, chosen: d.chosen, phase: d.phase, run_id: d.run_id }))
+              : Object.values(answerDetailRef.current).map(d => ({ question: d.question, chosen: d.chosenFirst, correct: d.firstCorrect })),
+            run_id: runIdRef.current,
+            audience,
             ...completeBody,
           }),
         })
         const d = await r.json().catch(() => null) as { planetOpened?: string | null; planetHref?: string | null } | null
         if (d?.planetOpened && d?.planetHref) setPlanetOpened({ title: d.planetOpened, href: d.planetHref })
       } catch { /* non-blocking */ }
+      finally { postingRef.current = false }
       return
     }
     setAnswered(false)
@@ -1699,6 +1891,7 @@ export default function LessonPlayer({
   const runAgain = () => {
     answersRef.current = {}
     answerDetailRef.current = {}
+    runIdRef.current = newRunId()
     setRunSalt(freshSalt())
     dirRef.current = 1
     setAnswered(false)
@@ -1715,6 +1908,13 @@ export default function LessonPlayer({
   // its old result.
   const tryAgain = () => {
     const firstWrong = slides.findIndex((s, i) => s.type === 'choice' && answersRef.current[i] === false)
+    // A new run. The rows the retake keeps (settled right) stay under the run
+    // they were answered in, so the ledger never claims a second retrieval
+    // that did not happen; every row from here on is answered fresh.
+    runIdRef.current = newRunId()
+    for (const [k, d] of Object.entries(answerDetailRef.current)) {
+      if (!d.settledCorrect) delete answerDetailRef.current[Number(k)]
+    }
     dirRef.current = -1
     setAnswered(false)
     setSettled(false)
@@ -1876,8 +2076,19 @@ export default function LessonPlayer({
   // did: the phase, then the counter.
   const counter = `${index + 1} of ${slides.length}`
   const minutesLine = slide?.minutes ? `~${slide.minutes} min` : ''
+  // The child's line is computed from the deck the child actually has: the
+  // phase in their words, a check counted ("Check 1 of 2"), and the minutes
+  // LEFT for one child alone, never the classroom's per slide minutes.
+  const kidLeft = audience === 'classroom' ? 0 : kidMinutesLeft(slides, index)
+  // No "4 of 29": the bar already shows how far, and a count of slides is a
+  // number for a teacher planning an hour, not for a child doing ten minutes.
+  const kidStatus = audience === 'classroom' ? '' : [
+    kidEyebrow(slides, index),
+    kidLeft >= 1 ? `about ${kidLeft} min left` : 'nearly done',
+  ].filter(Boolean).join(' · ')
   const status = finished
     ? classMode ? 'The showcase' : 'The finish'
+    : audience !== 'classroom' ? kidStatus
     : rail
       ? [counter, minutesLine, cycle ? `${cycle.verb}: ${cycle.title}` : ''].filter(Boolean).join(' · ')
       : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${counter}${minutesLine ? ` · ${minutesLine}` : ''}`
@@ -1968,20 +2179,39 @@ export default function LessonPlayer({
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
           <DigiCharacter mood="speak" size={100} />
         </div>
-        <div style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Retrieval practice</div>
+        {/* Not "Retrieval practice", which is teacher register on the one
+            screen where the child has just missed (plan v10, 1.5). */}
+        <div style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '10px' }}>The tricky bit</div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '8px' }}>
           Nearly!
         </h2>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '8px' }}>
-          You got {correctCount} of {choiceCount} right.
+          {lessonSource === 'school_lesson'
+            ? `You got ${checkRight} of ${checkTotal} on the check.`
+            : `You got ${correctCount} of ${choiceCount} right.`}
         </p>
+        {/* Stars pay once, on the first finish, pass or not: the check is the
+            one place nothing rides on being right. Both halves said. */}
+        {lessonSource === 'school_lesson' && typeof kidStars === 'number' && (
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 10px' }}>
+            {kidStars} stars are in your bank for doing the lesson. Your dot on the road is still waiting for the check.
+          </p>
+        )}
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '340px', margin: '0 auto 24px' }}>
-          Going over it again is how it sticks. The tricky bit comes round first, then the questions.
+          {lessonSource === 'school_lesson' && !hasSpares && !together
+            ? 'The next go is one to do with your grown up. Ask them to open this lesson with you from their app.'
+            : 'Going over it again is how it sticks. The tricky bit comes round first, then the questions.'}
         </p>
+        {tellHref && <TellBlock href={tellHref} />}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: '0 auto' }}>
-          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
-            Have another go
-          </button>
+          {/* Without spares a solo replay would ask the same two questions
+              whose answers have just been shown, so the second go is the
+              together route instead (plan v10, 1.5). */}
+          {!(lessonSource === 'school_lesson' && !hasSpares && !together) && (
+            <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
+              Have another go
+            </button>
+          )}
           <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
             Back to my lessons
           </Link>
@@ -1997,11 +2227,23 @@ export default function LessonPlayer({
           <DigiCharacter mood="happy" size={110} />
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
-          You did it! 🎉
+          {/* No party on a lesson about blackmail or self harm. */}
+          {tellHref ? 'Well done for doing that one.' : 'You did it! 🎉'}
         </h2>
-        {results.length > 0 && (
+        {lessonSource === 'school_lesson' && checkTotal > 0 ? (
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '6px' }}>
+            You got {checkRight} of {checkTotal} on the check.
+          </p>
+        ) : results.length > 0 && (
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '6px' }}>
             You got {correct} of {results.length} questions right.
+          </p>
+        )}
+        {/* A retake pass pays nothing again: its stars went in on the first
+            finish. Say what this one is instead. */}
+        {lessonSource === 'school_lesson' && typeof kidStars !== 'number' && (
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 8px' }}>
+            Your stars went in when you first finished. This one is the dot on your road.
           </p>
         )}
         {typeof kidStars === 'number' && (
@@ -2017,8 +2259,10 @@ export default function LessonPlayer({
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
           {lessonSource === 'lesson'
             ? 'That is a pass, and your grown up just got the good news. One more step down your road to 16.'
+            : tellHref ? 'Your grown up knows you finished it.'
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
+        {tellHref && <TellBlock href={tellHref} />}
         {planetOpened && (
           <div data-planet-opened style={{ maxWidth: '340px', margin: '0 auto 16px', background: '#FFF6DD', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
@@ -2164,7 +2408,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={onSettledAnswer} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} audience={audience} />
           {schoolLead && slideNamesTheLead(slide) && <LeadOnTheWall lead={schoolLead} projector={projector} />}
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
@@ -2318,7 +2562,9 @@ export default function LessonPlayer({
           </Link>
         )}
         {projector && rail}
-        <span className="gc-status" style={{
+        {/* The child's line has its own row below: squeezed between the Quests
+            button and the star it showed "WARM UP ·" and nothing else. */}
+        {audience !== 'classroom' && !projector ? <span style={{ flex: 1 }} /> : <span className="gc-status" style={{
           fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '10.5px'), fontWeight: 700,
           letterSpacing: room(projector, '0.06em', '0.14em'), textTransform: 'uppercase', color: 'var(--ink-muted)',
           // The label gives way, never the star: on a narrow phone a long
@@ -2328,15 +2574,15 @@ export default function LessonPlayer({
           textAlign: projector && rail ? 'right' : 'left',
         }}>
           {status}
-        </span>
+        </span>}
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-          {kidMode && typeof kidStars === 'number' && !finished && (
+          {kidMode && (kidBadge || typeof kidStars === 'number') && !finished && (
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               color: 'var(--ink)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: 'var(--radius-pill)', padding: '4px 11px',
+              borderRadius: 'var(--radius-pill)', padding: '4px 11px', whiteSpace: 'nowrap',
             }}>
-              ⭐ {kidStars}
+              {kidBadge ?? `⭐ ${kidStars}`}
             </span>
           )}
           {/* The module's friend keeps watch beside DiGi and shares his mood:
@@ -2348,6 +2594,21 @@ export default function LessonPlayer({
           {!finished && <DigiCharacter mood={digiMood} size={projector ? 48 : 38} />}
         </span>
       </div>
+
+      {audience !== 'classroom' && !projector && !finished && (
+        <div className="gc-kid-status" style={{
+          flexShrink: 0, padding: '0 clamp(16px, 4vw, 28px) 6px', textAlign: 'center',
+          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
+          textTransform: 'uppercase', color: 'var(--ink-muted)',
+        }}>
+          {status}
+          {tellHref && (
+            <div style={{ marginTop: '4px', textTransform: 'none', letterSpacing: 0, fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)' }}>
+              <Link href={tellHref} style={{ color: 'var(--ink)' }}>Need to talk to someone?</Link>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* The rail on a phone: its own row under the header, five equal
           segments with their labels, where five wrapping pills used to be. */}

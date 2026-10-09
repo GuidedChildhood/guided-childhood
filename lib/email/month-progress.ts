@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { TOP_BAND } from '@/lib/concerns/resting'
 import { bandOf } from '@/lib/concerns/bands'
+import { lessonsPassedBetween } from '@/lib/pathway/lesson-path-server'
 
 // WHAT ACTUALLY MOVED THIS MONTH, PER CHILD.
 //
@@ -69,9 +70,12 @@ export async function buildMonthProgress(
 
   const [concernsRead, lessonsRead, stagesRead] = await Promise.all([
     supabase.from('concerns').select('id, label, status').eq('user_id', userId).eq('child_id', childId),
-    supabase.from('lesson_completions').select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('child_id', childId).eq('passed', true)
-      .gte('completed_at', from).lt('completed_at', to),
+    // The one lesson count's rule over the month (lib/pathway/lesson-path),
+    // so a school lesson is counted once, by its mission, exactly as the
+    // planets and the sticker book count it. This child's own rows only, as
+    // this email always read them. Wrapped to the { count } shape below.
+    lessonsPassedBetween(supabase, { userId, childId, from, to, household: false })
+      .then(count => ({ count, error: null }), error => ({ count: null, error })),
     supabase.from('stage_passports').select('id', { count: 'exact', head: true })
       .eq('child_id', childId).gte('awarded_at', from).lt('awarded_at', to),
   ])

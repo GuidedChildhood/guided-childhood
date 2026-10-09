@@ -1,7 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import TrackedPlayer from '@/components/tracker/TrackedPlayer'
-import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
 import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
@@ -86,7 +86,7 @@ export default async function TeachLessonPage({
   const lesson = data as SchoolLesson | null
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides)
+  const slides = visibleSlides(parseSlides(lesson.slides), 'classroom')?.slides ?? null
   if (!slides) notFound()
 
   const access = await currentAccess()

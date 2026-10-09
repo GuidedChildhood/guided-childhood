@@ -9,16 +9,12 @@ import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 import { readTonight } from '@/lib/pathway/tonight'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
 import { dealOutgrown } from '@/lib/content/agreement-promises'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
+import { lessonStageFor, schoolModulesForStage } from '@/lib/lessons/school-path'
+import { childLessonPath } from './lesson-path'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
-
-export interface DailyTask {
-  key: 'moment' | 'script' | 'lesson' | 'device' | 'checkin'
-  label: string
-  detail: string
-  href: string
-  done: boolean
-}
 
 export interface TodayLoopTask {
   key: 'checkin' | 'setup' | 'tonight' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'lesson' | 'done'
@@ -179,8 +175,7 @@ export async function getTodayLoop(
     { data: agreementRow },
     passportRead,
     { data: completedBefore },
-    { data: stageLessons },
-    { data: aiLessons },
+    stageModules,
     { data: lessonRows },
     { count: devicesTickedToday },
     { count: devicesAddedToday },
@@ -291,11 +286,14 @@ export async function getTodayLoop(
       .not('completed_at', 'is', null)
       .lt('session_date', today)
       .limit(500),
-    // The next lesson for the age, for lesson days: the same two shelves the
-    // legacy trail read, the stage's own lessons first, then the AI modules
-    // for the stage's audience.
-    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
-    supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
+    // The child's next lesson, for lesson days: their school modules for the
+    // stage, in teaching order, through the admin client because the
+    // curriculum catalogue is service role only. Until 9 October 2026 this
+    // read the PARENT library, so a lesson day sent the parent to a lesson
+    // written for the adult.
+    // The child's lessons follow their school year (sync plan C), so the
+    // rung names the lesson their own list opens.
+    listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, child ? lessonStageFor(child) : stageId)),
     // One read serves both questions: which lessons are behind this child
     // (per child, a row with no child speaks for the household), and whether
     // a lesson landed TODAY, which is what ticks a lesson day.
@@ -451,17 +449,18 @@ export async function getTodayLoop(
   type LessonCompletionRow = { lesson_id: string; lesson_source: string; passed: boolean | null; child_id: string | null; completed_at: string | null }
   const myLessonRows = ((lessonRows ?? []) as LessonCompletionRow[])
     .filter(r => r.child_id === (child?.id ?? null) || r.child_id === null)
-  const doneLessonKeys = new Set(
-    myLessonRows.filter(r => r.passed !== false).map(r => `${r.lesson_source}:${r.lesson_id}`),
-  )
-  const nextLesson =
-    (stageLessons ?? []).find(l => !doneLessonKeys.has(`lesson:${l.id}`)) ??
-    (aiLessons ?? []).find(l => !doneLessonKeys.has(`ai_lesson:${l.id}`))
-  const nextLessonHref = nextLesson
-    ? (stageLessons ?? []).some(l => l.id === nextLesson.id)
-      ? `/dashboard/lessons/${nextLesson.id}`
-      : `/dashboard/ai-module/${nextLesson.id}`
-    : '/dashboard/lessons'
+  // The one lesson count (lib/pathway/lesson-path.ts), over this child's rows
+  // and the household's. Its `next` is the first school module neither passed
+  // nor skipped, and the rung opens the child's lessons, where the parent can
+  // see it on the child's app or do it together.
+  const lessonPath = childLessonPath({
+    modules: stageModules,
+    completions: myLessonRows,
+    passBy: null,
+    childId: child?.id ?? null,
+  })
+  const nextLesson = lessonPath.school.next
+  const nextLessonHref = '/dashboard/lessons/path'
   const lessonDoneToday = myLessonRows.some(r => r.completed_at !== null && r.completed_at >= dayStart)
 
   // The focus, with its honest fallbacks: a lesson day with every lesson done
@@ -973,162 +972,4 @@ export async function getTodayLoop(
   })
 
   return tasks
-}
-
-const STAGE_TO_AUDIENCE: Record<StageId, string> = {
-  foundation: 'age_7',
-  builder: 'age_9',
-  explorer: 'age_11',
-  shaper: 'age_13',
-  independent: 'age_16',
-}
-
-const STAGE_DEVICE_MAX_AGE: Record<StageId, number> = {
-  foundation: 7, builder: 10, explorer: 13, shaper: 15, independent: 99,
-}
-
-function mondayOf(d: Date): string {
-  const day = d.getUTCDay()
-  const diff = (day + 6) % 7
-  const monday = new Date(d)
-  monday.setUTCDate(d.getUTCDate() - diff)
-  return monday.toISOString().slice(0, 10)
-}
-
-// The day's trail: five concrete tasks in walking order, each resolved
-// against real completion data so DiGi can stand at the first one that is
-// actually not done and name the exact next action, not a generic nudge.
-export async function getDailyTasks(
-  supabase: SupabaseClient,
-  userId: string,
-  childId: string | null,
-  stageId: StageId,
-  challenge: ChallengeId | null,
-  isPaid = true
-): Promise<DailyTask[]> {
-  const today = londonToday()
-  // The instant today began in London, not UTC midnight. Through British summer
-  // time the two are an hour apart, so a step completed between midnight and
-  // 1am counted for the day before and the parent was told to do it again.
-  const dayStart = londonDayStart()
-  const weekStart = mondayOf(new Date())
-
-  const [
-    { data: sessionRows },
-    recommended,
-    { data: scriptDoneToday },
-    { data: stageLessons },
-    { data: aiLessons },
-    { data: lessonCompletions },
-    { data: stageDevices },
-    { data: deviceProgress },
-    { data: checkin },
-    { data: momentCompletionsToday },
-  ] = await Promise.all([
-    // Not maybeSingle: with more than one child there is now a row each, and
-    // PostgREST treats more than one row as an error, so the answer came back
-    // null and every child's day read as not started. A legacy row with no
-    // child still counts for everybody, which is what it meant when written.
-    supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
-    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid, childId }),
-    // THIS child's script today (or a household row), so Jody's bedtime read
-    // ticks Jody's day and Tray's stays open. Key per child since 219.
-    supabase.from('script_completions').select('id, child_id, status').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
-    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
-    supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
-    supabase.from('device_guides').select('device_key, name, min_age').lte('min_age', STAGE_DEVICE_MAX_AGE[stageId]).order('min_age', { ascending: true }),
-    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
-    childId
-      ? supabase.from('wellbeing_checks').select('id').eq('child_id', childId).eq('week_start', weekStart).maybeSingle()
-      : Promise.resolve({ data: null }),
-    // Per child since migration 211. Asking by user alone is what let one
-    // child's moment tick the step for the whole household, so a parent doing
-    // Today with Teo was told Olgie's moment was done too.
-    supabase.from('moment_completions').select('id, child_id').eq('user_id', userId).eq('completed_on', today),
-  ])
-
-  // THIS CHILD'S DAY, out of the rows for today.
-  //
-  // A legacy row with no child counts for everybody, which is exactly what it
-  // meant before migration 210, so a family mid week does not lose the day they
-  // already finished.
-  // Same two step as getTodayLoop above, and for the same reason: an OR here
-  // returned whichever row came back first, so a household row could hide the
-  // child's own finished day.
-  type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
-  const sessionsToday = (sessionRows ?? []) as SessionRow[]
-  const session = sessionsToday.find(r => r.child_id === childId)
-    ?? sessionsToday.find(r => r.child_id === null)
-    ?? null
-
-
-  // Cards, not a finished day. See the long note in getTodayLoop above.
-  const momentDone = (session?.cards_completed ?? 0) > 0
-    // THIS child's moment. See the note in getTodayLoop above.
-    || ((momentCompletionsToday ?? []) as { child_id: string | null }[])
-         .some(r => r.child_id === childId || r.child_id === null)
-
-  const doneLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
-  const nextLesson =
-    (stageLessons ?? []).find(l => !doneLessonKeys.has(`lesson:${l.id}`)) ??
-    (aiLessons ?? []).find(l => !doneLessonKeys.has(`ai_lesson:${l.id}`))
-  const nextLessonHref = nextLesson
-    ? (stageLessons ?? []).some(l => l.id === nextLesson.id)
-      ? `/dashboard/lessons/${nextLesson.id}`
-      : `/dashboard/ai-module/${nextLesson.id}`
-    : '/dashboard/ai-module'
-
-  const setUpKeys = new Set((deviceProgress ?? []).map(d => d.device_key))
-  const nextDevice = (stageDevices ?? []).find(d => !setUpKeys.has(d.device_key))
-
-  // Same rule as getTodayLoop: every link carries the child it is about.
-  const withChild = (href: string) =>
-    childId && !href.includes('child=')
-      ? `${href}${href.includes('?') ? '&' : '?'}child=${childId}`
-      : href
-
-  return [
-    {
-      key: 'moment',
-      label: 'Daily moments',
-      detail: momentDone ? 'Done for today' : 'Two minutes, today’s cards',
-      href: withChild('/dashboard/daily'),
-      done: momentDone,
-    },
-    {
-      key: 'script',
-      label: recommended ? recommended.title : 'Scripts',
-      detail: recommended
-        ? 'Tonight’s script, picked for you'
-        : 'Every script for this stage is read',
-      href: withChild(await safeScriptHref(supabase, userId, isPaid, recommended)),
-      // countsTowardPathway, not merely a row: the road and the passport read
-      // one definition. See the note in getTodayLoop.
-      done: !recommended || (scriptDoneToday ?? [])
-        .filter(r => countsTowardPathway((r as { status?: string | null }).status))
-        .some(r => (r as { child_id?: string | null }).child_id === childId || (r as { child_id?: string | null }).child_id == null),
-    },
-    {
-      key: 'lesson',
-      label: nextLesson ? nextLesson.title : 'Lessons',
-      detail: nextLesson ? 'Your next lesson, about 3 minutes' : 'All lessons for this stage are done',
-      href: withChild(nextLessonHref),
-      done: !nextLesson,
-    },
-    {
-      key: 'device',
-      label: nextDevice ? `Set up ${nextDevice.name}` : 'Devices',
-      detail: nextDevice ? 'Step by step, DiGi can walk you through it' : 'Every device for this stage is set up',
-      href: withChild('/dashboard/devices'),
-      done: !nextDevice,
-    },
-    {
-      key: 'checkin',
-      label: 'Weekly check in',
-      detail: checkin ? 'Done for this week' : 'Five questions, once a week',
-      href: withChild('/dashboard/pathway'),
-      done: !!checkin,
-    },
-  ]
 }

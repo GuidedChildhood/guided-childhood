@@ -1,6 +1,6 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
-import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { printedOptions } from '@gc/shared/option-order'
 import { isStandaloneModule, standaloneTitle } from '@/lib/taster'
@@ -60,10 +60,15 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
     .maybeSingle()
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const checks = slides.filter((s): s is ChoiceSlide => s.type === 'choice')
   const retrieval = checks[0]
-  const exitChecks = checks.slice(-2)
+  // The prove items by their phase, not by being the last two choice slides.
+  // On all 34 decks those are the same two slides today (the guard proves
+  // it), but from the content PR a deck also carries kid only prove items and
+  // reserves, and "the last two" would print a child's reserve on the class
+  // exit ticket.
+  const exitChecks = checks.filter(c => c.phase === 'prove' && !(c as { kid_only?: boolean }).kid_only)
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
   const parent = (lesson.parent_note ?? {}) as ParentNote
   const dsl = (lesson.dsl_note ?? {}) as DslNote
