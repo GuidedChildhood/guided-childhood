@@ -437,6 +437,19 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   eq('a right spare stands in', lessonPassed(withSpare, markAnswers(withSpare, [tap(proves[0], right(proves[0]), right(proves[0])), tap(proves[1], wrong(proves[1]), wrong(proves[1])), { slide: withSpare.length - 1, question: 'A spare', chosen: 'yes', phase: 'prove' }])), true)
 }
 
+// ── 11. THE SEND ROUTE, IN THE PARENT'S OWN NAME (plan v10, item 1.7) ───────
+{
+  const send = read('app/api/quests/lessons/route.ts')
+  const post = send.slice(send.indexOf('export async function POST'), send.indexOf('export async function DELETE'))
+  if (/getStarLesson\(supabase|listStarLessons\(supabase/.test(send)) fail.push('the send route reads the catalogue with the parent session, which migration 274 forbids')
+  if (!/\.eq\('parent_id', user\.id\)/.test(post)) fail.push('the send route must prove the child is the parent\'s own')
+  if (!/state: 'already_passed'/.test(post)) fail.push('the send route must answer already_passed for a passed lesson, never set it back to sent')
+  if (/\.upsert\(/.test(post)) fail.push('the send route upserts again, which un-passes a done mission')
+  if (!/if \(pushed\.sent > 0\)/.test(post) || !/nudged_at: new Date/.test(post)) fail.push('nudged_at is set only when the push reached a device')
+  if (!/stars: WEEKLY_LESSON_STARS/.test(post)) fail.push('a sent lesson pays the weekly 10 stars')
+  if (!/status: 403/.test(post)) fail.push('the send route refuses the paywall and the school year with 403')
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
