@@ -34,7 +34,11 @@ if (!/import \{ AI_AUDIENCE_TO_STAGE \} from '@\/lib\/pathway\/readiness-areas'/
 // ── 2. THE CHILD'S LIST IS THE SCHOOL PATH ──────────────────────────────────
 const kidList = read('app/k/[token]/lessons/page.tsx')
 if (!/loadChildLessonPath\(supabase, \{ userId: link\.user_id, childId: link\.child_id, stageId, paid \}\)/.test(kidList) || !/hrefFor=\{id => `\/k\/\$\{token\}\/school\/\$\{id\}`\}/.test(kidList)) fail.push('the child lesson list no longer shows and opens the school modules')
-if (!/redirect\(`\/k\/\$\{token\}\/school\/\$\{nextOpenId\}`\)/.test(kidList)) fail.push('the five a day lesson row no longer goes straight into the next school lesson')
+// The five a day no longer carries a lesson row (plan v10, item 1.6), so the
+// list's old ?next=1 jump into the next lesson is gone with it, and the day
+// route no longer reads missions to decide whether to draw one.
+if (/next === '1'|\?next=1/.test(kidList)) fail.push('the child lesson list jumps into the next lesson again; the five a day has no lesson row')
+if (/kid_lesson_missions/.test(read('app/api/kid/day/route.ts'))) fail.push('the day route reads missions again to decide on a lesson row it no longer draws')
 // The child's list is the manifest's teaching order, not build order, and the
 // standalone lessons stay out (30 September 2026: four under 7 lessons arrived
 // as 30 to 33, and sort order alone put Year 1 before them for a Reception child).

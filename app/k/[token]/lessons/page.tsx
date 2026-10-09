@@ -28,7 +28,6 @@ export default async function KidLessonsPage({ params, searchParams }: {
   searchParams?: Promise<{ next?: string; quiz?: string }>
 }) {
   const { token } = await params
-  const wantsNext = (await searchParams)?.next === '1'
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
 
   const supabase = createAdminClient()
@@ -123,7 +122,6 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // to the list is the right answer when there is nothing left in the stage: a
   // child who has passed everything should see what they finished, not a
   // redirect to nowhere.
-  if (wantsNext && nextOpenId && weekOpen) redirect(`/k/${token}/school/${nextOpenId}`)
 
   const items: KidLessonItem[] = stageModules.map(m => {
     const state = path.statusById[m.id]?.state
