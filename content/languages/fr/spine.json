@@ -1,0 +1,5234 @@
+{
+  "lang": "fr",
+  "version": 1,
+  "standard": "metropolitan",
+  "sources": [
+    {
+      "title": "National curriculum in England: languages programmes of study (key stage 2 statements ks2-1 to ks2-12)",
+      "url": "https://www.gov.uk/government/publications/national-curriculum-in-england-languages-progammes-of-study",
+      "licence": "Open Government Licence v3.0, Crown copyright",
+      "fetched": "2026-10-09"
+    },
+    {
+      "title": "GCSE French, German and Spanish subject content (DfE 2022, updated September 2025): Annex A French sound symbol correspondences and Annex E required vocabulary, the licensed core for dfe_annex_e",
+      "url": "https://www.gov.uk/government/publications/gcse-french-german-and-spanish-subject-content",
+      "licence": "Open Government Licence v3.0, Crown copyright",
+      "fetched": "2026-10-09"
+    },
+    {
+      "title": "AQA GCSE French 8652 specification, Appendix 2 vocabulary list. Used only as a membership check for gcse_list; nothing copied",
+      "url": "https://www.aqa.org.uk/subjects/french/gcse/french-8652/specification/subject-content/vocabulary",
+      "licence": "AQA copyright; check only, not a source of text",
+      "fetched": "2026-10-09"
+    },
+    {
+      "title": "Pearson Edexcel GCSE French (2024) vocabulary list. Used only as a membership check for gcse_list; nothing copied",
+      "url": "https://qualifications.pearson.com/en/qualifications/edexcel-gcses/french-2024.html",
+      "licence": "Pearson copyright; check only, not a source of text",
+      "fetched": "2026-10-09"
+    }
+  ],
+  "field_notes": {
+    "gcse_list": "true when the word (or its headword) is on both the AQA 8652 and the Pearson Edexcel 2024 GCSE French lists, which the DfE requires to be drawn mostly from the 2,000 most frequent French words. A word on both is treated as a common high frequency word.",
+    "dfe_annex_e": "true when the word or its headword is on DfE Annex E, French required words (foundation or higher), Open Government Licence.",
+    "gcse_ssc": "the DfE Annex A French sound spelling links a sound covers. All 35 are taught by the end of Year 5 and secured in Year 6.",
+    "recycled_words": "spaced retrieval for the lesson starter and practice: words from 1, 3, 6 and 9 lessons before (about 1, 3, 6 and 9 weeks), so every word gets a long gap near day 60.",
+    "carry_over_words": "Year 3 words taught too late in the year for three recycles in Year 3; they open the Year 4 starters."
+  },
+  "sounds": [
+    {
+      "id": "fr-s01",
+      "grapheme": "i, y",
+      "ipa": "/i/",
+      "examples": [
+        "merci",
+        "kiwi",
+        "taxi"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "gcse_ssc": [
+        "i/y"
+      ],
+      "teacher_tip": "Smile wide and keep it short and bright, with no glide at the end. The letter y says the same sound in il y a and stylo, which come later."
+    },
+    {
+      "id": "fr-s02",
+      "grapheme": "ou",
+      "ipa": "/u/",
+      "examples": [
+        "bonjour",
+        "soupe",
+        "kangourou"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "gcse_ssc": [
+        "ou"
+      ],
+      "teacher_tip": "Round the lips and push them forward as if blowing out a candle. Children often read ou as the English 'out', so show the two letters as one sound card."
+    },
+    {
+      "id": "fr-s03",
+      "grapheme": "a",
+      "ipa": "/a/",
+      "examples": [
+        "ça va",
+        "salut",
+        "mal"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "gcse_ssc": [
+        "a"
+      ],
+      "teacher_tip": "A short open 'a' as in the English 'cat', mouth wide open. It never says the English name of the letter."
+    },
+    {
+      "id": "fr-s04",
+      "grapheme": "u",
+      "ipa": "/y/",
+      "examples": [
+        "salut",
+        "tu",
+        "flûte"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "gcse_ssc": [
+        "u"
+      ],
+      "teacher_tip": "Say 'ee', freeze the tongue, then round the lips into a tight circle. Fish lips is the cue. This is the sound English speakers find hardest, so praise the try."
+    },
+    {
+      "id": "fr-s05",
+      "grapheme": "oi",
+      "ipa": "/wa/",
+      "examples": [
+        "trois",
+        "au revoir",
+        "croissant"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "gcse_ssc": [
+        "oi/oy"
+      ],
+      "teacher_tip": "Two letters, one quick sound: 'wa'. Hold up the oi card and say it with the arm doing a wave."
+    },
+    {
+      "id": "fr-s06",
+      "grapheme": "silent final consonant",
+      "ipa": "silent",
+      "examples": [
+        "deux",
+        "trois",
+        "salut"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "gcse_ssc": [
+        "silent final consonant"
+      ],
+      "teacher_tip": "Most letters at the end of a word sleep and make no sound. Draw a little sleeping face over the last letter. Careful: c, r, f and l at the end usually wake up (avec, bonjour, neuf, il). Teach the word careful as the memory hook."
+    },
+    {
+      "id": "fr-s07",
+      "grapheme": "ui",
+      "ipa": "/ɥi/",
+      "examples": [
+        "huit",
+        "je suis",
+        "cuisine"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "gcse_ssc": [],
+      "teacher_tip": "Say the French u, then slide quickly into 'ee'. Not an annex item on its own, but it carries huit and je suis, so it is taught early."
+    },
+    {
+      "id": "fr-s08",
+      "grapheme": "an, en",
+      "ipa": "/ɑ̃/",
+      "examples": [
+        "ans",
+        "comment",
+        "maman"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "gcse_ssc": [
+        "en/an/em/am"
+      ],
+      "teacher_tip": "A nasal sound: air goes through the nose and the n is not pronounced. Children pinch their nose gently to feel the buzz. The n is a signal, not a sound."
+    },
+    {
+      "id": "fr-s09",
+      "grapheme": "s and x liaison",
+      "ipa": "/z/",
+      "examples": [
+        "deux ans",
+        "trois ans",
+        "dix ans"
+      ],
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "gcse_ssc": [
+        "s-liaison",
+        "x-liaison"
+      ],
+      "teacher_tip": "Teacher note. A sleeping s or x wakes up as a z when the next word starts with a vowel: deux ans sounds like 'deu zan'. Children copy it from the audio; they do not need the rule yet."
+    },
+    {
+      "id": "fr-s10",
+      "grapheme": "on",
+      "ipa": "/ɔ̃/",
+      "examples": [
+        "non",
+        "bonjour",
+        "ballon"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "gcse_ssc": [
+        "on/om"
+      ],
+      "teacher_tip": "Round the lips as for 'oh' and send the sound through the nose. Contrast with an: non and ans make a lovely pair."
+    },
+    {
+      "id": "fr-s11",
+      "grapheme": "ch",
+      "ipa": "/ʃ/",
+      "examples": [
+        "chocolat",
+        "chef",
+        "machine"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "gcse_ssc": [
+        "ch"
+      ],
+      "teacher_tip": "Always 'sh', never the English 'ch' of church. Finger to lips as if saying shush."
+    },
+    {
+      "id": "fr-s12",
+      "grapheme": "é, final er, final ez",
+      "ipa": "/e/",
+      "examples": [
+        "café",
+        "télé",
+        "bébé"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "gcse_ssc": [
+        "é (-er, -ez)"
+      ],
+      "teacher_tip": "A short smiley 'ay' with no slide at the end. The accent leans forward like a person walking towards you. Final er and ez say the same sound; that comes back with chanter and danser."
+    },
+    {
+      "id": "fr-s13",
+      "grapheme": "è, ê, ai",
+      "ipa": "/ɛ/",
+      "examples": [
+        "fenêtre",
+        "sept",
+        "crème"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "gcse_ssc": [
+        "è/ê/ai"
+      ],
+      "teacher_tip": "A more open sound than é, like the e in the English 'bed'. Three spellings, one sound: put è, ê and ai on one card. e before two consonants (sept, elle) says it too."
+    },
+    {
+      "id": "fr-s14",
+      "grapheme": "eu (closed)",
+      "ipa": "/ø/",
+      "examples": [
+        "bleu",
+        "deux",
+        "jeux"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "gcse_ssc": [
+        "eu"
+      ],
+      "teacher_tip": "Say é, keep the tongue still and round the lips. Closed and small. The open version comes with sœur."
+    },
+    {
+      "id": "fr-s15",
+      "grapheme": "silent final e",
+      "ipa": "silent",
+      "examples": [
+        "petite",
+        "grande",
+        "verte"
+      ],
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "gcse_ssc": [
+        "silent final e"
+      ],
+      "teacher_tip": "The final e is silent, but it wakes up the consonant before it: petit has a sleeping t, petite says its t. This is how children hear the feminine adjective, so it is taught with agreement."
+    },
+    {
+      "id": "fr-s16",
+      "grapheme": "r",
+      "ipa": "/ʁ/",
+      "examples": [
+        "mère",
+        "père",
+        "rouge"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "gcse_ssc": [
+        "r"
+      ],
+      "teacher_tip": "Made at the back of the throat, like a gentle gargle. Practise with a soft 'grrr' first. Never roll it, never drop it."
+    },
+    {
+      "id": "fr-s17",
+      "grapheme": "eu, œu (open)",
+      "ipa": "/œ/",
+      "examples": [
+        "sœur",
+        "neuf",
+        "cœur"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "gcse_ssc": [
+        "open eu/œu"
+      ],
+      "teacher_tip": "The open eu, said with the mouth a little wider than in bleu. œu is a special joined letter; show children how to write it as o and e touching."
+    },
+    {
+      "id": "fr-s18",
+      "grapheme": "qu",
+      "ipa": "/k/",
+      "examples": [
+        "quatre",
+        "quatorze",
+        "quinze"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "gcse_ssc": [
+        "qu"
+      ],
+      "teacher_tip": "Always a plain 'k'. The u is silent after q, so qu never says 'kw' as in queen."
+    },
+    {
+      "id": "fr-s19",
+      "grapheme": "z, ze",
+      "ipa": "/z/",
+      "examples": [
+        "onze",
+        "douze",
+        "seize"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "gcse_ssc": [],
+      "teacher_tip": "A buzzing z, the same as in English. Taught here because every number from 11 to 16 ends in ze and children try to say the e."
+    },
+    {
+      "id": "fr-s20",
+      "grapheme": "ien",
+      "ipa": "/jɛ̃/",
+      "examples": [
+        "chien",
+        "bien",
+        "italien"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "gcse_ssc": [
+        "-ien"
+      ],
+      "teacher_tip": "A quick 'y' glide into the nasal in sound. chien and bien rhyme, which makes a ready chant."
+    },
+    {
+      "id": "fr-s21",
+      "grapheme": "in, ain, aim, im",
+      "ipa": "/ɛ̃/",
+      "examples": [
+        "vingt",
+        "cinq",
+        "lapin"
+      ],
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "gcse_ssc": [
+        "ain/in/aim/im"
+      ],
+      "teacher_tip": "A nasal sound with the mouth in a wide smile. Four spellings: in, ain, aim, im. pain and vingt rhyme even though they look different."
+    },
+    {
+      "id": "fr-s22",
+      "grapheme": "j, ge, gi",
+      "ipa": "/ʒ/",
+      "examples": [
+        "je",
+        "j'aime",
+        "rouge"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "gcse_ssc": [
+        "j"
+      ],
+      "teacher_tip": "The soft sound in the middle of the English 'treasure'. j always says it; g says it before e and i."
+    },
+    {
+      "id": "fr-s23",
+      "grapheme": "ç and soft c",
+      "ipa": "/s/",
+      "examples": [
+        "merci",
+        "glace",
+        "garçon"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "gcse_ssc": [
+        "ç (and soft 'c')"
+      ],
+      "teacher_tip": "c says 's' before e and i. The little tail on ç lets c say 's' before a, o and u too, as in ça va. Children love drawing the tail."
+    },
+    {
+      "id": "fr-s24",
+      "grapheme": "er, ez, et at the end",
+      "ipa": "/e/",
+      "examples": [
+        "jouer",
+        "chanter",
+        "danser"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "gcse_ssc": [
+        "é (-er, -ez)"
+      ],
+      "teacher_tip": "The r of er and the z of ez sleep, so the ending sounds exactly like é. The t of et sleeps too. Every verb that ends in er is read this way."
+    },
+    {
+      "id": "fr-s25",
+      "grapheme": "s between vowels and ss",
+      "ipa": "/z/ and /s/",
+      "examples": [
+        "poisson",
+        "maison",
+        "aussi"
+      ],
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "gcse_ssc": [
+        "-s-"
+      ],
+      "teacher_tip": "One s between two vowels buzzes like z (maison). Double ss hisses like s (poisson, aussi). poisson and poison are a fun pair for the teacher, not the children."
+    },
+    {
+      "id": "fr-s26",
+      "grapheme": "un",
+      "ipa": "/œ̃/",
+      "examples": [
+        "lundi",
+        "un",
+        "parfum"
+      ],
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "gcse_ssc": [
+        "un"
+      ],
+      "teacher_tip": "A nasal sound. Many French speakers today say it just like in; children may copy either. The audio uses the common modern sound."
+    },
+    {
+      "id": "fr-s27",
+      "grapheme": "e (soft e)",
+      "ipa": "/ə/",
+      "examples": [
+        "je",
+        "le",
+        "samedi"
+      ],
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "gcse_ssc": [
+        "e"
+      ],
+      "teacher_tip": "The short soft e in je, le and de, like the a in the English 'about'. In fast speech it often drops: samedi sounds like 'sam di'."
+    },
+    {
+      "id": "fr-s28",
+      "grapheme": "au, eau, ô (closed o)",
+      "ipa": "/o/",
+      "examples": [
+        "beau",
+        "chaud",
+        "gâteau"
+      ],
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "gcse_ssc": [
+        "au/eau/closed o/ô"
+      ],
+      "teacher_tip": "Three spellings of one closed 'oh' sound, with no 'w' slide at the end as English adds."
+    },
+    {
+      "id": "fr-s29",
+      "grapheme": "ei",
+      "ipa": "/ɛ/",
+      "examples": [
+        "neige",
+        "treize",
+        "seize"
+      ],
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "gcse_ssc": [
+        "è/ê/ai"
+      ],
+      "teacher_tip": "Another spelling of the open è sound. Group it with ai and ê on the sound card."
+    },
+    {
+      "id": "fr-s30",
+      "grapheme": "eil, eille",
+      "ipa": "/ɛj/",
+      "examples": [
+        "soleil",
+        "oreille",
+        "réveil"
+      ],
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "gcse_ssc": [],
+      "teacher_tip": "The l is not said as an l: eil sounds like the English 'ay' in 'say' cut short. It prepares for ille in Year 4."
+    },
+    {
+      "id": "fr-s31",
+      "grapheme": "em, am before b or p",
+      "ipa": "/ɑ̃/",
+      "examples": [
+        "novembre",
+        "décembre",
+        "jambe"
+      ],
+      "year": 4,
+      "unit": 1,
+      "lesson": null,
+      "gcse_ssc": [
+        "en/an/em/am"
+      ],
+      "teacher_tip": "Before b or p the n becomes m, but the nasal sound is the same as an and en."
+    },
+    {
+      "id": "fr-s32",
+      "grapheme": "ill, ille",
+      "ipa": "/j/",
+      "examples": [
+        "juillet",
+        "famille",
+        "fille"
+      ],
+      "year": 4,
+      "unit": 1,
+      "lesson": null,
+      "gcse_ssc": [
+        "-ill-/-ille"
+      ],
+      "teacher_tip": "ill usually says 'y' as in 'yes'. Watch the exceptions ville and mille, where ll is an l."
+    },
+    {
+      "id": "fr-s33",
+      "grapheme": "n liaison",
+      "ipa": "/n/",
+      "examples": [
+        "un ami",
+        "mon ami",
+        "bon anniversaire"
+      ],
+      "year": 4,
+      "unit": 1,
+      "lesson": null,
+      "gcse_ssc": [
+        "n-liaison"
+      ],
+      "teacher_tip": "Before a vowel the nasal n is said and joined on: mon ami sounds like 'mo nami'. First heard in the Year 3 story."
+    },
+    {
+      "id": "fr-s34",
+      "grapheme": "open o",
+      "ipa": "/ɔ/",
+      "examples": [
+        "porte",
+        "alors",
+        "robe"
+      ],
+      "year": 4,
+      "unit": 2,
+      "lesson": null,
+      "gcse_ssc": [
+        "open o"
+      ],
+      "teacher_tip": "A more open 'o' than in beau, as in the English 'pot' but rounder. Found in the middle of words before a sounded consonant."
+    },
+    {
+      "id": "fr-s35",
+      "grapheme": "h",
+      "ipa": "silent",
+      "examples": [
+        "habiter",
+        "hôtel",
+        "homme"
+      ],
+      "year": 4,
+      "unit": 3,
+      "lesson": null,
+      "gcse_ssc": [
+        "h"
+      ],
+      "teacher_tip": "h is always silent. j'habite shows it: the h does not stop the elision."
+    },
+    {
+      "id": "fr-s36",
+      "grapheme": "gn",
+      "ipa": "/ɲ/",
+      "examples": [
+        "montagne",
+        "campagne",
+        "Espagne"
+      ],
+      "year": 4,
+      "unit": 3,
+      "lesson": null,
+      "gcse_ssc": [
+        "-gn-"
+      ],
+      "teacher_tip": "Like the ny in the English 'canyon'. One sound for two letters."
+    },
+    {
+      "id": "fr-s37",
+      "grapheme": "oin, oy",
+      "ipa": "/wɛ̃/ and /waj/",
+      "examples": [
+        "loin",
+        "moins",
+        "voyage"
+      ],
+      "year": 4,
+      "unit": 4,
+      "lesson": null,
+      "gcse_ssc": [
+        "oi/oy"
+      ],
+      "teacher_tip": "oin is oi plus the nasal in. oy before a vowel says 'wa' plus 'y'. Both extend the oi card from Year 3."
+    },
+    {
+      "id": "fr-s38",
+      "grapheme": "tion",
+      "ipa": "/sjɔ̃/",
+      "examples": [
+        "natation",
+        "récréation",
+        "information"
+      ],
+      "year": 4,
+      "unit": 5,
+      "lesson": null,
+      "gcse_ssc": [
+        "-tion"
+      ],
+      "teacher_tip": "Never 'shun' as in English. The t says s, then the nasal on."
+    },
+    {
+      "id": "fr-s39",
+      "grapheme": "th",
+      "ipa": "/t/",
+      "examples": [
+        "théâtre",
+        "thé",
+        "maths"
+      ],
+      "year": 4,
+      "unit": 5,
+      "lesson": null,
+      "gcse_ssc": [
+        "th"
+      ],
+      "teacher_tip": "th is a plain t. No tongue between the teeth."
+    },
+    {
+      "id": "fr-s40",
+      "grapheme": "t liaison",
+      "ipa": "/t/",
+      "examples": [
+        "c'est un",
+        "petit ami",
+        "il est ici"
+      ],
+      "year": 4,
+      "unit": 6,
+      "lesson": null,
+      "gcse_ssc": [
+        "t-liaison"
+      ],
+      "teacher_tip": "A sleeping t wakes before a vowel: c'est un sounds like 'say tun'. Taught alongside the first dictations."
+    },
+    {
+      "id": "fr-s41",
+      "grapheme": "ail, aill",
+      "ipa": "/aj/",
+      "examples": [
+        "travail",
+        "maillot",
+        "taille"
+      ],
+      "year": 5,
+      "unit": 1,
+      "lesson": null,
+      "gcse_ssc": [
+        "-aill-/ail"
+      ],
+      "teacher_tip": "ail at the end and aill in the middle say 'eye'. The last of the 35 GCSE sound spelling links, so the whole set is taught by the end of Year 5."
+    },
+    {
+      "id": "fr-s42",
+      "grapheme": "silent ent in verb endings",
+      "ipa": "silent",
+      "examples": [
+        "ils aiment",
+        "elles jouent",
+        "ils parlent"
+      ],
+      "year": 5,
+      "unit": 3,
+      "lesson": null,
+      "gcse_ssc": [
+        "silent final consonant"
+      ],
+      "teacher_tip": "In ils aiment the ent is silent, so aime and aiment sound the same. Pupils learn to hear the difference from the pronoun, not the ending."
+    },
+    {
+      "id": "fr-s43",
+      "grapheme": "ais, ait, aient",
+      "ipa": "/ɛ/",
+      "examples": [
+        "c'était",
+        "il y avait",
+        "il faisait"
+      ],
+      "year": 6,
+      "unit": 2,
+      "lesson": null,
+      "gcse_ssc": [
+        "è/ê/ai"
+      ],
+      "teacher_tip": "All three imperfect endings sound the same open è. Recognition first, spelling in dictation later."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "fr-g01",
+      "point": "Greeting people: bonjour for adults, salut for friends",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "French has polite and friendly ways to greet. Children say bonjour Madame or bonjour Monsieur to adults and salut to friends. Model both every lesson so the routine teaches the rule.",
+      "examples": [
+        "Bonjour Madame !",
+        "Salut Léo !",
+        "Au revoir, merci !"
+      ]
+    },
+    {
+      "id": "fr-g02",
+      "point": "je means I and tu means you (one friend)",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "je is I and tu is you when talking to one friend or child. je becomes j' before a vowel (j'ai). The polite vous waits until Year 4.",
+      "examples": [
+        "Je m'appelle Zoé.",
+        "Tu t'appelles comment ?",
+        "Je suis Sam."
+      ]
+    },
+    {
+      "id": "fr-g03",
+      "point": "Asking a question with your voice",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "Spoken French often turns a statement into a question by raising the voice at the end. Ça va. (falling) Ça va ? (rising). Children show the rise with a hand going up.",
+      "examples": [
+        "Ça va ?",
+        "Ça va bien.",
+        "Tu as huit ans ?"
+      ]
+    },
+    {
+      "id": "fr-g04",
+      "point": "Saying your age with avoir: j'ai huit ans",
+      "year": 3,
+      "unit": 1,
+      "teacher_explanation": "French says I have eight years, not I am eight. j'ai and tu as are forms of avoir (to have). Saying je suis huit is the classic mistake; praise the j'ai.",
+      "examples": [
+        "J'ai huit ans.",
+        "Tu as sept ans ?",
+        "Oui, j'ai sept ans."
+      ]
+    },
+    {
+      "id": "fr-g05",
+      "point": "Every noun is masculine or feminine: un and une",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "Every French noun has a gender. un goes with masculine nouns and une with feminine ones. Learn the noun with its un or une, never alone. Colour code: one colour for masculine, another for feminine, used all through the scheme.",
+      "examples": [
+        "C'est un livre.",
+        "C'est une table.",
+        "C'est un stylo."
+      ]
+    },
+    {
+      "id": "fr-g06",
+      "point": "The: le, la and l'",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "le goes with masculine nouns, la with feminine nouns, and both shorten to l' before a vowel or silent h. The gender learnt with un or une tells you which to use.",
+      "examples": [
+        "le livre",
+        "la table",
+        "l'ami"
+      ]
+    },
+    {
+      "id": "fr-g07",
+      "point": "il y a: there is, there are",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "il y a is one fixed chunk that means both there is and there are. It never changes for plural.",
+      "examples": [
+        "Il y a un sac.",
+        "Il y a une fenêtre.",
+        "Il y a des livres."
+      ]
+    },
+    {
+      "id": "fr-g08",
+      "point": "Plurals: les, des and a silent s",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "Most nouns add s in the plural, but the s is silent, so you hear the plural in the little word in front: les or des. des means some, the plural of un and une.",
+      "examples": [
+        "les livres",
+        "des stylos",
+        "Il y a des sacs dans la classe."
+      ]
+    },
+    {
+      "id": "fr-g09",
+      "point": "Colours go after the noun",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "In French most describing words come after the noun: a red bag is un sac rouge. This is the opposite of English, so children say the noun first, then the colour.",
+      "examples": [
+        "un sac rouge",
+        "un stylo bleu",
+        "un livre vert"
+      ]
+    },
+    {
+      "id": "fr-g10",
+      "point": "Describing words agree: add e for feminine",
+      "year": 3,
+      "unit": 2,
+      "teacher_explanation": "With a feminine noun, most describing words add e. Often you can hear it, because the e wakes the consonant: vert, verte. petit and grand go before the noun.",
+      "examples": [
+        "une table verte",
+        "une petite fenêtre",
+        "un grand sac noir"
+      ]
+    },
+    {
+      "id": "fr-g11",
+      "point": "my: mon, ma, mes",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "my changes with the noun: mon for masculine, ma for feminine, mes for plural. The owner does not matter, only the noun.",
+      "examples": [
+        "mon père",
+        "ma mère",
+        "mes livres"
+      ]
+    },
+    {
+      "id": "fr-g12",
+      "point": "he has, she has: il a, elle a",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "il a and elle a are more forms of avoir. They are used for age too: il a dix ans. a has no accent here; à with an accent is a different word.",
+      "examples": [
+        "Il a dix ans.",
+        "Elle a un chat.",
+        "Mon frère a douze ans."
+      ]
+    },
+    {
+      "id": "fr-g13",
+      "point": "Building numbers 11 to 20",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "11 to 16 are single words ending in ze. From 17 French builds the number: dix-sept is ten seven. The hyphen is part of the spelling.",
+      "examples": [
+        "onze, douze, treize",
+        "seize",
+        "dix-sept, dix-huit, dix-neuf, vingt"
+      ]
+    },
+    {
+      "id": "fr-g14",
+      "point": "he is, she is: il est, elle est",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "il est and elle est are forms of être (to be), the same verb as je suis. Use them with describing words: il est petit, elle est petite.",
+      "examples": [
+        "Il est petit.",
+        "Elle est grande.",
+        "Le chat est noir."
+      ]
+    },
+    {
+      "id": "fr-g15",
+      "point": "his or her: son, sa",
+      "year": 3,
+      "unit": 3,
+      "teacher_explanation": "son and sa both mean his or her. Choose by the noun, not the owner: son chien can be his dog or her dog.",
+      "examples": [
+        "son chien",
+        "sa sœur",
+        "Elle a un poisson. Son poisson est rouge."
+      ]
+    },
+    {
+      "id": "fr-g16",
+      "point": "Likes take the: j'aime le chocolat",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "After aimer, French uses le, la or les where English uses nothing: J'aime la glace means I like ice cream.",
+      "examples": [
+        "J'aime le gâteau.",
+        "Tu aimes la glace ?",
+        "J'aime les chats."
+      ]
+    },
+    {
+      "id": "fr-g17",
+      "point": "Saying no: ne ... pas around the verb",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "To make a sentence negative, ne goes before the verb and pas after it, like two slices of bread. ne becomes n' before a vowel: je n'aime pas.",
+      "examples": [
+        "Je n'aime pas le fromage.",
+        "Ce n'est pas un chat.",
+        "Il n'est pas dans le jardin."
+      ]
+    },
+    {
+      "id": "fr-g18",
+      "point": "Joining ideas with et and mais",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "et (and) and mais (but) join two ideas into one longer sentence. The t of et is always silent.",
+      "examples": [
+        "J'aime le pain et le fromage.",
+        "J'aime la glace mais je n'aime pas le gâteau."
+      ]
+    },
+    {
+      "id": "fr-g19",
+      "point": "aimer plus an action: j'aime jouer",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "After j'aime, an action word stays in its er form, the infinitive. J'aime chanter is I like singing.",
+      "examples": [
+        "J'aime jouer.",
+        "J'aime chanter et danser.",
+        "Tu aimes lire ?"
+      ]
+    },
+    {
+      "id": "fr-g20",
+      "point": "Where little words go: beaucoup and aussi",
+      "year": 3,
+      "unit": 4,
+      "teacher_explanation": "beaucoup (a lot) and aussi (too, also) go straight after the verb, not at the end as in English.",
+      "examples": [
+        "J'aime beaucoup le foot.",
+        "J'aime aussi la musique."
+      ]
+    },
+    {
+      "id": "fr-g21",
+      "point": "Days of the week: no capital letter",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Days start with a small letter in French. Use c'est to say what day it is: aujourd'hui, c'est lundi.",
+      "examples": [
+        "Aujourd'hui, c'est lundi.",
+        "Demain, c'est mardi."
+      ]
+    },
+    {
+      "id": "fr-g22",
+      "point": "Weather with il: il fait beau, il pleut",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Weather uses il with nobody doing the action: it. il fait plus a describing word, or a weather verb like il pleut.",
+      "examples": [
+        "Il fait beau.",
+        "Il fait froid.",
+        "Il pleut."
+      ]
+    },
+    {
+      "id": "fr-g23",
+      "point": "Question words: quel and où",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "Question words start a question: quel (which, what) and later où (where). Quel temps fait-il ? is learnt as one fixed question.",
+      "examples": [
+        "Quel temps fait-il ?",
+        "Où est le chat ?"
+      ]
+    },
+    {
+      "id": "fr-g24",
+      "point": "du: some, as in il y a du soleil",
+      "year": 3,
+      "unit": 5,
+      "teacher_explanation": "du means some with a masculine noun. Learn il y a du soleil as a chunk; the full set du, de la, des comes in Year 4.",
+      "examples": [
+        "Il y a du soleil.",
+        "Il y a du gâteau."
+      ]
+    },
+    {
+      "id": "fr-g25",
+      "point": "Instructions: écoute, répète, regarde",
+      "year": 3,
+      "unit": 6,
+      "teacher_explanation": "Telling one person to do something uses the tu form without tu: écoute (listen), répète (repeat), regarde (look). The class hears them every lesson.",
+      "examples": [
+        "Écoute !",
+        "Répète !",
+        "Regarde !"
+      ]
+    },
+    {
+      "id": "fr-g26",
+      "point": "your: ton, ta, tes",
+      "year": 4,
+      "unit": 1,
+      "teacher_explanation": "Works like mon, ma, mes. Used to ask about birthdays and families.",
+      "examples": [
+        "ton anniversaire",
+        "ta sœur",
+        "tes amis"
+      ]
+    },
+    {
+      "id": "fr-g27",
+      "point": "Dates: le plus number plus month",
+      "year": 4,
+      "unit": 1,
+      "teacher_explanation": "French says the three May: le 3 mai. Only the first of the month uses premier.",
+      "examples": [
+        "C'est le 3 mai.",
+        "le premier juin"
+      ]
+    },
+    {
+      "id": "fr-g28",
+      "point": "avoir mal à: it hurts",
+      "year": 4,
+      "unit": 2,
+      "teacher_explanation": "j'ai mal à plus au, à la or aux names where it hurts. à plus le becomes au.",
+      "examples": [
+        "J'ai mal à la tête.",
+        "J'ai mal au pied."
+      ]
+    },
+    {
+      "id": "fr-g29",
+      "point": "Plural describing words",
+      "year": 4,
+      "unit": 2,
+      "teacher_explanation": "Describing words add s in the plural, usually silent: des yeux bleus.",
+      "examples": [
+        "des yeux bleus",
+        "des cheveux noirs"
+      ]
+    },
+    {
+      "id": "fr-g30",
+      "point": "er verbs with je, tu, il, elle: j'habite",
+      "year": 4,
+      "unit": 3,
+      "teacher_explanation": "Regular er verbs drop er and add e, es, e. All three sound the same; only the spelling changes.",
+      "examples": [
+        "J'habite à Londres.",
+        "Tu habites où ?",
+        "Il habite dans une maison."
+      ]
+    },
+    {
+      "id": "fr-g31",
+      "point": "Where things are: sur, sous, devant, derrière",
+      "year": 4,
+      "unit": 3,
+      "teacher_explanation": "Position words go before the noun, as in English.",
+      "examples": [
+        "sur la table",
+        "sous le lit",
+        "devant la maison"
+      ]
+    },
+    {
+      "id": "fr-g32",
+      "point": "Polite wanting: je voudrais, s'il vous plaît",
+      "year": 4,
+      "unit": 4,
+      "teacher_explanation": "je voudrais is the polite I would like. vous is the polite you for adults and for more than one person.",
+      "examples": [
+        "Je voudrais un croissant, s'il vous plaît.",
+        "Vous voulez du pain ?"
+      ]
+    },
+    {
+      "id": "fr-g33",
+      "point": "some: du, de la, des",
+      "year": 4,
+      "unit": 4,
+      "teacher_explanation": "some changes with the noun: du (masculine), de la (feminine), des (plural), de l' before a vowel.",
+      "examples": [
+        "du pain",
+        "de la confiture",
+        "des pommes"
+      ]
+    },
+    {
+      "id": "fr-g34",
+      "point": "Games and sports: jouer au, faire du",
+      "year": 4,
+      "unit": 5,
+      "teacher_explanation": "jouer à for games (au foot), faire de for many sports (du vélo, de la natation).",
+      "examples": [
+        "Je joue au foot.",
+        "Je fais du vélo."
+      ]
+    },
+    {
+      "id": "fr-g35",
+      "point": "Telling the time: il est ... heures",
+      "year": 4,
+      "unit": 5,
+      "teacher_explanation": "il est plus a number plus heures. une heure is singular.",
+      "examples": [
+        "Il est trois heures.",
+        "Il est une heure."
+      ]
+    },
+    {
+      "id": "fr-g36",
+      "point": "we: on and nous",
+      "year": 4,
+      "unit": 6,
+      "teacher_explanation": "on is the everyday spoken we and takes the il form of the verb. nous is the written, careful we.",
+      "examples": [
+        "On joue au foot.",
+        "Nous chantons."
+      ]
+    },
+    {
+      "id": "fr-g37",
+      "point": "aller: je vais, tu vas, il va",
+      "year": 5,
+      "unit": 1,
+      "teacher_explanation": "aller (to go) is irregular and very frequent. à plus le becomes au: je vais au parc.",
+      "examples": [
+        "Je vais au parc.",
+        "Tu vas à la piscine ?"
+      ]
+    },
+    {
+      "id": "fr-g38",
+      "point": "How often: souvent, parfois, toujours",
+      "year": 5,
+      "unit": 1,
+      "teacher_explanation": "Frequency words go after the verb, like beaucoup.",
+      "examples": [
+        "Je vais souvent au parc.",
+        "Je joue parfois au tennis."
+      ]
+    },
+    {
+      "id": "fr-g39",
+      "point": "Giving reasons: parce que c'est ...",
+      "year": 5,
+      "unit": 2,
+      "teacher_explanation": "parce que (because) plus c'est plus a describing word turns a like into an opinion with a reason.",
+      "examples": [
+        "J'aime les maths parce que c'est facile."
+      ]
+    },
+    {
+      "id": "fr-g40",
+      "point": "Questions with est-ce que",
+      "year": 5,
+      "unit": 2,
+      "teacher_explanation": "est-ce que at the front turns any statement into a question, with no other change.",
+      "examples": [
+        "Est-ce que tu aimes le français ?"
+      ]
+    },
+    {
+      "id": "fr-g41",
+      "point": "Describing words before the noun",
+      "year": 5,
+      "unit": 3,
+      "teacher_explanation": "A few common describing words go before the noun: petit, grand, beau, joli, nouveau.",
+      "examples": [
+        "un beau pull",
+        "une jolie robe"
+      ]
+    },
+    {
+      "id": "fr-g42",
+      "point": "er verbs with nous, vous, ils, elles",
+      "year": 5,
+      "unit": 3,
+      "teacher_explanation": "The full present of regular er verbs. The ils ending ent is silent.",
+      "examples": [
+        "Nous portons un uniforme.",
+        "Ils aiment le sport."
+      ]
+    },
+    {
+      "id": "fr-g43",
+      "point": "Comparing: plus ... que, moins ... que",
+      "year": 5,
+      "unit": 4,
+      "teacher_explanation": "plus ... que is more ... than, moins ... que is less ... than. The describing word still agrees.",
+      "examples": [
+        "Le chien est plus grand que le chat."
+      ]
+    },
+    {
+      "id": "fr-g44",
+      "point": "être and avoir in full",
+      "year": 5,
+      "unit": 4,
+      "teacher_explanation": "All six persons of the two most frequent verbs, recited and used.",
+      "examples": [
+        "nous sommes",
+        "ils ont",
+        "vous êtes"
+      ]
+    },
+    {
+      "id": "fr-g45",
+      "point": "Near future: je vais plus an action",
+      "year": 5,
+      "unit": 5,
+      "teacher_explanation": "aller plus an infinitive talks about the future: je vais jouer.",
+      "examples": [
+        "Je vais jouer au foot.",
+        "Demain, il va pleuvoir."
+      ]
+    },
+    {
+      "id": "fr-g46",
+      "point": "Places: en France, au Canada, à Paris",
+      "year": 5,
+      "unit": 5,
+      "teacher_explanation": "en with most feminine countries, au with masculine ones, à with towns.",
+      "examples": [
+        "en France",
+        "au Canada",
+        "à Paris"
+      ]
+    },
+    {
+      "id": "fr-g47",
+      "point": "Building a paragraph: d'abord, ensuite, enfin",
+      "year": 5,
+      "unit": 6,
+      "teacher_explanation": "Sequence words link sentences into a short text for writing from memory.",
+      "examples": [
+        "D'abord, je mange. Ensuite, je vais à l'école."
+      ]
+    },
+    {
+      "id": "fr-g48",
+      "point": "Daily routine: je me lève",
+      "year": 6,
+      "unit": 1,
+      "teacher_explanation": "Reflexive verbs have an extra me, te, se. Children already know je m'appelle.",
+      "examples": [
+        "Je me lève à sept heures.",
+        "Il se lave."
+      ]
+    },
+    {
+      "id": "fr-g49",
+      "point": "faire in the present: je fais, il fait",
+      "year": 6,
+      "unit": 1,
+      "teacher_explanation": "faire is irregular and very frequent, used for activities and weather.",
+      "examples": [
+        "Je fais mes devoirs.",
+        "Il fait beau."
+      ]
+    },
+    {
+      "id": "fr-g50",
+      "point": "Describing the past: c'était, il y avait",
+      "year": 6,
+      "unit": 2,
+      "teacher_explanation": "Two fixed past chunks for describing: c'était (it was) and il y avait (there was).",
+      "examples": [
+        "C'était génial.",
+        "Il y avait un parc."
+      ]
+    },
+    {
+      "id": "fr-g51",
+      "point": "More negatives: ne ... jamais, ne ... plus",
+      "year": 6,
+      "unit": 2,
+      "teacher_explanation": "Same sandwich as ne ... pas: jamais is never, plus is no longer.",
+      "examples": [
+        "Je ne mange jamais de fromage."
+      ]
+    },
+    {
+      "id": "fr-g52",
+      "point": "The past with avoir: j'ai joué",
+      "year": 6,
+      "unit": 3,
+      "teacher_explanation": "Perfect tense: j'ai plus the past form. er verbs end in é.",
+      "examples": [
+        "J'ai joué au foot.",
+        "J'ai mangé une pizza."
+      ]
+    },
+    {
+      "id": "fr-g53",
+      "point": "Past time words: hier, le week-end dernier",
+      "year": 6,
+      "unit": 3,
+      "teacher_explanation": "Time words signal the past and go at the start of the sentence.",
+      "examples": [
+        "Hier, j'ai regardé la télé."
+      ]
+    },
+    {
+      "id": "fr-g54",
+      "point": "can, want, must: je peux, je veux, je dois",
+      "year": 6,
+      "unit": 4,
+      "teacher_explanation": "These verbs are followed by an infinitive, as with j'aime.",
+      "examples": [
+        "Je peux nager.",
+        "Je dois manger des fruits."
+      ]
+    },
+    {
+      "id": "fr-g55",
+      "point": "il faut: you have to",
+      "year": 6,
+      "unit": 4,
+      "teacher_explanation": "il faut plus an infinitive gives advice for everyone.",
+      "examples": [
+        "Il faut boire de l'eau."
+      ]
+    },
+    {
+      "id": "fr-g56",
+      "point": "The past with être: je suis allé",
+      "year": 6,
+      "unit": 5,
+      "teacher_explanation": "A small set of movement verbs use être. The past form agrees with a girl: je suis allée.",
+      "examples": [
+        "Je suis allé à Paris.",
+        "Elle est allée à la plage."
+      ]
+    },
+    {
+      "id": "fr-g57",
+      "point": "Wishes: je voudrais plus an action",
+      "year": 6,
+      "unit": 5,
+      "teacher_explanation": "je voudrais plus an infinitive for plans and dreams.",
+      "examples": [
+        "Je voudrais visiter la France."
+      ]
+    },
+    {
+      "id": "fr-g58",
+      "point": "Three time frames side by side",
+      "year": 6,
+      "unit": 6,
+      "teacher_explanation": "Past, present and future recognised and used in one short text, the hand over point to Year 7.",
+      "examples": [
+        "Hier, j'ai joué. Aujourd'hui, je joue. Demain, je vais jouer."
+      ]
+    }
+  ],
+  "words": [
+    {
+      "id": "fr-w001",
+      "word": "bonjour",
+      "english": "hello, good morning",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Used all day until the evening. Pair with Madame or Monsieur for adults.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w002",
+      "word": "au revoir",
+      "english": "goodbye",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The r of revoir is the French throat r.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w003",
+      "word": "merci",
+      "english": "thank you",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w004",
+      "word": "salut",
+      "english": "hi, bye (to friends)",
+      "pos": "interjection",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Informal: for friends and children, not for the head teacher. The t is silent.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w005",
+      "word": "je m'appelle",
+      "english": "my name is, I am called",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Taught as a chunk; the verb s'appeler is unpacked in Year 6 with reflexive verbs.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w006",
+      "word": "je suis",
+      "english": "I am",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of être. Taught as a chunk with je.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w007",
+      "word": "tu t'appelles",
+      "english": "you are called",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Heard in the question Tu t'appelles comment ? The ending les is silent.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w008",
+      "word": "ça va",
+      "english": "I am fine; how are you?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Statement or question depending on the voice.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w009",
+      "word": "comment",
+      "english": "how",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Comment ça va ? and Tu t'appelles comment ? The final t is silent.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w010",
+      "word": "bien",
+      "english": "well, good",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w011",
+      "word": "mal",
+      "english": "badly, not well",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Ça va mal. The l is said.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w012",
+      "word": "un",
+      "english": "one; a (masculine)",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Also the word for a with masculine nouns from Unit 2.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w013",
+      "word": "deux",
+      "english": "two",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w014",
+      "word": "trois",
+      "english": "three",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w015",
+      "word": "quatre",
+      "english": "four",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w016",
+      "word": "cinq",
+      "english": "five",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The q is said: /sɛ̃k/.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w017",
+      "word": "six",
+      "english": "six",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Said /sis/ alone, /si/ before a consonant, /siz/ before a vowel. Children copy the audio.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w018",
+      "word": "sept",
+      "english": "seven",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The p is silent, the t is said.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w019",
+      "word": "huit",
+      "english": "eight",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The h is silent and the t is said alone: /ɥit/.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w020",
+      "word": "neuf",
+      "english": "nine",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The f is said. Neuf also means new, met later.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w021",
+      "word": "dix",
+      "english": "ten",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Same pattern as six: /dis/ alone, /diz/ in dix ans.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w022",
+      "word": "j'ai",
+      "english": "I have",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of avoir. je becomes j' before a vowel.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w023",
+      "word": "tu as",
+      "english": "you have",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of avoir. The s is silent.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w024",
+      "word": "an",
+      "english": "year (in age)",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "ans",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Met first as ans in J'ai huit ans. The s of ans is silent.",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w025",
+      "word": "oui",
+      "english": "yes",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w026",
+      "word": "non",
+      "english": "no",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 1,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w027",
+      "word": "c'est",
+      "english": "it is, this is",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "c' plus est (from être). Taught as a chunk.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w028",
+      "word": "une",
+      "english": "a, an (feminine); one",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w029",
+      "word": "livre",
+      "english": "book",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "livres",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "un livre. Do not confuse with une livre (a pound), which children will not meet yet.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w030",
+      "word": "stylo",
+      "english": "pen",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "stylos",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w031",
+      "word": "le",
+      "english": "the (masculine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Becomes l' before a vowel.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w032",
+      "word": "la",
+      "english": "the (feminine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Becomes l' before a vowel.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w033",
+      "word": "table",
+      "english": "table",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "tables",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "A cognate: looks like English, sounds French.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w034",
+      "word": "il y a",
+      "english": "there is, there are",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Fixed chunk. Never changes for plural.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w035",
+      "word": "sac",
+      "english": "bag",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "sacs",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The c is said.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w036",
+      "word": "fenêtre",
+      "english": "window",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "fenêtres",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w037",
+      "word": "les",
+      "english": "the (plural)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w038",
+      "word": "des",
+      "english": "some (plural of un and une)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w039",
+      "word": "dans",
+      "english": "in, inside",
+      "pos": "preposition",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 2,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w040",
+      "word": "rouge",
+      "english": "red",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Ends in e already, so no change for feminine.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w041",
+      "word": "bleu",
+      "english": "blue",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine bleue sounds the same.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w042",
+      "word": "vert",
+      "english": "green",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine verte: the t wakes up. The model for hearing agreement.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w043",
+      "word": "noir",
+      "english": "black",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine noire sounds the same.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w044",
+      "word": "petit",
+      "english": "small, little",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Goes before the noun. Feminine petite: the t wakes up.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w045",
+      "word": "grand",
+      "english": "big, tall",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Goes before the noun. Feminine grande: the d wakes up.",
+      "year": 3,
+      "unit": 2,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w046",
+      "word": "mon",
+      "english": "my (masculine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Also used before a feminine noun starting with a vowel (mon amie), noted for Year 4.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w047",
+      "word": "ma",
+      "english": "my (feminine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w048",
+      "word": "mère",
+      "english": "mother",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "mères",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "maman (mum) is fine to use in class; mère is the high frequency word.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w049",
+      "word": "père",
+      "english": "father",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "pères",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "papa (dad) is fine to use in class; père is the high frequency word.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w050",
+      "word": "frère",
+      "english": "brother",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "frères",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w051",
+      "word": "sœur",
+      "english": "sister",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "sœurs",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Spelt with œ. Accept soeur in early writing.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w052",
+      "word": "il a",
+      "english": "he has, it has",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of avoir. No accent on a.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w053",
+      "word": "elle a",
+      "english": "she has, it has",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of avoir.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w054",
+      "word": "onze",
+      "english": "eleven",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w055",
+      "word": "douze",
+      "english": "twelve",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w056",
+      "word": "treize",
+      "english": "thirteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w057",
+      "word": "quatorze",
+      "english": "fourteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w058",
+      "word": "quinze",
+      "english": "fifteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w059",
+      "word": "chien",
+      "english": "dog",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "chiens",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w060",
+      "word": "chat",
+      "english": "cat",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "chats",
+      "gcse_list": false,
+      "dfe_annex_e": false,
+      "note": "The t is silent. On the Edexcel list but not AQA. Kept: the core pet word for the family unit and the class story, and paired with chien for the ien and ch sounds.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w061",
+      "word": "il est",
+      "english": "he is, it is",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of être.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w062",
+      "word": "elle est",
+      "english": "she is, it is",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Form of être.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w063",
+      "word": "son",
+      "english": "his, her (masculine noun)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w064",
+      "word": "sa",
+      "english": "his, her (feminine noun)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w065",
+      "word": "poisson",
+      "english": "fish",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "poissons",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Double ss hisses. Not poison.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w066",
+      "word": "seize",
+      "english": "sixteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w067",
+      "word": "dix-sept",
+      "english": "seventeen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": false,
+      "dfe_annex_e": false,
+      "note": "Built from dix and sept. Hyphenated in French. On the Edexcel list; AQA lists dix and sept but not the compound. A transparent compound of two known words, needed to count to twenty.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w068",
+      "word": "dix-huit",
+      "english": "eighteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": false,
+      "dfe_annex_e": false,
+      "note": "Built from dix and huit; the x links as z. On the Edexcel list; AQA lists dix and huit but not the compound. A transparent compound of two known words, needed to count to twenty.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w069",
+      "word": "dix-neuf",
+      "english": "nineteen",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": false,
+      "dfe_annex_e": false,
+      "note": "Built from dix and neuf; the x links as z. On the Edexcel list; AQA lists dix and neuf but not the compound. A transparent compound of two known words, needed to count to twenty.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w070",
+      "word": "vingt",
+      "english": "twenty",
+      "pos": "number",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The g and t are silent: /vɛ̃/.",
+      "year": 3,
+      "unit": 3,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w071",
+      "word": "j'aime",
+      "english": "I like, I love",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Form of aimer.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w072",
+      "word": "tu aimes",
+      "english": "you like",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Form of aimer. The es is silent, so aime and aimes sound the same.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w073",
+      "word": "glace",
+      "english": "ice cream; ice",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "glaces",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w074",
+      "word": "je n'aime pas",
+      "english": "I do not like",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "ne ... pas around aime. Taught as a chunk, then unpacked with ce n'est pas.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w075",
+      "word": "fromage",
+      "english": "cheese",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "fromages",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w076",
+      "word": "gâteau",
+      "english": "cake",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "gâteaux",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Plural adds x, not s.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w077",
+      "word": "et",
+      "english": "and",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The t is always silent and never links.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w078",
+      "word": "mais",
+      "english": "but",
+      "pos": "conjunction",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The s is silent. Same sound as mes.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w079",
+      "word": "pain",
+      "english": "bread",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "pains",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 3,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w080",
+      "word": "foot",
+      "english": "football",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Short for football. jouer au foot is Year 4 grammar; here it is J'aime le foot.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w081",
+      "word": "musique",
+      "english": "music",
+      "pos": "noun",
+      "gender": "f",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Abstract here: the art of music.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w082",
+      "word": "télé",
+      "english": "TV",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "télés",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Short for télévision.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 4,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w083",
+      "word": "jouer",
+      "english": "to play",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "An er verb: the er says é.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w084",
+      "word": "chanter",
+      "english": "to sing",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w085",
+      "word": "danser",
+      "english": "to dance",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 4,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w086",
+      "word": "beaucoup",
+      "english": "a lot, very much",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Goes after the verb: j'aime beaucoup.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w087",
+      "word": "aussi",
+      "english": "too, also",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Goes after the verb: j'aime aussi.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w088",
+      "word": "lire",
+      "english": "to read",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Irregular verb; only the infinitive is used in Year 3.",
+      "year": 3,
+      "unit": 4,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w089",
+      "word": "lundi",
+      "english": "Monday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w090",
+      "word": "mardi",
+      "english": "Tuesday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w091",
+      "word": "mercredi",
+      "english": "Wednesday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w092",
+      "word": "aujourd'hui",
+      "english": "today",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w093",
+      "word": "jeudi",
+      "english": "Thursday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w094",
+      "word": "vendredi",
+      "english": "Friday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w095",
+      "word": "samedi",
+      "english": "Saturday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w096",
+      "word": "dimanche",
+      "english": "Sunday",
+      "pos": "noun",
+      "gender": "m",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "No capital letter in French.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w097",
+      "word": "il fait",
+      "english": "it is (weather)",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "From faire. Only used here for weather.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w098",
+      "word": "beau",
+      "english": "nice, fine, beautiful",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "In il fait beau it means the weather is nice.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w099",
+      "word": "froid",
+      "english": "cold",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The d is silent.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w100",
+      "word": "chaud",
+      "english": "hot, warm",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "The d is silent.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w101",
+      "word": "quel temps fait-il ?",
+      "english": "what is the weather like?",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Fixed question chunk built from quel, temps and faire.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w102",
+      "word": "il pleut",
+      "english": "it is raining",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w103",
+      "word": "il neige",
+      "english": "it is snowing",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": false,
+      "dfe_annex_e": false,
+      "note": "On the Edexcel list; AQA lists the noun neige (snow). Kept as the weather chunk children ask for most.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w104",
+      "word": "demain",
+      "english": "tomorrow",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w105",
+      "word": "soleil",
+      "english": "sun",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "soleils",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w106",
+      "word": "du",
+      "english": "some (masculine)",
+      "pos": "determiner",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Used here only in the chunk il y a du soleil and il y a du gâteau.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w107",
+      "word": "semaine",
+      "english": "week",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "semaines",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w108",
+      "word": "jour",
+      "english": "day",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "jours",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w109",
+      "word": "week-end",
+      "english": "weekend",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "week-ends",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Borrowed from English, French spelling with a hyphen.",
+      "year": 3,
+      "unit": 5,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w110",
+      "word": "voici",
+      "english": "here is, here are",
+      "pos": "preposition",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "none"
+    },
+    {
+      "id": "fr-w111",
+      "word": "ami",
+      "english": "friend",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "amis",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine amie sounds the same. mon ami links: mo nami.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w112",
+      "word": "maison",
+      "english": "house, home",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "maisons",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "s between vowels buzzes as z.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 1,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w113",
+      "word": "où",
+      "english": "where",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "With an accent it means where; ou without an accent means or.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w114",
+      "word": "regarde",
+      "english": "look!",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Form of regarder, the tu instruction.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "none"
+    },
+    {
+      "id": "fr-w115",
+      "word": "jardin",
+      "english": "garden",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "jardins",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 2,
+      "image": "concrete"
+    },
+    {
+      "id": "fr-w116",
+      "word": "triste",
+      "english": "sad",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Same for boys and girls.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w117",
+      "word": "content",
+      "english": "happy, pleased",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Feminine contente: the t wakes up.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w118",
+      "word": "ici",
+      "english": "here",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 3,
+      "image": "none"
+    },
+    {
+      "id": "fr-w119",
+      "word": "fin",
+      "english": "end",
+      "pos": "noun",
+      "gender": "f",
+      "plural": "fins",
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "La fin: the last page of a story.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w120",
+      "word": "ensemble",
+      "english": "together",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w121",
+      "word": "encore",
+      "english": "again, more",
+      "pos": "adverb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "The class word for one more time.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 4,
+      "image": "none"
+    },
+    {
+      "id": "fr-w122",
+      "word": "écoute",
+      "english": "listen!",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Form of écouter, the tu instruction.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w123",
+      "word": "répète",
+      "english": "repeat!",
+      "pos": "verb",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Form of répéter, the tu instruction. Note the two accents.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w124",
+      "word": "facile",
+      "english": "easy",
+      "pos": "adjective",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Same for boys and girls.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 5,
+      "image": "none"
+    },
+    {
+      "id": "fr-w125",
+      "word": "vacances",
+      "english": "holidays",
+      "pos": "noun",
+      "gender": "f",
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "Always plural in this sense: les vacances.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w126",
+      "word": "été",
+      "english": "summer",
+      "pos": "noun",
+      "gender": "m",
+      "plural": "étés",
+      "gcse_list": true,
+      "dfe_annex_e": true,
+      "note": "Also the past form of être, met in Year 6.",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    },
+    {
+      "id": "fr-w127",
+      "word": "à bientôt",
+      "english": "see you soon",
+      "pos": "phrase",
+      "gender": null,
+      "plural": null,
+      "gcse_list": true,
+      "dfe_annex_e": false,
+      "note": "",
+      "year": 3,
+      "unit": 6,
+      "lesson": 6,
+      "image": "none"
+    }
+  ],
+  "units": [
+    {
+      "year": 3,
+      "unit": 1,
+      "title": "Hello, who I am",
+      "context": "Meeting a new friend at school: greetings, names, feelings, numbers to ten and age.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Bonjour !",
+          "sounds": [
+            "fr-s01"
+          ],
+          "new_words": [
+            "fr-w001",
+            "fr-w002",
+            "fr-w003"
+          ],
+          "recycled_words": [],
+          "grammar": [
+            "fr-g01"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-3",
+            "ks2-5"
+          ],
+          "i_can": [
+            "I can say hello and goodbye in French.",
+            "I can say thank you.",
+            "I can hear the French sound i."
+          ],
+          "speaking_task": "Walk and greet: pupils greet five classmates with bonjour and part with au revoir.",
+          "story_or_chant": "Greeting chant to a clapped beat: « Bonjour, bonjour ! Merci ! Au revoir ! »"
+        },
+        {
+          "lesson": 2,
+          "title": "Je m'appelle",
+          "sounds": [
+            "fr-s02"
+          ],
+          "new_words": [
+            "fr-w004",
+            "fr-w005",
+            "fr-w006",
+            "fr-w007"
+          ],
+          "recycled_words": [
+            "fr-w001",
+            "fr-w002",
+            "fr-w003"
+          ],
+          "grammar": [
+            "fr-g02"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say my name.",
+            "I can ask a friend their name.",
+            "I can say hello to a friend with salut."
+          ],
+          "speaking_task": "Name chain: each child says « Je m'appelle ... » and asks the next « Tu t'appelles comment ? »",
+          "story_or_chant": "Puppet Bloop meets the class: « Salut ! Je suis Bloop. Je m'appelle Bloop ! »"
+        },
+        {
+          "lesson": 3,
+          "title": "Ça va ?",
+          "sounds": [
+            "fr-s03",
+            "fr-s04"
+          ],
+          "new_words": [
+            "fr-w008",
+            "fr-w009",
+            "fr-w010",
+            "fr-w011"
+          ],
+          "recycled_words": [
+            "fr-w001",
+            "fr-w002",
+            "fr-w004",
+            "fr-w007",
+            "fr-w006",
+            "fr-w005"
+          ],
+          "grammar": [
+            "fr-g03"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask how someone is.",
+            "I can say I am fine or not so good.",
+            "I can make my voice go up for a question."
+          ],
+          "speaking_task": "Thumbs survey: pupils ask three friends « Ça va ? » and answer with a thumb and a sentence.",
+          "story_or_chant": "Call and response: « Ça va ? Ça va bien ! Ça va ? Ça va mal ! »"
+        },
+        {
+          "lesson": 4,
+          "title": "Un, deux, trois",
+          "sounds": [
+            "fr-s05",
+            "fr-s06"
+          ],
+          "new_words": [
+            "fr-w012",
+            "fr-w013",
+            "fr-w014",
+            "fr-w015",
+            "fr-w016"
+          ],
+          "recycled_words": [
+            "fr-w001",
+            "fr-w003",
+            "fr-w002",
+            "fr-w009",
+            "fr-w008",
+            "fr-w011",
+            "fr-w010"
+          ],
+          "grammar": [
+            "fr-g03"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can count from one to five.",
+            "I can show a number with my fingers when I hear it.",
+            "I can spot a sleeping letter at the end of a word."
+          ],
+          "speaking_task": "Finger flash: one child shows fingers and asks « Trois ? », the partner answers « Oui » or « Non ».",
+          "story_or_chant": "Counting rhyme with actions: « Un, deux, trois, quatre, cinq, salut ! »"
+        },
+        {
+          "lesson": 5,
+          "title": "Six à dix",
+          "sounds": [
+            "fr-s07"
+          ],
+          "new_words": [
+            "fr-w017",
+            "fr-w018",
+            "fr-w019",
+            "fr-w020",
+            "fr-w021"
+          ],
+          "recycled_words": [
+            "fr-w004",
+            "fr-w007",
+            "fr-w006",
+            "fr-w005",
+            "fr-w016",
+            "fr-w014",
+            "fr-w013",
+            "fr-w015",
+            "fr-w012"
+          ],
+          "grammar": [
+            "fr-g03"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can count from one to ten.",
+            "I can say the numbers six to ten.",
+            "I can say the French sound ui in huit."
+          ],
+          "speaking_task": "Number line up: ten pupils hold cards and the class counts them in and out of order.",
+          "story_or_chant": "Rocket countdown: « Dix, neuf, huit, sept, six, cinq, quatre, trois, deux, un ! »"
+        },
+        {
+          "lesson": 6,
+          "title": "J'ai huit ans",
+          "sounds": [
+            "fr-s08",
+            "fr-s09"
+          ],
+          "new_words": [
+            "fr-w022",
+            "fr-w023",
+            "fr-w024",
+            "fr-w025",
+            "fr-w026"
+          ],
+          "recycled_words": [
+            "fr-w008",
+            "fr-w009",
+            "fr-w011",
+            "fr-w010",
+            "fr-w019",
+            "fr-w021",
+            "fr-w017",
+            "fr-w020",
+            "fr-w018"
+          ],
+          "grammar": [
+            "fr-g04"
+          ],
+          "pos": [
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say how old I am.",
+            "I can ask a friend how old they are.",
+            "I can answer yes or no."
+          ],
+          "speaking_task": "Age guess: « Tu as huit ans ? » « Non, j'ai sept ans. » around the table.",
+          "story_or_chant": "Unit rap: « Bonjour ! Je m'appelle Bloop. Ça va ? Ça va bien. J'ai huit ans ! »"
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 2,
+      "title": "In my classroom",
+      "context": "Our own classroom: the things around us, what there is, and what colour it is.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "C'est un livre",
+          "sounds": [
+            "fr-s10"
+          ],
+          "new_words": [
+            "fr-w027",
+            "fr-w028",
+            "fr-w029",
+            "fr-w030"
+          ],
+          "recycled_words": [
+            "fr-w001",
+            "fr-w003",
+            "fr-w002",
+            "fr-w016",
+            "fr-w014",
+            "fr-w013",
+            "fr-w012",
+            "fr-w015",
+            "fr-w023",
+            "fr-w025",
+            "fr-w024",
+            "fr-w022",
+            "fr-w026"
+          ],
+          "grammar": [
+            "fr-g05"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-7",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name a book and a pen.",
+            "I can say this is a book.",
+            "I can tell that un and une are two words for a."
+          ],
+          "speaking_task": "Mystery bag: a pupil feels an object and says « C'est un stylo ? »",
+          "story_or_chant": "Pointing chant: « C'est un livre ? Oui ! C'est un stylo ? Non, non, non ! »"
+        },
+        {
+          "lesson": 2,
+          "title": "Le livre, la table",
+          "sounds": [
+            "fr-s11"
+          ],
+          "new_words": [
+            "fr-w031",
+            "fr-w032",
+            "fr-w033"
+          ],
+          "recycled_words": [
+            "fr-w004",
+            "fr-w006",
+            "fr-w007",
+            "fr-w005",
+            "fr-w019",
+            "fr-w021",
+            "fr-w017",
+            "fr-w020",
+            "fr-w018",
+            "fr-w027",
+            "fr-w029",
+            "fr-w030",
+            "fr-w028"
+          ],
+          "grammar": [
+            "fr-g06"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-7",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say the book and the table.",
+            "I can sort words into le and la.",
+            "I can say the French sound ch."
+          ],
+          "speaking_task": "Sort and say: pupils place word cards in a le box or a la box and say them aloud.",
+          "story_or_chant": "Echo chant: « Le livre ! La table ! Le stylo ! Un, deux, trois ! »"
+        },
+        {
+          "lesson": 3,
+          "title": "Il y a",
+          "sounds": [
+            "fr-s12"
+          ],
+          "new_words": [
+            "fr-w034",
+            "fr-w035",
+            "fr-w036"
+          ],
+          "recycled_words": [
+            "fr-w009",
+            "fr-w011",
+            "fr-w008",
+            "fr-w010",
+            "fr-w023",
+            "fr-w025",
+            "fr-w024",
+            "fr-w022",
+            "fr-w026",
+            "fr-w031",
+            "fr-w032",
+            "fr-w033"
+          ],
+          "grammar": [
+            "fr-g07"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-7",
+            "ks2-9"
+          ],
+          "i_can": [
+            "I can say there is a bag.",
+            "I can name a window.",
+            "I can find a new classroom word in a picture dictionary."
+          ],
+          "speaking_task": "Classroom tour: pairs point and say « Il y a une fenêtre. Il y a un sac. »",
+          "story_or_chant": "Look around rhyme: « Il y a un livre, il y a un stylo, il y a une fenêtre, un, deux, trois ! »"
+        },
+        {
+          "lesson": 4,
+          "title": "Des livres",
+          "sounds": [
+            "fr-s13"
+          ],
+          "new_words": [
+            "fr-w037",
+            "fr-w038",
+            "fr-w039"
+          ],
+          "recycled_words": [
+            "fr-w001",
+            "fr-w003",
+            "fr-w002",
+            "fr-w016",
+            "fr-w014",
+            "fr-w013",
+            "fr-w015",
+            "fr-w012",
+            "fr-w027",
+            "fr-w029",
+            "fr-w030",
+            "fr-w028",
+            "fr-w036",
+            "fr-w035",
+            "fr-w034"
+          ],
+          "grammar": [
+            "fr-g08"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-7",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say there are some books.",
+            "I can say what is in my bag.",
+            "I know the s at the end is often silent."
+          ],
+          "speaking_task": "What is in the bag? « Dans le sac, il y a des livres et un stylo. »",
+          "story_or_chant": "Bag song: « Dans le sac, dans le sac, il y a des stylos, dans le sac ! »"
+        },
+        {
+          "lesson": 5,
+          "title": "Rouge, bleu, vert",
+          "sounds": [
+            "fr-s14"
+          ],
+          "new_words": [
+            "fr-w040",
+            "fr-w041",
+            "fr-w042"
+          ],
+          "recycled_words": [
+            "fr-w004",
+            "fr-w006",
+            "fr-w007",
+            "fr-w005",
+            "fr-w019",
+            "fr-w021",
+            "fr-w017",
+            "fr-w020",
+            "fr-w018",
+            "fr-w031",
+            "fr-w032",
+            "fr-w033",
+            "fr-w037",
+            "fr-w038",
+            "fr-w039"
+          ],
+          "grammar": [
+            "fr-g09"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say three colours.",
+            "I can say a red pen.",
+            "I put the colour after the thing."
+          ],
+          "speaking_task": "Colour hunt: pupils describe objects « un stylo rouge, un sac bleu ».",
+          "story_or_chant": "Traffic light chant: « Rouge, non ! Vert, oui ! Un, deux, trois ! »"
+        },
+        {
+          "lesson": 6,
+          "title": "Une petite table",
+          "sounds": [
+            "fr-s15"
+          ],
+          "new_words": [
+            "fr-w043",
+            "fr-w044",
+            "fr-w045"
+          ],
+          "recycled_words": [
+            "fr-w009",
+            "fr-w011",
+            "fr-w008",
+            "fr-w010",
+            "fr-w023",
+            "fr-w025",
+            "fr-w024",
+            "fr-w022",
+            "fr-w026",
+            "fr-w036",
+            "fr-w035",
+            "fr-w034",
+            "fr-w042",
+            "fr-w041",
+            "fr-w040"
+          ],
+          "grammar": [
+            "fr-g10"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-10",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can describe things in my classroom.",
+            "I can hear that petite has a t sound.",
+            "I can write a short phrase from memory."
+          ],
+          "speaking_task": "Describe and draw: one partner describes « un grand sac noir », the other draws it.",
+          "story_or_chant": "Mini reader page: « Dans le sac, il y a un petit livre vert. Il y a un grand stylo noir. »"
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 3,
+      "title": "My family and my pets",
+      "context": "The people and animals at home, how old they are and what they are like.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Ma famille",
+          "sounds": [
+            "fr-s16"
+          ],
+          "new_words": [
+            "fr-w046",
+            "fr-w047",
+            "fr-w048",
+            "fr-w049"
+          ],
+          "recycled_words": [
+            "fr-w016",
+            "fr-w013",
+            "fr-w014",
+            "fr-w015",
+            "fr-w012",
+            "fr-w027",
+            "fr-w029",
+            "fr-w030",
+            "fr-w028",
+            "fr-w038",
+            "fr-w039",
+            "fr-w037",
+            "fr-w044",
+            "fr-w043",
+            "fr-w045"
+          ],
+          "grammar": [
+            "fr-g11"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say my mum and my dad.",
+            "I can choose mon or ma.",
+            "I can say the French r."
+          ],
+          "speaking_task": "Family photo: pupils point to a drawn family and say « mon père, ma mère ».",
+          "story_or_chant": "Finger family rhyme: « Ma mère, mon père, bonjour, bonjour ! »"
+        },
+        {
+          "lesson": 2,
+          "title": "Il a dix ans",
+          "sounds": [
+            "fr-s17"
+          ],
+          "new_words": [
+            "fr-w050",
+            "fr-w051",
+            "fr-w052",
+            "fr-w053"
+          ],
+          "recycled_words": [
+            "fr-w018",
+            "fr-w019",
+            "fr-w021",
+            "fr-w017",
+            "fr-w020",
+            "fr-w031",
+            "fr-w032",
+            "fr-w033",
+            "fr-w042",
+            "fr-w041",
+            "fr-w040",
+            "fr-w049",
+            "fr-w046",
+            "fr-w048",
+            "fr-w047"
+          ],
+          "grammar": [
+            "fr-g12"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say brother and sister.",
+            "I can say how old someone is.",
+            "I can say the sound in sœur."
+          ],
+          "speaking_task": "Family facts: pupils turn picture cards and say « Mon frère a dix ans. Ma sœur a six ans. »",
+          "story_or_chant": "Who is it? « Il a huit ans. C'est mon frère ! Elle a six ans. C'est ma sœur ! »"
+        },
+        {
+          "lesson": 3,
+          "title": "Onze à quinze",
+          "sounds": [
+            "fr-s18",
+            "fr-s19"
+          ],
+          "new_words": [
+            "fr-w054",
+            "fr-w055",
+            "fr-w056",
+            "fr-w057",
+            "fr-w058"
+          ],
+          "recycled_words": [
+            "fr-w023",
+            "fr-w025",
+            "fr-w024",
+            "fr-w022",
+            "fr-w026",
+            "fr-w036",
+            "fr-w035",
+            "fr-w034",
+            "fr-w044",
+            "fr-w043",
+            "fr-w045",
+            "fr-w053",
+            "fr-w051",
+            "fr-w052",
+            "fr-w050"
+          ],
+          "grammar": [
+            "fr-g13"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can count from eleven to fifteen.",
+            "I can say qu like k.",
+            "I can hear the z sound at the end of onze."
+          ],
+          "speaking_task": "Bingo: the caller says numbers 1 to 15 and pupils cover them.",
+          "story_or_chant": "Number chant to a clapped beat: « Onze, douze, treize, quatorze, quinze ! »"
+        },
+        {
+          "lesson": 4,
+          "title": "Mon chien, mon chat",
+          "sounds": [
+            "fr-s20"
+          ],
+          "new_words": [
+            "fr-w059",
+            "fr-w060",
+            "fr-w061",
+            "fr-w062"
+          ],
+          "recycled_words": [
+            "fr-w027",
+            "fr-w029",
+            "fr-w030",
+            "fr-w028",
+            "fr-w037",
+            "fr-w038",
+            "fr-w039",
+            "fr-w049",
+            "fr-w046",
+            "fr-w048",
+            "fr-w047",
+            "fr-w057",
+            "fr-w058",
+            "fr-w054",
+            "fr-w056",
+            "fr-w055"
+          ],
+          "grammar": [
+            "fr-g14"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-7",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can name a dog and a cat.",
+            "I can say what a pet is like.",
+            "I can say he is or she is."
+          ],
+          "speaking_task": "Pet describing: « Mon chien est grand. Il est noir. »",
+          "story_or_chant": "Chien and bien chant: « Mon chien ? Il est bien ! Mon chat ? Il est petit ! »"
+        },
+        {
+          "lesson": 5,
+          "title": "Son poisson",
+          "sounds": [
+            "fr-s05"
+          ],
+          "new_words": [
+            "fr-w063",
+            "fr-w064",
+            "fr-w065"
+          ],
+          "recycled_words": [
+            "fr-w031",
+            "fr-w032",
+            "fr-w033",
+            "fr-w042",
+            "fr-w041",
+            "fr-w040",
+            "fr-w053",
+            "fr-w051",
+            "fr-w052",
+            "fr-w050",
+            "fr-w061",
+            "fr-w059",
+            "fr-w062",
+            "fr-w060"
+          ],
+          "grammar": [
+            "fr-g15"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-7",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say his fish or her fish.",
+            "I can choose son or sa.",
+            "I can read a short sentence about a pet."
+          ],
+          "speaking_task": "Guess the owner: « C'est le poisson de Léa ? Oui, c'est son poisson. »",
+          "story_or_chant": "Mini reader page: « C'est Léa. Elle a un poisson. Son poisson est rouge. »"
+        },
+        {
+          "lesson": 6,
+          "title": "Jusqu'à vingt",
+          "sounds": [
+            "fr-s21"
+          ],
+          "new_words": [
+            "fr-w066",
+            "fr-w067",
+            "fr-w068",
+            "fr-w069",
+            "fr-w070"
+          ],
+          "recycled_words": [
+            "fr-w036",
+            "fr-w035",
+            "fr-w034",
+            "fr-w044",
+            "fr-w043",
+            "fr-w045",
+            "fr-w057",
+            "fr-w058",
+            "fr-w054",
+            "fr-w056",
+            "fr-w055",
+            "fr-w065",
+            "fr-w063",
+            "fr-w064"
+          ],
+          "grammar": [
+            "fr-g13"
+          ],
+          "pos": [
+            "ks2-2",
+            "ks2-6",
+            "ks2-10",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can count to twenty.",
+            "I can present my family or pets to the class.",
+            "I can write a sentence about my family from memory."
+          ],
+          "speaking_task": "Show and tell: each pupil presents a drawing « C'est mon chien. Il est petit. Il a onze ans. »",
+          "story_or_chant": "Twenty clap: count to twenty, clapping only on the numbers with a nasal sound."
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 4,
+      "title": "What I like",
+      "context": "Food and play at home and at school: what we like, what we do not like, and why not both.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "J'aime la glace",
+          "sounds": [
+            "fr-s22"
+          ],
+          "new_words": [
+            "fr-w071",
+            "fr-w072",
+            "fr-w073"
+          ],
+          "recycled_words": [
+            "fr-w037",
+            "fr-w038",
+            "fr-w039",
+            "fr-w049",
+            "fr-w046",
+            "fr-w048",
+            "fr-w047",
+            "fr-w059",
+            "fr-w060",
+            "fr-w061",
+            "fr-w062",
+            "fr-w067",
+            "fr-w070",
+            "fr-w069",
+            "fr-w066",
+            "fr-w068"
+          ],
+          "grammar": [
+            "fr-g16"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-4",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say what I like.",
+            "I can ask a friend what they like.",
+            "I know French says I like the ice cream."
+          ],
+          "speaking_task": "Likes survey: « Tu aimes la glace ? » « Oui, j'aime la glace ! »",
+          "story_or_chant": "Ice cream chant: « J'aime, j'aime, j'aime la glace ! Tu aimes la glace ? »"
+        },
+        {
+          "lesson": 2,
+          "title": "Je n'aime pas",
+          "sounds": [
+            "fr-s23"
+          ],
+          "new_words": [
+            "fr-w074",
+            "fr-w075",
+            "fr-w076"
+          ],
+          "recycled_words": [
+            "fr-w042",
+            "fr-w041",
+            "fr-w040",
+            "fr-w053",
+            "fr-w051",
+            "fr-w052",
+            "fr-w050",
+            "fr-w065",
+            "fr-w063",
+            "fr-w064",
+            "fr-w073",
+            "fr-w071",
+            "fr-w072"
+          ],
+          "grammar": [
+            "fr-g17"
+          ],
+          "pos": [
+            "ks2-3",
+            "ks2-4",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say what I do not like.",
+            "I can put ne and pas around the verb.",
+            "I can say a soft c."
+          ],
+          "speaking_task": "Thumbs up or down: pupils react to picture cards with « J'aime » or « Je n'aime pas ».",
+          "story_or_chant": "Sandwich chant with hand actions for ne and pas: « Je n'aime pas, je n'aime pas, je n'aime pas le fromage ! »"
+        },
+        {
+          "lesson": 3,
+          "title": "Et, mais",
+          "sounds": [
+            "fr-s21"
+          ],
+          "new_words": [
+            "fr-w077",
+            "fr-w078",
+            "fr-w079"
+          ],
+          "recycled_words": [
+            "fr-w044",
+            "fr-w043",
+            "fr-w045",
+            "fr-w055",
+            "fr-w057",
+            "fr-w058",
+            "fr-w054",
+            "fr-w056",
+            "fr-w067",
+            "fr-w070",
+            "fr-w069",
+            "fr-w066",
+            "fr-w068",
+            "fr-w075",
+            "fr-w076",
+            "fr-w074"
+          ],
+          "grammar": [
+            "fr-g18"
+          ],
+          "pos": [
+            "ks2-3",
+            "ks2-4",
+            "ks2-10",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can join two likes with et.",
+            "I can say I like one thing but not another.",
+            "I can write a longer sentence from memory."
+          ],
+          "speaking_task": "Sentence builder: partners spin a food wheel and say « J'aime le pain mais je n'aime pas le fromage. »",
+          "story_or_chant": "Lunchbox rhyme: « Le pain et le fromage, le gâteau et la glace, merci ! »"
+        },
+        {
+          "lesson": 4,
+          "title": "La musique, le foot",
+          "sounds": [
+            "fr-s04"
+          ],
+          "new_words": [
+            "fr-w080",
+            "fr-w081",
+            "fr-w082"
+          ],
+          "recycled_words": [
+            "fr-w049",
+            "fr-w046",
+            "fr-w048",
+            "fr-w047",
+            "fr-w061",
+            "fr-w060",
+            "fr-w062",
+            "fr-w059",
+            "fr-w073",
+            "fr-w071",
+            "fr-w072",
+            "fr-w079",
+            "fr-w077",
+            "fr-w078"
+          ],
+          "grammar": [
+            "fr-g16"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-7",
+            "ks2-9"
+          ],
+          "i_can": [
+            "I can say I like football or music.",
+            "I can read like and dislike sentences.",
+            "I can work out a new word from a picture."
+          ],
+          "speaking_task": "Four corners: corners are le foot, la musique, la télé, le gâteau; pupils go to one and say why.",
+          "story_or_chant": "Read and match: short speech bubbles « J'aime la télé mais je n'aime pas le foot. » matched to children."
+        },
+        {
+          "lesson": 5,
+          "title": "J'aime chanter",
+          "sounds": [
+            "fr-s24"
+          ],
+          "new_words": [
+            "fr-w083",
+            "fr-w084",
+            "fr-w085"
+          ],
+          "recycled_words": [
+            "fr-w053",
+            "fr-w051",
+            "fr-w052",
+            "fr-w050",
+            "fr-w065",
+            "fr-w063",
+            "fr-w064",
+            "fr-w076",
+            "fr-w075",
+            "fr-w074",
+            "fr-w080",
+            "fr-w082",
+            "fr-w081"
+          ],
+          "grammar": [
+            "fr-g19"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-4",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can say I like playing, singing and dancing.",
+            "I can read er at the end as é.",
+            "I can join in a French action song."
+          ],
+          "speaking_task": "Action mime: a pupil mimes, the class guesses « Tu aimes danser ? »",
+          "story_or_chant": "Action song: « J'aime chanter, j'aime danser, j'aime jouer, oui, oui, oui ! »"
+        },
+        {
+          "lesson": 6,
+          "title": "J'aime beaucoup lire",
+          "sounds": [
+            "fr-s25"
+          ],
+          "new_words": [
+            "fr-w086",
+            "fr-w087",
+            "fr-w088"
+          ],
+          "recycled_words": [
+            "fr-w055",
+            "fr-w057",
+            "fr-w058",
+            "fr-w054",
+            "fr-w056",
+            "fr-w068",
+            "fr-w067",
+            "fr-w070",
+            "fr-w069",
+            "fr-w066",
+            "fr-w079",
+            "fr-w077",
+            "fr-w078",
+            "fr-w083",
+            "fr-w085",
+            "fr-w084"
+          ],
+          "grammar": [
+            "fr-g20"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-6",
+            "ks2-10",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can say I like something a lot.",
+            "I can say I like something too.",
+            "I can write three sentences about my likes."
+          ],
+          "speaking_task": "Likes card: pupils present three sentences to a small group.",
+          "story_or_chant": "Likes poem: « J'aime beaucoup lire. J'aime aussi chanter. J'aime beaucoup, beaucoup la glace ! »"
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 5,
+      "title": "My week and the weather",
+      "context": "A class weather diary: what day it is, what the sky is doing, and what we like to do.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Lundi, mardi, mercredi",
+          "sounds": [
+            "fr-s26"
+          ],
+          "new_words": [
+            "fr-w089",
+            "fr-w090",
+            "fr-w091",
+            "fr-w092"
+          ],
+          "recycled_words": [
+            "fr-w061",
+            "fr-w060",
+            "fr-w062",
+            "fr-w059",
+            "fr-w073",
+            "fr-w071",
+            "fr-w072",
+            "fr-w080",
+            "fr-w082",
+            "fr-w081",
+            "fr-w086",
+            "fr-w088",
+            "fr-w087"
+          ],
+          "grammar": [
+            "fr-g21"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-5",
+            "ks2-7"
+          ],
+          "i_can": [
+            "I can say three days of the week.",
+            "I can say what day it is today.",
+            "I can say the sound un in lundi."
+          ],
+          "speaking_task": "Calendar helper: the daily helper says « Aujourd'hui, c'est lundi. »",
+          "story_or_chant": "Days song, first half: « Lundi, mardi, mercredi, aujourd'hui, c'est lundi ! »"
+        },
+        {
+          "lesson": 2,
+          "title": "Jeudi à dimanche",
+          "sounds": [
+            "fr-s27"
+          ],
+          "new_words": [
+            "fr-w093",
+            "fr-w094",
+            "fr-w095",
+            "fr-w096"
+          ],
+          "recycled_words": [
+            "fr-w065",
+            "fr-w063",
+            "fr-w064",
+            "fr-w076",
+            "fr-w075",
+            "fr-w074",
+            "fr-w083",
+            "fr-w085",
+            "fr-w084",
+            "fr-w090",
+            "fr-w091",
+            "fr-w092",
+            "fr-w089"
+          ],
+          "grammar": [
+            "fr-g21"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-2",
+            "ks2-8",
+            "ks2-10"
+          ],
+          "i_can": [
+            "I can say all the days of the week.",
+            "I can write the days with a small letter.",
+            "I can sing the days song."
+          ],
+          "speaking_task": "Day relay: pupils say the days in order around the circle, then backwards.",
+          "story_or_chant": "Days song, full: seven days to a familiar tune, clapping on dimanche."
+        },
+        {
+          "lesson": 3,
+          "title": "Il fait beau",
+          "sounds": [
+            "fr-s28"
+          ],
+          "new_words": [
+            "fr-w097",
+            "fr-w098",
+            "fr-w099",
+            "fr-w100"
+          ],
+          "recycled_words": [
+            "fr-w067",
+            "fr-w070",
+            "fr-w069",
+            "fr-w066",
+            "fr-w068",
+            "fr-w079",
+            "fr-w077",
+            "fr-w078",
+            "fr-w086",
+            "fr-w088",
+            "fr-w087",
+            "fr-w093",
+            "fr-w096",
+            "fr-w095",
+            "fr-w094"
+          ],
+          "grammar": [
+            "fr-g22"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-4",
+            "ks2-11",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can say the weather is nice.",
+            "I can say it is hot or cold.",
+            "I can say the sound in beau and chaud."
+          ],
+          "speaking_task": "Weather window: pupils look outside and report « Il fait froid ! »",
+          "story_or_chant": "Weather actions: « Il fait chaud » (fan face), « Il fait froid » (shiver), « Il fait beau » (big smile)."
+        },
+        {
+          "lesson": 4,
+          "title": "Quel temps fait-il ?",
+          "sounds": [
+            "fr-s29"
+          ],
+          "new_words": [
+            "fr-w101",
+            "fr-w102",
+            "fr-w103"
+          ],
+          "recycled_words": [
+            "fr-w073",
+            "fr-w071",
+            "fr-w072",
+            "fr-w080",
+            "fr-w082",
+            "fr-w081",
+            "fr-w090",
+            "fr-w091",
+            "fr-w092",
+            "fr-w089",
+            "fr-w099",
+            "fr-w097",
+            "fr-w098",
+            "fr-w100"
+          ],
+          "grammar": [
+            "fr-g23"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-5",
+            "ks2-12"
+          ],
+          "i_can": [
+            "I can ask what the weather is like.",
+            "I can say it is raining or snowing.",
+            "I can make my question sound like a question."
+          ],
+          "speaking_task": "Weather reporter: one pupil asks « Quel temps fait-il ? », the reporter answers from a picture card.",
+          "story_or_chant": "Rain rhyme: « Il pleut, il pleut, il neige, il neige, il fait froid ! »"
+        },
+        {
+          "lesson": 5,
+          "title": "Demain, il y a du soleil",
+          "sounds": [
+            "fr-s30"
+          ],
+          "new_words": [
+            "fr-w104",
+            "fr-w105",
+            "fr-w106"
+          ],
+          "recycled_words": [
+            "fr-w076",
+            "fr-w075",
+            "fr-w074",
+            "fr-w083",
+            "fr-w085",
+            "fr-w084",
+            "fr-w093",
+            "fr-w096",
+            "fr-w095",
+            "fr-w094",
+            "fr-w103",
+            "fr-w101",
+            "fr-w102"
+          ],
+          "grammar": [
+            "fr-g24"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-6",
+            "ks2-7",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can say what the weather will be tomorrow.",
+            "I can say there is sun.",
+            "I can read a short weather report."
+          ],
+          "speaking_task": "TV forecast: pairs present a forecast to the class from a map « Lundi, il pleut. Mardi, il y a du soleil. »",
+          "story_or_chant": "Forecast reader: « Aujourd'hui, il fait froid. Demain, il y a du soleil ! »"
+        },
+        {
+          "lesson": 6,
+          "title": "Ma semaine",
+          "sounds": [
+            "fr-s13"
+          ],
+          "new_words": [
+            "fr-w107",
+            "fr-w108",
+            "fr-w109"
+          ],
+          "recycled_words": [
+            "fr-w078",
+            "fr-w079",
+            "fr-w077",
+            "fr-w086",
+            "fr-w088",
+            "fr-w087",
+            "fr-w099",
+            "fr-w097",
+            "fr-w098",
+            "fr-w100",
+            "fr-w106",
+            "fr-w105",
+            "fr-w104"
+          ],
+          "grammar": [
+            "fr-g21"
+          ],
+          "pos": [
+            "ks2-7",
+            "ks2-9",
+            "ks2-10",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can write about my week from memory.",
+            "I can say what I like doing at the weekend.",
+            "I can use a word list to check a spelling."
+          ],
+          "speaking_task": "My week poster: pupils describe one day « Samedi, il fait beau. J'aime jouer. »",
+          "story_or_chant": "Weekend poem: « Le week-end, samedi, dimanche, j'aime le week-end ! »"
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "unit": 6,
+      "title": "Our story",
+      "context": "The class story of Bloop, Pebble and a missing cat, read, acted and performed, then the end of year check.",
+      "lessons": [
+        {
+          "lesson": 1,
+          "title": "Voici ma maison",
+          "sounds": [
+            "fr-s05",
+            "fr-s25"
+          ],
+          "new_words": [
+            "fr-w110",
+            "fr-w111",
+            "fr-w112"
+          ],
+          "recycled_words": [
+            "fr-w080",
+            "fr-w082",
+            "fr-w081",
+            "fr-w090",
+            "fr-w091",
+            "fr-w092",
+            "fr-w089",
+            "fr-w103",
+            "fr-w101",
+            "fr-w102",
+            "fr-w109",
+            "fr-w108",
+            "fr-w107"
+          ],
+          "grammar": [
+            "fr-g05"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-7",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can read the first page of our story.",
+            "I can say here is my house.",
+            "I can read a story aloud with a partner."
+          ],
+          "speaking_task": "Paired reading: partners read page one aloud, one sentence each.",
+          "story_or_chant": "Story page 1: « Bonjour ! Je m'appelle Bloop. Voici ma maison. Voici mon ami Pebble. Il est petit et il est vert. »"
+        },
+        {
+          "lesson": 2,
+          "title": "Où est le chat ?",
+          "sounds": [
+            "fr-s02",
+            "fr-s21"
+          ],
+          "new_words": [
+            "fr-w113",
+            "fr-w114",
+            "fr-w115"
+          ],
+          "recycled_words": [
+            "fr-w083",
+            "fr-w085",
+            "fr-w084",
+            "fr-w093",
+            "fr-w096",
+            "fr-w095",
+            "fr-w094",
+            "fr-w106",
+            "fr-w105",
+            "fr-w104",
+            "fr-w110",
+            "fr-w112",
+            "fr-w111"
+          ],
+          "grammar": [
+            "fr-g23"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-3",
+            "ks2-7",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can ask where something is.",
+            "I can say look!",
+            "I can follow what happens in the story."
+          ],
+          "speaking_task": "Hide and seek: a toy cat is hidden; pupils ask « Où est le chat ? Il est dans le sac ? »",
+          "story_or_chant": "Story page 2: « Voici mon chat. Il est noir. Regarde ! Où est le chat ? Il est dans le jardin ? Non ! »"
+        },
+        {
+          "lesson": 3,
+          "title": "Triste, content",
+          "sounds": [
+            "fr-s15"
+          ],
+          "new_words": [
+            "fr-w116",
+            "fr-w117",
+            "fr-w118"
+          ],
+          "recycled_words": [
+            "fr-w086",
+            "fr-w088",
+            "fr-w087",
+            "fr-w099",
+            "fr-w097",
+            "fr-w098",
+            "fr-w100",
+            "fr-w109",
+            "fr-w108",
+            "fr-w107",
+            "fr-w110",
+            "fr-w112",
+            "fr-w111",
+            "fr-w115",
+            "fr-w114",
+            "fr-w113"
+          ],
+          "grammar": [
+            "fr-g10"
+          ],
+          "pos": [
+            "ks2-5",
+            "ks2-7",
+            "ks2-8",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can say how a character feels.",
+            "I can hear content and contente.",
+            "I can read a page with feeling."
+          ],
+          "speaking_task": "Feelings freeze frame: groups act a moment of the story and say how the character feels.",
+          "story_or_chant": "Story page 3: « Bloop est triste. Il pleut. Il fait froid. Pebble regarde dans la maison. Le chat est ici, dans le sac rouge ! Bloop est content. »"
+        },
+        {
+          "lesson": 4,
+          "title": "Ensemble !",
+          "sounds": [
+            "fr-s08",
+            "fr-s21"
+          ],
+          "new_words": [
+            "fr-w119",
+            "fr-w120",
+            "fr-w121"
+          ],
+          "recycled_words": [
+            "fr-w090",
+            "fr-w091",
+            "fr-w089",
+            "fr-w092",
+            "fr-w103",
+            "fr-w101",
+            "fr-w102",
+            "fr-w110",
+            "fr-w112",
+            "fr-w111",
+            "fr-w115",
+            "fr-w114",
+            "fr-w113",
+            "fr-w118",
+            "fr-w116",
+            "fr-w117"
+          ],
+          "grammar": [
+            "fr-g18"
+          ],
+          "pos": [
+            "ks2-4",
+            "ks2-6",
+            "ks2-7",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can read the end of the story.",
+            "I can rehearse my lines with my group.",
+            "I can join in when we say a line together."
+          ],
+          "speaking_task": "Rehearsal: groups of four practise the story, each with a part and a chorus line.",
+          "story_or_chant": "Story page 4: « Ensemble ! Il y a du gâteau. J'aime le gâteau ! Encore ! La fin. »"
+        },
+        {
+          "lesson": 5,
+          "title": "Le spectacle",
+          "sounds": [
+            "fr-s12"
+          ],
+          "new_words": [
+            "fr-w122",
+            "fr-w123",
+            "fr-w124"
+          ],
+          "recycled_words": [
+            "fr-w093",
+            "fr-w096",
+            "fr-w095",
+            "fr-w094",
+            "fr-w106",
+            "fr-w104",
+            "fr-w105",
+            "fr-w115",
+            "fr-w114",
+            "fr-w113",
+            "fr-w118",
+            "fr-w116",
+            "fr-w117",
+            "fr-w121",
+            "fr-w120",
+            "fr-w119"
+          ],
+          "grammar": [
+            "fr-g25"
+          ],
+          "pos": [
+            "ks2-1",
+            "ks2-5",
+            "ks2-6",
+            "ks2-8"
+          ],
+          "i_can": [
+            "I can perform our story to an audience.",
+            "I can speak clearly so others understand.",
+            "I can follow French instructions."
+          ],
+          "speaking_task": "Performance: each group performs the story for another class or for parents.",
+          "story_or_chant": "Warm up chant: « Écoute ! Répète ! C'est facile ! Encore ! »"
+        },
+        {
+          "lesson": 6,
+          "title": "Bonnes vacances",
+          "sounds": [
+            "fr-s20"
+          ],
+          "new_words": [
+            "fr-w125",
+            "fr-w126",
+            "fr-w127"
+          ],
+          "recycled_words": [
+            "fr-w099",
+            "fr-w097",
+            "fr-w098",
+            "fr-w100",
+            "fr-w109",
+            "fr-w108",
+            "fr-w107",
+            "fr-w118",
+            "fr-w116",
+            "fr-w117",
+            "fr-w121",
+            "fr-w119",
+            "fr-w120",
+            "fr-w124",
+            "fr-w122",
+            "fr-w123"
+          ],
+          "grammar": [
+            "fr-g17"
+          ],
+          "pos": [
+            "ks2-3",
+            "ks2-7",
+            "ks2-10",
+            "ks2-11"
+          ],
+          "i_can": [
+            "I can show what I have learnt this year.",
+            "I can write about me from memory.",
+            "I can say see you soon."
+          ],
+          "speaking_task": "End of year check: a short conversation with the teacher (name, age, likes, weather) plus a read aloud.",
+          "story_or_chant": "Last page: « C'est l'été. Il fait beau. Les vacances ! Au revoir et à bientôt ! »"
+        }
+      ]
+    }
+  ],
+  "outline": [
+    {
+      "year": 4,
+      "unit": 1,
+      "title": "Birthdays and the school year",
+      "context": "Numbers to 31, months and dates, asking about a friend's birthday and family.",
+      "sounds": [
+        "fr-s31",
+        "fr-s32",
+        "fr-s33"
+      ],
+      "grammar": [
+        "fr-g26",
+        "fr-g27"
+      ],
+      "new_word_target": 18,
+      "carry_over_words": [
+        "fr-w119",
+        "fr-w120",
+        "fr-w121",
+        "fr-w122",
+        "fr-w123",
+        "fr-w124",
+        "fr-w125",
+        "fr-w126",
+        "fr-w127"
+      ]
+    },
+    {
+      "year": 4,
+      "unit": 2,
+      "title": "My body and how I feel",
+      "context": "Describing people, saying how I feel and where it hurts, for the class health check.",
+      "sounds": [
+        "fr-s34",
+        "fr-s15"
+      ],
+      "grammar": [
+        "fr-g28",
+        "fr-g29"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 3,
+      "title": "Where I live",
+      "context": "Home, rooms and the local area, saying where I live and where things are.",
+      "sounds": [
+        "fr-s35",
+        "fr-s36",
+        "fr-s25"
+      ],
+      "grammar": [
+        "fr-g30",
+        "fr-g31"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 4,
+      "title": "At the café",
+      "context": "Ordering food and drink politely in a role play café; some and polite you.",
+      "sounds": [
+        "fr-s37",
+        "fr-s23"
+      ],
+      "grammar": [
+        "fr-g32",
+        "fr-g33"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 5,
+      "title": "Sport, games and time",
+      "context": "Hobbies and sports through the week, telling the time for clubs and matches.",
+      "sounds": [
+        "fr-s38",
+        "fr-s39"
+      ],
+      "grammar": [
+        "fr-g34",
+        "fr-g35"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 4,
+      "unit": 6,
+      "title": "Our play and first dictations",
+      "context": "A short class play using known words, plus weekly dictation of sentences built only from taught sounds.",
+      "sounds": [
+        "fr-s40",
+        "fr-s09",
+        "fr-s33"
+      ],
+      "grammar": [
+        "fr-g36"
+      ],
+      "new_word_target": 15
+    },
+    {
+      "year": 5,
+      "unit": 1,
+      "title": "Going out at the weekend",
+      "context": "Places in town and how often we go there.",
+      "sounds": [
+        "fr-s41",
+        "fr-s28"
+      ],
+      "grammar": [
+        "fr-g37",
+        "fr-g38"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 5,
+      "unit": 2,
+      "title": "School and what I think",
+      "context": "School subjects with opinions and reasons, asking a friend with est-ce que.",
+      "sounds": [
+        "fr-s38",
+        "fr-s13"
+      ],
+      "grammar": [
+        "fr-g39",
+        "fr-g40"
+      ],
+      "new_word_target": 20
+    },
+    {
+      "year": 5,
+      "unit": 3,
+      "title": "Clothes and style",
+      "context": "Clothes and uniform, describing what we wear, the full present of er verbs.",
+      "sounds": [
+        "fr-s42",
+        "fr-s34"
+      ],
+      "grammar": [
+        "fr-g41",
+        "fr-g42"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 5,
+      "unit": 4,
+      "title": "Animals of our planet",
+      "context": "Wild animals and where they live, comparing them, the Planet Friends fact file.",
+      "sounds": [
+        "fr-s36",
+        "fr-s20"
+      ],
+      "grammar": [
+        "fr-g43",
+        "fr-g44"
+      ],
+      "new_word_target": 20
+    },
+    {
+      "year": 5,
+      "unit": 5,
+      "title": "Holidays and plans",
+      "context": "Countries and travel, what I am going to do in the holidays.",
+      "sounds": [
+        "fr-s33",
+        "fr-s40"
+      ],
+      "grammar": [
+        "fr-g45",
+        "fr-g46"
+      ],
+      "new_word_target": 20
+    },
+    {
+      "year": 5,
+      "unit": 6,
+      "title": "Our news report",
+      "context": "A class news report written from memory and presented to an audience.",
+      "sounds": [
+        "fr-s09",
+        "fr-s06"
+      ],
+      "grammar": [
+        "fr-g47"
+      ],
+      "new_word_target": 14
+    },
+    {
+      "year": 6,
+      "unit": 1,
+      "title": "My day",
+      "context": "Daily routine from waking up to bedtime, with times.",
+      "sounds": [
+        "fr-s27",
+        "fr-s16"
+      ],
+      "grammar": [
+        "fr-g48",
+        "fr-g49"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 2,
+      "title": "Then and now",
+      "context": "Describing the past: when I was little, what there was in my town.",
+      "sounds": [
+        "fr-s43"
+      ],
+      "grammar": [
+        "fr-g50",
+        "fr-g51"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 3,
+      "title": "Last weekend",
+      "context": "Saying what I did, with the perfect tense and time words.",
+      "sounds": [
+        "fr-s24",
+        "fr-s12"
+      ],
+      "grammar": [
+        "fr-g52",
+        "fr-g53"
+      ],
+      "new_word_target": 20
+    },
+    {
+      "year": 6,
+      "unit": 4,
+      "title": "Healthy me",
+      "context": "Food, sleep, screens and exercise: what I can, want and must do.",
+      "sounds": [
+        "fr-s21",
+        "fr-s37"
+      ],
+      "grammar": [
+        "fr-g54",
+        "fr-g55"
+      ],
+      "new_word_target": 20
+    },
+    {
+      "year": 6,
+      "unit": 5,
+      "title": "The wider world",
+      "context": "French speaking places, trips I have made and places I would like to visit.",
+      "sounds": [
+        "fr-s35",
+        "fr-s36"
+      ],
+      "grammar": [
+        "fr-g56",
+        "fr-g57"
+      ],
+      "new_word_target": 18
+    },
+    {
+      "year": 6,
+      "unit": 6,
+      "title": "Ready for Year 7",
+      "context": "A personal passport to secondary: past, present and future in one text, and the transition record of sounds and words secured.",
+      "sounds": [
+        "fr-s06",
+        "fr-s09",
+        "fr-s40"
+      ],
+      "grammar": [
+        "fr-g58"
+      ],
+      "new_word_target": 16
+    }
+  ]
+}
