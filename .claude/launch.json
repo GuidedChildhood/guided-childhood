@@ -22,6 +22,20 @@
         "videos/2026-10-08-digi-launch"
       ],
       "port": 4173
+    },
+    {
+      "name": "digi-shorts-film",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server@14.1.1",
+        "videos/2026-10-09-digi-shorts",
+        "-p",
+        "4174",
+        "-c-1",
+        "--silent"
+      ],
+      "port": 4174
     }
   ]
 }
