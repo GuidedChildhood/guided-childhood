@@ -80,7 +80,7 @@ From `research/languages/2026-10-09-language-angels-study.md`:
 | --- | --- | --- |
 | Spanish (Castilian) | Marisol | `75e72cd5-011b-4130-a474-e8b1ab341f04` |
 | French (metropolitan) | Celine | `57ccb351-84d7-54ba-afd4-26b566ca6023` |
-| English teacher voice | a warm British voice from `list_voices`, the same one in both films | record the id here |
+| English teacher voice | Isla, a warm British voice from `list_voices`, the same one in both films | `7367e919-3069-5a0b-939e-dfb1c0fd91b4` |
 
 The native voices are on approval from our pilot teacher, a native speaker,
 so the voice ids live in `beats.json` and swapping one is an edit and a
@@ -129,3 +129,26 @@ uploaded to Higgsfield as media `f6969b5d-8152-4475-9fe0-cda44e7dfd13`.
   - Check that every "Your turn" pause really is silent.
 
 Report back in three things: what changed, whether it worked, what is needed from Justin.
+
+## How it was built, 9 and 10 October 2026
+
+- `beats.json` holds every line in both languages and the three voice ids;
+  `node build.mjs --lang es|fr [--half]` writes `index.html`. One paused GSAP
+  timeline; HyperFrames owns every sound.
+- Nothing is timed by hand. `tools/measure.mjs` finds where the speech sits
+  in each voice file; `tools/clips.mjs` strips the Seedance audio, blurs the
+  small generated text tags on three clips, and finds where Bloop's mouth
+  moves so the ElevenLabs line lands on it.
+- Build guards: no dash in English, the ai-tells phrases, every target
+  language word must be a Lesson 1 spine word, sound example or grammar
+  example, and no sound may run into a "Your turn" window.
+- The chant beat and the right answer chime are written as WAV by the build.
+  Spanish chant: ¡Hola, hola, buenos días! / ¡Sí! ¡No! / ¡Hola, hola, buenos
+  días! / ¡Adiós, adiós! French: Bonjour, bonjour ! / Merci ! Merci ! /
+  Bonjour, bonjour ! / Au revoir ! Au revoir ! Ours, each sung twice.
+- Gold text uses #8F6D1C, a darker gold than #C99A28, because the check
+  needs 4.5:1 on cream. #C99A28 and butter stay for fills and borders.
+- Spanish runs about 6 minutes 18 seconds (two sounds, five words); French
+  about 5 minutes 4 seconds.
+- `tools/verify.mjs` makes the contact sheet and reads the loudness of every
+  Your turn window from the render.

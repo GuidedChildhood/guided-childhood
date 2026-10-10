@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080">
+<title>French Year 3 Lesson 1</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+@font-face{font-family:nunito;src:url("assets/fonts/nunito-latin-wght-normal.woff2") format("woff2");font-weight:200 1000;font-style:normal}
+@font-face{font-family:plexMono;src:url("assets/fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");font-weight:600;font-style:normal}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#F9F8F6}
+#root{position:relative;width:100%;height:100%;overflow:hidden;background:#F9F8F6}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform:scale(1);transform-origin:0 0;font-family:nunito,sans-serif;color:#1A1A2E;-webkit-font-smoothing:antialiased}
+.part{position:absolute;inset:0;opacity:0}
+#hdr{position:absolute;left:80px;right:80px;top:40px;height:110px;opacity:0}
+.eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#8F6D1C}
+.ptitle{position:absolute;left:0;top:36px;font-size:46px;font-weight:900;letter-spacing:-.01em;opacity:0;white-space:nowrap}
+#pills{position:absolute;right:110px;top:14px;display:flex;gap:10px}
+#pills span{display:block;width:46px;height:16px;border-radius:8px;border:2.5px solid #1A1A2E;background:#fff}
+#dock{position:absolute;left:60px;top:190px;width:600px;height:620px;opacity:0}
+.plate{position:absolute;left:60px;top:70px;width:480px;height:480px;border-radius:50%;background:#FFF6DE;border:6px solid #EDC35F}
+#sun{position:absolute;left:380px;top:20px;width:170px;height:170px;opacity:0}
+#hand{position:absolute;left:440px;top:170px;font-size:110px;line-height:1;opacity:0;transform-origin:30% 90%}
+#bloopwrap{position:absolute;left:90px;top:110px;width:420px;height:420px}
+#bloop{display:block;width:420px;height:420px;transform-origin:50% 95%}
+.dclip{position:absolute;left:0;width:600px;height:338px;border-radius:28px;overflow:hidden;border:4px solid #1A1A2E;box-shadow:0 6px 0 #1A1A2E;background:#F4EBD8;opacity:0}
+.dclip.mid{top:141px}.dclip.top{top:0}
+.dclip video{width:100%;height:100%;object-fit:cover;display:block}
+#ear{position:absolute;left:1772px;top:88px;width:88px;height:88px;border-radius:50%;background:#6C9E38;display:flex;align-items:center;justify-content:center;gap:9px;opacity:0;box-shadow:0 5px 0 #4E7A26}
+#ear i{display:block;width:10px;height:36px;border-radius:6px;background:#fff;transform-origin:50% 50%}
+#ear i:nth-child(2){height:50px}
+.tlw{font-weight:900;line-height:1.08;letter-spacing:-.01em;text-align:center;color:#1A1A2E}
+.tlw .wd{white-space:nowrap;display:inline-block}
+.tlw .l{display:inline-block;background-image:linear-gradient(#6C9E38,#6C9E38);background-repeat:no-repeat;background-position:50% 96%;background-size:0% 0.075em;padding-bottom:.04em}
+.cliprow{position:absolute;left:60px;right:60px;top:150px;display:flex;justify-content:center;gap:.4em}
+.bigcard{position:absolute;left:480px;top:330px;width:960px;height:540px;border-radius:36px;overflow:hidden;border:4px solid #1A1A2E;box-shadow:0 8px 0 #1A1A2E;background:#F4EBD8;opacity:0}
+.bigcard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.still{position:absolute;inset:0}
+.splate{position:absolute;left:280px;top:40px;width:400px;height:400px;border-radius:50%;background:#FBE7A8}
+.sbloop{position:absolute;left:300px;top:90px;width:360px;height:360px;background:url("assets/bloop.png") center/contain no-repeat}
+.ican{position:absolute;left:720px;width:1140px;height:140px;display:flex;align-items:center;gap:34px;padding:0 40px;background:#fff;border:3px solid #1A1A2E;border-radius:28px;box-shadow:0 6px 0 #1A1A2E;opacity:0}
+.ican .box{flex:0 0 76px;height:76px;border-radius:50%;border:4px solid #1A1A2E;display:flex;align-items:center;justify-content:center;background:#fff}
+.itext{font-size:46px;font-weight:800;line-height:1.15}
+.sset{position:absolute;inset:0;opacity:0}
+.glyphs{position:absolute;left:700px;width:1160px;top:170px;height:360px;display:flex;align-items:center;justify-content:center;gap:60px}
+.glyph{opacity:0}
+.gsep{font-size:48px;font-weight:800;color:#65657C;opacity:0}
+.exrow{position:absolute;left:700px;width:1160px;top:575px;display:flex;justify-content:center;gap:90px}
+.exrow .tlw{opacity:0}
+.wset{position:absolute;inset:0;opacity:0}
+.chip{position:absolute;left:700px;width:1160px;top:190px;display:flex;justify-content:center;opacity:0}
+.chip>span.in{display:flex;align-items:center;gap:18px;height:86px;padding:0 34px;border-radius:43px;background:#FFF6DE;border:3px solid #EDC35F;font-size:52px;font-weight:800;white-space:nowrap}
+.ch-k{font-family:plexMono,monospace;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#8F6D1C}
+.wset .tlw.main{position:absolute;left:700px;width:1160px;top:330px;opacity:0}
+.wset .tlw.sub{position:absolute;left:700px;width:1160px;top:690px;opacity:0}
+.alabel{top:190px}
+.bubble{position:absolute;left:720px;width:1140px;border:4px solid #1A1A2E;border-radius:44px;box-shadow:0 7px 0 #1A1A2E;opacity:0}
+.bb{top:180px;height:280px;background:#fff}
+.bb:before{content:"";position:absolute;left:-34px;top:96px;border:18px solid transparent;border-right:20px solid #1A1A2E}
+.yb{top:500px;height:300px;background:#FFF6DE}
+.who{position:absolute;left:34px;top:18px;font-family:plexMono,monospace;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#76591A}
+.who.g{color:#4E7A26}
+.btext,.ytext{position:absolute;left:740px;width:1100px;opacity:0}
+.btext{top:236px}.ytext{top:576px}
+.btext.icon{font-size:170px;line-height:1;text-align:center;top:228px}
+.ring{position:absolute;opacity:0}
+.ring svg{position:absolute;inset:0}
+.rnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;color:#1A1A2E}
+.rnum b{position:absolute;opacity:0}
+.rlabel{position:absolute;font-weight:900;white-space:nowrap;color:#1A1A2E}
+.lab-above .rlabel{left:50%;bottom:100%;margin-bottom:14px;width:600px;margin-left:-300px;text-align:center}
+.lab-left .rlabel{right:100%;top:50%;margin-right:36px;margin-top:-.62em}
+.lab-right .rlabel{left:100%;top:50%;margin-left:30px;margin-top:-.62em}
+.badge{position:absolute;left:700px;width:1160px;top:190px;display:flex;justify-content:center;opacity:0}
+.badge>span{padding:14px 34px;border-radius:40px;background:#4E7A26;color:#fff;font-size:40px;font-weight:900;white-space:nowrap;box-shadow:0 5px 0 #34541A}
+.sbar{position:absolute;left:720px;width:1120px;top:330px;font-weight:900;line-height:1.1;text-align:center;opacity:0}
+.tok{display:inline-block;white-space:nowrap;background-image:linear-gradient(#EDC35F,#EDC35F);background-repeat:no-repeat;background-position:50% 94%;background-size:0% 0.075em}
+.dots{position:absolute;left:700px;width:1160px;top:720px;display:flex;justify-content:center;gap:34px}
+.dots i{display:block;width:40px;height:40px;border-radius:50%;background:#E6DFCF;border:3px solid #1A1A2E}
+.qset{position:absolute;inset:0;opacity:0}
+.opt{position:absolute;left:720px;width:1140px;height:190px;border-radius:34px;border:4px solid #1A1A2E;background:#fff;box-shadow:0 6px 0 #1A1A2E;display:flex;align-items:center;justify-content:center;opacity:0}
+.home{position:absolute;left:720px;width:1140px;top:180px;opacity:0;text-align:center}
+.heb{font-family:plexMono,monospace;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:#8F6D1C}
+.hhead{font-size:56px;font-weight:900;margin:8px 0 14px}
+.hword{opacity:0;margin-bottom:6px}
+#caps{position:absolute;left:0;right:0;bottom:34px;height:200px}
+.cap{position:absolute;left:120px;right:120px;bottom:0;display:flex;justify-content:center;opacity:0}
+.cap span{display:block;max-width:1640px;background:#fff;border:3px solid #1A1A2E;border-radius:26px;box-shadow:0 6px 0 #1A1A2E;padding:20px 44px;font-size:46px;font-weight:700;line-height:1.25;text-align:center}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="303.9" data-width="1920" data-height="1080" data-fps="30">
+<div id="stage">
+<div id="hdr"><div class="eyebrow">French · Year 3 · Unit 1 · Lesson 1</div><div class="ptitle" id="pt1">Bloop says hello</div><div class="ptitle" id="pt2">Today we will</div><div class="ptitle" id="pt3">The sound of the day</div><div class="ptitle" id="pt4">New words</div><div class="ptitle" id="pt5">Bloop asks, you answer</div><div class="ptitle" id="pt6">Sing it</div><div class="ptitle" id="pt7">Spot the sound</div><div class="ptitle" id="pt8">What we learned</div><div class="ptitle" id="pt9">Bloop says goodbye</div><div id="pills"><span id="pill1"></span><span id="pill2"></span><span id="pill3"></span><span id="pill4"></span><span id="pill5"></span><span id="pill6"></span><span id="pill7"></span><span id="pill8"></span><span id="pill9"></span></div></div>
+<div id="dock"><div class="plate"></div><svg id="sun" viewBox="0 0 100 100"><g stroke="#EDC35F" stroke-width="6" stroke-linecap="round"><line x1="50" y1="8" x2="50" y2="18" transform="rotate(0 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(45 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(90 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(135 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(180 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(225 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(270 50 50)"/><line x1="50" y1="8" x2="50" y2="18" transform="rotate(315 50 50)"/></g><circle cx="50" cy="50" r="24" fill="#EDC35F"/></svg><div id="bloopwrap"><img id="bloop" src="assets/bloop.png" alt="Bloop"></div><div id="hand">👋</div>
+<div class="dclip mid" id="dc16"><video id="dc16v" src="assets/clips/listening.mp4" muted playsinline data-start="41.195" data-duration="2.6" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc30"><video id="dc30v" src="assets/clips/listening.mp4" muted playsinline data-start="74.428" data-duration="3" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip top" id="dc38"><video id="dc38v" src="assets/clips/listening.mp4" muted playsinline data-start="90.798" data-duration="3.7" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip top" id="dc44"><video id="dc44v" src="assets/clips/listening.mp4" muted playsinline data-start="101.676" data-duration="3" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc53"><video id="dc53v" src="assets/clips/listening.mp4" muted playsinline data-start="115.316" data-duration="3.7" data-media-start="0.3" data-track-index="11"></video></div>
+<div class="dclip mid" id="dc63"><video id="dc63v" src="assets/clips/listening.mp4" muted playsinline data-start="137.299" data-duration="3" data-media-start="0.3" data-track-index="11"></video></div>
+<div class="dclip mid" id="dc70"><video id="dc70v" src="assets/clips/listening.mp4" muted playsinline data-start="154.125" data-duration="3" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc74"><video id="dc74v" src="assets/clips/listening.mp4" muted playsinline data-start="160.483" data-duration="3" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc78"><video id="dc78v" src="assets/clips/listening.mp4" muted playsinline data-start="168.462" data-duration="3" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc82"><video id="dc82v" src="assets/clips/listening.mp4" muted playsinline data-start="176.882" data-duration="3.7" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip mid" id="dc121"><video id="dc121v" src="assets/clips/celebrate.mp4" muted playsinline data-start="239.45" data-duration="3" data-media-start="0.3" data-track-index="11"></video></div>
+<div class="dclip top" id="dc126"><video id="dc126v" src="assets/clips/listening.mp4" muted playsinline data-start="248.851" data-duration="3.4" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip top" id="dc127"><video id="dc127v" src="assets/clips/celebrate.mp4" muted playsinline data-start="252.601" data-duration="2.9" data-media-start="0.3" data-track-index="11"></video></div>
+<div class="dclip top" id="dc132"><video id="dc132v" src="assets/clips/listening.mp4" muted playsinline data-start="257.071" data-duration="3.4" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip top" id="dc133"><video id="dc133v" src="assets/clips/celebrate.mp4" muted playsinline data-start="260.821" data-duration="2.9" data-media-start="0.3" data-track-index="11"></video></div>
+<div class="dclip top" id="dc138"><video id="dc138v" src="assets/clips/listening.mp4" muted playsinline data-start="265.466" data-duration="3.4" data-media-start="0.3" data-track-index="10"></video></div>
+<div class="dclip top" id="dc139"><video id="dc139v" src="assets/clips/celebrate.mp4" muted playsinline data-start="269.216" data-duration="2.9" data-media-start="0.3" data-track-index="11"></video></div>
+</div>
+<div class="part" id="p1"><div class="cliprow" style="font-size:160px"><div class="tlw " id="sw1" style="font-size:160px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="bigcard" id="p1card"><div class="still"><div class="splate"></div><div class="sbloop"></div></div><video id="p1v" src="assets/clips/hello-fr.mp4" muted playsinline data-start="0.6" data-duration="5.088" data-track-index="9"></video></div></div>
+<div class="part" id="p2"><div class="ican" id="ic0" style="top:230px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can say hello and goodbye in French.</span></div><div class="ican" id="ic1" style="top:405px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can say thank you.</span></div><div class="ican" id="ic2" style="top:580px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can hear the French sound i.</span></div></div>
+<div class="part" id="p3"><div class="sset" id="snd0"><div class="glyphs"><div class="tlw glyph" id="snd0g0" style="font-size:300px"><span class="wd"><span class="l lit">i</span></span></div><span class="gsep" id="snd0sep">and</span><div class="tlw glyph" id="snd0g1" style="font-size:240px"><span class="wd"><span class="l lit">y</span></span></div></div><div class="exrow"><div class="tlw " id="ex8" style="font-size:150px;"><span class="wd"><span class="l ">m</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l lit">i</span></span></div><div class="tlw " id="ex9" style="font-size:150px;"><span class="wd"><span class="l ">k</span><span class="l lit">i</span><span class="l ">w</span><span class="l lit">i</span></span></div><div class="tlw " id="ex10" style="font-size:150px;"><span class="wd"><span class="l ">t</span><span class="l ">a</span><span class="l ">x</span><span class="l lit">i</span></span></div></div></div></div>
+<div class="part" id="p4"><div class="wset" id="wd0"><div class="chip" id="wd0c"><span class="in"><span class="ch-k">Means</span>hello</span></div><div class="tlw main" id="wd0w" style="font-size:190px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw main" id="wd0a0" style="font-size:190px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span></span> <span class="wd"><span class="l ">M</span><span class="l ">a</span><span class="l ">d</span><span class="l ">a</span><span class="l ">m</span><span class="l ">e</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="chip alabel" id="wd0a0l"><span class="in">to a grown up</span></div><div class="tlw main" id="wd0a1" style="font-size:190px;"><span class="wd"><span class="l ">S</span><span class="l ">a</span><span class="l ">l</span><span class="l ">u</span><span class="l ">t</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="chip alabel" id="wd0a1l"><span class="in">to a friend</span></div></div><div class="wset" id="wd1"><div class="chip" id="wd1c"><span class="in"><span class="ch-k">Means</span>goodbye</span></div><div class="tlw main" id="wd1w" style="font-size:190px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="wset" id="wd2"><div class="chip" id="wd2c"><span class="in"><span class="ch-k">Means</span>thank you</span></div><div class="tlw main" id="wd2w" style="font-size:190px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l lit">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div></div>
+<div class="part" id="p5"><div class="bubble bb" id="bb"><span class="who g">Bloop</span></div><div class="bubble yb" id="yb"><span class="who">You</span></div><div class="tlw btext" id="bt0" style="font-size:170px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw ytext" id="yt0" style="font-size:170px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw btext" id="bt1" style="font-size:170px;"><span class="wd"><span class="l ">S</span><span class="l ">a</span><span class="l ">l</span><span class="l ">u</span><span class="l ">t</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw ytext" id="yt1" style="font-size:170px;"><span class="wd"><span class="l ">S</span><span class="l ">a</span><span class="l ">l</span><span class="l ">u</span><span class="l ">t</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="btext icon" id="bt2">🎁</div><div class="tlw ytext" id="yt2" style="font-size:170px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l lit">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw btext" id="bt3" style="font-size:170px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw ytext" id="yt3" style="font-size:170px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div>
+<div class="part" id="p6"><div class="badge" id="sgb1"><span>First time: listen and clap</span></div><div class="badge" id="sgb2"><span>Now sing along!</span></div><div class="sbar" id="sb0" style="font-size:170px"><span class="tok" id="sb0t0">Bonjour,</span> <span class="tok" id="sb0t1">bonjour !</span></div><div class="sbar" id="sb1" style="font-size:148px"><span class="tok" id="sb1t0">Merci !</span> <span class="tok" id="sb1t1">Merci !</span></div><div class="sbar" id="sb2" style="font-size:170px"><span class="tok" id="sb2t0">Bonjour,</span> <span class="tok" id="sb2t1">bonjour !</span></div><div class="sbar" id="sb3" style="font-size:170px"><span class="tok" id="sb3t0">Au revoir !</span> <span class="tok" id="sb3t1">Au revoir !</span></div><div class="dots"><i id="bd0"></i><i id="bd1"></i><i id="bd2"></i><i id="bd3"></i></div></div>
+<div class="part" id="p7"><div class="qset" id="q0"><div class="opt" id="q0o0" style="top:190px"><div class="tlw " id="q0o0w" style="font-size:140px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q0o1" style="top:410px"><div class="tlw " id="q0o1w" style="font-size:140px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l ">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q0o2" style="top:630px"><div class="tlw " id="q0o2w" style="font-size:140px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div></div><div class="qset" id="q1"><div class="opt" id="q1o0" style="top:190px"><div class="tlw " id="q1o0w" style="font-size:140px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q1o1" style="top:410px"><div class="tlw " id="q1o1w" style="font-size:140px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l ">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q1o2" style="top:630px"><div class="tlw " id="q1o2w" style="font-size:140px;"><span class="wd"><span class="l ">S</span><span class="l ">a</span><span class="l ">l</span><span class="l ">u</span><span class="l ">t</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div></div><div class="qset" id="q2"><div class="opt" id="q2o0" style="top:190px"><div class="tlw " id="q2o0w" style="font-size:140px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l ">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q2o1" style="top:410px"><div class="tlw " id="q2o1w" style="font-size:140px;"><span class="wd"><span class="l ">S</span><span class="l ">a</span><span class="l ">l</span><span class="l ">u</span><span class="l ">t</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="opt" id="q2o2" style="top:630px"><div class="tlw " id="q2o2w" style="font-size:140px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div></div></div>
+<div class="part" id="p8"><div class="ican" id="lc0" style="top:230px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can say hello and goodbye in French.</span></div><div class="ican" id="lc1" style="top:405px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can say thank you.</span></div><div class="ican" id="lc2" style="top:580px"><span class="box"><svg viewBox="0 0 40 40" width="44" height="44"><path d="M9 21 L17 29 L31 12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg></span><span class="itext">I can hear the French sound i.</span></div><div class="home" id="home"><div class="heb">Job for home</div><div class="hhead">Teach someone at home tonight</div><div class="tlw hword" id="hw142" style="font-size:150px;"><span class="wd"><span class="l ">B</span><span class="l ">o</span><span class="l ">n</span><span class="l ">j</span><span class="l ">o</span><span class="l ">u</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw hword" id="hw143" style="font-size:150px;"><span class="wd"><span class="l ">M</span><span class="l ">e</span><span class="l ">r</span><span class="l ">c</span><span class="l lit">i</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div><div class="tlw hword" id="hw144" style="font-size:150px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div></div>
+<div class="part" id="p9"><div class="cliprow" style="font-size:160px"><div class="tlw " id="sw151" style="font-size:160px;"><span class="wd"><span class="l ">A</span><span class="l ">u</span></span> <span class="wd"><span class="l ">r</span><span class="l ">e</span><span class="l ">v</span><span class="l ">o</span><span class="l ">i</span><span class="l ">r</span><span class="l ">&nbsp;</span><span class="l mk">!</span></span></div></div><div class="bigcard" id="p9card"><div class="still"><div class="splate"></div><div class="sbloop"></div></div><video id="p9v" src="assets/clips/bye-fr.mp4" muted playsinline data-start="297.58" data-duration="5.088" data-track-index="9"></video></div></div>
+
+<div class="ring lab-left" id="ring15" style="left:1260px;top:545px;width:230px;height:230px"><div class="rlabel" data-layout-allow-overflow style="font-size:72px">Your turn!</div><svg viewBox="0 0 240 240" width="230" height="230"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:97px"><b id="ring15n3">3</b><b id="ring15n2">2</b><b id="ring15n1">1</b></div></div>
+<div class="ring lab-above" id="ring29" style="left:1130px;top:380px;width:300px;height:300px"><div class="rlabel" data-layout-allow-overflow style="font-size:72px">Your turn!</div><svg viewBox="0 0 240 240" width="300" height="300"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:126px"><b id="ring29n3">3</b><b id="ring29n2">2</b><b id="ring29n1">1</b></div></div>
+<div class="ring lab-right" id="ring37" style="left:120px;top:570px;width:200px;height:200px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="200" height="200"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:84px"><b id="ring37n4">4</b><b id="ring37n3">3</b><b id="ring37n2">2</b><b id="ring37n1">1</b></div></div>
+<div class="ring lab-right" id="ring43" style="left:120px;top:570px;width:200px;height:200px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="200" height="200"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:84px"><b id="ring43n3">3</b><b id="ring43n2">2</b><b id="ring43n1">1</b></div></div>
+<div class="ring lab-above" id="ring52" style="left:1130px;top:380px;width:300px;height:300px"><div class="rlabel" data-layout-allow-overflow style="font-size:72px">Your turn!</div><svg viewBox="0 0 240 240" width="300" height="300"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:126px"><b id="ring52n4">4</b><b id="ring52n3">3</b><b id="ring52n2">2</b><b id="ring52n1">1</b></div></div>
+<div class="ring lab-above" id="ring62" style="left:1130px;top:380px;width:300px;height:300px"><div class="rlabel" data-layout-allow-overflow style="font-size:72px">Your turn!</div><svg viewBox="0 0 240 240" width="300" height="300"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:126px"><b id="ring62n3">3</b><b id="ring62n2">2</b><b id="ring62n1">1</b></div></div>
+<div class="ring lab-left" id="ring69" style="left:1640px;top:560px;width:170px;height:170px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="170" height="170"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:71px"><b id="ring69n3">3</b><b id="ring69n2">2</b><b id="ring69n1">1</b></div></div>
+<div class="ring lab-left" id="ring73" style="left:1640px;top:560px;width:170px;height:170px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="170" height="170"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:71px"><b id="ring73n3">3</b><b id="ring73n2">2</b><b id="ring73n1">1</b></div></div>
+<div class="ring lab-left" id="ring77" style="left:1640px;top:560px;width:170px;height:170px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="170" height="170"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:71px"><b id="ring77n3">3</b><b id="ring77n2">2</b><b id="ring77n1">1</b></div></div>
+<div class="ring lab-left" id="ring81" style="left:1640px;top:560px;width:170px;height:170px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Your turn!</div><svg viewBox="0 0 240 240" width="170" height="170"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:71px"><b id="ring81n4">4</b><b id="ring81n3">3</b><b id="ring81n2">2</b><b id="ring81n1">1</b></div></div>
+<div class="ring lab-right" id="ring125" style="left:120px;top:570px;width:200px;height:200px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Point!</div><svg viewBox="0 0 240 240" width="200" height="200"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:84px"><b id="ring125n4">4</b><b id="ring125n3">3</b><b id="ring125n2">2</b><b id="ring125n1">1</b></div></div>
+<div class="ring lab-right" id="ring131" style="left:120px;top:570px;width:200px;height:200px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Point!</div><svg viewBox="0 0 240 240" width="200" height="200"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:84px"><b id="ring131n4">4</b><b id="ring131n3">3</b><b id="ring131n2">2</b><b id="ring131n1">1</b></div></div>
+<div class="ring lab-right" id="ring137" style="left:120px;top:570px;width:200px;height:200px"><div class="rlabel" data-layout-allow-overflow style="font-size:60px">Point!</div><svg viewBox="0 0 240 240" width="200" height="200"><circle cx="120" cy="120" r="100" fill="#fff" stroke="#EFE6D2" stroke-width="20"/><circle class="prg" cx="120" cy="120" r="100" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round" stroke-dasharray="628.3" transform="rotate(-90 120 120)"/></svg><div class="rnum" style="font-size:84px"><b id="ring137n4">4</b><b id="ring137n3">3</b><b id="ring137n2">2</b><b id="ring137n1">1</b></div></div>
+
+<div id="ear"><i></i><i></i><i></i></div>
+<div id="caps"><div class="cap" id="cap0"><span>Bloop is saying hello in French. By the end of today, you will too.</span></div><div class="cap" id="cap1"><span>Today you will learn three things.</span></div><div class="cap" id="cap2"><span>I can say hello and goodbye in French.</span></div><div class="cap" id="cap3"><span>I can say thank you.</span></div><div class="cap" id="cap4"><span>I can hear the French sound i.</span></div><div class="cap" id="cap5"><span>Now for the sound of the day.</span></div><div class="cap" id="cap6"><span>In French, the letter i makes a short, bright sound. The letter y can make it too.</span></div><div class="cap" id="cap7"><span>In French, the letter i makes a short, bright sound. The letter y can make it too.</span></div><div class="cap" id="cap8"><span>Your turn.</span></div><div class="cap" id="cap9"><span>Smile wide, as if someone is taking your photo, and keep the sound short.</span></div><div class="cap" id="cap10"><span>Listen for it in these words.</span></div><div class="cap" id="cap11"><span>Now for three new words. Watch Bloop, and copy.</span></div><div class="cap" id="cap12"><span>Our first word means hello. You can use it all day long.</span></div><div class="cap" id="cap13"><span>Listen.</span></div><div class="cap" id="cap14"><span>Listen again.</span></div><div class="cap" id="cap15"><span>Your turn.</span></div><div class="cap" id="cap16"><span>This is how we write it.</span></div><div class="cap" id="cap17"><span>Now all together.</span></div><div class="cap" id="cap18"><span>This is a polite hello for a grown up.</span></div><div class="cap" id="cap19"><span>Your turn.</span></div><div class="cap" id="cap20"><span>And with your friends, you can say this.</span></div><div class="cap" id="cap21"><span>Your turn.</span></div><div class="cap" id="cap22"><span>This one means goodbye.</span></div><div class="cap" id="cap23"><span>Listen.</span></div><div class="cap" id="cap24"><span>Listen again.</span></div><div class="cap" id="cap25"><span>Your turn.</span></div><div class="cap" id="cap26"><span>Now all together.</span></div><div class="cap" id="cap27"><span>This one means thank you. Can you hear the bright i at the end?</span></div><div class="cap" id="cap28"><span>Listen.</span></div><div class="cap" id="cap29"><span>Listen again.</span></div><div class="cap" id="cap30"><span>Your turn.</span></div><div class="cap" id="cap31"><span>Now all together.</span></div><div class="cap" id="cap32"><span>Now Bloop will talk to you. When Bloop speaks, you answer.</span></div><div class="cap" id="cap33"><span>Your turn.</span></div><div class="cap" id="cap34"><span>Bloop gives you a present. What do you say?</span></div><div class="cap" id="cap35"><span>Now you start. Say goodbye to Bloop.</span></div><div class="cap" id="cap36"><span>Time to sing. The first time, just listen and clap.</span></div><div class="cap" id="cap37"><span>Now sing it with Bloop!</span></div><div class="cap" id="cap38"><span>Lovely singing.</span></div><div class="cap" id="cap39"><span>Spot the word. Listen, then point to the word you hear.</span></div><div class="cap" id="cap40"><span>Yes, that's the one!</span></div><div class="cap" id="cap41"><span>Brilliant!</span></div><div class="cap" id="cap42"><span>Spot on!</span></div><div class="cap" id="cap43"><span>Look at everything you can do now.</span></div><div class="cap" id="cap44"><span>I can say hello and goodbye in French.</span></div><div class="cap" id="cap45"><span>I can say thank you.</span></div><div class="cap" id="cap46"><span>I can hear the French sound i.</span></div><div class="cap" id="cap47"><span>Your job for home: tonight, teach someone at home how to say hello, thank you and goodbye in French.</span></div><div class="cap" id="cap48"><span>Wave goodbye to Bloop.</span></div></div>
+</div>
+<audio id="au2" src="assets/audio/fr/bonjour.mp3" data-start="2.8" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au3" src="assets/audio/en/fr_p1.mp3" data-start="5.988" data-duration="5.193" data-media-start="0.087" data-track-index="1" data-volume="1"></audio>
+<audio id="au4" src="assets/audio/en/today.mp3" data-start="12.331" data-duration="2" data-track-index="1" data-volume="1"></audio>
+<audio id="au5" src="assets/audio/en/fr_ican1.mp3" data-start="14.681" data-duration="3.116" data-track-index="1" data-volume="1"></audio>
+<audio id="au6" src="assets/audio/en/fr_ican2.mp3" data-start="18.247" data-duration="1.768" data-media-start="0.072" data-track-index="1" data-volume="1"></audio>
+<audio id="au7" src="assets/audio/en/fr_ican3.mp3" data-start="20.465" data-duration="2.19" data-media-start="0.05" data-track-index="1" data-volume="1"></audio>
+<audio id="au11" src="assets/audio/en/sound_intro.mp3" data-start="24.005" data-duration="1.76" data-track-index="1" data-volume="1"></audio>
+<audio id="au12" src="assets/audio/en/fr_snd_i.mp3" data-start="26.115" data-duration="6.48" data-track-index="1" data-volume="1"></audio>
+<audio id="au13" src="assets/audio/en/fr_snd_i.mp3" data-start="32.945" data-duration="6.48" data-track-index="1" data-volume="1"></audio>
+<audio id="au14" src="assets/audio/en/yourturn.mp3" data-start="39.925" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au17" src="assets/audio/en/fr_tip_i.mp3" data-start="44.145" data-duration="5.2" data-track-index="1" data-volume="1"></audio>
+<audio id="au18" src="assets/audio/en/examples.mp3" data-start="49.695" data-duration="2.16" data-track-index="1" data-volume="1"></audio>
+<audio id="au19" src="assets/audio/fr/merci.mp3" data-start="52.355" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au20" src="assets/audio/fr/kiwi.mp3" data-start="53.715" data-duration="0.753" data-media-start="0.061" data-track-index="2" data-volume="1"></audio>
+<audio id="au21" src="assets/audio/fr/taxi.mp3" data-start="55.268" data-duration="0.749" data-media-start="0.06" data-track-index="2" data-volume="1"></audio>
+<audio id="au22" src="assets/audio/en/fr_words_intro.mp3" data-start="57.517" data-duration="4.72" data-track-index="1" data-volume="1"></audio>
+<audio id="au23" src="assets/audio/en/fr_w_bonjour.mp3" data-start="62.737" data-duration="4.4" data-track-index="1" data-volume="1"></audio>
+<audio id="au24" src="assets/audio/en/listen.mp3" data-start="67.487" data-duration="1.36" data-track-index="1" data-volume="1"></audio>
+<audio id="au25" src="assets/audio/fr/bonjour.mp3" data-start="68.997" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au26" src="assets/audio/en/again.mp3" data-start="70.492" data-duration="1.121" data-media-start="0.079" data-track-index="1" data-volume="1"></audio>
+<audio id="au27" src="assets/audio/fr/bonjour.mp3" data-start="71.763" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au28" src="assets/audio/en/yourturn.mp3" data-start="73.158" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au31" src="assets/audio/en/build.mp3" data-start="77.778" data-duration="1.509" data-track-index="1" data-volume="1"></audio>
+<audio id="au32" src="assets/audio/en/together.mp3" data-start="81.587" data-duration="1.502" data-track-index="1" data-volume="1"></audio>
+<audio id="au33" src="assets/audio/fr/bonjour.mp3" data-start="83.239" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au34" src="assets/audio/en/fr_g_adult.mp3" data-start="84.734" data-duration="2.85" data-track-index="1" data-volume="1"></audio>
+<audio id="au35" src="assets/audio/fr/madame.mp3" data-start="87.884" data-duration="1.144" data-media-start="0.059" data-track-index="2" data-volume="1"></audio>
+<audio id="au36" src="assets/audio/en/yourturn.mp3" data-start="89.528" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au39" src="assets/audio/fr/madame.mp3" data-start="94.848" data-duration="1.144" data-media-start="0.059" data-track-index="2" data-volume="1"></audio>
+<audio id="au40" src="assets/audio/en/fr_g_friend.mp3" data-start="96.492" data-duration="2.651" data-track-index="1" data-volume="1"></audio>
+<audio id="au41" src="assets/audio/fr/salut.mp3" data-start="99.443" data-duration="0.463" data-track-index="2" data-volume="1"></audio>
+<audio id="au42" src="assets/audio/en/yourturn.mp3" data-start="100.406" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au45" src="assets/audio/fr/salut.mp3" data-start="105.026" data-duration="0.463" data-track-index="2" data-volume="1"></audio>
+<audio id="au46" src="assets/audio/en/fr_w_aurevoir.mp3" data-start="106.689" data-duration="1.686" data-media-start="0.074" data-track-index="1" data-volume="1"></audio>
+<audio id="au47" src="assets/audio/en/listen.mp3" data-start="108.725" data-duration="1.36" data-track-index="1" data-volume="1"></audio>
+<audio id="au48" src="assets/audio/fr/aurevoir.mp3" data-start="110.235" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au49" src="assets/audio/en/again.mp3" data-start="111.555" data-duration="1.121" data-media-start="0.079" data-track-index="1" data-volume="1"></audio>
+<audio id="au50" src="assets/audio/fr/aurevoir.mp3" data-start="112.826" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au51" src="assets/audio/en/yourturn.mp3" data-start="114.046" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au54" src="assets/audio/en/together.mp3" data-start="121.566" data-duration="1.502" data-track-index="1" data-volume="1"></audio>
+<audio id="au55" src="assets/audio/fr/aurevoir.mp3" data-start="123.218" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au56" src="assets/audio/en/fr_w_merci.mp3" data-start="125.238" data-duration="5.44" data-track-index="1" data-volume="1"></audio>
+<audio id="au57" src="assets/audio/en/listen.mp3" data-start="131.028" data-duration="1.36" data-track-index="1" data-volume="1"></audio>
+<audio id="au58" src="assets/audio/fr/merci.mp3" data-start="132.538" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au59" src="assets/audio/en/again.mp3" data-start="133.698" data-duration="1.121" data-media-start="0.079" data-track-index="1" data-volume="1"></audio>
+<audio id="au60" src="assets/audio/fr/merci.mp3" data-start="134.969" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au61" src="assets/audio/en/yourturn.mp3" data-start="136.029" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au64" src="assets/audio/en/together.mp3" data-start="142.849" data-duration="1.502" data-track-index="1" data-volume="1"></audio>
+<audio id="au65" src="assets/audio/fr/merci.mp3" data-start="144.501" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au66" src="assets/audio/en/ask_intro.mp3" data-start="146.361" data-duration="4.699" data-track-index="1" data-volume="1"></audio>
+<audio id="au67" src="assets/audio/fr/bonjour.mp3" data-start="151.56" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au68" src="assets/audio/en/yourturn.mp3" data-start="152.855" data-duration="1.12" data-track-index="1" data-volume="1"></audio>
+<audio id="au71" src="assets/audio/fr/bonjour.mp3" data-start="157.475" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au72" src="assets/audio/fr/salut.mp3" data-start="159.62" data-duration="0.463" data-track-index="2" data-volume="1"></audio>
+<audio id="au75" src="assets/audio/fr/salut.mp3" data-start="163.833" data-duration="0.463" data-track-index="2" data-volume="1"></audio>
+<audio id="au76" src="assets/audio/en/fr_ask_gift.mp3" data-start="165.546" data-duration="2.616" data-track-index="1" data-volume="1"></audio>
+<audio id="au79" src="assets/audio/fr/merci.mp3" data-start="171.812" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au80" src="assets/audio/en/fr_ask_you.mp3" data-start="173.622" data-duration="2.96" data-track-index="1" data-volume="1"></audio>
+<audio id="au83" src="assets/audio/fr/aurevoir.mp3" data-start="180.932" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au84" src="assets/audio/fr/aurevoir.mp3" data-start="182.052" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au85" src="assets/audio/en/sing_listen.mp3" data-start="184.422" data-duration="4.56" data-track-index="1" data-volume="1"></audio>
+<audio id="beat86" src="assets/audio/fr/chant-beat.wav" data-start="189.582" data-duration="24.272" data-track-index="3" data-volume="0.55"></audio>
+<audio id="au87" src="assets/audio/fr/bonjour.mp3" data-start="192.19" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au88" src="assets/audio/fr/bonjour.mp3" data-start="193.494" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au89" src="assets/audio/fr/merci.mp3" data-start="194.798" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au90" src="assets/audio/fr/merci.mp3" data-start="196.102" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au91" src="assets/audio/fr/bonjour.mp3" data-start="197.406" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au92" src="assets/audio/fr/bonjour.mp3" data-start="198.71" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au93" src="assets/audio/fr/aurevoir.mp3" data-start="200.014" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au94" src="assets/audio/fr/aurevoir.mp3" data-start="201.318" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au95" src="assets/audio/fr/bonjour.mp3" data-start="202.622" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au96" src="assets/audio/fr/bonjour.mp3" data-start="203.926" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au97" src="assets/audio/fr/merci.mp3" data-start="205.23" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au98" src="assets/audio/fr/merci.mp3" data-start="206.534" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au99" src="assets/audio/fr/bonjour.mp3" data-start="207.838" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au100" src="assets/audio/fr/bonjour.mp3" data-start="209.142" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au101" src="assets/audio/fr/aurevoir.mp3" data-start="210.446" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au102" src="assets/audio/fr/aurevoir.mp3" data-start="211.75" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au103" src="assets/audio/en/sing_join.mp3" data-start="213.454" data-duration="1.624" data-track-index="1" data-volume="1"></audio>
+<audio id="beat104" src="assets/audio/fr/chant-beat.wav" data-start="215.578" data-duration="24.272" data-track-index="3" data-volume="0.55"></audio>
+<audio id="au105" src="assets/audio/fr/bonjour.mp3" data-start="218.186" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au106" src="assets/audio/fr/bonjour.mp3" data-start="219.49" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au107" src="assets/audio/fr/merci.mp3" data-start="220.794" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au108" src="assets/audio/fr/merci.mp3" data-start="222.098" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au109" src="assets/audio/fr/bonjour.mp3" data-start="223.402" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au110" src="assets/audio/fr/bonjour.mp3" data-start="224.706" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au111" src="assets/audio/fr/aurevoir.mp3" data-start="226.01" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au112" src="assets/audio/fr/aurevoir.mp3" data-start="227.314" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au113" src="assets/audio/fr/bonjour.mp3" data-start="228.618" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au114" src="assets/audio/fr/bonjour.mp3" data-start="229.922" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au115" src="assets/audio/fr/merci.mp3" data-start="231.226" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au116" src="assets/audio/fr/merci.mp3" data-start="232.53" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au117" src="assets/audio/fr/bonjour.mp3" data-start="233.834" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au118" src="assets/audio/fr/bonjour.mp3" data-start="235.138" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au119" src="assets/audio/fr/aurevoir.mp3" data-start="236.442" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au120" src="assets/audio/fr/aurevoir.mp3" data-start="237.746" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au122" src="assets/audio/en/sing_done.mp3" data-start="239.45" data-duration="1.28" data-track-index="1" data-volume="1"></audio>
+<audio id="au123" src="assets/audio/en/spot_intro.mp3" data-start="242.95" data-duration="4.401" data-track-index="1" data-volume="1"></audio>
+<audio id="au124" src="assets/audio/fr/merci.mp3" data-start="247.851" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au128" src="assets/audio/fr/merci.mp3" data-start="252.601" data-duration="0.56" data-track-index="2" data-volume="1"></audio>
+<audio id="au129" src="assets/audio/en/spot_ok1.mp3" data-start="253.461" data-duration="1.68" data-track-index="1" data-volume="1"></audio>
+<audio id="au130" src="assets/audio/fr/aurevoir.mp3" data-start="256.051" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au134" src="assets/audio/fr/aurevoir.mp3" data-start="260.821" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="au135" src="assets/audio/en/spot_ok2.mp3" data-start="261.841" data-duration="1.28" data-track-index="1" data-volume="1"></audio>
+<audio id="au136" src="assets/audio/fr/bonjour.mp3" data-start="264.271" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au140" src="assets/audio/fr/bonjour.mp3" data-start="269.216" data-duration="0.895" data-track-index="2" data-volume="1"></audio>
+<audio id="au141" src="assets/audio/en/spot_ok3.mp3" data-start="270.411" data-duration="1.28" data-track-index="1" data-volume="1"></audio>
+<audio id="au145" src="assets/audio/en/learned.mp3" data-start="272.666" data-duration="2.16" data-track-index="1" data-volume="1"></audio>
+<audio id="au146" src="assets/audio/en/fr_ican1.mp3" data-start="275.226" data-duration="3.116" data-track-index="1" data-volume="1"></audio>
+<audio id="au147" src="assets/audio/en/fr_ican2.mp3" data-start="278.692" data-duration="1.768" data-media-start="0.072" data-track-index="1" data-volume="1"></audio>
+<audio id="au148" src="assets/audio/en/fr_ican3.mp3" data-start="280.81" data-duration="2.19" data-media-start="0.05" data-track-index="1" data-volume="1"></audio>
+<audio id="au149" src="assets/audio/en/fr_home.mp3" data-start="284.35" data-duration="8.146" data-track-index="1" data-volume="1"></audio>
+<audio id="au150" src="assets/audio/en/bye_lead.mp3" data-start="295.396" data-duration="1.534" data-media-start="0.066" data-track-index="1" data-volume="1"></audio>
+<audio id="au152" src="assets/audio/fr/aurevoir.mp3" data-start="298.08" data-duration="0.72" data-track-index="2" data-volume="1"></audio>
+<audio id="sfx0" src="assets/audio/sfx-chime.wav" data-start="252.601" data-duration="1.4" data-track-index="4" data-volume="0.35"></audio>
+<audio id="sfx1" src="assets/audio/sfx-chime.wav" data-start="260.821" data-duration="1.4" data-track-index="4" data-volume="0.35"></audio>
+<audio id="sfx2" src="assets/audio/sfx-chime.wav" data-start="269.216" data-duration="1.4" data-track-index="4" data-volume="0.35"></audio>
+</div>
+<script>
+var tl = gsap.timeline({ paused: true });
+tl.fromTo("#p1",{"opacity":0,"y":0},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},0.3);
+tl.fromTo("#p1card",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.498,"ease":"power2.out"},0.3);
+tl.set("#p1card .still",{"opacity":0},0.6);
+tl.fromTo("#sw1 .l",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.298,"ease":"back.out(2)","stagger":0.04},2.8);
+tl.set("#p1card .still",{"opacity":1},5.688);
+tl.to("#p1",{"opacity":0,"duration":0.298,"ease":"power2.in"},11.931);
+tl.set("#p2",{"opacity":1},12.331);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},12.431);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},12.631);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},12.811);
+tl.fromTo("#ic0",{"opacity":0,"y":24},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},14.581);
+tl.fromTo("#ic1",{"opacity":0,"y":24},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},18.147);
+tl.fromTo("#ic2",{"opacity":0,"y":24},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},20.365);
+tl.to("#p2",{"opacity":0,"duration":0.298,"ease":"power2.in"},23.605);
+tl.set("#p3",{"opacity":1},24.005);
+tl.set("#snd0",{"opacity":1},24.005);
+tl.fromTo("#snd0g0",{"opacity":0},{"opacity":1,"duration":0.01},25.915);
+tl.fromTo("#snd0g0 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},25.915);
+tl.fromTo("#snd0sep",{"opacity":0,"y":0},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},30.133);
+tl.fromTo("#snd0g1",{"opacity":0},{"opacity":1,"duration":0.01},30.233);
+tl.fromTo("#snd0g1 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},30.233);
+tl.fromTo("#snd0g1 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},30.533);
+tl.fromTo("#snd0g0 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},32.945);
+tl.fromTo("#snd0g0",{"scale":1},{"scale":1.12,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut","immediateRender":false},32.945);
+tl.fromTo("#ring15",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},41.195);
+tl.fromTo("#ring15 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.5980000000000003,"ease":"none"},41.195);
+tl.fromTo("#ring15n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},41.195);
+tl.to("#ring15n3",{"opacity":0,"duration":0.098},41.695);
+tl.fromTo("#ring15n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},41.795);
+tl.to("#ring15n2",{"opacity":0,"duration":0.098},42.695);
+tl.fromTo("#ring15n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},42.795);
+tl.to("#ring15n1",{"opacity":0,"duration":0.098},43.695);
+tl.to("#ring15",{"opacity":0,"scale":0.9,"duration":0.248},43.795);
+tl.fromTo("#dc16",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},41.195);
+tl.to("#dc16",{"opacity":0,"duration":0.198},43.595);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},41.145);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},43.695);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},43.945);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},44.145);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},44.325);
+tl.fromTo("#ex8",{"opacity":0},{"opacity":1,"duration":0.01},52.355);
+tl.fromTo("#ex8 .l",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.278,"ease":"back.out(2)","stagger":0.04},52.355);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)"},52.305);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3},52.355);
+tl.to("#ear",{"opacity":0,"duration":0.198},53.065);
+tl.fromTo("#ex8 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},52.605);
+tl.fromTo("#ex9",{"opacity":0},{"opacity":1,"duration":0.01},53.715);
+tl.fromTo("#ex9 .l",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.278,"ease":"back.out(2)","stagger":0.04},53.715);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},53.665);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},53.715);
+tl.to("#ear",{"opacity":0,"duration":0.198},54.618);
+tl.fromTo("#ex9 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},53.965);
+tl.fromTo("#ex10",{"opacity":0},{"opacity":1,"duration":0.01},55.268);
+tl.fromTo("#ex10 .l",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.278,"ease":"back.out(2)","stagger":0.04},55.268);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},55.218);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},55.268);
+tl.to("#ear",{"opacity":0,"duration":0.198},56.167);
+tl.fromTo("#ex10 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},55.518);
+tl.to("#snd0",{"opacity":0,"duration":0.298,"ease":"power2.in"},57.117);
+tl.set("#p3",{"opacity":0},57.517);
+tl.set("#p4",{"opacity":1},57.517);
+tl.set("#wd0",{"opacity":1},62.737);
+tl.fromTo("#wd0c",{"opacity":0,"y":16},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},62.937);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198},68.997);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},69.197);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},70.197);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},68.997);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},68.947);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},68.997);
+tl.to("#ear",{"opacity":0,"duration":0.198},70.042);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198,"immediateRender":false},71.763);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},71.963);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},72.963);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},71.763);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},71.713);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},71.763);
+tl.to("#ear",{"opacity":0,"duration":0.198},72.808);
+tl.fromTo("#ring29",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},74.428);
+tl.fromTo("#ring29 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},74.428);
+tl.fromTo("#ring29n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},74.428);
+tl.to("#ring29n3",{"opacity":0,"duration":0.098},75.328);
+tl.fromTo("#ring29n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},75.428);
+tl.to("#ring29n2",{"opacity":0,"duration":0.098},76.328);
+tl.fromTo("#ring29n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},76.428);
+tl.to("#ring29n1",{"opacity":0,"duration":0.098},77.328);
+tl.to("#ring29",{"opacity":0,"scale":0.9,"duration":0.248},77.428);
+tl.fromTo("#dc30",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},74.428);
+tl.to("#dc30",{"opacity":0,"duration":0.198},77.228);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},74.378);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},77.328);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},77.528);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},77.728);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},77.908);
+tl.fromTo("#wd0w",{"opacity":0},{"opacity":1,"duration":0.01},79.387);
+tl.fromTo("#wd0w .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},79.387);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198,"immediateRender":false},83.239);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},83.439);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},84.439);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},83.239);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},83.189);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},83.239);
+tl.to("#ear",{"opacity":0,"duration":0.198},84.284);
+tl.fromTo("#wd0w",{"scale":1},{"scale":1.06,"duration":0.198,"yoyo":true,"repeat":1,"immediateRender":false},83.239);
+tl.to("#wd0w",{"opacity":0,"duration":0.248,"ease":"power2.in"},84.734);
+tl.to("#wd0c",{"opacity":0,"duration":0.248,"ease":"power2.in"},84.734);
+tl.fromTo("#wd0a0l",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},84.934);
+tl.fromTo("#wd0a0",{"opacity":0},{"opacity":1,"duration":0.01},87.684);
+tl.fromTo("#wd0a0 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},87.684);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},87.834);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":7,"immediateRender":false},87.884);
+tl.to("#ear",{"opacity":0,"duration":0.198},89.178);
+tl.fromTo("#ring37",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},90.798);
+tl.fromTo("#ring37 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.6980000000000004,"ease":"none"},90.798);
+tl.fromTo("#ring37n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},90.798);
+tl.to("#ring37n4",{"opacity":0,"duration":0.098},91.398);
+tl.fromTo("#ring37n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},91.498);
+tl.to("#ring37n3",{"opacity":0,"duration":0.098},92.398);
+tl.fromTo("#ring37n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},92.498);
+tl.to("#ring37n2",{"opacity":0,"duration":0.098},93.398);
+tl.fromTo("#ring37n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},93.498);
+tl.to("#ring37n1",{"opacity":0,"duration":0.098},94.398);
+tl.to("#ring37",{"opacity":0,"scale":0.9,"duration":0.248},94.498);
+tl.fromTo("#dc38",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},90.798);
+tl.to("#dc38",{"opacity":0,"duration":0.198},94.298);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},90.748);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},94.398);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},94.598);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},94.798);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},94.978);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},94.798);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":7,"immediateRender":false},94.848);
+tl.to("#ear",{"opacity":0,"duration":0.198},96.142);
+tl.to("#wd0w",{"opacity":0,"duration":0.248,"ease":"power2.in"},96.492);
+tl.to("#wd0c",{"opacity":0,"duration":0.248,"ease":"power2.in"},96.492);
+tl.to("#wd0a0",{"opacity":0,"duration":0.248,"ease":"power2.in"},96.492);
+tl.to("#wd0a0l",{"opacity":0,"duration":0.248,"ease":"power2.in"},96.492);
+tl.fromTo("#wd0a1l",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},96.692);
+tl.fromTo("#wd0a1",{"opacity":0},{"opacity":1,"duration":0.01},99.243);
+tl.fromTo("#wd0a1 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},99.243);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},99.393);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},99.443);
+tl.to("#ear",{"opacity":0,"duration":0.198},100.056);
+tl.fromTo("#ring43",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},101.676);
+tl.fromTo("#ring43 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},101.676);
+tl.fromTo("#ring43n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},101.676);
+tl.to("#ring43n3",{"opacity":0,"duration":0.098},102.576);
+tl.fromTo("#ring43n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},102.676);
+tl.to("#ring43n2",{"opacity":0,"duration":0.098},103.576);
+tl.fromTo("#ring43n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},103.676);
+tl.to("#ring43n1",{"opacity":0,"duration":0.098},104.576);
+tl.to("#ring43",{"opacity":0,"scale":0.9,"duration":0.248},104.676);
+tl.fromTo("#dc44",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},101.676);
+tl.to("#dc44",{"opacity":0,"duration":0.198},104.476);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},101.626);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},104.576);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},104.776);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},104.976);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},105.156);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},104.976);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},105.026);
+tl.to("#ear",{"opacity":0,"duration":0.198},105.639);
+tl.to("#wd0",{"opacity":0,"duration":0.298,"ease":"power2.in"},106.289);
+tl.set("#wd1",{"opacity":1},106.689);
+tl.fromTo("#wd1c",{"opacity":0,"y":16},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},106.889);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198,"immediateRender":false},110.235);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},110.435);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},111.435);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},110.235);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},110.185);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},110.235);
+tl.to("#ear",{"opacity":0,"duration":0.198},111.105);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198,"immediateRender":false},112.826);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},113.026);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},114.026);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},112.826);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},112.776);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},112.826);
+tl.to("#ear",{"opacity":0,"duration":0.198},113.696);
+tl.fromTo("#ring52",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},115.316);
+tl.fromTo("#ring52 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.6980000000000004,"ease":"none"},115.316);
+tl.fromTo("#ring52n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},115.316);
+tl.to("#ring52n4",{"opacity":0,"duration":0.098},115.916);
+tl.fromTo("#ring52n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},116.016);
+tl.to("#ring52n3",{"opacity":0,"duration":0.098},116.916);
+tl.fromTo("#ring52n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},117.016);
+tl.to("#ring52n2",{"opacity":0,"duration":0.098},117.916);
+tl.fromTo("#ring52n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},118.016);
+tl.to("#ring52n1",{"opacity":0,"duration":0.098},118.916);
+tl.to("#ring52",{"opacity":0,"scale":0.9,"duration":0.248},119.016);
+tl.fromTo("#dc53",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},115.316);
+tl.to("#dc53",{"opacity":0,"duration":0.198},118.816);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},115.266);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},118.916);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},119.116);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},119.316);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},119.496);
+tl.fromTo("#wd1w",{"opacity":0},{"opacity":1,"duration":0.01},119.366);
+tl.fromTo("#wd1w .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},119.366);
+tl.fromTo("#hand",{"opacity":0,"rotation":-10},{"opacity":1,"rotation":18,"duration":0.198,"immediateRender":false},123.218);
+tl.to("#hand",{"rotation":-18,"duration":0.218,"yoyo":true,"repeat":3,"ease":"sine.inOut"},123.418);
+tl.to("#hand",{"opacity":0,"rotation":0,"duration":0.198},124.418);
+tl.to("#bloop",{"rotation":-5,"duration":0.248,"yoyo":true,"repeat":1,"ease":"sine.inOut"},123.218);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},123.168);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},123.218);
+tl.to("#ear",{"opacity":0,"duration":0.198},124.088);
+tl.fromTo("#wd1w",{"scale":1},{"scale":1.06,"duration":0.198,"yoyo":true,"repeat":1,"immediateRender":false},123.218);
+tl.to("#wd1",{"opacity":0,"duration":0.298,"ease":"power2.in"},124.838);
+tl.set("#wd2",{"opacity":1},125.238);
+tl.fromTo("#wd2c",{"opacity":0,"y":16},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},125.438);
+tl.to("#bloop",{"rotation":13,"duration":0.298,"ease":"power2.out"},132.538);
+tl.to("#bloop",{"rotation":0,"duration":0.398,"ease":"back.out(2)"},133.188);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},132.488);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},132.538);
+tl.to("#ear",{"opacity":0,"duration":0.198},133.248);
+tl.to("#bloop",{"rotation":13,"duration":0.298,"ease":"power2.out"},134.969);
+tl.to("#bloop",{"rotation":0,"duration":0.398,"ease":"back.out(2)"},135.619);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},134.919);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},134.969);
+tl.to("#ear",{"opacity":0,"duration":0.198},135.679);
+tl.fromTo("#ring62",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},137.299);
+tl.fromTo("#ring62 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},137.299);
+tl.fromTo("#ring62n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},137.299);
+tl.to("#ring62n3",{"opacity":0,"duration":0.098},138.199);
+tl.fromTo("#ring62n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},138.299);
+tl.to("#ring62n2",{"opacity":0,"duration":0.098},139.199);
+tl.fromTo("#ring62n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},139.299);
+tl.to("#ring62n1",{"opacity":0,"duration":0.098},140.199);
+tl.to("#ring62",{"opacity":0,"scale":0.9,"duration":0.248},140.299);
+tl.fromTo("#dc63",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},137.299);
+tl.to("#dc63",{"opacity":0,"duration":0.198},140.099);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},137.249);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},140.199);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},140.399);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},140.599);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},140.779);
+tl.fromTo("#wd2w",{"opacity":0},{"opacity":1,"duration":0.01},140.649);
+tl.fromTo("#wd2w .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},140.649);
+tl.fromTo("#wd2w .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},141.369);
+tl.to("#bloop",{"rotation":13,"duration":0.298,"ease":"power2.out"},144.501);
+tl.to("#bloop",{"rotation":0,"duration":0.398,"ease":"back.out(2)"},145.151);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},144.451);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},144.501);
+tl.to("#ear",{"opacity":0,"duration":0.198},145.211);
+tl.fromTo("#wd2w",{"scale":1},{"scale":1.06,"duration":0.198,"yoyo":true,"repeat":1,"immediateRender":false},144.501);
+tl.to("#wd2",{"opacity":0,"duration":0.298,"ease":"power2.in"},145.961);
+tl.set("#p4",{"opacity":0},146.361);
+tl.set("#p5",{"opacity":1},146.361);
+tl.fromTo("#bb",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},146.461);
+tl.fromTo("#yb",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},146.611);
+tl.fromTo("#bt0",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},151.56);
+tl.to("#bloop",{"scaleY":1.04,"scaleX":0.98,"duration":0.128,"yoyo":true,"repeat":5,"ease":"sine.inOut"},151.56);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},151.51);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},151.56);
+tl.to("#ear",{"opacity":0,"duration":0.198},152.605);
+tl.fromTo("#ring69",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},154.125);
+tl.fromTo("#ring69 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},154.125);
+tl.fromTo("#ring69n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},154.125);
+tl.to("#ring69n3",{"opacity":0,"duration":0.098},155.025);
+tl.fromTo("#ring69n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},155.125);
+tl.to("#ring69n2",{"opacity":0,"duration":0.098},156.025);
+tl.fromTo("#ring69n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},156.125);
+tl.to("#ring69n1",{"opacity":0,"duration":0.098},157.025);
+tl.to("#ring69",{"opacity":0,"scale":0.9,"duration":0.248},157.125);
+tl.fromTo("#dc70",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},154.125);
+tl.to("#dc70",{"opacity":0,"duration":0.198},156.925);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},154.075);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},157.025);
+tl.fromTo("#yt0",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},157.475);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},157.425);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},157.475);
+tl.to("#ear",{"opacity":0,"duration":0.198},158.52);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},157.675);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},157.875);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},158.055);
+tl.to("#bt0",{"opacity":0,"duration":0.248,"ease":"power2.in"},159.27);
+tl.to("#yt0",{"opacity":0,"duration":0.248,"ease":"power2.in"},159.27);
+tl.fromTo("#bt1",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},159.62);
+tl.to("#bloop",{"scaleY":1.04,"scaleX":0.98,"duration":0.128,"yoyo":true,"repeat":3,"ease":"sine.inOut"},159.62);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},159.57);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},159.62);
+tl.to("#ear",{"opacity":0,"duration":0.198},160.233);
+tl.fromTo("#ring73",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},160.483);
+tl.fromTo("#ring73 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},160.483);
+tl.fromTo("#ring73n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},160.483);
+tl.to("#ring73n3",{"opacity":0,"duration":0.098},161.383);
+tl.fromTo("#ring73n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},161.483);
+tl.to("#ring73n2",{"opacity":0,"duration":0.098},162.383);
+tl.fromTo("#ring73n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},162.483);
+tl.to("#ring73n1",{"opacity":0,"duration":0.098},163.383);
+tl.to("#ring73",{"opacity":0,"scale":0.9,"duration":0.248},163.483);
+tl.fromTo("#dc74",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},160.483);
+tl.to("#dc74",{"opacity":0,"duration":0.198},163.283);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},160.433);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},163.383);
+tl.fromTo("#yt1",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},163.833);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},163.783);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},163.833);
+tl.to("#ear",{"opacity":0,"duration":0.198},164.446);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},164.033);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},164.233);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},164.413);
+tl.to("#bt1",{"opacity":0,"duration":0.248,"ease":"power2.in"},165.196);
+tl.to("#yt1",{"opacity":0,"duration":0.248,"ease":"power2.in"},165.196);
+tl.fromTo("#bt2",{"opacity":0,"scale":0.5},{"opacity":1,"scale":1,"duration":0.398,"ease":"back.out(2.5)"},165.846);
+tl.fromTo("#ring77",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},168.462);
+tl.fromTo("#ring77 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":2.998,"ease":"none"},168.462);
+tl.fromTo("#ring77n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},168.462);
+tl.to("#ring77n3",{"opacity":0,"duration":0.098},169.362);
+tl.fromTo("#ring77n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},169.462);
+tl.to("#ring77n2",{"opacity":0,"duration":0.098},170.362);
+tl.fromTo("#ring77n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},170.462);
+tl.to("#ring77n1",{"opacity":0,"duration":0.098},171.362);
+tl.to("#ring77",{"opacity":0,"scale":0.9,"duration":0.248},171.462);
+tl.fromTo("#dc78",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},168.462);
+tl.to("#dc78",{"opacity":0,"duration":0.198},171.262);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},168.412);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},171.362);
+tl.fromTo("#yt2",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},171.812);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},171.762);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},171.812);
+tl.to("#ear",{"opacity":0,"duration":0.198},172.522);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},172.012);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},172.212);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},172.392);
+tl.to("#bt2",{"opacity":0,"duration":0.248,"ease":"power2.in"},173.272);
+tl.to("#yt2",{"opacity":0,"duration":0.248,"ease":"power2.in"},173.272);
+tl.fromTo("#ring81",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},176.882);
+tl.fromTo("#ring81 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.6980000000000004,"ease":"none"},176.882);
+tl.fromTo("#ring81n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},176.882);
+tl.to("#ring81n4",{"opacity":0,"duration":0.098},177.482);
+tl.fromTo("#ring81n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},177.582);
+tl.to("#ring81n3",{"opacity":0,"duration":0.098},178.482);
+tl.fromTo("#ring81n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},178.582);
+tl.to("#ring81n2",{"opacity":0,"duration":0.098},179.482);
+tl.fromTo("#ring81n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},179.582);
+tl.to("#ring81n1",{"opacity":0,"duration":0.098},180.482);
+tl.to("#ring81",{"opacity":0,"scale":0.9,"duration":0.248},180.582);
+tl.fromTo("#dc82",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},176.882);
+tl.to("#dc82",{"opacity":0,"duration":0.198},180.382);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},176.832);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},180.482);
+tl.fromTo("#yt3",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},180.932);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},180.882);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},180.932);
+tl.to("#ear",{"opacity":0,"duration":0.198},181.802);
+tl.fromTo("#bt3",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},182.052);
+tl.to("#bloop",{"scaleY":1.04,"scaleX":0.98,"duration":0.128,"yoyo":true,"repeat":5,"ease":"sine.inOut"},182.052);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},182.002);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},182.052);
+tl.to("#ear",{"opacity":0,"duration":0.198},182.922);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},183.072);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},183.272);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},183.452);
+tl.to("#bt3",{"opacity":0,"duration":0.248,"ease":"power2.in"},183.672);
+tl.to("#yt3",{"opacity":0,"duration":0.248,"ease":"power2.in"},183.672);
+tl.to("#p5",{"opacity":0,"duration":0.298,"ease":"power2.in"},184.022);
+tl.set("#p6",{"opacity":1},184.422);
+tl.fromTo("#sgb1",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},184.522);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out"},189.582);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},189.582);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},189.778);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out"},190.234);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},190.234);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},190.43);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out"},190.886);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},190.886);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},191.082);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out"},191.538);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},191.538);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},191.734);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},192.19);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},192.19);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},192.386);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},192.842);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},192.842);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},193.038);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},193.494);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},193.494);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},193.69);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},194.146);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},194.146);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},194.342);
+tl.fromTo("#sb0",{"opacity":0},{"opacity":1,"duration":0.078},192.11);
+tl.to("#sb0",{"opacity":0,"duration":0.078},194.718);
+tl.fromTo("#sb0t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},192.19);
+tl.to("#sb0t0",{"color":"#1A1A2E","scale":1,"duration":0.148},194.598);
+tl.fromTo("#sb0t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},193.494);
+tl.to("#sb0t1",{"color":"#1A1A2E","scale":1,"duration":0.148},194.598);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},194.798);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},194.798);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},194.994);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},195.45);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},195.45);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},195.646);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},196.102);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},196.102);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},196.298);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},196.754);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},196.754);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},196.95);
+tl.fromTo("#sb1",{"opacity":0},{"opacity":1,"duration":0.078},194.718);
+tl.to("#sb1",{"opacity":0,"duration":0.078},197.326);
+tl.fromTo("#sb1t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},194.798);
+tl.to("#sb1t0",{"color":"#1A1A2E","scale":1,"duration":0.148},197.206);
+tl.fromTo("#sb1t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},196.102);
+tl.to("#sb1t1",{"color":"#1A1A2E","scale":1,"duration":0.148},197.206);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},197.406);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},197.406);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},197.602);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},198.058);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},198.058);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},198.254);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},198.71);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},198.71);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},198.906);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},199.362);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},199.362);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},199.558);
+tl.fromTo("#sb2",{"opacity":0},{"opacity":1,"duration":0.078},197.326);
+tl.to("#sb2",{"opacity":0,"duration":0.078},199.934);
+tl.fromTo("#sb2t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},197.406);
+tl.to("#sb2t0",{"color":"#1A1A2E","scale":1,"duration":0.148},199.814);
+tl.fromTo("#sb2t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},198.71);
+tl.to("#sb2t1",{"color":"#1A1A2E","scale":1,"duration":0.148},199.814);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},200.014);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},200.014);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},200.21);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},200.666);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},200.666);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},200.862);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},201.318);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},201.318);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},201.514);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},201.97);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},201.97);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},202.166);
+tl.fromTo("#sb3",{"opacity":0},{"opacity":1,"duration":0.078},199.934);
+tl.to("#sb3",{"opacity":0,"duration":0.078},202.542);
+tl.fromTo("#sb3t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},200.014);
+tl.to("#sb3t0",{"color":"#1A1A2E","scale":1,"duration":0.148},202.422);
+tl.fromTo("#sb3t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out"},201.318);
+tl.to("#sb3t1",{"color":"#1A1A2E","scale":1,"duration":0.148},202.422);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},202.622);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},202.622);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},202.818);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},203.274);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},203.274);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},203.47);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},203.926);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},203.926);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},204.122);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},204.578);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},204.578);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},204.774);
+tl.fromTo("#sb0",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},202.542);
+tl.to("#sb0",{"opacity":0,"duration":0.078},205.15);
+tl.fromTo("#sb0t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},202.622);
+tl.to("#sb0t0",{"color":"#1A1A2E","scale":1,"duration":0.148},205.03);
+tl.fromTo("#sb0t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},203.926);
+tl.to("#sb0t1",{"color":"#1A1A2E","scale":1,"duration":0.148},205.03);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},205.23);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},205.23);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},205.426);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},205.882);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},205.882);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},206.078);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},206.534);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},206.534);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},206.73);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},207.186);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},207.186);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},207.382);
+tl.fromTo("#sb1",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},205.15);
+tl.to("#sb1",{"opacity":0,"duration":0.078},207.758);
+tl.fromTo("#sb1t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},205.23);
+tl.to("#sb1t0",{"color":"#1A1A2E","scale":1,"duration":0.148},207.638);
+tl.fromTo("#sb1t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},206.534);
+tl.to("#sb1t1",{"color":"#1A1A2E","scale":1,"duration":0.148},207.638);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},207.838);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},207.838);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},208.034);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},208.49);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},208.49);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},208.686);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},209.142);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},209.142);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},209.338);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},209.794);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},209.794);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},209.99);
+tl.fromTo("#sb2",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},207.758);
+tl.to("#sb2",{"opacity":0,"duration":0.078},210.366);
+tl.fromTo("#sb2t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},207.838);
+tl.to("#sb2t0",{"color":"#1A1A2E","scale":1,"duration":0.148},210.246);
+tl.fromTo("#sb2t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},209.142);
+tl.to("#sb2t1",{"color":"#1A1A2E","scale":1,"duration":0.148},210.246);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},210.446);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},210.446);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},210.642);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},211.098);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},211.098);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},211.294);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},211.75);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},211.75);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},211.946);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},212.402);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},212.402);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},212.598);
+tl.fromTo("#sb3",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},210.366);
+tl.to("#sb3",{"opacity":0,"duration":0.078},212.974);
+tl.fromTo("#sb3t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},210.446);
+tl.to("#sb3t0",{"color":"#1A1A2E","scale":1,"duration":0.148},212.854);
+tl.fromTo("#sb3t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},211.75);
+tl.to("#sb3t1",{"color":"#1A1A2E","scale":1,"duration":0.148},212.854);
+tl.to("#sgb1",{"opacity":0,"duration":0.198,"ease":"power2.in"},213.454);
+tl.fromTo("#sgb2",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.298,"ease":"power2.out"},213.554);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},215.578);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},215.578);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},215.774);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},216.23);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},216.23);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},216.426);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},216.882);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},216.882);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},217.078);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},217.534);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},217.534);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},217.73);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},218.186);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},218.186);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},218.382);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},218.838);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},218.838);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},219.034);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},219.49);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},219.49);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},219.686);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},220.142);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},220.142);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},220.338);
+tl.fromTo("#sb0",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},218.106);
+tl.to("#sb0",{"opacity":0,"duration":0.078},220.714);
+tl.fromTo("#sb0t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},218.186);
+tl.to("#sb0t0",{"color":"#1A1A2E","scale":1,"duration":0.148},220.594);
+tl.fromTo("#sb0t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},219.49);
+tl.to("#sb0t1",{"color":"#1A1A2E","scale":1,"duration":0.148},220.594);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},220.794);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},220.794);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},220.99);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},221.446);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},221.446);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},221.642);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},222.098);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},222.098);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},222.294);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},222.75);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},222.75);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},222.946);
+tl.fromTo("#sb1",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},220.714);
+tl.to("#sb1",{"opacity":0,"duration":0.078},223.322);
+tl.fromTo("#sb1t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},220.794);
+tl.to("#sb1t0",{"color":"#1A1A2E","scale":1,"duration":0.148},223.202);
+tl.fromTo("#sb1t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},222.098);
+tl.to("#sb1t1",{"color":"#1A1A2E","scale":1,"duration":0.148},223.202);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},223.402);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},223.402);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},223.598);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},224.054);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},224.054);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},224.25);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},224.706);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},224.706);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},224.902);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},225.358);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},225.358);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},225.554);
+tl.fromTo("#sb2",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},223.322);
+tl.to("#sb2",{"opacity":0,"duration":0.078},225.93);
+tl.fromTo("#sb2t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},223.402);
+tl.to("#sb2t0",{"color":"#1A1A2E","scale":1,"duration":0.148},225.81);
+tl.fromTo("#sb2t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},224.706);
+tl.to("#sb2t1",{"color":"#1A1A2E","scale":1,"duration":0.148},225.81);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},226.01);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},226.01);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},226.206);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},226.662);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},226.662);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},226.858);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},227.314);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},227.314);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},227.51);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},227.966);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},227.966);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},228.162);
+tl.fromTo("#sb3",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},225.93);
+tl.to("#sb3",{"opacity":0,"duration":0.078},228.538);
+tl.fromTo("#sb3t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},226.01);
+tl.to("#sb3t0",{"color":"#1A1A2E","scale":1,"duration":0.148},228.418);
+tl.fromTo("#sb3t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},227.314);
+tl.to("#sb3t1",{"color":"#1A1A2E","scale":1,"duration":0.148},228.418);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},228.618);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},228.618);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},228.814);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},229.27);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},229.27);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},229.466);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},229.922);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},229.922);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},230.118);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},230.574);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},230.574);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},230.77);
+tl.fromTo("#sb0",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},228.538);
+tl.to("#sb0",{"opacity":0,"duration":0.078},231.146);
+tl.fromTo("#sb0t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},228.618);
+tl.to("#sb0t0",{"color":"#1A1A2E","scale":1,"duration":0.148},231.026);
+tl.fromTo("#sb0t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},229.922);
+tl.to("#sb0t1",{"color":"#1A1A2E","scale":1,"duration":0.148},231.026);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},231.226);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},231.226);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},231.422);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},231.878);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},231.878);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},232.074);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},232.53);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},232.53);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},232.726);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},233.182);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},233.182);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},233.378);
+tl.fromTo("#sb1",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},231.146);
+tl.to("#sb1",{"opacity":0,"duration":0.078},233.754);
+tl.fromTo("#sb1t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},231.226);
+tl.to("#sb1t0",{"color":"#1A1A2E","scale":1,"duration":0.148},233.634);
+tl.fromTo("#sb1t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},232.53);
+tl.to("#sb1t1",{"color":"#1A1A2E","scale":1,"duration":0.148},233.634);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},233.834);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},233.834);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},234.03);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},234.486);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},234.486);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},234.682);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},235.138);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},235.138);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},235.334);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},235.79);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},235.79);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},235.986);
+tl.fromTo("#sb2",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},233.754);
+tl.to("#sb2",{"opacity":0,"duration":0.078},236.362);
+tl.fromTo("#sb2t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},233.834);
+tl.to("#sb2t0",{"color":"#1A1A2E","scale":1,"duration":0.148},236.242);
+tl.fromTo("#sb2t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},235.138);
+tl.to("#sb2t1",{"color":"#1A1A2E","scale":1,"duration":0.148},236.242);
+tl.fromTo("#bd0",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},236.442);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},236.442);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},236.638);
+tl.fromTo("#bd1",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},237.094);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},237.094);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},237.29);
+tl.fromTo("#bd2",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},237.746);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},237.746);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},237.942);
+tl.fromTo("#bd3",{"backgroundColor":"#EDC35F","scale":1.35},{"backgroundColor":"#E6DFCF","scale":1,"duration":0.552,"ease":"power2.out","immediateRender":false},238.398);
+tl.to("#bloop",{"y":-14,"duration":0.193,"ease":"power2.out"},238.398);
+tl.to("#bloop",{"y":0,"duration":0.324,"ease":"power2.in"},238.594);
+tl.fromTo("#sb3",{"opacity":0},{"opacity":1,"duration":0.078,"immediateRender":false},236.362);
+tl.to("#sb3",{"opacity":0,"duration":0.078},238.97);
+tl.fromTo("#sb3t0",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},236.442);
+tl.to("#sb3t0",{"color":"#1A1A2E","scale":1,"duration":0.148},238.85);
+tl.fromTo("#sb3t1",{"color":"#1A1A2E","scale":1,"backgroundSize":"0% 0.075em"},{"color":"#6C9E38","scale":1.08,"backgroundSize":"100% 0.075em","duration":0.118,"ease":"power2.out","immediateRender":false},237.746);
+tl.to("#sb3t1",{"color":"#1A1A2E","scale":1,"duration":0.148},238.85);
+tl.fromTo("#dc121",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},239.45);
+tl.to("#dc121",{"opacity":0,"duration":0.198},242.25);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},239.4);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},242.35);
+tl.to("#p6",{"opacity":0,"duration":0.298,"ease":"power2.in"},242.55);
+tl.set("#p7",{"opacity":1},242.95);
+tl.set("#q0",{"opacity":1},247.851);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},247.801);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},247.851);
+tl.to("#ear",{"opacity":0,"duration":0.198},248.561);
+tl.fromTo("#q0o0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},248.151);
+tl.fromTo("#q0o1",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},248.301);
+tl.fromTo("#q0o2",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},248.451);
+tl.fromTo("#ring125",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},248.851);
+tl.fromTo("#ring125 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.398,"ease":"none"},248.851);
+tl.fromTo("#ring125n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},248.851);
+tl.to("#ring125n4",{"opacity":0,"duration":0.098},249.151);
+tl.fromTo("#ring125n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},249.251);
+tl.to("#ring125n3",{"opacity":0,"duration":0.098},250.151);
+tl.fromTo("#ring125n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},250.251);
+tl.to("#ring125n2",{"opacity":0,"duration":0.098},251.151);
+tl.fromTo("#ring125n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},251.251);
+tl.to("#ring125n1",{"opacity":0,"duration":0.098},252.151);
+tl.to("#ring125",{"opacity":0,"scale":0.9,"duration":0.248},252.251);
+tl.fromTo("#dc126",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},248.851);
+tl.to("#dc126",{"opacity":0,"duration":0.198},252.051);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},248.801);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},252.151);
+tl.to("#q0o0",{"opacity":0.3,"duration":0.298},252.601);
+tl.fromTo("#q0o1",{"backgroundColor":"#FFFFFF","borderColor":"#1A1A2E","scale":1},{"backgroundColor":"#FFF6DE","borderColor":"#6C9E38","scale":1.04,"duration":0.348,"ease":"back.out(2)","immediateRender":false},252.601);
+tl.to("#q0o2",{"opacity":0.3,"duration":0.298},252.601);
+tl.fromTo("#q0o1w .l",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},252.601);
+tl.fromTo("#dc127",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},252.601);
+tl.to("#dc127",{"opacity":0,"duration":0.198},255.301);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},252.551);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},255.401);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},252.551);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":3,"immediateRender":false},252.601);
+tl.to("#ear",{"opacity":0,"duration":0.198},253.311);
+tl.to("#q0",{"opacity":0,"duration":0.298,"ease":"power2.in"},255.601);
+tl.set("#q1",{"opacity":1},256.051);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},256.001);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},256.051);
+tl.to("#ear",{"opacity":0,"duration":0.198},256.921);
+tl.fromTo("#q1o0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},256.351);
+tl.fromTo("#q1o1",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},256.501);
+tl.fromTo("#q1o2",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},256.651);
+tl.fromTo("#ring131",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},257.071);
+tl.fromTo("#ring131 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.398,"ease":"none"},257.071);
+tl.fromTo("#ring131n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},257.071);
+tl.to("#ring131n4",{"opacity":0,"duration":0.098},257.371);
+tl.fromTo("#ring131n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},257.471);
+tl.to("#ring131n3",{"opacity":0,"duration":0.098},258.371);
+tl.fromTo("#ring131n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},258.471);
+tl.to("#ring131n2",{"opacity":0,"duration":0.098},259.371);
+tl.fromTo("#ring131n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},259.471);
+tl.to("#ring131n1",{"opacity":0,"duration":0.098},260.371);
+tl.to("#ring131",{"opacity":0,"scale":0.9,"duration":0.248},260.471);
+tl.fromTo("#dc132",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},257.071);
+tl.to("#dc132",{"opacity":0,"duration":0.198},260.271);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},257.021);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},260.371);
+tl.fromTo("#q1o0",{"backgroundColor":"#FFFFFF","borderColor":"#1A1A2E","scale":1},{"backgroundColor":"#FFF6DE","borderColor":"#6C9E38","scale":1.04,"duration":0.348,"ease":"back.out(2)","immediateRender":false},260.821);
+tl.to("#q1o1",{"opacity":0.3,"duration":0.298},260.821);
+tl.to("#q1o2",{"opacity":0.3,"duration":0.298},260.821);
+tl.fromTo("#q1o0w .l",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},260.821);
+tl.fromTo("#dc133",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},260.821);
+tl.to("#dc133",{"opacity":0,"duration":0.198},263.521);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},260.771);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},263.621);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},260.771);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},260.821);
+tl.to("#ear",{"opacity":0,"duration":0.198},261.691);
+tl.to("#q1",{"opacity":0,"duration":0.298,"ease":"power2.in"},263.821);
+tl.set("#q2",{"opacity":1},264.271);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},264.221);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},264.271);
+tl.to("#ear",{"opacity":0,"duration":0.198},265.316);
+tl.fromTo("#q2o0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},264.571);
+tl.fromTo("#q2o1",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},264.721);
+tl.fromTo("#q2o2",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.348,"ease":"power2.out"},264.871);
+tl.fromTo("#ring137",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.298,"ease":"back.out(2)"},265.466);
+tl.fromTo("#ring137 .prg",{"strokeDashoffset":0},{"strokeDashoffset":628.3185307179587,"duration":3.398,"ease":"none"},265.466);
+tl.fromTo("#ring137n4",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},265.466);
+tl.to("#ring137n4",{"opacity":0,"duration":0.098},265.766);
+tl.fromTo("#ring137n3",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},265.866);
+tl.to("#ring137n3",{"opacity":0,"duration":0.098},266.766);
+tl.fromTo("#ring137n2",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},266.866);
+tl.to("#ring137n2",{"opacity":0,"duration":0.098},267.766);
+tl.fromTo("#ring137n1",{"opacity":0,"scale":1.4},{"opacity":1,"scale":1,"duration":0.178,"ease":"back.out(2)"},267.866);
+tl.to("#ring137n1",{"opacity":0,"duration":0.098},268.766);
+tl.to("#ring137",{"opacity":0,"scale":0.9,"duration":0.248},268.866);
+tl.fromTo("#dc138",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},265.466);
+tl.to("#dc138",{"opacity":0,"duration":0.198},268.666);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},265.416);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},268.766);
+tl.to("#q2o0",{"opacity":0.3,"duration":0.298},269.216);
+tl.to("#q2o1",{"opacity":0.3,"duration":0.298},269.216);
+tl.fromTo("#q2o2",{"backgroundColor":"#FFFFFF","borderColor":"#1A1A2E","scale":1},{"backgroundColor":"#FFF6DE","borderColor":"#6C9E38","scale":1.04,"duration":0.348,"ease":"back.out(2)","immediateRender":false},269.216);
+tl.fromTo("#q2o2w .l",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},269.216);
+tl.fromTo("#dc139",{"opacity":0,"scale":0.92},{"opacity":1,"scale":1,"duration":0.248,"ease":"back.out(2)"},269.216);
+tl.to("#dc139",{"opacity":0,"duration":0.198},271.916);
+tl.to("#bloopwrap, #dock .plate",{"opacity":0,"duration":0.198},269.166);
+tl.to("#bloopwrap, #dock .plate",{"opacity":1,"duration":0.248},272.016);
+tl.fromTo("#ear",{"opacity":0,"scale":0.8},{"opacity":1,"scale":1,"duration":0.148,"ease":"back.out(2)","immediateRender":false},269.166);
+tl.fromTo("#ear i",{"scaleY":0.35},{"scaleY":1,"duration":0.178,"ease":"sine.inOut","stagger":0.06,"yoyo":true,"repeat":5,"immediateRender":false},269.216);
+tl.to("#ear",{"opacity":0,"duration":0.198},270.261);
+tl.to("#q2",{"opacity":0,"duration":0.298,"ease":"power2.in"},272.216);
+tl.set("#p7",{"opacity":0},272.666);
+tl.set("#p8",{"opacity":1},272.666);
+tl.fromTo("#lc0",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},272.966);
+tl.fromTo("#lc1",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},273.116);
+tl.fromTo("#lc2",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},273.266);
+tl.fromTo("#lc0 .box",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#6C9E38","duration":0.248},278.142);
+tl.fromTo("#lc0 path",{"strokeDashoffset":40},{"strokeDashoffset":0,"duration":0.348,"ease":"power2.out"},278.242);
+tl.fromTo("#lc0",{"scale":1},{"scale":1.03,"duration":0.178,"yoyo":true,"repeat":1,"immediateRender":false},278.242);
+tl.fromTo("#lc1 .box",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#6C9E38","duration":0.248},280.26);
+tl.fromTo("#lc1 path",{"strokeDashoffset":40},{"strokeDashoffset":0,"duration":0.348,"ease":"power2.out"},280.36);
+tl.fromTo("#lc1",{"scale":1},{"scale":1.03,"duration":0.178,"yoyo":true,"repeat":1,"immediateRender":false},280.36);
+tl.fromTo("#lc2 .box",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#6C9E38","duration":0.248},282.8);
+tl.fromTo("#lc2 path",{"strokeDashoffset":40},{"strokeDashoffset":0,"duration":0.348,"ease":"power2.out"},282.9);
+tl.fromTo("#lc2",{"scale":1},{"scale":1.03,"duration":0.178,"yoyo":true,"repeat":1,"immediateRender":false},282.9);
+tl.to("#bloop",{"y":-46,"scaleY":1.06,"scaleX":0.95,"duration":0.198,"ease":"power2.out"},283.35);
+tl.to("#bloop",{"y":0,"scaleY":0.9,"scaleX":1.08,"duration":0.178,"ease":"power2.in"},283.55);
+tl.to("#bloop",{"scaleY":1,"scaleX":1,"duration":0.298,"ease":"back.out(3)"},283.73);
+tl.to("#lc0",{"opacity":0,"duration":0.298,"ease":"power2.in"},283.95);
+tl.to("#lc1",{"opacity":0,"duration":0.298,"ease":"power2.in"},283.95);
+tl.to("#lc2",{"opacity":0,"duration":0.298,"ease":"power2.in"},283.95);
+tl.fromTo("#home",{"opacity":0,"y":20},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},284.35);
+tl.fromTo("#hw142",{"opacity":0},{"opacity":1,"duration":0.01},287.771);
+tl.fromTo("#hw142 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},287.771);
+tl.fromTo("#hw143",{"opacity":0},{"opacity":1,"duration":0.01},289.075);
+tl.fromTo("#hw143 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},289.075);
+tl.fromTo("#hw143 .lit",{"color":"#1A1A2E","textShadow":"0 0 0px rgba(108,158,56,0)","backgroundSize":"0% 0.075em"},{"color":"#6C9E38","textShadow":"0 0 30px rgba(108,158,56,0.55)","backgroundSize":"100% 0.075em","duration":0.448,"ease":"power2.out"},289.795);
+tl.fromTo("#hw144",{"opacity":0},{"opacity":1,"duration":0.01},290.378);
+tl.fromTo("#hw144 .l",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.338,"ease":"back.out(2)","stagger":0.06},290.378);
+tl.to("#p8",{"opacity":0,"duration":0.298,"ease":"power2.in"},294.496);
+tl.fromTo("#p9",{"opacity":0,"y":0},{"opacity":1,"y":0,"duration":0.398,"ease":"power2.out"},294.896);
+tl.fromTo("#p9card",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.498,"ease":"power2.out"},294.896);
+tl.set("#p9card .still",{"opacity":0},297.58);
+tl.fromTo("#sw151 .l",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.298,"ease":"back.out(2)","stagger":0.04},298.08);
+tl.set("#p9card .still",{"opacity":1},302.668);
+tl.fromTo("#hdr",{"opacity":0,"y":-12},{"opacity":1,"y":0,"duration":0.498},0.3);
+tl.fromTo("#dock",{"opacity":0,"y":30},{"opacity":1,"y":0,"duration":0.498,"ease":"power2.out"},12.031);
+tl.to("#dock",{"opacity":0,"duration":0.398,"ease":"power2.in"},294.896);
+tl.fromTo("#pt1",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},0.35);
+tl.to("#pt1",{"opacity":0,"duration":0.198},12.181);
+tl.fromTo("#pill1",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},0.3);
+tl.fromTo("#pt2",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},12.381);
+tl.to("#pt2",{"opacity":0,"duration":0.198},23.855);
+tl.fromTo("#pill2",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},12.331);
+tl.fromTo("#pt3",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},24.055);
+tl.to("#pt3",{"opacity":0,"duration":0.198},57.367);
+tl.fromTo("#pill3",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},24.005);
+tl.fromTo("#pt4",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},57.567);
+tl.to("#pt4",{"opacity":0,"duration":0.198},146.211);
+tl.fromTo("#pill4",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},57.517);
+tl.fromTo("#pt5",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},146.411);
+tl.to("#pt5",{"opacity":0,"duration":0.198},184.272);
+tl.fromTo("#pill5",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},146.361);
+tl.fromTo("#pt6",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},184.472);
+tl.to("#pt6",{"opacity":0,"duration":0.198},242.8);
+tl.fromTo("#pill6",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},184.422);
+tl.fromTo("#pt7",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},243);
+tl.to("#pt7",{"opacity":0,"duration":0.198},272.516);
+tl.fromTo("#pill7",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},242.95);
+tl.fromTo("#pt8",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},272.716);
+tl.to("#pt8",{"opacity":0,"duration":0.198},294.746);
+tl.fromTo("#pill8",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},272.666);
+tl.fromTo("#pt9",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.348},294.946);
+tl.fromTo("#pill9",{"backgroundColor":"#FFFFFF"},{"backgroundColor":"#EDC35F","duration":0.298},294.896);
+tl.fromTo("#cap0",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},5.938);
+tl.to("#cap0",{"opacity":0,"duration":0.118},11.881);
+tl.fromTo("#cap1",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},12.281);
+tl.to("#cap1",{"opacity":0,"duration":0.118},14.481);
+tl.fromTo("#cap2",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},14.631);
+tl.to("#cap2",{"opacity":0,"duration":0.118},18.047);
+tl.fromTo("#cap3",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},18.197);
+tl.to("#cap3",{"opacity":0,"duration":0.118},20.265);
+tl.fromTo("#cap4",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},20.415);
+tl.to("#cap4",{"opacity":0,"duration":0.118},23.355);
+tl.fromTo("#cap5",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},23.955);
+tl.to("#cap5",{"opacity":0,"duration":0.118},25.915);
+tl.fromTo("#cap6",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},26.065);
+tl.to("#cap6",{"opacity":0,"duration":0.118},32.745);
+tl.fromTo("#cap7",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},32.895);
+tl.to("#cap7",{"opacity":0,"duration":0.118},39.725);
+tl.fromTo("#cap8",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},39.875);
+tl.to("#cap8",{"opacity":0,"duration":0.118},41.745);
+tl.fromTo("#cap9",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},44.095);
+tl.to("#cap9",{"opacity":0,"duration":0.118},49.495);
+tl.fromTo("#cap10",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},49.645);
+tl.to("#cap10",{"opacity":0,"duration":0.118},52.555);
+tl.fromTo("#cap11",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},57.467);
+tl.to("#cap11",{"opacity":0,"duration":0.118},62.537);
+tl.fromTo("#cap12",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},62.687);
+tl.to("#cap12",{"opacity":0,"duration":0.118},67.287);
+tl.fromTo("#cap13",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},67.437);
+tl.to("#cap13",{"opacity":0,"duration":0.118},69.547);
+tl.fromTo("#cap14",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},70.442);
+tl.to("#cap14",{"opacity":0,"duration":0.118},72.313);
+tl.fromTo("#cap15",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},73.108);
+tl.to("#cap15",{"opacity":0,"duration":0.118},74.978);
+tl.fromTo("#cap16",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},77.728);
+tl.to("#cap16",{"opacity":0,"duration":0.118},79.987);
+tl.fromTo("#cap17",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},81.537);
+tl.to("#cap17",{"opacity":0,"duration":0.118},83.789);
+tl.fromTo("#cap18",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},84.684);
+tl.to("#cap18",{"opacity":0,"duration":0.118},88.284);
+tl.fromTo("#cap19",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},89.478);
+tl.to("#cap19",{"opacity":0,"duration":0.118},91.348);
+tl.fromTo("#cap20",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},96.442);
+tl.to("#cap20",{"opacity":0,"duration":0.118},99.843);
+tl.fromTo("#cap21",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},100.356);
+tl.to("#cap21",{"opacity":0,"duration":0.118},102.226);
+tl.fromTo("#cap22",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},106.639);
+tl.to("#cap22",{"opacity":0,"duration":0.118},108.525);
+tl.fromTo("#cap23",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},108.675);
+tl.to("#cap23",{"opacity":0,"duration":0.118},110.785);
+tl.fromTo("#cap24",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},111.505);
+tl.to("#cap24",{"opacity":0,"duration":0.118},113.376);
+tl.fromTo("#cap25",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},113.996);
+tl.to("#cap25",{"opacity":0,"duration":0.118},115.866);
+tl.fromTo("#cap26",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},121.516);
+tl.to("#cap26",{"opacity":0,"duration":0.118},123.768);
+tl.fromTo("#cap27",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},125.188);
+tl.to("#cap27",{"opacity":0,"duration":0.118},130.828);
+tl.fromTo("#cap28",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},130.978);
+tl.to("#cap28",{"opacity":0,"duration":0.118},133.088);
+tl.fromTo("#cap29",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},133.648);
+tl.to("#cap29",{"opacity":0,"duration":0.118},135.519);
+tl.fromTo("#cap30",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},135.979);
+tl.to("#cap30",{"opacity":0,"duration":0.118},137.849);
+tl.fromTo("#cap31",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},142.799);
+tl.to("#cap31",{"opacity":0,"duration":0.118},145.051);
+tl.fromTo("#cap32",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},146.311);
+tl.to("#cap32",{"opacity":0,"duration":0.118},151.76);
+tl.fromTo("#cap33",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},152.805);
+tl.to("#cap33",{"opacity":0,"duration":0.118},154.675);
+tl.fromTo("#cap34",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},165.496);
+tl.to("#cap34",{"opacity":0,"duration":0.118},168.862);
+tl.fromTo("#cap35",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},173.572);
+tl.to("#cap35",{"opacity":0,"duration":0.118},177.282);
+tl.fromTo("#cap36",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},184.372);
+tl.to("#cap36",{"opacity":0,"duration":0.118},189.682);
+tl.fromTo("#cap37",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},213.404);
+tl.to("#cap37",{"opacity":0,"duration":0.118},215.778);
+tl.fromTo("#cap38",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},239.4);
+tl.to("#cap38",{"opacity":0,"duration":0.118},241.43);
+tl.fromTo("#cap39",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},242.9);
+tl.to("#cap39",{"opacity":0,"duration":0.118},248.051);
+tl.fromTo("#cap40",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},253.411);
+tl.to("#cap40",{"opacity":0,"duration":0.118},255.841);
+tl.fromTo("#cap41",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},261.791);
+tl.to("#cap41",{"opacity":0,"duration":0.118},263.821);
+tl.fromTo("#cap42",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},270.361);
+tl.to("#cap42",{"opacity":0,"duration":0.118},272.391);
+tl.fromTo("#cap43",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},272.616);
+tl.to("#cap43",{"opacity":0,"duration":0.118},275.026);
+tl.fromTo("#cap44",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},275.176);
+tl.to("#cap44",{"opacity":0,"duration":0.118},278.492);
+tl.fromTo("#cap45",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},278.642);
+tl.to("#cap45",{"opacity":0,"duration":0.118},280.61);
+tl.fromTo("#cap46",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},280.76);
+tl.to("#cap46",{"opacity":0,"duration":0.118},283.7);
+tl.fromTo("#cap47",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},284.3);
+tl.to("#cap47",{"opacity":0,"duration":0.118},293.196);
+tl.fromTo("#cap48",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.198,"ease":"power2.out"},295.346);
+tl.to("#cap48",{"opacity":0,"duration":0.118},297.63);
+window.__timelines["main"] = tl;
+</script></body></html>

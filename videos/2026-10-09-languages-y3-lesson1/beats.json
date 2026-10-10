@@ -1,0 +1,216 @@
+{
+  "about": "Year 3 languages, Lesson 1, the teach along film. One beats file, two films: node build.mjs --lang es|fr [--half]. Every spoken line is here with the voice that says it. Timing comes from the real audio (tools/measure.mjs writes assets/audio/timing.json), never by hand.",
+  "tts": { "model": "text2speech_v2", "variant": "elevenlabs", "voice_type": "preset" },
+  "voices": {
+    "en": { "name": "Isla", "id": "7367e919-3069-5a0b-939e-dfb1c0fd91b4", "use": "English teacher voice, both films" },
+    "es": { "name": "Marisol", "id": "75e72cd5-011b-4130-a474-e8b1ab341f04", "use": "Spanish (Castilian), on approval from our pilot teacher" },
+    "fr": { "name": "Celine", "id": "57ccb351-84d7-54ba-afd4-26b566ca6023", "use": "French (metropolitan), on approval from our pilot teacher" }
+  },
+  "pace": {
+    "gap": 0.35,
+    "partGap": 0.9,
+    "pause": 3.0,
+    "pausePerExtraWord": 0.7,
+    "soundPause": 2.6,
+    "buildHold": 2.2,
+    "chantBpm": 92,
+    "spotPause": 3.4
+  },
+  "clips": {
+    "listening": { "file": "assets/clips/listening.mp4", "dur": 5 },
+    "celebrate": { "file": "assets/clips/celebrate.mp4", "dur": 5 }
+  },
+  "shared_en": {
+    "today": "Today you will learn three things.",
+    "sound_intro": "Now for the sound of the day.",
+    "examples": "Listen for it in these words.",
+    "listen": "Listen.",
+    "again": "Listen again.",
+    "yourturn": "Your turn.",
+    "build": "This is how we write it.",
+    "together": "Now all together.",
+    "ask_intro": "Now Bloop will talk to you. When Bloop speaks, you answer.",
+    "sing_listen": "Time to sing. The first time, just listen and clap.",
+    "sing_join": "Now sing it with Bloop!",
+    "sing_done": "Lovely singing.",
+    "spot_intro": "Spot the word. Listen, then point to the word you hear.",
+    "spot_ok1": "Yes, that's the one!",
+    "spot_ok2": "Brilliant!",
+    "spot_ok3": "Spot on!",
+    "learned": "Look at everything you can do now.",
+    "bye_lead": "Wave goodbye to Bloop."
+  },
+  "films": {
+    "es": {
+      "language": "Spanish",
+      "eyebrow": "Spanish · Year 3 · Unit 1 · Lesson 1",
+      "spine": "content/languages/es/spine.json",
+      "en": {
+        "p1": "Bloop is saying hello in Spanish. By the end of today, you will too.",
+        "ican1": "I can say hello and goodbye in Spanish.",
+        "ican2": "I can answer yes or no.",
+        "ican3": "I can say the Spanish a and o sounds.",
+        "snd_a": "In Spanish, the letter a always makes the same short, open sound.",
+        "tip_a": "Open your mouth wide, like the start of the word father, and keep it short.",
+        "snd_o": "The letter o makes a round sound.",
+        "tip_o": "Make your lips round, like you are blowing out a candle, and keep them still.",
+        "silent_h": "Look at the first word. The h is a sleeping letter, so we never say it.",
+        "words_intro": "Now for five new words. Watch Bloop, and copy.",
+        "w_hola": "Our first word means hello.",
+        "w_buenos": "This one means good morning.",
+        "w_adios": "This one means goodbye.",
+        "w_si": "This one means yes. Nod your head as you say it.",
+        "w_no": "And this one means no. Keep your lips round and still.",
+        "g_marks": "Spot the upside down mark at the start? Spanish puts one there, so you know how to say it before you begin.",
+        "g_q": "A question gets an upside down mark too. Listen.",
+        "ask_up": "Thumbs up. Is that yes or no?",
+        "ask_down": "Thumbs down. Yes or no?",
+        "ask_you": "Now you start. Say good morning to Bloop.",
+        "home": "Your job for home: tonight, teach someone at home how to say hello, good morning and goodbye in Spanish."
+      },
+      "tl": {
+        "hello_clip": "¡Hola! ¡Buenos días!",
+        "hola": "¡Hola!",
+        "buenos": "¡Buenos días!",
+        "adios": "¡Adiós!",
+        "si": "¡Sí!",
+        "no": "¡No!",
+        "si_q": "¿Sí?",
+        "snd_a": "a",
+        "snd_o": "o",
+        "mama": "mamá",
+        "dos": "dos"
+      },
+      "parts": {
+        "hello": { "clip": "assets/clips/hello-es.mp4", "say": "hello_clip", "show": ["¡Hola!", "¡Buenos días!"], "en": "p1" },
+        "today": { "ican": ["ican1", "ican2", "ican3"] },
+        "sound": {
+          "sounds": [
+            { "grapheme": "a", "say": "snd_a", "intro": "snd_a", "tip": "tip_a",
+              "examples": [ { "show": "hola", "say": "hola" }, { "show": "adiós", "say": "adios" }, { "show": "mamá", "say": "mama" } ] },
+            { "grapheme": "o", "say": "snd_o", "intro": "snd_o", "tip": "tip_o",
+              "examples": [ { "show": "hola", "say": "hola", "silent": [0] }, { "show": "no", "say": "no" }, { "show": "dos", "say": "dos" } ],
+              "outro": "silent_h" }
+          ]
+        },
+        "words": {
+          "intro": "words_intro",
+          "list": [
+            { "show": "¡Hola!", "say": "hola", "en": "w_hola", "meaning": "hello", "gesture": "wave", "silent": [1],
+              "after": [ { "en": "g_marks", "mark": true }, { "en": "g_q", "say": "si_q", "show": "¿Sí?" } ] },
+            { "show": "¡Buenos días!", "say": "buenos", "en": "w_buenos", "meaning": "good morning", "gesture": "sun" },
+            { "show": "¡Adiós!", "say": "adios", "en": "w_adios", "meaning": "goodbye", "gesture": "wave" },
+            { "show": "¡Sí!", "say": "si", "en": "w_si", "meaning": "yes", "gesture": "nod" },
+            { "show": "¡No!", "say": "no", "en": "w_no", "meaning": "no", "gesture": "shake" }
+          ]
+        },
+        "ask": {
+          "intro": "ask_intro",
+          "turns": [
+            { "bloop": "hola", "bloopShow": "¡Hola!", "answer": "hola", "answerShow": "¡Hola!" },
+            { "bloop": "buenos", "bloopShow": "¡Buenos días!", "answer": "buenos", "answerShow": "¡Buenos días!" },
+            { "cue": "ask_up", "icon": "👍", "answer": "si", "answerShow": "¡Sí!" },
+            { "cue": "ask_down", "icon": "👎", "answer": "no", "answerShow": "¡No!" },
+            { "cue": "ask_you", "youFirst": true, "answerShow": "¡Buenos días!", "bloop": "buenos", "bloopShow": "¡Buenos días!" }
+          ]
+        },
+        "sing": {
+          "bars": [
+            [ { "t": "¡Hola,", "say": "hola", "beat": 0 }, { "t": "hola,", "say": "hola", "beat": 1 }, { "t": "buenos días!", "say": "buenos", "beat": 2 } ],
+            [ { "t": "¡Sí!", "say": "si", "beat": 0 }, { "t": "¡No!", "say": "no", "beat": 2 } ],
+            [ { "t": "¡Hola,", "say": "hola", "beat": 0 }, { "t": "hola,", "say": "hola", "beat": 1 }, { "t": "buenos días!", "say": "buenos", "beat": 2 } ],
+            [ { "t": "¡Adiós,", "say": "adios", "beat": 0 }, { "t": "adiós!", "say": "adios", "beat": 2 } ]
+          ],
+          "repeat": 2
+        },
+        "spot": {
+          "questions": [
+            { "say": "adios", "options": ["¡Hola!", "¡Adiós!", "¡Sí!"], "answer": 1, "ok": "spot_ok1" },
+            { "say": "buenos", "options": ["¡No!", "¡Adiós!", "¡Buenos días!"], "answer": 2, "ok": "spot_ok2" },
+            { "say": "si", "options": ["¡Sí!", "¡Hola!", "¡No!"], "answer": 0, "ok": "spot_ok3" }
+          ]
+        },
+        "learned": { "ican": ["ican1", "ican2", "ican3"], "home": "home", "homeShow": ["¡Hola!", "¡Buenos días!", "¡Adiós!"] },
+        "bye": { "clip": "assets/clips/bye-es.mp4", "say": "adios", "show": ["¡Adiós!"] }
+      }
+    },
+    "fr": {
+      "language": "French",
+      "eyebrow": "French · Year 3 · Unit 1 · Lesson 1",
+      "spine": "content/languages/fr/spine.json",
+      "en": {
+        "p1": "Bloop is saying hello in French. By the end of today, you will too.",
+        "ican1": "I can say hello and goodbye in French.",
+        "ican2": "I can say thank you.",
+        "ican3": "I can hear the French sound i.",
+        "snd_i": "In French, the letter i makes a short, bright sound. The letter y can make it too.",
+        "tip_i": "Smile wide, as if someone is taking your photo, and keep the sound short.",
+        "words_intro": "Now for three new words. Watch Bloop, and copy.",
+        "w_bonjour": "Our first word means hello. You can use it all day long.",
+        "w_aurevoir": "This one means goodbye.",
+        "w_merci": "This one means thank you. Can you hear the bright i at the end?",
+        "g_adult": "This is a polite hello for a grown up.",
+        "g_friend": "And with your friends, you can say this.",
+        "ask_gift": "Bloop gives you a present. What do you say?",
+        "ask_you": "Now you start. Say goodbye to Bloop.",
+        "home": "Your job for home: tonight, teach someone at home how to say hello, thank you and goodbye in French."
+      },
+      "tl": {
+        "bonjour": "Bonjour !",
+        "aurevoir": "Au revoir !",
+        "merci": "Merci !",
+        "snd_i": "i",
+        "kiwi": "kiwi",
+        "taxi": "taxi",
+        "madame": "Bonjour Madame !",
+        "salut": "Salut !"
+      },
+      "parts": {
+        "hello": { "clip": "assets/clips/hello-fr.mp4", "say": "bonjour", "show": ["Bonjour !"], "en": "p1" },
+        "today": { "ican": ["ican1", "ican2", "ican3"] },
+        "sound": {
+          "sounds": [
+            { "grapheme": "i", "also": "y", "say": "snd_i", "intro": "snd_i", "tip": "tip_i",
+              "examples": [ { "show": "merci", "say": "merci" }, { "show": "kiwi", "say": "kiwi" }, { "show": "taxi", "say": "taxi" } ] }
+          ]
+        },
+        "words": {
+          "intro": "words_intro",
+          "list": [
+            { "show": "Bonjour !", "say": "bonjour", "en": "w_bonjour", "meaning": "hello", "gesture": "wave",
+              "after": [ { "en": "g_adult", "say": "madame", "show": "Bonjour Madame !", "label": "to a grown up", "turn": true }, { "en": "g_friend", "say": "salut", "show": "Salut !", "label": "to a friend", "turn": true } ] },
+            { "show": "Au revoir !", "say": "aurevoir", "en": "w_aurevoir", "meaning": "goodbye", "gesture": "wave" },
+            { "show": "Merci !", "say": "merci", "en": "w_merci", "meaning": "thank you", "gesture": "bow" }
+          ]
+        },
+        "ask": {
+          "intro": "ask_intro",
+          "turns": [
+            { "bloop": "bonjour", "bloopShow": "Bonjour !", "answer": "bonjour", "answerShow": "Bonjour !" },
+            { "bloop": "salut", "bloopShow": "Salut !", "answer": "salut", "answerShow": "Salut !" },
+            { "cue": "ask_gift", "icon": "🎁", "answer": "merci", "answerShow": "Merci !" },
+            { "cue": "ask_you", "youFirst": true, "answerShow": "Au revoir !", "bloop": "aurevoir", "bloopShow": "Au revoir !" }
+          ]
+        },
+        "sing": {
+          "bars": [
+            [ { "t": "Bonjour,", "say": "bonjour", "beat": 0 }, { "t": "bonjour !", "say": "bonjour", "beat": 2 } ],
+            [ { "t": "Merci !", "say": "merci", "beat": 0 }, { "t": "Merci !", "say": "merci", "beat": 2 } ],
+            [ { "t": "Bonjour,", "say": "bonjour", "beat": 0 }, { "t": "bonjour !", "say": "bonjour", "beat": 2 } ],
+            [ { "t": "Au revoir !", "say": "aurevoir", "beat": 0 }, { "t": "Au revoir !", "say": "aurevoir", "beat": 2 } ]
+          ],
+          "repeat": 2
+        },
+        "spot": {
+          "questions": [
+            { "say": "merci", "options": ["Bonjour !", "Merci !", "Au revoir !"], "answer": 1, "ok": "spot_ok1" },
+            { "say": "aurevoir", "options": ["Au revoir !", "Merci !", "Salut !"], "answer": 0, "ok": "spot_ok2" },
+            { "say": "bonjour", "options": ["Merci !", "Salut !", "Bonjour !"], "answer": 2, "ok": "spot_ok3" }
+          ]
+        },
+        "learned": { "ican": ["ican1", "ican2", "ican3"], "home": "home", "homeShow": ["Bonjour !", "Merci !", "Au revoir !"] },
+        "bye": { "clip": "assets/clips/bye-fr.mp4", "say": "aurevoir", "show": ["Au revoir !"] }
+      }
+    }
+  }
+}
