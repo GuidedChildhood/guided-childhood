@@ -45,41 +45,6 @@ export interface DayRow {
  * phone, and the check-then-insert version races into a duplicate key error
  * that would show as a broken screen.
  */
-/**
- * Has this child already had a lesson day this week?
- *
- * Justin: lessons are "just a once a week ask". A lesson is fifteen minutes of
- * real work and the only step of the five that is, so drawing it daily turns
- * the list from a habit into homework and the streak into something a child
- * stops trying for. Once a week it is the interesting one; every day it is the
- * reason they stop opening the app.
- *
- * Counts the step being SET for a day, not passed. A child who was offered a
- * lesson on Monday and skipped it has had their lesson day: offering it again
- * on Tuesday is the nagging this rule exists to prevent.
- *
- * Monday start, matching the star week the rest of the app runs on. Fails open,
- * because a lookup that cannot answer should cost a child a slightly repetitive
- * week, never a day they are unable to finish.
- */
-async function lessonAlreadyThisWeek(admin: Admin, childId: string, day: string): Promise<boolean> {
-  try {
-    const d = new Date(`${day}T12:00:00Z`)
-    // getUTCDay is 0 on Sunday, which belongs to the week that began six days
-    // earlier rather than to the one starting tomorrow.
-    const back = (d.getUTCDay() + 6) % 7
-    d.setUTCDate(d.getUTCDate() - back)
-    const weekStart = d.toISOString().slice(0, 10)
-
-    const { data, error } = await admin
-      .from('kid_days').select('steps')
-      .eq('child_id', childId).gte('day', weekStart).lt('day', day)
-    if (error || !data) return false
-    return data.some(r => Array.isArray(r.steps) && (r.steps as string[]).includes('lesson'))
-  } catch {
-    return false
-  }
-}
 
 export async function loadDay(
   admin: Admin,
@@ -100,13 +65,9 @@ export async function loadDay(
     .eq('child_id', childId).eq('day', day).maybeSingle()
   if (existing) return { day, row: existing as DayRow }
 
-  // Only ever narrows what the caller already allowed: a caller saying there is
-  // no lesson left in the stage still wins.
-  const weekly = { ...available }
-  if (weekly.lesson !== false && await lessonAlreadyThisWeek(admin, childId, day)) {
-    weekly.lesson = false
-  }
-  const steps = pickDay(childId, day, weekly, stage)
+  // The day never draws the weekly lesson or the quiz (lib/kid/five-a-day,
+  // plan v10 item 1.6), so there is no week to ask about here any more.
+  const steps = pickDay(childId, day, available, stage)
   await admin.from('kid_days')
     .upsert({ user_id: userId, child_id: childId, day, steps, done: [] }, { onConflict: 'child_id,day', ignoreDuplicates: true })
   const { data: row } = await admin

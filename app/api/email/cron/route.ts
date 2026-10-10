@@ -441,7 +441,11 @@ async function handler(req: NextRequest) {
     }
 
     if (days >= 28 && !alreadySent(profile.id, 'svc-lessons')) {
-      const { data: done } = await supabase.from('lesson_completions').select('lesson_id').eq('user_id', profile.id).limit(1).maybeSingle()
+      // A PASSING completion, or a legacy row from before scoring (passed
+      // null). Any row used to do, and since a failed run writes one, a
+      // child's first fail switched this email off for a family that had
+      // never passed anything. Plan v10, item 1.3.
+      const { data: done } = await supabase.from('lesson_completions').select('lesson_id').eq('user_id', profile.id).not('passed', 'is', false).limit(1).maybeSingle()
       if (!done) await deliver(profile.id, profile.email, 'svc-lessons', lessonsEmail({ childName, unsubscribe }), 'svcLessons')
     }
 

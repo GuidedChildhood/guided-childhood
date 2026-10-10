@@ -135,14 +135,20 @@ else ok.push('C: AREA_START is the only start rule')
 // the band's modules into both lesson totals, which is what contentComplete
 // reads. Checked on the code with comments blanked, so a note describing the
 // rule cannot satisfy it.
-const progressSrc = readFileSync('lib/pathway/progress.ts', 'utf8')
-  .replace(/\/\*[\s\S]*?\*\//g, ' ')
-  .replace(/\/\/.*$/gm, ' ')
+//
+// Since 9 October 2026 the count itself lives in lib/pathway/lesson-path.ts
+// (plan v10, item 1.3): progress.ts hands it the AI modules on both readings,
+// it credits them under their own key, and passportLessons is the one place
+// the stamp's pair adds them in. If decision 1 takes the AI modules out of
+// the stamp, passportLessons and these three rules change together.
+const blank = src => src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ')
+const progressSrc = blank(readFileSync('lib/pathway/progress.ts', 'utf8'))
+const lessonPathSrc = blank(readFileSync('lib/pathway/lesson-path.ts', 'utf8'))
 const eChecks = [
   [/from\('ai_lessons'\)/.test(progressSrc), 'E: progress.ts reads the AI modules'],
-  [(progressSrc.match(/\+ aiTotal\b/g) ?? []).length >= 2, 'E: both lesson totals include the AI modules (the stamp reads the total)'],
-  [(progressSrc.match(/\+ aiDone\b/g) ?? []).length >= 2, 'E: both lesson done counts include the AI modules'],
-  [(progressSrc.match(/ai_lesson:\$\{m\.id\}/g) ?? []).length >= 2, 'E: an AI module is credited under its own source key, never a parent lesson standing in'],
+  [(progressSrc.match(/aiModules: aiLessonRows/g) ?? []).length >= 2 && (progressSrc.match(/passportLessons\(path\)/g) ?? []).length >= 2, 'E: both passport readings hand the count the AI modules and take the stamp\'s pair from passportLessons'],
+  [/total: path\.school\.total \+ path\.ai\.total/.test(lessonPathSrc) && /done: path\.school\.done \+ path\.ai\.done/.test(lessonPathSrc), 'E: the stamp\'s lessons pair includes the AI modules, total and done'],
+  [/credited\.has\(`ai_lesson:\$\{m\.id\}`\)/.test(lessonPathSrc), 'E: an AI module is credited under its own source key, never a parent lesson standing in'],
 ]
 for (const [pass, label] of eChecks) (pass ? ok : problems).push(pass ? label : `${label}: NOT so`)
 

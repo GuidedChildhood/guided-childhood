@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { lessonsPassedBetween } from './lesson-path-server'
 
 // WHAT YOUR CHILD DID WHILE YOU WERE AWAY.
 //
@@ -189,9 +190,11 @@ export async function getCatchup(
     // Only passes. Having a go is worth a push in the moment, because trying is
     // the thing to encourage right then, but a summary of the week should
     // report what stuck.
-    count(() => scoped(supabase.from('lesson_completions')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('passed', true).gte('completed_at', sinceIso))),
+    //
+    // Counted by the one lesson count's rule (lib/pathway/lesson-path), so a
+    // school lesson is news once, by its mission, and a retake that moves a
+    // completion's date is not news a second time.
+    count(() => lessonsPassedBetween(supabase, { userId, childId, from: sinceIso }).then(count => ({ count }))),
     // Waiting on the parent. Deliberately a separate list: news is a gift and a
     // request is a job, and running them together turns the good news into a
     // preamble for another demand.

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { resolveTheme } from '@/lib/kid/theme'
 import KidBackLink from '@/components/kid/KidBackLink'
 
@@ -49,14 +49,11 @@ export default async function KidTutorLessonPage({ params }: { params: Promise<{
 
   const rawSlides = parseSlides(lesson.slides)
   if (!rawSlides) notFound()
-  // The teacher script channel never reaches a kid client. Nothing generated
-  // here carries one, and this stays anyway: the day something does, this page
-  // is already right rather than newly wrong.
-  const slides = rawSlides.map(s => {
-    const copy = { ...s }
-    delete (copy as { script?: string }).script
-    return copy
-  })
+  // The child's deck (shared/lesson-slides visibleSlides): the teacher script
+  // channel never reaches a kid client, and a discussion becomes Think it.
+  // Nothing generated here carries a script, and this stays anyway: the day
+  // something does, this page is already right rather than newly wrong.
+  const slides = visibleSlides(rawSlides, 'kid').slides
 
   return (
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
