@@ -1,9 +1,10 @@
 'use client'
 
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { markStep } from '@gc/shared/schools-progress'
 import { useYourSchool } from '@/components/YourSchoolLead'
+import BeforeSlideOne from './BeforeSlideOne'
 
 // The player, with the two signals a classroom actually gives off.
 //
@@ -19,7 +20,13 @@ import { useYourSchool } from '@/components/YourSchoolLead'
 
 type PlayerProps = React.ComponentProps<typeof LessonPlayer>
 
-export default function TrackedPlayer({ moduleId, ...props }: PlayerProps & { moduleId: string }) {
+export default function TrackedPlayer({ moduleId, flagged = false, young = false, ...props }: PlayerProps & {
+  moduleId: string
+  // One of the seventeen safeguarding flagged lessons (FLAGGED_MODULES), and
+  // whether it is a KS1 one, which changes what the quiet exit sounds like.
+  flagged?: boolean
+  young?: boolean
+}) {
   useEffect(() => { markStep(moduleId, 'board') }, [moduleId])
   const onFinish = useCallback(() => { markStep(moduleId, 'taught') }, [moduleId])
   // The safeguarding lead this screen was told about, for the slides that
@@ -27,5 +34,12 @@ export default function TrackedPlayer({ moduleId, ...props }: PlayerProps & { mo
   // the browser and the player should not know what a Hub is, so the
   // knowing lives here.
   const schoolLead = useYourSchool()
-  return <LessonPlayer {...props} schoolLead={schoolLead} onFinish={onFinish} />
+  // A flagged lesson opened at its start shows the teacher one screen first
+  // (BeforeSlideOne, sync plan F1). Stepping back in mid lesson from the run
+  // sheet (?slide=N) goes straight to that slide: that teacher has already
+  // seen it today. The board counts as ready either way, above.
+  const [started, setStarted] = useState(() => !flagged || (props.initialIndex ?? 0) > 0)
+  const start = useCallback(() => setStarted(true), [])
+  if (!started) return <BeforeSlideOne young={young} onStart={start} />
+  return <LessonPlayer {...props} schoolLead={schoolLead} scriptFolded={flagged} onFinish={onFinish} />
 }
