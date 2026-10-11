@@ -31,7 +31,7 @@ service) is a decision for Justin, not something to adopt from advice.
 | 11 | Build accumulated value | "A family's pathway should become more useful as their child progresses" | Already built | Passport, DiGi memory, check in history, star quest | none |
 | 12 | Develop distribution | "School partnerships, newsletters, parent communities" | Already the plan | THE-STORY s9 channel order; founding schools rate (8 October) | none |
 | 13 | Sell the outcome, not the technology | "Parents want help raising digitally capable children" | Adapt | Sell the plan and the words, never a promised outcome. The hook stays the stage check | none |
-| 14 | One service, several doors | "The Parent Pathway, School Pathway, Social Billboard and DiGi become connected parts of that service" | Park, Justin's call | Parent, schools and DiGi already are one service. Folding the Social Billboard in conflicts with "one business per post" and its own brand and price (£5.95). The cross referral plan (`plans/2026-10-03-cross-referral-plan.md`) is the current link between them | large if done |
+| 14 | One service, several doors | "The Parent Pathway, School Pathway, Social Billboard and DiGi become connected parts of that service" | Declined for now (Justin, 11 October) | Parent, schools and DiGi already are one service. Folding the Social Billboard in conflicts with "one business per post" and its own brand and price (£5.95). The cross referral plan (`plans/2026-10-03-cross-referral-plan.md`) is the current link between them | large if done |
 
 ## The one new thing worth taking
 
@@ -39,9 +39,10 @@ For the Social Billboard, the checking is the moat, not the playlist builder.
 That makes gate G3 (one confirmed framework wording and a live transparency
 page) the most valuable piece of Social Billboard work, ahead of more posts.
 
-## Question for Justin
+## Decided
 
-1. Should the Social Billboard stay a separate business linked by cross
-   referral, or become a door into Guided Childhood? Recommendation: stay
-   separate for now. One business per post is keeping both stories clear, and
-   merging is a large change for a gain nobody has measured yet.
+Justin, 11 October 2026: "keep the Social Billboard separate for now and seems
+we are heading in right direction as this is hard to copy". The Social
+Billboard stays its own business, linked by the cross referral plan. The
+direction stands: the moat is the method, the evidence, the family's history
+and the school relationships, not the code.
