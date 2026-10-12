@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 
 // While DiGi thinks, one quiet line of reassurance rotates under the dots. It
 // says the true thing that sets DiGi apart from a plug in chatbot: the answer
-// is drawn from research we have reviewed and held to safety guardrails, not
-// scraped live off the open web. Every line here is literally what the system
-// does, so it reassures without overclaiming. No dashes, Justin's voice.
+// is drawn from research we have reviewed and held to safety guardrails first.
+// Every line here is literally what the system does, so it reassures without
+// overclaiming. No dashes, Justin's voice.
 
 // Justin: "we did have some message from DiGi whilst it was thinking, giving
 // parents an idea what was happening. Looking at feedback from parents, board of
@@ -50,8 +50,14 @@ import { useEffect, useState } from 'react'
 //     safeguarding rule, which routes any crisis to real people first.
 //   - no line claims neuroscience: 4 of 142 active research rows touch the
 //     brain, which is not enough to say it out loud.
+//   - "reviewed research first", not "not the open web" (12 October 2026).
+//     DiGi has a web search tool (lib/digi/tools.ts, for app settings, the law
+//     and researcher figures), so the old line was only partly true. The
+//     parenting advice still comes from the reviewed research bank first,
+//     which is what the line now says. Found by the shorts research panel and
+//     the marketer review; Justin chose the change.
 const LINES = [
-  'Checking our reviewed research, not the open web.',
+  'Checking our reviewed research first.',
   'Reading what the research says for a child this age.',
   'Finding where your child is on their pathway.',
   'Never a flat yes or no. Working out your next step.',
