@@ -5,7 +5,10 @@
 // The map is passed in; longest names first so "Alma Rose" wins over "Alma".
 ;(function (MAP) {
   const keys = Object.keys(MAP).sort((a, b) => b.length - a.length)
-  const re = new RegExp('\\b(' + keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'gi')
+  // A word boundary only where the phrase starts or ends in a word character, so a
+  // whole sentence ending in a full stop can be swapped too.
+  const pat = (k) => (/^\w/.test(k) ? '\\b' : '') + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (/\w$/.test(k) ? '\\b' : '')
+  const re = new RegExp('(' + keys.map(pat).join('|') + ')', 'gi')
   const fix = (s) => s.replace(re, (m) => {
     const k = keys.find((x) => x.toLowerCase() === m.toLowerCase()); const v = MAP[k]
     return m === m.toUpperCase() && m !== m.toLowerCase() ? v.toUpperCase() : v

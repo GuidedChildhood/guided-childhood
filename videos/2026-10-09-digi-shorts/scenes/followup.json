@@ -1,0 +1,41 @@
+{
+ "name": "followup",
+ "url": "/dev/concern-scale",
+ "seconds": 9,
+ "scrollY": 420,
+ "swap": {
+  "Online safety": "Coming off screens",
+  "putting the tablet on the landing shelf at seven": "agreeing the ending before the tablet goes on"
+ },
+ "stubs": [
+  {
+   "match": "/api/digi/outcome",
+   "method": "POST",
+   "body": "{\"ok\":true}",
+   "json": true,
+   "delayMs": 300
+  },
+  {
+   "match": "/api/daily/concern-check",
+   "method": "POST",
+   "body": "{\"ok\":true}",
+   "json": true,
+   "delayMs": 300
+  }
+ ],
+ "actions": [
+  {
+   "at": 1800,
+   "do": "tap",
+   "selector": "button",
+   "text": "Yes",
+   "nth": 1
+  },
+  {
+   "at": 4800,
+   "do": "tap",
+   "selector": "button[aria-label=\"Getting there\"]",
+   "nth": 0
+  }
+ ]
+}

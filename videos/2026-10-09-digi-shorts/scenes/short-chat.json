@@ -1,0 +1,37 @@
+{
+ "name": "short-chat",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 2",
+  "11 to 13": "8 to 10"
+ },
+ "seconds": 20.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 8700,
+   "wordMs": 55,
+   "body": "At nine, the stopping is the hard part, and whoever calls time becomes the bad guy.\n\n**Decide the ending before it starts.** In a calm moment, ask Ava what ends it: the episode, the kitchen timer, or tea. She picks, and that is the deal.\n\n**Then add nothing at the end.** No countdown, no extra warning. When it ends, say only \"That was the deal. Well done.\"\n\nComing off screens is on Ava's check in now, and in four days I will ask how it went. The words are in [The stopping point agreed in a calm moment](/dashboard/scripts/9671).\n\n**Tonight.** Name tomorrow's ending together and write it on the fridge in her words."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "Screens off. Same fight, every single day. What do I say?",
+   "charMs": 25
+  },
+  {
+   "at": 2125,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 17385,
+   "do": "scrollChat"
+  }
+ ],
+ "sendAt": 2.125
+}

@@ -33,6 +33,7 @@ const addNames = (pg, extra = {}) => pg.addInitScript({ content: `window.__FILM_
 const browser = await chromium.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
 const page = await browser.newPage({ viewport: { width: W, height: H + PAD }, deviceScaleFactor: DPR })
 await addNames(page, S.swap || {})
+if (S.storage) await page.addInitScript((kv) => { for (const [k, v] of Object.entries(kv)) try { localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)) } catch {} }, S.storage)
 await page.addInitScript((stubs) => {
   const real = window.fetch.bind(window)
   window.fetch = async (input, init) => {
@@ -63,6 +64,17 @@ await fr.waitForLoadState('networkidle', { timeout: 120000 }).catch(() => {})
 await fr.evaluate(() => document.fonts.ready)
 await fr.addStyleTag({ content: 'nextjs-portal{display:none!important}' + (S.css || '') })
 if (S.scrollY) await fr.evaluate((y) => window.scrollTo(0, y), S.scrollY)
+// Scroll whatever actually scrolls (the window or an inner scroller) so the
+// element with this text sits "offset" px from the top of the phone.
+if (S.scrollTo) await fr.evaluate(({ text, offset }) => {
+  const el = [...document.querySelectorAll('p,h1,h2,h3,h4,div,span')].find((e) => e.children.length === 0 && e.textContent.trim().startsWith(text))
+  if (!el) return
+  let sc = el.parentElement
+  while (sc && !(/(auto|scroll)/.test(getComputedStyle(sc).overflowY) && sc.scrollHeight > sc.clientHeight)) sc = sc.parentElement
+  const target = sc || document.scrollingElement
+  const top = el.getBoundingClientRect().top - (sc ? sc.getBoundingClientRect().top : 0) + target.scrollTop - (offset || 0)
+  target.scrollTo({ top, behavior: 'instant' })
+}, S.scrollTo)
 await page.waitForTimeout(S.settleMs ?? 2500)
 
 const cdp = await page.context().newCDPSession(page)
@@ -71,6 +83,9 @@ const cdp = await page.context().newCDPSession(page)
 const within = (p, ms) => Promise.race([p, new Promise((r) => setTimeout(() => r('timeout'), ms))])
 const step = (ms) => within(new Promise((res) => { cdp.once('Emulation.virtualTimeBudgetExpired', res); cdp.send('Emulation.setVirtualTimePolicy', { policy: 'advance', budget: ms }) }), 8000)
 await cdp.send('Emulation.setVirtualTimePolicy', { policy: 'pause' })
+
+// Fast forward before the first frame, in big virtual steps, when the scene asks.
+for (let left = S.preAdvanceMs || 0; left > 0; left -= 5000) await step(Math.min(5000, left))
 
 // Expand typing into one keystroke event per character on its own frame.
 const events = []
@@ -97,6 +112,10 @@ for (let f = 0; f < N; f++) {
         const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }
       }, { sel: e.selector, nth: e.nth || 0, text: e.text || null }).then((p) => ({ x: p.x * K, y: p.y * K }))
       for (const type of ['mousePressed', 'mouseReleased']) await cdp.send('Input.dispatchMouseEvent', { type, x, y, button: 'left', clickCount: 1 })
+    } else if (e.do === 'scrollChat') {
+      // The real chat pins the question to the top while a reply streams; at the
+      // end, scroll its own message list to the bottom, smoothly, as a parent would.
+      await within(fr.evaluate(() => { const u = document.querySelector('[data-role="user"]'); let el = u && u.parentElement; while (el && !(getComputedStyle(el).overflowY === 'auto' && el.scrollHeight > el.clientHeight)) el = el.parentElement; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }) }), 8000)
     } else if (e.do === 'scroll') await fr.evaluate(({ y, sel }) => (sel ? document.querySelector(sel) : window).scrollTo({ top: y, behavior: 'instant' }), { y: e.y, sel: e.selector || null })
   }
   if ((await step(1000 / FPS)) === 'timeout') console.log(`step timed out at frame ${f}`)

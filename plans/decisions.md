@@ -269,3 +269,7 @@ Three things from Justin's afternoon. The check in, DiGi, the fix of the week, t
 ## 9 October 2026: one curriculum, two rooms; three decisions
 
 A twelve lens panel (Ofsted, a leading independent school's head of PSHE, a non specialist teacher, a DSL, a SENCo, the seven lessons lenses, a sync engineer) ran two rounds over the school curriculum and the home lessons; plan in `plans/2026-10-09-curriculum-sync-plan.md`. Justin decided, as recommended: (1) a class lesson's home code records "met in class" and only the child's own check at home ticks the passport; (2) a child's lessons follow their school year (1 September cut off), so a Year 8 child does KS3 at home alongside their class; (3) ks4-19 says "the law is changing", true either way. The run sheet now prints on 8 full pages, not 13 with gaps (PR 1233).
+
+## 12 October 2026: the DiGi hero and Short 1, from real screens
+
+Justin: "build hero n short now". The research panel (nine specialists, 330 coded Reddit posts, a Mumsnet sweep, a code mapper, three concepts, four judges) ranked the top problems: the switch off fight, the first phone, always the bad guy. The hero (46s) and Short 1 (30s) are built from the real product, filmed frame by frame from the ref-* pages with the fixture names swapped for an example family, and every DiGi reply labelled illustrative. The first launch film (PR 1220) showed three things the product does not do and should not be posted. Pack: `content/packs/2026-10-09-digi-shorts/`. Films: `videos/2026-10-09-digi-shorts/`.
