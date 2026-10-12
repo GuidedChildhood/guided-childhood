@@ -6,6 +6,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { STICKERS } from '@/lib/stickers/catalog'
+import { getProvenSolutions } from '@/lib/digi/wisdom'
 import Anthropic from '@anthropic-ai/sdk'
 
 // The Sunday DiGi weekly review. Reads one family's own week off the tables the
@@ -254,7 +255,31 @@ function templateReview(stats: WeekStats): Omit<WeeklyReview, 'week_start' | 'st
   }
 }
 
-async function generateReview(stats: WeekStats, reflections: string[] = []): Promise<Omit<WeeklyReview, 'week_start' | 'stats'>> {
+// What is still open on the family's check in, and what has worked for other
+// families on the same worries, so the Sunday suggestion can be the next
+// approach rather than a routine pulled from the week's counts (Justin,
+// 8 October 2026: the research loop has to reach the emails). Read only,
+// fails soft to nothing.
+type OpenWorries = { labels: string[]; proven: string }
+
+async function gatherOpenWorries(userId: string, ageBands: (string | null)[]): Promise<OpenWorries> {
+  const empty: OpenWorries = { labels: [], proven: '' }
+  try {
+    const admin = createAdminClient()
+    const { data } = await admin.from('concerns').select('label, child_id, times_flagged')
+      .eq('user_id', userId).in('status', ['open', 'improving'])
+      .order('times_flagged', { ascending: false }).limit(5)
+    const labels = [...new Set((data ?? []).map(r => String(r.label ?? '').trim()).filter(Boolean))]
+    if (labels.length === 0) return empty
+    const band = ageBands.find(b => !!b) ?? null
+    const proven = await getProvenSolutions(admin as unknown as Parameters<typeof getProvenSolutions>[0], band, labels.join(' '), 3).catch(() => '')
+    return { labels, proven }
+  } catch {
+    return empty
+  }
+}
+
+async function generateReview(stats: WeekStats, reflections: string[] = [], open: OpenWorries = { labels: [], proven: '' }): Promise<Omit<WeeklyReview, 'week_start' | 'stats'>> {
   if (!process.env.ANTHROPIC_API_KEY) return templateReview(stats)
 
   const routineList = ROUTINE_PACKS.map(p => `${p.key} (${p.name})`).join(', ')
@@ -274,7 +299,10 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Open school reminders: ${stats.schoolOpen}
 - Lessons completed this week (the digital literacy path moving): ${stats.lessonsDone.length ? stats.lessonsDone.join(', ') : 'none this week'}
 - Scripts tried, and whether the words worked: ${stats.scriptsTried.length ? stats.scriptsTried.join(', ') : 'none this week'}${stats.ratingShift ? `
-- Their own weekly wellbeing check in: ${stats.ratingShift.summary}` : ''}${reflectionBlock}
+- Their own weekly wellbeing check in: ${stats.ratingShift.summary}` : ''}${open.labels.length ? `
+- Worries still open on their daily check in: ${open.labels.join(', ')}` : ''}${reflectionBlock}${open.proven}${open.proven ? `
+
+If one of the patterns under WHAT HAS ACTUALLY WORKED fits a worry still open on their check in, make it the suggestion, and say plainly that it is what worked for other families with a child this age. Never invent a pattern. If none fits, suggest from the week as below.` : ''}
 ${stats.ratingShift ? `
 The wellbeing line above is the one to hand back plainly. ${stats.ratingShift.direction === 'up' ? 'The rating rose, so name what they did that week and say it looks like it is working, keep going with exactly that.' : stats.ratingShift.direction === 'down' ? 'The rating dipped. No alarm and no blame, but say it moved and suggest one different angle for the coming week rather than more of the same.' : 'The rating held steady. Say so warmly and pick one small new thing worth trying, since what changed nothing does not need repeating.'}` : ''}
 
@@ -334,7 +362,8 @@ export async function buildWeeklyReview(userId: string, now = new Date()): Promi
     .map(r => `Asked: ${String(r.question).trim().slice(0, 160)} They answered: ${String(r.parent_response).trim().slice(0, 200)}`)
     .slice(0, 5)
 
-  const body = await generateReview(stats, reflections)
+  const open = await gatherOpenWorries(userId, stats.ageBands)
+  const body = await generateReview(stats, reflections, open)
   const review: WeeklyReview = { week_start: weekStart, stats, ...body }
 
   await admin.from('digi_weekly_reviews').upsert({

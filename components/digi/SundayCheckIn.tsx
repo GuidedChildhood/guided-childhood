@@ -43,6 +43,9 @@ export default function SundayCheckIn() {
   const [due, setDue] = useState(false)
   const [plan, setPlan] = useState<PlanStep[]>([])
   const [focusSaved, setFocusSaved] = useState<string | null>(null)
+  // Anything else the parent wants tracked, in their own words. Goes on the
+  // daily check in the same way a worry told to DiGi does.
+  const [other, setOther] = useState('')
 
   const [open, setOpen] = useState(false)
   const [stepIdx, setStepIdx] = useState(0)
@@ -85,7 +88,7 @@ export default function SundayCheckIn() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         // The child rides along so a hard week's worry lands on the child the
         // parent has open rather than always the primary one.
-        body: JSON.stringify({ mode: 'save', parentMood: mood, wentWell, hardest, focus, plan: draftPlan, child_id: currentChildId() }),
+        body: JSON.stringify({ mode: 'save', parentMood: mood, wentWell, hardest, other: other.trim() || null, focus, plan: draftPlan, child_id: currentChildId() }),
       })
       setPlan(draftPlan)
       setFocusSaved(focus)
@@ -216,6 +219,21 @@ export default function SundayCheckIn() {
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>What felt hardest?</h3>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '0 0 13px' }}>So DiGi points the plan at the right thing.</p>
           <ChipGrid options={HARDEST.map(h => ({ v: h.slug, label: h.label }))} selected={hardest} onToggle={v => toggle(hardest, setHardest, v)} />
+          {/* The weekly ask Justin wanted (8 October 2026): anything new we
+              should track, in the parent's own words. It lands on the daily
+              check in as "You raised this", like a worry told to DiGi. */}
+          <label style={{ display: 'block', marginTop: 14 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+              Anything else we should keep an eye on?
+            </span>
+            <input
+              className="input"
+              value={other}
+              onChange={e => setOther(e.target.value.slice(0, 80))}
+              placeholder="In your own words, optional. It goes on the daily check in."
+              maxLength={80}
+            />
+          </label>
         </div>
       )}
 

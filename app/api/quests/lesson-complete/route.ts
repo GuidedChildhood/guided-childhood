@@ -6,6 +6,11 @@ import { getWeekBrief } from '@/lib/learning/this-week'
 import { sendPush } from '@/lib/push/send'
 import { getStarLesson, type StarLessonRow } from '@/lib/quests/star-lesson-catalogue'
 import { markStepQuietly } from '@/lib/kid/day-store'
+import { parseSlides, visibleSlides, markAnswers, lessonPassed, proveQuestions, type PostedAnswer } from '@gc/shared/lesson-slides'
+import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
+import { isTogetherStage, stageForKeyStage } from '@/lib/lessons/school-path'
+import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
+import { recordMarkedAnswers } from '@/lib/lessons/answers'
 
 // Monday of this week as an ISO instant, London week convention like the
 // rest of the quests system: the school week mission dedupes against it.
@@ -29,7 +34,7 @@ function mondayIso(now: Date): string {
 //    replays never mint again.
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; lesson_key?: string; mission_id?: string; game_key?: string; school_week?: boolean; correct?: number; total?: number; answers?: unknown }
+  let body: { token?: string; lesson_key?: string; mission_id?: string; game_key?: string; school_week?: boolean; correct?: number; total?: number; answers?: unknown; run_id?: unknown; audience?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token } = body
@@ -46,29 +51,82 @@ export async function POST(req: NextRequest) {
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
 
   // ── Star Lesson mission (the full curriculum lesson) ──
+  //
+  // THE PASS CONTRACT, MARKED HERE (plan v10, item 1.5). Until 9 October 2026
+  // this branch took `correct` and `total` from the client and passed at 70
+  // percent of every question, warm up included, so a crafted request could
+  // take the pass, the passport tick and the stars, and a child who missed the
+  // starter could fail a lesson whose check they got right. Now:
+  //   - the deck is rebuilt as the child saw it (visibleSlides, same audience)
+  //     and every posted tap is marked against that slide's own options
+  //   - the pass is every prove question right on its settled answer, or
+  //     answered when a grown up is the check (under 7, or a retake they
+  //     opened from their own session: lib/lessons/together)
+  //   - a fail leaves the mission `sent` and counts one attempt, once; only a
+  //     pass flips it `done`, so `done` means passed
+  //   - stars pay once, on the first finish, pass or not, keyed on `paid_at`
+  //     (decision 2: the check is the one place nothing rides on being right)
+  //   - without spares a solo second go cannot pass, and a third go always
+  //     needs a grown up: the second go replays questions whose answers have
+  //     just been shown
   if (body.mission_id) {
     const { data: mission } = await supabase
       .from('kid_lesson_missions')
-      .select('id, child_id, status, stars, lesson_id')
+      .select('id, child_id, status, stars, lesson_id, attempts, paid_at')
       .eq('id', body.mission_id)
       .maybeSingle()
     if (!mission || mission.child_id !== link.child_id) {
       return NextResponse.json({ error: 'not found' }, { status: 404 })
     }
-    const correct = Math.max(0, Math.min(50, Number(body.correct) || 0))
-    const total = Math.max(0, Math.min(50, Number(body.total) || 0))
+    const lesson = await getStarLesson(supabase, mission.lesson_id, 'id, module_id, title, slides, key_stage, teacher_notes, parent_note') as
+      (StarLessonRow & { module_id?: string | null; slides?: unknown; key_stage?: string | null; teacher_notes?: unknown; parent_note?: unknown }) | null
+    if (!lesson) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
-    // THE PASSPORT TICK (29 September 2026). Justin chose "the child learns,
-    // the parent closes it": the school version of each lesson lives in the
-    // child's app, and passing its check is what ticks Lessons and tests on
-    // the passport. Before this a finished star lesson paid its stars and was
-    // invisible to the passport, because nothing wrote a completion row.
-    //
-    // A pass is 70 percent, the player's own pass mark. A later failed retake
-    // never takes a pass away, so an existing pass is left alone. It runs on a
-    // retake of a finished mission too (no stars then), because the near miss
-    // screen offers "Have another go" and that go has to be able to count.
-    const passed = total > 0 && correct / total >= 0.7
+    // The deck the child was shown, the way the mission page built it.
+    const audience = isTogetherStage(stageForKeyStage(lesson.key_stage ?? null)) ? 'together' : 'kid'
+    const notes = (lesson.teacher_notes ?? {}) as { worksheet?: { verdict_options?: unknown }; worksheet_items?: unknown }
+    const deck = visibleSlides(parseSlides(lesson.slides) ?? [], audience, {
+      worksheet: { verdict_options: notes.worksheet?.verdict_options, items: notes.worksheet_items },
+    }).slides
+    const posted = Array.isArray(body.answers) ? (body.answers as PostedAnswer[]).slice(0, 60) : []
+    const marked = markAnswers(deck, posted)
+
+    const cookieTogether = isTogether(req.cookies.get(TOGETHER_COOKIE)?.value, link.child_id, mission.lesson_id)
+    const together = audience === 'together' || cookieTogether
+    const hasSpares = deck.some(s => s.type === 'choice' && !!(s as { reserve_for?: string }).reserve_for)
+    const attempts = Number(mission.attempts) || 0
+    const soloRetakeRefused = !together && attempts >= 1 && (!hasSpares || attempts >= 2)
+    const passed = !soloRetakeRefused && lessonPassed(deck, marked, { together })
+
+    // The check's own score: prove questions right on their settled answer.
+    const proves = proveQuestions(deck)
+    const total = proves.length
+    const correct = proves.filter(p => {
+      const last = [...marked].reverse().find(m => m.question === p.question)
+      return !!last?.correct
+    }).length
+
+    // The ledger: this run's rows only, both flags, the phase, the run.
+    const runId = typeof body.run_id === 'string' && /^[0-9a-f-]{36}$/i.test(body.run_id) ? body.run_id : null
+    await recordMarkedAnswers(
+      supabase,
+      { userId: link.user_id, childId: link.child_id, lessonId: mission.lesson_id, runId },
+      marked.filter(m => !runId || m.runId === runId),
+    )
+
+    // Stars pay once, on the first finish. The `is null` is the lock, so two
+    // finishes racing pay one of them.
+    let paidNow = false
+    if (!mission.paid_at) {
+      const { data: paidRows } = await supabase
+        .from('kid_lesson_missions')
+        .update({ paid_at: new Date().toISOString() })
+        .eq('id', mission.id)
+        .is('paid_at', null)
+        .select('id')
+      paidNow = (paidRows?.length ?? 0) > 0
+    }
+
     const credit = async (): Promise<boolean> => {
       const { data: prior } = await supabase
         .from('lesson_completions')
@@ -80,51 +138,79 @@ export async function POST(req: NextRequest) {
       await supabase.from('lesson_completions').upsert({
         user_id: link.user_id, child_id: link.child_id,
         lesson_id: mission.lesson_id, lesson_source: 'school_lesson',
-        // Correct answers, the same unit /api/lessons/complete stores.
         score: correct,
         passed, completed_at: new Date().toISOString(),
       }, { onConflict: 'user_id,child_id,lesson_id,lesson_source' })
-      // The five a day's lesson row, ticked by the pass, the same way the
-      // parent library lesson ticked it before the child's list moved here.
       if (passed) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')
       return passed
     }
 
-    // THE PARENT CLOSES IT. The module's own parent note, the one question
-    // to ask at tea, rides the push, so the lesson finishes at the kitchen
-    // table rather than on the screen.
+    // QUIET ON THE FLAGGED LESSONS (sync plan G4). A lock screen never reads
+    // the title of a lesson about blackmail or self harm, and never carries
+    // its tea question: those open inside the app.
+    const flagged = !!lesson.module_id && FLAGGED_MODULES.some(m => m.moduleId === lesson.module_id)
+    // A miss opens the lesson on the parent's page, where "Do it together" is
+    // the next go (the only one without spares, and the third on any deck).
+    const lessonUrl = `/dashboard/lessons/path?child=${link.child_id}&lesson=${mission.lesson_id}`
     const tellParent = async (starsLine: string) => {
-      const module = await getStarLesson(supabase, mission.lesson_id, 'id, title, parent_note') as (StarLessonRow & { parent_note?: unknown }) | null
-      const askLine = askAtTea(module?.parent_note)
+      if (flagged) {
+        await notifyParent(req, supabase, link,
+          passed ? 'finished this week\'s lesson' : 'had a go at this week\'s lesson',
+          passed ? 'Open the app for the question to ask at tea.' : 'Open the app for what to say tonight.',
+          passed ? '/dashboard' : lessonUrl)
+        return
+      }
+      const askLine = askAtTea(lesson.parent_note)
       await notifyParent(
         req, supabase, link,
-        passed ? `passed ${module?.title ? `"${module.title}"` : 'a star lesson'} 🎬` : `finished a star lesson 🎬`,
-        [`${correct} of ${total} on the check.`, passed && askLine ? `Ask them at tea: ${askLine}` : starsLine].filter(Boolean).join(' '),
+        passed ? `passed ${lesson.title ? `"${lesson.title}"` : 'a star lesson'} 🎬` : `finished a star lesson 🎬`,
+        [`${correct} of ${total} on the check.`, passed && askLine ? `Ask them at tea: ${askLine}` : starsLine, !passed && (!hasSpares || attempts + 1 >= 2) ? 'The next go is one to do together.' : ''].filter(Boolean).join(' '),
+        passed ? '/dashboard' : lessonUrl,
       )
     }
+    const starsLine = paidNow ? `${mission.stars} stars landed in their bank.` : ''
 
     if (mission.status === 'done') {
-      // A retake: no stars again, but a first pass still ticks the passport
-      // and still sends the question for tea.
-      if (await credit()) await tellParent('')
-      return NextResponse.json({ stars: 0, already_done: true, passed })
+      // A replay of a lesson already passed: recorded, nothing moves.
+      return NextResponse.json({ stars: 0, already_passed: true, passed })
     }
 
-    const { error } = await supabase
+    if (passed) {
+      const { data: flipped, error } = await supabase
+        .from('kid_lesson_missions')
+        .update({
+          status: 'done', score_correct: correct, score_total: total,
+          completed_at: new Date().toISOString(), done_together: together,
+        })
+        .eq('id', mission.id)
+        .eq('status', 'sent')
+        .select('id')
+      if (error) return NextResponse.json({ error: 'update failed' }, { status: 500 })
+      // The status flip is the lock: a second finish racing this one lands here.
+      if (!flipped?.length) return NextResponse.json({ stars: 0, already_passed: true, passed: true })
+      await credit()
+      await tellParent(starsLine)
+      return NextResponse.json({ stars: paidNow ? mission.stars : 0, passed: true })
+    }
+
+    // A fail: the mission stays `sent`, and the attempt read at the start is
+    // the lock, so a double tap on the last slide counts one attempt.
+    await supabase
       .from('kid_lesson_missions')
-      .update({
-        status: 'done',
-        score_correct: correct,
-        score_total: total,
-        completed_at: new Date().toISOString(),
-      })
+      .update({ attempts: attempts + 1, score_correct: correct, score_total: total })
       .eq('id', mission.id)
       .eq('status', 'sent')
-    if (error) return NextResponse.json({ error: 'update failed' }, { status: 500 })
-
+      .eq('attempts', attempts)
+      .select('id')
     await credit()
-    await tellParent(`${mission.stars} stars landed in their bank.`)
-    return NextResponse.json({ stars: mission.stars })
+    await tellParent(starsLine)
+    return NextResponse.json({
+      stars: paidNow ? mission.stars : 0,
+      passed: false,
+      attempts: attempts + 1,
+      // The next go is with a grown up: no spares, or the third go.
+      together_next: !hasSpares || attempts + 1 >= 2,
+    })
   }
 
   // ── This week at school (the weekly mission, phase 2 of the curriculum
@@ -332,6 +418,7 @@ async function notifyParent(
   link: { user_id: string; child_id: string },
   titleSuffix: string,
   bodyText: string,
+  url = '/dashboard',
 ) {
   try {
     const { data: child } = await supabase
@@ -344,7 +431,7 @@ async function notifyParent(
         userId: link.user_id,
         title: `${name} ${titleSuffix}`,
         body: bodyText,
-        url: '/dashboard',
+        url,
       })
   } catch { /* push is best effort */ }
 }

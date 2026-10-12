@@ -475,6 +475,15 @@ async function doSaveMemory(ctx: ToolContext, arg: Record<string, unknown>): Pro
   // Best effort and deliberately after the memory insert: the memory is the
   // thing DiGi was asked to do, and a ledger write that fails must not turn a
   // successful save into an error the model then apologises for.
+  // ── THE REPLY HAS TO AGREE WITH THE RULE (8 October 2026) ─────────────
+  //
+  // The tool rules above say: a worry told to you goes on the tracker, tell
+  // them once, in plain words, that it is on their check in now. This reply
+  // then said "Do not mention it to the parent", and the model obeys the
+  // later message, so a worry raised in chat landed on the list without the
+  // parent ever being told. Justin's review: a user has to understand that
+  // we keep helping with these and keep adding what they raise with DiGi.
+  // Quiet memories stay quiet; a concern is announced once.
   if (kind === 'concern') {
     const slug = typeof arg.concern_slug === 'string' ? arg.concern_slug : ''
     const label = typeof arg.concern_label === 'string' ? arg.concern_label : ''
@@ -483,6 +492,7 @@ async function doSaveMemory(ctx: ToolContext, arg: Record<string, unknown>): Pro
       await raiseConcern(ctx.supabase, ctx.userId, ctx.childId, {
         slug, label, source: 'digi', linkedType: 'digi',
       })
+      return 'Saved, and it is on their daily check in now. Tell the parent once, in plain words, that it is on their check in, then give one method to try.'
     }
   }
 

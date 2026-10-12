@@ -1,6 +1,6 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { standaloneTitle } from '@/lib/taster'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
@@ -54,7 +54,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
     .maybeSingle()
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides) ?? []
+  const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const concepts = slides.filter(s => s.type === 'concept') as { heading: string; body: string; emoji?: string }[]
   const quote = slides.find(s => s.type === 'quote') as { text: string; label?: string } | undefined
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes

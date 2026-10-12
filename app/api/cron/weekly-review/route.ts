@@ -151,7 +151,15 @@ async function handler(request: Request) {
               try {
                 momentum = await buildMomentum(admin, { userId, ageBands: review.stats.ageBands })
               } catch { /* the review stands on its own */ }
-              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll, movement, momentum })
+              // How many worries are still on the family's check in, so the
+              // email can say we are still on them. Read only, fails soft.
+              let openWorries: number | null = null
+              try {
+                const { count } = await admin.from('concerns').select('id', { count: 'exact', head: true })
+                  .eq('user_id', userId).in('status', ['open', 'improving'])
+                openWorries = count ?? null
+              } catch { /* the line is simply left out */ }
+              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll, movement, momentum, openWorries })
               const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html, key })
               if (!sent.ok) await admin.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
             }

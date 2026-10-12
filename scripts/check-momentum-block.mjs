@@ -69,7 +69,7 @@ check('the block never sends or logs', !/sendEmail|email_log|\.insert\(|\.update
 const floor = readFileSync('lib/email/floor.ts', 'utf8')
 check('the six day floor is untouched', /export const MIN_DAYS_BETWEEN_PROGRAMME_EMAILS = 6/.test(floor))
 const weekly = code(readFileSync('app/api/cron/weekly-review/route.ts', 'utf8'))
-check('the Sunday review builds the block and passes it', /buildMomentum\(admin/.test(weekly) && /momentum \}\)/.test(weekly))
+check('the Sunday review builds the block and passes it', /buildMomentum\(admin/.test(weekly) && /momentum(, openWorries)? \}\)/.test(weekly))
 const monthly = code(readFileSync('app/api/email/monthly/route.ts', 'utf8'))
 check('the monthly review builds the block for each child', /buildMomentum\(supabase/.test(monthly) && (monthly.match(/progress, momentum \}\)/g) ?? []).length === 2)
 const templates = code(readFileSync('lib/email/templates.ts', 'utf8'))

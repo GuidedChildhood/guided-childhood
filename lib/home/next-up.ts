@@ -48,6 +48,8 @@
 export type NextUpSignals = {
   childName: string | null
   stageName: string
+  /** The stage the child's lessons come from, when it is not the passport's (they follow the school year). */
+  lessonsStageName?: string
   /** Jobs today: none set, some pending, or all ticked. */
   jobsStatus: 'on_track' | 'pending' | 'none' | undefined
   noQuestsYet: boolean
@@ -267,7 +269,7 @@ export const ROTATION: Item[] = [
     applies: s => s.lessonsLeft > 0,
     build: s => ({
       key: 'lessons', eyebrow: EYEBROW, title: 'Move the passport on',
-      line: `${s.lessonsPassed} of ${s.lessonsTotal} lessons passed at ${s.stageName}. Pass the rest to stamp this stage.`,
+      line: `${s.lessonsPassed} of ${s.lessonsTotal} lessons passed at ${s.lessonsStageName ?? s.stageName}. Pass the rest to stamp that stage.`,
       href: '/dashboard/lessons', icon: '🛂', coversJobs: false,
     }),
   },

@@ -306,6 +306,8 @@ export async function buildPassportSections(
 export type CurrentStageChild = {
   id: string
   age_band?: string | null
+  /** For the lessons, which follow the school year (lib/lessons/school-path lessonStageFor). */
+  date_of_birth?: string | null
   stage_id: string | null
   streak_weeks?: number | null
 }

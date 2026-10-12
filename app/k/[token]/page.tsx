@@ -40,6 +40,9 @@ import { tierFor } from '@/lib/planet/logic'
 import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 import { getStickerBook } from '@/lib/stickers/book'
+import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { lessonStageFor } from '@/lib/lessons/school-path'
+import { missionPaidAt } from '@/lib/quests/mission-paid'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
 
@@ -49,13 +52,6 @@ import type { KidSticker } from '@/components/kid/KidStickers'
 // everything; no parent data is reachable from here.
 
 export const dynamic = 'force-dynamic'
-
-// The same category emoji the lesson player and the path use, so the Today
-// "Learn" headline, the road stone and the lesson itself never disagree.
-const KID_LESSON_EMOJI: Record<string, string> = {
-  safety: '🛡️', screen_habits: '📱', wellbeing: '💛',
-  online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
-}
 
 // On a child's Home Screen this page is called My Quests, opens full
 // screen like a real app (which is also what lets reminders work on
@@ -111,7 +107,6 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     { lessons: adventureLessons }, adventureCompletions,
     requestsRes, pendingAsksRes, weekSpendsRes, parentProfileRes,
     region, activeSession, usedTodayMap, coreUsedRes,
-    passRowsRes,
     shareRowsRes, schoolRowsRes, runsInHolidaysRes,
     agreementRes, contractRes, giftRes,
     askRes, nudgeRes, remindersRes,
@@ -151,7 +146,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // titles read is in wave two, because it needs these ids first.
     supabase
       .from('kid_lesson_missions')
-      .select('id, lesson_id, stars, status, completed_at')
+      .select('id, lesson_id, stars, status, completed_at, paid_at')
       .eq('child_id', link.child_id)
       .order('sent_at', { ascending: false }),
 
@@ -209,13 +204,6 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // along here and is simply unused when the core is zero. Guarded, as it
     // was inside the tiers try.
     soft(getCoreUsedToday(supabase, link.user_id, [link.child_id])),
-
-    // THIS child's passes plus the household's legacy rows. Without the
-    // filter, the eldest passing on Monday consumed the one lesson a week
-    // gate for every sibling: the youngest opened her app and was told her
-    // lesson was done by someone else's afternoon. The stage lessons they are
-    // matched against need the age band, so that read is in wave two.
-    supabase.from('lesson_completions').select('lesson_id, passed, completed_at').eq('user_id', link.user_id).eq('lesson_source', 'lesson').or(`child_id.eq.${link.child_id},child_id.is.null`),
 
     // Notes and scripts a grown up shared to this child's own app, newest first.
     // These land here instead of a text message, and stay to be read again.
@@ -428,7 +416,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // titles). None of them depends on another read in this wave, so they run
   // as one wave, and the page has waited exactly twice after finding the link.
   const [
-    missionTitles, banks, holidayBank, tierSettingsRes, stageLessonRes,
+    missionTitles, banks, holidayBank, tierSettingsRes, stageLessonPath,
     brief, schoolQuestRes, passportBuilt, stickerRead, dailyWeekRes,
   ] = await Promise.all([
     starLessonTitles(supabase, (missionRows ?? []).map(m => m.lesson_id)),
@@ -450,16 +438,15 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     soft(getTimeSettings(supabase, link.user_id, [
       { id: link.child_id, age_band: (ageBand as string | null) ?? null },
     ])),
-    // The child's stage library lessons, matched below against the passes
-    // from wave one. Same rule as the child lessons list: no authored deck
-    // means it is not a child lesson yet. Without this the focus lesson row
-    // could offer a lesson whose page refuses to open, which is exactly the
-    // dead end Justin hit on 8 August: the app's most enthusiastic moment, a
-    // child going for their lesson, ending on a 404.
-    supabase.from('lessons').select('id, title, category, sort_order')
-      .eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub')
-      .not('slides', 'is', null)
-      .order('sort_order', { ascending: true }),
+    // The child's own school modules for the stage and their passes, from
+    // the one lesson count (lib/pathway/lesson-path.ts), so the road's "N
+    // more lessons" and the child's lessons list are the same number. Until
+    // 9 October 2026 this read the PARENT library, a list the passport
+    // stopped counting on 29 September, so the road was promising the buddy
+    // for lessons the child could not open in their own app. Fails soft to
+    // null, which hides the road's lesson line rather than printing nought.
+    // The road's lessons follow the school year (sync plan C), like the list.
+    soft(loadChildLessonPath(supabase, { userId: link.user_id, childId: link.child_id, stageId: lessonStageFor({ date_of_birth: dob ?? null, age_band: (ageBand as string | null) ?? null }) })),
     // This week at school: the brief, from the date of birth. The module is
     // still loaded lazily, as before, just inside the wave.
     dob
@@ -537,7 +524,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     status: m.status,
   }))
   const lessonWeekStars = (missionRows ?? [])
-    .filter(m => m.status === 'done' && m.completed_at && m.completed_at >= new Date(Date.now() - 7 * 86400000).toISOString())
+    .filter(m => { const paid = missionPaidAt(m); return !!paid && paid >= new Date(Date.now() - 7 * 86400000).toISOString() })
     .reduce((sum, m) => sum + m.stars, 0)
 
   // This week at school, phase 2 of the curriculum plan: the same weekly
@@ -666,56 +653,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     ? parentLimit
     : recommendedDailyMinutes(ageBand ?? null, { region })
 
-  // The child's stage library lessons and their passes, the exact same count
-  // the parent's progress report uses, so the road's proof and the report can
-  // never disagree. Fails soft to nulls on any read error.
-  //
-  // From the same read we also pick the child's focus lesson: the next one for
-  // this stage they have not passed yet, in the curriculum's own order. This
-  // is what the Today "Learn" headline points at, so the real Rosenshine
-  // lessons are put in front of the child one at a time, and passing one
-  // ticks the parent's progress report through the lesson player. Nulls fall
-  // back to the mini lessons on any read error.
-  let stageLessonsPassed: number | null = null
-  let stageLessonsTotal: number | null = null
-  let focusLesson: { id: string; title: string; emoji: string; stars: number } | null = null
-  {
-    const { data: stageLessonRows, error: lessonsErr } = stageLessonRes
-    const { data: passRows, error: passErr } = passRowsRes
-    if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
-      const rows = stageLessonRows ?? []
-      const ids = new Set(rows.map(l => l.id))
-      const passedIds = new Set(
-        (passRows ?? []).filter(c => c.passed !== false && ids.has(c.lesson_id)).map(c => c.lesson_id),
-      )
-      stageLessonsTotal = ids.size
-      stageLessonsPassed = passedIds.size
-      // One lesson a week, the other door.
-      //
-      // The five a day caps its own lesson row (see /api/kid/day), but the
-      // Today list offers this focus lesson separately and every single day, so
-      // capping one and not the other would have left the cadence exactly where
-      // it was. Justin: "we only feed one per week at most."
-      //
-      // Counted on PASSES rather than on what was offered: a child who opened a
-      // lesson and did not finish it has not had their lesson this week, and
-      // hiding the next one would strand them.
-      const weekAgoLesson = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
-      const passedThisWeek = (passRows ?? []).some(
-        c => c.passed !== false && ids.has(c.lesson_id)
-          && String((c as { completed_at?: string | null }).completed_at ?? '').slice(0, 10) >= weekAgoLesson,
-      )
-      const next = passedThisWeek ? undefined : rows.find(l => !passedIds.has(l.id))
-      if (next) {
-        focusLesson = {
-          id: next.id as string,
-          title: next.title as string,
-          emoji: KID_LESSON_EMOJI[String(next.category)] ?? '📘',
-          stars: 10,
-        }
-      }
-    }
-  }
+  // The road's lesson pair: the school modules, never the passport's pair,
+  // because the child cannot open an AI module and a road counting them
+  // would promise the buddy for lessons that are not in this app. The old
+  // focus lesson computed here fed a Learn tile nothing rendered, so it went
+  // rather than be rewired (plan v10, item 1.3).
+  const stageLessonsPassed: number | null = stageLessonPath ? stageLessonPath.path.school.done : null
+  const stageLessonsTotal: number | null = stageLessonPath ? stageLessonPath.path.school.total : null
 
   const notes = (shareRowsRes.data ?? []).map(n => ({
     id: n.id as string,
@@ -1011,7 +955,6 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       recommendedMinutes={recommendedMinutes}
       stageLessonsPassed={stageLessonsPassed}
       stageLessonsTotal={stageLessonsTotal}
-      focusLesson={focusLesson}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
       weekChart={weekChart}

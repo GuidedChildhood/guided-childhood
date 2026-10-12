@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { CHALLENGE_OPTIONS } from '@/lib/content/stages'
 import { generateWeeklyPlan, type PlanStep } from '@/lib/digi/weekly-plan'
 import { logConcernEvents } from '@/lib/concerns/events'
+import { raiseConcern, toSlug } from '@/lib/concerns/raise'
 
 // The Sunday wellbeing check in. GET tells Home whether a check in is due (it is
 // Sunday and none done this week) and hands back this week's agreed plan so it
@@ -61,6 +62,8 @@ export async function POST(req: NextRequest) {
     parentMood?: number | null
     wentWell?: string[]
     hardest?: string[]
+    /** Anything else the parent wants tracked, in their own words (8 October 2026). */
+    other?: string | null
     focus?: string | null
     plan?: PlanStep[]
     child_id?: string
@@ -72,6 +75,7 @@ export async function POST(req: NextRequest) {
   const wentWell = Array.isArray(body.wentWell) ? body.wentWell.slice(0, 12).map(String) : []
   const hardest = Array.isArray(body.hardest) ? body.hardest.slice(0, 12).map(String) : []
   const focus = typeof body.focus === 'string' ? body.focus.trim().slice(0, 120) || null : null
+  const other = typeof body.other === 'string' ? body.other.trim().slice(0, 80) || null : null
   const hardestLabels = hardest.map(s => (CHALLENGE_LABEL.get(s as never) as string) ?? s)
 
   if (body.mode === 'suggest') {
@@ -183,6 +187,25 @@ export async function POST(req: NextRequest) {
       })
     }
   } catch { /* the ledger never blocks the check in */ }
+
+  // ── ANYTHING ELSE TO KEEP AN EYE ON (8 October 2026) ──────────────────────
+  //
+  // Justin: once a week DiGi asks how things are going and whether there is
+  // anything new we need to track. The six chips above cover the common
+  // worries; this is the parent's own words, raised on the tracker exactly
+  // the way a worry told to DiGi is, so it shows on the daily check in with
+  // "You raised this" and the same history. Best effort, never blocks the save.
+  if (other) {
+    try {
+      const { data: kids } = await supabase.from('children').select('id, is_primary').eq('parent_id', user.id)
+      const childId = ((typeof bodyChildId === 'string' && (kids ?? []).find(k => k.id === bodyChildId))
+        || (kids ?? []).find(k => k.is_primary)
+        || (kids ?? [])[0]
+        || null)?.id ?? null
+      const slug = toSlug(other)
+      if (slug) await raiseConcern(supabase, user.id, childId, { slug, label: other, source: 'checkin' })
+    } catch { /* the ledger never blocks the check in */ }
+  }
 
   return NextResponse.json({ ok: true })
 }

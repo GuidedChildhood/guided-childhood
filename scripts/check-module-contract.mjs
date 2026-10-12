@@ -286,6 +286,17 @@ for (const k of ['prior_knowledge', 'i_can', 'key_learning_points', 'misconcepti
 ok('teacher_notes.differentiation is { support, stretch }', notes.differentiation === undefined ||
    (notes.differentiation && typeof notes.differentiation === 'object' && !Array.isArray(notes.differentiation)),
    `differentiation is ${typeof notes.differentiation}. Split the prose on its Support and Stretch labels`)
+// The tool too (12 October 2026). The same four modules held it as one
+// sentence ("SHIELD: find the number..."), and the paper pack, reading
+// tool.heading and tool.lines, printed the reference lesson's three checks on
+// their bookmarks and in the parent note instead. Migration 370 reshaped them.
+const tool = notes.tool
+ok('teacher_notes.tool is { heading, lines, strapline }', tool === undefined || (
+     tool && typeof tool === 'object' && !Array.isArray(tool) &&
+     typeof tool.heading === 'string' && tool.heading.trim() !== '' &&
+     Array.isArray(tool.lines) && tool.lines.length > 0 && tool.lines.every(x => typeof x === 'string' && x.trim() !== '') &&
+     (tool.strapline === undefined || typeof tool.strapline === 'string')),
+   `tool is ${typeof tool === 'object' ? JSON.stringify(tool).slice(0, 80) : typeof tool}. The pages print tool.heading over tool.lines, so a sentence prints another lesson's tool`)
 
 // 12. every star breath breathes in time, and the half time one is the friend's (20 September 2026)
 //

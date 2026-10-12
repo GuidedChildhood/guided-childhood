@@ -1,0 +1,46 @@
+{
+ "name": "worry-tiles",
+ "url": "/starter-pack",
+ "seconds": 6.5,
+ "storage": {
+  "gc_starter_progress": {
+   "step": "q2",
+   "ageBand": "8-10",
+   "picks": [],
+   "feeling": null,
+   "timeCommitment": null
+  }
+ },
+ "actions": [
+  {
+   "at": 1200,
+   "do": "tap",
+   "selector": "button",
+   "text": "Coming off screens"
+  },
+  {
+   "at": 1900,
+   "do": "tap",
+   "selector": "button",
+   "text": "Asking for a phone"
+  },
+  {
+   "at": 2600,
+   "do": "tap",
+   "selector": "button",
+   "text": "Controller fights"
+  },
+  {
+   "at": 3300,
+   "do": "tap",
+   "selector": "button",
+   "text": "Bedtime screens"
+  },
+  {
+   "at": 4000,
+   "do": "tap",
+   "selector": "button",
+   "text": "What they come across online"
+  }
+ ]
+}

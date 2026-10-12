@@ -32,12 +32,13 @@ import { characterForStage } from '@/lib/content/stage-characters'
 // so they stay crisp on a retina screen. Same source, same cast, a fifth of the
 // weight.
 //
-// DiGi is deliberately absent. Its art is an SVG, which Gmail's sanitiser drops
-// and the Outlook Word engine has never supported at any version, so DiGi would
-// appear for Apple Mail readers and vanish for the majority. The raster DiGi
-// star is 1024 square and 673 KB, which is worse. A cast member who shows up
-// for some readers and not others is not a fallback, it is a bug with a
-// character on it.
+// DiGi was deliberately absent until 8 October 2026: its art was an SVG, which
+// Gmail's sanitiser drops and Outlook's Word engine never supported, so DiGi
+// appeared for Apple Mail readers and vanished for the majority. The 3D star
+// (digi-squad/README.md) is a raster, so friends/email/digi.png is the same
+// 192 square, 15 KB treatment as the five, and emailDigi() below shows it on
+// the emails whose whole subject is DiGi. The same test applies: DiGi marks
+// the guide, never a charge or a deadline.
 
 export type EmailFriend = {
   name: string
@@ -81,5 +82,19 @@ export function emailFriend(stageId: number | null | undefined): EmailFriend | n
     // either way, which is what alt text on a decorative-but-meaningful image
     // has to do.
     alt: `${character.name}, the Planet Friend for this stage`,
+  }
+}
+
+/**
+ * DiGi, for the emails whose subject is DiGi itself: how it thinks, how it
+ * learns, who checks it, what it asks of you. Not stage bound, so unlike a
+ * Friend it is honest on a lead's email too: there is no "your child's" DiGi
+ * to get wrong.
+ */
+export function emailDigi(): EmailFriend {
+  return {
+    name: 'DiGi',
+    src: `${APP_ORIGIN}/digi-squad/friends/email/digi.png`,
+    alt: 'DiGi, the golden star who answers your questions in the app',
   }
 }

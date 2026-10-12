@@ -1,0 +1,305 @@
+{
+  "family": {
+    "child": "Ava",
+    "stage": 2
+  },
+  "music": {
+    "file": "music-leberch.mp3",
+    "kick": 26.1,
+    "vol": 0.3,
+    "fadeIn": 1.5,
+    "fadeOutTail": 5.0,
+    "source": "Justin, 8 October 2026, from the Motion advert folder. Pixabay, confirmed by Justin the same day: Pixabay Content Licence, commercial use, no credit required."
+  },
+  "pace": {
+    "wps": 4.8,
+    "minHold": 1.0,
+    "gap": 0.4,
+    "dots": 0.6,
+    "brainWps": 5.2
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "kind": "coldopen",
+      "chat": [
+        {
+          "role": "user",
+          "text": "Bedtime was a fight again. What do I actually say?",
+          "present": true
+        },
+        {
+          "role": "digi",
+          "text": "Bedtime has been hard going three check ins running. Here are the words for tonight.",
+          "card": {
+            "eyebrow": "The words for a tricky moment",
+            "title": "Bedtime stalling and one more thing",
+            "button": "Read the script",
+            "dismiss": "Not now"
+          }
+        },
+        {
+          "role": "digi",
+          "text": "Want me to check back in a few days?",
+          "cont": true
+        },
+        {
+          "role": "user",
+          "text": "Yes please"
+        },
+        {
+          "role": "digi",
+          "text": "Done. I'll ask you how it went."
+        }
+      ],
+      "pullBackAt": 1.7
+    },
+    {
+      "id": "s2",
+      "kind": "introducing",
+      "len": 7,
+      "intro": "Introducing",
+      "name": "DiGi",
+      "tagline": "The one thing to do, and the words to say",
+      "shimmer": "the words to say"
+    },
+    {
+      "id": "s3",
+      "kind": "comeback",
+      "headline": "Comes back to check",
+      "lock": {
+        "time": "21:14",
+        "date": "Thursday 8 October",
+        "app": "Guided Childhood",
+        "when": "now",
+        "title": "How did that go?",
+        "body": "The bedtime words, three nights on."
+      },
+      "chat": [
+        {
+          "role": "digi",
+          "text": "Three nights on. How did the bedtime words go?",
+          "present": true
+        },
+        {
+          "role": "user",
+          "text": "Two calm nights, one wobble."
+        },
+        {
+          "role": "digi",
+          "text": "That's a shift. Same words tonight?"
+        },
+        {
+          "role": "user",
+          "text": "Go on then"
+        },
+        {
+          "role": "digi",
+          "text": "Noted on Ava's check in. Warm, and the same every night."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "kind": "remembers",
+      "headline": "Remembers your family",
+      "cards": [
+        {
+          "text": "Ava, 9, Year 5",
+          "x": 50,
+          "y": 47,
+          "r": -2
+        },
+        {
+          "text": "Bedtime is the fight",
+          "x": 28,
+          "y": 34,
+          "r": 3,
+          "chip": "Live worry",
+          "tone": "worry"
+        },
+        {
+          "text": "Roblox on Saturdays",
+          "x": 71,
+          "y": 33,
+          "r": -3
+        },
+        {
+          "text": "Screens off at 7 on school nights, agreed 2 September",
+          "x": 50,
+          "y": 68,
+          "r": 1,
+          "chip": "Agreed",
+          "tone": "agreed"
+        },
+        {
+          "text": "Stalls with one more thing",
+          "x": 18,
+          "y": 52,
+          "r": -4
+        },
+        {
+          "text": "Dad does bedtime on Tuesdays",
+          "x": 82,
+          "y": 51,
+          "r": 2
+        },
+        {
+          "text": "Shares a room with Sam, 6",
+          "x": 30,
+          "y": 84,
+          "r": 2
+        },
+        {
+          "text": "Wants a phone like her friends",
+          "x": 72,
+          "y": 85,
+          "r": -2
+        },
+        {
+          "text": "Loves the star chart",
+          "x": 13,
+          "y": 72,
+          "r": 3
+        },
+        {
+          "text": "Hard mornings after a late night",
+          "x": 87,
+          "y": 70,
+          "r": -3,
+          "chip": "Resting",
+          "tone": "resting"
+        },
+        {
+          "text": "Snapchat talk at school",
+          "x": 50,
+          "y": 28,
+          "r": 2
+        },
+        {
+          "text": "The repair words worked last time",
+          "x": 12,
+          "y": 90,
+          "r": -1,
+          "chip": "Worked",
+          "tone": "worked"
+        }
+      ],
+      "banner": {
+        "app": "Guided Childhood",
+        "when": "now",
+        "title": "DiGi",
+        "body": "First school night back. Want the 7 o'clock words ready?",
+        "action": "Open in DiGi"
+      },
+      "chat": [
+        {
+          "role": "digi",
+          "text": "You both signed 7 o'clock on 2 September. The repair words worked then too."
+        },
+        {
+          "role": "user",
+          "text": "Wait, you remember that?"
+        },
+        {
+          "role": "user",
+          "text": "Give me the words"
+        },
+        {
+          "role": "digi",
+          "text": "Here they are. I remember, so you don't have to."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "kind": "number",
+      "headline": "Watches the number move",
+      "faceWord": "move",
+      "faceLetter": 1,
+      "float": [
+        {
+          "kind": "butter",
+          "text": "Bedtime: going great. Resting for a week."
+        },
+        {
+          "kind": "sky",
+          "text": "WE DID IT",
+          "tilt": -6
+        },
+        {
+          "kind": "digi",
+          "text": "Rested. I'll check it held next week. Mornings next."
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "kind": "brain",
+      "headline": "Where every answer comes from",
+      "layers": [
+        {
+          "pill": "Researchers",
+          "eyebrow": "1 · The researchers",
+          "title": "Four researchers lead, for now",
+          "rows": [
+            [
+              "Candice Odgers",
+              "Risk online starts offline"
+            ],
+            [
+              "Amy Orben",
+              "The 11 to 13 window"
+            ],
+            [
+              "Andrew Przybylski",
+              "Small effects, a safe middle"
+            ],
+            [
+              "Sonia Livingstone",
+              "Skills, as well as protection"
+            ]
+          ]
+        },
+        {
+          "pill": "Papers",
+          "eyebrow": "2 · The papers",
+          "title": "142 findings, every one with a named source",
+          "lines": [
+            "Peer reviewed papers and the big UK datasets, each approved by a human first."
+          ]
+        },
+        {
+          "pill": "Families",
+          "eyebrow": "3 · The families",
+          "title": "What worked for families like yours",
+          "lines": [
+            "DiGi asks how it went, remembers, and shares only what worked. Never a family's words."
+          ]
+        },
+        {
+          "pill": "Our rules",
+          "eyebrow": "4 · Our own rules",
+          "title": "The Guided Childhood way",
+          "lines": [
+            "Never allow or deny. Always the next step.",
+            "Connection is the protection.",
+            "A ban delays. Preparation lasts.",
+            "Nobody gets blamed. Everybody gets the words."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s7",
+      "kind": "end",
+      "len": 7,
+      "name": "DiGi",
+      "sub": "Now inside Guided Childhood",
+      "brand": "Guided Childhood",
+      "line": "What stage is your child? Three questions, no sign up.",
+      "url": "guidedchildhood.com/starter-pack",
+      "flipAt": 2.6
+    }
+  ]
+}

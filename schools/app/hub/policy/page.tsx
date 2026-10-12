@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
+import { RSE_MODULES } from '@/lib/rse'
 
 export const metadata = { title: 'Policy ready text' }
 
@@ -99,8 +100,13 @@ export default async function PolicyTextPage() {
             from which there is no parental right of withdrawal. Where any lesson touches sex education
             content beyond the national curriculum for science, parents have the right to request
             withdrawal in line with statutory guidance, and the school will consider such requests as
-            set out in this policy. In practice this programme teaches digital literacy and online
-            safety and does not deliver sex education.
+            set out in this policy. Most of this programme is digital literacy and online safety. Three
+            lessons teach into the relationships and sex education content:{' '}
+            {RSE_MODULES.map((m, i) => (
+              <span key={m.moduleId}>{i ? (i === RSE_MODULES.length - 1 ? ' and ' : ', ') : ''}&ldquo;{m.title}&rdquo;</span>
+            ))}. Whether any part of them is sex education for the purpose of withdrawal is for the school
+            to decide and record here. Each one&rsquo;s parent note goes home before the lesson, so parents
+            can read it and ask first.
           </p>
         </div>
 

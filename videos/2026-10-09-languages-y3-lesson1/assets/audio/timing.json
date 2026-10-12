@@ -1,0 +1,1126 @@
+{
+ "en/again": {
+  "file": "assets/audio/en/again.mp3",
+  "dur": 1.2,
+  "lead": 0.079,
+  "speech": 1.121,
+  "segs": [
+   [
+    0.03,
+    1.005
+   ],
+   [
+    1.101,
+    1.121
+   ]
+  ]
+ },
+ "en/ask_intro": {
+  "file": "assets/audio/en/ask_intro.mp3",
+  "dur": 4.72,
+  "lead": 0,
+  "speech": 4.699,
+  "segs": [
+   [
+    0.03,
+    1.704
+   ],
+   [
+    2.04,
+    3.496
+   ],
+   [
+    3.645,
+    4.619
+   ]
+  ]
+ },
+ "en/build": {
+  "file": "assets/audio/en/build.mp3",
+  "dur": 1.6,
+  "lead": 0,
+  "speech": 1.509,
+  "segs": [
+   [
+    0.03,
+    1.429
+   ]
+  ]
+ },
+ "en/bye_lead": {
+  "file": "assets/audio/en/bye_lead.mp3",
+  "dur": 1.6,
+  "lead": 0.066,
+  "speech": 1.534,
+  "segs": [
+   [
+    0.03,
+    1.534
+   ]
+  ]
+ },
+ "en/es_ask_down": {
+  "file": "assets/audio/en/es_ask_down.mp3",
+  "dur": 2.64,
+  "lead": 0,
+  "speech": 2.64,
+  "segs": [
+   [
+    0.03,
+    0.994
+   ],
+   [
+    1.493,
+    2.64
+   ]
+  ]
+ },
+ "en/es_ask_up": {
+  "file": "assets/audio/en/es_ask_up.mp3",
+  "dur": 3.52,
+  "lead": 0,
+  "speech": 3.52,
+  "segs": [
+   [
+    0.03,
+    0.826
+   ],
+   [
+    1.092,
+    1.299
+   ],
+   [
+    1.432,
+    2.604
+   ],
+   [
+    2.742,
+    3.52
+   ]
+  ]
+ },
+ "en/es_ask_you": {
+  "file": "assets/audio/en/es_ask_you.mp3",
+  "dur": 3.2,
+  "lead": 0,
+  "speech": 3.2,
+  "segs": [
+   [
+    0.03,
+    1.073
+   ],
+   [
+    1.32,
+    3.2
+   ]
+  ]
+ },
+ "en/es_g_marks": {
+  "file": "assets/audio/en/es_g_marks.mp3",
+  "dur": 6.64,
+  "lead": 0,
+  "speech": 6.64,
+  "segs": [
+   [
+    0.03,
+    2.297
+   ],
+   [
+    2.5,
+    6.64
+   ]
+  ]
+ },
+ "en/es_g_q": {
+  "file": "assets/audio/en/es_g_q.mp3",
+  "dur": 3.68,
+  "lead": 0,
+  "speech": 3.68,
+  "segs": [
+   [
+    0.03,
+    3.012
+   ],
+   [
+    3.134,
+    3.68
+   ]
+  ]
+ },
+ "en/es_home": {
+  "file": "assets/audio/en/es_home.mp3",
+  "dur": 8,
+  "lead": 0,
+  "speech": 8,
+  "segs": [
+   [
+    0.03,
+    1.186
+   ],
+   [
+    1.442,
+    5.051
+   ],
+   [
+    5.14,
+    6.963
+   ],
+   [
+    7.078,
+    8
+   ]
+  ]
+ },
+ "en/es_ican1": {
+  "file": "assets/audio/en/es_ican1.mp3",
+  "dur": 2.96,
+  "lead": 0,
+  "speech": 2.855,
+  "segs": [
+   [
+    0.03,
+    2.775
+   ]
+  ]
+ },
+ "en/es_ican2": {
+  "file": "assets/audio/en/es_ican2.mp3",
+  "dur": 2.72,
+  "lead": 0,
+  "speech": 2.665,
+  "segs": [
+   [
+    0.03,
+    1.549
+   ],
+   [
+    1.645,
+    2.585
+   ]
+  ]
+ },
+ "en/es_ican3": {
+  "file": "assets/audio/en/es_ican3.mp3",
+  "dur": 3.44,
+  "lead": 0,
+  "speech": 3.44,
+  "segs": [
+   [
+    0.03,
+    1.871
+   ],
+   [
+    1.955,
+    3.319
+   ],
+   [
+    3.413,
+    3.44
+   ]
+  ]
+ },
+ "en/es_p1": {
+  "file": "assets/audio/en/es_p1.mp3",
+  "dur": 5.6,
+  "lead": 0.073,
+  "speech": 5.527,
+  "segs": [
+   [
+    0.03,
+    0.43
+   ],
+   [
+    0.526,
+    2.2
+   ],
+   [
+    2.648,
+    2.964
+   ],
+   [
+    3.055,
+    5.527
+   ]
+  ]
+ },
+ "en/es_silent_h": {
+  "file": "assets/audio/en/es_silent_h.mp3",
+  "dur": 6.16,
+  "lead": 0,
+  "speech": 6.16,
+  "segs": [
+   [
+    0.03,
+    1.478
+   ],
+   [
+    2.053,
+    3.918
+   ],
+   [
+    4.04,
+    5.643
+   ],
+   [
+    5.911,
+    6.16
+   ]
+  ]
+ },
+ "en/es_snd_a": {
+  "file": "assets/audio/en/es_snd_a.mp3",
+  "dur": 5.28,
+  "lead": 0,
+  "speech": 5.173,
+  "segs": [
+   [
+    0.03,
+    5.093
+   ]
+  ]
+ },
+ "en/es_snd_o": {
+  "file": "assets/audio/en/es_snd_o.mp3",
+  "dur": 2.96,
+  "lead": 0,
+  "speech": 2.96,
+  "segs": [
+   [
+    0.03,
+    2.781
+   ],
+   [
+    2.93,
+    2.96
+   ]
+  ]
+ },
+ "en/es_tip_a": {
+  "file": "assets/audio/en/es_tip_a.mp3",
+  "dur": 5.68,
+  "lead": 0.054,
+  "speech": 5.536,
+  "segs": [
+   [
+    0.03,
+    1.44
+   ],
+   [
+    1.529,
+    3.952
+   ],
+   [
+    4.161,
+    5.456
+   ]
+  ]
+ },
+ "en/es_tip_o": {
+  "file": "assets/audio/en/es_tip_o.mp3",
+  "dur": 4.8,
+  "lead": 0,
+  "speech": 4.8,
+  "segs": [
+   [
+    0.03,
+    4.8
+   ]
+  ]
+ },
+ "en/es_w_adios": {
+  "file": "assets/audio/en/es_w_adios.mp3",
+  "dur": 2.32,
+  "lead": 0,
+  "speech": 2.32,
+  "segs": [
+   [
+    0.03,
+    0.721
+   ],
+   [
+    0.856,
+    1.394
+   ],
+   [
+    1.489,
+    2.32
+   ]
+  ]
+ },
+ "en/es_w_buenos": {
+  "file": "assets/audio/en/es_w_buenos.mp3",
+  "dur": 2,
+  "lead": 0.088,
+  "speech": 1.912,
+  "segs": [
+   [
+    0.03,
+    1.008
+   ],
+   [
+    1.118,
+    1.912
+   ]
+  ]
+ },
+ "en/es_w_hola": {
+  "file": "assets/audio/en/es_w_hola.mp3",
+  "dur": 2.56,
+  "lead": 0.051,
+  "speech": 2.509,
+  "segs": [
+   [
+    0.03,
+    2.392
+   ],
+   [
+    2.48,
+    2.509
+   ]
+  ]
+ },
+ "en/es_w_no": {
+  "file": "assets/audio/en/es_w_no.mp3",
+  "dur": 4.56,
+  "lead": 0,
+  "speech": 4.56,
+  "segs": [
+   [
+    0.03,
+    1.179
+   ],
+   [
+    1.266,
+    1.939
+   ],
+   [
+    2.214,
+    2.419
+   ],
+   [
+    2.532,
+    4.56
+   ]
+  ]
+ },
+ "en/es_w_si": {
+  "file": "assets/audio/en/es_w_si.mp3",
+  "dur": 4.08,
+  "lead": 0.053,
+  "speech": 4.027,
+  "segs": [
+   [
+    0.03,
+    0.9
+   ],
+   [
+    0.982,
+    1.615
+   ],
+   [
+    1.973,
+    4.027
+   ]
+  ]
+ },
+ "en/es_words_intro": {
+  "file": "assets/audio/en/es_words_intro.mp3",
+  "dur": 4.64,
+  "lead": 0,
+  "speech": 4.546,
+  "segs": [
+   [
+    0.03,
+    1.833
+   ],
+   [
+    2.559,
+    3.498
+   ],
+   [
+    3.638,
+    4.466
+   ]
+  ]
+ },
+ "en/examples": {
+  "file": "assets/audio/en/examples.mp3",
+  "dur": 2.16,
+  "lead": 0,
+  "speech": 2.16,
+  "segs": [
+   [
+    0.03,
+    2.16
+   ]
+  ]
+ },
+ "en/fr_ask_gift": {
+  "file": "assets/audio/en/fr_ask_gift.mp3",
+  "dur": 2.72,
+  "lead": 0,
+  "speech": 2.616,
+  "segs": [
+   [
+    0.03,
+    1.404
+   ],
+   [
+    1.664,
+    2.536
+   ]
+  ]
+ },
+ "en/fr_ask_you": {
+  "file": "assets/audio/en/fr_ask_you.mp3",
+  "dur": 2.96,
+  "lead": 0,
+  "speech": 2.96,
+  "segs": [
+   [
+    0.03,
+    1.095
+   ],
+   [
+    1.212,
+    2.96
+   ]
+  ]
+ },
+ "en/fr_g_adult": {
+  "file": "assets/audio/en/fr_g_adult.mp3",
+  "dur": 2.88,
+  "lead": 0,
+  "speech": 2.85,
+  "segs": [
+   [
+    0.03,
+    2.77
+   ]
+  ]
+ },
+ "en/fr_g_friend": {
+  "file": "assets/audio/en/fr_g_friend.mp3",
+  "dur": 2.72,
+  "lead": 0,
+  "speech": 2.651,
+  "segs": [
+   [
+    0.03,
+    2.571
+   ]
+  ]
+ },
+ "en/fr_home": {
+  "file": "assets/audio/en/fr_home.mp3",
+  "dur": 8.16,
+  "lead": 0,
+  "speech": 8.146,
+  "segs": [
+   [
+    0.03,
+    1.094
+   ],
+   [
+    1.479,
+    2.339
+   ],
+   [
+    2.46,
+    8.066
+   ]
+  ]
+ },
+ "en/fr_ican1": {
+  "file": "assets/audio/en/fr_ican1.mp3",
+  "dur": 3.2,
+  "lead": 0,
+  "speech": 3.116,
+  "segs": [
+   [
+    0.03,
+    1.277
+   ],
+   [
+    1.384,
+    3.036
+   ]
+  ]
+ },
+ "en/fr_ican2": {
+  "file": "assets/audio/en/fr_ican2.mp3",
+  "dur": 1.84,
+  "lead": 0.072,
+  "speech": 1.768,
+  "segs": [
+   [
+    0.03,
+    1.768
+   ]
+  ]
+ },
+ "en/fr_ican3": {
+  "file": "assets/audio/en/fr_ican3.mp3",
+  "dur": 2.24,
+  "lead": 0.05,
+  "speech": 2.19,
+  "segs": [
+   [
+    0.03,
+    1.674
+   ],
+   [
+    1.795,
+    2.19
+   ]
+  ]
+ },
+ "en/fr_p1": {
+  "file": "assets/audio/en/fr_p1.mp3",
+  "dur": 5.28,
+  "lead": 0.087,
+  "speech": 5.193,
+  "segs": [
+   [
+    0.03,
+    1.902
+   ],
+   [
+    2.176,
+    5.059
+   ],
+   [
+    5.157,
+    5.193
+   ]
+  ]
+ },
+ "en/fr_snd_i": {
+  "file": "assets/audio/en/fr_snd_i.mp3",
+  "dur": 6.48,
+  "lead": 0,
+  "speech": 6.48,
+  "segs": [
+   [
+    0.03,
+    3.579
+   ],
+   [
+    3.758,
+    6.062
+   ],
+   [
+    6.16,
+    6.48
+   ]
+  ]
+ },
+ "en/fr_tip_i": {
+  "file": "assets/audio/en/fr_tip_i.mp3",
+  "dur": 5.2,
+  "lead": 0,
+  "speech": 5.2,
+  "segs": [
+   [
+    0.03,
+    5.2
+   ]
+  ]
+ },
+ "en/fr_w_aurevoir": {
+  "file": "assets/audio/en/fr_w_aurevoir.mp3",
+  "dur": 1.76,
+  "lead": 0.074,
+  "speech": 1.686,
+  "segs": [
+   [
+    0.03,
+    1.686
+   ]
+  ]
+ },
+ "en/fr_w_bonjour": {
+  "file": "assets/audio/en/fr_w_bonjour.mp3",
+  "dur": 4.4,
+  "lead": 0,
+  "speech": 4.4,
+  "segs": [
+   [
+    0.03,
+    2.065
+   ],
+   [
+    2.234,
+    2.374
+   ],
+   [
+    2.458,
+    4.4
+   ]
+  ]
+ },
+ "en/fr_w_merci": {
+  "file": "assets/audio/en/fr_w_merci.mp3",
+  "dur": 5.44,
+  "lead": 0,
+  "speech": 5.44,
+  "segs": [
+   [
+    0.03,
+    1.118
+   ],
+   [
+    1.247,
+    2.244
+   ],
+   [
+    2.645,
+    5.251
+   ],
+   [
+    5.417,
+    5.44
+   ]
+  ]
+ },
+ "en/fr_words_intro": {
+  "file": "assets/audio/en/fr_words_intro.mp3",
+  "dur": 4.72,
+  "lead": 0,
+  "speech": 4.72,
+  "segs": [
+   [
+    0.03,
+    1.766
+   ],
+   [
+    2.059,
+    2.32
+   ],
+   [
+    2.433,
+    3.641
+   ],
+   [
+    3.786,
+    4.72
+   ]
+  ]
+ },
+ "en/learned": {
+  "file": "assets/audio/en/learned.mp3",
+  "dur": 2.16,
+  "lead": 0,
+  "speech": 2.16,
+  "segs": [
+   [
+    0.03,
+    2.16
+   ]
+  ]
+ },
+ "en/listen": {
+  "file": "assets/audio/en/listen.mp3",
+  "dur": 1.36,
+  "lead": 0,
+  "speech": 1.36,
+  "segs": [
+   [
+    0.03,
+    0.751
+   ],
+   [
+    0.971,
+    1.36
+   ]
+  ]
+ },
+ "en/sing_done": {
+  "file": "assets/audio/en/sing_done.mp3",
+  "dur": 1.28,
+  "lead": 0,
+  "speech": 1.28,
+  "segs": [
+   [
+    0.03,
+    1.28
+   ]
+  ]
+ },
+ "en/sing_join": {
+  "file": "assets/audio/en/sing_join.mp3",
+  "dur": 1.68,
+  "lead": 0,
+  "speech": 1.624,
+  "segs": [
+   [
+    0.03,
+    1.057
+   ],
+   [
+    1.144,
+    1.544
+   ]
+  ]
+ },
+ "en/sing_listen": {
+  "file": "assets/audio/en/sing_listen.mp3",
+  "dur": 4.56,
+  "lead": 0,
+  "speech": 4.56,
+  "segs": [
+   [
+    0.03,
+    1.142
+   ],
+   [
+    1.374,
+    4.56
+   ]
+  ]
+ },
+ "en/sound_intro": {
+  "file": "assets/audio/en/sound_intro.mp3",
+  "dur": 1.76,
+  "lead": 0,
+  "speech": 1.76,
+  "segs": [
+   [
+    0.03,
+    1.76
+   ]
+  ]
+ },
+ "en/spot_intro": {
+  "file": "assets/audio/en/spot_intro.mp3",
+  "dur": 4.48,
+  "lead": 0,
+  "speech": 4.401,
+  "segs": [
+   [
+    0.03,
+    1.244
+   ],
+   [
+    1.393,
+    4.321
+   ]
+  ]
+ },
+ "en/spot_ok1": {
+  "file": "assets/audio/en/spot_ok1.mp3",
+  "dur": 1.68,
+  "lead": 0,
+  "speech": 1.68,
+  "segs": [
+   [
+    0.03,
+    1.68
+   ]
+  ]
+ },
+ "en/spot_ok2": {
+  "file": "assets/audio/en/spot_ok2.mp3",
+  "dur": 1.28,
+  "lead": 0,
+  "speech": 1.28,
+  "segs": [
+   [
+    0.03,
+    0.845
+   ],
+   [
+    0.947,
+    1.28
+   ]
+  ]
+ },
+ "en/spot_ok3": {
+  "file": "assets/audio/en/spot_ok3.mp3",
+  "dur": 1.28,
+  "lead": 0,
+  "speech": 1.28,
+  "segs": [
+   [
+    0.03,
+    0.959
+   ],
+   [
+    1.049,
+    1.28
+   ]
+  ]
+ },
+ "en/today": {
+  "file": "assets/audio/en/today.mp3",
+  "dur": 2,
+  "lead": 0,
+  "speech": 2,
+  "segs": [
+   [
+    0.03,
+    2
+   ]
+  ]
+ },
+ "en/together": {
+  "file": "assets/audio/en/together.mp3",
+  "dur": 1.52,
+  "lead": 0,
+  "speech": 1.502,
+  "segs": [
+   [
+    0.03,
+    1.026
+   ],
+   [
+    1.195,
+    1.422
+   ]
+  ]
+ },
+ "en/yourturn": {
+  "file": "assets/audio/en/yourturn.mp3",
+  "dur": 1.12,
+  "lead": 0,
+  "speech": 1.12,
+  "segs": [
+   [
+    0.03,
+    0.766
+   ],
+   [
+    0.852,
+    1.12
+   ]
+  ]
+ },
+ "es/adios": {
+  "file": "assets/audio/es/adios.mp3",
+  "dur": 0.72,
+  "lead": 0.089,
+  "speech": 0.631,
+  "segs": [
+   [
+    0.03,
+    0.631
+   ]
+  ]
+ },
+ "es/buenos": {
+  "file": "assets/audio/es/buenos.mp3",
+  "dur": 1.2,
+  "lead": 0,
+  "speech": 1.181,
+  "segs": [
+   [
+    0.03,
+    1.101
+   ]
+  ]
+ },
+ "es/dos": {
+  "file": "assets/audio/es/dos.mp3",
+  "dur": 0.88,
+  "lead": 0,
+  "speech": 0.605,
+  "segs": [
+   [
+    0.03,
+    0.525
+   ]
+  ]
+ },
+ "es/hello_clip": {
+  "file": "assets/audio/es/hello_clip.mp3",
+  "dur": 1.52,
+  "lead": 0,
+  "speech": 1.502,
+  "segs": [
+   [
+    0.03,
+    1.422
+   ]
+  ]
+ },
+ "es/hola": {
+  "file": "assets/audio/es/hola.mp3",
+  "dur": 0.88,
+  "lead": 0,
+  "speech": 0.607,
+  "segs": [
+   [
+    0.03,
+    0.527
+   ]
+  ]
+ },
+ "es/mama": {
+  "file": "assets/audio/es/mama.mp3",
+  "dur": 0.72,
+  "lead": 0,
+  "speech": 0.688,
+  "segs": [
+   [
+    0.03,
+    0.608
+   ]
+  ]
+ },
+ "es/no": {
+  "file": "assets/audio/es/no.mp3",
+  "dur": 0.72,
+  "lead": 0,
+  "speech": 0.673,
+  "segs": [
+   [
+    0.03,
+    0.593
+   ]
+  ]
+ },
+ "es/si": {
+  "file": "assets/audio/es/si.mp3",
+  "dur": 0.72,
+  "lead": 0,
+  "speech": 0.719,
+  "segs": [
+   [
+    0.03,
+    0.639
+   ]
+  ]
+ },
+ "es/si_q": {
+  "file": "assets/audio/es/si_q.mp3",
+  "dur": 0.56,
+  "lead": 0.064,
+  "speech": 0.373,
+  "segs": [
+   [
+    0.03,
+    0.293
+   ]
+  ]
+ },
+ "es/snd_a": {
+  "file": "assets/audio/es/snd_a.mp3",
+  "dur": 0.4,
+  "lead": 0,
+  "speech": 0.4,
+  "segs": [
+   [
+    0.03,
+    0.4
+   ]
+  ]
+ },
+ "es/snd_o": {
+  "file": "assets/audio/es/snd_o.mp3",
+  "dur": 0.48,
+  "lead": 0,
+  "speech": 0.441,
+  "segs": [
+   [
+    0.03,
+    0.361
+   ]
+  ]
+ },
+ "fr/aurevoir": {
+  "file": "assets/audio/fr/aurevoir.mp3",
+  "dur": 0.72,
+  "lead": 0,
+  "speech": 0.72,
+  "segs": [
+   [
+    0.03,
+    0.72
+   ]
+  ]
+ },
+ "fr/bonjour": {
+  "file": "assets/audio/fr/bonjour.mp3",
+  "dur": 1.04,
+  "lead": 0,
+  "speech": 0.895,
+  "segs": [
+   [
+    0.03,
+    0.815
+   ]
+  ]
+ },
+ "fr/kiwi": {
+  "file": "assets/audio/fr/kiwi.mp3",
+  "dur": 0.96,
+  "lead": 0.061,
+  "speech": 0.753,
+  "segs": [
+   [
+    0.03,
+    0.673
+   ]
+  ]
+ },
+ "fr/madame": {
+  "file": "assets/audio/fr/madame.mp3",
+  "dur": 1.52,
+  "lead": 0.059,
+  "speech": 1.144,
+  "segs": [
+   [
+    0.03,
+    1.064
+   ]
+  ]
+ },
+ "fr/merci": {
+  "file": "assets/audio/fr/merci.mp3",
+  "dur": 0.56,
+  "lead": 0,
+  "speech": 0.56,
+  "segs": [
+   [
+    0.03,
+    0.56
+   ]
+  ]
+ },
+ "fr/salut": {
+  "file": "assets/audio/fr/salut.mp3",
+  "dur": 1.12,
+  "lead": 0,
+  "speech": 0.463,
+  "segs": [
+   [
+    0.03,
+    0.383
+   ]
+  ]
+ },
+ "fr/snd_i": {
+  "file": "assets/audio/fr/snd_i.mp3",
+  "dur": 0.64,
+  "lead": 0,
+  "speech": 0.64,
+  "segs": [
+   [
+    0.03,
+    0.64
+   ]
+  ]
+ },
+ "fr/taxi": {
+  "file": "assets/audio/fr/taxi.mp3",
+  "dur": 1.52,
+  "lead": 0.06,
+  "speech": 0.749,
+  "segs": [
+   [
+    0.03,
+    0.669
+   ]
+  ]
+ }
+}

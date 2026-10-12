@@ -12,6 +12,7 @@ import { friendArt } from './registry'
 import { MISSION_DEFS, missionByKey } from './missions'
 export type { HomeView, ScreenAsk, ClientEvent } from './view'
 import type { HomeView, ScreenAsk, ClientEvent } from './view'
+import { childLessonPath, type CompletionRow, type MissionRow } from '@/lib/pathway/lesson-path'
 
 // Planet Friends on the server: the only place the planet is decided.
 //
@@ -243,15 +244,24 @@ async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string
  */
 export async function lessonsPassedCount(admin: Admin, childId: string): Promise<number | null> {
   try {
+    // Rows rather than head counts, so the number comes from the one lesson
+    // count (lib/pathway/lesson-path.ts, `anyLesson`) instead of a second
+    // copy of its rule. The rule is unchanged: passed completions that are
+    // not school lessons, plus finished missions, because since 29 September
+    // 2026 a star lesson pass writes a school_lesson completion AND finishes
+    // a mission, and counting both would open two planets for one lesson.
     const [a, b] = await Promise.all([
-      // Not school lessons: since 29 September 2026 a star lesson pass also
-      // writes a school_lesson completion, and the mission is already counted
-      // below, so counting both would open two planets for one lesson.
-      admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true }).eq('child_id', childId).eq('passed', true).neq('lesson_source', 'school_lesson'),
-      admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true }).eq('child_id', childId).eq('status', 'done'),
+      admin.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('child_id', childId),
+      admin.from('kid_lesson_missions').select('lesson_id, status').eq('child_id', childId),
     ])
     if (a.error && b.error) return null
-    return (a.count ?? 0) + (b.count ?? 0)
+    return childLessonPath({
+      modules: [],
+      completions: (a.data ?? []) as CompletionRow[],
+      missions: (b.data ?? []) as MissionRow[],
+      passBy: null,
+      childId,
+    }).anyLesson
   } catch { return null }
 }
 

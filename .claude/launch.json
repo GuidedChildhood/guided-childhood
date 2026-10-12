@@ -10,6 +10,32 @@
       ],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "digi-launch-film",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4173",
+        "--directory",
+        "videos/2026-10-08-digi-launch"
+      ],
+      "port": 4173
+    },
+    {
+      "name": "digi-shorts-film",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server@14.1.1",
+        "videos/2026-10-09-digi-shorts",
+        "-p",
+        "4174",
+        "-c-1",
+        "--silent"
+      ],
+      "port": 4174
     }
   ]
 }

@@ -143,3 +143,35 @@ export async function fetchAnswerFacts(
     return []
   }
 }
+
+/**
+ * A school lesson's answers, marked on the server (plan v10, item 1.5), into
+ * the ledger with what migration 366 added: the settled tap's flag in
+ * `correct`, the first tap's in `first_correct`, the phase, and the run. Only
+ * the rows of the run being posted are passed in, so a retake that carries a
+ * right answer forward never writes it twice as two retrievals.
+ */
+export async function recordMarkedAnswers(
+  supabase: AnySupabase,
+  facts: { userId: string; childId: string; lessonId: string; runId: string | null },
+  rows: { question: string; chosen: string; correct: boolean; firstCorrect: boolean; phase: string | null }[],
+): Promise<void> {
+  if (rows.length === 0) return
+  try {
+    await supabase.from('lesson_question_answers').insert(
+      rows.slice(0, MAX_ANSWERS).map(r => ({
+        user_id: facts.userId,
+        child_id: facts.childId,
+        source: 'school_lesson',
+        lesson_id: facts.lessonId,
+        stage_id: null,
+        question: r.question.slice(0, MAX_TEXT),
+        chosen: r.chosen.slice(0, MAX_TEXT),
+        correct: r.correct,
+        first_correct: r.firstCorrect,
+        phase: r.phase,
+        run_id: facts.runId,
+      })),
+    )
+  } catch { /* the page always wins over the ledger */ }
+}

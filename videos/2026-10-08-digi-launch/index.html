@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000;font-style:normal}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600;font-style:normal}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#F9F8F6}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#F9F8F6}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform:scale(1);transform-origin:0 0;font-family:nunito,sans-serif;color:#1A1A2E;-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0;opacity:0;overflow:hidden}
+.scene.cream{background:#F9F8F6}
+.bg{position:absolute;inset:0;background:#fff}
+.cam,.pan{position:absolute;inset:0}
+.veil{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.pwrap{position:absolute;width:430px;height:884px}
+.phone{position:relative;width:430px;height:884px;border-radius:66px}
+.bezel{position:absolute;inset:0;border-radius:66px;background:#0E0E12;box-shadow:0 40px 80px rgba(26,26,46,.22),inset 0 0 0 2px #2b2b34}
+.screen{position:absolute;left:14px;top:14px;right:14px;bottom:14px;border-radius:52px;overflow:hidden;background:#fff}
+.island{position:absolute;top:12px;left:50%;margin-left:-60px;width:120px;height:34px;border-radius:20px;background:#0E0E12;z-index:6}
+.status{position:absolute;left:0;right:0;top:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:16px 30px 0;font-weight:700;font-size:16px;z-index:5}
+.sig{display:inline-flex;gap:2px;align-items:flex-end;margin-left:auto;margin-right:8px}.sig i{display:block;width:4px;background:#1A1A2E;border-radius:1px}.sig i:nth-child(1){height:5px}.sig i:nth-child(2){height:8px}.sig i:nth-child(3){height:11px}.sig i:nth-child(4){height:14px}
+.batt{display:inline-block;width:27px;height:13px;border:2px solid #1A1A2E;border-radius:4px;position:relative}.batt b{position:absolute;left:2px;top:2px;bottom:2px;width:17px;background:#1A1A2E;border-radius:1px}
+.content{position:absolute;left:0;right:0;bottom:0}
+/* The DiGi chat, as DigiChat.tsx draws it at 390 wide */
+.chat{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff}
+.chead{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:2px solid #1A1A2E;background:#fff;flex-shrink:0}
+.cavatar{width:36px;height:36px;flex-shrink:0}
+.eyebrow{font-family:plexMono,monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#65657C;margin-bottom:1px}
+.h1row{display:flex;align-items:center;gap:8px}.chead h1{font-size:17px;font-weight:900;line-height:1}
+.aloud{font-size:12px;font-weight:700;border:2px solid #1A1A2E;border-radius:100px;padding:3px 9px;background:#fff;line-height:1}
+.cmsgs{flex:1;padding:14px 20px 0;overflow:hidden}
+.welcome{text-align:center;font-weight:800;font-size:17px;color:#52526A;margin:0 0 12px}
+.msg{opacity:0}
+.msg.user{display:flex;justify-content:flex-end;margin-bottom:18px}
+.ub{max-width:84%;background:#DCE7FB;color:#1B2A4A;border-radius:20px;padding:12px 18px;font-size:19px;line-height:1.45;font-weight:800}
+.msg.digi{position:relative;margin-bottom:20px}.msg.digi.cont{margin-top:-14px}
+.drow{display:flex;align-items:center;gap:8px;margin-bottom:11px}.dname{font-weight:800;font-size:17px}
+.dots{position:absolute;top:37px;left:0;display:inline-flex;gap:5px;align-items:center;background:#F9F8F6;border-radius:100px;padding:10px 14px;opacity:0}
+.dots i{width:7px;height:7px;border-radius:50%;background:#AEAEC0;display:block}
+.dbody{opacity:0}
+.dbody p,.msg.cont p{font-size:16px;line-height:1.55;color:#1A1A2E;margin:0 0 6px;font-weight:500}
+.cinput{padding:10px 20px 12px;border-top:2px solid #1A1A2E;background:#fff;flex-shrink:0}
+.hfrow{display:flex;justify-content:flex-end;margin-bottom:6px}
+.hf{display:inline-flex;align-items:center;gap:6px;border:2px solid #1A1A2E;border-radius:100px;padding:5px 12px;font-weight:700;font-size:15px;background:#fff;line-height:1.2}
+.disc{font-size:14px;line-height:1.35;color:#65657C;text-align:center;margin-top:9px;font-weight:500}
+.pill{display:flex;align-items:center;gap:8px;background:#F9F8F6;border:2px solid #EDC35F;border-radius:26px;padding:6px 6px 6px 18px}
+.ph{flex:1;font-size:19px;color:#65657C;padding:9px 0;font-weight:500}
+.mic,.send{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.mic{background:#fff;border:2px solid #1A1A2E;font-size:20px}.send{background:#EEEEF2}
+/* The script card, as DigiScriptNudge.tsx draws it */
+.scard{background:#fff;border:2px solid #1A1A2E;border-radius:20px;padding:12px 16px;box-shadow:0 4px 0 #1A1A2E;margin:2px 0 8px;opacity:0}
+.srow{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.sstar{width:40px;height:40px;border-radius:50%;background:#FEF7E0;border:2px solid #1A1A2E;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.seyebrow{font-family:plexMono,monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#93711D}
+.stitle{font-weight:900;font-size:19px;line-height:1.2;margin-top:2px}
+.sbtns{display:flex;gap:8px;align-items:center}
+.sbtn{background:#EDC35F;border-radius:14px;padding:7px 15px;font-weight:800;font-size:16px;box-shadow:0 4px 0 #C99A28}
+.snot{margin-left:auto;font-family:plexMono,monospace;font-size:12px;font-weight:600;color:#65657C}
+/* The lock screen */
+.lock{position:absolute;inset:0;background:linear-gradient(180deg,#FFF6DE 0%,#F9F8F6 58%,#EEE4CF 100%)}
+.ldate{position:absolute;top:56px;left:0;right:0;text-align:center;font-size:22px;font-weight:600;color:#52526A}
+.ltime{position:absolute;top:120px;left:0;right:0;text-align:center;font-size:98px;font-weight:400;letter-spacing:-.02em;line-height:1.1}
+.lnoti{position:absolute;left:14px;right:14px;top:300px;background:rgba(255,255,255,.94);border-radius:22px;padding:12px 14px;display:flex;gap:12px;box-shadow:0 10px 28px rgba(26,26,46,.14);opacity:0}
+.nicon{flex-shrink:0}.ntext{flex:1;min-width:0}
+.nhead,.bhead{display:flex;justify-content:space-between;align-items:baseline}
+.napp{font-family:plexMono,monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#52526A}
+.nwhen{font-size:13px;color:#65657C;font-weight:600}
+.ntitle{font-weight:800;font-size:17px;margin-top:3px}.nbody{font-size:16px;line-height:1.35;font-weight:500}
+.lbar{position:absolute;bottom:10px;left:50%;margin-left:-70px;width:140px;height:5px;border-radius:3px;background:#1A1A2E;opacity:.55}
+/* Home, as TodayPathBig.tsx draws it */
+.home{position:absolute;inset:0;background:#F1EFEA;padding:12px 14px}
+.htop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hbrand{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.hday{font-family:plexMono,monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:#EDC35F;border:2px solid #1A1A2E;border-radius:100px;padding:4px 10px}
+.hcard{background:#fff;border:2px solid #1A1A2E;border-radius:20px;padding:18px 16px 10px;box-shadow:0 4px 0 #1A1A2E}
+.hcard h2{font-weight:900;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin:0 0 3px}
+.hsub{font-size:16px;color:#52526A;line-height:1.45;margin:0 0 12px;font-weight:500}
+.hrow{display:flex;justify-content:space-between;font-family:plexMono,monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#65657C;margin-bottom:8px}
+.hchips{display:flex;gap:8px;margin-bottom:10px}
+.hchip{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px 9px;border-radius:14px;border:2px solid #1A1A2E;background:#fff;box-shadow:0 4px 0 #1A1A2E;font-size:16px;font-weight:900;color:#65657C;line-height:1}
+.hchip.on{background:#EDC35F;color:#1A1A2E}.hchip small{font-size:12px;font-weight:500;color:#65657C}
+.hpath{position:relative;height:400px}
+.hnode{position:absolute;width:56px;height:56px;border-radius:50%;background:#fff;border:2px solid #1A1A2E;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#1A1A2E}
+.hnode.now{background:#EDC35F;box-shadow:0 4px 0 #1A1A2E}
+.hnode .ring{position:absolute;inset:-8px;border:3px solid #EDC35F;border-radius:50%;opacity:.5}
+.hlabel{position:absolute;top:60px;left:50%;width:110px;margin-left:-55px;text-align:center;font-size:13px;font-weight:800}
+.htabs{position:absolute;left:0;right:0;bottom:0;height:78px;background:#fff;border-top:2px solid #1A1A2E;display:flex;justify-content:space-around;align-items:center;font-size:13px;font-weight:800;color:#65657C}
+.htabs .on{color:#1A1A2E;border-bottom:3px solid #EDC35F;padding-bottom:3px}
+.homeback{position:absolute;left:1144px;top:110px;width:402px;height:856px;transform:scale(1.65);transform-origin:50% 50%;filter:blur(16px);opacity:0}
+/* Headlines */
+.hl{position:absolute;font-weight:900;letter-spacing:-.015em;line-height:1.06;color:#1A1A2E}
+.hw{display:inline-block;opacity:0;filter:blur(14px);will-change:transform,opacity,filter}
+#s3-head{left:120px;top:120px;font-size:84px;width:820px;line-height:1.12}
+#s4-head{left:0;right:0;top:66px;text-align:center;font-size:84px}
+.hl5{left:0;right:0;top:380px;text-align:center;font-size:100px;letter-spacing:-.02em}
+.oslot{position:relative;display:inline-block}.olet{display:inline-block}
+.oface{position:absolute;left:50%;top:50%;margin:-42px 0 0 -44px;opacity:0}
+.bigstar{position:absolute;left:960px;top:650px}
+/* Introducing */
+.intro{position:absolute;left:0;right:0;top:170px;text-align:center;font-size:52px;font-weight:700;color:#52526A;opacity:0}
+.lockup{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;align-items:center;gap:48px}
+.bigname{font-size:210px;font-weight:900;letter-spacing:-.035em;line-height:1;opacity:0}
+.tagline{position:absolute;left:0;right:0;top:812px;text-align:center;font-size:62px;font-weight:800;letter-spacing:-.012em;line-height:1.15}
+.tagline .hw{margin-right:.02em}
+.shimwrap{position:relative;display:inline-block}
+.shimglow{position:absolute;left:0;top:0;white-space:nowrap;color:transparent;-webkit-background-clip:text;background-clip:text;background-image:linear-gradient(100deg,rgba(237,195,95,0) 30%,#EDC35F 50%,rgba(237,195,95,0) 70%);background-size:220% 100%;background-repeat:no-repeat;opacity:0;pointer-events:none}
+/* Memory cards and the big notification */
+.cloud{position:absolute;inset:0}
+.mcard{position:absolute;background:#fff;border:2px solid #1A1A2E;border-radius:16px;padding:14px 20px;font-weight:800;font-size:25px;line-height:1.25;box-shadow:0 5px 0 #1A1A2E;max-width:370px;opacity:0;white-space:normal}
+.chip{display:inline-block;margin-top:9px;font-family:plexMono,monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:5px 10px;line-height:1}
+.chip.worry{background:#FBE9E9;color:#B64837}.chip.resting{background:#FFF6DE;color:#7A5A0E}.chip.agreed{background:#E8F4EE;color:#2D5016}.chip.worked{background:#DCEBF7;color:#1F4E6E}
+.banner{position:absolute;left:440px;top:620px;width:1040px;background:rgba(255,255,255,.97);border:2px solid #1A1A2E;border-radius:28px;box-shadow:0 10px 0 #1A1A2E,0 34px 70px rgba(26,26,46,.18);padding:26px 30px;display:flex;gap:24px;opacity:0;z-index:4}
+.bicon{flex-shrink:0}.btext{flex:1}
+.btitle{font-weight:900;font-size:30px;margin-top:4px}.bbody{font-size:27px;line-height:1.35;margin-top:6px;font-weight:500}
+.bact{display:inline-block;align-self:center;flex-shrink:0;margin-left:14px;background:#EDC35F;border:2px solid #1A1A2E;border-radius:16px;padding:12px 22px;font-weight:800;font-size:22px;box-shadow:0 5px 0 #C99A28}
+.finger{position:absolute;left:1290px;top:712px;z-index:6;opacity:0;filter:drop-shadow(0 10px 14px rgba(26,26,46,.25))}
+.ripple{position:absolute;left:1295px;top:662px;width:120px;height:120px;border-radius:50%;border:4px solid #1A1A2E;opacity:0;z-index:5}
+/* Watches the number move */
+.fcard{position:absolute;opacity:0;border:2px solid #1A1A2E;border-radius:20px;padding:22px 28px;font-weight:800;font-size:31px;line-height:1.3;width:540px;box-shadow:0 6px 0 #1A1A2E;background:#fff}
+.fcard.butter{background:#EDC35F}
+.fcard.sky{background:#DCE7FB;color:#1B2A4A;font-size:46px;font-weight:900;letter-spacing:.02em;width:auto;white-space:nowrap}
+.fcard.digi{display:flex;gap:14px;align-items:flex-start}
+/* Where every answer comes from */
+.hl6{left:0;right:0;top:70px;text-align:center;font-size:84px}
+.brain-left{position:absolute;left:150px;top:300px;width:400px;display:flex;flex-direction:column;align-items:center;gap:30px}
+.stack{display:flex;flex-direction:column;gap:10px;width:100%}
+.pill6{font-family:plexMono,monospace;font-size:18px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:2px solid #1A1A2E;border-radius:100px;padding:10px 18px;text-align:center;background:#fff;color:#65657C;opacity:0}
+.layer{position:absolute;left:700px;top:290px;width:1080px;opacity:0}
+.leyebrow{font-family:plexMono,monospace;font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#8A6A1B;margin-bottom:14px}
+.ltitle{font-size:58px;font-weight:900;line-height:1.08;letter-spacing:-.015em;margin-bottom:26px}
+.rows .row{display:flex;align-items:baseline;gap:18px;padding:11px 0;border-top:2px solid #EAEAF0;opacity:0}
+.rows .row b{font-size:36px;font-weight:800;min-width:420px}
+.rows .row span{font-size:30px;font-weight:500;color:#52526A}
+.lines p{font-size:40px;font-weight:600;line-height:1.3;color:#1A1A2E;margin:0 0 12px;opacity:0}
+/* End card */
+.flip{position:absolute;inset:0;perspective:1800px}
+.front{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:44px;backface-visibility:hidden;opacity:0}
+.front .col{display:flex;flex-direction:column}.front .bigname{opacity:1;font-size:176px}
+.front .sub{font-size:40px;font-weight:700;color:#52526A;margin-top:6px}
+.back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:flex-start;padding:330px 0 0 432px;backface-visibility:hidden;opacity:0}
+.logo{display:inline-flex;align-items:center;gap:26px}
+.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F;flex-shrink:0}
+.logo .bars{display:inline-flex;align-items:flex-end}
+.logo .word{font-weight:800;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+.line6{font-size:40px;font-weight:800;margin:50px 0 0 158px;opacity:0}
+.url6{font-family:plexMono,monospace;font-size:26px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#52526A;margin:16px 0 0 158px;opacity:0}
+.path6{position:absolute;left:590px;top:640px;width:760px;height:40px}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="103.4" data-width="1920" data-height="1080" data-fps="30">
+<div id="stage">
+<svg width="0" height="0" style="position:absolute;left:0;top:0" aria-hidden="true"><defs>
+<radialGradient id="cg" cx="44%" cy="36%" r="62%"><stop offset="0%" stop-color="#FFFEF4"/><stop offset="15%" stop-color="#FFF3C0"/><stop offset="55%" stop-color="#F5CD3A"/><stop offset="100%" stop-color="#D4A318"/></radialGradient>
+<radialGradient id="hl" cx="40%" cy="28%" r="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.78)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient>
+<radialGradient id="bounce" cx="50%" cy="100%" r="40%"><stop offset="0%" stop-color="rgba(240,185,20,0.22)"/><stop offset="100%" stop-color="rgba(240,185,20,0)"/></radialGradient>
+<filter id="ds" x="-32%" y="-22%" width="164%" height="168%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#C08B0A" flood-opacity="0.22"/></filter>
+<clipPath id="sc"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165"/></clipPath>
+</defs></svg>
+<div id="s1" class="scene"><div class="bg" id="s1-bg"></div><div class="cam" id="s1-cam"><div class="pwrap" style="left:745px;top:98px"><div id="s1-phone" class="phone"><div class="bezel"></div><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"><b></b></span></div><div class="content" style="top:54px"><div class="chat"><div class="chead"><div class="cavatar"><svg id="s1-hs" class="star " viewBox="0 0 400 430" width="36" height="39" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg></div><div><div class="eyebrow">Ava · Stage 2</div><div class="h1row"><h1>DiGi</h1><span class="aloud">🔈 Aloud</span></div></div></div><div class="cmsgs"><p class="welcome">Let's make today a little easier.</p><div class="msg user" id="s1-m0"><div class="ub">Bedtime was a fight again. What do I actually say?</div></div><div class="msg digi" id="s1-m1"><div class="drow"><svg id="s1-m1-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s1-m1-dots"><i></i><i></i><i></i></div><div class="dbody"><p>Bedtime has been hard going three check ins running. Here are the words for tonight.</p><div class="scard" id="s1-m1-c"><div class="srow"><span class="sstar"><svg id="s1-m1-c-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg></span><div><div class="seyebrow">The words for a tricky moment</div><div class="stitle">Bedtime stalling and one more thing</div></div></div><div class="sbtns"><span class="sbtn">Read the script</span><span class="snot">Not now</span></div></div></div></div><div class="msg digi cont" id="s1-m2"><p>Want me to check back in a few days?</p></div><div class="msg user" id="s1-m3"><div class="ub">Yes please</div></div><div class="msg digi" id="s1-m4"><div class="drow"><svg id="s1-m4-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s1-m4-dots"><i></i><i></i><i></i></div><div class="dbody"><p>Done. I'll ask you how it went.</p></div></div></div><div class="cinput"><div class="hfrow"><span class="hf">🎧 Hands free</span></div><div class="pill"><span class="ph">Type or tap the mic</span><span class="mic">🎙️</span><span class="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div><p class="disc">DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.</p></div></div></div></div></div></div></div></div>
+<div id="s2" class="scene cream"><div class="intro" id="s2-intro">Introducing</div><div class="lockup" id="s2-lockup"><svg id="s2-star" class="star " viewBox="0 0 400 430" width="300" height="323" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><div class="bigname" id="s2-name">DiGi</div></div><div class="tagline" id="s2-tag"><span class="hw">The</span> <span class="hw">one</span> <span class="hw">thing</span> <span class="hw">to</span> <span class="hw">do,</span> <span class="hw">and</span> <span class="shimwrap"><span class="shimbase"><span class="hw">the</span> <span class="hw">words</span> <span class="hw">to</span> <span class="hw">say</span></span><span class="shimglow" id="s2-glow" aria-hidden="true">the words to say</span></span></div></div>
+<div id="s3" class="scene cream"><div class="homeback" id="s3-back" data-layout-ignore><div class="home"><div class="htop"><span class="hbrand"><span class="logo"><span class="mark" style="width:22px;height:22px;border-radius:6.4px"><span class="bars" style="gap:1.7px;height:10.1px"><span style="width:2.0px;height:3.6px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:6.5px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:10.1px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:5.8px;background:#fff;border-radius:1.0px;display:inline-block"></span></span></span></span><span>Guided Childhood</span></span><span class="hday">Day 12</span></div><div class="hcard"><h2>Today with Ava</h2><p class="hsub">One tick makes today count: check in. The rest is extra, not homework.</p><div class="hrow"><span>Today · do this next</span><span>10 min</span></div><div class="hchips"><span class="hchip">5 min<small>A quick day</small></span><span class="hchip on">10 min<small>The usual</small></span><span class="hchip">15 min<small>Room to go deep</small></span></div><div class="hpath"><svg width="374" height="400" viewBox="0 0 374 400" style="position:absolute;left:0;top:0"><path d="M187 30 C 187 72, 255 72, 255 114" fill="none" stroke="#FEF08A" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M255 114 C 255 156, 123 156, 123 198" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M123 198 C 123 240, 243 240, 243 282" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M243 282 C 243 324, 147 324, 147 366" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/></svg><div class="hnode now" data-layout-allow-overlap style="left:159px;top:2px">✓<i class="ring"></i><span class="hlabel" data-layout-allow-overlap>Check in</span></div><div class="hnode " data-layout-allow-overlap style="left:227px;top:86px">☾<span class="hlabel" data-layout-allow-overlap>Tonight</span></div><div class="hnode " data-layout-allow-overlap style="left:95px;top:170px">◷<span class="hlabel" data-layout-allow-overlap>Moment</span></div><div class="hnode " data-layout-allow-overlap style="left:215px;top:254px">❝<span class="hlabel" data-layout-allow-overlap>Script</span></div><div class="hnode " data-layout-allow-overlap style="left:119px;top:338px">▤<span class="hlabel" data-layout-allow-overlap>Lesson</span></div></div></div><div class="htabs"><span class="on">Today</span><span>Tracker</span><span>DiGi</span><span>Passport</span></div></div></div><div class="hl" id="s3-head"><span class="hw">Comes</span> <span class="hw">back</span> <span class="hw">to</span> <span class="hw">check</span></div><div class="cam" id="s3-cam"><div class="pwrap" id="s3-pa" style="left:1130px;top:98px"><div id="s3-phoneA" class="phone"><div class="bezel"></div><div class="screen"><div class="island"></div><div class="content" style="top:0px"><div class="lock"><div class="ldate">Thursday 8 October</div><div class="ltime">21:14</div><div class="lnoti" id="s3-n"><div class="nicon"><span class="logo"><span class="mark" style="width:40px;height:40px;border-radius:11.7px"><span class="bars" style="gap:3.0px;height:18.3px"><span style="width:3.7px;height:6.5px;background:#fff;border-radius:1.7px;display:inline-block"></span><span style="width:3.7px;height:11.8px;background:#fff;border-radius:1.7px;display:inline-block"></span><span style="width:3.7px;height:18.3px;background:#fff;border-radius:1.7px;display:inline-block"></span><span style="width:3.7px;height:10.5px;background:#fff;border-radius:1.7px;display:inline-block"></span></span></span></span></div><div class="ntext"><div class="nhead"><span class="napp">Guided Childhood</span><span class="nwhen">now</span></div><div class="ntitle">How did that go?</div><div class="nbody">The bedtime words, three nights on.</div></div></div><div class="lbar"></div></div></div></div></div></div><div class="pwrap" id="s3-pb" style="left:1130px;top:98px"><div id="s3-phoneB" class="phone"><div class="bezel"></div><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"><b></b></span></div><div class="content" style="top:54px"><div class="chat"><div class="chead"><div class="cavatar"><svg id="s3c-hs" class="star " viewBox="0 0 400 430" width="36" height="39" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg></div><div><div class="eyebrow">Ava · Stage 2</div><div class="h1row"><h1>DiGi</h1><span class="aloud">🔈 Aloud</span></div></div></div><div class="cmsgs"><p class="welcome">Let's make today a little easier.</p><div class="msg digi" id="s3c-m0"><div class="drow"><svg id="s3c-m0-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s3c-m0-dots"><i></i><i></i><i></i></div><div class="dbody"><p>Three nights on. How did the bedtime words go?</p></div></div><div class="msg user" id="s3c-m1"><div class="ub">Two calm nights, one wobble.</div></div><div class="msg digi" id="s3c-m2"><div class="drow"><svg id="s3c-m2-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s3c-m2-dots"><i></i><i></i><i></i></div><div class="dbody"><p>That's a shift. Same words tonight?</p></div></div><div class="msg user" id="s3c-m3"><div class="ub">Go on then</div></div><div class="msg digi" id="s3c-m4"><div class="drow"><svg id="s3c-m4-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s3c-m4-dots"><i></i><i></i><i></i></div><div class="dbody"><p>Noted on Ava's check in. Warm, and the same every night.</p></div></div></div><div class="cinput"><div class="hfrow"><span class="hf">🎧 Hands free</span></div><div class="pill"><span class="ph">Type or tap the mic</span><span class="mic">🎙️</span><span class="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div><p class="disc">DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.</p></div></div></div></div></div></div></div><div class="veil" id="s3-veil"></div></div>
+<div id="s4" class="scene cream"><div class="hl" id="s4-head"><span class="hw">Remembers</span> <span class="hw">your</span> <span class="hw">family</span></div><div class="cloud" id="s4-cloud" data-layout-ignore><div class="mcard" id="s4-c0" style="left:960px;top:508px">Ava, 9, Year 5</div><div class="mcard" id="s4-c1" style="left:538px;top:367px">Bedtime is the fight<br><span class="chip worry">Live worry</span></div><div class="mcard" id="s4-c2" style="left:1363px;top:356px">Roblox on Saturdays</div><div class="mcard" id="s4-c3" style="left:960px;top:734px">Screens off at 7 on school nights, agreed 2 September<br><span class="chip agreed">Agreed</span></div><div class="mcard" id="s4-c4" style="left:346px;top:562px">Stalls with one more thing</div><div class="mcard" id="s4-c5" style="left:1574px;top:551px">Dad does bedtime on Tuesdays</div><div class="mcard" id="s4-c6" style="left:576px;top:907px">Shares a room with Sam, 6</div><div class="mcard" id="s4-c7" style="left:1382px;top:918px">Wants a phone like her friends</div><div class="mcard" id="s4-c8" style="left:250px;top:778px">Loves the star chart</div><div class="mcard" id="s4-c9" style="left:1670px;top:756px">Hard mornings after a late night<br><span class="chip resting">Resting</span></div><div class="mcard" id="s4-c10" style="left:960px;top:302px">Snapchat talk at school</div><div class="mcard" id="s4-c11" style="left:230px;top:972px">The repair words worked last time<br><span class="chip worked">Worked</span></div></div><div class="cam" id="s4-cam"><div class="pwrap" id="s4-pw" style="left:745px;top:150px"><div id="s4-phoneH" class="phone"><div class="bezel"></div><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"><b></b></span></div><div class="content" style="top:54px"><div class="home"><div class="htop"><span class="hbrand"><span class="logo"><span class="mark" style="width:22px;height:22px;border-radius:6.4px"><span class="bars" style="gap:1.7px;height:10.1px"><span style="width:2.0px;height:3.6px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:6.5px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:10.1px;background:#fff;border-radius:1.0px;display:inline-block"></span><span style="width:2.0px;height:5.8px;background:#fff;border-radius:1.0px;display:inline-block"></span></span></span></span><span>Guided Childhood</span></span><span class="hday">Day 12</span></div><div class="hcard"><h2>Today with Ava</h2><p class="hsub">One tick makes today count: check in. The rest is extra, not homework.</p><div class="hrow"><span>Today · do this next</span><span>10 min</span></div><div class="hchips"><span class="hchip">5 min<small>A quick day</small></span><span class="hchip on">10 min<small>The usual</small></span><span class="hchip">15 min<small>Room to go deep</small></span></div><div class="hpath"><svg width="374" height="400" viewBox="0 0 374 400" style="position:absolute;left:0;top:0"><path d="M187 30 C 187 72, 255 72, 255 114" fill="none" stroke="#FEF08A" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M255 114 C 255 156, 123 156, 123 198" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M123 198 C 123 240, 243 240, 243 282" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/><path d="M243 282 C 243 324, 147 324, 147 366" fill="none" stroke="#EAEAF0" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/></svg><div class="hnode now" data-layout-allow-overlap style="left:159px;top:2px">✓<i class="ring"></i><span class="hlabel" data-layout-allow-overlap>Check in</span></div><div class="hnode " data-layout-allow-overlap style="left:227px;top:86px">☾<span class="hlabel" data-layout-allow-overlap>Tonight</span></div><div class="hnode " data-layout-allow-overlap style="left:95px;top:170px">◷<span class="hlabel" data-layout-allow-overlap>Moment</span></div><div class="hnode " data-layout-allow-overlap style="left:215px;top:254px">❝<span class="hlabel" data-layout-allow-overlap>Script</span></div><div class="hnode " data-layout-allow-overlap style="left:119px;top:338px">▤<span class="hlabel" data-layout-allow-overlap>Lesson</span></div></div></div><div class="htabs"><span class="on">Today</span><span>Tracker</span><span>DiGi</span><span>Passport</span></div></div></div></div></div></div><div class="pwrap" id="s4-pwc" style="left:745px;top:150px"><div id="s4-phoneC" class="phone"><div class="bezel"></div><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"><b></b></span></div><div class="content" style="top:54px"><div class="chat"><div class="chead"><div class="cavatar"><svg id="s4c-hs" class="star " viewBox="0 0 400 430" width="36" height="39" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg></div><div><div class="eyebrow">Ava · Stage 2</div><div class="h1row"><h1>DiGi</h1><span class="aloud">🔈 Aloud</span></div></div></div><div class="cmsgs"><p class="welcome">Let's make today a little easier.</p><div class="msg digi" id="s4c-m0"><div class="drow"><svg id="s4c-m0-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s4c-m0-dots"><i></i><i></i><i></i></div><div class="dbody"><p>You both signed 7 o'clock on 2 September. The repair words worked then too.</p></div></div><div class="msg user" id="s4c-m1"><div class="ub">Wait, you remember that?</div></div><div class="msg user" id="s4c-m2"><div class="ub">Give me the words</div></div><div class="msg digi" id="s4c-m3"><div class="drow"><svg id="s4c-m3-s" class="star " viewBox="0 0 400 430" width="26" height="28" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span class="dname">DiGi</span></div><div class="dots" id="s4c-m3-dots"><i></i><i></i><i></i></div><div class="dbody"><p>Here they are. I remember, so you don't have to.</p></div></div></div><div class="cinput"><div class="hfrow"><span class="hf">🎧 Hands free</span></div><div class="pill"><span class="ph">Type or tap the mic</span><span class="mic">🎙️</span><span class="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div><p class="disc">DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.</p></div></div></div></div></div></div></div><div class="banner" id="s4-banner" data-layout-allow-occlusion><div class="bicon"><span class="logo"><span class="mark" style="width:64px;height:64px;border-radius:18.7px"><span class="bars" style="gap:4.8px;height:29.3px"><span style="width:5.9px;height:10.5px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:18.9px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:29.3px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:16.8px;background:#fff;border-radius:2.7px;display:inline-block"></span></span></span></span></div><div class="btext"><div class="bhead"><span class="napp">Guided Childhood</span><span class="nwhen">now</span></div><div class="btitle">DiGi</div><div class="bbody">First school night back. Want the 7 o'clock words ready?</div><span class="bact" id="s4-banner-act">Open in DiGi</span></div></div><div class="ripple" id="s4-ripple"></div><svg class="finger" id="s4-finger" viewBox="0 0 120 240" width="130" height="260"><path d="M34 240 L34 70 Q34 22 60 22 Q86 22 86 70 L86 240 Z" fill="#F2C7A3"/><path d="M44 38 Q60 26 76 38 L76 64 Q60 72 44 64 Z" fill="#F9DECB"/></svg><div class="veil" id="s4-veil"></div></div>
+<div id="s5" class="scene cream"><div class="pan" id="s5-pan"><div class="hl hl5" id="s5-head"><span class="hw">Watches</span> <span class="hw">the</span> <span class="hw">number</span> <span class="hw">m<span class="oslot"><span class="olet" id="s5-o">o</span><span class="oface" id="s5-face"><svg id="s5-f5" class="face5" width="88" height="88" viewBox="0 0 40 40" style="overflow:visible;display:block"><circle cx="20" cy="20" r="17.5" fill="#EDC35F" stroke="#1A1A2E" stroke-width="2.2"/><path d="M11 16.5 Q14 12.5 17 16.5" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linecap="round"/><path d="M23 16.5 Q26 12.5 29 16.5" fill="none" stroke="#1A1A2E" stroke-width="2.1" stroke-linecap="round"/><path d="M12.5 23 Q20 34 27.5 23 Z" fill="#1A1A2E" stroke="#1A1A2E" stroke-width="2.2" stroke-linejoin="round"/><circle cx="13" cy="10.5" r="2.4" fill="#fff" fill-opacity="0.85"/></svg></span></span>ve</span></div><div class="bigstar" id="s5-bigstar"><svg id="s5-star" class="star " viewBox="0 0 400 430" width="250" height="269" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg></div><div class="fcard butter" id="s5-fc0" style="left:1620px;top:230px"><span>Bedtime: going great. Resting for a week.</span></div><div class="fcard sky" id="s5-fc1" style="left:1700px;top:480px"><span>WE DID IT</span></div><div class="fcard digi" id="s5-fc2" style="left:1600px;top:690px"><svg id="s5-fcs" class="star " viewBox="0 0 400 430" width="34" height="37" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><span>Rested. I'll check it held next week. Mornings next.</span></div></div></div>
+<div id="s6" class="scene cream"><div class="hl hl6" id="s6-head"><span class="hw">Where</span> <span class="hw">every</span> <span class="hw">answer</span> <span class="hw">comes</span> <span class="hw">from</span></div><div class="brain-left"><svg id="s6-star" class="star " viewBox="0 0 400 430" width="250" height="269" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><div class="stack"><div class="pill6" id="s6-p0">Researchers</div><div class="pill6" id="s6-p1">Papers</div><div class="pill6" id="s6-p2">Families</div><div class="pill6" id="s6-p3">Our rules</div></div></div><div class="layer" id="s6-l0"><div class="leyebrow">1 · The researchers</div><div class="ltitle">Four researchers lead, for now</div><div class="rows"><div class="row"><b>Candice Odgers</b><span>Risk online starts offline</span></div><div class="row"><b>Amy Orben</b><span>The 11 to 13 window</span></div><div class="row"><b>Andrew Przybylski</b><span>Small effects, a safe middle</span></div><div class="row"><b>Sonia Livingstone</b><span>Skills, as well as protection</span></div></div></div><div class="layer" id="s6-l1"><div class="leyebrow">2 · The papers</div><div class="ltitle">142 findings, every one with a named source</div><div class="lines"><p>Peer reviewed papers and the big UK datasets, each approved by a human first.</p></div></div><div class="layer" id="s6-l2"><div class="leyebrow">3 · The families</div><div class="ltitle">What worked for families like yours</div><div class="lines"><p>DiGi asks how it went, remembers, and shares only what worked. Never a family's words.</p></div></div><div class="layer" id="s6-l3"><div class="leyebrow">4 · Our own rules</div><div class="ltitle">The Guided Childhood way</div><div class="lines"><p>Never allow or deny. Always the next step.</p><p>Connection is the protection.</p><p>A ban delays. Preparation lasts.</p><p>Nobody gets blamed. Everybody gets the words.</p></div></div></div>
+<div id="s7" class="scene cream"><div class="flip"><div class="front" id="s7-front"><svg id="s7-star" class="star " viewBox="0 0 400 430" width="230" height="247" style="overflow:visible;display:block"><g class="body" filter="url(#ds)"><polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="url(#cg)" stroke="url(#cg)" stroke-width="44" stroke-linejoin="round"/></g><ellipse cx="184" cy="155" rx="94" ry="80" fill="url(#hl)" clip-path="url(#sc)"/><ellipse cx="200" cy="355" rx="88" ry="30" fill="url(#bounce)" clip-path="url(#sc)"/><g class="face"><path class="brow browL" d="M 163 207 Q 173 199 183 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><path class="brow browR" d="M 217 207 Q 227 199 237 207" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eyeL"><circle cx="173" cy="226" r="12.5" fill="#18120A"/><circle cx="168" cy="220" r="4" fill="#fff"/></g><g class="eye eyeR"><circle cx="227" cy="226" r="12.5" fill="#18120A"/><circle cx="222" cy="220" r="4" fill="#fff"/></g><path class="smile" d="M 183 248 Q 200 264 217 248" stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg><div class="col"><div class="bigname">DiGi</div><div class="sub">Now inside Guided Childhood</div></div></div><div class="back" id="s7-back"><span class="logo"><span class="mark" style="width:132px;height:132px;border-radius:38.5px"><span class="bars" style="gap:9.9px;height:60.5px"><span style="width:12.1px;height:21.6px;background:#fff;border-radius:5.5px;display:inline-block"></span><span style="width:12.1px;height:38.9px;background:#fff;border-radius:5.5px;display:inline-block"></span><span style="width:12.1px;height:60.5px;background:#fff;border-radius:5.5px;display:inline-block"></span><span style="width:12.1px;height:34.6px;background:#fff;border-radius:5.5px;display:inline-block"></span></span></span><span class="word" style="font-size:108px">Guided Childhood</span></span><div class="line6" id="s7-line">What stage is your child? Three questions, no sign up.</div><div class="url6" id="s7-url">guidedchildhood.com/starter-pack</div><svg class="path6" viewBox="0 0 760 40"><path id="s7-pathline" d="M4 26 C 150 4, 380 34, 756 12" fill="none" stroke="#EDC35F" stroke-width="9" stroke-linecap="round"/></svg></div></div></div>
+</div>
+<audio id="music" src="assets/music-leberch.mp3" data-audio-group="music" data-start="0.00" data-duration="103.40" data-media-start="10.24" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1.5,"v":0.3},{"t":98.4,"v":0.3},{"t":103.4,"v":0}]}]}'></audio>
+<audio id="sfx-1" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="1.70" data-duration="0.6" data-track-index="5" data-volume="0.4"></audio>
+<audio id="sfx-2" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="4.00" data-duration="0.7" data-track-index="6" data-volume="0.3"></audio>
+<audio id="sfx-3" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="4.60" data-duration="0.16" data-track-index="7" data-volume="0.5"></audio>
+<audio id="sfx-4" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="4.90" data-duration="0.16" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-5" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="9.32" data-duration="0.16" data-track-index="5" data-volume="0.45"></audio>
+<audio id="sfx-6" src="assets/sfx-send.mp3" data-audio-group="sfx" data-start="11.60" data-duration="0.42" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-7" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="12.60" data-duration="0.7" data-track-index="7" data-volume="0.3"></audio>
+<audio id="sfx-8" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="13.20" data-duration="0.16" data-track-index="8" data-volume="0.5"></audio>
+<audio id="sfx-9" src="assets/sfx-land.mp3" data-audio-group="sfx" data-start="17.06" data-duration="0.3" data-track-index="5" data-volume="0.6"></audio>
+<audio id="sfx-10" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="18.61" data-duration="0.16" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-11" src="assets/sfx-shimmer.mp3" data-audio-group="sfx" data-start="20.36" data-duration="0.9" data-track-index="7" data-volume="0.35"></audio>
+<audio id="sfx-12" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="23.06" data-duration="0.6" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-13" src="assets/sfx-notify.mp3" data-audio-group="sfx" data-start="24.16" data-duration="0.51" data-track-index="5" data-volume="0.55"></audio>
+<audio id="sfx-14" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="26.84" data-duration="0.6" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-15" src="assets/sfx-send.mp3" data-audio-group="sfx" data-start="30.07" data-duration="0.42" data-track-index="7" data-volume="0.5"></audio>
+<audio id="sfx-16" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="31.51" data-duration="0.7" data-track-index="8" data-volume="0.3"></audio>
+<audio id="sfx-17" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="32.11" data-duration="0.16" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-18" src="assets/sfx-send.mp3" data-audio-group="sfx" data-start="33.76" data-duration="0.42" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-19" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="34.78" data-duration="0.7" data-track-index="7" data-volume="0.3"></audio>
+<audio id="sfx-20" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="35.38" data-duration="0.16" data-track-index="8" data-volume="0.5"></audio>
+<audio id="sfx-21" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="39.38" data-duration="0.6" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-22" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="39.63" data-duration="0.16" data-track-index="6" data-volume="0.4"></audio>
+<audio id="sfx-23" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="39.92" data-duration="0.16" data-track-index="7" data-volume="0.3"></audio>
+<audio id="sfx-24" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="43.48" data-duration="0.6" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-25" src="assets/sfx-notify.mp3" data-audio-group="sfx" data-start="44.77" data-duration="0.51" data-track-index="5" data-volume="0.6"></audio>
+<audio id="sfx-26" src="assets/sfx-tap.mp3" data-audio-group="sfx" data-start="47.96" data-duration="0.05" data-track-index="6" data-volume="0.7"></audio>
+<audio id="sfx-27" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="48.46" data-duration="0.6" data-track-index="7" data-volume="0.5"></audio>
+<audio id="sfx-28" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="49.86" data-duration="0.7" data-track-index="8" data-volume="0.3"></audio>
+<audio id="sfx-29" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="50.46" data-duration="0.16" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-30" src="assets/sfx-send.mp3" data-audio-group="sfx" data-start="53.77" data-duration="0.42" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-31" src="assets/sfx-send.mp3" data-audio-group="sfx" data-start="55.01" data-duration="0.42" data-track-index="7" data-volume="0.5"></audio>
+<audio id="sfx-32" src="assets/sfx-dots.mp3" data-audio-group="sfx" data-start="56.24" data-duration="0.7" data-track-index="8" data-volume="0.3"></audio>
+<audio id="sfx-33" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="56.84" data-duration="0.16" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-34" src="assets/sfx-tink.mp3" data-audio-group="sfx" data-start="58.93" data-duration="0.73" data-track-index="6" data-volume="0.35"></audio>
+<audio id="sfx-35" src="assets/sfx-tink.mp3" data-audio-group="sfx" data-start="61.83" data-duration="0.73" data-track-index="7" data-volume="0.55"></audio>
+<audio id="sfx-36" src="assets/sfx-tink.mp3" data-audio-group="sfx" data-start="62.73" data-duration="0.73" data-track-index="8" data-volume="0.4"></audio>
+<audio id="sfx-37" src="assets/sfx-tink.mp3" data-audio-group="sfx" data-start="63.33" data-duration="0.73" data-track-index="5" data-volume="0.4"></audio>
+<audio id="sfx-38" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="63.93" data-duration="0.6" data-track-index="6" data-volume="0.4"></audio>
+<audio id="sfx-39" src="assets/sfx-chime.mp3" data-audio-group="sfx" data-start="64.43" data-duration="1.4" data-track-index="7" data-volume="0.55"></audio>
+<audio id="sfx-40" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="65.45" data-duration="0.16" data-track-index="8" data-volume="0.45"></audio>
+<audio id="sfx-41" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="66.15" data-duration="0.16" data-track-index="5" data-volume="0.45"></audio>
+<audio id="sfx-42" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="69.82" data-duration="0.16" data-track-index="6" data-volume="0.45"></audio>
+<audio id="sfx-43" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="71.02" data-duration="0.16" data-track-index="7" data-volume="0.5"></audio>
+<audio id="sfx-44" src="assets/sfx-tap.mp3" data-audio-group="sfx" data-start="71.52" data-duration="0.05" data-track-index="8" data-volume="0.4"></audio>
+<audio id="sfx-45" src="assets/sfx-tap.mp3" data-audio-group="sfx" data-start="71.80" data-duration="0.05" data-track-index="5" data-volume="0.4"></audio>
+<audio id="sfx-46" src="assets/sfx-tap.mp3" data-audio-group="sfx" data-start="72.08" data-duration="0.05" data-track-index="6" data-volume="0.4"></audio>
+<audio id="sfx-47" src="assets/sfx-tap.mp3" data-audio-group="sfx" data-start="72.36" data-duration="0.05" data-track-index="7" data-volume="0.4"></audio>
+<audio id="sfx-48" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="79.18" data-duration="0.16" data-track-index="8" data-volume="0.5"></audio>
+<audio id="sfx-49" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="84.41" data-duration="0.16" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-50" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="89.45" data-duration="0.16" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sfx-51" src="assets/sfx-pop.mp3" data-audio-group="sfx" data-start="96.63" data-duration="0.16" data-track-index="7" data-volume="0.45"></audio>
+<audio id="sfx-52" src="assets/sfx-whoosh.mp3" data-audio-group="sfx" data-start="99.03" data-duration="0.6" data-track-index="8" data-volume="0.45"></audio>
+<audio id="sfx-53" src="assets/sfx-land.mp3" data-audio-group="sfx" data-start="99.53" data-duration="0.3" data-track-index="5" data-volume="0.4"></audio>
+<audio id="sfx-54" src="assets/sfx-shimmer.mp3" data-audio-group="sfx" data-start="100.48" data-duration="0.9" data-track-index="6" data-volume="0.25"></audio>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+tl.fromTo("#s1",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},0.000);
+tl.set("#s1-cam",{"scale":3.1,"transformOrigin":"989px 318px","x":-29,"y":222},0.000);
+tl.set("#s1-phone .bezel, #s1-phone .status, #s1-phone .island, #s1 .chead, #s1 .welcome, #s1 .cinput",{"opacity":0},0.000);
+tl.to("#s1-m0",{"y":-7,"duration":0.85,"ease":"sine.inOut","yoyo":true,"repeat":1},0.100);
+tl.to("#s1-cam",{"scale":1,"x":0,"y":0,"duration":1.4,"ease":"power3.inOut"},1.700);
+tl.to("#s1-cam",{"scale":1.3,"transformOrigin":"960px 470px","duration":4.3,"ease":"power1.inOut"},3.200);
+tl.to("#s1-bg",{"backgroundColor":"#F9F8F6","duration":1},2.000);
+tl.to("#s1-phone .bezel, #s1-phone .status, #s1-phone .island, #s1 .chead, #s1 .welcome, #s1 .cinput",{"opacity":1,"duration":0.6},2.200);
+tl.set("#s1-m0, #s1-m0 .dbody",{"opacity":1},0.000);
+tl.set("#s1-m1",{"opacity":1},4.000);
+tl.fromTo("#s1-m1-dots",{"opacity":0},{"opacity":1,"duration":0.15},4.000);
+tl.to("#s1-m1-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},4.050);
+tl.to("#s1-m1-dots",{"opacity":0,"duration":0.08},4.520);
+tl.fromTo("#s1-m1 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},4.600);
+tl.fromTo("#s1-m1-c",{"opacity":0,"scale":0.9,"transformOrigin":"50% 0%"},{"opacity":1,"scale":1,"duration":0.45,"ease":"back.out(1.8)"},4.900);
+tl.fromTo("#s1-m2",{"opacity":0,"y":6},{"opacity":1,"y":0,"duration":0.3,"ease":"power2.out"},9.325);
+tl.fromTo("#s1-m3",{"opacity":0,"scale":0.88,"y":10,"transformOrigin":"100% 100%"},{"opacity":1,"scale":1,"y":0,"duration":0.38,"ease":"back.out(2)"},11.600);
+tl.set("#s1-m4",{"opacity":1},12.600);
+tl.fromTo("#s1-m4-dots",{"opacity":0},{"opacity":1,"duration":0.15},12.600);
+tl.to("#s1-m4-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},12.650);
+tl.to("#s1-m4-dots",{"opacity":0,"duration":0.08},13.120);
+tl.fromTo("#s1-m4 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},13.200);
+tl.to("#s1-hs .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},3.000);
+tl.to("#s1-hs .eye",{"scaleY":1,"duration":0.1},3.090);
+tl.to("#s1-hs .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},6.200);
+tl.to("#s1-hs .eye",{"scaleY":1,"duration":0.1},6.290);
+tl.to("#s1",{"opacity":0,"duration":0.4,"ease":"power2.in"},15.458);
+tl.fromTo("#s2",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},15.858);
+tl.fromTo("#s2-intro",{"opacity":0,"filter":"blur(14px)","y":16},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.55,"ease":"power2.out"},15.858);
+tl.set("#s2-star .eye",{"scaleY":0.05,"transformOrigin":"50% 50%"},15.858);
+tl.fromTo("#s2-star",{"y":-760},{"y":0,"duration":0.7,"ease":"power2.in"},16.358);
+tl.to("#s2-star",{"scaleX":1.2,"scaleY":0.78,"duration":0.09,"transformOrigin":"50% 92%"},17.058);
+tl.to("#s2-star",{"scaleX":0.94,"scaleY":1.08,"duration":0.14},17.148);
+tl.to("#s2-star",{"scaleX":1,"scaleY":1,"duration":0.22,"ease":"power2.out"},17.288);
+tl.to("#s2-star .eye",{"scaleY":1,"duration":0.18,"ease":"back.out(2)"},17.408);
+tl.to("#s2-star .eye",{"x":-9,"duration":0.2,"ease":"power2.inOut"},17.708);
+tl.to("#s2-star .eye",{"x":9,"duration":0.22,"ease":"power2.inOut"},18.108);
+tl.to("#s2-star .eye",{"x":0,"duration":0.2,"ease":"power2.inOut"},18.508);
+tl.fromTo("#s2-name",{"opacity":0,"filter":"blur(18px)","x":-24},{"opacity":1,"filter":"blur(0px)","x":0,"duration":0.5,"ease":"power2.out"},18.558);
+tl.to("#s2-lockup",{"y":-70,"duration":0.6,"ease":"power2.inOut"},19.158);
+tl.fromTo("#s2-tag .hw",{"opacity":0,"filter":"blur(12px)","y":10},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.45,"ease":"power2.out","stagger":0.07},19.358);
+tl.set("#s2-glow",{"backgroundPosition":"120% 0","opacity":0},15.858);
+tl.to("#s2-glow",{"opacity":1,"duration":0.2},20.358);
+tl.to("#s2-glow",{"backgroundPosition":"-40% 0","duration":0.9,"ease":"power2.inOut"},20.358);
+tl.to("#s2-tag .shimbase .hw",{"color":"#C99A28","duration":0.5},20.758);
+tl.to("#s2-glow",{"opacity":0,"duration":0.3},21.058);
+tl.to("#s2-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},19.758);
+tl.to("#s2-star .eye",{"scaleY":1,"duration":0.1},19.848);
+tl.to("#s2-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},20.858);
+tl.to("#s2-star .eye",{"scaleY":1,"duration":0.1},20.948);
+tl.to("#s2",{"opacity":0,"duration":0.4,"ease":"power2.in"},22.458);
+tl.fromTo("#s3",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},22.858);
+tl.fromTo("#s3-head .hw",{"opacity":0,"filter":"blur(14px)","y":12},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.5,"ease":"power2.out","stagger":0.08},22.958);
+tl.set("#s3-pb, #s3-back",{"opacity":0},22.858);
+tl.fromTo("#s3-pa",{"y":760},{"y":0,"duration":1,"ease":"power3.out"},23.058);
+tl.fromTo("#s3-n",{"opacity":0,"y":-34,"scale":0.92,"transformOrigin":"50% 0%"},{"opacity":1,"y":0,"scale":1,"duration":0.5,"ease":"back.out(1.8)"},24.158);
+tl.to("#s3-cam",{"scale":3.6,"transformOrigin":"1345px 464px","duration":0.85,"ease":"power3.in"},26.642);
+tl.to("#s3-head",{"opacity":0,"duration":0.4},26.642);
+tl.to("#s3-veil",{"opacity":1,"duration":0.25},27.242);
+tl.set("#s3-pa",{"opacity":0},27.492);
+tl.set("#s3-pb",{"opacity":1},27.492);
+tl.set("#s3-cam",{"scale":1.7,"transformOrigin":"1345px 470px"},27.492);
+tl.to("#s3-cam",{"scale":1.26,"duration":0.7,"ease":"power3.out"},27.492);
+tl.to("#s3-veil",{"opacity":0,"duration":0.35},27.542);
+tl.to("#s3-back",{"opacity":0.3,"duration":0.8},27.492);
+tl.set("#s3c-m0, #s3c-m0 .dbody",{"opacity":1},22.858);
+tl.fromTo("#s3c-m1",{"opacity":0,"scale":0.88,"y":10,"transformOrigin":"100% 100%"},{"opacity":1,"scale":1,"y":0,"duration":0.38,"ease":"back.out(2)"},30.067);
+tl.set("#s3c-m2",{"opacity":1},31.508);
+tl.fromTo("#s3c-m2-dots",{"opacity":0},{"opacity":1,"duration":0.15},31.508);
+tl.to("#s3c-m2-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},31.558);
+tl.to("#s3c-m2-dots",{"opacity":0,"duration":0.08},32.028);
+tl.fromTo("#s3c-m2 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},32.108);
+tl.fromTo("#s3c-m3",{"opacity":0,"scale":0.88,"y":10,"transformOrigin":"100% 100%"},{"opacity":1,"scale":1,"y":0,"duration":0.38,"ease":"back.out(2)"},33.758);
+tl.set("#s3c-m4",{"opacity":1},34.783);
+tl.fromTo("#s3c-m4-dots",{"opacity":0},{"opacity":1,"duration":0.15},34.783);
+tl.to("#s3c-m4-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},34.833);
+tl.to("#s3c-m4-dots",{"opacity":0,"duration":0.08},35.303);
+tl.fromTo("#s3c-m4 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},35.383);
+tl.to("#s3c-hs .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},28.692);
+tl.to("#s3c-hs .eye",{"scaleY":1,"duration":0.1},28.782);
+tl.to("#s3c-hs .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},30.892);
+tl.to("#s3c-hs .eye",{"scaleY":1,"duration":0.1},30.982);
+tl.to("#s3",{"opacity":0,"duration":0.4,"ease":"power2.in"},38.475);
+tl.fromTo("#s4",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},38.875);
+tl.fromTo("#s4-head .hw",{"opacity":0,"filter":"blur(14px)","y":12},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.5,"ease":"power2.out","stagger":0.08},38.975);
+tl.set("#s4-pw, #s4-pwc, #s4-finger",{"opacity":0},38.875);
+tl.fromTo("#s4-c0",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":0,"y":15,"rotation":-8},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-2,"duration":0.65,"ease":"back.out(1.5)"},39.375);
+tl.to("#s4-c0",{"y":9,"duration":1.3,"ease":"sine.inOut","yoyo":true,"repeat":1},40.075);
+tl.fromTo("#s4-c1",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":154,"y":80,"rotation":12},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":3,"duration":0.65,"ease":"back.out(1.5)"},39.435);
+tl.to("#s4-c1",{"y":9,"duration":1.5,"ease":"sine.inOut","yoyo":true,"repeat":1},40.135);
+tl.fromTo("#s4-c2",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":-147,"y":85,"rotation":-12},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-3,"duration":0.65,"ease":"back.out(1.5)"},39.495);
+tl.to("#s4-c2",{"y":9,"duration":1.7000000000000002,"ease":"sine.inOut","yoyo":true,"repeat":1},40.195);
+tl.fromTo("#s4-c3",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":0,"y":-90,"rotation":4},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":1,"duration":0.65,"ease":"back.out(1.5)"},39.555);
+tl.to("#s4-c3",{"y":9,"duration":1.3,"ease":"sine.inOut","yoyo":true,"repeat":1},40.255);
+tl.fromTo("#s4-c4",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":224,"y":-10,"rotation":-16},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-4,"duration":0.65,"ease":"back.out(1.5)"},39.615);
+tl.to("#s4-c4",{"y":9,"duration":1.5,"ease":"sine.inOut","yoyo":true,"repeat":1},40.315);
+tl.fromTo("#s4-c5",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":-224,"y":-5,"rotation":8},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":2,"duration":0.65,"ease":"back.out(1.5)"},39.675);
+tl.to("#s4-c5",{"y":9,"duration":1.7000000000000002,"ease":"sine.inOut","yoyo":true,"repeat":1},40.375);
+tl.fromTo("#s4-c6",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":140,"y":-170,"rotation":8},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":2,"duration":0.65,"ease":"back.out(1.5)"},39.735);
+tl.to("#s4-c6",{"y":9,"duration":1.3,"ease":"sine.inOut","yoyo":true,"repeat":1},40.435);
+tl.fromTo("#s4-c7",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":-154,"y":-175,"rotation":-8},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-2,"duration":0.65,"ease":"back.out(1.5)"},39.795);
+tl.to("#s4-c7",{"y":9,"duration":1.5,"ease":"sine.inOut","yoyo":true,"repeat":1},40.495);
+tl.fromTo("#s4-c8",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":259,"y":-110,"rotation":12},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":3,"duration":0.65,"ease":"back.out(1.5)"},39.855);
+tl.to("#s4-c8",{"y":9,"duration":1.7000000000000002,"ease":"sine.inOut","yoyo":true,"repeat":1},40.555);
+tl.fromTo("#s4-c9",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":-259,"y":-100,"rotation":-12},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-3,"duration":0.65,"ease":"back.out(1.5)"},39.915);
+tl.to("#s4-c9",{"y":9,"duration":1.3,"ease":"sine.inOut","yoyo":true,"repeat":1},40.615);
+tl.fromTo("#s4-c10",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":0,"y":110,"rotation":8},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":2,"duration":0.65,"ease":"back.out(1.5)"},39.975);
+tl.to("#s4-c10",{"y":9,"duration":1.5,"ease":"sine.inOut","yoyo":true,"repeat":1},40.675);
+tl.fromTo("#s4-c11",{"opacity":0,"scale":0,"xPercent":-50,"yPercent":-50,"x":266,"y":-200,"rotation":-4},{"opacity":1,"scale":1,"x":0,"y":0,"rotation":-1,"duration":0.65,"ease":"back.out(1.5)"},40.035);
+tl.to("#s4-c11",{"y":9,"duration":1.7000000000000002,"ease":"sine.inOut","yoyo":true,"repeat":1},40.735);
+tl.to("#s4-cloud",{"filter":"blur(16px)","opacity":0.28,"duration":0.8,"ease":"power2.inOut"},43.275);
+tl.set("#s4-pw",{"opacity":1},43.475);
+tl.fromTo("#s4-pw",{"y":820},{"y":0,"duration":1,"ease":"power3.out"},43.475);
+tl.fromTo("#s4-banner",{"opacity":0,"y":360},{"opacity":1,"y":0,"duration":0.75,"ease":"back.out(1.3)"},44.675);
+tl.fromTo("#s4-finger",{"opacity":0,"x":240,"y":300},{"opacity":1,"x":0,"y":0,"duration":0.5,"ease":"power2.out"},47.408);
+tl.to("#s4-finger",{"scale":0.93,"duration":0.08,"yoyo":true,"repeat":1,"transformOrigin":"50% 0%"},47.958);
+tl.to("#s4-banner-act",{"scale":0.94,"duration":0.09,"yoyo":true,"repeat":1,"transformOrigin":"50% 50%"},47.958);
+tl.fromTo("#s4-ripple",{"opacity":0.55,"scale":0.2},{"opacity":0,"scale":1.8,"duration":0.5,"ease":"power2.out"},47.958);
+tl.to("#s4-finger",{"opacity":0,"x":180,"y":240,"duration":0.4,"ease":"power2.in"},48.208);
+tl.to("#s4-banner",{"scale":3.4,"opacity":0,"duration":0.6,"ease":"power3.in","transformOrigin":"75% 70%"},48.458);
+tl.to("#s4-head",{"opacity":0,"duration":0.4},48.458);
+tl.to("#s4-veil",{"opacity":1,"duration":0.25},48.808);
+tl.set("#s4-pw, #s4-cloud",{"opacity":0},49.058);
+tl.set("#s4-pwc",{"opacity":1},49.058);
+tl.set("#s4-cam",{"scale":1.4,"transformOrigin":"960px 540px"},49.058);
+tl.to("#s4-cam",{"scale":1.15,"duration":0.7,"ease":"power3.out"},49.058);
+tl.to("#s4-veil",{"opacity":0,"duration":0.35},49.108);
+tl.set("#s4c-m0",{"opacity":1},49.858);
+tl.fromTo("#s4c-m0-dots",{"opacity":0},{"opacity":1,"duration":0.15},49.858);
+tl.to("#s4c-m0-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},49.908);
+tl.to("#s4c-m0-dots",{"opacity":0,"duration":0.08},50.378);
+tl.fromTo("#s4c-m0 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},50.458);
+tl.fromTo("#s4c-m1",{"opacity":0,"scale":0.88,"y":10,"transformOrigin":"100% 100%"},{"opacity":1,"scale":1,"y":0,"duration":0.38,"ease":"back.out(2)"},53.775);
+tl.fromTo("#s4c-m2",{"opacity":0,"scale":0.88,"y":10,"transformOrigin":"100% 100%"},{"opacity":1,"scale":1,"y":0,"duration":0.38,"ease":"back.out(2)"},55.008);
+tl.set("#s4c-m3",{"opacity":1},56.242);
+tl.fromTo("#s4c-m3-dots",{"opacity":0},{"opacity":1,"duration":0.15},56.242);
+tl.to("#s4c-m3-dots i",{"y":-5,"duration":0.18,"ease":"sine.inOut","stagger":{"each":0.11,"repeat":1,"yoyo":true}},56.292);
+tl.to("#s4c-m3-dots",{"opacity":0,"duration":0.08},56.762);
+tl.fromTo("#s4c-m3 .dbody",{"opacity":0,"y":8},{"opacity":1,"y":0,"duration":0.35,"ease":"power2.out"},56.842);
+tl.to("#s4-cam",{"scale":2.4,"transformOrigin":"797px 246px","duration":0.55,"ease":"power2.inOut"},58.325);
+tl.to("#s4c-hs",{"rotation":-9,"duration":0.14,"yoyo":true,"repeat":1,"transformOrigin":"50% 60%"},58.925);
+tl.to("#s4c-hs .eyeR",{"scaleY":0.06,"duration":0.09,"transformOrigin":"50% 50%"},58.925);
+tl.to("#s4c-hs .eyeR",{"scaleY":1,"duration":0.16,"ease":"back.out(2)"},59.225);
+tl.to("#s4",{"opacity":0,"duration":0.4,"ease":"power2.in"},60.125);
+tl.fromTo("#s5",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},60.525);
+tl.fromTo("#s5-head .hw",{"opacity":0,"filter":"blur(16px)","y":14},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.5,"ease":"power2.out","stagger":0.09},60.625);
+tl.set("#s5-face",{"opacity":0},60.525);
+tl.set("#s5-star .eye",{"x":7,"y":-6},60.525);
+tl.fromTo("#s5-bigstar",{"opacity":0,"y":60},{"opacity":1,"y":0,"duration":0.6,"ease":"back.out(1.5)"},61.125);
+tl.to("#s5-o",{"scale":0,"opacity":0,"duration":0.22,"ease":"power2.in","transformOrigin":"50% 50%"},61.725);
+tl.fromTo("#s5-face",{"opacity":0,"scale":0,"rotation":-200},{"opacity":1,"scale":1,"rotation":360,"duration":0.75,"ease":"back.out(1.4)","transformOrigin":"50% 50%"},61.805);
+tl.to("#s5-face",{"y":-78,"duration":0.24,"ease":"power2.out","yoyo":true,"repeat":1},62.725);
+tl.to("#s5-face",{"scaleX":1.12,"scaleY":0.86,"duration":0.08,"yoyo":true,"repeat":1},63.185);
+tl.to("#s5-star .eye",{"y":-12,"duration":0.24,"yoyo":true,"repeat":1},62.725);
+tl.to("#s5-face",{"y":-78,"duration":0.24,"ease":"power2.out","yoyo":true,"repeat":1},63.325);
+tl.to("#s5-face",{"scaleX":1.12,"scaleY":0.86,"duration":0.08,"yoyo":true,"repeat":1},63.785);
+tl.to("#s5-star .eye",{"y":-12,"duration":0.24,"yoyo":true,"repeat":1},63.325);
+tl.to("#s5-pan",{"x":-260,"duration":1,"ease":"power2.inOut"},63.925);
+tl.to("#s5-star .eye",{"x":11,"y":-4,"duration":0.7,"ease":"power2.inOut"},64.125);
+tl.fromTo("#s5-fc0",{"opacity":0,"scale":0.8,"y":30,"rotation":0},{"opacity":1,"scale":1,"y":0,"rotation":0,"duration":0.5,"ease":"back.out(1.6)"},64.425);
+tl.fromTo("#s5-fc1",{"opacity":0,"scale":0.8,"y":30,"rotation":-6},{"opacity":1,"scale":1,"y":0,"rotation":-6,"duration":0.5,"ease":"back.out(1.6)"},65.447);
+tl.fromTo("#s5-fc2",{"opacity":0,"scale":0.8,"y":30,"rotation":0},{"opacity":1,"scale":1,"y":0,"rotation":0,"duration":0.5,"ease":"back.out(1.6)"},66.147);
+tl.to("#s5-star .eye",{"x":4,"y":0,"duration":0.5},66.747);
+tl.to("#s5-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},62.125);
+tl.to("#s5-star .eye",{"scaleY":1,"duration":0.1},62.215);
+tl.to("#s5-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},65.847);
+tl.to("#s5-star .eye",{"scaleY":1,"duration":0.1},65.937);
+tl.to("#s5",{"opacity":0,"duration":0.4,"ease":"power2.in"},68.822);
+tl.fromTo("#s6",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},69.222);
+tl.fromTo("#s6-head .hw",{"opacity":0,"filter":"blur(14px)","y":12},{"opacity":1,"filter":"blur(0px)","y":0,"duration":0.5,"ease":"power2.out","stagger":0.08},69.322);
+tl.fromTo("#s6-star",{"opacity":0,"y":50},{"opacity":1,"y":0,"duration":0.6,"ease":"back.out(1.5)"},69.722);
+tl.fromTo("#s6 .pill6",{"opacity":0,"x":-20},{"opacity":1,"x":0,"duration":0.4,"ease":"power2.out","stagger":0.1},70.122);
+tl.fromTo("#s6-l0",{"opacity":0,"y":26},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},71.022);
+tl.to("#s6-p0",{"backgroundColor":"#EDC35F","color":"#1A1A2E","boxShadow":"0 4px 0 #1A1A2E","duration":0.3},71.022);
+tl.fromTo("#s6-l0 .row",{"opacity":0,"x":-24},{"opacity":1,"x":0,"duration":0.4,"ease":"power2.out","stagger":0.28},71.522);
+tl.to("#s6-star .eye",{"x":9,"y":-3,"duration":0.4},71.222);
+tl.to("#s6-star .eye",{"x":0,"y":0,"duration":0.4},78.126);
+tl.to("#s6-l0",{"opacity":0,"y":-18,"duration":0.35,"ease":"power2.in"},78.726);
+tl.fromTo("#s6-l1",{"opacity":0,"y":26},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},79.176);
+tl.to("#s6-p1",{"backgroundColor":"#EDC35F","color":"#1A1A2E","boxShadow":"0 4px 0 #1A1A2E","duration":0.3},79.176);
+tl.to("#s6-p0",{"backgroundColor":"#FFFFFF","color":"#65657C","boxShadow":"0 0 0 #1A1A2E","duration":0.3},79.176);
+tl.fromTo("#s6-l1 p",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out","stagger":0.4},79.626);
+tl.to("#s6-star .eye",{"x":9,"y":-3,"duration":0.4},79.376);
+tl.to("#s6-star .eye",{"x":0,"y":0,"duration":0.4},83.357);
+tl.to("#s6-l1",{"opacity":0,"y":-18,"duration":0.35,"ease":"power2.in"},83.957);
+tl.fromTo("#s6-l2",{"opacity":0,"y":26},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},84.407);
+tl.to("#s6-p2",{"backgroundColor":"#EDC35F","color":"#1A1A2E","boxShadow":"0 4px 0 #1A1A2E","duration":0.3},84.407);
+tl.to("#s6-p1",{"backgroundColor":"#FFFFFF","color":"#65657C","boxShadow":"0 0 0 #1A1A2E","duration":0.3},84.407);
+tl.fromTo("#s6-l2 p",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out","stagger":0.4},84.857);
+tl.to("#s6-star .eye",{"x":9,"y":-3,"duration":0.4},84.607);
+tl.to("#s6-star .eye",{"x":0,"y":0,"duration":0.4},88.395);
+tl.to("#s6-l2",{"opacity":0,"y":-18,"duration":0.35,"ease":"power2.in"},88.995);
+tl.fromTo("#s6-l3",{"opacity":0,"y":26},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},89.445);
+tl.to("#s6-p3",{"backgroundColor":"#EDC35F","color":"#1A1A2E","boxShadow":"0 4px 0 #1A1A2E","duration":0.3},89.445);
+tl.to("#s6-p2",{"backgroundColor":"#FFFFFF","color":"#65657C","boxShadow":"0 0 0 #1A1A2E","duration":0.3},89.445);
+tl.fromTo("#s6-l3 p",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out","stagger":0.4},89.895);
+tl.to("#s6-star .eye",{"x":9,"y":-3,"duration":0.4},89.645);
+tl.to("#s6-star .eye",{"x":0,"y":0,"duration":0.4},94.780);
+tl.to("#s6-l3",{"opacity":0,"y":-18,"duration":0.35,"ease":"power2.in"},95.380);
+tl.to("#s6-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},71.822);
+tl.to("#s6-star .eye",{"scaleY":1,"duration":0.1},71.912);
+tl.to("#s6-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},78.222);
+tl.to("#s6-star .eye",{"scaleY":1,"duration":0.1},78.312);
+tl.to("#s6-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},85.222);
+tl.to("#s6-star .eye",{"scaleY":1,"duration":0.1},85.312);
+tl.to("#s6-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},92.222);
+tl.to("#s6-star .eye",{"scaleY":1,"duration":0.1},92.312);
+tl.to("#s6",{"opacity":0,"duration":0.4,"ease":"power2.in"},96.030);
+tl.fromTo("#s7",{"opacity":0},{"opacity":1,"duration":0.35,"ease":"power2.out"},96.430);
+tl.fromTo("#s7-front",{"opacity":0,"scale":0.94},{"opacity":1,"scale":1,"duration":0.5,"ease":"power2.out"},96.580);
+tl.to("#s7-star .eye",{"scaleY":0.06,"duration":0.07,"transformOrigin":"50% 50%"},97.730);
+tl.to("#s7-star .eye",{"scaleY":1,"duration":0.1},97.820);
+tl.set("#s7-back",{"opacity":0,"rotationY":90},96.430);
+tl.to("#s7-front",{"rotationY":-90,"duration":0.45,"ease":"power2.in","transformOrigin":"50% 50%"},99.030);
+tl.set("#s7-back",{"opacity":1},99.480);
+tl.to("#s7-back",{"rotationY":0,"duration":0.6,"ease":"back.out(1.3)","transformOrigin":"50% 50%"},99.480);
+tl.fromTo("#s7-line",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.5,"ease":"power2.out"},100.030);
+tl.fromTo("#s7-url",{"opacity":0,"y":10},{"opacity":1,"y":0,"duration":0.4},100.380);
+tl.set("#s7-pathline",{"strokeDasharray":820,"strokeDashoffset":820},96.430);
+tl.to("#s7-pathline",{"strokeDashoffset":0,"duration":0.8,"ease":"power2.inOut"},100.480);
+</script></body></html>

@@ -83,6 +83,9 @@ import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-l
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
+import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { lessonStageFor } from '@/lib/lessons/school-path'
+import { passportLessons } from '@/lib/pathway/lesson-path'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import { pickChild } from '@/lib/children/select'
@@ -727,7 +730,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // they ride in it.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes, termPreview, catchup, issueOfWeekRead] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonPath, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes, termPreview, catchup, issueOfWeekRead] = await Promise.all([
     getDailyStreak(supabase, user.id),
     // first_checkin_at rides in so the loop can put the BASELINE first for a
     // family who has never checked in, and so DiGi is introduced on day one.
@@ -749,12 +752,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     child
       ? supabase.from('parent_lesson_completions').select('id', { count: 'exact', head: true }).eq('child_id', child.id)
       : Promise.resolve({ count: 0 }),
-    // The child's own stage lessons and their passes, so DiGi's welcome can
-    // name exactly which lessons to send for progress with the live count.
-    supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
-    // The selected child's passes plus household legacy rows, so the Move the
-    // passport on card says X of Y for THIS child rather than the family blend.
-    (() => { const q = supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'); return child?.id ? q.or(`child_id.eq.${child.id},child_id.is.null`) : q })(),
+    // The selected child's lessons, from the one lesson count, so the Move
+    // the passport on card says X of Y for THIS child and the same X of Y the
+    // passport prints. Until 9 October 2026 Home kept a fourth count of its
+    // own here, over the PARENT library, which the passport stopped counting
+    // on 29 September; the card was asking for lessons the stamp ignores.
+    // The child's lessons follow their school year (sync plan C), so the card
+    // names the lessons their own list offers, which for a Year 8 child of 13
+    // is KS3 at Explorer rather than KS4 at Shaper.
+    loadChildLessonPath(supabase, { userId: user.id, childId: child?.id ?? null, stageId: child ? lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null }) : stageSlug, paid: isPaid }),
     wantLessonNudge ? getParentLessons(supabase) : Promise.resolve({ lessons: [] as Awaited<ReturnType<typeof getParentLessons>>['lessons'] }),
     wantLessonNudge && child?.id ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Set<string>()),
     lastCompletion
@@ -828,17 +834,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     total: watchTogetherTotal.count ?? 0,
     done: Math.min(watchTogetherDone.count ?? 0, watchTogetherTotal.count ?? 0),
   }
-  // The same counting rule as the progress report: only this stage's family
-  // lessons, and only passes (an old completion without the pass columns
-  // counts, a failed run does not).
-  const stageLessonIds = new Set((stageLessonRows.data ?? []).map(l => l.id))
-  const stagePassed = new Set(
-    (stageLessonDone.data ?? [])
-      .filter(c => c.passed !== false && stageLessonIds.has(c.lesson_id))
-      .map(c => c.lesson_id)
-  )
-  const stageLessons = stageLessonIds.size > 0
-    ? { total: stageLessonIds.size, passed: stagePassed.size }
+  // The passport's own lessons pair (passportLessons), so this card and the
+  // stamp it asks the parent to move can never quote different numbers.
+  const stagePassportLessons = passportLessons(stageLessonPath.path)
+  const stageLessons = stagePassportLessons.total > 0
+    ? { total: stagePassportLessons.total, passed: stagePassportLessons.done }
     : null
 
   // Last completed script insight, from the second wave's read.
@@ -874,7 +874,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     hasPush: !!pushSubResult.data,
     hasCheckin: !!lastCheckin,
     hasReadScript: !!lastCompletion,
-    hasDoneLesson: stagePassed.size > 0,
+    // Tried any lesson at all: a pass that moves this stage's stamp, or any
+    // other lesson passed or finished, ever. The card says "Not tried yet",
+    // and a family whose child has finished three missions has tried.
+    hasDoneLesson: stagePassportLessons.done > 0 || stageLessonPath.path.anyLesson > 0,
   })
 
   // ── A MONTHLY CHECK IN THAT WAITS A MONTH (11 September 2026) ─────────────
@@ -1005,6 +1008,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
+    lessonsStageName: child ? (() => { const id = lessonStageFor(child as { date_of_birth?: string | null; age_band?: string | null }); return id.charAt(0).toUpperCase() + id.slice(1) })() : undefined,
     // For the setup guides rotation card: first phone ladder from Stage 2,
     // social settings from Stage 3, nothing before either.
     stageId: stage.id,

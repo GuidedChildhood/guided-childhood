@@ -14,6 +14,13 @@
 //
 // This holds the rules from plans/2026-09-21-core-and-extension-plan.md.
 //
+// It ran nowhere until 9 October 2026 (sync plan F4): written for concern-guards,
+// which CI does not call, so it sat red on ks3-34 unseen. It now rides
+// `npm run checkin-guard`, which the wiring workflow does call. It reads
+// content/modules, not the database: on 9 October the live rows carried none of
+// the 147 marks, because the migration the plan named was never written. The
+// run sheet reads the live deck, so it shows the marks once they are there.
+//
 //   1. A slide may be marked extension ONLY in teach or practise. Never
 //      starter, never prove, never close: the arc has to survive the cut.
 //   2. The core fits 55 minutes where that is reachable without cutting into
@@ -65,6 +72,25 @@ const CEILING = {
   'ks4-17-sextortion': 60,
 }
 
+// DECKS THAT HAVE NOT HAD THE MARKING PASS, reported rather than failed.
+//
+// The pass of 21 September marked the twenty six lessons that existed then.
+// A deck written afterwards arrives with no marks at all, and until 9 October
+// 2026 this check ran nowhere, so nobody saw ks3-34 sit at 59 minutes with an
+// empty extension set. Failing CI on it would make every unrelated push red
+// until somebody hand marks a lesson, and marking is a content decision (which
+// slides a short of time teacher may drop), which belongs to the content PR
+// and not to whoever happens to push next. Raising its ceiling to 59 would be
+// worse: a ceiling records what marking ACHIEVED, and nobody has tried yet.
+//
+// So a deck listed here prints as UNMARKED with its real core, the run sheet
+// tells the teacher plainly that nothing is marked to skip (sync plan F4), and
+// the entry fails the moment the deck gains marks, so it cannot outlive the
+// debt it records. A new deck over 55 with no marks and no entry still fails.
+const UNMARKED = {
+  'ks3-34-who-owns-what-you-make': 'written 8 October 2026, after the marking pass; marks are content PR work',
+}
+
 // The phrases a lesson is held to elsewhere, so the core cannot drop the slide
 // that carries one. Read from the two files that own them rather than copied,
 // because a copy drifts: that is the fault check-source-claims caught on
@@ -108,8 +134,13 @@ for (const f of readdirSync(MODULES).filter(x => x.endsWith('.json')).sort()) {
     }
   }
 
-  // 2. the core fits, at 55 or at this lesson's recorded ceiling
-  if (core > cap) {
+  // 2. the core fits, at 55 or at this lesson's recorded ceiling, unless the
+  //    deck is a recorded unmarked one (see UNMARKED above)
+  if (UNMARKED[id] && marked.length) {
+    fail(id, `has ${marked.length} extension marks now, so its UNMARKED entry in this file is stale. Take it off.`)
+  } else if (UNMARKED[id] && core > TARGET) {
+    console.log(`  UNMARKED ${id}: core ${core} of ${total} minutes, no slide marked yet (${UNMARKED[id]})`)
+  } else if (core > cap) {
     fail(id, `the core is ${core} minutes against a ceiling of ${cap}. Mark more of the teach or practise phase, or `
       + `if nothing is left that can go without cutting explanation, raise the ceiling in this file and say what stopped it.`)
   }
@@ -139,7 +170,9 @@ if (LIST) {
 }
 
 const withMarks = rows.filter(r => r.marks).length
+const unmarked = rows.filter(r => UNMARKED[r.id] && !r.marks && r.core > TARGET).length
 console.log(bad
   ? `\ncheck-lesson-core: ${bad} failing`
-  : `check-lesson-core: ${rows.length} lessons, ${withMarks} carry an extension set, every core inside its ceiling with every protected phrase kept.`)
+  : `check-lesson-core: ${rows.length} lessons, ${withMarks} carry an extension set, every marked core inside its ceiling with every protected phrase kept`
+    + (unmarked ? `, ${unmarked} recorded as not yet marked.` : '.'))
 process.exit(bad ? 1 : 0)

@@ -705,7 +705,15 @@
         "outcome": "I can compare two products by the speed of the loop, and name the sign that something has stopped being a game."
       }
     ],
-    "tool": "THE PRICE, THE ODDS, THE LOOP. Three questions in that order, for anything that takes money and hands back a chance.",
+    "tool": {
+      "heading": "The price, the odds, the loop",
+      "lines": [
+        "What does one chance cost in real money?",
+        "Who set the odds, and what do they keep?",
+        "How fast is the loop?"
+      ],
+      "strapline": "Three questions in that order, for anything that takes money and hands back a chance."
+    },
     "keywords": [
       "house edge",
       "near miss",

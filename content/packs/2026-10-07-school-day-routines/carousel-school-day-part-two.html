@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The school day card: how we built it, carousel</title>
+<!--
+  THE WRONG VILLAIN CAROUSEL, reusable native document (PDF) template for LinkedIn.
+  Native PDF carousels are the top of the 2026 reach hierarchy, 2 to 3 times the dwell of a
+  single image. This is the highest leverage format for a flagship evidence post.
+
+  HOW TO EXPORT AND POST:
+  1. Open this file in Chrome.
+  2. File, Print. Set Destination to Save as PDF. Paper size A4 or Letter is fine, but set
+     Margins to None and turn Background graphics ON. Each slide is one page.
+  3. Save the PDF, then on LinkedIn choose Add a document, upload the PDF, give it a short title.
+  4. Post the caption (the hook plus a line or two), put the sources link in your first comment.
+
+  HOW TO REUSE: this file is pre filled with the beta 0.061 Wrong Villain carousel as a worked
+  example. To make a new one, keep the eight slide shape (cover, finding, meaning, honest pivot,
+  credibility, the ratio, the point, the close) and swap the text. One idea per slide. One accent.
+  Keep the cream space. Cover slide is the thumbnail, so it must carry the hook and a number.
+
+  Design tokens match stat-card.html. No dashes in copy. Fonts load online, fall back to Georgia.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F0E4; --ink:#232019; --accent:#B4552F; --taupe:#9B7E63;
+    --rule:rgba(35,32,25,0.16);
+    --display:"Playfair Display", Georgia, "Times New Roman", serif;
+    --body:"Source Serif 4", Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#d9d2c4;font-family:var(--body);}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px;}
+  .slide{
+    width:1080px;height:1350px;background:var(--cream);color:var(--ink);
+    padding:120px 100px;display:flex;flex-direction:column;position:relative;overflow:hidden;
+  }
+  .eyebrow{font-family:var(--body);text-transform:uppercase;letter-spacing:.28em;
+    font-size:22px;color:var(--taupe);font-weight:600;margin:0 0 40px;}
+  .kmark{font-family:var(--body);font-size:22px;color:var(--taupe);position:absolute;
+    bottom:70px;left:100px;letter-spacing:.06em;}
+  .pagenum{position:absolute;bottom:70px;right:100px;font-family:var(--body);font-size:22px;color:var(--taupe);}
+  .swipe{position:absolute;bottom:66px;right:100px;font-family:var(--body);font-size:24px;color:var(--accent);letter-spacing:.04em;}
+  h1{font-family:var(--display);font-weight:800;font-size:96px;line-height:1.03;margin:0;letter-spacing:-1px;}
+  h2{font-family:var(--display);font-weight:800;font-size:66px;line-height:1.08;margin:0 0 40px;letter-spacing:-.5px;}
+  .lede{font-family:var(--body);font-size:36px;line-height:1.5;margin:0;}
+  .big{font-family:var(--display);font-weight:700;color:var(--accent);font-size:190px;line-height:1;letter-spacing:-2px;margin:18px 0;}
+  .huge{font-family:var(--display);font-weight:700;color:var(--accent);font-size:150px;line-height:1;margin:10px 0 30px;}
+  .mid{margin-top:auto;margin-bottom:auto;}
+  .center{justify-content:center;}
+  .accent{color:var(--accent);}
+  .rule{height:1px;background:var(--rule);width:64%;margin:34px 0;}
+  .note{font-family:var(--body);font-style:italic;font-size:30px;color:var(--ink);line-height:1.45;}
+  .stack{font-family:var(--display);font-weight:700;font-size:52px;line-height:1.25;}
+  .bars{display:flex;flex-direction:column;gap:26px;margin-top:44px;}
+  .bar-row{display:flex;align-items:center;gap:20px;}
+  .bar-label{font-size:27px;width:360px;text-align:right;flex:none;color:var(--ink);}
+  .bar-track{flex:1;display:flex;align-items:center;gap:16px;}
+  .bar{height:34px;border-radius:3px;background:var(--ink);}
+  .bar.hot{background:var(--accent);}
+  .bar-val{font-family:var(--display);font-weight:700;font-size:28px;}
+  .footer{font-family:var(--body);font-size:24px;color:var(--accent);margin-top:26px;}
+  .fig{display:block;margin:0 auto;}
+  .fig .ink{stroke:var(--ink);fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+  .fig .hot{stroke:var(--accent);fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+  .fig .fill{fill:var(--ink);}
+  .fig .fillhot{fill:var(--accent);}
+  .fig .label{font-family:var(--body);font-size:30px;fill:var(--taupe);text-anchor:middle;}
+  .fig .big{font-family:var(--display);font-weight:700;font-size:64px;fill:var(--ink);text-anchor:middle;}
+  .fig .bighot{font-family:var(--display);font-weight:700;font-size:64px;fill:var(--accent);text-anchor:middle;}
+  .two{display:flex;gap:40px;margin-top:40px;}
+  .two > div{flex:1;background:rgba(35,32,25,0.04);border-radius:18px;padding:30px 26px;}
+  .two h3{font-family:var(--display);font-weight:800;font-size:40px;margin:0 0 10px;line-height:1.1;}
+  .two p{font-family:var(--body);font-size:28px;line-height:1.4;margin:0;}
+  @media print{
+    html,body{background:#fff;}
+    .deck{gap:0;padding:0;}
+    .slide{page-break-after:always;box-shadow:none;}
+    @page{size:1080px 1350px;margin:0;}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <section class="slide">
+    <p class="eyebrow">The Wrong Villain, the school day, part two</p>
+    <div class="mid">
+      <h1>We built the<br>thing the evidence<br>pointed at.</h1>
+      <p class="lede" style="margin-top:30px;max-width:84%;">Four choices, one card, every reason. Then pull it apart.</p>
+      <svg class="fig" width="880" height="520" viewBox="0 0 880 520" aria-hidden="true">
+  <rect class="ink" x="90" y="20" width="700" height="480" rx="34" style="stroke-width:7"/>
+  <text x="130" y="90" style="font-family:var(--body);font-size:22px;letter-spacing:.2em;fill:var(--taupe)">BEFORE SCHOOL · TEO</text>
+  <text x="130" y="160" style="font-family:var(--display);font-weight:800;font-size:32px;fill:var(--ink)">Food before the screen, screen after shoes</text>
+  <foreignObject x="130" y="190" width="620" height="170"><div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Source Serif 4',Georgia,serif;font-size:27px;line-height:1.35;color:#232019">Breakfast first, no screen at the table. If the TV goes on, it goes on when Teo is dressed with the bag by the door, and the end is said before it starts.</div></foreignObject>
+  <rect class="fillhot" x="150" y="400" width="190" height="64" rx="14" style=""/><text x="245.0" y="442" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">Went fine</text><rect class="ink" x="380" y="400" width="200" height="64" rx="14" style="fill:none;stroke-width:5"/><text x="480.0" y="442" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">It happened</text><rect class="ink" x="610" y="400" width="170" height="64" rx="14" style="fill:none;stroke-width:5"/><text x="695.0" y="442" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">I tried it</text>
+</svg>
+    </div>
+    <span class="swipe">Swipe &rsaquo;</span>
+    <span class="kmark">The Guided Digital Childhood</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">One. Your child's clock</p>
+    <svg class="fig" width="880" height="300" viewBox="0 0 880 300" aria-hidden="true">
+  <circle class="ink" cx="180" cy="130" r="110" style="stroke-width:7"/><line class="ink" x1="276.0" y1="130.0" x2="290.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="180.0" y1="226.0" x2="180.0" y2="240.0" style="stroke-width:5"/><line class="ink" x1="84.0" y1="130.0" x2="70.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="180.0" y1="34.0" x2="180.0" y2="20.0" style="stroke-width:5"/><line class="hot" x1="180" y1="130" x2="132.4" y2="157.5" style="stroke-width:9"/><line class="hot" x1="180" y1="130" x2="180.0" y2="44.2"/><circle class="fillhot" cx="180" cy="130" r="9"/><text class="label" x="180" y="290">50 minutes before school starts</text>
+  <circle class="ink" cx="700" cy="130" r="110" style="stroke-width:7"/><line class="ink" x1="796.0" y1="130.0" x2="810.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="700.0" y1="226.0" x2="700.0" y2="240.0" style="stroke-width:5"/><line class="ink" x1="604.0" y1="130.0" x2="590.0" y2="130.0" style="stroke-width:5"/><line class="ink" x1="700.0" y1="34.0" x2="700.0" y2="20.0" style="stroke-width:5"/><line class="hot" x1="700" y1="130" x2="752.5" y2="146.5" style="stroke-width:9"/><line class="hot" x1="700" y1="130" x2="657.1" y2="204.3"/><circle class="fillhot" cx="700" cy="130" r="9"/><text class="label" x="700" y="290">15 minutes after they are home</text>
+</svg>
+    <h2>A card on Home, fifty minutes before school starts and fifteen after they are home.</h2>
+    <p class="lede">Your child's day, set once in Settings. Morning advice is useless once the shoes are on, and the first quarter hour home is coat off, bag down. The numbers are a guess we will measure.</p>
+    <span class="pagenum">2</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">Two. One window a day</p>
+    <svg class="fig" width="880" height="200" viewBox="0 0 880 200" aria-hidden="true">
+  <rect class="ink" x="120" y="50" width="280" height="100" rx="18"/><text x="260" y="112" style="font-family:var(--display);font-weight:800;font-size:36px;fill:var(--ink);text-anchor:middle">Before school</text>
+  <rect class="fillhot" x="480" y="50" width="280" height="100" rx="18"/><text x="620" y="112" style="font-family:var(--display);font-weight:800;font-size:36px;fill:var(--ink);text-anchor:middle">Home from school</text>
+  <text class="label" x="440" y="190">one a day, your choice, both only if you ask</text>
+</svg>
+    <h2>Three texts a week beat one and five.</h2>
+    <p class="lede">In the one direct test of how often to message parents (3,473 families), five a week raised opt out by 58 percent and helped nobody. Two microrandomised trials put the right minute at single digit points. So we cut the count.</p>
+    <span class="pagenum">3</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">Three. The words</p>
+    <h2>Sleep and food first. The end agreed before the screen goes on.</h2>
+    <p class="lede">Breakfast first, the screen after shoes. Snack in your hand at the gate, no questions for twenty minutes. 355,358 adolescents on sleep and breakfast, two experiments on an hour of sleep, 380 logged screen endings. The card never names a syndrome.</p>
+    <span class="pagenum">4</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">Four. Three taps, and what each one does</p>
+    <svg class="fig" width="880" height="330" viewBox="0 0 880 330" aria-hidden="true">
+  <rect class="fillhot" x="60" y="30" width="230" height="64" rx="14"/><text x="175" y="72" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">Went fine</text>
+  <text class="label" x="175" y="130" style="font-size:22px">counts the day</text>
+  <rect class="ink" x="325" y="30" width="230" height="64" rx="14" style="stroke-width:5"/><text x="440" y="72" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">It happened</text>
+  <text class="label" x="440" y="130" style="font-size:22px">on tomorrow's check in</text>
+  <rect class="ink" x="590" y="30" width="230" height="64" rx="14" style="stroke-width:5"/><text x="705" y="72" style="font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink);text-anchor:middle">I tried it</text>
+  <text class="label" x="705" y="130" style="font-size:22px">DiGi asks in a week</text>
+  <path class="ink" d="M175 160 V230 H705 V160" style="stroke-dasharray:12 16"/>
+  <path class="hot" d="M440 230 V290"/><path class="hot" d="M415 265 L440 292 L465 265"/>
+  <text class="label" x="440" y="325" style="fill:var(--ink)">every family's answers, counted together</text>
+</svg>
+    <p class="lede" style="margin-top:34px;">The logging is the product. A tap is a moment, a moment becomes a worry we can watch, and a week later we ask whether what you tried worked. That is how the advice gets better than my reading of the literature.</p>
+    <span class="pagenum">5</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">To be fair</p>
+    <h2>Yes, the card is a screen in a parent's hand.</h2>
+    <p class="lede">At the exact moment I say the screen is beside the point. One card, one window, and every rule on it needs no app. With three children and a job, the screen in our house is staying; this is the routine around it.</p>
+    <span class="pagenum">6</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">What we do not know</p>
+    <svg class="fig" width="880" height="230" viewBox="0 0 880 230" aria-hidden="true">
+  <line class="ink" x1="100" y1="150" x2="780" y2="150"/>
+  <rect class="fill" x="100" y="110" width="520" height="40" rx="4" style="opacity:.18"/>
+  <rect class="fillhot" x="100" y="110" width="102" height="40" rx="4"/>
+  <text class="label" x="151" y="95" style="fill:var(--accent)">15%</text>
+  <text class="label" x="440" y="200" style="fill:var(--ink)">cards tapped by week four, or the card goes</text>
+</svg>
+    <h2>Whether anyone taps.</h2>
+    <p class="lede">Under ten percent and we redesign or kill it. Whether fifty minutes is right. Whether the no warning finding, from 28 American families with children under five, holds for a nine year old, or for a child with ADHD, where the NHS says the sequence takes longer.</p>
+    <span class="pagenum">7</span>
+  </section>
+
+  <section class="slide center">
+    <p class="eyebrow">So pull it apart</p>
+    <h2>Set your child's school day in Settings. Tell me in a fortnight what the card got wrong.</h2>
+    <p class="lede">If you are a researcher, the source ledger is yours for the asking, every figure with its verdict. I would rather be corrected in public than quietly wrong.</p>
+    <p class="note" style="margin-top:30px;">What would you have built instead? Sources in the comments.</p>
+    <p class="footer">The Guided Digital Childhood, guidedchildhood.com</p>
+    <span class="pagenum">8</span>
+  </section>
+
+</div>
+</body>
+</html>

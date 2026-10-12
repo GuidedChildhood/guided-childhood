@@ -6,6 +6,7 @@ import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { childWorries, type ChildWorry } from '@/lib/concerns/sorted'
 import { STICKERS, sortedSticker, stickerWhy, type Sticker } from './catalog'
 import { sendPush } from '@/lib/push/send'
+import { lessonsPassedBetween } from '@/lib/pathway/lesson-path-server'
 
 // The sticker book, read for one child. Earning is reconciled on read from the
 // real numbers so it can never disagree with the rest of the app: sticker
@@ -412,20 +413,17 @@ async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId
 /**
  * Lessons this child has passed, across every stage.
  *
- * Distinct lessons, passed at the player's real seventy percent line, scoped
- * the way the stage progress scopes them: this child's rows plus the
- * household rows with no child on them, so a lesson a parent led with the
- * child beside them counts. A retake does not count twice.
+ * The planets' number, from the one lesson count (lessonsPassedBetween over
+ * all time), scoped the way the stage progress scopes them: this child's rows
+ * plus the household rows with no child on them, so a lesson a parent led
+ * with the child beside them counts. A retake does not count twice, and a
+ * school lesson counts once, by its mission, rather than once here and once
+ * in the planets by a different row. "Pass 5 lessons" and the fifth planet
+ * now mean the same five.
  */
 async function lessonsFor(supabase: SupabaseClient, userId: string, childId: string): Promise<number> {
   try {
-    const { data } = await supabase
-      .from('lesson_completions')
-      .select('lesson_id')
-      .eq('user_id', userId)
-      .eq('passed', true)
-      .or(`child_id.eq.${childId},child_id.is.null`)
-    return new Set((data ?? []).map(r => String(r.lesson_id))).size
+    return await lessonsPassedBetween(supabase, { userId, childId })
   } catch { return 0 }
 }
 

@@ -689,7 +689,15 @@
         "outcome": "I can spot an offer that is paying for an unnamed risk, and use the three moves in order."
       }
     ],
-    "tool": "STOP IT, REPORT IT, SAY IT. In that order, because only the first one is on a clock.",
+    "tool": {
+      "heading": "Stop it, report it, say it",
+      "lines": [
+        "Stop it, so it goes no further than you",
+        "Report it, in the app behind the three dots",
+        "Say it, to one actual person"
+      ],
+      "strapline": "In that order, because only the first one is on a clock."
+    },
     "keywords": [
       "recommender",
       "normalise",

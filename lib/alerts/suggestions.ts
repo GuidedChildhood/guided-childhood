@@ -1,6 +1,7 @@
 import type { createClient } from '@/lib/supabase/server'
 import { getJourney } from '@/lib/pathway/journey'
 import type { StageId } from '@/lib/pathway/progress'
+import { isTogetherStage } from '@/lib/lessons/school-path'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -41,7 +42,7 @@ export async function getSuggestions(
   // is thinking about the week ahead.
   const isSunday = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date()) === 'Sun'
   const [journey, schoolSoon, questCount, concernToday, recurringConcern, recentWin, schoolRoutines] = await Promise.all([
-    getJourney(supabase, userId, stageId),
+    getJourney(supabase, userId, stageId, childId),
     supabase.from('school_actions').select('title, due_date').eq('user_id', userId).eq('status', 'open').not('due_date', 'is', null).gte('due_date', todayDate).lte('due_date', in2days).order('due_date', { ascending: true }).limit(1),
     // THIS child's board (plus household jobs). Counted family wide, the
     // second child never met "Set their first quests": the eldest's jobs made
@@ -126,9 +127,14 @@ export async function getSuggestions(
 
   if (journey.lessons.total > 0 && journey.lessons.done < journey.lessons.total && journey.lessons.nextTitle) s.push({
     key: 'lesson:next', kind: 'lesson', urgency: 3, emoji: '✦',
-    title: `Do a lesson with ${name}`,
-    body: `Next up: ${journey.lessons.nextTitle}. Calm, a few minutes, together.`,
-    cta: 'Open the lesson', href: journey.lessons.href,
+    // The CHILD's next lesson, never the parent's homework (9 October 2026).
+    // The fuller row, with the app and no app branches and the nudge, lands
+    // with the hub in PR 3 of plans/2026-10-08-lessons-hub-plan.md.
+    title: `${name.charAt(0).toUpperCase()}${name.slice(1)}'s next lesson: ${journey.lessons.nextTitle}`,
+    body: isTogetherStage(stageId)
+      ? 'At this age you do it together on your phone. You read it out, they tap the answers.'
+      : 'One a week is plenty. It is theirs to do, and your part is one question at tea.',
+    cta: 'See their lessons', href: journey.lessons.href,
   })
 
   const win = recentWin.data?.[0]

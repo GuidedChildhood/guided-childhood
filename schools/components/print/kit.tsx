@@ -100,6 +100,20 @@ export function PrintSheet({ children, footer, last = false, center = false, fil
   )
 }
 
+/** The friend beside a card's question, floated to the card's top right so
+ *  the label and the question run down beside it. On its own row it spent
+ *  the friend's whole height above every question, 26mm a card on an EYFS
+ *  or KS1 sheet, which is what ran two KS1 start and exit card sheets onto a
+ *  second page (12 October 2026). The card it sits in needs `display:
+ *  flow-root` so the friend stays inside the border. */
+export function CardFriend({ friend, mood = 'thinking', size }: { friend: Friend; mood?: Mood; size: number }) {
+  return (
+    <div style={{ float: 'right', margin: '0 0 6px 12px' }}>
+      <FriendArt friend={friend} mood={mood} size={size} />
+    </div>
+  )
+}
+
 /** The tint band at the top of a sheet: the friend, the eyebrow, the title, and a line for a name where a child holds it. */
 export function FriendHeader({ friend, register, mood = 'wave', eyebrow, title, sub, nameLine, small = false, friendMm }: {
   friend: Friend
@@ -137,7 +151,7 @@ export function FriendHeader({ friend, register, mood = 'wave', eyebrow, title, 
 }
 
 /** A boxed block with a mono label. `accent` colours the label and the rule; `tint` fills it. */
-export function Box({ label, children, friend, tint = false, dashed = false, radius = 14, dense = false, style }: {
+export function Box({ label, children, friend, tint = false, dashed = false, radius = 14, dense = false, legend = false, style }: {
   label?: string
   children: React.ReactNode
   friend?: Friend
@@ -146,12 +160,26 @@ export function Box({ label, children, friend, tint = false, dashed = false, rad
   radius?: number
   /** A teacher sheet: tighter padding so the one pager stays one page. */
   dense?: boolean
+  /** The label set into the top rule, as on a fieldset, so a sheet with
+   *  seven boxes does not spend seven lines on their names (12 October
+   *  2026, the four teacher one pagers and the parent notes that ran onto a
+   *  second page). The label carries its own white ground across the rule,
+   *  printed even with the browser's background graphics off, so the rule
+   *  never runs through the words. A tinted box keeps its label inside, on
+   *  its own ground: a white notch in a tint reads as a hole. */
+  legend?: boolean
   style?: React.CSSProperties
 }) {
   const accent = friend?.accent ?? 'var(--ink)'
+  const notch = legend && !!label && !tint
   return (
-    <div className="gc-avoid-break" style={{ border: `${dashed ? '1.5px dashed' : '1.5px solid'} ${tint ? accent : 'var(--ink-light)'}`, background: tint && friend ? friend.soft : '#fff', borderRadius: `${radius}px`, padding: dense ? '7px 12px' : '12px 16px', marginTop: dense ? '5px' : '10px', ...style }}>
-      {label && <div style={{ ...mono, color: friend ? friend.ink : 'var(--ink-muted)', marginBottom: dense ? '4px' : '6px' }}>{label}</div>}
+    <div className="gc-avoid-break" style={{ border: `${dashed ? '1.5px dashed' : '1.5px solid'} ${tint ? accent : 'var(--ink-light)'}`, background: tint && friend ? friend.soft : '#fff', borderRadius: `${radius}px`, padding: notch ? '9px 12px 5px' : dense ? '7px 12px' : '12px 16px', marginTop: notch ? '11px' : dense ? '5px' : '10px', ...style }}>
+      {label && (notch
+        // In the flow and pulled up onto the rule, rather than placed over
+        // it: on a phone a long label wraps, and the second line then pushes
+        // the words down instead of printing over them.
+        ? <div style={{ ...mono, color: friend ? friend.ink : 'var(--ink-muted)', lineHeight: 1.15, width: 'fit-content', maxWidth: '100%', margin: '-17px 0 2px -3px', padding: '1px 5px', background: '#fff', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}>{label}</div>
+        : <div style={{ ...mono, color: friend ? friend.ink : 'var(--ink-muted)', marginBottom: dense ? '4px' : '6px' }}>{label}</div>)}
       {children}
     </div>
   )

@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
@@ -87,12 +87,10 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   // it is no longer a path a child can land on.
   const rawSlides = parseSlides(lesson.slides)
   if (!rawSlides) notFound()
-  // The kid client never receives the teacher script channel.
-  const slides = rawSlides.map(s => {
-    const copy = { ...s }
-    delete (copy as { script?: string }).script
-    return copy
-  })
+  // The child's deck (shared/lesson-slides visibleSlides): the kid client
+  // never receives the teacher script channel, and a discussion becomes
+  // Think it rather than a talk timer for a partner who is not there.
+  const slides = visibleSlides(rawSlides, 'kid').slides
 
   return (
     <div style={{ minHeight: '100dvh', background: theme.bg }}>

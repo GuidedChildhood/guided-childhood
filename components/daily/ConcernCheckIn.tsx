@@ -168,7 +168,7 @@ function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
   // a real history and the dated wording becomes true.
   if (item.lastScore == null && item.timesFlagged <= 1) return 'Added when you set up'
   const daysSince = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
-  if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still open`
+  if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still on your list`
   if (daysSince <= 1) return 'You flagged this yesterday'
   return `You flagged this ${daysSince} days ago`
 }
@@ -682,8 +682,14 @@ export default function ConcernCheckIn({
         {baseline
           ? 'One tap each, just to see where things stand. No right answer.'
           : SILVER_RUN === 1
-            ? 'One tap each, just to see how it is going. Going great and it comes off your list.'
-            : `One tap each, just to see how it is going. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list.`}
+            // Still one line (Justin, 11 September), and the one line now
+            // carries the promise a parent reads before any tap: the list is
+            // not a chore to clear, it is what we keep working on. No DiGi in
+            // it: Justin, 8 October, "I do not want to ask DiGi on each check
+            // in"; the face is the whole ask, and the line under the face
+            // says what we do with the answer.
+            ? 'One tap each. Going great and it comes off your list; anything less stays on it and we keep working on it with you.'
+            : `One tap each. ${runWord(SILVER_RUN)[0].toUpperCase()}${runWord(SILVER_RUN).slice(1)} great days in a row and it comes off your list; anything less stays on it and we keep working on it with you.`}
       </p>
 
       {concerns.map((c, idx) => {
