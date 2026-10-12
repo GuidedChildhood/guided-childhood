@@ -76,9 +76,13 @@ document. Script 28 has a four year old daughter watching YouTube while hook 9
 has a four year old son. "Device Pathway OS" and "the OS for modern parenting",
 which is not our naming and not Justin's voice. **All changed or removed.**
 
-**Status: reworded in place in Drive, with the original content replaced rather
-than annotated.** It was written to be filmed from, so leaving the wrong version
-beside the right one is how the wrong one gets used.
+**Status: reworded, and the new version is its own file in Drive.** The
+connector can create a document and rename one, and cannot replace the contents
+of an existing one, so the 3 June original still holds its original text. It is
+retitled "SUPERSEDED 12 Oct 2026 (do not film from this)" so the wrong version
+cannot be picked up by accident while the record of what it said survives.
+Renaming is reversible and the file is untouched otherwise. Deleting it is
+Justin's call.
 
 ---
 
