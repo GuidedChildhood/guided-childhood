@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { db as supabase } from '@/lib/supabase/server-db'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 
 // Whole class mode: the projector showcase, open to anyone with the link.
@@ -24,7 +24,7 @@ export default async function ClassLessonPage({ params }: { params: Promise<{ le
     .maybeSingle()
   if (!lesson) notFound()
 
-  const rawSlides = parseSlides(lesson.slides)
+  const rawSlides = visibleSlides(parseSlides(lesson.slides), 'classroom')?.slides ?? null
   if (!rawSlides) notFound()
   const slides = rawSlides.map(s => {
     const copy = { ...s }

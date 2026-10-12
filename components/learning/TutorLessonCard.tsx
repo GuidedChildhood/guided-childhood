@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides, type LessonSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type LessonSlide } from '@gc/shared/lesson-slides'
 
 // The private tutor, on the parent's side.
 //
@@ -61,7 +61,7 @@ export default function TutorLessonCard({
       })
       const d = await r.json().catch(() => ({}))
       if (r.ok && d.ok && d.lesson) {
-        const parsed = parseSlides(d.lesson.slides)
+        const parsed = visibleSlides(parseSlides(d.lesson.slides), 'classroom')?.slides ?? null
         if (!parsed) setError('That deck came back empty. Have another go.')
         else { setLesson(d.lesson as Lesson); setSlides(parsed) }
       } else {

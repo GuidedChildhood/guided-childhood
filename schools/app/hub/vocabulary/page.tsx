@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT, positionLabel } from '@gc/shared/schools-curriculum'
-import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Whole scheme vocabulary' }
@@ -30,7 +30,7 @@ export default async function VocabularyPage() {
     if (!row) return []
     const notes = (row.teacher_notes ?? {}) as TeacherNotes
     if (notes.keywords?.length) return notes.keywords
-    const slide = (parseSlides(row.slides) ?? []).find((s): s is KeywordsSlide => s.type === 'keywords')
+    const slide = visibleSlides(parseSlides(row.slides) ?? [], 'classroom').slides.find((s): s is KeywordsSlide => s.type === 'keywords')
     return slide?.words.map(w => ({ word: w.word, definition: w.meaning })) ?? []
   }
 

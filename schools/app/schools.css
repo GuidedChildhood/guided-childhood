@@ -22,6 +22,22 @@
   h2, h3 { break-after: avoid; page-break-after: avoid; }
 }
 
+/* THE RUN SHEET ON PAPER (9 October 2026). A teacher prints this to keep on
+   the desk, so it is set for A4 rather than for a screen: white paper rather
+   than the cream page, no card shadows, the type scale stepped down to print
+   sizes through the same tokens every inline style reads, and a label never
+   left alone at the foot of a page. Measured on ks3-12: 13 pages before,
+   8 after, with the same words. */
+@media print {
+  .gc-run { background: #fff !important; padding: 0 !important; }
+  .gc-run section { box-shadow: none !important; }
+  .gc-run .gc-keep-next { break-after: avoid; page-break-after: avoid; }
+  .gc-run {
+    --text-xs: 7.5pt; --text-sm: 9pt; --text-base: 10pt; --text-md: 10.5pt;
+    --text-lg: 12pt; --text-xl: 15pt; --text-2xl: 19pt; --text-3xl: 22pt;
+  }
+}
+
 /* The paper half of a pair whose screen half is a form: the school's
    details on the crosswalk print, where the screen shows the fields. */
 .gc-print-only { display: none; }

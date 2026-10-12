@@ -53,42 +53,10 @@ export async function GET(request: NextRequest) {
   // Region, this week's lesson count and the age band each depend on nothing
   // but link.userId and link.childId, so they go to the database together and
   // the route waits once instead of three times. Each keeps the fail soft it
-  // had: region to uk, lesson count to false, stage to undefined. The comment
+  // had: region to uk, stage to undefined. The comment
   // for each sits beside its read below.
-  const [region, lessonThisWeek, stage] = await Promise.all([
+  const [region, stage] = await Promise.all([
     getFamilyRegion(link.admin, link.userId).catch(() => 'uk' as const),
-
-    // A lesson is a WEEKLY thing, not a daily one.
-    //
-    // Justin: "can we make sure the lessons for kids... we only feed one per week
-    // at most."
-    //
-    // Two of the twelve rotating rows are learning (lesson and quiz), so on a bad
-    // draw a child could meet one most days, and the Today list offers the focus
-    // lesson alongside. A lesson a day is school, and this is the fifteen minutes
-    // after school where a child has least appetite for more of it. One a week is
-    // a thing to look forward to; five a week is a subject.
-    //
-    // Enforced through the SAME mechanism the printable already uses: a step that
-    // cannot be completed must never be one of the five, because a child who
-    // cannot finish the day can never earn the streak and has no way of knowing
-    // why. So the row is simply not drawn once this week's lesson is done.
-    //
-    // The week is the last seven days rather than since Monday, deliberately. A
-    // child who does their lesson on Sunday should not meet another on Monday
-    // morning because a calendar boundary happened to fall between them.
-    (async () => {
-      try {
-        const since = new Date(Date.now() - 7 * 86_400_000).toISOString()
-        const { count } = await link.admin
-          .from('kid_lesson_missions')
-          .select('id', { count: 'exact', head: true })
-          .eq('child_id', link.childId)
-          .eq('status', 'done')
-          .gte('completed_at', since)
-        return (count ?? 0) > 0
-      } catch { return false }
-    })(),
 
     // ── WHOSE DAY, BY AGE ──────────────────────────────────────────────────
     //
@@ -110,11 +78,11 @@ export async function GET(request: NextRequest) {
     })(),
   ])
 
+  // The weekly lesson is no longer one of the five (plan v10, item 1.6): it
+  // is the week's own thing, on the week card and the child's list, so the
+  // day never draws it and never needs to ask whether this week's is done.
   const available = {
     printable: isSchoolHoliday(new Date(), region),
-    // Fails soft to available: a read that cannot answer must not silently
-    // remove a child's learning row for ever.
-    lesson: !lessonThisWeek,
   }
 
   // Today's row and the streak, one wave. loadDay may create today's row on

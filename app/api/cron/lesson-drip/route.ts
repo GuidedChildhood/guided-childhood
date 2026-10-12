@@ -4,18 +4,22 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { sendPush } from '@/lib/push/send'
 
-// The fortnightly lesson drip. The whole Rosenshine library is a lot to meet
-// at once, so it reaches each child one lesson at a time. Their own app
-// already surfaces the next unpassed stage lesson as the Today "Learn"
-// headline; this cron makes sure the grown up hears about it too, every two
-// weeks, so the learning is a shared thing and not a surprise. One warm,
-// benefit led push per linked child, in DiGi's voice, naming this fortnight's
-// lesson. Passing it ticks the parent's progress report through the lesson
-// player, so the parent watches the curriculum fill in as the child goes.
+// The fortnightly reading drip: the PARENT's library, one read at a time.
+//
+// Until 9 October 2026 this push said a library lesson was "ready on Teo's
+// app now" and that passing it would tick the progress report. Neither has
+// been true since 29 September: the child learns the school modules in their
+// own app, the passport counts those, and the child app's last door into the
+// parent library (a Learn tile nothing rendered) is gone. So the words stay
+// and the label changes: this is the grown up's own reading, said as that,
+// and never "your child's next lesson", which is the week card's job and
+// arrives with its own push. Plan v10, item 1.3.
 //
 // Only families with a kid link and a parent push channel hear anything, and
-// a child who has already passed everything for their stage is skipped. Runs
-// on the 1st and 15th, gated on CRON_SECRET like the other crons.
+// a parent who has read everything for the stage is skipped. One push per
+// parent per read, so two linked children at one stage do not send the same
+// read twice. Runs on the 1st and 15th, gated on CRON_SECRET like the other
+// crons.
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 120
@@ -62,6 +66,7 @@ async function handler(request: Request) {
   }
 
   let sent = 0
+  const told = new Set<string>()
   for (const link of links ?? []) {
     const userId = link.user_id as string
     const childId = link.child_id as string
@@ -87,12 +92,14 @@ async function handler(request: Request) {
         (passRows ?? []).filter(c => c.passed !== false).map(c => c.lesson_id as string),
       )
       const next = stageLessons.find(l => !passedIds.has(l.id))
-      if (!next) continue // everything for their stage is already passed
+      if (!next) continue // everything for their stage is already read
+      if (told.has(`${userId}:${next.id}`)) continue
+      told.add(`${userId}:${next.id}`)
 
       const name = child.name && child.name !== 'Your child' ? child.name : 'your child'
       const emoji = CATEGORY_EMOJI[next.category] ?? '📘'
-      const title = `This fortnight's lesson for ${name} ${emoji}`
-      const body = `DiGi here. ${next.title} is ready on ${name}'s app now. It takes a few minutes, and when they pass it the tick lands on your progress report. One lesson at a time, the whole way up.`
+      const title = `Your read this fortnight ${emoji}`
+      const body = `DiGi here. ${next.title} is in your lessons. A few minutes, written for you rather than ${name}, so you know the ground before it comes up at home.`
 
       await sendPush({ userId, title, body, url: '/dashboard/lessons' })
       sent += 1

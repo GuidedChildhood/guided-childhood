@@ -1,0 +1,11 @@
+{
+  "name": "test-bedtime",
+  "url": "/ref-digi-chat?kids=1",
+  "seconds": 15,
+  "stubs": [{ "match": "/api/digi", "method": "POST", "delayMs": 6800, "wordMs": 55,
+    "body": "**Start before the fight starts.** Give a ten minute warning at 7, then a two minute one, so the stop is never a surprise.\n\n**Name it, then hold it.** Try: \"I know it is hard to stop when it is good. Phone goes on the charger now, and I will sit with you.\"\n\n**Tonight, one thing:** put the charger outside the bedroom before you start." }],
+  "actions": [
+    { "at": 600, "do": "type", "selector": "textarea", "text": "Bedtime was a fight again. What do I actually say?", "charMs": 42 },
+    { "at": 3000, "do": "press", "key": "Enter" }
+  ]
+}

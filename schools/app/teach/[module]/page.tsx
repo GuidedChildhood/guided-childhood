@@ -1,7 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import TrackedPlayer from '@/components/tracker/TrackedPlayer'
-import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
 import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
@@ -10,7 +10,7 @@ import PilotStrip from '@/components/PilotStrip'
 import { TasterStrip } from '@/app/taster/TasterBar'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import type { PassportPlacement } from '@gc/shared/passport-stages'
-import { CURRICULUM as MODULE_MANIFEST, positionLabel } from '@gc/shared/schools-curriculum'
+import { CURRICULUM as MODULE_MANIFEST, FLAGGED_MODULES, positionLabel } from '@gc/shared/schools-curriculum'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -86,7 +86,7 @@ export default async function TeachLessonPage({
   const lesson = data as SchoolLesson | null
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides)
+  const slides = visibleSlides(parseSlides(lesson.slides), 'classroom')?.slides ?? null
   if (!slides) notFound()
 
   const access = await currentAccess()
@@ -111,6 +111,16 @@ export default async function TeachLessonPage({
   const introEyebrow = entry
     ? `${entry.keyStage} · ${entry.yearBand} · Lesson ${positionLabel(moduleId)}`
     : undefined
+
+  // THE SEVENTEEN SAFEGUARDING FLAGGED LESSONS open folded (sync plan F1). On
+  // these the script holds notes meant for the teacher alone, and a class can
+  // read the board, so the script starts closed and one teacher only screen
+  // comes before slide 1: the school's lead, the quiet exit, the fold. Read
+  // off the manifest, which check-flagged-briefings holds to the rows' DSL
+  // notes, so it needs no second read. Every other lesson keeps the script
+  // open, as decided on 13 September.
+  const flagged = FLAGGED_MODULES.some(m => m.moduleId === moduleId)
+  const young = lesson.key_stage === 'EYFS' || lesson.key_stage === 'KS1'
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
@@ -147,6 +157,8 @@ export default async function TeachLessonPage({
         <TrackedPlayer
           introEyebrow={introEyebrow}
           moduleId={lesson.module_id}
+          flagged={flagged}
+          young={young}
           lessonId={lesson.id}
           lessonSource="school_lesson"
           slides={slides}

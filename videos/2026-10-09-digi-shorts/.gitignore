@@ -1,0 +1,15 @@
+.venv/
+renders/*.mp4
+renders/*.log
+renders/frames/
+renders/thumbs/
+renders/.*
+renders/work-*
+assets/captures/home-live-desktop-full.png
+assets/captures/home-live-phone.png
+assets/rec/test-*
+assets/rec/probe*
+scenes/probe.json
+renders/rec/
+renders/probe*
+renders/digi-3d-noeyes-rgb.png

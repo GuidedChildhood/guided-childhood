@@ -102,7 +102,7 @@ export default function KidQuestScreen({
   agreementParentSigned = false, agreementChildSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [], hasReminders = false,
-  stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
+  stageLessonsPassed = null, stageLessonsTotal = null, assignedPrintable = null,
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
@@ -203,16 +203,11 @@ export default function KidQuestScreen({
    *  appears when there is a week to look at. */
   schoolWeekCount?: number
   notes?: { id: string; kind: string; title: string; body: string; read: boolean }[]
-  // The stage library lesson passes, the same count the parent's progress
-  // report uses, for the road's proof chip. Nulls fall back to the old count.
+  // The stage's school modules and this child's passes, from the one lesson
+  // count (lib/pathway/lesson-path.ts), for the road's proof chip. Null hides
+  // the chip rather than printing nought.
   stageLessonsPassed?: number | null
   stageLessonsTotal?: number | null
-  // The child's focus lesson: the next real Rosenshine library lesson for
-  // this stage they have not passed yet. When present this is what the Today
-  // "Learn" headline points at, opening the real lesson player (which writes
-  // the pass and ticks the parent's progress report). Null falls back to the
-  // mini lessons, so nothing regresses before the library is seeded.
-  focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
   assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; drawn?: DrawnKey; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
@@ -1169,34 +1164,6 @@ export default function KidQuestScreen({
   // to use" while the server refused every spend against the week, which is worse
   // than the old number because the child is told they have it and then blocked.
   const bankBalance = bank ? bank.balance : weekStars
-
-  // ── The Daily Three ── the home habit at the top of the screen: Learn (the
-  // next lesson for this stage), Do (the next job due today) and Move (a real
-  // world thing, ticked locally). All read from data already on this screen.
-  const nextLesson = stageLessons.find(l => !doneLessons.has(l.key)) ?? null
-  // A Stage 1 child has no reading quizzes, so their Learn is the next watch
-  // together adventure instead; nothing new gets invented for the tile.
-  const nextAdventure = adventures.find(a => a.stageId === stageId && !a.done) ?? null
-  // The Today "Learn" headline. The real Rosenshine library lesson comes
-  // first when the child has one to pass, so the curriculum is put in front
-  // of them one at a time; tapping opens the real player, which writes the
-  // pass and ticks the parent's report. It only falls back to the mini
-  // lessons (then the next adventure) when the library has nothing left.
-  const learnTile: { title: string; emoji: string; stars: number; href?: string } | null =
-    focusLesson
-      ? { title: focusLesson.title, emoji: focusLesson.emoji, stars: focusLesson.stars, href: `/k/${token}/lessons/${focusLesson.id}` }
-      : nextLesson
-        ? { title: nextLesson.title, emoji: nextLesson.emoji, stars: nextLesson.stars }
-        : (stageLessons.length === 0 && nextAdventure)
-          ? { title: nextAdventure.title, emoji: '🍿', stars: 10 }
-          : null
-  const learnTarget = learnTile
-  // A mini lesson passed this session flips the tile locally; a library
-  // lesson is a full navigation, so on return focusLesson has already
-  // advanced to the next one. Either way the tile reflects real state.
-  const learnedThisSession = !focusLesson && doneLessons.size > doneLessonKeys.length
-  const dailyLearnDone = learnedThisSession || !learnTarget
-
 
   // Nothing else pops on open. The daily hello and the wisdom pop used to spring
   // a character up every single login, which read as flicker and clutter. What

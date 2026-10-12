@@ -1,4 +1,4 @@
-import { parseSlides, autoSlidesFromLesson, type LessonSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, visibleSlides, autoSlidesFromLesson, type LessonSlide } from '@gc/shared/lesson-slides'
 import { stageQuizFor, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 import type { createClient } from '@/lib/supabase/server'
 
@@ -136,7 +136,7 @@ export async function gatherStageQuizPool(
   for (const lesson of data as LessonRow[]) {
     // Authored deck first, the generated floor only when there is no deck, so a
     // lesson never contributes both its real questions and a synthetic one.
-    const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson)
+    const slides = visibleSlides(parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson), 'classroom')?.slides ?? null
     if (!slides) continue
     pool.push(...questionsFromSlides(slides, lesson.title))
   }

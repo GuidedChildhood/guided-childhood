@@ -428,7 +428,11 @@ if (drun.status !== 0) problems.push(`M: the mission door probe could not run: $
 else {
   const d = JSON.parse(drun.stdout.trim().split('\n').pop())
   const T = '0123456789abcdef01'
-  if (d.lessons !== `/k/${T}/lessons?next=1` || d.stamp !== `/k/${T}/lessons?next=1`) problems.push(`M: the lessons objective does not lead to the next unpassed lesson (${d.lessons})`)
+  // The child's list, where only the week's lesson has a button. The ?next=1
+  // jump into the next unpassed lesson went with the five a day's lesson row
+  // on 9 October 2026 (plan v10, item 1.6): one a week, so the next unpassed
+  // lesson may be next week's, and a jump straight into it would bounce.
+  if (d.lessons !== `/k/${T}/lessons` || d.stamp !== `/k/${T}/lessons`) problems.push(`M: the lessons objective does not lead to the child's lesson list (${d.lessons})`)
   else if (d.timer !== `/k/${T}/balance`) problems.push(`M: the timer objective does not lead to the balance screen (${d.timer})`)
   else if (d.friend !== null || d.outside !== null) problems.push('M: a row earned on the five a day is linking away from it, which sends a child off the screen they were about to finish')
   else if (d.noToken !== null) problems.push('M: a mission row builds a link without a token, so it would point at /k/null')

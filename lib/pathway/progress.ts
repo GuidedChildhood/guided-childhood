@@ -3,7 +3,8 @@ import type { createClient } from '@/lib/supabase/server'
 import { stageDevicePct } from '@/lib/devices/family'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { schoolModulesForStage, schoolCreditKey } from '@/lib/lessons/school-path'
+import { schoolModulesForStage } from '@/lib/lessons/school-path'
+import { childLessonPath, passportLessons, type AiModuleRow } from './lesson-path'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -206,17 +207,22 @@ export async function getStageProgress(
   // A failed run counting as done is the worse half: it inflates a parent's
   // progress with work their child got wrong, which is the one number in the
   // product that has to be honest. Both rules now match the Lessons page.
-  const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
-  // The AI modules for this stage's band, credited by the same rule under
-  // their own source key, so a parent lesson pass can never stand in for one.
-  const stageNum = STAGE_ORDER.indexOf(stageId) + 1
-  const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
-    .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
-  const aiTotal = aiInStage.length
-  const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
-  const totalLessonsInStage = (lessonsForStage?.length ?? 0) + aiTotal
-  const lessonsDone =
-    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(schoolCreditKey(l.id))).length + aiDone
+  // One count, worked out in lib/pathway/lesson-path.ts and nowhere else. The
+  // passport folds the AI modules into its lessons count, as it has since
+  // 13 September 2026 (AI literate is in the definition of ready); whether it
+  // keeps doing so is decision 1 in plans/2026-10-08-lessons-hub-plan.md, and
+  // either answer is passportLessons, which Home's card reads too.
+  const path = childLessonPath({
+    modules: lessonsForStage,
+    aiModules: aiLessonRows as AiModuleRow[] | null,
+    completions: lessonCompletions,
+    passBy: passBy as PassByRow[] | null,
+    childId,
+    stageNum: STAGE_ORDER.indexOf(stageId) + 1,
+  })
+  const aiTotal = path.ai.total
+  const aiDone = path.ai.done
+  const { total: totalLessonsInStage, done: lessonsDone } = passportLessons(path)
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
   // Lessons carry the most weight in the passport circle: the stamp is
@@ -288,7 +294,6 @@ export async function getAllStagesProgress(
   // real devices, never all nineteen guides. A device set up counts as done.
   const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
   const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
-  const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
   // Their own list of what is in the house, when they have given us one.
   const stageOfGuide = guideStageLookup(deviceGuides)
@@ -315,16 +320,19 @@ export async function getAllStagesProgress(
 
     // Same rule as the single stage version above: the stage's school
     // modules, and a pass only. See the long note there.
-    const stageLessons = schoolModulesForStage(lessons, stageId)
-    // Plus the AI modules for this stage's band, the same way as above.
-    const stageNum = STAGE_ORDER.indexOf(stageId) + 1
-    const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
-      .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
-    const aiTotal = aiInStage.length
-    const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
-    const totalLessons = stageLessons.length + aiTotal
-    const lessonsDone =
-      stageLessons.filter(l => passedCompletionKeys.has(schoolCreditKey(l.id))).length + aiDone
+    // The same one count as getStageProgress, per stage. Composed the same
+    // way, so the road and the passport cannot disagree.
+    const path = childLessonPath({
+      modules: schoolModulesForStage(lessons, stageId),
+      aiModules: aiLessonRows as AiModuleRow[] | null,
+      completions: lessonCompletions,
+      passBy: passBy as PassByRow[] | null,
+      childId,
+      stageNum: STAGE_ORDER.indexOf(stageId) + 1,
+    })
+    const aiTotal = path.ai.total
+    const aiDone = path.ai.done
+    const { total: totalLessons, done: lessonsDone } = passportLessons(path)
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
     const totalContent = stageScripts.length + totalLessons
