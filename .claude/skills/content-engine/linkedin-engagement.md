@@ -111,3 +111,43 @@ it polished. Not a per post task, but the reason a strong post can still underpe
 
 This runs on top of hidden-thread.md, never instead of it. The hook earns the read,
 the hidden thread decides what the read is for.
+
+## What Justin's own account says, 6 October 2026
+
+Everything above this section is general advice. This section is his 28 days,
+and where they disagree, his account wins.
+
+**Open on the question you cannot answer, not the number you found.**
+
+| Opening | Impressions | Comments |
+|---|---|---|
+| "There's a question about children and AI I hadn't thought enough about" | 6,008 | 56 |
+| "When a child speaks rudely to an AI toy, what should an adult help them understand?" | 3,155 | 27 |
+| "1.8 percent." | 1,002 | 0 |
+| "One of the most worrying numbers I have read this week" | 698 | 0 |
+
+Six times the reach, and the two question led posts carried 83 of his 123
+comments for the whole month. The number led posts got reactions and **no
+conversation at all**. The figure belongs in the third paragraph where it
+rewards a reader who stayed, not in the first where it closes the thought.
+
+This contradicts the rule in `viral-post` that a number in the first line wins.
+That rule came from a corpus study, not from this account. Follow this one.
+
+**Children and AI is the live lane.** Both top posts, by a distance.
+
+**Reach is lumpy and that is normal.** Two posts carried 48 percent of a month.
+A 45 percent swing between months is the shape of the thing, not a crisis.
+
+**The close, in order.** Sources and the newsletter in the first comment, then a
+principled repost ask, then the question, last, next to the comment box.
+Nothing goes after the question. His weakest number is reposts, two in 28 days,
+so the repost ask carries a principle rather than a favour: people repost to
+take a position, not to do you a kindness.
+
+**A LinkedIn newsletter link is not an off platform link.** The reach penalty is
+about sending people away. His three LinkedIn article posts came fourth, fifth
+and eighth of about fourteen, above every stat card but one, so the article
+format is not the tax it was assumed to be. The reason to use a LinkedIn
+newsletter is that subscribers get notified, which is distribution that does not
+depend on the algorithm liking you that week.
