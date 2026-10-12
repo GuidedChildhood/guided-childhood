@@ -21,7 +21,8 @@
  *   node build.mjs <episode.json> --vertical   9:16
  *
  * Beats (each needs step 1 to 4 and a stamp, except end):
- *   hook    { clip, quote, source }             the worry, quoted, over the footage
+ *   hook    { clip, quote }                      the worry in a parent's own words, no source
+ *                                                named (Justin, 12 October); source optional
  *   shot    { clip, line }                       footage full frame, one caption
  *   chat    { me?, digi?: [..], plan?: true }    the DiGi chat full frame; a plan
  *                                                shows DiGi's lines as numbered steps
@@ -119,8 +120,8 @@ tl.fromTo("#${id}-u",{opacity:0},{opacity:1,duration:0.8},${(s + 1.6).toFixed(2)
   if (i === 0 || EP.beats[i - 1].step !== b.step) tl += `tl.fromTo("#${id}-s .st.on",{scale:0.85},{scale:1,duration:0.5,ease:"back.out(2)"},${(s + 0.3).toFixed(2)});\n`
 
   if (b.kind === 'hook') {
-    html += `<div class="quote" id="${id}-q"><div class="qm">“</div><div class="qt">${esc(b.quote)}</div><div class="qs">${esc(b.source)}</div></div>`
-    tl += textIn(`#${id}-q`, s + 0.6) + `tl.fromTo("#${id}-q .qs",{opacity:0},{opacity:1,duration:0.6},${(s + 1.6).toFixed(2)});\n`
+    html += `<div class="quote" id="${id}-q"><div class="qm">“</div><div class="qt">${esc(b.quote)}</div>${b.source ? `<div class="qs">${esc(b.source)}</div>` : ''}</div>`
+    tl += textIn(`#${id}-q`, s + 0.6) + (b.source ? `tl.fromTo("#${id}-q .qs",{opacity:0},{opacity:1,duration:0.6},${(s + 1.6).toFixed(2)});\n` : '')
   }
   if (b.kind === 'shot') {
     html += `<div class="caption" id="${id}-c">${esc(b.line)}</div>`

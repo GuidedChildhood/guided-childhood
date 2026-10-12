@@ -1,18 +1,70 @@
 {
   "title": "Ready, episode 5: the phone in the bedroom",
-  "music": "guide-score.mp3", "musicVolume": 0.7,
-  "needs": ["s11 reshoot: she must read as sixteen", "Check the kid-deal crop shows where devices sleep"],
+  "needs": [
+    "s11 reshoot: she must read as sixteen",
+    "Check the kid-deal crop shows where devices sleep",
+    "DiGi's plan is its own scenario EB-02 (digi/06-scenarios.md); run it as an eval case against live DiGi before finals"
+  ],
   "beats": [
-    { "kind": "hook", "step": 1, "stamp": "A month to go", "clip": "s13.mp4", "quote": "All devices downstairs at 10pm.", "source": "The rule every Mumsnet thread lands on" },
-    { "kind": "chat", "step": 2, "stamp": "A month to go", "me": "She gets her first phone next month. Where should it charge?" },
-    { "kind": "chat", "step": 2, "stamp": "A month to go", "plan": true,
-      "digi": ["Before it arrives: agree where every device sleeps. Not after.",
-               "Together: write it into your family deal, and you both agree.",
-               "Every evening: her app asks for the phone on the charger first."] },
-    { "kind": "shot", "step": 3, "stamp": "The day it arrives", "clip": "s11.mp4", "line": "Her first phone. The deal comes first." },
-    { "kind": "screen", "step": 3, "stamp": "The day it arrives", "screen": "kid-deal.png", "y": 0, "h": 1500, "line": "Where phones sleep, agreed together." },
-    { "kind": "screen", "step": 3, "stamp": "Every evening", "screen": "kid-ask-gate.png", "y": 0, "h": 950, "line": "Phone on the charger first. Then screens." },
-    { "kind": "shot", "step": 4, "stamp": "Every night since", "clip": "s13.mp4", "off": 1.0, "line": "Her phone sleeps in the kitchen. Her choice." },
-    { "kind": "end" }
+    {
+      "kind": "hook",
+      "step": 1,
+      "stamp": "A month to go",
+      "clip": "s13.mp4",
+      "quote": "I don't want that phone in her bedroom all night."
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "A month to go",
+      "me": "She gets her first phone next month. Where should it charge?"
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "A month to go",
+      "plan": true,
+      "digi": [
+        "Before it arrives: agree together that phones charge in the kitchen overnight.",
+        "If she needs an alarm: buy her an alarm clock. That solves the alarm.",
+        "Every night: yours charges there too. It is about sleep, not trust."
+      ]
+    },
+    {
+      "kind": "shot",
+      "step": 3,
+      "stamp": "The day it arrives",
+      "clip": "s11.mp4",
+      "line": "Her first phone. The deal comes first."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "The day it arrives",
+      "screen": "kid-deal.png",
+      "y": 0,
+      "h": 1500,
+      "line": "Where phones sleep, agreed together."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Every evening",
+      "screen": "kid-ask-gate.png",
+      "y": 0,
+      "h": 950,
+      "line": "Phone on the charger first. Then screens."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Every night since",
+      "clip": "s13.mp4",
+      "off": 1.0,
+      "line": "Her phone sleeps in the kitchen. Her choice."
+    },
+    {
+      "kind": "end"
+    }
   ]
 }

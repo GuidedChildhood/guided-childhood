@@ -1,18 +1,69 @@
 {
   "title": "Ready, episode 3: what they will see",
-  "music": "guide-score.mp3", "musicVolume": 0.7,
-  "needs": ["Clip check: s09-slow offsets for the three moments"],
+  "needs": [
+    "Clip check: s09-slow offsets for the three moments",
+    "DiGi's plan is its own scenarios WB-03 and SC-02 (digi/06-scenarios.md); run it as an eval case against live DiGi before finals"
+  ],
   "beats": [
-    { "kind": "hook", "step": 1, "stamp": "Tuesday, 7:40pm", "clip": "s09-slow.mp4", "quote": "I want them to come to me first.", "source": "What parents tell us most" },
-    { "kind": "shot", "step": 1, "stamp": "Tuesday, 7:40pm", "clip": "s09-slow.mp4", "off": 0.4, "line": "A horrible message in the group chat." },
-    { "kind": "chat", "step": 2, "stamp": "Tuesday, 7:42pm", "me": "She showed me a horrible message from a group chat. What do I say?" },
-    { "kind": "chat", "step": 2, "stamp": "Tuesday, 7:43pm", "plan": true,
-      "digi": ["Right now: thank her for coming to you first. That is the win.",
-               "Next: ask what she thinks it means, before you decide anything.",
-               "This week: tell me how it goes, and I will check back."] },
-    { "kind": "shot", "step": 3, "stamp": "Tuesday, 7:45pm", "clip": "s09-slow.mp4", "off": 5.0, "line": "Thank you for telling me." },
-    { "kind": "screen", "step": 3, "stamp": "Week 2", "screen": "concern-scale.png", "y": 1500, "h": 860, "line": "DiGi checks back on what it suggested." },
-    { "kind": "shot", "step": 4, "stamp": "Week 3", "clip": "s09-slow.mp4", "off": 7.5, "line": "She came to you, not around you." },
-    { "kind": "end" }
+    {
+      "kind": "hook",
+      "step": 1,
+      "stamp": "Tuesday, 7:40pm",
+      "clip": "s09-slow.mp4",
+      "quote": "I just want her to come to me first."
+    },
+    {
+      "kind": "shot",
+      "step": 1,
+      "stamp": "Tuesday, 7:40pm",
+      "clip": "s09-slow.mp4",
+      "off": 0.4,
+      "line": "A horrible message in the group chat."
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Tuesday, 7:42pm",
+      "me": "She showed me a horrible message from a group chat. What do I say?"
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Tuesday, 7:43pm",
+      "plan": true,
+      "digi": [
+        "Right now: tell her you are glad she came to you. She did nothing wrong.",
+        "Next: ask her to show you, in her own words, before you decide anything.",
+        "This week: tell me how it goes, and I will check back."
+      ]
+    },
+    {
+      "kind": "shot",
+      "step": 3,
+      "stamp": "Tuesday, 7:45pm",
+      "clip": "s09-slow.mp4",
+      "off": 5.0,
+      "line": "Thank you for telling me."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Week 2",
+      "screen": "concern-scale.png",
+      "y": 1500,
+      "h": 860,
+      "line": "DiGi checks back on what it suggested."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Week 3",
+      "clip": "s09-slow.mp4",
+      "off": 7.5,
+      "line": "She came to you, not around you."
+    },
+    {
+      "kind": "end"
+    }
   ]
 }

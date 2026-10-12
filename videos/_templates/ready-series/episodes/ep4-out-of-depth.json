@@ -1,17 +1,61 @@
 {
   "title": "Ready, episode 4: out of your depth",
-  "music": "guide-score.mp3", "musicVolume": 0.7,
-  "needs": ["NEW: the girl, about eleven, starting her own timer on a tablet while her dad nods from the kitchen", "SCREEN: the trust ladder picker (Ask first, They start you watch, Trusted) needs a /ref page and a capture; it would replace the ask box screen"],
+  "needs": [
+    "NEW: the girl, about eleven, starting her own timer on a tablet while her dad nods from the kitchen",
+    "SCREEN: the trust ladder picker (Ask first, They start you watch, Trusted) needs a /ref page and a capture; it would replace the ask box screen",
+    "No DiGi scenario covers this worry yet; the plan describes product features (the lessons, the trust ladder). Run it as an eval case before finals",
+    "s07 reads about seven; the nine year old shot needs the new reference"
+  ],
   "beats": [
-    { "kind": "hook", "step": 1, "stamp": "Sunday, 4:00pm", "clip": "s07.mp4", "quote": "Almost half of parents feel their child knows more about tech than they do.", "source": "Vodafone UK, Tech Savvy Tweens" },
-    { "kind": "chat", "step": 2, "stamp": "Sunday, 4:05pm", "me": "She knows this stuff better than I do. Where do I even start?" },
-    { "kind": "chat", "step": 2, "stamp": "Sunday, 4:06pm", "plan": true,
-      "digi": ["Today: you do not need to know the app. You need the words.",
-               "Every day: ten minutes together, and I give you the words.",
-               "As she grows: she moves up from asking first to trusted."] },
-    { "kind": "shot", "step": 3, "stamp": "Week 1, 6:30pm", "clip": "s07.mp4", "line": "Ten minutes a day, learning together." },
-    { "kind": "screen", "step": 3, "stamp": "Week 2", "screen": "ask-first-parent.png", "y": 0, "h": 1500, "line": "At first, she asks. You decide." },
-    { "kind": "shot", "step": 4, "stamp": "Six years on", "clip": "s10.mp4", "line": "She knows the app. And she knows why." },
-    { "kind": "end" }
+    {
+      "kind": "hook",
+      "step": 1,
+      "stamp": "Sunday, 4:00pm",
+      "clip": "s07.mp4",
+      "quote": "She knows more about this stuff than I do."
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Sunday, 4:05pm",
+      "me": "She knows this stuff better than I do. Where do I even start?"
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Sunday, 4:06pm",
+      "plan": true,
+      "digi": [
+        "Today: you do not need to know the app. You need the words.",
+        "Every day: ten minutes together, and I give you the words.",
+        "As she grows: she moves up from asking first to trusted."
+      ]
+    },
+    {
+      "kind": "shot",
+      "step": 3,
+      "stamp": "Week 1, 6:30pm",
+      "clip": "s07.mp4",
+      "line": "Ten minutes a day, learning together."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Week 2",
+      "screen": "ask-first-parent.png",
+      "y": 0,
+      "h": 1500,
+      "line": "At first, she asks. You decide."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Six years on",
+      "clip": "s10.mp4",
+      "line": "She knows the app. And she knows why."
+    },
+    {
+      "kind": "end"
+    }
   ]
 }

@@ -50,6 +50,19 @@ eighteen words, a beat shorter than its words take to read at 2.6 words a
 second, and a beat without a step and a stamp. An episode's `needs` list says
 what is still missing before it can be cut.
 
+## Rules from Justin, 12 October
+
+- **The child starts at nine or older.** A younger child with a screen looks
+  like we encourage screens too young.
+- **The hook is the worry in a parent's own words, with no source named.** No
+  Mumsnet, no survey on screen.
+- **DiGi's plan is DiGi's real advice.** Take it from its own scenario in
+  `digi/06-scenarios.md` (name it in the episode's `needs`), and run the
+  question as an eval case (`lib/digi/evals.ts`, `runCase`) against live DiGi
+  before finals. Never write advice for DiGi that its playbook does not give.
+- **No backing track.** Episodes build without music; Justin adds the track in
+  the edit. Leave `music` out of the episode.
+
 ## Real screens only
 
 `screens/` holds captures of the running app at phone width, taken by
