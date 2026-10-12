@@ -21,15 +21,15 @@
     0.15
    ],
    [
-    19.0,
+    13.6,
     0.3
    ],
    [
-    43.0,
+    47.0,
     0.3
    ],
    [
-    46.0,
+    50.0,
     0
    ]
   ]
@@ -235,81 +235,210 @@
    ]
   },
   {
-   "id": "script",
+   "id": "deck-say",
    "dur": 5.6,
-   "src": "stills/script-9671.png",
-   "srcH": 844,
-   "ground": "white",
-   "fadeIn": 0.12,
+   "src": "rec/script-deck.mp4",
+   "srcH": 1000,
+   "mediaStart": 0.6,
+   "fadeIn": 0.15,
    "cam": [
     {
      "t": 0,
-     "S": 2.9,
+     "S": 2.77,
      "fx": 195,
-     "fy": 200,
-     "py": 900
+     "fy": 60,
+     "py": 330
+    },
+    {
+     "t": 0.6,
+     "S": 2.77,
+     "fx": 195,
+     "fy": 303,
+     "py": 330,
+     "dur": 0.8
     }
    ],
    "inScreen": [
     {
      "cls": "underline",
-     "x": 271,
-     "y": 240,
-     "w": 37,
+     "x": 158,
+     "y": 599,
+     "w": 132,
      "h": 3,
-     "t0": 0.9
+     "t0": 1.7,
+     "t1": 4.0
     },
     {
      "cls": "underline",
-     "x": 45,
-     "y": 277,
-     "w": 179,
+     "x": 47,
+     "y": 630,
+     "w": 214,
      "h": 3,
-     "t0": 1.0
-    },
-    {
-     "cls": "underline",
-     "x": 45,
-     "y": 313,
-     "w": 264,
-     "h": 3,
-     "t0": 1.1
-    },
-    {
-     "cls": "underline",
-     "x": 45,
-     "y": 350,
-     "w": 67,
-     "h": 3,
-     "t0": 1.2
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "label",
-     "text": "Free script. Say this before the tablet goes on",
-     "y": 200,
-     "t0": 0.1
+     "t0": 1.85,
+     "t1": 4.0
     }
    ],
    "sfx": [
     {
      "name": "sfx-whoosh",
-     "at": 0.0,
+     "at": 0,
      "vol": 0.18
     },
     {
      "name": "sfx-shimmer",
+     "at": 1.7,
+     "vol": 0.18
+    },
+    {
+     "name": "sfx-tap",
+     "at": 4.2,
+     "vol": 0.45
+    },
+    {
+     "name": "sfx-whoosh",
+     "at": 5.3,
+     "vol": 0.16
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 250,
+     "t0": 0
+    }
+   ]
+  },
+  {
+   "id": "deck-why",
+   "dur": 3.8,
+   "src": "rec/script-deck.mp4",
+   "srcH": 1000,
+   "mediaStart": 9.4,
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.77,
+     "fx": 195,
+     "fy": 284,
+     "py": 330
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 111,
+     "y": 626,
+     "w": 161,
+     "h": 3,
+     "t0": 0.9
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 657,
+     "w": 97,
+     "h": 3,
+     "t0": 1.05
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 718,
+     "w": 281,
+     "h": 3,
+     "t0": 1.5
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 250,
+     "t0": 0
+    },
+    {
+     "kind": "lower",
+     "text": "This script names its sources",
+     "t0": 0.4
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-shimmer",
      "at": 0.9,
-     "vol": 0.2
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "deck-rcpch",
+   "dur": 2.6,
+   "src": "rec/script-deck.mp4",
+   "srcH": 1000,
+   "mediaStart": 15.4,
+   "fadeIn": 0.12,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.77,
+     "fx": 195,
+     "fy": 800,
+     "py": 1400
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 282,
+     "y": 760,
+     "w": 34,
+     "h": 3,
+     "t0": 0.3
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 791,
+     "w": 258,
+     "h": 3,
+     "t0": 0.4
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 822,
+     "w": 270,
+     "h": 3,
+     "t0": 0.55
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 853,
+     "w": 35,
+     "h": 3,
+     "t0": 0.7
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 250,
+     "t0": 0
+    },
+    {
+     "kind": "lower",
+     "text": "This script names its sources",
+     "t0": 0,
+     "instant": true
     }
    ]
   },
   {
    "id": "timer",
-   "dur": 5.0,
+   "dur": 4.4,
    "src": "rec/timer-end.mp4",
-   "mediaStart": 6.2,
+   "mediaStart": 6.8,
    "fadeIn": 0.12,
    "cam": [
     {
@@ -320,7 +449,7 @@
      "py": 1000
     },
     {
-     "t": 3.5,
+     "t": 2.9,
      "S": 2.6,
      "fx": 195,
      "fy": 260,
@@ -350,7 +479,7 @@
     },
     {
      "name": "sfx-chime",
-     "at": 3.8,
+     "at": 3.2,
      "vol": 0.4
     }
    ]
@@ -374,7 +503,7 @@
     {
      "kind": "marker",
      "text": "A few days on. Illustrative",
-     "y": 230,
+     "y": 240,
      "t0": 0.0
     }
    ],
@@ -492,28 +621,6 @@
    "cropTop": 748
   },
   {
-   "id": "path",
-   "dur": 2.2,
-   "src": "captures/today-path.png",
-   "fadeIn": 0.12,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.77,
-     "fx": 195,
-     "fy": 380,
-     "py": 960
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-whoosh",
-     "at": 0.0,
-     "vol": 0.15
-    }
-   ]
-  },
-  {
    "id": "tiles",
    "dur": 1.6,
    "src": "captures/worries-before.png",
@@ -626,5 +733,35 @@
     }
    ]
   }
- ]
+ ],
+ "rail": {
+  "y": 46,
+  "from": "deck-say",
+  "fromT": 0.1,
+  "until": "great-hold",
+  "steps": [
+   {
+    "label": "Asked DiGi",
+    "shot": "deck-say",
+    "t": 0.35,
+    "vol": 0.14
+   },
+   {
+    "label": "The words",
+    "shot": "deck-say",
+    "t": 5.0
+   },
+   {
+    "label": "Checked in",
+    "shot": "followup",
+    "t": 4.3
+   },
+   {
+    "label": "Sorted",
+    "shot": "great",
+    "t": 1.1,
+    "silent": true
+   }
+  ]
+ }
 }

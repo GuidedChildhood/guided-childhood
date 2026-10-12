@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { trialEndsAtFromNow } from '@/lib/config/trial'
 import { SCHOOL_LINK_COOKIE, normaliseLinkCode } from '@/lib/school/link'
+import { VIDEO_LINK_COOKIE } from '@/lib/video/link'
 
 // Start the free trial, once, ever.
 //
@@ -89,6 +90,18 @@ export async function POST(req: NextRequest) {
     try {
       await admin.from('profiles').update({ school_link: schoolCode })
         .eq('id', user.id).is('school_link', null)
+    } catch { /* attribution is nice to have, the trial is not */ }
+  }
+
+  // ── WHICH FILM SENT THEM (migration 372) ───────────────────────────────
+  //
+  // The same rule as the school, for the film link's cookie: once, at a fresh
+  // grant, onto an empty column, best effort.
+  const videoCode = granted ? normaliseLinkCode(req.cookies.get(VIDEO_LINK_COOKIE)?.value) : null
+  if (videoCode) {
+    try {
+      await admin.from('profiles').update({ video_link: videoCode })
+        .eq('id', user.id).is('video_link', null)
     } catch { /* attribution is nice to have, the trial is not */ }
   }
 
