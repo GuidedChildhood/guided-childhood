@@ -153,3 +153,27 @@ or Epidemic Sound, roughly £10 to £20 a month, search "emotional piano
 ballad, soft female vocal, 70 bpm, builds") for the film now; a commissioned
 original from a composer for the paid campaign, so the brand owns its song
 the way John Lewis owns its sound.
+
+
+## Rough cut, 12 October
+
+Justin said yes to the 312 credit draft route and to the first gold star
+given back. Built in `videos/2026-10-12-ready/` (`build.mjs`, the thirteen
+draft shots, `tools/guide-score.mjs`).
+
+- **The girl's identity** comes from one reference frame cropped from the
+  approved "rested morning" clip (`refs/girl-ref.jpg`), passed to every shot
+  as an image reference. She holds from six to fifteen.
+- **The dad** is described the same way in every prompt (short dark brown
+  hair, short beard, navy jumper). He drifts twice: no beard in the sticky
+  note shot, a beige jumper in the last shot.
+- **Must fix before finals:** the birthday shot reads as an eight year old,
+  not sixteen, and the reveal needs her visibly grown up. Reshoot that one
+  first, with a sixteen year old reference made from the fifteen year old
+  frame of shot 10.
+- **The music is a guide only**, synthesised in code to the curve above, so
+  the cut has something to breathe to. The licensed track replaces it.
+- **The line** is Justin's own, unchanged: "Eventually the controls come off.
+  What I want left behind is judgement."
+- Higgsfield's licensed music is TikTok's library, usable only inside a
+  TikTok post, so it cannot score the film.
