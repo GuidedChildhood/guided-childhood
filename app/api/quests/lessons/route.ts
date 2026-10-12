@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  let body: { child_id?: string; lesson_id?: string }
+  let body: { child_id?: string; lesson_id?: string; instead?: boolean }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
   if (!body.child_id || !body.lesson_id) return NextResponse.json({ error: 'bad request' }, { status: 400 })
 
@@ -96,6 +96,19 @@ export async function POST(req: NextRequest) {
     .eq('user_id', user.id).eq('child_id', child.id).eq('lesson_id', lesson.id)
     .maybeSingle()
   if (existing?.status === 'done') return NextResponse.json({ ok: true, state: 'already_passed' })
+
+  // "DO THIS ONE INSTEAD" (the lessons page, 12 October 2026). The lesson in
+  // hand is parked rather than lost: any open mission for this child goes to
+  // `skipped`, which keeps it on the child's list to pick up later and lets
+  // the chosen one hold the week (lib/pathway/lesson-path: an open mission is
+  // this week's lesson). Never a passed one: only `sent` rows move.
+  if (body.instead) {
+    await supabase
+      .from('kid_lesson_missions')
+      .update({ status: 'skipped' })
+      .eq('user_id', user.id).eq('child_id', child.id).eq('status', 'sent')
+      .neq('lesson_id', lesson.id)
+  }
 
   const friendKey = characterKeyFor(lesson.character_cast) ?? 'digi'
   const friend = CHARACTERS[friendKey]?.name ?? 'DiGi'
