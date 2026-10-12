@@ -3,8 +3,25 @@ import { momentLook } from '@/lib/content/moment-look'
 
 // The social unfurl for a shared moment card: when the /m/<id> link lands
 // in WhatsApp, iMessage or a feed, this image is the preview, in the same
-// band and tint as the card itself. Fetched via Supabase REST with the
-// anon key (daily_moments is publicly readable).
+// band and tint as the card itself.
+//
+// ── IT WAS READING WITH A KEY THAT CANNOT READ, 12 October 2026 ─────────────
+//
+// The comment here used to say "daily_moments is publicly readable" and this
+// route fetched with the anon key on the strength of it. Migration 275 revoked
+// that grant in September 2026 and nobody updated the route. Checked against
+// the live database: `anon` holds every privilege on daily_moments EXCEPT
+// SELECT.
+//
+// So every moment link a parent has shared since September has unfurled with
+// the generic fallback title instead of the card. On a growth loop where the
+// link IS the artifact, that is the artifact, and it failed silently because
+// the route catches and falls back by design.
+//
+// The service role, which is what the page beside this one already moved to.
+// Safe here for the same reason it is safe there: the id must already have
+// been given to the visitor, it is pinned to one row, it is matched against a
+// uuid shape before any request is made, and only three columns come back.
 
 export const runtime = 'edge'
 export const alt = 'A moment card from Guided Childhood'
@@ -16,7 +33,8 @@ type MomentRow = { title: string; category: string; science_brief: string }
 async function getMoment(id: string): Promise<MomentRow | null> {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  // Both names are accepted across this repo, so take whichever is set.
+  const key = process.env.SUPABASE_SERVICE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!base || !key) return null
   try {
     const res = await fetch(
