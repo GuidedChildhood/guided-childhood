@@ -72,6 +72,10 @@ for (const [i, sh] of C.shots.entries()) {
     else if (o.kind === 'end') html += `<div id="${id}-o${j}" class="ov endcard" style="top:${o.y}px"><div class="end-logo">${logo(64, 50)}</div>${o.eyebrow ? `<div class="end-eyebrow">${esc(o.eyebrow)}</div>` : ''}<div class="end-line">${esc(o.line)}</div><div class="end-sub">${esc(o.sub)}</div><div class="end-btn" id="${id}-o${j}-btn">${esc(o.button)}</div><div class="end-url">${esc(o.url)}</div>${o.slate ? `<div class="end-slate">${esc(o.slate)}</div>` : ''}</div>`
     else if (o.kind === 'marker') html += `<div id="${id}-o${j}" class="ov markerwrap" style="${style}"><span class="marker">${esc(o.text)}</span></div>`
     else if (o.kind === 'label') html += `<div id="${id}-o${j}" class="ov" style="${style}"><span class="label">${esc(o.text)}</span></div>`
+    // A caption bar across the foot of the frame, so a label never sits on top of a line of UI text.
+    else if (o.kind === 'lower') html += `<div id="${id}-o${j}" class="ov lower">${esc(o.text)}</div>`
+    // A soft fade of the page's own ground behind the rail, so cut off text above it does not show.
+    else if (o.kind === 'veil') html += `<div id="${id}-o${j}" class="ov veil" style="height:${o.h || 260}px;background:linear-gradient(${o.color || '#F9F8F6'} 0,${o.color || '#F9F8F6'} 72%,transparent)"></div>`
     else html += `<div id="${id}-o${j}" class="ov ${o.kind || 'line'}" style="${style}">${o.kind === 'hook' ? esc(o.text).split(' ').map((w) => `<span class="hw">${w}</span>`).join(' ') : esc(o.text)}</div>`
   }
   html += `</div>\n`
@@ -95,6 +99,7 @@ for (const [i, sh] of C.shots.entries()) {
   for (const [j, o] of (sh.overlays || []).entries()) {
     const sel = `#${id}-o${j}`, t0 = s + (o.t0 || 0), t1 = s + (o.t1 ?? d)
     if (o.kind === 'end') { fromTo(sel, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t0); if (o.pressAt != null) { to(`${sel}-btn`, { y: 5, boxShadow: '0 1px 0 #000', duration: 0.09, yoyo: true, repeat: 1 }, t0 + o.pressAt) } continue }
+    if (o.instant || o.kind === 'veil') { set(sel, { opacity: 1 }, t0); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
     if (o.kind === 'hook') fromTo(`${sel} .hw`, { opacity: 0, y: 14, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, stagger: 0.06, ease: 'power2.out' }, t0)
     else fromTo(sel, { opacity: 0, y: o.kind === 'digi' ? 40 : 12 }, { opacity: 1, y: 0, duration: 0.45, ease: o.kind === 'digi' ? 'back.out(1.6)' : 'power2.out' }, t0)
     if (o.t1 != null) to(sel, { opacity: 0, duration: 0.3 }, t1 - 0.3)
@@ -113,6 +118,33 @@ for (const [i, sh] of C.shots.entries()) {
   clock = e
 }
 const TOTAL = Math.round(clock * 100) / 100
+
+// ── The tracker rail: one moment followed from asked to sorted ──────────────
+// A film caption, not an app screen: it labels what the real screens show
+// happening (asked DiGi, got the words, checked in, sorted) and ticks each
+// step as its beat lands, so the "keeps going until it is sorted" part reads
+// at a glance. Each segment of line and each dot is its own element with its
+// own tween, so seeking the timeline in any order renders the same frame.
+if (C.rail) {
+  const R = C.rail, byId = Object.fromEntries(C.shots.map((sh) => [sh.id, sh]))
+  const when = (shot, t) => { if (!byId[shot]) throw new Error(`rail: no shot ${shot}`); return byId[shot].start + (t || 0) }
+  const n = R.steps.length, RW = 960, PAD = 110, span = RW - PAD * 2, xs = R.steps.map((_, i) => PAD + (i * span) / (n - 1))
+  const tick = '<svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  html += `<div id="rail" class="rail" style="top:${R.y ?? 46}px">` +
+    xs.slice(1).map((x, i) => `<div class="rail-line" style="left:${xs[i]}px;width:${x - xs[i]}px"><div id="rail-f${i + 1}" class="rail-fill"></div></div>`).join('') +
+    xs.map((x, i) => `<div class="rail-dot" style="left:${x}px"><div id="rail-d${i}" class="rail-done">${tick}</div></div><div id="rail-l${i}" class="rail-lab" style="left:${x}px">${esc(R.steps[i].label)}</div>`).join('') +
+    `</div>\n`
+  const t0 = when(R.from, R.fromT), t1 = when(R.until, byId[R.until].dur)
+  fromTo('#rail', { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, t0)
+  to('#rail', { opacity: 0, duration: 0.3 }, t1 - 0.3)
+  R.steps.forEach((st, i) => {
+    const T = Math.max(when(st.shot, st.t), t0 + 0.2)
+    if (i > 0) fromTo(`#rail-f${i}`, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, T - 0.5)
+    fromTo(`#rail-d${i}`, { scale: 0 }, { scale: 1, duration: 0.42, ease: 'back.out(2.4)' }, T)
+    fromTo(`#rail-l${i}`, { opacity: 0.42 }, { opacity: 1, duration: 0.3 }, T)
+    if (!st.silent) SFX.push({ name: 'sfx-tink', at: T, vol: st.vol ?? 0.2 })
+  })
+}
 
 // ── Sound ───────────────────────────────────────────────────────────────────
 let audio = ''
@@ -156,6 +188,14 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .label{font-family:plexMono,monospace;font-weight:600;font-size:30px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 16px;display:inline-block}
 .end-logo{margin-bottom:46px}.end-eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:6px}
 .end-slate{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.1em;text-transform:uppercase;color:#52526A;margin-top:46px;max-width:840px;line-height:1.4}
+.rail{position:absolute;left:60px;width:960px;height:150px;opacity:0;background:#FDF6DE;border:3px solid #1A1A2E;border-radius:36px;box-shadow:0 6px 0 #1A1A2E}
+.rail-line{position:absolute;top:51px;height:6px;border-radius:3px;background:rgba(26,26,46,.16);overflow:hidden}
+.rail-fill{position:absolute;inset:0;background:#1A1A2E;transform-origin:0 50%;transform:scaleX(0)}
+.rail-dot{position:absolute;top:24px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:#fff;border:4px solid #1A1A2E}
+.rail-done{position:absolute;inset:-4px;border-radius:50%;background:#EDC35F;border:4px solid #1A1A2E;display:flex;align-items:center;justify-content:center;transform:scale(0)}
+.rail-lab{position:absolute;top:96px;width:240px;margin-left:-120px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:25px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E;opacity:.42}
+.lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
+.veil{left:0;top:0;width:1080px}
 .ov{position:absolute;opacity:0}
 .eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:32px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
 .hook{font-weight:900;font-size:104px;line-height:1.02;letter-spacing:-.03em}
