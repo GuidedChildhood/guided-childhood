@@ -121,7 +121,9 @@ tl.to("#${id}-dots",{opacity:0,height:0,margin:0,padding:0,duration:0.2},${(a + 
   }
   if (b.kind === 'screen') {
     const cropH = b.h || 1500, y = b.y || 0
-    html += `<div class="phone screen" id="${id}-p"><div class="crop" style="aspect-ratio:1170/${cropH}"><img src="assets/${esc(b.screen)}" style="top:${(-y / cropH * 100).toFixed(3)}%;height:auto" alt=""></div></div>
+    // keep the whole phone on screen: cap its height, narrow it if the crop is tall
+    const maxH = V ? 1000 : 820, pw = Math.min(V ? 620 : 520, Math.round((maxH - 28) * 1170 / cropH))
+    html += `<div class="phone screen" id="${id}-p" style="width:${pw}px${V ? `;margin-left:-${pw / 2}px` : ''}"><div class="crop" style="aspect-ratio:1170/${cropH}"><img src="assets/${esc(b.screen)}" style="top:${(-y / cropH * 100).toFixed(3)}%;height:auto" alt=""></div></div>
       <div class="cap side" id="${id}-c">${b.tag ? `<div class="age">${esc(b.tag)}</div>` : ''}<div class="cl">${esc(b.line)}</div></div>`
     tl += `tl.fromTo("#${id}-p",{opacity:0,y:80,rotate:-2,scale:0.94},{opacity:1,y:0,rotate:0,scale:1,duration:0.9,ease:"expo.out"},${(s + 0.3).toFixed(2)});
 tl.to("#${id}-p",{y:-10,duration:${(b.d - 1.6).toFixed(2)},ease:"sine.inOut"},${(s + 1.2).toFixed(2)});\n` + capIn(`#${id}-c`, s + 1.1) + out(`#${id}-c`, e - 0.5)
