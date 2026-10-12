@@ -1,0 +1,14 @@
+{
+  "title": "Ready, episode 5: the phone in the bedroom",
+  "worry": "Phones in bedrooms at night",
+  "needs": [],
+  "beats": [
+    { "kind": "hook", "clip": "s13.mp4", "quote": "All devices downstairs at 10pm.", "source": "The rule every Mumsnet thread lands on" },
+    { "kind": "shot", "clip": "s11.mp4", "age": "Age 16", "line": "Her first phone. Where does it sleep?" },
+    { "kind": "chat", "clip": "s02-chat.mp4", "me": "She gets her first phone next month. Where should it charge?", "digi": ["Agree where devices sleep before the phone arrives, not after.", "Write it into your family deal together, and you both sign it."] },
+    { "kind": "screen", "clip": "s13.mp4", "screen": "kid-deal.png", "y": 0, "h": 1500, "tag": "Our family deal", "line": "Phones at bedtime, agreed together." },
+    { "kind": "screen", "clip": "s13.mp4", "screen": "kid-ask-gate.png", "y": 0, "h": 760, "tag": "Before screens", "line": "Phone charges outside the bedroom first." },
+    { "kind": "payoff", "clip": "s13.mp4", "off": 1.0, "age": "Age 16", "line": "Her phone charges in the kitchen. Her call." },
+    { "kind": "end" }
+  ]
+}

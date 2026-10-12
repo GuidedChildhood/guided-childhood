@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080"><title>Ready, episode 1: the nightly fight</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000;font-style:normal}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600;font-style:normal}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#0B0A08;font-family:nunito,sans-serif}
+.beat{position:absolute;inset:0;opacity:0;overflow:hidden}
+.beat video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.beat video.soft{filter:blur(6px) brightness(0.8);transform:scale(1.05)}
+.scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,0.45) 100%)}
+.scrim.strong{background:rgba(12,8,2,0.28)}
+.scrim.hookscrim{background:radial-gradient(ellipse at center,rgba(8,5,0,0.62) 0%,rgba(8,5,0,0.35) 70%)}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(10,6,0,0.4) 100%);z-index:8}
+.bars{position:absolute;left:0;right:0;height:60px;background:#000;z-index:9}.bars.top{top:0}.bars.bottom{bottom:0}
+.hook{position:absolute;left:180px;right:180px;top:300px;text-align:center;opacity:0;z-index:6}
+.hook .qm{font-weight:900;font-size:160px;line-height:0.6;color:#EDC35F}
+.hook .qt{font-weight:800;font-size:64px;line-height:1.15;color:#FFFBEE;text-shadow:0 4px 0 rgba(0,0,0,0.2),0 18px 50px rgba(0,0,0,0.7)}
+.hook .qs{margin-top:26px;font-family:plexMono,monospace;font-weight:600;font-size:24px;letter-spacing:0.18em;text-transform:uppercase;color:#EDC35F;opacity:0}
+.cap{position:absolute;left:96px;bottom:128px;z-index:6;opacity:0;padding:22px 30px 24px;border-radius:22px;background:rgba(20,16,10,0.44);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border:1px solid rgba(255,255,255,0.22);border-top-color:rgba(255,255,255,0.45);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),0 18px 50px rgba(0,0,0,0.35)}
+.cap.side{left:96px;top:50%;bottom:auto;transform:translateY(-50%);max-width:700px}
+.cap.payoff{background:rgba(237,195,95,0.22);border-color:rgba(237,195,95,0.6)}
+.cap .age{font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:0.2em;text-transform:uppercase;color:#EDC35F;margin-bottom:10px}
+.cap .cl{font-weight:800;font-size:52px;line-height:1.12;color:#FFFBEE;letter-spacing:-0.01em}
+.phone{position:absolute;right:180px;top:110px;width:520px;z-index:6;opacity:0;background:#F9F8F6;border:3px solid #1A1A2E;border-radius:44px;box-shadow:0 8px 0 #1A1A2E,0 40px 90px rgba(0,0,0,0.45);overflow:hidden}
+.phone.screen{padding:14px}
+.phone .crop{position:relative;width:100%;overflow:hidden;border-radius:32px;background:#F9F8F6}
+.phone .crop img{position:absolute;left:0;width:100%}
+.phone.chat{right:110px;top:120px;width:600px;padding:22px 28px 30px}
+.ph-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:18px;border-bottom:2px solid #EDE6D6;font-weight:800;font-size:28px;color:#1A1A2E}
+.ph-head img{width:44px;height:44px;object-fit:contain}
+.me{margin-left:70px;background:#F0F9FF;border:2px solid #1A1A2E;box-shadow:0 4px 0 #1A1A2E;border-radius:16px;padding:16px 20px;font-weight:600;font-size:30px;line-height:1.3;color:#1A1A2E;opacity:0}
+.dots{display:inline-flex;gap:8px;margin-top:20px;padding:12px 18px;background:#FFF6DE;border-radius:999px;opacity:0;overflow:hidden}
+.dots i{display:block;width:12px;height:12px;border-radius:50%;background:#C99A28;opacity:0.6}
+.dg{margin-top:16px;font-weight:600;font-size:31px;line-height:1.35;color:#1A1A2E;opacity:0}
+.end{background:#F9F8F6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.lockup{display:flex;align-items:center;gap:30px;opacity:0}
+.word{font-weight:800;font-size:92px;color:#1A1A2E;letter-spacing:-0.01em}
+.end .cta{margin-top:50px;font-weight:700;font-size:44px;line-height:1.3;color:#1A1A2E;opacity:0}
+.end .url{margin-top:26px;font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:0.08em;color:#C99A28;opacity:0}
+</style></head>
+<body><div id="root" data-composition-id="main" data-start="0" data-duration="43.70" data-width="1920" data-height="1080">
+<div id="b0" class="beat"><video id="v0" class="" src="assets/s01.mp4" muted playsinline data-start="0.00" data-duration="3.90" data-media-start="0.00" data-track-index="1" style="transform-origin:55% 45%"></video><div class="scrim hookscrim"></div><div class="hook" id="b0-q"><div class="qm">“</div><div class="qt">It's utterly miserable constantly policing screen time.</div><div class="qs">A parent on Mumsnet</div></div></div>
+<div id="b1" class="beat"><video id="v1" class="" src="assets/s01.mp4" muted playsinline data-start="3.40" data-duration="4.40" data-media-start="3.40" data-track-index="0" style="transform-origin:55% 45%"></video><div class="scrim"></div><div class="cap" id="b1-c"><div class="age">Age 6, 9pm</div><div class="cl">The TV goes back on. Again.</div></div></div>
+<div id="b2" class="beat"><video id="v2" class="soft" src="assets/s02-chat.mp4" muted playsinline data-start="7.30" data-duration="12.80" data-media-start="0.20" data-track-index="1" style="transform-origin:50% 45%"></video><div class="scrim strong"></div><div class="phone chat" id="b2-p"><div class="ph-head"><img src="assets/digi-cut.png" alt=""><span>DiGi</span></div>
+      <div class="me" id="b2-me">She keeps putting the TV back on at bedtime. Help.</div><div class="dots" id="b2-dots"><i></i><i></i><i></i></div>
+      <div class="dg" id="b2-d0">Give the ending to her timer, not to you.</div><div class="dg" id="b2-d1">Bedtime is protected, so it ends on its own.</div></div></div>
+<div id="b3" class="beat"><video id="v3" class="soft" src="assets/s02-slow.mp4" muted playsinline data-start="19.60" data-duration="5.80" data-media-start="5.00" data-track-index="0" style="transform-origin:50% 45%"></video><div class="scrim strong"></div><div class="phone screen" id="b3-p"><div class="crop" style="aspect-ratio:1170/2350"><img src="assets/kid-ask.png" style="top:0.000%;height:auto" alt=""></div></div>
+      <div class="cap side" id="b3-c"><div class="age">Her timer</div><div class="cl">Every screen goes through her timer.</div></div></div>
+<div id="b4" class="beat"><video id="v4" class="soft" src="assets/s05.mp4" muted playsinline data-start="24.90" data-duration="6.10" data-media-start="0.40" data-track-index="1" style="transform-origin:50% 45%"></video><div class="scrim strong"></div><div class="phone screen" id="b4-p"><div class="crop" style="aspect-ratio:1170/900"><img src="assets/device-time-popup.png" style="top:-176.667%;height:auto" alt=""></div></div>
+      <div class="cap side" id="b4-c"><div class="age">Protected time</div><div class="cl">Inside bedtime, it asks you. You decide.</div></div></div>
+<div id="b5" class="beat"><video id="v5" class="" src="assets/s05.mp4" muted playsinline data-start="30.50" data-duration="4.70" data-media-start="2.60" data-track-index="0" style="transform-origin:50% 45%"></video><div class="scrim"></div><div class="cap payoff" id="b5-c"><div class="age">A week later</div><div class="cl">It ends. She switches it off herself.</div></div></div>
+<div id="b6" class="beat"><video id="v6" class="" src="assets/s13.mp4" muted playsinline data-start="34.70" data-duration="5.00" data-media-start="1.00" data-track-index="1" style="transform-origin:50% 50%"></video><div class="scrim"></div><div class="cap payoff" id="b6-c"><div class="age">Age 16</div><div class="cl">Her phone charges in the kitchen. Her call.</div></div></div>
+<div id="b7" class="beat end"><div class="lockup" id="b7-l"><svg width="132" height="132" viewBox="0 0 132 132"><rect width="132" height="132" rx="31.68" fill="#EDC35F"/><rect x="22.4" y="79.9" width="15.8" height="23.1" rx="7.9" fill="#FFFFFF"/><rect x="46.2" y="61.4" width="15.8" height="41.6" rx="7.9" fill="#FFFFFF"/><rect x="70.0" y="38.3" width="15.8" height="64.7" rx="7.9" fill="#FFFFFF"/><rect x="93.7" y="66.0" width="15.8" height="37.0" rx="7.9" fill="#FFFFFF"/></svg><span class="word">Guided Childhood</span></div>
+      <div class="cta" id="b7-c">What stage is your child?<br>Three questions, no sign up.</div><div class="url" id="b7-u">guidedchildhood.com/starter-pack</div></div>
+<div class="vignette"></div><div class="bars top"></div><div class="bars bottom"></div><audio id="music" src="assets/guide-score.mp3" data-start="0" data-duration="43.70" data-track-index="4" data-volume="0.75"></audio></div>
+<script>
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+tl.fromTo("#b0",{opacity:0},{opacity:1,duration:0.8,ease:"sine.inOut"},0.00);
+tl.to("#b0",{opacity:0,duration:0.01},3.90);
+tl.fromTo("#b0 video",{scale:1},{scale:1.07,duration:3.90,ease:"none"},0.00);
+tl.fromTo("#b0-q",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},0.40);
+tl.fromTo("#b0-q .qs",{opacity:0},{opacity:1,duration:0.5},1.20);
+tl.to("#b0-q",{opacity:0,duration:0.4,ease:"power2.in"},3.40);
+tl.fromTo("#b1",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},3.40);
+tl.to("#b1",{opacity:0,duration:0.01},7.80);
+tl.fromTo("#b1 video",{scale:1},{scale:1.07,duration:4.40,ease:"none"},3.40);
+tl.fromTo("#b1-c",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},4.30);
+tl.to("#b1-c",{opacity:0,duration:0.4,ease:"power2.in"},7.30);
+tl.fromTo("#b2",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},7.30);
+tl.to("#b2",{opacity:0,duration:0.01},20.10);
+tl.fromTo("#b2 video",{scale:1},{scale:1.07,duration:12.80,ease:"none"},7.30);
+tl.fromTo("#b2-p",{opacity:0,y:50,scale:0.95},{opacity:1,y:0,scale:1,duration:0.7,ease:"expo.out"},7.70);
+tl.fromTo("#b2-me",{opacity:0,y:14,scale:0.92},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},8.20);
+tl.fromTo("#b2-dots",{opacity:0},{opacity:1,duration:0.2},11.64);
+tl.fromTo("#b2-dots i",{y:0},{y:-6,duration:0.25,yoyo:true,repeat:5,stagger:0.12,ease:"sine.inOut"},11.64);
+tl.to("#b2-dots",{opacity:0,height:0,margin:0,padding:0,duration:0.2},12.84);
+tl.fromTo("#b2-d0",{opacity:0,y:10},{opacity:1,y:0,duration:0.5,ease:"power2.out"},12.94);
+tl.fromTo("#b2-d1",{opacity:0,y:10},{opacity:1,y:0,duration:0.5,ease:"power2.out"},15.99);
+tl.fromTo("#b3",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},19.60);
+tl.to("#b3",{opacity:0,duration:0.01},25.40);
+tl.fromTo("#b3 video",{scale:1},{scale:1.07,duration:5.80,ease:"none"},19.60);
+tl.fromTo("#b3-p",{opacity:0,y:80,rotate:-2,scale:0.94},{opacity:1,y:0,rotate:0,scale:1,duration:0.9,ease:"expo.out"},19.90);
+tl.to("#b3-p",{y:-10,duration:4.20,ease:"sine.inOut"},20.80);
+tl.fromTo("#b3-c",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},20.70);
+tl.to("#b3-c",{opacity:0,duration:0.4,ease:"power2.in"},24.90);
+tl.fromTo("#b4",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},24.90);
+tl.to("#b4",{opacity:0,duration:0.01},31.00);
+tl.fromTo("#b4 video",{scale:1},{scale:1.07,duration:6.10,ease:"none"},24.90);
+tl.fromTo("#b4-p",{opacity:0,y:80,rotate:-2,scale:0.94},{opacity:1,y:0,rotate:0,scale:1,duration:0.9,ease:"expo.out"},25.20);
+tl.to("#b4-p",{y:-10,duration:4.50,ease:"sine.inOut"},26.10);
+tl.fromTo("#b4-c",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},26.00);
+tl.to("#b4-c",{opacity:0,duration:0.4,ease:"power2.in"},30.50);
+tl.fromTo("#b5",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},30.50);
+tl.to("#b5",{opacity:0,duration:0.01},35.20);
+tl.fromTo("#b5 video",{scale:1},{scale:1.07,duration:4.70,ease:"none"},30.50);
+tl.fromTo("#b5-c",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},31.40);
+tl.to("#b5-c",{opacity:0,duration:0.4,ease:"power2.in"},34.70);
+tl.fromTo("#b6",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},34.70);
+tl.to("#b6",{opacity:0,duration:0.01},39.70);
+tl.fromTo("#b6 video",{scale:1},{scale:1.07,duration:5.00,ease:"none"},34.70);
+tl.fromTo("#b6-c",{opacity:0,y:16,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.8,ease:"expo.out"},35.60);
+tl.to("#b6-c",{opacity:0,duration:0.4,ease:"power2.in"},39.20);
+tl.fromTo("#b7",{opacity:0},{opacity:1,duration:0.5,ease:"sine.inOut"},39.20);
+tl.to(".vignette",{opacity:0,duration:0.5},39.20);
+tl.fromTo("#b7-l",{opacity:0,y:18,scale:0.96},{opacity:1,y:0,scale:1,duration:1.0,ease:"expo.out"},39.50);
+tl.fromTo("#b7-c",{opacity:0,y:12},{opacity:1,y:0,duration:0.9,ease:"expo.out"},40.20);
+tl.fromTo("#b7-u",{opacity:0},{opacity:1,duration:0.8},40.80);
+tl.to({}, {duration:43.7}, 0);
+</script></body></html>

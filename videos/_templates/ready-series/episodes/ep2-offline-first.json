@@ -1,0 +1,15 @@
+{
+  "title": "Ready, episode 2: screens before everything",
+  "worry": "Screens before jobs, outside and everything else",
+  "needs": ["NEW: the girl, about seven, tapping a job done on a tablet then running outside to play", "NEW: the girl, about eleven, comes in from the garden muddy and happy, then picks up the tablet"],
+  "beats": [
+    { "kind": "hook", "clip": "s04.mp4", "quote": "Jobs first, then screens.", "source": "The line in her app" },
+    { "kind": "shot", "clip": "s01.mp4", "off": 3.4, "age": "Age 6", "line": "Every day starts with a screen." },
+    { "kind": "chat", "clip": "s02-chat.mp4", "me": "She wants screens before anything else. How do I change that?", "digi": ["Make the job the way in, not the punishment.", "Flag one job before screens, and let the app say it."] },
+    { "kind": "screen", "clip": "s04.mp4", "screen": "kid-ask-gate.png", "y": 0, "h": 760, "tag": "Before screens", "line": "One job first. The app says it, not you." },
+    { "kind": "screen", "clip": "s04.mp4", "screen": "notification-cards.png", "y": 0, "h": 760, "tag": "One tap", "line": "She ticks it. You approve. Stars land." },
+    { "kind": "screen", "clip": "s08.mp4", "screen": "kid-deal.png", "y": 300, "h": 1300, "tag": "The deal", "line": "One star is worth five minutes." },
+    { "kind": "payoff", "clip": "s10.mp4", "age": "Age 15", "line": "Jobs first is just how the day goes." },
+    { "kind": "end" }
+  ]
+}

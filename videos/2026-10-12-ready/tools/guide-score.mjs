@@ -15,7 +15,7 @@ import { writeFileSync } from 'node:fs'
 
 // Section times can be passed as JSON: {"len":97,"voice":29,"lift":52,"hush":69,"ret":76.8,"hold":84}
 const T = Object.assign({ len: 90, voice: 26, lift: 52, hush: 64, ret: 72, hold: 82 }, process.argv[3] ? JSON.parse(process.argv[3]) : {})
-const SR = 44100, LEN = T.len, N = SR * LEN
+const SR = 44100, LEN = T.len, N = Math.floor(SR * LEN)
 const L = new Float32Array(N), R = new Float32Array(N)
 const BPM = 70, BEAT = 60 / BPM, BAR = BEAT * 4
 const hz = (m) => 440 * Math.pow(2, (m - 69) / 12)

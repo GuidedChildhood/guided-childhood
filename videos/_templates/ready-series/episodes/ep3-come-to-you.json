@@ -1,0 +1,13 @@
+{
+  "title": "Ready, episode 3: what they will see",
+  "worry": "Fear of what they will see online",
+  "needs": [],
+  "beats": [
+    { "kind": "hook", "clip": "s09-slow.mp4", "quote": "I want them to come to me first.", "source": "What parents tell us they want most" },
+    { "kind": "shot", "clip": "s09-slow.mp4", "off": 0.4, "age": "Age 12", "line": "Something horrible in the group chat." },
+    { "kind": "chat", "clip": "s09-slow.mp4", "off": 5.0, "me": "She showed me a horrible message from a group chat. What do I say?", "digi": ["Thank her for coming to you first. That is the win.", "Then ask what she thinks it means, before you decide anything."] },
+    { "kind": "screen", "clip": "s07.mp4", "screen": "concern-scale.png", "y": 0, "h": 1500, "tag": "Your check in", "line": "Log the worry. See how it moves, week by week." },
+    { "kind": "payoff", "clip": "s09-slow.mp4", "off": 7.5, "age": "Age 12", "line": "She came to you, not around you." },
+    { "kind": "end" }
+  ]
+}

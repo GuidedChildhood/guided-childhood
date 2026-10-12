@@ -1,0 +1,73 @@
+{
+  "title": "Ready, episode 1: the nightly fight",
+  "worry": "The nightly fight over screens",
+  "music": "guide-score.mp3",
+  "musicVolume": 0.75,
+  "beats": [
+    {
+      "kind": "hook",
+      "clip": "s01.mp4",
+      "off": 0.0,
+      "origin": "55% 45%",
+      "quote": "It's utterly miserable constantly policing screen time.",
+      "source": "A parent on Mumsnet"
+    },
+    {
+      "kind": "shot",
+      "clip": "s01.mp4",
+      "off": 3.4,
+      "origin": "55% 45%",
+      "age": "Age 6, 9pm",
+      "line": "The TV goes back on. Again."
+    },
+    {
+      "kind": "chat",
+      "clip": "s02-chat.mp4",
+      "off": 0.2,
+      "me": "She keeps putting the TV back on at bedtime. Help.",
+      "digi": [
+        "Give the ending to her timer, not to you.",
+        "Bedtime is protected, so it ends on its own."
+      ]
+    },
+    {
+      "kind": "screen",
+      "clip": "s02-slow.mp4",
+      "off": 5.0,
+      "screen": "kid-ask.png",
+      "y": 0,
+      "h": 2350,
+      "tag": "Her timer",
+      "line": "Every screen goes through her timer."
+    },
+    {
+      "kind": "screen",
+      "clip": "s05.mp4",
+      "off": 0.4,
+      "screen": "device-time-popup.png",
+      "y": 1590,
+      "h": 900,
+      "tag": "Protected time",
+      "line": "Inside bedtime, it asks you. You decide."
+    },
+    {
+      "kind": "payoff",
+      "clip": "s05.mp4",
+      "off": 2.6,
+      "origin": "50% 45%",
+      "age": "A week later",
+      "line": "It ends. She switches it off herself."
+    },
+    {
+      "kind": "payoff",
+      "clip": "s13.mp4",
+      "off": 1.0,
+      "origin": "50% 50%",
+      "age": "Age 16",
+      "line": "Her phone charges in the kitchen. Her call."
+    },
+    {
+      "kind": "end"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "title": "Ready, episode 4: out of your depth",
+  "worry": "My child knows more about this than I do",
+  "needs": [
+    "NEW: the girl, about eleven, starting her own timer on a tablet while her dad nods from the kitchen",
+    "SCREEN: the trust levels picker (Ask first, They start you watch, Trusted) has no preview page yet; add a /ref page and capture it before this episode is cut"
+  ],
+  "beats": [
+    {
+      "kind": "hook",
+      "clip": "s07.mp4",
+      "quote": "Almost half of parents feel their child knows more about tech than they do.",
+      "source": "Vodafone UK, Tech Savvy Tweens"
+    },
+    {
+      "kind": "chat",
+      "clip": "s02-chat.mp4",
+      "me": "She knows this stuff better than I do. Where do I even start?",
+      "digi": [
+        "You do not need to know the app. You need the words.",
+        "Ten minutes a day together, and I will give you the words."
+      ]
+    },
+    {
+      "kind": "shot",
+      "clip": "s07.mp4",
+      "age": "Age 9",
+      "line": "Ten minutes a day, learning together."
+    },
+    {
+      "kind": "screen",
+      "clip": "s07.mp4",
+      "screen": "ask-first-parent.png",
+      "y": 0,
+      "h": 1500,
+      "tag": "The trust ladder",
+      "line": "Ask first. Then you watch. Then she is trusted."
+    },
+    {
+      "kind": "payoff",
+      "clip": "s10.mp4",
+      "age": "Age 15",
+      "line": "She knows the app. And she knows why."
+    },
+    {
+      "kind": "end"
+    }
+  ]
+}
