@@ -35,6 +35,7 @@ const shots = [
   ['ask-first-timer', `${DEV}/ref-ask-first?view=timer`, PHONE, true],
   ['script-rehearse', `${DEV}/ref-script-premium?view=chat`, PHONE, true],
   ['script-premium', `${DEV}/ref-script-premium`, PHONE, true],
+  ['script-deck', `${DEV}/ref-script-deck`, PHONE, true, 3],
   ['kid-path-claimed', `${DEV}/ref-kid-path?claimed=1`, PHONE, true],
   ['kid-jobs-waiting', `${DEV}/ref-kid-jobs?waiting=1`, PHONE, true],
   ['kid-today-holiday', `${DEV}/ref-kid-today?holiday=ready`, PHONE, true],
