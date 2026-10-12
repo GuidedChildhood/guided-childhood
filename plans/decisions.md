@@ -31,34 +31,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
-| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-06 | 17 |
+| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-09 | 39 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-18 · 18 September 2026 — migration 306 applied, the note the feature exists for · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026 — every worry is worked over days, and we record what we spent · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026, the lesson number a teacher reads is a position · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026, a Planet Friend is the only fake we can print · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026, the intro bills the lesson, from the deck · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026, the tracker leads the Hub · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026 — migration 307 applied, before the queue refilled · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026 — migration 308 applied, the photo is on the wall · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026 — the live numbers are one tester, not behaviour · `plans/decisions-archive/2026-09.md`
-- 2026-09-18 · 18 September 2026 — every card on Home can be put down · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, `projector` is an instrument, not a width · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, the compliance audit: the map was not the territory · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, the audit's second pass: KCSIE 2026 arrived · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, the KS4 gambling module, and a generator for lesson migrations · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, the tracker now counts statutory requirements, not lessons · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026 — every key the app reads is written down · `plans/decisions-archive/2026-09.md`
-- 2026-09-19 · 19 September 2026, the scaffold column had a vocabulary and nothing local knew · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, daily sweep, four backup tables with no RLS at all · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, a module reaches production in hash verified chunks · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, the audit is closed: 57 of 57, proved against production · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026 — the layouts have to survive Larger Text · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, the council runs on all 29 and five slides come inside the ceiling · `plans/decisions-archive/2026-09.md`
 - 2026-09-20 · 20 September 2026, the safeguarding lead's name is typed once, on the device · `plans/decisions-archive/2026-09.md`
 - 2026-09-20 · 20 September 2026, the four new lessons' home pages were crashing, and the shape is now decided at the desk · `plans/decisions-archive/2026-09.md`
 - 2026-09-20 · 20 September 2026, correction: the council's fixture was stale, and twelve older slides are over the wall ceiling · `plans/decisions-archive/2026-09.md`
@@ -157,121 +135,36 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-10-05 · 5 October 2026: the six formats built, and the Sunday batch · `plans/decisions-archive/2026-10.md`
 - 2026-10-06 · 6 October 2026: the free pilot email campaign, Wessex first, then 15 miles · `plans/decisions-archive/2026-10.md`
 - 2026-10-06 · 6 October 2026: Social Billboard cards use black, white and yellow only · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026: Two brains, one clock has sound and 1080p clips (PR 1184) · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026: every script Justin has to record, as read cards · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026: the check in rates on faces, one outcome per tap, two fives still rest a worry · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026, later: one five rests a worry, and the faces get the happy news finish · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026: lesson videos are H.264 and ship with the schools site · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026, afternoon: the momentum block rides inside the reviews · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026, evening: the pilot review's fixes, and the sort turns its cards over · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026, evening: the school price weighed against eLIM, decision with Justin · `plans/decisions-archive/2026-10.md`
+- 2026-10-07 · 7 October 2026 — the two school day windows: per family pushes and a one tap moment card · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026 — migration 363 applied, the three school day PRs merged, 1213 unblocked · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026: the founding schools rate · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026: the DiGi launch film · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026, afternoon: the DiGi launch film slows down and shows its brain · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026, later: the launch film's researchers layer names four · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026 — the school day post is bulletproofed before it ships; the hostile panel is standard · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026: the pilot emails, rewritten to the research · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026: DiGi in 3D, and a KS3 lesson on copyright · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026: the pilot emails link to the proof, and the form comes after the yes · `plans/decisions-archive/2026-10.md`
+- 2026-10-08 · 8 October 2026 — the loop promise on every surface, the pilot drafts set right, the school day posts in their final shape · `plans/decisions-archive/2026-10.md`
+- 2026-10-09 · 9 October 2026: French and Spanish join, sealed behind their own code · `plans/decisions-archive/2026-10.md`
+- 2026-10-09 · 9 October 2026: one curriculum, two rooms; three decisions · `plans/decisions-archive/2026-10.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 7 October 2026: Two brains, one clock has sound and 1080p clips (PR 1184)
+## 12 October 2026: the DiGi hero and Short 1, from real screens
 
-- The child's brain film got an original score and five placed effects,
-  declared in `videos/2026-10-06-two-brains/beats.json` and written by the
-  build. No trending sound: no TikTok account is connected, trending audio is
-  a licence problem off TikTok, and original beats reposted. Add one inside
-  TikTok at publish time if wanted.
-- Six Seedance clips finalised at 1080p (432 credits). The readability rule
-  from 6 October stays: the build refuses long cards and sets the hold from
-  the word count.
-- Later on 7 October: Justin asked for more cinematic music and the Nate Herk
-  editing treatment. Adopted in our palette: punch zooms, translucent
-  highlight shapes (coral on the feed side, butter on DiGi's, never pure
-  red) with pointers, marker swipes on the key phrase, clock pops, a whoosh
-  on every time jump, a new trailer style score. All per beat in
-  `beats.json`. The gentler score is kept as an alternative file.
-
-## 7 October 2026: every script Justin has to record, as read cards
-
-- A sweep of the repo and Drive found 29 spoken pieces written for Justin
-  since July, none yet filmed. They are now two printable card decks in
-  `content/read-cards/` (one idea per card, four to a page, setup card per
-  piece), built by `tools/read-cards`. The Penny video uses the 30 September
-  text, which replaced the 29 September cards. The one reason: Justin asked
-  for the scripts in note sized chunks he can read one at a time, so each
-  clip is one card and the cut is mechanical.
-
-## 7 October 2026: the check in rates on faces, one outcome per tap, two fives still rest a worry
-
-Justin: "Happy face icons, easy messaging, flows super easy ... Tell the user exactly what happens." Five faces replace the stars, because gold stars are the child's currency; the band word sits under each, last time is grey, today is butter. Everything the card says after a tap comes from `lib/concerns/outcome.ts`, unit tested row by row, after the sorted box was found showing on every first five for a month. The save lands in about a second with Change until it does, then the row stays open a read beat before it folds. Change never re opens a saved row: a second post the same day can mark the concern resolved on the server, and a resolved concern is never asked again. Two top scores in a row still rest a worry; the first five now says one more. PR 1200 and the faces PR that stacks on it.
-
-## 7 October 2026, later: one five rests a worry, and the faces get the happy news finish
-
-Justin: "lets just use one 5 in a row to keep simple?" and "super attractive to use, happy news styling as usual and slick." `SILVER_RUN` is 1. The weekly return is what makes one safe where it was not in September: a rested worry comes back after seven days to check it held, and a dip or a logged moment brings it back at once. The outcome function, the silver guard and the browser guard read the number rather than assume it. The faces now carry full ink lines on crayon paper, a catch light and the house ledge on the chosen one, and the sorted and tough tiles wear the card's edge and lift. In PR 1201.
-
-## 7 October 2026: lesson videos are H.264 and ship with the schools site
-
-Justin: the taster's "DiGi opens the lesson" would not play. Every video slide (11 in 6 lessons, both primary pilot lessons among them) was the generator's raw HEVC Main 10, which a school laptop without the hardware decoder shows as a dead play button. The clips are converted to H.264 High 8 bit and served from `schools/public/clips` by absolute address, because the kid app plays the same rows. `check-lesson-clips.mjs` in CI holds every video slide to an H.264 clip that exists, so the next generated clip is converted before it ships. Migration 361, applied after the deploy. PR 1205.
-
-## 7 October 2026, afternoon: the momentum block rides inside the reviews
-
-Justin: "every now and again email the successes to keep momentum ... top experts quotes and why our system works ... not too often ... support parents with some nuggets on guilt, shouting, losing it", then "yes plus future emails can echo this". Built as one block, not a new email, because the six day floor already enforces not too often. Under the family's own successes in the Sunday review and the monthly review: one finding from `expert_knowledge` with its named source (142 of 142 carry one), matched to the child's age and a live worry; one line on why it works from a seven line registry rotated by the week; one line for the parent linking to the repair script in the scripts table. `lib/email/momentum.ts`, held by `scripts/check-momentum-block.mjs`. The monthly review now says "went to going great" instead of "reached five stars".
-
-## 7 October 2026, afternoon: DiGi asks "How did that go?" once, and a tough check in leaves one invite
-
-Justin, with his own Notifications page: "Teo asked same thing 3 times ... it needs to show once", and "once check in done it flashes up ask digi but quickly flips to next child ... goes on alert notification? But only once." Then: "we don't want to miss those issues if dropped off after 2 weeks, also to ask DiGi it needs to know what the issue was." Read off the live tables: three conversations in August and September each booked a follow up, each became a card, none was answered, none expired. Now one unanswered card per child at a time, a due follow up waits behind it (and is let go after ten days waiting), an unanswered card expires after a fortnight and its thread goes onto the tracker as a worry first, and every card opens DiGi on the thread itself rather than its title. A one or two on the check in keeps its row open and plants one invite on Notifications and Home, keyed by the worry, cleared when the worry lifts. `lib/digi/followup-queue.ts`, held by `scripts/check-followup-once.mjs`.
-- 8 October: v4 of the two brains film shows DiGi's thinking as five labelled
-  streams into the brain (researchers, studies, philosophy, guardrails,
-  parents who said what worked) before the answer, and the learning brain at
-  7:30. No parent count is claimed until there is one. Render time is now
-  about forty minutes for the heavy right column.
-
-## 7 October 2026, evening: the pilot review's fixes, and the sort turns its cards over
-
-Justin: "run a review over lessons to make sure all works before going to pilot". Every slide of all 36 lessons played to the finish with no errors; three things would still stop a teacher mid lesson. The verdict sort now turns each card over after the class vote to show the marked answer and its why, which 25 of the 26 sort scripts already told the teacher to read; front and back share one cell, so the wall zoom never jumps mid card. The next card no longer flies in off the edge of the wall. PageDown and PageUp move the deck, so a presenter clicker works. After a wrong first pick, the options still to choose stay in view. Four sorts that opened empty (`items`, not `posts`) now play. On the wall a film now takes only the height the stage has: once the clips decoded (PR 1205) it drew 968px tall and hid its own play controls on ten slides, which is what turned main's wall fit check red. Migration 364 carries the words (362 went out with PR 1209). PR 1213.
-
-## 7 October 2026, evening: the school price weighed against eLIM, decision with Justin
-
-Justin's wife, a teacher: our school price may be too expensive, because Somerset primaries use eLIM. eLIM's ActiveBYTES (Somerset Council traded service) is "£197.40 for any UK Primary School", a plan per year group per half term, primary only. Our primary bands are £495 and £795 for 16 lessons. Weighed with the feedback filter: adapt, not cut every band. Recommended a founding schools rate (first 50 schools, any primary £195 a year, held while they stay, capped in code) with list prices kept and secondary unchanged, since eLIM sells nothing there. Nothing built until Justin answers. `plans/2026-10-07-school-price-against-elim.md`.
-
-## 7 October 2026 — the two school day windows: per family pushes and a one tap moment card
-
-Justin asked for the morning before school and the after school return to be researched "so we can build advice in and cleverly pre empt what happens ... as well as giving parents opportunity to log as a moment so we can track and provide best advice", then "Go with all recommendations." The briefing (nine lenses, 75 sources verified, PR 1208) put both moments somewhere other than the screen: sleep and food carry associations several times the size of technology use across 355,358 adolescents, three prompts a week beat five, and the after school fall apart is real but its popular label is a 2016 blog term whose mechanism failed replication. So: the 07:30 and 15:30 broadcasts become per family sends from each child's school start and home time (migration 363, null keeps the old times), one window per family by default, a Home card inside the window with Went fine, It happened and I tried it posting to the routes that already make a tap a moment, three scripts and twelve sourced findings, DiGi rails that lead with sleep and food and never name a syndrome. Guard `check-school-windows.mjs`, 46 checks. PR 1210, draft; 363 to apply.
-
-## 8 October 2026 — migration 363 applied, the three school day PRs merged, 1213 unblocked
-
-Justin merged 1210 (the windows build), 1211 (the flagship post) and 1212 (briefing V3) overnight and said "go with your recommendations". Migration 363 applied through the Supabase MCP: the two time columns on children, new subscriptions default to after school and the evening, the three scripts (9670 to 9672) and twelve sourced findings landed; no family had times set at that moment, so every push and card runs on the old 07:30 and 15:30 until a parent sets their child's school day in Settings. PR 1213 (another session's pilot review) conflicted only because main had moved; a clean merge of main was pushed to its branch and it merges itself once CI is green. The post, the carousel PDF and the research card are in the Control Room folder in Drive, ready to paste.
-
-## 8 October 2026: the founding schools rate
-
-Justin: "yes on founding rate". The first 50 schools pay £195 a year for any primary, held while they stay; list prices and secondary are unchanged. Capped in code: band `founding_primary` is counted from `schools.invoice_requests` like the pilot's five, and the invoice action refuses it once the places are gone or the count cannot be read. `/pricing` shows the offer and places left, and the invoice form starts on it while it is open. `plans/2026-10-08-founding-schools-rate-plan.md`.
-
-## 8 October 2026: the DiGi launch film
-
-Justin: rewrite the QuickSend and Qbot launch brief for Guided Childhood with DiGi at the centre, then "build it". The brief sits in `videos/2026-10-08-digi-launch/BRIEF.md` and the film is built the house way (beats.json, build.mjs, GSAP, HyperFrames). Decided on the way: HyperFrames over Remotion, because four films already use it and DiGi's motion is GSAP in the product; the twelve client headshots became twelve memory cards, so no image generation and no faces; the music is composed in code because no catalogue was reachable, and the brief allows a local generate. Every screen is rebuilt from the real component, never a mock up. PR 1220.
-
-## 8 October 2026, afternoon: the DiGi launch film slows down and shows its brain
-
-Justin on the first draft: "slower, more readable", "build on DiGi's brain", "sales short", "soundtrack more of the moment". The film is paced by a rule now (words at 4.8 a second plus a gap, in `beats.json`), which makes it 105 seconds, and a fourth act shows where every answer comes from: the five researchers DiGi leads with for now and why, 142 sourced findings approved by a human, what worked for other families with no family's words shared, and four lines of our own rules. The score is a house underscore composed in code with the kick on Introducing. Cuts offered if 105 is too long. PR 1220.
-
-## 8 October 2026, later: the launch film's researchers layer names four
-
-Justin on the second cut: "Cut Ferguson. Names yes. Pixabay yes. All good." The researchers layer reads "Four researchers lead, for now" (Odgers, Orben, Przybylski, Livingstone), the names are approved on screen, the track is Pixabay under the Pixabay Content Licence, and the level stands. 103 seconds. PR 1220.
-## 8 October 2026 — the school day post is bulletproofed before it ships; the hostile panel is standard
-
-Justin: attack it from researchers and the ban brigade as usual, remember the 0.4 percent challenges, say yes we get them, tell how we got to the solution and why, invite people to pull it apart. A hostile panel (the Haidt camp, Smartphone Free Childhood and Molly Rose, a methods critic, a clinician) made thirteen sourced attacks and a verifier checked every new figure (9 confirmed, 4 corrected). Three things a reply could not repair went into the body: the bedroom phone is the right villain for the night, the 0.4 percent is given as a correlation in the same units as sleep and breakfast and scoped to every screen for every teenager, and the restraint collapse paragraph concedes the small effects since 2016. The verifier caught that the Selby television in the bedroom line is Year 2, not Year 6. A second post tells the four design choices with reasons, states the kill line and asks to be pulled apart. Our own viral post notes had aimed Rausch and Haidt at the wrong Ferguson paper; fixed. PR 1217. Drive holds post 1, post 2, the attacks and answers, the carousel v2 PDF and the card.
-
-
-## 8 October 2026: the pilot emails, rewritten to the research
-
-Justin asked for the evidence on what wins replies from schools, then for the routine's first emails redone with it. Five lenses ran (the main finding: 8% of primary leaders consult suppliers when choosing edtech, 28% consult other schools, so the pilot is the marketing and the email is only the door). The campaign rules and templates now carry it: one interest ask, under about 200 words, one link, plain subject, the duty and the no planning paragraphs, the pilot's conditions stated, a company and privacy footer, two reworded follow ups, replies measured and nothing else. Nothing had been sent; the five day 1 drafts in hello@ were rewritten in place (they carried Gmail redirect links and "eighteen"). `plans/2026-10-08-school-email-research.md`.
-
-## 8 October 2026: DiGi in 3D, and a KS3 lesson on copyright
-
-Justin picked take B of a 3D golden star rendered in the Planet Friends' style; it replaces the flat SVG on every surface (both apps) and the schools home cast row plays its idle loop (PR 1219, job IDs in digi-squad/README.md). And "build suggested" after the Common Sense mapping: ks3-34 Who owns what you make, Orbit and DiGi, our first copyright lesson between KS2 and KS5, every fact from a primary source fetched that day (plans/2026-10-08-copyright-ks3-lesson-plan.md). Contract, rubric and wall fit all pass; ks5-20's sign off becomes thirty three; migration 365 inserts it, proved by hash. Applied 8 October: 37 rows, hash proved; the campaign templates now say 34 modules.
-
-## 8 October 2026: the pilot emails link to the proof, and the form comes after the yes
-
-Justin agreed: a first email links to the proof (mapping, safeguarding crosswalk or free lesson), never to the request form, and a reply is the yes because it is less work than a form and starts a conversation. The connector still wraps any address it saves, so every draft carries "I am happy to send you the link." and Justin swaps it for "Here it is:" and the link before sending (rule 7 has the table). Follow up E now links the /pilot form; new reply G sends the /pilot form when a school says yes.
-
-## 8 October 2026 — the loop promise on every surface, the pilot drafts set right, the school day posts in their final shape
-
-Three things from Justin's afternoon. The check in, DiGi, the fix of the week, the week later card, the weekly email, Notifications and the Sunday check in now each say in one line that we keep working on open worries, add what is raised with DiGi, work through the age's common issues in order, learn from a Not really, and ask weekly for anything new to track; no DiGi on each check in, by his rule. The DiGi tool reply had been telling the model not to mention a worry it had just put on the tracker; fixed. PR 1224, guard check-loop-promise. The school pilot drafts: the routine had read the campaign pack from a July checkout and drafted four emails from replaced templates, and the five day one drafts were in neither Drafts nor Sent; all nine are now in hello@ from the templates on main, nothing sent, and the routine reads origin/main from now on. The school day posts: recognition first, the parent of three line, post two as the promised part two, two carousels drawn in code (never a generated image), rendered with Playwright, in Drive with the slides as separate images. PR 1225.
-
-## 9 October 2026: French and Spanish join, sealed behind their own code
-
-Justin: a French and Spanish curriculum for every age, better than any provider, with the admin done and a teacher pressing one button to teach or print. Decided: it lives in the schools app under `/languages`, hidden from the site until finished (`LANGUAGES_LIVE` off), behind its own licence code (`SCHOOLS_LANGUAGES_CODES`) that opens nothing else. It goes in its own tables, so the 34 module scheme, its counts and its guards are untouched. KS2 first, both languages together. The first pilot school belongs to a family member who teaches both, and her name and her school's name stay out of every page and commit. Images and animations are ours, made on Higgsfield from our own art or in code; we only study other providers, and never feed their assets into a model. Plan: `plans/2026-10-09-languages-plan.md`.
-## 9 October 2026: one curriculum, two rooms; three decisions
-
-A twelve lens panel (Ofsted, a leading independent school's head of PSHE, a non specialist teacher, a DSL, a SENCo, the seven lessons lenses, a sync engineer) ran two rounds over the school curriculum and the home lessons; plan in `plans/2026-10-09-curriculum-sync-plan.md`. Justin decided, as recommended: (1) a class lesson's home code records "met in class" and only the child's own check at home ticks the passport; (2) a child's lessons follow their school year (1 September cut off), so a Year 8 child does KS3 at home alongside their class; (3) ks4-19 says "the law is changing", true either way. The run sheet now prints on 8 full pages, not 13 with gaps (PR 1233).
+Justin: "build hero n short now". The research panel (nine specialists, 330 coded Reddit posts, a Mumsnet sweep, a code mapper, three concepts, four judges) ranked the top problems: the switch off fight, the first phone, always the bad guy. The hero (46s) and Short 1 (30s) are built from the real product, filmed frame by frame from the ref-* pages with the fixture names swapped for an example family, and every DiGi reply labelled illustrative. The first launch film (PR 1220) showed three things the product does not do and should not be posted. Pack: `content/packs/2026-10-09-digi-shorts/`. Films: `videos/2026-10-09-digi-shorts/`.
 
 ## 11 October 2026: AI and SaaS advice, weighed
 
@@ -280,3 +173,6 @@ Justin asked whether another AI's advice ("AI won't kill SaaS, it kills the reas
 ## 12 October 2026: the extension marks reach the live decks (migration 369)
 
 The 147 `extension: true` marks from 21 September (26 decks) were only ever in content/modules; the live rows carried none, so since PR 1236 every run sheet said nothing was marked to skip. Migration 369 writes them: one boolean per marked slide, guarded per deck on slide count and each marked slide's type and phase, proved to change nothing but that key. Generated by `scripts/gen-369.mjs`; dry run in Postgres passed, including seven tampered decks that abort. Applying it to production is Justin's call. Found in passing: 13 live decks also lack `teacher_notes.hard_questions` from the same day; not in this PR. PR 1240.
+## 12 October 2026: every paper pack fits its paper
+
+Thirteen of the 34 paper packs printed a sheet onto a second page, measured in real PDFs: the nine known since 9 October, plus four parent notes tipped over by the QR block, which every production lesson prints. Fixed by layout in the print kit, with no lesson words cut and the pupil register sizes untouched. Teacher sheet text goes from 12.5px to 12px (9pt). Box labels are set into the top rule on the teacher one pager and the parent note. The home code floats beside its words, and the friend on the start and exit cards floats beside the question at the same size. All 34 now print one page per sheet, including with a school's safeguarding lead typed in. CI holds it with no browser: check-print-kit compares each lesson's words with the room scripts/check-print-pack-fit.mjs measured, and any edit to the kit or the pack page asks for a new measurement. PR 1239.

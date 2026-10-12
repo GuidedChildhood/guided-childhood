@@ -1,0 +1,12 @@
+{
+ "name": "timer-end",
+ "url": "/ref-ask-first?view=timer",
+ "seconds": 14,
+ "preAdvanceMs": 1186000,
+ "actions": [],
+ "swap": {
+  "Phone": "Tablet",
+  "📱": "📲",
+  "The timer running": ""
+ }
+}

@@ -2,7 +2,6 @@
  "name": "checkin-great",
  "url": "/ref-baseline-checkin",
  "seconds": 8,
- "scrollY": 800,
  "stubs": [
   {
    "match": "/api/daily/concern-check",
@@ -22,5 +21,7 @@
  ],
  "swap": {
   "Mood after screens": "Coming off screens"
- }
+ },
+ "height": 1000,
+ "scrollY": 400
 }
