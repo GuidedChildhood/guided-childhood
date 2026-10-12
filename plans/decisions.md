@@ -179,3 +179,7 @@ Thirteen of the 34 paper packs printed a sheet onto a second page, measured in r
 ## 12 October 2026: four lessons print their own tool (migration 370)
 
 ks2-26, ks3-27, ks4-28 and ks4-29 held `teacher_notes.tool` as one sentence, so their bookmarks and parent note printed the reference lesson's three checks and the organiser printed an empty tool box. Each is now `{ heading, lines, strapline }`, written from the lesson's own slides, in content/modules and, by migration 370, the live rows (guarded on the exact sentence read from production, proved to change nothing else; dry run passed). The module contract now refuses a sentence tool, and the pages read it through `asTool` as a belt. All 34 packs re measured: one page per sheet. Justin said apply it: 370 applied to production on 12 October, the four live tools verified equal to the files, no sentence tool left in the table. PR 1243.
+
+## 8 October 2026: the two brains film is sequential (v5)
+
+8 October, afternoon: the two brains film is sequential (v5). The split screen with two text streams was the stacked case the research warns against; the best films run problem, turn, solution. Same clock, her brain first, the question as the hinge, DiGi on the same minutes, one side by side at the morning. Glass text over a scrim, never a solid box. Kill stale headless Chromium before any HyperFrames check or render.
