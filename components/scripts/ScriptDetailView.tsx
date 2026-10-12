@@ -15,12 +15,12 @@ import HappyIcon from '@/components/kid/HappyIcon'
 // Extracted so the fixture page can render the exact same layout without a
 // database. Presentation only, no data logic lives here.
 
-const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
-  foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
-  builder:     { label: 'Builder · Ages 8 to 10',    color: 'var(--ink)', bg: 'var(--stage-2)' },
-  explorer:    { label: 'Explorer · Ages 11 to 13',  color: 'var(--ink)', bg: 'var(--stage-3)' },
-  shaper:      { label: 'Shaper · Ages 13 to 15',    color: 'var(--ink)', bg: 'var(--stage-4)' },
-  independent: { label: 'Independent · Ages 16 and above', color: 'var(--ink)', bg: 'var(--stage-5)' },
+const STAGE_META: Record<string, { label: string; short: string; color: string; bg: string }> = {
+  foundation:  { label: 'Foundation · Ages 4 to 7',  short: 'Foundation',  color: 'var(--ink)', bg: 'var(--stage-1)' },
+  builder:     { label: 'Builder · Ages 8 to 10',    short: 'Builder',     color: 'var(--ink)', bg: 'var(--stage-2)' },
+  explorer:    { label: 'Explorer · Ages 11 to 13',  short: 'Explorer',    color: 'var(--ink)', bg: 'var(--stage-3)' },
+  shaper:      { label: 'Shaper · Ages 13 to 15',    short: 'Shaper',      color: 'var(--ink)', bg: 'var(--stage-4)' },
+  independent: { label: 'Independent · Ages 16 and above', short: 'Independent', color: 'var(--ink)', bg: 'var(--stage-5)' },
 }
 
 export type ScriptDetailData = {
@@ -104,20 +104,19 @@ export default function ScriptDetailView({
         >
           {backToPathway ? '← Back to the pathway' : '← All scripts'}
         </Link>
-        <Link
-          href={withChild(`/dashboard/scripts/${sortOrder}/deck`)}
-          style={{ ...chunky('white'), padding: '9px 16px', fontSize: 'var(--text-sm)' }}
-        >
-          Try as deck
-        </Link>
       </div>
 
       {/* Title block, given room to breathe. Chips share one baseline, then
           the title, the situation, and a single quiet read line. */}
       <div style={{ marginBottom: '32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+          {/* The stage label carried its age band ("Shaper · Ages 13 to 15"),
+              which at 390px is wider than the screen allows beside the Free
+              chip, so the two stacked and cost a whole row. The band is on the
+              scripts index, on the road and in settings; here it is the stage
+              that matters, and the title underneath is about to say the rest. */}
           <span style={{ ...chip, color: stageMeta.color, background: stageMeta.bg }}>
-            {stageMeta.label}
+            {stageMeta.short}
           </span>
           {script.is_free && (
             <span style={{ ...chip, color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)' }}>
@@ -126,14 +125,91 @@ export default function ScriptDetailView({
           )}
         </div>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2.1rem, 7.5vw, 2.8rem)', lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '14px' }}>
+        {/* Two lines, no more. The title is how a parent knows they opened
+            the right script, and anything past two lines is pushing the words
+            they came for off the screen. */}
+        <h1 style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 'clamp(2.1rem, 7.5vw, 2.8rem)', lineHeight: 1.05,
+          letterSpacing: '-0.03em', marginBottom: '12px',
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+          overflow: 'hidden', textWrap: 'balance',
+        }}>
           {script.title}
         </h1>
-        <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '62ch', margin: 0 }}>
+        {/* 17px at 1.50 rather than 19px at 1.65, clamped to two lines. The
+            old setting spent about 45px of the first screen on leading alone
+            and bought no comprehension. The situation tells a parent they are
+            in the right place; it is not the thing they came to read. */}
+        <p style={{
+          fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5,
+          maxWidth: '46ch', margin: 0,
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}>
           {script.situation}
         </p>
 
-        {/* Marked as read: a small tick and one line, never a grey slab */}
+      </div>
+
+      {/* Everything below sits on one grid with one rhythm */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+        {/* ── THE WORDS COME FIRST, AND NOTHING GETS IN FRONT OF THEM ─────
+            Justin, 12 October 2026: "really makes everything important stand
+            out and workable."
+
+            Everything that used to sit between the title and the quote now
+            sits after it: the read tick, the search link and the ban note.
+            None of them is why the page was opened, and together they cost
+            roughly 200px of the first screen on a 390px phone, which is the
+            difference between a parent reading the words and a parent
+            scrolling for them with a child shouting.
+
+            The ban note in particular is context for a calm moment. It is
+            still here, still on every script that needs it, just no longer
+            standing between a parent and the sentence they have to say. */}
+        {/* The core of the script, led by the say this hero */}
+        <ScriptReader
+          sayThis={script.say_this}
+          notThis={script.not_this}
+          whyItWorks={script.why_it_works}
+          tonight={script.tonight}
+          stageId={script.stage_id}
+        />
+
+        {/* ── THE WAY INTO THE MOMENT, IN THE THUMB ZONE ──────────────────
+            This was a white "Try as deck" pill at the very TOP of the page,
+            above the title, costing about 60px of the first screen to offer a
+            secondary reading mode to somebody who had not yet read anything.
+
+            It belongs here, directly under the words, for two reasons. The
+            thumb is already at the bottom of the screen by the time the quote
+            has been read, and only about a third of a 390px phone is
+            comfortably reachable one handed (Hoober's field study: 49 percent
+            of use is one thumb). And the honest moment to offer a card by card
+            run through is after a parent has seen what the words are, not
+            before.
+
+            Named for what it does rather than for the feature. "Try as deck"
+            describes our implementation; "Use it now" describes their
+            evening. */}
+        <Link
+          href={withChild(`/dashboard/scripts/${sortOrder}/deck`)}
+          style={{
+            ...chunky('butter'),
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            width: '100%', padding: '16px 22px', fontSize: 'var(--text-md)',
+            minHeight: 56, textDecoration: 'none',
+          }}
+        >
+          Use it now <span aria-hidden>→</span>
+        </Link>
+
+        {/* The quiet row: what this did to the path, and the way to a better
+            fitting script. Below the words, where it belongs. */}
+        <div>
+          {/* Marked as read: a small tick and one line, never a grey slab */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginTop: '20px' }}>
           <span aria-hidden style={{
             width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
@@ -153,10 +229,7 @@ export default function ScriptDetailView({
             Not the right words for tonight? Search all scripts →
           </Link>
         </div>
-      </div>
-
-      {/* Everything below sits on one grid with one rhythm */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        </div>
 
         {/* Ban world note */}
         {showBanNote && (
@@ -169,15 +242,6 @@ export default function ScriptDetailView({
             </p>
           </div>
         )}
-
-        {/* The four core steps, led by the say this hero */}
-        <ScriptReader
-          sayThis={script.say_this}
-          notThis={script.not_this}
-          whyItWorks={script.why_it_works}
-          tonight={script.tonight}
-          stageId={script.stage_id}
-        />
 
         {/* Rehearse the words with DiGi before the real conversation */}
         <RehearseWithDigi
