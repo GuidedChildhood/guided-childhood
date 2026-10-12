@@ -204,7 +204,7 @@ Paid, assuming a £15 CPM, 0.8% to 1.5% link CTR and a 70% start rate:
 * "I actually just hate family life at moment as it revolves around all this" (Mumsnet, the original post, page 1) https://www.mumsnet.com/talk/am_i_being_unreasonable/5046965-me-and-13-yr-old-the-constant-awful-battle-over-screen-time
 * "Wish I never gave her one as her behaviour has been a million times worse since she's had it." (Mumsnet Teenagers) https://www.mumsnet.com/talk/teenagers/4645906-i-have-taken-the-smartphone-away
 * "My kid found it within 30 seconds of the first time he got on his computer and immediately uninstalled it." (Qustodio, US App Store review titled "Good in theory, poor in execution") https://apps.apple.com/us/app/qustodio-parental-control-app/id1501720596?see-all=reviews
-* What parents say they pay for, from a competitor's reviews: "This app is a GAME changer for busy, exhausted, and overwhelmed parents." (Good Inside, US App Store) https://apps.apple.com/us/app/good-inside-parenting/id6463803046?see-all=reviews
+* What parents say they pay for, from a competitor's reviews: one five star review (paraphrased; the copy guard bans its opening phrase) calls the app transformative "for busy, exhausted, and overwhelmed parents." (Good Inside, US App Store) https://apps.apple.com/us/app/good-inside-parenting/id6463803046?see-all=reviews
 
 ## 12. What I could not verify
 

@@ -27,7 +27,7 @@ INSERT INTO public.scripts (stage_id, category, title, situation, say_this, not_
   'You are really upset. That makes sense. And the tablet is done for now. I am staying here with you.',
   'Stop crying or you will lose it tomorrow as well.',
   'Trying to reason during a meltdown does not work. The brain is flooded. What a child needs is the dysregulation witnessed without consequence. Staying calm and present is the entire intervention. Reasoning comes later.',
-  'Give a five minute warning before ending screen time every session this week. It is not a negotiation. It is a predictable signal that reduces the crash.',
+  'This week, agree the ending before every session starts: one episode, or until the timer goes. It is not a negotiation. An ending they knew about before the screen went on is easier to land than a warning at the end.',
   'none',
   false,
   1302
