@@ -11,10 +11,13 @@
 //      editions with a friend each, the fold steps present, and the print
 //      room and the hub passport page linking to it.
 //   4. No dash in the kit's or the passport's words.
+//   5. The paper pack fits its paper: every lesson's growing sheets are
+//      within the room last measured in a real PDF, on the layout measured.
 //
 // Plain node, source reading, like check-schools-legal.
 
-import { readFileSync, existsSync } from 'node:fs'
+import { readFileSync, readdirSync, existsSync } from 'node:fs'
+import { BASELINE, layoutHash, packWords, roomFor } from './lib/print-pack-words.mjs'
 
 let failed = false
 const fail = (m) => { failed = true; console.error(`check-print-kit: ${m}`) }
@@ -111,5 +114,44 @@ for (const file of [KIT, 'schools/lib/passport-print.ts', 'schools/app/print/pas
   if (dash) fail(`${file}: a dash in the copy`)
 }
 
+// 5. THE PAPER PACK FITS ITS PAPER (12 October 2026).
+//
+// Thirteen of the 34 packs printed a sheet onto a second page: four teacher
+// one pagers, two KS1 start and exit card sheets and ten parent notes (some
+// packs had two). Whether a sheet fits is decided by the browser's font
+// metrics, which only scripts/check-print-pack-fit.mjs can read, in a real
+// PDF. It records, for the three sheets whose words grow with the lesson, the
+// room it measured and the characters the sheet printed. CI cannot print, so
+// it holds the line from that record: a lesson that grew past the measured
+// room, a lesson never measured, or a change to the kit or the pack page
+// since the measuring all fail here and name the one command that measures
+// again. Nothing is estimated as fitting that was not seen fitting.
+{
+  const again = 'Measure again with `node scripts/check-print-pack-fit.mjs --write-baseline` (setup in its header) and commit the record.'
+  const SHEET = { teacher: 'teacher one pager', cards: 'start and exit card sheet', parent: 'parent note' }
+  const base = existsSync(BASELINE) ? JSON.parse(read(BASELINE)) : null
+  if (!base) fail(`${BASELINE} is missing, so nothing says the paper pack fits its paper. ${again}`)
+  else if (base.layout !== layoutHash()) fail(`the print kit or the pack page changed since every pack was last measured on paper (${BASELINE}). ${again}`)
+  else {
+    for (const f of readdirSync('content/modules').filter(f => f.endsWith('.json'))) {
+      const lesson = JSON.parse(read(`content/modules/${f}`))
+      const was = base.lessons?.[lesson.module_id]
+      if (!was) { fail(`${lesson.module_id}: its paper pack has never been measured on paper. ${again}`); continue }
+      const now = packWords(lesson)
+      for (const kind of Object.keys(SHEET)) {
+        const grew = now[kind] - was[kind].chars
+        if (grew > roomFor(kind, was[kind].spare)) fail(`${lesson.module_id}: the ${SHEET[kind]} prints ${grew} more characters than when it was measured with ${was[kind].spare}px to spare, which may run it onto a second page. ${again}`)
+      }
+    }
+  }
+  // And it is never made to fit by shrinking the words past reading. The
+  // teacher sheets stepped down to 12px (9pt) to fit; below that a one pager
+  // is read with a squint. The pupil registers are the kit's own and are
+  // not a lever for fitting at all.
+  const pack = read('schools/app/print/[module]/page.tsx')
+  const tt = pack.match(/const tt: React\.CSSProperties = \{[^}]*fontSize: '([\d.]+)px'/)
+  if (!tt || Number(tt[1]) < 12) fail('the teacher sheets set their words below 12px, 9pt on paper; fit the sheet by layout, not by shrinking the type')
+}
+
 if (failed) process.exit(1)
-console.log('print kit: the friend on every sheet, one worksheet reader, the passport folds to eight pages with the cover bottom right, no dashes.')
+console.log('print kit: the friend on every sheet, one worksheet reader, the passport folds to eight pages with the cover bottom right, no dashes, every paper pack within the room measured on paper.')
