@@ -13,3 +13,8 @@ scenes/probe.json
 renders/rec/
 renders/probe*
 renders/digi-3d-noeyes-rgb.png
+assets/rec/ask-child*
+scenes/ask-child.json
+renders/sheet-poc.png
+renders/names.bak.json
+renders/*log*.txt

@@ -1,0 +1,22 @@
+{
+  "name": "poc",
+  "shots": [
+    {
+      "id": "hook", "dur": 3.0,
+      "overlays": [
+        { "kind": "eyebrow", "text": "An example family", "y": 520, "t0": 0.1 },
+        { "kind": "pill", "text": "Bedtime was a fight again. What do I actually say?", "y": 640, "t0": 0.3 }
+      ],
+      "sfx": [{ "name": "sfx-send", "at": 2.7, "vol": 0.45 }]
+    },
+    {
+      "id": "chat", "dur": 12.0, "src": "rec/test-bedtime.mp4", "mediaStart": 2.9, "ground": "white",
+      "cam": [
+        { "t": 0, "S": 2.6, "fx": 195, "fy": 230, "py": 820 },
+        { "t": 0.8, "S": 4.2, "fx": 150, "fy": 170, "px": 520, "py": 820, "dur": 0.7 },
+        { "t": 6.9, "S": 3.3, "fx": 195, "fy": 300, "py": 900, "dur": 0.8 }
+      ],
+      "sfx": [{ "name": "sfx-dots", "at": 0.3, "vol": 0.3 }, { "name": "sfx-pop", "at": 6.9, "vol": 0.5 }]
+    }
+  ]
+}

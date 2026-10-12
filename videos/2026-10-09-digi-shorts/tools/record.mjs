@@ -17,7 +17,7 @@ import { execSync } from 'node:child_process'
 const { chromium } = await import(process.env.PLAYWRIGHT_DIR || '/Users/justinphillips/guided-childhood/node_modules/playwright/index.mjs')
 const S = JSON.parse(readFileSync(process.argv[2], 'utf8'))
 const DEV = process.env.DEV || 'http://localhost:51458'
-const FPS = 30, W = 390, H = S.height || 844, DPR = 3
+const FPS = 30, W = 390, H = S.height || 844, DPR = Number(process.env.DPR || S.dpr || 3)  // 4x and 5x hang Chrome's screenshot under virtual time (measured 9 October); 3x is 1170 by 2532
 // Measured 9 October 2026: a CDP capture under virtual time always loses the
 // bottom 87 px of the viewport, whatever its size, so the page is given 90 px
 // more than the phone and the phone is captured whole at 3x: 1170 by 2532.
@@ -26,8 +26,13 @@ const root = new URL('../', import.meta.url).pathname
 const dir = `${root}renders/rec/${S.name}/`
 rmSync(dir, { recursive: true, force: true }); mkdirSync(dir, { recursive: true }); mkdirSync(`${root}assets/rec`, { recursive: true })
 
+const NAMES = JSON.parse((await import('node:fs')).readFileSync(new URL('./names.json', import.meta.url), 'utf8'))
+const NAMES_JS = (await import('node:fs')).readFileSync(new URL('./names.js', import.meta.url), 'utf8')
+// A scene may also relabel its own made up fixture data ("swap"), never product copy.
+const addNames = (pg, extra = {}) => pg.addInitScript({ content: `window.__FILM_NAMES__ = ${JSON.stringify({ ...NAMES, ...extra })};\n${NAMES_JS}` })
 const browser = await chromium.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
 const page = await browser.newPage({ viewport: { width: W, height: H + PAD }, deviceScaleFactor: DPR })
+await addNames(page, S.swap || {})
 await page.addInitScript((stubs) => {
   const real = window.fetch.bind(window)
   window.fetch = async (input, init) => {
@@ -75,14 +80,14 @@ for (const a of S.actions || []) {
 }
 events.sort((a, b) => a.at - b.at)
 const N = Math.round(S.seconds * FPS)
-let ei = 0, focused = null
+let ei = 0, focused = null, lastShot = null, repeats = 0
 for (let f = 0; f < N; f++) {
   const now = (f * 1000) / FPS
   while (ei < events.length && events[ei].at <= now) {
     const e = events[ei++]
     if (e.do === 'char') {
-      if (focused !== e.selector) { await fr.evaluate((sel) => document.querySelector(sel).focus(), e.selector); focused = e.selector }
-      await cdp.send('Input.insertText', { text: e.ch })
+      if (focused !== e.selector) { await within(fr.evaluate((sel) => document.querySelector(sel).focus(), e.selector), 8000); focused = e.selector }
+      await within(cdp.send('Input.insertText', { text: e.ch }), 8000)
     } else if (e.do === 'press') await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: e.key, code: e.key, windowsVirtualKeyCode: e.key === 'Enter' ? 13 : 0, text: e.key === 'Enter' ? '\r' : undefined }).then(() => cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: e.key, code: e.key, windowsVirtualKeyCode: e.key === 'Enter' ? 13 : 0 }))
     else if (e.do === 'click' || e.do === 'tap') {
       // No Playwright locator here: it waits for an animation frame, and none comes while virtual time is paused.
@@ -95,12 +100,18 @@ for (let f = 0; f < N; f++) {
     } else if (e.do === 'scroll') await fr.evaluate(({ y, sel }) => (sel ? document.querySelector(sel) : window).scrollTo({ top: y, behavior: 'instant' }), { y: e.y, sel: e.selector || null })
   }
   if ((await step(1000 / FPS)) === 'timeout') console.log(`step timed out at frame ${f}`)
-  const shot = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 92, clip: { x: 0, y: 0, width: W * K, height: H * K, scale: DPR / K }})
+  if (f % 30 === 0) console.log(`frame ${f}/${N}`)
+  // A screenshot can hang under virtual time now and then: retry once, then
+  // repeat the previous frame rather than lose the take. Counted and logged.
+  const grab = () => within(cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 92, clip: { x: 0, y: 0, width: W * K, height: H * K, scale: DPR / K } }), 10000)
+  let shot = await grab()
+  if (shot === 'timeout') { await step(1); shot = await grab() }
+  if (shot === 'timeout') { repeats++; console.log(`frame ${f} repeated after two hung screenshots`); shot = lastShot } else lastShot = shot
   writeFileSync(`${dir}f-${String(f).padStart(5, '0')}.jpg`, Buffer.from(shot.data, 'base64'))
 }
 await within(browser.close(), 5000)
 const out = `${root}assets/rec/${S.name}.mp4`
 execSync(`ffmpeg -v error -y -framerate ${FPS} -i ${dir}f-%05d.jpg -vf "format=yuv420p" -c:v libx264 -crf 14 -preset slow ${out}`)
 const dims = execSync(`ffprobe -v error -show_entries stream=width,height -of csv=p=0 ${out}`).toString().trim()
-console.log(`${S.name}: ${N} frames, ${S.seconds}s, ${dims} -> assets/rec/${S.name}.mp4`)
+console.log(`${S.name}: ${N} frames, ${S.seconds}s, ${dims} -> assets/rec/${S.name}.mp4${repeats ? `, ${repeats} repeated` : ''}`)
 process.exit(0)
