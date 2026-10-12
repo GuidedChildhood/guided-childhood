@@ -552,7 +552,7 @@ the last slide; a `done_together` open abandoned, then the child's own pass,
 which must not read as together; a family deck still passing at 70 percent;
 the printed classroom pack and the teacher's run minutes unchanged.
 
-### PR 2: the content the loop reads (migration 367, applied first)
+### PR 2: the content the loop reads (migration 373, applied first; the plan said 367, which was taken with 368 to 372 while the build was held on 10 and 11 October)
 
 No slide is touched. These are `parent_note` and `teacher_notes` fields, so
 the classroom deck, its minutes and its printed pack cannot move.
@@ -850,7 +850,14 @@ passes would have the stamp rest on questions they never met while the screen
 told them they had met every one. Under five the check is simply short, and it
 says so. A preference for items unseen in any run.
 
-### PR 5: the content (migration 368, applied after the deploy)
+### PR 5: the content (migration 374 or whatever is free, applied after the deploy; the plan said 368)
+
+**From PR 2 (12 October 2026):** the two KS5 decks, ks5-20 and ks5-21, fill the
+Independent page since the one stage map landed, and they are the only scheme
+decks with no passport beat, because they were written "after" the passport.
+The beat is a slide, so it arrives here, right before DiGi closes, with the
+same config shape migration 297 wrote. The contract exempts exactly those two
+until then.
 
 **5.1 Four child only check questions and four spares per KS2 and up deck.**
 Four `kid_only` prove slides and four `kid_only, reserve` slides, one reserve

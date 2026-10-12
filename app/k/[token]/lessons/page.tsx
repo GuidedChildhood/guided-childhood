@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { isTogetherStage, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
+import { lessonAudienceFor, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { hasFullAccess } from '@/lib/access'
@@ -40,7 +40,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band, accent, date_of_birth')
+    .select('name, age_band, accent, date_of_birth, lessons_together')
     .eq('id', link.child_id)
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
@@ -179,7 +179,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
       hrefFor={id => `/k/${token}/school/${id}`}
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
-      together={isTogetherStage(stageId)}
+      together={lessonAudienceFor(stageId, child as { lessons_together?: boolean | null } | null) === 'together'}
     />
     </KidScreenChrome>
   )

@@ -94,7 +94,7 @@ type TeacherNotes = {
   // place of the one word: shared/evidence-status.ts decides which it is.
   evidence_base?: { claim: string; source: string; status: string }[]
 }
-type ParentNote = { taught?: string; try_this?: string; family_question?: string }
+type ParentNote = { taught?: string; try_this?: string; family_question?: string; say_this?: string }
 type DslNote = { required?: boolean; note?: string }
 
 type Lesson = {
@@ -424,7 +424,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             The count is this screen's memory of its classes (the passport
             beat's tap), never a child: this site holds class codes, not pupil
             accounts, and the passport never records where a page was filled. */}
-        {placement && placement !== 'after' && (
+        {placement && (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What this lesson earns</h2>
             <div style={{ margin: '0 0 14px' }}>
@@ -433,23 +433,15 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             <p style={body}>
               Many of your families keep the Guided Childhood Passport at home: the journey to sixteen,
               filled one stage at a time and finished by DiGi&rsquo;s five question check, which a child
-              cannot fail. This lesson fills the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGES[placement].page}</strong> page
+              cannot fail. This lesson has a place on the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGES[placement].page}</strong> page
               {area ? <> and builds <strong style={{ color: 'var(--ink)' }}>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}.
-              Teaching it is credit toward the page: the parent note going home says so and carries the
-              home code that puts it in the child&rsquo;s own book.
+              Teaching it means the class met it: the parent note going home says so and carries the home
+              code that records it on the child&rsquo;s own passport. The child&rsquo;s own short check at home is
+              what fills the page.
             </p>
             <p style={{ ...body, marginTop: '8px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
               The passport never records where a page was filled, school or home, and none of this
               creates pupil data here: this site holds class codes, never pupil accounts.
-            </p>
-          </div>
-        )}
-        {placement === 'after' && (
-          <div style={{ ...card, marginBottom: '16px' }}>
-            <h2 style={h2}>What this lesson earns</h2>
-            <p style={body}>
-              No passport page. The passport is the journey to sixteen and this year group is past it:
-              this module is the chapter after the book, and the parent note says so.
             </p>
           </div>
         )}
@@ -746,9 +738,13 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What goes home</h2>
             {parent.taught && <p style={body}>{parent.taught}</p>}
-            {parent.family_question && (
+            {parent.say_this ? (
               <p style={{ ...body, marginTop: '10px', fontStyle: 'italic' }}>
-                The question for the dinner table: &ldquo;{parent.family_question}&rdquo;
+                Say this tonight, for the parent: &ldquo;{parent.say_this}&rdquo;
+              </p>
+            ) : parent.family_question && (
+              <p style={{ ...body, marginTop: '10px', fontStyle: 'italic' }}>
+                Ask at tea: &ldquo;{parent.family_question}&rdquo;
               </p>
             )}
           </div>

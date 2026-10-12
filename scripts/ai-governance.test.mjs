@@ -13,7 +13,9 @@
 import { QUESTIONS, APPLICABLE, BY_SECTION, SECTIONS } from '../shared/ai-governance/questions.ts'
 import { assess, rateCategory, overallStatus, classify, isPupilFacing, CATEGORIES, priorityOrder } from '../shared/ai-governance/rating.ts'
 import { PASSPORT_LINKS, raisedLinks } from '../shared/ai-governance/passport-links.ts'
-import { PASSPORT_STAGES } from '../shared/passport-stages.ts'
+// The pages come from the one stage map, which has no imports of its own, so
+// plain node can load it (passport-stages.ts derives from it since 12 October 2026).
+import { STAGE_PAGES as PASSPORT_STAGES } from '../shared/stage-map.ts'
 import { CURRICULUM } from '../shared/schools-curriculum.ts'
 
 let failed = 0

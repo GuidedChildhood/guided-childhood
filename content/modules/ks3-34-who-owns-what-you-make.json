@@ -612,9 +612,11 @@
   "parent_note": {
     "taught": "Today we looked at who owns what your child makes. In the UK copyright is automatic, so their drawings, photos and writing are theirs from the moment they make them, and posting gives the app a licence rather than ownership. We also taught fair dealing, the UK's narrow rule for using other people's work, why crediting someone is not the same as permission, what happens to a song under a video, and the classroom rule for anything made with AI: credit the tool and say what you did.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is saying who owns a piece of work and using other people's work fairly.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. The skill this lesson builds is saying who owns a piece of work and using other people's work fairly.",
     "try_this": "Next time a video or post comes up at home, ask together: whose is it? Whose song, whose photo, whose words. It takes ten seconds, and there is often more than one owner in a single post.",
-    "family_question": "If you made a picture with an AI tool and then changed half of it by hand, whose would it be?",
+    "family_question": "Explain to me why posting a photo gives an app a licence, not ownership.",
+    "listen_for": "You know copyright is automatic, credit is not permission, and work made with AI gets the tool credited.",
+    "then_ask": "Whose song, photo and words are in the last video you watched?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -850,7 +852,7 @@
       "That if it is online it is free to use. Finding it online is on Instagram's list of things that do not protect you."
     ],
     "paper_fallback": "Everything runs without screens. The five sort cases are on the sheet, the sort works as three corners of the room labelled Yours, Fine if you credit and Not yours to use, the two diagrams are on the sheet as numbered steps, and the credit lines are written by hand.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: before I post the next thing I made or used, I will ask whose is it, and the credit I will write is...",
     "differentiation": {
       "stretch": "Give the strongest pupils the parody case and ask them to write two versions of it, one that passes both fair dealing questions and one that fails one, then explain which question decided it and why.",

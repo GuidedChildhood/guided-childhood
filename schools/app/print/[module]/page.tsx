@@ -47,7 +47,7 @@ type TeacherNotes = {
   worksheet?: { title?: string; directions?: string; verdict_options?: string[] }
   commitment_stem?: string
 }
-type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string; passport?: string }
+type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string; listen_for?: string; then_ask?: string; say_this?: string; passport?: string }
 type DslNote = { note?: string }
 
 export const revalidate = 3600
@@ -109,7 +109,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   const eyebrow = `${lesson.key_stage} · ${lesson.year_band}`
   const placement = placementOf(lesson.module_id)
   const area = areaOf(lesson.module_id)
-  const page = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
+  const page = placement ? PASSPORT_STAGES[placement] : null
   const teacherFooter = `${lesson.title} · teacher sheet`
   const pupilFooter = `${lesson.title} · photocopy per pupil`
   // Teacher sheets are read at a desk, not held by a child: a size down and a
@@ -348,14 +348,30 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           ))}
         </Box>
         {parent.try_this && <Box label="Try this at home" dense legend><p style={pt}>{parent.try_this}</p></Box>}
-        {parent.family_question && <Box label="Dinner table question" dense legend><p style={{ ...pt, fontWeight: 700 }}>{parent.family_question}</p></Box>}
+        {/* The tea question (plan v10, 2.1; sync plan G5): one label on every
+            surface, with what to listen for and the one question to ask next
+            printed under it. The six lessons a parent hears about first carry
+            a private line to say tonight instead (parent_note.say_this). */}
+        {parent.say_this ? (
+          <Box label="Say this tonight" dense legend><p style={{ ...pt, fontWeight: 700 }}>{parent.say_this}</p></Box>
+        ) : parent.family_question && (
+          <Box label="Ask at tea" dense legend>
+            <p style={{ ...pt, fontWeight: 700 }}>{parent.family_question}</p>
+            {(parent.listen_for || parent.then_ask) && (
+              <p style={{ ...pt, marginTop: '3px' }}>
+                {parent.listen_for && <><strong>Listen for:</strong> {parent.listen_for} </>}
+                {parent.then_ask && <><strong>Then ask:</strong> {parent.then_ask}</>}
+              </p>
+            )}
+          </Box>
+        )}
         {/* Both halves of the school to home bridge, in reading order: the
             passport line says what the family is part of, the home code lets
             them act on it. */}
         {(parent.passport || page) && (
           <Box label="The passport" friend={friend} dense legend>
             {parent.passport && <p style={pt}>{parent.passport}</p>}
-            {page && area && <p style={{ ...pt, marginTop: parent.passport ? '4px' : 0 }}>Today filled the <strong>{page.page}</strong> page: <strong>{AREAS[area].name}</strong>.</p>}
+            {page && area && <p style={{ ...pt, marginTop: parent.passport ? '4px' : 0 }}>The page: <strong>{page.page}</strong>. The area: <strong>{AREAS[area].name}</strong>.</p>}
           </Box>
         )}
         {/* BOTH WAYS IN, because a parent in a kitchen with a book bag has a
@@ -376,13 +392,13 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
                 it stands on its own line (schools.css, .gc-home-code). */}
             <div style={{ flex: '1 1 180px', minWidth: 0 }}>
               <div className="gc-home-code" style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
-              <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>Put this on your child&rsquo;s passport</div>
-              <p style={pt}>{qr ? 'Point your phone at the square. ' : ''}It opens your child&rsquo;s own record of what they are learning about being safe and sharp online, and adds today&rsquo;s lesson to it. Free to start, nothing shared back with us.</p>
+              <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>For your child&rsquo;s passport record</div>
+              <p style={pt}>{qr ? 'Point your phone at the square. ' : ''}It opens your child&rsquo;s own passport record and notes that the class met today&rsquo;s lesson. Free to start, nothing shared back with us.</p>
               <p style={{ ...pt, marginTop: '4px', color: 'var(--ink-muted)' }}>Or go to <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', overflowWrap: 'anywhere' }}>{homeCodeLabel(homeCode)}</strong></p>
             </div>
           </div>
         )}
-        <p style={{ ...text, fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '10px' }}>No login needed, nothing to sign up for. This note is yours.</p>
+        <p style={{ ...text, fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '10px' }}>Yours to keep, nothing to sign up for. The code is for your child&rsquo;s passport record.</p>
         <PrintBrandFooter />
       </PrintSheet>
     </main>
