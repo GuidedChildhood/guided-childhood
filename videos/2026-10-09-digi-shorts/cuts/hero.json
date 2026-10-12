@@ -13,23 +13,23 @@
     0.22
    ],
    [
-    2.4,
+    4.0,
     0.15
    ],
    [
-    7.5,
+    16.75,
     0.15
    ],
    [
-    8.0,
+    17.25,
     0.3
    ],
    [
-    36.15,
+    58.25,
     0.3
    ],
    [
-    39.15,
+    61.25,
     0
    ]
   ]
@@ -37,46 +37,47 @@
  "shots": [
   {
    "id": "hook",
-   "dur": 2.0,
+   "dur": 5.6,
    "overlays": [
     {
      "kind": "pill",
      "text": "Turning the tablet off ends in tears and I feel so guilty. What do I say?",
      "y": 440,
-     "t0": 0
+     "t0": 0,
+     "typed": 0.15
     },
     {
      "kind": "eyebrow",
      "text": "An example family. Real app screens, example replies.",
-     "y": 1130,
-     "t0": 0.3
+     "y": 1150,
+     "t0": 2.9
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 0.08,
-     "vol": 0.18
-    },
-    {
-     "name": "sfx-tap",
-     "at": 0.24,
+     "at": 0.25,
      "vol": 0.16
     },
     {
      "name": "sfx-tap",
-     "at": 0.41,
-     "vol": 0.18
+     "at": 0.9,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.6,
+     "vol": 0.16
     }
    ]
   },
   {
    "id": "chat-send",
-   "dur": 0.55,
+   "dur": 1.1,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 1.715,
+   "mediaStart": 1.165,
    "ground": "white",
-   "fadeIn": 0.12,
+   "fadeIn": 0.15,
    "cam": [
     {
      "t": 0,
@@ -86,13 +87,6 @@
      "py": 1300
     }
    ],
-   "sfx": [
-    {
-     "name": "sfx-send",
-     "at": 0.52,
-     "vol": 0.4
-    }
-   ],
    "inScreen": [
     {
      "cls": "ripple",
@@ -100,15 +94,22 @@
      "y": 709,
      "w": 44,
      "h": 44,
-     "t0": 0.45
+     "t0": 0.95
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-send",
+     "at": 1.05,
+     "vol": 0.4
     }
    ]
   },
   {
    "id": "chat-think",
-   "dur": 1.6,
+   "dur": 2.05,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 9.075,
+   "mediaStart": 8.9,
    "ground": "white",
    "fadeIn": 0,
    "cam": [
@@ -138,26 +139,38 @@
   },
   {
    "id": "chat-reply",
-   "dur": 2.4,
+   "dur": 6.5,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 10.9,
+   "mediaStart": 10.95,
    "ground": "white",
    "fadeIn": 0,
    "cam": [
     {
      "t": 0,
-     "S": 2.77,
+     "S": 2.9,
      "fx": 195,
-     "fy": 420,
-     "py": 1500
+     "fy": 300,
+     "py": 1100
+    },
+    {
+     "t": 3.6,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 470,
+     "py": 1000,
+     "dur": 0.7
     }
    ],
    "overlays": [
     {
      "kind": "label",
      "text": "Illustrative reply",
-     "y": 262,
-     "t0": 0.1
+     "x": 300,
+     "w": 560,
+     "align": "left",
+     "y": 885,
+     "t0": 0.2,
+     "t1": 3.6
     }
    ],
    "sfx": [
@@ -170,9 +183,9 @@
   },
   {
    "id": "chat-link",
-   "dur": 1.4,
+   "dur": 2.0,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 19.3,
+   "mediaStart": 19.0,
    "ground": "white",
    "fadeIn": 0.15,
    "cam": [
@@ -189,8 +202,7 @@
      "kind": "label",
      "text": "Illustrative reply",
      "y": 262,
-     "t0": 0,
-     "instant": true
+     "t0": 0
     }
    ],
    "inScreen": [
@@ -200,23 +212,23 @@
      "y": 78,
      "w": 44,
      "h": 44,
-     "t0": 0.9
+     "t0": 1.1
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 0.9,
+     "at": 1.1,
      "vol": 0.45
     }
    ]
   },
   {
    "id": "deck-say",
-   "dur": 7.0,
+   "dur": 10.2,
    "src": "rec/script-deck.mp4",
    "srcH": 1000,
-   "mediaStart": 0.6,
+   "mediaStart": 0.2,
    "fadeIn": 0.15,
    "cam": [
     {
@@ -227,7 +239,7 @@
      "py": 440
     },
     {
-     "t": 0.6,
+     "t": 2.4,
      "S": 2.7,
      "fx": 195,
      "fy": 303,
@@ -235,7 +247,7 @@
      "dur": 0.7
     },
     {
-     "t": 1.6,
+     "t": 4.3,
      "S": 3.3,
      "fx": 195,
      "fy": 607,
@@ -243,7 +255,7 @@
      "dur": 0.7
     },
     {
-     "t": 4.8,
+     "t": 8.0,
      "S": 2.7,
      "fx": 195,
      "fy": 303,
@@ -258,8 +270,8 @@
      "y": 599,
      "w": 132,
      "h": 3,
-     "t0": 2.4000000000000004,
-     "t1": 4.8
+     "t0": 5.1,
+     "t1": 8.0
     },
     {
      "cls": "underline",
@@ -267,8 +279,8 @@
      "y": 630,
      "w": 214,
      "h": 3,
-     "t0": 2.5500000000000003,
-     "t1": 4.8
+     "t0": 5.25,
+     "t1": 8.0
     }
    ],
    "overlays": [
@@ -280,16 +292,16 @@
     {
      "kind": "veil",
      "h": 780,
-     "t0": 1.6,
-     "t1": 5.3,
+     "t0": 4.3,
+     "t1": 8.5,
      "fade": true
     },
     {
      "kind": "band",
      "text": "Say this before the tablet goes on",
      "y": 430,
-     "t0": 2.0,
-     "t1": 4.8
+     "t0": 4.7,
+     "t1": 8.0
     }
    ],
    "sfx": [
@@ -300,26 +312,26 @@
     },
     {
      "name": "sfx-shimmer",
-     "at": 2.4000000000000004,
+     "at": 5.1,
      "vol": 0.18
     },
     {
      "name": "sfx-tap",
-     "at": 5.6,
+     "at": 8.8,
      "vol": 0.45
     },
     {
      "name": "sfx-whoosh",
-     "at": 6.699999999999999,
+     "at": 9.9,
      "vol": 0.16
     }
    ]
   },
   {
    "id": "timer-count",
-   "dur": 2.8,
+   "dur": 3.6,
    "src": "rec/timer-end.mp4",
-   "mediaStart": 7.0,
+   "mediaStart": 6.4,
    "cam": [
     {
      "t": 0,
@@ -340,7 +352,7 @@
      "kind": "label",
      "text": "Counting down on your child's screen",
      "y": 620,
-     "t0": 0.5
+     "t0": 0.6
     }
    ],
    "sfx": [
@@ -353,7 +365,7 @@
   },
   {
    "id": "timer-pop",
-   "dur": 1.4,
+   "dur": 2.0,
    "src": "rec/timer-end.mp4",
    "mediaStart": 10.15,
    "cropTop": 40,
@@ -387,9 +399,9 @@
   },
   {
    "id": "followup",
-   "dur": 6.4,
+   "dur": 11.4,
    "src": "rec/followup.mp4",
-   "mediaStart": 0.8,
+   "mediaStart": 0.6,
    "cropTop": 390,
    "cam": [
     {
@@ -411,7 +423,7 @@
      "kind": "label",
      "text": "This parent's own rating",
      "y": 575,
-     "t0": 4.0
+     "t0": 5.6
     }
    ],
    "inScreen": [
@@ -421,7 +433,7 @@
      "y": 136,
      "w": 44,
      "h": 44,
-     "t0": 1.0
+     "t0": 2.0
     },
     {
      "cls": "ripple",
@@ -429,25 +441,25 @@
      "y": 233,
      "w": 44,
      "h": 44,
-     "t0": 4.0
+     "t0": 5.6
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 1.0,
+     "at": 2.0,
      "vol": 0.5
     },
     {
      "name": "sfx-tap",
-     "at": 4.0,
+     "at": 5.6,
      "vol": 0.5
     }
    ]
   },
   {
    "id": "great",
-   "dur": 2.4,
+   "dur": 2.0,
    "src": "rec/checkin-great.mp4",
    "mediaStart": 0.9,
    "srcH": 1000,
@@ -501,7 +513,7 @@
   },
   {
    "id": "great-hold",
-   "dur": 2.6,
+   "dur": 4.0,
    "src": "stills/great-card.png",
    "srcH": 1000,
    "clipH": 1000,
@@ -535,7 +547,7 @@
   },
   {
    "id": "tiles",
-   "dur": 1.6,
+   "dur": 2.4,
    "src": "captures/worries-before.png",
    "cam": [
     {
@@ -546,7 +558,6 @@
      "py": 1200
     }
    ],
-   "overlays": [],
    "inScreen": [
     {
      "cls": "ripple",
@@ -554,7 +565,7 @@
      "y": 316,
      "w": 44,
      "h": 44,
-     "t0": 0.3
+     "t0": 0.6
     },
     {
      "cls": "ripple",
@@ -562,7 +573,7 @@
      "y": 324,
      "w": 44,
      "h": 44,
-     "t0": 0.6
+     "t0": 1.0
     },
     {
      "cls": "ripple",
@@ -570,7 +581,7 @@
      "y": 509,
      "w": 44,
      "h": 44,
-     "t0": 0.9
+     "t0": 1.4
     },
     {
      "cls": "ripple",
@@ -578,7 +589,7 @@
      "y": 670,
      "w": 44,
      "h": 44,
-     "t0": 1.2
+     "t0": 1.8
     }
    ],
    "sfx": [
@@ -589,19 +600,19 @@
     },
     {
      "name": "sfx-tink",
-     "at": 0.3,
+     "at": 0.6,
      "vol": 0.2
     },
     {
      "name": "sfx-tink",
-     "at": 0.9,
+     "at": 1.4,
      "vol": 0.2
     }
    ]
   },
   {
    "id": "tiles2",
-   "dur": 2.0,
+   "dur": 2.4,
    "src": "captures/worries-after.png",
    "fadeIn": 0,
    "cam": [
@@ -612,12 +623,11 @@
      "fy": 470,
      "py": 1200
     }
-   ],
-   "overlays": []
+   ]
   },
   {
    "id": "end",
-   "dur": 5.0,
+   "dur": 6.0,
    "overlays": [
     {
      "kind": "digi",
@@ -636,7 +646,7 @@
      "url": "guidedchildhood.com/v/digi-hero",
      "slate": "An example family. Real app screens, example replies.",
      "t0": 0.3,
-     "pressAt": 2.2
+     "pressAt": 2.6
     }
    ],
    "sfx": [
@@ -647,7 +657,7 @@
     },
     {
      "name": "sfx-tap",
-     "at": 2.5,
+     "at": 2.9,
      "vol": 0.4
     }
    ]
@@ -668,12 +678,12 @@
    {
     "label": "The words",
     "shot": "deck-say",
-    "t": 6.3999999999999995
+    "t": 9.6
    },
    {
     "label": "Checked in",
     "shot": "followup",
-    "t": 4.3
+    "t": 5.9
    },
    {
     "label": "Sorted",

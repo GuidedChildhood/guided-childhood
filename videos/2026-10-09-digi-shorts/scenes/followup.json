@@ -1,7 +1,7 @@
 {
  "name": "followup",
  "url": "/dev/concern-scale?only=1",
- "seconds": 9,
+ "seconds": 13,
  "scrollY": 420,
  "swap": {
   "Online safety": "Coming off screens",
@@ -25,14 +25,14 @@
  ],
  "actions": [
   {
-   "at": 1800,
+   "at": 2600,
    "do": "tap",
    "selector": "button",
    "text": "Yes",
    "nth": 1
   },
   {
-   "at": 4800,
+   "at": 6200,
    "do": "tap",
    "selector": "button[aria-label=\"Getting there\"]",
    "nth": 0

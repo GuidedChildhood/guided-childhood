@@ -67,7 +67,7 @@ for (const [i, sh] of C.shots.entries()) {
     (sh.src ? `<div id="${id}-cam" class="cam">${bezel}<div class="screenbox${sh.bezel ? ' framed' : ''}" style="width:${SW}px;height:${(sh.clipH || sh.srcH || SH) - (sh.cropTop || 0)}px"><div class="crop" style="transform:translateY(${-(sh.cropTop || 0)}px)">${screen}${(sh.inScreen || []).map((o, j) => `<div id="${id}-in${j}" class="inscreen ${o.cls || ''}" style="left:${o.x}px;top:${o.y}px;width:${o.w}px;height:${o.h}px"></div>`).join('')}</div></div></div>` : '')
   for (const [j, o] of (sh.overlays || []).entries()) {
     const style = `left:${o.x ?? 90}px;top:${o.y}px;width:${o.w ?? W - 180}px;text-align:${o.align || 'center'}`
-    if (o.kind === 'pill') html += `<div id="${id}-o${j}" class="ov pillwrap" style="${style}"><span class="pill">${esc(o.text)}</span></div>`
+    if (o.kind === 'pill') html += `<div id="${id}-o${j}" class="ov pillwrap" style="${style}"><span class="pill">${o.typed ? esc(o.text).split(' ').map((w) => `<span class="pw">${w}</span>`).join(' ') : esc(o.text)}</span></div>`
     else if (o.kind === 'digi') html += `<div id="${id}-o${j}" class="ov digi" style="left:${o.x}px;top:${o.y}px;width:${o.size}px;height:${o.size}px"><video id="${id}-o${j}-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="${at(s + (o.t0 || 0))}" data-duration="${at((o.t1 ?? d) - (o.t0 || 0))}" data-track-index="2"></video></div>`
     else if (o.kind === 'end') html += `<div id="${id}-o${j}" class="ov endcard" style="top:${o.y}px"><div class="end-logo">${logo(64, 50)}</div>${o.eyebrow ? `<div class="end-eyebrow">${esc(o.eyebrow)}</div>` : ''}<div class="end-line">${esc(o.line)}</div><div class="end-sub">${esc(o.sub)}</div><div class="end-btn" id="${id}-o${j}-btn">${esc(o.button)}</div><div class="end-url">${esc(o.url)}</div>${o.slate ? `<div class="end-slate">${esc(o.slate)}</div>` : ''}</div>`
     else if (o.kind === 'marker') html += `<div id="${id}-o${j}" class="ov markerwrap" style="${style}"><span class="marker">${esc(o.text)}</span></div>`
@@ -100,6 +100,9 @@ for (const [i, sh] of C.shots.entries()) {
     const sel = `#${id}-o${j}`, t0 = s + (o.t0 || 0), t1 = s + (o.t1 ?? d)
     if (o.kind === 'end') { fromTo(sel, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t0); if (o.pressAt != null) { to(`${sel}-btn`, { y: 5, boxShadow: '0 1px 0 #000', duration: 0.09, yoyo: true, repeat: 1 }, t0 + o.pressAt) } continue }
     if (o.instant || (o.kind === 'veil' && !o.fade)) { set(sel, { opacity: 1 }, t0); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
+    // A typed pill: the bubble lands, then its words arrive at reading pace,
+    // so the opening moves while it holds long enough to be read.
+    if (o.kind === 'pill' && o.typed) fromTo(`${sel} .pw`, { opacity: 0 }, { opacity: 1, duration: 0.12, stagger: o.typed, ease: 'none' }, t0 + 0.2)
     if (o.kind === 'hook') fromTo(`${sel} .hw`, { opacity: 0, y: 14, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, stagger: 0.06, ease: 'power2.out' }, t0)
     else fromTo(sel, { opacity: 0, y: o.kind === 'digi' ? 40 : 12 }, { opacity: 1, y: 0, duration: 0.45, ease: o.kind === 'digi' ? 'back.out(1.6)' : 'power2.out' }, t0)
     if (o.t1 != null) to(sel, { opacity: 0, duration: 0.3 }, t1 - 0.3)
