@@ -48,19 +48,19 @@ watermark on Instagram.
 
 **Short 1, Facebook**
 > Send this to whoever does switch off in your house.
-> Every night the tablet goes off and somebody ends up the bad guy. Guided Childhood gives you the words to agree the ending first, a timer that calls time instead of you, and a check in a few days later to see if it held.
+> Every night the tablet goes off, there are tears, and you are left feeling guilty. Guided Childhood gives you the words to agree the ending first, a timer that calls time instead of you, and a check in a few days later to see if it held.
 > Example family, real app screens.
 > What stage is your child? Three questions, no sign up. guidedchildhood.com/v/switch-off-fb
 
 **Short 1, TikTok**
 > Send this to whoever ends screen time in your house.
-> Whoever calls time becomes the bad guy. So agree the ending before the tablet goes on, and let the timer call it.
+> Turning it off ends in tears, and then the guilt. So agree the ending before the tablet goes on, and let the timer call it.
 > Example family, real app screens.
 > What stage is your child? Three questions, no sign up. Link in bio.
 > #screentime #ukparents #parentingtips
 
 **Hero, Instagram and Facebook**
-> If you are always the bad guy when the tablet goes off, this is for you.
+> If turning the tablet off ends in tears and guilt, this is for you.
 > Ask DiGi, get the words for tonight, and it checks in until it is sorted.
 > Example family. Real app screens, example replies.
 > What stage is your child? Three questions, no sign up. (Instagram: link in bio. Facebook: guidedchildhood.com/v/hero-fb)

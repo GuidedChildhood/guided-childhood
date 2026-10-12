@@ -46,7 +46,7 @@ not a measurement.
 | 10 | The tracker rail sits under the TikTok and Reels headers, and its labels are small | Adopt. Move it below the header zone with bigger labels, and shift the content down | Customer test | M |
 | 11 | End card: eyebrow on the hero, "See what to do tonight", URL and slate up out of the caption zone, the film's /v/ link, a longer hold | Adopt | Stage check starts | S |
 | 12 | The hero's worry tiles have no words | Adopt. One label | Customer test | S |
-| 13 | Hooks: "I'm always the bad guy when the tablet goes off" first | Adopt for the hero: re-record the chat with it as the parent's question. Short 1 keeps its question and gains a band: "You say off. They say one more. Every single day." | Stage check starts | M |
+| 13 | Hooks: "I'm always the bad guy when the tablet goes off" first | Adapt. Justin turned "bad guy" down ("I feel guilty"), so the hero's parent types "Turning the tablet off ends in tears and I feel so guilty. What do I say?" and DiGi's reply opens by saying the guilt is normal. Short 1 keeps its question and gains a band: "You say off. They say one more." | Stage check starts | M |
 | 14 | Post Short 1 first on Reels and Facebook. The hero 3 to 4 days later as the pinned post, website film and retargeting. TikTok for hook tests. One /v/ code per film per platform | Adopt as the starting plan. It goes into the Control Room | Stage check starts | S |
 | 15 | £0 paid until 30 October, then £100 on Meta behind the film with the most starts per 1,000 views | Park. Justin's money | Goal | none |
 | 16 | Keep, change or stop thresholds per tracked link | Adopt as working numbers. Reset to our own median after four films | Goal | none |

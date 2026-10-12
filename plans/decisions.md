@@ -197,3 +197,7 @@ The shorts panel's measurement gap: nothing counted a stage check start, so a fi
 ## 12 October 2026: the shorts re-cut after the marketer review
 
 An expert marketer agent reviewed the hero and Short 1 from frame sheets; weighed with the feedback filter (plans/2026-10-12-shorts-marketer-review-weighed.md). Justin chose: the science beat leaves these two films and leads the early years film, where the 1 to 5 year old study fits (our own 9 October rule); the app's "not the open web" thinking line changes, "Earn more stars" stays; the hero opens on "I'm always the bad guy when the tablet goes off". Re-cut: hook at 2s, no "open web" line on screen, a push in on the Say this line, the timer centred and cut before "Earn more stars", one worry from asked to sorted with the rating label from the first tap, the rail below the platform headers, end cards out of the caption zone with each film's /v/ link. Hero 39s, Short 1 30s. Paid boost parked.
+
+## 12 October 2026: guilt, not "bad guy"
+
+Justin on the hero's opening line: "bad guy is not a good wording ... I feel guilty". The research agrees that guilt runs under all five top problems in parents' own words ("makes me feel so guilty"), met with tone and one next step, never blame. The hero's parent now types "Turning the tablet off ends in tears and I feel so guilty. What do I say?", DiGi's reply in both films opens "At nine, stopping is the hard part for every child, and feeling guilty about it is normal.", and "bad guy" is out of every caption.
