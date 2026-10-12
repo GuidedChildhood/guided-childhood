@@ -172,6 +172,8 @@ export default async function HealthPage() {
             <Link href="/dashboard/admin/asks" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what parents ask for</Link>.
             For the newsletter links schools share, and who came through them, see{' '}
             <Link href="/dashboard/admin/schools" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>school links</Link>.
+            For the link on each film, and how many began the stage check from it, see{' '}
+            <Link href="/dashboard/admin/videos" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>film links</Link>.
           </p>
         </>
       )}

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
@@ -311,6 +311,19 @@ export default function StarterPackPage() {
       localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment }))
     } catch {}
   }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
+
+  // ── A FILM'S START, COUNTED (migration 372) ───────────────────────────
+  //
+  // The first answer is the stage check begun. Posted once per visit; the
+  // server counts it only for a visitor who came through a film link
+  // (/v/<code>), and only once per follow, so for everyone else this is one
+  // empty call. It is how a film is judged on starts, not just views.
+  const startCounted = useRef(false)
+  useEffect(() => {
+    if (step !== 'q2' || startCounted.current) return
+    startCounted.current = true
+    fetch('/api/video-link/started', { method: 'POST', keepalive: true }).catch(() => {})
+  }, [step])
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
