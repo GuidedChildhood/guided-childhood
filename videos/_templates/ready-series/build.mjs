@@ -131,7 +131,7 @@ tl.fromTo("#${id}-u",{opacity:0},{opacity:1,duration:0.8},${(s + 1.6).toFixed(2)
     if (b.me) html += `<div class="me" id="${id}-me">${esc(b.me)}</div><div class="dots" id="${id}-dots"><i></i><i></i><i></i></div>`
     ;(b.digi || []).forEach((m, n) => {
       const cut = m.indexOf(': ')
-      const lead = b.plan && cut > 0 ? m.slice(0, cut) : '', rest = b.plan && cut > 0 ? m.slice(cut + 2) : m
+      const lead = b.plan && cut > 0 ? m.slice(0, cut) : '', rest = b.plan && cut > 0 ? m.charAt(cut + 2).toUpperCase() + m.slice(cut + 3) : m
       html += `<div class="dg${b.plan ? ' step' : ''}" id="${id}-d${n}">${b.plan ? `<b class="num">${n + 1}</b><span>${lead ? `<b>${esc(lead)}.</b> ` : ''}${esc(rest)}</span>` : esc(m)}</div>`
     })
     html += `</div>`
