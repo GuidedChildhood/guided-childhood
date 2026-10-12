@@ -13,6 +13,7 @@
 //   4. No dash in the kit's or the passport's words.
 //   5. The paper pack fits its paper: every lesson's growing sheets are
 //      within the room last measured in a real PDF, on the layout measured.
+//   6. The colour prints with the browser's background graphics off.
 //
 // Plain node, source reading, like check-schools-legal.
 
@@ -153,5 +154,14 @@ for (const file of [KIT, 'schools/lib/passport-print.ts', 'schools/app/print/pas
   if (!tt || Number(tt[1]) < 12) fail('the teacher sheets set their words below 12px, 9pt on paper; fit the sheet by layout, not by shrinking the type')
 }
 
+// 6. THE COLOUR PRINTS (12 October 2026). Every tint on these sheets is a CSS
+// background, and Chrome prints with background graphics off unless the page
+// asks, so the friend's bands and sticker fills came out white. The /print
+// layout asks, once, for every route under it; Justin's call.
+{
+  const layout = read('schools/app/print/layout.tsx')
+  if (!/printColorAdjust: 'exact'/.test(layout) || !/WebkitPrintColorAdjust: 'exact'/.test(layout) || !/display: 'contents'/.test(layout)) fail("schools/app/print/layout.tsx no longer asks for the colour to print (print-color-adjust: exact on a display: contents wrapper), so Chrome's default prints every tint white")
+}
+
 if (failed) process.exit(1)
-console.log('print kit: the friend on every sheet, one worksheet reader, the passport folds to eight pages with the cover bottom right, no dashes, every paper pack within the room measured on paper.')
+console.log('print kit: the friend on every sheet, one worksheet reader, the passport folds to eight pages with the cover bottom right, no dashes, every paper pack within the room measured on paper, the colour prints.')
