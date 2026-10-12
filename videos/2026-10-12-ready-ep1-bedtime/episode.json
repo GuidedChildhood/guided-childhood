@@ -2,72 +2,32 @@
   "title": "Ready, episode 1: the nightly fight",
   "worry": "The nightly fight over screens",
   "music": "guide-score.mp3",
-  "musicVolume": 0.75,
+  "musicVolume": 0.7,
   "beats": [
-    {
-      "kind": "hook",
-      "clip": "s01.mp4",
-      "off": 0.0,
-      "origin": "55% 45%",
-      "quote": "It's utterly miserable constantly policing screen time.",
-      "source": "A parent on Mumsnet"
-    },
-    {
-      "kind": "shot",
-      "clip": "s01.mp4",
-      "off": 3.4,
-      "origin": "55% 45%",
-      "age": "Age 6, 9pm",
-      "line": "The TV goes back on. Again."
-    },
-    {
-      "kind": "chat",
-      "clip": "s02-chat.mp4",
-      "off": 0.2,
-      "me": "She keeps putting the TV back on at bedtime. Help.",
-      "digi": [
-        "Give the ending to her timer, not to you.",
-        "Bedtime is protected, so it ends on its own."
-      ]
-    },
-    {
-      "kind": "screen",
-      "clip": "s02-slow.mp4",
-      "off": 5.0,
-      "screen": "kid-ask.png",
-      "y": 0,
-      "h": 2350,
-      "tag": "Her timer",
-      "line": "Every screen goes through her timer."
-    },
-    {
-      "kind": "screen",
-      "clip": "s05.mp4",
-      "off": 0.4,
-      "screen": "device-time-popup.png",
-      "y": 1590,
-      "h": 900,
-      "tag": "Protected time",
-      "line": "Inside bedtime, it asks you. You decide."
-    },
-    {
-      "kind": "payoff",
-      "clip": "s05.mp4",
-      "off": 2.6,
-      "origin": "50% 45%",
-      "age": "A week later",
-      "line": "It ends. She switches it off herself."
-    },
-    {
-      "kind": "payoff",
-      "clip": "s13.mp4",
-      "off": 1.0,
-      "origin": "50% 50%",
-      "age": "Age 16",
-      "line": "Her phone charges in the kitchen. Her call."
-    },
-    {
-      "kind": "end"
-    }
+    { "kind": "hook", "step": 1, "stamp": "Night 1, 9:00pm", "clip": "s01.mp4", "off": 0.0, "origin": "55% 45%",
+      "quote": "It's utterly miserable constantly policing screen time.", "source": "A parent on Mumsnet" },
+    { "kind": "shot", "step": 1, "stamp": "Night 1, 9:00pm", "clip": "s01.mp4", "off": 3.0, "origin": "55% 45%",
+      "line": "The TV goes back on. Third night running." },
+    { "kind": "chat", "step": 2, "stamp": "Night 1, 9:14pm",
+      "me": "She keeps putting the TV back on at bedtime. What do I do?" },
+    { "kind": "chat", "step": 2, "stamp": "Night 1, 9:15pm", "plan": true,
+      "digi": ["Tonight: sit with her for the last five minutes, then off together. No battle.",
+               "Tomorrow: set up her timer. Every screen runs through it, so the timer ends it, not you.",
+               "Every night: bedtime is protected. Asking inside it comes to you first."] },
+    { "kind": "shot", "step": 3, "stamp": "Night 1, 9:20pm", "clip": "s05.mp4", "off": 0.0, "origin": "50% 45%",
+      "line": "Tonight. The last five minutes, together." },
+    { "kind": "screen", "step": 3, "stamp": "Day 2, 5:00pm", "screen": "child-deal.png", "y": 0, "h": 1485,
+      "line": "Tomorrow. Her deal, in her own app." },
+    { "kind": "screen", "step": 3, "stamp": "Day 2, 6:00pm", "screen": "kid-ask.png", "y": 0, "h": 1300,
+      "line": "She picks the screen. Her timer ends it." },
+    { "kind": "screen", "step": 3, "stamp": "Night 3, 8:05pm", "screen": "device-time-popup.png", "y": 1590, "h": 900,
+      "line": "Inside bedtime, it asks you first." },
+    { "kind": "screen", "step": 3, "stamp": "Night 5", "screen": "digi-followup.png", "y": 170, "h": 1600,
+      "line": "Five nights on, DiGi checks back." },
+    { "kind": "shot", "step": 4, "stamp": "Week 2, 8:00pm", "clip": "s05.mp4", "off": 2.6, "origin": "50% 45%",
+      "line": "It ends. She switches it off herself." },
+    { "kind": "shot", "step": 4, "stamp": "Ten years on", "clip": "s13.mp4", "off": 1.0, "origin": "50% 50%",
+      "line": "Her phone sleeps in the kitchen. Her choice." },
+    { "kind": "end" }
   ]
 }

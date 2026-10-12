@@ -1,13 +1,18 @@
 {
   "title": "Ready, episode 3: what they will see",
-  "worry": "Fear of what they will see online",
-  "needs": [],
+  "music": "guide-score.mp3", "musicVolume": 0.7,
+  "needs": ["Clip check: s09-slow offsets for the three moments"],
   "beats": [
-    { "kind": "hook", "clip": "s09-slow.mp4", "quote": "I want them to come to me first.", "source": "What parents tell us they want most" },
-    { "kind": "shot", "clip": "s09-slow.mp4", "off": 0.4, "age": "Age 12", "line": "Something horrible in the group chat." },
-    { "kind": "chat", "clip": "s09-slow.mp4", "off": 5.0, "me": "She showed me a horrible message from a group chat. What do I say?", "digi": ["Thank her for coming to you first. That is the win.", "Then ask what she thinks it means, before you decide anything."] },
-    { "kind": "screen", "clip": "s07.mp4", "screen": "concern-scale.png", "y": 0, "h": 1500, "tag": "Your check in", "line": "Log the worry. See how it moves, week by week." },
-    { "kind": "payoff", "clip": "s09-slow.mp4", "off": 7.5, "age": "Age 12", "line": "She came to you, not around you." },
+    { "kind": "hook", "step": 1, "stamp": "Tuesday, 7:40pm", "clip": "s09-slow.mp4", "quote": "I want them to come to me first.", "source": "What parents tell us most" },
+    { "kind": "shot", "step": 1, "stamp": "Tuesday, 7:40pm", "clip": "s09-slow.mp4", "off": 0.4, "line": "A horrible message in the group chat." },
+    { "kind": "chat", "step": 2, "stamp": "Tuesday, 7:42pm", "me": "She showed me a horrible message from a group chat. What do I say?" },
+    { "kind": "chat", "step": 2, "stamp": "Tuesday, 7:43pm", "plan": true,
+      "digi": ["Right now: thank her for coming to you first. That is the win.",
+               "Next: ask what she thinks it means, before you decide anything.",
+               "This week: tell me how it goes, and I will check back."] },
+    { "kind": "shot", "step": 3, "stamp": "Tuesday, 7:45pm", "clip": "s09-slow.mp4", "off": 5.0, "line": "Thank you for telling me." },
+    { "kind": "screen", "step": 3, "stamp": "Week 2", "screen": "concern-scale.png", "y": 1500, "h": 860, "line": "DiGi checks back on what it suggested." },
+    { "kind": "shot", "step": 4, "stamp": "Week 3", "clip": "s09-slow.mp4", "off": 7.5, "line": "She came to you, not around you." },
     { "kind": "end" }
   ]
 }
