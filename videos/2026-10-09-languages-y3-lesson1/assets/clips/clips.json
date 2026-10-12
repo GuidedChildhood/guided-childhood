@@ -1,0 +1,32 @@
+{
+ "hello-es": {
+  "file": "assets/clips/hello-es.mp4",
+  "dur": 6.08,
+  "speechAt": 2.2
+ },
+ "hello-fr": {
+  "file": "assets/clips/hello-fr.mp4",
+  "dur": 5.088,
+  "speechAt": 2.2
+ },
+ "bye-es": {
+  "file": "assets/clips/bye-es.mp4",
+  "dur": 5.088,
+  "speechAt": 0.7
+ },
+ "bye-fr": {
+  "file": "assets/clips/bye-fr.mp4",
+  "dur": 5.088,
+  "speechAt": 0.5
+ },
+ "listening": {
+  "file": "assets/clips/listening.mp4",
+  "dur": 5.042,
+  "speechAt": null
+ },
+ "celebrate": {
+  "file": "assets/clips/celebrate.mp4",
+  "dur": 5.042,
+  "speechAt": null
+ }
+}

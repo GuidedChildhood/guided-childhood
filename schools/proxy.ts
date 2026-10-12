@@ -2,6 +2,9 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
 import { isStandalonePath, isTasterPath } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
+import {
+  LANGUAGES_COOKIE, LANGUAGES_DOOR, isLanguagesPath, langOfPath, languagesLive, languagesTokenAccess,
+} from '@/lib/languages-access'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
 // the old middleware). Two jobs, in this order:
@@ -22,6 +25,11 @@ import { isPilotPath } from '@/lib/pilot'
 
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
+
+  // Languages have their own door and their own code (lib/languages-access.ts)
+  // and are decided here, before the scheme gate, so neither licence can open
+  // the other. Every languages response is noindexed.
+  if (isLanguagesPath(pathname)) return languagesGate(request)
 
   // Two separate questions, composed here rather than tangled together.
   // isOpenPath is the PERMANENT open map: the pages that sell the scheme.
@@ -46,6 +54,35 @@ export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = '/unlock'
   url.search = `?next=${encodeURIComponent(pathname + search)}${access?.tier === 'pilot' ? '&pilot=1' : ''}`
+  return NextResponse.redirect(url)
+}
+
+async function languagesGate(request: NextRequest) {
+  const { pathname, search } = request.nextUrl
+  const pass = () => {
+    const res = NextResponse.next()
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    return res
+  }
+  const access = await languagesTokenAccess(request.cookies.get(LANGUAGES_COOKIE)?.value)
+  const lang = langOfPath(pathname)
+  if (access && (!lang || access.langs.includes(lang))) return pass()
+  // A code for the other language goes back to the languages home, which only
+  // lists what the code opens.
+  if (access && lang) return NextResponse.redirect(new URL('/languages', request.url))
+
+  if (pathname === LANGUAGES_DOOR) return pass()
+
+  // Hidden: until LANGUAGES_LIVE is on, a stranger meets a plain 404, never
+  // the door, so nothing tells them the area exists.
+  if (!languagesLive()) {
+    const res = NextResponse.rewrite(new URL('/__languages_not_found', request.url))
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    return res
+  }
+  const url = request.nextUrl.clone()
+  url.pathname = LANGUAGES_DOOR
+  url.search = `?next=${encodeURIComponent(pathname + search)}`
   return NextResponse.redirect(url)
 }
 

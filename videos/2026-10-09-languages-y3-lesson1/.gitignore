@@ -1,0 +1,5 @@
+renders/*.mp4
+renders/*.log
+renders/frames/
+renders/.*
+renders/work-*
