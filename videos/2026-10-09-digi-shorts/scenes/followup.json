@@ -1,6 +1,6 @@
 {
  "name": "followup",
- "url": "/dev/concern-scale",
+ "url": "/dev/concern-scale?only=1",
  "seconds": 9,
  "scrollY": 420,
  "swap": {

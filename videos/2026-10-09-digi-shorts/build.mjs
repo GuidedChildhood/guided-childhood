@@ -99,7 +99,7 @@ for (const [i, sh] of C.shots.entries()) {
   for (const [j, o] of (sh.overlays || []).entries()) {
     const sel = `#${id}-o${j}`, t0 = s + (o.t0 || 0), t1 = s + (o.t1 ?? d)
     if (o.kind === 'end') { fromTo(sel, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t0); if (o.pressAt != null) { to(`${sel}-btn`, { y: 5, boxShadow: '0 1px 0 #000', duration: 0.09, yoyo: true, repeat: 1 }, t0 + o.pressAt) } continue }
-    if (o.instant || o.kind === 'veil') { set(sel, { opacity: 1 }, t0); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
+    if (o.instant || (o.kind === 'veil' && !o.fade)) { set(sel, { opacity: 1 }, t0); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
     if (o.kind === 'hook') fromTo(`${sel} .hw`, { opacity: 0, y: 14, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, stagger: 0.06, ease: 'power2.out' }, t0)
     else fromTo(sel, { opacity: 0, y: o.kind === 'digi' ? 40 : 12 }, { opacity: 1, y: 0, duration: 0.45, ease: o.kind === 'digi' ? 'back.out(1.6)' : 'power2.out' }, t0)
     if (o.t1 != null) to(sel, { opacity: 0, duration: 0.3 }, t1 - 0.3)
@@ -188,12 +188,12 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .label{font-family:plexMono,monospace;font-weight:600;font-size:30px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 16px;display:inline-block}
 .end-logo{margin-bottom:46px}.end-eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:6px}
 .end-slate{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.1em;text-transform:uppercase;color:#52526A;margin-top:46px;max-width:840px;line-height:1.4}
-.rail{position:absolute;left:60px;width:960px;height:150px;opacity:0;background:#FDF6DE;border:3px solid #1A1A2E;border-radius:36px;box-shadow:0 6px 0 #1A1A2E}
+.rail{position:absolute;left:60px;width:960px;height:160px;opacity:0;background:#FDF6DE;border:3px solid #1A1A2E;border-radius:36px;box-shadow:0 6px 0 #1A1A2E}
 .rail-line{position:absolute;top:51px;height:6px;border-radius:3px;background:rgba(26,26,46,.16);overflow:hidden}
 .rail-fill{position:absolute;inset:0;background:#1A1A2E;transform-origin:0 50%;transform:scaleX(0)}
 .rail-dot{position:absolute;top:24px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:#fff;border:4px solid #1A1A2E}
 .rail-done{position:absolute;inset:-4px;border-radius:50%;background:#EDC35F;border:4px solid #1A1A2E;display:flex;align-items:center;justify-content:center;transform:scale(0)}
-.rail-lab{position:absolute;top:96px;width:240px;margin-left:-120px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:25px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E;opacity:.42}
+.rail-lab{position:absolute;top:98px;width:260px;margin-left:-130px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:29px;letter-spacing:.1em;text-transform:uppercase;color:#1A1A2E;opacity:.42}
 .lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
 .veil{left:0;top:0;width:1080px}
 .ov{position:absolute;opacity:0}
@@ -208,7 +208,7 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .digi video{width:100%;height:100%;object-fit:cover;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000 52%,transparent 70%);mask-image:radial-gradient(circle at 50% 50%,#000 52%,transparent 70%)}
 .endcard{left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
 .end-line{font-weight:900;font-size:96px;line-height:1.04;letter-spacing:-.025em;max-width:920px;margin-top:40px}
-.end-sub{font-weight:700;font-size:56px;color:#3A3A52;margin-top:22px}
+.end-sub{font-weight:700;font-size:54px;line-height:1.2;color:#3A3A52;margin-top:22px;max-width:880px}
 .end-btn{margin-top:54px;background:#1A1A2E;color:#FFFFFF;border-radius:22px;padding:30px 54px;font-weight:800;font-size:60px;box-shadow:0 7px 0 #000}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
