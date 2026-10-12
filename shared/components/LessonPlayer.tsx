@@ -17,6 +17,7 @@ import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, kidEyebrow, kidMinutesLef
 import type { CurriculumBadges } from '../curriculum-badges'
 import { slideNamesTheLead, leadLine, type YourSchool } from '../schools-your-school'
 import Interactive from './interactives'
+import { optionOrder } from '../option-order'
 
 // The cinematic player, v3. One player build lifts every lesson at once
 // because slides are data: full bleed one idea slides on a cream stage,
@@ -103,27 +104,17 @@ function BadgeChips({ badges, projector }: { badges: CurriculumBadges; projector
   )
 }
 
-// The order the options are shown in, for one choice slide in one run. The
-// decks are authored with the right answer wherever it reads best, which on
-// most of them is the middle line, and a child learns that in two lessons.
-// A seeded shuffle hides the pattern; seeding from the run salt plus the
-// slide index means Back then Next shows the same order, and Run it again
-// deals a fresh one.
 /** A run's id: one per pass through the deck (plan v10, 1.5). */
 function newRunId(): string {
   try { return crypto.randomUUID() } catch { return `run-${Date.now()}-${Math.random().toString(36).slice(2)}` }
 }
 
-function optionOrder(count: number, seed: number): number[] {
-  const idx = Array.from({ length: count }, (_, i) => i)
-  let s = (seed % 2147483647) || 1
-  const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
-  for (let i = idx.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1))
-    ;[idx[i], idx[j]] = [idx[j], idx[i]]
-  }
-  return idx
-}
+// The order the options are shown in, for one choice slide in one run, is
+// optionOrder in shared/option-order.ts. A seeded shuffle hides where the
+// author put the right answer; seeding from the run salt plus the slide index
+// means Back then Next shows the same order, and Run it again deals a fresh
+// one. It lives there so the printed start and exit cards deal from the same
+// shuffle on the server (sync plan F2).
 
 const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
 
@@ -410,9 +401,21 @@ function ChoiceBlock({
   )
 }
 
+// A look for line is one sentence on most decks and a list on two: ks2-23
+// and ks3-22 store an array of answers. Rendered as it came, the array ran
+// its items together into one string on the wall ("They said no to a gameThey
+// wanted to play something else"), so a list now shows as a list (sync plan
+// F7). Read as unknown because the slide type still says string, and the
+// type lives in the file the lessons loop PR is rewriting.
+function lookForLines(v: unknown): string[] {
+  if (Array.isArray(v)) return v.filter((x): x is string => typeof x === 'string' && x.trim() !== '')
+  return typeof v === 'string' && v.trim() ? [v] : []
+}
+
 // A timed talk task. The countdown runs in the player so the teacher never
 // watches a clock: start it, circulate, the chime state shows when time is up.
 function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; projector?: boolean }) {
+  const lookFor = lookForLines(slide.lookFor as unknown)
   const total = slide.seconds ?? 60
   const [left, setLeft] = useState(total)
   const [running, setRunning] = useState(false)
@@ -461,10 +464,20 @@ function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; project
           </button>
         )}
       </div>
-      {done && slide.lookFor && (
+      {done && lookFor.length === 1 && (
         <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, maxWidth: room(projector, WALL.column, '460px'), margin: '18px auto 0' }}>
-          <strong>A good answer sounds like:</strong> {slide.lookFor}
+          <strong>A good answer sounds like:</strong> {lookFor[0]}
         </p>
+      )}
+      {done && lookFor.length > 1 && (
+        <div data-look-for-list style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.5, maxWidth: room(projector, WALL.column, '460px'), margin: '18px auto 0' }}>
+          <strong>A good answer sounds like:</strong>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {lookFor.map((line, i) => (
+              <li key={i}><span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 900, marginRight: '10px' }}>•</span>{line}</li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )
@@ -1438,6 +1451,7 @@ export default function LessonPlayer({
   passport = null,
   introEyebrow,
   schoolLead = null,
+  scriptFolded = false,
   onFinish,
 }: {
   lessonId: string
@@ -1538,6 +1552,12 @@ export default function LessonPlayer({
   // that asks who in this school to tell. The parents app passes nothing
   // and the public showcase passes nothing, so neither ever shows a name.
   schoolLead?: YourSchool | null
+  // Start with the teacher script folded rather than open. The schools teach
+  // route sets it on the safeguarding flagged lessons, where some script
+  // lines are written for the teacher alone ("Watch for bravado from some
+  // boys" on ks4-17) and the projector is the only screen in the room (sync
+  // plan F1). Everywhere else the 13 September decision stands: open.
+  scriptFolded?: boolean
   /**
    * Called once when the deck reaches its finish.
    *
@@ -1577,7 +1597,9 @@ export default function LessonPlayer({
   // Open by default: the teacher test says the words to say live on the slide,
   // and a first time teacher opening the board found them behind a small grey
   // toggle (the schools review, 13 September 2026). The toggle still folds it.
-  const [scriptOpen, setScriptOpen] = useState(true)
+  // Folded at the start on a safeguarding flagged lesson (scriptFolded), and
+  // the same toggle opens it.
+  const [scriptOpen, setScriptOpen] = useState(!scriptFolded)
   // The run salt behind the option shuffle. It lands after mount rather than
   // in the initial state so the server and the first client render agree.
   const [runSalt, setRunSalt] = useState(0)

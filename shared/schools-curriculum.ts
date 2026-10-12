@@ -333,18 +333,6 @@ export const CURRICULUM: CurriculumModule[] = [
     character: 'orbit', castLine: 'Orbit and DiGi', dsl: true,
   },
   {
-    // The `gambling` key, taken back from ks4-15 on 19 September 2026. It sat
-    // there for a year on a module that never used the word. This one is the
-    // scheme's whole answer to RSHE 2026's two gambling requirements, and to
-    // the commerce category KCSIE 2026 names at paragraph 165.
-    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 63,
-    title: 'The money and the odds',
-    outcome: 'I can work out what a chance really costs me, and say when the loop has somebody.',
-    blurb: 'The hidden price of a chance, the house edge, and why speed of the loop is the real risk.',
-    character: 'nova', castLine: 'Nova and DiGi', dsl: true,
-    rshe: ['gambling', 'mental_wellbeing', 'scams_financial'],
-  },
-  {
     // DiGi only, maximum calm, the same register as sextortion and consent,
     // because the two halves of this lesson are the two a pupil is least
     // likely to raise by themselves. It pairs content that promotes self harm
@@ -456,6 +444,25 @@ export const CURRICULUM: CurriculumModule[] = [
     // patterns brilliantly and a tick in the gambling column was still a lie.
     // The KS4 gambling module now being written takes the key back.
     rshe: ['online_safety', 'mental_wellbeing'],
+  },
+  {
+    // AFTER ks4-15, the lesson it calls itself the sequel to (its prior
+    // knowledge line: "The direct sequel to manipulation and persuasion at
+    // KS4"). It sat first in KS4 until 9 October 2026, so the map, the year
+    // plan and a Year 10 child's road all taught the sequel two lessons before
+    // the original (sync plan F5). Every position on every page is computed
+    // from this order (positionOf), so moving the entry is the whole change.
+    //
+    // The `gambling` key, taken back from ks4-15 on 19 September 2026. It sat
+    // there for a year on a module that never used the word. This one is the
+    // scheme's whole answer to RSHE 2026's two gambling requirements, and to
+    // the commerce category KCSIE 2026 names at paragraph 165.
+    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 63,
+    title: 'The money and the odds',
+    outcome: 'I can work out what a chance really costs me, and say when the loop has somebody.',
+    blurb: 'The hidden price of a chance, the house edge, and why speed of the loop is the real risk.',
+    character: 'nova', castLine: 'Nova and DiGi', dsl: true,
+    rshe: ['gambling', 'mental_wellbeing', 'scams_financial'],
   },
   {
     n: 16, moduleId: 'ks4-16-consent-images-law', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 69,

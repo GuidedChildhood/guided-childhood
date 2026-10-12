@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import { parseSlides, visibleSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { printedOptions } from '@gc/shared/option-order'
 import { isStandaloneModule, standaloneTitle } from '@/lib/taster'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
@@ -114,6 +115,20 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   // A start card needs a question to remember. The first lesson of the scheme
   // has no last lesson, and a heading over an empty box helps nobody.
   const startCard = retrieval && retrieval.question?.trim() ? retrieval : null
+  // THE CARDS IN THE PLAYER'S SHUFFLE, NOT THE AUTHORED ORDER (sync plan F2).
+  // The decks put the right answer first on 57 of the 68 exit questions, the
+  // board has shuffled them since the player learned to, and this sheet kept
+  // printing them as written, so a class learned that the answer is A. Each
+  // card now goes through the player's own optionOrder, seeded from the module
+  // and the slide so a reprint matches, and the key below reads the letter off
+  // that same order. One function for both, so they cannot disagree.
+  const printed = (c: ChoiceSlide) => printedOptions(moduleId, slides.indexOf(c), c.options ?? [])
+  const startShown = startCard ? printed(startCard) : null
+  const exitShown = exitChecks.map(c => ({ question: c.question, ...printed(c) }))
+  const cardKey = [
+    ...(startCard && startShown?.answer ? [{ label: 'Start card', question: startCard.question, ...startShown }] : []),
+    ...exitShown.filter(c => c.answer).map((c, i) => ({ label: exitShown.length > 1 ? `Exit card, question ${i + 1}` : 'Exit card', ...c })),
+  ]
 
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)' }}>
@@ -245,6 +260,32 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         </PrintSheet>
       )}
 
+      {/* Sheet 4b: the key to the start and exit cards, lettered exactly as
+          the cards below print (sync plan F2). Its own sheet, because sharing
+          the worksheet key's page pushed that page over on twenty decks. */}
+      {cardKey.length > 0 && (
+        <PrintSheet footer={teacherFooter}>
+          <FriendStrip friend={friend} register={reg} eyebrow="Teacher copy · one only · do not photocopy" />
+          <div data-card-key>
+            <h2 style={{ ...display, fontSize: 'var(--text-xl)', marginBottom: '6px' }}>Answer key: the start and exit cards</h2>
+            <p style={{ ...tt, color: 'var(--ink-soft)' }}>
+              The letters match the cards as they print. The line under each answer is the one the
+              board says when the class gets it right.
+            </p>
+            {cardKey.map(k => {
+              const right = k.options.find(o => o.correct)
+              return (
+                <Box key={k.label} dense>
+                  <p style={{ ...tt, fontWeight: 700 }}>{k.label}. {k.question}</p>
+                  <p style={{ ...tt, marginTop: '4px', fontWeight: 800, color: 'var(--ink)' }}>Answer: {k.answer}. {right?.text}</p>
+                  {right?.feedback && <p style={{ ...tt, marginTop: '3px' }}>{right.feedback}</p>}
+                </Box>
+              )
+            })}
+          </div>
+        </PrintSheet>
+      )}
+
       {/* Sheet 5: the start and exit cards, photocopy per pupil, cut in half. */}
       <PrintSheet footer={pupilFooter}>
         <FriendStrip friend={friend} register={reg} eyebrow={startCard ? 'Photocopy per pupil · cut in half · start and end of lesson' : 'Photocopy per pupil · end of lesson'} />
@@ -256,7 +297,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             </div>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{startCard.question}</p>
             <div style={{ marginTop: '8px' }}>
-              {(startCard.options ?? []).map((o, i) => (
+              {(startShown?.options ?? []).map((o, i) => (
                 <p key={i} style={{ ...text, fontSize: reg.body, display: 'flex', gap: '10px', alignItems: 'center', marginTop: '4px' }}>
                   <span style={{ width: '16px', height: '16px', border: '1.5px solid var(--ink)', borderRadius: '4px', flexShrink: 0 }} />
                   <span><strong>{String.fromCharCode(65 + i)}.</strong> {o.text}</span>
@@ -271,10 +312,10 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             <FriendArt friend={friend} mood="happy" size={reg.markMm} />
             <div style={{ ...mono, color: friend.ink }}>Exit card · what I know now</div>
           </div>
-          {exitChecks.map((c, idx) => (
+          {exitShown.map((c, idx) => (
             <div key={idx} style={{ marginTop: idx ? '10px' : 0 }}>
               <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{c.question}</p>
-              {(c.options ?? []).map((o, i) => (
+              {c.options.map((o, i) => (
                 <p key={i} style={{ ...text, fontSize: reg.body, display: 'flex', gap: '10px', alignItems: 'center', marginTop: '4px' }}>
                   <span style={{ width: '16px', height: '16px', border: '1.5px solid var(--ink)', borderRadius: '4px', flexShrink: 0 }} />
                   <span><strong>{String.fromCharCode(65 + i)}.</strong> {o.text}</span>

@@ -12,6 +12,7 @@ import { shapeOf, trackerActions } from '@/lib/tracker'
 import { currentAccess } from '@/lib/licence'
 import { asList } from '@/lib/notes'
 import { isStandaloneModule } from '@/lib/taster'
+import { isRseModule } from '@/lib/rse'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
@@ -81,7 +82,9 @@ const TYPE_LABELS: Record<string, string> = {
 
 function headline(s: LessonSlide): string {
   const any = s as unknown as Record<string, unknown>
-  for (const k of ['title', 'heading', 'question', 'outcome', 'caption', 'text']) {
+  // `prompt` is a talk task's question, so the row names the talk and not
+  // just "Talk together".
+  for (const k of ['title', 'heading', 'question', 'prompt', 'outcome', 'caption', 'text']) {
     const v = any[k]
     if (typeof v === 'string' && v) return v
   }
@@ -158,6 +161,18 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   const dsl = lesson.dsl_note ?? {}
 
   const totalMinutes = slides.reduce((t, s) => t + (s.minutes ?? 0), 0)
+  // THE REAL SHORT ROUTE, read off this deck (sync plan F4). Lessons run 42 to
+  // 75 minutes, and a run sheet that only printed the total left a teacher
+  // with an hour to find their own cut at the bell. The core is every slide
+  // not marked `extension` (plans/2026-09-21-core-and-extension-plan.md): the
+  // marks sit only in teach and practise, so skipping them keeps the arc, the
+  // objective and the exit questions. Computed here rather than stored, so it
+  // can never print a number the deck does not add up to, and never a 55 it
+  // was not built to reach. A deck with no marks says so plainly.
+  const skippable = slides
+    .map((s, i) => ({ slide: s, index: i }))
+    .filter(r => r.slide.extension)
+  const coreMinutes = totalMinutes - skippable.reduce((t, r) => t + (r.slide.minutes ?? 0), 0)
 
   // The lesson in phase order, each phase carrying its own slides. Derived
   // from the deck itself so this page can never describe a lesson the player
@@ -249,6 +264,41 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               {' '}<LeadLine />
             </TickRow>
           )}
+          {isRseModule(lesson.module_id) && (
+            <TickRow>
+              <strong>Send the parent note home before this one.</strong>{' '}It teaches into the
+              relationships and sex education guidance, and whether any part of it counts as sex
+              education is your school&rsquo;s decision. A week ahead gives families time to read the note
+              and ask before the lesson rather than after it. The note is the last sheet of{' '}
+              <Link href={`/print/${lesson.module_id}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>the pack</Link>.
+            </TickRow>
+          )}
+          <TickRow>
+            <span data-short-route>
+              {skippable.length > 0 ? (
+                <>
+                  <strong>Choose your route before the bell.</strong> The whole lesson runs {totalMinutes} minutes.
+                  Short of time? Skip the {skippable.length === 1 ? 'slide' : `${skippable.length} slides`} below
+                  and it runs <strong>{coreMinutes} minutes</strong>, with the objective, every check and the
+                  exit questions still in.
+                </>
+              ) : (
+                <>
+                  <strong>Plan for {totalMinutes} minutes.</strong> Nothing in this lesson is marked to skip, so
+                  the whole deck is the lesson.
+                </>
+              )}
+            </span>
+            {skippable.length > 0 && (
+              <ul style={{ ...body, paddingLeft: '18px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+                {skippable.map(({ slide: s, index: i }) => (
+                  <li key={i}>
+                    <strong>Slide {i + 1}</strong>, {(TYPE_LABELS[s.type] ?? s.type).toLowerCase()}{s.minutes ? `, ${s.minutes} min` : ''}: {headline(s)}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </TickRow>
           <TickRow>
             Open <Link href={`/teach/${lesson.module_id}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>the lesson on the board</Link> before
             the children come in. The script for every slide is in the player too, so the board can
@@ -284,7 +334,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
                 <div key={i} style={{ borderTop: '1px solid var(--border)', padding: '12px 0', breakInside: 'avoid' }}>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                     <span style={{ ...mono, color: 'var(--terracotta-dark)' }}>
-                      Slide {i + 1} · {TYPE_LABELS[s.type] ?? s.type}{s.minutes ? ` · ~${s.minutes} min` : ''}
+                      Slide {i + 1} · {TYPE_LABELS[s.type] ?? s.type}{s.minutes ? ` · ~${s.minutes} min` : ''}{s.extension ? ' · skip if short of time' : ''}
                     </span>
                     <Link
                       className="no-print"

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
+import { RSE_MODULES } from '@/lib/rse'
 
 export const metadata = { title: 'The parent pack' }
 
@@ -58,14 +59,30 @@ export default async function ParentPackPage() {
 
         <div style={{ marginBottom: '24px' }}>
           <p style={{ ...body, fontWeight: 700, marginBottom: '6px' }}>Where the withdrawal rules fit</p>
+          {/* The school decides, not this page (sync plan F3). This used to say
+              the programme teaches no sex education, which settled the
+              withdrawal question on the school's behalf while three lessons
+              map to the RSE block. schools/lib/rse.ts names them and says why. */}
           <p style={body}>
-            This programme teaches digital literacy and online safety, which sit within relationships
+            Most of this programme is digital literacy and online safety, which sit within relationships
             education, health education and computing. There is no parental right of withdrawal from
-            those subjects. The statutory right to request withdrawal applies to sex education only,
-            which this programme does not teach: where a lesson touches an RSHE topic such as consent or
-            image sharing, it does so within relationships education as the guidance directs. Your
-            school&rsquo;s RSHE policy sets out its withdrawal process in full, and the school remains
-            responsible for operating it.
+            those subjects.
+          </p>
+          <p style={{ ...body, marginTop: '8px' }}>
+            Three lessons go further and teach parts of the relationships and sex education guidance:
+            consent, intimate images and the law, and how pornography gives a distorted picture of
+            relationships.
+          </p>
+          <ul data-rse-lessons style={{ ...body, paddingLeft: '20px', margin: '6px 0' }}>
+            {RSE_MODULES.map(m => (
+              <li key={m.moduleId}><strong>{m.title}</strong> ({m.yearBand})</li>
+            ))}
+          </ul>
+          <p style={body}>
+            Whether any part of these counts as sex education is your school&rsquo;s decision, set out in
+            its RSHE policy, and so is how a request to withdraw is handled. Before each of the three, the
+            school can send home that lesson&rsquo;s parent note, so you can read what it covers before your
+            child is in the room. You can ask to see the whole lesson too.
           </p>
         </div>
 

@@ -68,7 +68,9 @@ type TeacherNotes = {
   differentiation?: { support?: string; stretch?: string }
   // The graduated approach, per module: SEND and EAL adaptations written
   // from the module's own activities, never a generic checklist.
-  send?: { communication?: string; attention?: string; sensory?: string; eal?: string }
+  // Four decks (ks2-26, ks3-27, ks4-28, ks4-29) store it as one paragraph of
+  // plain text instead, so it can be either.
+  send?: { communication?: string; attention?: string; sensory?: string; eal?: string } | string
   paper_fallback?: string
   tool?: { heading?: string; lines?: string[]; strapline?: string }
   // The three "I can" statements the child colours on the learning record.
@@ -189,6 +191,10 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   // Every video beat in the deck with its words, for the access card below.
   const videoBeats = slides.filter(s => s.type === 'video') as VideoSlide[]
+
+  // The SEND note in either of the two shapes the decks store it in.
+  const sendText = typeof notes.send === 'string' ? notes.send.trim() : ''
+  const send = typeof notes.send === 'object' && notes.send ? notes.send : {}
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
@@ -504,21 +510,26 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         )}
 
         {/* SEND and EAL: the graduated approach, one line per need, written
-            from this module's own activities. */}
-        {(notes.send?.communication || notes.send?.attention || notes.send?.sensory || notes.send?.eal) && (
-          <div style={{ ...card, marginBottom: '16px' }}>
+            from this module's own activities. Four decks store the note as one
+            plain paragraph rather than by need (three of them safeguarding
+            flagged: ks3-27, ks4-28, ks4-29, and ks2-26), and this card read
+            only the four keys, so those lessons showed no SEND card at all
+            (sync plan F8). The paragraph now prints as it was written. */}
+        {(sendText || send.communication || send.attention || send.sensory || send.eal) && (
+          <div data-send-card style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>SEND and EAL adaptations</h2>
-            {notes.send.communication && (
-              <p style={body}><strong style={{ color: 'var(--ink)' }}>Communication and language. </strong>{notes.send.communication}</p>
+            {sendText && <p style={body}>{sendText}</p>}
+            {send.communication && (
+              <p style={body}><strong style={{ color: 'var(--ink)' }}>Communication and language. </strong>{send.communication}</p>
             )}
-            {notes.send.attention && (
-              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Attention and executive function. </strong>{notes.send.attention}</p>
+            {send.attention && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Attention and executive function. </strong>{send.attention}</p>
             )}
-            {notes.send.sensory && (
-              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Sensory and regulation. </strong>{notes.send.sensory}</p>
+            {send.sensory && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Sensory and regulation. </strong>{send.sensory}</p>
             )}
-            {notes.send.eal && (
-              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>English as an additional language. </strong>{notes.send.eal}</p>
+            {send.eal && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>English as an additional language. </strong>{send.eal}</p>
             )}
           </div>
         )}
