@@ -12,7 +12,7 @@ import { MarkOnPrint } from '@/components/tracker/signals'
 import { LeadOnPaper } from '@/components/YourSchoolLead'
 import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
-import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
+import { friendFor, printRegister, mono, display, text, FriendArt, CardFriend, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -105,7 +105,10 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   // Teacher sheets are read at a desk, not held by a child: a size down and a
   // tighter box, so the one pager is one page (the Head of PSHE pass, 14
   // September 2026: a one pager that runs to two sheets is not a one pager).
-  const tt: React.CSSProperties = { ...text, fontSize: '12.5px', lineHeight: 1.42 }
+  // 12px, 9pt on paper, since 12 October 2026: the safeguarding flagged
+  // lessons carry the longest notes in the scheme, and at 12.5px four of
+  // their one pagers ran onto a second sheet (ks4-29 by 118px).
+  const tt: React.CSSProperties = { ...text, fontSize: '12px', lineHeight: 1.36 }
   // The parent note goes home on one side of one sheet: a size down from the
   // pupil pages and tighter boxes, the friend at 26mm.
   const pt: React.CSSProperties = { ...text, fontSize: 'var(--text-sm)', lineHeight: 1.5 }
@@ -148,7 +151,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             the DSL before this lesson" is the one line a teacher must read
             before anything else on the sheet. */}
         {dsl.note && (
-          <Box dense label="Safeguarding note" style={{ borderColor: 'var(--coral)', borderWidth: '2px' }}>
+          <Box dense legend label="Safeguarding note" style={{ borderColor: 'var(--coral)', borderWidth: '2px' }}>
             <p style={tt}>{dsl.note}</p>
             {/* The lead's name, if this screen was told it on the Hub. A
                 client island on a server page: the name never leaves the
@@ -158,36 +161,36 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           </Box>
         )}
         <div style={{ display: 'grid', gridTemplateColumns: notes.timing ? '1fr 1fr' : '1fr', gap: '0 10px' }}>
-          {notes.learning_objective && <Box dense label="Objective"><p style={tt}>{notes.learning_objective}</p></Box>}
-          {notes.timing && <Box dense label="Timing"><p style={tt}>{notes.timing}</p></Box>}
+          {notes.learning_objective && <Box dense legend label="Objective"><p style={tt}>{notes.learning_objective}</p></Box>}
+          {notes.timing && <Box dense legend label="Timing"><p style={tt}>{notes.timing}</p></Box>}
         </div>
         {isStandaloneModule(moduleId) ? (
           // A standalone lesson sits outside the scheme, so it claims no
           // statutory cover, and the sheet says so rather than printing an
           // empty box (lib/taster.ts).
-          <Box dense label="Where it sits (for your records and the subject lead)">
+          <Box dense legend label="Where it sits (for your records and the subject lead)">
             <p style={tt}>A standalone lesson, outside the scheme of work, so it maps to no statutory requirement. Evidence anchor: {lesson.evidence_anchor}</p>
           </Box>
         ) : (
-          <Box dense label="Statutory coverage (for your records and the subject lead)">
+          <Box dense legend label="Statutory coverage (for your records and the subject lead)">
             <p style={tt}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
             <p style={{ ...tt, marginTop: '3px' }}>Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'}: {(lesson.efcw_strands ?? []).join(', ')} · Evidence anchor: {lesson.evidence_anchor}</p>
           </Box>
         )}
         {notes.misconceptions && notes.misconceptions.length > 0 && (
-          <Box dense label="Misconceptions to expect">
+          <Box dense legend label="Misconceptions to expect">
             {notes.misconceptions.map((m, i) => (
               <p key={i} style={{ ...tt, display: 'flex', gap: '8px', marginTop: i ? '3px' : 0 }}><span style={{ color: friend.accent, fontWeight: 900 }}>•</span><span>{m}</span></p>
             ))}
           </Box>
         )}
         {notes.differentiation && (
-          <Box dense label="Differentiation">
+          <Box dense legend label="Differentiation">
             {notes.differentiation.support && <p style={tt}><strong>Support:</strong> {notes.differentiation.support}</p>}
             {notes.differentiation.stretch && <p style={{ ...tt, marginTop: '3px' }}><strong>Stretch:</strong> {notes.differentiation.stretch}</p>}
           </Box>
         )}
-        {notes.paper_fallback && <Box dense label="No screen? No problem"><p style={tt}>{notes.paper_fallback}</p></Box>}
+        {notes.paper_fallback && <Box dense legend label="No screen? No problem"><p style={tt}>{notes.paper_fallback}</p></Box>}
       </PrintSheet>
 
       {/* Sheet 2: the tool bookmarks, four to a sheet. */}
@@ -290,11 +293,9 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       <PrintSheet footer={pupilFooter}>
         <FriendStrip friend={friend} register={reg} eyebrow={startCard ? 'Photocopy per pupil · cut in half · start and end of lesson' : 'Photocopy per pupil · end of lesson'} />
         {startCard && (
-          <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
-              <FriendArt friend={friend} mood="thinking" size={reg.markMm} />
-              <div style={{ ...mono, color: friend.ink }}>Start card · {isStandaloneModule(moduleId) ? 'before we begin' : 'remember last lesson'}</div>
-            </div>
+          <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px', display: 'flow-root' }}>
+            <CardFriend friend={friend} mood="thinking" size={reg.markMm} />
+            <div style={{ ...mono, color: friend.ink, marginBottom: '8px' }}>Start card · {isStandaloneModule(moduleId) ? 'before we begin' : 'remember last lesson'}</div>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{startCard.question}</p>
             <div style={{ marginTop: '8px' }}>
               {(startShown?.options ?? []).map((o, i) => (
@@ -307,11 +308,9 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           </div>
         )}
         {startCard && <CutLine />}
-        <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
-            <FriendArt friend={friend} mood="happy" size={reg.markMm} />
-            <div style={{ ...mono, color: friend.ink }}>Exit card · what I know now</div>
-          </div>
+        <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px', display: 'flow-root' }}>
+          <CardFriend friend={friend} mood="happy" size={reg.markMm} />
+          <div style={{ ...mono, color: friend.ink, marginBottom: '8px' }}>Exit card · what I know now</div>
           {exitShown.map((c, idx) => (
             <div key={idx} style={{ marginTop: idx ? '10px' : 0 }}>
               <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{c.question}</p>
@@ -338,13 +337,13 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             <p key={i} style={{ ...pt, fontWeight: 700, marginTop: i ? '2px' : 0 }}>{/^\d/.test(l) ? '' : `${i + 1}. `}{l}</p>
           ))}
         </Box>
-        {parent.try_this && <Box label="Try this at home" dense><p style={pt}>{parent.try_this}</p></Box>}
-        {parent.family_question && <Box label="Dinner table question" dense><p style={{ ...pt, fontWeight: 700 }}>{parent.family_question}</p></Box>}
+        {parent.try_this && <Box label="Try this at home" dense legend><p style={pt}>{parent.try_this}</p></Box>}
+        {parent.family_question && <Box label="Dinner table question" dense legend><p style={{ ...pt, fontWeight: 700 }}>{parent.family_question}</p></Box>}
         {/* Both halves of the school to home bridge, in reading order: the
             passport line says what the family is part of, the home code lets
             them act on it. */}
         {(parent.passport || page) && (
-          <Box label="The passport" friend={friend} dense>
+          <Box label="The passport" friend={friend} dense legend>
             {parent.passport && <p style={pt}>{parent.passport}</p>}
             {page && area && <p style={{ ...pt, marginTop: parent.passport ? '4px' : 0 }}>Today filled the <strong>{page.page}</strong> page: <strong>{AREAS[area].name}</strong>.</p>}
           </Box>
@@ -358,12 +357,19 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             {qr && (
               <div aria-hidden style={{ flexShrink: 0, lineHeight: 0, background: '#fff', border: `1.5px solid ${friend.accent}`, borderRadius: '10px', padding: '4px' }} dangerouslySetInnerHTML={{ __html: qr }} />
             )}
+            {/* The code floats at the top right of the words rather than
+                standing in a column of its own: as a third column it held the
+                words to a third of the sheet, they wrapped to seven lines, and
+                on ten lessons this block was what pushed the note onto a
+                second page (12 October 2026). Floated, the words run the full
+                width under it and the block is as tall as the QR. On a phone
+                it stands on its own line (schools.css, .gc-home-code). */}
             <div style={{ flex: '1 1 180px', minWidth: 0 }}>
+              <div className="gc-home-code" style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
               <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>Put this on your child&rsquo;s passport</div>
               <p style={pt}>{qr ? 'Point your phone at the square. ' : ''}It opens your child&rsquo;s own record of what they are learning about being safe and sharp online, and adds today&rsquo;s lesson to it. Free to start, nothing shared back with us.</p>
               <p style={{ ...pt, marginTop: '4px', color: 'var(--ink-muted)' }}>Or go to <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', overflowWrap: 'anywhere' }}>{homeCodeLabel(homeCode)}</strong></p>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
           </div>
         )}
         <p style={{ ...text, fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '10px' }}>No login needed, nothing to sign up for. This note is yours.</p>
