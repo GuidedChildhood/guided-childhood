@@ -25,11 +25,11 @@
     0.3
    ],
    [
-    44.35,
+    41.35,
     0.3
    ],
    [
-    47.35,
+    44.35,
     0
    ]
   ]
@@ -89,15 +89,15 @@
      "t": 0,
      "S": 2.77,
      "fx": 195,
-     "fy": 680,
-     "py": 1300
+     "fy": 130,
+     "py": 1000
     }
    ],
    "inScreen": [
     {
      "cls": "ripple",
      "x": 315,
-     "y": 709,
+     "y": 149,
      "w": 44,
      "h": 44,
      "t0": 0.95
@@ -109,7 +109,8 @@
      "at": 1.05,
      "vol": 0.4
     }
-   ]
+   ],
+   "cropTop": 560
   },
   {
    "id": "chat-think",
@@ -131,7 +132,7 @@
     {
      "kind": "label",
      "text": "What DiGi shows while it thinks",
-     "y": 1120,
+     "y": 1300,
      "t0": 0
     }
    ],
@@ -327,7 +328,7 @@
   },
   {
    "id": "timer-count",
-   "dur": 3.2,
+   "dur": 3.0,
    "src": "rec/timer-end.mp4",
    "mediaStart": 6.8,
    "cam": [
@@ -368,7 +369,7 @@
    "mediaStart": 10.15,
    "cropTop": 40,
    "clipH": 150,
-   "fadeIn": 0.1,
+   "fadeIn": 0,
    "cam": [
     {
      "t": 0,
@@ -396,10 +397,10 @@
    ]
   },
   {
-   "id": "followup",
-   "dur": 7.4,
+   "id": "followup2",
+   "dur": 4.6,
    "src": "rec/followup.mp4",
-   "mediaStart": 4.6,
+   "mediaStart": 5.0,
    "cropTop": 390,
    "cam": [
     {
@@ -415,13 +416,14 @@
      "kind": "marker",
      "text": "A few days on. Illustrative",
      "y": 430,
-     "t0": 0
+     "t0": 0,
+     "instant": true
     },
     {
      "kind": "label",
      "text": "This parent's own rating",
      "y": 575,
-     "t0": 1.6
+     "t0": 1.2
     }
    ],
    "inScreen": [
@@ -431,16 +433,17 @@
      "y": 233,
      "w": 44,
      "h": 44,
-     "t0": 1.6
+     "t0": 1.2
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 1.6,
+     "at": 1.2,
      "vol": 0.5
     }
-   ]
+   ],
+   "fadeIn": 0
   },
   {
    "id": "great",
@@ -536,14 +539,14 @@
    "overlays": [
     {
      "kind": "digi",
-     "x": 380,
-     "y": 190,
-     "size": 320,
+     "x": 405,
+     "y": 120,
+     "size": 270,
      "t0": 0
     },
     {
      "kind": "end",
-     "y": 520,
+     "y": 420,
      "eyebrow": "Coming off screens?",
      "line": "What stage is your child?",
      "sub": "Three questions, no sign up. See what to do tonight.",
@@ -551,7 +554,8 @@
      "url": "guidedchildhood.com/v/switch-off",
      "slate": "An example family. Real app screens, example replies.",
      "t0": 0.3,
-     "pressAt": 2.6
+     "pressAt": 2.6,
+     "tagline": "One plan for screens, phones and AI."
     }
    ],
    "sfx": [
@@ -587,8 +591,8 @@
    },
    {
     "label": "Checked in",
-    "shot": "followup",
-    "t": 1.9
+    "shot": "followup2",
+    "t": 1.5
    },
    {
     "label": "Sorted",

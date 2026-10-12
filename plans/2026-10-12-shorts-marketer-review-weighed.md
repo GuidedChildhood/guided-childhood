@@ -60,3 +60,29 @@ not a measurement.
    search the web (recommended). Leave "Earn more stars", which is commitment 4
    (earned, not granted), unless he wants it reworded.
 3. Paid: parked until the organic numbers exist.
+
+## Second review: a SaaS growth marketer, after the slower cut
+
+Justin asked for the films to be slower ("moves a bit too quickly to take in"),
+then for a top SaaS marketing review against his brand line: one research
+backed, easy system for every digital worry, from screens to AI, keeping
+children safe. Its verdict was no-go today, go after one more render. Weighed
+the same way.
+
+| # | Point | Verdict | Serves | Size |
+|---|---|---|---|---|
+| 1 | Short 1's DiGi answers guilt the parent never mentioned | Adopt. It was our error when both replies changed. Short 1's line now ends "for every child." | Trust | S |
+| 2 | A suggested question, "Ava's mood drops after Instagram", flashes by. Ava is nine | Adopt. The send beat is cropped below the suggestions. They were written for the fixture's older child, before the film's swap | Safeguarding | S |
+| 3 | The full pop up, with "Earn more stars", fades through for 0.2s | Adopt. The countdown ends before the pop up, then a hard cut to the crop | Evidence | S |
+| 4 | Old renders with the "open web" line sit next to the new ones | Adopt. Renamed old- | Housekeeping | none |
+| 5 | Revised captions per platform | Adopt, with the series line added | Stage check starts | S |
+| 6 | The series line on every end card: "One plan for screens, phones and AI." | Adopt. It is true: the nine worry tiles cover all three | Brand line | S |
+| 7 | The hero's tiles show Social media and AI chatbots being ticked | Adopt. A new full page capture, a pan, and the band "Screens, phones, social media, AI." | Brand line | S |
+| 8 | Research goes in the caption until /evidence names real sources | Adopt ("built on research"). Park the /evidence sources as their own task | Evidence | none |
+| 9 | A 35s TikTok cut of Short 1 | Adopt. 36s, with its own /v/ code | Reach | S |
+| 10 | The first frame should be a complete thought | Adopt. The hero opens with "Turning the tablet off ends in tears" already typed | Hook | S |
+| 11 | Dead air in the check in | Adapt. Trimmed with an unseen cut while keeping the reading rule. Hero 57.8s, Short 1 44.4s | Retention | S |
+| 12 | "What DiGi shows while it thinks" reads as part of DiGi's sentence | Adopt. Moved well below it | Clarity | S |
+| 13 | Never the word "safe" on screen | Already our rule (silent-ugc rule 4) | Evidence | none |
+| 14 | A step by step posting playbook | Adapt. The files come from the Motion advert folder (sound levelled), not the render folder | Stage check starts | S |
+| 15 | A template checklist for every future film | Adopt into the shorts skill | Repeatability | M |

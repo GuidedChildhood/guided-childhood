@@ -25,11 +25,11 @@
     0.3
    ],
    [
-    58.25,
+    54.75,
     0.3
    ],
    [
-    61.25,
+    57.75,
     0
    ]
   ]
@@ -44,7 +44,8 @@
      "text": "Turning the tablet off ends in tears and I feel so guilty. What do I say?",
      "y": 440,
      "t0": 0,
-     "typed": 0.15
+     "typed": 0.15,
+     "typedFrom": 7
     },
     {
      "kind": "eyebrow",
@@ -83,15 +84,15 @@
      "t": 0,
      "S": 2.77,
      "fx": 195,
-     "fy": 680,
-     "py": 1300
+     "fy": 130,
+     "py": 1000
     }
    ],
    "inScreen": [
     {
      "cls": "ripple",
      "x": 315,
-     "y": 709,
+     "y": 149,
      "w": 44,
      "h": 44,
      "t0": 0.95
@@ -103,7 +104,8 @@
      "at": 1.05,
      "vol": 0.4
     }
-   ]
+   ],
+   "cropTop": 560
   },
   {
    "id": "chat-think",
@@ -125,7 +127,7 @@
     {
      "kind": "label",
      "text": "What DiGi shows while it thinks",
-     "y": 1120,
+     "y": 1300,
      "t0": 0
     }
    ],
@@ -329,7 +331,7 @@
   },
   {
    "id": "timer-count",
-   "dur": 3.6,
+   "dur": 3.4,
    "src": "rec/timer-end.mp4",
    "mediaStart": 6.4,
    "cam": [
@@ -370,7 +372,7 @@
    "mediaStart": 10.15,
    "cropTop": 40,
    "clipH": 150,
-   "fadeIn": 0.1,
+   "fadeIn": 0,
    "cam": [
     {
      "t": 0,
@@ -399,9 +401,9 @@
   },
   {
    "id": "followup",
-   "dur": 11.4,
+   "dur": 3.7,
    "src": "rec/followup.mp4",
-   "mediaStart": 0.6,
+   "mediaStart": 0.9,
    "cropTop": 390,
    "cam": [
     {
@@ -418,12 +420,6 @@
      "text": "A few days on. Illustrative",
      "y": 430,
      "t0": 0
-    },
-    {
-     "kind": "label",
-     "text": "This parent's own rating",
-     "y": 575,
-     "t0": 5.6
     }
    ],
    "inScreen": [
@@ -433,29 +429,65 @@
      "y": 136,
      "w": 44,
      "h": 44,
-     "t0": 2.0
+     "t0": 1.7
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 1.7,
+     "vol": 0.5
+    }
+   ]
+  },
+  {
+   "id": "followup2",
+   "dur": 4.2,
+   "src": "rec/followup.mp4",
+   "mediaStart": 5.4,
+   "cropTop": 390,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 165,
+     "py": 1150
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A few days on. Illustrative",
+     "y": 430,
+     "t0": 0,
+     "instant": true
     },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 575,
+     "t0": 0.8
+    }
+   ],
+   "inScreen": [
     {
      "cls": "ripple",
      "x": 234,
      "y": 233,
      "w": 44,
      "h": 44,
-     "t0": 5.6
+     "t0": 0.8
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 2.0,
-     "vol": 0.5
-    },
-    {
-     "name": "sfx-tap",
-     "at": 5.6,
+     "at": 0.8,
      "vol": 0.5
     }
-   ]
+   ],
+   "fadeIn": 0
   },
   {
    "id": "great",
@@ -547,8 +579,8 @@
   },
   {
    "id": "tiles",
-   "dur": 2.4,
-   "src": "captures/worries-before.png",
+   "dur": 2.6,
+   "src": "captures/worries-wide-before.png",
    "cam": [
     {
      "t": 0,
@@ -556,40 +588,40 @@
      "fx": 195,
      "fy": 470,
      "py": 1200
+    },
+    {
+     "t": 0.9,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 800,
+     "py": 1200,
+     "dur": 1.0
     }
    ],
    "inScreen": [
     {
      "cls": "ripple",
+     "x": 260,
+     "y": 686,
+     "w": 44,
+     "h": 44,
+     "t0": 2.0
+    },
+    {
+     "cls": "ripple",
      "x": 86,
-     "y": 316,
+     "y": 851,
      "w": 44,
      "h": 44,
-     "t0": 0.6
+     "t0": 2.2
     },
     {
      "cls": "ripple",
      "x": 260,
-     "y": 324,
+     "y": 851,
      "w": 44,
      "h": 44,
-     "t0": 1.0
-    },
-    {
-     "cls": "ripple",
-     "x": 260,
-     "y": 509,
-     "w": 44,
-     "h": 44,
-     "t0": 1.4
-    },
-    {
-     "cls": "ripple",
-     "x": 260,
-     "y": 670,
-     "w": 44,
-     "h": 44,
-     "t0": 1.8
+     "t0": 2.4
     }
    ],
    "sfx": [
@@ -600,28 +632,59 @@
     },
     {
      "name": "sfx-tink",
-     "at": 0.6,
+     "at": 2.0,
      "vol": 0.2
     },
     {
      "name": "sfx-tink",
-     "at": 1.4,
+     "at": 2.4,
      "vol": 0.2
+    }
+   ],
+   "srcH": 1584,
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 700,
+     "t0": 0,
+     "color": "#FFFFFF"
+    },
+    {
+     "kind": "band",
+     "text": "Screens, phones, social media, AI.",
+     "y": 300,
+     "t0": 0.3
     }
    ]
   },
   {
    "id": "tiles2",
    "dur": 2.4,
-   "src": "captures/worries-after.png",
+   "src": "captures/worries-wide-after.png",
    "fadeIn": 0,
    "cam": [
     {
      "t": 0,
      "S": 2.6,
      "fx": 195,
-     "fy": 470,
+     "fy": 800,
      "py": 1200
+    }
+   ],
+   "srcH": 1584,
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 700,
+     "t0": 0,
+     "color": "#FFFFFF"
+    },
+    {
+     "kind": "band",
+     "text": "Screens, phones, social media, AI.",
+     "y": 300,
+     "t0": 0,
+     "instant": true
     }
    ]
   },
@@ -631,14 +694,14 @@
    "overlays": [
     {
      "kind": "digi",
-     "x": 380,
-     "y": 190,
-     "size": 320,
+     "x": 405,
+     "y": 120,
+     "size": 270,
      "t0": 0
     },
     {
      "kind": "end",
-     "y": 520,
+     "y": 420,
      "eyebrow": "Coming off screens?",
      "line": "What stage is your child?",
      "sub": "Three questions, no sign up. See what to do tonight.",
@@ -646,7 +709,8 @@
      "url": "guidedchildhood.com/v/digi-hero",
      "slate": "An example family. Real app screens, example replies.",
      "t0": 0.3,
-     "pressAt": 2.6
+     "pressAt": 2.6,
+     "tagline": "One plan for screens, phones and AI."
     }
    ],
    "sfx": [
@@ -682,8 +746,8 @@
    },
    {
     "label": "Checked in",
-    "shot": "followup",
-    "t": 5.9
+    "shot": "followup2",
+    "t": 1.1
    },
    {
     "label": "Sorted",
