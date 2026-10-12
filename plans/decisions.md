@@ -193,3 +193,7 @@ Justin asked for Dr Becky level scripts, useful and easy, the tracking until tic
 ## 12 October 2026: the film link, /v/<code> (migration 372)
 
 The shorts panel's measurement gap: nothing counted a stage check start, so a film could only be judged on views. Justin approved a link per film. /v/<code> works like the school link (353): it counts the follow, sets a cookie and lands on the stage check; the first answer counts a start once per browser; the trial grant writes profiles.video_link. Counts only, no IP or account on an event. /dashboard/admin/videos shows followed, began, signed up, card on, paying. Seeded digi-hero and switch-off. Judge a film on starts and signups, never views.
+
+## 12 October 2026: the shorts re-cut after the marketer review
+
+An expert marketer agent reviewed the hero and Short 1 from frame sheets; weighed with the feedback filter (plans/2026-10-12-shorts-marketer-review-weighed.md). Justin chose: the science beat leaves these two films and leads the early years film, where the 1 to 5 year old study fits (our own 9 October rule); the app's "not the open web" thinking line changes, "Earn more stars" stays; the hero opens on "I'm always the bad guy when the tablet goes off". Re-cut: hook at 2s, no "open web" line on screen, a push in on the Say this line, the timer centred and cut before "Earn more stars", one worry from asked to sorted with the rating label from the first tap, the rail below the platform headers, end cards out of the caption zone with each film's /v/ link. Hero 39s, Short 1 30s. Paid boost parked.

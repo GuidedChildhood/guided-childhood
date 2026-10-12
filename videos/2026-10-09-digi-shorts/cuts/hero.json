@@ -9,27 +9,27 @@
     0
    ],
    [
-    1.2,
+    1.0,
     0.22
    ],
    [
-    4.6,
+    2.4,
     0.15
    ],
    [
-    10.3,
+    7.5,
     0.15
    ],
    [
-    13.6,
+    8.0,
     0.3
    ],
    [
-    47.0,
+    36.15,
     0.3
    ],
    [
-    50.0,
+    39.15,
     0
    ]
   ]
@@ -37,19 +37,19 @@
  "shots": [
   {
    "id": "hook",
-   "dur": 4.0,
+   "dur": 2.0,
    "overlays": [
+    {
+     "kind": "pill",
+     "text": "I'm always the bad guy when the tablet goes off. What do I say?",
+     "y": 440,
+     "t0": 0
+    },
     {
      "kind": "eyebrow",
      "text": "An example family. Real app screens, example replies.",
-     "y": 520,
-     "t0": 0.0
-    },
-    {
-     "kind": "pill",
-     "text": "Switching off the tablet is a fight every night. What do I say?",
-     "y": 660,
-     "t0": 0.0
+     "y": 1130,
+     "t0": 0.3
     }
    ],
    "sfx": [
@@ -72,48 +72,50 @@
   },
   {
    "id": "chat-send",
-   "dur": 0.8,
+   "dur": 0.55,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 2.225,
+   "mediaStart": 1.715,
    "ground": "white",
-   "fadeIn": 0.15,
+   "fadeIn": 0.12,
    "cam": [
     {
      "t": 0,
-     "S": 3.6,
-     "fx": 225,
-     "fy": 135,
-     "py": 760
-    },
-    {
-     "t": 0.05,
      "S": 2.77,
      "fx": 195,
-     "fy": 330,
-     "py": 900,
-     "dur": 0.7
+     "fy": 680,
+     "py": 1300
     }
    ],
    "sfx": [
     {
      "name": "sfx-send",
-     "at": 0.0,
+     "at": 0.52,
      "vol": 0.4
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 315,
+     "y": 709,
+     "w": 44,
+     "h": 44,
+     "t0": 0.45
     }
    ]
   },
   {
    "id": "chat-think",
-   "dur": 4.0,
+   "dur": 1.6,
    "src": "rec/hero-chat.mp4",
-   "mediaStart": 6.625,
+   "mediaStart": 9.075,
    "ground": "white",
    "fadeIn": 0,
    "cam": [
     {
      "t": 0,
-     "S": 2.9,
-     "fx": 182,
+     "S": 2.77,
+     "fx": 195,
      "fy": 250,
      "py": 900
     }
@@ -122,40 +124,15 @@
     {
      "kind": "label",
      "text": "What DiGi shows while it thinks",
-     "y": 1470,
-     "t0": 0.0
+     "y": 1120,
+     "t0": 0
     }
    ],
    "sfx": [
     {
      "name": "sfx-dots",
-     "at": 0.1,
+     "at": 0.05,
      "vol": 0.18
-    }
-   ]
-  },
-  {
-   "id": "chat-freeze",
-   "dur": 1.0,
-   "src": "stills/hero-line4.png",
-   "srcH": 844,
-   "ground": "white",
-   "fadeIn": 0,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.9,
-     "fx": 182,
-     "fy": 250,
-     "py": 900
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "label",
-     "text": "What DiGi shows while it thinks",
-     "y": 1470,
-     "t0": 0.0
     }
    ]
   },
@@ -164,23 +141,22 @@
    "dur": 2.4,
    "src": "rec/hero-chat.mp4",
    "mediaStart": 10.9,
-   "rate": 1.6,
    "ground": "white",
-   "fadeIn": 0.12,
+   "fadeIn": 0,
    "cam": [
     {
      "t": 0,
      "S": 2.77,
      "fx": 195,
      "fy": 420,
-     "py": 1323
+     "py": 1500
     }
    ],
    "overlays": [
     {
      "kind": "label",
      "text": "Illustrative reply",
-     "y": 70,
+     "y": 262,
      "t0": 0.1
     }
    ],
@@ -198,22 +174,23 @@
    "src": "rec/hero-chat.mp4",
    "mediaStart": 19.3,
    "ground": "white",
-   "fadeIn": 0.1,
+   "fadeIn": 0.15,
    "cam": [
     {
      "t": 0,
      "S": 2.77,
      "fx": 195,
      "fy": 210,
-     "py": 742
+     "py": 920
     }
    ],
    "overlays": [
     {
      "kind": "label",
      "text": "Illustrative reply",
-     "y": 70,
-     "t0": 0.0
+     "y": 262,
+     "t0": 0,
+     "instant": true
     }
    ],
    "inScreen": [
@@ -236,7 +213,7 @@
   },
   {
    "id": "deck-say",
-   "dur": 5.6,
+   "dur": 7.0,
    "src": "rec/script-deck.mp4",
    "srcH": 1000,
    "mediaStart": 0.6,
@@ -247,15 +224,31 @@
      "S": 2.77,
      "fx": 195,
      "fy": 60,
-     "py": 330
+     "py": 440
     },
     {
      "t": 0.6,
-     "S": 2.77,
+     "S": 2.7,
      "fx": 195,
      "fy": 303,
-     "py": 330,
-     "dur": 0.8
+     "py": 420,
+     "dur": 0.7
+    },
+    {
+     "t": 1.6,
+     "S": 3.3,
+     "fx": 195,
+     "fy": 607,
+     "py": 1210,
+     "dur": 0.7
+    },
+    {
+     "t": 4.8,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 303,
+     "py": 420,
+     "dur": 0.6
     }
    ],
    "inScreen": [
@@ -265,8 +258,8 @@
      "y": 599,
      "w": 132,
      "h": 3,
-     "t0": 1.7,
-     "t1": 4.0
+     "t0": 2.4000000000000004,
+     "t1": 4.8
     },
     {
      "cls": "underline",
@@ -274,8 +267,29 @@
      "y": 630,
      "w": 214,
      "h": 3,
-     "t0": 1.85,
-     "t1": 4.0
+     "t0": 2.5500000000000003,
+     "t1": 4.8
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 420,
+     "t0": 0
+    },
+    {
+     "kind": "veil",
+     "h": 780,
+     "t0": 1.6,
+     "t1": 5.3,
+     "fade": true
+    },
+    {
+     "kind": "band",
+     "text": "Say this before the tablet goes on",
+     "y": 430,
+     "t0": 2.0,
+     "t1": 4.8
     }
    ],
    "sfx": [
@@ -286,200 +300,87 @@
     },
     {
      "name": "sfx-shimmer",
-     "at": 1.7,
+     "at": 2.4000000000000004,
      "vol": 0.18
     },
     {
      "name": "sfx-tap",
-     "at": 4.2,
+     "at": 5.6,
      "vol": 0.45
     },
     {
      "name": "sfx-whoosh",
-     "at": 5.3,
-     "vol": 0.16
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "veil",
-     "h": 250,
-     "t0": 0
-    }
-   ]
-  },
-  {
-   "id": "deck-why",
-   "dur": 3.8,
-   "src": "rec/script-deck.mp4",
-   "srcH": 1000,
-   "mediaStart": 9.4,
-   "fadeIn": 0,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.77,
-     "fx": 195,
-     "fy": 284,
-     "py": 330
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "underline",
-     "x": 111,
-     "y": 626,
-     "w": 161,
-     "h": 3,
-     "t0": 0.9
-    },
-    {
-     "cls": "underline",
-     "x": 47,
-     "y": 657,
-     "w": 97,
-     "h": 3,
-     "t0": 1.05
-    },
-    {
-     "cls": "underline",
-     "x": 47,
-     "y": 718,
-     "w": 281,
-     "h": 3,
-     "t0": 1.5
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "veil",
-     "h": 250,
-     "t0": 0
-    },
-    {
-     "kind": "lower",
-     "text": "This script names its sources",
-     "t0": 0.4
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-shimmer",
-     "at": 0.9,
+     "at": 6.699999999999999,
      "vol": 0.16
     }
    ]
   },
   {
-   "id": "deck-rcpch",
-   "dur": 2.6,
-   "src": "rec/script-deck.mp4",
-   "srcH": 1000,
-   "mediaStart": 15.4,
-   "fadeIn": 0.12,
-   "cam": [
-    {
-     "t": 0,
-     "S": 2.77,
-     "fx": 195,
-     "fy": 800,
-     "py": 1400
-    }
-   ],
-   "inScreen": [
-    {
-     "cls": "underline",
-     "x": 282,
-     "y": 760,
-     "w": 34,
-     "h": 3,
-     "t0": 0.3
-    },
-    {
-     "cls": "underline",
-     "x": 47,
-     "y": 791,
-     "w": 258,
-     "h": 3,
-     "t0": 0.4
-    },
-    {
-     "cls": "underline",
-     "x": 47,
-     "y": 822,
-     "w": 270,
-     "h": 3,
-     "t0": 0.55
-    },
-    {
-     "cls": "underline",
-     "x": 47,
-     "y": 853,
-     "w": 35,
-     "h": 3,
-     "t0": 0.7
-    }
-   ],
-   "overlays": [
-    {
-     "kind": "veil",
-     "h": 250,
-     "t0": 0
-    },
-    {
-     "kind": "lower",
-     "text": "This script names its sources",
-     "t0": 0,
-     "instant": true
-    }
-   ]
-  },
-  {
-   "id": "timer",
-   "dur": 4.4,
+   "id": "timer-count",
+   "dur": 2.8,
    "src": "rec/timer-end.mp4",
-   "mediaStart": 6.8,
-   "fadeIn": 0.12,
+   "mediaStart": 7.0,
    "cam": [
     {
      "t": 0,
-     "S": 3.2,
-     "fx": 180,
-     "fy": 140,
-     "py": 1000
-    },
-    {
-     "t": 2.9,
-     "S": 2.6,
+     "S": 2.9,
      "fx": 195,
-     "fy": 260,
-     "py": 1080,
-     "dur": 0.7
+     "fy": 200,
+     "py": 1280
     }
    ],
    "overlays": [
     {
      "kind": "band",
      "text": "The timer says stop. Not you.",
-     "y": 250,
-     "t0": 0.3
+     "y": 420,
+     "t0": 0.2
     },
     {
      "kind": "label",
-     "text": "A shared countdown, on both screens",
-     "y": 455,
-     "t0": 0.6
+     "text": "Counting down on your child's screen",
+     "y": 620,
+     "t0": 0.5
     }
    ],
    "sfx": [
     {
      "name": "sfx-tink",
-     "at": 0.4,
+     "at": 0.3,
      "vol": 0.2
-    },
+    }
+   ]
+  },
+  {
+   "id": "timer-pop",
+   "dur": 1.4,
+   "src": "rec/timer-end.mp4",
+   "mediaStart": 10.15,
+   "cropTop": 40,
+   "clipH": 150,
+   "fadeIn": 0.1,
+   "cam": [
+    {
+     "t": 0,
+     "S": 3.0,
+     "fx": 195,
+     "fy": 55,
+     "py": 1050
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "band",
+     "text": "The timer says stop. Not you.",
+     "y": 420,
+     "t0": 0,
+     "instant": true
+    }
+   ],
+   "sfx": [
     {
      "name": "sfx-chime",
-     "at": 3.2,
+     "at": 0.05,
      "vol": 0.4
     }
    ]
@@ -489,22 +390,28 @@
    "dur": 6.4,
    "src": "rec/followup.mp4",
    "mediaStart": 0.8,
-   "fadeIn": 0.12,
+   "cropTop": 390,
    "cam": [
     {
      "t": 0,
      "S": 2.9,
      "fx": 195,
      "fy": 165,
-     "py": 1000
+     "py": 1150
     }
    ],
    "overlays": [
     {
      "kind": "marker",
      "text": "A few days on. Illustrative",
-     "y": 240,
-     "t0": 0.0
+     "y": 430,
+     "t0": 0
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 575,
+     "t0": 4.0
     }
    ],
    "inScreen": [
@@ -536,30 +443,37 @@
      "at": 4.0,
      "vol": 0.5
     }
-   ],
-   "cropTop": 60
+   ]
   },
   {
    "id": "great",
    "dur": 2.4,
    "src": "rec/checkin-great.mp4",
    "mediaStart": 0.9,
-   "fadeIn": 0.12,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
    "cam": [
     {
      "t": 0,
      "S": 2.9,
      "fx": 195,
      "fy": 125,
-     "py": 980
+     "py": 1150
     }
    ],
    "overlays": [
     {
      "kind": "marker",
      "text": "A week on. Illustrative",
-     "y": 300,
-     "t0": 0.0
+     "y": 430,
+     "t0": 0
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 660,
+     "t0": 0.6
     }
    ],
    "inScreen": [
@@ -583,10 +497,7 @@
      "at": 1.1,
      "vol": 0.45
     }
-   ],
-   "srcH": 1000,
-   "clipH": 1000,
-   "cropTop": 748
+   ]
   },
   {
    "id": "great-hold",
@@ -594,6 +505,7 @@
    "src": "stills/great-card.png",
    "srcH": 1000,
    "clipH": 1000,
+   "cropTop": 748,
    "fadeIn": 0,
    "cam": [
     {
@@ -601,39 +513,40 @@
      "S": 2.9,
      "fx": 195,
      "fy": 125,
-     "py": 980
+     "py": 1150
     }
    ],
    "overlays": [
     {
      "kind": "marker",
      "text": "A week on. Illustrative",
-     "y": 300,
-     "t0": 0.0
+     "y": 430,
+     "t0": 0,
+     "instant": true
     },
     {
      "kind": "label",
      "text": "This parent's own rating",
-     "y": 1470,
-     "t0": 0.0
+     "y": 660,
+     "t0": 0,
+     "instant": true
     }
-   ],
-   "cropTop": 748
+   ]
   },
   {
    "id": "tiles",
    "dur": 1.6,
    "src": "captures/worries-before.png",
-   "fadeIn": 0.12,
    "cam": [
     {
      "t": 0,
      "S": 2.6,
      "fx": 195,
      "fy": 470,
-     "py": 1010
+     "py": 1200
     }
    ],
+   "overlays": [],
    "inScreen": [
     {
      "cls": "ripple",
@@ -670,6 +583,11 @@
    ],
    "sfx": [
     {
+     "name": "sfx-whoosh",
+     "at": 0,
+     "vol": 0.15
+    },
+    {
      "name": "sfx-tink",
      "at": 0.3,
      "vol": 0.2
@@ -692,29 +610,30 @@
      "S": 2.6,
      "fx": 195,
      "fy": 470,
-     "py": 1010
+     "py": 1200
     }
-   ]
+   ],
+   "overlays": []
   },
   {
    "id": "end",
    "dur": 5.0,
-   "fadeIn": 0.3,
    "overlays": [
     {
      "kind": "digi",
-     "x": 300,
-     "y": 240,
-     "size": 480,
-     "t0": 0.0
+     "x": 380,
+     "y": 190,
+     "size": 320,
+     "t0": 0
     },
     {
      "kind": "end",
-     "y": 760,
+     "y": 520,
+     "eyebrow": "Coming off screens?",
      "line": "What stage is your child?",
-     "sub": "Three questions, no sign up.",
+     "sub": "Three questions, no sign up. See what to do tonight.",
      "button": "Find my child's stage",
-     "url": "guidedchildhood.com/starter-pack",
+     "url": "guidedchildhood.com/v/digi-hero",
      "slate": "An example family. Real app screens, example replies.",
      "t0": 0.3,
      "pressAt": 2.2
@@ -735,7 +654,7 @@
   }
  ],
  "rail": {
-  "y": 46,
+  "y": 236,
   "from": "deck-say",
   "fromT": 0.1,
   "until": "great-hold",
@@ -749,7 +668,7 @@
    {
     "label": "The words",
     "shot": "deck-say",
-    "t": 5.0
+    "t": 6.3999999999999995
    },
    {
     "label": "Checked in",
