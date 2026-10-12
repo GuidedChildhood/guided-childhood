@@ -96,7 +96,7 @@ INSERT INTO public.daily_moments (title, category, age_bands, icon, science_brie
  '⏱️',
  'Screen time limits alone show consistently weak effect sizes in the research — what matters is what is being displaced (sleep, movement, face-to-face interaction) and the quality of the surrounding relationship.',
  'When the argument happens, is it about the amount of time or what they have to stop doing — a game mid-session, a show at a cliffhanger?',
- '["A five-minute warning before the limit is up is consistently more effective than a hard stop — give them a chance to reach a stopping point.", "Focus the rule on displacement rather than duration: no screens until homework is done, not ''only 2 hours a day''.", "Co-viewing or shared gaming occasionally (even briefly) changes the dynamic from screen-as-enemy to shared experience."]',
+ '["Agree the stopping point before it starts, the end of the level or the episode, so the limit lands at a natural ending rather than mid game.", "Focus the rule on displacement rather than duration: no screens until homework is done, not ''only 2 hours a day''.", "Co-viewing or shared gaming occasionally (even briefly) changes the dynamic from screen-as-enemy to shared experience."]',
  'Paediatric researchers Przybylski and Weinstein found the dose-response curve flattens well above typical guidance levels.',
  22),
 

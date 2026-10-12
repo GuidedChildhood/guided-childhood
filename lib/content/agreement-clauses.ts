@@ -254,7 +254,7 @@ export const SCIENCE_BY_TYPE: Record<string, DealScience[]> = {
   'first-screens': [
     BEDROOM,
     { claim: 'At this age an adult beside the child, naming what is on the screen, does more than any time limit. Watching together teaches judgement that a filter cannot.', source: 'Internet Matters and UKCIS guidance for the early years' },
-    { claim: 'The hard moment is the end, not the start. Endings set by the device itself went far better than a parent calling time, and a spoken two minute warning made it worse.', source: 'Hiniker and colleagues, CHI 2016' },
+    { claim: 'The hard moment is the end, not the start. Endings set by the device itself went more smoothly than a parent calling time, and warned endings were followed by more upset, not less.', source: 'Hiniker and colleagues, CHI 2016' },
   ],
   'tablet-games': [
     BEDROOM,
