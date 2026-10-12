@@ -680,7 +680,15 @@
         "outcome": "I can use the three moves in order, and name a person who can act."
       }
     ],
-    "tool": "NAME IT, SAVE IT, SAY IT. In that order, because saving stops being possible if you leave it.",
+    "tool": {
+      "heading": "Name it, save it, say it",
+      "lines": [
+        "Name it, so you and the adult mean the same thing",
+        "Save it, before you reply",
+        "Say it, to one person who can act"
+      ],
+      "strapline": "In that order, because saving stops being possible if you leave it."
+    },
     "keywords": [
       "escalate",
       "harassment",

@@ -5,6 +5,7 @@ import PrintButton from '@/components/PrintButton'
 import { parseSlides, visibleSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
+import { asTool } from '@/lib/notes'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, PrintSheet, Box, WriteLines } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ module: s
 
 type TeacherNotes = {
   keywords?: { word: string; definition: string }[]
-  tool?: { heading?: string; lines?: string[]; strapline?: string }
+  // Read through asTool: four rows once held it as a sentence (lib/notes.ts).
+  tool?: unknown
 }
 
 export const revalidate = 3600
@@ -48,7 +50,8 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
   const gains = objective?.gains ?? []
   const keywordSlide = slides.find((s): s is KeywordsSlide => s.type === 'keywords')
   const words = notes.keywords ?? keywordSlide?.words.map(w => ({ word: w.word, definition: w.meaning })) ?? []
-  const tool = notes.tool ?? {
+  const own = asTool(notes.tool)
+  const tool = own ? { ...own, heading: own.heading ?? 'The tool' } : {
     heading: 'The three checks',
     lines: ['1. Who made this, and how do they know?', '2. What do other places say?', '3. How is it trying to make me feel?'],
     strapline: 'Three checks, under a minute.',

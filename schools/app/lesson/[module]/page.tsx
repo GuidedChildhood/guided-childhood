@@ -15,7 +15,7 @@ import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LessonOpened } from '@/components/tracker/signals'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { evidenceStatus } from '@gc/shared/evidence-status'
-import { asList } from '@/lib/notes'
+import { asList, asTool } from '@/lib/notes'
 import { neighbours, shapeOf, trackerActions } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
 import StandaloneBar from '@/app/taster/StandaloneBar'
@@ -72,7 +72,8 @@ type TeacherNotes = {
   // plain text instead, so it can be either.
   send?: { communication?: string; attention?: string; sensory?: string; eal?: string } | string
   paper_fallback?: string
-  tool?: { heading?: string; lines?: string[]; strapline?: string }
+  // Read through asTool: the same four decks once held it as a sentence too.
+  tool?: unknown
   // The three "I can" statements the child colours on the learning record.
   i_can?: string[] | string
   // The four fields the coverage audit of 8 September found missing, added by
@@ -160,6 +161,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   const slides = visibleSlides(parseSlides(lesson.slides) ?? [], 'classroom').slides
   const notes = lesson.teacher_notes ?? {}
+  const tool = asTool(notes.tool)
   // The page and the area, from the row's key stage (the rule migration 277 wrote).
   // A standalone lesson fills no page: it is outside the scheme, and the
   // passport records the scheme (lib/taster.ts).
@@ -453,11 +455,11 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         )}
 
         {/* The tool, which is the thing a child leaves with */}
-        {notes.tool?.lines?.length ? (
+        {tool?.lines.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
-            <h2 style={h2}>{notes.tool.heading ?? 'The tool they leave with'}</h2>
+            <h2 style={h2}>{tool.heading ?? 'The tool they leave with'}</h2>
             <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: '8px' }}>
-              {notes.tool.lines.map(l => (
+              {tool.lines.map(l => (
                 <span key={l} style={{
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   color: 'var(--ink)', background: 'var(--terracotta-lt)',
@@ -467,7 +469,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
                 </span>
               ))}
             </div>
-            {notes.tool.strapline && <p style={body}>{notes.tool.strapline}</p>}
+            {tool.strapline && <p style={body}>{tool.strapline}</p>}
           </div>
         ) : null}
 

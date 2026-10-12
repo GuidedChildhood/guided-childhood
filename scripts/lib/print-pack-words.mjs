@@ -42,6 +42,14 @@ export const roomFor = (kind, sparePx) => Math.max(0, Math.floor(sparePx / SHEET
 
 const len = parts => parts.flat(Infinity).filter(p => typeof p === 'string').reduce((n, p) => n + p.trim().length, 0)
 const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {})
+const text = v => (typeof v === 'string' && v.trim() ? v : undefined)
+// asTool in schools/lib/notes.ts, in plain node: { heading, lines } or null.
+const toolOf = v => {
+  if (typeof v === 'string') return v.trim() ? { lines: [v.trim()] } : null
+  const t = obj(v)
+  const tool = { heading: text(t.heading), lines: Array.isArray(t.lines) ? t.lines.filter(l => typeof l === 'string') : typeof t.lines === 'string' && t.lines.trim() ? [t.lines] : [] }
+  return tool.heading || tool.lines.length ? tool : null
+}
 
 /** A content/modules/*.json lesson to the characters each growing sheet prints. */
 export function packWords(lesson) {
@@ -49,9 +57,10 @@ export function packWords(lesson) {
   const notes = obj(lesson.teacher_notes)
   const parent = obj(lesson.parent_note)
   const diff = obj(notes.differentiation)
-  // The page reads `notes.tool?.heading`, so a tool written as a sentence
-  // rather than an object prints the reference lesson's fallback.
-  const tool = obj(notes.tool)
+  // The page reads the tool through asTool (schools/lib/notes.ts): a tool
+  // written as a sentence prints as one line under "The tool", and only a
+  // row with no tool at all prints the reference lesson's three checks.
+  const tool = toolOf(notes.tool)
 
   const teacher = len([
     row.title, row.single_action_outcome, obj(lesson.dsl_note).note,
@@ -72,8 +81,8 @@ export function packWords(lesson) {
 
   const parentWords = len([
     parent.headline ?? 'What we taught today', parent.taught,
-    tool.heading ?? 'The three checks',
-    tool.lines ?? ['1. Who made this, and how do they know?', '2. What do other places say?', '3. How is it trying to make me feel?'],
+    tool ? tool.heading ?? 'The tool' : 'The three checks',
+    tool ? tool.lines : ['1. Who made this, and how do they know?', '2. What do other places say?', '3. How is it trying to make me feel?'],
     parent.try_this, parent.family_question, parent.passport,
   ])
 

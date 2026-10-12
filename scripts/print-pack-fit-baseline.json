@@ -1,5 +1,5 @@
 {
-  "layout": "6706a06e5d06087f",
+  "layout": "441147a8f7856dcb",
   "measured": "2026-10-12",
   "pageHeight": 1031,
   "lessons": {
@@ -223,7 +223,7 @@
         "spare": 229
       },
       "parent": {
-        "chars": 1317,
+        "chars": 1258,
         "spare": 84
       }
     },
@@ -335,7 +335,7 @@
         "spare": 300
       },
       "parent": {
-        "chars": 1261,
+        "chars": 1273,
         "spare": 84
       }
     },
@@ -433,7 +433,7 @@
         "spare": 268
       },
       "parent": {
-        "chars": 1366,
+        "chars": 1377,
         "spare": 64
       }
     },
@@ -447,7 +447,7 @@
         "spare": 243
       },
       "parent": {
-        "chars": 1509,
+        "chars": 1526,
         "spare": 64
       }
     },
