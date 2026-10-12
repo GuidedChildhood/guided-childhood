@@ -12,6 +12,7 @@ import { MarkOnPrint } from '@/components/tracker/signals'
 import { LeadOnPaper } from '@/components/YourSchoolLead'
 import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
+import { asTool } from '@/lib/notes'
 import { friendFor, printRegister, mono, display, text, FriendArt, CardFriend, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
@@ -41,7 +42,8 @@ type TeacherNotes = {
   worksheet_items?: unknown
   // v3: per module print content, so every module's pack carries its own
   // tool and verdict language. Reference module fallbacks keep old rows printing.
-  tool?: { heading?: string; lines?: string[]; strapline?: string }
+  // Read through asTool, never directly: four rows once held it as a sentence.
+  tool?: unknown
   worksheet?: { title?: string; directions?: string; verdict_options?: string[] }
   commitment_stem?: string
 }
@@ -74,15 +76,23 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   const dsl = (lesson.dsl_note ?? {}) as DslNote
   const items = worksheetItems(notes)
 
-  // Module specific print content with reference lesson fallbacks.
-  const tool = {
-    heading: notes.tool?.heading ?? 'The three checks',
-    lines: notes.tool?.lines ?? [
+  // Module specific print content with reference lesson fallbacks. The tool
+  // falls back only when the row has none at all: a lesson whose tool is a
+  // sentence prints that sentence (schools/lib/notes.ts), because the
+  // reference lesson's checks on its bookmarks teach a tool it never taught.
+  const own = asTool(notes.tool)
+  const tool = own ? {
+    heading: own.heading ?? 'The tool',
+    lines: own.lines,
+    strapline: own.strapline ?? '',
+  } : {
+    heading: 'The three checks',
+    lines: [
       '1. Who made this, and how do they know?',
       '2. What do other places say?',
       '3. How is it trying to make me feel?',
     ],
-    strapline: notes.tool?.strapline ?? 'Three checks, under a minute. Check before you share.',
+    strapline: 'Three checks, under a minute. Check before you share.',
   }
   const worksheetTitle = notes.worksheet?.title ?? 'Run the three checks'
   const worksheetDirections = notes.worksheet?.directions ?? 'For each item: run the checks, circle a verdict, and give your reason. A verdict without a reason does not count.'

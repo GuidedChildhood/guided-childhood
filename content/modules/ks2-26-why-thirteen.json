@@ -681,7 +681,15 @@
         "outcome": "I can tell the difference between an age rule about content, about contact, and about money."
       }
     ],
-    "tool": "SHIELD: find the number, ask what it is protecting, then choose.",
+    "tool": {
+      "heading": "Shield up",
+      "lines": [
+        "Find the number",
+        "Ask what it is protecting",
+        "Then choose"
+      ],
+      "strapline": "Your real age is what holds the shield up."
+    },
     "keywords": [
       "age rule",
       "protection",
