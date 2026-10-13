@@ -51,3 +51,27 @@ Justin chose item 1 the same morning; it ships in PR 1264. The rest wait.
    seen today).
 6. Parent side: a "Teo read it ✓" on Remind, finished days and passed lessons
    in the bell with a "Send a well done" button, screen time asks in the bell.
+
+## Second pass, approved by Justin the same afternoon (all of 2 to 6)
+
+His answers: all four home changes, then the parent side; the grown up is
+named by what the child calls them "if it is set on the account" (it is not:
+profiles has only full_name, so the home says "Mum or Dad" until the parent
+side adds a "What does Teo call you?" setting); the style is the paper Happy
+News finish, The Happy Newspaper's website and Instagram as the energy
+reference, drawn our own way with HappyNewsBits and HappyIcon.
+
+PR A, the child's home (branch claude/kid-home-happy-news):
+- The five a day at the top. The greeting folds into the day card's header;
+  the school diary becomes one slim line under it.
+- One reward card: the balance and Use my time together, never locked. The
+  minutes a child earned are always theirs; a line says what finishing the
+  five adds.
+- Reminders asked once, after the first finished day, not above the jobs.
+- The parent link: "⏳ 2 waiting for Mum or Dad to say yes" under the day,
+  and a "Since you last looked" card for a yes that landed while they were
+  away (pushes to children are held 19:00 to 07:00).
+
+PR B, the parent side (after A): "What does Teo call you?" on the account,
+"Teo read it ✓" on Remind, finished days and passed lessons in the bell with
+a "Send a well done" button, screen time asks in the bell.

@@ -155,6 +155,10 @@ function WeekDone({ week, friend }: { week: { letter: string; earned: boolean; i
   )
 }
 
+// The seam with the masthead: square top corners and no top edge, so the
+// masthead's own bottom edge is the one line between the greeting and the day.
+const JOIN_TOP = { borderTop: 'none', borderTopLeftRadius: 0, borderTopRightRadius: 0 } as const
+
 export default function KidFiveADay({
   token,
   childName,
@@ -174,7 +178,14 @@ export default function KidFiveADay({
   asksPending = 0,
   jobsLeft = [],
   jobsStarsLeft = 0,
+  joined = false,
 }: {
+  /**
+   * Drawn as the lower half of the home's masthead (13 October 2026). Justin
+   * chose "the five a day at the top": the greeting and the day are one card,
+   * so the top edge goes and the masthead above carries it.
+   */
+  joined?: boolean
   /**
    * Ideas already waiting on the grown up. Justin, 14 September 2026, with
    * the ask row stuck at four of five: "one of child's tasks is add job but
@@ -413,6 +424,10 @@ export default function KidFiveADay({
 
   const doneCount = state.done.length
   const total = state.steps.length
+  // The live step's own number. A step can land out of order (the ask step
+  // ticks itself while an idea waits on the grown up), so "done plus one"
+  // could name step 4 while step 3 was the one lit up (13 October 2026).
+  const liveNo = state.steps.findIndex(k => !state.done.includes(k)) + 1
 
   // The finished day is one line, not five crossed out rows. Justin, on
   // Teo's screen: "of 5 jobs done it should close up to 1 line as no need to
@@ -425,8 +440,9 @@ export default function KidFiveADay({
         onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
-          background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
-          padding: '14px 16px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
+          background: '#fff', border: joined ? 'var(--edge)' : '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
+          padding: '14px 16px', marginBottom: '16px', boxShadow: joined ? 'var(--lift)' : '0 5px 0 rgba(26,26,46,0.08)',
+          ...(joined ? JOIN_TOP : {}),
           cursor: 'pointer', textAlign: 'left', font: 'inherit', color: 'var(--ink)',
         }}
       >
@@ -463,9 +479,10 @@ export default function KidFiveADay({
   }
 
   return (
-    <div style={{
+    <div data-five-joined={joined || undefined} style={{
       background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '16px 16px 12px', marginBottom: '16px', boxShadow: 'var(--lift)',
+      ...(joined ? JOIN_TOP : {}),
     }}>
       {/* WRAPS RATHER THAN RUNS OFF THE EDGE.
           The ribbon will not shrink (its text is nowrap and it carries 22px of
@@ -501,7 +518,7 @@ export default function KidFiveADay({
           says which one you are on and how many are left, and each one turns
           into a tick as it lands. Done is green with a tick, the live one is
           butter and raised, the rest wait quietly with their number. */}
-      <ol aria-label={`Step ${Math.min(doneCount + 1, total)} of ${total}`} style={{ listStyle: 'none', display: 'flex', alignItems: 'center', gap: 0, margin: '10px 0 14px', padding: 0 }}>
+      <ol aria-label={`Step ${liveNo > 0 ? liveNo : total} of ${total}`} style={{ listStyle: 'none', display: 'flex', alignItems: 'center', gap: 0, margin: '10px 0 14px', padding: 0 }}>
         {state.steps.map((k, i) => {
           const done = state.done.includes(k)
           const live = !done && k === state.steps.find(x => !state.done.includes(x))
@@ -542,7 +559,7 @@ export default function KidFiveADay({
         }}>
           {/* Clamped: a finished day reopened with Show used to say "step 6
               of 5" (13 October 2026 walkthrough). */}
-          {doneCount === 0 ? `Start here · step 1 of ${total}` : doneCount >= total ? `All ${total} done` : `Do this next · step ${doneCount + 1} of ${total}`}
+          {doneCount === 0 ? `Start here · step 1 of ${total}` : doneCount >= total ? `All ${total} done` : `Do this next · step ${liveNo} of ${total}`}
         </p>
         {/* The ONE live step. The next appears when this lands. */}
         {(() => {

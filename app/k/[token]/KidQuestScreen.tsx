@@ -32,6 +32,9 @@ import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
+import KidRewardCard from '@/components/kid/KidRewardCard'
+import { KidWaitingLine, KidSinceLooked } from '@/components/kid/KidGrownUpLink'
+import { grownUpWord, sinceYouLooked, laterOf, SINCE_SEEN_KEY, type SinceItem } from '@/lib/kid/grown-up-link'
 import { scheduleLabel } from '@/lib/quests/due'
 import { isMoveJob, readingMinutesFor, dayWord, stepsPerDay, type StageNum } from '@/lib/kid/five-a-day'
 import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
@@ -109,7 +112,12 @@ export default function KidQuestScreen({
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
   dailyStickers = null,
+  sinceItems = [], lastSeenAt = null,
 }: {
+  /** The yeses of the last two days, for Since you last looked (lib/kid/grown-up-link.ts). */
+  sinceItems?: SinceItem[]
+  /** The link's last activity: a yes before it was seen when it happened. */
+  lastSeenAt?: string | null
   /** This week's daily stickers and the total, for the book's Every day page and the week row. */
   dailyStickers?: DailyStickers | null
   /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
@@ -1021,6 +1029,30 @@ export default function KidQuestScreen({
   // Watch for the grown up's yes landing while the child has the page open, so
   // a Waiting quest flips to Done live and a squad friend springs up to say so,
   // no refresh needed. Polls gently, and the moment the tab comes back.
+  // ── SINCE YOU LAST LOOKED (13 October 2026) ─────────────────────────────
+  // The yeses that landed while the child was away, worked out once on
+  // arrival against the later of the link's last activity and this device's
+  // own mark. Once, not on every refresh: a yes celebrated live below marks
+  // the device seen, and must not come back as a card a second later.
+  // See lib/kid/grown-up-link.ts.
+  const grownUp = grownUpWord(null)
+  const [sinceShown, setSinceShown] = useState<SinceItem[]>([])
+  useEffect(() => {
+    let local: string | null = null
+    try { local = localStorage.getItem(SINCE_SEEN_KEY) } catch { /* private window: the server mark alone */ }
+    setSinceShown(sinceYouLooked(sinceItems, laterOf(lastSeenAt, local), Date.now()))
+    // Once on arrival, by design (above).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const markSinceSeen = useCallback(() => {
+    try { localStorage.setItem(SINCE_SEEN_KEY, new Date().toISOString()) } catch { /* fine, the card is local news */ }
+  }, [])
+  const dismissSince = useCallback(() => {
+    markSinceSeen()
+    setSinceShown([])
+    playKidSound('star')
+  }, [markSinceSeen])
+
   const seenApprovedRef = useRef<Set<string>>(new Set(todayTicks.filter(t => t.status === 'approved').map(t => t.quest_id)))
   useEffect(() => {
     let live = true
@@ -1042,12 +1074,14 @@ export default function KidQuestScreen({
           // the timer would not give a child on a different rate.
           if (q) setHappyNews({
             character: 'digi',
-            headline: 'Your grown up said yes! ⭐',
+            headline: `${grownUp} said yes! ⭐`,
             sub: q.is_family_job
               ? `${q.title} is done. Thank you for doing your bit for the family!`
               : `${q.title} is done. That is ${q.stars * (bank?.starMinutes ?? STAR_MINUTES)} minutes of screen time earned. Superstar!`,
           })
           playKidSound('star')
+          // Seen live, so it is not news on the next open.
+          markSinceSeen()
           // The stars just landed in the bank, and the bank on this screen is
           // a server prop, so fetch it again the way the ask's yes does.
           router.refresh()
@@ -1491,21 +1525,13 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* THE ORDER IS JUSTIN'S, 9 August 2026: school diary first, the
-            morning welcome second, streaks small third, the five a day
-            fourth, use my time after it. "we have way too much on Home
-            Screen so let's organise better." */}
-
-        {/* 1. THE SCHOOL DIARY, the first thing on the page: what school
-            needs today and tomorrow, the way into the whole week, and since
-            step 1 of this reorder, the place the child adds their own
-            entries. */}
-        <KidSchoolBanner items={schoolToday} token={token} weekCount={schoolWeekCount} />
-
-        {/* 2. THE MORNING WELCOME, with the little sound switch tucked in
-            the corner so a child (or a grown up) can turn the sounds off any
-            time. The eyebrow greets by the child's own clock, mounted after
-            first paint so the server and the first client render agree. */}
+        {/* THE DAY FIRST (13 October 2026). Justin chose "the five a day at
+            the top": the greeting and the five are one card, the masthead the
+            top half and the day the bottom, so a child opens the app and the
+            thing to do is the first thing they see. The masthead's line under
+            the name went: it repeated the count the day card shows. The school
+            diary is one slim line further down (his 9 August order had it
+            first; he moved it). */}
         {/* THE MASTHEAD. Justin, 14 September 2026, with Jonny's week page
             open: "the front page has the similar design as the calendar
             page, as looks great." So the greeting is the same masthead the
@@ -1513,16 +1539,14 @@ export default function KidQuestScreen({
             the name over a sun disc, the child's own Friend on a plate, and
             the little sound switch in the corner. The line under the name is
             the day in one breath. Make it mine lives as its own tile below. */}
+        {/* Every "go to the day" lands here, on the greeting, since the two are
+            one card: landing on the five would cut the card in half. */}
+        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
         <div data-home-masthead style={{ width: '100%', maxWidth: 560 }}>
           <KidWeekMasthead
+            joined
             kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
             title={`Go ${childName}!`}
-            sub={todayTab.complete
-              // Not a count: the flame bar is the one streak on the screen.
-              ? 'Today is done. Brilliant!'
-              : todayTab.total > 0
-                ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
-                : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
             friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
             corner={
               <button
@@ -1539,10 +1563,41 @@ export default function KidQuestScreen({
           />
         </div>
 
+        <KidFiveADay
+          token={token}
+          childName={childName}
+          theme={theme}
+          jobsAllDone={allDone}
+          jobsProgress={{ done: doneCount, total: quests.length }}
+          jobsLeft={quests.filter(q => !isTicked(q.id)).map(q => q.title)}
+          jobsStarsLeft={quests.filter(q => !isTicked(q.id) && !(q as Quest & { is_family_job?: boolean }).is_family_job).reduce((n, q) => n + (q.stars || 0), 0)}
+          asksPending={Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)}
+          newQuestCount={newQuestCount}
+          readingMinutes={readingMinutesFor(ageBand)}
+          moveJobs={moveJobs}
+          initialState={fiveADayInitial}
+          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
+          onDayComplete={(n, day) => {
+            playKidSound('done')
+            const next = bumpDay()
+            // The day's own screen, every day. The week strip rides on it
+            // once a star week, and the Friend arrival follows it on the
+            // days a Friend is earned (see the close handler below).
+            if (streakDueThisWeek) markStreakWeekSeen()
+            markTodayDone()
+            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
+          }}
+          onStateChange={onTodayState}
+          joined
+          weekDone={week}
+          weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+          mission={mission}
+        />
+
         </>)}
 
-        {/* The fate of their screen time ask, right under the greeting so it
-            is never hunted for: asked, the yes with one big Start, a warm
+        {/* The fate of their screen time ask, right under the day (the
+            greeting and the five are one card above) so it is never hunted for: asked, the yes with one big Start, a warm
             not right now, or the chores that come first. Nudges land here. */}
         <KidAskBanner
           ask={screenAsk}
@@ -1609,54 +1664,144 @@ export default function KidQuestScreen({
         />
 
         {onToday && (<>
-        {/* The five a day, first on the screen.
-            Justin: "make it 5 steps per day ... once the system knows they sent
-            a job, a big celebration animation and 1 streak achieved."
-            Above everything, because it IS the day: one card, five one line
-            rows, no scrolling. The list below is still the detail for step one,
-            which is why Your jobs scrolls to it rather than navigating away. */}
-        {/* The run, above everything, including the day that feeds it.
-            Justin: "streak count needs to be at very top."
-
-            It used to render three times, once inside each of the Quests,
-            Lessons and Printables tabs, so that it stayed visible whichever tab
-            a child was on. Above the tabs it is visible on all three by simply
-            being there, which is what the three copies were working around. One
-            bar, one number, and it now counts completed days rather than only
-            the jobs run, so the five a day directly under it is visibly what
-            moves it. */}
-        <StreakBar completedStreaks={completedStreaks} />
-
-        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
-        <KidFiveADay
-          token={token}
-          childName={childName}
-          theme={theme}
-          jobsAllDone={allDone}
-          jobsProgress={{ done: doneCount, total: quests.length }}
-          jobsLeft={quests.filter(q => !isTicked(q.id)).map(q => q.title)}
-          jobsStarsLeft={quests.filter(q => !isTicked(q.id) && !(q as Quest & { is_family_job?: boolean }).is_family_job).reduce((n, q) => n + (q.stars || 0), 0)}
-          asksPending={Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)}
-          newQuestCount={newQuestCount}
-          readingMinutes={readingMinutesFor(ageBand)}
-          moveJobs={moveJobs}
-          initialState={fiveADayInitial}
-          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
-          onDayComplete={(n, day) => {
-            playKidSound('done')
-            const next = bumpDay()
-            // The day's own screen, every day. The week strip rides on it
-            // once a star week, and the Friend arrival follows it on the
-            // days a Friend is earned (see the close handler below).
-            if (streakDueThisWeek) markStreakWeekSeen()
-            markTodayDone()
-            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
-          }}
-          onStateChange={onTodayState}
-          weekDone={week}
-          weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
-          mission={mission}
+        {/* THE PARENT LINK (13 October 2026, lib/kid/grown-up-link.ts): what
+            is waiting on a yes, and the yeses that landed while they were
+            away. */}
+        <KidWaitingLine
+          titles={[
+            ...quests.filter(q => ticks[q.id] === 'pending').map(q => q.title),
+            ...asks.filter(a => a.status === 'pending').map(a => a.title),
+          ]}
+          grownUp={grownUp}
+          href={`/k/${token}/jobs`}
         />
+        {sinceShown.length > 0 && (
+          <KidSinceLooked items={sinceShown} grownUp={grownUp} onDone={dismissSince} />
+        )}
+
+        {/* The one streak: full days to the next Friend, right under the day
+            that moves it. */}
+        <StreakBar completedStreaks={completedStreaks} />
+        </>)}
+
+        {/* One clear balance card. The thing we celebrate is the healthy balance
+            of jobs done against screen used, and the streak of jobs, not the
+            screen time itself. Stars and minutes are here, but the hero line is
+            the balance: a warm well done when it is healthy, a gentle Duolingo
+            style nudge to do a job when screen has run ahead. Tap to open and
+            actually use the time. */}
+        {(onToday || !!liveSession) && (() => {
+          // Healthy means "you still have time you earned", not "this week's
+          // watching is under this week's earning".
+          //
+          // The old rule compared usedWeekMinutes against weekStars, and it
+          // contradicted the number printed directly above it. Justin's screen
+          // showed "16 stars, 80 minutes ready to use" and, one line below,
+          // "Screen has run a little ahead, do a job to bring your balance
+          // back". Both came from the same card.
+          //
+          // Two reasons it was wrong. The obvious one: a child spends from a
+          // BANK, so earning on Monday and spending on Wednesday is using what
+          // they earned, not running ahead. The comparison only makes sense if
+          // earning and spending have to balance inside one window, which is
+          // not what a bank is.
+          //
+          // The quieter one: the two sides were not even the same week.
+          // weekStars is a rolling last seven days, computed on the page, while
+          // bank.balance is the star week, Monday to Monday in London. So the
+          // ratio could tip purely because the two windows disagreed.
+          //
+          // balance already has spending taken off it, so it answers the
+          // question on its own: minutes left means fine, none left and screen
+          // used means do a job. One number, no contradiction possible.
+          const healthy = bankBalance > 0 || usedWeekMinutes === 0
+          // ONE STREAK ON THE SCREEN (Justin, 13 October 2026, "one streak,
+          // not four"). The flame bar at the top, counting full days to the
+          // next Friend, is the streak. This card used to carry a second one
+          // (a jobs streak from another prop) as a chip and in its message,
+          // so a child saw 0 in one place and 3 in another. It talks balance.
+          const balanceMsg = healthy
+              ? 'Lovely balance. You have earned more than you have watched.'
+              : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
+          return (
+          <KidRewardCard
+            minutesReady={bankBalance * (bank?.starMinutes ?? STAR_MINUTES)}
+            stars={bankBalance}
+            pendingMinutes={pendingStars * (bank?.starMinutes ?? STAR_MINUTES)}
+            grownUp={grownUp}
+            healthy={healthy}
+            balanceMsg={balanceMsg}
+            rule={TIMER_RULE}
+            // What finishing the five adds, said as a reason, never a gate.
+            dayLine={todayTab.total > 0 && !todayTab.complete ? `Finish your ${dayWord(todayTab.total)} and today counts as a full day ⭐` : null}
+            unlocked={allDone && quests.length > 0 && bankBalance > 0}
+            live={!!liveSession}
+            open={deviceOpen}
+            // The ask has its own page (14 September 2026). A live timer opens
+            // in place instead, as Use my time always did.
+            onUse={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
+            onToggle={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }}
+          >
+          {deviceOpen && (
+            <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
+              {/* Driven by the live session, not the one the page happened to
+                  load with. Keyed and seeded on a snapshot from page load, this
+                  card could not see a block that started or ended anywhere
+                  else: a grown up starting time from their side left it sitting
+                  idle, and the rest of the screen went on believing a stopped
+                  clock was still running. onSessionChange closes the other half
+                  of that, telling the screen the instant a block starts or
+                  stops rather than leaving it to the next poll. */}
+              <DeviceTimeCard
+                key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
+                startPicking={pickNow}
+                askHref={`/k/${token}/ask`}
+                token={token} balanceStars={bankBalance} initialSession={liveSession}
+                holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
+                coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
+                starMinutes={bank?.starMinutes ?? STAR_MINUTES}
+                usedWeekMinutes={usedWeekMinutes}
+                onSessionChange={setLiveSession}
+                familyDevices={familyDevices}
+                outstandingJobs={[...new Set(quests.filter(q => !isTicked(q.id)).map(q => q.title))]}
+                outstandingMinutes={quests.filter(q => !isTicked(q.id)).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
+                usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
+                ageBand={ageBand}
+                dealLines={dealLines}
+                deviceTrust={trust}
+                onAsked={a => {
+                  setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })
+                  playKidSound('tap')
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                // The offline ideas row's doorways: printables live on their own
+                // tab and the learning games on the lessons Games sub tab, so a
+                // tap switches there and scrolls the tabs into view. Games only
+                // when this stage actually has some.
+                onPrintables={() => {
+                  setTab('print'); setActiveLesson(null); playKidSound('tap')
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                }}
+                onGames={hasGames ? () => {
+                  setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap')
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                } : undefined}
+              />
+              {weekChart.some(d => d.count > 0) && (
+                <div style={{ marginTop: '12px' }}>
+                  <KidWeekChart data={weekChart} weekStars={weekStars} friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }} />
+                </div>
+              )}
+            </div>
+          )}
+          </KidRewardCard>
+          )
+        })()}
+
+        {onToday && (<>
+        {/* The school diary, one slim line: what school needs today and
+            tomorrow, and the door to the week. */}
+        <KidSchoolBanner items={schoolToday} token={token} weekCount={schoolWeekCount} slim />
 
         {/* What a grown up sent, straight after the five a day. These two
             cards used to land above everything, poster on top of the day
@@ -1759,13 +1904,19 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Reminders, asked ABOVE the jobs rather than below everything. This
-            used to sit at the very bottom of the screen, which is why a child
-            could add the app to their Home Screen and never be asked: the offer
-            was there and nobody scrolls that far. The job nudges push to the
-            child's device and nowhere else, so an unanswered offer here is the
-            difference between the feature working and not existing. */}
-        {(remindState === 'offer' || remindState === 'ios') && (
+        {/* Reminders, asked once a day has been finished (13 October 2026).
+            They sat above the jobs from 12 August, so the offer would not hide
+            at the bottom where nobody scrolls. That fixed being missed and
+            made a different mistake: a child was asked before they had done
+            anything, and a nudge about jobs means little to someone who has
+            not felt a finished day yet. Justin chose "asked after the first
+            day": now it lands when the day is done and the child is proud,
+            which is the moment a yes is likeliest, still on the home and
+            still above the tiles. Not now keeps its three day snooze.
+            The job nudges push to the child's device and nowhere else, so an
+            unanswered offer is still the difference between the feature
+            working and not existing. */}
+        {(remindState === 'offer' || remindState === 'ios') && (liveDays >= 1 || todayTab.complete) && (
           <KidRemindersPrompt
             error={remindError}
             state={remindState}
@@ -1824,12 +1975,7 @@ export default function KidQuestScreen({
           ]
           return (
             <KidHomeTiles
-              minutesReady={bankBalance * (bank?.starMinutes ?? STAR_MINUTES)}
-              unlocked={allDone && quests.length > 0 && bankBalance > 0}
-              rule={TIMER_RULE}
-              // The ask has its own page now (14 September 2026): three taps
-              // on the dotted sky. A live timer still opens the card here.
-              onUseTime={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
+              // Use my time is the reward card above now (13 October 2026).
               tiles={focusDay ? [] : tiles}
               onFriends={() => { setShowIntro(true); playKidSound('tap') }}
               tellHref={token ? `/k/${token}/tell` : null}
@@ -1853,7 +1999,7 @@ export default function KidQuestScreen({
                 More things to do
               </span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 3, lineHeight: 1.35 }}>
-                Your passport, games, balance and more. They all open up when your {dayWord(todayTab.total)} are done, or peek now.
+                Your passport, games and more. They all open up when your {dayWord(todayTab.total)} are done, or peek now.
               </span>
             </span>
             <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
@@ -1862,144 +2008,6 @@ export default function KidQuestScreen({
 
         </>)}
 
-        {/* One clear balance card. The thing we celebrate is the healthy balance
-            of jobs done against screen used, and the streak of jobs, not the
-            screen time itself. Stars and minutes are here, but the hero line is
-            the balance: a warm well done when it is healthy, a gentle Duolingo
-            style nudge to do a job when screen has run ahead. Tap to open and
-            actually use the time. */}
-        {(onToday || !!liveSession) && (!focusDay || deviceOpen || !!liveSession) && (() => {
-          // Healthy means "you still have time you earned", not "this week's
-          // watching is under this week's earning".
-          //
-          // The old rule compared usedWeekMinutes against weekStars, and it
-          // contradicted the number printed directly above it. Justin's screen
-          // showed "16 stars, 80 minutes ready to use" and, one line below,
-          // "Screen has run a little ahead, do a job to bring your balance
-          // back". Both came from the same card.
-          //
-          // Two reasons it was wrong. The obvious one: a child spends from a
-          // BANK, so earning on Monday and spending on Wednesday is using what
-          // they earned, not running ahead. The comparison only makes sense if
-          // earning and spending have to balance inside one window, which is
-          // not what a bank is.
-          //
-          // The quieter one: the two sides were not even the same week.
-          // weekStars is a rolling last seven days, computed on the page, while
-          // bank.balance is the star week, Monday to Monday in London. So the
-          // ratio could tip purely because the two windows disagreed.
-          //
-          // balance already has spending taken off it, so it answers the
-          // question on its own: minutes left means fine, none left and screen
-          // used means do a job. One number, no contradiction possible.
-          const healthy = bankBalance > 0 || usedWeekMinutes === 0
-          // ONE STREAK ON THE SCREEN (Justin, 13 October 2026, "one streak,
-          // not four"). The flame bar at the top, counting full days to the
-          // next Friend, is the streak. This card used to carry a second one
-          // (a jobs streak from another prop) as a chip and in its message,
-          // so a child saw 0 in one place and 3 in another. It talks balance.
-          const balanceMsg = healthy
-              ? 'Lovely balance. You have earned more than you have watched.'
-              : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
-          return (
-        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: 'var(--radius-card)', border: 'var(--edge)', boxShadow: 'var(--lift)', overflow: 'hidden' }}>
-          <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {/* TWO ROWS, NOT ONE. Justin, 16:47, with the card wrapping one
-                word per line: "need to look tidier not messy." The star count,
-                the minutes line and the waiting line all lived in the middle
-                column of a flex row, between a fixed icon and a fixed streak
-                chip, so on a phone they got about a third of the card and
-                wrapped into a tall ribbon. The count stays up top where the
-                column is fine for one number; the sentences drop below the
-                row where they own the card's full width and wrap like prose.
-                The bare +10 after the count is gone too: the waiting line
-                says the same thing in words, and saying it twice is where
-                the clutter started. */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ flex: 1, minWidth: 0 }}>
-                {/* nowrap on both lines: an eyebrow snapped in half mid word
-                    ("MY BALAN / CE") was the 320 wide failure. The decorative
-                    star tile that used to lead this row is gone for the same
-                    reason: on a 320 phone its 44px plus gaps were exactly the
-                    width the words needed, and a card that already says
-                    balance, stars and streak does not need a fourth ornament
-                    squeezing the one line that carries the number. */}
-                <span style={{ display: 'block', whiteSpace: 'nowrap', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance</span>
-                <span style={{ display: 'block', whiteSpace: 'nowrap', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.05 }}>
-                  {bankBalance} <span style={{ fontSize: 'var(--text-md)' }}>stars</span>
-                </span>
-              </span>
-              <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
-            </div>
-            <div style={{ marginTop: '-2px' }}>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * (bank?.starMinutes ?? STAR_MINUTES)} minutes ready to use</span>
-              {pendingStars > 0 && (
-                <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px', lineHeight: 1.4 }}>
-                  {pendingStars * (bank?.starMinutes ?? STAR_MINUTES)} more waiting on a grown up to say yes
-                </span>
-              )}
-            </div>
-            {/* The hero: the balance we celebrate, or the gentle nudge to a job. */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
-              <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{healthy ? '🌱' : '💪'}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>{balanceMsg}</span>
-            </div>
-          </button>
-          {deviceOpen && (
-            <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
-              {/* Driven by the live session, not the one the page happened to
-                  load with. Keyed and seeded on a snapshot from page load, this
-                  card could not see a block that started or ended anywhere
-                  else: a grown up starting time from their side left it sitting
-                  idle, and the rest of the screen went on believing a stopped
-                  clock was still running. onSessionChange closes the other half
-                  of that, telling the screen the instant a block starts or
-                  stops rather than leaving it to the next poll. */}
-              <DeviceTimeCard
-                key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
-                startPicking={pickNow}
-                askHref={`/k/${token}/ask`}
-                token={token} balanceStars={bankBalance} initialSession={liveSession}
-                holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
-                coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
-                starMinutes={bank?.starMinutes ?? STAR_MINUTES}
-                usedWeekMinutes={usedWeekMinutes}
-                onSessionChange={setLiveSession}
-                familyDevices={familyDevices}
-                outstandingJobs={[...new Set(quests.filter(q => !isTicked(q.id)).map(q => q.title))]}
-                outstandingMinutes={quests.filter(q => !isTicked(q.id)).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
-                usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
-                ageBand={ageBand}
-                dealLines={dealLines}
-                deviceTrust={trust}
-                onAsked={a => {
-                  setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })
-                  playKidSound('tap')
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }}
-                // The offline ideas row's doorways: printables live on their own
-                // tab and the learning games on the lessons Games sub tab, so a
-                // tap switches there and scrolls the tabs into view. Games only
-                // when this stage actually has some.
-                onPrintables={() => {
-                  setTab('print'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
-                }}
-                onGames={hasGames ? () => {
-                  setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
-                } : undefined}
-              />
-              {weekChart.some(d => d.count > 0) && (
-                <div style={{ marginTop: '12px' }}>
-                  <KidWeekChart data={weekChart} weekStars={weekStars} friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }} />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-          )
-        })()}
 
         {/* Holiday minutes. Sits under the balance rather than inside it, on
             purpose: the balance card is this week's money, and this is savings.
@@ -3340,7 +3348,11 @@ export function KidBucketHero({ token }: { token: string }) {
 // Exported so ref-kid-week can render it. Neither of its two shapes is
 // reachable by clicking: one needs a school reminder due today on a real kid
 // link, the other needs a week with something on it and nothing today.
-export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolToday[]; token: string; weekCount: number }) {
+export function KidSchoolBanner({ items, token, weekCount, slim = false }: {
+  items: KidSchoolToday[]; token: string; weekCount: number
+  /** One line on the home (13 October 2026): the day leads, the diary is a door. */
+  slim?: boolean
+}) {
   // null until mounted, so the first client render matches the server and the
   // red only arrives once the clock is ticking on the child's own device.
   const [now, setNow] = useState<number | null>(null)
@@ -3403,6 +3415,48 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
   const todayItems = items.filter(i => (i.when ?? 'today') === 'today')
   const tomorrowItems = items.filter(i => i.when === 'tomorrow')
   const anyUrgent = todayItems.some(i => urgentOf(i.time))
+
+  // THE SLIM LINE (13 October 2026). Justin moved the five a day to the top,
+  // so the diary is one line under the reward card: what is due today by name,
+  // tomorrow as a count, the time chip going red as a timed one nears, and the
+  // whole line the door to the week, where the full list and adding live.
+  if (slim) {
+    const lead = todayItems.length > 0 ? todayItems : tomorrowItems
+    const hotTime = todayItems.find(i => urgentOf(i.time))?.time ?? null
+    const names = lead.slice(0, 2).map(i => i.title).join(', ') + (lead.length > 2 ? ` and ${lead.length - 2} more` : '')
+    const sub = todayItems.length > 0
+      ? (tomorrowItems.length > 0 ? `Today. Tomorrow: ${tomorrowItems.length} more` : 'Today')
+      : 'Tomorrow, get it ready tonight'
+    return (
+      <a
+        data-school-slim
+        href={`/k/${token}/week`}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          boxShadow: 'var(--lift)', padding: '10px 14px 10px 10px', marginBottom: 16,
+        }}
+      >
+        <span aria-hidden style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: anyUrgent ? '#FDECEC' : CRAYON.paper, border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <HappyIcon name="bag" size={30} />
+        </span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {names}
+          </span>
+          <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 1 }}>
+            {sub}
+          </span>
+        </span>
+        {hotTime && (
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, padding: '3px 9px', borderRadius: 'var(--radius-pill)', background: '#FDECEC', color: '#B93B3F' }}>
+            {hotTime}
+          </span>
+        )}
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
+      </a>
+    )
+  }
 
   const row = (i: KidSchoolToday, hot: boolean) => (
     <div key={i.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
