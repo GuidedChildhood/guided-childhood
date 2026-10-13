@@ -98,13 +98,13 @@ non negotiable. Fix the JSON rather than pass a bad list through.
 1. Assemble the run file in the scratchpad:
    `{ "date", "report": "plans/review-board/runs/<date>.md", "scorecards": [ten], "skeptic": [...], "chief": {...} }`
 2. `npm run review-board -- ingest <run file>`. This writes the scores and the
-   tasks, folds in every answer Justin gave this week, and redraws the
-   dashboard.
-3. Write `plans/review-board/runs/<date>.md`: a score table (lens, last week,
-   this week, the skeptic's change), then per lens the headline, the strengths
-   with proofs, the gaps, the questions for Justin and the sources; then the
-   declined list with reasons; then the round up. No dashes in the prose.
-4. `npm run review-board-test` and `npm run ai-tells` must pass.
+   tasks, folds in every answer Justin gave this week, writes the full report
+   to `plans/review-board/runs/<date>.md` (score table, every lens's strengths,
+   gaps, questions and sources, the task list, the declined list, the round
+   up), and redraws the dashboard. Read the report once; fix the run file and
+   ingest again rather than hand edit the report.
+3. `npm run review-board-test` and `npm run ai-tells` must pass, and the
+   report and dashboard copy carry no dashes.
 
 ## Phase 5: publish and hand over
 

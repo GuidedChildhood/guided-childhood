@@ -197,6 +197,11 @@ test('the CLI ingest round trip writes the dashboard file', () => {
   assert.equal(r.status, 0, r.stderr)
   assert.match(r.stdout, /ingested run 2026-10-16: 11 lenses/)
   assert.match(readFileSync(join(dir, 'dashboard.html'), 'utf8'), /<title>Review Board<\/title>/)
+  const report = readFileSync(join(dir, 'runs', '2026-10-16.md'), 'utf8')
+  assert.match(report, /# Review board, 2026-10-16/)
+  assert.match(report, /## 4\. Will pay over AI: 6 out of 10/)
+  assert.match(report, /Register with the ICO/)
+  assert.ok(!/[\u2013\u2014]/.test(report), 'no en or em dashes in the report')
 })
 
 test('an answer is its own file, survives a reload, and the weekly ingest folds it in', () => {

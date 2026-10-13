@@ -355,6 +355,74 @@ export function alerts(state) {
   return lines.join('\n')
 }
 
+// ── the run report ───────────────────────────────────────────────────────────
+
+/** The full report for one run, as markdown, drawn from the run file itself. */
+export function renderReport(run, state) {
+  const entry = state.board.runs.find(r => r.date === run.date)
+  const prevRun = state.board.runs.filter(r => r.date < run.date).slice(-1)[0] || null
+  const cards = [...(run.scorecards || [])]
+  if (run.chief?.scorecard) cards.push({ ...run.chief.scorecard, lens: 'business-running' })
+  const byLens = Object.fromEntries(cards.map(c => [c.lens, c]))
+  const out = []
+  const tens = Object.values(entry.scores).filter(s => s === 10).length
+  out.push(`# Review board, ${run.date}`, '')
+  out.push(`${tens} of ${Object.keys(entry.scores).length} lenses at ten. Drawn by \`npm run review-board -- ingest\` from the run file; the dashboard is \`plans/review-board/dashboard.html\`.`, '')
+  if (entry.one_thing) out.push(`**The one thing this week.** ${entry.one_thing}`, '')
+  out.push('| # | Lens | Last run | This run | Skeptic |', '| --- | --- | --- | --- | --- |')
+  for (const l of LENSES) {
+    if (!Number.isInteger(entry.scores[l.id])) continue
+    const before = prevRun?.scores[l.id]
+    const sk = entry.skeptic[l.id]
+    out.push(`| ${l.n} | ${l.name} | ${Number.isInteger(before) ? before : 'first run'} | ${entry.scores[l.id]} | ${sk ? `lowered from ${sk.from}` : ''} |`)
+  }
+  out.push('')
+  if (entry.roundup) out.push('## The round up', '', entry.roundup, '')
+  for (const l of LENSES) {
+    const c = byLens[l.id]
+    if (!c) continue
+    out.push(`## ${l.n}. ${l.name}: ${entry.scores[l.id]} out of 10`, '')
+    if (c.headline) out.push(c.headline, '')
+    if (c.moved_because) out.push(`*Why it moved:* ${c.moved_because}`, '')
+    if (entry.skeptic[l.id]) out.push(`*The skeptic:* ${entry.skeptic[l.id].reason}`, '')
+    if (c.strengths?.length) {
+      out.push('**What is strong**', '')
+      for (const s of c.strengths) out.push(`- ${s.claim} (\`${s.proof}\`)`)
+      out.push('')
+    }
+    if (c.gaps?.length) {
+      out.push('**The gaps to ten**', '')
+      for (const g of c.gaps) out.push(`- ${g.fix} *${g.owner}, ${g.size}, ${g.points ?? '?'} point${g.points === 1 ? '' : 's'}.* Proof: ${g.proof}`)
+      out.push('')
+    }
+    if (c.questions_for_justin?.length) {
+      out.push('**Questions for Justin**', '')
+      for (const q of c.questions_for_justin) out.push(`- ${q}`)
+      out.push('')
+    }
+    if (c.sources?.length) {
+      out.push('**Sources**', '')
+      for (const s of c.sources) out.push(`- ${s}`)
+      out.push('')
+    }
+  }
+  const tasks = run.chief?.tasks || []
+  if (tasks.length) {
+    out.push('## The task list from this run', '', '| Priority | Owner | Task | Due | Lenses |', '| --- | --- | --- | --- | --- |')
+    for (const t of [...tasks].sort((a, b) => (a.priority ?? 2) - (b.priority ?? 2))) {
+      out.push(`| P${t.priority ?? 2} | ${t.owner} | ${t.title} (\`${t.id}\`) | ${t.due || ''} | ${(t.lenses || []).join(', ')} |`)
+    }
+    out.push('')
+  }
+  const declined = run.chief?.declined || []
+  if (declined.length) {
+    out.push('## Declined or parked, with the reason', '')
+    for (const d of declined) out.push(`- **${d.verdict}** (${d.lens}): ${d.fix} *${d.reason}*`)
+    out.push('')
+  }
+  return out.join('\n')
+}
+
 // ── the dashboard ────────────────────────────────────────────────────────────
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
@@ -646,10 +714,17 @@ function main(argv) {
     const summary = ingest(state, JSON.parse(readFileSync(file, 'utf8')))
     saveState(state)
     clearAnswers()
+    const run = JSON.parse(readFileSync(file, 'utf8'))
+    const reportPath = join(paths().dir, 'runs', `${summary.date}.md`)
+    mkdirSync(dirname(reportPath), { recursive: true })
+    writeFileSync(reportPath, renderReport(run, state))
+    state.board.runs.find(r => r.date === summary.date).report = relative(ROOT, reportPath)
+    saveState({ board: state.board })
     const dash = writeDashboard(state)
     console.log(`ingested run ${summary.date}: ${summary.lenses} lenses, ${summary.added} new tasks, ${summary.updated} carried forward, ${summary.closed} closed`)
     if (summary.lowered.length) console.log(`the skeptic lowered: ${summary.lowered.join('; ')}`)
     console.log(`dashboard: ${dash}`)
+    console.log(`report: ${relative(process.cwd(), reportPath)}`)
     return 0
   }
   if (['done', 'notyet', 'snooze', 'drop'].includes(cmd)) {
