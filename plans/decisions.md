@@ -205,3 +205,20 @@ Justin on the hero's opening line: "bad guy is not a good wording ... I feel gui
 ## 12 October 2026: readable films, the series line, and the product-shorts skill
 
 Justin: "moves a bit too quickly to take in", then the brand line every film must carry: the research backed, easy system for every digital worry, keeping children safe. The films now follow research 07's reading rule (hero 57.8s, Short 1 44.4s, a 36s TikTok cut). A SaaS growth review (no-go, go after one render) was weighed: fixed Short 1's reply, cropped a suggested question unsuitable for a nine year old, removed a 0.2s flash of "Earn more stars", added "One plan for screens, phones and AI." to every end card and the AI and social media tiles to the hero. The whole method is now `.claude/skills/product-shorts`, routed from CLAUDE.md. Posting plan with the phone playbook in content/packs/2026-10-09-digi-shorts/posting-plan.md.
+
+## 13 October 2026: the Digital Health Report is not a service
+
+Justin, asked where the founder story's CTA should point: "no digital health
+report not a service at the moment." So nothing in our copy sells it. The
+founder story canon drives to `/starter-pack` and now rules the report out of
+copy entirely until he says it is back, and the kids-research product block no
+longer carries £9.99 and £29.99 as live prices.
+
+Still pointing at it and needing his call, because it is a visible marketing
+change rather than a story fix: the homepage footer ("Digital Health Check"),
+the `/join` footer ("Health Check"), the `/ban-workarounds` footer ("Digital
+wellbeing"), the sitemap entry, and `/digitalwellbeing` itself, which is a live
+page whose buttons go to a paid signup. Separately, the user level
+`linkedin-comment-replies` skill still states the report is live and tells
+Claude to lead with the £9.99 report on first customer interest. That file lives
+in Justin's own skills, not this repo, so he has to change it there.
