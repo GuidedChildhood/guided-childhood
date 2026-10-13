@@ -62,11 +62,13 @@ function Well({ tint, children, size = 76 }: { tint: string; children: React.Rea
 const SHOWN = 3
 
 export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, tiles, onFriends, tellHref }: {
-  minutesReady: number
+  minutesReady?: number
   /** All jobs done and stars in the bank: the door is open, still an ask. */
-  unlocked: boolean
-  rule: string
-  onUseTime: () => void
+  unlocked?: boolean
+  rule?: string
+  /** Leave out to draw the tiles alone. The child's home does since 13 October
+   *  2026: Use my time lives in the one reward card (KidRewardCard) there. */
+  onUseTime?: () => void
   tiles: HomeTile[]
   onFriends: () => void
   tellHref?: string | null
@@ -82,6 +84,7 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
       `}</style>
 
       {/* Use my time: full width, the minutes on a sticker, the rule under it. */}
+      {onUseTime && minutesReady !== undefined && (
       <button className="kid-tile" onClick={onUseTime} style={{ ...EDGE, display: 'flex', alignItems: 'center', gap: 14, width: '100%', cursor: 'pointer', padding: '14px 16px', textAlign: 'left', marginBottom: 12, color: INK }}>
         <Well tint={CRAYON.butter} size={64}><HappyIcon name="time" size={40} /></Well>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -99,6 +102,7 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
           </span>
         </span>
       </button>
+      )}
 
       {/* The grid: picture first, words under, the Math Games shape. Three
           tiles, then More. */}

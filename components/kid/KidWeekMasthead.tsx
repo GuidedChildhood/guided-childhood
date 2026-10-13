@@ -17,9 +17,12 @@ import { HAPPY, RainbowArc, StarShape } from '@/components/kid/HappyNewsBits'
 //
 // Shared by the real page and the fixture so the two cannot drift.
 
-export default function KidWeekMasthead({ title, sub, friend, kicker, corner }: {
+export default function KidWeekMasthead({ title, sub, friend, kicker, corner, joined = false }: {
   title: string
-  sub: string
+  /** The line under the name. Optional: on the home the day card below says it. */
+  sub?: string
+  /** The top half of one card with the five a day under it (the home, 13 October 2026). */
+  joined?: boolean
   friend: { name: string; img: string }
   /** A small mono line above the title on the sheet: the greeting on the home. */
   kicker?: string
@@ -30,7 +33,8 @@ export default function KidWeekMasthead({ title, sub, friend, kicker, corner }: 
     <div data-week-masthead style={{
       position: 'relative', overflow: 'hidden',
       background: HAPPY.butterLt, border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)',
-      boxShadow: `0 5px 0 ${HAPPY.ink}`, padding: '52px 14px 14px', marginBottom: 16,
+      boxShadow: joined ? 'none' : `0 5px 0 ${HAPPY.ink}`, padding: joined ? '44px 14px 16px' : '52px 14px 14px', marginBottom: joined ? 0 : 16,
+      ...(joined ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}),
     }}>
       {/* The rainbow, painted across the top and cropped by the card, the way
           the paper's photo crops it. */}
@@ -58,9 +62,11 @@ export default function KidWeekMasthead({ title, sub, friend, kicker, corner }: 
           }}>
             {title}
           </h1>
-          <p style={{ position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '7px 0 0' }}>
-            {sub}
-          </p>
+          {sub && (
+            <p style={{ position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '7px 0 0' }}>
+              {sub}
+            </p>
+          )}
         </div>
         <span style={{ position: 'relative', width: 78, height: 78, flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
           <span aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#fff', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 3px 0 ${HAPPY.ink}` }} />
