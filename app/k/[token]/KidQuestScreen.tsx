@@ -166,6 +166,7 @@ export default function KidQuestScreen({
   todayTicks: Tick[]
   weekStars: number
   goal: Goal
+  /** No longer drawn: the flame bar is the one streak (13 October 2026). */
   streakDays?: number
   laterQuests?: { title: string; emoji: string; schedule: string; schedule_days?: number[] | null }[]
   doneLessonKeys?: string[]
@@ -1511,7 +1512,8 @@ export default function KidQuestScreen({
             kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
             title={`Go ${childName}!`}
             sub={todayTab.complete
-              ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
+              // Not a count: the flame bar is the one streak on the screen.
+              ? 'Today is done. Brilliant!'
               : todayTab.total > 0
                 ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
                 : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
@@ -1885,9 +1887,12 @@ export default function KidQuestScreen({
           // question on its own: minutes left means fine, none left and screen
           // used means do a job. One number, no contradiction possible.
           const healthy = bankBalance > 0 || usedWeekMinutes === 0
-          const balanceMsg = streakDays >= 2
-            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do a job or make something to keep your balance healthy.'}`
-            : healthy
+          // ONE STREAK ON THE SCREEN (Justin, 13 October 2026, "one streak,
+          // not four"). The flame bar at the top, counting full days to the
+          // next Friend, is the streak. This card used to carry a second one
+          // (a jobs streak from another prop) as a chip and in its message,
+          // so a child saw 0 in one place and 3 in another. It talks balance.
+          const balanceMsg = healthy
               ? 'Lovely balance. You have earned more than you have watched.'
               : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
@@ -1918,13 +1923,6 @@ export default function KidQuestScreen({
                   {bankBalance} <span style={{ fontSize: 'var(--text-md)' }}>stars</span>
                 </span>
               </span>
-              {streakDays > 0 && (
-                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '6px 9px' }}>
-                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={18} color="var(--terracotta-dark)" /></span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
-                </span>
-              )}
               <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
             </div>
             <div style={{ marginTop: '-2px' }}>
