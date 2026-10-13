@@ -75,5 +75,19 @@ check('the parade can always be skipped', />\s*Skip\s*</.test(parade))
 const wipes = readdirSync('components/kid').filter(f => f.endsWith('.tsx')).filter(f => /clearProps: 'all'/.test(readFileSync(`components/kid/${f}`, 'utf8')))
 check(`no clearProps 'all' in the child's components${wipes.length ? ` (${wipes.join(', ')})` : ''}`, wipes.length === 0)
 
+// ── A CHILD'S LESSONS ARE THAT CHILD'S OWN ──────────────────────────────────
+// Justin, 13 October 2026, on Teo's "9 of 10": he had passed none himself and
+// eight were rows with no child on them. He chose "only Teo's own". Every per
+// child lesson count reads one rule, so the badge, the planets and the stamp
+// agree; a household row counts for nobody's badge.
+const scopeSrc = readFileSync('lib/lessons/child-scope.ts', 'utf8')
+check('the child lesson rule never adds the household rows', /childId \? `child_id\.eq\.\$\{childId\}` : null/.test(scopeSrc) && !/is\.null/.test(scopeSrc.replace(/\/\/.*$/gm, '')))
+check('the lesson count leaves household rows out unless asked', /household = false,/.test(readFileSync('lib/pathway/lesson-path-server.ts', 'utf8')))
+for (const f of ['lib/pathway/lesson-path-server.ts', 'lib/pathway/journey.ts', 'lib/pathway/progress.ts']) {
+  const src = readFileSync(f, 'utf8')
+  const lessonReads = src.split('\n').filter(l => /from\('lesson_completions'\)/.test(l))
+  check(`${f} reads a child's lesson passes through lessonScopeFor`, /lessonScopeFor\(childId\)/.test(src) && !lessonReads.some(l => /is\.null|childScope\(/.test(l)))
+}
+
 if (failures) { console.error(`\n${failures} kid home check(s) failed`); process.exit(1) }
 console.log('\nKid home: simple and honest')

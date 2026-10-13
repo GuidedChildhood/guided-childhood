@@ -407,3 +407,7 @@ Justin, with the rocket on Teo's phone: each Planet Friend moonwalks on one at a
 ## 13 October 2026: screen break ideas, and Add your own on every step sheet
 
 Justin, from Teo's phone: the Screen break together ideas are Play football, Puzzles, Draw, Read, and add one of your own. Every step sheet with ideas now ends in + Add your own; what the child types travels to the grown up with the tick like a tapped idea (notes keep 80 characters).
+
+## 13 October 2026: a child's lesson count is that child's own
+
+Teo's mission said 9 of 10 lessons: 0 passed himself, 1 star lesson in his app, and 8 parent side rows with no child picked, which every per child count added in. Justin chose "only Teo's own": a child's lessons are their own passes plus any a grown up passed with that child picked; a household row counts for nobody's badge. One rule, lib/lessons/child-scope, read by the sticker book, the planets, the stage stamp and the journey. Teo now reads 1 of 10.

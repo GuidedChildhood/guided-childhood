@@ -414,9 +414,10 @@ async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId
  * Lessons this child has passed, across every stage.
  *
  * The planets' number, from the one lesson count (lessonsPassedBetween over
- * all time), scoped the way the stage progress scopes them: this child's rows
- * plus the household rows with no child on them, so a lesson a parent led
- * with the child beside them counts. A retake does not count twice, and a
+ * all time), scoped the way the stage progress scopes them: this child's own rows
+ * only (lib/lessons/child-scope, 13 October 2026). A lesson a grown up led
+ * counts when they picked the child for it; a row with no child counts for
+ * nobody's badge. A retake does not count twice, and a
  * school lesson counts once, by its mission, rather than once here and once
  * in the planets by a different row. "Pass 5 lessons" and the fifth planet
  * now mean the same five.

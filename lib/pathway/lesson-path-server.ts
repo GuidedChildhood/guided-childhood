@@ -13,6 +13,7 @@
 // client because schools.school_lessons is service role only (ids, titles
 // and key stages are all that is selected).
 
+import { lessonScopeFor } from '@/lib/lessons/child-scope'
 import type { SupabaseClient as AnySupabaseClient } from '@supabase/supabase-js'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
@@ -51,7 +52,8 @@ export async function loadChildLessonPath(
     paid?: boolean
   },
 ): Promise<{ modules: CatalogueModule[]; path: LessonPathResult }> {
-  const scope = childId ? `child_id.eq.${childId},child_id.is.null` : null
+  // The child's own passes only (lib/lessons/child-scope, 13 October 2026).
+  const scope = lessonScopeFor(childId)
   const [modules, completions, missions, passBy, aiModules] = await Promise.all([
     listStarLessons(createAdminClient()).then(rows => schoolModulesForStage(rows, stageId)),
     (() => {
@@ -93,9 +95,10 @@ export async function loadChildLessonPath(
  * completion while the planets counted it by its mission, and a retake that
  * moves `completed_at` would have been news twice. Now all four count one way.
  *
- * `household` keeps the rows with no child on them, for the surfaces that
- * have always credited a lesson a parent led with the child beside them. The
- * monthly email never did, so it passes false and its number does not move.
+ * `household` adds the rows with no child on them. Off by default since 13
+ * October 2026: a child's count is that child's own passes (lib/lessons/
+ * child-scope, Justin's call on Teo's "9 of 10", eight of which were rows with
+ * no child on them).
  *
  * Throws on a read error; every caller already fails soft in its own way.
  */
@@ -106,7 +109,7 @@ export async function lessonsPassedBetween(
     childId,
     from = null,
     to = null,
-    household = true,
+    household = false,
   }: {
     userId: string
     childId: string | null
