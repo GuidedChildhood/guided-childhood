@@ -48,6 +48,7 @@ import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
 import { SINCE_WINDOW_MS, type SinceItem } from '@/lib/kid/grown-up-link'
+import { readCallsGrownUp } from '@/lib/kid/calls-grown-up'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -116,7 +117,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     printableRes, tutorRes,
     jobStreaksRes, passportReads, completedDaysRes, sheetsRes,
     streakWeekSeenRes, familyDevicesRes,
-    sinceTicksRes, sinceIdeasRes,
+    sinceTicksRes, sinceIdeasRes, callsGrownUp,
   ] = await Promise.all([
     // device_trust rides along here rather than in a read of its own: it
     // landed with migration 058, long before any database still running this
@@ -415,6 +416,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .gte('decided_at', new Date(Date.now() - SINCE_WINDOW_MS).toISOString())
       .order('decided_at', { ascending: false })
       .limit(5)),
+    // What this child calls the grown up (migration 376), soft: null keeps
+    // "Mum or Dad".
+    readCallsGrownUp(supabase, link.child_id),
   ])
 
   const missionRows = missionRowsRes.data
@@ -1015,6 +1019,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       initialNudges={initialNudges}
       hasReminders={hasReminders}
       sinceItems={sinceItems}
+      grownUpLabel={callsGrownUp}
       lastSeenAt={(link as { last_seen_at?: string | null }).last_seen_at ?? null}
       />
     </>

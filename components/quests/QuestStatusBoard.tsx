@@ -8,6 +8,7 @@ import { craftForQuestTitle, craftHref } from '@/lib/quests/craft-links'
 import { pileFor } from '@/lib/quests/job-pile'
 import LessonCheck from './LessonCheck'
 import { questDueToday } from '@/lib/quests/due'
+import NudgeReceipt from '@/components/quests/NudgeReceipt'
 
 // Where every job actually is.
 //
@@ -381,8 +382,8 @@ export default function QuestStatusBoard() {
               {toRemind.every(([id]) => reminded.has(id)) ? 'Nudged.' : 'Give them a nudge?'}
             </span>
             {toRemind.map(([id, name]) => reminded.has(id) ? (
-              <span key={id} style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
-                {name} 💛
+              <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                {name} 💛 <NudgeReceipt childId={id} name={name} sentAt={1} />
               </span>
             ) : (
               <button

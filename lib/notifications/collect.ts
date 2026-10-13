@@ -5,12 +5,13 @@
 // most urgent first, each with the one tap that acts on it.
 
 import { followUpOpener } from '@/lib/digi/followup-queue'
+import { deviceLabel } from '@/lib/quests/device-time'
 
 type NotifClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
 export type Notification = {
   id: string
-  kind: 'approve' | 'ask' | 'digi' | 'school' | 'device'
+  kind: 'approve' | 'ask' | 'digi' | 'school' | 'device' | 'screen' | 'win'
   icon: string
   title: string
   body: string
@@ -20,6 +21,10 @@ export type Notification = {
   // School only: whether this is a weekly routine (so it can be cleared for
   // the week and kept) versus a one off (cleared for good).
   recurring?: boolean
+  // A screen time ask (the row to say yes to) or a win (the child and what the
+  // well done is for), so the card acts in place (13 October 2026).
+  childId?: string
+  ref?: string
 }
 
 export type NotificationFeed = {
@@ -30,7 +35,9 @@ export type NotificationFeed = {
 
 export async function getNotifications(supabase: NotifClient, userId: string): Promise<NotificationFeed> {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
-  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes, printablesRes] = await Promise.all([
+  const twoDaysAgo = new Date(Date.now() - 48 * 3600 * 1000).toISOString()
+  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes, printablesRes,
+    screenAsksRes, daysRes, lessonsRes, wellDoneRes] = await Promise.all([
     supabase.from('children').select('id, name').eq('parent_id', userId),
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
@@ -41,6 +48,17 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     // Printables a child says they finished, waiting on the parent to confirm.
     // Fails soft to nothing before migration 087.
     supabase.from('printable_completions').select('id, child_id, title, emoji, stars, created_at').eq('user_id', userId).eq('status', 'pending'),
+    // THE CHILD'S SIDE OF THE LINK (13 October 2026). A screen time ask waiting
+    // on a yes (the same twelve hours the timer page lists), and the child's
+    // wins of the last two days: a finished five a day and a lesson they passed
+    // themselves. Every read here fails soft to nothing.
+    supabase.from('device_requests').select('id, child_id, device, minutes, created_at').eq('user_id', userId).eq('status', 'pending')
+      .gte('created_at', new Date(Date.now() - 12 * 3600 * 1000).toISOString()),
+    supabase.from('kid_days').select('child_id, day, completed_at').eq('user_id', userId).not('completed_at', 'is', null).gte('completed_at', twoDaysAgo),
+    supabase.from('lesson_completions').select('id, child_id, completed_at').eq('user_id', userId).eq('passed', true).not('child_id', 'is', null).gte('completed_at', twoDaysAgo).limit(10),
+    // The well dones already sent, so an answered win leaves (migration 376;
+    // select * so a database without the ref column reads, not errors).
+    supabase.from('kid_nudges').select('*').eq('user_id', userId).gte('created_at', twoDaysAgo).limit(50),
   ])
 
   const childName = new Map((childrenRes.data ?? []).map(c => [c.id as string, c.name as string]))
@@ -173,6 +191,42 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       // of broken link: nothing errors, the route resolves, and the parent is
       // simply somewhere else.
       href: '/dashboard/quests/timer', at: new Date().toISOString(),
+    })
+  }
+
+  // A screen time ask: a child is waiting with a device in their hand. Urgent,
+  // and the card says yes in place (NotificationCard), the way approve does.
+  for (const r of screenAsksRes.data ?? []) {
+    items.push({
+      id: `screen-${r.id}`, kind: 'screen', icon: '📱', urgent: true,
+      title: `${nameOf(r.child_id as string)} asked for ${r.minutes} min on the ${deviceLabel(String(r.device))}`,
+      body: 'Say yes here, or open the timer to choose',
+      href: '/dashboard/quests/timer', at: String(r.created_at), childId: String(r.child_id),
+    })
+  }
+
+  // The child's wins, each with a Send a well done. Not urgent: nobody is
+  // waiting, but a well done the same evening is the whole loop.
+  const answered = new Set(((wellDoneRes.data ?? []) as { kind?: string | null; ref?: string | null; child_id: string }[])
+    .filter(n => n.kind === 'well_done' && n.ref).map(n => `${n.child_id}|${n.ref}`))
+  for (const d of daysRes.data ?? []) {
+    const ref = `day:${d.day}`
+    if (answered.has(`${d.child_id}|${ref}`)) continue
+    items.push({
+      id: `win-${d.child_id}-${ref}`, kind: 'win', icon: '⭐', urgent: false,
+      title: `${nameOf(d.child_id as string)} finished the five a day`,
+      body: 'Every step done. A well done from you lands on their home.',
+      href: '/dashboard/pathway', at: String(d.completed_at), childId: String(d.child_id), ref,
+    })
+  }
+  for (const l of lessonsRes.data ?? []) {
+    const ref = `lesson:${l.id}`
+    if (answered.has(`${l.child_id}|${ref}`)) continue
+    items.push({
+      id: `win-${l.child_id}-${ref}`, kind: 'win', icon: '🎓', urgent: false,
+      title: `${nameOf(l.child_id as string)} passed a lesson`,
+      body: 'Passed in their own app. A well done from you lands on their home.',
+      href: '/dashboard/lessons', at: String(l.completed_at), childId: String(l.child_id), ref,
     })
   }
 
