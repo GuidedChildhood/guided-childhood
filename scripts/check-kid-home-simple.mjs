@@ -14,7 +14,7 @@
 //
 // Usage: node scripts/check-kid-home-simple.mjs
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 
 let failures = 0
 const check = (name, ok) => {
@@ -59,6 +59,21 @@ check('the greeting does not count full days', !/full day\$\{liveDays === 1/.tes
 
 // ── THE REWARD IS ON THE THING TO TAP ───────────────────────────────────────
 check('the jobs step wears its stars', /key === 'jobs' && jobsStarsLeft > 0/.test(five) && /jobsStarsLeft=\{/.test(code))
+
+// ── THE FIVE ARE DONE: THE FAMILY MOONWALKS ON ──────────────────────────────
+// Justin, 13 October 2026: when the five land, each Planet Friend moonwalks on
+// with a tip for earning stars, instead of the rocket. The rocket's flight is
+// skipped after the parade; the earned Friend's arrival card still follows.
+// And no clearProps 'all' anywhere in the child's components: it wipes the
+// whole inline style, which left the arrival card's name and button as dark
+// words on a night sky.
+const parade = readFileSync('components/kid/KidFriendsParade.tsx', 'utf8')
+check('the parade plays after the day screen and hands on to the arrival without a flight',
+  /setParadeOpen\(true\)/.test(code) && /<KidFriendsParade/.test(code) && /setArrivalSkipFlight\(true\)/.test(code) && /skipFlight=\{arrivalSkipFlight\}/.test(code))
+check('all five Friends have a tip', ['pebble', 'bloop', 'orbit', 'nova', 'cosmo'].every(k => new RegExp(`${k}: '`).test(parade)))
+check('the parade can always be skipped', />\s*Skip\s*</.test(parade))
+const wipes = readdirSync('components/kid').filter(f => f.endsWith('.tsx')).filter(f => /clearProps: 'all'/.test(readFileSync(`components/kid/${f}`, 'utf8')))
+check(`no clearProps 'all' in the child's components${wipes.length ? ` (${wipes.join(', ')})` : ''}`, wipes.length === 0)
 
 if (failures) { console.error(`\n${failures} kid home check(s) failed`); process.exit(1) }
 console.log('\nKid home: simple and honest')
