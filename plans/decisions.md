@@ -239,6 +239,26 @@ page whose buttons go to a paid signup. Separately, the user level
 Claude to lead with the £9.99 report on first customer interest. That file lives
 in Justin's own skills, not this repo, so he has to change it there.
 
+## 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables
+
+The sweep of 348 to 372 found one real gap. 360 give five get five was
+merged on 4 October and never run: neither `referral_codes` nor `referrals`
+existed on the live database, while thirteen files of app code already read
+them, including `/r/[code]`, the refer page, the admin page and the daily
+cron. Checkout was the one safe path, because it wraps the referral lookup
+in a catch and never blocks a payment, so no parent was stopped from
+joining; the £5 was simply never offered and no referral was ever recorded.
+
+Applied and verified: both tables with their columns, RLS on, both policies,
+both indexes, and the real access paths exercised rather than read off the
+grant list (anon refused outright, authenticated with no uid sees nothing,
+and the only columns a parent may update are `paypal_email` and
+`updated_at`). 348 was also applied, as a confirmed no op: its grant list
+matches the live catalogue table for table.
+
+367 and 368 are skipped numbers, not missing work. 373 is on an unmerged
+branch. PR 1265.
+
 ## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
 
 Justin said apply them. 371 (the ending is agreed, not warned) applied to production; all seven edited rows read back correctly. 372 (the film link) applied; a live follow of guidedchildhood.com/v/switch-off landed on the stage check, set the cookie and logged one follow (that first row is the test). Short 1 is the family account's Service Friday post, service 1, the five o'clock fight, so its Instagram and Facebook captions now follow the family format in content/brand-story/weekly-rhythm.md: the family's own moment ("Five o'clock in our house used to be a fight", the canon supports the fight and the five o'clock handover, not a duration), five numbered lines ending on a consequence, a closing question.

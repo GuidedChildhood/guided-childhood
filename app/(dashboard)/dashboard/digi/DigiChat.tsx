@@ -80,6 +80,11 @@ type AnswerBlock =
   | { kind: 'point'; lead: string; body: string }
   | { kind: 'list'; items: string[]; ordered: boolean }
 
+// The ask behind "Put this in words for my child". Named once because the
+// Send to their phone button keys off it: that button only sits under the
+// reply to this exact ask, the version written for the child.
+const CHILD_VERSION_ASK = 'Put that in simple words for my child to read, at their age, so we can go through it together.'
+
 const LIST_LINE = /^(?:[-•*]\s+|\d+[.)]\s+)/
 
 function parseAnswer(text: string): AnswerBlock[] {
@@ -241,7 +246,7 @@ export default function DigiChat({
   // The send to their phone flow: which message index went, or is going.
   // Justin, 19 August 2026: "when we say put this into words for children
   // there should be a send to their phone option."
-  const [sentToChild, setSentToChild] = useState<Record<number, 'sending' | 'sent' | 'noapp' | 'failed'>>({})
+  const [sentToChild, setSentToChild] = useState<Record<number, 'sending' | 'sent' | 'noapp' | 'parentonly' | 'failed'>>({})
   const sendToChildPhone = async (index: number, text: string) => {
     const childId = currentChildId()
     setSentToChild(prev => ({ ...prev, [index]: 'sending' }))
@@ -251,6 +256,7 @@ export default function DigiChat({
         body: JSON.stringify({ text, child_id: childId }),
       })
       if (res.status === 409) { setSentToChild(prev => ({ ...prev, [index]: 'noapp' })); return }
+      if (res.status === 422) { setSentToChild(prev => ({ ...prev, [index]: 'parentonly' })); return }
       if (!res.ok) throw new Error(String(res.status))
       setSentToChild(prev => ({ ...prev, [index]: 'sent' }))
     } catch {
@@ -1284,6 +1290,13 @@ export default function DigiChat({
           // A short one liner is just chat. A multi step how to is the kind of
           // thing a child could hear too, so offer to put it in their words.
           const offerChildVersion = i === messages.length - 1 && !streamingReply && paras.length >= 3
+          // Send to their phone belongs ONLY under the child's version: the
+          // reply to the "put that in simple words" ask. It used to sit beside
+          // that ask on every long answer, so a parent could send their own
+          // advice, markdown and dashboard links included, to their child's
+          // app (Teo, 13 October 2026). Now the child's words come first.
+          const isChildVersion = i > 0 && messages[i - 1]?.role === 'user'
+            && messages[i - 1].content.startsWith(CHILD_VERSION_ASK)
           return (
             <div key={i} style={{ marginBottom: '26px' }}>
               {/* DiGi's mark and name sit once above the answer, the reference
@@ -1301,10 +1314,10 @@ export default function DigiChat({
                   apart by space, each bold lead in carrying the move. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <AnswerBody text={msg.content} />
-                {offerChildVersion && (
+                {(offerChildVersion || (isChildVersion && !streamingReply)) && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 3 }}>
-                    <button
-                      onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
+                    {!isChildVersion && <button
+                      onClick={() => sendMessage(CHILD_VERSION_ASK)}
                       style={{
                         background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
                         color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 14px', cursor: 'pointer',
@@ -1312,13 +1325,13 @@ export default function DigiChat({
                       }}
                     >
                       Put this in words for my child
-                    </button>
+                    </button>}
                     {/* The last metre. Once DiGi has written the child's
                         version, the parent used to hand their own phone over.
                         One tap lands it inside the child's app, with a gentle
                         push saying a note is waiting. 409 means no app yet, and
                         honesty beats a spinner: the button says so. */}
-                    <button
+                    {isChildVersion && <button
                       onClick={() => sendToChildPhone(i, msg.content)}
                       disabled={sentToChild[i] === 'sending' || sentToChild[i] === 'sent'}
                       style={{
@@ -1333,8 +1346,9 @@ export default function DigiChat({
                         : sentToChild[i] === 'sending' ? 'Sending…'
                         : sentToChild[i] === 'noapp' ? 'Their app is not set up yet'
                         : sentToChild[i] === 'failed' ? 'Did not send, try again'
+                        : sentToChild[i] === 'parentonly' ? 'This one is for you, not them'
                         : 'Send to their phone'}
-                    </button>
+                    </button>}
                   </div>
                 )}
               </div>

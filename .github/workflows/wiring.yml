@@ -169,6 +169,9 @@ jobs:
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
+      # Notes on a child's screen: a parent only note (one that points into the
+      # dashboard) never reaches a child, and markdown never shows as stars.
+      - run: node --experimental-strip-types scripts/check-kid-notes.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

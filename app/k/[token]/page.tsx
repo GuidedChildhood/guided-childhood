@@ -3,6 +3,7 @@ import { ukToday } from '@/lib/kid/five-a-day'
 import type { DrawnKey } from '@/components/printables/drawn'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { readKidJobs } from '@/lib/kid/jobs-read'
+import { kidNotes } from '@/lib/kid/note-text'
 import { getStarBanks } from '@/lib/quests/bank'
 import { starLessonTitles } from '@/lib/quests/star-lesson-catalogue'
 import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
@@ -775,7 +776,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     }
   }
   let initialNudges: { id: string; message: string }[] = []
-  if (!nudgeRes.error) initialNudges = (nudgeRes.data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
+  // Cleaned and filtered by lib/kid/note-text: a parent only note never draws.
+  if (!nudgeRes.error) initialNudges = kidNotes((nudgeRes.data ?? []).map(n => ({ id: String(n.id), message: String(n.message) })))
 
   let hasReminders = false
   if (!remindersRes.error) hasReminders = (remindersRes.count ?? 0) > 0

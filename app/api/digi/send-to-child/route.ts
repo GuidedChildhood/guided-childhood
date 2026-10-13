@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
+import { isParentOnlyNote, kidNoteText } from '@/lib/kid/note-text'
 
 // ── DIGI'S WORDS, ONTO THE CHILD'S OWN SCREEN ───────────────────────────────
 //
@@ -24,10 +25,16 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const { text, child_id } = await req.json().catch(() => ({})) as { text?: string; child_id?: string }
-  const message = typeof text === 'string' ? text.trim().slice(0, 1200) : ''
-  if (!message || !child_id || typeof child_id !== 'string') {
+  const raw = typeof text === 'string' ? text.trim() : ''
+  if (!raw || !child_id || typeof child_id !== 'string') {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
+  // Parent advice never lands on a child's screen (13 October 2026, see
+  // lib/kid/note-text). A note pointing into the parent dashboard was written
+  // for the grown up, so it is refused with a reason the button can show.
+  if (isParentOnlyNote(raw)) return NextResponse.json({ error: 'parent only' }, { status: 422 })
+  const message = kidNoteText(raw).slice(0, 1200)
+  if (!message) return NextResponse.json({ error: 'bad request' }, { status: 400 })
 
   // Theirs, checked. And the child needs their own app for this to mean
   // anything, so no link is a 409 the button can turn into honest words.
