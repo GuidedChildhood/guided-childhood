@@ -593,9 +593,11 @@
   "parent_note": {
     "taught": "Today your child learned the three tells that expose a scam: it rushes you, it wants something odd like codes gift cards or a login, and it is too good to be true. We practised on the scams actually aimed at teenagers, fake free skins messages, phishing delivery texts and get rich quick DMs.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them for the three tells, then show them the last dodgy message you received.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them for the three tells, then show them the last dodgy message you received.",
     "try_this": "Next time a suspicious text lands on your phone, hand it over and ask your child to name which tell fires. Being the family scam detector is a job they will take seriously.",
-    "family_question": "What is the closest a scam has ever come to catching someone in this family?",
+    "family_question": "Can you teach me the three tells of a scam?",
+    "listen_for": "You know a scam rushes you, wants something odd, or is too good to be true, and checking through a different route breaks it.",
+    "then_ask": "Which tell would fire on the last dodgy text I got?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -744,7 +746,7 @@
       "A message from a friend's account is safe (a stolen account sends the same bait to every contact, so the tells judge the message, never the sender's name)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack: the three evidence items are read aloud as scripts or acted in pairs, the three tells live on the bookmark strip, discussions run against a wall clock, and the worksheet plus the two exit questions are print first already. No screen needed at any point.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: the next time a message rushes me, I will...",
     "differentiation": {
       "stretch": "Early finishers redesign one scam item so it would catch even a careful person, then explain which tell it still cannot hide. Deeper stretch: why does the shame of being scammed protect the scammer, and what would change if victims talked?",

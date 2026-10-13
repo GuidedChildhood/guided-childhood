@@ -32,7 +32,8 @@
       },
       "caption": "Follow the star. In as it grows, out as it shrinks.",
       "minutes": 2,
-      "script": "Before we meet Pebble, we settle. Sit on the carpet with hands on tummies. Say: this is our star breath, we do it at the start of every screen lesson. Watch the star grow and breathe in with it, watch it shrink and breathe out. Four together without talking. If a child cannot sit still, they can do it standing with arms rising and falling, that counts too."
+      "script": "Before we meet Pebble, we settle. Sit on the carpet with hands on tummies. Say: this is our star breath, we do it at the start of every screen lesson. Watch the star grow and breathe in with it, watch it shrink and breathe out. Four together without talking. If a child cannot sit still, they can do it standing with arms rising and falling, that counts too.",
+      "together_prompt": "Start with the star breath together: arms out wide, breathe in as the star grows, out as it shrinks."
     },
     {
       "type": "title",
@@ -42,7 +43,8 @@
       "eyebrow": "EYFS · Reception · Module 30",
       "character": "pebble",
       "minutes": 1,
-      "script": "Read the title slowly and let it hang for a second. Then say: screens are lovely, and screens are very good at keeping going. Today Pebble has a problem with that, and we are going to help. By home time every one of you will know a way to stop a screen without a big fight, and you will be able to teach it to your grown ups tonight."
+      "script": "Read the title slowly and let it hang for a second. Then say: screens are lovely, and screens are very good at keeping going. Today Pebble has a problem with that, and we are going to help. By home time every one of you will know a way to stop a screen without a big fight, and you will be able to teach it to your grown ups tonight.",
+      "together_prompt": "Read the title. Say: the screen never says stop. So who picks the stop? Let them guess."
     },
     {
       "type": "digi",
@@ -55,7 +57,8 @@
         "I did not know how to stop. Can you help me?"
       ],
       "minutes": 1,
-      "script": "Let Pebble land and say the lines. Read Pebble's question once in your own voice and leave it hanging, with a shrug: how do you stop a screen that keeps going? Do not answer it yet. Say: Pebble needs us. Let us find out what today is for."
+      "script": "Let Pebble land and say the lines. Read Pebble's question once in your own voice and leave it hanging, with a shrug: how do you stop a screen that keeps going? Do not answer it yet. Say: Pebble needs us. Let us find out what today is for.",
+      "together_prompt": "Read Pebble's lines. Pebble did not know how to stop. Ask: can we help Pebble today?"
     },
     {
       "type": "objective",
@@ -68,7 +71,8 @@
         "Go to a good next thing"
       ],
       "minutes": 2,
-      "script": "Read the I can sentence together, twice, with a wave on the words bye bye. Then say the why in your own words: nobody is in trouble for loving a screen. Screens are made to keep going, so the stop has to come from us. Point at each of the three things we will learn, and do the actions: a flat hand for stop, a wave, and marching arms for the next thing."
+      "script": "Read the I can sentence together, twice, with a wave on the words bye bye. Then say the why in your own words: nobody is in trouble for loving a screen. Screens are made to keep going, so the stop has to come from us. Point at each of the three things we will learn, and do the actions: a flat hand for stop, a wave, and marching arms for the next thing.",
+      "together_prompt": "Read the big line: I can pick a stop and wave bye bye. Say: we are going to practise that together."
     },
     {
       "type": "discussion",
@@ -78,7 +82,8 @@
       "lookFor": "Play, dinner, bath, a story, the park. Every answer counts.",
       "seconds": 60,
       "minutes": 2,
-      "script": "Give ten seconds of thinking time first, fingers on lips. Then one minute with a talk partner. Listen out for lovely next things: the park, Lego, a bath with bubbles, a story with Grandad. Take four or five and say each one back warmly. Keep a list on the board, because we come back to it: these are our next things, and a good next thing is what makes stopping easier."
+      "script": "Give ten seconds of thinking time first, fingers on lips. Then one minute with a talk partner. Listen out for lovely next things: the park, Lego, a bath with bubbles, a story with Grandad. Take four or five and say each one back warmly. Keep a list on the board, because we come back to it: these are our next things, and a good next thing is what makes stopping easier.",
+      "together_prompt": "Let them tell you one good thing to do after screens. Then tell them yours."
     },
     {
       "type": "keywords",
@@ -99,7 +104,8 @@
         }
       ],
       "minutes": 2,
-      "script": "Say each word with its action and have the class echo it. Stop: a flat hand held up. Bye bye: a big wave. Next thing: marching arms, off we go. Do all three in a row twice, then once more quietly. Land the first one: a stop is just the end of a bit, like the end of a song, and nobody is in trouble at a stop."
+      "script": "Say each word with its action and have the class echo it. Stop: a flat hand held up. Bye bye: a big wave. Next thing: marching arms, off we go. Do all three in a row twice, then once more quietly. Land the first one: a stop is just the end of a bit, like the end of a song, and nobody is in trouble at a stop.",
+      "together_prompt": "Say each word and its meaning. Wave when you say bye bye, so the word has an action."
     },
     {
       "type": "choice",
@@ -123,7 +129,8 @@
         }
       ],
       "minutes": 2,
-      "script": "This is our remembering question from the first lesson with Pebble. Thinking time first, count to five in your heads. Then everyone votes with fingers: one, two or three. Take one answer with a reason. Then bridge to today: last time the word stop helped us with what is real. Today the word stop helps us with screens that keep going."
+      "script": "This is our remembering question from the first lesson with Pebble. Thinking time first, count to five in your heads. Then everyone votes with fingers: one, two or three. Take one answer with a reason. Then bridge to today: last time the word stop helped us with what is real. Today the word stop helps us with screens that keep going.",
+      "together_prompt": "This one is from Pebble's first lesson. Read it out and let them tap. The feedback does the explaining."
     },
     {
       "type": "concept",
@@ -132,7 +139,8 @@
       "body": "One ends. The next one starts by itself.",
       "emoji": "🔁",
       "minutes": 2,
-      "script": "Here is what I notice first when I watch cartoons on a tablet: when one ends, I do not get a moment to choose. The next one is already starting. Nobody pressed anything. Show it with your hands: one cartoon ends, clap, and the next one pops up straight away. Say plainly: the screen is made to keep going, because the people who make it want you to keep watching. Nobody did anything wrong. It just means the screen will not tell you when to stop, so the stop has to come from somewhere else."
+      "script": "Here is what I notice first when I watch cartoons on a tablet: when one ends, I do not get a moment to choose. The next one is already starting. Nobody pressed anything. Show it with your hands: one cartoon ends, clap, and the next one pops up straight away. Say plainly: the screen is made to keep going, because the people who make it want you to keep watching. Nobody did anything wrong. It just means the screen will not tell you when to stop, so the stop has to come from somewhere else.",
+      "together_prompt": "Say: one ends, and the next one starts all by itself. Ask: has that ever happened to you?"
     },
     {
       "type": "choice",
@@ -156,7 +164,8 @@
         }
       ],
       "minutes": 2,
-      "script": "Wait five seconds before anyone answers. Then everyone shows fingers, one, two or three. The popular wrong answer is the second one, because it is what children wish would happen. Read its reason out: the screen will not tell you when to stop, it starts the next one by itself. Ask: so if the screen does not stop, who does? Take the big answer: we do."
+      "script": "Wait five seconds before anyone answers. Then everyone shows fingers, one, two or three. The popular wrong answer is the second one, because it is what children wish would happen. Read its reason out: the screen will not tell you when to stop, it starts the next one by itself. Ask: so if the screen does not stop, who does? Take the big answer: we do.",
+      "together_prompt": "Read the question and the three answers. Let them tap, then read the feedback out together."
     },
     {
       "type": "concept",
@@ -165,7 +174,8 @@
       "body": "A song ends. A story ends.",
       "emoji": "🎵",
       "minutes": 2,
-      "script": "Teach the idea of a stop as the end of a bit, not a punishment. Sing the first line of a song the class knows and stop at the end: that is a stop. Open a picture book to the last page and close it: that is a stop. A race in a game has a finish line: that is a stop. Say: every show, song and game has little stops inside it. Grown ups and children who are good at screens look for the stop, because stopping at a stop feels much easier than stopping in the middle."
+      "script": "Teach the idea of a stop as the end of a bit, not a punishment. Sing the first line of a song the class knows and stop at the end: that is a stop. Open a picture book to the last page and close it: that is a stop. A race in a game has a finish line: that is a stop. Say: every show, song and game has little stops inside it. Grown ups and children who are good at screens look for the stop, because stopping at a stop feels much easier than stopping in the middle.",
+      "together_prompt": "Say: a song ends. A story ends. Ask them to think of the end of their favourite song."
     },
     {
       "type": "discussion",
@@ -175,7 +185,8 @@
       "lookFor": "The end, the music at the end, the words the end.",
       "seconds": 60,
       "minutes": 2,
-      "script": "Thinking time first, count to five quietly. Then a minute in pairs. Help pairs who are stuck: what happens at the end of a cartoon? The music plays, the words come up, the characters wave. Every ending counts. Take three answers and say: yes, that is the stop. That is the moment to wave bye bye, before the next one starts by itself."
+      "script": "Thinking time first, count to five quietly. Then a minute in pairs. Help pairs who are stuck: what happens at the end of a cartoon? The music plays, the words come up, the characters wave. Every ending counts. Take three answers and say: yes, that is the stop. That is the moment to wave bye bye, before the next one starts by itself.",
+      "together_prompt": "Let them tell you where the stop is in Pebble's cartoon. Say: yes, the end is the stop."
     },
     {
       "type": "diagram",
@@ -205,7 +216,8 @@
         "Ask a grown up"
       ],
       "minutes": 4,
-      "script": "This is Pebble's tool, so take your time. Point to each step as it appears and do its action with the class. The first one is the clever part: the stop is picked before the screen goes on, with a grown up, so nobody has to argue about it later. Here is what I would do at home: I would say one cartoon, then bath, before I press play. Then the second step: when the stop comes, a big wave to the screen. Then the third: march off to the next thing from our list on the board. Chant the three steps with actions, three times, getting louder. Then point at the three chips at the bottom: a stop, not yet, or ask a grown up. We will use them in our game after half time."
+      "script": "This is Pebble's tool, so take your time. Point to each step as it appears and do its action with the class. The first one is the clever part: the stop is picked before the screen goes on, with a grown up, so nobody has to argue about it later. Here is what I would do at home: I would say one cartoon, then bath, before I press play. Then the second step: when the stop comes, a big wave to the screen. Then the third: march off to the next thing from our list on the board. Chant the three steps with actions, three times, getting louder. Then point at the three chips at the bottom: a stop, not yet, or ask a grown up. We will use them in our game after half time.",
+      "together_prompt": "Do the three steps with actions: one finger up for pick a stop, a wave for bye bye, a march for the next thing."
     },
     {
       "type": "choice",
@@ -229,7 +241,8 @@
         }
       ],
       "minutes": 2,
-      "script": "Thinking time, five seconds, then everyone votes with fingers. The popular wrong answer is one more race, because it feels fair and fun. Say it kindly: one more is exactly what the screen wants, and one more always turns into one more after that. The finish line is a stop. Do the tool together once: pick a stop, wave bye bye, go to the next thing."
+      "script": "Thinking time, five seconds, then everyone votes with fingers. The popular wrong answer is one more race, because it feels fair and fun. Say it kindly: one more is exactly what the screen wants, and one more always turns into one more after that. The finish line is a stop. Do the tool together once: pick a stop, wave bye bye, go to the next thing.",
+      "together_prompt": "Read it out and let them tap. If they pick one more race, the feedback says why that is the screen keeping going."
     },
     {
       "type": "concept",
@@ -238,7 +251,8 @@
       "body": "Big breath, then on we go.",
       "emoji": "🌬️",
       "minutes": 2,
-      "script": "Say this warmly and slowly. Sometimes when we wave bye bye to a screen, a grumpy feeling arrives. That is fine. Grown ups feel it too when they put their phones down. A grumpy feeling is allowed. It means your body liked the screen. So we do DiGi Junior's star breath, one big breath in and out, and then we go to our next thing. Show the class: make a grumpy face, take one star breath, then march off to the next thing. The grumpy bye bye still counts as a bye bye."
+      "script": "Say this warmly and slowly. Sometimes when we wave bye bye to a screen, a grumpy feeling arrives. That is fine. Grown ups feel it too when they put their phones down. A grumpy feeling is allowed. It means your body liked the screen. So we do DiGi Junior's star breath, one big breath in and out, and then we go to our next thing. Show the class: make a grumpy face, take one star breath, then march off to the next thing. The grumpy bye bye still counts as a bye bye.",
+      "together_prompt": "Say: a grumpy bye bye is fine. Take a big breath together, then say: on we go."
     },
     {
       "type": "interactive",
@@ -252,7 +266,8 @@
         "character": "pebble"
       },
       "minutes": 1,
-      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then everyone stands up and gives the board the biggest wave bye bye they can. Then sit down, ready for the game."
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then everyone stands up and gives the board the biggest wave bye bye they can. Then sit down, ready for the game.",
+      "together_prompt": "Stand up, do the breath, then both of you wave bye bye to the screen for practice."
     },
     {
       "type": "interactive",
@@ -315,7 +330,8 @@
         "doneBody": "A stop, not yet, and the ones to ask about."
       },
       "minutes": 4,
-      "script": "We play it together before we try it with our bodies. Tap the first card and read it out with plenty of drama. Hands up for each of the three answers, then tap the one the class chose and read the reason. Do all six. Two cards matter most. The dinner card: when a grown up says stop, that is a stop too, even in the middle. And the tricky game: some games are built with no stop at all, so the answer is to ask a grown up to help pick one before playing. If the class picks wrong, read the reason and ask what they think now."
+      "script": "We play it together before we try it with our bodies. Tap the first card and read it out with plenty of drama. Hands up for each of the three answers, then tap the one the class chose and read the reason. Do all six. Two cards matter most. The dinner card: when a grown up says stop, that is a stop too, even in the middle. And the tricky game: some games are built with no stop at all, so the answer is to ask a grown up to help pick one before playing. If the class picks wrong, read the reason and ask what they think now.",
+      "together_prompt": "Read each card. Let them tap a stop, not yet, or ask a grown up. Say the answer back each time."
     },
     {
       "type": "tryit",
@@ -348,7 +364,8 @@
         }
       ],
       "minutes": 2,
-      "script": "First of our two finishing questions, and every child answers. Read the question and all three answers aloud with actions, wait five seconds, then everyone votes with fingers. Ask one child to show the wave and say the next thing. Record who got it on the exit sheet by eye; nobody's answer is read out as wrong."
+      "script": "First of our two finishing questions, and every child answers. Read the question and all three answers aloud with actions, wait five seconds, then everyone votes with fingers. Ask one child to show the wave and say the next thing. Record who got it on the exit sheet by eye; nobody's answer is read out as wrong.",
+      "together_prompt": "This is a check question. Read it and the answers, then let them choose on their own."
     },
     {
       "type": "choice",
@@ -372,7 +389,8 @@
         }
       ],
       "minutes": 2,
-      "script": "Second finishing question, same routine: read it with feeling, thinking time of five seconds, then fingers. This is the one grown ups at home will care about most, so land it: a grown up's stop counts too, even in the middle, and a grumpy bye bye is still a bye bye. If a child says their grown up gets cross about screens, thank them for telling you and say that is why we are practising, so stopping gets easier for everyone."
+      "script": "Second finishing question, same routine: read it with feeling, thinking time of five seconds, then fingers. This is the one grown ups at home will care about most, so land it: a grown up's stop counts too, even in the middle, and a grumpy bye bye is still a bye bye. If a child says their grown up gets cross about screens, thank them for telling you and say that is why we are practising, so stopping gets easier for everyone.",
+      "together_prompt": "Second check. Read it, then wait. This one is about you saying stop, so listen to what they pick."
     },
     {
       "type": "quote",
@@ -380,7 +398,8 @@
       "label": "Say it like Pebble",
       "text": "Pick a stop. Wave bye bye. Off to the next thing!",
       "minutes": 1,
-      "script": "Pebble's chant, all together with the actions: flat hand, big wave, marching arms. Three times: a whisper, a talking voice, then big and proud. This is the sentence you want them saying to their grown ups at home time."
+      "script": "Pebble's chant, all together with the actions: flat hand, big wave, marching arms. Three times: a whisper, a talking voice, then big and proud. This is the sentence you want them saying to their grown ups at home time.",
+      "together_prompt": "Say it together with the actions: Pick a stop. Wave bye bye. Off to the next thing!"
     },
     {
       "type": "recap",
@@ -393,7 +412,8 @@
         "Then off we go to the next thing."
       ],
       "minutes": 1,
-      "script": "Read the four points together, with the actions on the last three. Then ask: who picks the stop, the screen or us? Wait for the big answer: us. That is the answer going home in every book bag."
+      "script": "Read the four points together, with the actions on the last three. Then ask: who picks the stop, the screen or us? Wait for the big answer: us. That is the answer going home in every book bag.",
+      "together_prompt": "Read the four things. Ask them to do the wave on the bye bye one."
     },
     {
       "type": "digi",
@@ -406,7 +426,8 @@
         "Then tell your grown up your next thing!"
       ],
       "minutes": 1,
-      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the job once more in their own words. The passport is next, then DiGi Junior says goodbye."
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the job once more in their own words. The passport is next, then DiGi Junior says goodbye.",
+      "together_prompt": "Read Pebble's job. Then agree tonight's stop out loud, right now: one show, then what?"
     },
     {
       "type": "interactive",
@@ -435,7 +456,8 @@
         "See you next time, little stars! ⭐"
       ],
       "minutes": 1,
-      "script": "Let DiGi Junior land the ending; read each bubble aloud in your best DiGi Junior voice, because most of the class cannot read them yet. Do the star pause with the class on the first line. Send the parent note home in book bags today, so families hear the chant tonight. Wave goodbye to DiGi Junior with twinkling star fingers, which is also the last bye bye of the day."
+      "script": "Let DiGi Junior land the ending; read each bubble aloud in your best DiGi Junior voice, because most of the class cannot read them yet. Do the star pause with the class on the first line. Send the parent note home in book bags today, so families hear the chant tonight. Wave goodbye to DiGi Junior with twinkling star fingers, which is also the last bye bye of the day.",
+      "together_prompt": "Do the last star pause together and wave bye bye to Pebble. Say: lesson done, well done."
     }
   ],
   "video_beats": [],
@@ -470,8 +492,10 @@
     "headline": "What we taught today, and one thing to try at home",
     "taught": "Today your child learned that most screens never say stop: when one cartoon ends, the next one starts by itself. So we pick the stop together before the screen goes on (one show, one song, one race), and at the stop we wave bye bye and go to a good next thing. They also learned that when a grown up says stop, that is a stop too, and that a grumpy bye bye is fine.",
     "try_this": "Before the screen goes on tonight, agree the stop out loud together: one episode, then bath. When the episode ends, wave bye bye to the screen with them and go straight to the next thing you agreed. Researchers who asked families about this found that stopping at a natural end and having a routine made it easier than a countdown warning.",
-    "family_question": "What is our stop tonight, and what is your next thing after it?",
-    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to show you Pebble's wave.",
+    "family_question": "Can you teach me how to pick a stop? Show me the wave bye bye too.",
+    "listen_for": "You pick the stop before the screen goes on, and at the stop you wave bye bye and go to the next thing.",
+    "then_ask": "What should my stop be tonight, when I put my phone down?",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school walk together. The class met it today; it goes on the page when you and your child do its short check at home, on your phone. Each stage of growing up ends with a stamp. Ask your child to show you Pebble's wave.",
     "no_login_required": true
   },
   "teacher_notes": {

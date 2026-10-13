@@ -8,7 +8,7 @@ import { getStarLesson, type StarLessonRow } from '@/lib/quests/star-lesson-cata
 import { markStepQuietly } from '@/lib/kid/day-store'
 import { parseSlides, visibleSlides, markAnswers, lessonPassed, proveQuestions, type PostedAnswer } from '@gc/shared/lesson-slides'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
-import { isTogetherStage, stageForKeyStage } from '@/lib/lessons/school-path'
+import { lessonAudienceFor, stageForKeyStage } from '@/lib/lessons/school-path'
 import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
 import { recordMarkedAnswers } from '@/lib/lessons/answers'
 
@@ -82,8 +82,11 @@ export async function POST(req: NextRequest) {
       (StarLessonRow & { module_id?: string | null; slides?: unknown; key_stage?: string | null; teacher_notes?: unknown; parent_note?: unknown }) | null
     if (!lesson) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
-    // The deck the child was shown, the way the mission page built it.
-    const audience = isTogetherStage(stageForKeyStage(lesson.key_stage ?? null)) ? 'together' : 'kid'
+    // The deck the child was shown, the way the mission page built it: the
+    // same helper, read from the same switch (sync plan G3), so the deck
+    // marked is the deck shown.
+    const { data: kid } = await supabase.from('children').select('lessons_together').eq('id', link.child_id).maybeSingle()
+    const audience = lessonAudienceFor(stageForKeyStage(lesson.key_stage ?? null), kid as { lessons_together?: boolean | null } | null)
     const notes = (lesson.teacher_notes ?? {}) as { worksheet?: { verdict_options?: unknown }; worksheet_items?: unknown }
     const deck = visibleSlides(parseSlides(lesson.slides) ?? [], audience, {
       worksheet: { verdict_options: notes.worksheet?.verdict_options, items: notes.worksheet_items },

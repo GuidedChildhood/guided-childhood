@@ -6,7 +6,8 @@ import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { isTogetherStage, lessonStageFor } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonAudienceFor, lessonStageFor } from '@/lib/lessons/school-path'
+import LessonsTogetherSwitch from '@/components/lessons/LessonsTogetherSwitch'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
@@ -42,7 +43,7 @@ export default async function ChildLessonPathPage({
   const { child: childParam, stage: stageParam, lesson: focusId, from } = await searchParams
 
   const { data: childRows } = await supabase
-    .from('children').select('id, name, age_band, is_primary, date_of_birth')
+    .from('children').select('id, name, age_band, is_primary, date_of_birth, lessons_together')
     .eq('parent_id', user.id).order('is_primary', { ascending: false })
   const child = pickChild(childRows ?? [], childParam)
   if (!child) redirect('/dashboard')
@@ -88,7 +89,9 @@ export default async function ChildLessonPathPage({
   }
 
   const token = (link as { token?: string } | null)?.token ?? null
-  const together = isTogetherStage(stageId)
+  // Together by age under 7, or by the parent's own switch (sync plan G3).
+  const byAge = isTogetherStage(stageId)
+  const together = lessonAudienceFor(stageId, child as { lessons_together?: boolean | null }) === 'together'
   const doneCount = path.school.done
   const nextId = path.school.next?.id ?? null
   const backHref = withChild('/dashboard/pathway#passport', childParam)
@@ -102,9 +105,15 @@ export default async function ChildLessonPathPage({
       </h1>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {together
-          ? `At this age you do them together: open one on your phone, read it out, and let ${kidName} answer. One a week is plenty.`
+          ? byAge
+            ? `At this age you do them together: open one on your phone, read it out, and let ${kidName} answer. One a week is plenty.`
+            : `${kidName} does these with you: open one here, read it out or tap Read it to me, and let ${kidName} answer. One a week is plenty.`
           : `${kidName} does these in their own app, one a week. When they pass one, you get a question to ask at tea, and it ticks off here and on the passport.`}
       </p>
+
+      {!byAge && (
+        <LessonsTogetherSwitch childId={child.id} childName={kidName} initialOn={together} />
+      )}
 
       {!token && (
         <div style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', margin: '0 0 16px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>

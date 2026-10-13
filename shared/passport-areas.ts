@@ -26,7 +26,7 @@
 // module in the curriculum has one.
 
 import { CURRICULUM, type CurriculumModule } from './schools-curriculum'
-import { PLACEMENT_BY_KEY_STAGE, type PassportPlacement, type PassportStage } from './passport-stages'
+import { PLACEMENT_BY_KEY_STAGE, type PassportStage } from './passport-stages'
 
 export type AreaKey = 'safe' | 'balance' | 'ai' | 'social'
 
@@ -109,8 +109,13 @@ export function areaOf(moduleId: string): AreaKey | null {
   return SCHOOL_MODULE_AREA[moduleId] ?? null
 }
 
-/** Which page a module fills, from the curriculum's own key stage. */
-export function placementOf(moduleId: string): PassportPlacement | null {
+/**
+ * Which page a module fills, from the curriculum's own key stage through the
+ * one stage map (shared/stage-map.ts). Every surface that names a module's
+ * page reads this: the passport beat on the wall, the printed note, the run
+ * sheet and the home card, so none of them can read a page off a slide.
+ */
+export function placementOf(moduleId: string): PassportStage | null {
   const m = CURRICULUM.find(x => x.moduleId === moduleId)
   return m ? PLACEMENT_BY_KEY_STAGE[m.keyStage] ?? null : null
 }

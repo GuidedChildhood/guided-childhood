@@ -7,7 +7,7 @@ import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { resolveTheme } from '@/lib/kid/theme'
 import KidBackLink from '@/components/kid/KidBackLink'
-import { isTogetherStage, stageForKeyStage, schoolModulesForStage } from '@/lib/lessons/school-path'
+import { lessonAudienceFor, stageForKeyStage, schoolModulesForStage } from '@/lib/lessons/school-path'
 import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
@@ -41,7 +41,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
   if (!mission || mission.child_id !== link.child_id) notFound()
 
   const [{ data: child }, lesson] = await Promise.all([
-    supabase.from('children').select('name, accent').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, accent, lessons_together').eq('id', link.child_id).maybeSingle(),
     getStarLesson(supabase, mission.lesson_id, 'id, module_id, title, character_cast, slides, key_stage, teacher_notes'),
   ])
   if (!lesson) notFound()
@@ -57,7 +57,11 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
   // paper becomes the child's own sort; only its items and verdicts are read
   // here, and teacher_notes itself never reaches the client.
   const keyStage = (lesson as { key_stage?: string | null }).key_stage ?? null
-  const audience = isTogetherStage(stageForKeyStage(keyStage)) ? 'together' : 'kid'
+  // Under 7 by age, or for any child whose parent set "does lessons with me"
+  // (sync plan G3): the together deck, read out on the grown up's phone. The
+  // completion route reads the same helper, so the deck marked is this deck.
+  const kid = child as { lessons_together?: boolean | null } | null
+  const audience = lessonAudienceFor(stageForKeyStage(keyStage), kid)
   const notes = ((lesson as { teacher_notes?: unknown }).teacher_notes ?? {}) as {
     worksheet?: { verdict_options?: unknown }
     worksheet_items?: unknown
@@ -127,6 +131,10 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
             // A number only when this finish pays, which is the first one.
             kidStars={paid ? undefined : mission.stars}
             together={together}
+            // Read it to me, in the device's British voice, where the parent set
+            // the switch (shared/read-aloud.ts). Never from the age alone: under
+            // 7 the grown up is the voice.
+            readAloud={kid?.lessons_together === true}
             completeEndpoint="/api/quests/lesson-complete"
             completeBody={{ token, mission_id: mission.id }}
           />
