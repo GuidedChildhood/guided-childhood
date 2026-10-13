@@ -32,7 +32,9 @@ parent loop.
 
 ## Proposed next, needs Justin's call (each reverses an earlier decision of his)
 
-1. One streak, not four. The streak bar, "N days in a row", the balance card's
+Justin chose item 1 the same morning; it ships in PR 1264. The rest wait.
+
+1. DONE. One streak, not four. The streak bar, "N days in a row", the balance card's
    day streak and the greeting's full days are four counters from four props.
    Keep the streak bar with the next Friend; drop the other three.
 2. The five a day at the top. Today the school diary, greeting and streak bar

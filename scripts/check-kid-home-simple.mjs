@@ -10,6 +10,7 @@
 //   a job a grown up said "not done yet" to counted as done on the home
 //   the "said yes" card priced stars at the flat rate, not the child's own
 //   the presence nudge's "Do a job" scrolled to a list that no longer exists
+//   the streak showed four times from four different counters
 //
 // Usage: node scripts/check-kid-home-simple.mjs
 
@@ -44,6 +45,17 @@ check('a family job is thanked, never priced', /q\.is_family_job\s*\?/.test(code
 check('the yes refreshes the star bank', /setHappyNews\(\{[\s\S]{0,600}\}\)\s*playKidSound\('star'\)\s*router\.refresh\(\)/.test(code))
 check('Use my time counts minutes at the child\'s own rate', /minutesReady=\{bankBalance \* \(bank\?\.starMinutes \?\? STAR_MINUTES\)\}/.test(code))
 check('Do a job goes to the jobs, not to a list that left the page', !/getElementById\('my-todo'\)/.test(code))
+
+// ── ONE STREAK ON THE SCREEN ────────────────────────────────────────────────
+// Justin, 13 October 2026, chose "one streak, not four": the walkthrough found
+// four counters from four props (the greeting's full days, the flame bar, the
+// five a day's days in a row, the balance card's day streak). The flame bar,
+// with the next Friend beside it, is the one that stays.
+const fiveCode = five.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ')
+check('the flame bar is still the streak', /<StreakBar completedStreaks=\{completedStreaks\} \/>/.test(code))
+check('the five a day does not count its own days in a row', !/\{state\.streak\} day/.test(fiveCode))
+check('the balance card carries no second streak', !/day streak/.test(code) && !/streakDays >/.test(code))
+check('the greeting does not count full days', !/full day\$\{liveDays === 1/.test(code))
 
 // ── THE REWARD IS ON THE THING TO TAP ───────────────────────────────────────
 check('the jobs step wears its stars', /key === 'jobs' && jobsStarsLeft > 0/.test(five) && /jobsStarsLeft=\{/.test(code))

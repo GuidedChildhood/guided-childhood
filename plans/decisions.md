@@ -247,3 +247,4 @@ Justin said apply them. 371 (the ending is agreed, not warned) applied to produc
 
 Teo's home showed a DiGi answer written for Justin (markdown, a dashboard link). Send to their phone now sits only under the child's version, and a note pointing into the dashboard is refused and hidden (PR 1263). After a four agent review, each kid tab is its own page, red badges count only what a grown up sent, a "not done yet" job is never counted done and reaches the child kindly (PR 1268), and the jobs step shows its stars (PR 1264). Bigger reshuffles that reverse earlier choices wait for Justin: plans/2026-10-13-kid-home-simplify-plan.md.
 
+Justin then chose "one streak, not four": the flame bar with the next Friend is the only streak on the child's home; the five a day's days in a row, the balance card's day streak and the greeting's full days count are gone (PR 1264).

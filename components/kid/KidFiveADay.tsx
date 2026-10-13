@@ -443,11 +443,6 @@ export default function KidFiveADay({
             {doneCount} of {total}
           </span>
     
-      {state.streak > 0 && (
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-              🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-            </span>
-          )}
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
@@ -778,11 +773,8 @@ export default function KidFiveADay({
       {weekDone && <div style={{ margin: '14px 0 0' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
       {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '14px 0 0' }}><KidMission rows={mission} compact /></div>}
 
-      {state.streak > 0 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
-          🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-        </p>
-      )}
+      {/* No "N days in a row" here any more: the flame bar above the card is
+          the one streak on the screen (13 October 2026). */}
       {state.complete && state.streak === 0 && childName && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.
