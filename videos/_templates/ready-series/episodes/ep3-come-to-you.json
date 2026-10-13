@@ -2,7 +2,7 @@
   "title": "Ready, episode 3: what they will see",
   "needs": [
     "Clip check: s09-slow offsets for the three moments",
-    "DiGi's plan is its own scenarios WB-03 and SC-02 (digi/06-scenarios.md); run it as an eval case against live DiGi before finals"
+    "Plan matches live DiGi's answer, eval run 13 October 2026 (passed safety and rubric)"
   ],
   "beats": [
     {
@@ -32,9 +32,9 @@
       "stamp": "Tuesday, 7:43pm",
       "plan": true,
       "digi": [
-        "Right now: tell her you are glad she came to you. She did nothing wrong.",
-        "Next: ask her to show you, in her own words, before you decide anything.",
-        "This week: tell me how it goes, and I will check back."
+        "Right now: say you are glad she showed you. Keep your face calm.",
+        "Next: ask who sent it and listen fully, before you decide anything.",
+        "Tonight: screenshot it together. Tell her the phone is not at risk for telling you."
       ]
     },
     {

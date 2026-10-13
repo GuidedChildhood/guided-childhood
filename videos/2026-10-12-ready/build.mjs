@@ -35,7 +35,7 @@ const BEATS = [
   { f: 's08', d: 6.2, off: 1.2, o: '45% 45%', cap: { at: 0.8, age: 'Year after year', line: 'A star at a time, the habits stick.' } },
   { f: 's09-slow', d: 11.0, off: 0.3, o: '50% 45%', cap: { at: 0.6, age: 'Age 12', line: 'She comes to you, not around you.' },
       chat: { at: 4.6, me: 'She showed me a horrible message from a group chat. What do I say?',
-      digi: ['Tell her you are glad she came to you. She did nothing wrong.', 'Ask her to show you, in her own words, before you decide anything.'] } },
+      digi: ['Say you are glad she showed you, and keep your face calm.', 'Ask who sent it and listen fully, before you decide anything.'] } },
   { f: 's10', d: 8.4, off: 0.0, o: '45% 45%', cap: { at: 0.8, age: 'Age 15', line: 'The chart has gone. The habits stayed.' },
       cap2: { at: 4.6, age: 'Guidance, not a ban', line: 'A ban is a deadline. This is a plan.' } },
   { f: 's11', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },

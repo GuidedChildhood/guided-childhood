@@ -2,8 +2,8 @@
   "title": "Ready, episode 1: the nightly fight",
   "needs": [
     "e1-ending-v2 still reads about seven next to her dad; reshoot at finals if it shows",
-    "DiGi's plan is its live script 9671, 'The stopping point agreed in a calm moment' (supabase/migrations/363 and 371): agree the ending before, no warnings. Run it as an eval case against live DiGi before finals",
-    "Recapture digi-followup.png with the check back for this script (a week on, count the endings without a fight)"
+    "Recapture digi-followup.png with the check back for this script (a week on, count the endings without a fight)",
+    "Live DiGi (eval 13 October) agrees: agree the stopping point before the TV goes on. It also still says give a five minute warning, which its own script 9671 and migration 371 removed; the film follows the script. DiGi fix is separate work"
   ],
   "beats": [
     {
