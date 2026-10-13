@@ -1,0 +1,72 @@
+{
+  "name": "2026-10-19-fri-scripts",
+  "size": "portrait",
+  "lead": "digi",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "cover",
+      "eyebrow": "Service Friday · 5 of 18",
+      "headline": "I said<br>“because<br>I said so”",
+      "body": "I had the whole conversation planned and it still came out. Here is what we built for that."
+    },
+    {
+      "name": "problem",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The bit everyone knows",
+      "headline": "You rehearse<br>it all day.<br>Then it comes<br>out wrong.",
+      "body": "And the row is about your tone, not the phone.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "script",
+      "type": "script",
+      "eyebrow": "What the script gives you",
+      "headline": "Word for word",
+      "not": "Because I said so.",
+      "say": "I can see this matters to you. Let us look at it together and decide what a first step is."
+    },
+    {
+      "name": "parts",
+      "type": "list",
+      "eyebrow": "Every script has",
+      "headline": "Four parts",
+      "items": [
+        "What to say",
+        "What not to say",
+        "Why it works",
+        "What to do after"
+      ]
+    },
+    {
+      "name": "hinge",
+      "type": "quote",
+      "eyebrow": "Why it keeps getting better",
+      "quote": "Tell us which line worked, and the next script you get is picked on that.",
+      "attrib": "You can rehearse it before you need it."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the evening you want the words ready.",
+      "send": "Send it to the parent who always thinks of the right thing an hour later."
+    }
+  ],
+  "post": {
+    "date": "2026-10-23",
+    "day": "Friday 23 October",
+    "time": "19:30",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "I had the whole conversation planned. I opened my mouth and said “because I said so”.\n\nMost of us have rehearsed it all day. Then they look up, the wrong words come out, and the row ends up being about your tone rather than the phone.\n\nSo we made scripts. Word for word.\n\n1. What to say.\n2. What not to say.\n3. Why it works.\n4. What to do after.\n5. You can rehearse it out loud before you need it.\n\nAnd when you tell us which line actually worked, the next script you get is picked on that.\n\nThe words you have ready are the ones you reach for when you are tired.\n\nWhat is the sentence you wish you could take back?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "I had the whole conversation planned. I opened my mouth and said “because I said so”.\n\nMost of us have rehearsed it all day. Then they look up, the wrong words come out, and the row ends up being about your tone rather than the phone.\n\nSo we made scripts. Word for word.\n\n1. What to say.\n2. What not to say.\n3. Why it works.\n4. What to do after.\n5. You can rehearse it out loud before you need it.\n\nAnd when you tell us which line actually worked, the next script you get is picked on that. Nothing here tells you to allow or ban anything. It gives you words and a next step.\n\nThe words you have ready are the ones you reach for when you are tired.\n\nWhat is the sentence you wish you could take back?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack",
+    "alt": "Card one of six. The headline reads I opened my mouth and said because I said so. The later cards show a script with what not to say and what to say instead, the four parts of every script, and a save and send card.",
+    "first_comment": "Proof for this post: scripts live at /dashboard/scripts in the app."
+  }
+}
