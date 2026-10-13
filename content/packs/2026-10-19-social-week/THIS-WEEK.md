@@ -12,11 +12,11 @@ Each post: the files to upload, in order, and the words to paste. Facebook gets 
 
 Send this to the parent who has been told a school phone ban will fix it.
 
-Fair point first: in this study, more total phone time did go with worse wellbeing. That is real.
+Fair point first: in this study, pupils who spent more time on phones and social media tended to report lower wellbeing. That is real.
 
-But it is an association. It does not show the phone caused it.
+But it is a snapshot in time. It cannot show the phone caused it.
 
-The researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools had strict phone rules, some had relaxed ones. Pupils' wellbeing did not differ between the two.
+The researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools restrict phones, some allow them. Pupils at restrictive schools used phones less during the school day, but not less overall, and their mental wellbeing was no better.
 
 The honest reading is that a ban on its own is not enough. It does not mean phones are harmless either.
 
@@ -30,11 +30,11 @@ What stage is your child? Three questions, no sign up, link in bio.
 
 Send this to the parent who has been told a school phone ban will fix it.
 
-Fair point first: in this study, more total phone time did go with worse wellbeing. That is real, and I would not wave it away.
+Fair point first: in this study, pupils who spent more time on phones and social media tended to report lower wellbeing. That is real, and I would not wave it away.
 
-But it is an association. It does not show the phone caused it.
+But it is a snapshot in time. It cannot show the phone caused it.
 
-The researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools had strict phone rules, some had relaxed ones. Pupils' wellbeing did not differ between the two.
+The researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools restrict phones, some allow them. Pupils at restrictive schools used phones less during the school day, but not less overall, and their mental wellbeing was no better.
 
 The honest reading is that a ban on its own is not enough. It does not mean phones are harmless either. What happens at home, and the conversations around it, still matter.
 
@@ -46,7 +46,7 @@ What stage is your child? Three questions, no sign up: guidedchildhood.co.uk/sta
 
 **First comment**
 
-Source: the SMART Schools study, Lancet Regional Health Europe, 2025.
+Source: Goodyear et al., SMART Schools, Lancet Regional Health Europe, 2025. A cross sectional study, so it shows associations, not cause.
 
 **Alt text**
 
@@ -116,11 +116,11 @@ Card one of six. The headline reads I opened my mouth and said because I said so
 
 **Instagram caption**
 
-Some good news, with the honest bit included.
+Some good news, with the honest bit included: this is a survey of how young people feel.
 
-In a 2024 survey of 1,274 young people aged 14 to 22, 74% of LGBTQ+ young people said social media is important for feeling less alone. For their straight and cisgender peers it was 52%.
+In a 2024 Hopelab and Common Sense Media survey, 74% of LGBTQ+ young people aged 14 to 22 said social media is important for helping them feel less alone. It is what they told researchers, not a measure of what happened to them.
 
-The same report also found those young people face more harm online. We are not hiding that. Screens are not the villain, and they are not harmless either. The point is that for some children, a screen is where they find someone like them.
+Screens are not the villain, and they are not harmless either. A survey cannot show cause. The point is that for some children, a screen is where they find someone like them.
 
 If you want a calm way to share the minutes at home, the free earn your screen time chart is on the last card.
 
@@ -130,11 +130,11 @@ What stage is your child? Three questions, no sign up, link in bio.
 
 **Facebook post**
 
-Some good news, with the honest bit included.
+Some good news, with the honest bit included: this is a survey of how young people feel.
 
-In a 2024 survey of 1,274 young people aged 14 to 22, 74% of LGBTQ+ young people said social media is important for feeling less alone. For their straight and cisgender peers it was 52%.
+In a 2024 Hopelab and Common Sense Media survey, 74% of LGBTQ+ young people aged 14 to 22 said social media is important for helping them feel less alone. It is what they told researchers, not a measure of what happened to them.
 
-The same report also found those young people face more harm online. We are not hiding that. Screens are not the villain, and they are not harmless either. The point is that for some children, a screen is where they find someone like them.
+Screens are not the villain, and they are not harmless either. A survey cannot show cause. The point is that for some children, a screen is where they find someone like them.
 
 Who does your child talk to online that makes them laugh?
 
