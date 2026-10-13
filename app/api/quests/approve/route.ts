@@ -103,6 +103,37 @@ async function tellChildConfirmed(userId: string, childId: string, title: string
   )
 }
 
+// The child hears a "not yet" as kindly as a yes: which job, and that another
+// go is welcome. Written to kid_nudges (the same row the Remind button writes,
+// see app/api/quests/nudge) so it is waiting on their screen next open even
+// with no phone set up, then pushed best effort. An unread note for the same
+// job is reworded rather than stacked. Never blocks or fails the decision.
+async function tellChildNotYet(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  childId: string,
+  questId: string,
+) {
+  try {
+    const { data: quest } = await supabase
+      .from('family_quests').select('title').eq('id', questId).eq('user_id', userId).maybeSingle()
+    if (!quest?.title) return
+    const message = `Not quite yet: ${quest.title}. Have another go and tick it again 🌱`
+    try {
+      const { data: existing, error: readErr } = await supabase
+        .from('kid_nudges').select('id')
+        .eq('child_id', childId).eq('quest_id', questId).eq('seen', false)
+        .limit(1).maybeSingle()
+      if (!readErr && existing?.id) {
+        await supabase.from('kid_nudges').update({ message }).eq('id', existing.id)
+      } else if (!readErr) {
+        await supabase.from('kid_nudges').insert({ user_id: userId, child_id: childId, quest_id: questId, message })
+      }
+    } catch { /* the push below still carries it */ }
+    await pushToChild(createAdminClient(), userId, childId, 'Have another go 🌱', message)
+  } catch { /* best effort: the job already shows Have another go on their list */ }
+}
+
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -173,7 +204,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'tick_id and decision required' }, { status: 400 })
   }
 
-  const { error } = await supabase
+  const { data: changed, error } = await supabase
     .from('quest_ticks')
     .update({
       status: decision === 'approve' ? 'approved' : 'rejected',
@@ -182,7 +213,21 @@ export async function POST(req: NextRequest) {
     .eq('id', tick_id)
     .eq('user_id', user.id)
     .eq('status', 'pending')
+    .select('quest_id, child_id')
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // "Not done yet" reaches the child too.
+  //
+  // Audit, 13 October 2026: a yes pushed the child straight away, a not yet
+  // sent them nothing, so their job simply went back to looking unticked with
+  // no word about why. The child is told kindly, in the same two places the
+  // Remind button uses: a note on their own screen that always lands, and a
+  // best effort push. Only when this call really moved the tick, so a double
+  // tap on Not yet never sends two notes.
+  const rejected = decision === 'reject' ? changed?.[0] : undefined
+  if (rejected?.child_id && rejected.quest_id) {
+    await tellChildNotYet(supabase, user.id, rejected.child_id as string, rejected.quest_id as string)
+  }
 
   // Tell the child their tick was confirmed, with the minutes it earned.
   if (decision === 'approve') {

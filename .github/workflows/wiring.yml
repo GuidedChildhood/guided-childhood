@@ -415,6 +415,8 @@ jobs:
       - run: node scripts/check-watch-stage-copy.mjs
       - run: node scripts/check-kid-ask-visible.mjs
       - run: node scripts/check-trial-countdown-words.mjs
+      # A "not yet" on a job reaches the child and can be ticked again (audit, 13 October 2026).
+      - run: node scripts/check-job-not-yet.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:
