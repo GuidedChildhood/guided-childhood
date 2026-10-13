@@ -254,4 +254,4 @@ and the only columns a parent may update are `paypal_email` and
 matches the live catalogue table for table.
 
 367 and 368 are skipped numbers, not missing work. 373 is on an unmerged
-branch. PR 1260.
+branch. PR 1265.
