@@ -1,7 +1,7 @@
 {
   "title": "Ready, episode 1: the nightly fight",
   "needs": [
-    "Reshoot e1-ending and e1-off: she drifts to about six or seven, and e1-ending shows a bell, not a kitchen timer",
+    "e1-ending-v2 still reads about seven next to her dad; reshoot at finals if it shows",
     "DiGi's plan is its live script 9671, 'The stopping point agreed in a calm moment' (supabase/migrations/363 and 371): agree the ending before, no warnings. Run it as an eval case against live DiGi before finals",
     "Recapture digi-followup.png with the check back for this script (a week on, count the endings without a fight)"
   ],
@@ -49,7 +49,7 @@
       "kind": "shot",
       "step": 3,
       "stamp": "Night 2, 8:30pm",
-      "clip": "e1-ending.mp4",
+      "clip": "e1-ending-v2.mp4",
       "line": "The timer goes. That was the deal."
     },
     {
@@ -83,7 +83,7 @@
       "kind": "shot",
       "step": 4,
       "stamp": "Week 2, 9:00pm",
-      "clip": "e1-off.mp4",
+      "clip": "e1-off-v2.mp4",
       "line": "The timer goes. She switches it off herself."
     },
     {

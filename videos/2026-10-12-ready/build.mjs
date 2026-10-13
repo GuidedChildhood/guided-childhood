@@ -28,11 +28,10 @@ const BEATS = [
   { f: 'e1-tv', d: 7.4, off: 0.3, o: '55% 45%', cap: { at: 1.4, age: 'Age 9', line: 'Bedtime. The TV goes back on.' } },
   { f: 's02-slow', d: 11.4, off: 0.2, o: '45% 40%', chat: { at: 0.8, me: 'She has put the TV back on again. Third night running. What do I do?',
       digi: ['Not at the screen. In a calm moment, agree what ends it: episode or timer.', 'Then a star chart. Jobs earn stars, stars earn screen time, and bedtime stays protected.'] } },
-  { f: 's03', d: 6.6, off: 0.6, o: '50% 40%', cap: { at: 0.9, age: 'The star quest', line: 'Jobs around the house earn stars.' } },
-  { f: 's04', d: 7.0, off: 0.6, o: '50% 50%', chips: { at: 0.6, items: ['+1 star · fed the dog', '+1 star · set the table', '1 star = 5 minutes of screen time'] } },
-  { f: 's05', d: 6.8, off: 0.6, o: '50% 45%', cap: { at: 1.0, age: 'Protected time', line: 'No star can buy bedtime.' } },
-  { f: 's06', d: 6.2, off: 1.0, o: '55% 40%', cap: { at: 0.8, age: 'Her idea', line: 'She pitches her own quests.' } },
-  { f: 's07', d: 6.2, off: 1.0, o: '50% 40%', cap: { at: 0.8, age: 'Together', line: 'Ten minutes a day, learning together.' } },
+  { f: 's03-9', d: 7.0, off: 0.6, o: '50% 40%', chips: { at: 0.8, items: ['+1 star · fed the dog', '+1 star · set the table', '1 star = 5 minutes of screen time'] } },
+  { f: 's05-9', d: 6.8, off: 0.6, o: '50% 45%', cap: { at: 1.0, age: 'Protected time', line: 'No star can buy bedtime.' } },
+  { f: 's06-10', d: 6.2, off: 1.0, o: '55% 40%', cap: { at: 0.8, age: 'Her idea', line: 'She pitches her own quests.' } },
+  { f: 's07-11', d: 6.2, off: 1.0, o: '50% 40%', cap: { at: 0.8, age: 'Together', line: 'Ten minutes a day, learning together.' } },
   { f: 's08', d: 6.2, off: 1.2, o: '45% 45%', cap: { at: 0.8, age: 'Year after year', line: 'A star at a time, the habits stick.' } },
   { f: 's09-slow', d: 11.0, off: 0.3, o: '50% 45%', cap: { at: 0.6, age: 'Age 12', line: 'She comes to you, not around you.' },
       chat: { at: 4.6, me: 'She showed me a horrible message from a group chat. What do I say?',
@@ -175,7 +174,7 @@ ${tl}</script></body></html>`)
 // pass (age 8), the lift runs twelve to fifteen, the hush is the box, the
 // melody returns for the card, the hold is the charger and the end card.
 const idx = (f) => BEATS.findIndex((b) => b.f === f)
-const score = { len: TOTAL, voice: +starts[idx('s06')].toFixed(1), lift: +starts[idx('s09-slow')].toFixed(1), hush: +starts[idx('s11')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
+const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-slow')].toFixed(1), hush: +starts[idx('s11')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
 writeFileSync('score.json', JSON.stringify(score))
 console.log(`built ${BEATS.length} beats, ${TOTAL}s`, JSON.stringify(score))
 BEATS.forEach((b, i) => console.log(`  ${b.f.padEnd(9)} ${starts[i].toFixed(1).padStart(5)}s  ${b.d}s`))
