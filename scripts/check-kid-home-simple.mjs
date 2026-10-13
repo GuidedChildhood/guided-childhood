@@ -109,5 +109,23 @@ check('the waiting line and Since you last looked are on the home', /<KidWaiting
 check('a yes seen live is not news on the next open', /playKidSound\('star'\)\s*markSinceSeen\(\)/.test(code))
 check('the five names the step that is lit, not done plus one', /step \$\{liveNo\} of/.test(five))
 
+// ── THE GROWN UP'S SIDE OF THE LINK (13 October 2026) ────────────────────────
+// Justin approved: the child names the grown up their own way (Settings),
+// "Teo read it ✓" on Remind, and the bell carries screen time asks (yes in
+// place) and the child's wins with Send a well done.
+const mig = readFileSync('supabase/migrations/376_what_the_child_calls_you_and_well_done.sql', 'utf8')
+check('migration 376 adds calls_grown_up and the well done kind and ref', /add column if not exists calls_grown_up/.test(mig) && /kid_nudges add column if not exists kind/.test(mig) && /kid_nudges add column if not exists ref/.test(mig))
+check('the child page passes what the child calls the grown up', /grownUpLabel=\{callsGrownUp\}/.test(readFileSync('app/k/[token]/page.tsx', 'utf8')) && /grownUpWord\(grownUpLabel\)/.test(code))
+check('Settings asks what the child calls you', /<CallsYouField /.test(readFileSync('app/(dashboard)/dashboard/settings/page.tsx', 'utf8')))
+const wd = readFileSync('app/api/kid/well-done/route.ts', 'utf8')
+check('a well done is a kid note, marked, and still lands before migration 376', /kind: 'well_done', ref/.test(wd) && /insert\(row\)/.test(wd))
+const bell = readFileSync('lib/notifications/collect.ts', 'utf8')
+check('the bell carries screen time asks and the child\'s wins', /kind: 'screen'/.test(bell) && /kind: 'win'/.test(bell) && /answered\.has/.test(bell))
+const card = readFileSync('components/notifications/NotificationCard.tsx', 'utf8')
+check('a screen time ask says yes in place and a win sends a well done', /'\/api\/quests\/time\/request'/.test(card) && /'\/api\/kid\/well-done'/.test(card))
+for (const f of ['components/quests/QuestStatusBoard.tsx', 'components/quests/ScreenGateBanner.tsx', 'components/quests/ParentDeviceTime.tsx']) {
+  check(`${f} shows whether the child read the Remind`, /<NudgeReceipt /.test(readFileSync(f, 'utf8')))
+}
+
 if (failures) { console.error(`\n${failures} kid home check(s) failed`); process.exit(1) }
 console.log('\nKid home: simple and honest')

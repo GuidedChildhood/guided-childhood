@@ -112,8 +112,10 @@ export default function KidQuestScreen({
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
   dailyStickers = null,
-  sinceItems = [], lastSeenAt = null,
+  sinceItems = [], lastSeenAt = null, grownUpLabel = null,
 }: {
+  /** What this child calls the grown up, set in Settings (migration 376). */
+  grownUpLabel?: string | null
   /** The yeses of the last two days, for Since you last looked (lib/kid/grown-up-link.ts). */
   sinceItems?: SinceItem[]
   /** The link's last activity: a yes before it was seen when it happened. */
@@ -1035,7 +1037,7 @@ export default function KidQuestScreen({
   // own mark. Once, not on every refresh: a yes celebrated live below marks
   // the device seen, and must not come back as a card a second later.
   // See lib/kid/grown-up-link.ts.
-  const grownUp = grownUpWord(null)
+  const grownUp = grownUpWord(grownUpLabel)
   const [sinceShown, setSinceShown] = useState<SinceItem[]>([])
   useEffect(() => {
     let local: string | null = null

@@ -1,8 +1,8 @@
 import NotificationCard from '@/components/notifications/NotificationCard'
 import type { Notification } from '@/lib/notifications/collect'
 
-// Layout harness for the notification cards. No auth and no feed: the four
-// shapes side by side at a phone width, so the approve card can be checked
+// Layout harness for the notification cards. No auth and no feed: the shapes
+// side by side at a phone width, so the approve card can be checked
 // without a child having to finish a job first. The buttons post for real, so
 // this page is for looking rather than clicking.
 
@@ -30,6 +30,20 @@ const CASES: Notification[] = [
     title: 'PE kit on Thursday',
     body: 'Every week, from the school newsletter',
     href: '/dashboard/school', at: '2026-08-04', recurring: true,
+  },
+  // The child's side of the link (13 October 2026): a screen time ask said yes
+  // to in place, and a win with Send a well done.
+  {
+    id: 'screen-55555555-5555-5555-5555-555555555555', kind: 'screen', icon: '📱', urgent: true,
+    title: 'Teo asked for 30 min on the iPad',
+    body: 'Say yes here, or open the timer to choose',
+    href: '/dashboard/quests/timer', at: '2026-10-13', childId: '66666666-6666-6666-6666-666666666666',
+  },
+  {
+    id: 'win-66666666-6666-6666-6666-666666666666-day:2026-10-13', kind: 'win', icon: '⭐', urgent: false,
+    title: 'Teo finished the five a day',
+    body: 'Every step done. A well done from you lands on their home.',
+    href: '/dashboard/pathway', at: '2026-10-13', childId: '66666666-6666-6666-6666-666666666666', ref: 'day:2026-10-13',
   },
 ]
 

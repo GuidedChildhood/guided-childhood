@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { readCallsGrownUp, senderWord } from '@/lib/kid/calls-grown-up'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { getChildStarRate } from '@/lib/quests/time-tiers'
 import { recordJobsStreak } from '@/lib/pathway/jobs-streak'
@@ -92,9 +93,11 @@ async function tellChildConfirmed(userId: string, childId: string, title: string
   // Priced at THIS child's rate (migration 225), so the yes message promises
   // the minutes the timer will actually give.
   const minutes = stars * await getChildStarRate(createAdminClient(), userId, childId)
+  // Named the way the child names them (migration 376): "Dad said yes!".
+  const who = senderWord(await readCallsGrownUp(createAdminClient(), childId))
   await pushToChild(
     createAdminClient(), userId, childId,
-    'Your grown up said yes! ✅',
+    `${who} said yes! ✅`,
     // A family job's thank you is belonging, never payment: naming stars here
     // would price the exact thing the flag exists to keep unpriced.
     familyJob

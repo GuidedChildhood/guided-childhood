@@ -16,12 +16,14 @@ import type { Notification } from '@/lib/notifications/collect'
 
 const KIND_LABEL: Record<Notification['kind'], string> = {
   approve: 'Approve', ask: 'A request', digi: 'DiGi', school: 'School', device: 'Device time',
+  screen: 'Screen time ask', win: 'A win',
 }
 
 function ctaLabel(n: Notification): string {
   if (n.kind === 'approve') return 'Approve the stars'
   if (n.kind === 'ask') return 'See the request'
-  if (n.kind === 'device') return 'See the timer'
+  if (n.kind === 'device' || n.kind === 'screen') return 'See the timer'
+  if (n.kind === 'win') return 'Send a well done'
   if (n.kind === 'digi') return n.href.includes('/printables') ? 'Open Printables' : n.href.includes('/lessons') ? 'Open Lessons' : 'Talk it through'
   return 'Open'
 }
@@ -109,6 +111,49 @@ export default function NotificationCard({ n }: { n: Notification }) {
             </button>
             <Link href="/dashboard/school" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>
               Open school
+            </Link>
+          </div>
+        </CardShell>
+      </div>
+    )
+  }
+
+  // THE CHILD'S SIDE OF THE LINK, ACTED ON IN PLACE (13 October 2026).
+  // A screen time ask says yes here, through the same route the timer page
+  // uses, so the child's Start lights up without the parent hunting for it.
+  // A win sends a well done the child reads on their home. Both optimistic,
+  // like approve: the decision is made, the card folds, the bell re-counts.
+  if (n.kind === 'screen' || n.kind === 'win') {
+    const act = async (e: React.MouseEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (busy) return
+      setBusy(true)
+      setCleared(true)
+      notifsChanged()
+      try {
+        if (n.kind === 'screen') {
+          await fetch('/api/quests/time/request', {
+            method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: n.id.replace(/^screen-/, ''), status: 'approved' }),
+          })
+        } else {
+          await fetch('/api/kid/well-done', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ childId: n.childId, ref: n.ref }),
+          })
+        }
+      } catch { /* gone locally, reconciles on reload */ }
+    }
+    return (
+      <div style={cardStyle(n)}>
+        <CardShell n={n}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+            <button onClick={act} disabled={busy} style={pill(n)}>
+              {n.kind === 'screen' ? 'Say yes ✓' : 'Send a well done ⭐'}
+            </button>
+            <Link href={n.href} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>
+              {n.kind === 'screen' ? 'Open the timer' : n.ref?.startsWith('lesson:') ? 'See their lessons' : 'See their week'}
             </Link>
           </div>
         </CardShell>
