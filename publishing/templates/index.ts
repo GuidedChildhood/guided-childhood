@@ -10,7 +10,11 @@
 
 import { DESTINATIONS, PAGE_COUNT, type Activity, type ArtSlot, type Destination, type FriendRef, type Issue, type Page } from '../engine/schema'
 import { blocks, citeMap, esc, pad3, plain, refsBox, rich, type CiteMap } from '../engine/html'
-import { ART, emblem, icon } from './art'
+import { ART, emblem, icon, useIconFamily } from './art'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { PUB } from '../engine/library'
+import { bohoSwap, burst, rainbow, smiley, star, wavy, BOHO } from './happy'
 
 export type RenderContext = {
   issue: Issue
@@ -18,14 +22,27 @@ export type RenderContext = {
   approvedArt: (slot: string) => string | null        // an approved generated picture, if any
   qr: (url: string) => string                         // the QR as inline SVG
   ink: boolean                                        // the print friendly ink saver
+  theme: 'editorial' | 'boho'
 }
 
 const destTag = (d: Destination) =>
   `<span class="dest dest-${d}">${emblem(d)}${esc(DESTINATIONS[d].name)}</span>`
 
+
+// The tag row that opens a page: the destination sticker, the handwritten
+// eyebrow and, in the boho theme, a little cluster of Happy News doodles at
+// the far end of the row, in the flow so it can never sit on top of a word.
+const DOODLE: Record<Destination, string> = { observatory: 'star', maker: 'make', forest: 'tree', garden: 'heart', research: 'magnifier', explorer: 'compass' }
+function tagRow(ctx: RenderContext, d: Destination, eyebrow: string) {
+  const doodles = ctx.theme === 'boho'
+    ? `<span aria-hidden="true" style="margin-left:auto;padding-right:1.2mm;display:flex;align-items:center;gap:1.6mm">${smiley('5mm', BOHO.clay)}${star('4.4mm', BOHO.mustard)}<span style="display:block;transform:rotate(8deg)">${icon(DOODLE[d], 24)}</span></span>`
+    : ''
+  return `<div style="display:flex;align-items:center;gap:3mm">${destTag(d)}<span class="eyebrow" style="margin:0">${esc(eyebrow)}</span>${doodles}</div>`
+}
+
 function runhead(ctx: RenderContext, label: string) {
   const i = ctx.issue
-  return `<header class="runhead"><span class="mark">${planetGlyph(12)} The Guided Planet</span><span>${esc(label)}</span><span>Issue ${pad3(i.number)} · ${esc(i.month)}</span></header>`
+  return `<header class="runhead"><span class="mark">${planetGlyph(12)} The Guided Planet</span><span>${esc(label)}</span><span>Issue ${pad3(i.number)} · ${esc(i.month)}</span></header>${ctx.theme === 'boho' ? wavy() : ''}`
 }
 
 function folio(ctx: RenderContext, n: number, d?: Destination) {
@@ -78,6 +95,7 @@ function art(ctx: RenderContext, a: ArtSlot, style: string, w?: number, h?: numb
   if (!draw) throw new Error(`art slot ${a.slot} has no approved file and no vector default`)
   let svg = draw(w, h)
   if (ctx.ink) svg = inkSaver(svg)
+  if (ctx.theme === 'boho') svg = bohoSwap(svg)
   return `<figure class="art" style="${style}" data-slot="${esc(a.slot)}" data-source="vector" role="img" aria-label="${esc(a.alt)}">${svg}</figure>`
 }
 
@@ -149,7 +167,7 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
       </div>`
     case 'card-game': {
       const cards = a.cards.map(c => `<div style="border:.4mm solid var(--ink);border-radius:3mm;background:var(--paper);padding:2mm 1.5mm;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm">
-          ${icon(c.icon, 26)}<span style="font:800 7.6pt/1.1 var(--font-display)">${esc(c.label)}</span><span class="mono" style="font:600 5.6pt/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)">${esc(c.topic)}</span></div>`).join('')
+          ${icon(c.icon, 32)}<span style="font:800 7.6pt/1.1 var(--font-display)">${esc(c.label)}</span><span class="mono" style="font:600 5.6pt/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)">${esc(c.topic)}</span></div>`).join('')
       return `<div data-activity="card-game" style="display:grid;grid-template-columns:1fr 1fr;gap:5mm;flex:1;min-height:0">
         <div class="frame" style="display:flex;flex-direction:column;gap:3mm">
           <div class="card" style="background:var(--tint-butter);border-color:var(--deep-gold)">
@@ -177,7 +195,7 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
     case 'week':
       return `<div data-activity="week" style="display:flex;flex-direction:column;flex:1;min-height:0"><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2.4mm;flex:1;min-height:0">
         ${a.days.map((d, i) => `<div class="card frame" style="padding:2.6mm 2.4mm;display:flex;flex-direction:column;gap:1.6mm;${i === 6 ? 'background:var(--tint-butter);border-color:var(--deep-gold)' : ''}">
-          <p class="mono" style="font:700 6.4pt/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink)">${esc(d.day)}</p>
+          <div style="display:flex;justify-content:space-between;align-items:center"><p class="mono" style="font:700 6.4pt/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink)">${esc(d.day.slice(0, 3))}</p>${d.icon ? icon(d.icon, 22) : ''}</div>
           <p style="font:900 10.4pt/1.08 var(--font-display)">${rich(d.title, cites)}</p>
           <p style="font:600 7.9pt/1.36 var(--font-body);color:var(--ink-soft)">${rich(d.task, cites)}</p>
           <div class="lines" style="gap:6mm;padding-top:2mm;flex:1;align-content:start" aria-hidden="true">${'<i></i>'.repeat(5)}</div>
@@ -204,6 +222,7 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
         </div>
         <div style="display:grid;grid-template-columns:repeat(${a.stamps.length},1fr);gap:3mm;margin-top:4mm">
           ${a.stamps.map(s => `<div style="aspect-ratio:1;border:.45mm dashed #E9C977;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2mm">
+            ${s.icon ? `<span style="display:block;margin-bottom:1mm;background:#FFF6EA;border-radius:999px;padding:1mm">${icon(s.icon, 24)}</span>` : ''}
             <span style="font:900 7.8pt/1.08 var(--font-display);color:#F7E7B9">${esc(s.label)}</span>
             <span style="font:600 5.4pt/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:#E9C977;margin-top:1mm">Page ${s.page}</span></div>`).join('')}
         </div>
@@ -217,6 +236,7 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
 // ── 1. COVER ───────────────────────────────────────────────────────────────
 
 function cover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
+  if (ctx.theme === 'boho') return bohoCover(ctx, p)
   const i = ctx.issue
   const night = !ctx.ink
   const fg = night ? 'var(--cream)' : 'var(--ink)'
@@ -253,6 +273,66 @@ function cover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
             <p style="font:800 9pt/1.2 var(--font-display);margin-top:1.2mm;color:var(--ink)">${esc(t.text)}</p></div>`).join('')}
         </div>
       </div>
+    </div>`
+  return `<section class="page" data-page="1" data-template="cover" aria-label="Page 1: Cover">
+  <div class="trim">${i.sample ? '<div class="sample-mark" aria-hidden="true"></div>' : ''}${inner}</div>
+</section>`
+}
+
+
+// The masthead word is a drawing (design/make-masthead.py), because set as
+// live lettering its outline and shadow printed each letter three times into
+// the PDF's text. The paper's name stays real text in every running head.
+let MASTHEAD: string | null = null
+function mastheadWord() {
+  if (!MASTHEAD) MASTHEAD = readFileSync(join(PUB, 'design', 'masthead-planet.svg'), 'utf8').replace('<svg ', '<svg style="display:block;width:100%;height:auto" aria-hidden="true" ')
+  return MASTHEAD
+}
+
+// ── 1b. THE BOHO COVER ─────────────────────────────────────────────────────
+// Sand paper, a painted rainbow rising behind the lettered name, a FREE burst,
+// and the night sky seen through an arched window with Bloop looking up.
+function bohoCover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
+  const i = ctx.issue
+  const teaserTints = ['#FBE9C6', '#E2EDD3', '#F6D9CF', '#DCEAEC']
+  const inner = `
+    <div style="position:absolute;inset:0;padding:9mm 12mm 0">
+      <div style="display:flex;justify-content:space-between;font:600 var(--t-eyebrow)/1 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)">
+        <span>A free paper from The Guided Digital Childhood</span><span>guidedchildhood.com</span>
+      </div>
+      <div data-anim="masthead" class="frame" style="position:relative;height:76mm;margin-top:1mm">
+        <div style="position:absolute;left:50%;top:1mm;transform:translateX(-50%);opacity:.95">${rainbow(560)}</div>
+        <div style="position:absolute;left:0;right:0;top:20mm;text-align:center">
+          <p style="font:700 28pt/1 var(--font-hand);color:var(--ink)">The Guided</p>
+          <h1 style="margin:-1mm auto 0;width:100mm" aria-label="Planet">${mastheadWord()}</h1>
+        </div>
+        <div style="position:absolute;right:4mm;top:5mm">${burst('FREE!', '26mm', BOHO.mustard, 12)}</div>
+        <div style="position:absolute;left:4mm;top:16mm;transform:rotate(-12deg)">${smiley('8mm', BOHO.clay)}</div>
+        <div style="position:absolute;left:22mm;top:42mm">${star('6mm', BOHO.mustard)}</div>
+        <div style="position:absolute;right:30mm;top:48mm">${smiley('6mm', BOHO.sage)}</div>
+      </div>
+      ${wavy()}
+      <div style="display:flex;justify-content:space-between;font:600 var(--t-eyebrow)/1 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin:-1.5mm 0 -1mm">
+        <span>Issue ${pad3(i.number)}</span><span>${esc(i.month)}</span><span>${esc(i.edition)}</span><span>Ages ${esc(i.readingAge)} and their grown ups</span>
+      </div>
+      ${wavy()}
+      <div style="display:grid;grid-template-columns:80mm 1fr;gap:6mm;margin-top:3mm">
+        <div data-anim="headline">
+          <p style="font:700 16pt/1 var(--font-hand);color:var(--clay-ink);transform:rotate(-2deg)">Free to print and keep</p>
+          <h2 style="font:800 40pt/.98 var(--font-letter);font-variation-settings:'SOFT' 100,'WONK' 1,'opsz' 144;letter-spacing:0;word-spacing:.04em;color:var(--ink);margin-top:2mm;text-wrap:balance">${esc(p.headline)}</h2>
+          <p style="font:600 11.6pt/1.4 var(--font-body);color:var(--ink-soft);margin-top:4mm">${rich(p.deck)}</p>
+          <div data-anim="teasers" style="display:grid;gap:4.5mm;margin-top:7mm">
+            ${p.teasers.map((t, k) => `<div class="frame" style="display:grid;grid-template-columns:10mm 1fr;gap:2.5mm;align-items:center;background:${teaserTints[k % 4]};border:.4mm solid var(--ink);border-radius:14px;padding:2.2mm 3mm;box-shadow:2px 3px 0 var(--ink);transform:rotate(${k % 2 ? 1 : -1}deg)">
+              <span style="width:10mm;height:10mm;border-radius:999px;background:var(--ink);color:#FFF6EA;display:flex;align-items:center;justify-content:center;font:900 13pt/1 var(--font-letter)">${t.page}</span>
+              <span style="font:800 10pt/1.22 var(--font-display);color:var(--ink)">${esc(t.text)}</span></div>`).join('')}
+          </div>
+        </div>
+        <div style="position:relative;height:176mm;border:.6mm solid var(--ink);border-radius:52mm 52mm 8mm 8mm;overflow:hidden;box-shadow:2px 3px 0 var(--ink)">
+          <div data-anim="sky" style="position:absolute;inset:0">${art(ctx, p.art, 'position:absolute;inset:0;border-radius:0', 420, 640)}</div>
+          <div data-anim="friend" style="position:absolute;right:2mm;bottom:9mm">${friend(ctx, p.friend, '62mm')}</div>
+        </div>
+      </div>
+      <p style="position:absolute;left:12mm;right:12mm;bottom:9mm;text-align:center;font:700 15pt/1 var(--font-hand);color:var(--clay-ink)">${esc(i.tagline)}</p>
     </div>`
   return `<section class="page" data-page="1" data-template="cover" aria-label="Page 1: Cover">
   <div class="trim">${i.sample ? '<div class="sample-mark" aria-hidden="true"></div>' : ''}${inner}</div>
@@ -327,7 +407,7 @@ function showcase(ctx: RenderContext, p: Extract<Page, { template: 'showcase' }>
   const inner = `
     <div style="display:grid;grid-template-columns:1fr 62mm;gap:5mm;align-items:end">
       <div>
-        <div style="display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
+        ${tagRow(ctx, p.destination, p.eyebrow)}
         <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
         <p class="standfirst">${rich(p.standfirst, cites)}</p>
       </div>
@@ -354,7 +434,7 @@ function activityPage(ctx: RenderContext, p: Extract<Page, { template: 'activity
   const inner = `
     <div style="display:grid;grid-template-columns:1fr auto;gap:4mm;align-items:end">
       <div>
-        <div style="display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
+        ${tagRow(ctx, p.destination, p.eyebrow)}
         <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
         <p class="standfirst">${rich(p.standfirst, cites)}</p>
       </div>
@@ -374,17 +454,17 @@ function activityPage(ctx: RenderContext, p: Extract<Page, { template: 'activity
 function research(ctx: RenderContext, p: Extract<Page, { template: 'research' }>) {
   const cites = citeMap(p.refs)
   const inner = `
-    <div style="display:flex;align-items:center;gap:3mm">${destTag('research')}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
+    ${tagRow(ctx, 'research', p.eyebrow)}
     <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
     <p class="standfirst">${rich(p.standfirst, cites)}</p>
-    <div style="display:grid;grid-template-columns:repeat(${p.kinds.length},1fr);gap:3mm;margin-top:4.5mm">
+    <div style="display:grid;grid-template-columns:repeat(${p.kinds.length},1fr);gap:3mm;margin-top:3.5mm">
       ${p.kinds.map(k => `<div class="card frame" style="padding:3.2mm;display:flex;flex-direction:column;gap:1.5mm">
         ${icon(k.icon, 30)}<h2 class="h3">${esc(k.name)}</h2>
         <p style="font:600 7.8pt/1.35 var(--font-body);color:var(--ink-soft)">${rich(k.examples, cites)}</p>
         <p style="font:700 8.2pt/1.36 var(--font-body);margin-top:auto;border-top:.25mm solid var(--rule);padding-top:1.5mm">${rich(k.says, cites)}</p>
       </div>`).join('')}
     </div>
-    <div class="rsum" style="margin-top:4.5mm">
+    <div class="rsum" style="margin-top:3.5mm">
       <div class="row"><div class="k">What the research found</div><div class="v body frame">${blocks(p.found, cites)}</div></div>
       <div class="row"><div class="k">What it cannot tell us yet</div><div class="v body frame">${blocks(p.cannot, cites)}</div></div>
     </div>
@@ -406,7 +486,7 @@ function investigation(ctx: RenderContext, p: Extract<Page, { template: 'investi
   const inner = `
     <div style="display:grid;grid-template-columns:1fr 46mm;gap:4mm;align-items:end">
       <div>
-        <div style="display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
+        ${tagRow(ctx, p.destination, p.eyebrow)}
         <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
         <p class="standfirst">${rich(p.standfirst, cites)}</p>
       </div>
@@ -440,7 +520,7 @@ function list(ctx: RenderContext, p: Extract<Page, { template: 'list' }>) {
     ${art(ctx, p.art, 'height:15mm;flex:none', 420, 34)}
     <div style="display:grid;grid-template-columns:1fr auto;gap:4mm;align-items:end;margin-top:4mm">
       <div>
-        <div style="display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
+        ${tagRow(ctx, p.destination, p.eyebrow)}
         <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
         <p class="standfirst">${rich(p.standfirst, cites)}</p>
       </div>
@@ -468,7 +548,7 @@ function list(ctx: RenderContext, p: Extract<Page, { template: 'list' }>) {
 function passport(ctx: RenderContext, p: Extract<Page, { template: 'passport' }>) {
   const inner = `
     <div style="display:grid;grid-template-columns:1fr auto;gap:4mm;align-items:end">
-      <div><div style="display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">Cut out and keep</span></div>
+      <div>${tagRow(ctx, p.destination, 'Cut out and keep')}
       <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1><p class="standfirst">${rich(p.standfirst)}</p></div>
       ${friend(ctx, p.friend, '34mm')}
     </div>
@@ -520,7 +600,9 @@ export function renderPage(ctx: RenderContext, p: Page): string {
 // The whole issue as one HTML document, ready for Chromium to print.
 export function renderIssue(ctx: RenderContext, css: string, opts: { bleedMm: number }): string {
   const i = ctx.issue
+  useIconFamily(ctx.theme === 'boho' ? 'happy' : 'house')
   const pages = i.pages.map(p => renderPage(ctx, p)).join('\n')
+  useIconFamily('house')
   return `<!doctype html>
 <html lang="en-GB">
 <head>
@@ -531,7 +613,7 @@ export function renderIssue(ctx: RenderContext, css: string, opts: { bleedMm: nu
 :root { --bleed: ${opts.bleedMm}mm; }
 </style>
 </head>
-<body${ctx.ink ? ' class="ink"' : ''}>
+<body class="theme-${ctx.theme}${ctx.ink ? ' ink' : ''}">
 ${pages}
 </body>
 </html>`

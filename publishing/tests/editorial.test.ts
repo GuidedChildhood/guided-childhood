@@ -161,3 +161,16 @@ test('no recipe asks Higgsfield to draw a character, a word or a screen', () => 
     assert.doesNotMatch(r.prompt, /\b(Bloop|Pebble|Orbit|Nova|Cosmo|DiGi)\b/)
   }
 })
+
+test('the paper\'s Happy News icons are the app\'s own, not a drifting copy', async () => {
+  const { execFileSync } = await import('node:child_process')
+  const out = execFileSync('node', ['publishing/library/export-happy-icons.mjs', '--check'], { encoding: 'utf8' })
+  assert.match(out, /PASS/)
+})
+
+test('the boho theme is a look, not new rules: the same gates hold', () => {
+  const i = copy(1)
+  assert.equal(i.theme, 'boho')
+  i.theme = 'editorial'
+  assert.deepEqual(errors(i), [])
+})

@@ -76,10 +76,13 @@ export type Variant = 'print' | 'download' | 'ink'
 
 export async function buildHtml(issue: Issue, variant: Variant, bleedMm: number, qrs: Map<string, string>) {
   const friendFiles = await resolveFriends(allFriends(issue), variant === 'print' ? 'print' : 'light')
-  const css = readFileSync(join(PUB, 'design', 'newspaper.css'), 'utf8').replaceAll('FONT_DIR', pathToFileURL(join(ROOT, 'app', 'fonts')).href).replaceAll('DESIGN_DIR', pathToFileURL(join(PUB, 'design')).href)
+  const theme = issue.theme ?? 'editorial'
+  const sheets = ['newspaper.css', ...(theme === 'boho' ? ['boho.css'] : [])]
+  const css = sheets.map(f => readFileSync(join(PUB, 'design', f), 'utf8')).join('\n').replaceAll('FONT_DIR', pathToFileURL(join(ROOT, 'app', 'fonts')).href).replaceAll('DESIGN_DIR', pathToFileURL(join(PUB, 'design')).href)
   const ctx: RenderContext = {
     issue,
     ink: variant === 'ink',
+    theme,
     friendSrc: f => pathToFileURL(friendFiles.get(assetIdFor(f)) as string).href,
     approvedArt: approvedArtFor(issue.number),
     qr: u => { const s = qrs.get(u); if (!s) throw new Error(`no QR made for ${u}`); return s },

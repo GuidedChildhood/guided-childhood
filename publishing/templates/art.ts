@@ -19,6 +19,8 @@
 // Stars and scatter use a seeded generator, so the same issue prints the same
 // sky every time and a visual regression test can compare pages pixel for pixel.
 
+import { bohoSwap, HAPPY_FOR, happyIcons } from './happy'
+
 const INK = '#1A1A2E'
 const CREAM = '#F9F8F6'
 const BUTTER = '#EDC35F'
@@ -237,7 +239,22 @@ export function makerSkyline(w = 420, h = 150) {
 // ── SMALL ICONS ─────────────────────────────────────────────────────────────
 // One family of 32 unit icons for cards, lists and the four kinds of screen
 // time. Same line, same fills, so a page of six icons reads as one set.
+// Which icon family draws: the newspaper's own, or (in the boho theme) the
+// app's Happy News set wherever it draws the same idea. Set once per render by
+// templates/index.ts renderIssue.
+let ICONS: 'house' | 'happy' = 'house'
+export const useIconFamily = (f: 'house' | 'happy') => { ICONS = f }
+
 export function icon(name: string, size = 32) {
+  if (ICONS === 'happy') {
+    const mapped = HAPPY_FOR[name]
+    if (mapped && happyIcons()[mapped]) return happyIcons()[mapped].replace('width="64" height="64"', `width="${size}" height="${size}"`)
+    return bohoSwap(houseIcon(name, size))
+  }
+  return houseIcon(name, size)
+}
+
+function houseIcon(name: string, size = 32) {
   const s = (inner: string) => `<svg viewBox="0 0 32 32" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="${INK}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${inner}</g></svg>`
   switch (name) {
     case 'create': return s(`<path d="M7 25 L9 18 L21 6 L26 11 L14 23 Z" fill="${BUTTER}"/><path d="M18 9 L23 14"/><path d="M7 25 L12 24"/>`)
@@ -304,7 +321,7 @@ export function friendshipValley(w = 420, h = 200) {
 export function recommendationMachine(w = 360, h = 300) {
   const token = (x: number, y: number, ic: string, label: string) => `<g transform="translate(${x} ${y})">
     <rect x="-34" y="-17" width="68" height="34" rx="12" fill="${PAPER}" stroke="${INK}" stroke-width="1.6"/>
-    <g transform="translate(-30 -12) scale(.75)">${icon(ic).replace(/<svg[^>]*>|<\/svg>/g, '')}</g>
+    <g transform="translate(-30 -12) scale(.75)">${houseIcon(ic).replace(/<svg[^>]*>|<\/svg>/g, '')}</g>
     <text x="9" y="4" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="8" fill="${INK}">${label}</text>
   </g>`
   return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">

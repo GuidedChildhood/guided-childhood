@@ -459,3 +459,7 @@ standalone lessons have no file there and were untouched.
 Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
 timed out three times and they are inert (RLS on, no grant to anon or
 authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
+
+## 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down
+
+Justin: be clear on the audience; more Happy News icons; lettering; the family account (formerly Inspired by Alma) loved the look of the Happy News printables, so the free downloads need boho, super attractive appeal. Decided: the reader is 7 to 12 (heart 7 to 11), the chooser is the parent on the family account, the passer on is the teacher (publishing/README.md). A boho theme, on for every issue: sand, clay, mustard, sage and rose; Fraunces Soft lettering with Caveat handwriting (OFL); the app's own Happy News icons and marks, not copies; the masthead drawn from the font so the PDF text stays clean. Reverses, for printables only, the 5 October retirement of Happy News as a social reference. Every check still passes.

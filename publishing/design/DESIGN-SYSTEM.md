@@ -10,6 +10,25 @@ planet, in Guided Childhood's cream, ink and butter. Original: we learned
 recognisability and simplicity from The Happy Newspaper and copy nothing of its
 artwork, layout or lettering.
 
+## 0. The two themes
+
+Every issue names its look in `issue.json`, `"theme"`. Same pages, same checks.
+
+- **boho** (the default since 13 October 2026, `design/boho.css`). Justin: the
+  family account's audience, Inspired by Alma's, loved the Happy News look, and
+  the free downloads have to win them. Sand paper, espresso ink, the house
+  butter and sage warmed into clay, mustard and dusty rose; headlines in
+  Fraunces at its softest and wonkiest; handwritten labels in Caveat; the
+  painted rainbow, the FREE burst, stickers with hard shadows, wavy rules and
+  smiley dots from the app's own `HappyNewsBits`; the app's own drawn Happy
+  News icons (`library/happy-icons.json`, exported from `HappyIcon.tsx` and
+  checked against it by the tests); the masthead word drawn from the font's
+  outlines (`design/make-masthead.py`). This reverses, for the printables only,
+  the 5 October rule that retired The Happy Newspaper as a reference for social
+  cards. Their energy, our drawing, copy nothing.
+- **editorial** (`design/newspaper.css` alone): cream, ink and butter, Nunito
+  headlines, the magazine look. Kept for anything that wants the quieter voice.
+
 ## 1. The page
 
 - A4 portrait, 210 by 297mm. Fixed page boxes, never flowing text.

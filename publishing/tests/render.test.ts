@@ -45,7 +45,7 @@ for (const n of [1, 2]) {
 
   test(`issue ${n}: the words are text, not pictures`, () => {
     const NNN = String(n).padStart(3, '0')
-    const text = execFileSync('pdftotext', ['-layout', join(issueDir(n), 'dist', `guided-planet-${NNN}.pdf`), '-'], { encoding: 'utf8' })
+    const text = execFileSync('pdftotext', ['-raw', join(issueDir(n), 'dist', `guided-planet-${NNN}.pdf`), '-'], { encoding: 'utf8' })
     const issue = loadIssue(n)
     for (const p of issue.pages) if ('headline' in p) {
       const words = p.headline.replace(/[.?,]/g, '').split(/\s+/).slice(0, 3).join(' ')

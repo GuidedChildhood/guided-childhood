@@ -73,8 +73,8 @@ export type Activity =
   | { kind: 'blueprint'; title: string; intro: string; prompts: { label: string; hint: string }[] }
   | { kind: 'postcard'; title: string; intro: string; front: string; lines: string[] }
   | { kind: 'card-game'; title: string; intro: string; players: string; youNeed: string[]; setup: string[]; rounds: string[]; talk: string[]; cards: { topic: string; label: string; icon: string }[] }
-  | { kind: 'week'; title: string; intro: string; days: { day: string; title: string; task: string; offline: boolean }[]; reflect?: string[] }
-  | { kind: 'passport'; title: string; intro: string; stamps: { label: string; page: number }[] }
+  | { kind: 'week'; title: string; intro: string; days: { day: string; title: string; task: string; offline: boolean; icon?: string }[]; reflect?: string[] }
+  | { kind: 'passport'; title: string; intro: string; stamps: { label: string; page: number; icon?: string }[] }
 
 export type Block =
   | { type: 'para'; text: string }
@@ -161,6 +161,7 @@ export type Issue = {
   tagline: string
   coverHeadline: string
   sample?: boolean           // a structure test, watermarked, never published
+  theme?: 'editorial' | 'boho' // the look: cream editorial, or boho Happy News (design/boho.css)
   readingAge: string         // 7 to 12
   pages: Page[]
   sources: Source[]

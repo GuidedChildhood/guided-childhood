@@ -8,6 +8,21 @@ This folder is the system that makes every edition. Justin is the Editor in
 Chief, not the production department: each edition asks him twice, and the
 routine does the rest.
 
+## Who it is for
+
+Three people touch every issue, and each page has to work for all three.
+
+| | Who | What they need from the paper |
+| --- | --- | --- |
+| **The reader** | A child aged 7 to 12, reading with a grown up. The heart is primary school, Years 3 to 6 (7 to 11); the oldest pages stretch to Year 7. | Short words, big pictures, something to do on every page, never a phone or an account |
+| **The chooser** | A UK parent of a primary age child, many of whom followed us as Inspired by Alma (party, craft and celebration design, a boho look). They find the paper on the family Instagram or Facebook, or as a free download. | Something beautiful enough to print, keep and share; screen time that feels positive rather than a fight; a plan, not a ban |
+| **The passer on** | A primary teacher, a DSL, a club leader | Free to copy, sources on every page, links to the curriculum |
+
+The chooser decides whether the paper is downloaded, printed and shared, so
+the cover and every page preview have to win that parent first; the activities then
+have to deliver for the child. That is why the paper wears the boho Happy News
+theme: it is the look that audience already loved.
+
 ## For Justin: the two approvals, about 20 to 30 minutes an edition
 
 You get an email each time, with a link to **/dashboard/admin/planet**.
@@ -32,7 +47,7 @@ counts and the paper comes back to you.
 | --- | --- |
 | Issue 001, The Curiosity Edition | `issues/001/` : `issue.json` (the words), `research.json` (13 candidates, scored), `distribution.json` (email and social words), `dist/` (PDFs, previews, online edition, report) |
 | Issue 002, sample | `issues/002/` : the Real or Pretend Edition, made from words alone through the same templates. Watermarked, never published. Its story pages are placeholders until its research week. |
-| The design system | `design/newspaper.css`, written rules in `design/DESIGN-SYSTEM.md` |
+| The design system | `design/newspaper.css`, the boho Happy News theme `design/boho.css` (on for every issue since 13 October 2026), written rules in `design/DESIGN-SYSTEM.md` |
 | The world | `WORLD.md`: the six destinations and Bloop's job |
 | The templates | `templates/index.ts` (nine page templates), `templates/art.ts` (our own drawings), `templates/online.ts` (the accessible edition) |
 | The engine | `engine/` (schema, validators, workflow, stores, hashes, the character library check) |

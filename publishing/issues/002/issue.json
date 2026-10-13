@@ -899,5 +899,6 @@
       "supports": "The 2026 MakeCode release adds screen reader support for block based coding, shaped through research with blind and low vision children and young adults.",
       "quote": "The 2026 Microsoft MakeCode for micro:bit release introduces screen reader support for block-based coding"
     }
-  ]
+  ],
+  "theme": "boho"
 }

@@ -1,7 +1,7 @@
 {
   "issue": "issue-002",
-  "contentHash": "cfc0805c35b8d7f1c287d0e97ba35233eacf01af8e241c6fd5a1d8b1cd7fa26e",
-  "renderedAt": "2026-10-13T16:02:08.602Z",
+  "contentHash": "767cbf3b596411de93083a47d1ba1899c598830137a31975b97fe2071e06d8b8",
+  "renderedAt": "2026-10-13T16:21:58.675Z",
   "editorial": [
     {
       "level": "warn",
@@ -32,11 +32,13 @@
       "fontsEmbedded": true,
       "fonts": [
         "IBMPlexMono-SemiBold",
+        "Fraunces-9ptBlack",
         "Nunito-ExtraLight",
-        "IBMPlexMono-Bold",
-        "IBMPlexMono-Medium"
+        "Caveat-Regular",
+        "IBMPlexMono-Medium",
+        "IBMPlexMono-Bold"
       ],
-      "bytes": 6938931,
+      "bytes": 7359169,
       "ok": true,
       "problems": []
     },
@@ -50,11 +52,13 @@
       "fontsEmbedded": true,
       "fonts": [
         "IBMPlexMono-SemiBold",
+        "Fraunces-9ptBlack",
         "Nunito-ExtraLight",
-        "IBMPlexMono-Bold",
-        "IBMPlexMono-Medium"
+        "Caveat-Regular",
+        "IBMPlexMono-Medium",
+        "IBMPlexMono-Bold"
       ],
-      "bytes": 2635645,
+      "bytes": 3057198,
       "ok": true,
       "problems": []
     },
@@ -68,11 +72,13 @@
       "fontsEmbedded": true,
       "fonts": [
         "IBMPlexMono-SemiBold",
+        "Fraunces-9ptBlack",
         "Nunito-ExtraLight",
-        "IBMPlexMono-Bold",
-        "IBMPlexMono-Medium"
+        "Caveat-Regular",
+        "IBMPlexMono-Medium",
+        "IBMPlexMono-Bold"
       ],
-      "bytes": 2633569,
+      "bytes": 3054805,
       "ok": true,
       "problems": []
     }
@@ -81,7 +87,7 @@
     {
       "page": 1,
       "src": "bloop-thinking.png",
-      "dpi": 333
+      "dpi": 420
     },
     {
       "page": 2,

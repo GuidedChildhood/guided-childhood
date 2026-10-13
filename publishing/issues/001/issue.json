@@ -758,43 +758,50 @@
             "day": "Monday",
             "title": "Make a pixel picture",
             "task": "Colour the 8 by 8 grid on page 3. Can a grown up guess what it is?",
-            "offline": true
+            "offline": true,
+            "icon": "paint"
           },
           {
             "day": "Tuesday",
             "title": "Five minutes of sky",
             "task": "Go outside after dark with a grown up and count the stars you can see.",
-            "offline": true
+            "offline": true,
+            "icon": "sun"
           },
           {
             "day": "Wednesday",
             "title": "Spot the guess",
             "task": "Watch one thing together. Talk about why the next suggestion appeared.",
-            "offline": false
+            "offline": false,
+            "icon": "tv"
           },
           {
             "day": "Thursday",
             "title": "Fix a problem",
             "task": "Ask someone at home what annoys them, then design a fix on page 5.",
-            "offline": true
+            "offline": true,
+            "icon": "make"
           },
           {
             "day": "Friday",
             "title": "Send a smile",
             "task": "Finish your friendship postcard from page 7 and send it.",
-            "offline": true
+            "offline": true,
+            "icon": "heart"
           },
           {
             "day": "Saturday",
             "title": "Learn it together",
             "task": "Find a how to video, watch it together, then try it for real.",
-            "offline": false
+            "offline": false,
+            "icon": "read"
           },
           {
             "day": "Sunday",
             "title": "Show and tell",
             "task": "Everyone shows one thing they made or found out this week.",
-            "offline": true
+            "offline": true,
+            "icon": "cheer"
           }
         ],
         "reflect": [
@@ -818,27 +825,33 @@
         "stamps": [
           {
             "label": "Pixel picture",
-            "page": 3
+            "page": 3,
+            "icon": "paint"
           },
           {
             "label": "Inventor",
-            "page": 5
+            "page": 5,
+            "icon": "make"
           },
           {
             "label": "Postcard sent",
-            "page": 7
+            "page": 7,
+            "icon": "heart"
           },
           {
             "label": "Algorithm",
-            "page": 9
+            "page": 9,
+            "icon": "tv"
           },
           {
             "label": "Explorer",
-            "page": 10
+            "page": 10,
+            "icon": "compass"
           },
           {
             "label": "Seven days",
-            "page": 11
+            "page": 11,
+            "icon": "calendar"
           }
         ]
       },
@@ -1227,5 +1240,6 @@
       "quote": "Code Clubs are free and open to all school-aged young people."
     }
   ],
-  "colophon": "The Guided Planet is made by The Guided Digital Childhood and is free to print, copy and share with your class or club. Our philosophy: delay where it helps, protect where we can, prepare throughout."
+  "colophon": "The Guided Planet is made by The Guided Digital Childhood and is free to print, copy and share with your class or club. Our philosophy: delay where it helps, protect where we can, prepare throughout.",
+  "theme": "boho"
 }
