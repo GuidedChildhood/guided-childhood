@@ -236,11 +236,13 @@ enforced in code. Followers are not the metric. The email list is.
 
 ### Where the CTA points
 
-The staged pathway and the stage check. Earlier drafts sent every founder story
-CTA to the Digital Health Report on the wellbeing domain, which is a separate
-product on a separate domain, and which venture owns it has been an open question
-since August. Until Justin settles that, the founder story drives to
-`/starter-pack`, which is the business this story is actually about.
+The staged pathway and the stage check, at `/starter-pack`.
+
+**The Digital Health Report is not a service at the moment** (Justin, 13 October
+2026). So it is not where the founder story points, and it is not named as
+something a parent can buy, in any copy, on any platform, until he says it is
+back. Earlier drafts sent every founder story CTA to it, which is how a story
+ends up selling the thing we are not running instead of the thing we are.
 
 ---
 
