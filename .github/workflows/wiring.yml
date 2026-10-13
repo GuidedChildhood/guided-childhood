@@ -175,6 +175,9 @@ jobs:
       # The child's home stays simple: each tab is its own page, a red badge is
       # something a grown up sent, and a "not done yet" job is never done.
       - run: node scripts/check-kid-home-simple.mjs
+      # The free printables: every file the download and the email name is in
+      # public, the words carry no dash, and the newspaper ends at the stage check.
+      - run: node scripts/check-free-printables.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

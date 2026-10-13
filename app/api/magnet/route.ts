@@ -57,14 +57,21 @@ export async function POST(req: NextRequest) {
       )
 
     // Deliver the download to their inbox. Best effort.
-    await sendEmail({ to: email, ...magnetEmail({ magnetTitle: magnet.title, downloadUrl }), kind: 'transactional' })
+    await sendEmail({
+      to: email,
+      ...magnetEmail({
+        magnetTitle: magnet.title, downloadUrl, blurb: magnet.emailBlurb,
+        files: (magnet.files ?? []).map(f => ({ label: f.label, url: `${origin}${f.href}` })),
+      }),
+      kind: 'transactional',
+    })
 
     if (!existing) await notifyFounder(req, supabase, email, magnet.slug)
   } catch {
     // Swallow: the parent still gets their download from the response.
   }
 
-  return NextResponse.json({ ok: true, download: downloadPath })
+  return NextResponse.json({ ok: true, download: downloadPath, files: magnet.files ?? [] })
 }
 
 // Ping the founder's phone the moment a new email lands, so leads are

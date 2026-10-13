@@ -411,3 +411,7 @@ Justin, from Teo's phone: the Screen break together ideas are Play football, Puz
 ## 13 October 2026: a child's lesson count is that child's own
 
 Teo's mission said 9 of 10 lessons: 0 passed himself, 1 star lesson in his app, and 8 parent side rows with no child picked, which every per child count added in. Justin chose "only Teo's own": a child's lessons are their own passes plus any a grown up passed with that child picked; a household row counts for nobody's badge. One rule, lib/lessons/child-scope, read by the sticker book, the planets, the stage stamp and the journey. Teo now reads 1 of 10.
+
+## 13 October 2026: five free Happy News printables, The Planet Post first
+
+Justin approved the plan (plans/2026-10-13-free-printables-lead-magnets-plan.md) with every recommended option: The Planet Post, Screen Time Tickets, the Seven Night Screen Reset, the Five Screen Fights cards, the Bored Jar, in that order; preview free, PDF by email. Issue 1 of The Planet Post ships: four pages drawn in code (components/printables/news), the words as data (lib/printables/free), rendered by scripts/render-free-printables.mjs to A4, Letter, two ink savers and an A5 booklet with Nunito embedded; /free and /free/planet-post with the email gate; the email names multi page printables honestly and lists every file. Guard: check-free-printables. PR 1284.

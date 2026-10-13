@@ -558,15 +558,24 @@ export function magnetEmail(params: {
   magnetTitle: string
   downloadUrl: string
   cta?: string
+  /** What the download is, in one line. A multi page printable says so. */
+  blurb?: string
+  /** The other prints of it (Letter, ink saver, booklet), full URLs. */
+  files?: { label: string; url: string }[]
 }): EmailContent {
   const { magnetTitle, downloadUrl } = params
   const cta = params.cta ?? `${APP}/starter-pack`
+  const blurb = params.blurb ?? 'It is one page, made to print and stick on the fridge. No login needed.'
+  const more = params.files && params.files.length > 0
+    ? p(`Also ready to print: ${params.files.map(f => `<a href="${f.url}" style="color:${BUTTER_DARK}">${f.label}</a>`).join(' · ')}`)
+    : ''
   return {
     subject: `Your download: ${magnetTitle}`,
     html: wrapper(
       heading('Here is your download.') +
-      p(`Thanks for grabbing <strong>${magnetTitle}</strong>. It is one page, made to print and stick on the fridge. No login needed.`) +
+      p(`Thanks for grabbing <strong>${magnetTitle}</strong>. ${blurb}`) +
       button('Download the printable', downloadUrl) +
+      more +
       p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
       p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`) +
       button('See the free starter pack', cta),

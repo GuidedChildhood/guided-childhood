@@ -12,7 +12,7 @@ import { HappyPaper, Caption, INK, CRAYON, useExample } from './HappyPaper'
 // The filled in example colours six of the eight, screen among them, so the
 // tile says the whole idea at a glance: lots of colours, screen one slice.
 
-const SLICES: { label: string; icon: string; crayon: string | null }[] = [
+export const SLICES: { label: string; icon: string; crayon: string | null }[] = [
   { label: 'Outside', icon: 'M0,-20 L16,4 L-16,4 Z M-3,4 h6 v14 h-6 z', crayon: CRAYON.green },
   { label: 'Make', icon: 'M-13,9 L7,-11 L15,-3 L-5,17 Z M-13,9 L-16,20 L-5,17 M4,-8 L12,0', crayon: null },
   { label: 'Read', icon: 'M-18,-10 Q-9,-15 0,-8 Q9,-15 18,-10 V12 Q9,7 0,14 Q-9,7 -18,12 Z M0,-8 V14', crayon: CRAYON.sky },
