@@ -164,7 +164,7 @@ export default function LaneMissesPanel() {
       {report && report.heldBack > 0 && (
         <p style={{ marginTop: 14, fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           {report.heldBack} more {report.heldBack === 1 ? 'word is' : 'words are'} being held back because only one family
-          has used {report.heldBack === 1 ? 'it' : 'them'} so far. One family&rsquo;s words are never shown, including to you.
+          has used {report.heldBack === 1 ? 'it' : 'them'} so far. One family’s words are never shown, including to you.
         </p>
       )}
     </div>

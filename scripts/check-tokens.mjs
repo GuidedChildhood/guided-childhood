@@ -36,6 +36,24 @@
 // next/font sets --font-nunito and --font-ibm-plex-mono on the root element
 // from Javascript, so those are named as known-good rather than found.
 //
+// ── AND EVERY SPACE IN THE COPY SURVIVES THE COMPILER ───────────────────────
+//
+// Same shape of bug, so it rides in the same file. The parent's note on the
+// heavy lessons read "Teocan also call Childline" (found building PR 1269), and
+// three live pages had the same fault: "This takes Teopast today's healthy
+// amount". Typescript is happy, the words are all there in the source, and
+// only a browser shows the missing space.
+//
+// The cause is the SWC compiler in Next 16. A JSX text segment that follows a
+// `}` or a closing tag, starts with a space, carries on to another line before
+// the next `{` or `<`, and holds an HTML entity (&apos;, &rsquo;, &amp;)
+// ANYWHERE in it, loses that leading space. The same words on one line keep
+// it, and so does the same segment with no entity. Reproduced on 13 October
+// 2026 against next/dist/build/swc, which is what pins the rule below.
+//
+// The fix is to write the character rather than the entity (' and ’ render
+// the same), or `{' '}`, or a template string. Never reflow the words.
+//
 // Usage: node scripts/check-tokens.mjs
 
 import { readFileSync, readdirSync, statSync } from 'node:fs'
@@ -108,20 +126,74 @@ for (const x of failures) {
   byToken.get(x.name).push(x)
 }
 
+// ── THE SPACE BEFORE AN ENTITY ──────────────────────────────────────────────
+//
+// The segment runs from a `}` or `>` to the next `{` or `<`. JSX text cannot
+// hold a bare `}` or `>`, so excluding them keeps this to text and off code,
+// and `=>` is an arrow rather than a closing tag.
+const ENTITY = /&(?:#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);/i
+const AFTER_EXPR_OR_TAG = /(?<!=)[}>]([ \t]+[^\s{}<>][^{}<>]*)(?=[{<])/g
+
+function spacesLost(src) {
+  const hits = []
+  for (const m of src.matchAll(AFTER_EXPR_OR_TAG)) {
+    const seg = m[1]
+    if (!seg.includes('\n') || !ENTITY.test(seg)) continue
+    hits.push({ line: src.slice(0, m.index).split('\n').length, text: seg.trim().split('\n')[0].slice(0, 70) })
+  }
+  return hits
+}
+
+// Pinned against the compiler's real output, so a regex edit that stops
+// matching fails here rather than passing every file it no longer reads.
+const PINNED = [
+  ['<p>\n  This takes {kid} past today&apos;s amount.\n</p>', 1],
+  ['<p>\n  This takes {kid} past today\n  and today&apos;s amount.\n</p>', 1],
+  ['<p>\n  Hi <b>x</b> it&apos;s fine\n</p>', 1],
+  ['<p>This takes {kid} past today&apos;s amount.</p>', 0],
+  ['<p>\n  This takes {kid} past todays amount.\n</p>', 0],
+  ["<p>\n  This takes {kid} past today's amount.\n</p>", 0],
+  ['<p>\n  This takes {kid} past today&apos;s {x} amount.\n</p>', 0],
+  ['items.map(i => i.replace(/&amp;/g, "&")\n  .trim())', 0],
+]
+const pinnedWrong = PINNED.filter(([src, want]) => spacesLost(src).length !== want)
+
+const lost = []
+for (const [f, src] of read) {
+  if (extname(f) !== '.tsx') continue
+  for (const h of spacesLost(src)) lost.push({ file: f, ...h })
+}
+
+let failed = false
+
 console.log(`${globallyDefined.size} tokens defined globally, ${files.length} files read\n`)
 if (byToken.size === 0) {
   console.log('PASS  every var(--token) resolves, or carries a fallback')
-  process.exit(0)
+} else {
+  failed = true
+  for (const [name, uses] of [...byToken].sort((a, b) => b[1].length - a[1].length)) {
+    console.log(`FAIL  ${name} is used ${uses.length} time${uses.length === 1 ? '' : 's'} with no definition and no fallback`)
+    for (const u of uses.slice(0, 6)) console.log(`        ${u.file}:${u.line}`)
+    if (uses.length > 6) console.log(`        ...and ${uses.length - 6} more`)
+  }
+  console.log(`\n${byToken.size} undefined token${byToken.size === 1 ? '' : 's'}.`)
+  console.log('An unresolved var makes the whole declaration invalid, so this is')
+  console.log('not a wrong colour, it is no colour. Define it in shared/tokens.css')
+  console.log('(alias an existing house colour, never invent a new hex) or give the')
+  console.log('call site a fallback.')
 }
 
-for (const [name, uses] of [...byToken].sort((a, b) => b[1].length - a[1].length)) {
-  console.log(`FAIL  ${name} is used ${uses.length} time${uses.length === 1 ? '' : 's'} with no definition and no fallback`)
-  for (const u of uses.slice(0, 6)) console.log(`        ${u.file}:${u.line}`)
-  if (uses.length > 6) console.log(`        ...and ${uses.length - 6} more`)
+if (pinnedWrong.length) {
+  failed = true
+  for (const [src] of pinnedWrong) console.log(`FAIL  the space check misreads its own pinned case ${JSON.stringify(src)}`)
+} else if (lost.length === 0) {
+  console.log('PASS  no JSX text loses its space before an entity')
+} else {
+  failed = true
+  for (const x of lost) console.log(`FAIL  ${x.file}:${x.line}  the space before ${JSON.stringify(x.text)} is dropped when it compiles`)
+  console.log(`\n${lost.length} line${lost.length === 1 ? '' : 's'} where a name runs into the next word.`)
+  console.log("Write the character rather than the entity (' and \u2019 render the")
+  console.log("same), or put {' '} after the expression. Never reflow the words.")
 }
-console.log(`\n${byToken.size} undefined token${byToken.size === 1 ? '' : 's'}.`)
-console.log('An unresolved var makes the whole declaration invalid, so this is')
-console.log('not a wrong colour, it is no colour. Define it in shared/tokens.css')
-console.log('(alias an existing house colour, never invent a new hex) or give the')
-console.log('call site a fallback.')
-process.exit(1)
+
+process.exit(failed ? 1 : 0)
