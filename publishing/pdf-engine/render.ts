@@ -76,7 +76,7 @@ export type Variant = 'print' | 'download' | 'ink'
 
 export async function buildHtml(issue: Issue, variant: Variant, bleedMm: number, qrs: Map<string, string>) {
   const friendFiles = await resolveFriends(allFriends(issue), variant === 'print' ? 'print' : 'light')
-  const css = readFileSync(join(PUB, 'design', 'newspaper.css'), 'utf8').replaceAll('FONT_DIR', pathToFileURL(join(ROOT, 'app', 'fonts')).href)
+  const css = readFileSync(join(PUB, 'design', 'newspaper.css'), 'utf8').replaceAll('FONT_DIR', pathToFileURL(join(ROOT, 'app', 'fonts')).href).replaceAll('DESIGN_DIR', pathToFileURL(join(PUB, 'design')).href)
   const ctx: RenderContext = {
     issue,
     ink: variant === 'ink',

@@ -4,188 +4,421 @@
   "method": "Four research agents swept the source registry (publishing/research/sources.json) and the five approved themes, fetching primary pages. Every printed claim then went to an adversarial citation check. Ofcom, Internet Matters and UCL refused automated reading on the day, so every figure from them is held, not printed.",
   "candidates": [
     {
-      "id": "c01", "headline": "The children's code travelling above Earth", "category": "children creating technology",
-      "source": { "org": "ESA Education and the Raspberry Pi Foundation", "url": "https://astro-pi.org/mission-zero", "published": "2026/27 season, launched 14 September 2026", "evidence": "official programme page" },
+      "id": "c01",
+      "headline": "The children's code travelling above Earth",
+      "category": "children creating technology",
+      "source": {
+        "org": "ESA Education and the Raspberry Pi Foundation",
+        "url": "https://astro-pi.org/mission-zero",
+        "published": "2026/27 season, launched 14 September 2026",
+        "evidence": "official programme page"
+      },
       "researched": "2026-10-13",
       "summary": "Mission Zero lets young people 19 and under write a short Python program, in a browser, that shows a picture on an Astro Pi on the ISS. Open now; deadline 22 March 2027. UK eligible.",
       "ageRelevance": "Made for 9 to 16; last season's entrants were 6 to 18, average 12.",
       "numericalClaims": [
-        { "claim": "24,695 young people, 17,381 Mission Zero submissions, 2025/26", "quote": "17,381 submissions for Mission Zero from 24,695 young explorers", "verified": true },
-        { "claim": "25,707 young people will have their programs run in space", "quote": "In total, 25,707 young people will have their programs run in space", "verified": false }
+        {
+          "claim": "24,695 young people, 17,381 Mission Zero submissions, 2025/26",
+          "quote": "17,381 submissions for Mission Zero from 24,695 young explorers",
+          "verified": true
+        },
+        {
+          "claim": "25,707 young people will have their programs run in space",
+          "quote": "In total, 25,707 young people will have their programs run in space",
+          "verified": false
+        }
       ],
       "limitations": "Organiser's own figures. The 25,707 figure was written before the runs and is not printed. The 2026/27 pages do not state the LED matrix size; the paper attributes the 8 by 8 grid to the Sense HAT product page.",
       "imagePermissions": "ESA images CC BY-SA 3.0 IGO where marked, credit ©ESA; RPF blog photos not licensed. Illustrated in house.",
-      "recommendation": "lead", "verification": "verified",
-      "scores": { "relevance": 24, "evidence": 17, "curiosity": 20, "family": 14, "visual": 10, "timeliness": 5 },
+      "recommendation": "lead",
+      "verification": "verified",
+      "scores": {
+        "relevance": 24,
+        "evidence": 17,
+        "curiosity": 20,
+        "family": 14,
+        "visual": 10,
+        "timeliness": 5
+      },
       "page": 3
     },
     {
-      "id": "c02", "headline": "Young inventors. Big ideas. A world of possibilities.", "category": "young inventors",
-      "source": { "org": "Raspberry Pi Foundation", "url": "https://www.raspberrypi.org/blog/celebrating-over-15000-young-creators-at-the-coolest-projects-2026-online-showcase/", "published": "25 June 2026", "evidence": "press release" },
+      "id": "c02",
+      "headline": "Young inventors. Big ideas. A world of possibilities.",
+      "category": "young inventors",
+      "source": {
+        "org": "Raspberry Pi Foundation",
+        "url": "https://www.raspberrypi.org/blog/celebrating-over-15000-young-creators-at-the-coolest-projects-2026-online-showcase/",
+        "published": "25 June 2026",
+        "evidence": "press release"
+      },
       "researched": "2026-10-13",
       "summary": "Coolest Projects 2026 online showcase: over 15,000 young people, more than 4,500 creations, 40 countries. Four judges' favourites that help other people.",
       "ageRelevance": "Up to 18. Makers' ages not published, so first names and country only.",
       "numericalClaims": [
-        { "claim": "Over 15,000 young people, more than 4,500 creations, 40 countries, 47% girls", "quote": "Over 15,000 young people showcased more than 4,500 creations... With participants from 40 countries", "verified": true }
+        {
+          "claim": "Over 15,000 young people, more than 4,500 creations, 40 countries, 47% girls",
+          "quote": "Over 15,000 young people showcased more than 4,500 creations... With participants from 40 countries",
+          "verified": true
+        }
       ],
       "limitations": "Projects described in the makers' own words, not independently tested. Printed as 'designed to', never 'saves lives'.",
       "imagePermissions": "Project images belong to the young makers; none reproduced.",
-      "recommendation": "lead", "verification": "verified",
-      "scores": { "relevance": 23, "evidence": 14, "curiosity": 19, "family": 12, "visual": 9, "timeliness": 3 },
+      "recommendation": "lead",
+      "verification": "verified",
+      "scores": {
+        "relevance": 23,
+        "evidence": 14,
+        "curiosity": 19,
+        "family": 12,
+        "visual": 9,
+        "timeliness": 3
+      },
       "page": 4
     },
     {
-      "id": "c03", "headline": "Not all screen time tells the same story", "category": "evidence based parenting insights",
-      "source": { "org": "Sanders, Noetel, Parker and colleagues, Nature Human Behaviour", "url": "https://doi.org/10.1038/s41562-023-01712-8", "published": "2024", "evidence": "systematic review" },
+      "id": "c03",
+      "headline": "Not all screen time tells the same story",
+      "category": "evidence based parenting insights",
+      "source": {
+        "org": "Sanders, Noetel, Parker and colleagues, Nature Human Behaviour",
+        "url": "https://doi.org/10.1038/s41562-023-01712-8",
+        "published": "2024",
+        "evidence": "systematic review"
+      },
       "researched": "2026-10-13",
       "summary": "An umbrella review of 102 meta-analyses: effects depend on the type of screen use; co-viewing reverses the literacy association. Kaye 2020 and Valkenburg 2022 supply the limits.",
       "ageRelevance": "Children and adolescents, pooled ages vary.",
       "numericalClaims": [
-        { "claim": "102 meta-analyses, 1,937,501 participants", "verified": true },
-        { "claim": "literacy r = -0.14 overall, r = 0.15 with parental co-viewing", "verified": true }
+        {
+          "claim": "102 meta-analyses, 1,937,501 participants",
+          "verified": true
+        },
+        {
+          "claim": "literacy r = -0.14 overall, r = 0.15 with parental co-viewing",
+          "verified": true
+        }
       ],
       "limitations": "Associations from mostly correlational studies; 95 of 102 meta-analyses at medium to high risk of bias. No causal claim printed.",
       "conflictingEvidence": "Valkenburg, van Driel and Beyens 2022 found the active good, passive bad split mostly unsupported. Orben and Przybylski 2019 found technology use explains at most 0.4 percent of wellbeing variation. Chaarani 2022 (gaming and cognition) was retracted and replaced, and is not cited.",
       "imagePermissions": "Not applicable; illustrated with our own icons.",
-      "recommendation": "lead", "verification": "verified",
-      "scores": { "relevance": 25, "evidence": 23, "curiosity": 13, "family": 14, "visual": 7, "timeliness": 2 },
+      "recommendation": "lead",
+      "verification": "verified",
+      "scores": {
+        "relevance": 25,
+        "evidence": 23,
+        "curiosity": 13,
+        "family": 14,
+        "visual": 7,
+        "timeliness": 2
+      },
       "page": 6
     },
     {
-      "id": "c04", "headline": "Sometimes a screen helps a friendship travel further", "category": "positive online communities",
-      "source": { "org": "Yau, Reich and Lee, Journal of Adolescent Health", "url": "https://doi.org/10.1016/j.jadohealth.2020.07.004", "published": "2021", "evidence": "peer reviewed study" },
+      "id": "c04",
+      "headline": "Sometimes a screen helps a friendship travel further",
+      "category": "positive online communities",
+      "source": {
+        "org": "Yau, Reich and Lee, Journal of Adolescent Health",
+        "url": "https://doi.org/10.1016/j.jadohealth.2020.07.004",
+        "published": "2021",
+        "evidence": "peer reviewed study"
+      },
       "researched": "2026-10-13",
       "summary": "A randomised lab experiment: 12 year olds who texted a friend after a stressor had better mood than those who sat quietly or watched a video. UNICEF RITEC on games and belonging for 8 to 12s.",
       "ageRelevance": "Mean age 12.4; RITEC samples 8 to 12. Framed for 7 to 12 as contact with people known offline, grown up aware.",
-      "numericalClaims": [ { "claim": "130 adolescents, mean age 12.41", "verified": true } ],
+      "numericalClaims": [
+        {
+          "claim": "130 adolescents, mean age 12.41",
+          "verified": true
+        }
+      ],
       "limitations": "One short lab session with an existing friend, US sample. RITEC is co founded with the LEGO Group.",
       "conflictingEvidence": "Ofcom 2026 research on strangers' friend requests to children (held: the PDF could not be read automatically). Pew teen data is 13 to 17 and not used.",
       "imagePermissions": "Not applicable.",
-      "recommendation": "include", "verification": "verified",
-      "scores": { "relevance": 22, "evidence": 19, "curiosity": 15, "family": 14, "visual": 8, "timeliness": 1 },
+      "recommendation": "include",
+      "verification": "verified",
+      "scores": {
+        "relevance": 22,
+        "evidence": 19,
+        "curiosity": 15,
+        "family": 14,
+        "visual": 8,
+        "timeliness": 1
+      },
       "page": 7
     },
     {
-      "id": "c05", "headline": "Who chose the next video? You, or the algorithm?", "category": "digital literacy",
-      "source": { "org": "YouTube Help", "url": "https://support.google.com/youtube/answer/16089387?hl=en-GB", "evidence": "educational resource" },
+      "id": "c05",
+      "headline": "Who chose the next video? You, or the algorithm?",
+      "category": "digital literacy",
+      "source": {
+        "org": "YouTube Help",
+        "url": "https://support.google.com/youtube/answer/16089387?hl=en-GB",
+        "evidence": "educational resource"
+      },
       "researched": "2026-10-13",
       "summary": "How recommendations use watch history, searches and Not interested, from the platform's own help page; BBC Bitesize on algorithms; the UKCIS framework expects 7 to 11s to explain search ranking.",
       "ageRelevance": "7 to 12, with Common Sense Education's 11 to 18 lesson for older readers.",
       "numericalClaims": [],
       "limitations": "The platform describing itself. No verified source for 'what similar people watched', so it is not claimed. No Ofcom figure on children's understanding of algorithms exists to cite.",
       "imagePermissions": "Not applicable.",
-      "recommendation": "lead", "verification": "verified",
-      "scores": { "relevance": 25, "evidence": 14, "curiosity": 18, "family": 15, "visual": 9, "timeliness": 2 },
+      "recommendation": "lead",
+      "verification": "verified",
+      "scores": {
+        "relevance": 25,
+        "evidence": 14,
+        "curiosity": 18,
+        "family": 15,
+        "visual": 9,
+        "timeliness": 2
+      },
       "page": 8
     },
     {
-      "id": "c06", "headline": "Blind and partially sighted children can now code with blocks on the micro:bit", "category": "technology improving accessibility",
-      "source": { "org": "Micro:bit Educational Foundation", "url": "https://microbit.org/news/2026-07-13/makecode-screen-reader-support/", "published": "13 July 2026", "evidence": "press release" },
+      "id": "c06",
+      "headline": "Blind and partially sighted children can now code with blocks on the micro:bit",
+      "category": "technology improving accessibility",
+      "source": {
+        "org": "Micro:bit Educational Foundation",
+        "url": "https://microbit.org/news/2026-07-13/makecode-screen-reader-support/",
+        "published": "13 July 2026",
+        "evidence": "press release"
+      },
       "researched": "2026-10-13",
       "summary": "The 2026 MakeCode release adds screen reader and braille support for block coding, built with blind and low vision young people.",
       "ageRelevance": "8 to 18.",
-      "numericalClaims": [ { "claim": "around 41,000 children and young people with vision loss or impairment in the UK (RNIB, cited)", "verified": false } ],
+      "numericalClaims": [
+        {
+          "claim": "around 41,000 children and young people with vision loss or impairment in the UK (RNIB, cited)",
+          "verified": false
+        }
+      ],
       "limitations": "Press coverage said 40,000 blind children, which overstates RNIB's figure; neither is printed.",
       "imagePermissions": "Not reproduced.",
-      "recommendation": "brief", "verification": "verified",
-      "scores": { "relevance": 21, "evidence": 14, "curiosity": 15, "family": 9, "visual": 6, "timeliness": 4 },
+      "recommendation": "brief",
+      "verification": "verified",
+      "scores": {
+        "relevance": 21,
+        "evidence": 14,
+        "curiosity": 15,
+        "family": 9,
+        "visual": 6,
+        "timeliness": 4
+      },
       "page": 10,
       "note": "Used as the 'new this year' line on page 10. A strong lead for a future accessibility issue."
     },
     {
-      "id": "c07", "headline": "Year 7 scientists crowned best in the UK", "category": "young inventors",
-      "source": { "org": "EngineeringUK", "url": "https://www.engineeringuk.com/latest-news/news-articles/top-talent-crowned-winners-of-the-big-bang-competition-2026/", "published": "9 June 2026", "evidence": "press release" },
+      "id": "c07",
+      "headline": "Year 7 scientists crowned best in the UK",
+      "category": "young inventors",
+      "source": {
+        "org": "EngineeringUK",
+        "url": "https://www.engineeringuk.com/latest-news/news-articles/top-talent-crowned-winners-of-the-big-bang-competition-2026/",
+        "published": "9 June 2026",
+        "evidence": "press release"
+      },
       "researched": "2026-10-13",
       "summary": "Four Year 7 pupils from Hexham Middle School won UK Young Scientists of the Year for testing biochar and plant growth.",
       "ageRelevance": "11 to 18; winners Year 7.",
       "numericalClaims": [],
       "limitations": "Science rather than technology for good; ages not stated.",
       "imagePermissions": "Not reproduced.",
-      "recommendation": "hold", "verification": "verified",
-      "scores": { "relevance": 14, "evidence": 14, "curiosity": 16, "family": 8, "visual": 7, "timeliness": 2 },
+      "recommendation": "hold",
+      "verification": "verified",
+      "scores": {
+        "relevance": 14,
+        "evidence": 14,
+        "curiosity": 16,
+        "family": 8,
+        "visual": 7,
+        "timeliness": 2
+      },
       "note": "Held: page 4 already carries young inventors. Candidate for a science issue."
     },
     {
-      "id": "c08", "headline": "A British built spacecraft is watching Earth's invisible shield", "category": "science and discovery",
-      "source": { "org": "European Space Agency", "url": "https://www.esa.int/Space_in_Member_States/United_Kingdom/UK_scientists_celebrate_launch_of_Smile", "published": "19 May 2026", "evidence": "press release" },
+      "id": "c08",
+      "headline": "A British built spacecraft is watching Earth's invisible shield",
+      "category": "science and discovery",
+      "source": {
+        "org": "European Space Agency",
+        "url": "https://www.esa.int/Space_in_Member_States/United_Kingdom/UK_scientists_celebrate_launch_of_Smile",
+        "published": "19 May 2026",
+        "evidence": "press release"
+      },
       "researched": "2026-10-13",
       "summary": "Smile launched on Vega-C to image Earth's magnetic field in X-rays; Leicester built the X-ray imager.",
       "ageRelevance": "All ages.",
       "numericalClaims": [],
       "limitations": "Joint mission with the Chinese Academy of Sciences, which must be said. The October 2026 science operations date could not be verified.",
       "imagePermissions": "ESA terms, credit ©ESA.",
-      "recommendation": "hold", "verification": "flagged",
-      "scores": { "relevance": 10, "evidence": 14, "curiosity": 18, "family": 5, "visual": 9, "timeliness": 3 },
+      "recommendation": "hold",
+      "verification": "flagged",
+      "scores": {
+        "relevance": 10,
+        "evidence": 14,
+        "curiosity": 18,
+        "family": 5,
+        "visual": 9,
+        "timeliness": 3
+      },
       "note": "Low relevance to the good side of screens. A good Observatory brief once the operations date is confirmed."
     },
     {
-      "id": "c09", "headline": "Children asked to imagine kinder tech, and they built it in Lego", "category": "technology redesigned in children's interests",
-      "source": { "org": "UNICEF Innocenti", "url": "https://www.unicef.org/innocenti/stories/seeing-tomorrow-digital-futures-through-childrens-eyes", "published": "28 May 2026", "evidence": "official report" },
+      "id": "c09",
+      "headline": "Children asked to imagine kinder tech, and they built it in Lego",
+      "category": "technology redesigned in children's interests",
+      "source": {
+        "org": "UNICEF Innocenti",
+        "url": "https://www.unicef.org/innocenti/stories/seeing-tomorrow-digital-futures-through-childrens-eyes",
+        "published": "28 May 2026",
+        "evidence": "official report"
+      },
       "researched": "2026-10-13",
       "summary": "Children 10 to 17 in seven countries modelled future technology; ideas included social media that would build people up.",
       "ageRelevance": "10 to 17, not UK.",
       "numericalClaims": [],
       "limitations": "Qualitative, number of children not stated, some visions bleak.",
       "imagePermissions": "Not reproduced.",
-      "recommendation": "hold", "verification": "verified",
-      "scores": { "relevance": 19, "evidence": 12, "curiosity": 14, "family": 9, "visual": 8, "timeliness": 3 },
+      "recommendation": "hold",
+      "verification": "verified",
+      "scores": {
+        "relevance": 19,
+        "evidence": 12,
+        "curiosity": 14,
+        "family": 9,
+        "visual": 8,
+        "timeliness": 3
+      },
       "note": "Strong Maker District activity idea for a later issue: design kinder tech."
     },
     {
-      "id": "c10", "headline": "Apps changed for UK children after the regulator asked", "category": "technology redesigned in children's interests",
-      "source": { "org": "Recorded Future News, reporting Ofcom", "url": "https://therecord.media/tech-giants-promise-ofcom-regulator-changes-child-access", "published": "21 May 2026", "evidence": "news report" },
+      "id": "c10",
+      "headline": "Apps changed for UK children after the regulator asked",
+      "category": "technology redesigned in children's interests",
+      "source": {
+        "org": "Recorded Future News, reporting Ofcom",
+        "url": "https://therecord.media/tech-giants-promise-ofcom-regulator-changes-child-access",
+        "published": "21 May 2026",
+        "evidence": "news report"
+      },
       "researched": "2026-10-13",
       "summary": "Snap, Roblox and Meta committed to changes after Ofcom's demands; Ofcom said TikTok and YouTube had not committed to significant changes.",
       "ageRelevance": "8 to 17.",
       "numericalClaims": [],
       "limitations": "Commitments, not outcomes. The primary Ofcom text could not be read automatically.",
       "imagePermissions": "Not applicable.",
-      "recommendation": "hold", "verification": "flagged",
-      "scores": { "relevance": 17, "evidence": 8, "curiosity": 9, "family": 8, "visual": 4, "timeliness": 4 },
+      "recommendation": "hold",
+      "verification": "flagged",
+      "scores": {
+        "relevance": 17,
+        "evidence": 8,
+        "curiosity": 9,
+        "family": 8,
+        "visual": 4,
+        "timeliness": 4
+      },
       "note": "A grown ups story more than a children's one. Needs Ofcom's own words before any use."
     },
     {
-      "id": "c11", "headline": "How many children can spot an advert online?", "category": "digital literacy",
-      "source": { "org": "Ofcom", "url": "https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/2026-children-and-parents-report/children-and-parents-media-use-and-attitudes-report-2025-6.pdf", "published": "21 May 2026", "evidence": "official report" },
+      "id": "c11",
+      "headline": "How many children can spot an advert online?",
+      "category": "digital literacy",
+      "source": {
+        "org": "Ofcom",
+        "url": "https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/2026-children-and-parents-report/children-and-parents-media-use-and-attitudes-report-2025-6.pdf",
+        "published": "21 May 2026",
+        "evidence": "official report"
+      },
       "researched": "2026-10-13",
       "summary": "Search snippets of Ofcom's 2026 report: half of 8 to 17s have used 'Not interested' style controls; six in ten say they are confident recognising online advertising.",
       "ageRelevance": "8 to 17, which blends older teenagers into the figure.",
       "numericalClaims": [
-        { "claim": "50% of 8 to 17s used controls such as Not interested", "verified": false },
-        { "claim": "60% of 8 to 17s confident recognising online advertising", "verified": false }
+        {
+          "claim": "50% of 8 to 17s used controls such as Not interested",
+          "verified": false
+        },
+        {
+          "claim": "60% of 8 to 17s confident recognising online advertising",
+          "verified": false
+        }
       ],
       "limitations": "Snippet only. Ofcom blocks automated reading. A person must check the PDF.",
       "imagePermissions": "Not applicable.",
-      "recommendation": "hold", "verification": "unverified",
-      "scores": { "relevance": 22, "evidence": 10, "curiosity": 12, "family": 11, "visual": 6, "timeliness": 4 },
+      "recommendation": "hold",
+      "verification": "unverified",
+      "scores": {
+        "relevance": 22,
+        "evidence": 10,
+        "curiosity": 12,
+        "family": 11,
+        "visual": 6,
+        "timeliness": 4
+      },
       "note": "Would strengthen page 8. Five minutes with the PDF in a browser would let it print next month."
     },
     {
-      "id": "c12", "headline": "Teenagers know how the feed works, and still feel it pulls", "category": "digital literacy",
-      "source": { "org": "University of Bristol, PolicyBristol", "url": "https://www.bristol.ac.uk/policybristol/policy-briefings/adolescent-health-algorithms/", "published": "August 2026", "evidence": "official report" },
+      "id": "c12",
+      "headline": "Teenagers know how the feed works, and still feel it pulls",
+      "category": "digital literacy",
+      "source": {
+        "org": "University of Bristol, PolicyBristol",
+        "url": "https://www.bristol.ac.uk/policybristol/policy-briefings/adolescent-health-algorithms/",
+        "published": "August 2026",
+        "evidence": "official report"
+      },
       "researched": "2026-10-13",
       "summary": "27 UK adolescents aged 14 to 19 shared their real feeds; they often understood algorithms yet felt limited control.",
       "ageRelevance": "14 to 19, above our readers.",
-      "numericalClaims": [ { "claim": "27 UK adolescents aged 14 to 19", "verified": true } ],
+      "numericalClaims": [
+        {
+          "claim": "27 UK adolescents aged 14 to 19",
+          "verified": true
+        }
+      ],
       "limitations": "Small qualitative study of older teenagers.",
       "imagePermissions": "Not applicable.",
-      "recommendation": "hold", "verification": "verified",
-      "scores": { "relevance": 20, "evidence": 15, "curiosity": 8, "family": 9, "visual": 4, "timeliness": 4 },
+      "recommendation": "hold",
+      "verification": "verified",
+      "scores": {
+        "relevance": 20,
+        "evidence": 15,
+        "curiosity": 8,
+        "family": 9,
+        "visual": 4,
+        "timeliness": 4
+      },
       "note": "Belongs in the grown ups email, not the children's paper."
     },
     {
-      "id": "c13", "headline": "Your code could be next: Astro Pi 2026/27 is open", "category": "children creating technology",
-      "source": { "org": "Raspberry Pi Foundation", "url": "https://www.raspberrypi.org/blog/launching-astro-pi-2026-27-code-your-way-to-the-international-space-station/", "published": "14 September 2026", "evidence": "press release" },
+      "id": "c13",
+      "headline": "Your code could be next: Astro Pi 2026/27 is open",
+      "category": "children creating technology",
+      "source": {
+        "org": "Raspberry Pi Foundation",
+        "url": "https://www.raspberrypi.org/blog/launching-astro-pi-2026-27-code-your-way-to-the-international-space-station/",
+        "published": "14 September 2026",
+        "evidence": "press release"
+      },
       "researched": "2026-10-13",
       "summary": "The season launch, with Mission Zero for 9 to 16s with no prior coding experience.",
       "ageRelevance": "9 to 16.",
       "numericalClaims": [],
       "limitations": "No deadline in the post itself; the deadline comes from the guidelines page.",
       "imagePermissions": "Not reproduced.",
-      "recommendation": "include", "verification": "verified",
-      "scores": { "relevance": 22, "evidence": 14, "curiosity": 17, "family": 13, "visual": 8, "timeliness": 5 },
+      "recommendation": "hold",
+      "verification": "verified",
+      "scores": {
+        "relevance": 22,
+        "evidence": 14,
+        "curiosity": 17,
+        "family": 13,
+        "visual": 8,
+        "timeliness": 5
+      },
       "page": 3,
-      "note": "Merged into c01."
+      "note": "Merged into c01, which carries the 2026/27 season."
     }
   ]
 }

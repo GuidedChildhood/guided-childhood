@@ -1,7 +1,7 @@
 {
   "issue": "issue-001",
   "contentHash": "feec89e8db6b670a3966eacb080a33f39e6ae5eedf860f6466ca6e5871b0e21f",
-  "renderedAt": "2026-10-13T15:28:16.860Z",
+  "renderedAt": "2026-10-13T15:50:05.402Z",
   "editorial": [],
   "layout": {
     "print": [],
@@ -23,7 +23,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 6675406,
+      "bytes": 6697072,
       "ok": true,
       "problems": []
     },
@@ -41,7 +41,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 2983682,
+      "bytes": 3005256,
       "ok": true,
       "problems": []
     },
@@ -59,7 +59,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 2868819,
+      "bytes": 2890396,
       "ok": true,
       "problems": []
     }

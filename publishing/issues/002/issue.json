@@ -1,0 +1,903 @@
+{
+  "publication": "The Guided Planet",
+  "number": 2,
+  "slug": "issue-002",
+  "edition": "The Real or Pretend Edition",
+  "month": "December 2026",
+  "tagline": "A little more wonder. A lot more understanding.",
+  "coverHeadline": "Real or pretend?",
+  "readingAge": "7 to 12",
+  "sample": true,
+  "onlineUrl": "https://www.guidedchildhood.com/guided-planet/issue-002",
+  "colophon": "SAMPLE. A structure test: this issue proves a second edition is made from words alone. Its story pages are placeholders.",
+  "pages": [
+    {
+      "template": "cover",
+      "n": 1,
+      "headline": "Real or pretend?",
+      "deck": "This month: how to check a picture, a game of real or pretend, and a detective kit for anything you see online.",
+      "teasers": [
+        {
+          "page": 3,
+          "text": "How to check a picture"
+        },
+        {
+          "page": 5,
+          "text": "Design a fake detector"
+        },
+        {
+          "page": 8,
+          "text": "Bloop investigates"
+        },
+        {
+          "page": 9,
+          "text": "Real or Pretend cards"
+        }
+      ],
+      "art": {
+        "slot": "cover",
+        "vector": "cover-night",
+        "recipe": "newspaper-cover",
+        "alt": "Night over the Guided Planet, with the space station crossing the sky and Bloop on the hill, thinking."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      }
+    },
+    {
+      "template": "welcome",
+      "n": 2,
+      "headline": "Welcome back, explorers",
+      "letter": [
+        {
+          "type": "para",
+          "text": "This month is all about one question: is it real, or is it pretend? Pictures, videos and stories can be made by people, by computers, or by both, and it is not always easy to tell."
+        },
+        {
+          "type": "para",
+          "text": "You do not need to be a scientist to check something. You need a few good questions and the patience to ask them. This paper is full of those questions."
+        },
+        {
+          "type": "para",
+          "text": "As always, none of the activities need a phone or an account."
+        }
+      ],
+      "signoff": {
+        "name": "Justin Phillips",
+        "role": "Editor in Chief, The Guided Planet"
+      },
+      "map": {
+        "slot": "world-map",
+        "vector": "world-map",
+        "recipe": "world-map",
+        "alt": "A map of the Guided Planet with its six places joined by a dotted gold path."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "wave"
+      },
+      "bloopSays": "I once thought a picture of a cat in a spacesuit was real. It was not. Let's get better at this together.",
+      "inside": [
+        {
+          "page": 3,
+          "title": "How to check a picture",
+          "destination": "forest"
+        },
+        {
+          "page": 4,
+          "title": "Young fact checkers",
+          "destination": "maker"
+        },
+        {
+          "page": 5,
+          "title": "Design a fake detector",
+          "destination": "maker"
+        },
+        {
+          "page": 6,
+          "title": "What research says about spotting fakes",
+          "destination": "research"
+        },
+        {
+          "page": 7,
+          "title": "Kind words travel too",
+          "destination": "garden"
+        },
+        {
+          "page": 8,
+          "title": "Bloop investigates",
+          "destination": "forest"
+        },
+        {
+          "page": 9,
+          "title": "Real or Pretend cards",
+          "destination": "forest"
+        },
+        {
+          "page": 10,
+          "title": "Five good things",
+          "destination": "explorer"
+        },
+        {
+          "page": 11,
+          "title": "Seven days of checking",
+          "destination": "explorer"
+        },
+        {
+          "page": 12,
+          "title": "Your Planet Passport",
+          "destination": "explorer"
+        }
+      ]
+    },
+    {
+      "template": "feature",
+      "n": 3,
+      "destination": "forest",
+      "eyebrow": "Thinking Forest",
+      "headline": "How to check a picture",
+      "standfirst": "Four questions to ask before you believe, or share, a picture you have found.",
+      "artHeight": 40,
+      "art": {
+        "slot": "thinking-forest",
+        "vector": "recommendation-machine",
+        "recipe": "thinking-forest",
+        "alt": "A diagram of a machine taking in clues at the top and giving out a guess at the bottom."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "Who made it? Look for the name of a person or an organisation you could check."
+        },
+        {
+          "type": "para",
+          "text": "Where else is it? If something amazing happened, more than one trusted place will usually say so."
+        },
+        {
+          "type": "para",
+          "text": "Does anything look odd? Hands, writing and shadows are good places to look closely."
+        },
+        {
+          "type": "para",
+          "text": "How does it make you feel? Pictures made to shock or to rush you deserve a slower look."
+        }
+      ],
+      "friend": {
+        "id": "orbit",
+        "pose": "thinking"
+      },
+      "friendSays": "My magnifier is enormous, but the best tool is a question.",
+      "activity": {
+        "kind": "pixel-grid",
+        "size": 8,
+        "title": "Hide a mistake",
+        "intro": "Draw a picture on the grid with one thing wrong in it. Can a grown up spot it?",
+        "steps": [
+          "Draw something simple, like a house or a face.",
+          "Add one mistake, like a window in the sky.",
+          "Swap with someone and spot each other's mistake."
+        ],
+        "palette": [
+          {
+            "name": "Butter",
+            "hex": "#EDC35F"
+          },
+          {
+            "name": "Leaf",
+            "hex": "#6C9E38"
+          },
+          {
+            "name": "Sky",
+            "hex": "#3E86BC"
+          },
+          {
+            "name": "Night",
+            "hex": "#1A1A2E"
+          }
+        ]
+      },
+      "refs": []
+    },
+    {
+      "template": "showcase",
+      "n": 4,
+      "destination": "maker",
+      "eyebrow": "Young inventors",
+      "headline": "Young fact checkers",
+      "standfirst": "Story to be researched in week one and verified before print.",
+      "art": {
+        "slot": "maker-skyline",
+        "vector": "maker-skyline",
+        "recipe": "maker-district",
+        "alt": "An illustrated street of workshops in the Maker District."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "This page will carry projects by young people who built tools to check what is real. They are chosen at approval one."
+        }
+      ],
+      "projects": [
+        {
+          "name": "Project one",
+          "maker": "To be chosen",
+          "where": "Approval one",
+          "what": "Story to be researched in week one and verified before print.",
+          "why": "Placeholder.",
+          "source": "",
+          "icon": "search"
+        },
+        {
+          "name": "Project two",
+          "maker": "To be chosen",
+          "where": "Approval one",
+          "what": "Story to be researched in week one and verified before print.",
+          "why": "Placeholder.",
+          "source": "",
+          "icon": "code"
+        },
+        {
+          "name": "Project three",
+          "maker": "To be chosen",
+          "where": "Approval one",
+          "what": "Story to be researched in week one and verified before print.",
+          "why": "Placeholder.",
+          "source": "",
+          "icon": "robot"
+        },
+        {
+          "name": "Project four",
+          "maker": "To be chosen",
+          "where": "Approval one",
+          "what": "Story to be researched in week one and verified before print.",
+          "why": "Placeholder.",
+          "source": "",
+          "icon": "star"
+        }
+      ],
+      "refs": []
+    },
+    {
+      "template": "activity",
+      "n": 5,
+      "destination": "maker",
+      "eyebrow": "Your turn",
+      "headline": "Design a fake detector",
+      "standfirst": "Invent a gadget that helps people check what they see. Start with the person it helps.",
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      },
+      "friendSays": "Mine beeps when a picture has six fingers. It also beeps at gloves. Work in progress.",
+      "activity": {
+        "kind": "blueprint",
+        "title": "My fake detector",
+        "intro": "Fill in each box and draw big.",
+        "prompts": [
+          {
+            "label": "Draw it",
+            "hint": "Draw your detector and label every part."
+          },
+          {
+            "label": "Who it helps",
+            "hint": "Who gets fooled, and when?"
+          },
+          {
+            "label": "What it checks",
+            "hint": "Hands, shadows, writing, where it came from?"
+          },
+          {
+            "label": "What it notices",
+            "hint": "What clue does it look for?"
+          },
+          {
+            "label": "What it does back",
+            "hint": "A light, a sound, a message?"
+          },
+          {
+            "label": "Name it",
+            "hint": "A name worth remembering."
+          },
+          {
+            "label": "Test it",
+            "hint": "How would you know it works?"
+          }
+        ]
+      },
+      "tipsLabel": "Maker tips",
+      "tips": [
+        "Test it on real and pretend pictures you made yourself.",
+        "A good detector says how sure it is, not just yes or no."
+      ],
+      "refs": []
+    },
+    {
+      "template": "research",
+      "n": 6,
+      "destination": "research",
+      "eyebrow": "What scientists know",
+      "headline": "What research says about spotting fakes",
+      "standfirst": "Story to be researched in week one and verified before print.",
+      "kinds": [
+        {
+          "name": "Pictures",
+          "icon": "paint",
+          "examples": "Photos and drawings.",
+          "says": "To be researched."
+        },
+        {
+          "name": "Videos",
+          "icon": "watch",
+          "examples": "Clips and shorts.",
+          "says": "To be researched."
+        },
+        {
+          "name": "Stories",
+          "icon": "learn",
+          "examples": "News and posts.",
+          "says": "To be researched."
+        },
+        {
+          "name": "Voices",
+          "icon": "music",
+          "examples": "Audio and songs.",
+          "says": "To be researched."
+        }
+      ],
+      "found": [
+        {
+          "type": "para",
+          "text": "Story to be researched in week one and verified before print."
+        }
+      ],
+      "cannot": [
+        {
+          "type": "para",
+          "text": "Placeholder for the limits of the evidence, written once the evidence is in."
+        }
+      ],
+      "askTogether": [
+        "Have you ever been fooled by a picture?",
+        "What made you realise?"
+      ],
+      "friend": {
+        "id": "digi",
+        "pose": "standing"
+      },
+      "friendSays": "We print what the evidence says, and we say what it cannot tell us.",
+      "refs": []
+    },
+    {
+      "template": "feature",
+      "n": 7,
+      "destination": "garden",
+      "eyebrow": "Friendship",
+      "headline": "Kind words travel too",
+      "standfirst": "A kind message can be checked for one thing only: did it make someone's day?",
+      "artHeight": 32,
+      "art": {
+        "slot": "friendship-valley",
+        "vector": "friendship-valley",
+        "recipe": "connection-garden",
+        "alt": "Two homes on two hills joined by a dotted gold line and a row of flowers."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "Checking what is real matters. So does being someone people can trust online. When you share something, you are lending it your name."
+        },
+        {
+          "type": "para",
+          "text": "If you are not sure something is true, it is fine not to pass it on. Waiting is a kind thing to do."
+        }
+      ],
+      "aside": {
+        "label": "Before you share",
+        "items": [
+          "Is it true?",
+          "Is it kind?",
+          "Would I say it to their face?"
+        ]
+      },
+      "friend": {
+        "id": "pebble",
+        "pose": "wave"
+      },
+      "friendSays": "I turn things the right way round before I share them.",
+      "activity": {
+        "kind": "postcard",
+        "title": "Send a true thing",
+        "intro": "Write a postcard about something true and good that happened this month.",
+        "front": "Draw the true and good thing",
+        "lines": [
+          "Post it with a grown up",
+          "Or hand it over"
+        ]
+      },
+      "refs": []
+    },
+    {
+      "template": "investigation",
+      "n": 8,
+      "destination": "forest",
+      "eyebrow": "Bloop investigates",
+      "headline": "Was this picture made by a computer?",
+      "standfirst": "Bloop found a picture of a dog surfing a rainbow. Time for some clues.",
+      "art": {
+        "slot": "recommendation-machine",
+        "vector": "recommendation-machine",
+        "recipe": "thinking-forest",
+        "alt": "A diagram of a machine taking in clues at the top and giving out a guess at the bottom."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      },
+      "friendSays": "Case closed: no single clue proves it. Lots of clues together make a good guess, and a grown up can help you check.",
+      "clues": [
+        {
+          "title": "Look at the edges",
+          "text": "Are there odd blurs or shapes where things meet?"
+        },
+        {
+          "title": "Look at the details",
+          "text": "Hands, teeth, writing and patterns can go wrong."
+        },
+        {
+          "title": "Look for the maker",
+          "text": "Who posted it first, and do they say how it was made?"
+        },
+        {
+          "title": "Look around",
+          "text": "Does anyone trusted show the same thing?"
+        }
+      ],
+      "body": [
+        {
+          "type": "para",
+          "text": "An algorithm is a list of steps for solving a problem.[[s23]] Some computers follow steps that make pictures, and some follow steps that recommend what to watch next.[[s22]]"
+        }
+      ],
+      "tryThis": [
+        "Make a picture yourself, then ask a grown up to guess how you made it.",
+        "Play Real or Pretend on the next page."
+      ],
+      "refs": [
+        "s23",
+        "s22"
+      ]
+    },
+    {
+      "template": "activity",
+      "n": 9,
+      "destination": "forest",
+      "eyebrow": "A paper game",
+      "headline": "Real or Pretend",
+      "standfirst": "One player is the Maker, one is the Detective. Can the Detective tell which cards are real?",
+      "friend": {
+        "id": "bloop",
+        "pose": "happy"
+      },
+      "friendSays": "I was the Detective and I said everything was pretend. That is not detecting, apparently.",
+      "activity": {
+        "kind": "card-game",
+        "title": "Real or Pretend",
+        "intro": "A game about checking.",
+        "players": "2 to 6",
+        "youNeed": [
+          "the 12 cards",
+          "a pencil",
+          "the notebook below"
+        ],
+        "setup": [
+          "Cut out the 12 cards and shuffle them.",
+          "The Maker secretly marks some cards REAL and some PRETEND on the back.",
+          "Deal three cards face up."
+        ],
+        "rounds": [
+          "The Detective asks one question about a card.",
+          "The Maker answers truthfully.",
+          "The Detective says real or pretend, and checks the back.",
+          "After round five, swap jobs."
+        ],
+        "talk": [
+          "Which questions helped most?",
+          "Which cards fooled you, and why?"
+        ],
+        "cards": [
+          {
+            "topic": "Animals",
+            "label": "Surfing dog",
+            "icon": "animal"
+          },
+          {
+            "topic": "Animals",
+            "label": "Sleeping cat",
+            "icon": "animal"
+          },
+          {
+            "topic": "Space",
+            "label": "Moon base",
+            "icon": "rocket"
+          },
+          {
+            "topic": "Space",
+            "label": "Rocket launch",
+            "icon": "rocket"
+          },
+          {
+            "topic": "Sport",
+            "label": "Huge goal",
+            "icon": "ball"
+          },
+          {
+            "topic": "Sport",
+            "label": "Team photo",
+            "icon": "ball"
+          },
+          {
+            "topic": "Art",
+            "label": "Painted dragon",
+            "icon": "paint"
+          },
+          {
+            "topic": "Art",
+            "label": "Clay owl",
+            "icon": "paint"
+          },
+          {
+            "topic": "Music",
+            "label": "Robot band",
+            "icon": "music"
+          },
+          {
+            "topic": "Music",
+            "label": "School choir",
+            "icon": "music"
+          },
+          {
+            "topic": "Food",
+            "label": "Giant cake",
+            "icon": "cake"
+          },
+          {
+            "topic": "Food",
+            "label": "Pizza face",
+            "icon": "cake"
+          }
+        ]
+      },
+      "tipsLabel": "Going further",
+      "tips": [
+        "Make your own cards from pictures you drew yourself."
+      ],
+      "refs": []
+    },
+    {
+      "template": "list",
+      "n": 10,
+      "destination": "explorer",
+      "eyebrow": "Five good things",
+      "headline": "Five good things to explore together",
+      "standfirst": "Checked for this issue. Look again together before signing up for anything.",
+      "art": {
+        "slot": "explorer-trail",
+        "vector": "explorer-trail",
+        "recipe": "family-explorer",
+        "alt": "A dotted gold trail across a starry sky, stopping at five numbered places."
+      },
+      "items": [
+        {
+          "name": "micro:bit MakeCode",
+          "icon": "chip",
+          "url": "https://makecode.microbit.org",
+          "source": "s27",
+          "who": "Beginners, with a grown up",
+          "what": "Free, open source block coding for the BBC micro:bit, with a simulator that shows what your program will do.[[s27]]",
+          "why": "New this year: screen reader support for block coding, shaped with blind and low vision young people.[[s28]]",
+          "account": "Ask a grown up"
+        },
+        {
+          "name": "Scratch",
+          "icon": "scratch",
+          "url": "https://scratch.mit.edu",
+          "source": "s30",
+          "who": "Ages 8 to 16[[s30]]",
+          "what": "Snap code blocks together to make games, stories and animations. Free for everyone.[[s31]]",
+          "why": "Start small: make a cat move, then make it dance.",
+          "account": "Ask a grown up first"
+        },
+        {
+          "name": "ESA Kids",
+          "icon": "rocket",
+          "url": "https://www.esa.int/kids/en/home",
+          "source": "s33",
+          "who": "Ages 6 to 12[[s33]]",
+          "what": "Space news, facts, animations and downloads from the European Space Agency.[[s33]]",
+          "why": "Liked page 3? Find out more about life in space.",
+          "account": "None"
+        },
+        {
+          "name": "Night sky highlights",
+          "icon": "telescope",
+          "url": "https://www.rmg.co.uk/stories/space-astronomy",
+          "source": "s34",
+          "who": "Everyone",
+          "what": "Free guides from Royal Museums Greenwich to what is up in the sky.[[s34]]",
+          "why": "Looking up needs no screen at all. Read it together, then go outside.",
+          "account": "None",
+          "offline": "Jot the highlights on paper"
+        },
+        {
+          "name": "Code Club projects",
+          "icon": "code",
+          "url": "https://projects.raspberrypi.org",
+          "source": "s35",
+          "who": "School aged young people",
+          "what": "Free step by step coding and making guides from the Raspberry Pi Foundation.[[s35]] Code Clubs are free for all school aged young people.[[s36]]",
+          "why": "Ask your school or library about a club near you.",
+          "account": "Not to read the guides"
+        }
+      ],
+      "friend": {
+        "id": "orbit",
+        "pose": "wave"
+      },
+      "friendSays": "Same five places as last month, because they are still good. The list changes when something better comes along.",
+      "refs": [
+        "s27",
+        "s28",
+        "s30",
+        "s31",
+        "s33",
+        "s34",
+        "s35",
+        "s36"
+      ]
+    },
+    {
+      "template": "activity",
+      "n": 11,
+      "destination": "explorer",
+      "eyebrow": "The Family Experiment",
+      "headline": "Seven days of checking",
+      "standfirst": "One small check a day. Tick a circle for everyone who joins in.",
+      "friend": {
+        "id": "bloop",
+        "pose": "wave"
+      },
+      "friendSays": "Saturday is the best day. You get to fool everyone, kindly.",
+      "activity": {
+        "kind": "week",
+        "title": "Seven days of checking",
+        "intro": "One a day.",
+        "days": [
+          {
+            "day": "Monday",
+            "title": "Who made it?",
+            "task": "Find one picture and work out who made it.",
+            "offline": false
+          },
+          {
+            "day": "Tuesday",
+            "title": "Spot the mistake",
+            "task": "Play hide a mistake from page 3.",
+            "offline": true
+          },
+          {
+            "day": "Wednesday",
+            "title": "Ask a question",
+            "task": "Ask a grown up how they check things.",
+            "offline": true
+          },
+          {
+            "day": "Thursday",
+            "title": "Invent",
+            "task": "Design your fake detector on page 5.",
+            "offline": true
+          },
+          {
+            "day": "Friday",
+            "title": "Send a true thing",
+            "task": "Finish the postcard on page 7.",
+            "offline": true
+          },
+          {
+            "day": "Saturday",
+            "title": "Real or Pretend",
+            "task": "Play the card game on page 9.",
+            "offline": true
+          },
+          {
+            "day": "Sunday",
+            "title": "Show and tell",
+            "task": "Share the best question you asked this week.",
+            "offline": true
+          }
+        ],
+        "reflect": [
+          "Our best question",
+          "What fooled us",
+          "What we will keep doing"
+        ]
+      },
+      "refs": []
+    },
+    {
+      "template": "passport",
+      "n": 12,
+      "destination": "explorer",
+      "headline": "Your Planet Passport",
+      "standfirst": "Collect a stamp for every activity. Colour each circle in once you have done it.",
+      "activity": {
+        "kind": "passport",
+        "title": "Issue 002, The Real or Pretend Edition",
+        "intro": "Stamps are collected by doing things, never by buying them.",
+        "stamps": [
+          {
+            "label": "Mistake hidden",
+            "page": 3
+          },
+          {
+            "label": "Detector",
+            "page": 5
+          },
+          {
+            "label": "True thing",
+            "page": 7
+          },
+          {
+            "label": "Detective",
+            "page": 9
+          },
+          {
+            "label": "Explorer",
+            "page": 10
+          },
+          {
+            "label": "Seven days",
+            "page": 11
+          }
+        ]
+      },
+      "next": {
+        "edition": "To be planned",
+        "month": "January 2027",
+        "teasers": [
+          "Chosen at the next research week"
+        ]
+      },
+      "grownUps": {
+        "line": "The Guided Planet is made by The Guided Digital Childhood. We help families get children to sixteen ready for a phone and social media, ten minutes a day, together.",
+        "cta": "What stage is your child? Three questions, no sign up.",
+        "url": "https://www.guidedchildhood.com/starter-pack?src=guided-planet-002"
+      },
+      "sourcesUrl": "https://www.guidedchildhood.com/guided-planet/issue-002/sources",
+      "friend": {
+        "id": "bloop",
+        "pose": "happy"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "s27",
+      "org": "Micro:bit Educational Foundation",
+      "title": "MakeCode",
+      "url": "https://tech.microbit.org/software/makecode/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "MakeCode is free and open source, with a device simulator.",
+      "quote": "Microsoft MakeCode for micro:bit is a free, open source platform... A device simulator shows you what will happen on the physical device before you download your program"
+    },
+    {
+      "id": "s30",
+      "org": "Scratch Foundation",
+      "title": "Scratch, frequently asked questions",
+      "url": "https://scratch.mit.edu/faq",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Scratch is designed especially for ages 8 to 16.",
+      "quote": "Scratch is designed especially for young people ages 8 to 16, but people of all ages create and share with Scratch.",
+      "note": "Read through a search result from scratch.mit.edu; the page itself renders in JavaScript and refused automated reading."
+    },
+    {
+      "id": "s31",
+      "org": "Scratch Foundation",
+      "title": "About Scratch",
+      "url": "https://scratch.mit.edu/about",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Scratch is free.",
+      "quote": "Scratch is free for everyone.",
+      "note": "Read directly from scratch.mit.edu/about on 13 October 2026."
+    },
+    {
+      "id": "s33",
+      "org": "European Space Agency",
+      "title": "ESA Kids",
+      "url": "https://www.esa.int/kids/en/home",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Space news, information, animations and downloads for kids aged 6 to 12.",
+      "quote": "ESA Kids features space news, information, animations and downloads for kids aged between 6 and 12",
+      "note": "The site's own description, read directly on 13 October 2026. An ESA launch article says primary school aged, 5 to 12."
+    },
+    {
+      "id": "s34",
+      "org": "Royal Museums Greenwich",
+      "title": "Night sky highlights, October 2026",
+      "url": "https://www.rmg.co.uk/stories/space-astronomy/astronomy/night-sky-highlights-october-2026",
+      "published": "29 September 2026",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Royal Museums Greenwich publishes free monthly night sky highlights.",
+      "quote": "Night sky highlights: October 2026",
+      "note": "The Royal Observatory closes for renovation on 2 November 2026, so the paper suggests the online guide, never a visit."
+    },
+    {
+      "id": "s35",
+      "org": "Raspberry Pi Foundation",
+      "title": "Learn",
+      "url": "https://www.raspberrypi.org/learn/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Free step by step project guides.",
+      "quote": "At Code Club, young people use free, step-by-step project guides specially created by us."
+    },
+    {
+      "id": "s36",
+      "org": "Code Club",
+      "title": "Code Club",
+      "url": "https://codeclub.org/en/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Code Clubs are free and open to all school aged young people.",
+      "quote": "Code Clubs are free and open to all school-aged young people."
+    },
+    {
+      "id": "s23",
+      "org": "BBC Bitesize",
+      "title": "What is an algorithm?",
+      "url": "https://www.bbc.co.uk/bitesize/topics/z3tbwmn/articles/z3whpv4",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "An algorithm is a list of steps to solve a problem or get something done; a recipe is a type of algorithm; the steps go in the right order.",
+      "quote": "An algorithm is a list of steps you give to computers to solve a problem or get something done... A recipe shows us all the steps we need to follow in the right order",
+      "note": "Read directly from the page on 13 October 2026; the automated citation check could not reach bbc.co.uk."
+    },
+    {
+      "id": "s22",
+      "org": "YouTube Help",
+      "title": "How YouTube recommendations work",
+      "url": "https://support.google.com/youtube/answer/16089387?hl=en-GB",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Watch history, searches and 'Not interested' shape recommendations.",
+      "quote": "The YouTube videos that you've watched help to give you better recommendations... What you search on YouTube influences future recommendations... Videos that you mark as 'Not interested' help to inform what to avoid recommending in the future.",
+      "note": "The platform describing itself."
+    },
+    {
+      "id": "s28",
+      "org": "Micro:bit Educational Foundation",
+      "title": "MakeCode screen reader support",
+      "url": "https://microbit.org/news/2026-07-13/makecode-screen-reader-support/",
+      "published": "13 July 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "The 2026 MakeCode release adds screen reader support for block based coding, shaped through research with blind and low vision children and young adults.",
+      "quote": "The 2026 Microsoft MakeCode for micro:bit release introduces screen reader support for block-based coding"
+    }
+  ]
+}

@@ -63,8 +63,9 @@ export type Source = {
 export type ArtSlot = {
   slot: string
   vector?: string            // key into templates/art.ts
-  alt: string                // what a screen reader says
+  alt: string                // what a screen reader says (describes the finished page, friends and all)
   recipe?: string            // the Higgsfield recipe that could paint it
+  paint?: string             // what to paint for this slot, if more than the recipe says. Never a character.
 }
 
 export type Activity =

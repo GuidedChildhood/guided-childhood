@@ -50,7 +50,7 @@ function pageShell(ctx: RenderContext, p: Page, inner: string, opts: { ground?: 
   const label = p.template === 'cover' ? 'Cover' : ('headline' in p ? plain(p.headline) : '')
   return `<section class="page ${ground}" data-page="${p.n}" data-template="${p.template}" aria-label="Page ${p.n}: ${esc(label)}">
   <div class="trim">
-    ${ctx.issue.sample ? '<div class="sample-mark">SAMPLE · NOT FOR PUBLICATION</div>' : ''}
+    ${ctx.issue.sample ? '<div class="sample-mark" aria-hidden="true"></div>' : ''}
     <div class="safe">${opts.head ?? ''}${inner}</div>
     ${opts.noFolio ? '' : folio(ctx, p.n, d)}
   </div>
@@ -207,8 +207,8 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
             <span style="font:900 7.8pt/1.08 var(--font-display);color:#F7E7B9">${esc(s.label)}</span>
             <span style="font:600 5.4pt/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:#E9C977;margin-top:1mm">Page ${s.page}</span></div>`).join('')}
         </div>
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:6mm;margin-top:5mm">
-          ${['Signed off by a grown up', 'Date'].map(l => `<div><div style="border-bottom:.35mm solid #E9C977;height:8mm"></div><p style="font:600 5.8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:#E9C977;margin-top:1.4mm">${l}</p></div>`).join('')}
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:6mm;margin-top:3mm">
+          ${['Signed off by a grown up', 'Date'].map(l => `<div><div style="border-bottom:.35mm solid #E9C977;height:7.5mm"></div><p style="font:600 5.8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:#E9C977;margin-top:1.4mm">${l}</p></div>`).join('')}
         </div>
       </div>`
   }
@@ -255,7 +255,7 @@ function cover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
       </div>
     </div>`
   return `<section class="page" data-page="1" data-template="cover" aria-label="Page 1: Cover">
-  <div class="trim">${i.sample ? '<div class="sample-mark">SAMPLE · NOT FOR PUBLICATION</div>' : ''}${inner}</div>
+  <div class="trim">${i.sample ? '<div class="sample-mark" aria-hidden="true"></div>' : ''}${inner}</div>
 </section>`
 }
 
@@ -490,9 +490,9 @@ function passport(ctx: RenderContext, p: Extract<Page, { template: 'passport' }>
         </div>
       </div>
     </div>
-    <div style="margin-top:auto;padding-top:3mm;border-top:.7mm solid var(--ink);display:grid;grid-template-columns:auto 1fr auto;gap:5mm;align-items:center">
-      <div><p style="font:900 9pt/1 var(--font-display)">The Guided</p><p style="font:900 21pt/.9 var(--font-display);letter-spacing:-.04em">Planet</p></div>
-      <p class="small frame" style="color:var(--ink)">${esc(ctx.issue.colophon ?? '')}</p>
+    <div style="margin-top:auto;padding-top:2.5mm;padding-bottom:1mm;border-top:.7mm solid var(--ink);display:grid;grid-template-columns:auto 1fr auto;gap:5mm;align-items:center">
+      <div><p style="font:900 9pt/1 var(--font-display)">The Guided</p><p style="font:900 20pt/1.05 var(--font-display);letter-spacing:-.04em">Planet</p></div>
+      <p class="small frame" style="color:var(--ink);font-size:7.8pt">${esc(ctx.issue.colophon ?? '')}</p>
       <p class="mono" style="font:600 var(--t-eyebrow)/1.5 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;text-align:right;color:var(--ink-soft)">Issue ${pad3(ctx.issue.number)}<br>${esc(ctx.issue.month)}<br>Free to print and share</p>
     </div>`
   return pageShell(ctx, p, inner, { head: runhead(ctx, 'Planet Passport') })

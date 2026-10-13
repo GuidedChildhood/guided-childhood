@@ -109,9 +109,10 @@ body { font-family: var(--font-body); color: var(--ink); -webkit-print-color-adj
 /* the sample watermark, for a structure test that must never be mistaken for
    a real edition */
 .sample-mark {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-28deg);
-  font: 900 46pt/1 var(--font-display); color: rgba(201,154,40,.16); letter-spacing: .04em;
-  white-space: nowrap; pointer-events: none; z-index: 50;
+  /* A picture, not text: a watermark must never turn up when someone
+     searches or copies the paper's words. */
+  position: absolute; inset: 0; pointer-events: none; z-index: 50;
+  background: url("DESIGN_DIR/sample-mark.png") center / 170mm auto no-repeat;
 }
 
 /* ── THE RUNNING HEAD AND FOLIO ───────────────────────────────────────── */
