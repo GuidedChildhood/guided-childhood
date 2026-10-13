@@ -25,18 +25,18 @@ const esc = (s) => String(s ?? '').replace(/[&<>]/g, (m) => ({ '&': '&amp;', '<'
 
 // Each beat: the shot, how long it holds, and what rides on it.
 const BEATS = [
-  { f: 's01', d: 7.4, off: 0.3, o: '55% 45%', cap: { at: 1.4, age: 'Age 6', line: 'Bedtime. The TV goes back on.' } },
+  { f: 'e1-tv', d: 7.4, off: 0.3, o: '55% 45%', cap: { at: 1.4, age: 'Age 9', line: 'Bedtime. The TV goes back on.' } },
   { f: 's02-slow', d: 11.4, off: 0.2, o: '45% 40%', chat: { at: 0.8, me: 'She has put the TV back on again. Third night running. What do I do?',
-      digi: ['Tonight, sit with her for the last five minutes, then off together.', 'Tomorrow, start a star chart. Jobs earn stars, stars earn screen time, and bedtime stays protected.'] } },
+      digi: ['Not at the screen. In a calm moment, agree what ends it: episode or timer.', 'Then a star chart. Jobs earn stars, stars earn screen time, and bedtime stays protected.'] } },
   { f: 's03', d: 6.6, off: 0.6, o: '50% 40%', cap: { at: 0.9, age: 'The star quest', line: 'Jobs around the house earn stars.' } },
   { f: 's04', d: 7.0, off: 0.6, o: '50% 50%', chips: { at: 0.6, items: ['+1 star · fed the dog', '+1 star · set the table', '1 star = 5 minutes of screen time'] } },
   { f: 's05', d: 6.8, off: 0.6, o: '50% 45%', cap: { at: 1.0, age: 'Protected time', line: 'No star can buy bedtime.' } },
-  { f: 's06', d: 6.2, off: 1.0, o: '55% 40%', cap: { at: 0.8, age: 'Age 8', line: 'She pitches her own quests.' } },
-  { f: 's07', d: 6.2, off: 1.0, o: '50% 40%', cap: { at: 0.8, age: 'Age 9', line: 'Ten minutes a day, learning together.' } },
+  { f: 's06', d: 6.2, off: 1.0, o: '55% 40%', cap: { at: 0.8, age: 'Her idea', line: 'She pitches her own quests.' } },
+  { f: 's07', d: 6.2, off: 1.0, o: '50% 40%', cap: { at: 0.8, age: 'Together', line: 'Ten minutes a day, learning together.' } },
   { f: 's08', d: 6.2, off: 1.2, o: '45% 45%', cap: { at: 0.8, age: 'Year after year', line: 'A star at a time, the habits stick.' } },
   { f: 's09-slow', d: 11.0, off: 0.3, o: '50% 45%', cap: { at: 0.6, age: 'Age 12', line: 'She comes to you, not around you.' },
       chat: { at: 4.6, me: 'She showed me a horrible message from a group chat. What do I say?',
-      digi: ['Thank her for coming to you first. That is the win.', 'Then ask what she thinks it means, before you decide anything.'] } },
+      digi: ['Tell her you are glad she came to you. She did nothing wrong.', 'Ask her to show you, in her own words, before you decide anything.'] } },
   { f: 's10', d: 8.4, off: 0.0, o: '45% 45%', cap: { at: 0.8, age: 'Age 15', line: 'The chart has gone. The habits stayed.' },
       cap2: { at: 4.6, age: 'Guidance, not a ban', line: 'A ban is a deadline. This is a plan.' } },
   { f: 's11', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },
@@ -117,7 +117,6 @@ html += `
   <div class="cta" id="cta">What stage is your child? Three questions, no sign up.</div>
   <div class="url" id="url">guidedchildhood.com/starter-pack</div>
 </div>
-<audio id="score" src="assets/guide-score.mp3" data-start="0" data-duration="${TOTAL.toFixed(2)}" data-track-index="4" data-volume="0.85"></audio>
 `
 tl += `tl.fromTo("#card",{opacity:0},{opacity:1,duration:0.8,ease:"sine.inOut"},${CARD_AT.toFixed(2)});
 tl.fromTo("#lockup",{opacity:0,y:18,scale:0.96},{opacity:1,y:0,scale:1,duration:1.0,ease:"expo.out"},${(CARD_AT + 0.5).toFixed(2)});

@@ -1,12 +1,9 @@
 {
   "title": "Ready, episode 1: the nightly fight",
   "needs": [
-    "NEW e1-tv.mp4: the girl at about nine puts the TV back on at 9pm, her dad tired in the doorway",
-    "NEW e1-timer.mp4: her dad says it once and sets a kitchen timer on the coffee table, she sees it",
-    "NEW e1-together.mp4: the TV is off, the two of them play a board game she picked, ten minutes",
-    "NEW e1-off.mp4: two weeks on, the timer chimes and she switches the TV off herself, picks up a book",
-    "All four from a new reference of the girl at nine, after Justin's yes on the credits",
-    "DiGi's plan is its own scenario EB-01 (digi/06-scenarios.md); run the eval case in the PR body against live DiGi before finals"
+    "Reshoot e1-ending and e1-off: she drifts to about six or seven, and e1-ending shows a bell, not a kitchen timer",
+    "DiGi's plan is its live script 9671, 'The stopping point agreed in a calm moment' (supabase/migrations/363 and 371): agree the ending before, no warnings. Run it as an eval case against live DiGi before finals",
+    "Recapture digi-followup.png with the check back for this script (a week on, count the endings without a fight)"
   ],
   "beats": [
     {
@@ -36,24 +33,24 @@
       "stamp": "Night 1, 9:15pm",
       "plan": true,
       "digi": [
-        "Tonight: tell her once. Ten minutes on the timer, then the TV goes off.",
-        "Then: a calm switch off earns ten minutes together, and she chooses what.",
-        "Every night: the same ending, no extra minutes. One extension resets it."
+        "Tonight: not at the screen. In a calm moment, agree what ends it: episode or timer.",
+        "Tomorrow: when it ends, say only “That was the deal. Well done.” Nothing else.",
+        "If she pushes: no countdown, no lecture. Point to the deal she chose."
       ]
     },
     {
       "kind": "shot",
       "step": 3,
-      "stamp": "Night 2, 8:50pm",
-      "clip": "e1-timer.mp4",
-      "line": "Ten minutes on the timer. Said once."
+      "stamp": "Day 2, 4:00pm",
+      "clip": "e1-deal.mp4",
+      "line": "Not at the screen. She picks the ending."
     },
     {
       "kind": "shot",
       "step": 3,
-      "stamp": "Night 2, 9:00pm",
-      "clip": "e1-together.mp4",
-      "line": "TV off. Ten minutes together, her choice."
+      "stamp": "Night 2, 8:30pm",
+      "clip": "e1-ending.mp4",
+      "line": "The timer goes. That was the deal."
     },
     {
       "kind": "screen",
@@ -76,11 +73,11 @@
     {
       "kind": "screen",
       "step": 3,
-      "stamp": "Night 5",
+      "stamp": "Week 1",
       "screen": "digi-followup.png",
       "y": 170,
       "h": 1600,
-      "line": "Five nights on, DiGi checks back."
+      "line": "A week on, DiGi checks back."
     },
     {
       "kind": "shot",
