@@ -568,8 +568,51 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   if (!/if \(body\.instead\)/.test(send) || !/\.update\(\{ status: 'skipped' \}\)/.test(send) || !/\.eq\('status', 'sent'\)/.test(send)) fail.push('Do this one instead must park only open missions (sent), never a passed one')
 }
 
+// ── 14. THE SIX HEAVY LESSONS WAIT FOR A GROWN UP (13 October 2026) ─────────
+//
+// Justin said yes to the heads up: one of the six heaviest lessons started by a
+// child alone opens 48 hours later or when the parent taps Ready, and the
+// parent gets the note first. A lesson the parent sends or opens with them is
+// theirs already and opens at once. The note is the deck's own parent text,
+// turned from "today we taught" into what the lesson covers, so it runs here
+// over all six real decks.
+{
+  const heavy = await import(join(process.cwd(), 'lib/lessons/heavy.ts'))
+  if (heavy.HEAVY_MODULE_IDS.size !== 6) fail.push(`the heads up names ${heavy.HEAVY_MODULE_IDS.size} heavy lessons, not six`)
+  for (const id of heavy.HEAVY_MODULE_IDS) {
+    let deck
+    try { deck = JSON.parse(readFileSync(`content/modules/${id}.json`, 'utf8')) } catch { fail.push(`heavy lesson ${id} has no deck in content/modules`); continue }
+    const copy = heavy.headsUpCopy(deck.parent_note, 'Teo')
+    if (!copy.covers || !/^(This lesson|In this lesson)\b/.test(copy.covers)) fail.push(`${id}: the note does not open as what the lesson covers ("${(copy.covers ?? '').slice(0, 40)}")`)
+    const left = (copy.covers ?? '').match(/\b(Today|today|we|We|learned|pupils?|taught your child)\b/)
+    if (left) fail.push(`${id}: the note still reads as after the lesson ("${left[0]}")`)
+    if (!copy.sayThis) fail.push(`${id}: the note has no say this line`)
+  }
+  const now = Date.parse('2026-10-13T10:00:00Z')
+  const opens = Date.parse(heavy.headsUpOpensAt(now))
+  if (opens - now !== 48 * 3600 * 1000) fail.push('a heavy lesson must open 48 hours after the child starts it')
+  if (!heavy.stillWaiting(new Date(now + 1000).toISOString(), now) || heavy.stillWaiting(new Date(now - 1000).toISOString(), now) || heavy.stillWaiting(null, now)) fail.push('stillWaiting must be true only for a sent_at still in the future')
+
+  const opener = read('app/k/[token]/school/[lessonId]/route.ts')
+  if (!/isHeavyModule\(row\.module_id\) && !grownUpIn/.test(opener) || !/sent_at: headsUpOpensAt\(\)/.test(opener)) fail.push('the opener must hold a heavy lesson a child starts alone, and only then')
+  if (!/isTogether\(/.test(opener) || !/lessons_together === true/.test(opener)) fail.push('a grown up already in the lesson (the together cookie or the switch) must open it at once')
+  if (!/stillWaiting\(/.test(opener)) fail.push('the opener must keep a waiting lesson shut when its address is typed')
+  const hu = opener.slice(opener.indexOf('async function sendHeadsUp'))
+  const pushCall = hu.slice(hu.indexOf('sendPush('), hu.indexOf('})', hu.indexOf('sendPush(')))
+  if (!pushCall || /lessonTitle|parentNote/.test(pushCall)) fail.push('the heads up push must not carry the lesson\'s subject onto a lock screen')
+  if (!/kind: 'transactional'/.test(hu)) fail.push('the heads up email is about the child\'s own lesson, so it goes as transactional')
+  if (!/stillWaiting\(/.test(read('app/k/[token]/lesson/[mission]/page.tsx'))) fail.push('the lesson page must refuse a mission still inside its heads up')
+  if (!/error: 'waiting'/.test(read('app/api/quests/lesson-complete/route.ts'))) fail.push('the completion route must refuse a mission still inside its heads up')
+  if (!/headsUpUntil/.test(read('app/k/[token]/lessons/page.tsx'))) fail.push('the child\'s list must say the day a waiting lesson opens')
+  if (!/openHeadsUpNow\(/.test(read('app/api/quests/lessons/route.ts'))) fail.push('a parent sending a waiting lesson is the parent choosing it, so it opens')
+  if (!/openHeadsUpNow\(/.test(read('app/(dashboard)/dashboard/lessons/heads-up/ready/route.ts'))) fail.push('Ready under the note must open the lesson')
+  const server = read('lib/lessons/heads-up-server.ts')
+  if (!/\.gt\('sent_at', now\)/.test(server) || !/\.eq\('status', 'sent'\)/.test(server)) fail.push('Ready must move only a mission still waiting, so a second tap is no second push')
+  if (!/data-row-actions="heads-up"/.test(read('app/(dashboard)/dashboard/lessons/path/page.tsx'))) fail.push('the parent\'s lessons page must offer the note on a waiting lesson, not a nudge')
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, lessons follow the school year, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8, one stage map, the code records coverage, the switch picks the deck)`)
+console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, lessons follow the school year, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8, one stage map, the code records coverage, the switch picks the deck, the six heavy lessons wait for a grown up)`)

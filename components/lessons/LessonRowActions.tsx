@@ -57,6 +57,10 @@ export default function LessonRowActions({
         return push === 'sent' ? `Sent. It is on ${childName}'s app now.`
           : `It is on ${childName}'s list. ${pushLine(push)}`
       case 'nudged': return `Nudged. ${childName} will see it came from you.`
+      // A heavy lesson waiting on its heads up, opened by this tap.
+      case 'opened':
+        return push === 'sent' ? `Open now. ${childName} has a note on their phone.`
+          : `Open now. ${pushLine(push)}`
       case 'already_nudged': return 'Already nudged. One nudge per lesson keeps it kind.'
       case 'already_passed': return `${childName} has passed this one.`
       default: return pushLine(state)

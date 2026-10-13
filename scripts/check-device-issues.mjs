@@ -54,7 +54,7 @@ const picks = {
   afterFirst: pickIssue('8-10', rows, new Set(firstRows), 3),
   all: pickIssue('8-10', rows, new Set(rows.map(r => r.sort_order)), 3),
 }
-console.log(JSON.stringify({ issues: DEVICE_ISSUES.map(i => ({ key: i.key, bands: i.bands, name: i.name, url: i.source.url, category: i.proof.category, scripts: i.proof.scripts, keywords: i.keywords.length, copy: [i.name, i.words, i.mechanism, i.response, i.prevent].join(' ') })), perBand, order, matches, none: none?.key ?? null, cats, picks: { fresh: { key: picks.fresh?.issue.key, script: picks.fresh?.script?.title, kept: picks.fresh?.kept }, afterFirst: { key: picks.afterFirst?.issue.key, kept: picks.afterFirst?.kept }, all: { key: picks.all?.issue.key, kept: picks.all?.kept } } }))
+console.log(JSON.stringify({ issues: DEVICE_ISSUES.map(i => ({ key: i.key, bands: i.bands, name: i.name, url: i.source.url, href: i.proof.href, category: i.proof.category, scripts: i.proof.scripts, keywords: i.keywords.length, copy: [i.name, i.words, i.mechanism, i.response, i.prevent].join(' ') })), perBand, order, matches, none: none?.key ?? null, cats, picks: { fresh: { key: picks.fresh?.issue.key, script: picks.fresh?.script?.title, kept: picks.fresh?.kept }, afterFirst: { key: picks.afterFirst?.issue.key, kept: picks.afterFirst?.kept }, all: { key: picks.all?.issue.key, kept: picks.all?.kept } } }))
 `
 const r = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe], { encoding: 'utf8', cwd: process.cwd() })
 if (r.status !== 0) {
@@ -68,6 +68,11 @@ if (r.status !== 0) {
     if (i.scripts.length === 0) problems.push(`A: ${i.key} has no proof script`)
     if (i.keywords < 3) problems.push(`A: ${i.key} has fewer than three keywords`)
     if (/[—–]/.test(i.copy)) problems.push(`A: ${i.key} has a dash in its copy`)
+    // The scripts page reads ?cat=, never ?category=. Twenty two links carried
+    // the wrong one and opened the unfiltered library (fixed 13 October 2026).
+    if (/\/dashboard\/scripts\?(?:.*&)?category=/.test(i.href)) problems.push(`A: ${i.key} links to scripts with ?category=, which the page ignores; use ?cat=`)
+    const shelf = /\/dashboard\/scripts\?(?:.*&)?cat=([a-z-]+)/.exec(i.href)?.[1]
+    if (shelf && !CATEGORIES.has(shelf)) problems.push(`A: ${i.key} links to a scripts shelf that is not live: ${shelf}`)
   }
   if (problems.length === 0) ok.push(`A: ${out.issues.length} issues, every one with a source, a live category, a proof script and no dash`)
   for (const b of BANDS) {

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { deviceLabel } from '@/lib/quests/device-time'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { Sticker } from '@/components/kid/HappyNewsBits'
@@ -39,6 +40,38 @@ function Well({ icon, tint }: { icon: HappyIconName; tint: string }) {
   )
 }
 
+// A note from the grown up. A long one shows its first few lines and a Read
+// it all tap, so a paragraph never pushes the child's day off the screen
+// (Teo's home, 13 October 2026, was one note tall). Line breaks are kept.
+const NOTE_PREVIEW = 140
+function NudgeCard({ nudge, onDismiss }: { nudge: KidNudge; onDismiss: () => void }) {
+  const [open, setOpen] = useState(false)
+  const long = nudge.message.length > NOTE_PREVIEW
+  return (
+    <div style={{ ...cardBase, background: '#fff', alignItems: 'flex-start' }}>
+      <Well icon="heart" tint={CRAYON.paper} />
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          display: long && !open ? '-webkit-box' : 'block', WebkitLineClamp: long && !open ? 3 : undefined,
+          WebkitBoxOrient: 'vertical', overflow: 'hidden', whiteSpace: 'pre-line', overflowWrap: 'anywhere',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4,
+        }}>
+          {nudge.message}
+        </span>
+        {long && (
+          <button
+            onClick={() => setOpen(o => !o)}
+            style={{ marginTop: 6, padding: 0, border: 0, background: 'none', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'underline' }}
+          >
+            {open ? 'Show less' : 'Read it all'}
+          </button>
+        )}
+      </span>
+      <button onClick={onDismiss} aria-label="Got it" style={okBtn}>OK</button>
+    </div>
+  )
+}
+
 export default function KidAskBanner({
   ask, blockingJobs, outstandingJobs = [], nudges, hasSession, startBusy,
   onStart, onDismissDeclined, onDismissNudge,
@@ -63,21 +96,7 @@ export default function KidAskBanner({
   return (
     <div>
       {/* Nudges from the grown up: always show, they carry the way forward. */}
-      {nudges.map(n => (
-        <div key={n.id} style={{ ...cardBase, background: '#fff' }}>
-          <Well icon="heart" tint={CRAYON.paper} />
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4 }}>
-            {n.message}
-          </span>
-          <button
-            onClick={() => onDismissNudge(n.id)}
-            aria-label="Got it"
-            style={okBtn}
-          >
-            OK
-          </button>
-        </div>
-      ))}
+      {nudges.map(n => <NudgeCard key={n.id} nudge={n} onDismiss={() => onDismissNudge(n.id)} />)}
 
       {showAsk && ask.status === 'pending' && (
         <div style={{ ...cardBase, background: '#fff' }}>

@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -12,6 +12,7 @@ import { listStarLessons } from '@/lib/quests/star-lesson-catalogue'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import type { LessonTool } from '@gc/shared/lesson-slides'
+import { stillWaiting } from '@/lib/lessons/heavy'
 
 // A star lesson, the kid version: opened from the child's own quest link,
 // no account, no login. The same lesson the schools product teaches, in
@@ -35,10 +36,13 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
 
   const { data: mission } = await supabase
     .from('kid_lesson_missions')
-    .select('id, lesson_id, stars, status, child_id, paid_at')
+    .select('id, lesson_id, stars, status, child_id, paid_at, sent_at')
     .eq('id', missionId)
     .maybeSingle()
   if (!mission || mission.child_id !== link.child_id) notFound()
+  // A heavy lesson inside its heads up is not open yet, however the address
+  // was reached (lib/lessons/heavy). The list says when it opens.
+  if (mission.status === 'sent' && stillWaiting((mission as { sent_at?: string | null }).sent_at)) redirect(`/k/${token}/lessons?waiting=1`)
 
   const [{ data: child }, lesson] = await Promise.all([
     supabase.from('children').select('name, accent, lessons_together').eq('id', link.child_id).maybeSingle(),
