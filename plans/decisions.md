@@ -484,3 +484,18 @@ newspaper shape to the same name, so that half is broken either way. The fix
 is a rename, and it belongs to the lane that wrote it (PR 1287).
 
 Left behind: schools.stage_374_hq, plus 373's two, inert for the same reason.
+
+## 13 October 2026: a correction to what the 373 staging tables were granted
+
+The 373 entry above said the two leftover staging tables had no grant to anon
+or authenticated. That was right about anon and wrong about authenticated,
+which still held select on both. RLS was on with no policies, so a signed in
+user got zero rows rather than data, and nothing was exposed. The grant should
+not have been there at all, and it is revoked now: all three staging tables
+refuse authenticated on the real access path, tested by setting the role
+rather than by reading a privilege table.
+
+Worth keeping, because it is the same shape as the 373 slip it corrects. A
+fresh table in this project inherits a grant, so a new table is only as closed
+as the statement that made it. 374's staging table was created with its revoke
+in the same statement and was closed from the first instant.
