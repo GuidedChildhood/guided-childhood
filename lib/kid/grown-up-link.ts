@@ -17,9 +17,9 @@
 // The grown up is named by what the child calls them. Justin chose that on
 // 13 October 2026 "if it is set on the account". It is not set anywhere yet
 // (profiles holds only full_name, and a child does not call their dad Justin),
-// so until the parent side asks "What does Teo call you?" every family reads
-// "Mum or Dad". One function so the day that setting lands it changes in one
-// place.
+// so Settings now asks "What does Teo call you?" (migration 376,
+// components/settings/CallsYouField.tsx) and the child's page passes it here.
+// Until a parent answers, every family reads "Mum or Dad".
 
 export function grownUpWord(label?: string | null): string {
   const t = (label ?? '').trim()

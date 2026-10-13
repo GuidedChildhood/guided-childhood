@@ -8,6 +8,7 @@ import DeleteAccount from '@/components/settings/DeleteAccount'
 import YourAgreements from '@/components/settings/YourAgreements'
 import SettingsLinks from '@/components/settings/SettingsLinks'
 import RemoveChild from '@/components/settings/RemoveChild'
+import CallsYouField from '@/components/settings/CallsYouField'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -462,6 +463,7 @@ export default function SettingsPage() {
                 placeholder="Your child"
               />
             </div>
+            <CallsYouField childId={kid.id} childName={form.name.trim() || kid.name} />
             {interestsSupported && (
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>

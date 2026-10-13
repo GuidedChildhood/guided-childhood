@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel } from '@/lib/quests/device-time'
+import { readCallsGrownUp, senderWord } from '@/lib/kid/calls-grown-up'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getHolidayBanks } from '@/lib/quests/holiday-bank'
@@ -126,7 +127,7 @@ export async function PATCH(req: NextRequest) {
       const dev = deviceLabel(String(reqRow.device))
       await pushToChild(
         createAdminClient(), user.id, String(reqRow.child_id),
-        status === 'approved' ? 'Your grown up said yes! ⭐' : 'Not right now 💛',
+        status === 'approved' ? `${senderWord(await readCallsGrownUp(createAdminClient(), String(reqRow.child_id)))} said yes! ⭐` : 'Not right now 💛',
         status === 'approved'
           ? `${charged.stars > 0 ? `${charged.stars} star${charged.stars === 1 ? '' : 's'} taken from your bank${charged.shortMinutes > 0 ? ', and your grown up covered the rest' : ''}. ` : charged.shortMinutes > 0 ? 'Your grown up covered it. ' : ''}${jobsLeft > 0
             ? `First finish your ${jobsLeft} job${jobsLeft === 1 ? '' : 's'} for today, then tap Start for your ${mins} minutes on the ${dev}.`

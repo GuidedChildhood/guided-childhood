@@ -11,6 +11,7 @@ import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { bandLabelFor } from '@/lib/quests/screen-balance'
 import PushPrompt from '@/components/push/PushPrompt'
 import HappyIcon from '@/components/kid/HappyIcon'
+import NudgeReceipt from '@/components/quests/NudgeReceipt'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -346,6 +347,8 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
   // One nudge per view. A parent tapping Remind three times should not buzz
   // their child three times, which is the fault we spent yesterday removing.
   const [nudged, setNudged] = useState(false)
+  // The Remind has landed, so its receipt can read it (13 October 2026).
+  const [nudgeLanded, setNudgeLanded] = useState(false)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
@@ -531,6 +534,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ childId: kid.id }),
                   })
+                  setNudgeLanded(true)
                 } catch { setNudged(false) }
               }}
               disabled={nudged}
@@ -543,6 +547,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             >
               {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
             </button>}
+            {nudgeLanded && <NudgeReceipt childId={kid.id} name={kid.name} sentAt={1} />}
           </div>
         )}
         <div style={{ marginBottom: '9px' }}>

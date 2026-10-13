@@ -415,3 +415,7 @@ Teo's mission said 9 of 10 lessons: 0 passed himself, 1 star lesson in his app, 
 ## 13 October 2026: the child's home, the day first and linked to the grown up
 
 Justin approved all four: the greeting and the five a day are one card at the top; one reward card (Use my time, balance, timer) that is never locked, with a line saying what finishing the five adds; reminders asked only once a day has been finished; and the parent link, "2 waiting for Mum or Dad to say yes" plus a Since you last looked card for yeses that landed while the child was away. The school diary is one slim line. "Mum or Dad" until the account says what the child calls the parent (that setting comes with the parent side PR). Guard: check-kid-home-simple. PR 1283.
+
+## 13 October 2026: the grown up's side of the link
+
+Settings asks "What does Teo call you?" (migration 376, children.calls_grown_up); the child's home, the yes pushes and every note to the child use it, "Mum or Dad" until set. Remind shows "Teo read it ✓" (kid_nudges.seen). The bell carries screen time asks with Say yes in place, and the child's finished days and passed lessons with Send a well done, which lands on the child's home as a note (kind well_done, one per win). Every new column is read softly. PR 1285.
