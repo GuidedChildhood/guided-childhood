@@ -47,6 +47,7 @@ import { missionPaidAt } from '@/lib/quests/mission-paid'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
+import { SINCE_WINDOW_MS, type SinceItem } from '@/lib/kid/grown-up-link'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -70,7 +71,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const supabase = createAdminClient()
   const { data: link } = await supabase
     .from('kid_links')
-    .select('user_id, child_id')
+    .select('user_id, child_id, last_seen_at')
     .eq('token', token)
     .maybeSingle()
   if (!link) notFound()
@@ -115,6 +116,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     printableRes, tutorRes,
     jobStreaksRes, passportReads, completedDaysRes, sheetsRes,
     streakWeekSeenRes, familyDevicesRes,
+    sinceTicksRes, sinceIdeasRes,
   ] = await Promise.all([
     // device_trust rides along here rather than in a read of its own: it
     // landed with migration 058, long before any database still running this
@@ -392,6 +394,27 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .or(`child_id.eq.${link.child_id},child_id.is.null`)
       .is('retired_at', null)
       .order('created_at', { ascending: true })),
+
+    // SINCE YOU LAST LOOKED (13 October 2026, lib/kid/grown-up-link.ts). The
+    // yeses from the last two days: jobs approved and job ideas added. The
+    // screen keeps only the ones newer than the child last looked. Soft, so a
+    // failed read just means no card, never a broken home.
+    soft(supabase
+      .from('quest_ticks')
+      .select('id, quest_id, approved_at')
+      .eq('child_id', link.child_id)
+      .eq('status', 'approved')
+      .gte('approved_at', new Date(Date.now() - SINCE_WINDOW_MS).toISOString())
+      .order('approved_at', { ascending: false })
+      .limit(8)),
+    soft(supabase
+      .from('quest_requests')
+      .select('id, title, emoji, decided_at')
+      .eq('child_id', link.child_id)
+      .eq('status', 'added')
+      .gte('decided_at', new Date(Date.now() - SINCE_WINDOW_MS).toISOString())
+      .order('decided_at', { ascending: false })
+      .limit(5)),
   ])
 
   const missionRows = missionRowsRes.data
@@ -592,6 +615,20 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // what this screen builds on top of it.
   const { dueQuests, laterQuests, todayTicks, tickedOnceEver, rawQuests } = jobs
   const starsByQuest = new Map(rawQuests.map(q => [q.id, q.stars]))
+
+  // The yeses for Since you last looked, named from the jobs this page already
+  // holds. A job since turned off has no title to show, so it is skipped.
+  const questById = new Map(rawQuests.map(q => [q.id, q]))
+  const sinceItems: SinceItem[] = [
+    ...((sinceTicksRes?.data ?? []) as { id: string; quest_id: string; approved_at: string | null }[]).flatMap(t => {
+      const q = questById.get(t.quest_id)
+      if (!q || !t.approved_at) return []
+      const family = Boolean((q as { is_family_job?: boolean }).is_family_job)
+      return [{ key: `tick:${t.id}`, kind: 'job' as const, title: q.title, emoji: q.emoji ?? null, stars: family ? 0 : (q.stars ?? 0), familyJob: family, at: t.approved_at }]
+    }),
+    ...((sinceIdeasRes?.data ?? []) as { id: string; title: string; emoji: string | null; decided_at: string | null }[]).flatMap(r =>
+      r.decided_at ? [{ key: `idea:${r.id}`, kind: 'idea' as const, title: r.title, emoji: r.emoji ?? null, stars: 0, familyJob: false, at: r.decided_at }] : []),
+  ]
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
     + lessonWeekStars
 
@@ -977,6 +1014,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       initialAsk={initialAsk}
       initialNudges={initialNudges}
       hasReminders={hasReminders}
+      sinceItems={sinceItems}
+      lastSeenAt={(link as { last_seen_at?: string | null }).last_seen_at ?? null}
       />
     </>
   )
