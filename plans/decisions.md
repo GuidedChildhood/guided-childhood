@@ -235,3 +235,23 @@ page whose buttons go to a paid signup. Separately, the user level
 `linkedin-comment-replies` skill still states the report is live and tells
 Claude to lead with the £9.99 report on first customer interest. That file lives
 in Justin's own skills, not this repo, so he has to change it there.
+
+## 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables
+
+The sweep of 348 to 372 found one real gap. 360 give five get five was
+merged on 4 October and never run: neither `referral_codes` nor `referrals`
+existed on the live database, while thirteen files of app code already read
+them, including `/r/[code]`, the refer page, the admin page and the daily
+cron. Checkout was the one safe path, because it wraps the referral lookup
+in a catch and never blocks a payment, so no parent was stopped from
+joining; the £5 was simply never offered and no referral was ever recorded.
+
+Applied and verified: both tables with their columns, RLS on, both policies,
+both indexes, and the real access paths exercised rather than read off the
+grant list (anon refused outright, authenticated with no uid sees nothing,
+and the only columns a parent may update are `paypal_email` and
+`updated_at`). 348 was also applied, as a confirmed no op: its grant list
+matches the live catalogue table for table.
+
+367 and 368 are skipped numbers, not missing work. 373 is on an unmerged
+branch. PR 1260.
