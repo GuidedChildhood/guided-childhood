@@ -292,3 +292,34 @@ Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
 the screen time umbrella review, and "Europe has written the staircase into
 law". Both have real content, neither has been through the review above.
 PR 1262.
+
+## 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live
+
+Justin, on the four open items: keep the live Digital Health Report links
+("keep it there as dos work"), tell him what the comment replies skill should
+say, and run the new review over the two unreviewed documents.
+
+**Correction.** The canon had said the report is "not a service at the moment"
+and ruled it out of copy entirely. That went further than Justin did. The tool
+works and the links stay. The rule is about which product the founder story
+sells, not about whether the report exists. Corrected in the canon, the audit,
+drive-post-review and kids-research.
+
+**The comment replies skill** lives in Justin's own claude.ai skills, so nothing
+here can fix it. `content/brand-story/linkedin-comment-replies-product-facts.md`
+is the replacement block to paste: lead with the free stage check, the real
+parent prices, and never quote a figure for the report.
+
+**The two unreviewed documents.** The 2.8 million children screen time post
+carried "done" on its first line and had already been posted, so it is
+relabelled POSTED GDC-022 and needs nothing. The EU KIDS Act post is the find:
+its consultation closes 26 November, so it is the one genuinely live post left
+in that batch. Rewritten as GDC-025, opening on what a twelve year old should be
+able to do rather than on "for five years", with the UK under 16 restrictions as
+the bridge and the consultation deadline moved to the close where a head can act
+on it.
+
+**Still not possible from a session:** the Monday radar Routine cannot store the
+Google Drive connector, because create_trigger rejects the connectors parameter
+for this organisation. Retried today and refused again. Only Justin can attach
+it, from the claude.ai routines page.
