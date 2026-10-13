@@ -326,7 +326,20 @@ Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
 the screen time umbrella review, and "Europe has written the staircase into
 law". Both have real content, neither has been through the review above.
 PR 1262.
+## 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375)
 
+The Ready series eval run found live DiGi still advising "Give a warning... Five minutes before" for bedtime TV, after 371 took that advice out of the library. Cause: the prompt's own reflective question example was a five minute warning. The prompt now has an ENDING A SCREEN rule (agree it before the screen goes on, never a warning or countdown), and 375 corrects three expert_knowledge rows that said the opposite (Child Mind Institute, the NHS sleep leaflet, Hiniker overstated). The same run failed the phone question for "no exceptions": the voice file used "The bedroom rule is not negotiable" as its model sentence. Now the bedroom rule is given as a calibrated pathway. ND-01's visual timer stays: a timer the child can see, set together, is an agreed ending, and the study was of under sixes in general. Two permanent eval cases guard both. Applying 375 is Justin's call. PR 1275.
+
+## 13 October 2026: the starter pack and the welcome agree the ending too
+
+Migration 371 took the warned ending out of the scripts and moment cards; the
+public starter pack (ages 4 to 7 and 8 to 10 conversation guides) and the
+welcome walkthrough (the scripts card and DiGi's pathway card) still told
+parents to give a five or two minute warning. All now say the ending is agreed
+before the screen goes on. What the grep still finds in product code is the
+copy that refuses a warning, plus DiGi's example follow up in lib/digi/system.ts,
+which PR 1275 replaces. Seed files and research briefings are left as the
+historical record.
 ## 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live
 
 Justin, on the four open items: keep the live Digital Health Report links
@@ -391,3 +404,6 @@ the claude.ai Routines UI. PR 1274.
 ## 13 October 2026: when the five land, the Planet Friends moonwalk on
 
 Justin, with the rocket on Teo's phone: each Planet Friend moonwalks on one at a time with a tip for earning stars (all five tips are true of the app). It plays after the day screen every time the five land; on a Friend day the earned Friend's arrival card follows without the rocket flight. The arrival card's text and button had been wiped by clearProps 'all' and are fixed; the guard now bans it in components/kid.
+## 13 October 2026: screen break ideas, and Add your own on every step sheet
+
+Justin, from Teo's phone: the Screen break together ideas are Play football, Puzzles, Draw, Read, and add one of your own. Every step sheet with ideas now ends in + Add your own; what the child types travels to the grown up with the tick like a tapped idea (notes keep 80 characters).

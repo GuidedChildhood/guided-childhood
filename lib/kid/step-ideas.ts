@@ -72,7 +72,10 @@ export const STEP_IDEAS: Partial<Record<StepKey, StepIdeas>> = {
   },
   grownup_break: {
     ask: 'Ask for thirty minutes with the phones down.',
-    ideas: ['Play a game', 'Go for a walk', 'Cook something together', 'Read in the same room', 'Just talk'],
+    // Justin, 13 October 2026, from Teo's phone: "play football, puzzles,
+    // draw, read and add one of your own." Short words a child taps without
+    // reading twice. Every ideas sheet also offers Add your own (KidStepSheet).
+    ideas: ['Play football', 'Puzzles', 'Draw', 'Read'],
     confirm: 'We did it',
   },
   reading: {
