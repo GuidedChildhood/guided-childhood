@@ -6,40 +6,17 @@ helpful one, points at a product surface that exists, closes on a real question
 with nothing after it, and carries a first comment to post the moment it goes
 live. 1,300 to 2,500 characters. No dashes. Nothing here is posted or scheduled.
 
+Numbered GDC-018 to GDC-024, and the number is the posting order, so there is
+no separate order to remember. Never two in a day.
+
 The series line is "In Proportion". Add it as its own line before the closing
 question on any of these if the series is running that week.
 
 ---
 
-## 1. From GDC-002 · The relationship with no friction
+## GDC-018 · Ready for what
 
-I do not know what a child learns from a relationship where the other side never gets tired of them.
-
-That is the question I cannot answer, and I have stopped treating it as the same question as whether a child might mistake an AI for a friend. It runs the other way. Not what the machine says to the child. What the child practises when they talk back to it.
-
-Researchers at the University of Washington and Rutgers watched eight children aged 6 to 11 play with generative AI toys. The children started socially, asking names and birthdays. When the toys kept failing to understand them, some began testing them, provoking them, speaking to them in ways they probably would not use on another child in the room.
-
-Eight children, two sessions. That tells us nothing about whether AI toys make children aggressive or wear down empathy, and I would not use it that way.
-
-It did change what I think AI literacy has to cover.
-
-A human relationship has friction in it. Someone gets bored. Someone disagrees. Someone says that is enough. Someone can be hurt. A child learns slowly and badly that another person has needs that exist whether or not they are convenient.
-
-An AI has no feelings to hurt. It can now perform the entire language of a relationship with none of the stakes underneath it.
-
-So our AI module does not only ask whether the answer is true. It asks why the machine is answering like a person, what it remembers, whether you would speak to a person this way, and when a conversation should stop being with a machine and start being with a human. DiGi runs to the same rule: it never claims to need the child, and never sets itself up as the relationship that understands them best.
-
-I would rather teach the friction than assume children will not go looking for the thing that has none.
-
-What would you want a child to notice about a machine that never gets tired of them?
-
-**First comment, post immediately**
-
-The study is Interaction Design and Children, from the University of Washington and Rutgers, circulated in September 2026. Worth being precise about what it is: eight children, two sessions, one product context. It generates questions about how children build a model of these things. It cannot estimate how common any of it is and it does not establish developmental harm. If you want the stage by stage version of what we teach about AI, it starts with three questions about your own child at guidedchildhood.com/starter-pack. No sign up to see the result.
-
----
-
-## 2. From GDC-024 · Ready for what
+*(rewritten from GDC-024.)*
 
 When my eldest started asking for a phone, I wanted an age. I assumed somebody had worked out the safe one.
 
@@ -67,7 +44,93 @@ Nagata et al., JAMA Network Open, 25 September 2026. Observational longitudinal 
 
 ---
 
-## 3. From GDC-029 · Two children, same game
+## GDC-019 · AI literacy needs somebody to own it
+
+*(rewritten from GDC-035.)*
+
+A child cannot spot a confident wrong answer in a subject they know nothing about. That is the part of AI literacy I have no neat solution for, and it is why the phrase makes me uneasy.
+
+Mearns Castle High School in East Renfrewshire has appointed Jamie Laycock as Principal Teacher of AI Literacy, believed to be the first dedicated post of its kind in the UK. S1 and S2 get dedicated lessons. Older pupils meet it through citizenship and personal education, with an elective for seniors. The teaching reported so far covers synthetic images, fabricated answers, bias, anthropomorphism, and the habit chatbots have of agreeing with you.
+
+The cautious case goes first. One appointment proves nothing about outcomes. Another specialist post is not affordable in most schools. And AI should not become the fashionable subject that crowds out reading and subject knowledge, because critical thinking does not float free of knowing things. A pupil checking an AI claim needs something to check it against.
+
+Which is the argument for progression rather than an assembly.
+
+At one stage the question is whether you can tell this image might not be real. Later, whether you can check a claim against another source. Later again, whether you notice when a chatbot is flattering you, agreeing too readily, or starting to feel more like a person than it is.
+
+Those capabilities travel. The tools will not stop changing.
+
+Our schools scheme is built that way, 29 modules mapped to Education for a Connected World and the 2025 RSHE guidance, with the AI work staged across them rather than delivered in one talk, and a real pass rather than a tap through. I am not claiming it improves outcomes, because the pilot has not measured capability change yet. That is the honest position, and it is the same standard I would hold a school to.
+
+I do not think every school now needs a Principal Teacher of AI Literacy. Mearns Castle has made the harder point: this needs curriculum time, progression, and somebody whose job it actually is.
+
+Who owns AI literacy in your school, and what should a pupil be able to do by the end of each key stage?
+
+**First comment, post immediately**
+
+BBC reporting, 6 October 2026, plus Jamie Laycock's own public material. "Believed to be the first in the UK" is the careful wording and I would keep it, because exhaustively proving a first is close to impossible. No evaluation yet establishes effects on attainment, safeguarding or wellbeing, so this is a practice development rather than an intervention trial. A distributed model across subjects may well prove more scalable than a dedicated post. Our module map for schools is at guidedchildhood.com/schools.
+
+---
+
+## GDC-020 · A photograph is information
+
+*(rewritten from GDC-033.)*
+
+I cannot tell a parent the chance that a photograph of their child will be misused. Nobody can, and the number I am about to give you does not answer it either.
+
+The Internet Watch Foundation assessed 6,310 AI generated images in the first six months of this year that met the legal definition of child sexual abuse. Across the whole of 2025 the figure was 4,512. Where age and gender were recorded, 98 percent showed girls, and nearly four in five showed children aged 7 to 13.
+
+Before anything else: that is a count of images, not a count of children, and it is not a risk estimate for a family photo. It does not show that posting a picture of your child causes this material to be made. I will not use it to frighten parents into deleting their albums, and the IWF does not use it that way either.
+
+What it does show is that the environment around a child's image has changed. Some of this material is wholly synthetic. Some is made by altering real pictures of real children. Once an image exists, what can be done to it is not what it was five years ago.
+
+The responsibility here sits overwhelmingly with platforms, model developers, regulators and adults. The IWF is arguing for the ability to detect material nobody has seen before, because a newly made image has no fingerprint until somebody finds and assesses it. That is the right fight and it is not a child's to win.
+
+What a child can have is language for their own image. A nine year old does not need a lecture on generative models. They can understand that a photograph is information about them. That sharing it creates an audience. That people should ask first. That they are allowed to say no. And that if an image is altered or used to humiliate them, the first job is to tell an adult rather than carry it alone.
+
+Which is why personal information and privacy sit in the early stages of the passport, years before social media independence. Image consent belongs in exactly the same place.
+
+When did your school, or your family, first teach a child that their picture is part of their digital life?
+
+**First comment, post immediately**
+
+Internet Watch Foundation, published 5 October 2026. The precise figures: 6,310 AI generated images assessed as meeting the legal definition between January and June 2026, against 4,512 across all of 2025. Of 6,221 where age and gender were recorded, girls featured in 98 percent, and children aged 7 to 13 accounted for 79 percent. It counts images assessed, not unique children, and detection practice affects the count, so the rise is not a clean incidence measure. This material is already criminal in the UK. The early privacy stages are at guidedchildhood.com/starter-pack.
+
+---
+
+## GDC-021 · The relationship with no friction
+
+*(rewritten from GDC-002.)*
+
+I do not know what a child learns from a relationship where the other side never gets tired of them.
+
+That is the question I cannot answer, and I have stopped treating it as the same question as whether a child might mistake an AI for a friend. It runs the other way. Not what the machine says to the child. What the child practises when they talk back to it.
+
+Researchers at the University of Washington and Rutgers watched eight children aged 6 to 11 play with generative AI toys. The children started socially, asking names and birthdays. When the toys kept failing to understand them, some began testing them, provoking them, speaking to them in ways they probably would not use on another child in the room.
+
+Eight children, two sessions. That tells us nothing about whether AI toys make children aggressive or wear down empathy, and I would not use it that way.
+
+It did change what I think AI literacy has to cover.
+
+A human relationship has friction in it. Someone gets bored. Someone disagrees. Someone says that is enough. Someone can be hurt. A child learns slowly and badly that another person has needs that exist whether or not they are convenient.
+
+An AI has no feelings to hurt. It can now perform the entire language of a relationship with none of the stakes underneath it.
+
+So our AI module does not only ask whether the answer is true. It asks why the machine is answering like a person, what it remembers, whether you would speak to a person this way, and when a conversation should stop being with a machine and start being with a human. DiGi runs to the same rule: it never claims to need the child, and never sets itself up as the relationship that understands them best.
+
+I would rather teach the friction than assume children will not go looking for the thing that has none.
+
+What would you want a child to notice about a machine that never gets tired of them?
+
+**First comment, post immediately**
+
+The study is Interaction Design and Children, from the University of Washington and Rutgers, circulated in September 2026. Worth being precise about what it is: eight children, two sessions, one product context. It generates questions about how children build a model of these things. It cannot estimate how common any of it is and it does not establish developmental harm. If you want the stage by stage version of what we teach about AI, it starts with three questions about your own child at guidedchildhood.com/starter-pack. No sign up to see the result.
+
+---
+
+## GDC-022 · Two children, same game
+
+*(rewritten from GDC-029.)*
 
 Two children can both say "I'm playing Minecraft" and have almost nothing in common.
 
@@ -95,7 +158,9 @@ Source is the Australian eSafety Commissioner, "Responses to transparency notice
 
 ---
 
-## 4. From GDC-032 · The child who never put them on
+## GDC-023 · The child who never put them on
+
+*(rewritten from GDC-032.)*
 
 The most interesting child in the smart glasses argument is the one who never put them on.
 
@@ -123,31 +188,9 @@ Reported by Reuters and AP on 5 October 2026. Worth being exact: Norway announce
 
 ---
 
-## 5. From GDC-033 · A photograph is information
+## GDC-024 · The safety feature is not the outcome
 
-I cannot tell a parent the chance that a photograph of their child will be misused. Nobody can, and the number I am about to give you does not answer it either.
-
-The Internet Watch Foundation assessed 6,310 AI generated images in the first six months of this year that met the legal definition of child sexual abuse. Across the whole of 2025 the figure was 4,512. Where age and gender were recorded, 98 percent showed girls, and nearly four in five showed children aged 7 to 13.
-
-Before anything else: that is a count of images, not a count of children, and it is not a risk estimate for a family photo. It does not show that posting a picture of your child causes this material to be made. I will not use it to frighten parents into deleting their albums, and the IWF does not use it that way either.
-
-What it does show is that the environment around a child's image has changed. Some of this material is wholly synthetic. Some is made by altering real pictures of real children. Once an image exists, what can be done to it is not what it was five years ago.
-
-The responsibility here sits overwhelmingly with platforms, model developers, regulators and adults. The IWF is arguing for the ability to detect material nobody has seen before, because a newly made image has no fingerprint until somebody finds and assesses it. That is the right fight and it is not a child's to win.
-
-What a child can have is language for their own image. A nine year old does not need a lecture on generative models. They can understand that a photograph is information about them. That sharing it creates an audience. That people should ask first. That they are allowed to say no. And that if an image is altered or used to humiliate them, the first job is to tell an adult rather than carry it alone.
-
-Which is why personal information and privacy sit in the early stages of the passport, years before social media independence. Image consent belongs in exactly the same place.
-
-When did your school, or your family, first teach a child that their picture is part of their digital life?
-
-**First comment, post immediately**
-
-Internet Watch Foundation, published 5 October 2026. The precise figures: 6,310 AI generated images assessed as meeting the legal definition between January and June 2026, against 4,512 across all of 2025. Of 6,221 where age and gender were recorded, girls featured in 98 percent, and children aged 7 to 13 accounted for 79 percent. It counts images assessed, not unique children, and detection practice affects the count, so the rise is not a clean incidence measure. This material is already criminal in the UK. The early privacy stages are at guidedchildhood.com/starter-pack.
-
----
-
-## 6. From GDC-034 · The safety feature is not the outcome
+*(rewritten from GDC-034.)*
 
 Here is something I cannot prove about my own product, and I would rather say it than have somebody find it.
 
@@ -175,32 +218,6 @@ Reported by Reuters on 5 October 2026, on information notices Ofcom issued in Fe
 
 ---
 
-## 7. From GDC-035 · AI literacy needs somebody to own it
-
-A child cannot spot a confident wrong answer in a subject they know nothing about. That is the part of AI literacy I have no neat solution for, and it is why the phrase makes me uneasy.
-
-Mearns Castle High School in East Renfrewshire has appointed Jamie Laycock as Principal Teacher of AI Literacy, believed to be the first dedicated post of its kind in the UK. S1 and S2 get dedicated lessons. Older pupils meet it through citizenship and personal education, with an elective for seniors. The teaching reported so far covers synthetic images, fabricated answers, bias, anthropomorphism, and the habit chatbots have of agreeing with you.
-
-The cautious case goes first. One appointment proves nothing about outcomes. Another specialist post is not affordable in most schools. And AI should not become the fashionable subject that crowds out reading and subject knowledge, because critical thinking does not float free of knowing things. A pupil checking an AI claim needs something to check it against.
-
-Which is the argument for progression rather than an assembly.
-
-At one stage the question is whether you can tell this image might not be real. Later, whether you can check a claim against another source. Later again, whether you notice when a chatbot is flattering you, agreeing too readily, or starting to feel more like a person than it is.
-
-Those capabilities travel. The tools will not stop changing.
-
-Our schools scheme is built that way, 29 modules mapped to Education for a Connected World and the 2025 RSHE guidance, with the AI work staged across them rather than delivered in one talk, and a real pass rather than a tap through. I am not claiming it improves outcomes, because the pilot has not measured capability change yet. That is the honest position, and it is the same standard I would hold a school to.
-
-I do not think every school now needs a Principal Teacher of AI Literacy. Mearns Castle has made the harder point: this needs curriculum time, progression, and somebody whose job it actually is.
-
-Who owns AI literacy in your school, and what should a pupil be able to do by the end of each key stage?
-
-**First comment, post immediately**
-
-BBC reporting, 6 October 2026, plus Jamie Laycock's own public material. "Believed to be the first in the UK" is the careful wording and I would keep it, because exhaustively proving a first is close to impossible. No evaluation yet establishes effects on attainment, safeguarding or wellbeing, so this is a practice development rather than an intervention trial. A distributed model across subjects may well prove more scalable than a dedicated post. Our module map for schools is at guidedchildhood.com/schools.
-
----
-
 ## Notes
 
 **What was kept from the originals.** The evidence discipline, nearly whole. The
@@ -215,18 +232,19 @@ than softening the claim in advance. Every post now names a surface that exists
 instead of a roadmap item, and every post has a first comment carrying the
 sourced detail and one link.
 
-**Two parked, with the reason.** GDC-001 is superseded by posts 2 and the already
-published GDC-028, and it is US policy. GDC-025 makes a point that post 3 makes
+**Two parked, with the reason.** GDC-001 is superseded by GDC-018 and the already
+published GDC-028, and it is US policy. GDC-025 makes a point that GDC-022 makes
 better with a regulator behind it.
 
 **One line salvaged from a parked post.** GDC-031's "phone free 8:30 to 3:30,
 what are we teaching for 3:31" is the best image in the set. It belongs in a UK
 phone free post when a UK trigger appears, not in a post about a US Senate bill.
 
-**Posting order, if he wants one.** 2 (parent, strongest hook), 7 (schools,
-strongest for the pilot), 5 (serious, UK source), 1 (children and AI, the live
-lane), 3 (schools, capability), 4 (original, nobody else is saying it), 6 (the
-most inside baseball, best for the professional audience). Never two in a day.
+**Posting order is the numbering.** GDC-018 first and GDC-024 last. 018 has the
+strongest hook, 019 is the one for the schools pilot, 020 is the serious UK
+source, 021 is children and AI which is the lane that worked, 022 is capability
+for schools, 023 is the one nobody else is saying, and 024 is the most inside
+baseball and the best of them for a professional audience. Never two in a day.
 
 **Never.** No comment for a keyword mechanic. No claim that any of this makes a
 child safe online. No outcome claimed for a child. Justin posts, not us.
