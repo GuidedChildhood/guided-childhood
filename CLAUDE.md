@@ -37,6 +37,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Anything in Justin's voice (LinkedIn, Substack, Facebook, talking head, explainers) → content/brand-story/founder-context.md (his true scenes and the GREEN/AMBER/RED privacy levels; one scene when it fits the idea, never invented, never repeated)
 - ANY social visual, carousel, campaign image, thumbnail or image generation brief → read and follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md first, and use the approved existing brand assets as the source of truth (never a regenerated character, never an invented screen)
 - The week's social cards (Sunday batch, the pinned GDC posts page) → .claude/skills/social-week
+- The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)
 - School features            → schools/01 + docs/09
