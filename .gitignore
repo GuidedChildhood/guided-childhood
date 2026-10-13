@@ -51,3 +51,14 @@ content/packs/2026-10-05-sb-launch-control/sb-launch-images.zip
 # Read card PDFs are rebuilt from their JSON by tools/read-cards (7 October 2026)
 content/read-cards/*.pdf
 content/read-cards/*.html
+
+# The Guided Planet (publishing/). The cache holds the verified character
+# files and scratch copy; the print and ink PDFs regenerate from the issue
+# file with `npm run planet -- render <n>`. The download PDF, previews and
+# reports are kept so a pull request shows what the paper looks like.
+publishing/.cache/
+publishing/issues/*/dist/*-print.pdf
+publishing/issues/*/dist/*-ink.pdf
+publishing/issues/*/package-preview/
+publishing/issues/*/state.json
+publishing/issues/*/events.jsonl
