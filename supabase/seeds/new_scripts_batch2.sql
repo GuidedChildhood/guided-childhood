@@ -43,7 +43,7 @@ values
   'I can see you are really into what you''re doing. Time is still up. You can tell me about it while we sort out what''s next, but the screen is going off now.',
   'If you don''t stop right now, no screens for a week.',
   'Threatening a disproportionate consequence in a heated moment rarely gets followed through, which teaches children that limits are negotiable. Acknowledging their engagement shows you are not dismissing what matters to them, while still holding the line. Keeping the consequence predictable and proportionate is what actually builds compliance over time.',
-  'Set a two-minute warning alarm tomorrow so your child gets a heads-up before time ends, giving their brain a chance to prepare rather than being cut off abruptly.',
+  'Tomorrow, before the screen goes on, agree together what ends it: the end of the level, the episode, or the kitchen timer. Then the ending is the deal you made, not a surprise, and you have nothing to add when it comes.',
   'none',
   false,
   103

@@ -25,8 +25,16 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#FDF6DE}
 .markerwrap{display:flex;justify-content:center}
 .band{font-weight:900;font-size:80px;line-height:1.04;letter-spacing:-.02em;color:#1A1A2E;text-shadow:0 2px 0 rgba(255,255,255,.6)}
 .label{font-family:plexMono,monospace;font-weight:600;font-size:30px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 16px;display:inline-block}
-.end-logo{margin-bottom:46px}.end-eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:6px}
+.end-logo{margin-bottom:46px}.end-tag{font-weight:800;font-size:46px;line-height:1.2;color:#1A1A2E;max-width:880px;margin:-18px 0 34px}.end-eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E;margin-bottom:6px}
 .end-slate{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.1em;text-transform:uppercase;color:#52526A;margin-top:46px;max-width:840px;line-height:1.4}
+.rail{position:absolute;left:60px;width:960px;height:160px;opacity:0;background:#FDF6DE;border:3px solid #1A1A2E;border-radius:36px;box-shadow:0 6px 0 #1A1A2E}
+.rail-line{position:absolute;top:51px;height:6px;border-radius:3px;background:rgba(26,26,46,.16);overflow:hidden}
+.rail-fill{position:absolute;inset:0;background:#1A1A2E;transform-origin:0 50%;transform:scaleX(0)}
+.rail-dot{position:absolute;top:24px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:#fff;border:4px solid #1A1A2E}
+.rail-done{position:absolute;inset:-4px;border-radius:50%;background:#EDC35F;border:4px solid #1A1A2E;display:flex;align-items:center;justify-content:center;transform:scale(0)}
+.rail-lab{position:absolute;top:98px;width:260px;margin-left:-130px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:29px;letter-spacing:.1em;text-transform:uppercase;color:#1A1A2E;opacity:.42}
+.lower{left:0;top:auto;bottom:0;width:1080px;padding:26px 40px 30px;background:#FDF6DE;border-top:3px solid #1A1A2E;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:#1A1A2E}
+.veil{left:0;top:0;width:1080px}
 .ov{position:absolute;opacity:0}
 .eyebrow{font-family:plexMono,monospace;font-weight:600;font-size:32px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
 .hook{font-weight:900;font-size:104px;line-height:1.02;letter-spacing:-.03em}
@@ -39,124 +47,106 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#FDF6DE}
 .digi video{width:100%;height:100%;object-fit:cover;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000 52%,transparent 70%);mask-image:radial-gradient(circle at 50% 50%,#000 52%,transparent 70%)}
 .endcard{left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
 .end-line{font-weight:900;font-size:96px;line-height:1.04;letter-spacing:-.025em;max-width:920px;margin-top:40px}
-.end-sub{font-weight:700;font-size:56px;color:#3A3A52;margin-top:22px}
+.end-sub{font-weight:700;font-size:54px;line-height:1.2;color:#3A3A52;margin-top:22px;max-width:880px}
 .end-btn{margin-top:54px;background:#1A1A2E;color:#FFFFFF;border-radius:22px;padding:30px 54px;font-weight:800;font-size:60px;box-shadow:0 7px 0 #000}
 .end-url{font-family:plexMono,monospace;font-weight:600;font-size:42px;letter-spacing:.06em;color:#3A3A52;margin-top:34px}
 .logo{display:inline-flex;align-items:center;gap:30px}.logo .mark{display:inline-flex;align-items:center;justify-content:center;background:#EDC35F}.logo .bars{display:inline-flex;align-items:flex-end}.logo .word{font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 </style></head><body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="46.400" data-width="1080" data-height="1920" data-fps="30">
+<div id="root" data-composition-id="main" data-start="0" data-duration="36.150" data-width="1080" data-height="1920" data-fps="30">
 <div id="stage"><div class="ground"></div>
-<div id="hook" class="shot"><div id="hook-o0" class="ov eyebrow" style="left:90px;top:520px;width:900px;text-align:center">An example family. Real app screens, example replies.</div><div id="hook-o1" class="ov pillwrap" style="left:90px;top:660px;width:900px;text-align:center"><span class="pill">Switching off the tablet is a fight every night. What do I say?</span></div></div>
-<div id="chat-send" class="shot white"><div id="chat-send-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-send-v" class="scr" src="assets/rec/hero-chat.mp4" muted playsinline data-start="4.000" data-duration="0.800" data-media-start="2.225" data-track-index="0" style="width:390px;height:844px"></video></div></div></div></div>
-<div id="chat-think" class="shot white"><div id="chat-think-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-think-v" class="scr" src="assets/rec/hero-chat.mp4" muted playsinline data-start="4.800" data-duration="4.000" data-media-start="6.625" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="chat-think-o0" class="ov" style="left:90px;top:1470px;width:900px;text-align:center"><span class="label">What DiGi shows while it thinks</span></div></div>
-<div id="chat-freeze" class="shot white"><div id="chat-freeze-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><img id="chat-freeze-v" class="scr" src="assets/stills/hero-line4.png" alt="" style="width:390px;height:auto"></div></div></div><div id="chat-freeze-o0" class="ov" style="left:90px;top:1470px;width:900px;text-align:center"><span class="label">What DiGi shows while it thinks</span></div></div>
-<div id="chat-reply" class="shot white"><div id="chat-reply-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-reply-v" class="scr" src="assets/rec/hero-chat.mp4" muted playsinline data-start="9.800" data-duration="2.400" data-media-start="10.900" data-track-index="0" data-playback-rate="1.6" style="width:390px;height:844px"></video></div></div></div><div id="chat-reply-o0" class="ov" style="left:90px;top:70px;width:900px;text-align:center"><span class="label">Illustrative reply</span></div></div>
-<div id="chat-link" class="shot white"><div id="chat-link-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-link-v" class="scr" src="assets/rec/hero-chat.mp4" muted playsinline data-start="12.200" data-duration="1.400" data-media-start="19.300" data-track-index="1" style="width:390px;height:844px"></video><div id="chat-link-in0" class="inscreen ripple" style="left:158px;top:78px;width:44px;height:44px"></div></div></div></div><div id="chat-link-o0" class="ov" style="left:90px;top:70px;width:900px;text-align:center"><span class="label">Illustrative reply</span></div></div>
-<div id="script" class="shot white"><div id="script-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><img id="script-v" class="scr" src="assets/stills/script-9671.png" alt="" style="width:390px;height:auto"><div id="script-in0" class="inscreen underline" style="left:271px;top:240px;width:37px;height:3px"></div><div id="script-in1" class="inscreen underline" style="left:45px;top:277px;width:179px;height:3px"></div><div id="script-in2" class="inscreen underline" style="left:45px;top:313px;width:264px;height:3px"></div><div id="script-in3" class="inscreen underline" style="left:45px;top:350px;width:67px;height:3px"></div></div></div></div><div id="script-o0" class="ov" style="left:90px;top:200px;width:900px;text-align:center"><span class="label">Free script. Say this before the tablet goes on</span></div></div>
-<div id="timer" class="shot"><div id="timer-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="timer-v" class="scr" src="assets/rec/timer-end.mp4" muted playsinline data-start="19.200" data-duration="5.000" data-media-start="6.200" data-track-index="0" style="width:390px;height:844px"></video></div></div></div><div id="timer-o0" class="ov band" style="left:90px;top:250px;width:900px;text-align:center">The timer says stop. Not you.</div><div id="timer-o1" class="ov" style="left:90px;top:455px;width:900px;text-align:center"><span class="label">A shared countdown, on both screens</span></div></div>
-<div id="followup" class="shot"><div id="followup-cam" class="cam"><div class="screenbox" style="width:390px;height:784px"><div class="crop" style="transform:translateY(-60px)"><video id="followup-v" class="scr" src="assets/rec/followup.mp4" muted playsinline data-start="24.200" data-duration="6.400" data-media-start="0.800" data-track-index="1" style="width:390px;height:844px"></video><div id="followup-in0" class="inscreen ripple" style="left:83px;top:136px;width:44px;height:44px"></div><div id="followup-in1" class="inscreen ripple" style="left:234px;top:233px;width:44px;height:44px"></div></div></div></div><div id="followup-o0" class="ov markerwrap" style="left:90px;top:230px;width:900px;text-align:center"><span class="marker">A few days on. Illustrative</span></div></div>
-<div id="great" class="shot"><div id="great-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><video id="great-v" class="scr" src="assets/rec/checkin-great.mp4" muted playsinline data-start="30.600" data-duration="2.400" data-media-start="0.900" data-track-index="0" style="width:390px;height:1000px"></video><div id="great-in0" class="inscreen ripple" style="left:297px;top:52px;width:44px;height:44px"></div></div></div></div><div id="great-o0" class="ov markerwrap" style="left:90px;top:300px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div></div>
-<div id="great-hold" class="shot"><div id="great-hold-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><img id="great-hold-v" class="scr" src="assets/stills/great-card.png" alt="" style="width:390px;height:auto"></div></div></div><div id="great-hold-o0" class="ov markerwrap" style="left:90px;top:300px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="great-hold-o1" class="ov" style="left:90px;top:1470px;width:900px;text-align:center"><span class="label">This parent's own rating</span></div></div>
-<div id="path" class="shot"><div id="path-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><img id="path-v" class="scr" src="assets/captures/today-path.png" alt="" style="width:390px;height:auto"></div></div></div></div>
-<div id="tiles" class="shot"><div id="tiles-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><img id="tiles-v" class="scr" src="assets/captures/worries-before.png" alt="" style="width:390px;height:auto"><div id="tiles-in0" class="inscreen ripple" style="left:86px;top:316px;width:44px;height:44px"></div><div id="tiles-in1" class="inscreen ripple" style="left:260px;top:324px;width:44px;height:44px"></div><div id="tiles-in2" class="inscreen ripple" style="left:260px;top:509px;width:44px;height:44px"></div><div id="tiles-in3" class="inscreen ripple" style="left:260px;top:670px;width:44px;height:44px"></div></div></div></div></div>
-<div id="tiles2" class="shot"><div id="tiles2-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><img id="tiles2-v" class="scr" src="assets/captures/worries-after.png" alt="" style="width:390px;height:auto"></div></div></div></div>
-<div id="end" class="shot"><div id="end-o0" class="ov digi" style="left:300px;top:240px;width:480px;height:480px"><video id="end-o0-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="41.400" data-duration="5.000" data-track-index="2"></video></div><div id="end-o1" class="ov endcard" style="top:760px"><div class="end-logo"><span class="logo"><span class="mark" style="width:64px;height:64px;border-radius:18.7px"><span class="bars" style="gap:4.8px;height:29.3px"><span style="width:5.9px;height:10.5px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:18.9px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:29.3px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:16.8px;background:#fff;border-radius:2.7px;display:inline-block"></span></span></span><span class="word" style="font-size:50px">Guided Childhood</span></span></div><div class="end-line">What stage is your child?</div><div class="end-sub">Three questions, no sign up.</div><div class="end-btn" id="end-o1-btn">Find my child's stage</div><div class="end-url">guidedchildhood.com/starter-pack</div><div class="end-slate">An example family. Real app screens, example replies.</div></div></div>
+<div id="hook" class="shot"><div id="hook-o0" class="ov band" style="left:90px;top:290px;width:900px;text-align:center">You say off. They say one more.</div><div id="hook-o1" class="ov pillwrap" style="left:90px;top:560px;width:900px;text-align:center"><span class="pill"><span class="pw">Screens</span> <span class="pw">off.</span> <span class="pw">Same</span> <span class="pw">fight,</span> <span class="pw">every</span> <span class="pw">single</span> <span class="pw">day.</span> <span class="pw">What</span> <span class="pw">do</span> <span class="pw">I</span> <span class="pw">say?</span></span></div><div id="hook-o2" class="ov eyebrow" style="left:90px;top:1200px;width:900px;text-align:center">An example family. Real app screens, example replies.</div></div>
+<div id="chat-think" class="shot white"><div id="chat-think-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-think-v" class="scr" src="assets/rec/short-chat.mp4" muted playsinline data-start="5.500" data-duration="2.050" data-media-start="8.750" data-track-index="0" style="width:390px;height:844px"></video></div></div></div><div id="chat-think-o0" class="ov" style="left:90px;top:1300px;width:900px;text-align:center"><span class="label">What DiGi shows while it thinks</span></div></div>
+<div id="chat-reply" class="shot white"><div id="chat-reply-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="chat-reply-v" class="scr" src="assets/rec/short-chat.mp4" muted playsinline data-start="7.550" data-duration="5.000" data-media-start="10.800" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="chat-reply-o0" class="ov" style="left:300px;top:885px;width:560px;text-align:left"><span class="label">Illustrative reply</span></div></div>
+<div id="deck-say" class="shot"><div id="deck-say-cam" class="cam"><div class="screenbox" style="width:390px;height:1000px"><div class="crop" style="transform:translateY(0px)"><video id="deck-say-v" class="scr" src="assets/rec/script-deck.mp4" muted playsinline data-start="12.550" data-duration="7.400" data-media-start="3.000" data-track-index="0" style="width:390px;height:1000px"></video><div id="deck-say-in0" class="inscreen underline" style="left:158px;top:599px;width:132px;height:3px"></div><div id="deck-say-in1" class="inscreen underline" style="left:47px;top:630px;width:214px;height:3px"></div></div></div></div><div id="deck-say-o0" class="ov veil" style="height:420px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-say-o1" class="ov veil" style="height:780px;background:linear-gradient(#F9F8F6 0,#F9F8F6 72%,transparent)"></div><div id="deck-say-o2" class="ov band" style="left:90px;top:430px;width:900px;text-align:center">Say this before the tablet goes on</div></div>
+<div id="timer-count" class="shot"><div id="timer-count-cam" class="cam"><div class="screenbox" style="width:390px;height:844px"><div class="crop" style="transform:translateY(0px)"><video id="timer-count-v" class="scr" src="assets/rec/timer-end.mp4" muted playsinline data-start="19.950" data-duration="3.000" data-media-start="6.800" data-track-index="1" style="width:390px;height:844px"></video></div></div></div><div id="timer-count-o0" class="ov band" style="left:90px;top:420px;width:900px;text-align:center">The timer says stop. Not you.</div><div id="timer-count-o1" class="ov" style="left:90px;top:620px;width:900px;text-align:center"><span class="label">Counting down on your child's screen</span></div></div>
+<div id="followup2" class="shot"><div id="followup2-cam" class="cam"><div class="screenbox" style="width:390px;height:454px"><div class="crop" style="transform:translateY(-390px)"><video id="followup2-v" class="scr" src="assets/rec/followup.mp4" muted playsinline data-start="22.950" data-duration="4.600" data-media-start="5.000" data-track-index="0" style="width:390px;height:844px"></video><div id="followup2-in0" class="inscreen ripple" style="left:234px;top:233px;width:44px;height:44px"></div></div></div></div><div id="followup2-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A few days on. Illustrative</span></div><div id="followup2-o1" class="ov" style="left:90px;top:575px;width:900px;text-align:center"><span class="label">This parent's own rating</span></div></div>
+<div id="great-hold" class="shot"><div id="great-hold-cam" class="cam"><div class="screenbox" style="width:390px;height:252px"><div class="crop" style="transform:translateY(-748px)"><img id="great-hold-v" class="scr" src="assets/stills/great-card.png" alt="" style="width:390px;height:auto"></div></div></div><div id="great-hold-o0" class="ov markerwrap" style="left:90px;top:430px;width:900px;text-align:center"><span class="marker">A week on. Illustrative</span></div><div id="great-hold-o1" class="ov" style="left:90px;top:660px;width:900px;text-align:center"><span class="label">This parent's own rating</span></div></div>
+<div id="end" class="shot"><div id="end-o0" class="ov digi" style="left:405px;top:120px;width:270px;height:270px"><video id="end-o0-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="31.150" data-duration="5.000" data-track-index="2"></video></div><div id="end-o1" class="ov endcard" style="top:420px"><div class="end-logo"><span class="logo"><span class="mark" style="width:64px;height:64px;border-radius:18.7px"><span class="bars" style="gap:4.8px;height:29.3px"><span style="width:5.9px;height:10.5px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:18.9px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:29.3px;background:#fff;border-radius:2.7px;display:inline-block"></span><span style="width:5.9px;height:16.8px;background:#fff;border-radius:2.7px;display:inline-block"></span></span></span><span class="word" style="font-size:50px">Guided Childhood</span></span></div><div class="end-tag">One plan for screens, phones and AI.</div><div class="end-eyebrow">Coming off screens?</div><div class="end-line">What stage is your child?</div><div class="end-sub">Three questions, no sign up. See what to do tonight.</div><div class="end-btn" id="end-o1-btn">Find my child's stage</div><div class="end-url">guidedchildhood.com/v/switch-off-tt</div><div class="end-slate">An example family. Real app screens, example replies.</div></div></div>
+<div id="rail" class="rail" style="top:236px"><div class="rail-line" style="left:110px;width:246.66666666666663px"><div id="rail-f1" class="rail-fill"></div></div><div class="rail-line" style="left:356.66666666666663px;width:246.66666666666663px"><div id="rail-f2" class="rail-fill"></div></div><div class="rail-line" style="left:603.3333333333333px;width:246.66666666666674px"><div id="rail-f3" class="rail-fill"></div></div><div class="rail-dot" style="left:110px"><div id="rail-d0" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l0" class="rail-lab" style="left:110px">Asked DiGi</div><div class="rail-dot" style="left:356.66666666666663px"><div id="rail-d1" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l1" class="rail-lab" style="left:356.66666666666663px">The words</div><div class="rail-dot" style="left:603.3333333333333px"><div id="rail-d2" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l2" class="rail-lab" style="left:603.3333333333333px">Checked in</div><div class="rail-dot" style="left:850px"><div id="rail-d3" class="rail-done"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div id="rail-l3" class="rail-lab" style="left:850px">Sorted</div></div>
 </div>
-<audio id="music" src="assets/music-leberch.mp3" data-audio-group="music" data-start="0" data-duration="46.400" data-media-start="7.050" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1.2,"v":0.22},{"t":4.6,"v":0.15},{"t":10.3,"v":0.15},{"t":19,"v":0.3},{"t":43,"v":0.3},{"t":46,"v":0}]}]}'></audio>
-<audio id="sfx-1" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.080" data-duration="0.05" data-track-index="5" data-volume="0.18"></audio>
-<audio id="sfx-2" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.240" data-duration="0.05" data-track-index="6" data-volume="0.16"></audio>
-<audio id="sfx-3" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.410" data-duration="0.05" data-track-index="7" data-volume="0.18"></audio>
-<audio id="sfx-4" src="assets/sfx/sfx-send.mp3" data-audio-group="sfx" data-start="4.000" data-duration="0.42" data-track-index="8" data-volume="0.4"></audio>
-<audio id="sfx-5" src="assets/sfx/sfx-dots.mp3" data-audio-group="sfx" data-start="4.900" data-duration="0.7" data-track-index="5" data-volume="0.18"></audio>
-<audio id="sfx-6" src="assets/sfx/sfx-pop.mp3" data-audio-group="sfx" data-start="9.850" data-duration="0.16" data-track-index="6" data-volume="0.4"></audio>
-<audio id="sfx-7" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="13.100" data-duration="0.05" data-track-index="7" data-volume="0.45"></audio>
-<audio id="sfx-8" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="13.600" data-duration="0.6" data-track-index="8" data-volume="0.18"></audio>
-<audio id="sfx-9" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="14.500" data-duration="0.9" data-track-index="5" data-volume="0.2"></audio>
-<audio id="sfx-10" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="19.600" data-duration="0.73" data-track-index="6" data-volume="0.2"></audio>
-<audio id="sfx-11" src="assets/sfx/sfx-chime.mp3" data-audio-group="sfx" data-start="23.000" data-duration="1.4" data-track-index="7" data-volume="0.4"></audio>
-<audio id="sfx-12" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="25.200" data-duration="0.05" data-track-index="8" data-volume="0.5"></audio>
-<audio id="sfx-13" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="28.200" data-duration="0.05" data-track-index="5" data-volume="0.5"></audio>
-<audio id="sfx-14" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="31.200" data-duration="0.05" data-track-index="6" data-volume="0.5"></audio>
-<audio id="sfx-15" src="assets/sfx/sfx-chime.mp3" data-audio-group="sfx" data-start="31.700" data-duration="1.4" data-track-index="7" data-volume="0.45"></audio>
-<audio id="sfx-16" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="35.600" data-duration="0.6" data-track-index="8" data-volume="0.15"></audio>
-<audio id="sfx-17" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="38.100" data-duration="0.73" data-track-index="5" data-volume="0.2"></audio>
-<audio id="sfx-18" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="38.700" data-duration="0.73" data-track-index="6" data-volume="0.2"></audio>
-<audio id="sfx-19" src="assets/sfx/sfx-land.mp3" data-audio-group="sfx" data-start="41.650" data-duration="0.3" data-track-index="7" data-volume="0.35"></audio>
-<audio id="sfx-20" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="43.900" data-duration="0.05" data-track-index="8" data-volume="0.4"></audio>
+<audio id="music" src="assets/music-leberch.mp3" data-audio-group="music" data-start="0" data-duration="36.150" data-media-start="12.300" data-track-index="4" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1,"v":0.22},{"t":4,"v":0.15},{"t":16.65,"v":0.15},{"t":17.15,"v":0.3},{"t":33.15,"v":0.3},{"t":36.15,"v":0}]}]}'></audio>
+<audio id="sfx-1" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.250" data-duration="0.05" data-track-index="5" data-volume="0.16"></audio>
+<audio id="sfx-2" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="0.900" data-duration="0.05" data-track-index="6" data-volume="0.14"></audio>
+<audio id="sfx-3" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="1.600" data-duration="0.05" data-track-index="7" data-volume="0.16"></audio>
+<audio id="sfx-4" src="assets/sfx/sfx-dots.mp3" data-audio-group="sfx" data-start="5.550" data-duration="0.7" data-track-index="8" data-volume="0.18"></audio>
+<audio id="sfx-5" src="assets/sfx/sfx-pop.mp3" data-audio-group="sfx" data-start="7.600" data-duration="0.16" data-track-index="5" data-volume="0.4"></audio>
+<audio id="sfx-6" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="12.550" data-duration="0.6" data-track-index="6" data-volume="0.18"></audio>
+<audio id="sfx-7" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="12.900" data-duration="0.73" data-track-index="7" data-volume="0.14"></audio>
+<audio id="sfx-8" src="assets/sfx/sfx-shimmer.mp3" data-audio-group="sfx" data-start="14.350" data-duration="0.9" data-track-index="8" data-volume="0.18"></audio>
+<audio id="sfx-9" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="18.550" data-duration="0.05" data-track-index="5" data-volume="0.45"></audio>
+<audio id="sfx-10" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="19.350" data-duration="0.73" data-track-index="6" data-volume="0.2"></audio>
+<audio id="sfx-11" src="assets/sfx/sfx-whoosh.mp3" data-audio-group="sfx" data-start="19.650" data-duration="0.6" data-track-index="7" data-volume="0.16"></audio>
+<audio id="sfx-12" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="20.250" data-duration="0.73" data-track-index="8" data-volume="0.2"></audio>
+<audio id="sfx-13" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="24.150" data-duration="0.05" data-track-index="5" data-volume="0.5"></audio>
+<audio id="sfx-14" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="24.450" data-duration="0.73" data-track-index="6" data-volume="0.2"></audio>
+<audio id="sfx-15" src="assets/sfx/sfx-tink.mp3" data-audio-group="sfx" data-start="27.950" data-duration="0.73" data-track-index="7" data-volume="0.2"></audio>
+<audio id="sfx-16" src="assets/sfx/sfx-land.mp3" data-audio-group="sfx" data-start="31.400" data-duration="0.3" data-track-index="8" data-volume="0.35"></audio>
+<audio id="sfx-17" src="assets/sfx/sfx-tap.mp3" data-audio-group="sfx" data-start="34.050" data-duration="0.05" data-track-index="5" data-volume="0.4"></audio>
 </div>
 <script>
 window.__timelines = window.__timelines || {};
 var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
 tl.set("#hook",{"opacity":1},0.000);
-tl.to("#hook",{"opacity":0,"duration":0.2,"ease":"power1.in"},3.800);
+tl.to("#hook",{"opacity":0,"duration":0.2,"ease":"power1.in"},5.300);
 tl.fromTo("#hook-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},0.000);
-tl.fromTo("#hook-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},0.000);
-tl.fromTo("#chat-send",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},4.000);
-tl.to("#chat-send",{"opacity":0,"duration":0.2,"ease":"power1.in"},4.600);
-tl.set("#chat-send-cam",{"x":-270,"y":274,"scale":3.6,"transformOrigin":"0 0"},4.000);
-tl.to("#chat-send-cam",{"x":-0.14999999999997726,"y":-14.100000000000023,"scale":2.77,"duration":0.7,"ease":"power3.inOut"},4.050);
-tl.set("#chat-think",{"opacity":1},4.800);
-tl.to("#chat-think",{"opacity":0,"duration":0.2,"ease":"power1.in"},8.600);
-tl.set("#chat-think-cam",{"x":12.200000000000045,"y":175,"scale":2.9,"transformOrigin":"0 0"},4.800);
-tl.fromTo("#chat-think-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},4.800);
-tl.set("#chat-freeze",{"opacity":1},8.800);
-tl.to("#chat-freeze",{"opacity":0,"duration":0.2,"ease":"power1.in"},9.600);
-tl.set("#chat-freeze-cam",{"x":12.200000000000045,"y":175,"scale":2.9,"transformOrigin":"0 0"},8.800);
-tl.fromTo("#chat-freeze-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},8.800);
-tl.fromTo("#chat-reply",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},9.800);
-tl.to("#chat-reply",{"opacity":0,"duration":0.2,"ease":"power1.in"},12.000);
-tl.set("#chat-reply-cam",{"x":-0.14999999999997726,"y":159.5999999999999,"scale":2.77,"transformOrigin":"0 0"},9.800);
-tl.fromTo("#chat-reply-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},9.900);
-tl.fromTo("#chat-link",{"opacity":0},{"opacity":1,"duration":0.1,"ease":"power1.out"},12.200);
-tl.to("#chat-link",{"opacity":0,"duration":0.2,"ease":"power1.in"},13.400);
-tl.set("#chat-link-cam",{"x":-0.14999999999997726,"y":160.29999999999995,"scale":2.77,"transformOrigin":"0 0"},12.200);
-tl.fromTo("#chat-link-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},12.200);
-tl.fromTo("#chat-link-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},13.100);
-tl.fromTo("#script",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},13.600);
-tl.to("#script",{"opacity":0,"duration":0.2,"ease":"power1.in"},19.000);
-tl.set("#script-cam",{"x":-25.5,"y":320,"scale":2.9,"transformOrigin":"0 0"},13.600);
-tl.fromTo("#script-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},13.700);
-tl.fromTo("#script-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.500);
-tl.fromTo("#script-in1",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.600);
-tl.fromTo("#script-in2",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.700);
-tl.fromTo("#script-in3",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.800);
-tl.fromTo("#timer",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},19.200);
-tl.to("#timer",{"opacity":0,"duration":0.2,"ease":"power1.in"},24.000);
-tl.set("#timer-cam",{"x":-36,"y":552,"scale":3.2,"transformOrigin":"0 0"},19.200);
-tl.to("#timer-cam",{"x":33,"y":404,"scale":2.6,"duration":0.7,"ease":"power3.inOut"},22.700);
-tl.fromTo("#timer-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},19.500);
-tl.fromTo("#timer-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},19.800);
-tl.fromTo("#followup",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},24.200);
-tl.to("#followup",{"opacity":0,"duration":0.2,"ease":"power1.in"},30.400);
-tl.set("#followup-cam",{"x":-25.5,"y":521.5,"scale":2.9,"transformOrigin":"0 0"},24.200);
-tl.fromTo("#followup-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},24.200);
-tl.fromTo("#followup-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},25.200);
-tl.fromTo("#followup-in1",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},28.200);
-tl.fromTo("#great",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},30.600);
-tl.to("#great",{"opacity":0,"duration":0.2,"ease":"power1.in"},32.800);
-tl.set("#great-cam",{"x":-25.5,"y":617.5,"scale":2.9,"transformOrigin":"0 0"},30.600);
-tl.fromTo("#great-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},30.600);
-tl.fromTo("#great-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},31.200);
-tl.set("#great-hold",{"opacity":1},33.000);
-tl.to("#great-hold",{"opacity":0,"duration":0.2,"ease":"power1.in"},35.400);
-tl.set("#great-hold-cam",{"x":-25.5,"y":617.5,"scale":2.9,"transformOrigin":"0 0"},33.000);
-tl.fromTo("#great-hold-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},33.000);
-tl.fromTo("#great-hold-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},33.000);
-tl.fromTo("#path",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},35.600);
-tl.to("#path",{"opacity":0,"duration":0.2,"ease":"power1.in"},37.600);
-tl.set("#path-cam",{"x":-0.14999999999997726,"y":-92.59999999999991,"scale":2.77,"transformOrigin":"0 0"},35.600);
-tl.fromTo("#tiles",{"opacity":0},{"opacity":1,"duration":0.12,"ease":"power1.out"},37.800);
-tl.to("#tiles",{"opacity":0,"duration":0.2,"ease":"power1.in"},39.200);
-tl.set("#tiles-cam",{"x":33,"y":-212,"scale":2.6,"transformOrigin":"0 0"},37.800);
-tl.fromTo("#tiles-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},38.100);
-tl.fromTo("#tiles-in1",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},38.400);
-tl.fromTo("#tiles-in2",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},38.700);
-tl.fromTo("#tiles-in3",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},39.000);
-tl.set("#tiles2",{"opacity":1},39.400);
-tl.to("#tiles2",{"opacity":0,"duration":0.2,"ease":"power1.in"},41.200);
-tl.set("#tiles2-cam",{"x":33,"y":-212,"scale":2.6,"transformOrigin":"0 0"},39.400);
-tl.fromTo("#end",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},41.400);
-tl.fromTo("#end-o0",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.45,"ease":"back.out(1.6)"},41.400);
-tl.fromTo("#end-o1",{"opacity":0,"y":18},{"opacity":1,"y":0,"duration":0.6,"ease":"power2.out"},41.700);
-tl.to("#end-o1-btn",{"y":5,"boxShadow":"0 1px 0 #000","duration":0.09,"yoyo":true,"repeat":1},43.900);
+tl.fromTo("#hook-o1 .pw",{"opacity":0},{"opacity":1,"duration":0.12,"stagger":0.15,"ease":"none"},0.700);
+tl.fromTo("#hook-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},0.500);
+tl.fromTo("#hook-o2",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},3.000);
+tl.set("#chat-think",{"opacity":1},5.500);
+tl.to("#chat-think",{"opacity":0,"duration":0.2,"ease":"power1.in"},7.350);
+tl.set("#chat-think-cam",{"x":-0.14999999999997726,"y":207.5,"scale":2.77,"transformOrigin":"0 0"},5.500);
+tl.fromTo("#chat-think-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},5.500);
+tl.set("#chat-reply",{"opacity":1},7.550);
+tl.to("#chat-reply",{"opacity":0,"duration":0.2,"ease":"power1.in"},12.350);
+tl.set("#chat-reply-cam",{"x":-25.5,"y":230,"scale":2.9,"transformOrigin":"0 0"},7.550);
+tl.to("#chat-reply-cam",{"x":-25.5,"y":-363,"scale":2.9,"duration":0.7,"ease":"power3.inOut"},11.150);
+tl.fromTo("#chat-reply-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},7.750);
+tl.to("#chat-reply-o0",{"opacity":0,"duration":0.3},10.850);
+tl.fromTo("#deck-say",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},12.550);
+tl.to("#deck-say",{"opacity":0,"duration":0.2,"ease":"power1.in"},19.750);
+tl.set("#deck-say-cam",{"x":13.5,"y":-398.1,"scale":2.7,"transformOrigin":"0 0"},12.550);
+tl.to("#deck-say-cam",{"x":-103.5,"y":-793.0999999999999,"scale":3.3,"duration":0.7,"ease":"power3.inOut"},13.550);
+tl.to("#deck-say-cam",{"x":13.5,"y":-398.1,"scale":2.7,"duration":0.6,"ease":"power3.inOut"},17.450);
+tl.set("#deck-say-o0",{"opacity":1},12.550);
+tl.fromTo("#deck-say-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},13.550);
+tl.to("#deck-say-o1",{"opacity":0,"duration":0.3},17.650);
+tl.fromTo("#deck-say-o2",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},13.950);
+tl.to("#deck-say-o2",{"opacity":0,"duration":0.3},17.150);
+tl.fromTo("#deck-say-in0",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.350);
+tl.to("#deck-say-in0",{"opacity":0,"duration":0.25},17.450);
+tl.fromTo("#deck-say-in1",{"scaleX":0,"opacity":1},{"scaleX":1,"duration":0.45,"ease":"power2.out","transformOrigin":"0 50%"},14.500);
+tl.to("#deck-say-in1",{"opacity":0,"duration":0.25},17.450);
+tl.fromTo("#timer-count",{"opacity":0},{"opacity":1,"duration":0.25,"ease":"power1.out"},19.950);
+tl.to("#timer-count",{"opacity":0,"duration":0.2,"ease":"power1.in"},22.750);
+tl.set("#timer-count-cam",{"x":-25.5,"y":700,"scale":2.9,"transformOrigin":"0 0"},19.950);
+tl.fromTo("#timer-count-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},20.150);
+tl.fromTo("#timer-count-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},20.550);
+tl.set("#followup2",{"opacity":1},22.950);
+tl.to("#followup2",{"opacity":0,"duration":0.2,"ease":"power1.in"},27.350);
+tl.set("#followup2-cam",{"x":-25.5,"y":671.5,"scale":2.9,"transformOrigin":"0 0"},22.950);
+tl.set("#followup2-o0",{"opacity":1},22.950);
+tl.fromTo("#followup2-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},24.150);
+tl.fromTo("#followup2-in0",{"scale":0.2,"opacity":0.32},{"scale":1.6,"opacity":0,"duration":0.5,"ease":"power2.out","transformOrigin":"50% 50%"},24.150);
+tl.fromTo("#great-hold",{"opacity":0},{"opacity":1,"duration":0.15,"ease":"power1.out"},27.550);
+tl.to("#great-hold",{"opacity":0,"duration":0.2,"ease":"power1.in"},30.950);
+tl.set("#great-hold-cam",{"x":-25.5,"y":787.5,"scale":2.9,"transformOrigin":"0 0"},27.550);
+tl.fromTo("#great-hold-o0",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},27.550);
+tl.fromTo("#great-hold-o1",{"opacity":0,"y":12},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},27.550);
+tl.fromTo("#end",{"opacity":0},{"opacity":1,"duration":0.25,"ease":"power1.out"},31.150);
+tl.fromTo("#end-o0",{"opacity":0,"y":40},{"opacity":1,"y":0,"duration":0.45,"ease":"back.out(1.6)"},31.150);
+tl.fromTo("#end-o1",{"opacity":0,"y":18},{"opacity":1,"y":0,"duration":0.6,"ease":"power2.out"},31.450);
+tl.to("#end-o1-btn",{"y":5,"boxShadow":"0 1px 0 #000","duration":0.09,"yoyo":true,"repeat":1},34.050);
+tl.fromTo("#rail",{"opacity":0,"y":-24},{"opacity":1,"y":0,"duration":0.45,"ease":"power2.out"},12.650);
+tl.to("#rail",{"opacity":0,"duration":0.3},30.850);
+tl.fromTo("#rail-d0",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},12.900);
+tl.fromTo("#rail-l0",{"opacity":0.42},{"opacity":1,"duration":0.3},12.900);
+tl.fromTo("#rail-f1",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},18.850);
+tl.fromTo("#rail-d1",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},19.350);
+tl.fromTo("#rail-l1",{"opacity":0.42},{"opacity":1,"duration":0.3},19.350);
+tl.fromTo("#rail-f2",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},23.950);
+tl.fromTo("#rail-d2",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},24.450);
+tl.fromTo("#rail-l2",{"opacity":0.42},{"opacity":1,"duration":0.3},24.450);
+tl.fromTo("#rail-f3",{"scaleX":0},{"scaleX":1,"duration":0.5,"ease":"power2.inOut"},27.450);
+tl.fromTo("#rail-d3",{"scale":0},{"scale":1,"duration":0.42,"ease":"back.out(2.4)"},27.950);
+tl.fromTo("#rail-l3",{"opacity":0.42},{"opacity":1,"duration":0.3},27.950);
 </script></body></html>

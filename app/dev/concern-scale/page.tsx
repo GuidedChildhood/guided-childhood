@@ -27,8 +27,8 @@ import ConcernCheckIn, { type ConcernCheckItem } from '@/components/daily/Concer
 
 export default async function ConcernScaleFixture({
   searchParams,
-}: { searchParams: Promise<{ new?: string }> }) {
-  const { new: showNew } = await searchParams
+}: { searchParams: Promise<{ new?: string; only?: string }> }) {
+  const { new: showNew, only } = await searchParams
   const dayAgo = new Date(Date.now() - 86400000).toISOString()
 
   const rows: ConcernCheckItem[] = [
@@ -60,7 +60,9 @@ export default async function ConcernScaleFixture({
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '30px 20px' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-        <ConcernCheckIn lastNight={{ sortOrder: 107, title: 'The bedtime handover' }} concerns={rows} />
+        {/* ?only=1 keeps the first worry alone, for filming one worry from
+            asked to sorted without a second one sitting under the payoff. */}
+        <ConcernCheckIn lastNight={{ sortOrder: 107, title: 'The bedtime handover' }} concerns={only ? rows.slice(0, 1) : rows} />
       </div>
     </div>
   )

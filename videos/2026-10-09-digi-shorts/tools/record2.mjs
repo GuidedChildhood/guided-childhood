@@ -3,8 +3,8 @@
 // then Playwright takes an ordinary screenshot. Same determinism as the CDP
 // virtual time recorder (tools/record.mjs) without its screenshot hangs, and
 // no iframe, because Playwright's own screenshots honour its viewport.
-// CSS keyframe animations still run on the real clock between frames, so a
-// fade can land a frame early; nothing in these scenes depends on one.
+// CSS animations and transitions run on the real clock between frames unless
+// the scene sets "anims": true, which pins each one to fake clock time.
 //   node tools/record2.mjs scenes/<name>.json        (same scene format)
 import { readFileSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { execSync } from 'node:child_process'
@@ -56,7 +56,11 @@ for (const a of S.actions || []) {
 }
 events.sort((a, b) => a.at - b.at)
 const N = Math.round(S.seconds * FPS)
-let ei = 0, focused = null
+let ei = 0, focused = null, tween = null
+// CSS transitions and keyframes run on the real clock, so a 700 ms card flip
+// would be over in four slow screenshots. With "anims" on, every animation is
+// paused the moment it appears and set by hand to fake clock time each frame.
+if (S.anims) await page.evaluate(() => { window.__syncAnims = () => { const now = performance.now(); for (const a of document.getAnimations()) { if (a.__t0 === undefined) { a.__t0 = now; a.pause() } a.currentTime = now - a.__t0 } } })
 for (let f = 0; f < N; f++) {
   const now = (f * 1000) / FPS
   while (ei < events.length && events[ei].at <= now) {
@@ -68,13 +72,23 @@ for (let f = 0; f < N; f++) {
     else if (e.do === 'tap' || e.do === 'click') {
       const { x, y } = await page.evaluate(({ sel, nth, text }) => { let els = [...document.querySelectorAll(sel)]; if (text) els = els.filter((el) => el.textContent.trim().includes(text)); const r = els[nth || 0].getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 } }, { sel: e.selector, nth: e.nth || 0, text: e.text || null })
       await page.mouse.click(x, y)
+    } else if (e.do === 'scroll') {
+      // A page scroll eased over frames (smooth scrolling runs on the real clock).
+      tween = { from: await page.evaluate(() => window.scrollY), to: e.to, f0: f, n: Math.round(((e.ms || 800) * FPS) / 1000) }
     } else if (e.do === 'scrollChat') {
       await page.evaluate(() => { const u = document.querySelector('[data-role="user"]'); let el = u && u.parentElement; while (el && !(getComputedStyle(el).overflowY === 'auto' && el.scrollHeight > el.clientHeight)) el = el.parentElement; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }) })
     }
   }
+  if (tween) { const k = Math.min(1, (f - tween.f0 + 1) / tween.n), ease = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; await page.evaluate((y) => window.scrollTo(0, y), tween.from + (tween.to - tween.from) * ease); if (k >= 1) tween = null }
   await page.clock.runFor(1000 / FPS)
+  if (S.anims) await page.evaluate(() => window.__syncAnims())
   await page.waitForTimeout(8)
-  await page.screenshot({ path: `${dir}f-${String(f).padStart(5, '0')}.jpg`, type: 'jpeg', quality: 92 })
+  // A busy machine (another render running) can stall one screenshot; the
+  // page clock is paused, so trying again films the same frame.
+  for (let tries = 0; ; tries++) {
+    try { await page.screenshot({ path: `${dir}f-${String(f).padStart(5, '0')}.jpg`, type: 'jpeg', quality: 92, timeout: 60000 }); break }
+    catch (e) { if (tries >= 2) throw e; console.log(`frame ${f}: screenshot retry ${tries + 1}`) }
+  }
   if (f % 60 === 0) console.log(`frame ${f}/${N}`)
 }
 await browser.close()

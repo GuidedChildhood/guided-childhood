@@ -35,7 +35,7 @@ values
   'I know that feels really hard. Your brain wants to keep going. That is normal. Let us do a quick wind-down together and then I will tell you when we can watch again.',
   'Stop crying or you will lose screen time tomorrow.',
   'The meltdown is a nervous system response, not a behaviour problem. Dopamine drops sharply when stimulation stops. Shaming the reaction teaches the child to hide their feelings, not regulate them. Naming the feeling and offering a bridge activity rewires the transition over time.',
-  'Give a two-minute warning before every screen ending this week. Watch whether the meltdowns reduce.',
+  'This week, agree the ending before the screen goes on: one episode, or until the timer goes. When it ends, name the feeling and go straight into the wind down together. Watch whether the meltdowns get shorter.',
   'none',
   false,
   2

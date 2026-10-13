@@ -1,0 +1,24 @@
+{
+ "name": "script-deck",
+ "url": "/ref-script-deck",
+ "seconds": 12.5,
+ "height": 1000,
+ "anims": true,
+ "stubs": [
+  {
+   "match": "/api/completions",
+   "method": "POST",
+   "body": "{\"ok\":true}",
+   "json": true,
+   "delayMs": 200
+  }
+ ],
+ "actions": [
+  {
+   "at": 9000,
+   "do": "tap",
+   "selector": "button",
+   "text": "Next"
+  }
+ ]
+}

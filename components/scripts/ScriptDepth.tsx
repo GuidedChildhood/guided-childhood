@@ -1,12 +1,34 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, stageCircle, chunky } from '@/components/scripts/card-system'
+import { card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, chunky } from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
 // back, how to check back later in the week, and a short note written
 // for the child. The note never leaves through us. It opens the
 // parent's own Messages app, ready to send from them.
+//
+// ── PER FIELD, 12 October 2026 ──────────────────────────────────────────────
+//
+// This used to ask one question: are all three fields present? If not, it hid
+// everything behind "DiGi is writing the deeper half of this script" and
+// called the expand route, which regenerated and wrote back all three.
+//
+// On the live table 54 scripts had a hand written push back reply and follow
+// up and no child note. All or nothing read those as unexpanded, so a parent
+// opening one saw the loading line instead of the prose that was already
+// there, and the route overwrote that prose with generated text, every view.
+//
+// So the unit is the field here too. What is stored renders immediately, the
+// route is asked only for the gaps, and the writing line sits in the gap
+// rather than over the whole thing.
+//
+// ── NO NUMBERS ──────────────────────────────────────────────────────────────
+//
+// These were steps 5 and 6 of a numbered sequence. The numbering came off the
+// first four blocks in ScriptReader for a reason (they are not a sequence),
+// and a 5 and a 6 left behind would be a sequence starting at five. Same stage
+// coloured bar and mono label as the reader, so the page reads as one sheet.
 
 type Expansion = {
   ifTheyPushBack: string
@@ -25,17 +47,21 @@ type Props = {
 }
 
 const DEEP_STEPS = [
-  { num: 5, key: 'ifTheyPushBack' as const, label: 'If they push back' },
-  { num: 6, key: 'checkBack' as const, label: 'Check back in a few days' },
+  { key: 'ifTheyPushBack' as const, label: 'If they push back' },
+  { key: 'checkBack' as const, label: 'Check back in a few days' },
 ]
+
+const FIELDS = ['ifTheyPushBack', 'checkBack', 'forYourChild'] as const
 
 const YOUNG_STAGES = ['foundation', 'builder']
 
 export default function ScriptDepth({ sortOrder, initial, childName, childPhone, childId, childHasApp, stageId }: Props) {
-  const hasAll = !!(initial.ifTheyPushBack && initial.checkBack && initial.forYourChild)
-  const [expansion, setExpansion] = useState<Expansion | null>(
-    hasAll ? (initial as Expansion) : null
-  )
+  // Trimmed, because a column holding a single space is an empty field with a
+  // character in it and would otherwise render as a blank block forever.
+  const missing = FIELDS.filter(k => !initial[k]?.trim())
+  const hasAll = missing.length === 0
+
+  const [expansion, setExpansion] = useState<Partial<Expansion>>(initial)
   const [loading, setLoading] = useState(!hasAll)
   const [copied, setCopied] = useState(false)
   const [sending, setSending] = useState(false)
@@ -51,20 +77,26 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
     })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (!cancelled && data?.ifTheyPushBack) setExpansion(data)
+        // Merged over what is already here, never under it, so a field the
+        // team wrote survives even if the route ever answers with a null.
+        if (!cancelled && data) {
+          setExpansion(prev => {
+            const next = { ...prev }
+            for (const k of FIELDS) if (data[k]) next[k] = String(data[k])
+            return next
+          })
+        }
       })
       .catch(() => {})
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [sortOrder, hasAll])
 
-  const note = expansion?.forYourChild ?? null
+  const note = expansion.forYourChild?.trim() || null
   const smsHref = note && childPhone
     ? `sms:${childPhone.replace(/\s/g, '')}?&body=${encodeURIComponent(note)}`
     : null
   const isYoung = YOUNG_STAGES.includes(stageId)
-  // The stage shows in the numbered circles only, so a Foundation script and a
-  // Shaper one are still the same familiar butter sheet.
   const accent = stageAccent(stageId)
 
   const share = () => {
@@ -109,101 +141,122 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
     }).catch(() => {})
   }
 
-  if (loading) {
-    return (
-      <div style={{
-        ...card, boxShadow: 'none', borderStyle: 'dashed',
-        background: 'var(--cream)', padding: cardPad, textAlign: 'center',
-      }}>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', margin: 0 }}>
-          DiGi is writing the deeper half of this script, the push back reply, the follow up and a note for your child...
-        </p>
-      </div>
-    )
-  }
+  // Same head treatment as ScriptReader: the stage coloured bar and a mono
+  // label, no number and no circle.
+  const head = (label: string) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 10 }}>
+      <span aria-hidden style={{
+        width: 4, height: 15, borderRadius: 2, flexShrink: 0, background: accent.fill,
+      }} />
+      <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{label}</span>
+    </div>
+  )
 
-  if (!expansion) return null
+  // The writing line, sized to sit in one block's place rather than over the
+  // whole half.
+  const writing = (
+    <p style={{
+      ...sheetBody, color: 'var(--ink-muted)', fontStyle: 'italic', margin: 0,
+    }}>
+      DiGi is writing this part...
+    </p>
+  )
+
+  const deepVisible = DEEP_STEPS.filter(s => expansion[s.key]?.trim() || loading)
+  const noteVisible = note || loading
+
+  if (deepVisible.length === 0 && !noteVisible) return null
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-      {/* Steps 5 and 6 continue the sheet the first four steps are on: one
-          butter sheet, numbered blocks, a dotted rule between them, and the
-          same body size, so the script reads as one thing being read down
-          rather than two products stacked. */}
-      <section style={sheet}>
-        <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
-          {DEEP_STEPS.map((step, i) => (
-            <div key={step.num}>
-              {i > 0 && <div style={dottedRule} />}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
-                <span style={stageCircle(accent)}>{step.num}</span>
-                <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
+      {/* Continues the sheet the reader is on: one butter sheet, a dotted rule
+          between blocks, the same body size, so the script reads as one thing
+          being read down rather than two products stacked. */}
+      {deepVisible.length > 0 && (
+        <section style={sheet}>
+          <div style={{ padding: 'clamp(18px, 4.5vw, 26px)' }}>
+            {deepVisible.map((step, i) => (
+              <div key={step.key}>
+                {i > 0 && <div style={dottedRule} />}
+                {head(step.label)}
+                {expansion[step.key]?.trim()
+                  ? <p style={{ ...sheetBody, maxWidth: '42ch' }}>{expansion[step.key]}</p>
+                  : writing}
               </div>
-              <p style={sheetBody}>{expansion[step.key]}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* The note for the child. Spoken words live in the DiGi blue pill,
           the chat speech treatment, and everything around them (the how to
           share it guidance, the buttons) is clean white process. No dark
           espresso grounds on this page. */}
-      <div style={{ ...card, padding: cardPad }}>
-        <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
-          A note for {childName ?? 'your child'}
-        </div>
+      {noteVisible && (
+        <div style={{ ...card, padding: cardPad }}>
+          <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
+            A note for {childName ?? 'your child'}
+          </div>
 
-        <p style={{
-          fontSize: 'var(--text-lg)', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
-          fontStyle: 'italic', background: '#DCE7FB',
-          borderRadius: '18px 18px 18px 6px', padding: '14px 16px',
-        }}>
-          {note}
-        </p>
-
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-          {isYoung
-            ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
-            : childHasApp
-            ? 'This lands in their own app and pings their phone, kept for them to read again. It always comes from you, we never message your child.'
-            : 'This shares the note from you, your own way. It always comes from you, we never message your child.'}
-        </p>
-
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          {/* Send to their app is the way for a child who has it, no phone
-              number needed. The read together and copy paths stay for the
-              young ages and the no app families. */}
-          {childHasApp && !isYoung && childId && (
-            <button onClick={sendToApp} disabled={sending} style={{ ...chunky('butter'), cursor: sending ? 'wait' : 'pointer' }}>
-              {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
-            </button>
-          )}
-          {smsHref && (
-            <a href={smsHref} style={{
-              ...(childHasApp && !isYoung ? {} : chunky('butter')),
-              ...(childHasApp && !isYoung ? chunky('white') : {}),
+          {note ? (
+            <p style={{
+              fontSize: 'var(--text-lg)', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
+              fontStyle: 'italic', background: '#DCE7FB',
+              borderRadius: '18px 18px 18px 6px', padding: '14px 16px',
             }}>
-              Text it instead
-            </a>
+              {note}
+            </p>
+          ) : (
+            <div style={{ marginBottom: '14px' }}>{writing}</div>
           )}
-          {!(childHasApp && !isYoung) && (
-            <button onClick={share} style={chunky('butter')}>
-              {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
-            </button>
+
+          {note && (
+            <>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+                {isYoung
+                  ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
+                  : childHasApp
+                  ? 'This lands in their own app and pings their phone, kept for them to read again. It always comes from you, we never message your child.'
+                  : 'This shares the note from you, your own way. It always comes from you, we never message your child.'}
+              </p>
+
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                {/* Send to their app is the way for a child who has it, no phone
+                    number needed. The read together and copy paths stay for the
+                    young ages and the no app families. */}
+                {childHasApp && !isYoung && childId && (
+                  <button onClick={sendToApp} disabled={sending} style={{ ...chunky('butter'), cursor: sending ? 'wait' : 'pointer' }}>
+                    {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
+                  </button>
+                )}
+                {smsHref && (
+                  <a href={smsHref} style={{
+                    ...(childHasApp && !isYoung ? {} : chunky('butter')),
+                    ...(childHasApp && !isYoung ? chunky('white') : {}),
+                  }}>
+                    Text it instead
+                  </a>
+                )}
+                {!(childHasApp && !isYoung) && (
+                  <button onClick={share} style={chunky('butter')}>
+                    {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
+                  </button>
+                )}
+                <button
+                  onClick={copy}
+                  style={chunky('white')}
+                >
+                  {copied ? 'Copied ✓' : 'Copy the note'}
+                </button>
+              </div>
+              {sent && (
+                <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
+              )}
+            </>
           )}
-          <button
-            onClick={copy}
-            style={chunky('white')}
-          >
-            {copied ? 'Copied ✓' : 'Copy the note'}
-          </button>
         </div>
-        {sent && (
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
-        )}
-      </div>
+      )}
 
     </div>
   )

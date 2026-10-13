@@ -180,6 +180,12 @@ Thirteen of the 34 paper packs printed a sheet onto a second page, measured in r
 
 ks2-26, ks3-27, ks4-28 and ks4-29 held `teacher_notes.tool` as one sentence, so their bookmarks and parent note printed the reference lesson's three checks and the organiser printed an empty tool box. Each is now `{ heading, lines, strapline }`, written from the lesson's own slides, in content/modules and, by migration 370, the live rows (guarded on the exact sentence read from production, proved to change nothing else; dry run passed). The module contract now refuses a sentence tool, and the pages read it through `asTool` as a belt. All 34 packs re measured: one page per sheet. Justin said apply it: 370 applied to production on 12 October, the four live tools verified equal to the files, no sentence tool left in the table. PR 1243.
 
+## 12 October 2026: the ending is agreed, not warned (migration 371)
+
+The library told parents two opposite things: the newer scripts and DiGi's research bank say warned endings were followed by more upset (Hiniker 2016, ages 1 to 5) and that agreeing the ending first helps, while scripts 2, 103 and 1302 and moment cards 22 and 330 still said to give a two or five minute warning, one card calling it "consistently more effective". Justin said fix it. All five now agree the ending before the screen goes on; 9650, horizons.ts and agreement-clauses.ts stop overstating the study ("far better", "made it worse"); 9671 names the study's ages and says "let's". Every guard checked against the live rows before the PR. Lessons that teach a five minute warning (033, 076, 327) are curriculum, left for the term review.
+## 12 October 2026: the films show the script deck, its sources, and the tracking to sorted
+
+Justin asked for Dr Becky level scripts, useful and easy, the tracking until ticked off, and the science. Reviewed Good Inside's App Store screens (Mobbin carries none): one card per idea, a curved header band, a big headline naming the moment, short Know this and Try this. Our product already does this in the script deck ("Try as deck"), so no product change is needed; the first cut had filmed the long script page zoomed to giant text. The hero and Short 1 now film the deck, a Why it works card naming the study (with its ages) and the RCPCH, and a tracker rail that ticks Asked DiGi, The words, Checked in, Sorted. The film shows script 9671 as it reads after the content fix PR, so that ships first. Detail in videos/2026-10-09-digi-shorts/BRIEF.md and the PR.
 ## 8 October 2026: the two brains film is sequential (v5)
 
 8 October, afternoon: the two brains film is sequential (v5). The split screen with two text streams was the stacked case the research warns against; the best films run problem, turn, solution. Same clock, her brain first, the question as the hinge, DiGi on the same minutes, one side by side at the morning. Glass text over a scrim, never a solid box. Kill stale headless Chromium before any HyperFrames check or render.
@@ -197,3 +203,18 @@ ks2-26, ks3-27, ks4-28 and ks4-29 held `teacher_notes.tool` as one sentence, so 
   template (`videos/_templates/ready-series`, plan in
   `plans/2026-10-12-ready-series-plan.md`). Every phone in them is a real
   capture of the running app from the /dev and /ref pages, never a mock up.
+## 12 October 2026: the film link, /v/<code> (migration 372)
+
+The shorts panel's measurement gap: nothing counted a stage check start, so a film could only be judged on views. Justin approved a link per film. /v/<code> works like the school link (353): it counts the follow, sets a cookie and lands on the stage check; the first answer counts a start once per browser; the trial grant writes profiles.video_link. Counts only, no IP or account on an event. /dashboard/admin/videos shows followed, began, signed up, card on, paying. Seeded digi-hero and switch-off. Judge a film on starts and signups, never views.
+
+## 12 October 2026: the shorts re-cut after the marketer review
+
+An expert marketer agent reviewed the hero and Short 1 from frame sheets; weighed with the feedback filter (plans/2026-10-12-shorts-marketer-review-weighed.md). Justin chose: the science beat leaves these two films and leads the early years film, where the 1 to 5 year old study fits (our own 9 October rule); the app's "not the open web" thinking line changes, "Earn more stars" stays; the hero opens on "I'm always the bad guy when the tablet goes off". Re-cut: hook at 2s, no "open web" line on screen, a push in on the Say this line, the timer centred and cut before "Earn more stars", one worry from asked to sorted with the rating label from the first tap, the rail below the platform headers, end cards out of the caption zone with each film's /v/ link. Hero 39s, Short 1 30s. Paid boost parked.
+
+## 12 October 2026: guilt, not "bad guy"
+
+Justin on the hero's opening line: "bad guy is not a good wording ... I feel guilty". The research agrees that guilt runs under all five top problems in parents' own words ("makes me feel so guilty"), met with tone and one next step, never blame. The hero's parent now types "Turning the tablet off ends in tears and I feel so guilty. What do I say?", DiGi's reply in both films opens "At nine, stopping is the hard part for every child, and feeling guilty about it is normal.", and "bad guy" is out of every caption.
+
+## 12 October 2026: readable films, the series line, and the product-shorts skill
+
+Justin: "moves a bit too quickly to take in", then the brand line every film must carry: the research backed, easy system for every digital worry, keeping children safe. The films now follow research 07's reading rule (hero 57.8s, Short 1 44.4s, a 36s TikTok cut). A SaaS growth review (no-go, go after one render) was weighed: fixed Short 1's reply, cropped a suggested question unsuitable for a nine year old, removed a 0.2s flash of "Earn more stars", added "One plan for screens, phones and AI." to every end card and the AI and social media tiles to the hero. The whole method is now `.claude/skills/product-shorts`, routed from CLAUDE.md. Posting plan with the phone playbook in content/packs/2026-10-09-digi-shorts/posting-plan.md.
