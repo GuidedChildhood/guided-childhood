@@ -35,7 +35,7 @@ export default async function PlanetIssuePage({ params }: { params: Promise<{ n:
   const [{ data: version }, { data: stories }, { data: events }, { data: generations }, { data: budget }, { data: releases }] = await Promise.all([
     admin.from('planet_issue_versions').select('content, render_report, content_hash, created_at').eq('issue', n).order('created_at', { ascending: false }).limit(1).maybeSingle(),
     admin.from('planet_stories').select('id, record, total, decision, decision_note').eq('issue', n).order('total', { ascending: false }),
-    admin.from('planet_events').select('at, actor_kind, actor_id, action, from_state, to_state, detail').eq('issue', n).order('at', { ascending: false }).limit(60),
+    admin.from('planet_issue_events').select('at, actor_kind, actor_id, action, from_state, to_state, detail').eq('issue', n).order('at', { ascending: false }).limit(60),
     admin.from('planet_generations').select('id, slot, recipe, tier, model, status, credits, url, reason, at').eq('issue', n).order('at', { ascending: false }),
     admin.from('planet_budgets').select('credits, approved_by, at').eq('issue', n).maybeSingle(),
     admin.from('planet_releases').select('channel, status, at, external, detail').eq('issue', n),
