@@ -499,3 +499,17 @@ Worth keeping, because it is the same shape as the 373 slip it corrects. A
 fresh table in this project inherits a grant, so a new table is only as closed
 as the statement that made it. 374's staging table was created with its revoke
 in the same statement and was closed from the first instant.
+
+## 13 October 2026: 377 goes back to the planet lane, not fixed here
+
+Justin's call, asked and answered today: leave 377 unapplied and let whoever
+owns the Guided Planet engine rename the table. So this is NOT an outstanding
+migration for the next sweep to pick up, and nobody should apply it as it
+stands. The newspaper dashboard has no audit trail until that lane acts.
+
+What they need to change: 377 creates public.planet_events, which migration
+252 already made the kids' ledger (foreign key to children, different shape).
+Rename 377's table, its index, its trigger and its function, and the two
+calls in publishing/engine/store-supabase.ts. The danger to avoid is clearing
+377's index error without the rename, because the statement after it attaches
+an append only trigger to the children's ledger for ever. Detail in PR 1289.
