@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
+import { kidNotes } from '@/lib/kid/note-text'
 
 // What the child's status banner needs in one call: their latest screen time
 // ask (so an ask's fate is never hunted for), the live session if one runs,
@@ -46,7 +47,7 @@ export async function GET(req: NextRequest) {
       .eq('seen', false)
       .order('created_at', { ascending: false })
       .limit(4)
-    if (!error) nudges = (data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
+    if (!error) nudges = kidNotes((data ?? []).map(n => ({ id: String(n.id), message: String(n.message) })))
   }
 
   return NextResponse.json({
