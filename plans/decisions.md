@@ -235,3 +235,7 @@ page whose buttons go to a paid signup. Separately, the user level
 `linkedin-comment-replies` skill still states the report is live and tells
 Claude to lead with the £9.99 report on first customer interest. That file lives
 in Justin's own skills, not this repo, so he has to change it there.
+
+## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
+
+Justin said apply them. 371 (the ending is agreed, not warned) applied to production; all seven edited rows read back correctly. 372 (the film link) applied; a live follow of guidedchildhood.com/v/switch-off landed on the stage check, set the cookie and logged one follow (that first row is the test). Short 1 is the family account's Service Friday post, service 1, the five o'clock fight, so its Instagram and Facebook captions now follow the family format in content/brand-story/weekly-rhythm.md: the family's own moment ("Five o'clock in our house used to be a fight", the canon supports the fight and the five o'clock handover, not a duration), five numbered lines ending on a consequence, a closing question.

@@ -18,7 +18,7 @@ levelled. Post only these. The `-v1` to `-v4` files are earlier versions.
 
 ## Before the first post
 
-1. #1246 is merged (done), and migrations 371 and 372 are applied.
+1. Done on 13 October: #1246 merged, and migrations 371 and 372 applied to production. The film links count.
 2. On Admin, Film links, make these links. Type the name and the page makes
    the code: `Switch off ig`, `Switch off fb`, `Switch off tt`, `Hero ig`,
    `Hero fb`, `Hero tt`, `Hero li`. Check that each code matches the captions
@@ -66,19 +66,39 @@ levelled. Post only these. The `-v1` to `-v4` files are earlier versions.
 
 ## Captions, ready to paste
 
+**Where:** the family account, The Guided Digital Childhood, on Instagram and
+Facebook. Short 1 is its Service Friday post: week 1 of the service rotation
+is "1 · The five o'clock fight" (`content/brand-story/service-post-map.md`).
+So the family caption rules apply (`content/brand-story/weekly-rhythm.md`):
+- Open on the family's own moment.
+- Five numbered lines, ending on a consequence, never a command.
+- End the post on a question any parent can answer.
+- No links in the Instagram caption, and no hashtags on Facebook.
+After posting, add a row to `content/brand-story/posted-log.md`.
+
 **Short 1, Instagram**
-> Send this to whoever does switch off in your house.
-> You say off. They say one more. So agree the ending before the tablet goes on, in a calm moment, and let the timer call time instead of you. Save it for tonight.
-> One plan for screens, phones and AI, built on research.
-> Example family. Real app screens, example replies.
+> Five o'clock in our house used to be a fight.
+> 1. Two more minutes turns into twenty, then it is a row.
+> 2. The row is never really about the tablet. It is about the ending.
+> 3. So the ending gets agreed in a calm moment, before it goes on.
+> 4. A timer you can both see calls time, instead of you.
+> 5. Days later the app asks how it went, and keeps asking until it is sorted.
+> When the ending is the deal, nobody has to be the one who ends it.
+> One plan for screens, phones and AI, built on research. Example family. Real app screens, example replies.
 > What stage is your child? Three questions, no sign up. Link in bio.
+> What ends screen time in your house: the episode, a timer, or tea?
 
 **Short 1, Facebook**
-> Send this to whoever does switch off in your house.
-> You say off. They say one more. So agree the ending before the tablet goes on, in a calm moment, and let the timer call time instead of you. Save it for tonight.
-> One plan for screens, phones and AI, built on research.
-> Example family. Real app screens, example replies.
-> What stage is your child? Three questions, no sign up. guidedchildhood.com/v/switch-off-fb
+> Five o'clock in our house used to be a fight, and it set the mood for the whole evening.
+> 1. Two more minutes turns into twenty, then it is a row.
+> 2. The row is never really about the tablet. It is about the ending.
+> 3. So the ending gets agreed in a calm moment, before it goes on.
+> 4. A timer you can both see calls time, instead of you.
+> 5. Days later the app asks how it went, and keeps asking until it is sorted.
+> When the ending is the deal, nobody has to be the one who ends it.
+> One plan for screens, phones and AI, built on research. Example family. Real app screens, example replies.
+> What stage is your child? Three questions, no sign up: guidedchildhood.com/v/switch-off-fb
+> What ends screen time in your house: the episode, a timer, or tea?
 
 **Short 1, TikTok**
 > Send this to whoever ends screen time in your house.
@@ -87,14 +107,19 @@ levelled. Post only these. The `-v1` to `-v4` files are earlier versions.
 > What stage is your child? Three questions, no sign up. Link in bio.
 > #screentime #ukparents #parentingtips
 
-**Hero, Instagram**
-> If turning the tablet off ends in tears, and then the guilt, this is for you.
-> The guilt is normal. The first step is deciding the ending before it starts. Ask DiGi, get the words for tonight, and it checks in until it is sorted.
-> One plan for screens, phones and AI, built on research.
-> Example family. Real app screens, example replies.
+**Hero, Instagram** (the family account, then pinned to the profile)
+> If turning the tablet off ends in tears, and then the guilt, you are not the only one.
+> 1. The guilt is normal. Stopping is the hard part for every child.
+> 2. You ask DiGi what to say, in your own words.
+> 3. You get the words for tonight, one card at a time.
+> 4. A timer you can both see calls time, instead of you.
+> 5. A check in follows it until it is sorted.
+> Once the ending is agreed first, switching off stops being yours to defend.
+> One plan for screens, phones and AI, built on research. Example family. Real app screens, example replies.
 > What stage is your child? Three questions, no sign up. Link in bio.
+> What do you say when the tablet goes off in your house?
 
-**Hero, Facebook:** as Instagram, but the last line ends `guidedchildhood.com/v/hero-fb` instead of "Link in bio."
+**Hero, Facebook:** as Instagram, but the ask line ends `guidedchildhood.com/v/hero-fb` instead of "Link in bio." No hashtags.
 
 **Hero, LinkedIn** (the link goes in the first comment: `guidedchildhood.com/v/hero-li`)
 > The switch off fight is rarely about screen time. It is about the ending.
