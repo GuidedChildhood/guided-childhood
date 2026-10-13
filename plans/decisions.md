@@ -190,6 +190,19 @@ Justin asked for Dr Becky level scripts, useful and easy, the tracking until tic
 
 8 October, afternoon: the two brains film is sequential (v5). The split screen with two text streams was the stacked case the research warns against; the best films run problem, turn, solution. Same clock, her brain first, the question as the hinge, DiGi on the same minutes, one side by side at the morning. Glass text over a scrim, never a solid box. Kill stale headless Chromium before any HyperFrames check or render.
 
+## 12 October 2026: "Ready", the brand advert, and its series template (PR 1221)
+
+- The hero is "Ready" (`videos/2026-10-12-ready`): John Lewis craft, one
+  family from six to sixteen, the first gold star given back, Justin's line,
+  the stage check. Rough cut on 312 credits of drafts with a guide score in
+  code; the licensed track and the finals wait on Justin.
+- Higgsfield's licensed music is TikTok's library, usable only inside a
+  TikTok post, so it cannot score the film.
+- The how it works story moves into a series: five worries from the
+  audience research, one per episode, about forty seconds, built from one
+  template (`videos/_templates/ready-series`, plan in
+  `plans/2026-10-12-ready-series-plan.md`). Every phone in them is a real
+  capture of the running app from the /dev and /ref pages, never a mock up.
 ## 12 October 2026: the film link, /v/<code> (migration 372)
 
 The shorts panel's measurement gap: nothing counted a stage check start, so a film could only be judged on views. Justin approved a link per film. /v/<code> works like the school link (353): it counts the follow, sets a cookie and lands on the stage check; the first answer counts a start once per browser; the trial grant writes profiles.video_link. Counts only, no IP or account on an event. /dashboard/admin/videos shows followed, began, signed up, card on, paying. Seeded digi-hero and switch-off. Judge a film on starts and signups, never views.

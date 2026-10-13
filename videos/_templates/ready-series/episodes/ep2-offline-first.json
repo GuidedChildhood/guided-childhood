@@ -1,0 +1,80 @@
+{
+  "title": "Ready, episode 2: screens before everything",
+  "needs": [
+    "NEW e2-morning.mp4: the girl at about nine reaching for the tablet before breakfast. Every child shot starts at nine or older",
+    "NEW: the girl, about seven, ticking a job on a tablet then running outside",
+    "A screen recording of the child app: ticking a job, the stars landing, the five a day (Justin's phone or a demo child, never the real account)",
+    "Clip check: s04 and s10 offsets",
+    "DiGi's plan is its own scenarios MO-05 and AS-01 (digi/06-scenarios.md); run it as an eval case against live DiGi before finals"
+  ],
+  "beats": [
+    {
+      "kind": "hook",
+      "step": 1,
+      "stamp": "Saturday, 8:00am",
+      "clip": "e2-morning.mp4",
+      "quote": "She wants a screen before she's even dressed."
+    },
+    {
+      "kind": "shot",
+      "step": 1,
+      "stamp": "Saturday, 8:00am",
+      "clip": "e2-morning.mp4",
+      "line": "Screens first. Everything else, never."
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Saturday, 8:02am",
+      "me": "She wants a screen before anything else. How do I change that?"
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Saturday, 8:03am",
+      "plan": true,
+      "digi": [
+        "This weekend: something outside or active first, then screens. Do it with her.",
+        "Every day: one job before screens. Her app says it, not you.",
+        "Every job: she ticks it, you tap once, and her stars buy minutes."
+      ]
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Saturday, 8:05am",
+      "screen": "ask-first-parent.png",
+      "y": 0,
+      "h": 1500,
+      "line": "Screen time waits until the jobs are done."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Saturday, 10:00am",
+      "screen": "kid-five.png",
+      "y": 230,
+      "h": 1530,
+      "line": "Her five a day. Offline comes first."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Saturday, 6:00pm",
+      "screen": "kid-day-done.png",
+      "y": 1050,
+      "h": 1450,
+      "line": "All five done. The stars are hers."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Six years on",
+      "clip": "s10.mp4",
+      "line": "Jobs first is just how her day goes."
+    },
+    {
+      "kind": "end"
+    }
+  ]
+}

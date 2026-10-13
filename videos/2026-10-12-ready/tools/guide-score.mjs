@@ -13,7 +13,9 @@
 //   node tools/guide-score.mjs assets/guide-score.wav
 import { writeFileSync } from 'node:fs'
 
-const SR = 44100, LEN = 90, N = SR * LEN
+// Section times can be passed as JSON: {"len":97,"voice":29,"lift":52,"hush":69,"ret":76.8,"hold":84}
+const T = Object.assign({ len: 90, voice: 26, lift: 52, hush: 64, ret: 72, hold: 82 }, process.argv[3] ? JSON.parse(process.argv[3]) : {})
+const SR = 44100, LEN = T.len, N = Math.floor(SR * LEN)
 const L = new Float32Array(N), R = new Float32Array(N)
 const BPM = 70, BEAT = 60 / BPM, BAR = BEAT * 4
 const hz = (m) => 440 * Math.pow(2, (m - 69) / 12)
@@ -74,14 +76,14 @@ let bar = 0
 const at = (b) => b * BAR
 
 // 0 to 26: solo piano arpeggios, melody enters at bar 3
-for (; at(bar) < 26; bar++) {
+for (; at(bar) < T.voice; bar++) {
   const c = prog[bar % 4]
   c.forEach((m, i) => piano(m, at(bar) + i * BEAT * 0.5, 0.42, 3, -0.2 + i * 0.12))
   piano(c[1] + 12, at(bar) + BEAT * 2.5, 0.3, 2.5, 0.2)
   if (bar >= 2) melody.slice((bar * 4) % 16, (bar * 4) % 16 + 4).forEach((m, i) => piano(m, at(bar) + i * BEAT, 0.5, 2.2, 0.15))
 }
 // 26 to 52: the voice doubles the melody
-for (; at(bar) < 52; bar++) {
+for (; at(bar) < T.lift; bar++) {
   const c = prog[bar % 4]
   c.forEach((m, i) => piano(m, at(bar) + i * BEAT * 0.5, 0.45, 3, -0.2 + i * 0.12))
   const ms = melody.slice((bar * 4) % 16, (bar * 4) % 16 + 4)
@@ -89,25 +91,25 @@ for (; at(bar) < 52; bar++) {
 }
 // 52 to 64: the lift
 const liftStart = at(bar)
-for (; at(bar) < 64; bar++) {
+for (; at(bar) < T.hush; bar++) {
   const c = bar % 2 === 0 ? lift[0] : lift[1]
   c.forEach((m, i) => piano(m, at(bar) + i * BEAT * 0.5, 0.55, 3, -0.2 + i * 0.12))
-  strings(c.map((m) => m + 12), at(bar), BAR + 0.4, 0.9 + (at(bar) - liftStart) / 12)
-  for (let b = 0; b < 4; b++) pulse(at(bar) + b * BEAT, 0.5 + (at(bar) - liftStart) / 20)
+  strings(c.map((m) => m + 12), at(bar), BAR + 0.4, 0.9 + (at(bar) - liftStart) / (T.hush - T.lift))
+  for (let b = 0; b < 4; b++) pulse(at(bar) + b * BEAT, 0.5 + (at(bar) - liftStart) / (T.hush - T.lift) * 0.6)
   melody.slice(4, 8).forEach((m, i) => { piano(m + 2, at(bar) + i * BEAT, 0.62, 2.2, 0.1); voice(m - 10, at(bar) + i * BEAT, BEAT * 1.05, 1.1) })
 }
 // 64 to 72: near silence, one note at a time
-for (const [t, m] of [[64.4, 72], [66.4, 76], [68.4, 74], [70.4, 79]]) piano(m, t, 0.4, 3.2, 0.1)
+{ const g = (T.ret - T.hush) / 4; [72, 76, 74, 79].forEach((m, i) => piano(m, T.hush + 0.4 + i * g, 0.4, 3.2, 0.1)) }
 // 72 to 82: the melody returns, full and warm
-for (let t = 72, k = 0; t < 82; t += BAR, k++) {
+for (let t = T.ret, k = 0; t < T.hold; t += BAR, k++) {
   const c = prog[k % 4]
   c.forEach((m, i) => piano(m, t + i * BEAT * 0.5, 0.5, 3, -0.2 + i * 0.12))
   strings(c.map((m) => m + 12), t, BAR + 0.4, 1.2)
   melody.slice(0, 4).forEach((m, i) => { piano(m, t + i * BEAT, 0.58, 2.2, 0.15); voice(m - 12, t + i * BEAT, BEAT * 1.05, 1.1) })
 }
 // 82 to 90: one held chord
-for (const m of [48, 55, 60, 64, 67]) piano(m, 82, 0.45, 7.5, 0)
-strings([60, 64, 67, 72], 82, 7.8, 1.0)
+for (const m of [48, 55, 60, 64, 67]) piano(m, T.hold, 0.45, LEN - T.hold - 0.3, 0)
+strings([60, 64, 67, 72], T.hold, LEN - T.hold - 0.2, 1.0)
 
 // soft room: two short delays, then normalise to -1 dBFS
 const d1 = Math.floor(0.031 * SR), d2 = Math.floor(0.047 * SR)

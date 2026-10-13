@@ -1,0 +1,105 @@
+{
+  "title": "Ready, episode 1: the nightly fight",
+  "needs": [
+    "NEW e1-tv.mp4: the girl at about nine puts the TV back on at 9pm, her dad tired in the doorway",
+    "NEW e1-timer.mp4: her dad says it once and sets a kitchen timer on the coffee table, she sees it",
+    "NEW e1-together.mp4: the TV is off, the two of them play a board game she picked, ten minutes",
+    "NEW e1-off.mp4: two weeks on, the timer chimes and she switches the TV off herself, picks up a book",
+    "All four from a new reference of the girl at nine, after Justin's yes on the credits",
+    "DiGi's plan is its own scenario EB-01 (digi/06-scenarios.md); run the eval case in the PR body against live DiGi before finals"
+  ],
+  "beats": [
+    {
+      "kind": "hook",
+      "step": 1,
+      "stamp": "Night 1, 9:00pm",
+      "clip": "e1-tv.mp4",
+      "quote": "Every night the TV goes back on. Every night we fight."
+    },
+    {
+      "kind": "shot",
+      "step": 1,
+      "stamp": "Night 1, 9:00pm",
+      "clip": "e1-tv.mp4",
+      "off": 3.0,
+      "line": "Bedtime. The TV goes back on. Again."
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Night 1, 9:14pm",
+      "me": "She keeps putting the TV back on at bedtime. Every night ends in a fight. What do I do?"
+    },
+    {
+      "kind": "chat",
+      "step": 2,
+      "stamp": "Night 1, 9:15pm",
+      "plan": true,
+      "digi": [
+        "Tonight: tell her once. Ten minutes on the timer, then the TV goes off.",
+        "Then: a calm switch off earns ten minutes together, and she chooses what.",
+        "Every night: the same ending, no extra minutes. One extension resets it."
+      ]
+    },
+    {
+      "kind": "shot",
+      "step": 3,
+      "stamp": "Night 2, 8:50pm",
+      "clip": "e1-timer.mp4",
+      "line": "Ten minutes on the timer. Said once."
+    },
+    {
+      "kind": "shot",
+      "step": 3,
+      "stamp": "Night 2, 9:00pm",
+      "clip": "e1-together.mp4",
+      "line": "TV off. Ten minutes together, her choice."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Day 3, 5:00pm",
+      "screen": "child-deal.png",
+      "y": 0,
+      "h": 1485,
+      "line": "Her deal, in her own app."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Day 3, 6:00pm",
+      "screen": "kid-ask.png",
+      "y": 0,
+      "h": 1300,
+      "line": "She picks the screen. Her timer ends it."
+    },
+    {
+      "kind": "screen",
+      "step": 3,
+      "stamp": "Night 5",
+      "screen": "digi-followup.png",
+      "y": 170,
+      "h": 1600,
+      "line": "Five nights on, DiGi checks back."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Week 2, 9:00pm",
+      "clip": "e1-off.mp4",
+      "line": "The timer goes. She switches it off herself."
+    },
+    {
+      "kind": "shot",
+      "step": 4,
+      "stamp": "Seven years on",
+      "clip": "s13.mp4",
+      "off": 1.0,
+      "origin": "50% 50%",
+      "line": "Her phone sleeps in the kitchen. Her choice."
+    },
+    {
+      "kind": "end"
+    }
+  ]
+}
