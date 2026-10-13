@@ -56,6 +56,14 @@ Each prompt is: the brief, its own previous score and top gap, today's date,
 and "Return only the scorecard, exactly as the contract says." Do not add your
 own opinion of the score to the prompt; the lens judges.
 
+If the Agent tool says an agent type is not found (agent files load when a
+session starts, so a session that created or renamed one cannot call it yet),
+launch `general-purpose` with `model: sonnet` instead and open the prompt with:
+"You are a read only reviewer. Your instructions are the body of
+.claude/agents/review-<lens>.md: read that file and follow it exactly as your
+role." The same goes for the skeptic and the chief of staff (no model
+override for those two).
+
 When they return, check each is valid JSON with a whole number score. A lens
 that fails or returns prose gets one retry with the same prompt. A lens that
 fails twice is left out of the run and named in the report; never invent its
