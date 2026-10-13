@@ -58,7 +58,8 @@ what is still missing before it can be cut.
   Mumsnet, no survey on screen.
 - **DiGi's plan is DiGi's real advice.** Take it from its own scenario in
   `digi/06-scenarios.md` (name it in the episode's `needs`), and run the
-  question as an eval case (`lib/digi/evals.ts`, `runCase`) against live DiGi
+  question through `tools/digi-eval/run.mjs` (DiGi's own `runCase`: live model,
+  safety check, rubric; results in `evals/`) against live DiGi
   before finals. Never write advice for DiGi that its playbook does not give.
 - **No backing track.** Episodes build without music; Justin adds the track in
   the edit. Leave `music` out of the episode.

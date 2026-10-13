@@ -3,8 +3,8 @@
   "needs": [
     "NEW: the girl, about eleven, starting her own timer on a tablet while her dad nods from the kitchen",
     "SCREEN: the trust ladder picker (Ask first, They start you watch, Trusted) needs a /ref page and a capture; it would replace the ask box screen",
-    "No DiGi scenario covers this worry yet; the plan describes product features (the lessons, the trust ladder). Run it as an eval case before finals",
-    "s07 reads about seven; the nine year old shot needs the new reference"
+    "s07 reads about seven; the nine year old shot needs the new reference",
+    "Plan matches live DiGi's answer, eval run 13 October 2026 (passed safety and rubric)"
   ],
   "beats": [
     {
@@ -26,9 +26,9 @@
       "stamp": "Sunday, 4:06pm",
       "plan": true,
       "digi": [
-        "Today: you do not need to know the app. You need the words.",
-        "Every day: ten minutes together, and I give you the words.",
-        "As she grows: she moves up from asking first to trusted."
+        "Today: you do not need to out tech her. Ask her to teach you her favourite game.",
+        "Then: devices charge outside the bedroom, and stopping points are agreed first.",
+        "Tonight: ask one real question about what she loves on a screen, and listen."
       ]
     },
     {
