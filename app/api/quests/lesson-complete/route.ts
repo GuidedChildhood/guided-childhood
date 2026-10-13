@@ -11,6 +11,7 @@ import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { lessonAudienceFor, stageForKeyStage } from '@/lib/lessons/school-path'
 import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
 import { recordMarkedAnswers } from '@/lib/lessons/answers'
+import { stillWaiting } from '@/lib/lessons/heavy'
 
 // Monday of this week as an ISO instant, London week convention like the
 // rest of the quests system: the school week mission dedupes against it.
@@ -72,11 +73,15 @@ export async function POST(req: NextRequest) {
   if (body.mission_id) {
     const { data: mission } = await supabase
       .from('kid_lesson_missions')
-      .select('id, child_id, status, stars, lesson_id, attempts, paid_at')
+      .select('id, child_id, status, stars, lesson_id, attempts, paid_at, sent_at')
       .eq('id', body.mission_id)
       .maybeSingle()
     if (!mission || mission.child_id !== link.child_id) {
       return NextResponse.json({ error: 'not found' }, { status: 404 })
+    }
+    // Still inside its heads up: not open, so nothing to mark (lib/lessons/heavy).
+    if (mission.status === 'sent' && stillWaiting((mission as { sent_at?: string | null }).sent_at)) {
+      return NextResponse.json({ error: 'waiting' }, { status: 409 })
     }
     const lesson = await getStarLesson(supabase, mission.lesson_id, 'id, module_id, title, slides, key_stage, teacher_notes, parent_note') as
       (StarLessonRow & { module_id?: string | null; slides?: unknown; key_stage?: string | null; teacher_notes?: unknown; parent_note?: unknown }) | null

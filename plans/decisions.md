@@ -242,3 +242,7 @@ in Justin's own skills, not this repo, so he has to change it there.
 ## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
 
 Justin said apply them. 371 (the ending is agreed, not warned) applied to production; all seven edited rows read back correctly. 372 (the film link) applied; a live follow of guidedchildhood.com/v/switch-off landed on the stage check, set the cookie and logged one follow (that first row is the test). Short 1 is the family account's Service Friday post, service 1, the five o'clock fight, so its Instagram and Facebook captions now follow the family format in content/brand-story/weekly-rhythm.md: the family's own moment ("Five o'clock in our house used to be a fight", the canon supports the fight and the five o'clock handover, not a duration), five numbered lines ending on a consequence, a closing question.
+
+## 13 October 2026: the six heavy lessons wait for a grown up
+
+Justin said yes (sync plan C). When a child starts one of the six heaviest lessons alone, it opens 48 hours later or the moment the parent taps Ready, and the parent gets the note first: a push with no subject on the lock screen and an email, both landing on `/dashboard/lessons/heads-up`, built from the deck's own parent text. A lesson the parent sends, nudges or opens together is theirs already and opens at once. No migration: the mission's `sent_at` is set ahead. Guard: check-lesson-path section 14. Detail in the PR.

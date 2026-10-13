@@ -1865,3 +1865,31 @@ export function schoolLetterboxEmail(params: {
     ),
   }
 }
+
+
+// THE HEADS UP BEFORE A HEAVY LESSON (sync plan C, 13 October 2026). Sent when
+// a child starts one of the six heaviest lessons alone; the lesson opens 48
+// hours later or the moment the parent taps Ready (lib/lessons/heavy.ts). The
+// subject never names the subject: an inbox is often read over a shoulder.
+export function lessonHeadsUpEmail(params: {
+  childName: string
+  lessonTitle: string
+  covers: string | null
+  sayThis: string | null
+  opensOn: string
+  readyUrl: string
+}): EmailContent {
+  const { childName, lessonTitle, covers, sayThis, opensOn, readyUrl } = params
+  return {
+    subject: `Before ${childName}'s next lesson`,
+    html: wrapper(
+      heading(`Before ${childName}'s next lesson`) +
+      p(`${childName} has started ${lessonTitle}. It is one of the lessons on a hard subject, so it waits for you first. It opens for ${childName} on ${opensOn}, or as soon as you tap Ready.`) +
+      (covers ? p(covers) : '') +
+      (sayThis ? p(`One thing to say, before or after: "${sayThis}"`) : '') +
+      p(`If anything comes up, stay calm and listen first. ${childName} can also call Childline free on 0800 1111, and their school's safeguarding lead is there to help too.`) +
+      button('Read the note and tap Ready', readyUrl),
+      '',
+    ),
+  }
+}
