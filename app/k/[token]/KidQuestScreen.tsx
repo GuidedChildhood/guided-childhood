@@ -166,6 +166,7 @@ export default function KidQuestScreen({
   todayTicks: Tick[]
   weekStars: number
   goal: Goal
+  /** No longer drawn: the flame bar is the one streak (13 October 2026). */
   streakDays?: number
   laterQuests?: { title: string; emoji: string; schedule: string; schedule_days?: number[] | null }[]
   doneLessonKeys?: string[]
@@ -543,6 +544,9 @@ export default function KidQuestScreen({
   // timer always shows its card, because a live countdown is never clutter.
   const [homeAll, setHomeAll] = useState(false)
   const focusDay = !homeAll && todayTab.total > 0 && !todayTab.complete
+  // The home blocks belong to Today. Lessons and Printables draw only their
+  // own content (13 October 2026, see the note above the first visit card).
+  const onToday = tab === 'quests'
 
   // THE LIVE COUNT.
   //
@@ -1030,13 +1034,22 @@ export default function KidQuestScreen({
         const justApproved = Object.keys(fresh).find(qid => fresh[qid] === 'approved' && !seenApprovedRef.current.has(qid))
         if (justApproved) {
           Object.keys(fresh).forEach(qid => { if (fresh[qid] === 'approved') seenApprovedRef.current.add(qid) })
-          const q = quests.find(x => x.id === justApproved)
+          const q = quests.find(x => x.id === justApproved) as (Quest & { is_family_job?: boolean }) | undefined
+          // Priced at THIS child's rate, the same one the push and the timer
+          // use, and a family job is thanked, never priced (approve/route.ts
+          // keeps the same rule). The flat STAR_MINUTES here promised minutes
+          // the timer would not give a child on a different rate.
           if (q) setHappyNews({
             character: 'digi',
             headline: 'Your grown up said yes! ⭐',
-            sub: `${q.title} is done. That is ${q.stars * STAR_MINUTES} minutes of screen time earned. Superstar!`,
+            sub: q.is_family_job
+              ? `${q.title} is done. Thank you for doing your bit for the family!`
+              : `${q.title} is done. That is ${q.stars * (bank?.starMinutes ?? STAR_MINUTES)} minutes of screen time earned. Superstar!`,
           })
           playKidSound('star')
+          // The stars just landed in the bank, and the bank on this screen is
+          // a server prop, so fetch it again the way the ask's yes does.
+          router.refresh()
         }
         setTicks(fresh)
       } catch { /* offline, the next poll tries again */ }
@@ -1083,7 +1096,13 @@ export default function KidQuestScreen({
     try { sessionStorage.setItem(KID_HOME_SEEN_KEY, '1') } catch { /* private mode, the link falls back to a normal navigation */ }
   }, [])
 
-  const doneCount = quests.filter(q => ticks[q.id]).length
+  // A job counts as ticked when it is waiting or approved, never when a grown
+  // up said "not done yet". The old truthy check counted a rejected tick as
+  // done, so the home could call the day's jobs finished while one was
+  // waiting for another go (audit, 13 October 2026; the list's own fix is
+  // in KidTodayList).
+  const isTicked = (id: string) => ticks[id] === 'pending' || ticks[id] === 'approved'
+  const doneCount = quests.filter(q => isTicked(q.id)).length
   // An empty board counts as done. This demanded at least one quest, so a day
   // with no jobs could never finish: the jobs step in the five a day waits on
   // this flag, and it held the whole day hostage (no fifth tick, no streak,
@@ -1147,7 +1166,7 @@ export default function KidQuestScreen({
   // child whose board has nothing physical on it today.
   const moveQuests = quests.filter(q => isMoveJob(q.title))
   const moveJobs = moveQuests.length > 0
-    ? { total: moveQuests.length, done: moveQuests.every(q => !!ticks[q.id]) }
+    ? { total: moveQuests.length, done: moveQuests.every(q => isTicked(q.id)) }
     : null
   // The five a day streak takeover, shown once when the fifth step lands.
   // The finished day, held for the Day done screen. Every completed day gets
@@ -1179,13 +1198,21 @@ export default function KidQuestScreen({
   // Only grown up sent content counts as new (adventures, star lessons, and
   // unlocked printables); the games and mini lesson libraries are always
   // there, so they never flag as new.
+  //
+  // 13 October 2026: the red badges said 9+ on Teo's phone every day. "New"
+  // meant "never opened on this device", so the whole watch together library
+  // and every printable for his stage counted, a fresh phone showed 9+ again,
+  // and a child who finished their day was moved off the home onto a tab that
+  // had nothing new in it. A red number now means one thing: something your
+  // grown up SENT you that you have not done yet. A star lesson still waiting,
+  // or the printable they picked for you. The library is always there and
+  // never shouts.
   const watchIds = adventures.map(a => `adv:${a.code}`)
-  const learnIds = missions.map(m => `mis:${m.id}`)
-  // Printables have their own top level tab now, so their new count feeds that
-  // tab's badge, not the lessons one. Shown to the child either way so the
-  // ask-a-grown-up path always works; the paywall only gates printing.
-  const printIds = stagePrintables.map(p => `prn:${p.key}`)
-  const newWatch = watchIds.filter(id => !seenLessons.has(id)).length
+  const learnIds = missions.filter(m => m.status === 'sent').map(m => `mis:${m.id}`)
+  // Printables have their own top level tab, so their new count feeds that
+  // tab's badge. Only the sheet a grown up assigned counts.
+  const printIds = assignedPrintable && !assignedSent ? [`prn:${assignedPrintable.key}`] : []
+  const newWatch = 0
   const newLearn = learnIds.filter(id => !seenLessons.has(id)).length
   const newPrint = printIds.filter(id => !seenLessons.has(id)).length
   const totalNewLessons = newWatch + newLearn
@@ -1409,6 +1436,14 @@ export default function KidQuestScreen({
       )}
 
       <div style={{ width: 'min(100%, 460px)' }}>
+        {/* EACH TAB IS ITS OWN PAGE (13 October 2026). Justin, with Teo's
+            phone: "can we simplify the app home page". Everything from here
+            to the fold used to draw above EVERY tab, so a child who tapped
+            Lessons or Printables met the whole home again before the thing
+            they asked for. The home blocks now draw on Today only. The ask
+            banner stays on every tab (a yes for screen time must never be
+            hidden) and so does a running timer. */}
+        {onToday && (<>
         {/* First visit: how this works, in kid language */}
         {showWelcome && (
           <div style={{
@@ -1477,7 +1512,8 @@ export default function KidQuestScreen({
             kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
             title={`Go ${childName}!`}
             sub={todayTab.complete
-              ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
+              // Not a count: the flame bar is the one streak on the screen.
+              ? 'Today is done. Brilliant!'
               : todayTab.total > 0
                 ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
                 : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
@@ -1497,13 +1533,15 @@ export default function KidQuestScreen({
           />
         </div>
 
+        </>)}
+
         {/* The fate of their screen time ask, right under the greeting so it
             is never hunted for: asked, the yes with one big Start, a warm
             not right now, or the chores that come first. Nudges land here. */}
         <KidAskBanner
           ask={screenAsk}
-          blockingJobs={[...new Set(quests.filter(q => q.blocks_screens && !ticks[q.id]).map(q => q.title))]}
-          outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
+          blockingJobs={[...new Set(quests.filter(q => q.blocks_screens && !isTicked(q.id)).map(q => q.title))]}
+          outstandingJobs={[...new Set(quests.filter(q => !isTicked(q.id)).map(q => q.title))]}
           nudges={kidNudges}
           hasSession={Boolean(liveSession)}
           startBusy={askStartBusy}
@@ -1564,6 +1602,7 @@ export default function KidQuestScreen({
           }}
         />
 
+        {onToday && (<>
         {/* The five a day, first on the screen.
             Justin: "make it 5 steps per day ... once the system knows they sent
             a job, a big celebration animation and 1 streak achieved."
@@ -1589,7 +1628,8 @@ export default function KidQuestScreen({
           theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
-          jobsLeft={quests.filter(q => !ticks[q.id]).map(q => q.title)}
+          jobsLeft={quests.filter(q => !isTicked(q.id)).map(q => q.title)}
+          jobsStarsLeft={quests.filter(q => !isTicked(q.id) && !(q as Quest & { is_family_job?: boolean }).is_family_job).reduce((n, q) => n + (q.stars || 0), 0)}
           asksPending={Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)}
           newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
@@ -1778,7 +1818,7 @@ export default function KidQuestScreen({
           ]
           return (
             <KidHomeTiles
-              minutesReady={bankBalance * STAR_MINUTES}
+              minutesReady={bankBalance * (bank?.starMinutes ?? STAR_MINUTES)}
               unlocked={allDone && quests.length > 0 && bankBalance > 0}
               rule={TIMER_RULE}
               // The ask has its own page now (14 September 2026): three taps
@@ -1814,13 +1854,15 @@ export default function KidQuestScreen({
           </button>
         )}
 
+        </>)}
+
         {/* One clear balance card. The thing we celebrate is the healthy balance
             of jobs done against screen used, and the streak of jobs, not the
             screen time itself. Stars and minutes are here, but the hero line is
             the balance: a warm well done when it is healthy, a gentle Duolingo
             style nudge to do a job when screen has run ahead. Tap to open and
             actually use the time. */}
-        {(!focusDay || deviceOpen || !!liveSession) && (() => {
+        {(onToday || !!liveSession) && (!focusDay || deviceOpen || !!liveSession) && (() => {
           // Healthy means "you still have time you earned", not "this week's
           // watching is under this week's earning".
           //
@@ -1845,9 +1887,12 @@ export default function KidQuestScreen({
           // question on its own: minutes left means fine, none left and screen
           // used means do a job. One number, no contradiction possible.
           const healthy = bankBalance > 0 || usedWeekMinutes === 0
-          const balanceMsg = streakDays >= 2
-            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do a job or make something to keep your balance healthy.'}`
-            : healthy
+          // ONE STREAK ON THE SCREEN (Justin, 13 October 2026, "one streak,
+          // not four"). The flame bar at the top, counting full days to the
+          // next Friend, is the streak. This card used to carry a second one
+          // (a jobs streak from another prop) as a chip and in its message,
+          // so a child saw 0 in one place and 3 in another. It talks balance.
+          const balanceMsg = healthy
               ? 'Lovely balance. You have earned more than you have watched.'
               : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
@@ -1878,13 +1923,6 @@ export default function KidQuestScreen({
                   {bankBalance} <span style={{ fontSize: 'var(--text-md)' }}>stars</span>
                 </span>
               </span>
-              {streakDays > 0 && (
-                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '6px 9px' }}>
-                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={18} color="var(--terracotta-dark)" /></span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
-                </span>
-              )}
               <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
             </div>
             <div style={{ marginTop: '-2px' }}>
@@ -1922,8 +1960,8 @@ export default function KidQuestScreen({
                 usedWeekMinutes={usedWeekMinutes}
                 onSessionChange={setLiveSession}
                 familyDevices={familyDevices}
-                outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
-                outstandingMinutes={quests.filter(q => !ticks[q.id]).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
+                outstandingJobs={[...new Set(quests.filter(q => !isTicked(q.id)).map(q => q.title))]}
+                outstandingMinutes={quests.filter(q => !isTicked(q.id)).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
                 ageBand={ageBand}
                 dealLines={dealLines}
@@ -1967,7 +2005,7 @@ export default function KidQuestScreen({
             thing that has not happened to them. A holiday running is enough on
             its own, empty bank or not, because that is the moment the whole
             idea is easiest to understand. */}
-        {!focusDay && holidayLine && (
+        {onToday && !focusDay && holidayLine && (
           <div style={{ marginBottom: '16px', background: '#fff', borderRadius: 'var(--radius-card)', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', padding: '15px 17px', display: 'flex', alignItems: 'flex-start', gap: 13 }}>
             <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--tint-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🌞</span>
             <span style={{ flex: 1, minWidth: 0 }}>
@@ -2113,7 +2151,10 @@ export default function KidQuestScreen({
                 <button
                   onClick={() => {
                     setPresenceNudge(false); presenceMinsRef.current = 0; playKidSound('tap')
-                    try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
+                    // The jobs live on their own page now. This used to scroll
+                    // to #my-todo, a list that left the home in September, so
+                    // the button did nothing (13 October 2026 review).
+                    if (token) window.location.assign(`/k/${token}/jobs`)
                   }}
                   style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
                 >
@@ -2132,10 +2173,10 @@ export default function KidQuestScreen({
 
         {/* A note from a grown up: shared straight to this app, kept to read
             again, never a text message. */}
-        <NotesFromGrownUp token={token} notes={notes} />
+        {onToday && <NotesFromGrownUp token={token} notes={notes} />}
 
         {/* Today's goal: enough stars in one day completes the day */}
-        {!focusDay && goal?.daily_stars ? (() => {
+        {onToday && !focusDay && goal?.daily_stars ? (() => {
           const todayStars = quests.reduce((sum, q) => {
             const st = ticks[q.id]
             return st && st !== 'rejected' ? sum + q.stars : sum
@@ -2169,7 +2210,7 @@ export default function KidQuestScreen({
 
         {/* Goal bar: saving for a reward, and once the bank holds enough it
             becomes a big tappable Redeem, two taps so it is never by accident. */}
-        {!focusDay && goal && (() => {
+        {onToday && !focusDay && goal && (() => {
           const ready = bankBalance >= goal.stars_needed && !goalRedeemed
           if (goalRedeemed) {
             // Finished and ticked off: it drops away so the list stays fresh.
