@@ -527,3 +527,23 @@ Justin: be clear on the audience; more Happy News icons; lettering; the family a
 ## 13 October 2026: the review board, eleven lenses scored every Friday
 
 Justin asked for agents that check the platform weekly on ten questions until each is ten out of ten, with a dashboard and an alert at every session that asks him whether his tasks are done. Ten lens agents and a chief of staff (`.claude/agents/review-*`) score out of ten; a skeptic must agree to any nine or ten, and a lens closes only after two weeks at ten. Every gap passes the feedback filter before it becomes a task. A SessionStart hook prints the alert and asks about each of Justin's tasks at most once a day; answers are one file each in `plans/review-board/answers/` so parallel sessions never collide. Routine: Friday 06:49 London. First run: 0 of 11 at ten, scores 6 to 8, 33 tasks. PR 1288.
+
+## 13 October 2026: 377's grants are fixed, its name collision is not
+
+The planet lane answered the guard in PR 1290 and chose well: the grants went
+to service_role, not to authenticated. That matters, because the guard's own
+printed suggestion was `grant select, insert, update, delete on
+public.planet_events to authenticated`, and public.planet_events is the kids'
+ledger from 252. Pasting the suggestion would have handed signed in users read
+and write on a table of children's events.
+
+So `npm run check-migration-grants` is green again and the repo is unblocked.
+377 still cannot be applied. The guard checks that a new public table has a
+grant and RLS; it cannot see that the name is already taken. 377 still creates
+public.planet_events, so a run still stops at its own index for want of an
+`issue` column, and it now also asks for `public.planet_events_id_seq`, which
+does not exist because the kids' table keys on a uuid.
+
+The rename is still the outstanding piece: the table, its index, its trigger,
+its function, the sequence grant, and the two calls in
+publishing/engine/store-supabase.ts. A green guard is not a green light here.
