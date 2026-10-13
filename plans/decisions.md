@@ -266,3 +266,26 @@ Justin said apply them. 371 (the ending is agreed, not warned) applied to produc
 ## 13 October 2026: the six heavy lessons wait for a grown up
 
 Justin said yes (sync plan C). When a child starts one of the six heaviest lessons alone, it opens 48 hours later or the moment the parent taps Ready, and the parent gets the note first: a push with no subject on the lock screen and an email, both landing on `/dashboard/lessons/heads-up`, built from the deck's own parent text. A lesson the parent sends, nudges or opens together is theirs already and opens at once. No migration: the mission's `sent_at` is set ahead. Guard: check-lesson-path section 14. Detail in the PR.
+## 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018
+
+Justin: "lets tidy up and start from gdc 18 and lets always apply a calude
+review over piosts put in drive."
+
+The rule is now `.claude/skills/content-engine/drive-post-review.md`, routed from
+CLAUDE.md and wired into research-radar Phase 5 so a pack is reviewed before it
+reaches Drive rather than after. Ten checks, every one of them a finding the GDC
+queue review actually produced: the hook, the repeated founder line, hedging,
+the proof path, the first comment, the claims, the reader, the clock, the
+mechanics, the filing. READY in a Drive document now means nobody has checked it
+yet.
+
+The Drive tidy: 24 files trashed (14 empty placeholders and 10 byte identical
+duplicates), 11 superseded or parked sources moved into an archive subfolder
+named with what replaced them, the four posted ones renamed to carry POSTED, and
+the folder down from 18 items to 9. Numbers 018 to 024 now hold the seven
+rewrites, in posting order, so the number is the order.
+
+Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
+the screen time umbrella review, and "Europe has written the staircase into
+law". Both have real content, neither has been through the review above.
+PR 1262.

@@ -124,7 +124,9 @@ goes after it.
 1. Run `npm run ai-tells` and fix anything it finds.
 2. Check every figure back against the source text, not against your notes.
 3. Push a branch, open a **draft** pull request, name the findings in the title.
-4. Put the pack in the Control Room in Drive.
+4. Run `.claude/skills/content-engine/drive-post-review.md` over every post in
+   the pack, then put the pack in the Control Room in Drive. Anything that goes
+   into Drive has been reviewed before it gets there, not after.
 5. Three lines for Justin: what is new, what it proves about the product, what
    he needs to decide.
 
