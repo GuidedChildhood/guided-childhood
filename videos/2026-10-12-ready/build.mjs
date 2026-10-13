@@ -33,12 +33,12 @@ const BEATS = [
   { f: 's06-10', d: 6.2, off: 1.0, o: '55% 40%', cap: { at: 0.8, age: 'Her idea', line: 'She pitches her own quests.' } },
   { f: 's07-11', d: 6.2, off: 1.0, o: '50% 40%', cap: { at: 0.8, age: 'Together', line: 'Ten minutes a day, learning together.' } },
   { f: 's08', d: 6.2, off: 1.2, o: '45% 45%', cap: { at: 0.8, age: 'Year after year', line: 'A star at a time, the habits stick.' } },
-  { f: 's09-slow', d: 11.0, off: 0.3, o: '50% 45%', cap: { at: 0.6, age: 'Age 12', line: 'She comes to you, not around you.' },
+  { f: 's09-12-slow', d: 11.0, off: 0.3, o: '50% 45%', cap: { at: 0.6, age: 'Age 12', line: 'She comes to you, not around you.' },
       chat: { at: 4.6, me: 'She showed me a horrible message from a group chat. What do I say?',
       digi: ['Say you are glad she showed you, and keep your face calm.', 'Ask who sent it and listen fully, before you decide anything.'] } },
   { f: 's10', d: 8.4, off: 0.0, o: '45% 45%', cap: { at: 0.8, age: 'Age 15', line: 'The chart has gone. The habits stayed.' },
       cap2: { at: 4.6, age: 'Guidance, not a ban', line: 'A ban is a deadline. This is a plan.' } },
-  { f: 's11', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },
+  { f: 's11-16', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },
   { f: 's12', d: 8.0, off: 0.0, o: '50% 50%' },
   { f: 's13', d: 7.8, off: 0.2, o: '50% 50%', line: { at: 2.0 } },
 ]
@@ -174,7 +174,7 @@ ${tl}</script></body></html>`)
 // pass (age 8), the lift runs twelve to fifteen, the hush is the box, the
 // melody returns for the card, the hold is the charger and the end card.
 const idx = (f) => BEATS.findIndex((b) => b.f === f)
-const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-slow')].toFixed(1), hush: +starts[idx('s11')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
+const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-12-slow')].toFixed(1), hush: +starts[idx('s11-16')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
 writeFileSync('score.json', JSON.stringify(score))
 console.log(`built ${BEATS.length} beats, ${TOTAL}s`, JSON.stringify(score))
 BEATS.forEach((b, i) => console.log(`  ${b.f.padEnd(9)} ${starts[i].toFixed(1).padStart(5)}s  ${b.d}s`))

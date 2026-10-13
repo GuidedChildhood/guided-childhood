@@ -9,14 +9,14 @@
       "kind": "hook",
       "step": 1,
       "stamp": "Tuesday, 7:40pm",
-      "clip": "s09-slow.mp4",
+      "clip": "s09-12-slow.mp4",
       "quote": "I just want her to come to me first."
     },
     {
       "kind": "shot",
       "step": 1,
       "stamp": "Tuesday, 7:40pm",
-      "clip": "s09-slow.mp4",
+      "clip": "s09-12-slow.mp4",
       "off": 0.4,
       "line": "A horrible message in the group chat."
     },
@@ -41,7 +41,7 @@
       "kind": "shot",
       "step": 3,
       "stamp": "Tuesday, 7:45pm",
-      "clip": "s09-slow.mp4",
+      "clip": "s09-12-slow.mp4",
       "off": 5.0,
       "line": "Thank you for telling me."
     },
@@ -58,7 +58,7 @@
       "kind": "shot",
       "step": 4,
       "stamp": "Week 3",
-      "clip": "s09-slow.mp4",
+      "clip": "s09-12-slow.mp4",
       "off": 7.5,
       "line": "She came to you, not around you."
     },
