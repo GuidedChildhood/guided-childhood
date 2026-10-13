@@ -43,6 +43,7 @@ import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidPassport from '@/components/kid/KidPassport'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
+import KidFriendsParade from '@/components/kid/KidFriendsParade'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import KidStickerLand from '@/components/kid/KidStickerLand'
@@ -1173,6 +1174,11 @@ export default function KidQuestScreen({
   // it (Justin, 2 September 2026: "when 5 in a row done it does a
   // celebration"); the Monday to Sunday strip inside it is the weekly extra.
   const [dayDone, setDayDone] = useState<DayDoneInput | null>(null)
+  // The Planet Friends' moonwalk, after the day screen, every time the five
+  // land (Justin, 13 October 2026). On a day a Friend is earned the parade IS
+  // the journey, so the Friend's arrival that follows skips the rocket flight.
+  const [paradeOpen, setParadeOpen] = useState(false)
+  const [arrivalSkipFlight, setArrivalSkipFlight] = useState(false)
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
@@ -2118,8 +2124,9 @@ export default function KidQuestScreen({
             completedStreaks={liveStreaks}
             childName={childName}
             rocketVideo={FRIEND_ARRIVAL_VIDEO}
-            onClose={() => setArrival(null)}
-            onOpenBook={() => { setArrival(null); setPassportOpen(true) }}
+            skipFlight={arrivalSkipFlight}
+            onClose={() => { setArrival(null); setArrivalSkipFlight(false) }}
+            onOpenBook={() => { setArrival(null); setArrivalSkipFlight(false); setPassportOpen(true) }}
           />
         )}
 
@@ -2832,10 +2839,22 @@ export default function KidQuestScreen({
           weekStrip={streakDueThisWeek || weekSeen === starWeek}
           onClose={() => {
             setDayDone(null)
-            // If today was the day, the rocket goes up the moment they close
-            // the day screen. Two takeovers back to back is the right order
-            // rather than one too many: the day is what they did, the Friend
-            // is what it bought, and the second one is the rarer of the two.
+            // Then the whole family moonwalks on with a tip each.
+            setParadeOpen(true)
+          }}
+        />
+      )}
+
+      {/* The Planet Friends' moonwalk. If today was the day a Friend is
+          earned, that Friend's arrival follows, without the rocket: the day is
+          what they did, the parade is the family, the arrival is what it
+          bought, and the last is the rarest of the three. */}
+      {paradeOpen && (
+        <KidFriendsParade
+          childName={childName}
+          onClose={() => {
+            setParadeOpen(false)
+            setArrivalSkipFlight(true)
             openArrivalIfEarned(liveStreaks)
           }}
         />

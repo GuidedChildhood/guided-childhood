@@ -401,6 +401,9 @@ no connectors parameter at all. His daily health sweep Routine does hold
 Google-Drive, so the capability exists on the account; it has to be attached in
 the claude.ai Routines UI. PR 1274.
 
+## 13 October 2026: when the five land, the Planet Friends moonwalk on
+
+Justin, with the rocket on Teo's phone: each Planet Friend moonwalks on one at a time with a tip for earning stars (all five tips are true of the app). It plays after the day screen every time the five land; on a Friend day the earned Friend's arrival card follows without the rocket flight. The arrival card's text and button had been wiped by clearProps 'all' and are fixed; the guard now bans it in components/kid.
 ## 13 October 2026: screen break ideas, and Add your own on every step sheet
 
 Justin, from Teo's phone: the Screen break together ideas are Play football, Puzzles, Draw, Read, and add one of your own. Every step sheet with ideas now ends in + Add your own; what the child types travels to the grown up with the tick like a tapped idea (notes keep 80 characters).
