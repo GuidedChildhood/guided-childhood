@@ -40,7 +40,10 @@ const BEATS = [
       cap2: { at: 4.6, age: 'Guidance, not a ban', line: 'A ban is a deadline. This is a plan.' } },
   { f: 's11-16', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },
   { f: 's12', d: 8.0, off: 0.0, o: '50% 50%' },
-  { f: 's13', d: 7.8, off: 0.2, o: '50% 50%', line: { at: 2.0 } },
+  { f: 's13', d: 6.4, off: 0.2, o: '50% 50%' },
+  // Justin, 13 October: the founder closes the film, a cartoon of him from his
+  // own photo. The family stays fictional so the girl is never read as his own.
+  { f: 'founder', d: 8.6, off: 0.0, o: '50% 40%', line: { at: 1.4 } },
 ]
 const CARD = 6.4
 
@@ -95,9 +98,10 @@ tl.to("#p${i}-dots",{opacity:0,height:0,margin:0,padding:0,duration:0.2},${(a + 
     tl += `tl.to("#p${i}",{opacity:0,y:20,duration:0.45,ease:"power2.in"},${(e - 0.6).toFixed(2)});\n`
   }
   if (b.line) {
-    html += `<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div></div>`
+    html += `<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div><div id="l3">Justin Phillips, founder and dad</div></div>`
     tl += `tl.fromTo("#l1",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},${(s + b.line.at).toFixed(2)});
 tl.fromTo("#l2",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},${(s + b.line.at + 1.8).toFixed(2)});
+tl.fromTo("#l3",{opacity:0},{opacity:1,duration:0.8},${(s + b.line.at + 3.8).toFixed(2)});
 tl.to("#line",{opacity:0,duration:0.6},${(CARD_AT - 0.3).toFixed(2)});
 `
   }
@@ -152,6 +156,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#000}
 .dg{margin-top:16px;font-weight:600;font-size:29px;line-height:1.35;color:#1A1A2E;opacity:0}
 .line{position:absolute;left:0;right:0;bottom:150px;text-align:center;z-index:6;color:#FFFBEE;font-weight:800;font-size:54px;line-height:1.25;text-shadow:0 2px 0 rgba(0,0,0,0.25),0 12px 40px rgba(0,0,0,0.65)}
 .line div{opacity:0}
+.line #l3{margin-top:22px;font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:0.16em;text-transform:uppercase;color:#EDC35F}
 .card{position:absolute;inset:0;background:#F9F8F6;z-index:7;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .lockup{display:flex;align-items:center;gap:34px;opacity:0}
 .word{font-weight:800;font-size:92px;color:#1A1A2E;letter-spacing:-0.01em}
@@ -174,7 +179,7 @@ ${tl}</script></body></html>`)
 // pass (age 8), the lift runs twelve to fifteen, the hush is the box, the
 // melody returns for the card, the hold is the charger and the end card.
 const idx = (f) => BEATS.findIndex((b) => b.f === f)
-const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-12-slow')].toFixed(1), hush: +starts[idx('s11-16')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
+const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-12-slow')].toFixed(1), hush: +starts[idx('s11-16')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('founder')].toFixed(1) }
 writeFileSync('score.json', JSON.stringify(score))
 console.log(`built ${BEATS.length} beats, ${TOTAL}s`, JSON.stringify(score))
 BEATS.forEach((b, i) => console.log(`  ${b.f.padEnd(9)} ${starts[i].toFixed(1).padStart(5)}s  ${b.d}s`))
