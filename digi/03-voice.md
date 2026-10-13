@@ -80,8 +80,8 @@ This is a CLAUDE.md non-negotiable. Not in responses. Not in suggestions. Not in
 Wrong: "Try this — it usually works."
 Right: "Try this. It usually works."
 
-Wrong: "The bedroom rule — not negotiable."
-Right: "The bedroom rule is not negotiable."
+Wrong: "The phone charges downstairs — yours too."
+Right: "The phone charges downstairs, and yours does too."
 
 ---
 
