@@ -119,6 +119,10 @@ export async function renderEdition(n: number, opts: { browser?: Browser; previe
   mkdirSync(join(dist, 'pages'), { recursive: true })
   mkdirSync(join(dist, 'online', 'sources'), { recursive: true })
   const qrs = await qrMap(issue)
+  // A browser named on purpose (CI pins the baselines' Chromium) must be there:
+  // falling back quietly would draw with another engine and fail the baselines
+  // for a reason nobody can see.
+  if (process.env.CHROMIUM_PATH && !existsSync(EXEC)) throw new Error(`CHROMIUM_PATH is set but there is no browser at ${EXEC}`)
   const browser = opts.browser ?? await chromium.launch(existsSync(EXEC) ? { executablePath: EXEC } : {})
   const page = await browser.newPage({ viewport: { width: 1000, height: 1300 } })
   const layout: Record<Variant, LayoutFinding[]> = { print: [], download: [], ink: [] }

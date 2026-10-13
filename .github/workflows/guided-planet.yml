@@ -38,13 +38,17 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # The baselines in publishing/tests/baselines were drawn by Chromium 141
+      # (Playwright build 1194). A newer Chromium antialiases differently and
+      # trips the visual check on pages nobody changed, so CI draws with the
+      # same browser. Move this and refresh the baselines together.
+      - run: npx -y playwright@1.56.1 install --with-deps chromium
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils
       - name: The editorial gate on every issue
         run: for d in publishing/issues/[0-9][0-9][0-9]; do [ -f "$d/issue.json" ] && npm run -s planet -- check $((10#$(basename $d))); done
       - name: The engine's tests, renders and visual baselines included
         env:
-          CHROMIUM_PATH: ''
+          CHROMIUM_PATH: /home/runner/.cache/ms-playwright/chromium-1194/chrome-linux/chrome
         run: npm run planet-test
 
   cycle:
@@ -61,11 +65,15 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # The baselines in publishing/tests/baselines were drawn by Chromium 141
+      # (Playwright build 1194). A newer Chromium antialiases differently and
+      # trips the visual check on pages nobody changed, so CI draws with the
+      # same browser. Move this and refresh the baselines together.
+      - run: npx -y playwright@1.56.1 install --with-deps chromium
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils ffmpeg
       - name: Move every open edition forward
         env:
-          CHROMIUM_PATH: ''
+          CHROMIUM_PATH: /home/runner/.cache/ms-playwright/chromium-1194/chrome-linux/chrome
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
