@@ -1,0 +1,1221 @@
+{
+  "publication": "The Guided Planet",
+  "number": 1,
+  "slug": "issue-001",
+  "edition": "The Curiosity Edition",
+  "month": "November 2026",
+  "tagline": "A little more wonder. A lot more understanding.",
+  "coverHeadline": "The good side of screens.",
+  "readingAge": "7 to 12",
+  "onlineUrl": "https://www.guidedchildhood.com/guided-planet/issue-001",
+  "pages": [
+    {
+      "template": "cover",
+      "n": 1,
+      "headline": "The good side of screens.",
+      "deck": "This month: children's code that runs in space, young inventors fixing real problems, and a paper game where you get to be the algorithm.",
+      "teasers": [
+        {
+          "page": 3,
+          "text": "The children's code travelling above Earth"
+        },
+        {
+          "page": 4,
+          "text": "Young inventors, real problems"
+        },
+        {
+          "page": 6,
+          "text": "Not all screen time is the same"
+        },
+        {
+          "page": 9,
+          "text": "Become the Algorithm"
+        }
+      ],
+      "art": {
+        "slot": "cover",
+        "vector": "cover-night",
+        "recipe": "newspaper-cover",
+        "alt": "Night over the Guided Planet. The International Space Station glides across a sky full of stars, trailed by a dotted gold path, and Bloop stands on a green hill looking up at it."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      }
+    },
+    {
+      "template": "welcome",
+      "n": 2,
+      "headline": "Welcome to The Guided Planet",
+      "letter": [
+        {
+          "type": "para",
+          "text": "Hello, and welcome to our very first issue. This is a newspaper about the good side of screens: the brilliant things children make, discover and share with technology, and the clever questions worth asking along the way."
+        },
+        {
+          "type": "para",
+          "text": "Every month we visit six places on our planet. The Discovery Observatory is for space and science, and the Maker District is for inventing. In the Thinking Forest we work out how technology really works. The Connection Garden is all about friendship, the Research Room checks what scientists actually know, and the Family Explorer is full of things to do together."
+        },
+        {
+          "type": "para",
+          "text": "None of the activities in this paper need a phone or an account. A pencil, some scissors and a curious grown up will do."
+        },
+        {
+          "type": "para",
+          "text": "Every fact has its source printed on the same page, so you can always check where it came from. Checking is a superpower. We hope you use it."
+        }
+      ],
+      "signoff": {
+        "name": "Justin Phillips",
+        "role": "Editor in Chief, The Guided Planet"
+      },
+      "map": {
+        "slot": "world-map",
+        "vector": "world-map",
+        "recipe": "world-map",
+        "alt": "A map of the Guided Planet floating in space, with six labelled places joined by a dotted gold path: the Observatory, the Maker District, the Thinking Forest, the Connection Garden, the Research Room and the Family Explorer."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "wave"
+      },
+      "bloopSays": "Hi, I'm Bloop! I love building things, although I am nearly always one piece short. I'll pop up all through the paper with questions. Ready?",
+      "inside": [
+        {
+          "page": 3,
+          "title": "The children's code travelling above Earth",
+          "destination": "observatory"
+        },
+        {
+          "page": 4,
+          "title": "Young inventors, big ideas",
+          "destination": "maker"
+        },
+        {
+          "page": 5,
+          "title": "Design your own invention",
+          "destination": "maker"
+        },
+        {
+          "page": 6,
+          "title": "Not all screen time tells the same story",
+          "destination": "research"
+        },
+        {
+          "page": 7,
+          "title": "Friendships that travel further",
+          "destination": "garden"
+        },
+        {
+          "page": 8,
+          "title": "Bloop investigates: who chose that video?",
+          "destination": "forest"
+        },
+        {
+          "page": 9,
+          "title": "Become the Algorithm",
+          "destination": "forest"
+        },
+        {
+          "page": 10,
+          "title": "Five good things to explore together",
+          "destination": "explorer"
+        },
+        {
+          "page": 11,
+          "title": "The Family Experiment",
+          "destination": "explorer"
+        },
+        {
+          "page": 12,
+          "title": "Your Planet Passport, and next month",
+          "destination": "explorer"
+        }
+      ]
+    },
+    {
+      "template": "feature",
+      "n": 3,
+      "destination": "observatory",
+      "eyebrow": "Space news",
+      "headline": "The children's code travelling above Earth",
+      "standfirst": "Young people's code runs on the International Space Station. Last season, 25,707 of them were due to have a program run in space.[[s4]] This season, you could be one of them.",
+      "artHeight": 30,
+      "art": {
+        "slot": "code-in-orbit",
+        "vector": "code-in-orbit",
+        "recipe": "discovery-observatory",
+        "alt": "The International Space Station on its dotted orbit above the curve of the Earth, beside a small computer whose grid of coloured lights shows a smiling pixel face."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "On board the International Space Station are small computers called Astro Pis, and young people on Earth get to program them.[[s1]]"
+        },
+        {
+          "type": "para",
+          "text": "In Mission Zero, run by the European Space Agency with the Raspberry Pi Foundation, you write a short Python program that shows a picture on an Astro Pi, using its colour sensor to pick the background.[[s1]] It all happens in a web browser.[[s1]]"
+        },
+        {
+          "type": "para",
+          "text": "Young people aged 19 or under at a UK school or club can enter, alone or in a team of up to four, with a mentor such as a teacher or parent.[[s3]] Every team whose code runs gets a certificate showing where the space station was at the time.[[s1]]"
+        }
+      ],
+      "facts": [
+        {
+          "value": "22 March 2027",
+          "label": "The deadline for Mission Zero entries, at 12 noon CET.[[s2]]"
+        },
+        {
+          "value": "9 to 16",
+          "label": "The ages Mission Zero is ideal for, though you can enter up to 19.[[s5]][[s3]]"
+        },
+        {
+          "value": "24,695",
+          "label": "Young people who took part in Mission Zero last season, 2025 to 2026.[[s4]]"
+        }
+      ],
+      "activity": {
+        "kind": "pixel-grid",
+        "size": 8,
+        "title": "Design your space picture",
+        "intro": "The Sense HAT, the board made for the space station's Astro Pi computers, has a screen of 64 coloured lights in an 8 by 8 grid.[[s6]] Plan your picture here first.",
+        "steps": [
+          "Pick up to four colours from the key, or choose your own.",
+          "Colour one square at a time. Each square is one light.",
+          "Keep it bold: a planet, a pet, a smiley face or your initial.",
+          "With a grown up, use the free Mission Zero guide to turn it into code. First names only, the rules say.[[s1]][[s2]]"
+        ],
+        "palette": [
+          {
+            "name": "Butter",
+            "hex": "#EDC35F"
+          },
+          {
+            "name": "Leaf",
+            "hex": "#6C9E38"
+          },
+          {
+            "name": "Sky",
+            "hex": "#3E86BC"
+          },
+          {
+            "name": "Night",
+            "hex": "#1A1A2E"
+          }
+        ]
+      },
+      "refs": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    {
+      "template": "showcase",
+      "n": 4,
+      "destination": "maker",
+      "eyebrow": "Young inventors",
+      "headline": "Young inventors. Big ideas. A world of possibilities.",
+      "standfirst": "Coolest Projects is a free showcase where young people up to 18 share the things they make with technology.[[s9]] This year's favourites show what happens when you start with someone who needs help.",
+      "factsLabel": "Coolest Projects 2026",
+      "facts": [
+        {
+          "value": "15,000+",
+          "label": "young people in the online showcase[[s8]]"
+        },
+        {
+          "value": "4,500+",
+          "label": "creations shared[[s8]]"
+        },
+        {
+          "value": "40",
+          "label": "countries taking part[[s8]]"
+        }
+      ],
+      "art": {
+        "slot": "maker-skyline",
+        "vector": "maker-skyline",
+        "recipe": "maker-district",
+        "alt": "An illustrated street of workshops in the Maker District, with a big gold gear and lit windows in every building."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "The judges picked their favourite projects of 2026.[[s8]] Here are four of them, described the way their makers described them. We have used first names only, because that is how the showcase lists them."
+        }
+      ],
+      "projects": [
+        {
+          "name": "Helping Leonidas breathe better",
+          "maker": "Katerina and Leonidas",
+          "where": "Greece",
+          "what": "A home made station, built with a Raspberry Pi computer, that keeps an eye on how clean the air is indoors.[[s10]]",
+          "why": "Made for a real person, and his name is in the title.",
+          "source": "s10",
+          "icon": "air"
+        },
+        {
+          "name": "Sub Racers",
+          "maker": "Haseeb",
+          "where": "United Kingdom",
+          "what": "A 3D racing game made as a tribute to ocean conservation and to David Attenborough's 100th birthday.[[s11]]",
+          "why": "Made to help people think about the challenges facing our oceans.[[s11]]",
+          "source": "s11",
+          "icon": "game"
+        },
+        {
+          "name": "Ornimetrics",
+          "maker": "Baichen",
+          "where": "USA",
+          "what": "A smart bird feeder that uses AI to recognise which kinds of birds come to visit, as they arrive.[[s12]]",
+          "why": "Technology that helps you notice nature, rather than miss it.",
+          "source": "s12",
+          "icon": "leaf"
+        },
+        {
+          "name": "HopeLink",
+          "maker": "Daniel",
+          "where": "Canada",
+          "what": "An app that helps people in Toronto quickly find nearby shelter, food, medical care, hygiene and transport services.[[s13]]",
+          "why": "Built for the people in a city who need help the most.",
+          "source": "s13",
+          "icon": "house"
+        }
+      ],
+      "refs": [
+        "s9",
+        "s8",
+        "s10",
+        "s11",
+        "s12",
+        "s13"
+      ]
+    },
+    {
+      "template": "activity",
+      "n": 5,
+      "destination": "maker",
+      "eyebrow": "Your turn",
+      "headline": "Design your own invention",
+      "standfirst": "Every project on page 4 began with one question: who needs help, and with what? Start with a person, not a gadget.",
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      },
+      "friendSays": "I've invented a robot that finds lost socks. It's brilliant. It's also missing a wheel. I know it's here somewhere.",
+      "activity": {
+        "kind": "blueprint",
+        "title": "My invention blueprint",
+        "intro": "Fill in each box. Draw big, label everything, and do not worry if it would be hard to build. Every inventor starts on paper.",
+        "prompts": [
+          {
+            "label": "Draw it",
+            "hint": "Draw your invention here. Add arrows and labels to show what each part does."
+          },
+          {
+            "label": "The problem",
+            "hint": "What is the problem, and who has it? Write their name or draw them."
+          },
+          {
+            "label": "How it helps",
+            "hint": "What does your invention do to make things better for them?"
+          },
+          {
+            "label": "What it notices",
+            "hint": "Light, sound, movement, heat, or a button being pressed?"
+          },
+          {
+            "label": "What it does back",
+            "hint": "Does it light up, make a sound, move, or show a message?"
+          },
+          {
+            "label": "Name it",
+            "hint": "Give it a name worth remembering."
+          },
+          {
+            "label": "Test it",
+            "hint": "How would you know it works? Who would you ask to try it?"
+          }
+        ]
+      },
+      "tipsLabel": "Maker tips",
+      "tips": [
+        "Ask the person with the problem what they think. Good inventors listen first.",
+        "Most gadgets work the same way: something notices, a program decides, and something happens.",
+        "Stuck? Build a model from a cereal box and some tape before you draw.",
+        "Want to make it for real one day? Page 10 has free places to start."
+      ],
+      "refs": []
+    },
+    {
+      "template": "research",
+      "n": 6,
+      "destination": "research",
+      "eyebrow": "What scientists know",
+      "headline": "Not all screen time tells the same story",
+      "standfirst": "Grown ups often ask how long is too long. Scientists are finding a more useful question: what are you actually doing on the screen, and who are you doing it with?[[s14]]",
+      "kinds": [
+        {
+          "name": "Creating",
+          "icon": "create",
+          "examples": "Coding a game, making music, drawing a comic.",
+          "says": "You are the one making the choices."
+        },
+        {
+          "name": "Learning",
+          "icon": "learn",
+          "examples": "A how to video, a maths game, a space website.",
+          "says": "In one big review, watching together with a parent was linked with better reading and writing skills.[[s14]]"
+        },
+        {
+          "name": "Connecting",
+          "icon": "connect",
+          "examples": "A video call with Grandma, a message to a friend.",
+          "says": "Talking with people you know is different from scrolling past strangers. See page 7."
+        },
+        {
+          "name": "Watching",
+          "icon": "watch",
+          "examples": "Shows, videos, scrolling through a feed.",
+          "says": "Fun, and worth noticing: did you choose it, or was it chosen for you? Page 8."
+        }
+      ],
+      "found": [
+        {
+          "type": "para",
+          "text": "In 2024, scientists brought together 102 earlier research summaries covering almost two million young people.[[s14]] Some kinds of screen use were linked with small to moderate harms and some with benefits, so they advised weighing up each kind separately.[[s14]]"
+        },
+        {
+          "type": "para",
+          "text": "One example: screen time was linked with weaker reading and writing skills overall, but when parents watched together with their children, the link went the other way.[[s14]]"
+        }
+      ],
+      "cannot": [
+        {
+          "type": "para",
+          "text": "Most of these studies spot links, not causes: two things happening together, not one making the other happen.[[s15]] Many also rely on people estimating their own screen time.[[s15]]"
+        },
+        {
+          "type": "para",
+          "text": "Simple labels are argued about too. A review of 40 studies, mostly of adults, found little support for 'active' social media use being good and 'passive' use being bad.[[s16]] It tells us little about children your age."
+        }
+      ],
+      "askTogether": [
+        "Think about yesterday. Which of the four kinds did you do most?",
+        "Which kind leaves you feeling good? Which is hard to stop?",
+        "What is one thing you would like to make, not watch, this week?"
+      ],
+      "friend": {
+        "id": "digi",
+        "pose": "standing"
+      },
+      "friendSays": "Two things happening together does not mean one caused the other. Spotting that is a skill for life.",
+      "refs": [
+        "s14",
+        "s15",
+        "s16"
+      ]
+    },
+    {
+      "template": "feature",
+      "n": 7,
+      "destination": "garden",
+      "eyebrow": "Friendship",
+      "headline": "Sometimes a screen helps a friendship travel further",
+      "standfirst": "A video call can bring a cousin from across the country into your kitchen. Scientists are learning when screens help friendships, and when they get in the way.",
+      "artHeight": 29,
+      "art": {
+        "slot": "friendship-valley",
+        "vector": "friendship-valley",
+        "recipe": "connection-garden",
+        "alt": "Two homes on two green hills far apart, joined across the valley by a dotted gold line and a tin can telephone, with flowers growing in between."
+      },
+      "body": [
+        {
+          "type": "para",
+          "text": "Lots of families use video calls and messages to stay close to people who live far away, like grandparents, cousins or a friend who has moved."
+        },
+        {
+          "type": "para",
+          "text": "In one experiment, 130 young people aged about 12 did a stressful task. The ones who then texted a friend they knew were in a better mood afterwards than the ones who sat quietly or watched a video.[[s18]] It was one short experiment, so it does not prove that more messaging is always better."
+        },
+        {
+          "type": "para",
+          "text": "A UNICEF project that studied children aged 8 to 12 found that digital games can support feeling connected to other people, and that different games support different things depending on how they are designed.[[s20]]"
+        }
+      ],
+      "friend": {
+        "id": "pebble",
+        "pose": "wave"
+      },
+      "friendSays": "A kind message can travel a very long way. Who would smile if they heard from you today?",
+      "activity": {
+        "kind": "postcard",
+        "title": "Send a friendship postcard",
+        "intro": "Cut it out, draw on the front, write on the back, then post it or hand it over.",
+        "front": "Draw something you did together",
+        "lines": [
+          "Add a stamp and an address with a grown up",
+          "Or take a photo of it and send it together"
+        ]
+      },
+      "refs": [
+        "s18",
+        "s20",
+        "s21"
+      ],
+      "aside": {
+        "label": "Keep your garden safe",
+        "items": [
+          "Connect with people you know in real life, and let a grown up know who.",
+          "A message from someone you do not know? Tell a grown up. You are never in trouble for telling.",
+          "Many apps, including TikTok, are for ages 13 and over.[[s21]]"
+        ]
+      }
+    },
+    {
+      "template": "investigation",
+      "n": 8,
+      "destination": "forest",
+      "eyebrow": "Bloop investigates",
+      "headline": "Who chose the next video? You, or the algorithm?",
+      "standfirst": "When one video ends and another is already waiting, somebody chose it. Bloop went looking for clues.",
+      "art": {
+        "slot": "recommendation-machine",
+        "vector": "recommendation-machine",
+        "recipe": "thinking-forest",
+        "alt": "A diagram of a recommendation machine. Four signals go in at the top, labelled watched, liked, skipped and searched. A guess comes out at the bottom, labelled next up."
+      },
+      "friend": {
+        "id": "bloop",
+        "pose": "thinking"
+      },
+      "friendSays": "Case closed! The algorithm is a very fast guesser. It uses the clues you leave behind, and you are still the one holding the play button.",
+      "clues": [
+        {
+          "title": "An algorithm is a list of rules",
+          "text": "It is a list of steps for solving a problem or getting something done, a bit like a recipe, and the steps have to be in the right order.[[s23]]"
+        },
+        {
+          "title": "It remembers what you watch",
+          "text": "YouTube says the videos you have watched help it choose what to recommend to you.[[s22]]"
+        },
+        {
+          "title": "It notices what you search for",
+          "text": "What you search for changes what it suggests later on, too.[[s22]]"
+        },
+        {
+          "title": "You can tell it no",
+          "text": "Pressing 'Not interested' helps it learn what to stop suggesting.[[s22]]"
+        }
+      ],
+      "body": [
+        {
+          "type": "para",
+          "text": "So who chose? A bit of both. The algorithm makes a guess from what you did before, and you decide whether to press play."
+        },
+        {
+          "type": "para",
+          "text": "For grown ups: a UK framework, Education for a Connected World, suggests children aged 7 to 11 learn to explain how search engines work and how their results are selected and ranked.[[s25]]"
+        }
+      ],
+      "tryThis": [
+        "Next time you watch with a grown up, look at the suggestions and guess why each one was picked.",
+        "Play Become the Algorithm on the next page, with paper cards.",
+        "Ask what it never shows you. Things you have not looked for yet are hiding there."
+      ],
+      "refs": [
+        "s23",
+        "s22",
+        "s25"
+      ]
+    },
+    {
+      "template": "activity",
+      "n": 9,
+      "destination": "forest",
+      "eyebrow": "A paper game",
+      "headline": "Become the Algorithm",
+      "standfirst": "One of you is the Watcher and one of you is the Algorithm. Can the Algorithm work out what the Watcher likes, using nothing but clues?",
+      "friend": {
+        "id": "bloop",
+        "pose": "happy"
+      },
+      "friendSays": "I played the Algorithm and kept showing football. My friend wanted dinosaurs. I needed more clues!",
+      "activity": {
+        "kind": "card-game",
+        "title": "Become the Algorithm",
+        "intro": "A guessing game about how recommendations work.",
+        "players": "2 to 6",
+        "youNeed": [
+          "the 12 video cards",
+          "a pencil",
+          "the notebook below"
+        ],
+        "setup": [
+          "Cut out the 12 video cards and shuffle them.",
+          "The Watcher secretly picks a favourite topic and tells nobody.",
+          "The Algorithm deals three cards face up. These are the suggestions."
+        ],
+        "rounds": [
+          "The Watcher picks one card to watch, or skips all three.",
+          "The Algorithm writes down what was watched or skipped.",
+          "The Algorithm uses the clues to choose the next three cards.",
+          "After round five, the Algorithm guesses the favourite topic. Swap jobs and play again."
+        ],
+        "talk": [
+          "How quickly did the Algorithm work out the favourite?",
+          "Which cards were never shown? Why not?",
+          "If the Watcher skipped everything, what could the Algorithm learn?",
+          "Real apps use clues like these, only far more of them and far faster."
+        ],
+        "cards": [
+          {
+            "topic": "Animals",
+            "label": "Puppy tricks",
+            "icon": "animal"
+          },
+          {
+            "topic": "Animals",
+            "label": "Dinosaur facts",
+            "icon": "animal"
+          },
+          {
+            "topic": "Football",
+            "label": "Best goals",
+            "icon": "ball"
+          },
+          {
+            "topic": "Football",
+            "label": "Keepy uppy",
+            "icon": "ball"
+          },
+          {
+            "topic": "Space",
+            "label": "Rocket launch",
+            "icon": "rocket"
+          },
+          {
+            "topic": "Space",
+            "label": "Planet tour",
+            "icon": "rocket"
+          },
+          {
+            "topic": "Art",
+            "label": "Draw a dragon",
+            "icon": "paint"
+          },
+          {
+            "topic": "Art",
+            "label": "Clay models",
+            "icon": "paint"
+          },
+          {
+            "topic": "Music",
+            "label": "Drum along",
+            "icon": "music"
+          },
+          {
+            "topic": "Music",
+            "label": "Song quiz",
+            "icon": "music"
+          },
+          {
+            "topic": "Cooking",
+            "label": "Cupcake bake",
+            "icon": "cake"
+          },
+          {
+            "topic": "Cooking",
+            "label": "Pizza faces",
+            "icon": "cake"
+          }
+        ]
+      },
+      "tipsLabel": "Going further",
+      "tips": [
+        "Older readers can try Common Sense Education's free lesson AI Algorithms: How Well Do They Know You?, made for ages 11 to 18.[[s26]]",
+        "Make your own cards with your family's favourite topics, and play again."
+      ],
+      "refs": [
+        "s26"
+      ]
+    },
+    {
+      "template": "list",
+      "n": 10,
+      "destination": "explorer",
+      "eyebrow": "Five good things",
+      "headline": "Five good things to explore together",
+      "standfirst": "All free and all checked by us for this issue. Services change, so look again together before signing up, and use a grown up's account wherever one is needed.",
+      "art": {
+        "slot": "explorer-trail",
+        "vector": "explorer-trail",
+        "recipe": "family-explorer",
+        "alt": "A dotted gold trail across a starry sky, stopping at five numbered places."
+      },
+      "friend": {
+        "id": "orbit",
+        "pose": "wave"
+      },
+      "friendSays": "I tried number 4 on a clear night. Wrap up warm, and give your eyes time to get used to the dark.",
+      "items": [
+        {
+          "name": "micro:bit MakeCode",
+          "icon": "chip",
+          "url": "https://makecode.microbit.org",
+          "source": "s27",
+          "who": "Beginners, with a grown up",
+          "what": "Free, open source block coding for the BBC micro:bit, with a simulator that shows what your program will do.[[s27]]",
+          "why": "New this year: screen reader support for block coding, shaped with blind and low vision young people.[[s28]]",
+          "account": "Ask a grown up"
+        },
+        {
+          "name": "Scratch",
+          "icon": "scratch",
+          "url": "https://scratch.mit.edu",
+          "source": "s30",
+          "who": "Ages 8 to 16[[s30]]",
+          "what": "Snap code blocks together to make games, stories and animations. Free for everyone.[[s31]]",
+          "why": "Start small: make a cat move, then make it dance.",
+          "account": "Ask a grown up first"
+        },
+        {
+          "name": "ESA Kids",
+          "icon": "rocket",
+          "url": "https://www.esa.int/kids/en/home",
+          "source": "s33",
+          "who": "Ages 6 to 12[[s33]]",
+          "what": "Space news, facts, animations and downloads from the European Space Agency.[[s33]]",
+          "why": "Liked page 3? Find out more about life in space.",
+          "account": "None"
+        },
+        {
+          "name": "Night sky highlights",
+          "icon": "telescope",
+          "url": "https://www.rmg.co.uk/stories/space-astronomy",
+          "source": "s34",
+          "who": "Everyone",
+          "what": "Free guides from Royal Museums Greenwich to what is up in the sky.[[s34]]",
+          "why": "Looking up needs no screen at all. Read it together, then go outside.",
+          "account": "None",
+          "offline": "Jot the highlights on paper"
+        },
+        {
+          "name": "Code Club projects",
+          "icon": "code",
+          "url": "https://projects.raspberrypi.org",
+          "source": "s35",
+          "who": "School aged young people",
+          "what": "Free step by step coding and making guides from the Raspberry Pi Foundation.[[s35]] Code Clubs are free for all school aged young people.[[s36]]",
+          "why": "Ask your school or library about a club near you.",
+          "account": "Not to read the guides"
+        }
+      ],
+      "refs": [
+        "s27",
+        "s28",
+        "s30",
+        "s31",
+        "s33",
+        "s34",
+        "s35",
+        "s36"
+      ]
+    },
+    {
+      "template": "activity",
+      "n": 11,
+      "destination": "explorer",
+      "eyebrow": "The Family Experiment",
+      "headline": "Seven days of curiosity",
+      "standfirst": "One small thing a day for a week. Tick a circle for everyone who joins in, then compare notes on day seven.",
+      "friend": {
+        "id": "bloop",
+        "pose": "wave"
+      },
+      "friendSays": "Thursday is my favourite. I'm still looking for the last piece of mine.",
+      "activity": {
+        "kind": "week",
+        "title": "Seven days of curiosity",
+        "intro": "One small thing a day.",
+        "days": [
+          {
+            "day": "Monday",
+            "title": "Make a pixel picture",
+            "task": "Colour the 8 by 8 grid on page 3. Can a grown up guess what it is?",
+            "offline": true
+          },
+          {
+            "day": "Tuesday",
+            "title": "Five minutes of sky",
+            "task": "Go outside after dark with a grown up and count the stars you can see.",
+            "offline": true
+          },
+          {
+            "day": "Wednesday",
+            "title": "Spot the guess",
+            "task": "Watch one thing together. Talk about why the next suggestion appeared.",
+            "offline": false
+          },
+          {
+            "day": "Thursday",
+            "title": "Fix a problem",
+            "task": "Ask someone at home what annoys them, then design a fix on page 5.",
+            "offline": true
+          },
+          {
+            "day": "Friday",
+            "title": "Send a smile",
+            "task": "Finish your friendship postcard from page 7 and send it.",
+            "offline": true
+          },
+          {
+            "day": "Saturday",
+            "title": "Learn it together",
+            "task": "Find a how to video, watch it together, then try it for real.",
+            "offline": false
+          },
+          {
+            "day": "Sunday",
+            "title": "Show and tell",
+            "task": "Everyone shows one thing they made or found out this week.",
+            "offline": true
+          }
+        ],
+        "reflect": [
+          "The best thing we made",
+          "Something that surprised us",
+          "What we will keep doing"
+        ]
+      },
+      "refs": []
+    },
+    {
+      "template": "passport",
+      "n": 12,
+      "destination": "explorer",
+      "headline": "Your Planet Passport",
+      "standfirst": "Collect a stamp for every activity you try in this issue. Colour in each circle once you have done it, then ask a grown up to sign it off.",
+      "activity": {
+        "kind": "passport",
+        "title": "Issue 001, The Curiosity Edition",
+        "intro": "This passport belongs to an explorer of The Guided Planet. Stamps are collected by doing things, never by buying them.",
+        "stamps": [
+          {
+            "label": "Pixel picture",
+            "page": 3
+          },
+          {
+            "label": "Inventor",
+            "page": 5
+          },
+          {
+            "label": "Postcard sent",
+            "page": 7
+          },
+          {
+            "label": "Algorithm",
+            "page": 9
+          },
+          {
+            "label": "Explorer",
+            "page": 10
+          },
+          {
+            "label": "Seven days",
+            "page": 11
+          }
+        ]
+      },
+      "next": {
+        "edition": "The Real or Pretend Edition",
+        "month": "December 2026",
+        "teasers": [
+          "How to tell when a picture might have been made by a computer",
+          "Orbit's guide to checking a story before you share it",
+          "A winter sky to look out for",
+          "A new stamp for your Planet Passport"
+        ]
+      },
+      "grownUps": {
+        "line": "The Guided Planet is made by The Guided Digital Childhood. We help families get children to sixteen ready for a phone and social media, ten minutes a day, together.",
+        "cta": "What stage is your child? Three questions, no sign up.",
+        "url": "https://www.guidedchildhood.com/starter-pack?src=guided-planet-001"
+      },
+      "sourcesUrl": "https://www.guidedchildhood.com/guided-planet/issue-001/sources",
+      "friend": {
+        "id": "bloop",
+        "pose": "happy"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "org": "ESA Education and the Raspberry Pi Foundation",
+      "title": "Mission Zero",
+      "url": "https://astro-pi.org/mission-zero",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "What Mission Zero is: a Python program showing an image on an Astro Pi on the ISS, using the colour sensor for the background; browser based, no hardware or prior skills; certificate showing the ISS position.",
+      "quote": "You will write a Python program to display a personalised image (or animation) on an Astro Pi computer on board the ISS. No special hardware or prior coding skills needed."
+    },
+    {
+      "id": "s2",
+      "org": "ESA Education and the Raspberry Pi Foundation",
+      "title": "Mission Zero guidelines",
+      "url": "https://astro-pi.org/mission-zero/guidelines",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "The 30 second limit, no surnames, the 22 March 2027 deadline.",
+      "quote": "Your program must not run for longer than 30 seconds. Please do not include team members' surnames. The deadline for submitting entries to Mission Zero is 12:00 noon CET on 22 March 2027."
+    },
+    {
+      "id": "s3",
+      "org": "ESA Education and the Raspberry Pi Foundation",
+      "title": "Mission Zero eligibility",
+      "url": "https://astro-pi.org/mission-zero/eligibility",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "Aged 19 or younger at submission, at a school, club or registered home school in an eligible country including the UK; teams up to 4; a mentor such as a teacher or parent.",
+      "quote": "Aged 19 or younger at the time of submission. Working individually or in a team of up to 4 young people. Supervised by a mentor such as a teacher, educator, parent...",
+      "note": "A general Astro Pi rule asks that at least half of a team are nationals of an ESA member state, so the paper says who can enter without saying 'anyone'."
+    },
+    {
+      "id": "s4",
+      "org": "Raspberry Pi Foundation",
+      "title": "An astronomical anniversary: young people's code heads to the International Space Station",
+      "url": "https://www.raspberrypi.org/blog/an-astronomical-anniversary-young-peoples-code-heads-to-the-international-space-station/",
+      "published": "22 April 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "2025/26 season: 24,695 young people took part in Mission Zero (17,381 submissions); 25,707 young people across both missions were due to have programs run in space.",
+      "quote": "17,381 submissions for Mission Zero from 24,695 young explorers... In total, 25,707 young people will have their programs run in space",
+      "note": "Organiser's own count. 25,707 was written before the programs ran, so the paper says 'were due to'."
+    },
+    {
+      "id": "s5",
+      "org": "Raspberry Pi Foundation",
+      "title": "Launching Astro Pi 2026/27: code your way to the International Space Station",
+      "url": "https://www.raspberrypi.org/blog/launching-astro-pi-2026-27-code-your-way-to-the-international-space-station/",
+      "published": "14 September 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "Mission Zero is ideal for young people aged 9 to 16 with no prior coding experience.",
+      "quote": "perfect for young people aged 9 to 16 with no prior coding experience"
+    },
+    {
+      "id": "s6",
+      "org": "Raspberry Pi",
+      "title": "Sense HAT",
+      "url": "https://www.raspberrypi.com/products/sense-hat/",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "The Sense HAT has an 8 by 8 RGB LED matrix and was developed for the ISS.",
+      "quote": "The bright 8×8 RGB LED matrix allows you to visualise data from the sensors... The Sense HAT was originally developed for use on the International Space Station",
+      "note": "The 2026/27 Mission Zero pages do not mention the matrix size, so the paper says the Sense HAT has the grid and that Mission Zero code is planned on it, not that every flight unit is a Sense HAT."
+    },
+    {
+      "id": "s8",
+      "org": "Raspberry Pi Foundation",
+      "title": "Celebrating over 15,000 young creators at the Coolest Projects 2026 online showcase",
+      "url": "https://www.raspberrypi.org/blog/celebrating-over-15000-young-creators-at-the-coolest-projects-2026-online-showcase/",
+      "published": "25 June 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "Over 15,000 young people, more than 4,500 creations, 40 countries; the judges' favourites.",
+      "quote": "Over 15,000 young people showcased more than 4,500 creations... With participants from 40 countries"
+    },
+    {
+      "id": "s9",
+      "org": "Raspberry Pi Foundation",
+      "title": "Coolest Projects 2026 opens for entries in January",
+      "url": "https://www.raspberrypi.org/blog/coolest-projects-2026-opens-for-entries-in-january/",
+      "published": "14 January 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "Free, for young people up to 18.",
+      "quote": "It is completely free to take part in Coolest Projects... young people up to age 18"
+    },
+    {
+      "id": "s10",
+      "org": "Coolest Projects",
+      "title": "DIY Raspberry Pi Air Quality Monitor: Helping Leonidas Breathe Better",
+      "url": "https://online.coolestprojects.org/projects/23581",
+      "published": "2026",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "The project is a DIY indoor air quality monitoring station.",
+      "quote": "Our project is a DIY indoor air quality monitoring station.",
+      "note": "The makers' own description, not independently tested. First names and country only, as published."
+    },
+    {
+      "id": "s11",
+      "org": "Coolest Projects",
+      "title": "Sub Racers",
+      "url": "https://online.coolestprojects.org/projects/24044",
+      "published": "2026",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "A 3D racing game, a tribute to ocean conservation and David Attenborough's 100th birthday, to raise awareness of ocean challenges.",
+      "quote": "Sub Racers is a 3D racing game created as a tribute to ocean conservation and David Attenborough's 100th birthday... made to help raise awareness of the challenges that face our oceans."
+    },
+    {
+      "id": "s12",
+      "org": "Coolest Projects",
+      "title": "Ornimetrics",
+      "url": "https://online.coolestprojects.org/projects/24958",
+      "published": "2026",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "An AI powered smart bird feeder that identifies species in real time.",
+      "quote": "OrniMetrics is an AI language and vision powered smart bird feeder that identifies visiting bird species in real time"
+    },
+    {
+      "id": "s13",
+      "org": "Coolest Projects",
+      "title": "HopeLink",
+      "url": "https://online.coolestprojects.org/projects/24965",
+      "published": "2026",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "An app helping people in Toronto find nearby shelter, food, medical, hygiene and transport services.",
+      "quote": "HopeLink is an interactive app that helps people in Toronto quickly find nearby shelter, food, medical, hygiene, and transportation services."
+    },
+    {
+      "id": "s14",
+      "org": "Sanders, Noetel, Parker and colleagues, Nature Human Behaviour",
+      "title": "An umbrella review of the benefits and risks associated with youths' interactions with electronic screens",
+      "url": "https://doi.org/10.1038/s41562-023-01712-8",
+      "published": "2024",
+      "accessed": "2026-10-13",
+      "evidence": "systematic review",
+      "verification": "verified",
+      "supports": "102 meta-analyses (2,451 studies, about 1.9 million participants); small to moderate associations that depend on the type of screen use; literacy negatively associated overall but positive with parental co-viewing.",
+      "quote": "screen use was negatively associated with literacy (r = -0.14) but this effect was positive when parents watched with their children (r = 0.15)... carefully weigh the evidence for potential harms and benefits of specific types of screen use",
+      "note": "Associations, mostly from correlational studies; 95 of 102 meta-analyses at medium to high risk of bias."
+    },
+    {
+      "id": "s15",
+      "org": "Kaye, Orben, Ellis, Hunter and Houghton, IJERPH",
+      "title": "The Conceptual and Methodological Mayhem of 'Screen Time'",
+      "url": "https://doi.org/10.3390/ijerph17103661",
+      "published": "2020",
+      "accessed": "2026-10-13",
+      "evidence": "peer reviewed study",
+      "verification": "verified",
+      "supports": "Findings are mixed and lack causal evidence; measures are mostly self report.",
+      "quote": "Existing research presents mixed findings, and lacks longitudinal evidence for any causal or long-term effects... the use of non-standardised measures that are predominantly self-report"
+    },
+    {
+      "id": "s16",
+      "org": "Valkenburg, van Driel and Beyens, New Media and Society",
+      "title": "The associations of active and passive social media use with well-being: A critical scoping review",
+      "url": "https://doi.org/10.1177/14614448211065425",
+      "published": "2022",
+      "accessed": "2026-10-13",
+      "evidence": "systematic review",
+      "verification": "verified",
+      "supports": "Across 40 studies, most did not support the hypothesised active good, passive bad associations.",
+      "quote": "Most studies did not support the hypothesized associations of ASMU and PSMU with well-/ill-being.",
+      "note": "Of the studies reviewed, most were of adults and only a minority of (pre)adolescents, so it does not speak for 7 to 12 year olds."
+    },
+    {
+      "id": "s18",
+      "org": "Yau, Reich and Lee, Journal of Adolescent Health",
+      "title": "Coping With Stress Through Texting: An Experimental Study",
+      "url": "https://doi.org/10.1016/j.jadohealth.2020.07.004",
+      "published": "2021",
+      "accessed": "2026-10-13",
+      "evidence": "peer reviewed study",
+      "verification": "verified",
+      "supports": "130 adolescents, mean age 12.41; texting a friend after a stressor gave higher mood than no activity or watching a video.",
+      "quote": "Participants who texted their friend reported higher moods... than those in the no activity condition... and higher moods than adolescents in the passive-phone condition.",
+      "note": "One lab session with a friend the young person already texted regularly. Mood was higher than both comparison groups; stress was lower only than the sit quietly group. Mean age 12.4."
+    },
+    {
+      "id": "s20",
+      "org": "UNICEF Innocenti",
+      "title": "Responsible Innovation in Technology for Children (RITEC), phase 2 report",
+      "url": "https://www.unicef.org/innocenti/projects/responsible-innovation-technology-children",
+      "published": "April 2024",
+      "accessed": "2026-10-13",
+      "evidence": "official report",
+      "verification": "verified",
+      "supports": "Digital games can contribute to children's wellbeing, including relationships, and different games support different aspects depending on design; samples included children aged 8 to 12.",
+      "quote": "digital games can indeed contribute to the well-being of children... not all games are equal: different games support different aspects of well-being depending on how they are designed.",
+      "note": "Co-founded with the LEGO Group and funded by the LEGO Foundation. Mixed methods, small samples."
+    },
+    {
+      "id": "s21",
+      "org": "TikTok",
+      "title": "Terms of Service",
+      "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "accessed": "2026-10-13",
+      "evidence": "official programme page",
+      "verification": "verified",
+      "supports": "TikTok's minimum age is 13.",
+      "quote": "You can only use the Platform if you are 13 years or older."
+    },
+    {
+      "id": "s22",
+      "org": "YouTube Help",
+      "title": "How YouTube recommendations work",
+      "url": "https://support.google.com/youtube/answer/16089387?hl=en-GB",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Watch history, searches and 'Not interested' shape recommendations.",
+      "quote": "The YouTube videos that you've watched help to give you better recommendations... What you search on YouTube influences future recommendations... Videos that you mark as 'Not interested' help to inform what to avoid recommending in the future.",
+      "note": "The platform describing itself."
+    },
+    {
+      "id": "s23",
+      "org": "BBC Bitesize",
+      "title": "What is an algorithm?",
+      "url": "https://www.bbc.co.uk/bitesize/topics/z3tbwmn/articles/z3whpv4",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "An algorithm is a list of steps to solve a problem or get something done; a recipe is a type of algorithm; the steps go in the right order.",
+      "quote": "An algorithm is a list of steps you give to computers to solve a problem or get something done... A recipe shows us all the steps we need to follow in the right order",
+      "note": "Read directly from the page on 13 October 2026; the automated citation check could not reach bbc.co.uk."
+    },
+    {
+      "id": "s25",
+      "org": "UK Council for Internet Safety",
+      "title": "Education for a Connected World, 2020 edition",
+      "url": "https://assets.publishing.service.gov.uk/media/5efa05b4e90e075c5492d58c/UKCIS_Education_for_a_Connected_World_.pdf",
+      "published": "2020",
+      "accessed": "2026-10-13",
+      "evidence": "official report",
+      "verification": "verified",
+      "supports": "Managing online information, ages 7 to 11: explain how search engines work and how results are selected and ranked.",
+      "quote": "I can explain how search engines work and how results are selected and ranked.",
+      "note": "Non statutory: skills children should have the opportunity to develop. The statement sits in the 7 to 11 band, Managing online information, page 27."
+    },
+    {
+      "id": "s26",
+      "org": "Common Sense Education",
+      "title": "AI Algorithms: How Well Do They Know You?",
+      "url": "https://www.commonsense.org/education/uk/digital-citizenship/lesson/ai-algorithms-how-well-do-they-know-you",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "A free lesson on recommendation algorithms for UK ages 11 to 18.",
+      "quote": "Learn what recommendation algorithms are."
+    },
+    {
+      "id": "s27",
+      "org": "Micro:bit Educational Foundation",
+      "title": "MakeCode",
+      "url": "https://tech.microbit.org/software/makecode/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "MakeCode is free and open source, with a device simulator.",
+      "quote": "Microsoft MakeCode for micro:bit is a free, open source platform... A device simulator shows you what will happen on the physical device before you download your program"
+    },
+    {
+      "id": "s28",
+      "org": "Micro:bit Educational Foundation",
+      "title": "MakeCode screen reader support",
+      "url": "https://microbit.org/news/2026-07-13/makecode-screen-reader-support/",
+      "published": "13 July 2026",
+      "accessed": "2026-10-13",
+      "evidence": "press release",
+      "verification": "verified",
+      "supports": "The 2026 MakeCode release adds screen reader support for block based coding, shaped through research with blind and low vision children and young adults.",
+      "quote": "The 2026 Microsoft MakeCode for micro:bit release introduces screen reader support for block-based coding"
+    },
+    {
+      "id": "s30",
+      "org": "Scratch Foundation",
+      "title": "Scratch, frequently asked questions",
+      "url": "https://scratch.mit.edu/faq",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Scratch is designed especially for ages 8 to 16.",
+      "quote": "Scratch is designed especially for young people ages 8 to 16, but people of all ages create and share with Scratch.",
+      "note": "Read through a search result from scratch.mit.edu; the page itself renders in JavaScript and refused automated reading."
+    },
+    {
+      "id": "s31",
+      "org": "Scratch Foundation",
+      "title": "About Scratch",
+      "url": "https://scratch.mit.edu/about",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Scratch is free.",
+      "quote": "Scratch is free for everyone.",
+      "note": "Read directly from scratch.mit.edu/about on 13 October 2026."
+    },
+    {
+      "id": "s33",
+      "org": "European Space Agency",
+      "title": "ESA Kids",
+      "url": "https://www.esa.int/kids/en/home",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Space news, information, animations and downloads for kids aged 6 to 12.",
+      "quote": "ESA Kids features space news, information, animations and downloads for kids aged between 6 and 12",
+      "note": "The site's own description, read directly on 13 October 2026. An ESA launch article says primary school aged, 5 to 12."
+    },
+    {
+      "id": "s34",
+      "org": "Royal Museums Greenwich",
+      "title": "Night sky highlights, October 2026",
+      "url": "https://www.rmg.co.uk/stories/space-astronomy/astronomy/night-sky-highlights-october-2026",
+      "published": "29 September 2026",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Royal Museums Greenwich publishes free monthly night sky highlights.",
+      "quote": "Night sky highlights: October 2026",
+      "note": "The Royal Observatory closes for renovation on 2 November 2026, so the paper suggests the online guide, never a visit."
+    },
+    {
+      "id": "s35",
+      "org": "Raspberry Pi Foundation",
+      "title": "Learn",
+      "url": "https://www.raspberrypi.org/learn/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Free step by step project guides.",
+      "quote": "At Code Club, young people use free, step-by-step project guides specially created by us."
+    },
+    {
+      "id": "s36",
+      "org": "Code Club",
+      "title": "Code Club",
+      "url": "https://codeclub.org/en/",
+      "accessed": "2026-10-13",
+      "evidence": "educational resource",
+      "verification": "verified",
+      "supports": "Code Clubs are free and open to all school aged young people.",
+      "quote": "Code Clubs are free and open to all school-aged young people."
+    }
+  ],
+  "colophon": "The Guided Planet is made by The Guided Digital Childhood and is free to print, copy and share with your class or club. Our philosophy: delay where it helps, protect where we can, prepare throughout."
+}

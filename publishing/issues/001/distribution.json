@@ -1,0 +1,66 @@
+{
+  "about": "The words for Issue 001's publication package. Every line here is a DRAFT until it has been through .claude/skills/content-engine/drive-post-review.md, and the LinkedIn post through linkedin-engagement.md (no link in the body). Facts are only those printed in the issue, with the same sources.",
+  "email": {
+    "subject": "The Guided Planet is here: the good side of screens",
+    "preview": "A free 12 page paper for children 7 to 12. Code in space, young inventors, and a game where your child becomes the algorithm.",
+    "intro": "We made a newspaper. It is free, it is twelve pages, and it is about the good side of screens: children writing code that runs on the space station, young inventors fixing real problems for real people, and a paper game where your child gets to be the algorithm and works out how recommendations really work.",
+    "why": "Every fact has its source printed on the page, and none of the activities need a phone or an account. Print it, or read it together on a screen.",
+    "signoff": "Justin"
+  },
+  "landing": {
+    "title": "The Guided Planet",
+    "standfirst": "A free illustrated newspaper for children aged 7 to 12 and the grown ups who read with them. Every month: the good side of screens, and the judgement to go with it.",
+    "body": [
+      "Issue 001 is The Curiosity Edition. Children's code heading for the space station. Young inventors who started with a person who needed help. What scientists actually know about screen time. Friendships that travel further. And Become the Algorithm, a paper game about who really chose the next video.",
+      "Twelve A4 pages, ready to print in colour or in an ink saver version, with an accessible online edition and every source listed in full."
+    ]
+  },
+  "school": {
+    "subject": "A free newspaper for your pupils: The Guided Planet, Issue 001",
+    "body": [
+      "I am writing to share The Guided Planet, a free monthly newspaper for children aged 7 to 12 about the good side of screens.",
+      "Issue 001 covers ESA's Mission Zero (pupils' code running on the International Space Station, open until 22 March 2027), young inventors from Coolest Projects 2026, what the research says about different kinds of screen use, online friendship with safety qualifications, and a paper activity on recommendation algorithms that needs no devices or accounts.",
+      "Every page lists its sources. It is free to print, copy and share with your class. The algorithm activity touches the Education for a Connected World strand on managing online information for ages 7 to 11.",
+      "You are welcome to send it home with pupils or put it on your website."
+    ],
+    "signoff": "Justin Phillips, Editor in Chief, The Guided Planet"
+  },
+  "social": {
+    "linkedin": "We made a newspaper for children about the good side of screens.\n\nTwelve pages. Free. No phone or account needed for any of the activities.\n\nIn Issue 001, children can plan a picture made of 64 lights for ESA's Mission Zero, where young people's code runs on the International Space Station. Last season 24,695 young people took part.\n\nThere is a page on what scientists actually know about screen time, with the limits printed next to the findings.\n\nAnd there is a paper game called Become the Algorithm. One child picks a secret favourite. The other only sees what was watched and what was skipped. Five rounds later, the whole table is talking about how a recommendation gets made.\n\nA delay is not preparation. This is one small way to prepare.\n\nThe download is in the first comment.",
+    "linkedinFirstComment": "The Guided Planet, Issue 001, free to download and print: LINK",
+    "instagram": "Our first newspaper is here, and it is all about the good side of screens 🪐\n\nCode that runs in space. Young inventors fixing real problems. A paper game where your child becomes the algorithm.\n\nTwelve pages, free, and every activity works with a pencil and a curious grown up.\n\nSave it for the weekend. Send it to the friend whose kids love space.\n\nFree download: link in bio.",
+    "facebook": "We made a free newspaper for children aged 7 to 12, and it is about the good side of screens.\n\nInside Issue 001: children's code travelling to the International Space Station, young inventors who started with a person who needed help, and Become the Algorithm, a paper game that shows how recommendations really work.\n\nPrint it at home or read it together. Every fact has its source on the page.\n\nFree download: LINK"
+  },
+  "scripts": [
+    {
+      "name": "Teaser 1, the space code",
+      "seconds": 10,
+      "beats": [
+        "Text on screen: Your child's code. On the space station.",
+        "The cover of The Guided Planet, the station gliding across",
+        "Page 3 opens: the 8 by 8 grid being coloured in",
+        "Text: Free paper. Link in bio."
+      ]
+    },
+    {
+      "name": "Teaser 2, become the algorithm",
+      "seconds": 10,
+      "beats": [
+        "Text on screen: Who chose the next video?",
+        "Page 8, the recommendation machine diagram",
+        "Hands laying out the paper video cards on a table",
+        "Text: Find out with a pencil. Free paper. Link in bio."
+      ]
+    },
+    {
+      "name": "Teaser 3, not all screen time is the same",
+      "seconds": 10,
+      "beats": [
+        "Text on screen: Not all screen time tells the same story.",
+        "Page 6, the four kinds: creating, learning, connecting, watching",
+        "Text: What scientists actually know, in words a 9 year old can read.",
+        "Text: Free paper. Link in bio."
+      ]
+    }
+  ]
+}

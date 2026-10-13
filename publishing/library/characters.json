@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "updated": "2026-10-13",
+  "rule": "Approved Planet Friends art only. Identity comes from these files, never from a prompt (brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 1). Every render checks the sha256, so a substituted file fails the build rather than printing.",
+  "source": {
+    "moods": "shared/schools-curriculum.ts CHARACTERS.moods, approved by Justin 13 September 2026",
+    "standing": "public/digi-squad/friends, handed over 13 August 2026",
+    "digi": "public/digi-squad/DiGi-star.svg"
+  },
+  "assets": [
+    {
+      "id": "pebble-happy",
+      "friend": "pebble",
+      "pose": "happy",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081336_a59c4be7-6376-4ae4-ba56-64c325f62f76.png",
+      "sha256": "15c4e7a8565ac48df56eedcb6c9e0009b154a573011c6c0908989c20b2d73d9b",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "pebble-wave",
+      "friend": "pebble",
+      "pose": "wave",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_ae89dd93-bfd1-4fc5-a17c-650010cd2b8c.png",
+      "sha256": "b34bc7076108440a9ad226c1ee0781f3e2ad1e290aec186c790f62bd585279ff",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "pebble-thinking",
+      "friend": "pebble",
+      "pose": "thinking",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_94f99d58-43dc-44ea-b008-da43d1697aac.png",
+      "sha256": "eccb1fb6f5958f874b79aba8172a9e58023cb05d0cd9444fcf623bfd09932d98",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "pebble-standing",
+      "friend": "pebble",
+      "pose": "standing",
+      "path": "public/digi-squad/friends/pebble.png",
+      "sha256": "14df7f66843210a7815cb31547a9a32cf8906244077e19093a01266c141c5627",
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "id": "bloop-happy",
+      "friend": "bloop",
+      "pose": "happy",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_2bd12dc6-4139-49cc-92e0-4f18da51ad25.png",
+      "sha256": "23b290e5bd182a037995bfa9553e81d813852a349c7332b898d57542466896e8",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "bloop-wave",
+      "friend": "bloop",
+      "pose": "wave",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_9c7bd6fb-0355-4013-9d51-0a3b70e0d161.png",
+      "sha256": "f182c54b3df6b2c2264183a03a8c7f693330ac9a8abe7c250a7a0f97d2fc4fa2",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "bloop-thinking",
+      "friend": "bloop",
+      "pose": "thinking",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_dc593bff-1176-4069-8238-796de6f8233d.png",
+      "sha256": "8811e349ab2db6974cb8433db669550b807ab04e71445932e164db7386963ba5",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "bloop-standing",
+      "friend": "bloop",
+      "pose": "standing",
+      "path": "public/digi-squad/friends/bloop.png",
+      "sha256": "5dacecb8cb39eea6752fb4188452419e1c2ea309d180483778d0989986784a8a",
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "id": "orbit-happy",
+      "friend": "orbit",
+      "pose": "happy",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_d1d3b931-a843-4cf8-bd72-145e24d54981.png",
+      "sha256": "3f147660ec78b23bd6692e82f4dfc1ac90d5481a44d34f824a99dcaa098f7b7f",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "orbit-wave",
+      "friend": "orbit",
+      "pose": "wave",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_1f06ef4d-0832-4aac-ba3a-9b5228fff25c.png",
+      "sha256": "a9fa2745e1324ce7467b9775fce4fa70f3d5012daad4e8f6826e3852c32b80ed",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "orbit-thinking",
+      "friend": "orbit",
+      "pose": "thinking",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_4f68e598-3542-4311-bf32-9a664328403e.png",
+      "sha256": "abe748e44566538d5e7ca75100abd6014302eef45ec19bfd0d783e4a27085eba",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "orbit-standing",
+      "friend": "orbit",
+      "pose": "standing",
+      "path": "public/digi-squad/friends/orbit.png",
+      "sha256": "3cc3ce473981d995f5897e8b01250c16f85e3fd8113af981ae633725236ed8e1",
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "id": "nova-happy",
+      "friend": "nova",
+      "pose": "happy",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_082028_709d33a3-d8c5-4458-8749-98daaef54152.png",
+      "sha256": "61a34b0ad7c772c7bdb92a3934925b2a2d3ad866020683de212f5dff528edb4b",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "nova-wave",
+      "friend": "nova",
+      "pose": "wave",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_2e68342c-1634-4e8d-a8f9-0012fbada22b.png",
+      "sha256": "d7e02a2ad863455fe8fada8a7a4dfd793dda19ba6d6410d091cc658c5a0db666",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "nova-thinking",
+      "friend": "nova",
+      "pose": "thinking",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_a81ce764-3e17-4640-90af-9b5e81594c26.png",
+      "sha256": "52f68e86c7e2d2503ea2f3f706151a155cc6b006a3640287e36296f6090a139a",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "nova-standing",
+      "friend": "nova",
+      "pose": "standing",
+      "path": "public/digi-squad/friends/nova.png",
+      "sha256": "0f488518585937a7237eea4764d8fae29942357cd6428ff1679a79b9c6a6b99b",
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "id": "cosmo-happy",
+      "friend": "cosmo",
+      "pose": "happy",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081941_f602f40f-76e7-4554-bcbd-e363c9c33981.png",
+      "sha256": "95f899cf46218e1b0d97d8b579b9f475e9985316132feeb124a9589471c2f012",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "cosmo-wave",
+      "friend": "cosmo",
+      "pose": "wave",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081946_2e7b931e-915d-4c11-a3cf-f69d39ad497a.png",
+      "sha256": "f935c4b7e35e7f3d222c27d388e135c8619b71f51d3524524ee8f79775d97e74",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "cosmo-thinking",
+      "friend": "cosmo",
+      "pose": "thinking",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260913_081945_e1d8ce39-dd16-4736-81b4-10396e81491a.png",
+      "sha256": "f1a0bb77d66eb26a76c51257fe032faff73bea4df4271a48b24e25751423e834",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "id": "cosmo-standing",
+      "friend": "cosmo",
+      "pose": "standing",
+      "path": "public/digi-squad/friends/cosmo.png",
+      "sha256": "0471589fd114e21457a4a014cb77db0204aafeedf7264c4af4f3f58d072fd18e",
+      "width": 512,
+      "height": 512,
+      "alpha": true
+    },
+    {
+      "id": "digi-star",
+      "friend": "digi",
+      "pose": "standing",
+      "path": "public/digi-squad/DiGi-star.svg",
+      "sha256": "f5a6774ca72f49b5924c0fbcdd48c529dc47b7d64f2ee3741b0963ac0a87e0c9",
+      "width": null,
+      "height": null,
+      "alpha": true,
+      "vector": true
+    }
+  ]
+}

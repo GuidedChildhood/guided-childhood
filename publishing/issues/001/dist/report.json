@@ -1,0 +1,125 @@
+{
+  "issue": "issue-001",
+  "contentHash": "feec89e8db6b670a3966eacb080a33f39e6ae5eedf860f6466ca6e5871b0e21f",
+  "renderedAt": "2026-10-13T15:28:16.860Z",
+  "editorial": [],
+  "layout": {
+    "print": [],
+    "download": [],
+    "ink": []
+  },
+  "pdf": [
+    {
+      "file": "guided-planet-001-print.pdf",
+      "pages": 12,
+      "pageSizePt": [
+        612,
+        858.96
+      ],
+      "fontsEmbedded": true,
+      "fonts": [
+        "IBMPlexMono-SemiBold",
+        "Nunito-ExtraLight",
+        "IBMPlexMono-Bold",
+        "IBMPlexMono-Medium"
+      ],
+      "bytes": 6675406,
+      "ok": true,
+      "problems": []
+    },
+    {
+      "file": "guided-planet-001.pdf",
+      "pages": 12,
+      "pageSizePt": [
+        594.96,
+        841.92
+      ],
+      "fontsEmbedded": true,
+      "fonts": [
+        "IBMPlexMono-SemiBold",
+        "Nunito-ExtraLight",
+        "IBMPlexMono-Bold",
+        "IBMPlexMono-Medium"
+      ],
+      "bytes": 2983682,
+      "ok": true,
+      "problems": []
+    },
+    {
+      "file": "guided-planet-001-ink.pdf",
+      "pages": 12,
+      "pageSizePt": [
+        594.96,
+        841.92
+      ],
+      "fontsEmbedded": true,
+      "fonts": [
+        "IBMPlexMono-SemiBold",
+        "Nunito-ExtraLight",
+        "IBMPlexMono-Bold",
+        "IBMPlexMono-Medium"
+      ],
+      "bytes": 2868819,
+      "ok": true,
+      "problems": []
+    }
+  ],
+  "images": [
+    {
+      "page": 1,
+      "src": "bloop-thinking.png",
+      "dpi": 333
+    },
+    {
+      "page": 2,
+      "src": "bloop-wave.png",
+      "dpi": 867
+    },
+    {
+      "page": 5,
+      "src": "bloop-thinking.png",
+      "dpi": 1084
+    },
+    {
+      "page": 7,
+      "src": "pebble-wave.png",
+      "dpi": 1301
+    },
+    {
+      "page": 8,
+      "src": "bloop-thinking.png",
+      "dpi": 565
+    },
+    {
+      "page": 9,
+      "src": "bloop-happy.png",
+      "dpi": 1084
+    },
+    {
+      "page": 10,
+      "src": "orbit-wave.png",
+      "dpi": 1182
+    },
+    {
+      "page": 11,
+      "src": "bloop-wave.png",
+      "dpi": 1084
+    },
+    {
+      "page": 12,
+      "src": "bloop-happy.png",
+      "dpi": 765
+    }
+  ],
+  "qrs": [
+    {
+      "url": "https://www.guidedchildhood.com/guided-planet/issue-001/sources",
+      "ok": true
+    },
+    {
+      "url": "https://www.guidedchildhood.com/starter-pack?src=guided-planet-001",
+      "ok": true
+    }
+  ],
+  "ok": true
+}
