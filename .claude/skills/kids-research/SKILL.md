@@ -51,10 +51,10 @@ builds, sells or says is a briefing that cost a morning and bought nothing.
    from THE-STORY.md section 9 and `lib/stripe`, never from memory or from another
    skill's product block. The live parent prices are Founder £7.99 a month capped
    at 50, Standard £12.99, Annual £99, schools £495 to £1,995 a year, target
-   £4,000 MRR, one founder. The £9.99 report and £29.99 monthly belonged to the
-   separate wellbeing tool, which is NOT a service at the moment (Justin,
-   13 October 2026), so those prices are not ours to quote and that tool is not
-   something to recommend, point at or build a claim on. Always asked what NOT to
+   £4,000 MRR, one founder. The separate wellbeing tool on its own domain works and
+   is still linked from the site, but it is not the main line and its prices are
+   not ours to quote from memory, so never brief a figure for it and never treat
+   it as the thing we sell. Always asked what NOT to
    build.
 8. **Parent Demand** — studies what parents ask for, search for, shortlist and pay
    for, which is rarely what they need. Covers both meanings of the ask: what

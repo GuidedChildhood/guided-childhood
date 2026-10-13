@@ -65,10 +65,12 @@ honestly as the voice Justin does not agree with.**
 
 **Every CTA points at the Digital Health Report.** All three bio options and two
 of the four scripts drive to the wellbeing product rather than the staged
-pathway. Asked about it on 13 October, Justin answered plainly: it is not a
-service at the moment. So those CTAs were pointing at something a parent cannot
-buy. **Changed: the CTA points at `/starter-pack`, and the canon now rules the
-report out of copy entirely until he says otherwise.**
+pathway. Asked about it on 13 October, Justin's answer was that the report is not
+a service at the moment but that the live links stay, because the tool does work.
+So the problem was never that the report is dead. It is that a story about a
+staged pathway from four to sixteen was driving every CTA to a reports tool on
+another domain. **Changed: the CTA points at `/starter-pack`. The canon says
+which product the founder story sells, and does not claim the report is gone.**
 
 **Smaller things that would have been caught on camera.** "Three years" of
 research, a number nothing supports, against "two years ago" in the starter story

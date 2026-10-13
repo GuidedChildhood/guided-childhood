@@ -172,6 +172,9 @@ jobs:
       # Notes on a child's screen: a parent only note (one that points into the
       # dashboard) never reaches a child, and markdown never shows as stars.
       - run: node --experimental-strip-types scripts/check-kid-notes.mjs
+      # The child's home stays simple: each tab is its own page, a red badge is
+      # something a grown up sent, and a "not done yet" job is never done.
+      - run: node scripts/check-kid-home-simple.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

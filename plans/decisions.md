@@ -256,8 +256,37 @@ and the only columns a parent may update are `paypal_email` and
 `updated_at`). 348 was also applied, as a confirmed no op: its grant list
 matches the live catalogue table for table.
 
-367 and 368 are skipped numbers, not missing work. 373 is on an unmerged
-branch. PR 1265.
+367 and 368 are skipped numbers, not missing work. 373 landed on main during
+this sweep and is handled in the entry below. PR 1265.
+
+## 13 October 2026: 373 arrives in two halves, because 70 KB will not go through the tool
+
+Justin: "apply missing migrations". 360 was the gap (above). 373 merged
+while that was in flight, so it was swept too, and it will not go through
+the Supabase tool in one piece: the call times out at 60 seconds, twice,
+and 373 is 70 KB in a single guarded transaction. scripts/module-to-chunks.mjs
+already says a hand carried paste that size cannot be trusted; this is the
+same wall, hit from the other side.
+
+So its two schema changes are applied and verified (`lesson_coverage` with
+RLS, its policy, both indexes, no anon grant, and `children.lessons_together`
+boolean not null default false across all 47 children). Its content half,
+34 parent notes, 18 passport stages and 40 together_prompt lines, is NOT
+applied and is still outstanding.
+
+That split is safe to leave for now, which was checked rather than assumed:
+every reader of the new content is optional (`parent.listen_for &&`,
+`passport_stage ?? null`, `together_prompt?`), and nothing renders
+together_prompt yet, so the absent content is absent rather than wrong.
+
+Worth recording honestly: the timed out call left `lesson_coverage` created
+with RLS off and the old default anon grant for about two minutes before the
+next statement closed it. The table was empty throughout and anon is now
+refused outright, but a create table and its RLS belong in the same
+statement, and splitting them is what opened the window.
+
+The content half needs the lane that generated it (scripts/gen-373.mjs) or a
+chunked variant. PR 1265.
 
 ## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
 
@@ -269,6 +298,11 @@ The 52 `teacher_notes.hard_questions` written on 21 September were only in conte
 ## 13 October 2026: the six heavy lessons wait for a grown up
 
 Justin said yes (sync plan C). When a child starts one of the six heaviest lessons alone, it opens 48 hours later or the moment the parent taps Ready, and the parent gets the note first: a push with no subject on the lock screen and an email, both landing on `/dashboard/lessons/heads-up`, built from the deck's own parent text. A lesson the parent sends, nudges or opens together is theirs already and opens at once. No migration: the mission's `sent_at` is set ahead. Guard: check-lesson-path section 14. Detail in the PR.
+## 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it
+
+Teo's home showed a DiGi answer written for Justin (markdown, a dashboard link). Send to their phone now sits only under the child's version, and a note pointing into the dashboard is refused and hidden (PR 1263). After a four agent review, each kid tab is its own page, red badges count only what a grown up sent, a "not done yet" job is never counted done and reaches the child kindly (PR 1268), and the jobs step shows its stars (PR 1264). Bigger reshuffles that reverse earlier choices wait for Justin: plans/2026-10-13-kid-home-simplify-plan.md.
+
+Justin then chose "one streak, not four": the flame bar with the next Friend is the only streak on the child's home; the five a day's days in a row, the balance card's day streak and the greeting's full days count are gone (PR 1264).
 ## 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018
 
 Justin: "lets tidy up and start from gdc 18 and lets always apply a calude
@@ -295,3 +329,64 @@ PR 1262.
 ## 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375)
 
 The Ready series eval run found live DiGi still advising "Give a warning... Five minutes before" for bedtime TV, after 371 took that advice out of the library. Cause: the prompt's own reflective question example was a five minute warning. The prompt now has an ENDING A SCREEN rule (agree it before the screen goes on, never a warning or countdown), and 375 corrects three expert_knowledge rows that said the opposite (Child Mind Institute, the NHS sleep leaflet, Hiniker overstated). The same run failed the phone question for "no exceptions": the voice file used "The bedroom rule is not negotiable" as its model sentence. Now the bedroom rule is given as a calibrated pathway. ND-01's visual timer stays: a timer the child can see, set together, is an agreed ending, and the study was of under sixes in general. Two permanent eval cases guard both. Applying 375 is Justin's call. PR 1275.
+
+## 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live
+
+Justin, on the four open items: keep the live Digital Health Report links
+("keep it there as dos work"), tell him what the comment replies skill should
+say, and run the new review over the two unreviewed documents.
+
+**Correction.** The canon had said the report is "not a service at the moment"
+and ruled it out of copy entirely. That went further than Justin did. The tool
+works and the links stay. The rule is about which product the founder story
+sells, not about whether the report exists. Corrected in the canon, the audit,
+drive-post-review and kids-research.
+
+**The comment replies skill** lives in Justin's own claude.ai skills, so nothing
+here can fix it. `content/brand-story/linkedin-comment-replies-product-facts.md`
+is the replacement block to paste: lead with the free stage check, the real
+parent prices, and never quote a figure for the report.
+
+**The two unreviewed documents.** The 2.8 million children screen time post
+carried "done" on its first line and had already been posted, so it is
+relabelled POSTED GDC-022 and needs nothing. The EU KIDS Act post is the find:
+its consultation closes 26 November, so it is the one genuinely live post left
+in that batch. Rewritten as GDC-025, opening on what a twelve year old should be
+able to do rather than on "for five years", with the UK under 16 restrictions as
+the bridge and the consultation deadline moved to the close where a head can act
+on it.
+
+**Still not possible from a session:** the Monday radar Routine cannot store the
+Google Drive connector, because create_trigger rejects the connectors parameter
+for this organisation. Retried today and refused again. Only Justin can attach
+it, from the claude.ai routines page.
+
+## 13 October 2026: GDC-022 was already spent, and the two parked posts are written
+
+Two things, one of them a correction to this morning.
+
+**The collision.** I renumbered the queue into 018 to 024 believing 022 and 023
+were empty placeholders. 022 was not: the 2.8 million children screen time post
+carries "done" on its first line and went out in September. I found that an hour
+later, when the new review rule made me read the document rather than its file
+size. "Two children, same game" is now GDC-036, the first number nothing has
+ever used. A gap in a sequence costs nothing; two posts sharing a number costs
+the thing the tidy up bought.
+
+Still open for Justin: every number from 018 to 035 is now posted, archived or
+reserved, so one clean run would mean moving the whole queue to 036 onward. That
+is renumbering his filing twice in a day and it is his call.
+
+**The two parked posts, written because he asked.** GDC-037 "How would you test
+readiness", from the parked GDC-001, with the Californian bill stripped out. It
+is the only post in the queue with no clock on it, and it admits we have no
+outcome evidence that finishing a stage changes anything. GDC-038 "Same app,
+different rules", from the parked GDC-025. I had parked it as a duplicate of
+GDC-036 and that was wrong on a closer read: 036 is capability inside one
+product, 038 is a boundary running through the middle of a single app.
+
+**The radar Routine still cannot hold Google Drive from here.** `create_trigger`
+refuses the connectors parameter for this organisation and `update_trigger` has
+no connectors parameter at all. His daily health sweep Routine does hold
+Google-Drive, so the capability exists on the account; it has to be attached in
+the claude.ai Routines UI. PR 1274.

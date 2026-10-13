@@ -238,11 +238,21 @@ enforced in code. Followers are not the metric. The email list is.
 
 The staged pathway and the stage check, at `/starter-pack`.
 
-**The Digital Health Report is not a service at the moment** (Justin, 13 October
-2026). So it is not where the founder story points, and it is not named as
-something a parent can buy, in any copy, on any platform, until he says it is
-back. Earlier drafts sent every founder story CTA to it, which is how a story
-ends up selling the thing we are not running instead of the thing we are.
+**The Digital Health Report is not the service this story is about**, and it is
+not where the founder story points. It does work, and Justin has kept the live
+links to it, so this is not a dead product and nothing here says it is. What it
+is not is the main line: it sits on its own domain, it is not what we market,
+and we do not quote its prices in copy without checking them first.
+
+Earlier drafts sent every founder story CTA to it, which is how a story about a
+staged pathway from four to sixteen ends up selling a reports tool instead. The
+story points at `/starter-pack`.
+
+*(Corrected on 13 October 2026. An earlier version of this file read "not a
+service at the moment" and ruled it out of copy entirely. That went further than
+Justin did: he said to keep the live links because the tool works. The rule is
+about which product the founder story sells, not about whether the report
+exists.)*
 
 ---
 

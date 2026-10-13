@@ -125,8 +125,11 @@ wince at this sentence? If yes, narrow it until they would not.
 - Never a living clinician named as a source inside the product or in a post
   about the product. Migration 123 settled that: a name beside guidance reads as
   endorsement we never had permission to imply.
-- Never a price or a service we are not running. The Digital Health Report is
-  not a service at the moment.
+- Never a price you have not checked, and never a service as the main line when
+  it is not. The Digital Health Report works and is still linked from the site,
+  but it is not what we market and its prices are not ours to quote from memory.
+  The parent prices are Founder £7.99 a month capped at 50, Standard £12.99,
+  Annual £99, schools £495 to £1,995 a year.
 
 ## 7. The reader
 

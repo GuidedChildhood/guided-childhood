@@ -21,6 +21,10 @@ export type KidAskState = {
 
 export type KidNudge = { id: string; message: string }
 
+// A job title sits mid sentence here ("Do make your bed first"), so its
+// capital comes down. A name the parent typed in capitals stays as typed.
+const lowerFirst = (t: string) => (/^[A-Z][a-z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t)
+
 // The happy news finish (design-refs/happy-newspaper-notes.md): ink edge,
 // hard ledge, a drawn icon in a crayon well instead of a phone emoji.
 const cardBase: React.CSSProperties = {
@@ -166,12 +170,16 @@ export default function KidAskBanner({
 
       {/* Chores first: only when no ask is mid flight, so the banner tells
           one story at a time. */}
-      {blocked && !(showAsk && (ask.status === 'pending' || ask.status === 'approved')) && (
+      {/* Only once the child has actually asked. "Then ask again" to a child
+          who asked for nothing read as a telling off, one card above Use my
+          time saying "40 min ready" (13 October 2026 walkthrough). The jobs
+          step in the five a day already names what is still to do. */}
+      {blocked && showAsk && ask.status === 'declined' && (
         <div style={{ ...cardBase, background: '#fff' }}>
           <Well icon="sprout" tint={CRAYON.paper} />
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
-              Do {blockingJobs[0]}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
+              Do {lowerFirst(blockingJobs[0])}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
             </span>
             <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
               Your grown up gets a ping when it is done.
