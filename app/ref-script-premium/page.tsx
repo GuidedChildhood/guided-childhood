@@ -74,6 +74,10 @@ export default async function RefScriptPremium({ searchParams }: { searchParams:
       // The fixture shows the state a parent actually lands in: opened, and
       // not yet counted, so the two buttons are visible to check.
       scriptStatus="opened"
+        // A made up uuid, so the share button renders here and the layout
+        // under the reader can be checked. The fixture never shares anything
+        // real: ref- pages 404 in production.
+        publicId="00000000-0000-4000-8000-000000000000"
         prevScript={{ sort_order: 11, title: 'Group chats and being left out' }}
         nextScript={{ sort_order: 13, title: 'When a stranger follows them' }}
         depthInitial={DEPTH}

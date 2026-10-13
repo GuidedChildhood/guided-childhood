@@ -7,6 +7,7 @@ import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import type { createClient } from '@/lib/supabase/server'
 import { STAGES } from '@/lib/content/stages'
+import { SITE_URL } from '@/lib/config/site'
 
 // The public face of a passport number. A code printed on the passport book,
 // the keepsake or a certificate resolves here, and the page answers from the
@@ -160,7 +161,7 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
           Take the free stage check
         </Link>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
-          guidedchildhood.co.uk
+          {SITE_URL.replace(/^https?:\/\//, '')}
         </p>
       </div>
     </div>

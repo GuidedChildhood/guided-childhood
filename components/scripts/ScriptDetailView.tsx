@@ -5,6 +5,7 @@ import RehearseWithDigi, { type RehearseFixture } from '@/components/scripts/Reh
 import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
 import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
 import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
+import ShareScript from '@/components/scripts/ShareScript'
 import TakeoverReader from '@/components/ui/TakeoverReader'
 import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/card-system'
 import HappyIcon from '@/components/kid/HappyIcon'
@@ -57,6 +58,12 @@ type Props = {
    * that drops the param quietly hands the tick to the primary child.
    */
   childIdParam?: string | null
+  /**
+   * The script's uuid, which is its public address at /say/<id>. Optional
+   * because the fixture page has no row and therefore nothing real to share;
+   * the share button simply does not render there.
+   */
+  publicId?: string | null
   prevScript: NavScript
   nextScript: NavScript
   depthInitial: { ifTheyPushBack?: string; checkBack?: string; forYourChild?: string }
@@ -77,7 +84,7 @@ export default function ScriptDetailView({
   script, sortOrder, showBanNote, isPaid,
   childName, childPhone, childId, childHasApp, workedRating, scriptStatus,
   backToPathway = false, stageSlug = null, childIdParam = null,
-  prevScript, nextScript, depthInitial, rehearseFixture,
+  publicId = null, prevScript, nextScript, depthInitial, rehearseFixture,
 }: Props) {
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const withChild = (href: string) =>
@@ -205,6 +212,20 @@ export default function ScriptDetailView({
         >
           Use it now <span aria-hidden>→</span>
         </Link>
+
+        {/* ── AND PASS IT ON ──────────────────────────────────────────────
+            Directly under Use it now, because the two are the same decision
+            seen from either side: this helped me, or this will help her.
+            Secondary white against the butter above it, so it offers itself
+            without competing with the thing a parent came to do.
+
+            It shares a link to /say/<uuid>, a real public page with the words
+            and an unfurl that shows the quote. Before this there was no way
+            to share a script at all, which on the one artifact a parent
+            actually wants to pass on was the gap in the whole product. */}
+        {publicId && (
+          <ShareScript publicId={publicId} title={script.title} sayThis={script.say_this} />
+        )}
 
         {/* The quiet row: what this did to the path, and the way to a better
             fitting script. Below the words, where it belongs. */}
