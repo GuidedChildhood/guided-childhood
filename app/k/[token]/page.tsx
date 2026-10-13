@@ -46,6 +46,7 @@ import { lessonStageFor } from '@/lib/lessons/school-path'
 import { missionPaidAt } from '@/lib/quests/mission-paid'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
+import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -147,7 +148,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // titles read is in wave two, because it needs these ids first.
     supabase
       .from('kid_lesson_missions')
-      .select('id, lesson_id, stars, status, completed_at, paid_at')
+      .select('id, lesson_id, stars, status, completed_at, paid_at, sent_at')
       .eq('child_id', link.child_id)
       .order('sent_at', { ascending: false }),
 
@@ -523,6 +524,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     title: missionTitles.get(m.lesson_id) ?? 'A lesson from DiGi',
     stars: m.stars,
     status: m.status,
+    // A heavy lesson inside its heads up (lib/lessons/heavy) shows its day
+    // rather than a play button the lesson page would bounce.
+    opensOn: m.status === 'sent' && stillWaiting(m.sent_at) ? opensOnDay(m.sent_at as string) : null,
   }))
   const lessonWeekStars = (missionRows ?? [])
     .filter(m => { const paid = missionPaidAt(m); return !!paid && paid >= new Date(Date.now() - 7 * 86400000).toISOString() })

@@ -65,7 +65,7 @@ import { STAGE_CHARACTERS, characterForStage, type StageCharacter } from '@/lib/
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; blocks_screens?: boolean; created_at?: string | null }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
-export type KidMission = { id: string; title: string; stars: number; status: string }
+export type KidMission = { id: string; title: string; stars: number; status: string; opensOn?: string | null }
 export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; posterUrl?: string | null; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
 export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null; when?: 'today' | 'tomorrow' }
@@ -2626,18 +2626,24 @@ export default function KidQuestScreen({
                   <SectionHead kidIcon="star">Star lessons from your grown up</SectionHead>
                   {missions.map(m => {
                     const done = m.status === 'done'
-                    return (
-                      <a key={m.id} href={`/k/${token}/lesson/${m.id}`} style={bigCardShell(done)}>
-                        <CardFace
-                          seed={m.id} done={done}
-                          emoji={done ? '🏆' : '🎬'}
-                          title={m.title}
-                          subtitle={done ? 'Done! Stars landed ⭐ Play again any time' : `The big one, with DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
-                          pill={`⭐ ${m.stars}`}
-                          actionIcon="▶"
-                        />
-                      </a>
+                    // One of the heavy lessons, waiting a day or two for the
+                    // grown up to read about it first (lib/lessons/heavy).
+                    const opensOn = !done ? m.opensOn ?? null : null
+                    const face = (
+                      <CardFace
+                        seed={m.id} done={done}
+                        emoji={done ? '🏆' : '🎬'}
+                        title={m.title}
+                        subtitle={done ? 'Done! Stars landed ⭐ Play again any time'
+                          : opensOn ? `Opens on ${opensOn}. Your grown up is reading about it first.`
+                          : `The big one, with DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
+                        pill={`⭐ ${m.stars}`}
+                        actionIcon={opensOn ? '⏳' : '▶'}
+                      />
                     )
+                    return opensOn
+                      ? <div key={m.id} data-mission-waiting style={bigCardShell(false)}>{face}</div>
+                      : <a key={m.id} href={`/k/${token}/lesson/${m.id}`} style={bigCardShell(done)}>{face}</a>
                   })}
                 </>
               )}

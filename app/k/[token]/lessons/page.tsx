@@ -6,6 +6,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { lessonAudienceFor, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -103,12 +104,17 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // says the day it opens instead of offering a button the opener would
   // bounce; a mission that exists always opens (a retake, the week's own).
   const [{ data: missionRows }, { data: lastPassRow }] = await Promise.all([
-    supabase.from('kid_lesson_missions').select('lesson_id').eq('child_id', link.child_id),
+    supabase.from('kid_lesson_missions').select('lesson_id, status, sent_at').eq('child_id', link.child_id),
     supabase.from('lesson_completions').select('completed_at')
       .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson').eq('passed', true)
       .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
   ])
   const hasMission = new Set(((missionRows ?? []) as { lesson_id: string }[]).map(r => r.lesson_id))
+  // A heavy lesson inside its heads up (lib/lessons/heavy): the day it opens,
+  // said to the child as a grown up reading first, never as a warning.
+  const headsUpUntil = new Map(((missionRows ?? []) as { lesson_id: string; status?: string; sent_at?: string | null }[])
+    .filter(r => r.status === 'sent' && stillWaiting(r.sent_at))
+    .map(r => [r.lesson_id, r.sent_at as string]))
   const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
   const weekOpen = !nextOpenId || hasMission.has(nextOpenId) || newMissionAllowed({
     lastPassAt, isFirstOfStage: stageModules[0]?.id === nextOpenId, isSkippedRestart: false,
@@ -134,7 +140,8 @@ export default async function KidLessonsPage({ params, searchParams }: {
       done,
       score: done ? scoreOf.get(m.id) ?? null : null,
       locked: state === 'locked',
-      waiting: state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
+      waiting: headsUpUntil.has(m.id) ? `This one opens on ${opensOnDay(headsUpUntil.get(m.id) as string)}. Your grown up is reading about it first.`
+        : state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
         : state === 'paced' && !hasMission.has(m.id) ? `After lesson ${stageModules.findIndex(x => x.id === m.id)}, this one is waiting for you`
         : null,
     }

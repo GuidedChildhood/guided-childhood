@@ -13,6 +13,7 @@ import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
 import LessonRowActions from '@/components/lessons/LessonRowActions'
 import { hasFullAccess } from '@/lib/access'
+import { opensOnDay, stillWaiting } from '@/lib/lessons/heavy'
 
 // The child's lessons, from the parent's side (29 September 2026).
 //
@@ -64,10 +65,10 @@ export default async function ChildLessonPathPage({
   // sends, nudges or has nudged.
   const [{ data: profile }, { data: missionRows }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', user.id).maybeSingle(),
-    supabase.from('kid_lesson_missions').select('lesson_id, status, nudged_at').eq('user_id', user.id).eq('child_id', child.id),
+    supabase.from('kid_lesson_missions').select('lesson_id, status, nudged_at, sent_at').eq('user_id', user.id).eq('child_id', child.id),
   ])
   const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
-  const missionOf = new Map(((missionRows ?? []) as { lesson_id: string; status: string; nudged_at: string | null }[]).map(m => [m.lesson_id, m]))
+  const missionOf = new Map(((missionRows ?? []) as { lesson_id: string; status: string; nudged_at: string | null; sent_at: string | null }[]).map(m => [m.lesson_id, m]))
   const [{ modules, path }, { data: link }] = await Promise.all([
     // The one lesson count (lib/pathway/lesson-path.ts), the same function the
     // passport reads, so this heading and the passport's row cannot quote
@@ -162,6 +163,35 @@ export default async function ChildLessonPathPage({
                   const togetherHref = `/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`
                   if (state === 'locked') {
                     return <p style={{ margin: '10px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>Opens with membership.</p>
+                  }
+                  // A heavy lesson the child started, waiting on its heads up
+                  // (lib/lessons/heavy): the note is the action, not a nudge
+                  // the child could not act on.
+                  const waitingOn = missionOf.get(m.id)
+                  if (waitingOn?.status === 'sent' && stillWaiting(waitingOn.sent_at)) {
+                    return (
+                      <div data-row-actions="heads-up" style={{ marginTop: 10 }}>
+                        <p style={{ margin: '0 0 8px', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                          {kidName} started this one. It waits for you, and opens on {opensOnDay(waitingOn.sent_at as string)} either way.
+                        </p>
+                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                          <a href={`/dashboard/lessons/heads-up?child=${child.id}&lesson=${m.id}`} data-heads-up-link style={{
+                            display: 'inline-flex', padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
+                          }}>
+                            Read the note
+                          </a>
+                          <a href={togetherHref} data-do-together style={{
+                            display: 'inline-flex', padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                            background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--border)',
+                          }}>
+                            Do it together
+                          </a>
+                        </div>
+                      </div>
+                    )
                   }
                   if (together) {
                     return m.id === nextId || focused
