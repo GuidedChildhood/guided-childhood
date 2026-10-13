@@ -56,10 +56,9 @@ export function trackerActions(moduleId: string): Partial<Record<StepId, StepAct
   }
 }
 
-/** True where this module fills one of the five passport pages. KS5 sits after it. */
+/** True where this module fills one of the five passport pages: every scheme module, since KS5 fills Independent (12 October 2026). */
 export function fillsAPassportPage(moduleId: string): boolean {
-  const p = placementOf(moduleId)
-  return !!p && p !== 'after'
+  return !!placementOf(moduleId)
 }
 
 /**

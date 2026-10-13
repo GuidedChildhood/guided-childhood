@@ -1,0 +1,70 @@
+{
+  "name": "2026-10-19-wed-phone-policy",
+  "size": "portrait",
+  "lead": "nova",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "nova",
+      "tag": "1 / 6",
+      "eyebrow": "One study. Properly explained.",
+      "headline": "Does a school<br>phone ban<br><mark>fix it?</mark>",
+      "second": "Thirty English schools were studied."
+    },
+    {
+      "name": "concession",
+      "type": "big",
+      "eyebrow": "First, the fair point",
+      "headline": "Pupils who used<br>phones more<br>did report<br>lower wellbeing.",
+      "body": "That part is real. It is also only an association.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "finding",
+      "type": "stat",
+      "eyebrow": "What the researchers found",
+      "value": "1,227",
+      "unit": " pupils",
+      "body": "Aged 12 to 15, in 30 English secondary schools. Strict phone rules meant less phone use at school, not less overall. Wellbeing was no different."
+    },
+    {
+      "name": "reading",
+      "type": "quote",
+      "tone": "ink",
+      "eyebrow": "The honest reading",
+      "quote": "A ban on its own is not enough. That does not make phones harmless.",
+      "attrib": "Both things can be true."
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "The tonight line",
+      "headline": "Ask this at tea",
+      "not": "Is the school ban working?",
+      "say": "What do you actually do on your phone on a normal school day? Show me one thing you like."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next time someone says a ban will sort it.",
+      "send": "Send it to the parent who is waiting for the school to decide."
+    }
+  ],
+  "post": {
+    "date": "2026-10-21",
+    "day": "Wednesday 21 October",
+    "time": "19:30",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who has been told a school phone ban will fix it.\n\nFair point first: in this study, pupils who spent more time on phones and social media tended to report lower wellbeing. That is real.\n\nBut it is a snapshot in time. It cannot show the phone caused it.\n\nThe researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools restrict phones, some allow them. Pupils at restrictive schools used phones less during the school day, but not less overall, and their mental wellbeing was no better.\n\nThe honest reading is that a ban on its own is not enough. It does not mean phones are harmless either.\n\nTonight: ask your child what they actually do on their phone on a normal school day, and ask them to show you one thing they like. Listen first.\n\nWhat would you want a school to do alongside a ban?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who has been told a school phone ban will fix it.\n\nFair point first: in this study, pupils who spent more time on phones and social media tended to report lower wellbeing. That is real, and I would not wave it away.\n\nBut it is a snapshot in time. It cannot show the phone caused it.\n\nThe researchers looked at 1,227 pupils aged 12 to 15 in 30 English secondary schools. Some schools restrict phones, some allow them. Pupils at restrictive schools used phones less during the school day, but not less overall, and their mental wellbeing was no better.\n\nThe honest reading is that a ban on its own is not enough. It does not mean phones are harmless either. What happens at home, and the conversations around it, still matter.\n\nTonight: ask your child what they actually do on their phone on a normal school day, and ask them to show you one thing they like. Listen first.\n\nWhat would you want a school to do alongside a ban?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack",
+    "alt": "Card one of six. A large headline asks whether a school phone ban fixes it, with the planet friend Nova beside it. The later cards give the finding from 1,227 pupils in 30 English schools and one question to ask at tea.",
+    "first_comment": "Source: Goodyear et al., SMART Schools, Lancet Regional Health Europe, 2025. A cross sectional study, so it shows associations, not cause."
+  }
+}

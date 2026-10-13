@@ -148,6 +148,12 @@ export async function writeStarterSetup(supabase: SupabaseClient, p: PendingSetu
       })
     }
 
+    // A home code scanned off a parent note before signing up (the QR lands
+    // on /home-code/[code], whose button puts the code in a cookie) is
+    // recorded for the child the pack just made. Best effort and silent with
+    // no cookie; the card on the lessons page still takes a code by hand.
+    try { await fetch('/api/school-code/pending', { method: 'POST' }) } catch { /* the card still takes it by hand */ }
+
     // ── AND SAY HELLO TODAY, NOT TOMORROW MORNING ─────────────────────────
     //
     // Justin, 11 September 2026: "do we send a confirmation email once set up,

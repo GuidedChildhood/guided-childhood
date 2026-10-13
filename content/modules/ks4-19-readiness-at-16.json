@@ -590,9 +590,11 @@
   "parent_note": {
     "taught": "Today was the module the whole scheme builds towards: what happens on the day your teen turns 16 and full social media access arrives all at once. They wrote a personal arrival plan with three parts: defaults decided in advance, a first week audit of what the feed serves them, and an exit rule written before it is needed.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This module writes one of the last pages of the passport, and it is the one the whole journey pointed at: the arrival plan for full access. The passport is proof of readiness, never a licence, and the plan they wrote today is theirs. Ask to see it, and tell them which default you would set first.",
+    "passport": "This lesson has a place on one of the last pages of the passport, and it is the page the whole journey pointed at: the arrival plan for full access. The class met it today. It goes on the page when your teenager does its own short check at home, in their app. The passport is proof of readiness, never a licence, and the plan they wrote today is theirs. Ask to see it, and tell them which default you would set first.",
     "try_this": "Ask your teen to talk you through their arrival plan, then write your own exit rule for your own phone alongside them. It lands ten times harder when they see you hold yourself to one too.",
-    "family_question": "If every app arrived on your phone tomorrow, what is the first setting you would change before you posted anything?",
+    "family_question": "Can you teach me your arrival plan? Explain why the first week decides the feed.",
+    "listen_for": "You know access at sixteen is a cliff edge, a fresh account learns fastest, and an exit rule is written before you need it.",
+    "then_ask": "What should my exit rule be for my own phone?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -745,7 +747,7 @@
       "Friends who used workarounds arrive at 16 better prepared (a year of unguided scrolling on adult settings builds habits, not judgement, and arriving with a written plan can genuinely beat arriving early)"
     ],
     "paper_fallback": "Print the slide pack, the arrival plan bookmarks and the worksheets. Run the retrieval question and both exit checks as hands up votes from the printed question cards. Draw the two diagrams on the board step by step, the age verification chain and the three part arrival plan. Both discussions run identically with a watch instead of the on screen timer. The heart of the lesson, each pupil writing their own arrival plan, is a paper task by design and loses nothing without a screen.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "commitment_stem": "My commitment: the first default I will set before day one is ...",
     "differentiation": {
       "stretch": "Ask stretch pupils to write a fourth part of the arrival plan the module did not include and defend it, and to find the place where the driving test analogy breaks down (possible answer: driving skills are tested before the keys, nobody tests feed judgement at all, which is the point).",

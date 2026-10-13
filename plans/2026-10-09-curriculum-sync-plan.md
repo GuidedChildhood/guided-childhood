@@ -118,7 +118,7 @@ changes.
     schools app can never show a child only item whatever order the two apps
     deploy in. *(sync engineer)*
 
-### B. The home code records coverage, not a pass (PR 2, migration 367)
+### B. The home code records coverage, not a pass (PR 2, migration 373)
 
 **The fault, verified in the code.** `app/api/school-code/route.ts` writes a
 `school_lesson` completion with `passed: true`. School lessons never get
@@ -180,7 +180,7 @@ the tap or after 48 hours either way, so no lesson ever depends on a parent
 remembering. PR 1 sends the note as a push and an email; PR 3 adds it to Home.
 *(parent UX, DSL, app lead, child)*
 
-### D. One stage map (PR 2, migration 367)
+### D. One stage map (PR 2, migration 373)
 
 Three copies disagree: `shared/passport-stages.ts`, `lib/lessons/school-path.ts`
 and `scripts/check-module-contract.mjs`. So the ks3-12 parent sheet says "Today
@@ -260,7 +260,7 @@ term the passages move on screen in the classroom deck too. *(Ofsted, DSL)*
 3. **A grown up switch per child.** The lesson's key stage decides whether a
    grown up reads it, so an eight year old reads a KS2 deck of up to 2,600 words
    alone. The parent can set "does lessons with me" for any child (a column on
-   `children`, so it rides migration 367 in PR 2), which plays the together
+   `children`, so it rides migration 373 in PR 2), which plays the together
    audience; a read aloud button uses the device's British voice, passed into
    the shared player as a prop (no model call on the child's side). *(SEND)*
 4. **Quiet pushes on the flagged lessons.** Every push about the 17 flagged
@@ -330,7 +330,7 @@ term the passages move on screen in the classroom deck too. *(Ofsted, DSL)*
 ## Order
 
 - **PR 1** gains A, C and G4.
-- **PR 2** (migration 367) gains B, D, G3 and G5.
+- **PR 2** (migration 373; the plan said 367, taken while the build was held) gains B, D, G3 and G5.
 - **One small schools PR now**, beside #1233: F1 to F5, F7 and F8.
 - **PR 4** takes G1, G2, G7 and G8.
 - **PR 5** takes E, F6 and G6, and the content halves of A6 and F1.

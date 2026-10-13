@@ -645,9 +645,11 @@
   "parent_note": {
     "taught": "Your child learned that photos, videos and voices can now be manufactured convincingly, and practised three checks: who made this and how do they know, what do other places say, and how is it trying to make me feel.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them to run the three checks with you on the next surprising thing either of you sees.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them to run the three checks with you on the next surprising thing either of you sees.",
     "try_this": "Ask your child to run the three checks on one thing in your own feed this week. Let them be the detective, you be the client.",
-    "family_question": "What is the most convincing fake you have ever seen, and how did you find out?",
+    "family_question": "Can you teach me the three checks for something that might be fake?",
+    "listen_for": "You know looking real is no longer evidence, and you run the three checks before you share.",
+    "then_ask": "Can you run the three checks on something in my feed?",
     "no_login_required": true
   },
   "video_beats": [
@@ -843,7 +845,7 @@
       "Checking means distrusting everything (the checks end in believe verdicts too)."
     ],
     "paper_fallback": "The full lesson runs from the printed pack: retrieval card, three checks bookmark, six item worksheet, exit card. Beats are described in the teacher script if no screen is available.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: this week I will run the three checks on one thing in my own feed before I share it, starting with...",
     "differentiation": {
       "stretch": "Who benefits when this spreads? Follow the incentive, then connect to how feeds reward reaction.",

@@ -497,9 +497,11 @@
   "parent_note": {
     "taught": "Today your child learned what an algorithm really is (a recipe of steps, not magic) and how the feed loop works: you watch, it learns, it serves more. They played the algorithm themselves on paper, scoring videos the way a feed does, and discovered why feeds never run out.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to draw you the feed loop.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to draw you the feed loop.",
     "try_this": "Sit with your child for five minutes of a feed, yours or theirs, and count together how many videos arrived without anyone choosing them. Then let your child explain the loop to you. They know the whole recipe.",
-    "family_question": "What do you think your feed has learned about you, and did you mean to teach it that?",
+    "family_question": "Can you teach me how the feed loop works? Explain why a feed never ends.",
+    "listen_for": "You know an algorithm is a recipe of steps, and the loop is you watch, it learns, it serves more.",
+    "then_ask": "What do you think my feed has learned about me?",
     "no_login_required": true
   },
   "video_beats": [],

@@ -83,7 +83,12 @@ export function packWords(lesson) {
     parent.headline ?? 'What we taught today', parent.taught,
     tool ? tool.heading ?? 'The tool' : 'The three checks',
     tool ? tool.lines : ['1. Who made this, and how do they know?', '2. What do other places say?', '3. How is it trying to make me feel?'],
-    parent.try_this, parent.family_question, parent.passport,
+    parent.try_this,
+    // Ask at tea, with what to listen for and what to ask next; or, on the
+    // six lessons a parent hears about first, the private line for tonight
+    // (schools/app/print/[module]/page.tsx, 12 October 2026).
+    parent.say_this ? [parent.say_this] : [parent.family_question, parent.listen_for, parent.then_ask],
+    parent.passport,
   ])
 
   return { teacher, cards, parent: parentWords }

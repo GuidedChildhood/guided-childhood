@@ -1,5 +1,6 @@
 import type { StageId } from '@/lib/pathway/progress'
 import { positionOf } from '@gc/shared/schools-curriculum'
+import { KEY_STAGES_OF_STAGE } from '@gc/shared/stage-map'
 
 // THE CHILD'S LESSONS ARE THE SCHOOL LESSONS (29 September 2026).
 //
@@ -19,13 +20,10 @@ import { positionOf } from '@gc/shared/schools-curriculum'
 // "this stage's lessons" means. KS2 runs to age 11 and sits with Builder,
 // which is where a Year 6 child reads their stage.
 
-export const STAGE_KEY_STAGES: Record<StageId, string[]> = {
-  foundation: ['EYFS', 'KS1'],
-  builder: ['KS2'],
-  explorer: ['KS3'],
-  shaper: ['KS4'],
-  independent: ['KS5'],
-}
+// Since 12 October 2026 (sync plan D) the table itself lives in
+// shared/stage-map.ts, where the passport pages read the same one, so the
+// child's list and the parent sheet cannot name different pages again.
+export const STAGE_KEY_STAGES: Record<StageId, string[]> = KEY_STAGES_OF_STAGE
 
 export type SchoolModule = { id: string; module_id?: string; title: string; key_stage?: string }
 
@@ -71,6 +69,24 @@ export const schoolCreditKey = (lessonId: string) => `school_lesson:${lessonId}`
  * learning sticks at that age.
  */
 export const isTogetherStage = (stageId: StageId | null | undefined) => stageId === 'foundation'
+
+export type LessonAudience = 'kid' | 'together'
+
+/**
+ * Whose deck a child gets (sync plan G3). Under 7 it is the together deck by
+ * age. For any other child the parent can set "does lessons with me"
+ * (children.lessons_together, migration 373), which plays the together deck
+ * on the grown up's phone with a read aloud button, and the pass counts every
+ * check question answered rather than every one right. Both the mission page
+ * and the completion route read THIS, so the deck the child saw and the deck
+ * the pass is marked against cannot differ.
+ */
+export function lessonAudienceFor(
+  stageOfLesson: StageId | null | undefined,
+  child: { lessons_together?: boolean | null } | null | undefined,
+): LessonAudience {
+  return isTogetherStage(stageOfLesson) || child?.lessons_together === true ? 'together' : 'kid'
+}
 
 // ── A CHILD'S LESSONS FOLLOW THEIR SCHOOL YEAR (9 October 2026) ─────────────
 //
