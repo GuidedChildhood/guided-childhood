@@ -395,7 +395,7 @@ export default function LearningYear({
           than an empty tab that reads as broken. */}
       {tab === 'ahead' && v.blocked === null && !v.event && !v.transition && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 14px' }}>
-          Nothing dated coming up for {v.childName} that we know about. The sheet above is still the useful thing: it is this term&rsquo;s objectives, a week or two before the class gets to them.
+          Nothing dated coming up for {v.childName} that we know about. The sheet above is still the useful thing: it is this term’s objectives, a week or two before the class gets to them.
         </p>
       )}
 

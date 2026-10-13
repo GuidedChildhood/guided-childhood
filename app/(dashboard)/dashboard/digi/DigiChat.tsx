@@ -1084,7 +1084,7 @@ export default function DigiChat({
                 borderRadius: 'var(--radius-pill)', padding: '5px 11px', whiteSpace: 'nowrap',
               }}
             >
-              <span aria-hidden>←</span> Today&apos;s pathway
+              <span aria-hidden>←</span> Today's pathway
             </Link>
             {dailyLimit != null && (
               <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
