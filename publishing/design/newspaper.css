@@ -312,3 +312,8 @@ h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
    contrast check caught on the first proof of Issue 001. */
 .activity, .card, .facts, .bubble, .rsum { color: var(--ink); }
 .ground-night .activity .eyebrow, .ground-night .card .eyebrow, .ground-night .facts .eyebrow { color: var(--gold-ink); }
+
+/* Page 2: the editor's letter reads a size up, and Bloop's hello is the
+   paper's first friendly face after the cover. */
+.body.kid.welcome-letter p { font-size: 12.8pt; line-height: 1.46; }
+.welcome-bloop .bubble { font-size: 11pt; padding: 3.4mm 4mm; }

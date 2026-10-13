@@ -267,14 +267,19 @@ function welcome(ctx: RenderContext, p: Extract<Page, { template: 'welcome' }>) 
       <div style="grid-column:span 7;display:flex;flex-direction:column">
         <p class="eyebrow">From the editor's desk</p>
         <h1 class="h1">${esc(p.headline)}</h1>
-        <div class="body kid frame" style="margin-top:4mm;flex:1">${blocks(p.letter, undefined, { lead: true })}</div>
+        <div class="body kid frame welcome-letter" style="margin-top:4mm">${blocks(p.letter, undefined, { lead: true })}</div>
+
         <div style="margin-top:3mm;border-top:.35mm solid var(--ink);padding-top:2mm">
           <p style="font:900 12pt/1.1 var(--font-display)">${esc(p.signoff.name)}</p>
           <p class="mono" style="font:600 var(--t-eyebrow)/1.3 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:1mm">${esc(p.signoff.role)}</p>
         </div>
+        ${p.howTo?.length ? `<div class="card frame" style="margin-top:4mm;background:var(--tint-butter);border-color:var(--deep-gold);padding:3mm 3.5mm">
+          <p class="eyebrow">How to use this paper</p>
+          <ul style="list-style:none;margin:0;padding:0;display:grid;gap:2mm">${p.howTo.map(h => `<li style="display:grid;grid-template-columns:8mm 1fr;gap:2mm;align-items:center;font:700 9pt/1.35 var(--font-body)">${icon(h.icon, 26)}<span>${esc(h.text)}</span></li>`).join('')}</ul>
+        </div>` : ''}
       </div>
       <div style="grid-column:span 5;display:flex;flex-direction:column;gap:4mm">
-        ${art(ctx, p.map, 'height:66mm', 400, 300)}
+        ${art(ctx, p.map, 'height:84mm', 400, 320)}
         <p class="small mono" style="font-size:6.6pt;letter-spacing:.08em;text-transform:uppercase;margin-top:-2mm">Your map: six places to explore, every issue</p>
         <div class="card frame" style="padding:3mm 3.5mm">
           <p class="eyebrow">Inside this issue</p>
@@ -285,7 +290,7 @@ function welcome(ctx: RenderContext, p: Extract<Page, { template: 'welcome' }>) 
         </div>
       </div>
     </div>
-    <div style="margin-top:4mm">${says(ctx, p.friend, p.bloopSays, undefined, '30mm')}</div>`
+    <div style="margin-top:4mm" class="welcome-bloop">${says(ctx, p.friend, p.bloopSays, undefined, '42mm')}</div>`
   return pageShell(ctx, p, inner, { head: runhead(ctx, 'Welcome') })
 }
 

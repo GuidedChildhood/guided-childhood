@@ -58,10 +58,6 @@
         },
         {
           "type": "para",
-          "text": "None of the activities in this paper need a phone or an account. A pencil, some scissors and a curious grown up will do."
-        },
-        {
-          "type": "para",
           "text": "Every fact has its source printed on the same page, so you can always check where it came from. Checking is a superpower. We hope you use it."
         }
       ],
@@ -130,6 +126,20 @@
           "page": 12,
           "title": "Your Planet Passport, and next month",
           "destination": "explorer"
+        }
+      ],
+      "howTo": [
+        {
+          "icon": "search",
+          "text": "A number in a little circle matches a source in “Where this came from” at the foot of the page."
+        },
+        {
+          "icon": "pencil",
+          "text": "You need a pencil, some colours and scissors. No phone and no account."
+        },
+        {
+          "icon": "star",
+          "text": "Collect a stamp on page 12 for every activity you try."
         }
       ]
     },

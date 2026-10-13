@@ -1,29 +1,29 @@
 {
-  "contentHash": "feec89e8db6b670a3966eacb080a33f39e6ae5eedf860f6466ca6e5871b0e21f",
+  "contentHash": "0f310395a29697021766bc06c3486eb3b12f7734dbc6bd33183115fb5a61dff1",
   "files": {
     "cover.png": {
       "sha256": "ec674c520457fb53844da91e21a49c6698e5c552289f083d31eca7e2ceb1f11b",
       "bytes": 1046808
     },
     "guided-planet-001-ink.pdf": {
-      "sha256": "0c43ac6e0d01cf18aeef1a35c3eca248038676b86569a12fd0de08c633937464",
-      "bytes": 2890396
+      "sha256": "560624ec5e8c82cff9c63029ca5b2fb6cd142076a7cb5447c769b04d3532fd2f",
+      "bytes": 2940762
     },
     "guided-planet-001-print.pdf": {
-      "sha256": "d8ad8d3ca7e86b0c9d74dc00d304a64c3da7d5547939fb3179ce2a4222f0405e",
-      "bytes": 6697072
+      "sha256": "ad4493cc24371ffe0445de0e998c588779603508de80e1d1785abb952957c438",
+      "bytes": 6745851
     },
     "guided-planet-001-sources.pdf": {
-      "sha256": "5e17b2213a4512bc978623ff8448bd388a5783090f1d741658650eda7169f6fd",
+      "sha256": "7af510cdfe0a62c2122a94b626a5dacf5daeac81cb83a967da4a690f09d2d222",
       "bytes": 227934
     },
     "guided-planet-001.pdf": {
-      "sha256": "0d2b26e669683869e553b8766b4a91c23bfefc343dd239eb7b433516b80dcd76",
-      "bytes": 3005256
+      "sha256": "27481121bcfeaa9c890757a8131260115d589272c83fd052ddc8a7422bf45e6e",
+      "bytes": 3054129
     },
     "online/index.html": {
-      "sha256": "c7db5a4674f53e647ddfd09c9eeabb90e92a46ff475232835021d447ecdc9e35",
-      "bytes": 30306
+      "sha256": "58226ee576ec8d4f5580d060aab31b8e33424cd89aacde74822810bca56929ed",
+      "bytes": 30490
     },
     "online/sources/index.html": {
       "sha256": "717e3665b70d80cc00695ebf8a231e6dcc2d552d5521fa6c92336f1f33a487cb",
@@ -34,8 +34,8 @@
       "bytes": 351196
     },
     "pages/page-02.png": {
-      "sha256": "1dab6269d4054e4501bb1fb4e9a29b235d515bebe07130ed0b047d13b31b332e",
-      "bytes": 187361
+      "sha256": "fb203f20e75a2c4f3df8ecd80751673644b51d20acc884a735b705fcdc2e264e",
+      "bytes": 220581
     },
     "pages/page-03.png": {
       "sha256": "0f3b942790499d2c843b868176542640e5914ef79d15329923e2171ae36d16ca",
@@ -78,7 +78,7 @@
       "bytes": 159972
     },
     "report.json": {
-      "sha256": "d44aa875e19bba7dd97e66a84d6e5d7bda894018db57438f89be153b2c3ae583",
+      "sha256": "395a257fced3a752f7bc9fea5dbaa14e1babd7d8341763e67decf00b7a9493cd",
       "bytes": 2369
     }
   }

@@ -131,8 +131,8 @@ export function coverNight(w = 600, h = 860) {
 }
 
 // ── PAGE 2, THE MAP OF THE GUIDED PLANET ───────────────────────────────────
-export function worldMap(w = 400, h = 300) {
-  const cx = w / 2, cy = h / 2 + 6, R = 104
+export function worldMap(w = 400, h = 320) {
+  const cx = w / 2, cy = h / 2 - 4, R = 104
   const place = (x: number, y: number, label: string, body: string) => `
     <g transform="translate(${x} ${y})">${body}
       <g transform="translate(0 30)">
@@ -148,12 +148,12 @@ export function worldMap(w = 400, h = 300) {
     <path d="M ${cx - R + 8} ${cy - 20} C ${cx - 60} ${cy - 54}, ${cx - 10} ${cy - 10}, ${cx + 30} ${cy - 40} S ${cx + 90} ${cy - 30}, ${cx + R - 6} ${cy - 8}" fill="none" stroke="${SAGE_DEEP}" stroke-width="16" stroke-linecap="round" opacity=".7"/>
     <path d="M ${cx - R + 20} ${cy + 46} C ${cx - 40} ${cy + 20}, ${cx + 20} ${cy + 70}, ${cx + R - 24} ${cy + 40}" fill="none" stroke="${SAGE_DEEP}" stroke-width="14" stroke-linecap="round" opacity=".55"/>
     <path d="M ${cx - 70} ${cy - 46} C ${cx - 30} ${cy - 70}, ${cx + 40} ${cy - 66}, ${cx + 64} ${cy - 40} C ${cx + 86} ${cy - 12}, ${cx + 70} ${cy + 30}, ${cx + 40} ${cy + 56} C ${cx + 4} ${cy + 80}, ${cx - 60} ${cy + 70}, ${cx - 74} ${cy + 30}" fill="none" stroke="${BUTTER}" stroke-width="3.2" stroke-dasharray="1 8" stroke-linecap="round"/>
-    ${place(cx - 66, cy - 66, 'OBSERVATORY', emblemBody('observatory', 1.25))}
-    ${place(cx + 66, cy - 58, 'MAKER DISTRICT', emblemBody('maker', 1.25))}
-    ${place(cx + 84, cy + 6, 'THINKING FOREST', emblemBody('forest', 1.25))}
-    ${place(cx + 38, cy + 52, 'CONNECTION GARDEN', emblemBody('garden', 1.25))}
-    ${place(cx - 46, cy + 50, 'RESEARCH ROOM', emblemBody('research', 1.25))}
-    ${place(cx - 86, cy - 4, 'FAMILY EXPLORER', emblemBody('explorer', 1.25))}
+    ${place(cx - 70, cy - 64, 'OBSERVATORY', emblemBody('observatory', 1.25))}
+    ${place(cx + 58, cy - 66, 'MAKER DISTRICT', emblemBody('maker', 1.25))}
+    ${place(cx - 92, cy - 2, 'FAMILY EXPLORER', emblemBody('explorer', 1.25))}
+    ${place(cx + 90, cy - 4, 'THINKING FOREST', emblemBody('forest', 1.25))}
+    ${place(cx - 56, cy + 56, 'RESEARCH ROOM', emblemBody('research', 1.25))}
+    ${place(cx + 54, cy + 56, 'CONNECTION GARDEN', emblemBody('garden', 1.25))}
   </svg>`
 }
 

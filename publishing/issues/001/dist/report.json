@@ -1,7 +1,7 @@
 {
   "issue": "issue-001",
-  "contentHash": "feec89e8db6b670a3966eacb080a33f39e6ae5eedf860f6466ca6e5871b0e21f",
-  "renderedAt": "2026-10-13T15:50:05.402Z",
+  "contentHash": "0f310395a29697021766bc06c3486eb3b12f7734dbc6bd33183115fb5a61dff1",
+  "renderedAt": "2026-10-13T16:02:02.448Z",
   "editorial": [],
   "layout": {
     "print": [],
@@ -23,7 +23,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 6697072,
+      "bytes": 6745851,
       "ok": true,
       "problems": []
     },
@@ -41,7 +41,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 3005256,
+      "bytes": 3054129,
       "ok": true,
       "problems": []
     },
@@ -59,7 +59,7 @@
         "IBMPlexMono-Bold",
         "IBMPlexMono-Medium"
       ],
-      "bytes": 2890396,
+      "bytes": 2940762,
       "ok": true,
       "problems": []
     }
@@ -73,7 +73,7 @@
     {
       "page": 2,
       "src": "bloop-wave.png",
-      "dpi": 867
+      "dpi": 619
     },
     {
       "page": 5,

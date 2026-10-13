@@ -92,6 +92,7 @@ export type Page =
       template: 'welcome'; n: number; destination?: Destination
       headline: string; letter: Block[]; signoff: { name: string; role: string }
       map: ArtSlot; friend: FriendRef; bloopSays: string
+      howTo?: { icon: string; text: string }[]   // how to use this paper, three short tips
       inside: { page: number; title: string; destination: Destination }[]
     }
   | {
