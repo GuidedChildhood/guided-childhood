@@ -107,6 +107,14 @@ export async function POST(req: NextRequest) {
       .select('id')
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     fresh = (revived?.length ?? 0) > 0
+    // The "Not quite yet" note has done its job the moment they try again, so
+    // it leaves their screen rather than sitting over a tick that is waiting.
+    if (fresh) {
+      try {
+        await supabase.from('kid_nudges').update({ seen: true })
+          .eq('child_id', link.child_id).eq('quest_id', quest.id).eq('seen', false)
+      } catch { /* the child can still tap OK on it */ }
+    }
   } else if (!existing) {
     const { error } = await supabase.from('quest_ticks').insert({
       quest_id: quest.id,
