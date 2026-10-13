@@ -256,8 +256,37 @@ and the only columns a parent may update are `paypal_email` and
 `updated_at`). 348 was also applied, as a confirmed no op: its grant list
 matches the live catalogue table for table.
 
-367 and 368 are skipped numbers, not missing work. 373 is on an unmerged
-branch. PR 1265.
+367 and 368 are skipped numbers, not missing work. 373 landed on main during
+this sweep and is handled in the entry below. PR 1265.
+
+## 13 October 2026: 373 arrives in two halves, because 70 KB will not go through the tool
+
+Justin: "apply missing migrations". 360 was the gap (above). 373 merged
+while that was in flight, so it was swept too, and it will not go through
+the Supabase tool in one piece: the call times out at 60 seconds, twice,
+and 373 is 70 KB in a single guarded transaction. scripts/module-to-chunks.mjs
+already says a hand carried paste that size cannot be trusted; this is the
+same wall, hit from the other side.
+
+So its two schema changes are applied and verified (`lesson_coverage` with
+RLS, its policy, both indexes, no anon grant, and `children.lessons_together`
+boolean not null default false across all 47 children). Its content half,
+34 parent notes, 18 passport stages and 40 together_prompt lines, is NOT
+applied and is still outstanding.
+
+That split is safe to leave for now, which was checked rather than assumed:
+every reader of the new content is optional (`parent.listen_for &&`,
+`passport_stage ?? null`, `together_prompt?`), and nothing renders
+together_prompt yet, so the absent content is absent rather than wrong.
+
+Worth recording honestly: the timed out call left `lesson_coverage` created
+with RLS off and the old default anon grant for about two minutes before the
+next statement closed it. The table was empty throughout and anon is now
+refused outright, but a create table and its RLS belong in the same
+statement, and splitting them is what opened the window.
+
+The content half needs the lane that generated it (scripts/gen-373.mjs) or a
+chunked variant. PR 1265.
 
 ## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
 
