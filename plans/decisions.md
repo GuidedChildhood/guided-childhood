@@ -292,3 +292,14 @@ Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
 the screen time umbrella review, and "Europe has written the staircase into
 law". Both have real content, neither has been through the review above.
 PR 1262.
+
+## 13 October 2026: the starter pack and the welcome agree the ending too
+
+Migration 371 took the warned ending out of the scripts and moment cards; the
+public starter pack (ages 4 to 7 and 8 to 10 conversation guides) and the
+welcome walkthrough (the scripts card and DiGi's pathway card) still told
+parents to give a five or two minute warning. All now say the ending is agreed
+before the screen goes on. What the grep still finds in product code is the
+copy that refuses a warning, plus DiGi's example follow up in lib/digi/system.ts,
+which PR 1275 replaces. Seed files and research briefings are left as the
+historical record.

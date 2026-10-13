@@ -199,7 +199,7 @@ function SceneScripts() {
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div data-rise style={{ background: 'var(--tint-sage)', borderRadius: '18px 18px 18px 4px', padding: '12px 14px', alignSelf: 'flex-start', maxWidth: 290 }}>
         <div style={{ ...MONO_LABEL, color: GREEN, fontWeight: 700, letterSpacing: '0.1em', marginBottom: 4 }}>Say this</div>
-        <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, color: INK }}>"Five more minutes, then it is my turn to hold it. I will come and get you."</div>
+        <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, color: INK }}>"When this match ends, like we agreed, it is my turn to hold it. I will come and get you."</div>
       </div>
       <div data-rise style={{ background: 'var(--danger-bg)', borderRadius: '18px 18px 4px 18px', padding: '12px 14px', alignSelf: 'flex-end', maxWidth: 250 }}>
         <div style={{ ...MONO_LABEL, color: 'var(--danger)', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 4 }}>Not this</div>
@@ -211,7 +211,7 @@ function SceneScripts() {
 }
 
 function SceneDigi() {
-  const steps = ['Where you are: a save point fight', 'Next step: the two minute warning', 'The words: tap for the script']
+  const steps = ['Where you are: a save point fight', 'Next step: agree the save point', 'The words: tap for the script']
   return (
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
