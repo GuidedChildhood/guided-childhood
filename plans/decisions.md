@@ -323,3 +323,33 @@ on it.
 Google Drive connector, because create_trigger rejects the connectors parameter
 for this organisation. Retried today and refused again. Only Justin can attach
 it, from the claude.ai routines page.
+
+## 13 October 2026: GDC-022 was already spent, and the two parked posts are written
+
+Two things, one of them a correction to this morning.
+
+**The collision.** I renumbered the queue into 018 to 024 believing 022 and 023
+were empty placeholders. 022 was not: the 2.8 million children screen time post
+carries "done" on its first line and went out in September. I found that an hour
+later, when the new review rule made me read the document rather than its file
+size. "Two children, same game" is now GDC-036, the first number nothing has
+ever used. A gap in a sequence costs nothing; two posts sharing a number costs
+the thing the tidy up bought.
+
+Still open for Justin: every number from 018 to 035 is now posted, archived or
+reserved, so one clean run would mean moving the whole queue to 036 onward. That
+is renumbering his filing twice in a day and it is his call.
+
+**The two parked posts, written because he asked.** GDC-037 "How would you test
+readiness", from the parked GDC-001, with the Californian bill stripped out. It
+is the only post in the queue with no clock on it, and it admits we have no
+outcome evidence that finishing a stage changes anything. GDC-038 "Same app,
+different rules", from the parked GDC-025. I had parked it as a duplicate of
+GDC-036 and that was wrong on a closer read: 036 is capability inside one
+product, 038 is a boundary running through the middle of a single app.
+
+**The radar Routine still cannot hold Google Drive from here.** `create_trigger`
+refuses the connectors parameter for this organisation and `update_trigger` has
+no connectors parameter at all. His daily health sweep Routine does hold
+Google-Drive, so the capability exists on the account; it has to be attached in
+the claude.ai Routines UI. PR 1274.
