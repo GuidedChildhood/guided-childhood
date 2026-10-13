@@ -269,6 +269,11 @@ The 52 `teacher_notes.hard_questions` written on 21 September were only in conte
 ## 13 October 2026: the six heavy lessons wait for a grown up
 
 Justin said yes (sync plan C). When a child starts one of the six heaviest lessons alone, it opens 48 hours later or the moment the parent taps Ready, and the parent gets the note first: a push with no subject on the lock screen and an email, both landing on `/dashboard/lessons/heads-up`, built from the deck's own parent text. A lesson the parent sends, nudges or opens together is theirs already and opens at once. No migration: the mission's `sent_at` is set ahead. Guard: check-lesson-path section 14. Detail in the PR.
+## 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it
+
+Teo's home showed a DiGi answer written for Justin (markdown, a dashboard link). Send to their phone now sits only under the child's version, and a note pointing into the dashboard is refused and hidden (PR 1263). After a four agent review, each kid tab is its own page, red badges count only what a grown up sent, a "not done yet" job is never counted done and reaches the child kindly (PR 1268), and the jobs step shows its stars (PR 1264). Bigger reshuffles that reverse earlier choices wait for Justin: plans/2026-10-13-kid-home-simplify-plan.md.
+
+Justin then chose "one streak, not four": the flame bar with the next Friend is the only streak on the child's home; the five a day's days in a row, the balance card's day streak and the greeting's full days count are gone (PR 1264).
 ## 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018
 
 Justin: "lets tidy up and start from gdc 18 and lets always apply a calude

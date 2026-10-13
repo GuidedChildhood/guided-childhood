@@ -173,6 +173,7 @@ export default function KidFiveADay({
   mission = null,
   asksPending = 0,
   jobsLeft = [],
+  jobsStarsLeft = 0,
 }: {
   /**
    * Ideas already waiting on the grown up. Justin, 14 September 2026, with
@@ -186,6 +187,10 @@ export default function KidFiveADay({
   asksPending?: number
   /** The jobs still to tick today, by name, so the jobs row says which. */
   jobsLeft?: string[]
+  /** Stars still to earn from today's jobs. Printed on the jobs step, so the
+   *  reward is on the thing to tap, the Duolingo "+25 XP" on the button
+   *  (13 October 2026, the Mobbin review of the child home). */
+  jobsStarsLeft?: number
   /** The screen listens so the Today tab can say what is left (14 September 2026). */
   onStateChange?: (s: { left: number; total: number; complete: boolean; opened: boolean }) => void
   /** This week's full days, Monday to Sunday, from the day's own row. Always drawn when given. */
@@ -438,11 +443,6 @@ export default function KidFiveADay({
             {doneCount} of {total}
           </span>
     
-      {state.streak > 0 && (
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-              🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-            </span>
-          )}
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
@@ -540,7 +540,9 @@ export default function KidFiveADay({
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
           margin: '0 2px 2px',
         }}>
-          {doneCount === 0 ? `Start here · step 1 of ${total}` : `Do this next · step ${doneCount + 1} of ${total}`}
+          {/* Clamped: a finished day reopened with Show used to say "step 6
+              of 5" (13 October 2026 walkthrough). */}
+          {doneCount === 0 ? `Start here · step 1 of ${total}` : doneCount >= total ? `All ${total} done` : `Do this next · step ${doneCount + 1} of ${total}`}
         </p>
         {/* The ONE live step. The next appears when this lands. */}
         {(() => {
@@ -607,6 +609,17 @@ export default function KidFiveADay({
                   tapped Something kind expecting a page and got a silent tick
                   instead. The chevron is a promise about what happens next, and
                   it was lying on seven of the twelve steps. */}
+              {/* The reward on the button. Only the jobs step earns stars this
+                  way, so only it wears the chip, and only while some are left. */}
+              {!isDone && key === 'jobs' && jobsStarsLeft > 0 && (
+                <span aria-label={`${jobsStarsLeft} stars to earn`} style={{
+                  flexShrink: 0, alignSelf: 'center', whiteSpace: 'nowrap',
+                  background: CRAYON.butter, border: 'var(--edge)', borderRadius: 999, padding: '3px 9px',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                }}>
+                  +{jobsStarsLeft} ⭐
+                </span>
+              )}
               {!isDone && goesSomewhere && (
                 <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
                   ›
@@ -760,11 +773,8 @@ export default function KidFiveADay({
       {weekDone && <div style={{ margin: '14px 0 0' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
       {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '14px 0 0' }}><KidMission rows={mission} compact /></div>}
 
-      {state.streak > 0 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
-          🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-        </p>
-      )}
+      {/* No "N days in a row" here any more: the flame bar above the card is
+          the one streak on the screen (13 October 2026). */}
       {state.complete && state.streak === 0 && childName && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.
