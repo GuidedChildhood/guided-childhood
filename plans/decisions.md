@@ -297,3 +297,64 @@ Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
 the screen time umbrella review, and "Europe has written the staircase into
 law". Both have real content, neither has been through the review above.
 PR 1262.
+
+## 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live
+
+Justin, on the four open items: keep the live Digital Health Report links
+("keep it there as dos work"), tell him what the comment replies skill should
+say, and run the new review over the two unreviewed documents.
+
+**Correction.** The canon had said the report is "not a service at the moment"
+and ruled it out of copy entirely. That went further than Justin did. The tool
+works and the links stay. The rule is about which product the founder story
+sells, not about whether the report exists. Corrected in the canon, the audit,
+drive-post-review and kids-research.
+
+**The comment replies skill** lives in Justin's own claude.ai skills, so nothing
+here can fix it. `content/brand-story/linkedin-comment-replies-product-facts.md`
+is the replacement block to paste: lead with the free stage check, the real
+parent prices, and never quote a figure for the report.
+
+**The two unreviewed documents.** The 2.8 million children screen time post
+carried "done" on its first line and had already been posted, so it is
+relabelled POSTED GDC-022 and needs nothing. The EU KIDS Act post is the find:
+its consultation closes 26 November, so it is the one genuinely live post left
+in that batch. Rewritten as GDC-025, opening on what a twelve year old should be
+able to do rather than on "for five years", with the UK under 16 restrictions as
+the bridge and the consultation deadline moved to the close where a head can act
+on it.
+
+**Still not possible from a session:** the Monday radar Routine cannot store the
+Google Drive connector, because create_trigger rejects the connectors parameter
+for this organisation. Retried today and refused again. Only Justin can attach
+it, from the claude.ai routines page.
+
+## 13 October 2026: GDC-022 was already spent, and the two parked posts are written
+
+Two things, one of them a correction to this morning.
+
+**The collision.** I renumbered the queue into 018 to 024 believing 022 and 023
+were empty placeholders. 022 was not: the 2.8 million children screen time post
+carries "done" on its first line and went out in September. I found that an hour
+later, when the new review rule made me read the document rather than its file
+size. "Two children, same game" is now GDC-036, the first number nothing has
+ever used. A gap in a sequence costs nothing; two posts sharing a number costs
+the thing the tidy up bought.
+
+Still open for Justin: every number from 018 to 035 is now posted, archived or
+reserved, so one clean run would mean moving the whole queue to 036 onward. That
+is renumbering his filing twice in a day and it is his call.
+
+**The two parked posts, written because he asked.** GDC-037 "How would you test
+readiness", from the parked GDC-001, with the Californian bill stripped out. It
+is the only post in the queue with no clock on it, and it admits we have no
+outcome evidence that finishing a stage changes anything. GDC-038 "Same app,
+different rules", from the parked GDC-025. I had parked it as a duplicate of
+GDC-036 and that was wrong on a closer read: 036 is capability inside one
+product, 038 is a boundary running through the middle of a single app.
+
+**The radar Routine still cannot hold Google Drive from here.** `create_trigger`
+refuses the connectors parameter for this organisation and `update_trigger` has
+no connectors parameter at all. His daily health sweep Routine does hold
+Google-Drive, so the capability exists on the account; it has to be attached in
+the claude.ai Routines UI. PR 1274.

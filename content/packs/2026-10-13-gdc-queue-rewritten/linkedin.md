@@ -9,6 +9,10 @@ live. 1,300 to 2,500 characters. No dashes. Nothing here is posted or scheduled.
 Numbered GDC-018 to GDC-024, and the number is the posting order, so there is
 no separate order to remember. Never two in a day.
 
+One exception, and it is a correction: GDC-022 was already spent on a post that
+went out in September, so "Two children, same game" is GDC-036. See
+`gdc-036-to-038-the-two-parked-and-a-renumber.md`.
+
 The series line is "In Proportion". Add it as its own line before the closing
 question on any of these if the series is running that week.
 
@@ -128,9 +132,11 @@ The study is Interaction Design and Children, from the University of Washington 
 
 ---
 
-## GDC-022 · Two children, same game
+## GDC-036 · Two children, same game
 
-*(rewritten from GDC-029.)*
+*(rewritten from GDC-029. Moved off GDC-022 on 13 October: 022 is a posted
+post, the 2.8 million children screen time one, which I did not know when I
+assigned these numbers. 036 is the first number nothing has ever used.)*
 
 Two children can both say "I'm playing Minecraft" and have almost nothing in common.
 
@@ -242,7 +248,7 @@ phone free post when a UK trigger appears, not in a post about a US Senate bill.
 
 **Posting order is the numbering.** GDC-018 first and GDC-024 last. 018 has the
 strongest hook, 019 is the one for the schools pilot, 020 is the serious UK
-source, 021 is children and AI which is the lane that worked, 022 is capability
+source, 021 is children and AI which is the lane that worked, 036 is capability
 for schools, 023 is the one nobody else is saying, and 024 is the most inside
 baseball and the best of them for a professional audience. Never two in a day.
 
