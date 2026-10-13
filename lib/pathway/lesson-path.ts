@@ -168,11 +168,22 @@ export function childLessonPath({
   const skipped = new Set(miss.filter(m => m.status === 'skipped').map(m => m.lesson_id))
   const isPassed = (id: string) => credited.has(schoolCreditKey(id))
 
-  // `next` is the first module neither passed nor skipped. A skipped module
-  // does not block the road, which is the whole point of letting a parent
-  // start a different one after three weeks.
+  // `next` is this week's lesson. A lesson with an open mission (sent, not
+  // yet passed) is it, because that is the one in hand: the one a parent
+  // chose with "Do this one instead", or the one the child opened. Otherwise
+  // it is the first module neither passed nor skipped. A skipped module does
+  // not block the road, which is the whole point of letting a parent start a
+  // different one.
+  const open = new Set(miss.filter(m => m.status === 'sent').map(m => m.lesson_id))
   let next: { id: string; position: number } | null = null
   for (let i = 0; i < mods.length; i += 1) {
+    const id = mods[i].id
+    if (open.has(id) && !isPassed(id)) {
+      next = { id, position: i + 1 }
+      break
+    }
+  }
+  for (let i = 0; !next && i < mods.length; i += 1) {
     const id = mods[i].id
     if (!isPassed(id) && !skipped.has(id)) {
       next = { id, position: i + 1 }

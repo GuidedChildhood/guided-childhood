@@ -67,7 +67,7 @@ if (!/markStepQuietly\(supabase, link\.user_id, link\.child_id, 'lesson'\)/.test
 const sections = read('lib/pathway/passport-sections.ts')
 if (!/\/dashboard\/lessons\/path\?stage=\$\{id\}/.test(sections)) fail.push('the passport Lessons and tests row does not open the child\'s lesson list, so its count and its destination disagree')
 const path = read('app/(dashboard)/dashboard/lessons/path/page.tsx')
-if (!/loadChildLessonPath\(supabase, \{ userId: user\.id, childId: child\.id, stageId \}\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules through the one lesson count or offers Do it together')
+if (!/loadChildLessonPath\(supabase, \{ userId: user\.id, childId: child\.id, stageId, paid \}\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules through the one lesson count or offers Do it together')
 
 // ── 5. DIGI POINTS AT THE RIGHT LESSON ─────────────────────────────────────
 const route = read('app/api/digi/route.ts')
@@ -220,6 +220,13 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     // A skipped module does not block the road.
     const skipped = run({ completions: [], missions: [{ lesson_id: 'm1', status: 'skipped' }] })
     eq('skipped moves next', skipped.school.next, { id: 'm2', position: 2 })
+    // "Do this one instead": the lesson with an open mission is this week's,
+    // ahead of an earlier one waiting on the list.
+    const chosen = run({ completions: [], missions: [{ lesson_id: 'm1', status: 'skipped' }, { lesson_id: 'm3', status: 'sent' }] })
+    eq('an open mission is this week\'s lesson', [chosen.school.next, chosen.statusById.m3.state, chosen.statusById.m2.state], [{ id: 'm3', position: 3 }, 'thisWeek', 'paced'])
+    // A passed lesson's mission is done, never open, so it cannot hold the week.
+    const afterPass = run({ completions: [pass('m1')], missions: [{ lesson_id: 'm1', status: 'done' }] })
+    eq('a passed lesson never holds the week', afterPass.school.next, { id: 'm2', position: 2 })
     // locked is the paywall and nothing else: the first module and this
     // week's are always open.
     const free = run({ completions: [], paid: false })
@@ -543,6 +550,22 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     }
     if (decksWithLines < 2) fail.push(`the first two Foundation decks carry their grown up lines (found ${decksWithLines})`)
   }
+}
+
+// ── 13. THE PARENT'S ACTIONS ON EACH LESSON (12 October 2026) ───────────────
+//
+// Justin: "should there be an action to nudge child's app or click co watch or
+// save for later?" This week's lesson sends or nudges with Do it together
+// beside it; any other open lesson can become this week's ("Do this one
+// instead", which parks the current one rather than losing it).
+{
+  const page = read('app/(dashboard)/dashboard/lessons/path/page.tsx')
+  const actions = read('components/lessons/LessonRowActions.tsx')
+  if (!/<LessonRowActions /.test(page) || !/mode="instead"/.test(page)) fail.push('the lessons page lost its row actions (send or nudge, do it together, do this one instead)')
+  if (!/hasFullAccess\(/.test(page)) fail.push('the lessons page must tell the one count whether the family has paid, or every lesson after the first reads as locked')
+  if (!/fetch\('\/api\/quests\/lessons'/.test(actions) || !/instead: mode === 'instead'/.test(actions)) fail.push('the row actions must go through the send route')
+  const send = read('app/api/quests/lessons/route.ts')
+  if (!/if \(body\.instead\)/.test(send) || !/\.update\(\{ status: 'skipped' \}\)/.test(send) || !/\.eq\('status', 'sent'\)/.test(send)) fail.push('Do this one instead must park only open missions (sent), never a passed one')
 }
 
 if (fail.length) {

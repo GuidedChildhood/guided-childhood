@@ -260,6 +260,12 @@ blog numbers, not their exact digits, they are folklore. The numbers below are t
 - **Comments beat likes, and long comments win.** Comments over about 15 words carry roughly
   double the weight. This is why the close is a real question, not a like bait. (The "comments
   are worth 15 times a like" figure is folklore, the ranking is not.)
+- **SUPERSEDED ON 6 OCTOBER 2026, read this first.** The rule below, that a
+  number in the first line wins, is corpus folklore and Justin's own account
+  contradicts it. His question led openings did 6,008 and 3,155 impressions with
+  56 and 27 comments; his number led openings did 1,002 and 698 with zero
+  comments. Open on the question you cannot answer and put the number in the
+  third paragraph. The evidence is in content-engine/linkedin-engagement.md.
 - **The hook must land before the fold, about 140 characters on mobile.** Shorter hooks win,
   first lines of 1 to 5 words earn the most, and a number in the first line earns about 35 median
   likes versus 26 without. Lead with the number. This is the beta 0.061 move, confirmed in the

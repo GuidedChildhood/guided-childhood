@@ -1,7 +1,7 @@
 {
  "name": "script-deck",
  "url": "/ref-script-deck",
- "seconds": 18,
+ "seconds": 12.5,
  "height": 1000,
  "anims": true,
  "stubs": [
@@ -15,22 +15,10 @@
  ],
  "actions": [
   {
-   "at": 4800,
+   "at": 9000,
    "do": "tap",
    "selector": "button",
    "text": "Next"
-  },
-  {
-   "at": 7800,
-   "do": "tap",
-   "selector": "button",
-   "text": "Next"
-  },
-  {
-   "at": 13400,
-   "do": "scroll",
-   "to": 640,
-   "ms": 1800
   }
  ]
 }

@@ -1,20 +1,58 @@
 'use client'
 
+import { useState } from 'react'
 import {
-  eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle, chunky,
+  eyebrow, sheet, dottedRule, sheetBody, stageAccent,
 } from '@/components/scripts/card-system'
 
 // The heart of a script: the line to say, made to feel like the single most
-// important thing on the screen. A parent opens this in the heat of a hard
-// moment, so the words they will actually say are set large and warm.
+// important thing on the screen, and placed where a parent can reach it
+// without scrolling.
 //
-// It used to arrive as four separate white boxes, and four boxes read as four
-// things to get through. It is one thing: the words for one moment. So it is
-// one sheet now, butter, with the four steps as numbered blocks divided by a
-// dotted rule, the way a good worksheet is laid out. Every supporting step is
-// set at the same size, because none of them outranks the one beside it. Only
-// the words to say are bigger, because they are the only part a parent is
-// going to say out loud.
+// ── WHY THIS WAS REBUILT, 12 October 2026 ───────────────────────────────────
+//
+// Justin: "make sure the scripts page fits great on mobile and is extremely
+// useful, really makes everything important stand out and workable."
+//
+// Rendered at 390px, the first screen of a script contained NOT ONE WORD a
+// parent could say. Roughly 460 to 520px of furniture came first: a back link,
+// a Try as deck button, two chips, the title, the situation set at 19px with
+// no clamp, a read tick, a search link, a ban note, and then a band announcing
+// "Four steps, in order". The words were below all of it. A parent standing in
+// the kitchen with the child in front of them had to scroll to find them.
+//
+// ── THE FOUR STEPS WERE NEVER STEPS ─────────────────────────────────────────
+//
+// Say this, not this, why it works and tonight were numbered 1 to 4 and
+// introduced as a sequence to work through. They are not a sequence. One is a
+// thing you say, one is an anti example you must never say, one is theory for
+// a calm moment, and the fourth is a thing you were meant to do BEFORE any of
+// it. A parent following them in order would prepare last.
+//
+// So the numbering goes and each block is labelled by its job. The eye still
+// walks one left edge, but it is no longer being told to walk it in order.
+//
+// ── AND THE ORDER CHANGED, ON THE EVIDENCE ──────────────────────────────────
+//
+// `tonight` is the most evidenced field in the whole record and it rendered
+// last. Hiniker 2016 (CHI, observational): previously agreed rules accounted
+// for only 9 percent of endings, and endings the parent's voice called went
+// worse than endings the content or the device called. Wilder 2005: antecedent
+// strategies did nothing without follow through. Gollwitzer and Sheeran 2006,
+// 94 tests, d = 0.65: the active ingredient is a cue paired with a response,
+// formed IN ADVANCE.
+//
+// It moves up to third and is labelled Before the moment, which is what it is.
+// It does not go first, because the parent who opens this at seven in the
+// evening has already missed the before and needs the words now. The ordering
+// serves the person in the moment; the labelling tells the person preparing
+// what they are looking at.
+//
+// Why it works is the only block allowed to collapse. Rationale is
+// preparation, and under stress it is noise. Everything a parent might say
+// out loud stays open, because an accordion costs a tap and hides the
+// existence of the content, and remembering to look is exactly the memory
+// stress takes away.
 
 type Props = {
   sayThis: string
@@ -26,95 +64,83 @@ type Props = {
 
 export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId }: Props) {
   const accent = stageAccent(stageId)
+  const [whyOpen, setWhyOpen] = useState(false)
 
-  // Every step opens the same way: the number circle and the mono label on one
-  // baseline, so the eye walks the sequence 1 to 4 down one left edge.
-  const head = (num: number, label: string, tone?: string) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
-      <span style={stageCircle(accent)}>{num}</span>
+  // Each block opens with a mono label against the stage colour. No number,
+  // because there is no order to walk, and no circle, because the circle was
+  // the thing that made it look like a sequence.
+  const head = (label: string, tone?: string) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 10 }}>
+      <span aria-hidden style={{
+        width: 4, height: 15, borderRadius: 2, flexShrink: 0,
+        background: tone ?? accent.fill,
+      }} />
       <span style={{ ...eyebrow, color: tone ?? 'var(--terracotta-dark)' }}>{label}</span>
     </div>
   )
 
   return (
     <section style={sheet}>
+      <div style={{ padding: 'clamp(18px, 4.5vw, 26px)' }}>
 
-      {/* The band, with the same convex arc the daily deck cards wear, so a
-          script and a card read as one family. It names what the sheet is. */}
-      <div style={sheetBand}>
-        <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink)', opacity: 0.7 }}>
-          The script
-        </div>
-        <div style={{
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
-          color: 'var(--ink)', lineHeight: 1.1, letterSpacing: '-0.02em', marginTop: 2,
-        }}>
-          Four steps, in order
-        </div>
-      </div>
-
-      <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
-
-        {/* ── 1 · Say this: the one thing on the page said out loud ─────── */}
-        {head(1, 'Say this')}
+        {/* ── THE WORDS. The whole reason the page exists. ───────────────── */}
+        {head('Say this')}
         <blockquote style={{
           margin: 0,
           fontFamily: 'var(--font-display)',
-          fontWeight: 900,
-          fontSize: 'clamp(26px, 7vw, 34px)',
-          lineHeight: 1.25,
-          letterSpacing: '-0.02em',
+          // 800 rather than 900: at 28px across several lines the heaviest
+          // weight closes the counters and the quote reads as a slab.
+          fontWeight: 800,
+          fontSize: 'clamp(26px, 7vw, 30px)',
+          lineHeight: 1.3,
+          letterSpacing: '-0.015em',
           color: 'var(--ink)',
+          // A teleprompter measure, one saccade per line. A 390px phone is
+          // already near this, so the cap is really what stops the line
+          // running to 680px on a desktop.
+          maxWidth: '30ch',
           textWrap: 'balance',
         }}>
           <span aria-hidden style={{ opacity: 0.35 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.35 }}>&rdquo;</span>
         </blockquote>
 
-        {/* ── HEAR IT ALOUD IS GONE (11 September 2026) ────────────────────
-            Justin: "lets get rid of hear it aloud on scripts or anything else
-            as not helpful unless you think there is better way to have
-            something there?"
-
-            Agreed, and the case against it is stronger than "not helpful".
-            The one person who has to say these words is the parent, in their
-            own voice, and a synthetic reading rehearses nothing. Worse, it is
-            played in a house where the child is usually in the next room, so
-            the likeliest outcome of the button is the child hearing an app
-            read out the exact line about to be used on them. That is the worst
-            thing that can happen to a script, and we had a button under the
-            quote inviting it.
-
-            NOTHING REPLACES IT, on purpose. The page already ends with the
-            thing that earns the space: mark it used or not needed, which moves
-            the pathway and retires the script from the recommender
-            (ScriptStatusButtons, rendered by ScriptDetailView). A second
-            control up here would only compete with the one that matters, and
-            the quote is meant to be the hero of this block. */}
-
         <div style={dottedRule} />
 
-        {/* ── 2 · Not this ─────────────────────────────────────────────── */}
-        {head(2, 'Not this', 'var(--danger)')}
-        <p style={{ ...sheetBody, color: 'var(--danger)', fontStyle: 'italic' }}>
+        {/* ── The glance check. Subordinate on purpose: it is never spoken. */}
+        {head('Not this', 'var(--danger)')}
+        <p style={{ ...sheetBody, color: 'var(--danger)', fontStyle: 'italic', maxWidth: '36ch' }}>
           <span aria-hidden style={{ opacity: 0.5 }}>&ldquo;</span>{notThis}<span aria-hidden style={{ opacity: 0.5 }}>&rdquo;</span>
         </p>
 
         <div style={dottedRule} />
 
-        {/* ── 3 · Why it works (the evidence) ──────────────────────────── */}
-        {head(3, 'Why it works')}
-        <p style={sheetBody}>{whyItWorks}</p>
+        {/* ── The before action, promoted from last to here. ─────────────── */}
+        {head('Before the moment')}
+        <p style={{ ...sheetBody, fontWeight: 600, maxWidth: '42ch' }}>{tonight}</p>
 
         <div style={dottedRule} />
 
-        {/* ── 4 · Tonight (the one action) ─────────────────────────────── */}
-        {head(4, 'Tonight')}
-        <p style={{ ...sheetBody, fontWeight: 600 }}>{tonight}</p>
+        {/* ── The evidence, and the only thing behind a tap. ─────────────── */}
+        <button
+          onClick={() => setWhyOpen(v => !v)}
+          aria-expanded={whyOpen}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 9, width: '100%',
+            background: 'none', border: 'none', padding: '4px 0', cursor: 'pointer',
+            textAlign: 'left', minHeight: 44,
+          }}
+        >
+          <span aria-hidden style={{ width: 4, height: 15, borderRadius: 2, flexShrink: 0, background: accent.fill }} />
+          <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>Why it works</span>
+          <span aria-hidden style={{
+            marginLeft: 'auto', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)',
+            transform: whyOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s ease',
+          }}>›</span>
+        </button>
+        {whyOpen && (
+          <p style={{ ...sheetBody, maxWidth: '42ch', marginTop: 10 }}>{whyItWorks}</p>
+        )}
       </div>
-
-      <style>{`
-        @keyframes sr-bar { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1) } }
-      `}</style>
     </section>
   )
 }

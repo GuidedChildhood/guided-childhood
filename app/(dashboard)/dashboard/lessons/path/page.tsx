@@ -11,6 +11,8 @@ import LessonsTogetherSwitch from '@/components/lessons/LessonsTogetherSwitch'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
+import LessonRowActions from '@/components/lessons/LessonRowActions'
+import { hasFullAccess } from '@/lib/access'
 
 // The child's lessons, from the parent's side (29 September 2026).
 //
@@ -57,13 +59,22 @@ export default async function ChildLessonPathPage({
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'Your child'
 
   const admin = createAdminClient()
+  // Whether the family has paid, so the one count can say which lessons are
+  // open, and the child's missions, so each row knows whether its button
+  // sends, nudges or has nudged.
+  const [{ data: profile }, { data: missionRows }] = await Promise.all([
+    supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', user.id).maybeSingle(),
+    supabase.from('kid_lesson_missions').select('lesson_id, status, nudged_at').eq('user_id', user.id).eq('child_id', child.id),
+  ])
+  const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
+  const missionOf = new Map(((missionRows ?? []) as { lesson_id: string; status: string; nudged_at: string | null }[]).map(m => [m.lesson_id, m]))
   const [{ modules, path }, { data: link }] = await Promise.all([
     // The one lesson count (lib/pathway/lesson-path.ts), the same function the
     // passport reads, so this heading and the passport's row cannot quote
     // different numbers. Until 9 October 2026 this page counted the child's
     // own school rows alone and the passport also credited a household pass
     // and migration 162's who passed rows, which is how the two drifted.
-    loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId }),
+    loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId, paid }),
     supabase.from('kid_links').select('token').eq('child_id', child.id).maybeSingle(),
   ])
   const passed = new Set(modules.filter(m => path.statusById[m.id]?.state === 'passed').map(m => m.id))
@@ -142,15 +153,36 @@ export default async function ChildLessonPathPage({
                     {q}
                   </p>
                 )}
-                {token && (together || focused) && !done && (
-                  <a href={`/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`} data-do-together style={{
-                    display: 'inline-block', marginTop: 10, padding: '10px 16px', borderRadius: 'var(--radius-btn)',
-                    background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
-                  }}>
-                    Do it together now
-                  </a>
-                )}
+                {/* One main action per row (12 October 2026): this week's lesson
+                    sends or nudges with Do it together beside it; any other
+                    open lesson can become this week's. Under 7 the lesson is
+                    done together, so that is the main action there. */}
+                {token && !done && (() => {
+                  const state = path.statusById[m.id]?.state
+                  const togetherHref = `/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`
+                  if (state === 'locked') {
+                    return <p style={{ margin: '10px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>Opens with membership.</p>
+                  }
+                  if (together) {
+                    return m.id === nextId || focused
+                      ? (
+                        <a href={togetherHref} data-do-together style={{
+                          display: 'inline-block', marginTop: 10, padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                          background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
+                        }}>
+                          Do it together now
+                        </a>
+                      )
+                      : <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode="instead" />
+                  }
+                  if (m.id === nextId) {
+                    const mission = missionOf.get(m.id)
+                    const mode = !mission || mission.status !== 'sent' ? 'send' : mission.nudged_at ? 'nudged' : 'nudge'
+                    return <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode={mode} togetherHref={togetherHref} />
+                  }
+                  return <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode="instead" togetherHref={focused ? togetherHref : null} />
+                })()}
               </div>
             )
           })}
