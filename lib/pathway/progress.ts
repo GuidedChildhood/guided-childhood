@@ -1,3 +1,4 @@
+import { lessonScopeFor } from '@/lib/lessons/child-scope'
 import { countsTowardPathway } from './script-status'
 import type { createClient } from '@/lib/supabase/server'
 import { stageDevicePct } from '@/lib/devices/family'
@@ -119,7 +120,7 @@ export async function getStageProgress(
     // and a parent's session reads nothing from it (it is the curriculum
     // catalogue, and only ids, titles and key stages are selected here).
     listStarLessons(createAdminClient()).then(rows => ({ data: schoolModulesForStage(rows, stageId) })),
-    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = lessonScopeFor(childId); return f ? q.or(f) : q })(),
     // The family's own device list, from migration 106. Before that migration,
     // or before they have told us, this comes back empty and the catalogue
     // reading below is used exactly as it was. This child's own devices plus
@@ -273,7 +274,7 @@ export async function getAllStagesProgress(
     (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     // Every school module, split per stage below (see lib/lessons/school-path.ts).
     listStarLessons(createAdminClient()).then(rows => ({ data: rows ?? [] })),
-    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = lessonScopeFor(childId); return f ? q.or(f) : q })(),
     (() => { const q = supabase.from('family_devices').select('guide_key, retired_at, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
