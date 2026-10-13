@@ -11,7 +11,7 @@ const browser = await chromium.launch({ executablePath: '/Applications/Google Ch
 const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3 })
 const page = await ctx.newPage()
 await page.route('**/api/digi/prompts', (r) => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ prompts: [
-  { id: 'f1', kind: 'follow_up', title: 'Bedtime and the TV', body: 'The bedtime timer, five nights on. How did that go?', href: null, outcome_id: 'o1' },
+  { id: 'f1', kind: 'follow_up', title: 'Bedtime and the TV', body: 'The ending you agreed, a week on. How many went without a fight?', href: null, outcome_id: 'o1' },
 ] }) }))
 await page.goto(base + '/dev/home-tail', { waitUntil: 'networkidle', timeout: 60000 })
 await page.addStyleTag({ content: 'nextjs-portal,[data-nextjs-toast],[data-next-badge-root]{display:none!important}' })
