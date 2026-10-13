@@ -59,11 +59,11 @@ TRUST IMPLICATION: Do not make a rule you will not follow yourself. Children at 
 **Stages:** 2, 3
 **Trigger:** "He is mid-game and just refuses to move. We are late every morning."
 
-SAY THIS: "I understand you are mid-game. Five minutes and then we save and go. If we miss the bus again, screens go into the weekend box for Saturday. That is a natural consequence, not a punishment."
+SAY THIS (the evening before, in a calm moment): "Tomorrow the game comes after you are dressed and your bag is by the door, and it stops at the end of the match that is running when I call shoes. If we miss the bus, screens go into the weekend box for Saturday. We are agreeing it now, so in the morning there is nothing to argue about."
 
 NOT THIS: "Turn it off NOW or I am taking it for a week."
 
-WHY: Natural consequences that are proportionate and predictable change behaviour faster than arbitrary punishments. The child needs to know the exact outcome and believe you will follow through.
+WHY: Natural consequences that are proportionate and predictable change behaviour faster than arbitrary punishments. The child needs to know the exact outcome and believe you will follow through. The ending is agreed before the screen goes on, not warned at the end: the one close study of screen endings found warned endings were followed by more upset, not less (Hiniker et al, CHI 2016), and an online match cannot be paused, so the stop is the end of a match rather than a time on the clock (Baughan et al, IDC 2024).
 
 TRUST IMPLICATION: Never say a consequence you will not follow through on. Consistency is the thing.
 

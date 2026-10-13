@@ -292,3 +292,6 @@ Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
 the screen time umbrella review, and "Europe has written the staircase into
 law". Both have real content, neither has been through the review above.
 PR 1262.
+## 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375)
+
+The Ready series eval run found live DiGi still advising "Give a warning... Five minutes before" for bedtime TV, after 371 took that advice out of the library. Cause: the prompt's own reflective question example was a five minute warning. The prompt now has an ENDING A SCREEN rule (agree it before the screen goes on, never a warning or countdown), and 375 corrects three expert_knowledge rows that said the opposite (Child Mind Institute, the NHS sleep leaflet, Hiniker overstated). The same run failed the phone question for "no exceptions": the voice file used "The bedroom rule is not negotiable" as its model sentence. Now the bedroom rule is given as a calibrated pathway. ND-01's visual timer stays: a timer the child can see, set together, is an agreed ending, and the study was of under sixes in general. Two permanent eval cases guard both. Applying 375 is Justin's call. PR PRNUM.
