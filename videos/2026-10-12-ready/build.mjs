@@ -98,10 +98,9 @@ tl.to("#p${i}-dots",{opacity:0,height:0,margin:0,padding:0,duration:0.2},${(a + 
     tl += `tl.to("#p${i}",{opacity:0,y:20,duration:0.45,ease:"power2.in"},${(e - 0.6).toFixed(2)});\n`
   }
   if (b.line) {
-    html += `<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div><div id="l3">Justin Phillips, founder and dad</div></div>`
+    html += `<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div></div>`
     tl += `tl.fromTo("#l1",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},${(s + b.line.at).toFixed(2)});
 tl.fromTo("#l2",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},${(s + b.line.at + 1.8).toFixed(2)});
-tl.fromTo("#l3",{opacity:0},{opacity:1,duration:0.8},${(s + b.line.at + 3.8).toFixed(2)});
 tl.to("#line",{opacity:0,duration:0.6},${(CARD_AT - 0.3).toFixed(2)});
 `
   }
@@ -156,7 +155,6 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#000}
 .dg{margin-top:16px;font-weight:600;font-size:29px;line-height:1.35;color:#1A1A2E;opacity:0}
 .line{position:absolute;left:0;right:0;bottom:150px;text-align:center;z-index:6;color:#FFFBEE;font-weight:800;font-size:54px;line-height:1.25;text-shadow:0 2px 0 rgba(0,0,0,0.25),0 12px 40px rgba(0,0,0,0.65)}
 .line div{opacity:0}
-.line #l3{margin-top:22px;font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:0.16em;text-transform:uppercase;color:#EDC35F}
 .card{position:absolute;inset:0;background:#F9F8F6;z-index:7;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .lockup{display:flex;align-items:center;gap:34px;opacity:0}
 .word{font-weight:800;font-size:92px;color:#1A1A2E;letter-spacing:-0.01em}

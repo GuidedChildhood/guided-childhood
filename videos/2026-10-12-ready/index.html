@@ -29,7 +29,6 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 .dg{margin-top:16px;font-weight:600;font-size:29px;line-height:1.35;color:#1A1A2E;opacity:0}
 .line{position:absolute;left:0;right:0;bottom:150px;text-align:center;z-index:6;color:#FFFBEE;font-weight:800;font-size:54px;line-height:1.25;text-shadow:0 2px 0 rgba(0,0,0,0.25),0 12px 40px rgba(0,0,0,0.65)}
 .line div{opacity:0}
-.line #l3{margin-top:22px;font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:0.16em;text-transform:uppercase;color:#EDC35F}
 .card{position:absolute;inset:0;background:#F9F8F6;z-index:7;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .lockup{display:flex;align-items:center;gap:34px;opacity:0}
 .word{font-weight:800;font-size:92px;color:#1A1A2E;letter-spacing:-0.01em}
@@ -56,7 +55,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
 <div class="cap" id="c9"><div class="age">Age 16</div><div class="cl">Her own phone. And she is ready.</div></div><div id="w10" class="shot"><video id="v10" src="assets/s12.mp4" muted playsinline data-start="72.60" data-duration="8.00" data-media-start="0.00" data-track-index="0" style="transform-origin:50% 50%"></video></div>
 <div id="w11" class="shot"><video id="v11" src="assets/s13.mp4" muted playsinline data-start="80.00" data-duration="6.40" data-media-start="0.20" data-track-index="1" style="transform-origin:50% 50%"></video></div>
 <div id="w12" class="shot"><video id="v12" src="assets/founder.mp4" muted playsinline data-start="85.80" data-duration="8.60" data-media-start="0.00" data-track-index="0" style="transform-origin:50% 40%"></video></div>
-<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div><div id="l3">Justin Phillips, founder and dad</div></div>
+<div class="line" id="line"><div id="l1">Eventually the controls come off.</div><div id="l2">What I want left behind is judgement.</div></div>
 <div class="vignette"></div>
 <div class="bars top"></div><div class="bars bottom"></div>
 <div class="card" id="card">
@@ -156,7 +155,6 @@ tl.fromTo("#v12",{scale:1.0},{scale:1.07,duration:8.60,ease:"none"},85.80);
 tl.to("#w12",{opacity:0,duration:0.01},94.40);
 tl.fromTo("#l1",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},87.20);
 tl.fromTo("#l2",{opacity:0,y:14,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:1.1,ease:"power2.out"},89.00);
-tl.fromTo("#l3",{opacity:0},{opacity:1,duration:0.8},91.00);
 tl.to("#line",{opacity:0,duration:0.6},93.70);
 tl.fromTo("#card",{opacity:0},{opacity:1,duration:0.8,ease:"sine.inOut"},94.00);
 tl.fromTo("#lockup",{opacity:0,y:18,scale:0.96},{opacity:1,y:0,scale:1,duration:1.0,ease:"expo.out"},94.50);
