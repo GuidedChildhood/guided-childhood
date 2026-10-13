@@ -1,0 +1,62 @@
+{
+  "name": "2026-10-19-sat-happy-news",
+  "size": "portrait",
+  "lead": "pebble",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "cover",
+      "eyebrow": "Happy news · Saturday",
+      "headline": "A screen<br>can make<br>you feel less alone",
+      "body": "The good side, with the honest bit included."
+    },
+    {
+      "name": "stat",
+      "type": "stat",
+      "eyebrow": "What young people told researchers",
+      "value": "74%",
+      "unit": "",
+      "body": "of LGBTQ+ young people said social media is important for feeling less alone. For their straight peers it was 52%."
+    },
+    {
+      "name": "both",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The honest bit",
+      "headline": "The same<br>young people<br>also reported<br>more harm.",
+      "body": "Both sides sit in the same report, so we show both.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "printable",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "Screen time,<br><mark>earned</mark> on paper.",
+      "image": "public/printables/earn-your-screen-time.png"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next time someone says screens only do harm.",
+      "send": "Send it to the parent who needs a calmer Saturday."
+    }
+  ],
+  "post": {
+    "date": "2026-10-24",
+    "day": "Saturday 24 October",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Some good news, with the honest bit included.\n\nIn a 2024 survey of 1,274 young people aged 14 to 22, 74% of LGBTQ+ young people said social media is important for feeling less alone. For their straight and cisgender peers it was 52%.\n\nThe same report also found those young people face more harm online. We are not hiding that. Screens are not the villain, and they are not harmless either. The point is that for some children, a screen is where they find someone like them.\n\nIf you want a calm way to share the minutes at home, the free earn your screen time chart is on the last card.\n\nWho does your child talk to online that makes them laugh?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Some good news, with the honest bit included.\n\nIn a 2024 survey of 1,274 young people aged 14 to 22, 74% of LGBTQ+ young people said social media is important for feeling less alone. For their straight and cisgender peers it was 52%.\n\nThe same report also found those young people face more harm online. We are not hiding that. Screens are not the villain, and they are not harmless either. The point is that for some children, a screen is where they find someone like them.\n\nWho does your child talk to online that makes them laugh?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack",
+    "alt": "Card one of five. The headline reads a screen can make you feel less alone, with the planet friend Pebble. The later cards give the survey figures, the honest caveat, a free printable chart and a save and send card.",
+    "first_comment": "Source: Common Sense Media and Hopelab, A Double-Edged Sword, 2024."
+  }
+}
