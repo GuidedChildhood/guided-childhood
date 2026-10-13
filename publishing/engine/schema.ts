@@ -63,8 +63,9 @@ export type Source = {
 export type ArtSlot = {
   slot: string
   vector?: string            // key into templates/art.ts
-  alt: string                // what a screen reader says
+  alt: string                // what a screen reader says (describes the finished page, friends and all)
   recipe?: string            // the Higgsfield recipe that could paint it
+  paint?: string             // what to paint for this slot, if more than the recipe says. Never a character.
 }
 
 export type Activity =
@@ -72,8 +73,8 @@ export type Activity =
   | { kind: 'blueprint'; title: string; intro: string; prompts: { label: string; hint: string }[] }
   | { kind: 'postcard'; title: string; intro: string; front: string; lines: string[] }
   | { kind: 'card-game'; title: string; intro: string; players: string; youNeed: string[]; setup: string[]; rounds: string[]; talk: string[]; cards: { topic: string; label: string; icon: string }[] }
-  | { kind: 'week'; title: string; intro: string; days: { day: string; title: string; task: string; offline: boolean }[]; reflect?: string[] }
-  | { kind: 'passport'; title: string; intro: string; stamps: { label: string; page: number }[] }
+  | { kind: 'week'; title: string; intro: string; days: { day: string; title: string; task: string; offline: boolean; icon?: string }[]; reflect?: string[] }
+  | { kind: 'passport'; title: string; intro: string; stamps: { label: string; page: number; icon?: string }[] }
 
 export type Block =
   | { type: 'para'; text: string }
@@ -91,6 +92,7 @@ export type Page =
       template: 'welcome'; n: number; destination?: Destination
       headline: string; letter: Block[]; signoff: { name: string; role: string }
       map: ArtSlot; friend: FriendRef; bloopSays: string
+      howTo?: { icon: string; text: string }[]   // how to use this paper, three short tips
       inside: { page: number; title: string; destination: Destination }[]
     }
   | {
@@ -159,6 +161,7 @@ export type Issue = {
   tagline: string
   coverHeadline: string
   sample?: boolean           // a structure test, watermarked, never published
+  theme?: 'editorial' | 'boho' // the look: cream editorial, or boho Happy News (design/boho.css)
   readingAge: string         // 7 to 12
   pages: Page[]
   sources: Source[]

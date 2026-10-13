@@ -1,0 +1,418 @@
+<title>Review Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Nunito:wght@400;600;700;800;900&display=swap">
+<style>
+/* Layout: a school report pinned to the fridge. Health first, then the one thing,
+   then eleven subjects each with its ten rung ladder, then who owes what. */
+:root {
+  --bg: #F1EFEA; --card: #FFFFFF; --ink: #1A1A2E; --ink-soft: #52526A; --muted: #65657C;
+  --line: #EAEAF0; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #FEF7E0;
+  --ok: #2F8F6B; --ok-lt: #E6F4EE; --warn: #B7791F; --warn-lt: #FDF3DD; --bad: #C94F3D; --bad-lt: #FBECE9;
+  --rung-off: #E7E3D8;
+  --display: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1B1812; --card: #26221A; --ink: #F4F1E8; --ink-soft: #CFC9B8; --muted: #ABA591;
+  --line: #3A3428; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #3A3018;
+  --ok: #5CC49B; --ok-lt: #1D3229; --warn: #E6B45A; --warn-lt: #3A2F17; --bad: #EE8A78; --bad-lt: #3D221D;
+  --rung-off: #3A3428; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #1B1812; --card: #26221A; --ink: #F4F1E8; --ink-soft: #CFC9B8; --muted: #ABA591;
+  --line: #3A3428; --butter: #EDC35F; --butter-dark: #C99A28; --butter-lt: #3A3018;
+  --ok: #5CC49B; --ok-lt: #1D3229; --warn: #E6B45A; --warn-lt: #3A2F17; --bad: #EE8A78; --bad-lt: #3D221D;
+  --rung-off: #3A3428; color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--display); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: grid; gap: 28px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.eyebrow, .label, .chip, .lens-n, .pri, .mono, .history th[scope="col"] { font-family: var(--mono); letter-spacing: .04em; }
+.eyebrow { font-size: 12px; text-transform: uppercase; color: var(--muted); }
+.top { display: grid; gap: 16px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: stretch; }
+.title h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.05; }
+.title p { color: var(--ink-soft); margin-top: 8px; max-width: 60ch; }
+.tally { font-variant-numeric: tabular-nums; margin-top: 16px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.tally .big { font-size: 56px; font-weight: 900; line-height: 1; }
+.tally .of { color: var(--ink-soft); font-weight: 700; }
+.health { border-radius: 16px; padding: 18px 20px; display: grid; gap: 6px; align-content: center; border: 2px solid; }
+.health.green { background: var(--ok-lt); border-color: var(--ok); }
+.health.amber { background: var(--warn-lt); border-color: var(--warn); }
+.health.red { background: var(--bad-lt); border-color: var(--bad); }
+.health .state { font-weight: 900; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+.green .dot { background: var(--ok); } .amber .dot { background: var(--warn); } .red .dot { background: var(--bad); }
+.health p { color: var(--ink-soft); }
+.one { background: var(--butter); color: #1A1A2E; border-radius: 16px; padding: 18px 20px; box-shadow: 0 5px 0 var(--butter-dark); display: grid; gap: 4px; }
+.one .eyebrow { color: #52422A; }
+.one p.text { font-size: 20px; font-weight: 800; }
+section > h2 { font-size: 24px; font-weight: 900; margin-bottom: 12px; }
+section > .sub { color: var(--ink-soft); margin: -6px 0 14px; }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.lens { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.lens.ten { border-color: var(--ok); }
+.lens-head { display: flex; align-items: center; gap: 8px; }
+.lens-head h3 { font-size: 17px; font-weight: 800; flex: 1; }
+.lens-n { font-size: 12px; color: var(--muted); }
+.lens-q { color: var(--muted); font-size: 14px; }
+.lens-score { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.lens-score .big { font-size: 40px; font-weight: 900; line-height: 1; }
+.lens.low .big { color: var(--bad); } .lens.mid .big { color: var(--warn); } .lens.close .big { color: var(--ink); } .lens.ten .big { color: var(--ok); }
+.lens-score .of { color: var(--muted); font-size: 13px; font-weight: 700; }
+.chip { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--ink-soft); white-space: nowrap; }
+.chip.up, .chip.ten { background: var(--ok-lt); color: var(--ok); }
+.chip.down { background: var(--bad-lt); color: var(--bad); }
+.ladder { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
+.rung { height: 8px; border-radius: 3px; background: var(--rung-off); }
+.lens.low .rung.on { background: var(--bad); } .lens.mid .rung.on { background: var(--warn); }
+.lens.close .rung.on { background: var(--butter); } .lens.ten .rung.on { background: var(--ok); }
+.spark { display: block; }
+.spark-ten { stroke: var(--line); stroke-dasharray: 3 3; }
+.spark-line { fill: none; stroke: var(--ink-soft); stroke-width: 1.8; stroke-linejoin: round; }
+.spark-area { fill: var(--butter-lt); }
+.spark-dot { fill: var(--butter-dark); }
+.lens-line { font-size: 15px; }
+.lens-skeptic { font-size: 13px; color: var(--ink-soft); font-style: italic; }
+.lens-gap { font-size: 14px; background: var(--butter-lt); border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; }
+.label { font-size: 11px; text-transform: uppercase; color: var(--muted); }
+.two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; min-width: 0; }
+.panel h2 { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+.panel .sub { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.task { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 12px; background: var(--bg); }
+.task.late { background: var(--bad-lt); }
+.task.snoozed { opacity: .7; }
+.task-body { min-width: 0; }
+.task-title { font-weight: 700; }
+.task-meta { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.task.late .task-meta { color: var(--bad); }
+.mono { font-size: 12px; }
+.pri { font-size: 11px; font-weight: 600; padding: 3px 7px; border-radius: 8px; background: var(--line); color: var(--ink-soft); flex: none; }
+.pri.p1 { background: var(--butter); color: #1A1A2E; }
+.empty { color: var(--muted); }
+.roundup p { max-width: 68ch; white-space: pre-line; }
+.table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.history { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
+.history th, .history td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: center; white-space: nowrap; }
+.history th[scope="row"] { text-align: left; font-weight: 700; }
+.history th[scope="col"] { font-size: 12px; color: var(--muted); font-weight: 600; }
+.history td.low { color: var(--bad); font-weight: 800; } .history td.mid { color: var(--warn); font-weight: 800; }
+.history td.ten { color: var(--ok); font-weight: 900; }
+.how { color: var(--ink-soft); font-size: 14px; display: grid; gap: 6px; }
+.how code { font-family: var(--mono); font-size: 13px; background: var(--card); padding: 1px 6px; border-radius: 6px; border: 1px solid var(--line); }
+@media (max-width: 720px) { .top { grid-template-columns: minmax(0, 1fr); } .tally .big { font-size: 44px; } }
+</style>
+<main class="wrap">
+  <div class="top">
+    <div class="title">
+      <p class="eyebrow">Guided Childhood · weekly review board · run 13 Oct</p>
+      <h1>Review Board</h1>
+      <p>Eleven lenses score the platform out of ten every week. A lens is finished when it holds ten for two weeks running, and any ten has to survive the skeptic first.</p>
+      <div class="tally"><span class="big">0</span><span class="of">of 11 lenses at ten</span></div>
+    </div>
+    <div class="health green">
+      <p class="eyebrow">Today, 13 Oct</p>
+      <p class="state"><span class="dot"></span>All clear</p>
+      <p>10 tasks waiting on you, none late.</p>
+      <p>23 tasks on Claude's list.</p>
+    </div>
+  </div>
+  <div class="one"><p class="eyebrow">The one thing this week</p><p class="text">Make sure every post this week lands on a stage check that works: get main building again and swap the dead .co.uk address out of next week&#39;s batch before the Wednesday 21 October post.</p></div>
+  <section>
+    <h2>The eleven lenses</h2>
+    <div class="grid">
+<article class="lens close" id="lens-value-above-ai">
+  <header class="lens-head"><span class="lens-n">01</span><h3>Value above AI</h3></header>
+  <p class="lens-q">Does it give a parent something a free chatbot cannot?</p>
+  <div class="lens-score"><span class="big">8</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 8"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="8.8" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">Most of what a free chatbot cannot do is built and wired in, but the home page only names the memory, so a parent meets the child app, the measured worry and the tested words late.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Add one short home page section in a parent&#39;s words that names the four things a chatbot cannot do. It remembers last Tuesday, your child has their own app, a worry is scored from day one and shown moving, and the words are tested scripts you can print. Do not name a model. Today the home page only says &#39;DiGi remembers&#39; and shows &#39;the wellbeing tracker&#39; as a chip.</p>
+</article>
+<article class="lens mid" id="lens-solves-problem">
+  <header class="lens-head"><span class="lens-n">02</span><h3>Solves the problem</h3></header>
+  <p class="lens-q">Does the nightly fight get smaller, and can the parent see it?</p>
+  <div class="lens-score"><span class="big">7</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 7"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="11.2" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">The switch off fight and the bedtime battle have a full loop from naming it to tonight&#39;s words to a visible change, but the first phone worry loses its words button at the check in and gets a bedtime step on Tonight.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Add the missing concern slugs to CONCERN_TO_CATEGORY: phones-and-messaging to family-rules, seen-something to staying-safe, controller-fights to gaming. At the moment categoryForConcern returns null for the first two and everyday-routines for the third. A parent who rates &#39;Phones and messaging&#39; as really tough sees Ask DiGi and no Get the words button, because the pill renders null. &#39;Asking for a phone&#39; is the second most common onboarding answer.</p>
+</article>
+<article class="lens mid" id="lens-right-audience">
+  <header class="lens-head"><span class="lens-n">03</span><h3>Right audience</h3></header>
+  <p class="lens-q">Is the perfect customer right, and does every page speak to them?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">The customer is the right one and the pages mostly speak to her, but the youngest end of the range has no first step and some pages use our words rather than hers.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Give the parent of a 2 or 3 year old a real first step. Add an &#39;under 4&#39; route in the stage check and the signup that says plainly what is here for her now (co viewing, the ending agreed before the screen goes on, no solo device). Today the code clamps under 4s into the 4 to 7 band, and every public surface says 4 to 16.</p>
+</article>
+<article class="lens mid" id="lens-will-pay">
+  <header class="lens-head"><span class="lens-n">04</span><h3>Will pay over AI</h3></header>
+  <p class="lens-q">Would they pay rather than ask a chatbot for free?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">The ask is honest and the cap is real, but it names parts not what a chatbot cannot do, it lands before the parent has seen anything back, and nobody has paid yet.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Make the ask personal. On the choose screen and the upgrade page, say what the parent keeps in their own words, using real data: the child&#39;s name, the worry being tracked, the scripts they have saved, the star quest set up, the check ins so far (for example &#39;Teo&#39;s history, the bedtime worry you are tracking and the quest you set up all stay&#39;). Today the copy is the same for every family and lists features. Also move or repeat the ask so it follows the first check in or first script, when the parent has seen something back, as THE-STORY section 9 describes. The code now asks at the end of sign up, before any of that.</p>
+</article>
+<article class="lens mid" id="lens-simplicity-flow">
+  <header class="lens-head"><span class="lens-n">05</span><h3>Simple to use</h3></header>
+  <p class="lens-q">What should change to keep the flow simple?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">Home has a clear order and a real picker, but the parent app still has eighty pages, one Pathway page with four names, and a Home that can hold about forty kinds of card.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Pick one name for the journey page and use it everywhere. Today the route is /dashboard/pathway, the tab says &#39;Passport&#39;, the Home tile says &#39;Road to sixteen&#39;, and DiGi&#39;s back link says &quot;Today&#39;s pathway&quot;, which means the daily list. THE-STORY section 11 asked for this rename and the August reversal left it undone. Rename the visible labels first (tab, tile, back link, scripts back link), keep the route and redirect.</p>
+</article>
+<article class="lens mid" id="lens-keeps-coming-back">
+  <header class="lens-head"><span class="lens-n">06</span><h3>Keeps coming back</h3></header>
+  <p class="lens-q">The Duolingo test: a reason to return tomorrow?</p>
+  <div class="lens-score"><span class="big">7</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 7"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="11.2" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">Both sides have a daily task, a streak, a reward and a gentle evening nudge, but the parent&#39;s flame goes to zero after one missed day and the evening push never stops for a parent who has gone quiet.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Stop the nightly evening push after about 7 days of the parent not showing up, so it cannot run for ever, and leave only the 4 day re-engagement line. Add a lapse check to runEveningPass using the same &#39;done today&#39; reading it already builds.</p>
+</article>
+<article class="lens mid" id="lens-marketing">
+  <header class="lens-head"><span class="lens-n">07</span><h3>Marketing</h3></header>
+  <p class="lens-q">Is this the best way to bring parents to the stage check?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">The funnel and the hook are right and every piece points at the stage check, but next week&#39;s social posts print a web address that returns a 404, and nothing yet tells us which channel brings a single check.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Replace guidedchildhood.co.uk/starter-pack with the live guidedchildhood.com/starter-pack in the three decks and caption files for the week of 19 October and in THIS-WEEK.md, then add a check in npm run ai-tells or a small guard script that fails on any .co.uk link in content/ and tools/social-cards.</p>
+</article>
+<article class="lens mid" id="lens-ux-expert">
+  <header class="lens-head"><span class="lens-n">08</span><h3>UX expert</h3></header>
+  <p class="lens-q">Would the screens sit beside the best family apps?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">The design system is strong and well guarded, but the phone craft has gaps: small tap targets, hardcoded colours in the thousands, and loading and focus states that only cover the front doors.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Add one global rule that sets a 44px minimum height and width on small icon buttons, then fix the worst offenders: the 34px close circles and the 30px plus and minus star steppers. Add a tap target check to the guards, since none exists and larger-text-guard needs Playwright.</p>
+</article>
+<article class="lens mid" id="lens-competitor-watch">
+  <header class="lens-head"><span class="lens-n">09</span><h3>Competitor watch</h3></header>
+  <p class="lens-q">What did they ship, and what can we use?</p>
+  <div class="lens-score"><span class="big">7</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 7"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="11.2" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">A quiet four weeks: nobody has shipped our core loop, and the one real move (Qustodio reading a child&#39;s ChatGPT chats) is the spying route we have chosen not to take.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Correct THE-STORY.md section 6, which still says &#39;against Jigsaw at £795 entry&#39; when the 9 September check found that figure untraceable and Jigsaw&#39;s own site says from £495, so every session briefing quotes a wrong competitor price.</p>
+</article>
+<article class="lens mid" id="lens-ai-tools-watch">
+  <header class="lens-head"><span class="lens-n">10</span><h3>AI and tools watch</h3></header>
+  <p class="lens-q">What new AI or tool would help us?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">DiGi&#39;s top model is still the newest Fable, but three new models landed in three weeks and the fallbacks and the cheap tier are now a generation behind, with no batching on the nightly jobs.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Move the fallback ladders from claude-opus-5 and claude-sonnet-5 (now legacy) to claude-opus-5-5 and claude-sonnet-5-5 in both config files, widen the fast mode regex to include claude-opus-5-5 (fast mode now exists on Opus 5.5), update the guard&#39;s expectations, and run the DiGi evals once before merging.</p>
+</article>
+<article class="lens mid" id="lens-business-running">
+  <header class="lens-head"><span class="lens-n">11</span><h3>Business running</h3></header>
+  <p class="lens-q">Is everything moving, and is nothing stuck?</p>
+  <div class="lens-score"><span class="big">6</span><span class="of">out of 10</span><span class="chip">first score</span></div>
+  <div class="ladder" aria-hidden="true"><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung on"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span><span class="rung"></span></div>
+  <svg class="spark" viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Score each week: 6"><line x1="4" x2="116" y1="4" y2="4" class="spark-ten"/><circle cx="116.0" cy="13.6" r="3.2" class="spark-dot"/></svg>
+  <p class="lens-line">Work moves fast and nothing sits in a drawer, but main has been red since this afternoon, the open work list in THE-STORY is out of date, and nobody can say how many stage checks the founding sprint has made.</p>
+  
+  <p class="lens-gap"><span class="label">To reach ten</span>Get main green again: add a migration granting the seven Guided Planet tables to the right roles, apply it before Supabase&#39;s 30 October change, and fix the failing Vercel builds on main&#39;s head.</p>
+</article>
+    </div>
+  </section>
+  <div class="two">
+    <div class="panel"><h2>Waiting on you</h2><p class="sub">Only you can do these. Every Claude session asks about them once a day.</p><ul class="tasks"><li class="task">
+  <span class="pri p1">P1</span>
+  <div class="task-body"><p class="task-title">Run one live founder checkout on a clean email (card, four day trial, webhook, access flip, seat count) and write down what happened.</p>
+  <p class="task-meta"><span class="mono">live-founder-checkout-test</span> · small · due 20 Oct · Will pay over AI, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Put the stage checks started, founders and posts actually published since 1 October from the launch tracker into the board, and keep content/brand-story/posted-log.md current from now on.</p>
+  <p class="task-meta"><span class="mono">sprint-numbers-to-board</span> · small · due 20 Oct · Marketing, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Pay the ICO data protection fee for the controller entity (about £52) or tell the board it is already paid.</p>
+  <p class="task-meta"><span class="mono">confirm-ico-fee-paid</span> · small · due 20 Oct · Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Decide which Vercel project is the parent app and retire the duplicate.</p>
+  <p class="task-meta"><span class="mono">decide-vercel-project</span> · small · due 20 Oct · Simple to use, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Decide whether the child side rule becomes &#39;the child never chats with a model, only receives one fixed card the parent can see&#39;, or the homework hint moves to the parent side.</p>
+  <p class="task-meta"><span class="mono">decide-child-side-model-rule</span> · small · due 20 Oct · Value above AI</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Decide whether to delete the old CrewAI crew in agents/ and its Monday weekly_meeting workflow, which runs on a hardcoded old model and duplicates the radar and this board.</p>
+  <p class="task-meta"><span class="mono">decide-legacy-crewai</span> · small · due 20 Oct · AI and tools watch, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Decide whether the parent&#39;s flame may forgive one missed day, or follows the child&#39;s rule from 6 August that a run simply starts again.</p>
+  <p class="task-meta"><span class="mono">decide-parent-flame-grace-day</span> · small · due 20 Oct · Keeps coming back</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Decide whether the parent of a 2 or 3 year old is a customer now (build an under 4 first step) or later (change the customer line to 4 to 16).</p>
+  <p class="task-meta"><span class="mono">decide-under-four-customer</span> · small · due 20 Oct · Right audience</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Decide which one name the journey page carries everywhere: Passport, Road to sixteen or Pathway.</p>
+  <p class="task-meta"><span class="mono">decide-journey-page-name</span> · small · due 20 Oct · Simple to use</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Decide whether the &#39;Monthly live Pathway Session with Justin&#39; is a real thing you will run, or the line comes off the upgrade page.</p>
+  <p class="task-meta"><span class="mono">decide-pathway-session-line</span> · small · due 20 Oct · Will pay over AI</p></div>
+</li></ul></div>
+    <div class="panel"><h2>Claude's list</h2><p class="sub">Any session can pick these up, one at a time, when your request leaves room.</p><ul class="tasks"><li class="task">
+  <span class="pri p1">P1</span>
+  <div class="task-body"><p class="task-title">Add a migration granting the seven Guided Planet tables to the right roles, apply it before 30 October, and get the guided-childhood and guided-childhood-app Vercel builds on main green again.</p>
+  <p class="task-meta"><span class="mono">main-green-377-grants</span> · small · due 20 Oct · Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p1">P1</span>
+  <div class="task-body"><p class="task-title">Swap guidedchildhood.co.uk/starter-pack for guidedchildhood.com/starter-pack in the 19 October decks, captions and THIS-WEEK.md before the Wednesday post, and add a guard that fails on any .co.uk link in content/ and tools/social-cards.</p>
+  <p class="task-meta"><span class="mono">social-week-live-starter-pack-link</span> · small · due 20 Oct · Marketing</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Add one short block in a parent&#39;s words, on the home page and on the choose screen and upgrade page, naming what a free chatbot cannot do: it remembers last Tuesday, your child has their own app, the worry is scored and shown moving, and the words are tested scripts.</p>
+  <p class="task-meta"><span class="mono">paywall-names-what-ai-cannot</span> · small · due 20 Oct · Will pay over AI, Value above AI</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Map phones-and-messaging, seen-something and controller-fights in CONCERN_TO_CATEGORY, and give the first phone worry its own Tonight step pointing at the phone request script, the phone ladder and the family phone agreement.</p>
+  <p class="task-meta"><span class="mono">first-phone-worry-gets-its-words</span> · small · due 20 Oct · Solves the problem</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Stop the nightly evening push after about seven unanswered nights and leave only the four day re engagement line, using the done today reading runEveningPass already builds.</p>
+  <p class="task-meta"><span class="mono">evening-push-stops-when-quiet</span> · small · due 20 Oct · Keeps coming back</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Bring THE-STORY up to date: section 12 ticks off what is built and adds what is really open, section 6 says Jigsaw from £495, and section 9 says the plan choice sits at the end of sign up as decided on 14 August.</p>
+  <p class="task-meta"><span class="mono">story-true-this-week</span> · small · due 20 Oct · Business running, Competitor watch, Will pay over AI</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Make the daily health sweep compare the migrations applied in Supabase with supabase/migrations on main and flag any gap, so a missed migration like 360 is caught in a day, not weeks.</p>
+  <p class="task-meta"><span class="mono">health-sweep-checks-applied-migrations</span> · small · due 20 Oct · Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Check the date of UK Digital Parenting Week on a primary source, then plan one AI companion piece and one &#39;the ban is a start line&#39; piece into the batch for that week, each ending at the stage check.</p>
+  <p class="task-meta"><span class="mono">digital-parenting-week-in-batch</span> · small · due 20 Oct · Competitor watch</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Count every stage check start by source: read ?src=, store a count per source, give each LinkedIn post, group seed and Facebook post its own /v/ code, show checks per channel on one founder page, and add reading the Friday number to the Friday routine.</p>
+  <p class="task-meta"><span class="mono">count-stage-checks-by-source</span> · medium · due 27 Oct · Marketing, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p2">P2</span>
+  <div class="task-body"><p class="task-title">Have the weekly board run write one line of real behaviour from the product pulse: day done rate, seven day return, families with a second check in, and how many tester families reach three of the five value signals.</p>
+  <p class="task-meta"><span class="mono">board-reads-real-numbers</span> · medium · due 27 Oct · Keeps coming back, Value above AI, Solves the problem, Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Once Justin decides the child side rule, make scripts/check-child-has-no-model.mjs pass, wire it into package.json and the wiring workflow, and correct THE-STORY sections 6 and 7 to match.</p>
+  <p class="task-meta"><span class="mono">child-model-guard-wired</span> · small · due 20 Oct · Value above AI</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Add one plain &#39;what we are not&#39; block to /starter-pack, no competitor names: no blocking, no reading your child&#39;s chats, the child takes part, and the one tested sentence to say tonight.</p>
+  <p class="task-meta"><span class="mono">what-we-are-not-on-stage-check</span> · small · due 20 Oct · Competitor watch</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Make the home page use the product&#39;s own stage names and age labels so the parent of a 13 year old sees the same stage the quiz gives her.</p>
+  <p class="task-meta"><span class="mono">home-stage-names-match-product</span> · small · due 20 Oct · Right audience</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Move the schools block off the parent ban page and rewrite the /join hero in parents&#39; own words (phone, fight, ready), keeping every /join CTA on /starter-pack.</p>
+  <p class="task-meta"><span class="mono">parent-pages-in-parents-words</span> · small · due 20 Oct · Right audience</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Add a 44px minimum to small icon buttons and a gold focus visible ring in shared/tokens.css, fix the 30px star steppers and 34px close circles, and add a tap target guard.</p>
+  <p class="task-meta"><span class="mono">phone-craft-tap-and-focus</span> · small · due 20 Oct · UX expert</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Move the DiGi fallback ladders from Opus 5 and Sonnet 5 to Opus 5.5 and Sonnet 5.5, let fast mode match Opus 5.5, update the model guard, and run the DiGi evals once before merging.</p>
+  <p class="task-meta"><span class="mono">fallback-models-current</span> · small · due 20 Oct · AI and tools watch</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Make the Wednesday UX walkthrough save its report under plans/review-board so the board and later sessions can read it.</p>
+  <p class="task-meta"><span class="mono">ux-walkthrough-report-in-repo</span> · small · due 20 Oct · Business running</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Make the choose screen and upgrade page say what this family keeps, from real data: the child&#39;s name, the worry being tracked, the scripts saved, the star quest and the check ins so far.</p>
+  <p class="task-meta"><span class="mono">paywall-ask-is-personal</span> · medium · due 27 Oct · Will pay over AI</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Put a share action on the stage result screen (WhatsApp and copy link, &#39;send this to a parent who has this fight&#39;) carrying a /v/ code for visitors and the /r/ referral code for members.</p>
+  <p class="task-meta"><span class="mono">stage-result-share-action</span> · medium · due 27 Oct · Marketing</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Bring Home&#39;s small cards under one slot below the lead, one card a day, chosen by a tier in lib/home/next-up.ts, and split dashboard/page.tsx so each card family has its own component.</p>
+  <p class="task-meta"><span class="mono">home-cards-one-slot</span> · medium · due 27 Oct · Simple to use</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Write a Tonight tap to concern_events with a linked type so What is working can name it, and deep link &#39;Read the words&#39; to that worry&#39;s script.</p>
+  <p class="task-meta"><span class="mono">tonight-tap-closes-loop</span> · medium · due 27 Oct · Solves the problem</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Give a new parent, within seven days, a second check in prompt, a &#39;waiting for your second look&#39; line on What is working, and the child&#39;s first visible win.</p>
+  <p class="task-meta"><span class="mono">first-week-proves-value</span> · medium · due 27 Oct · Value above AI, Keeps coming back</p></div>
+</li>
+<li class="task">
+  <span class="pri p3">P3</span>
+  <div class="task-body"><p class="task-title">Add loading skeletons to the heavy parent routes (lessons, scripts, quests, DiGi) and child routes (path, lessons, week, jobs), and a guard that blocks new off token hex without forcing a rewrite of the old.</p>
+  <p class="task-meta"><span class="mono">loading-states-and-hex-ratchet</span> · medium · due 27 Oct · UX expert</p></div>
+</li></ul></div>
+  </div>
+  
+  <section class="roundup"><h2>The round up</h2><div class="panel"><p>124 pull requests merged and only this board is open, so nothing is sitting in a drawer. The child&#39;s home got simpler, DiGi now agrees the ending before the screen goes on, the shorts are ready for the family account, the LinkedIn queue restarted at GDC 018 and the Planet Post printables are built. We also found referrals had no tables because migration 360 was never applied, and fixed it.
+
+What is stuck. Main has been red since this afternoon: the Guided Planet migration made seven tables with no grants and both Vercel builds fail, so nothing new ships until that is sorted. Next week&#39;s posts print guidedchildhood.co.uk, which is a dead page. And I cannot tell you how many stage checks we have had since 1 October, because the product only counts film and school links and the posted log is empty. Revenue is still £0 and nobody has run a live founder checkout on the new Stripe account.
+
+The one thing: every post this week lands on a stage check that works.
+
+What I need from you. Run one live founder checkout on a clean email. Put the stage checks and posts since 1 October from the tracker into the board. Confirm the ICO fee is paid and which Vercel project is the real one. Then some quick calls when a session asks: the parent&#39;s grace day, under fours, the journey page name, the homework hint, the Pathway Session line and the old CrewAI crew.</p></div></section>
+  <section><h2>Every week so far</h2><div class="table-wrap"><table class="history"><thead><tr><th scope="col">Lens</th><th scope="col">13 Oct</th></tr></thead><tbody><tr><th scope="row">Value above AI</th><td class="close">8</td></tr><tr><th scope="row">Solves the problem</th><td class="mid">7</td></tr><tr><th scope="row">Right audience</th><td class="mid">6</td></tr><tr><th scope="row">Will pay over AI</th><td class="mid">6</td></tr><tr><th scope="row">Simple to use</th><td class="mid">6</td></tr><tr><th scope="row">Keeps coming back</th><td class="mid">7</td></tr><tr><th scope="row">Marketing</th><td class="mid">6</td></tr><tr><th scope="row">UX expert</th><td class="mid">6</td></tr><tr><th scope="row">Competitor watch</th><td class="mid">7</td></tr><tr><th scope="row">AI and tools watch</th><td class="mid">6</td></tr><tr><th scope="row">Business running</th><td class="mid">6</td></tr></tbody></table></div></section>
+  <section class="how"><h2>How this works</h2>
+    <p>The board runs every Friday morning. Ten lens agents score the platform, the skeptic challenges any nine or ten, and the chief of staff turns the gaps into the two lists above.</p>
+    <p>At the start of every Claude session you are asked about anything waiting on you, at most once a day per task. Your answers are recorded and this page is redrawn.</p>
+    <p>Full report for this run: <code>plans/review-board/runs/2026-10-13.md</code></p>
+  </section>
+</main>

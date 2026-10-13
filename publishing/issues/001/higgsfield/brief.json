@@ -1,0 +1,288 @@
+{
+  "requests": [
+    {
+      "slot": "cover",
+      "page": 1,
+      "recipe": "newspaper-cover",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "3:4",
+      "minPx": [
+        2480,
+        2340
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A night sky over the curved horizon of a small round green planet. The International Space Station as a small clean silhouette crossing the upper left third. A soft glow behind it. A grassy hill rising on the lower right where a character will be placed later, left EMPTY. The top 30 percent is quiet sky for the headline.\nThis picture: Follow the scene above exactly.\nLighting: Night, soft butter glow from the station, faint rim light on the planet's edge.\nCharacters: None in the image. Leave the lower right hill clear: The layout engine places the approved character there.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text, no border, edges painted to bleed.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "cover",
+      "page": 1,
+      "recipe": "newspaper-cover",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "3:4",
+      "minPx": [
+        2480,
+        2340
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A night sky over the curved horizon of a small round green planet. The International Space Station as a small clean silhouette crossing the upper left third. A soft glow behind it. A grassy hill rising on the lower right where a character will be placed later, left EMPTY. The top 30 percent is quiet sky for the headline.\nThis picture: Follow the scene above exactly.\nLighting: Night, soft butter glow from the station, faint rim light on the planet's edge.\nCharacters: None in the image. Leave the lower right hill clear: The layout engine places the approved character there.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text, no border, edges painted to bleed.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "world-map",
+      "page": 2,
+      "recipe": "world-map",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A small round planet floating in space, seen slightly from above, with six landmark places on its surface: an observatory dome, a district of workshops with a gear, a forest, a garden of flowers, a reading room with books, and a compass rose campsite. A dotted gold path joins them. Labels are added by the layout, so no words.\nThis picture: Follow the scene above exactly.\nLighting: Soft daylight on the planet against a deep ink sky.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "world-map",
+      "page": 2,
+      "recipe": "world-map",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A small round planet floating in space, seen slightly from above, with six landmark places on its surface: an observatory dome, a district of workshops with a gear, a forest, a garden of flowers, a reading room with books, and a compass rose campsite. A dotted gold path joins them. Labels are added by the layout, so no words.\nThis picture: Follow the scene above exactly.\nLighting: Soft daylight on the planet against a deep ink sky.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "code-in-orbit",
+      "page": 3,
+      "recipe": "discovery-observatory",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "16:9",
+      "minPx": [
+        2480,
+        1400
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: Space, the curve of the Earth, an orbiting station or telescope, star field. Room on one side for type.\nThis picture: Follow the scene above exactly.\nLighting: Night with a single warm accent.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "code-in-orbit",
+      "page": 3,
+      "recipe": "discovery-observatory",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "16:9",
+      "minPx": [
+        2480,
+        1400
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: Space, the curve of the Earth, an orbiting station or telescope, star field. Room on one side for type.\nThis picture: Follow the scene above exactly.\nLighting: Night with a single warm accent.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "maker-skyline",
+      "page": 4,
+      "recipe": "maker-district",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A friendly street of small workshops and studios, sawtooth roofs, lit windows, a big gear, a lightbulb sign with no letters, workbenches with simple tools.\nThis picture: Follow the scene above exactly.\nLighting: Late afternoon butter light.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "maker-skyline",
+      "page": 4,
+      "recipe": "maker-district",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A friendly street of small workshops and studios, sawtooth roofs, lit windows, a big gear, a lightbulb sign with no letters, workbenches with simple tools.\nThis picture: Follow the scene above exactly.\nLighting: Late afternoon butter light.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "friendship-valley",
+      "page": 7,
+      "recipe": "connection-garden",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: Two small homes on two green hills far apart, joined across a valley by a gentle dotted gold line and a row of flowers. Warm and quiet.\nThis picture: Follow the scene above exactly.\nLighting: Soft morning light.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "friendship-valley",
+      "page": 7,
+      "recipe": "connection-garden",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: Two small homes on two green hills far apart, joined across a valley by a gentle dotted gold line and a row of flowers. Warm and quiet.\nThis picture: Follow the scene above exactly.\nLighting: Soft morning light.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "recommendation-machine",
+      "page": 8,
+      "recipe": "thinking-forest",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A calm forest clearing with tall simple trees, paths that fork, signposts with no words, a few glowing question shaped leaves.\nThis picture: Follow the scene above exactly.\nLighting: Dappled green and gold.\nCharacters: None. Leave space on the right for a character added later.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "recommendation-machine",
+      "page": 8,
+      "recipe": "thinking-forest",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A calm forest clearing with tall simple trees, paths that fork, signposts with no words, a few glowing question shaped leaves.\nThis picture: Follow the scene above exactly.\nLighting: Dappled green and gold.\nCharacters: None. Leave space on the right for a character added later.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    },
+    {
+      "slot": "explorer-trail",
+      "page": 10,
+      "recipe": "family-explorer",
+      "tier": "draft",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A dotted gold trail winding across hills under a starry espresso sky, with five little stopping places: a tent, a bench, a telescope, a picnic blanket, a doorstep.\nThis picture: Follow the scene above exactly.\nLighting: Dusk.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": 1,
+      "runnable": false,
+      "blockedBy": "no credit budget approved for this issue"
+    },
+    {
+      "slot": "explorer-trail",
+      "page": 10,
+      "recipe": "family-explorer",
+      "tier": "final",
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
+      "prompt": "Flat editorial illustration for a premium independent children's newspaper. Clean confident ink linework with round caps, flat colour fills, generous negative space, gentle grain. Warm, optimistic, calm. In the spirit of a hand made illustrated map, not a cartoon, not 3D, not glossy.\nScene: A dotted gold trail winding across hills under a starry espresso sky, with five little stopping places: a tent, a bench, a telescope, a picnic blanket, a doorstep.\nThis picture: Follow the scene above exactly.\nLighting: Dusk.\nCharacters: None.\nPalette: Cream #F9F8F6, deep ink navy #1A1A2E, butter gold #EDC35F, deep gold #C99A28, espresso #2E2818, grey blue #8A8FA3, pale sage #E8F0EE and mid sage #C9DBD2. One gold accent only.\nNever: No people, no children, no faces, no characters or mascots, no animals with faces, no text, no letters, no numbers, no logos, no watermarks, no screens showing an interface, no brand names, no photographic realism, no purple gradients, no neon.\nOutput: PNG, no text.",
+      "estimate": null,
+      "runnable": false,
+      "blockedBy": "needs an approved draft first"
+    }
+  ],
+  "spent": 0,
+  "budget": null,
+  "plannedDrafts": 7,
+  "plannedFinals": null
+}

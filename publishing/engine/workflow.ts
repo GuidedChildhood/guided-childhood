@@ -68,7 +68,7 @@ const FOUNDER: Partial<Record<State, State[]>> = {
 export class GateError extends Error {}
 
 export function allowed(from: State, to: State, actor: Actor): boolean {
-  const list = (actor.kind === 'founder' ? { ...mergeLists(AUTOMATIC, FOUNDER) } : AUTOMATIC)[from] ?? []
+  const list = (actor.kind === 'founder' ? mergeLists(AUTOMATIC, FOUNDER) : AUTOMATIC)[from] ?? []
   return list.includes(to)
 }
 function mergeLists(a: Partial<Record<State, State[]>>, b: Partial<Record<State, State[]>>) {
@@ -96,9 +96,18 @@ export async function transition(store: Store, issue: number, to: State, actor: 
 
   const next: IssueState = { ...s, state: to, updatedAt: now() }
 
+  if (to === 'EDITORIAL_REVIEW') {
+    if (typeof detail.storiesHash !== 'string') return refuse('a review needs the story selection it is asking about (storiesHash)')
+    next.storiesHash = detail.storiesHash
+  }
   if (from === 'EDITORIAL_REVIEW' && to === 'APPROVED') {
+    // Justin may approve the proposal as it stands, or a selection he changed
+    // (a story dropped, a held one brought in). reviewedHash is the proposal he
+    // was shown, so a stale screen cannot approve a list that has since moved;
+    // storiesHash is what he approved, and it is what design is held to.
     if (typeof detail.storiesHash !== 'string') return refuse('approval one must name the story selection it approves (storiesHash)')
-    if (s.storiesHash && s.storiesHash !== detail.storiesHash) return refuse('the story selection changed since it was put up for review')
+    const shown = typeof detail.reviewedHash === 'string' ? detail.reviewedHash : detail.storiesHash
+    if (s.storiesHash && s.storiesHash !== shown) return refuse('the proposal changed since it was put up for review. Reload and look again.')
     next.storiesHash = detail.storiesHash
   }
   if (to === 'PROOF_READY') {
@@ -145,4 +154,20 @@ export function waitingOn(s: IssueState): string | null {
   if (s.state === 'PROOF_READY') return 'Approval two: here is the finished newspaper. Approve publication or request revisions.'
   if (s.state === 'FINAL_APPROVED') return 'Approved. Authorise publication when you are ready.'
   return null
+}
+
+// Approval two's second half: Justin authorises publication from the
+// dashboard, and the routine, which holds the files, carries it out. The
+// authorisation is an event bound to the approved PDF, so a routine can only
+// ever publish the exact file Justin saw.
+export async function authorise(store: Store, issue: number, channels: string[], actor: Actor) {
+  if (actor.kind !== 'founder') throw new GateError('only the founder authorises publication')
+  const s = await current(store, issue)
+  if (s.state !== 'FINAL_APPROVED' && s.state !== 'PUBLISHED') throw new GateError(`issue ${issue} is ${LABEL[s.state]}; publication needs final approval first`)
+  await store.addEvent({ issue, at: now(), actor, action: 'publication-authorised', detail: { channels, pdfHash: s.approvedPdfHash, contentHash: s.approvedContentHash } })
+}
+
+export async function authorisationFor(store: Store, issue: number, channel: string, pdfHash: string): Promise<Actor | null> {
+  const ev = (await store.events(issue)).filter(e => e.action === 'publication-authorised' && e.detail?.pdfHash === pdfHash && Array.isArray(e.detail?.channels) && (e.detail.channels as string[]).includes(channel))
+  return ev.length ? ev[ev.length - 1].actor : null
 }

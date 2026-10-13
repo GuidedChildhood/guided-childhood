@@ -11,8 +11,12 @@ const must = <T>(r: { data: T | null; error: { message: string } | null }, what:
   return r.data
 }
 
+type Meta = (issue: number) => { slug: string; edition: string; month: string }
+
 export class SupabaseStore implements Store {
-  constructor(private db: SupabaseClient, private meta: (issue: number) => { slug: string; edition: string; month: string }) {}
+  private db: SupabaseClient
+  private meta: Meta
+  constructor(db: SupabaseClient, meta: Meta) { this.db = db; this.meta = meta }
 
   async getIssue(issue: number): Promise<IssueState | null> {
     const row = must(await this.db.from('planet_issues').select('*').eq('number', issue).maybeSingle(), 'read issue') as Record<string, string | number | null> | null

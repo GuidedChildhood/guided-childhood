@@ -200,7 +200,9 @@ a forgotten parent can never rejoin a drip. Six week lead programme, welcome
 on signup, service drip, weekly review.
 
 ### The content and commerce layer (`content/`, skills)
-The printables engine (Etsy channel, greenlit 20 July), the lesson video
+The Guided Planet (13 October 2026), a free monthly 12 page newspaper for
+7 to 12s on the good side of screens, made by the engine in `publishing/` with
+two approvals from Justin per edition. The printables engine (Etsy channel, greenlit 20 July), the lesson video
 pipeline, the content engine and viral post skills for LinkedIn, the family
 social skill for Instagram and Facebook, the ban series framing. All of it
 feeds the same funnel.

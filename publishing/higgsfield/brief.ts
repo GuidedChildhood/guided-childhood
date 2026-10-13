@@ -39,7 +39,10 @@ export type Request = {
   runnable: boolean; blockedBy?: string
 }
 
+const CAST = /\b(Bloop|Pebble|Orbit|Nova|Cosmo|DiGi)\b/i
+
 export function buildPrompt(book: Book, r: Recipe, subject: string): string {
+  if ([subject, r.composition, r.characterPlacement, r.lighting].some(t => CAST.test(t))) throw new Error('a generation prompt may not name a Planet Friend: characters are placed from the approved library, never generated')
   return [
     book.house.style,
     `Scene: ${r.composition}`,
@@ -75,7 +78,9 @@ export function brief(issue: Issue, ledger: GenerationRecord[], budget: number |
       const m = book.models[tier]
       reqs.push({
         slot: a.slot, page: p.n, recipe: a.recipe, tier, model: m.model, params: m.params, aspect: r.aspect, minPx: r.minPx,
-        prompt: buildPrompt(book, r, a.alt),
+        // The alt text describes the finished page, Bloop included, so it is
+        // never the prompt: a prompt that names a character asks for one.
+        prompt: buildPrompt(book, r, a.paint ?? 'Follow the scene above exactly.'),
         estimate: measured(ledger, tier) ?? m.creditsPerImage,
         runnable: false,
         blockedBy: finalApproved ? 'already has an approved final' : tier === 'final' && !draftApproved ? 'needs an approved draft first' : undefined,

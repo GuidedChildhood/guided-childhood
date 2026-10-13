@@ -55,7 +55,11 @@
     "ai-tells": "node scripts/check-ai-tells.mjs",
     "social-cards": "node tools/social-cards/render.mjs",
     "social-week": "node tools/social-cards/week.mjs",
-    "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs"
+    "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs",
+    "planet": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs publishing/cli.ts",
+    "planet-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test publishing/tests/*.test.ts",
+    "review-board": "node scripts/review-board.mjs",
+    "review-board-test": "node --test scripts/review-board.test.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

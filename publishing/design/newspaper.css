@@ -109,9 +109,10 @@ body { font-family: var(--font-body); color: var(--ink); -webkit-print-color-adj
 /* the sample watermark, for a structure test that must never be mistaken for
    a real edition */
 .sample-mark {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-28deg);
-  font: 900 46pt/1 var(--font-display); color: rgba(201,154,40,.16); letter-spacing: .04em;
-  white-space: nowrap; pointer-events: none; z-index: 50;
+  /* A picture, not text: a watermark must never turn up when someone
+     searches or copies the paper's words. */
+  position: absolute; inset: 0; pointer-events: none; z-index: 50;
+  background: url("DESIGN_DIR/sample-mark.png") center / 170mm auto no-repeat;
 }
 
 /* ── THE RUNNING HEAD AND FOLIO ───────────────────────────────────────── */
@@ -311,3 +312,8 @@ h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
    contrast check caught on the first proof of Issue 001. */
 .activity, .card, .facts, .bubble, .rsum { color: var(--ink); }
 .ground-night .activity .eyebrow, .ground-night .card .eyebrow, .ground-night .facts .eyebrow { color: var(--gold-ink); }
+
+/* Page 2: the editor's letter reads a size up, and Bloop's hello is the
+   paper's first friendly face after the cover. */
+.body.kid.welcome-letter p { font-size: 12.8pt; line-height: 1.46; }
+.welcome-bloop .bubble { font-size: 11pt; padding: 3.4mm 4mm; }
