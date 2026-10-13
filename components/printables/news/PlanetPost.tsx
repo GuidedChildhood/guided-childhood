@@ -1,0 +1,477 @@
+'use client'
+
+import type { CSSProperties, ReactNode } from 'react'
+import { HAPPY, RainbowArc, Burst, WavyRule, SmileyDot, StarShape } from '@/components/kid/HappyNewsBits'
+import { CRAYON } from '@/components/printables/drawn/crayon'
+import { SLICES } from '@/components/printables/drawn/BalanceWheelSheet'
+import { Sun, Moon, Phone, Star, Heart } from '@/components/printables/drawn/HappyPaper'
+import { BRAND_DOMAIN } from '@gc/shared/brand'
+import type { PlanetPostIssue } from '@/lib/printables/free/planet-post'
+
+// THE PLANET POST, laid out (13 October 2026).
+//
+// A real newspaper, in the Happy News finish: white stock, ink lines, colour
+// printed on as marks (a painted rainbow masthead, bursts, crayon fills), and
+// Nunito 900 for every headline. The Happy Newspaper's energy, our drawing;
+// nothing is copied (content/brand-story/visual-system.md).
+//
+// ONE PAGE SIZE FOR BOTH PAPERS. Each page is 740 by 1000 CSS pixels, which is
+// 195.8 by 264.6 millimetres: inside the box A4 and US Letter share, with 10mm
+// or more to every edge of either sheet, so one design prints on both without
+// reflowing and nothing falls in the strip a home printer cannot reach. The
+// print route centres it on the chosen paper.
+//
+// INK SAVER. With `ink` on, every fill goes white and the line art stays, so
+// the paper becomes a colouring page and prints on a nearly empty cartridge.
+// The Planet Friends are our real character art, never redrawn
+// (brand/GDC_SOCIAL_VISUAL_SYSTEM.md); in ink saver they print grey and light.
+
+export const NEWS_W = 740
+export const NEWS_H = 1000
+
+const INK = HAPPY.ink
+const MUTED = '#6B6B80'
+
+type P = { issue: PlanetPostIssue; ink: boolean }
+
+const fill = (ink: boolean, c: string) => (ink ? '#fff' : c)
+
+const mono = (size = 11, color: string = INK): CSSProperties => ({
+  fontFamily: 'var(--font-mono)', fontSize: size, fontWeight: 700, letterSpacing: '0.14em',
+  textTransform: 'uppercase', color, lineHeight: 1.3,
+})
+const display = (size: number): CSSProperties => ({
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: size, letterSpacing: '-0.02em',
+  lineHeight: 1.02, color: INK, margin: 0,
+})
+const body = (size = 15): CSSProperties => ({
+  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: size, lineHeight: 1.45, color: INK, margin: 0,
+})
+const box = (ink: boolean, bg = '#fff'): CSSProperties => ({
+  background: fill(ink, bg), border: `3px solid ${INK}`, borderRadius: 14,
+  boxShadow: `4px 5px 0 ${INK}`, boxSizing: 'border-box',
+})
+
+function Friend({ img, name, size, ink }: { img: string; name: string; size: number; ink: boolean }) {
+  return (
+    <span style={{
+      width: size, height: size, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+      background: fill(ink, CRAYON.paper), border: `3px solid ${INK}`,
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+    }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={img} alt={name} width={size * 0.82} height={size * 0.82}
+        style={{ width: size * 0.82, height: size * 0.82, objectFit: 'contain', filter: ink ? 'grayscale(1) opacity(0.45)' : 'none' }} />
+    </span>
+  )
+}
+
+function Line({ label, width = '100%', size = 15 }: { label?: string; width?: number | string; size?: number }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, width, height: size * 2.1 }}>
+      {label && <span style={{ ...body(size), fontWeight: 800, whiteSpace: 'nowrap', paddingBottom: 2 }}>{label}</span>}
+      <span style={{ flex: 1, borderBottom: '2.5px dotted #9A9AB0', height: '100%' }} />
+    </div>
+  )
+}
+
+/** One page of the paper: the fixed box, the folio at the foot. */
+function NewsPage({ issue, n, children }: { issue: PlanetPostIssue; n: number; children: ReactNode }) {
+  return (
+    <section className="planet-post-page" data-page={n} style={{
+      width: NEWS_W, height: NEWS_H, boxSizing: 'border-box', background: '#fff', color: INK,
+      padding: '26px 30px 18px', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative',
+    }}>
+      <div style={{ flex: '1 1 auto', minHeight: 0, display: 'flex', flexDirection: 'column' }}>{children}</div>
+      <div style={{ flexShrink: 0, marginTop: 10 }}>
+        <WavyRule color={INK} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, ...mono(10, MUTED) }}>
+          <span>The Planet Post · Issue {issue.number}</span>
+          <span>{BRAND_DOMAIN}</span>
+          <span>Page {n}</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/** A section head: a ribbon of ink with the words reversed out, a burst at the end. */
+function SectionHead({ children, by, ink, tint = HAPPY.butter }: { children: ReactNode; by?: string; ink: boolean; tint?: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+      <h2 style={{ ...display(30), background: fill(ink, tint), border: `3px solid ${INK}`, borderRadius: 10, padding: '6px 14px 7px', boxShadow: `3px 4px 0 ${INK}`, transform: 'rotate(-1deg)' }}>
+        {children}
+      </h2>
+      {by && <span style={{ ...mono(11, MUTED) }}>by {by}</span>}
+    </div>
+  )
+}
+
+// ── PAGE 1, THE FRONT ────────────────────────────────────────────────────────
+
+function MiniWheel({ ink, size }: { ink: boolean; size: number }) {
+  const R = 130, C = 140, n = SLICES.length
+  const pt = (deg: number, r: number) => {
+    const a = (deg * Math.PI) / 180
+    return [C + r * Math.cos(a), C + r * Math.sin(a)] as const
+  }
+  return (
+    <svg viewBox="0 0 280 280" width={size} height={size} aria-hidden>
+      <circle cx={C} cy={C} r={R} fill="#fff" stroke={INK} strokeWidth="5" />
+      {SLICES.map((_, i) => {
+        const [x, y] = pt(-90 + i * (360 / n), R)
+        return <line key={i} x1={C} y1={C} x2={x} y2={y} stroke={INK} strokeWidth="3.5" />
+      })}
+      {SLICES.map((s, i) => {
+        const [ix, iy] = pt(-90 + (i + 0.5) * (360 / n), 66)
+        const [tx, ty] = pt(-90 + (i + 0.5) * (360 / n), 99)
+        return (
+          <g key={s.label}>
+            <g transform={`translate(${ix} ${iy}) scale(0.95)`}>
+              <path d={s.icon} fill="#fff" stroke={INK} strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            </g>
+            <text x={tx} y={ty + 4} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="9.5" fontWeight="700" letterSpacing="0.5" fill={INK}>
+              {s.label.toUpperCase()}
+            </text>
+          </g>
+        )
+      })}
+      <circle cx={C} cy={C} r="16" fill={fill(ink, HAPPY.butter)} stroke={INK} strokeWidth="4" />
+    </svg>
+  )
+}
+
+function FrontPage({ issue, ink }: P) {
+  return (
+    <NewsPage issue={issue} n={1}>
+      {/* The masthead: the painted rainbow over a pale yellow ground, the
+          paper's name on a white sheet lying on it, the price on a burst. */}
+      <div style={{ position: 'relative', overflow: 'hidden', height: 232, flexShrink: 0, ...box(ink, HAPPY.butterLt), boxShadow: `5px 6px 0 ${INK}` }}>
+        {ink ? (
+          <svg viewBox="0 0 200 100" style={{ position: 'absolute', left: '-4%', top: -6, width: '108%' }} aria-hidden>
+            {[13, 26, 39, 52].map(r => (
+              <path key={r} d={`M ${r} 100 A ${100 - r} ${100 - r} 0 0 1 ${200 - r} 100`} fill="none" stroke={INK} strokeWidth="2" />
+            ))}
+          </svg>
+        ) : (
+          <RainbowArc painted width={760} style={{ position: 'absolute', left: '-4%', top: -10, width: '108%', height: 'auto' }} />
+        )}
+        <div style={{
+          position: 'absolute', left: 26, right: 128, bottom: 22, background: '#fff', border: `3px solid ${INK}`,
+          borderRadius: 12, boxShadow: `4px 5px 0 ${INK}`, padding: '14px 20px 14px', transform: 'rotate(-1.5deg)',
+        }}>
+          <div style={{ ...mono(11, MUTED), marginBottom: 4 }}>Issue {issue.number} · {issue.theme}</div>
+          <div style={{ ...display(64), letterSpacing: '-0.035em', lineHeight: 0.95 }}>The Planet Post</div>
+          <div style={{ ...mono(11), marginTop: 8 }}>The newspaper for kids and their grown ups</div>
+        </div>
+        <span style={{ position: 'absolute', right: 18, bottom: 26, transform: 'rotate(10deg)' }}>
+          <Burst size={104} color={fill(ink, HAPPY.coral)} textColor={ink ? INK : '#fff'}>FREE!</Burst>
+        </span>
+      </div>
+
+      {/* The strip under the masthead: the weather and the editor. */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '18px 0 14px', flexShrink: 0 }}>
+        <Sun size={46} />
+        <div style={{ flex: 1 }}>
+          <div style={mono(10, MUTED)}>Today&apos;s weather</div>
+          <div style={{ ...body(17), fontWeight: 800 }}>{issue.weather}</div>
+        </div>
+        <SmileyDot size={22} color={fill(ink, HAPPY.green)} />
+        <SmileyDot size={16} color={fill(ink, HAPPY.sky)} />
+      </div>
+
+      {/* The lead story and the wheel to colour. */}
+      <div style={{ display: 'flex', gap: 20, flex: '1 1 auto', minHeight: 0 }}>
+        <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+          <div style={mono(11, MUTED)}>Front page news</div>
+          <h1 style={{ ...display(44), margin: '6px 0 12px' }}>{issue.lead.headline}</h1>
+          {issue.lead.paras.map((p, i) => (
+            <p key={i} style={{ ...body(17.5), marginBottom: 12 }}>{p}</p>
+          ))}
+          <p style={{ ...body(17.5), fontWeight: 800, marginTop: 6 }}>✏️ {issue.lead.task}</p>
+          <div style={{ marginTop: 14 }}><Line label="I got" width={260} size={16} /></div>
+          <div style={{ marginTop: 6 }}><Line label="My best colour was" size={16} /></div>
+        </div>
+        <div style={{ width: 300, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          <MiniWheel ink={ink} size={300} />
+          <div style={{ ...mono(10, MUTED), textAlign: 'center' }}>My day wheel · colour it in</div>
+        </div>
+      </div>
+
+      {/* The editor's note, and what is inside. */}
+      <div style={{ display: 'flex', gap: 16, marginTop: 16, flexShrink: 0 }}>
+        <div style={{ flex: '1 1 0', display: 'flex', gap: 12, alignItems: 'center', padding: '12px 14px', ...box(ink) }}>
+          <Friend img={issue.editor.img} name={issue.editor.name} size={78} ink={ink} />
+          <div>
+            <div style={mono(10, MUTED)}>A note from the editor</div>
+            <p style={{ ...body(14), marginTop: 3 }}>{issue.editor.note}</p>
+          </div>
+        </div>
+        <div style={{ width: 210, flexShrink: 0, padding: '12px 14px', ...box(ink, CRAYON.paper) }}>
+          <div style={{ ...mono(11), marginBottom: 6 }}>Inside</div>
+          {issue.inside.map(i => (
+            <div key={i.page} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+              <span style={{ ...display(20), width: 18 }}>{i.page}</span>
+              <span style={{ ...body(14), fontWeight: 800, lineHeight: 1.25 }}>{i.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </NewsPage>
+  )
+}
+
+// ── PAGE 2, THE BIG EXPLAINER ────────────────────────────────────────────────
+
+function Jar({ label, tint, ink, children }: { label: string; tint: string; ink: boolean; children: ReactNode }) {
+  return (
+    <div style={{ position: 'relative', width: 212, height: 262, flexShrink: 0 }}>
+      <svg viewBox="0 0 218 270" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
+        <rect x="52" y="6" width="114" height="24" rx="8" fill={fill(ink, CRAYON.paper)} stroke={INK} strokeWidth="5" />
+        <path d="M40 46 Q40 30 60 30 H158 Q178 30 178 46 V56 Q200 66 200 94 V242 Q200 264 176 264 H42 Q18 264 18 242 V94 Q18 66 40 56 Z" fill={fill(ink, tint)} stroke={INK} strokeWidth="6" strokeLinejoin="round" />
+        <rect x="32" y="84" width="154" height="34" rx="8" fill="#fff" stroke={INK} strokeWidth="4" />
+      </svg>
+      <div style={{ position: 'absolute', left: 32, right: 32, top: 84, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', ...mono(11), letterSpacing: '0.08em' }}>
+        {label}
+      </div>
+      <div style={{ position: 'absolute', left: 30, right: 30, top: 128, bottom: 18, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 6, textAlign: 'center' }}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function Blank({ w = 64 }: { w?: number }) {
+  return <span style={{ display: 'inline-block', width: w, height: 34, background: '#fff', border: `3px solid ${INK}`, borderRadius: 8 }} />
+}
+
+function JarsPage({ issue, ink }: P) {
+  const j = issue.jars
+  return (
+    <NewsPage issue={issue} n={2}>
+      <SectionHead ink={ink}>{j.headline}</SectionHead>
+      <p style={{ ...body(16), marginBottom: 14 }}>{j.intro}</p>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', flexShrink: 0 }}>
+        <Jar label={j.mine.label} tint={CRAYON.sky} ink={ink}>
+          <Blank />
+          <span style={{ ...body(13), fontWeight: 800, lineHeight: 1.25 }}>{j.mine.line}</span>
+        </Jar>
+        <Jar label={j.earned.label} tint={CRAYON.butter} ink={ink}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Star size={30} /> <span style={display(20)}>=</span> <Blank w={56} />
+          </span>
+          <span style={{ ...body(13), fontWeight: 800, lineHeight: 1.25 }}>{j.earned.line}</span>
+        </Jar>
+        <Jar label={j.nobodys.label} tint={CRAYON.coral} ink={ink}>
+          {j.nobodys.items.map(it => (
+            <span key={it} style={{ ...body(14), fontWeight: 900 }}>{it}</span>
+          ))}
+          <span style={{ ...mono(9.5), letterSpacing: '0.06em', marginTop: 2 }}>{j.nobodys.line}</span>
+        </Jar>
+      </div>
+
+      {/* How a star is made: four steps along a dotted road. */}
+      <div style={{ margin: '18px 0 0', padding: '12px 14px', ...box(ink, CRAYON.paper), flexShrink: 0 }}>
+        <div style={{ ...mono(11), marginBottom: 8 }}>How a star is made</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          {j.starSteps.map((s, i) => (
+            <div key={s} style={{ display: 'contents' }}>
+              <div style={{ flex: '1 1 0', display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: `2.5px solid ${INK}`, borderRadius: 10, padding: '7px 9px', minHeight: 54 }}>
+                <span style={{ ...display(22), flexShrink: 0 }}>{i + 1}</span>
+                <span style={{ ...body(13.5), fontWeight: 800, lineHeight: 1.2 }}>{s}</span>
+              </div>
+              {i < j.starSteps.length - 1 && <span style={{ ...display(20), flexShrink: 0 }}>›</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bloop's column. */}
+      <div style={{ display: 'flex', gap: 18, marginTop: 20, flex: '1 1 auto', minHeight: 0, padding: '16px 18px', ...box(ink) }}>
+        <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <Friend img={issue.bedColumn.img} name={issue.bedColumn.by} size={70} ink={ink} />
+            <div>
+              <div style={mono(10, MUTED)}>{issue.bedColumn.by}&apos;s column</div>
+              <h3 style={display(30)}>{issue.bedColumn.headline}</h3>
+            </div>
+          </div>
+          {issue.bedColumn.paras.map((p, i) => <p key={i} style={{ ...body(15.5), marginBottom: 8 }}>{p}</p>)}
+          <div style={{ ...mono(10.5), margin: '6px 0 6px' }}>{issue.bedColumn.swapsHead}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {issue.bedColumn.swaps.map((x, i) => (
+              <span key={x} style={{ ...body(14), fontWeight: 800, background: fill(ink, [CRAYON.green, CRAYON.butter, CRAYON.pink][i % 3]), border: `2.5px solid ${INK}`, borderRadius: 999, padding: '5px 13px', transform: `rotate(${[-2, 1.5, -1][i % 3]}deg)` }}>{x}</span>
+            ))}
+          </div>
+          <div style={{ marginTop: 'auto' }}>
+            {issue.bedColumn.fills.map(f => <Line key={f} label={f} size={15} />)}
+          </div>
+        </div>
+        <div style={{ width: 170, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+          <Moon size={86} />
+          <div style={{ position: 'relative', width: 150, height: 120 }}>
+            <svg viewBox="0 0 150 120" width={150} height={120} aria-hidden style={{ position: 'absolute', inset: 0 }}>
+              <rect x="8" y="58" width="134" height="40" rx="10" fill={fill(ink, CRAYON.sky)} stroke={INK} strokeWidth="5" />
+              <rect x="14" y="42" width="40" height="24" rx="8" fill="#fff" stroke={INK} strokeWidth="4" />
+              <path d="M16 98 v14 M134 98 v14" stroke={INK} strokeWidth="5" strokeLinecap="round" />
+            </svg>
+            <span style={{ position: 'absolute', left: 72, top: 16, transform: 'rotate(90deg)' }}><Phone size={60} /></span>
+          </div>
+          <div style={{ ...mono(9.5, MUTED), textAlign: 'center' }}>Night night, phone</div>
+        </div>
+      </div>
+    </NewsPage>
+  )
+}
+
+// ── PAGE 3, PUZZLES ──────────────────────────────────────────────────────────
+
+function PuzzlePage({ issue, ink }: P) {
+  const r = issue.realOrPretend
+  const w = issue.wordSearch
+  return (
+    <NewsPage issue={issue} n={3}>
+      {/* Orbit's detective corner. */}
+      <div style={{ padding: '14px 16px', ...box(ink), flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+          <Friend img={r.img} name={r.by} size={66} ink={ink} />
+          <div>
+            <div style={mono(10, MUTED)}>{r.by}&apos;s detective corner</div>
+            <h2 style={display(34)}>{r.headline}</h2>
+          </div>
+        </div>
+        <p style={{ ...body(15), marginBottom: 10 }}>{r.intro}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {r.messages.map((m, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ ...display(24), width: 20, flexShrink: 0 }}>{i + 1}</span>
+              <div style={{ flex: '1 1 0', background: fill(ink, i === 1 ? CRAYON.green : CRAYON.paper), border: `2.5px solid ${INK}`, borderRadius: '14px 14px 14px 4px', padding: '8px 12px' }}>
+                <div style={mono(9.5, MUTED)}>{m.from}</div>
+                <div style={{ ...body(14.5), fontWeight: 700 }}>{m.text}</div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
+                {['REAL', 'PRETEND'].map(x => (
+                  <span key={x} style={{ ...mono(10.5), letterSpacing: '0.08em', border: `2px solid ${INK}`, borderRadius: 999, padding: '3px 9px', textAlign: 'center' }}>{x}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* The word search and tomorrow's headline, side by side. */}
+      <div style={{ display: 'flex', gap: 18, marginTop: 20, flex: '1 1 auto', minHeight: 0 }}>
+        <div style={{ padding: '12px 14px', ...box(ink, CRAYON.paper), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ ...mono(11), marginBottom: 8 }}>{w.headline}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 30px)', gap: 1, background: '#fff', border: `2.5px solid ${INK}`, borderRadius: 8, padding: 6 }}>
+            {w.grid.join('').split('').map((ch, i) => (
+              <span key={i} style={{ width: 30, height: 31, display: 'flex', alignItems: 'center', justifyContent: 'center', ...display(17), lineHeight: 1 }}>{ch}</span>
+            ))}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 10px', marginTop: 8, maxWidth: 316 }}>
+            {w.words.map(x => <span key={x} style={{ ...mono(10.5), letterSpacing: '0.06em' }}>☐ {x}</span>)}
+          </div>
+        </div>
+        <div style={{ flex: '1 1 0', minWidth: 0, padding: '12px 16px', ...box(ink), display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <StarShape size={22} color={fill(ink, HAPPY.butter)} />
+            <div style={mono(11)}>{issue.myHeadline.headline}</div>
+          </div>
+          <p style={{ ...body(14), margin: '6px 0 8px' }}>{issue.myHeadline.prompt}</p>
+          <div style={{ border: `2.5px solid ${INK}`, borderRadius: 10, padding: '6px 10px 10px', flex: '1 1 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+            <div style={mono(9.5, MUTED)}>The Planet Post · Tomorrow</div>
+            <Line size={17} />
+            <Line size={17} />
+            <div style={{ ...mono(9.5, MUTED), marginTop: 8 }}>Draw the picture for your story</div>
+            <div style={{ flex: '1 1 auto', minHeight: 120, border: '2.5px dashed #9A9AB0', borderRadius: 10, marginTop: 6 }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Orbit's answers, upside down, the way a real paper hides them. */}
+      <div style={{ transform: 'rotate(180deg)', marginTop: 12, flexShrink: 0 }}>
+        <div style={{ ...mono(9.5, MUTED), marginBottom: 2 }}>Orbit&apos;s answers</div>
+        {r.answers.map(a => <div key={a} style={{ ...body(11.5), color: MUTED, lineHeight: 1.35 }}>{a}</div>)}
+      </div>
+    </NewsPage>
+  )
+}
+
+// ── PAGE 4, THE BACK PAGE ────────────────────────────────────────────────────
+
+function BackPage({ issue, ink, qrSvg }: P & { qrSvg: string }) {
+  const j = issue.jobs
+  return (
+    <NewsPage issue={issue} n={4}>
+      <SectionHead ink={ink} tint={CRAYON.green}>{j.headline}</SectionHead>
+      <p style={{ ...body(15), marginBottom: 10 }}>{j.intro}</p>
+      <div style={{ display: 'flex', gap: 16, flexShrink: 0 }}>
+        <div style={{ flex: '1 1 0', padding: '10px 14px', ...box(ink) }}>
+          {j.earn.map(x => (
+            <div key={x} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', borderBottom: '2px dotted #C9C9D6' }}>
+              <span style={{ width: 24, height: 24, borderRadius: '50%', border: `3px solid ${INK}`, flexShrink: 0 }} />
+              <span style={{ ...body(15.5), fontWeight: 800, flex: 1 }}>{x}</span>
+              <Star size={34} />
+            </div>
+          ))}
+        </div>
+        <div style={{ width: 236, flexShrink: 0, padding: '12px 14px', ...box(ink, CRAYON.paper), display: 'flex', flexDirection: 'column' }}>
+          <div style={{ ...mono(11), marginBottom: 6 }}>{j.family.headline}</div>
+          {j.family.items.map(x => (
+            <div key={x} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '3px 0' }}>
+              <span style={{ width: 20, height: 20, borderRadius: '50%', border: `3px solid ${INK}`, flexShrink: 0 }} />
+              <span style={{ ...body(14.5), fontWeight: 800 }}>{x}</span>
+            </div>
+          ))}
+          <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto 0 0' }}><Heart size={52} /></div>
+          <p style={{ ...body(13), paddingTop: 6 }}>{j.family.line}</p>
+        </div>
+      </div>
+
+      {/* The promise, signed by both. */}
+      <div style={{ marginTop: 20, padding: '14px 18px', ...box(ink), flex: '1 1 auto', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+          <Friend img={issue.promise.img} name={issue.promise.by} size={62} ink={ink} />
+          <h2 style={display(34)}>{issue.promise.headline}</h2>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', flex: '1 1 auto' }}>
+          {issue.promise.lines.map(l => <Line key={l} label={l} size={16} />)}
+          <div style={{ display: 'flex', gap: 24 }}>
+            <Line label="Signed" size={15} />
+            <Line label="Grown up" size={15} />
+          </div>
+        </div>
+      </div>
+
+      {/* The strip for the grown up, cut off along the dotted line. */}
+      <div style={{ marginTop: 18, flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, ...mono(9.5, MUTED) }}>
+          <span style={{ fontSize: 16 }}>✂</span>
+          <span style={{ flex: 1, borderTop: `2.5px dashed ${INK}` }} />
+          <span>{issue.grownUp.kicker}</span>
+          <span style={{ flex: 1, borderTop: `2.5px dashed ${INK}` }} />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 10 }}>
+          <div style={{ flex: '1 1 0' }}>
+            <h3 style={display(24)}>{issue.grownUp.headline}</h3>
+            <p style={{ ...body(15), marginTop: 4 }}>{issue.grownUp.line}</p>
+            <p style={{ ...mono(12), letterSpacing: '0.06em', textTransform: 'none', marginTop: 6 }}>{issue.grownUp.shown}</p>
+          </div>
+          <div aria-label="QR code to the stage check" style={{ width: 104, height: 104, flexShrink: 0, padding: 6, background: '#fff', border: `3px solid ${INK}`, borderRadius: 10, boxSizing: 'border-box' }}
+            dangerouslySetInnerHTML={{ __html: qrSvg }} />
+        </div>
+      </div>
+    </NewsPage>
+  )
+}
+
+/** The four pages, in reading order. */
+export function PlanetPostPages({ issue, ink, qrSvg }: P & { qrSvg: string }) {
+  return [
+    <FrontPage key={1} issue={issue} ink={ink} />,
+    <JarsPage key={2} issue={issue} ink={ink} />,
+    <PuzzlePage key={3} issue={issue} ink={ink} />,
+    <BackPage key={4} issue={issue} ink={ink} qrSvg={qrSvg} />,
+  ]
+}
