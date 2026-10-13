@@ -17,5 +17,18 @@
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__show_generations",
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__job_display"
     ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/review-board.mjs\" alerts",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }
