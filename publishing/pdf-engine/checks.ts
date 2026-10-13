@@ -109,9 +109,12 @@ export function layoutChecks(opts: { safeMm: number; minBodyPt: number; minAnyPt
       if (el.closest('.body') && !el.closest('.refs, .cite, .sub') && pt < opts.minBodyPt) findings.push({ level: 'error', page: n, rule: 'body-size', detail: `body copy at ${pt.toFixed(1)}pt, the floor is ${opts.minBodyPt}pt` })
 
       // 3. CONTRAST, WCAG AA: 4.5 to 1, or 3 to 1 for large text.
+      // Lettering drawn with an ink outline (the boho masthead) is read by its
+      // outline, not its fill, so the fill colour is not the contrast that counts.
+      const outlined = parseFloat((cs as unknown as Record<string, string>).webkitTextStrokeWidth || '0') > 0.5
       const fg = parse(cs.color)
       const bg = bgOf(el)
-      if (fg && bg) {
+      if (fg && bg && !outlined) {
         const c = ratio(blend(fg, bg), bg)
         const large = pt >= 18 || (pt >= 14 && Number(cs.fontWeight) >= 700)
         const need = large ? 3 : 4.5

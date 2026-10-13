@@ -7,22 +7,50 @@
     "references": "Composition only: brand/references/2026-10-05-social-reference-board.webp. Never a character reference."
   },
   "models": {
-    "draft": { "model": "gpt_image_2_5", "params": { "quality": "low", "resolution": "1k" }, "creditsPerImage": 1, "creditsNote": "About one credit per still at low quality, from the mood stills run of 13 September 2026 (shared/schools-curriculum.ts). Confirm against the ledger after the first run." },
-    "final": { "model": "gpt_image_2_5", "params": { "quality": "high", "resolution": "2k" }, "creditsPerImage": null, "creditsNote": "Not yet measured. The first final run records what Higgsfield reports, and the budget gate uses that from then on." },
-    "video": { "model": "seedance_2_0", "creditsPerClip": null, "creditsNote": "Not yet measured. silent-ugc budgets about one pound a video; treat as unknown until the ledger has a real figure." }
+    "draft": {
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "low",
+        "resolution": "1k"
+      },
+      "creditsPerImage": 1,
+      "creditsNote": "About one credit per still at low quality, from the mood stills run of 13 September 2026 (shared/schools-curriculum.ts). Confirm against the ledger after the first run."
+    },
+    "final": {
+      "model": "gpt_image_2_5",
+      "params": {
+        "quality": "high",
+        "resolution": "2k"
+      },
+      "creditsPerImage": null,
+      "creditsNote": "Not yet measured. The first final run records what Higgsfield reports, and the budget gate uses that from then on."
+    },
+    "video": {
+      "model": "seedance_2_0",
+      "creditsPerClip": null,
+      "creditsNote": "Not yet measured. silent-ugc budgets about one pound a video; treat as unknown until the ledger has a real figure."
+    }
   },
   "recipes": {
     "newspaper-cover": {
       "use": "Page 1 backdrop behind the masthead, the headline and the approved Bloop cutout.",
-      "aspect": "3:4", "minPx": [2480, 2340],
+      "aspect": "3:4",
+      "minPx": [
+        2480,
+        2340
+      ],
       "composition": "A night sky over the curved horizon of a small round green planet. The International Space Station as a small clean silhouette crossing the upper left third. A soft glow behind it. A grassy hill rising on the lower right where a character will be placed later, left EMPTY. The top 30 percent is quiet sky for the headline.",
       "lighting": "Night, soft butter glow from the station, faint rim light on the planet's edge.",
-      "characterPlacement": "None in the image. Leave the lower right hill clear: Bloop is placed there by the layout engine.",
+      "characterPlacement": "None in the image. Leave the lower right hill clear: The layout engine places the approved character there.",
       "output": "PNG, no text, no border, edges painted to bleed."
     },
     "world-map": {
       "use": "Page 2, the map of the Guided Planet.",
-      "aspect": "4:3", "minPx": [1600, 1200],
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
       "composition": "A small round planet floating in space, seen slightly from above, with six landmark places on its surface: an observatory dome, a district of workshops with a gear, a forest, a garden of flowers, a reading room with books, and a compass rose campsite. A dotted gold path joins them. Labels are added by the layout, so no words.",
       "lighting": "Soft daylight on the planet against a deep ink sky.",
       "characterPlacement": "None.",
@@ -30,7 +58,11 @@
     },
     "discovery-observatory": {
       "use": "Science, space and discovery features.",
-      "aspect": "16:9", "minPx": [2480, 1400],
+      "aspect": "16:9",
+      "minPx": [
+        2480,
+        1400
+      ],
       "composition": "Space, the curve of the Earth, an orbiting station or telescope, star field. Room on one side for type.",
       "lighting": "Night with a single warm accent.",
       "characterPlacement": "None.",
@@ -38,7 +70,11 @@
     },
     "maker-district": {
       "use": "Coding, creativity and young inventors.",
-      "aspect": "21:9", "minPx": [2480, 1060],
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
       "composition": "A friendly street of small workshops and studios, sawtooth roofs, lit windows, a big gear, a lightbulb sign with no letters, workbenches with simple tools.",
       "lighting": "Late afternoon butter light.",
       "characterPlacement": "None.",
@@ -46,15 +82,23 @@
     },
     "thinking-forest": {
       "use": "AI, algorithms, misinformation and critical thinking.",
-      "aspect": "4:3", "minPx": [1600, 1200],
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
       "composition": "A calm forest clearing with tall simple trees, paths that fork, signposts with no words, a few glowing question shaped leaves.",
       "lighting": "Dappled green and gold.",
-      "characterPlacement": "None. Leave space on the right for Bloop.",
+      "characterPlacement": "None. Leave space on the right for a character added later.",
       "output": "PNG, no text."
     },
     "connection-garden": {
       "use": "Friendship, kindness and digital belonging.",
-      "aspect": "21:9", "minPx": [2480, 1060],
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
       "composition": "Two small homes on two green hills far apart, joined across a valley by a gentle dotted gold line and a row of flowers. Warm and quiet.",
       "lighting": "Soft morning light.",
       "characterPlacement": "None.",
@@ -62,7 +106,11 @@
     },
     "research-room": {
       "use": "The Research Room: what the evidence actually says.",
-      "aspect": "16:9", "minPx": [2480, 1400],
+      "aspect": "16:9",
+      "minPx": [
+        2480,
+        1400
+      ],
       "composition": "A tidy reading room with tall shelves, an oversized magnifying glass on a desk, charts pinned up as abstract shapes with no numbers.",
       "lighting": "Lamp light, grey blue walls.",
       "characterPlacement": "None.",
@@ -70,23 +118,35 @@
     },
     "family-explorer": {
       "use": "Things families do together.",
-      "aspect": "21:9", "minPx": [2480, 1060],
+      "aspect": "21:9",
+      "minPx": [
+        2480,
+        1060
+      ],
       "composition": "A dotted gold trail winding across hills under a starry espresso sky, with five little stopping places: a tent, a bench, a telescope, a picnic blanket, a doorstep.",
       "lighting": "Dusk.",
       "characterPlacement": "None.",
       "output": "PNG, no text."
     },
     "bloop-explains": {
-      "use": "Bloop explaining how technology works. The BACKDROP only.",
-      "aspect": "4:3", "minPx": [1600, 1200],
+      "use": "A character explaining how technology works. The BACKDROP only.",
+      "aspect": "4:3",
+      "minPx": [
+        1600,
+        1200
+      ],
       "composition": "A simple workbench scene with an open machine showing friendly gears and wires, everything rounded, space on the left for a character to stand.",
       "lighting": "Warm workshop light.",
-      "characterPlacement": "None in the image. The approved Bloop cutout is placed on the left by the layout.",
+      "characterPlacement": "None in the image. The layout places the approved character on the left.",
       "output": "PNG, no text."
     },
     "printable-activity": {
       "use": "Black and white line art for colouring and cutting out.",
-      "aspect": "1:1", "minPx": [2000, 2000],
+      "aspect": "1:1",
+      "minPx": [
+        2000,
+        2000
+      ],
       "composition": "One clear object (a rocket, a postcard border, a gadget) in clean black outlines on white, thick even lines, no shading, large areas to colour.",
       "lighting": "None, flat line art.",
       "characterPlacement": "None.",
@@ -94,7 +154,11 @@
     },
     "digital-passport": {
       "use": "Planet Passport stamp art.",
-      "aspect": "1:1", "minPx": [1200, 1200],
+      "aspect": "1:1",
+      "minPx": [
+        1200,
+        1200
+      ],
       "composition": "A round rubber stamp style emblem with a single simple icon (a planet, a rocket, a gear, a flower, a compass), no words, gold ink on burgundy.",
       "lighting": "None.",
       "characterPlacement": "None.",
@@ -102,9 +166,38 @@
     }
   },
   "video": {
-    "cover-reveal": { "seconds": 8, "aspects": ["9:16", "1:1", "16:9"], "default": "Made in code at zero credits (publishing/distribution/motion.ts): the rendered cover itself, animated. A Higgsfield version is an option only, started from the approved cover backdrop, never from a frame containing Bloop." },
-    "trailer-30s": { "seconds": 30, "aspects": ["9:16", "1:1", "16:9"], "concept": "Bloop looks up at the International Space Station as The Guided Planet unfolds to reveal its five stories, one beat each, ending on the cover and the free download line." },
-    "teasers": { "count": 3, "seconds": 10, "aspects": ["9:16"] },
-    "bloop-explainer": { "seconds": 45, "aspects": ["9:16", "16:9"], "concept": "Bloop explains who chose the next video, using the recommendation machine diagram from page 8. Bloop is the approved cutout animated in code, not a generated character." }
+    "cover-reveal": {
+      "seconds": 8,
+      "aspects": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "default": "Made in code at zero credits (publishing/distribution/motion.ts): the rendered cover itself, animated. A Higgsfield version is an option only, started from the approved cover backdrop, never from a frame containing Bloop."
+    },
+    "trailer-30s": {
+      "seconds": 30,
+      "aspects": [
+        "9:16",
+        "1:1",
+        "16:9"
+      ],
+      "concept": "Bloop looks up at the International Space Station as The Guided Planet unfolds to reveal its five stories, one beat each, ending on the cover and the free download line."
+    },
+    "teasers": {
+      "count": 3,
+      "seconds": 10,
+      "aspects": [
+        "9:16"
+      ]
+    },
+    "bloop-explainer": {
+      "seconds": 45,
+      "aspects": [
+        "9:16",
+        "16:9"
+      ],
+      "concept": "Bloop explains who chose the next video, using the recommendation machine diagram from page 8. Bloop is the approved cutout animated in code, not a generated character."
+    }
   }
 }

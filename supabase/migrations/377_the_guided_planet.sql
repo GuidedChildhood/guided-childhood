@@ -137,6 +137,23 @@ alter table public.planet_releases enable row level security;
 alter table public.planet_generations enable row level security;
 alter table public.planet_budgets enable row level security;
 
+-- Only the service role reaches these (the routine and the founder gated API),
+-- so the grant names it alone. Said explicitly because from 30 October 2026
+-- Supabase stops granting new public tables to the Data API by default
+-- (scripts/check-migration-grants.mjs). The audit trail gets no update or
+-- delete, on top of its trigger.
+revoke all on public.planet_issues, public.planet_issue_versions, public.planet_stories,
+  public.planet_events, public.planet_releases, public.planet_generations,
+  public.planet_budgets from anon, authenticated;
+grant select, insert, update, delete on public.planet_issues to service_role;
+grant select, insert, update, delete on public.planet_issue_versions to service_role;
+grant select, insert, update, delete on public.planet_stories to service_role;
+grant select, insert on public.planet_events to service_role;
+grant select, insert, update, delete on public.planet_releases to service_role;
+grant select, insert, update, delete on public.planet_generations to service_role;
+grant select, insert, update, delete on public.planet_budgets to service_role;
+grant usage, select on sequence public.planet_issue_versions_id_seq, public.planet_events_id_seq to service_role;
+
 -- The private bucket for proofs, previews and approved art.
 insert into storage.buckets (id, name, public)
 values ('guided-planet', 'guided-planet', false)

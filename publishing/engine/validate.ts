@@ -67,8 +67,10 @@ export function validateIssue(issue: Issue, opts: { aiTells?: boolean } = {}): F
       if (!sources.has(id)) err('ref-unknown', `refs lists ${id}, which is not in sources`, p.n)
       if (!cited.includes(id)) warn('ref-uncited', `refs lists ${id} but no sentence on the page cites it`, p.n)
     }
-    const statesNumber = strings.some(s => /\b\d[\d,]*(\.\d+)?\s*(%|percent|per cent|young people|children|countries|studies|reviews|creations)\b/i.test(s))
-    if ((FACTUAL_TEMPLATES.has(p.template) || statesNumber) && cited.length === 0) err('factual-uncited', 'a factual page with no citation', p.n)
+    const statesNumber = strings.some(s => /\b\d[\d,]*(\.\d+)?\s*(%|\b(percent|per cent|young people|children|countries|studies|reviews|creations)\b)/i.test(s))
+    // A sample issue (a structure test, watermarked, never published) may
+    // hold placeholder story pages; it still may not cite anything unverified.
+    if ((FACTUAL_TEMPLATES.has(p.template) || statesNumber) && cited.length === 0) (issue.sample ? warn : err)('factual-uncited', 'a factual page with no citation', p.n)
 
     for (const a of artSlots(p)) if (!a.alt || a.alt.length < 20) err('alt-text', `art slot ${a.slot} needs real alt text`, p.n)
     for (const fr of friends(p)) if (!library.has(assetIdFor(fr))) err('friend-unapproved', `${assetIdFor(fr)} is not approved art`, p.n)
@@ -90,7 +92,7 @@ export function validateIssue(issue: Issue, opts: { aiTells?: boolean } = {}): F
 }
 
 export function artSlots(p: Page) {
-  const out: { slot: string; alt: string; vector?: string; recipe?: string }[] = []
+  const out: { slot: string; alt: string; vector?: string; recipe?: string; paint?: string }[] = []
   if ('art' in p && p.art) out.push(p.art)
   if (p.template === 'welcome') out.push(p.map)
   return out

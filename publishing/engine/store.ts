@@ -62,7 +62,8 @@ type FileState = {
 }
 
 export class FileStore implements Store {
-  constructor(private dir: string) {}
+  private dir: string
+  constructor(dir: string) { this.dir = dir }
   private path(issue: number) { return join(this.dir, String(issue).padStart(3, '0'), 'state.json') }
   private log(issue: number) { return join(this.dir, String(issue).padStart(3, '0'), 'events.jsonl') }
   private read(issue: number): FileState {

@@ -1,0 +1,112 @@
+/* THE BOHO HAPPY NEWS THEME.
+ *
+ * Justin, 13 October 2026: the family Instagram account (formerly Inspired by
+ * Alma, a party and craft business before it was this) loved the look of the
+ * Happy News printables, and the free downloads need to win that audience:
+ * boho, super attractive, lettering. So The Guided Planet can wear this theme
+ * (issue.json "theme": "boho"). Same pages, same checks; only the look moves.
+ *
+ * Applied ON TOP of newspaper.css. This deliberately reverses, for the
+ * printables only, the 5 October rule that retired The Happy Newspaper as a
+ * reference for SOCIAL cards (brand/GDC_SOCIAL_VISUAL_SYSTEM.md). Our drawing,
+ * their energy, copy nothing: the rainbow, burst, sticker, wavy rule and smiley
+ * dot are the app's own (components/kid/HappyNewsBits.tsx), the icons are the
+ * app's own (shared/components/HappyIcon.tsx), the fonts are OFL.
+ *
+ * The boho palette is the house butter and sage warmed into clay, mustard and
+ * dusty rose on a sand paper, with espresso (tokens.css --deep-teal) as the ink.
+ */
+
+@font-face { font-family: 'Fraunces'; src: url('DESIGN_DIR/fonts/fraunces-latin.woff2') format('woff2'); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: 'Caveat'; src: url('DESIGN_DIR/fonts/caveat-latin.woff2') format('woff2'); font-weight: 400 700; }
+
+body.theme-boho {
+  --cream: #F7EEE1;           /* sand paper */
+  --paper: #FFFBF4;           /* linen, for cards */
+  --ink: #2E2818;             /* espresso */
+  --ink-soft: #5A4E3C;
+  --ink-muted: #6B5E4A;
+  --butter: #E9B44C;          /* mustard butter */
+  --deep-gold: #B98522;
+  --gold-ink: #7A4E10;
+  --tint-butter: #FBE9C6;
+  --sage: #E4E9DA;
+  --sage-mid: #C3D0B4;
+  --sage-ink: #4E6748;
+  --bloop-soft: #E2EDD3;
+  --rule: #DCCDB6;
+  --clay: #C8694A;
+  --clay-ink: #8F4128;
+  --rose: #EFC3B5;
+  --rose-ink: #9C5544;
+  --sky-soft: #CFE0E3;
+  --font-letter: 'Fraunces', 'Nunito', serif;
+  --font-hand: 'Caveat', 'Nunito', cursive;
+}
+
+/* ── LETTERING ─────────────────────────────────────────────────────────── */
+
+.theme-boho .h1, .theme-boho .h2, .theme-boho h2.h3, .theme-boho .lettered {
+  font-family: var(--font-letter);
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72;
+  /* Natural spacing: tighter tracking made the PDF's text lose its word gaps. */
+  letter-spacing: 0; word-spacing: .03em;
+}
+.theme-boho .h1 { font-weight: 800; font-size: 28.5pt; line-height: 1; }
+.theme-boho .h2 { font-weight: 800; }
+/* The eyebrow becomes a handwritten note in clay, the way a parent labels a
+   jar. Big enough that Caveat stays readable. */
+.theme-boho .eyebrow {
+  font: 700 12.5pt/.9 var(--font-hand); letter-spacing: 0; text-transform: none; color: var(--clay-ink);
+}
+.theme-boho .ground-night .eyebrow { color: #F3C98B; }
+.theme-boho .bubble .who { font: 700 12pt/1 var(--font-hand); letter-spacing: 0; text-transform: none; color: var(--clay-ink); }
+.theme-boho .pull { font-family: var(--font-letter); font-variation-settings: "SOFT" 100, "WONK" 1; }
+.theme-boho .pull::before { color: var(--clay); }
+.theme-boho .body p.lead::first-letter { font-family: var(--font-letter); font-variation-settings: "SOFT" 100, "WONK" 1; color: var(--clay-ink); }
+.theme-boho .facts dt { font-family: var(--font-letter); font-variation-settings: "SOFT" 100, "WONK" 1; }
+
+/* ── STICKERS, NOT PILLS ──────────────────────────────────────────────── */
+
+.theme-boho .dest { transform: rotate(-2.5deg); box-shadow: 2px 3px 0 var(--ink); border-width: .4mm; }
+.theme-boho .dest-observatory { background: #3B2C40; color: #F3C98B; border-color: var(--ink); }
+.theme-boho .dest-maker { background: var(--butter); }
+.theme-boho .dest-forest { background: var(--sage-mid); }
+.theme-boho .dest-garden { background: var(--rose); }
+.theme-boho .dest-research { background: var(--sky-soft); }
+.theme-boho .dest-explorer { background: #A24C34; color: #FFF6EA; border-color: var(--ink); }
+.theme-boho .activity .tag { transform: rotate(-3deg); box-shadow: 2px 3px 0 var(--ink); border: .35mm solid var(--ink); background: var(--butter); }
+.theme-boho .activity .tag.offline { transform: rotate(2deg); background: var(--sage-mid); }
+.theme-boho .turn { box-shadow: 2px 3px 0 var(--ink); border: .35mm solid var(--ink); }
+
+/* ── CARDS WITH A HARD SHADOW, LIKE CUT PAPER ─────────────────────────── */
+
+.theme-boho .card, .theme-boho .facts, .theme-boho .bubble, .theme-boho .rsum, .theme-boho .activity {
+  box-shadow: 2px 3px 0 var(--ink); border-color: var(--ink);
+}
+.theme-boho .facts { background: var(--tint-butter); }
+.theme-boho .rsum .k { background: var(--sky-soft); color: #2F4B52; }
+
+/* ── THE GROUNDS ──────────────────────────────────────────────────────── */
+
+.theme-boho .page { background: var(--cream); }
+.theme-boho .page.ground-night { background: #3B2C40; }
+.theme-boho .page.ground-butter { background: #FBEDD2; }
+.theme-boho .page.ground-sage { background: #EAEDE0; }
+.theme-boho .page.ground-blue { background: #E6EEEE; }
+.theme-boho .page.ground-paper { background: #FFFFFF; }
+.theme-boho .runhead { border-bottom: 0; padding-bottom: 0; margin-bottom: 1mm; }
+.theme-boho .wavy { display: block; width: 100%; height: 2.6mm; margin: .8mm 0 2.6mm; }
+
+/* a scatter of smiley dots and stars, corners only, behind nothing */
+.theme-boho .scatter { position: absolute; pointer-events: none; z-index: 0; }
+.theme-boho .safe > * { position: relative; z-index: 1; }
+
+.theme-boho .refs .n, .theme-boho .cite { background: var(--clay-ink); }
+.theme-boho .steps li::before { background: var(--clay-ink); color: #FFF6EA; }
+
+/* On the dusk ground the citation rings go light, and anything inside a box
+   keeps the box's own ink (both caught by the contrast check). */
+.theme-boho .ground-night .cite, .theme-boho .ground-night .refs .n { background: #F3C98B; color: var(--ink); }
+.theme-boho .ground-night .facts .eyebrow, .theme-boho .ground-night .card .eyebrow, .theme-boho .ground-night .activity .eyebrow { color: var(--clay-ink); }
+.theme-boho .ground-night .facts .cite, .theme-boho .ground-night .card .cite, .theme-boho .ground-night .activity .cite { background: var(--clay-ink); color: #FFF6EA; }
