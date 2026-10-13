@@ -71,7 +71,15 @@ export type DeviceIssue = {
     /** The concern slug the check in tracks, when there is one. */
     concernSlug?: string
     mechanic?: IssueMechanic[]
-    /** Where a parent goes to do the first thing. */
+    /**
+     * Where a parent goes to do the first thing.
+     *
+     * A scripts shelf is `?cat=`, the param the scripts page reads. Twenty two
+     * of these said `?category=` until 13 October 2026, which the page has
+     * never read, so the Issue of the Week card opened the whole unfiltered
+     * library under a promise of the scripts for that issue. The guard in
+     * scripts/check-device-issues.mjs now fails on the old spelling.
+     */
     href: string
   }
   /** Words a parent uses when they are in it. Lower case, matched on word boundaries. */
@@ -122,7 +130,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Hand the ending to the content: agree the stopping point before it starts, let the episode or the timer end it, and let them press the button. The one study that tested the two minute warning found it made things worse.',
     prevent: 'From the first tablet, endings are set by the content or the timer, never by a countdown, so the rule the console and the phone will need later is already the rule.',
     source: HINIKER,
-    proof: { scripts: ['The two minute warning is making it worse', 'Refusing to stop when time is up', 'When Screen Time Ends in Tears'], category: 'screen-time', concernSlug: 'wont-put-down', mechanic: ['timer', 'core_time'], href: '/dashboard/scripts?category=screen-time' },
+    proof: { scripts: ['The two minute warning is making it worse', 'Refusing to stop when time is up', 'When Screen Time Ends in Tears'], category: 'screen-time', concernSlug: 'wont-put-down', mechanic: ['timer', 'core_time'], href: '/dashboard/scripts?cat=screen-time' },
     keywords: ['tantrum', 'meltdown', 'melt down', 'turn it off', 'turned it off', 'take it away', 'took it away', 'switch off', 'time is up', 'come off', 'screaming when', 'ipad off', 'tablet off', 'stop playing'],
   },
   {
@@ -177,7 +185,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Occupying a child with a screen so you can cook is fine; calming an upset child with it every time is the one pattern to break, and the swap is your body and your voice, which the full body tantrum script walks through.',
     prevent: 'A small core of screen time that is theirs unconditionally means the screen never has to be the prize or the pacifier.',
     source: RADESKY_CALM,
-    proof: { scripts: ['The full body tantrum', 'Whining that will not stop'], category: 'mood-confidence', mechanic: ['core_time'], href: '/dashboard/scripts?category=mood-confidence' },
+    proof: { scripts: ['The full body tantrum', 'Whining that will not stop'], category: 'mood-confidence', mechanic: ['core_time'], href: '/dashboard/scripts?cat=mood-confidence' },
     keywords: ['calm them down', 'calms them', 'calms him', 'calms her', 'babysitter', 'keep them quiet', 'only thing that works', 'to settle', 'settle him', 'settle her', 'guilty'],
   },
   {
@@ -188,7 +196,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'One protected phone free slot a day for the parent too, kept in front of the child, and the child allowed to say so when it slips. Modelling over monitoring.',
     prevent: 'The house rule from the start is for the house, so a rule the child is asked to keep at eleven is one they have watched you keep since four.',
     source: MCDANIEL,
-    proof: { scripts: ['Your own phone, one protected slot a day', 'A screens off dinner, the whole family'], category: 'everyday-routines', mechanic: ['protected_window'], href: '/dashboard/scripts?category=everyday-routines' },
+    proof: { scripts: ['Your own phone, one protected slot a day', 'A screens off dinner, the whole family'], category: 'everyday-routines', mechanic: ['protected_window'], href: '/dashboard/scripts?cat=everyday-routines' },
     keywords: ['my own phone', 'my phone', 'i am on it', 'hypocrite', 'me too', 'own screen time', 'my screen time', 'i am always on'],
   },
   {
@@ -234,7 +242,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'A fixed monthly amount agreed before the first ask, the gift card bought together, one tap purchase off on every store, and loot boxes named for what they are.',
     prevent: 'The first gift card conversation at eight, before the first spend, so the first real money is a plan rather than a shock on a statement.',
     source: OFCOM_SPEND,
-    proof: { scripts: ['The first gift card, before the first spend', 'Requests for in-game purchases', 'They have spent real money on the game'], category: 'gaming', mechanic: ['device_guide', 'agreement'], href: '/dashboard/scripts?category=gaming' },
+    proof: { scripts: ['The first gift card, before the first spend', 'Requests for in-game purchases', 'They have spent real money on the game'], category: 'gaming', mechanic: ['device_guide', 'agreement'], href: '/dashboard/scripts?cat=gaming' },
     keywords: ['robux', 'v bucks', 'vbucks', 'v-bucks', 'gift card', 'in game', 'in-game', 'spent money', 'spending money', 'loot box', 'loot boxes', 'battle pass', 'skins', 'microtransaction', 'my card'],
   },
   {
@@ -256,7 +264,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Teach group chat behaviour before the first group: what to do when it turns, a screenshot of anything upsetting comes to you and costs nothing, and the phone is not in the bedroom when the group is awake.',
     prevent: 'The first group chat lesson at eight to ten, before the class group exists, so leaving a nasty chat is a skill they have rather than a crisis they are in.',
     source: MUMSNET_WHATSAPP,
-    proof: { scripts: ['Added to a group by someone they do not know', 'When Group Chat Drama Comes Home', 'The class group at eleven at night'], category: 'social-media', mechanic: ['protected_window'], href: '/dashboard/scripts?category=social-media' },
+    proof: { scripts: ['Added to a group by someone they do not know', 'When Group Chat Drama Comes Home', 'The class group at eleven at night'], category: 'social-media', mechanic: ['protected_window'], href: '/dashboard/scripts?cat=social-media' },
     keywords: ['whatsapp', 'group chat', 'class group', 'class chat', 'the group', 'added to a group', 'group message'],
   },
   {
@@ -289,7 +297,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Make the ending visible and the same every time: a timer the child can see, the next thing named before the screen goes on, and honesty that for this child the screen may be doing real work.',
     prevent: 'The visible ending as the house rule from the first device, so it is never introduced as a punishment for a child who is already finding it hardest.',
     source: IM_SEND,
-    proof: { scripts: ['The visible ending, for the child who finds stopping hardest', 'A new diagnosis'], category: 'screen-time', mechanic: ['timer'], href: '/dashboard/scripts?category=screen-time' },
+    proof: { scripts: ['The visible ending, for the child who finds stopping hardest', 'A new diagnosis'], category: 'screen-time', mechanic: ['timer'], href: '/dashboard/scripts?cat=screen-time' },
     keywords: ['adhd', 'autis', 'asd', 'send', 'additional needs', 'neurodiv', 'sensory', 'special interest', 'hyperfocus', 'transition'],
   },
   {
@@ -311,7 +319,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Stop at the real finishing line: the end of the match, agreed before it starts, with the timer set to the match rather than the minute, and the console guide\'s settings doing the holding.',
     prevent: 'Getting the first console with the natural stopping point already the rule, the same rule the tablet taught at five.',
     source: OFCOM_2026,
-    proof: { scripts: ['They cannot stop in the middle of a match', 'Gaming Rage', 'Losing badly and getting angry'], category: 'gaming', concernSlug: 'controller-fights', mechanic: ['timer', 'device_guide'], href: '/dashboard/scripts?category=gaming' },
+    proof: { scripts: ['They cannot stop in the middle of a match', 'Gaming Rage', 'Losing badly and getting angry'], category: 'gaming', concernSlug: 'controller-fights', mechanic: ['timer', 'device_guide'], href: '/dashboard/scripts?cat=gaming' },
     keywords: ['fortnite', 'roblox', 'minecraft', 'match', 'the game', 'gaming', 'xbox', 'playstation', 'switch', 'console', 'controller', 'rage'],
   },
   {
@@ -322,7 +330,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'The phone in another room for the homework window, a protected school hours window in code, and the homework decoder so the parent can help without policing.',
     prevent: 'Protected school hours from the first phone, and the homework versus screens standoff handled at eight while the stakes are a spelling test.',
     source: CSM_COMPANION,
-    proof: { scripts: ['Homework on a device with constant distraction', 'Gaming instead of homework', 'Phone during homework'], category: 'school-and-ai', mechanic: ['protected_window', 'homework_decoder'], href: '/dashboard/scripts?category=school-and-ai' },
+    proof: { scripts: ['Homework on a device with constant distraction', 'Gaming instead of homework', 'Phone during homework'], category: 'school-and-ai', mechanic: ['protected_window', 'homework_decoder'], href: '/dashboard/scripts?cat=school-and-ai' },
     keywords: ['homework', 'revision', 'revising', 'coursework', 'exam', 'notifications', 'distracted', 'concentrat'],
   },
   // ── 11 to 13 ──────────────────────────────────────────────────────────────
@@ -334,7 +342,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'The words for leaving a chat, the screenshot as evidence rather than shame, the school route used early, and a parent who does not look shocked, so the door stays open.',
     prevent: 'Group chat skills taught before the first group, and the no confiscation promise, so the first nasty chat is shown to you rather than hidden.',
     source: OFCOM_EXP_2026,
-    proof: { scripts: ['Taken out of the group on purpose', 'Screenshots of group chat exclusion', 'They are being bullied online'], category: 'social-media', mechanic: ['fair_play'], href: '/dashboard/scripts?category=social-media' },
+    proof: { scripts: ['Taken out of the group on purpose', 'Screenshots of group chat exclusion', 'They are being bullied online'], category: 'social-media', mechanic: ['fair_play'], href: '/dashboard/scripts?cat=social-media' },
     keywords: ['bullied', 'bullying', 'bully', 'pile on', 'left out', 'kicked out of the group', 'removed from the group', 'nasty', 'mean messages', 'screenshot'],
   },
   {
@@ -356,7 +364,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Curiosity before consequence, oversight they can see, and the no confiscation promise kept the first time it is tested. The fair play question each week pays a star for honesty, including honesty about a slip.',
     prevent: 'The promise said before it is needed and trust levels that visibly step up, so there is more to gain by telling than by hiding.',
     source: MUMSNET_SNEAK,
-    proof: { scripts: ['The no confiscation promise, said out loud', 'A lie that got bigger', 'The second account you were not meant to find'], category: 'staying-safe', mechanic: ['fair_play', 'ladder'], href: '/dashboard/scripts?category=staying-safe' },
+    proof: { scripts: ['The no confiscation promise, said out loud', 'A lie that got bigger', 'The second account you were not meant to find'], category: 'staying-safe', mechanic: ['fair_play', 'ladder'], href: '/dashboard/scripts?cat=staying-safe' },
     keywords: ['sneak', 'sneaking', 'lying', 'lied', 'lies', 'hidden', 'hiding', 'secret', 'second phone', 'old phone', 'decoy', 'caught them', 'caught him', 'caught her'],
   },
   {
@@ -378,7 +386,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'The conversation before the exposure, and after it the door left open: what they saw, that it was not their fault, and that showing you never costs the phone.',
     prevent: 'The feed got dark script and the algorithm lessons at eleven, and the promise, so the first frightening thing is shown rather than carried alone.',
     source: CC_PORN,
-    proof: { scripts: ['The feed got dark and they did not choose it', 'Finding Something Upsetting on Their Device', 'Their feed has started showing them self harm', 'The pornography conversation, before and after'], category: 'staying-safe', concernSlug: 'seen-something', mechanic: ['fair_play'], href: '/dashboard/scripts?category=staying-safe' },
+    proof: { scripts: ['The feed got dark and they did not choose it', 'Finding Something Upsetting on Their Device', 'Their feed has started showing them self harm', 'The pornography conversation, before and after'], category: 'staying-safe', concernSlug: 'seen-something', mechanic: ['fair_play'], href: '/dashboard/scripts?cat=staying-safe' },
     keywords: ['porn', 'pornograph', 'seen something', 'saw something', 'inappropriate', 'violent', 'gore', 'self harm content', 'disturbing', 'explicit'],
   },
   {
@@ -389,7 +397,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Private accounts, no disappearing message apps at this stage, the report and block steps done together, and a child who knows telling you costs nothing.',
     prevent: 'Online gaming with strangers handled at eight to ten, and the promise, so the first message from a stranger at twelve comes straight to you.',
     source: NSPCC,
-    proof: { scripts: ['A message from someone they do not know', 'Online gaming friends they have never met', 'Someone has a photo and is demanding money'], category: 'staying-safe', concernSlug: 'online-safety', mechanic: ['device_guide', 'fair_play'], href: '/dashboard/scripts?category=staying-safe' },
+    proof: { scripts: ['A message from someone they do not know', 'Online gaming friends they have never met', 'Someone has a photo and is demanding money'], category: 'staying-safe', concernSlug: 'online-safety', mechanic: ['device_guide', 'fair_play'], href: '/dashboard/scripts?cat=staying-safe' },
     keywords: ['stranger', 'someone they do not know', 'someone she does not know', 'someone he does not know', 'messaging her', 'messaging him', 'groom', 'predator', 'sextortion', 'nudes', 'photo of', 'demanding money', 'random'],
   },
   {
@@ -411,7 +419,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Never take it off them in the heat of it. Step back, name what you will do later, and repair when everyone is calm. A parent who is physically afraid gets a script that starts from that fact.',
     prevent: 'The never allow or deny rail and the no confiscation promise, kept from the first phone, so the phone is never the thing taken and the fight never has that shape.',
     source: BRIEFING,
-    proof: { scripts: ['When you are frightened of your own child', 'The no confiscation promise, said out loud', 'Hitting when they are angry'], category: 'staying-safe', mechanic: ['agreement'], href: '/dashboard/scripts?category=staying-safe' },
+    proof: { scripts: ['When you are frightened of your own child', 'The no confiscation promise, said out loud', 'Hitting when they are angry'], category: 'staying-safe', mechanic: ['agreement'], href: '/dashboard/scripts?cat=staying-safe' },
     keywords: ['hit me', 'hits me', 'punched', 'punching', 'kicked', 'frightened', 'scared of', 'afraid of', 'violent when', 'confiscat', 'took the phone', 'take the phone', 'grabbed'],
   },
   {
@@ -422,7 +430,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Autonomy with a rationale: the agreement updated with them, a protected mealtime the whole family keeps, and one weekend thing a week that is theirs to choose.',
     prevent: 'Protected mealtimes and a family agreement in place at ten, so the bedroom years start with one door already open.',
     source: BRIEFING,
-    proof: { scripts: ['When They Come Home and Go Straight to Their Room', 'Always on their phone, ignoring family', 'The Weekend Disappearing Act'], category: 'family-rules', mechanic: ['agreement', 'protected_window'], href: '/dashboard/scripts?category=family-rules' },
+    proof: { scripts: ['When They Come Home and Go Straight to Their Room', 'Always on their phone, ignoring family', 'The Weekend Disappearing Act'], category: 'family-rules', mechanic: ['agreement', 'protected_window'], href: '/dashboard/scripts?cat=family-rules' },
     keywords: ['their room', 'his room', 'her room', 'bedroom all', 'will not come out', "won't come out", 'ignoring us', 'ignores us', 'family time', 'days out'],
   },
   // ── 13 to 15 ──────────────────────────────────────────────────────────────
@@ -434,7 +442,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Move from parent regulation to shared: the child sets part of the rule, restrictions come off as trust steps up, and the rules are updated on a date rather than in a row.',
     prevent: 'The ladder from parent regulation to shared to self regulation, walked from eight, so at thirteen the handover is already half done.',
     source: MUMSNET_BATTLE,
-    proof: { scripts: ['Negotiating screen time limits', 'Updating the rules', 'Removing restrictions', 'When rules feel unfair'], category: 'family-rules', mechanic: ['ladder', 'agreement'], href: '/dashboard/scripts?category=family-rules' },
+    proof: { scripts: ['Negotiating screen time limits', 'Updating the rules', 'Removing restrictions', 'When rules feel unfair'], category: 'family-rules', mechanic: ['ladder', 'agreement'], href: '/dashboard/scripts?cat=family-rules' },
     keywords: ['battle', 'constant', 'war', 'every night', 'wits end', "wit's end", 'nightmare', 'hell', 'losing my mind', 'teenager'],
   },
   {
@@ -456,7 +464,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Do not pay, do not delete, screenshot and report, and say out loud that they are not in trouble. The script walks the first hour.',
     prevent: 'The no confiscation promise and the report and block steps practised at eleven, so the first threat comes to you within the hour.',
     source: NSPCC,
-    proof: { scripts: ['Someone has a photo and is demanding money', 'A message from someone they do not know'], category: 'staying-safe', mechanic: ['fair_play'], href: '/dashboard/scripts?category=staying-safe' },
+    proof: { scripts: ['Someone has a photo and is demanding money', 'A message from someone they do not know'], category: 'staying-safe', mechanic: ['fair_play'], href: '/dashboard/scripts?cat=staying-safe' },
     keywords: ['sextortion', 'blackmail', 'demanding money', 'nude', 'nudes', 'intimate image', 'photo of them', 'threatening to share'],
   },
   {
@@ -467,7 +475,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'The relationship conversation, the same as any other: what it gives them, what it cannot, who else is in their week, and no shame in the asking.',
     prevent: 'AI as a tool from eight and the AI friend conversation at twelve, so by fifteen the question has been asked before.',
     source: CSM_AI_COMP,
-    proof: { scripts: ['An AI chatbot as a friend', 'AI and your private data', 'An online romance'], category: 'school-and-ai', concernSlug: 'ai-chatbots', href: '/dashboard/scripts?category=school-and-ai' },
+    proof: { scripts: ['An AI chatbot as a friend', 'AI and your private data', 'An online romance'], category: 'school-and-ai', concernSlug: 'ai-chatbots', href: '/dashboard/scripts?cat=school-and-ai' },
     keywords: ['ai girlfriend', 'ai boyfriend', 'companion', 'replika', 'character ai', 'in love with', 'relationship with an ai'],
   },
   {
@@ -489,7 +497,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Agreement over surveillance: what you check, said out loud; what comes off as trust steps up; and the second account found handled as a conversation rather than a raid.',
     prevent: 'Oversight the child can see from the first phone, so there is nothing hidden to switch off.',
     source: BARK,
-    proof: { scripts: ['Checking their phone', 'Removing restrictions', 'The second account you were not meant to find'], category: 'family-rules', mechanic: ['agreement', 'ladder'], href: '/dashboard/scripts?category=family-rules' },
+    proof: { scripts: ['Checking their phone', 'Removing restrictions', 'The second account you were not meant to find'], category: 'family-rules', mechanic: ['agreement', 'ladder'], href: '/dashboard/scripts?cat=family-rules' },
     keywords: ['bark', 'qustodio', 'monitoring', 'turned off', 'factory reset', 'deleted the app', 'uninstalled'],
   },
   {
@@ -500,7 +508,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Gambling mechanics named for what they are, a spend limit they set, and the bedtime window kept as the one rule that does not move.',
     prevent: 'The first gift card at eight and the bedroom rule at eleven, so the sixteen year old with a bank card already has the habits.',
     source: LOOT,
-    proof: { scripts: ['Gambling mechanics in games', 'Gaming has taken over everything else', 'Gaming until very late'], category: 'gaming', mechanic: ['protected_window'], href: '/dashboard/scripts?category=gaming' },
+    proof: { scripts: ['Gambling mechanics in games', 'Gaming has taken over everything else', 'Gaming until very late'], category: 'gaming', mechanic: ['protected_window'], href: '/dashboard/scripts?cat=gaming' },
     keywords: ['gambling', 'loot', 'gaming until', 'gaming late', 'all night gaming', 'his own money', 'her own money', 'spending his', 'spending her'],
   },
   {
@@ -511,7 +519,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Screenshot before it goes, the platform\'s own report route done together, and the conversation about why the app is built that way.',
     prevent: 'No disappearing message apps before thirteen, and the group chat skills before that.',
     source: OFCOM_EXP_2026,
-    proof: { scripts: ['It disappears, so nothing counts', 'Something vile got forwarded into the group', 'Screenshots of a private chat going round'], category: 'social-media', href: '/dashboard/scripts?category=social-media' },
+    proof: { scripts: ['It disappears, so nothing counts', 'Something vile got forwarded into the group', 'Screenshots of a private chat going round'], category: 'social-media', href: '/dashboard/scripts?cat=social-media' },
     keywords: ['snapchat', 'disappear', 'disappearing', 'vanish', 'forwarded', 'sent something'],
   },
   // ── 16 plus ───────────────────────────────────────────────────────────────
@@ -523,7 +531,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Self regulation tools they choose: their own limits, their own detox, their own check in, with you as the person they report to rather than the person who sets it.',
     prevent: 'The ladder walked from eight means self regulation at sixteen is the last rung, not a cliff.',
     source: CSM_COMPANION,
-    proof: { scripts: ['Managing their own screen time as a young adult', 'They want a digital detox but cannot stick to it', 'Healthy gaming versus addiction'], category: 'screen-time', mechanic: ['ladder'], href: '/dashboard/scripts?category=screen-time' },
+    proof: { scripts: ['Managing their own screen time as a young adult', 'They want a digital detox but cannot stick to it', 'Healthy gaming versus addiction'], category: 'screen-time', mechanic: ['ladder'], href: '/dashboard/scripts?cat=screen-time' },
     keywords: ['cannot stop', "can't stop", 'addicted', 'addiction', 'detox', 'wants to cut down', 'self control', 'own limits'],
   },
   {
@@ -534,7 +542,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     response: 'Clean up what is already out there together, and talk about reputation over time as a thing they now own.',
     prevent: 'Digital footprint lessons at thirteen, before the posts that matter.',
     source: OFCOM_EXP_2026,
-    proof: { scripts: ['Cleaning up what is already out there', 'Your reputation over time'], category: 'social-media', href: '/dashboard/scripts?category=social-media' },
+    proof: { scripts: ['Cleaning up what is already out there', 'Your reputation over time'], category: 'social-media', href: '/dashboard/scripts?cat=social-media' },
     keywords: ['footprint', 'reputation', 'old posts', 'university', 'employer', 'clean up'],
   },
   {
