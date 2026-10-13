@@ -431,3 +431,31 @@ Settings asks "What does Teo call you?" (migration 376, children.calls_grown_up)
 ## 13 October 2026: The Guided Planet, the newspaper engine and Issue 001
 
 Justin asked for a system that makes every edition of a monthly 12 page illustrated paper for 7 to 12s ("The good side of screens"), with him approving twice. Built in publishing/: the issue is one JSON file, nine templates, Chromium print (fixed page boxes, not Paged.js, so every frame is measured), characters composited from the approved files and hash checked (Higgsfield paints backdrops only, behind a per issue credit budget), research verified by our own code against each source page, approvals bound to the content and PDF by hash, publishing idempotent. Issue 001 renders clean; every printed claim went through an adversarial citation check (7 wordings corrected). Issue 002 is a sample made from words alone. Migration 377 written, not applied. Dashboard /dashboard/admin/planet. PR 1287.
+## 13 October 2026: 373's content half carried in pieces, and proved before it was written
+
+Justin: "APPLY ALL NEEDED MIGRATIONS". The content half would not go through
+the tool in one 70 KB transaction, so it went the way
+scripts/module-to-chunks.mjs already says to carry curriculum prose: cut into
+pieces of a few kilobytes, which is a size that can be carried accurately.
+
+The method, and the part worth keeping. Two staging tables in `schools` took
+the 34 parent notes in seven pieces and the 40 together lines in two. Nothing
+touched a live lesson until the staging was **proved against
+content/modules**: 34 of 34 notes byte identical, and the 40 lines byte
+identical as one digest. That ordering is the whole point. A slip in a hand
+carried paste is normally written and then checked against the same slip; here
+the repo was the authority and the check came before the write.
+
+Then 373's own guards and both updates ran as one transaction reading from
+staging: the preconditions on every row, the slide type check, the two
+updates, and all five proofs against the backup. Every guard passed.
+
+Verified after: 34 notes carry listen_for and then_ask, the six that should
+carry say_this do, 9 KS3 rows read explorer and 7 KS4 read shaper, 40
+together lines are in place, and every module with a file in content/modules
+is byte identical to it on slides, parent_note and passport_stage. The three
+standalone lessons have no file there and were untouched.
+
+Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
+timed out three times and they are inert (RLS on, no grant to anon or
+authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
