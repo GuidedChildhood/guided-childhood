@@ -176,9 +176,11 @@ else ok.push(`F: the way back to today is on all ${subPages.length} sub pages`)
 
 // ── F2: the ask row cannot get stuck, and the week page is off the yellow ───
 const weekPage = read('app/k/[token]/week/page.tsx')
+// isTicked (13 October 2026) is the same jobs left, minus a job a grown up
+// said "not done yet" to, which is still to do and must be named as such.
 if (!/if \(!state \|\| asksPending <= 0\) return/.test(fiveADay) || !/void mark\('ask', true, 'Idea already with your grown up'\)/.test(fiveADay)) problems.push('F2: an idea already with the grown up does not tick the ask row')
 else if (!/Still to do: \$\{jobsLeft\.slice\(0, 3\)\.join/.test(fiveADay)) problems.push('F2: the jobs row does not name the jobs still to do')
-else if (!/asksPending=\{Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !ticks\[q\.id\]\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
+else if (!/asksPending=\{Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !(?:ticks\[q\.id\]|isTicked\(q\.id\))\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
 else ok.push('F2: an idea with the grown up ticks the ask row, and the jobs row names what is left')
 if (/background: 'var\(--butter\)'/.test(weekPage)) problems.push('F2: the child\'s week page is a slab of butter again')
 else if (!/env\(safe-area-inset-top\)/.test(weekPage) || !/buddyFor\(/.test(weekPage)) problems.push('F2: the week page has no safe area padding or no Friend')

@@ -242,3 +242,8 @@ in Justin's own skills, not this repo, so he has to change it there.
 ## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
 
 Justin said apply them. 371 (the ending is agreed, not warned) applied to production; all seven edited rows read back correctly. 372 (the film link) applied; a live follow of guidedchildhood.com/v/switch-off landed on the stage check, set the cookie and logged one follow (that first row is the test). Short 1 is the family account's Service Friday post, service 1, the five o'clock fight, so its Instagram and Facebook captions now follow the family format in content/brand-story/weekly-rhythm.md: the family's own moment ("Five o'clock in our house used to be a fight", the canon supports the fight and the five o'clock handover, not a duration), five numbered lines ending on a consequence, a closing question.
+
+## 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it
+
+Teo's home showed a DiGi answer written for Justin (markdown, a dashboard link). Send to their phone now sits only under the child's version, and a note pointing into the dashboard is refused and hidden (PR 1263). After a four agent review, each kid tab is its own page, red badges count only what a grown up sent, a "not done yet" job is never counted done and reaches the child kindly (PR 1268), and the jobs step shows its stars (PR 1264). Bigger reshuffles that reverse earlier choices wait for Justin: plans/2026-10-13-kid-home-simplify-plan.md.
+
