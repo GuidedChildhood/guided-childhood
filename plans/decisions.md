@@ -451,3 +451,36 @@ standalone lessons have no file there and were untouched.
 Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
 timed out three times and they are inert (RLS on, no grant to anon or
 authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
+
+## 13 October 2026: 375 and 374 applied, and 377 cannot be
+
+375 first, because it was the one that mattered to a parent today. Three rows
+of expert_knowledge still told DiGi to warn before a screen ends, which 371
+had already established is the wrong advice (the one close study found warned
+endings were followed by more upset, Hiniker et al CHI 2016). DiGi reads that
+table unguarded, so retrieval could hand it the opposite of the fixed prompt.
+Three guarded updates, one per statement to stay inside the tool's minute,
+then 375's own check: zero active findings still advise a warning.
+
+374 carried the 52 hard questions onto the 13 decks that were missing them,
+by the method 373 proved. A staging table in `schools` took the 13 rows in
+four pieces, and nothing touched a live deck until staging was proved against
+content/modules: all 13 slide counts and all 13 question digests identical.
+Then 374's guards, its update and its proof ran as **one statement**, so a
+timeout could only ever roll the whole thing back. Its proof passed, and the
+live whole set digest now equals the repo's, 8acf4c52. Backup in
+schools.school_lessons_backup_374, RLS on, anon refused on the real path.
+
+Both are in the migration ledger now, so the next sweep sees them.
+
+377 is NOT applied and must not be. It creates public.planet_events as the
+newspaper's audit trail, but migration 252 already made that table the kids'
+Guided Planet ledger, with a foreign key to children and a different shape
+entirely. As written 377 aborts on its own index (no `issue` column), so
+nothing is corrupted; the danger is anyone who clears that error, because the
+next statement attaches an append only trigger to the children's ledger, for
+ever, service role included. publishing/engine/store-supabase.ts writes the
+newspaper shape to the same name, so that half is broken either way. The fix
+is a rename, and it belongs to the lane that wrote it (PR 1287).
+
+Left behind: schools.stage_374_hq, plus 373's two, inert for the same reason.
