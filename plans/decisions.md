@@ -451,3 +451,7 @@ standalone lessons have no file there and were untouched.
 Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
 timed out three times and they are inert (RLS on, no grant to anon or
 authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
+
+## 13 October 2026: the review board, eleven lenses scored every Friday
+
+Justin asked for agents that check the platform weekly on ten questions until each is ten out of ten, with a dashboard and an alert at every session that asks him whether his tasks are done. Ten lens agents and a chief of staff (`.claude/agents/review-*`) score out of ten; a skeptic must agree to any nine or ten, and a lens closes only after two weeks at ten. Every gap passes the feedback filter before it becomes a task. A SessionStart hook prints the alert and asks about each of Justin's tasks at most once a day; answers are one file each in `plans/review-board/answers/` so parallel sessions never collide. Routine: Friday 06:49 London. First run: 0 of 11 at ten, scores 6 to 8, 33 tasks. PR 1288.

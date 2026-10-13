@@ -331,7 +331,7 @@ export function alerts(state) {
 
   const red = overdue.length > 0
   const amber = age > STALE_AFTER_DAYS || claudeLate.length > 0
-  const state_ = red ? 'RED' : amber ? 'AMBER' : 'GREEN'
+  const state_ = red ? 'RED' : amber ? 'AMBER' : 'QUESTIONS'
 
   if (!toAsk.length && !red && !amber) {
     lines.push(`REVIEW BOARD: GREEN. ${tens} of ${total} lenses at ten (run ${run.date}). Nothing to ask Justin today.`)

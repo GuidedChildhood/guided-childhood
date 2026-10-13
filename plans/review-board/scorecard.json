@@ -1,0 +1,51 @@
+{
+  "dashboard_url": "https://claude.ai/artifact/6HUcGeK1Ap661N5AXsAD84",
+  "runs": [
+    {
+      "date": "2026-10-13",
+      "report": "plans/review-board/runs/2026-10-13.md",
+      "one_thing": "Make sure every post this week lands on a stage check that works: get main building again and swap the dead .co.uk address out of next week's batch before the Wednesday 21 October post.",
+      "roundup": "124 pull requests merged and only this board is open, so nothing is sitting in a drawer. The child's home got simpler, DiGi now agrees the ending before the screen goes on, the shorts are ready for the family account, the LinkedIn queue restarted at GDC 018 and the Planet Post printables are built. We also found referrals had no tables because migration 360 was never applied, and fixed it.\n\nWhat is stuck. Main has been red since this afternoon: the Guided Planet migration made seven tables with no grants and both Vercel builds fail, so nothing new ships until that is sorted. Next week's posts print guidedchildhood.co.uk, which is a dead page. And I cannot tell you how many stage checks we have had since 1 October, because the product only counts film and school links and the posted log is empty. Revenue is still £0 and nobody has run a live founder checkout on the new Stripe account.\n\nThe one thing: every post this week lands on a stage check that works.\n\nWhat I need from you. Run one live founder checkout on a clean email. Put the stage checks and posts since 1 October from the tracker into the board. Confirm the ICO fee is paid and which Vercel project is the real one. Then some quick calls when a session asks: the parent's grace day, under fours, the journey page name, the homework hint, the Pathway Session line and the old CrewAI crew.",
+      "scores": {
+        "ai-tools-watch": 6,
+        "competitor-watch": 7,
+        "keeps-coming-back": 7,
+        "marketing": 6,
+        "right-audience": 6,
+        "simplicity-flow": 6,
+        "solves-problem": 7,
+        "ux-expert": 6,
+        "value-above-ai": 8,
+        "will-pay": 6,
+        "business-running": 6
+      },
+      "headlines": {
+        "ai-tools-watch": "DiGi's top model is still the newest Fable, but three new models landed in three weeks and the fallbacks and the cheap tier are now a generation behind, with no batching on the nightly jobs.",
+        "competitor-watch": "A quiet four weeks: nobody has shipped our core loop, and the one real move (Qustodio reading a child's ChatGPT chats) is the spying route we have chosen not to take.",
+        "keeps-coming-back": "Both sides have a daily task, a streak, a reward and a gentle evening nudge, but the parent's flame goes to zero after one missed day and the evening push never stops for a parent who has gone quiet.",
+        "marketing": "The funnel and the hook are right and every piece points at the stage check, but next week's social posts print a web address that returns a 404, and nothing yet tells us which channel brings a single check.",
+        "right-audience": "The customer is the right one and the pages mostly speak to her, but the youngest end of the range has no first step and some pages use our words rather than hers.",
+        "simplicity-flow": "Home has a clear order and a real picker, but the parent app still has eighty pages, one Pathway page with four names, and a Home that can hold about forty kinds of card.",
+        "solves-problem": "The switch off fight and the bedtime battle have a full loop from naming it to tonight's words to a visible change, but the first phone worry loses its words button at the check in and gets a bedtime step on Tonight.",
+        "ux-expert": "The design system is strong and well guarded, but the phone craft has gaps: small tap targets, hardcoded colours in the thousands, and loading and focus states that only cover the front doors.",
+        "value-above-ai": "Most of what a free chatbot cannot do is built and wired in, but the home page only names the memory, so a parent meets the child app, the measured worry and the tested words late.",
+        "will-pay": "The ask is honest and the cap is real, but it names parts not what a chatbot cannot do, it lands before the parent has seen anything back, and nobody has paid yet.",
+        "business-running": "Work moves fast and nothing sits in a drawer, but main has been red since this afternoon, the open work list in THE-STORY is out of date, and nobody can say how many stage checks the founding sprint has made."
+      },
+      "top_gap": {
+        "ai-tools-watch": "Move the fallback ladders from claude-opus-5 and claude-sonnet-5 (now legacy) to claude-opus-5-5 and claude-sonnet-5-5 in both config files, widen the fast mode regex to include claude-opus-5-5 (fast mode now exists on Opus 5.5), update the guard's expectations, and run the DiGi evals once before merging.",
+        "competitor-watch": "Correct THE-STORY.md section 6, which still says 'against Jigsaw at £795 entry' when the 9 September check found that figure untraceable and Jigsaw's own site says from £495, so every session briefing quotes a wrong competitor price.",
+        "keeps-coming-back": "Stop the nightly evening push after about 7 days of the parent not showing up, so it cannot run for ever, and leave only the 4 day re-engagement line. Add a lapse check to runEveningPass using the same 'done today' reading it already builds.",
+        "marketing": "Replace guidedchildhood.co.uk/starter-pack with the live guidedchildhood.com/starter-pack in the three decks and caption files for the week of 19 October and in THIS-WEEK.md, then add a check in npm run ai-tells or a small guard script that fails on any .co.uk link in content/ and tools/social-cards.",
+        "right-audience": "Give the parent of a 2 or 3 year old a real first step. Add an 'under 4' route in the stage check and the signup that says plainly what is here for her now (co viewing, the ending agreed before the screen goes on, no solo device). Today the code clamps under 4s into the 4 to 7 band, and every public surface says 4 to 16.",
+        "simplicity-flow": "Pick one name for the journey page and use it everywhere. Today the route is /dashboard/pathway, the tab says 'Passport', the Home tile says 'Road to sixteen', and DiGi's back link says \"Today's pathway\", which means the daily list. THE-STORY section 11 asked for this rename and the August reversal left it undone. Rename the visible labels first (tab, tile, back link, scripts back link), keep the route and redirect.",
+        "solves-problem": "Add the missing concern slugs to CONCERN_TO_CATEGORY: phones-and-messaging to family-rules, seen-something to staying-safe, controller-fights to gaming. At the moment categoryForConcern returns null for the first two and everyday-routines for the third. A parent who rates 'Phones and messaging' as really tough sees Ask DiGi and no Get the words button, because the pill renders null. 'Asking for a phone' is the second most common onboarding answer.",
+        "ux-expert": "Add one global rule that sets a 44px minimum height and width on small icon buttons, then fix the worst offenders: the 34px close circles and the 30px plus and minus star steppers. Add a tap target check to the guards, since none exists and larger-text-guard needs Playwright.",
+        "value-above-ai": "Add one short home page section in a parent's words that names the four things a chatbot cannot do. It remembers last Tuesday, your child has their own app, a worry is scored from day one and shown moving, and the words are tested scripts you can print. Do not name a model. Today the home page only says 'DiGi remembers' and shows 'the wellbeing tracker' as a chip.",
+        "will-pay": "Make the ask personal. On the choose screen and the upgrade page, say what the parent keeps in their own words, using real data: the child's name, the worry being tracked, the scripts they have saved, the star quest set up, the check ins so far (for example 'Teo's history, the bedtime worry you are tracking and the quest you set up all stay'). Today the copy is the same for every family and lists features. Also move or repeat the ask so it follows the first check in or first script, when the parent has seen something back, as THE-STORY section 9 describes. The code now asks at the end of sign up, before any of that.",
+        "business-running": "Get main green again: add a migration granting the seven Guided Planet tables to the right roles, apply it before Supabase's 30 October change, and fix the failing Vercel builds on main's head."
+      },
+      "skeptic": {}
+    }
+  ]
+}
