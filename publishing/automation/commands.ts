@@ -1,6 +1,6 @@
 // The CLI commands beyond check and render. See publishing/cli.ts for the list.
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { pad3 } from '../engine/html'
 import { contentHash, sha256 } from '../engine/hash'
@@ -109,6 +109,51 @@ export async function run(cmd: string | undefined, arg: string | undefined) {
       console.log(`Issue ${pad3(n)}: Higgsfield budget ${credits} credits`)
       return
     }
+    // What Justin authorised in the dashboard, carried out by the routine:
+    // build the package if it is missing, then run each authorised channel
+    // that has not run for this PDF. publish() refuses anything else.
+    case 'publish-authorised': {
+      const s = await current(store, n)
+      if (s.state !== 'FINAL_APPROVED' && s.state !== 'PUBLISHED') { console.log(`Issue ${pad3(n)}: ${LABEL[s.state]}, nothing to publish`); return }
+      const auths = (await store.events(n)).filter(e => e.action === 'publication-authorised' && e.detail?.pdfHash === s.approvedPdfHash)
+      const wanted = [...new Set(auths.flatMap(e => (e.detail?.channels as string[]) ?? []))].filter((c): c is Channel => (CHANNELS as readonly string[]).includes(c))
+      if (!wanted.length) { console.log(`Issue ${pad3(n)}: no publication authorised yet`); return }
+      if (!existsSync(join(issueDir(n), 'package'))) await buildPackage(n, store)
+      for (const ch of wanted) {
+        try {
+          const r = await publish(n, ch, store, ROUTINE)
+          console.log(r.already ? `${ch}: already done` : `${ch}: ${r.release.status}. ${String(r.release.detail?.next ?? '')}`)
+        } catch (e) { console.log(`${ch}: ${(e as Error).message}`) }
+      }
+      return
+    }
+    // The Higgsfield ledger. A Claude session that runs a generation through
+    // the Higgsfield connector records it here with the credits Higgsfield
+    // reported; Justin approves or rejects it in the dashboard; art-pull then
+    // fetches every approved final into assets/approved/<slot>.png, where the
+    // renderer uses it in place of the vector default.
+    case 'art-record': {
+      const [slot, tier, job, url, credits, recipe, model] = process.argv.slice(4)
+      if (!slot || (tier !== 'draft' && tier !== 'final') || !url) throw new Error('art-record <n> <slot> <draft|final> <job id> <url> <credits> [recipe] [model]')
+      const b = brief(loadIssue(n), await store.generations(n), (await store.budget(n))?.credits ?? null)
+      const req = b.requests.find(r => r.slot === slot && r.tier === tier)
+      await store.addGeneration({ id: `${n}-${slot}-${tier}-${job}`, issue: n, slot, tier, recipe: recipe ?? req?.recipe ?? 'unknown', model: model ?? req?.model ?? 'unknown', prompt: req?.prompt ?? '', status: 'completed', credits: credits ? Number(credits) : undefined, estimate: req?.estimate ?? undefined, job, url, at: new Date().toISOString() })
+      console.log(`recorded ${slot} ${tier}, ${credits ?? 'unknown'} credits. Approve it in the dashboard.`)
+      return
+    }
+    case 'art-pull': {
+      const approved = (await store.generations(n)).filter(g => g.status === 'approved' && g.tier === 'final' && g.url)
+      const dir = join(issueDir(n), 'assets', 'approved')
+      mkdirSync(dir, { recursive: true })
+      for (const g of approved) {
+        const res = await fetch(g.url as string)
+        if (!res.ok) { console.log(`${g.slot}: could not fetch (${res.status})`); continue }
+        writeFileSync(join(dir, `${g.slot}.png`), Buffer.from(await res.arrayBuffer()))
+        console.log(`${g.slot}: approved art in place`)
+      }
+      if (!approved.length) console.log('no approved finals yet; every page keeps its own drawings')
+      return
+    }
     case 'links': {
       const { checkLinks } = await import('./links')
       const res = await checkLinks(loadIssue(n))
@@ -121,7 +166,7 @@ export async function run(cmd: string | undefined, arg: string | undefined) {
       return
     }
     default:
-      console.log('usage: npm run planet -- <check|render|status|cycle|higgsfield|package|publish|links|sync|budget|approve-stories|approve-final|request-changes> <issue>')
+      console.log('usage: npm run planet -- <check|render|status|cycle|higgsfield|package|publish|publish-authorised|art-record|art-pull|links|sync|budget|approve-stories|approve-final|request-changes> <issue>')
       if (cmd) process.exit(1)
   }
 }

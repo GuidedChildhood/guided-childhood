@@ -59,6 +59,5 @@ content/read-cards/*.html
 publishing/.cache/
 publishing/issues/*/dist/*-print.pdf
 publishing/issues/*/dist/*-ink.pdf
-publishing/issues/*/package-preview/
 publishing/issues/*/state.json
 publishing/issues/*/events.jsonl

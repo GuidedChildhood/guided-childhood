@@ -422,3 +422,7 @@ Justin approved all four: the greeting and the five a day are one card at the to
 ## 13 October 2026: the grown up's side of the link
 
 Settings asks "What does Teo call you?" (migration 376, children.calls_grown_up); the child's home, the yes pushes and every note to the child use it, "Mum or Dad" until set. Remind shows "Teo read it ✓" (kid_nudges.seen). The bell carries screen time asks with Say yes in place, and the child's finished days and passed lessons with Send a well done, which lands on the child's home as a note (kind well_done, one per win). Every new column is read softly. PR 1285.
+
+## 13 October 2026: The Guided Planet, the newspaper engine and Issue 001
+
+Justin asked for a system that makes every edition of a monthly 12 page illustrated paper for 7 to 12s ("The good side of screens"), with him approving twice. Built in publishing/: the issue is one JSON file, nine templates, Chromium print (fixed page boxes, not Paged.js, so every frame is measured), characters composited from the approved files and hash checked (Higgsfield paints backdrops only, behind a per issue credit budget), research verified by our own code against each source page, approvals bound to the content and PDF by hash, publishing idempotent. Issue 001 renders clean; every printed claim went through an adversarial citation check (7 wordings corrected). Issue 002 is a sample made from words alone. Migration 377 written, not applied. Dashboard /dashboard/admin/planet. PR 1287.

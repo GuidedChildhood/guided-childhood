@@ -1,0 +1,97 @@
+# The Guided Planet: the tests on every change to the engine, and the
+# monthly routine that moves each edition forward.
+#
+# The routine runs every Monday and does whatever the next automatic step is
+# for each open edition (publishing/automation/cycle.ts): week one researches
+# and asks Justin for approval one, week two drafts the pages, week three
+# renders and asks for approval two, and once he authorises publication in the
+# dashboard it carries that out. It never opens a founder gate. Run it by hand
+# from the Actions tab at any time; a second run finds the work done.
+#
+# Secrets it reads, all optional (each step says plainly what it skipped):
+#   ANTHROPIC_API_KEY                    research and drafting
+#   NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY   the dashboard's store (migration 377)
+#   RESEND_API_KEY, FOUNDER_NOTIFY_EMAIL  telling Justin an approval is waiting
+#   MAILCHIMP_API_KEY, MAILCHIMP_SERVER, MAILCHIMP_AUDIENCE_ID   a draft campaign, never sent
+name: The Guided Planet
+
+on:
+  pull_request:
+    paths: ['publishing/**', 'app/api/admin/planet/**', 'app/(dashboard)/dashboard/admin/planet/**', 'supabase/migrations/377_*']
+  schedule:
+    - cron: '47 6 * * 1'   # Mondays, 06:47 UTC
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: 'Only this issue (blank for all)'
+        required: false
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: The editorial gate on every issue
+        run: for d in publishing/issues/[0-9][0-9][0-9]; do [ -f "$d/issue.json" ] && npm run -s planet -- check $((10#$(basename $d))); done
+      - name: The engine's tests, renders and visual baselines included
+        env:
+          CHROMIUM_PATH: ''
+        run: npm run planet-test
+
+  cycle:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils ffmpeg
+      - name: Move every open edition forward
+        env:
+          CHROMIUM_PATH: ''
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FOUNDER_NOTIFY_EMAIL: ${{ secrets.FOUNDER_NOTIFY_EMAIL }}
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_SERVER: ${{ secrets.MAILCHIMP_SERVER }}
+          MAILCHIMP_AUDIENCE_ID: ${{ secrets.MAILCHIMP_AUDIENCE_ID }}
+        run: |
+          npm run -s planet -- cycle
+          for d in publishing/issues/[0-9][0-9][0-9]; do
+            n=$((10#$(basename $d)))
+            if [ -n "${{ github.event.inputs.issue }}" ] && [ "$n" != "${{ github.event.inputs.issue }}" ]; then continue; fi
+            npm run -s planet -- sync $n || echo "sync $n skipped"
+            npm run -s planet -- publish-authorised $n || echo "publish $n: nothing authorised"
+          done
+      - name: Open a pull request with whatever the routine wrote
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then echo "nothing changed"; exit 0; fi
+          branch="guided-planet/routine-$(date -u +%Y%m%d-%H%M)"
+          git config user.name "The Guided Planet routine"
+          git config user.email "routine@guidedchildhood.com"
+          git checkout -b "$branch"
+          git add -A publishing public/guided-planet vercel.json
+          git commit -m "The Guided Planet: the routine's work for $(date -u +%Y-%m-%d)"
+          git push -u origin "$branch"
+          gh pr create --draft --title "The Guided Planet: routine $(date -u +%Y-%m-%d)" --body "The monthly routine's output: research, drafted pages, proofs, or an authorised publication. Merging a publication pull request is what puts the edition on the website."

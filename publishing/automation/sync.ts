@@ -13,7 +13,8 @@ import { contentHash } from '../engine/hash'
 import { current } from '../engine/workflow'
 import { issueDir, loadIssue } from '../pdf-engine/render'
 import { openStore } from './commands'
-import { loadCandidates } from './cycle'
+import { loadCandidates, previousHeadlines } from './cycle'
+import { rank } from '../research/scoring'
 
 export async function sync(n: number): Promise<string> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -34,7 +35,8 @@ export async function sync(n: number): Promise<string> {
   const v = await db.from('planet_issue_versions').upsert({ issue: n, content_hash: contentHash(issue), content: issue, research, render_report: report }, { onConflict: 'issue,content_hash', ignoreDuplicates: true })
   if (v.error) throw new Error(`version: ${v.error.message}`)
 
-  const stories = loadCandidates(n)
+  // Totals are computed here from the criterion scores, never typed in.
+  const stories = rank(loadCandidates(n), previousHeadlines(n))
   if (stories.length) {
     const s = await db.from('planet_stories').upsert(stories.map(c => ({ issue: n, id: c.id, record: c, total: c.total ?? null })), { onConflict: 'issue,id' })
     if (s.error) throw new Error(`stories: ${s.error.message}`)

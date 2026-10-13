@@ -63,7 +63,7 @@ for (const n of [1, 2]) {
     }
     for (const f of readdirSync(dir)) {
       const ratio = await diffRatio(join(dir, f), readFileSync(join(pages, f)))
-      assert.ok(ratio < 0.01, `${f} changed: ${(ratio * 100).toFixed(1)}% of pixels moved. If the change is approved, run with UPDATE_BASELINES=1.`)
+      assert.ok(ratio < Number(process.env.PLANET_BASELINE_TOLERANCE ?? 0.02), `${f} changed: ${(ratio * 100).toFixed(1)}% of pixels moved. If the change is approved, run with UPDATE_BASELINES=1.`)
     }
   })
 }

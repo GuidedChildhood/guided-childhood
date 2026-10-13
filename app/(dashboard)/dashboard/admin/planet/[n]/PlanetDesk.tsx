@@ -82,11 +82,9 @@ export default function PlanetDesk({ data }: { data: DeskData }) {
   const warns = data.report ? [...data.report.editorial, ...Object.values(data.report.layout).flat()].filter(f => f.level === 'warn') : []
   const approvedCount = data.stories.filter(s => s.decision === 'approved').length
 
-  return (
-    <div>
-      {msg && <p role="alert" style={{ background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', color: 'var(--danger)', borderRadius: 12, padding: '10px 14px', fontWeight: 700 }}>{msg}</p>}
-
-      {/* ── APPROVAL ONE ───────────────────────────────────────────── */}
+  const pastStories = ['APPROVED', 'DESIGNING', 'PROOF_READY', 'FINAL_APPROVED', 'PUBLISHED'].includes(data.state)
+  const storiesSection = (
+    <>
       <h2 style={H2}>The stories</h2>
       {!data.stories.length && <p style={{ color: 'var(--ink-soft)' }}>No candidates yet. The routine researches them in week one.</p>}
       <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 10 }}>
@@ -126,7 +124,10 @@ export default function PlanetDesk({ data }: { data: DeskData }) {
         </div>
       )}
 
-      {/* ── THE PROOF ──────────────────────────────────────────────── */}
+    </>
+  )
+  const paperSection = (
+    <>
       <h2 style={H2}>The paper</h2>
       {data.report && (
         <p style={{ fontSize: 'var(--text-sm)', color: errors.length ? 'var(--danger)' : 'var(--ink-soft)', fontWeight: 700 }}>
@@ -135,6 +136,10 @@ export default function PlanetDesk({ data }: { data: DeskData }) {
         </p>
       )}
       {errors.length > 0 && <ul style={{ fontSize: 'var(--text-sm)', color: 'var(--danger)' }}>{errors.slice(0, 12).map((e, i) => <li key={i}>Page {e.page ?? '?'}: {e.detail}</li>)}</ul>}
+      <p style={{ display: 'flex', gap: 14, flexWrap: 'wrap', margin: '0 0 12px' }}>
+        {data.pdf && <a href={data.pdf} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--ink)' }}>Open the PDF ↗</a>}
+        {data.sourcesPdf && <a href={data.sourcesPdf} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--ink)' }}>Every source, in full ↗</a>}
+      </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 10 }}>
         {data.previews.map((src, i) => src ? (
           <a key={i} href={src} target="_blank" rel="noreferrer" style={{ display: 'block', border: 'var(--edge)', borderRadius: 10, overflow: 'hidden', background: '#fff' }}>
@@ -143,10 +148,7 @@ export default function PlanetDesk({ data }: { data: DeskData }) {
           </a>
         ) : <div key={i} style={{ aspectRatio: '210 / 297', border: '1px dashed var(--border)', borderRadius: 10, display: 'grid', placeItems: 'center', ...MONO }}>Page {i + 1}</div>)}
       </div>
-      <p style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 12 }}>
-        {data.pdf && <a href={data.pdf} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--ink)' }}>Open the PDF ↗</a>}
-        {data.sourcesPdf && <a href={data.sourcesPdf} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--ink)' }}>Every source, in full ↗</a>}
-      </p>
+
 
       {data.state === 'PROOF_READY' && (
         <div style={{ ...CARD, marginTop: 14, background: 'var(--tint-butter)' }}>
@@ -175,6 +177,31 @@ export default function PlanetDesk({ data }: { data: DeskData }) {
           })}
           <button disabled={busy || !channels.length} style={{ ...BIG, marginTop: 10 }} onClick={() => act('authorise', { channels })}>Authorise</button>
         </div>
+      )}
+
+    </>
+  )
+
+  return (
+    <div>
+      {msg && <p role="alert" style={{ background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', color: 'var(--danger)', borderRadius: 12, padding: '10px 14px', fontWeight: 700 }}>{msg}</p>}
+
+      {/* Whatever Justin is being asked about comes first. Once the stories
+          are approved they fold away, so approval two is not a scroll past
+          thirteen cards. */}
+      {pastStories ? (
+        <>
+          {paperSection}
+          <details style={{ marginTop: 24 }}>
+            <summary style={{ ...H2, cursor: 'pointer' }}>The stories you approved</summary>
+            {storiesSection}
+          </details>
+        </>
+      ) : (
+        <>
+          {storiesSection}
+          {paperSection}
+        </>
       )}
 
       {/* ── THE ART ────────────────────────────────────────────────── */}
