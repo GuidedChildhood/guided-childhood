@@ -75,6 +75,13 @@ jobs:
           MAILCHIMP_SERVER: ${{ secrets.MAILCHIMP_SERVER }}
           MAILCHIMP_AUDIENCE_ID: ${{ secrets.MAILCHIMP_AUDIENCE_ID }}
         run: |
+          # The routine remembers where each edition is in the database. Without
+          # it every run would start again from scratch and ask Justin for
+          # approval one every Monday, so it waits for migration 377 instead.
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "The Guided Planet routine is waiting for migration 377 and the Supabase secrets. Nothing done."
+            exit 0
+          fi
           npm run -s planet -- cycle
           for d in publishing/issues/[0-9][0-9][0-9]; do
             n=$((10#$(basename $d)))
