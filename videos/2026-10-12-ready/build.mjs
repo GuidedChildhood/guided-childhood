@@ -40,10 +40,7 @@ const BEATS = [
       cap2: { at: 4.6, age: 'Guidance, not a ban', line: 'A ban is a deadline. This is a plan.' } },
   { f: 's11-16', d: 8.0, off: 0.0, o: '50% 50%', cap: { at: 1.4, age: 'Age 16', line: 'Her own phone. And she is ready.' } },
   { f: 's12', d: 8.0, off: 0.0, o: '50% 50%' },
-  { f: 's13', d: 6.4, off: 0.2, o: '50% 50%' },
-  // Justin, 13 October: the founder closes the film, a cartoon of him from his
-  // own photo. The family stays fictional so the girl is never read as his own.
-  { f: 'founder', d: 8.6, off: 0.0, o: '50% 40%', line: { at: 1.4 } },
+  { f: 's13', d: 7.8, off: 0.2, o: '50% 50%', line: { at: 2.0 } },
 ]
 const CARD = 6.4
 
@@ -177,7 +174,7 @@ ${tl}</script></body></html>`)
 // pass (age 8), the lift runs twelve to fifteen, the hush is the box, the
 // melody returns for the card, the hold is the charger and the end card.
 const idx = (f) => BEATS.findIndex((b) => b.f === f)
-const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-12-slow')].toFixed(1), hush: +starts[idx('s11-16')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('founder')].toFixed(1) }
+const score = { len: TOTAL, voice: +starts[idx('s06-10')].toFixed(1), lift: +starts[idx('s09-12-slow')].toFixed(1), hush: +starts[idx('s11-16')].toFixed(1), ret: +starts[idx('s12')].toFixed(1), hold: +starts[idx('s13')].toFixed(1) }
 writeFileSync('score.json', JSON.stringify(score))
 console.log(`built ${BEATS.length} beats, ${TOTAL}s`, JSON.stringify(score))
 BEATS.forEach((b, i) => console.log(`  ${b.f.padEnd(9)} ${starts[i].toFixed(1).padStart(5)}s  ${b.d}s`))
