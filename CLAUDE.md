@@ -45,6 +45,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Ban resilience             → docs/11 (social_media_law config flag)
 - UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
 - Any video from footage (talking head, reel, one to one) → .claude/skills/talking-head-video (HyperFrames + the student kit; silent-ugc rules win on vertical)
+- Any film of the real app (a DiGi short, the next in the series, "show how the app solves X") → .claude/skills/product-shorts (real screens, the reading rule, safe zones, review, posting playbook)
 
 ## CONTEXT BUDGET — what a session pays before it starts
 

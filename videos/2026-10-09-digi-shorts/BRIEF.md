@@ -69,8 +69,11 @@ and the posting plan is `content/packs/2026-10-09-digi-shorts/posting-plan.md`.
 - **The science card is out of both films.** The study it cited was of 1 to 5
   year olds, and our 9 October rule keeps it to the early years film. That
   film leads with it.
-- **The hero opens on the parent's own words**: "I'm always the bad guy when
-  the tablet goes off. What do I say?" (the chat was re-recorded). Short 1
+- **The hero opens on the parent's own words**: "Turning the tablet off ends
+  in tears and I feel so guilty. What do I say?" (the chat was re-recorded).
+  "Bad guy" was tried and dropped: Justin, "I feel guilty" is how it lands.
+  DiGi's reply in both films now opens "At nine, stopping is the hard part for
+  every child, and feeling guilty about it is normal."  Short 1
   gets a band above its question: "You say off. They say one more."
 - **The hooks are about 2 seconds.** The example family slate sits under the
   bubble, not above it.

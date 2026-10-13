@@ -13,23 +13,23 @@
     0.22
    ],
    [
-    2.4,
+    4.0,
     0.15
    ],
    [
-    7.5,
+    16.65,
     0.15
    ],
    [
-    8.35,
+    17.15,
     0.3
    ],
    [
-    26.85,
+    41.35,
     0.3
    ],
    [
-    29.85,
+    44.35,
     0
    ]
   ]
@@ -37,7 +37,7 @@
  "shots": [
   {
    "id": "hook",
-   "dur": 2.4,
+   "dur": 6.0,
    "overlays": [
     {
      "kind": "band",
@@ -49,72 +49,74 @@
      "kind": "pill",
      "text": "Screens off. Same fight, every single day. What do I say?",
      "y": 560,
-     "t0": 0.2
+     "t0": 0.5,
+     "typed": 0.15
     },
     {
      "kind": "eyebrow",
      "text": "An example family. Real app screens, example replies.",
      "y": 1200,
-     "t0": 0.4
+     "t0": 3.0
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 0.08,
-     "vol": 0.18
-    },
-    {
-     "name": "sfx-tap",
-     "at": 0.24,
+     "at": 0.25,
      "vol": 0.16
     },
     {
      "name": "sfx-tap",
-     "at": 0.41,
-     "vol": 0.18
+     "at": 0.9,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.6,
+     "vol": 0.16
     }
    ]
   },
   {
    "id": "chat-send",
-   "dur": 0.55,
+   "dur": 1.1,
    "src": "rec/short-chat.mp4",
-   "mediaStart": 1.565,
+   "mediaStart": 1.015,
    "ground": "white",
-   "fadeIn": 0.12,
+   "fadeIn": 0.15,
    "cam": [
     {
      "t": 0,
      "S": 2.77,
      "fx": 195,
-     "fy": 680,
-     "py": 1300
-    }
-   ],
-   "sfx": [
-    {
-     "name": "sfx-send",
-     "at": 0.52,
-     "vol": 0.4
+     "fy": 130,
+     "py": 1000
     }
    ],
    "inScreen": [
     {
      "cls": "ripple",
      "x": 315,
-     "y": 709,
+     "y": 149,
      "w": 44,
      "h": 44,
-     "t0": 0.45
+     "t0": 0.95
     }
-   ]
+   ],
+   "sfx": [
+    {
+     "name": "sfx-send",
+     "at": 1.05,
+     "vol": 0.4
+    }
+   ],
+   "cropTop": 560
   },
   {
    "id": "chat-think",
-   "dur": 1.6,
+   "dur": 2.05,
    "src": "rec/short-chat.mp4",
-   "mediaStart": 8.925,
+   "mediaStart": 8.75,
    "ground": "white",
    "fadeIn": 0,
    "cam": [
@@ -130,7 +132,7 @@
     {
      "kind": "label",
      "text": "What DiGi shows while it thinks",
-     "y": 1120,
+     "y": 1300,
      "t0": 0
     }
    ],
@@ -144,26 +146,38 @@
   },
   {
    "id": "chat-reply",
-   "dur": 2.4,
+   "dur": 6.0,
    "src": "rec/short-chat.mp4",
-   "mediaStart": 10.75,
+   "mediaStart": 10.8,
    "ground": "white",
    "fadeIn": 0,
    "cam": [
     {
      "t": 0,
-     "S": 2.77,
+     "S": 2.9,
      "fx": 195,
-     "fy": 420,
-     "py": 1500
+     "fy": 300,
+     "py": 1100
+    },
+    {
+     "t": 3.6,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 470,
+     "py": 1000,
+     "dur": 0.7
     }
    ],
    "overlays": [
     {
      "kind": "label",
      "text": "Illustrative reply",
-     "y": 262,
-     "t0": 0.1
+     "x": 300,
+     "w": 560,
+     "align": "left",
+     "y": 885,
+     "t0": 0.2,
+     "t1": 3.6
     }
    ],
    "sfx": [
@@ -176,7 +190,7 @@
   },
   {
    "id": "chat-link",
-   "dur": 1.4,
+   "dur": 2.0,
    "src": "rec/short-chat.mp4",
    "mediaStart": 19.2,
    "ground": "white",
@@ -195,8 +209,7 @@
      "kind": "label",
      "text": "Illustrative reply",
      "y": 262,
-     "t0": 0,
-     "instant": true
+     "t0": 0
     }
    ],
    "inScreen": [
@@ -206,23 +219,23 @@
      "y": 78,
      "w": 44,
      "h": 44,
-     "t0": 0.9
+     "t0": 1.1
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 0.9,
+     "at": 1.1,
      "vol": 0.45
     }
    ]
   },
   {
    "id": "deck-say",
-   "dur": 6.0,
+   "dur": 7.4,
    "src": "rec/script-deck.mp4",
    "srcH": 1000,
-   "mediaStart": 1.2,
+   "mediaStart": 3.0,
    "fadeIn": 0.15,
    "cam": [
     {
@@ -233,7 +246,7 @@
      "py": 420
     },
     {
-     "t": 0.8,
+     "t": 1.0,
      "S": 3.3,
      "fx": 195,
      "fy": 607,
@@ -241,7 +254,7 @@
      "dur": 0.7
     },
     {
-     "t": 3.7,
+     "t": 4.9,
      "S": 2.7,
      "fx": 195,
      "fy": 303,
@@ -256,8 +269,8 @@
      "y": 599,
      "w": 132,
      "h": 3,
-     "t0": 1.6,
-     "t1": 3.7
+     "t0": 1.8,
+     "t1": 4.9
     },
     {
      "cls": "underline",
@@ -265,8 +278,8 @@
      "y": 630,
      "w": 214,
      "h": 3,
-     "t0": 1.75,
-     "t1": 3.7
+     "t0": 1.95,
+     "t1": 4.9
     }
    ],
    "overlays": [
@@ -278,16 +291,16 @@
     {
      "kind": "veil",
      "h": 780,
-     "t0": 0.8,
-     "t1": 4.2,
+     "t0": 1.0,
+     "t1": 5.4,
      "fade": true
     },
     {
      "kind": "band",
      "text": "Say this before the tablet goes on",
      "y": 430,
-     "t0": 1.2000000000000002,
-     "t1": 3.7
+     "t0": 1.4,
+     "t1": 4.9
     }
    ],
    "sfx": [
@@ -298,26 +311,26 @@
     },
     {
      "name": "sfx-shimmer",
-     "at": 1.6,
+     "at": 1.8,
      "vol": 0.18
     },
     {
      "name": "sfx-tap",
-     "at": 5.0,
+     "at": 6.0,
      "vol": 0.45
     },
     {
      "name": "sfx-whoosh",
-     "at": 6.1,
+     "at": 7.1,
      "vol": 0.16
     }
    ]
   },
   {
    "id": "timer-count",
-   "dur": 2.4,
+   "dur": 3.0,
    "src": "rec/timer-end.mp4",
-   "mediaStart": 7.4,
+   "mediaStart": 6.8,
    "cam": [
     {
      "t": 0,
@@ -338,7 +351,7 @@
      "kind": "label",
      "text": "Counting down on your child's screen",
      "y": 620,
-     "t0": 0.5
+     "t0": 0.6
     }
    ],
    "sfx": [
@@ -351,12 +364,12 @@
   },
   {
    "id": "timer-pop",
-   "dur": 1.2,
+   "dur": 1.8,
    "src": "rec/timer-end.mp4",
    "mediaStart": 10.15,
    "cropTop": 40,
    "clipH": 150,
-   "fadeIn": 0.1,
+   "fadeIn": 0,
    "cam": [
     {
      "t": 0,
@@ -384,10 +397,10 @@
    ]
   },
   {
-   "id": "followup",
-   "dur": 3.6,
+   "id": "followup2",
+   "dur": 4.6,
    "src": "rec/followup.mp4",
-   "mediaStart": 3.6,
+   "mediaStart": 5.0,
    "cropTop": 390,
    "cam": [
     {
@@ -403,7 +416,8 @@
      "kind": "marker",
      "text": "A few days on. Illustrative",
      "y": 430,
-     "t0": 0
+     "t0": 0,
+     "instant": true
     },
     {
      "kind": "label",
@@ -428,13 +442,14 @@
      "at": 1.2,
      "vol": 0.5
     }
-   ]
+   ],
+   "fadeIn": 0
   },
   {
    "id": "great",
-   "dur": 2.2,
+   "dur": 1.8,
    "src": "rec/checkin-great.mp4",
-   "mediaStart": 1.2,
+   "mediaStart": 0.9,
    "srcH": 1000,
    "clipH": 1000,
    "cropTop": 748,
@@ -458,7 +473,7 @@
      "kind": "label",
      "text": "This parent's own rating",
      "y": 660,
-     "t0": 0.3
+     "t0": 0.6
     }
    ],
    "inScreen": [
@@ -468,25 +483,25 @@
      "y": 52,
      "w": 44,
      "h": 44,
-     "t0": 0.3
+     "t0": 0.6
     }
    ],
    "sfx": [
     {
      "name": "sfx-tap",
-     "at": 0.3,
+     "at": 0.6,
      "vol": 0.5
     },
     {
      "name": "sfx-chime",
-     "at": 0.8,
+     "at": 1.1,
      "vol": 0.45
     }
    ]
   },
   {
    "id": "great-hold",
-   "dur": 1.6,
+   "dur": 3.6,
    "src": "stills/great-card.png",
    "srcH": 1000,
    "clipH": 1000,
@@ -520,18 +535,18 @@
   },
   {
    "id": "end",
-   "dur": 4.5,
+   "dur": 5.0,
    "overlays": [
     {
      "kind": "digi",
-     "x": 380,
-     "y": 190,
-     "size": 320,
+     "x": 405,
+     "y": 120,
+     "size": 270,
      "t0": 0
     },
     {
      "kind": "end",
-     "y": 520,
+     "y": 420,
      "eyebrow": "Coming off screens?",
      "line": "What stage is your child?",
      "sub": "Three questions, no sign up. See what to do tonight.",
@@ -539,7 +554,8 @@
      "url": "guidedchildhood.com/v/switch-off",
      "slate": "An example family. Real app screens, example replies.",
      "t0": 0.3,
-     "pressAt": 2.2
+     "pressAt": 2.6,
+     "tagline": "One plan for screens, phones and AI."
     }
    ],
    "sfx": [
@@ -550,7 +566,7 @@
     },
     {
      "name": "sfx-tap",
-     "at": 2.5,
+     "at": 2.9,
      "vol": 0.4
     }
    ]
@@ -571,17 +587,17 @@
    {
     "label": "The words",
     "shot": "deck-say",
-    "t": 5.8
+    "t": 6.8
    },
    {
     "label": "Checked in",
-    "shot": "followup",
+    "shot": "followup2",
     "t": 1.5
    },
    {
     "label": "Sorted",
     "shot": "great",
-    "t": 0.8,
+    "t": 1.1,
     "silent": true
    }
   ]

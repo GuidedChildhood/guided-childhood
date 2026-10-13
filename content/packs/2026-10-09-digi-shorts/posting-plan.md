@@ -1,97 +1,137 @@
 # Posting plan: the hero and Short 1
 
-12 October 2026. From the marketer review, weighed against the Control Room's
-standing rules (`plans/2026-10-12-shorts-marketer-review-weighed.md`). The
-times are a working assumption, not data. After two weeks, check each
-platform's own audience activity and move them.
+12 October 2026. Revised after the SaaS growth review, weighed in
+`plans/2026-10-12-shorts-marketer-review-weighed.md`. The posting times are a
+working assumption. After two weeks, check each platform's own audience
+activity and move them.
 
-## Before anything is posted
+## The files
 
-1. The script content fix (#1246) is merged and migration 371 is applied. The
-   films show script 9671 as it reads after that fix.
-2. Migration 372 is applied, so the film links count.
-3. One link per film per platform, made on Admin, Film links. Type these
-   names and the page makes the codes: `Switch off ig`, `Switch off fb`,
-   `Switch off tt`, `Hero ig`, `Hero fb`, `Hero tt`. A bio link cannot tell
-   two films apart, so each bio points at the newest film for its first 72
-   hours.
-4. The Pixabay licence for the track is saved next to the films. YouTube and
-   Facebook can raise a claim on these tracks, and the licence clears it.
+All three are in **Downloads, Motion advert**, with the sound already
+levelled. Post only these. The `-v1` to `-v4` files are earlier versions.
 
-## The order
+| File | Length | For |
+|---|---|---|
+| `digi-short-1-switch-off.mp4` | 44s | Instagram Reels, Facebook Reels |
+| `digi-short-1-switch-off-tt.mp4` | 36s | TikTok |
+| `digi-hero.mp4` | 58s | Instagram and Facebook (pinned), the home page, LinkedIn |
 
-| When | Film | Where | Link |
-|---|---|---|---|
-| Friday 16 Oct, about 19:30 (Service Friday) | Short 1 | Instagram Reels and Facebook Reels | Instagram: the bio link only. Facebook: in the post text |
-| Same evening | Short 1 | TikTok | The bio link, if the account can show one |
-| Sunday 18 Oct | Short 1 | Instagram Story sharing the Reel, with a link sticker | The `ig` link |
-| Tuesday 20 Oct, about 19:30 | Hero | Instagram and Facebook, then pinned. It also goes on the home page | As above, the `Hero` codes |
-| The week of 19 Oct | Short 2, the first phone | As Short 1 | |
-| Before half term | The timer film | As Short 1 | |
+## Before the first post
 
-From November, Wave 2 runs at two films a week, in the order of the worry
-tiles parents tick most. Each week, one new opening is tried on the best film
-so far. The body stays the same and only the first three seconds change.
+1. #1246 is merged (done), and migrations 371 and 372 are applied.
+2. On Admin, Film links, make these links. Type the name and the page makes
+   the code: `Switch off ig`, `Switch off fb`, `Switch off tt`, `Hero ig`,
+   `Hero fb`, `Hero tt`, `Hero li`. Check that each code matches the captions
+   below.
+3. Set the Instagram bio link to `guidedchildhood.com/v/switch-off-ig`. Tap it
+   on your phone: it should open the stage check.
+4. Keep the Pixabay licence for the track next to the films.
 
-TikTok is the cheap place to test openings. Instagram and Facebook are where
-the UK parents of primary age children are. Shorts is for reach, because
-links there do not click. Upload clean files everywhere, with no TikTok
-watermark on Instagram.
+## The playbook, on your phone
+
+**Getting the file onto the phone**
+1. In Finder, open Downloads, then Motion advert.
+2. Right click the file, choose Share, then AirDrop, and pick your iPhone. Do
+   not use WhatsApp or email: they shrink the file.
+3. Play it once in Photos with the sound on.
+
+**Instagram (Friday, about 19:30)**
+4. Tap Plus, then Reel, then pick the video. Add no music: it has its own.
+5. Edit the cover. Pick the frame "The timer says stop. Not you." and check it
+   in the grid preview.
+6. Paste the Instagram caption. Turn off "Share to Facebook". Share.
+7. Comment, then pin the comment: "The stage check is the link in our bio. Three questions, no sign up."
+
+**Facebook (straight after)**
+8. Switch to the Guided Childhood Page. Post the same file as a Reel with the
+   Facebook caption.
+9. Tap the link in the post. If it does not open, add it as the first comment
+   too.
+
+**TikTok (the same evening)**
+10. Upload `digi-short-1-switch-off-tt.mp4`. For the cover, pick the opening
+    frame.
+11. Paste the TikTok caption. If the account cannot show a bio link yet, end
+    the caption with `guidedchildhood.com/v/switch-off-tt`.
+
+**The first half hour**
+12. Answer every real comment in your own words, and ask a question back:
+    "What ends it in your house, the episode or tea?"
+13. Send it to two parents you know have this fight. Nothing more than that.
+
+**At 21:00, the tracker row**
+14. For each platform, note: views, skip rate, average watch time, sends,
+    saves, and Followed and Began from Film links. Missing is missing, never
+    zero. Type DONE.
 
 ## Captions, ready to paste
 
 **Short 1, Instagram**
-> Send this to the parent who has the five o'clock fight.
-> The hard bit is always the stopping. So decide the stopping before you start, in a calm moment, together. Save this for tonight.
+> Send this to whoever does switch off in your house.
+> You say off. They say one more. So agree the ending before the tablet goes on, in a calm moment, and let the timer call time instead of you. Save it for tonight.
+> One plan for screens, phones and AI, built on research.
 > Example family. Real app screens, example replies.
 > What stage is your child? Three questions, no sign up. Link in bio.
 
 **Short 1, Facebook**
 > Send this to whoever does switch off in your house.
-> Every night the tablet goes off and somebody ends up the bad guy. Guided Childhood gives you the words to agree the ending first, a timer that calls time instead of you, and a check in a few days later to see if it held.
-> Example family, real app screens.
+> You say off. They say one more. So agree the ending before the tablet goes on, in a calm moment, and let the timer call time instead of you. Save it for tonight.
+> One plan for screens, phones and AI, built on research.
+> Example family. Real app screens, example replies.
 > What stage is your child? Three questions, no sign up. guidedchildhood.com/v/switch-off-fb
 
 **Short 1, TikTok**
 > Send this to whoever ends screen time in your house.
-> Whoever calls time becomes the bad guy. So agree the ending before the tablet goes on, and let the timer call it.
+> You say off. They say one more. Agree the ending before the tablet goes on and let the timer call it.
 > Example family, real app screens.
 > What stage is your child? Three questions, no sign up. Link in bio.
 > #screentime #ukparents #parentingtips
 
-**Hero, Instagram and Facebook**
-> If you are always the bad guy when the tablet goes off, this is for you.
-> Ask DiGi, get the words for tonight, and it checks in until it is sorted.
+**Hero, Instagram**
+> If turning the tablet off ends in tears, and then the guilt, this is for you.
+> The guilt is normal. The first step is deciding the ending before it starts. Ask DiGi, get the words for tonight, and it checks in until it is sorted.
+> One plan for screens, phones and AI, built on research.
 > Example family. Real app screens, example replies.
-> What stage is your child? Three questions, no sign up. (Instagram: link in bio. Facebook: guidedchildhood.com/v/hero-fb)
+> What stage is your child? Three questions, no sign up. Link in bio.
 
-**Shorts description, both films**
-> Example family, real app screens. What stage is your child? Three questions, no sign up.
+**Hero, Facebook:** as Instagram, but the last line ends `guidedchildhood.com/v/hero-fb` instead of "Link in bio."
 
-## Covers
+**Hero, LinkedIn** (the link goes in the first comment: `guidedchildhood.com/v/hero-li`)
+> The switch off fight is rarely about screen time. It is about the ending.
+> So the app does one thing at that moment: the words to agree the ending first, a timer that calls time instead of you, and a check in days later asking how it went. It never says yes or no.
+> Example family, real app screens.
 
-- TikTok and Shorts: the opening frame, with the hook in the bubble.
-- Instagram: a custom cover, "The timer says stop. Not you.", kept inside the
-  centre 3:4 so it survives the grid.
-- Facebook: the opening frame.
+## The two weeks
+
+| Day | What |
+|---|---|
+| Thu 15 Oct | Make the links, set the bio, AirDrop the files, check them on your phone |
+| Fri 16 Oct, about 19:30 | Short 1 on Instagram, Facebook and TikTok (the Service Friday screen recording) |
+| Sun 18 Oct | A Story sharing the Reel, with a link sticker (`switch-off-ig`). The founder post as usual |
+| Mon 19 Oct | Three day numbers into the tracker. No decision yet |
+| Tue 20 Oct, about 19:30 | The hero on Instagram and Facebook. Pin it on both and put it on the home page |
+| Wed 21 Oct, 10:00 | The hero on LinkedIn, in the mechanism slot, not as an extra post |
+| Thu 22 Oct | TikTok: the guilt opening on the 36s body |
+| Fri 23 Oct | Short 2 (the first phone) if it has passed the same checks. At the Friday review, read Short 1 at seven days and make one decision |
 
 ## How to judge them
 
-Read each film's links seven days after posting. These are working numbers.
-Reset them to our own median after four films.
-
 | Measure | Keep | Change the opening | Stop |
 |---|---|---|---|
-| Stage check starts per 1,000 views | 3.5 or more | 1.4 to 3.5 | Under 1.4 after 3,000 views, on three different openings |
-| Instagram skip rate | 40% or less | 40 to 55% | |
-| Saves and sends per 1,000 reached | 10 or more | Under 10 | |
+| Skip rate (Instagram), two second hold (TikTok) | 40% or less | Over 55% | |
+| Reached the end card (retention at 40s for Short 1, 52s for the hero) | 15% or more | Under 15%: use the 36s cut on Reels too | |
+| Stage check starts per 1,000 views, at seven days, per link | 3.5 or more | 1.4 to 3.5 | Under 1.4 after 3,000 views, on three different openings |
 
-Judge signups and paying only once a film has 20 starts. Below that, the
-numbers are mostly noise.
+- Compare Instagram only with Instagram. A bio link costs two extra taps, so
+  Instagram reads lower than Facebook.
+- The guilt opening (the hero) against the fight opening (Short 1): the one
+  with the lower skip rate and more starts opens the next film.
+- Judge signups and paying only once a link has 20 starts.
 
 ## Paid
 
 £0 until the end of October, which is the Control Room's thirty days. After
 that, at most £100 on Meta, behind the film with the most starts per 1,000
-views, and only once it has 20 starts. Use a paid only link code, and pause it
-if a start costs more than £3 after 30 starts.
+views, and only once it has 20 starts. Use a paid-only link code. Pause if a
+start costs more than £3 after 30 starts. Put five named sources on /evidence
+before any paid spend.

@@ -46,7 +46,7 @@ not a measurement.
 | 10 | The tracker rail sits under the TikTok and Reels headers, and its labels are small | Adopt. Move it below the header zone with bigger labels, and shift the content down | Customer test | M |
 | 11 | End card: eyebrow on the hero, "See what to do tonight", URL and slate up out of the caption zone, the film's /v/ link, a longer hold | Adopt | Stage check starts | S |
 | 12 | The hero's worry tiles have no words | Adopt. One label | Customer test | S |
-| 13 | Hooks: "I'm always the bad guy when the tablet goes off" first | Adopt for the hero: re-record the chat with it as the parent's question. Short 1 keeps its question and gains a band: "You say off. They say one more. Every single day." | Stage check starts | M |
+| 13 | Hooks: "I'm always the bad guy when the tablet goes off" first | Adapt. Justin turned "bad guy" down ("I feel guilty"), so the hero's parent types "Turning the tablet off ends in tears and I feel so guilty. What do I say?" and DiGi's reply opens by saying the guilt is normal. Short 1 keeps its question and gains a band: "You say off. They say one more." | Stage check starts | M |
 | 14 | Post Short 1 first on Reels and Facebook. The hero 3 to 4 days later as the pinned post, website film and retargeting. TikTok for hook tests. One /v/ code per film per platform | Adopt as the starting plan. It goes into the Control Room | Stage check starts | S |
 | 15 | £0 paid until 30 October, then £100 on Meta behind the film with the most starts per 1,000 views | Park. Justin's money | Goal | none |
 | 16 | Keep, change or stop thresholds per tracked link | Adopt as working numbers. Reset to our own median after four films | Goal | none |
@@ -60,3 +60,29 @@ not a measurement.
    search the web (recommended). Leave "Earn more stars", which is commitment 4
    (earned, not granted), unless he wants it reworded.
 3. Paid: parked until the organic numbers exist.
+
+## Second review: a SaaS growth marketer, after the slower cut
+
+Justin asked for the films to be slower ("moves a bit too quickly to take in"),
+then for a top SaaS marketing review against his brand line: one research
+backed, easy system for every digital worry, from screens to AI, keeping
+children safe. Its verdict was no-go today, go after one more render. Weighed
+the same way.
+
+| # | Point | Verdict | Serves | Size |
+|---|---|---|---|---|
+| 1 | Short 1's DiGi answers guilt the parent never mentioned | Adopt. It was our error when both replies changed. Short 1's line now ends "for every child." | Trust | S |
+| 2 | A suggested question, "Ava's mood drops after Instagram", flashes by. Ava is nine | Adopt. The send beat is cropped below the suggestions. They were written for the fixture's older child, before the film's swap | Safeguarding | S |
+| 3 | The full pop up, with "Earn more stars", fades through for 0.2s | Adopt. The countdown ends before the pop up, then a hard cut to the crop | Evidence | S |
+| 4 | Old renders with the "open web" line sit next to the new ones | Adopt. Renamed old- | Housekeeping | none |
+| 5 | Revised captions per platform | Adopt, with the series line added | Stage check starts | S |
+| 6 | The series line on every end card: "One plan for screens, phones and AI." | Adopt. It is true: the nine worry tiles cover all three | Brand line | S |
+| 7 | The hero's tiles show Social media and AI chatbots being ticked | Adopt. A new full page capture, a pan, and the band "Screens, phones, social media, AI." | Brand line | S |
+| 8 | Research goes in the caption until /evidence names real sources | Adopt ("built on research"). Park the /evidence sources as their own task | Evidence | none |
+| 9 | A 35s TikTok cut of Short 1 | Adopt. 36s, with its own /v/ code | Reach | S |
+| 10 | The first frame should be a complete thought | Adopt. The hero opens with "Turning the tablet off ends in tears" already typed | Hook | S |
+| 11 | Dead air in the check in | Adapt. Trimmed with an unseen cut while keeping the reading rule. Hero 57.8s, Short 1 44.4s | Retention | S |
+| 12 | "What DiGi shows while it thinks" reads as part of DiGi's sentence | Adopt. Moved well below it | Clarity | S |
+| 13 | Never the word "safe" on screen | Already our rule (silent-ugc rule 4) | Evidence | none |
+| 14 | A step by step posting playbook | Adapt. The files come from the Motion advert folder (sound levelled), not the render folder | Stage check starts | S |
+| 15 | A template checklist for every future film | Adopt into the shorts skill | Repeatability | M |

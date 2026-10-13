@@ -83,7 +83,12 @@ for (let f = 0; f < N; f++) {
   await page.clock.runFor(1000 / FPS)
   if (S.anims) await page.evaluate(() => window.__syncAnims())
   await page.waitForTimeout(8)
-  await page.screenshot({ path: `${dir}f-${String(f).padStart(5, '0')}.jpg`, type: 'jpeg', quality: 92 })
+  // A busy machine (another render running) can stall one screenshot; the
+  // page clock is paused, so trying again films the same frame.
+  for (let tries = 0; ; tries++) {
+    try { await page.screenshot({ path: `${dir}f-${String(f).padStart(5, '0')}.jpg`, type: 'jpeg', quality: 92, timeout: 60000 }); break }
+    catch (e) { if (tries >= 2) throw e; console.log(`frame ${f}: screenshot retry ${tries + 1}`) }
+  }
   if (f % 60 === 0) console.log(`frame ${f}/${N}`)
 }
 await browser.close()
