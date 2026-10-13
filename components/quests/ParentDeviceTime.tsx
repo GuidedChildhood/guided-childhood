@@ -425,7 +425,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             </button>
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
-            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today&apos;s balance. The rest of the stars went back.
+            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today's balance. The rest of the stars went back.
           </div>
         </div>
       )}
@@ -564,7 +564,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             below it. Never a block: the grown up decides. */}
         {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, minutes) && (
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-            This takes {kid.name} past today&apos;s healthy amount for their age, so it goes down as a treat.
+            This takes {kid.name} past today's healthy amount for their age, so it goes down as a treat.
           </p>
         )}
 
