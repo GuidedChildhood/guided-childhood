@@ -12,6 +12,78 @@ logged here does yet.
 
 ---
 
+## 14 October 2026, second sweep (Instagram paid ads, researched)
+
+### Balance Phone (thebalancephone.com). Closest to our hook.
+- **Seen:** Instagram ad, "Is your child ready for a phone? [N] questions. A
+  clearer answer. Take the quiz", over a photo of children swimming.
+- **What it is:** a Barcelona company selling a minimalist Samsung phone with
+  the addictive apps removed: Balance Phone Kids €299, Balance OS €79 a year on
+  your own Samsung (their site, 14 October). Campaign "Wait until they really
+  need it". Around the device: a Phone Agreement both sides sign, readiness
+  questionnaires, set up and first week guides, and "Balance University"
+  content from psychology professionals (vein.es coverage).
+- **How close:** the nearest anyone has come to our thesis, and its ad is
+  almost our hook. The difference is the answer. Their quiz answers ready or
+  not ready, which is allow or deny, and it ends at a phone purchase. Our stage
+  check names the stage and the next step, starts at age 2, and ends at a plan
+  (commitment 1, never allow or deny).
+- **Borrow:** the real world photo (children outdoors, no screen in sight) as
+  the visual answer to a phone question. The proof that the hook works:
+  somebody is paying to run it.
+- **Watch:** whether they add lessons for the child. If they do, they are a
+  competitor for the same parent; until then they could be a partner (a family
+  that buys their phone still needs the plan).
+
+### Qustodio. The incumbent has taken our language.
+- **Seen:** Instagram ad, "Screen time shouldn't be a battle. Set healthy
+  limits and make everyday digital routines easier." Button: "Protect my child
+  now". A 30 minute daily limit dial. 13.3K followers.
+- **How close:** the blocking tool THE-STORY section 2 names. What is new is
+  the words: they now lead on the battle, our pain, and answer it with a timer.
+  2026 releases on their blog: block apps by category (13 February), gaming
+  alerts (10 March), rules that change through the day (20 March).
+- **Borrow:** nothing to build. The lesson is that "battle" alone no longer
+  marks us out; the answer has to (the words, the plan, the child earning).
+
+### Nuet (nuet_ai). The plainest ad of the lot.
+- **Seen:** Instagram ad. "It reads the school emails. You stop missing things.
+  End of Ad." Caption: "no clever ad here ... that's the whole pitch."
+- **What it is:** connects to Gmail, Outlook, iCloud or Yahoo and WhatsApp
+  groups, pulls school dates into the family calendar (maker's page and
+  directory listings; iOS; a free year to Mumsnet testers).
+- **How close:** not a screens product, but it overlaps one feature we already
+  have: the school letterbox (`components/school/SchoolLetterbox.tsx`,
+  `app/api/school/inbound/route.ts`, live at `/dashboard/school` since
+  17 to 25 September). `content/brand-story/service-post-map.md` still says do
+  not claim it, written 24 September, before the setup was rebuilt.
+- **Borrow:** the plain voice. One job, two short sentences, stop.
+
+### Sylva, again
+Same school morning ad, now as a video. A web search found no listing under
+that name; the nearest named UK tools are Hazel (Spicy Minds, Bristol) and
+Neura. Sylva's screens show a persona called Hazel, so it may be Hazel's
+consumer brand. Unconfirmed.
+
+### What to take for our campaigns, from both sweeps
+
+1. **Say it plainly, then stop** (Nuet). Two short lines of what it does. Card
+   C in `content/packs/2026-10-14-first-phone-ad/` is this.
+2. **Name one moment, not a category** (Kairoo's "time's up every night",
+   Sylva's "school morning battles"). Card B is this.
+3. **"Battle" is no longer ours** (Qustodio). Lead on the answer: the words for
+   tonight, a plan to sixteen, the child earning their time.
+4. **The readiness quiz is contested** (Balance Phone). Keep our hook word for
+   word, and when there is room add the difference: we never say ready or not
+   ready, we say the stage and the next step.
+5. **Show a real screen in a hand** (Sylva, FamilyWall, Nuet all do). We have
+   format 4 for exactly this, with real screenshots only.
+6. **A real outdoor photo can answer a screen question** (Balance Phone). Ours
+   comes from the family archive, never stock, never generated.
+7. **Do not copy:** fear buttons ("Protect my child now"), "expert built" with
+   no named expert, star ratings and review counts we do not have, stock
+   photos of a mother and child.
+
 ## 13 October 2026, Justin's Instagram feed (paid ads)
 
 Seven ads in one evening. Instagram served them because Justin's account reads

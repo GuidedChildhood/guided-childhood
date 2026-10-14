@@ -25,6 +25,11 @@ where most first phones arrive), cream ground, one gold mark.
 - `01-a-the-phone-moment.png`: "One day you'll hand them a phone." The lead.
 - `02-b-times-up.png`: "Tired of saying time's up every night?" The pain line
   the Kairoo ad found, given our answer instead of theirs.
+- `03-c-the-whole-pitch.png`: "The words for tonight's argument. A plan to
+  sixteen." The plain voice the Nuet ad uses: what it does, then stop.
+
+The lessons behind B and C, from both Instagram sweeps, are at the end of
+`briefings/notes/competitor-sightings.md`.
 
 ## Caption A, Instagram (no link in the caption)
 
@@ -66,6 +71,23 @@ where most first phones arrive), cream ground, one gold mark.
 > to a child who is ready for it.
 >
 > What stage is your child? Three questions, no sign up. Link in bio.
+
+## Caption C, Instagram
+
+> The words for tonight's argument. A plan from now until sixteen. Ten minutes
+> a day, done with your child, not to them.
+>
+> That's the whole app.
+>
+> What stage is your child? Three questions, no sign up. Link in bio.
+
+## When a phone company runs the same hook
+
+Balance Phone now runs "Is your child ready for a phone?" as an ad. Keep our
+hook word for word. Where a caption has room, add the line that separates us:
+
+> We never answer ready or not ready. We tell you the stage your child is at,
+> and the next step from there.
 
 ## Proof path for every claim
 

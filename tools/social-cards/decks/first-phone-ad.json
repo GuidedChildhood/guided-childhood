@@ -22,6 +22,16 @@
       "headline": "Tired of saying <mark>time's up</mark> every night?",
       "body": "Swap the nightly fight for a plan you work through together.",
       "pill": "What stage is your child? &rarr;"
+    },
+    {
+      "name": "c-the-whole-pitch",
+      "type": "cta",
+      "lead": "orbit",
+      "tag": "Ages 2 to 16",
+      "eyebrow": "The whole pitch",
+      "headline": "The words for tonight's argument. <mark>A plan to sixteen.</mark>",
+      "body": "Ten minutes a day, with your child. See where they are today.",
+      "pill": "What stage is your child? &rarr;"
     }
   ]
 }
