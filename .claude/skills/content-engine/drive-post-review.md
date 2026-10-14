@@ -202,10 +202,31 @@ rewritten before Justin would have posted it.
 **The folder.** `GDC POSTS, NUMBER ORDER, READY TO POST`, id
 `10aMT3F_jHHDaQB_SpbX-yWahLjg9_m5U`.
 
-**What counts as new.** Any post in that folder whose title does not carry
-`CLAUDE REVIEWED`. Search every file type, because the numbering has already
-broken twice on a listing filtered to Google Docs while the thing it needed was
-a markdown file.
+**What counts as new.** List every file type in that folder, because the
+numbering has already broken twice on a listing filtered to Google Docs while
+the thing it needed was a markdown file. Then take three things out, in order.
+
+1. **Anything already published**, meaning a title carrying `POSTED` or a number
+   the register marks posted. This is the rule that matters most. Getting it
+   wrong means rewriting something Justin has already put his name to in public.
+2. **Anything already through this review**, meaning a title carrying
+   `CLAUDE REVIEWED`.
+3. **Anything that is not post copy.** A waterfall, a plan, a tracker or a sheet
+   is not a post. If there is nothing in it a person would paste into LinkedIn,
+   it is left alone and named in one line.
+
+The folder only, never its subfolders. The one called `ARCHIVE` is superseded
+work and nothing in it is posted again.
+
+**More than five left means a rule above was missed.** The sweep does the five
+most recently modified and says how many are waiting. Five careful rewrites beat
+twelve rushed ones.
+
+**Seeding the marker.** On 14 October 2026 the folder held ten files and not one
+carried the marker, so the first run would have rewritten five published posts
+and a content waterfall. The four that were already ours were retitled by hand
+before the routine ever ran. Any new folder this sweep is pointed at needs the
+same pass first.
 
 **The marker is the title, and it is how the sweep stays idempotent.** When a
 post has been through this review, its Drive title gains `CLAUDE REVIEWED` and

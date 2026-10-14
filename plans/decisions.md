@@ -591,3 +591,19 @@ became a jingle.
 It cannot hold the Google Drive connector from here, same refusal as the Monday
 radar, so until Justin attaches Drive in the claude.ai Routines page it will say
 it cannot see Drive and stop rather than guess. PR 1298.
+
+## 14 October 2026: the Drive sweep nearly rewrote five published posts
+
+Justin attached Google Drive to the Drive post review Routine. Before firing it
+I listed the folder: ten files, and not one of them carried the CLAUDE REVIEWED
+marker the routine uses to decide what is new. A first run would have rewritten
+five posts already published, plus a .docx content waterfall that is not a post.
+
+The marker alone was never enough. The sweep now excludes anything titled POSTED
+or marked posted in the register, anything already carrying the marker, and
+anything that is not post copy, and it never enters the ARCHIVE subfolder. It
+also stops at five posts a run, because a bigger batch means an exclusion rule
+was missed rather than that twelve posts appeared overnight.
+
+The four docs that were already ours were retitled by hand to seed the marker,
+so the first real run finds nothing, which is the correct answer.
