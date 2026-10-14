@@ -550,3 +550,13 @@ does not exist because the kids' table keys on a uuid.
 The rename is still the outstanding piece: the table, its index, its trigger,
 its function, the sequence grant, and the two calls in
 publishing/engine/store-supabase.ts. A green guard is not a green light here.
+
+## 14 October 2026: reels story bank from Family IT Guy's parent questions, not his content
+
+Justin asked for agents to scrape family_it_guy for our reels. We did not scrape
+(Instagram blocked, terms, his copyright, his fear engine fails the hidden
+thread). Two agents catalogued his public topics; each became the parent
+question underneath, answered our way: 24 silent UGC stories, each with a real
+app proof path and the stage check at the end. The gap: he says "add more as
+they show they are ready" and never says what ready looks like.
+`content/packs/2026-10-14-reels-story-bank/`. PR 1293.
