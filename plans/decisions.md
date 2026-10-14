@@ -460,6 +460,67 @@ Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
 timed out three times and they are inert (RLS on, no grant to anon or
 authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
 
+## 13 October 2026: 375 and 374 applied, and 377 cannot be
+
+375 first, because it was the one that mattered to a parent today. Three rows
+of expert_knowledge still told DiGi to warn before a screen ends, which 371
+had already established is the wrong advice (the one close study found warned
+endings were followed by more upset, Hiniker et al CHI 2016). DiGi reads that
+table unguarded, so retrieval could hand it the opposite of the fixed prompt.
+Three guarded updates, one per statement to stay inside the tool's minute,
+then 375's own check: zero active findings still advise a warning.
+
+374 carried the 52 hard questions onto the 13 decks that were missing them,
+by the method 373 proved. A staging table in `schools` took the 13 rows in
+four pieces, and nothing touched a live deck until staging was proved against
+content/modules: all 13 slide counts and all 13 question digests identical.
+Then 374's guards, its update and its proof ran as **one statement**, so a
+timeout could only ever roll the whole thing back. Its proof passed, and the
+live whole set digest now equals the repo's, 8acf4c52. Backup in
+schools.school_lessons_backup_374, RLS on, anon refused on the real path.
+
+Both are in the migration ledger now, so the next sweep sees them.
+
+377 is NOT applied and must not be. It creates public.planet_events as the
+newspaper's audit trail, but migration 252 already made that table the kids'
+Guided Planet ledger, with a foreign key to children and a different shape
+entirely. As written 377 aborts on its own index (no `issue` column), so
+nothing is corrupted; the danger is anyone who clears that error, because the
+next statement attaches an append only trigger to the children's ledger, for
+ever, service role included. publishing/engine/store-supabase.ts writes the
+newspaper shape to the same name, so that half is broken either way. The fix
+is a rename, and it belongs to the lane that wrote it (PR 1287).
+
+Left behind: schools.stage_374_hq, plus 373's two, inert for the same reason.
+
+## 13 October 2026: a correction to what the 373 staging tables were granted
+
+The 373 entry above said the two leftover staging tables had no grant to anon
+or authenticated. That was right about anon and wrong about authenticated,
+which still held select on both. RLS was on with no policies, so a signed in
+user got zero rows rather than data, and nothing was exposed. The grant should
+not have been there at all, and it is revoked now: all three staging tables
+refuse authenticated on the real access path, tested by setting the role
+rather than by reading a privilege table.
+
+Worth keeping, because it is the same shape as the 373 slip it corrects. A
+fresh table in this project inherits a grant, so a new table is only as closed
+as the statement that made it. 374's staging table was created with its revoke
+in the same statement and was closed from the first instant.
+
+## 13 October 2026: 377 goes back to the planet lane, not fixed here
+
+Justin's call, asked and answered today: leave 377 unapplied and let whoever
+owns the Guided Planet engine rename the table. So this is NOT an outstanding
+migration for the next sweep to pick up, and nobody should apply it as it
+stands. The newspaper dashboard has no audit trail until that lane acts.
+
+What they need to change: 377 creates public.planet_events, which migration
+252 already made the kids' ledger (foreign key to children, different shape).
+Rename 377's table, its index, its trigger and its function, and the two
+calls in publishing/engine/store-supabase.ts. The danger to avoid is clearing
+377's index error without the rename, because the statement after it attaches
+an append only trigger to the children's ledger for ever. Detail in PR 1289.
 ## 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down
 
 Justin: be clear on the audience; more Happy News icons; lettering; the family account (formerly Inspired by Alma) loved the look of the Happy News printables, so the free downloads need boho, super attractive appeal. Decided: the reader is 7 to 12 (heart 7 to 11), the chooser is the parent on the family account, the passer on is the teacher (publishing/README.md). A boho theme, on for every issue: sand, clay, mustard, sage and rose; Fraunces Soft lettering with Caveat handwriting (OFL); the app's own Happy News icons and marks, not copies; the masthead drawn from the font so the PDF text stays clean. Reverses, for printables only, the 5 October retirement of Happy News as a social reference. Every check still passes.
@@ -470,3 +531,22 @@ Justin asked for agents that check the platform weekly on ten questions until ea
 ## 14 October 2026: competitor sightings logged, and a first phone ad drafted
 
 Justin saw seven parenting and family app ads on Instagram and asked if he should worry. None does our core loop; Kairoo (screen agreement and bedtime reminders) is the closest and takes the job off the parent, the opposite of commitment 2. All seven are logged in `briefings/notes/competitor-sightings.md`, which the competitor watch lens now reads. No ad named the first phone, so an ad that opens on it was drafted (three cards plus captions, organic first per the money rule). A second sweep the same day added Balance Phone (a phone maker now running our readiness hook), Qustodio (now leading on the battle) and Nuet (the plain voice; it overlaps our school letterbox), with seven campaign lessons in the same file: `content/packs/2026-10-14-first-phone-ad/`. Nothing posted.
+## 13 October 2026: 377's grants are fixed, its name collision is not
+
+The planet lane answered the guard in PR 1290 and chose well: the grants went
+to service_role, not to authenticated. That matters, because the guard's own
+printed suggestion was `grant select, insert, update, delete on
+public.planet_events to authenticated`, and public.planet_events is the kids'
+ledger from 252. Pasting the suggestion would have handed signed in users read
+and write on a table of children's events.
+
+So `npm run check-migration-grants` is green again and the repo is unblocked.
+377 still cannot be applied. The guard checks that a new public table has a
+grant and RLS; it cannot see that the name is already taken. 377 still creates
+public.planet_events, so a run still stops at its own index for want of an
+`issue` column, and it now also asks for `public.planet_events_id_seq`, which
+does not exist because the kids' table keys on a uuid.
+
+The rename is still the outstanding piece: the table, its index, its trigger,
+its function, the sequence grant, and the two calls in
+publishing/engine/store-supabase.ts. A green guard is not a green light here.
