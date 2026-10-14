@@ -31,24 +31,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
-| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-11 | 41 |
+| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-12 | 53 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-20 · 20 September 2026, correction: the council's fixture was stale, and twelve older slides are over the wall ceiling · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, the schools home page moves: the wall builds itself and a lesson opens as you scroll · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, the eighteen slides come inside the ceiling, and the four new breaths get their friend · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026, the friends get a plan, the icons get a second home, and the computing map exists · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026 — every screen has to survive Larger Text · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026 — the Larger Text list is empty · `plans/decisions-archive/2026-09.md`
-- 2026-09-20 · 20 September 2026 — the school card's door goes somewhere, and the phone switch is on the page · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — DiGi's card link, and a name we have not met · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — migration 321: the keyword meanings the wall could not see · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — the lesson rubric, and the only road from a finding to production · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — on a phone the lesson opens section is a swipe strip, not a pinned board · `plans/decisions-archive/2026-09.md`
 - 2026-09-21 · 21 September 2026 — the passport stands in the door at the end of the road · `plans/decisions-archive/2026-09.md`
 - 2026-09-21 · 21 September 2026 — one ruler for a slide the class acts on · `plans/decisions-archive/2026-09.md`
 - 2026-09-21 · 21 September 2026 — the scheme publishes the length it actually runs · `plans/decisions-archive/2026-09.md`
@@ -157,68 +145,22 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-10-09 · 9 October 2026: French and Spanish join, sealed behind their own code · `plans/decisions-archive/2026-10.md`
 - 2026-10-09 · 9 October 2026: one curriculum, two rooms; three decisions · `plans/decisions-archive/2026-10.md`
 - 2026-10-11 · 11 October 2026: AI and SaaS advice, weighed · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the DiGi hero and Short 1, from real screens · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the extension marks reach the live decks (migration 369) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: every paper pack fits its paper · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: four lessons print their own tool (migration 370) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the ending is agreed, not warned (migration 371) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the films show the script deck, its sources, and the tracking to sorted · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: "Ready", the brand advert, and its series template (PR 1221) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the film link, /v/<code> (migration 372) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: PR 2 of the lessons loop, the home code records coverage (migration 373) · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: the shorts re-cut after the marketer review · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: guilt, not "bad guy" · `plans/decisions-archive/2026-10.md`
+- 2026-10-12 · 12 October 2026: readable films, the series line, and the product-shorts skill · `plans/decisions-archive/2026-10.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 12 October 2026: the DiGi hero and Short 1, from real screens
-
-Justin: "build hero n short now". The research panel (nine specialists, 330 coded Reddit posts, a Mumsnet sweep, a code mapper, three concepts, four judges) ranked the top problems: the switch off fight, the first phone, always the bad guy. The hero (46s) and Short 1 (30s) are built from the real product, filmed frame by frame from the ref-* pages with the fixture names swapped for an example family, and every DiGi reply labelled illustrative. The first launch film (PR 1220) showed three things the product does not do and should not be posted. Pack: `content/packs/2026-10-09-digi-shorts/`. Films: `videos/2026-10-09-digi-shorts/`.
-
-## 12 October 2026: the extension marks reach the live decks (migration 369)
-
-The 147 `extension: true` marks from 21 September (26 decks) were only ever in content/modules; the live rows carried none, so since PR 1236 every run sheet said nothing was marked to skip. Migration 369 writes them: one boolean per marked slide, guarded per deck on slide count and each marked slide's type and phase, proved to change nothing but that key. Generated by `scripts/gen-369.mjs`; dry run in Postgres passed, including seven tampered decks that abort. Applying it to production is Justin's call. Found in passing: 13 live decks also lack `teacher_notes.hard_questions` from the same day; not in this PR. PR 1240.
-
-## 12 October 2026: every paper pack fits its paper
-
-Thirteen of the 34 paper packs printed a sheet onto a second page, measured in real PDFs: the nine known since 9 October, plus four parent notes tipped over by the QR block, which every production lesson prints. Fixed by layout in the print kit, with no lesson words cut and the pupil register sizes untouched. Teacher sheet text goes from 12.5px to 12px (9pt). Box labels are set into the top rule on the teacher one pager and the parent note. The home code floats beside its words, and the friend on the start and exit cards floats beside the question at the same size. All 34 now print one page per sheet, including with a school's safeguarding lead typed in. CI holds it with no browser: check-print-kit compares each lesson's words with the room scripts/check-print-pack-fit.mjs measured, and any edit to the kit or the pack page asks for a new measurement. PR 1239.
-
-## 12 October 2026: four lessons print their own tool (migration 370)
-
-ks2-26, ks3-27, ks4-28 and ks4-29 held `teacher_notes.tool` as one sentence, so their bookmarks and parent note printed the reference lesson's three checks and the organiser printed an empty tool box. Each is now `{ heading, lines, strapline }`, written from the lesson's own slides, in content/modules and, by migration 370, the live rows (guarded on the exact sentence read from production, proved to change nothing else; dry run passed). The module contract now refuses a sentence tool, and the pages read it through `asTool` as a belt. All 34 packs re measured: one page per sheet. Justin said apply it: 370 applied to production on 12 October, the four live tools verified equal to the files, no sentence tool left in the table. PR 1243.
-
-## 12 October 2026: the ending is agreed, not warned (migration 371)
-
-The library told parents two opposite things: the newer scripts and DiGi's research bank say warned endings were followed by more upset (Hiniker 2016, ages 1 to 5) and that agreeing the ending first helps, while scripts 2, 103 and 1302 and moment cards 22 and 330 still said to give a two or five minute warning, one card calling it "consistently more effective". Justin said fix it. All five now agree the ending before the screen goes on; 9650, horizons.ts and agreement-clauses.ts stop overstating the study ("far better", "made it worse"); 9671 names the study's ages and says "let's". Every guard checked against the live rows before the PR. Lessons that teach a five minute warning (033, 076, 327) are curriculum, left for the term review.
-
-## 12 October 2026: the films show the script deck, its sources, and the tracking to sorted
-
-Justin asked for Dr Becky level scripts, useful and easy, the tracking until ticked off, and the science. Reviewed Good Inside's App Store screens (Mobbin carries none): one card per idea, a curved header band, a big headline naming the moment, short Know this and Try this. Our product already does this in the script deck ("Try as deck"), so no product change is needed; the first cut had filmed the long script page zoomed to giant text. The hero and Short 1 now film the deck, a Why it works card naming the study (with its ages) and the RCPCH, and a tracker rail that ticks Asked DiGi, The words, Checked in, Sorted. The film shows script 9671 as it reads after the content fix PR, so that ships first. Detail in videos/2026-10-09-digi-shorts/BRIEF.md and the PR.
-
-## 12 October 2026: "Ready", the brand advert, and its series template (PR 1221)
-
-- The hero is "Ready" (`videos/2026-10-12-ready`): John Lewis craft, one
-  family from six to sixteen, the first gold star given back, Justin's line,
-  the stage check. Rough cut on 312 credits of drafts with a guide score in
-  code; the licensed track and the finals wait on Justin.
-- Higgsfield's licensed music is TikTok's library, usable only inside a
-  TikTok post, so it cannot score the film.
-- The how it works story moves into a series: five worries from the
-  audience research, one per episode, about forty seconds, built from one
-  template (`videos/_templates/ready-series`, plan in
-  `plans/2026-10-12-ready-series-plan.md`). Every phone in them is a real
-  capture of the running app from the /dev and /ref pages, never a mock up.
-
-## 12 October 2026: the film link, /v/<code> (migration 372)
-
-The shorts panel's measurement gap: nothing counted a stage check start, so a film could only be judged on views. Justin approved a link per film. /v/<code> works like the school link (353): it counts the follow, sets a cookie and lands on the stage check; the first answer counts a start once per browser; the trial grant writes profiles.video_link. Counts only, no IP or account on an event. /dashboard/admin/videos shows followed, began, signed up, card on, paying. Seeded digi-hero and switch-off. Judge a film on starts and signups, never views.
-
-## 12 October 2026: PR 2 of the lessons loop, the home code records coverage (migration 373)
-
-Sync plan items B, D, G3 and G5 and plan v10's 2.1 and 2.2, built as PR 2. The plan's 367 was taken with 368 to 372 while the build was held, so it is 373. The home code now writes one `lesson_coverage` row (the class met it) and no completion; a code with no child is refused, and a code scanned before signing up rides a cookie through the starter pack. One stage map lives in `shared/stage-map.ts` and every copy derives from it: KS3 Explorer, KS4 Shaper, KS5 Independent, stamps Orbit, Nova, Cosmo; 18 rows' `passport_stage` move and the beat reads its page from the module id. All 34 tea questions teach ("Can you teach me"), with `listen_for` and `then_ask` under them; the six heavy lessons carry a private `say_this` instead; one label, Ask at tea, on every surface. `children.lessons_together` plays the together deck for any child with a Read it to me button in the device's British voice. The first two Foundation decks carry a grown up line per slide. Still to come from this PR: the two KS5 passport beats (PR 5, a slide), and the 1.8 live walkthrough has not run. Guard: check-lesson-path rule 12.
-
-## 12 October 2026: the shorts re-cut after the marketer review
-
-An expert marketer agent reviewed the hero and Short 1 from frame sheets; weighed with the feedback filter (plans/2026-10-12-shorts-marketer-review-weighed.md). Justin chose: the science beat leaves these two films and leads the early years film, where the 1 to 5 year old study fits (our own 9 October rule); the app's "not the open web" thinking line changes, "Earn more stars" stays; the hero opens on "I'm always the bad guy when the tablet goes off". Re-cut: hook at 2s, no "open web" line on screen, a push in on the Say this line, the timer centred and cut before "Earn more stars", one worry from asked to sorted with the rating label from the first tap, the rail below the platform headers, end cards out of the caption zone with each film's /v/ link. Hero 39s, Short 1 30s. Paid boost parked.
-
-## 12 October 2026: guilt, not "bad guy"
-
-Justin on the hero's opening line: "bad guy is not a good wording ... I feel guilty". The research agrees that guilt runs under all five top problems in parents' own words ("makes me feel so guilty"), met with tone and one next step, never blame. The hero's parent now types "Turning the tablet off ends in tears and I feel so guilty. What do I say?", DiGi's reply in both films opens "At nine, stopping is the hard part for every child, and feeling guilty about it is normal.", and "bad guy" is out of every caption.
-
-## 12 October 2026: readable films, the series line, and the product-shorts skill
-
-Justin: "moves a bit too quickly to take in", then the brand line every film must carry: the research backed, easy system for every digital worry, keeping children safe. The films now follow research 07's reading rule (hero 57.8s, Short 1 44.4s, a 36s TikTok cut). A SaaS growth review (no-go, go after one render) was weighed: fixed Short 1's reply, cropped a suggested question unsuitable for a nine year old, removed a 0.2s flash of "Earn more stars", added "One plan for screens, phones and AI." to every end card and the AI and social media tiles to the hero. The whole method is now `.claude/skills/product-shorts`, routed from CLAUDE.md. Posting plan with the phone playbook in content/packs/2026-10-09-digi-shorts/posting-plan.md.
 
 ## 13 October 2026: the Digital Health Report is not a service
 
@@ -431,6 +373,7 @@ Settings asks "What does Teo call you?" (migration 376, children.calls_grown_up)
 ## 13 October 2026: The Guided Planet, the newspaper engine and Issue 001
 
 Justin asked for a system that makes every edition of a monthly 12 page illustrated paper for 7 to 12s ("The good side of screens"), with him approving twice. Built in publishing/: the issue is one JSON file, nine templates, Chromium print (fixed page boxes, not Paged.js, so every frame is measured), characters composited from the approved files and hash checked (Higgsfield paints backdrops only, behind a per issue credit budget), research verified by our own code against each source page, approvals bound to the content and PDF by hash, publishing idempotent. Issue 001 renders clean; every printed claim went through an adversarial citation check (7 wordings corrected). Issue 002 is a sample made from words alone. Migration 377 written, not applied. Dashboard /dashboard/admin/planet. PR 1287.
+
 ## 13 October 2026: 373's content half carried in pieces, and proved before it was written
 
 Justin: "APPLY ALL NEEDED MIGRATIONS". The content half would not go through
@@ -521,16 +464,22 @@ Rename 377's table, its index, its trigger and its function, and the two
 calls in publishing/engine/store-supabase.ts. The danger to avoid is clearing
 377's index error without the rename, because the statement after it attaches
 an append only trigger to the children's ledger for ever. Detail in PR 1289.
+
 ## 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down
 
 Justin: be clear on the audience; more Happy News icons; lettering; the family account (formerly Inspired by Alma) loved the look of the Happy News printables, so the free downloads need boho, super attractive appeal. Decided: the reader is 7 to 12 (heart 7 to 11), the chooser is the parent on the family account, the passer on is the teacher (publishing/README.md). A boho theme, on for every issue: sand, clay, mustard, sage and rose; Fraunces Soft lettering with Caveat handwriting (OFL); the app's own Happy News icons and marks, not copies; the masthead drawn from the font so the PDF text stays clean. Reverses, for printables only, the 5 October retirement of Happy News as a social reference. Every check still passes.
+
 ## 13 October 2026: the review board, eleven lenses scored every Friday
 
 Justin asked for agents that check the platform weekly on ten questions until each is ten out of ten, with a dashboard and an alert at every session that asks him whether his tasks are done. Ten lens agents and a chief of staff (`.claude/agents/review-*`) score out of ten; a skeptic must agree to any nine or ten, and a lens closes only after two weeks at ten. Every gap passes the feedback filter before it becomes a task. A SessionStart hook prints the alert and asks about each of Justin's tasks at most once a day; answers are one file each in `plans/review-board/answers/` so parallel sessions never collide. Routine: Friday 06:49 London. First run: 0 of 11 at ten, scores 6 to 8, 33 tasks. PR 1288.
 
+## 14 October 2026: The Guided Planet emails through Resend, and boho is for the printables
+
+Justin: "Resend better than Mailchimp"; "boho printables". The newspaper's email channel moves from a Mailchimp draft campaign to a Resend draft broadcast, so the paper uses the house email and one sender reputation (the swap is its own small PR). Boho is confirmed for the printables (The Guided Planet and the free downloads); the social card system is unchanged. Also found before applying 377: its planet_events name was the children's Planet Friends ledger (252); the newspaper's table is now planet_issue_events. PR 1294.
 ## 14 October 2026: competitor sightings logged, and a first phone ad drafted
 
 Justin saw seven parenting and family app ads on Instagram and asked if he should worry. None does our core loop; Kairoo (screen agreement and bedtime reminders) is the closest and takes the job off the parent, the opposite of commitment 2. All seven are logged in `briefings/notes/competitor-sightings.md`, which the competitor watch lens now reads. No ad named the first phone, so an ad that opens on it was drafted (three cards plus captions, organic first per the money rule). A second sweep the same day added Balance Phone (a phone maker now running our readiness hook), Qustodio (now leading on the battle) and Nuet (the plain voice; it overlaps our school letterbox), with seven campaign lessons in the same file: `content/packs/2026-10-14-first-phone-ad/`. Nothing posted.
+
 ## 13 October 2026: 377's grants are fixed, its name collision is not
 
 The planet lane answered the guard in PR 1290 and chose well: the grants went
@@ -595,3 +544,13 @@ Docs. Those three are now 040, 041 and 042. `content/gdc-post-register.md` is th
 single place a number is claimed, routed from drive-post-review. The real cause
 is that two systems assign numbers and neither can see the other, which the
 register fixes only if both write to it.
+## 14 October 2026: Happy News design system in Claude Design; printables start from it
+
+After a design critique of The Planet Post canvas (friends band, bigger lead
+text and stars, clearer answers), Justin said go on a design system. "Guided
+Childhood Happy News" now lives in Claude Design
+(https://claude.ai/artifact/LgLM8FhZ63cKbvkYZT6BWT): our tokens, Nunito and
+IBM Plex Mono, five components (ChunkyButton, Sticker, Burst, Ribbon,
+FriendPlate) and the approved DiGi and Planet Friends art as uploads, never
+regenerated. Every next printable canvas (Screen Time Tickets first) starts
+from it. It is a copy, not synced: when shared/tokens.css changes, update it.

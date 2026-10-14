@@ -36,10 +36,10 @@ export class SupabaseStore implements Store {
     }), 'write issue')
   }
   async addEvent(e: Event) {
-    must(await this.db.from('planet_events').insert({ issue: e.issue, at: e.at, actor_kind: e.actor.kind, actor_id: e.actor.id, action: e.action, from_state: e.from ?? null, to_state: e.to ?? null, detail: e.detail ?? {} }), 'write event')
+    must(await this.db.from('planet_issue_events').insert({ issue: e.issue, at: e.at, actor_kind: e.actor.kind, actor_id: e.actor.id, action: e.action, from_state: e.from ?? null, to_state: e.to ?? null, detail: e.detail ?? {} }), 'write event')
   }
   async events(issue: number): Promise<Event[]> {
-    const rows = must(await this.db.from('planet_events').select('*').eq('issue', issue).order('at'), 'read events') as Record<string, unknown>[] | null
+    const rows = must(await this.db.from('planet_issue_events').select('*').eq('issue', issue).order('at'), 'read events') as Record<string, unknown>[] | null
     return (rows ?? []).map(r => ({ issue, at: r.at as string, actor: { kind: r.actor_kind as 'founder' | 'automation', id: r.actor_id as string }, action: r.action as string, from: (r.from_state as State) ?? undefined, to: (r.to_state as State) ?? undefined, detail: r.detail as Record<string, unknown> }))
   }
   async setStoryDecision(issue: number, id: string, decision: 'approved' | 'rejected' | 'revise', note?: string) {

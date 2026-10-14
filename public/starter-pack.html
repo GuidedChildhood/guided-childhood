@@ -82,8 +82,8 @@ p{line-height:1.8;font-size:1.02rem}
 .copy-btn:hover,.copy-btn.done{background:var(--green-lt);color:var(--green-dark);border-color:var(--green)}
 /* character speech bubbles */
 .char-bubble{position:relative;background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:8px 28px 8px 10px;font-size:.75rem;color:var(--ink);line-height:1.55;margin-bottom:10px;text-align:left}
-.char-bubble::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--border);border-bottom:none}
-.char-bubble::before{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--warm);border-bottom:none;z-index:1}
+.char-bubble::after{content:'';position:absolute;bottom:-9px;left:var(--arrow-x,50%);transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--border);border-bottom:none}
+.char-bubble::before{content:'';position:absolute;bottom:-8px;left:var(--arrow-x,50%);transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--warm);border-bottom:none;z-index:1}
 .char-bubble button{position:absolute;top:5px;right:8px;background:none;border:none;font-size:.95rem;color:var(--ink-light);cursor:pointer;padding:0;line-height:1}
 
 /* result layout */
@@ -483,39 +483,42 @@ function renderConvTab(stageId, challenge) {
   </div>`;
 }
 
-function renderHelpersPanel() {
-  const charImg = (src, alt, animation) =>
-    `<img src="${src}" alt="${alt}" style="width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:top;margin:0 auto 10px;display:block;animation:${animation};border:3px solid rgba(0,0,0,.06)">`;
+// The Planet Friends, one per stage (digi-squad/README.md). Oliver, Zara and
+// Sofia were retired on 23 July 2026 and their art is gone, so this panel drew
+// three broken images until 14 October 2026. The child's own Friend is lit and
+// says its line from the character bible; the other four wait further along.
+const FRIENDS = [
+  {stage:1, name:'Pebble', ages:'4 to 7', says:"I'm Pebble. I help you notice feelings, practise kindness and ask whether something on a screen is real."},
+  {stage:2, name:'Bloop', ages:'8 to 10', says:"I'm Bloop. I help with gaming, routines and keeping personal things private."},
+  {stage:3, name:'Orbit', ages:'11 to 13', says:"I'm Orbit. I like a question that needs checking."},
+  {stage:4, name:'Nova', ages:'13 to 15', says:"I'm Nova. I help you recognise pressure and think through difficult choices online."},
+  {stage:5, name:'Cosmo', ages:'16 plus', says:"I'm Cosmo. More independence brings decisions you need to make yourself. Being confident includes knowing when to ask for help."},
+];
+
+function renderHelpersPanel(stageId) {
+  const own = FRIENDS.find(f => f.stage === stageId) || FRIENDS[1];
+  const friend = f => {
+    const lit = f.stage === own.stage;
+    return `<div class="helper-char" style="opacity:${lit ? 1 : .55}">
+        <img src="/digi-squad/friends/${f.name.toLowerCase()}.png" alt="${f.name}" width="${lit ? 64 : 48}" height="${lit ? 64 : 48}" style="width:${lit ? 64 : 48}px;height:${lit ? 64 : 48}px;object-fit:contain;margin:${lit ? 0 : 16}px auto 6px;display:block;${lit ? 'animation:char-bob 2.2s ease-in-out infinite' : ''}">
+        <div class="helper-name" style="font-size:${lit ? '.9rem' : '.78rem'}">${f.name}</div>
+        <div class="helper-role" style="letter-spacing:0;text-transform:none;white-space:nowrap">${f.ages}</div>
+      </div>`;
+  };
 
   return `<div class="helpers-panel">
     <div style="text-align:center">
       <span style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--green-lt);color:var(--green-dark);padding:5px 14px;border-radius:8px">On the platform</span>
     </div>
     <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your guides</h2>
-    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia guide your child. DiGi is yours.</p>
-    <div class="helpers-row">
-      <div class="helper-char">
-        <div class="char-bubble" id="hb-oliver"><button onclick="clearBubble('hb-oliver')" aria-label="dismiss">&times;</button>Ready to find out why your brain loves screens? Let's kick off!</div>
-        ${charImg('/digi-squad/Oliver.png','Oliver','char-bob 2.2s ease-in-out infinite')}
-        <div class="helper-name">Oliver</div>
-        <div class="helper-role">Screen time</div>
-      </div>
-      <div class="helper-char">
-        <div class="char-bubble" id="hb-zara"><button onclick="clearBubble('hb-zara')" aria-label="dismiss">&times;</button>We are going on a detective mission. Put your thinking hat on!</div>
-        ${charImg('/digi-squad/Zara.png','Zara','char-wave 2s ease-in-out infinite .3s')}
-        <div class="helper-name">Zara</div>
-        <div class="helper-role">Online safety</div>
-      </div>
-      <div class="helper-char">
-        <div class="char-bubble" id="hb-sofia"><button onclick="clearBubble('hb-sofia')" aria-label="dismiss">&times;</button>Time to build your privacy shield. Ready to be a guardian?</div>
-        ${charImg('/digi-squad/Sofia.jpeg','Sofia','char-float 2.6s ease-in-out infinite .6s')}
-        <div class="helper-name">Sofia</div>
-        <div class="helper-role">Conversations</div>
-      </div>
+    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">A Planet Friend for every stage guides your child. DiGi is yours.</p>
+    <div class="char-bubble" id="hb-friend" style="margin:16px 0 0;--arrow-x:${10 + 20 * (own.stage - 1)}%"><button onclick="clearBubble('hb-friend')" aria-label="dismiss">&times;</button>${own.says}</div>
+    <div class="helpers-row" style="gap:4px;align-items:flex-end">
+      ${FRIENDS.map(friend).join('')}
     </div>
 
     <div style="margin-top:18px;background:var(--warm);border-radius:16px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px">
-      <img src="/digi-squad/Digi.png" alt="DiGi" style="width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;display:block;flex-shrink:0;border:3px solid var(--green-dark);animation:char-float 2.6s ease-in-out infinite">
+      <img src="/digi-squad/DiGi-star-3d.png" alt="DiGi" width="64" height="68" style="width:64px;height:68px;object-fit:contain;display:block;flex-shrink:0;animation:char-float 2.6s ease-in-out infinite">
       <div>
         <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px">Your advisor</div>
         <p style="font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em">DiGi</p>
@@ -723,7 +726,7 @@ function renderResult(){
     <!-- CARD 5: Save pathway -->
     <div class="deck-card" id="dc-4">
       <div style="padding-top:8px">
-        ${renderHelpersPanel()}
+        ${renderHelpersPanel(stageId)}
 
         <div style="padding:24px 0 20px">
           <p style="font-size:1.3rem;font-weight:800;color:var(--ink);line-height:1.45;margin-bottom:6px;letter-spacing:-.02em">Imagine this time next year.</p>
