@@ -160,12 +160,24 @@ idea rather than refreshing it as the news.
 - Never two posts in a day.
 - No link in the body. It goes in the first comment and the body says so.
 
-## 10. The filing
+## 10. The filing and the number
 
 One folder. One file per number. Status in the title, never inside the body
 text, because "GDC-030done" on line one is invisible in a file list. No
 duplicates across folders, and an empty file is deleted rather than kept as a
 placeholder.
+
+**The number comes from `content/gdc-post-register.md` and nowhere else.** Claim
+the row before writing the post. A rewrite keeps its number; only a new post
+takes a new one.
+
+This rule is here because the numbering broke twice in two days, both times by
+assuming a number was free instead of establishing it. 022 was already published,
+with "done" hidden inside its body. 036, 037 and 038 were already in use by the
+daily packs, and were missed because those are markdown files while the search
+looked only at Google Docs. Two systems assign these numbers and neither can see
+the other, so **search every file type, and never trust a listing filtered to
+one of them.**
 
 ## The output
 

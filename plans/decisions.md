@@ -560,3 +560,38 @@ question underneath, answered our way: 24 silent UGC stories, each with a real
 app proof path and the stage check at the end. The gap: he says "add more as
 they show they are ready" and never says what ready looks like.
 `content/packs/2026-10-14-reels-story-bank/`. PR 1293.
+
+## 14 October 2026: the last three ChatGPT posts rewritten, and one register for the numbers
+
+Justin: review the last three ChatGPT posts, make sure the word sequences do not
+read as machine written, and put his own writing style in.
+
+**The three.** GDC-037 the film, GDC-038 the Bradford trial, GDC-039 the Ofcom
+gaming figures. Rewritten in `content/packs/2026-10-14-gdc-037-to-039/`. A
+rewrite keeps its number, so they stay 037, 038 and 039.
+
+**The fingerprint across all three**, which is what an AI check would catch: the
+same "imagine two children" framing twice, the concession announced as "the
+strongest opposing point" twice, a "design consequence for Guided Childhood"
+paragraph in all three, and every paragraph the same length throughout. Any one
+is forgivable. The three together are a formula.
+
+**The personal angle was the missing piece and GDC-039 said so out loud:** "no
+approved founder or family anecdote naturally connects to this claim." Wrong
+three times. Each rewrite now opens on one true green scene, used once, none
+repeated, no children in any of them: he watched a feed narrow in his own house
+(037), he has argued for years on evidence that cannot settle it (038), he set a
+timer because it was the rule he could enforce (039).
+
+**What was kept:** the overclaim notes, nearly whole. All three were right about
+the hard parts, including refusing to shorten the coroner's conclusion on Molly
+Russell, refusing to state the Bradford daily cap while sources disagree, and
+refusing to call the Ofcom parent figures a twelve point gap.
+
+**The numbering broke a second time and the fix is a register.** 036, 037 and 038
+were assigned to rewrites yesterday when all three were already in use, missed
+because the daily packs are markdown files and the search filtered to Google
+Docs. Those three are now 040, 041 and 042. `content/gdc-post-register.md` is the
+single place a number is claimed, routed from drive-post-review. The real cause
+is that two systems assign numbers and neither can see the other, which the
+register fixes only if both write to it.
