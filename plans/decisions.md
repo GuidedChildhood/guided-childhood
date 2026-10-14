@@ -572,3 +572,22 @@ lane must not open on "I".
 Drive doc rebuilt with the order at the top and the old copy trashed. Register
 rows say planned, not posted, because only Justin can confirm a post went out.
 PR 1298.
+
+## 14 October 2026: the Drive post review now runs itself
+
+Justin: "can this review all posts put in gdrive from now on and re write them
+with our skills." The review existed as a rule since 13 October but nothing fired
+it, so it only ran when a session happened to look. There is now a "Drive post
+review" Routine, weekday mornings at 07:59 London, fresh session each time,
+trigger trig_014ZRsPNyD2PhAk56Gz2cbWn.
+
+Two things make it safe to run unattended. A reviewed post gets CLAUDE REVIEWED
+in its Drive title, which is what stops the next run rewriting a post he has
+already published. And `content/brand-story/founder-scenes-used.md` is new: a
+ledger of which true scene went into which post, because a routine with no
+memory of the last run would use the strongest scene every day until the voice
+became a jingle.
+
+It cannot hold the Google Drive connector from here, same refusal as the Monday
+radar, so until Justin attaches Drive in the claude.ai Routines page it will say
+it cannot see Drive and stop rather than guess. PR 1298.
