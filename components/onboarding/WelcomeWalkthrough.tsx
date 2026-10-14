@@ -592,6 +592,10 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
           background: card.sceneBg ?? '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
           boxShadow: 'var(--lift)', padding: '18px 16px', overflow: 'hidden',
           display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200,
+          // Never squeezed: with overflow hidden a flex item may shrink below
+          // its content, which cut the foot off the scripts, DiGi and child
+          // scenes on a phone. The middle scrolls instead, as it was meant to.
+          flexShrink: 0,
         }}>
           {card.scene}
         </div>
