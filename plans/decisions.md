@@ -560,3 +560,14 @@ question underneath, answered our way: 24 silent UGC stories, each with a real
 app proof path and the stage check at the end. The gap: he says "add more as
 they show they are ready" and never says what ready looks like.
 `content/packs/2026-10-14-reels-story-bank/`. PR 1293.
+
+## 14 October 2026: Happy News design system in Claude Design; printables start from it
+
+After a design critique of The Planet Post canvas (friends band, bigger lead
+text and stars, clearer answers), Justin said go on a design system. "Guided
+Childhood Happy News" now lives in Claude Design
+(https://claude.ai/artifact/LgLM8FhZ63cKbvkYZT6BWT): our tokens, Nunito and
+IBM Plex Mono, five components (ChunkyButton, Sticker, Burst, Ribbon,
+FriendPlate) and the approved DiGi and Planet Friends art as uploads, never
+regenerated. Every next printable canvas (Screen Time Tickets first) starts
+from it. It is a copy, not synced: when shared/tokens.css changes, update it.
