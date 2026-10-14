@@ -1,0 +1,27 @@
+{
+  "name": "first-phone-ad",
+  "size": "portrait",
+  "numbered": false,
+  "cards": [
+    {
+      "name": "a-the-phone-moment",
+      "type": "cta",
+      "lead": "orbit",
+      "tag": "Ages 2 to 16",
+      "eyebrow": "Before the first phone",
+      "headline": "One day you'll hand them <mark>a phone.</mark>",
+      "body": "Will they be ready for it? See where your child is today.",
+      "pill": "What stage is your child? &rarr;"
+    },
+    {
+      "name": "b-times-up",
+      "type": "cta",
+      "lead": "orbit",
+      "tag": "Ages 2 to 16",
+      "eyebrow": "Before the first phone",
+      "headline": "Tired of saying <mark>time's up</mark> every night?",
+      "body": "Swap the nightly fight for a plan you work through together.",
+      "pill": "What stage is your child? &rarr;"
+    }
+  ]
+}
