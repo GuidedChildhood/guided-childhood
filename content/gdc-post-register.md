@@ -63,9 +63,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 034 | The safety rule only works if we can measure it | superseded by 024 | Drive archive |
 | 035 | The risk assessment belongs before the feature | ready | Drive markdown |
 | 036 | Fifteen minutes is not a safety test | ready | Drive markdown |
-| 037 | The film is dramatic. The design problem is real. | **rewritten 14 Oct** | this pack |
-| 038 | Four thousand teenagers are about to test what argument cannot | **rewritten 14 Oct** | this pack |
-| 039 | The rule I could actually enforce | **rewritten 14 Oct** | this pack |
+| 037 | The film is dramatic. The design problem is real. | ready, planned Fri 16 Oct | this pack |
+| 038 | Four thousand teenagers are about to test what argument cannot | ready, planned Mon 19 Oct | this pack |
+| 039 | The rule I could actually enforce | ready, planned Wed 14 Oct | this pack |
 | 040 | Two children, same game | ready | moved off 036 |
 | 041 | How would you test readiness | ready | moved off 037 |
 | 042 | Same app, different rules | ready | moved off 038 |
@@ -82,3 +82,7 @@ The **POSTED** rows are taken from a "done" marker inside each document. Only
 Justin can confirm a post actually went out and on what date. A URL and a date
 against each posted row would make this register trustworthy rather than merely
 tidy, and would let us judge the posts on what they did.
+
+A **planned** date is an intended running order, nothing more. Claude cannot
+post and does not know whether a post went out, so a planned row stays planned
+until Justin says otherwise. Only he moves a row to POSTED.

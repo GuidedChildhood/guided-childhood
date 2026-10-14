@@ -6,6 +6,43 @@ sequences do not read as machine written, and put his own writing style in.
 A rewrite keeps its number. These are the same three ideas, rewritten, so they
 stay 037, 038 and 039.
 
+## The running order
+
+Justin, 14 October 2026: go ahead, and tell him the order. Three posts, never
+two in a day, weekday mornings, six days end to end.
+
+**1. GDC-039, the gaming one. Wednesday 14 October, today.**
+Ofcom published Growing Up Gaming on 13 October. A report a day old is a reason
+to post. The same report in eight days is homework. It also has the strongest
+open of the three and his own numbers say so: in the 28 days to 6 October, the
+two posts that opened on an admitted uncertainty did 6,008 and 3,155 impressions
+and carried 67 percent of the month's comments, while the two that opened on a
+figure did 1,002 and 698 and got none. "I set a timer because it was the rule I
+could actually enforce" is that shape exactly, and the four questions at the
+close ask for something only a parent can answer.
+
+**2. GDC-037, the film one. Friday 16 October.**
+The Social Reckoning went into UK cinemas on 9 October, so the conversation is
+live for another week or two and then it is gone. Friday leaves a clear day
+after 039 and keeps the week at two posts rather than three inside four days.
+
+**3. GDC-038, the Bradford trial. Monday 19 October.**
+The only one of the three with no clock on it. There are no results until 2028,
+so nothing about it goes stale and it loses nothing by waiting. Monday also puts
+it in front of the research sweep rather than behind it, and it is the post most
+likely to pull replies from researchers and school leaders rather than parents.
+That is a different room and worth a day of its own.
+
+### What the order does not fix
+
+All three now open in the first person on something he got wrong or could not
+settle. The admissions are different in kind: a rule he could enforce, a turn he
+could not see, an argument he cannot win. But three in a row is a pattern of its
+own, and anyone who reads him closely will feel it by the third. Spacing them
+over six days is most of the answer. The rest is that the fourth post in this
+lane should not open on "I". Worth writing down now, before it becomes the next
+formula.
+
 ## The tells that ran across all three
 
 Not individually damning. Together they are a fingerprint, because they are the

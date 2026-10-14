@@ -554,3 +554,21 @@ IBM Plex Mono, five components (ChunkyButton, Sticker, Burst, Ribbon,
 FriendPlate) and the approved DiGi and Planet Friends art as uploads, never
 regenerated. Every next printable canvas (Screen Time Tickets first) starts
 from it. It is a copy, not synced: when shared/tokens.css changes, update it.
+
+## 14 October 2026: GDC-039, 037, 038 running order approved
+
+Justin: go ahead on the posts, and suggest an order. It runs 039 on Wednesday 14
+October, 037 on Friday 16 October, 038 on Monday 19 October.
+
+The clock on each one sets the order. 039 rests on Ofcom's Growing Up Gaming,
+published 13 October, so it is worth most today and least next week. 037 rests on
+a film that leaves cinemas. 038 has no clock at all, since the Bradford trial
+reports in 2028, so it waits and takes the Monday research slot.
+
+What the order does not fix: all three now open in the first person on something
+Justin got wrong. Three in a row is its own pattern, so the fourth post in this
+lane must not open on "I".
+
+Drive doc rebuilt with the order at the top and the old copy trashed. Register
+rows say planned, not posted, because only Justin can confirm a post went out.
+PR 1298.
