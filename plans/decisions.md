@@ -528,6 +528,9 @@ Justin: be clear on the audience; more Happy News icons; lettering; the family a
 
 Justin asked for agents that check the platform weekly on ten questions until each is ten out of ten, with a dashboard and an alert at every session that asks him whether his tasks are done. Ten lens agents and a chief of staff (`.claude/agents/review-*`) score out of ten; a skeptic must agree to any nine or ten, and a lens closes only after two weeks at ten. Every gap passes the feedback filter before it becomes a task. A SessionStart hook prints the alert and asks about each of Justin's tasks at most once a day; answers are one file each in `plans/review-board/answers/` so parallel sessions never collide. Routine: Friday 06:49 London. First run: 0 of 11 at ten, scores 6 to 8, 33 tasks. PR 1288.
 
+## 14 October 2026: competitor sightings logged, and a first phone ad drafted
+
+Justin saw seven parenting and family app ads on Instagram and asked if he should worry. None does our core loop; Kairoo (screen agreement and bedtime reminders) is the closest and takes the job off the parent, the opposite of commitment 2. All seven are logged in `briefings/notes/competitor-sightings.md`, which the competitor watch lens now reads. No ad named the first phone, so an ad that opens on it was drafted (three cards plus captions, organic first per the money rule). A second sweep the same day added Balance Phone (a phone maker now running our readiness hook), Qustodio (now leading on the battle) and Nuet (the plain voice; it overlaps our school letterbox), with seven campaign lessons in the same file: `content/packs/2026-10-14-first-phone-ad/`. Nothing posted.
 ## 13 October 2026: 377's grants are fixed, its name collision is not
 
 The planet lane answered the guard in PR 1290 and chose well: the grants went

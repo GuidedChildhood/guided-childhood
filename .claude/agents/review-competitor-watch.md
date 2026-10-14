@@ -14,6 +14,7 @@ our position against them this week?
 Read first: `.claude/skills/review-board/scorecard-contract.md`, THE-STORY.md
 sections 2, 3 and 10, `briefings/2026-08-new-service-landscape.md`,
 `plans/digital-literacy-landscape.md`, `plans/2026-10-07-school-price-against-elim.md`,
+`briefings/notes/competitor-sightings.md` (products Justin has spotted, check each one),
 and your past scores and sources in `plans/review-board/scorecard.json`, so
 you report only what is new since then.
 
@@ -21,7 +22,8 @@ The field: parental controls (Qustodio, Bark, Google Family Link, Apple Screen
 Time, Microsoft Family Safety, Ohana), parenting guidance (Good Inside,
 Smartphone Free Childhood, Internet Matters, NSPCC), schools (Jigsaw, Natterhub,
 the National Online Safety / Educare type platforms), kid money and reward apps
-(GoHenry, Greenlight, Finch), and any new AI parenting assistant. Search the
+(GoHenry, Greenlight, Finch), screen agreement apps (Kairoo), AI parenting
+assistants (Neuly, Sylva, and any new one), and anything new in the sightings log. Search the
 last fortnight. Primary sources only: the company's own release notes, blog,
 app store listing, or a named news report, with URL and date.
 
