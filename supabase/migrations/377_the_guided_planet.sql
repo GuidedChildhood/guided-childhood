@@ -12,8 +12,11 @@
 --   planet_issue_versions   every version of the issue file that was synced,
 --                           so the approved words are kept for ever
 --   planet_stories          the candidate stories and the founder's decision
---   planet_events           the audit trail, append only (the trigger below
---                           refuses any update or delete)
+--   planet_issue_events     the audit trail, append only (the trigger below
+--                           refuses any update or delete). Not planet_events:
+--                           that is the children's Planet Friends ledger (252),
+--                           and "if not exists" would have quietly skipped this
+--                           table and put the append only lock on theirs.
 --   planet_releases         one row per issue and channel; the unique key is
 --                           what makes publishing idempotent
 --   planet_generations      every Higgsfield attempt and the credits reported
@@ -66,7 +69,7 @@ create table if not exists public.planet_stories (
   primary key (issue, id)
 );
 
-create table if not exists public.planet_events (
+create table if not exists public.planet_issue_events (
   id bigserial primary key,
   issue int not null,
   at timestamptz not null default now(),
@@ -78,19 +81,19 @@ create table if not exists public.planet_events (
   detail jsonb not null default '{}'::jsonb
 );
 
-create index if not exists idx_planet_events_issue on public.planet_events (issue, at);
+create index if not exists idx_planet_issue_events_issue on public.planet_issue_events (issue, at);
 
 -- The audit trail is append only. A row can be added; nothing can change or
 -- remove one, the service role included.
-create or replace function public.planet_events_append_only() returns trigger
-language plpgsql as $$
+create or replace function public.planet_issue_events_append_only() returns trigger
+language plpgsql set search_path = '' as $$
 begin
-  raise exception 'planet_events is append only';
+  raise exception 'planet_issue_events is append only';
 end $$;
 
-drop trigger if exists planet_events_no_change on public.planet_events;
-create trigger planet_events_no_change before update or delete on public.planet_events
-  for each row execute function public.planet_events_append_only();
+drop trigger if exists planet_issue_events_no_change on public.planet_issue_events;
+create trigger planet_issue_events_no_change before update or delete on public.planet_issue_events
+  for each row execute function public.planet_issue_events_append_only();
 
 create table if not exists public.planet_releases (
   issue int not null references public.planet_issues(number) on delete restrict,
@@ -132,7 +135,7 @@ create table if not exists public.planet_budgets (
 alter table public.planet_issues enable row level security;
 alter table public.planet_issue_versions enable row level security;
 alter table public.planet_stories enable row level security;
-alter table public.planet_events enable row level security;
+alter table public.planet_issue_events enable row level security;
 alter table public.planet_releases enable row level security;
 alter table public.planet_generations enable row level security;
 alter table public.planet_budgets enable row level security;
@@ -143,16 +146,16 @@ alter table public.planet_budgets enable row level security;
 -- (scripts/check-migration-grants.mjs). The audit trail gets no update or
 -- delete, on top of its trigger.
 revoke all on public.planet_issues, public.planet_issue_versions, public.planet_stories,
-  public.planet_events, public.planet_releases, public.planet_generations,
+  public.planet_issue_events, public.planet_releases, public.planet_generations,
   public.planet_budgets from anon, authenticated;
 grant select, insert, update, delete on public.planet_issues to service_role;
 grant select, insert, update, delete on public.planet_issue_versions to service_role;
 grant select, insert, update, delete on public.planet_stories to service_role;
-grant select, insert on public.planet_events to service_role;
+grant select, insert on public.planet_issue_events to service_role;
 grant select, insert, update, delete on public.planet_releases to service_role;
 grant select, insert, update, delete on public.planet_generations to service_role;
 grant select, insert, update, delete on public.planet_budgets to service_role;
-grant usage, select on sequence public.planet_issue_versions_id_seq, public.planet_events_id_seq to service_role;
+grant usage, select on sequence public.planet_issue_versions_id_seq, public.planet_issue_events_id_seq to service_role;
 
 -- The private bucket for proofs, previews and approved art.
 insert into storage.buckets (id, name, public)

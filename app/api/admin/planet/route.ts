@@ -12,7 +12,7 @@ import { authorise, current, decideStory, GateError, transition, type Actor } fr
 // workflow would refuse.
 //
 // Actions: decide-story, approve-stories, request-changes, approve-final,
-// authorise, budget, art-decision. Each is recorded in planet_events.
+// authorise, budget, art-decision. Each is recorded in planet_issue_events.
 
 export const dynamic = 'force-dynamic'
 

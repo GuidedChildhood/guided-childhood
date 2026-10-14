@@ -109,12 +109,11 @@ what it skipped. Nothing here costs money until the step says so.
    drafting), `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`,
    `RESEND_API_KEY` and `FOUNDER_NOTIFY_EMAIL` (the approval emails). Settings,
    Secrets and variables, Actions, in the repository on GitHub.
-4. **Email for the newspaper list: a decision.** There is no Mailchimp account
-   or code in this repo; the house email is Resend, with its one email a week
-   floor. If Mailchimp, set `MAILCHIMP_API_KEY`, `MAILCHIMP_SERVER` (the `us21`
-   style prefix at the end of the key) and `MAILCHIMP_AUDIENCE_ID` (Audience,
-   Settings, Audience name and defaults). The engine only ever creates a draft
-   campaign.
+4. **Email for the newspaper list: Resend** (Justin, 14 October 2026). The
+   house email, one sender reputation, no second account. The channel is
+   being moved from a Mailchimp draft campaign to a Resend draft broadcast;
+   until that lands, the code still has the Mailchimp channel. Either way
+   the engine only ever creates a draft, and Justin presses send.
 5. **Google Drive** has no API code in this repo, only the connector in Claude
    sessions. A session uploads the package to "Guided Childhood Research / The
    Guided Planet / Issue NNN" when asked.
