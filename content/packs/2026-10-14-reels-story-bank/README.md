@@ -15,6 +15,10 @@ script in the app.
 
 Nothing here has been filmed, posted, boosted or scheduled.
 
+**In Drive:** Control Room > Reels story bank (14 October 2026), folder id
+`1B7SRhUGdYQCGYlL9EmC4fo7L5zc6L9m1`. The story bank and both research
+catalogues are there as Google Docs. This file is the source; Drive is the copy.
+
 ## The gap we are filling
 
 He has 296K followers on TikTok and sells a $27 iPhone settings course (the ad
@@ -208,7 +212,7 @@ These sit next to the first phone ad in PR 1291 and Short 2 ("Not an age. A stag
 These answer his fear thread (predators, sextortion, about 23M plays) without
 using fear. The parent's first reaction is the main character, never the
 stranger or the platform. Hidden thread rule: at most one of these in ten
-posts, and Justin approves each one.
+posts. Justin approved both on 14 October 2026, on the rules below.
 
 **19. The first thing you want to say**
 - His topic: predators and strangers in games (TikTok 1, 8, 15, 29).
@@ -224,7 +228,7 @@ posts, and Justin approves each one.
 - Hook: **If it ever happens, the first sentence matters most. Have it ready before you need it.**
 - Held shot: a sticky note on the inside of a kitchen cupboard door, words not readable.
 - Proof: script "Someone has a photo and is demanding money" (migration 153, checked against NCA guidance and Report Remove).
-- Rules: no case story, no statistics on screen, no named platform. Justin approves before it goes anywhere.
+- Rules: no case story, no statistics on screen, no named platform. Approved by Justin on 14 October on these rules; any change to the line comes back to him.
 
 ### AI
 
@@ -273,6 +277,8 @@ From his catalogue, these do not become ours in any form:
 - Any claim that a child will be safer, calmer or ready because of us.
 
 ## Film first
+
+Chosen by Justin, 14 October 2026: stories 24, 5 and 10, in that order.
 
 1. **Story 24** (the setting is the easy part). It is the cleanest statement of the difference, and its proof path is the core loop.
 2. **Story 5** (everyone else is allowed). The parent's own question as the hook, which our 9 October research found is the strongest hook in this niche, plus a script he does not have.
