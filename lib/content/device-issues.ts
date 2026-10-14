@@ -127,7 +127,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     name: 'The meltdown when the screen goes off',
     words: 'VERBATIM thread titles: "4 year old tantruming when iPad taken away", "the most horrendous melt downs".',
     mechanism: 'Children get good at staying on a task years before they get good at leaving one, and a parent calling time becomes the thing that ended the fun.',
-    response: 'Hand the ending to the content: agree the stopping point before it starts, let the episode or the timer end it, and let them press the button. The one study that tested the two minute warning found it made things worse.',
+    response: 'Hand the ending to the content: agree the stopping point before it starts, let the episode or the timer end it, and let them press the button. In the one close study of screen endings, warned endings were followed by more upset, not less.',
     prevent: 'From the first tablet, endings are set by the content or the timer, never by a countdown, so the rule the console and the phone will need later is already the rule.',
     source: HINIKER,
     proof: { scripts: ['The two minute warning is making it worse', 'Refusing to stop when time is up', 'When Screen Time Ends in Tears'], category: 'screen-time', concernSlug: 'wont-put-down', mechanic: ['timer', 'core_time'], href: '/dashboard/scripts?cat=screen-time' },
