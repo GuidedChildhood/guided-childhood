@@ -91,8 +91,7 @@ begin
   raise exception 'planet_issue_events is append only';
 end $$;
 
-drop trigger if exists planet_issue_events_no_change on public.planet_issue_events;
-create trigger planet_issue_events_no_change before update or delete on public.planet_issue_events
+create or replace trigger planet_issue_events_no_change before update or delete on public.planet_issue_events
   for each row execute function public.planet_issue_events_append_only();
 
 create table if not exists public.planet_releases (
