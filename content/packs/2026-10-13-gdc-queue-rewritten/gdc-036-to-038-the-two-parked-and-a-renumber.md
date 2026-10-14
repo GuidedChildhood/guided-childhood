@@ -1,3 +1,9 @@
+> **Renumbered on 14 October.** These were 036, 037 and 038, and all three
+> numbers were already in use by the daily packs in Drive, which I missed
+> because they are markdown files and my search filtered to Google Docs. They
+> are 040, 041 and 042 now. Numbers are claimed in
+> `content/gdc-post-register.md` from here on.
+
 # GDC-036 to GDC-038
 
 Two posts I had parked, now written because Justin asked for them, plus one
@@ -43,7 +49,7 @@ Current state, with the collision gone:
 
 ---
 
-## GDC-037 · How would you test readiness
+## GDC-041 · How would you test readiness
 
 *Was the parked GDC-001. The original was built on a Californian bill whose fate
 I cannot verify from here, which is most of why I parked it. The idea underneath
@@ -81,7 +87,7 @@ Nothing in this one is a research finding and I want to be straight about that. 
 
 ---
 
-## GDC-038 · Same app, different rules
+## GDC-042 · Same app, different rules
 
 *Was the parked GDC-025. I had parked it as making the same point as "Two
 children, same game", and on a second read that was wrong. GDC-036 is about

@@ -160,12 +160,24 @@ idea rather than refreshing it as the news.
 - Never two posts in a day.
 - No link in the body. It goes in the first comment and the body says so.
 
-## 10. The filing
+## 10. The filing and the number
 
 One folder. One file per number. Status in the title, never inside the body
 text, because "GDC-030done" on line one is invisible in a file list. No
 duplicates across folders, and an empty file is deleted rather than kept as a
 placeholder.
+
+**The number comes from `content/gdc-post-register.md` and nowhere else.** Claim
+the row before writing the post. A rewrite keeps its number; only a new post
+takes a new one.
+
+This rule is here because the numbering broke twice in two days, both times by
+assuming a number was free instead of establishing it. 022 was already published,
+with "done" hidden inside its body. 036, 037 and 038 were already in use by the
+daily packs, and were missed because those are markdown files while the search
+looked only at Google Docs. Two systems assign these numbers and neither can see
+the other, so **search every file type, and never trust a listing filtered to
+one of them.**
 
 ## The output
 
@@ -176,3 +188,36 @@ Three things, and stop.
 3. **What Justin has to decide**, named plainly.
 
 Never post, schedule or send anything. Justin does that.
+
+## The daily sweep
+
+**Justin, 14 October 2026: "can this review all posts put in gdrive from now on
+and re write them with our skills."**
+
+A rule nothing fires is a rule nobody runs. The review above was a thing a
+session did when it happened to look. The "Drive post review" Routine now runs
+it on weekday mornings, so a post that lands in Drive overnight is reviewed and
+rewritten before Justin would have posted it.
+
+**The folder.** `GDC POSTS, NUMBER ORDER, READY TO POST`, id
+`10aMT3F_jHHDaQB_SpbX-yWahLjg9_m5U`.
+
+**What counts as new.** Any post in that folder whose title does not carry
+`CLAUDE REVIEWED`. Search every file type, because the numbering has already
+broken twice on a listing filtered to Google Docs while the thing it needed was
+a markdown file.
+
+**The marker is the title, and it is how the sweep stays idempotent.** When a
+post has been through this review, its Drive title gains `CLAUDE REVIEWED` and
+the date. Without that, every run reviews the same posts again, and the day it
+misses the marker is the day it rewrites a post Justin has already published.
+
+**A scene is spent once.** The sweep takes one green scene per post from
+`content/brand-story/founder-context.md`, checks it against
+`content/brand-story/founder-scenes-used.md` first, and adds the row after. A
+routine with no memory of the last run will use the strongest scene every day
+until the voice is a jingle.
+
+**Finding nothing is a result.** No unreviewed post means one line saying so and
+nothing else. No pull request, no Drive document, no post invented to justify
+the run.
