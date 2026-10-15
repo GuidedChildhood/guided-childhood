@@ -23,3 +23,10 @@ optional lines in the PR body.
 Not started. This cloud container has no GPU (4 CPUs, 15 GB RAM), so ACE-Step
 cannot run here in useful time. Route: a hosted endpoint, or Justin's own
 machine if it has an NVIDIA GPU or Apple Silicon.
+
+## Sample attempt (15 October 2026)
+
+Higgsfield makes speech only, no music. The free ACE-Step 1.5 demo on Hugging
+Face works with no cost, but anonymous runs from this machine hit its limit.
+`make_sample.py` is ready: add a free Hugging Face Read token as `HF_TOKEN` in
+the environment settings, start a new session, and say "make the sample".
