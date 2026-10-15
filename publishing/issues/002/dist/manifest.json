@@ -6,19 +6,19 @@
       "bytes": 678585
     },
     "guided-planet-002-ink.pdf": {
-      "sha256": "edf20e03b5ddb08a4c7a6bca6744cfb02c4e683d466d5be5a243b10357ecd60f",
+      "sha256": "4fbc262bfa4361e2900f6ad6ae1b88a4d76ac0c394504ee6d31da09ef44536da",
       "bytes": 2629135
     },
     "guided-planet-002-print.pdf": {
-      "sha256": "f8b7b5a24f0f0a00894ff3ba9564107c51567cc4ef443e747bfd41e6b46f64ab",
+      "sha256": "ff43bfd503292e867a6fe5a349e2cc5f39eda1c3ed644815c889e0fc81ddb281",
       "bytes": 8623464
     },
     "guided-planet-002-sources.pdf": {
-      "sha256": "102936e63b7851a8c599cc830c631a7b80f15066f54a3fbb686a0202a9013363",
+      "sha256": "b551982d0880ae5e4d720efb4eec8bb752141bd87a519575dec8765c805b8bb1",
       "bytes": 148797
     },
     "guided-planet-002.pdf": {
-      "sha256": "799a4facd1910763aef267ee62d73ef497dcb8c86db1c5ba2e98de3d8e87871a",
+      "sha256": "b2f29bc8f98ed60313a55e2afb9a8dfa1189c021222483a8ca4993e3110d14ea",
       "bytes": 2676885
     },
     "online/index.html": {
@@ -78,7 +78,7 @@
       "bytes": 174757
     },
     "report.json": {
-      "sha256": "0b91a32d8699fd3ed984f3469846a0196efb0eb247ba8535c5d29bac82e89fae",
+      "sha256": "aa387b077e8b8931a51beb05358e093d316c405ff3de52d80090f8f64e6bf127",
       "bytes": 3034
     }
   }
