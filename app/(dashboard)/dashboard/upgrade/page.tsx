@@ -28,7 +28,8 @@ const PAGE_NAMES: Record<string, string> = {
   '/dashboard/homework': 'The homework helper',
   '/dashboard/insights': 'Your insights',
   '/dashboard/passport': 'The passport',
-  '/dashboard/road': 'The road to 16',
+  '/dashboard/pathway': 'The passport',
+  '/dashboard/road': 'The passport',
   '/dashboard/week': 'Your week',
   '/dashboard': 'Your home page',
 }
