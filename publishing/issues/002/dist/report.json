@@ -1,7 +1,7 @@
 {
   "issue": "issue-002",
-  "contentHash": "767cbf3b596411de93083a47d1ba1899c598830137a31975b97fe2071e06d8b8",
-  "renderedAt": "2026-10-13T16:50:47.237Z",
+  "contentHash": "1383e354817f64dee1ef88676249cc2e2a0dbe1cd82b59b3e5c19280df5f02ee",
+  "renderedAt": "2026-10-15T13:56:29.826Z",
   "editorial": [
     {
       "level": "warn",
@@ -31,14 +31,12 @@
       ],
       "fontsEmbedded": true,
       "fonts": [
-        "IBMPlexMono-SemiBold",
-        "Fraunces-9ptBlack",
+        "IBMPlexMono-Bold",
         "Nunito-ExtraLight",
-        "Caveat-Regular",
-        "IBMPlexMono-Medium",
-        "IBMPlexMono-Bold"
+        "IBMPlexMono-SemiBold",
+        "IBMPlexMono-Medium"
       ],
-      "bytes": 7359169,
+      "bytes": 8623464,
       "ok": true,
       "problems": []
     },
@@ -51,14 +49,12 @@
       ],
       "fontsEmbedded": true,
       "fonts": [
-        "IBMPlexMono-SemiBold",
-        "Fraunces-9ptBlack",
+        "IBMPlexMono-Bold",
         "Nunito-ExtraLight",
-        "Caveat-Regular",
-        "IBMPlexMono-Medium",
-        "IBMPlexMono-Bold"
+        "IBMPlexMono-SemiBold",
+        "IBMPlexMono-Medium"
       ],
-      "bytes": 3057198,
+      "bytes": 2676885,
       "ok": true,
       "problems": []
     },
@@ -71,14 +67,12 @@
       ],
       "fontsEmbedded": true,
       "fonts": [
-        "IBMPlexMono-SemiBold",
-        "Fraunces-9ptBlack",
+        "IBMPlexMono-Bold",
         "Nunito-ExtraLight",
-        "Caveat-Regular",
-        "IBMPlexMono-Medium",
-        "IBMPlexMono-Bold"
+        "IBMPlexMono-SemiBold",
+        "IBMPlexMono-Medium"
       ],
-      "bytes": 3054805,
+      "bytes": 2629135,
       "ok": true,
       "problems": []
     }
@@ -86,53 +80,73 @@
   "images": [
     {
       "page": 1,
-      "src": "bloop-thinking.png",
-      "dpi": 420
+      "src": "pebble-wave.png",
+      "dpi": 813
+    },
+    {
+      "page": 1,
+      "src": "bloop-wave.png",
+      "dpi": 813
+    },
+    {
+      "page": 1,
+      "src": "orbit-wave.png",
+      "dpi": 813
+    },
+    {
+      "page": 1,
+      "src": "nova-wave.png",
+      "dpi": 813
+    },
+    {
+      "page": 1,
+      "src": "cosmo-wave.png",
+      "dpi": 813
     },
     {
       "page": 2,
       "src": "bloop-wave.png",
-      "dpi": 619
+      "dpi": 766
     },
     {
       "page": 3,
       "src": "orbit-thinking.png",
-      "dpi": 1182
+      "dpi": 1517
     },
     {
       "page": 5,
       "src": "bloop-thinking.png",
-      "dpi": 1084
+      "dpi": 1382
     },
     {
       "page": 7,
       "src": "pebble-wave.png",
-      "dpi": 1301
+      "dpi": 1682
     },
     {
       "page": 8,
       "src": "bloop-thinking.png",
-      "dpi": 565
+      "dpi": 697
     },
     {
       "page": 9,
       "src": "bloop-happy.png",
-      "dpi": 1084
+      "dpi": 1382
     },
     {
       "page": 10,
       "src": "orbit-wave.png",
-      "dpi": 1182
+      "dpi": 1517
     },
     {
       "page": 11,
       "src": "bloop-wave.png",
-      "dpi": 1084
+      "dpi": 1382
     },
     {
       "page": 12,
       "src": "bloop-happy.png",
-      "dpi": 765
+      "dpi": 955
     }
   ],
   "qrs": [

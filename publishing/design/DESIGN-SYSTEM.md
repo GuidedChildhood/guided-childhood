@@ -10,11 +10,30 @@ planet, in Guided Childhood's cream, ink and butter. Original: we learned
 recognisability and simplicity from The Happy Newspaper and copy nothing of its
 artwork, layout or lettering.
 
-## 0. The two themes
+## 0. The three themes
 
 Every issue names its look in `issue.json`, `"theme"`. Same pages, same checks.
 
-- **boho** (the default since 13 October 2026, `design/boho.css`). Justin: the
+- **happy** (the default since 15 October 2026, `design/happy.css`). Justin,
+  "yes to both": The Planet Post is the free four page taster and The Guided
+  Planet the monthly paper it leads into, and the two read as one family. So
+  the paper wears the Guided Childhood Happy News design system (Claude Design,
+  the same system `components/printables/news/PlanetPost.tsx` is built from):
+  white stock; ink `#1A1A2E` on every edge at 3px in print (.8mm) with a hard
+  ledge under every box (4px 5px, no blur); Nunito 900 headlines and IBM Plex
+  Mono caps eyebrows, no Fraunces or Caveat; the destination as one tilted
+  crayon ribbon per page (`crayon-sky`, `-butter`, `-green`, `-pink`, `-teal`,
+  `-coral`); two smiley dots at most; the cover is the Planet Post's front
+  grown up, a painted rainbow masthead with the name on a tilted white sheet, a
+  coral FREE burst, the lead beside the cover drawing, and the Planet Friends
+  band (the five approved waving stills on a crayon green hill, in the fixed
+  order Pebble, Bloop, Orbit, Nova, Cosmo). Friends sit on butter light plates.
+  Our drawings move onto crayon fills (`happySwap` in `templates/happy.ts`).
+  Type at the Planet Post's own print sizes: body 11 to 11.2pt, task text 10pt,
+  labels 7.5pt, and an inline type floor (`typeFloor` in `templates/index.ts`)
+  lifts anything the templates set smaller. The layout checks hold the theme to
+  a 6pt floor, which only the citation numerals in their rings come near.
+- **boho** (the default from 13 to 15 October 2026, `design/boho.css`). Justin: the
   family account's audience, Inspired by Alma's, loved the Happy News look, and
   the free downloads have to win them. Sand paper, espresso ink, the house
   butter and sage warmed into clay, mustard and dusty rose; headlines in

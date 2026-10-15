@@ -63,3 +63,31 @@ export const HAPPY_FOR: Record<string, string> = {
   make: 'make', tree: 'tree', magnifier: 'magnifier', compass: 'compass', calendar: 'calendar', sun: 'sun', tv: 'tv', cheer: 'cheer', read: 'read', eye: 'eye', friends: 'friends', time: 'time',
   scratch: 'games', 
 }
+
+// ── THE HAPPY NEWS SYSTEM (theme "happy") ───────────────────────────────────
+// Justin, 15 October 2026: The Guided Planet and The Planet Post read as one
+// family, so the paper wears the same Guided Childhood Happy News design system
+// (shared/happy-news.ts, the Claude Design system the Planet Post is built
+// from): white stock, ink edges, crayon fills, Nunito 900. Stated here once
+// for the print engine, which cannot import the app's TypeScript paths.
+export const HN = {
+  ink: '#1A1A2E', inkSoft: '#52526A', butter: '#EDC35F', butterLt: '#FEF7E0',
+  coral: '#E5734B', green: '#2E7D5A', sky: '#4B9CE5', pink: '#F9CFD9',
+} as const
+export const CRAYON = {
+  butter: '#F4D072', sky: '#8EC3F0', coral: '#F2957A', green: '#93CFA8', pink: '#F2A0C4', teal: '#7FCFC6',
+} as const
+
+/** The masthead rainbow in the house colours, the band order the Planet Post paints. */
+export const happyRainbow = (width = 200) => rainbow(width, [HN.coral, HN.butter, HN.green, HN.sky, HN.pink])
+
+// Our own drawings, moved onto crayon: the sage greens become crayon green and
+// the house green, the butter becomes crayon butter, the cream and pale tints
+// become paper. The night skies and the ink stay, so a drawing still reads as
+// ours, now coloured the way the Planet Post's are.
+const HAPPY_SWAP: [RegExp, string][] = [
+  [/#C9DBD2/gi, CRAYON.green], [/#8FB3A2/gi, HN.green], [/#6F9A86/gi, HN.green], [/#E8F0EE/gi, HN.butterLt],
+  [/#3E86BC/gi, HN.sky], [/#EDC35F/gi, CRAYON.butter], [/#8A8FA3/gi, CRAYON.sky], [/#FFF6DE/gi, HN.butterLt],
+  [/#F9F8F6/gi, '#FFFFFF'],
+]
+export const happySwap = (svg: string) => HAPPY_SWAP.reduce((s, [re, to]) => s.replace(re, to), svg)

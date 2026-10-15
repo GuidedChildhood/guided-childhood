@@ -161,7 +161,7 @@ export type Issue = {
   tagline: string
   coverHeadline: string
   sample?: boolean           // a structure test, watermarked, never published
-  theme?: 'editorial' | 'boho' // the look: cream editorial, or boho Happy News (design/boho.css)
+  theme?: 'editorial' | 'boho' | 'happy' // the look: cream editorial, boho (design/boho.css), or the Happy News system The Planet Post shares (design/happy.css)
   readingAge: string         // 7 to 12
   pages: Page[]
   sources: Source[]

@@ -168,9 +168,13 @@ test('the paper\'s Happy News icons are the app\'s own, not a drifting copy', as
   assert.match(out, /PASS/)
 })
 
-test('the boho theme is a look, not new rules: the same gates hold', () => {
+test('a theme is a look, not new rules: the same gates hold in every one', () => {
   const i = copy(1)
-  assert.equal(i.theme, 'boho')
-  i.theme = 'editorial'
-  assert.deepEqual(errors(i), [])
+  // Justin, 15 October 2026: the paper wears the Happy News system it shares
+  // with The Planet Post.
+  assert.equal(i.theme, 'happy')
+  for (const t of ['editorial', 'boho', 'happy'] as const) {
+    i.theme = t
+    assert.deepEqual(errors(i), [])
+  }
 })

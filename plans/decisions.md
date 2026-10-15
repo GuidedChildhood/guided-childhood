@@ -607,3 +607,12 @@ was missed rather than that twelve posts appeared overnight.
 
 The four docs that were already ours were retitled by hand to seed the marker,
 so the first real run finds nothing, which is the correct answer.
+
+## 15 October 2026: The Planet Post is the taster, The Guided Planet the paper, one look
+Justin, "yes to both". The Planet Post (free, four pages, wins the email) leads
+into The Guided Planet (monthly, twelve pages). The paper now wears the same
+Happy News design system: `"theme": "happy"`, `publishing/design/happy.css`,
+both issues switched, boho and editorial kept. Same words, sources and checks;
+no copy trimmed, no art generated, no credits spent. The theme change moves
+Issue 001's content hash, so its desk record needs a re-sync before approval
+two. Detail in PR #1307.

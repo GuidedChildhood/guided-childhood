@@ -19,7 +19,7 @@
 // Stars and scatter use a seeded generator, so the same issue prints the same
 // sky every time and a visual regression test can compare pages pixel for pixel.
 
-import { bohoSwap, HAPPY_FOR, happyIcons } from './happy'
+import { bohoSwap, HAPPY_FOR, happyIcons, happySwap } from './happy'
 
 const INK = '#1A1A2E'
 const CREAM = '#F9F8F6'
@@ -239,17 +239,18 @@ export function makerSkyline(w = 420, h = 150) {
 // ── SMALL ICONS ─────────────────────────────────────────────────────────────
 // One family of 32 unit icons for cards, lists and the four kinds of screen
 // time. Same line, same fills, so a page of six icons reads as one set.
-// Which icon family draws: the newspaper's own, or (in the boho theme) the
-// app's Happy News set wherever it draws the same idea. Set once per render by
-// templates/index.ts renderIssue.
-let ICONS: 'house' | 'happy' = 'house'
-export const useIconFamily = (f: 'house' | 'happy') => { ICONS = f }
+// Which icon family draws: the newspaper's own, or (in the boho and happy
+// themes) the app's Happy News set wherever it draws the same idea, with our
+// own icon for the rest (warmed to boho, or crayoned for happy). Set once per
+// render by templates/index.ts renderIssue.
+let ICONS: 'house' | 'boho' | 'happy' = 'house'
+export const useIconFamily = (f: 'house' | 'boho' | 'happy') => { ICONS = f }
 
 export function icon(name: string, size = 32) {
-  if (ICONS === 'happy') {
+  if (ICONS !== 'house') {
     const mapped = HAPPY_FOR[name]
     if (mapped && happyIcons()[mapped]) return happyIcons()[mapped].replace('width="64" height="64"', `width="${size}" height="${size}"`)
-    return bohoSwap(houseIcon(name, size))
+    return ICONS === 'boho' ? bohoSwap(houseIcon(name, size)) : happySwap(houseIcon(name, size))
   }
   return houseIcon(name, size)
 }
