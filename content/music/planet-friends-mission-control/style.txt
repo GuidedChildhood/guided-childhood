@@ -1,0 +1,22 @@
+MAIN STYLE PROMPT (paste as tags/caption):
+upbeat golden-era hip hop, 95 BPM, jazzy funk boom-bap drums, upright bass, horn
+stabs, vinyl crackle, DJ scratch breaks between sections, lush orchestral string
+hook with staccato violins on intro and chorus, cinematic and uplifting, original
+melody, four distinct male and female rappers trading lines quickly, playful
+positive energy, group unison chants on the chorus, call-and-response crowd
+shouts, clean family-friendly vocals, crisp mix
+
+STRINGS-ONLY LOOP (optional separate generation for layering):
+instrumental, lush orchestral strings, staccato violins with sustained cellos
+underneath, uplifting cinematic hook, 95 BPM, 8-bar loop, original melody, no
+drums, no vocals
+
+INSTRUMENTAL BED (optional, for re-recording vocals with character voices):
+instrumental only, golden-era hip hop, 95 BPM, jazzy funk boom-bap, upright bass,
+horn stabs, vinyl crackle, DJ scratches, orchestral string hook on chorus, no
+vocals
+
+RULES
+- Never include real artist or song names in prompts.
+- Never use commercial recordings as audio references or samples.
+- All melodies, lyrics and voices must be original.
