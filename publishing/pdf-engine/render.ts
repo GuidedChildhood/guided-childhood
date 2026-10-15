@@ -36,7 +36,7 @@ import { assetIdFor, PUB, resolveFriends, ROOT } from '../engine/library'
 import { contentHash } from '../engine/hash'
 import { PAGE_COUNT, type FriendRef, type Issue } from '../engine/schema'
 import { validateIssue, type Finding } from '../engine/validate'
-import { renderIssue, type RenderContext } from '../templates/index'
+import { FRIENDS_BAND, renderIssue, type RenderContext } from '../templates/index'
 import { renderOnline, renderSourcesPage } from '../templates/online'
 import { layoutChecks, type LayoutFinding } from './checks'
 
@@ -51,7 +51,9 @@ export function loadIssue(n: number): Issue {
 }
 
 export function allFriends(issue: Issue): FriendRef[] {
-  return issue.pages.flatMap(p => ('friend' in p && p.friend ? [p.friend] : []))
+  const named = issue.pages.flatMap(p => ('friend' in p && p.friend ? [p.friend] : []))
+  // The Happy News cover carries the Planet Friends band: all five, waving.
+  return issue.theme === 'happy' ? [...named, ...FRIENDS_BAND] : named
 }
 
 // An approved generated picture for a slot, if Justin has approved one:
@@ -77,7 +79,7 @@ export type Variant = 'print' | 'download' | 'ink'
 export async function buildHtml(issue: Issue, variant: Variant, bleedMm: number, qrs: Map<string, string>) {
   const friendFiles = await resolveFriends(allFriends(issue), variant === 'print' ? 'print' : 'light')
   const theme = issue.theme ?? 'editorial'
-  const sheets = ['newspaper.css', ...(theme === 'boho' ? ['boho.css'] : [])]
+  const sheets = ['newspaper.css', ...(theme === 'boho' ? ['boho.css'] : theme === 'happy' ? ['happy.css'] : [])]
   const css = sheets.map(f => readFileSync(join(PUB, 'design', f), 'utf8')).join('\n').replaceAll('FONT_DIR', pathToFileURL(join(ROOT, 'app', 'fonts')).href).replaceAll('DESIGN_DIR', pathToFileURL(join(PUB, 'design')).href)
   const ctx: RenderContext = {
     issue,
@@ -146,7 +148,7 @@ export async function renderEdition(n: number, opts: { browser?: Browser; previe
     // ink saver use the lighter art on purpose, so they are held to screen
     // and home printer standards instead.
     const dpi = v === 'print' ? { minDpi: 150, warnDpi: 220 } : { minDpi: 96, warnDpi: 150 }
-    const res = await page.evaluate(layoutChecks, { safeMm: 12, minBodyPt: 10, minAnyPt: 5.2, ...dpi })
+    const res = await page.evaluate(layoutChecks, { safeMm: 12, minBodyPt: 10, minAnyPt: issue.theme === 'happy' ? 6 : 5.2, ...dpi })
     layout[v] = res.findings
     if (res.pages !== PAGE_COUNT) layout[v].push({ level: 'error', page: 0, rule: 'page-count', detail: `${res.pages} pages laid out` })
     if (v === 'print') { images = res.images; qrList = res.qrs }

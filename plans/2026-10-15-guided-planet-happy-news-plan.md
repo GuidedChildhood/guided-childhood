@@ -25,7 +25,7 @@ editorial stay available.
 | Paper | White `#FFFFFF` pages and boxes; `butter-light #FEF7E0` for highlighted boxes and the masthead ground. No tinted page fields |
 | Ink | `#1A1A2E` text, every edge 3px in print, every ledge `4px 5px 0` ink, no blur |
 | Type | Nunito 900 headlines, Nunito 600 to 800 body, IBM Plex Mono 700 caps for eyebrows only. No Fraunces or Caveat in this theme |
-| Floor | Body 12pt (16px); a child's task text never under 10.5pt (14px); labels 7.5pt (10px) minimum |
+| Floor | The Planet Post's own print sizes, measured from its code: body 15px (11 to 11.25pt), task text 13 to 14px (10pt), labels 10 to 11px (7.5 to 8.25pt). (The system's 16px body is its screen size; the Planet Post prints a step smaller, so the two papers match at that size.) |
 | One ribbon per page | A tilted (1 degree) crayon banner with an ink edge carries the destination |
 | Masthead | Painted rainbow (coral, butter, green, sky, pink) over butter light, the name on a tilted white sheet, a coral FREE burst, smiley dots |
 | Friends | Approved waving stills only, on butter light plates or the band on a crayon green hill (Pebble, Bloop, Orbit, Nova, Cosmo) |
@@ -38,8 +38,9 @@ editorial stay available.
    the rainbow masthead and the Friends band; ribbons; boxes; plates).
 3. Crayon remap of our own drawings (`happySwap`), like `bohoSwap`.
 4. Render both issues; let the layout checks find every overflow; trim copy
-   page by page to fit 12pt body, never dropping a citation for a claim that
-   stays.
+   page by page to fit, never dropping a citation for a claim that stays.
+   (Done without trimming a word: the picture strips on the feature pages give
+   back a third of their height, and the list page drops its numbered strip.)
 5. Visual baselines refreshed, tests, ai-tells, contact sheet to Justin.
 
 No new art is generated and no credits are spent.

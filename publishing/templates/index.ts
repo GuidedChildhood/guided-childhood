@@ -14,7 +14,7 @@ import { ART, emblem, icon, useIconFamily } from './art'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { PUB } from '../engine/library'
-import { bohoSwap, burst, rainbow, smiley, star, wavy, BOHO } from './happy'
+import { bohoSwap, burst, CRAYON, happyRainbow, happySwap, HN, rainbow, smiley, star, wavy, BOHO } from './happy'
 
 export type RenderContext = {
   issue: Issue
@@ -22,7 +22,7 @@ export type RenderContext = {
   approvedArt: (slot: string) => string | null        // an approved generated picture, if any
   qr: (url: string) => string                         // the QR as inline SVG
   ink: boolean                                        // the print friendly ink saver
-  theme: 'editorial' | 'boho'
+  theme: 'editorial' | 'boho' | 'happy'
 }
 
 const destTag = (d: Destination) =>
@@ -32,17 +32,25 @@ const destTag = (d: Destination) =>
 // The tag row that opens a page: the destination sticker, the handwritten
 // eyebrow and, in the boho theme, a little cluster of Happy News doodles at
 // the far end of the row, in the flow so it can never sit on top of a word.
+// In the Happy News theme the row ends in two smiley dots, never more (the
+// system's rule), in the house colours that sit beside that ribbon's crayon.
+const DOT: Record<Destination, [string, string]> = {
+  observatory: [HN.butter, HN.coral], maker: [HN.green, HN.sky], forest: [HN.butter, HN.sky],
+  garden: [HN.green, HN.butter], research: [HN.coral, HN.butter], explorer: [HN.green, HN.sky],
+}
 const DOODLE: Record<Destination, string> = { observatory: 'star', maker: 'make', forest: 'tree', garden: 'heart', research: 'magnifier', explorer: 'compass' }
 function tagRow(ctx: RenderContext, d: Destination, eyebrow: string) {
   const doodles = ctx.theme === 'boho'
     ? `<span aria-hidden="true" style="margin-left:auto;padding-right:1.2mm;display:flex;align-items:center;gap:1.6mm">${smiley('5mm', BOHO.clay)}${star('4.4mm', BOHO.mustard)}<span style="display:block;transform:rotate(8deg)">${icon(DOODLE[d], 24)}</span></span>`
-    : ''
+    : ctx.theme === 'happy'
+      ? `<span aria-hidden="true" style="margin-left:auto;padding-right:1.4mm;display:flex;align-items:center;gap:2mm">${smiley('5.6mm', ctx.ink ? '#FFFFFF' : DOT[d][0])}${smiley('4.2mm', ctx.ink ? '#FFFFFF' : DOT[d][1])}</span>`
+      : ''
   return `<div style="display:flex;align-items:center;gap:3mm">${destTag(d)}<span class="eyebrow" style="margin:0">${esc(eyebrow)}</span>${doodles}</div>`
 }
 
 function runhead(ctx: RenderContext, label: string) {
   const i = ctx.issue
-  return `<header class="runhead"><span class="mark">${planetGlyph(12)} The Guided Planet</span><span>${esc(label)}</span><span>Issue ${pad3(i.number)} · ${esc(i.month)}</span></header>${ctx.theme === 'boho' ? wavy() : ''}`
+  return `<header class="runhead"><span class="mark">${planetGlyph(12)} The Guided Planet</span><span>${esc(label)}</span><span>Issue ${pad3(i.number)} · ${esc(i.month)}</span></header>${ctx.theme !== 'editorial' ? wavy() : ''}`
 }
 
 function folio(ctx: RenderContext, n: number, d?: Destination) {
@@ -50,7 +58,7 @@ function folio(ctx: RenderContext, n: number, d?: Destination) {
 }
 
 const groundFor = (d: Destination | undefined, ctx: RenderContext) => {
-  if (ctx.ink) return 'ground-paper'
+  if (ctx.ink || ctx.theme === 'happy') return 'ground-paper' // the Happy News prints on white stock
   switch (d) {
     case 'observatory': return 'ground-night'
     case 'maker': return 'ground-butter'
@@ -96,6 +104,7 @@ function art(ctx: RenderContext, a: ArtSlot, style: string, w?: number, h?: numb
   let svg = draw(w, h)
   if (ctx.ink) svg = inkSaver(svg)
   if (ctx.theme === 'boho') svg = bohoSwap(svg)
+  if (ctx.theme === 'happy') svg = happySwap(svg)
   return `<figure class="art" style="${style}" data-slot="${esc(a.slot)}" data-source="vector" role="img" aria-label="${esc(a.alt)}">${svg}</figure>`
 }
 
@@ -113,7 +122,10 @@ function inkSaver(svg: string) {
 }
 
 function friend(ctx: RenderContext, f: FriendRef, size: string, extra = '') {
-  return `<img class="friend-img" src="${ctx.friendSrc(f)}" alt="" style="width:${size};height:${size};${extra}" data-friend="${f.id}-${f.pose}">`
+  const img = `<img class="friend-img" src="${ctx.friendSrc(f)}" alt="" style="width:${size};height:${size};${extra}" data-friend="${f.id}-${f.pose}">`
+  // Happy News: the approved still sits on a butter light plate, never redrawn.
+  if (ctx.theme === 'happy') return `<span class="friend-plate" style="width:${size};height:${size};${extra}"><img class="friend-img" src="${ctx.friendSrc(f)}" alt="" data-friend="${f.id}-${f.pose}"></span>`
+  return img
 }
 
 function says(ctx: RenderContext, f: FriendRef | undefined, text: string | undefined, cites?: CiteMap, size = '25mm') {
@@ -124,7 +136,7 @@ function says(ctx: RenderContext, f: FriendRef | undefined, text: string | undef
 
 // ── ACTIVITIES ──────────────────────────────────────────────────────────────
 
-function activity(a: Activity, cites?: CiteMap, compact = false): string {
+function activity(a: Activity, cites?: CiteMap, compact = false, theme: RenderContext['theme'] = 'editorial'): string {
   const head = (offline = true) => `<div style="display:flex;align-items:center;gap:2.5mm;margin-bottom:2mm"><span class="tag">${icon('pencil', 11)} Activity</span>${offline ? '<span class="tag offline">No screen needed</span>' : ''}</div>`
   switch (a.kind) {
     case 'pixel-grid':
@@ -209,6 +221,7 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
         ${a.reflect.map(r => `<div><p class="eyebrow" style="color:var(--ink)">${rich(r, cites)}</p><div class="lines" style="gap:6.5mm;padding-top:3mm">${'<i></i>'.repeat(3)}</div></div>`).join('')}
       </div>` : ''}</div>`
     case 'passport':
+      if (theme === 'happy') return happyPassport(a, cites)
       return `<div data-activity="passport" style="background:var(--passport);color:#F3E3B5;border-radius:6mm;padding:5mm 6mm;position:relative;box-shadow:0 1.6mm 0 #3E1220">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4mm">
           <div><p style="font:700 6.8pt/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:#E9C977">Planet Passport</p>
@@ -233,10 +246,38 @@ function activity(a: Activity, cites?: CiteMap, compact = false): string {
   }
 }
 
+// The Planet Passport in the Happy News system: a butter light card with the
+// ink edge and ledge, stamps as dashed ink rings on white, dotted lines to sign.
+function happyPassport(a: Extract<Activity, { kind: 'passport' }>, cites?: CiteMap) {
+  const label = 'font:700 7.5pt/1.2 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)'
+  return `<div data-activity="passport" class="passport" style="background:var(--tint-butter);border:.8mm solid var(--ink);border-radius:14px;box-shadow:1.06mm 1.32mm 0 var(--ink);padding:5mm 6mm">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4mm">
+      <div><p style="${label}">Planet Passport</p>
+        <h3 style="font:900 17pt/1.05 var(--font-display);margin-top:1.5mm">${rich(a.title, cites)}</h3>
+        <p style="font:600 10pt/1.38 var(--font-body);margin-top:1.5mm;max-width:104mm">${rich(a.intro, cites)}</p></div>
+      <div style="flex:none;width:34mm;background:#FFFFFF;border:.6mm solid var(--ink);border-radius:10px;padding:2.4mm;text-align:center">
+        <p style="${label};color:var(--ink)">Explorer</p>
+        <div style="border-bottom:.66mm dotted var(--dot);height:8mm"></div>
+        <p style="${label};margin-top:1.2mm">First name only</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(${a.stamps.length},1fr);gap:3mm;margin-top:4mm">
+      ${a.stamps.map(st => `<div style="aspect-ratio:1;background:#FFFFFF;border:.6mm dashed var(--ink);border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2mm">
+        ${st.icon ? `<span style="display:block;margin-bottom:1mm">${icon(st.icon, 26)}</span>` : ''}
+        <span style="font:900 9pt/1.08 var(--font-display)">${esc(st.label)}</span>
+        <span style="${label};margin-top:1mm">Page ${st.page}</span></div>`).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:6mm;margin-top:3mm">
+      ${['Signed off by a grown up', 'Date'].map(l => `<div><div style="border-bottom:.66mm dotted var(--dot);height:9mm"></div><p style="${label};margin-top:1.4mm">${l}</p></div>`).join('')}
+    </div>
+  </div>`
+}
+
 // ── 1. COVER ───────────────────────────────────────────────────────────────
 
 function cover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
   if (ctx.theme === 'boho') return bohoCover(ctx, p)
+  if (ctx.theme === 'happy') return happyCover(ctx, p)
   const i = ctx.issue
   const night = !ctx.ink
   const fg = night ? 'var(--cream)' : 'var(--ink)'
@@ -339,6 +380,75 @@ function bohoCover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) 
 </section>`
 }
 
+// ── 1c. THE HAPPY NEWS COVER ───────────────────────────────────────────────
+// The Planet Post's front, grown to the monthly paper: the painted rainbow over
+// butter light with the name on a tilted white sheet and a coral FREE burst;
+// the lead story beside the cover drawing in an ink edged box; the Inside box;
+// and the Planet Friends band, the five approved waving stills on a crayon
+// green hill in their fixed order. No character is drawn here, only placed.
+export const FRIENDS_BAND: FriendRef[] = (['pebble', 'bloop', 'orbit', 'nova', 'cosmo'] as const).map(id => ({ id, pose: 'wave' }) as FriendRef)
+
+function happyCover(ctx: RenderContext, p: Extract<Page, { template: 'cover' }>) {
+  const i = ctx.issue
+  const fill = (c: string) => (ctx.ink ? '#FFFFFF' : c)
+  const box = (bg = '#FFFFFF') => `background:${fill(bg)};border:.8mm solid var(--ink);border-radius:14px;box-shadow:1.06mm 1.32mm 0 var(--ink)`
+  const arcs = ctx.ink
+    ? `<svg viewBox="0 0 200 100" style="position:absolute;left:-4%;top:-2mm;width:108%" aria-hidden="true">${[13, 26, 39, 52].map(r => `<path d="M ${r} 100 A ${100 - r} ${100 - r} 0 0 1 ${200 - r} 100" fill="none" stroke="${HN.ink}" stroke-width="1.4"/>`).join('')}</svg>`
+    : `<div style="position:absolute;left:-4%;top:-3mm;width:108%">${happyRainbow(800).replace('style="display:block"', 'style="display:block;width:100%;height:auto"')}</div>`
+  const inside = p.teasers.map(t => `<div style="display:grid;grid-template-columns:7mm 1fr;gap:2mm;align-items:baseline">
+      <span style="font:900 15pt/1 var(--font-display)">${t.page}</span><span style="font:800 10.4pt/1.24 var(--font-body)">${esc(t.text)}</span></div>`).join('')
+  const band = FRIENDS_BAND.map(f => `<img class="friend-img" src="${ctx.friendSrc(f)}" alt="" data-friend="${f.id}-wave" style="width:32mm;height:32mm;object-fit:contain${ctx.ink ? ';filter:grayscale(1) opacity(.45)' : ''}">`).join('')
+  const inner = `
+    <div style="position:absolute;inset:0;padding:9mm 12mm 19mm;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;font:700 7.5pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)">
+        <span>A free paper from The Guided Digital Childhood</span><span>guidedchildhood.com</span>
+      </div>
+      <div data-anim="masthead" style="position:relative;overflow:hidden;height:64mm;margin-top:3mm;flex:none;${box(HN.butterLt)};box-shadow:1.32mm 1.6mm 0 var(--ink)">
+        ${arcs}
+        <div class="frame" style="position:absolute;left:7mm;right:33mm;bottom:9mm;background:#FFFFFF;border:.8mm solid var(--ink);border-radius:12px;box-shadow:1.06mm 1.32mm 0 var(--ink);padding:3.6mm 5mm 3.4mm;transform:rotate(-1.5deg)">
+          <p style="font:700 8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)">Issue ${pad3(i.number)} · ${esc(i.edition)}</p>
+          <h1 style="font:900 40pt/.96 var(--font-display);letter-spacing:-.035em;white-space:nowrap;color:var(--ink);margin-top:1.6mm">The Guided Planet</h1>
+          <p style="font:700 8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-top:2.2mm">The newspaper for readers ${esc(i.readingAge)} and their grown ups</p>
+        </div>
+        <div style="position:absolute;right:5mm;bottom:8mm">${burst('FREE!', '27mm', fill(HN.coral), 10).replace(`color:${BOHO.ink}`, `color:${HN.ink}`).replace('var(--font-letter)', 'var(--font-display)').replace(`stroke="${BOHO.ink}"`, `stroke="${HN.ink}"`)}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:3.5mm;margin:4.5mm 0 3.5mm;flex:none">
+        ${icon('sun', 34)}
+        <div style="flex:1"><p style="font:700 7.5pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)">${esc(i.month)}</p>
+          <p style="font:800 12.6pt/1.2 var(--font-body);margin-top:1mm">${esc(i.tagline)}</p></div>
+        ${smiley('6mm', fill(HN.green))}${smiley('4.4mm', fill(HN.sky))}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 84mm;gap:6mm;flex:1;min-height:0">
+        <div data-anim="headline" style="display:flex;flex-direction:column">
+          <p style="font:700 8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)">Front page news</p>
+          <h2 style="font:900 36pt/1 var(--font-display);letter-spacing:-.025em;color:var(--ink);margin-top:2mm;text-wrap:balance">${esc(p.headline)}</h2>
+          <p class="frame" style="font:600 12.6pt/1.42 var(--font-body);color:var(--ink);margin-top:3.5mm">${rich(p.deck)}</p>
+          <div data-anim="teasers" class="frame" style="margin-top:auto;padding:3mm 4mm;display:grid;gap:2mm;${box(HN.butterLt)}">
+            <p style="font:700 8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase">Inside</p>
+            ${inside}
+          </div>
+        </div>
+        <div data-anim="sky" style="position:relative;height:100%;overflow:hidden;${box()}">
+          ${art(ctx, p.art, 'position:absolute;inset:0;border-radius:0', 360, 446).replace('class="art"', 'class="art bare"')}
+        </div>
+      </div>
+      <div data-anim="friend" style="position:relative;margin-top:6mm;height:50mm;flex:none;overflow:hidden;${box()}">
+        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:0;width:100%;height:22mm" aria-hidden="true"><path d="M0 46 Q 100 6 200 30 T 400 22 V 100 H 0 Z" fill="${fill(CRAYON.green)}" stroke="${HN.ink}" stroke-width="2.4" vector-effect="non-scaling-stroke"/></svg>
+        <p style="position:absolute;left:5mm;top:3.4mm;font:700 8pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase">Meet the Planet Friends</p>
+        <div style="position:absolute;left:4mm;right:4mm;bottom:2.4mm;display:flex;justify-content:space-around;align-items:flex-end">${band}</div>
+      </div>
+      <div style="position:absolute;left:12mm;right:12mm;bottom:6mm">
+        ${wavy()}
+        <div style="display:flex;justify-content:space-between;margin-top:1.6mm;font:700 7.5pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)">
+          <span>The Guided Planet · Issue ${pad3(i.number)}</span><span>Free to print and share</span><span>Page 1</span>
+        </div>
+      </div>
+    </div>`
+  return `<section class="page" data-page="1" data-template="cover" aria-label="Page 1: Cover">
+  <div class="trim">${i.sample ? '<div class="sample-mark" aria-hidden="true"></div>' : ''}${inner}</div>
+</section>`
+}
+
 // ── 2. WELCOME ─────────────────────────────────────────────────────────────
 
 function welcome(ctx: RenderContext, p: Extract<Page, { template: 'welcome' }>) {
@@ -359,7 +469,7 @@ function welcome(ctx: RenderContext, p: Extract<Page, { template: 'welcome' }>) 
         </div>` : ''}
       </div>
       <div style="grid-column:span 5;display:flex;flex-direction:column;gap:4mm">
-        ${art(ctx, p.map, 'height:84mm', 400, 320)}
+        ${art(ctx, p.map, 'height:84mm', 400, 450)}
         <p class="small mono" style="font-size:6.6pt;letter-spacing:.08em;text-transform:uppercase;margin-top:-2mm">Your map: six places to explore, every issue</p>
         <div class="card frame" style="padding:3mm 3.5mm">
           <p class="eyebrow">Inside this issue</p>
@@ -385,8 +495,11 @@ function feature(ctx: RenderContext, p: Extract<Page, { template: 'feature' }>) 
       <p class="eyebrow">${esc(p.aside.label)}</p>
       <ul style="margin:0;padding-left:4mm;display:grid;gap:1.6mm">${p.aside.items.map(i => `<li style="font:700 9pt/1.38 var(--font-body)">${rich(i, cites)}</li>`).join('')}</ul>
     </aside>` : ''
+  // Happy News sets bigger type in ink edged boxes, so the picture strip gives
+  // back nearly a third of its height to keep the words on the page.
+  const artH = Math.round((p.artHeight ?? 62) * (ctx.theme === 'happy' ? 0.7 : 1))
   const inner = `
-    ${art(ctx, p.art, `height:${p.artHeight ?? 62}mm;flex:none`, 420, Math.round(420 * (p.artHeight ?? 62) / 186))}
+    ${art(ctx, p.art, `height:${artH}mm;flex:none`, 420, Math.round(420 * artH / 186))}
     <div style="margin-top:4.5mm;display:flex;align-items:center;gap:3mm">${destTag(p.destination)}<span class="eyebrow" style="margin:0">${esc(p.eyebrow)}</span></div>
     <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
     <p class="standfirst">${rich(p.standfirst, cites)}</p>
@@ -395,7 +508,7 @@ function feature(ctx: RenderContext, p: Extract<Page, { template: 'feature' }>) 
       ${facts ? `<div style="grid-column:span 4;display:flex;flex-direction:column;gap:3mm">${facts}${says(ctx, p.friend, p.friendSays, cites, '20mm')}</div>` : ''}
     </div>
     ${!facts && p.friend ? `<div style="margin-top:3mm">${says(ctx, p.friend, p.friendSays, cites, '22mm')}</div>` : ''}
-    ${p.activity ? `<div style="margin-top:4mm">${activity(p.activity, cites, true)}</div>` : ''}
+    ${p.activity ? `<div style="margin-top:${ctx.theme === 'happy' ? 3 : 4}mm">${activity(p.activity, cites, true, ctx.theme)}</div>` : ''}
     <div style="margin-top:3mm">${refsBox(p.refs, ctx.issue.sources)}</div>`
   return pageShell(ctx, p, inner, { head: runhead(ctx, DESTINATIONS[p.destination].short) })
 }
@@ -440,7 +553,7 @@ function activityPage(ctx: RenderContext, p: Extract<Page, { template: 'activity
       </div>
       ${p.friend ? `<div style="width:66mm">${says(ctx, p.friend, p.friendSays, cites, '24mm')}</div>` : ''}
     </div>
-    <div style="margin-top:5mm;flex:1;min-height:0;display:flex;flex-direction:column">${activity(p.activity, cites)}</div>
+    <div style="margin-top:5mm;flex:1;min-height:0;display:flex;flex-direction:column">${activity(p.activity, cites, false, ctx.theme)}</div>
     ${p.tips?.length ? `<div class="card frame" style="margin-top:3.5mm;display:grid;grid-template-columns:auto 1fr;gap:3mm;align-items:start;padding:3mm 3.6mm">
       <span class="tag" style="display:inline-flex;background:var(--butter);font:700 6.6pt/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;padding:1.5mm 2.4mm;border-radius:999px">${esc(p.tipsLabel ?? 'Tips')}</span>
       <ul style="margin:0;padding-left:4mm;display:grid;grid-template-columns:1fr 1fr;column-gap:6mm;row-gap:1mm">${p.tips.map(t => `<li style="font:600 8.4pt/1.36 var(--font-body)">${rich(t, cites)}</li>`).join('')}</ul>
@@ -516,9 +629,12 @@ function investigation(ctx: RenderContext, p: Extract<Page, { template: 'investi
 
 function list(ctx: RenderContext, p: Extract<Page, { template: 'list' }>) {
   const cites = citeMap(p.refs)
+  // The numbered trail strip is the editorial paper's; in the Happy News theme
+  // the big numbers on each card already carry the count, and the page needs
+  // the room for the type.
   const inner = `
-    ${art(ctx, p.art, 'height:15mm;flex:none', 420, 34)}
-    <div style="display:grid;grid-template-columns:1fr auto;gap:4mm;align-items:end;margin-top:4mm">
+    ${ctx.theme === 'happy' ? '' : art(ctx, p.art, 'height:15mm;flex:none', 420, 34)}
+    <div style="display:grid;grid-template-columns:1fr auto;gap:4mm;align-items:end;margin-top:${ctx.theme === 'happy' ? 0 : 4}mm">
       <div>
         ${tagRow(ctx, p.destination, p.eyebrow)}
         <h1 class="h1" style="margin-top:2.5mm">${esc(p.headline)}</h1>
@@ -553,15 +669,20 @@ function passport(ctx: RenderContext, p: Extract<Page, { template: 'passport' }>
       ${friend(ctx, p.friend, '34mm')}
     </div>
     <div class="cutline" style="background:var(--cream);margin-top:3mm"></div>
-    <div style="margin-top:2mm">${activity(p.activity)}</div>
+    <div style="margin-top:2mm">${activity(p.activity, undefined, false, ctx.theme)}</div>
     <div class="cutline" style="background:var(--cream);margin-top:4mm"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:2.5mm">
-      <div class="card frame" style="background:var(--ink);color:var(--cream);border-color:var(--ink);display:flex;flex-direction:column">
+      ${ctx.theme === 'happy' ? `<div class="card frame next-month" style="background:${ctx.ink ? '#FFFFFF' : CRAYON.sky};display:flex;flex-direction:column">
+        <p class="eyebrow" style="color:var(--ink)">Next month · ${esc(p.next.month)}</p>
+        <h2 class="h2" style="margin-top:1mm">${esc(p.next.edition)}</h2>
+        <ul style="margin:2.5mm 0 0;padding-left:4mm">${p.next.teasers.map(t => `<li style="font:700 10pt/1.38 var(--font-body);margin-top:1mm">${rich(t)}</li>`).join('')}</ul>
+        <div style="margin-top:auto;padding-top:3mm;display:flex;gap:2mm;align-items:center">${smiley('5mm', ctx.ink ? '#FFFFFF' : HN.butter)}<span class="mono" style="font:700 7.5pt/1.3 var(--font-mono);letter-spacing:.12em;text-transform:uppercase">A little more wonder. A lot more understanding.</span></div>
+      </div>` : `<div class="card frame" style="background:var(--ink);color:var(--cream);border-color:var(--ink);display:flex;flex-direction:column">
         <p class="eyebrow" style="color:var(--butter)">Next month · ${esc(p.next.month)}</p>
         <h2 class="h2" style="color:var(--cream);margin-top:1mm">${esc(p.next.edition)}</h2>
         <ul style="margin:2.5mm 0 0;padding-left:4mm">${p.next.teasers.map(t => `<li style="font:600 9pt/1.4 var(--font-body);margin-top:1mm;color:rgba(249,248,246,.9)">${rich(t)}</li>`).join('')}</ul>
         <div style="margin-top:auto;padding-top:3mm;display:flex;gap:2mm;align-items:center">${planetGlyph(18)}<span class="mono" style="font:600 6.6pt/1.3 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(249,248,246,.75)">A little more wonder. A lot more understanding.</span></div>
-      </div>
+      </div>`}
       <div style="display:flex;flex-direction:column;gap:3mm">
         <div class="card frame">
           <p class="eyebrow">Every source in this issue</p>
@@ -597,11 +718,26 @@ export function renderPage(ctx: RenderContext, p: Page): string {
   }
 }
 
+// THE HAPPY NEWS TYPE FLOOR. The templates were set for the editorial paper,
+// with labels down to 5.4pt. The Planet Post prints nothing under 10px (7.5pt)
+// and no reading text under 13px, so in this theme every inline size under
+// the floor is lifted to it: mono labels to 7.5pt, Nunito text to 9pt. One
+// pass here rather than a second set of numbers in every template, so the
+// layout checks (which measure the result) stay the judge of what fits.
+function typeFloor(html: string) {
+  const lift = (size: number, mono: boolean) => Math.max(size, mono ? 7.5 : 9)
+  return html
+    .replace(/font:(\d{3}) ([\d.]+)pt(\/[\d.]+(?:mm)?)? (var\(--font-(mono|display|body|letter)\))/g,
+      (_m, w, sz, lh, fam, kind) => `font:${w} ${lift(parseFloat(sz), kind === 'mono')}pt${lh ?? ''} ${fam}`)
+    .replace(/font-size:([\d.]+)pt/g, (_m, sz) => `font-size:${lift(parseFloat(sz), true)}pt`)
+}
+
 // The whole issue as one HTML document, ready for Chromium to print.
 export function renderIssue(ctx: RenderContext, css: string, opts: { bleedMm: number }): string {
   const i = ctx.issue
-  useIconFamily(ctx.theme === 'boho' ? 'happy' : 'house')
-  const pages = i.pages.map(p => renderPage(ctx, p)).join('\n')
+  useIconFamily(ctx.theme === 'editorial' ? 'house' : ctx.theme)
+  let pages = i.pages.map(p => renderPage(ctx, p)).join('\n')
+  if (ctx.theme === 'happy') pages = typeFloor(pages)
   useIconFamily('house')
   return `<!doctype html>
 <html lang="en-GB">

@@ -1,25 +1,25 @@
 {
-  "contentHash": "a4b1413f02cb5be7f94610906de5508f746c3c74696e0a58f3544f9f268708ca",
+  "contentHash": "e54bdef967d02846fd42fd88d21fc2de65d2b5e6d536dae8913bf73329565121",
   "files": {
     "cover.png": {
-      "sha256": "5e915c0a70287d0554c2f10c0ded518ef77bdf4d074f3dd5d1a7a81280e634d3",
-      "bytes": 751043
+      "sha256": "524e79030bd6b1f6a07d11450d03947941b4c0dd4401736639ea419404d78b46",
+      "bytes": 656161
     },
     "guided-planet-001-ink.pdf": {
-      "sha256": "dbf5ed8e08c771679bea8553b550dd229bae07e9f65845377d71190896359baa",
-      "bytes": 3397522
+      "sha256": "10b9c7421f846069ca5f5dd3f2767d04f34b3b84cc7af923f6dc4537e15289fc",
+      "bytes": 2888878
     },
     "guided-planet-001-print.pdf": {
-      "sha256": "c357fc84f839fe86536bf2a3298d810c65c5e31ada2662de3ebc624fb5720169",
-      "bytes": 7228273
+      "sha256": "d1b32334b88b63ed86d0d420c08d20a251e25b6bbb21489947b8383e790ad4c4",
+      "bytes": 8269688
     },
     "guided-planet-001-sources.pdf": {
-      "sha256": "fd4cba100bc79e6340bf994e821d668b648be4a34204d71d1f9605a92e38d47c",
+      "sha256": "fb4cc456a4d5dd421dd42e9da88503b68907f8a2f623ee017e0da35bab195b69",
       "bytes": 227934
     },
     "guided-planet-001.pdf": {
-      "sha256": "053af323f3ba568834f8d69d81484f12ce6f47f1e571761da7051e97df855936",
-      "bytes": 3538875
+      "sha256": "ef64ac99f13d5287eafb308b1d5995962301c73f6c92237ff14a4b4340ca847f",
+      "bytes": 2936006
     },
     "online/index.html": {
       "sha256": "58226ee576ec8d4f5580d060aab31b8e33424cd89aacde74822810bca56929ed",
@@ -30,56 +30,56 @@
       "bytes": 20963
     },
     "pages/page-01.png": {
-      "sha256": "8794b3117c7bb94810eb2b9cdb50a26a5e73a33a4d3ccbec658e60f994c9f2e8",
-      "bytes": 286194
+      "sha256": "c16375c2658845da583b513231a48e8cd0af1ebf158144edfb0c5282056ba369",
+      "bytes": 247322
     },
     "pages/page-02.png": {
-      "sha256": "c30693b30428b100d2fa4c9a274cbe1f867693f403d55476789048de8ef2382b",
-      "bytes": 231243
+      "sha256": "09d83e0c7c66baad28e9bec644c9b0eb9dc55b7910542340e02c513349bc67e4",
+      "bytes": 222937
     },
     "pages/page-03.png": {
-      "sha256": "4ec53e095c567b053477bdd0ecf0acecd5d283076038dd70e764be4bf80bae87",
-      "bytes": 246932
+      "sha256": "80da4625aba13cee18c0601f69fdcd01a74f94b6d265b201ec0cc4011ea3181a",
+      "bytes": 232618
     },
     "pages/page-04.png": {
-      "sha256": "84ff795df41bbd7c72c4de95d3f30ec40ef9d95bf81b78a82e918d25889a43b8",
-      "bytes": 202275
+      "sha256": "6e9fe77e49caaaaa61ea9c85c0857ce310ce49f279306c93366b13bf9c2333b5",
+      "bytes": 191606
     },
     "pages/page-05.png": {
-      "sha256": "d99f59be53b385ec956a1bdcc93cc5154963f0ac8c9957b648160b7e195a2c61",
-      "bytes": 160794
+      "sha256": "45eb318e1878374600196fc37f875609c03b38fd38c7b5d19f93bd03aee3d2fb",
+      "bytes": 164262
     },
     "pages/page-06.png": {
-      "sha256": "8f9941a1e33e4ff36eee2c0a58ad266adbd14cca69b7dee3eca613ef4fd56350",
-      "bytes": 213413
+      "sha256": "41cc8b75e2df8a9f019557a655f9615ad8d7e5d402371f61a2520b5c758bbe0b",
+      "bytes": 215348
     },
     "pages/page-07.png": {
-      "sha256": "c1c6007e3bd12ee33a5d45b180ddc5362eded72474e6195290dde0d1783f3353",
-      "bytes": 227897
+      "sha256": "bb15ba17b372063035e9776d3c70905ed549919613974d9edd41007442c43df5",
+      "bytes": 210182
     },
     "pages/page-08.png": {
-      "sha256": "9d7585b09e70c50b687c473383bcd1d5ae740b2f0caa6ac2a1919b2ac8d6a161",
-      "bytes": 211581
+      "sha256": "c7382a7bf51be709d00ddb62de3e038d973eb83b50bd730a114192f0cb79d7da",
+      "bytes": 206546
     },
     "pages/page-09.png": {
-      "sha256": "aba99a5a498b099217bf0f9811e8ea0aa53bba08417162c4cbd2d3dd8d32eda9",
-      "bytes": 201258
+      "sha256": "7d5d39ee72127a2c5b897127b4642aa8441bd14b93fe1832a1b26b3f3fce3ba7",
+      "bytes": 200003
     },
     "pages/page-10.png": {
-      "sha256": "0e1ff83a3a87dbf90f4fddc8692a9299d388609ac86b58527a23762fbe32297e",
-      "bytes": 212004
+      "sha256": "3d2350841970391e8958abfc09b5559f227f9b4c3d57fbeb40a51d1ce5b893a0",
+      "bytes": 202998
     },
     "pages/page-11.png": {
-      "sha256": "082e8cc7df564677c061e8c9b508822934406c2d2230994e2ec83c7301a808ad",
-      "bytes": 126276
+      "sha256": "f4f7ebf54591b5b664c34c03b231afbea055cd624ee7e73cd9fe5dc039320e28",
+      "bytes": 124874
     },
     "pages/page-12.png": {
-      "sha256": "1c3955bed8449692f4fefb40a1169cd9fb754eb7eda86b9fc292ad5b9b35ab95",
-      "bytes": 176781
+      "sha256": "7000aca2dd9d737be3f7dbb80f6b4c085770d7eac915366b1cd9d633bacf7fc3",
+      "bytes": 188332
     },
     "report.json": {
-      "sha256": "201bf6f12c462f1a19da5b1c2a8344a96e39cca0da8b5fa3db8a860e47dd25de",
-      "bytes": 2534
+      "sha256": "ac2671635f643b10e5c365078e9cb84c58eebcc058f1e6eb385e7acbc69f4615",
+      "bytes": 2677
     }
   }
 }

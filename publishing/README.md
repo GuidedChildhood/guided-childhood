@@ -20,8 +20,9 @@ Three people touch every issue, and each page has to work for all three.
 
 The chooser decides whether the paper is downloaded, printed and shared, so
 the cover and every page preview have to win that parent first; the activities then
-have to deliver for the child. That is why the paper wears the boho Happy News
-theme: it is the look that audience already loved.
+have to deliver for the child. That is why the paper wears the Happy News
+design system, the same one as The Planet Post, the free four page taster that
+leads into it (Justin, 15 October 2026): one family, one look.
 
 ## For Justin: the two approvals, about 20 to 30 minutes an edition
 
@@ -47,7 +48,7 @@ counts and the paper comes back to you.
 | --- | --- |
 | Issue 001, The Curiosity Edition | `issues/001/` : `issue.json` (the words), `research.json` (13 candidates, scored), `distribution.json` (email and social words), `dist/` (PDFs, previews, online edition, report) |
 | Issue 002, sample | `issues/002/` : the Real or Pretend Edition, made from words alone through the same templates. Watermarked, never published. Its story pages are placeholders until its research week. |
-| The design system | `design/newspaper.css`, the boho Happy News theme `design/boho.css` (on for every issue since 13 October 2026), written rules in `design/DESIGN-SYSTEM.md` |
+| The design system | `design/newspaper.css`, the Happy News theme `design/happy.css` (on for every issue since 15 October 2026, shared with The Planet Post), the earlier boho theme `design/boho.css`, written rules in `design/DESIGN-SYSTEM.md` |
 | The world | `WORLD.md`: the six destinations and Bloop's job |
 | The templates | `templates/index.ts` (nine page templates), `templates/art.ts` (our own drawings), `templates/online.ts` (the accessible edition) |
 | The engine | `engine/` (schema, validators, workflow, stores, hashes, the character library check) |
