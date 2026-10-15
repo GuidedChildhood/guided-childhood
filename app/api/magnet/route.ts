@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMagnet } from '@/lib/magnets/registry'
-import { sendEmail } from '@/lib/email'
+import { sendEmail, starterCtaUrl } from '@/lib/email'
 import { unsuppressAddress } from '@/lib/email/address-guard'
 import { magnetEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
@@ -56,12 +56,25 @@ export async function POST(req: NextRequest) {
         { onConflict: 'email' },
       )
 
+    // Is this address already one of ours? A member taking a printable from
+    // the website is common (it is the quickest way to the PDF), and the email
+    // used to end by inviting them to the free starter pack for the product
+    // they already have. Justin caught it on his own phone, 15 October 2026.
+    // ilike, not eq: an address typed with a capital letter is the same person.
+    const { data: member } = await supabase
+      .from('profiles').select('id').ilike('email', email).limit(1).maybeSingle()
+
     // Deliver the download to their inbox. Best effort.
     await sendEmail({
       to: email,
       ...magnetEmail({
         magnetTitle: magnet.title, downloadUrl, blurb: magnet.emailBlurb,
         files: (magnet.files ?? []).map(f => ({ label: f.label, url: `${origin}${f.href}` })),
+        reader: member?.id ? 'member' : 'lead',
+        // A lead gets the signed link that checks again on the tap, so a
+        // parent who joins the morning after this lands in their app, not on
+        // the pitch. See app/api/go/starter.
+        cta: starterCtaUrl(email),
       }),
       kind: 'transactional',
     })
