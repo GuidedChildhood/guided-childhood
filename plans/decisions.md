@@ -31,38 +31,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
-| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-12 | 53 |
+| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-13 | 79 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-21 · 21 September 2026 — the passport stands in the door at the end of the road · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — one ruler for a slide the class acts on · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — the scheme publishes the length it actually runs · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — Cosmo fronts the sixth form, and the pilot's cast predates the Planet Friends · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — migration 323: Cosmo fronts the sixth form, applied · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — migration 324: the sign off counts the real scheme · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, the follow up question moved onto the worry row · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — four decisions on the curriculum review · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026 — migration 325: ks3-12 gets its two beats, and the contract goes into CI · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, the 102 must findings applied, and 601 shoulds parked · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, the render found the wall clipping, and it is not the batch · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, CI caught a lost source claim that the generator should have · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, the core and the extension, marked in 26 lessons · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, eighty hard questions, and the one blank left open · `plans/decisions-archive/2026-09.md`
-- 2026-09-21 · 21 September 2026, the wall clips, and the guard that was measuring a demo deck · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — The helpline hotfix, and the number is the lesson · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — A guard for the numbers, with two standards on purpose · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — The star cap, and what it actually bought · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — Open: two recaps where the number cannot move · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — Split the two six point recaps, keep every word · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — The Planet Friends were drawing as emoji · `plans/decisions-archive/2026-09.md`
-- 2026-09-22 · 22 September 2026 — The animation decisions, and a curriculum risk found under them · `plans/decisions-archive/2026-09.md`
-- 2026-09-23 · 23 September 2026: daily health sweep, one duplicate index dropped · `plans/decisions-archive/2026-09.md`
-- 2026-09-23 · 23 September 2026 — The safeguarding crosswalk is open, because a DSL could not see it · `plans/decisions-archive/2026-09.md`
-- 2026-09-23 · 23 September 2026 — The LinkedIn Featured banner is built, not generated · `plans/decisions-archive/2026-09.md`
-- 2026-09-23 · 23 September 2026 — A launch post opens on the buyer, not on the founder · `plans/decisions-archive/2026-09.md`
 - 2026-09-23 · 23 September 2026: the free taster gets its evidence, and two claims are corrected · `plans/decisions-archive/2026-09.md`
 - 2026-09-23 · 23 September 2026: source notes are shown, not hidden behind a badge · `plans/decisions-archive/2026-09.md`
 - 2026-09-23 · 23 September 2026: a DSL can make the crosswalk her school's own · `plans/decisions-archive/2026-09.md`
@@ -157,348 +131,44 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-10-12 · 12 October 2026: the shorts re-cut after the marketer review · `plans/decisions-archive/2026-10.md`
 - 2026-10-12 · 12 October 2026: guilt, not "bad guy" · `plans/decisions-archive/2026-10.md`
 - 2026-10-12 · 12 October 2026: readable films, the series line, and the product-shorts skill · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the Digital Health Report is not a service · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: 373 arrives in two halves, because 70 KB will not go through the tool · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the hard questions reach the live decks (migration 374) · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the six heavy lessons wait for a grown up · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018 · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375) · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the starter pack and the welcome agree the ending too · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: GDC-022 was already spent, and the two parked posts are written · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: when the five land, the Planet Friends moonwalk on · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: screen break ideas, and Add your own on every step sheet · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: a child's lesson count is that child's own · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: five free Happy News printables, The Planet Post first · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the child's home, the day first and linked to the grown up · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the grown up's side of the link · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: The Guided Planet, the newspaper engine and Issue 001 · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: 373's content half carried in pieces, and proved before it was written · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: 375 and 374 applied, and 377 cannot be · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: a correction to what the 373 staging tables were granted · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: 377 goes back to the planet lane, not fixed here · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: the review board, eleven lenses scored every Friday · `plans/decisions-archive/2026-10.md`
+- 2026-10-13 · 13 October 2026: 377's grants are fixed, its name collision is not · `plans/decisions-archive/2026-10.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 13 October 2026: the Digital Health Report is not a service
-
-Justin, asked where the founder story's CTA should point: "no digital health
-report not a service at the moment." So nothing in our copy sells it. The
-founder story canon drives to `/starter-pack` and now rules the report out of
-copy entirely until he says it is back, and the kids-research product block no
-longer carries £9.99 and £29.99 as live prices.
-
-Still pointing at it and needing his call, because it is a visible marketing
-change rather than a story fix: the homepage footer ("Digital Health Check"),
-the `/join` footer ("Health Check"), the `/ban-workarounds` footer ("Digital
-wellbeing"), the sitemap entry, and `/digitalwellbeing` itself, which is a live
-page whose buttons go to a paid signup. Separately, the user level
-`linkedin-comment-replies` skill still states the report is live and tells
-Claude to lead with the £9.99 report on first customer interest. That file lives
-in Justin's own skills, not this repo, so he has to change it there.
-
-## 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables
-
-The sweep of 348 to 372 found one real gap. 360 give five get five was
-merged on 4 October and never run: neither `referral_codes` nor `referrals`
-existed on the live database, while thirteen files of app code already read
-them, including `/r/[code]`, the refer page, the admin page and the daily
-cron. Checkout was the one safe path, because it wraps the referral lookup
-in a catch and never blocks a payment, so no parent was stopped from
-joining; the £5 was simply never offered and no referral was ever recorded.
-
-Applied and verified: both tables with their columns, RLS on, both policies,
-both indexes, and the real access paths exercised rather than read off the
-grant list (anon refused outright, authenticated with no uid sees nothing,
-and the only columns a parent may update are `paypal_email` and
-`updated_at`). 348 was also applied, as a confirmed no op: its grant list
-matches the live catalogue table for table.
-
-367 and 368 are skipped numbers, not missing work. 373 landed on main during
-this sweep and is handled in the entry below. PR 1265.
-
-## 13 October 2026: 373 arrives in two halves, because 70 KB will not go through the tool
-
-Justin: "apply missing migrations". 360 was the gap (above). 373 merged
-while that was in flight, so it was swept too, and it will not go through
-the Supabase tool in one piece: the call times out at 60 seconds, twice,
-and 373 is 70 KB in a single guarded transaction. scripts/module-to-chunks.mjs
-already says a hand carried paste that size cannot be trusted; this is the
-same wall, hit from the other side.
-
-So its two schema changes are applied and verified (`lesson_coverage` with
-RLS, its policy, both indexes, no anon grant, and `children.lessons_together`
-boolean not null default false across all 47 children). Its content half,
-34 parent notes, 18 passport stages and 40 together_prompt lines, is NOT
-applied and is still outstanding.
-
-That split is safe to leave for now, which was checked rather than assumed:
-every reader of the new content is optional (`parent.listen_for &&`,
-`passport_stage ?? null`, `together_prompt?`), and nothing renders
-together_prompt yet, so the absent content is absent rather than wrong.
-
-Worth recording honestly: the timed out call left `lesson_coverage` created
-with RLS off and the old default anon grant for about two minutes before the
-next statement closed it. The table was empty throughout and anon is now
-refused outright, but a create table and its RLS belong in the same
-statement, and splitting them is what opened the window.
-
-The content half needs the lane that generated it (scripts/gen-373.mjs) or a
-chunked variant. PR 1265.
-
-## 13 October 2026: migrations 371 and 372 applied, and the shorts go out on the family account
-
-Justin said apply them. 371 (the ending is agreed, not warned) applied to production; all seven edited rows read back correctly. 372 (the film link) applied; a live follow of guidedchildhood.com/v/switch-off landed on the stage check, set the cookie and logged one follow (that first row is the test). Short 1 is the family account's Service Friday post, service 1, the five o'clock fight, so its Instagram and Facebook captions now follow the family format in content/brand-story/weekly-rhythm.md: the family's own moment ("Five o'clock in our house used to be a fight", the canon supports the fight and the five o'clock handover, not a duration), five numbered lines ending on a consequence, a closing question.
-
-## 13 October 2026: the hard questions reach the live decks (migration 374)
-
-The 52 `teacher_notes.hard_questions` written on 21 September were only in content/modules for 13 decks (eyfs-01, ks1-02, ks1-03, ks2-04, ks2-05, ks2-06, ks2-08, ks2-09, ks3-13, ks4-15, ks4-19, ks5-20, ks5-21); a read of production found that key the only difference. Migration 374 adds it with jsonb_set, guarded per deck on slide count and an absent key, proved to change nothing else. Generated by `scripts/gen-374.mjs`, which also prints the read only before and after check. Independent of 373. Dry run passed, including four refusals. Applying it is Justin's call. PR 1267.
-
-## 13 October 2026: the six heavy lessons wait for a grown up
-
-Justin said yes (sync plan C). When a child starts one of the six heaviest lessons alone, it opens 48 hours later or the moment the parent taps Ready, and the parent gets the note first: a push with no subject on the lock screen and an email, both landing on `/dashboard/lessons/heads-up`, built from the deck's own parent text. A lesson the parent sends, nudges or opens together is theirs already and opens at once. No migration: the mission's `sent_at` is set ahead. Guard: check-lesson-path section 14. Detail in the PR.
-
-## 13 October 2026: the child's home, simpler, and nothing written for the parent reaches it
-
-Teo's home showed a DiGi answer written for Justin (markdown, a dashboard link). Send to their phone now sits only under the child's version, and a note pointing into the dashboard is refused and hidden (PR 1263). After a four agent review, each kid tab is its own page, red badges count only what a grown up sent, a "not done yet" job is never counted done and reaches the child kindly (PR 1268), and the jobs step shows its stars (PR 1264). Bigger reshuffles that reverse earlier choices wait for Justin: plans/2026-10-13-kid-home-simplify-plan.md.
-
-Justin then chose "one streak, not four": the flame bar with the next Friend is the only streak on the child's home; the five a day's days in a row, the balance card's day streak and the greeting's full days count are gone (PR 1264).
-
-## 13 October 2026: every post in Drive gets a Claude review, and the queue restarts at GDC-018
-
-Justin: "lets tidy up and start from gdc 18 and lets always apply a calude
-review over piosts put in drive."
-
-The rule is now `.claude/skills/content-engine/drive-post-review.md`, routed from
-CLAUDE.md and wired into research-radar Phase 5 so a pack is reviewed before it
-reaches Drive rather than after. Ten checks, every one of them a finding the GDC
-queue review actually produced: the hook, the repeated founder line, hedging,
-the proof path, the first comment, the claims, the reader, the clock, the
-mechanics, the filing. READY in a Drive document now means nobody has checked it
-yet.
-
-The Drive tidy: 24 files trashed (14 empty placeholders and 10 byte identical
-duplicates), 11 superseded or parked sources moved into an archive subfolder
-named with what replaced them, the four posted ones renamed to carry POSTED, and
-the folder down from 18 items to 9. Numbers 018 to 024 now hold the seven
-rewrites, in posting order, so the number is the order.
-
-Two documents survive unreviewed and are marked NEEDS REVIEW in the live folder:
-the screen time umbrella review, and "Europe has written the staircase into
-law". Both have real content, neither has been through the review above.
-PR 1262.
-
-## 13 October 2026: live DiGi agrees the ending, and the bedroom rule is a pathway (migration 375)
-
-The Ready series eval run found live DiGi still advising "Give a warning... Five minutes before" for bedtime TV, after 371 took that advice out of the library. Cause: the prompt's own reflective question example was a five minute warning. The prompt now has an ENDING A SCREEN rule (agree it before the screen goes on, never a warning or countdown), and 375 corrects three expert_knowledge rows that said the opposite (Child Mind Institute, the NHS sleep leaflet, Hiniker overstated). The same run failed the phone question for "no exceptions": the voice file used "The bedroom rule is not negotiable" as its model sentence. Now the bedroom rule is given as a calibrated pathway. ND-01's visual timer stays: a timer the child can see, set together, is an agreed ending, and the study was of under sixes in general. Two permanent eval cases guard both. Applying 375 is Justin's call. PR 1275.
-
-## 13 October 2026: the starter pack and the welcome agree the ending too
-
-Migration 371 took the warned ending out of the scripts and moment cards; the
-public starter pack (ages 4 to 7 and 8 to 10 conversation guides) and the
-welcome walkthrough (the scripts card and DiGi's pathway card) still told
-parents to give a five or two minute warning. All now say the ending is agreed
-before the screen goes on. What the grep still finds in product code is the
-copy that refuses a warning, plus DiGi's example follow up in lib/digi/system.ts,
-which PR 1275 replaces. Seed files and research briefings are left as the
-historical record.
-
-## 13 October 2026: the Digital Health Report stays linked, and GDC-025 is live
-
-Justin, on the four open items: keep the live Digital Health Report links
-("keep it there as dos work"), tell him what the comment replies skill should
-say, and run the new review over the two unreviewed documents.
-
-**Correction.** The canon had said the report is "not a service at the moment"
-and ruled it out of copy entirely. That went further than Justin did. The tool
-works and the links stay. The rule is about which product the founder story
-sells, not about whether the report exists. Corrected in the canon, the audit,
-drive-post-review and kids-research.
-
-**The comment replies skill** lives in Justin's own claude.ai skills, so nothing
-here can fix it. `content/brand-story/linkedin-comment-replies-product-facts.md`
-is the replacement block to paste: lead with the free stage check, the real
-parent prices, and never quote a figure for the report.
-
-**The two unreviewed documents.** The 2.8 million children screen time post
-carried "done" on its first line and had already been posted, so it is
-relabelled POSTED GDC-022 and needs nothing. The EU KIDS Act post is the find:
-its consultation closes 26 November, so it is the one genuinely live post left
-in that batch. Rewritten as GDC-025, opening on what a twelve year old should be
-able to do rather than on "for five years", with the UK under 16 restrictions as
-the bridge and the consultation deadline moved to the close where a head can act
-on it.
-
-**Still not possible from a session:** the Monday radar Routine cannot store the
-Google Drive connector, because create_trigger rejects the connectors parameter
-for this organisation. Retried today and refused again. Only Justin can attach
-it, from the claude.ai routines page.
-
-## 13 October 2026: GDC-022 was already spent, and the two parked posts are written
-
-Two things, one of them a correction to this morning.
-
-**The collision.** I renumbered the queue into 018 to 024 believing 022 and 023
-were empty placeholders. 022 was not: the 2.8 million children screen time post
-carries "done" on its first line and went out in September. I found that an hour
-later, when the new review rule made me read the document rather than its file
-size. "Two children, same game" is now GDC-036, the first number nothing has
-ever used. A gap in a sequence costs nothing; two posts sharing a number costs
-the thing the tidy up bought.
-
-Still open for Justin: every number from 018 to 035 is now posted, archived or
-reserved, so one clean run would mean moving the whole queue to 036 onward. That
-is renumbering his filing twice in a day and it is his call.
-
-**The two parked posts, written because he asked.** GDC-037 "How would you test
-readiness", from the parked GDC-001, with the Californian bill stripped out. It
-is the only post in the queue with no clock on it, and it admits we have no
-outcome evidence that finishing a stage changes anything. GDC-038 "Same app,
-different rules", from the parked GDC-025. I had parked it as a duplicate of
-GDC-036 and that was wrong on a closer read: 036 is capability inside one
-product, 038 is a boundary running through the middle of a single app.
-
-**The radar Routine still cannot hold Google Drive from here.** `create_trigger`
-refuses the connectors parameter for this organisation and `update_trigger` has
-no connectors parameter at all. His daily health sweep Routine does hold
-Google-Drive, so the capability exists on the account; it has to be attached in
-the claude.ai Routines UI. PR 1274.
-
-## 13 October 2026: when the five land, the Planet Friends moonwalk on
-
-Justin, with the rocket on Teo's phone: each Planet Friend moonwalks on one at a time with a tip for earning stars (all five tips are true of the app). It plays after the day screen every time the five land; on a Friend day the earned Friend's arrival card follows without the rocket flight. The arrival card's text and button had been wiped by clearProps 'all' and are fixed; the guard now bans it in components/kid.
-
-## 13 October 2026: screen break ideas, and Add your own on every step sheet
-
-Justin, from Teo's phone: the Screen break together ideas are Play football, Puzzles, Draw, Read, and add one of your own. Every step sheet with ideas now ends in + Add your own; what the child types travels to the grown up with the tick like a tapped idea (notes keep 80 characters).
-
-## 13 October 2026: a child's lesson count is that child's own
-
-Teo's mission said 9 of 10 lessons: 0 passed himself, 1 star lesson in his app, and 8 parent side rows with no child picked, which every per child count added in. Justin chose "only Teo's own": a child's lessons are their own passes plus any a grown up passed with that child picked; a household row counts for nobody's badge. One rule, lib/lessons/child-scope, read by the sticker book, the planets, the stage stamp and the journey. Teo now reads 1 of 10.
-
-## 13 October 2026: five free Happy News printables, The Planet Post first
-
-Justin approved the plan (plans/2026-10-13-free-printables-lead-magnets-plan.md) with every recommended option: The Planet Post, Screen Time Tickets, the Seven Night Screen Reset, the Five Screen Fights cards, the Bored Jar, in that order; preview free, PDF by email. Issue 1 of The Planet Post ships: four pages drawn in code (components/printables/news), the words as data (lib/printables/free), rendered by scripts/render-free-printables.mjs to A4, Letter, two ink savers and an A5 booklet with Nunito embedded; /free and /free/planet-post with the email gate; the email names multi page printables honestly and lists every file. Guard: check-free-printables. PR 1284.
-
-## 13 October 2026: the child's home, the day first and linked to the grown up
-
-Justin approved all four: the greeting and the five a day are one card at the top; one reward card (Use my time, balance, timer) that is never locked, with a line saying what finishing the five adds; reminders asked only once a day has been finished; and the parent link, "2 waiting for Mum or Dad to say yes" plus a Since you last looked card for yeses that landed while the child was away. The school diary is one slim line. "Mum or Dad" until the account says what the child calls the parent (that setting comes with the parent side PR). Guard: check-kid-home-simple. PR 1283.
-
-## 13 October 2026: the grown up's side of the link
-
-Settings asks "What does Teo call you?" (migration 376, children.calls_grown_up); the child's home, the yes pushes and every note to the child use it, "Mum or Dad" until set. Remind shows "Teo read it ✓" (kid_nudges.seen). The bell carries screen time asks with Say yes in place, and the child's finished days and passed lessons with Send a well done, which lands on the child's home as a note (kind well_done, one per win). Every new column is read softly. PR 1285.
-
-## 13 October 2026: The Guided Planet, the newspaper engine and Issue 001
-
-Justin asked for a system that makes every edition of a monthly 12 page illustrated paper for 7 to 12s ("The good side of screens"), with him approving twice. Built in publishing/: the issue is one JSON file, nine templates, Chromium print (fixed page boxes, not Paged.js, so every frame is measured), characters composited from the approved files and hash checked (Higgsfield paints backdrops only, behind a per issue credit budget), research verified by our own code against each source page, approvals bound to the content and PDF by hash, publishing idempotent. Issue 001 renders clean; every printed claim went through an adversarial citation check (7 wordings corrected). Issue 002 is a sample made from words alone. Migration 377 written, not applied. Dashboard /dashboard/admin/planet. PR 1287.
-
-## 13 October 2026: 373's content half carried in pieces, and proved before it was written
-
-Justin: "APPLY ALL NEEDED MIGRATIONS". The content half would not go through
-the tool in one 70 KB transaction, so it went the way
-scripts/module-to-chunks.mjs already says to carry curriculum prose: cut into
-pieces of a few kilobytes, which is a size that can be carried accurately.
-
-The method, and the part worth keeping. Two staging tables in `schools` took
-the 34 parent notes in seven pieces and the 40 together lines in two. Nothing
-touched a live lesson until the staging was **proved against
-content/modules**: 34 of 34 notes byte identical, and the 40 lines byte
-identical as one digest. That ordering is the whole point. A slip in a hand
-carried paste is normally written and then checked against the same slip; here
-the repo was the authority and the check came before the write.
-
-Then 373's own guards and both updates ran as one transaction reading from
-staging: the preconditions on every row, the slide type check, the two
-updates, and all five proofs against the backup. Every guard passed.
-
-Verified after: 34 notes carry listen_for and then_ask, the six that should
-carry say_this do, 9 KS3 rows read explorer and 7 KS4 read shaper, 40
-together lines are in place, and every module with a file in content/modules
-is byte identical to it on slides, parent_note and passport_stage. The three
-standalone lessons have no file there and were untouched.
-
-Left behind: schools.stage_373_notes and schools.stage_373_lines. The drop
-timed out three times and they are inert (RLS on, no grant to anon or
-authenticated), so they are rubbish to sweep rather than a risk. PR 1265.
-
-## 13 October 2026: 375 and 374 applied, and 377 cannot be
-
-375 first, because it was the one that mattered to a parent today. Three rows
-of expert_knowledge still told DiGi to warn before a screen ends, which 371
-had already established is the wrong advice (the one close study found warned
-endings were followed by more upset, Hiniker et al CHI 2016). DiGi reads that
-table unguarded, so retrieval could hand it the opposite of the fixed prompt.
-Three guarded updates, one per statement to stay inside the tool's minute,
-then 375's own check: zero active findings still advise a warning.
-
-374 carried the 52 hard questions onto the 13 decks that were missing them,
-by the method 373 proved. A staging table in `schools` took the 13 rows in
-four pieces, and nothing touched a live deck until staging was proved against
-content/modules: all 13 slide counts and all 13 question digests identical.
-Then 374's guards, its update and its proof ran as **one statement**, so a
-timeout could only ever roll the whole thing back. Its proof passed, and the
-live whole set digest now equals the repo's, 8acf4c52. Backup in
-schools.school_lessons_backup_374, RLS on, anon refused on the real path.
-
-Both are in the migration ledger now, so the next sweep sees them.
-
-377 is NOT applied and must not be. It creates public.planet_events as the
-newspaper's audit trail, but migration 252 already made that table the kids'
-Guided Planet ledger, with a foreign key to children and a different shape
-entirely. As written 377 aborts on its own index (no `issue` column), so
-nothing is corrupted; the danger is anyone who clears that error, because the
-next statement attaches an append only trigger to the children's ledger, for
-ever, service role included. publishing/engine/store-supabase.ts writes the
-newspaper shape to the same name, so that half is broken either way. The fix
-is a rename, and it belongs to the lane that wrote it (PR 1287).
-
-Left behind: schools.stage_374_hq, plus 373's two, inert for the same reason.
-
-## 13 October 2026: a correction to what the 373 staging tables were granted
-
-The 373 entry above said the two leftover staging tables had no grant to anon
-or authenticated. That was right about anon and wrong about authenticated,
-which still held select on both. RLS was on with no policies, so a signed in
-user got zero rows rather than data, and nothing was exposed. The grant should
-not have been there at all, and it is revoked now: all three staging tables
-refuse authenticated on the real access path, tested by setting the role
-rather than by reading a privilege table.
-
-Worth keeping, because it is the same shape as the 373 slip it corrects. A
-fresh table in this project inherits a grant, so a new table is only as closed
-as the statement that made it. 374's staging table was created with its revoke
-in the same statement and was closed from the first instant.
-
-## 13 October 2026: 377 goes back to the planet lane, not fixed here
-
-Justin's call, asked and answered today: leave 377 unapplied and let whoever
-owns the Guided Planet engine rename the table. So this is NOT an outstanding
-migration for the next sweep to pick up, and nobody should apply it as it
-stands. The newspaper dashboard has no audit trail until that lane acts.
-
-What they need to change: 377 creates public.planet_events, which migration
-252 already made the kids' ledger (foreign key to children, different shape).
-Rename 377's table, its index, its trigger and its function, and the two
-calls in publishing/engine/store-supabase.ts. The danger to avoid is clearing
-377's index error without the rename, because the statement after it attaches
-an append only trigger to the children's ledger for ever. Detail in PR 1289.
-
-## 13 October 2026: The Guided Planet wears boho Happy News, and the audience is written down
-
-Justin: be clear on the audience; more Happy News icons; lettering; the family account (formerly Inspired by Alma) loved the look of the Happy News printables, so the free downloads need boho, super attractive appeal. Decided: the reader is 7 to 12 (heart 7 to 11), the chooser is the parent on the family account, the passer on is the teacher (publishing/README.md). A boho theme, on for every issue: sand, clay, mustard, sage and rose; Fraunces Soft lettering with Caveat handwriting (OFL); the app's own Happy News icons and marks, not copies; the masthead drawn from the font so the PDF text stays clean. Reverses, for printables only, the 5 October retirement of Happy News as a social reference. Every check still passes.
-
-## 13 October 2026: the review board, eleven lenses scored every Friday
-
-Justin asked for agents that check the platform weekly on ten questions until each is ten out of ten, with a dashboard and an alert at every session that asks him whether his tasks are done. Ten lens agents and a chief of staff (`.claude/agents/review-*`) score out of ten; a skeptic must agree to any nine or ten, and a lens closes only after two weeks at ten. Every gap passes the feedback filter before it becomes a task. A SessionStart hook prints the alert and asks about each of Justin's tasks at most once a day; answers are one file each in `plans/review-board/answers/` so parallel sessions never collide. Routine: Friday 06:49 London. First run: 0 of 11 at ten, scores 6 to 8, 33 tasks. PR 1288.
-
 ## 14 October 2026: The Guided Planet emails through Resend, and boho is for the printables
 
 Justin: "Resend better than Mailchimp"; "boho printables". The newspaper's email channel moves from a Mailchimp draft campaign to a Resend draft broadcast, so the paper uses the house email and one sender reputation (the swap is its own small PR). Boho is confirmed for the printables (The Guided Planet and the free downloads); the social card system is unchanged. Also found before applying 377: its planet_events name was the children's Planet Friends ledger (252); the newspaper's table is now planet_issue_events. Applied to the live database on 14 October (seven tables, RLS on, service role only, private guided-planet bucket; the children's planet_events untouched). Every earlier attempt timed out because the Supabase tool holds any drop statement for a confirmation that never appears in a cloud session, so 377 now uses create or replace trigger. PR 1294.
+
 ## 14 October 2026: competitor sightings logged, and a first phone ad drafted
 
 Justin saw seven parenting and family app ads on Instagram and asked if he should worry. None does our core loop; Kairoo (screen agreement and bedtime reminders) is the closest and takes the job off the parent, the opposite of commitment 2. All seven are logged in `briefings/notes/competitor-sightings.md`, which the competitor watch lens now reads. No ad named the first phone, so an ad that opens on it was drafted (three cards plus captions, organic first per the money rule). A second sweep the same day added Balance Phone (a phone maker now running our readiness hook), Qustodio (now leading on the battle) and Nuet (the plain voice; it overlaps our school letterbox), with seven campaign lessons in the same file: `content/packs/2026-10-14-first-phone-ad/`. Nothing posted.
-
-## 13 October 2026: 377's grants are fixed, its name collision is not
-
-The planet lane answered the guard in PR 1290 and chose well: the grants went
-to service_role, not to authenticated. That matters, because the guard's own
-printed suggestion was `grant select, insert, update, delete on
-public.planet_events to authenticated`, and public.planet_events is the kids'
-ledger from 252. Pasting the suggestion would have handed signed in users read
-and write on a table of children's events.
-
-So `npm run check-migration-grants` is green again and the repo is unblocked.
-377 still cannot be applied. The guard checks that a new public table has a
-grant and RLS; it cannot see that the name is already taken. 377 still creates
-public.planet_events, so a run still stops at its own index for want of an
-`issue` column, and it now also asks for `public.planet_events_id_seq`, which
-does not exist because the kids' table keys on a uuid.
-
-The rename is still the outstanding piece: the table, its index, its trigger,
-its function, the sequence grant, and the two calls in
-publishing/engine/store-supabase.ts. A green guard is not a green light here.
 
 ## 14 October 2026: reels story bank from Family IT Guy's parent questions, not his content
 
@@ -544,6 +214,7 @@ Docs. Those three are now 040, 041 and 042. `content/gdc-post-register.md` is th
 single place a number is claimed, routed from drive-post-review. The real cause
 is that two systems assign numbers and neither can see the other, which the
 register fixes only if both write to it.
+
 ## 14 October 2026: Happy News design system in Claude Design; printables start from it
 
 After a design critique of The Planet Post canvas (friends band, bigger lead
