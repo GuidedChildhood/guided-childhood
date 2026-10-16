@@ -5,6 +5,9 @@ import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
+import WhatYouKeep from '@/components/upgrade/WhatYouKeep'
+import { getWhatYouKeep, KEEP_FALLBACK } from '@/lib/paywall/what-you-keep'
 import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
@@ -129,7 +132,10 @@ export default async function UpgradePage(
   // A parent who has not been asked yet, or who abandoned the card form, has
   // taken nothing and is still owed the offer.
   const declinedFounder = profile?.plan_choice === 'free'
-  const founderCount = declinedFounder ? FOUNDER_CAP : await getFounderCount().catch(() => 0)
+  const [founderCount, keep] = await Promise.all([
+    declinedFounder ? FOUNDER_CAP : getFounderCount().catch(() => 0),
+    getWhatYouKeep(supabase, user.id),
+  ])
   const founderAvailable = !declinedFounder && founderCount < FOUNDER_CAP
   const founderRemaining = Math.max(0, FOUNDER_CAP - founderCount)
 
@@ -222,6 +228,14 @@ export default async function UpgradePage(
         </p>
       </div>
 
+      {/* What this family keeps, from their own rows, before any feature
+          list. Review board, 16 October 2026 (paywall-ask-is-personal). The
+          fallback is the honest one: nothing to name yet, and the next step. */}
+      <WhatYouKeep
+        keep={keep}
+        fallback={KEEP_FALLBACK}
+      />
+
       {/* One subscription, every child: the family framing the best family
           apps lead with. */}
       <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', marginBottom: '24px', textAlign: 'center' }}>
@@ -231,6 +245,10 @@ export default async function UpgradePage(
       </div>
 
       <WhatYouAreBuying />
+
+      {/* The question a parent weighs at the price: why not a free chatbot.
+          Review board, 16 October 2026 (paywall-names-what-ai-cannot). */}
+      <WhatAChatbotCannot />
 
       {/* Pricing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>

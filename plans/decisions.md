@@ -350,6 +350,29 @@ ring lives in shared/tokens.css. Seven route loaders draw their own page shape
 (child path is a redirect, so it keeps the child home loader). Every hex literal
 outside tokens.css counts, #fff included, but only new ones fail: the baseline
 only ever shrinks. PRs #1321 and #1322.
+## 16 October 2026: The live Pathway Session line comes off the paid screens
+Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
+tick comes off the upgrade page, its only appearance (no email, config or
+choose screen carried it). None has been booked, and a promise on the page
+that takes money must already be kept. It comes back once a first session is
+booked. Same PR adds one block naming what a free chatbot cannot do, on the
+home page, the choose screen and the upgrade page, each line with its proof
+path in the component. PR #1328.
+
+## 16 October 2026: The ask names what the family keeps, and repeats after the first look
+The choose screen and the upgrade page now list this family's own rows (child's
+name, the worry, check ins, the star quest, scripts opened) from
+lib/paywall/what-you-keep.ts; zeros hide, and an empty family gets an honest
+line, not a list of nothing. The ask repeats on Home's trial card once there is
+a first check in or script, on the no card path only. PR #1329.
+## 16 October 2026: the stage result has a share action
+Review board task stage-result-share-action. Under the door on the result
+screen: "Send this to a parent who has this fight", Send on WhatsApp and Copy
+link. A visitor shares /v/stage-share (counted under Shared from the stage
+result once migration 379, PR 1323, is applied); a parent with an account
+shares their own /r/ link and the message says both get £5 (CAP Code 2.1). It
+never names the worry, and it hides for an answer that needs help first.
+PR 1324.
 ## 16 October 2026: The Monday CrewAI meeting is deleted
 
 Justin decided (review board item decide-legacy-crewai) to delete the old

@@ -497,6 +497,9 @@ jobs:
       # failed, and the whole route to 4,000 a month runs through that page.
       - run: node scripts/check-starter-order.mjs
       - run: node scripts/check-starter-fold.mjs
+      # The share on the stage result: a counted /v/ link for a visitor, the /r/
+      # link with the £5 said plainly for a member, never over a crisis answer.
+      - run: node --experimental-strip-types scripts/check-stage-share.mjs
       - run: node scripts/check-one-tap.mjs
       - run: node scripts/check-pathway-notes.mjs
       - run: node scripts/check-children-age-up.mjs
