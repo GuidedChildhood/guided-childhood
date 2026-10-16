@@ -1,5 +1,8 @@
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
+import WhatYouKeep from '@/components/upgrade/WhatYouKeep'
+import { EMPTY_KEEP, KEEP_FALLBACK } from '@/lib/paywall/what-you-keep'
+import { REF_KEEP } from '@/app/ref-choose/fixture'
 
 // Layout fixture for the "what you are really buying" block on /dashboard/upgrade.
 //
@@ -25,6 +28,9 @@ export default function RefUpgradeBlock() {
         <p className="eyebrow" style={{ color: 'var(--ink-muted)', margin: '0 0 14px' }}>
           Reference · the upgrade page block
         </p>
+        {/* The same fallback sentence the real upgrade page passes. */}
+        <WhatYouKeep keep={REF_KEEP} fallback={KEEP_FALLBACK} />
+        <WhatYouKeep keep={EMPTY_KEEP} fallback={KEEP_FALLBACK} />
         <WhatYouAreBuying />
         <WhatAChatbotCannot />
       </div>
