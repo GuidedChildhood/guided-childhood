@@ -122,7 +122,7 @@ const CARDS: { key: CoverageKey; seen: (s: CoverageSignals) => boolean; card: Om
     card: {
       eyebrow: 'Not tried yet', emoji: '💬',
       title: 'The words for the hard moments',
-      blurb: 'Over two hundred scripts for the conversations that go wrong: what to say, what not to say, why it works, and one thing to do tonight. Filter them by what is actually happening.',
+      blurb: 'Over three hundred scripts for the conversations that go wrong: what to say, what not to say, why it works, and one thing to do tonight. Filter them by what is actually happening.',
       cta: 'Browse them', href: '/dashboard/scripts',
     },
   },

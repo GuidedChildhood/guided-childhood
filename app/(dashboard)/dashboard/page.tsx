@@ -1999,7 +1999,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker.
+            All 5 stages, unlimited DiGi, over 300 scripts, the AI module, wellbeing tracker.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
             Claim founder rate
