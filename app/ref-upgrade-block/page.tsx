@@ -1,4 +1,5 @@
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 
 // Layout fixture for the "what you are really buying" block on /dashboard/upgrade.
 //
@@ -25,6 +26,7 @@ export default function RefUpgradeBlock() {
           Reference · the upgrade page block
         </p>
         <WhatYouAreBuying />
+        <WhatAChatbotCannot />
       </div>
     </main>
   )

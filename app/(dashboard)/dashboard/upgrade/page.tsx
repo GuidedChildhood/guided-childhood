@@ -5,6 +5,7 @@ import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
@@ -231,6 +232,10 @@ export default async function UpgradePage(
       </div>
 
       <WhatYouAreBuying />
+
+      {/* The question a parent weighs at the price: why not a free chatbot.
+          Review board, 16 October 2026 (paywall-names-what-ai-cannot). */}
+      <WhatAChatbotCannot />
 
       {/* Pricing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>

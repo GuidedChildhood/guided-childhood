@@ -11,6 +11,7 @@ import BackToTop from '@/components/marketing/BackToTop'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import HeaderActions from '@/components/marketing/HeaderActions'
 import FounderBadge from '@/components/marketing/FounderBadge'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { STAGES as PRODUCT_STAGES } from '@/lib/content/stages'
@@ -605,6 +606,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* What a free chatbot cannot do. Its own band and its own component
+          (components/upgrade/WhatAChatbotCannot.tsx, where the proof path for
+          every line is written down), so the sections around it can change
+          without touching it. Review board, 16 October 2026. */}
+      <WhatAChatbotCannot variant="section" />
 
       {/* ================================================================
           3 · WE DRIVE YOU — what to do, when, how

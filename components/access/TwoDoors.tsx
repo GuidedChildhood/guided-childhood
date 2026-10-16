@@ -1,5 +1,6 @@
 import { PAY_BTN } from './door-button'
 import FreeDoor from './FreeDoor'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 
 // ── THE LAST THING IN SIGN UP: TWO PATHS, PICK ONE ──────────────────────────
 //
@@ -243,6 +244,14 @@ export default function TwoDoors({
             The no card path keeps its own case rather than being an apology,
             and it says plainly what it costs. */}
         <FreeDoor days={freeDays} trialDays={trialDays} next={next} />
+        </div>
+
+        {/* WHY PAY AT ALL, under the two doors rather than above them, so the
+            choice is still the first thing on the screen. Review board, 16
+            October 2026: neither door said what a free chatbot cannot do, and
+            that is the comparison a parent is making with the card in hand. */}
+        <div style={{ marginTop: '18px' }}>
+          <WhatAChatbotCannot />
         </div>
 
         {/* SAID ONCE, UNDERNEATH BOTH, because it is the one thing that does
