@@ -15,8 +15,8 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 
 export type TonightPlan = {
-  /** The mechanism confirmed: bedtime, timer, words, morning, gaming. */
-  key: 'bedtime' | 'timer' | 'words' | 'morning' | 'gaming'
+  /** The mechanism confirmed: bedtime, timer, words, morning, gaming, phone. */
+  key: 'bedtime' | 'timer' | 'words' | 'morning' | 'gaming' | 'phone'
   /** The rung's label on the road. */
   label: string
   /** One plain sentence saying what is on tonight. */
@@ -25,7 +25,30 @@ export type TonightPlan = {
   href: string
   /** The words for the button that goes there. */
   hrefLabel: string
+  /** Anything else the step leans on, shown as quieter links under the button. */
+  more?: { href: string; label: string }[]
 }
+
+// ── THE FIRST PHONE: ITS OWN STEP, NOT THE BEDTIME ONE ──────────────────────
+//
+// Review board, 13 October 2026: phones-and-messaging shared the bedtime case,
+// so a parent whose child does not have a phone yet was told "Phones to bed"
+// and "the device charges outside the bedroom". Asking for a phone is the
+// second most common worry named at signup, and for most of those families
+// the phone is still an idea, not an object.
+//
+// So when the child has no phone of their own on the devices list, the step
+// is the conversation: the phone plan script (the words for when they ask),
+// the phone ladder (what phone, at what age) and the family phone agreement
+// (the thing they sign together). A child who already has one keeps the
+// bedtime step, because then the charging spot really is tonight's job.
+//
+// The title is a real row (supabase/migrations/261_situations_scripts.sql,
+// family rules, free); scripts/check-concern-loop.mjs fails if it is not in
+// the seeds. The script itself lives in the database, as every script does.
+export const PHONE_PLAN_SCRIPT = 'The Year 6 phone plan, before the box is opened'
+export const PHONE_LADDER_HREF = '/dashboard/phone-setup'
+export const PHONE_AGREEMENT_HREF = '/dashboard/printables#family-phone-agreement'
 
 /** 20:00 to "8pm", 19:30 to "7.30pm". Minutes past midnight in. */
 export function clockLabel(min: number | null): string | null {
@@ -45,11 +68,29 @@ export function tonightFor(input: {
   blocksScreensJob: string | null
   scriptHref: string
   timerHref: string
+  /** Does this child have a phone of their own on the devices list. */
+  hasOwnPhone?: boolean
+  /** Where the phone plan script lives, when the reader found it. */
+  phoneScriptHref?: string | null
 }): TonightPlan | null {
   const { slug, childName: kid, bedtimeStartMin, deviceTrust, blocksScreensJob, scriptHref, timerHref } = input
   if (!slug) return null
   const bed = clockLabel(bedtimeStartMin)
   const before = blocksScreensJob ? ` ${blocksScreensJob} comes before screens.` : ''
+
+  if (slug === 'phones-and-messaging' && !input.hasOwnPhone) {
+    return {
+      key: 'phone',
+      label: 'The first phone',
+      line: `If ${kid} asks about a phone tonight, the answer is a plan, never a flat no. Ask where they think a phone should charge at night and why. Whatever they say, you have started planning it together.`,
+      href: input.phoneScriptHref ?? scriptHref,
+      hrefLabel: 'Read the words',
+      more: [
+        { href: PHONE_LADDER_HREF, label: 'What phone, at what age' },
+        { href: PHONE_AGREEMENT_HREF, label: 'The family phone agreement' },
+      ],
+    }
+  }
 
   switch (slug) {
     case 'bedtime-screens':
@@ -122,7 +163,7 @@ export async function readTonight(
   child: { id: string; name?: string | null; age_band?: string | null },
   scriptHref: string,
 ): Promise<TonightPlan | null> {
-  const [concernsRes, childRes, jobRes, settings] = await Promise.all([
+  const [concernsRes, childRes, jobRes, settings, phoneRes] = await Promise.all([
     supabase.from('concerns').select('slug, status, times_flagged')
       .eq('user_id', userId).eq('child_id', child.id).in('status', ['open', 'improving']).limit(50),
     supabase.from('children').select('device_trust').eq('id', child.id).maybeSingle(),
@@ -130,6 +171,10 @@ export async function readTonight(
       .eq('user_id', userId).eq('active', true).eq('blocks_screens', true)
       .or(`child_id.eq.${child.id},child_id.is.null`).limit(1),
     getTimeSettings(supabase, userId, [{ id: child.id, age_band: child.age_band ?? null }]).catch(() => new Map()),
+    // A phone of their own: on the list, this child's, not retired. A shared
+    // house phone is nobody's first phone.
+    supabase.from('family_devices').select('id')
+      .eq('user_id', userId).eq('child_id', child.id).eq('kind', 'phone').eq('shared', false).is('retired_at', null).limit(1),
   ])
   const concerns = (concernsRes.data ?? []) as { slug: string; status: string; times_flagged: number | null }[]
   // Open beats improving, then the one flagged most.
@@ -138,6 +183,16 @@ export async function readTonight(
   )[0] ?? null
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'your child'
   const withChild = (href: string) => `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`
+  const hasOwnPhone = (phoneRes.data ?? []).length > 0
+  // Only looked up for the one step that uses it. Scripts are addressed by
+  // sort_order (app/(dashboard)/dashboard/scripts/[id]); a missing row falls
+  // back to the family rules shelf rather than a dead link.
+  let phoneScriptHref: string | null = null
+  if (top?.slug === 'phones-and-messaging' && !hasOwnPhone) {
+    const { data: row } = await supabase.from('scripts').select('sort_order').eq('title', PHONE_PLAN_SCRIPT).maybeSingle()
+    const order = (row as { sort_order?: number | null } | null)?.sort_order
+    phoneScriptHref = withChild(order ? `/dashboard/scripts/${order}` : '/dashboard/scripts/category/family-rules')
+  }
   return tonightFor({
     slug: top?.slug ?? null,
     childName: kidName,
@@ -146,5 +201,7 @@ export async function readTonight(
     blocksScreensJob: ((jobRes.data ?? [])[0] as { title?: string } | undefined)?.title ?? null,
     scriptHref,
     timerHref: withChild('/dashboard/quests/timer'),
+    hasOwnPhone,
+    phoneScriptHref,
   })
 }

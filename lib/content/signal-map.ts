@@ -51,6 +51,37 @@ export const CONCERN_TO_CATEGORY: Record<string, string> = {
   siblings: 'everyday-routines',
   routines: 'everyday-routines',
 
+  // ── THE LEDGER SLUGS: WHAT ONBOARDING AND THE CHECK IN WRITE ─────────────
+  //
+  // The nine worries a parent names at signup and rates every day (LABEL in
+  // lib/concerns/worry-map.ts) are kebab case, and until 16 October 2026 not
+  // one of them was in this table. The keyword pass caught some and missed
+  // the rest: phones-and-messaging and seen-something came back null, so a
+  // parent who rated "Phones and messaging" as really tough was offered Ask
+  // DiGi and no Get the words button, and controller-fights matched the
+  // word "fight" in the routines rule and offered packed lunch scripts.
+  // Asking for a phone is the second most common answer at signup.
+  //
+  // Where lib/content/device-issues.ts already names a category for the same
+  // concern slug, this agrees with it. scripts/check-concern-loop.mjs fails
+  // if any ledger slug is missing here or the two tables disagree.
+  'phones-and-messaging': 'family-rules',
+  'seen-something': 'staying-safe',
+  'controller-fights': 'gaming',
+  'wont-put-down': 'screen-time',
+  'bedtime-screens': 'screen-time',
+  'morning-tv': 'screen-time',
+  // Mood, not screen time: the words for this one are about the feeling that
+  // follows the screen ("Mood drops after phone use"), which is where the
+  // device issues table already files it.
+  'mood-after-screens': 'mood-confidence',
+  'social-media': 'social-media',
+  'ai-chatbots': 'school-and-ai',
+  // The two slugs the device issues table tracks that onboarding does not
+  // write today. Mapped so the day either is written it already has words.
+  'asking-for-phone': 'family-rules',
+  'online-safety': 'staying-safe',
+
   // ── THE RIGHT NOW KEYS ───────────────────────────────────────────────────
   //
   // The rescue flow writes `rightnow-<situation>` into concerns.slug, and not
