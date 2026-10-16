@@ -11,8 +11,10 @@ import BackToTop from '@/components/marketing/BackToTop'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import HeaderActions from '@/components/marketing/HeaderActions'
 import FounderBadge from '@/components/marketing/FounderBadge'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { STAGES as PRODUCT_STAGES } from '@/lib/content/stages'
 import { CONTACT, hasAddress, hasCompany } from '@/lib/content/contact'
 // The live origin, from the one place it is written down. This page had five
 // copies of https://www.guidedchildhood.co.uk hardcoded, a domain the business
@@ -54,7 +56,13 @@ export const metadata: Metadata = {
 // they arrive with. Added 23 September 2026 after Pam's review said the page
 // only ever spoke in problems.
 
-const STAGES = [
+// THE PRODUCT'S OWN NAMES AND AGES (home-stage-names-match-product, 16 October
+// 2026). This list said First Steps and Navigator, and 'Ages 11 to 13' beside
+// 'Ages 13 to 15', so the parent of a 13 year old saw two stages here and the
+// quiz then gave her one. The names and ages are now read from lib/content/
+// stages.ts by stage number, the same list the stage check and the app use,
+// so they cannot drift again. The rest of each card is the home page's own.
+const HOME_STAGES = [
   {
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
     device: 'Shared screen',
@@ -64,7 +72,7 @@ const STAGES = [
     bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
   },
   {
-    num: '02', name: 'First Steps', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
+    num: '02', name: 'Builder', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
     device: 'Restricted phone',
     tags: ['After school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it is TV or gaming. I cannot break the cycle."',
@@ -72,7 +80,7 @@ const STAGES = [
     bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)',
   },
   {
-    num: '03', name: 'Explorer', ks: 'KS2/KS3 · Yr 6 to 8', ages: 'Ages 11 to 13',
+    num: '03', name: 'Explorer', ks: 'KS2/KS3 · Yr 6 to 8', ages: 'Ages 11 to 12',
     device: 'Guided smartphone',
     tags: ['Mood after screens', 'Sleep rules', 'Workarounds'],
     quote: '"Her mood drops every time she puts her phone down. I am worried."',
@@ -81,7 +89,7 @@ const STAGES = [
     critical: true,
   },
   {
-    num: '04', name: 'Navigator', ks: 'KS3/KS4 · Yr 9 to 10', ages: 'Ages 13 to 15',
+    num: '04', name: 'Shaper', ks: 'KS3/KS4 · Yr 9 to 10', ages: 'Ages 13 to 15',
     device: 'Monitored social',
     tags: ['VPNs', 'Unknown accounts', 'Reputation'],
     quote: '"He has accounts I do not know about. What do I do?"',
@@ -89,7 +97,7 @@ const STAGES = [
     bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)',
   },
   {
-    num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16+',
+    num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16 and above',
     device: 'Trust based',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She is 16 next month. I have no idea if she is ready."',
@@ -97,6 +105,8 @@ const STAGES = [
     bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)',
   },
 ]
+
+const STAGES = HOME_STAGES.map((s, i) => ({ ...s, name: PRODUCT_STAGES[i].name, ages: PRODUCT_STAGES[i].ages }))
 
 // ── The three strongest parent moments (from the 13 card set; the rest live
 //    in the product). Chosen as the 11 o'clock proof: the nightly fight, the
@@ -117,7 +127,7 @@ const MOMENTS = [
     backLabel: 'What actually fixes this',
     back: 'A flat mood after screens can have a few causes: a rewarding thing stopping, tiredness, hunger, what they were watching, who they were talking to. It is a pattern worth tracking, especially at 11 to 13, not a verdict. Say: "I notice you seem low after your phone time. I am not upset, I want to understand it with you." Track it for two weeks. The pattern becomes the conversation.',
     bg: 'var(--stage-5)',
-    stage: 'Stage 3 · Critical window · Ages 11 to 13',
+    stage: 'Stage 3 · Critical window · Ages 11 to 12',
   },
   {
     frontLabel: 'I keep shouting',
@@ -160,7 +170,7 @@ const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_114033_5c4f1927-62b5-4b85-98a7-f11d
 // so what Google is told always matches what a visitor can read.
 const FAQS = [
   { q: 'At what age should my child get their first phone?',
-    a: "There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child's stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how." },
+    a: "There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child's stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 12) is when smartphones become more common. The question is not when but how." },
   { q: 'How do I deal with screen time arguments every day?',
     a: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine takes most of the daily negotiation out of it, and you rate the worry each day and watch your own number move.' },
   { q: 'When should children be allowed on social media?',
@@ -596,6 +606,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* What a free chatbot cannot do. Its own band and its own component
+          (components/upgrade/WhatAChatbotCannot.tsx, where the proof path for
+          every line is written down), so the sections around it can change
+          without touching it. Review board, 16 October 2026. */}
+      <WhatAChatbotCannot variant="section" />
 
       {/* ================================================================
           3 · WE DRIVE YOU — what to do, when, how
@@ -1198,7 +1214,7 @@ export default function HomePage() {
 
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Guides</div>
-              {[['Stage 1 · Ages 4 to 7', '#stages'], ['Stage 2 · Ages 8 to 10', '#stages'], ['Stage 3 · Ages 11 to 13', '#stages'], ['Stage 4 · Ages 13 to 15', '#stages'], ['Stage 5 · Ages 16+', '#stages']].map(([label, href]) => (
+              {PRODUCT_STAGES.map(st => [`Stage ${st.id} · ${st.ages}`, '#stages']).map(([label, href]) => (
                 <div key={label} style={{ marginBottom: 0 }}>
                   <Link href={href} style={{ display: 'inline-block', padding: '11px 0', fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
                 </div>

@@ -1,19 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, normaliseLinkCode } from '@/lib/video/link'
+import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, startCode } from '@/lib/video/link'
+import { REF_COOKIE } from '@/lib/referrals'
+import { SCHOOL_LINK_COOKIE } from '@/lib/school/link'
 
-// A stage check was begun (migration 372). The stage check calls this once,
-// on the first answer, for every visitor; only a visitor who came through a
-// film link has the cookie, so everyone else costs one cookie read and an
-// empty reply. Counted once per browser per follow: the started cookie says
+// A stage check was begun (migrations 372 and 379). The stage check calls this
+// once, on the first answer, for every visitor.
+//
+// Until 379 only a visitor holding a film cookie was counted, so the founder
+// could not say how many checks had been begun at all. Now every start is
+// counted against the link that sent them, or, with no link, against a
+// member's referral link, a school newsletter, or no link (lib/video/link
+// startCode). Counted once per browser per follow: the started cookie says
 // this one is already in.
 //
-// Nothing about the visitor is stored. The row is the film's code, the word
-// started and the time.
+// Nothing about the visitor is stored. The row is a code, the word started
+// and the time.
 
 export async function POST(req: NextRequest) {
-  const code = normaliseLinkCode(req.cookies.get(VIDEO_LINK_COOKIE)?.value)
-  if (!code || req.cookies.get(VIDEO_STARTED_COOKIE)?.value === code) return NextResponse.json({ ok: true, counted: false })
+  const code = startCode({
+    video: req.cookies.get(VIDEO_LINK_COOKIE)?.value,
+    started: req.cookies.get(VIDEO_STARTED_COOKIE)?.value,
+    referral: req.cookies.get(REF_COOKIE)?.value,
+    school: req.cookies.get(SCHOOL_LINK_COOKIE)?.value,
+  })
+  if (!code) return NextResponse.json({ ok: true, counted: false })
 
   let counted = false
   try {

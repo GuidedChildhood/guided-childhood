@@ -31,6 +31,8 @@ Plus `review-skeptic`, who challenges every nine and ten before it stands.
 - `answers/`: one small file per answer Justin gives at the start of a
   session. Folded into `tasks.json` and cleared by the next weekly run.
 - `runs/<date>.md`: each run's full report.
+- `product-pulse.sql`: the one read only select the Friday run uses to read
+  real family behaviour. Its rows are never committed.
 - `dashboard.html`: drawn by the script, published as an Artifact.
 
 ## The commands
@@ -43,6 +45,7 @@ npm run review-board -- notyet <id>         not yet; not asked again today
 npm run review-board -- snooze <id> 7       not asked again for 7 days
 npm run review-board -- drop <id> [reason]  no longer needed
 npm run review-board -- add --owner justin --title "..."
+npm run review-board -- pulse --rows <f>    the one line of real behaviour (unknown if unreadable)
 npm run review-board -- dashboard           redraw the page
 npm run review-board-test                   the tests
 ```
@@ -59,6 +62,10 @@ The board reads what these already find; it never redoes them.
 | Weekday PR review against review.md | Weekdays 07:30 UTC |
 | Sunday social batch | Sunday 18:55 London |
 | Daily health sweep | Daily 09:30 UTC |
+
+The Wednesday walkthrough saves its report in `walkthroughs/<date>.md`. The
+instructions a routine reads from the repo live in `routines/`, always read
+from `origin/main` and never from a checkout.
 
 ## The one limit worth knowing
 

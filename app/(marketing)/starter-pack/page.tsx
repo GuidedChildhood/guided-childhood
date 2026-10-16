@@ -16,8 +16,10 @@ const ProviderButtons = dynamic(() => import('@/components/auth/ProviderButtons'
 const SavingPathway = dynamic(() => import('@/components/starter/SavingPathway'), { ssr: false })
 import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
 import { enabledProviders } from '@/lib/auth/providers'
-import { bandForAge } from '@/lib/children/age'
+import { bandForAge, isTooYoung } from '@/lib/children/age'
+import StartsAtFour from '@/components/children/StartsAtFour'
 import WorryPicker from '@/components/onboarding/WorryPicker'
+import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
   FEELING_OPTIONS,
@@ -337,12 +339,32 @@ export default function StarterPackPage() {
     } catch {}
   }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
-  // ── A FILM'S START, COUNTED (migration 372) ───────────────────────────
+  // ── ?src=, READ (migration 379) ──────────────────────────────────────────
+  //
+  // Printed and published pieces carry /starter-pack?src=<code> (the Planet
+  // Post went to print with src=planet-post-1), and until now nothing read it.
+  // Posted once on arrival: a live code is counted and remembered exactly as
+  // /v/<code> would be. The param then leaves the address bar, so a reload or
+  // a copied link is not a second follow.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const src = params.get('src')
+    if (!src) return
+    fetch('/api/video-link/follow', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ src }), keepalive: true,
+    }).catch(() => {})
+    params.delete('src')
+    const rest = params.toString()
+    window.history.replaceState(window.history.state, '', window.location.pathname + (rest ? `?${rest}` : '') + window.location.hash)
+  }, [])
+
+  // ── EVERY START, COUNTED (migrations 372 and 379) ────────────────────────
   //
   // The first answer is the stage check begun. Posted once per visit; the
-  // server counts it only for a visitor who came through a film link
-  // (/v/<code>), and only once per follow, so for everyone else this is one
-  // empty call. It is how a film is judged on starts, not just views.
+  // server counts it against the link that sent the visitor, or against a
+  // referral link, a school link or no link at all, once per browser per
+  // follow. It is how the founder page reads checks per channel, the Friday
+  // number, rather than views.
   const startCounted = useRef(false)
   useEffect(() => {
     if (step !== 'q2' || startCounted.current) return
@@ -399,6 +421,11 @@ export default function StarterPackPage() {
     setDobMonth(month)
     setDobYear(year)
     if (month == null || year == null) return
+    // We start at 4 (Justin, 16 October 2026). A 2 or 3 year old used to be
+    // clamped into ages 4 to 7 here and walked on to a stage written for a
+    // child twice their age. Now the page stays put and StartsAtFour, under
+    // the birthday, says so and says when to come back.
+    if (isTooYoung(`${year}-${String(month).padStart(2, '0')}-01`)) { setAgeBand(null); return }
     const derived = bandForAge(`${year}-${String(month).padStart(2, '0')}-01`)
     if (!derived) return
     setAgeBand(derived)
@@ -742,6 +769,7 @@ export default function StarterPackPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No commitment. Built on the research.
             </p>
+            <WhatWeAreNot />
           </>
         )}
 
@@ -850,7 +878,7 @@ export default function StarterPackPage() {
               No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
             </p>
             <button onClick={() => setStep('result')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
-              ← Back to the pathway
+              ← Back
             </button>
           </>
         )}
@@ -963,6 +991,9 @@ export default function StarterPackPage() {
                 {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             </div>
+            {dob && isTooYoung(dob) && (
+              <StartsAtFour dob={dob} name={childName} after="Got an older child as well? Put their birthday in instead." />
+            )}
 
             {/* THE STAGE IS NOT ANNOUNCED HERE ANY MORE.
 

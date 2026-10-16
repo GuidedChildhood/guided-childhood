@@ -15,7 +15,7 @@
 
 ## The one hook and the one link
 
-Every piece carries the same hook: **what stage is your child**. Every route ends at the same place: **guidedchildhood.co.uk/starter-pack**. Do not change either while you are still learning what works. One hook, one link, everywhere.
+Every piece carries the same hook: **what stage is your child**. Every route ends at the same place: **guidedchildhood.com/starter-pack**. Do not change either while you are still learning what works. One hook, one link, everywhere.
 
 ## The week, mapped
 

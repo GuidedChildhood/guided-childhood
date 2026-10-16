@@ -94,6 +94,7 @@ import HabitNudge from '@/components/home/HabitNudge'
 import FoldSection from '@/components/dashboard/FoldSection'
 import { getFamilyHandover, offerableChildren, reofferChildren } from '@/lib/handover/settled'
 import PhoneLaterCard from '@/components/home/PhoneLaterCard'
+import { getWhatYouKeep, keepsLine } from '@/lib/paywall/what-you-keep'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -911,6 +912,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const showTrial = inTrial(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
+  // THE ASK REPEATS ONCE THEY HAVE SEEN SOMETHING BACK (review board, 16
+  // October 2026, paywall-ask-is-personal; THE-STORY section 9). After the
+  // first check in or the first script, the trial card names what this family
+  // has made and says it stays. Only on the no card path: a founder's card is
+  // already on file, so there is nothing to ask. keepsLine is null until there
+  // is something real to name, and the card is unchanged until then.
+  const trialKeepsLine = (showTrial || trialEnded) && profile?.plan_choice !== 'founder'
+    ? keepsLine(await getWhatYouKeep(supabase, user.id))
+    : null
+
   // The child's jobs, read across for DiGi's greeting: whether today's jobs are
   // done and the on time streak, so the parent line says if they are on track
   // and links to the screen and jobs balance. The same strict streak the
@@ -1204,6 +1215,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           tier={(profile?.subscription_tier as string | null) ?? null}
           jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
           streakCount={streak.count}
+          keepsLine={trialKeepsLine}
         />
       )}
 
@@ -1999,7 +2011,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker.
+            All 5 stages, unlimited DiGi, over 300 scripts, the AI module, wellbeing tracker.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
             Claim founder rate

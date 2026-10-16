@@ -8,7 +8,10 @@
 // so that a fallback down the ladder can never carry a flag to a model that
 // errors on it. This guard is what makes that a rule rather than a habit.
 //
-// Five rules:
+// 16 October 2026: the fallbacks behind Fable moved to Opus 5.5 and Sonnet 5.5
+// (rule 6), and fast mode takes Opus 5.5 as well as Opus 5.
+//
+// Six rules:
 //
 //   1. No date suffixed model id anywhere in the code. The ids are complete as
 //      published; a suffix from memory is how the fast tier drifted to a name
@@ -22,6 +25,10 @@
 //      tier, deep jobs to the deep model, with no duplicates in any ladder.
 //      And the DiGi route lets the helpers choose the model: no call site
 //      passes one, and every callDigi names its task.
+//   6. The fallback ladders (DiGi and the AI module) are Fable 5.1, then
+//      Opus 5.5, then Sonnet 5.5, in that order, and no code names the older
+//      Opus 5 or Sonnet 5 as a fallback. DIGI_MODEL itself stays an env var
+//      with the default claude-fable-5-1.
 //
 // Rules 3 to 5 import the real config rather than reading its text, so they
 // test what the code does and not how it is spelled.
@@ -76,6 +83,9 @@ const probe = `
     effortChat: c.digiEffortFor('chat', c.DIGI_MODEL_CHAT),
     effortDeepJob: c.digiEffortFor('wisdom', c.DIGI_MODEL),
     fastOpus: c.fastModeFor('claude-opus-5'),
+    fastOpus55: c.fastModeFor('claude-opus-5-5'),
+    fastSonnet55: c.fastModeFor('claude-sonnet-5-5'),
+    fallbacks: [...c.DIGI_MODEL_FALLBACKS],
     fastSonnet: c.fastModeFor('claude-sonnet-5'),
     fastHaiku: c.fastModeFor('claude-haiku-4-5'),
     fastFable: c.fastModeFor('claude-fable-5-1'),
@@ -105,9 +115,15 @@ if (on && off) {
   if (on.effortChat === null) problems.push(`no effort on the chat tier (${on.chat}). The whole point of the tier is answering faster than the API default.`)
   if (on.effortDeepJob !== null) problems.push(`a deep job carries effort ${on.effortDeepJob}. Deep jobs keep the API default on purpose.`)
 
-  if (!on.fastOpus) problems.push('fast mode flag on, Opus 5 not in fast mode. The flag does nothing.')
-  if (on.fastSonnet || on.fastHaiku || on.fastFable) problems.push('fast mode would be sent to a model that does not take it (Sonnet, Haiku or Fable). That is a 400 on a fallback.')
-  if (off.fastOpus) problems.push('fast mode flag off, Opus 5 still in fast mode. Fast mode is a pricing decision and must be opt in.')
+  if (!on.fastOpus55) problems.push('fast mode flag on, Opus 5.5 not in fast mode. The flag does nothing on the Opus fallback.')
+  if (!on.fastOpus) problems.push('fast mode flag on, Opus 5 not in fast mode. DIGI_MODEL_CHAT=claude-opus-5 is a documented way back.')
+  if (on.fastSonnet || on.fastSonnet55 || on.fastHaiku || on.fastFable) problems.push('fast mode would be sent to a model that does not take it (Sonnet, Haiku or Fable). That is a 400 on a fallback.')
+  if (off.fastOpus || off.fastOpus55) problems.push('fast mode flag off, an Opus model is still in fast mode. Fast mode is a pricing decision and must be opt in.')
+
+  // 6: the ladder order, and the default deep model, which stays a setting.
+  const want = ['claude-fable-5-1', 'claude-opus-5-5', 'claude-sonnet-5-5']
+  if (on.fallbacks.join() !== want.join()) problems.push(`DIGI_MODEL_FALLBACKS is ${on.fallbacks.join(' > ')}, expected ${want.join(' > ')}.`)
+  if (on.deep !== 'claude-fable-5-1') problems.push(`the default DIGI_MODEL is ${on.deep}, not claude-fable-5-1.`)
 
   const L = on.ladders
   if (L.extract[0] !== on.fast) problems.push(`mechanical jobs start on ${L.extract[0]}, not the fast tier ${on.fast}.`)
@@ -116,6 +132,24 @@ if (on && off) {
   for (const [name, ladder] of Object.entries(L)) {
     if (new Set(ladder).size !== ladder.length) problems.push(`the ${name} ladder repeats a model: ${ladder.join(' > ')}.`)
     if (ladder.length < 2) problems.push(`the ${name} ladder has nothing to fall back to.`)
+  }
+}
+
+// 6b: the AI module's own ladder follows the same models, and nothing else
+// names the retired fallbacks.
+{
+  const ai = readFileSync('lib/config/ai-module.ts', 'utf8')
+  const m = ai.match(/AI_UPDATE_MODEL_FALLBACKS\s*=\s*\[([\s\S]*?)\]/)
+  const ids = m ? [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]) : []
+  const want = ['claude-fable-5-1', 'claude-opus-5-5', 'claude-sonnet-5-5']
+  if (ids.join() !== want.join()) problems.push(`lib/config/ai-module.ts: AI_UPDATE_MODEL_FALLBACKS is ${ids.join(' > ') || 'missing'}, expected ${want.join(' > ')}.`)
+}
+const RETIRED = /['"`]claude-(opus|sonnet)-5['"`]/g
+for (const f of files) {
+  const src = readFileSync(f, 'utf8')
+  for (const m of src.matchAll(RETIRED)) {
+    const line = src.slice(0, m.index).split('\n').length
+    problems.push(`${f}:${line}: ${m[0]} named in code. The fallbacks are claude-opus-5-5 and claude-sonnet-5-5.`)
   }
 }
 

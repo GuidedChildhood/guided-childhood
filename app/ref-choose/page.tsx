@@ -1,6 +1,8 @@
 import TwoDoors from '@/components/access/TwoDoors'
 import { TRIAL_DAYS } from '@/lib/access'
 import { FOUNDER_CAP } from '@/lib/stripe'
+import { EMPTY_KEEP } from '@/lib/paywall/what-you-keep'
+import { REF_KEEP } from './fixture'
 
 // Layout fixture for the two path block on /dashboard/choose.
 //
@@ -27,9 +29,9 @@ export const dynamic = 'force-dynamic'
 export default async function RefChoose({
   searchParams,
 }: {
-  searchParams: Promise<{ soldout?: string }>
+  searchParams: Promise<{ soldout?: string; empty?: string }>
 }) {
-  const { soldout } = await searchParams
+  const { soldout, empty } = await searchParams
   return (
     <main style={{ background: 'var(--app-bg)' }}>
       <TwoDoors
@@ -38,6 +40,7 @@ export default async function RefChoose({
         freeDays={TRIAL_DAYS}
         trialDays={TRIAL_DAYS}
         next="/dashboard"
+        keep={empty ? EMPTY_KEEP : REF_KEEP}
       />
     </main>
   )
