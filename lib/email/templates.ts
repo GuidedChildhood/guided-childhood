@@ -279,7 +279,7 @@ export function day7FounderEmail(params: {
       heading(`You have been here a week.`) +
       p(`So here is the honest pitch, once, and then I will stop mentioning it.`) +
       p(`The first 50 families lock in £7.99 a month for life. The price never rises for you, whatever the platform grows into. Right now <strong>${remaining} of the 50 places are left</strong>, and the counter is real, it is enforced in the code.`) +
-      p(`That unlocks every stage as your child grows, unlimited DiGi, all 100 plus scripts, the wellbeing tracker and the family agreement builder.`) +
+      p(`That unlocks every stage as your child grows, unlimited DiGi, all 300 plus scripts, the wellbeing tracker and the family agreement builder.`) +
       button('Claim a founding place', `${APP}/dashboard/upgrade`) +
       p(`And if now is not the moment, the app waits for you. Nothing you set up is lost.`),
       unsubscribe
@@ -1815,7 +1815,7 @@ export function paidReadAheadEmail(params: {
       bullets([
         `<strong>Foundation, 4 to 7.</strong> First relationships with technology, before habits form.`,
         `<strong>Builder, 8 to 10.</strong> Building digital habits before the algorithm learns them.`,
-        `<strong>Explorer, 11 to 13.</strong> The algorithm conversation, before social media. The critical window.`,
+        `<strong>Explorer, 11 to 12.</strong> The algorithm conversation, before social media. The critical window.`,
         `<strong>Shaper, 13 to 15.</strong> Identity and digital footprint, while the relationship still holds.`,
         `<strong>Independent, 16 plus.</strong> Real independence, before they leave home.`,
       ]) +

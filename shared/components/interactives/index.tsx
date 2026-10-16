@@ -664,7 +664,7 @@ function ClassTally({ config, kidMode = false }: { kidMode?: boolean; config: { 
           const pct = total > 0 ? (counts[i] / total) * 100 : 0
           return (
             <div key={opt} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: 'var(--text-lg)', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
+              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: 'var(--radius-tile)', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: 'var(--text-lg)', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
               <div style={{ flex: 1, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{opt}</span>

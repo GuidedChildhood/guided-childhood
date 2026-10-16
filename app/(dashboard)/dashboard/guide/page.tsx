@@ -13,9 +13,9 @@ const HOW_IT_WORKS: { emoji: string; title: string; body: string; href: string; 
     href: '/dashboard/daily', cta: 'Do today’s practice',
   },
   {
-    emoji: '🗺️', title: 'The pathway to 16',
+    emoji: '🗺️', title: 'The Passport, the road to sixteen',
     body: 'One plan that turns 16 from a cliff edge into a gentle ramp: the settings relax as your child earns it, one stage at a time.',
-    href: '/dashboard/pathway', cta: 'See the pathway',
+    href: '/dashboard/pathway', cta: 'Open the Passport',
   },
   {
     emoji: '✦', title: 'Lessons that grow judgement',

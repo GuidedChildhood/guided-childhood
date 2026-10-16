@@ -360,7 +360,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           }}
         >
           {/* An obvious way out: a real close control, not click the bubble */}
-          <button
+          <button className="tap-target"
             type="button"
             onClick={dismissHint}
             aria-label="Dismiss tip"
@@ -507,7 +507,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
 
             {/* Close */}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button
+              <button className="tap-target"
                 type="button"
                 onClick={closeSheet}
                 aria-label="Close"
