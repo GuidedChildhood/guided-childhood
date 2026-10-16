@@ -1,20 +1,25 @@
 MAIN STYLE PROMPT (paste as tags/caption):
-upbeat golden-era hip hop, 95 BPM, jazzy funk boom-bap drums, upright bass, horn
-stabs, vinyl crackle, DJ scratch breaks between sections, lush orchestral string
-hook with staccato violins on intro and chorus, cinematic and uplifting, original
-melody, five distinct rappers from bright and bouncy to deep and calm trading lines quickly, playful
-positive energy, group unison chants on the chorus, call-and-response crowd
-shouts, clean family-friendly vocals, crisp mix
+anthemic orchestral hip hop, 88 BPM, dusty swung breakbeat drums, heavy kick,
+crisp snare, sweeping looping string ostinato on violins and violas, sustained
+cellos underneath, bittersweet and hopeful, atmospheric reverb, slow building
+crescendo into each chorus, warm bass guitar, tambourine, original melody, five
+distinct rappers from bright and bouncy to deep and calm trading lines quickly,
+playful positive energy, group unison chants on the chorus, call and response
+crowd shouts, clean family friendly vocals, wide cinematic mix
 
-STRINGS-ONLY LOOP (optional separate generation for layering):
-instrumental, lush orchestral strings, staccato violins with sustained cellos
-underneath, uplifting cinematic hook, 95 BPM, 8-bar loop, original melody, no
-drums, no vocals
+INSTRUMENTAL BED (the atmospheric anthem, no vocals):
+instrumental only, atmospheric anthemic orchestral breakbeat, 88 BPM, dusty
+swung breakbeat drums, sweeping looping string ostinato on violins and violas,
+sustained cellos, bittersweet and hopeful, wide reverb, slow build to a soaring
+full string climax, warm bass guitar, original melody, no vocals, cinematic mix
 
-INSTRUMENTAL BED (optional, for re-recording vocals with character voices):
-instrumental only, golden-era hip hop, 95 BPM, jazzy funk boom-bap, upright bass,
-horn stabs, vinyl crackle, DJ scratches, orchestral string hook on chorus, no
-vocals
+JAZZ STYLE PROMPT (the old school jazz version):
+old school jazzy hip hop, 94 BPM, live horn section stabs with trumpet and
+saxophone, walking upright bass, Rhodes electric piano chords, dusty swung drum
+break, vinyl crackle, turntable scratch cuts between sections, original melody,
+five MCs trading lines quickly and rapping tight unison harmony on the hooks,
+call and response, bright party energy, playful and positive, clean family
+friendly vocals, live band feel, crisp mix
 
 RULES
 - Never include real artist or song names in prompts.
