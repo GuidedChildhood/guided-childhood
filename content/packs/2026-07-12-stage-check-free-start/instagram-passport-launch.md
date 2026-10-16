@@ -8,7 +8,7 @@
 
 Two facts to fill before posting, marked in brackets in the copy:
 - [WIFE] the name your wife signs off with
-- [INVITE] the invite link (see the build brief at the bottom, suggested guidedchildhood.co.uk/invite)
+- [INVITE] the invite link (see the build brief at the bottom, suggested guidedchildhood.com/invite)
 
 Warm, short, no dashes. Instagram voice, not LinkedIn. One or two soft emoji at most.
 

@@ -63,6 +63,10 @@ The board reads what these already find; it never redoes them.
 | Sunday social batch | Sunday 18:55 London |
 | Daily health sweep | Daily 09:30 UTC |
 
+The Wednesday walkthrough saves its report in `walkthroughs/<date>.md`. The
+instructions a routine reads from the repo live in `routines/`, always read
+from `origin/main` and never from a checkout.
+
 ## The one limit worth knowing
 
 Every cloud session starts from a fresh copy of main. An answer Justin gives

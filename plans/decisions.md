@@ -290,6 +290,24 @@ two. Detail in PR #1307.
 
 ## 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it
 Task board-reads-real-numbers. The Friday run reads families, not just code: day done rate, seven day return, families with a second check in, and families reaching three of the five value signals. The sums are the product pulse's own functions (`lib/home/habit-metrics.ts`, new `lib/home/value-signals.ts`), fed by one read only select in `plans/review-board/product-pulse.sql`, because the admin route answers only to Justin's session. The five signals are defined once in `value-signals.ts`: DiGi memory, child opened their link, a worry with two scored check ins, a script check in answered, a follow up answered. Script verdict and follow up answered were not defined anywhere before, so these two readings are mine and Justin can change them in that one file. Anything unreadable prints unknown, never zero. Detail in the board pulse PR.
+## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
+Justin marked the child side rule done on 14 October. Read as: the child never
+chats with a model, and the homework hint card for ages 10 and over (his
+25 September rule) is the single allowed exception, not a reason to move the
+route. `scripts/check-child-has-no-model.mjs` now exempts only that route and
+holds it to a server side age gate, one request, no streaming and a fixed card
+shape. It runs in `wiring.yml` and as `npm run child-model-guard`. THE-STORY
+sections 6, 7, 9 and 12 corrected (Jigsaw from £495, plan choice at the end of
+sign up, open work checked against main). The "done" answer did not record
+which option, so if he meant moving the route to the parent side, say so. The
+card is not stored, so "a card the parent can see" is not yet true. PR #1319.
+## 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it
+Review board task social-week-live-starter-pack-link. guidedchildhood.co.uk/starter-pack
+404ed on 13 October and sat under every post in the 19 October social week pack.
+Every guidedchildhood.co.uk in content/ and tools/social-cards is now
+guidedchildhood.com (23 links, 15 files). `scripts/check-live-domain.mjs` fails
+if our .co.uk comes back; it matches our domain only, so school and source .co.uk
+addresses stay. Runs before `npm run social-cards` and in CI. Detail in PR #1313.
 ## 16 October 2026: The nightly evening push stops after seven unanswered nights
 Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
 still gets the evening line; the eighth night and every one after it is held, and
@@ -307,3 +325,11 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+## 16 October 2026: DiGi fallback ladders move to Opus 5.5 and Sonnet 5.5
+Both ladders (lib/config/digi.ts and lib/config/ai-module.ts) now run Fable 5.1,
+claude-opus-5-5, claude-sonnet-5-5. DIGI_MODEL stays an env var, default
+claude-fable-5-1. Fast mode matches Opus 5.5, 5 and 4.8 by exact id, never Sonnet
+or Haiku. The model guard pins the ladder order in both files and fails on any
+quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
+call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
+(Fable spending the 1200 token budget thinking), so that stays open. PR #1318.

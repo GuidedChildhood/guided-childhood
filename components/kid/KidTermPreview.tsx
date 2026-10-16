@@ -85,7 +85,7 @@ export default function KidTermPreview({
             Some of what is coming up 🔭
           </p>
         </div>
-        <button onClick={() => setOpen(false)} aria-label="Close" style={{
+        <button className="tap-target" onClick={() => setOpen(false)} aria-label="Close" style={{
           width: 30, height: 30, borderRadius: '50%', border: 'none', background: 'var(--cream)',
           cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', flexShrink: 0,
         }}>✕</button>
