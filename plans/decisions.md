@@ -400,3 +400,17 @@ Fewer claims, stronger post. Body 2,228 characters.
 Refused, having looked: bad faith, a publisher lobby (searched, no evidence
 found), and any suggestion the reading decline is invented. The timing of the
 change of government is stated and the inference left to the reader. PR 1339.
+
+## 16 October 2026: GDC-043 hook rewritten, it referred to a post nobody had read
+
+Justin caught it: the opening was "Five years ago I would have shared that post
+about Sweden", which only works for a reader who had already seen the viral post.
+Most of his feed will not have.
+
+The hook now carries the story in the same breath as the admission, "Screens out
+of classrooms, printed textbooks back in", and the whole thing lands in 126
+characters, inside the mobile fold at about 140. The post no longer refers to
+anything the reader is assumed to have seen.
+
+Worth adding to the review checklist: a reaction post has to work for someone
+who never saw the thing it reacts to. PR 1339.

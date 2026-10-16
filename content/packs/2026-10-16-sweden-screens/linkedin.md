@@ -93,12 +93,19 @@ product, no accusation of bad faith, open question at the end]*
 
 ## The post
 
-*Target 1,300 to 2,500 characters. Body is 2,228. One closing question, nothing
+*Target 1,300 to 2,500 characters. Body is 2,369. One closing question, nothing
 after it. Link in the first comment, never the body.*
 
-Five years ago I would have shared that post about Sweden without checking it.
+*Justin, 16 October 2026: "how would the audience know which post?" The opening
+said "that post about Sweden", which only works for someone who had already seen
+it, and most of his feed will not have. The hook now describes the story in the
+same breath as the admission, and the whole of it lands in 126 characters, inside
+the mobile fold at roughly 140. The post no longer refers to anything the reader
+is assumed to have read.*
 
-I thought screens were mostly bad for children and that school should stay close to paper and pen. I changed my mind, and not into the opposite camp, which is the part that takes longer.
+Five years ago I would have shared the Sweden story without checking it. Screens out of classrooms, printed textbooks back in.
+
+I thought screens were mostly bad for children and that school should stay close to paper and pen, so a country as digital as Sweden turning round would have gone straight onto my feed. I changed my mind since, and not into the opposite camp, which is the part that takes longer.
 
 The policy is real. In 2023 Sweden threw out its own national digitisation plan. In 2024 it funded printed textbooks. From July 2025, under twos in preschool use analogue materials only. All of that is accurate.
 
