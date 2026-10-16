@@ -353,4 +353,4 @@ every maths lesson, scoring 15 points lower.
 
 That is the same shape as our own thesis, so GDC-043 runs on it, using Justin's
 change of mind about technology as the scene. Comment drafted for the original
-post as well. PR 1303.
+post as well. PR 1339.
