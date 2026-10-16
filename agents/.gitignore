@@ -2,7 +2,6 @@
 __pycache__/
 *.pyc
 last_briefing.html
-last_weekly_meeting.html
 .venv/
 venv/
 *.log

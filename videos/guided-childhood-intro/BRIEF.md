@@ -6,7 +6,7 @@ message: "Guided Childhood gets your child to sixteen ready for a phone, ten min
 destination: website
 aspect: 1920x1080
 language: en
-audience: UK parents of children aged 2 to 16 who feel the phone cliff edge coming
+audience: UK parents of children aged 4 to 16 who feel the phone cliff edge coming
 length: 10s
 angle: promo
 narration: no

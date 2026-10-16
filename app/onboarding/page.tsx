@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
-import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/BirthdayFields'
+import BirthdayFields, { bandFrom, dobFrom, tooYoungFrom } from '@/components/children/BirthdayFields'
 import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from '@/lib/quests/screen-balance'
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
@@ -535,7 +535,12 @@ export default function OnboardingPage() {
     // A name is never demanded (first name only is the whole ask), but leaving
     // it blank should be a choice, not an accident: the first Next with no
     // name flags why it matters and asks once. A second Next continues.
+    // We start at 4 (Justin, 16 October 2026). A birthday under 4 holds the
+    // step, with the reason in the card under it, rather than going on to be
+    // filed as ages 4 to 7 or, with no band at all, as the 8 to 10 default.
+    const tooYoung = tooYoungFrom(dobMonth, dobYear) || siblings.some(s => tooYoungFrom(s.dobMonth, s.dobYear))
     const continueOn = () => {
+      if (tooYoung) return
       if (!firstName && !nameNudge) {
         setNameNudge(true)
         nameInputRef.current?.focus()
@@ -580,6 +585,8 @@ export default function OnboardingPage() {
                 month={dobMonth}
                 year={dobYear}
                 onChange={(m, y) => { setDobMonth(m); setDobYear(y) }}
+                name={childName}
+                tooYoungAfter="Got an older child as well? Put their name and birthday in here instead."
                 fieldStyle={{
                   width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
                   border: 'var(--edge)', background: '#fff',
@@ -682,6 +689,8 @@ export default function OnboardingPage() {
                   month={s.dobMonth}
                   year={s.dobYear}
                   onChange={(m, y) => updateSibling(i, { dobMonth: m, dobYear: y })}
+                  name={s.name}
+                  tooYoungAfter="Remove them for now. You can add them any time once they turn 4."
                   fieldStyle={{
                     width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
                     border: 'var(--edge)', background: '#fff',
@@ -695,7 +704,7 @@ export default function OnboardingPage() {
               + Add another child
             </button>
 
-            <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={continueOn} disabled={saving}>
+            <button style={{ ...BTN, opacity: saving || tooYoung ? 0.6 : 1 }} onClick={continueOn} disabled={saving || tooYoung}>
               {saving ? 'One moment...' : nameNudge && !firstName ? 'Continue without a name' : 'Next'}
             </button>
             <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
