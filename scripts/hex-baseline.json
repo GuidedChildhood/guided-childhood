@@ -401,6 +401,10 @@
  "app/dev/learning-sheet-tabs/page.tsx": {
   "#fff": 1
  },
+ "app/dev/magnet-email/page.tsx": {
+  "#f4f2ee": 1,
+  "#fff": 1
+ },
  "app/dev/method-week/page.tsx": {
   "#fff": 1
  },
@@ -1671,10 +1675,11 @@
   "#fff": 4
  },
  "components/printables/news/PlanetPost.tsx": {
+  "#3f3f55": 1,
   "#6b6b80": 1,
   "#9a9ab0": 2,
   "#c9c9d6": 1,
-  "#fff": 13
+  "#fff": 14
  },
  "components/printables/news/PlanetPostSheets.tsx": {
   "#fff": 3
