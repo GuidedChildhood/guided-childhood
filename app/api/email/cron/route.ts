@@ -1,4 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { APP_ORIGIN } from '@/lib/config/site'
 import { identityKey } from '@/lib/email/floor'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
@@ -592,14 +593,18 @@ async function handler(req: NextRequest) {
     // Seven weeks of these on top of the three win backs is ten weekly emails
     // over about eleven weeks, and then this track genuinely ends. The weekly
     // digest carries on regardless.
+    //
+    // And they are MEMBERS, with an account, so the button is the way back
+    // into their app, not "See the free starter pack" (15 October 2026).
+    const back = `${APP_ORIGIN}/dashboard`
     const teases: [string, EmailContent, string][] = [
-      ['wb-tease-digi', digiTeaserEmail(unsubscribe), 'DiGi'],
-      ['wb-tease-scripts', scriptsTeaserEmail(unsubscribe), 'scripts'],
-      ['wb-tease-printables', printablesTeaserEmail(unsubscribe), 'printables'],
-      ['wb-tease-balance', balanceTeaserEmail(unsubscribe), 'balance'],
-      ['wb-tease-mind', mentalHealthTeaserEmail(unsubscribe), 'mind'],
-      ['wb-tease-safety', safetyTeaserEmail(unsubscribe), 'safety'],
-      ['wb-tease-passport', passportTeaserEmail(unsubscribe), 'passport'],
+      ['wb-tease-digi', digiTeaserEmail(unsubscribe, back, 'member'), 'DiGi'],
+      ['wb-tease-scripts', scriptsTeaserEmail(unsubscribe, back, 'member'), 'scripts'],
+      ['wb-tease-printables', printablesTeaserEmail(unsubscribe, back, 'member'), 'printables'],
+      ['wb-tease-balance', balanceTeaserEmail(unsubscribe, back, 'member'), 'balance'],
+      ['wb-tease-mind', mentalHealthTeaserEmail(unsubscribe, back, 'member'), 'mind'],
+      ['wb-tease-safety', safetyTeaserEmail(unsubscribe, back, 'member'), 'safety'],
+      ['wb-tease-passport', passportTeaserEmail(unsubscribe, back, 'member'), 'passport'],
     ]
     if (state === 'lapsed') {
       // One a week, in order, and only ever one per run: find the first unsent
