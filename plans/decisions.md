@@ -288,6 +288,17 @@ no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
 
+## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
+Justin marked the child side rule done on 14 October. Read as: the child never
+chats with a model, and the homework hint card for ages 10 and over (his
+25 September rule) is the single allowed exception, not a reason to move the
+route. `scripts/check-child-has-no-model.mjs` now exempts only that route and
+holds it to a server side age gate, one request, no streaming and a fixed card
+shape. It runs in `wiring.yml` and as `npm run child-model-guard`. THE-STORY
+sections 6, 7, 9 and 12 corrected (Jigsaw from £495, plan choice at the end of
+sign up, open work checked against main). The "done" answer did not record
+which option, so if he meant moving the route to the parent side, say so. The
+card is not stored, so "a card the parent can see" is not yet true. PR #1319.
 ## 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it
 Review board task social-week-live-starter-pack-link. guidedchildhood.co.uk/starter-pack
 404ed on 13 October and sat under every post in the 19 October social week pack.

@@ -172,6 +172,10 @@ jobs:
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
+      # The child never chats with a model: the Anthropic SDK, its API host and
+      # model ids stay out of the child's half of the product, except the one
+      # fixed homework hint card, held to its own conditions in the guard.
+      - run: node scripts/check-child-has-no-model.mjs
       # Notes on a child's screen: a parent only note (one that points into the
       # dashboard) never reaches a child, and markdown never shows as stars.
       - run: node --experimental-strip-types scripts/check-kid-notes.mjs
