@@ -288,6 +288,32 @@ no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
 
+## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
+Justin marked the child side rule done on 14 October. Read as: the child never
+chats with a model, and the homework hint card for ages 10 and over (his
+25 September rule) is the single allowed exception, not a reason to move the
+route. `scripts/check-child-has-no-model.mjs` now exempts only that route and
+holds it to a server side age gate, one request, no streaming and a fixed card
+shape. It runs in `wiring.yml` and as `npm run child-model-guard`. THE-STORY
+sections 6, 7, 9 and 12 corrected (Jigsaw from £495, plan choice at the end of
+sign up, open work checked against main). The "done" answer did not record
+which option, so if he meant moving the route to the parent side, say so. The
+card is not stored, so "a card the parent can see" is not yet true. PR #1319.
+## 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it
+Review board task social-week-live-starter-pack-link. guidedchildhood.co.uk/starter-pack
+404ed on 13 October and sat under every post in the 19 October social week pack.
+Every guidedchildhood.co.uk in content/ and tools/social-cards is now
+guidedchildhood.com (23 links, 15 files). `scripts/check-live-domain.mjs` fails
+if our .co.uk comes back; it matches our domain only, so school and source .co.uk
+addresses stay. Runs before `npm run social-cards` and in CI. Detail in PR #1313.
+## 16 October 2026: The nightly evening push stops after seven unanswered nights
+Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
+still gets the evening line; the eighth night and every one after it is held, and
+the four day re engagement line (unchanged, now `lib/push/reengage.ts`) is all
+that reaches them. Showing up uses the same four tables as done today and resets
+the count; a parent who never showed up counts from the day they joined. A failed
+read sends as before. The parent flame streak is untouched. Pinned by section F of
+`scripts/check-habit-loop.mjs`. No migration.
 ## 15 October 2026: The Planet Post downloads now carry the better version
 
 Justin found the emailed download was still the first version. The code
@@ -313,3 +339,11 @@ name, the worry, check ins, the star quest, scripts opened) from
 lib/paywall/what-you-keep.ts; zeros hide, and an empty family gets an honest
 line, not a list of nothing. The ask repeats on Home's trial card once there is
 a first check in or script, on the no card path only. PR #1329.
+## 16 October 2026: DiGi fallback ladders move to Opus 5.5 and Sonnet 5.5
+Both ladders (lib/config/digi.ts and lib/config/ai-module.ts) now run Fable 5.1,
+claude-opus-5-5, claude-sonnet-5-5. DIGI_MODEL stays an env var, default
+claude-fable-5-1. Fast mode matches Opus 5.5, 5 and 4.8 by exact id, never Sonnet
+or Haiku. The model guard pins the ladder order in both files and fails on any
+quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
+call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
+(Fable spending the 1200 token budget thinking), so that stays open. PR #1318.

@@ -14,7 +14,7 @@ family. Do not mix them.
 
 Do these four things every single day of the run, no matter what else is on:
 
-1. Open guidedchildhood.co.uk/starter-pack. Glance at the stage check count and the founder counter,
+1. Open guidedchildhood.com/starter-pack. Glance at the stage check count and the founder counter,
    is it moving.
 2. Reply to every comment and message from the day before, on LinkedIn and on the family account.
    Fast replies in the first hour of a post matter most.
