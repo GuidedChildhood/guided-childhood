@@ -187,6 +187,31 @@ export default function StarterPackPage() {
   // signed in watching question one flash up at them.
   const [finishing, setFinishing] = useState(false)
 
+  // ── ALREADY ONE OF OURS ──────────────────────────────────────────────────
+  //
+  // Justin, 15 October 2026: the starter pack link "needs to be clever enough
+  // to know if already has an account". The email links now route through
+  // /api/go/starter, which sends a member home; this catches every other way
+  // a signed in parent lands here (the website, a shared link, a bookmark).
+  //
+  // A line above the intro, not a redirect. A parent showing a friend the
+  // starter pack on their own phone is a real case, and bouncing them to their
+  // dashboard would stop them doing exactly the thing we want.
+  const [signedIn, setSignedIn] = useState(false)
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('finish') === '1') return
+    // ?preview=member shows the line without a session, the same dev only
+    // hook as ?preview=result, so the layout can be checked at 390 and 1280.
+    if (process.env.NODE_ENV !== 'production' && new URLSearchParams(window.location.search).get('preview') === 'member') {
+      setSignedIn(true)
+      return
+    }
+    supabase.auth.getUser()
+      .then(({ data }) => { if (data.user) setSignedIn(true) })
+      .catch(() => { /* reads as signed out, which shows the normal page */ })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
   // Is there a faster way in on this deployment? Only the copy needs to know;
   // ProviderButtons decides for itself whether to draw anything.
@@ -652,6 +677,24 @@ export default function StarterPackPage() {
         {/* Intro — the story of what happens */}
         {step === 'intro' && !returning && (
           <>
+            {signedIn && (
+              <Link
+                href="/dashboard"
+                data-signed-in-door
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+                  background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+                  padding: '13px 16px', marginBottom: '22px', textDecoration: 'none',
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
+                  You already have an account.
+                </span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+                  Open my app →
+                </span>
+              </Link>
+            )}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
@@ -672,13 +715,13 @@ export default function StarterPackPage() {
               Let us build your child&apos;s pathway.
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
-              A couple of minutes, then free access to the platform. No card.
+              Two minutes, then four days free. No card.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
               {[
                 { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen battle you are facing right now' },
-                { n: '2', title: 'We build their pathway', sub: 'The digital literacy plan for their exact stage, guiding you year by year to a safe, capable 16' },
-                { n: '3', title: 'Step into the platform, free', sub: 'The words for tonight, safe lessons by age, and a plan that protects your child and you' },
+                { n: '2', title: 'We build their pathway', sub: 'A plan for their exact age, step by step to a safe, capable 16' },
+                { n: '3', title: 'Start tonight, free', sub: 'The words to say, lessons for their age, and a plan for both of you' },
               ].map(item => (
                 <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px' }}>
                   <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
@@ -697,7 +740,7 @@ export default function StarterPackPage() {
               Start, it is free
             </button>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
-              No card. No commitment. Built on the research.
+              No commitment. Built on the research.
             </p>
           </>
         )}

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { createClient as createSessionClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { starterCtaToken } from '@/lib/email'
 import { APP_ORIGIN } from '@/lib/config/site'
 
@@ -29,6 +31,22 @@ export async function GET(req: NextRequest) {
   const addr = raw.trim().toLowerCase()
 
   const pack = NextResponse.redirect(`${APP}/starter-pack`, 302)
+  const home = NextResponse.redirect(`${APP}/dashboard`, 302)
+
+  // FIRST: is the person tapping already signed in on this phone? That beats
+  // any address match, because it is the one check that survives a printable
+  // taken under one address and an account made under another (you+test@ and
+  // you@), which the address lookup below can never see. Justin, 15 October
+  // 2026: "clever enough to know if already has an account". Checked before
+  // the token on purpose: a signed in member who taps an old or mangled link
+  // should still land at home.
+  try {
+    if (await sessionUser(await createSessionClient())) return home
+  } catch {
+    // No session to read is the normal case for an email link opened in a
+    // mail app's own browser. Carry on to the address check.
+  }
+
   if (!addr || !token || token !== starterCtaToken(addr)) return pack
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -49,7 +67,7 @@ export async function GET(req: NextRequest) {
 
     // The dashboard is behind auth, so a member who is signed out meets the
     // login page and arrives where they meant to go either way.
-    if (data?.id) return NextResponse.redirect(`${APP}/dashboard`, 302)
+    if (data?.id) return home
   } catch {
     // Fall through to the pack. See the note above.
   }
