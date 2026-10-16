@@ -360,6 +360,14 @@ a put them in order puzzle, and Bloop's column became a craft: a phone bed
 (blanket, pillow, fold up sign) cut out and made. Write in lines are 12 mm.
 A real child's run through beat every review we did: test the next printable
 on a child before it ships.
+## 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet
+44px is the floor (--tap-min). A button that stands alone keeps its look and
+takes the invisible .tap-target pad; buttons in a tight row are sized to 44 for
+real, since overlapping pads send a tap to the neighbour. A gold :focus-visible
+ring lives in shared/tokens.css. Seven route loaders draw their own page shape
+(child path is a redirect, so it keeps the child home loader). Every hex literal
+outside tokens.css counts, #fff included, but only new ones fail: the baseline
+only ever shrinks. PRs #1321 and #1322.
 ## 16 October 2026: The live Pathway Session line comes off the paid screens
 Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
 tick comes off the upgrade page, its only appearance (no email, config or
@@ -407,3 +415,86 @@ or Haiku. The model guard pins the ladder order in both files and fails on any
 quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
 call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
 (Fable spending the 1200 token budget thinking), so that stays open. PR #1318.
+
+## 16 October 2026: the Sweden screens post, checked and answered
+
+Justin sent a viral LinkedIn post about Sweden going back to printed textbooks
+and asked whether it is accurate, how embedded screens are in UK and US schools,
+and whether there is proven data on it working.
+
+The post is accurate on the policy and silent on the only thing that matters.
+There is no evaluation of the Swedish reforms, and PISA published on 8 September
+2026 has Swedish reading at 466, down 21 points since 2022. That number judges
+nothing, because those students were born in 2009 and were schooled before the
+reform, and we say so rather than use it as a gotcha.
+
+The useful finding is that the evidence supports distraction rather than the
+medium. Paper beats screen by about g = 0.21 across 54 studies, but the child
+specific meta analysis halves that with a confidence interval including zero,
+and the handwriting brain study everyone quotes tested 36 university students.
+PISA 2022 has 30 percent of students pulled off task by a device in most or
+every maths lesson, scoring 15 points lower.
+
+That is the same shape as our own thesis, so GDC-043 runs on it, using Justin's
+change of mind about technology as the scene. Comment drafted for the original
+post as well. PR 1339.
+
+## 16 October 2026: GDC-043 red teamed against Odgers and Ferguson
+
+Justin: "can we check what odgers and ferguson would say." Both have live
+published positions and Ferguson has a 2025 paper titled Smartphone bans in
+schools remain unproven, which lands directly on our draft.
+
+Two fair hits, both adopted. Ferguson would turn our own argument back on us:
+the draft called the PISA distraction finding "well evidenced" and pivoted the
+whole post onto it, when it is cross sectional self report and the researcher who
+has published most on it says bans are unproven. The post now calls it an
+association and names the counter evidence itself. Odgers would catch an
+untested method claim in "we have to teach a child to notice it", so it is now
+stated as a bet, in those words.
+
+One point held rather than adopted. Odgers would say a screens post is still a
+screens post, and she is right, but that is our own hidden thread rule rather
+than an error: GDC-043 is one of the nine and the deliberate one in ten is
+overdue. Ferguson would also go further than we will on publication bias in the
+paper versus screen literature, and we are not adopting a correction we have not
+read the analysis for. Advice is an input, including from the people our own
+test is named after. PR 1339.
+
+## 16 October 2026: GDC-043 v3, the motive is the story
+
+Justin: challenge the motive from the country as well. That changed the post
+from "accurate but unproven" into a Wrong Villain entry.
+
+Reimers, Martin Bylund and Stenliden, Constructions of a reading crisis,
+Discourse 2025, document that Sweden's National Agency for Education emphasised
+the positives of PIRLS 2021 while the government called the same data a crisis,
+that Sweden had moved up the league table and declined less than most countries,
+and that the agency named segregation as the main problem where the government
+named digitalisation and migration.
+
+That is our own thesis stated by a national education agency, so GDC-043 becomes
+the deliberate hidden thread post rather than one of the nine, which answers the
+objection logged against v2.
+
+The post now runs on that divergence and drops the PISA distraction pivot
+entirely, which also removes the only claim Ferguson could fairly have attacked.
+Fewer claims, stronger post. Body 2,228 characters.
+
+Refused, having looked: bad faith, a publisher lobby (searched, no evidence
+found), and any suggestion the reading decline is invented. The timing of the
+change of government is stated and the inference left to the reader. PR 1339.
+
+## 16 October 2026: GDC-043 hook rewritten, it referred to a post nobody had read
+
+Justin caught it: the opening was "Five years ago I would have shared that post
+about Sweden", which only works for a reader who had already seen the viral post.
+Most of his feed will not have.
+
+The hook now carries the story in the same breath as the admission, "Screens out
+of classrooms, printed textbooks back in", and the whole thing lands in 126
+characters, inside the mobile fold at about 140. The post no longer refers to
+anything the reader is assumed to have seen.
+
+Worth adding to the review checklist: a reaction post has to work for someone
+who never saw the thing it reacts to. PR 1339.

@@ -29,7 +29,7 @@ const NOT = [
 export default function WhatWeAreNot() {
   return (
     <section aria-label="What this is not" data-what-we-are-not style={{
-      marginTop: '30px', background: '#fff', border: '1.5px solid var(--border)',
+      marginTop: '30px', background: 'var(--white)', border: '1.5px solid var(--border)',
       borderRadius: 'var(--radius-card)', padding: '20px 20px 18px',
     }}>
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
