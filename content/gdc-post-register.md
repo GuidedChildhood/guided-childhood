@@ -69,8 +69,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 040 | Two children, same game | ready | moved off 036 |
 | 041 | How would you test readiness | ready | moved off 037 |
 | 042 | Same app, different rules | ready | moved off 038 |
+| 043 | Five years ago I would have shared that post (Sweden) | ready | this pack |
 
-**Next free number: 043.**
+**Next free number: 044.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs

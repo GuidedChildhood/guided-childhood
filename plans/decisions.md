@@ -331,3 +331,26 @@ or Haiku. The model guard pins the ladder order in both files and fails on any
 quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
 call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
 (Fable spending the 1200 token budget thinking), so that stays open. PR #1318.
+
+## 16 October 2026: the Sweden screens post, checked and answered
+
+Justin sent a viral LinkedIn post about Sweden going back to printed textbooks
+and asked whether it is accurate, how embedded screens are in UK and US schools,
+and whether there is proven data on it working.
+
+The post is accurate on the policy and silent on the only thing that matters.
+There is no evaluation of the Swedish reforms, and PISA published on 8 September
+2026 has Swedish reading at 466, down 21 points since 2022. That number judges
+nothing, because those students were born in 2009 and were schooled before the
+reform, and we say so rather than use it as a gotcha.
+
+The useful finding is that the evidence supports distraction rather than the
+medium. Paper beats screen by about g = 0.21 across 54 studies, but the child
+specific meta analysis halves that with a confidence interval including zero,
+and the handwriting brain study everyone quotes tested 36 university students.
+PISA 2022 has 30 percent of students pulled off task by a device in most or
+every maths lesson, scoring 15 points lower.
+
+That is the same shape as our own thesis, so GDC-043 runs on it, using Justin's
+change of mind about technology as the scene. Comment drafted for the original
+post as well. PR 1303.
