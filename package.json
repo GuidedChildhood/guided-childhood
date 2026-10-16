@@ -42,6 +42,7 @@
     "one-tap-guard": "node scripts/check-one-tap.mjs",
     "pathway-notes-guard": "node scripts/check-pathway-notes.mjs",
     "age-up-guard": "node scripts/check-children-age-up.mjs",
+    "child-model-guard": "node scripts/check-child-has-no-model.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs",
     "roll-decisions": "node scripts/roll-decisions.mjs",
