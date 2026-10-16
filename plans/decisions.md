@@ -297,3 +297,12 @@ found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no pos
 may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
 Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
 `plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 15 October 2026: The Planet Post downloads now carry the better version
+
+Justin found the emailed download was still the first version. The code
+version now matches the canvas: the Planet Friends line up (approved waving
+stills), the six critique fixes (one colour for every message so none gives
+the answer away, wheel labels clear, readable instructions, word search at the
+top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
+Issue 1". All five PDFs and the previews re-rendered; the guard holds the
+fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
