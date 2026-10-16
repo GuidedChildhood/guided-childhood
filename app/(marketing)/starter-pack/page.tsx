@@ -16,7 +16,8 @@ const ProviderButtons = dynamic(() => import('@/components/auth/ProviderButtons'
 const SavingPathway = dynamic(() => import('@/components/starter/SavingPathway'), { ssr: false })
 import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
 import { enabledProviders } from '@/lib/auth/providers'
-import { bandForAge } from '@/lib/children/age'
+import { bandForAge, isTooYoung } from '@/lib/children/age'
+import StartsAtFour from '@/components/children/StartsAtFour'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
@@ -400,6 +401,11 @@ export default function StarterPackPage() {
     setDobMonth(month)
     setDobYear(year)
     if (month == null || year == null) return
+    // We start at 4 (Justin, 16 October 2026). A 2 or 3 year old used to be
+    // clamped into ages 4 to 7 here and walked on to a stage written for a
+    // child twice their age. Now the page stays put and StartsAtFour, under
+    // the birthday, says so and says when to come back.
+    if (isTooYoung(`${year}-${String(month).padStart(2, '0')}-01`)) { setAgeBand(null); return }
     const derived = bandForAge(`${year}-${String(month).padStart(2, '0')}-01`)
     if (!derived) return
     setAgeBand(derived)
@@ -965,6 +971,9 @@ export default function StarterPackPage() {
                 {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             </div>
+            {dob && isTooYoung(dob) && (
+              <StartsAtFour dob={dob} name={childName} after="Got an older child as well? Put their birthday in instead." />
+            )}
 
             {/* THE STAGE IS NOT ANNOUNCED HERE ANY MORE.
 

@@ -3,7 +3,7 @@ format: 1920x1080
 duration: 10s
 message: "Guided Childhood gets your child to sixteen ready for a phone, ten minutes a day, together"
 arc: PAS compressed → hook (ban or give in) → the third way → proof → stage check CTA
-audience: UK parents of children aged 2 to 16 who feel the phone cliff edge coming
+audience: UK parents of children aged 4 to 16 who feel the phone cliff edge coming
 mode: autonomous
 music: none
 ---
