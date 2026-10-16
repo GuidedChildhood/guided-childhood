@@ -287,3 +287,13 @@ both issues switched, boho and editorial kept. Same words, sources and checks;
 no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
+
+## 16 October 2026: every stage check start is counted, by source
+Review board task count-stage-checks-by-source. The film link became the source
+link: migration 379 gives each link a channel, reads ?src= on the stage check,
+and counts every start (no link counts as direct, an /r/ visitor as referral, an
+/s/ visitor as school). The founder page /dashboard/admin/videos leads with the
+Friday number, checks begun in seven days by channel, and the control room's
+Friday slot reads it first. The Sunday batch gives each Facebook post its own
+fb-<mmdd>-<slug> code. Unknown ?src= values count as no link rather than
+creating rows, so nobody can fill the table from a URL. PR 1323.

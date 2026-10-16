@@ -312,12 +312,32 @@ export default function StarterPackPage() {
     } catch {}
   }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
-  // ── A FILM'S START, COUNTED (migration 372) ───────────────────────────
+  // ── ?src=, READ (migration 379) ──────────────────────────────────────────
+  //
+  // Printed and published pieces carry /starter-pack?src=<code> (the Planet
+  // Post went to print with src=planet-post-1), and until now nothing read it.
+  // Posted once on arrival: a live code is counted and remembered exactly as
+  // /v/<code> would be. The param then leaves the address bar, so a reload or
+  // a copied link is not a second follow.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const src = params.get('src')
+    if (!src) return
+    fetch('/api/video-link/follow', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ src }), keepalive: true,
+    }).catch(() => {})
+    params.delete('src')
+    const rest = params.toString()
+    window.history.replaceState(window.history.state, '', window.location.pathname + (rest ? `?${rest}` : '') + window.location.hash)
+  }, [])
+
+  // ── EVERY START, COUNTED (migrations 372 and 379) ────────────────────────
   //
   // The first answer is the stage check begun. Posted once per visit; the
-  // server counts it only for a visitor who came through a film link
-  // (/v/<code>), and only once per follow, so for everyone else this is one
-  // empty call. It is how a film is judged on starts, not just views.
+  // server counts it against the link that sent the visitor, or against a
+  // referral link, a school link or no link at all, once per browser per
+  // follow. It is how the founder page reads checks per channel, the Friday
+  // number, rather than views.
   const startCounted = useRef(false)
   useEffect(() => {
     if (step !== 'q2' || startCounted.current) return
