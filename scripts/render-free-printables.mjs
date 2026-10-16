@@ -46,7 +46,9 @@ for (const slug of ISSUES) {
   for (const f of files) {
     await load(`${BASE}/print-free/${slug}?${f.q}`)
     await page.emulateMedia({ media: 'print' })
-    await page.pdf({ path: `${OUT}/${f.name}`, preferCSSPageSize: true, printBackground: true })
+    // tagged and outline: screen readers get the structure and the pages get
+    // bookmarks (accessibility audit, 14 October 2026).
+    await page.pdf({ path: `${OUT}/${f.name}`, preferCSSPageSize: true, printBackground: true, tagged: true, outline: true })
     await page.emulateMedia({ media: 'screen' })
     console.log('wrote', f.name)
   }
