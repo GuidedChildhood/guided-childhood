@@ -315,18 +315,3 @@ pulse_daily_task:
     agent (Research, Safeguarding, LinkedIn Targets, Sage's Content, Diego's
     Content, PR, Revenue). Highlight cross-agent connections. Suitable for
     rendering into an HTML email.
-
-pulse_weekly_task:
-  description: >
-    Chair the Guided Childhood weekly Monday meeting for the week of {date}.
-    As manager, coordinate all seven specialists so information genuinely flows
-    between them: Scout's intelligence must inform Sage, Diego, and Herald's
-    angles; Guardian's safeguarding read must inform Navigator's outreach
-    framing; Compass must tie every recommendation back to the £1M ARR mission.
-    Delegate tasks, ask follow-up questions between agents, and surface
-    cross-agent dependencies explicitly.
-  expected_output: >
-    A weekly strategic briefing: top 3 priorities for the week, each agent's
-    key contribution and assigned action, explicit cross-agent hand-offs
-    (who passes what to whom), and a single most-important focus for hitting
-    £1M ARR while keeping children safer online.

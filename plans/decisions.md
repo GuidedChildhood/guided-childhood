@@ -287,3 +287,197 @@ both issues switched, boho and editorial kept. Same words, sources and checks;
 no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
+
+## 16 October 2026: every stage check start is counted, by source
+Review board task count-stage-checks-by-source. The film link became the source
+link: migration 379 gives each link a channel, reads ?src= on the stage check,
+and counts every start (no link counts as direct, an /r/ visitor as referral, an
+/s/ visitor as school). The founder page /dashboard/admin/videos leads with the
+Friday number, checks begun in seven days by channel, and the control room's
+Friday slot reads it first. The Sunday batch gives each Facebook post its own
+fb-<mmdd>-<slug> code. Unknown ?src= values count as no link rather than
+creating rows, so nobody can fill the table from a URL. PR 1323.
+## 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it
+Task board-reads-real-numbers. The Friday run reads families, not just code: day done rate, seven day return, families with a second check in, and families reaching three of the five value signals. The sums are the product pulse's own functions (`lib/home/habit-metrics.ts`, new `lib/home/value-signals.ts`), fed by one read only select in `plans/review-board/product-pulse.sql`, because the admin route answers only to Justin's session. The five signals are defined once in `value-signals.ts`: DiGi memory, child opened their link, a worry with two scored check ins, a script check in answered, a follow up answered. Script verdict and follow up answered were not defined anywhere before, so these two readings are mine and Justin can change them in that one file. Anything unreadable prints unknown, never zero. Detail in the board pulse PR.
+## 16 October 2026: Digital Parenting Week planned as two date free pieces
+The date could not be confirmed on a primary source: Parent Zone's site has only
+the 2021 edition, and 26 to 30 October 2026 comes from two aggregators. So the
+two drafts (an AI companion Wednesday led by Orbit, "the ban is a start line"
+Friday led by Nova) never name the week and work whichever dates are real. Also
+found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no post
+may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
+Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
+`plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan
+The nine ledger worries now sit in CONCERN_TO_CATEGORY by name, agreeing with
+the device issues table, so Get the words never vanishes at the check in.
+Mood after screens moves from screen time to mood and confidence to match.
+The first phone worry gets its own Tonight step when the child has no phone of
+their own: the phone plan script, the ladder and the family phone agreement.
+Guard: scripts/check-concern-loop.mjs. PR #1315.
+## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
+Justin marked the child side rule done on 14 October. Read as: the child never
+chats with a model, and the homework hint card for ages 10 and over (his
+25 September rule) is the single allowed exception, not a reason to move the
+route. `scripts/check-child-has-no-model.mjs` now exempts only that route and
+holds it to a server side age gate, one request, no streaming and a fixed card
+shape. It runs in `wiring.yml` and as `npm run child-model-guard`. THE-STORY
+sections 6, 7, 9 and 12 corrected (Jigsaw from £495, plan choice at the end of
+sign up, open work checked against main). The "done" answer did not record
+which option, so if he meant moving the route to the parent side, say so. The
+card is not stored, so "a card the parent can see" is not yet true. PR #1319.
+## 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it
+Review board task social-week-live-starter-pack-link. guidedchildhood.co.uk/starter-pack
+404ed on 13 October and sat under every post in the 19 October social week pack.
+Every guidedchildhood.co.uk in content/ and tools/social-cards is now
+guidedchildhood.com (23 links, 15 files). `scripts/check-live-domain.mjs` fails
+if our .co.uk comes back; it matches our domain only, so school and source .co.uk
+addresses stay. Runs before `npm run social-cards` and in CI. Detail in PR #1313.
+## 16 October 2026: The nightly evening push stops after seven unanswered nights
+Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
+still gets the evening line; the eighth night and every one after it is held, and
+the four day re engagement line (unchanged, now `lib/push/reengage.ts`) is all
+that reaches them. Showing up uses the same four tables as done today and resets
+the count; a parent who never showed up counts from the day they joined. A failed
+read sends as before. The parent flame streak is untouched. Pinned by section F of
+`scripts/check-habit-loop.mjs`. No migration.
+## 15 October 2026: The Planet Post downloads now carry the better version
+
+Justin found the emailed download was still the first version. The code
+version now matches the canvas: the Planet Friends line up (approved waving
+stills), the six critique fixes (one colour for every message so none gives
+the answer away, wheel labels clear, readable instructions, word search at the
+top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
+Issue 1". All five PDFs and the previews re-rendered; the guard holds the
+fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: The live Pathway Session line comes off the paid screens
+Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
+tick comes off the upgrade page, its only appearance (no email, config or
+choose screen carried it). None has been booked, and a promise on the page
+that takes money must already be kept. It comes back once a first session is
+booked. Same PR adds one block naming what a free chatbot cannot do, on the
+home page, the choose screen and the upgrade page, each line with its proof
+path in the component. PR #1328.
+
+## 16 October 2026: The ask names what the family keeps, and repeats after the first look
+The choose screen and the upgrade page now list this family's own rows (child's
+name, the worry, check ins, the star quest, scripts opened) from
+lib/paywall/what-you-keep.ts; zeros hide, and an empty family gets an honest
+line, not a list of nothing. The ask repeats on Home's trial card once there is
+a first check in or script, on the no card path only. PR #1329.
+## 16 October 2026: the stage result has a share action
+Review board task stage-result-share-action. Under the door on the result
+screen: "Send this to a parent who has this fight", Send on WhatsApp and Copy
+link. A visitor shares /v/stage-share (counted under Shared from the stage
+result once migration 379, PR 1323, is applied); a parent with an account
+shares their own /r/ link and the message says both get £5 (CAP Code 2.1). It
+never names the worry, and it hides for an answer that needs help first.
+PR 1324.
+## 16 October 2026: The Monday CrewAI meeting is deleted
+
+Justin decided (review board item decide-legacy-crewai) to delete the old
+Monday weekly meeting: `weekly_meeting.yml`, `agents/weekly_meeting.py`,
+`build_weekly_crew` and the `pulse_weekly_task` prompt. It ran on a hardcoded
+old model and duplicated the Monday radar and the board. The daily briefing
+(`daily_briefing.yml`, manual only) and the crew it imports stay until Justin
+says otherwise. Git history keeps the rest. No other file pointed at agents/.
+## 16 October 2026: we start at 4, and the parent of a 2 or 3 year old is told so
+Justin decided the parent of a 2 or 3 year old is a customer later, not now
+(`decide-under-four-customer`). The customer line is 4 to 16 in THE-STORY,
+review.md, the review board lenses and the first phone ad. A birthday under 4 in
+the stage check, setup or adding a child no longer clamps into ages 4 to 7: one
+card (`components/children/StartsAtFour.tsx`) says we start at 4 and names the
+month to come back, and the step stays put. No email capture, as none existed.
+Children already stored keep the clamp so the age up cron is unchanged. PR #1330.
+## 16 October 2026: DiGi fallback ladders move to Opus 5.5 and Sonnet 5.5
+Both ladders (lib/config/digi.ts and lib/config/ai-module.ts) now run Fable 5.1,
+claude-opus-5-5, claude-sonnet-5-5. DIGI_MODEL stays an env var, default
+claude-fable-5-1. Fast mode matches Opus 5.5, 5 and 4.8 by exact id, never Sonnet
+or Haiku. The model guard pins the ladder order in both files and fails on any
+quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
+call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
+(Fable spending the 1200 token budget thinking), so that stays open. PR #1318.
+
+## 16 October 2026: the Sweden screens post, checked and answered
+
+Justin sent a viral LinkedIn post about Sweden going back to printed textbooks
+and asked whether it is accurate, how embedded screens are in UK and US schools,
+and whether there is proven data on it working.
+
+The post is accurate on the policy and silent on the only thing that matters.
+There is no evaluation of the Swedish reforms, and PISA published on 8 September
+2026 has Swedish reading at 466, down 21 points since 2022. That number judges
+nothing, because those students were born in 2009 and were schooled before the
+reform, and we say so rather than use it as a gotcha.
+
+The useful finding is that the evidence supports distraction rather than the
+medium. Paper beats screen by about g = 0.21 across 54 studies, but the child
+specific meta analysis halves that with a confidence interval including zero,
+and the handwriting brain study everyone quotes tested 36 university students.
+PISA 2022 has 30 percent of students pulled off task by a device in most or
+every maths lesson, scoring 15 points lower.
+
+That is the same shape as our own thesis, so GDC-043 runs on it, using Justin's
+change of mind about technology as the scene. Comment drafted for the original
+post as well. PR 1339.
+
+## 16 October 2026: GDC-043 red teamed against Odgers and Ferguson
+
+Justin: "can we check what odgers and ferguson would say." Both have live
+published positions and Ferguson has a 2025 paper titled Smartphone bans in
+schools remain unproven, which lands directly on our draft.
+
+Two fair hits, both adopted. Ferguson would turn our own argument back on us:
+the draft called the PISA distraction finding "well evidenced" and pivoted the
+whole post onto it, when it is cross sectional self report and the researcher who
+has published most on it says bans are unproven. The post now calls it an
+association and names the counter evidence itself. Odgers would catch an
+untested method claim in "we have to teach a child to notice it", so it is now
+stated as a bet, in those words.
+
+One point held rather than adopted. Odgers would say a screens post is still a
+screens post, and she is right, but that is our own hidden thread rule rather
+than an error: GDC-043 is one of the nine and the deliberate one in ten is
+overdue. Ferguson would also go further than we will on publication bias in the
+paper versus screen literature, and we are not adopting a correction we have not
+read the analysis for. Advice is an input, including from the people our own
+test is named after. PR 1339.
+
+## 16 October 2026: GDC-043 v3, the motive is the story
+
+Justin: challenge the motive from the country as well. That changed the post
+from "accurate but unproven" into a Wrong Villain entry.
+
+Reimers, Martin Bylund and Stenliden, Constructions of a reading crisis,
+Discourse 2025, document that Sweden's National Agency for Education emphasised
+the positives of PIRLS 2021 while the government called the same data a crisis,
+that Sweden had moved up the league table and declined less than most countries,
+and that the agency named segregation as the main problem where the government
+named digitalisation and migration.
+
+That is our own thesis stated by a national education agency, so GDC-043 becomes
+the deliberate hidden thread post rather than one of the nine, which answers the
+objection logged against v2.
+
+The post now runs on that divergence and drops the PISA distraction pivot
+entirely, which also removes the only claim Ferguson could fairly have attacked.
+Fewer claims, stronger post. Body 2,228 characters.
+
+Refused, having looked: bad faith, a publisher lobby (searched, no evidence
+found), and any suggestion the reading decline is invented. The timing of the
+change of government is stated and the inference left to the reader. PR 1339.
+
+## 16 October 2026: GDC-043 hook rewritten, it referred to a post nobody had read
+
+Justin caught it: the opening was "Five years ago I would have shared that post
+about Sweden", which only works for a reader who had already seen the viral post.
+Most of his feed will not have.
+
+The hook now carries the story in the same breath as the admission, "Screens out
+of classrooms, printed textbooks back in", and the whole thing lands in 126
+characters, inside the mobile fold at about 140. The post no longer refers to
+anything the reader is assumed to have seen.
+
+Worth adding to the review checklist: a reaction post has to work for someone
+who never saw the thing it reacts to. PR 1339.

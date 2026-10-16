@@ -14,6 +14,7 @@ import StickyJoin from '@/components/starter/StickyJoin'
 import WhatYouGet from '@/components/starter/WhatYouGet'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
+import ShareStage from '@/components/starter/ShareStage'
 import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
@@ -354,7 +355,12 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
             {helpFirst
               ? 'You told us what is going wrong. Please read the box below first.'
-              : 'Here is what we do about each one, and what you can do tonight.'}
+              // Justin, 15 October 2026: "make super easy read". This line used
+              // to say what the section heading underneath it says again, so
+              // the first two things a parent read were the same sentence. It
+              // now tells them where to start, which is the one thing a long
+              // page owes its reader.
+              : 'Start with the first card. It has something to try tonight.'}
           </p>
         </div>
       </div>
@@ -406,12 +412,12 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               think about us rather than about their evening. This says what
               the chips underneath every card actually mean, which is the one
               thing a first time reader cannot guess. */}
-          <p className="wow-fu" style={{ ...LEAD, marginBottom: 18 }}>
-            {/* Eight things named in prose, when every card below draws the
-                ones that pick up THAT worry as chips a parent can see at a
-                glance. A list you have to hold in your head to use it. */}
-            Each card names the problem, then the four things we do about it, every time.
-          </p>
+          {/* The line that sat here explained how to read the cards ("each
+              card names the problem, then the four things we do about it").
+              Instructions for reading a card are a sign the card needs
+              explaining, and these do not: the problem is the heading and the
+              four things are labelled. Cut for an easier read, 15 October 2026. */}
+          <div style={{ height: 6 }} />
 
           {/* The roll call, in butter rather than the old black card. */}
           <div className="wow-fu" style={{
@@ -676,7 +682,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               the Good to know group above, so the page has one shape for
               "more, if you want it" from top to bottom. */}
           <div className="wow-fu" style={{ marginTop: 14 }}>
-            <Fold icon="passport" label="One road, from 4 to 16" line={`Stage ${stage.id} is where you start, not where it ends.`}>
+            {/* Renamed: the passport tile just above already says "One road,
+                from 4 to 16", and two rows with the same words read as a
+                mistake. This one is about where THEIR child is on it. */}
+            <Fold icon="passport" label={`Where ${kid || 'your child'} is on the road`} line={`Stage ${stage.id} of 5, and what comes next.`}>
           <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', overflow: 'hidden' }}>
             {STAGES.map((s, i) => {
               const here = s.id === stage.id
@@ -715,7 +724,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         {/* ── The door ─────────────────────────────────────────────────── */}
         <div id="chapter-cta" className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
           <div style={EYEBROW}>{needsConfirm ? 'One last step' : `Stage ${stage.id} · ${stage.name}`}</div>
-          <h2 style={{ ...H2, fontSize: 'clamp(1.6rem, 5.2vw, 2.1rem)' }}>{needsConfirm ? 'Check your email' : kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}</h2>
+          <h2 style={{ ...H2, fontSize: 'clamp(1.6rem, 5.2vw, 2.1rem)' }}>{needsConfirm ? 'Check your email' : 'Ready when you are'}</h2>
           <p style={{ ...LEAD, marginBottom: 20 }}>
             {needsConfirm
               ? 'We sent a link to confirm your email. Tap it, then step straight in. Everything you have just told us is saved.'
@@ -757,6 +766,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             Already have an account? <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
           </p>
         </div>
+
+        {/* ── Send it on ───────────────────────────────────────────────────
+            The share action (stage-result-share-action): after the door, so it
+            never competes with it, and never for a parent whose own answer
+            needs help first, for the same reason the sticky door hides then.
+            See components/starter/ShareStage. */}
+        {!helpFirst && <ShareStage member={!onJoin} />}
       </div>
 
     </div>

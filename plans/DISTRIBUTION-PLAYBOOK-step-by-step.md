@@ -77,7 +77,7 @@ Your LinkedIn already works, the literacy post format lands. This is the fastest
 - [ ] **2.1** Use the content engine skill to produce the week's posts: run `/content-engine` (or ask a Claude session to run it) against the cliff versus ramp message and the ban. It writes LinkedIn posts and a Substack issue in your voice.
       *Done when:* you have five posts ready for the week.
 
-- [ ] **2.2** Post one a day, five days. Each ends with the same hook and link: what stage is your child, three questions, guidedchildhood.co.uk/starter-pack.
+- [ ] **2.2** Post one a day, five days. Each ends with the same hook: what stage is your child, three questions. Each post gets its own link, made on guidedchildhood.com/dashboard/admin/videos with the channel set to LinkedIn and a code like li-1022-the-ban, and it goes in the first comment. That is how the Friday number knows which post sent the checks.
       *Done when:* five posts are up and logged in the sheet.
 
 - [ ] **2.3** Reply to every comment for the first hour after posting. LinkedIn pushes posts that get early replies. This is fifteen minutes that doubles reach.
@@ -91,7 +91,7 @@ Where worried parents already argue about phones. You show up as a helpful paren
 
 - [ ] **3.1** Join five Facebook parenting groups, plus Mumsnet, plus one or two parenting subreddits.
 - [ ] **3.2** For a few days, just be useful. Answer a phone or screen question with a real, warm reply. No link yet. You are building the right to post.
-- [ ] **3.3** Then, where it genuinely fits a thread, drop the stage check as a helpful tool, not a pitch: *"There is a free three question thing that tells you what stage your child is at, it helped me think about it."* Use the content engine's other channels variants so the wording fits each place.
+- [ ] **3.3** Then, where it genuinely fits a thread, drop the stage check as a helpful tool, not a pitch: *"There is a free three question thing that tells you what stage your child is at, it helped me think about it."* Use the content engine's other channels variants so the wording fits each place. Each seed gets its own link from the founder page (channel Parent groups, a code like grp-1022-the-group), never the bare starter pack address.
       *Done when:* you have seeded at least five real threads and logged any signup spike in the sheet.
 
 > **The rule for groups:** be a parent who helps, roughly one in ten posts mentions the tool. The mission filter and the one in ten rule in the content engine skill are exactly this. Break it and you get banned from the group, which is worse than silence.
@@ -144,7 +144,7 @@ Once you are running, marketing is one loop you do every week. Sam Parr's rule: 
 
 - **Monday:** run the content engine, get the week's five posts. Check last week's sheet, decide which creators to keep.
 - **Tuesday to Friday:** post one a day, reply in the first hour, move the creator engine forward by one step (a DM, a brief, a spike logged).
-- **Friday:** look at the sheet. Signups up or down, which channel moved it, what to do more of next week.
+- **Friday:** read the Friday number on guidedchildhood.com/dashboard/admin/videos (stage checks begun this week, by channel), then the sheet. Checks and signups up or down, which channel moved them, what to do more of next week.
 
 One number on the wall: are we tracking toward 2,500 signups a month. Everything else is detail.
 

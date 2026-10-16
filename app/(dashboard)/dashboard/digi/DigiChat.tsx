@@ -921,7 +921,7 @@ export default function DigiChat({
       // was the dashboard being asked again.
       //
       // /dashboard is a server component, and its rendered payload sits in the
-      // client router cache. Going back to it, by the "Today's pathway" link or
+      // client router cache. Going back to it, by the "Today" link or
       // by the back gesture, restores that payload rather than re-rendering it,
       // so the parent is shown the version of the page from before they asked
       // anything. Instant, and a day out of date.
@@ -1084,7 +1084,7 @@ export default function DigiChat({
                 borderRadius: 'var(--radius-pill)', padding: '5px 11px', whiteSpace: 'nowrap',
               }}
             >
-              <span aria-hidden>←</span> Today's pathway
+              <span aria-hidden>←</span> Today
             </Link>
             {dailyLimit != null && (
               <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>

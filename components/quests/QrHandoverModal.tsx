@@ -138,7 +138,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Hand it to {childName}
           </span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink)', flexShrink: 0 }}>✕</button>
+          <button className="tap-target" onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink)', flexShrink: 0 }}>✕</button>
         </div>
 
         {/* Two doors, equal weight. A family with no child device is not taking

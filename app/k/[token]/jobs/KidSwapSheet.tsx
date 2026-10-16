@@ -68,7 +68,7 @@ export default function KidSwapSheet({ token, quest, onClose, onSent }: {
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, margin: 0 }}>
             Swap {quest.emoji} {quest.title}?
           </h2>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+          <button className="tap-target" onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
           Pick the job you would rather do, or write your own. Your grown up gets the swap to say yes or no, and this one stays on your list until they answer.

@@ -33,6 +33,30 @@ function button(label: string, url: string): string {
   </td></tr></table>`
 }
 
+// ── THE STARTER PACK BUTTON KNOWS WHO IS READING ────────────────────────────
+//
+// Justin, 15 October 2026, holding the printable email on his phone: "The link
+// to the starter pack needs to be clever enough to know if already has an
+// account."
+//
+// Every pre sign up email ended on "See the free starter pack", and so did the
+// seven weekly teases a LAPSED member gets after their trial, because they reuse
+// the same bank. Inviting somebody to go and start the thing they already have
+// an account for is the product forgetting who they are, in writing.
+//
+// So a caller that knows the reader is a member says so, and the button becomes
+// the way back into their own app. A caller that does not know (a lead) passes
+// the signed click time link from starterCtaUrl, which checks again at the
+// moment of the tap, because an account made the morning after the email was
+// sent is invisible to any send time check.
+export type Reader = 'lead' | 'member'
+
+function starterButton(cta: string, reader: Reader = 'lead'): string {
+  return reader === 'member'
+    ? button('Open my app', `${APP}/dashboard`)
+    : button('See the free starter pack', cta)
+}
+
 // A yes and a no of equal weight. A big butter YES next to a grey no is a
 // leading question, and the whole point of asking is to find out whether to
 // build the thing, not to collect the answer we hoped for.
@@ -255,7 +279,7 @@ export function day7FounderEmail(params: {
       heading(`You have been here a week.`) +
       p(`So here is the honest pitch, once, and then I will stop mentioning it.`) +
       p(`The first 50 families lock in £7.99 a month for life. The price never rises for you, whatever the platform grows into. Right now <strong>${remaining} of the 50 places are left</strong>, and the counter is real, it is enforced in the code.`) +
-      p(`That unlocks every stage as your child grows, unlimited DiGi, all 100 plus scripts, the wellbeing tracker and the family agreement builder.`) +
+      p(`That unlocks every stage as your child grows, unlimited DiGi, all 300 plus scripts, the wellbeing tracker and the family agreement builder.`) +
       button('Claim a founding place', `${APP}/dashboard/upgrade`) +
       p(`And if now is not the moment, the app waits for you. Nothing you set up is lost.`),
       unsubscribe
@@ -562,8 +586,11 @@ export function magnetEmail(params: {
   blurb?: string
   /** The other prints of it (Letter, ink saver, booklet), full URLs. */
   files?: { label: string; url: string }[]
+  /** A member gets the way back into their app, never the starter pack pitch. */
+  reader?: Reader
 }): EmailContent {
   const { magnetTitle, downloadUrl } = params
+  const reader = params.reader ?? 'lead'
   const cta = params.cta ?? `${APP}/starter-pack`
   const blurb = params.blurb ?? 'It is one page, made to print and stick on the fridge. No login needed.'
   const more = params.files && params.files.length > 0
@@ -577,8 +604,10 @@ export function magnetEmail(params: {
       button('Download the printable', downloadUrl) +
       more +
       p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
-      p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`) +
-      button('See the free starter pack', cta),
+      (reader === 'member'
+        ? p(`Every printable is in your app too, next to the jobs and stars it goes with.`)
+        : p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`)) +
+      starterButton(cta, reader),
       'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
     ),
   }
@@ -942,7 +971,7 @@ export function monthlyBalanceEmail(params: {
 
 const LEAD_UNSUB = 'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
 
-export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'The assistant that never just says no',
     html: wrapper(
@@ -951,13 +980,13 @@ export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = 
       p(`Most advice on screens comes down to take it away. That teaches a child nothing for the day they get it back.`) +
       p(`DiGi is different. Ask it anything, the 11pm worry, the game you have never heard of, the friend who just got a phone, and it hands you a calm pathway for your child's exact age. Never allow or deny, always one small step you can actually take tonight.`) +
       p(`It is the part parents tell us they did not know they were missing.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'The exact words for the 7am screen meltdown',
     html: wrapper(
@@ -965,13 +994,13 @@ export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
       p(`The tablet goes off, the morning falls apart, and every calm plan you had goes with it. In that moment you do not need a theory, you need the next sentence.`) +
       p(`Guided Childhood gives you the actual words. Short scripts for the meltdowns, the handovers and the hard nos, written with child psychologists, ready to read off your phone while it is happening.`) +
       p(`Warm, firm, and tested on real mornings.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'Print it tonight, offline win tomorrow',
     html: wrapper(
@@ -979,59 +1008,59 @@ export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: str
       p(`Sometimes the best screen tool is a piece of paper. Star charts for the fridge, colour in Planet Friends, a whole offline pack a child can do at the table while you make tea.`) +
       p(`Every printable ties back to the same reward loop as the app, so time off screens becomes something a child chooses, not something you have to enforce.`) +
       p(`Print one tonight and see what tomorrow looks like.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'An hour a day, is that ok?',
     html: wrapper(
       heading('The number, settled by the science.') +
       p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
       p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'It is not just you',
     html: wrapper(
       heading('The worry you have not said out loud.') +
       p(`The late night doubt, the comparison, the feeling that everyone else has this figured out. They do not, and the evidence is clear that these moments are normal.`) +
       p(`Guided Childhood has a library of those exact moments, each one met with a calm, research backed reason it is ok, from the people parents actually trust. Not just for your child. For you.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function safetyTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function safetyTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'The talk about deepfakes and scams, done for you',
     html: wrapper(
       heading('The hard talks, made easy.') +
       p(`Strangers, scams, deepfakes, what stays online forever. The conversations that matter most are the ones we put off because we do not know how to start them.`) +
       p(`Guided Childhood turns each one into a five minute lesson, pitched to your child's age, that does the hard part for you. You come out of it closer, not lectured at.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
 }
 
-export function passportTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`): EmailContent {
+export function passportTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'One map, from 4 to 16',
     html: wrapper(
       heading('A childhood you can see.') +
       p(`Digital parenting feels like a hundred separate decisions. Guided Childhood turns it into one clear map, a passport your child grows along from their first safe steps at 4 to full readiness at 16.`) +
       p(`Every job done, every lesson learned and every calm screen off earns a stamp. You always know where you are, and where you are heading next.`) +
-      button('See the free starter pack', cta),
+      starterButton(cta, reader),
       unsubscribe
     ),
   }
@@ -1786,7 +1815,7 @@ export function paidReadAheadEmail(params: {
       bullets([
         `<strong>Foundation, 4 to 7.</strong> First relationships with technology, before habits form.`,
         `<strong>Builder, 8 to 10.</strong> Building digital habits before the algorithm learns them.`,
-        `<strong>Explorer, 11 to 13.</strong> The algorithm conversation, before social media. The critical window.`,
+        `<strong>Explorer, 11 to 12.</strong> The algorithm conversation, before social media. The critical window.`,
         `<strong>Shaper, 13 to 15.</strong> Identity and digital footprint, while the relationship still holds.`,
         `<strong>Independent, 16 plus.</strong> Real independence, before they leave home.`,
       ]) +

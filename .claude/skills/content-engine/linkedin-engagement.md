@@ -29,6 +29,10 @@ pushing conversation hardest.
 - **External links in the body.** 2026 LinkedIn suppresses posts that send people
   off platform. If a link is essential, it goes in the first comment, never the body.
   (Our /starter-pack CTA is the rare exception, used sparingly and only near a series close.)
+  When the stage check link goes in a first comment, it is the post's own source link,
+  guidedchildhood.com/v/li-<mmdd>-<slug>, made on /dashboard/admin/videos with the
+  channel set to LinkedIn, never the bare /starter-pack. That is what lets the Friday
+  number say which post sent the checks (migration 379).
 - **Engagement bait.** No "comment BELOW and I will DM you the guide." LinkedIn punishes it.
 - **Engagement pods.** No like for like rings. LinkedIn sees through them.
 - **Topic hopping.** Stay in the niche, children, screens, the evidence, the build.

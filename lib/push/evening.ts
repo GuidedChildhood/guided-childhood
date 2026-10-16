@@ -107,3 +107,59 @@ export function eveningLine(input: { done: boolean; streakCount: number; childNa
     url: '/dashboard#today',
   }
 }
+
+// ── THE EVENING STOPS WHEN THE PARENT HAS GONE QUIET ────────────────────────
+//
+// Review board, 16 October 2026 (keeps-coming-back): the nightly push had no
+// ceiling. A parent who had not opened the app for a month still got "Your day
+// is still open" every evening, which is how a notification is turned off for
+// good. Duolingo's own test found the same: past about a week of ignored
+// nudges, more of them cost the opt in rather than winning the person back.
+//
+// So the evening goes quiet after seven unanswered nights. Night one to seven
+// of being quiet still sends; the eighth does not. What is left is the four day
+// re engagement line (app/api/push/reengage), one warm DiGi nudge at most every
+// four days, which is a different job: it asks a lapsed parent back, where the
+// evening line assumes they are still in the habit.
+//
+// "Showed up" is the same reading the streak and the done today check use (a
+// session, a moment, an approved tick, an answered DiGi note), so any
+// meaningful return resets the count and the evening starts again the next
+// night. A parent with no activity at all counts from the day they joined.
+// This does not touch the parent flame streak or what it counts.
+
+/** Quiet nights the evening still sends for. The next one does not. */
+export const EVENING_QUIET_NIGHTS = 7
+
+function utcDay(iso: string): number {
+  return Date.parse(`${iso}T00:00:00Z`)
+}
+
+/** Whole days from one YYYY-MM-DD date to a later one. */
+export function daysBetween(from: string, to: string): number {
+  return Math.round((utcDay(to) - utcDay(from)) / 86400000)
+}
+
+/** The London date (YYYY-MM-DD) of a timestamp, or null if it is not one. */
+export function londonDateOf(iso: string): string | null {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return null
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(d)
+}
+
+/**
+ * Which night of being quiet tonight is, counting tonight. The latest day the
+ * parent showed up (or, with no activity at all, the day they joined) is night
+ * zero; the evening after is night one. A date in the future reads as zero.
+ */
+export function quietNightNumber(showedUpOn: Array<string | null | undefined>, joinedOn: string | null | undefined, today: string): number {
+  const days = [...showedUpOn, joinedOn].filter((d): d is string => typeof d === 'string' && d.length >= 10).map(d => d.slice(0, 10))
+  if (days.length === 0) return 0
+  const latest = days.reduce((a, b) => (a > b ? a : b))
+  return Math.max(0, daysBetween(latest, today))
+}
+
+/** True when tonight's evening push should be held back. */
+export function eveningHeldForQuiet(quietNight: number): boolean {
+  return quietNight > EVENING_QUIET_NIGHTS
+}
