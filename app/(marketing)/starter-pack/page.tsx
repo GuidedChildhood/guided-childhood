@@ -18,6 +18,7 @@ import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetu
 import { enabledProviders } from '@/lib/auth/providers'
 import { bandForAge } from '@/lib/children/age'
 import WorryPicker from '@/components/onboarding/WorryPicker'
+import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
   FEELING_OPTIONS,
@@ -742,6 +743,7 @@ export default function StarterPackPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No commitment. Built on the research.
             </p>
+            <WhatWeAreNot />
           </>
         )}
 
