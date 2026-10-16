@@ -17,6 +17,7 @@ run again.
 | He watched a feed narrow in his own house and could not name the moment it turned | green | GDC-037 | 14 Oct 2026 |
 | He has argued this for years on evidence that cannot settle it | green | GDC-038 | 14 Oct 2026 |
 | He set a timer because it was the rule he could actually enforce | green | GDC-039 | 14 Oct 2026 |
+| He used to think screens were mostly bad and school should stay near paper and pen, and changed his mind | green | GDC-043 | 16 Oct 2026 |
 
 ## What is not recorded here
 
