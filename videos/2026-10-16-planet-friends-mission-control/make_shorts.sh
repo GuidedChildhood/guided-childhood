@@ -15,8 +15,8 @@ for i, name in [(3, "pebble"), (4, "bloop"), (5, "orbit"), (7, "nova"), (8, "cos
 PY
 while read NAME A B; do
   LEN=$(echo "$B - $A" | bc); X=$(echo "$LEN - 3.5" | bc)
-  ffmpeg -v error -y -ss "$A" -t "$LEN" -i "$SRC" -loop 1 -t "$LEN" -i renders/endcard-9x16.png -filter_complex \
-    "[1:v]format=yuv420p,setsar=1[e];[0:v]setsar=1[v];[v][e]xfade=transition=fade:duration=0.5:offset=$X[o];[0:a]afade=t=in:d=0.3,afade=t=out:st=$(echo "$LEN - 1.2" | bc):d=1.2[a]" \
+  ffmpeg -nostdin -v error -y -ss "$A" -t "$LEN" -i "$SRC" -loop 1 -framerate 30 -t "$LEN" -i renders/endcard-9x16.png -filter_complex \
+    "[1:v]fps=30,format=yuv420p,setsar=1,settb=AVTB[e];[0:v]fps=30,format=yuv420p,setsar=1,settb=AVTB[v];[v][e]xfade=transition=fade:duration=0.5:offset=$X[o];[0:a]afade=t=in:d=0.3,afade=t=out:st=$(echo "$LEN - 1.2" | bc):d=1.2[a]" \
     -map "[o]" -map "[a]" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k "renders/short-$NAME-9x16.mp4"
   echo "made renders/short-$NAME-9x16.mp4 ($LEN s)"
 done < renders/short-windows.txt
