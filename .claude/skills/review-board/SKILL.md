@@ -38,6 +38,10 @@ becomes a task, and a normal session builds the task.
    - `git log origin/main --since="7 days ago" --merges --pretty="%h %ad %s" --date=short`
    - the open pull requests with their age (GitHub MCP `list_pull_requests`)
    - decision titles from the last seven days in `plans/decisions.md`
+   - the newest report in `plans/review-board/walkthroughs/` (the Wednesday UX
+     walkthrough): its verdict line and must fix findings, and its date. If the
+     folder has no report from the past eight days, say the walkthrough is
+     unknown for the week; never call it a pass
    - the routines and their last run (`list_triggers` if the tool is
      available; otherwise name the routines in `plans/review-board/README.md`
      and say their state is unknown)

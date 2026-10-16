@@ -167,8 +167,11 @@ minutes per star at the child's own rate (5 by default) with a weekly cap, the c
 board where a child can pitch their own quest, lessons in the shared player
 with their chosen buddy and colour, Planet Friends earned by streaks, games,
 printables and the paper chart as a first class no device route.
-**Zero model calls on the child's side, ever**, enforced by a guard script.
-Nothing buzzes a child's phone at night.
+**The child never chats with a model**, enforced by a guard script in CI. The
+one thing a model does on this side is the homework hint card for ages 10 and
+over (`app/api/kid/homework-help`): one fixed card, no follow up box, nothing
+stored, three hints per question and a daily cap. Under 10 asks a grown up with a push and no
+model. Nothing buzzes a child's phone at night.
 
 ### DiGi (`digi/`, `lib/digi`, `app/api/digi`)
 Claude wrapped in four things a raw model does not have: rails it cannot talk
@@ -185,8 +188,10 @@ doing its job gently. The canonical write up is `digi/00-how-digi-works.md`.
 Its own Next app, its own Vercel project, built for
 `schools.guidedchildhood.com`. An open catalogue with no login as the land
 grab, zero prep lessons, the hub for DSL, CPD, policy and RSHE mapping.
-Priced in bands from £495 to £1,995 a year (roughly £2 per pupil, against
-Jigsaw at £795 entry), paid on invoice, not card. The real value of a school
+Priced in five flat bands from £495 to £1,995 a year (trusts on application),
+paid on invoice, not card. The entry band sits level with Jigsaw, which starts
+from £495 for a whole primary on its own site (checked 9 September 2026; the
+old £795 figure traced to a rival's blog). The real value of a school
 is distribution: one 300 pupil primary is 250 families with the school's
 endorsement attached.
 
@@ -232,9 +237,14 @@ simplify these away.
   product's voice and it updates without a deploy.
 - **Provenance is mandatory.** Migration 108: an objective without a source
   cannot exist. The same approval gate covers everything researched.
-- **The child side has no model.** A guard script fails the build if an
-  Anthropic import appears under `app/k`, `app/api/kid`, `lib/kid` or
-  `components/kid`. Generation happens on the parent's side, once, stored.
+- **The child never chats with a model.** A guard script
+  (`scripts/check-child-has-no-model.mjs`, run in CI) fails the build if the
+  Anthropic SDK, its API host or a model id appears under `app/k`,
+  `app/api/kid`, `lib/kid` or `components/kid`. Lessons are generated on the
+  parent's side, once, stored. The single allowed exception is the homework hint
+  card route for ages 10 and over, which the guard holds to a server side age
+  gate, one request, no streaming and a fixed card shape (Justin, 14 October
+  2026). A second model route on the child's side is a new decision.
 - **`SITE_URL` is written down once** (`lib/config/site.ts`), because three
   files disagreeing is how a wrong domain sat unnoticed in the sitemap.
 - **The dash rule is mechanical.** DiGi's stream strips dashes as it goes.
@@ -264,11 +274,14 @@ code. Standard £12.99 a month. Annual £99. Free tier: four day trial, three
 DiGi messages a day, five free scripts, the starter pack. Schools £495 to
 £1,995 a year on invoice.
 
-**The paywall.** One block, shown after the first check in, when the parent
-has given something and seen something back. Two doors: Founder with a card
-now (four day trial, then £7.99 held for ever), or free trial with no card
-into the capped tier. Nobody is walled off from the daily loop; the wall
-stands between the free taste and the full product.
+**The paywall.** The plan choice sits at the end of sign up, as decided on
+14 August 2026: when setup finishes the parent chooses one of exactly two
+doors, on its own route (`/dashboard/choose`) so a reload cannot delete the
+offer. Founder with a card now (four day trial, then £7.99 held for ever), or
+the free trial with no card. Both get the same four days, capped to a starter
+sample of scripts and a daily DiGi limit read from `platform_config`, and the
+limits lift when the first payment lands. Nobody is walled off from the daily
+loop; the wall stands between the free taste and the full product.
 
 **What £4,000 MRR is.** Roughly 325 paying families: the 50 founders
 (£399.50) plus about 280 standard (£3,637). Every £795 school knocks about
@@ -324,30 +337,49 @@ Where the product should get simpler, not bigger:
 
 ## 12. Open work, honestly
 
-The live list, so nothing hides:
+Checked against the code on main, 16 October 2026. The live list is
+`plans/review-board/tasks.json`; this is the shape of it.
 
-- Wire the new Stripe account (env swap done or in progress, then the end to
-  end payment test on a clean address; the checkout route still needs its
-  try/catch so failures stop being blank 500s).
-- The welcome email rewrite (brief in
-  `plans/setup-quest-and-the-first-check-in.md`), then back to school and
-  founder offer emails.
-- The Setup Quest reshape, the baseline leading every first visit.
-- The child link domain fix (two components still build from
-  `window.location.origin`).
-- The passport page with pastel tabs; the what is working dashboard.
-- Schools: attach the subdomain, flip robots to index, pricing page and
-  invoice request form.
-- Compliance month one: ICO registration (Justin, personally), the DPIA,
-  processor DPAs, solicitor review. `plans/go-live-safety-checklist.md`.
-- The content gap: Years 7 to 11 curriculum, the coaches phase, the mobile
-  wrap.
-- Cosmo does not speak. The sixth form friend fronts no lesson since the
-  voices were made consistent on 14 September 2026, so the home page filters
-  him out rather than sell a friend who teaches nothing. Justin asked to be
-  reminded to write him into the two KS5 lessons once schools are live. The
-  work is specced and waiting on two of his decisions:
-  `plans/2026-09-14-cosmo-at-sixth-form-spec.md`. Zero credits.
+**Built, so not open any more.**
+- Checkout failures return a named error, not a blank 500
+  (`app/api/stripe/checkout/route.ts`).
+- The welcome email and walkthrough (13 August, 2 September), the day 7
+  founder, pre charge and back to school emails (`lib/email/templates.ts`).
+- The Setup Quest, three steps with the baseline leading the first visit
+  (`lib/setup/steps.ts`, 18 August).
+- The child link is built from `SITE_URL`, not the address bar
+  (`components/quests/ChildLinkShare.tsx`).
+- What is working has its own page. The tabbed passport was reversed on
+  15 August and the passport stays one page.
+- Schools is live on `schools.guidedchildhood.com`, indexable, with the
+  pricing page and invoice request form (14 August).
+- Curriculum now runs EYFS to KS5 (`content/modules`).
+
+**Open, with Justin.**
+- One live founder checkout on a clean email: card, four day trial, webhook,
+  access flip, seat count (`live-founder-checkout-test`).
+- ICO data protection fee (`confirm-ico-fee-paid`). DPIA and solicitor review
+  are on a 6 November reminder. `plans/go-live-safety-checklist.md`.
+- Decisions waiting: which Vercel project is the parent app; an under four
+  customer or not; the parent's flame and a grace day; the Pathway Session
+  line on the upgrade page; the old CrewAI crew.
+- Cosmo does not speak. The sixth form friend fronts no lesson, so the home
+  page filters him out. He is to be written into the two KS5 lessons once
+  schools are live: `plans/2026-09-14-cosmo-at-sixth-form-spec.md`.
+
+**Open, with Claude.**
+- Main is not green on Vercel until the seven Guided Planet tables are granted
+  to the right roles (`main-green-377-grants`, before 30 October).
+- Count stage checks by source, so each post earns its own number
+  (`count-stage-checks-by-source`).
+- Make the choose screen and upgrade page personal (what this family keeps) and
+  name what a free chatbot cannot do (`paywall-ask-is-personal`,
+  `paywall-names-what-ai-cannot`).
+- A second check in and a first visible win inside seven days
+  (`first-week-proves-value`).
+- The hint card is not stored, so a parent cannot see it. Either keep a one
+  line record for the parent or stop saying they can.
+- Still no coaches phase and no mobile wrap in the repo.
 
 ## 13. House rules
 
