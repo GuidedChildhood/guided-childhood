@@ -1121,7 +1121,7 @@ export default function KidPath({
                   </div>
                 )}
               </div>
-              <button onClick={() => setSheet(null)} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+              <button className="tap-target" onClick={() => setSheet(null)} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
             </div>
 
             {!sheet.holdsQuiz ? (

@@ -1,0 +1,7 @@
+{
+  "id": "decide-legacy-crewai",
+  "verb": "done",
+  "arg": "Delete agents/ and the Monday weekly_meeting workflow; git history keeps it",
+  "date": "2026-10-16",
+  "at": "2026-10-16T08:02:15.028Z"
+}
