@@ -71,7 +71,7 @@ So I have stopped thinking cliff and started thinking ramp. A little more freedo
 
 The only tricky part is knowing where your own child is on that path, because a 6 year old and a 13 year old need completely different things.
 
-If it helps, there is a free three question check that tells you what stage your child is at and one thing to do next, no sign up: guidedchildhood.co.uk/starter-pack
+If it helps, there is a free three question check that tells you what stage your child is at and one thing to do next, no sign up: guidedchildhood.com/starter-pack
 
 What is the one screen rule that actually works in your house. Genuinely collecting ideas.
 

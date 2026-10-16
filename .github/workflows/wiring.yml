@@ -155,6 +155,9 @@ jobs:
       # quietly broken. The rules that must fire and the ones that must never
       # fire are pinned, so nothing ever offers to add Minecraft as a child.
       - run: node scripts/check-new-name.mjs
+      # Our link is guidedchildhood.com. The .co.uk 404ed under every post in the
+      # 19 October social week pack, so it may not come back into the copy.
+      - run: node scripts/check-live-domain.mjs
       # The question a parent is asked about a suggestion lives on the worry
       # row in the check in, not on a card on Home. Three files have to agree
       # for that to hold and none of them fails a build if they stop agreeing:

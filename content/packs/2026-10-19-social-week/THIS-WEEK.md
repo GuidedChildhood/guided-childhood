@@ -42,7 +42,7 @@ Tonight: ask your child what they actually do on their phone on a normal school 
 
 What would you want a school to do alongside a ban?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
 
 **First comment**
 
@@ -99,7 +99,7 @@ The words you have ready are the ones you reach for when you are tired.
 
 What is the sentence you wish you could take back?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
 
 **First comment**
 
@@ -138,7 +138,7 @@ Screens are not the villain, and they are not harmless either. A survey cannot s
 
 Who does your child talk to online that makes them laugh?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.co.uk/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
 
 **First comment**
 
