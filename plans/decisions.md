@@ -354,3 +354,25 @@ every maths lesson, scoring 15 points lower.
 That is the same shape as our own thesis, so GDC-043 runs on it, using Justin's
 change of mind about technology as the scene. Comment drafted for the original
 post as well. PR 1339.
+
+## 16 October 2026: GDC-043 red teamed against Odgers and Ferguson
+
+Justin: "can we check what odgers and ferguson would say." Both have live
+published positions and Ferguson has a 2025 paper titled Smartphone bans in
+schools remain unproven, which lands directly on our draft.
+
+Two fair hits, both adopted. Ferguson would turn our own argument back on us:
+the draft called the PISA distraction finding "well evidenced" and pivoted the
+whole post onto it, when it is cross sectional self report and the researcher who
+has published most on it says bans are unproven. The post now calls it an
+association and names the counter evidence itself. Odgers would catch an
+untested method claim in "we have to teach a child to notice it", so it is now
+stated as a bet, in those words.
+
+One point held rather than adopted. Odgers would say a screens post is still a
+screens post, and she is right, but that is our own hidden thread rule rather
+than an error: GDC-043 is one of the nine and the deliberate one in ten is
+overdue. Ferguson would also go further than we will on publication bias in the
+paper versus screen literature, and we are not adopting a correction we have not
+read the analysis for. Advice is an input, including from the people our own
+test is named after. PR 1339.

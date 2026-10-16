@@ -54,34 +54,46 @@ Every word of that is accurate. Here is what the viral version leaves out.
 
 Nobody has shown it worked.
 
-There is no evaluation. And the one number that has landed since went the other way: PISA published in September has Swedish reading at 466, down 21 points since 2022.
+There is no evaluation. And the one number that landed since went the other way: PISA in September put Swedish reading at 466, down 21 points since 2022.
 
-I am not going to use that against the policy either, because it would be dishonest. Those students were born in 2009. Almost all of their schooling happened before the reform. The number judges nothing. It just means the proof everyone is sharing does not exist yet.
+I am not going to use that against the policy, because it would be dishonest. Those students were born in 2009. Almost all of their schooling happened before the reform. The number judges nothing. It just means the proof everyone is sharing does not exist yet.
 
 The research underneath is also thinner than the story. Paper does beat screen for reading comprehension, across 54 studies and 171,055 students, at about a fifth of a standard deviation. In the meta analysis that looked only at children, the advantage drops to half that and the confidence interval still includes zero. The handwriting brain study everyone quotes tested 36 university students.
 
-What is well evidenced is narrower and more useful. In PISA 2022, around 30 percent of students said a device pulled them off task in most or every maths lesson, and those students scored about 15 points lower.
+What is better evidenced is narrower, and it is still only an association. In PISA 2022, around 30 percent of students said a device pulled them off task in most or every maths lesson, and those students scored about 15 points lower.
 
-That is not an argument about paper. It is an argument about interruption.
+Before anyone reaches for a ban: the researcher who has published most on this says school phone bans remain unproven, and the best English study of them found no difference in attainment or wellbeing.
+
+So the honest version is not paper good, screen bad. It is that interruption is the thing worth looking at, and nobody has shown how to fix it.
 
 Which matters at home, because the fight in my house was never about which book my son was reading. It was about the thing in his hand that kept asking for him back.
 
-A school can solve that by changing its tools. A parent cannot. We have to teach a child to notice it.
+A school can solve that by changing its tools. A parent cannot. So my bet, and I will call it a bet, is on teaching a child to notice it.
 
 What actually changed in your house, the device or the rules around it?
 
 ### First comment
 
-Sources, and the limits. Policy: the Swedish government scrapped Skolverket's digitisation plan in May 2023, and an ordinance in force from 1 July 2025 restricts non analogue tools in preschool, with analogue only under two. The textbook funding is widely reported at around 2.1 billion kronor but the figure varies between secondary reports, so I have said reported rather than confirmed. PISA 2025 was published on 8 September 2026: Sweden reading 466, down 21, against an OECD average that fell 14 points to 463. Reading: Delgado and colleagues 2018, g = 0.21 across 54 studies and 171,055 students, and Furenes, Kucirkova and Bus 2021 for the child specific figure of about 0.10 with a confidence interval including zero. Handwriting: Van der Weel and Van der Meer 2024 in Frontiers in Psychology, 36 university students, and a 2025 commentary by Pinet and Longcamp disputes the learning claim. Distraction: PISA 2022 Volume II. Context on how embedded this is: CoSN 2026 puts one to one device access at 90 percent of US middle school grades, while England is not a one to one country at all.
+Sources, and the limits. Policy: the Swedish government scrapped Skolverket's digitisation plan in May 2023, and an ordinance in force from 1 July 2025 restricts non analogue tools in preschool, with analogue only under two. The textbook funding is widely reported at around 2.1 billion kronor but the figure varies between secondary reports, so I have said reported rather than confirmed. PISA 2025 was published on 8 September 2026: Sweden reading 466, down 21, against an OECD average that fell 14 points to 463. Reading: Delgado and colleagues 2018, g = 0.21 across 54 studies and 171,055 students, and Furenes, Kucirkova and Bus 2021 for the child specific figure of about 0.10 with a confidence interval including zero. Handwriting: Van der Weel and Van der Meer 2024 in Frontiers in Psychology, 36 university students, and a 2025 commentary by Pinet and Longcamp disputes the learning claim. Distraction: PISA 2022 Volume II, and the 15 point gap is after accounting for the socio economic profile of students and schools, so it is an association and not a cause. Bans: Ferguson 2025, Smartphone bans in schools remain unproven, and the University of Birmingham study published in February 2025, 1,227 students across 30 schools, 20 of them with restrictive policies, no difference in wellbeing, sleep, activity or attainment, and cross sectional so it cannot settle cause either. Norwegian work across roughly 400 middle schools does find lower bullying and better grades for girls, so the field is genuinely split and I am not going to pretend otherwise. Context on how embedded this is: CoSN 2026 puts one to one device access at 90 percent of US middle school grades, while England is not a one to one country at all.
 
 ---
 
 ## The numbers
 
-- Post body: see count below, inside the 1,300 to 2,500 band.
+- Post body: 2,487 characters, inside the 1,300 to 2,500 band.
 - One closing question, nothing after it.
 - First number appears in paragraph four, not the opening.
 - Zero dashes, zero hyphens used as punctuation.
+
+## The Odgers and Ferguson pass
+
+Red teamed against both of their published positions on 16 October 2026, written
+up in `01-odgers-ferguson-redteam.md`. Two fair hits, both adopted into the body
+above: "well evidenced" softened to an association with the counter evidence
+named in the post itself, and "we have to teach a child to notice it" restated
+as a bet rather than a finding. One point held: a screens post is still a
+screens post, which is the hidden thread rule rather than an error, and GDC-043
+is one of the nine.
 
 ## What was deliberately not said
 
