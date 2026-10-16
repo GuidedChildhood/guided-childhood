@@ -297,3 +297,12 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: the stage result has a share action
+Review board task stage-result-share-action. Under the door on the result
+screen: "Send this to a parent who has this fight", Send on WhatsApp and Copy
+link. A visitor shares /v/stage-share (counted under Shared from the stage
+result once migration 379, PR 1323, is applied); a parent with an account
+shares their own /r/ link and the message says both get £5 (CAP Code 2.1). It
+never names the worry, and it hides for an answer that needs help first.
+PR 1324.
