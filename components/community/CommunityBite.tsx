@@ -119,7 +119,7 @@ export default function CommunityBite() {
               Community bite
             </span>
           </span>
-          <button
+          <button className="tap-target"
             onClick={close}
             aria-label="Close"
             style={{

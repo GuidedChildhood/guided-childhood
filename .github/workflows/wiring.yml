@@ -150,6 +150,10 @@ jobs:
       # rides here because it is the same shape of check, a thing that cannot
       # fail typechecking and cannot be seen without opening a browser.
       - run: node scripts/check-tokens.mjs
+      # Every button a thumb can hit: nothing under 44px unless it carries the
+      # tap-target pad or says why. Holds the gold focus ring in place too.
+      # See the header of check-tap-targets.mjs.
+      - run: node scripts/check-tap-targets.mjs
       # Offering to add a child the parent mentioned is a pile of heuristics
       # over free text: the kind of code that gets one case fixed and three
       # quietly broken. The rules that must fire and the ones that must never
