@@ -72,15 +72,16 @@ ol.steps b{color:var(--butter)}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 .tool{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;font-family:var(--mono);font-weight:600;font-size:13px}
 .tool[aria-pressed="true"]{border-color:var(--butter);color:var(--butter)}
-.stage{position:relative;flex:1;overflow-y:auto;display:flex;justify-content:center;padding-block:30vh 75vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.read{max-width:24ch;width:100%;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
+.stage{position:relative;flex:1;overflow-y:auto;display:block;padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.read{max-width:24ch;width:100%;margin:0 auto;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
 .read p{margin:0 0 .7em;text-wrap:pretty}
 .mirror .read{transform:scaleX(-1)}
-.eye{position:absolute;left:0;right:0;top:calc(30% + 0px);height:0;pointer-events:none;z-index:2}
+.eye{position:absolute;left:0;right:0;top:30%;height:0;pointer-events:none;z-index:2}
 .eye::before{content:"";position:absolute;left:max(6px,env(safe-area-inset-left,0px));top:-14px;border:14px solid transparent;border-left:20px solid var(--butter)}
 .eye::after{content:"";position:absolute;left:0;right:0;top:0;border-top:2px dashed rgba(237,195,95,.35)}
 .stagewrap{position:relative;flex:1;display:flex;min-height:0;overflow:hidden}
 .count{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:min(40vw,260px);color:var(--butter);background:rgba(26,26,46,.6);z-index:3}
+.spacer{height:0}
 .endnote{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--butter)}
 .tool.play{background:var(--butter);color:var(--ink);border-color:var(--butter)}
 .speed{font-family:var(--mono);font-size:13px;color:var(--muted);align-self:center;min-width:9ch;text-align:center}
@@ -233,7 +234,8 @@ function renderPrompt(){
   const S = SCRIPTS[state.script], p = S.parts[state.i], t = state.takes[key(state.i)] || {};
   $("where").textContent = `Part ${state.i+1} of ${S.parts.length} · Angle ${p.a}`;
   $("cue").textContent = p.cue;
-  $("read").innerHTML = `<p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("") + `<p class="endnote">End of part ${state.i+1}. Tap Next.</p>`;
+  $("read").innerHTML = `<div class="spacer" id="lead"></div><p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("") + `<p class="endnote" id="endnote">End of part ${state.i+1}. Tap Next.</p><div class="spacer" id="tail"></div>`;
+  sizeSpacers();
   document.documentElement.style.setProperty("--size", state.size + "px");
   $("prompt").classList.toggle("mirror", state.mirror);
   $("mirrorBtn").setAttribute("aria-pressed", state.mirror);
@@ -284,6 +286,16 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && !$
 // The prompter scroll. Speed 1 to 9; speed 3 is about 150 words a minute at
 // the default size, a calm talking pace. Tap the words or press space to pause.
 const DOWN = -1;
+// The eye line sits 30 percent down the reading area. Real spacer blocks, not
+// padding, so Safari scrolls the last line all the way up to it.
+const EYE = 0.3;
+function sizeSpacers(){
+  const st = $("stage"), h = st.clientHeight;
+  const lead = $("lead"), tail = $("tail");
+  if (lead) lead.style.height = Math.round(h * EYE) + "px";
+  if (tail) tail.style.height = Math.round(h * 0.75) + "px";
+}
+window.addEventListener("resize", sizeSpacers);
 const PX = [0, 22, 32, 44, 56, 70, 86, 104, 124, 146];
 let running = false, raf = 0, last = 0, counting = 0;
 function setSpeed(v){ state.speed = Math.min(9, Math.max(1, v)); $("speed").textContent = "Speed " + state.speed; save(); }
@@ -291,6 +303,8 @@ function frame(t){
   if (!running) return;
   const st = $("stage"), dt = last ? (t + (-last)) / 1000 : 0; last = t;
   st.scrollTop += PX[state.speed] * (state.size / 56) * dt;
+  const end = $("endnote");
+  if (end && end.offsetTop <= st.scrollTop + st.clientHeight * EYE) { stopScroll(); return; }
   if (st.scrollTop + st.clientHeight + 2 >= st.scrollHeight) { stopScroll(); return; }
   raf = requestAnimationFrame(frame);
 }
