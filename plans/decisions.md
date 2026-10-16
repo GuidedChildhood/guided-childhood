@@ -288,6 +288,13 @@ no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
 
+## 16 October 2026: our link in copy is guidedchildhood.com, and a guard holds it
+Review board task social-week-live-starter-pack-link. guidedchildhood.co.uk/starter-pack
+404ed on 13 October and sat under every post in the 19 October social week pack.
+Every guidedchildhood.co.uk in content/ and tools/social-cards is now
+guidedchildhood.com (23 links, 15 files). `scripts/check-live-domain.mjs` fails
+if our .co.uk comes back; it matches our domain only, so school and source .co.uk
+addresses stay. Runs before `npm run social-cards` and in CI. Detail in PR #1313.
 ## 16 October 2026: The nightly evening push stops after seven unanswered nights
 Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
 still gets the evening line; the eighth night and every one after it is held, and
