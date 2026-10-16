@@ -65,18 +65,26 @@ ol.steps b{color:var(--butter)}
 
 /* prompt view */
 .prompt{position:fixed;inset:0;background:var(--ink);display:flex;flex-direction:column;z-index:5}
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:2px solid var(--line);background:var(--ink-2)}
+.bar{position:relative;z-index:4;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:2px solid var(--line);background:var(--ink-2)}
 .dir{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;min-width:0;flex:1 1 420px}
 .dir .where{font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .dir .cue{font-weight:800;font-size:18px;color:var(--butter);min-width:0}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 .tool{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;font-family:var(--mono);font-weight:600;font-size:13px}
 .tool[aria-pressed="true"]{border-color:var(--butter);color:var(--butter)}
-.stage{flex:1;overflow-y:auto;display:flex;justify-content:center;padding-block:5vh 18vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.stage{position:relative;flex:1;overflow-y:auto;display:flex;justify-content:center;padding-block:30vh 75vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .read{max-width:24ch;width:100%;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
 .read p{margin:0 0 .7em;text-wrap:pretty}
 .mirror .read{transform:scaleX(-1)}
-.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-top:2px solid var(--line);background:var(--ink-2)}
+.eye{position:absolute;left:0;right:0;top:calc(30% + 0px);height:0;pointer-events:none;z-index:2}
+.eye::before{content:"";position:absolute;left:max(6px,env(safe-area-inset-left,0px));top:-14px;border:14px solid transparent;border-left:20px solid var(--butter)}
+.eye::after{content:"";position:absolute;left:0;right:0;top:0;border-top:2px dashed rgba(237,195,95,.35)}
+.stagewrap{position:relative;flex:1;display:flex;min-height:0;overflow:hidden}
+.count{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:min(40vw,260px);color:var(--butter);background:rgba(26,26,46,.6);z-index:3}
+.endnote{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--butter)}
+.tool.play{background:var(--butter);color:var(--ink);border-color:var(--butter)}
+.speed{font-family:var(--mono);font-size:13px;color:var(--muted);align-self:center;min-width:9ch;text-align:center}
+.foot{position:relative;z-index:4;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-top:2px solid var(--line);background:var(--ink-2)}
 .takes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .takes .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .take{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 14px;font-weight:800;font-size:15px}
@@ -120,13 +128,17 @@ ol.steps b{color:var(--butter)}
       <span class="cue" id="cue"></span>
     </div>
     <div class="tools">
+      <button class="tool play" id="play" type="button">Play</button>
+      <button class="tool" id="slower" type="button">Slower</button>
+      <span class="speed" id="speed">Speed 3</span>
+      <button class="tool" id="faster" type="button">Faster</button>
       <button class="tool" id="smaller" type="button" aria-label="Smaller text">Smaller</button>
       <button class="tool" id="bigger" type="button" aria-label="Bigger text">Bigger</button>
       <button class="tool" id="mirrorBtn" type="button" aria-pressed="false">Mirror</button>
       <button class="tool" id="close" type="button">Parts</button>
     </div>
   </div>
-  <div class="stage" id="stage"><div class="read" id="read"></div></div>
+  <div class="stagewrap"><div class="eye" aria-hidden="true"></div><div class="stage" id="stage"><div class="read" id="read"></div></div><div class="count" id="count" hidden>3</div></div>
   <div class="foot">
     <div class="takes">
       <span class="label">Takes done</span>
@@ -197,7 +209,7 @@ const SCRIPTS = {
 
 const SHRINK = -6;
 const WORDS = ["one","two","three","four","five","six","seven","eight","nine"];
-let state = {script:"votes", i:0, size:56, mirror:false, takes:{}};
+let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:3};
 try { const s = JSON.parse(localStorage.getItem("prompter") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
 const save = () => { try { localStorage.setItem("prompter", JSON.stringify(state)); } catch (e) {} };
 const $ = (id) => document.getElementById(id);
@@ -221,7 +233,7 @@ function renderPrompt(){
   const S = SCRIPTS[state.script], p = S.parts[state.i], t = state.takes[key(state.i)] || {};
   $("where").textContent = `Part ${state.i+1} of ${S.parts.length} · Angle ${p.a}`;
   $("cue").textContent = p.cue;
-  $("read").innerHTML = `<p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("");
+  $("read").innerHTML = `<p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("") + `<p class="endnote">End of part ${state.i+1}. Tap Next.</p>`;
   document.documentElement.style.setProperty("--size", state.size + "px");
   $("prompt").classList.toggle("mirror", state.mirror);
   $("mirrorBtn").setAttribute("aria-pressed", state.mirror);
@@ -236,8 +248,9 @@ function renderPrompt(){
 let lock = null;
 async function wake(){ try { lock = await navigator.wakeLock?.request("screen"); } catch (e) {} }
 function openPrompt(n){ state.i = n ?? state.i; $("prep").hidden = true; $("prompt").hidden = false; renderPrompt(); save(); wake(); }
-function closePrompt(){ $("prompt").hidden = true; $("prep").hidden = false; renderPrep(); save(); try { lock?.release(); } catch (e) {} }
+function closePrompt(){ stopScroll(); $("prompt").hidden = true; $("prep").hidden = false; renderPrep(); save(); try { lock?.release(); } catch (e) {} }
 function go(d){
+  stopScroll();
   const S = SCRIPTS[state.script];
   if (state.i + d >= S.parts.length) return closePrompt();
   state.i = Math.max(0, state.i + d); renderPrompt(); save();
@@ -258,12 +271,49 @@ $("smaller").addEventListener("click", () => { state.size = Math.max(24, state.s
 $("mirrorBtn").addEventListener("click", () => { state.mirror = !state.mirror; renderPrompt(); save(); });
 document.addEventListener("keydown", e => {
   if ($("prompt").hidden) return;
-  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(1); }
+  if (e.key === " " || e.key === "Enter") { e.preventDefault(); togglePlay(); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); setSpeed(state.speed + 1); }
+  else if (e.key === "ArrowDown") { e.preventDefault(); setSpeed(state.speed + DOWN); }
   else if (e.key === "ArrowLeft") go(-1);
   else if (e.key === "Escape") closePrompt();
   else if (e.key === "+" || e.key === "=") $("bigger").click();
   else if (e.key === "-") $("smaller").click();
 });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("prompt").hidden) wake(); });
+// The prompter scroll. Speed 1 to 9; speed 3 is about 150 words a minute at
+// the default size, a calm talking pace. Tap the words or press space to pause.
+const DOWN = -1;
+const PX = [0, 22, 32, 44, 56, 70, 86, 104, 124, 146];
+let running = false, raf = 0, last = 0, counting = 0;
+function setSpeed(v){ state.speed = Math.min(9, Math.max(1, v)); $("speed").textContent = "Speed " + state.speed; save(); }
+function frame(t){
+  if (!running) return;
+  const st = $("stage"), dt = last ? (t + (-last)) / 1000 : 0; last = t;
+  st.scrollTop += PX[state.speed] * (state.size / 56) * dt;
+  if (st.scrollTop + st.clientHeight + 2 >= st.scrollHeight) { stopScroll(); return; }
+  raf = requestAnimationFrame(frame);
+}
+function startScroll(){
+  if (running || counting) return;
+  let n = 3; const c = $("count"); c.textContent = n; c.hidden = false;
+  $("play").textContent = "Pause";
+  counting = setInterval(() => {
+    n -= 1;
+    if (n > 0) { c.textContent = n; return; }
+    clearInterval(counting); counting = 0; c.hidden = true;
+    running = true; last = 0; raf = requestAnimationFrame(frame);
+  }, 800);
+}
+function stopScroll(){
+  if (counting) { clearInterval(counting); counting = 0; $("count").hidden = true; }
+  running = false; cancelAnimationFrame(raf); $("play").textContent = "Play";
+}
+function togglePlay(){ (running || counting) ? stopScroll() : startScroll(); }
+$("play").addEventListener("click", togglePlay);
+$("stage").addEventListener("click", togglePlay);
+$("slower").addEventListener("click", () => setSpeed(state.speed + DOWN));
+$("faster").addEventListener("click", () => setSpeed(state.speed + 1));
+setSpeed(state.speed || 3);
 renderPrep();
 </script>
