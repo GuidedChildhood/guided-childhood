@@ -13,6 +13,8 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
+import { DEVICE_ISSUES } from '@/lib/content/device-issues'
+import { categoryForConcern } from '@/lib/content/signal-map'
 
 export type TonightPlan = {
   /** The mechanism confirmed: bedtime, timer, words, morning, gaming, phone. */
@@ -70,11 +72,15 @@ export function tonightFor(input: {
   timerHref: string
   /** Does this child have a phone of their own on the devices list. */
   hasOwnPhone?: boolean
-  /** Where the phone plan script lives, when the reader found it. */
-  phoneScriptHref?: string | null
+  /**
+   * Where Read the words goes: this worry's own script when the reader found
+   * one, else its shelf. Falls back to scriptHref when neither is known.
+   */
+  wordsHref?: string | null
 }): TonightPlan | null {
-  const { slug, childName: kid, bedtimeStartMin, deviceTrust, blocksScreensJob, scriptHref, timerHref } = input
+  const { slug, childName: kid, bedtimeStartMin, deviceTrust, blocksScreensJob, timerHref } = input
   if (!slug) return null
+  const scriptHref = input.wordsHref ?? input.scriptHref
   const bed = clockLabel(bedtimeStartMin)
   const before = blocksScreensJob ? ` ${blocksScreensJob} comes before screens.` : ''
 
@@ -83,7 +89,7 @@ export function tonightFor(input: {
       key: 'phone',
       label: 'The first phone',
       line: `If ${kid} asks about a phone tonight, the answer is a plan, never a flat no. Ask where they think a phone should charge at night and why. Whatever they say, you have started planning it together.`,
-      href: input.phoneScriptHref ?? scriptHref,
+      href: scriptHref,
       hrefLabel: 'Read the words',
       more: [
         { href: PHONE_LADDER_HREF, label: 'What phone, at what age' },
@@ -151,6 +157,48 @@ export function tonightFor(input: {
 
 type Client = Pick<SupabaseClient, 'from'>
 
+// ── READ THE WORDS GOES TO THIS WORRY'S WORDS ───────────────────────────────
+//
+// Review board, 13 October 2026 (tonight-tap-closes-loop): Read the words on
+// Tonight opened the whole scripts index, 335 rows, under a promise of the
+// words for tonight. It now opens the script for the worry the step is about.
+//
+// Which script is an editorial judgement already made once: the device issues
+// table names, for each concern slug it tracks, the exact script titles that
+// answer it, checked against the seeds by scripts/check-device-issues.mjs. The
+// issues that peak at this child's age come first, then the rest, each in the
+// table's own order. The first title that is a real row wins. A worry with no
+// issue goes to its category shelf, and only a worry with neither falls back
+// to the index.
+export function worryScriptTitles(slug: string, ageBand?: string | null): string[] {
+  const issues = DEVICE_ISSUES.filter(i => i.proof.concernSlug === slug)
+  const fits = (i: (typeof issues)[number]) => !!ageBand && (i.bands as string[]).includes(ageBand)
+  const ordered = [...issues.filter(fits), ...issues.filter(i => !fits(i))]
+  return [...new Set(ordered.flatMap(i => i.proof.scripts))]
+}
+
+/**
+ * The live worry Tonight is about: open beats improving, then the one flagged
+ * most. Shared by the page and the one tap, so the tap is written against the
+ * same worry the parent was shown.
+ */
+export function pickTopConcern<T extends { status: string; times_flagged: number | null }>(concerns: T[]): T | null {
+  return [...concerns].sort((a, b) =>
+    Number(b.status === 'open') - Number(a.status === 'open') || (b.times_flagged ?? 0) - (a.times_flagged ?? 0),
+  )[0] ?? null
+}
+
+export async function readTopConcern(
+  supabase: Client,
+  userId: string,
+  childId: string,
+): Promise<{ id: string; slug: string } | null> {
+  const { data } = await supabase.from('concerns').select('id, slug, status, times_flagged')
+    .eq('user_id', userId).eq('child_id', childId).in('status', ['open', 'improving']).limit(50)
+  const top = pickTopConcern((data ?? []) as { id: string; slug: string; status: string; times_flagged: number | null }[])
+  return top ? { id: top.id, slug: top.slug } : null
+}
+
 /**
  * The plan for one child, read from what the family already has: their top
  * live worry, their bedtime window, their trust level and any job that
@@ -163,9 +211,8 @@ export async function readTonight(
   child: { id: string; name?: string | null; age_band?: string | null },
   scriptHref: string,
 ): Promise<TonightPlan | null> {
-  const [concernsRes, childRes, jobRes, settings, phoneRes] = await Promise.all([
-    supabase.from('concerns').select('slug, status, times_flagged')
-      .eq('user_id', userId).eq('child_id', child.id).in('status', ['open', 'improving']).limit(50),
+  const [top, childRes, jobRes, settings, phoneRes] = await Promise.all([
+    readTopConcern(supabase, userId, child.id),
     supabase.from('children').select('device_trust').eq('id', child.id).maybeSingle(),
     supabase.from('family_quests').select('title')
       .eq('user_id', userId).eq('active', true).eq('blocks_screens', true)
@@ -176,22 +223,27 @@ export async function readTonight(
     supabase.from('family_devices').select('id')
       .eq('user_id', userId).eq('child_id', child.id).eq('kind', 'phone').eq('shared', false).is('retired_at', null).limit(1),
   ])
-  const concerns = (concernsRes.data ?? []) as { slug: string; status: string; times_flagged: number | null }[]
-  // Open beats improving, then the one flagged most.
-  const top = [...concerns].sort((a, b) =>
-    Number(b.status === 'open') - Number(a.status === 'open') || (b.times_flagged ?? 0) - (a.times_flagged ?? 0),
-  )[0] ?? null
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'your child'
   const withChild = (href: string) => `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`
   const hasOwnPhone = (phoneRes.data ?? []).length > 0
-  // Only looked up for the one step that uses it. Scripts are addressed by
-  // sort_order (app/(dashboard)/dashboard/scripts/[id]); a missing row falls
-  // back to the family rules shelf rather than a dead link.
-  let phoneScriptHref: string | null = null
-  if (top?.slug === 'phones-and-messaging' && !hasOwnPhone) {
-    const { data: row } = await supabase.from('scripts').select('sort_order').eq('title', PHONE_PLAN_SCRIPT).maybeSingle()
-    const order = (row as { sort_order?: number | null } | null)?.sort_order
-    phoneScriptHref = withChild(order ? `/dashboard/scripts/${order}` : '/dashboard/scripts/category/family-rules')
+
+  // The words for this worry. Scripts are addressed by sort_order
+  // (app/(dashboard)/dashboard/scripts/[id]), so one read turns the titles
+  // into a link; a title that is not a row is skipped, never linked dead.
+  let wordsHref: string | null = null
+  if (top) {
+    const firstPhone = top.slug === 'phones-and-messaging' && !hasOwnPhone
+    const titles = firstPhone ? [PHONE_PLAN_SCRIPT] : worryScriptTitles(top.slug, child.age_band)
+    if (titles.length) {
+      const { data: rows } = await supabase.from('scripts').select('title, sort_order').in('title', titles)
+      const order = new Map(((rows ?? []) as { title: string; sort_order: number | null }[]).map(r => [r.title, r.sort_order]))
+      const hit = titles.map(t => order.get(t)).find(o => typeof o === 'number' && o > 0)
+      if (hit) wordsHref = withChild(`/dashboard/scripts/${hit}`)
+    }
+    if (!wordsHref) {
+      const shelf = categoryForConcern(top.slug)
+      if (shelf) wordsHref = withChild(`/dashboard/scripts/category/${shelf}`)
+    }
   }
   return tonightFor({
     slug: top?.slug ?? null,
@@ -202,6 +254,6 @@ export async function readTonight(
     scriptHref,
     timerHref: withChild('/dashboard/quests/timer'),
     hasOwnPhone,
-    phoneScriptHref,
+    wordsHref,
   })
 }
