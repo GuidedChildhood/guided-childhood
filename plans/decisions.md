@@ -376,3 +376,27 @@ overdue. Ferguson would also go further than we will on publication bias in the
 paper versus screen literature, and we are not adopting a correction we have not
 read the analysis for. Advice is an input, including from the people our own
 test is named after. PR 1339.
+
+## 16 October 2026: GDC-043 v3, the motive is the story
+
+Justin: challenge the motive from the country as well. That changed the post
+from "accurate but unproven" into a Wrong Villain entry.
+
+Reimers, Martin Bylund and Stenliden, Constructions of a reading crisis,
+Discourse 2025, document that Sweden's National Agency for Education emphasised
+the positives of PIRLS 2021 while the government called the same data a crisis,
+that Sweden had moved up the league table and declined less than most countries,
+and that the agency named segregation as the main problem where the government
+named digitalisation and migration.
+
+That is our own thesis stated by a national education agency, so GDC-043 becomes
+the deliberate hidden thread post rather than one of the nine, which answers the
+objection logged against v2.
+
+The post now runs on that divergence and drops the PISA distraction pivot
+entirely, which also removes the only claim Ferguson could fairly have attacked.
+Fewer claims, stronger post. Body 2,228 characters.
+
+Refused, having looked: bad faith, a publisher lobby (searched, no evidence
+found), and any suggestion the reading decline is invented. The timing of the
+change of government is stated and the inference left to the reader. PR 1339.

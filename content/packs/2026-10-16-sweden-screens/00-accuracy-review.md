@@ -104,6 +104,50 @@ extract in this container and no page tool was available, so the device figures
 above come from the published survey summary and the earlier wave. Worth
 confirming before any of them goes in a post.*
 
+## The motive, added 16 October 2026
+
+Justin asked us to challenge the motive as well. It changes the verdict from
+"accurate but unproven" to something sharper.
+
+**Sweden's own education agency did not share the government's framing.**
+Reimers (Gothenburg), Martin Bylund and Stenliden (Linköping), *Constructions of
+a reading crisis: representation of PIRLS 2021 in public discourses*, published
+17 August 2025 in Discourse: Studies in the Cultural Politics of Education,
+47(2) 2026, pages 265 to 273, document the divergence:
+
+- The National Agency for Education emphasised the positives of PIRLS 2021. The
+  government presented the same data as a reading crisis.
+- Sweden had moved up the league table and declined less than most countries.
+  The authors ask why potentially positive results were framed negatively.
+- The agency attributes the main problem in Swedish education to segregation.
+  The government emphasises digitalisation, migration and insufficient reading
+  time.
+
+**That is the Wrong Villain thesis stated by a national education agency**, and
+it is the reason this became a hidden thread post rather than one of the nine.
+
+**The symmetry.** The digitisation plan was scrapped for not being sufficiently
+evidence based. What replaced it is also not evidence based.
+
+**The timing.** Lotta Edholm is a Liberal in the centre right coalition that
+took office after the 2022 election. The reversal arrived with a change of
+government rather than with new evidence. We state the timing and let the reader
+infer, because we cannot read anyone's mind.
+
+**What we refuse to claim, having looked.** That Sweden acted in bad faith. That
+textbook publishers drove it, because we searched for evidence of lobbying and
+found none, and an absence of evidence is not a finding. That the reading
+decline is fictional: reading difficulties among 10 year olds are reported to
+have risen from 12 to 19 percent in five years, and the pandemic sits inside
+that window. One secondary source also reports the textbook funding as 58
+million euros then 44 million, against the 2.1 billion kronor figure elsewhere,
+which is another reason the money is described as reported rather than
+confirmed.
+
+The surviving claim is narrow and holds: the crisis framing was a political
+choice that the country's own education agency did not share, and the villain
+chosen was the one a book order can fix.
+
 ## What this means for Guided Childhood
 
 The whole Sweden story is about **which tools a school puts in front of a
