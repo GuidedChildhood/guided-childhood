@@ -133,5 +133,50 @@ check('a worry with no issue opens its shelf', other?.href === '/dashboard/scrip
 const timer = tonightFor({ ...base, slug: 'wont-put-down', wordsHref: '/dashboard/scripts/1?child=c' })
 check('a timer step still opens the timer', timer?.href === base.timerHref, timer?.href)
 
+// ── F. The first week proves it (first-week-proves-value) ───────────────────
+const fw = await import('../lib/working/first-week.ts')
+const checkInSrc = readFileSync(new URL('../components/daily/ConcernCheckIn.tsx', import.meta.url), 'utf8')
+const faceWords = [...(checkInSrc.match(/export function scoreWord[\s\S]*?\n}/)?.[0] ?? '').matchAll(/return '([^']+)'/g)].map(m => m[1].toLowerCase())
+check('the first week speaks the five face words', JSON.stringify([2, 4, 6, 8, 10].map(fw.lookWord)) === JSON.stringify(faceWords), faceWords.join(', '))
+
+const mv = (id, label, scores, extra = {}) => ({
+  concernId: id, label, status: 'open', childName: null, startScore: scores[0] ?? null, endScore: scores.at(-1) ?? null,
+  weeks: 0, observed: true, recurrences: 0, used: [],
+  points: scores.map((score, i) => ({ at: `2026-10-0${i + 1}T19:00:00Z`, score })), ...extra,
+})
+const fam = [mv('a', 'Bedtime screens', [4, 8]), mv('b', 'Morning TV', [6]), mv('c', 'Controller fights', [4, 4]), mv('d', 'Social media', [6], { status: 'resolved' })]
+check('waiting for the second look is the one look worries, never a sorted one',
+  JSON.stringify(fw.waitingForSecondLook(fam).map(m => m.concernId)) === '["b"]')
+const line = fw.dayOneLine(fam)
+check('day one against now leads with the climb, in face words', line === 'On day one, Bedtime screens was hard going. Now it is getting there.', line)
+const flat = fw.dayOneLine([mv('c', 'Controller fights', [4, 4])])
+check('a flat line is said as it is, never dressed up', /still hard going/.test(flat ?? ''), flat)
+check('no day one line before any worry has two looks', fw.dayOneLine([mv('b', 'Morning TV', [6])]) === null)
+check('no dash in the first week lines', ![line, flat].some(t => /[–—]| - /.test(t ?? '')))
+
+const today = '2026-10-16T23:00:00.000Z'
+check('a second look is due when a worry has one number from an earlier day',
+  fw.secondLookDue([{ concern_id: 'a', created_at: '2026-10-15T19:00:00+00:00', child_id: 'k' }], 'k', today))
+check('not when that one number was today',
+  !fw.secondLookDue([{ concern_id: 'a', created_at: '2026-10-17T07:00:00+00:00', child_id: 'k' }], 'k', today))
+check('not when it already has two',
+  !fw.secondLookDue([{ concern_id: 'a', created_at: '2026-10-14T19:00:00+00:00', child_id: 'k' }, { concern_id: 'a', created_at: '2026-10-15T19:00:00+00:00', child_id: 'k' }], 'k', today))
+check('and only for this child',
+  !fw.secondLookDue([{ concern_id: 'a', created_at: '2026-10-15T19:00:00+00:00', child_id: 'other' }], 'k', today))
+check('a new family is the first fortnight', fw.isNewFamily(new Date(Date.now() - 3 * 86_400_000).toISOString()) && !fw.isNewFamily(new Date(Date.now() - 20 * 86_400_000).toISOString()))
+
+const win = fw.firstWin([
+  { child_id: 'k', at: '2026-10-15T17:00:00Z', what: 'finished the five a day' },
+  { child_id: 'k', at: '2026-10-14T17:00:00Z', what: 'earned stars for Teeth' },
+], new Map([['k', 'Maya']]))
+check('the first win is the earliest one, said as it happened', win?.line === 'Maya earned stars for Teeth on Wednesday.', win?.line)
+check('no win is no win, not an invented one', fw.firstWin([], new Map()) === null)
+
+const working = readFileSync(new URL('../app/(dashboard)/dashboard/what-is-working/page.tsx', import.meta.url), 'utf8')
+check('What is working says what the second look is waiting on', /Waiting for your second look/.test(working) && /Take the second look/.test(working))
+check('and, in the first fortnight, day one and the first win', /Since day one/.test(working) && /dayOneLine\(/.test(working) && /readFirstWin\(/.test(working))
+const road = readFileSync(new URL('../lib/pathway/daily-tasks.ts', import.meta.url), 'utf8')
+check('the road asks for the second look by name', /secondLook \? 'Your second look'/.test(road) && /secondLookDue\(/.test(road))
+
 console.log(failures ? `\n${failures} failed` : '\nall passed')
 process.exit(failures ? 1 : 0)
