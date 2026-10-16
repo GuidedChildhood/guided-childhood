@@ -5,7 +5,7 @@ import { londonToday } from '@/lib/pathway/today'
 // The Tonight rung's one tap: this child's mechanism is on tonight.
 // One row per child per day (migration 255); a second tap is a no op.
 
-const MECHANISMS = new Set(['bedtime', 'timer', 'words', 'morning', 'gaming'])
+const MECHANISMS = new Set(['bedtime', 'timer', 'words', 'morning', 'gaming', 'phone'])
 
 export async function POST(req: Request) {
   const supabase = await createClient()
