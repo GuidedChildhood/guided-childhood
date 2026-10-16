@@ -19,6 +19,7 @@ import { enabledProviders } from '@/lib/auth/providers'
 import { bandForAge, isTooYoung } from '@/lib/children/age'
 import StartsAtFour from '@/components/children/StartsAtFour'
 import WorryPicker from '@/components/onboarding/WorryPicker'
+import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
   FEELING_OPTIONS,
@@ -748,6 +749,7 @@ export default function StarterPackPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No commitment. Built on the research.
             </p>
+            <WhatWeAreNot />
           </>
         )}
 
@@ -856,7 +858,7 @@ export default function StarterPackPage() {
               No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
             </p>
             <button onClick={() => setStep('result')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
-              ← Back to the pathway
+              ← Back
             </button>
           </>
         )}

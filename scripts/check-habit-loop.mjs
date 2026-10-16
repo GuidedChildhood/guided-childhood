@@ -20,6 +20,10 @@
 //      broadcast is left in the check in list.
 //   E. Migration 298 adds reminder_minutes, the settings control exists, and
 //      the day done screen names the parent's milestones.
+//   F. The evening goes quiet after seven unanswered nights (review board,
+//      16 October 2026): night one to seven quiet still sends, night eight does
+//      not, a parent who comes back resets it, and the four day re engagement
+//      line still fires for them. Run for real.
 //
 // Run:
 //   node --experimental-strip-types scripts/check-habit-loop.mjs
@@ -151,6 +155,62 @@ else ok.push('E: the day done screen names the milestone reached today')
 const pulse = strip(readFileSync('app/api/admin/product-pulse/route.ts', 'utf8'))
 if (!/habitMetrics\(/.test(pulse) || !/daily_sessions/.test(pulse)) problems.push('E: the product pulse does not report the habit from daily_sessions')
 else ok.push('E: the product pulse reports the habit')
+
+// ── F: the evening stops when the parent has gone quiet ──────────────────────
+const quietProbe = `
+import { quietNightNumber, eveningHeldForQuiet, EVENING_QUIET_NIGHTS, londonDateOf } from './lib/push/evening.ts'
+import { reengageDue } from './lib/push/reengage.ts'
+const today = '2026-10-16'
+const day = n => { const d = new Date(today + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - n); return d.toISOString().slice(0, 10) }
+// A parent who last showed up n days ago, joined long ago: which night is tonight, and is it held?
+const held = n => eveningHeldForQuiet(quietNightNumber([day(n)], day(200), today))
+const night = n => quietNightNumber([day(n)], day(200), today)
+const nights = {}
+for (let n = 1; n <= 10; n++) nights[n] = { night: night(n), held: held(n) }
+// Returning resets: 20 quiet days, then they show up three days ago, then quiet again.
+const returned = { before: held(20), afterReturn: eveningHeldForQuiet(quietNightNumber([day(20), day(3)], day(200), today)), night: quietNightNumber([day(20), day(3)], day(200), today) }
+// Never showed up: counts from the day they joined.
+const neverShowed = { fresh: eveningHeldForQuiet(quietNightNumber([], day(2), today)), joinedWeekAgo: eveningHeldForQuiet(quietNightNumber([], day(7), today)), joinedEightAgo: eveningHeldForQuiet(quietNightNumber([], day(8), today)), noJoin: quietNightNumber([], null, today) }
+// Showed up today: night zero, never held.
+const today0 = { night: quietNightNumber([today], day(200), today), held: eveningHeldForQuiet(quietNightNumber([today], day(200), today)) }
+// A late evening tick lands on the London date, not the UTC one.
+const bst = londonDateOf('2026-07-01T23:30:00Z')
+// The four day line, with the evening already silent for this parent.
+const reengage = {
+  quiet8Never: reengageDue(8, null), quiet8Gap3: reengageDue(8, 3), quiet8Gap4: reengageDue(8, 4), quiet30Gap9: reengageDue(30, 9),
+  quiet2: reengageDue(2, null), quiet3: reengageDue(3, null),
+}
+console.log(JSON.stringify({ limit: EVENING_QUIET_NIGHTS, nights, returned, neverShowed, today0, bst, reengage }))
+`
+const qr = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', quietProbe], { encoding: 'utf8', cwd: process.cwd() })
+if (qr.status !== 0) {
+  problems.push(`F: the quiet probe could not run the real code: ${(qr.stderr || '').trim().split('\n').slice(-3).join(' ')}`)
+} else {
+  const q = JSON.parse(qr.stdout.trim().split('\n').pop())
+  const sends = [1, 2, 3, 4, 5, 6, 7].every(n => q.nights[n].night === n && q.nights[n].held === false)
+  if (q.limit !== 7 || !sends) problems.push(`F: quiet nights one to seven must still send: ${JSON.stringify(q.nights)}`)
+  else ok.push('F: quiet nights one to seven still send')
+  if (q.nights[8].night !== 8 || q.nights[8].held !== true || q.nights[9].held !== true || q.nights[10].held !== true) problems.push(`F: quiet night eight must not send, nor any after it: ${JSON.stringify(q.nights)}`)
+  else ok.push('F: quiet night eight and every night after it is held')
+  if (q.returned.before !== true || q.returned.afterReturn !== false || q.returned.night !== 3) problems.push(`F: a parent who comes back must reset the count: ${JSON.stringify(q.returned)}`)
+  else ok.push('F: a parent who comes back resets the count and the evening starts again')
+  if (q.neverShowed.fresh !== false || q.neverShowed.joinedWeekAgo !== false || q.neverShowed.joinedEightAgo !== true || q.neverShowed.noJoin !== 0) problems.push(`F: a parent who never showed up counts from the day they joined: ${JSON.stringify(q.neverShowed)}`)
+  else ok.push('F: a parent who never showed up counts from the day they joined')
+  if (q.today0.night !== 0 || q.today0.held !== false) problems.push(`F: a parent who showed up today is never quiet: ${JSON.stringify(q.today0)}`)
+  else ok.push('F: showing up today is night zero')
+  if (q.bst !== '2026-07-02') problems.push(`F: a late evening tick must land on the London date: ${q.bst}`)
+  else ok.push('F: activity is dated by the London day')
+  const r = q.reengage
+  if (!r.quiet8Never || r.quiet8Gap3 || !r.quiet8Gap4 || !r.quiet30Gap9 || r.quiet2 || !r.quiet3) problems.push(`F: the four day re engagement line changed: ${JSON.stringify(r)}`)
+  else ok.push('F: the four day re engagement line still fires for a parent the evening has stopped for')
+}
+const reRoute = strip(readFileSync('app/api/push/reengage/route.ts', 'utf8'))
+if (!/reengageDue\(/.test(reRoute) || /EVENING_QUIET|eveningHeldForQuiet/.test(reRoute)) problems.push('F: the re engagement route must use reengageDue and know nothing of the evening ceiling')
+else ok.push('F: the re engagement route runs on its own rule, untouched by the evening ceiling')
+if (!/eveningHeldForQuiet\(quietNightNumber\(/.test(pass) || !/!isDone/.test(pass.slice(pass.indexOf('eveningHeldForQuiet') - 40, pass.indexOf('eveningHeldForQuiet')))) problems.push('F: the evening pass does not hold the push for a parent who is not done and has been quiet')
+else ok.push('F: the evening pass holds the push only for a parent who is not done tonight')
+if (!/continue/.test(pass.slice(pass.indexOf('eveningHeldForQuiet'), pass.indexOf('getDailyStreak')))) problems.push('F: the held parent must skip the send')
+else ok.push('F: a held parent is skipped before the streak read and the send')
 
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {

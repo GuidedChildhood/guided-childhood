@@ -268,7 +268,7 @@ export default function TodayCard({
                   </span>
                 </button>
                 {row.putAway ? (
-                  <button
+                  <button className="tap-target"
                     onClick={() => putAway(row.key, row.putAway!)}
                     aria-label={row.putAwayLabel}
                     title={row.putAwayLabel}

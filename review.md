@@ -7,7 +7,10 @@ review is a checklist and not a mood. Three users of this file:
 2. The PR review routine: reviews every open pull request against it each
    weekday morning and comments must fix / should fix / okay to ship.
 3. The weekly UX walkthrough routine: judges the live product against the
-   customer test below.
+   customer test below, and SAVES ITS REPORT IN THE REPO at
+   `plans/review-board/walkthroughs/<date>.md`, in the shape and by the rules
+   in `plans/review-board/routines/ux-walkthrough.md` (read both from
+   `origin/main`). A report that exists only in the session is lost.
 
 **The verdict format.** Every review sorts findings into exactly three
 buckets and says which one blocks:
