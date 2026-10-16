@@ -297,6 +297,13 @@ found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no pos
 may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
 Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
 `plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan
+The nine ledger worries now sit in CONCERN_TO_CATEGORY by name, agreeing with
+the device issues table, so Get the words never vanishes at the check in.
+Mood after screens moves from screen time to mood and confidence to match.
+The first phone worry gets its own Tonight step when the child has no phone of
+their own: the phone plan script, the ladder and the family phone agreement.
+Guard: scripts/check-concern-loop.mjs. PR #1315.
 ## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
 Justin marked the child side rule done on 14 October. Read as: the child never
 chats with a model, and the homework hint card for ages 10 and over (his
