@@ -288,6 +288,15 @@ no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
 
+## 16 October 2026: Digital Parenting Week planned as two date free pieces
+The date could not be confirmed on a primary source: Parent Zone's site has only
+the 2021 edition, and 26 to 30 October 2026 comes from two aggregators. So the
+two drafts (an AI companion Wednesday led by Orbit, "the ban is a start line"
+Friday led by Nova) never name the week and work whichever dates are real. Also
+found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no post
+may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
+Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
+`plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
 ## 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan
 The nine ledger worries now sit in CONCERN_TO_CATEGORY by name, agreeing with
 the device issues table, so Get the words never vanishes at the check in.

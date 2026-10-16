@@ -12,6 +12,94 @@ logged here does yet.
 
 ---
 
+## 16 October 2026, two incumbent releases (review board, researched)
+
+Both are named in the competitor watch field already. Neither does our core
+loop. Both are worth knowing before UK Digital Parenting Week, when parents
+read the controls and the guides side by side.
+
+### Apple, Screen Time in iOS 27. The free built in has grown up.
+- **Seen:** announced at WWDC on 8 June 2026 ("this fall"); Apple's own iOS 27
+  support page (support.apple.com/en-us/149076, published 29 September 2026)
+  describes it as shipped. Trade coverage: MacRumors 8 June, 9to5Mac 10 June
+  and 14 September.
+- **What it is:** a redesigned Screen Time with Time Allowances (a daily budget
+  for the Entertainment, Games and Social Media categories, with suggested
+  limits by the child's age drawn from "the latest expert guidance"), Daily
+  Schedules by time of day and day of the week, Ask to Browse for new websites,
+  contact approval in Messages, FaceTime and Phone, Communication Safety that
+  now blurs gore and violence as well as nudity, a simpler app setup at child
+  account creation, and an at a glance dashboard with quick pause. Nothing
+  turns on by itself: a parent has to set it up, and every device in Family
+  Sharing has to be on iOS 27 (Bark's post of 15 October says the same).
+- **How close:** still the blocking tool THE-STORY section 2 names, now free,
+  better looking and age aware. It makes today's decision for the parent and
+  teaches the child nothing for tomorrow, which is the gap we sell into. It
+  has no stages, no lessons, no words for the argument, no child earning.
+  The age based suggestion is the nearest it comes to a stage, and it is a
+  number of minutes, not a plan.
+- **Threat:** low to the core loop, real to the pitch. A parent who already has
+  a good timer for free needs the reason to want the rest. The reason is the
+  one we already lead on (the words for tonight, the plan to sixteen, the child
+  as participant), so the home page line about not being parental controls
+  matters more this month, not less.
+- **Borrow:** nothing to build. The "ask" button is the same shape as our
+  protected time rule, where a start inside protected time goes to the parent
+  as an ask (`lib/quests/time-tiers.ts`); we already have it. Do not chase
+  category budgets, they are the blocking road.
+- **Watch:** whether Apple's "expert guidance" suggestions start to read as the
+  national norm for minutes; if so, our answer is that minutes are the least
+  useful number (the hook the radar already holds).
+
+### Bark, Moments (15 March 2026) and Bark Assistant (3 February 2026).
+- **Seen:** Bark's own product update "Introducing Moments"
+  (bark.us/product-update/introducing-moments/), 15 March 2026. Bark's
+  Assistant announcement, bark.us/blog/bark-assistant/, 3 February 2026. Both
+  turned up in a search for Bark's iOS 27 guide, bark.us/blog/ios-27/, 15 October.
+- **What Moments is:** a weekly conversation starter. A question appears in
+  the parent dashboard and in the Bark Kids app; each family member answers
+  privately; the answers are revealed once everyone has answered; the family
+  builds a history of past Moments, and a parent can nudge. No price on the
+  page.
+- **What the Assistant is:** an AI "I'd like to..." search box in the parent
+  dashboard. A parent can ask for the week's changes in a child's activity or
+  tell it to pause a phone or block YouTube and TikTok until morning.
+- **How close:** Moments is the first time a monitoring company has built a
+  connection feature with the child answering on their own screen. It is the
+  nearest anyone in the incumbent set has come to commitment 2 (connection is
+  the protection) and to the child as a participant. It is also a light touch:
+  a question of the week, with no stage, no lesson, no script for the hard
+  moment and no link to what the child actually did online. The Assistant is
+  the general parent AI the 11 October advice warned about
+  (`plans/2026-10-11-ai-and-saas-advice-weighed.md`, point 6), pointed at
+  surveillance data and blocking.
+- **Threat:** low today, worth watching. Bark still sells monitoring and
+  alerts (its iOS 27 post says Apple's tools manage access, not what happens
+  in conversations, and Bark fills that gap). The move to watch is a company
+  with a large parent base adding the child's side. If Moments gains lessons or
+  rewards, Bark becomes a competitor for the same parent.
+- **Borrow:** we already give the parent a conversation card a day (our own
+  Moments, `app/(dashboard)/dashboard/moments`, rows in `daily_moments` with a
+  DiGi opener), so the idea is not new to us; the new part is the child
+  answering on their own screen and the private-then-reveal. A weekly "one
+  question, each answers, then see" is a possible small add for the daily
+  loop, not a task yet. It must never replace the parent's own conversation.
+  Note the shared name: a parent may meet "Moments" at both, so do not lean on
+  the word in marketing.
+- **Our line against both:** neither teaches the child anything, and neither
+  gives the parent the words. Say that once, plainly, with no names, on the
+  stage check pages (the "what we are not" task already open on the board).
+
+### What it means for Digital Parenting Week
+The week itself is unconfirmed (see
+`plans/2026-10-16-digital-parenting-week-plan.md`). Whatever the week turns out
+to be, Apple's release and the guides parents read this month are about
+controls. Our two pieces come at it from the other side: what a child needs
+before the control matters (an AI companion that feels like a friend), and what
+is still to do once a ban takes the named apps away.
+
+---
+
 ## 14 October 2026, second sweep (Instagram paid ads, researched)
 
 ### Balance Phone (thebalancephone.com). Closest to our hook.
