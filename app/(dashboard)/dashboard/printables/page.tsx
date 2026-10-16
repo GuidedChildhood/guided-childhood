@@ -63,7 +63,9 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{sub}</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px' }}>
           {items.map(p => (
-            <div key={p.key} style={card}>
+            // The id is the deep link: Tonight's first phone step points at
+            // #family-phone-agreement, so it lands on the card and its actions.
+            <div key={p.key} id={p.key} style={{ ...card, scrollMarginTop: 16 }}>
               {/* The pinned preview. next/image resizes each large sheet down to
                   the card size, serves webp, and lazy loads the ones below the
                   fold, so a full grid paints fast instead of pulling megabytes. */}

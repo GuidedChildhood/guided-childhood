@@ -13,7 +13,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import {
   LENSES, ingest, alerts, answer, addTask, renderDashboard, loadState, saveState, addDays, daysBetween,
-  recordAnswer, readAnswers,
+  recordAnswer, readAnswers, pulseLine, pulseFromRows, renderReport,
 } from './review-board.mjs'
 
 const SCRIPT = new URL('./review-board.mjs', import.meta.url).pathname
@@ -231,4 +231,72 @@ test('an answer about a task this branch has not seen yet waits quietly', () => 
   fs.mkdirSync(join(dir, 'answers'), { recursive: true })
   writeFileSync(join(dir, 'answers', '2026-10-16-ghost-done.json'), JSON.stringify({ id: 'ghost', verb: 'done', date: '2026-10-16', at: 'x' }))
   assert.doesNotThrow(() => loadState())
+})
+
+// ── real behaviour from the product pulse (board-reads-real-numbers) ─────────
+
+const pulseRows = () => ({
+  generatedAt: '2026-10-16T05:00:00Z',
+  today: '2026-10-16',
+  families: ['a', 'b', 'c', 'd'],
+  sessions: [
+    { user_id: 'a', session_date: '2026-10-05' }, { user_id: 'a', session_date: '2026-10-15' },
+    { user_id: 'b', session_date: '2026-10-06' },
+    { user_id: 'c', session_date: '2026-10-14' },
+  ],
+  signals: {
+    memory: ['a', 'b', 'c', 'z'], childLink: ['a', 'c'], secondCheckIn: ['a'],
+    scriptVerdict: ['c'], followUpAnswered: ['c'],
+  },
+})
+
+test('the rows become the line the product pulse would give, through the product own functions', async () => {
+  const pulse = await pulseFromRows(pulseRows())
+  assert.ok(pulse, 'the .ts functions load')
+  assert.equal(pulse.habit.dayDoneRate7d, 67)
+  assert.equal(pulse.habit.returnedD7, 50)
+  assert.equal(pulse.valueSignals.secondCheckInFamilies, 1)
+  assert.equal(pulse.valueSignals.reachedThree, 2, 'a has three, c has four, b only one, z is not a family')
+  const line = pulseLine(pulse)
+  assert.match(line, /day done rate 67%/)
+  assert.match(line, /seven day return 50%/)
+  assert.match(line, /second check in 1;/)
+  assert.match(line, /three of the five value signals 2 of 4 families\./)
+  assert.doesNotMatch(line, /[–—]|\s-\s/, 'no dashes')
+})
+
+test('anything the pulse cannot give prints unknown, never zero', async () => {
+  assert.match(pulseLine(null), /unknown \(the product pulse was not read this run\)/)
+  assert.match(pulseLine({ generatedAt: 'soon' }), /has no date/)
+  assert.match(pulseLine({ generatedAt: '2026-10-01T00:00:00Z', habit: {}, valueSignals: null }), /too old/)
+  const half = pulseLine({ generatedAt: '2026-10-16T05:00:00Z', habit: { dayDoneRate7d: null, returnedD7: 0 }, valueSignals: null })
+  assert.match(half, /day done rate unknown/)
+  assert.match(half, /seven day return 0%/, 'a real zero stays a zero')
+  assert.match(half, /second check in unknown/)
+  assert.match(half, /value signals unknown\./)
+  assert.equal(await pulseFromRows({ today: '2026-10-16', families: [] }), null, 'rows missing a part are not guessed at')
+  assert.equal(await pulseFromRows('nonsense'), null)
+})
+
+test('the pulse command reads a rows file, and a missing file prints unknown', () => {
+  const dir = process.env.REVIEW_BOARD_DIR
+  const rows = join(dir, 'rows.json')
+  writeFileSync(rows, JSON.stringify(pulseRows()))
+  const ok = spawnSync(process.execPath, [SCRIPT, 'pulse', '--rows', rows], { env: process.env, encoding: 'utf8' })
+  assert.equal(ok.status, 0, ok.stderr)
+  assert.match(ok.stdout, /day done rate 67%/)
+  const none = spawnSync(process.execPath, [SCRIPT, 'pulse', '--rows', join(dir, 'nope.json')], { env: process.env, encoding: 'utf8' })
+  assert.equal(none.status, 0)
+  assert.match(none.stdout, /Real behaviour: unknown/)
+  const bare = spawnSync(process.execPath, [SCRIPT, 'pulse'], { env: process.env, encoding: 'utf8' })
+  assert.match(bare.stdout, /Real behaviour: unknown/)
+})
+
+test('the report carries the line the run gave it, or says unknown', () => {
+  const state = loadState()
+  const withLine = sampleRun('2026-10-16', { pulse_line: 'Real behaviour, from the product pulse of 2026-10-16: day done rate 67%.' })
+  ingest(state, withLine)
+  assert.match(renderReport(withLine, state), /## Real behaviour this week\n\nReal behaviour, from the product pulse of 2026-10-16: day done rate 67%\./)
+  const without = sampleRun('2026-10-16')
+  assert.match(renderReport(without, state), /## Real behaviour this week\n\nReal behaviour: unknown/)
 })
