@@ -234,7 +234,7 @@ post and it matters more than the post.
 > Not a ban. Not no ban. The bit in between
 > What stage is your child? Three questions, no sign up
 
-Link in bio: `guidedchildhood.co.uk/starter-pack`
+Link in bio: `guidedchildhood.com/starter-pack`
 
 Keep "Formerly Inspired by Alma" for 90 days, then remove it.
 
@@ -282,7 +282,7 @@ Keep "Formerly Inspired by Alma" for 90 days, then remove it.
 Teaches, Guides you. Then a card for "Ten minutes a day". Then the three
 questions card.
 
-**Facebook variant.** Same, with `guidedchildhood.co.uk/starter-pack` as a real
+**Facebook variant.** Same, with `guidedchildhood.com/starter-pack` as a real
 link in the body, because Facebook allows it and Instagram does not.
 
 ---

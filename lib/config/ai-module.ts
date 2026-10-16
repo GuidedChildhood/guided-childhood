@@ -5,8 +5,8 @@ export const AI_UPDATE_MODEL = process.env.AI_UPDATE_MODEL ?? process.env.DIGI_M
 
 export const AI_UPDATE_MODEL_FALLBACKS = [
   'claude-fable-5-1',
-  'claude-opus-5',
-  'claude-sonnet-5',
+  'claude-opus-5-5',
+  'claude-sonnet-5-5',
 ] as const
 
 // Which audiences the living updates layer drafts for. Younger children are

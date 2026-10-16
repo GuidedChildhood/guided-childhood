@@ -838,7 +838,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '6px 4px 10px' }}>
           {token ? <KidBackLink href={`/k/${token}`} color={theme.ink} /> : <span />}
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{ROOM_TITLES[where]} {ROOM_EMOJI[where]}</span>
-          <button onClick={toggleMute} aria-label={muted ? 'Sound on' : 'Sound off'} style={{ width: 42, height: 42, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', cursor: 'pointer', fontSize: 18 }}>
+          <button onClick={toggleMute} aria-label={muted ? 'Sound on' : 'Sound off'} style={{ width: 44, height: 44, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', cursor: 'pointer', fontSize: 18 }}>
             {muted ? '🔇' : '🔊'}
           </button>
         </header>
@@ -1131,7 +1131,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
               <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)' }}>🧰 {MISSION_LINES.box}</p>
               <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{MISSION_LINES.spaces(room ? freeSpotsHere : spacesLeft)}</p>
-              <button onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift-press)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
+              <button className="tap-target" onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift-press)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
             </div>
             <p style={{ margin: '2px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.3 }}>
               {box.length + boxWear.length === 0 ? MISSION_LINES.boxEmpty : MISSION_LINES.boxHint}

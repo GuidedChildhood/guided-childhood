@@ -1227,9 +1227,9 @@ export default function QuestManager() {
                       )}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>−</button>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
                           {(['once', 'daily', 'weekdays', 'weekend'] as const).map(s => (
@@ -1650,9 +1650,9 @@ export default function QuestManager() {
                     {editing && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>−</button>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 44, height: 44, borderRadius: '12px', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontWeight: 800, fontSize: 'var(--text-lg)' }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
                           {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => {
@@ -1675,7 +1675,10 @@ export default function QuestManager() {
                           })}
                         </span>
                         {/* Or pick exact days: how three times a week is really set. */}
-                        <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        {/* Seven chips, one row, the row's full width: each chip
+                            is 44 tall and as wide as a seventh of the card, so
+                            a thumb lands on one day and never on its neighbour. */}
+                        <span style={{ display: 'flex', gap: '4px', alignItems: 'center', width: '100%', maxWidth: '340px' }}>
                           {[[1, 'M'], [2, 'T'], [3, 'W'], [4, 'T'], [5, 'F'], [6, 'S'], [0, 'S']].map(([n, l]) => {
                             const on = (q.schedule_days ?? []).includes(n as number)
                             return (
@@ -1688,7 +1691,8 @@ export default function QuestManager() {
                                 }}
                                 title="Pick the exact days"
                                 style={{
-                                  width: 26, height: 26, borderRadius: '8px', cursor: 'pointer',
+                                  // tap-ok: a seventh of the row wide, 44 tall, 4px apart
+                                  flex: '1 1 0', minWidth: 0, height: 44, borderRadius: '10px', cursor: 'pointer',
                                   border: on ? '1.5px solid var(--terracotta)' : 'var(--edge)',
                                   background: on ? 'var(--terracotta)' : '#fff',
                                   color: on ? 'var(--ink)' : 'var(--ink-muted)',

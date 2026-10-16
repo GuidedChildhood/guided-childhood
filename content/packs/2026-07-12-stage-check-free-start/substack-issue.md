@@ -56,7 +56,7 @@ You do not need my platform to start. You need to know where your child is stand
 
 So the smallest useful thing I have built is a free check. Three questions about your child, and it tells you what stage they are at and the one thing to do next. No sign up, no bill, nothing to install. I would genuinely rather you did that and felt a little calmer tonight than anything else.
 
-What stage is your child? You can find out here: guidedchildhood.co.uk/starter-pack
+What stage is your child? You can find out here: guidedchildhood.com/starter-pack
 
 If it is useful, forward this to one parent who is stuck between panic and a product. That middle path, the calm and evidence literate one, needs more people walking it.
 

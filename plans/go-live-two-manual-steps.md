@@ -226,6 +226,16 @@ attached to the routine.
     4. Supabase advisors. Run get_advisors for security and performance
     and report anything new.
 
+    5. Migration gap. Read plans/review-board/routines/health-sweep-migrations.md
+    from origin/main and follow it exactly: git fetch origin main, run
+    node scripts/migration-gap.mjs probe, run the select it prints with
+    your Supabase connector, save the rows, run node scripts/migration-gap.mjs
+    report --rows on them, and put its output in your report. A migration
+    on main that is not in the database is the highest priority finding of
+    the day. Never apply it yourself, and never call it clean when the
+    check could not run. This check exists because migration 360 was never
+    applied and the whole referral feature had no tables.
+
     WHAT TO DO ABOUT IT
 
     If everything is green, reply with one line saying so and stop. Do not
