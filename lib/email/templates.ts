@@ -1815,7 +1815,7 @@ export function paidReadAheadEmail(params: {
       bullets([
         `<strong>Foundation, 4 to 7.</strong> First relationships with technology, before habits form.`,
         `<strong>Builder, 8 to 10.</strong> Building digital habits before the algorithm learns them.`,
-        `<strong>Explorer, 11 to 13.</strong> The algorithm conversation, before social media. The critical window.`,
+        `<strong>Explorer, 11 to 12.</strong> The algorithm conversation, before social media. The critical window.`,
         `<strong>Shaper, 13 to 15.</strong> Identity and digital footprint, while the relationship still holds.`,
         `<strong>Independent, 16 plus.</strong> Real independence, before they leave home.`,
       ]) +
