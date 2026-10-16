@@ -89,7 +89,7 @@ That is why I keep coming back to the things a family can actually do.
 
 **If you watch it together.** It is rated 15 in the UK and it mentions a child's self harm, so watch it first or watch it with them. Afterwards, three questions will do more than any lecture. What do you think was real? Who did the film want you to blame? How would someone your age notice a feed pulling them somewhere they did not choose?
 
-If you teach, I have put together a one page discussion sheet for Years 10 and 11: what is on the record, what is drama, and the safeguarding notes. It is free for any school. In our schools scheme the same skill is taught in full in the Year 10 and 11 lesson on radicalisation and the earlier one on bodies, image and pressure.
+If you teach, I have put together a one page discussion sheet for Years 10 and 11: what is on the record, what is drama, and the safeguarding notes. It is free for any school. [SUBSTACK: link the sheet here. LINKEDIN: replace this sentence with "Tell me in the comments which year group you teach and I will send it to you, with a sample lesson."] In our schools scheme the same skill is taught in full in the Year 10 and 11 lesson on radicalisation and the earlier one on bodies, image and pressure.
 
 A painting is allowed to choose its villain. Our children need something less dramatic and more useful: the habit of noticing, and an adult they will still tell.
 
