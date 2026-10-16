@@ -49,7 +49,12 @@ export default function ShareStage({ member = false }: { member?: boolean }) {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
     minHeight: 52, padding: '14px 20px', borderRadius: 16, cursor: 'pointer',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-    letterSpacing: '-0.01em', color: 'var(--ink)', textDecoration: 'none', whiteSpace: 'nowrap',
+    letterSpacing: '-0.01em', color: 'var(--ink)', textDecoration: 'none',
+    // Wraps rather than nowrap. With nowrap, iOS Larger Text grew "Send on
+    // WhatsApp" past the button and the button 118px past the screen edge
+    // (check-larger-text, /ref-reveal). The label may now break onto two
+    // lines at the largest sizes, which is what a big text setting asks for.
+    textAlign: 'center', minWidth: 0, maxWidth: '100%', boxSizing: 'border-box',
   }
 
   return (
