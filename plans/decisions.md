@@ -498,3 +498,7 @@ anything the reader is assumed to have seen.
 
 Worth adding to the review checklist: a reaction post has to work for someone
 who never saw the thing it reacts to. PR 1339.
+
+## 16 October 2026: Kairoo upgraded to the competitor to watch
+
+Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agreed rules, streaks, banked minutes, a weekly note and a quiz that hands over a script: our philosophy, said back. Still pre launch and waiting on Apple. Our differences (2 to 16, lessons, earning by doing, scripts and DiGi, schools, live today) are logged with what to do in `briefings/notes/competitor-sightings.md`. Four review board tasks snoozed a week at Justin's answer.
