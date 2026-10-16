@@ -306,3 +306,10 @@ that takes money must already be kept. It comes back once a first session is
 booked. Same PR adds one block naming what a free chatbot cannot do, on the
 home page, the choose screen and the upgrade page, each line with its proof
 path in the component. PR #1328.
+
+## 16 October 2026: The ask names what the family keeps, and repeats after the first look
+The choose screen and the upgrade page now list this family's own rows (child's
+name, the worry, check ins, the star quest, scripts opened) from
+lib/paywall/what-you-keep.ts; zeros hide, and an empty family gets an honest
+line, not a list of nothing. The ask repeats on Home's trial card once there is
+a first check in or script, on the no card path only. PR #1329.

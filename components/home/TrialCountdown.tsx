@@ -72,6 +72,7 @@ export default function TrialCountdown({
   tier = null,
   jobsTicked = 0,
   streakCount = 0,
+  keepsLine = null,
 }: {
   /** ISO timestamp of the trial's real end. Null only when ended is true. */
   trialEndsAt: string | null
@@ -90,6 +91,12 @@ export default function TrialCountdown({
   /** Their own numbers, for the honest close. Zero hides the line. */
   jobsTicked?: number
   streakCount?: number
+  /**
+   * What this family has made, from lib/paywall/what-you-keep keepsLine: set
+   * only after the first check in or first script, and never on the founder
+   * path. This is the ask repeating at the moment THE-STORY section 9 names.
+   */
+  keepsLine?: string | null
 }) {
   // Ticks once a minute inside the last day. null means more than a day out,
   // so the banner speaks in days and nothing re-renders on a clock.
@@ -125,6 +132,14 @@ export default function TrialCountdown({
       ].filter(Boolean).join(' and ')
     : null
 
+  // Their own record, in one line, above the price. Never on the founder
+  // path, where there is nothing left to ask for.
+  const keeps = (color: string, margin = '6px 0 0') => keepsLine && !isFounderPath ? (
+    <p style={{ fontSize: 'var(--text-base)', color, fontWeight: 700, lineHeight: 1.5, margin }}>
+      {keepsLine}
+    </p>
+  ) : null
+
   if (ended) {
     return (
       <div style={{ background: 'var(--deep-teal)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '18px' }}>
@@ -140,6 +155,7 @@ export default function TrialCountdown({
               access ends in" on the card this one replaces. */}
           Your {trialDays} free days are over
         </div>
+        {keeps('#fff', '6px 0 8px')}
         <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
           {evidence
             ? `Your family has built ${evidence} since you joined. `
@@ -171,6 +187,7 @@ export default function TrialCountdown({
             </Link>
           )}
         </div>
+        {keeps('var(--ink)')}
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
           {evidence ? `${evidence[0].toUpperCase()}${evidence.slice(1)} so far. ` : ''}
           {isFounderPath
@@ -208,6 +225,7 @@ export default function TrialCountdown({
           </Link>
         )}
       </div>
+      {keeps('var(--ink)')}
       {/* The price and the cap belong here rather than only at the end. A
           parent deciding on day one cannot decide on nothing, and the founder
           rate is the one offer in the product with a real deadline attached to
