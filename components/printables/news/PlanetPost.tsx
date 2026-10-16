@@ -37,7 +37,7 @@ const ANSWER = '#3F3F55'
 
 type P = { issue: PlanetPostIssue; ink: boolean }
 
-const fill = (ink: boolean, c: string) => (ink ? '#fff' : c)
+const fill = (ink: boolean, c: string) => (ink ? 'var(--white)' : c)
 
 // A write in line is at least 46 px, about 12 mm printed: the gap of an
 // exercise book line, so a nine year old's handwriting fits (tried at home,
@@ -55,7 +55,7 @@ const display = (size: number): CSSProperties => ({
 const body = (size = 15): CSSProperties => ({
   fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: size, lineHeight: 1.45, color: INK, margin: 0,
 })
-const box = (ink: boolean, bg = '#fff'): CSSProperties => ({
+const box = (ink: boolean, bg = 'var(--white)'): CSSProperties => ({
   background: fill(ink, bg), border: `3px solid ${INK}`, borderRadius: 14,
   boxShadow: `4px 5px 0 ${INK}`, boxSizing: 'border-box',
 })
@@ -87,7 +87,7 @@ function Line({ label, width = '100%', size = 15 }: { label?: string; width?: nu
 function NewsPage({ issue, n, children }: { issue: PlanetPostIssue; n: number; children: ReactNode }) {
   return (
     <section className="planet-post-page" data-page={n} style={{
-      width: NEWS_W, height: NEWS_H, boxSizing: 'border-box', background: '#fff', color: INK,
+      width: NEWS_W, height: NEWS_H, boxSizing: 'border-box', background: 'var(--white)', color: INK,
       padding: '26px 30px 18px', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative',
     }}>
       <div style={{ flex: '1 1 auto', minHeight: 0, display: 'flex', flexDirection: 'column' }}>{children}</div>
@@ -137,7 +137,7 @@ function FriendsBand({ ink }: { ink: boolean }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.moods?.wave ?? c.img} alt={`${c.name} waving`} width={86} height={86}
                 style={{ width: 86, height: 86, objectFit: 'contain', filter: ink ? 'grayscale(1) opacity(0.45)' : 'none' }} />
-              <span style={{ ...display(12), marginTop: -8, background: '#fff', border: `2px solid ${INK}`, borderRadius: 999, padding: '1px 9px' }}>{c.name}</span>
+              <span style={{ ...display(12), marginTop: -8, background: 'var(--white)', border: `2px solid ${INK}`, borderRadius: 999, padding: '1px 9px' }}>{c.name}</span>
             </div>
           )
         })}
@@ -210,7 +210,7 @@ function FrontPage({ issue, ink }: P) {
           <RainbowArc painted width={760} style={{ position: 'absolute', left: '-4%', top: -10, width: '108%', height: 'auto' }} />
         )}
         <div style={{
-          position: 'absolute', left: 26, right: 128, bottom: 22, background: '#fff', border: `3px solid ${INK}`,
+          position: 'absolute', left: 26, right: 128, bottom: 22, background: 'var(--white)', border: `3px solid ${INK}`,
           borderRadius: 12, boxShadow: `4px 5px 0 ${INK}`, padding: '14px 20px 14px', transform: 'rotate(-1.5deg)',
         }}>
           <div style={{ ...mono(11, MUTED), marginBottom: 4 }}>Issue {issue.number} · {issue.theme}</div>
@@ -218,7 +218,7 @@ function FrontPage({ issue, ink }: P) {
           <div style={{ ...mono(11), marginTop: 8 }}>The newspaper for kids and their grown ups</div>
         </div>
         <span style={{ position: 'absolute', right: 18, bottom: 26, transform: 'rotate(10deg)' }}>
-          <Burst size={104} color={fill(ink, HAPPY.coral)} textColor={ink ? INK : '#fff'}>FREE!</Burst>
+          <Burst size={104} color={fill(ink, HAPPY.coral)} textColor={ink ? INK : 'var(--white)'}>FREE!</Burst>
         </span>
       </div>
 
@@ -243,7 +243,7 @@ function FrontPage({ issue, ink }: P) {
                   ) : st.box === 'line' ? (
                     <span style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
                       <span style={{ whiteSpace: 'nowrap' }}>{st.text}</span>
-                      <span style={{ flex: 1, height: 34, borderBottom: '2.5px dotted #9A9AB0' }} />
+                      <span style={{ flex: 1, height: 34, borderBottom: '2.5px dotted #9A9AB0' }} /> {/* hex-ok: a write in line tuned for paper, between ink-muted and ink-light */}
                     </span>
                   ) : st.text}
                 </div>
@@ -301,7 +301,7 @@ function Jar({ label, tint, ink, children }: { label: string; tint: string; ink:
 }
 
 function Blank({ w = 64, h = 34 }: { w?: number; h?: number }) {
-  return <span style={{ display: 'inline-block', flexShrink: 0, width: w, height: h, background: '#fff', border: `3px solid ${INK}`, borderRadius: 8 }} />
+  return <span style={{ display: 'inline-block', flexShrink: 0, width: w, height: h, background: 'var(--white)', border: `3px solid ${INK}`, borderRadius: 8 }} />
 }
 
 /** A numbered step: one instruction per number, so nothing is missed. */
@@ -314,7 +314,7 @@ function StepNo({ n, ink }: { n: number; ink: boolean }) {
 /** A line to cut along: solid ink, with the scissors at its start. */
 const CUT = `2.5px solid ${INK}`
 /** A line to fold along: dotted. */
-const FOLD = '2.5px dashed #6B6B80'
+const FOLD = '2.5px dashed #6B6B80' // hex-ok: a fold line tuned to print visibly on paper; no token at this weight
 
 /** The phone's bed, to colour, cut out and fold (the page 2 craft). */
 function PhoneBed({ issue, ink }: P) {
@@ -342,28 +342,28 @@ function PhoneBed({ issue, ink }: P) {
         {/* The blanket and the pillow: cut along the solid line. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: '1 1 auto', minWidth: 0 }}>
           <div style={{ position: 'relative', border: CUT, borderRadius: 6, padding: 6, flex: '1 1 auto', display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gridAutoRows: '1fr', gap: 4 }}>
-            <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: '#fff' }}>✂</span>
+            <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: 'var(--white)' }}>✂</span>
             {Array.from({ length: 18 }, (_, i) => (
-              <span key={i} style={{ border: `1.5px solid ${INK}`, borderRadius: 4, background: ink ? '#fff' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span key={i} style={{ border: `1.5px solid ${INK}`, borderRadius: 4, background: ink ? 'var(--white)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {i % 4 === 0 && <StarShape size={14} color={fill(ink, quilt[(i / 4) % 4])} />}
               </span>
             ))}
-            <span style={{ position: 'absolute', right: 8, bottom: -11, ...mono(9.5), background: '#fff', padding: '0 4px' }}>{b.blanket}</span>
+            <span style={{ position: 'absolute', right: 8, bottom: -11, ...mono(9.5), background: 'var(--white)', padding: '0 4px' }}>{b.blanket}</span>
           </div>
           <div style={{ position: 'relative', height: 58, border: CUT, borderRadius: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: '#fff' }}>✂</span>
+            <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: 'var(--white)' }}>✂</span>
             <span style={{ ...mono(9.5, MUTED) }}>{b.pillow}</span>
           </div>
         </div>
         {/* The sign: fold on the dotted line and it stands up like a tent. */}
         <div style={{ position: 'relative', width: 196, flexShrink: 0, border: CUT, borderRadius: 6, display: 'flex', flexDirection: 'column' }}>
-          <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: '#fff' }}>✂</span>
+          <span style={{ position: 'absolute', left: -9, top: -13, fontSize: 15, background: 'var(--white)' }}>✂</span>
           <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, transform: 'rotate(180deg)', padding: 8 }}>
             <span style={{ ...display(16) }}>{b.sign.back}</span>
             <Blank w={110} h={34} />
           </div>
           <div style={{ borderTop: FOLD, position: 'relative' }}>
-            <span style={{ position: 'absolute', right: 6, top: -9, ...mono(9, MUTED), background: '#fff', padding: '0 3px' }}>fold</span>
+            <span style={{ position: 'absolute', right: 6, top: -9, ...mono(9, MUTED), background: 'var(--white)', padding: '0 3px' }}>fold</span>
           </div>
           <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, padding: 8 }}>
             <Moon size={42} />
@@ -413,7 +413,7 @@ function JarsPage({ issue, ink }: P) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
           {j.starPuzzle.order.map(k => (
-            <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: `2.5px solid ${INK}`, borderRadius: 10, padding: '6px 8px', minHeight: 50 }}>
+            <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--white)', border: `2.5px solid ${INK}`, borderRadius: 10, padding: '6px 8px', minHeight: 50 }}>
               <Blank w={30} h={30} />
               <span style={{ ...body(13.5), fontWeight: 800, lineHeight: 1.2 }}>{j.starSteps[k]}</span>
             </div>
@@ -464,7 +464,7 @@ function PuzzlePage({ issue, ink }: P) {
       <div style={{ display: 'flex', gap: 18, marginTop: 20, flex: '1 1 auto', minHeight: 0 }}>
         <div style={{ padding: '12px 14px', ...box(ink, CRAYON.paper), display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
           <div style={{ ...mono(11), marginBottom: 8 }}>{w.headline}</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 30px)', gap: 1, background: '#fff', border: `2.5px solid ${INK}`, borderRadius: 8, padding: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 30px)', gap: 1, background: 'var(--white)', border: `2.5px solid ${INK}`, borderRadius: 8, padding: 6 }}>
             {w.grid.join('').split('').map((ch, i) => (
               <span key={i} style={{ width: 30, height: 31, display: 'flex', alignItems: 'center', justifyContent: 'center', ...display(17), lineHeight: 1 }}>{ch}</span>
             ))}
@@ -562,7 +562,7 @@ function BackPage({ issue, ink, qrSvg }: P & { qrSvg: string }) {
             <p style={{ ...body(15), marginTop: 4 }}>{issue.grownUp.line}</p>
             <p style={{ ...mono(12), letterSpacing: '0.06em', textTransform: 'none', marginTop: 6 }}>{issue.grownUp.shown}</p>
           </div>
-          <div aria-label="QR code to the stage check" style={{ width: 104, height: 104, flexShrink: 0, padding: 6, background: '#fff', border: `3px solid ${INK}`, borderRadius: 10, boxSizing: 'border-box' }}
+          <div aria-label="QR code to the stage check" style={{ width: 104, height: 104, flexShrink: 0, padding: 6, background: 'var(--white)', border: `3px solid ${INK}`, borderRadius: 10, boxSizing: 'border-box' }}
             dangerouslySetInnerHTML={{ __html: qrSvg }} />
         </div>
       </div>
