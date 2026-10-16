@@ -287,3 +287,12 @@ both issues switched, boho and editorial kept. Same words, sources and checks;
 no copy trimmed, no art generated, no credits spent. The theme change moves
 Issue 001's content hash, so its desk record needs a re-sync before approval
 two. Detail in PR #1307.
+
+## 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet
+44px is the floor (--tap-min). A button that stands alone keeps its look and
+takes the invisible .tap-target pad; buttons in a tight row are sized to 44 for
+real, since overlapping pads send a tap to the neighbour. A gold :focus-visible
+ring lives in shared/tokens.css. Seven route loaders draw their own page shape
+(child path is a redirect, so it keeps the child home loader). Every hex literal
+outside tokens.css counts, #fff included, but only new ones fail: the baseline
+only ever shrinks. PRs #1321 and #1322.

@@ -1,0 +1,2285 @@
+{
+ "app/(auth)/reset-password/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/admin/asks/page.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/admin/email/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/admin/health/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/admin/planet/[n]/PlanetDesk.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/admin/planet/[n]/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/admin/planet/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/admin/schools/SchoolLinks.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/admin/videos/VideoLinks.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/admin/wisdom/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/agreement/print/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/ai-module/AiCheckinCard.tsx": {
+  "#9ca3af": 2,
+  "#e5e7eb": 1,
+  "#f9fafb": 1,
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/checkin/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/daily/DailyDeckViewer.tsx": {
+  "#2f8f6b": 2,
+  "#3d739a": 2,
+  "#e3a93c": 1,
+  "#f5f9fa": 1,
+  "#f5fbf8": 1,
+  "#f6fafd": 1,
+  "#f7faf9": 1,
+  "#fdf9ee": 1,
+  "#fff": 9
+ },
+ "app/(dashboard)/dashboard/devices/DeviceCoverageBoard.tsx": {
+  "#2d5016": 1,
+  "#fff": 5
+ },
+ "app/(dashboard)/dashboard/devices/DeviceHub.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/devices/DeviceList.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/devices/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/digi/DigiChat.tsx": {
+  "#1b2a4a": 1,
+  "#dce7fb": 1,
+  "#fff": 4
+ },
+ "app/(dashboard)/dashboard/guide/page.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/homework/HomeworkDecoder.tsx": {
+  "#fff": 7
+ },
+ "app/(dashboard)/dashboard/homework/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx": {
+  "#2a1f14": 2,
+  "#4a3b25": 3,
+  "#6b5c42": 4,
+  "#a08247": 5,
+  "#fff": 2,
+  "#fffcf3": 1
+ },
+ "app/(dashboard)/dashboard/keepsakes/passport-print/zine/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/layout.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/learning/LearningYear.tsx": {
+  "#fff": 5
+ },
+ "app/(dashboard)/dashboard/lessons/LessonsBrowser.tsx": {
+  "#1f7a54": 1,
+  "#2f8f6b": 1,
+  "#d4eddf": 1,
+  "#def0e7": 1,
+  "#fff": 12
+ },
+ "app/(dashboard)/dashboard/lessons/[id]/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/lessons/path/page.tsx": {
+  "#2d5016": 2,
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/lessons/together/LessonSendButton.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/moments/MomentsGrid.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/new-script/NewScriptForm.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/notifications/page.tsx": {
+  "#b93b3f": 1
+ },
+ "app/(dashboard)/dashboard/page.tsx": {
+  "#fceac0": 1,
+  "#fff": 5,
+  "#fff7ea": 1
+ },
+ "app/(dashboard)/dashboard/pathway/page.tsx": {
+  "#c9ddd5": 1,
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/phone-setup/page.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/printables/PrintableActions.tsx": {
+  "#fff": 7
+ },
+ "app/(dashboard)/dashboard/printables/builder/BucketBuilder.tsx": {
+  "#e8f0ee": 1,
+  "#fff": 9
+ },
+ "app/(dashboard)/dashboard/printables/friends/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/printables/learning/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/printables/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/printables/sheet/[key]/SheetPrintClient.tsx": {
+  "#fff": 4
+ },
+ "app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder.tsx": {
+  "#fff": 8
+ },
+ "app/(dashboard)/dashboard/quests/QuestManager.tsx": {
+  "#25d366": 1,
+  "#c0533e": 2,
+  "#fff": 38
+ },
+ "app/(dashboard)/dashboard/quests/contract/page.tsx": {
+  "#1a1a2e": 1,
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/quests/crafts/CraftPack.tsx": {
+  "#f6dbd3": 1,
+  "#fff": 17
+ },
+ "app/(dashboard)/dashboard/quests/deal/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/quests/manage/ManageJobs.tsx": {
+  "#b93b3f": 1,
+  "#e5484d": 1,
+  "#fff": 6
+ },
+ "app/(dashboard)/dashboard/quests/page.tsx": {
+  "#1f7a54": 1,
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/quests/play/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/quests/print/page.tsx": {
+  "#1a1a2e": 1,
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/quests/routines/AddRoutine.tsx": {
+  "#fff": 5
+ },
+ "app/(dashboard)/dashboard/scripts/[id]/deck/DeckViewer.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/scripts/category/[slug]/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/scripts/page.tsx": {
+  "#fff": 6
+ },
+ "app/(dashboard)/dashboard/secondary/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/settings/page.tsx": {
+  "#fff": 4
+ },
+ "app/(dashboard)/dashboard/social-settings/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/strands/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/tell-a-parent/page.tsx": {
+  "#fff": 3
+ },
+ "app/(dashboard)/dashboard/tonight/TonightConfirm.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/tonight/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/toolbox/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/upgrade/page.tsx": {
+  "#fff": 4
+ },
+ "app/(dashboard)/dashboard/week/page.tsx": {
+  "#fff": 1
+ },
+ "app/(dashboard)/dashboard/what-is-working/page.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/word/WordCard.tsx": {
+  "#fff": 2
+ },
+ "app/(dashboard)/dashboard/word/page.tsx": {
+  "#fff": 1
+ },
+ "app/(marketing)/ban-workarounds/page.tsx": {
+  "#fff": 8
+ },
+ "app/(marketing)/digi-squad/lesson/page.tsx": {
+  "#0d2b1a": 1,
+  "#1a4a2e": 1,
+  "#fff": 3
+ },
+ "app/(marketing)/digi-squad/page.tsx": {
+  "#0d2b1a": 1,
+  "#0f3320": 1,
+  "#1a4a2e": 1,
+  "#fff": 8
+ },
+ "app/(marketing)/digitalwellbeing/page.tsx": {
+  "#fdfbf8": 2,
+  "#fff": 1
+ },
+ "app/(marketing)/free/page.tsx": {
+  "#fff": 1
+ },
+ "app/(marketing)/free/planet-post/page.tsx": {
+  "#fff": 2
+ },
+ "app/(marketing)/home-code/[code]/page.tsx": {
+  "#fff": 1
+ },
+ "app/(marketing)/join/page.tsx": {
+  "#fff": 8
+ },
+ "app/(marketing)/passport/page.tsx": {
+  "#fff": 4,
+  "#fffbee": 1
+ },
+ "app/(marketing)/pathway/page.tsx": {
+  "#9b958a": 2,
+  "#fff": 9
+ },
+ "app/(marketing)/scripts/page.tsx": {
+  "#ddd": 1,
+  "#fff": 5
+ },
+ "app/(marketing)/starter-pack/Mocks.tsx": {
+  "#bae6fd": 1,
+  "#edc35f": 1,
+  "#fff": 14
+ },
+ "app/(marketing)/starter-pack/ResultScreen.tsx": {
+  "#fff": 5
+ },
+ "app/(marketing)/starter-pack/page.tsx": {
+  "#2d5016": 1,
+  "#fff": 2
+ },
+ "app/api/cron/digi-quality/route.ts": {
+  "#1a1a2e": 4,
+  "#2f8f6b": 1,
+  "#3d6478": 1,
+  "#55556e": 1,
+  "#8888aa": 3,
+  "#c94f3d": 2,
+  "#e8e4d8": 6
+ },
+ "app/api/cron/invoice-requests/route.ts": {
+  "#888": 11
+ },
+ "app/api/cron/knowledge-refresh/route.ts": {
+  "#1a1a2e": 1,
+  "#8888a0": 1,
+  "#c29018": 1
+ },
+ "app/api/cron/platform-watch/route.ts": {
+  "#1a1a2e": 1,
+  "#8888a0": 1,
+  "#c29018": 1
+ },
+ "app/api/cron/script-refresh/route.ts": {
+  "#1a1a2e": 1,
+  "#8888a0": 1,
+  "#c29018": 1
+ },
+ "app/api/email/unsubscribe/route.ts": {
+  "#1a1a2e": 1,
+  "#52526a": 1,
+  "#eaeaf0": 1,
+  "#f9f8f6": 1,
+  "#fff": 1
+ },
+ "app/api/keepsakes/interest/route.ts": {
+  "#1a1a2e": 1,
+  "#8a8a9a": 1
+ },
+ "app/api/keepsakes/interest/test/route.ts": {
+  "#1a1a2e": 1
+ },
+ "app/api/scripts/request/route.ts": {
+  "#1a1a2e": 1,
+  "#c29018": 1
+ },
+ "app/dev/add-job/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/add-moment-here/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/balance-today/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/child-ping/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/countdown/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/day-done/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/deal-sheet/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/device-buttons/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/device-sweep/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/device-time/page.tsx": {
+  "#3b3f47": 1
+ },
+ "app/dev/digi-answer/page.tsx": {
+  "#1b2a4a": 1,
+  "#dce7fb": 1
+ },
+ "app/dev/drawn-sheets/page.tsx": {
+  "#1a1a2e": 3,
+  "#3b3f47": 1,
+  "#fff": 5
+ },
+ "app/dev/friend-emails/page.tsx": {
+  "#fff": 2
+ },
+ "app/dev/kid-deal/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/kid-home/page.tsx": {
+  "#fff": 2
+ },
+ "app/dev/kid-printables/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/kid-school-week/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/kid-week/page.tsx": {
+  "#2e6f8e": 5,
+  "#2f8f6b": 4,
+  "#edc35f": 2,
+  "#fff": 1
+ },
+ "app/dev/learning-sheet-tabs/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/method-week/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/moment-timeline/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/parent-timer/page.tsx": {
+  "#fff": 3
+ },
+ "app/dev/planets/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/printable-covers/page.tsx": {
+  "#fff": 4
+ },
+ "app/dev/save-chip/page.tsx": {
+  "#fff": 3
+ },
+ "app/dev/school-week/page.tsx": {
+  "#f9f8f6": 1
+ },
+ "app/dev/setup-bar/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/setup-quest/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/stickers/page.tsx": {
+  "#7fb3c8": 2,
+  "#d8622e": 1,
+  "#d8955e": 1,
+  "#d9a22e": 2,
+  "#e8b54b": 2
+ },
+ "app/dev/tutor-lesson/page.tsx": {
+  "#173c46": 1,
+  "#fff": 1
+ },
+ "app/dev/weekly-review-email/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/welcome-email/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/welcome/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/what-is-working/page.tsx": {
+  "#fff": 1
+ },
+ "app/dev/your-screens/page.tsx": {
+  "#fff": 1
+ },
+ "app/error.tsx": {
+  "#fff": 1
+ },
+ "app/global-error.tsx": {
+  "#26263a": 1,
+  "#55516a": 1,
+  "#8a8598": 1,
+  "#b8451f": 1,
+  "#dc5832": 1,
+  "#f7f3ee": 1,
+  "#fff": 1
+ },
+ "app/globals.css": {
+  "#1b2a4a": 1,
+  "#dce7fb": 1,
+  "#e5484d": 1,
+  "#f9f8f6": 1,
+  "#fff": 9
+ },
+ "app/k/[token]/KidQuestScreen.tsx": {
+  "#1f7a54": 1,
+  "#2f8f6b": 2,
+  "#3d739a": 1,
+  "#54c79a": 1,
+  "#7ea6ff": 1,
+  "#8fd3ff": 1,
+  "#9b8cff": 1,
+  "#9ee6c4": 1,
+  "#b93b3f": 5,
+  "#c7b2ff": 1,
+  "#d4eddf": 1,
+  "#e5484d": 2,
+  "#efe9dd": 1,
+  "#f6dbd3": 1,
+  "#fdecec": 3,
+  "#ff8fa8": 1,
+  "#ff9e7a": 1,
+  "#ff9f5a": 1,
+  "#ffb0c8": 1,
+  "#ffc97a": 1,
+  "#ffd86b": 1,
+  "#fff": 34,
+  "#fff7e8": 1
+ },
+ "app/k/[token]/balance/page.tsx": {
+  "#fff": 1
+ },
+ "app/k/[token]/deal/page.tsx": {
+  "#fff": 2
+ },
+ "app/k/[token]/error.tsx": {
+  "#fff": 1
+ },
+ "app/k/[token]/jobs/KidJobsScreen.tsx": {
+  "#fff": 2
+ },
+ "app/k/[token]/jobs/KidSwapSheet.tsx": {
+  "#fff": 3
+ },
+ "app/k/[token]/manifest/route.ts": {
+  "#2e2818": 2
+ },
+ "app/k/[token]/tell/page.tsx": {
+  "#fff": 2
+ },
+ "app/k/[token]/week/page.tsx": {
+  "#fff": 2
+ },
+ "app/layout.tsx": {
+  "#f7f3ee": 1
+ },
+ "app/m/[id]/opengraph-image.tsx": {
+  "#1a1a2e": 3,
+  "#3a3a50": 1,
+  "#edc35f": 1,
+  "#ffffff": 1
+ },
+ "app/m/[id]/page.tsx": {
+  "#fff": 2
+ },
+ "app/not-found.tsx": {
+  "#fff": 1
+ },
+ "app/onboarding/page.tsx": {
+  "#fff": 14
+ },
+ "app/page.tsx": {
+  "#22c55e": 1,
+  "#4a1723": 1,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#edc35f": 1,
+  "#faedc2": 1,
+  "#fdf6de": 1,
+  "#fff": 24,
+  "#fffbee": 2
+ },
+ "app/print-free/[slug]/page.tsx": {
+  "#1a1a2e": 1,
+  "#ffffff": 1
+ },
+ "app/ref-application/page.tsx": {
+  "#c9ddd5": 1
+ },
+ "app/ref-ask-first/FixtureViews.tsx": {
+  "#34373d": 2,
+  "#4c5057": 2
+ },
+ "app/ref-buttons/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-catchup/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-checkin-waiting/page.tsx": {
+  "#fff": 2
+ },
+ "app/ref-child-rail/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-curriculum-sheet/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-email-back-to-school/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-email-monthly/page.tsx": {
+  "#fff": 2
+ },
+ "app/ref-friend-arrival/page.tsx": {
+  "#fff": 2
+ },
+ "app/ref-friends-parade/page.tsx": {
+  "#b98e2a": 1,
+  "#edc35f": 1
+ },
+ "app/ref-friends-poster/page.tsx": {
+  "#fff": 1
+ },
+ "app/ref-job-board/page.tsx": {
+  "#fff": 4
+ },
+ "app/ref-kid-five/page.tsx": {
+  "#2e7d5a": 1,
+  "#4b9ce5": 1,
+  "#edc35f": 1
+ },
+ "app/ref-og-card/page.tsx": {
+  "#666": 1
+ },
+ "app/ref-timer-nudge/page.tsx": {
+  "#fff": 1
+ },
+ "app/say/[id]/opengraph-image.tsx": {
+  "#1a1a2e": 1,
+  "#2e2818": 1,
+  "#52526a": 1,
+  "#c99a28": 1,
+  "#edc35f": 1,
+  "#ffffff": 1
+ },
+ "app/verify/[code]/page.tsx": {
+  "#4a1723": 1,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#fff": 1
+ },
+ "components/UpdateBanner.tsx": {
+  "#fff": 1
+ },
+ "components/access/FreeDoor.tsx": {
+  "#fff": 1
+ },
+ "components/access/TwoDoors.tsx": {
+  "#1f7a54": 1,
+  "#fff": 2
+ },
+ "components/admin/WisdomReview.tsx": {
+  "#fff": 4
+ },
+ "components/agreement/AgreementBuilder.tsx": {
+  "#fff": 13
+ },
+ "components/alerts/SmartAlerts.tsx": {
+  "#fff": 2
+ },
+ "components/auth/ProviderButtons.tsx": {
+  "#34a853": 1,
+  "#4285f4": 1,
+  "#ea4335": 1,
+  "#fbbc05": 1,
+  "#fff": 1
+ },
+ "components/balance/BalanceReport.tsx": {
+  "#4c9f6b": 1,
+  "#b67a2e": 1,
+  "#c4574d": 1,
+  "#cfe6d6": 1,
+  "#d98b45": 1,
+  "#eaf3ec": 3,
+  "#efc9bf": 1,
+  "#f1e0c6": 1,
+  "#f1e4be": 1,
+  "#f9e1db": 2,
+  "#fbeedf": 2,
+  "#fbf3e3": 2,
+  "#fff": 5
+ },
+ "components/balance/PaceCard.tsx": {
+  "#fff": 1
+ },
+ "components/balance/ParentStartTimer.tsx": {
+  "#b93b3f": 1,
+  "#fff": 3
+ },
+ "components/cards/MomentCard.tsx": {
+  "#ede8f5": 1,
+  "#f5e8ee": 1,
+  "#fff": 9
+ },
+ "components/celebrate/BalanceDial.tsx": {
+  "#1a1a2e": 1,
+  "#4c9f6b": 1,
+  "#d98b45": 1,
+  "#e8f4ee": 1,
+  "#fbeedf": 1,
+  "#fff": 2
+ },
+ "components/celebrate/BalanceInsight.tsx": {
+  "#fff": 2
+ },
+ "components/celebrate/HappyNews.tsx": {
+  "#2e7d5a": 1,
+  "#4b9ce5": 1,
+  "#7c5cbf": 1,
+  "#e5484d": 1,
+  "#e5734b": 1,
+  "#f6c244": 1,
+  "#fff": 1,
+  "#fff7e8": 1
+ },
+ "components/celebrate/HappyScene.tsx": {
+  "#2e7d5a": 2,
+  "#4b9ce5": 2,
+  "#7c5cbf": 1,
+  "#e5734b": 2,
+  "#f6c244": 2,
+  "#fff": 1
+ },
+ "components/children/ChildSwitcher.tsx": {
+  "#fff": 1
+ },
+ "components/community/CommunityBite.tsx": {
+  "#fff": 3
+ },
+ "components/daily/AddMomentHere.tsx": {
+  "#fff": 1
+ },
+ "components/daily/ChildDayStrip.tsx": {
+  "#fff": 2
+ },
+ "components/daily/ConcernAcknowledge.tsx": {
+  "#fff": 1
+ },
+ "components/daily/ConcernCheckIn.tsx": {
+  "#1f7a54": 1,
+  "#dcd7cb": 1,
+  "#fef7e0": 1,
+  "#fff": 5
+ },
+ "components/daily/DayCompleteFlow.tsx": {
+  "#fff": 2
+ },
+ "components/daily/DayTickFlow.tsx": {
+  "#fff": 6
+ },
+ "components/daily/MomentTimeline.tsx": {
+  "#fff": 2
+ },
+ "components/daily/TodayPathBig.tsx": {
+  "#236f52": 1,
+  "#2f8f6b": 1,
+  "#fff": 10
+ },
+ "components/daily/TodayPathStrip.tsx": {
+  "#fff": 3
+ },
+ "components/dashboard/AddChildName.tsx": {
+  "#fff": 1
+ },
+ "components/dashboard/FoldSection.tsx": {
+  "#e5484d": 1,
+  "#fff": 2
+ },
+ "components/dashboard/MobileTabBar.tsx": {
+  "#2e6f8e": 1,
+  "#2f8f6b": 1,
+  "#7a5c1e": 1,
+  "#a8475c": 1,
+  "#b8860b": 1,
+  "#c0603a": 1,
+  "#fbe7ec": 1,
+  "#fbeedf": 1,
+  "#fff": 5
+ },
+ "components/dashboard/NotificationsBell.tsx": {
+  "#e5484d": 1,
+  "#fff": 1
+ },
+ "components/deal/FamilyDealSheet.tsx": {
+  "#fff": 1
+ },
+ "components/devices/DevicePickerChips.tsx": {
+  "#fff": 1
+ },
+ "components/devices/DeviceSweepCard.tsx": {
+  "#fff": 1
+ },
+ "components/devices/YourScreens.tsx": {
+  "#fff": 7
+ },
+ "components/digi/DigiDeviceCheckin.tsx": {
+  "#fff": 2
+ },
+ "components/digi/DigiDiscoverNudge.tsx": {
+  "#fff": 1
+ },
+ "components/digi/DigiPrintableNudge.tsx": {
+  "#fff": 1
+ },
+ "components/digi/DigiPrompts.tsx": {
+  "#d9b94e": 1,
+  "#fff": 1
+ },
+ "components/digi/DigiScriptNudge.tsx": {
+  "#fff": 1
+ },
+ "components/digi/DigiStreakWidget.tsx": {
+  "#f6f5f1": 1,
+  "#fff6e4": 1,
+  "#fffdf7": 1,
+  "#ffffff": 1
+ },
+ "components/digi/DigiWelcomeSheet.tsx": {
+  "#fff": 2
+ },
+ "components/digi/DigiWondering.tsx": {
+  "#fff": 1
+ },
+ "components/digi/SchoolLink.tsx": {
+  "#fff": 1
+ },
+ "components/digi/SundayCheckIn.tsx": {
+  "#fff": 8
+ },
+ "components/digi/WeeklyReviewCard.tsx": {
+  "#fff": 1
+ },
+ "components/digi/WeeklyRoundup.tsx": {
+  "#fff": 7
+ },
+ "components/home/BackToToday.tsx": {
+  "#fff": 1
+ },
+ "components/home/CalendarCorner.tsx": {
+  "#fff": 1
+ },
+ "components/home/ChildAppGone.tsx": {
+  "#fff": 1
+ },
+ "components/home/ChildAppNudge.tsx": {
+  "#fff": 4
+ },
+ "components/home/DayCheckup.tsx": {
+  "#fff": 2
+ },
+ "components/home/DigiGreeting.tsx": {
+  "#fff": 1
+ },
+ "components/home/DigiQuestionCard.tsx": {
+  "#fff": 4
+ },
+ "components/home/DigiWordCard.tsx": {
+  "#fff": 2
+ },
+ "components/home/ExploreGrid.tsx": {
+  "#f1ecfb": 1,
+  "#fbe7ec": 1,
+  "#fbeedf": 1,
+  "#fff": 1
+ },
+ "components/home/HandoverPrompt.tsx": {
+  "#fff": 3
+ },
+ "components/home/HomeLive.tsx": {
+  "#2f8f6b": 1,
+  "#fff": 1
+ },
+ "components/home/HomeMain.tsx": {
+  "#9cc3b4": 1,
+  "#a9c8e4": 1,
+  "#b6ade0": 1,
+  "#d6be8a": 1,
+  "#fff": 2
+ },
+ "components/home/HomeRows.tsx": {
+  "#b93b3f": 1,
+  "#e5484d": 2,
+  "#fff": 2
+ },
+ "components/home/HomeShortcuts.tsx": {
+  "#fff": 1
+ },
+ "components/home/IssueOfTheWeek.tsx": {
+  "#fff": 1
+ },
+ "components/home/LiveTimerChip.tsx": {
+  "#236f52": 1,
+  "#2f8f6b": 3,
+  "#e8f4ee": 1,
+  "#fff": 2
+ },
+ "components/home/MissionWelcome.tsx": {
+  "#fff": 4
+ },
+ "components/home/MomentsToday.tsx": {
+  "#fff": 1
+ },
+ "components/home/PassportPeek.tsx": {
+  "#3e1220": 1,
+  "#4a1723": 1,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#fceac0": 1,
+  "#fff7ea": 1
+ },
+ "components/home/PhoneBridgeCard.tsx": {
+  "#fff": 3
+ },
+ "components/home/PhoneLaterCard.tsx": {
+  "#fff": 2
+ },
+ "components/home/PlanetCoins.tsx": {
+  "#fff": 1
+ },
+ "components/home/QuietLine.tsx": {
+  "#fff": 1
+ },
+ "components/home/SchoolAheadCard.tsx": {
+  "#fff": 1
+ },
+ "components/home/SchoolWindowCard.tsx": {
+  "#fceac0": 1,
+  "#fff": 2,
+  "#fff7ea": 1
+ },
+ "components/home/StickerNewsCard.tsx": {
+  "#fff": 1
+ },
+ "components/home/TermPreviewCard.tsx": {
+  "#fff": 1
+ },
+ "components/home/TodayCard.tsx": {
+  "#fff": 2
+ },
+ "components/home/TrialCountdown.tsx": {
+  "#fff": 1
+ },
+ "components/insights/DigiChecksPanel.tsx": {
+  "#a37a2a": 2,
+  "#fdecec": 1,
+  "#fff": 1,
+  "#fff6e5": 1
+ },
+ "components/insights/InsightsBoard.tsx": {
+  "#fff": 10
+ },
+ "components/insights/LaneMissesPanel.tsx": {
+  "#e5484d": 1,
+  "#fdecec": 1,
+  "#fff": 3
+ },
+ "components/insights/ManagementReviewPanel.tsx": {
+  "#a33a3a": 1,
+  "#fdecec": 1,
+  "#fff": 1
+ },
+ "components/insights/MembersPanel.tsx": {
+  "#fff": 1
+ },
+ "components/kid/HappyNewsBits.tsx": {
+  "#fef7e0": 1,
+  "#fff": 4
+ },
+ "components/kid/HomeworkHelp.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidAskBanner.tsx": {
+  "#fff": 8
+ },
+ "components/kid/KidAskForJob.tsx": {
+  "#fff": 11
+ },
+ "components/kid/KidAskScreenTime.tsx": {
+  "#b93b3f": 3,
+  "#fff": 8
+ },
+ "components/kid/KidBackLink.tsx": {
+  "#fff": 1
+ },
+ "components/kid/KidContract.tsx": {
+  "#34373d": 1,
+  "#4c5057": 1,
+  "#f7f7f5": 1,
+  "#fff": 1
+ },
+ "components/kid/KidDayDone.tsx": {
+  "#2e6f8e": 1,
+  "#2f8f6b": 1,
+  "#c99a28": 1,
+  "#e8f0ee": 1,
+  "#f0f9ff": 1,
+  "#fef7e0": 1,
+  "#fff": 6
+ },
+ "components/kid/KidDiaryItemSheet.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidFiveADay.tsx": {
+  "#fff": 7
+ },
+ "components/kid/KidFriendArrival.tsx": {
+  "#0e1320": 1,
+  "#161e30": 1,
+  "#1e5c8c": 1,
+  "#23304a": 1,
+  "#2e6f8e": 1,
+  "#3e8fc4": 1,
+  "#5fae63": 1,
+  "#6bbb6e": 1,
+  "#6fc2e8": 1,
+  "#7fc4e8": 1,
+  "#c0392b": 2,
+  "#edc35f": 2,
+  "#efe3c6": 1,
+  "#f2994a": 1,
+  "#fef7e0": 1,
+  "#ffe9a8": 3,
+  "#fff3d2": 1,
+  "#fff6de": 5
+ },
+ "components/kid/KidFriendsParade.tsx": {
+  "#0e1320": 1,
+  "#161e30": 1,
+  "#23304a": 1,
+  "#b98e2a": 2,
+  "#edc35f": 3,
+  "#ffe9a8": 1,
+  "#fff6de": 4
+ },
+ "components/kid/KidGrownUpLink.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidHomeTiles.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidHomework.tsx": {
+  "#fff": 1
+ },
+ "components/kid/KidIcon.tsx": {
+  "#fff": 17
+ },
+ "components/kid/KidLessonList.tsx": {
+  "#fff": 2,
+  "#fff6dd": 1
+ },
+ "components/kid/KidMission.tsx": {
+  "#fff": 3
+ },
+ "components/kid/KidPassport.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidPath.tsx": {
+  "#1f7a54": 1,
+  "#2f8f6b": 3,
+  "#b93b3f": 1,
+  "#c0533e": 2,
+  "#def0e7": 2,
+  "#fdecec": 2,
+  "#fff": 9,
+  "#fff7e0": 3
+ },
+ "components/kid/KidPrintPage.tsx": {
+  "#fff": 6
+ },
+ "components/kid/KidPrintables.tsx": {
+  "#e7f1fa": 1,
+  "#e8f0ee": 2,
+  "#fff": 12,
+  "#fffdf8": 1
+ },
+ "components/kid/KidPrivacyNote.tsx": {
+  "#fff": 1
+ },
+ "components/kid/KidRemindersPrompt.tsx": {
+  "#fde8e0": 1,
+  "#fff": 2
+ },
+ "components/kid/KidRewardCard.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidRoad.tsx": {
+  "#fff": 3,
+  "#fff7e8": 1
+ },
+ "components/kid/KidSchoolAddSheet.tsx": {
+  "#fff": 6
+ },
+ "components/kid/KidSchoolWeek.tsx": {
+  "#039be5": 1,
+  "#0b8043": 1,
+  "#616161": 1,
+  "#8e24aa": 1,
+  "#e5734b": 4,
+  "#e67c73": 1,
+  "#e6f3ec": 1,
+  "#e6f4fd": 1,
+  "#f1f1f1": 1,
+  "#f3f1ec": 1,
+  "#f4511e": 1,
+  "#f4e9f7": 1,
+  "#f6bf26": 1,
+  "#f9cfd9": 1,
+  "#fcedec": 1,
+  "#fdede7": 1,
+  "#fef7e4": 1,
+  "#fff": 6
+ },
+ "components/kid/KidSheetOverlay.tsx": {
+  "#fff": 3
+ },
+ "components/kid/KidSheetPaper.tsx": {
+  "#1a1a2e": 4,
+  "#52526a": 1,
+  "#9a9ab0": 1,
+  "#b9b9cc": 1,
+  "#c99a28": 4
+ },
+ "components/kid/KidSquadIntro.tsx": {
+  "#1e1a10": 1,
+  "#2e2818": 1,
+  "#4a4029": 1,
+  "#9fe3c4": 1,
+  "#fef7e0": 1,
+  "#fff": 1,
+  "#ffffff": 1
+ },
+ "components/kid/KidStepSheet.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidStickerLand.tsx": {
+  "#4a1723": 1,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#edc35f": 1,
+  "#fff": 3
+ },
+ "components/kid/KidStickers.tsx": {
+  "#2a1f14": 3,
+  "#4a1723": 1,
+  "#4a3b25": 3,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#6b5c42": 1,
+  "#a08247": 1,
+  "#edc35f": 2,
+  "#f3f1ec": 1,
+  "#f4ecd9": 1,
+  "#fff": 3,
+  "#fffcf3": 2
+ },
+ "components/kid/KidTabBar.tsx": {
+  "#e5484d": 1,
+  "#fff": 9
+ },
+ "components/kid/KidTermPreview.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidTodayList.tsx": {
+  "#fff": 5,
+  "#fff7e0": 1,
+  "#fff7e8": 1
+ },
+ "components/kid/KidTodayReturn.tsx": {
+  "#fff": 1
+ },
+ "components/kid/KidWaitingAsks.tsx": {
+  "#fff": 1
+ },
+ "components/kid/KidWeekCalendar.tsx": {
+  "#f3f1ec": 1,
+  "#fff": 5
+ },
+ "components/kid/KidWeekMasthead.tsx": {
+  "#fff": 2
+ },
+ "components/kid/KidWinPop.tsx": {
+  "#2f8f6b": 1,
+  "#fff": 4
+ },
+ "components/kid/KidWins.tsx": {
+  "#4c9fd6": 1,
+  "#7cb342": 1,
+  "#e8873c": 1,
+  "#f1e4be": 1,
+  "#fff": 3
+ },
+ "components/kid/StreakBar.tsx": {
+  "#fef7e0": 1,
+  "#fff": 2
+ },
+ "components/learning/LearningSheet.tsx": {
+  "#3a2c0c": 1,
+  "#4a3410": 1,
+  "#fff": 4
+ },
+ "components/learning/TutorLessonCard.tsx": {
+  "#fff": 3
+ },
+ "components/lessons/CharacterIntro.tsx": {
+  "#0d2b1a": 1,
+  "#0f3320": 1,
+  "#1a4a2e": 1,
+  "#fff": 2
+ },
+ "components/lessons/DigiJuniorPause.tsx": {
+  "#fff": 1
+ },
+ "components/lessons/HeadsUpNote.tsx": {
+  "#2d5016": 1,
+  "#fff": 1
+ },
+ "components/lessons/LessonRowActions.tsx": {
+  "#fff": 1
+ },
+ "components/lessons/LessonStep.tsx": {
+  "#fff": 3
+ },
+ "components/lessons/LessonsTogetherSwitch.tsx": {
+  "#fff": 2
+ },
+ "components/lessons/ParentLessonPlayer.tsx": {
+  "#fff": 1
+ },
+ "components/lessons/SchoolCodeCard.tsx": {
+  "#fff": 1
+ },
+ "components/lessons/SlidePlayer.tsx": {
+  "#2f8f6b": 1,
+  "#def0e7": 1,
+  "#fbeaea": 1,
+  "#fff": 4
+ },
+ "components/marketing/AnnouncementBar.tsx": {
+  "#fff": 1
+ },
+ "components/marketing/BackToTop.tsx": {
+  "#fff": 1
+ },
+ "components/marketing/DigiGreeter.tsx": {
+  "#1a1a2e": 3,
+  "#c99a28": 1,
+  "#edc35f": 1,
+  "#fff": 2
+ },
+ "components/marketing/FaqAccordion.tsx": {
+  "#fff": 1
+ },
+ "components/marketing/MagnetGate.tsx": {
+  "#fff": 1
+ },
+ "components/marketing/PassportPages.tsx": {
+  "#fff": 1
+ },
+ "components/marketing/PassportSection.tsx": {
+  "#4a1723": 1,
+  "#571c2a": 1,
+  "#6b2333": 1,
+  "#fff": 1,
+  "#fffbee": 1
+ },
+ "components/marketing/SeeInside.tsx": {
+  "#fff": 2
+ },
+ "components/notifications/NotificationCard.tsx": {
+  "#b93b3f": 3,
+  "#e5484d": 3,
+  "#fdecec": 1,
+  "#fff": 2
+ },
+ "components/onboarding/RevealCard.tsx": {
+  "#fff": 1
+ },
+ "components/onboarding/WelcomeWalkthrough.tsx": {
+  "#1a1a2e": 3,
+  "#2f8f6b": 6,
+  "#8888a0": 2,
+  "#a7d7c5": 1,
+  "#aeaec0": 2,
+  "#c99a28": 3,
+  "#eaeaf0": 4,
+  "#edc35f": 4,
+  "#fef7e0": 1,
+  "#fff": 17
+ },
+ "components/onboarding/WorryIcon.tsx": {
+  "#1a1a2e": 1,
+  "#a7e8c8": 1,
+  "#bae6fd": 1,
+  "#ddd6fe": 1,
+  "#edc35f": 1,
+  "#fbcfe8": 1,
+  "#fecdd3": 1,
+  "#fffbee": 1
+ },
+ "components/onboarding/WorryPicker.tsx": {
+  "#fff": 2
+ },
+ "components/passport/Application.tsx": {
+  "#5c4708": 2,
+  "#c9ddd5": 2,
+  "#fff": 4
+ },
+ "components/passport/BalanceZone.tsx": {
+  "#d97706": 1,
+  "#ede9df": 1,
+  "#fff": 2
+ },
+ "components/passport/ParentStageCheck.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/ChestSpark.tsx": {
+  "#8a6410": 1,
+  "#c99a28": 1
+ },
+ "components/pathway/FiveADayReport.tsx": {
+  "#2f8f6b": 1,
+  "#fff": 1
+ },
+ "components/pathway/IsItWorkingReport.tsx": {
+  "#2f8f6b": 1,
+  "#fff": 5
+ },
+ "components/pathway/LiteracyCheckIn.tsx": {
+  "#c0533e": 1,
+  "#fff": 3
+ },
+ "components/pathway/PassportBook.tsx": {
+  "#3e1220": 1,
+  "#4a1723": 4,
+  "#571c2a": 2,
+  "#5e1e2c": 1,
+  "#6b2333": 2,
+  "#b93b3f": 1,
+  "#fdecec": 1,
+  "#fff": 12,
+  "#fff7e8": 1
+ },
+ "components/pathway/PassportPass.tsx": {
+  "#fff": 3
+ },
+ "components/pathway/PassportStamps.tsx": {
+  "#fff": 3
+ },
+ "components/pathway/PassportToDo.tsx": {
+  "#b93b3f": 1,
+  "#fff": 7
+ },
+ "components/pathway/PassportZineSheet.tsx": {
+  "#fff": 4
+ },
+ "components/pathway/PathwayComplete.tsx": {
+  "#fff": 1
+ },
+ "components/pathway/PathwayEvidence.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/PathwayIntro.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/PhoneHeadsUp.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/PlanetArt.tsx": {
+  "#000": 1,
+  "#fff": 2
+ },
+ "components/pathway/PlanetCard.tsx": {
+  "#fff": 1
+ },
+ "components/pathway/SchoolChest.tsx": {
+  "#fff": 3
+ },
+ "components/pathway/SocialMediaHeadsUp.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/SocialMediaReadiness.tsx": {
+  "#ffe9b8": 2,
+  "#fff": 1,
+  "#fff6e4": 1,
+  "#fff8ec": 2
+ },
+ "components/pathway/SocialRoadNova.tsx": {
+  "#b93b3f": 1,
+  "#fff": 3
+ },
+ "components/pathway/StageAreas.tsx": {
+  "#fff": 1
+ },
+ "components/pathway/StageChildStrip.tsx": {
+  "#b93b3f": 1,
+  "#fff": 3
+ },
+ "components/pathway/StageReadiness.tsx": {
+  "#fff": 2
+ },
+ "components/pathway/StageRoad.tsx": {
+  "#2f8f6b": 3,
+  "#93392a": 2,
+  "#c0533e": 1,
+  "#e8c4bc": 1,
+  "#f6ddd7": 1,
+  "#fdf0ee": 1,
+  "#fff": 10
+ },
+ "components/pathway/StageSlots.tsx": {
+  "#fff": 4
+ },
+ "components/pathway/StickerBadge.tsx": {
+  "#fff": 4
+ },
+ "components/pathway/StickerBook.tsx": {
+  "#fff": 6
+ },
+ "components/planet/FriendFigure.tsx": {
+  "#1a1a2e": 21,
+  "#f2957a": 1,
+  "#f4c542": 4,
+  "#fff6dd": 4,
+  "#ffffff": 4
+ },
+ "components/planet/HomePlanet.tsx": {
+  "#141a3c": 1,
+  "#1a1a2e": 32,
+  "#26305f": 1,
+  "#2e5149": 1,
+  "#3e6a62": 1,
+  "#3e8f5a": 1,
+  "#68a48c": 1,
+  "#6fb998": 1,
+  "#86bfa8": 1,
+  "#8fd1b4": 1,
+  "#b9ddf5": 1,
+  "#bfe3f7": 1,
+  "#c9c5d8": 2,
+  "#d8d2e8": 3,
+  "#d9a066": 1,
+  "#e4e1ee": 1,
+  "#e6f3fc": 1,
+  "#f3b48e": 1,
+  "#f4c542": 18,
+  "#fbdcc3": 1,
+  "#fff3b0": 3,
+  "#fff3c4": 1,
+  "#fff6dd": 4,
+  "#ffffff": 5
+ },
+ "components/planet/MissionBoard.tsx": {
+  "#efe7d8": 1,
+  "#f7f3ea": 1,
+  "#fff": 6
+ },
+ "components/planet/PartArt.tsx": {
+  "#1a1a2e": 1,
+  "#8b5a2b": 1,
+  "#8ec3f0": 2,
+  "#cfc9de": 2,
+  "#d9a066": 2,
+  "#e8873c": 2,
+  "#e9e2f7": 1,
+  "#ede9f5": 1,
+  "#f2957a": 1,
+  "#f4c542": 6,
+  "#fff3b0": 5,
+  "#fff6dd": 1,
+  "#ffffff": 8
+ },
+ "components/planet/PlanetFriends.tsx": {
+  "#080a1c": 1,
+  "#0f1327": 1,
+  "#14183a": 1,
+  "#1a1a2e": 3,
+  "#1c2340": 1,
+  "#2b3568": 1,
+  "#f1ddb7": 1,
+  "#f4c542": 4,
+  "#f7f7f5": 2,
+  "#fbf3df": 1,
+  "#ffe5a8": 1,
+  "#fff": 11,
+  "#fff3b0": 2,
+  "#fff3c4": 2,
+  "#fff9e6": 1
+ },
+ "components/planet/RoomScene.tsx": {
+  "#141a3c": 3,
+  "#1a1a2e": 1,
+  "#26305f": 2,
+  "#2b3568": 4,
+  "#3a2a1e": 1,
+  "#3a3a5a": 1,
+  "#3a4780": 1,
+  "#3e8f5a": 1,
+  "#4a3a32": 1,
+  "#4c4c6e": 1,
+  "#4c9fd6": 1,
+  "#4f8f44": 1,
+  "#5c9e4e": 1,
+  "#6fae5e": 1,
+  "#8fd1b4": 3,
+  "#9aa6b8": 1,
+  "#9b72cf": 1,
+  "#b8763f": 2,
+  "#b9c4d6": 1,
+  "#b9ddf5": 1,
+  "#b9e3a0": 1,
+  "#bfe0f7": 1,
+  "#bfe6f5": 1,
+  "#c4d6e8": 1,
+  "#cfd8e3": 1,
+  "#cfe0ee": 1,
+  "#cfe8f5": 1,
+  "#d7cde8": 1,
+  "#d9a066": 2,
+  "#d9c7b0": 1,
+  "#dccbeb": 1,
+  "#dce9f5": 1,
+  "#ddeff9": 1,
+  "#e3eef7": 1,
+  "#e59c4e": 1,
+  "#e85d4a": 1,
+  "#e8f1ff": 1,
+  "#ead9bf": 1,
+  "#eaf5fb": 1,
+  "#ede3f5": 1,
+  "#f2b36b": 1,
+  "#f3b48e": 2,
+  "#f4c542": 8,
+  "#f7a23b": 1,
+  "#f7c98a": 1,
+  "#f7e4c4": 1,
+  "#fdebd3": 1,
+  "#fff1d6": 1,
+  "#fff3b0": 2,
+  "#fff6dd": 1,
+  "#ffffff": 8
+ },
+ "components/planet/SelfBuilder.tsx": {
+  "#141a3c": 1,
+  "#1a1a2e": 1,
+  "#f6f4ee": 1,
+  "#fff": 2,
+  "#fff6dd": 1
+ },
+ "components/planet/SelfFigure.tsx": {
+  "#1a1a2e": 1,
+  "#f4c542": 2,
+  "#fff6dd": 1,
+  "#ffffff": 7
+ },
+ "components/planet/StarMap.tsx": {
+  "#141a3c": 1,
+  "#1a1a2e": 1,
+  "#26305f": 1,
+  "#3e8f5a": 1,
+  "#6fb998": 2,
+  "#7cb342": 1,
+  "#8ec3f0": 2,
+  "#d8d2e8": 1,
+  "#d95970": 1,
+  "#f4c542": 6,
+  "#fff3b0": 2,
+  "#fff6dd": 4,
+  "#ffffff": 10
+ },
+ "components/planet/ThingArt.tsx": {
+  "#1a1a2e": 2,
+  "#26305f": 3,
+  "#2b3568": 1,
+  "#2e2818": 1,
+  "#2f5d50": 1,
+  "#3a2a1e": 4,
+  "#3b3b52": 1,
+  "#3e8f5a": 15,
+  "#4c9fd6": 6,
+  "#4fa96c": 2,
+  "#7a4a2b": 2,
+  "#8ec3f0": 22,
+  "#8fd1b4": 3,
+  "#b8763f": 12,
+  "#b9c4d6": 1,
+  "#b9ddf5": 2,
+  "#c48a5a": 2,
+  "#cfe8f5": 4,
+  "#d8d2e8": 6,
+  "#d9a066": 25,
+  "#dde8ee": 2,
+  "#e0ac69": 1,
+  "#e4e1ee": 1,
+  "#e85d4a": 22,
+  "#e9b872": 1,
+  "#eaf3f7": 1,
+  "#f2957a": 6,
+  "#f2a58f": 1,
+  "#f4c542": 38,
+  "#f4d9a6": 1,
+  "#f4f1ea": 2,
+  "#f7a23b": 4,
+  "#f7dfa8": 1,
+  "#ffd166": 1,
+  "#ffd7cf": 1,
+  "#ffe9a8": 10,
+  "#fff3b0": 2,
+  "#fff6dd": 32,
+  "#ffffff": 35
+ },
+ "components/printables/BucketSheet.tsx": {
+  "#1a1a2e": 20,
+  "#fff": 14
+ },
+ "components/printables/CurriculumSheet.tsx": {
+  "#1a1a2e": 1,
+  "#52526a": 1,
+  "#8888a0": 1,
+  "#d9d4c7": 1,
+  "#edc35f": 1,
+  "#fcfbf7": 1,
+  "#fff": 3,
+  "#fff8e6": 1
+ },
+ "components/printables/FriendsPoster.tsx": {
+  "#1a1a2e": 1,
+  "#2f8f6b": 1,
+  "#52526a": 1,
+  "#c99a28": 1,
+  "#d2d2de": 1,
+  "#fdf6e3": 1,
+  "#fff": 3,
+  "#fffdf7": 1
+ },
+ "components/printables/StarChartSheet.tsx": {
+  "#2e8c84": 1,
+  "#3c82b4": 1,
+  "#3e86bc": 1,
+  "#5c9433": 1,
+  "#6c9e38": 1,
+  "#7e56b4": 1,
+  "#7e5ab0": 1,
+  "#c4477e": 1,
+  "#c96c25": 1,
+  "#c99a28": 3,
+  "#ce7328": 1,
+  "#dcebf7": 2,
+  "#ddf0ee": 1,
+  "#e4f0d4": 1,
+  "#e9f3df": 1,
+  "#eae1f6": 1,
+  "#ece3f7": 1,
+  "#edc35f": 1,
+  "#fbe0ec": 1,
+  "#fbe4d0": 1,
+  "#fbe7d8": 1,
+  "#fbeed0": 1,
+  "#fdf3d8": 1,
+  "#fff": 8
+ },
+ "components/printables/drawn/BalanceWheelSheet.tsx": {
+  "#fff": 6
+ },
+ "components/printables/drawn/DrawnCover.tsx": {
+  "#fff": 1
+ },
+ "components/printables/drawn/HappyPaper.tsx": {
+  "#1a1a2e": 1,
+  "#8888a0": 1,
+  "#b9b9cc": 1,
+  "#fff": 13
+ },
+ "components/printables/drawn/HelpingHandSheet.tsx": {
+  "#fff": 5
+ },
+ "components/printables/drawn/KindnessPostcardsSheet.tsx": {
+  "#fff": 3
+ },
+ "components/printables/drawn/MissionSheet.tsx": {
+  "#fff": 6
+ },
+ "components/printables/drawn/PhonesToBedSheet.tsx": {
+  "#fff": 5
+ },
+ "components/printables/drawn/ReadyForMyPhoneSheet.tsx": {
+  "#fff": 3
+ },
+ "components/printables/drawn/ScreenTimeDealSheet.tsx": {
+  "#fff": 4
+ },
+ "components/printables/news/PlanetPost.tsx": {
+  "#6b6b80": 1,
+  "#9a9ab0": 2,
+  "#c9c9d6": 1,
+  "#fff": 13
+ },
+ "components/printables/news/PlanetPostSheets.tsx": {
+  "#fff": 3
+ },
+ "components/push/PushPrompt.tsx": {
+  "#fff": 4
+ },
+ "components/pwa/InstallPrompt.tsx": {
+  "#0b84fe": 2,
+  "#fff": 4
+ },
+ "components/quest-games/BattleView.tsx": {
+  "#c0392b": 2,
+  "#fbeaea": 2,
+  "#fff": 3
+ },
+ "components/quest-games/CoinsView.tsx": {
+  "#c99a28": 1,
+  "#d8e8f8": 1,
+  "#e8f0ee": 1,
+  "#edc35f": 1,
+  "#fbcfe8": 1,
+  "#fef7e0": 1,
+  "#fff": 2
+ },
+ "components/quest-games/FishingView.tsx": {
+  "#236f52": 1,
+  "#2f8f6b": 1,
+  "#9fc0e4": 1,
+  "#a84a06": 1,
+  "#b7d4ee": 4,
+  "#c99a28": 1,
+  "#d3e6f7": 1,
+  "#d4600a": 1,
+  "#d8e8f8": 1,
+  "#e6f1fb": 1,
+  "#edc35f": 1,
+  "#f09cc8": 1,
+  "#fbcfe8": 1,
+  "#fff": 2,
+  "#ffffff": 4
+ },
+ "components/quest-games/QuestGamePlayer.tsx": {
+  "#c0392b": 3,
+  "#fbeaea": 2,
+  "#fff": 7
+ },
+ "components/quest-games/TraceView.tsx": {
+  "#fff": 1
+ },
+ "components/quest-games/WheelView.tsx": {
+  "#c0392b": 2,
+  "#fbeaea": 2,
+  "#fff": 4
+ },
+ "components/quests/AskPopup.tsx": {
+  "#fff": 4
+ },
+ "components/quests/BalanceScales.tsx": {
+  "#fff": 1
+ },
+ "components/quests/ChildLinkShare.tsx": {
+  "#1a1a2e": 1,
+  "#1da851": 1,
+  "#25d366": 1,
+  "#fff": 6,
+  "#ffffff": 1
+ },
+ "components/quests/ChildPing.tsx": {
+  "#fff": 3
+ },
+ "components/quests/DayPicker.tsx": {
+  "#fff": 1
+ },
+ "components/quests/DeviceTimeCard.tsx": {
+  "#b93b3f": 1,
+  "#c0533e": 2,
+  "#e5484d": 1,
+  "#fdecec": 1,
+  "#fff": 14
+ },
+ "components/quests/FridgeChartLog.tsx": {
+  "#fff": 5
+ },
+ "components/quests/JobBalance.tsx": {
+  "#2f8f6b": 2,
+  "#b7793a": 1,
+  "#c0603a": 1,
+  "#cfe6d6": 2,
+  "#e8c8b4": 1,
+  "#eaf3ec": 2,
+  "#f1d9be": 1,
+  "#f7e3d6": 1,
+  "#fbeedf": 1,
+  "#fff": 3,
+  "#fff7e8": 1
+ },
+ "components/quests/JobBoardRow.tsx": {
+  "#2f8f6b": 4,
+  "#fff": 5
+ },
+ "components/quests/JobComposer.tsx": {
+  "#2f8f6b": 4,
+  "#fff": 4
+ },
+ "components/quests/JobGuideCard.tsx": {
+  "#fff": 2
+ },
+ "components/quests/JobPicker.tsx": {
+  "#cfe0d8": 1,
+  "#fff": 8,
+  "#fff7e8": 1
+ },
+ "components/quests/LessonCheck.tsx": {
+  "#fff": 1
+ },
+ "components/quests/ParentDeviceTime.tsx": {
+  "#b93b3f": 3,
+  "#c0533e": 1,
+  "#e5484d": 1,
+  "#fdecec": 1,
+  "#fff": 9
+ },
+ "components/quests/PrintablesToConfirm.tsx": {
+  "#fff": 2
+ },
+ "components/quests/QrHandoverModal.tsx": {
+  "#1a1a2e": 1,
+  "#1da851": 1,
+  "#25d366": 1,
+  "#fff": 10,
+  "#ffffff": 1
+ },
+ "components/quests/QuestBoard.tsx": {
+  "#fff": 6
+ },
+ "components/quests/QuestShortcuts.tsx": {
+  "#1f6f8b": 1,
+  "#2e6f8e": 2,
+  "#2f8f6b": 1,
+  "#7a5cc0": 1,
+  "#9cc3b4": 2,
+  "#a8475c": 1,
+  "#a9c8e4": 1,
+  "#b8860b": 1,
+  "#c0603a": 1,
+  "#d4600a": 1,
+  "#d6be8a": 1
+ },
+ "components/quests/QuestStatusBoard.tsx": {
+  "#b93b3f": 1,
+  "#fff": 3
+ },
+ "components/quests/ScreenGateBanner.tsx": {
+  "#fff": 4
+ },
+ "components/quests/SpotSomethingGood.tsx": {
+  "#fff": 4
+ },
+ "components/quests/StarSummary.tsx": {
+  "#fff": 5
+ },
+ "components/quests/StreakRewards.tsx": {
+  "#fff": 2
+ },
+ "components/quests/TimeTiersCard.tsx": {
+  "#fff": 7
+ },
+ "components/rewards/Keepsakes.tsx": {
+  "#b93b3f": 1,
+  "#fff": 3
+ },
+ "components/rightnow/RightNowButton.tsx": {
+  "#fff": 5
+ },
+ "components/rightnow/ScriptFridgeCard.tsx": {
+  "#1a1a2e": 1,
+  "#52526a": 1,
+  "#b4453c": 1,
+  "#edc35f": 1,
+  "#fcedea": 1,
+  "#fdf3d0": 1,
+  "#fff": 2
+ },
+ "components/school/SchoolActionsCard.tsx": {
+  "#fff": 7
+ },
+ "components/school/SchoolAddSheet.tsx": {
+  "#fff": 10
+ },
+ "components/school/SchoolCatch.tsx": {
+  "#fff": 2
+ },
+ "components/school/SchoolLetterbox.tsx": {
+  "#fff": 2
+ },
+ "components/school/SchoolWeek.tsx": {
+  "#f3c9c9": 1,
+  "#fdecec": 1,
+  "#fff": 8
+ },
+ "components/scripts/PublicScriptView.tsx": {
+  "#fff": 2
+ },
+ "components/scripts/RehearseWithDigi.tsx": {
+  "#1b2a4a": 3,
+  "#dce7fb": 2,
+  "#fcefd2": 1,
+  "#fff": 2,
+  "#fff9ec": 1
+ },
+ "components/scripts/ScriptDepth.tsx": {
+  "#1b2a4a": 1,
+  "#dce7fb": 1
+ },
+ "components/scripts/ScriptFinder.tsx": {
+  "#fff": 4
+ },
+ "components/scripts/ScriptStatusButtons.tsx": {
+  "#fff": 1
+ },
+ "components/scripts/card-system.ts": {
+  "#fff": 5
+ },
+ "components/settings/CallsYouField.tsx": {
+  "#fff": 1
+ },
+ "components/settings/DeleteAccount.tsx": {
+  "#fff": 2
+ },
+ "components/settings/EmailCheck.tsx": {
+  "#fff": 1
+ },
+ "components/settings/RemoveChild.tsx": {
+  "#fff": 2
+ },
+ "components/settings/SettingsLinks.tsx": {
+  "#fff": 1
+ },
+ "components/settings/YourAgreements.tsx": {
+  "#fff": 3
+ },
+ "components/setup/SetupNextBar.tsx": {
+  "#fff": 1
+ },
+ "components/setup/SetupQuest.tsx": {
+  "#1f7a54": 3,
+  "#fff": 9
+ },
+ "components/setup/SetupUnlockToast.tsx": {
+  "#fff": 1
+ },
+ "components/shop/MonthlyShopSheet.tsx": {
+  "#fff": 2
+ },
+ "components/shop/OrdersBoard.tsx": {
+  "#fff": 3
+ },
+ "components/shop/Shop.tsx": {
+  "#b93b3f": 1,
+  "#fff": 6
+ },
+ "components/starter/Fold.tsx": {
+  "#fff": 2
+ },
+ "components/starter/MethodIcon.tsx": {
+  "#1a1a2e": 1,
+  "#a7e8c8": 1,
+  "#bae6fd": 1,
+  "#ddd6fe": 1,
+  "#edc35f": 1,
+  "#fbcfe8": 1,
+  "#fecdd3": 1,
+  "#fffbee": 1
+ },
+ "components/starter/SavingPathway.tsx": {
+  "#fff": 1
+ },
+ "components/starter/WhatYouGet.tsx": {
+  "#fff": 1
+ },
+ "components/starter/WorryAnswers.tsx": {
+  "#fff": 3
+ },
+ "components/tools/ToolCard.tsx": {
+  "#fff": 1
+ },
+ "components/tracker/WellbeingConsent.tsx": {
+  "#fff": 1
+ },
+ "components/tracker/WorkingOn.tsx": {
+  "#2d5016": 6,
+  "#fff": 5
+ },
+ "components/ui/BrowseTile.tsx": {
+  "#1f7a54": 1,
+  "#9a6a16": 1,
+  "#d4eddf": 1,
+  "#fbe7c6": 1,
+  "#fff": 2
+ },
+ "components/ui/Button.tsx": {
+  "#b93b3f": 1,
+  "#e5484d": 1,
+  "#fff": 3
+ },
+ "components/ui/Celebration.tsx": {
+  "#2e2818": 1,
+  "#bae6fd": 1,
+  "#c8e6c9": 1,
+  "#c99a28": 1,
+  "#e07a3f": 1,
+  "#edc35f": 1,
+  "#fbcfe8": 1
+ },
+ "components/ui/SectionTiles.tsx": {
+  "#2e6f8e": 1,
+  "#2f8f6b": 1,
+  "#7a5cc0": 2,
+  "#9cc3b4": 1,
+  "#a9c8e4": 1,
+  "#b6ade0": 1,
+  "#b8860b": 2,
+  "#b93b3f": 1,
+  "#c0603a": 1,
+  "#c4b5e8": 1,
+  "#d6be8a": 1,
+  "#e5484d": 1,
+  "#e8ce7a": 1,
+  "#f0b9ae": 1,
+  "#fff": 2
+ },
+ "components/ui/SentToast.tsx": {
+  "#fff": 2
+ },
+ "components/ui/TakeoverReader.tsx": {
+  "#fff": 1
+ },
+ "components/upgrade/PlanChooser.tsx": {
+  "#fff": 2
+ },
+ "components/working/WhatIsWorkingLink.tsx": {
+  "#fff": 1
+ },
+ "schools/app/curriculum/page.tsx": {
+  "#7a5a0e": 1,
+  "#fbeec9": 1,
+  "#fff": 5
+ },
+ "schools/app/draw/DrawForm.tsx": {
+  "#b42318": 1,
+  "#fff": 3
+ },
+ "schools/app/hub/YourSchoolPanel.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/accessibility/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/ai-governance/review/[id]/Result.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/ai-governance/review/[id]/Review.tsx": {
+  "#fff": 8
+ },
+ "schools/app/hub/computing-mapping/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/cpd/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/data-protection/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/dsl/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/faq/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/induction/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/parents/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/passport/HubPassport.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/policy/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/rshe-mapping/RequirementList.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/rshe-mapping/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/tracker/HubTracker.tsx": {
+  "#fff": 4
+ },
+ "schools/app/hub/tracker/TickDemo.tsx": {
+  "#fff": 3
+ },
+ "schools/app/hub/tracker/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/hub/vocabulary/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/hub/year-plan/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/languages/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/languages/unlock/LanguagesUnlockForm.tsx": {
+  "#fff": 1
+ },
+ "schools/app/layout.tsx": {
+  "#f9f8f6": 1
+ },
+ "schools/app/lesson/[module]/page.tsx": {
+  "#fff": 3
+ },
+ "schools/app/lesson/[module]/run/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/page.tsx": {
+  "#173c46": 2,
+  "#1e4652": 2,
+  "#211c10": 1,
+  "#2b5665": 2,
+  "#fff": 19
+ },
+ "schools/app/philosophy/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/pilot/PilotForm.tsx": {
+  "#fff": 2
+ },
+ "schools/app/pricing/InvoiceForm.tsx": {
+  "#fff": 2
+ },
+ "schools/app/pricing/page.tsx": {
+  "#fff": 3
+ },
+ "schools/app/print/[module]/booklet/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/print/[module]/organiser/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/print/[module]/overview/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/print/[module]/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/print/[module]/record/page.tsx": {
+  "#fff": 1
+ },
+ "schools/app/print/page.tsx": {
+  "#fff": 3
+ },
+ "schools/app/print/passport/[stage]/page.tsx": {
+  "#fff": 6
+ },
+ "schools/app/print/passport/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/schools.css": {
+  "#fff": 2
+ },
+ "schools/app/supplies/SupplyForm.tsx": {
+  "#fff": 3
+ },
+ "schools/app/supplies/page.tsx": {
+  "#fff": 2
+ },
+ "schools/app/taster/StandaloneBar.tsx": {
+  "#fff": 1
+ },
+ "schools/app/taster/TasterBar.tsx": {
+  "#fff": 1
+ },
+ "schools/app/unlock/UnlockForm.tsx": {
+  "#fff": 1
+ },
+ "schools/app/unlock/page.tsx": {
+  "#fff": 2
+ },
+ "schools/components/LegalDocument.tsx": {
+  "#fff": 2
+ },
+ "schools/components/QuizSheet.tsx": {
+  "#111": 3,
+  "#fef7e0": 1,
+  "#fff": 3
+ },
+ "schools/components/YourSchoolLead.tsx": {
+  "#fff": 1
+ },
+ "schools/components/home/HeroWall.tsx": {
+  "#7a5a0e": 4,
+  "#7c2d3e": 1,
+  "#a85e3d": 1,
+  "#c97b54": 1,
+  "#c99a28": 1,
+  "#edc35f": 3,
+  "#f6edda": 1,
+  "#fbf6ea": 1,
+  "#fdf4d9": 1,
+  "#fef08a": 1,
+  "#fff": 1
+ },
+ "schools/components/home/LessonOpens.tsx": {
+  "#fff": 4
+ },
+ "schools/components/print/kit.tsx": {
+  "#fff": 6
+ },
+ "schools/components/tracker/BeforeSlideOne.tsx": {
+  "#fff": 1
+ },
+ "schools/components/tracker/TrackerPanel.tsx": {
+  "#fff": 4
+ },
+ "schools/components/ui.ts": {
+  "#fff": 3
+ },
+ "shared/brand.ts": {
+  "#c99a28": 1,
+  "#edc35f": 1
+ },
+ "shared/components/AnimatedIntro.tsx": {
+  "#0f2a32": 1,
+  "#12313a": 1,
+  "#173c46": 1,
+  "#1f5560": 1,
+  "#fff": 3
+ },
+ "shared/components/FriendMark.tsx": {
+  "#fff": 1
+ },
+ "shared/components/HappyIcon.tsx": {
+  "#fff": 42
+ },
+ "shared/components/LessonPlayer.tsx": {
+  "#fff": 19,
+  "#fff6dd": 1
+ },
+ "shared/components/PassportPage.tsx": {
+  "#fff": 3
+ },
+ "shared/components/PrintBrand.tsx": {
+  "#fff": 2
+ },
+ "shared/components/interactives/index.tsx": {
+  "#fff": 7
+ },
+ "shared/happy-news.ts": {
+  "#1a1a2e": 1,
+  "#2e7d5a": 1,
+  "#4b9ce5": 1,
+  "#7fcfc6": 1,
+  "#8ec3f0": 1,
+  "#93cfa8": 1,
+  "#c99a28": 1,
+  "#e5734b": 1,
+  "#edc35f": 1,
+  "#f2957a": 1,
+  "#f2a0c4": 1,
+  "#f4d072": 1,
+  "#f9cfd9": 1,
+  "#f9f8f6": 1,
+  "#fef7e0": 2
+ },
+ "shared/intro-characters.ts": {
+  "#4c9fd6": 1,
+  "#7cb342": 1,
+  "#9b72cf": 1,
+  "#c99a28": 1,
+  "#e6b93e": 1,
+  "#e8873c": 1
+ },
+ "shared/schools-curriculum.ts": {
+  "#1f4e6e": 1,
+  "#3e86bc": 1,
+  "#3f5e1e": 1,
+  "#4a2f73": 1,
+  "#6c9e38": 1,
+  "#7a5a0e": 2,
+  "#7e5ab0": 1,
+  "#8f4a12": 1,
+  "#c99a28": 2,
+  "#ce7328": 1,
+  "#dcebf7": 1,
+  "#e4f0d4": 1,
+  "#ece3f7": 1,
+  "#fbe4d0": 1,
+  "#fbeed0": 1,
+  "#fdf4d9": 1
+ }
+}
