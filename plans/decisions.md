@@ -297,6 +297,24 @@ Friday number, checks begun in seven days by channel, and the control room's
 Friday slot reads it first. The Sunday batch gives each Facebook post its own
 fb-<mmdd>-<slug> code. Unknown ?src= values count as no link rather than
 creating rows, so nobody can fill the table from a URL. PR 1323.
+## 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it
+Task board-reads-real-numbers. The Friday run reads families, not just code: day done rate, seven day return, families with a second check in, and families reaching three of the five value signals. The sums are the product pulse's own functions (`lib/home/habit-metrics.ts`, new `lib/home/value-signals.ts`), fed by one read only select in `plans/review-board/product-pulse.sql`, because the admin route answers only to Justin's session. The five signals are defined once in `value-signals.ts`: DiGi memory, child opened their link, a worry with two scored check ins, a script check in answered, a follow up answered. Script verdict and follow up answered were not defined anywhere before, so these two readings are mine and Justin can change them in that one file. Anything unreadable prints unknown, never zero. Detail in the board pulse PR.
+## 16 October 2026: Digital Parenting Week planned as two date free pieces
+The date could not be confirmed on a primary source: Parent Zone's site has only
+the 2021 edition, and 26 to 30 October 2026 comes from two aggregators. So the
+two drafts (an AI companion Wednesday led by Orbit, "the ban is a start line"
+Friday led by Nova) never name the week and work whichever dates are real. Also
+found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no post
+may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
+Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
+`plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan
+The nine ledger worries now sit in CONCERN_TO_CATEGORY by name, agreeing with
+the device issues table, so Get the words never vanishes at the check in.
+Mood after screens moves from screen time to mood and confidence to match.
+The first phone worry gets its own Tonight step when the child has no phone of
+their own: the phone plan script, the ladder and the family phone agreement.
+Guard: scripts/check-concern-loop.mjs. PR #1315.
 ## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
 Justin marked the child side rule done on 14 October. Read as: the child never
 chats with a model, and the homework hint card for ages 10 and over (his
@@ -332,6 +350,23 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: The Monday CrewAI meeting is deleted
+
+Justin decided (review board item decide-legacy-crewai) to delete the old
+Monday weekly meeting: `weekly_meeting.yml`, `agents/weekly_meeting.py`,
+`build_weekly_crew` and the `pulse_weekly_task` prompt. It ran on a hardcoded
+old model and duplicated the Monday radar and the board. The daily briefing
+(`daily_briefing.yml`, manual only) and the crew it imports stay until Justin
+says otherwise. Git history keeps the rest. No other file pointed at agents/.
+## 16 October 2026: we start at 4, and the parent of a 2 or 3 year old is told so
+Justin decided the parent of a 2 or 3 year old is a customer later, not now
+(`decide-under-four-customer`). The customer line is 4 to 16 in THE-STORY,
+review.md, the review board lenses and the first phone ad. A birthday under 4 in
+the stage check, setup or adding a child no longer clamps into ages 4 to 7: one
+card (`components/children/StartsAtFour.tsx`) says we start at 4 and names the
+month to come back, and the step stays put. No email capture, as none existed.
+Children already stored keep the clamp so the age up cron is unchanged. PR #1330.
 ## 16 October 2026: DiGi fallback ladders move to Opus 5.5 and Sonnet 5.5
 Both ladders (lib/config/digi.ts and lib/config/ai-module.ts) now run Fable 5.1,
 claude-opus-5-5, claude-sonnet-5-5. DIGI_MODEL stays an env var, default
