@@ -24,13 +24,15 @@ export default async function TonightPage({ searchParams }: { searchParams: Prom
   if (!child) redirect('/dashboard')
 
   const withChild = (href: string) => `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`
+  // The child rides before any #anchor, so the printables card still scrolls into view.
+  const linkFor = (href: string) => { const [path, hash] = href.split('#'); return withChild(path) + (hash ? `#${hash}` : '') }
   const plan = await readTonight(supabase, user.id, child, withChild('/dashboard/scripts')).catch(() => null)
   const { data: doneRow } = await supabase
     .from('tonight_confirmations').select('id')
     .eq('user_id', user.id).eq('child_id', child.id).eq('day', londonToday()).maybeSingle()
 
   const kid = child.name && child.name !== 'Your child' ? child.name : 'your child'
-  const ICON = { bedtime: 'phonebed', timer: 'time', words: 'tell', morning: 'cheer', gaming: 'games' } as const
+  const ICON = { bedtime: 'phonebed', timer: 'time', words: 'tell', morning: 'cheer', gaming: 'games', phone: 'phone' } as const
 
   return (
     <div style={{ maxWidth: 560, margin: '0 auto', padding: '20px 20px 48px' }}>
@@ -58,6 +60,19 @@ export default async function TonightPage({ searchParams }: { searchParams: Prom
             </div>
           </div>
           <TonightConfirm childId={child.id} mechanism={plan.key} href={plan.href} hrefLabel={plan.hrefLabel} done={!!doneRow} />
+          {plan.more && plan.more.length > 0 && (
+            <div style={{ display: 'grid', gap: 8, marginTop: 14 }}>
+              {plan.more.map(m => (
+                <Link key={m.href} href={linkFor(m.href)} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, minHeight: 44,
+                  padding: '10px 16px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: 'var(--cream)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'none',
+                }}>
+                  <span>{m.label}</span><span aria-hidden>→</span>
+                </Link>
+              ))}
+            </div>
+          )}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0' }}>
             One tap says it is on. Tomorrow's check in asks how {kid}'s evening went, and that is how the number moves.
           </p>
