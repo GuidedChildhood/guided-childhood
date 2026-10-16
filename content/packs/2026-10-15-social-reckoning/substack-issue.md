@@ -7,6 +7,12 @@
 
 **Preview line:** Sorkin calls his film a painting. Here is what the record says, and what to do with it on a school night.
 
+**Images (in newsletter-images/, for LinkedIn and Substack):**
+- Header and cover: 1-header-what-was-real.jpg (1920 by 1080)
+- After "Where blame helps, and where it stops": 2-blame-the-algorithm-note.jpg
+- After "What to do tonight": 3-the-open-door-note.jpg
+- Beside the teacher sheet paragraph: 4-teacher-sheet-preview.jpg, linked to the PDF
+
 ---
 
 Aaron Sorkin has a good line for what he does with real events. "What I do is a painting," he told Reuters this month, explaining that the major facts in The Social Reckoning are accurate and that the conversations and the timeline are his.
