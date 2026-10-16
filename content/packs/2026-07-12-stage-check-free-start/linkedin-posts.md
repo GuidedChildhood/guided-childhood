@@ -2,7 +2,7 @@
 
 **Pack date:** 2026-07-12
 **Author:** Justin Phillips, Guided Childhood
-**Goal:** drive parents to the free three question stage check at guidedchildhood.co.uk/starter-pack
+**Goal:** drive parents to the free three question stage check at guidedchildhood.com/starter-pack
 **Series:** The Ramp. Five posts, one through line: 16 is a cliff edge, and the fix is a ramp built ten minutes at a time.
 **The one hook, every post:** what stage is your child.
 
@@ -39,7 +39,7 @@ Comment STAGE and I will send you the free check. Link is in the first comment t
 If the cliff versus the ramp is the right way to see this, repost it so another parent sees it.
 
 **Prepared first comment:**
-Here is the free stage check, no sign up needed: guidedchildhood.co.uk/starter-pack
+Here is the free stage check, no sign up needed: guidedchildhood.com/starter-pack
 To be clear, this is not about taking phones away or handing them over early. It is about what the years before 16 are actually for. That is the whole idea of a calibrated pathway.
 
 **Claims used:**
@@ -70,7 +70,7 @@ Comment STAGE and I will send you the free check. Link in the first comment.
 This is The Ramp series. Follow me, Justin Phillips, if the preparation conversation is more useful to you than the ban argument.
 
 **Prepared first comment:**
-Free stage check here: guidedchildhood.co.uk/starter-pack
+Free stage check here: guidedchildhood.com/starter-pack
 And to be clear, getting around the ban is not the point I am making. The point is that a ban changes a child's environment for a while, and only preparation changes the child.
 
 **Claims used:**
@@ -99,7 +99,7 @@ Comment STAGE and I will send you the free check. Link is in the first comment.
 If your feed has only ever shown you the scary version of this, repost the proportionate one.
 
 **Prepared first comment:**
-Free stage check: guidedchildhood.co.uk/starter-pack
+Free stage check: guidedchildhood.com/starter-pack
 Sources if you want them: Orben and Przybylski, Nature Human Behaviour 2019, over 350,000 participants. Odgers and Jensen, 2020 review. I read the primary papers, not the headlines, and I link them on request.
 
 **Claims used:**
@@ -134,7 +134,7 @@ Comment STAGE and I will send you the free check. Link in the first comment.
 Parents, what is the phrase that actually ends screen time in your house without the fight. I will add the best ones to the script library.
 
 **Prepared first comment:**
-Free stage check here: guidedchildhood.co.uk/starter-pack
+Free stage check here: guidedchildhood.com/starter-pack
 The full script library sits behind it, one for the exact moment you are dreading tonight.
 
 **Claims used:**
@@ -163,7 +163,7 @@ Comment STAGE and I will send you the free check. Link is in the first comment.
 If you know a parent who is stuck between panic and a product, send them the calm option. Follow me, Justin Phillips, for the rest of The Ramp series.
 
 **Prepared first comment:**
-Free stage check, no sign up: guidedchildhood.co.uk/starter-pack
+Free stage check, no sign up: guidedchildhood.com/starter-pack
 If you do it, tell me what stage you got and whether it felt right. I read every reply.
 
 **Claims used:**
