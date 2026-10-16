@@ -150,11 +150,18 @@ jobs:
       # rides here because it is the same shape of check, a thing that cannot
       # fail typechecking and cannot be seen without opening a browser.
       - run: node scripts/check-tokens.mjs
+      # Every button a thumb can hit: nothing under 44px unless it carries the
+      # tap-target pad or says why. Holds the gold focus ring in place too.
+      # See the header of check-tap-targets.mjs.
+      - run: node scripts/check-tap-targets.mjs
       # Offering to add a child the parent mentioned is a pile of heuristics
       # over free text: the kind of code that gets one case fixed and three
       # quietly broken. The rules that must fire and the ones that must never
       # fire are pinned, so nothing ever offers to add Minecraft as a child.
       - run: node scripts/check-new-name.mjs
+      # Our link is guidedchildhood.com. The .co.uk 404ed under every post in the
+      # 19 October social week pack, so it may not come back into the copy.
+      - run: node scripts/check-live-domain.mjs
       # The question a parent is asked about a suggestion lives on the worry
       # row in the check in, not on a card on Home. Three files have to agree
       # for that to hold and none of them fails a build if they stop agreeing:
@@ -169,6 +176,10 @@ jobs:
       # Homework help: under 10 never reaches the model, nobody gets a chat,
       # the homework is never stored, and the hint never carries the answer.
       - run: node --experimental-strip-types scripts/check-homework-help.mjs
+      # The child never chats with a model: the Anthropic SDK, its API host and
+      # model ids stay out of the child's half of the product, except the one
+      # fixed homework hint card, held to its own conditions in the guard.
+      - run: node scripts/check-child-has-no-model.mjs
       # Notes on a child's screen: a parent only note (one that points into the
       # dashboard) never reaches a child, and markdown never shows as stars.
       - run: node --experimental-strip-types scripts/check-kid-notes.mjs
@@ -486,6 +497,9 @@ jobs:
       # failed, and the whole route to 4,000 a month runs through that page.
       - run: node scripts/check-starter-order.mjs
       - run: node scripts/check-starter-fold.mjs
+      # The share on the stage result: a counted /v/ link for a visitor, the /r/
+      # link with the £5 said plainly for a member, never over a crisis answer.
+      - run: node --experimental-strip-types scripts/check-stage-share.mjs
       - run: node scripts/check-one-tap.mjs
       - run: node scripts/check-pathway-notes.mjs
       - run: node scripts/check-children-age-up.mjs

@@ -97,7 +97,7 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
           }}>Now on</span>
           <span style={{ display: 'block', fontSize: 'var(--text-md)', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
         </span>
-        <button
+        <button className="tap-target"
           type="button"
           aria-label="Close"
           onClick={(e) => { e.stopPropagation(); dismiss() }}

@@ -87,7 +87,13 @@ npm run ai-tells
 
 The first renders every deck, writes `THIS-WEEK.md` into the pack folder and
 builds the page in `tools/social-cards/out/_week/<monday>-social-week/`. It
-fails on any dash. The second sweeps every caption for dashes and stock
+fails on any dash. It also gives every post that prints the stage check
+address its own source link (a Facebook post's becomes
+`guidedchildhood.com/v/fb-<mmdd>-<slug>`, a LinkedIn page post's first comment
+`li-<mmdd>-<slug>`) and lists the codes under "Links to make first" at the top
+of `THIS-WEEK.md`. Name them in the hand over: Justin makes any that are new
+on /dashboard/admin/videos before the post goes out, so the Friday number can
+say which post sent the checks (migration 379). The second sweeps every caption for dashes and stock
 phrases. Then **look at every card** (Read the PNGs): nothing overlapping,
 the friend standing on the road, every headline readable at thumbnail size.
 Fix the deck and re-run until clean.

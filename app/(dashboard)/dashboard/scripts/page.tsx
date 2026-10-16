@@ -291,7 +291,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       {cameFromPathway && (
         <Link href={PATHWAY_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 14 }}>
-          ← Back to the pathway
+          ← Back to the Passport
         </Link>
       )}
       <div style={{ marginBottom: '24px' }}>
@@ -641,7 +641,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         }}>
           <div style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', marginBottom: '8px' }}>
-            The full library of 100 plus scripts is unlocked with membership
+            The full library of over 300 scripts is unlocked with membership
           </div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.

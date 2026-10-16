@@ -4,6 +4,7 @@ import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import MovementLine from '@/components/working/MovementLine'
 import { getMovements, movementSentence, spanWords, usedWords } from '@/lib/working/movement'
+import { isNewFamily, dayOneLine, waitingForSecondLook, lookWord, readFirstWin } from '@/lib/working/first-week'
 
 // WHAT IS WORKING.
 //
@@ -38,13 +39,23 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
   const supabase = await createClient()
   const user = await sessionUser(supabase)
 
-  const movements = user ? await getMovements(supabase, user.id) : []
+  const [movements, profileRes, firstWinRead] = await Promise.all([
+    user ? getMovements(supabase, user.id) : Promise.resolve([]),
+    user ? supabase.from('profiles').select('created_at').eq('id', user.id).maybeSingle() : Promise.resolve({ data: null }),
+    user ? readFirstWin(supabase, user.id).catch(() => null) : Promise.resolve(null),
+  ])
+  // The first fortnight (lib/working/first-week.ts): the day one line and the
+  // child's first win sit at the top, because that is when a parent decides.
+  const newFamily = isNewFamily((profileRes.data as { created_at?: string | null } | null)?.created_at)
+  const firstDay = newFamily ? dayOneLine(movements) : null
 
   // Only journeys with two real numbers can say anything. Everything else is
   // waiting on a second check in, and it is told that plainly further down
   // rather than padded into the list with an empty row.
   const withMovement = movements.filter(m => m.points.length >= 2 && m.startScore != null && m.endScore != null)
-  const waiting = movements.filter(m => !withMovement.includes(m))
+  // Waiting is a feature, not an empty row: one look is a day, the second
+  // look is what makes it a direction. A sorted worry is not waiting on anything.
+  const waiting = waitingForSecondLook(movements.filter(m => !withMovement.includes(m)))
 
   const climbed = withMovement.filter(m => (m.endScore as number) > (m.startScore as number))
   const slipped = withMovement.filter(m => (m.endScore as number) < (m.startScore as number))
@@ -102,6 +113,40 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 22px' }}>
         Each worry keeps its own line. Nothing here is added together, because a family carrying three things and a family carrying nine do not share a scale, and an average would drop the moment you told us about something new.
       </p>
+
+      {/* SINCE DAY ONE. Only in the first fortnight, and only true lines:
+          the day one comparison once a worry has two looks, and the child's
+          first win from their own side of the app, or the quickest way to it. */}
+      {newFamily && (firstDay || firstWinRead) && (
+        <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '18px', display: 'grid', gap: '12px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            Since day one
+          </div>
+          {firstDay && (
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
+              {firstDay}
+            </p>
+          )}
+          {firstWinRead?.win ? (
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+              <strong>The first win.</strong> {firstWinRead.win.line} It is on their side of the app too, where they can see it.
+            </p>
+          ) : firstWinRead ? (
+            <div style={{ display: 'grid', gap: '10px' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                <strong style={{ color: 'var(--ink)' }}>The first win is one job away.</strong> Put one small job on {firstWinRead.childName ? `${firstWinRead.childName}'s` : 'the'} board tonight. When it is ticked, the stars show on their side and the win shows here.
+              </p>
+              <Link href={firstWinRead.childId ? `/dashboard/quests?child=${firstWinRead.childId}` : '/dashboard/quests'} style={{
+                display: 'inline-flex', alignItems: 'center', justifySelf: 'start', minHeight: 44, background: '#fff', color: 'var(--ink)',
+                border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', textDecoration: 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              }}>
+                Add one job →
+              </Link>
+            </div>
+          ) : null}
+        </div>
+      )}
 
       {withMovement.length > 0 && (
         <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '6px 18px 14px', marginBottom: '18px' }}>
@@ -179,11 +224,27 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       {waiting.length > 0 && (
         <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 17px', marginBottom: '18px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-            Waiting on a second check in
+            Waiting for your second look
           </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 4px' }}>
-            {waiting.map(withChild).join(', ')}. One number is a day. Two is a direction, and that is when {waiting.length === 1 ? 'it appears' : 'they appear'} above.
+          <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 8px', display: 'grid', gap: '4px' }}>
+            {waiting.map(m => (
+              <li key={m.concernId} style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
+                <strong>{withChild(m)}</strong>
+                <span style={{ color: 'var(--ink-soft)' }}>: {lookWord(m.points[0].score)} at your first look</span>
+              </li>
+            ))}
+          </ul>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+            One look is a day. The second is a direction, and that is when {waiting.length === 1 ? 'it gets' : 'they get'} a line above.
           </p>
+          <Link href="/dashboard/checkin" style={{
+            display: 'inline-flex', alignItems: 'center', minHeight: 44, background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: 'var(--radius-tile)', padding: '10px 18px', textDecoration: 'none', border: 'var(--edge)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+            boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}>
+            Take the second look
+          </Link>
         </div>
       )}
 

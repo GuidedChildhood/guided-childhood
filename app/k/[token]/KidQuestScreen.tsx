@@ -1551,7 +1551,7 @@ export default function KidQuestScreen({
             title={`Go ${childName}!`}
             friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
             corner={
-              <button
+              <button className="tap-target"
                 onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
                 aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
                 style={{
@@ -2460,7 +2460,7 @@ export default function KidQuestScreen({
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
                   {activeLesson.emoji} {activeLesson.title}
                 </span>
-                <button
+                <button className="tap-target"
                   onClick={() => setActiveLesson(null)}
                   aria-label="Close lesson"
                   style={{ background: 'var(--cream)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', fontSize: 'var(--text-md)', cursor: 'pointer', color: 'var(--ink-soft)' }}
@@ -2997,7 +2997,7 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
           <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             <KidIcon name="deal" size={24} color="var(--terracotta-dark)" /> Our family deal
           </span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+          <button className="tap-target" onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {rows.map((r, i) => (
@@ -3135,7 +3135,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
           <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             <KidIcon name="star" size={22} color="var(--terracotta-dark)" /> Make it mine
           </span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+          <button className="tap-target" onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>Pick your buddy</div>

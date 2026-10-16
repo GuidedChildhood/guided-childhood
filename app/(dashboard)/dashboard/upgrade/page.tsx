@@ -5,6 +5,9 @@ import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
+import WhatYouKeep from '@/components/upgrade/WhatYouKeep'
+import { getWhatYouKeep, KEEP_FALLBACK } from '@/lib/paywall/what-you-keep'
 import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
@@ -129,7 +132,10 @@ export default async function UpgradePage(
   // A parent who has not been asked yet, or who abandoned the card form, has
   // taken nothing and is still owed the offer.
   const declinedFounder = profile?.plan_choice === 'free'
-  const founderCount = declinedFounder ? FOUNDER_CAP : await getFounderCount().catch(() => 0)
+  const [founderCount, keep] = await Promise.all([
+    declinedFounder ? FOUNDER_CAP : getFounderCount().catch(() => 0),
+    getWhatYouKeep(supabase, user.id),
+  ])
   const founderAvailable = !declinedFounder && founderCount < FOUNDER_CAP
   const founderRemaining = Math.max(0, FOUNDER_CAP - founderCount)
 
@@ -218,9 +224,17 @@ export default async function UpgradePage(
           </p>
         )}
         <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-lg)', maxWidth: '440px', margin: '0 auto' }}>
-          All five stages, unlimited DiGi, 100 plus expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
+          All five stages, unlimited DiGi, over 300 expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
         </p>
       </div>
+
+      {/* What this family keeps, from their own rows, before any feature
+          list. Review board, 16 October 2026 (paywall-ask-is-personal). The
+          fallback is the honest one: nothing to name yet, and the next step. */}
+      <WhatYouKeep
+        keep={keep}
+        fallback={KEEP_FALLBACK}
+      />
 
       {/* One subscription, every child: the family framing the best family
           apps lead with. */}
@@ -231,6 +245,10 @@ export default async function UpgradePage(
       </div>
 
       <WhatYouAreBuying />
+
+      {/* The question a parent weighs at the price: why not a free chatbot.
+          Review board, 16 October 2026 (paywall-names-what-ai-cannot). */}
+      <WhatAChatbotCannot />
 
       {/* Pricing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
@@ -273,9 +291,17 @@ export default async function UpgradePage(
                 'Screen time they earn with jobs, reading and time outside',
                 'All 5 stages as your child grows',
                 'Unlimited DiGi conversations',
-                '100 plus expert scripts',
+                // 342 in the table on 16 October 2026. It said "100 plus", which
+                // undersold the library by more than two hundred.
+                'Over 300 expert scripts',
                 'Wellbeing tracker and the family agreement builder',
-                'Monthly live Pathway Session with Justin (from member 50)',
+                // "Monthly live Pathway Session with Justin (from member 50)"
+                // came off on 16 October 2026. The review board asked whether
+                // it was a real thing he would run, and Justin said take it
+                // off; it can come back once a first session is booked. A
+                // promise on the page people pay from has to be one we keep,
+                // so it goes rather than waiting for member 50 to find out it
+                // was never planned.
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                   <span style={{ color: 'var(--terracotta)', fontSize: 'var(--text-md)', marginTop: '1px' }}>✓</span>
