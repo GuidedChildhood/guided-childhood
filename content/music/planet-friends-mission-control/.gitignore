@@ -1,0 +1,9 @@
+# Audio is generated, large and rebuildable. Keep it out of git.
+.env
+outputs/
+inputs/converted/
+*.wav
+*.mp3
+*.flac
+.venv/
+ACE-Step-1.5/
