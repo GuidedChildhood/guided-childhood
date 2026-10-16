@@ -53,3 +53,20 @@ First draft made locally: `outputs/planet-friends-sample-seed-42.mp3`, 3 minutes
   sample.toml`. The mp3 lands in `outputs/`.
 
 Next: Justin listens and picks a seed, or asks for more seeds.
+
+## Phase 2: new lyrics, three sounds (16 October 2026)
+
+- Lyrics rewritten: a verse per friend from the lessons they front in
+  `shared/schools-curriculum.ts`, a services verse, and a chorus on the
+  philosophy (the open door, not a yes not a no, connection is protection, step
+  by step to sixteen). TRUST verse cut for length; it is in git history.
+- Cosmo raps: he fronts KS5 lessons 20 and 21 now, which settles that question.
+- Three sounds kept side by side, each a section of `style.txt`:
+  breakbeat with sweeping strings (MAIN, 88 BPM), the atmospheric anthem
+  (INSTRUMENTAL BED, no vocals) and old school jazz (JAZZ, 94 BPM). Justin wants
+  several versions so the friend verses can be cut into shorts.
+- `make_track.sh <vocal|instrumental|jazz> <seed> <seconds> <name>` makes one,
+  and `trim_tail.sh` cuts the instrumental tail (Demucs finds where the vocals
+  stop). Files: `outputs/planet-friends-<sound>-...-trimmed.mp3`.
+- Music video plan: `plans/week-of-2026-10-12-planet-friends-music-video-plan.md`,
+  project `videos/2026-10-16-planet-friends-mission-control`.
