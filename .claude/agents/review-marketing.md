@@ -21,7 +21,11 @@ Where to look: what was actually produced in the last fortnight
 (`git log --since="14 days ago" --name-only -- content/ | head -80`), the
 research radar log `content/research-radar-log.md`, the stage check at
 `app/(marketing)/starter-pack`, the CTAs on /join (non negotiable 9: every one
-routes to /starter-pack), the share loop and referrals (`lib/referrals`). Do
+routes to /starter-pack), the share loop and referrals (`lib/referrals`), and
+the Friday number: stage checks begun in the last seven days, per channel,
+from the `video_link_counts` view joined to `video_links.channel` (migration
+379; read only through the Supabase connector when the session has it, and
+say so plainly when it does not, rather than guessing). Do
 not draft posts; that belongs to content-engine. Respect the money rule:
 never pay to find out if something works.
 
