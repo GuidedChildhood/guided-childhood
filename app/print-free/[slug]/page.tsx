@@ -19,6 +19,14 @@ export const dynamic = 'force-dynamic'
 
 const ISSUES = { 'planet-post-1': PLANET_POST_1 } as const
 
+// The PDF takes its title from this page. Without it every download carried
+// the site's default title instead of the paper's own name.
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const issue = ISSUES[slug as keyof typeof ISSUES]
+  return { title: { absolute: issue ? `The Planet Post, Issue ${issue.number}` : 'The Planet Post' } }
+}
+
 export default async function PrintFree({ params, searchParams }: {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ paper?: string; ink?: string; layout?: string; page?: string }>

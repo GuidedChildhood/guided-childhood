@@ -297,3 +297,20 @@ Friday number, checks begun in seven days by channel, and the control room's
 Friday slot reads it first. The Sunday batch gives each Facebook post its own
 fb-<mmdd>-<slug> code. Unknown ?src= values count as no link rather than
 creating rows, so nobody can fill the table from a URL. PR 1323.
+## 16 October 2026: The nightly evening push stops after seven unanswered nights
+Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
+still gets the evening line; the eighth night and every one after it is held, and
+the four day re engagement line (unchanged, now `lib/push/reengage.ts`) is all
+that reaches them. Showing up uses the same four tables as done today and resets
+the count; a parent who never showed up counts from the day they joined. A failed
+read sends as before. The parent flame streak is untouched. Pinned by section F of
+`scripts/check-habit-loop.mjs`. No migration.
+## 15 October 2026: The Planet Post downloads now carry the better version
+
+Justin found the emailed download was still the first version. The code
+version now matches the canvas: the Planet Friends line up (approved waving
+stills), the six critique fixes (one colour for every message so none gives
+the answer away, wheel labels clear, readable instructions, word search at the
+top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
+Issue 1". All five PDFs and the previews re-rendered; the guard holds the
+fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
