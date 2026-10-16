@@ -39,8 +39,9 @@ no.
      so the parent gets the words for the conversation (scripts stay in the
      database; DiGi returns a calibrated pathway, never a yes or no).
    Answered through **`GET/POST /api/deal-change`** (parent auth).
-4. **Push** to the parent when an ask lands, through `sendPush`, which already
-   holds anything at night. Nothing is ever sent to the child.
+4. **Push** to the parent when an ask lands, through `sendPush`, the same as a
+   quest pitch. Nothing is ever sent to the child, so their quiet hours are
+   never touched.
 
 ## Not in scope
 
