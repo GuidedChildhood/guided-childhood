@@ -109,7 +109,7 @@ export default function ScriptDetailView({
           className="gc-takeover-hide"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
-          {backToPathway ? '← Back to the pathway' : '← All scripts'}
+          {backToPathway ? '← Back to the Passport' : '← All scripts'}
         </Link>
       </div>
 
@@ -383,7 +383,10 @@ export default function ScriptDetailView({
           href={backToPathway ? '/dashboard/pathway' : '/dashboard'}
           style={{ ...chunky('butter', 'lg'), display: 'flex', width: '100%', boxShadow: 'var(--lift-deep)' }}
         >
-          {backToPathway ? 'Back to your pathway →' : 'Continue your pathway →'}
+          {/* Passport is the page's one name and Pathway is DiGi's word
+              (Justin, 15 October 2026). The second door goes to Home, which
+              DiGi's header also calls Today. */}
+          {backToPathway ? 'Back to the Passport →' : 'Back to Today →'}
         </Link>
 
       </div>

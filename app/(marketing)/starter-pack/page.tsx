@@ -850,7 +850,7 @@ export default function StarterPackPage() {
               No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
             </p>
             <button onClick={() => setStep('result')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
-              ← Back to the pathway
+              ← Back
             </button>
           </>
         )}
