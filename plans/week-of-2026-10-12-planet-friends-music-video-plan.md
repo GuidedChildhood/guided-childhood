@@ -94,3 +94,33 @@ frame first, then the full film once Justin picks the look.
 4. Shorts: each friend verse (about 25 seconds) plus the chorus as its own
    vertical short, from whichever sound Justin picks per short, ending on the
    stage check.
+
+## Built (16 October)
+
+- Jazz take leads (86 percent of lyric words clear in a speech recognition pass,
+  clearest on Nova, Cosmo and the bridge). Breakbeat is the backup, the
+  instrumental is the bed for parent facing films, the storyteller Orbit verse
+  is a standalone short.
+- `build.py` plus `film.tpl` generate `index.html` (16:9) and
+  `vertical/index.html` (9:16) from `lyrics-timed.json` and `audiomap.json`.
+  One `parentCta` variable: true ends on the stage check card (parents), false
+  ends on "Planet Friends, step by step to sixteen" (schools, in app).
+- `make_shorts.sh` cuts a vertical short per friend verse with the stage check
+  card fading in over its last 3.5 seconds.
+
+## How to use it (Justin asked, 16 October)
+
+Best job: the theme tune that makes the Planet Friends memorable, every line a
+real lesson or service. In order of value:
+
+1. Schools. Each friend's verse opens that friend's lessons in the schools app,
+   the full song for assemblies. Schools version only (no sign up ask).
+2. Shorts on the family Instagram and Facebook, TikTok, Reels and Shorts: one
+   friend per short, ending on the stage check. Parent version.
+3. In the child app: the song when a Planet Friend is earned. Schools version.
+4. YouTube: the full film (parent version). One LinkedIn post from Justin on
+   why every line is a lesson, via content-engine, never an ad.
+
+Rules: children facing cuts carry no call to action (UK CAP code on direct
+exhortation of children); descriptions say "made with AI music" (the ACE-Step
+licence asks for disclosure; it is MIT, commercial use allowed).
