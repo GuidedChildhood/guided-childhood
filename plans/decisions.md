@@ -297,6 +297,14 @@ found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no pos
 may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
 Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
 `plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 16 October 2026: The nightly evening push stops after seven unanswered nights
+Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
+still gets the evening line; the eighth night and every one after it is held, and
+the four day re engagement line (unchanged, now `lib/push/reengage.ts`) is all
+that reaches them. Showing up uses the same four tables as done today and resets
+the count; a parent who never showed up counts from the day they joined. A failed
+read sends as before. The parent flame streak is untouched. Pinned by section F of
+`scripts/check-habit-loop.mjs`. No migration.
 ## 15 October 2026: The Planet Post downloads now carry the better version
 
 Justin found the emailed download was still the first version. The code
