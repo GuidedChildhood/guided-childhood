@@ -91,7 +91,7 @@ export default function SelfBuilder({ initial, theme, words, onDone, onTap }: {
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
               {SELF_HAIR_COLOURS.map((c, i) => (
-                <button key={c} onClick={() => pick({ hairColour: i })} aria-label={`Hair colour ${i + 1}`} style={{ ...swatch(draft.hairColour === i), background: c, width: 40, height: 40, borderRadius: '50%' }} />
+                <button key={c} onClick={() => pick({ hairColour: i })} aria-label={`Hair colour ${i + 1}`} style={{ ...swatch(draft.hairColour === i), background: c, width: 44, height: 44, borderRadius: '50%' }} />
               ))}
             </div>
           </>
