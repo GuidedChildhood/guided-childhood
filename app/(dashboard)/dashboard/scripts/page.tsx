@@ -291,7 +291,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       {cameFromPathway && (
         <Link href={PATHWAY_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 14 }}>
-          ← Back to the pathway
+          ← Back to the Passport
         </Link>
       )}
       <div style={{ marginBottom: '24px' }}>
