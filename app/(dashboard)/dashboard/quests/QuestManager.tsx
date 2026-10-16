@@ -789,6 +789,8 @@ export default function QuestManager() {
             <BirthdayFields
               month={newChildDobMonth}
               year={newChildDobYear}
+              name={newChildName}
+              tooYoungAfter="You can add them here any time once they turn 4."
               onChange={(m, y) => {
                 setNewChildDobMonth(m); setNewChildDobYear(y)
                 // The default stance still follows the age: under 11 is parent

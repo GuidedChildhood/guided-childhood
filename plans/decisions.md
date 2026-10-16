@@ -297,3 +297,12 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: we start at 4, and the parent of a 2 or 3 year old is told so
+Justin decided the parent of a 2 or 3 year old is a customer later, not now
+(`decide-under-four-customer`). The customer line is 4 to 16 in THE-STORY,
+review.md, the review board lenses and the first phone ad. A birthday under 4 in
+the stage check, setup or adding a child no longer clamps into ages 4 to 7: one
+card (`components/children/StartsAtFour.tsx`) says we start at 4 and names the
+month to come back, and the step stays put. No email capture, as none existed.
+Children already stored keep the clamp so the age up cron is unchanged. PR #1330.

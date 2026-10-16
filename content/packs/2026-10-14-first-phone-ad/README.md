@@ -54,7 +54,7 @@ The lessons behind B and C, from both Instagram sweeps, are at the end of
 > deserves the same.
 >
 > Guided Childhood gets your child ready for a phone and social media, ten
-> minutes a day, from age 2 to 16, with you working through it together. You
+> minutes a day, from age 4 to 16, with you working through it together. You
 > get the words for the hard conversations. Your child earns their screen time
 > with jobs and stars, and some time stays protected whatever they earn.
 >
@@ -93,7 +93,7 @@ hook word for word. Where a caption has room, add the line that separates us:
 
 | Claim | Where it is in the product |
 |---|---|
-| Ready for a phone and social media, 2 to 16 | The stages road and lessons, THE-STORY.md section 1 and 6 |
+| Ready for a phone and social media, 4 to 16 | The stages road and lessons, THE-STORY.md section 1 and 6 |
 | Ten minutes a day | The daily page, `lib/home/next-up.ts` |
 | The words for the hard conversations | The `scripts` table, five free |
 | Earns screen time with jobs and stars | The child app, `app/k/[token]/page.tsx`, `lib/quests/time-tiers.ts` |
