@@ -1,0 +1,269 @@
+<title>Justin's Prompter</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one script at a time. Prepare shows the setup steps and the parts;
+   Prompt fills the screen with one part in huge type, its angle and cue on top.
+   A deliberate single dark look: light text on ink reads best beside a lens. */
+:root{
+  --ink:#1A1A2E;
+  --ink-2:#24243A;
+  --line:#3A3A55;
+  --cream:#FFFBEE;
+  --muted:#B9B6C8;
+  --butter:#EDC35F;
+  --gold:#C99A28;
+  --done:#6FBF95;
+  --display:"Nunito","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+  --size:56px;
+  color-scheme:dark;
+}
+html,body{height:100%}
+[hidden]{display:none!important}
+body{background:var(--ink);color:var(--cream);font-family:var(--display);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+h1{font-weight:900;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:6px 0 4px;text-wrap:balance}
+.sub{color:var(--muted);font-size:16px;line-height:1.5;margin:0;max-width:62ch}
+
+/* script picker */
+.scripts{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 26px}
+.pick{border:2px solid var(--line);background:transparent;border-radius:16px;padding:12px 18px;font-weight:800;font-size:16px;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pick small{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--muted)}
+.pick[aria-pressed="true"]{background:var(--butter);border-color:var(--butter);color:var(--ink);box-shadow:0 5px 0 var(--gold)}
+.pick[aria-pressed="true"] small{color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--ink-2);border:2px solid var(--line);border-radius:20px;padding:20px 22px}
+.panel h2{font-size:20px;font-weight:900;margin:4px 0 14px}
+ol.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+ol.steps li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;font-size:16px;line-height:1.45;counter-increment:s}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;font-size:13px;width:30px;height:30px;border-radius:50%;background:var(--butter);color:var(--ink);display:flex;align-items:center;justify-content:center}
+ol.steps b{color:var(--butter)}
+
+.parts{display:flex;flex-direction:column;gap:8px}
+.part{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;border:2px solid var(--line);background:transparent;border-radius:14px;padding:12px 14px;text-align:left}
+.part:hover{border-color:var(--muted)}
+.num{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--muted);min-width:2ch}
+.ptitle{font-weight:800;font-size:16px;min-width:0}
+.ptitle span{display:block;font-weight:600;font-size:13px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.1em;border-radius:999px;padding:5px 9px;border:2px solid var(--line);white-space:nowrap}
+.chip.A{border-color:var(--butter);color:var(--butter)}
+.chip.B{border-color:#9DB8E8;color:#9DB8E8}
+.part.done{border-color:var(--done)}
+.part.done .num{color:var(--done)}
+.start{margin-top:16px;width:100%;background:var(--butter);color:var(--ink);border:0;border-radius:16px;padding:16px;font-weight:900;font-size:18px;box-shadow:0 5px 0 var(--gold)}
+.start:active{transform:translateY(3px);box-shadow:0 2px 0 var(--gold)}
+.note{margin-top:14px;font-size:14px;line-height:1.5;color:var(--muted)}
+.note b{color:var(--cream)}
+
+/* prompt view */
+.prompt{position:fixed;inset:0;background:var(--ink);display:flex;flex-direction:column;z-index:5}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:2px solid var(--line);background:var(--ink-2)}
+.dir{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;min-width:0;flex:1 1 420px}
+.dir .where{font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dir .cue{font-weight:800;font-size:18px;color:var(--butter);min-width:0}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tool{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;font-family:var(--mono);font-weight:600;font-size:13px}
+.tool[aria-pressed="true"]{border-color:var(--butter);color:var(--butter)}
+.stage{flex:1;overflow-y:auto;display:flex;justify-content:center;padding-block:5vh 18vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.read{max-width:24ch;width:100%;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
+.read p{margin:0 0 .7em;text-wrap:pretty}
+.mirror .read{transform:scaleX(-1)}
+.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-top:2px solid var(--line);background:var(--ink-2)}
+.takes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.takes .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.take{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 14px;font-weight:800;font-size:15px}
+.take[aria-pressed="true"]{background:var(--done);border-color:var(--done);color:var(--ink)}
+.nav{display:flex;gap:10px}
+.navb{border:0;border-radius:16px;padding:12px 22px;font-weight:900;font-size:17px;background:var(--line)}
+.navb.next{background:var(--butter);color:var(--ink);box-shadow:0 5px 0 var(--gold)}
+.navb:disabled{opacity:.35;cursor:default}
+.slate{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--muted);margin:0 0 1.2em;letter-spacing:.06em}
+@media (max-width:600px){:root{--size:34px}.dir .cue{font-size:16px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<div class="wrap" id="prep">
+  <div class="eyebrow">Recording day</div>
+  <h1>Justin's Prompter</h1>
+  <p class="sub">Pick a script, run through the setup once, then press Start. One part per screen. Read it, pause, tap Next. Mistakes do not matter: say the line again and carry on.</p>
+
+  <div class="scripts" role="group" aria-label="Choose a script" id="scripts"></div>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="eyebrow" id="setupEyebrow">Setup</div>
+      <h2>Before you press record</h2>
+      <ol class="steps" id="setup"></ol>
+    </section>
+    <section class="panel">
+      <div class="eyebrow" id="partsEyebrow">Parts</div>
+      <h2 id="partsTitle">The parts</h2>
+      <div class="parts" id="parts"></div>
+      <button class="start" id="start" type="button">Start prompting</button>
+      <p class="note"><b>Angle A</b> is your main shot, chest up. <b>Angle B</b> is closer, head and shoulders. Shoot every part on A first, then go back and do the B parts again closer. The edit cuts between them so it never feels like one long stare.</p>
+    </section>
+  </div>
+</div>
+
+<div class="prompt" id="prompt" hidden>
+  <div class="bar">
+    <div class="dir">
+      <span class="where" id="where">Part 1 of 9 · Angle A</span>
+      <span class="cue" id="cue"></span>
+    </div>
+    <div class="tools">
+      <button class="tool" id="smaller" type="button" aria-label="Smaller text">Smaller</button>
+      <button class="tool" id="bigger" type="button" aria-label="Bigger text">Bigger</button>
+      <button class="tool" id="mirrorBtn" type="button" aria-pressed="false">Mirror</button>
+      <button class="tool" id="close" type="button">Parts</button>
+    </div>
+  </div>
+  <div class="stage" id="stage"><div class="read" id="read"></div></div>
+  <div class="foot">
+    <div class="takes">
+      <span class="label">Takes done</span>
+      <button class="take" id="t1" type="button" aria-pressed="false">Take 1</button>
+      <button class="take" id="t2" type="button" aria-pressed="false">Take 2</button>
+      <button class="take" id="tk" type="button" aria-pressed="false">Keeper said</button>
+    </div>
+    <div class="nav">
+      <button class="navb" id="prev" type="button">Back</button>
+      <button class="navb next" id="next" type="button">Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCRIPTS = {
+  votes: {
+    name: "VotesforSchools reply",
+    meta: "9 parts · about 2 min · landscape",
+    orientation: "landscape",
+    setup: [
+      "<b>Phone landscape</b>, at eye level on a stack of books. The lens level with your eyes, about an arm and a half away.",
+      "<b>Face a window.</b> Light in front of you, never behind. Turn the big ceiling light off if it makes shadows under your eyes.",
+      "<b>Quiet room.</b> Phone on Do Not Disturb. Close the door, turn off anything humming.",
+      "<b>This screen</b> goes right behind or just under the phone, so your eyes stay near the lens while you read.",
+      "<b>Frame angle A:</b> chest up, your eyes about a third down from the top, a little space above your head.",
+      "<b>Before each part</b> say the slate on screen, for example \"Part three, take one\", count two in your head, then read.",
+      "<b>Two takes of every part.</b> If one felt right, say \"keeper\" at the end. Tick the takes as you go.",
+      "<b>When you are done</b>, AirDrop every clip to the Mac. Do not trim them in Photos."
+    ],
+    parts: [
+      {t:"Introduce yourself and thank them", a:"A", cue:"Look at the camera. Warm. Say the first line twice.", lines:["Hi, I'm Justin Phillips, founder of Guided Digital Childhood.","We give parents, schools and children the tools for screens and everything digital: keeping the good, learning the risks, so nobody hits a cliff edge at sixteen.","Thank you to all fifty nine thousand of you who took part in the smart glasses discussion."]},
+      {t:"Recognise their concerns", a:"A", cue:"Pause after \"possibilities\". Point left on \"concerns\".", lines:["You highlighted both the possibilities and the concerns.","Especially what happens when someone is filmed without knowing.","And when enough people speak up, companies do change things. This summer Meta made its glasses stop recording if someone covers the light.","That is a start, not the finish. A light is not permission. It needs to go further."]},
+      {t:"Recognise the benefits", a:"B", cue:"Softer. Point right on \"read text aloud\".", lines:["Without losing the good, because there is real good here.","Glasses can read text aloud for people with sight loss.","Meta has also announced hearing support for some adults with hearing loss."]},
+      {t:"Explain what is coming", a:"A", cue:"A little faster. Point up on \"Muse\".", lines:["And things are moving quickly.","Meta plans to bring its new AI agent, Muse, to glasses in the next few months.","That is technology you can speak to and ask to carry out tasks."]},
+      {t:"Make your main point", a:"B", cue:"Slow down. This is the line.", lines:["So digital education cannot stop at screens.","We need to understand technology we can wear and talk to, too."]},
+      {t:"Your view leads", a:"A", cue:"Smile on the joke. Let it land, then slow down for \"you are the ones\".", lines:["Here is the honest bit.","Left alone, founders like me sit in a meeting room deciding what you need to know. Then we build a beautiful lesson about completely the wrong thing.","You are the ones living with this technology. What you know, and what you see in the real world, should be what shapes the answer.","That is what VotesforSchools does so well. It turns the question round and asks the people it is really about. That is the most important part of this whole discussion."]},
+      {t:"What their feedback will change", a:"A", cue:"Point right as each lesson lands.", lines:["So your feedback will lead the lessons we build with our Planet Friends.","They are five characters, one for each age from four to sixteen, and they teach our lessons in class.","We will cover privacy, asking permission, what the law says about filming people, questioning AI answers, and knowing when to get help.","We want to prepare you as this technology develops.","Adults and technology companies have responsibilities here, too."]},
+      {t:"Promise to show them the result", a:"B", cue:"Point left on \"VotesforSchools\".", lines:["We will share the lesson with VotesforSchools for your schools, free.","Then we will come back and show you exactly how your ideas shaped it."]},
+      {t:"Finish with thanks", a:"A", cue:"Look at the camera. Hold the smile two seconds after the last word.", lines:["Thank you.","You know this world better than we do.","Keep telling us, and we will keep listening."]}
+    ]
+  },
+  alma: {
+    name: "Inspired by Alma becomes Guided Childhood",
+    meta: "7 parts · about 1 min · portrait",
+    orientation: "portrait",
+    setup: [
+      "<b>Phone portrait</b> this time, it is an Instagram reel. Eye level on a stack of books, about an arm away.",
+      "<b>Face a window.</b> Light in front of you, never behind.",
+      "<b>Quiet room.</b> Phone on Do Not Disturb.",
+      "<b>This screen</b> goes right behind or just under the phone, so your eyes stay near the lens.",
+      "<b>Frame angle A:</b> head and chest, your eyes about a third down from the top. Keep the bottom fifth clear, Instagram puts the caption there.",
+      "<b>Before each part</b> say the slate on screen, count two, then read.",
+      "<b>Two takes of every part.</b> Say \"keeper\" after the one that felt right.",
+      "<b>When you are done</b>, AirDrop every clip to the Mac. Do not trim them."
+    ],
+    parts: [
+      {t:"Say hello", a:"A", cue:"Look at the camera. Warm, like you are talking to one parent.", lines:["Hi, I'm Justin.","If you follow this account, you know us for party decorations.","Inspired by Alma started in our bedroom, with the cake toppers Natalia made for our daughter's first birthday."]},
+      {t:"The news", a:"B", cue:"Closer. A small smile before you start.", lines:["Something is changing here.","This account is becoming Guided Childhood."]},
+      {t:"What the shop taught me", a:"A", cue:"Thoughtful. A beat after \"what we do\".", lines:["Running a shop on other people's platforms taught me how much the systems around us shape what we do.","And our children are growing up inside those systems now."]},
+      {t:"Why you", a:"A", cue:"Lean in a little. You are talking to them.", lines:["Most of you bought decorations for your children's birthdays.","So you are parents.","And like us, you are probably working out screens as you go."]},
+      {t:"What it is", a:"A", cue:"Clear and plain. Slow down on \"a plan\".", lines:["Guided Childhood helps families with screens and everything digital, from a first tablet to sixteen.","A ban is a deadline. This is a plan, with help in the moment it is actually happening."]},
+      {t:"The joke and the door", a:"B", cue:"Grin. Let the joke breathe.", lines:["If you followed for the glitter, fair enough.","This next bit is a lot less sparkly.","No hard feelings if this is where we part."]},
+      {t:"Close", a:"A", cue:"Look at the camera. Say the last line exactly. Hold the smile two seconds.", lines:["Short films and real help, no lectures.","What stage is your child?","Three questions, no sign up."]}
+    ]
+  }
+};
+
+const SHRINK = -6;
+const WORDS = ["one","two","three","four","five","six","seven","eight","nine"];
+let state = {script:"votes", i:0, size:56, mirror:false, takes:{}};
+try { const s = JSON.parse(localStorage.getItem("prompter") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
+const save = () => { try { localStorage.setItem("prompter", JSON.stringify(state)); } catch (e) {} };
+const $ = (id) => document.getElementById(id);
+const key = (n) => state.script + ":" + n;
+
+function renderPrep(){
+  const S = SCRIPTS[state.script];
+  $("scripts").innerHTML = Object.entries(SCRIPTS).map(([k,v]) =>
+    `<button class="pick" type="button" data-k="${k}" aria-pressed="${k===state.script}">${v.name}<small>${v.meta}</small></button>`).join("");
+  $("setupEyebrow").textContent = "Setup · " + S.orientation;
+  $("setup").innerHTML = S.setup.map(s => `<li><span>${s}</span></li>`).join("");
+  $("partsEyebrow").textContent = S.parts.length + " parts";
+  $("partsTitle").textContent = S.name;
+  $("parts").innerHTML = S.parts.map((p,n) => {
+    const t = state.takes[key(n)] || {};
+    return `<button class="part${t.t1&&t.t2?" done":""}" type="button" data-n="${n}"><span class="num">${n+1}</span><span class="ptitle">${p.t}<span>${p.lines[0]}</span></span><span class="chip ${p.a}">ANGLE ${p.a}</span></button>`;
+  }).join("");
+}
+
+function renderPrompt(){
+  const S = SCRIPTS[state.script], p = S.parts[state.i], t = state.takes[key(state.i)] || {};
+  $("where").textContent = `Part ${state.i+1} of ${S.parts.length} · Angle ${p.a}`;
+  $("cue").textContent = p.cue;
+  $("read").innerHTML = `<p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("");
+  document.documentElement.style.setProperty("--size", state.size + "px");
+  $("prompt").classList.toggle("mirror", state.mirror);
+  $("mirrorBtn").setAttribute("aria-pressed", state.mirror);
+  $("t1").setAttribute("aria-pressed", !!t.t1);
+  $("t2").setAttribute("aria-pressed", !!t.t2);
+  $("tk").setAttribute("aria-pressed", !!t.k);
+  $("prev").disabled = state.i === 0;
+  $("next").textContent = state.i + 1 === S.parts.length ? "Finish" : "Next";
+  $("stage").scrollTop = 0;
+}
+
+let lock = null;
+async function wake(){ try { lock = await navigator.wakeLock?.request("screen"); } catch (e) {} }
+function openPrompt(n){ state.i = n ?? state.i; $("prep").hidden = true; $("prompt").hidden = false; renderPrompt(); save(); wake(); }
+function closePrompt(){ $("prompt").hidden = true; $("prep").hidden = false; renderPrep(); save(); try { lock?.release(); } catch (e) {} }
+function go(d){
+  const S = SCRIPTS[state.script];
+  if (state.i + d >= S.parts.length) return closePrompt();
+  state.i = Math.max(0, state.i + d); renderPrompt(); save();
+}
+function toggleTake(f){ const k = key(state.i); state.takes[k] = state.takes[k] || {}; state.takes[k][f] = !state.takes[k][f]; renderPrompt(); save(); }
+
+$("scripts").addEventListener("click", e => { const b = e.target.closest(".pick"); if (!b) return; state.script = b.dataset.k; state.i = 0; renderPrep(); save(); });
+$("parts").addEventListener("click", e => { const b = e.target.closest(".part"); if (b) openPrompt(+b.dataset.n); });
+$("start").addEventListener("click", () => openPrompt(0));
+$("close").addEventListener("click", closePrompt);
+$("next").addEventListener("click", () => go(1));
+$("prev").addEventListener("click", () => go(-1));
+$("t1").addEventListener("click", () => toggleTake("t1"));
+$("t2").addEventListener("click", () => toggleTake("t2"));
+$("tk").addEventListener("click", () => toggleTake("k"));
+$("bigger").addEventListener("click", () => { state.size = Math.min(110, state.size + 6); renderPrompt(); save(); });
+$("smaller").addEventListener("click", () => { state.size = Math.max(24, state.size + SHRINK); renderPrompt(); save(); });
+$("mirrorBtn").addEventListener("click", () => { state.mirror = !state.mirror; renderPrompt(); save(); });
+document.addEventListener("keydown", e => {
+  if ($("prompt").hidden) return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(1); }
+  else if (e.key === "ArrowLeft") go(-1);
+  else if (e.key === "Escape") closePrompt();
+  else if (e.key === "+" || e.key === "=") $("bigger").click();
+  else if (e.key === "-") $("smaller").click();
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("prompt").hidden) wake(); });
+renderPrep();
+</script>
