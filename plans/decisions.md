@@ -290,6 +290,22 @@ two. Detail in PR #1307.
 
 ## 16 October 2026: the board prints one line of real behaviour, and says unknown when it cannot read it
 Task board-reads-real-numbers. The Friday run reads families, not just code: day done rate, seven day return, families with a second check in, and families reaching three of the five value signals. The sums are the product pulse's own functions (`lib/home/habit-metrics.ts`, new `lib/home/value-signals.ts`), fed by one read only select in `plans/review-board/product-pulse.sql`, because the admin route answers only to Justin's session. The five signals are defined once in `value-signals.ts`: DiGi memory, child opened their link, a worry with two scored check ins, a script check in answered, a follow up answered. Script verdict and follow up answered were not defined anywhere before, so these two readings are mine and Justin can change them in that one file. Anything unreadable prints unknown, never zero. Detail in the board pulse PR.
+## 16 October 2026: Digital Parenting Week planned as two date free pieces
+The date could not be confirmed on a primary source: Parent Zone's site has only
+the 2021 edition, and 26 to 30 October 2026 comes from two aggregators. So the
+two drafts (an AI companion Wednesday led by Orbit, "the ban is a start line"
+Friday led by Nova) never name the week and work whichever dates are real. Also
+found: `banWorld` in `lib/content/stages.ts` has no reader in the app, so no post
+may say the ban words are in the stage check. Apple iOS 27 Screen Time and Bark
+Moments are logged in `briefings/notes/competitor-sightings.md`. Plan:
+`plans/2026-10-16-digital-parenting-week-plan.md`. Nothing posted.
+## 16 October 2026: every named worry has an exact script shelf, and the first phone is a plan
+The nine ledger worries now sit in CONCERN_TO_CATEGORY by name, agreeing with
+the device issues table, so Get the words never vanishes at the check in.
+Mood after screens moves from screen time to mood and confidence to match.
+The first phone worry gets its own Tonight step when the child has no phone of
+their own: the phone plan script, the ladder and the family phone agreement.
+Guard: scripts/check-concern-loop.mjs. PR #1315.
 ## 16 October 2026: the child rule is "never chats", with one fixed card, and the guard is wired
 Justin marked the child side rule done on 14 October. Read as: the child never
 chats with a model, and the homework hint card for ages 10 and over (his
