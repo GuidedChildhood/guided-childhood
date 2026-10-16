@@ -280,9 +280,10 @@ export default async function UpgradePage(
                 // "Monthly live Pathway Session with Justin (from member 50)"
                 // came off on 16 October 2026. The review board asked whether
                 // it was a real thing he would run, and Justin said take it
-                // off. A promise on the page people pay from has to be one we
-                // keep, so it goes rather than waiting for member 50 to find
-                // out it was never planned.
+                // off; it can come back once a first session is booked. A
+                // promise on the page people pay from has to be one we keep,
+                // so it goes rather than waiting for member 50 to find out it
+                // was never planned.
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                   <span style={{ color: 'var(--terracotta)', fontSize: 'var(--text-md)', marginTop: '1px' }}>✓</span>
