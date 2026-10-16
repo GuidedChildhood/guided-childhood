@@ -297,3 +297,11 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+## 16 October 2026: DiGi fallback ladders move to Opus 5.5 and Sonnet 5.5
+Both ladders (lib/config/digi.ts and lib/config/ai-module.ts) now run Fable 5.1,
+claude-opus-5-5, claude-sonnet-5-5. DIGI_MODEL stays an env var, default
+claude-fable-5-1. Fast mode matches Opus 5.5, 5 and 4.8 by exact id, never Sonnet
+or Haiku. The model guard pins the ladder order in both files and fails on any
+quoted claude-opus-5 or claude-sonnet-5 in code. Both new ids answered a live
+call. Eval run on the default model: 15 cases, 11 passed, 2 empty replies
+(Fable spending the 1200 token budget thinking), so that stays open. PR #1318.
