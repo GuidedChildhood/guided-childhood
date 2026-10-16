@@ -351,6 +351,15 @@ top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
 
+## 16 October 2026: The Planet Post, clearer after a nine year old tried it
+
+Justin's daughter (9 to 11 band) found page 1 and page 2 unclear. Page 1's day
+wheel is now four numbered steps with a box for the count. Page 2's jars ask
+one question each under "Do this part with your grown up", the star steps are
+a put them in order puzzle, and Bloop's column became a craft: a phone bed
+(blanket, pillow, fold up sign) cut out and made. Write in lines are 12 mm.
+A real child's run through beat every review we did: test the next printable
+on a child before it ships.
 ## 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet
 44px is the floor (--tap-min). A button that stands alone keeps its look and
 takes the invisible .tap-target pad; buttons in a tight row are sized to 44 for
