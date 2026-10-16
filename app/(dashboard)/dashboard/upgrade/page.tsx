@@ -218,7 +218,7 @@ export default async function UpgradePage(
           </p>
         )}
         <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-lg)', maxWidth: '440px', margin: '0 auto' }}>
-          All five stages, unlimited DiGi, 100 plus expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
+          All five stages, unlimited DiGi, over 300 expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
         </p>
       </div>
 
@@ -273,7 +273,9 @@ export default async function UpgradePage(
                 'Screen time they earn with jobs, reading and time outside',
                 'All 5 stages as your child grows',
                 'Unlimited DiGi conversations',
-                '100 plus expert scripts',
+                // 342 in the table on 16 October 2026. It said "100 plus", which
+                // undersold the library by more than two hundred.
+                'Over 300 expert scripts',
                 'Wellbeing tracker and the family agreement builder',
                 // "Monthly live Pathway Session with Justin (from member 50)"
                 // came off on 16 October 2026. The review board asked whether

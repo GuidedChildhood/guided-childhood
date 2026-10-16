@@ -641,7 +641,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         }}>
           <div style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', marginBottom: '8px' }}>
-            The full library of 100 plus scripts is unlocked with membership
+            The full library of over 300 scripts is unlocked with membership
           </div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.
