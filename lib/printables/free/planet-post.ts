@@ -93,8 +93,8 @@ export const PLANET_POST_1: PlanetPostIssue = {
   jars: {
     headline: 'Three jars of screen time',
     intro: 'In lots of houses, screen time is one big argument. It works better as three jars. Ask your grown up to help you fill in the numbers.',
-    mine: { label: 'Mine every day', line: 'minutes, just for being me' },
-    earned: { label: 'Earned with stars', line: 'minutes for every star I earn' },
+    mine: { label: 'Mine every day', line: 'minutes, just for me' },
+    earned: { label: 'Earned with stars', line: 'minutes per star' },
     nobodys: { label: 'Nobody’s', items: ['Bedtime', 'Mealtimes', 'School'], line: 'No stars can buy these' },
     starSteps: ['Do a job', 'Your grown up says yes', 'You get a star', 'Stars turn into minutes'],
   },
@@ -137,7 +137,7 @@ export const PLANET_POST_1: PlanetPostIssue = {
   },
   jobs: {
     headline: 'Jobs that earn stars',
-    intro: 'Ask your grown up how many stars each job is worth. Write it in the star, then tick it when it is done.',
+    intro: 'Ask your grown up how many stars each job is worth. Write the number in the star, then colour the circle when the job is done.',
     earn: ['Make my bed', 'Tidy my room', 'Help make dinner', 'Feed a pet or water a plant', 'Read for 20 minutes'],
     family: {
       headline: 'Family jobs, just for helping',
