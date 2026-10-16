@@ -7,6 +7,7 @@ import { londonToday, londonDayStart } from '@/lib/pathway/today'
 import { currentStagePassportSections, type CurrentStageChild } from '@/lib/pathway/passport-sections'
 import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 import { readTonight } from '@/lib/pathway/tonight'
+import { secondLookDue, NEW_FAMILY_DAYS } from '@/lib/working/first-week'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
 import { dealOutgrown } from '@/lib/content/agreement-promises'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -613,6 +614,32 @@ export async function getTodayLoop(
   // whether anybody is ever asked to pay. See lib/access.ts.
   const neverCheckedIn = !firstCheckInAt
 
+  // ── THE SECOND LOOK IS ASKED FOR BY NAME (first-week-proves-value) ────────
+  //
+  // Movement needs two numbers, so in a family's first fortnight the second
+  // look on a worry is the most valuable tap in the product: it is what turns
+  // What is working from a promise into a line. On a day when one of this
+  // child's live worries has exactly one number, from an earlier day, the
+  // rung says so. One read, and only inside the first fortnight.
+  let secondLook = false
+  if (!neverCheckedIn && child && firstCheckInAt
+    && Date.now() - new Date(firstCheckInAt).getTime() < NEW_FAMILY_DAYS * 86_400_000) {
+    try {
+      const { data: looks } = await supabase.from('concern_events')
+        .select('concern_id, created_at, concerns!inner(child_id, status)')
+        .eq('user_id', userId)
+        .not('score', 'is', null)
+        .in('concerns.status', ['open', 'improving'])
+        .limit(300)
+      const rows = ((looks ?? []) as { concern_id: string; created_at: string; concerns?: { child_id?: string | null } | { child_id?: string | null }[] }[])
+        .map(r => {
+          const rel = Array.isArray(r.concerns) ? r.concerns[0] : r.concerns
+          return { concern_id: r.concern_id, created_at: r.created_at, child_id: rel?.child_id ?? null }
+        })
+      secondLook = secondLookDue(rows, child.id, dayStart)
+    } catch { /* the plain label is always right */ }
+  }
+
   // Every rung's link carries the child the loop is about, so tapping a rung
   // never quietly snaps the destination back to the primary child. This was
   // the August audit's root cause and it was still live here on the main
@@ -662,7 +689,7 @@ export async function getTodayLoop(
     }] : []),
     ...(!setupNextStep && (hasLiveConcerns || neverCheckedIn) ? [{
       key: 'checkin' as const,
-      label: neverCheckedIn ? 'Where things are now' : 'Check in',
+      label: neverCheckedIn ? 'Where things are now' : secondLook ? 'Your second look' : 'Check in',
       href: withChild('/dashboard/checkin'),
       // ── DONE MEANS A NUMBER WAS RECORDED TODAY ─────────────────────────
       //

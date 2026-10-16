@@ -35,8 +35,30 @@ export function ageFromDob(dob: string | Date | null | undefined, on: Date = new
   return age >= 0 ? age : null
 }
 
-// The band a whole year age lands in. Ages under 4 clamp into the first
-// band, so a very young sibling still has a sensible home.
+// WE START AT 4 (Justin, 16 October 2026). The parent of a 2 or 3 year old is
+// a customer later, not now: every stage, lesson and script begins at 4. So
+// every place a parent gives a birthday (the stage check, setup, adding a
+// child) asks isTooYoung first and says so warmly, rather than letting the
+// clamp below file a toddler under ages 4 to 7 without a word.
+export const YOUNGEST_AGE = 4
+
+/** True only when the birthday is known and the child is not yet 4. */
+export function isTooYoung(dob: string | Date | null | undefined, on: Date = new Date()): boolean {
+  const age = ageFromDob(dob, on)
+  return age !== null && age < YOUNGEST_AGE
+}
+
+/** The month and year a child turns 4, for the "come back then" line. */
+export function turnsFourOn(dob: string | Date | null | undefined): { month: number; year: number } | null {
+  if (!dob) return null
+  const birth = typeof dob === 'string' ? new Date(`${dob.slice(0, 10)}T00:00:00Z`) : dob
+  if (Number.isNaN(birth.getTime())) return null
+  return { month: birth.getUTCMonth() + 1, year: birth.getUTCFullYear() + YOUNGEST_AGE }
+}
+
+// The band a whole year age lands in. Ages under 4 still clamp into the first
+// band, but only for a child already stored (the age up cron reads every
+// row); no sign up path lets a new one through, see isTooYoung above.
 export function bandForYears(age: number): AgeBand {
   if (age <= 7) return '4-7'
   if (age <= 10) return '8-10'

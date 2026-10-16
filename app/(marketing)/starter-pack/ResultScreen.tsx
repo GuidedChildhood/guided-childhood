@@ -14,6 +14,7 @@ import StickyJoin from '@/components/starter/StickyJoin'
 import WhatYouGet from '@/components/starter/WhatYouGet'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
+import ShareStage from '@/components/starter/ShareStage'
 import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
@@ -765,6 +766,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             Already have an account? <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
           </p>
         </div>
+
+        {/* ── Send it on ───────────────────────────────────────────────────
+            The share action (stage-result-share-action): after the door, so it
+            never competes with it, and never for a parent whose own answer
+            needs help first, for the same reason the sticky door hides then.
+            See components/starter/ShareStage. */}
+        {!helpFirst && <ShareStage member={!onJoin} />}
       </div>
 
     </div>
