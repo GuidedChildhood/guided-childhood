@@ -63,14 +63,14 @@ for (const issue of DEVICE_ISSUES) {
 
 // ── C. The first phone gets its own step ────────────────────────────────────
 const base = { childName: 'Maya', bedtimeStartMin: 1200, deviceTrust: 'ask', blocksScreensJob: null, scriptHref: '/dashboard/scripts?child=c', timerHref: '/dashboard/quests/timer?child=c' }
-const noPhone = tonightFor({ ...base, slug: 'phones-and-messaging', hasOwnPhone: false, phoneScriptHref: '/dashboard/scripts/9653?child=c' })
+const noPhone = tonightFor({ ...base, slug: 'phones-and-messaging', hasOwnPhone: false, wordsHref: '/dashboard/scripts/9653?child=c' })
 check('no phone yet: the step is the first phone, not phones to bed', noPhone?.key === 'phone' && noPhone.label === 'The first phone', `${noPhone?.key} ${noPhone?.label}`)
 check('and it never mentions a bedroom or charging tonight', !/bedroom|charges outside/i.test(noPhone?.line ?? ''), noPhone?.line)
 check('and it is never a flat no', /never a flat no/.test(noPhone?.line ?? ''))
 check('Read the words opens the phone plan script', noPhone?.href === '/dashboard/scripts/9653?child=c' && noPhone.hrefLabel === 'Read the words', noPhone?.href)
 check('the ladder and the agreement sit under it',
   noPhone?.more?.some(m => m.href === PHONE_LADDER_HREF) && noPhone?.more?.some(m => m.href === PHONE_AGREEMENT_HREF))
-const fallback = tonightFor({ ...base, slug: 'phones-and-messaging', hasOwnPhone: false, phoneScriptHref: null })
+const fallback = tonightFor({ ...base, slug: 'phones-and-messaging', hasOwnPhone: false, wordsHref: null })
 check('a missing script row falls back to a real shelf, not nothing', fallback?.href === base.scriptHref, fallback?.href)
 const hasPhone = tonightFor({ ...base, slug: 'phones-and-messaging', hasOwnPhone: true })
 check('a child with their own phone keeps the bedtime step', hasPhone?.key === 'bedtime', hasPhone?.key)
@@ -92,6 +92,46 @@ const printablesPage = readFileSync(new URL('../app/(dashboard)/dashboard/printa
 check('and its card carries the id the link lands on', /id=\{p\.key\}/.test(printablesPage))
 const phoneSetup = readFileSync(new URL('../app/(dashboard)/dashboard/phone-setup/page.tsx', import.meta.url), 'utf8')
 check('the phone ladder is on the phone setup page', /PHONE_LADDER/.test(phoneSetup))
+
+// ── E. The Tonight tap closes the loop (tonight-tap-closes-loop) ────────────
+//
+// The tap writes one linked event against the worry the page showed, the
+// ledger accepts it, What is working can say it, and Read the words opens
+// that worry's own script rather than the whole index.
+const migration = (() => { try { return readFileSync(new URL('../supabase/migrations/380_a_tonight_tap_joins_the_ledger.sql', import.meta.url), 'utf8') } catch { return '' } })()
+check('migration 380 lets the ledger hold a tried event', /concern_events_event_check[\s\S]*'tried'/.test(migration))
+check('and a tonight link', /concern_events_linked_type_check[\s\S]*'tonight'/.test(migration))
+const events = readFileSync(new URL('../lib/concerns/events.ts', import.meta.url), 'utf8')
+check('the event writer knows both', /\| 'tried'/.test(events) && /ConcernLinkType = [^\n]*'tonight'/.test(events))
+check('the tap writes it, once a day, against the page\'s own worry',
+  /ignoreDuplicates: true/.test(route) && /readTopConcern/.test(route) && /event: 'tried'[^\n]*linkedType: 'tonight'/.test(route))
+check('and a tried event never carries a score', !/event: 'tried'[^\n}]*score/.test(route))
+const { usedWords } = await import('../lib/working/movement.ts')
+check('What is working can name it', usedWords('tonight') === "tonight's step", usedWords('tonight'))
+
+const { pickTopConcern, worryScriptTitles } = await import('../lib/pathway/tonight.ts')
+check('the top worry is open before improving, then the most flagged',
+  pickTopConcern([
+    { id: 'a', status: 'improving', times_flagged: 9 },
+    { id: 'b', status: 'open', times_flagged: 1 },
+    { id: 'c', status: 'open', times_flagged: 4 },
+  ])?.id === 'c')
+const seeded = new Set(titles.map(t => t.title))
+for (const slug of [...new Set(issueSlugs)]) {
+  const list = worryScriptTitles(slug, '8-10')
+  check(`${slug} has words to open, and the first is a real row`, list.length > 0 && seeded.has(list[0]), list[0])
+}
+const moodYoung = worryScriptTitles('mood-after-screens', '8-10')[0]
+const moodOlder = worryScriptTitles('mood-after-screens', '13-15')[0]
+check('the age decides which script leads', moodYoung !== moodOlder, `${moodYoung} / ${moodOlder}`)
+const words = tonightFor({ ...base, slug: 'mood-after-screens', wordsHref: '/dashboard/scripts/412?child=c' })
+check('Read the words opens the worry\'s script, not the index', words?.href === '/dashboard/scripts/412?child=c', words?.href)
+const morning = tonightFor({ ...base, slug: 'morning-tv', wordsHref: '/dashboard/scripts/77?child=c' })
+check('the morning step too', morning?.href === '/dashboard/scripts/77?child=c', morning?.href)
+const other = tonightFor({ ...base, slug: 'social-media', wordsHref: '/dashboard/scripts/category/social-media?child=c' })
+check('a worry with no issue opens its shelf', other?.href === '/dashboard/scripts/category/social-media?child=c', other?.href)
+const timer = tonightFor({ ...base, slug: 'wont-put-down', wordsHref: '/dashboard/scripts/1?child=c' })
+check('a timer step still opens the timer', timer?.href === base.timerHref, timer?.href)
 
 console.log(failures ? `\n${failures} failed` : '\nall passed')
 process.exit(failures ? 1 : 0)
