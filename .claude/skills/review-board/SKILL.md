@@ -25,6 +25,7 @@ becomes a task, and a normal session builds the task.
 | The task list | `plans/review-board/tasks.json`, plus answers in `plans/review-board/answers/` |
 | Each run's full report | `plans/review-board/runs/<date>.md` |
 | The dashboard | `plans/review-board/dashboard.html`, published at the URL in `scorecard.json` |
+| The real behaviour read | `plans/review-board/product-pulse.sql`, then `npm run review-board -- pulse --rows <file>` |
 | The book keeper | `scripts/review-board.mjs` (`npm run review-board`), tests in `scripts/review-board.test.mjs` |
 | The session start alert | the SessionStart hook in `.claude/settings.json` |
 
@@ -41,8 +42,25 @@ becomes a task, and a normal session builds the task.
    - the routines and their last run (`list_triggers` if the tool is
      available; otherwise name the routines in `plans/review-board/README.md`
      and say their state is unknown)
-5. Write it to a scratch file as **the brief**: today's date, the week in
-   twenty lines, and per lens its last score and top gap.
+5. Read the real behaviour once, as one line (the scores come from code; this
+   comes from families). Needs the Supabase connector; without it the line is
+   "unknown", which is a fine answer:
+   - Run the single read only select in `plans/review-board/product-pulse.sql`
+     with the connector and save the one json it returns to the scratchpad as
+     `pulse-rows.json`. Never commit that file: it holds parent ids.
+   - `npm run review-board -- pulse --rows <scratchpad>/pulse-rows.json`
+     prints the line: day done rate, seven day return, families with a second
+     check in, families reaching three of the five value signals
+     (`lib/home/value-signals.ts` defines the five). The sums are the product
+     pulse's own functions, so the board and `/api/admin/product-pulse` agree.
+   - Any figure it cannot give prints "unknown". Never fill one in, never round
+     an unknown to zero, never quote a pulse older than two days.
+   - Put the printed line in the run file as `pulse_line`; ingest writes it
+     under "Real behaviour this week" in the report. Give it to every lens and
+     the chief of staff in the brief, because "keeps coming back", "value above
+     AI", "solves the problem" and "business running" are scored on it.
+6. Write it to a scratch file as **the brief**: today's date, the week in
+   twenty lines, the real behaviour line, and per lens its last score and top gap.
 
 ## Phase 1: the ten lenses, in parallel
 
@@ -96,7 +114,7 @@ non negotiable. Fix the JSON rather than pass a bad list through.
 ## Phase 4: write it down
 
 1. Assemble the run file in the scratchpad:
-   `{ "date", "report": "plans/review-board/runs/<date>.md", "scorecards": [ten], "skeptic": [...], "chief": {...} }`
+   `{ "date", "report": "plans/review-board/runs/<date>.md", "pulse_line": "<the line from Phase 0>", "scorecards": [ten], "skeptic": [...], "chief": {...} }`
 2. `npm run review-board -- ingest <run file>`. This writes the scores and the
    tasks, folds in every answer Justin gave this week, writes the full report
    to `plans/review-board/runs/<date>.md` (score table, every lens's strengths,
