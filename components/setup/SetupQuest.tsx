@@ -850,6 +850,8 @@ function OtherChildren() {
           year={dobYear}
           onChange={(m, y) => { setDobMonth(m); setDobYear(y) }}
           fieldStyle={field}
+          name={name}
+          tooYoungAfter="You can add them any time once they turn 4."
         />
 
         {/* THE SAME THREE QUESTIONS THE FIRST CHILD GOT.

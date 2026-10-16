@@ -17,7 +17,7 @@ Method:
 2. Open every proof path in the scorecard's strengths. A path that does not
    exist, or does not do what the claim says, is a failed line.
 3. Look for the counter example the lens did not look for: the age edge (a
-   parent of a 3 year old, a 15 year old), the empty state in week one, the
+   parent of a 4 year old, a 15 year old, a 3 year old told we start at 4), the empty state in week one, the
    phone width, the free tier, the copy in internal language, a dash.
 4. If the score rose by two or more, find the change in the product that
    earned it (`git log --since="10 days ago" --oneline`). No change, no rise.
