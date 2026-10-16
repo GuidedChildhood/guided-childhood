@@ -70,7 +70,7 @@ function IconPlate({ name, size }: { name: HappyIconName; size: number }) {
     <span aria-hidden="true" style={{
       width: size + 14, height: size + 14, flexShrink: 0, boxSizing: 'border-box',
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+      background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
     }}>
       <HappyIcon name={name} size={size} />
     </span>
@@ -97,7 +97,7 @@ export default function WhatAChatbotCannot({ variant = 'card' }: { variant?: 'ca
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: '16px' }}>
             {CHATBOT_CANNOT.map(l => (
               <div key={l.icon} style={{
-                background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+                background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 borderRadius: 'var(--radius-card)', padding: '20px 18px',
                 display: 'flex', flexDirection: 'column', gap: '12px',
               }}>
@@ -114,7 +114,7 @@ export default function WhatAChatbotCannot({ variant = 'card' }: { variant?: 'ca
 
   return (
     <div style={{
-      background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)',
       borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '24px',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '6px' }}>

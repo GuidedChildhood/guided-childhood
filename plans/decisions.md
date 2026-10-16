@@ -351,6 +351,14 @@ top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
 
+## 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet
+44px is the floor (--tap-min). A button that stands alone keeps its look and
+takes the invisible .tap-target pad; buttons in a tight row are sized to 44 for
+real, since overlapping pads send a tap to the neighbour. A gold :focus-visible
+ring lives in shared/tokens.css. Seven route loaders draw their own page shape
+(child path is a redirect, so it keeps the child home loader). Every hex literal
+outside tokens.css counts, #fff included, but only new ones fail: the baseline
+only ever shrinks. PRs #1321 and #1322.
 ## 16 October 2026: The live Pathway Session line comes off the paid screens
 Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
 tick comes off the upgrade page, its only appearance (no email, config or
