@@ -121,7 +121,7 @@ export default function PlanetCard({ startIndex }: { startIndex: number }) {
           before a parent has tapped anything, which is most of the job. */}
       <div style={{
         display: 'flex', justifyContent: 'center', alignItems: 'center',
-        gap: '7px', marginTop: '11px',
+        gap: 0, marginTop: '3px',
       }}>
         {PLANETS.map((p, n) => (
           <button
@@ -131,9 +131,12 @@ export default function PlanetCard({ startIndex }: { startIndex: number }) {
             aria-label={p.title}
             aria-current={n === i ? 'true' : undefined}
             style={{
-              // 28px of tappable area around a 7px dot. The dot is the thing
-              // you see; the button is the thing you hit.
-              width: 28, height: 28, padding: 0, border: 'none',
+              // A 36 by 44 hit around a 7px dot. The dot is the thing you
+              // see; the button is the thing you hit. No gap between them, so
+              // the dots sit 36 apart as they always did and the whole strip
+              // is tappable with no dead space between two planets.
+              // tap-ok: dots touch edge to edge, the strip has no gaps
+              width: 36, height: 44, padding: 0, border: 'none',
               background: 'transparent', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
