@@ -59,6 +59,8 @@
     "planet": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs publishing/cli.ts",
     "planet-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test publishing/tests/*.test.ts",
     "review-board": "node scripts/review-board.mjs",
+    "migration-gap": "node scripts/migration-gap.mjs",
+    "migration-gap-test": "node --test scripts/migration-gap.test.mjs",
     "review-board-test": "node --test scripts/review-board.test.mjs"
   },
   "dependencies": {
