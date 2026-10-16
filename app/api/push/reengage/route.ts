@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { reengageMessageForDay } from '@/lib/content/reengage-messages'
 import { sendPush } from '@/lib/push/send'
+import { reengageDue } from '@/lib/push/reengage'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -14,8 +15,9 @@ export const maxDuration = 60
 // only to parents who already turned notifications on, so this never
 // spams anyone who has not opted in.
 
-const QUIET_DAYS = 3
-const MIN_GAP_DAYS = 4
+// The rule itself (3 quiet days, a 4 day gap) lives in lib/push/reengage.ts so
+// it can be tested. This line is also what is left once the nightly evening
+// push has gone quiet after seven unanswered nights (lib/push/evening.ts).
 
 function daysSince(iso: string): number {
   return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
@@ -66,9 +68,7 @@ async function handler(req: NextRequest) {
   for (const profile of profiles ?? []) {
     const lastActive = lastSessionByUser.get(profile.id) ?? profile.created_at
     const quietDays = daysSince(lastActive)
-    if (quietDays < QUIET_DAYS) continue
-
-    if (profile.last_reengage_push_at && daysSince(profile.last_reengage_push_at) < MIN_GAP_DAYS) continue
+    if (!reengageDue(quietDays, profile.last_reengage_push_at ? daysSince(profile.last_reengage_push_at) : null)) continue
 
     try {
       const res = await sendPush({ userId: profile.id, title: message.title, body: message.body, url: '/dashboard' })

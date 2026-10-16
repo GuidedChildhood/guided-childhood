@@ -295,6 +295,14 @@ Mood after screens moves from screen time to mood and confidence to match.
 The first phone worry gets its own Tonight step when the child has no phone of
 their own: the phone plan script, the ladder and the family phone agreement.
 Guard: scripts/check-concern-loop.mjs. PR #1315.
+## 16 October 2026: The nightly evening push stops after seven unanswered nights
+Review board task evening-push-stops-when-quiet. A parent quiet for seven nights
+still gets the evening line; the eighth night and every one after it is held, and
+the four day re engagement line (unchanged, now `lib/push/reengage.ts`) is all
+that reaches them. Showing up uses the same four tables as done today and resets
+the count; a parent who never showed up counts from the day they joined. A failed
+read sends as before. The parent flame streak is untouched. Pinned by section F of
+`scripts/check-habit-loop.mjs`. No migration.
 ## 15 October 2026: The Planet Post downloads now carry the better version
 
 Justin found the emailed download was still the first version. The code
