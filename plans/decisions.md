@@ -297,3 +297,12 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: The live Pathway Session line comes off the paid screens
+Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
+tick comes off the upgrade page, its only appearance (no email, config or
+choose screen carried it). None has been booked, and a promise on the page
+that takes money must already be kept. It comes back once a first session is
+booked. Same PR adds one block naming what a free chatbot cannot do, on the
+home page, the choose screen and the upgrade page, each line with its proof
+path in the component. PR #1328.

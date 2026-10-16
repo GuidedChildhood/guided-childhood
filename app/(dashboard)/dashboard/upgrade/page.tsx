@@ -5,6 +5,7 @@ import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import WhatAChatbotCannot from '@/components/upgrade/WhatAChatbotCannot'
 import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
@@ -232,6 +233,10 @@ export default async function UpgradePage(
 
       <WhatYouAreBuying />
 
+      {/* The question a parent weighs at the price: why not a free chatbot.
+          Review board, 16 October 2026 (paywall-names-what-ai-cannot). */}
+      <WhatAChatbotCannot />
+
       {/* Pricing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
 
@@ -275,7 +280,10 @@ export default async function UpgradePage(
                 'Unlimited DiGi conversations',
                 '100 plus expert scripts',
                 'Wellbeing tracker and the family agreement builder',
-                'Monthly live Pathway Session with Justin (from member 50)',
+                // A monthly live session with Justin was listed here until
+                // 16 October 2026. Justin took it off: none had been booked,
+                // and a line on the page that takes the money has to be one
+                // we already keep. It comes back once a first one is booked.
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                   <span style={{ color: 'var(--terracotta)', fontSize: 'var(--text-md)', marginTop: '1px' }}>✓</span>
