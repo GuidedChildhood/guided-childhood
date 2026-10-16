@@ -39,5 +39,11 @@ check('the page gates the download on the Planet Post magnet', /<MagnetGate\s+sl
 check('the page ends at the stage check', /href="\/starter-pack\?src=planet-post-1"/.test(page))
 check('the print route never serves the live site', /VERCEL_ENV === 'production'\) notFound\(\)/.test(readFileSync('app/print-free/[slug]/page.tsx', 'utf8')))
 
+// The fixes from the 14 October critique and accessibility audit, held.
+const layout = readFileSync('components/printables/news/PlanetPost.tsx', 'utf8')
+check('no message bubble is coloured by its place in the list (the colour gave the answer away)', !/i === \d+ \? CRAYON/.test(layout))
+check('the Friends line up uses the approved waving stills', /moods\?\.wave/.test(layout))
+check('the PDFs are rendered tagged, so screen readers can read them', /tagged: true/.test(readFileSync('scripts/render-free-printables.mjs', 'utf8')))
+
 if (failures) { console.error(`\n${failures} free printable check(s) failed`); process.exit(1) }
 console.log('\nFree printables: every file there, every word clean')
