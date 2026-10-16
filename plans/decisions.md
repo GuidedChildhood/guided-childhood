@@ -297,3 +297,12 @@ the answer away, wheel labels clear, readable instructions, word search at the
 top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
+
+## 16 October 2026: The Monday CrewAI meeting is deleted
+
+Justin decided (review board item decide-legacy-crewai) to delete the old
+Monday weekly meeting: `weekly_meeting.yml`, `agents/weekly_meeting.py`,
+`build_weekly_crew` and the `pulse_weekly_task` prompt. It ran on a hardcoded
+old model and duplicated the Monday radar and the board. The daily briefing
+(`daily_briefing.yml`, manual only) and the crew it imports stay until Justin
+says otherwise. Git history keeps the rest. No other file pointed at agents/.
