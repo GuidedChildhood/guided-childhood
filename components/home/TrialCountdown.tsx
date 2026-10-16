@@ -143,7 +143,7 @@ export default function TrialCountdown({
   if (ended) {
     return (
       <div style={{ background: 'var(--deep-teal)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '18px' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff', marginBottom: '4px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--white)', marginBottom: '4px' }}>
           {/* Justin, 8 August 2026: "should it be has?"
               No, and the reason his ear snagged is worth keeping. The subject
               is "days", which is plural, so "have" is the correct agreement
