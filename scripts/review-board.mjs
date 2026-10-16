@@ -377,6 +377,7 @@ export function renderReport(run, state) {
     out.push(`| ${l.n} | ${l.name} | ${Number.isInteger(before) ? before : 'first run'} | ${entry.scores[l.id]} | ${sk ? `lowered from ${sk.from}` : ''} |`)
   }
   out.push('')
+  out.push('## Real behaviour this week', '', typeof run.pulse_line === 'string' && run.pulse_line.trim() ? run.pulse_line.trim() : pulseLine(null), '')
   if (entry.roundup) out.push('## The round up', '', entry.roundup, '')
   for (const l of LENSES) {
     const c = byLens[l.id]
@@ -676,6 +677,79 @@ ${cards}
 `
 }
 
+// ── real behaviour from the product pulse ───────────────────────────────────
+//
+// Task board-reads-real-numbers. The lenses score from code; this is the one
+// line of what families actually did. The sums are lib/home/habit-metrics.ts
+// and lib/home/value-signals.ts, loaded from the repo so the board and the
+// admin product pulse (app/api/admin/product-pulse/route.ts) cannot disagree.
+//
+// Evidence or silence: any figure the source cannot give prints "unknown",
+// never zero and never a guess. A pulse older than PULSE_MAX_AGE_DAYS is
+// unknown too, because last month's number is not this week's behaviour.
+
+const PULSE_MAX_AGE_DAYS = 2
+
+const isNum = n => typeof n === 'number' && Number.isFinite(n)
+const pct = n => (isNum(n) ? `${n}%` : 'unknown')
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`
+
+/** One line from a computed pulse: { generatedAt, habit, valueSignals }. Never throws. */
+export function pulseLine(pulse, on = today()) {
+  const unknown = why => `Real behaviour: unknown (${why}).`
+  if (!pulse || typeof pulse !== 'object') return unknown('the product pulse was not read this run')
+  const at = typeof pulse.generatedAt === 'string' ? pulse.generatedAt.slice(0, 10) : null
+  if (!isDate(at)) return unknown('the product pulse has no date')
+  if (daysBetween(at, on) > PULSE_MAX_AGE_DAYS) return unknown(`the product pulse is from ${at}, too old to call this week's`)
+  const h = pulse.habit && typeof pulse.habit === 'object' ? pulse.habit : {}
+  const v = pulse.valueSignals && typeof pulse.valueSignals === 'object' ? pulse.valueSignals : null
+  const doneNote = isNum(h.dayDoneFamilies7d) ? ` (${plural(h.dayDoneFamilies7d, 'family', 'families')} finished a day in the last seven)` : ''
+  const second = v && isNum(v.secondCheckInFamilies) ? String(v.secondCheckInFamilies) : 'unknown'
+  const three = v && isNum(v.reachedThree) && isNum(v.families)
+    ? `${v.reachedThree} of ${plural(v.families, 'family', 'families')}`
+    : 'unknown'
+  return `Real behaviour, from the product pulse of ${at}: day done rate ${pct(h.dayDoneRate7d)}${doneNote}; seven day return ${pct(h.returnedD7)}; families with a second check in ${second}; families reaching three of the five value signals ${three}.`
+}
+
+/**
+ * Turn the rows plans/review-board/product-pulse.sql returns into a computed
+ * pulse, using the product's own functions. Returns null when the rows are
+ * not usable or the functions cannot be loaded (Node before 22.18 cannot read
+ * .ts), and the caller prints unknown.
+ */
+export async function pulseFromRows(rows) {
+  if (!rows || typeof rows !== 'object') return null
+  const arr = x => (Array.isArray(x) ? x : null)
+  const sessions = arr(rows.sessions), families = arr(rows.families)
+  const sig = rows.signals && typeof rows.signals === 'object' ? rows.signals : null
+  if (!sessions || !families || !sig || !isDate(rows.today)) return null
+  const names = ['memory', 'childLink', 'secondCheckIn', 'scriptVerdict', 'followUpAnswered']
+  if (names.some(n => !arr(sig[n]))) return null
+  try {
+    const { habitMetrics } = await import(pathToFileURL(join(ROOT, 'lib/home/habit-metrics.ts')).href)
+    const { valueSignals } = await import(pathToFileURL(join(ROOT, 'lib/home/value-signals.ts')).href)
+    return {
+      generatedAt: rows.generatedAt,
+      habit: habitMetrics(sessions, rows.today),
+      valueSignals: valueSignals({ families, ...Object.fromEntries(names.map(n => [n, sig[n]])) }),
+    }
+  } catch {
+    return null
+  }
+}
+
+/** Read a json file, or null when it is missing or not json. */
+function readJsonFile(file) {
+  try { return JSON.parse(readFileSync(file, 'utf8')) } catch { return null }
+}
+
+/** The line for the report, from a rows file or a computed pulse file. */
+export async function pulseLineFromFiles({ rows, file }) {
+  if (rows) return pulseLine(await pulseFromRows(readJsonFile(rows)))
+  if (file) return pulseLine(readJsonFile(file))
+  return pulseLine(null)
+}
+
 // ── command line ─────────────────────────────────────────────────────────────
 
 function flags(args) {
@@ -754,6 +828,10 @@ function main(argv) {
     }
     return 0
   }
+  if (cmd === 'pulse') {
+    const f = flags(rest)
+    return pulseLineFromFiles({ rows: f.rows, file: f.file }).then(line => { console.log(line); return 0 })
+  }
   if (cmd === 'dashboard') {
     console.log(`dashboard: ${writeDashboard(state)}`)
     return 0
@@ -764,13 +842,13 @@ function main(argv) {
     console.log(`dashboard url: ${state.board.dashboard_url}`)
     return 0
   }
-  console.log('usage: npm run review-board -- alerts | ingest <run.json> | done|notyet|drop <id> [note] | snooze <id> <days> | add --owner justin --title "..." | list [--all] | dashboard | set-url <url>')
+  console.log('usage: npm run review-board -- alerts | ingest <run.json> | done|notyet|drop <id> [note] | snooze <id> <days> | add --owner justin --title "..." | list [--all] | pulse --rows <rows.json> | pulse --file <pulse.json> | dashboard | set-url <url>')
   return cmd ? 1 : 0
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
-    process.exitCode = main(process.argv.slice(2))
+    process.exitCode = await main(process.argv.slice(2))
   } catch (err) {
     console.error(err.message)
     process.exitCode = 1
