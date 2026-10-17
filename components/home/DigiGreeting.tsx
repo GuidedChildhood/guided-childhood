@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import { CRAYON } from '@gc/shared/happy-news'
 
 // The top of Home: DiGi greets in one short, mobile clean line, then one warm
 // line that reads across to the child's own app, whether their jobs are on
@@ -68,7 +69,10 @@ export default function DigiGreeting({
       : jobsStatus === 'none' ? 'No jobs set yet' : null
   const jobsTone =
     jobsStatus === 'on_track' ? 'var(--retro-green-dark)'
-    : pending ? 'var(--terracotta-dark)'
+    // Ink, not dark gold (17 October 2026, Justin: "use less gold"). Gold
+    // text on white was the weakest contrast on Home and said nothing the
+    // words do not; butter is for the thing to tap.
+    : pending ? 'var(--ink)'
     : 'var(--ink-muted)'
   const jobsHref = pending ? '/dashboard/quests#quest-board' : (balanceHref ?? '/dashboard/quests')
   const jobsSuffix = pending ? 'see the jobs →' : 'screen and jobs balance →'
@@ -77,7 +81,9 @@ export default function DigiGreeting({
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '18px' }}>
       <span style={{
         width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-        background: 'var(--terracotta)', border: 'var(--edge)',
+        // DiGi on a crayon sky plate, the colour of today's banner below it,
+        // rather than a second butter disc competing with the Go.
+        background: CRAYON.sky, border: 'var(--edge)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         boxShadow: 'var(--lift)',
       }}>
