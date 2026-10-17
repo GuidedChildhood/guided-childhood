@@ -180,6 +180,7 @@ export async function getTodayLoop(
     { data: lessonRows },
     { count: devicesTickedToday },
     { count: devicesAddedToday },
+    { data: stepMarks },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -304,6 +305,11 @@ export async function getTodayLoop(
     // on the day it was finished. See heldPassportJob below.
     supabase.from('device_setup_progress').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('completed_at', dayStart),
     supabase.from('family_devices').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', dayStart),
+    // The steps the parent marked done from the page the path sent them to
+    // (migration 382). DiGi and the passport job are the two whose work
+    // happens off the path. A database without the table reads as no marks.
+    supabase.from('today_step_marks').select('step_key, child_id').eq('user_id', userId).eq('day', today)
+      .then(r => r, () => ({ data: null })),
   ])
 
   // THIS CHILD'S DAY, out of the rows for today.
@@ -428,6 +434,10 @@ export async function getTodayLoop(
   const touchedToday: Record<string, boolean> = {
     devices: (devicesTickedToday ?? 0) > 0 || (devicesAddedToday ?? 0) > 0,
   }
+  // Marked done today for THIS child, or for the household when the mark was
+  // written with no child.
+  const markedToday = (key: string) => ((stepMarks ?? []) as { step_key: string; child_id: string | null }[])
+    .some(m => m.step_key === key && (m.child_id === (child?.id ?? null) || m.child_id == null))
   const heldPassportJob = passportRead === null
     ? null
     : passportRead.sections.find(sec => sec.pct >= 100 && touchedToday[sec.key]) ?? null
@@ -829,7 +839,11 @@ export async function getTodayLoop(
       // does it say all clear? need to explain." It sat on the road with no
       // word saying WHAT was clear. This is the quests rung: jobs are set and
       // nothing is waiting for the parent to approve.
-      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : questsActedToday ? 'Quests' : 'No jobs waiting',
+      // "Jobs all approved" since 17 October 2026, when Justin asked for the
+      // settled rung to read as complete: it goes green on the road, so the
+      // words say what the green is for, which is nothing owed rather than
+      // something done today.
+      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : questsActedToday ? 'Quests' : 'Jobs all approved',
       href: !anyQuests ? withChild('/dashboard/quests') : `${withChild('/dashboard/quests')}#quest-board`,
       // ── THREE STATES, BECAUSE THERE ARE THREE THINGS TO SAY ──────────────
       //
@@ -887,7 +901,9 @@ export async function getTodayLoop(
         // from=today rather than the row's own from=passport: the parent came
         // from the road, so the way back on that page must say Today.
         : passportJob
-          ? withChildOn(passportJob.href.replace('from=passport', 'from=today'))
+          // step=passport puts the Done bar on that page (BackToToday), so a
+          // parent who has looked can tick the rung and come straight back.
+          ? withChildOn(passportJob.href.replace('from=passport', 'from=today&step=passport'))
           : withChild('/dashboard/pathway?from=today'),
       // On passport day the ask is a LOOK, not a finish: reading the record
       // is the day's one thing, and the pathway page records the look when it
@@ -896,7 +912,11 @@ export async function getTodayLoop(
       // Every other day it is the named job's own row, not the whole book.
       done: focus === 'passport'
         ? (!!session?.completed_at || passportOutstanding === 0)
-        : passportJob ? passportJob.pct >= 100 : passportOutstanding === 0,
+        : passportJob ? passportJob.pct >= 100 || markedToday('passport') : passportOutstanding === 0,
+      // A job marked as looked at today, not finished: the tick is for the
+      // look, and the note says so, so a green "Devices set up" never claims
+      // every screen is.
+      ...(focus !== 'passport' && passportJob && passportJob.pct < 100 && markedToday('passport') ? { note: 'Looked at today' } : {}),
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
     //
@@ -915,8 +935,11 @@ export async function getTodayLoop(
     {
       key: 'digi' as const,
       label: neverCheckedIn ? 'Meet DiGi' : 'Ask DiGi',
-      href: withChild('/dashboard/digi'),
-      done: (digiToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
+      // from=today&step=digi puts the Done bar above the chat (BackToToday).
+      // Justin, 17 October 2026: without it a parent who read DiGi's answer
+      // and had nothing more to ask was stuck there, with the rung still open.
+      href: withChild('/dashboard/digi?from=today&step=digi'),
+      done: markedToday('digi') || (digiToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
     },
   ]
 

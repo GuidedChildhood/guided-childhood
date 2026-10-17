@@ -118,6 +118,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   //
   // For the tick, "did you do this", a clear rung is NOT done, and that is the
   // whole point. Only `task.done` paints the green tick.
+  //
+  // ── 17 OCTOBER 2026: THE GREEN CAME BACK ──────────────────────────────────
+  //
+  // Justin, on his own road reading "No jobs waiting" with fourteen jobs set
+  // and nothing to approve: "check that is true and if so it should be
+  // completed." The soft ring read as unfinished, so a day with nothing left
+  // to do still looked like a day with something left. A clear rung now
+  // paints green with the tick, on quests only (the deal keeps its ring, see
+  // isDoneNode below). The words carry the honesty instead: the
+  // rung says "Jobs all approved", which is what the green is for, and the
+  // tick flow's list of what was done today still reads `done` alone.
   const settled = (t: TodayLoopTask) => t.done || !!t.clear
   const firstOpen = tasks.findIndex(t => !settled(t))
   const allDone = firstOpen === -1
@@ -482,6 +493,44 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         </p>
       </div>
 
+      {/* ── THE FINISH LINE (17 October 2026) ─────────────────────────────
+          Justin, with a Duolingo screenshot beside his own road: "there needs
+          to be an achievement each day so parents don't think it's endless."
+          The road said what to do next and never how far it was to the end.
+          Duolingo's daily quests answer that with a bar that fills towards a
+          chest. This is the same idea in our colours: one segment per step,
+          green as each settles, ending at the trophy, with the count left
+          said in words. Nothing after the trophy, which is the point. */}
+      {steps.length > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 4px', marginBottom: '12px' }}>
+          <div
+            role="img"
+            aria-label={`${doneCount} of ${steps.length} steps done today`}
+            style={{ flex: 1, minWidth: 0, display: 'flex', gap: 4 }}
+          >
+            {steps.map(t => (
+              <span key={t.key} style={{
+                flex: 1, height: 12, borderRadius: 'var(--radius-pill)',
+                background: settled(t) ? GREEN : 'var(--border)',
+                border: '2px solid var(--ink)', boxSizing: 'border-box',
+              }} />
+            ))}
+          </div>
+          <span aria-hidden style={{ flexShrink: 0, lineHeight: 0, opacity: pathDone ? 1 : 0.6 }}>
+            <HappyIcon name="wins" size={30} />
+          </span>
+        </div>
+      )}
+      {steps.length > 0 && (
+        <p style={{ margin: '-4px 4px 12px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: pathDone ? GREEN_DARK : 'var(--ink-soft)', lineHeight: 1.35 }}>
+          {pathDone
+            ? 'Today is done. Nothing more until tomorrow.'
+            : steps.length - doneCount === 1
+              ? 'One step to go, then today is done.'
+              : `${steps.length - doneCount} steps to go, then today is done.`}
+        </p>
+      )}
+
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {/* Kept to two words in the middle state: at 390px the eyebrow and the
@@ -529,10 +578,13 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         {tasks.map((task, i) => {
           const x = MEANDER[i % MEANDER.length]
           const isCurrent = i === currentIndex && !allDone
-          const isDoneNode = task.done
-          // Settled with nothing owed, but not acted on today. Its own
-          // look: full strength so it never reads as skipped, and no tick.
+          // Settled with nothing owed paints green on QUESTS (see the note on
+          // settled above). Not on the deal: its clear means "saved earlier
+          // this week", and a green deal from a Friday save is the thing
+          // Justin reported on 28 September. isClearNode still tells the
+          // screen reader why.
           const isClearNode = !task.done && !!task.clear
+          const isDoneNode = task.done || (isClearNode && task.key === 'quests')
           const showCallout = isCurrent && pressure
           // DiGi sits on whichever side of the current node has the room.
           const digiOnRight = x <= 0
@@ -679,17 +731,9 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         border: '2.5px solid var(--ink)',
                         boxShadow: isCurrent
                           ? 'var(--lift-deep), 0 0 0 6px var(--terracotta-lt)'
-                          // A soft green ring, not a green fill and not a
-                          // tick. Enough to read as settled at a glance, not
-                          // enough to be mistaken for "I did this today".
-                          : isClearNode
-                            ? `var(--lift-deep), 0 0 0 5px ${GREEN}2E`
-                            : 'var(--lift-deep)',
+                          : 'var(--lift-deep)',
                         fontSize: 'var(--text-2xl)',
-                        // A clear rung reads at FULL strength. Fading it
-                        // with the road ahead would say skipped, and it
-                        // was not skipped: there was nothing owed.
-                        opacity: !isDoneNode && !isCurrent && !isClearNode ? 0.55 : 1,
+                        opacity: !isDoneNode && !isCurrent ? 0.55 : 1,
                       }}
                     >
                       {isDoneNode ? (
@@ -722,7 +766,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                   <span style={{
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)',
                     fontWeight: isCurrent ? 900 : 700,
-                    color: isCurrent || isClearNode ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
+                    color: isCurrent ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
                     textAlign: 'center', lineHeight: 1.3,
                   }}>
                     {task.label}
