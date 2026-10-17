@@ -404,7 +404,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: 14,
           background: CRAYON.green, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-          padding: '16px 16px', marginBottom: '20px', cursor: 'pointer', textAlign: 'left',
+          padding: '16px 8px 18px 16px', marginBottom: '20px', cursor: 'pointer', textAlign: 'left',
           font: 'inherit', boxShadow: 'var(--lift)',
         }}
       >
@@ -426,7 +426,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
             Readier than yesterday. See you tomorrow.
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>
+        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>
           ›
         </span>
       </button>
@@ -506,7 +506,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               eyebrow, where the day belongs. */}
           {`${kid.charAt(0).toUpperCase()}${kid.slice(1)}'s path`}
         </h2>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px', textWrap: 'balance' }}>
           {/* Three states, not two (11 September 2026): the one tick is named
               before it lands, acknowledged once it has, and the finished day
               says it is finished. */}

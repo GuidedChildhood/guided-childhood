@@ -509,3 +509,7 @@ Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agree
 ## 17 October 2026: Today path gets a Done bar, a green for jobs all approved, and a finish line (migration 382)
 
 Justin: steps that send a parent off the path (DiGi, the devices job) need a Done that turns them green and returns to the path; "No jobs waiting" should read as complete if true (checked: 14 jobs, nothing waiting); the day needs a visible end. DiGi and the passport job now open with a "Done, back to today" bar that records the step (today_step_marks). A clear Quests rung paints green as "Jobs all approved"; the deal keeps its ring (28 September). A finish line under the heading fills one segment per step to a trophy. Plan: plans/2026-10-17-today-path-finish-line-plan.md.
+
+## 17 October 2026: Today path redesigned, less gold, Happy News crayon (PR 1345)
+
+Justin: "use less gold ... more happy news ... until Apple UX level". Built on Duolingo's path (Mobbin), then three rounds with a design reviewer, 6.5 to 8 to 8.9 and "ship". Butter now marks only the Go. A crayon sky banner (green when done) carries whose path, the one tick and the finish line; no card round the path; stones wear crayon plates; the finished day is a green trophy badge; minutes is a segmented control under the path. Declined: perching the Planet Friend on the stone, and smaller ledges on the banner.
