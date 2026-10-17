@@ -27,6 +27,15 @@ import type { PassportAttention } from '@/lib/pathway/passport-attention'
 // day on this device; the reason is checked fresh tomorrow. Reduced motion
 // shows and hides it plainly. Mobbin: Asana's "A task is due in 3 days" card
 // on Home, one line, one button, a dismiss; ours in butter and ink.
+//
+// ── THE DAILY LINE (17 October 2026) ──────────────────────────────────────
+//
+// Justin: "make sure daily loop gives simple update on progress, what needs
+// to be done". So on a day with no urgent reason the card still comes, quieter:
+// the page's one count and its one next step, from the same function as the
+// passport page's Next card (lib/pathway/passport-today.ts). The thumbnail is
+// the page's own Planet Friend stamp, filling with colour as the page fills,
+// the same picture the passport opens on. Not now still holds for the day.
 
 const KEY = (childId: string | null) => `gc_passport_peek_${childId ?? 'family'}`
 
@@ -38,12 +47,15 @@ function reduceMotion(): boolean {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches } catch { return false }
 }
 
+type PeekToday = { stageId: number; page: string; friend: string; img: string; fill: number; stamped: boolean; line: string; nextLine: string; stepKey: string }
+type Peek = { kind: string; stageId: number; title: string; line: string; img?: string; fill?: number; stamped?: boolean }
+
 export default function PassportPeek({ childId, preview = null }: {
   childId: string | null
   /** A fixed reason, for the dev fixture only. Production never passes one. */
-  preview?: PassportAttention | null
+  preview?: Peek | null
 }) {
-  const [att, setAtt] = useState<PassportAttention | null>(null)
+  const [att, setAtt] = useState<Peek | null>(null)
   const [shown, setShown] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -53,9 +65,14 @@ export default function PassportPeek({ childId, preview = null }: {
     const q = childId ? `?child=${encodeURIComponent(childId)}` : ''
     fetch(`/api/pathway/attention${q}`)
       .then(r => r.ok ? r.json() : null)
-      .then((j: { attention?: PassportAttention | null } | null) => {
-        if (cancelled || !j?.attention) return
-        const a = j.attention
+      .then((j: { attention?: PassportAttention | null; today?: PeekToday | null } | null) => {
+        if (cancelled || !j) return
+        const t = j.today ?? null
+        // An urgent reason wins; on a quiet day, the daily line.
+        const a: Peek | null = j.attention
+          ? { ...j.attention, ...(t && t.stageId === j.attention.stageId ? { img: t.img, fill: t.fill, stamped: t.stamped } : {}) }
+          : t ? { kind: 'today', stageId: t.stageId, title: t.line, line: t.nextLine, img: t.img, fill: t.fill, stamped: t.stamped } : null
+        if (!a) return
         // Not now, said today, holds for today.
         let dismissed = ''
         try { dismissed = localStorage.getItem(KEY(childId)) ?? '' } catch { dismissed = '' }
@@ -87,7 +104,7 @@ export default function PassportPeek({ childId, preview = null }: {
   }
 
   if (!att || !shown) return null
-  const href = `/dashboard/pathway?open=${att.stageId}&from=today${childId ? `&child=${encodeURIComponent(childId)}` : ''}`
+  const href = `/dashboard/pathway?open=${att.stageId}&from=today${childId ? `&child=${encodeURIComponent(childId)}` : ''}#page`
 
   return (
     <div style={{ perspective: '1200px', marginBottom: 22 }}>
@@ -101,7 +118,21 @@ export default function PassportPeek({ childId, preview = null }: {
           padding: '16px 18px',
         }}
       >
-        {/* The little book: the real cover's burgundy and foil, at thumb size. */}
+        {att.img ? (
+          // The page's own Planet Friend stamp: colour when stamped, grey
+          // filling with colour as the page fills.
+          <span aria-hidden className="gc-peek-book" style={{
+            flexShrink: 0, position: 'relative', width: 60, height: 60, borderRadius: '50%', overflow: 'hidden',
+            background: att.stamped ? `var(--stage-${att.stageId}-bold)` : '#F1F1F4',
+            border: att.stamped ? `3px solid var(--stage-${att.stageId}-text)` : '2px dashed #B9B9C8', boxSizing: 'border-box',
+          }}>
+            {!att.stamped && <img src={att.img} alt="" width={60} height={60} style={{ position: 'absolute', inset: '8%', width: '84%', height: '84%', objectFit: 'contain', filter: 'grayscale(1)', opacity: 0.45 }} />}
+            <span style={{ position: 'absolute', inset: 0, clipPath: att.stamped ? 'none' : `inset(${100 - Math.round(Math.max(0, Math.min(1, att.fill ?? 0)) * 100)}% 0 0 0)`, background: att.stamped ? 'transparent' : `var(--stage-${att.stageId}-bold)` }}>
+              <img src={att.img} alt="" width={60} height={60} style={{ position: 'absolute', inset: '8%', width: '84%', height: '84%', objectFit: 'contain' }} />
+            </span>
+          </span>
+        ) : (
+        /* The little book: the real cover's burgundy and foil, at thumb size. */
         <span aria-hidden className="gc-peek-book" style={{
           flexShrink: 0, width: 52, height: 68, borderRadius: '6px 9px 9px 6px',
           background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
@@ -114,6 +145,7 @@ export default function PassportPeek({ childId, preview = null }: {
             </span>
           </span>
         </span>
+        )}
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: 4 }}>
             Your passport

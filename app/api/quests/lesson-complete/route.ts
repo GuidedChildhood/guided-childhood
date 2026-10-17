@@ -12,6 +12,9 @@ import { lessonAudienceFor, stageForKeyStage } from '@/lib/lessons/school-path'
 import { isTogether, TOGETHER_COOKIE } from '@/lib/lessons/together'
 import { recordMarkedAnswers } from '@/lib/lessons/answers'
 import { stillWaiting } from '@/lib/lessons/heavy'
+import { loadPassportToday, kidOf, type PassportChild } from '@/lib/pathway/passport-today'
+import { pageCountLine } from '@/lib/pathway/page-count'
+import { claimPageMoment, sendPassportPush } from '@/lib/push/passport-push'
 
 // Monday of this week as an ISO instant, London week convention like the
 // rest of the quests system: the school week mission dedupes against it.
@@ -161,6 +164,31 @@ export async function POST(req: NextRequest) {
     // the next go (the only one without spares, and the third on any deck).
     const lessonUrl = `/dashboard/lessons/path?child=${link.child_id}&lesson=${mission.lesson_id}`
     const tellParent = async (starsLine: string) => {
+      // A PASS SPEAKS FOR THE PASSPORT PAGE (passport journey plan, PR 3;
+      // Justin's decision 3: no new push, the page rides this one). The
+      // title carries the page's one count, the link opens the page, and
+      // the last lesson on a page says the check is ready, once.
+      if (passed) {
+        const today = await passportPushFor(supabase, link)
+        if (today) {
+          const name = today.kidName
+          const checkNow = today.step.key === 'check'
+            && await claimPageMoment(supabase, { userId: link.user_id, childId: link.child_id, stageNum: today.stageNum, moment: 'check_ready_pushed_at' })
+          const askLine = flagged ? null : askAtTea(lesson.parent_note)
+          const tail = checkNow ? `Every lesson on the ${today.page} page is passed. The big check is ready.`
+            : today.opensOn ? `The next one opens ${today.opensOn}.`
+            : ''
+          await sendPassportPush({
+            userId: link.user_id, childId: link.child_id, stageNum: today.stageNum,
+            title: `${name} passed a lesson · ${today.countLine}`,
+            body: [
+              flagged ? 'Open the app for the question to ask at tea.' : askLine ? `Ask them at tea: ${askLine}` : `${correct} of ${total} on the check.`,
+              tail,
+            ].filter(Boolean).join(' '),
+          })
+          return
+        }
+      }
       if (flagged) {
         await notifyParent(req, supabase, link,
           passed ? 'finished this week\'s lesson' : 'had a go at this week\'s lesson',
@@ -450,4 +478,20 @@ function askAtTea(note: unknown): string | null {
   if (!note || typeof note !== 'object') return null
   const q = (note as { family_question?: unknown }).family_question
   return typeof q === 'string' && q.trim() ? q.trim() : null
+}
+
+// The child's passport page after a pass, for the push: the one count, the
+// next step and the day the next lesson opens. Null on any failure, so the
+// push falls back to the plain one rather than not going at all.
+async function passportPushFor(
+  supabase: ReturnType<typeof createAdminClient>,
+  link: { user_id: string; child_id: string },
+): Promise<{ kidName: string; stageNum: number; page: string; countLine: string; step: { key: string }; opensOn: string | null } | null> {
+  try {
+    const { data: child } = await supabase
+      .from('children').select('id, name, date_of_birth, age_band, streak_weeks').eq('id', link.child_id).maybeSingle()
+    if (!child) return null
+    const today = await loadPassportToday(supabase, { userId: link.user_id, child: child as PassportChild, paid: false })
+    return { kidName: kidOf(child.name as string | null), stageNum: today.stageNum, page: today.page, countLine: pageCountLine(today.count), step: today.step, opensOn: today.opensOn }
+  } catch { return null }
 }

@@ -4,6 +4,11 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { STAGE_QUIZ_LENGTH, STAGE_QUIZ_PASS } from '@/lib/content/stage-quizzes'
 import { sendPush } from '@/lib/push/send'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
+import { passportStageFor } from '@/lib/lessons/school-path'
+import { loadPassportToday, kidOf, type PassportChild } from '@/lib/pathway/passport-today'
+import { awardStampIfEarned } from '@/lib/pathway/stamp-store'
+import { pageCountLine } from '@/lib/pathway/page-count'
+import { claimPageMoment, sendPassportPush } from '@/lib/push/passport-push'
 
 // The child finished the end of stage check on their own link. Token is the
 // auth, exactly like quest ticks and lesson completions.
@@ -46,9 +51,12 @@ export async function POST(req: NextRequest) {
   // same forward only age gate the lesson pages apply, enforced here too so the
   // gate is not just a link they could edit.
   const { data: child } = await supabase
-    .from('children').select('name, age_band').eq('id', link.child_id).maybeSingle()
-  const theirStage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
-  if (stage > theirStage.id) return NextResponse.json({ error: 'not found' }, { status: 404 })
+    .from('children').select('id, name, age_band, date_of_birth, streak_weeks').eq('id', link.child_id).maybeSingle()
+  // The page their class is on (one clock, decision 1, 17 October 2026).
+  const theirStage = child
+    ? STAGE_NUM[passportStageFor(child as { date_of_birth?: string | null; age_band?: string | null })] ?? getStageFromAgeBand((child.age_band as AgeBand | null) ?? '8-10').id
+    : getStageFromAgeBand('8-10').id
+  if (stage > theirStage) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
   // Every run is STAGE_QUIZ_LENGTH, so that is the honest total, and the count
   // is capped to it. The client is never trusted beyond its own honest count.
@@ -77,6 +85,38 @@ export async function POST(req: NextRequest) {
     { userId: link.user_id, childId: link.child_id, source: 'stage_check', stageId: stage },
     sanitizeAnswers(body.answers),
   )
+
+  // THE STAMP, WHEN THIS PASS COMPLETES THE PAGE (passport journey plan,
+  // PR 3): stored once (migration 378), and the parent hears it once, as the
+  // stamp, not as "the last green before the stamp".
+  if (passed && child) {
+    try {
+      const today = await loadPassportToday(supabase, { userId: link.user_id, child: child as PassportChild, paid: false })
+      if (today.stageNum === stage) {
+        const name = kidOf(child.name as string | null)
+        if (today.stamped) {
+          await awardStampIfEarned(supabase, {
+            userId: link.user_id, childId: link.child_id, stageNum: stage,
+            lessonsDone: today.count.lessons.done, lessonsTotal: today.count.lessons.total,
+          })
+          if (await claimPageMoment(supabase, { userId: link.user_id, childId: link.child_id, stageNum: stage, moment: 'stamp_pushed_at' })) {
+            await sendPassportPush({
+              userId: link.user_id, childId: link.child_id, stageNum: stage,
+              title: `${name} earned the ${today.friend} stamp`,
+              body: `The ${today.page} page is stamped: every lesson passed with its check, every talk done, and the big check passed.`,
+            })
+          }
+        } else {
+          await sendPassportPush({
+            userId: link.user_id, childId: link.child_id, stageNum: stage,
+            title: `${name} passed the big check · ${pageCountLine(today.count)}`,
+            body: `${right} of ${total} right. ${today.nextLine}`,
+          })
+        }
+        return NextResponse.json({ ok: true, passed, score: right, total, stamped: today.stamped })
+      }
+    } catch { /* fall through to the plain push */ }
+  }
 
   // The grown up hears, best effort. A stage check is the biggest thing a child
   // does on their side, so this one is worth the parent's phone buzzing.

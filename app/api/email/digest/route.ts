@@ -7,6 +7,8 @@ import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyDigestEmail } from '@/lib/email/templates'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { loadPassportToday } from '@/lib/pathway/passport-today'
+import { SITE_URL } from '@/lib/config/site'
 import {
   adminClient, cronAuthorised, daysSince, deadline, deliverOnce, digestKey,
   loadSentKeys, type ProfileRow,
@@ -84,14 +86,14 @@ async function handler(req: NextRequest) {
         // product, not a more thorough one. What was wrong is that everything
         // INSIDE it described one child, so a parent with two read a summary of
         // their week that silently left one of them out.
-        supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', profile.id)
+        supabase.from('children').select('id, name, age_band, is_primary, date_of_birth, streak_weeks').eq('parent_id', profile.id)
           .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
         supabase.from('script_completions').select('completed_at').eq('user_id', profile.id),
         supabase.from('spotlight_shown').select('spotlight_key').eq('user_id', profile.id),
       ])
       // The lead child frames the email, the same one the digest has always been
       // written around, so a one child family reads exactly what it read before.
-      type Kid = { id: string; name: string | null; age_band: string | null }
+      type Kid = { id: string; name: string | null; age_band: string | null; date_of_birth?: string | null; streak_weeks?: number | null }
       const kids = ((kidRows ?? []) as Kid[])
       const child = kids[0] ?? null
       const named = (k: Kid) => (k.name && k.name !== 'Your child' ? k.name : 'your child')
@@ -140,9 +142,23 @@ async function handler(req: NextRequest) {
       }, shown)
       const spotlight = chosen ? renderSpotlight(chosen, childName) : null
 
+      // Each child's passport page, one row each, from the one function the
+      // passport card on Home reads (lib/pathway/passport-today.ts). Fail soft
+      // per child: a passport read that errors drops that row, never the email.
+      const passport: { line: string; nextLine: string; href: string; img: string }[] = []
+      for (const k of kids) {
+        const t = await loadPassportToday(supabase, { userId: profile.id, child: k, paid: false }).catch(() => null)
+        if (!t) continue
+        passport.push({
+          line: t.line, nextLine: t.nextLine,
+          href: `${SITE_URL}/dashboard/pathway?open=${t.stageNum}&child=${encodeURIComponent(k.id)}&src=email_digest#page`,
+          img: `${SITE_URL}${t.emailImg}`,
+        })
+      }
+
       const result = await deliverOnce(supabase, profile.id, profile.email!, key, weeklyDigestEmail({
         childName, stageName: stage.name, scriptsDoneTotal: total, scriptsDoneThisWeek: thisWeek,
-        unsubscribe: unsubscribeUrl(profile.id), balanceNote, spotlight,
+        unsubscribe: unsubscribeUrl(profile.id), balanceNote, spotlight, passport,
       }))
 
       // Recorded only once the email actually went. A spotlight marked as shown

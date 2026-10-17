@@ -28,6 +28,8 @@ import type { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
+const RETIRED = true
+
 // How many children one run will look at. The gather is a dozen queries per
 // child, so an unbounded loop on the first of the month is a way to time a
 // function out and send nobody anything. Anything past this is reported in the
@@ -42,6 +44,13 @@ async function handler(request: Request) {
   if (secret && auth !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
+
+  // RETIRED, 17 October 2026 (passport journey plan, decision 7, Justin's
+  // yes). Its count of "things to do" disagreed with the child's own page,
+  // and the child's app now says where their page is every day. The route and
+  // its schedule stay so the heartbeat keeps beating and nothing reads as a
+  // failed cron; it sends nothing.
+  if (RETIRED) return NextResponse.json({ ok: true, sent: 0, retired: true })
 
   const admin = createAdminClient()
   // gatherChildPassportToDo is typed against the request scoped server client,

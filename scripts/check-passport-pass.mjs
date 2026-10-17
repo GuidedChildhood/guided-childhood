@@ -258,6 +258,36 @@ console.log(JSON.stringify({
   }
 }
 
+// ── K: the daily loop speaks the passport, through one function ───────────────
+// Justin, 15 October 2026: "daily loop gives simple update on progress, what
+// needs to be done ... use the PWA to update you". Decision 3: no new push.
+{
+  const readers = [
+    ['app/(dashboard)/dashboard/pathway/page.tsx', 'the passport page\'s Next card'],
+    ['app/api/pathway/attention/route.ts', 'the passport card on Home'],
+    ['app/api/quests/lesson-complete/route.ts', 'the lesson pass push'],
+    ['app/api/kid/stage-quiz/route.ts', 'the stage check push'],
+    ['app/api/email/digest/route.ts', 'the weekly email'],
+  ]
+  for (const [file, what] of readers) {
+    if (!/loadPassportToday\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${what} (${file}) does not read lib/pathway/passport-today.ts, so it can disagree with the page`)
+  }
+  ok.push('K: the page, Home, the pushes and the weekly email read one passport line')
+  for (const file of ['app/api/quests/lesson-complete/route.ts', 'app/api/kid/stage-quiz/route.ts']) {
+    if (!/sendPassportPush\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${file} sends its passport push around sendPassportPush`)
+  }
+  const pp = strip(readFileSync('lib/push/passport-push.ts', 'utf8'))
+  if (!/\.is\(args\.moment, null\)/.test(pp)) problems.push('K: a page moment push must be claimed where its column is still empty, so it can only go once')
+  else ok.push('K: the check ready and stamp pushes are claimed once per page')
+  const lc = strip(readFileSync('app/api/quests/lesson-complete/route.ts', 'utf8'))
+  if (!/flagged \? 'Open the app for the question to ask at tea\.'/.test(lc)) problems.push('K: a flagged lesson\'s tea question must stay off the lock screen in the pass push')
+  else ok.push('K: a flagged lesson keeps its tea question off the lock screen')
+  if (!/if \(RETIRED\) return/.test(strip(readFileSync('app/api/cron/passport-check/route.ts', 'utf8')))) problems.push('K: the monthly child passport push is retired (decision 7) and must send nothing')
+  else ok.push('K: the monthly child passport push is retired')
+  if (!/bookLine/.test(strip(readFileSync('app/k/[token]/KidQuestScreen.tsx', 'utf8')))) problems.push('K: the child\'s passport tile no longer says where their page is')
+  else ok.push('K: the child\'s tile says their page, in their words')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

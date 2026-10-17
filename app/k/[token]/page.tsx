@@ -26,6 +26,9 @@ import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import { stampedStages } from '@/lib/pathway/stamp-store'
+import { passportStageFor } from '@/lib/lessons/school-path'
+
+const BOOK_STAGE_NUM: Record<string, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
 import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
@@ -429,6 +432,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // appropriate, so a four year old never meets an eleven year old's game.
   const ageBand = childRes.data?.age_band as AgeBand | undefined
   const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
+  // The passport page their class is on (one clock, decision 1, 17 October
+  // 2026): the school year, the same clock as their lessons and the parent's
+  // passport. Only the book reads it; games and mini lessons stay on the age.
+  const bookStage = BOOK_STAGE_NUM[passportStageFor({ date_of_birth: dob ?? null, age_band: (ageBand as string | null) ?? null })] ?? stageId
   const stageSlug = ageBand ? getStageFromAgeBand(ageBand).name.toLowerCase() : 'builder'
 
   const monday = (() => {
@@ -503,7 +510,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       ? soft(buildPassportSections(
         supabase, link.user_id,
         { id: link.child_id, age_band: ageBand ?? null },
-        passportReads[0], stageId,
+        passportReads[0], bookStage,
         { openMoments: 0, solvedMoments: 0, parentReport: null },
       ))
       : Promise.resolve(null),
@@ -883,7 +890,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
           name: STAGE_TITLES[i],
           ages: STAGE_AGES[i],
           pct,
-          status: isStageStamped(prog, passed, id, storedStamps) ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
+          status: isStageStamped(prog, passed, id, storedStamps) ? 'earned' : id === bookStage ? 'current' : id < bookStage ? 'catchup' : 'upcoming',
           href: '#',
           lessonsDone: prog?.lessonsDone ?? 0,
           lessonsTotal: prog?.lessonsTotal ?? 0,
@@ -894,7 +901,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
           areas: areasRead.byStage[id],
         }
       })
-      if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: stageId }
+      if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: bookStage }
     }
   } catch { kidBook = null }
 

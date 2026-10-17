@@ -48,7 +48,6 @@ export type NextStep = {
 const q = (s: string) => encodeURIComponent(s)
 
 export function passportNext(i: NextInput): NextStep {
-  const KID = i.kid.toUpperCase()
   const tea = i.lastPass?.question ? `Ask ${i.kid} at tea: ${i.lastPass.question}` : null
   const listen = i.lastPass?.listenFor ? `Listen for: ${i.lastPass.listenFor}` : null
 
@@ -65,7 +64,7 @@ export function passportNext(i: NextInput): NextStep {
   const scriptsLeft = i.count.scripts.total - i.count.scripts.done
   if (lessonsLeft <= 0 && scriptsLeft <= 0 && !i.count.check.done) {
     return {
-      key: 'check', chip: `For ${KID}`,
+      key: 'check', chip: `For ${i.kid}`,
       title: 'The big check is ready',
       how: `Five questions on this page's lessons, on ${i.kid}'s app or here with you. Four right earns the stamp.`,
       button: { label: 'Do the check together', href: `/dashboard/pathway/check?stage=${i.stageNum}&child=${q(i.childId)}` },
@@ -82,7 +81,7 @@ export function passportNext(i: NextInput): NextStep {
       }
     }
     return {
-      key: 'lesson', chip: `For ${KID}`,
+      key: 'lesson', chip: `For ${i.kid}`,
       title: i.lesson.title,
       how: `This week's lesson, on ${i.kid}'s app. About ten minutes, then a short check.`,
       button: { label: 'Do it together', href: `/dashboard/lessons/do-together?child=${q(i.childId)}&lesson=${q(i.lesson.id)}` },

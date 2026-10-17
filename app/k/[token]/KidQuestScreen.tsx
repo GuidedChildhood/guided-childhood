@@ -490,6 +490,15 @@ export default function KidQuestScreen({
   // The sticker book, opened on purpose from its own tile rather than found
   // by scrolling past the wins panel.
   const [passportOpen, setPassportOpen] = useState(false)
+  // The child's own page, in the child's words (passport journey plan, PR 3):
+  // the friend's page and its lessons, never the parent's half or a percent.
+  const bookNow = kidBook?.stamps.find(st => st.id === kidBook.currentStage) ?? null
+  const BOOK_FRIEND = ['Pebble', 'Bloop', 'Orbit', 'Nova', 'Cosmo']
+  const bookLine = bookNow
+    ? bookNow.status === 'earned'
+      ? `The ${BOOK_FRIEND[bookNow.id - 1]} stamp is yours`
+      : (bookNow.lessonsTotal ?? 0) > 0 ? `${BOOK_FRIEND[bookNow.id - 1]}'s page: ${bookNow.lessonsDone ?? 0} of ${bookNow.lessonsTotal} lessons` : null
+    : null
 
   // A PLANET FRIEND CAME HOME.
   //
@@ -1951,7 +1960,10 @@ export default function KidQuestScreen({
             { icon: 'wins', label: 'My wins', sub: 'Streaks and best runs', tint: CRAYON.sky, onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
             // The sticker book, on its own: an object a child opens. The sub
             // line counts anything earned and not yet seen.
-            { front: true, icon: 'passport', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : stickers.length === 0 ? 'Your first sticker is coming' : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: CRAYON.butter, onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
+            // The page the child is on, in their words, every day (passport
+            // journey plan, PR 3): "Orbit's page: 5 of 9 lessons", or the
+            // stamp once it is theirs. New stickers still come first.
+            { front: true, icon: 'passport', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : bookLine ?? (stickers.length === 0 ? 'Your first sticker is coming' : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`), tint: CRAYON.butter, onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
             // The stage lessons, taken by the child themselves.
             { front: true, icon: 'lessons', label: 'My lessons', sub: 'Learn it, pass it', tint: CRAYON.paper, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
             // Games, on the front. Justin, 2 September 2026: "where do games
