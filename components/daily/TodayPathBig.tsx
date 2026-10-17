@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
-import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
@@ -11,8 +10,8 @@ import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompleteFlow'
 import DayTickFlow, { type FirstMove } from '@/components/daily/DayTickFlow'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
-import { chunky } from '@/components/scripts/card-system'
 import { CRAYON } from '@gc/shared/happy-news'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
 //
@@ -34,6 +33,9 @@ import { CRAYON } from '@gc/shared/happy-news'
 // callout riding right next to the current node with one big butter Go.
 
 const NODE = 68
+// The step up next is bigger, the way Duolingo's current lesson is: it is the
+// one stone on the road that is a button rather than a record.
+const NODE_NOW = 84
 // The gentle meander, in pixels from the centre line, one offset per node in
 // walking order. Small enough that a 390px phone never clips a node.
 const MEANDER = [-58, 42, -48, 52, 0]
@@ -175,8 +177,9 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     ? lead.done
     : investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
   const pathDone = steps.length > 0 && doneCount === steps.length
-  // The strong nudge (the Go callout on the current node) eases off once the
-  // ONE tick has landed, exactly as it always did. That is the half of the old
+  // The strong nudge (the bubble over the stone up next, the Go callout
+  // before 17 October) eases off once the ONE tick has landed, exactly as it
+  // always did: the bubble stops bouncing and says Extra. That is the half of the old
   // behaviour that was right: a parent who has done their tick should not be
   // pushed, they should be invited. What changed is only what we CALL that
   // state, which used to be "done".
@@ -191,6 +194,24 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // references bear this out: Duolingo stands its characters against the
   // middle of the trail, never against the node you are about to tap.
   const bonusRow = tasks.findIndex((_, i) => i >= 1 && i < tasks.length - 1 && MEANDER[i % MEANDER.length] < 0)
+
+  // ── WHICH ROWS A FRIEND STANDS BESIDE ─────────────────────────────────────
+  // Every other row from the second, where the stone leans to one side and
+  // leaves the other empty (never the centred row, which has no empty side),
+  // never the bonus row, never the finish. Friends are taken in cast order,
+  // skipping whoever is carrying today's bonus so nobody appears twice. A
+  // friend beside a step still ahead is greyed, as Duolingo greys its cast on
+  // the road you have not walked yet.
+  const standing = STAGE_CHARACTERS.filter(c => c.key !== bonus?.friend.key)
+  const friendRows = tasks
+    .map((_, i) => i)
+    .filter(i => i >= 1 && i % 2 === 1 && i !== bonusRow && i < tasks.length - 1 && MEANDER[i % MEANDER.length] !== 0)
+  const friendFor = (i: number) => {
+    const n = friendRows.indexOf(i)
+    if (n < 0 || standing.length === 0) return null
+    const c = standing[n % standing.length]
+    return { cutout: c.cutout, ahead: !settled(tasks[i]) && i !== currentIndex }
+  }
 
   function pickMinutes(m: number) {
     setMinutes(m)
@@ -569,26 +590,27 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           // screen reader why.
           const isClearNode = !task.done && !!task.clear
           const isDoneNode = task.done || (isClearNode && task.key === 'quests')
-          const showCallout = isCurrent && pressure
-          // DiGi sits on whichever side of the current node has the room.
-          const digiOnRight = x <= 0
+          const size = isCurrent ? NODE_NOW : NODE
+          const isGoal = task.key === 'done'
+          // A Planet Friend standing beside this row, if one is: see
+          // FRIEND_ROWS below. On the side the stone leans away from.
+          const friend = friendFor(i)
           return (
             <div key={task.key}>
               {/* The seam between the day's one thing and the extras. One
                   quiet line, so the road reads as a small promise followed by
                   an open invitation rather than one long list of homework. */}
               {tasks.findIndex(t => t.lead) >= 0 && i === tasks.findIndex(t => t.lead) + 1 && (
-                <div style={{ textAlign: 'center', margin: '14px 0 0', position: 'relative', zIndex: 2 }}>
-                  {/* A pill, not bare text: the connector curve runs up behind
-                      this line and the words have to sit on something. */}
-                  <span style={{
-                    display: 'inline-block', padding: '4px 12px', borderRadius: 'var(--radius-pill)',
-                    background: 'var(--white)', border: 'var(--edge)',
-                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800,
-                    color: 'var(--ink-soft)',
-                  }}>
+                // Duolingo's section break: a hairline either side of a few
+                // quiet words (mobbin.com/flows/08dc9b37-c078-458f-98ae-9c71fe8fd85f).
+                // It replaced a bordered pill, which was one more box on a
+                // screen that had too many.
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '22px 0 4px', position: 'relative', zIndex: 2 }}>
+                  <span aria-hidden style={{ flex: 1, height: 2, borderRadius: 1, background: 'var(--border)' }} />
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     Also today, if you fancy it
                   </span>
+                  <span aria-hidden style={{ flex: 1, height: 2, borderRadius: 1, background: 'var(--border)' }} />
                 </div>
               )}
               {i > 0 && (
@@ -613,12 +635,47 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     CURRENT step uses, and two things pulsing on one path means
                     neither reads as the next thing to do. A bounce says "over
                     here" without ever saying "you are behind". */}
+                {/* ── THE CAST BESIDE THE ROAD (17 October 2026) ──────────────
+                    Justin, with the Duolingo path flows: "feel free to use
+                    planet friends if helps". Duolingo stands its characters
+                    in the empty side of the meander, in colour where you have
+                    been and greyed where you are going
+                    (mobbin.com/flows/e9d5c83f-4d26-4466-bb31-d38d39770933).
+                    Same here with Pebble, Bloop, Orbit, Nova and Cosmo, the
+                    cast the child already knows. Decoration only: hidden from
+                    screen readers, no tap, never on the bonus row, never on
+                    the stone. */}
+                {friend && (
+                  <span aria-hidden style={{
+                    // Pinned to the road's centre rather than the column's
+                    // edge, so on a wide screen the Friend still stands by
+                    // the road instead of floating at the margin.
+                    position: 'absolute', top: '50%', [x < 0 ? 'left' : 'right']: 'calc(50% + 56px)',
+                    transform: 'translateY(-55%)', width: 92, pointerEvents: 'none', zIndex: 0,
+                    display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={friend.cutout}
+                      alt=""
+                      width={84}
+                      height={84}
+                      style={{
+                        display: 'block', width: 84, height: 84, objectFit: 'contain',
+                        // Ahead reads as softer, never as grey: a greyed 3D
+                        // figure looked like a skeleton still loading.
+                        opacity: friend.ahead ? 0.55 : 1,
+                      }}
+                    />
+                    <span style={{ width: 44, height: 8, marginTop: -3, borderRadius: '50%', background: 'rgba(26,26,46,0.12)', opacity: friend.ahead ? 0.55 : 1 }} />
+                  </span>
+                )}
                 {bonus && i === bonusRow && (
                   <Link
                     href={bonus.service.href}
                     aria-label={`${bonus.friend.name} says: ${bonus.service.title}`}
                     style={{
-                      position: 'absolute', right: 0, top: '50%',
+                      position: 'absolute', left: 'calc(50% + 60px)', top: '50%',
                       transform: 'translateY(-50%)',
                       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                       textDecoration: 'none', zIndex: 2, maxWidth: 96,
@@ -700,12 +757,36 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     transform: `translateX(${x}px)`, position: 'relative', zIndex: 1,
                   }}
                 >
-                  <div data-node-key={task.key} className={isCurrent ? 'todaypathbig-throb' : undefined} style={{ position: 'relative', width: NODE, height: NODE }}>
+                  {/* THE START BUBBLE, Duolingo's: one word over the stone
+                      that is the next thing, so a parent never has to find
+                      the button. It IS the button: the whole stone is the
+                      link. */}
+                  {isCurrent && (
+                    <span className={pressure ? 'todaypathbig-throb' : undefined} style={{
+                      position: 'relative', marginBottom: 6,
+                      // Butter, the one thing to tap, and the only butter on
+                      // the road. White once the day counts: an invitation.
+                      background: pressure ? 'var(--terracotta)' : 'var(--white)', border: 'var(--edge)', borderRadius: 12,
+                      boxShadow: '0 3px 0 var(--ink)', padding: '6px 14px',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
+                      letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink)',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {!pressure ? 'Extra' : doneCount === 0 ? 'Start' : 'Go'}
+                      <span aria-hidden style={{
+                        position: 'absolute', left: '50%', bottom: -8, width: 12, height: 12,
+                        transform: 'translateX(-50%) rotate(45deg)', background: pressure ? 'var(--terracotta)' : 'var(--white)',
+                        borderRight: 'var(--edge)', borderBottom: 'var(--edge)',
+                      }} />
+                    </span>
+                  )}
+                  <div data-node-key={task.key} style={{ position: 'relative', width: size, height: size, margin: isCurrent ? 12 : 0 }}>
+                    {/* A halo round the stone up next, Duolingo's ring. Not a
+                        progress arc: the banner's finish line already counts
+                        the day, and two counters for one number is one too
+                        many. */}
                     {isCurrent && (
-                      <div
-                        className="todaypathbig-pulse-ring"
-                        style={{ position: 'absolute', inset: '-7px', borderRadius: '50%', border: `4px solid ${NODE_PLATE[task.key]}` }}
-                      />
+                      <span aria-hidden style={{ position: 'absolute', inset: -11, borderRadius: '50%', border: '7px solid var(--border)' }} />
                     )}
                     <div
                       style={{
@@ -718,11 +799,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         // drawing still in colour: waiting, not broken. A
                         // fully greyed road lost the warmth the review asked
                         // to keep.
-                        background: isDoneNode ? GREEN : isCurrent ? NODE_PLATE[task.key] : 'var(--white)',
-                        border: isDoneNode || isCurrent ? '2.5px solid var(--ink)' : '2.5px solid var(--ink-light)',
+                        // The finish wears its pink plate from the start: it is
+                        // the prize at the end of the road, Duolingo's chest,
+                        // and a prize should look worth walking to.
+                        background: isDoneNode ? GREEN : isCurrent || isGoal ? NODE_PLATE[task.key] : 'var(--white)',
+                        border: isDoneNode || isCurrent || isGoal ? '2.5px solid var(--ink)' : '2.5px solid var(--ink-light)',
                         boxShadow: isDoneNode
                           ? `0 5px 0 ${GREEN_DARK}`
-                          : isCurrent ? 'var(--lift-deep)' : '0 5px 0 var(--ink-light)',
+                          : isCurrent || isGoal ? 'var(--lift-deep)' : '0 5px 0 var(--ink-light)',
                         fontSize: 'var(--text-2xl)',
                       }}
                     >
@@ -731,38 +815,33 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                           <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="3.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       ) : (
-                        <span style={{ lineHeight: 0, opacity: isCurrent ? 1 : 0.7 }}>
-                          <HappyIcon name={NODE_ICON[task.key]} size={38} />
+                        <span style={{ lineHeight: 0, opacity: isCurrent || isGoal ? 1 : 0.7 }}>
+                          <HappyIcon name={NODE_ICON[task.key]} size={isCurrent ? 46 : 38} />
                         </span>
                       )}
                     </div>
 
-                    {/* DiGi sits beside the current node, the guide on the road.
-                        EXCEPT ON DIGI'S OWN DAY. DiGi is one of the rotating
-                        cast as well as the guide, so once every twelve days it
-                        is also the Friend standing further down the road, and
-                        drawing it twice on one screen is the same thing said in
-                        two places, which is the fault Justin catches within the
-                        hour every time. The Friend further down wins, because
-                        that one is carrying a message. */}
-                    {isCurrent && bonus?.friend.key !== 'digi' && (
-                      <div style={{
-                        position: 'absolute', top: '50%',
-                        [digiOnRight ? 'left' : 'right']: NODE + 8,
-                        transform: 'translateY(-58%)', zIndex: 2, pointerEvents: 'none',
-                      }}>
-                        <DigiCharacter mood={celebrating || !pressure ? 'happy' : 'idle'} size={48} once={!pressure && !celebrating} />
-                      </div>
-                    )}
                   </div>
                   <span style={{
-                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)',
-                    fontWeight: isCurrent ? 900 : 700,
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: isCurrent ? 900 : 700, fontSize: isCurrent ? 'var(--text-base)' : 'var(--text-sm)',
                     color: isCurrent ? 'var(--ink)' : 'var(--ink-soft)',
                     textAlign: 'center', lineHeight: 1.3,
                   }}>
                     {task.label}
                   </span>
+                  {/* What the step is, in one line, under the stone up next.
+                      It was a white card with a butter Go under the road;
+                      the stone and its bubble are the button now, so the
+                      card had nothing left to do but say this. */}
+                  {isCurrent && (
+                    <span style={{
+                      display: 'block', maxWidth: 240, marginBottom: 8, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
+                      color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.4, textWrap: 'balance',
+                    }}>
+                      {nextHint(task.key)}
+                    </span>
+                  )}
                   {task.note && (
                     <span style={{
                       display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -792,42 +871,6 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                 )}
               </div>
 
-              {/* The action callout rides right next to the current node: the
-                  exact next step, the honest minute line, and one big Go. */}
-              {showCallout && (
-                <div style={{ position: 'relative', margin: '22px auto 0', maxWidth: 420, zIndex: 2 }}>
-                  <span aria-hidden style={{
-                    position: 'absolute', top: -9, left: '50%',
-                    transform: `translateX(calc(-50% + ${x}px)) rotate(45deg)`,
-                    width: 16, height: 16, background: '#fff',
-                    borderTop: 'var(--edge)', borderLeft: 'var(--edge)',
-                  }} />
-                  <div style={{
-                    background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
-                    padding: '14px 14px 14px', boxShadow: 'var(--lift)',
-                  }}>
-                    {/* One eyebrow, one title, one line, one button. The
-                        minute budget used to ride on the title as a run on
-                        sentence; the banner carries it now, so this says
-                        only what the step is and how long it takes. */}
-                    <p style={{ margin: '0 0 3px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-                      Up next
-                    </p>
-                    <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
-                      {tasks[currentIndex].label}
-                    </p>
-                    <p style={{ margin: '4px 0 14px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                      {nextHint(tasks[currentIndex].key)}
-                    </p>
-                    <Link
-                      href={tasks[currentIndex].href}
-                      style={{ ...chunky('butter', 'lg'), display: 'block', textAlign: 'center', textDecoration: 'none', width: '100%', boxSizing: 'border-box' }}
-                    >
-                      Go
-                    </Link>
-                  </div>
-                </div>
-              )}
             </div>
           )
         })}
@@ -836,19 +879,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       {/* The two quieter endings, word for word from the strip: budget met but
           steps remain, and the full house. While a step is still due, the Go
           lives in the callout on the path above. */}
-      {!pressure && !allDone ? (
-        // ── THE COUNTED DAY, ONE BUTTON (17 October 2026) ─────────────────
-        // It was a sage box repeating what the banner says (your minutes are
-        // done, your streak is safe). The banner says it once now, so all
-        // that is left here is the way on, as the quiet white button the
-        // child app uses for a second choice. The Go stays the only butter.
-        <Link
-          href={tasks[currentIndex].href}
-          style={{ ...chunky('white', 'md'), display: 'block', textAlign: 'center', textDecoration: 'none', width: '100%', boxSizing: 'border-box', marginTop: 18 }}
-        >
-          Keep going: {tasks[currentIndex].label}
-        </Link>
-      ) : allDone ? (
+      {/* The counted day used to end in a "Keep going" button. The stone up
+          next carries its own bubble now, so a second way to the same step
+          was the same thing said twice. */}
+      {allDone ? (
         <Link
           href="/dashboard/pathway"
           style={{
