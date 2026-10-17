@@ -339,7 +339,7 @@ console.log(JSON.stringify(out))
 // actually learning" needs the stamp's last step to be real.
 {
   const probe5 = `
-import { markStageCheck, checkShape } from './lib/pathway/child-stage-check.ts'
+import { markStageCheck, checkShape } from './lib/pathway/stage-check-marking.ts'
 const pool = [1, 2, 3, 4, 5, 6].map(n => ({ q: 'Question ' + n, options: ['right ' + n, 'wrong ' + n], answer: 0, why: '' }))
 const right = n => ({ question: 'Question ' + n, chosen: 'right ' + n })
 const wrong = n => ({ question: 'Question ' + n, chosen: 'wrong ' + n })
