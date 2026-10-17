@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
-import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
+import { childStageCheckPool, checkShape } from '@/lib/pathway/child-stage-check'
 import { fetchAnswerFacts, orderPoolByHistory } from '@/lib/lessons/answers'
-import { READINESS } from '@/lib/content/readiness'
+import { STAGE_PAGES } from '@gc/shared/stage-map'
 import KidStageQuiz from '@/components/kid/KidStageQuiz'
 import { resolveTheme } from '@/lib/kid/theme'
 import { passportStageFor } from '@/lib/lessons/school-path'
@@ -62,9 +62,26 @@ export default async function KidStageQuizPage({ params, searchParams }: {
   // child's own history (migration 239): missed first, never met next,
   // already held last. The component runs the front of the pool, so the
   // check is retrieval practice by design rather than luck.
-  const { questions } = await stageQuizPool(supabase, stage.id)
+  //
+  // Since 17 October 2026 the pool is THIS child's own passed lessons on the
+  // page, never the parent library (passport journey plan, 1.6), and the check
+  // opens once every lesson on the page is passed, so the pool exists.
+  const pool = await childStageCheckPool(supabase, { userId: link.user_id, childId: link.child_id, stageNum: stage.id })
   const facts = await fetchAnswerFacts(supabase, link.user_id, link.child_id)
-  const ordered = orderPoolByHistory(questions, facts)
+  const ordered = orderPoolByHistory(pool.questions, facts)
+  const lessonsLeft = Math.max(0, pool.lessonsTotal - pool.lessonsDone)
+  const { length, passMark } = checkShape(ordered.length)
+  // A miss today comes back tomorrow (the route enforces it too).
+  let triedToday = false
+  {
+    const todayLondon = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+    const { data } = await supabase
+      .from('stage_quiz_passes').select('passed, taken_at')
+      .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('stage_id', stage.id)
+      .order('taken_at', { ascending: false }).limit(5)
+    triedToday = ((data ?? []) as { passed: boolean; taken_at: string }[])
+      .some(r => !r.passed && new Date(r.taken_at).toLocaleDateString('en-CA', { timeZone: 'Europe/London' }) === todayLondon)
+  }
 
   // Already stamped? Read it the same way the pathway page does, so the child
   // is told rather than quietly given the quiz again. Fails soft to not passed
@@ -82,7 +99,9 @@ export default async function KidStageQuizPage({ params, searchParams }: {
     alreadyPassed = !!data?.length
   }
 
-  const stampName = READINESS[Math.min(4, Math.max(0, stage.id - 1))].stamp
+  // The child names the stamp by its Planet Friend, "the Orbit stamp", never
+  // the parent's readiness label (passport journey plan, names rule).
+  const stampName = STAGE_PAGES[(['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)[stage.id - 1]].stamp
 
   return (
     <KidStageQuiz
@@ -95,6 +114,11 @@ export default async function KidStageQuizPage({ params, searchParams }: {
       pool={ordered}
       alreadyPassed={alreadyPassed}
       lessonsHref={`/k/${token}/lessons`}
+      runLength={length}
+      passMark={passMark}
+      lessonsLeft={lessonsLeft}
+      comeBackTomorrow={triedToday && !alreadyPassed}
+      tellHref={`/k/${token}/tell`}
     />
   )
 }
