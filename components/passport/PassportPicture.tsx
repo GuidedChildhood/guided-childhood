@@ -95,7 +95,7 @@ export default function PassportPicture({
             }}>
               <span aria-hidden style={{
                 flexShrink: 0, minWidth: 34, height: 26, padding: '0 8px', boxSizing: 'border-box', borderRadius: 'var(--radius-pill)',
-                background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                background: 'var(--white)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)',
               }}>{milestone.badge}</span>
               <span style={{ minWidth: 0 }}>
