@@ -16,7 +16,7 @@ const mono: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
+  background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
   padding: '16px 18px', margin: '0 0 14px',
 }
 
@@ -99,7 +99,7 @@ export function PassportLearnt({ kid, lessons }: { kid: string; lessons: LearntL
     <li key={l.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '8px 0', borderTop: '1px solid var(--border)' }}>
       <span aria-hidden style={{
         flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'var(--tint-green)',
-        border: '1.5px solid #2D5016', color: '#2D5016', fontWeight: 900, fontSize: 13,
+        border: '1.5px solid var(--sage-ink)', color: 'var(--sage-ink)', fontWeight: 900, fontSize: 13,
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
       }}>✓</span>
       <span style={{ minWidth: 0 }}>

@@ -123,8 +123,8 @@ export default function PassportPeek({ childId, preview = null }: {
           // filling with colour as the page fills.
           <span aria-hidden className="gc-peek-book" style={{
             flexShrink: 0, position: 'relative', width: 60, height: 60, borderRadius: '50%', overflow: 'hidden',
-            background: att.stamped ? `var(--stage-${att.stageId}-bold)` : '#F1F1F4',
-            border: att.stamped ? `3px solid var(--stage-${att.stageId}-text)` : '2px dashed #B9B9C8', boxSizing: 'border-box',
+            background: att.stamped ? `var(--stage-${att.stageId}-bold)` : 'var(--border)',
+            border: att.stamped ? `3px solid var(--stage-${att.stageId}-text)` : '2px dashed var(--ink-light)', boxSizing: 'border-box',
           }}>
             {!att.stamped && <img src={att.img} alt="" width={60} height={60} style={{ position: 'absolute', inset: '8%', width: '84%', height: '84%', objectFit: 'contain', filter: 'grayscale(1)', opacity: 0.45 }} />}
             <span style={{ position: 'absolute', inset: 0, clipPath: att.stamped ? 'none' : `inset(${100 - Math.round(Math.max(0, Math.min(1, att.fill ?? 0)) * 100)}% 0 0 0)`, background: att.stamped ? 'transparent' : `var(--stage-${att.stageId}-bold)` }}>
