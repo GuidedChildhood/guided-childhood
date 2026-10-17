@@ -678,3 +678,9 @@ jobs:
       # nothing had broken, and nothing would have gone red on the day they
       # stopped. A comment cannot hold a rule in one place.
       - run: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-child-kinds.mjs
+
+      # No new hand typed colours. About 3,000 hex values predate the tokens
+      # and stay until someone is in that file anyway; scripts/hex-baseline.json
+      # holds them per file and per value and only ever shrinks. A new one
+      # fails and names the token it already is. See check-hex-ratchet.mjs.
+      - run: node scripts/check-hex-ratchet.mjs

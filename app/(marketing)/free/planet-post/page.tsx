@@ -24,7 +24,7 @@ const P: CSSProperties = { fontSize: 'var(--text-md)', lineHeight: 1.65, color: 
 
 const PAGES = [
   { n: 1, h: 'The front page', b: 'Why a good day is a rainbow, and a day wheel to colour in. DiGi is the editor.' },
-  { n: 2, h: 'Three jars of screen time', b: 'Mine every day, earned with stars, and nobody’s. Plus Bloop on why phones go to bed too.' },
+  { n: 2, h: 'Three jars of screen time', b: 'Mine every day, earned with stars, and nobody’s, filled in with your grown up. Plus a bed for the phone to cut out and make.' },
   { n: 3, h: 'Real or pretend?', b: 'Orbit’s detective corner on messages, a screen free word search, and tomorrow’s happy headline.' },
   { n: 4, h: 'The back page', b: 'Jobs that earn stars, family jobs just for helping, and a screen promise to sign together.' },
 ]

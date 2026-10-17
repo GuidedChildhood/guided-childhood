@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react'
+import KidDealChangeAsk from '@/components/kid/KidDealChangeAsk'
 import type { DrawnKey } from '@/components/printables/drawn'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
@@ -3095,6 +3096,10 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
                 )}
               </div>
             ) : null}
+            {/* The child can ask to change a promise, with a reason, and their
+                grown up decides (16 October 2026, migration 381). Agreeing is
+                not the end of their say. */}
+            {token && <KidDealChangeAsk token={token} promises={agreementItems.map(it => ({ title: it.title, emoji: it.emoji }))} />}
           </div>
         )}
 

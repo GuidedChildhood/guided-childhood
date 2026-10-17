@@ -22,17 +22,23 @@ export type PlanetPostIssue = {
   theme: string
   weather: string
   editor: { name: string; img: string; note: string }
-  lead: { headline: string; paras: string[]; task: string }
+  // The day wheel as numbered steps (14 October 2026, after a nine year old
+  // tried it: one instruction per line, a box where the answer goes).
+  lead: { headline: string; paras: string[]; steps: { text: string; box?: 'count' | 'line'; after?: string }[] }
   inside: { label: string; page: number }[]
   jars: {
     headline: string
     intro: string
-    mine: { label: string; line: string }
-    earned: { label: string; line: string }
+    together: string
+    mine: { label: string; ask: string; unit: string; hint: string }
+    earned: { label: string; ask: string; unit: string }
     nobodys: { label: string; items: string[]; line: string }
     starSteps: string[]
+    starPuzzle: { headline: string; ask: string; order: number[]; answer: string }
   }
-  bedColumn: { by: string; img: string; headline: string; paras: string[]; swapsHead: string; swaps: string[]; fills: string[] }
+  // A thing to make: the phone's own bed, cut out and folded (replaced
+  // Bloop's column, which was all reading and no doing).
+  phoneBed: { by: string; img: string; headline: string; line: string; steps: string[]; sign: { front: string; back: string }; blanket: string; pillow: string }
   realOrPretend: {
     by: string
     img: string
@@ -80,10 +86,14 @@ export const PLANET_POST_1: PlanetPostIssue = {
   lead: {
     headline: 'Your brain loves lots of colours',
     paras: [
-      'A good day is like a rainbow. Some moving, some making, some reading, some helping, some resting, and a bit of screen too.',
-      'Screens are not bad. They are one colour. When one colour takes over the whole day, the rainbow goes grey, and you feel it: grumpy, tired, a bit stuck.',
+      'A good day is like a rainbow: some moving, making, reading, helping, resting, and a bit of screen too. Screens are not bad. They are one colour. When one colour takes over, the day goes grey.',
     ],
-    task: 'Colour a slice for everything you did yesterday. How many colours did you get?',
+    steps: [
+      { text: 'Think about yesterday.' },
+      { text: 'Colour every slice you did. One crayon for each slice.' },
+      { text: 'Count them. I coloured', box: 'count', after: 'out of 8 slices.' },
+      { text: 'Tomorrow I want more of', box: 'line' },
+    ],
   },
   inside: [
     { label: 'Three jars of screen time', page: 2 },
@@ -92,23 +102,33 @@ export const PLANET_POST_1: PlanetPostIssue = {
   ],
   jars: {
     headline: 'Three jars of screen time',
-    intro: 'In lots of houses, screen time is one big argument. It works better as three jars. Ask your grown up to help you fill in the numbers.',
-    mine: { label: 'Mine every day', line: 'minutes, just for me' },
-    earned: { label: 'Earned with stars', line: 'minutes per star' },
+    intro: 'In lots of houses, screen time is one big argument. It works better as three jars.',
+    together: 'Do this part with your grown up',
+    mine: { label: 'Mine every day', ask: 'How many minutes are just yours?', unit: 'minutes', hint: 'like 30' },
+    earned: { label: 'Earned with stars', ask: 'One star is worth', unit: 'minutes' },
     nobodys: { label: 'Nobody’s', items: ['Bedtime', 'Mealtimes', 'School'], line: 'No stars can buy these' },
     starSteps: ['Do a job', 'Your grown up says yes', 'You get a star', 'Stars turn into minutes'],
+    starPuzzle: {
+      headline: 'How is a star made?',
+      ask: 'These are mixed up. Write 1, 2, 3 and 4 in the boxes to put them in order.',
+      order: [2, 3, 0, 1],
+      answer: 'Answer: do a job, your grown up says yes, you get a star, stars turn into minutes.',
+    },
   },
-  bedColumn: {
+  phoneBed: {
     by: 'Bloop',
     img: '/digi-squad/friends/bloop.png',
-    headline: 'Phones go to bed too',
-    paras: [
-      'Your brain does its tidying up while you sleep. A phone in the bedroom keeps tapping it on the shoulder all night.',
-      'So in my house, the phone has its own bed, in the kitchen. It charges up, and so do I.',
+    headline: 'Make the phone a bed',
+    line: 'Phones go to bed too. Your brain tidies up while you sleep, so the phone sleeps in the kitchen, not your room.',
+    steps: [
+      'Colour the blanket and the pillow.',
+      'Cut along the solid lines.',
+      'Fold the sign on the dotted line so it stands up.',
+      'At bedtime, tuck the phone in, in the kitchen.',
     ],
-    swapsHead: 'Instead of a phone at bedtime, try',
-    swaps: ['A book', 'A chat about your day', 'A sleepy song', 'A cuddle'],
-    fills: ['Our phones go to bed at', 'They sleep in the'],
+    sign: { front: 'Shh! Phone sleeping', back: 'Back at' },
+    blanket: 'Blanket',
+    pillow: 'Pillow',
   },
   realOrPretend: {
     by: 'Orbit',

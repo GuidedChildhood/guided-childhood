@@ -98,7 +98,7 @@ export default function ShareStage({ member = false }: { member?: boolean }) {
           onClick={copy}
           data-share-copy
           aria-live="polite"
-          style={{ ...button, flex: '1 1 140px', background: '#fff', border: 'var(--edge)', boxShadow: '0 5px 0 var(--ink)' }}
+          style={{ ...button, flex: '1 1 140px', background: 'var(--white)', border: 'var(--edge)', boxShadow: '0 5px 0 var(--ink)' }}
         >
           {copied ? 'Link copied' : 'Copy link'}
         </button>

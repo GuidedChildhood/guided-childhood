@@ -351,6 +351,23 @@ top, shorter jar lines, "My name"), and tagged PDFs titled "The Planet Post,
 Issue 1". All five PDFs and the previews re-rendered; the guard holds the
 fixes. Spec: plans/2026-10-14-planet-post-handoff.md.
 
+## 16 October 2026: The Planet Post, clearer after a nine year old tried it
+
+Justin's daughter (9 to 11 band) found page 1 and page 2 unclear. Page 1's day
+wheel is now four numbered steps with a box for the count. Page 2's jars ask
+one question each under "Do this part with your grown up", the star steps are
+a put them in order puzzle, and Bloop's column became a craft: a phone bed
+(blanket, pillow, fold up sign) cut out and made. Write in lines are 12 mm.
+A real child's run through beat every review we did: test the next printable
+on a child before it ships.
+## 16 October 2026: thumb sized buttons, route shaped loaders, a hex ratchet
+44px is the floor (--tap-min). A button that stands alone keeps its look and
+takes the invisible .tap-target pad; buttons in a tight row are sized to 44 for
+real, since overlapping pads send a tap to the neighbour. A gold :focus-visible
+ring lives in shared/tokens.css. Seven route loaders draw their own page shape
+(child path is a redirect, so it keeps the child home loader). Every hex literal
+outside tokens.css counts, #fff included, but only new ones fail: the baseline
+only ever shrinks. PRs #1321 and #1322.
 ## 16 October 2026: The live Pathway Session line comes off the paid screens
 Justin, today: the "Monthly live Pathway Session with Justin (from member 50)"
 tick comes off the upgrade page, its only appearance (no email, config or
@@ -485,3 +502,13 @@ who never saw the thing it reacts to. PR 1339.
 ## 17 October 2026: the passport journey, nine decisions as recommended
 
 Justin took all nine in `plans/2026-10-16-passport-journey-plan.md` (v4, three panel rounds, all seven lenses say build). The passport follows the school year on 1 September (passport readers only; `stage_id` stays on the birthday). The parent's AI modules leave the stamp; AI counts through the child's own school AI lessons. No new push: lesson, check and stamp pushes carry the page count; the monthly child note and PassportToDo's Send retire. Builder's last three lessons open from Year 5; earlier pages are optional for late joiners; script 1401 never speaks first and 405 stops being gated; a fresh booklet at five stamps (wave two). Stamps are stored in `passport_pages` (migration 378). Claim PR 1312.
+## 16 October 2026: the child can ask to change the deal (PR 1344, migration 381)
+
+Justin said yes to the one Kairoo idea we lacked. In Our family deal the child picks a promise, says what they would like instead and why, and sends it; one open ask at a time, three a week, no model on the child side. The grown up sees it on the Quests page and the agreement page: Yes opens the agreement editor, Let's talk opens DiGi with the ask written in, Not this time takes an optional kind line the child reads. Push to the parent only. Applying 381 is Justin's call; until then the button stays hidden.
+## 16 October 2026: Kairoo upgraded to the competitor to watch
+
+Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agreed rules, streaks, banked minutes, a weekly note and a quiz that hands over a script: our philosophy, said back. Still pre launch and waiting on Apple. Our differences (2 to 16, lessons, earning by doing, scripts and DiGi, schools, live today) are logged with what to do in `briefings/notes/competitor-sightings.md`. Four review board tasks snoozed a week at Justin's answer.
+
+## 17 October 2026: Today path gets a Done bar, a green for jobs all approved, and a finish line (migration 382)
+
+Justin: steps that send a parent off the path (DiGi, the devices job) need a Done that turns them green and returns to the path; "No jobs waiting" should read as complete if true (checked: 14 jobs, nothing waiting); the day needs a visible end. DiGi and the passport job now open with a "Done, back to today" bar that records the step (today_step_marks). A clear Quests rung paints green as "Jobs all approved"; the deal keeps its ring (28 September). A finish line under the heading fills one segment per step to a trophy. Plan: plans/2026-10-17-today-path-finish-line-plan.md.

@@ -137,7 +137,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
                 <strong style={{ color: 'var(--ink)' }}>The first win is one job away.</strong> Put one small job on {firstWinRead.childName ? `${firstWinRead.childName}'s` : 'the'} board tonight. When it is ticked, the stars show on their side and the win shows here.
               </p>
               <Link href={firstWinRead.childId ? `/dashboard/quests?child=${firstWinRead.childId}` : '/dashboard/quests'} style={{
-                display: 'inline-flex', alignItems: 'center', justifySelf: 'start', minHeight: 44, background: '#fff', color: 'var(--ink)',
+                display: 'inline-flex', alignItems: 'center', justifySelf: 'start', minHeight: 44, background: 'var(--white)', color: 'var(--ink)',
                 border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               }}>

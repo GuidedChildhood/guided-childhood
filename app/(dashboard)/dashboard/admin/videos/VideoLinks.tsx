@@ -33,7 +33,7 @@ const MONO: React.CSSProperties = {
 }
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+  background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
   boxShadow: 'var(--lift)', padding: '16px 16px 18px', marginBottom: 14,
 }
 
@@ -123,7 +123,7 @@ export default function VideoLinks({ rows, channels, fridayNumber, startedEver, 
           {startedEver} begun since counting started.
           {!byChannel && ' Only film links are counted until migration 379 is applied.'}
         </p>
-        <div role="table" aria-label="Stage checks by channel" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 14, overflow: 'hidden' }}>
+        <div role="table" aria-label="Stage checks by channel" style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 14, overflow: 'hidden' }}>
           <div role="row" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 44px 44px 56px', gap: 6, padding: '10px 12px', borderBottom: '1.5px solid var(--border)' }}>
             <span role="columnheader" style={MONO}>Channel</span>
             <span role="columnheader" style={{ ...MONO, textAlign: 'right' }}>Week</span>
@@ -200,7 +200,7 @@ export default function VideoLinks({ rows, channels, fridayNumber, startedEver, 
             <code style={{ flex: '1 1 220px', minWidth: 0, overflowWrap: 'anywhere', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 10, padding: '8px 10px', color: 'var(--ink)' }}>
               {r.url}
             </code>
-            <button type="button" onClick={() => copy(r.url)} style={{ ...BUTTON, background: '#fff', boxShadow: '0 5px 0 var(--ink)', padding: '8px 14px', fontSize: 'var(--text-base)' }}>
+            <button type="button" onClick={() => copy(r.url)} style={{ ...BUTTON, background: 'var(--white)', boxShadow: '0 5px 0 var(--ink)', padding: '8px 14px', fontSize: 'var(--text-base)' }}>
               {copied === r.url ? 'Copied' : 'Copy link'}
             </button>
           </div>
