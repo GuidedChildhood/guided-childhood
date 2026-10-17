@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { STAGE_QUIZ_LENGTH, STAGE_QUIZ_PASS } from '@/lib/content/stage-quizzes'
 import { sendPush } from '@/lib/push/send'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
+import { childStageCheckPool, markStageCheck } from '@/lib/pathway/child-stage-check'
+import { passportStageFor } from '@/lib/lessons/school-path'
+import { loadPassportToday, kidOf, type PassportChild } from '@/lib/pathway/passport-today'
+import { awardStampIfEarned } from '@/lib/pathway/stamp-store'
+import { pageCountLine } from '@/lib/pathway/page-count'
+import { claimPageMoment, sendPassportPush } from '@/lib/push/passport-push'
 
 // The child finished the end of stage check on their own link. Token is the
 // auth, exactly like quest ticks and lesson completions.
@@ -46,15 +51,32 @@ export async function POST(req: NextRequest) {
   // same forward only age gate the lesson pages apply, enforced here too so the
   // gate is not just a link they could edit.
   const { data: child } = await supabase
-    .from('children').select('name, age_band').eq('id', link.child_id).maybeSingle()
-  const theirStage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
-  if (stage > theirStage.id) return NextResponse.json({ error: 'not found' }, { status: 404 })
+    .from('children').select('id, name, age_band, date_of_birth, streak_weeks').eq('id', link.child_id).maybeSingle()
+  // The page their class is on (one clock, decision 1, 17 October 2026).
+  const theirStage = child
+    ? STAGE_NUM[passportStageFor(child as { date_of_birth?: string | null; age_band?: string | null })] ?? getStageFromAgeBand((child.age_band as AgeBand | null) ?? '8-10').id
+    : getStageFromAgeBand('8-10').id
+  if (stage > theirStage) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
-  // Every run is STAGE_QUIZ_LENGTH, so that is the honest total, and the count
-  // is capped to it. The client is never trusted beyond its own honest count.
-  const total = STAGE_QUIZ_LENGTH
-  const right = Math.min(Math.max(0, Number(body.correct) || 0), total)
-  const passed = right >= STAGE_QUIZ_PASS
+  // MARKED HERE, NOT ON THE PHONE (passport journey plan, 1.6, 17 October
+  // 2026). The pool is rebuilt from this child's own passed lessons on the
+  // page and each posted answer is checked against it; the score the phone
+  // sends is never read. A page with no passed lessons has no check yet.
+  const pool = await childStageCheckPool(supabase, { userId: link.user_id, childId: link.child_id, stageNum: stage })
+  if (pool.questions.length === 0) return NextResponse.json({ error: 'not ready' }, { status: 409 })
+  // One go a day: a miss today comes back tomorrow, so the check stays a
+  // check rather than a guess repeated until it lands.
+  const todayLondon = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+  const { data: earlier } = await supabase
+    .from('stage_quiz_passes').select('passed, taken_at')
+    .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('stage_id', stage)
+    .order('taken_at', { ascending: false }).limit(5)
+  const triedToday = ((earlier ?? []) as { passed: boolean; taken_at: string }[])
+    .some(r => !r.passed && new Date(r.taken_at).toLocaleDateString('en-CA', { timeZone: 'Europe/London' }) === todayLondon)
+  const passedBefore = ((earlier ?? []) as { passed: boolean }[]).some(r => r.passed)
+  if (triedToday && !passedBefore) return NextResponse.json({ error: 'tomorrow' }, { status: 429 })
+  const marking = markStageCheck(pool.questions, sanitizeAnswers(body.answers))
+  const { right, total, passed } = marking
 
   const { error } = await supabase.from('stage_quiz_passes').insert({
     user_id: link.user_id,
@@ -75,8 +97,40 @@ export async function POST(req: NextRequest) {
   await recordQuestionAnswers(
     supabase,
     { userId: link.user_id, childId: link.child_id, source: 'stage_check', stageId: stage },
-    sanitizeAnswers(body.answers),
+    marking.marked,
   )
+
+  // THE STAMP, WHEN THIS PASS COMPLETES THE PAGE (passport journey plan,
+  // PR 3): stored once (migration 378), and the parent hears it once, as the
+  // stamp, not as "the last green before the stamp".
+  if (passed && child) {
+    try {
+      const today = await loadPassportToday(supabase, { userId: link.user_id, child: child as PassportChild, paid: false })
+      if (today.stageNum === stage) {
+        const name = kidOf(child.name as string | null)
+        if (today.stamped) {
+          await awardStampIfEarned(supabase, {
+            userId: link.user_id, childId: link.child_id, stageNum: stage,
+            lessonsDone: today.count.lessons.done, lessonsTotal: today.count.lessons.total,
+          })
+          if (await claimPageMoment(supabase, { userId: link.user_id, childId: link.child_id, stageNum: stage, moment: 'stamp_pushed_at' })) {
+            await sendPassportPush({
+              userId: link.user_id, childId: link.child_id, stageNum: stage,
+              title: `${name} earned the ${today.friend} stamp`,
+              body: `The ${today.page} page is stamped: every lesson passed with its check, every talk done, and the big check passed.`,
+            })
+          }
+        } else {
+          await sendPassportPush({
+            userId: link.user_id, childId: link.child_id, stageNum: stage,
+            title: `${name} passed the big check · ${pageCountLine(today.count)}`,
+            body: `${right} of ${total} right. ${today.nextLine}`,
+          })
+        }
+        return NextResponse.json({ ok: true, passed, score: right, total, stamped: today.stamped })
+      }
+    } catch { /* fall through to the plain push */ }
+  }
 
   // The grown up hears, best effort. A stage check is the biggest thing a child
   // does on their side, so this one is worth the parent's phone buzzing.

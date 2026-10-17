@@ -169,6 +169,263 @@ else ok.push('G: the next open row wears a story icon')
 if (/🛂/.test(book)) problems.push('G: the shop link still carries the passport emoji rather than the story icon')
 else ok.push('G: the shop link wears the passport story icon')
 
+// ── H: a stamp is stored once and stays earned (migration 378) ───────────────
+// plans/2026-10-16-passport-journey-plan.md, 1.2. The rule alone vanished a
+// stamp when a module was added; a stored stamp wins on every surface.
+{
+  const probe2 = `
+import { isStageStamped } from './lib/pathway/stamped.ts'
+import { pageCount, pageCountLine } from './lib/pathway/page-count.ts'
+const incomplete = { contentComplete: false }
+const out = {
+  storedWins: isStageStamped(incomplete, new Set(), 3, new Set([3])),
+  ruleStill: isStageStamped({ contentComplete: true }, new Set([3]), 3),
+  noCheck: isStageStamped({ contentComplete: true }, new Set(), 3, new Set()),
+  count: pageCount({ lessonsDone: 3, lessonsTotal: 5, scriptsDone: 1, scriptsTotal: 4 }, false),
+  countDone: pageCount({ lessonsDone: 5, lessonsTotal: 5, scriptsDone: 4, scriptsTotal: 4 }, true),
+  line: pageCountLine({ done: 7, total: 12 }),
+}
+console.log(JSON.stringify(out))
+`
+  const r2 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe2], { encoding: 'utf8', cwd: process.cwd() })
+  if (r2.status !== 0) problems.push(`H: the probe could not run the stamp rule: ${(r2.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r2.stdout.trim().split('\n').pop())
+    if (!o.storedWins || !o.ruleStill || o.noCheck) problems.push(`H: a stored stamp must win, the rule must still stamp, and no check must mean no stamp: ${JSON.stringify([o.storedWins, o.ruleStill, o.noCheck])}`)
+    else ok.push('H: a stored stamp wins, the rule still stamps, no check means no stamp')
+    if (o.count.done !== 4 || o.count.total !== 10 || o.countDone.done !== 10 || o.line !== '7 of 12 done') problems.push(`I: the page count is not lessons plus scripts plus the check: ${JSON.stringify([o.count.done, o.count.total, o.countDone.done, o.line])}`)
+    else ok.push('I: one number, lessons plus scripts plus the check, printed "7 of 12 done"')
+  }
+  const store = strip(readFileSync('lib/pathway/stamp-store.ts', 'utf8'))
+  if (!/\.is\('stamped_at', null\)/.test(store) || !/ignoreDuplicates: true/.test(store)) problems.push('H: the stamp store must only ever set stamped_at where it is empty')
+  else ok.push('H: the stamp store writes stamped_at once, never over an earlier stamp')
+  for (const [file, re] of [
+    ['app/(dashboard)/dashboard/pathway/page.tsx', /stampedStages\(/],
+    ['app/k/[token]/page.tsx', /stampedStages\(/],
+    ['app/verify/[code]/page.tsx', /loadStoredStamps\(/],
+    ['app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx', /loadStoredStamps\(/],
+    ['app/(dashboard)/dashboard/keepsakes/passport-print/zine/page.tsx', /loadStoredStamps\(/],
+    ['lib/stickers/book.ts', /loadStoredStamps\(/],
+  ]) {
+    if (!re.test(strip(readFileSync(file, 'utf8')))) problems.push(`H: ${file} stamps a page without reading the stored stamps`)
+  }
+  ok.push('H: every stamp reader reads the stored stamps first')
+  if (/only_on_signal/.test(strip(readFileSync('lib/pathway/progress.ts', 'utf8')).replace(/select\([^)]*\)/g, '')) === false) problems.push('I: progress.ts must leave only_on_signal scripts out of the stamp total (decision 6)')
+  else ok.push('I: never speak first scripts are not in the stamp total')
+}
+
+// ── J: the page is the picture, then one page in three answers, then paper ───
+// Justin's brief on PR 1312 (16 October 2026): image first, planet stamps in
+// colour when earned and grey until then, then progress, the one next step
+// and what was learnt, then the printed passport and stickers with one button.
+{
+  const page = strip(readFileSync('app/(dashboard)/dashboard/pathway/page.tsx', 'utf8'))
+  const order = ['<PassportPicture', '<PassportProgress', '<PassportNextCard', '<PassportLearnt', '<PassportOrderCard', 'passport-record']
+  const at = order.map(t => page.indexOf(t))
+  if (at.some(i => i < 0) || at.some((i, k) => k > 0 && i < at[k - 1])) problems.push(`J: the page is not picture, progress, next, learnt, order, then the folded record: ${order.map((t, k) => `${t}@${at[k]}`).join(' ')}`)
+  else ok.push('J: picture, progress, next step, learnt, order, then the folded record')
+  for (const gone of ['<NextOnTheApplication', '<PassportToDo']) {
+    if (page.includes(gone)) problems.push(`J: ${gone} is back on the page; the one Next card replaced it`)
+  }
+  const pic = strip(readFileSync('components/passport/PassportPicture.tsx', 'utf8'))
+  if (!/grayscale\(1\)/.test(pic) || !/clipPath/.test(pic)) problems.push('J: the picture must grey a stamp not yet earned and fill the current one with colour')
+  else ok.push('J: unearned stamps are grey, the current one fills with colour')
+  const probe3 = `
+import { passportNext } from './lib/pathway/passport-next.ts'
+import { pageCount } from './lib/pathway/page-count.ts'
+const base = { kid: 'Sam', childId: 'c1', stageNum: 3, page: 'Asking questions', stamped: false, lesson: { id: 'l1', title: 'Your feed is a guess', heavyWaiting: false }, weekOpen: true, opensOn: 'Thursday', script: { id: '301', title: 'The phone at bedtime' }, lastPass: { title: 'x', question: 'What would you do first?', listenFor: 'Stop, check, tell.' } }
+const c = pageCount({ lessonsDone: 5, lessonsTotal: 9, scriptsDone: 1, scriptsTotal: 2 }, false)
+const all = pageCount({ lessonsDone: 9, lessonsTotal: 9, scriptsDone: 2, scriptsTotal: 2 }, false)
+console.log(JSON.stringify({
+  lesson: passportNext({ ...base, count: c }).key,
+  shut: passportNext({ ...base, count: c, weekOpen: false }).key,
+  shutNoScript: passportNext({ ...base, count: c, weekOpen: false, script: null }),
+  heavy: passportNext({ ...base, count: c, lesson: { ...base.lesson, heavyWaiting: true } }).key,
+  check: passportNext({ ...base, count: all }).key,
+  stamped: passportNext({ ...base, count: all, stamped: true }).key,
+}))
+`
+  const r3 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe3], { encoding: 'utf8', cwd: process.cwd() })
+  if (r3.status !== 0) problems.push(`J: the probe could not run passportNext: ${(r3.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r3.stdout.trim().split('\n').pop())
+    const want = { lesson: 'lesson', shut: 'script', heavy: 'note', check: 'check', stamped: 'stamped' }
+    const bad = Object.entries(want).filter(([k, v]) => o[k] !== v)
+    if (bad.length) problems.push(`J: the one next step is out of order: ${JSON.stringify(bad.map(([k]) => [k, o[k]]))}`)
+    else ok.push('J: the next step runs stamped, check, this week\'s lesson (note first when heavy), the parent\'s talk')
+    if (o.shutNoScript.key !== 'week' || o.shutNoScript.button !== null || !/Thursday/.test(o.shutNoScript.title) || !/at tea/.test(o.shutNoScript.how)) problems.push(`J: a shut week must say the day, carry the tea question and offer no button: ${JSON.stringify(o.shutNoScript)}`)
+    else ok.push('J: a shut week says its day and the tea question, with no button')
+  }
+}
+
+// ── K: the daily loop speaks the passport, through one function ───────────────
+// Justin, 15 October 2026: "daily loop gives simple update on progress, what
+// needs to be done ... use the PWA to update you". Decision 3: no new push.
+{
+  const readers = [
+    ['app/(dashboard)/dashboard/pathway/page.tsx', 'the passport page\'s Next card'],
+    ['app/api/pathway/attention/route.ts', 'the passport card on Home'],
+    ['app/api/quests/lesson-complete/route.ts', 'the lesson pass push'],
+    ['app/api/kid/stage-quiz/route.ts', 'the stage check push'],
+    ['app/api/email/digest/route.ts', 'the weekly email'],
+  ]
+  for (const [file, what] of readers) {
+    if (!/loadPassportToday\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${what} (${file}) does not read lib/pathway/passport-today.ts, so it can disagree with the page`)
+  }
+  ok.push('K: the page, Home, the pushes and the weekly email read one passport line')
+  for (const file of ['app/api/quests/lesson-complete/route.ts', 'app/api/kid/stage-quiz/route.ts']) {
+    if (!/sendPassportPush\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${file} sends its passport push around sendPassportPush`)
+  }
+  const pp = strip(readFileSync('lib/push/passport-push.ts', 'utf8'))
+  if (!/\.is\(args\.moment, null\)/.test(pp)) problems.push('K: a page moment push must be claimed where its column is still empty, so it can only go once')
+  else ok.push('K: the check ready and stamp pushes are claimed once per page')
+  const lc = strip(readFileSync('app/api/quests/lesson-complete/route.ts', 'utf8'))
+  if (!/flagged \? 'Open the app for the question to ask at tea\.'/.test(lc)) problems.push('K: a flagged lesson\'s tea question must stay off the lock screen in the pass push')
+  else ok.push('K: a flagged lesson keeps its tea question off the lock screen')
+  if (!/if \(RETIRED\) return/.test(strip(readFileSync('app/api/cron/passport-check/route.ts', 'utf8')))) problems.push('K: the monthly child passport push is retired (decision 7) and must send nothing')
+  else ok.push('K: the monthly child passport push is retired')
+  // The card on Home shows every day now, inside main's 1.07 zoom. A 3D
+  // transform left on it floated the bottom tabs on an iPhone (17 October
+  // 2026, the 2 September fault by another route), so it stays flat and
+  // clears what it animates.
+  const peek = strip(readFileSync('components/home/PassportPeek.tsx', 'utf8'))
+  if (/rotateY|rotateX|perspective|translateZ|translate3d|preserve-3d/.test(peek) || !/clearProps/.test(peek)) problems.push('K: the passport card on Home must animate flat and clear its transform, or the bottom tabs float on an iPhone')
+  else ok.push('K: the passport card on Home animates flat and clears its transform')
+  if (!/bookLine/.test(strip(readFileSync('app/k/[token]/KidQuestScreen.tsx', 'utf8')))) problems.push('K: the child\'s passport tile no longer says where their page is')
+  else ok.push('K: the child\'s tile says their page, in their words')
+}
+
+// ── L: more protected as 13 and 16 come closer, true in all three law states ─
+// Justin, 15 October 2026: "make the child more protected as they get nearer
+// age of social media as well AI edu". plans/2026-10-16-passport-journey-plan.md, PR 4.
+{
+  const probe4 = `
+import { nextMilestone } from './lib/pathway/milestones.ts'
+import { normaliseSocialMediaLaw } from './shared/social-media-law.ts'
+const now = new Date('2026-10-17T12:00:00Z')
+const out = {}
+for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+  out[law] = {
+    y6: nextMilestone({ dob: '2015-12-01', schoolYear: 6, law, now }),
+    age12: nextMilestone({ dob: '2014-03-01', schoolYear: 7, law, now }),
+    age14: nextMilestone({ dob: '2012-06-01', schoolYear: 9, law, now }),
+    age17: nextMilestone({ dob: '2009-06-01', schoolYear: 12, law, now }),
+  }
+}
+out.bad = normaliseSocialMediaLaw('partial-ban')
+out.unset = normaliseSocialMediaLaw(undefined)
+console.log(JSON.stringify(out))
+`
+  const r4 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe4], { encoding: 'utf8', cwd: process.cwd() })
+  if (r4.status !== 0) problems.push(`L: the probe could not run the milestones: ${(r4.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r4.stdout.trim().split('\n').pop())
+    const forbidden = /\bbanned\b|ready at 1[36]|workaround|is safe|not allowed|you can have/i
+    for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+      const m = o[law]
+      if (m.y6?.key !== 'phone' || m.age12?.key !== '13' || m.age14?.key !== '16' || m.age17 !== null) problems.push(`L: under ${law} the milestones are not phone at Year 6, 13 before 13, 16 before 16, nothing after: ${JSON.stringify([m.y6?.key, m.age12?.key, m.age14?.key, m.age17])}`)
+      for (const k of ['y6', 'age12', 'age14']) if (m[k] && forbidden.test(`${m[k].title} ${m[k].line}`)) problems.push(`L: under ${law} a milestone allows, denies or says banned: ${m[k].line}`)
+    }
+    if (!/Ofcom, 2026/.test(o.none.y6?.line ?? '')) problems.push('L: the first phone line must carry its source')
+    if (o.none.age12.line === o.partial_ban.age12.line || o.partial_ban.age14.line === o.full_ban_u16.age14.line) problems.push('L: the 13 and 16 lines must follow the law flag')
+    if (o.bad !== 'none' || o.unset !== 'none') problems.push('L: a mistyped or unset law flag must read as none')
+    if (!problems.some(p => p.startsWith('L:'))) ok.push('L: phone, 13 and 16 lines in all three law states, sourced, never allow or deny, a bad flag reads as none')
+  }
+  const deals = strip(readFileSync('lib/content/readiness.ts', 'utf8'))
+  const dealBlock = deals.slice(deals.indexOf('const EXPLORER_LATER'), deals.indexOf('export const OUR_STANCE'))
+  if (/around stage 4|comes at 16|accounts come around/i.test(dealBlock)) problems.push('L: the child\'s road still promises an account or an age')
+  else if (!/SOCIAL_MEDIA_LAW === 'none' \? \[\{ emoji: '✨', label: 'First accounts, set up together' \}\]/.test(dealBlock)) problems.push('L: "First accounts, set up together" must show only when there is no law')
+  else ok.push('L: the child\'s road describes practice, never a promised account or age')
+  const page = strip(readFileSync('app/(dashboard)/dashboard/pathway/page.tsx', 'utf8'))
+  if (!/nextMilestone\(/.test(page) || !/tally\('ai', 'AI'\)/.test(page) || !/tally\('social', 'social media'\)/.test(page)) problems.push('L: the passport page must show the next milestone and the AI and social media lessons on the page')
+  else ok.push('L: the passport shows the next milestone and the AI and social media lessons built on the page')
+}
+
+// ── M: the child's check asks what the child was taught, marked on the server ─
+// plans/2026-10-16-passport-journey-plan.md, 1.6: "confidence the child is
+// actually learning" needs the stamp's last step to be real.
+{
+  const probe5 = `
+import { markStageCheck, checkShape } from './lib/pathway/stage-check-marking.ts'
+const pool = [1, 2, 3, 4, 5, 6].map(n => ({ q: 'Question ' + n, options: ['right ' + n, 'wrong ' + n], answer: 0, why: '' }))
+const right = n => ({ question: 'Question ' + n, chosen: 'right ' + n })
+const wrong = n => ({ question: 'Question ' + n, chosen: 'wrong ' + n })
+console.log(JSON.stringify({
+  four: markStageCheck(pool, [right(1), right(2), right(3), right(4), wrong(5)]),
+  three: markStageCheck(pool, [right(1), right(2), right(3), wrong(4), wrong(5)]),
+  dupes: markStageCheck(pool, [right(1), right(1), right(1), right(1), right(1)]),
+  strangers: markStageCheck(pool, [{ question: 'Not in the pool', chosen: 'x' }, right(1), right(2), right(3), right(4)]),
+  short: checkShape(3), full: checkShape(9), none: checkShape(0),
+}))
+`
+  const r5 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe5], { encoding: 'utf8', cwd: process.cwd() })
+  if (r5.status !== 0) problems.push(`M: the probe could not run the marking: ${(r5.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r5.stdout.trim().split('\n').pop())
+    const bad = []
+    if (!o.four.passed || o.four.right !== 4 || o.four.total !== 5) bad.push('four of five must pass')
+    if (o.three.passed) bad.push('three of five must not pass')
+    if (o.dupes.passed || o.dupes.right !== 1) bad.push('one question answered five times counts once')
+    if (o.strangers.passed) bad.push('an answer to a question the server did not serve counts for nothing')
+    if (o.short.length !== 3 || o.short.passMark !== 3 || o.full.length !== 5 || o.full.passMark !== 4 || o.none.length !== 0) bad.push('a short page keeps the same share')
+    if (bad.length) problems.push(`M: ${bad.join('; ')}`)
+    else ok.push('M: the server marks the run: four in five, each question once, nothing it did not serve, a short page at the same share')
+  }
+  const route = strip(readFileSync('app/api/kid/stage-quiz/route.ts', 'utf8'))
+  if (/body\.correct/.test(route) || !/markStageCheck\(/.test(route) || !/childStageCheckPool\(/.test(route)) problems.push('M: the child\'s check route must mark against the child\'s own pool and never read the phone\'s score')
+  else ok.push('M: the route rebuilds the pool and never reads the phone\'s score')
+  if (!/error: 'tomorrow'/.test(route)) problems.push('M: a miss today must come back tomorrow')
+  const quiz = strip(readFileSync('app/k/[token]/quiz/page.tsx', 'utf8'))
+  if (/stageQuizPool\(/.test(quiz) || !/childStageCheckPool\(/.test(quiz)) problems.push('M: the child\'s check page must draw only on the child\'s own passed lessons, never the parent library or bank')
+  else ok.push('M: the child\'s check draws only on their own passed lessons')
+  const screen = strip(readFileSync('components/kid/KidStageQuiz.tsx', 'utf8'))
+  if (/correct: finalCorrect/.test(screen)) problems.push('M: the check screen still sends a score for the server to trust')
+  if (!/q\.flagged && tellHref/.test(screen)) problems.push('M: a question from a flagged lesson must carry the tell route')
+  else ok.push('M: a flagged question carries the tell route')
+}
+
+// ── N: the Remember check, so "still learning as they get older" is measured ──
+// plans/2026-10-08-lessons-hub-plan.md 6.3, built 17 October 2026. A lesson
+// comes back about a week after its pass, at a month, then every three months.
+{
+  const probe6 = `
+import { rememberDue } from './lib/kid/remember-due.ts'
+const DAY = 86400000
+const now = new Date('2026-10-17T12:00:00Z')
+const ago = d => new Date(now.getTime() - d * DAY).toISOString()
+const pass = (id, d) => ({ lessonId: id, passedAt: ago(d) })
+const at = (passDaysAgo, askedOnDay) => new Date(now.getTime() - (passDaysAgo - askedOnDay) * DAY).toISOString()
+console.log(JSON.stringify({
+  three: rememberDue({ passes: [pass('a', 3)], lastAsked: new Map(), now }),
+  six: rememberDue({ passes: [pass('a', 6)], lastAsked: new Map(), now }),
+  askedThenTwenty: rememberDue({ passes: [pass('a', 20)], lastAsked: new Map([['a', at(20, 6)]]), now }),
+  askedThenThirtyOne: rememberDue({ passes: [pass('a', 31)], lastAsked: new Map([['a', at(31, 6)]]), now }),
+  askedAt31Now60: rememberDue({ passes: [pass('a', 60)], lastAsked: new Map([['a', at(60, 31)]]), now }),
+  askedAt31Now91: rememberDue({ passes: [pass('a', 91)], lastAsked: new Map([['a', at(91, 31)]]), now }),
+  askedAt95Now180: rememberDue({ passes: [pass('a', 180)], lastAsked: new Map([['a', at(180, 95)]]), now }),
+  many: rememberDue({ passes: [pass('a', 6), pass('b', 40), pass('c', 8), pass('d', 120), pass('e', 7)], lastAsked: new Map(), now }),
+}))
+`
+  const r6 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe6], { encoding: 'utf8', cwd: process.cwd() })
+  if (r6.status !== 0) problems.push(`N: the probe could not run the Remember schedule: ${(r6.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r6.stdout.trim().split('\n').pop())
+    const want = { three: [], six: ['a'], askedThenTwenty: [], askedThenThirtyOne: ['a'], askedAt31Now60: [], askedAt31Now91: ['a'], askedAt95Now180: ['a'] }
+    const bad = Object.entries(want).filter(([k, v]) => JSON.stringify(o[k]) !== JSON.stringify(v))
+    if (bad.length) problems.push(`N: the Remember schedule is wrong: ${JSON.stringify(bad.map(([k]) => [k, o[k]]))}`)
+    else if (o.many.length !== 3 || o.many[0] !== 'd') problems.push(`N: a check holds three at most, the most overdue first: ${JSON.stringify(o.many)}`)
+    else ok.push('N: a lesson comes back at about a week, a month, then every three months, three at most, the most overdue first')
+  }
+  const route = strip(readFileSync('app/api/kid/remember/route.ts', 'utf8'))
+  if (!/markRemember\(/.test(route) || !/source: 'remember'/.test(route)) problems.push('N: the Remember route must mark on the server and record source remember')
+  else ok.push('N: the server marks the Remember check and records it as remember')
+  const next = strip(readFileSync('lib/pathway/passport-next.ts', 'utf8'))
+  if (next.indexOf("key: 'remember'") < 0 || next.indexOf("key: 'remember'") < next.indexOf("key: 'script'")) problems.push('N: a due Remember check must be a next step, after the parent\'s own talk')
+  const learnt = strip(readFileSync('components/passport/PassportPageDetail.tsx', 'utf8'))
+  if (!/Still remembered:/.test(learnt)) problems.push('N: the passport must say what was kept, weeks after the lessons')
+  else ok.push('N: the passport says what was still remembered weeks later, and only from Remember answers')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

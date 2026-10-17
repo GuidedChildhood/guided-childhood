@@ -34,6 +34,13 @@ create unique index if not exists uq_today_step_marks
 
 alter table public.today_step_marks enable row level security;
 
+-- Who may reach it (scripts/check-migration-grants.mjs): from 30 October 2026
+-- Supabase stops granting new public tables to the Data API by default, and
+-- app/api/daily/mark-step reads and writes this with the parent's session.
+-- Idempotent; a table created before that date already holds these grants.
+grant select, insert on public.today_step_marks to authenticated;
+grant select, insert, update, delete on public.today_step_marks to service_role;
+
 drop policy if exists "today_step_marks own read" on public.today_step_marks;
 create policy "today_step_marks own read" on public.today_step_marks
   for select using (auth.uid() = user_id);

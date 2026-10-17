@@ -409,8 +409,24 @@ export function weeklyDigestEmail(params: {
   // perfectly good digest. Never repeated, or the section teaches itself to be
   // skipped.
   spotlight?: { title: string; body: string; cta: string; href: string } | null
+  // Each child's passport page in one row (passport journey plan, PR 3,
+  // 17 October 2026): the page's one count and its one next step, from
+  // lib/pathway/passport-today.ts, the same words as the passport card on
+  // Home. Every child, per Justin's 18 August rule for weekly summaries.
+  passport?: { line: string; nextLine: string; href: string; img: string }[] | null
 }): EmailContent {
-  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote, spotlight } = params
+  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote, spotlight, passport } = params
+  const passportRows = passport && passport.length
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 22px;background:#FEF7E0;border:2px solid ${INK};border-radius:16px"><tr><td style="padding:16px 18px 6px">
+         <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:6px">The passport</div>
+         ${passport.map(r => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 12px"><tr>
+           <td width="52" valign="top" style="padding:2px 12px 0 0"><img src="${r.img}" width="44" height="44" alt="" style="display:block;border-radius:50%;background:#fff;border:2px solid ${INK}"></td>
+           <td valign="top" style="font-family:'Nunito',Helvetica,Arial,sans-serif;color:${INK}">
+             <div style="font-size:17px;font-weight:800;line-height:1.3">${r.line}</div>
+             <div style="font-size:15px;line-height:1.55;margin-top:2px">${r.nextLine} <a href="${r.href}" style="color:${INK};font-weight:700">Open the passport</a></div>
+           </td></tr></table>`).join('')}
+       </td></tr></table>`
+    : ''
   const weekLine = scriptsDoneThisWeek > 0
     ? `You used ${scriptsDoneThisWeek === 1 ? 'one script' : `${scriptsDoneThisWeek} scripts`} this week. That is ${scriptsDoneThisWeek === 1 ? 'a real conversation' : 'real conversations'} that went differently because you had the words.`
     : `No scripts this week. No guilt about that, life happens. One two minute script tonight puts the week back on track.`
@@ -418,6 +434,7 @@ export function weeklyDigestEmail(params: {
     subject: `${childName}'s week on the pathway`,
     html: wrapper(
       heading(`Your week with ${childName}.`) +
+      passportRows +
       p(weekLine) +
       p(`All together you have completed <strong>${scriptsDoneTotal === 1 ? 'one script' : `${scriptsDoneTotal} scripts`}</strong> on the ${stageName} stage. Every one of them is a pattern ${childName} will carry into the next stage.`) +
       (balanceNote ? p(balanceNote) + button('See the balance', `${APP}/dashboard/stats`) : '') +
