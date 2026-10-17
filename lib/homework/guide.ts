@@ -61,14 +61,25 @@ export function homeworkBand(yearGroup: number | null | undefined): HomeworkBand
   return { ...row.band, yearLabel: yearGroup === 0 ? 'Reception' : `Year ${yearGroup}` }
 }
 
-/** What the child says they have tonight, as the parent would hear it. */
-export type ChildSays = 'none' | 'little' | 'some' | 'lots' | 'hours' | 'tears'
+/**
+ * How long homework took tonight, as the parent saw the evening.
+ *
+ * ── THE PARENT'S EVENING, NOT THE CHILD'S WORD (17 October 2026) ──────────
+ * It asked "What did Gus say they have tonight?". Justin: "Why are we asking
+ * what child says? This could be seen as not trusting them." He is right. A
+ * question about what the child said frames the card as checking the child's
+ * story, and a child who sees it on a parent's phone reads it the same way.
+ * The question is now how long it took, which is the parent's own view, and
+ * the card is about whether the LOAD is right for the child: protecting them
+ * from too much, never auditing them. Every line it says follows that.
+ */
+export type Tonight = 'none' | 'little' | 'some' | 'lots' | 'hours' | 'tears'
 
-export const CHILD_SAYS: { key: ChildSays; label: string }[] = [
+export const TONIGHT: { key: Tonight; label: string }[] = [
   // Short enough that each fits its chip on one line in a three across grid
   // on a 390 phone, tick included.
-  { key: 'none', label: 'None' },
-  { key: 'little', label: 'A bit' },
+  { key: 'none', label: 'None set' },
+  { key: 'little', label: 'Quick' },
   { key: 'some', label: '30 min' },
   { key: 'lots', label: '1 hour' },
   { key: 'hours', label: 'Hours' },
@@ -76,7 +87,7 @@ export const CHILD_SAYS: { key: ChildSays; label: string }[] = [
 ]
 
 /** Minutes each answer stands for, to place the marker on the bar. */
-export const SAYS_MINUTES: Record<ChildSays, number> = {
+export const TONIGHT_MINUTES: Record<Tonight, number> = {
   none: 0, little: 10, some: 30, lots: 60, hours: 120, tears: 0,
 }
 
@@ -88,27 +99,28 @@ export type Verdict = {
 }
 
 /**
- * The one sentence a parent needs after saying what they were told. Built on
- * the research: show me rather than tell me (Bergman 2017 found the portal
- * goes unread, so the look has to be together), stop when it is too much
- * (autonomy support over pressure, Patall 2008, Xu 2024), and the teacher is
- * the person to fix a level that is wrong.
+ * The one sentence a parent needs about tonight. Built on the research: plan
+ * the week together rather than check up night by night (Bergman 2017 found
+ * portals go unread, so the look is shared and weekly), stop when it is too
+ * much (autonomy support over pressure, Patall 2008, Xu 2024), and the
+ * teacher is the person to fix a level that is wrong. Never a line that
+ * doubts the child.
  */
-export function verdictFor(says: ChildSays, band: HomeworkBand, name: string): Verdict {
+export function verdictFor(tonight: Tonight, band: HomeworkBand, name: string): Verdict {
   const who = name && name !== 'your child' ? name : 'they'
-  if (says === 'tears') {
+  if (tonight === 'tears') {
     return {
       tone: 'stop',
       title: 'Stop for tonight',
       line: `Tears mean the level or the length is wrong, not ${who}. Write one line in the planner or reading record so the teacher knows. That sorts most of these.`,
     }
   }
-  if (says === 'none') {
+  if (tonight === 'none') {
     return band.phase === 'secondary'
-      ? { tone: 'check', title: 'Worth a look together', line: `It can be true. Ask ${who} to show you on the school's homework app rather than tell you. If it is empty two weeks running, a short note to the form tutor settles it.` }
+      ? { tone: 'fine', title: 'A quiet night', line: `They happen. Once a week, look at what is coming up on the school's homework app together, so you both know the busy nights before they arrive.` }
       : { tone: 'fine', title: 'Fine some nights', line: `Reading still counts. ${band.low} minutes with a book is the homework most schools ask for every night in ${band.yearLabel}.` }
   }
-  const mins = SAYS_MINUTES[says]
+  const mins = TONIGHT_MINUTES[tonight]
   if (mins > band.aLot) {
     return {
       tone: 'stop',

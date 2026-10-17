@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import BetaTag from '@/components/ui/BetaTag'
 import HappyIcon from '@/components/kid/HappyIcon'
@@ -88,15 +88,13 @@ const CARD: React.CSSProperties = {
   padding: '18px 16px', marginBottom: 16,
 }
 
-const EYEBROW: React.CSSProperties = {
-  margin: '0 0 4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-}
-
 const H2: React.CSSProperties = {
   margin: '0 0 8px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
   color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em',
 }
+
+/** What an opened row shows, indented under its title. */
+const FOLD: React.CSSProperties = { padding: '2px 4px 16px 60px' }
 
 /** A quiet row at the foot of the page: icon, words, chevron. */
 function Row({ icon, title, sub, href, onClick, open }: {
@@ -139,7 +137,13 @@ export default function LearningYear({
   const [termOpen, setTermOpen] = useState(initialTab === 'term')
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [showWording, setShowWording] = useState(false)
-  const [eventMore, setEventMore] = useState(false)
+  // Which rows are open. This week opens itself when the page is reached by
+  // its anchor from the Today card on Home, so that link still lands on it.
+  const [fold, setFold] = useState<Record<string, boolean>>({})
+  useEffect(() => {
+    if (window.location.hash === '#this-week') setFold(f => ({ ...f, week: true }))
+  }, [])
+  const toggleFold = (key: string) => setFold(f => ({ ...f, [key]: !f[key] }))
   const v = views[active]
   const blurb = blurbs[active]
   const brief = briefs[active] ?? null
@@ -246,134 +250,138 @@ export default function LearningYear({
         </p>
       )}
 
-      {/* 3. THREE WAYS TO HELP TONIGHT. How a parent helps matters more than
-          how much: backing the child's own effort helps, taking over does not
-          (lib/homework/guide.ts carries the sources). */}
-      {band && (
-        <section style={CARD}>
-          <p style={EYEBROW}>How to help tonight</p>
-          <h2 style={H2}>Three things that work</h2>
-          <ol style={{ listStyle: 'none', margin: '0 0 12px', padding: 0, display: 'grid', gap: 10 }}>
-            {helpMoves(band.phase).map((m, i) => (
-              <li key={m} style={{ display: 'flex', gap: 11, alignItems: 'flex-start' }}>
-                <span aria-hidden style={{
-                  flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: CRAYON.teal, border: '2px solid var(--ink)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
-                }}>{i + 1}</span>
-                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, paddingTop: 3 }}>{m}</span>
-              </li>
-            ))}
-          </ol>
-          <Link href="/dashboard/scripts?cat=school-and-ai" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
-            The words for a homework standoff ›
-          </Link>
-        </section>
-      )}
-
-      {/* 4. THIS WEEK IN CLASS, phase 1 of the curriculum depth plan: the one
-          objective the week is on (lib/learning/this-week.ts). The strand
-          leads in plain words; the Department's own wording is one tap away
-          rather than set in bold at the top, because we quote it, never
-          paraphrase it, and quoted in full it was a wall. The anchor is what
-          the Today card on Home lands on. */}
-      {brief && (
-        <section id="this-week" style={{ ...CARD, scrollMarginTop: 80 }}>
-          <p style={EYEBROW}>
-            {brief.preview ? `When they go back · Year ${brief.yearGroup}` : 'This week in class'}
-          </p>
-          <h2 style={H2}>{brief.subjectLabel}: {brief.strand}</h2>
-          {/* The dinner table version. A fixed frame rather than a sentence
-              grafted onto DfE text, because their objectives do not survive
-              being rewritten into questions and we quote, never paraphrase. */}
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: '6px 0 14px' }}>
-            At tea, ask {v.childName} to teach you this one. Being the teacher is how you find out if it stuck.
-          </p>
-          <Link
-            href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 44, textDecoration: 'none',
-              background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)',
-              borderRadius: 'var(--radius-tile)', padding: '9px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            }}
-          >
-            <HappyIcon name="jobs" size={22} /> Make it a job for stars
-          </Link>
-          {/* The Department's wording, after the plain version rather than
-              between the title and it (design review, 17 October). */}
-          <div style={{ marginTop: 12 }}>
-          <button
-              onClick={() => setShowWording(w => !w)}
-              aria-expanded={showWording}
-              style={{ background: 'none', border: 'none', padding: '6px 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
-            >
-              {showWording ? 'Hide' : 'What the curriculum says'} ›
-            </button>
-            {showWording && (
-              <div style={{ margin: '0 0 10px', paddingLeft: 11, borderLeft: '3px solid var(--border)' }}>
-                <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{brief.lead}</p>
-                {brief.parts.map(p => (
-                  <p key={p} style={{ margin: '4px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{p}</p>
-                ))}
-                {brief.second && (
-                  <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
-                    Also running: {brief.second.subjectLabel}, {brief.second.lead}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Coming up at school. One thing, never a list: five dates is a worry,
-          one is a head start. Inline now the tabs have gone. */}
-      {/* Pink, so the page is not cream card after cream card, and the
-          action leads with the explanation one tap down. */}
-      {v.event && (
-        <section style={{ ...CARD, background: `color-mix(in srgb, ${CRAYON.pink} 25%, var(--white))` }}>
-          <p style={{ ...EYEBROW, color: 'var(--ink-soft)' }}>Coming up {v.eventWhen ? `· ${v.eventWhen}` : ''}</p>
-          <h2 style={H2}>{v.event.event.title}</h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600, margin: 0, maxWidth: '65ch' }}>{v.event.event.doThis}</p>
-          <button
-            onClick={() => setEventMore(m => !m)}
-            aria-expanded={eventMore}
-            style={{ background: 'none', border: 'none', padding: '6px 0 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
-          >
-            {eventMore ? 'Less' : 'Why it matters'} ›
-          </button>
-          {eventMore && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '4px 0 0', maxWidth: '65ch' }}>{v.event.event.what}</p>
-          )}
-        </section>
-      )}
-
-      {/* Secondary school. Only inside the real window, because in that
-          fortnight it is the only thing a parent is actually thinking about. */}
-      {v.transition && (
-        <section style={{ ...CARD, background: CRAYON.sky }}>
-          <p style={{ ...EYEBROW, color: 'var(--ink)' }}>Secondary school</p>
-          <h2 style={H2}>{v.transition.headline}</h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>{v.transition.line}</p>
-          <Link href="/dashboard/secondary" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, textDecoration: 'none', background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>The five steps ›</Link>
-        </section>
-      )}
-
-      {/* 5 and 6. The quiet rows. The routine is the nudge: homework before
-          screens and twenty minutes of reading become jobs the child ticks
-          and the parent approves, with the after school reminder the app
-          already sends. No new push, no new cron. */}
+      {/* ── EVERYTHING ELSE, ONE TAP AWAY (17 October 2026) ──────────────────
+          Justin: "simplify ux further so only what they need to see and can
+          click to expand". What a parent needs at the kitchen table is the
+          check and the one button above. Everything below is a row with a
+          title and a line that says what is inside, and it opens in place:
+          how to help, this week in class, what is coming up, secondary
+          school, the routine, the whole term, a practice sheet. Nothing was
+          taken away; it waits until it is asked for. */}
       {v.blocked !== 'no_birthday' && (
         <div style={{ marginTop: 6, borderBottom: '1.5px solid var(--border)' }}>
+          {/* How a parent helps matters more than how much: backing the
+              child's own effort helps, taking over does not
+              (lib/homework/guide.ts carries the sources). */}
+          {band && (
+            <Row icon="hand" title="How to help tonight" sub="Three things that work, for their age" onClick={() => toggleFold('help')} open={fold.help} />
+          )}
+          {band && fold.help && (
+            <div style={FOLD}>
+              <ol style={{ listStyle: 'none', margin: '0 0 6px', padding: 0, display: 'grid', gap: 10 }}>
+                {helpMoves(band.phase).map((m, i) => (
+                  <li key={m} style={{ display: 'flex', gap: 11, alignItems: 'flex-start' }}>
+                    <span aria-hidden style={{
+                      flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: CRAYON.teal, border: '2px solid var(--ink)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                    }}>{i + 1}</span>
+                    <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, paddingTop: 3 }}>{m}</span>
+                  </li>
+                ))}
+              </ol>
+              <Link href="/dashboard/scripts?cat=school-and-ai" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                The words for a homework standoff ›
+              </Link>
+            </div>
+          )}
+
+          {/* This week in class, phase 1 of the curriculum depth plan: the one
+              objective the week is on (lib/learning/this-week.ts). The anchor
+              is what the Today card on Home lands on, and arriving by it
+              opens the row. */}
+          {brief && (
+            <div id="this-week" style={{ scrollMarginTop: 80 }}>
+              <Row
+                icon="lessons"
+                title={brief.preview ? 'When they go back' : 'This week in class'}
+                sub={`${brief.subjectLabel}: ${brief.strand}`}
+                onClick={() => toggleFold('week')}
+                open={fold.week}
+              />
+            </div>
+          )}
+          {brief && fold.week && (
+            <div style={FOLD}>
+              {/* The dinner table version. A fixed frame rather than a sentence
+                  grafted onto DfE text, because their objectives do not
+                  survive being rewritten into questions and we quote, never
+                  paraphrase. */}
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: '0 0 12px' }}>
+                At tea, ask {v.childName} to teach you this one. Being the teacher is how you find out if it stuck.
+              </p>
+              <Link
+                href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 44, textDecoration: 'none',
+                  background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)',
+                  borderRadius: 'var(--radius-tile)', padding: '9px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                }}
+              >
+                <HappyIcon name="jobs" size={22} /> Make it a job for stars
+              </Link>
+              <div style={{ marginTop: 10 }}>
+                <button
+                  onClick={() => setShowWording(w => !w)}
+                  aria-expanded={showWording}
+                  style={{ background: 'none', border: 'none', padding: '6px 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
+                >
+                  {showWording ? 'Hide' : 'What the curriculum says'} ›
+                </button>
+                {showWording && (
+                  <div style={{ margin: '0 0 6px', paddingLeft: 11, borderLeft: '3px solid var(--border)' }}>
+                    <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{brief.lead}</p>
+                    {brief.parts.map(p => (
+                      <p key={p} style={{ margin: '4px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{p}</p>
+                    ))}
+                    {brief.second && (
+                      <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+                        Also running: {brief.second.subjectLabel}, {brief.second.lead}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Coming up at school. One thing, never a list: five dates is a
+              worry, one is a head start. The row names it and when; opening
+              it gives the one thing to do, then why. */}
+          {v.event && (
+            <Row icon="calendar" title={v.event.event.title} sub={`Coming up${v.eventWhen ? `, ${v.eventWhen}` : ''}`} onClick={() => toggleFold('event')} open={fold.event} />
+          )}
+          {v.event && fold.event && (
+            <div style={FOLD}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600, margin: '0 0 8px', maxWidth: '65ch' }}>{v.event.event.doThis}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, maxWidth: '65ch' }}>{v.event.event.what}</p>
+            </div>
+          )}
+
+          {/* Secondary school, only inside the real window. */}
+          {v.transition && (
+            <Row icon="bag" title="Secondary school" sub={v.transition.headline} onClick={() => toggleFold('secondary')} open={fold.secondary} />
+          )}
+          {v.transition && fold.secondary && (
+            <div style={FOLD}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>{v.transition.line}</p>
+              <Link href="/dashboard/secondary" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, textDecoration: 'none', background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>The five steps ›</Link>
+            </div>
+          )}
+
+          {/* The routine is the nudge: homework before screens and twenty
+              minutes of reading become jobs the child ticks and the parent
+              approves, with the after school reminder the app already
+              sends. No new push, no new cron. */}
           <Row
-            icon="calendar"
+            icon="time"
             title="Make it a routine"
             sub={`Homework before screens and twenty minutes of reading, as jobs ${v.childName} ticks`}
             href="/dashboard/quests?routine=after-school"
           />
           {v.subjects.length > 0 && (
             <Row
-              icon="lessons"
+              icon="read"
               title="The whole term"
               sub={`Everything ${band?.yearLabel ?? 'the class'} covers this term`}
               onClick={() => setTermOpen(o => !o)}

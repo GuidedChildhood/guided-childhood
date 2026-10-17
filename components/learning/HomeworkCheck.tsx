@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CRAYON, HAPPY } from '@gc/shared/happy-news'
-import { CHILD_SAYS, SAYS_MINUTES, verdictFor, type ChildSays, type HomeworkBand } from '@/lib/homework/guide'
+import { TONIGHT, TONIGHT_MINUTES, verdictFor, type Tonight, type HomeworkBand } from '@/lib/homework/guide'
 
 // ── HOW MUCH IS NORMAL, AND IS TONIGHT FINE ─────────────────────────────────
 //
@@ -13,7 +13,7 @@ import { CHILD_SAYS, SAYS_MINUTES, verdictFor, type ChildSays, type HomeworkBand
 // The shape is the health app range bar, "standardised to your age", with a
 // marker for you and a one line verdict under it (Bevel, BitePal and Oura on
 // Mobbin, 17 October). A parent reads where the normal band is for this school
-// year, taps what their child said tonight, and the marker lands with one
+// year, taps how long homework took tonight, and the marker lands with one
 // sentence on what to do. Nothing is stored: it is a check, not a log, and the
 // child's own note from their app (kid_homework_notes) sits above the taps
 // when there is one.
@@ -28,11 +28,11 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
   /** What the child wrote in their own app today, if anything. */
   tonightNote?: string | null
 }) {
-  const [says, setSays] = useState<ChildSays | null>(null)
+  const [tonight, setTonight] = useState<Tonight | null>(null)
   const max = Math.round(band.aLot * 1.45)
   const pct = (m: number) => `${Math.min(100, Math.max(0, (m / max) * 100))}%`
-  const verdict = says ? verdictFor(says, band, childName) : null
-  const markerMins = says && says !== 'tears' ? SAYS_MINUTES[says] : null
+  const verdict = tonight ? verdictFor(tonight, band, childName) : null
+  const markerMins = tonight && tonight !== 'tears' ? TONIGHT_MINUTES[tonight] : null
   // The marker never sits on the bar's very ends, where its label would be
   // cut by the card edge: an hour on a Year 4 bar is simply "well into a lot".
   const markerAt = (m: number) => `${Math.min(92, Math.max(8, (m / max) * 100))}%`
@@ -52,7 +52,7 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
         Most schools ask for <strong style={{ color: 'var(--ink)' }}>{band.low} to {band.high} minutes</strong> a night: {band.kind}.
       </p>
 
-      {/* The bar: light, about right, a lot. The marker is what they said. */}
+      {/* The bar: light, about right, a lot. The marker is tonight. */}
       <div style={{ position: 'relative', paddingTop: markerMins !== null ? 34 : 0, transition: 'padding .2s' }}>
         {markerMins !== null && (
           <span style={{
@@ -61,7 +61,7 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', whiteSpace: 'nowrap',
             transition: 'left .3s ease',
           }}>
-            {CHILD_SAYS.find(c => c.key === says)?.label ?? childName}
+            {TONIGHT.find(c => c.key === tonight)?.label ?? childName}
             <span aria-hidden style={{ position: 'absolute', left: '50%', bottom: -5, width: 10, height: 10, transform: 'translateX(-50%) rotate(45deg)', background: 'var(--ink)' }} />
           </span>
         )}
@@ -100,23 +100,23 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
       )}
 
       <p style={{ margin: '16px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-        What did {childName} say they have tonight?
+        How long did homework take tonight?
       </p>
       {/* An even grid of five durations, then tears on a line of its own:
           tears are not a length of time, and a chip in the middle of the
           scale said they were (design review, 17 October). The chosen one is
           sky with a tick rather than solid ink, so it never outweighs the one
           butter button on the page. */}
-      <div role="radiogroup" aria-label={`What ${childName} said`}>
+      <div role="radiogroup" aria-label="How long homework took tonight">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8 }}>
-          {CHILD_SAYS.filter(c => c.key !== 'tears').map(c => {
-            const on = says === c.key
+          {TONIGHT.filter(c => c.key !== 'tears').map(c => {
+            const on = tonight === c.key
             return (
               <button
                 key={c.key}
                 role="radio"
                 aria-checked={on}
-                onClick={() => setSays(on ? null : c.key)}
+                onClick={() => setTonight(on ? null : c.key)}
                 style={{
                   minHeight: 44, padding: '8px 6px', borderRadius: 16, cursor: 'pointer',
                   border: on ? '2px solid var(--ink)' : '2px solid var(--ink-light)',
@@ -132,17 +132,17 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
         </div>
         <button
           role="radio"
-          aria-checked={says === 'tears'}
-          onClick={() => setSays(says === 'tears' ? null : 'tears')}
+          aria-checked={tonight === 'tears'}
+          onClick={() => setTonight(tonight === 'tears' ? null : 'tears')}
           style={{
             width: '100%', minHeight: 44, marginTop: 8, padding: '8px 12px', borderRadius: 16, cursor: 'pointer',
-            border: `2px solid ${says === 'tears' ? 'var(--ink)' : HAPPY.coral}`,
-            background: says === 'tears' ? CRAYON.coral : 'var(--white)', color: 'var(--ink)',
-            boxShadow: says === 'tears' ? '0 3px 0 var(--ink)' : 'none',
+            border: `2px solid ${tonight === 'tears' ? 'var(--ink)' : HAPPY.coral}`,
+            background: tonight === 'tears' ? CRAYON.coral : 'var(--white)', color: 'var(--ink)',
+            boxShadow: tonight === 'tears' ? '0 3px 0 var(--ink)' : 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           }}
         >
-          {says === 'tears' && <span aria-hidden>✓ </span>}Or it ended in tears
+          {tonight === 'tears' && <span aria-hidden>✓ </span>}It ended in tears
         </button>
       </div>
 
