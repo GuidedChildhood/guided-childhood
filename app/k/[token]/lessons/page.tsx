@@ -7,6 +7,7 @@ import { lessonAudienceFor, lessonStageFor, newMissionAllowed } from '@/lib/less
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
+import { loadRememberDue } from '@/lib/kid/remember-server'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -173,6 +174,9 @@ export default async function KidLessonsPage({ params, searchParams }: {
     opened: todayState.done.length > 0,
   }
 
+  // Lessons passed weeks ago, due back for a Remember check (lib/kid/remember-due.ts).
+  const rememberDue = await loadRememberDue(supabase, { userId: link.user_id, childId: link.child_id })
+
   return (
     <KidScreenChrome token={token} current="lessons" today={todayTab}>
     <KidLessonList
@@ -187,6 +191,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
       together={lessonAudienceFor(stageId, child as { lessons_together?: boolean | null } | null) === 'together'}
+      remember={rememberDue.length ? { count: rememberDue.length, href: `/k/${token}/remember` } : null}
     />
     </KidScreenChrome>
   )

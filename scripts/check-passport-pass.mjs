@@ -377,6 +377,48 @@ console.log(JSON.stringify({
   else ok.push('M: a flagged question carries the tell route')
 }
 
+// ── N: the Remember check, so "still learning as they get older" is measured ──
+// plans/2026-10-08-lessons-hub-plan.md 6.3, built 17 October 2026. A lesson
+// comes back about a week after its pass, at a month, then every three months.
+{
+  const probe6 = `
+import { rememberDue } from './lib/kid/remember-due.ts'
+const DAY = 86400000
+const now = new Date('2026-10-17T12:00:00Z')
+const ago = d => new Date(now.getTime() - d * DAY).toISOString()
+const pass = (id, d) => ({ lessonId: id, passedAt: ago(d) })
+const at = (passDaysAgo, askedOnDay) => new Date(now.getTime() - (passDaysAgo - askedOnDay) * DAY).toISOString()
+console.log(JSON.stringify({
+  three: rememberDue({ passes: [pass('a', 3)], lastAsked: new Map(), now }),
+  six: rememberDue({ passes: [pass('a', 6)], lastAsked: new Map(), now }),
+  askedThenTwenty: rememberDue({ passes: [pass('a', 20)], lastAsked: new Map([['a', at(20, 6)]]), now }),
+  askedThenThirtyOne: rememberDue({ passes: [pass('a', 31)], lastAsked: new Map([['a', at(31, 6)]]), now }),
+  askedAt31Now60: rememberDue({ passes: [pass('a', 60)], lastAsked: new Map([['a', at(60, 31)]]), now }),
+  askedAt31Now91: rememberDue({ passes: [pass('a', 91)], lastAsked: new Map([['a', at(91, 31)]]), now }),
+  askedAt95Now180: rememberDue({ passes: [pass('a', 180)], lastAsked: new Map([['a', at(180, 95)]]), now }),
+  many: rememberDue({ passes: [pass('a', 6), pass('b', 40), pass('c', 8), pass('d', 120), pass('e', 7)], lastAsked: new Map(), now }),
+}))
+`
+  const r6 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe6], { encoding: 'utf8', cwd: process.cwd() })
+  if (r6.status !== 0) problems.push(`N: the probe could not run the Remember schedule: ${(r6.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r6.stdout.trim().split('\n').pop())
+    const want = { three: [], six: ['a'], askedThenTwenty: [], askedThenThirtyOne: ['a'], askedAt31Now60: [], askedAt31Now91: ['a'], askedAt95Now180: ['a'] }
+    const bad = Object.entries(want).filter(([k, v]) => JSON.stringify(o[k]) !== JSON.stringify(v))
+    if (bad.length) problems.push(`N: the Remember schedule is wrong: ${JSON.stringify(bad.map(([k]) => [k, o[k]]))}`)
+    else if (o.many.length !== 3 || o.many[0] !== 'd') problems.push(`N: a check holds three at most, the most overdue first: ${JSON.stringify(o.many)}`)
+    else ok.push('N: a lesson comes back at about a week, a month, then every three months, three at most, the most overdue first')
+  }
+  const route = strip(readFileSync('app/api/kid/remember/route.ts', 'utf8'))
+  if (!/markRemember\(/.test(route) || !/source: 'remember'/.test(route)) problems.push('N: the Remember route must mark on the server and record source remember')
+  else ok.push('N: the server marks the Remember check and records it as remember')
+  const next = strip(readFileSync('lib/pathway/passport-next.ts', 'utf8'))
+  if (next.indexOf("key: 'remember'") < 0 || next.indexOf("key: 'remember'") < next.indexOf("key: 'script'")) problems.push('N: a due Remember check must be a next step, after the parent\'s own talk')
+  const learnt = strip(readFileSync('components/passport/PassportPageDetail.tsx', 'utf8'))
+  if (!/Still remembered:/.test(learnt)) problems.push('N: the passport must say what was kept, weeks after the lessons')
+  else ok.push('N: the passport says what was still remembered weeks later, and only from Remember answers')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

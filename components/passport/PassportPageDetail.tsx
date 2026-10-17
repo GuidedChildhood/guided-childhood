@@ -92,7 +92,12 @@ export function PassportNextCard({ step }: { step: NextStep }) {
   )
 }
 
-export function PassportLearnt({ kid, lessons }: { kid: string; lessons: LearntLesson[] }) {
+export function PassportLearnt({ kid, lessons, kept = null }: {
+  kid: string
+  lessons: LearntLesson[]
+  /** Right of asked on Remember checks in the last 90 days, weeks after the lessons (lib/kid/remember-server.ts). */
+  kept?: { right: number; asked: number } | null
+}) {
   const first = lessons.slice(0, 4)
   const rest = lessons.slice(4)
   const row = (l: LearntLesson) => (
@@ -111,6 +116,13 @@ export function PassportLearnt({ kid, lessons }: { kid: string; lessons: LearntL
   return (
     <section data-block="learnt" style={card}>
       <p style={{ ...mono, margin: '0 0 2px' }}>What {kid} has learnt</p>
+      {kept && (
+        // The one line that shows learning lasting, not just landing: questions
+        // asked again weeks after the lesson, marked on the server.
+        <p data-kept style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '4px 0 6px', lineHeight: 1.4 }}>
+          Still remembered: {kept.right} of {kept.asked} right on Remember checks, weeks after the lessons.
+        </p>
+      )}
       {lessons.length === 0 ? (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
           Nothing passed on this page yet. Every lesson ends with a short check, and only a pass shows here.

@@ -512,3 +512,7 @@ Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agree
 ## 17 October 2026: Today path gets a Done bar, a green for jobs all approved, and a finish line (migration 382)
 
 Justin: steps that send a parent off the path (DiGi, the devices job) need a Done that turns them green and returns to the path; "No jobs waiting" should read as complete if true (checked: 14 jobs, nothing waiting); the day needs a visible end. DiGi and the passport job now open with a "Done, back to today" bar that records the step (today_step_marks). A clear Quests rung paints green as "Jobs all approved"; the deal keeps its ring (28 September). A finish line under the heading fills one segment per step to a trophy. Plan: plans/2026-10-17-today-path-finish-line-plan.md.
+
+## 17 October 2026: migration 378 applied
+
+Justin said yes. `passport_pages` is live (RLS on, parents read their own rows, service role writes), the parent write policy on the old `stage_passports` is dropped, script 1401 never speaks first and 405 is preventative again. Read back after applying. No rows yet: a page the rule reads as stamped is stored the first time the passport page or the child's book opens (`lib/pathway/stamp-store.ts`), and the check ready and stamp pushes now go once per page. PR 1312.

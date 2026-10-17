@@ -26,7 +26,10 @@ export type KidLessonItem = {
 
 export default function KidLessonList({
   backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme, planetLine, together = false,
+  remember = null,
 }: {
+  /** A Remember check due (lib/kid/remember-due.ts): questions on lessons passed weeks ago. */
+  remember?: { count: number; href: string } | null
   backHref: string
   /**
    * Under 7 (the Foundation stage) these are done together: the grown up reads
@@ -89,6 +92,16 @@ export default function KidLessonList({
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {remember && remember.count > 0 && (
+          <Link href={remember.href} data-remember style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', marginBottom: 14, textDecoration: 'none', color: 'var(--ink)', minHeight: 44 }}>
+            <span aria-hidden style={{ fontSize: 26 }}>🧠</span>
+            <span style={{ flex: 1 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3 }}>Your Remember check is ready</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{remember.count === 1 ? 'One question' : `${remember.count} questions`} from lessons you passed a while ago. About a minute.</span>
+            </span>
+            <span aria-hidden style={{ fontWeight: 800 }}>→</span>
+          </Link>
+        )}
         {planetLine && (
           <Link href={planetLine.href} data-planet-line style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#FFF6DD', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', marginBottom: 14, textDecoration: 'none', color: 'var(--ink)' }}>
             <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
