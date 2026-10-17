@@ -334,6 +334,49 @@ console.log(JSON.stringify(out))
   else ok.push('L: the passport shows the next milestone and the AI and social media lessons built on the page')
 }
 
+// ── M: the child's check asks what the child was taught, marked on the server ─
+// plans/2026-10-16-passport-journey-plan.md, 1.6: "confidence the child is
+// actually learning" needs the stamp's last step to be real.
+{
+  const probe5 = `
+import { markStageCheck, checkShape } from './lib/pathway/child-stage-check.ts'
+const pool = [1, 2, 3, 4, 5, 6].map(n => ({ q: 'Question ' + n, options: ['right ' + n, 'wrong ' + n], answer: 0, why: '' }))
+const right = n => ({ question: 'Question ' + n, chosen: 'right ' + n })
+const wrong = n => ({ question: 'Question ' + n, chosen: 'wrong ' + n })
+console.log(JSON.stringify({
+  four: markStageCheck(pool, [right(1), right(2), right(3), right(4), wrong(5)]),
+  three: markStageCheck(pool, [right(1), right(2), right(3), wrong(4), wrong(5)]),
+  dupes: markStageCheck(pool, [right(1), right(1), right(1), right(1), right(1)]),
+  strangers: markStageCheck(pool, [{ question: 'Not in the pool', chosen: 'x' }, right(1), right(2), right(3), right(4)]),
+  short: checkShape(3), full: checkShape(9), none: checkShape(0),
+}))
+`
+  const r5 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe5], { encoding: 'utf8', cwd: process.cwd() })
+  if (r5.status !== 0) problems.push(`M: the probe could not run the marking: ${(r5.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r5.stdout.trim().split('\n').pop())
+    const bad = []
+    if (!o.four.passed || o.four.right !== 4 || o.four.total !== 5) bad.push('four of five must pass')
+    if (o.three.passed) bad.push('three of five must not pass')
+    if (o.dupes.passed || o.dupes.right !== 1) bad.push('one question answered five times counts once')
+    if (o.strangers.passed) bad.push('an answer to a question the server did not serve counts for nothing')
+    if (o.short.length !== 3 || o.short.passMark !== 3 || o.full.length !== 5 || o.full.passMark !== 4 || o.none.length !== 0) bad.push('a short page keeps the same share')
+    if (bad.length) problems.push(`M: ${bad.join('; ')}`)
+    else ok.push('M: the server marks the run: four in five, each question once, nothing it did not serve, a short page at the same share')
+  }
+  const route = strip(readFileSync('app/api/kid/stage-quiz/route.ts', 'utf8'))
+  if (/body\.correct/.test(route) || !/markStageCheck\(/.test(route) || !/childStageCheckPool\(/.test(route)) problems.push('M: the child\'s check route must mark against the child\'s own pool and never read the phone\'s score')
+  else ok.push('M: the route rebuilds the pool and never reads the phone\'s score')
+  if (!/error: 'tomorrow'/.test(route)) problems.push('M: a miss today must come back tomorrow')
+  const quiz = strip(readFileSync('app/k/[token]/quiz/page.tsx', 'utf8'))
+  if (/stageQuizPool\(/.test(quiz) || !/childStageCheckPool\(/.test(quiz)) problems.push('M: the child\'s check page must draw only on the child\'s own passed lessons, never the parent library or bank')
+  else ok.push('M: the child\'s check draws only on their own passed lessons')
+  const screen = strip(readFileSync('components/kid/KidStageQuiz.tsx', 'utf8'))
+  if (/correct: finalCorrect/.test(screen)) problems.push('M: the check screen still sends a score for the server to trust')
+  if (!/q\.flagged && tellHref/.test(screen)) problems.push('M: a question from a flagged lesson must carry the tell route')
+  else ok.push('M: a flagged question carries the tell route')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

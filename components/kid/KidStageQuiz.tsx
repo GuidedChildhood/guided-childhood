@@ -15,9 +15,9 @@ import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 // and a child who reads "failed" at the end of it learns the wrong thing about
 // the whole pathway.
 
-type Shuffled = { q: string; options: string[]; answer: number; why: string }
+type Shuffled = { q: string; options: string[]; answer: number; why: string; flagged?: boolean }
 
-function shuffleOptions(item: StageQuizQuestion, seed: number): Shuffled {
+function shuffleOptions(item: StageQuizQuestion & { flagged?: boolean }, seed: number): Shuffled {
   const idx = item.options.map((_, i) => i)
   let s = (seed % 2147483647) || 1
   const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
@@ -30,20 +30,31 @@ function shuffleOptions(item: StageQuizQuestion, seed: number): Shuffled {
     options: idx.map(i => item.options[i]),
     answer: idx.indexOf(item.answer),
     why: item.why,
+    flagged: item.flagged,
   }
 }
 
 export default function KidStageQuiz({
   token, stageId, stageName, stampName, childName, pool, alreadyPassed, lessonsHref, theme,
+  runLength = STAGE_QUIZ_LENGTH, passMark = STAGE_QUIZ_PASS, lessonsLeft = 0, comeBackTomorrow = false, tellHref = null,
 }: {
   token: string
   stageId: number
   stageName: string
   stampName: string
   childName: string
-  pool: StageQuizQuestion[]
+  pool: (StageQuizQuestion & { flagged?: boolean })[]
   alreadyPassed: boolean
   lessonsHref: string
+  /** Five, or fewer on a shorter page; the pass is the same share (lib/pathway/child-stage-check.ts). */
+  runLength?: number
+  passMark?: number
+  /** Lessons on the page not yet passed: the check opens after the last one. */
+  lessonsLeft?: number
+  /** A miss today: it asks again tomorrow. */
+  comeBackTomorrow?: boolean
+  /** The tell page, shown under any question from a safeguarding flagged lesson. */
+  tellHref?: string | null
   // The child's chosen colour, so the check is not the one screen that snaps
   // back to slate grey. Optional, and the fallback is that same slate grey.
   theme?: KidTheme
@@ -55,7 +66,7 @@ export default function KidStageQuiz({
   // first. The seed still shuffles answer positions so there is no pattern.
   const [seed] = useState(() => Math.floor(Date.now() % 2147483647) || 1)
   const questions = useMemo<Shuffled[]>(
-    () => pool.slice(0, STAGE_QUIZ_LENGTH).map((item, i) => shuffleOptions(item, seed + i * 101)),
+    () => pool.slice(0, runLength).map((item, i) => shuffleOptions(item, seed + i * 101)),
     [pool, seed],
   )
 
@@ -63,7 +74,7 @@ export default function KidStageQuiz({
   const [step, setStep] = useState(0)
   const [picked, setPicked] = useState<number | null>(null)
   const [correct, setCorrect] = useState(0)
-  const [finished, setFinished] = useState<{ passed: boolean; score: number } | null>(null)
+  const [finished, setFinished] = useState<{ passed: boolean; score: number; stamped?: boolean } | null>(null)
   const [saving, setSaving] = useState(false)
   // Question by question, for the answer store (migration 239): what was
   // asked, what was picked, right or not. Kept in state order, sent once.
@@ -71,18 +82,25 @@ export default function KidStageQuiz({
 
   const q = questions[step]
 
-  async function finish(finalCorrect: number) {
+  async function finish(finalCorrect: number, all: { question: string; chosen: string; correct: boolean }[]) {
     setSaving(true)
-    const passed = finalCorrect >= STAGE_QUIZ_PASS
+    let passed = finalCorrect >= passMark
+    let score = finalCorrect
+    let stamped = false
     try {
-      await fetch('/api/kid/stage-quiz', {
+      // The server marks the run (lib/pathway/child-stage-check.ts); its
+      // answer is the one shown, so the screen and the stamp always agree.
+      const res = await fetch('/api/kid/stage-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, stage_id: stageId, correct: finalCorrect, answers }),
+        body: JSON.stringify({ token, stage_id: stageId, answers: all }),
       })
+      const j = await res.json().catch(() => null) as { passed?: boolean; score?: number; stamped?: boolean } | null
+      if (res.ok && j && typeof j.passed === 'boolean') { passed = j.passed; score = j.score ?? score }
+      stamped = !!j?.stamped
     } catch { /* the score still shows even if saving fails */ }
     setSaving(false)
-    setFinished({ passed, score: finalCorrect })
+    setFinished({ passed, score, stamped })
   }
 
   function choose(i: number) {
@@ -93,7 +111,7 @@ export default function KidStageQuiz({
   }
 
   function next() {
-    if (step + 1 >= questions.length) finish(correct)
+    if (step + 1 >= questions.length) finish(correct, answers)
     else { setStep(s => s + 1); setPicked(null) }
   }
 
@@ -174,17 +192,48 @@ export default function KidStageQuiz({
             {head(finished.passed ? 'happy' : 'speak')}
             <div>
               <h1 style={{ ...display, fontSize: 'var(--text-xl)', margin: '0 0 8px' }}>
-                {finished.passed ? `That is the ${stampName} stamp earned` : 'Good go, not quite yet'}
+                {finished.stamped ? `That is the ${stampName} stamp` : finished.passed ? 'Big check passed!' : 'Good go, not quite yet'}
               </h1>
               <p style={{ color: t.inkSoft, margin: '0 0 14px', fontSize: 'var(--text-base)' }}>
                 {finished.score} of {questions.length} right.{' '}
-                {finished.passed
-                  ? `Everything ${stageName} was built to teach you, you have got. Your grown up will see it on the pathway.`
-                  : `You need ${STAGE_QUIZ_PASS} to earn the stamp. Nothing is lost, go back over the lessons and come again whenever you want.`}
+                {finished.stamped
+                  ? 'The whole page, done. It is on your passport, and on your grown up\'s too.'
+                  : finished.passed
+                  ? `Your half of the ${stampName} stamp is saved.`
+                  : `You need ${passMark} for the stamp. Nothing is lost. Come back tomorrow and it asks again.`}
               </p>
+              {tellHref && questions.some(x => x.flagged) && (
+                <p style={{ color: t.inkSoft, margin: '0 0 14px', fontSize: 'var(--text-base)' }}>
+                  If anything in these questions was about you, or worried you, tell your grown up, a teacher you trust, or Childline on 0800 1111. <Link href={tellHref} style={{ color: t.ink, fontWeight: 800 }}>Need to talk to someone?</Link>
+                </p>
+              )}
               <Link href={lessonsHref} style={{ ...button(finished.passed ? 'var(--sage)' : 'var(--butter)'), textAlign: 'center', textDecoration: 'none' }}>
                 {finished.passed ? 'Back to my lessons' : 'Back over the lessons'}
               </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── Not open yet: the last lesson first, or tomorrow after a miss ─────────
+  if (!alreadyPassed && (lessonsLeft > 0 || comeBackTomorrow)) {
+    return (
+      <div style={shell}>
+        <div style={{ maxWidth: 560, margin: '0 auto' }}>
+          {back}
+          <div style={{ ...card, marginTop: 18, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+            {head(comeBackTomorrow ? 'speak' : 'thinking')}
+            <div>
+              <h1 style={{ ...display, fontSize: 'var(--text-xl)', margin: '0 0 8px' }}>
+                {comeBackTomorrow ? 'Come back tomorrow' : `The big ${stampName} check is nearly here`}
+              </h1>
+              <p style={{ color: t.inkSoft, margin: 0, fontSize: 'var(--text-base)' }}>
+                {comeBackTomorrow
+                  ? 'It asks again tomorrow. Nothing is lost, and every lesson you passed is still yours.'
+                  : `It opens after your last lesson. ${lessonsLeft === 1 ? 'One lesson' : `${lessonsLeft} lessons`} to go.`}
+              </p>
             </div>
           </div>
         </div>
@@ -221,12 +270,12 @@ export default function KidStageQuiz({
                 The big {stageName} check
               </h1>
               <p style={{ color: t.inkSoft, margin: '0 0 6px', fontSize: 'var(--text-base)' }}>
-                {STAGE_QUIZ_LENGTH} questions, {childName}, and you have met every one of them
+                {runLength} questions, {childName}, and you have met every one of them
                 before. They come straight from your own lessons.
               </p>
               <p style={{ color: t.inkMuted, margin: '0 0 16px', fontSize: 'var(--text-base)' }}>
-                Get {STAGE_QUIZ_PASS} right and the {stampName} stamp is yours. Get it wrong and
-                nothing bad happens, you can come again.
+                Get {passMark} right for the {stampName} stamp. Get it wrong and nothing bad
+                happens: it asks again tomorrow.
               </p>
               <button onClick={() => setStarted(true)} style={{ ...button('var(--butter)'), textAlign: 'center' }}>
                 I am ready
@@ -282,6 +331,13 @@ export default function KidStageQuiz({
                 <strong style={{ color: t.ink }}>{picked === q.answer ? 'Yes. ' : 'Not this time. '}</strong>
                 {q.why}
               </p>
+              {q.flagged && tellHref && (
+                // A question from a safeguarding flagged lesson keeps the tell
+                // route beside it, as the lesson player does (sync plan A6).
+                <p style={{ color: t.inkSoft, fontSize: 'var(--text-sm)', margin: '0 0 14px', lineHeight: 1.5 }}>
+                  If this was about you, or worried you, tell your grown up, a teacher you trust, or Childline on 0800 1111. <Link href={tellHref} style={{ color: t.ink, fontWeight: 800 }}>Need to talk to someone?</Link>
+                </p>
+              )}
               <button onClick={next} disabled={saving} style={{ ...button('var(--butter)'), textAlign: 'center', marginBottom: 0 }}>
                 {saving ? 'Saving…' : step + 1 >= questions.length ? 'See how I did' : 'Next one'}
               </button>
