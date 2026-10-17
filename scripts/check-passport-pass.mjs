@@ -284,6 +284,13 @@ console.log(JSON.stringify({
   else ok.push('K: a flagged lesson keeps its tea question off the lock screen')
   if (!/if \(RETIRED\) return/.test(strip(readFileSync('app/api/cron/passport-check/route.ts', 'utf8')))) problems.push('K: the monthly child passport push is retired (decision 7) and must send nothing')
   else ok.push('K: the monthly child passport push is retired')
+  // The card on Home shows every day now, inside main's 1.07 zoom. A 3D
+  // transform left on it floated the bottom tabs on an iPhone (17 October
+  // 2026, the 2 September fault by another route), so it stays flat and
+  // clears what it animates.
+  const peek = strip(readFileSync('components/home/PassportPeek.tsx', 'utf8'))
+  if (/rotateY|rotateX|perspective|translateZ|translate3d|preserve-3d/.test(peek) || !/clearProps/.test(peek)) problems.push('K: the passport card on Home must animate flat and clear its transform, or the bottom tabs float on an iPhone')
+  else ok.push('K: the passport card on Home animates flat and clears its transform')
   if (!/bookLine/.test(strip(readFileSync('app/k/[token]/KidQuestScreen.tsx', 'utf8')))) problems.push('K: the child\'s passport tile no longer says where their page is')
   else ok.push('K: the child\'s tile says their page, in their words')
 }

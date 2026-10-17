@@ -22,10 +22,19 @@ import type { PassportAttention } from '@/lib/pathway/passport-attention'
 //
 // ── HOW IT MOVES ───────────────────────────────────────────────────────────
 //
-// A small book turning in from the right on its spine, GSAP, half a second,
-// then still. Not now turns it back out and keeps it out for the rest of the
-// day on this device; the reason is checked fresh tomorrow. Reduced motion
-// shows and hides it plainly. Mobbin: Asana's "A task is due in 3 days" card
+// A short slide in from the right with a fade, GSAP, under half a second, then
+// still, with every transform cleared once it lands. Not now slides it back
+// out and keeps it out for the rest of the day on this device; the reason is
+// checked fresh tomorrow. Reduced motion shows and hides it plainly.
+//
+// FLAT, NEVER 3D (17 October 2026). It used to turn in on its spine: a
+// rotateY under a perspective wrapper, and GSAP left the 3D transform on the
+// card after it landed. Inside main, which carries the 1.07 zoom (see the
+// dashboard layout), that kept a 3D layer in a zoomed box for the whole
+// visit, and on Justin's iPhone the bottom tabs floated up the screen the
+// night the daily line made this card show every day: the 2 September fault
+// by another route. So no perspective, no rotate on the card, and clearProps,
+// so nothing transformed stays behind. Mobbin: Asana's "A task is due in 3 days" card
 // on Home, one line, one button, a dismiss; ours in butter and ink.
 //
 // ── THE DAILY LINE (17 October 2026) ──────────────────────────────────────
@@ -89,8 +98,8 @@ export default function PassportPeek({ childId, preview = null }: {
     const el = cardRef.current
     if (!shown || !el || reduceMotion()) return
     const ctx = gsap.context(() => {
-      gsap.from(el, { rotateY: 70, x: 48, opacity: 0, transformOrigin: 'left center', duration: 0.6, ease: 'back.out(1.4)' })
-      gsap.from('.gc-peek-book', { rotate: -12, y: 6, duration: 0.7, ease: 'back.out(2)', delay: 0.25 })
+      gsap.from(el, { x: 24, opacity: 0, duration: 0.45, ease: 'power2.out', clearProps: 'transform,opacity' })
+      gsap.from('.gc-peek-book', { rotate: -8, y: 4, duration: 0.5, ease: 'power2.out', delay: 0.15, clearProps: 'transform' })
     }, el)
     return () => ctx.revert()
   }, [shown])
@@ -100,14 +109,14 @@ export default function PassportPeek({ childId, preview = null }: {
     try { localStorage.setItem(KEY(childId), `${att.kind}:${att.stageId}:${today()}`) } catch { /* private mode */ }
     const el = cardRef.current
     if (!el || reduceMotion()) { setShown(false); return }
-    gsap.to(el, { rotateY: -70, x: -32, opacity: 0, transformOrigin: 'left center', duration: 0.32, ease: 'power2.in', onComplete: () => setShown(false) })
+    gsap.to(el, { x: -24, opacity: 0, duration: 0.28, ease: 'power2.in', onComplete: () => setShown(false) })
   }
 
   if (!att || !shown) return null
   const href = `/dashboard/pathway?open=${att.stageId}&from=today${childId ? `&child=${encodeURIComponent(childId)}` : ''}#page`
 
   return (
-    <div style={{ perspective: '1200px', marginBottom: 22 }}>
+    <div style={{ marginBottom: 22 }}>
       <div
         ref={cardRef}
         role="status"
