@@ -499,6 +499,9 @@ anything the reader is assumed to have seen.
 Worth adding to the review checklist: a reaction post has to work for someone
 who never saw the thing it reacts to. PR 1339.
 
+## 17 October 2026: the passport journey, nine decisions as recommended
+
+Justin took all nine in `plans/2026-10-16-passport-journey-plan.md` (v4, three panel rounds, all seven lenses say build). The passport follows the school year on 1 September (passport readers only; `stage_id` stays on the birthday). The parent's AI modules leave the stamp; AI counts through the child's own school AI lessons. No new push: lesson, check and stamp pushes carry the page count; the monthly child note and PassportToDo's Send retire. Builder's last three lessons open from Year 5; earlier pages are optional for late joiners; script 1401 never speaks first and 405 stops being gated; a fresh booklet at five stamps (wave two). Stamps are stored in `passport_pages` (migration 378). Claim PR 1312.
 ## 16 October 2026: the child can ask to change the deal (PR 1344, migration 381)
 
 Justin said yes to the one Kairoo idea we lacked. In Our family deal the child picks a promise, says what they would like instead and why, and sends it; one open ask at a time, three a week, no model on the child side. The grown up sees it on the Quests page and the agreement page: Yes opens the agreement editor, Let's talk opens DiGi with the ask written in, Not this time takes an optional kind line the child reads. Push to the parent only. Applying 381 is Justin's call; until then the button stays hidden.

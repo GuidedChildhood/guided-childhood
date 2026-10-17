@@ -15,11 +15,18 @@ import type { StageProgress } from './progress'
 // scripts all done, AND the big check passed by this child. Both halves are
 // the child's own work, and both are what a parent means by "finished the
 // stage".
+//
+// Since 17 October 2026 a stamp is also STORED, once, the first time a page is
+// earned (migration 378, lib/pathway/stamp-store.ts), and a stored stamp wins:
+// adding a module to a key stage must never take a stamp back. Pass `stored`
+// wherever a surface has it.
 
 export function isStageStamped(
   progress: Pick<StageProgress, 'contentComplete'> | undefined | null,
   passedStages: Set<number>,
   stageNum: number,
+  stored?: Set<number> | null,
 ): boolean {
+  if (stored?.has(stageNum)) return true
   return !!progress?.contentComplete && passedStages.has(stageNum)
 }

@@ -201,11 +201,12 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     // A legacy row from before scoring (passed null) still counts.
     const legacy = run({ completions: [pass('m3', 'school_lesson', null)] })
     eq('legacy null row', [legacy.school.done, legacy.statusById.m3.state], [1, 'passed'])
-    // The AI modules are their own number, filtered to this stage, and the
-    // passport's pair is the sum: decision 1 lives in passportLessons alone.
+    // The AI modules are their own number, filtered to this stage, and since
+    // decision 1 (17 October 2026) the passport's pair is the school modules
+    // alone: the child cannot open the parent's AI modules.
     const withAi = run({ completions: [pass('m1'), pass('a1', 'ai_lesson'), pass('a3', 'ai_lesson')] })
     eq('AI modules apart', [withAi.school, withAi.ai], [{ done: 1, total: 4, next: { id: 'm2', position: 2 } }, { done: 1, total: 2 }])
-    eq('passport pair', passportLessons(withAi), { done: 2, total: 6 })
+    eq('passport pair', passportLessons(withAi), { done: 1, total: 4 })
     // A child whose passes are all on the Learn tab: no school module passed,
     // and the planets stay exactly as open as they were yesterday.
     const learnTab = run({ completions: [pass('p1', 'lesson'), pass('p2', 'lesson'), pass('p3', 'lesson')] })

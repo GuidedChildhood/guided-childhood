@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { loadStoredStamps } from '@/lib/pathway/stamp-store'
 import type { createClient } from '@/lib/supabase/server'
 import { STAGES } from '@/lib/content/stages'
 import { SITE_URL } from '@/lib/config/site'
@@ -81,7 +82,9 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
   const checkedOn = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
   // The one rule (lib/pathway/stamped): a page anyone can verify is a page
   // the parent's book and the child's book both call stamped.
-  const stamped = STAGE_ORDER.filter((s, i) => isStageStamped(progress[s], passed, i + 1))
+  // Stored stamps first (migration 378), so a verified page never un-stamps.
+  const storedStamps = await loadStoredStamps(admin, child.id)
+  const stamped = STAGE_ORDER.filter((s, i) => isStageStamped(progress[s], passed, i + 1, storedStamps))
 
   return (
     <div style={{
@@ -117,7 +120,9 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {STAGES.map(stage => {
               const slug = STAGE_ORDER[stage.id - 1]
-              const earned = progress[slug]?.contentComplete ?? false
+              // The one rule, not content alone: the verify page used to stamp a
+              // page whose check was never sat (audit of 2 September 2026).
+              const earned = isStageStamped(progress[slug], passed, stage.id, storedStamps)
               return (
                 <div key={stage.id} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
