@@ -139,6 +139,7 @@ export default function LearningYear({
   const [termOpen, setTermOpen] = useState(initialTab === 'term')
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [showWording, setShowWording] = useState(false)
+  const [eventMore, setEventMore] = useState(false)
   const v = views[active]
   const blurb = blurbs[active]
   const brief = briefs[active] ?? null
@@ -240,7 +241,7 @@ export default function LearningYear({
         </Link>
       )}
       {band && (
-        <p style={{ margin: '0 0 20px', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+        <p style={{ margin: '0 0 20px', textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, textWrap: 'balance' }}>
           Paste it in. We say what it is for and how the school teaches it.
         </p>
       )}
@@ -249,14 +250,14 @@ export default function LearningYear({
           how much: backing the child's own effort helps, taking over does not
           (lib/homework/guide.ts carries the sources). */}
       {band && (
-        <section style={{ ...CARD, background: CRAYON.paper }}>
+        <section style={CARD}>
           <p style={EYEBROW}>How to help tonight</p>
           <h2 style={H2}>Three things that work</h2>
           <ol style={{ listStyle: 'none', margin: '0 0 12px', padding: 0, display: 'grid', gap: 10 }}>
             {helpMoves(band.phase).map((m, i) => (
               <li key={m} style={{ display: 'flex', gap: 11, alignItems: 'flex-start' }}>
                 <span aria-hidden style={{
-                  flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--white)', border: '2px solid var(--ink)',
+                  flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: CRAYON.teal, border: '2px solid var(--ink)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                 }}>{i + 1}</span>
@@ -282,26 +283,6 @@ export default function LearningYear({
             {brief.preview ? `When they go back · Year ${brief.yearGroup}` : 'This week in class'}
           </p>
           <h2 style={H2}>{brief.subjectLabel}: {brief.strand}</h2>
-          <button
-            onClick={() => setShowWording(w => !w)}
-            aria-expanded={showWording}
-            style={{ background: 'none', border: 'none', padding: '6px 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
-          >
-            {showWording ? 'Hide' : 'What the curriculum says'} ›
-          </button>
-          {showWording && (
-            <div style={{ margin: '0 0 10px', paddingLeft: 11, borderLeft: '3px solid var(--border)' }}>
-              <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{brief.lead}</p>
-              {brief.parts.map(p => (
-                <p key={p} style={{ margin: '4px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{p}</p>
-              ))}
-              {brief.second && (
-                <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
-                  Also running: {brief.second.subjectLabel}, {brief.second.lead}
-                </p>
-              )}
-            </div>
-          )}
           {/* The dinner table version. A fixed frame rather than a sentence
               grafted onto DfE text, because their objectives do not survive
               being rewritten into questions and we quote, never paraphrase. */}
@@ -318,17 +299,52 @@ export default function LearningYear({
           >
             <HappyIcon name="jobs" size={22} /> Make it a job for stars
           </Link>
+          {/* The Department's wording, after the plain version rather than
+              between the title and it (design review, 17 October). */}
+          <div style={{ marginTop: 12 }}>
+          <button
+              onClick={() => setShowWording(w => !w)}
+              aria-expanded={showWording}
+              style={{ background: 'none', border: 'none', padding: '6px 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
+            >
+              {showWording ? 'Hide' : 'What the curriculum says'} ›
+            </button>
+            {showWording && (
+              <div style={{ margin: '0 0 10px', paddingLeft: 11, borderLeft: '3px solid var(--border)' }}>
+                <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{brief.lead}</p>
+                {brief.parts.map(p => (
+                  <p key={p} style={{ margin: '4px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{p}</p>
+                ))}
+                {brief.second && (
+                  <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+                    Also running: {brief.second.subjectLabel}, {brief.second.lead}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </section>
       )}
 
       {/* Coming up at school. One thing, never a list: five dates is a worry,
           one is a head start. Inline now the tabs have gone. */}
+      {/* Pink, so the page is not cream card after cream card, and the
+          action leads with the explanation one tap down. */}
       {v.event && (
-        <section style={{ ...CARD, background: CRAYON.paper }}>
-          <p style={EYEBROW}>Coming up {v.eventWhen ? `· ${v.eventWhen}` : ''}</p>
+        <section style={{ ...CARD, background: `color-mix(in srgb, ${CRAYON.pink} 25%, var(--white))` }}>
+          <p style={{ ...EYEBROW, color: 'var(--ink-soft)' }}>Coming up {v.eventWhen ? `· ${v.eventWhen}` : ''}</p>
           <h2 style={H2}>{v.event.event.title}</h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 8px' }}>{v.event.event.what}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600, margin: 0 }}>{v.event.event.doThis}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600, margin: 0, maxWidth: '65ch' }}>{v.event.event.doThis}</p>
+          <button
+            onClick={() => setEventMore(m => !m)}
+            aria-expanded={eventMore}
+            style={{ background: 'none', border: 'none', padding: '6px 0 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
+          >
+            {eventMore ? 'Less' : 'Why it matters'} ›
+          </button>
+          {eventMore && (
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '4px 0 0', maxWidth: '65ch' }}>{v.event.event.what}</p>
+          )}
         </section>
       )}
 
@@ -339,7 +355,7 @@ export default function LearningYear({
           <p style={{ ...EYEBROW, color: 'var(--ink)' }}>Secondary school</p>
           <h2 style={H2}>{v.transition.headline}</h2>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>{v.transition.line}</p>
-          <Link href="/dashboard/secondary" className="btn btn-primary" style={{ textDecoration: 'none' }}>The five steps</Link>
+          <Link href="/dashboard/secondary" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, textDecoration: 'none', background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>The five steps ›</Link>
         </section>
       )}
 
@@ -383,7 +399,6 @@ export default function LearningYear({
                             style={{ width: '100%', minHeight: 44, display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', padding: '10px 12px' }}
                           >
                             <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>{st.strand}</span>
-                            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>{st.objectives.length}</span>
                             <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink-muted)', transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
                           </button>
                           {isOpen && (

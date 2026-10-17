@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { CRAYON } from '@gc/shared/happy-news'
+import { CRAYON, HAPPY } from '@gc/shared/happy-news'
 import { CHILD_SAYS, SAYS_MINUTES, verdictFor, type ChildSays, type HomeworkBand } from '@/lib/homework/guide'
 
 // ── HOW MUCH IS NORMAL, AND IS TONIGHT FINE ─────────────────────────────────
@@ -61,7 +61,7 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', whiteSpace: 'nowrap',
             transition: 'left .3s ease',
           }}>
-            {childName}
+            {CHILD_SAYS.find(c => c.key === says)?.label ?? childName}
             <span aria-hidden style={{ position: 'absolute', left: '50%', bottom: -5, width: 10, height: 10, transform: 'translateX(-50%) rotate(45deg)', background: 'var(--ink)' }} />
           </span>
         )}
@@ -102,39 +102,70 @@ export default function HomeworkCheck({ band, childName, tonightNote }: {
       <p style={{ margin: '16px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
         What did {childName} say they have tonight?
       </p>
-      <div role="radiogroup" aria-label={`What ${childName} said`} style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {CHILD_SAYS.map(c => {
-          const on = says === c.key
-          return (
-            <button
-              key={c.key}
-              role="radio"
-              aria-checked={on}
-              onClick={() => setSays(on ? null : c.key)}
-              style={{
-                minHeight: 44, padding: '8px 13px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
-                border: on ? '2px solid var(--ink)' : '2px solid var(--ink-light)',
-                background: on ? 'var(--ink)' : 'var(--white)', color: on ? 'var(--white)' : 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-              }}
-            >
-              {c.label}
-            </button>
-          )
-        })}
+      {/* An even grid of five durations, then tears on a line of its own:
+          tears are not a length of time, and a chip in the middle of the
+          scale said they were (design review, 17 October). The chosen one is
+          sky with a tick rather than solid ink, so it never outweighs the one
+          butter button on the page. */}
+      <div role="radiogroup" aria-label={`What ${childName} said`}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8 }}>
+          {CHILD_SAYS.filter(c => c.key !== 'tears').map(c => {
+            const on = says === c.key
+            return (
+              <button
+                key={c.key}
+                role="radio"
+                aria-checked={on}
+                onClick={() => setSays(on ? null : c.key)}
+                style={{
+                  minHeight: 44, padding: '8px 6px', borderRadius: 16, cursor: 'pointer',
+                  border: on ? '2px solid var(--ink)' : '2px solid var(--ink-light)',
+                  background: on ? CRAYON.sky : 'var(--white)', color: 'var(--ink)',
+                  boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.15,
+                }}
+              >
+                {on && <span aria-hidden>✓ </span>}{c.label}
+              </button>
+            )
+          })}
+        </div>
+        <button
+          role="radio"
+          aria-checked={says === 'tears'}
+          onClick={() => setSays(says === 'tears' ? null : 'tears')}
+          style={{
+            width: '100%', minHeight: 44, marginTop: 8, padding: '8px 12px', borderRadius: 16, cursor: 'pointer',
+            border: `2px solid ${says === 'tears' ? 'var(--ink)' : HAPPY.coral}`,
+            background: says === 'tears' ? CRAYON.coral : 'var(--white)', color: 'var(--ink)',
+            boxShadow: says === 'tears' ? '0 3px 0 var(--ink)' : 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+          }}
+        >
+          {says === 'tears' && <span aria-hidden>✓ </span>}Or it ended in tears
+        </button>
       </div>
 
       {verdict && (
+        // A mark as well as a colour, so the verdict never rests on colour
+        // alone: a tick for fine, a question for worth a look, a hand for stop.
         <div role="status" style={{
           marginTop: 14, background: TONE_BG[verdict.tone], border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
-          padding: '12px 14px',
+          padding: '12px 14px', display: 'flex', gap: 11, alignItems: 'flex-start',
         }}>
-          <p style={{ margin: '0 0 3px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            {verdict.title}
-          </p>
-          <p style={{ margin: 0, fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5 }}>
-            {verdict.line}
-          </p>
+          <span aria-hidden style={{
+            flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: 'var(--white)', border: '2px solid var(--ink)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)',
+          }}>{verdict.tone === 'fine' ? '✓' : verdict.tone === 'check' ? '?' : '✋'}</span>
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', margin: '2px 0 3px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+              {verdict.title}
+            </span>
+            <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5 }}>
+              {verdict.line}
+            </span>
+          </span>
         </div>
       )}
 

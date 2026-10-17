@@ -65,11 +65,12 @@ export function homeworkBand(yearGroup: number | null | undefined): HomeworkBand
 export type ChildSays = 'none' | 'little' | 'some' | 'lots' | 'hours' | 'tears'
 
 export const CHILD_SAYS: { key: ChildSays; label: string }[] = [
-  // Short enough that all six sit in two rows on a 390 phone.
+  // Short enough that each fits its chip on one line in a three across grid
+  // on a 390 phone, tick included.
   { key: 'none', label: 'None' },
   { key: 'little', label: 'A bit' },
-  { key: 'some', label: 'Half an hour' },
-  { key: 'lots', label: 'An hour' },
+  { key: 'some', label: '30 min' },
+  { key: 'lots', label: '1 hour' },
   { key: 'hours', label: 'Hours' },
   { key: 'tears', label: 'Tears' },
 ]
