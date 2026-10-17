@@ -41,7 +41,7 @@ export default async function RefTodayPath({
   ]
 
   return (
-    <main style={{ background: 'var(--butter)', minHeight: '100vh', padding: '20px 16px' }}>
+    <main style={{ background: 'var(--app-bg)', minHeight: '100vh', padding: '20px 16px' }}>
       <div style={{ maxWidth: 640, margin: '0 auto' }}>
         <TodayPathBig tasks={tasks} dailyMinutes={10} childName="Teo" streakCount={4} />
       </div>

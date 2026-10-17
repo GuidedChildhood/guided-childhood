@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import HappyIcon from '@/components/kid/HappyIcon'
 import { currentChildId } from '@/lib/children/current'
+import { CRAYON } from '@gc/shared/happy-news'
 
 // The way back from a welcome card.
 //
@@ -113,10 +114,12 @@ function StepDone({ step, childParam }: { step: string; childParam: string | nul
     <div style={{ padding: '12px 16px 0', maxWidth: 720, margin: '0 auto' }}>
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-      background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      // The crayon green of the path's finished badge, so this bar and the
+      // rung it is about to turn green read as one family.
+      background: CRAYON.green, border: 'var(--edge)', boxShadow: 'var(--lift)',
       borderRadius: 'var(--radius-btn)', padding: '10px 12px', margin: '0 0 12px',
     }}>
-      <span style={{ flex: '1 1 180px', minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
+      <span style={{ flex: '1 1 180px', minWidth: 0, fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
         {failed ? 'That did not save. Try once more?' : STEP_LINE[step]}
       </span>
       <button
