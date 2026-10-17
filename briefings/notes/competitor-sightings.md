@@ -100,6 +100,70 @@ is still to do once a ban takes the named apps away.
 
 ---
 
+## 16 October 2026, Kairoo's site (kairoo.co.uk). Upgraded: the one to watch.
+
+Justin followed the Facebook ad to the site. Read on 16 October; everything
+below is the company's own page, nothing independent yet.
+
+- **Who:** Kairos OS Ltd, UK, set up 2026, "built at Nesta Mission Studio and
+  backed by Nesta". Design "informed by BIT research" (the Behavioural Insights
+  Team). No founders named. Pre launch: a waitlist, "in build and testing with
+  UK families", early families free, price not set.
+- **Who for:** UK parents of 8 to 12 year olds. Our heartland, narrower band.
+- **Headline:** "Stop being the screen time bad cop." The ad's version: "Set
+  the rules once. Kairoo helps your child build healthy digital habits. Your
+  child gets room to make their own choices, within the boundaries you agree
+  together."
+- **What it does:** rules agreed with the child, not imposed; the app answers
+  extension requests and says time is up; a "10:00 left" countdown with the
+  choice to stop early and bank the minutes; streaks for keeping the agreement;
+  more independence earned by keeping it; the child can ask to change a rule; a
+  weekly note "not a minutes dashboard" with a conversation prompt; a gentle
+  wind down; a free five minute quiz giving "three things to try this week", a
+  conversation script and six week checkpoints. On iPhone it relies on Apple's
+  Family Controls access, which it says it has applied for.
+- **Claims to watch:** "304 parents" surveyed and "co built rules kids help
+  make last longer than rules imposed on them", with no study linked.
+
+**Why this one matters.** It shares more of our philosophy than anything seen so
+far: the child as participant, agreed rules, a ladder towards independence, a
+weekly note instead of a dashboard, a quiz that hands over a script. And it has
+Nesta's money and name behind it. It is the first competitor that could say
+our story back to a parent.
+
+**Where we are still clearly different.**
+- **2 to 16, not 8 to 12.** The phone and social media arrive after 12, which
+  is where Kairoo stops.
+- **The child is taught, not just timed.** 34 lessons with a source behind
+  every objective, the passport, the Planet Friends. Kairoo has no lessons.
+- **Time is earned by doing, not only by not using.** Jobs and chores at the
+  child's star rate, a core that is theirs, protected time no stars can buy
+  (`lib/quests/time-tiers.ts`). Kairoo's bank fills by stopping early.
+- **The words for every hard conversation,** five free (the `scripts` table),
+  and DiGi with the family's memory. Kairoo has one script from the quiz.
+- **Schools.** A school curriculum and the founding schools rate. Kairoo is
+  home only.
+- **Live today, on any screen.** We need no Apple approval and work for the TV,
+  the console and the paper chart. Kairoo is a waitlist waiting on Apple.
+- **How a screen ends.** Kairoo counts down ("10:00 left"). Our library agrees
+  the ending before the screen goes on, because warned endings were followed
+  by more upset in Hiniker 2016 (decision PR 1275). That study was of under
+  sixes, so this is a difference of approach, not a claim that theirs harms.
+
+**What we should do.**
+1. **Speed.** They are a waitlist; we are live. Every week of real families
+   using the product is ground they cannot buy.
+2. **Say the differences in parents' words,** on the stage check result page
+   and the home page: from 2 to 16, your child learns, they earn their time by
+   doing, the words for tonight. Never name Kairoo in public.
+3. **Watch Nesta.** Nesta Mission Studio backs early stage work on its own
+   missions; whether it would back a second product in the same space, or a
+   school curriculum, is a question for Justin, not a plan.
+4. **Borrow, carefully:** "banked" minutes for stopping early fits the star
+   economy if it ever earns its place (ask the board first); the weekly note
+   framing, "not a minutes dashboard", is how our weekly review should be
+   described too.
+
 ## 14 October 2026, second sweep (Instagram paid ads, researched)
 
 ### Balance Phone (thebalancephone.com). Closest to our hook.
