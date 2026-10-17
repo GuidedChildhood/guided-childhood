@@ -208,7 +208,12 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
         {/* The picture: the Friend cheering on the first beat, the beat's
             own drawing after, each on its Happy News plate. */}
         <div aria-hidden style={{
-          width: 148, height: 148, borderRadius: '50%', background: PLATES[beat % PLATES.length],
+          // The Friend stands on a soft wash of its OWN colour, not a set
+          // crayon: a hot pink plate fought Cosmo's orange (Justin, 17
+          // October). Every Friend now sits on its own tint, so the plate and
+          // the character always belong together.
+          width: 148, height: 148, borderRadius: '50%',
+          background: beat === 0 ? `color-mix(in srgb, ${cheer.colour} 22%, var(--white))` : PLATES[beat % PLATES.length],
           border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px',
         }}>

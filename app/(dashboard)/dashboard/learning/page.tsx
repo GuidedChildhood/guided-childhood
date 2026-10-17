@@ -5,6 +5,7 @@ import { sessionUser } from '@/lib/supabase/session'
 import { buildYearView, yearBlurb, type YearView } from '@/lib/learning/year-view'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import LearningYear from './LearningYear'
+import { londonToday } from '@/lib/pathway/today'
 
 // What your child is learning.
 //
@@ -17,7 +18,7 @@ import LearningYear from './LearningYear'
 // One page, no input required. Their year, their term, what the class is being
 // taught, what is coming up at school, and what happens next.
 
-export const metadata = { title: 'What they are learning · Guided Childhood' }
+export const metadata = { title: 'Homework and school · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 export default async function LearningPage({
@@ -53,6 +54,22 @@ export default async function LearningPage({
     Promise.all(children.map(c => getWeekBrief(supabase, (c.date_of_birth as string | null) ?? null))),
   ]) as [YearView[], Awaited<ReturnType<typeof getWeekBrief>>[]]
 
+  // What each child wrote in their own app today (kid_homework_notes, 147),
+  // so the homework check can sit it beside the guide. Fails soft: a read
+  // error or a database before 147 just shows no note.
+  const noteByChild = new Map<string, string>()
+  try {
+    const { data: notes, error } = await supabase
+      .from('kid_homework_notes')
+      .select('child_id, note')
+      .eq('user_id', user.id)
+      .eq('day', londonToday())
+    if (!error) for (const n of notes ?? []) {
+      const text = String(n.note ?? '').trim()
+      if (text) noteByChild.set(String(n.child_id), text.slice(0, 280))
+    }
+  } catch { /* no note is the right failure */ }
+
   if (views.length === 0) {
     return (
       <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
@@ -73,5 +90,5 @@ export default async function LearningPage({
     )
   }
 
-  return <LearningYear views={views} blurbs={views.map(yearBlurb)} briefs={briefs} initialTab={tab ?? null} />
+  return <LearningYear views={views} blurbs={views.map(yearBlurb)} briefs={briefs} notes={views.map(v => noteByChild.get(v.childId) ?? null)} initialTab={tab ?? null} />
 }
