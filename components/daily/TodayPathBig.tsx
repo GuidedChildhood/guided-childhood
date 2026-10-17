@@ -734,14 +734,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         second one written here. */}
                     <span style={{
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                      letterSpacing: '.06em', textTransform: 'uppercase', color: bonus.friend.colour,
+                      // Ink, not the Friend's own colour: Nova's purple and
+                      // Pebble's gold were under 4.5 to 1 on the page. The
+                      // colour lives on the disc's edge instead.
+                      letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink)',
                       textAlign: 'center',
                     }}>
                       {bonus.friend.name}
                     </span>
                     <span style={{
                       fontFamily: 'var(--font-display)', fontWeight: 700,
-                      fontSize: 'var(--text-xs)', color: 'var(--ink-soft)',
+                      fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
                       textAlign: 'center', lineHeight: 1.3,
                     }}>
                       {bonus.service.short}

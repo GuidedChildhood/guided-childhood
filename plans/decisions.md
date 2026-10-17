@@ -513,3 +513,5 @@ Justin: steps that send a parent off the path (DiGi, the devices job) need a Don
 ## 17 October 2026: Today path redesigned, less gold, Happy News crayon (PR 1345)
 
 Justin: "use less gold ... more happy news ... until Apple UX level". Built on Duolingo's path (Mobbin), then three rounds with a design reviewer, 6.5 to 8 to 8.9 and "ship". Butter now marks only the Go. A crayon sky banner (green when done) carries whose path, the one tick and the finish line; no card round the path; stones wear crayon plates; the finished day is a green trophy badge; minutes is a segmented control under the path. Declined: perching the Planet Friend on the stone, and smaller ledges on the banner.
+
+Later the same day, at Justin's pointer to the Duolingo path flows: the step up next became an 84px stone with a butter START or GO bubble and a halo (the callout card went), Planet Friends stand beside the road, the seam is a hairline break, the finish is a pink trophy stone. Reviewer: 9.0, ship.
