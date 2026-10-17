@@ -26,6 +26,8 @@ export default function DayCloseFixture() {
             band_label: '8 to 10',
           }}
           quests={{ label: 'Approve', href: '#', done: false }}
+          stepsDone={6}
+          minutes={12}
           onClose={() => setOpen(false)}
         />
       )}
