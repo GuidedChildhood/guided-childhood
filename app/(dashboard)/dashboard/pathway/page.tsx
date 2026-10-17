@@ -26,6 +26,8 @@ import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { readPassportChild } from '@/lib/pathway/passport-child'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { stampedStages } from '@/lib/pathway/stamp-store'
 import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
 import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 import { getWeekParentReport } from '@/lib/balance/week-report'
@@ -182,13 +184,18 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // This child's own check passes, fetched BEFORE the stamps and the end of
   // road celebration because both are gated on them.
   const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
+  // The stored stamps (migration 378): a page earned once stays earned, and a
+  // page the rule reads as earned today is stored on the way through.
+  const storedStamps = allStagesProgress
+    ? await stampedStages(createAdminClient(), { userId: user.id, childId: primaryChild?.id ?? null, progress: allStagesProgress, passed: passedStages })
+    : new Set<number>()
 
   // Content complete AND this child's check passed, stage by stage: the same
   // two halves a single stamp needs, so the end of road celebration can never
   // fire for a child who has not sat their own checks.
   const allStagesEarned = !!allStagesProgress
     && (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as ProgressStageId[])
-      .every((slug, i) => allStagesProgress[slug].contentComplete && passedStages.has(i + 1))
+      .every((slug, i) => isStageStamped(allStagesProgress[slug], passedStages, i + 1, storedStamps))
 
   // ── THE FOUR THINGS, COUNTED ONCE ──────────────────────────────────────────
   //
@@ -258,7 +265,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     ? STAGES.map(s => {
         const prog = allStagesProgress[STAGE_SLUGS_ARR[s.id - 1]]
         const status: StampStatus =
-          isStageStamped(prog, passedStages, s.id) ? 'earned'
+          isStageStamped(prog, passedStages, s.id, storedStamps) ? 'earned'
           : s.id === currentStageNum ? 'current'
           : s.id < currentStageNum ? 'catchup'
           : 'upcoming'
@@ -379,7 +386,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     for (const st of STAGE_SLUGS_ARR.slice(0, currentStageNum - 1)) {
       const prog = allStagesProgress[st]
       const id = stageIdToNum[st]
-      if (prog.contentComplete && passedStages.has(id)) continue
+      if (isStageStamped(prog, passedStages, id, storedStamps)) continue
       const left = Math.max(0, prog.lessonsTotal - prog.lessonsDone)
         + Math.max(0, prog.scriptsTotal - prog.scriptsDone)
       if (left === 0) { catchupLines[id] = 'Just the check left on it'; continue }
@@ -519,7 +526,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               // The real answer to "is this page stamped", which the five rows
               // cannot give: they carry neither the scripts nor the end of
               // stage check, and those are two thirds of the gate.
-              stamped={isStageStamped(currentStageProgress, passedStages, stageNum)}
+              stamped={isStageStamped(currentStageProgress, passedStages, stageNum, storedStamps)}
               stageName={currentStageNum && passportStamps.length > 0
                 ? `Stage ${currentStageNum}, ${passportStamps.find(st => st.id === currentStageNum)?.name ?? ''}`.trim().replace(/,$/, '')
                 : null}

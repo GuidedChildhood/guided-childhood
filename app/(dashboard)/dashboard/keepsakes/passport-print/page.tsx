@@ -6,6 +6,7 @@ import { getChildren } from '@/lib/children/server'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { loadStoredStamps } from '@/lib/pathway/stamp-store'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getStickerBook } from '@/lib/stickers/book'
 import { stickerArt } from '@/lib/stickers/catalog'
@@ -49,12 +50,15 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
     getPassedStageQuizzes(supabase, user.id, child?.id ?? null),
     child ? getStickerBook(supabase, user.id, { id: child.id, age_band: child.age_band ?? null }).catch(() => null) : Promise.resolve(null),
   ])
+  // Stored stamps first (migration 378): the booklet prints the stamps the
+  // record holds, so adding a module never takes one off a printed page.
+  const storedStamps = await loadStoredStamps(supabase, child?.id ?? null)
   const sections = await buildPassportSections(
     supabase, user.id, child ? { id: child.id, age_band: child.age_band } : null, progress, currentStageNum,
     { openMoments: 0, solvedMoments: 0, parentReport: null },
   ).catch(() => ({} as Awaited<ReturnType<typeof buildPassportSections>>))
   const earned = (book?.stickers ?? []).filter(s => s.earned)
-  const stampedCount = STAGE_IDS.filter((id, i) => isStageStamped(progress[id], passed, i + 1)).length
+  const stampedCount = STAGE_IDS.filter((id, i) => isStageStamped(progress[id], passed, i + 1, storedStamps)).length
 
   const page: React.CSSProperties = {
     width: '105mm', height: '148mm', boxSizing: 'border-box', overflow: 'hidden',
@@ -130,7 +134,7 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
         {STAGE_IDS.map((id, i) => {
           const n = i + 1
           const p = progress[id]
-          const stamped = isStageStamped(p, passed, n)
+          const stamped = isStageStamped(p, passed, n, storedStamps)
           const colour = STAGE_COLOURS[i]
           const friend = characterForStage(n)
           const rows = sections[n]?.sections ?? []

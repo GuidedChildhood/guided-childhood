@@ -108,20 +108,21 @@ export type LessonPathResult = {
 }
 
 /**
- * The passport's lessons pair: the school modules plus the age band's AI
- * modules, which is how the stamp has read since 13 September 2026.
+ * The passport's lessons pair: the stage's school modules, the ones the child
+ * plays and passes in their own app.
  *
- * Decision 1 in the plan (do the AI modules stay in the stamp's lessons
- * count) is THIS function. Every surface that talks about the stamp, the
- * passport in progress.ts and Home's "move the passport on" card, reads it,
- * so whichever way Justin decides is one edit and the two cannot drift. A
- * child's own surfaces never read it: they print `school` alone.
+ * Decision 1 of the lessons plan, taken by Justin on 17 October 2026 with the
+ * passport journey plan (plans/2026-10-16-passport-journey-plan.md, 1.3): the
+ * parent's AI modules leave the stamp, because the child cannot open them and
+ * a stamp the child cannot earn alone is not the child's stamp. AI literacy
+ * still counts, through the child's own school modules tagged `ai`
+ * (shared/passport-areas.ts), and the parent's AI modules are "Your part",
+ * shown and never blocking. From 13 September to 17 October the pair added
+ * `path.ai`; stamps earned then are stored (migration 378) and stay earned.
+ * Every surface that talks about the stamp reads this, so the two cannot drift.
  */
 export function passportLessons(path: LessonPathResult): { done: number; total: number } {
-  return {
-    done: path.school.done + path.ai.done,
-    total: path.school.total + path.ai.total,
-  }
+  return { done: path.school.done, total: path.school.total }
 }
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000

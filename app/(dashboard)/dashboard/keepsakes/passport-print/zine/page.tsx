@@ -6,6 +6,7 @@ import { getChildren } from '@/lib/children/server'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { loadStoredStamps } from '@/lib/pathway/stamp-store'
 import { getStickerBook } from '@/lib/stickers/book'
 import { characterForStage } from '@/lib/content/stage-characters'
 import { STAGES } from '@/lib/content/stages'
@@ -62,8 +63,11 @@ export default async function PassportZinePage({ searchParams }: { searchParams:
     getPassedStageQuizzes(supabase, user.id, child?.id ?? null),
     child ? getStickerBook(supabase, user.id, { id: child.id, age_band: child.age_band ?? null }).catch(() => null) : Promise.resolve(null),
   ])
+  // Stored stamps first (migration 378): the booklet prints the stamps the
+  // record holds, so adding a module never takes one off a printed page.
+  const storedStamps = await loadStoredStamps(supabase, child?.id ?? null)
   const earned = (book?.stickers ?? []).filter(s => s.earned)
-  const stampedCount = STAGE_IDS.filter((id, i) => isStageStamped(progress[id], passed, i + 1)).length
+  const stampedCount = STAGE_IDS.filter((id, i) => isStageStamped(progress[id], passed, i + 1, storedStamps)).length
 
   const stages: ZineStage[] = STAGE_IDS.map((id, i) => {
     const n = i + 1
@@ -75,7 +79,7 @@ export default async function PassportZinePage({ searchParams }: { searchParams:
       focus: STAGES[i].focus,
       colour: STAGE_COLOURS[i],
       cutout: characterForStage(n)?.cutout ?? null,
-      stamped: isStageStamped(p, passed, n),
+      stamped: isStageStamped(p, passed, n, storedStamps),
       isCurrent: currentStageNum === n,
       lessonsDone: p?.lessonsDone ?? 0,
       lessonsTotal: p?.lessonsTotal ?? 0,

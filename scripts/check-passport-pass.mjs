@@ -169,6 +169,51 @@ else ok.push('G: the next open row wears a story icon')
 if (/🛂/.test(book)) problems.push('G: the shop link still carries the passport emoji rather than the story icon')
 else ok.push('G: the shop link wears the passport story icon')
 
+// ── H: a stamp is stored once and stays earned (migration 378) ───────────────
+// plans/2026-10-16-passport-journey-plan.md, 1.2. The rule alone vanished a
+// stamp when a module was added; a stored stamp wins on every surface.
+{
+  const probe2 = `
+import { isStageStamped } from './lib/pathway/stamped.ts'
+import { pageCount, pageCountLine } from './lib/pathway/page-count.ts'
+const incomplete = { contentComplete: false }
+const out = {
+  storedWins: isStageStamped(incomplete, new Set(), 3, new Set([3])),
+  ruleStill: isStageStamped({ contentComplete: true }, new Set([3]), 3),
+  noCheck: isStageStamped({ contentComplete: true }, new Set(), 3, new Set()),
+  count: pageCount({ lessonsDone: 3, lessonsTotal: 5, scriptsDone: 1, scriptsTotal: 4 }, false),
+  countDone: pageCount({ lessonsDone: 5, lessonsTotal: 5, scriptsDone: 4, scriptsTotal: 4 }, true),
+  line: pageCountLine({ done: 7, total: 12 }),
+}
+console.log(JSON.stringify(out))
+`
+  const r2 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe2], { encoding: 'utf8', cwd: process.cwd() })
+  if (r2.status !== 0) problems.push(`H: the probe could not run the stamp rule: ${(r2.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r2.stdout.trim().split('\n').pop())
+    if (!o.storedWins || !o.ruleStill || o.noCheck) problems.push(`H: a stored stamp must win, the rule must still stamp, and no check must mean no stamp: ${JSON.stringify([o.storedWins, o.ruleStill, o.noCheck])}`)
+    else ok.push('H: a stored stamp wins, the rule still stamps, no check means no stamp')
+    if (o.count.done !== 4 || o.count.total !== 10 || o.countDone.done !== 10 || o.line !== '7 of 12 done') problems.push(`I: the page count is not lessons plus scripts plus the check: ${JSON.stringify([o.count.done, o.count.total, o.countDone.done, o.line])}`)
+    else ok.push('I: one number, lessons plus scripts plus the check, printed "7 of 12 done"')
+  }
+  const store = strip(readFileSync('lib/pathway/stamp-store.ts', 'utf8'))
+  if (!/\.is\('stamped_at', null\)/.test(store) || !/ignoreDuplicates: true/.test(store)) problems.push('H: the stamp store must only ever set stamped_at where it is empty')
+  else ok.push('H: the stamp store writes stamped_at once, never over an earlier stamp')
+  for (const [file, re] of [
+    ['app/(dashboard)/dashboard/pathway/page.tsx', /stampedStages\(/],
+    ['app/k/[token]/page.tsx', /stampedStages\(/],
+    ['app/verify/[code]/page.tsx', /loadStoredStamps\(/],
+    ['app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx', /loadStoredStamps\(/],
+    ['app/(dashboard)/dashboard/keepsakes/passport-print/zine/page.tsx', /loadStoredStamps\(/],
+    ['lib/stickers/book.ts', /loadStoredStamps\(/],
+  ]) {
+    if (!re.test(strip(readFileSync(file, 'utf8')))) problems.push(`H: ${file} stamps a page without reading the stored stamps`)
+  }
+  ok.push('H: every stamp reader reads the stored stamps first')
+  if (/only_on_signal/.test(strip(readFileSync('lib/pathway/progress.ts', 'utf8')).replace(/select\([^)]*\)/g, '')) === false) problems.push('I: progress.ts must leave only_on_signal scripts out of the stamp total (decision 6)')
+  else ok.push('I: never speak first scripts are not in the stamp total')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

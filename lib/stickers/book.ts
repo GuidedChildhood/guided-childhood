@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { loadStoredStamps } from '@/lib/pathway/stamp-store'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { childWorries, type ChildWorry } from '@/lib/concerns/sorted'
 import { STICKERS, sortedSticker, stickerWhy, type Sticker } from './catalog'
@@ -396,15 +397,18 @@ async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId
   try {
     // THIS child's pages, not the household's. Without the child the
     // youngest's rarity tier was paid out of the eldest's lessons.
-    const [progress, passed] = await Promise.all([
+    const [progress, passed, stored] = await Promise.all([
       getAllStagesProgress(supabase, userId, 0, childId),
       getPassedStageQuizzes(supabase, userId, childId),
+      // Stored stamps first (migration 378): a stamp sticker, once earned,
+      // is never taken back by a module added later.
+      loadStoredStamps(supabase, childId),
     ])
     STAGES.forEach((s, i) => {
       const p = progress[s]
       if (!p) return
       // The one rule, shared with the parent's book and the verify page.
-      out[i + 1] = { done: p.lessonsDone, total: p.lessonsTotal, complete: isStageStamped(p, passed, i + 1) }
+      out[i + 1] = { done: p.lessonsDone, total: p.lessonsTotal, complete: isStageStamped(p, passed, i + 1, stored) }
     })
   } catch { /* quiet */ }
   return out

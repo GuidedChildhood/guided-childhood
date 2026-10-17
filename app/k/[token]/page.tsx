@@ -25,6 +25,7 @@ import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { stampedStages } from '@/lib/pathway/stamp-store'
 import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
@@ -867,6 +868,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (passportReads && passportBuilt) {
       const [allProgress, areasRead, passed] = passportReads
       const built = passportBuilt
+      // The stored stamps (migration 378), so a page earned once stays earned
+      // on the child's copy too.
+      const storedStamps = allProgress
+        ? await stampedStages(supabase, { userId: link.user_id, childId: link.child_id, progress: allProgress, passed })
+        : new Set<number>()
       const stamps: PassportStamp[] = STAGE_ORDER.map((slug, i) => {
         const id = i + 1
         const prog = allProgress?.[slug]
@@ -877,7 +883,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
           name: STAGE_TITLES[i],
           ages: STAGE_AGES[i],
           pct,
-          status: isStageStamped(prog, passed, id) ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
+          status: isStageStamped(prog, passed, id, storedStamps) ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
           href: '#',
           lessonsDone: prog?.lessonsDone ?? 0,
           lessonsTotal: prog?.lessonsTotal ?? 0,

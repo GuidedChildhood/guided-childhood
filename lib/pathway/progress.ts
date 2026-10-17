@@ -36,13 +36,13 @@ export interface StageProgress {
   devicesPct: number
   lessonsPct: number
   /**
-   * The child's own AI modules for this stage's age band, inside the lesson
-   * counts below. Justin, 13 September 2026, approving the recommendation:
-   * "AI literate" is in the definition of ready, so the AI modules gate the
-   * stamp the way every other lesson does. lessonsDone and lessonsTotal
-   * include them, so the ring, the row, the sticker tile, the to do and the
-   * stamp move together. These two are the AI share of that, for anything that
-   * wants to say it separately.
+   * The parent's AI modules for this stage's age band, done of total. Since
+   * 17 October 2026 they are "Your part" and sit OUTSIDE the lesson counts
+   * below: decision 1 of the lessons plan, taken with the passport journey
+   * plan (1.3), because the child cannot open them and a stamp the child
+   * cannot earn alone is not theirs. AI literacy still counts toward the
+   * stamp through the child's own school AI modules. From 13 September to
+   * 17 October these were inside the counts; stamps earned then are stored.
    */
   aiDone: number
   aiTotal: number
@@ -109,7 +109,10 @@ export async function getStageProgress(
     { data: passBy },
     { data: aiLessonRows },
   ] = await Promise.all([
-    supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
+    // only_on_signal scripts (migration 185) never count toward the stamp:
+    // the app never offers them first, so a page must never wait on one
+    // (decision 6, 17 October 2026). Filtered below, softly.
+    supabase.from('scripts').select('sort_order, only_on_signal').eq('stage_id', stageId),
     (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('device_guides').select('device_key, min_age'),
     (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
@@ -130,8 +133,8 @@ export async function getStageProgress(
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
-    // The child's AI modules, keyed by the age their band starts at. They
-    // gate the stamp since 13 September 2026; see StageProgress.aiTotal.
+    // The parent's AI modules, keyed by the age their band starts at. Counted
+    // apart as Your part since 17 October 2026; see StageProgress.aiTotal.
     supabase.from('ai_lessons').select('id, audience').in('audience', Object.keys(AI_AUDIENCE_TO_STAGE)),
   ])
 
@@ -147,7 +150,7 @@ export async function getStageProgress(
   // it and said it does not apply. Merely opening one counts for nothing, which
   // is what makes "not needed at this time" possible and what lets an unfinished
   // script come back. See migration 157.
-  const stageScriptOrders = new Set((stageScripts ?? []).map(s => s.sort_order))
+  const stageScriptOrders = new Set((stageScripts ?? []).filter(s => !(s as { only_on_signal?: boolean }).only_on_signal).map(s => s.sort_order))
   // DISTINCT sort orders, not rows. Rows are per child since 213, so the same
   // script resolved for two children is two rows, and counting rows would let
   // one conversation fill two slots of a ring that has a fixed denominator.
@@ -209,10 +212,8 @@ export async function getStageProgress(
   // progress with work their child got wrong, which is the one number in the
   // product that has to be honest. Both rules now match the Lessons page.
   // One count, worked out in lib/pathway/lesson-path.ts and nowhere else. The
-  // passport folds the AI modules into its lessons count, as it has since
-  // 13 September 2026 (AI literate is in the definition of ready); whether it
-  // keeps doing so is decision 1 in plans/2026-10-08-lessons-hub-plan.md, and
-  // either answer is passportLessons, which Home's card reads too.
+  // stamp's lessons are the school modules alone since 17 October 2026
+  // (decision 1); passportLessons says so, and Home's card reads it too.
   const path = childLessonPath({
     modules: lessonsForStage,
     aiModules: aiLessonRows as AiModuleRow[] | null,
@@ -265,7 +266,8 @@ export async function getAllStagesProgress(
     { data: passBy },
     { data: aiLessonRows },
   ] = await Promise.all([
-    supabase.from('scripts').select('sort_order, stage_id'),
+    // Without the only_on_signal scripts, as in getStageProgress (decision 6).
+    supabase.from('scripts').select('sort_order, stage_id, only_on_signal'),
     // The same child scoping as getStageProgress above, for the same reason:
     // this variant draws EVERY page of one child's passport book and feeds the
     // stamp gate, so a sibling's scripts and devices must not fill its rings.
@@ -302,7 +304,7 @@ export async function getAllStagesProgress(
 
   const out = {} as Record<StageId, StageProgress>
   for (const stageId of STAGE_ORDER) {
-    const stageScripts = (scripts ?? []).filter(s => s.stage_id === stageId)
+    const stageScripts = (scripts ?? []).filter(s => s.stage_id === stageId && !(s as { only_on_signal?: boolean }).only_on_signal)
     const scriptsDone = stageScripts.filter(s => completedScriptOrders.has(s.sort_order)).length
     const scriptsPct = stageScripts.length > 0 ? Math.round((scriptsDone / stageScripts.length) * 100) : 0
 
