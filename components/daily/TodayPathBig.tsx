@@ -385,6 +385,8 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       streakCount={streakAliveToday ? Math.max(1, streakCount) : streakCount + 1}
       facts={closeFacts}
       quests={(() => { const q = tasks.find(t => t.key === 'quests'); return q ? { label: q.label, href: q.href, done: q.done } : null })()}
+      stepsDone={steps.length}
+      minutes={investedMinutes}
       onClose={() => setCloseFacts(null)}
     />
   )
