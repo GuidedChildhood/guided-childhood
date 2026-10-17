@@ -502,3 +502,6 @@ who never saw the thing it reacts to. PR 1339.
 ## 16 October 2026: the child can ask to change the deal (PR 1344, migration 381)
 
 Justin said yes to the one Kairoo idea we lacked. In Our family deal the child picks a promise, says what they would like instead and why, and sends it; one open ask at a time, three a week, no model on the child side. The grown up sees it on the Quests page and the agreement page: Yes opens the agreement editor, Let's talk opens DiGi with the ask written in, Not this time takes an optional kind line the child reads. Push to the parent only. Applying 381 is Justin's call; until then the button stays hidden.
+## 16 October 2026: Kairoo upgraded to the competitor to watch
+
+Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agreed rules, streaks, banked minutes, a weekly note and a quiz that hands over a script: our philosophy, said back. Still pre launch and waiting on Apple. Our differences (2 to 16, lessons, earning by doing, scripts and DiGi, schools, live today) are logged with what to do in `briefings/notes/competitor-sightings.md`. Four review board tasks snoozed a week at Justin's answer.
