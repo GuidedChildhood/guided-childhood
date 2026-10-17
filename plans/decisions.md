@@ -505,3 +505,7 @@ Justin said yes to the one Kairoo idea we lacked. In Our family deal the child p
 ## 16 October 2026: Kairoo upgraded to the competitor to watch
 
 Kairoo's site shows a UK, Nesta backed, BIT informed app for 8 to 12s with agreed rules, streaks, banked minutes, a weekly note and a quiz that hands over a script: our philosophy, said back. Still pre launch and waiting on Apple. Our differences (2 to 16, lessons, earning by doing, scripts and DiGi, schools, live today) are logged with what to do in `briefings/notes/competitor-sightings.md`. Four review board tasks snoozed a week at Justin's answer.
+
+## 17 October 2026: Today path gets a Done bar, a green for jobs all approved, and a finish line (migration 382)
+
+Justin: steps that send a parent off the path (DiGi, the devices job) need a Done that turns them green and returns to the path; "No jobs waiting" should read as complete if true (checked: 14 jobs, nothing waiting); the day needs a visible end. DiGi and the passport job now open with a "Done, back to today" bar that records the step (today_step_marks). A clear Quests rung paints green as "Jobs all approved"; the deal keeps its ring (28 September). A finish line under the heading fills one segment per step to a trophy. Plan: plans/2026-10-17-today-path-finish-line-plan.md.
