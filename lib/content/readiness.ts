@@ -1,4 +1,5 @@
 import type { AgeBand } from './stages'
+import { SOCIAL_MEDIA_LAW, type SocialMediaLaw } from '@gc/shared/social-media-law'
 
 // The readiness passport. This is the connective narrative that turns the daily
 // loop (chores, stars, balance) into the thing it is actually for: a child who
@@ -77,6 +78,12 @@ export type KidStageDeal = {
   later: string
 }
 
+const EXPLORER_LATER: Record<SocialMediaLaw, string> = {
+  none: 'If and when accounts come is a family decision. You will have practised the skills first.',
+  partial_ban: 'Group chats come first, with your grown up. Social media comes later, and you will have practised how it works.',
+  full_ban_u16: 'Group chats and games with real friends come first. Social media comes later for everyone your age, and you will have practised most of it.',
+}
+
 export const KID_STAGE_DEALS: Record<number, KidStageDeal> = {
   1: {
     greatNow: [
@@ -94,7 +101,7 @@ export const KID_STAGE_DEALS: Record<number, KidStageDeal> = {
       { emoji: '📞', label: 'Video calls with family' },
       { emoji: '🎬', label: 'Shows you pick together' },
     ],
-    later: 'Group chats and your own feeds come further up the road, once your habits are yours.',
+    later: 'Group chats come further up the road, once your habits are yours.',
   },
   3: {
     greatNow: [
@@ -103,16 +110,18 @@ export const KID_STAGE_DEALS: Record<number, KidStageDeal> = {
       { emoji: '🔍', label: 'Searching with your judgement on' },
       { emoji: '🎮', label: 'Games with people you know' },
     ],
-    later: 'Your own social accounts come around stage 4, set up with your grown up so nothing is new.',
+    // Never a promised account or an age (passport journey plan, PR 4): the
+    // line describes practice, and follows the law flag whichever way it lands.
+    later: EXPLORER_LATER[SOCIAL_MEDIA_LAW],
   },
   4: {
     greatNow: [
-      { emoji: '✨', label: 'First accounts, set up together' },
+      ...(SOCIAL_MEDIA_LAW === 'none' ? [{ emoji: '✨', label: 'First accounts, set up together' }] : [{ emoji: '🧭', label: 'Practising how a feed works' }]),
       { emoji: '💬', label: 'Group chats with real friends' },
       { emoji: '🎥', label: 'Creating and sharing your work' },
       { emoji: '🧭', label: 'Spotting what the feed is doing' },
     ],
-    later: 'The full independent phone comes at 16, and by then none of it will be new to you.',
+    later: 'The full phone comes when you and your grown up agree, and by then none of it will be new to you.',
   },
   5: {
     greatNow: [

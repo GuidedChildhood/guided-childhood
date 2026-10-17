@@ -288,6 +288,52 @@ console.log(JSON.stringify({
   else ok.push('K: the child\'s tile says their page, in their words')
 }
 
+// ── L: more protected as 13 and 16 come closer, true in all three law states ─
+// Justin, 15 October 2026: "make the child more protected as they get nearer
+// age of social media as well AI edu". plans/2026-10-16-passport-journey-plan.md, PR 4.
+{
+  const probe4 = `
+import { nextMilestone } from './lib/pathway/milestones.ts'
+import { normaliseSocialMediaLaw } from './shared/social-media-law.ts'
+const now = new Date('2026-10-17T12:00:00Z')
+const out = {}
+for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+  out[law] = {
+    y6: nextMilestone({ dob: '2015-12-01', schoolYear: 6, law, now }),
+    age12: nextMilestone({ dob: '2014-03-01', schoolYear: 7, law, now }),
+    age14: nextMilestone({ dob: '2012-06-01', schoolYear: 9, law, now }),
+    age17: nextMilestone({ dob: '2009-06-01', schoolYear: 12, law, now }),
+  }
+}
+out.bad = normaliseSocialMediaLaw('partial-ban')
+out.unset = normaliseSocialMediaLaw(undefined)
+console.log(JSON.stringify(out))
+`
+  const r4 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe4], { encoding: 'utf8', cwd: process.cwd() })
+  if (r4.status !== 0) problems.push(`L: the probe could not run the milestones: ${(r4.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r4.stdout.trim().split('\n').pop())
+    const forbidden = /\bbanned\b|ready at 1[36]|workaround|is safe|not allowed|you can have/i
+    for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+      const m = o[law]
+      if (m.y6?.key !== 'phone' || m.age12?.key !== '13' || m.age14?.key !== '16' || m.age17 !== null) problems.push(`L: under ${law} the milestones are not phone at Year 6, 13 before 13, 16 before 16, nothing after: ${JSON.stringify([m.y6?.key, m.age12?.key, m.age14?.key, m.age17])}`)
+      for (const k of ['y6', 'age12', 'age14']) if (m[k] && forbidden.test(`${m[k].title} ${m[k].line}`)) problems.push(`L: under ${law} a milestone allows, denies or says banned: ${m[k].line}`)
+    }
+    if (!/Ofcom, 2026/.test(o.none.y6?.line ?? '')) problems.push('L: the first phone line must carry its source')
+    if (o.none.age12.line === o.partial_ban.age12.line || o.partial_ban.age14.line === o.full_ban_u16.age14.line) problems.push('L: the 13 and 16 lines must follow the law flag')
+    if (o.bad !== 'none' || o.unset !== 'none') problems.push('L: a mistyped or unset law flag must read as none')
+    if (!problems.some(p => p.startsWith('L:'))) ok.push('L: phone, 13 and 16 lines in all three law states, sourced, never allow or deny, a bad flag reads as none')
+  }
+  const deals = strip(readFileSync('lib/content/readiness.ts', 'utf8'))
+  const dealBlock = deals.slice(deals.indexOf('const EXPLORER_LATER'), deals.indexOf('export const OUR_STANCE'))
+  if (/around stage 4|comes at 16|accounts come around/i.test(dealBlock)) problems.push('L: the child\'s road still promises an account or an age')
+  else if (!/SOCIAL_MEDIA_LAW === 'none' \? \[\{ emoji: '✨', label: 'First accounts, set up together' \}\]/.test(dealBlock)) problems.push('L: "First accounts, set up together" must show only when there is no law')
+  else ok.push('L: the child\'s road describes practice, never a promised account or age')
+  const page = strip(readFileSync('app/(dashboard)/dashboard/pathway/page.tsx', 'utf8'))
+  if (!/nextMilestone\(/.test(page) || !/tally\('ai', 'AI'\)/.test(page) || !/tally\('social', 'social media'\)/.test(page)) problems.push('L: the passport page must show the next milestone and the AI and social media lessons on the page')
+  else ok.push('L: the passport shows the next milestone and the AI and social media lessons built on the page')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

@@ -1,7 +1,20 @@
 export type SocialMediaLaw = 'none' | 'partial_ban' | 'full_ban_u16'
 
-export const SOCIAL_MEDIA_LAW: SocialMediaLaw =
-  (process.env.NEXT_PUBLIC_SOCIAL_MEDIA_LAW as SocialMediaLaw) ?? 'none'
+const LAW_STATES: SocialMediaLaw[] = ['none', 'partial_ban', 'full_ban_u16']
+
+/**
+ * One of the three states, never anything else (passport journey plan, PR 4,
+ * 17 October 2026). An unset or mistyped value reads as `none`, with a server
+ * warning, so DiGi, the script ban note and the passport's 13 and 16 markers
+ * always agree on which state they are in.
+ */
+export function normaliseSocialMediaLaw(raw: string | undefined | null): SocialMediaLaw {
+  if (raw && (LAW_STATES as string[]).includes(raw)) return raw as SocialMediaLaw
+  if (raw && typeof window === 'undefined') console.warn(`NEXT_PUBLIC_SOCIAL_MEDIA_LAW="${raw}" is not one of ${LAW_STATES.join(', ')}; reading it as none`)
+  return 'none'
+}
+
+export const SOCIAL_MEDIA_LAW: SocialMediaLaw = normaliseSocialMediaLaw(process.env.NEXT_PUBLIC_SOCIAL_MEDIA_LAW)
 
 // Switch NEXT_PUBLIC_SOCIAL_MEDIA_LAW to full_ban_u16 when Spring 2027 ban goes live.
 // Set partial_ban now (June 2026): full access ban confirmed, Regulations due end 2026.

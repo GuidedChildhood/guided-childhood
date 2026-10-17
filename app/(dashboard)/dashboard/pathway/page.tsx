@@ -41,7 +41,10 @@ import { stagePace, paceLine } from '@/lib/pathway/pace'
 import { passportStageFor } from '@/lib/lessons/school-path'
 import MarkPassportLook from '@/components/daily/MarkPassportLook'
 import PassportPicture, { type PictureStamp } from '@/components/passport/PassportPicture'
-import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson } from '@/components/passport/PassportPageDetail'
+import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson, type SkillCount } from '@/components/passport/PassportPageDetail'
+import { SCHOOL_MODULE_AREA, AREA_START as AREA_START_SCHOOL } from '@gc/shared/passport-areas'
+import { nextMilestone } from '@/lib/pathway/milestones'
+import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
 import PassportOrderCard from '@/components/passport/PassportOrderCard'
 import { pageCount } from '@/lib/pathway/page-count'
 import { passportNext, type NextStep } from '@/lib/pathway/passport-next'
@@ -462,6 +465,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const selPath = primaryChild && selectedNum
     ? await loadChildLessonPath(supabase, { userId: user.id, childId: primaryChild.id, stageId: STAGE_SLUGS_ARR[selectedNum - 1], paid: isPaid }).catch(() => null)
     : null
+  // AI and social media on the selected page, counted from the child's own
+  // passes through the one area map (shared/passport-areas.ts). Social media
+  // from the Asking questions page on, AI on every page (plan PR 4).
+  const skills: SkillCount[] = []
+  if (selPath && selectedNum) {
+    const inArea = (area: string) => selPath.modules.filter(m => SCHOOL_MODULE_AREA[(m as { module_id?: string | null }).module_id ?? ''] === area)
+    const tally = (area: string, label: string) => {
+      const mods = inArea(area)
+      if (mods.length) skills.push({ label, done: mods.filter(m => selPath.path.statusById[m.id]?.state === 'passed').length, total: mods.length })
+    }
+    tally('ai', 'AI')
+    if (selectedNum >= AREA_START_SCHOOL.social) tally('social', 'social media')
+  }
+  const milestone = primaryChild ? nextMilestone({ dob: primaryChild.date_of_birth, schoolYear, law: SOCIAL_MEDIA_LAW, childParam }) : null
+
   const learnt: LearntLesson[] = selPath
     ? selPath.modules.filter(m => selPath.path.statusById[m.id]?.state === 'passed')
         .map(m => ({ id: m.id, title: m.title, outcome: (m as { single_action_outcome?: string | null }).single_action_outcome ?? null }))
@@ -512,13 +530,13 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {pictureStamps.length > 0 && (
           <div id="passport" style={{ scrollMarginTop: '84px' }}>
             <div id="the-road" />
-            <PassportPicture kid={kidName} stamps={pictureStamps} selected={selectedNum} stampedCount={stampedCount} />
+            <PassportPicture kid={kidName} stamps={pictureStamps} selected={selectedNum} stampedCount={stampedCount} milestone={milestone} />
           </div>
         )}
 
         {/* 2 to 4. THE PAGE: how far, the one next step, what was learnt. */}
         {selectedNum && (
-          <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} />
+          <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} skills={skills} />
         )}
         {nextStep && <PassportNextCard step={nextStep} />}
         {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} />}

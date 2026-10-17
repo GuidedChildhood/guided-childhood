@@ -35,13 +35,17 @@ export type PictureStamp = {
 
 const TILT = [-7, 5, -3, 6, -5]
 
+export type PictureMilestone = { badge: string; title: string; line: string; link: { label: string; href: string } | null }
+
 export default function PassportPicture({
-  kid, stamps, selected, stampedCount,
+  kid, stamps, selected, stampedCount, milestone = null,
 }: {
   kid: string
   stamps: PictureStamp[]
   selected: number | null
   stampedCount: number
+  /** The next age line the family is walking toward (lib/pathway/milestones.ts). */
+  milestone?: PictureMilestone | null
 }) {
   return (
     <section data-block="picture" aria-label={`${kid}'s passport: ${stampedCount} of 5 pages stamped`} style={{ margin: '4px 0 22px' }}>
@@ -60,7 +64,6 @@ export default function PassportPicture({
           position: 'relative', background: '#FFFCF3', borderRadius: 12,
           border: '1.5px solid rgba(26,26,46,0.18)',
           padding: '16px 10px 14px',
-          backgroundImage: 'linear-gradient(90deg, transparent calc(50% - 1px), rgba(26,26,46,0.10) calc(50% - 1px), rgba(26,26,46,0.10) calc(50% + 1px), transparent calc(50% + 1px))',
         }}>
           <div style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8,
@@ -73,6 +76,8 @@ export default function PassportPicture({
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', rowGap: 14, columnGap: 4,
             justifyItems: 'center',
+            // The booklet's centre stitch, behind the stamps only.
+            backgroundImage: 'linear-gradient(90deg, transparent calc(50% - 1px), rgba(26,26,46,0.10) calc(50% - 1px), rgba(26,26,46,0.10) calc(50% + 1px), transparent calc(50% + 1px))',
           }}>
             {stamps.map((s, i) => (
               // Three on the top row, two centred under them.
@@ -81,6 +86,26 @@ export default function PassportPicture({
               </div>
             ))}
           </div>
+          {milestone && (
+            // The next real line, on the passport itself: the first phone, 13
+            // or 16, one sentence, the page that prepares for it.
+            <div data-milestone={milestone.badge} style={{
+              display: 'flex', gap: 10, alignItems: 'flex-start', margin: '14px 6px 2px', paddingTop: 12,
+              borderTop: '1.5px dashed rgba(26,26,46,0.18)',
+            }}>
+              <span aria-hidden style={{
+                flexShrink: 0, minWidth: 34, height: 26, padding: '0 8px', boxSizing: 'border-box', borderRadius: 'var(--radius-pill)',
+                background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)',
+              }}>{milestone.badge}</span>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>{milestone.title}</span>
+                <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                  {milestone.line}{milestone.link && <> <a href={milestone.link.href} style={{ color: 'var(--ink)', fontWeight: 700 }}>{milestone.link.label}</a></>}
+                </span>
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </section>
