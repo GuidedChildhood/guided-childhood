@@ -41,18 +41,18 @@ import { stagePace, paceLine } from '@/lib/pathway/pace'
 import { passportStageFor } from '@/lib/lessons/school-path'
 import MarkPassportLook from '@/components/daily/MarkPassportLook'
 import PassportPicture, { type PictureStamp } from '@/components/passport/PassportPicture'
-import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson } from '@/components/passport/PassportPageDetail'
+import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson, type SkillCount } from '@/components/passport/PassportPageDetail'
+import { SCHOOL_MODULE_AREA, AREA_START as AREA_START_SCHOOL } from '@gc/shared/passport-areas'
+import { nextMilestone } from '@/lib/pathway/milestones'
+import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
 import PassportOrderCard from '@/components/passport/PassportOrderCard'
 import { pageCount } from '@/lib/pathway/page-count'
 import { passportNext, type NextStep } from '@/lib/pathway/passport-next'
+import { loadPassportToday } from '@/lib/pathway/passport-today'
 import { STAGE_PAGES } from '@gc/shared/stage-map'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
-import { newMissionAllowed, schoolYearFromDob } from '@/lib/lessons/school-path'
-import { isHeavyModule, stillWaiting } from '@/lib/lessons/heavy'
-import { countsTowardPathway } from '@/lib/pathway/script-status'
-import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
-import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
+import { schoolYearFromDob } from '@/lib/lessons/school-path'
 
 // ═══ THE PASSPORT, IMAGE FIRST (17 October 2026) ══════════════════════════════
 //
@@ -465,6 +465,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const selPath = primaryChild && selectedNum
     ? await loadChildLessonPath(supabase, { userId: user.id, childId: primaryChild.id, stageId: STAGE_SLUGS_ARR[selectedNum - 1], paid: isPaid }).catch(() => null)
     : null
+  // AI and social media on the selected page, counted from the child's own
+  // passes through the one area map (shared/passport-areas.ts). Social media
+  // from the Asking questions page on, AI on every page (plan PR 4).
+  const skills: SkillCount[] = []
+  if (selPath && selectedNum) {
+    const inArea = (area: string) => selPath.modules.filter(m => SCHOOL_MODULE_AREA[(m as { module_id?: string | null }).module_id ?? ''] === area)
+    const tally = (area: string, label: string) => {
+      const mods = inArea(area)
+      if (mods.length) skills.push({ label, done: mods.filter(m => selPath.path.statusById[m.id]?.state === 'passed').length, total: mods.length })
+    }
+    tally('ai', 'AI')
+    if (selectedNum >= AREA_START_SCHOOL.social) tally('social', 'social media')
+  }
+  const milestone = primaryChild ? nextMilestone({ dob: primaryChild.date_of_birth, schoolYear, law: SOCIAL_MEDIA_LAW, childParam }) : null
+
   const learnt: LearntLesson[] = selPath
     ? selPath.modules.filter(m => selPath.path.statusById[m.id]?.state === 'passed')
         .map(m => ({ id: m.id, title: m.title, outcome: (m as { single_action_outcome?: string | null }).single_action_outcome ?? null }))
@@ -478,50 +493,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       kid: kidName, childId: primaryChild.id, stageNum: selectedNum, page: pageOf(selectedNum).page,
       count: countOf(selectedNum), stamped: true, lesson: null, weekOpen: false, opensOn: null, script: null, lastPass: null,
     })
-  } else if (primaryChild && currentStageNum && selectedNum === currentStageNum && selPath && passportStage) {
-    const nextId = selPath.path.school.next?.id ?? null
-    const nextMod = nextId ? selPath.modules.find(m => m.id === nextId) ?? null : null
-    const [{ data: missionRows }, { data: lastPassRow }, { data: stageScripts }, { data: scriptRows }] = await Promise.all([
-      supabase.from('kid_lesson_missions').select('lesson_id, status, sent_at').eq('user_id', user.id).eq('child_id', primaryChild.id),
-      supabase.from('lesson_completions').select('lesson_id, completed_at')
-        .eq('user_id', user.id).eq('child_id', primaryChild.id).eq('lesson_source', 'school_lesson').eq('passed', true)
-        .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
-      supabase.from('scripts').select('sort_order, title, is_free, only_on_signal').eq('stage_id', passportStage).order('sort_order'),
-      supabase.from('script_completions').select('script_sort_order, status').eq('user_id', user.id).or(`child_id.eq.${primaryChild.id},child_id.is.null`),
-    ])
-    const missions = (missionRows ?? []) as { lesson_id: string; status: string; sent_at: string | null }[]
-    const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
-    const weekOpen = !nextId || missions.some(m => m.lesson_id === nextId) || newMissionAllowed({
-      lastPassAt, isFirstOfStage: selPath.modules[0]?.id === nextId, isSkippedRestart: false,
-    })
-    const opensOn = lastPassAt
-      ? new Date(Date.parse(lastPassAt) + 7 * 86400000).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'Europe/London' })
-      : null
-    const heavyWaiting = !!nextMod && isHeavyModule((nextMod as { module_id?: string | null }).module_id)
-      && missions.some(m => m.lesson_id === nextMod.id && m.status === 'sent' && stillWaiting(m.sent_at))
-    const resolved = new Set(((scriptRows ?? []) as { script_sort_order: number; status: string | null }[])
-      .filter(c => countsTowardPathway(c.status)).map(c => c.script_sort_order))
-    const script = ((stageScripts ?? []) as { sort_order: number; title: string; is_free: boolean | null; only_on_signal: boolean | null }[])
-      .find(sc => !sc.only_on_signal && !resolved.has(sc.sort_order) && (isPaid || sc.is_free)) ?? null
-    // The tea question from the lesson just passed, for seven days, never
-    // from a safeguarding flagged lesson (plan T7).
-    let lastPass: { title: string; question: string | null; listenFor: string | null } | null = null
-    const lastId = (lastPassRow as { lesson_id?: string } | null)?.lesson_id
-    if (lastId && lastPassAt && Date.now() - Date.parse(lastPassAt) < 7 * 86400000) {
-      const row = await getStarLesson(createAdminClient(), lastId, 'id, title, module_id, parent_note').catch(() => null) as
-        { title?: string; module_id?: string | null; parent_note?: { family_question?: string; listen_for?: string } | null } | null
-      const flagged = !!row?.module_id && FLAGGED_MODULES.some(m => m.moduleId === row.module_id)
-      if (row && !flagged) lastPass = { title: row.title ?? '', question: row.parent_note?.family_question ?? null, listenFor: row.parent_note?.listen_for ?? null }
-    }
-    nextStep = passportNext({
-      kid: kidName, childId: primaryChild.id, stageNum: currentStageNum, page: pageOf(currentStageNum).page,
-      count: countOf(currentStageNum),
-      stamped: isStageStamped(currentStageProgress, passedStages, currentStageNum, storedStamps),
-      lesson: nextMod ? { id: nextMod.id, title: nextMod.title, heavyWaiting } : null,
-      weekOpen, opensOn,
-      script: script ? { id: String(script.sort_order), title: script.title } : null,
-      lastPass,
-    })
+  } else if (primaryChild && currentStageNum && selectedNum === currentStageNum) {
+    // The one writer of the next step (lib/pathway/passport-today.ts), the same
+    // one Home's passport card and the pushes about the page read.
+    const today = await loadPassportToday(supabase as never, { userId: user.id, child: primaryChild, paid: isPaid }).catch(() => null)
+    nextStep = today?.step ?? null
   } else if (selectedNum && selStatus === 'catchup') {
     nextStep = { key: 'clear', chip: 'An earlier page', title: `This page came before ${kidName}'s`, how: `It stays open, and nothing on it holds up the ${currentStageNum ? pageOf(currentStageNum).page : 'current'} page.`, button: null }
   } else if (selectedNum && selStatus === 'upcoming') {
@@ -554,13 +530,13 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {pictureStamps.length > 0 && (
           <div id="passport" style={{ scrollMarginTop: '84px' }}>
             <div id="the-road" />
-            <PassportPicture kid={kidName} stamps={pictureStamps} selected={selectedNum} stampedCount={stampedCount} />
+            <PassportPicture kid={kidName} stamps={pictureStamps} selected={selectedNum} stampedCount={stampedCount} milestone={milestone} />
           </div>
         )}
 
         {/* 2 to 4. THE PAGE: how far, the one next step, what was learnt. */}
         {selectedNum && (
-          <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} />
+          <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} skills={skills} />
         )}
         {nextStep && <PassportNextCard step={nextStep} />}
         {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} />}

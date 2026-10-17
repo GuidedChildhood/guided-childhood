@@ -258,6 +258,82 @@ console.log(JSON.stringify({
   }
 }
 
+// ── K: the daily loop speaks the passport, through one function ───────────────
+// Justin, 15 October 2026: "daily loop gives simple update on progress, what
+// needs to be done ... use the PWA to update you". Decision 3: no new push.
+{
+  const readers = [
+    ['app/(dashboard)/dashboard/pathway/page.tsx', 'the passport page\'s Next card'],
+    ['app/api/pathway/attention/route.ts', 'the passport card on Home'],
+    ['app/api/quests/lesson-complete/route.ts', 'the lesson pass push'],
+    ['app/api/kid/stage-quiz/route.ts', 'the stage check push'],
+    ['app/api/email/digest/route.ts', 'the weekly email'],
+  ]
+  for (const [file, what] of readers) {
+    if (!/loadPassportToday\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${what} (${file}) does not read lib/pathway/passport-today.ts, so it can disagree with the page`)
+  }
+  ok.push('K: the page, Home, the pushes and the weekly email read one passport line')
+  for (const file of ['app/api/quests/lesson-complete/route.ts', 'app/api/kid/stage-quiz/route.ts']) {
+    if (!/sendPassportPush\(/.test(strip(readFileSync(file, 'utf8')))) problems.push(`K: ${file} sends its passport push around sendPassportPush`)
+  }
+  const pp = strip(readFileSync('lib/push/passport-push.ts', 'utf8'))
+  if (!/\.is\(args\.moment, null\)/.test(pp)) problems.push('K: a page moment push must be claimed where its column is still empty, so it can only go once')
+  else ok.push('K: the check ready and stamp pushes are claimed once per page')
+  const lc = strip(readFileSync('app/api/quests/lesson-complete/route.ts', 'utf8'))
+  if (!/flagged \? 'Open the app for the question to ask at tea\.'/.test(lc)) problems.push('K: a flagged lesson\'s tea question must stay off the lock screen in the pass push')
+  else ok.push('K: a flagged lesson keeps its tea question off the lock screen')
+  if (!/if \(RETIRED\) return/.test(strip(readFileSync('app/api/cron/passport-check/route.ts', 'utf8')))) problems.push('K: the monthly child passport push is retired (decision 7) and must send nothing')
+  else ok.push('K: the monthly child passport push is retired')
+  if (!/bookLine/.test(strip(readFileSync('app/k/[token]/KidQuestScreen.tsx', 'utf8')))) problems.push('K: the child\'s passport tile no longer says where their page is')
+  else ok.push('K: the child\'s tile says their page, in their words')
+}
+
+// ── L: more protected as 13 and 16 come closer, true in all three law states ─
+// Justin, 15 October 2026: "make the child more protected as they get nearer
+// age of social media as well AI edu". plans/2026-10-16-passport-journey-plan.md, PR 4.
+{
+  const probe4 = `
+import { nextMilestone } from './lib/pathway/milestones.ts'
+import { normaliseSocialMediaLaw } from './shared/social-media-law.ts'
+const now = new Date('2026-10-17T12:00:00Z')
+const out = {}
+for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+  out[law] = {
+    y6: nextMilestone({ dob: '2015-12-01', schoolYear: 6, law, now }),
+    age12: nextMilestone({ dob: '2014-03-01', schoolYear: 7, law, now }),
+    age14: nextMilestone({ dob: '2012-06-01', schoolYear: 9, law, now }),
+    age17: nextMilestone({ dob: '2009-06-01', schoolYear: 12, law, now }),
+  }
+}
+out.bad = normaliseSocialMediaLaw('partial-ban')
+out.unset = normaliseSocialMediaLaw(undefined)
+console.log(JSON.stringify(out))
+`
+  const r4 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe4], { encoding: 'utf8', cwd: process.cwd() })
+  if (r4.status !== 0) problems.push(`L: the probe could not run the milestones: ${(r4.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r4.stdout.trim().split('\n').pop())
+    const forbidden = /\bbanned\b|ready at 1[36]|workaround|is safe|not allowed|you can have/i
+    for (const law of ['none', 'partial_ban', 'full_ban_u16']) {
+      const m = o[law]
+      if (m.y6?.key !== 'phone' || m.age12?.key !== '13' || m.age14?.key !== '16' || m.age17 !== null) problems.push(`L: under ${law} the milestones are not phone at Year 6, 13 before 13, 16 before 16, nothing after: ${JSON.stringify([m.y6?.key, m.age12?.key, m.age14?.key, m.age17])}`)
+      for (const k of ['y6', 'age12', 'age14']) if (m[k] && forbidden.test(`${m[k].title} ${m[k].line}`)) problems.push(`L: under ${law} a milestone allows, denies or says banned: ${m[k].line}`)
+    }
+    if (!/Ofcom, 2026/.test(o.none.y6?.line ?? '')) problems.push('L: the first phone line must carry its source')
+    if (o.none.age12.line === o.partial_ban.age12.line || o.partial_ban.age14.line === o.full_ban_u16.age14.line) problems.push('L: the 13 and 16 lines must follow the law flag')
+    if (o.bad !== 'none' || o.unset !== 'none') problems.push('L: a mistyped or unset law flag must read as none')
+    if (!problems.some(p => p.startsWith('L:'))) ok.push('L: phone, 13 and 16 lines in all three law states, sourced, never allow or deny, a bad flag reads as none')
+  }
+  const deals = strip(readFileSync('lib/content/readiness.ts', 'utf8'))
+  const dealBlock = deals.slice(deals.indexOf('const EXPLORER_LATER'), deals.indexOf('export const OUR_STANCE'))
+  if (/around stage 4|comes at 16|accounts come around/i.test(dealBlock)) problems.push('L: the child\'s road still promises an account or an age')
+  else if (!/SOCIAL_MEDIA_LAW === 'none' \? \[\{ emoji: '✨', label: 'First accounts, set up together' \}\]/.test(dealBlock)) problems.push('L: "First accounts, set up together" must show only when there is no law')
+  else ok.push('L: the child\'s road describes practice, never a promised account or age')
+  const page = strip(readFileSync('app/(dashboard)/dashboard/pathway/page.tsx', 'utf8'))
+  if (!/nextMilestone\(/.test(page) || !/tally\('ai', 'AI'\)/.test(page) || !/tally\('social', 'social media'\)/.test(page)) problems.push('L: the passport page must show the next milestone and the AI and social media lessons on the page')
+  else ok.push('L: the passport shows the next milestone and the AI and social media lessons built on the page')
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

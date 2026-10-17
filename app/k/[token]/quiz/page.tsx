@@ -6,6 +6,9 @@ import { fetchAnswerFacts, orderPoolByHistory } from '@/lib/lessons/answers'
 import { READINESS } from '@/lib/content/readiness'
 import KidStageQuiz from '@/components/kid/KidStageQuiz'
 import { resolveTheme } from '@/lib/kid/theme'
+import { passportStageFor } from '@/lib/lessons/school-path'
+
+const STAGE_NUM_OF: Record<string, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
 
 // The big check at the end of a stage, on the child's side. No account, no
 // login; the token scopes everything, exactly like their lessons.
@@ -35,11 +38,14 @@ export default async function KidStageQuizPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band, accent')
+    .select('name, age_band, accent, date_of_birth')
     .eq('id', link.child_id)
     .maybeSingle()
 
-  const ownStage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
+  // The page their class is on (one clock, decision 1, 17 October 2026): the
+  // school year, the same clock as their lessons and the parent's passport.
+  const ownNum = STAGE_NUM_OF[passportStageFor(child as { date_of_birth?: string | null; age_band?: string | null } | null)]
+  const ownStage = STAGES.find(st => st.id === ownNum) ?? getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
 
   // ?stage=N opens an EARLIER stage's check, for catch up. Until 18 August
   // 2026 this page always served the current band's stage, so a family who

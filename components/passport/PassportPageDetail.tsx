@@ -20,9 +20,13 @@ const card: React.CSSProperties = {
   padding: '16px 18px', margin: '0 0 14px',
 }
 
+export type SkillCount = { label: string; done: number; total: number }
+
 export function PassportProgress({
-  n, page, eyebrow, kid, count,
-}: { n: number; page: string; eyebrow: string; kid: string; count: PageCount }) {
+  n, page, eyebrow, kid, count, skills = [],
+}: { n: number; page: string; eyebrow: string; kid: string; count: PageCount
+  /** AI and social media lessons on this page, the child's own passes (passport journey plan, PR 4). */
+  skills?: SkillCount[] }) {
   // One segment per item when the page is small enough to count by eye,
   // otherwise one bar per group, so a long page never reads as a barcode.
   const groups = [
@@ -60,6 +64,11 @@ export function PassportProgress({
       <p style={{ ...mono, margin: '8px 0 0', color: 'var(--ink)', letterSpacing: '0.06em', lineHeight: 1.6 }}>
         {groups.map(g => g.label).join(' · ')}
       </p>
+      {skills.length > 0 && (
+        <p data-skills style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '8px 0 0', lineHeight: 1.5 }}>
+          Built on this page: {skills.map(k => `${k.label} ${k.done} of ${k.total}`).join(', ')}.
+        </p>
+      )}
     </section>
   )
 }
