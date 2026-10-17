@@ -57,7 +57,7 @@ export default function PassportPicture({
         border: 'var(--edge)', boxShadow: 'var(--lift-deep)',
       }}>
         <div style={{
-          position: 'relative', background: '#FFFCF3', borderRadius: 12,
+          position: 'relative', background: 'var(--stage-1)', borderRadius: 12,
           border: '1.5px solid rgba(26,26,46,0.18)',
           padding: '16px 10px 14px',
           backgroundImage: 'linear-gradient(90deg, transparent calc(50% - 1px), rgba(26,26,46,0.10) calc(50% - 1px), rgba(26,26,46,0.10) calc(50% + 1px), transparent calc(50% + 1px))',
@@ -91,7 +91,7 @@ function StampLink({ stamp: s, tilt, selected }: { stamp: PictureStamp; tilt: nu
   const earned = s.status === 'earned'
   const size = 'clamp(72px, 22vw, 96px)'
   const pct = Math.round(Math.max(0, Math.min(1, s.fill)) * 100)
-  const ring = earned ? `3px solid var(--stage-${s.n}-text)` : `2px dashed ${selected ? 'var(--ink)' : '#B9B9C8'}`
+  const ring = earned ? `3px solid var(--stage-${s.n}-text)` : `2px dashed ${selected ? 'var(--ink)' : 'var(--ink-light)'}`
   return (
     <Link
       href={s.href}
@@ -106,7 +106,7 @@ function StampLink({ stamp: s, tilt, selected }: { stamp: PictureStamp; tilt: nu
     >
       <span style={{
         position: 'relative', width: size, height: size, borderRadius: '50%',
-        background: earned ? `var(--stage-${s.n}-bold)` : '#F1F1F4',
+        background: earned ? `var(--stage-${s.n}-bold)` : 'var(--border)',
         border: ring, boxSizing: 'border-box', overflow: 'hidden',
         boxShadow: selected ? '0 0 0 4px var(--terracotta)' : 'none',
         display: 'block',
@@ -134,8 +134,8 @@ function StampLink({ stamp: s, tilt, selected }: { stamp: PictureStamp; tilt: nu
         {earned && (
           <span aria-hidden style={{
             position: 'absolute', right: '6%', bottom: '6%', width: '26%', height: '26%', borderRadius: '50%',
-            background: `var(--stage-${s.n}-text)`, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'clamp(11px, 3vw, 14px)', fontWeight: 900, border: '2px solid #FFFCF3',
+            background: `var(--stage-${s.n}-text)`, color: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 'clamp(11px, 3vw, 14px)', fontWeight: 900, border: '2px solid var(--stage-1)',
           }}>✓</span>
         )}
       </span>
