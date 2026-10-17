@@ -27,6 +27,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { STAGE_PAGES } from '@gc/shared/stage-map'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { loadRememberDue } from '@/lib/kid/remember-server'
 
 type Db = SupabaseClient
 
@@ -118,8 +119,9 @@ export async function loadPassportToday(
     if (row && !flagged) lastPass = { title: row.title ?? '', question: row.parent_note?.family_question ?? null, listenFor: row.parent_note?.listen_for ?? null }
   }
 
+  const remember = await loadRememberDue(db, { userId, childId: child.id })
   const step = passportNext({
-    kid, childId: child.id, stageNum, page, count, stamped,
+    kid, childId: child.id, stageNum, page, count, stamped, rememberDue: remember.length,
     lesson: nextMod ? { id: nextMod.id, title: nextMod.title, heavyWaiting } : null,
     weekOpen, opensOn,
     script: script ? { id: String(script.sort_order), title: script.title } : null,
@@ -130,6 +132,7 @@ export async function loadPassportToday(
     ? `${kid}'s ${page} page is stamped.`
     : `${kid}'s ${page} page: ${pageCountLine(count)}.`
   const nextLine = step.key === 'lesson' ? `Next for ${kid}: ${step.title}.`
+    : step.key === 'remember' ? `Next for ${kid}: a Remember check, on their app.`
     : step.key === 'check' ? `Next for ${kid}: the big check.`
     : step.key === 'note' || step.key === 'script' ? `Next for you: ${step.title}.`
     : step.title

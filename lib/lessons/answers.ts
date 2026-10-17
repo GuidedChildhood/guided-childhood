@@ -50,7 +50,7 @@ export async function recordQuestionAnswers(
   facts: {
     userId: string
     childId: string | null
-    source: 'lesson' | 'ai_lesson' | 'school_lesson' | 'stage_check'
+    source: 'lesson' | 'ai_lesson' | 'school_lesson' | 'stage_check' | 'remember'
     lessonId?: string | null
     stageId?: number | null
   },

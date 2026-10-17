@@ -9,7 +9,8 @@
 //   3. this week's lesson, while the week is open (a heavy lesson waiting on
 //      its heads up is "read the note first")
 //   4. the next script, the parent's own talk
-//   5. nothing this week: the next lesson's day, and the question to ask at
+//   5. a Remember check due on the child's app
+//   6. nothing this week: the next lesson's day, and the question to ask at
 //      tea from the lesson just passed
 //
 // Pure over its inputs, so the guard runs it on fixtures.
@@ -34,10 +35,12 @@ export type NextInput = {
   opensOn: string | null
   script: NextScript | null
   lastPass: LastPass | null
+  /** Lessons due a Remember check on the child's app (lib/kid/remember-due.ts). */
+  rememberDue?: number
 }
 
 export type NextStep = {
-  key: 'stamped' | 'check' | 'note' | 'lesson' | 'script' | 'week' | 'clear'
+  key: 'stamped' | 'check' | 'note' | 'lesson' | 'script' | 'remember' | 'week' | 'clear'
   /** The mono chip: who it is for. */
   chip: string
   title: string
@@ -94,6 +97,16 @@ export function passportNext(i: NextInput): NextStep {
       title: i.script.title,
       how: 'A short talk, with the words written for you. It counts once you have used it.',
       button: { label: 'Read the words', href: `/dashboard/scripts/${q(i.script.id)}?child=${q(i.childId)}` },
+    }
+  }
+
+  if ((i.rememberDue ?? 0) > 0) {
+    const n = i.rememberDue ?? 0
+    return {
+      key: 'remember', chip: `For ${i.kid}`,
+      title: 'A Remember check is ready',
+      how: `${n === 1 ? 'One question' : `${n} questions`} on lessons ${i.kid} passed weeks ago, on their app. It shows what they kept.`,
+      button: null,
     }
   }
 

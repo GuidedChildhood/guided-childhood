@@ -44,6 +44,7 @@ import PassportPicture, { type PictureStamp } from '@/components/passport/Passpo
 import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson, type SkillCount } from '@/components/passport/PassportPageDetail'
 import { SCHOOL_MODULE_AREA, AREA_START as AREA_START_SCHOOL } from '@gc/shared/passport-areas'
 import { nextMilestone } from '@/lib/pathway/milestones'
+import { rememberKept } from '@/lib/kid/remember-server'
 import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
 import PassportOrderCard from '@/components/passport/PassportOrderCard'
 import { pageCount } from '@/lib/pathway/page-count'
@@ -478,6 +479,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     tally('ai', 'AI')
     if (selectedNum >= AREA_START_SCHOOL.social) tally('social', 'social media')
   }
+  const kept = primaryChild ? await rememberKept(supabase, { userId: user.id, childId: primaryChild.id }) : null
   const milestone = primaryChild ? nextMilestone({ dob: primaryChild.date_of_birth, schoolYear, law: SOCIAL_MEDIA_LAW, childParam }) : null
 
   const learnt: LearntLesson[] = selPath
@@ -539,7 +541,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} skills={skills} />
         )}
         {nextStep && <PassportNextCard step={nextStep} />}
-        {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} />}
+        {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} kept={kept} />}
 
         {/* 5. ON PAPER: the booklet and the sticker sheet, one button. */}
         {primaryChild && <PassportOrderCard kid={kidName} childId={primaryChild.id} stampedCount={stampedCount} />}

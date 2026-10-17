@@ -16,7 +16,7 @@ const mono: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
+  background: 'var(--white)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
   padding: '16px 18px', margin: '0 0 14px',
 }
 
@@ -92,14 +92,19 @@ export function PassportNextCard({ step }: { step: NextStep }) {
   )
 }
 
-export function PassportLearnt({ kid, lessons }: { kid: string; lessons: LearntLesson[] }) {
+export function PassportLearnt({ kid, lessons, kept = null }: {
+  kid: string
+  lessons: LearntLesson[]
+  /** Right of asked on Remember checks in the last 90 days, weeks after the lessons (lib/kid/remember-server.ts). */
+  kept?: { right: number; asked: number } | null
+}) {
   const first = lessons.slice(0, 4)
   const rest = lessons.slice(4)
   const row = (l: LearntLesson) => (
     <li key={l.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '8px 0', borderTop: '1px solid var(--border)' }}>
       <span aria-hidden style={{
         flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'var(--tint-green)',
-        border: '1.5px solid #2D5016', color: '#2D5016', fontWeight: 900, fontSize: 13,
+        border: '1.5px solid var(--sage-ink)', color: 'var(--sage-ink)', fontWeight: 900, fontSize: 13,
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
       }}>✓</span>
       <span style={{ minWidth: 0 }}>
@@ -111,6 +116,13 @@ export function PassportLearnt({ kid, lessons }: { kid: string; lessons: LearntL
   return (
     <section data-block="learnt" style={card}>
       <p style={{ ...mono, margin: '0 0 2px' }}>What {kid} has learnt</p>
+      {kept && (
+        // The one line that shows learning lasting, not just landing: questions
+        // asked again weeks after the lesson, marked on the server.
+        <p data-kept style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '4px 0 6px', lineHeight: 1.4 }}>
+          Still remembered: {kept.right} of {kept.asked} right on Remember checks, weeks after the lessons.
+        </p>
+      )}
       {lessons.length === 0 ? (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
           Nothing passed on this page yet. Every lesson ends with a short check, and only a pass shows here.
