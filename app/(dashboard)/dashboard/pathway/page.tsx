@@ -31,19 +31,47 @@ import { stampedStages } from '@/lib/pathway/stamp-store'
 import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
 import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 import { getWeekParentReport } from '@/lib/balance/week-report'
-import PassportToDo from '@/components/pathway/PassportToDo'
-import { parentPassportToDo } from '@/lib/pathway/passport-todo'
-import { gatherChildPassportToDo } from '@/lib/pathway/passport-todo-gather'
 import SocialRoadNova from '@/components/pathway/SocialRoadNova'
 import { getSocialRoad } from '@/lib/pathway/social-road'
-import { buildStrands, nextTask, withChild, NextOnTheApplication, StrandCards } from '@/components/passport/Application'
+import { buildStrands, withChild, StrandCards } from '@/components/passport/Application'
 import BalanceZone, { type DayDot } from '@/components/passport/BalanceZone'
 import { starWeekStart } from '@/lib/quests/star-week'
 import { londonToday } from '@/lib/pathway/today'
 import { stagePace, paceLine } from '@/lib/pathway/pace'
+import { passportStageFor } from '@/lib/lessons/school-path'
 import MarkPassportLook from '@/components/daily/MarkPassportLook'
-import HappyIcon from '@/components/kid/HappyIcon'
+import PassportPicture, { type PictureStamp } from '@/components/passport/PassportPicture'
+import { PassportProgress, PassportNextCard, PassportLearnt, type LearntLesson } from '@/components/passport/PassportPageDetail'
+import PassportOrderCard from '@/components/passport/PassportOrderCard'
+import { pageCount } from '@/lib/pathway/page-count'
+import { passportNext, type NextStep } from '@/lib/pathway/passport-next'
+import { STAGE_PAGES } from '@gc/shared/stage-map'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { newMissionAllowed, schoolYearFromDob } from '@/lib/lessons/school-path'
+import { isHeavyModule, stillWaiting } from '@/lib/lessons/heavy'
+import { countsTowardPathway } from '@/lib/pathway/script-status'
+import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
+import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 
+// ═══ THE PASSPORT, IMAGE FIRST (17 October 2026) ══════════════════════════════
+//
+// Justin, holding this tab on his phone: "way too complicated. ... a neat
+// image of the passport with clear planet turned stamps filling up near
+// completion, ability to order the real passport and stickers. Please make
+// super image driven but clear." (his brief on PR 1312; the plan is
+// plans/2026-10-16-passport-journey-plan.md). So the page is five blocks:
+//   1. the picture of the passport, five planet stamps, colour when earned,
+//      grey until then, the current one filling up; each stamp opens its page
+//   2. that page's one count, split by who ("7 of 12 done")
+//   3. its one next step (lib/pathway/passport-next.ts)
+//   4. what was learnt: lessons passed with their check, nothing else
+//   5. the printed passport and the stickers, as pictures, one button
+// and everything else (the flip book, the strands, the balance, the check
+// card, the record) folded under "The full book and the record". The six
+// places that used to say "next" are one. What follows is the August history
+// of the page this replaced, kept because the reasons still hold.
+//
 // ═══ THE PASSPORT IS THE APPLICATION, AND THE APPLICATION IS THE WHOLE PAGE ═
 //
 // Justin, 18 August 2026, answering the one open question on the approved
@@ -115,16 +143,22 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // The whole application renders for the selected child (?child=<id>),
   // defaulting to the primary, so every sibling gets their own book.
   const primaryChild = pickChild(children, childParam)
-  const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
+  // ONE CLOCK (plans/2026-10-16-passport-journey-plan.md, decision 1, 17 October
+  // 2026): the passport page follows the school year, the same clock as the
+  // lessons, so a Year 8 child who has turned 13 is on the page their class is
+  // on, with lessons they can open. children.stage_id stays on the birthday
+  // for everything that is not the passport.
+  const passportStage = primaryChild ? passportStageFor(primaryChild) : null
+  const currentStageNum = passportStage ? stageIdToNum[passportStage] ?? null : null
 
   // The child's own five a day, for the record at the foot. Read with the
   // parent's client so the existing RLS policy is what decides, and empty for
   // a child with no app rather than an error.
   const fiveADay = await getFiveADayReport(supabase, primaryChild?.id ?? null)
 
-  const [currentStageProgress, allStagesProgress] = primaryChild?.stage_id
+  const [currentStageProgress, allStagesProgress] = primaryChild && passportStage
     ? await Promise.all([
-        getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0, primaryChild.id),
+        getStageProgress(supabase, user.id, passportStage as ProgressStageId, primaryChild.streak_weeks ?? 0, primaryChild.id),
         getAllStagesProgress(supabase, user.id, primaryChild.streak_weeks ?? 0, primaryChild.id),
       ])
     : [null, null]
@@ -250,7 +284,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // Show the end of stage check as a family nears the end: content finished,
   // or the blend past three quarters, or the stamp already earned so it can
   // show.
-  const nearStageEnd = !!primaryChild?.stage_id && (
+  const nearStageEnd = !!passportStage && (
     stageQuizPassed ||
     (currentStageProgress?.contentComplete ?? false) ||
     (currentStageProgress?.overallPct ?? 0) >= 75
@@ -293,14 +327,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       })
     : []
 
-  // THE TO DO ABOVE THE BOOK: both halves read from the SAME five rows the
-  // book prints, so the line above the passport and the page inside it can
-  // never disagree.
+  // The current page's five rows, for the strands in the record. The to do
+  // that used to sit above the book is the one Next card now.
   const currentSections = currentStageNum ? stageSections[currentStageNum]?.sections ?? [] : []
-  const passportToDo = parentPassportToDo(currentSections)
-  const childToDo = primaryChild
-    ? await gatherChildPassportToDo(supabase, user.id, primaryChild, { progress: currentStageProgress })
-    : []
 
   // Nova's road, from stage 3 where the social media lessons start.
   const socialRoad = (currentStageNum ?? 0) >= 3
@@ -336,14 +365,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const dob = dobRaw && !Number.isNaN(dobRaw.getTime()) ? dobRaw : null
   const dobOk = dob !== null
   const pace = currentStageNum ? stagePace(currentStageNum, itemsLeft, dob) : null
-  const paceOnTrack = pace ? ['stamped', 'few', 'month', 'fortnight', 'week'].includes(pace.kind) : true
 
   // The strands and the one next task, from the same rows as everything else.
   const strands = buildStrands(currentSections, currentStageProgress, childParam)
-  const next = nextTask(strands)
-  // When nothing is open and the check is not passed, the rail's one task IS
-  // the check, landing on the readiness card below.
-  const checkHref = !next && !stageQuizPassed && nearStageEnd ? '#stage-check' : null
 
   // ── THE BALANCE ZONE'S READINGS ───────────────────────────────────────────
   // Seven day dots, Monday first, kept where a job was approved that day, and
@@ -399,151 +423,195 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     }
   }
 
-  // The stage pastel for the slim header, the same five the book uses.
-  const stageTheme = currentStageNum
-    ? { bold: `var(--stage-${currentStageNum}-bold)`, text: `var(--stage-${currentStageNum}-text)` }
-    : { bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)' }
-  const headerPct = currentStageNum ? stageSections[currentStageNum]?.blended ?? currentStageProgress?.overallPct ?? 0 : 0
+  // ── THE PICTURE, THE PAGE, ITS ONE NEXT STEP AND WHAT WAS LEARNT ─────────
+  //
+  // Justin's brief on PR 1312, 16 October 2026: "a neat image of the passport
+  // with clear planet turned stamps filling up near completion ... progress,
+  // what to do, what they have learnt ... order the real passport and
+  // stickers ... super image driven but clear." The picture is the way into
+  // each page (?open=N), and the page answers three things in this order:
+  // how far, the one next step, what was learnt.
+  const pageOf = (n: number) => STAGE_PAGES[STAGE_SLUGS_ARR[n - 1]]
+  const START_YEAR: Record<number, string> = { 1: 'Reception', 2: 'Year 3', 3: 'Year 7', 4: 'Year 10', 5: 'Year 12' }
+  const countOf = (n: number) => pageCount(allStagesProgress?.[STAGE_SLUGS_ARR[n - 1]], passedStages.has(n))
+  const selectedNum = openAtStage ?? currentStageNum
+  const stampedCount = passportStamps.filter(st => st.status === 'earned').length
+  const pictureStamps: PictureStamp[] = passportStamps.map(st => {
+    const c = countOf(st.id)
+    const ch = STAGE_CHARACTERS[st.id - 1]
+    return {
+      n: st.id, page: pageOf(st.id).page, friend: ch.name, img: ch.cutout,
+      status: st.status,
+      fill: st.status === 'earned' ? 1 : st.status === 'upcoming' ? 0 : (c.total ? c.done / c.total : 0),
+      caption: st.status === 'earned' ? 'Stamped'
+        : st.status === 'current' ? `${c.done} of ${c.total}`
+        : st.status === 'catchup' ? (c.done > 0 ? `${c.done} of ${c.total}` : 'Earlier')
+        : START_YEAR[st.id],
+      href: withChild(`/dashboard/pathway?open=${st.id}#page`, childParam),
+    }
+  })
+  const selStatus = passportStamps.find(st => st.id === selectedNum)?.status ?? null
+  const schoolYear = primaryChild ? schoolYearFromDob(primaryChild.date_of_birth) : null
+  const yearLabel = schoolYear === null ? null : schoolYear <= 0 ? 'Reception' : `Year ${schoolYear}`
+  const selEyebrow = selectedNum
+    ? `Page ${selectedNum} of 5 · ${selStatus === 'current' ? (yearLabel ?? pageOf(selectedNum).keyStage)
+      : selStatus === 'earned' ? 'Stamped'
+      : selStatus === 'catchup' ? 'An earlier page'
+      : `Opens in ${START_YEAR[selectedNum]}`}`
+    : ''
+
+  // What was learnt on the selected page: lessons PASSED with their check,
+  // with the line each one leaves the child with. Nothing opened or watched.
+  const selPath = primaryChild && selectedNum
+    ? await loadChildLessonPath(supabase, { userId: user.id, childId: primaryChild.id, stageId: STAGE_SLUGS_ARR[selectedNum - 1], paid: isPaid }).catch(() => null)
+    : null
+  const learnt: LearntLesson[] = selPath
+    ? selPath.modules.filter(m => selPath.path.statusById[m.id]?.state === 'passed')
+        .map(m => ({ id: m.id, title: m.title, outcome: (m as { single_action_outcome?: string | null }).single_action_outcome ?? null }))
+    : []
+
+  // The one next step, worked out for the current page; a stamped page says
+  // so; an earlier or later page says plainly where it stands.
+  let nextStep: NextStep | null = null
+  if (primaryChild && selectedNum && selStatus === 'earned') {
+    nextStep = passportNext({
+      kid: kidName, childId: primaryChild.id, stageNum: selectedNum, page: pageOf(selectedNum).page,
+      count: countOf(selectedNum), stamped: true, lesson: null, weekOpen: false, opensOn: null, script: null, lastPass: null,
+    })
+  } else if (primaryChild && currentStageNum && selectedNum === currentStageNum && selPath && passportStage) {
+    const nextId = selPath.path.school.next?.id ?? null
+    const nextMod = nextId ? selPath.modules.find(m => m.id === nextId) ?? null : null
+    const [{ data: missionRows }, { data: lastPassRow }, { data: stageScripts }, { data: scriptRows }] = await Promise.all([
+      supabase.from('kid_lesson_missions').select('lesson_id, status, sent_at').eq('user_id', user.id).eq('child_id', primaryChild.id),
+      supabase.from('lesson_completions').select('lesson_id, completed_at')
+        .eq('user_id', user.id).eq('child_id', primaryChild.id).eq('lesson_source', 'school_lesson').eq('passed', true)
+        .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
+      supabase.from('scripts').select('sort_order, title, is_free, only_on_signal').eq('stage_id', passportStage).order('sort_order'),
+      supabase.from('script_completions').select('script_sort_order, status').eq('user_id', user.id).or(`child_id.eq.${primaryChild.id},child_id.is.null`),
+    ])
+    const missions = (missionRows ?? []) as { lesson_id: string; status: string; sent_at: string | null }[]
+    const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
+    const weekOpen = !nextId || missions.some(m => m.lesson_id === nextId) || newMissionAllowed({
+      lastPassAt, isFirstOfStage: selPath.modules[0]?.id === nextId, isSkippedRestart: false,
+    })
+    const opensOn = lastPassAt
+      ? new Date(Date.parse(lastPassAt) + 7 * 86400000).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'Europe/London' })
+      : null
+    const heavyWaiting = !!nextMod && isHeavyModule((nextMod as { module_id?: string | null }).module_id)
+      && missions.some(m => m.lesson_id === nextMod.id && m.status === 'sent' && stillWaiting(m.sent_at))
+    const resolved = new Set(((scriptRows ?? []) as { script_sort_order: number; status: string | null }[])
+      .filter(c => countsTowardPathway(c.status)).map(c => c.script_sort_order))
+    const script = ((stageScripts ?? []) as { sort_order: number; title: string; is_free: boolean | null; only_on_signal: boolean | null }[])
+      .find(sc => !sc.only_on_signal && !resolved.has(sc.sort_order) && (isPaid || sc.is_free)) ?? null
+    // The tea question from the lesson just passed, for seven days, never
+    // from a safeguarding flagged lesson (plan T7).
+    let lastPass: { title: string; question: string | null; listenFor: string | null } | null = null
+    const lastId = (lastPassRow as { lesson_id?: string } | null)?.lesson_id
+    if (lastId && lastPassAt && Date.now() - Date.parse(lastPassAt) < 7 * 86400000) {
+      const row = await getStarLesson(createAdminClient(), lastId, 'id, title, module_id, parent_note').catch(() => null) as
+        { title?: string; module_id?: string | null; parent_note?: { family_question?: string; listen_for?: string } | null } | null
+      const flagged = !!row?.module_id && FLAGGED_MODULES.some(m => m.moduleId === row.module_id)
+      if (row && !flagged) lastPass = { title: row.title ?? '', question: row.parent_note?.family_question ?? null, listenFor: row.parent_note?.listen_for ?? null }
+    }
+    nextStep = passportNext({
+      kid: kidName, childId: primaryChild.id, stageNum: currentStageNum, page: pageOf(currentStageNum).page,
+      count: countOf(currentStageNum),
+      stamped: isStageStamped(currentStageProgress, passedStages, currentStageNum, storedStamps),
+      lesson: nextMod ? { id: nextMod.id, title: nextMod.title, heavyWaiting } : null,
+      weekOpen, opensOn,
+      script: script ? { id: String(script.sort_order), title: script.title } : null,
+      lastPass,
+    })
+  } else if (selectedNum && selStatus === 'catchup') {
+    nextStep = { key: 'clear', chip: 'An earlier page', title: `This page came before ${kidName}'s`, how: `It stays open, and nothing on it holds up the ${currentStageNum ? pageOf(currentStageNum).page : 'current'} page.`, button: null }
+  } else if (selectedNum && selStatus === 'upcoming') {
+    nextStep = { key: 'clear', chip: 'Later', title: `Opens in ${START_YEAR[selectedNum]}`, how: `With ${kidName}'s class. Everything on this page waits until then.`, button: null }
+  }
 
   return (
     <div style={{ padding: '20px 0 32px' }}>
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto' }}>
+      <div style={{ padding: '0 20px', maxWidth: '640px', margin: '0 auto' }}>
         {/* On passport day, arriving here FROM the road is the day's one
             thing, so the look is recorded. Any other visit records nothing. */}
         {from === 'today' && passportday === '1' && (
           <MarkPassportLook childId={primaryChild?.id ?? null} />
         )}
-        {/* The way back to Today, only for a parent who genuinely came from
-            somewhere: a back button to a page you were never on is furniture. */}
         {from && <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />}
 
-        {/* The child pills lived here until 19 August 2026, placed by the
-            passport session with a note naming exactly this line as the one
-            the rail deletes when it takes over. The dashboard layout's rail
-            carries them now, same component, same ?child= contract, so the
-            selection survives a tap to any other page instead of living only
-            here. */}
+        {/* Passport everywhere, Road to sixteen the subtitle (15 October 2026). */}
+        <header style={{ marginBottom: 10 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 2px' }}>
+            Road to sixteen
+          </p>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+            {kidName === 'Your child' ? 'The passport' : `${kidName}'s passport`}
+          </h1>
+        </header>
 
-        {/* THE END OF THE ROAD, WHEN IT ARRIVES: above everything on the day
-            it lands. Gated on content AND this child's five checks. */}
         {allStagesEarned && <PathwayComplete childName={primaryChild?.name ?? null} />}
 
-        {/* ── BAND ONE: WHERE THE APPLICATION IS ────────────────────────────
-            The slim header: whose passport, which stage, the ring, and the
-            timeline line. The ring reads the same blended number as the book's
-            current page, so the header and the book can never disagree. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-          <div aria-hidden style={{
-            width: 46, height: 46, borderRadius: '50%', flexShrink: 0,
-            background: `conic-gradient(${stageTheme.text} 0 ${headerPct}%, var(--border) ${headerPct}% 100%)`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <span style={{
-              width: 34, height: 34, borderRadius: '50%', background: 'var(--cream)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)',
-            }}>
-              {headerPct}%
-            </span>
-          </div>
-          <div style={{ minWidth: 0 }}>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
-              color: 'var(--ink)', margin: 0, lineHeight: 1.15,
-            }}>
-              {kidName === 'Your child' ? 'The application to 16' : `${kidName}'s application to 16`}
-            </h1>
-            {currentStageContent && (
-              <span style={{
-                display: 'inline-block', marginTop: 3,
-                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                letterSpacing: '0.1em', textTransform: 'uppercase',
-                background: stageTheme.bold, color: stageTheme.text,
-                borderRadius: 6, padding: '2px 8px',
-              }}>
-                {currentStageContent.name} · {currentStageContent.ages}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* The timeline line: on track reads calm in sage, behind pace names
-            the clock plainly in the butter tint. Never red, never a deadline. */}
-        {pace && (
-          <div style={{
-            display: 'flex', alignItems: 'flex-start', gap: 9,
-            background: paceOnTrack ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-            border: `1.5px solid ${paceOnTrack ? '#C9DDD5' : 'var(--terracotta)'}`,
-            borderRadius: 'var(--radius-tile)', padding: '11px 14px', marginBottom: 14,
-          }}>
-            <span aria-hidden style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="time" size={22} /></span>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
-              {paceLine(pace, kidName, stageNum)}
-            </p>
+        {/* 1. THE PICTURE: five planet stamps, colour when earned, grey until then. */}
+        {pictureStamps.length > 0 && (
+          <div id="passport" style={{ scrollMarginTop: '84px' }}>
+            <div id="the-road" />
+            <PassportPicture kid={kidName} stamps={pictureStamps} selected={selectedNum} stampedCount={stampedCount} />
           </div>
         )}
 
-        {/* The overview: the whole journey explained once, then folded to a
-            tap. PathwayIntro owns the fold and the first visit behaviour. */}
-        <PathwayIntro kidLabel={kidLabel} childCount={children.length} />
+        {/* 2 to 4. THE PAGE: how far, the one next step, what was learnt. */}
+        {selectedNum && (
+          <PassportProgress n={selectedNum} page={pageOf(selectedNum).page} eyebrow={selEyebrow} kid={kidName} count={countOf(selectedNum)} />
+        )}
+        {nextStep && <PassportNextCard step={nextStep} />}
+        {selectedNum && selStatus !== 'upcoming' && <PassportLearnt kid={kidName} lessons={learnt} />}
 
-        {/* ── BAND TWO: WHAT TO DO RIGHT NOW ─────────────────────────────────
-            Exactly one task lit.
+        {/* 5. ON PAPER: the booklet and the sticker sheet, one button. */}
+        {primaryChild && <PassportOrderCard kid={kidName} childId={primaryChild.id} stampedCount={stampedCount} />}
+      </div>
 
-            THIS IS NOT #working-on, AND IT USED TO BE. Justin, 17 September
-            2026, on the passport: "the bit after devices is moments, clicking
-            it does not take to moments outstanding?" Right, and the reason is
-            that this rail took an id that already belonged to something else.
-
-            IsItWorkingReport further down this page has carried
-            id="working-on" since 8 August, when Justin asked for exactly this
-            link: "this should take you to the actual 5 moments then back to
-            page." Two elements with one id is not a tie, it is a win for
-            whichever comes first in the document, and that is this one. So the
-            passport's "7 to resolve" scrolled a parent to the next step rail
-            instead of their seven, and a fix made six weeks ago was undone by
-            an id rather than by a decision.
-
-            The rail is the next step. The list of moments is the moments.
-            scripts/check-moments-anchor.mjs now holds them apart. */}
-        <div id="next-step" style={{ scrollMarginTop: '84px' }}>
-          <NextOnTheApplication strands={strands} checkHref={checkHref} />
-        </div>
-
-        {/* The book, the jewel, untouched: cover first, the child's page one
-            tap away, catch up pages behind it. */}
-        {passportStamps.length > 0 && (
-          <div id="passport" style={{ scrollMarginTop: '84px', minWidth: 0 }}>
-            <div id="the-road" />
-            <PassportToDo
-              childId={primaryChild?.id ?? null}
-              childName={primaryChild?.name ?? null}
-              items={passportToDo}
-              childItems={childToDo}
-              onApp={!!kidLink?.token}
-              // Named, so the catch up line can say which page has things left
-              // rather than "this page", which reads as any page.
-              // The real answer to "is this page stamped", which the five rows
-              // cannot give: they carry neither the scripts nor the end of
-              // stage check, and those are two thirds of the gate.
-              stamped={isStageStamped(currentStageProgress, passedStages, stageNum, storedStamps)}
-              stageName={currentStageNum && passportStamps.length > 0
-                ? `Stage ${currentStageNum}, ${passportStamps.find(st => st.id === currentStageNum)?.name ?? ''}`.trim().replace(/,$/, '')
-                : null}
-            />
-            <PassportBook
-              stamps={passportStamps}
-              childName={primaryChild?.name ?? 'your child'}
-              currentStage={currentStageNum}
-              childId={primaryChild?.id ?? null}
-              catchupLines={catchupLines}
-              passportCode={primaryChild?.passport_code ?? null}
-              childRead={childRead}
-              improved={improved}
-              onApp={!!kidLink?.token}
-              openAtStage={openAtStage}
-              childParam={childParam ?? null}
-            />
+      {/* ── THE FULL BOOK AND THE RECORD, folded ─────────────────────────────
+          Everything that is not the picture, the page or the next step: the
+          flip book itself, the pace, the four strands, the balance, the stage
+          check card, the week's honest read and the evidence. A native
+          details element, so it costs no script and opens when an anchor
+          inside it is the target; every old anchor still lands. */}
+      <div style={{ padding: '0 20px', maxWidth: '640px', margin: '4px auto 0' }}>
+        <details className="passport-record" style={{
+          background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
+        }}>
+          <summary style={{
+            cursor: 'pointer', listStyle: 'none', padding: '13px 16px', minHeight: 44, boxSizing: 'border-box',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          }}>
+            <span>The full book and the record</span>
+            <span aria-hidden>›</span>
+          </summary>
+          <div style={{ padding: '4px 16px 16px' }}>
+            {pace && (
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '4px 0 14px' }}>
+                {paceLine(pace, kidName, stageNum)}
+              </p>
+            )}
+            <PathwayIntro kidLabel={kidLabel} childCount={children.length} />
+            {passportStamps.length > 0 && (
+              <div style={{ minWidth: 0 }}>
+                <PassportBook
+                  stamps={passportStamps}
+                  childName={primaryChild?.name ?? 'your child'}
+                  currentStage={currentStageNum}
+                  childId={primaryChild?.id ?? null}
+                  catchupLines={catchupLines}
+                  passportCode={primaryChild?.passport_code ?? null}
+                  childRead={childRead}
+                  improved={improved}
+                  onApp={!!kidLink?.token}
+                  openAtStage={null}
+                  childParam={childParam ?? null}
+                />
+              </div>
+            )}
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
               <SocialRoadNova
                 road={socialRoad}
@@ -552,170 +620,68 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 onApp={!!kidLink?.token}
               />
             )}
-          </div>
-        )}
-
-        {/* The four strands, counting down. #four-things keeps every old link
-            landing on the strands it always meant. */}
-        <div id="four-things" style={{ scrollMarginTop: '84px' }}>
-          <StrandCards strands={strandsWithZoneDoor} kid={kidName} />
-        </div>
-
-        {/* The moving picture itself: the zone, the two contributors, the
-            week's dots, and the sibling glance when another child needs a
-            look. The balance strand card above lands here. */}
-        <BalanceZone
-          report={weekReport}
-          jobsLine={jobsLine}
-          jobsOk={jobsOkZone}
-          days={dayDots}
-          kid={kidName}
-          childParam={childParam}
-          siblingGlance={siblingGlance}
-        />
-
-        {/* The end of stage check, DiGi's voice, with the child app door and
-            the together fallback. The rail's check card lands here. */}
-        {nearStageEnd && currentStageContent && (
-          <div id="stage-check" style={{ scrollMarginTop: '84px', marginTop: 4 }}>
-            <StageReadiness
-              stageId={stageNum}
-              stageName={currentStageContent.name}
-              stampName={stampName}
-              childId={primaryChild?.id ?? null}
-              childName={primaryChild?.name ?? null}
-              greens={readinessGreens}
-              activeAreas={activeAreas.length}
-              lessonsLeft={lessonsLeft}
-              ambers={readinessAmbers}
-              alreadyPassed={stageQuizPassed}
-              kidToken={(kidLink as { token?: string } | null)?.token ?? null}
+            <div id="four-things" style={{ scrollMarginTop: '84px' }}>
+              <StrandCards strands={strandsWithZoneDoor} kid={kidName} />
+            </div>
+            <BalanceZone
+              report={weekReport}
+              jobsLine={jobsLine}
+              jobsOk={jobsOkZone}
+              days={dayDots}
+              kid={kidName}
+              childParam={childParam}
+              siblingGlance={siblingGlance}
             />
-          </div>
-        )}
-
-        {/* Tailored by what this family flagged for this child. */}
-        {tailoredAction && (
-          <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', margin: '18px 0 0' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
-              For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
-            </div>
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
-          </div>
-        )}
-      </div>
-
-      {/* ── BAND THREE: THE RECORD, folded ─────────────────────────────────
-          Everything that reports rather than asks: the week's honest read,
-          the child's five a day, the doorway to what is working, and the
-          evidence. Mercury's collapsed completed tasks, in a native details
-          element so it costs no script and stays open when an anchor inside
-          it is the target. The ids stay on their sections so every old link
-          (#is-it-working, #why-this-works, #screen-balance inside the
-          report) still lands. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '18px auto 0' }}>
-        <details className="passport-record" style={{
-          background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
-        }}>
-          <summary style={{
-            cursor: 'pointer', listStyle: 'none', padding: '13px 16px',
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          }}>
-            <span>The record · the week, the numbers, the why</span>
-            <span aria-hidden>›</span>
-          </summary>
-          <div style={{ padding: '2px 0 14px' }}>
-            <WhatIsWorkingLink />
-            <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
-            {/* #stickers: where the push, the Home card and the passport strip
-                send a parent to see the child's book (14 September 2026). */}
-            <div id="stickers" style={{ scrollMarginTop: '84px' }} />
-            <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
-            {primaryChild?.name && (
-              <FiveADayReport
-                childName={primaryChild.name}
-                days={fiveADay.days}
-                today={fiveADay.today}
-              />
+            {nearStageEnd && currentStageContent && (
+              <div id="stage-check" style={{ scrollMarginTop: '84px', marginTop: 4 }}>
+                <StageReadiness
+                  stageId={stageNum}
+                  stageName={currentStageContent.name}
+                  stampName={stampName}
+                  childId={primaryChild?.id ?? null}
+                  childName={primaryChild?.name ?? null}
+                  greens={readinessGreens}
+                  activeAreas={activeAreas.length}
+                  lessonsLeft={lessonsLeft}
+                  ambers={readinessAmbers}
+                  alreadyPassed={stageQuizPassed}
+                  kidToken={(kidLink as { token?: string } | null)?.token ?? null}
+                />
+              </div>
             )}
-            <div style={{ padding: '0 16px' }}>
-              <div id="why-this-works" style={{ scrollMarginTop: '84px' }} />
-              <PathwayEvidence />
+            {tailoredAction && (
+              <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '14px 16px', margin: '14px 0 0' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
+                  For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
+                </div>
+                <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
+              </div>
+            )}
+            <div style={{ margin: '14px -16px 0' }}>
+              <WhatIsWorkingLink />
+              <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
+              <div id="stickers" style={{ scrollMarginTop: '84px' }} />
+              <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
+              {primaryChild?.name && (
+                <FiveADayReport
+                  childName={primaryChild.name}
+                  days={fiveADay.days}
+                  today={fiveADay.today}
+                />
+              )}
+              <div style={{ padding: '0 16px' }}>
+                <div id="why-this-works" style={{ scrollMarginTop: '84px' }} />
+                <PathwayEvidence />
+              </div>
             </div>
+            <p style={{ textAlign: 'center', margin: '14px 0 0' }}>
+              <Link href="/dashboard/settings" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textDecoration: 'underline', letterSpacing: '0.04em' }}>
+                Manage children
+              </Link>
+            </p>
           </div>
         </details>
       </div>
-
-      {/* The children, the manage door and the founder card, at the foot. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '22px auto 0' }}>
-        {children.length > 1 && (
-          <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
-              Your children
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {children.map(child => {
-                const nStage = child.stage_id ? stageIdToNum[child.stage_id] : null
-                const stageMeta = nStage ? STAGES.find(st => st.id === nStage) ?? null : null
-                return (
-                  <Link key={child.id} href={child.is_primary ? '/dashboard/pathway' : `/dashboard/pathway?child=${child.id}`} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'var(--cream)', border: 'var(--edge)',
-                    borderRadius: 'var(--radius-tile)', padding: '12px 16px', gap: '12px',
-                    textDecoration: 'none',
-                  }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-                      {child.name}
-                    </span>
-                    {stageMeta && (
-                      <span style={{
-                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                        color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-                        padding: '3px 10px', borderRadius: 'var(--radius-pill)', letterSpacing: '0.06em',
-                        textTransform: 'uppercase', whiteSpace: 'nowrap',
-                      }}>
-                        Stage {stageMeta.id} · {stageMeta.name}
-                      </span>
-                    )}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        )}
-
-        <div style={{ textAlign: 'center', marginTop: '8px' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '10px' }}>
-            Multiple children? One account covers all of them.
-          </p>
-          <Link href="/dashboard/settings" style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)',
-            textDecoration: 'underline', letterSpacing: '0.04em',
-          }}>
-            Manage children →
-          </Link>
-        </div>
-
-        {!isPaid && (
-          <div style={{
-            marginTop: '24px',
-            border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)',
-            padding: '20px 22px', background: 'var(--stage-5)',
-          }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>
-            <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock all 5 stages for £7.99 / month</h3>
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-              All scripts, unlimited DiGi, wellbeing tracker. First 50 members only.
-            </p>
-            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
-              Claim founder rate
-            </Link>
-          </div>
-        )}
-      </div>
-
     </div>
   )
 }

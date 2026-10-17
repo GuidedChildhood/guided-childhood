@@ -214,6 +214,50 @@ console.log(JSON.stringify(out))
   else ok.push('I: never speak first scripts are not in the stamp total')
 }
 
+// ── J: the page is the picture, then one page in three answers, then paper ───
+// Justin's brief on PR 1312 (16 October 2026): image first, planet stamps in
+// colour when earned and grey until then, then progress, the one next step
+// and what was learnt, then the printed passport and stickers with one button.
+{
+  const page = strip(readFileSync('app/(dashboard)/dashboard/pathway/page.tsx', 'utf8'))
+  const order = ['<PassportPicture', '<PassportProgress', '<PassportNextCard', '<PassportLearnt', '<PassportOrderCard', 'passport-record']
+  const at = order.map(t => page.indexOf(t))
+  if (at.some(i => i < 0) || at.some((i, k) => k > 0 && i < at[k - 1])) problems.push(`J: the page is not picture, progress, next, learnt, order, then the folded record: ${order.map((t, k) => `${t}@${at[k]}`).join(' ')}`)
+  else ok.push('J: picture, progress, next step, learnt, order, then the folded record')
+  for (const gone of ['<NextOnTheApplication', '<PassportToDo']) {
+    if (page.includes(gone)) problems.push(`J: ${gone} is back on the page; the one Next card replaced it`)
+  }
+  const pic = strip(readFileSync('components/passport/PassportPicture.tsx', 'utf8'))
+  if (!/grayscale\(1\)/.test(pic) || !/clipPath/.test(pic)) problems.push('J: the picture must grey a stamp not yet earned and fill the current one with colour')
+  else ok.push('J: unearned stamps are grey, the current one fills with colour')
+  const probe3 = `
+import { passportNext } from './lib/pathway/passport-next.ts'
+import { pageCount } from './lib/pathway/page-count.ts'
+const base = { kid: 'Sam', childId: 'c1', stageNum: 3, page: 'Asking questions', stamped: false, lesson: { id: 'l1', title: 'Your feed is a guess', heavyWaiting: false }, weekOpen: true, opensOn: 'Thursday', script: { id: '301', title: 'The phone at bedtime' }, lastPass: { title: 'x', question: 'What would you do first?', listenFor: 'Stop, check, tell.' } }
+const c = pageCount({ lessonsDone: 5, lessonsTotal: 9, scriptsDone: 1, scriptsTotal: 2 }, false)
+const all = pageCount({ lessonsDone: 9, lessonsTotal: 9, scriptsDone: 2, scriptsTotal: 2 }, false)
+console.log(JSON.stringify({
+  lesson: passportNext({ ...base, count: c }).key,
+  shut: passportNext({ ...base, count: c, weekOpen: false }).key,
+  shutNoScript: passportNext({ ...base, count: c, weekOpen: false, script: null }),
+  heavy: passportNext({ ...base, count: c, lesson: { ...base.lesson, heavyWaiting: true } }).key,
+  check: passportNext({ ...base, count: all }).key,
+  stamped: passportNext({ ...base, count: all, stamped: true }).key,
+}))
+`
+  const r3 = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', probe3], { encoding: 'utf8', cwd: process.cwd() })
+  if (r3.status !== 0) problems.push(`J: the probe could not run passportNext: ${(r3.stderr || '').trim().split('\n').slice(-2).join(' ')}`)
+  else {
+    const o = JSON.parse(r3.stdout.trim().split('\n').pop())
+    const want = { lesson: 'lesson', shut: 'script', heavy: 'note', check: 'check', stamped: 'stamped' }
+    const bad = Object.entries(want).filter(([k, v]) => o[k] !== v)
+    if (bad.length) problems.push(`J: the one next step is out of order: ${JSON.stringify(bad.map(([k]) => [k, o[k]]))}`)
+    else ok.push('J: the next step runs stamped, check, this week\'s lesson (note first when heavy), the parent\'s talk')
+    if (o.shutNoScript.key !== 'week' || o.shutNoScript.button !== null || !/Thursday/.test(o.shutNoScript.title) || !/at tea/.test(o.shutNoScript.how)) problems.push(`J: a shut week must say the day, carry the tea question and offer no button: ${JSON.stringify(o.shutNoScript)}`)
+    else ok.push('J: a shut week says its day and the tea question, with no button')
+  }
+}
+
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {
   console.error('')

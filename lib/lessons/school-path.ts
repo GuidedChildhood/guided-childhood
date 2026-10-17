@@ -144,6 +144,17 @@ export function lessonStageFor(child: { date_of_birth?: string | null; age_band?
   return BAND_STAGE[child?.age_band ?? ''] ?? 'builder'
 }
 
+/**
+ * The passport page a child is on: their school year's stage, the same clock
+ * as their lessons (plans/2026-10-16-passport-journey-plan.md, decision 1,
+ * Justin, 17 October 2026). Only passport readers move to it; `children.stage_id`
+ * and everything else that follows the birthday (screen minutes, the
+ * agreement, Right Now, the 13 and 16 markers) stays where it is.
+ */
+export function passportStageFor(child: { date_of_birth?: string | null; age_band?: string | null } | null | undefined, on: Date = new Date()): StageId {
+  return lessonStageFor(child, on)
+}
+
 const STAGE_RANK: Record<StageId, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
 
 /**
