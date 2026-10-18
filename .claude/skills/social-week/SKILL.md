@@ -59,6 +59,18 @@ For each Instagram, Facebook or Guided Childhood LinkedIn page post:
    routines and gaming, Orbit AI and checking, Nova pressure and
    independence, Cosmo 16 and over, DiGi answers). One friend per deck.
    The franchise names in section 9 keep their eyebrow every week.
+   **Pinterest reference first** (Justin, 18 October 2026: build it into the
+   weekly run). Before writing the cards, pull two or three real Pinterest
+   carousels or posts on the same topic (WebSearch, then WebFetch the pin
+   pages) and note, per deck, the layout idea only: how many slides, how the
+   hook card is paced, where the image sits against the words, how big the
+   type is, how the last card asks. Translate that into our butter, ink and
+   Nunito with the approved assets. Never copy the artwork, the wording or
+   the colours, never quote a pin, and weigh it through the feedback-filter
+   skill (adopt, adapt, park, decline). Put one line per deck at the top of
+   the pull request: the reference idea taken and what we did with it. If
+   Pinterest cannot be reached, say so in the pull request and go on from
+   `visual-system.md`.
 2. **Write the cards** in the family voice: one idea per card, the carousel
    order hook, tension, explanation, useful action, proof, close (an `ask`).
    Real assets only: a printable's real page, a real screenshot, the
@@ -113,7 +125,7 @@ Fix the deck and re-run until clean.
 1. Branch `claude/social-week-<monday>`, commit the pack folder (the decks and
    `THIS-WEEK.md`), push, open a draft pull request titled
    "Social week <monday>". The body: the page link, one line per post, and
-   anything left empty and why.
+   anything left empty and why, and the Pinterest reference line per deck.
 2. In the Control Room, create a Google Doc "Social week, <date>" with the
    page link at the top and the text of `THIS-WEEK.md` under it, so the 06:30
    daily desk can point at today's section. Text only: the images live on
