@@ -559,3 +559,32 @@ can be true.
 
 Scene: the DiGi origin, the dance video and Saturday football, used once and
 logged. PR to follow.
+
+## 18 October 2026: GDC-044 v2, the post was betting on the wrong commitment
+
+Justin asked three things: is it in line with our philosophy, does it not look
+like AI, and search the folders for his life story to weave in.
+
+The philosophy check found a real gap. v1 ended on "my bet is on teaching a child
+to notice it", which is a media literacy answer. Our deepest commitment is that a
+child who trusts their parent is more protected than a child with every control in
+existence. The post was betting on a skill when the thesis is a relationship.
+v2 closes on what a child will come and tell you rather than what they can do.
+
+The AI check: the guard passed and the ear did not. Four negation and correction
+pairs in one post, when ai-tells.md says one triple is rhythm and four is a
+machine, and the same move opens the same beat in GDC-043. That is the cross post
+fingerprint that caught 037 to 039 and it would have shipped. Two of the four
+are now plain statements.
+
+The folder search found content/brand-story/founding-story.md, unused by this
+whole sequence, holding the strongest material we have. Woven in: the Covid
+confession (YouTube as a babysitter to get through the day, which that file calls
+the most valuable sentence we have) and nine at night, wishing for something that
+managed the devices rather than switching them off. Only Justin's own first
+person part, because founding-story.md is the family voice and CLAUDE.md says
+that is not his.
+
+Gap logged, not fixed: the reels story bank holds 24 stories that
+founder-scenes-used.md cannot see, and vice versa. Same shape as the numbering
+collision. PR 1357.

@@ -73,10 +73,10 @@ that framing is the one with something in it for a parent tonight.
 
 ## The post
 
-*Body 2,270 characters, inside the 1,300 to 2,500 band. Hook 127 characters,
-inside the mobile fold. One closing question, nothing after it. Thirteen
-paragraphs ranging from 50 to 398 characters, because uniform paragraph length
-is the rhythm tell. Link in the first comment, never the body.*
+*Version 2, 18 October 2026. Body 2,479 characters, inside the band. Hook 127
+characters, inside the mobile fold. One closing question, nothing after it.
+Fourteen paragraphs from 59 to 404 characters. Link in the first comment, never
+the body.*
 
 Nobody can tell you yet whether banning under sixteens from social media works. Australia can already tell you what it teaches.
 
@@ -84,25 +84,27 @@ Its regulator went back three months after the ban began. Before it, nearly 86 p
 
 Then look at how they got round it. An account registered to someone older. An account in a name that is not theirs. A private browser.
 
-That is a child's first real lesson in digital life, and a law delivered it. Not that the internet is dangerous. That identity online is something you assert, and nobody checks.
+That is a child's first real lesson in digital life, and a law delivered it. The lesson is that identity online is something you assert, and nobody checks.
 
-We have been teaching it longer than the law has, mind. Research going back to 2011 found parents coaching their own children past Facebook's age limit. Parents were always the teacher here. A ban does not change that. It changes what the lesson says.
+We have been teaching it longer than the law has, mind. Research going back to 2011 found parents coaching their own children past Facebook's age limit, and I am in no position to be smug about that. During Covid we had two small girls at home and a business to keep alive, and we used YouTube as a babysitter to get through the day. Parents were always the teacher here. A ban only changes the syllabus.
 
-None of which makes the ban wrong, and I want to be careful here, because I think a protected period is worth having. A deadline is not a plan. It is also not nothing.
+None of which makes the ban wrong. I think a protected period is worth having. A deadline is not a plan, but it is not nothing either.
 
 What it buys is time. What nobody is answering is what the time is for.
 
-France's constitutional court struck down its own under fifteen ban in August, partly because the enforcement on offer would not protect privacy. That is the bit that gets skipped. Making a ban stick means building somewhere for a child's passport photo to sit, and the industry cannot currently agree whether the last spill from one of those services was seventy thousand documents or two million.
+France's constitutional court struck down its own under fifteen ban in August, partly because the enforcement on offer would not protect privacy. That is the bit that gets skipped. Making a ban stick means building somewhere for a child's passport photo to sit, and the industry cannot agree whether the last spill from one of those services was seventy thousand documents or two million.
 
 Both sides of this argument are counting the same thing. Whether children got in. Whether children were kept out.
 
 Nobody is counting what a sixteen year old can actually do.
 
-Years ago my son was watching a dance video and would not come off it, and I threatened to take away Saturday football. I knew inside a minute I had got it wrong. The question that followed is the one I have been working on ever since, and it was not how to stop him. It was what I should have said instead.
+Years ago my son was watching a dance video and would not come off it, and I threatened to take away Saturday football. I knew inside a minute I had got it wrong, and what stayed with me was not the row. It was that I had nothing to give him instead.
 
-A ban can hold a door shut. It cannot answer that.
+We spent a lot of nine o'clocks after days like that wishing something existed that would help us manage the devices rather than just switch them off.
 
-If the door opens on your child's sixteenth birthday, what will they already know how to do?
+A ban switches them off. It does not sit down with your child.
+
+So if the door opens on your child's sixteenth birthday, what do you want them to come and tell you first?
 
 ### First comment
 
@@ -123,6 +125,86 @@ Sources, and where I have been careful. Australia: the eSafety Commissioner's fo
 
 *[peer and policy audience, conceded their central point, added the frame they
 do not have, no product, open question]*
+
+## Version 2: the philosophy check, the AI check, and the weave
+
+Justin, 18 October 2026: is this in line with our philosophy, does it not look
+like AI, and search the folders for his life story so we can weave it in.
+
+### The philosophy check found one real gap
+
+Against the five commitments in THE-STORY section 3:
+
+| Commitment | v1 |
+|---|---|
+| Never allow or deny | Pass, and it is the post's spine. It refuses both camps. |
+| Connection is the protection | **Failed.** See below. |
+| The positive pathway, ban neutral | Pass, stated out loud. |
+| Three kinds of time, child as participant | Absent, which is right for a policy post. |
+| Evidence or silence | Pass. Three claims from the source were dropped rather than softened. |
+
+**The gap.** v1 ended on "my bet is on teaching a child to notice it." That is a
+media literacy answer. Our deepest commitment is a different kind of claim
+altogether: a child who trusts their parent is more protected than a child with
+every control in existence. The post was betting on a skill when our thesis is a
+relationship, and the skill version is also the one Odgers would call untested.
+
+v2 ends on the relationship, and the closing question moves from what a child can
+do to what a child will come and tell you. The capability line stays in the body,
+because it is the viewpoint: capability is what nobody measures, connection is
+how a family builds it.
+
+### The AI check: the guard passes, the ear did not
+
+`npm run ai-tells` passes, no dashes, no banned phrase. Reading v1 against the
+soft list in `ai-tells.md` found something a guard cannot catch.
+
+**Four negation and correction pairs in one post.** "Not that the internet is
+dangerous. That identity online is..." then "A ban does not change that. It
+changes what the lesson says." then "A deadline is not a plan. It is also not
+nothing." then "it was not how to stop him. It was what I should have said
+instead." The file's own rule is that one triple is rhythm and four is a machine,
+and this is Justin's signature move spent four times in two thousand characters.
+
+**And it runs across posts.** GDC-043 turns on "the honest version is not paper
+good, screen bad. It is that interruption is the thing worth looking at." The
+same move opening the same beat in two consecutive posts is the cross post
+fingerprint that caught 037 to 039, and it would have shipped.
+
+v2 keeps two of the four, which is rhythm. The other two became plain statements
+or scenes.
+
+### What the folder search turned up
+
+`content/brand-story/founding-story.md` had not been used by any post in this
+sequence and it holds the strongest material we have.
+
+**Woven into v2, two scenes, both canon:**
+
+1. **The Covid confession.** Two small girls at home, a business to keep alive,
+   YouTube used as a babysitter to get through the day. `founding-story.md` calls
+   this "the most valuable sentence we have" and it is right, because it turns
+   "we have been teaching this longer than the law has" from an accusation into a
+   confession. That file also bans two ways of resolving it, blaming YouTube or
+   telling parents they were fine, and v2 does neither.
+2. **Nine at night.** Sitting there after a day like that, wishing something
+   existed that would help manage the devices rather than just switch them off.
+   That is the exact sentence this post needed, because the post's claim is that a
+   ban cannot answer what to do instead.
+
+**The boundary I did not cross.** `founding-story.md` is the **family voice**
+canon: Natalia, Alma, Olga, the shop in Bristol, the six thousand who followed a
+mother making beautiful things. CLAUDE.md routes that voice to family-social and
+says plainly that it is not Justin's. So only his own first person experience
+went in. No Natalia, no Inspired by Alma, no shop, no follower count, and the
+daughters are not named.
+
+**A gap worth fixing separately.** `content/packs/2026-10-14-reels-story-bank/`
+holds 24 stories across nine categories, built by another session, and
+`founder-scenes-used.md` knows nothing about them, because the ledger was built
+from the green list in `founder-context.md` alone. Two stores of scenes that
+cannot see each other is the same shape as the numbering collision, and it will
+repeat. Left alone here because it is not this post's job.
 
 ## What was deliberately not said
 
