@@ -11,7 +11,6 @@ import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompl
 import DayTickFlow, { type FirstMove } from '@/components/daily/DayTickFlow'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { CRAYON } from '@gc/shared/happy-news'
-import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
 //
@@ -195,23 +194,6 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // middle of the trail, never against the node you are about to tap.
   const bonusRow = tasks.findIndex((_, i) => i >= 1 && i < tasks.length - 1 && MEANDER[i % MEANDER.length] < 0)
 
-  // ── WHICH ROWS A FRIEND STANDS BESIDE ─────────────────────────────────────
-  // Every other row from the second, where the stone leans to one side and
-  // leaves the other empty (never the centred row, which has no empty side),
-  // never the bonus row, never the finish. Friends are taken in cast order,
-  // skipping whoever is carrying today's bonus so nobody appears twice. A
-  // friend beside a step still ahead is greyed, as Duolingo greys its cast on
-  // the road you have not walked yet.
-  const standing = STAGE_CHARACTERS.filter(c => c.key !== bonus?.friend.key)
-  const friendRows = tasks
-    .map((_, i) => i)
-    .filter(i => i >= 1 && i % 2 === 1 && i !== bonusRow && i < tasks.length - 1 && MEANDER[i % MEANDER.length] !== 0)
-  const friendFor = (i: number) => {
-    const n = friendRows.indexOf(i)
-    if (n < 0 || standing.length === 0) return null
-    const c = standing[n % standing.length]
-    return { cutout: c.cutout, ahead: !settled(tasks[i]) && i !== currentIndex }
-  }
 
   function pickMinutes(m: number) {
     setMinutes(m)
@@ -594,9 +576,6 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           const isDoneNode = task.done || (isClearNode && task.key === 'quests')
           const size = isCurrent ? NODE_NOW : NODE
           const isGoal = task.key === 'done'
-          // A Planet Friend standing beside this row, if one is: see
-          // FRIEND_ROWS below. On the side the stone leans away from.
-          const friend = friendFor(i)
           return (
             <div key={task.key}>
               {/* The seam between the day's one thing and the extras. One
@@ -637,41 +616,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     CURRENT step uses, and two things pulsing on one path means
                     neither reads as the next thing to do. A bounce says "over
                     here" without ever saying "you are behind". */}
-                {/* ── THE CAST BESIDE THE ROAD (17 October 2026) ──────────────
-                    Justin, with the Duolingo path flows: "feel free to use
-                    planet friends if helps". Duolingo stands its characters
-                    in the empty side of the meander, in colour where you have
-                    been and greyed where you are going
-                    (mobbin.com/flows/e9d5c83f-4d26-4466-bb31-d38d39770933).
-                    Same here with Pebble, Bloop, Orbit, Nova and Cosmo, the
-                    cast the child already knows. Decoration only: hidden from
-                    screen readers, no tap, never on the bonus row, never on
-                    the stone. */}
-                {friend && (
-                  <span aria-hidden style={{
-                    // Pinned to the road's centre rather than the column's
-                    // edge, so on a wide screen the Friend still stands by
-                    // the road instead of floating at the margin.
-                    position: 'absolute', top: '50%', [x < 0 ? 'left' : 'right']: 'calc(50% + 56px)',
-                    transform: 'translateY(-55%)', width: 92, pointerEvents: 'none', zIndex: 0,
-                    display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={friend.cutout}
-                      alt=""
-                      width={84}
-                      height={84}
-                      style={{
-                        display: 'block', width: 84, height: 84, objectFit: 'contain',
-                        // Ahead reads as softer, never as grey: a greyed 3D
-                        // figure looked like a skeleton still loading.
-                        opacity: friend.ahead ? 0.55 : 1,
-                      }}
-                    />
-                    <span style={{ width: 44, height: 8, marginTop: -3, borderRadius: '50%', background: 'rgba(26,26,46,0.12)', opacity: friend.ahead ? 0.55 : 1 }} />
-                  </span>
-                )}
+                {/* The decorative cast that stood beside the road (17 October)
+                    came off the next morning. Justin: "don't need the planet
+                    friends, only the one that comes up on the right that you
+                    can click that rotates, not the blank ones." Only the Friend
+                    of the day stays: it carries a service and a reason to tap. */}
                 {bonus && i === bonusRow && (
                   <Link
                     href={bonus.service.href}
