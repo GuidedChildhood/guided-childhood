@@ -529,3 +529,62 @@ Justin: "Why are we asking what child says? This could be seen as not trusting t
 ## 18 October 2026: migration 382 applied and read back
 
 Justin ran `today_step_marks` in the SQL editor (the MCP apply timed out nine times). Read back: table present, RLS on, own read and own insert policies, unique index in place. The "Done, back to today" bar on DiGi and the passport job now saves.
+
+## 18 October 2026: GDC-044, the ban is a teaching instrument
+
+Justin sent the Center for Democracy and Technology piece on social media bans
+and asked for one new viewpoint rather than a restatement.
+
+Three of the piece's details did not survive a check, including its most
+shareable one. France was struck down on 14 August 2026, not July. The "four in
+five" figure is close on the number but wrong on the claim: Australia's regulator
+found 86 percent of surveyed children using an age restricted platform before the
+ban and above 81 percent after, which is continued use rather than breaking in.
+The children drawing fake facial hair could not be traced to a source, so it is
+not in our post. The Discord figure of 70,000 is Discord's own estimate, the
+vendor denies handling IDs at all, and the attackers claimed over two million, so
+we describe the disagreement instead of picking a number.
+
+The viewpoint: every side of this argument measures access, and nobody measures
+capability. A ban teaches whether we intend it or not, and the lesson a child
+takes from getting past one is that identity online is something you assert and
+nobody checks. Research from 2011 found parents coaching their children past
+Facebook's age limit, so the ban does not introduce a teacher, it changes the
+syllabus.
+
+Declined from CDT: the implication that the ban is therefore wrong. A delay is
+not preparation, but it buys a protected period, and what a family does with that
+time is the whole product. Their answer is policy, ours is parenting, and both
+can be true.
+
+Scene: the DiGi origin, the dance video and Saturday football, used once and
+logged. PR to follow.
+
+## 18 October 2026: GDC-044 v2, the post was betting on the wrong commitment
+
+Justin asked three things: is it in line with our philosophy, does it not look
+like AI, and search the folders for his life story to weave in.
+
+The philosophy check found a real gap. v1 ended on "my bet is on teaching a child
+to notice it", which is a media literacy answer. Our deepest commitment is that a
+child who trusts their parent is more protected than a child with every control in
+existence. The post was betting on a skill when the thesis is a relationship.
+v2 closes on what a child will come and tell you rather than what they can do.
+
+The AI check: the guard passed and the ear did not. Four negation and correction
+pairs in one post, when ai-tells.md says one triple is rhythm and four is a
+machine, and the same move opens the same beat in GDC-043. That is the cross post
+fingerprint that caught 037 to 039 and it would have shipped. Two of the four
+are now plain statements.
+
+The folder search found content/brand-story/founding-story.md, unused by this
+whole sequence, holding the strongest material we have. Woven in: the Covid
+confession (YouTube as a babysitter to get through the day, which that file calls
+the most valuable sentence we have) and nine at night, wishing for something that
+managed the devices rather than switching them off. Only Justin's own first
+person part, because founding-story.md is the family voice and CLAUDE.md says
+that is not his.
+
+Gap logged, not fixed: the reels story bank holds 24 stories that
+founder-scenes-used.md cannot see, and vice versa. Same shape as the numbering
+collision. PR 1357.
