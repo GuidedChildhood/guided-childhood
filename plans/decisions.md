@@ -525,3 +525,7 @@ Justin said yes. `passport_pages` is live (RLS on, parents read their own rows, 
 ## 17 October 2026: Homework page asks about the evening, not the child's word (PR 1354)
 
 Justin: "Why are we asking what child says? This could be seen as not trusting them." The check now asks "How long did homework take tonight?" (None set, Quick, 30 min, 1 hour, Hours, It ended in tears) and every verdict is about whether the load is right for the child, never whether they are telling the truth. He also asked for only what is needed on show: the check and the one butter button stay open, and how to help, this week in class, coming up, secondary, the routine, the whole term and the practice sheet are rows that open in place. No new nudges (his answer: existing ones only). Migration 382 SQL: he will paste it, reminder set for 18 October 9am.
+
+## 18 October 2026: migration 382 applied and read back
+
+Justin ran `today_step_marks` in the SQL editor (the MCP apply timed out nine times). Read back: table present, RLS on, own read and own insert policies, unique index in place. The "Done, back to today" bar on DiGi and the passport job now saves.
