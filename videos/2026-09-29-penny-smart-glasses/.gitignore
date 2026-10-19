@@ -5,3 +5,6 @@ renders/
 sample/assets/*.mp4
 sample/assets/*.m4a
 sample/snapshots/
+sample2/assets/*.mp4
+sample2/assets/*.m4a
+sample2/snapshots/
