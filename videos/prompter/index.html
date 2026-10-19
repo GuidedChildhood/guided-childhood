@@ -72,15 +72,16 @@ ol.steps b{color:var(--butter)}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 .tool{border:2px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;font-family:var(--mono);font-weight:600;font-size:13px}
 .tool[aria-pressed="true"]{border-color:var(--butter);color:var(--butter)}
-.stage{position:relative;flex:1;overflow-y:auto;display:flex;justify-content:center;padding-block:30vh 75vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.read{max-width:24ch;width:100%;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
+.stage{position:relative;flex:1;overflow-y:auto;display:block;padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.read{max-width:24ch;width:100%;margin:0 auto;font-size:var(--size);font-weight:800;line-height:1.28;letter-spacing:-.005em}
 .read p{margin:0 0 .7em;text-wrap:pretty}
 .mirror .read{transform:scaleX(-1)}
-.eye{position:absolute;left:0;right:0;top:calc(30% + 0px);height:0;pointer-events:none;z-index:2}
+.eye{position:absolute;left:0;right:0;top:30%;height:0;pointer-events:none;z-index:2}
 .eye::before{content:"";position:absolute;left:max(6px,env(safe-area-inset-left,0px));top:-14px;border:14px solid transparent;border-left:20px solid var(--butter)}
 .eye::after{content:"";position:absolute;left:0;right:0;top:0;border-top:2px dashed rgba(237,195,95,.35)}
 .stagewrap{position:relative;flex:1;display:flex;min-height:0;overflow:hidden}
 .count{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:min(40vw,260px);color:var(--butter);background:rgba(26,26,46,.6);z-index:3}
+.spacer{height:0}
 .endnote{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--butter)}
 .tool.play{background:var(--butter);color:var(--ink);border-color:var(--butter)}
 .speed{font-family:var(--mono);font-size:13px;color:var(--muted);align-self:center;min-width:9ch;text-align:center}
@@ -162,7 +163,12 @@ const SCRIPTS = {
     setup: [
       "<b>Phone landscape</b>, at eye level on a stack of books. The lens level with your eyes, about an arm and a half away.",
       "<b>Face a window.</b> Light in front of you, never behind. Turn the big ceiling light off if it makes shadows under your eyes.",
-      "<b>Quiet room.</b> Phone on Do Not Disturb. Close the door, turn off anything humming.",
+      "<b>Quiet room.</b> Phone on Do Not Disturb. Close the door, turn off anything humming. <b>Check the mic light</b> before every card.",
+      "<b>Sit, back against a chair that does not swivel</b>, forearms on the table. Hands do the emphasis, your head stays still.",
+      "<b>Prompter right under the lens.</b> Move the phone back a little and zoom in a touch, so your eyes barely travel.",
+      "<b>Speed 2 and pause at every full stop.</b> Pauses are cut in the edit, so slow costs nothing.",
+      "<b>Smile before you start</b> the thank you, the joke and the promise. Say it to one pupil, not to a hall.",
+      "<b>Say the names exactly:</b> VotesforSchools, one word, and Guided Digital Childhood.",
       "<b>This screen</b> goes right behind or just under the phone, so your eyes stay near the lens while you read.",
       "<b>Frame angle A:</b> chest up, your eyes about a third down from the top, a little space above your head.",
       "<b>Before each part</b> say the slate on screen, for example \"Part three, take one\", count two in your head, then read.",
@@ -170,13 +176,13 @@ const SCRIPTS = {
       "<b>When you are done</b>, AirDrop every clip to the Mac. Do not trim them in Photos."
     ],
     parts: [
-      {t:"Introduce yourself and thank them", a:"A", cue:"Look at the camera. Warm. Say the first line twice.", lines:["Hi, I'm Justin Phillips, founder of Guided Digital Childhood.","We give parents, schools and children the tools for screens and everything digital: keeping the good, learning the risks, so nobody hits a cliff edge at sixteen.","Thank you to all fifty nine thousand of you who took part in the smart glasses discussion."]},
-      {t:"Recognise their concerns", a:"A", cue:"Pause after \"possibilities\". Point left on \"concerns\".", lines:["You highlighted both the possibilities and the concerns.","Especially what happens when someone is filmed without knowing.","And when enough people speak up, companies do change things. This summer Meta made its glasses stop recording if someone covers the light.","That is a start, not the finish. A light is not permission. It needs to go further."]},
-      {t:"Recognise the benefits", a:"B", cue:"Softer. Point right on \"read text aloud\".", lines:["Without losing the good, because there is real good here.","Glasses can read text aloud for people with sight loss.","Meta has also announced hearing support for some adults with hearing loss."]},
+      {t:"Introduce yourself and thank them", a:"A", cue:"Look at the camera. Warm. Say the first line twice.", lines:["Hi, I'm Justin Phillips, founder of Guided Digital Childhood.","We give parents, schools and children the tools for screens and everything digital: keeping the good, learning the risks, so nobody hits a cliff edge at sixteen.","Thank you to all fifty nine thousand of you who took part in the smart glasses discussion.","You made some really sharp points, so let me start with yours."]},
+      {t:"Recognise their concerns", a:"A", cue:"Pause after \"possibilities\". Point left on \"concerns\".", lines:["You pointed out the possibilities and the concerns.","Especially being filmed without knowing, and what glasses could mean on the roads, in tests and for your data.","And when enough people speak up, companies do change things. This summer Meta made its glasses stop recording if someone covers the light.","That is a start, not the finish. A light is not permission. It needs to go further."]},
+      {t:"Recognise the benefits", a:"B", cue:"Softer, warm. They were right, so say it like you mean it.", lines:["And you were right that there is real good here.","Glasses can translate, and read text aloud for people with sight loss.","Meta has also announced hearing support for some adults with hearing loss."]},
       {t:"Explain what is coming", a:"A", cue:"A little faster. Point up on \"Muse\".", lines:["And things are moving quickly.","Meta plans to bring its new AI agent, Muse, to glasses in the next few months.","That is technology you can speak to and ask to carry out tasks."]},
       {t:"Make your main point", a:"B", cue:"Slow down. This is the line.", lines:["So digital education cannot stop at screens.","We need to understand technology we can wear and talk to, too."]},
       {t:"Your view leads", a:"A", cue:"Smile on the joke. Let it land, then slow down for \"you are the ones\".", lines:["Here is the honest bit.","Left alone, founders like me sit in a meeting room deciding what you need to know. Then we build a beautiful lesson about completely the wrong thing.","You are the ones living with this technology. What you know, and what you see in the real world, should be what shapes the answer.","That is what VotesforSchools does so well. It turns the question round and asks the people it is really about. That is the most important part of this whole discussion."]},
-      {t:"What their feedback will change", a:"A", cue:"Point right as each lesson lands.", lines:["So your feedback will lead the lessons we build with our Planet Friends.","They are five characters, one for each age from four to sixteen, and they teach our lessons in class.","We will cover privacy, asking permission, what the law says about filming people, questioning AI answers, and knowing when to get help.","We want to prepare you as this technology develops.","Adults and technology companies have responsibilities here, too."]},
+      {t:"What their feedback will change", a:"A", cue:"Count the three rules on your fingers: ask, say, tell.", lines:["So your feedback will lead the lessons we build with our Planet Friends.","They are five characters, one for each age from four to sixteen, and they teach our lessons in class.","And you asked for three simple rules.","Ask before you film anyone. Say please stop if someone films you. Tell a trusted adult if it does not stop.","Those three are at the heart of the lesson.","We want to prepare you as this technology develops.","Adults and technology companies have responsibilities here, too."]},
       {t:"Promise to show them the result", a:"B", cue:"Point left on \"VotesforSchools\".", lines:["We will share the lesson with VotesforSchools for your schools, free.","Then we will come back and show you exactly how your ideas shaped it."]},
       {t:"Finish with thanks", a:"A", cue:"Look at the camera. Hold the smile two seconds after the last word.", lines:["Thank you.","You know this world better than we do.","Keep telling us, and we will keep listening."]}
     ]
@@ -209,9 +215,9 @@ const SCRIPTS = {
 
 const SHRINK = -6;
 const WORDS = ["one","two","three","four","five","six","seven","eight","nine"];
-let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:3};
-try { const s = JSON.parse(localStorage.getItem("prompter") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
-const save = () => { try { localStorage.setItem("prompter", JSON.stringify(state)); } catch (e) {} };
+let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:2};
+try { const s = JSON.parse(localStorage.getItem("prompter-v2") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
+const save = () => { try { localStorage.setItem("prompter-v2", JSON.stringify(state)); } catch (e) {} };
 const $ = (id) => document.getElementById(id);
 const key = (n) => state.script + ":" + n;
 
@@ -233,7 +239,8 @@ function renderPrompt(){
   const S = SCRIPTS[state.script], p = S.parts[state.i], t = state.takes[key(state.i)] || {};
   $("where").textContent = `Part ${state.i+1} of ${S.parts.length} · Angle ${p.a}`;
   $("cue").textContent = p.cue;
-  $("read").innerHTML = `<p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("") + `<p class="endnote">End of part ${state.i+1}. Tap Next.</p>`;
+  $("read").innerHTML = `<div class="spacer" id="lead"></div><p class="slate">Say: "Part ${WORDS[state.i]}, take ${t.t1 ? "two" : "one"}"</p>` + p.lines.map(l => `<p>${l}</p>`).join("") + `<p class="endnote" id="endnote">End of part ${state.i+1}. Tap Next.</p><div class="spacer" id="tail"></div>`;
+  sizeSpacers();
   document.documentElement.style.setProperty("--size", state.size + "px");
   $("prompt").classList.toggle("mirror", state.mirror);
   $("mirrorBtn").setAttribute("aria-pressed", state.mirror);
@@ -284,6 +291,16 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && !$
 // The prompter scroll. Speed 1 to 9; speed 3 is about 150 words a minute at
 // the default size, a calm talking pace. Tap the words or press space to pause.
 const DOWN = -1;
+// The eye line sits 30 percent down the reading area. Real spacer blocks, not
+// padding, so Safari scrolls the last line all the way up to it.
+const EYE = 0.3;
+function sizeSpacers(){
+  const st = $("stage"), h = st.clientHeight;
+  const lead = $("lead"), tail = $("tail");
+  if (lead) lead.style.height = Math.round(h * EYE) + "px";
+  if (tail) tail.style.height = Math.round(h * 0.75) + "px";
+}
+window.addEventListener("resize", sizeSpacers);
 const PX = [0, 22, 32, 44, 56, 70, 86, 104, 124, 146];
 let running = false, raf = 0, last = 0, counting = 0;
 function setSpeed(v){ state.speed = Math.min(9, Math.max(1, v)); $("speed").textContent = "Speed " + state.speed; save(); }
@@ -291,6 +308,8 @@ function frame(t){
   if (!running) return;
   const st = $("stage"), dt = last ? (t + (-last)) / 1000 : 0; last = t;
   st.scrollTop += PX[state.speed] * (state.size / 56) * dt;
+  const end = $("endnote");
+  if (end && end.offsetTop <= st.scrollTop + st.clientHeight * EYE) { stopScroll(); return; }
   if (st.scrollTop + st.clientHeight + 2 >= st.scrollHeight) { stopScroll(); return; }
   raf = requestAnimationFrame(frame);
 }
