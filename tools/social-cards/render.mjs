@@ -36,7 +36,9 @@ if (!deckPaths.length) {
   process.exit(1)
 }
 
-const browser = await chromium.launch()
+// A project Playwright newer than the cloud's preinstalled browsers cannot
+// find its own build, so fall back to the Chromium the session already has.
+const browser = await chromium.launch().catch(() => chromium.launch({ executablePath: '/opt/pw-browsers/chromium' }))
 const page = await browser.newPage({ deviceScaleFactor: 1 })
 
 for (const deckPath of deckPaths) {
