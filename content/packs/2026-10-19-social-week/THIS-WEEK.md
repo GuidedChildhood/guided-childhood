@@ -3,6 +3,14 @@
 Rendered from `content/packs/2026-10-19-social-week` by `tools/social-cards/week.mjs`.
 Each post: the files to upload, in order, and the words to paste. Facebook gets card one only.
 
+## Links to make first
+
+Each post below prints its own link. On /dashboard/admin/videos, make any code here that is not on that page yet (the exact code box) before the post goes out, so its stage checks are counted. The Instagram bio link is guidedchildhood.com/v/instagram-bio.
+
+- `fb-1021-phone-policy`: Facebook, Wednesday 21 October (Facebook)
+- `fb-1023-scripts`: Facebook, Friday 23 October (Facebook)
+- `fb-1024-happy-news`: Facebook, Saturday 24 October (Facebook)
+
 ## Wednesday 21 October, 19:30
 
 **Where:** Instagram and Facebook  
@@ -42,7 +50,7 @@ Tonight: ask your child what they actually do on their phone on a normal school 
 
 What would you want a school to do alongside a ban?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-1021-phone-policy
 
 **First comment**
 
@@ -99,7 +107,7 @@ The words you have ready are the ones you reach for when you are tired.
 
 What is the sentence you wish you could take back?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-1023-scripts
 
 **First comment**
 
@@ -138,7 +146,7 @@ Screens are not the villain, and they are not harmless either. A survey cannot s
 
 Who does your child talk to online that makes them laugh?
 
-What stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack
+What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-1024-happy-news
 
 **First comment**
 
