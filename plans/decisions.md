@@ -588,3 +588,15 @@ that is not his.
 Gap logged, not fixed: the reels story bank holds 24 stories that
 founder-scenes-used.md cannot see, and vice versa. Same shape as the numbering
 collision. PR 1357.
+
+## 19 October 2026: the ad studio skill, cards A and C first, 381 confirmed live
+
+Justin said yes to a skill for adverts built from competitors' winning ads.
+`.claude/skills/ad-studio`: find the longest running ads in the Meta Ad
+Library, copy their structure and never their message, three to five hook
+variants, the claim gates, an organic test with one link per card, and spend
+only on the winner. Results go in `content/ads/results-log.md`. The library
+blocks cloud sessions, so the skill asks Justin for screenshots or uses a
+linked browser. His pick: first phone cards A and C go first, B is held.
+Migration 381 was already on the live database and matched the file, so
+nothing was applied. PR 1360.

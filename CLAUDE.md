@@ -41,6 +41,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - The weekly scores out of ten, the task list, the session start alert → .claude/skills/review-board (answer the alert's questions with AskUserQuestion first)
 - The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
+- Adverts, "ads like theirs", competitor ads, boosting a post → .claude/skills/ad-studio (copy the structure of their winners, never the message; test free, spend only on the winner; log it in content/ads/results-log.md)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)
 - School features            → schools/01 + docs/09
 - Retention features         → docs/08

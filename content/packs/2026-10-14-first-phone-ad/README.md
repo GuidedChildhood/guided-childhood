@@ -7,6 +7,11 @@ to 16. This ad opens on exactly that and ends at the stage check.
 
 Nothing here has been posted, boosted or scheduled.
 
+**Justin's pick, 19 October 2026: A and C go first,** a few days apart. B is
+held for the next round. Make a link for each on `/dashboard/admin/videos`
+(channel Instagram or Facebook) before posting, so each card's stage checks
+are counted on their own, and log both in `content/ads/results-log.md`.
+
 ## How to run it
 
 **Organic first, paid only once it works.** The money rule
