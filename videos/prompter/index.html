@@ -190,26 +190,29 @@ const SCRIPTS = {
   },
   alma: {
     name: "Inspired by Alma becomes Guided Digital Childhood",
-    meta: "7 parts · about 45 sec · portrait",
+    meta: "10 parts · about 75 sec · portrait, walk and talk",
     orientation: "portrait",
     setup: [
-      "<b>Phone portrait</b> this time, it is an Instagram reel. Eye level on a stack of books, about an arm away.",
-      "<b>Face a window.</b> Light in front of you, never behind.",
-      "<b>Quiet room.</b> Phone on Do Not Disturb.",
-      "<b>This screen</b> goes right behind or just under the phone, so your eyes stay near the lens.",
-      "<b>Frame angle A:</b> head and chest, your eyes about a third down from the top. Keep the bottom fifth clear, Instagram puts the caption there.",
-      "<b>Before each part</b> say the slate on screen, count two, then read.",
-      "<b>Two takes of every part.</b> Say \"keeper\" after the one that felt right.",
-      "<b>When you are done</b>, AirDrop every clip to the Mac. Do not trim them."
+      "<b>Walk and talk on your lane</b>, phone portrait at arm's length or on a small gimbal. Morning light, sun in front of you or to the side, never behind.",
+      "<b>Wind is the enemy.</b> Clip the mic on, with the furry cover if you have one, and turn your back to the wind.",
+      "<b>Read a part on the prompter, then walk and say it in your own words.</b> Rough is fine. This one is meant to feel like a chat, not a speech.",
+      "<b>Angle A</b> is walking towards the camera. <b>Angle B</b> is standing still, a little closer, the view behind you.",
+      "<b>Say the slate</b>, \"Part three, take one\", then count two. \"Keeper\" after the good one.",
+      "<b>Film the extras</b> (the next step) on the same walk, ten seconds each.",
+      "<b>B-roll to film:</b> your boots on the lane, the view opening up, a gate, your hand on the gate, the house from the lane, the kitchen table with a laptop. Plus any old Inspired by Alma photos or clips from your camera roll. No children's faces, no names.",
+      "<b>When you are done</b>, put every clip in My Drive and tell me."
     ],
     parts: [
-      {t:"The hook", a:"A", cue:"Lean back, half smile, like you're talking to a friend.", lines:["If you follow this account for party decorations, give me thirty seconds."]},
-      {t:"Where it started", a:"A", cue:"Relaxed. A little fond.", lines:["Natalia and I started Inspired by Alma in our bedroom.", "Cake toppers, birthdays, glitter everywhere."]},
-      {t:"What the shop taught me", a:"A", cue:"Thoughtful. Slower.", lines:["Running a shop on other people's platforms taught me something. The system decides a lot of what we see.", "And our kids are growing up inside that system now."]},
-      {t:"The news", a:"B", cue:"Closer. Confident. This is the headline.", lines:["So this account is becoming Guided Digital Childhood."]},
-      {t:"What it is", a:"A", cue:"Plain and direct.", lines:["It's not a ban. It's a plan.", "Straight answers for the moments that actually happen at home. The bedtime fight. The first phone. The group chat."]},
-      {t:"The joke", a:"B", cue:"Grin. Let it breathe.", lines:["If you only came for the glitter, fair enough. This bit is a lot less sparkly.", "But it might save you an argument tonight."]},
-      {t:"Close", a:"A", cue:"Look at the lens. Say the last two lines exactly.", lines:["Short films, real help, no lectures.", "What stage is your child?", "Three questions, no sign up."]}
+      {t:"The hook", a:"A", cue:"Walking down your lane, phone at arm's length. Easy smile, like you just bumped into a friend.", lines:["If you followed us for cake toppers, this is a bit of a plot twist.", "Give me a minute and I'll explain."]},
+      {t:"Where it started", a:"A", cue:"Relaxed, fond. Cut in old Inspired by Alma photos here.", lines:["Inspired by Alma started in our bedroom, with a few cake toppers Natalia made for a family birthday.", "People liked them. It grew onto Etsy, Amazon, then a shop on the high street, and a team."]},
+      {t:"What the shop taught me", a:"A", cue:"Slower. A little rueful.", lines:["But it taught me something.", "Ideas got copied. Platforms changed the rules. Someone else's system decided how our business did."]},
+      {t:"The move", a:"B", cue:"Stop walking. Look out at the view, then back to the lens.", lines:["A while ago we moved out to the countryside.", "Most mornings I walk this lane with a podcast in, thinking."]},
+      {t:"The real battle", a:"A", cue:"Honest. Half a laugh on the car line.", lines:["And at home, the daily battle wasn't glitter. It was screens.", "Switching off. What to watch in the car. Every parent knows it."]},
+      {t:"Neither felt right", a:"A", cue:"Thoughtful. Shake your head slightly on \"neither\".", lines:["I read everything. Ban it, or let them get on with it. Neither felt right.", "The same tech that worried me was teaching my kids languages and crafts."]},
+      {t:"What I built", a:"B", cue:"Closer. Confident. This is the headline.", lines:["So I started building the thing I wished we had.", "Guided Digital Childhood. Ten minutes a day, parent and child together, from first tablet to sixteen.", "Not a ban. A plan."]},
+      {t:"What changes here", a:"A", cue:"Warm. Walking again.", lines:["So this account is changing.", "Less glitter. More help with the bit of parenting nobody gave us a manual for."]},
+      {t:"The door", a:"B", cue:"Grin on the first line.", lines:["If you're here for cake toppers, no hard feelings.", "But if you're a parent wrestling with screens, stay. I think you'll like what's coming."]},
+      {t:"Close", a:"A", cue:"Stop. Look at the lens. Say the last two lines exactly.", lines:["Start with one thing.", "What stage is your child?", "Three questions, no sign up."]}
     ]
   }
 };
@@ -217,8 +220,8 @@ const SCRIPTS = {
 const SHRINK = -6;
 const WORDS = ["one","two","three","four","five","six","seven","eight","nine"];
 let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:2};
-try { const s = JSON.parse(localStorage.getItem("prompter-v3") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
-const save = () => { try { localStorage.setItem("prompter-v3", JSON.stringify(state)); } catch (e) {} };
+try { const s = JSON.parse(localStorage.getItem("prompter-v4") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
+const save = () => { try { localStorage.setItem("prompter-v4", JSON.stringify(state)); } catch (e) {} };
 const $ = (id) => document.getElementById(id);
 const key = (n) => state.script + ":" + n;
 
