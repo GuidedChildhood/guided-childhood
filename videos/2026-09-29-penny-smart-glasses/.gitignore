@@ -11,3 +11,8 @@ sample2/snapshots/
 sample3/assets/*.mp4
 sample3/assets/*.m4a
 sample3/snapshots/
+raw2/
+raw3/
+full/assets/*.mp4
+full/assets/*.m4a
+full/snapshots/
