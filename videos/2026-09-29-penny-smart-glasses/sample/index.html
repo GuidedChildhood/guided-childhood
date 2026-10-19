@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Smart glasses reply, sample: cards 2 to 4</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>
+/* Sample of the VotesforSchools reply, cards 2, 3 and 4 (40.8s of Justin).
+   Built to .claude/skills/talking-head-video/motion-standard.md: cream canvas,
+   ink dot grid, crop marks and mono HUD, the age ruler as the progress bar
+   with the star as the playhead, white cards with the 3px ink outline and
+   hard shadow, Nunito 900 statements, butter only for action and marking.
+   Layout: Justin in a framed card on the right, the idea on the left, one
+   caption place under the idea. B-roll is generated, unbranded, and labelled
+   as illustrative footage. */
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#FFFBEE}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#FFFBEE;font-family:nunito,sans-serif;color:#1A1A2E}
+.grid{position:absolute;inset:0;background-image:radial-gradient(rgba(26,26,46,.07) 1.6px,transparent 1.7px);background-size:48px 48px}
+.crop{position:absolute;width:34px;height:34px;border-color:#1A1A2E;border-style:solid;opacity:.55}
+.crop.tl{left:36px;top:36px;border-width:3px 0 0 3px}.crop.tr{right:36px;top:36px;border-width:3px 3px 0 0}
+.crop.bl{left:36px;bottom:36px;border-width:0 0 3px 3px}.crop.br{right:36px;bottom:36px;border-width:0 3px 3px 0}
+.hud{position:absolute;top:44px;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:#52526A}
+.hud.l{left:96px}.hud.r{right:96px}
+.ruler{position:absolute;left:96px;right:96px;bottom:48px;height:30px}
+.ruler .line{position:absolute;left:0;right:0;top:14px;border-top:3px solid #1A1A2E;opacity:.25}
+.ruler .fill{position:absolute;left:0;top:13px;height:5px;width:0;background:#EDC35F;border-radius:3px}
+.ruler .age{position:absolute;top:-14px;font-family:plexMono,monospace;font-weight:600;font-size:14px;color:#52526A;transform:translateX(-50%)}
+.ruler .tick{position:absolute;top:8px;width:3px;height:15px;background:#1A1A2E;opacity:.35;transform:translateX(-50%)}
+.ruler .star{position:absolute;top:-4px;left:0;width:38px;height:38px;transform:translateX(-50%)}
+/* Justin */
+.me{position:absolute;left:1112px;top:110px;width:704px;height:880px;border:3px solid #1A1A2E;border-radius:28px;box-shadow:9px 9px 0 #1A1A2E;overflow:hidden;background:#ddd}
+.me video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* left column */
+.col{position:absolute;left:96px;top:150px;width:930px;height:640px}
+.eyebrow{position:absolute;left:96px;top:118px;font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;color:#C99A28;opacity:0}
+.card{position:absolute;background:#fff;border:3px solid #1A1A2E;border-radius:24px;box-shadow:7px 7px 0 #1A1A2E;padding:26px 34px;opacity:0}
+.card .k{font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#52526A;margin-bottom:8px}
+.card .v{font-weight:900;font-size:54px;line-height:1.05;letter-spacing:-.01em}
+.big{position:absolute;left:0;right:0;font-weight:900;font-size:86px;line-height:1.04;letter-spacing:-.015em;opacity:0}
+.mark{position:relative;display:inline-block;z-index:0;isolation:isolate}
+.mark::after{content:"";position:absolute;left:-6px;right:-6px;bottom:6px;height:26px;background:#EDC35F;z-index:-1;transform-origin:left center;transform:scaleX(var(--m,0))}
+.broll{position:absolute;left:0;top:30px;width:930px;height:523px;border:3px solid #1A1A2E;border-radius:24px;box-shadow:7px 7px 0 #1A1A2E;overflow:hidden;opacity:0;background:#000}
+.broll video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;left:18px;top:16px;font-family:plexMono,monospace;font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#FFFBEE;background:rgba(26,26,46,.72);padding:6px 10px;border-radius:8px}
+.label{position:absolute;left:0;top:580px;font-family:plexMono,monospace;font-weight:600;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:#1A1A2E;background:#EDC35F;border:3px solid #1A1A2E;border-radius:12px;padding:10px 16px;box-shadow:4px 4px 0 #1A1A2E;opacity:0}
+.bar{position:absolute;left:0;top:250px;width:860px;height:56px;border:3px solid #1A1A2E;border-radius:999px;background:#fff;overflow:hidden;opacity:0}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:#EDC35F}
+.barlbl{position:absolute;left:0;top:180px;font-weight:900;font-size:56px;opacity:0}
+.barend{position:absolute;left:0;top:340px;font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.18em;color:#52526A;opacity:0}
+.cursor{display:inline-block;width:.5em;height:.9em;background:#1A1A2E;vertical-align:-.08em;margin-left:6px}
+.todo{position:absolute;left:0;top:200px;width:560px;opacity:0}
+.todo .row{display:flex;align-items:center;gap:18px;font-weight:800;font-size:44px;padding:14px 0;border-bottom:2px dashed rgba(26,26,46,.2)}
+.todo .box{width:46px;height:46px;border:3px solid #1A1A2E;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff}
+.todo .box b{color:#1A1A2E;font-size:32px;opacity:0}
+.bubble{position:absolute;left:0;top:40px;background:#F0F9FF;border:3px solid #1A1A2E;border-radius:22px 22px 22px 6px;box-shadow:5px 5px 0 #1A1A2E;padding:20px 28px;font-weight:700;font-size:38px;opacity:0}
+.ear{position:absolute;left:0;top:60px;opacity:0}
+/* captions */
+.caps{position:absolute;left:96px;top:830px;width:930px;height:130px}
+.cap{position:absolute;left:0;top:0;width:930px;font-weight:800;font-size:48px;line-height:1.2;color:#1A1A2E;opacity:0}
+.streak{position:absolute;top:0;bottom:0;width:520px;left:0;background:#EDC35F;filter:blur(18px);opacity:.9;transform:translateX(-140%);z-index:9}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="40.8" data-width="1920" data-height="1080">
+  <div class="grid"></div>
+  <div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div>
+  <div class="hud l">Guided Childhood · VotesforSchools reply</div>
+  <div class="hud r">Smart glasses</div>
+  <div class="ruler">
+    <div class="line"></div><div class="fill" id="rfill"></div>
+    <div class="tick" style="left:0%"></div><div class="age" style="left:0%">4</div>
+    <div class="tick" style="left:25%"></div><div class="age" style="left:25%">7</div>
+    <div class="tick" style="left:50%"></div><div class="age" style="left:50%">10</div>
+    <div class="tick" style="left:66%"></div><div class="age" style="left:66%">12</div>
+    <div class="tick" style="left:91%"></div><div class="age" style="left:91%">15</div>
+    <div class="tick" style="left:100%"></div><div class="age" style="left:100%">16</div>
+    <svg class="star" id="rstar" viewBox="0 0 40 40"><path d="M20 3l5.1 10.6 11.6 1.6-8.5 8.1 2.1 11.5L20 29.3 9.7 34.8l2.1-11.5-8.5-8.1 11.6-1.6z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="me" id="me"><video id="vt" class="clip" src="assets/talking.mp4" muted playsinline data-start="0" data-duration="40.8" data-media-start="0" data-track-index="1"></video></div>
+  <audio id="voice" src="assets/voice.m4a" data-start="0" data-duration="40.8" data-track-index="4" data-volume="1"></audio>
+
+  <div class="eyebrow" id="ch1">01 · What you raised</div>
+  <div class="eyebrow" id="ch2">02 · The good</div>
+  <div class="eyebrow" id="ch3">03 · What is coming</div>
+
+  <div class="col">
+    <!-- card 2 -->
+    <div class="card" id="poss" style="left:0;top:90px;width:430px"><div class="k">You raised</div><div class="v">Possibilities</div></div>
+    <div class="card" id="conc" style="left:470px;top:150px;width:430px"><div class="k">And</div><div class="v">Concerns</div></div>
+    <div class="broll" id="br1"><video id="vb1" class="clip" src="assets/b1-filmed.mp4" muted playsinline data-start="5.1" data-duration="5.9" data-media-start="0.6" data-track-index="2"></video><div class="tag">Illustrative footage</div></div>
+    <div class="broll" id="br2"><video id="vb2" class="clip" src="assets/b2-cover-light.mp4" muted playsinline data-start="11.0" data-duration="4.3" data-media-start="0.2" data-track-index="3"></video><div class="tag">Illustrative footage</div></div>
+    <div class="label" id="lbl2">Summer 2026 · cover the light, recording stops</div>
+    <div class="barlbl" id="barlbl">A start.</div>
+    <div class="bar" id="bar"><i id="barfill"></i></div>
+    <div class="barend" id="barend">NOT THE FINISH</div>
+    <div class="big" id="perm" style="top:150px">A light is not<br><span class="mark" id="permmark">permission.</span></div>
+    <!-- card 3 -->
+    <div class="big" id="good" style="top:150px">There is<br><span class="mark" id="goodmark">real good</span> here.</div>
+    <div class="broll" id="br3"><video id="vb3" class="clip" src="assets/b3-read-aloud.mp4" muted playsinline data-start="23.9" data-duration="3.4" data-media-start="0.8" data-track-index="2"></video><div class="tag">Illustrative footage</div></div>
+    <div class="label" id="lbl3">Glasses can read text aloud</div>
+    <div class="ear" id="ear">
+      <svg width="900" height="420" viewBox="0 0 900 420">
+        <path id="earpath" d="M120 300c-40 0-70-34-70-90 0-80 56-140 130-140 70 0 120 52 120 120 0 50-28 74-52 96-20 18-26 34-26 56 0 30-22 52-52 52" fill="none" stroke="#1A1A2E" stroke-width="9" stroke-linecap="round"/>
+        <path class="wave" d="M330 150c26 30 26 90 0 120" fill="none" stroke="#C99A28" stroke-width="9" stroke-linecap="round"/>
+        <path class="wave" d="M370 115c44 50 44 140 0 190" fill="none" stroke="#C99A28" stroke-width="9" stroke-linecap="round"/>
+        <path class="wave" d="M410 80c62 70 62 190 0 260" fill="none" stroke="#C99A28" stroke-width="9" stroke-linecap="round"/>
+        <text x="520" y="185" font-family="nunito" font-weight="900" font-size="64" fill="#1A1A2E">Hearing</text>
+        <text x="520" y="255" font-family="nunito" font-weight="900" font-size="64" fill="#1A1A2E">support</text>
+      </svg>
+      <div style="position:absolute;left:520px;top:300px;font-family:plexMono,monospace;font-weight:600;font-size:22px;letter-spacing:.14em;text-transform:uppercase"><span class="mark" id="adultsmark">for some adults</span></div>
+    </div>
+    <!-- card 4 -->
+    <div class="big" id="quick" style="top:150px">Moving<br><span class="mark" id="quickmark">quickly.</span></div>
+    <div id="muse" style="position:absolute;left:0;top:120px;opacity:0">
+      <div style="font-family:plexMono,monospace;font-weight:600;font-size:20px;letter-spacing:.2em;color:#52526A">AN AI AGENT ON GLASSES</div>
+      <div style="font-weight:900;font-size:200px;line-height:1;letter-spacing:-.02em;margin-top:10px"><span id="museword"><span class="ml">M</span><span class="ml">u</span><span class="ml">s</span><span class="ml">e</span></span><span class="cursor" id="cur"></span></div>
+      <div id="musewhen" style="font-weight:800;font-size:44px;margin-top:18px;opacity:0">in the next few months</div>
+    </div>
+    <div class="bubble" id="bubble">Can you sort this for me?</div>
+    <div class="todo" id="todo">
+      <div class="row"><span class="box"><b id="t1">✓</b></span>Book</div>
+      <div class="row"><span class="box"><b id="t2">✓</b></span>Find</div>
+      <div class="row"><span class="box"><b id="t3">✓</b></span>Buy</div>
+    </div>
+  </div>
+
+  <div class="caps" id="caps"></div>
+  <div class="streak" id="s1"></div><div class="streak" id="s2"></div>
+</div>
+<script>
+// Captions anchored to Justin's words (whisper word onsets, composition time).
+var CAPS = [
+  [0.2,1.9,"You highlighted both the possibilities"],[2.2,3.3,"and the concerns."],
+  [3.8,5.2,"Especially what happens"],[5.3,7.1,"when someone is filmed without knowing."],
+  [7.4,9.0,"And when enough people speak up,"],[9.1,10.6,"companies do change things."],
+  [11.1,13.2,"This summer Meta made its glasses stop recording"],[13.2,15.0,"if someone covers the light."],
+  [15.6,17.4,"This is a start, not the finish."],[17.7,19.2,"A light is not permission."],[19.4,20.6,"It needs to go much further."],
+  [20.8,22.2,"Without losing the good,"],[22.3,23.8,"because there is real good here."],
+  [24.0,25.3,"Glasses can read text aloud"],[25.3,26.9,"for people with sight loss."],
+  [27.1,28.7,"Meta's also announced hearing support"],[28.7,30.5,"for some adults with hearing loss."],
+  [30.8,32.4,"And things are moving very quickly."],[32.6,35.1,"Meta plans to bring its new AI agent,"],
+  [35.1,37.4,"Muse, to glasses in the next few months."],[37.6,39.6,"This is technology you can speak to"],[39.6,40.8,"and ask to carry out tasks."]
+];
+var caps = document.getElementById("caps");
+CAPS.forEach(function(c,i){ var d=document.createElement("div"); d.className="cap"; d.id="cap"+i; d.textContent=c[2]; caps.appendChild(d); });
+
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+var F = function(x){ return Math.round(x*60)/60; };
+var IN = function(sel,at,d){ tl.fromTo(sel,{opacity:0,y:40,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:d||0.6,ease:"power2.out"},F(at)); };
+var OUT = function(sel,at){ tl.to(sel,{opacity:0,y:-60,filter:"blur(14px)",duration:0.33,ease:"power2.in"},F(at)); };
+var MARK = function(sel,at){ tl.fromTo(sel,{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},F(at)); };
+
+// HUD: the star walks the age ruler as the film plays (4 to 16, the whole product in one line)
+tl.fromTo("#rstar",{left:"0%"},{left:"100%",duration:40.8,ease:"none"},0);
+tl.fromTo("#rfill",{width:"0%"},{width:"100%",duration:40.8,ease:"none"},0);
+// Justin's card lands first, then holds; the seam out is the end of the film
+tl.fromTo("#me",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"power2.out"},0);
+
+// captions: each in on its onset, out when the next arrives
+CAPS.forEach(function(c,i){
+  tl.fromTo("#cap"+i,{opacity:0,y:12},{opacity:1,y:0,duration:0.22,ease:"power2.out"},F(c[0]));
+  tl.to("#cap"+i,{opacity:0,duration:0.15,ease:"power2.in"},F(c[1]));
+});
+
+// ---- card 2: what you raised ----
+tl.fromTo("#ch1",{opacity:0,x:-20},{opacity:1,x:0,duration:0.5,ease:"power2.out"},0.1);
+// possibilities tilts in from the left; its exit matches the b-roll rising into the same space
+tl.fromTo("#poss",{opacity:0,x:-120,rotation:-6},{opacity:1,x:0,rotation:-3,duration:0.6,ease:"power2.out"},F(1.2));
+tl.fromTo("#conc",{opacity:0,x:120,rotation:6},{opacity:1,x:0,rotation:2,duration:0.6,ease:"power2.out"},F(2.4));
+tl.to("#conc",{scale:1.1,duration:0.5,ease:"power2.out"},F(3.2));
+tl.to("#poss",{opacity:0.35,duration:0.5,ease:"power2.out"},F(3.2));
+OUT("#poss, #conc",4.8);
+// b-roll 1: filmed without knowing, rises from below as the cards leave upwards
+IN("#br1",5.1,0.7);
+OUT("#br1",10.7);
+IN("#br2",11.0,0.6);
+IN("#lbl2",12.4,0.5);
+OUT("#br2, #lbl2",15.0);
+// a start, not the finish: the bar fills a third and stops
+IN("#barlbl",15.4,0.5); IN("#bar",15.5,0.5);
+tl.fromTo("#barfill",{width:"0%"},{width:"33%",duration:0.9,ease:"power2.out"},F(15.9));
+tl.fromTo("#barend",{opacity:0},{opacity:1,duration:0.4,ease:"power2.out"},F(16.6));
+OUT("#barlbl, #bar, #barend",17.4);
+IN("#perm",17.6,0.6); MARK("#permmark",18.3);
+OUT("#perm",20.3);
+
+// chapter seam: butter streak whips across at the cut
+tl.fromTo("#s1",{x:-700},{x:2400,duration:0.35,ease:"power3.in"},F(20.4));
+tl.to("#ch1",{opacity:0,duration:0.2,ease:"power2.in"},F(20.5));
+
+// ---- card 3: the good ----
+tl.fromTo("#ch2",{opacity:0,x:-20},{opacity:1,x:0,duration:0.5,ease:"power2.out"},F(20.7));
+IN("#good",20.9,0.6); MARK("#goodmark",22.5);
+OUT("#good",23.6);
+IN("#br3",23.9,0.6); IN("#lbl3",24.4,0.5);
+OUT("#br3, #lbl3",27.2);
+IN("#ear",27.3,0.6);
+tl.fromTo("#ear .wave",{opacity:0,scale:0.6,transformOrigin:"0% 50%"},{opacity:1,scale:1,duration:0.4,ease:"power2.out",stagger:0.18},F(27.8));
+MARK("#adultsmark",28.9);
+OUT("#ear",30.4);
+
+tl.fromTo("#s2",{x:-700},{x:2400,duration:0.35,ease:"power3.in"},F(30.5));
+tl.to("#ch2",{opacity:0,duration:0.2,ease:"power2.in"},F(30.6));
+
+// ---- card 4: what is coming ----
+tl.fromTo("#ch3",{opacity:0,x:-20},{opacity:1,x:0,duration:0.5,ease:"power2.out"},F(30.8));
+IN("#quick",30.9,0.5); MARK("#quickmark",31.7);
+OUT("#quick",32.6);
+IN("#muse",32.8,0.5);
+// Muse types on with a block cursor as he says it (seek safe: letters fade, no callbacks)
+tl.set("#museword .ml",{opacity:0},F(32.8));
+tl.to("#museword .ml",{opacity:1,duration:0.01,ease:"none",stagger:0.12},F(35.2));
+tl.fromTo("#musewhen",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power2.out"},F(35.9));
+OUT("#muse",37.4);
+// speak to it, it carries out tasks: the bubble becomes the list
+IN("#bubble",37.6,0.5);
+IN("#todo",38.6,0.5);
+tl.fromTo("#t1",{opacity:0,scale:0.4},{opacity:1,scale:1,duration:0.25,ease:"power2.out"},F(39.7));
+tl.fromTo("#t2",{opacity:0,scale:0.4},{opacity:1,scale:1,duration:0.25,ease:"power2.out"},F(40.1));
+tl.fromTo("#t3",{opacity:0,scale:0.4},{opacity:1,scale:1,duration:0.25,ease:"power2.out"},F(40.5));
+tl.to({}, {duration:40.8}, 0);
+</script>
+</body>
+</html>
