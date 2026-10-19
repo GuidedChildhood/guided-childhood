@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Guided Childhood ad cards</title>
+<!--
+  The ad card, for .claude/skills/ad-studio. A deck with "template": "ad"
+  renders here instead of template.html, at "scale": 2 by default, so a
+  1080 by 1350 card comes out at 2160 by 2700 and stays sharp on a phone.
+
+  What the competitors' winning ads share, and this card copies: a real phone
+  with the real app in it, depth, and one line of the screen pulled out large
+  so it reads at thumbnail size. Everything on the screen is a real capture
+  (content/ads/screens, from the ref fixtures and the live stage check). A
+  callout is a crop of that same capture, never redrawn, so nothing here can
+  show a screen the product does not have.
+
+  Card fields:
+    layout     "right" (words left, phone right) or "center"
+    ground     "cream" (default) or "butter"
+    eyebrow, headline (<mark> for the gold underline), sub, pill
+    phone      { image, tilt, bar }   the screen, a path from the repo root;
+                                      bar is the screen's own top colour, so
+                                      the status bar runs into it
+    h          headline size in px, when a line wraps badly
+    back       { image, tilt }        optional second phone behind
+    callouts   [{ image, crop:[x,y,w,h], zoom, left, top, tilt, label }]
+               crop is in the screen's own 390 wide points
+-->
+<style>
+@font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;src:url('../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;src:url('../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;src:url('../../app/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');}
+
+:root{
+  /* shared/tokens.css. Never invent a colour. */
+  --cream:#F9F8F6; --white:#FFFFFF;
+  --ink:#1A1A2E; --ink-soft:#52526A;
+  --gold:#EDC35F; --gold-dark:#C99A28; --gold-lt:#FEF7E0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#8a8a8a;font-family:'Nunito',sans-serif;color:var(--ink);}
+#sheet{display:flex;flex-wrap:wrap;gap:40px;padding:40px;}
+
+.ad{position:relative;overflow:hidden;width:1080px;height:1350px;background:var(--cream);}
+.ad.butter{background:var(--gold);}
+
+/* light behind the phone, so it sits in the card rather than on it */
+.glow{position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(254,247,224,1),rgba(254,247,224,0));}
+.butter .glow{background:radial-gradient(closest-side,rgba(254,247,224,.75),rgba(254,247,224,0));}
+
+/* the gold pathway, quiet, behind everything */
+svg.path{position:absolute;inset:0;pointer-events:none;}
+
+.words{position:absolute;z-index:5;}
+.eyebrow{display:flex;align-items:center;gap:14px;font-family:'IBM Plex Mono',monospace;font-weight:700;
+  font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);}
+.eyebrow i{width:14px;height:14px;border-radius:50%;background:var(--gold-dark);}
+.butter .eyebrow{color:var(--ink);} .butter .eyebrow i{background:var(--ink);}
+h1{font-weight:900;font-size:var(--h,78px);line-height:1.02;letter-spacing:-.025em;margin-top:28px;}
+.center h1{font-size:var(--h,76px);}
+mark{background:none;color:inherit;position:relative;z-index:0;white-space:nowrap;}
+mark::after{content:'';position:absolute;left:-4px;right:-6px;bottom:2px;height:18px;border-radius:9px;
+  background:var(--gold);box-shadow:0 5px 0 var(--gold-dark);z-index:-1;}
+.butter mark::after{background:var(--white);box-shadow:0 5px 0 var(--gold-dark);}
+.sub{font-weight:600;font-size:31px;line-height:1.3;color:var(--ink-soft);margin-top:26px;}
+.butter .sub{color:var(--ink);}
+.pill{display:inline-flex;align-items:center;gap:12px;margin-top:40px;background:var(--gold);color:var(--ink);
+  box-shadow:0 6px 0 var(--gold-dark);border-radius:20px;padding:22px 30px;font-weight:900;font-size:29px;white-space:nowrap;}
+.butter .pill{background:var(--ink);color:var(--white);box-shadow:0 6px 0 #000;}
+.small{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:19px;letter-spacing:.08em;color:var(--ink-soft);margin-top:20px;}
+.butter .small{color:var(--ink);}
+
+/* the phone: a real device shape, the real screen inside */
+.phone{position:absolute;z-index:3;border-radius:78px;padding:15px;
+  background:linear-gradient(150deg,#4A4A63 0%,#1A1A2E 22%,#121222 70%,#2E2E44 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.10),
+    inset 0 0 0 6px #0B0B16,
+    0 70px 120px rgba(26,26,46,.30),
+    0 24px 44px rgba(26,26,46,.20);}
+.phone .screen{position:relative;border-radius:64px;overflow:hidden;background:#fff;}
+.phone .screen img{display:block;width:100%;}
+.phone .bar{display:flex;align-items:center;justify-content:space-between;height:58px;padding:6px 40px 0 46px;
+  font-weight:800;font-size:20px;letter-spacing:-.01em;}
+.phone .bar .bat{position:relative;width:30px;height:15px;border-radius:5px;border:2px solid currentColor;opacity:.9;}
+.phone .bar .bat::after{content:'';position:absolute;left:2px;top:2px;bottom:2px;width:70%;border-radius:2px;background:currentColor;}
+.phone .bar .sig{display:flex;align-items:flex-end;gap:3px;margin-right:12px;}
+.phone .bar .sig b{display:block;width:4px;border-radius:1px;background:currentColor;}
+.phone .island{position:absolute;z-index:2;top:14px;left:50%;transform:translateX(-50%);
+  width:31%;height:38px;border-radius:20px;background:#05050B;}
+.phone .sheen{position:absolute;inset:0;z-index:2;border-radius:64px;pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 34%);}
+.phone.back{z-index:2;filter:saturate(.92);}
+
+/* a line of the real screen, lifted out large */
+.callout{position:absolute;z-index:6;border-radius:30px;background-color:#fff;background-repeat:no-repeat;
+  box-shadow:0 40px 80px rgba(26,26,46,.26),0 10px 22px rgba(26,26,46,.14),0 0 0 1px rgba(26,26,46,.05);}
+.callout .label{position:absolute;left:6px;top:-44px;font-family:'IBM Plex Mono',monospace;font-weight:700;
+  font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;}
+.butter .callout .label{color:var(--ink);}
+
+.foot{position:absolute;z-index:7;display:flex;align-items:center;gap:16px;}
+.mark{width:50px;height:50px;border-radius:14px;background:var(--gold);box-shadow:0 4px 0 var(--gold-dark);
+  display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:0 10px 12px;}
+.butter .mark{background:var(--white);}
+.mark b{display:block;width:5px;border-radius:3px;background:#fff;}
+.butter .mark b{background:var(--gold-dark);}
+.word{font-weight:800;font-size:30px;letter-spacing:-.01em;}
+.foot.on-white{background:rgba(255,255,255,.92);padding:12px 22px 12px 14px;border-radius:20px;
+  box-shadow:0 10px 30px rgba(26,26,46,.12);}
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script>
+const ROOT = '../../';
+const W = 1080, H = 1350;
+const MARK = `<div class="mark"><b style="height:10px"></b><b style="height:17px"></b><b style="height:25px"></b><b style="height:15px"></b></div>`;
+
+function phoneHTML(p, x, y, w, cls){
+  return `<div class="phone ${cls || ''}" style="left:${x}px;top:${y}px;width:${w}px;transform:rotate(${p.tilt || 0}deg)">
+    <div class="screen"><div class="bar" style="background:${p.bar || '#F9F8F6'};color:${p.barInk || '#1A1A2E'}">
+      <span>9:41</span><span style="display:flex;align-items:center"><span class="sig"><b style="height:6px"></b><b style="height:9px"></b><b style="height:12px"></b><b style="height:15px"></b></span><span class="bat"></span></span></div>
+      <img src="${ROOT + p.image}"><div class="island"></div><div class="sheen"></div></div>
+  </div>`;
+}
+
+/* crop is in the screen's 390 point space; zoom scales it up for the card */
+function calloutHTML(c){
+  const [x, y, w, h] = c.crop, z = c.zoom || 1.3;
+  return `<div class="callout" style="left:${c.left}px;top:${c.top}px;width:${w * z}px;height:${h * z}px;
+    background-image:url('${ROOT + c.image}');background-size:${390 * z}px auto;
+    background-position:${-x * z}px ${-y * z}px;transform:rotate(${c.tilt || 0}deg)">
+    ${c.label ? `<div class="label">${c.label}</div>` : ''}</div>`;
+}
+
+function pathSVG(y, colour){
+  return `<svg class="path" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <path d="M-40 ${y} C ${W * .3} ${y - 90}, ${W * .6} ${y + 90}, ${W + 40} ${y - 30}" fill="none" stroke="${colour}" stroke-width="44" stroke-linecap="round" opacity=".55"/>
+    <path d="M-40 ${y} C ${W * .3} ${y - 90}, ${W * .6} ${y + 90}, ${W + 40} ${y - 30}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="2 22" stroke-linecap="round" opacity=".8"/>
+  </svg>`;
+}
+
+function adHTML(c, deck){
+  const ground = c.ground || deck.ground || 'cream';
+  const layout = c.layout || 'right';
+  const pathColour = ground === 'butter' ? '#FEF7E0' : '#EDC35F';
+  const pill = c.pill ? `<div class="pill">${c.pill}</div>` : '';
+  const small = c.small ? `<div class="small">${c.small}</div>` : '';
+  const words = (style, align) => `<div class="words" style="${style};text-align:${align}">
+      <div class="eyebrow" style="justify-content:${align === 'center' ? 'center' : 'flex-start'}"><i></i>${c.eyebrow || ''}</div>
+      <h1>${c.headline}</h1>
+      ${c.sub ? `<div class="sub">${c.sub}</div>` : ''}
+      ${pill}${small}
+    </div>`;
+
+  let body = '';
+  if (layout === 'center') {
+    const pw = c.phoneWidth || 500, px = (W - pw) / 2, py = c.phoneTop || 640;
+    body = `<div class="glow" style="left:${W / 2 - 520}px;top:${py - 120}px;width:1040px;height:1040px"></div>
+      ${pathSVG(py + 260, pathColour)}
+      <div class="foot" style="left:50%;transform:translateX(-50%);top:60px">${MARK}<div class="word">Guided Childhood</div></div>
+      ${words('left:70px;right:70px;top:150px', 'center')}
+      ${c.back ? phoneHTML(c.back, px + 250, py + 70, pw * .9, 'back') : ''}
+      ${phoneHTML(c.phone, px, py, pw)}`;
+  } else {
+    const pw = c.phoneWidth || 450, px = c.phoneLeft || 590, py = c.phoneTop || 230;
+    body = `<div class="glow" style="left:${px - 260}px;top:${py - 80}px;width:1000px;height:1000px"></div>
+      ${pathSVG(1080, pathColour)}
+      ${words('left:80px;top:84px;width:' + (c.wordsWidth || 480) + 'px', 'left')}
+      ${c.back ? phoneHTML(c.back, px + 170, py + 120, pw * .9, 'back') : ''}
+      ${phoneHTML(c.phone, px, py, pw)}
+      <div class="foot" style="left:80px;bottom:72px">${MARK}<div class="word">Guided Childhood</div></div>`;
+  }
+  return `<div class="ad ${ground} ${layout}" style="${c.h ? '--h:' + c.h + 'px' : ''}" data-name="${c.name}">${body}${(c.callouts || []).map(calloutHTML).join('')}</div>`;
+}
+
+async function renderDeck(deck){
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = deck.cards.map(c => adHTML(c, deck)).join('');
+  await Promise.all([...sheet.querySelectorAll('img')].map(img => img.complete ? 0 : new Promise(r => { img.onload = img.onerror = r; })));
+}
+window.renderDeck = renderDeck;
+</script>
+</body>
+</html>

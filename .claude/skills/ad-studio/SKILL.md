@@ -103,10 +103,21 @@ Every variant:
 
 Make them with the tools we already have:
 
-- **Still cards:** a deck in `tools/social-cards/decks/<round>.json`, rendered
-  with `npm run social-cards -- tools/social-cards/decks/<round>.json`. The
-  first round (`first-phone-ad.json`) is the model: card type `cta`, one
-  friend, one gold mark.
+- **Phone ads, the default:** a deck with `"template": "ad"` in
+  `tools/social-cards/decks/<round>.json`, rendered with
+  `npm run social-cards -- tools/social-cards/decks/<round>.json`. It draws a
+  real device with a real screen in it, at 2160 by 2700, with one line of the
+  screen lifted out large as a callout. This is the quality bar Justin set on
+  19 October, matching the competitor ads. `ad-round-phone.json` is the model;
+  the fields are documented at the top of `ad-template.html`.
+- **Real screens for them:** `content/ads/screens/`. For a new one, capture a
+  ref fixture or the live stage check at 390 wide and three times the pixels
+  (`deviceScaleFactor: 3`), never a signed in family. A callout is a crop of
+  the same capture, never redrawn. Set the phone's `bar` to the screen's top
+  colour so the status bar runs into it.
+- **Flat cards:** the original template (card type `cta`, one friend, one gold
+  mark, `first-phone-ad.json`) is for organic posts and carousels. Use it for
+  an ad only when the idea has no screen to show.
 - **Video:** `.claude/skills/silent-ugc` (text hook over a real shot) or
   `.claude/skills/product-shorts` (the real app, problem to solution). Both
   keep their own rules; this skill only supplies the angle and the hooks.

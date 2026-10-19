@@ -23,6 +23,7 @@ const require = createRequire(import.meta.url)
 let chromium
 try { ({ chromium } = require('playwright')) } catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')) }
 const TEMPLATE = pathToFileURL(join(HERE, 'template.html')).href
+const AD_TEMPLATE = pathToFileURL(join(HERE, 'ad-template.html')).href
 
 const args = process.argv.slice(2)
 const deckPaths = args.length
@@ -39,7 +40,6 @@ if (!deckPaths.length) {
 // A project Playwright newer than the cloud's preinstalled browsers cannot
 // find its own build, so fall back to the Chromium the session already has.
 const browser = await chromium.launch().catch(() => chromium.launch({ executablePath: '/opt/pw-browsers/chromium' }))
-const page = await browser.newPage({ deviceScaleFactor: 1 })
 
 for (const deckPath of deckPaths) {
   const deck = JSON.parse(readFileSync(deckPath, 'utf8'))
@@ -47,12 +47,16 @@ for (const deckPath of deckPaths) {
   const outDir = join(HERE, 'out', name)
   mkdirSync(outDir, { recursive: true })
 
-  await page.goto(TEMPLATE)
+  // "template": "ad" is the ad studio's phone card (ad-template.html), drawn
+  // at twice the size by default so a real screen inside it stays sharp.
+  const isAd = deck.template === 'ad'
+  const page = await browser.newPage({ deviceScaleFactor: deck.scale || (isAd ? 2 : 1) })
+  await page.goto(isAd ? AD_TEMPLATE : TEMPLATE)
   await page.evaluate((d) => window.renderDeck(d), deck)
   // Fonts must be ready or the first card renders in a fallback face.
   await page.evaluate(() => document.fonts.ready)
 
-  const cards = await page.locator('.card').all()
+  const cards = await page.locator(isAd ? '.ad' : '.card').all()
   for (let i = 0; i < cards.length; i++) {
     const cardName = await cards[i].getAttribute('data-name')
     const file = join(outDir, `${String(i + 1).padStart(2, '0')}-${cardName}.png`)
@@ -60,6 +64,7 @@ for (const deckPath of deckPaths) {
     console.log(`  ${file.replace(HERE + '/', '')}`)
   }
   console.log(`${name}: ${cards.length} cards`)
+  await page.close()
 }
 
 await browser.close()
