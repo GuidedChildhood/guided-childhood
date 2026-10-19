@@ -195,9 +195,22 @@ Reply with ONLY valid JSON in this shape:
 {"wisdom":[{"topic":"short name","age_band":"4-7|8-10|11-13|13-15|16+|null","what_works":"one or two sentences, the pattern and why it helps","evidence_count":number}]}
 evidence_count is roughly how many signals point to this pattern.`
 
-  const text = await callModel(prompt)
-  const match = text.match(/\{[\s\S]*\}/)
-  const parsed = match ? (JSON.parse(match[0]) as { wisdom?: WisdomRow[] }) : { wisdom: [] }
+  // One bad reply used to kill the whole Sunday run: on 18 October the model
+  // sent a stray character mid array, JSON.parse threw, and the week's wisdom
+  // was never rebuilt. Ask once more before giving up, and let a final failure
+  // throw so the heartbeat still shows it rather than reading as an empty week.
+  let parsed: { wisdom?: WisdomRow[] } = { wisdom: [] }
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const text = await callModel(prompt)
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) break
+    try {
+      parsed = JSON.parse(match[0]) as { wisdom?: WisdomRow[] }
+      break
+    } catch (err) {
+      if (attempt === 1) throw err
+    }
+  }
   const validBands = new Set(['4-7', '8-10', '11-13', '13-15', '16+'])
   const rows: WisdomRow[] = (parsed.wisdom ?? [])
     .filter(w => w && w.topic && w.what_works)
