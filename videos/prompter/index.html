@@ -163,7 +163,12 @@ const SCRIPTS = {
     setup: [
       "<b>Phone landscape</b>, at eye level on a stack of books. The lens level with your eyes, about an arm and a half away.",
       "<b>Face a window.</b> Light in front of you, never behind. Turn the big ceiling light off if it makes shadows under your eyes.",
-      "<b>Quiet room.</b> Phone on Do Not Disturb. Close the door, turn off anything humming.",
+      "<b>Quiet room.</b> Phone on Do Not Disturb. Close the door, turn off anything humming. <b>Check the mic light</b> before every card.",
+      "<b>Sit, back against a chair that does not swivel</b>, forearms on the table. Hands do the emphasis, your head stays still.",
+      "<b>Prompter right under the lens.</b> Move the phone back a little and zoom in a touch, so your eyes barely travel.",
+      "<b>Speed 2 and pause at every full stop.</b> Pauses are cut in the edit, so slow costs nothing.",
+      "<b>Smile before you start</b> the thank you, the joke and the promise. Say it to one pupil, not to a hall.",
+      "<b>Say the names exactly:</b> VotesforSchools, one word, and Guided Digital Childhood.",
       "<b>This screen</b> goes right behind or just under the phone, so your eyes stay near the lens while you read.",
       "<b>Frame angle A:</b> chest up, your eyes about a third down from the top, a little space above your head.",
       "<b>Before each part</b> say the slate on screen, for example \"Part three, take one\", count two in your head, then read.",
@@ -210,7 +215,7 @@ const SCRIPTS = {
 
 const SHRINK = -6;
 const WORDS = ["one","two","three","four","five","six","seven","eight","nine"];
-let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:3};
+let state = {script:"votes", i:0, size:56, mirror:false, takes:{}, speed:2};
 try { const s = JSON.parse(localStorage.getItem("prompter") || "null"); if (s && SCRIPTS[s.script]) state = Object.assign(state, s); } catch (e) {}
 const save = () => { try { localStorage.setItem("prompter", JSON.stringify(state)); } catch (e) {} };
 const $ = (id) => document.getElementById(id);
