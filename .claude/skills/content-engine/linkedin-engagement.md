@@ -116,12 +116,31 @@ it polished. Not a per post task, but the reason a strong post can still underpe
 This runs on top of hidden-thread.md, never instead of it. The hook earns the read,
 the hidden thread decides what the read is for.
 
-## What Justin's own account says, 6 October 2026
+## SUPERSEDED ON 20 OCTOBER 2026. Read the next section first.
 
-Everything above this section is general advice. This section is his 28 days,
-and where they disagree, his account wins.
+The 28 day table below is **four posts**, and it sent us the wrong way twice in
+one day. A full 365 days of the account is in
+`content/analytics/linkedin-365-days-2026-10-20.md` and it reverses the headline
+rule. Keep reading this section for the comment counts, which are still real,
+and take the opening rule from the year, not from the month.
 
-**Open on the question you cannot answer, not the number you found.**
+**The rule from 365 days: open on a number inside a complete sentence that
+contradicts what the reader expects.** Not a bare number, which is what "1.8
+percent." was. Not a delayed number either: two Australia posts in the same
+month, same evidence, did 15,186 and under 1,154, and the only difference was
+whether the number arrived in sentence two or sentence three.
+
+Declared uncertainty openings are good and sit sixth and fourteenth for the
+year. They do not beat an evidence opening. Both work. Pick by job: **a
+surprising number recruits strangers, a named argument or a real question makes
+people talk.** The highest engagement rate of the year, 4.87 percent, came on
+only 3,288 impressions.
+
+## What Justin's 28 days said, 6 October 2026, now superseded
+
+Four posts. Kept for the comment counts and because the AI lane finding held up.
+
+**It said: open on the question you cannot answer, not the number you found.**
 
 | Opening | Impressions | Comments |
 |---|---|---|
@@ -135,8 +154,10 @@ comments for the whole month. The number led posts got reactions and **no
 conversation at all**. The figure belongs in the third paragraph where it
 rewards a reader who stayed, not in the first where it closes the thought.
 
-This contradicts the rule in `viral-post` that a number in the first line wins.
-That rule came from a corpus study, not from this account. Follow this one.
+This looked like it contradicted the rule in `viral-post` that a number in the
+first line wins. On 365 days of the same account it does not. Four posts was too
+small a sample to overturn a corpus study and a 75,842 impression post, and we
+let it. **Do not follow this one.** The AI lane finding below did hold up.
 
 **Children and AI is the live lane.** Both top posts, by a distance.
 

@@ -40,6 +40,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - The week's social cards (Sunday batch, the pinned GDC posts page) → .claude/skills/social-week
 - The weekly scores out of ten, the task list, the session start alert → .claude/skills/review-board (answer the alert's questions with AskUserQuestion first)
 - The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
+- The week's LinkedIn posts, or any analytics screenshot → .claude/skills/linkedin-week (evidence is content/analytics/, newest file wins)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
 - Adverts, "ads like theirs", competitor ads, boosting a post → .claude/skills/ad-studio (copy the structure of their winners, never the message; test free, spend only on the winner; log it in content/ads/results-log.md)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)

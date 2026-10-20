@@ -1,12 +1,12 @@
 ---
 name: viral-post
-description: The proven formula for a Justin Phillips LinkedIn post that performs like his best one (the Wrong Villain "beta = 0.061" post, about 73,911 impressions). Use whenever Justin wants a LinkedIn post written or rewritten to go viral, wants a post to "perform like my best one" or "the wrong villain format", wants the stat card image that goes with it, wants an existing post scored or upgraded against the winning formula, or asks how to make a post perform. Captures the copy anatomy, the exact length and structure, the CTA stack, the research card image spec (with a reusable HTML template), and best in class 2026 LinkedIn tactics, all in Justin's voice. Runs on top of content-engine, never instead of it.
+description: The proven formula for a Justin Phillips LinkedIn post that performs like his best one (the Wrong Villain "beta = 0.061" post, about 75,842 impressions). Use whenever Justin wants a LinkedIn post written or rewritten to go viral, wants a post to "perform like my best one" or "the wrong villain format", wants the stat card image that goes with it, wants an existing post scored or upgraded against the winning formula, or asks how to make a post perform. Captures the copy anatomy, the exact length and structure, the CTA stack, the research card image spec (with a reusable HTML template), and best in class 2026 LinkedIn tactics, all in Justin's voice. Runs on top of content-engine, never instead of it.
 ---
 
 # Viral Post, the Wrong Villain formula
 
 This skill exists to duplicate one specific success: Justin's highest performing LinkedIn post,
-the Wrong Villain "beta = 0.061" post, which reached about 73,911 impressions. It reverse
+the Wrong Villain "beta = 0.061" post, which reached about 75,842 impressions. It reverse
 engineers exactly what made that post and its image work, turns it into a repeatable template,
 and folds in best in class 2026 LinkedIn tactics so future posts can hit the same way.
 
@@ -247,6 +247,13 @@ into the story, per linkedin-engagement.md.
 
 ## PART 5. BEST IN CLASS LINKEDIN, 2026 (what the algorithm rewards)
 
+**Read `content/analytics/linkedin-365-days-2026-10-20.md` before using Part 2.**
+A full year of Justin's own account now exists and it refines the hook rule:
+open on a number inside a complete sentence that contradicts the reader's
+expectation. Not a bare number, and not one delayed to sentence three. Two
+Australia posts in one month, same evidence, did 15,186 and under 1,154 on that
+difference alone.
+
 Sourced from the primary data, Richard van der Blom's Algorithm Insights 2025 (1.8 million posts)
 and AuthoredUp's post corpus studies (310,000 to 372,000 posts). Trust the direction of the agency
 blog numbers, not their exact digits, they are folklore. The numbers below are the primary ones.
@@ -362,12 +369,15 @@ account's own data and they override folklore where they conflict.
    measure new audience, engagement rate measures resonance. Account
    benchmarks from the 90 days: median ER on top posts ~2.8 percent; ER above
    3.5 percent = strong resonance; ER below 1.5 percent on a high reach post =
-   audience mismatch, not success. The champion (75,174 impressions) ran 2.64
-   percent, high reach always dilutes ER a little.
+   audience mismatch, not success. The champion now stands at 75,842
+   impressions and 2.09 percent on the year; it read 75,174 and 2.64 percent at
+   the 90 day mark. High reach always dilutes ER a little.
 3. **The Australia lesson: news hooks export reach to the news country.** The
-   Australia ban post (22 Aug, the handwritten 8 in 10 card, Part 04) is the
-   best August post by reach (9,703 impressions) and the third best of the
-   whole 90 days, but its ER was 1.19 percent and its content demographics
+   Australia ban post (22 Aug, the handwritten 8 in 10 card, Part 04) has kept
+   running and now stands at **15,186 impressions**, the second best post of the
+   whole year; 9,703 was the 90 day read. So a news hook post can be a reach
+   monster and still export its audience. Its ER is 0.73 percent on the year,
+   the second lowest of any post above 3,000 impressions, and its demographics
    were roughly a third Australian (Melbourne 13, Sydney 11, Brisbane 4,
    Perth 3 percent, plus Australian universities and education departments).
    Reach without the home audience converts weakly. The fix, not the ban of
