@@ -73,9 +73,9 @@ that framing is the one with something in it for a parent tonight.
 
 ## The post
 
-*Version 2, 18 October 2026. Body 2,479 characters, inside the band. Hook 127
+*Version 3, 20 October 2026. Body 2,497 characters, inside the band. Hook 127
 characters, inside the mobile fold. One closing question, nothing after it.
-Fourteen paragraphs from 59 to 404 characters. Link in the first comment, never
+Fifteen paragraphs from 59 to 398 characters. Link in the first comment, never
 the body.*
 
 Nobody can tell you yet whether banning under sixteens from social media works. Australia can already tell you what it teaches.
@@ -86,15 +86,17 @@ Then look at how they got round it. An account registered to someone older. An a
 
 That is a child's first real lesson in digital life, and a law delivered it. The lesson is that identity online is something you assert, and nobody checks.
 
-We have been teaching it longer than the law has, mind. Research going back to 2011 found parents coaching their own children past Facebook's age limit, and I am in no position to be smug about that. During Covid we had two small girls at home and a business to keep alive, and we used YouTube as a babysitter to get through the day. Parents were always the teacher here. A ban only changes the syllabus.
+We have been teaching it longer than the law has, mind. Research back in 2011 found parents coaching their own children past Facebook's age limit, and I am in no position to be smug about that. During Covid we had two small girls at home and a business to keep alive, and we used YouTube as a babysitter to get through the day. Parents were always the teacher here. A ban only changes the syllabus.
 
-None of which makes the ban wrong. I think a protected period is worth having. A deadline is not a plan, but it is not nothing either.
+None of which makes the ban wrong. A protected period is worth having. A deadline is not a plan, but it is not nothing either.
 
 What it buys is time. What nobody is answering is what the time is for.
 
-France's constitutional court struck down its own under fifteen ban in August, partly because the enforcement on offer would not protect privacy. That is the bit that gets skipped. Making a ban stick means building somewhere for a child's passport photo to sit, and the industry cannot agree whether the last spill from one of those services was seventy thousand documents or two million.
+France's constitutional court struck down its own under fifteen ban in August, partly because the enforcement on offer would not protect privacy. Making a ban stick means building somewhere for a child's passport photo to sit, and the industry cannot agree whether the last spill from one of those services was seventy thousand documents or two million.
 
-Both sides of this argument are counting the same thing. Whether children got in. Whether children were kept out.
+Britain has its own version coming in 2027, and the argument will be the same one.
+
+Both sides are counting the same thing. Whether children got in. Whether children were kept out.
 
 Nobody is counting what a sixteen year old can actually do.
 
@@ -220,3 +222,60 @@ than attacked.
 A properly powered evaluation showing a ban reduced use and improved an outcome.
 Australia will produce it eventually, and the Bradford IRL Trial reports in 2028.
 If it lands, say so in public.
+
+## Version 3, 20 October 2026: the advice was wrong about this post, and so was I
+
+Justin, 20 October 2026: a LinkedIn masterclass says every post should open on a
+personal story. Should ours? Reviewed with a red team briefed without being told
+the house view.
+
+### What our own numbers actually say
+
+The answer I gave first was that the advice was right about this post and the
+Covid confession should move to the top. Checking the 28 day figures in
+`linkedin-engagement.md` says otherwise, and the earlier answer was wrong.
+
+| Opening | Impressions |
+|---|---|
+| "There's a question about children and AI I hadn't thought enough about" | 6,008 |
+| "When a child speaks rudely to an AI toy, what should an adult help them understand?" | 3,155 |
+| "1.8 percent." | 1,002 |
+| "One of the most worrying numbers I have read this week" | 698 |
+
+Neither winner is a story. Both are **declared uncertainties**. Both losers are
+**closed statements**. The variable that moved is open against closed, not story
+against number. And there is no scene led opening anywhere in that sample, so
+leading on the Covid confession would have been the unevidenced option rather
+than the safe one. The current first line is already the winning shape: it says
+nobody knows yet.
+
+The scenes stay where they are, because they are load bearing there. The Covid
+confession pays for the right to say parents were always the teacher. The
+Saturday football story is what earns the closing question.
+
+### The real defect the review found
+
+Zero UK tokens in the body, against one each for Australia and France. The 22
+August Australia post took 9,703 impressions at 1.19 percent engagement with
+roughly a third of the audience Australian (Melbourne 13, Sydney 11, Brisbane 4,
+Perth 3 percent). `viral-post` Part 8 point 3 is explicit about re anchoring to
+the UK inside the post, and this draft did not.
+
+### The three changes
+
+1. **Added, after the France paragraph:** "Britain has its own version coming in
+   2027, and the argument will be the same one." The UK anchor the post was
+   missing, placed where it also carries the argument forward.
+2. **Cut:** "That is the bit that gets skipped." Signposting, per `ai-tells.md`.
+3. **Paid for the added line** by dropping "I think" from the honest pivot (a
+   hedge, and the line is stronger stated plainly) and shortening "Research going
+   back to 2011" to "Research back in 2011", which is how the first comment
+   already says it.
+
+### One proposed change declined
+
+The review wanted line one tightened to "Nobody can tell you yet whether banning
+under sixteens works." It saves 17 characters the post does not need, since 127
+is already inside the fold, and it costs the object of the sentence. GDC-043
+failed its first draft on exactly that, a hook that assumed the reader already
+knew what was being talked about. Kept as it was.
