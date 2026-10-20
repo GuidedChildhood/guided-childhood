@@ -1,0 +1,129 @@
+/* The full VotesforSchools reply. Tokens: ink #1A1A2E, cream #FFFBEE, butter
+   #EDC35F, butter dark #C99A28, muted #52526A. Nunito for statements, IBM Plex
+   Mono for the machine layer. Glass is cream tinted and frosted, never dark. */
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#1A1A2E}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1A1A2E;font-family:nunito,sans-serif;color:#1A1A2E}
+.reframe,.drift,.punch{position:absolute;inset:0}
+.reframe{transform-origin:0% 50%}
+.punch{transform-origin:50% 36%}
+.punch video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* frosted glass */
+.glass{background:rgba(255,251,238,.48);-webkit-backdrop-filter:blur(30px) saturate(150%);backdrop-filter:blur(30px) saturate(150%);border:1.5px solid rgba(255,255,255,.82);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -40px 80px rgba(255,251,238,.22),0 40px 90px rgba(26,26,46,.35)}
+.panel{position:absolute;left:64px;top:150px;width:820px;min-height:420px;border-radius:34px;overflow:hidden;opacity:0;padding:52px 56px;z-index:4}
+.panel .sheen{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 38%);pointer-events:none}
+.panel .shine{position:absolute;top:0;bottom:0;left:-260px;width:200px;background:linear-gradient(90deg,rgba(237,195,95,0),rgba(237,195,95,.55),rgba(237,195,95,0));transform:skewX(-18deg);pointer-events:none}
+.pc{position:relative}
+.eb{font-family:plexMono,monospace;font-weight:600;font-size:19px;letter-spacing:.2em;text-transform:uppercase;color:#C99A28}
+.eb.ink{color:#1A1A2E;font-size:22px;margin-top:18px}
+.eb.ctr{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:24px}
+.row{font-weight:900;font-size:76px;line-height:1.05;letter-spacing:-.015em;margin-top:20px}
+.st{font-weight:900;font-size:92px;line-height:1.03;letter-spacing:-.02em;margin-top:24px}
+.swap{position:relative;min-height:330px}.swap .st{position:absolute;left:0;right:0;top:0}
+.mark{position:relative;display:inline-block;isolation:isolate;z-index:0}
+.mark::after{content:"";position:absolute;left:-8px;right:-8px;bottom:6px;height:28px;background:#EDC35F;z-index:-1;transform-origin:left center;transform:scaleX(var(--m,0))}
+.strike{position:relative;display:inline-block}
+.strike::after{content:"";position:absolute;left:-6px;right:-6px;top:52%;height:12px;background:#EDC35F;transform-origin:left center;transform:scaleX(var(--s,0))}
+.bubble{display:inline-block;margin-top:26px;background:#F0F9FF;border:3px solid #1A1A2E;border-radius:24px 24px 24px 6px;box-shadow:5px 5px 0 #1A1A2E;padding:18px 26px;font-weight:800;font-size:38px;line-height:1.2}
+.todo{margin-top:24px}
+.todo .r{display:flex;align-items:center;gap:22px;font-weight:900;font-size:58px;padding:12px 0;border-bottom:2px dashed rgba(26,26,46,.2)}
+.todo .box{width:56px;height:56px;border:3px solid #1A1A2E;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center}
+.todo .box b{font-size:38px;opacity:0}
+.loop{display:flex;align-items:center;gap:16px;margin-top:30px;flex-wrap:wrap}
+.loop span{font-weight:900;font-size:40px;background:#fff;border:3px solid #1A1A2E;border-radius:16px;box-shadow:4px 4px 0 #1A1A2E;padding:10px 18px}
+.loop i{font-style:normal;font-weight:900;font-size:44px;color:#C99A28}
+
+/* real pages in a browser card, left */
+.screen{position:absolute;left:70px;top:190px;width:900px;border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 50px 120px rgba(26,26,46,.55);transform-origin:0% 50%;opacity:0;z-index:4}
+.screen .chrome,.browser .chrome{height:50px;background:#F3F1EC;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid #e3e0d8}
+.screen .chrome i,.browser .chrome i{width:13px;height:13px;border-radius:50%;background:#d8d4ca;display:inline-block}
+.screen .url,.browser .url{margin-left:14px;flex:1;height:30px;border-radius:9px;background:#fff;font-family:plexMono,monospace;font-size:14px;color:#52526A;display:flex;align-items:center;padding:0 12px;white-space:nowrap;overflow:hidden}
+.screen .shot{position:relative;width:900px;height:416px;overflow:hidden}
+.screen .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 0%;transform-origin:50% 30%}
+.stag{position:absolute;left:70px;top:132px;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:#1A1A2E;background:rgba(255,251,238,.7);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.85);border-radius:10px;padding:8px 12px;opacity:0;z-index:4}
+
+/* b-roll */
+.broll{position:absolute;inset:0;opacity:0;overflow:hidden;z-index:5}
+.broll video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.tag{position:absolute;right:64px;top:96px;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFBEE;background:rgba(26,26,46,.55);padding:8px 12px;border-radius:9px}
+.pill{position:absolute;left:72px;bottom:220px;font-weight:900;font-size:50px;line-height:1.1;border-radius:22px;padding:16px 28px;opacity:0;max-width:1100px}
+.pill small{display:block;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:#C99A28;margin-bottom:6px}
+
+/* paper takeovers */
+.paper{position:absolute;inset:0;background:#FFFBEE;opacity:0;overflow:hidden;z-index:6}
+.paper .dots,.endc .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.07) 1.7px,transparent 1.8px);background-size:48px 48px}
+.crop{position:absolute;width:38px;height:38px;border-color:#1A1A2E;border-style:solid;opacity:.5}
+.crop.tl{left:40px;top:40px;border-width:3px 0 0 3px}.crop.tr{right:40px;top:40px;border-width:3px 3px 0 0}
+.crop.bl{left:40px;bottom:40px;border-width:0 0 3px 3px}.crop.br{right:40px;bottom:40px;border-width:0 3px 3px 0}
+.ruler{position:absolute;left:120px;right:120px;bottom:70px;height:30px}
+.ruler .line{position:absolute;left:0;right:0;top:14px;border-top:3px solid rgba(26,26,46,.2)}
+.ruler .fill{position:absolute;left:0;top:13px;height:5px;background:#EDC35F;border-radius:3px}
+.ruler span{position:absolute;top:-16px;font-family:plexMono,monospace;font-weight:600;font-size:15px;color:#52526A;transform:translateX(-50%)}
+.slam{position:absolute;left:0;right:0;top:330px;text-align:center;font-weight:900;font-size:150px;line-height:1.02;letter-spacing:-.025em}
+.slam .w{display:inline-block;opacity:0;margin:0 .12em}
+.star3d{position:absolute;left:1440px;top:520px;width:130px;height:130px;opacity:0;object-fit:contain}
+.sub{position:absolute;left:0;right:0;top:720px;text-align:center;font-weight:800;font-size:52px;opacity:0}
+.two{position:absolute;left:0;right:0;top:300px;text-align:center}
+.big{font-weight:900;font-size:120px;line-height:1.05;letter-spacing:-.025em}
+.big .w{display:inline-block}
+.rules{position:absolute;left:150px;right:150px;top:340px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.rule{background:#fff;border:3px solid #1A1A2E;border-radius:30px;box-shadow:9px 9px 0 #1A1A2E;padding:44px 36px;text-align:center;opacity:0}
+.rule b{display:block;font-weight:900;font-size:120px;line-height:1;letter-spacing:-.02em}
+.rule span{display:block;margin-top:18px;font-weight:800;font-size:38px;line-height:1.2;color:#52526A}
+.friends{position:absolute;left:120px;right:120px;top:300px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.fr{text-align:center;opacity:0}
+.fr img{width:250px;height:250px;object-fit:contain}
+.fr b{display:block;font-weight:900;font-size:46px;margin-top:10px}
+.fr span{display:block;font-family:plexMono,monospace;font-weight:600;font-size:20px;letter-spacing:.12em;color:#C99A28;margin-top:4px}
+
+/* Muse */
+.blurcam{position:absolute;inset:0;opacity:0;-webkit-backdrop-filter:blur(26px) brightness(.62);backdrop-filter:blur(26px) brightness(.62);z-index:4}
+.museg{position:absolute;left:96px;top:300px;width:820px;opacity:0;z-index:5}
+.museg .word{font-weight:900;font-size:210px;line-height:1;letter-spacing:-.03em;margin-top:6px}
+.museg .ml{opacity:0}
+.cursor{display:inline-block;width:.42em;height:.86em;background:#1A1A2E;vertical-align:-.06em;margin-left:10px}
+.when{font-weight:800;font-size:44px;margin-top:10px;opacity:0}
+.browser{position:absolute;right:120px;top:120px;width:640px;height:820px;border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 50px 120px rgba(26,26,46,.55);transform-origin:100% 50%;opacity:0;z-index:5}
+.browser video{position:absolute;left:0;top:50px;width:100%;height:calc(100% - 50px);object-fit:cover;object-position:50% 0%}
+.credit{position:absolute;right:120px;top:952px;font-family:plexMono,monospace;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#FFFBEE;opacity:0;z-index:6}
+
+/* kinetic words, name tag, chapter, HUD, captions, streaks */
+.kin{position:absolute;left:72px;bottom:230px;font-weight:900;font-size:130px;line-height:.98;letter-spacing:-.03em;color:#FFFBEE;text-shadow:0 6px 0 #1A1A2E,0 20px 50px rgba(0,0,0,.45);z-index:4}
+.kin .w{display:inline-block;opacity:0}
+.name{position:absolute;left:72px;bottom:230px;border-radius:22px;padding:18px 28px;opacity:0;z-index:4}
+.name b{display:block;font-weight:900;font-size:50px}
+.name span{display:block;font-family:plexMono,monospace;font-weight:600;font-size:17px;letter-spacing:.16em;text-transform:uppercase;color:#C99A28;margin-top:4px}
+.chap{position:absolute;left:64px;top:96px;font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,251,238,.6);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1.5px solid rgba(255,255,255,.85);border-radius:12px;padding:9px 14px;opacity:0;z-index:7}
+.hud{position:absolute;inset:0;pointer-events:none;z-index:8;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFFFF;mix-blend-mode:difference}
+.hud .tl{position:absolute;left:64px;top:52px}.hud .tr{position:absolute;right:64px;top:52px}
+.hud .rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#FFFFFF;margin-right:10px;vertical-align:1px}
+.hud .x{position:absolute;width:26px;height:26px}
+.hud .x::before,.hud .x::after{content:"";position:absolute;background:#FFFFFF}
+.hud .x::before{left:12px;top:0;width:2px;height:26px}.hud .x::after{top:12px;left:0;height:2px;width:26px}
+.cap{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);width:max-content;max-width:1500px;text-align:center;font-weight:900;font-size:54px;line-height:1.15;color:#FFFBEE;text-shadow:0 4px 0 #1A1A2E,0 0 18px rgba(26,26,46,.55);opacity:0;z-index:7}
+.cap .cw{display:inline-block;padding:0 .1em;border-radius:10px}
+.streak{position:absolute;top:-100px;bottom:-100px;width:640px;left:0;background:linear-gradient(90deg,rgba(237,195,95,0),#EDC35F 40%,#FFFBEE 55%,rgba(237,195,95,0));filter:blur(22px);z-index:9}
+
+/* cold open and end card */
+.open{position:absolute;inset:0;background:#FFFBEE;z-index:8}
+.open .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.09) 1.8px,transparent 1.9px);background-size:44px 44px}
+.open .num{position:absolute;left:0;right:0;top:360px;text-align:center;font-weight:900;font-size:260px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.open .lbl{position:absolute;left:0;right:0;top:650px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:.22em;text-transform:uppercase;color:#C99A28}
+.endc{position:absolute;inset:0;background:#FFFBEE;opacity:0;z-index:8}
+.estar{position:absolute;left:50%;top:250px;width:220px;height:220px;margin-left:-110px;object-fit:contain;opacity:0}
+.eword{position:absolute;left:0;right:0;top:520px;text-align:center;font-weight:900;font-size:110px;letter-spacing:-.02em;opacity:0}
+.ewith{position:absolute;left:0;right:0;top:680px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.24em;text-transform:uppercase;color:#C99A28;opacity:0}
+
+/* 20 October additions: chips under the curriculum card, the friends as film */
+.chips{position:absolute;left:70px;top:660px;display:flex;gap:16px;flex-wrap:wrap;width:900px;z-index:4}
+.chip{display:inline-block;border-radius:18px;padding:14px 22px;font-weight:900;font-size:40px;opacity:0}
+.screen .shot video{width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+.frv{width:250px;height:250px;margin:0 auto;border-radius:28px;overflow:hidden}
+.frv video{width:100%;height:100%;object-fit:cover}
+
+/* captions on a dark glass plate: the 20 October room is bright, and white
+   text on a light wall disappears (Nate's rule: captions never white on light) */
+.cap{background:rgba(26,26,46,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:18px;padding:10px 22px 12px;text-shadow:none;font-size:50px}
