@@ -7,8 +7,10 @@ the move to the countryside, and take the current audience on a journey.
 In the prompter (videos/prompter, script two), ten parts, about 75 seconds,
 a walk and talk on the lane. The arc: the plot twist hook, where it started,
 what the shop taught him, the move, the real battle at home was screens, ban
-or free for all and neither felt right, what he built, what changes here, the
-door for decoration followers, the stage check.
+or free for all and neither felt right, what he built, what changes here, what's coming (the four anchor days:
+Founder Monday, Research Wednesday, Service Friday, Happy News Saturday with
+the odd printable, plus the short films), the door for decoration followers,
+the stage check. About 95 seconds.
 
 Every scene is true and from content/brand-story/founder-context.md: the
 bedroom start, Etsy, Amazon and the high street, copied ideas and platform
