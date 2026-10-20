@@ -44,7 +44,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
       background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
       borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18, position: 'relative',
     }}>
-      <button
+      <button className="tap-target"
         onClick={dismiss}
         aria-label="Not now"
         style={{

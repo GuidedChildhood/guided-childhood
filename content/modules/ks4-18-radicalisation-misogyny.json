@@ -552,9 +552,12 @@
   "parent_note": {
     "taught": "Today we looked at how online pipelines work: content that starts as gym, money or confidence advice and is escalated by recommendations towards us versus them thinking, with misogyny a common version aimed at teenage boys. We taught the pipeline check, three calm questions: who wants me angry, what happens if I keep watching, who am I being turned against?",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them who profits when content makes people angry, and listen to how precisely they can answer.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them who profits when content makes people angry, and listen to how precisely they can answer.",
     "try_this": "Ask your teenager to teach you the three questions, then run them together on one video from your own feed, not theirs. Doing it on your feed first keeps it a skill you share rather than an inspection.",
-    "family_question": "Who makes money when a video makes you angry?",
+    "family_question": "Who do you think makes money when a video makes you angry?",
+    "listen_for": "You know a pipeline starts with reasonable content and escalates, and you ask who wants you angry and who you are being turned against.",
+    "then_ask": "Why does the movement happen gradually rather than all at once?",
+    "say_this": "Angry videos pay somebody. If one ever seems to be turning you against people, I would rather hear about it than have you watch it alone.",
     "no_login_required": true
   },
   "video_beats": [],
@@ -707,7 +710,7 @@
       "It is just jokes, watching changes nothing (the drip feed works precisely because every single clip feels too small to matter, no one clip changes anyone, hundreds do)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Evidence items one and two are printed as cards for pairs. The pipeline diagram, the grooming playbook and the pipeline check are on the pack's middle pages, walked through on the board. Both discussions run with a watch instead of the screen timer. The exit quiz is the printed sheet with the two prove questions, and the bookmark strip carries the three check questions home.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "commitment_stem": "My commitment: the next time content makes me angry, I will run the pipeline check before I keep watching, and if it has a grip on me or a mate I will talk to someone.",
     "differentiation": {
       "stretch": "Follow the money on any worksheet item: who profits at each step of that pipeline, the creator, the platform, the movement at the far end? Then the harder question: design the warning you wish someone had given you at thirteen, in one sentence.",

@@ -44,7 +44,7 @@ export default function SlidePlayer({ lesson }: { lesson: Lesson }) {
 
         {/* Progress + close */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-          <button
+          <button className="tap-target"
             onClick={() => router.push('/dashboard/lessons')}
             aria-label="Close lesson"
             style={{

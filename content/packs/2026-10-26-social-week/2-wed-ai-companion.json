@@ -1,0 +1,78 @@
+{
+  "name": "2026-10-26-wed-ai-companion",
+  "size": "portrait",
+  "lead": "orbit",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "orbit",
+      "tag": "1 / 7",
+      "eyebrow": "One study. Properly explained.",
+      "headline": "Does a chatbot<br>feel like<br><mark>a friend?</mark>",
+      "second": "1,000 UK children were asked."
+    },
+    {
+      "name": "concession",
+      "type": "big",
+      "eyebrow": "First, the fair point",
+      "headline": "Using a chatbot<br>is not<br>the worry.",
+      "body": "Many children use one for schoolwork and revision. That is ordinary.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "finding",
+      "type": "stat",
+      "eyebrow": "What the children said",
+      "value": "35%",
+      "unit": " of users",
+      "body": "Of the 9 to 17 year olds who use an AI chatbot, 35% said talking to it is like talking to a friend."
+    },
+    {
+      "name": "tail",
+      "type": "stat",
+      "eyebrow": "And for some children",
+      "value": "About half",
+      "unit": "",
+      "body": "Among children the study counted as vulnerable, about half said the same. That is who to keep an eye on."
+    },
+    {
+      "name": "reading",
+      "type": "quote",
+      "tone": "ink",
+      "eyebrow": "The honest reading",
+      "quote": "Feeling like a friend is not proof of harm. It is a reason to make a person easier to reach.",
+      "attrib": "A survey shows how it feels. It cannot show cause."
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "The tonight line",
+      "headline": "Ask this at tea",
+      "not": "Stop talking to that thing.",
+      "say": "Show me the best thing it has helped you with. Who do you tell when something is really hard?"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the first time your child says the chatbot gets them.",
+      "send": "Send it to the parent who has just found out their child talks to one."
+    }
+  ],
+  "post": {
+    "date": "2026-10-28",
+    "day": "Wednesday 28 October",
+    "time": "19:30",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who has just found out their child talks to an AI chatbot.\n\nFair point first: using a chatbot is not the worry. In a UK survey of 1,000 children aged 9 to 17, many used one for schoolwork and revision, and that is ordinary.\n\nThe part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was about half.\n\nThat is what children said about how it feels. It is a survey, so it cannot tell us whether a chatbot caused anything, or whether it is helping or hurting any one child. Feeling like a friend is not proof of harm.\n\nWhat it does tell us is why a child might lean on one. It is always there, it is warm and it agrees. That is easy to reach for when a child is lonely or having a hard time. So the useful move is not to take it away. It is to make sure a person is easier to reach.\n\nTonight: ask your child to show you the best thing it has helped them with. Then ask who they tell when something is really hard. Listen first.\n\nWho does your child go to first when something is hard?\n\nWhat stage is your child? Three questions, no sign up, link in bio. Tick AI chatbots as your worry and the result gives you words for their age.",
+    "facebook": "Send this to the parent who has just found out their child talks to an AI chatbot.\n\nFair point first: using a chatbot is not the worry. In a UK survey of 1,000 children aged 9 to 17, many used one for schoolwork and revision, and that is ordinary.\n\nThe part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was about half.\n\nThat is what children said about how it feels. It is a survey, so it cannot tell us whether a chatbot caused anything, or whether it is helping or hurting any one child. Feeling like a friend is not proof of harm.\n\nWhat it does tell us is why a child might lean on one. It is always there, it is warm and it agrees. That is easy to reach for when a child is lonely or having a hard time. So the useful move is not to take it away. It is to make sure a person is easier to reach.\n\nTonight: ask your child to show you the best thing it has helped them with. Then ask who they tell when something is really hard. Listen first.\n\nWho does your child go to first when something is hard?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack. Tick AI chatbots as your worry and the result gives you words for their age.",
+    "alt": "Card one of seven. A large headline asks whether a chatbot feels like a friend, with the planet friend Orbit beside it. The later cards give what 1,000 UK children said, who to keep an eye on, and one question to ask at tea.",
+    "first_comment": "Source: Internet Matters, Me, Myself and AI, July 2025. A survey of 1,000 UK children aged 9 to 17, plus focus groups. The 35% is of children who use chatbots, not of all children. Self reported, so it shows how it feels to them, not cause."
+  }
+}

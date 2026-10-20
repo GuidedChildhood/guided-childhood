@@ -36,6 +36,19 @@
         "--silent"
       ],
       "port": 4174
+    },
+    {
+      "name": "schools",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "schools",
+        "run",
+        "dev",
+        "--",
+        "--webpack"
+      ],
+      "port": 3100
     }
   ]
 }

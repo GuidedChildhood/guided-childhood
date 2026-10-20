@@ -582,9 +582,11 @@
   "parent_note": {
     "taught": "Today your teenager learned to name the persuasion techniques aimed at them online: fake urgency, rage bait, flattery from influencers and FOMO, plus the dark patterns shops and apps use at checkout. The skill is simple and powerful: naming the technique out loud takes away most of its power.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them to name the technique the next advert in the room is using.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them to name the technique the next advert in the room is using.",
     "try_this": "Next time you shop online together and a countdown or an only 2 left banner appears, ask them to name the technique. Then let them catch one being used on you. They will enjoy that part.",
-    "family_question": "What was the last thing online that made you feel a sudden urge to buy it, share it or argue with it, and who made money from that feeling?",
+    "family_question": "Can you teach me to name the technique? Catch one being used on me.",
+    "listen_for": "You notice the pull, name it as urgency, outrage, flattery or FOMO, and follow the money.",
+    "then_ask": "Which technique did the last advert in this room use on me?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -738,7 +740,7 @@
       "Influencers with discount codes are just sharing things they like (a personal code almost always means commission on every sale, which makes the post an advert, and UK rules require it to be labelled for exactly that reason)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Read the three evidence items aloud with full performance, run the countdown checkout as a described screen and have pupils call out each element as information or pressure. The two discussions run with a watch or wall clock. The four dark patterns and the three step tool are on the bookmark. Exit quiz is the printed two question sheet as normal.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "commitment_stem": "My commitment: the next time a screen gives me a sudden urge to buy, share, rage or keep scrolling, I will name the technique before I act.",
     "differentiation": {
       "stretch": "Early finishers take the two techniques challenge: find a worksheet item where two techniques fire at once and argue in writing which one is doing the real work. Deeper stretch: design a checkout screen with no dark patterns and explain what it costs the business.",

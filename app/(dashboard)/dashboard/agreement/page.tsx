@@ -7,6 +7,7 @@ import type { StageId } from '@/lib/pathway/progress'
 import AgreementBuilder from '@/components/agreement/AgreementBuilder'
 import { getSetupState } from '@/lib/setup/flags'
 import BackTo from '@/components/nav/BackTo'
+import DealChangeAsks from '@/components/deal/DealChangeAsks'
 
 export const dynamic = 'force-dynamic'
 
@@ -92,6 +93,9 @@ export default async function AgreementPage({ searchParams }: { searchParams: Pr
           on down it rather than hunt for their place. */}
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '20px 20px 0' }}>
         <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />
+        {/* A child's ask to change a promise, answered right where the deal is
+            edited (migration 381). Silent when nothing is waiting. */}
+        <div style={{ marginTop: 14 }}><DealChangeAsks /></div>
       </div>
       <AgreementBuilder
       childName={childName}

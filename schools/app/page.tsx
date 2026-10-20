@@ -344,7 +344,7 @@ export default async function SchoolsPage() {
               { icon: '🎬', title: 'The interactive lesson', body: 'A projector led player with the animated DiGi Squad, timed talk tasks, auto marked checks, and a word for word teacher script on every slide.' },
               { icon: '🧭', title: 'The run sheet', body: 'Before, during and after on one printable page: what to print, every phase with its script, and what goes home. Any teacher can run it cold.' },
               { icon: '🖨️', title: 'The printable pack', body: 'Teacher one pager, worksheet with the answer thinking, bookmark, quiz cards, and a colour pupil booklet. A paper fallback runs the whole lesson with no screen.' },
-              { icon: '🏡', title: 'A note that reaches home', body: 'Every lesson ends with a parent note. What we taught, one question for the dinner table, and the passport line that says what the lesson earned.' },
+              { icon: '🏡', title: 'A note that reaches home', body: 'Every lesson ends with a parent note. What we taught, one question to ask at tea, and the passport line that says where the lesson sits.' },
               { icon: '🛡️', title: 'Safeguarding built in', body: 'The sensitive modules carry a DSL note, a ten minute staff briefing, and disclosure handling written into the script, calm on every page.' },
               { icon: '📋', title: 'The compliance hub', body: 'The statutory mapping, policy ready text, the parent pack and a data protection pack for your DPO. All of it public or printable.' },
             ].map(f => (

@@ -605,9 +605,11 @@
   "parent_note": {
     "taught": "Today your child learned to be the editor of their own story online: which information stays private (full name and birthday together, school and address, passwords and their clue questions, photos they cannot take back) and why deleted is not the same as gone. Their tool is the share test: would I shout it in assembly, does it give away where I am, could it hurt future me?",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the share test with you on something before you post it.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the share test with you on something before you post it.",
     "try_this": "Next time anyone in the family is about to post a photo, run the share test on it together out loud before pressing send. Let your child lead, they know the three questions by heart.",
-    "family_question": "What is one thing about our family that we keep just for us?",
+    "family_question": "Can you teach me the share test? What are the three questions?",
+    "listen_for": "You run the share test before you share, and you know deleted is not the same as gone.",
+    "then_ask": "Should I run the share test on the last photo I posted of you?",
     "no_login_required": true
   },
   "video_beats": [],

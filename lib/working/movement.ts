@@ -89,6 +89,8 @@ export function usedWords(type: string): string {
     case 'digi': return 'talking it through with DiGi'
     case 'moment': return 'the moments'
     case 'rightnow': return 'Right now'
+    // The Tonight tap (migration 380): the one step the road asked for.
+    case 'tonight': return "tonight's step"
     default: return 'the pathway'
   }
 }

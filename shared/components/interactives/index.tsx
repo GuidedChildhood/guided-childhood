@@ -6,7 +6,8 @@ import DigiCharacter from '../DigiCharacter'
 import FriendPlate from '../FriendPlate'
 import HappyIcon, { isHappyIconName } from '../HappyIcon'
 import PassportPage from '../PassportPage'
-import { PASSPORT_STAGES, type PassportStage } from '../../passport-stages'
+import type { PassportStage } from '../../passport-stages'
+import { placementOf } from '../../passport-areas'
 import { isTaught, markTaught, readTaught, unmarkTaught } from '../../schools-taught'
 import { isCharacterKey } from '../../intro-characters'
 import type { Register } from '../../friend-register'
@@ -663,7 +664,7 @@ function ClassTally({ config, kidMode = false }: { kidMode?: boolean; config: { 
           const pct = total > 0 ? (counts[i] / total) * 100 : 0
           return (
             <div key={opt} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: 'var(--text-lg)', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
+              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: 'var(--radius-tile)', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: 'var(--text-lg)', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
               <div style={{ flex: 1, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{opt}</span>
@@ -703,11 +704,15 @@ function ClassTally({ config, kidMode = false }: { kidMode?: boolean; config: { 
 // back. What it never does is stamp: the seal stays ghosted because the stamp
 // is the stage's, earned at home when the page is full and the big check is
 // passed.
-const isStage = (v: unknown): v is PassportStage => typeof v === 'string' && v in PASSPORT_STAGES
-
 function PassportBeat({ config }: { config: { placement?: string; moduleId?: string; register?: string; heading?: string; prompt?: string; after?: string; button?: string } }) {
-  const placement = isStage(config.placement) ? config.placement : null
   const moduleId = typeof config.moduleId === 'string' ? config.moduleId : ''
+  // THE PAGE COMES FROM THE MODULE, NOT THE SLIDE (sync plan D, 12 October
+  // 2026). The slide still carries a `placement` from migration 297, and on
+  // eighteen decks it names the page the old map gave KS3 to KS5. Reading it
+  // would put the wall on one page and the child's app on another, so the
+  // beat asks the one stage map through the module id and the slide's copy is
+  // ignored. Nothing edits a slide before PR 5.
+  const placement: PassportStage | null = moduleId ? placementOf(moduleId) : null
   const register = REGISTERS.includes(config.register as Register) ? (config.register as Register) : 'playful'
   const [taught, setTaught] = useState<string[]>([])
   const [filled, setFilled] = useState(false)

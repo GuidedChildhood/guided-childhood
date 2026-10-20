@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { momentLook } from '@/lib/content/moment-look'
+import { SITE_URL } from '@/lib/config/site'
 
 // The social unfurl for a shared moment card: when the /m/<id> link lands
 // in WhatsApp, iMessage or a feed, this image is the preview, in the same
@@ -22,6 +23,18 @@ import { momentLook } from '@/lib/content/moment-look'
 // Safe here for the same reason it is safe there: the id must already have
 // been given to the visitor, it is pinned to one row, it is matched against a
 // uuid shape before any request is made, and only three columns come back.
+//
+// ── AND IT COULD NOT HAVE RENDERED EITHER ───────────────────────────────────
+//
+// Every font size in this card was written as `var(--text-2xl)` and friends.
+// Satori renders outside the document: there is no :root here, so those are
+// not smaller fonts, they are unparseable values. Literal numbers now, and
+// they have to stay literal, which is why each one is a plain integer rather
+// than anything that looks like it could be tokenised later.
+//
+// The footer also advertised guidedchildhood.co.uk, a domain this business
+// does not own and never served. lib/config/site.ts has said so since 9
+// August and this card never read it. It does now.
 
 export const runtime = 'edge'
 export const alt = 'A moment card from Guided Childhood'
@@ -48,8 +61,13 @@ async function getMoment(id: string): Promise<MomentRow | null> {
   }
 }
 
-export default async function OgImage({ params }: { params: { id: string } }) {
-  const moment = await getMoment(params.id)
+export default async function OgImage({ params }: { params: Promise<{ id: string }> }) {
+  // `params` is a Promise here. This read it synchronously, so `params.id`
+  // was undefined, getMoment bailed on the uuid test and the card rendered
+  // its fallback every single time. The anon key could not have worked and
+  // neither could this; both had to be wrong for the symptom to be constant.
+  const { id } = await params
+  const moment = await getMoment(id)
   const look = momentLook(moment?.category ?? 'Morning')
   const title = moment?.title ?? 'The words that work, for every hard moment'
   const brief = (moment?.science_brief ?? '').slice(0, 150)
@@ -76,10 +94,10 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             borderBottomRightRadius: 60,
           }}
         >
-          <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'rgba(255,255,255,0.85)', letterSpacing: 4, textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.85)', letterSpacing: 4, textTransform: 'uppercase' }}>
             A moment from Guided Childhood
           </div>
-          <div style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: '#ffffff', marginTop: 6 }}>
+          <div style={{ fontSize: 40, fontWeight: 800, color: '#ffffff', marginTop: 6 }}>
             {moment?.category ?? 'Moments'}
           </div>
         </div>
@@ -90,7 +108,7 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             {title}
           </div>
           {brief && (
-            <div style={{ fontSize: 'var(--text-2xl)', color: '#3A3A50', marginTop: 28, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 30, color: '#3A3A50', marginTop: 28, lineHeight: 1.4 }}>
               {brief}{brief.length >= 150 ? '…' : ''}
             </div>
           )}
@@ -105,15 +123,15 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             padding: '0 64px 40px',
           }}
         >
-          <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: '#1A1A2E' }}>guidedchildhood.co.uk</div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: '#1A1A2E' }}>{SITE_URL.replace(/^https?:\/\//, '')}</div>
           <div
             style={{
               background: '#EDC35F',
               color: '#1A1A2E',
-              fontSize: 'var(--text-2xl)',
+              fontSize: 28,
               fontWeight: 800,
               padding: '14px 30px',
-              borderRadius: 'var(--radius-card)',
+              borderRadius: 20,
             }}
           >
             The words that work

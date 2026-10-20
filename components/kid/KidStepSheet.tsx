@@ -63,6 +63,14 @@ export default function KidStepSheet({
   const def = STEPS[step]
   const ideas = ideasFor(step)
   const [picked, setPicked] = useState<string | null>(null)
+  // ADD YOUR OWN (Justin, 13 October 2026). The list is a prompt, not the
+  // limit: a child who has a better idea types it, and it travels to the grown
+  // up with the tick exactly as a tapped idea does (notes keep 80 characters,
+  // see lib/kid/day-store). Typing replaces a tapped idea and tapping one
+  // closes the box, so only one thing is ever sent.
+  const [ownOpen, setOwnOpen] = useState(false)
+  const [own, setOwn] = useState('')
+  const chosen = ownOpen ? (own.trim() || null) : picked
 
   // Escape closes it, like every other sheet in the app. A child who opened
   // this by accident should not have to hunt for the way out.
@@ -124,11 +132,11 @@ export default function KidStepSheet({
                 without touching any of them. */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 18 }}>
               {ideas.ideas.map(idea => {
-                const on = picked === idea
+                const on = !ownOpen && picked === idea
                 return (
                   <button
                     key={idea}
-                    onClick={() => { playKidSound('tap'); setPicked(on ? null : idea) }}
+                    onClick={() => { playKidSound('tap'); setOwnOpen(false); setPicked(on ? null : idea) }}
                     aria-pressed={on}
                     style={{
                       cursor: 'pointer', textAlign: 'left',
@@ -144,12 +152,45 @@ export default function KidStepSheet({
                   </button>
                 )
               })}
+              <button
+                onClick={() => { playKidSound('tap'); setPicked(null); setOwnOpen(o => !o) }}
+                aria-pressed={ownOpen}
+                style={{
+                  cursor: 'pointer', textAlign: 'left',
+                  padding: '11px 13px', borderRadius: 'var(--radius-tile)',
+                  background: ownOpen ? theme.hex : '#fff',
+                  color: ownOpen ? theme.onAccent : 'var(--ink)',
+                  border: ownOpen ? `1.5px solid ${theme.hex}` : '1.5px dashed rgba(26,26,46,0.3)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: 'var(--text-base)', lineHeight: 1.25,
+                }}
+              >
+                + Add your own
+              </button>
             </div>
+            {ownOpen && (
+              <input
+                autoFocus
+                value={own}
+                onChange={e => setOwn(e.target.value)}
+                maxLength={60}
+                placeholder="Type your idea"
+                aria-label="Your own idea"
+                style={{
+                  width: '100%', boxSizing: 'border-box', margin: '-6px 0 18px',
+                  padding: '13px 14px', borderRadius: 'var(--radius-tile)',
+                  border: `1.5px solid ${theme.hex}`, background: 'var(--cream)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800,
+                  // 16px or more, or iPhone zooms the whole sheet on focus.
+                  fontSize: 'max(16px, var(--text-base))', color: 'var(--ink)',
+                }}
+              />
+            )}
           </>
         )}
 
         <button
-          onClick={() => { if (!busy) { playKidSound('star'); onConfirm(picked) } }}
+          onClick={() => { if (!busy) { playKidSound('star'); onConfirm(chosen) } }}
           disabled={busy}
           style={{
             width: '100%', padding: '15px', borderRadius: 'var(--radius-btn)', border: 'none',

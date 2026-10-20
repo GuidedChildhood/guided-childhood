@@ -157,6 +157,10 @@ type SlideBase = {
   // classroom audience drops it, so a schools deploy can never show one
   // whatever order the two apps ship in.
   kid_only?: boolean
+  // The grown up's line for this slide on the together deck (plan v10, 2.2):
+  // what to say or do while the child looks at it. Never the teacher's
+  // script, which is classroom register. The kid audience drops it.
+  together_prompt?: string
 }
 
 export type TitleSlide = SlideBase & {
@@ -822,6 +826,7 @@ export function visibleSlides(
 
     let slide: LessonSlide = { ...s }
     delete (slide as { script?: string }).script
+    if (audience === 'kid') delete (slide as { together_prompt?: string }).together_prompt
     if (slide.type === 'discussion') {
       const prompt = kidPrompt(slide.prompt, audience)
       if (prompt === null) return

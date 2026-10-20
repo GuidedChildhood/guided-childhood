@@ -30,7 +30,8 @@
       "script": "Before we meet anyone, we settle. Sit criss cross on the carpet with hands on tummies. Say: this is our star breath, and we do it at the start of every screen lesson. Watch the star grow, and breathe in with it. Watch it shrink, and breathe out. Do four together without talking. Then say: lovely. Our bodies are calm and our brains are ready. If a child cannot sit still, let them do it standing with arms rising and falling, that counts too.",
       "caption": "Follow the star. In as it grows, out as it shrinks.",
       "minutes": 2,
-      "component": "star-breath"
+      "component": "star-breath",
+      "together_prompt": "Do the star breath with them: arms out wide as the star grows, breathe in, and out as it shrinks."
     },
     {
       "body": "Real, or made up? Ask.",
@@ -40,7 +41,8 @@
       "script": "Gather everyone on the carpet with this slide up. Say: today we meet two new friends. Pebble is our gentle guide, and DiGi Junior is a small golden star who loves to pause and breathe. They are going to help us learn something special about screens. Wiggle fingers like twinkling stars to say hello to DiGi Junior. The line that used to be on the wall, to say as written: Our very first screen lesson with Pebble and DiGi Junior. Some things on a screen are real. Some are made up. And we always have a grown up to ask.",
       "eyebrow": "EYFS · Reception · Module 1",
       "minutes": 1,
-      "character": "pebble"
+      "character": "pebble",
+      "together_prompt": "Read the title out. Say: Pebble has a question for us today. Are things on a screen real, or made up?"
     },
     {
       "type": "digi",
@@ -53,7 +55,8 @@
       "script": "Let Pebble land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
       "heading": "Pebble is here!",
       "minutes": 1,
-      "character": "pebble"
+      "character": "pebble",
+      "together_prompt": "Read Pebble's lines in a bouncy voice. Let them answer Pebble's question before you move on."
     },
     {
       "why": "Screens show us wonderful things, and some of them are real while some are made up. We do not have to work it out on our own, because asking a grown up is always allowed and always clever.",
@@ -67,7 +70,8 @@
       "phase": "starter",
       "script": "Read the big sentence out loud, then have the class say it back to you: I can ask a grown up if something on a screen is real. Say: asking is not for babies. Asking is what clever people do. Even teachers ask other grown ups sometimes. Ask: who likes watching things on a screen? Let hands go up, smile, everyone does, and that is lovely. Today we learn how to watch in a kind and clever way.",
       "minutes": 2,
-      "outcome": "I can ask a grown up if something on a screen is real."
+      "outcome": "I can ask a grown up if something on a screen is real.",
+      "together_prompt": "Read the big line: I can ask a grown up if something on a screen is real. Say: that is you and me today."
     },
     {
       "mode": "pairs",
@@ -77,7 +81,8 @@
       "script": "Turn to the person next to you. Tell them one thing you have seen on a screen. Anything at all. Then we will learn our three special words.",
       "lookFor": "Everybody has one. Nobody is stuck.",
       "minutes": 1,
-      "seconds": 60
+      "seconds": 60,
+      "together_prompt": "Let them tell you one thing. Then tell them one thing you saw on a screen today, so it goes both ways."
     },
     {
       "type": "keywords",
@@ -98,7 +103,8 @@
       ],
       "script": "Say each word slowly and have the class repeat it twice. For real, point at something in the room: the door is real, you are real. For made up, ask: is a dragon real or made up? Made up, and that is fine, we love dragons in stories. For screen, ask children to draw a screen shape in the air with their fingers. Do not rush this slide, these three words carry the whole lesson.",
       "heading": "Our three special words",
-      "minutes": 3
+      "minutes": 3,
+      "together_prompt": "Say each word, then its meaning. Ask them to say the word back to you. Three words is plenty."
     },
     {
       "type": "choice",
@@ -117,7 +123,8 @@
           "feedback": "You are not in trouble for picking this one. But watching is nicer with a grown up close by, because then you always have someone to ask."
         }
       ],
-      "question": "Warm up! You want to watch something on the telly at home. What is a lovely first thing to do?"
+      "question": "Warm up! You want to watch something on the telly at home. What is a lovely first thing to do?",
+      "together_prompt": "Read the question and both answers. Let them tap. Whatever they pick, read the feedback out, it is kind either way."
     },
     {
       "body": "A photo is real. Dragons are made up.",
@@ -126,7 +133,8 @@
       "phase": "teach",
       "script": "Read the slide slowly. Point at each half. Say: a photo of our class is real, it truly happened. A dragon in a cartoon is made up, somebody drew it. Then pause and say: imagine a picture of an elephant wearing pyjamas and jumping on a bed. Did that really happen? No! But a computer could make a picture of it that looks ever so real. Let the giggles happen, the giggle is the learning. Then land the warm bit: made up things are not bad. Cartoons are made up and we love them. We just like to know what is real and what is made up, and we have grown ups to help us.",
       "heading": "Real and made up",
-      "minutes": 3
+      "minutes": 3,
+      "together_prompt": "Point at the two halves. Say: a photo is real. A dragon is made up. Ask: can you think of a made up thing you love?"
     },
     {
       "type": "diagram",
@@ -156,7 +164,8 @@
         "Real",
         "Made up",
         "Ask a grown up"
-      ]
+      ],
+      "together_prompt": "Do the three steps together with actions: hand up for stop, hand over eyes for look, hand in the air for ask. Then say all three in a row."
     },
     {
       "mode": "class",
@@ -166,7 +175,8 @@
       "script": "Whole class circle talk with the timer on screen. Say: close your eyes for a moment. Picture a grown up at home you could ask. Now picture a grown up at school. Open your eyes. Go around the circle or take popcorn answers: mummy, daddy, nanny, grandad, a childminder, me, our teaching assistant. Repeat each name back warmly. If a child cannot think of anyone, gently offer: I am one of your asking grown ups, always. End with: every single one of us has a grown up to ask. That is the magic of this lesson.",
       "lookFor": "Every child names at least one trusted grown up. Listen for a home name and a school name. The win is every child knowing they have someone.",
       "minutes": 3,
-      "seconds": 60
+      "seconds": 60,
+      "together_prompt": "Let them name someone at home and someone at school. Say the names back. Add: and you can always ask me."
     },
     {
       "type": "interactive",
@@ -180,7 +190,8 @@
       },
       "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
       "minutes": 1,
-      "component": "star-breath"
+      "component": "star-breath",
+      "together_prompt": "Stand up and do the breath together. Then they tell you one thing they have found out so far."
     },
     {
       "type": "interactive",
@@ -243,7 +254,8 @@
       "script": "Now we play it together before we do it on paper. Tap the first card and read it out with plenty of drama. Take hands up for each of the three answers, then tap the one the class chose. Read the reason that appears. Do all six. Two of them have the answer ask a grown up, and they are the important pair: the singing cat, because a computer could have made it, and the big spider, because it made a tummy feel wobbly. Say out loud: both of those are asking, and asking is clever. If the class picks wrong, do not correct them flatly, read the reason and ask them what they think now.",
       "caption": "Real, made up, or ask a grown up?",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "together_prompt": "Read each card. Let them tap real, made up, or ask a grown up. The last one is always allowed, say so."
     },
     {
       "body": "Star pause. Then circle: real, made up, or ask.",
@@ -271,7 +283,8 @@
           "feedback": "It is on the screen, but that does not make it real. A computer can make pictures of things that never happened. That is why we ask a grown up."
         }
       ],
-      "question": "You see a picture on a screen of a cat driving a bus. What can you do?"
+      "question": "You see a picture on a screen of a cat driving a bus. What can you do?",
+      "together_prompt": "This is a check question. Read it and the two answers, then sit on your hands and let them choose."
     },
     {
       "type": "choice",
@@ -290,7 +303,8 @@
           "feedback": "A computer really can make a picture of something that never happened, like our elephant in pyjamas. That is why asking a grown up is so clever."
         }
       ],
-      "question": "Can a computer make a picture of something that never happened?"
+      "question": "Can a computer make a picture of something that never happened?",
+      "together_prompt": "Second check. Read it out, then wait. If they get it wrong, the feedback says it kindly, so just read that."
     },
     {
       "type": "recap",
@@ -302,7 +316,8 @@
       ],
       "script": "Hold up one finger, then two, then three, and have the class hold them up with you. Read each line and let them say the last word of it with you. Then say: next time we meet, I am going to ask you these three again, so keep them safe in your brain. Say it warmly, it is a promise not a threat, and it is why they will remember.",
       "heading": "Three things we know now",
-      "minutes": 1
+      "minutes": 1,
+      "together_prompt": "Read the three things together. Say: you know all three of these now."
     },
     {
       "text": "Stop! Look! Ask a grown up: is this real?",
@@ -310,7 +325,8 @@
       "label": "Say it like Pebble",
       "phase": "close",
       "script": "Pebble's special sentence. Say it together with the actions: star hand for stop, binoculars for look, hand up high for ask. Say it three times, first in a whisper, then in a talking voice, then big and proud. This is the sentence you want them singing to their grown ups at home time.",
-      "minutes": 1
+      "minutes": 1,
+      "together_prompt": "Say it loudly together, with the actions: Stop! Look! Ask a grown up!"
     },
     {
       "type": "digi",
@@ -323,7 +339,8 @@
       "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. The passport page is next, and then DiGi Junior says goodbye.",
       "heading": "Pebble's job for you",
       "minutes": 1,
-      "character": "pebble"
+      "character": "pebble",
+      "together_prompt": "Read Pebble's job out. Say: that is your job this week, and I am your grown up to ask."
     },
     {
       "type": "interactive",
@@ -352,7 +369,8 @@
       "phase": "close",
       "script": "Let DiGi Junior land the ending, the lines appear on their own. Do the star pause with the class one last time as the first line comes up: arms and legs wide like a star, one slow breath. Send the parent note home in book bags today so families hear the chant tonight. Wave goodbye to DiGi Junior with twinkling star fingers.",
       "heading": "DiGi Junior says goodbye",
-      "minutes": 1
+      "minutes": 1,
+      "together_prompt": "Do the last star pause together. Then say: that is the lesson done. Well done, little star."
     }
   ],
   "dsl_note": {
@@ -391,9 +409,11 @@
   "parent_note": {
     "taught": "Today we learned that some things on a screen are real, some are made up, and a computer can even make pictures of things that never happened. Your child learned a little tool for when they are not sure: Stop, look, ask a grown up.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child about DiGi Junior's special book.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school walk together. The class met it today; it goes on the page when you and your child do its short check at home, on your phone. Each stage of growing up ends with a stamp. Ask your child about DiGi Junior's special book.",
     "try_this": "Watch something together this week and pause it once. Ask: is this real or made up? Then let your child ask you the same question about something else on the screen.",
     "family_question": "Can you teach me the star pause? Show me Stop, look, ask a grown up.",
+    "listen_for": "You can tell me that some screen things are real and some are made up, and you do the three steps when you are not sure.",
+    "then_ask": "Who could I ask if I was not sure a picture was real?",
     "no_login_required": true
   },
   "video_beats": [],

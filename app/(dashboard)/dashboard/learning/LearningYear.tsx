@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import BetaTag from '@/components/ui/BetaTag'
+import HappyIcon from '@/components/kid/HappyIcon'
+import HomeworkCheck from '@/components/learning/HomeworkCheck'
+import { CRAYON } from '@gc/shared/happy-news'
+import { homeworkBand, helpMoves } from '@/lib/homework/guide'
 import type { YearView } from '@/lib/learning/year-view'
 import type { WeekBrief } from '@/lib/learning/this-week'
 
@@ -55,50 +59,111 @@ import type { WeekBrief } from '@/lib/learning/this-week'
 // THE SUMMARY STAYS ABOVE THE TABS. This week at school is the answer to the
 // question most parents actually arrived with, so putting it inside a tab would
 // hide the best thing on the page behind a choice.
+//
+// ── HOMEWORK FIRST, ONE SCROLL, NO TABS (17 October 2026) ───────────────────
+//
+// Justin, with a screenshot of this page: "simplify ... make super helpful ...
+// solve problem of homework ... super simple intuitive". Three specialists
+// reported the same day (plans/2026-10-17-at-school-homework-plan.md): the
+// research says the parent's real questions are how much homework is normal,
+// whether tonight's is fine, and how to help without taking over; Mobbin says
+// a range bar with a verdict, one big button, and no mode switching; the
+// platform map says almost all of it already existed in four other places.
+//
+// So the page now answers in that order, top to bottom:
+//
+//   1. How much is normal for their year, and is tonight fine   HomeworkCheck
+//   2. Paste in tonight's homework                              the decoder
+//   3. Three ways to help tonight                               helpMoves
+//   4. This week in class                                       the WeekBrief
+//   5. Make it a routine                                        After school quest
+//   6. The whole term, what is coming, a practice sheet         quiet rows
+//
+// The tabs went. They hid the homework help behind a choice on the page a
+// parent opens BECAUSE of homework. The term list is still here, one tap
+// down, for the parent who wants it.
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
-  padding: '18px', marginBottom: 14,
+  background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
+  padding: '18px 16px', marginBottom: 16,
 }
 
-// SHORT LABELS, MEASURED RATHER THAN GUESSED. "The whole term" pushed the third
-// tab off the right edge of a 390 phone, and a tab a parent cannot see is a tab
-// that does not exist, whichever way the row scrolls. Three words that fit beat
-// three that read slightly better and hide one.
-type TabKey = 'term' | 'ahead' | 'homework'
-const TABS: { key: TabKey; label: string }[] = [
-  { key: 'term', label: 'The term' },
-  { key: 'ahead', label: 'Get ahead' },
-  { key: 'homework', label: 'Homework' },
-]
+const H2: React.CSSProperties = {
+  margin: '0 0 8px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
+  color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em',
+}
+
+/** What an opened row shows, indented under its title. */
+const FOLD: React.CSSProperties = { padding: '2px 4px 16px 60px' }
+
+/** A quiet row at the foot of the page: icon, words, chevron. */
+function Row({ icon, title, sub, href, onClick, open }: {
+  icon: React.ComponentProps<typeof HappyIcon>['name']; title: string; sub?: string
+  href?: string; onClick?: () => void; open?: boolean
+}) {
+  const inner = (
+    <>
+      <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 12, background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <HappyIcon name={icon} size={28} />
+      </span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{title}</span>
+        {sub && <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{sub}</span>}
+      </span>
+      <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform .18s' }}>›</span>
+    </>
+  )
+  const style: React.CSSProperties = {
+    width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 4px', textAlign: 'left',
+    background: 'none', border: 'none', borderTop: '1.5px solid var(--border)', cursor: 'pointer', textDecoration: 'none', font: 'inherit',
+  }
+  return href
+    ? <Link href={href} style={style}>{inner}</Link>
+    : <button onClick={onClick} aria-expanded={open} style={style}>{inner}</button>
+}
 
 export default function LearningYear({
-  views, blurbs, briefs = [], initialTab,
+  views, blurbs, briefs = [], notes = [], initialTab,
 }: {
   views: YearView[]
   blurbs: string[]
   briefs?: (WeekBrief | null)[]
-  /** Which tab the link asked for, from ?tab=. Anything unknown falls to the term. */
+  /** What each child wrote in their own app today, from kid_homework_notes. */
+  notes?: (string | null)[]
+  /** ?tab=term opens the whole term; anything else lands on the homework view. */
   initialTab?: string | null
 }) {
   const [active, setActive] = useState(0)
-  // A link can name its tab, so DiGi's "make sense of that homework" chip lands
-  // on the decoder rather than on the term list with the decoder one tap away.
-  // A promise in a chip label that the destination does not keep is worse than
-  // no chip. Unknown values fall back rather than showing an empty page.
-  const [tab, setTab] = useState<TabKey>(
-    TABS.some(t => t.key === initialTab) ? (initialTab as TabKey) : 'term'
-  )
+  const [termOpen, setTermOpen] = useState(initialTab === 'term')
   const [open, setOpen] = useState<Record<string, boolean>>({})
+  const [showWording, setShowWording] = useState(false)
+  // Which rows are open. This week opens itself when the page is reached by
+  // its anchor from the Today card on Home, so that link still lands on it.
+  const [fold, setFold] = useState<Record<string, boolean>>({})
+  useEffect(() => {
+    if (window.location.hash === '#this-week') setFold(f => ({ ...f, week: true }))
+  }, [])
+  const toggleFold = (key: string) => setFold(f => ({ ...f, [key]: !f[key] }))
   const v = views[active]
   const blurb = blurbs[active]
   const brief = briefs[active] ?? null
+  const note = notes[active] ?? null
+  const band = homeworkBand(v.yearGroup)
+  const childQs = `child=${encodeURIComponent(v.childId)}`
 
   const toggle = (key: string) => setOpen(o => ({ ...o, [key]: !o[key] }))
 
+  // One mono line under the title: year, term, week. It replaced a chip and a
+  // paragraph, which said the same thing in forty words.
+  const frame = [
+    band?.yearLabel ?? null,
+    v.label ? v.label.replace(/^Year \d+,\s*/, '') : null,
+    brief && !brief.preview ? `week ${brief.weekOfTerm}` : null,
+  ].filter(Boolean).join(' · ')
+
   return (
-    <div style={{ maxWidth: 660, margin: '0 auto', padding: '22px 20px 60px' }}>
-      <Link href="/dashboard" style={{ display: 'inline-flex', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+    <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 16px 60px' }}>
+      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 6 }}>
         ← Home
       </Link>
 
@@ -106,109 +171,41 @@ export default function LearningYear({
         <p className="eyebrow" style={{ margin: 0 }}>At school</p>
         <BetaTag />
       </div>
-      <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 8px' }}>
-        What {v.childName} is learning
+      <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 6px' }}>
+        {v.childName}&rsquo;s homework
       </h1>
+      {frame && (
+        <p style={{ margin: '0 0 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', letterSpacing: '0.02em' }}>
+          {frame}
+        </p>
+      )}
 
       {/* Which child, only when there is more than one. */}
       {views.length > 1 && (
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '14px 0 4px' }}>
-          {views.map((x, i) => (
-            <button
-              key={x.childId}
-              onClick={() => setActive(i)}
-              aria-pressed={i === active}
-              style={{
-                padding: '9px 15px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
-                border: `2px solid ${i === active ? 'var(--terracotta)' : 'var(--ink)'}`,
-                background: i === active ? 'var(--terracotta-lt)' : '#fff',
-                fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
-              }}
-            >
-              {x.childName}
-              {x.yearGroup !== null && (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginLeft: 7 }}>
-                  Y{x.yearGroup}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* The year and term, stated once and plainly, so everything below has a
-          frame. Without this a parent cannot tell whether they are reading this
-          term, this year, or the whole of primary. */}
-      {v.label && (
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '8px 13px', margin: '14px 0 12px' }}>
-          <span aria-hidden>🎒</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{v.label}</span>
-        </div>
-      )}
-
-      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 20px' }}>{blurb}</p>
-
-      {/* THIS WEEK AT SCHOOL, phase 1 of the curriculum depth plan: the one
-          objective the week is on, walked deterministically through the term
-          (see lib/learning/this-week.ts), with the two things a parent can do
-          with it. The anchor is what the Today card row on Home lands on. In
-          the holidays it previews what starts when they go back, said as a
-          preview, because "this week" in August would be a small lie. */}
-      {brief && (
-        <div id="this-week" style={{ ...CARD, borderColor: 'var(--terracotta)', scrollMarginTop: 80 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 6 }}>
-            {brief.preview
-              ? `When they go back · Year ${brief.yearGroup}`
-              : `This week at school · week ${brief.weekOfTerm} of term`}
-          </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--ink-muted)', marginBottom: 4 }}>
-            {brief.subjectLabel} · {brief.strand}
-          </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 8px', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
-            {brief.lead}
-          </h2>
-          {brief.parts.length > 0 && (
-            <ul style={{ margin: '0 0 10px', paddingLeft: 20 }}>
-              {brief.parts.map(p => (
-                <li key={p} style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 3 }}>{p}</li>
-              ))}
-            </ul>
-          )}
-          {brief.second && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
-              Also running: <strong>{brief.second.subjectLabel}</strong>, {brief.second.lead}
-            </p>
-          )}
-          {/* The dinner table version. A fixed frame rather than a sentence
-              grafted onto DfE text, because their objectives do not survive
-              being rewritten into questions and we quote, never paraphrase. */}
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.55, margin: '0 0 14px' }}>
-            The dinner table version: ask them to teach YOU this one. Children love being the teacher, and teaching it back is how you find out if it stuck.
-          </p>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <Link
-              href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
-                padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)',
-              }}
-            >
-              ⭐ Make it a job
-            </Link>
-            <Link
-              href="/dashboard/homework"
-              style={{
-                display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-                background: '#fff', color: 'var(--ink)', border: 'var(--edge)',
-                borderRadius: 'var(--radius-tile)', padding: '11px 15px', fontFamily: 'var(--font-display)',
-                fontWeight: 800, fontSize: 'var(--text-base)',
-              }}
-            >
-              How the school teaches it
-            </Link>
-          </div>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '0 0 16px' }}>
+          {views.map((x, i) => {
+            const on = i === active
+            return (
+              <button
+                key={x.childId}
+                onClick={() => setActive(i)}
+                aria-pressed={on}
+                style={{
+                  minHeight: 44, padding: '8px 16px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
+                  border: on ? '2px solid var(--ink)' : '2px solid var(--ink-light)',
+                  background: on ? CRAYON.sky : 'var(--white)', boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
+                }}
+              >
+                {x.childName}
+                {x.yearGroup !== null && (
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', marginLeft: 7 }}>
+                    {x.yearGroup === 0 ? 'R' : `Y${x.yearGroup}`}
+                  </span>
+                )}
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -217,9 +214,7 @@ export default function LearningYear({
           be the one thing this feature must never do. */}
       {v.blocked === 'no_birthday' && (
         <div style={{ ...CARD, background: 'var(--cream)' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px' }}>
-            One thing missing
-          </h2>
+          <h2 style={H2}>One thing missing</h2>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
             England places a child by their age on 31 August, so their birthday is the only way to know which year group they are actually in. The month on its own is enough if you would rather not give the day.
           </p>
@@ -229,201 +224,233 @@ export default function LearningYear({
         </div>
       )}
 
-      {/* The three things you can do with a term, as peers.
-          Buttons rather than links, because switching a panel is not navigation
-          and a parent who taps back should leave the page rather than walk
-          through three tabs to get out of it. */}
-      {v.blocked === null && (
-        <div role="tablist" aria-label="What they are learning" style={{
-          display: 'flex', gap: 7, margin: '4px 0 16px', overflowX: 'auto',
-          marginLeft: -20, marginRight: -20, paddingLeft: 20, paddingRight: 20,
-          scrollbarWidth: 'none',
-        }}>
-          {TABS.map(t => {
-            const on = tab === t.key
-            return (
-              <button
-                key={t.key}
-                role="tab"
-                aria-selected={on}
-                onClick={() => setTab(t.key)}
+      {/* 1. HOW MUCH IS NORMAL, AND IS TONIGHT FINE */}
+      {band && <HomeworkCheck band={band} childName={v.childName} tonightNote={note} />}
+
+      {/* 2. THE ONE BUTTON. Paste in tonight's homework: the decoder, which
+          names the curriculum objective, says what it is for, and gives one
+          way to help. Butter because it is the one thing on this page to tap. */}
+      {band && (
+        <Link
+          href={`/dashboard/homework?${childQs}`}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, textDecoration: 'none',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+            boxShadow: 'var(--lift)', padding: '15px 18px', marginBottom: 6,
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+          }}
+        >
+          <HappyIcon name="homework" size={26} />
+          Stuck on tonight&rsquo;s homework?
+        </Link>
+      )}
+      {band && (
+        <p style={{ margin: '0 0 20px', textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, textWrap: 'balance' }}>
+          Paste it in. We say what it is for and how the school teaches it.
+        </p>
+      )}
+
+      {/* ── EVERYTHING ELSE, ONE TAP AWAY (17 October 2026) ──────────────────
+          Justin: "simplify ux further so only what they need to see and can
+          click to expand". What a parent needs at the kitchen table is the
+          check and the one button above. Everything below is a row with a
+          title and a line that says what is inside, and it opens in place:
+          how to help, this week in class, what is coming up, secondary
+          school, the routine, the whole term, a practice sheet. Nothing was
+          taken away; it waits until it is asked for. */}
+      {v.blocked !== 'no_birthday' && (
+        <div style={{ marginTop: 6, borderBottom: '1.5px solid var(--border)' }}>
+          {/* How a parent helps matters more than how much: backing the
+              child's own effort helps, taking over does not
+              (lib/homework/guide.ts carries the sources). */}
+          {band && (
+            <Row icon="hand" title="How to help tonight" sub="Three things that work, for their age" onClick={() => toggleFold('help')} open={fold.help} />
+          )}
+          {band && fold.help && (
+            <div style={FOLD}>
+              <ol style={{ listStyle: 'none', margin: '0 0 6px', padding: 0, display: 'grid', gap: 10 }}>
+                {helpMoves(band.phase).map((m, i) => (
+                  <li key={m} style={{ display: 'flex', gap: 11, alignItems: 'flex-start' }}>
+                    <span aria-hidden style={{
+                      flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: CRAYON.teal, border: '2px solid var(--ink)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                    }}>{i + 1}</span>
+                    <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, paddingTop: 3 }}>{m}</span>
+                  </li>
+                ))}
+              </ol>
+              <Link href="/dashboard/scripts?cat=school-and-ai" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                The words for a homework standoff ›
+              </Link>
+            </div>
+          )}
+
+          {/* This week in class, phase 1 of the curriculum depth plan: the one
+              objective the week is on (lib/learning/this-week.ts). The anchor
+              is what the Today card on Home lands on, and arriving by it
+              opens the row. */}
+          {brief && (
+            <div id="this-week" style={{ scrollMarginTop: 80 }}>
+              <Row
+                icon="lessons"
+                title={brief.preview ? 'When they go back' : 'This week in class'}
+                sub={`${brief.subjectLabel}: ${brief.strand}`}
+                onClick={() => toggleFold('week')}
+                open={fold.week}
+              />
+            </div>
+          )}
+          {brief && fold.week && (
+            <div style={FOLD}>
+              {/* The dinner table version. A fixed frame rather than a sentence
+                  grafted onto DfE text, because their objectives do not
+                  survive being rewritten into questions and we quote, never
+                  paraphrase. */}
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: '0 0 12px' }}>
+                At tea, ask {v.childName} to teach you this one. Being the teacher is how you find out if it stuck.
+              </p>
+              <Link
+                href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
                 style={{
-                  flexShrink: 0, cursor: 'pointer', borderRadius: 'var(--radius-pill)', padding: '10px 14px',
-                  border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
-                  background: on ? 'var(--terracotta-lt)' : '#fff',
-                  fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: 'var(--text-base)', color: 'var(--ink)',
+                  display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 44, textDecoration: 'none',
+                  background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)',
+                  borderRadius: 'var(--radius-tile)', padding: '9px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 }}
               >
-                {t.label}
-              </button>
-            )
-          })}
-        </div>
-      )}
+                <HappyIcon name="jobs" size={22} /> Make it a job for stars
+              </Link>
+              <div style={{ marginTop: 10 }}>
+                <button
+                  onClick={() => setShowWording(w => !w)}
+                  aria-expanded={showWording}
+                  style={{ background: 'none', border: 'none', padding: '6px 0', minHeight: 44, cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}
+                >
+                  {showWording ? 'Hide' : 'What the curriculum says'} ›
+                </button>
+                {showWording && (
+                  <div style={{ margin: '0 0 6px', paddingLeft: 11, borderLeft: '3px solid var(--border)' }}>
+                    <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{brief.lead}</p>
+                    {brief.parts.map(p => (
+                      <p key={p} style={{ margin: '4px 0 0', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{p}</p>
+                    ))}
+                    {brief.second && (
+                      <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+                        Also running: {brief.second.subjectLabel}, {brief.second.lead}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-      {/* Coming up at school. One thing, never a list: five dates is a worry,
-          one is a head start. */}
-      {tab === 'ahead' && v.event && (
-        <div style={{ ...CARD, borderColor: 'var(--terracotta)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 6 }}>
-            Coming up {v.eventWhen ? `· ${v.eventWhen}` : ''}
-          </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-            {v.event.event.title}
-          </h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
-            {v.event.event.what}
-          </p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
-            {v.event.event.doThis}
-          </p>
-        </div>
-      )}
+          {/* Coming up at school. One thing, never a list: five dates is a
+              worry, one is a head start. The row names it and when; opening
+              it gives the one thing to do, then why. */}
+          {v.event && (
+            <Row icon="calendar" title={v.event.event.title} sub={`Coming up${v.eventWhen ? `, ${v.eventWhen}` : ''}`} onClick={() => toggleFold('event')} open={fold.event} />
+          )}
+          {v.event && fold.event && (
+            <div style={FOLD}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600, margin: '0 0 8px', maxWidth: '65ch' }}>{v.event.event.doThis}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, maxWidth: '65ch' }}>{v.event.event.what}</p>
+            </div>
+          )}
 
-      {/* Secondary school. Only inside the real window, and it takes the lead
-          over the term list when it is live, because in that fortnight it is
-          the only thing a parent is actually thinking about. */}
-      {tab === 'ahead' && v.transition && (
-        <div style={{ ...CARD, background: 'var(--tint-blue, #D8E8F8)', borderColor: 'transparent' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
-            Secondary school
-          </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-            {v.transition.headline}
-          </h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
-            {v.transition.line}
-          </p>
-          <Link href="/dashboard/secondary" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-            The five steps
-          </Link>
-        </div>
-      )}
+          {/* Secondary school, only inside the real window. */}
+          {v.transition && (
+            <Row icon="bag" title="Secondary school" sub={v.transition.headline} onClick={() => toggleFold('secondary')} open={fold.secondary} />
+          )}
+          {v.transition && fold.secondary && (
+            <div style={FOLD}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>{v.transition.line}</p>
+              <Link href="/dashboard/secondary" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, textDecoration: 'none', background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>The five steps ›</Link>
+            </div>
+          )}
 
-      {/* The term itself. */}
-      {tab === 'term' && v.subjects.map(sub => (
-        <div key={sub.subject} style={CARD}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0 10px', flexWrap: 'wrap', marginBottom: 4 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: 0, letterSpacing: '-0.02em', minWidth: 0 }}>
-              {sub.label}
-            </h2>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-              {sub.count} {sub.count === 1 ? 'thing' : 'things'}
-            </span>
-          </div>
-          <div style={{ marginTop: 12, display: 'grid', gap: 8 }}>
-            {sub.strands.map(st => {
-              const key = `${sub.subject}:${st.strand}`
-              const isOpen = Boolean(open[key])
-              return (
-                <div key={key} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
-                  <button
-                    onClick={() => toggle(key)}
-                    aria-expanded={isOpen}
-                    style={{
-                      width: '100%', display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left',
-                      background: isOpen ? 'var(--cream)' : '#fff', border: 'none', cursor: 'pointer',
-                      padding: '13px 14px',
-                    }}
-                  >
-                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                      {st.strand}
-                    </span>
-                    <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                      {st.objectives.length}
-                    </span>
-                    <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
-                  </button>
-                  {isOpen && (
-                    <ul style={{ listStyle: 'none', margin: 0, padding: '2px 14px 14px', display: 'grid', gap: 9 }}>
-                      {st.objectives.map(o => (
-                        <li key={o.id} style={{ display: 'flex', gap: 9, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                          <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontWeight: 900 }}>·</span>
-                          {/* The Department writes its long objectives as one
-                              sentence ending "by:" and then six clauses split
-                              by semicolons. Laid out, not edited: every word is
-                              still theirs and still in their order. */}
-                          {o.parts.length > 0 ? (
-                            <span>
-                              <span style={{ display: 'block', color: 'var(--ink)', fontWeight: 600 }}>{o.lead}</span>
-                              {/* A rule rather than a bullet glyph, because the
-                                  obvious glyph for a sub point is a dash and
-                                  this product does not put dashes in front of
-                                  a parent. */}
-                              <span style={{ display: 'grid', gap: 6, marginTop: 7, paddingLeft: 11, borderLeft: '2px dotted rgba(26,26,46,0.18)' }}>
-                                {o.parts.map((part, i) => (
-                                  <span key={i} style={{ display: 'block' }}>{part}</span>
-                                ))}
-                              </span>
-                            </span>
-                          ) : (
-                            <span>{o.objective}</span>
+          {/* The routine is the nudge: homework before screens and twenty
+              minutes of reading become jobs the child ticks and the parent
+              approves, with the after school reminder the app already
+              sends. No new push, no new cron. */}
+          <Row
+            icon="time"
+            title="Make it a routine"
+            sub={`Homework before screens and twenty minutes of reading, as jobs ${v.childName} ticks`}
+            href="/dashboard/quests?routine=after-school"
+          />
+          {v.subjects.length > 0 && (
+            <Row
+              icon="read"
+              title="The whole term"
+              sub={`Everything ${band?.yearLabel ?? 'the class'} covers this term`}
+              onClick={() => setTermOpen(o => !o)}
+              open={termOpen}
+            />
+          )}
+          {termOpen && (
+            <div style={{ padding: '4px 0 14px' }}>
+              {v.subjects.map(sub => (
+                <div key={sub.subject} style={{ marginBottom: 12 }}>
+                  <p style={{ margin: '0 0 6px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                    {sub.label} <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{sub.count}</span>
+                  </p>
+                  <div style={{ display: 'grid', gap: 6 }}>
+                    {sub.strands.map(st => {
+                      const key = `${sub.subject}:${st.strand}`
+                      const isOpen = Boolean(open[key])
+                      return (
+                        <div key={key} style={{ border: '2px solid var(--border)', borderRadius: 'var(--radius-tile)', background: 'var(--white)', overflow: 'hidden' }}>
+                          <button
+                            onClick={() => toggle(key)}
+                            aria-expanded={isOpen}
+                            style={{ width: '100%', minHeight: 44, display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', padding: '10px 12px' }}
+                          >
+                            <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>{st.strand}</span>
+                            <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink-muted)', transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+                          </button>
+                          {isOpen && (
+                            <ul style={{ listStyle: 'none', margin: 0, padding: '0 12px 12px', display: 'grid', gap: 8 }}>
+                              {st.objectives.map(o => (
+                                <li key={o.id} style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                                  {/* Laid out, not edited: every word is still
+                                      the Department's and still in their order. */}
+                                  {o.parts.length > 0 ? (
+                                    <>
+                                      <span style={{ display: 'block', color: 'var(--ink)', fontWeight: 600 }}>{o.lead}</span>
+                                      <span style={{ display: 'grid', gap: 5, marginTop: 6, paddingLeft: 10, borderLeft: '2px dotted rgba(26,26,46,0.18)' }}>
+                                        {o.parts.map((part, i) => <span key={i}>{part}</span>)}
+                                      </span>
+                                    </>
+                                  ) : o.objective}
+                                </li>
+                              ))}
+                            </ul>
                           )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      ))}
-
-      {/* GET AHEAD. What is coming, and the one thing to do about it.
-          The printable lives INSIDE this tab rather than being the way off the
-          page, which is the whole of Justin's "it seems to live on printables"
-          complaint: the sheet is a tool this page offers, not the section this
-          page belongs to. */}
-      {tab === 'ahead' && v.blocked === null && (
-        <div style={{ ...CARD, background: 'var(--cream)' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 4px' }}>
-            Something to practise
-          </h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
-            Built from the same objectives as the term list, so it is what the class is on rather than worksheets off the internet.
-          </p>
-          <Link href="/dashboard/printables/learning" className="btn btn-outline" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px' }}>
-            <span>Print a practice sheet</span>
-            <span aria-hidden>→</span>
-          </Link>
+              ))}
+              {/* Where every line came from: the reason a parent can trust a
+                  page that says what school teaches. */}
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '6px 0 0' }}>
+                From the national curriculum for England, published by the Department for Education. The wording is theirs. Which term a topic falls in is our ordering, not the school&rsquo;s.
+              </p>
+            </div>
+          )}
+          {v.target && (
+            <Row icon="print" title="Print a practice sheet" sub="This term's topics, a week or two ahead of the class" href="/dashboard/printables/learning" />
+          )}
         </div>
       )}
 
-      {/* Nothing dated in the diary is a real answer and worth saying, rather
-          than an empty tab that reads as broken. */}
-      {tab === 'ahead' && v.blocked === null && !v.event && !v.transition && (
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 14px' }}>
-          Nothing dated coming up for {v.childName} that we know about. The sheet above is still the useful thing: it is this term&rsquo;s objectives, a week or two before the class gets to them.
-        </p>
-      )}
-
-      {/* HOMEWORK. The decoder, which reads these same objectives, said as the
-          thing it is for rather than as a menu item. */}
-      {tab === 'homework' && v.blocked === null && (
-        <div style={{ ...CARD, background: 'var(--cream)' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 4px' }}>
-            Make sense of what came home
-          </h2>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
-            Paste in the homework, or the bit of it nobody can follow, and it comes back in plain words with the method the school is actually using. Most of the arguments at that table are about the method rather than the maths.
-          </p>
-          <Link href="/dashboard/homework" className="btn btn-primary" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px' }}>
-            <span>Decode a piece of homework</span>
-            <span aria-hidden>→</span>
-          </Link>
-        </div>
-      )}
-
-      {/* Where every line came from. Not a footnote for its own sake: the whole
-          reason a parent can trust a page that tells them what school teaches
-          is being able to see it is not our opinion.
-          On the term tab, because that is the tab making the claim. */}
-      {tab === 'term' && v.subjects.length > 0 && (
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, marginTop: 18 }}>
-          Taken from the national curriculum programmes of study for England, published by the Department for Education. The wording is theirs. Which term a topic falls in is our ordering, not the school&rsquo;s, so a class may reach something sooner or later than this shows. We are adding sheets and games for these as we go.
-        </p>
+      {/* The blurb for the years we hold no objectives for, so Reception and
+          secondary still get an honest line about why the term list is not
+          here. */}
+      {(v.blocked === 'too_young' || v.blocked === 'secondary') && (
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 0' }}>{blurb}</p>
       )}
     </div>
   )

@@ -10,6 +10,7 @@ import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
 import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
+import DealChangeAsks from '@/components/deal/DealChangeAsks'
 import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
 import HappyIcon from '@/components/kid/HappyIcon'
 import AgreementOffer from '@/components/quests/AgreementOffer'
@@ -268,6 +269,11 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
       {/* A five day jobs streak, done and confirmed on time, waiting on the
           parent to send its reward. Leads the page when there is one. */}
       <StreakRewards streaks={streakRewards} />
+
+      {/* A child asking to change a promise in the deal, with their reason
+          (migration 381). Waiting on a yes like everything below it, and silent
+          when nothing is waiting. */}
+      <DealChangeAsks />
 
       {/* Then the jobs waiting on a yes. The page runs in the order a parent
           actually works: answer the timer request, agree what is done, then set

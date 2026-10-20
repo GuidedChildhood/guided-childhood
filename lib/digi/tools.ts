@@ -199,7 +199,7 @@ export const SET_REMINDER_TOOL: Anthropic.Tool = {
       },
       text: {
         type: 'string',
-        description: 'What the reminder says, in a few plain words the parent will recognise on their lock screen. "Start the wind down: screens off in ten minutes".',
+        description: 'What the reminder says, in a few plain words the parent will recognise on their lock screen. "Start the wind down: TV ends at the time we agreed".',
       },
       repeat_days: {
         type: 'integer',

@@ -1,7 +1,8 @@
 'use client'
 
-import { bandForAge } from '@/lib/children/age'
-import type { AgeBand } from '@/lib/content/stages'
+import { bandForAge, isTooYoung } from '@/lib/children/age'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import StartsAtFour from '@/components/children/StartsAtFour'
 
 // ONE WAY TO ASK HOW OLD A CHILD IS, FOR EVERY CHILD.
 //
@@ -38,21 +39,35 @@ export function dobFrom(month: number | null, year: number | null): string | nul
   return `${year}-${String(month).padStart(2, '0')}-01`
 }
 
-/** The band that birthday puts them in today, and will keep putting them in. */
+/** The band that birthday puts them in today, and will keep putting them in.
+ *  Null for a child not yet 4, so every form that waits on a band (the add a
+ *  child card, the setup step) stays shut and StartsAtFour says why. */
 export function bandFrom(month: number | null, year: number | null): AgeBand | null {
   const dob = dobFrom(month, year)
-  return dob ? bandForAge(dob) : null
+  if (!dob || isTooYoung(dob)) return null
+  return bandForAge(dob)
+}
+
+/** A birthday that is given and is under 4 (Justin, 16 October 2026). */
+export function tooYoungFrom(month: number | null, year: number | null): boolean {
+  return isTooYoung(dobFrom(month, year))
 }
 
 export default function BirthdayFields({
-  month, year, onChange, fieldStyle,
+  month, year, onChange, fieldStyle, name, tooYoungAfter,
 }: {
   month: number | null
   year: number | null
   onChange: (month: number | null, year: number | null) => void
   /** The host form's own input style, so this looks native wherever it lands. */
   fieldStyle: React.CSSProperties
+  /** The child's first name, for the we start at 4 card. */
+  name?: string
+  /** The closing line of that card on this screen. */
+  tooYoungAfter?: string
 }) {
+  const dob = dobFrom(month, year)
+  const tooYoung = isTooYoung(dob)
   return (
     <div>
       <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
@@ -80,11 +95,18 @@ export default function BirthdayFields({
       </div>
       {/* The band is derived, not asked, and said back so a parent can see we
           got it right without having to trust us. */}
+      {tooYoung && dob ? (
+        <StartsAtFour dob={dob} name={name} after={tooYoungAfter} />
+      ) : (
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '6px 0 0', lineHeight: 1.5, minHeight: '1.2em' }}>
+        {/* The stage's own label, never the band value: the '11-13' band is
+            ages 11 to 12, and printing the value told the parent of a 13 year
+            old two stages at once. */}
         {bandFrom(month, year)
-          ? `Month and year is plenty. That puts them in ages ${bandFrom(month, year)!.replace('-', ' to ')}, and we move them up on their birthday.`
+          ? `Month and year is plenty. That puts them in ${getStageFromAgeBand(bandFrom(month, year)!).name}, ${getStageFromAgeBand(bandFrom(month, year)!).ages.toLowerCase()}, and we move them up on their birthday.`
           : 'Month and year is plenty, and it means they move up a stage on their own birthday.'}
       </p>
+      )}
     </div>
   )
 }

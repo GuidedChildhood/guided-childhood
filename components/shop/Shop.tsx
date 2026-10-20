@@ -387,7 +387,7 @@ function Step({ children, onClick, label, disabled }: { children: React.ReactNod
     <button
       onClick={onClick} aria-label={label} disabled={disabled}
       style={{
-        width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: '#fff',
+        width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: '#fff',
         border: 'var(--edge)', cursor: disabled ? 'default' : 'pointer',
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)',
         opacity: disabled ? 0.4 : 1,

@@ -621,9 +621,12 @@
   "parent_note": {
     "taught": "Today we covered consent, images and UK law in a calm, factual way: real consent is freely given and can always be taken back, and the law makes any sexual image of an under 18 illegal to make, hold or share, even of yourself, and agreeing is no defence. We also made sure every pupil knows about Report Remove, the confidential Childline and Internet Watch Foundation tool that works to get images of under 18s taken down, and that asking for help never gets them in trouble.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them what the three questions are, and let the conversation be short if they want it short: they know the answers now.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them what the three questions are, and let the conversation be short if they want it short: they know the answers now.",
     "try_this": "Look up Report Remove together at childline.org.uk, just so it is a known name in your house before anyone ever needs it. Knowing the route in advance is what makes a young person use it.",
     "family_question": "If a friend of yours was being pressured to share a photo, what would you want them to know?",
+    "listen_for": "You know real consent is free and can be taken back, what the law says about images of under 18s, and that Report Remove exists.",
+    "then_ask": "Can you show me where Report Remove is, so we both know?",
+    "say_this": "If a photo ever gets out, or someone pushes you for one, come to me. There is a free way to get it taken down, and you will not be in trouble.",
     "no_login_required": true
   },
   "video_beats": [],
@@ -773,7 +776,7 @@
       "If an image of you is out there you are in trouble and nothing can be done (wrong on both counts, police and school guidance protects the young person first, and Report Remove from Childline and the IWF works to get images taken down confidentially)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Read the consent properties and the law slide aloud word for word from the pack, draw the three questions tool on the board, run both discussions as timed pair and group talk with a watch, deliver the scenario by reading the message aloud in a flat neutral voice, and run the worksheet and the two exit questions exactly as printed. The Report Remove signpost and the closing open door must be said aloud even with no screen.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "commitment_stem": "My commitment: before anything is shared I will ask the three questions, and if it ever matters, for me or a friend, I know about Report Remove and I will not stay quiet.",
     "differentiation": {
       "stretch": "Early finishers take the stretch question: why does the law deliberately have no consent exception for under 18s, and who would benefit if it did? Push for the protective logic: a rule where agreeing is no defence leaves no room for pressure dressed up as a yes.",

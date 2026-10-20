@@ -30,7 +30,7 @@ const TILES: (SectionTile & { key: string })[] = [
   },
   {
     key: 'pathway',
-    href: '/dashboard/pathway', label: 'Road to sixteen', sub: 'Where they are, and what is next',
+    href: '/dashboard/pathway', label: 'Passport', sub: 'The road to sixteen: where they are, what is next',
     icon: '🗺️',
     bg: 'var(--tint-blue)', accent: '#A9C8E4',
   },

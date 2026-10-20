@@ -138,7 +138,7 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
         }}>
           {card.eyebrow}
         </div>
-        <button
+        <button className="tap-target"
           onClick={shareCard}
           aria-label="Share this card"
           style={{
@@ -580,7 +580,7 @@ export default function DailyDeckViewer({
     >
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <button
+        <button className="tap-target"
           onClick={() => router.push('/dashboard')}
           style={{
             width: 36, height: 36, borderRadius: '50%',

@@ -51,7 +51,7 @@ export default function KidHomeFixture() {
           title="Go Jonny!"
           sub="2 of your five to go."
           friend={{ name: 'Bloop', img: '/digi-squad/friends/bloop.png' }}
-          corner={<button aria-label="Turn sounds off" style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', fontSize: 'var(--text-base)', lineHeight: 1 }}>🔊</button>}
+          corner={<button className="tap-target" aria-label="Turn sounds off" style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', fontSize: 'var(--text-base)', lineHeight: 1 }}>🔊</button>}
         />
         {/* ?today=done|going|fresh: the Today entry's three states (14 September 2026). */}
         <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0, waiting: 2 }} onToday={noop}

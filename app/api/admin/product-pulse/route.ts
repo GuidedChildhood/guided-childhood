@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { habitMetrics, type SessionRow } from '@/lib/home/habit-metrics'
 import { londonToday } from '@/lib/pathway/today'
+import { valueSignals, secondCheckInUsers, type ValueSignals } from '@/lib/home/value-signals'
 
 // Founder only. The product pulse: a de-identified aggregate read across all
 // families, so the insight board is useful from day one, not only once DiGi has
@@ -13,6 +14,45 @@ import { londonToday } from '@/lib/pathway/today'
 export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
+
+// Supabase returns at most 1000 rows a query. A count that silently stops at
+// 1000 would read as a real number, so these read every page or fail.
+async function allRows<T>(page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }>): Promise<T[]> {
+  const out: T[] = []
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await page(from, from + 999)
+    if (error) throw error
+    out.push(...(data ?? []))
+    if ((data ?? []).length < 1000) return out
+  }
+}
+
+// The five value signals (lib/home/value-signals.ts), or null when any source
+// cannot be read. Null means unknown, never zero: the review board prints
+// "unknown" for it rather than a count it could not make.
+async function readValueSignals(admin: ReturnType<typeof createAdminClient>, parentIds: string[]): Promise<ValueSignals | null> {
+  try {
+    const [memory, links, events, scriptEvents, outcomes] = await Promise.all([
+      allRows<{ user_id: string }>((a, b) => admin.from('digi_memory').select('user_id').eq('active', true).range(a, b)),
+      allRows<{ user_id: string }>((a, b) => admin.from('kid_links').select('user_id').not('last_seen_at', 'is', null).range(a, b)),
+      allRows<{ concern_id: string; user_id: string; score: number | null }>((a, b) =>
+        admin.from('concern_events').select('concern_id, user_id, score').not('score', 'is', null).range(a, b)),
+      allRows<{ user_id: string }>((a, b) =>
+        admin.from('concern_events').select('user_id').eq('linked_type', 'script').not('answer', 'is', null).range(a, b)),
+      allRows<{ user_id: string }>((a, b) => admin.from('digi_outcomes').select('user_id').not('verdict', 'is', null).range(a, b)),
+    ])
+    return valueSignals({
+      families: parentIds,
+      memory: memory.map(r => r.user_id),
+      childLink: links.map(r => r.user_id),
+      secondCheckIn: secondCheckInUsers(events),
+      scriptVerdict: scriptEvents.map(r => r.user_id),
+      followUpAnswered: outcomes.map(r => r.user_id),
+    })
+  } catch {
+    return null
+  }
+}
 
 export async function GET() {
   const supabase = await createClient()
@@ -46,6 +86,7 @@ export async function GET() {
 
     const kids = childrenRes.data ?? []
     const families = new Set(kids.map(k => k.parent_id as string).filter(Boolean)).size
+    const parentIds = [...new Set(kids.map(k => k.parent_id as string).filter(Boolean))]
     const byStage: Record<string, number> = {}
     for (const k of kids) { const b = (k.age_band as string) || 'unknown'; byStage[b] = (byStage[b] ?? 0) + 1 }
 
@@ -90,6 +131,8 @@ export async function GET() {
       wellbeingCheckins30d: wb.length,
       avgParentMood,
       habit: habitMetrics((dayRes.data ?? []) as SessionRow[], londonToday()),
+      // Null when a source could not be read. The weekly board prints that as unknown.
+      valueSignals: await readValueSignals(admin, parentIds),
     })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Pulse failed' }, { status: 502 })

@@ -528,9 +528,12 @@
   "parent_note": {
     "taught": "Today we looked at how bodies online are manufactured: angles, lighting, retouching, and the business reason feeds full of perfect images sit next to adverts, because feeling worse makes people scroll and buy. We also acknowledged calmly, briefly and without any detail that pornography exists and distorts what real bodies and relationships look like, and we pointed every pupil towards trusted adults.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them about the image check, and let them ask you the best friend question back.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them about the image check, and let them ask you the best friend question back.",
     "try_this": "Scroll a feed together for two minutes and each pick one image to run the check on: who edited this, who profits from me feeling worse, and what would I tell my best friend?",
-    "family_question": "Is there an account that reliably makes you feel worse after you look at it, and what would happen if you unfollowed it?",
+    "family_question": "If you ever wanted to unfollow an account, what would it be, and what would change?",
+    "listen_for": "You know every polished image is a set of choices, and you run the image check on the feeling, not the picture.",
+    "then_ask": "What would you tell your best friend about a feed that made them feel worse?",
+    "say_this": "The pictures you see are chosen and edited, and feeling worse after them is the business, not you. I would rather you told me than scrolled on.",
     "no_login_required": true
   },
   "video_beats": [],
@@ -728,7 +731,7 @@
       "Naming pornography in class encourages pupils to seek it out (a calm, brief, non graphic acknowledgement that it distorts real bodies and relationships is protective and sits on statutory RSHE ground, silence leaves the distortion unchallenged)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Read the two evidence items aloud as court exhibits, draw the four step insecurity loop on the board as you narrate it, and put the three questions of the image check up as a poster. The pornography slide is delivered verbally from the script, word for word, with nothing written on the board. Discussions run on a watch or phone timer, the worksheet and exit quiz are already paper.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: this week, when a post makes me feel worse about how I look, I will...",
     "differentiation": {
       "stretch": "For any worksheet item, trace the full money trail: who earns at every step from the image being posted to a product being bought. Then design the caption for a genuinely honest post and explain what makes it honest.",

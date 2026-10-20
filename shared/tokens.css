@@ -281,6 +281,22 @@
   --dur-hover: 0.15s;
   --dur-move:  0.28s;
   --ease:      cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  /* ── TOUCH AND FOCUS (16 October 2026) ──
+     A thumb is about 44px across, and both Apple's and Google's guidance
+     land there. The review board counted close circles at 34px, star
+     steppers at 30px and put away dots at 26px: a parent holding a child
+     with one hand misses those, and a miss on a stepper is a wrong number of
+     stars. --tap-min is the floor; the .tap-target class below reaches it
+     without changing what anything looks like.
+
+     The focus ring is the darker gold because the butter itself is 1.6 to 1
+     on white and a ring nobody can see is no ring. The dark gold is the same
+     colour as every button's drop shadow, so a keyboard user sees the house
+     colour, just drawn round the thing they are on. */
+  --tap-min:      44px;
+  --focus-ring:   3px solid var(--terracotta-dark);
+  --focus-offset: 2px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -533,6 +549,47 @@ h1, h2, h3 { text-wrap: balance; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .lift, .lift:hover { transition: none; transform: none; }
+}
+
+/* ── TAP TARGETS ──
+   A small round close or dismiss button keeps its size on the glass and gets
+   an invisible 44px pad to land on. The pad is a centred ::before, so it
+   grows the hit area without moving a pixel of layout, and it belongs to the
+   button, so a tap on it is a tap on the button.
+
+   Position is under :where so it has no specificity: a button already placed
+   absolute in a card corner keeps that, and absolute still anchors the pad.
+   Only for buttons that stand on their own. Buttons in a tight row (steppers,
+   day chips, dots) are sized to 44 for real instead, because pads that
+   overlap a neighbour send the tap to whichever button was drawn last.
+   scripts/check-tap-targets.mjs holds the line. */
+:where(.tap-target) { position: relative; }
+.tap-target::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, var(--tap-min));
+  height: max(100%, var(--tap-min));
+  transform: translate(-50%, -50%);
+}
+
+/* ── FOCUS ──
+   Every control shows where the keyboard is. :focus-visible only fires for
+   keyboard and switch users, so a tap or a click never draws it, which is why
+   it can be strong. It is !important for one reason: hundreds of inline
+   styles carry outline none from the days before this rule, and an inline
+   style beats any stylesheet rule that is not important.
+
+   Text fields are left to their own focus border (.input turns gold), since
+   a text field matches :focus-visible on every click and a ring on top of
+   the gold border would be two answers to one question. */
+:where(a, button, summary, select, [role="button"], [role="link"], [role="tab"],
+       [role="checkbox"], [role="radio"], [role="switch"], [role="option"],
+       [tabindex]:not([tabindex="-1"]),
+       input[type="checkbox"], input[type="radio"], input[type="range"]):focus-visible {
+  outline: var(--focus-ring) !important;
+  outline-offset: var(--focus-offset) !important;
 }
 
 /* ── SCROLLBAR ── */

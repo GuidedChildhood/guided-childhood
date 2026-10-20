@@ -933,7 +933,7 @@ body.gc-input-focused .gc-dash:has(.digi-chat) > main { padding-bottom: 0 !impor
    never collides with the announcement bar above it). */
 .nav-burger {
   display: none;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   border-radius: var(--radius-tile);
   border: 1px solid var(--border);
   background: var(--cream);

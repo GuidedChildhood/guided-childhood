@@ -3,9 +3,11 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { isTogetherStage, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
+import { lessonAudienceFor, lessonStageFor, newMissionAllowed } from '@/lib/lessons/school-path'
 import type { StageId } from '@/lib/pathway/progress'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
+import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
+import { loadRememberDue } from '@/lib/kid/remember-server'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -40,7 +42,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band, accent, date_of_birth')
+    .select('name, age_band, accent, date_of_birth, lessons_together')
     .eq('id', link.child_id)
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
@@ -103,12 +105,17 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // says the day it opens instead of offering a button the opener would
   // bounce; a mission that exists always opens (a retake, the week's own).
   const [{ data: missionRows }, { data: lastPassRow }] = await Promise.all([
-    supabase.from('kid_lesson_missions').select('lesson_id').eq('child_id', link.child_id),
+    supabase.from('kid_lesson_missions').select('lesson_id, status, sent_at').eq('child_id', link.child_id),
     supabase.from('lesson_completions').select('completed_at')
       .eq('user_id', link.user_id).eq('child_id', link.child_id).eq('lesson_source', 'school_lesson').eq('passed', true)
       .order('completed_at', { ascending: false }).limit(1).maybeSingle(),
   ])
   const hasMission = new Set(((missionRows ?? []) as { lesson_id: string }[]).map(r => r.lesson_id))
+  // A heavy lesson inside its heads up (lib/lessons/heavy): the day it opens,
+  // said to the child as a grown up reading first, never as a warning.
+  const headsUpUntil = new Map(((missionRows ?? []) as { lesson_id: string; status?: string; sent_at?: string | null }[])
+    .filter(r => r.status === 'sent' && stillWaiting(r.sent_at))
+    .map(r => [r.lesson_id, r.sent_at as string]))
   const lastPassAt = (lastPassRow as { completed_at?: string | null } | null)?.completed_at ?? null
   const weekOpen = !nextOpenId || hasMission.has(nextOpenId) || newMissionAllowed({
     lastPassAt, isFirstOfStage: stageModules[0]?.id === nextOpenId, isSkippedRestart: false,
@@ -134,7 +141,8 @@ export default async function KidLessonsPage({ params, searchParams }: {
       done,
       score: done ? scoreOf.get(m.id) ?? null : null,
       locked: state === 'locked',
-      waiting: state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
+      waiting: headsUpUntil.has(m.id) ? `This one opens on ${opensOnDay(headsUpUntil.get(m.id) as string)}. Your grown up is reading about it first.`
+        : state === 'thisWeek' && !weekOpen ? `One a week. This one opens on ${opensOn ?? 'your next lesson day'}.`
         : state === 'paced' && !hasMission.has(m.id) ? `After lesson ${stageModules.findIndex(x => x.id === m.id)}, this one is waiting for you`
         : null,
     }
@@ -166,6 +174,9 @@ export default async function KidLessonsPage({ params, searchParams }: {
     opened: todayState.done.length > 0,
   }
 
+  // Lessons passed weeks ago, due back for a Remember check (lib/kid/remember-due.ts).
+  const rememberDue = await loadRememberDue(supabase, { userId: link.user_id, childId: link.child_id })
+
   return (
     <KidScreenChrome token={token} current="lessons" today={todayTab}>
     <KidLessonList
@@ -179,7 +190,8 @@ export default async function KidLessonsPage({ params, searchParams }: {
       hrefFor={id => `/k/${token}/school/${id}`}
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
-      together={isTogetherStage(stageId)}
+      together={lessonAudienceFor(stageId, child as { lessons_together?: boolean | null } | null) === 'together'}
+      remember={rememberDue.length ? { count: rememberDue.length, href: `/k/${token}/remember` } : null}
     />
     </KidScreenChrome>
   )

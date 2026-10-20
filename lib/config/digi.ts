@@ -13,12 +13,14 @@
 // uses 5.1." The brief had argued for Opus 5 on chat, because Fable thinks on
 // every request and cannot be told not to; the effort setting is what keeps
 // that honest for a parent who is waiting, and digi_latency.model_ms will say
-// whether it is enough. DIGI_MODEL_CHAT=claude-opus-5 is the one line back,
+// whether it is enough. DIGI_MODEL_CHAT=claude-opus-5-5 is the one line back,
 // and the only tier that can then be put into fast mode (below).
 //
 // Sunday 13 September 2026: the ladder had fallen a generation behind
-// (claude-fable-5, opus-4-8, a date suffixed haiku). Every id is checked
-// against the Models API by scripts/check-digi-model.mjs.
+// (claude-fable-5, opus-4-8, a date suffixed haiku). Friday 16 October 2026:
+// the two fallbacks moved on to Opus 5.5 and Sonnet 5.5 (the review board task
+// fallback-models-current). scripts/check-digi-model.mjs pins the ids and the
+// per model flags; it does not call the Models API.
 // A blank value in Vercel is unset, not a model called nothing.
 function envOr(name: string, fallback: string): string {
   const v = (process.env[name] ?? '').trim()
@@ -29,8 +31,8 @@ export const DIGI_MODEL = envOr('DIGI_MODEL', 'claude-fable-5-1')
 
 export const DIGI_MODEL_FALLBACKS = [
   'claude-fable-5-1',
-  'claude-opus-5',
-  'claude-sonnet-5',
+  'claude-opus-5-5',
+  'claude-sonnet-5-5',
 ] as const
 
 // The model that answers a parent in the chat. Its own setting so the two
@@ -99,14 +101,14 @@ export function digiEffortFor(task: DigiTask, model: string): DigiEffort | null 
 // ── FAST MODE ────────────────────────────────────────────────────────────────
 //
 // Up to two and a half times the output speed on the same model, at a premium
-// price, and only on Claude Opus 5 and Opus 4.8. Off unless DIGI_FAST_MODE is
+// price, and only on Claude Opus (5.5, 5 and 4.8). Off unless DIGI_FAST_MODE is
 // set, because it is a pricing decision. Judged per model so that a fallback
 // to Sonnet inside the ladder never sends the flag somewhere it errors.
 export const DIGI_FAST_MODE = /^(1|true|on|yes)$/i.test((process.env.DIGI_FAST_MODE ?? '').trim())
 export const FAST_MODE_BETA = 'fast-mode-2026-02-01'
 
 export function supportsFastMode(model: string): boolean {
-  return /^claude-opus-(5|4-8)(\b|$)/.test(model)
+  return /^claude-opus-(5-5|5|4-8)$/.test(model)
 }
 
 export function fastModeFor(model: string): boolean {

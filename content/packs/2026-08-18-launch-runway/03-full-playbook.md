@@ -27,7 +27,7 @@ playbook spaces them on purpose.
 ## WEEK 0, this week. Prep, then soft launch Friday.
 
 ### Before Friday (any day this week)
-- [ ] Open guidedchildhood.co.uk/starter-pack on your own phone. Do the three question stage check
+- [ ] Open guidedchildhood.com/starter-pack on your own phone. Do the three question stage check
       as if you were a parent. Confirm the founder sign up, the £7.99 price, and the 50 counter all
       work, on mobile and desktop. Fix anything broken. This is the one non negotiable, every post
       drives here.

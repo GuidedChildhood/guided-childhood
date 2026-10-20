@@ -546,9 +546,11 @@
   "parent_note": {
     "taught": "Today your young adult learned to move from using AI to mastering it: prompting well, verifying outputs because confident errors are built into how these tools work, supervising AI that can act on their behalf, and understanding what free tools take in data plus the legal rights they hold over their own. The standard we gave them: use it, check it, own it, never submit what you cannot defend.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "The passport's final chapter. Since Reception it has recorded readiness proven at school and trust earned at home, and it ends not with permission granted but with judgement owned. Ask them how they check an AI's work before their name goes on it, and try their method on something of yours.",
+    "passport": "This lesson has a place in the passport's final chapter, the Ready at sixteen page, which ends not with permission granted but with judgement owned. The class met it today; it goes on the page when they do its own short check at home, in their app. Ask them how they check an AI's work before their name goes on it, and try their method on something of yours.",
     "try_this": "Ask them to show you one AI tool they actually use, then ask them to show you how they would check something it produced. Watching them verify is the whole lesson in thirty seconds, and they will enjoy being the expert.",
-    "family_question": "What do you think our family has traded, without noticing, for the free apps on our phones?",
+    "family_question": "Can you teach me how you check an AI's work before your name goes on it?",
+    "listen_for": "You know confident errors are built in, so you use it, check it and own it, and never submit what you cannot defend.",
+    "then_ask": "What has our family traded for the free apps on our phones?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -701,7 +703,7 @@
       "Free tools are free, and companies have your data anyway so it does not matter (you pay in prompts, patterns and profiling, what you paste is still your choice, and UK data rights of access, correction and deletion are real and enforceable)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. The four domains and the three move standard are on the pack as diagrams, evidence item one is printed as a message card, and both discussions run with a watch instead of the on screen timer. The stat is read aloud from the teacher copy, the exit checks are the printed quiz, and the commitment stem is completed on the exit card. Nothing in the hour requires a screen.",
-    "passport_stage": "after",
+    "passport_stage": "independent",
     "commitment_stem": "My commitment: the next time AI helps with work that matters, before my name goes on it I will check ...",
     "differentiation": {
       "stretch": "Early finishers take the agent item and redesign its permissions: which single change to what the agent may do alone would move your verdict, and why? Strongest students draft a one paragraph AI use policy for a sixth former that a head of year would actually sign off.",

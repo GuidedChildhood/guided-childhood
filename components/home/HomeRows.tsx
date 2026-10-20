@@ -7,7 +7,7 @@ import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 
 // Everything that is not today's loop, folded to big friendly rows: Family
-// quests (with the live approve count riding as a badge), the road to 16 (with
+// quests (with the live approve count riding as a badge), the Passport, the road to 16 (with
 // the stamp position), Ask DiGi, and the week round up. Big
 // icon tiles, chunky borders, one tap each: the folded half of the simplified
 // Home the sample page agreed.
@@ -103,7 +103,7 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
       <SlimRow
         href="/dashboard/pathway"
         icon="passport" tint={CRAYON.sky}
-        title="The road to 16"
+        title="Passport"
         meta={`${stageName} stage · stamp ${stageNum} of 5 on the way${criticalWindow ? ' · critical window' : ''}`}
       />
 

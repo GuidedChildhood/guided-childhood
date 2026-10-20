@@ -4,14 +4,20 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { APP_ORIGIN } from '@/lib/config/site'
-import VideoLinks, { type VideoLinkRow } from './VideoLinks'
+import { CHANNELS, CHANNEL_LABEL, isChannel, LINK_CHANNELS, type Channel } from '@/lib/video/link'
+import VideoLinks, { type VideoLinkRow, type ChannelRow } from './VideoLinks'
 
-// The film links, and what each one did (migration 372).
+// Where the stage checks come from (migrations 372 and 379).
 //
-// The DiGi shorts panel's measurement gap: a film was judged on views because
-// nothing counted the stage check. Each film now carries /v/<code>, and this
-// page reads the funnel for it: followed, stage check begun, signed up, card
-// on, paying. Judge a film on starts and signups, never views.
+// Began as the film links page: the DiGi shorts panel found a film was judged
+// on views because nothing counted the stage check. The review board of 13
+// October 2026 found the same gap everywhere else (count-stage-checks-by-
+// source): a LinkedIn post, a group seed, a Facebook post and the printed
+// Planet Post all sent parents in uncounted, so nobody could say which channel
+// deserved the next hour. Now every start is counted, every link has a
+// channel, and the top of this page is the Friday number: stage checks begun
+// in the last seven days, by channel. Judge a post on starts and signups,
+// never views.
 //
 // PAYING MEANS PAYING, as on the school links page: a Founder card trial
 // reads 'active' while its free days run, so those are shown on their own.
@@ -25,6 +31,9 @@ const MONO: React.CSSProperties = {
   letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
 }
 
+type Counts = { opened: number; started: number; opened_week: number; started_week: number }
+const ZERO: Counts = { opened: 0, started: 0, opened_week: 0, started_week: 0 }
+
 export default async function VideoLinksPage() {
   const supabase = await createClient()
   const user = await sessionUser(supabase)
@@ -32,16 +41,46 @@ export default async function VideoLinksPage() {
   if ((user.email ?? '').toLowerCase() !== FOUNDER_EMAIL) redirect('/dashboard')
 
   const admin = createAdminClient()
-  const [{ data: links, error }, { data: families }] = await Promise.all([
-    admin.from('video_links').select('code, title, active, created_at').order('created_at', { ascending: false }),
-    admin.from('profiles').select('video_link, subscription_status, trial_ends_at').not('video_link', 'is', null),
-  ])
 
-  // Counted on the server, one exact count per film and kind, so the page
-  // never stops at the API's row limit once a film does well.
-  const count = async (code: string, kind: 'opened' | 'started') => {
-    const { count: n } = await admin.from('video_link_events').select('id', { count: 'exact', head: true }).eq('code', code).eq('kind', kind)
-    return n ?? 0
+  // With the channel column (379), or without it on a database that has not
+  // had 379 yet, when every link is a film.
+  let { data: links, error } = await admin.from('video_links')
+    .select('code, title, active, created_at, channel').order('created_at', { ascending: false })
+  if (error) {
+    const old = await admin.from('video_links').select('code, title, active, created_at').order('created_at', { ascending: false })
+    links = (old.data ?? []).map(l => ({ ...l, channel: 'film' }))
+    error = old.error
+  }
+  const { data: families } = await admin.from('profiles')
+    .select('video_link, subscription_status, trial_ends_at').not('video_link', 'is', null)
+
+  // One read when the view is there (379); before it, one exact count per link
+  // and kind as the film page always did, so it never stops at the row limit.
+  const counts = new Map<string, Counts>()
+  const { data: viewRows, error: viewError } = await admin.from('video_link_counts')
+    .select('code, opened, started, opened_week, started_week')
+  if (!viewError) {
+    for (const r of viewRows ?? []) {
+      counts.set(r.code as string, {
+        opened: Number(r.opened) || 0, started: Number(r.started) || 0,
+        opened_week: Number(r.opened_week) || 0, started_week: Number(r.started_week) || 0,
+      })
+    }
+  } else {
+    const since = new Date(Date.now() - 7 * 86_400_000).toISOString()
+    const n = async (code: string, kind: 'opened' | 'started', week: boolean) => {
+      let q = admin.from('video_link_events').select('id', { count: 'exact', head: true }).eq('code', code).eq('kind', kind)
+      if (week) q = q.gte('created_at', since)
+      const { count } = await q
+      return count ?? 0
+    }
+    await Promise.all((links ?? []).map(async l => {
+      const code = l.code as string
+      const [opened, started, opened_week, started_week] = await Promise.all([
+        n(code, 'opened', false), n(code, 'started', false), n(code, 'opened', true), n(code, 'started', true),
+      ])
+      counts.set(code, { opened, started, opened_week, started_week })
+    }))
   }
 
   const now = Date.now()
@@ -50,21 +89,44 @@ export default async function VideoLinksPage() {
   const onPaidStatus = (f: { subscription_status: string | null }) =>
     f.subscription_status === 'active' || f.subscription_status === 'past_due'
 
-  const rows: VideoLinkRow[] = await Promise.all((links ?? []).map(async l => {
-    const mine = (families ?? []).filter(f => f.video_link === l.code)
-    const [opened, started] = await Promise.all([count(l.code as string, 'opened'), count(l.code as string, 'started')])
+  const all = (links ?? []).map(l => {
+    const code = l.code as string
+    const channel: Channel = isChannel(l.channel) ? l.channel : 'other'
+    const mine = (families ?? []).filter(f => f.video_link === code)
+    const c = counts.get(code) ?? ZERO
     return {
-      code: l.code as string,
+      code,
       title: l.title as string,
       active: Boolean(l.active),
-      url: `${APP_ORIGIN}/v/${l.code}`,
-      opened,
-      started,
+      channel,
+      url: `${APP_ORIGIN}/v/${code}`,
+      opened: c.opened,
+      started: c.started,
+      startedWeek: c.started_week,
       signedUp: mine.length,
       cardOn: mine.filter(f => onPaidStatus(f) && inTrialWindow(f)).length,
       paying: mine.filter(f => onPaidStatus(f) && !inTrialWindow(f)).length,
     }
-  }))
+  })
+
+  // The links a founder makes; the no link rows only ever appear as a channel.
+  const rows: VideoLinkRow[] = all.filter(r => LINK_CHANNELS.includes(r.channel))
+
+  const channels: ChannelRow[] = CHANNELS.map(ch => {
+    const of = all.filter(r => r.channel === ch)
+    return {
+      channel: ch,
+      label: CHANNEL_LABEL[ch],
+      links: of.filter(r => LINK_CHANNELS.includes(r.channel)).length,
+      startedWeek: of.reduce((s, r) => s + r.startedWeek, 0),
+      started: of.reduce((s, r) => s + r.started, 0),
+      signedUp: of.reduce((s, r) => s + r.signedUp, 0),
+    }
+  }).filter(c => c.started > 0 || c.links > 0 || c.channel === 'direct')
+    .sort((a, b) => b.startedWeek - a.startedWeek || b.started - a.started)
+
+  const fridayNumber = channels.reduce((s, c) => s + c.startedWeek, 0)
+  const startedEver = channels.reduce((s, c) => s + c.started, 0)
 
   return (
     <div style={{ maxWidth: 760, margin: '0 auto', padding: '24px 18px 60px' }}>
@@ -72,20 +134,19 @@ export default async function VideoLinksPage() {
         ← Admin
       </Link>
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', fontWeight: 900, color: 'var(--ink)', margin: '10px 0 6px' }}>
-        Film links
+        Where the stage checks come from
       </h1>
       <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.55, color: 'var(--ink-soft)', margin: '0 0 22px' }}>
-        One link per film, for the caption, the bio or the pinned comment. It lands on
-        the stage check like every other way in. This page shows what each film did:
-        how many followed the link, how many began the stage check, and how many signed
-        up and went on to pay. Counts only, never who.
+        Every stage check begun, counted by the link that sent the parent. One link per
+        film, LinkedIn post, group seed or Facebook post. Each lands on the stage check
+        like every other way in. Counts only, never who.
       </p>
       {error ? (
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>
-          The film links table is not there yet. It arrives with migration 372.
+          The links table is not there yet. It arrives with migration 372.
         </p>
       ) : (
-        <VideoLinks rows={rows} />
+        <VideoLinks rows={rows} channels={channels} fridayNumber={fridayNumber} startedEver={startedEver} byChannel={!viewError} />
       )}
     </div>
   )

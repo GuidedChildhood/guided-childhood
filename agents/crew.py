@@ -1,8 +1,8 @@
 """CrewAI Crew definition for Guided Childhood — all 8 agents.
 
 This module builds the agents and tasks from the YAML configs, wires up the
-inter-agent context dependencies, and exposes factory functions for the daily
-(sequential) and weekly (hierarchical) crews.
+inter-agent context dependencies, and exposes the factory functions for the
+daily (sequential) crew.
 
 LLM: Claude via CrewAI's LLM class (model anthropic/claude-opus-4-8).
 """
@@ -92,7 +92,7 @@ def build_agents(llm: LLM | None = None) -> dict[str, Agent]:
         "herald":    _make_agent("herald", llm, [search_tool]),
         "guardian":  _make_agent("guardian", llm, [search_tool]),
         "diego":     _make_agent("diego", llm, [search_tool, file_read, file_write]),
-        # Pulse can delegate so it can chair the hierarchical weekly meeting.
+        # Pulse compiles the daily briefing and can delegate.
         "pulse":     _make_agent(
             "pulse", llm, [email_tool, file_write], allow_delegation=True
         ),
@@ -195,31 +195,3 @@ def build_daily_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Task], dic
         verbose=True,
     )
     return crew, tasks, agents
-
-
-def build_weekly_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Agent]]:
-    """Hierarchical weekly meeting with Pulse as manager.
-
-    In a hierarchical process the manager agent delegates to the workers, so
-    information genuinely passes between agents as Pulse coordinates them.
-    """
-    llm = llm or build_llm()
-    agents = build_agents(llm)
-
-    manager = agents["pulse"]
-    workers = ["scout", "guardian", "navigator", "sage", "herald", "compass", "diego"]
-
-    weekly_task = Task(
-        description=_fmt(TASKS_CFG["pulse_weekly_task"]["description"]),
-        expected_output=_fmt(TASKS_CFG["pulse_weekly_task"]["expected_output"]),
-        # No agent assigned: the manager decides delegation in hierarchical mode.
-    )
-
-    crew = Crew(
-        agents=[agents[k] for k in workers],  # workers only; manager is separate
-        tasks=[weekly_task],
-        process=Process.hierarchical,
-        manager_agent=manager,
-        verbose=True,
-    )
-    return crew, agents

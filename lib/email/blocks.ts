@@ -68,7 +68,7 @@ const FONT_HEAD = `<link href="https://fonts.googleapis.com/css2?family=Nunito:w
 export const TONES = {
   1: { bg: '#FDF3BF', text: '#6B3D10', name: 'Ages 4 to 7' },
   2: { bg: '#C6E4FE', text: '#0B4569', name: 'Ages 8 to 10' },
-  3: { bg: '#FED9DD', text: '#82122F', name: 'Ages 11 to 13' },
+  3: { bg: '#FED9DD', text: '#82122F', name: 'Ages 11 to 12' },
   4: { bg: '#FBDCEC', text: '#7D1640', name: 'Ages 13 to 15' },
   5: { bg: '#E4DFFE', text: '#38065F', name: 'Ages 16 plus' },
 } as const
@@ -295,7 +295,7 @@ export function bandedWrapper(params: {
       <span style="font-family:${MONO};font-size:11px;color:${INK_MUTED};line-height:1.7">
         <a href="${APP}/dashboard" style="color:${INK_MUTED};text-decoration:none">Home</a>
         &nbsp;&nbsp;<a href="${APP}/dashboard/scripts" style="color:${INK_MUTED};text-decoration:none">Scripts</a>
-        &nbsp;&nbsp;<a href="${APP}/dashboard/pathway" style="color:${INK_MUTED};text-decoration:none">Pathway</a>
+        &nbsp;&nbsp;<a href="${APP}/dashboard/pathway" style="color:${INK_MUTED};text-decoration:none">Passport</a>
         <br>You get these because you joined Guided Childhood.
         <a href="${unsubscribe}" style="color:${INK_MUTED}">Stop the emails</a>
       </span>

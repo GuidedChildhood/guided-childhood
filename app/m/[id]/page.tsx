@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { momentLook } from '@/lib/content/moment-look'
+import { SITE_URL } from '@/lib/config/site'
 
 // The public face of a shared moment card. A parent shares a moment from
 // the app into a WhatsApp group or social feed; this page is what the
@@ -177,7 +178,10 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
           </p>
         )}
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
-          guidedchildhood.co.uk
+          {/* Read from the one constant. This said guidedchildhood.co.uk,
+              a host the business does not own, printed on the page a stranger
+              lands on after a friend shares a card. */}
+          {SITE_URL.replace(/^https?:\/\//, '')}
         </p>
       </div>
     </div>

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Ban Workarounds | Guided Childhood',
-  description: 'The under-16 social media ban starts Spring 2027. Workarounds are already happening. What they are, why they are dangerous, what schools see, and how to lock down every account.',
+  description: 'The under-16 social media ban starts Spring 2027. Workarounds are already happening. What they are, why they are dangerous, and how to lock down every account.',
 }
 
 const WORKAROUNDS = [
@@ -94,17 +94,6 @@ const HARMS = [
     accent: 'var(--terracotta)',
     bg: 'var(--stage-4)',
   },
-]
-
-const SCHOOL_SIGNALS = [
-  'VPN apps appearing on school devices or the school network',
-  'Peer clusters where some children reference content or trends others cannot place',
-  'New slang, sounds, or in-group references that no staff can trace to a known platform',
-  'Children becoming distressed or disruptive when separated from phones at key moments',
-  'Social drama and bullying migrating to platforms where parents and staff have no visibility',
-  'Requests to borrow phones or share login credentials between pupils',
-  'A sharp divide in social groups where some children seem to have access and others do not',
-  'Pupils referencing real events or public figures in ways that suggest heavy unfiltered consumption',
 ]
 
 const PARENT_SIGNALS = [
@@ -275,34 +264,11 @@ export default function BanWorkaroundsPage() {
         </div>
       </section>
 
-      {/* What schools are seeing */}
-      <section className="section-lg">
-        <div className="container">
-          <div className="two-col" style={{ gap: '64px' }}>
-            <div>
-              <p className="eyebrow" style={{ marginBottom: '16px' }}>For schools and teachers</p>
-              <h2 style={{ marginBottom: '20px' }}>Eight signals to watch for in the classroom</h2>
-              <p style={{ color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '32px' }}>
-                Schools are already managing the fallout before the ban arrives. These signals suggest workaround use is happening in your school community right now.
-              </p>
-              <Link href="https://www.guidedchildhood.com/schools" className="btn btn-ink" style={{ fontSize: '.78rem', padding: '12px 24px' }}>
-                Schools resources
-              </Link>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {SCHOOL_SIGNALS.map((s, i) => (
-                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px 16px' }}>
-                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--terracotta)', fontWeight: 800, fontSize: '.7rem', flexShrink: 0, marginTop: '1px' }}>
-                    {i + 1}
-                  </span>
-                  <p style={{ color: 'var(--ink-soft)', fontSize: '.9rem', lineHeight: 1.55, margin: 0 }}>{s}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* The classroom block (eight signals for schools and teachers) came
+          off this page on 16 October 2026 (parent-pages-in-parents-words):
+          a parent who searched for ban workarounds was handed a teacher's
+          checklist halfway down their own page. Schools have their own site;
+          the list is in git history if the schools hub wants it. */}
       {/* Warning signs at home */}
       <section className="section-lg" style={{ background: 'var(--deep-teal)' }}>
         <div className="container">

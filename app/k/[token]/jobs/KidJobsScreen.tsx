@@ -74,6 +74,9 @@ export default function KidJobsScreen({
   async function toggle(quest: TodayQuest) {
     const current = ticks[quest.id]
     if (current === 'approved') return
+    // Only a waiting tick is taken back. A "not yet" (rejected) from the grown
+    // up ticks again, and the tick route revives that row to pending rather
+    // than inserting (audit, 13 October 2026).
     const untick = current === 'pending'
     setTicks(prev => {
       const next = { ...prev }

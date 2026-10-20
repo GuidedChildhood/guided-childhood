@@ -652,8 +652,11 @@
     "headline": "What we taught today, and one thing to try at home",
     "taught": "Today your child learned why conflict online grows faster than the same thing said out loud: three brakes are missing, the face that would stop you, the privacy that would keep it small, and the forgetting that would let it end. They learned four behaviours by name, bullying, harassment, stalking and coercive control, including that three of those are criminal offences. And they learned three moves that end it: name it, save it, say it.",
     "try_this": "Do not ask whether anything is going on. Ask a lighter question instead: what is the fastest a group chat has ever gone wrong that you have seen? It is a story rather than a confession, and it usually tells you more.",
-    "family_question": "What would you actually do first if it happened to a friend? Then: who at school would you tell?",
-    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is being able to name a harm and knowing the route to help.",
+    "family_question": "What is the fastest a group chat has ever gone wrong that you have seen?",
+    "listen_for": "You know why things escalate online, and you name it, save it before you reply, and say it to one person who can act.",
+    "then_ask": "Why does saving it before replying matter?",
+    "say_this": "If anything online ever turns on you, or on a friend, bring it to me straight away. Save it before you reply, and you will not be in trouble for showing me.",
+    "passport": "This lesson has a place on your child's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. The skill this lesson builds is being able to name a harm and knowing the route to help.",
     "no_login_required": true
   },
   "teacher_notes": {
@@ -722,7 +725,7 @@
       "stretch": "ask why the law names harassment and stalking but has no offence called being unkind, which reaches the repetition and pattern idea from the other direction."
     },
     "send": "The three brakes work as three pictures and can be taught without the text. The five message scenario is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that a row and bullying are different things, because the sorting cards rely on that distinction.",
-    "passport_stage": "builder",
+    "passport_stage": "explorer",
     "worksheet": "The name it sheet",
     "worksheet_items": [
       "The situation I picked",

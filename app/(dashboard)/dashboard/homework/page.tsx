@@ -41,7 +41,7 @@ export default async function HomeworkPage() {
           parent in a section they never chose, and every back tap after that
           kept them there. */}
       <Link href="/dashboard/learning?tab=homework" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-        ← What they are learning
+        ← Homework and school
       </Link>
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(26px, 7vw, 32px)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: '14px 0 10px' }}>
         What is this homework?

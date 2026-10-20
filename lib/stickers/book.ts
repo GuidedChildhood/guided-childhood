@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { loadStoredStamps } from '@/lib/pathway/stamp-store'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { childWorries, type ChildWorry } from '@/lib/concerns/sorted'
 import { STICKERS, sortedSticker, stickerWhy, type Sticker } from './catalog'
@@ -396,15 +397,18 @@ async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId
   try {
     // THIS child's pages, not the household's. Without the child the
     // youngest's rarity tier was paid out of the eldest's lessons.
-    const [progress, passed] = await Promise.all([
+    const [progress, passed, stored] = await Promise.all([
       getAllStagesProgress(supabase, userId, 0, childId),
       getPassedStageQuizzes(supabase, userId, childId),
+      // Stored stamps first (migration 378): a stamp sticker, once earned,
+      // is never taken back by a module added later.
+      loadStoredStamps(supabase, childId),
     ])
     STAGES.forEach((s, i) => {
       const p = progress[s]
       if (!p) return
       // The one rule, shared with the parent's book and the verify page.
-      out[i + 1] = { done: p.lessonsDone, total: p.lessonsTotal, complete: isStageStamped(p, passed, i + 1) }
+      out[i + 1] = { done: p.lessonsDone, total: p.lessonsTotal, complete: isStageStamped(p, passed, i + 1, stored) }
     })
   } catch { /* quiet */ }
   return out
@@ -414,9 +418,10 @@ async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId
  * Lessons this child has passed, across every stage.
  *
  * The planets' number, from the one lesson count (lessonsPassedBetween over
- * all time), scoped the way the stage progress scopes them: this child's rows
- * plus the household rows with no child on them, so a lesson a parent led
- * with the child beside them counts. A retake does not count twice, and a
+ * all time), scoped the way the stage progress scopes them: this child's own rows
+ * only (lib/lessons/child-scope, 13 October 2026). A lesson a grown up led
+ * counts when they picked the child for it; a row with no child counts for
+ * nobody's badge. A retake does not count twice, and a
  * school lesson counts once, by its mission, rather than once here and once
  * in the planets by a different row. "Pass 5 lessons" and the fifth planet
  * now mean the same five.

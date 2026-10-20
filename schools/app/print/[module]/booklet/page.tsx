@@ -40,7 +40,7 @@ type TeacherNotes = {
   commitment_stem?: string
   tool?: { heading?: string }
 }
-type ParentNote = { family_question?: string }
+type ParentNote = { family_question?: string; say_this?: string }
 
 export const revalidate = 3600
 
@@ -67,7 +67,10 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   const stemLabel = /^my promise/i.test(stemRaw) ? 'My promise' : 'My commitment'
   const stemBody = stemRaw.replace(/^my (commitment|promise):\s*/i, '')
   const stem = stemBody ? stemBody.charAt(0).toUpperCase() + stemBody.slice(1) : 'The one thing I will do this week is...'
-  const familyQuestion = ((lesson.parent_note ?? {}) as ParentNote).family_question
+  // The six lessons a parent hears about first carry a private line for the
+  // parent (say_this) and no question for the pupil to carry home.
+  const note = (lesson.parent_note ?? {}) as ParentNote
+  const familyQuestion = note.say_this ? undefined : note.family_question
   // The home code (migration 230): this is the sheet that goes home in a bag,
   // which makes it the one the code belongs on.
   const homeCode = (lesson as { home_code?: string | null }).home_code ?? null
@@ -90,8 +93,8 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   // page can say exactly which sticker goes in which ring.
   const placement = placementOf(lesson.module_id)
   const area = areaOf(lesson.module_id)
-  const page = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
-  const stickerN = placement && placement !== 'after' ? pageModules(placement).find(m => m.moduleId === lesson.module_id)?.n ?? null : null
+  const page = placement ? PASSPORT_STAGES[placement] : null
+  const stickerN = placement ? pageModules(placement).find(m => m.moduleId === lesson.module_id)?.n ?? null : null
   const footer = `${lesson.title} · pupil booklet`
   // Verdict cards in sheets that each fit at the register's own size, so
   // every sheet keeps its footer at its foot (lib/worksheet.ts, splitSheets).
@@ -211,7 +214,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           <WriteLines n={young ? 2 : 1} height={reg.lineHeight} color={friend.accent} />
         </Box>
         {familyQuestion && (
-          <Box label="Ask at home tonight" radius={reg.radius}>
+          <Box label="Ask at tea" radius={reg.radius}>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{familyQuestion}</p>
           </Box>
         )}

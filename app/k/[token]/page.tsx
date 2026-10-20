@@ -3,6 +3,7 @@ import { ukToday } from '@/lib/kid/five-a-day'
 import type { DrawnKey } from '@/components/printables/drawn'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { readKidJobs } from '@/lib/kid/jobs-read'
+import { kidNotes } from '@/lib/kid/note-text'
 import { getStarBanks } from '@/lib/quests/bank'
 import { starLessonTitles } from '@/lib/quests/star-lesson-catalogue'
 import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
@@ -24,6 +25,10 @@ import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
+import { stampedStages } from '@/lib/pathway/stamp-store'
+import { passportStageFor } from '@/lib/lessons/school-path'
+
+const BOOK_STAGE_NUM: Record<string, number> = { foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5 }
 import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
@@ -45,6 +50,9 @@ import { lessonStageFor } from '@/lib/lessons/school-path'
 import { missionPaidAt } from '@/lib/quests/mission-paid'
 import { stickerArt } from '@/lib/stickers/catalog'
 import type { KidSticker } from '@/components/kid/KidStickers'
+import { stillWaiting, opensOnDay } from '@/lib/lessons/heavy'
+import { SINCE_WINDOW_MS, type SinceItem } from '@/lib/kid/grown-up-link'
+import { readCallsGrownUp } from '@/lib/kid/calls-grown-up'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -68,7 +76,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const supabase = createAdminClient()
   const { data: link } = await supabase
     .from('kid_links')
-    .select('user_id, child_id')
+    .select('user_id, child_id, last_seen_at')
     .eq('token', token)
     .maybeSingle()
   if (!link) notFound()
@@ -113,6 +121,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     printableRes, tutorRes,
     jobStreaksRes, passportReads, completedDaysRes, sheetsRes,
     streakWeekSeenRes, familyDevicesRes,
+    sinceTicksRes, sinceIdeasRes, callsGrownUp,
   ] = await Promise.all([
     // device_trust rides along here rather than in a read of its own: it
     // landed with migration 058, long before any database still running this
@@ -146,7 +155,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // titles read is in wave two, because it needs these ids first.
     supabase
       .from('kid_lesson_missions')
-      .select('id, lesson_id, stars, status, completed_at, paid_at')
+      .select('id, lesson_id, stars, status, completed_at, paid_at, sent_at')
       .eq('child_id', link.child_id)
       .order('sent_at', { ascending: false }),
 
@@ -390,6 +399,30 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .or(`child_id.eq.${link.child_id},child_id.is.null`)
       .is('retired_at', null)
       .order('created_at', { ascending: true })),
+
+    // SINCE YOU LAST LOOKED (13 October 2026, lib/kid/grown-up-link.ts). The
+    // yeses from the last two days: jobs approved and job ideas added. The
+    // screen keeps only the ones newer than the child last looked. Soft, so a
+    // failed read just means no card, never a broken home.
+    soft(supabase
+      .from('quest_ticks')
+      .select('id, quest_id, approved_at')
+      .eq('child_id', link.child_id)
+      .eq('status', 'approved')
+      .gte('approved_at', new Date(Date.now() - SINCE_WINDOW_MS).toISOString())
+      .order('approved_at', { ascending: false })
+      .limit(8)),
+    soft(supabase
+      .from('quest_requests')
+      .select('id, title, emoji, decided_at')
+      .eq('child_id', link.child_id)
+      .eq('status', 'added')
+      .gte('decided_at', new Date(Date.now() - SINCE_WINDOW_MS).toISOString())
+      .order('decided_at', { ascending: false })
+      .limit(5)),
+    // What this child calls the grown up (migration 376), soft: null keeps
+    // "Mum or Dad".
+    readCallsGrownUp(supabase, link.child_id),
   ])
 
   const missionRows = missionRowsRes.data
@@ -399,6 +432,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // appropriate, so a four year old never meets an eleven year old's game.
   const ageBand = childRes.data?.age_band as AgeBand | undefined
   const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
+  // The passport page their class is on (one clock, decision 1, 17 October
+  // 2026): the school year, the same clock as their lessons and the parent's
+  // passport. Only the book reads it; games and mini lessons stay on the age.
+  const bookStage = BOOK_STAGE_NUM[passportStageFor({ date_of_birth: dob ?? null, age_band: (ageBand as string | null) ?? null })] ?? stageId
   const stageSlug = ageBand ? getStageFromAgeBand(ageBand).name.toLowerCase() : 'builder'
 
   const monday = (() => {
@@ -473,7 +510,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       ? soft(buildPassportSections(
         supabase, link.user_id,
         { id: link.child_id, age_band: ageBand ?? null },
-        passportReads[0], stageId,
+        passportReads[0], bookStage,
         { openMoments: 0, solvedMoments: 0, parentReport: null },
       ))
       : Promise.resolve(null),
@@ -522,6 +559,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     title: missionTitles.get(m.lesson_id) ?? 'A lesson from DiGi',
     stars: m.stars,
     status: m.status,
+    // A heavy lesson inside its heads up (lib/lessons/heavy) shows its day
+    // rather than a play button the lesson page would bounce.
+    opensOn: m.status === 'sent' && stillWaiting(m.sent_at) ? opensOnDay(m.sent_at as string) : null,
   }))
   const lessonWeekStars = (missionRows ?? [])
     .filter(m => { const paid = missionPaidAt(m); return !!paid && paid >= new Date(Date.now() - 7 * 86400000).toISOString() })
@@ -587,6 +627,20 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // what this screen builds on top of it.
   const { dueQuests, laterQuests, todayTicks, tickedOnceEver, rawQuests } = jobs
   const starsByQuest = new Map(rawQuests.map(q => [q.id, q.stars]))
+
+  // The yeses for Since you last looked, named from the jobs this page already
+  // holds. A job since turned off has no title to show, so it is skipped.
+  const questById = new Map(rawQuests.map(q => [q.id, q]))
+  const sinceItems: SinceItem[] = [
+    ...((sinceTicksRes?.data ?? []) as { id: string; quest_id: string; approved_at: string | null }[]).flatMap(t => {
+      const q = questById.get(t.quest_id)
+      if (!q || !t.approved_at) return []
+      const family = Boolean((q as { is_family_job?: boolean }).is_family_job)
+      return [{ key: `tick:${t.id}`, kind: 'job' as const, title: q.title, emoji: q.emoji ?? null, stars: family ? 0 : (q.stars ?? 0), familyJob: family, at: t.approved_at }]
+    }),
+    ...((sinceIdeasRes?.data ?? []) as { id: string; title: string; emoji: string | null; decided_at: string | null }[]).flatMap(r =>
+      r.decided_at ? [{ key: `idea:${r.id}`, kind: 'idea' as const, title: r.title, emoji: r.emoji ?? null, stars: 0, familyJob: false, at: r.decided_at }] : []),
+  ]
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
     + lessonWeekStars
 
@@ -771,7 +825,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     }
   }
   let initialNudges: { id: string; message: string }[] = []
-  if (!nudgeRes.error) initialNudges = (nudgeRes.data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
+  // Cleaned and filtered by lib/kid/note-text: a parent only note never draws.
+  if (!nudgeRes.error) initialNudges = kidNotes((nudgeRes.data ?? []).map(n => ({ id: String(n.id), message: String(n.message) })))
 
   let hasReminders = false
   if (!remindersRes.error) hasReminders = (remindersRes.count ?? 0) > 0
@@ -820,6 +875,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (passportReads && passportBuilt) {
       const [allProgress, areasRead, passed] = passportReads
       const built = passportBuilt
+      // The stored stamps (migration 378), so a page earned once stays earned
+      // on the child's copy too.
+      const storedStamps = allProgress
+        ? await stampedStages(supabase, { userId: link.user_id, childId: link.child_id, progress: allProgress, passed })
+        : new Set<number>()
       const stamps: PassportStamp[] = STAGE_ORDER.map((slug, i) => {
         const id = i + 1
         const prog = allProgress?.[slug]
@@ -830,7 +890,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
           name: STAGE_TITLES[i],
           ages: STAGE_AGES[i],
           pct,
-          status: isStageStamped(prog, passed, id) ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
+          status: isStageStamped(prog, passed, id, storedStamps) ? 'earned' : id === bookStage ? 'current' : id < bookStage ? 'catchup' : 'upcoming',
           href: '#',
           lessonsDone: prog?.lessonsDone ?? 0,
           lessonsTotal: prog?.lessonsTotal ?? 0,
@@ -841,7 +901,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
           areas: areasRead.byStage[id],
         }
       })
-      if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: stageId }
+      if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: bookStage }
     }
   } catch { kidBook = null }
 
@@ -971,6 +1031,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       initialAsk={initialAsk}
       initialNudges={initialNudges}
       hasReminders={hasReminders}
+      sinceItems={sinceItems}
+      grownUpLabel={callsGrownUp}
+      lastSeenAt={(link as { last_seen_at?: string | null }).last_seen_at ?? null}
       />
     </>
   )

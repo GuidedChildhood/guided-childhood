@@ -29,7 +29,7 @@ import { readTaught, TAUGHT_EVENT } from '../schools-taught'
 // interactive wrapper zooms it (see the note in interactives/index.tsx); on
 // the finish and the prep card it sits in its own column.
 
-const NAME_TO_KEY: Record<string, CharacterKey> = { Pebble: 'pebble', Bloop: 'bloop', Orbit: 'orbit', Nova: 'nova' }
+const NAME_TO_KEY: Record<string, CharacterKey> = { Pebble: 'pebble', Bloop: 'bloop', Orbit: 'orbit', Nova: 'nova', Cosmo: 'cosmo' }
 
 // Reduced motion means no movement, never no content.
 const prefersReducedMotion = () =>

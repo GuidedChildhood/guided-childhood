@@ -150,6 +150,10 @@ export default async function ScriptDetailPage({
       // The URL's child, so the view's own links keep carrying it. The
       // primary child keeps the clean URL, same as the switcher.
       childIdParam={childParam && child && !child.is_primary ? child.id : null}
+      // The uuid, not the number. /say/<uuid> is the public address of this
+      // script; /say/1 to /say/342 would have been a ladder up the whole
+      // paid library. See app/say/[id]/page.tsx.
+      publicId={script.id}
       workedRating={workedRating}
       scriptStatus={scriptStatus}
       prevScript={prevScript ?? null}

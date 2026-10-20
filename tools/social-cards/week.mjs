@@ -49,6 +49,27 @@ const r = spawnSync(process.execPath, [join(HERE, 'render.mjs'), ...decks], { st
 if (r.status !== 0) process.exit(r.status || 1)
 
 const DASH = /[‐-―−]/
+
+// ── ONE LINK PER POST (migration 379) ──────────────────────────────────────
+//
+// Every post that prints the stage check address gets its own source link, so
+// the founder page can say which post sent the checks: a Facebook post's
+// guidedchildhood.com/starter-pack becomes guidedchildhood.com/v/fb-<mmdd>-<slug>,
+// and a LinkedIn page post's first comment li-<mmdd>-<slug>. Instagram cannot
+// carry a link in a caption, so it says link in bio and the bio carries
+// /v/instagram-bio. The codes are listed at the top of THIS-WEEK.md: make each
+// one on /dashboard/admin/videos (exact code box) before the post goes out.
+// An unmade code still lands on the stage check, it just is not counted.
+const STARTER = /(?:https?:\/\/)?(?:www\.)?guidedchildhood\.(?:co\.uk|com)\/starter-pack(?:\?src=[a-z0-9-]+)?/g
+function postCode(prefix, name, date) {
+  const slug = name.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/^(mon|tue|wed|thu|fri|sat|sun)[a-z]*-/, '')
+  const mmdd = (date || '').slice(5).replace('-', '')
+  return `${prefix}-${mmdd ? mmdd + '-' : ''}${slug}`.slice(0, 40).replace(/-+$/, '')
+}
+const HAS_STARTER = new RegExp(STARTER.source)
+const withLink = (text, code) => text.replace(STARTER, `guidedchildhood.com/v/${code}`)
+const weekLinks = []
+
 const problems = []
 const pagePosts = []
 const PAGE = join(HERE, 'out', '_week', basename(dir))
@@ -61,7 +82,19 @@ const out = [`# This week's posts`, '',
 for (const p of decks) {
   const deck = JSON.parse(readFileSync(p, 'utf8'))
   const name = deck.name || basename(p, '.json')
-  const post = deck.post || {}
+  const post = { ...(deck.post || {}) }
+  const channels = post.channels || ['Instagram', 'Facebook']
+  if (post.facebook && HAS_STARTER.test(post.facebook)) {
+    const code = postCode('fb', name, post.date)
+    post.facebook = withLink(post.facebook, code)
+    weekLinks.push({ code, channel: 'Facebook', title: `Facebook, ${post.day || name}` })
+  }
+  if (post.first_comment && HAS_STARTER.test(post.first_comment)) {
+    const li = channels.some((c) => /linkedin/i.test(c))
+    const code = postCode(li ? 'li' : 'fb', name, post.date)
+    post.first_comment = withLink(post.first_comment, code)
+    if (!weekLinks.some((l) => l.code === code)) weekLinks.push({ code, channel: li ? 'LinkedIn' : 'Facebook', title: `${li ? 'LinkedIn' : 'Facebook'}, ${post.day || name}` })
+  }
   mkdirSync(join(HERE, 'out', name), { recursive: true })
   const files = readdirSync(join(HERE, 'out', name)).filter((f) => f.endsWith('.png')).sort()
   for (const [k, v] of Object.entries(post)) if (typeof v === 'string' && DASH.test(v)) problems.push(`${name}: dash in ${k}`)
@@ -89,6 +122,11 @@ const week = (process.argv[3] ? process.argv[3] + ', ' : 'Week of ') +
 writeFileSync(join(PAGE, 'page.html'), pageHTML(week, pagePosts))
 console.log(`wrote ${join(PAGE, 'page.html').replace(process.cwd() + '/', '')} and ${pagePosts.reduce((n, p) => n + p.files.length, 0)} images`)
 
+if (weekLinks.length) {
+  out.splice(5, 0, '## Links to make first', '',
+    'Each post below prints its own link. On /dashboard/admin/videos, make any code here that is not on that page yet (the exact code box) before the post goes out, so its stage checks are counted. The Instagram bio link is guidedchildhood.com/v/instagram-bio.', '',
+    ...weekLinks.map((l) => `- \`${l.code}\`: ${l.title} (${l.channel})`), '')
+}
 writeFileSync(join(dir, 'THIS-WEEK.md'), out.join('\n') + '\n')
 console.log(`\nwrote ${join(dir, 'THIS-WEEK.md').replace(process.cwd() + '/', '')}`)
 if (problems.length) {

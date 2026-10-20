@@ -178,7 +178,7 @@ export default function SchoolWeek({
               type="button"
               onClick={() => onWeek(0)}
               style={{
-                padding: '0 12px', height: 36, borderRadius: '10px', cursor: 'pointer',
+                padding: '0 14px', height: 44, borderRadius: '11px', cursor: 'pointer',
                 background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
               }}

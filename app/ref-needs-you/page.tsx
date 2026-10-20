@@ -1,6 +1,10 @@
 import HomeLive from '@/components/home/HomeLive'
 import TodayCard from '@/components/home/TodayCard'
 import TrialCountdown from '@/components/home/TrialCountdown'
+import { keepsLine } from '@/lib/paywall/what-you-keep'
+import { REF_KEEP } from '@/app/ref-choose/fixture'
+
+const REF_KEEPS_LINE = keepsLine(REF_KEEP)
 
 // Reference page for phase 3 of the type plan: the "this needs you" pattern
 // in its real components, outside the logged in dashboard, so layout and
@@ -25,6 +29,10 @@ export default function RefNeedsYou() {
       <TrialCountdown trialEndsAt={new Date(Date.now() + 2.65 * 3600000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
       <TrialCountdown trialEndsAt={new Date(Date.now() + 27 * 60000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
       <TrialCountdown trialEndsAt={null} ended trialDays={4} jobsTicked={9} streakCount={4} />
+      {/* After the first check in: the ask repeats with what the family has
+          made (lib/paywall/what-you-keep keepsLine), days out and after. */}
+      <TrialCountdown trialEndsAt={new Date(Date.now() + 2.2 * 86400000).toISOString()} ended={false} trialDays={4} planChoice="free" jobsTicked={5} streakCount={3} keepsLine={REF_KEEPS_LINE} />
+      <TrialCountdown trialEndsAt={null} ended trialDays={4} planChoice="free" jobsTicked={9} streakCount={4} keepsLine={REF_KEEPS_LINE} />
       <TodayCard
         childApp={{ childName: 'Teo' }}
         dealReview={{ daysSinceChange: 21 }}

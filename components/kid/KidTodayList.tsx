@@ -164,8 +164,13 @@ export default function KidTodayList({
     setLearnStored(true)
   }, [now, learnDoneLive, learnStored])
 
-  const jobsTicked = quests.filter(q => ticks[q.id]).length
-  const jobsAllDone = quests.every(q => ticks[q.id])
+  // A tick only counts while it is waiting or approved. A "not yet" from the
+  // grown up (status rejected) is a job still to do: counting it, as a plain
+  // truthy check did until the 13 October 2026 audit, could throw the all
+  // done party over a job the grown up had just sent back.
+  const counts = (q: TodayQuest) => Boolean(ticks[q.id]) && ticks[q.id] !== 'rejected'
+  const jobsTicked = quests.filter(counts).length
+  const jobsAllDone = quests.every(counts)
   const allDone = jobsAllDone && (jobsOnly || (learnDone && moveDone))
   const total = quests.length + (jobsOnly ? 0 : 2)
   const doneCount = jobsTicked + (jobsOnly ? 0 : Number(learnDone) + Number(moveDone))
@@ -226,6 +231,8 @@ export default function KidTodayList({
     title: string
     sub: string
     state: 'todo' | 'waiting' | 'done'
+    /** The grown up said not yet: still a job to do, with a gentle word. */
+    notYet?: boolean
     tappable: boolean
     burst: boolean
     beforeScreens: boolean
@@ -242,6 +249,10 @@ export default function KidTodayList({
     .map(q => {
       const st = ticks[q.id]
       const state: Row['state'] = st === 'approved' ? 'done' : st === 'pending' ? 'waiting' : 'todo'
+      // The grown up said not yet. It stays a job to do, tappable to tick
+      // again, but it says so kindly instead of quietly looking untouched, so
+      // the child knows the tick was seen and another go is welcome.
+      const notYet = st === 'rejected'
       // A family job never talks in stars: it is one of the jobs we all do for
       // each other, and pricing it is exactly what the flag exists to avoid.
       const familyJob = Boolean(q.is_family_job)
@@ -252,9 +263,11 @@ export default function KidTodayList({
         title: q.title,
         sub: state === 'done' ? (familyJob ? 'Done! Thank you for doing your bit ❤️' : 'Done! Stars landed ⭐')
           : state === 'waiting' ? 'With your grown up now, nothing to do'
+          : notYet ? 'Your grown up said not quite yet. Tick it again when it is done'
           : familyJob ? 'One of the jobs we all do for each other'
           : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`,
         state,
+        notYet,
         tappable: state !== 'done',
         burst: burstQuestId === q.id,
         beforeScreens: Boolean(q.blocks_screens) && state !== 'done',
@@ -371,6 +384,17 @@ export default function KidTodayList({
           </span>
           <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2, lineHeight: 1.35 }}>
             {r.sub}
+            {r.notYet && (
+              <span style={{
+                display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                background: 'var(--tint-sage)', color: 'var(--ink)',
+                borderRadius: 'var(--radius-pill)', padding: '2px 8px',
+              }}>
+                🌱 Have another go
+              </span>
+            )}
             {r.beforeScreens && (
               <span style={{
                 display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
@@ -470,6 +494,14 @@ export default function KidTodayList({
         }}>
           {r.title}
         </span>
+        {r.notYet && (
+          <span style={{
+            display: 'block', marginTop: 2, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+            fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
+          }}>
+            🌱 Have another go
+          </span>
+        )}
       </span>
       {r.beforeScreens && <span aria-hidden style={{ fontSize: 'var(--text-base)', flexShrink: 0 }}>📵</span>}
       <span style={{

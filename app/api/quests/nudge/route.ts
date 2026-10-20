@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
+import { readCallsGrownUp, senderWord } from '@/lib/kid/calls-grown-up'
 
 // The Remind button on a blocking job: one tap sends the child a warm nudge.
 // The push is best effort (their phone may not be set up), but the in app
@@ -47,8 +48,10 @@ export async function POST(req: NextRequest) {
   // The general one names the timer, because that is the thing the child
   // actually wants and the honest reason to go and look. It is not a telling
   // off and it does not count anything at them.
+  // Named the way the child names them (migration 376), "Dad asked: ...".
+  const who = senderWord(await readCallsGrownUp(supabase, childId))
   const message = quest
-    ? `Your grown up asked: ${quest.title}, then your timer can start 🌱`
+    ? `${who} asked: ${quest.title}, then your timer can start 🌱`
     : 'Have a look at your jobs before you start your timer 🌱'
 
   // The nudge row always lands, once: an unread nudge for the same job is
@@ -83,4 +86,31 @@ export async function POST(req: NextRequest) {
   } catch { /* best effort */ }
 
   return NextResponse.json({ ok: true, stored })
+}
+
+// ── DID THEY READ IT? (13 October 2026) ─────────────────────────────────────
+// Justin approved "Teo read it ✓" on Remind. A nudge is read when the child taps
+// it away on their home (app/api/kid/nudges sets seen) or ticks the job it was
+// about. This hands the Remind buttons the latest one from the last day, so
+// "Nudged" can become "Teo read it ✓" instead of a tap into silence. A well
+// done is not a reminder and is left out.
+export async function GET(req: NextRequest) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  const childId = req.nextUrl.searchParams.get('childId')
+  const questId = req.nextUrl.searchParams.get('questId')
+  if (!childId) return NextResponse.json({ error: 'childId required' }, { status: 400 })
+  try {
+    const q = supabase.from('kid_nudges').select('*')
+      .eq('user_id', user.id).eq('child_id', childId)
+      .gte('created_at', new Date(Date.now() - 24 * 3600 * 1000).toISOString())
+    const { data } = await (questId ? q.eq('quest_id', questId) : q)
+      .order('created_at', { ascending: false }).limit(5)
+    const latest = ((data ?? []) as { seen: boolean; created_at: string; kind?: string | null }[])
+      .find(n => n.kind !== 'well_done') ?? null
+    return NextResponse.json({ nudge: latest ? { seen: latest.seen, at: latest.created_at } : null })
+  } catch {
+    return NextResponse.json({ nudge: null })
+  }
 }

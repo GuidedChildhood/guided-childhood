@@ -7,7 +7,10 @@ review is a checklist and not a mood. Three users of this file:
 2. The PR review routine: reviews every open pull request against it each
    weekday morning and comments must fix / should fix / okay to ship.
 3. The weekly UX walkthrough routine: judges the live product against the
-   customer test below.
+   customer test below, and SAVES ITS REPORT IN THE REPO at
+   `plans/review-board/walkthroughs/<date>.md`, in the shape and by the rules
+   in `plans/review-board/routines/ux-walkthrough.md` (read both from
+   `origin/main`). A report that exists only in the session is lost.
 
 **The verdict format.** Every review sorts findings into exactly three
 buckets and says which one blocks:
@@ -36,7 +39,8 @@ Every feature honours all five commitments or it does not ship:
 
 ## 2. The customer test
 
-The perfect customer is a UK parent with a child aged 2 to 16. They have been
+The perfect customer is a UK parent with a child aged 4 to 16 (2 or 3 is a
+customer later, Justin, 16 October 2026). They have been
 burned by a blocking app, they can feel the phone moment coming, and they want
 a plan, not a ban. Judge every surface as that parent:
 
@@ -45,7 +49,9 @@ a plan, not a ban. Judge every surface as that parent:
   `research/homepage-audience-language.md`), not our internal names?
 - Does every claim on the page have a proof path in the product?
 - Does the age range hold? A feature that only makes sense for a 9 year old
-  needs to degrade gracefully for the parent of a 3 year old and a 15 year old.
+  needs to degrade gracefully for the parent of a 4 year old and a 15 year old,
+  and a birthday under 4 is told plainly that we start at 4, never filed
+  silently under ages 4 to 7.
 - Every CTA on /join routes to /starter-pack.
 
 ## 3. The scope test

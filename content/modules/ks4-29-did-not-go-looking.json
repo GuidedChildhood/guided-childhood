@@ -661,8 +661,11 @@
     "headline": "What we taught today, and one thing to try at home",
     "taught": "Today your child learned why the hardest things to see online usually arrive rather than get searched for: a feed is a guess about what holds attention, and distress holds attention. They learned an accurate version of what that content does, which is not that it makes anybody do anything, but that repetition makes a serious thing look ordinary. They learned that an offer of easy money from somebody who half knows them is how recruitment into drug supply actually begins. And they learned three moves that work on all of it: stop it, report it, say it.",
     "try_this": "The line worth saying out loud at some point this week, in your own words, is this one: if you ever see something you wish you had not, you are not in trouble, and there is no time limit on telling me. It costs nothing to say and it is the sentence that gets used months later.",
-    "family_question": "What is the strangest thing an app has ever shown you that you never asked for? Then, lighter: how do you think it decided?",
-    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is knowing what to do with something you never asked to see, and knowing you are not in trouble for it.",
+    "family_question": "What is the strangest thing an app has ever shown you that you never asked for?",
+    "listen_for": "You know distressing content arrives rather than gets searched for, and you stop it, report it and say it to one person.",
+    "then_ask": "Why is stopping it the only move that is on a clock?",
+    "say_this": "If you ever see something you wish you had not, you are not in trouble, and there is no time limit on telling me.",
+    "passport": "This lesson has a place on your child's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. The skill this lesson builds is knowing what to do with something you never asked to see, and knowing you are not in trouble for it.",
     "no_login_required": true
   },
   "teacher_notes": {
@@ -734,7 +737,7 @@
       "stretch": "ask why a system that nobody designed to do harm ends up here anyway, which reaches optimisation from the inside."
     },
     "send": "The two doors work as three pictures and can be taught without the text. The message exchange is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that you are not in trouble is a complete statement rather than one with unstated conditions, because a literal reader will otherwise supply the conditions themselves.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "worksheet": "The three moves sheet",
     "worksheet_items": [
       "The situation I picked",

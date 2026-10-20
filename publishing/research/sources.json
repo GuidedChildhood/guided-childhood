@@ -1,0 +1,31 @@
+{
+  "about": "The source registry the research engine sweeps every month, in priority order. UK relevance first, exceptional international stories welcome. A source here is a place to look, not a guarantee: every claim is still verified against the page itself before it prints.",
+  "sources": [
+    { "org": "European Space Agency", "where": ["https://www.esa.int/Education", "https://www.esa.int/Space_in_Member_States/United_Kingdom", "https://www.esa.int/kids/en/home"], "categories": ["science and discovery", "children creating technology"], "notes": "Images: CC BY-SA 3.0 IGO where marked, always credit ©ESA. Prefer our own illustration." },
+    { "org": "Raspberry Pi Foundation", "where": ["https://www.raspberrypi.org/blog/", "https://astro-pi.org/", "https://experience-ai.org/en/units"], "categories": ["children creating technology", "positive digital education", "digital literacy"], "notes": "Learning resources CC BY-SA 4.0; blog photos are not covered." },
+    { "org": "Coolest Projects", "where": ["https://coolestprojects.org/", "https://online.coolestprojects.org/"], "categories": ["young inventors", "digital creativity"], "notes": "Print first names and country only, as the showcase publishes them. Never reproduce a maker's images." },
+    { "org": "Micro:bit Educational Foundation", "where": ["https://microbit.org/news/"], "categories": ["children creating technology", "technology improving accessibility"] },
+    { "org": "UNICEF Innocenti", "where": ["https://www.unicef.org/innocenti/"], "categories": ["evidence based parenting insights", "technology redesigned in children's interests", "positive online communities"], "notes": "RITEC is co founded with the LEGO Group: declare it." },
+    { "org": "Ofcom", "where": ["https://www.ofcom.org.uk/research-and-data/media-literacy-research/children"], "categories": ["digital literacy", "technology redesigned in children's interests"], "notes": "The site blocks automated reading. Every Ofcom number is checked in the PDF by a person before print, or it stays out." },
+    { "org": "Common Sense Media", "where": ["https://www.commonsense.org/education/uk/digital-citizenship"], "categories": ["digital literacy"] },
+    { "org": "EU Kids Online", "where": ["https://www.lse.ac.uk/media-and-communications/research/research-projects/eu-kids-online"], "categories": ["evidence based parenting insights"] },
+    { "org": "Internet Matters", "where": ["https://www.internetmatters.org/hub/"], "categories": ["digital literacy", "evidence based parenting insights"], "notes": "Often blocks automated reading." },
+    { "org": "Childnet", "where": ["https://www.childnet.com/"], "categories": ["digital literacy", "positive online communities"] },
+    { "org": "Peer reviewed research", "where": ["https://europepmc.org/", "https://www.semanticscholar.org/"], "categories": ["evidence based parenting insights"], "notes": "Prefer systematic reviews. Say association when it is association. Check for retractions (Chaarani 2022 was retracted and replaced)." },
+    { "org": "University research centres", "where": ["https://www.bristol.ac.uk/policybristol/", "https://www.oii.ox.ac.uk/"], "categories": ["evidence based parenting insights", "digital literacy"] },
+    { "org": "EngineeringUK", "where": ["https://www.engineeringuk.com/latest-news/"], "categories": ["young inventors"] },
+    { "org": "Royal Museums Greenwich", "where": ["https://www.rmg.co.uk/stories/space-astronomy"], "categories": ["science and discovery"], "notes": "The Royal Observatory closes for renovation from 2 November 2026. Suggest the online guides, never a visit, until it reopens." }
+  ],
+  "categories": [
+    "children creating technology",
+    "positive digital education",
+    "young inventors",
+    "technology improving accessibility",
+    "science and discovery",
+    "digital creativity",
+    "positive online communities",
+    "digital literacy",
+    "evidence based parenting insights",
+    "technology redesigned in children's interests"
+  ]
+}

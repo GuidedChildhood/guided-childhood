@@ -7,7 +7,7 @@ The hook is not new and must not be reinvented. It is already set in
 
 > **What stage is your child? Three questions, no sign up.**
 
-Everything routes to `guidedchildhood.co.uk/starter-pack`. One destination. It
+Everything routes to `guidedchildhood.com/starter-pack`. One destination. It
 does not change week to week because a new feature shipped.
 
 ---

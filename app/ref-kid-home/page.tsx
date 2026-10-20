@@ -48,6 +48,14 @@ export default function RefKidHome() {
       schoolWeekCount={4}
       weekChart={[]}
       fiveADayInitial={{ day: '2026-08-03', steps, done: steps.slice(0, 2), complete: false, streak: 4 }}
+      // The parent link (13 October 2026): one tick waiting above, and two
+      // yeses from last night for Since you last looked.
+      requests={[{ id: 'r1', title: 'Wash the car', emoji: '🚗', status: 'pending' }]}
+      sinceItems={[
+        { key: 'tick:1', kind: 'job', title: 'Feed the dog before school', emoji: '🐕', stars: 3, familyJob: false, at: new Date(Date.now() - 10 * 3600e3).toISOString() },
+        { key: 'idea:1', kind: 'idea', title: 'Water the plants', emoji: '🪴', stars: 0, familyJob: false, at: new Date(Date.now() - 11 * 3600e3).toISOString() },
+      ]}
+      lastSeenAt={new Date(Date.now() - 20 * 3600e3).toISOString()}
     />
   )
 }

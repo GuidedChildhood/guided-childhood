@@ -12,7 +12,7 @@
 //
 // Node builtins plus --experimental-strip-types. No database.
 
-import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdtempSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -67,7 +67,7 @@ if (!/markStepQuietly\(supabase, link\.user_id, link\.child_id, 'lesson'\)/.test
 const sections = read('lib/pathway/passport-sections.ts')
 if (!/\/dashboard\/lessons\/path\?stage=\$\{id\}/.test(sections)) fail.push('the passport Lessons and tests row does not open the child\'s lesson list, so its count and its destination disagree')
 const path = read('app/(dashboard)/dashboard/lessons/path/page.tsx')
-if (!/loadChildLessonPath\(supabase, \{ userId: user\.id, childId: child\.id, stageId \}\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules through the one lesson count or offers Do it together')
+if (!/loadChildLessonPath\(supabase, \{ userId: user\.id, childId: child\.id, stageId, paid \}\)/.test(path) || !/data-do-together/.test(path)) fail.push('the parent lesson page no longer lists the school modules through the one lesson count or offers Do it together')
 
 // ── 5. DIGI POINTS AT THE RIGHT LESSON ─────────────────────────────────────
 const route = read('app/api/digi/route.ts')
@@ -201,11 +201,12 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     // A legacy row from before scoring (passed null) still counts.
     const legacy = run({ completions: [pass('m3', 'school_lesson', null)] })
     eq('legacy null row', [legacy.school.done, legacy.statusById.m3.state], [1, 'passed'])
-    // The AI modules are their own number, filtered to this stage, and the
-    // passport's pair is the sum: decision 1 lives in passportLessons alone.
+    // The AI modules are their own number, filtered to this stage, and since
+    // decision 1 (17 October 2026) the passport's pair is the school modules
+    // alone: the child cannot open the parent's AI modules.
     const withAi = run({ completions: [pass('m1'), pass('a1', 'ai_lesson'), pass('a3', 'ai_lesson')] })
     eq('AI modules apart', [withAi.school, withAi.ai], [{ done: 1, total: 4, next: { id: 'm2', position: 2 } }, { done: 1, total: 2 }])
-    eq('passport pair', passportLessons(withAi), { done: 2, total: 6 })
+    eq('passport pair', passportLessons(withAi), { done: 1, total: 4 })
     // A child whose passes are all on the Learn tab: no school module passed,
     // and the planets stay exactly as open as they were yesterday.
     const learnTab = run({ completions: [pass('p1', 'lesson'), pass('p2', 'lesson'), pass('p3', 'lesson')] })
@@ -220,6 +221,13 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
     // A skipped module does not block the road.
     const skipped = run({ completions: [], missions: [{ lesson_id: 'm1', status: 'skipped' }] })
     eq('skipped moves next', skipped.school.next, { id: 'm2', position: 2 })
+    // "Do this one instead": the lesson with an open mission is this week's,
+    // ahead of an earlier one waiting on the list.
+    const chosen = run({ completions: [], missions: [{ lesson_id: 'm1', status: 'skipped' }, { lesson_id: 'm3', status: 'sent' }] })
+    eq('an open mission is this week\'s lesson', [chosen.school.next, chosen.statusById.m3.state, chosen.statusById.m2.state], [{ id: 'm3', position: 3 }, 'thisWeek', 'paced'])
+    // A passed lesson's mission is done, never open, so it cannot hold the week.
+    const afterPass = run({ completions: [pass('m1')], missions: [{ lesson_id: 'm1', status: 'done' }] })
+    eq('a passed lesson never holds the week', afterPass.school.next, { id: 'm2', position: 2 })
     // locked is the paywall and nothing else: the first module and this
     // week's are always open.
     const free = run({ completions: [], paid: false })
@@ -365,9 +373,13 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   ]) if (!re.test(read(file))) fail.push(`${file}: chooses a child's lessons without their school year (lessonStageFor)`)
 
   const dir = mkdtempSync(join(tmpdir(), 'school-year-'))
+  // The one stage map rides along, as the real file: the stage's key stages
+  // come from it since 12 October 2026 (rule 12).
+  writeFileSync(join(dir, 'stage-map.ts'), read('shared/stage-map.ts'))
   writeFileSync(join(dir, 'school-path.ts'), read('lib/lessons/school-path.ts')
     .replace("import type { StageId } from '@/lib/pathway/progress'", "type StageId = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'independent'")
-    .replace("import { positionOf } from '@gc/shared/schools-curriculum'", 'const positionOf = (_id: string) => ({ index: 0 })'))
+    .replace("import { positionOf } from '@gc/shared/schools-curriculum'", 'const positionOf = (_id: string) => ({ index: 0 })')
+    .replace("import { KEY_STAGES_OF_STAGE } from '@gc/shared/stage-map'", "import { KEY_STAGES_OF_STAGE } from './stage-map.ts'"))
   const { schoolYearFromDob, lessonStageFor, moduleOpenFor, newMissionAllowed, WEEKLY_LESSON_STARS } = await import(join(dir, 'school-path.ts'))
   // ONE A WEEK, WITH A MECHANISM (plan v10, 1.5): only a NEW mission meets the
   // pace, and the opener reads the paywall where it creates one.
@@ -450,8 +462,158 @@ if (!/svc-lessons[\s\S]{0,600}\.not\('passed', 'is', false\)/.test(read('app/api
   if (!/status: 403/.test(post)) fail.push('the send route refuses the paywall and the school year with 403')
 }
 
+// ── 12. ONE STAGE MAP, THE HOME CODE RECORDS COVERAGE, THE GROWN UP SWITCH ──
+//
+// Sync plan B, D, G3 and G5 (plans/2026-10-09-curriculum-sync-plan.md), built
+// as PR 2 on 12 October 2026 with migration 373. Three copies of the stage map
+// disagreed; the home code wrote a pass; the lesson's key stage alone decided
+// who read it. Each is held here so none can come back quietly.
+{
+  // One stage map, read as text, and every copy derived from it.
+  const stageMap = read('shared/stage-map.ts')
+  const mapLine = stageMap.match(/^export const STAGE_OF_KEY_STAGE[^=]*= \{([^}]+)\}/m)?.[1] ?? ''
+  const map = Object.fromEntries([...mapLine.matchAll(/(\w+): '(\w+)'/g)].map(m => [m[1], m[2]]))
+  if (Object.keys(map).length !== 6) fail.push('shared/stage-map.ts must name the six key stages on one line')
+  if (map.KS3 !== 'explorer' || map.KS4 !== 'shaper' || map.KS5 !== 'independent') fail.push('the one stage map: KS3 Explorer, KS4 Shaper, KS5 Independent, as home has always counted them')
+  if (/^import /m.test(stageMap)) fail.push('shared/stage-map.ts imports nothing, so every guard can read it as text')
+  const stages = read('shared/passport-stages.ts')
+  if (!/from '\.\/stage-map'/.test(stages) || /EYFS:\s*'foundation'/.test(stages)) fail.push('shared/passport-stages.ts must derive from stage-map, never carry a map of its own')
+  if (!/from '@gc\/shared\/stage-map'/.test(schoolPath) || /foundation: \['EYFS'/.test(schoolPath)) fail.push('lib/lessons/school-path.ts must derive its key stages from stage-map')
+  const contract = read('scripts/check-module-contract.mjs')
+  if (/PLACEMENT_BY_KS = \{/.test(contract) || !/stage-map\.ts/.test(contract)) fail.push('check-module-contract must read the one stage map, not a copy')
+  for (const f of readdirSync('content/modules').filter(f => f.endsWith('.json'))) {
+    const m = JSON.parse(read(`content/modules/${f}`))
+    if (m.teacher_notes?.passport_stage !== map[m.key_stage]) fail.push(`${m.module_id}: passport_stage ${m.teacher_notes?.passport_stage} is not the map's ${map[m.key_stage]}`)
+  }
+  // The page comes from the module id, never the slide and never the row alone.
+  const beat = read('shared/components/interactives/index.tsx')
+  if (!/placementOf\(moduleId\)/.test(beat) || /isStage\(config\.placement\)/.test(beat)) fail.push('the passport beat must read its page from the module id, never the slide')
+  if (!/placementOf\(lesson\.module_id\)/.test(read('schools/app/lesson/[module]/run/page.tsx'))) fail.push('the run sheet must read the page from the module id')
+  if (/!== 'after'|=== 'after'/.test(read('shared/components/LessonPlayer.tsx') + read('schools/lib/tracker.ts') + read('schools/app/lesson/[module]/page.tsx'))) fail.push('nothing sits after the passport any more: KS5 fills Independent')
+
+  // The home code records coverage, requires a child, and survives the starter pack.
+  const code = read('app/api/school-code/route.ts')
+  if (/lesson_completions/.test(code) || !/recordCoverage\(/.test(code)) fail.push('the home code must record coverage, never write a completion')
+  const homeCode = read('lib/school/home-code.ts')
+  if (!/from\('lesson_coverage'\)/.test(homeCode) || !/source: 'home_code'/.test(homeCode) || /lesson_completions/.test(homeCode)) fail.push('lib/school/home-code.ts writes one lesson_coverage row and nothing else')
+  if (!/Choose which child this code is for/.test(homeCode)) fail.push('a code with no child is refused, never written to the household')
+  if (!/\/api\/school-code\/remember\?code=/.test(read('app/(marketing)/home-code/[code]/page.tsx'))) fail.push('the landing page must carry the code through the starter pack')
+  if (!/\/api\/school-code\/pending/.test(read('lib/starter/finish-setup.ts'))) fail.push('the end of the starter pack must redeem a remembered code')
+  if (!/HOME_CODE_COOKIE, home,/.test(read('app/api/school-code/remember/route.ts')) || !/HOME_CODE_COOKIE, '',/.test(read('app/api/school-code/pending/route.ts'))) fail.push('the remember route sets the cookie and the pending route spends it')
+  // Nothing promises that the code fills the passport, and the tea question has one label.
+  for (const [file, bad, why] of [
+    ['components/lessons/SchoolCodeCard.tsx', /Stamp it in|Stamped in|<PassportPage/, 'the code card still stamps or fills a page'],
+    ['schools/app/print/[module]/page.tsx', /Dinner table|Today filled|No login needed/, 'the parent note still says dinner table, today filled or no login needed'],
+    ['schools/app/print/[module]/booklet/page.tsx', /Ask at home tonight/, 'the booklet still says ask at home tonight'],
+    ['schools/app/lesson/[module]/page.tsx', /dinner table|fills the <strong/i, 'the lesson page still says dinner table or that teaching fills the page'],
+    ['app/(marketing)/home-code/[code]/page.tsx', /puts it on your child/, 'the landing page still says the code puts the lesson on the passport'],
+  ]) if (bad.test(read(file))) fail.push(`${file}: ${why}`)
+  const pack = read('schools/app/print/[module]/page.tsx')
+  if (!/label="Ask at tea"/.test(pack) || !/parent\.listen_for/.test(pack) || !/parent\.then_ask/.test(pack) || !/label="Say this tonight"/.test(pack)) fail.push('the parent note prints Ask at tea with listen_for and then_ask, and Say this tonight on the heavy six')
+  if (!/label="Ask at tea"/.test(read('schools/app/print/[module]/booklet/page.tsx'))) fail.push('the booklet asks at tea')
+  for (const f of ['content/modules', 'scripts/lib/print-pack-words.mjs']) if (f.endsWith('.mjs') && !/parent\.listen_for, parent\.then_ask/.test(read(f))) fail.push('the print room counts listen_for and then_ask')
+
+  // The grown up switch: both the page and the route pick the audience through
+  // one helper, from the same column, so the deck marked is the deck shown.
+  const mission = read('app/k/[token]/lesson/[mission]/page.tsx')
+  if (!/lessonAudienceFor\(/.test(mission) || !/lessonAudienceFor\(/.test(complete)) fail.push('the mission page and the completion route must pick the audience through lessonAudienceFor')
+  if (!/lessons_together/.test(mission) || !/lessons_together/.test(complete)) fail.push('both must read children.lessons_together')
+  if (!/readAloud=\{kid\?\.lessons_together === true\}/.test(mission)) fail.push('the read aloud button follows the switch, never the age alone')
+  if (!/from '\.\.\/read-aloud'/.test(read('shared/components/LessonPlayer.tsx')) || !/data-read-aloud/.test(read('shared/components/LessonPlayer.tsx'))) fail.push('the shared player carries the read aloud button as a prop')
+  if (!/LessonsTogetherSwitch/.test(read('app/(dashboard)/dashboard/lessons/path/page.tsx'))) fail.push('the parent can set does lessons with me on the lesson page')
+  if (!/lessons_together: on/.test(read('app/api/children/lessons-together/route.ts'))) fail.push('the switch route writes children.lessons_together')
+  if (!/lessonAudienceFor\(/.test(read('app/k/[token]/lessons/page.tsx'))) fail.push("the child's list reads the same switch")
+
+  // No together path renders a script, and a child alone never sees the grown up's line.
+  const ls = read('shared/lesson-slides.ts')
+  if (!/delete \(slide as \{ script\?: string \}\)\.script/.test(ls)) fail.push('visibleSlides must strip the teacher script off every non classroom deck')
+  if (!/if \(audience === 'kid'\) delete \(slide as \{ together_prompt\?: string \}\)\.together_prompt/.test(ls)) fail.push('a child alone never sees the grown up line')
+  {
+    const dir = mkdtempSync(join(tmpdir(), 'together-'))
+    writeFileSync(join(dir, 'lesson-slides.ts'), ls)
+    const { visibleSlides } = await import(join(dir, 'lesson-slides.ts'))
+    let decksWithLines = 0
+    for (const f of readdirSync('content/modules').filter(f => f.endsWith('.json'))) {
+      const m = JSON.parse(read(`content/modules/${f}`))
+      if (!m.slides.some(s => typeof s.together_prompt === 'string')) continue
+      decksWithLines += 1
+      const opts = { worksheet: { verdict_options: m.teacher_notes?.worksheet?.verdict_options, items: m.teacher_notes?.worksheet_items } }
+      const together = visibleSlides(m.slides, 'together', opts).slides
+      const kid = visibleSlides(m.slides, 'kid', opts).slides
+      const classroom = visibleSlides(m.slides, 'classroom', opts).slides
+      together.forEach((s, i) => {
+        if (typeof s.together_prompt !== 'string' || !s.together_prompt.trim()) fail.push(`${m.module_id}: together slide ${i} (${s.type}) has no grown up line`)
+        if ('script' in s) fail.push(`${m.module_id}: together slide ${i} renders a teacher script`)
+        if (typeof s.together_prompt === 'string' && /\b(class|pupils|carpet|snack time|exit quiz|your partner)\b/i.test(s.together_prompt)) fail.push(`${m.module_id}: together slide ${i} speaks classroom register`)
+      })
+      kid.forEach((s, i) => { if ('together_prompt' in s) fail.push(`${m.module_id}: kid slide ${i} carries the grown up line`) })
+      if (classroom.length !== m.slides.length) fail.push(`${m.module_id}: the classroom deck lost a slide`)
+    }
+    if (decksWithLines < 2) fail.push(`the first two Foundation decks carry their grown up lines (found ${decksWithLines})`)
+  }
+}
+
+// ── 13. THE PARENT'S ACTIONS ON EACH LESSON (12 October 2026) ───────────────
+//
+// Justin: "should there be an action to nudge child's app or click co watch or
+// save for later?" This week's lesson sends or nudges with Do it together
+// beside it; any other open lesson can become this week's ("Do this one
+// instead", which parks the current one rather than losing it).
+{
+  const page = read('app/(dashboard)/dashboard/lessons/path/page.tsx')
+  const actions = read('components/lessons/LessonRowActions.tsx')
+  if (!/<LessonRowActions /.test(page) || !/mode="instead"/.test(page)) fail.push('the lessons page lost its row actions (send or nudge, do it together, do this one instead)')
+  if (!/hasFullAccess\(/.test(page)) fail.push('the lessons page must tell the one count whether the family has paid, or every lesson after the first reads as locked')
+  if (!/fetch\('\/api\/quests\/lessons'/.test(actions) || !/instead: mode === 'instead'/.test(actions)) fail.push('the row actions must go through the send route')
+  const send = read('app/api/quests/lessons/route.ts')
+  if (!/if \(body\.instead\)/.test(send) || !/\.update\(\{ status: 'skipped' \}\)/.test(send) || !/\.eq\('status', 'sent'\)/.test(send)) fail.push('Do this one instead must park only open missions (sent), never a passed one')
+}
+
+// ── 14. THE SIX HEAVY LESSONS WAIT FOR A GROWN UP (13 October 2026) ─────────
+//
+// Justin said yes to the heads up: one of the six heaviest lessons started by a
+// child alone opens 48 hours later or when the parent taps Ready, and the
+// parent gets the note first. A lesson the parent sends or opens with them is
+// theirs already and opens at once. The note is the deck's own parent text,
+// turned from "today we taught" into what the lesson covers, so it runs here
+// over all six real decks.
+{
+  const heavy = await import(join(process.cwd(), 'lib/lessons/heavy.ts'))
+  if (heavy.HEAVY_MODULE_IDS.size !== 6) fail.push(`the heads up names ${heavy.HEAVY_MODULE_IDS.size} heavy lessons, not six`)
+  for (const id of heavy.HEAVY_MODULE_IDS) {
+    let deck
+    try { deck = JSON.parse(readFileSync(`content/modules/${id}.json`, 'utf8')) } catch { fail.push(`heavy lesson ${id} has no deck in content/modules`); continue }
+    const copy = heavy.headsUpCopy(deck.parent_note, 'Teo')
+    if (!copy.covers || !/^(This lesson|In this lesson)\b/.test(copy.covers)) fail.push(`${id}: the note does not open as what the lesson covers ("${(copy.covers ?? '').slice(0, 40)}")`)
+    const left = (copy.covers ?? '').match(/\b(Today|today|we|We|learned|pupils?|taught your child)\b/)
+    if (left) fail.push(`${id}: the note still reads as after the lesson ("${left[0]}")`)
+    if (!copy.sayThis) fail.push(`${id}: the note has no say this line`)
+  }
+  const now = Date.parse('2026-10-13T10:00:00Z')
+  const opens = Date.parse(heavy.headsUpOpensAt(now))
+  if (opens - now !== 48 * 3600 * 1000) fail.push('a heavy lesson must open 48 hours after the child starts it')
+  if (!heavy.stillWaiting(new Date(now + 1000).toISOString(), now) || heavy.stillWaiting(new Date(now - 1000).toISOString(), now) || heavy.stillWaiting(null, now)) fail.push('stillWaiting must be true only for a sent_at still in the future')
+
+  const opener = read('app/k/[token]/school/[lessonId]/route.ts')
+  if (!/isHeavyModule\(row\.module_id\) && !grownUpIn/.test(opener) || !/sent_at: headsUpOpensAt\(\)/.test(opener)) fail.push('the opener must hold a heavy lesson a child starts alone, and only then')
+  if (!/isTogether\(/.test(opener) || !/lessons_together === true/.test(opener)) fail.push('a grown up already in the lesson (the together cookie or the switch) must open it at once')
+  if (!/stillWaiting\(/.test(opener)) fail.push('the opener must keep a waiting lesson shut when its address is typed')
+  const hu = opener.slice(opener.indexOf('async function sendHeadsUp'))
+  const pushCall = hu.slice(hu.indexOf('sendPush('), hu.indexOf('})', hu.indexOf('sendPush(')))
+  if (!pushCall || /lessonTitle|parentNote/.test(pushCall)) fail.push('the heads up push must not carry the lesson\'s subject onto a lock screen')
+  if (!/kind: 'transactional'/.test(hu)) fail.push('the heads up email is about the child\'s own lesson, so it goes as transactional')
+  if (!/stillWaiting\(/.test(read('app/k/[token]/lesson/[mission]/page.tsx'))) fail.push('the lesson page must refuse a mission still inside its heads up')
+  if (!/error: 'waiting'/.test(read('app/api/quests/lesson-complete/route.ts'))) fail.push('the completion route must refuse a mission still inside its heads up')
+  if (!/headsUpUntil/.test(read('app/k/[token]/lessons/page.tsx'))) fail.push('the child\'s list must say the day a waiting lesson opens')
+  if (!/openHeadsUpNow\(/.test(read('app/api/quests/lessons/route.ts'))) fail.push('a parent sending a waiting lesson is the parent choosing it, so it opens')
+  if (!/openHeadsUpNow\(/.test(read('app/(dashboard)/dashboard/lessons/heads-up/ready/route.ts'))) fail.push('Ready under the note must open the lesson')
+  const server = read('lib/lessons/heads-up-server.ts')
+  if (!/\.gt\('sent_at', now\)/.test(server) || !/\.eq\('status', 'sent'\)/.test(server)) fail.push('Ready must move only a mission still waiting, so a second tap is no second push')
+  if (!/data-row-actions="heads-up"/.test(read('app/(dashboard)/dashboard/lessons/path/page.tsx'))) fail.push('the parent\'s lessons page must offer the note on a waiting lesson, not a nudge')
+}
+
 if (fail.length) {
   console.error('check-lesson-path FAILED\n' + fail.map(f => '  ' + f).join('\n'))
   process.exit(1)
 }
-console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, lessons follow the school year, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8)`)
+console.log(`check-lesson-path: ok (${globalThis.__visibleSlidesSummary}; school lessons counted, every surface reads the one count, ten fixtures agree, lessons follow the school year, the child\'s list and the parent\'s agree, a pass ticks and asks at tea, DiGi matches 8 of 8, one stage map, the code records coverage, the switch picks the deck, the six heavy lessons wait for a grown up)`)

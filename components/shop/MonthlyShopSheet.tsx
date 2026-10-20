@@ -108,7 +108,7 @@ export default function MonthlyShopSheet({ childName, devForce = false }: {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '2px' }}>
-          <button
+          <button className="tap-target"
             onClick={dismiss}
             aria-label="Close"
             style={{

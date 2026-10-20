@@ -332,7 +332,7 @@ export function yearAheadEmail(params: { unsubscribe: string }): EmailContent {
         button('See the road ahead', `${APP}/dashboard/pathway`) +
         rule() +
         linkList([
-          { label: 'The pathway, stage by stage', href: `${APP}/dashboard/pathway` },
+          { label: 'The passport, stage by stage', href: `${APP}/dashboard/pathway` },
           { label: 'The scripts for the hard moments', href: `${APP}/dashboard/scripts` },
           { label: 'The jobs board and the stars', href: `${APP}/dashboard/quests` },
         ]),

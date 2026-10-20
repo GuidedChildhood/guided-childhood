@@ -306,7 +306,7 @@ export default function JobPicker({
             disabled={done || st === 'adding' || busy}
             aria-label={done ? `${job.title} added` : st === 'failed' ? `Try adding ${job.title} again` : `Add ${job.title}`}
             style={{
-              flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
+              flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
               border: 'var(--edge)', cursor: done ? 'default' : 'pointer',
               background: done ? 'var(--retro-green)' : st === 'failed' ? 'var(--danger-bg)' : 'var(--terracotta)',
               color: done ? '#fff' : st === 'failed' ? 'var(--danger)' : 'var(--ink)',

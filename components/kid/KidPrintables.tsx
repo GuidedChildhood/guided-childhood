@@ -451,7 +451,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
           onClick={() => { playKidSound('tap'); onClose() }}
           aria-label="Close"
           style={{
-            width: 42, height: 42, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
+            width: 44, height: 44, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             background: '#fff', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 3px 0 ${HAPPY.ink}`,
           }}

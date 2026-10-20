@@ -71,20 +71,67 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, status: null })
   }
 
-  const { error } = await supabase.from('quest_ticks').insert({
-    quest_id: quest.id,
-    user_id: link.user_id,
-    child_id: link.child_id,
-    tick_date: today,
-    status: 'pending',
-    ticked_by: 'child',
-  })
-  // Unique (quest_id, child_id, tick_date) since migration 206: the SAME child
-  // tapping twice is fine, not an error. It used to be (quest_id, tick_date),
-  // so this same line silently swallowed a second CHILD's tick on a shared job
-  // and told them it had worked.
-  if (error && !error.message.includes('duplicate')) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  // A "not yet" tick comes back to life rather than being inserted again.
+  //
+  // Audit, 13 October 2026: when a grown up tapped "not done yet" the row
+  // stayed in the table as rejected, and the one tick per child per job per
+  // day key (migration 206) covers every status. So when the child went back,
+  // did the job properly and ticked again, the insert hit the key, the
+  // duplicate line below swallowed it, the parent was still told "Teo ticked
+  // off a job" with nothing on their list to approve, and the child's tick
+  // quietly undid itself on the next poll. A second go has to be possible, so
+  // today's rejected row goes back to pending with fresh timestamps instead.
+  const { data: existing } = await supabase
+    .from('quest_ticks')
+    .select('id, status')
+    .eq('quest_id', quest.id)
+    .eq('child_id', link.child_id)
+    .eq('tick_date', today)
+    .maybeSingle()
+
+  // Only a tick that is genuinely new to the grown up rings their phone. A
+  // repeat tap on a job already waiting, or already approved, changes nothing
+  // and so says nothing.
+  let fresh = false
+  if (existing?.status === 'rejected') {
+    const { data: revived, error } = await supabase
+      .from('quest_ticks')
+      .update({
+        status: 'pending',
+        ticked_by: 'child',
+        approved_at: null,
+        created_at: new Date().toISOString(),
+      })
+      .eq('id', existing.id)
+      .eq('status', 'rejected')
+      .select('id')
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    fresh = (revived?.length ?? 0) > 0
+    // The "Not quite yet" note has done its job the moment they try again, so
+    // it leaves their screen rather than sitting over a tick that is waiting.
+    if (fresh) {
+      try {
+        await supabase.from('kid_nudges').update({ seen: true })
+          .eq('child_id', link.child_id).eq('quest_id', quest.id).eq('seen', false)
+      } catch { /* the child can still tap OK on it */ }
+    }
+  } else if (!existing) {
+    const { error } = await supabase.from('quest_ticks').insert({
+      quest_id: quest.id,
+      user_id: link.user_id,
+      child_id: link.child_id,
+      tick_date: today,
+      status: 'pending',
+      ticked_by: 'child',
+    })
+    // Unique (quest_id, child_id, tick_date) since migration 206: the SAME child
+    // tapping twice is fine, not an error. It used to be (quest_id, tick_date),
+    // so this same line silently swallowed a second CHILD's tick on a shared job
+    // and told them it had worked.
+    if (error && !error.message.includes('duplicate')) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+    fresh = !error
   }
 
   await supabase.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
@@ -101,7 +148,7 @@ export async function POST(req: NextRequest) {
   // Done button. Every push that needs a DECISION from a parent now points
   // here. The ones that are only news (a timer started, a goal redeemed) still
   // go to the quests page, because there is nothing to decide.
-  try {
+  if (fresh) try {
     // WHOSE tick this is, on the notification itself. Justin, 19 August 2026:
     // "pushes have the child's name so the parent knows which reminder." With
     // two children, "a quest is ready for your ok" made a parent open the app
@@ -117,5 +164,6 @@ export async function POST(req: NextRequest) {
       })
   } catch { /* push is best effort */ }
 
-  return NextResponse.json({ ok: true, status: 'pending' })
+  // A stray tap on a job already approved leaves it approved, and says so.
+  return NextResponse.json({ ok: true, status: existing?.status === 'approved' ? 'approved' : 'pending' })
 }

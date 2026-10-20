@@ -1,4 +1,5 @@
 import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
+import { scriptsForMoment, type MomentText } from '@/lib/content/moment-to-scripts'
 import { createClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
@@ -132,8 +133,8 @@ type ScriptRow = {
 // one place to send them back to and no chance of guessing wrong.
 const PATHWAY_HREF = '/dashboard/pathway'
 
-export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string; child?: string }> }) {
-  const { topic, cat, stage, from, q, child: childParam } = await searchParams
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; moment?: string; cat?: string; stage?: string; from?: string; q?: string; child?: string }> }) {
+  const { topic, moment: momentId, cat, stage, from, q, child: childParam } = await searchParams
   const supabase = await createClient()
   const user = await sessionUser(supabase)
   if (!user) redirect('/login')
@@ -185,17 +186,30 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
   // Inside numbered list, so the loop closes on the relevant words, not a
   // browse. Falls back silently to the normal page when nothing matches.
   const topicKey = topic ? decodeURIComponent(topic).toLowerCase().trim() : null
-  // Match the moment's category to the scripts, tolerant of small taxonomy
-  // differences (a moment tagged sibling_conflict still finds sibling scripts),
-  // so the handoff reliably lands the relevant words rather than nothing.
-  const topicScripts = topicKey
-    ? scripts.filter(s => {
-        const c = (s.category ?? '').toLowerCase().trim()
-        if (!c) return false
-        return c === topicKey || (topicKey.length >= 4 && (c.includes(topicKey) || topicKey.includes(c)))
-      })
-    : []
-  const topicLabel = topicKey ? (CATEGORY_META[topicKey]?.label ?? topicKey.replace(/_/g, ' ')) : null
+  // The moment and script taxonomies were never the same list, and the
+  // substring match this used to do found a script for 10 of 89 live moments,
+  // then listed all 33 school scripts across every age for those ten. The
+  // moment's own words now choose, for this child's stage, at most four. See
+  // lib/content/moment-to-scripts.ts.
+  //
+  // The row is read through the parent's own session: `authenticated` holds
+  // SELECT on daily_moments, it is the same read the moments page makes, and
+  // a bad or stale id simply finds nothing and the page renders as it always
+  // has.
+  const { data: momentRow } = momentId && /^[0-9a-f-]{36}$/i.test(momentId)
+    ? await supabase
+        .from('daily_moments')
+        .select('title, category, science_brief, digi_opener, solutions')
+        .eq('id', momentId)
+        .maybeSingle()
+    : { data: null }
+  const momentMatch = momentRow
+    ? scriptsForMoment(scripts, momentRow as MomentText, child?.stage_id ?? null)
+    : null
+  const topicScripts = momentMatch?.scripts ?? []
+  // The heading names the moment the parent just read, in their words, not
+  // the shelf it was filed on.
+  const topicLabel = momentRow ? (momentRow as MomentText).title : null
 
   // The recommendation is about THIS child: their stage, and since 20 August
   // 2026 their own concerns and check ins too, so switching the pills changes
@@ -277,7 +291,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       {cameFromPathway && (
         <Link href={PATHWAY_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 14 }}>
-          ← Back to the pathway
+          ← Back to the Passport
         </Link>
       )}
       <div style={{ marginBottom: '24px' }}>
@@ -334,9 +348,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         <section style={{ marginBottom: '24px' }}>
           <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '16px 20px 14px', marginBottom: '14px', boxShadow: 'var(--lift-deep)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
-              {topicScripts.length} script{topicScripts.length > 1 ? 's' : ''} for this moment
+              {!momentMatch?.confident ? 'The closest scripts' : topicScripts.length === 1 ? 'The words' : `${topicScripts.length} scripts`} for this moment
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.12, letterSpacing: '-0.02em', textTransform: 'capitalize' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.12, letterSpacing: '-0.02em', textTransform: 'none' }}>
               {topicLabel}
             </div>
           </div>
@@ -627,7 +641,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         }}>
           <div style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', marginBottom: '8px' }}>
-            The full library of 100 plus scripts is unlocked with membership
+            The full library of over 300 scripts is unlocked with membership
           </div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.

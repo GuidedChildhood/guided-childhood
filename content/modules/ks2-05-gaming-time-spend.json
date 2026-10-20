@@ -611,9 +611,11 @@
   "parent_note": {
     "taught": "Today we learned that games are brilliant and also carefully designed to keep children playing and paying, and that both things are true at once. Your child can now run the three spend spotters on any in game offer: is it rushing me, is it hiding the price, is it random like a raffle?",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the three spend spotters on a game you both know.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the three spend spotters on a game you both know.",
     "try_this": "Next time your child plays, ask them to open the game's shop and point out one trick by name, the countdown clock, the gem prices or the mystery chest. They will enjoy being the expert, and naming tricks out loud is what makes the habit stick.",
-    "family_question": "What is the cleverest trick a game or a shop has ever tried on you, and did it work?",
+    "family_question": "Can you teach me the three spend spotters, and run them on a game you play?",
+    "listen_for": "You can spot when an offer is rushing you, hiding the price or selling a chance like a raffle.",
+    "then_ask": "Why do games use gems instead of pounds?",
     "no_login_required": true
   },
   "video_beats": [],

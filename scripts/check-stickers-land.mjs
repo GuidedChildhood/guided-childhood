@@ -176,9 +176,11 @@ else ok.push(`F: the way back to today is on all ${subPages.length} sub pages`)
 
 // ── F2: the ask row cannot get stuck, and the week page is off the yellow ───
 const weekPage = read('app/k/[token]/week/page.tsx')
+// isTicked (13 October 2026) is the same jobs left, minus a job a grown up
+// said "not done yet" to, which is still to do and must be named as such.
 if (!/if \(!state \|\| asksPending <= 0\) return/.test(fiveADay) || !/void mark\('ask', true, 'Idea already with your grown up'\)/.test(fiveADay)) problems.push('F2: an idea already with the grown up does not tick the ask row')
 else if (!/Still to do: \$\{jobsLeft\.slice\(0, 3\)\.join/.test(fiveADay)) problems.push('F2: the jobs row does not name the jobs still to do')
-else if (!/asksPending=\{Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !ticks\[q\.id\]\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
+else if (!/asksPending=\{Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !(?:ticks\[q\.id\]|isTicked\(q\.id\))\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
 else ok.push('F2: an idea with the grown up ticks the ask row, and the jobs row names what is left')
 if (/background: 'var\(--butter\)'/.test(weekPage)) problems.push('F2: the child\'s week page is a slab of butter again')
 else if (!/env\(safe-area-inset-top\)/.test(weekPage) || !/buddyFor\(/.test(weekPage)) problems.push('F2: the week page has no safe area padding or no Friend')
@@ -546,7 +548,11 @@ if (/'Your five for today'/.test(fiveCopy) || /"Your five for today"/.test(fiveC
   if (!/const focusDay = !homeAll && todayTab\.total > 0 && !todayTab\.complete/.test(q)) problems.push('Q: the home no longer folds its extras while the day is running, so the five a day is lost among thirteen blocks again')
   else if (!/tiles=\{focusDay \? \[\] : tiles\}/.test(q)) problems.push('Q: the tile grid is no longer the thing that folds, check KidHomeTiles still draws Use my time and Telling a grown up whatever the tiles')
   else if (/focusDay[^\n]*tellHref|tellHref[^\n]*focusDay/.test(q)) problems.push('Q: Telling a grown up is gated on focusDay. It is the safe way to raise a hard thing and must never be folded away')
-  else if (!/\(!focusDay \|\| deviceOpen \|\| !!liveSession\)/.test(q)) problems.push('Q: a running timer card can be folded away. A live countdown must always show')
+  // Since 13 October 2026 the reward card (Use my time, the balance and the
+  // timer in one) does not fold at all, which keeps a live countdown in view
+  // too. Either shape passes; a focusDay gate on it without the live escape
+  // does not.
+  else if (!/\(!focusDay \|\| deviceOpen \|\| !!liveSession\)/.test(q) && !/\{\(onToday \|\| !!liveSession\) && \(\(\) => \{/.test(q)) problems.push('Q: a running timer card can be folded away. A live countdown must always show')
   else ok.push('Q: the day runs first, the extras fold behind More things to do, and the timer, Use my time and Telling a grown up never fold')
 }
 

@@ -208,7 +208,11 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           idea per card, tap to advance, previous card below, and a final card
           that hands off to the relevant scripts. ── */}
       {open && (() => {
-        const scriptsHref = `/dashboard/scripts?topic=${encodeURIComponent(moment.category)}`
+        // The moment's id rides along so the scripts page can read its whole
+        // text and rank every script against it, not just pick a shelf. See
+        // lib/content/moment-to-scripts.ts for why the category alone found
+        // nothing for 79 of 89 moments.
+        const scriptsHref = `/dashboard/scripts?topic=${encodeURIComponent(moment.category)}&moment=${moment.id}`
         // Build the deck from what DiGi returned, one clear idea per card, and
         // a scripts hand off as the last card. Falls back to the static fields
         // while DiGi is still gathering, so the deck is never empty.

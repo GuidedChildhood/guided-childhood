@@ -6,7 +6,7 @@ import { sendPush } from '@/lib/push/send'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { londonToday, londonDayStart } from '@/lib/pathway/today'
-import { dueNow, eveningLine, reminderTargetMinutes, ukMinutesOf, REMINDER_EARLIEST, REMINDER_LATEST, DUE_WINDOW } from '@/lib/push/evening'
+import { dueNow, eveningLine, reminderTargetMinutes, ukMinutesOf, quietNightNumber, eveningHeldForQuiet, londonDateOf, EVENING_QUIET_NIGHTS, REMINDER_EARLIEST, REMINDER_LATEST, DUE_WINDOW } from '@/lib/push/evening'
 import { familyTargets, windowPush, bandGroup, DEFAULT_MORNING_TARGET, DEFAULT_HOME_TARGET, type SchoolWindow } from '@/lib/home/school-window'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
@@ -145,6 +145,36 @@ function addDays(iso: string, n: number): string {
 // Reads are batched: one query per table for every evening subscriber, then
 // one streak read for each parent who is due and not done, which on any
 // given half hour is a handful.
+//
+// It goes quiet after seven unanswered nights (review board, 16 October 2026).
+// For the handful who are due and not done tonight, one more read of the same
+// four tables over the last week finds the latest day each showed up; past
+// EVENING_QUIET_NIGHTS the push is held and the four day re engagement line
+// (app/api/push/reengage) is all that reaches them. Only the handful are read,
+// so the row limit cannot quietly drop someone's activity and silence them by
+// mistake, and a failed read sends as before rather than going silent.
+async function lastShownUpOn(admin: ReturnType<typeof createAdminClient>, ids: string[], today: string): Promise<Map<string, string[]> | null> {
+  const since = addDays(today, -8)
+  const [s, m, t, f] = await Promise.all([
+    admin.from('daily_sessions').select('user_id, session_date').in('user_id', ids).gte('session_date', since).not('completed_at', 'is', null),
+    admin.from('moment_completions').select('user_id, completed_on').in('user_id', ids).gte('completed_on', since),
+    admin.from('quest_ticks').select('user_id, approved_at').in('user_id', ids).eq('status', 'approved').gte('approved_at', `${since}T00:00:00Z`),
+    admin.from('digi_feedback').select('user_id, feedback_date').in('user_id', ids).gte('feedback_date', since).not('parent_response', 'is', null),
+  ])
+  if (s.error || m.error || t.error || f.error) return null
+  const days = new Map<string, string[]>()
+  const note = (u: unknown, d: string | null) => {
+    if (typeof u !== 'string' || !d) return
+    if (!days.has(u)) days.set(u, [])
+    days.get(u)!.push(d)
+  }
+  for (const r of s.data ?? []) note(r.user_id, r.session_date as string | null)
+  for (const r of m.data ?? []) note(r.user_id, r.completed_on as string | null)
+  for (const r of t.data ?? []) note(r.user_id, londonDateOf(r.approved_at as string))
+  for (const r of f.data ?? []) note(r.user_id, r.feedback_date as string | null)
+  return days
+}
+
 async function runEveningPass(nowMinutes: number) {
   if (nowMinutes < REMINDER_EARLIEST - DUE_WINDOW || nowMinutes > REMINDER_LATEST + DUE_WINDOW) {
     return { skipped: true, reason: 'outside the evening' }
@@ -158,7 +188,7 @@ async function runEveningPass(nowMinutes: number) {
   const dayStart = londonDayStart()
   const fortnightAgo = addDays(today, -14)
   const [profilesRes, finishesRes, sessionsRes, momentsRes, ticksRes, feedbackRes, childrenRes] = await Promise.all([
-    admin.from('profiles').select('id, reminder_minutes').in('id', users),
+    admin.from('profiles').select('id, reminder_minutes, created_at').in('id', users),
     admin.from('daily_sessions').select('user_id, completed_at').in('user_id', users).gte('session_date', fortnightAgo).not('completed_at', 'is', null),
     admin.from('daily_sessions').select('user_id').in('user_id', users).eq('session_date', today).not('completed_at', 'is', null),
     admin.from('moment_completions').select('user_id').in('user_id', users).eq('completed_on', today),
@@ -167,7 +197,11 @@ async function runEveningPass(nowMinutes: number) {
     admin.from('children').select('parent_id, name, is_primary').in('parent_id', users).order('is_primary', { ascending: false }),
   ])
   const chosen = new Map<string, number | null>()
-  for (const p of profilesRes.data ?? []) chosen.set(p.id as string, (p.reminder_minutes as number | null) ?? null)
+  const joinedOn = new Map<string, string>()
+  for (const p of profilesRes.data ?? []) {
+    chosen.set(p.id as string, (p.reminder_minutes as number | null) ?? null)
+    if (p.created_at) joinedOn.set(p.id as string, String(p.created_at).slice(0, 10))
+  }
   const finishes = new Map<string, number[]>()
   for (const r of finishesRes.data ?? []) {
     const m = ukMinutesOf(r.completed_at as string)
@@ -188,13 +222,23 @@ async function runEveningPass(nowMinutes: number) {
     if (!childName.has(u) && c.name) childName.set(u, c.name as string)
   }
 
-  let due = 0, sent = 0, failed = 0, open = 0
-  for (const user of users) {
-    const target = reminderTargetMinutes(chosen.get(user) ?? null, finishes.get(user) ?? [])
-    if (!dueNow(nowMinutes, target)) continue
+  // Who is due now, and of those who has not shown up today: only they can be
+  // on a long quiet run, so only they are read for it.
+  const dueUsers = users.filter(u => dueNow(nowMinutes, reminderTargetMinutes(chosen.get(u) ?? null, finishes.get(u) ?? [])))
+  const dueOpen = dueUsers.filter(u => !done.has(u))
+  const recent = dueOpen.length ? await lastShownUpOn(admin, dueOpen, today) : new Map<string, string[]>()
+
+  let due = 0, sent = 0, failed = 0, open = 0, held = 0
+  for (const user of dueUsers) {
     due++
     const isDone = done.has(user)
     if (!isDone) open++
+    // Seven unanswered nights and the nightly push stops. A null read (a table
+    // errored) holds nothing back: better one push too many than a silent bug.
+    if (!isDone && recent && eveningHeldForQuiet(quietNightNumber(recent.get(user) ?? [], joinedOn.get(user), today))) {
+      held++
+      continue
+    }
     // The streak read reuses the app's own function on the admin client: the
     // same supabase-js API, a different type name.
     const streakCount = isDone ? 0 : (await getDailyStreak(admin as unknown as Parameters<typeof getDailyStreak>[0], user)).count
@@ -203,7 +247,7 @@ async function runEveningPass(nowMinutes: number) {
     sent += r.sent
     failed += r.failed
   }
-  return { due, open, sent, failed }
+  return { due, open, held, quietAfterNights: EVENING_QUIET_NIGHTS, sent, failed }
 }
 
 async function handler(req: NextRequest) {

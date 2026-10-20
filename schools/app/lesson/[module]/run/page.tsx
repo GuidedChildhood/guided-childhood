@@ -5,7 +5,7 @@ import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { parseSlides, visibleSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
-import { AREAS, areaOf } from '@gc/shared/passport-areas'
+import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { shapeOf, trackerActions } from '@/lib/tracker'
@@ -153,10 +153,10 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   const parent = lesson.parent_note ?? {}
   // Whether this visitor can open the Hub's tracker, for the panel's footnote.
   const access = await currentAccess()
-  // 'after' is an answer, not a page, so it deliberately resolves to nothing
-  // here and gets its own line below.
-  const placement = notes.passport_stage
-  const passport = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
+  // The page from the module id through the one stage map (sync plan D),
+  // never from the row's own copy, which a guard now holds equal to it.
+  const placement = placementOf(lesson.module_id)
+  const passport = placement ? PASSPORT_STAGES[placement] : null
   const area = areaOf(lesson.module_id)
   const dsl = lesson.dsl_note ?? {}
 
@@ -359,8 +359,8 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '4px' }}>After the lesson · two minutes</div>
           <h2 style={h2}>Send it home, keep the record</h2>
           <TickRow>
-            The parent note goes in book bags today. It carries what you taught, the question for the
-            dinner table{parent.passport ? ', and the passport line, so home knows the page it is filling' : ''}.
+            The parent note goes in book bags today. It carries what you taught, the question to ask
+            at tea{parent.passport ? ', and the passport line, so home knows which page the lesson sits on' : ''}.
           </TickRow>
           {/* WHICH PAGE, NAMED. The parent note has always promised that today
               filled a passport page and that each stage ends with an earned
@@ -371,12 +371,6 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               <strong>{passport.page}.</strong> Today fills that page{area ? <> and builds <strong>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}. When the {passport.keyStage} pages
               are finished the child earns {passport.stamp}&rsquo;s stamp, which is the stage ending, not
               this lesson ending. The passport moment near the end of the deck is where the class fills the page in.
-            </p>
-          )}
-          {notes.passport_stage === 'after' && (
-            <p style={{ ...body, color: 'var(--ink-muted)', margin: '8px 0' }}>
-              No passport page today. The passport is the journey to sixteen and this year group is past
-              it, so nothing here is a stamp waiting to be earned.
             </p>
           )}
           {parent.passport && (

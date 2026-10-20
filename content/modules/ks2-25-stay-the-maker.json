@@ -648,9 +648,11 @@
   "parent_note": {
     "taught": "Today we looked at where a computer helper belongs in a piece of work. Not whether to use one, but which part of the job has to stay with your child. They learned three moves: ask for help rather than the whole thing, add your own bit, and explain it back. Nothing was banned and nobody was asked whether they use one at home.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is knowing which part of a job has to stay with you.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. The skill this lesson builds is knowing which part of a job has to stay with them.",
     "try_this": "Do not ask whether they understood their homework. Ask them to shut the book and tell you how it works, every step, as if you knew nothing about it. The bit where they go quiet is the bit that was borrowed rather than learned, and the kitchen table is a much kinder place to find it than a test.",
-    "family_question": "What was that piece of work actually trying to teach you? Then: which part did you do yourself?",
+    "family_question": "Can you teach me how to stay the maker when a computer helper is around?",
+    "listen_for": "You ask for help rather than the whole thing, add your own bit, and can explain it back.",
+    "then_ask": "What would you tell a friend who asked a helper to do all their homework?",
     "no_login_required": true
   },
   "video_beats": [],

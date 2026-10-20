@@ -74,7 +74,7 @@ function standsAlone(slide: LessonSlide, previous: LessonSlide | undefined): boo
 // A lesson's choice slides, turned into the shape the quiz already speaks.
 // The right answer's feedback becomes the why line, so a wrong answer still
 // teaches, exactly as the hand written bank does.
-function questionsFromSlides(slides: LessonSlide[], lessonTitle: string): StageQuizQuestion[] {
+export function questionsFromSlides(slides: LessonSlide[], lessonTitle: string): StageQuizQuestion[] {
   const out: StageQuizQuestion[] = []
   slides.forEach((slide, i) => {
     if (!standsAlone(slide, slides[i - 1])) return
@@ -147,7 +147,7 @@ export async function gatherStageQuizPool(
   return dedupe(pool)
 }
 
-function dedupe(questions: StageQuizQuestion[]): StageQuizQuestion[] {
+export function dedupe<T extends { q: string }>(questions: T[]): T[] {
   const seen = new Set<string>()
   return questions.filter(q => {
     const key = q.q.trim().toLowerCase()

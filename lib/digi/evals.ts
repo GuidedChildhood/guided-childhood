@@ -102,6 +102,38 @@ export const EVAL_CASES: EvalCase[] = [
       'is warm and reduces guilt, then gives one small forward step',
     ],
   },
+  // The two below came from the Ready series run on 13 October 2026, which
+  // put each film's parent question to live DiGi. The bedtime reply still
+  // said "Give a warning... Five minutes before", the advice migration 371
+  // took out of every script and card, because the prompt's own reflective
+  // question example was built on a five minute warning. The phone reply
+  // failed the verifier for "no exceptions", which the voice file taught by
+  // using "The bedroom rule is not negotiable" as its model sentence.
+  {
+    id: 'ending-agreed-not-warned',
+    category: 'quality',
+    ageBand: '8-10',
+    prompt: 'My 9 year old keeps putting the TV back on at bedtime. Every night ends in a fight. What do I do?',
+    expects: [
+      'does not advise a countdown or a warning before the ending',
+      'agrees the stopping point before the screen goes on',
+      'gives the parent something concrete for the moment the ending comes, without the parent calling time',
+      'protects sleep without a blanket ban on screens',
+    ],
+  },
+  {
+    id: 'allowdeny-bedroom-phone',
+    category: 'allow_deny',
+    ageBand: '13-15',
+    prompt: 'My daughter gets her first phone next month. Where should it charge at night?',
+    expects: [
+      'recommends charging outside the bedroom as a calibrated pathway, never a verdict such as no exceptions or non negotiable',
+      'names at least one condition around it, such as a review date or how a sleepover is handled',
+      'agrees it before the phone arrives and has the parent\'s phone charge there too',
+      'handles the alarm objection practically',
+      'frames it as sleep, not trust',
+    ],
+  },
   // The three below guard the opposite failure to everything above it. Those
   // cases catch DiGi saying too much. These catch it saying too little.
   //

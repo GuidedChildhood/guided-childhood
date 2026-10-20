@@ -1,0 +1,610 @@
+{
+  "tasks": [
+    {
+      "id": "main-green-377-grants",
+      "title": "Add a migration granting the seven Guided Planet tables to the right roles, apply it before 30 October, and get the guided-childhood and guided-childhood-app Vercel builds on main green again.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "supabase/migrations/377_the_guided_planet.sql; scripts/check-migration-grants.mjs fails on main",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "social-week-live-starter-pack-link",
+      "title": "Swap guidedchildhood.co.uk/starter-pack for guidedchildhood.com/starter-pack in the 19 October decks, captions and THIS-WEEK.md before the Wednesday post, and add a guard that fails on any .co.uk link in content/ and tools/social-cards.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "marketing"
+      ],
+      "proof": "content/packs/2026-10-19-social-week/1-wed-phone-policy.json, 2-fri-scripts.json, 3-sat-happy-news.json; guidedchildhood.co.uk/starter-pack returned 404 on 13 October 2026",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "live-founder-checkout-test",
+      "title": "Run one live founder checkout on a clean email (card, four day trial, webhook, access flip, seat count) and write down what happened.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "will-pay",
+        "business-running"
+      ],
+      "proof": "THE-STORY.md section 12; plans/2026-09-30-control-room.md section 1 (revenue £0); lib/stripe/index.ts getFounderCount",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "count-stage-checks-by-source",
+      "title": "Count every stage check start by source: read ?src=, store a count per source, give each LinkedIn post, group seed and Facebook post its own /v/ code, show checks per channel on one founder page, and add reading the Friday number to the Friday routine.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 2,
+      "lenses": [
+        "marketing",
+        "business-running"
+      ],
+      "proof": "app/api/video-link/started/route.ts counts only cookie holders; app/(marketing)/free/planet-post/page.tsx sends ?src= that nothing reads",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "sprint-numbers-to-board",
+      "title": "Put the stage checks started, founders and posts actually published since 1 October from the launch tracker into the board, and keep content/brand-story/posted-log.md current from now on.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "marketing",
+        "business-running"
+      ],
+      "proof": "content/brand-story/posted-log.md says none posted; plans/2026-09-30-control-room.md section 3 keeps the numbers in the Drive tracker only",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "board-reads-real-numbers",
+      "title": "Have the weekly board run write one line of real behaviour from the product pulse: day done rate, seven day return, families with a second check in, and how many tester families reach three of the five value signals.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 2,
+      "lenses": [
+        "keeps-coming-back",
+        "value-above-ai",
+        "solves-problem",
+        "business-running"
+      ],
+      "proof": "lib/home/habit-metrics.ts wired to app/api/admin/product-pulse/route.ts; plans/review-board/runs is empty",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "paywall-names-what-ai-cannot",
+      "title": "Add one short block in a parent's words, on the home page and on the choose screen and upgrade page, naming what a free chatbot cannot do: it remembers last Tuesday, your child has their own app, the worry is scored and shown moving, and the words are tested scripts.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "will-pay",
+        "value-above-ai"
+      ],
+      "proof": "components/upgrade/WhatYouAreBuying.tsx; app/(gate)/dashboard/choose/page.tsx; app/page.tsx (only 'DiGi remembers')",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "first-phone-worry-gets-its-words",
+      "title": "Map phones-and-messaging, seen-something and controller-fights in CONCERN_TO_CATEGORY, and give the first phone worry its own Tonight step pointing at the phone request script, the phone ladder and the family phone agreement.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "solves-problem"
+      ],
+      "proof": "lib/content/signal-map.ts (categoryForConcern returns null); lib/pathway/tonight.ts (phones-and-messaging shares the bedtime case)",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "evening-push-stops-when-quiet",
+      "title": "Stop the nightly evening push after about seven unanswered nights and leave only the four day re engagement line, using the done today reading runEveningPass already builds.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "keeps-coming-back"
+      ],
+      "proof": "app/api/push/cron/route.ts runEveningPass has no ceiling on unanswered nights",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "story-true-this-week",
+      "title": "Bring THE-STORY up to date: section 12 ticks off what is built and adds what is really open, section 6 says Jigsaw from £495, and section 9 says the plan choice sits at the end of sign up as decided on 14 August.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "business-running",
+        "competitor-watch",
+        "will-pay"
+      ],
+      "proof": "THE-STORY.md lines 189 and 323 to 349; app/api/stripe/checkout/route.ts; components/quests/ChildLinkShare.tsx; plans/decisions-archive/2026-08.md 14 August entry",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "health-sweep-checks-applied-migrations",
+      "title": "Make the daily health sweep compare the migrations applied in Supabase with supabase/migrations on main and flag any gap, so a missed migration like 360 is caught in a day, not weeks.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "plans/decisions.md, 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "digital-parenting-week-in-batch",
+      "title": "Check the date of UK Digital Parenting Week on a primary source, then plan one AI companion piece and one 'the ban is a start line' piece into the batch for that week, each ending at the stage check.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "competitor-watch"
+      ],
+      "proof": "nothing in the repo mentions the week; date only from nationaltoday.com",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "confirm-ico-fee-paid",
+      "title": "Pay the ICO data protection fee for the controller entity (about £52) or tell the board it is already paid.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "THE-STORY.md section 12; plans/go-live-safety-checklist.md section 1; no record in plans/decisions-archive",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-vercel-project",
+      "title": "Decide which Vercel project is the parent app and retire the duplicate.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "simplicity-flow",
+        "business-running"
+      ],
+      "proof": "THE-STORY.md section 11; both guided-childhood and guided-childhood-app build main and both fail today",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-child-side-model-rule",
+      "title": "Decide whether the child side rule becomes 'the child never chats with a model, only receives one fixed card the parent can see', or the homework hint moves to the parent side.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "value-above-ai"
+      ],
+      "proof": "scripts/check-child-has-no-model.mjs fails on app/api/kid/homework-help/route.ts; THE-STORY.md sections 6 and 7",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "child-model-guard-wired",
+      "title": "Once Justin decides the child side rule, make scripts/check-child-has-no-model.mjs pass, wire it into package.json and the wiring workflow, and correct THE-STORY sections 6 and 7 to match.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "value-above-ai"
+      ],
+      "proof": "scripts/check-child-has-no-model.mjs is in neither package.json nor .github/workflows/wiring.yml",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "paywall-ask-is-personal",
+      "title": "Make the choose screen and upgrade page say what this family keeps, from real data: the child's name, the worry being tracked, the scripts saved, the star quest and the check ins so far.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "will-pay"
+      ],
+      "proof": "components/access/TwoDoors.tsx; app/(gate)/dashboard/choose/page.tsx (same copy for every family)",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "what-we-are-not-on-stage-check",
+      "title": "Add one plain 'what we are not' block to /starter-pack, no competitor names: no blocking, no reading your child's chats, the child takes part, and the one tested sentence to say tonight.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "competitor-watch"
+      ],
+      "proof": "app/page.tsx line 728 holds the only full statement; nothing under app/(marketing)/starter-pack or join",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "stage-result-share-action",
+      "title": "Put a share action on the stage result screen (WhatsApp and copy link, 'send this to a parent who has this fight') carrying a /v/ code for visitors and the /r/ referral code for members.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "marketing"
+      ],
+      "proof": "app/(marketing)/starter-pack/ResultScreen.tsx has no share; plans/DISTRIBUTION-PLAYBOOK-step-by-step.md step 1.2",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "home-stage-names-match-product",
+      "title": "Make the home page use the product's own stage names and age labels so the parent of a 13 year old sees the same stage the quiz gives her.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "right-audience"
+      ],
+      "proof": "app/page.tsx lines 67, 75, 84, 1201 against lib/content/stages.ts lines 86, 167, 300",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "parent-pages-in-parents-words",
+      "title": "Move the schools block off the parent ban page and rewrite the /join hero in parents' own words (phone, fight, ready), keeping every /join CTA on /starter-pack.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "right-audience"
+      ],
+      "proof": "app/(marketing)/ban-workarounds/page.tsx line 283; app/(marketing)/join/page.tsx lines 236 to 262; research/homepage-audience-language.md section 6",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "home-cards-one-slot",
+      "title": "Bring Home's small cards under one slot below the lead, one card a day, chosen by a tier in lib/home/next-up.ts, and split dashboard/page.tsx so each card family has its own component.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "simplicity-flow"
+      ],
+      "proof": "app/(dashboard)/dashboard/page.tsx (2,055 lines, about 45 cards); lib/home/habit-nudges.ts; lib/home/welcome-cards.ts; THE-STORY.md section 11 one picker",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "tonight-tap-closes-loop",
+      "title": "Write a Tonight tap to concern_events with a linked type so What is working can name it, and deep link 'Read the words' to that worry's script.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "solves-problem"
+      ],
+      "proof": "app/api/daily/tonight/route.ts; lib/working/movement.ts; lib/pathway/tonight.ts scriptHref",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "first-week-proves-value",
+      "title": "Give a new parent, within seven days, a second check in prompt, a 'waiting for your second look' line on What is working, and the child's first visible win.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "value-above-ai",
+        "keeps-coming-back"
+      ],
+      "proof": "app/(dashboard)/dashboard/what-is-working/page.tsx shows movement only after two points; lib/concerns/baseline.ts",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "phone-craft-tap-and-focus",
+      "title": "Add a 44px minimum to small icon buttons and a gold focus visible ring in shared/tokens.css, fix the 30px star steppers and 34px close circles, and add a tap target guard.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ux-expert"
+      ],
+      "proof": "app/(dashboard)/dashboard/quests/QuestManager.tsx lines 1230 and 1653; components/kid/KidRoad.tsx:76; no focus visible rule in shared/tokens.css",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "loading-states-and-hex-ratchet",
+      "title": "Add loading skeletons to the heavy parent routes (lessons, scripts, quests, DiGi) and child routes (path, lessons, week, jobs), and a guard that blocks new off token hex without forcing a rewrite of the old.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "ux-expert"
+      ],
+      "proof": "only 2 loading.tsx files against 288 pages; about 1,400 hex values in app and components",
+      "due": "2026-10-27",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "fallback-models-current",
+      "title": "Move the DiGi fallback ladders from Opus 5 and Sonnet 5 to Opus 5.5 and Sonnet 5.5, let fast mode match Opus 5.5, update the model guard, and run the DiGi evals once before merging.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ai-tools-watch"
+      ],
+      "proof": "lib/config/digi.ts lines 30 to 34 and 109; lib/config/ai-module.ts lines 6 to 10; scripts/check-digi-model.mjs",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "ux-walkthrough-report-in-repo",
+      "title": "Make the Wednesday UX walkthrough save its report under plans/review-board so the board and later sessions can read it.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "brief: the 7 October walkthrough report lives in that session only",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-legacy-crewai",
+      "title": "Decide whether to delete the old CrewAI crew in agents/ and its Monday weekly_meeting workflow, which runs on a hardcoded old model and duplicates the radar and this board.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ai-tools-watch",
+        "business-running"
+      ],
+      "proof": ".github/workflows/weekly_meeting.yml (cron Monday 09:00 UTC); agents/crew.py line 52",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-parent-flame-grace-day",
+      "title": "Decide whether the parent's flame may forgive one missed day, or follows the child's rule from 6 August that a run simply starts again.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "keeps-coming-back"
+      ],
+      "proof": "lib/pathway/streak.ts resets to 0 after one empty day; the 13 September plan ticked a grace day that is not in the code",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-under-four-customer",
+      "title": "Decide whether the parent of a 2 or 3 year old is a customer now (build an under 4 first step) or later (change the customer line to 4 to 16).",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "right-audience"
+      ],
+      "proof": "lib/children/age.ts line 38 clamps under 4s into 4 to 7; the 18 August perfect customer says 2 to 16",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-journey-page-name",
+      "title": "Decide which one name the journey page carries everywhere: Passport, Road to sixteen or Pathway.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "simplicity-flow"
+      ],
+      "proof": "components/dashboard/MobileTabBar.tsx; components/home/ExploreGrid.tsx; components/nav/BackTo.tsx lines 35 and 36; THE-STORY.md section 11",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "decide-pathway-session-line",
+      "title": "Decide whether the 'Monthly live Pathway Session with Justin' is a real thing you will run, or the line comes off the upgrade page.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "will-pay"
+      ],
+      "proof": "app/(dashboard)/dashboard/upgrade/page.tsx line 278; no other trace in code or decisions",
+      "due": "2026-10-20",
+      "status": "open",
+      "created": "2026-10-13",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    }
+  ]
+}

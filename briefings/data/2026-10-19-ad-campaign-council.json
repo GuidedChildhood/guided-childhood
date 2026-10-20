@@ -1,0 +1,554 @@
+{
+ "agreed": false,
+ "brief": {
+  "verdict": "Not yet, but it can be, and the fixes are cheap. The nine current ads get the hardest part right. They use real app screens, and none is AI made in the way Justin fears. They will not beat the competitors yet, for five reasons that all three agents found independently.\n\n1. Wrong moments for the audience. Ad 01 shows a Shaper (13 to 15) teenager script to parents of 8 to 13s. No ad covers the most intense problems for this age: mid match gaming rage, Snapchat pressure, the class group chat and the phone at night.\n2. The hook is cut in half. \"Three questions, no sign up.\" appears word for word on only 2 of 9 cards, and where it does, it is the smallest text, about 7pt in the feed.\n3. Too much gold, counted by touches rather than area. Each phone card carries five or six butter touches (dot, underline, button, pathway, glow, logo), against our own one gold detail rule. Ad 02 is about two thirds butter, and the butter button measures only 1.57 to 1 against cream.\n4. Things that read as templated or AI: the glossy 3D Orbit in the same spot on four cards, the sheen and glow, the 9:41 clock, and callouts that repeat or cover the screen.\n5. Copy that breaks our gates. The stage check screen in 03 says \"a safe, capable 16\" and \"the screen battle\", and \"Five more minutes?\" is now a phrase Kairoo and Ohana use.\n\nWhat will make it win:\n- Lead on the script: \"Say this\" against \"Not this\" for one named 8 to 13 moment. Exact words for one moment is the unit that grew Good Inside without paid media, and it already has a working share path (/say/<id>).\n- Use the star quest as the conversion ad, because no competitor has it.\n- Go mostly cream and ink, with one butter mark.\n- Carry the hook word for word on every post.\n\nHonest limits:\n- The Meta Ad Library was blocked from here, so no competitor ad is shown to be a proven winner by days live.\n- \"The script is what gets shared\" is an inference from the product as built and from similar cases. Today it cannot be measured, because /say/ hands strangers to a bare /starter-pack with no source code. It must not be reported to Justin as tested.\n- Nothing here guarantees results. The organic test (ad studio Phase 5) decides, and only a proven post gets money.\n\nDisagreements settled in earlier rounds:\n(a) \"Five more minutes?\": retire the hook, keep the format. In order of weight: Kairoo and Ohana now use the phrase; it belongs to the little ones' bedtime, not 8 to 13 gaming; and the card's one question should be the fixed CTA. The question hook data is only a weak signal. 8% of 523 long running Meta ads opened with a question, but the source gives no base rate.\n(b) Hook test or format variety: Round 1 varies only the hook on one held treatment, as the ad studio skill requires. Format variety comes in Round 2 and at boost time, because the claim that Meta rewards distinct creatives is vendor sourced and only matters once money is spent.\n(c) Mumsnet words: paraphrase in ads. Exact quotes go only in organic posts under A THING PARENTS SAY, because paid use of an anonymous poster's words raises consent.\n(d) The night problem: 'The phone is in their room all night' is a 13 to 15 script, so it is replaced by 'The Year 6 phone plan, before the box is opened' (migration 261, builder, free).\n(e) Ad 01 and concept 1 share one headline: \"They cannot stop in the middle of a match.\"\n\nObjections settled in this round (all accepted; reasons are in the relevant fields):\n(f) Measurement. /v/stage-share counts stage result shares only. Script shares stay unmeasured until /say/ carries a source code through to /starter-pack. Each variant gets an Instagram code and a Facebook code. The Instagram bio link is swapped to the live variant's code on the day it posts. Raw starts are reported beside the rate, and a lead of one or two starts counts as a tie.\n(g) Motion figures corrected. Hit rates are published for five formats, not nine. The multipliers are a \"spend use ratio\", and Celebrity tops that list at 2.1x.\n(h) Snapchat evidence. Both Mumsnet threads are about 13 year olds, while the script is written for 8 to 10. The parent quotes are now labelled as such, the under 13 case rests on Ofcom figures marked unverified (the chart pack PDF returned 403 from here too), and rank 3 drops to medium confidence.\n(i) Crop rule. On /say/ the situation paragraph sits between the title and SAY THIS (PublicScriptView.tsx, checked), so a script crop is one continuous run from the sheet's top ink edge down through NOT THIS, with nothing removed from the middle.\n(j) Rank 5. Free words exist only for a parent who has not handed over the phone yet. The bedtime scripts for 11 to 13 are paid, so no ad offers words for a phone that is already in the bedroom. The 'Phone to bed, unasked' mission is added as in product proof.\n(k) Screen size. A fixed screen slot of at most 30% of the card is used on all five Round 1 cards. At full width, the jobs first card measured about 10.2% butter and broke our own limit.\n(l) Presentation. Round 1 uses flat crops with no phone frame, so there is no composited cream status bar over the espresso /say/ page. The phone frame returns only as a Round 2 format.\n(m) Concept 4's sub now says \"Bedtime no stars can buy.\" The old \"Some times\" read as \"Sometimes\". Bedtime is a real default window (defaultBedtimeFor and checkProtectedWindow in lib/quests/time-tiers.ts).\n(n) Concept 2's underline moves from \"Snapchat\" to \"They are not\", so our mark never sits under another brand's yellow.\n\nWhat Justin needs to do:\n1. Decide on changing the stage check wording (\"a safe, capable 16\", \"the screen battle\").\n2. Confirm the named scripts are live and free in production.\n3. Decide whether to make 'When Group Chat Drama Comes Home' free, and whether to make 'They cannot sleep because of their phone' free (both are paid in source).\n4. Take one real evening photo of his own hand holding his phone.\n5. Send Ad Library screenshots, with \"Started running on\" visible, for Kairoo, Balance Phone, Qustodio, Good Inside and Greenlight.\n6. When posting, swap the Instagram bio link to each variant's own code on the day it goes up.",
+  "top_problems": [
+   {
+    "problem": "1. The switch off fight and gaming rage: a child who cannot come off mid match (Fortnite, Roblox), warnings that get gamed, and the parent who caves",
+    "parent_words": "\"I know I'm not handling it well.\" \"I'm worried im failing him as a parent.\" (Mumsnet, 10 Apr 2024, 202 replies). \"still went apeshit\", \"I'm at a loss for what else to do.\" (Mumsnet, 19 May 2025, a 9 year old's Fortnite tantrum)",
+    "our_answer": "The free script 'They cannot stop in the middle of a match' (builder, gaming, is_free true). Say this: \"I will give you the warning at the end, not in the middle. You tell me how long this one has left, and I will hold you to it.\" Not this: \"It is a game. Turn it off now or it goes in the bin.\" Also the script 'The two minute warning is making it worse', the worry tiles 'Coming off screens' and 'Controller fights', and the shared countdown in ParentDeviceTime.",
+    "proof_screen": "The public /say/<id> page for that script, captured at 390 wide x3 (it shows 'Ages 8 to 10' in its header band, not the internal stage chip). Recapture it into content/ads/screens/, because the current script.png shows a different, Shaper script. Source: supabase/migrations/186_free_scripts_screens_and_gaming.sql",
+    "source": "https://www.mumsnet.com/talk/am_i_being_unreasonable/5046965-me-and-13-yr-old-the-constant-awful-battle-over-screen-time ; https://www.mumsnet.com/talk/parenting/5338132-9yo-massive-tantrum-after-playing-fortnite ; More in Common, Oct 2025, via search summary (over one in three parents often in conflict over digital limits; cross country, not UK only)"
+   },
+   {
+    "problem": "2. The first phone decision, and the fear of the child being left out (Year 6 into Year 7)",
+    "parent_words": "\"I'm really torn on whether to buy my daughter a phone.\" \"[she] might get excluded from meet-ups with her new friends.\" (Mumsnet, 6 Aug 2026, parent of an 11 year old). \"My eldest is year 5 and the ONLY one of her friends not to have a smartphone!\" (Mumsnet, 25 Mar 2025)",
+    "our_answer": "The stage check, which asks its questions before any account and gives a stage and a next step, never ready or not ready. The free script 'The Year 6 phone plan, before the box is opened' (builder, 8 to 10): \"plan it together now rather than fight about it in October\", built around three decisions (where it sleeps at night, what it is for, and the no confiscation promise). Also the script 'Everyone Else Has It' and the phone ladder on /dashboard/phone-setup.",
+    "proof_screen": "The /say/<id> page of the Year 6 phone plan (supabase/migrations/261_situations_scripts.sql line 101). content/ads/screens/stage-check.png only after the stage check wording is changed and recaptured. app/(marketing)/starter-pack",
+    "source": "https://www.mumsnet.com/talk/am_i_being_unreasonable/5563384-to-buy-my-11-year-old-a-phone ; Parentkind/WeThink 2024 via ITV (53% felt pressure to give a smartphone earlier than they wanted) ; Ofcom May 2026 via search snippet (ownership 56% at 10, 83% at 11; page returned 403)"
+   },
+   {
+    "problem": "3. Pressure to join Snapchat or TikTok because plans are made there. Confidence MEDIUM: the forum evidence is from parents of 13 year olds, and the under 13 case rests on figures not yet verified.",
+    "parent_words": "From parents of 13 year olds, NOT under 13s: \"I don't want to say a knee jerk no but I don't want to open a can of worms either.\" \"Says she's left out because she doesn't.\" (Mumsnet, 27 Jan 2026; the opening post says 'I have a 13 yo DD who wants Snapchat.'). A second thread (11 Apr 2026) is also about a 13 year old. The under 13 case, UNVERIFIED and from an Ofcom search summary only (the chart pack PDF returned 403 to two agents): an older passive measurement study found 27% of 10 year olds and 64% of 12 year olds visited Snapchat in a month, and an Ofcom tracker figure says 90% of 8 to 12s use at least one service with a minimum age of 13. Both must be checked against the Ofcom chart pack before either is quoted to anyone.",
+    "our_answer": "The free script 'Everyone is on Snapchat and they are not' (builder, situation 'Your child is eight to ten', is_free true). Its law_flag full_ban_u16 only adds a ban note on the dashboard page and does not hide the script from /say/. Say this includes: \"Snapchat is thirteen and up, so the answer for now is no, and that is on the app rather than on you.\" Also the lesson 'Social media, group chats and the workarounds' and the social_media_law flag.",
+    "proof_screen": "The public /say/<id> page for that script, captured at 390 wide x3. Source: supabase/migrations/180_platform_scripts.sql lines 61 to 72",
+    "source": "https://www.mumsnet.com/talk/teenagers/5482297-talk-to-me-about-snapchat-please (child is 13) ; https://www.mumsnet.com/index.php/talk/am_i_being_unreasonable/5515703-aibu-to-let-dd-13-have-snapchat (child is 13) ; https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/keeping-children-safe-online/childrens-online-user-ages/children-user-ages-chart-pack.pdf (not opened; 403)"
+   },
+   {
+    "problem": "4. Unkind class group chats in Years 6 and 7. Parents freeze between cutting the child off and doing nothing.",
+    "parent_words": "\"don't want to completely cut DD off.\" \"she's literally thrown a 2 hour meltdown demanding WhatsApp back.\" A reply: \"There's a huge difference between she can have WhatsApp and she can have unsupervised WhatsApp.\" (Mumsnet, 2026, about a 12 year old)",
+    "our_answer": "The scripts 'When Group Chat Drama Comes Home' (builder) and 'The class group at eleven at night' (explorer), the lesson 'Group chats without the drama', the issue bank entries class_group_chat and group_chat_nasty, and the safeguarding opener naming CEOP and the school's DSL. Ad rule: show the words, never the harm. The free script 'Added to a group by someone they do not know' (migration 180, builder) covers strangers adding a child to a group, not unkind classmates, so it is an option for Round 2 but does not unpark this problem.",
+    "proof_screen": "Both main scripts are PAID in source (supabase/seeds/daily_moments_batch2.sql lines 10 to 21; migration 180 lines 212 to 222; no later migration frees them). /say/ would serve them, but a trial member could not open them in the app. Parked until Justin decides whether to make the builder script free. lib/content/device-issues.ts; lib/digi/safety.ts",
+    "source": "https://www.mumsnet.com/talk/am_i_being_unreasonable/5511070-12-yo-dd-and-whatsapp-did-i-handle-this-correctly-and-what-to-do-going-forward"
+   },
+   {
+    "problem": "5. The phone in the bedroom at night: the same handover argument every night, then the child found awake on it",
+    "parent_words": "\"it's really affecting her sleep.\" \"I've tried setting some rules but it always turns into a fight.\" (Mumsnet, 31 Jul 2025; the child already owns the phone)",
+    "our_answer": "Free words exist ONLY for the parent who has not handed over the phone yet: the Year 6 phone plan's Say this, \"Where it sleeps at night, which is not your bedroom.\" For a child who already has one, the in product proof is: protected windows no stars can buy (checkProtectedWindow, with a bedtime window by default for each age band); a start inside a protected window goes to the parent as an ask; no overnight notifications reach the child's phone; and the child's mission 'Phone to bed, unasked, and a night light for it'. The bedtime scripts for 11 to 13 are PAID in source ('They cannot sleep because of their phone', explorer; 'Social media affecting sleep', explorer), so no ad may offer words for a phone that is already in the bedroom until Justin decides whether to make the first of them free. 'The phone is in their room all night' is a 13 to 15 script and is not used. Never promise better sleep.",
+    "proof_screen": "/say/<id> of 'The Year 6 phone plan, before the box is opened' (migration 261 line 101), for the before the box case only. Mission: supabase/migrations/254_planet_missions_rebuild.sql line 143. app/ref-time-tiers; lib/quests/time-tiers.ts; lib/push/quiet-hours.ts. Paid scripts: supabase/seeds/new_scripts_batch1.sql and new_scripts_batch2.sql",
+    "source": "https://www.mumsnet.com/talk/parenting/5383288-how-do-you-handle-late-night-phone-use-my-daughter-never-puts-it-down"
+   },
+   {
+    "problem": "6. Parental controls that fail or get got round (proxies, Roblox ignoring Downtime)",
+    "parent_words": "\"I thought I had iphone locked down with parental controls on the device\" \"I feel absolutely sick about what he has already seen\" (Mumsnet, 15 Oct 2026, 147 replies). \"Controls are great, but having been there, its really not enough\"",
+    "our_answer": "Only a partial answer, and the copy must say so: we are not parental controls. The child is taught to weigh a workaround (the ks3-11-social-workarounds lesson and 'The workaround trap'), and there are setup guides for each operating system. Never claim to block anything, and never use porn or harm as a visual or a hook.",
+    "proof_screen": "content/modules/ks3-11-social-workarounds.json; /dashboard/phone-setup",
+    "source": "https://www.mumsnet.com/talk/teenagers/5589203-help-how-do-you-stop-kids-bypassing-internet-phone-controls-to-watch-porn ; https://uk.trustpilot.com/review/www.qustodio.com?page=5 (Qustodio 2.5/5 from 718 reviews)"
+   },
+   {
+    "problem": "7. Finding porn or disturbing content on a 10 to 12 year old's device, and not knowing what to say",
+    "parent_words": "\"I absolutely fly off the handle and struggle to control myself\" \"I feel awful and ashamed about all of this\" (Mumsnet, 16 May 2025)",
+    "our_answer": "The telling card (deliberately not paywalled), DiGi's safeguarding opener, and the no confiscation promise script (explorer, free). Never an ad hook: organic and in product only.",
+    "proof_screen": "app/(dashboard)/dashboard/tell-a-parent/page.tsx; lib/digi/safety.ts",
+    "source": "https://www.mumsnet.com/talk/parenting/5336247-devastated-about-11yo-behaviour ; https://www.gov.uk/government/publications/media-literacy-parents-study (DSIT/YouGov 2026: 24% very confident about what their child sees)"
+   },
+   {
+    "problem": "8. Being the bad guy and feeling like a failing parent: the emotional layer under problems 1, 5 and 6",
+    "parent_words": "\"I'm scared DS will just hate me soon enough.\" (Mumsnet 5046965). \"I am writing this out of absolute despair.\" (Mumsnet, 9 Jun 2023). \"It's utterly miserable constantly policing screen time.\" (research/homepage-audience-language.md)",
+    "our_answer": "The star quest, the piece no competitor has. Jobs earn stars at a rate the parent sets, and stars become minutes. Protected times, including bedtime, can't be bought with stars. A start that breaks the deal becomes an ask to the parent, and the child can ask to change the family deal (migration 381).",
+    "proof_screen": "content/ads/screens/kid-my-time.png cropped to the My time card only (or a recapture from app/ref-time-tiers); kid-five-today.png; app/ref-quest-board; lib/quests/time-tiers.ts checkProtectedWindow",
+    "source": "https://www.mumsnet.com/talk/am_i_being_unreasonable/4824169-to-be-despairing-over-10-year-olds-screen-addiction"
+   },
+   {
+    "problem": "9. Another adult undoes the rules (the other parent, an ex, grandparents)",
+    "parent_words": "A reply on the Fortnite thread: the father allowed the game and is not the one dealing with the fallout (Mumsnet 5338132)",
+    "our_answer": "Only partly answered: the printable family deal can be shared between homes. There is no second parent account, so no ad may claim every adult is on it. Do not advertise.",
+    "proof_screen": "app/(dashboard)/dashboard/agreement/print",
+    "source": "https://www.mumsnet.com/talk/parenting/5338132-9yo-massive-tantrum-after-playing-fortnite"
+   },
+   {
+    "problem": "10. 'Addicted', where nothing else interests them",
+    "parent_words": "\"he can't even leave the phone to go to the bathroom or to eat.\" \"I just want to gradually cut it back and wean him off it without it being a massive drama.\" (Mumsnet 4824169)",
+    "our_answer": "Not answered honestly in an ad. The product cannot show that it reduces screen time. Never use 'addicted' or promise less screen time; the honest adjacent proof is earned time (problem 8).",
+    "proof_screen": "None for an ad claim",
+    "source": "https://www.mumsnet.com/talk/am_i_being_unreasonable/4824169-to-be-despairing-over-10-year-olds-screen-addiction ; Internet Matters Pulse May 2025 via search summary (75% concerned about time online)"
+   }
+  ],
+  "winning_patterns": [
+   {
+    "pattern": "Exact words for one named moment. Short pieces that give a parent the precise thing to say grew the biggest parenting brand in this space without paid media.",
+    "evidence": "Fortune (Feb and Mar 2026): 3.4m Instagram followers, $34m revenue, and a business that 'grew organically out of the positive response she received on Instagram'. New York magazine describes role play with 'specific things for parents to say'. No paid Meta evidence was found. That this format drove the growth is the reporters' reading plus our inference. Medium confidence.",
+    "who_uses_it": "Good Inside (Dr Becky). Kairoo now offers 'a conversation script' from its quiz."
+   },
+   {
+    "pattern": "A real person to camera, cut with a screen recording, in many short versions of one idea",
+    "evidence": "Motion ad library: Bark has 148 active ads and adds about 9 a week. All 20 of those shown are video, 17 to 59 seconds long, mostly a parent or creator to camera plus a screen recording, with up to 6 versions of one idea. Days live are not shown, so this is what Bark tests, not proven winners. The 2021 SocialPeta snapshot had 41% image. Medium confidence.",
+    "who_uses_it": "Bark. Our version can only be Justin or a consenting real family member, never a synthetic parent."
+   },
+   {
+    "pattern": "Spread through parent WhatsApp groups and organic release, not paid media",
+    "evidence": "Thousands joined a WhatsApp group from an Instagram invite within 24 hours (ITV, Feb 2024). The US PSA 'Let's Change The Norm' was released organically and drew over 13 million views (GlobeNewswire, Sept 2025), using recognition through irony. High confidence for the facts.",
+    "who_uses_it": "Smartphone Free Childhood"
+   },
+   {
+    "pattern": "A quiz funnel whose ad says plainly what you get from the quiz",
+    "evidence": "TheNextWeb 2020 case: an ad stating what users would learn had 80% higher CTR and 40% lower CPC. Vendor funnel rates are about 71% from view to start and 66% from start to finish (Interact). Low to medium confidence; one case.",
+    "who_uses_it": "Kairoo ('5-minute quiz' giving three things to try, a script and checkpoints). Balance Phone (a readiness quiz in its Instagram ad of 14 Oct, not on its homepage)."
+   },
+   {
+    "pattern": "Plain, native, low fi creative over polish; demo formats hit often",
+    "evidence": "Motion 2026 benchmark (578,750 creatives, $1.29bn spend, all verticals). Hit rates are published for only five formats: Unboxing 9.8%, Offer-First Banner 8.6%, Demo 8.1%, Testimonial 6.5%, Celebrity 5.9%. Its spend use ratio is a format's share of spend divided by its share of creative volume. On that ratio, Letter is about 1.7x, Unconventional Text Placement about 1.5x and Post It about 1.3x, but Celebrity tops the list at 2.1x, so this is not a clean low fi win. Segwise, on 523 surviving Meta ads: clarity, not polish, is the common factor. Barry Hott (practitioner): 'Pretty ads stand out and get skipped.' Medium confidence for the direction, low for the sizes.",
+    "who_uses_it": "Nuet ('It reads the school emails. You stop missing things.', logged in competitor-sightings.md)"
+   },
+   {
+    "pattern": "Pain point statements are the commonest opener among long running ads; question openers are rare among them",
+    "evidence": "Of 523 Meta ads still running after 30 days, pain point, authority and pattern interrupt hooks made up 71%, and only 8% opened with a question (Segwise citing Brandsearch; method not disclosed). The source gives no base rate for how many ads open with a question, so this is a weak signal, not a measured survival rate. Our CTA pill is already the card's one question.",
+    "who_uses_it": "Bark ('I wasn't going to post this, but other parents need to hear it.'). Kairoo ('Stop being the screen-time bad cop.')"
+   },
+   {
+    "pattern": "One long running practical message about earning: chores in, reward out",
+    "evidence": "Greenlight's chores message has run from its 2020 TV spot onward, and a 2021 SocialPeta teardown named a chores led creative a top performer. Running for years is a weak sign it works, and the performance claim is dated. Medium confidence.",
+    "who_uses_it": "Greenlight, GoHenry, and Kairoo's banked minutes. None ties earning to screen time with protected time no stars can buy, which is our star quest."
+   },
+   {
+    "pattern": "Looking AI made costs attention and trust",
+    "evidence": "NIQ (Dec 2024, 2,000+ viewers, EEG on about 150): viewers spotted most AI ads, rated them more annoying, boring and confusing, remembered them less, and showed a negative halo on the brand. Getty VisualGPS: most people want AI images disclosed, and Europeans are the most sceptical. McDonald's NL pulled its AI Christmas ad in Dec 2025. High confidence for the finding; applying it to our Orbit render is inference.",
+    "who_uses_it": "A pattern to avoid. GoHenry's 2026 AI aged up child is the nearest competitor example and would break our no synthetic person rule."
+   },
+   {
+    "pattern": "Visibly different creatives rather than reworded copies of one template, once money is spent",
+    "evidence": "Jon Loomer and Excite Media on Meta Andromeda. Meta is quoted calling creative diversification 'the most effective lever'. The similarity thresholds and the '70% different' rule are agency figures and unverified. Low to medium confidence; relevant only at boost.",
+    "who_uses_it": "Bark (148 active ads, many versions)"
+   },
+   {
+    "pattern": "Proof by borrowed numbers: user counts, star ratings, press logos, risk reversal. Listed so that we do NOT copy it.",
+    "evidence": "Ohana: '100.000+ parents trust Ohana'. Balance Phone: 'Rated 4.8/5', 'over 30,000 happy subscribers', a press strip and a 14 day refund. Qustodio: 'over 6 million parents'. Bark: 'award-winning'. All fetched 19 Oct 2026. Our gates forbid each one we cannot evidence; our proof is the real screen.",
+    "who_uses_it": "Ohana, Balance Phone, Qustodio, Bark"
+   }
+  ],
+  "viral_feature": {
+   "feature": "The script: one named moment set as 'Say this' against 'Not this', free on a public /say/<id> page that a parent forwards to their school WhatsApp group. The share hook is the moment for this age: 'They cannot stop in the middle of a match.' The star quest is the reason to buy, not the thing people forward.",
+   "why": "All three agents agreed, for four reasons. (1) It is the same unit that grew Good Inside organically: the exact words for one moment. (2) 'Not this' is the line a parent recognises themselves in ('It is a game. Turn it off now or it goes in the bin.'), the same recognition device as SFC's 13 million view PSA. (3) UK parents demonstrably spread this topic through school WhatsApp groups (SFC). (4) It is useful tonight and can be forwarded without anyone signing up. The star quest is our strongest difference from competitors, but a screenshot of a child's quest page has less pass it on value than a sentence another parent can use tonight. So the star quest is the conversion ad, not the share hook. This is INFERENCE from the product as built plus similar cases. It is not our own share data, it is currently unmeasurable, and it must not be reported to Justin as tested.",
+   "proof": "The share path exists. components/scripts/ShareScript.tsx sends /say/<uuid> with the words in the message. app/say/[id]/opengraph-image.tsx sets the quote at 60px, so it reads in a WhatsApp preview without a tap, and carries no referral code. app/say/[id]/page.tsx serves any script by id with no sign in.\n\nFree scripts that fit 8 to 13 (is_free true in the migration files; production unconfirmed): 'They cannot stop in the middle of a match' (migration 186, builder), 'The Year 6 phone plan, before the box is opened' (migration 261, builder), 'The no confiscation promise, said out loud' (migration 261, explorer) and 'Everyone is on Snapchat and they are not' (migration 180, builder). Not for this audience: 'The phone is in their room all night' (migration 186) is free but Shaper, ages 13 to 15.\n\nMEASUREMENT GAP. /v/stage-share (migration 379) counts shares of the stage check RESULT only (components/starter/ShareStage.tsx, lib/share/stage.ts). It does not count script shares. For a stranger, the /say/ page's sticky button links to a bare /starter-pack with no ?src (components/scripts/PublicScriptView.tsx line 224). So every stage check that starts from a forwarded script is counted as untagged.\n\nWhat turns this claim into evidence: a source code on /say/ shares, carried through to /starter-pack. It is a small build, raised with the review board first, not assumed."
+  },
+  "creative_direction": {
+   "palette": [
+    {
+     "token": "--cream",
+     "hex": "#F9F8F6",
+     "role": "Palette A background: the default, and the only background in Round 1. Its edge against Instagram's white light mode feed is only 1.06 to 1, so Round 2 and any boosted set add ink cards.",
+     "share": "about 55% of the card"
+    },
+    {
+     "token": "real screen",
+     "hex": "(captured, not a token)",
+     "role": "The proof: a real app capture at 390 wide x3, cropped as one continuous run and never redrawn or edited. It sits in one fixed screen slot at or under 30% of the card's area. Script cards use the public /say/<id> page only. Its butter header band reads 'A script from Guided Childhood \u00b7 Ages 8 to 10' and counts in the butter check.",
+     "share": "at or under 30% (15 to 20% on Palette B)"
+    },
+    {
+     "token": "--ink",
+     "hex": "#1A1A2E",
+     "role": "Headline colour on cream, and the edge drawn around a flat crop that has no edge of its own (2.5px, the same as the /say/ sheet). Also the Palette B background, which none of the competitors checked uses (Kairoo, Qustodio, Bark, Balance Phone).",
+     "share": "about 10% on Palette A; about 65% as the Palette B background"
+    },
+    {
+     "token": ".btn-ink (--deep-teal, espresso)",
+     "hex": "#2E2818",
+     "role": "The default CTA button, exactly as shared/tokens.css defines .btn-ink: espresso background, white #FFFFFF text, box-shadow 0 5px 0 #171307. It matches the starter pack button the parent taps next. Espresso on cream is 13.81 to 1; white on espresso is 14.66 to 1.",
+     "share": "about 3%"
+    },
+    {
+     "token": "--ink-soft",
+     "hex": "#52526A",
+     "role": "The sub line and the hook line 'Three questions, no sign up.' on cream only (7.13 to 1). Never on the ink background, where it measures 2.25 to 1.",
+     "share": "about 3%"
+    },
+    {
+     "token": "--terracotta / --butter (named --gold inside ad-template.html)",
+     "hex": "#EDC35F",
+     "role": "ONE mark per card: the underline under the moment words on cream, OR the CTA button on ink (ink text on butter is 10.21 to 1), never both. Plus the logo mark. Never a background, never text, and never under a third party brand name.",
+     "share": "under 3% added by design, plus about 1% for the logo; total butter including the real screen at or under 10%"
+    },
+    {
+     "token": "--terracotta-dark",
+     "hex": "#C99A28",
+     "role": "Only as the shadow of the butter underline or the butter button. Never text: it is 2.43 to 1 on cream, which fails AA.",
+     "share": "under 1%"
+    },
+    {
+     "token": "cream on ink",
+     "hex": "#F9F8F6",
+     "role": "On Palette B every line of text (headline, sub, hook line) is cream, at 16.07 to 1. A stepped down hook line uses cream at reduced opacity, never ink soft.",
+     "share": "about 12% on Palette B"
+    }
+   ],
+   "gold_rule": "Butter (#EDC35F) is a single mark, never a surface. On a paid ad:\n(1) It is never the background, so the butter background is retired for ads. It made 02 about two thirds butter.\n(2) It is never text.\n(3) Design adds exactly one butter touch per card: the underline on cream or the button on ink, never both, plus the logo mark.\n(4) On cream, the underline always sits under the moment words of the headline, three words or fewer, the same way on every card, so it never becomes a second variable. It never sits under another brand's name. 'Snapchat' has its own yellow, so concept 2 underlines 'They are not'.\n(5) Total butter on the finished card, including what is inside the real screen (the /say/ header band, the butter in the My time card), stays at or under 10% of the area. It is checked with the pixel script before a card goes in a pack.\n\nThe fixed screen slot of at most 30% is what keeps the jobs first card inside that limit. Its My time crop is 17.5% butter on its own: at full width the card measured about 10.2%, and at about 760 wide about 7.7%.\n\nWhy: the 'too much gold' feeling comes from five or six butter touches per card, not from area (5 to 9%). That breaks brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 7 ('One gold detail per card'). A butter button on cream is only 1.57 to 1, so the espresso button reads better. Kairoo uses a near identical amber (#E9C46A) with Nunito on near cream, so butter only stays distinctive as one consistent device, the underline stroke (Ehrenberg-Bass distinctive assets). The palette rests on contrast and difference from competitors. No credible UK parent colour benchmark exists, so no claim is made about which colours parents 'trust'.",
+   "not_ai_rules": [
+    "No 3D character render on a cold paid ad to parents. Orbit and the Planet Friends stay for organic and child facing work. Whether the render reads as AI to UK parents is untested, but it sits in the same spot on four cards, and NIQ found that AI looking ads cost attention and trust.",
+    "Round 1 uses no phone frame. Each real screen is shown as a flat crop. A /say/ script is cropped at the sheet's own 2.5px ink edge, so no espresso page margin and no dark drop shadow show on the cream card. An app crop with no edge of its own gets the same 2.5px ink edge drawn by the template OUTSIDE the capture. This is how the parent meets the script on /say/, and it removes the composited look (a cream status bar over a dark web page). The phone frame returns only as a Round 2 format. There, its status bar colour and ink are set to whatever really sits at the top of that capture, never the default cream.",
+    "No sheen, no gold glow, no tilted floating callouts with heavy shadows, and no Apple marketing 9:41 clock. Where a phone frame is used, the clock is a field matching the time of day on the captured screen (no 19:48 over a 'Good morning' screen).",
+    "No callouts on Round 1 cards. In later rounds, allow at most one untilted callout, never covering screen text and never repeating words that are legible on the screen.",
+    "Crop as ONE continuous run. A script crop runs from the sheet's top ink edge (the butter header band, which carries 'Ages 8 to 10') through the title and the situation paragraph, then SAY THIS, down to the end of the NOT THIS block, stopping above 'The rest of this script'. A crop may never remove a line from the middle of a screen, and no text may be cut mid word at an edge ('Screen break togetl'). If that run cannot be read at feed size inside the fixed slot, end every script card's crop after the SAY THIS block instead. That is a bottom crop, still continuous, and the same on all three script cards. NOT THIS then moves to the Round 2 carousel. Never take the situation paragraph out.",
+    "Four text levels at most: headline, sub, CTA pill and hook line. The headline is set at 88 to 96px, at most 3 lines and about 8 words, full width in the stacked layout. Bigger headline type earns more attention (Pieters and Wedel, print eye tracking; directional).",
+    "Statement headlines that name one moment. The only question on the card is the fixed CTA 'What stage is your child?'",
+    "Every post ends with the pill 'What stage is your child?' and, directly under it, word for word, 'Three questions, no sign up.' A single image card carries both; a carousel carries them on its last slide.",
+    "A real person only: Justin's own hand, Justin to camera, or a consenting real family member. No generated person, no AI aged child, no stock parent.",
+    "No borrowed proof: no user counts, star ratings, press logo strips, 'award winning', 'expert built' or fear visuals. The real screen is the proof.",
+    "Mix cream and ink cards in Round 2 and in any boosted set. Cream nearly vanishes in a white light mode feed (1.06 to 1), and ink does the same in a dark mode feed. Round 1 stays all cream on purpose, so that it measures only the hook.",
+    "No internal jargon on the card (SHAPER, BUILDER, stage names). No 'battle', 'safe', 'ready' or 'addicted'. No dashes. Run npm run ai-tells over the pack."
+   ],
+   "template_changes": [
+    "tools/social-cards/ad-template.html: the default .pill uses .btn-ink exactly as shared/tokens.css defines it: background #2E2818, white text, box-shadow 0 5px 0 #171307. A butter pill is allowed only under a new .ad.ink background.",
+    "Add .ad.ink { background: var(--ink) } (#1A1A2E), with cream #F9F8F6 for the headline, sub and hook line (.small), and the butter button as the only butter touch. Ink cards get no underline, and ink soft is never used on that background.",
+    "Add a stacked layout for Round 1 and make it the held treatment. The headline goes full width at the top (about 940px, as the 'center' layout's left and right margins of 70 give). Below it sits ONE fixed screen slot, identical on all five cards: the crop is fitted inside a box of at most about 760 wide by 730 tall, and the screen's area is at or under 30% of the 1080x1350 card. Portrait /say/ crops fit by height; the landscape My time crop fits by width. Then come the pill and the hook line. The default 'right' layout's 480px words column (line 172) cannot hold an 88 to 96px headline in 3 lines. Render one card first and confirm that headline, sub, slot, pill and hook line all fit inside the 3:4 safe area. If they do not, shorten the slot height for all five cards alike, and never take the headline below 88px.",
+    "Add a flat screen mode for Round 1 (no phone bezel, no status bar). It draws a 2.5px ink edge and the card radius OUTSIDE any crop that has no edge of its own, never on top of the capture. Keep the phone frame for the Round 2 phone format only, and remove the default cream status bar: its colour and ink become required fields set from the capture.",
+    "Rename the template's local --gold to --butter. The template defines --gold as #EDC35F, but shared/tokens.css defines --gold as var(--stage-1-bold) and the butter as --terracotta / --butter #EDC35F, so the names have drifted.",
+    "Remove the butter eyebrow dot (.eyebrow i). Drop the eyebrow on ads unless it labels a scenario quote (A THING CHILDREN SAY, A THING PARENTS SAY, NOT THIS, SAY THIS).",
+    "Turn pathSVG (the pathway ribbon) off by default on ads; opt in with path: true. Remove .glow and .sheen.",
+    "Make the status bar clock a per card field that must match the time of day on the captured screen, in place of the fixed 9:41 (phone format only).",
+    "Restyle .small, which carries the hook's second half: Nunito 700, 30px, ink soft on cream and cream on ink, always 'Three questions, no sign up.'",
+    "Raise the default h1 to 88 to 96px, and cap headlines at 3 lines and about 8 words. The mark already has white-space:nowrap, so an underlined phrase never splits across lines.",
+    "Callouts: none on Round 1 decks. Elsewhere, allow at most one, untilted, with a check that it does not overlap screen text.",
+    "Add an age corner field defaulting to 8 TO 13 for first phone ads, replacing AGES 4 TO 16 on the flat cards.",
+    "In the social-cards renderer, check each post. Fail any single card in a template 'ad' deck that lacks 'What stage is your child?' or 'Three questions, no sign up.'. For a deck with a carousel flag, require both on the last slide only.",
+    "Move the creative director's pixel share script (measure.py, now only in the temporary session scratchpad) into tools/social-cards/ as a butter area check. Add the at or under 10% butter limit, the one touch rule and the 30% screen slot to the ad-studio Phase 4 gates.",
+    "Keep the CTA and the hook line inside the 3:4 safe area."
+   ]
+  },
+  "current_ads": [
+   {
+    "file": "content/packs/2026-10-19-ad-round-phone/01-words-for-tonight.png",
+    "decision": "change",
+    "why": "The strongest idea in the set (a real Say this / Not this), but the script is Shaper, ages 13 to 15 ('Your teenager posts publicly', 'Your online footprint and your future'), shown to parents of 8 to 13s, and the quote appears twice (callout plus phone). All three agents agree.",
+    "changes": "Rebuilt as concept 1, with one headline: 'They cannot stop in the middle of a match.' 'Know what to say before the argument' is retired from Round 1 and parked as a Round 2 plain text option. Capture the public /say/<id> page of that free builder script only, not the in app script deck, which shows the SHAPER/BUILDER chip.\n\nStacked layout, flat crop with no phone frame, cut at the sheet's own ink edge. The crop is one continuous run from the butter header through the title, the situation paragraph, SAY THIS and NOT THIS, fitted into the fixed screen slot of at most 30%. No callout. Espresso button, butter underline under 'a match', and the hook line at 30px. No dot, pathway, glow or sheen."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-round-phone/02-jobs-first.png",
+    "decision": "change",
+    "why": "Our only star quest ad, the piece no competitor has (THE-STORY s10), and the most arresting thumbnail. But it is about two thirds butter, has butter chips on a butter background, uses a callout that repeats 'Your five for today 3 of 5', and has no hook line. Its screen also reads 'GOOD MORNING' and carries 3D star and Pebble renders.",
+    "changes": "Rebuild as concept 4: cream, stacked layout, espresso button, butter underline under 'their time'. Crop kid-my-time.png to the My time card only, keeping the '+5 min' line (it is true product behaviour, and removing it would be an edit), with the rainbow header, star render and nav bar left outside the crop. Alternatively, recapture from app/ref-time-tiers in a state with no approval bonus showing.\n\nShow it flat in the fixed screen slot, fitted by width at about 760, with the 2.5px ink edge drawn outside it. That keeps the card near 7.7% butter rather than 10.2% at full width. No callout and no phone frame, so there is no clock. Add 'Three questions, no sign up.' Run the butter area check on the rendered card before the round is built."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-round-phone/03-first-phone.png",
+    "decision": "change",
+    "why": "It shows the page the ad sends people to, which is real proof. But that real screen says 'step by step to a safe, capable 16' (gate 5), 'the screen battle you are facing' (Qustodio's word, competitor lesson 3) and 'Two minutes, then four days free. No card.', and the line under the button is 'No sign up. Two minutes.' rather than the hook. Screens can only be recaptured, never edited.",
+    "changes": "Hold, and do not run it. Ask Justin to change the stage check wording itself, then recapture content/ads/screens/stage-check.png. When it is rebuilt: espresso button with 'Three questions, no sign up.' under it. It is also the source for the 15 second screen recording (concept 8)."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-round-phone/04-tell-digi.png",
+    "decision": "change",
+    "why": "It carries THE-STORY s10's pitch loop, so it is the right control. But about 250px of dead space sits between the CTA and the phone, the callout covers the screen copy so the phone reads with truncated words, and there is no hook line.",
+    "changes": "Run it as the CONTROL in Round 1, rebuilt in the same stacked layout as the other variants, which also closes the dead band. Keep its headline 'Tell it what went wrong today. Get one thing to do.' with the butter underline under 'one thing'. Drop the callout and the phone frame. Show a clean continuous crop of the DiGi screen flat in the fixed screen slot, with the ink edge drawn outside it. Espresso button and hook line; no glow or sheen."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-studio-examples/01-one-moment.png",
+    "decision": "drop",
+    "why": "Drop the hook 'Five more minutes?'. Kairoo now calls '5 more minutes' 'the phrase that starts the nightly battle', and Ohana ships a '5 more minutes please' feature. The phrase belongs to the little ones' bedtime rather than 8 to 13 gaming, and the card's one question should be the CTA. Only 8% of 523 long running Meta ads opened with a question, but with no base rate that is a weak signal, not the deciding reason. The creative director rated its format the best thumbnail type in the set, so the format is kept.",
+    "changes": "Reuse its format (huge two line plain type, a labelled eyebrow, no Orbit) for the plain text card (concept 5) and for the carousel's NOT THIS and SAY THIS slides (concept 6)."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-studio-examples/02-real-screen.png",
+    "decision": "drop",
+    "why": "It has three headlines (problem, move, help) and no CTA, and the butter dark 'HOW WE HELP' text measures 2.43 to 1, which fails AA.",
+    "changes": "Keep it only as an organic carousel slide, not an ad."
+   },
+   {
+    "file": "content/packs/2026-10-19-ad-studio-examples/03-the-quiz-our-way.png",
+    "decision": "change",
+    "why": "'Not a verdict. A stage and a next step.' is our clearest difference from Balance Phone's readiness quiz, but it only lands once a parent has met a readiness quiz. It also relies on Orbit and an AGES 4 TO 16 label.",
+    "changes": "Hold for Round 2. Rebuild without Orbit, with an 8 TO 13 label, the hook moved out of the sub into the separate hook line, and the espresso button."
+   },
+   {
+    "file": "content/packs/2026-10-14-first-phone-ad/01-a-the-phone-moment.png",
+    "decision": "drop",
+    "why": "03-first-phone supersedes it, and its sub 'Will they be ready for it?' sells the ready or not ready verdict we say we never give (gate 5). There is no proof on the card.",
+    "changes": "None. Retire it."
+   },
+   {
+    "file": "content/packs/2026-10-14-first-phone-ad/03-c-the-whole-pitch.png",
+    "decision": "change",
+    "why": "'The words for tonight's argument. A plan to sixteen.' is the best plain line in the set, but it leans on the character and carries no proof or hook line.",
+    "changes": "Rebuild as the plain text card (concept 5) on the Palette B ink background: cream type, the butter button as the only butter, the hook line in cream, no character and no phone. It is the least AI looking card possible and visibly different from the screen cards."
+   }
+  ],
+  "new_concepts": [
+   {
+    "name": "1. Mid match (lead, Round 1; replaces ad 01)",
+    "problem": "Rank 1: the switch off fight and gaming rage",
+    "hook": "They cannot stop in the middle of a match.",
+    "sub": "Your child's stage, and the words for tonight.",
+    "format": "Static 4:5 in the Round 1 held treatment: stacked layout, cream, full width headline at 88 to 96px, butter underline under 'a match', and a flat real screen crop in the fixed slot of at most 30% with no phone frame. Then the espresso button and the hook line. No callout.",
+    "screen": "Capture the public /say/<id> page of 'They cannot stop in the middle of a match' (migration 186, builder, is_free true) at 390 wide with deviceScaleFactor 3, into content/ads/screens/. Crop one continuous run at the sheet's own 2.5px ink edge: the butter header ('Ages 8 to 10'), title, situation paragraph, SAY THIS and NOT THIS. No espresso margin. Count the header band in the butter check. Use /say/ only.",
+    "why_it_wins": "It is the most frequent and intense 8 to 13 problem, and no current ad covers it. It is a pain point statement in the Good Inside unit (the exact words for one moment). The claim is proved on a public /say/ page with no paywall, and none of the competitor ads we saw offers the words for this moment."
+   },
+   {
+    "name": "2. Left out of the plans (Round 1)",
+    "problem": "Rank 3: pressure to join Snapchat because plans are made there, for a child under 13",
+    "hook": "Everyone is on Snapchat. They are not.",
+    "sub": "What to say when the plans happen without them.",
+    "format": "Round 1 held treatment, identical to concept 1, with the butter underline under 'They are not', never under 'Snapchat'. No callout.",
+    "screen": "A /say/<id> capture of 'Everyone is on Snapchat and they are not' (migration 180 lines 61 to 72; builder, situation 'Your child is eight to ten', is_free true; law_flag full_ban_u16 does not hide it from /say/), with the same continuous crop as concept 1, so the screen shows its own Say this.",
+    "why_it_wins": "It gives a child under 13 the middle answer: 'Snapchat is thirteen and up, so the answer for now is no, and that is on the app rather than on you.' It does this with no fear of harm, and it ties to the social_media_law flag ahead of the 2027 change without promising anything. The under 13 case is UNVERIFIED. It rests on Ofcom figures from a search summary only (27% of 10 year olds and 64% of 12 year olds visiting Snapchat in a month; 90% of 8 to 12s using a service with a minimum age of 13), which must be checked against the Ofcom chart pack before they are quoted. The Mumsnet threads are about 13 year olds and are not cited for this concept. The hook is a paraphrase, not a quote. Confidence: medium."
+   },
+   {
+    "name": "3. Before the box is opened (Round 1)",
+    "problem": "Rank 2, the first phone decision, and rank 5, the phone at night, before the phone arrives",
+    "hook": "Plan the first phone before the box is opened.",
+    "sub": "Where it sleeps, what it is for, and one promise.",
+    "format": "Round 1 held treatment, with the butter underline under 'the box'. No callout. No sleep promise anywhere on the card.",
+    "screen": "A /say/<id> capture of 'The Year 6 phone plan, before the box is opened' (migration 261 line 101; builder, ages 8 to 10, is_free true), with the same continuous crop as concept 1. Its Say this carries 'Where it sleeps at night, which is not your bedroom.' and its Not this is 'We will see. Stop asking.'",
+    "why_it_wins": "It is written for Year 6. It settles the nightly handover argument by deciding it before the phone arrives, and it is the only Round 1 variant on the first phone decision, the cliff edge our audience faces (Ofcom via search snippet: 56% own a smartphone at 10, 83% at 11). It honestly speaks only to the parent whose child does not have a phone yet. Free words for a phone already in the bedroom do not exist today."
+   },
+   {
+    "name": "4. Jobs first (conversion, Round 1)",
+    "problem": "Rank 8: being the bad guy",
+    "hook": "Jobs first. Then their time.",
+    "sub": "Stars become minutes at a rate you set. Bedtime no stars can buy.",
+    "format": "Round 1 held treatment, with the butter underline under 'their time' only and the espresso button. No callout and no phone frame.",
+    "screen": "content/ads/screens/kid-my-time.png, cropped to the My time card only and keeping the '+5 min' line, or a recapture from app/ref-time-tiers with no approval bonus showing. Show it flat in the fixed slot, fitted by width at about 760, with the 2.5px ink edge drawn outside it. The proof is lib/quests/time-tiers.ts: checkProtectedWindow, plus defaultBedtimeFor, which gives every age band a bedtime window. Run the butter area check on the rendered card; it is about 7.7% at a 760 width.",
+    "why_it_wins": "It is the only piece no competitor has (THE-STORY s10). Greenlight and GoHenry have sold earning for years, but none ties it to screen time with protected time. It is the reason to choose us, not the share hook."
+   },
+   {
+    "name": "5. The words for tonight (plain text, Round 2)",
+    "problem": "Ranks 1 and 8: the nightly argument and the parent as the bad guy",
+    "hook": "The words for tonight's argument.",
+    "sub": "One moment, what to say, what not to say.",
+    "format": "Plain text card, Palette B: ink #1A1A2E background, all text cream, the butter CTA button as the only butter, and the hook line in cream. No phone and no character. 'Know what to say before the argument' is the alternative headline to try here.",
+    "screen": "No screen on the card. The landing proof is the /say/ pages and the stage check. The ad studio allows a flat card when the idea has no screen to show.",
+    "why_it_wins": "It is the least AI looking format possible and visibly different from the screen cards (the Nuet lesson). On Motion's 2026 spend use ratio, Letter and text placement formats over index, though Celebrity tops that list. None of the competitors checked uses an ink background, and ink stands out in the white light mode feed where cream disappears."
+   },
+   {
+    "name": "6. Not this, Say this (carousel, Round 2)",
+    "problem": "Rank 1, and the unit we think gets shared",
+    "hook": "NOT THIS: It is a game. Turn it off now or it goes in the bin.",
+    "sub": "Slide 2, SAY THIS: You tell me how long this one has left, and I will hold you to it. Slide 3: the real script screen, the pill and the hook line word for word.",
+    "format": "A three slide carousel. Slides 1 and 2 are flat cards in the 01-one-moment type style, with NOT THIS and SAY THIS eyebrows and no pill. Both lines are our own script's words, not a testimonial. Slide 3 carries the pill and 'Three questions, no sign up.' (the per post rule). This is also where NOT THIS lives if Round 1's script crops had to end after SAY THIS.",
+    "screen": "The mid match /say/<id> capture on slide 3, with the same continuous crop",
+    "why_it_wins": "Recognition first, then the answer. 'Not this' is the line a parent sees themselves in, the device behind the SFC PSA. It is the native form of the viral feature and the easiest to forward to a group chat. That it spreads is inference until /say/ carries a source code."
+   },
+   {
+    "name": "7. Justin's hand, tonight (real photo, Round 2)",
+    "problem": "The winning Round 1 moment (default: rank 1, mid match)",
+    "hook": "The winning Round 1 headline, set in HTML over the photo",
+    "sub": "Three questions, no sign up.",
+    "format": "A real evening photo of Justin's own hand holding his phone at home, with the real /say/ page on screen. No child, no face, nothing generated. The words are set in HTML, with the espresso button.",
+    "screen": "The real script page photographed on a real phone, not a mockup",
+    "why_it_wins": "It is the strongest answer to 'does it look AI'. Real people beat studio polish in every vendor source found, though the reported sizes are unreliable. It is visibly distinct from the template, which gives delivery variety later. It needs one photo from Justin."
+   },
+   {
+    "name": "8. Fifteen seconds to a stage (screen recording, after the copy fix)",
+    "problem": "Rank 2: the first phone decision",
+    "hook": "What stage is your child? Three questions, no sign up.",
+    "sub": "Ends on the stage and the words for tonight.",
+    "format": "A 15 second silent vertical screen recording of the real stage check from start to finish, made with the product-shorts skill (reading rule, safe zones). An optional real person version is Justin to camera reading one script in one take, Bark's most common format.",
+    "screen": "The live stage check (app/(marketing)/starter-pack, ResultScreen.tsx), recorded only after 'a safe, capable 16' and 'the screen battle' are changed",
+    "why_it_wins": "All 20 of the 148 active Bark ads shown in Motion's library are video (days live not shown). Demo had an 8.1% hit rate in Motion's 2026 benchmark, third of the five formats Motion publishes a hit rate for, across all verticals. THE-STORY says the stage check can be shown in fifteen seconds, and the film shows the exact thing the ad promises."
+   }
+  ],
+  "test_plan": "Follow ad-studio Phase 5. Nothing is paid until a post has proved itself organically.\n\nBEFORE ANYTHING POSTS (Justin):\n(1) Confirm that 'They cannot stop in the middle of a match', 'Everyone is on Snapchat and they are not' and 'The Year 6 phone plan, before the box is opened' are live and is_free in the production scripts table. Only the migration files were read, and later migrations such as 371 may have rewritten them.\n(2) Decide whether to change the stage check wording ('a safe, capable 16', 'the screen battle').\n(3) Make the template changes. Render ONE card in the stacked layout with the fixed screen slot, and check two things: that the headline holds 3 lines at 88 to 96px and everything sits inside the safe area, and that a continuous script crop (header through NOT THIS) is readable at feed size. If it is not, end all three script crops after SAY THIS, as the not-AI rules say. Then render the round.\n(4) Every card must pass the Phase 4 gates, the butter area check (the jobs first card especially) and npm run ai-tells.\n(5) Before concept 2's evidence goes into any document, verify the Ofcom under 13 Snapchat figures against the chart pack. The ad copy itself quotes no figure.\n\nROUND 1, testing the hook. The held treatment: stacked layout, cream, the fixed screen slot at or under 30% with a flat crop and no phone frame, the espresso button, the butter underline under the moment words, no callouts, and the hook line. Five variants:\n- 04 tell-digi rebuilt (the control)\n- concept 1, Mid match\n- concept 2, Left out of the plans\n- concept 3, Before the box is opened\n- concept 4, Jobs first\n\nLINKS. On the founder links page (/dashboard/admin/videos), make TWO codes per variant, one with channel Instagram and one with channel Facebook. That is ten codes in all. Log both codes for each variant in content/ads/results-log.md.\n\nPOSTING. Justin posts each variant as an ordinary post on the family Instagram and Facebook, one variant at a time, on the same weekday and in the same time slot, one week apart, so the day does not decide the winner. That stretches Round 1 to about five weeks; it is a design guard, not sourced data.\n- On the day a variant posts, set the Instagram bio link to that variant's Instagram code, and leave it there for its full seven days. The post says 'link in bio'. Without the swap, every Instagram start lands on one code and the test cannot be read.\n- On Facebook, put the variant's Facebook code in the body.\n- Give each post seven days.\n\nJUDGING. Judge on stage checks begun per thousand reached, and on signups. Never judge on likes or views. Read Instagram and Facebook separately, then together.\n- A winner needs at least 300 reached; below that it is too early.\n- Always report the raw number of stage checks begun beside the rate. If the leader is ahead by only one or two starts, call it a tie and too early, and re-post both rather than boosting. This is a design guard against small numbers, not a sourced threshold. content/ads/results-log.md shows nothing has run yet, so there is no base rate to judge small differences against.\n\nROUND 2, testing the format, on the Round 1 winning moment:\n- the phone card (the phone frame, with its status bar matched to the capture)\n- the plain text ink card (concept 5)\n- the carousel (concept 6)\n- the real hand photo (concept 7)\n- the 15 second stage check recording (concept 8), once the copy is fixed\nCream and ink cards are mixed from here on, and 03-the-quiz-our-way joins here. This builds the visibly distinct set that vendor sources say Meta's delivery rewards when money is spent. Use the same per channel codes and the same bio link swap.\n\nSHARE MEASURE. /v/stage-share (migration 379) measures shares of the stage check RESULT only. Comparing it with ad link starts tells us how often the result gets shared, nothing more. Script shares are unmeasured until /say/ carries a source code through to /starter-pack. Today the /say/ sticky button links to a bare /starter-pack (components/scripts/PublicScriptView.tsx line 224), and ShareScript carries no code by design. Until then, the script as the viral unit is inference and must not be reported to Justin as tested. Raise the per script source code build with the review board as the thing that turns this claim into evidence.\n\nTHEN, only for a proven winner: a one block boost brief for Justin, naming the post, the audience (UK parents of children 8 to 13), the skill's small daily budget and a fixed end date.\n- The brief states plainly that the organic winner was proven with people who already follow us, not a cold audience. The small budget and fixed end date cap what a cold flop can cost.\n- Run 3 to 5 visibly distinct creatives of that one idea, not reworded copies.\n- Vendor data says winners fatigue after about 4 to 8 weeks (Marpipe 2025, low to medium confidence), so plan the next moment before then.\n\nLOG every variant in content/ads/results-log.md: date, round, hook, format, Instagram code, Facebook code, posting day and slot, the date of the bio link swap, reached, raw stage checks begun, rate per thousand, signups, verdict, and one line learned.\n\nPARKED:\n- Bark's 'comment to get the link' (comment STAGE): only as an organic test, and only if a compliant auto reply exists.\n- The group chat concept ('The class chat at eleven at night'): both group chat scripts are paid in source. Justin decides whether to make 'When Group Chat Drama Comes Home' (builder) free for Round 2; otherwise the ad promises words a trial member cannot open. The free 'Added to a group by someone they do not know' (migration 180) is a Round 2 option about strangers, not unkind classmates.\n- A night ad for 11 to 13s whose child already owns a phone: Justin decides whether to make 'They cannot sleep because of their phone' free. Until then, no ad offers words for a phone that is already in the bedroom. The in product proof is protected windows and the 'Phone to bed, unasked' mission.\n- 'Know what to say before the argument' as a Round 2 plain text headline.\n- Exact Mumsnet quotes: organic only, under A THING PARENTS SAY.\n\nNEVER: problems 9 and 10, 'addicted', less screen time, blocking claims, harm as a hook, any 13 to 15 script on an 8 to 13 ad, or a butter underline under another brand's name.\n\nGAP: Justin to send Ad Library screenshots, with 'Started running on' visible, for Kairoo, Balance Phone, Qustodio, Good Inside and Greenlight. Until then, no competitor ad is ranked as proven.",
+  "sources": [
+   "https://motionapp.com/library/bark-parental-controls",
+   "https://socialpeta.com/competitive-intelligence/bark-parental-controls (410, quoted from search snippet)",
+   "https://kairoo.co.uk (fetched 19 Oct 2026, site copy and CSS)",
+   "https://apps.apple.com/us/app/-/id1613169688 (Ohana)",
+   "https://www.thebalancephone.com",
+   "https://qustodio.com/en/family-stories",
+   "https://www.techradar.com/pro/software-services/how-to-manage-screen-time-for-kids",
+   "https://www.qustodio.com/en/",
+   "https://www.bark.us",
+   "https://www.ispot.tv/ad/tIwL/greenlight-financial-technology-hey-parents",
+   "https://socialpeta.com/competitive-intelligence/greenlight-debit-card-for-kids",
+   "https://greenlight.com/up-for-grabs-chores",
+   "https://lbbonline.com/news/GoHenry-Blink-and-Ill-Be-Big",
+   "https://marketingreport.one/creation/gohenry-campaign-promotes-long-term-investing-for-children.html",
+   "https://www.fortune.com/2026/02/27/dr-becky-kennedy-good-inside-revenue-leadership-playbook-for-parenting-34-million-a-year-business",
+   "https://www.fortune.com/2026/03/02/inside-dr-becky-kennedys-34-million-parenting-empire",
+   "https://www.itv.com/news/2024-02-21/thousands-join-mums-whatsapp-group-to-stop-children-from-having-smart-phones",
+   "https://www.sbs.com.au/news/dateline/article/how-a-whatsapp-group-for-parents-sparked-a-movement-against-smartphones/mbx4syv9s",
+   "https://www.dandad.org/work/d-ad-awards-archive/lets-change-the-norm",
+   "https://www.globenewswire.com/news-release/2025/09/23/3154795/0/en/Smartphone-Free-Childhood-US-Launches-New-Public-Service-Announcement-Let-s-Change-The-Norm.html",
+   "https://internetmatters.org/about-us/our-partners/google-internet-matters-member",
+   "https://motionapp.com/library/formats/ (hit rates published for five formats only: Unboxing, Offer-First Banner, Demo, Testimonial, Celebrity; spend use ratio = share of spend / share of creative volume; Celebrity 2.1x)",
+   "https://segwise.ai/blog/static-video-ratio-meta-ads",
+   "https://www.stackmatix.com/blog/static-vs-video-ads-meta",
+   "https://segwise.ai/blog/why-boring-ads-beat-polished-ads (8% of 30+ day survivors opened with a question; no base rate given)",
+   "https://segwise.ai/blog/meta-creative-strategy-ecommerce-2026",
+   "https://www.modernretail.co/marketing/dtc-briefing-why-ugly-ads-are-taking-off/",
+   "https://www.businesswire.com/news/home/20241212354811/en/NIQ-Research-Uncovers-Hidden-Consumer-Attitudes-Toward-AI-Generated-Ads",
+   "https://www.marketingdive.com/news/consumer-perceptions-generative-ai-in-marketing-openai-sora/735761/",
+   "https://newsroom.gettyimages.com/en/getty-images/nearly-90-of-consumers-want-transparency-on-ai-images-finds-getty-images-report",
+   "https://www.nbcnews.com/world/europe/mcdonalds-ai-generated-christmas-advert-social-media-backlash-rcna248590",
+   "https://www.jonloomer.com/meta-andromeda-creative-diversification/",
+   "https://www.excitemedia.com.au/meta-creative-diversification/",
+   "https://thenextweb.com/news/7-lead-generation-lessons-we-learned-by-creating-a-facebook-quiz-syndication",
+   "https://www.tryinteract.com/blog/get-leads-from-meta-ads-with-quiz-funnels",
+   "https://faculty.wharton.upenn.edu/wp-content/uploads/2011/11/Virality.pdf",
+   "https://marketingscience.info/brands-need-distinctive-assets/",
+   "https://news.umich.edu/print-ad-pictures-less-is-more",
+   "https://colab.ws/articles/10.1007%2Fs11747-010-0245-y",
+   "https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/keeping-children-safe-online/childrens-online-user-ages/children-user-ages-chart-pack.pdf (returned 403 on 19 Oct 2026; the under 13 Snapchat figures are from a search summary and UNVERIFIED)",
+   "https://www.mumsnet.com/talk/am_i_being_unreasonable/5046965-me-and-13-yr-old-the-constant-awful-battle-over-screen-time",
+   "https://www.mumsnet.com/talk/parenting/5338132-9yo-massive-tantrum-after-playing-fortnite",
+   "https://www.mumsnet.com/talk/am_i_being_unreasonable/5355501-kid-screen-time-hell",
+   "https://www.mumsnet.com/talk/am_i_being_unreasonable/5563384-to-buy-my-11-year-old-a-phone",
+   "https://www.mumsnet.com/talk/parenting/5301666-parents-of-younger-children-are-you-thinking-of-delaying-smartphone-for-your-dc",
+   "https://www.mumsnet.com/talk/teenagers/5482297-talk-to-me-about-snapchat-please (child is 13)",
+   "https://www.mumsnet.com/index.php/talk/am_i_being_unreasonable/5515703-aibu-to-let-dd-13-have-snapchat (child is 13)",
+   "https://www.mumsnet.com/talk/am_i_being_unreasonable/5511070-12-yo-dd-and-whatsapp-did-i-handle-this-correctly-and-what-to-do-going-forward",
+   "https://www.mumsnet.com/talk/parenting/5383288-how-do-you-handle-late-night-phone-use-my-daughter-never-puts-it-down",
+   "https://www.mumsnet.com/talk/teenagers/5589203-help-how-do-you-stop-kids-bypassing-internet-phone-controls-to-watch-porn",
+   "https://www.mumsnet.com/talk/parenting/5336247-devastated-about-11yo-behaviour",
+   "https://www.mumsnet.com/talk/am_i_being_unreasonable/4824169-to-be-despairing-over-10-year-olds-screen-addiction",
+   "https://uk.trustpilot.com/review/www.qustodio.com?page=5",
+   "https://www.itv.com/news/granada/2024-03-21/majority-of-parents-want-ban-on-smartphones-for-children-under-16",
+   "https://www.gov.uk/government/publications/media-literacy-parents-study",
+   "https://www.commonsensemedia.org/articles/how-to-help-kids-balance-phones-and-screens-with-sleep",
+   "Repo: THE-STORY.md s1, s9, s10; .claude/skills/ad-studio/SKILL.md Phases 3 to 6; briefings/notes/competitor-sightings.md; brand/GDC_SOCIAL_VISUAL_SYSTEM.md s7; content/ads/results-log.md (nothing run yet)",
+   "Repo: tools/social-cards/ad-template.html (line 172 wordsWidth 480; center layout left 70 right 70; local --gold #EDC35F; status bar default #F9F8F6 line 124; ink gradient bezel lines 77 to 92); tools/social-cards/decks/ad-round-phone.json (04 headline 'Tell it what went wrong today. Get one thing to do.')",
+   "Repo: shared/tokens.css (--terracotta #EDC35F line 33; --gold var(--stage-1-bold) line 96; --butter line 122; .btn-ink #2E2818, #fff, 0 5px 0 #171307 lines 431 to 435)",
+   "Repo: supabase/migrations/186_free_scripts_screens_and_gaming.sql (mid match, builder; 'The phone is in their room all night' is shaper, lines 141 to 159); 261_situations_scripts.sql (Year 6 phone plan, builder, lines 97 to 116; no confiscation promise, explorer); 180_platform_scripts.sql (Snapchat lines 61 to 72, builder 'eight to ten', free; class group line 212, paid; 'Added to a group by someone they do not know', free); 254_planet_missions_rebuild.sql line 143 ('Phone to bed, unasked, and a night light for it'); supabase/seeds/daily_moments_batch2.sql (group chat drama, paid); supabase/seeds/new_scripts_batch1.sql and new_scripts_batch2.sql (bedtime scripts, paid); 379 (stage share counter); 381 (child asks to change the deal)",
+   "Repo: components/scripts/PublicScriptView.tsx (espresso page background, 2.5px ink sheet edge, butter header 'A script from Guided Childhood \u00b7 {ages}', then title, situation, Say this, Not this, then 'The rest of this script'; stranger sticky button to bare /starter-pack line 224); components/scripts/ShareScript.tsx; app/say/[id]/page.tsx; app/say/[id]/opengraph-image.tsx; components/starter/ShareStage.tsx; lib/share/stage.ts; lib/quests/time-tiers.ts (checkProtectedWindow; defaultBedtimeFor; reasons bedtime, mealtime, school)",
+   "Repo: content/ads/screens/ (digi, kid-five-today, kid-my-time, script, stage-check); app/ref-time-tiers, app/ref-kid-five, app/ref-quest-board",
+   "The nine current ad PNGs in content/packs/2026-10-19-ad-round-phone, 2026-10-19-ad-studio-examples, 2026-10-14-first-phone-ad",
+   "Creative director measurements (temporary, session scratchpad): /tmp/claude-0/-home-user-guided-childhood/912fb4b8-ae4c-536b-bb44-27b66a5ad0ab/scratchpad/cd/measure.py, thumb.png, feed.png (kid-my-time My time crop 17.5% butter; card totals about 10.2% at 940 wide, 7.7% at 760, 7.0% at 700)"
+  ]
+ },
+ "final_reviews": [
+  {
+   "name": "Ad performance researcher",
+   "r": {
+    "approve": false,
+    "objections": [
+     {
+      "section": "test_plan (THEN, only for a proven winner)",
+      "problem": "The brief says to 'Run 3 to 5 visibly distinct creatives of that one idea' at boost time. That breaks the hard rule: never pay to find out if something works, only to scale a proven post. Unless every boosted creative has already won organically, money is being spent to test the ones that have not.",
+      "evidence": "The task's hard rules: 'never pay to find out if something works, only to scale a proven post'. ad-studio SKILL.md Phase 5 step 5: 'Only then a boost brief ... which post'. That names a single proven post. Round 2 does test five formats organically, so several may prove, but the brief does not say the boost is limited to those.",
+      "fix": "Reword it: 'Boost only posts that won organically. If Round 2 proved more than one format of the winning moment, boost up to 3 to 5 of those together for delivery variety. Never add an unproven creative to a paid set to make up the number.'"
+     },
+     {
+      "section": "test_plan (BEFORE ANYTHING POSTS) and the LINKS step",
+      "problem": "The ten per channel codes (an Instagram and a Facebook code for each variant) only work once migration 379 is live in production. Without it, the founder links page creates film links by title only and does not count stage checks by channel, so Round 1 cannot be read. The brief does not list this as a precondition.",
+      "evidence": "app/(dashboard)/dashboard/admin/videos/VideoLinks.tsx line 88 sends {title, channel, code} only when byChannel is true, otherwise just {title}. Line 124 shows the message 'Only film links are counted until migration 379 is applied.' page.tsx line 149 sets byChannel={!viewError} on the 379 view.",
+      "fix": "Add a sixth item to 'BEFORE ANYTHING POSTS': 'Open /dashboard/admin/videos and confirm it does not say \"Only film links are counted until migration 379 is applied.\" If it does, apply 379 first. Without it the per channel codes cannot be made or counted.' Add it to 'What Justin needs to do' as well."
+     },
+     {
+      "section": "verdict (opening paragraph)",
+      "problem": "The brief says 'none is AI made in the way Justin fears'. Justin will read that as true, and it is not. The four flat cards carry the 3D Orbit character, and the 3D friends and the 3D DiGi star are image generations from Higgsfield. The jobs first screen also shows the 3D star and Pebble renders. The brief itself retires the render from paid ads for that reason, so the opening line contradicts it.",
+      "evidence": "digi-squad/README.md lines 122 to 127: the star was 'rendered in the friends' style (Higgsfield gpt_image_2_5, job 5ba895ef, from Orbit's art...)'. The creative director's finding says the 3D renders were made with Higgsfield. kid-my-time.png shows the 3D star in its header and Pebble in the streak row.",
+      "fix": "Replace it with: 'The four phone ads use real app screens and nothing generated on the card itself. The four flat cards lean on our 3D character renders, which were made with an image generator, so Round 1 drops them from adverts to parents.'"
+     },
+     {
+      "section": "new_concepts 4 (Jobs first) and current_ads 02-jobs-first changes",
+      "problem": "The headline is 'Jobs first. Then their time.', but the planned crop, the My time card only, shows no job. It shows '40 min ready', '8 stars in your bank', '+5 min', 'Use my time' and 'My balance'. The card's first claim has nothing on screen to prove it, which the gates require.",
+      "evidence": "content/ads/screens/kid-my-time.png, which I opened: the only job on screen ('1 waiting for Mum or Dad to say yes / Feed the dog') sits above the Pebble streak row, outside the planned crop.",
+      "fix": "Use one continuous crop from the '1 waiting for Mum or Dad to say yes / Feed the dog' row down to the bottom of the My time card. That includes the small Pebble streak row, since nothing may be taken out of the middle. Then re-run the butter check and the 30% slot fit. Alternatively, recapture from app/ref-time-tiers in a state where a job and the My time card sit next to each other with no 3D render between them. If neither fits the slot, change the headline to a claim the crop does prove, such as 'Stars in the bank. Their time, your rate.'"
+     }
+    ],
+    "note_to_others": "I agree with nearly all of the round 3 brief: the script as lead and share hook, the star quest as the conversion ad, the gold rule, holding the treatment constant in Round 1, and the measurement honesty. My four objections are narrow and cheap to fix.\n\n1. Money rule. A boost of '3 to 5 distinct creatives' must use only creatives that won organically. Padding the set with unproven ones means paying to test them.\n2. Migration 379. The per channel codes need 379 applied in production, or Round 1 cannot be read. VideoLinks.tsx falls back to film links by title only. Add this to Justin's pre posting checklist.\n3. Verdict wording. 'None is AI made' is not accurate. The 3D friends and the DiGi star are Higgsfield generations (digi-squad/README.md lines 122 to 127). Say instead that the phone ads use real screens and the flat cards use generated renders, which we are dropping.\n4. Concept 4 proof. The My time crop shows no job, so 'Jobs first' has no proof on screen. Extend the crop as one continuous run up to the 'Feed the dog' waiting row, or recapture, or change the headline.\n\nNothing else from my lane needs changing."
+   }
+  },
+  {
+   "name": "Parent problems researcher",
+   "r": {
+    "approve": false,
+    "objections": [
+     {
+      "section": "new_concepts[0] (Mid match) and test_plan step (1); viral_feature",
+      "problem": "The lead ad and the share unit send parents to a script whose Say this opens with a warning: \"I will give you the warning at the end, not in the middle.\" Its check back reads \"ask whether the end of match warning is working\". On 12 October 2026 Justin changed the library's position to \"the ending is agreed, not warned\" (migration 371, 'Fix all three'). The free builder script 9671 for the same moment now says \"that is the deal and I will not add a warning\", and its Not this is \"Two minutes! One minute!...\". The 371 abort regex looks for 'two/five minute warning before', so it missed 'the warning at the end'. The product therefore gives 8 to 10 parents two opposite pieces of advice, and our lead creative and most forwarded page would be the one that goes against the current position. The script's real mechanic, \"You tell me how long this one has left, and I will hold you to it\", is an agreed ending. Only the wording is out of step.",
+      "fix": "Keep the hook. Add an item to 'What Justin needs to do' and to test_plan step (1): approve a guarded copy edit to script 9620 before the capture, in the 371 pattern (replace on the exact current phrase, guarded on that phrase). Suggested Say this: \"I know you cannot just walk out of a match, that is not me not listening. So from now on, before you start, we agree how many matches, and we stop at the end of the last one, never in the middle. You tell me how long this one has left, and I will hold you to it.\" Suggested check back: \"In a week, ask whether agreeing the number of matches first is working...\". The Not this stays. Recapture after the edit. If Justin declines, record that he chose to keep it, and never put 9620 and 9671 side by side in one post.",
+      "evidence": "supabase/migrations/186_free_scripts_screens_and_gaming.sql lines 95 and 104 (say_this, check_back of 9620); supabase/migrations/371_the_ending_is_agreed_not_warned.sql header and abort regex (lines ~1 to 35, final DO block); supabase/migrations/363_school_day_windows.sql lines 80 to 93 (9671, builder, is_free true: 'I will not add a warning'; 'If they push at the ending, do not add a warning or a countdown')"
+     },
+     {
+      "section": "top_problems[0] our_answer",
+      "problem": "It lists 'The two minute warning is making it worse' as an answer to 8 to 13 gaming rage. That is script 9650, a Foundation script (ages 4 to 7) built on a study of under sixes. It is the wrong stage for this audience, and the error came from my own first pass.",
+      "fix": "Remove it from problem 1. Put 'The stopping point agreed in a calm moment' (migration 363, builder, is_free true, sort 9671) in its place as the companion script. It is for 8 to 10s and matches the agreed ending position.",
+      "evidence": "supabase/migrations/371 line 75 ('Script 9650, Foundation'); supabase/migrations/261_situations_scripts.sql lines 38 to 51; supabase/migrations/363_school_day_windows.sql lines 80 to 93"
+     },
+     {
+      "section": "creative_direction.template_changes (age corner field) and test_plan JUDGING",
+      "problem": "On concepts 1, 2 and 3, the /say/ crop shows its butter header 'A script from Guided Childhood \u00b7 Ages 8 to 10' (STAGE_LABEL builder in PublicScriptView.tsx). The new age corner field puts '8 TO 13' on the same card, so each card would carry two different age labels. The control and Jobs first carry no 8 to 10 label. Three of the five variants therefore visibly speak to 8 to 10 parents only, while the stated audience runs to 13. That can confound the hook test: a weak result among Year 7 to 9 parents could be read as a weak hook when it is really an age signal.",
+      "fix": "Put no age corner on Round 1 cards, so the real label inside the screen is the only one. In content/ads/results-log.md, note that concepts 1 to 3 visibly address ages 8 to 10, and read the results with that in mind. For Round 2, name a free explorer (11 to 13) option so the upper band is tested on its own terms, for example 'The no confiscation promise, said out loud' (migration 261, explorer, free).",
+      "evidence": "components/scripts/PublicScriptView.tsx lines 46 to 50, 71 and 105; supabase/migrations/186 (9620 'builder'), 180 lines 61 to 72 (Snapchat, builder), 261 line 101 (Year 6 plan, builder)"
+     }
+    ],
+    "note_to_others": "I agree with everything else in the brief. I re-checked these points against the source: the Snapchat thread opening post (Mumsnet 5482297, 27 Jan 2026) does say \"I have a 13 yo DD who wants Snapchat\", so labelling it as a 13 year old's case is right. The Year 6 phone plan's Say this does contain \"Where it sleeps at night, which is not your bedroom\". defaultBedtimeFor really does give 8-10 a 19:00 to 07:00 window and 11-13 a 20:00 to 07:00 one, so \"Bedtime no stars can buy\" stands, though the parent can still change the window. I found one important issue. The mid match script (9620), our lead ad and share unit, still says \"I will give you the warning at the end\". Justin's 12 October change (migration 371) turned the library to \"the ending is agreed, not warned\", and the free builder script 9671 now says \"I will not add a warning\". The 371 guard regex missed 9620. Please add a small guarded copy edit to 9620, for Justin to approve, before anything is captured. Also take 'The two minute warning is making it worse' (Foundation, under sixes) out of problem 1, which was my error. And drop the 8 TO 13 corner on the Round 1 script cards, because the real screen already says Ages 8 to 10."
+   }
+  },
+  {
+   "name": "Creative director",
+   "r": {
+    "approve": false,
+    "objections": [
+     {
+      "section": "creative_direction.not_ai_rules (the crop rule) and new_concepts 1, 2 and 3 (screen), plus settled point (i)",
+      "problem": "The script crop from the header through NOT THIS will be unreadable in the feed, and so will the fallback that ends after SAY THIS. Both crops also repeat the headline on the screen. The script's words are the proof, and on these cards they come out smaller than the 7pt hook line we already rejected as too small. The title on the screen is the headline word for word on concept 1 and almost word for word on concepts 2 and 3. Repeated text is the machine made tell we cut the callouts for.",
+      "evidence": "I rebuilt the /say/ sheet from PublicScriptView.tsx (362px sheet, title at 6.5vw, Say this at clamp(23px, 6.2vw, 28px), Not this at 17 to 19px) with the real mid match script text and Nunito, and measured it in Chromium at 390 wide. Header top to the end of NOT THIS is 750 CSS px tall. Header to the end of SAY THIS is 636. The SAY THIS block on its own is 339. A 1080 card shows at about 390pt in the feed, so 1 card px is 0.361pt. The brief's 730 tall slot then gives: full run, Say this at about 8.5pt, the situation paragraph at 6.0pt and the 'Ages 8 to 10' label at 4.2pt; SAY THIS fallback, Say this at about 10pt. I also estimated the stacked layout's vertical budget: 70 top, a 3 line headline at 92px (about 290), a 2 line sub (about 94), the pill with its shadow (about 110), the hook line (39), 60 bottom, plus gaps. That leaves about 575px for the slot, not 730, which the brief already allows for when it says to shorten the slot for all five cards. At 575: full run, Say this about 6.8pt and the situation 4.7pt; fallback, about 8pt. A crop of the SAY THIS block alone at 575 tall scales by 1.66, sets Say this at about 40 card px (about 14.5pt in the feed) and is about 600 wide, roughly 24% of the card, inside the 30% cap. The replica and the measuring script are in /tmp/claude-0/-home-user-guided-childhood/912fb4b8-ae4c-536b-bb44-27b66a5ad0ab/scratchpad/cd2/ (sheet.html, m.js). This is a replica, not a capture of the live page, so the numbers are close but not exact.",
+      "fix": "Round 1 script crops start at the SAY THIS label and end at the closing quote of the Say this block. That is still one continuous run of the real screen with nothing taken out of the middle: it only trims the top and bottom. Change the rule from 'never take the situation paragraph out' to 'never take anything out of the middle of a run; a crop may start below the title when the headline already names the moment, so the screen never repeats the headline'. The template draws the 2.5px ink edge outside the crop, and the age corner field (8 TO 13) replaces the lost 'Ages 8 to 10' band, which also removes that butter from the butter check. NOT THIS moves to the concept 6 carousel, as the brief already plans for the fallback. Add a gate for every Round 1 card, the control's DiGi crop and the jobs first My time crop included: the main line of the proof crop renders at 30 card px or more (about 11pt in the feed, the same size as the hook line). If it does not, crop tighter to one readable unit. Never shrink the text to fit."
+     },
+     {
+      "section": "creative_direction.template_changes (stacked layout, fixed screen slot)",
+      "problem": "The slot box contradicts the 30% cap. A box of at most 760 by 730 is 554,800px, which is 38% of a 1080 by 1350 card. A landscape crop fitted by width could fill it and break the cap that is meant to hold the jobs first card under 10% butter.",
+      "evidence": "760 x 730 = 554,800; 1080 x 1350 = 1,458,000; 554,800 / 1,458,000 = 0.38.",
+      "fix": "Make the 30% area cap the binding rule and size the default box to fit it, for example at most 760 wide by about 575 tall (30%). That also matches the space the stacked layout leaves once a 3 line headline, the sub, the pill and the hook line are placed. Portrait crops fit by height and landscape crops fit by width inside that box. The renderer reports the screen's area share next to the butter share."
+     }
+    ],
+    "note_to_others": "I agree with the rest of the brief from my lane: the palette, the gold rule, the espresso .btn-ink default, Palette B for Round 2, dropping Orbit from cold paid ads, flat crops with no phone frame in Round 1, the age corner field, and every per card verdict. Both objections are about what the proof looks like in the feed, not about style. (1) I measured a replica of the /say/ sheet. The planned crop from the header through NOT THIS sets the Say this words at about 7 to 8.5pt in the feed, with the situation paragraph at about 5pt, and the SAY THIS fallback reaches only about 8 to 10pt. Both repeat the headline, because the script title is the headline. Cropping to the SAY THIS block alone is still one continuous real run and takes Say this to about 14pt at about 24% of the card. NOT THIS goes to the carousel. (2) The 760 by 730 slot box is 38% of the card. Cap it at 30%, about 760 by 575, which is also roughly what the stacked layout leaves once the headline, sub, pill and hook line are placed. Please also add the 'main proof line at 30 card px or more' gate to Phase 4, so a card that cannot be read in the feed never reaches the organic test."
+   }
+  }
+ ],
+ "research": [
+  {
+   "name": "Ad performance researcher",
+   "summary": "Ad performance researcher, council lane: what actually performs. I looked at all nine current ads. Repo files read: THE-STORY 1, 2, 9 and 10, ad-studio SKILL.md, competitor-sightings.md, results-log.md (nothing has run yet), ShareScript.tsx, ShareStage.tsx, lib/share/stage.ts, app/say/[id], and the scripts migrations. The Meta Ad Library was blocked, so I can't evidence days live for any competitor ad. The only competitor with a real live creative inventory I could reach is Bark, through Motion's public ad library: 148 active ads, about 9 new creatives a week, and every one of the 20 shown is a video, mostly a parent talking to camera cut with a screen recording, 17 to 59 seconds long. For the other brands the evidence is their own sites, app stores, TV spot archives and trade press, and none of it says which Facebook or Instagram ads run longest. Two findings change our creative straight away. First, Kairoo's site now leads on '5 more minutes', calling it 'the phrase that starts the nightly battle', and Ohana's App Store page has a '5 more minutes please' feature, so our flat card 'Five more minutes?' walks into a phrase two competitors already use. Second, three of the four new phone ads have a fixable fault: 01 shows a Shaper (13 to 15) teen script to parents of 8 to 13 year olds; 03 shows a real screen with 'a safe, capable 16' (gate 5) and 'the screen battle', and its subline swaps the hook for 'No sign up. Two minutes.'; 04 carries no 'Three questions, no sign up.' line. Cross-format benchmarks from 2025 and 2026 are mostly vendor data. They point to: native, plain and clear beats polished; demo and testimonial formats win often; question hooks survive least; video is preferred for cold traffic, but statics are still most of what accounts run; Meta now rewards creative that looks visibly different, not reworded copies of one template. My answer on virality, with the reasoning: the part of our service most likely to be shared is the script, a 'Say this / Not this' pair for one named moment. It is practical, gives a parent words they can use tonight, and already has a working share path that fits how UK parents pass things on (WhatsApp groups). The star quest is our strongest reason to buy, because no competitor has it, but it's less likely to be forwarded on its own.",
+   "recommendations": [
+    "Retire the 'Five more minutes?' hook (flat card 01-one-moment). Kairoo now calls '5 more minutes' the phrase that starts the nightly battle, and Ohana uses '5 more minutes please' as a feature. Lead on the answer instead, for example 'They cannot stop in the middle of a match.' with our Say this.",
+    "Make the script the lead creative and the share hook: a large crop of the real script screen showing Say this and Not this, one named 8 to 13 moment per variant. Use the free scripts 'They cannot stop in the middle of a match', 'The Year 6 phone plan, before the box is opened' and 'The no confiscation promise, said out loud'. Each has a public /say/ page that proves the claim with no paywall. This is the Motion 'Letter' or text-heavy native structure, using our own real screen.",
+    "Fix three of the four phone ads before anything is posted. In 01, swap the Shaper (13 to 15) footprint script for one of the 8 to 13 scripts above. In 03, recapture the stage check screen (or fix the source copy) so it no longer says 'a safe, capable 16' or 'the screen battle you are facing'; until then, do not use it. In 03 and 04, make the line under the button 'Three questions, no sign up.' word for word.",
+    "Cut the gold to one accent per card: the CTA or the underline, not the background. Turn 02 jobs-first from a full butter background to cream, with butter only on the button. That serves Justin's 'not too much gold' and gives Meta visibly different creatives.",
+    "Diversify by format, not by headline. Meta's delivery rewards visually distinct creatives, so the test set should be 3 to 5 genuinely different structures: (a) the script screen crop, static; (b) the star quest real screen, static, as the conversion ad; (c) a 15 second screen recording of the stage check end to end (the product shorts skill; THE-STORY says it is showable in fifteen seconds); (d) Justin to camera reading one script in one take, a real person in Bark's dominant format with no synthetic parent; (e) a two slide carousel, Not this then Say this.",
+    "Prefer statement hooks over question hooks in the headline. The thin evidence says question hooks survive least, and our CTA is already a question. Name one moment, then stop (the Nuet lesson already logged).",
+    "Say in the ad what the parent gets from the quiz ('your child's stage, and the words for tonight'). An ad that states what you will learn from a quiz drew far more clicks in the only case found, and it separates us from Balance Phone's ready or not ready.",
+    "Change the flat cards' 'AGES 4 TO 16' corner label to the band the ad targets (8 to 13) when the ad is aimed at the first phone years.",
+    "Borrow Bark's comment to get the link mechanic only as an organic test, and only if a compliant auto reply exists (for example comment STAGE). Otherwise keep 'link in bio' as the ad-studio skill says. This is an inference, not evidenced for our audience.",
+    "Do not borrow user counts, star ratings, press logo strips, an AI aged child, an 'award-winning' claim or fear framing. These are the proof devices of Ohana, Balance, Qustodio, GoHenry and Bark, and our gates forbid each one we cannot evidence. Our proof is the real screen.",
+    "Before the next round, ask Justin for Ad Library screenshots with 'Started running on' showing, for Kairoo, Balance Phone, Qustodio, Good Inside and Greenlight. No days live evidence was reachable from here, so nothing above ranks a competitor ad as proven.",
+    "Measure what gets shared, not just clicks: compare /v/stage-share starts against ad link starts on the founder links page. If scripts are the viral unit, a per-script source code on /say/ shares would prove it. This needs a small build, and it should be raised with the board first, not assumed."
+   ]
+  },
+  {
+   "name": "Parent problems researcher",
+   "summary": "Parent problems lane. I ranked the ten problems that UK parents of 8 to 13 year olds raise most often and most painfully. The sources are Mumsnet threads I fetched today (19 October 2026), UK surveys, and Qustodio's Trustpilot page. I built on the repo's two earlier sweeps rather than redoing them: research/homepage-audience-language.md (8 August) and content/packs/2026-10-09-digi-shorts/top-problems.md (9 October; 330 coded Reddit posts and 51 Mumsnet threads). Reddit and Netmums are blocked from this environment, both for search and for fetch. Every Reddit or Netmums figure below therefore comes from the 9 October file and is labelled that way. I did not re-verify it. Mumsnet thread pages could be fetched, so those quotes are word for word with dates and reply counts.\n\nThe ranking, by frequency and intensity: (1) the switch off fight and gaming rage, (2) whether to give a first phone, with the fear of the child being left out, (3) pressure to join Snapchat or TikTok under 13, (4) unkind group chats, (5) the phone in the bedroom at night, (6) parental controls that fail or get got round, (7) finding porn or disturbing content and not knowing what to say, (8) feeling like the bad guy and a failing parent, (9) another adult undoing the rules, (10) \"addicted\", where nothing else interests them. Six of the ten have a real screen or a script that already answers them.\n\nThe newest and most intense evidence is a Mumsnet thread from 15 October 2026 with 147 replies: a parent whose child got past iPhone parental controls through proxies to reach adult content. It is live proof that blocking alone fails, which is the gap we sell into. Our product cannot honestly answer number 10, and only partly answers number 9.\n\nWhat this means for the ads: the current set mostly covers problems 2, 8 and a general DiGi message. None covers the most intense problems for 8 to 13s, which are mid match gaming rage, Snapchat pressure, group chats and the phone at night. Ad 01 lifts out a teenager's online footprint script, a poor fit for parents of 8 to 13s. Ad 03's real screen says \"the screen battle\" and \"a safe, capable 16\", and its line under the button is \"No sign up. Two minutes.\" rather than the hook word for word.",
+   "recommendations": [
+    "Build the next ad round around problems 1, 3, 4 and 5, the most intense for 8 to 13s and so far unadvertised. Each one already has a real script to put in the phone mockup: 'They cannot stop in the middle of a match' (migration 186), 'Everyone is on Snapchat and they are not' (migration 180), 'When Group Chat Drama Comes Home' (migration 151) and 'The phone is in their room all night' (migration 186). Capture each as a real screen in content/ads/screens/ and lift the 'say this' line out as the callout.",
+    "Use parents' words for the moment as the hook, never a quote presented as testimony. Usable framings: 'They cannot stop mid match.', 'Everyone is on Snapchat. They are not.', 'The class chat at eleven at night.', 'I don't want a knee jerk no.' Any Mumsnet line used word for word must carry the A THING PARENTS SAY eyebrow. Use it organically with a link, or paraphrase it; paid use of an anonymous poster's exact words raises the consent question the 9 October report flagged.",
+    "Swap ad 01's callout from the teenager's online footprint script to a script for this age (the mid match one is the strongest fit). Keep the 'Know what to say before the argument' headline, which rank 1 and rank 7 both support.",
+    "Fix ad 03 before it runs. The real stage check screen says 'the screen battle' and 'a safe, capable 16' (gate 5 and competitor lesson 3). Change the live copy, then recapture, rather than editing the image. Make the line under the button the hook word for word: 'What stage is your child? Three questions, no sign up.' Add the same line under ad 02's button.",
+    "Use the 15 October 2026 Mumsnet thread on controls bypassed through proxies (147 replies) as the evidence behind a 'we are not parental controls' angle: the controls held until they did not, and what is left is what the child understands. Never claim we block anything, and never use porn or harm as the visual or the hook.",
+    "Do not run any ad on problem 10 ('addicted', cutting screen time down) or claim less screen time. Do not imply a second parent account (problem 9). Neither has an honest proof path today.",
+    "Before any boost, have Justin confirm the scripts named above are live and free in the production scripts table. Later migrations such as 371 may have rewritten them, and I only read the migration files."
+   ]
+  },
+  {
+   "name": "Creative director",
+   "summary": "Creative director's verdict: the current ads are clean and use real app screens, which is the hardest thing to get right, and none of them is AI made in the way Justin fears. But they will not beat the competitors as they stand, for five fixable reasons:\n\n1. The gold is overdone. Gold covers only 3 to 9 percent of each phone card by area, but every card has five separate gold touches: the eyebrow dot, the underline, the button, the pathway ribbon and the logo. Our own visual system allows one. The yellow card, 02-jobs-first, is 66 percent gold.\n2. The gold button does not stand out. It measures 1.57 to 1 against the cream background and 1.37 to 1 against the blue one, below the 3 to 1 accessibility minimum for buttons.\n3. The hook is cut in half. \"Three questions, no sign up.\" appears word for word on only 2 of 9 cards, and on those it is set at about 7pt in the feed, the smallest text on the card.\n4. Three things make the cards look templated rather than human. The glossy 3D Orbit character, likely the most AI looking element though nobody has tested it with parents, sits in the same place on all four flat cards. Lifted callouts repeat text that is already on the screen. On 04 a callout covers the screen copy so the screen looks broken.\n5. Our colours are not ours alone. Kairoo, the closest competitor, uses Nunito in its app with an amber (#E9C46A) nearly identical to our gold (#EDC35F), on a near cream background (#FBF6EF). Of the four competitors whose sites we checked, none uses a dark ink background, so that is the open space.\n\nRecommended palette: mostly cream and ink, gold kept to one mark.\n- Cream #F9F8F6 for about 55 percent of the card\n- The real screen for about 25 to 30 percent\n- Ink #1A1A2E for the headline and an ink button, about 12 percent\n- Ink soft #52526A for the sub line, about 3 percent\n- Gold #EDC35F for one underline stroke only, under 3 percent, plus the logo mark at about 1 percent\n- One variant on a dark ink background, with gold used only as the button, where it reaches 10.2 to 1\n\nGold rule: gold is never the background, never text, and only one gold touch is added per card. Total gold, including what is on the screen itself, stays at or under 10 percent of the card.\n\nVerdicts on the 9 cards: change 01, 02, 03 and 04 (phone), Five more minutes and Not a verdict (rebuild them without Orbit), and turn 14 Oct C into a plain text control. Drop 02-real-screen and 14 Oct A.\n\nSeparately for Justin: the stage check screen itself says \"a safe, capable 16\" and \"the screen battle\", which breaks our own ad rules. That is a change to the product's wording, so it is his call.\n\nEvidence quality: the case for authenticity is strong (NIQ, Getty, the McDonald's NL pull). The case for text size is moderate, from a print eye tracking study. The claim that Meta's Andromeda groups similar looking ads together comes only from agency and vendor blogs. We found no credible public research on which colours UK parents respond to in feed ads, and general colour psychology is weak evidence, so the palette rests on contrast, being different from competitors, and our own tokens. Measurements and the thumbnail sheets are in /tmp/claude-0/-home-user-guided-childhood/912fb4b8-ae4c-536b-bb44-27b66a5ad0ab/scratchpad/cd/ (measure.py, thumb.png, feed.png).",
+   "recommendations": [
+    "PALETTE A, the default for most variants (tokens only): cream #F9F8F6 background, about 55%. The real screen, about 25 to 30% (pick screens that are not mostly gold). Ink #1A1A2E for the headline and the CTA button, about 12%. Ink soft #52526A for the sub line and hook line, about 3%. Gold #EDC35F as ONE underline stroke under 3 words or fewer, under 3%, with gold dark #C99A28 only as that stroke's shadow. The logo mark stays as the brand mark, about 1%.",
+    "PALETTE B, one variant in the set, the background no competitor uses: ink #1A1A2E (or espresso #2E2818) background, about 65%. Cream #F9F8F6 headline, about 12%. Gold #EDC35F only as the CTA button with ink text, 6 to 8%, where it reaches 10.2:1. Real screen about 15 to 20%. No underline on this one. Use it to cover dark mode feeds, where cream cards already stand out.",
+    "THE GOLD RULE, to write into ad-template.html and the ad-studio gates: (1) gold is never a background on a paid ad, so retire the 'butter' ground for ads; (2) gold is never text, since gold dark on cream is 2.43:1 and fails AA; (3) exactly one gold touch added by design per card (the underline on cream, or the button on ink, never both), plus the logo mark; (4) total gold on the card, including the real screen, at or under 10% of the area. Check it with the pixel script (scratchpad cd/measure.py) before a card goes in a pack.",
+    "Template changes in tools/social-cards/ad-template.html. (1) Default .pill to ink (#1A1A2E) with cream text and box-shadow 0 6px 0 #171307, the btn-ink shadow already in tokens.css; gold pill only under a new .ad.ink ground. (2) Add .ad.ink { background: var(--ink) } with a cream h1 and sub. (3) Remove the gold eyebrow dot (.eyebrow i) or make it ink soft, and drop the eyebrow on ads unless it labels a scenario quote (A THING CHILDREN SAY). (4) Turn pathSVG off by default on ads (opt in with path: true). (5) Remove .glow and .sheen, the gold-lt haze and the glossy reflection that make it read as a render. (6) Make the clock a field, defaulting to an evening time such as 19:48, so the story reads 'tonight' and not Apple's 9:41. (7) Restyle .small, which carries the hook's second half: Nunito 700, 30px, ink soft, always 'Three questions, no sign up.' (8) Raise the default h1 to 88 to 96px and cap headlines at 3 lines and about 8 words. (9) Allow at most one callout, untilted, which must not overlap the phone's screen text or repeat words already legible on the phone; prefer cropping and enlarging the phone itself. (10) Keep the CTA and hook line inside the 3:4 grid safe area.",
+    "Hook enforcement: every card ends with the pill 'What stage is your child?' and directly under it 'Three questions, no sign up.' word for word. Add a check to the social-cards renderer that fails a template 'ad' deck card if it lacks either string.",
+    "01-words-for-tonight: CHANGE. Keep the headline. Recapture a script aimed at a child of 8 to 13 (a first phone or group chat script from the scripts table, real capture only) in place of 'Your online footprint', teenager, SHAPER. Remove the duplicate callout. Ink button, hook line at 30px, no dot, no pathway, no glow.",
+    "02-jobs-first: CHANGE, and make it the star quest variant (THE-STORY s10: the star quest leads, the only piece competitors lack). Rebuild on cream with an ink button, with gold only as the underline under 'their time'. Drop the 'Your five for today' callout that repeats the screen. If one callout stays, crop 'My time, 8 stars in your bank, Use my time' and leave out the gold '+5 min' line. Add the hook line. Show the whole phone screen rather than cutting text mid line.",
+    "03-first-phone: CHANGE, but only after the stage check wording changes. Ask Justin to change 'a safe, capable 16' and 'the screen battle you are facing' on the stage check itself, then recapture. Until then crop the screen above those lines. Replace 'No sign up. Two minutes.' with the hook word for word.",
+    "04-tell-digi: CHANGE, and run it as the CONTROL. The headline is the brand's own pitch loop. Move the phone up about 150px to close the dead band, or enlarge the headline into it. Move the callout so it covers no screen copy, or drop it. Ink button, add the hook line.",
+    "01-one-moment 'Five more minutes?': CHANGE. The best thumbnail type in the set. Rebuild without Orbit, as a plain text card on cream or on ink (Palette B), keeping the A THING CHILDREN SAY label (gate 2). Ink button and hook line. Keep Orbit and the friends for organic and child facing work, not cold paid ads to parents.",
+    "03-the-quiz-our-way 'Not a verdict. A stage and a next step.': CHANGE and hold for round two, because it only lands once a parent has met a readiness quiz. Rebuild without Orbit, and move the hook out of the sub into the hook line.",
+    "14 Oct C 'The words for tonight's argument. A plan to sixteen.': CHANGE into the plain text variant (the Nuet lesson): two lines of ink on cream, one gold underline, ink button, hook line, no character, no phone. It is the least AI looking card possible and visually distinct from the phone cards.",
+    "02-real-screen: DROP as an ad (three messages, no CTA, gold text failing contrast). Keep it as an organic carousel slide. 14 Oct A 'One day you'll hand them a phone': DROP. 03-first-phone replaces it, and its 'Will they be ready for it?' sells the verdict framing.",
+    "Add one new format for authenticity, the strongest answer to 'does it look AI': a real photo of Justin's own hand holding his phone with a real screen on it (a script, or DiGi), taken in the evening at home. No child, no face, nothing generated, words set in HTML over the photo. This follows competitor lessons 5 and 6, and is the format least likely to read as AI.",
+    "Run the round as three visibly different concepts (phone mockup, plain text card, real hand photo) rather than four variations of one template, holding the visual treatment constant within each concept so the hook stays the only variable, per the ad-studio Phase 3. Test organically first, per the money rule.",
+    "For the council: claims about Meta Andromeda and similarity scores, and the general 'ugly ads beat polished' line, are from vendors and practitioners. Use them as direction, not as numbers in any document Justin reads. No UK parent specific colour benchmark exists that we could find, so the palette rests on contrast, being different from competitors, and our own tokens, not on colour psychology."
+   ]
+  }
+ ]
+}

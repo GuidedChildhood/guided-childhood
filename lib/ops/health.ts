@@ -168,6 +168,14 @@ export function serviceChecks(env: NodeJS.ProcessEnv = process.env): Check[] {
  *
  * Add a row here whenever a column becomes load bearing. It costs one line and
  * buys back five weeks.
+ *
+ * THE DAILY SWEEP ALSO RUNS THE MIGRATION GAP CHECK (16 October 2026). This
+ * list only knows what someone remembered to add, and migration 360 was never
+ * applied while every listed column was fine. The sweep must follow
+ * plans/review-board/routines/health-sweep-migrations.md (read it from
+ * origin/main) and put its output in the report: scripts/migration-gap.mjs
+ * works out from the migration files on main what the database should hold,
+ * and the sweep asks the live database through its Supabase connector.
  */
 const REQUIRED_COLUMNS: { table: string; column: string; breaks: string }[] = [
   { table: 'profiles', column: 'trial_ends_at', breaks: 'every email cron, the DiGi paywall, agreement, rehearse, rightnow and printables' },

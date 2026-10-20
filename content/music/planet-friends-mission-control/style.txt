@@ -1,0 +1,27 @@
+MAIN STYLE PROMPT (paste as tags/caption):
+anthemic orchestral hip hop, 88 BPM, dusty swung breakbeat drums, heavy kick,
+crisp snare, sweeping looping string ostinato on violins and violas, sustained
+cellos underneath, bittersweet and hopeful, atmospheric reverb, slow building
+crescendo into each chorus, warm bass guitar, tambourine, original melody, five
+distinct rappers from bright and bouncy to deep and calm trading lines quickly,
+playful positive energy, group unison chants on the chorus, call and response
+crowd shouts, clean family friendly vocals, wide cinematic mix
+
+INSTRUMENTAL BED (the atmospheric anthem, no vocals):
+instrumental only, atmospheric anthemic orchestral breakbeat, 88 BPM, dusty
+swung breakbeat drums, sweeping looping string ostinato on violins and violas,
+sustained cellos, bittersweet and hopeful, wide reverb, slow build to a soaring
+full string climax, warm bass guitar, original melody, no vocals, cinematic mix
+
+JAZZ STYLE PROMPT (the old school jazz version):
+old school jazzy hip hop, 94 BPM, live horn section stabs with trumpet and
+saxophone, walking upright bass, Rhodes electric piano chords, dusty swung drum
+break, vinyl crackle, turntable scratch cuts between sections, original melody,
+five MCs trading lines quickly and rapping tight unison harmony on the hooks,
+call and response, bright party energy, playful and positive, clean family
+friendly vocals, live band feel, crisp mix
+
+RULES
+- Never include real artist or song names in prompts.
+- Never use commercial recordings as audio references or samples.
+- All melodies, lyrics and voices must be original.

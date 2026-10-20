@@ -7,6 +7,7 @@ import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import FriendPlate from './FriendPlate'
 import PassportPage from './PassportPage'
 import type { PassportPlacement } from '../passport-stages'
+import { canReadAloud, readAloud as speakAloud, slideSpeech, stopReadingAloud } from '../read-aloud'
 import { CHARACTERS, type CharacterKey } from '../schools-curriculum'
 import { isCharacterKey } from '../intro-characters'
 import type { Register } from '../friend-register'
@@ -1436,6 +1437,7 @@ export default function LessonPlayer({
   kidBadge,
   tellHref,
   together = false,
+  readAloud = false,
   completeEndpoint,
   completeBody,
   badges,
@@ -1482,6 +1484,12 @@ export default function LessonPlayer({
   // A run a grown up opened from their own app (lib/lessons/together): the
   // pass is every check question answered, because they are the check.
   together?: boolean
+  // READ IT TO ME (sync plan G3). A button under the child's status line that
+  // speaks the slide's words in the device's own British voice
+  // (shared/read-aloud.ts). On where the parent set "does lessons with me";
+  // never on the wall, and never from the age alone, because under 7 the
+  // grown up is the voice.
+  readAloud?: boolean
   // null skips the completion write entirely: a lesson DiGi wrote on the fly
   // has no database row to complete against.
   completeEndpoint?: string | null
@@ -1584,6 +1592,14 @@ export default function LessonPlayer({
   const soft = friend ? friend.soft : 'var(--terracotta-lt)'
   const inkOn = friend ? friend.ink : 'var(--terracotta-dark)'
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
+  // Read it to me: whether this browser can, read after mount so the server
+  // and the first client paint agree; and whether it is reading now. A new
+  // slide stops the voice, and so does leaving.
+  const [canSpeak, setCanSpeak] = useState(false)
+  const [speaking, setSpeaking] = useState(false)
+  useEffect(() => { setCanSpeak(readAloud && canReadAloud()) }, [readAloud])
+  useEffect(() => { stopReadingAloud(); setSpeaking(false) }, [index])
+  useEffect(() => () => stopReadingAloud(), [])
   const [answered, setAnswered] = useState(false)
   // Answered and settled were the same instant until the retry landed: the
   // first tap ended the question. Now a wrong first pick answers the slide
@@ -2329,7 +2345,7 @@ export default function LessonPlayer({
             filled, in the same colours and shape as the child's book at home,
             and the home code that puts today into that book. The count is this
             screen's memory (shared/schools-taught), never a child's record. */}
-        {isSchool && passport && passport.placement && passport.placement !== 'after' && (
+        {isSchool && passport && passport.placement && (
           <div style={{ margin: '0 auto 18px', maxWidth: 400 }}>
             <PassportPage
               placement={passport.placement}
@@ -2341,16 +2357,11 @@ export default function LessonPlayer({
             />
           </div>
         )}
-        {isSchool && passport && passport.placement === 'after' && (
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 14px' }}>
-            No passport page today. The passport is the journey to sixteen, and this year group is past it.
-          </p>
-        )}
         {isSchool && passport?.homeCode && (
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', margin: '0 auto 14px' }}>
             Home code{' '}
             <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', marginRight: '0.35em' }}>{passport.homeCode.replace(/-/g, ' ')}</strong>
-            is on the parent note. Entered at home, it records today in the child&rsquo;s own passport.
+            is on the parent note. Entered at home, it records that the class met today&rsquo;s lesson; the child&rsquo;s own check puts it on the page.
           </p>
         )}
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
@@ -2593,6 +2604,26 @@ export default function LessonPlayer({
           textTransform: 'uppercase', color: 'var(--ink-muted)',
         }}>
           {status}
+          {canSpeak && (
+            <div style={{ marginTop: '6px', textTransform: 'none', letterSpacing: 0 }}>
+              <button
+                type="button"
+                data-read-aloud
+                aria-pressed={speaking}
+                onClick={() => {
+                  if (speaking) { stopReadingAloud(); setSpeaking(false); return }
+                  if (speakAloud(slideSpeech(slide as unknown as Record<string, unknown>), () => setSpeaking(false))) setSpeaking(true)
+                }}
+                style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                  background: '#fff', border: '1.5px solid var(--ink)', borderRadius: 'var(--radius-pill)',
+                  boxShadow: '0 3px 0 var(--ink)', padding: '6px 14px', cursor: 'pointer', minHeight: 36,
+                }}
+              >
+                {speaking ? '■ Stop reading' : '🔊 Read it to me'}
+              </button>
+            </div>
+          )}
           {tellHref && (
             <div style={{ marginTop: '4px', textTransform: 'none', letterSpacing: 0, fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)' }}>
               <Link href={tellHref} style={{ color: 'var(--ink)' }}>Need to talk to someone?</Link>

@@ -48,7 +48,7 @@ export default function AddChildName() {
       background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
       borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '16px',
     }}>
-      <button
+      <button className="tap-target"
         type="button"
         onClick={dismiss}
         aria-label="Not now"

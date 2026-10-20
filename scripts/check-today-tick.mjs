@@ -16,7 +16,13 @@
 // applied to the rung next door: "just looking at the check in is not enough
 // to tick it off."
 //
-// So there are three states, and this guard keeps them apart. None of it
+// So there are three states, and this guard keeps them apart.
+//
+// 17 October 2026: Justin, on his road reading "No jobs waiting" with
+// fourteen jobs set and nothing to approve, asked for it to read as complete.
+// A clear Quests rung now paints green, labelled "Jobs all approved", and
+// still is not `done`, so nothing that lists what the parent did today
+// counts it. The deal keeps its ring. None of it
 // shows up as a type error, because `done: true` is always valid code.
 //
 //   node scripts/check-today-tick.mjs
@@ -91,12 +97,20 @@ for (const rel of [BIG, STRIP]) {
     problems.push(
       `${rel} knows a rung is settled but draws it exactly like a done one, which puts the false tick straight back on the screen`,
     )
-  } else if (/isDoneNode = task\.done \|\| /.test(src)) {
+  } else if (/isDoneNode = task\.done \|\| isClearNode\s*$/m.test(src) || /isDoneNode = task\.done \|\| !!task\.clear/.test(src)) {
+    // 17 October 2026: Justin asked for "no jobs waiting" to read as
+    // complete, so a clear QUESTS rung may paint green, labelled "Jobs all
+    // approved". Every clear rung painting green is still a fault: the deal's
+    // clear is a save from earlier in the week (28 September).
     problems.push(
-      `${rel} folds clear into isDoneNode, so a settled rung paints the green tick again. The tick has to stay on task.done alone.`,
+      `${rel} folds every clear rung into isDoneNode, so the deal goes green off a save from last Friday again. Only a clear Quests rung may paint green.`,
+    )
+  } else if (/isDoneNode = task\.done \|\| /.test(src) && !/isClearNode && task\.key === 'quests'/.test(src)) {
+    problems.push(
+      `${rel} folds something other than a clear Quests rung into isDoneNode, so a rung paints the green tick for something not done today.`,
     )
   } else {
-    ok.push(`${rel.split('/').pop()} settles the rung without ticking it`)
+    ok.push(`${rel.split('/').pop()} settles the rung, green only for a clear Quests rung`)
   }
 }
 

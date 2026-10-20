@@ -33,7 +33,7 @@ import Link from 'next/link'
  */
 const ORIGINS: Record<string, { href: string; label: string }> = {
   passport: { href: '/dashboard/pathway', label: 'Passport' },
-  pathway: { href: '/dashboard/pathway', label: 'Pathway' },
+  pathway: { href: '/dashboard/pathway', label: 'Passport' },
   home: { href: '/dashboard', label: 'Home' },
   // Back to the checkup card itself, not the top of Home. Justin: "once done
   // the fix, return to where you clicked fix so they can run down list." A

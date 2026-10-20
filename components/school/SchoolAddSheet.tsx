@@ -191,7 +191,7 @@ export default function SchoolAddSheet({
               {dayLabel}
             </h2>
           </div>
-          <button onClick={onCancel} aria-label="Cancel" style={{
+          <button className="tap-target" onClick={onCancel} aria-label="Cancel" style={{
             width: 32, height: 32, borderRadius: '50%', border: 'var(--edge)', background: 'var(--cream)',
             cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0,
           }}>✕</button>

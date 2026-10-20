@@ -22,8 +22,11 @@ export type ConcernEventName =
   | 'resolved'
   | 'recurred'
   | 'reopened'
+  // A step put on for this worry (the Tonight tap, migration 380). No score,
+  // no answer: it is a thing tried, never a check in.
+  | 'tried'
 
-export type ConcernLinkType = 'script' | 'lesson' | 'digi' | 'moment' | 'rightnow'
+export type ConcernLinkType = 'script' | 'lesson' | 'digi' | 'moment' | 'rightnow' | 'tonight'
 
 export type ConcernEventInput = {
   event: ConcernEventName

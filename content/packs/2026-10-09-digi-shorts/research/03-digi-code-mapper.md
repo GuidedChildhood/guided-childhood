@@ -181,7 +181,7 @@ The file itself warns that its Ofcom and Mumsnet figures "came through search ex
 - Checklist rows: Devices set up, Moments to resolve, Lessons and tests, Jobs and routines, Screen balance. A finished page shows "All five, done. This page is stamped."
 - Buttons: "Start the next step →", "Catch this page up →", "Peek at what it teaches →", "Look back at this stage". Also "One page behind you" and "One worry sorted so far, on your own stars."
 - Stamp celebration: "{name} has the {Stage} habits in place for their age now. A real step on the road to a confident, capable 16."
-- Cover: "Check it any time at guidedchildhood.co.uk/verify".
+- Cover: "Check it any time at guidedchildhood.com/verify".
 
 **StageRoad** (`components/pathway/StageRoad.tsx`):
 - Only its parts are live. `StageDot` is used in the child's `KidRoad` inside `KidQuestScreen`. `MiniRoad` and `StrandPills` are used by `DayCheckup`, which only `ref-checkup` renders.

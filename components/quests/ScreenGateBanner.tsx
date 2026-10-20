@@ -5,6 +5,7 @@ import { DEVICES, type DeviceKey } from '@/lib/quests/device-time'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { PendingAskBox } from '@/components/quests/ParentDeviceTime'
 import HappyIcon from '@/components/kid/HappyIcon'
+import NudgeReceipt from '@/components/quests/NudgeReceipt'
 
 // The screens gate, made visible to the parent on the quests page. The
 // pending ask always comes first: device and minutes with Yes, start it and
@@ -105,6 +106,8 @@ export default function ScreenGateBanner({
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', flexShrink: 0,
   })
 
+  // Bumped after each Remind lands, so the job's receipt reads it at once.
+  const [sentTick, setSentTick] = useState(0)
   async function remind(job: GateJob) {
     setReminded(job.questId)
     setTimeout(() => setReminded(r => (r === job.questId ? null : r)), 2600)
@@ -113,6 +116,7 @@ export default function ScreenGateBanner({
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ childId, questId: job.questId }),
       })
+      setSentTick(t => t + 1)
     } catch { /* the tap already read as sent; the next one retries */ }
   }
 
@@ -198,8 +202,11 @@ export default function ScreenGateBanner({
                 background: '#fff', border: 'var(--edge)',
                 borderRadius: 'var(--radius-tile)', padding: '9px 12px',
               }}>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {job.title}
+                <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {job.title}
+                  </span>
+                  <NudgeReceipt childId={childId} name={childName} questId={job.questId} sentAt={sentTick} />
                 </span>
                 {job.count > 1 && (
                   <span style={{

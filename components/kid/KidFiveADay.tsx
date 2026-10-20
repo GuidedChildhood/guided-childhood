@@ -155,6 +155,10 @@ function WeekDone({ week, friend }: { week: { letter: string; earned: boolean; i
   )
 }
 
+// The seam with the masthead: square top corners and no top edge, so the
+// masthead's own bottom edge is the one line between the greeting and the day.
+const JOIN_TOP = { borderTop: 'none', borderTopLeftRadius: 0, borderTopRightRadius: 0 } as const
+
 export default function KidFiveADay({
   token,
   childName,
@@ -173,7 +177,15 @@ export default function KidFiveADay({
   mission = null,
   asksPending = 0,
   jobsLeft = [],
+  jobsStarsLeft = 0,
+  joined = false,
 }: {
+  /**
+   * Drawn as the lower half of the home's masthead (13 October 2026). Justin
+   * chose "the five a day at the top": the greeting and the day are one card,
+   * so the top edge goes and the masthead above carries it.
+   */
+  joined?: boolean
   /**
    * Ideas already waiting on the grown up. Justin, 14 September 2026, with
    * the ask row stuck at four of five: "one of child's tasks is add job but
@@ -186,6 +198,10 @@ export default function KidFiveADay({
   asksPending?: number
   /** The jobs still to tick today, by name, so the jobs row says which. */
   jobsLeft?: string[]
+  /** Stars still to earn from today's jobs. Printed on the jobs step, so the
+   *  reward is on the thing to tap, the Duolingo "+25 XP" on the button
+   *  (13 October 2026, the Mobbin review of the child home). */
+  jobsStarsLeft?: number
   /** The screen listens so the Today tab can say what is left (14 September 2026). */
   onStateChange?: (s: { left: number; total: number; complete: boolean; opened: boolean }) => void
   /** This week's full days, Monday to Sunday, from the day's own row. Always drawn when given. */
@@ -408,6 +424,10 @@ export default function KidFiveADay({
 
   const doneCount = state.done.length
   const total = state.steps.length
+  // The live step's own number. A step can land out of order (the ask step
+  // ticks itself while an idea waits on the grown up), so "done plus one"
+  // could name step 4 while step 3 was the one lit up (13 October 2026).
+  const liveNo = state.steps.findIndex(k => !state.done.includes(k)) + 1
 
   // The finished day is one line, not five crossed out rows. Justin, on
   // Teo's screen: "of 5 jobs done it should close up to 1 line as no need to
@@ -420,8 +440,9 @@ export default function KidFiveADay({
         onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
-          background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
-          padding: '14px 16px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
+          background: '#fff', border: joined ? 'var(--edge)' : '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
+          padding: '14px 16px', marginBottom: '16px', boxShadow: joined ? 'var(--lift)' : '0 5px 0 rgba(26,26,46,0.08)',
+          ...(joined ? JOIN_TOP : {}),
           cursor: 'pointer', textAlign: 'left', font: 'inherit', color: 'var(--ink)',
         }}
       >
@@ -438,11 +459,6 @@ export default function KidFiveADay({
             {doneCount} of {total}
           </span>
     
-      {state.streak > 0 && (
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-              🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-            </span>
-          )}
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
@@ -463,9 +479,10 @@ export default function KidFiveADay({
   }
 
   return (
-    <div style={{
+    <div data-five-joined={joined || undefined} style={{
       background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '16px 16px 12px', marginBottom: '16px', boxShadow: 'var(--lift)',
+      ...(joined ? JOIN_TOP : {}),
     }}>
       {/* WRAPS RATHER THAN RUNS OFF THE EDGE.
           The ribbon will not shrink (its text is nowrap and it carries 22px of
@@ -501,7 +518,7 @@ export default function KidFiveADay({
           says which one you are on and how many are left, and each one turns
           into a tick as it lands. Done is green with a tick, the live one is
           butter and raised, the rest wait quietly with their number. */}
-      <ol aria-label={`Step ${Math.min(doneCount + 1, total)} of ${total}`} style={{ listStyle: 'none', display: 'flex', alignItems: 'center', gap: 0, margin: '10px 0 14px', padding: 0 }}>
+      <ol aria-label={`Step ${liveNo > 0 ? liveNo : total} of ${total}`} style={{ listStyle: 'none', display: 'flex', alignItems: 'center', gap: 0, margin: '10px 0 14px', padding: 0 }}>
         {state.steps.map((k, i) => {
           const done = state.done.includes(k)
           const live = !done && k === state.steps.find(x => !state.done.includes(x))
@@ -540,7 +557,9 @@ export default function KidFiveADay({
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
           margin: '0 2px 2px',
         }}>
-          {doneCount === 0 ? `Start here · step 1 of ${total}` : `Do this next · step ${doneCount + 1} of ${total}`}
+          {/* Clamped: a finished day reopened with Show used to say "step 6
+              of 5" (13 October 2026 walkthrough). */}
+          {doneCount === 0 ? `Start here · step 1 of ${total}` : doneCount >= total ? `All ${total} done` : `Do this next · step ${liveNo} of ${total}`}
         </p>
         {/* The ONE live step. The next appears when this lands. */}
         {(() => {
@@ -607,6 +626,17 @@ export default function KidFiveADay({
                   tapped Something kind expecting a page and got a silent tick
                   instead. The chevron is a promise about what happens next, and
                   it was lying on seven of the twelve steps. */}
+              {/* The reward on the button. Only the jobs step earns stars this
+                  way, so only it wears the chip, and only while some are left. */}
+              {!isDone && key === 'jobs' && jobsStarsLeft > 0 && (
+                <span aria-label={`${jobsStarsLeft} stars to earn`} style={{
+                  flexShrink: 0, alignSelf: 'center', whiteSpace: 'nowrap',
+                  background: CRAYON.butter, border: 'var(--edge)', borderRadius: 999, padding: '3px 9px',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                }}>
+                  +{jobsStarsLeft} ⭐
+                </span>
+              )}
               {!isDone && goesSomewhere && (
                 <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
                   ›
@@ -760,11 +790,8 @@ export default function KidFiveADay({
       {weekDone && <div style={{ margin: '14px 0 0' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
       {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '14px 0 0' }}><KidMission rows={mission} compact /></div>}
 
-      {state.streak > 0 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
-          🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
-        </p>
-      )}
+      {/* No "N days in a row" here any more: the flame bar above the card is
+          the one streak on the screen (13 October 2026). */}
       {state.complete && state.streak === 0 && childName && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.

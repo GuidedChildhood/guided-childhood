@@ -233,11 +233,19 @@ export default async function JoinPage() {
         <div aria-hidden="true" style={{ position: 'absolute', top: '-100px', right: '-100px', width: '440px', height: '440px', borderRadius: '50%', background: 'var(--stage-2)', opacity: .06, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
-          {/* Urgency badge */}
+          {/* IN PARENTS' OWN WORDS (parent-pages-in-parents-words, 16 October
+              2026). The hero said "Raise a child who is ready for everything"
+              under a ban badge, then "a digital parenting membership". Parents
+              do not say membership or digital parenting, and the ban is not
+              our frame (research/homepage-audience-language.md section 6).
+              They say phone, fight, every night, ready, come to me. So the
+              badge names the moment, the headline names the fight, and the
+              line under it says what they get tonight. Every button on this
+              page still goes to /starter-pack. */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1)', border: '1.5px solid var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', padding: '7px 16px', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block' }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-              UK social media ban confirmed · Spring 2027
+              Before the first phone
             </span>
           </div>
 
@@ -249,12 +257,13 @@ export default async function JoinPage() {
             color: 'var(--ink)',
             marginBottom: '24px',
           }}>
-            Raise a child who is<br />
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>ready for everything.</em>
+            The same phone fight,<br />
+            every night?{' '}
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>Get them ready instead.</em>
           </h1>
 
           <p style={{ fontSize: 'clamp(.98rem, 1.6vw, 1.12rem)', color: 'var(--ink-soft)', lineHeight: 1.88, maxWidth: '620px', margin: '0 auto 36px' }}>
-            A digital parenting membership built on the research. A pathway from age 4 to 16, daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, and DiGi available at 11pm when you need it.
+            Five minutes a day, from age 4 to 16. You get the exact words for tonight&apos;s argument, a plan for the day the phone arrives, and DiGi at 11pm when it all kicks off. Your child takes part too, with their own app and their own stars, so it stops being you against them.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>

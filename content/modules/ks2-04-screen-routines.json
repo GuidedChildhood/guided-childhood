@@ -525,9 +525,11 @@
   "parent_note": {
     "taught": "Today your child learned why routines beat willpower: apps are designed with no finishing line, so the fix is a better design, not more effort. They learned a three step tool called the cool down lap (warn, finish, swap) and they have committed to setting one screen routine tonight.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child what their cool down lap is.",
+    "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. Ask your child what their cool down lap is.",
     "try_this": "Tonight, ask your child to design their own cool down lap for bedtime: when the warning happens, what the finishing line is, and what they swap to. Let them set the terms, and if you can, agree together that screens charge outside the bedroom. A routine they design is a routine they keep.",
-    "family_question": "Where should our screens sleep at night, and what would make that easy for all of us?",
+    "family_question": "Can you teach me the cool down lap? Explain why a routine beats willpower.",
+    "listen_for": "You know apps have no finishing line, so you warn, finish and swap instead of relying on willpower at bedtime.",
+    "then_ask": "Where should my phone sleep tonight, and why?",
     "no_login_required": true
   },
   "video_beats": [],

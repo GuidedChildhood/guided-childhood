@@ -524,9 +524,11 @@
   "parent_note": {
     "taught": "Today we looked at the honest evidence on screens and mood: the biggest studies found raw hours explain very little of how young people feel, so what they do on a screen and how it leaves them feeling is the better thing to watch. Your child learned the mood audit, a ten second self check they will run for a week: after I closed it, did I feel better, worse, or nothing?",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them how the mood audit week is going, and consider running one yourself alongside them.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them how the mood audit week is going, and consider running one yourself alongside them.",
     "try_this": "Run the audit yourself this week, out loud, on your own phone. When they hear you say worse after the news app, the tool becomes a normal thing your family does rather than a rule aimed at them.",
-    "family_question": "Which app leaves you feeling better after you close it, and which one leaves you feeling nothing?",
+    "family_question": "Can you teach me the mood audit? Explain better, worse, or nothing.",
+    "listen_for": "You know what you do on a screen matters more than how long, and nothing is a verdict too.",
+    "then_ask": "From what you have seen, what leaves me feeling worse after I close it?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -684,7 +686,7 @@
       "Feeling nothing after a long session means no effect (nothing is a verdict too, and an hour that gives nothing back is worth noticing, because the hour itself was the cost)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack with no screen. Read the two feed posts and the group chat aloud as short scripts, draw the four step audit and the four moves on the board as you talk them through, run both timed talks with a watch, and use the worksheet, bookmark and exit quiz exactly as printed. The stat can be written on the board: 0.4 percent, and the potato line works even better out loud.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: for one week, every time I close ................ I will log one honest word, better, worse or nothing, and read my pattern on day seven.",
     "differentiation": {
       "stretch": "Early finishers take the researcher question: why might a study of 350,000 people still not tell YOU what your feed does to your mood? Push towards averages hiding individuals, which is the exact reason the personal audit exists. Strongest thinkers can also tackle: why does no app ever ask how you felt after closing it?",

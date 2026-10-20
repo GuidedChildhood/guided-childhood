@@ -14,6 +14,7 @@ import PassportPass from './PassportPass'
 import HappyIcon from '@/components/kid/HappyIcon'
 import { SLOT_ICON } from '@/lib/pathway/passport-icons'
 import { improvedSentence, type ImprovedLine } from '@/lib/concerns/sorted'
+import { SITE_URL } from '@/lib/config/site'
 
 // The passport as a little book. A teal cover with the gold crest, then
 // one page per stage in that stage's colour, each carrying a big progress
@@ -600,7 +601,7 @@ export default function PassportBook({
                 )}
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.6)', lineHeight: 1.6 }}>
-                {passportCode ? 'Check it any time at guidedchildhood.co.uk/verify' : 'The record behind every stamp is live'}
+                {passportCode ? `Check it any time at ${SITE_URL.replace(/^https?:\/\//, '')}/verify` : 'The record behind every stamp is live'}
               </div>
             </div>
           ) : stamp && theme && (

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { deviceLabel } from '@/lib/quests/device-time'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { Sticker } from '@/components/kid/HappyNewsBits'
@@ -20,6 +21,10 @@ export type KidAskState = {
 
 export type KidNudge = { id: string; message: string }
 
+// A job title sits mid sentence here ("Do make your bed first"), so its
+// capital comes down. A name the parent typed in capitals stays as typed.
+const lowerFirst = (t: string) => (/^[A-Z][a-z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t)
+
 // The happy news finish (design-refs/happy-newspaper-notes.md): ink edge,
 // hard ledge, a drawn icon in a crayon well instead of a phone emoji.
 const cardBase: React.CSSProperties = {
@@ -36,6 +41,38 @@ function Well({ icon, tint }: { icon: HappyIconName; tint: string }) {
     <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: tint, border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
       <HappyIcon name={icon} size={34} />
     </span>
+  )
+}
+
+// A note from the grown up. A long one shows its first few lines and a Read
+// it all tap, so a paragraph never pushes the child's day off the screen
+// (Teo's home, 13 October 2026, was one note tall). Line breaks are kept.
+const NOTE_PREVIEW = 140
+function NudgeCard({ nudge, onDismiss }: { nudge: KidNudge; onDismiss: () => void }) {
+  const [open, setOpen] = useState(false)
+  const long = nudge.message.length > NOTE_PREVIEW
+  return (
+    <div style={{ ...cardBase, background: '#fff', alignItems: 'flex-start' }}>
+      <Well icon="heart" tint={CRAYON.paper} />
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          display: long && !open ? '-webkit-box' : 'block', WebkitLineClamp: long && !open ? 3 : undefined,
+          WebkitBoxOrient: 'vertical', overflow: 'hidden', whiteSpace: 'pre-line', overflowWrap: 'anywhere',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4,
+        }}>
+          {nudge.message}
+        </span>
+        {long && (
+          <button
+            onClick={() => setOpen(o => !o)}
+            style={{ marginTop: 6, padding: 0, border: 0, background: 'none', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'underline' }}
+          >
+            {open ? 'Show less' : 'Read it all'}
+          </button>
+        )}
+      </span>
+      <button onClick={onDismiss} aria-label="Got it" style={okBtn}>OK</button>
+    </div>
   )
 }
 
@@ -63,21 +100,7 @@ export default function KidAskBanner({
   return (
     <div>
       {/* Nudges from the grown up: always show, they carry the way forward. */}
-      {nudges.map(n => (
-        <div key={n.id} style={{ ...cardBase, background: '#fff' }}>
-          <Well icon="heart" tint={CRAYON.paper} />
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4 }}>
-            {n.message}
-          </span>
-          <button
-            onClick={() => onDismissNudge(n.id)}
-            aria-label="Got it"
-            style={okBtn}
-          >
-            OK
-          </button>
-        </div>
-      ))}
+      {nudges.map(n => <NudgeCard key={n.id} nudge={n} onDismiss={() => onDismissNudge(n.id)} />)}
 
       {showAsk && ask.status === 'pending' && (
         <div style={{ ...cardBase, background: '#fff' }}>
@@ -147,12 +170,16 @@ export default function KidAskBanner({
 
       {/* Chores first: only when no ask is mid flight, so the banner tells
           one story at a time. */}
-      {blocked && !(showAsk && (ask.status === 'pending' || ask.status === 'approved')) && (
+      {/* Only once the child has actually asked. "Then ask again" to a child
+          who asked for nothing read as a telling off, one card above Use my
+          time saying "40 min ready" (13 October 2026 walkthrough). The jobs
+          step in the five a day already names what is still to do. */}
+      {blocked && showAsk && ask.status === 'declined' && (
         <div style={{ ...cardBase, background: '#fff' }}>
           <Well icon="sprout" tint={CRAYON.paper} />
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
-              Do {blockingJobs[0]}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
+              Do {lowerFirst(blockingJobs[0])}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
             </span>
             <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
               Your grown up gets a ping when it is done.

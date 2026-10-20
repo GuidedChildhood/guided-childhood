@@ -36,6 +36,10 @@ const m = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
 // where the scheme guards stop reading.
 const STANDALONE = /[\\/]content[\\/]standalone[\\/][^\\/]+\.json$/.test(fs.realpathSync(process.argv[2]))
 const tn = m.teacher_notes, slides = m.slides
+// The six lessons a parent needs to hear about before the child does them
+// (plans/2026-10-09-curriculum-sync-plan.md, C): a private line for tonight,
+// never a teach me question at tea.
+const HEAVY_MODULES = ['ks3-14-bodies-image-pressure', 'ks3-27-when-it-turns-on-you', 'ks4-16-consent-images-law', 'ks4-17-sextortion', 'ks4-18-radicalisation-misogyny', 'ks4-29-did-not-go-looking']
 let bad = 0
 const ok = (n, c, d='') => { if (!c) { bad++; console.error(`  FAIL ${n}${d?'\n       '+d:''}`) } }
 
@@ -178,7 +182,10 @@ for (const key of ['starter_quiz', 'exit_quiz']) {
 // table question and no passport line, and the run sheet quietly dropped the
 // passport clause from its tick row. 23 of 24 modules had it right, which is
 // what made it worth pinning rather than treating as taste.
-const PARENT_NEED = ['headline', 'taught', 'try_this', 'family_question', 'passport'].filter(k => !(STANDALONE && k === 'passport'))
+// listen_for and then_ask since 12 October 2026 (plan v10, 2.1): the idea in
+// one sentence for the parent to listen for, and the one question to ask
+// next. The hub row, the printed note and the push all read them.
+const PARENT_NEED = ['headline', 'taught', 'try_this', 'family_question', 'listen_for', 'then_ask', 'passport'].filter(k => !(STANDALONE && ['passport', 'listen_for', 'then_ask'].includes(k)))
 if (STANDALONE && m.parent_note && typeof m.parent_note === 'object') ok('a standalone parent note makes no passport promise', !('passport' in m.parent_note))
 const pn = m.parent_note
 if (pn && typeof pn === 'object') {
@@ -189,6 +196,22 @@ if (pn && typeof pn === 'object') {
   const dead = ['try_tonight', 'words'].filter(k => k in pn)
   ok('parent note has no fields the app cannot read', dead.length === 0,
      `${dead.join(' and ')} is read by nothing. try_this and family_question are the live names`)
+
+  // THE TEA QUESTION TEACHES (plan v10, 2.1; sync plan G5). A question that
+  // asks the child to teach the idea back is the retrieval; "Which app do you
+  // use" is a survey. The six lessons a parent hears about first (sync plan C)
+  // carry a private line to say tonight instead, and no teach question.
+  if (!STANDALONE && typeof pn.family_question === 'string') {
+    const q = pn.family_question.trim()
+    ok('the tea question does not open with a banned stem', !/^(Which app|What did you|Did you)/i.test(q), q)
+    const heavy = HEAVY_MODULES.includes(m.module_id)
+    const hasSay = typeof pn.say_this === 'string' && pn.say_this.trim().length > 0
+    ok(heavy ? 'a heavy lesson carries say_this, the private line for tonight' : 'only the six heavy lessons carry say_this', heavy === hasSay)
+    if (heavy) ok('a heavy lesson asks a gentle question, never teach me', !/^(Can you teach me|Explain to me)/.test(q), q)
+    else ok('the tea question asks the child to teach it back', /^(Can you teach me|Explain to me|What would you tell a friend)/.test(q), q)
+    if (typeof pn.listen_for === 'string') ok('listen_for speaks to the parent in the second person', /\byou\b/i.test(pn.listen_for))
+    if (typeof pn.then_ask === 'string') ok('then_ask is a question', /\?\s*$/.test(pn.then_ask))
+  }
 }
 
 // 7. every slide has a script and minutes
@@ -227,19 +250,29 @@ slides.forEach((s, i) => {
 // none. The player degrades an unknown or mismatched beat silently (a wrong
 // page draws the wrong colours, a wrong module fills the wrong segment), so it
 // is guarded here rather than found on a wall.
-const PLACEMENT_BY_KS = { EYFS: 'foundation', KS1: 'foundation', KS2: 'builder', KS3: 'shaper', KS4: 'independent', KS5: 'after' }
-const placement = (m.teacher_notes && m.teacher_notes.passport_stage) || PLACEMENT_BY_KS[m.key_stage]
+// THE ONE STAGE MAP (sync plan D, 12 October 2026). This file used to carry
+// its own copy, which disagreed with the child's lesson list on KS3 to KS5.
+// Now it reads shared/stage-map.ts as text, the row's passport_stage is held
+// equal to it, and the beat's own `placement` is ignored by the renderer
+// (PassportBeat reads placementOf(moduleId)), so it is not checked here.
+const stageMapSrc = fs.readFileSync(new URL('../shared/stage-map.ts', import.meta.url), 'utf8')
+const stageMapLine = stageMapSrc.match(/^export const STAGE_OF_KEY_STAGE[^=]*= \{([^}]+)\}/m)?.[1] ?? ''
+const STAGE_OF_KS = Object.fromEntries([...stageMapLine.matchAll(/(\w+): '(\w+)'/g)].map(x => [x[1], x[2]]))
+ok('shared/stage-map.ts names six key stages on one line', Object.keys(STAGE_OF_KS).length === 6, JSON.stringify(STAGE_OF_KS))
+const placement = STAGE_OF_KS[m.key_stage]
+if (!STANDALONE) ok('passport_stage is the one stage map\'s answer for this key stage', tn.passport_stage === placement, `row says ${JSON.stringify(tn.passport_stage)}, the map says ${JSON.stringify(placement)}`)
 const passportBeats = slides.map((s, i) => [s, i]).filter(([s]) => s.type === 'interactive' && s.component === 'passport-page')
 if (STANDALONE) {
   ok('no passport beat on a standalone lesson', passportBeats.length === 0, `found ${passportBeats.length}`)
-} else if (placement === 'after') {
-  ok('no passport beat on a module after the passport', passportBeats.length === 0, `found ${passportBeats.length}`)
 } else {
-  ok('exactly one passport beat', passportBeats.length === 1, `found ${passportBeats.length}`)
+  // The two KS5 decks were written "after" the passport and carry no beat.
+  // Since 12 October 2026 they fill Independent; their beat is a slide, so it
+  // arrives with PR 5, the first PR allowed to touch a deck (plan v10, rule 18).
+  ok('exactly one passport beat', passportBeats.length === 1 || (m.key_stage === 'KS5' && passportBeats.length === 0), `found ${passportBeats.length}`)
   if (passportBeats.length === 1) {
     const [pb, pi] = passportBeats[0]
     ok('passport beat names this module', !!pb.config && pb.config.moduleId === m.module_id, `moduleId is ${JSON.stringify(pb.config && pb.config.moduleId)}`)
-    ok('passport beat names the row page', !!pb.config && pb.config.placement === placement, `placement is ${JSON.stringify(pb.config && pb.config.placement)}, row says ${placement}`)
+    ok('passport beat carries a real page name, if any (the renderer reads the module id)', !pb.config || pb.config.placement === undefined || ['foundation', 'builder', 'explorer', 'shaper', 'independent'].includes(pb.config.placement), `placement is ${JSON.stringify(pb.config && pb.config.placement)}`)
     ok('passport beat is in the close phase', pb.phase === 'close', `phase is ${pb.phase}`)
     ok('passport beat sits right before DiGi closes', pi === slides.length - 2 && slides[slides.length - 1].type === 'digi', `at ${pi} of ${slides.length}`)
   }

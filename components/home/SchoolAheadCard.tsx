@@ -53,7 +53,7 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
       padding: '18px 20px', marginBottom: 18, position: 'relative',
       boxShadow: 'var(--lift)',
     }}>
-      <button
+      <button className="tap-target"
         onClick={dismiss}
         aria-label="Not now"
         style={{

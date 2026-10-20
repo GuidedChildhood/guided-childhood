@@ -4,6 +4,7 @@ import { needsPlanChoice, trialDaysToGrant, type AccessProfile } from '@/lib/acc
 import { getTrialConfig } from '@/lib/config/trial'
 import { getFounderCount, FOUNDER_CAP } from '@/lib/stripe'
 import TwoDoors from '@/components/access/TwoDoors'
+import { getWhatYouKeep } from '@/lib/paywall/what-you-keep'
 
 export const dynamic = 'force-dynamic'
 
@@ -51,9 +52,14 @@ export default async function ChoosePage({
   // the checkout route hands Stripe as trial_period_days. That is the point of
   // reading it here rather than showing the constant: the sentence on the
   // button screen and the date the card is charged come from one number.
-  const [held, { days: trialDays }] = await Promise.all([
+  //
+  // And what this family has already made, from their own rows, so the ask
+  // names Teo and the worry rather than a feature list (review board, 16
+  // October 2026). Best effort inside, so it can never hold the page up.
+  const [held, { days: trialDays }, keep] = await Promise.all([
     getFounderCount().catch(() => 0),
     getTrialConfig(),
+    getWhatYouKeep(supabase, user.id),
   ])
 
   return (
@@ -63,6 +69,7 @@ export default async function ChoosePage({
       freeDays={trialDaysToGrant(profile as AccessProfile | null, trialDays)}
       trialDays={trialDays}
       next={next}
+      keep={keep}
     />
   )
 }

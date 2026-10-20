@@ -547,9 +547,12 @@
   "parent_note": {
     "taught": "Today we taught your child about sextortion, the blackmail scam the National Crime Agency warned every UK school about in 2024, which most often targets teenage boys. They learned how it starts, why paying is not the way out, and the three lifelines: do not pay, do not keep it secret, report it to CEOP and Report Remove.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. You do not need to quiz them on this one. One sentence from you does more: if anything ever goes wrong online, you can tell me, and you will not be in trouble.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. You do not need to quiz them on this one. One sentence from you does more.",
     "try_this": "Tell your child directly, in your own words: if anything like this ever happens, you can come to me, you will not be in trouble, and you will not lose your phone. Fear of blame and fear of losing the phone can both keep young people silent, and one calm sentence from you answers both.",
     "family_question": "If something went wrong online, who would you tell first, and what would make telling easier?",
+    "listen_for": "You know the three lifelines, do not pay, do not keep it secret, report it, and that the crime belongs to the blackmailer.",
+    "then_ask": "Why does paying make it worse rather than ending it?",
+    "say_this": "If anything like this ever happens, you can come to me. You will not be in trouble, and you will not lose your phone.",
     "no_login_required": true
   },
   "video_beats": [],
@@ -712,7 +715,7 @@
       "If you sent an image yourself you are in trouble and it is your fault (the law treats under 18s in these cases as victims, the crime is blackmail and it belongs to the blackmailer, and Report Remove exists to take images down)"
     ],
     "paper_fallback": "The full lesson runs from the printed pack with no screen. Read the two evidence items aloud from the scenario cards in a flat, neutral voice. Draw the four step pattern and the three lifelines on the board as you teach them, pupils copy the lifelines onto their bookmark. The discussion runs on a watch or wall clock. The worksheet, exit quiz and parent note are all in the printed pack. Nothing in this lesson requires a device, and no pupil should ever be asked to use or show their own phone.",
-    "passport_stage": "independent",
+    "passport_stage": "shaper",
     "commitment_stem": "My commitment: if this ever happens to me or a friend, the first thing I will do is...",
     "differentiation": {
       "stretch": "After the worksheet, write a short private note to a friend who has just told you this is happening to them, using the three lifelines and the not your fault message. Second stretch: explain why the blackmailer's script demands secrecy, from the blackmailer's point of view.",

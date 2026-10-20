@@ -648,9 +648,11 @@
   "parent_note": {
     "taught": "Today we looked at where AI belongs in a piece of schoolwork. Not whether to use it, but which part of the thinking has to stay with your child. We used a real trial of nearly a thousand pupils a few school years older than yours where the same chatbot improved practice scores and then lowered exam scores, and the only difference was whether it gave hints or answers. Nobody was told to stop using anything.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is deciding which part of a piece of work has to stay with them.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. The skill this lesson builds is deciding which part of a piece of work has to stay with them.",
     "try_this": "Do not ask whether they understood their homework. Ask them to shut the tab and explain it to you, every step, as if you knew nothing. The place they go quiet is the part that was borrowed rather than learned, and finding it at the kitchen table is a great deal cheaper than finding it in an exam.",
-    "family_question": "What was tonight's homework actually teaching you, and where did you let it help? The first answer decides the second.",
+    "family_question": "Can you teach me the thinking test, and why hints and answers gave different exam results?",
+    "listen_for": "You ask what a task is teaching you before using AI, and you know the feeling of understanding cannot be trusted.",
+    "then_ask": "What is one job at home where the tool should do it, and one where it should not?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -867,7 +869,7 @@
       "That struggling on your own is always better. If a pupil cannot get started at all, unaided struggle is not learning, it is just failing, and a hint is the correct move."
     ],
     "paper_fallback": "Everything runs without screens. The six practise cases are on the sheet, the sort can be done as a three column table on paper or as a stand in three corners activity, and the explain it back test needs nothing at all.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: the next piece of work I use AI on, the part I will do myself is...",
     "differentiation": {
       "stretch": "Case four is genuinely undecidable without more information. Ask the strongest pupils to write the two versions of the task that would flip the answer, then argue which is more likely and why.",

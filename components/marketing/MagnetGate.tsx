@@ -23,6 +23,8 @@ export default function MagnetGate({
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [download, setDownload] = useState('')
+  // The other prints of the same printable (Letter, ink saver, booklet), when it has them.
+  const [files, setFiles] = useState<{ label: string; href: string }[]>([])
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -39,6 +41,7 @@ export default function MagnetGate({
       const data = await res.json().catch(() => ({}))
       if (!res.ok) { setError('Something went wrong. Try again in a moment.'); setState('idle'); return }
       setDownload(data.download || `/api/magnet/${slug}/pdf`)
+      setFiles(Array.isArray(data.files) ? data.files : [])
       setState('done')
     } catch {
       setError('Something went wrong. Try again in a moment.')
@@ -69,6 +72,17 @@ export default function MagnetGate({
             See the free plan
           </Link>
         </div>
+        {files.length > 0 && (
+          <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.7, color: 'var(--ink-soft)', margin: '16px 0 0' }}>
+            Also here:{' '}
+            {files.map((f, i) => (
+              <span key={f.href}>
+                <a href={f.href} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 700 }}>{f.label}</a>
+                {i < files.length - 1 ? ' · ' : ''}
+              </span>
+            ))}
+          </p>
+        )}
       </div>
     )
   }

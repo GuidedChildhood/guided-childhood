@@ -84,7 +84,7 @@ What made you follow this account in the first place. I would genuinely like to 
 ## Facebook variant
 
 Same carousel and caption, and Facebook may carry a real link in the body: the story will run here in
-full over the next two weeks, and when the new name lands, guidedchildhood.co.uk/starter-pack.
+full over the next two weeks, and when the new name lands, guidedchildhood.com/starter-pack.
 
 ## Reply plan
 

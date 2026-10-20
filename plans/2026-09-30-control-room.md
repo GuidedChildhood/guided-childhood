@@ -11,7 +11,7 @@ compaction. No dashes anywhere.
 
 - **Morning, 08:05, twenty minutes.** Open the tracker row for today. Do the one Must. Reply to two real conversations.
 - **Evening, 21:00, fifteen minutes.** Reply to anything real. Numbers into the row. Type DONE. One voice note if something happened.
-- **Friday, 12:30, forty five minutes.** Write next week's unit (one script, one founder chapter, one research brick). Then the review: one decision.
+- **Friday, 12:30, forty five minutes.** First read the Friday number at guidedchildhood.com/dashboard/admin/videos: stage checks begun in the last seven days, and which channel sent them. Write it into the tracker row. Then write next week's unit (one script, one founder chapter, one research brick). Then the review: one decision, made on that number.
 - **Saturday, 14:00, one hour.** Film four clips, one per strand.
 - **Sunday, 20:30, one hour.** The founder post, then load Monday to Friday.
 

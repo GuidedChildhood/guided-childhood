@@ -146,11 +146,14 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
       id="kid-tabs"
       data-kid-tabs-fixed
       style={{
+        // Centred and capped on a wide screen, so on a laptop the bar sits
+        // under the 460px column instead of stretching edge to edge.
         position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 60,
+        width: '100%', maxWidth: 560, marginLeft: 'auto', marginRight: 'auto',
         display: 'flex', gap: 4, background: 'var(--terracotta)',
         border: 'var(--edge)', borderRadius: 'var(--radius-card) var(--radius-card) 0 0',
         padding: '5px 5px calc(5px + env(safe-area-inset-bottom, 0px))',
-        margin: 0, scrollMarginTop: 12, boxSizing: 'border-box',
+        scrollMarginTop: 12, boxSizing: 'border-box',
         boxShadow: '0 -6px 20px rgba(26,26,46,0.16)',
       }}
     >

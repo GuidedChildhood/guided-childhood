@@ -701,9 +701,11 @@
   "parent_note": {
     "taught": "Today we looked at apps that are built to talk like a friend, which includes the assistants inside apps your child already uses. We covered how the warmth is designed rather than felt, what a real friend does that a machine cannot, and what to do if a conversation ever starts to matter more than it should. Nobody was told to stop using anything, and nobody was asked to say whether they use one.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday.",
     "try_this": "Ask what the AI inside their apps is like, and let them tell you about it properly. Then run the three questions together on it: does it ever have a day of its own, could it ever tell you something you did not want to hear, and if you stopped would anything change for it?",
-    "family_question": "If something online ever got heavy, who would you go to? The answer to that matters more than any app does.",
+    "family_question": "Can you teach me the friend check for an AI that talks like a friend?",
+    "listen_for": "You know the warmth was designed, and a real friend has their own day, can disagree, and notices you are struggling.",
+    "then_ask": "Why does an AI agree with you more than a person would?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -917,7 +919,7 @@
       "If I tell someone, I will be in trouble or it will be taken away (nobody is in trouble for talking to a machine, and the point of telling is to have a person alongside you, not to lose anything)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack. Read the three transcripts aloud as exhibits, with a pause after each. Draw the warmth kit on the board as you narrate it. Put the friend check up as a poster and leave it there. Discussions run on a watch or a phone timer. The sorting activity becomes a hands up vote on each of the six cases, with the reason said out loud before the verdict is revealed. Worksheet and exit quiz are already paper.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: if a chat with an AI ever starts to matter more than it should, the person I will tell is...",
     "differentiation": {
       "stretch": "Take the strongest case for companion apps and make it properly: for someone with no one to talk to at two in the morning, what does this do that nothing else does? Then say what would have to be true of the product for that to be safe. That is the procurement question, and it is the one adults are actually arguing about.",

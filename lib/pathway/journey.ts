@@ -1,3 +1,4 @@
+import { lessonScopeFor } from '@/lib/lessons/child-scope'
 import type { createClient } from '@/lib/supabase/server'
 import type { StageId } from './progress'
 import { homeSetupCount, toFamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
@@ -80,7 +81,8 @@ export async function getJourney(
     ]).then(([rows, kid]) => schoolModulesForStage(rows, kid ? lessonStageFor(kid as { date_of_birth?: string | null; age_band?: string | null }) : stageId)),
     (() => {
       const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId)
-      return childId ? q.or(`child_id.eq.${childId},child_id.is.null`) : q
+      const scope = lessonScopeFor(childId)
+      return scope ? q.or(scope) : q
     })(),
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)

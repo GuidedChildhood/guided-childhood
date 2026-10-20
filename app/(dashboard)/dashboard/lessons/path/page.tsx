@@ -6,10 +6,14 @@ import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
 import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { isTogetherStage, lessonStageFor } from '@/lib/lessons/school-path'
+import { isTogetherStage, lessonAudienceFor, lessonStageFor } from '@/lib/lessons/school-path'
+import LessonsTogetherSwitch from '@/components/lessons/LessonsTogetherSwitch'
 import { loadChildLessonPath } from '@/lib/pathway/lesson-path-server'
 import type { StageId } from '@/lib/pathway/progress'
 import { withChild } from '@/components/passport/Application'
+import LessonRowActions from '@/components/lessons/LessonRowActions'
+import { hasFullAccess } from '@/lib/access'
+import { opensOnDay, stillWaiting } from '@/lib/lessons/heavy'
 
 // The child's lessons, from the parent's side (29 September 2026).
 //
@@ -40,7 +44,7 @@ export default async function ChildLessonPathPage({
   const { child: childParam, stage: stageParam, lesson: focusId, from } = await searchParams
 
   const { data: childRows } = await supabase
-    .from('children').select('id, name, age_band, is_primary, date_of_birth')
+    .from('children').select('id, name, age_band, is_primary, date_of_birth, lessons_together')
     .eq('parent_id', user.id).order('is_primary', { ascending: false })
   const child = pickChild(childRows ?? [], childParam)
   if (!child) redirect('/dashboard')
@@ -56,13 +60,22 @@ export default async function ChildLessonPathPage({
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'Your child'
 
   const admin = createAdminClient()
+  // Whether the family has paid, so the one count can say which lessons are
+  // open, and the child's missions, so each row knows whether its button
+  // sends, nudges or has nudged.
+  const [{ data: profile }, { data: missionRows }] = await Promise.all([
+    supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', user.id).maybeSingle(),
+    supabase.from('kid_lesson_missions').select('lesson_id, status, nudged_at, sent_at').eq('user_id', user.id).eq('child_id', child.id),
+  ])
+  const paid = hasFullAccess(profile as { subscription_status?: string | null; trial_ends_at?: string | null } | null, (profile as { email?: string | null } | null)?.email)
+  const missionOf = new Map(((missionRows ?? []) as { lesson_id: string; status: string; nudged_at: string | null; sent_at: string | null }[]).map(m => [m.lesson_id, m]))
   const [{ modules, path }, { data: link }] = await Promise.all([
     // The one lesson count (lib/pathway/lesson-path.ts), the same function the
     // passport reads, so this heading and the passport's row cannot quote
     // different numbers. Until 9 October 2026 this page counted the child's
     // own school rows alone and the passport also credited a household pass
     // and migration 162's who passed rows, which is how the two drifted.
-    loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId }),
+    loadChildLessonPath(supabase, { userId: user.id, childId: child.id, stageId, paid }),
     supabase.from('kid_links').select('token').eq('child_id', child.id).maybeSingle(),
   ])
   const passed = new Set(modules.filter(m => path.statusById[m.id]?.state === 'passed').map(m => m.id))
@@ -77,7 +90,9 @@ export default async function ChildLessonPathPage({
   }
 
   const token = (link as { token?: string } | null)?.token ?? null
-  const together = isTogetherStage(stageId)
+  // Together by age under 7, or by the parent's own switch (sync plan G3).
+  const byAge = isTogetherStage(stageId)
+  const together = lessonAudienceFor(stageId, child as { lessons_together?: boolean | null }) === 'together'
   const doneCount = path.school.done
   const nextId = path.school.next?.id ?? null
   const backHref = withChild('/dashboard/pathway#passport', childParam)
@@ -91,9 +106,15 @@ export default async function ChildLessonPathPage({
       </h1>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {together
-          ? `At this age you do them together: open one on your phone, read it out, and let ${kidName} answer. One a week is plenty.`
+          ? byAge
+            ? `At this age you do them together: open one on your phone, read it out, and let ${kidName} answer. One a week is plenty.`
+            : `${kidName} does these with you: open one here, read it out or tap Read it to me, and let ${kidName} answer. One a week is plenty.`
           : `${kidName} does these in their own app, one a week. When they pass one, you get a question to ask at tea, and it ticks off here and on the passport.`}
       </p>
+
+      {!byAge && (
+        <LessonsTogetherSwitch childId={child.id} childName={kidName} initialOn={together} />
+      )}
 
       {!token && (
         <div style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', margin: '0 0 16px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
@@ -133,15 +154,65 @@ export default async function ChildLessonPathPage({
                     {q}
                   </p>
                 )}
-                {token && (together || focused) && !done && (
-                  <a href={`/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`} data-do-together style={{
-                    display: 'inline-block', marginTop: 10, padding: '10px 16px', borderRadius: 'var(--radius-btn)',
-                    background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
-                  }}>
-                    Do it together now
-                  </a>
-                )}
+                {/* One main action per row (12 October 2026): this week's lesson
+                    sends or nudges with Do it together beside it; any other
+                    open lesson can become this week's. Under 7 the lesson is
+                    done together, so that is the main action there. */}
+                {token && !done && (() => {
+                  const state = path.statusById[m.id]?.state
+                  const togetherHref = `/dashboard/lessons/do-together?child=${child.id}&lesson=${m.id}`
+                  if (state === 'locked') {
+                    return <p style={{ margin: '10px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>Opens with membership.</p>
+                  }
+                  // A heavy lesson the child started, waiting on its heads up
+                  // (lib/lessons/heavy): the note is the action, not a nudge
+                  // the child could not act on.
+                  const waitingOn = missionOf.get(m.id)
+                  if (waitingOn?.status === 'sent' && stillWaiting(waitingOn.sent_at)) {
+                    return (
+                      <div data-row-actions="heads-up" style={{ marginTop: 10 }}>
+                        <p style={{ margin: '0 0 8px', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                          {kidName} started this one. It waits for you, and opens on {opensOnDay(waitingOn.sent_at as string)} either way.
+                        </p>
+                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                          <a href={`/dashboard/lessons/heads-up?child=${child.id}&lesson=${m.id}`} data-heads-up-link style={{
+                            display: 'inline-flex', padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
+                          }}>
+                            Read the note
+                          </a>
+                          <a href={togetherHref} data-do-together style={{
+                            display: 'inline-flex', padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                            background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--border)',
+                          }}>
+                            Do it together
+                          </a>
+                        </div>
+                      </div>
+                    )
+                  }
+                  if (together) {
+                    return m.id === nextId || focused
+                      ? (
+                        <a href={togetherHref} data-do-together style={{
+                          display: 'inline-block', marginTop: 10, padding: '10px 16px', borderRadius: 'var(--radius-btn)',
+                          background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', border: 'var(--edge)',
+                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)',
+                        }}>
+                          Do it together now
+                        </a>
+                      )
+                      : <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode="instead" />
+                  }
+                  if (m.id === nextId) {
+                    const mission = missionOf.get(m.id)
+                    const mode = !mission || mission.status !== 'sent' ? 'send' : mission.nudged_at ? 'nudged' : 'nudge'
+                    return <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode={mode} togetherHref={togetherHref} />
+                  }
+                  return <LessonRowActions childId={child.id} childName={kidName} lessonId={m.id} mode="instead" togetherHref={focused ? togetherHref : null} />
+                })()}
               </div>
             )
           })}

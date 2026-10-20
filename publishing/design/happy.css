@@ -1,0 +1,181 @@
+/* THE HAPPY NEWS THEME: The Guided Planet in the house design system.
+ *
+ * Justin, 15 October 2026, "yes to both": The Planet Post is the free four page
+ * taster and The Guided Planet the monthly paper it leads into, and the two
+ * read as one family. So the paper wears the Guided Childhood Happy News design
+ * system (Claude Design, the same system components/printables/news/
+ * PlanetPost.tsx is built from), as issue.json "theme": "happy".
+ *
+ * Applied ON TOP of newspaper.css, the way boho.css is. Same pages, same
+ * checks, same words; only the look moves. The rules, from the system:
+ *   white stock, never a tinted page; ink #1A1A2E on every edge, 3px in print
+ *   (.8mm); a hard ink ledge under every box (4px 5px, no blur); Nunito 900
+ *   for every headline, IBM Plex Mono caps for eyebrows only; colour printed on
+ *   as marks (a painted rainbow masthead, bursts, crayon fills); one tilted
+ *   ribbon per page section; the type sizes the Planet Post prints at.
+ *
+ * Sizes are the Planet Post's own, which is laid out in CSS pixels on paper:
+ * body 15px (11.25pt), task text 13 to 14px (10pt), labels 10 to 11px (7.5 to
+ * 8.25pt). Nothing in this theme prints under 7.4pt.
+ */
+
+body.theme-happy {
+  --cream: #FFFFFF;             /* white stock */
+  --paper: #FFFFFF;
+  --ink: #1A1A2E;
+  --ink-soft: #52526A;
+  --ink-muted: #65657C;
+  --butter: #EDC35F;
+  --deep-gold: #1A1A2E;         /* boxes the templates edge in gold take the ink edge */
+  --gold-ink: #1A1A2E;          /* the system's text is ink; gold is a fill */
+  --tint-butter: #FEF7E0;       /* butter light, for highlighted boxes */
+  --sage: #FFFFFF;
+  --sage-mid: #93CFA8;          /* crayon green */
+  --bloop-soft: #93CFA8;
+  --bloop-ink: #1A1A2E;
+  --grey-blue-ink: #1A1A2E;
+  --rule: #C9C9D6;              /* the Planet Post's dotted rule grey */
+  --dot: #9A9AB0;               /* write in lines */
+
+  --c-butter: #F4D072; --c-sky: #8EC3F0; --c-coral: #F2957A;
+  --c-green: #93CFA8; --c-pink: #F2A0C4; --c-teal: #7FCFC6;
+  --coral: #E5734B; --green: #2E7D5A; --sky: #4B9CE5; --pink: #F9CFD9;
+
+  --edge: .8mm;                 /* 3px */
+  --ledge: 1.06mm 1.32mm 0 var(--ink);   /* 4px 5px 0 */
+  --sticker: .53mm .8mm 0 var(--ink);    /* 2px 3px 0 */
+  --tile: 14px;
+
+  --t-h1: 28pt;
+  --t-h2: 18pt;
+  --t-h3: 12.6pt;
+  --t-deck: 11.4pt;
+  --t-body: 11pt;
+  --t-kid: 11.2pt;
+  --t-small: 9.4pt;
+  --t-eyebrow: 8pt;
+  --t-folio: 7.5pt;
+}
+
+/* ── PAGES: WHITE STOCK, EVERY ONE ────────────────────────────────────── */
+
+.theme-happy .page,
+.theme-happy .page.ground-night, .theme-happy .page.ground-butter, .theme-happy .page.ground-sage,
+.theme-happy .page.ground-blue, .theme-happy .page.ground-paper { background: #FFFFFF; color: var(--ink); }
+
+.theme-happy .runhead {
+  font: 700 var(--t-eyebrow)/1 var(--font-mono); letter-spacing: .14em; color: var(--ink-muted);
+  border-bottom: 0; padding-bottom: 0; margin-bottom: 4.4mm;
+}
+.theme-happy .runhead .mark { color: var(--ink); font-weight: 700; }
+.theme-happy .folio { font: 700 var(--t-folio)/1 var(--font-mono); letter-spacing: .14em; color: var(--ink-muted); }
+.theme-happy .folio .num { font: 900 11pt/1 var(--font-display); letter-spacing: 0; color: var(--ink); }
+.theme-happy .wavy { display: block; width: 100%; height: 2.6mm; }
+.theme-happy .runhead + .wavy { margin: -3.6mm 0 4mm; }
+
+/* ── TYPE ─────────────────────────────────────────────────────────────── */
+
+.theme-happy .h1 { font: 900 var(--t-h1)/1 var(--font-display); letter-spacing: -.02em; color: var(--ink); }
+.theme-happy .h2 { font: 900 var(--t-h2)/1.06 var(--font-display); letter-spacing: -.015em; }
+.theme-happy .h3 { font: 900 var(--t-h3)/1.12 var(--font-display); letter-spacing: -.01em; }
+.theme-happy .eyebrow { font: 700 var(--t-eyebrow)/1.25 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted); }
+.theme-happy .standfirst { font: 700 var(--t-deck)/1.36 var(--font-body); color: var(--ink-soft); margin-top: 2.4mm; }
+.theme-happy .body p, .theme-happy .body li { font-weight: 600; line-height: 1.45; }
+.theme-happy .body .sub { font: 900 11.4pt/1.2 var(--font-display); }
+.theme-happy .body p.lead::first-letter { color: var(--ink); }
+.theme-happy .small { color: var(--ink-soft); font-weight: 600; }
+.theme-happy .pull { font: 900 14.5pt/1.18 var(--font-display); }
+.theme-happy .pull::before { color: var(--coral); }
+
+.theme-happy .cite, .theme-happy .refs .n { background: var(--ink); color: #FFFFFF; }
+
+/* ── THE RIBBON: one tilted crayon banner per page section ───────────── */
+
+.theme-happy .dest {
+  font: 900 10.4pt/1 var(--font-display); letter-spacing: -.005em; text-transform: none;
+  padding: 1.5mm 3.4mm 1.6mm 2mm; border-radius: 10px;
+  border: var(--edge) solid var(--ink); box-shadow: .8mm 1.06mm 0 var(--ink);
+  transform: rotate(-1deg); color: var(--ink);
+}
+.theme-happy .dest svg { width: 5.6mm; height: 5.6mm; }
+.theme-happy .dest-observatory { background: var(--c-sky); color: var(--ink); border-color: var(--ink); }
+.theme-happy .dest-maker { background: var(--c-butter); }
+.theme-happy .dest-forest { background: var(--c-green); }
+.theme-happy .dest-garden { background: var(--c-pink); }
+.theme-happy .dest-research { background: var(--c-teal); }
+.theme-happy .dest-explorer { background: var(--c-coral); color: var(--ink); border-color: var(--ink); }
+
+/* ── BOXES: ink edge, hard ledge, tile radius ─────────────────────────── */
+
+.theme-happy .card, .theme-happy .facts, .theme-happy .rsum, .theme-happy .activity {
+  border: var(--edge) solid var(--ink); border-radius: var(--tile); box-shadow: var(--ledge); background: #FFFFFF;
+}
+.theme-happy .facts { background: var(--tint-butter); }
+.theme-happy .facts dt { font: 900 15pt/1 var(--font-display); }
+.theme-happy .facts dd { font: 600 9.6pt/1.35 var(--font-body); color: var(--ink); }
+.theme-happy .facts dd .note { font: 700 7.5pt/1.3 var(--font-mono); color: var(--ink-muted); }
+
+.theme-happy .bubble {
+  border: var(--edge) solid var(--ink); border-radius: var(--tile); box-shadow: var(--sticker);
+  background: var(--tint-butter); font: 700 9.6pt/1.34 var(--font-body);
+}
+.theme-happy .bubble::after { background: var(--tint-butter); border-left: var(--edge) solid var(--ink); border-bottom: var(--edge) solid var(--ink); }
+.theme-happy .bubble .who { font: 700 7.6pt/1 var(--font-mono); letter-spacing: .14em; color: var(--ink-muted); }
+/* the approved Friend sits on a butter light plate, the way the Planet Post
+   frames DiGi, so a still never floats on white */
+.theme-happy .friend-plate {
+  display: flex; align-items: center; justify-content: center; flex: none;
+  border-radius: 999px; background: var(--tint-butter); border: var(--edge) solid var(--ink); overflow: hidden;
+}
+.theme-happy .friend-plate img { width: 84%; height: 84%; object-fit: contain; }
+
+.theme-happy .rsum .row { border-top: var(--edge) solid var(--ink); }
+.theme-happy .rsum .row:first-child { border-top: 0; }
+.theme-happy .rsum .k { font: 700 7.6pt/1.3 var(--font-mono); background: var(--c-teal); color: var(--ink); border-right: var(--edge) solid var(--ink); }
+
+.theme-happy .activity .tag, .theme-happy .turn {
+  font: 700 7.6pt/1 var(--font-mono); background: var(--c-butter); color: var(--ink);
+  border: .55mm solid var(--ink); box-shadow: var(--sticker); transform: rotate(-1.5deg);
+}
+.theme-happy .activity .tag.offline { background: var(--c-green); transform: rotate(1deg); box-shadow: var(--sticker); }
+.theme-happy .steps li { font: 600 10pt/1.36 var(--font-body); }
+.theme-happy .steps li + li { margin-top: 1.4mm; }
+.theme-happy .steps li::before { background: var(--ink); color: #FFFFFF; font: 900 8.6pt/6mm var(--font-display); }
+
+/* write in lines are dotted and tall enough for a child's hand (34px) */
+.theme-happy .lines { gap: 9mm; }
+.theme-happy .lines i { border-bottom: .66mm dotted var(--dot); }
+.theme-happy .pill { font: 700 7.5pt/1 var(--font-mono); background: var(--c-green); border: .55mm solid var(--ink); }
+.theme-happy .swatch { font: 700 7.5pt/1 var(--font-mono); }
+.theme-happy .pixgrid { border: var(--edge) solid var(--ink); }
+
+/* ── ART AND THE SOURCES ──────────────────────────────────────────────── */
+
+.theme-happy .art { border: var(--edge) solid var(--ink); border-radius: var(--tile); box-shadow: var(--ledge); }
+.theme-happy .art.bare { border: 0; box-shadow: none; border-radius: 0; }
+
+.theme-happy .refs { border-top: .66mm dotted var(--dot); }
+.theme-happy .refs .eyebrow { color: var(--ink-muted); }
+.theme-happy .refs li { font: 600 7.4pt/1.34 var(--font-body); color: var(--ink-soft); }
+.theme-happy .refs .n { width: 3.8mm; height: 3.8mm; font: 700 6pt/3.8mm var(--font-mono); }
+.theme-happy .refs .url { font-size: 7.4pt; }
+
+.theme-happy .qr .code { border: var(--edge) solid var(--ink); }
+.theme-happy .qr .label { font: 700 9.4pt/1.3 var(--font-body); }
+.theme-happy .qr .label .mono { font: 700 7.5pt/1.3 var(--font-mono); }
+
+/* The colour marks stay off anything a child must read: two or three smiley
+   dots at most, corners only. */
+.theme-happy .scatter { position: absolute; pointer-events: none; z-index: 0; }
+.theme-happy .safe > * { position: relative; z-index: 1; }
+
+/* The ink saver: every fill goes white and the line stays, so the paper becomes
+   a colouring page, the same as the Planet Post's. */
+.theme-happy.ink .dest, .theme-happy.ink .facts, .theme-happy.ink .bubble, .theme-happy.ink .bubble::after,
+.theme-happy.ink .activity .tag, .theme-happy.ink .rsum .k, .theme-happy.ink .friend-plate, .theme-happy.ink .pill { background: #FFFFFF; }
+
+/* the citation ring, a size up so its numeral clears the 6pt floor */
+.theme-happy .cite { min-width: 3.8mm; height: 3.8mm; font: 700 6pt/3.8mm var(--font-mono); vertical-align: .8mm; }
+.theme-happy .activity { padding: 3.6mm 4.4mm; }
+.theme-happy [data-activity="pixel-grid"] .steps li { font-size: 9.8pt; }
+.theme-happy [data-activity="pixel-grid"] .steps li + li { margin-top: 1.1mm; }

@@ -61,6 +61,7 @@ export default function KidFriendArrival({
   completedStreaks,
   childName,
   rocketVideo: rocketVideoProp,
+  skipFlight = false,
   onClose,
   onOpenBook,
 }: {
@@ -70,11 +71,14 @@ export default function KidFriendArrival({
   childName?: string
   /** Optional MP4 for the four flight beats. Without one, the flight is drawn. */
   rocketVideo?: string
+  /** Straight to the arrival. Set when the Friends' moonwalk parade has just
+   *  played (KidFriendsParade, 13 October 2026), which is the journey now. */
+  skipFlight?: boolean
   onClose: () => void
   /** Offered as the way out, so the moment ends inside the book it belongs to. */
   onOpenBook?: () => void
 }) {
-  const [beat, setBeat] = useState<Beat>('flight')
+  const [beat, setBeat] = useState<Beat>(skipFlight ? 'arrival' : 'flight')
   const stageRef = useRef<HTMLDivElement>(null)
   const skipped = useRef(false)
 
@@ -85,7 +89,7 @@ export default function KidFriendArrival({
   // started playing two seconds in, it is dropped and the drawn flight runs
   // instead, which needs no network at all. And a Skip sits in the corner
   // the whole time, because a tap anywhere already skipped and nobody knew.
-  const [useVideo, setUseVideo] = useState(!!rocketVideoProp)
+  const [useVideo, setUseVideo] = useState(!!rocketVideoProp && !skipFlight)
   const playing = useRef(false)
   const rocketVideo = useVideo ? rocketVideoProp : undefined
   useEffect(() => {
@@ -115,7 +119,7 @@ export default function KidFriendArrival({
   }
 
   useEffect(() => {
-    if (reduced) { land.current(); return }
+    if (reduced || skipFlight) { land.current(); return }
     // The drawn flight is timed here. The video is timed by its own `onEnded`,
     // and this is only the net under it: longer than the ten second clip, so a
     // clip that plays normally is never cut short, and short enough that a
@@ -123,7 +127,7 @@ export default function KidFriendArrival({
     const FLIGHT_MS = rocketVideo ? 11500 : 4300
     const t = window.setTimeout(() => land.current(), FLIGHT_MS)
     return () => window.clearTimeout(t)
-  }, [reduced, rocketVideo])
+  }, [reduced, rocketVideo, skipFlight])
 
   // Escape closes, the same as every other takeover in the child app. A full
   // screen with one exit is a trap on a device where the back gesture is not
@@ -172,12 +176,19 @@ export default function KidFriendArrival({
   // takeover invisible. Caught by screenshotting it rather than by reading it.
   // An explicit end state plus clearProps means the worst case is the text
   // appearing without its slide, never a control a child cannot see.
+  //
+  // Only the animated properties are cleared, never 'all'. clearProps 'all'
+  // wipes the WHOLE inline style, and every element here is styled inline: the
+  // name, the reason, the glow and the See them in my book button all lost
+  // their colour and font the moment they landed, leaving dark words on the
+  // night sky (13 October 2026, found while building KidFriendsParade; the same
+  // trap WelcomeWalkthrough hit on 8 September).
   useEffect(() => {
     if (beat !== 'arrival' || reduced || !stageRef.current) return
     const ctx = gsap.context(() => {
       gsap.fromTo('.gc-fa-hero',
         { scale: 0.2, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.7)', clearProps: 'all' })
+        { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.7)', clearProps: 'opacity,transform' })
       // Opacity only. Each ray carries its own rotate in an inline transform,
       // and handing that same property to GSAP as well is how a fan of light
       // turns into twelve rays all pointing north.
@@ -186,7 +197,7 @@ export default function KidFriendArrival({
         { opacity: 1, duration: 0.7, ease: 'power2.out', stagger: 0.025, delay: 0.1, clearProps: 'opacity' })
       gsap.fromTo('.gc-fa-say',
         { y: 18, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out', stagger: 0.09, delay: 0.42, clearProps: 'all' })
+        { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out', stagger: 0.09, delay: 0.42, clearProps: 'opacity,transform' })
     }, stageRef)
     return () => ctx.revert()
   }, [beat, reduced])

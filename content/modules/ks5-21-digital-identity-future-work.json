@@ -500,9 +500,11 @@
   "parent_note": {
     "taught": "Today your young adult learned to treat their online record as a portfolio an admissions tutor or employer will actually read, and to test any skill with one question: does it get more valuable or less valuable when everyone has AI? The honest answer from the evidence is churn, not collapse, and the skills that climb are human ones: judgement, taste, trust and accountability.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "The passport's final chapter. Since Reception it has recorded readiness proven at school and trust earned at home, and it ends not with permission granted but with judgement owned. Ask them which human skill they are betting on, and tell them the one that has carried you.",
+    "passport": "This lesson has a place in the passport's final chapter, the Ready at sixteen page, which ends not with permission granted but with judgement owned. The class met it today; it goes on the page when they do its own short check at home, in their app. Ask them which human skill they are betting on, and tell them the one that has carried you.",
     "try_this": "Sit together and search each of your names in a private browsing window, then compare notes: what story does page one tell about each of you, and who wrote it?",
-    "family_question": "Which skill in our family gets MORE valuable now that everyone has AI?",
+    "family_question": "Explain to me the endurance test. Which skill gets more valuable when everyone has AI?",
+    "listen_for": "You treat your online record as a portfolio, and you know judgement, taste and trust climb while routine work compresses.",
+    "then_ask": "Which of my skills would pass the endurance test?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -646,7 +648,7 @@
       "Human skills like judgement and taste are personality traits you either have or you do not (they are trainable skills built through reps and feedback, which is exactly why essays, rehearsals and part time work still matter)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack: the tutor search scenario is on the sheet as a described exhibit, the identity audit and endurance test diagrams are printed as the bookmark, discussions run on a watch or wall clock, worksheet verdicts are written not clicked, and the two exit questions are the printed quiz page. Nothing in the lesson requires a live search or a device.",
-    "passport_stage": "after",
+    "passport_stage": "independent",
     "commitment_stem": "My commitment: this week I will search my own name and take one deliberate step to build the record I want found, and the human skill I am choosing to build first is...",
     "differentiation": {
       "stretch": "Early finishers run the endurance test on their own strongest subject, unbundled into at least three separate tasks with a verdict and reason for each, then draft the first line of the deliberate record they would want an admissions tutor to find.",

@@ -30,6 +30,14 @@ export type Magnet = {
   // of the one page sheet generated from `items`. Used for the full multi
   // page products (the Starter Pack) that already exist as real print files.
   staticPdf?: string
+  // The other prints of the same thing (13 October 2026, the free printables):
+  // US Letter, ink saver, the folded booklet. Shown under the download and
+  // listed in the email, so a parent in America or on an empty cartridge is
+  // not handed the wrong file.
+  files?: { label: string; href: string }[]
+  // The email's one line about what it is. Left out, the email says one page
+  // for the fridge, which is right for the one page magnets.
+  emailBlurb?: string
 }
 
 export const MAGNETS: Record<string, Magnet> = {
@@ -78,6 +86,28 @@ export const MAGNETS: Record<string, Magnet> = {
     filename: 'The-Guided-Childhood-Starter-Pack',
     // The real 11 page product, served straight from public.
     staticPdf: '/printables/starter-pack-colour.pdf',
+  },
+  // THE PLANET POST, Issue 1 (13 October 2026): the first of the five free
+  // Happy News printables (plans/2026-10-13-free-printables-lead-magnets-plan.md).
+  // Rendered by scripts/render-free-printables.mjs from app/print-free.
+  'planet-post-1': {
+    slug: 'planet-post-1',
+    eyebrow: 'The Planet Post',
+    title: 'The Planet Post, Issue 1: How screens work in our house',
+    intro:
+      'A four page newspaper for kids aged 6 to 11, all about screens: the three jars of screen time, phones going to bed, a real or pretend detective corner, and a screen promise to sign together.',
+    numbered: false,
+    items: [],
+    close: 'Print it, grab a pencil, and read it together.',
+    filename: 'The-Planet-Post-Issue-1',
+    emailBlurb: 'It is a four page newspaper for your child to read, colour in and fill in, with a screen promise to sign together. No login needed.',
+    staticPdf: '/printables/free/planet-post-1-a4.pdf',
+    files: [
+      { label: 'US Letter', href: '/printables/free/planet-post-1-letter.pdf' },
+      { label: 'Ink saver A4', href: '/printables/free/planet-post-1-ink-a4.pdf' },
+      { label: 'Ink saver Letter', href: '/printables/free/planet-post-1-ink-letter.pdf' },
+      { label: 'Fold up booklet', href: '/printables/free/planet-post-1-booklet-a4.pdf' },
+    ],
   },
 }
 

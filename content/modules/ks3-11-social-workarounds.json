@@ -594,9 +594,11 @@
   "parent_note": {
     "taught": "Today we looked honestly at how social platforms actually work, and at workaround culture: VPNs, borrowed accounts and fake ages. Your child learned Orbit's rule: behind every rule is a protection, skip the rule and you lose the protection, so decide with your eyes open.",
     "headline": "What we taught today, and one thing to try at home",
-    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them to explain Orbit's rule: behind every rule is a protection.",
+    "passport": "This lesson has a place on your teenager's passport page, the readiness record home and school build on the road to sixteen. The class met it today; it goes on the page when your teenager does its own short check at home, in their app. Each stage is stamped when it is ready, not at a birthday. Ask them to explain Orbit's rule: behind every rule is a protection.",
     "try_this": "Ask your child to explain what actually switches off when someone signs up with an adult birthday. Let them teach you the full list, they know it now, and teaching you is the best revision there is.",
-    "family_question": "What is one rule in our house that has a protection hiding behind it?",
+    "family_question": "Can you teach me Orbit's rule? Explain what actually switches off with a fake age.",
+    "listen_for": "You know a rule has a protection behind it, so a workaround is a trade and never a free win.",
+    "then_ask": "What would you tell a friend who wanted to borrow an adult account?",
     "no_login_required": true
   },
   "video_beats": [],
@@ -745,7 +747,7 @@
       "A borrowed account is safe if it comes from someone you trust (the machine cannot see kindness, it only reads the account's age, so adult settings, adult DMs and an inherited adult feed apply no matter who handed it over)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack: read the two scenarios aloud in your best group chat voice, draw the switch diagram on the board with the four protections as branches, run both discussions as timed pair talk with a watch, and use the printed exit quiz for the prove phase. The bookmark strip replaces the diagram slide for the practise phase.",
-    "passport_stage": "shaper",
+    "passport_stage": "explorer",
     "commitment_stem": "My commitment: the next time someone offers me a workaround, I will name the protection it skips before I decide anything.",
     "differentiation": {
       "stretch": "Early finishers write the group chat message that would sell item three to this exact class, then circle every persuasion trick they used (speed, crowd, cover story). Second stretch: which of the four protections would you redesign so it annoys people less without protecting them less?",

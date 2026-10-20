@@ -34,10 +34,14 @@ opens with an index giving the line number of every entry, so one decision is a
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
 - Emails or any copy         → research/01 voice rules + .claude/skills/content-engine/ai-tells.md (no dashes ever, and the other tells; `npm run ai-tells` checks it)
 - Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) AND .claude/skills/content-engine/linkedin-engagement.md (hooks, dwell time, real photos, no body links) before drafting
+- ANY post sitting in Drive, whoever or whatever wrote it → .claude/skills/content-engine/drive-post-review.md BEFORE it is treated as ready (Justin, 13 October 2026: always apply a Claude review over posts put in Drive). READY in a Drive document means nobody has checked it yet.
 - Anything in Justin's voice (LinkedIn, Substack, Facebook, talking head, explainers) → content/brand-story/founder-context.md (his true scenes and the GREEN/AMBER/RED privacy levels; one scene when it fits the idea, never invented, never repeated)
 - ANY social visual, carousel, campaign image, thumbnail or image generation brief → read and follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md first, and use the approved existing brand assets as the source of truth (never a regenerated character, never an invented screen)
 - The week's social cards (Sunday batch, the pinned GDC posts page) → .claude/skills/social-week
+- The weekly scores out of ten, the task list, the session start alert → .claude/skills/review-board (answer the alert's questions with AskUserQuestion first)
+- The Monday research sweep, what is new and whether it proves anything we built → .claude/skills/research-radar (it is allowed to find nothing, and a finding with no proof path never becomes content)
 - Family Instagram / Facebook → .claude/skills/family-social + content/brand-story/ (the family voice, NOT Justin's; four anchor days; every service claim needs a proof path)
+- Adverts, "ads like theirs", competitor ads, boosting a post → .claude/skills/ad-studio (copy the structure of their winners, never the message; test free, spend only on the winner; log it in content/ads/results-log.md)
 - TikTok / Reels / Shorts     → .claude/skills/silent-ugc (silent format, text hook does the work; NEVER a synthetic person presented as a real parent; every video ends at the stage check)
 - School features            → schools/01 + docs/09
 - Retention features         → docs/08
@@ -45,6 +49,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Ban resilience             → docs/11 (social_media_law config flag)
 - UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
 - Any video from footage (talking head, reel, one to one) → .claude/skills/talking-head-video (HyperFrames + the student kit; silent-ugc rules win on vertical)
+- The Guided Planet newspaper (an edition, its research, the desk, the routine) → publishing/README.md
 - Any film of the real app (a DiGi short, the next in the series, "show how the app solves X") → .claude/skills/product-shorts (real screens, the reading rule, safe zones, review, posting playbook)
 
 ## CONTEXT BUDGET — what a session pays before it starts

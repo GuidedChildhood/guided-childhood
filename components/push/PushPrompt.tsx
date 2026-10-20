@@ -539,7 +539,7 @@ export default function PushPrompt({ userId, stage }: Props) {
         </div>
         {/* Not now. An important step a parent has read and decided against is
             not made more important by saying it again on every visit. */}
-        <button
+        <button className="tap-target"
           type="button"
           onClick={dismiss}
           aria-label="Not now, hide this"

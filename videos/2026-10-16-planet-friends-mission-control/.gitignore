@@ -1,0 +1,3 @@
+# Check artifacts, and the song (made locally from content/music, it changes per take).
+.hyperframes/
+*.mp3

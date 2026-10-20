@@ -79,7 +79,7 @@ const STEPS: Step[] = [
   {
     phase: 'close',
     title: 'The page fills and a note goes home',
-    body: 'The class fills the passport page for the lesson, DiGi closes, and the parent note carries what was taught and one question for the dinner table.',
+    body: 'The class fills the passport page for the lesson, DiGi closes, and the parent note carries what was taught and one question to ask at tea.',
     board: { headline: 'The passport page fills', line: 'One question goes home tonight.', art: 'digi' },
   },
 ]

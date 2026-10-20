@@ -11,6 +11,7 @@ import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { bandLabelFor } from '@/lib/quests/screen-balance'
 import PushPrompt from '@/components/push/PushPrompt'
 import HappyIcon from '@/components/kid/HappyIcon'
+import NudgeReceipt from '@/components/quests/NudgeReceipt'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -346,6 +347,8 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
   // One nudge per view. A parent tapping Remind three times should not buzz
   // their child three times, which is the fault we spent yesterday removing.
   const [nudged, setNudged] = useState(false)
+  // The Remind has landed, so its receipt can read it (13 October 2026).
+  const [nudgeLanded, setNudgeLanded] = useState(false)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
@@ -425,7 +428,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             </button>
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
-            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today&apos;s balance. The rest of the stars went back.
+            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today's balance. The rest of the stars went back.
           </div>
         </div>
       )}
@@ -531,6 +534,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ childId: kid.id }),
                   })
+                  setNudgeLanded(true)
                 } catch { setNudged(false) }
               }}
               disabled={nudged}
@@ -543,6 +547,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             >
               {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
             </button>}
+            {nudgeLanded && <NudgeReceipt childId={kid.id} name={kid.name} sentAt={1} />}
           </div>
         )}
         <div style={{ marginBottom: '9px' }}>
@@ -564,7 +569,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             below it. Never a block: the grown up decides. */}
         {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, minutes) && (
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-            This takes {kid.name} past today&apos;s healthy amount for their age, so it goes down as a treat.
+            This takes {kid.name} past today's healthy amount for their age, so it goes down as a treat.
           </p>
         )}
 
