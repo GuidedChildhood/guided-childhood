@@ -70,7 +70,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 041 | How would you test readiness | ready | moved off 037 |
 | 042 | Same app, different rules | ready | moved off 038 |
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
-| 044 | A ban is already teaching, the question is what | ready | 2026-10-18 pack |
+| 044 | A ban is already teaching, the question is what | ready, v4 | 2026-10-18 pack |
 
 **Next free number: 045.**
 
@@ -88,3 +88,10 @@ tidy, and would let us judge the posts on what they did.
 A **planned** date is an intended running order, nothing more. Claude cannot
 post and does not know whether a post went out, so a planned row stays planned
 until Justin says otherwise. Only he moves a row to POSTED.
+
+Note on 044: v2 reached Drive marked READY on 18 October carrying a claim that
+did not hold, that the industry cannot agree whether the last ID spill was
+seventy thousand documents or two million. The v2 document is in the Drive
+trash and v4 replaces it. **A row saying ready means ready as of the newest
+version named in it.** If a version number here is behind the pack, the pack
+wins and the Drive document needs replacing before anything is posted.
