@@ -11,7 +11,8 @@ export const metadata = {
 // and interests, which the app had been collecting while this page said it did
 // not ask for a date of birth. A policy that changes and keeps its old date is
 // the same problem one level up, so the date moves with the words.
-const EFFECTIVE = '8 August 2026'
+// Bumped 20 October 2026: the section on asking us through Meta's Muse.
+const EFFECTIVE = '20 October 2026'
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
@@ -84,6 +85,11 @@ export default function PrivacyPage() {
         <li style={LI}><strong>Resend</strong> for our emails.</li>
         <li style={LI}><strong>Anthropic</strong> to power DiGi: your questions are sent to the AI model to generate a reply. They are not used to train the model, and they are not sold or shared beyond answering you.</li>
       </ul>
+
+      <h2 style={H2}>If you ask us through Muse</h2>
+      <p style={P}>
+        You can ask DiGi questions inside Meta’s Muse assistant without a Guided Childhood account. Muse sends us your question and, if you give it, your child’s age, and we send back a next step and the words to say. We do not keep the question or the age. We count that a question was asked, and when, and nothing else. The one exception is safety: if our automatic check flags an answer, we keep that question and answer, with nothing that identifies you, so a person can review it. Please do not include your child’s name, school or where you live. What Muse itself keeps is covered by Meta’s own privacy policy, not this one.
+      </p>
 
       <h2 style={H2}>How long we keep it</h2>
       <p style={P}>

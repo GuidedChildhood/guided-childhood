@@ -609,3 +609,7 @@ Butter becomes one mark per card, never a surface; espresso buttons; no 3D
 characters on paid ads; flat real screen crops; the full hook on every card;
 Round 1 tests five hooks led by the free scripts. Brief in
 `briefings/2026-10-19-ad-campaign-council.md`.
+
+## 20 October 2026, the Meta Muse connector
+
+Justin: connect Guided Childhood to Meta's Muse, and he is happy for us to appear inside it. Built as a Raw API with an OpenAPI spec (`/api/muse/ask`, `/api/muse/scripts`, `/api/muse/openapi.json`, docs at `/connectors/muse`), no new packages. Muse pays nothing, so the revenue is the funnel: every answer ends at `/starter-pack?src=muse`, counted by migration 379. Parents only, nothing about a child stored; crisis questions get the helplines and nothing else. `MUSE_DAILY_CAP` (default 300) caps model answers, then free scripts answer instead. Free scripts only, never paid ones, and never the Planet Friends mission prompts. Migration 383. Justin submits the form at platform.muse.ai after deploy. PR 1366.

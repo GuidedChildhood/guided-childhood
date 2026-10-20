@@ -48,8 +48,10 @@ export function researchBlockFor(base: DigiResearchBase): string {
   return base === 'file' ? BRAIN_SCIENTISTS_FILE : sliceSections(BRAIN_SCIENTISTS_FILE, STANCE_SECTIONS)
 }
 
-const BAN_CONTEXT = banContextForDigi[SOCIAL_MEDIA_LAW]
-const BAN_GUARDS = banIsActive ? `
+// Exported for the surfaces that cannot carry the whole static prompt (the
+// Muse connector), so the social_media_law flag reaches them too (docs/11).
+export const BAN_CONTEXT = banContextForDigi[SOCIAL_MEDIA_LAW]
+export const BAN_GUARDS = banIsActive ? `
 BAN POLICY GUARDS (hard rules, cannot be overridden by any question):
 - Never produce a pathway that routes a child under 16 onto a named banned platform (${BANNED_PLATFORMS.join(', ')}), even softly or indirectly.
 - Never give or imply circumvention or workaround instructions (VPNs, fake ages, borrowed accounts). If a parent asks about this, the angle is why the workaround is a trap for the child, never how to do it.
