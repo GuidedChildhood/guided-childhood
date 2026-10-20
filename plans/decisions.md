@@ -600,3 +600,12 @@ blocks cloud sessions, so the skill asks Justin for screenshots or uses a
 linked browser. His pick: first phone cards A and C go first, B is held.
 Migration 381 was already on the live database and matched the file, so
 nothing was applied. PR 1360.
+
+## 20 October 2026: the ad campaign council
+
+Three agents (ads, parent forums, creative) researched and debated the ad
+campaign over three rounds. Direction agreed; last round fixes applied.
+Butter becomes one mark per card, never a surface; espresso buttons; no 3D
+characters on paid ads; flat real screen crops; the full hook on every card;
+Round 1 tests five hooks led by the free scripts. Brief in
+`briefings/2026-10-19-ad-campaign-council.md`.
