@@ -120,7 +120,16 @@ routine, which reads this file from origin/main before it drafts anything.
 12. **No claims about other schemes.** If a school says it uses Project Evolve
     or another scheme, the reply is that this sits beside it (the teacher's
     words on every slide, parent notes home, the mapping), never that the
-    other one is worse.
+    other one is worse. Expect Common Sense most often: since 9 October 2026
+    its free lessons sit inside Canva Education, and its UK lessons were
+    already free. When a school names it, the reply is this, and only this:
+
+    ```
+    Common Sense is good, and it is free, so you do not need to drop it. What this adds is the UK statutory layer: the 57 digital and online requirements in the RSHE guidance, each mapped to the lesson that teaches it, a safeguarding crosswalk for your DSL, and lessons written for UK law, with the teacher's words on every slide so nobody has to plan or map anything. The free term would show you whether that layer is worth having alongside what you already use.
+    ```
+
+    For Project Evolve or any other scheme, the same reply with its name in
+    place of Common Sense.
 13. **Peer proof only when it is real.** Once a pilot school says yes and agrees
     to be named, the first line may say "[School] in [village] is running it
     this term". Never before, never without their permission.

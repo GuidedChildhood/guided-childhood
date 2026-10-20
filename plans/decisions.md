@@ -613,3 +613,7 @@ Round 1 tests five hooks led by the free scripts. Brief in
 ## 20 October 2026, the Meta Muse connector
 
 Justin: connect Guided Childhood to Meta's Muse, and he is happy for us to appear inside it. Built as a Raw API with an OpenAPI spec (`/api/muse/ask`, `/api/muse/scripts`, `/api/muse/openapi.json`, docs at `/connectors/muse`), no new packages. Muse pays nothing, so the revenue is the funnel: every answer ends at `/starter-pack?src=muse`, counted by migration 379. Parents only, nothing about a child stored; crisis questions get the helplines and nothing else. `MUSE_DAILY_CAP` (default 300) caps model answers, then free scripts answer instead. Free scripts only, never paid ones, and never the Planet Friends mission prompts. Migration 383. Justin submits the form at platform.muse.ai after deploy. PR 1366.
+
+## 20 October 2026: the reply when a school already uses Common Sense
+
+Canva put Common Sense Media's free lessons (60, US made, 20 to 40 minute decks) into Canva Education from 9 October. Not a new competitor, since Common Sense UK was already free, but it anchors "free" in teachers' heads. Justin agreed a ready reply under campaign rule 12: never knock it, keep it, and name the UK statutory layer we add (the 57 RSHE requirements mapped, the DSL crosswalk, UK law, nothing to plan).
