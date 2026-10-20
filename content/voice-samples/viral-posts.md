@@ -1,7 +1,7 @@
 # Justin's proven LinkedIn posts · voice and structure reference
-These are real published posts with real performance. Every future LinkedIn post is modelled on this anatomy. Post 1: 73,911 impressions, 295 reposts. Post 2: 9,879 impressions. Post 3: 6,955 impressions.
+These are real published posts with real performance. Every future LinkedIn post is modelled on this anatomy. Post 1: 75,842 impressions, 295 reposts. Post 2: 9,879 impressions. Post 3: 6,955 impressions.
 
-## Post 1 · The Wrong Villain (73,911 impressions)
+## Post 1 · The Wrong Villain (75,842 impressions)
 
 A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.
 

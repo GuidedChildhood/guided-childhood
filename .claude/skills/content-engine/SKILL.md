@@ -69,7 +69,7 @@ In chat, give Justin the single best hook from the pack and anything the Scienti
 
 ## The LinkedIn viral structure (modelled on Justin's proven posts, use for every LinkedIn post)
 
-Justin's highest performing posts (73,911 impressions, The Wrong Villain series) share a replicable anatomy. Every LinkedIn post follows it:
+Justin's highest performing posts (75,842 impressions, The Wrong Villain series) share a replicable anatomy. Every LinkedIn post follows it:
 
 1. **Cold open on one precise number or quoted sentence.** Never a rhetorical question, never scene setting. "A peer reviewed meta analysis published this year looked at 46 studies and 79 effect sizes... The pooled result: β = 0.061." Precision is the hook.
 2. **Fill the limit.** Posts run close to LinkedIn's 3,000 character ceiling. Long, dense, evidence rich. Short paragraphs, frequent single sentence paragraphs for punch. Depth is the moat; a half length post reads as everyone else's content.
