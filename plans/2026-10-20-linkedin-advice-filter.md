@@ -4,6 +4,10 @@ Justin, 20 October 2026, sent a creator's LinkedIn masterclass transcript (five
 rules, 400,000 followers, a paid live training at the end) and asked whether we
 should be opening posts with his personal story as it advises.
 
+**Answer, after the review: no, not as a rule, and not on GDC-044 either.** The
+useful part of the advice is narrower than it looks, and the hole it found in
+how we work is at the posting end rather than the writing end. Both below.
+
 Run through `.claude/skills/feedback-filter`. Advice is an input, never an
 instruction, however confidently it is written.
 
@@ -45,8 +49,7 @@ is describing is real for us, it is just at the other end of the pipe.
 
 > "the highest converting content for me and for every other founder in our accelerator is the personal stuff"
 
-**Adopt, with the rule made precise, and he is right about the post in front of
-us.**
+**Adopt, with the rule made precise. Not right about the post in front of us.**
 
 His framing is too blunt to copy as written, because Justin's single best
 performing post opened on a precise statistic, beta equals 0.061, and did about
@@ -62,11 +65,21 @@ could have said.** Sometimes that is a scene from his own house. In the Wrong
 Villain post it was a number almost nobody had read properly. Both are his and
 neither is generic, which is the actual variable.
 
-**Where he is simply right.** GDC-044 holds its three strongest human lines
-until paragraphs five, eleven and twelve. The Covid confession, two small girls
-at home and a business to keep alive and YouTube used as a babysitter, is the
-best sentence in the post and our own `founding-story.md` says so in as many
-words. It is currently below the fold by a long way.
+**Where this first draft had it wrong, corrected the same day.** It said he was
+right about GDC-044 and the Covid confession should move to the top. A red team
+briefed without being told that view came back against it, and the numbers above
+are why. Neither winning opening is a story. Both are declared uncertainties.
+Both losers are closed statements. The variable is open against closed, and
+there is no scene led opening anywhere in the 28 day sample, so moving to one
+would have been the unevidenced option rather than the safe one. GDC-044's
+first line already says nobody knows yet, which is the winning shape. The
+confession stays at paragraph five, where it pays for the right to say parents
+were always the teacher.
+
+The real defect in that post was elsewhere and the advice did not find it: zero
+UK tokens in the body against one each for Australia and France, which is how
+the 22 August Australia post sent roughly a third of its reach to Australia.
+Fixed in GDC-044 v3.
 
 **The part of his advice we are not using at all.** He names three sources of
 story: your own experience, the experience of people around you, and the
