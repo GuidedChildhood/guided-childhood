@@ -1,0 +1,146 @@
+[
+ {
+  "card": 1,
+  "label": "hook",
+  "at": 0,
+  "dur": 10.0
+ },
+ {
+  "card": 1,
+  "label": "intro",
+  "at": 10.0,
+  "dur": 10.22
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "at": 20.22,
+  "dur": 7.57
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "at": 27.79,
+  "dur": 9.54
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "at": 37.33,
+  "dur": 6.33
+ },
+ {
+  "card": 3,
+  "label": "good",
+  "at": 43.66,
+  "dur": 11.0
+ },
+ {
+  "card": 4,
+  "label": "coming",
+  "at": 54.66,
+  "dur": 10.71
+ },
+ {
+  "card": 5,
+  "label": "main",
+  "at": 65.37,
+  "dur": 6.85
+ },
+ {
+  "card": 5,
+  "label": "main",
+  "at": 72.22,
+  "dur": 1.29
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 73.51,
+  "dur": 0.49
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 74.0,
+  "dur": 1.64
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 75.64,
+  "dur": 10.05
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 85.69,
+  "dur": 0.53
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 86.22,
+  "dur": 6.83
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 93.05,
+  "dur": 1.02
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "at": 94.07,
+  "dur": 10.52
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "at": 104.59,
+  "dur": 2.52
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "at": 107.11,
+  "dur": 4.45
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "at": 111.56,
+  "dur": 1.97
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "at": 113.53,
+  "dur": 8.9
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "at": 122.43,
+  "dur": 5.93
+ },
+ {
+  "card": 8,
+  "label": "promise",
+  "at": 128.36,
+  "dur": 9.73
+ },
+ {
+  "card": 9,
+  "label": "thanks",
+  "at": 138.09,
+  "dur": 1.2
+ },
+ {
+  "card": 9,
+  "label": "thanks",
+  "at": 139.29,
+  "dur": 9.97
+ }
+]

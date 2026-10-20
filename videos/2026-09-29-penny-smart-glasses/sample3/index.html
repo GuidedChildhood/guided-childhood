@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Smart glasses reply, sample 3: glass, real screens, HUD</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>
+/* Sample 3 adds, on Justin's ask (19 October): frosted glass panels over
+   the footage, the real Meta newsroom page in a 3D browser card when Muse is
+   named (credited, a screen recording of a public page, not Meta's video),
+   a Nate style HUD with running timecode and crosshairs, and a 2.6 second
+   cold open on the 59,000 counter. Sample 2 notes follow.
+   Sample 2 of the VotesforSchools reply, cards 2 to 4, cut the way Nate Herk's
+   kit cuts a talking head (GuidedChildhood/Natemotion: MOTION_PHILOSOPHY.md,
+   style-templates/left-glass-popout, hyperframes-video-beats) and dressed in
+   our motion standard (.claude/skills/talking-head-video/motion-standard.md).
+   What we take from Nate: the camera never sleeps (a slow drift under every
+   frame, punch ins cut on the stressed word, a reframe that slides the face
+   right when a panel enters left), beats of 1.5 to 3 seconds, full screen
+   takeovers for the lines that matter, streak whips at every hard cut, and
+   captions that light the word being spoken. What stays ours: cream paper
+   instead of black glass, ink outlines and hard shadows instead of light,
+   butter only for action and marking, Nunito 900 statements. */
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#1A1A2E}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1A1A2E;font-family:nunito,sans-serif;color:#1A1A2E}
+/* the camera: three nested moves so they never fight */
+.reframe,.drift,.punch{position:absolute;inset:0}
+.reframe{transform-origin:0% 50%}
+.punch{transform-origin:50% 36%}
+.punch video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* b-roll takes the whole frame */
+.broll{position:absolute;inset:0;opacity:0;overflow:hidden}
+.broll video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.tag{position:absolute;right:56px;top:52px;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFBEE;background:rgba(26,26,46,.6);padding:8px 12px;border-radius:9px}
+.pill{position:absolute;left:72px;bottom:200px;font-weight:900;font-size:46px;line-height:1.1;background:rgba(255,251,238,.5);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1.5px solid rgba(255,255,255,.8);border-radius:22px;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),0 24px 60px rgba(26,26,46,.35);padding:14px 26px;opacity:0;max-width:1100px}
+.pill small{display:block;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:#C99A28;margin-bottom:6px}
+/* the panel that enters left while the camera reframes right */
+.panel{position:absolute;left:64px;top:150px;width:800px;height:660px;background:rgba(255,251,238,.46);-webkit-backdrop-filter:blur(30px) saturate(150%);backdrop-filter:blur(30px) saturate(150%);border:1.5px solid rgba(255,255,255,.8);border-radius:34px;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -40px 80px rgba(255,251,238,.25),0 40px 90px rgba(26,26,46,.35);overflow:hidden;opacity:0}
+.panel .dots{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 38%)}
+.panel .shine{position:absolute;top:0;bottom:0;left:-260px;width:200px;background:linear-gradient(90deg,rgba(237,195,95,0),rgba(237,195,95,.55),rgba(237,195,95,0));transform:skewX(-18deg)}
+.pc{position:absolute;left:56px;right:56px;top:56px;bottom:56px;opacity:0}
+.eb{font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;color:#C99A28}
+.row{font-weight:900;font-size:92px;line-height:1.05;letter-spacing:-.015em;margin-top:26px}
+.st{font-weight:900;font-size:100px;line-height:1.02;letter-spacing:-.02em}
+.mark{position:relative;display:inline-block;isolation:isolate;z-index:0}
+.mark::after{content:"";position:absolute;left:-8px;right:-8px;bottom:8px;height:30px;background:#EDC35F;z-index:-1;transform-origin:left center;transform:scaleX(var(--m,0))}
+.bar{position:relative;margin-top:40px;width:100%;height:70px;border:3px solid #1A1A2E;border-radius:999px;background:#fff;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:#EDC35F}
+.bar b{position:absolute;left:33%;top:-6px;bottom:-6px;border-left:3px dashed #1A1A2E}
+.todo .r{display:flex;align-items:center;gap:22px;font-weight:900;font-size:64px;padding:16px 0;border-bottom:2px dashed rgba(26,26,46,.2);opacity:0}
+.todo .box{width:60px;height:60px;border:3px solid #1A1A2E;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center}
+.todo .box b{font-size:42px;opacity:0}
+.bubble{display:inline-block;background:#F0F9FF;border:3px solid #1A1A2E;border-radius:24px 24px 24px 6px;box-shadow:5px 5px 0 #1A1A2E;padding:20px 28px;font-weight:800;font-size:44px;opacity:0}
+/* full screen paper takeovers */
+.paper{position:absolute;inset:0;background:#FFFBEE;opacity:0;overflow:hidden}
+.paper .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.07) 1.7px,transparent 1.8px);background-size:48px 48px}
+.crop{position:absolute;width:38px;height:38px;border-color:#1A1A2E;border-style:solid;opacity:.5}
+.crop.tl{left:40px;top:40px;border-width:3px 0 0 3px}.crop.tr{right:40px;top:40px;border-width:3px 3px 0 0}
+.crop.bl{left:40px;bottom:40px;border-width:0 0 3px 3px}.crop.br{right:40px;bottom:40px;border-width:0 3px 3px 0}
+.ruler{position:absolute;left:120px;right:120px;bottom:70px;height:30px}
+.ruler .line{position:absolute;left:0;right:0;top:14px;border-top:3px solid rgba(26,26,46,.2)}
+.ruler .fill{position:absolute;left:0;top:13px;height:5px;background:#EDC35F;border-radius:3px}
+.ruler span{position:absolute;top:-16px;font-family:plexMono,monospace;font-weight:600;font-size:15px;color:#52526A;transform:translateX(-50%)}
+.slam{position:absolute;left:0;right:0;top:330px;text-align:center;font-weight:900;font-size:150px;line-height:1.02;letter-spacing:-.025em}
+.slam .w{display:inline-block;opacity:0;margin:0 .12em}
+.sub{position:absolute;left:0;right:0;top:700px;text-align:center;font-weight:800;font-size:48px;opacity:0}
+.muse{position:absolute;left:0;right:0;top:250px;text-align:center}
+.muse .word{font-weight:900;font-size:300px;line-height:1;letter-spacing:-.03em}
+.muse .ml{opacity:0}
+.cursor{display:inline-block;width:.42em;height:.86em;background:#1A1A2E;vertical-align:-.06em;margin-left:10px}
+.kin{position:absolute;left:72px;bottom:210px;font-weight:900;font-size:150px;line-height:.98;letter-spacing:-.03em;color:#FFFBEE;text-shadow:0 6px 0 #1A1A2E,0 20px 50px rgba(0,0,0,.45)}
+.kin .w{display:inline-block;opacity:0}
+.star{position:absolute;width:110px;height:110px;opacity:0}
+/* chapter tag and captions sit above everything but the streaks */
+.chap{position:absolute;left:64px;top:96px;font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,251,238,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1.5px solid rgba(255,255,255,.8);border-radius:12px;padding:9px 14px;opacity:0;z-index:7}
+.hud{position:absolute;inset:0;pointer-events:none;z-index:8;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFFFF;mix-blend-mode:difference}
+.hud .tl{position:absolute;left:64px;top:52px}.hud .tr{position:absolute;right:64px;top:52px}.hud .rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#EDC35F;margin-right:10px;vertical-align:1px}
+.hud .x{position:absolute;width:26px;height:26px}.hud .x::before,.hud .x::after{content:"";position:absolute;background:#FFFFFF}.hud .x::before{left:12px;top:0;width:2px;height:26px}.hud .x::after{top:12px;left:0;height:2px;width:26px}
+.browser{position:absolute;right:120px;top:120px;width:640px;height:820px;border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 50px 120px rgba(26,26,46,.55);transform-origin:100% 50%;opacity:0}
+.browser .chrome{height:52px;background:#F3F1EC;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid #e3e0d8}
+.browser .chrome i{width:13px;height:13px;border-radius:50%;background:#d8d4ca;display:inline-block}
+.browser .url{margin-left:14px;flex:1;height:30px;border-radius:9px;background:#fff;font-family:plexMono,monospace;font-size:14px;color:#52526A;display:flex;align-items:center;padding:0 12px}
+.browser video{position:absolute;left:0;top:52px;width:100%;height:calc(100% - 52px);object-fit:cover;object-position:50% 0%}
+.credit{position:absolute;right:120px;top:952px;font-family:plexMono,monospace;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#FFFBEE;opacity:0;z-index:8}
+.museg{position:absolute;left:96px;top:300px;width:820px;opacity:0}
+.open{position:absolute;inset:0;background:#FFFBEE;z-index:6}
+.open .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.09) 1.8px,transparent 1.9px);background-size:44px 44px}
+.open .num{position:absolute;left:0;right:0;top:360px;text-align:center;font-weight:900;font-size:260px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.open .lbl{position:absolute;left:0;right:0;top:650px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:.22em;text-transform:uppercase;color:#C99A28}
+.blurcam{position:absolute;inset:0;opacity:0;-webkit-backdrop-filter:blur(26px) brightness(.62);backdrop-filter:blur(26px) brightness(.62)}
+.caps{position:absolute;left:0;right:0;bottom:70px;height:120px;z-index:7}
+.cap{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max-content;max-width:1500px;text-align:center;font-weight:900;font-size:56px;line-height:1.15;color:#FFFBEE;text-shadow:0 4px 0 #1A1A2E,0 0 18px rgba(26,26,46,.55);opacity:0}
+.cap .cw{display:inline-block;padding:0 .1em;border-radius:10px}
+.streak{position:absolute;top:-100px;bottom:-100px;width:640px;left:0;background:linear-gradient(90deg,rgba(237,195,95,0),#EDC35F 40%,#FFFBEE 55%,rgba(237,195,95,0));filter:blur(22px);z-index:9}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="43.4" data-width="1920" data-height="1080">
+
+  <div class="reframe" id="reframe"><div class="drift" id="drift"><div class="punch" id="punch">
+    <video id="vt" class="clip" src="assets/talking.mp4" muted playsinline data-start="2.6" data-duration="40.8" data-media-start="0" data-track-index="1"></video>
+  </div></div></div>
+  <audio id="voice" src="assets/voice.m4a" data-start="2.6" data-duration="40.8" data-track-index="4" data-volume="1"></audio>
+
+  <!-- b-roll, full frame -->
+  <div class="broll" id="br1"><video id="vb1" class="clip" src="assets/b1-filmed.mp4" muted playsinline data-start="7.6" data-duration="4.1" data-media-start="0.6" data-track-index="2"></video><div class="tag">Illustrative footage</div>
+    <div class="pill" id="p1"><small>You pointed out</small>Filmed without knowing</div></div>
+  <div class="broll" id="br2"><video id="vb2" class="clip" src="assets/b2-cover-light.mp4" muted playsinline data-start="13.6" data-duration="4.1" data-media-start="0.2" data-track-index="3"></video><div class="tag">Illustrative footage</div>
+    <div class="pill" id="p2"><small>Summer 2026</small>Cover the light, recording stops</div></div>
+  <div class="broll" id="br3"><video id="vb3" class="clip" src="assets/b3-read-aloud.mp4" muted playsinline data-start="26.5" data-duration="3.4" data-media-start="0.8" data-track-index="2"></video><div class="tag">Illustrative footage</div>
+    <div class="pill" id="p3"><small>You were right</small>Reads text aloud</div></div>
+
+  <!-- the left panel, one content group per beat -->
+  <div class="panel" id="panel"><div class="dots"></div><div class="shine" id="shine"></div>
+    <div class="pc" id="pc1"><div class="eb">You pointed out</div>
+      <div class="row" id="r1">Possibilities</div>
+      <div class="row" id="r2"><span class="mark" id="m2">Concerns</span></div></div>
+    <div class="pc" id="pc2"><div class="eb">Meta's covered light</div>
+      <div class="st" style="margin-top:30px">A start.</div>
+      <div class="bar"><i id="barfill"></i><b></b></div>
+      <div class="eb" id="notfin" style="margin-top:22px;color:#1A1A2E;opacity:0">Not the finish</div></div>
+    <div class="pc" id="pc3"><div class="eb">You were right</div>
+      <div class="st" style="margin-top:30px">There is<br><span class="mark" id="m3">real good</span><br>here.</div></div>
+    <div class="pc" id="pc4"><div class="eb">Announced by Meta</div>
+      <svg width="690" height="300" viewBox="0 0 690 300" style="margin-top:20px">
+        <path d="M90 230c-34 0-58-28-58-76 0-66 46-116 108-116 58 0 100 44 100 100 0 42-24 62-44 80-16 15-22 28-22 46 0 26-18 44-44 44" fill="none" stroke="#1A1A2E" stroke-width="10" stroke-linecap="round"/>
+        <path class="wave" d="M280 112c22 26 22 76 0 102" fill="none" stroke="#C99A28" stroke-width="10" stroke-linecap="round"/>
+        <path class="wave" d="M318 82c38 42 38 120 0 162" fill="none" stroke="#C99A28" stroke-width="10" stroke-linecap="round"/>
+        <path class="wave" d="M356 52c54 60 54 162 0 222" fill="none" stroke="#C99A28" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+      <div class="st" style="font-size:84px">Hearing support</div>
+      <div class="eb" style="margin-top:18px;color:#1A1A2E;font-size:22px"><span class="mark" id="m4">for some adults</span></div></div>
+    <div class="pc" id="pc5"><div class="eb">Talk to it</div>
+      <div style="margin-top:26px"><span class="bubble" id="bub">Can you sort this for me?</span></div>
+      <div class="todo" style="margin-top:28px">
+        <div class="r" id="q1"><span class="box"><b id="t1">✓</b></span>Book it</div>
+        <div class="r" id="q2"><span class="box"><b id="t2">✓</b></span>Find it</div>
+        <div class="r" id="q3"><span class="box"><b id="t3">✓</b></span>Buy it</div></div></div>
+  </div>
+
+  <!-- kinetic words over the camera -->
+  <div class="kin" id="kin"><span class="w">Moving</span><br><span class="w">quickly.</span></div>
+
+  <!-- paper takeover 1: the line that matters -->
+  <div class="paper" id="pp1"><div class="dots" id="pp1dots"></div>
+    <div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div>
+    <div class="slam" id="slam"><span class="w">A</span><span class="w">light</span><span class="w">is</span><span class="w">not</span><br><span class="w"><span class="mark" id="m5">permission</span></span></div>
+    <svg class="star" id="star1" viewBox="0 0 40 40" style="left:1386px;top:560px"><path d="M20 3l5.1 10.6 11.6 1.6-8.5 8.1 2.1 11.5L20 29.3 9.7 34.8l2.1-11.5-8.5-8.1 11.6-1.6z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="2.2" stroke-linejoin="round"/></svg>
+    <div class="sub" id="sub1">It needs to go further.</div>
+    <div class="ruler"><div class="line"></div><div class="fill" style="width:45%"></div><span style="left:0">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div>
+  </div>
+
+  <!-- paper takeover 2: Muse -->
+  <div class="paper" id="pp2"><div class="dots" id="pp2dots"></div>
+    <div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div>
+    <div class="muse"><div class="eb" id="museeb" style="font-size:24px;opacity:0">Meta's new AI agent, on glasses</div>
+      <div class="word"><span class="ml">M</span><span class="ml">u</span><span class="ml">s</span><span class="ml">e</span><span class="cursor" id="cur"></span></div>
+      <div class="sub" id="when" style="position:static;margin-top:26px">in the next few months</div></div>
+    <div class="ruler"><div class="line"></div><div class="fill" style="width:85%"></div><span style="left:0">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div>
+  </div>
+
+  <div class="blurcam" id="blurcam"></div>
+  <div class="museg" id="museg"><div class="panel" style="position:relative;left:0;top:0;width:820px;height:auto;opacity:1;padding:44px 52px"><div class="eb">Meta's AI agent</div><div class="muse" style="position:static;text-align:left"><div class="word" style="font-size:210px"><span class="ml">M</span><span class="ml">u</span><span class="ml">s</span><span class="ml">e</span><span class="cursor"></span></div></div><div class="sub" id="when3" style="position:static;text-align:left;margin-top:10px">coming to glasses in the next few months</div></div></div>
+  <div class="browser" id="browser"><div class="chrome"><i></i><i></i><i></i><div class="url">about.fb.com/news · The Biggest News From Connect 2026</div></div><video id="vmeta" class="clip" src="assets/meta-muse.mp4" muted playsinline data-start="35.4" data-duration="4.6" data-media-start="6.4" data-track-index="3"></video></div>
+  <div class="credit" id="credit">Source: Meta Newsroom, Connect 2026</div>
+  <div class="open" id="open"><div class="dots" id="odots"></div><div class="num" id="num">0</div><div class="lbl" id="olbl">pupils voted on smart glasses</div></div>
+  <div class="hud"><div class="tl"><span class="rec"></span>GDC · VotesforSchools reply</div><div class="tr" id="tc">00:00:00</div><div class="x" style="left:40px;top:40px"></div><div class="x" style="right:40px;top:40px"></div><div class="x" style="left:40px;bottom:40px"></div><div class="x" style="right:40px;bottom:40px"></div></div>
+  <div class="chap" id="ch1">01 · What you raised</div>
+  <div class="chap" id="ch2">02 · The good</div>
+  <div class="chap" id="ch3">03 · What is coming</div>
+  <div class="caps" id="caps"></div>
+  <div class="streak" id="sk1"></div><div class="streak" id="sk2"></div><div class="streak" id="sk3"></div><div class="streak" id="sk4"></div><div class="streak" id="sk5"></div><div class="streak" id="sk6"></div>
+</div>
+<script>
+var OPEN = 2.6;
+var F0 = function(x){ return Math.round(x*60)/60; };
+var F = function(x){ return Math.round((x+OPEN)*60)/60; };
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+
+// ---- captions: phrase on screen, the spoken word lit in butter ----
+// Phrases sit on Justin's onsets; hidden where a takeover already says it.
+var CAPS = [
+  [0.2,2.2,"You highlighted both the possibilities"],[2.2,3.4,"and the concerns."],
+  [3.8,5.0,"Especially what happens"],[5.2,7.1,"when someone is filmed without knowing."],
+  [7.4,9.0,"And when enough people speak up,"],[9.0,10.6,"companies do change things."],
+  [11.1,13.2,"This summer Meta made its glasses stop recording"],[13.2,15.0,"if someone covers the light."],
+  [15.6,17.4,"This is a start, not the finish."],
+  [20.8,22.2,"Without losing the good,"],[22.3,23.8,"because there is real good here."],
+  [24.0,25.3,"Glasses can read text aloud"],[25.3,26.9,"for people with sight loss."],
+  [27.1,28.7,"Meta's also announced hearing support"],[28.7,30.5,"for some adults with hearing loss."],
+  [37.6,39.6,"This is technology you can speak to"],[39.6,40.8,"and ask to carry out tasks."]
+];
+var capsEl = document.getElementById("caps");
+CAPS.forEach(function(c,i){
+  var d = document.createElement("div"); d.className = "cap"; d.id = "cap"+i;
+  d.innerHTML = c[2].split(" ").map(function(w,k){ return '<span class="cw" id="cw'+i+'_'+k+'">'+w+'</span>'; }).join(" ");
+  capsEl.appendChild(d);
+  var words = c[2].split(" "), span = (c[1]-c[0]-0.15)/words.length;
+  tl.fromTo("#cap"+i,{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},F(c[0]));
+  words.forEach(function(w,k){
+    var at = c[0]+k*span;
+    tl.fromTo("#cw"+i+"_"+k,{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",textShadow:"0 4px 0 #1A1A2E"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",textShadow:"0 0 0 rgba(0,0,0,0)",duration:0.06,ease:"none"},F(at));
+    tl.to("#cw"+i+"_"+k,{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",textShadow:"0 4px 0 #1A1A2E",duration:0.06,ease:"none"},F(at+span));
+  });
+  tl.to("#cap"+i,{opacity:0,duration:0.12,ease:"power2.in"},F(c[1]));
+});
+
+// ---- the camera never sleeps ----
+// drift: one slow push across the whole piece, under everything
+tl.fromTo("#drift",{scale:1},{scale:1.07,duration:40.8,ease:"none"},F(0));
+// punch ins: hard cuts on the stressed word, like a second camera
+[[0,1],[2.35,1.16],[3.9,1],[9.05,1.18],[11.0,1],[15.1,1.12],[20.7,1],[22.35,1.17],[24.0,1],[30.6,1.18],[31.55,1.3],[32.8,1],[37.5,1.1]].forEach(function(p){
+  tl.set("#punch",{scale:p[1]},F(p[0]));
+});
+// reframe: the face slides right as the panel enters left (left-glass-popout)
+function reframe(a,b){
+  tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},F(a));
+  if (b < 40.8) tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},F(b));
+}
+function panelIn(id,a,b){
+  tl.fromTo("#panel",{opacity:0,x:-110,rotation:-1.5},{opacity:1,x:0,rotation:0,duration:0.55,ease:"power3.out"},F(a+0.14));
+  tl.fromTo("#shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},F(a+0.2));
+  tl.fromTo(id,{opacity:0,y:18},{opacity:1,y:0,duration:0.42,ease:"power3.out"},F(a+0.3));
+  if (b > 40.8) return;
+  tl.to(id,{opacity:0,y:-10,duration:0.24,ease:"power2.in"},F(b-0.3));
+  tl.to("#panel",{opacity:0,x:-70,duration:0.32,ease:"power2.in"},F(b-0.1));
+}
+var MARK = function(sel,at){ tl.fromTo(sel,{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},F(at)); };
+gsap.set(".streak",{xPercent:-160,skewX:-12});
+var WHIP = function(id,at){ tl.fromTo(id,{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},F(at-0.18)); };
+var CHAP = function(id,a,b){ tl.fromTo(id,{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},F(a)); tl.to(id,{opacity:0,duration:0.2,ease:"power2.in"},F(b)); };
+
+// ---- 01 · what you raised ----
+CHAP("#ch1",0.2,20.3);
+reframe(1.0,4.75); panelIn("#pc1",1.0,4.9);
+tl.fromTo("#r1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.4,ease:"expo.out"},F(1.35));
+tl.fromTo("#r2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.4,ease:"expo.out"},F(2.3));
+tl.to("#r1",{opacity:0.3,duration:0.3,ease:"power2.out"},F(2.6));
+MARK("#m2",2.6);
+// cut to b-roll on "filmed": streak masks the cut, the clip lands blurred and settles
+WHIP("#sk1",5.0);
+tl.fromTo("#br1",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},F(5.0));
+tl.fromTo("#vb1",{scale:1.0},{scale:1.1,duration:4.1,ease:"none"},F(5.0));
+tl.fromTo("#p1",{opacity:0,y:30},{opacity:1,y:0,duration:0.4,ease:"expo.out"},F(5.5));
+tl.to("#br1",{opacity:0,duration:0.2,ease:"power2.in"},F(8.9));
+WHIP("#sk2",11.0);
+tl.fromTo("#br2",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},F(11.0));
+tl.fromTo("#vb2",{scale:1.04},{scale:1.14,duration:4.1,ease:"none"},F(11.0));
+tl.fromTo("#p2",{opacity:0,y:30},{opacity:1,y:0,duration:0.4,ease:"expo.out"},F(12.2));
+tl.to("#br2",{opacity:0,duration:0.2,ease:"power2.in"},F(14.95));
+// a start, not the finish
+reframe(15.05,17.3); panelIn("#pc2",15.05,17.45);
+tl.fromTo("#barfill",{width:"0%"},{width:"33%",duration:0.9,ease:"power2.out"},F(15.75));
+tl.fromTo("#notfin",{opacity:0},{opacity:1,duration:0.3,ease:"power2.out"},F(16.6));
+// the takeover: words slam in on his onsets, the star lands as the full stop
+WHIP("#sk3",17.55);
+tl.fromTo("#pp1",{opacity:0},{opacity:1,duration:0.12,ease:"none"},F(17.55));
+tl.fromTo("#pp1dots",{x:0,y:0},{x:-24,y:-18,duration:2.9,ease:"none"},F(17.55));
+[17.8,17.92,18.06,18.2,18.36].forEach(function(at,k){
+  tl.fromTo("#slam .w:nth-child("+(k<4?k+1:6)+")",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},F(at));
+});
+MARK("#m5",18.7);
+tl.fromTo("#star1",{opacity:0,y:-260,scaleX:1,scaleY:1},{opacity:1,y:0,duration:0.32,ease:"power2.in"},F(18.95));
+tl.to("#star1",{scaleX:1.25,scaleY:0.75,duration:0.08,ease:"power2.out"},F(19.27));
+tl.to("#star1",{scaleX:1,scaleY:1,duration:0.4,ease:"power3.out"},F(19.35));
+tl.fromTo("#sub1",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power2.out"},F(19.5));
+WHIP("#sk4",20.45);
+tl.to("#pp1",{opacity:0,duration:0.12,ease:"none"},F(20.45));
+
+// ---- 02 · the good ----
+CHAP("#ch2",20.6,30.4);
+reframe(20.75,23.65); panelIn("#pc3",20.75,23.8);
+MARK("#m3",22.4);
+tl.fromTo("#br3",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},F(23.9));
+tl.fromTo("#vb3",{scale:1.0},{scale:1.1,duration:3.4,ease:"none"},F(23.9));
+tl.fromTo("#p3",{opacity:0,y:30},{opacity:1,y:0,duration:0.4,ease:"expo.out"},F(24.3));
+tl.to("#br3",{opacity:0,duration:0.2,ease:"power2.in"},F(27.15));
+reframe(27.2,30.35); panelIn("#pc4",27.2,30.5);
+tl.fromTo("#pc4 .wave",{opacity:0,scale:0.5,transformOrigin:"0% 50%"},{opacity:1,scale:1,duration:0.35,ease:"power2.out",stagger:0.16},F(27.8));
+MARK("#m4",28.9);
+
+// ---- 03 · what is coming ----
+WHIP("#sk5",30.6);
+CHAP("#ch3",30.75,40.7);
+tl.fromTo("#kin .w",{opacity:0,y:80,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.36,ease:"expo.out",stagger:0.32},F(30.95));
+tl.to("#kin .w",{opacity:0,y:-60,filter:"blur(14px)",duration:0.28,ease:"power2.in"},F(32.55));
+WHIP("#sk6",32.8);
+// Muse: the camera blurs behind glass, the word types on, and Meta's own page
+// swings in as a browser card (a credited screen recording of a public page)
+tl.to("#blurcam",{opacity:1,duration:0.35,ease:"power2.out"},F(32.8));
+tl.fromTo("#museg",{opacity:0,x:-80},{opacity:1,x:0,duration:0.5,ease:"power3.out"},F(32.95));
+tl.set("#museg .ml",{opacity:0},F(32.8));
+tl.to("#museg .ml",{opacity:1,duration:0.01,ease:"none",stagger:0.11},F(35.2));
+tl.fromTo("#when3",{opacity:0,y:14},{opacity:1,y:0,duration:0.4,ease:"power2.out"},F(35.9));
+tl.fromTo("#browser",{opacity:0,rotationY:-30,x:180,transformPerspective:1600},{opacity:1,rotationY:-12,x:0,transformPerspective:1600,duration:0.8,ease:"power3.out"},F(33.1));
+tl.to("#browser",{rotationY:-5,y:-14,transformPerspective:1600,duration:3.9,ease:"sine.inOut"},F(33.9));
+tl.fromTo("#credit",{opacity:0},{opacity:1,duration:0.4,ease:"power2.out"},F(33.6));
+tl.to("#museg, #browser, #credit",{opacity:0,duration:0.3,ease:"power2.in"},F(37.15));
+tl.to("#blurcam",{opacity:0,duration:0.35,ease:"power2.inOut"},F(37.25));
+reframe(37.45,40.8); panelIn("#pc5",37.45,41.2);
+tl.fromTo("#bub",{opacity:0,y:20,scale:0.92},{opacity:1,y:0,scale:1,duration:0.4,ease:"expo.out"},F(37.75));
+tl.to("#q1",{opacity:1,duration:0.25,ease:"power2.out"},F(38.6));
+tl.to("#q2",{opacity:1,duration:0.25,ease:"power2.out"},F(38.8));
+tl.to("#q3",{opacity:1,duration:0.25,ease:"power2.out"},F(39.0));
+tl.fromTo("#t1",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},F(39.7));
+tl.fromTo("#t2",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},F(40.05));
+tl.fromTo("#t3",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},F(40.4));
+// ---- cold open: the 59,000, then the camera ----
+var cnt = {v:0};
+tl.to(cnt,{v:59000,duration:1.5,ease:"power3.out",onUpdate:function(){ document.getElementById("num").textContent = Math.round(cnt.v).toLocaleString("en-GB"); }},F0(0.2));
+tl.fromTo("#odots",{x:0,y:0},{x:-30,y:-22,duration:2.6,ease:"none"},0);
+tl.fromTo("#num",{scale:0.86,filter:"blur(10px)"},{scale:1,filter:"blur(0px)",duration:0.9,ease:"expo.out"},F0(0.2));
+tl.fromTo("#olbl",{opacity:0,y:16},{opacity:1,y:0,duration:0.5,ease:"power2.out"},F0(0.9));
+gsap.set("#sk1",{xPercent:-160,skewX:-12});
+tl.fromTo("#sk1",{xPercent:-160},{xPercent:500,duration:0.36,ease:"power3.in"},F0(2.42));
+tl.to("#open",{opacity:0,duration:0.1,ease:"none"},F0(2.6));
+// HUD timecode runs with the film
+var tc = {s:0};
+tl.to(tc,{s:43.4,duration:43.4,ease:"none",onUpdate:function(){ var f=Math.floor(tc.s*30)%30, sec=Math.floor(tc.s)%60, m=Math.floor(tc.s/60); document.getElementById("tc").textContent=("0"+m).slice(-2)+":"+("0"+sec).slice(-2)+":"+("0"+f).slice(-2); }},0);
+tl.to({}, {duration:43.4}, 0);
+</script>
+</body>
+</html>

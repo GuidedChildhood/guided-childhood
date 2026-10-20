@@ -155,3 +155,20 @@ appears once, bare crossfade into frame 4, and no frame strips. It is the
 baseline. Each video after it is measured against this list, Justin's one line
 of feedback goes into SKILL.md under Learned, and the list grows only when he
 says the same thing twice.
+
+
+## 6. The skin pass, on every talking head (Justin, 20 October 2026)
+
+Justin chose the light pass over the medium one, side by side: calmer redness,
+softer texture, a touch warmer and brighter, still clearly him. The medium pass
+smoothed his forehead lines away and read as waxy, which costs trust. Apply it
+to the cut talking head before it goes into the composition, keep the raw cut
+beside it, and never go stronger:
+
+```
+bilateral=sigmaS=6:sigmaR=0.06:planes=1,huesaturation=saturation=-0.12:colors=r:strength=1,curves=all='0/0 0.5/0.53 1/1',colortemperature=temperature=6200:mix=0.25,unsharp=5:5:0.35
+```
+
+The bilateral filter smooths only on the luma plane and keeps edges, so eyes,
+brows and the outline of the face stay sharp. Captions sit on a dark glass plate
+whenever the background is light (Nate's rule: captions never white on light).

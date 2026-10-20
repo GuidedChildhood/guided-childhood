@@ -1,0 +1,130 @@
+<title>Account Switch Schedule</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one column of weeks, each week a row of day cards in posting order.
+   The four anchor days carry a colour each; a tick per post is remembered in
+   this browser only. Tokens are the Guided Childhood butter and ink. */
+:root{
+  --bg:#FFFBEE; --card:#FFFFFF; --ink:#1A1A2E; --muted:#52526A; --line:#E8E1CC;
+  --butter:#EDC35F; --butter-d:#C99A28;
+  --mon:#F5E6C0; --wed:#DCEBF5; --fri:#E2EFD9; --sat:#F6DDE0; --hand:#EEE7F7; --film:#1A1A2E;
+  --display:"Nunito","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17172A; --card:#22223A; --ink:#F5F1E4; --muted:#B9B6C8; --line:#34344F;
+  --mon:#4A3F22; --wed:#24394A; --fri:#2C3F28; --sat:#4A2C31; --hand:#3A3150; --film:#EDC35F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17172A; --card:#22223A; --ink:#F5F1E4; --muted:#B9B6C8; --line:#34344F;
+  --mon:#4A3F22; --wed:#24394A; --fri:#2C3F28; --sat:#4A2C31; --hand:#3A3150; --film:#EDC35F; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--display);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--butter-d)}
+h1{font-weight:900;font-size:clamp(30px,4.4vw,46px);line-height:1.05;margin:6px 0 10px;text-wrap:balance}
+.lede{color:var(--muted);font-size:17px;line-height:1.55;max-width:66ch;margin:0}
+.key{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 6px}
+.k{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1.5px solid var(--line)}
+.k.mon{background:var(--mon)}.k.wed{background:var(--wed)}.k.fri{background:var(--fri)}.k.sat{background:var(--sat)}.k.hand{background:var(--hand)}
+.progress{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:6px}
+.week{margin-top:30px}
+.wk{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.wk h2{font-weight:900;font-size:24px;margin:0}
+.wk span{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.days{grid-template-columns:minmax(0,1fr)}}
+.post{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.post.done{opacity:.55}
+.tagrow{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.day{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;border-radius:9px}
+.mon .day{background:var(--mon)}.wed .day{background:var(--wed)}.fri .day{background:var(--fri)}.sat .day{background:var(--sat)}.hand .day{background:var(--hand)}
+.post h3{font-weight:900;font-size:19px;line-height:1.2;margin:0}
+.post p{margin:0;font-size:14.5px;line-height:1.45;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.m{font-family:var(--mono);font-size:11.5px;padding:3px 7px;border-radius:7px;border:1px solid var(--line);color:var(--muted)}
+.m.film{background:var(--film);color:var(--bg);border-color:var(--film)}
+.m.ask{border-color:var(--butter-d);color:var(--butter-d)}
+.m.flag{border-color:#C0524A;color:#C0524A}
+.src{font-family:var(--mono);font-size:11.5px;color:var(--muted);word-break:break-word}
+.tick{appearance:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--ink);background:var(--card);cursor:pointer;flex:none;display:grid;place-content:center}
+.tick:checked{background:var(--butter);border-color:var(--butter-d)}
+.tick:checked::after{content:"✓";font-weight:900;font-size:15px;color:#1A1A2E}
+.tick:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
+.notes{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.notes{grid-template-columns:minmax(0,1fr)}}
+.note{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px 18px}
+.note h3{margin:0 0 6px;font-weight:900;font-size:17px}
+.note p{margin:0;font-size:14.5px;line-height:1.5;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Inspired by Alma becomes Guided Digital Childhood</div>
+  <h1>The first six weeks</h1>
+  <p class="lede">Two weeks of handover, told before anything changes, then the four days the walk and talk video promises. Tuesday, Thursday and Sunday stay empty on purpose. Tick each post when it goes out; the ticks stay in this browser.</p>
+  <div class="key"><span class="k hand">Handover</span><span class="k mon">Founder Monday</span><span class="k wed">Research Wednesday</span><span class="k fri">Service Friday</span><span class="k sat">Happy News Saturday</span></div>
+  <div class="progress" id="progress"></div>
+  <div id="weeks"></div>
+  <div class="notes">
+    <div class="note"><h3>Old posts stay up</h3><p>Post 1 promises nothing is deleted and ten years stays where it is. So do not archive the decoration posts. Pin the walk and talk, the Ready film and the stage check post on top instead.</p></div>
+    <div class="note"><h3>One ask in five</h3><p>Friday carries the ask, Saturday a soft one when it is a printable. Monday and Wednesday never ask. Links in the Instagram bio only; Facebook can carry them in the body.</p></div>
+    <div class="note"><h3>Check the flags</h3><p>Chapter 2 names Alma, and post 3 is the Covid babysitter admission. Both are family stories, so read them once more before they go and say yes or swap them.</p></div>
+  </div>
+</div>
+
+<script>
+const W = [
+ { n:1, dates:"26 October to 1 November", note:"Handover, explain before you change", posts:[
+  {d:"Mon 26 Oct", c:"hand", t:"The heads up", p:"Warn them. Ask nothing. Photo: the first cake topper.", m:["Natalia's voice","Story poll: are you a parent?"], s:"content/brand-story/handover-sequence.md, post 1"},
+  {d:"Wed 28 Oct", c:"hand", t:"Where it started", p:"Ten years, told fondly.", m:["Natalia's voice"], s:"handover-sequence.md, post 2"},
+  {d:"Fri 30 Oct", c:"hand", t:"The bit we do not usually say", p:"Covid, and the guilt. The one that will travel.", m:["Natalia's voice"], f:"Family story, check before it goes", s:"handover-sequence.md, post 3"},
+  {d:"Sat 31 Oct", c:"hand", t:"What we did about it", p:"The idea, and why.", m:["Natalia's voice"], s:"handover-sequence.md, post 4"} ]},
+ { n:2, dates:"2 to 8 November", note:"Switch day is Monday", posts:[
+  {d:"Mon 2 Nov", c:"hand", t:"Switch day: the walk and talk", p:"Handle, name, bio and picture flip in the morning. Post Justin's walk and talk reel with the post 5 caption. Pin it.", m:["Reel"], film:"Walk and talk, about 95s", s:"videos/prompter, script two · handover-sequence.md, post 5"},
+  {d:"Wed 4 Nov", c:"wed", t:"Ready, the brand film", p:"The moments every parent knows, six to sixteen. Pin it next to the walk and talk.", m:["Reel"], film:"Ready, 94s", s:"videos/2026-10-12-ready"},
+  {d:"Fri 6 Nov", c:"hand", t:"What it actually is", p:"The product, and the first ask: the stage check, link in bio.", m:["Natalia's voice"], a:"Stage check", s:"handover-sequence.md, post 6"},
+  {d:"Sat 7 Nov", c:"sat", t:"Happy News, the first one", p:"Real things children made or learned. Five to seven cards.", m:["Carousel"], s:".claude/skills/family-social, Saturday"} ]},
+ { n:3, dates:"9 to 15 November", note:"The rhythm starts", posts:[
+  {d:"Mon 9 Nov", c:"mon", t:"The bedroom and the first cake topper", p:"Chapter 1. Open on the moment. No ask.", m:["Real photo"], s:"founding-story.md, chapter 1"},
+  {d:"Wed 11 Nov", c:"wed", t:"Bans are not enough on their own", p:"SMART Schools 2025: no wellbeing difference between strict and relaxed phone policy schools. Concession first; a brick, not the thesis.", m:["Carousel"], s:"briefings/notes/positive-canon.md"},
+  {d:"Fri 13 Nov", c:"fri", t:"The five o'clock fight", p:"Service 1, with the words to say. Ready episode 1, the nightly fight, as the reel.", m:["Screen recording"], film:"Ready ep 1, 91s", a:"Stage check", s:"service-post-map.md, service 1"},
+  {d:"Sat 14 Nov", c:"sat", t:"Happy News, a printable", p:"One Saturday in three is a printable or a chart. The craft side stays.", m:["Printable"], a:"Soft ask", s:".claude/skills/printables-engine"} ]},
+ { n:4, dates:"16 to 22 November", posts:[
+  {d:"Mon 16 Nov", c:"mon", t:"Why it is called Inspired by Alma", p:"Chapter 2. She is eleven now and mortified.", m:["Real photo"], f:"Names Alma, check before it goes", s:"founding-story.md, chapter 2"},
+  {d:"Wed 18 Nov", c:"wed", t:"You can learn to spot a trick", p:"Inoculation videos taught people to spot manipulation (Roozenbeek, 2022). Adults, and recognition only: promising, not proven.", m:["Carousel"], s:"positive-canon.md"},
+  {d:"Fri 20 Nov", c:"fri", t:"Screen time nobody agreed to", p:"Service 2, the family deal, with the words.", m:["Screen recording"], a:"Stage check", s:"service-post-map.md, service 2"},
+  {d:"Sat 21 Nov", c:"sat", t:"Happy News", p:"Real things children made or learned.", m:["Carousel"], s:"family-social, Saturday"} ]},
+ { n:5, dates:"23 to 29 November", posts:[
+  {d:"Mon 23 Nov", c:"mon", t:"The first big wedding", p:"Chapter 3. The one where we thought we might actually be a business.", m:["Real photo"], s:"founding-story.md, chapter 3"},
+  {d:"Wed 25 Nov", c:"wed", t:"The good is real too", p:"UNICEF's review of moderate use and the benefits. Concession first.", m:["Carousel"], s:"positive-canon.md"},
+  {d:"Fri 27 Nov", c:"fri", t:"Everything else is on a screen", p:"Service 9, the craft bridge, early on purpose. Pair with a printable.", m:["Screen recording"], a:"Stage check", s:"service-post-map.md, service 9"},
+  {d:"Sat 28 Nov", c:"sat", t:"Happy News", p:"Real things children made or learned.", m:["Carousel"], s:"family-social, Saturday"} ]},
+ { n:6, dates:"30 November to 6 December", posts:[
+  {d:"Mon 30 Nov", c:"mon", t:"Opening the shop in Bristol", p:"Chapter 4. Keys in hand, empty room, no idea.", m:["Real photo"], s:"founding-story.md, chapter 4"},
+  {d:"Wed 2 Dec", c:"wed", t:"Both sides, honestly", p:"Common Sense and Hopelab 2024: online spaces help some young people feel less alone, and the same groups face more harms. Quote both.", m:["Carousel"], s:"positive-canon.md"},
+  {d:"Fri 4 Dec", c:"fri", t:"Nothing between no phone and everything", p:"Service 3. A Ready episode as the reel if one is finished.", m:["Screen recording"], film:"Ready episode, if ready", a:"Stage check", s:"service-post-map.md, service 3"},
+  {d:"Sat 5 Dec", c:"sat", t:"Happy News, a printable", p:"The second printable Saturday.", m:["Printable"], a:"Soft ask", s:"printables-engine"} ]}
+];
+
+let done = {};
+try { done = JSON.parse(localStorage.getItem("switch-schedule") || "{}"); } catch (e) {}
+const save = () => { try { localStorage.setItem("switch-schedule", JSON.stringify(done)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  let total = 0, ticked = 0;
+  document.getElementById("weeks").innerHTML = W.map(w => `
+    <section class="week"><div class="wk"><h2>Week ${w.n}</h2><span>${esc(w.dates)}${w.note ? " · " + esc(w.note) : ""}</span></div>
+    <div class="days">${w.posts.map((p, i) => { const id = `w${w.n}p${i}`; total++; if (done[id]) ticked++;
+      return `<article class="post ${p.c}${done[id] ? " done" : ""}">
+        <div class="tagrow"><span class="day">${esc(p.d)}</span><input class="tick" type="checkbox" id="${id}" aria-label="Posted: ${esc(p.t)}" ${done[id] ? "checked" : ""}></div>
+        <h3>${esc(p.t)}</h3><p>${esc(p.p)}</p>
+        <div class="meta">${(p.m||[]).map(x => `<span class="m">${esc(x)}</span>`).join("")}${p.film ? `<span class="m film">Film: ${esc(p.film)}</span>` : ""}${p.a ? `<span class="m ask">Ask: ${esc(p.a)}</span>` : ""}${p.f ? `<span class="m flag">${esc(p.f)}</span>` : ""}</div>
+        <div class="src">${esc(p.s)}</div></article>`; }).join("")}</div></section>`).join("");
+  document.getElementById("progress").textContent = `${ticked} of ${total} posted`;
+}
+document.getElementById("weeks").addEventListener("change", e => { if (e.target.classList.contains("tick")) { done[e.target.id] = e.target.checked; save(); render(); } });
+render();
+</script>

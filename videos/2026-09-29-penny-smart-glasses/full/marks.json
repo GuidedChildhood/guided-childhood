@@ -1,0 +1,130 @@
+[
+ {
+  "card": 1,
+  "label": "hook",
+  "src": "full.mov",
+  "at": 0.0,
+  "dur": 11.78,
+  "old": 1
+ },
+ {
+  "card": 1,
+  "label": "intro",
+  "src": "full.mov",
+  "at": 11.78,
+  "dur": 10.6,
+  "old": 3
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "src": "full.mov",
+  "at": 22.38,
+  "dur": 8.95,
+  "old": 4
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "src": "full.mov",
+  "at": 31.33,
+  "dur": 9.5,
+  "old": 5
+ },
+ {
+  "card": 2,
+  "label": "concerns",
+  "src": "full.mov",
+  "at": 40.83,
+  "dur": 9.4,
+  "old": 6
+ },
+ {
+  "card": 3,
+  "label": "good",
+  "src": "19-10-2026_13-57-31_A.MOV",
+  "at": 50.23,
+  "dur": 10.54,
+  "old": 7
+ },
+ {
+  "card": 4,
+  "label": "coming",
+  "src": "full.mov",
+  "at": 60.77,
+  "dur": 5.97,
+  "old": 9
+ },
+ {
+  "card": 4,
+  "label": "talk",
+  "src": "full.mov",
+  "at": 66.74,
+  "dur": 5.43,
+  "old": 10
+ },
+ {
+  "card": 5,
+  "label": "main",
+  "src": "19-10-2026_13-58-26_A.MOV",
+  "at": 72.17,
+  "dur": 6.13,
+  "old": 12
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "src": "full.mov",
+  "at": 78.3,
+  "dur": 11.12,
+  "old": 13
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "src": "full.mov",
+  "at": 89.42,
+  "dur": 6.7,
+  "old": 14
+ },
+ {
+  "card": 6,
+  "label": "view",
+  "src": "full.mov",
+  "at": 96.12,
+  "dur": 10.42,
+  "old": 15
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "src": "full.mov",
+  "at": 106.54,
+  "dur": 10.37,
+  "old": 16
+ },
+ {
+  "card": 7,
+  "label": "rules",
+  "src": "full.mov",
+  "at": 116.91,
+  "dur": 17.84,
+  "old": 17
+ },
+ {
+  "card": 8,
+  "label": "promise",
+  "src": "full.mov",
+  "at": 134.75,
+  "dur": 8.61,
+  "old": 20
+ },
+ {
+  "card": 9,
+  "label": "thanks",
+  "src": "19-10-2026_13-59-57_A.MOV",
+  "at": 143.36,
+  "dur": 6.2,
+  "old": 21
+ }
+]

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=1920, height=1080">
+<title>Smart glasses reply: the full edit</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" crossorigin="anonymous"></script>
+<style>/* The full VotesforSchools reply. Tokens: ink #1A1A2E, cream #FFFBEE, butter
+   #EDC35F, butter dark #C99A28, muted #52526A. Nunito for statements, IBM Plex
+   Mono for the machine layer. Glass is cream tinted and frosted, never dark. */
+@font-face{font-family:nunito;src:url("assets/fonts/captured-nunito_latin_wght_normal-s.p.1wzrasd95pxo_.woff2")format("woff2");font-weight:200 1000}
+@font-face{font-family:plexMono;src:url("assets/fonts/captured-ibm_plex_mono_latin_600_normal-s.p.30e0eqd5fxn92.woff2")format("woff2");font-weight:600}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#1A1A2E}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1A1A2E;font-family:nunito,sans-serif;color:#1A1A2E}
+.reframe,.drift,.punch{position:absolute;inset:0}
+.reframe{transform-origin:0% 50%}
+.punch{transform-origin:50% 36%}
+.punch video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* frosted glass */
+.glass{background:rgba(255,251,238,.48);-webkit-backdrop-filter:blur(30px) saturate(150%);backdrop-filter:blur(30px) saturate(150%);border:1.5px solid rgba(255,255,255,.82);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -40px 80px rgba(255,251,238,.22),0 40px 90px rgba(26,26,46,.35)}
+.panel{position:absolute;left:64px;top:150px;width:820px;min-height:420px;border-radius:34px;overflow:hidden;opacity:0;padding:52px 56px;z-index:4}
+.panel .sheen{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 38%);pointer-events:none}
+.panel .shine{position:absolute;top:0;bottom:0;left:-260px;width:200px;background:linear-gradient(90deg,rgba(237,195,95,0),rgba(237,195,95,.55),rgba(237,195,95,0));transform:skewX(-18deg);pointer-events:none}
+.pc{position:relative}
+.eb{font-family:plexMono,monospace;font-weight:600;font-size:19px;letter-spacing:.2em;text-transform:uppercase;color:#C99A28}
+.eb.ink{color:#1A1A2E;font-size:22px;margin-top:18px}
+.eb.ctr{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:24px}
+.row{font-weight:900;font-size:76px;line-height:1.05;letter-spacing:-.015em;margin-top:20px}
+.st{font-weight:900;font-size:92px;line-height:1.03;letter-spacing:-.02em;margin-top:24px}
+.swap{position:relative;min-height:330px}.swap .st{position:absolute;left:0;right:0;top:0}
+.mark{position:relative;display:inline-block;isolation:isolate;z-index:0}
+.mark::after{content:"";position:absolute;left:-8px;right:-8px;bottom:6px;height:28px;background:#EDC35F;z-index:-1;transform-origin:left center;transform:scaleX(var(--m,0))}
+.strike{position:relative;display:inline-block}
+.strike::after{content:"";position:absolute;left:-6px;right:-6px;top:52%;height:12px;background:#EDC35F;transform-origin:left center;transform:scaleX(var(--s,0))}
+.bubble{display:inline-block;margin-top:26px;background:#F0F9FF;border:3px solid #1A1A2E;border-radius:24px 24px 24px 6px;box-shadow:5px 5px 0 #1A1A2E;padding:18px 26px;font-weight:800;font-size:38px;line-height:1.2}
+.todo{margin-top:24px}
+.todo .r{display:flex;align-items:center;gap:22px;font-weight:900;font-size:58px;padding:12px 0;border-bottom:2px dashed rgba(26,26,46,.2)}
+.todo .box{width:56px;height:56px;border:3px solid #1A1A2E;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center}
+.todo .box b{font-size:38px;opacity:0}
+.loop{display:flex;align-items:center;gap:16px;margin-top:30px;flex-wrap:wrap}
+.loop span{font-weight:900;font-size:40px;background:#fff;border:3px solid #1A1A2E;border-radius:16px;box-shadow:4px 4px 0 #1A1A2E;padding:10px 18px}
+.loop i{font-style:normal;font-weight:900;font-size:44px;color:#C99A28}
+
+/* real pages in a browser card, left */
+.screen{position:absolute;left:70px;top:190px;width:900px;border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 50px 120px rgba(26,26,46,.55);transform-origin:0% 50%;opacity:0;z-index:4}
+.screen .chrome,.browser .chrome{height:50px;background:#F3F1EC;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid #e3e0d8}
+.screen .chrome i,.browser .chrome i{width:13px;height:13px;border-radius:50%;background:#d8d4ca;display:inline-block}
+.screen .url,.browser .url{margin-left:14px;flex:1;height:30px;border-radius:9px;background:#fff;font-family:plexMono,monospace;font-size:14px;color:#52526A;display:flex;align-items:center;padding:0 12px;white-space:nowrap;overflow:hidden}
+.screen .shot{position:relative;width:900px;height:416px;overflow:hidden}
+.screen .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 0%;transform-origin:50% 30%}
+.stag{position:absolute;left:70px;top:132px;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:#1A1A2E;background:rgba(255,251,238,.7);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.85);border-radius:10px;padding:8px 12px;opacity:0;z-index:4}
+
+/* b-roll */
+.broll{position:absolute;inset:0;opacity:0;overflow:hidden;z-index:5}
+.broll video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.tag{position:absolute;right:64px;top:96px;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFBEE;background:rgba(26,26,46,.55);padding:8px 12px;border-radius:9px}
+.pill{position:absolute;left:72px;bottom:220px;font-weight:900;font-size:50px;line-height:1.1;border-radius:22px;padding:16px 28px;opacity:0;max-width:1100px}
+.pill small{display:block;font-family:plexMono,monospace;font-weight:600;font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:#C99A28;margin-bottom:6px}
+
+/* paper takeovers */
+.paper{position:absolute;inset:0;background:#FFFBEE;opacity:0;overflow:hidden;z-index:6}
+.paper .dots,.endc .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.07) 1.7px,transparent 1.8px);background-size:48px 48px}
+.crop{position:absolute;width:38px;height:38px;border-color:#1A1A2E;border-style:solid;opacity:.5}
+.crop.tl{left:40px;top:40px;border-width:3px 0 0 3px}.crop.tr{right:40px;top:40px;border-width:3px 3px 0 0}
+.crop.bl{left:40px;bottom:40px;border-width:0 0 3px 3px}.crop.br{right:40px;bottom:40px;border-width:0 3px 3px 0}
+.ruler{position:absolute;left:120px;right:120px;bottom:70px;height:30px}
+.ruler .line{position:absolute;left:0;right:0;top:14px;border-top:3px solid rgba(26,26,46,.2)}
+.ruler .fill{position:absolute;left:0;top:13px;height:5px;background:#EDC35F;border-radius:3px}
+.ruler span{position:absolute;top:-16px;font-family:plexMono,monospace;font-weight:600;font-size:15px;color:#52526A;transform:translateX(-50%)}
+.slam{position:absolute;left:0;right:0;top:330px;text-align:center;font-weight:900;font-size:150px;line-height:1.02;letter-spacing:-.025em}
+.slam .w{display:inline-block;opacity:0;margin:0 .12em}
+.star3d{position:absolute;left:1440px;top:520px;width:130px;height:130px;opacity:0;object-fit:contain}
+.sub{position:absolute;left:0;right:0;top:720px;text-align:center;font-weight:800;font-size:52px;opacity:0}
+.two{position:absolute;left:0;right:0;top:300px;text-align:center}
+.big{font-weight:900;font-size:120px;line-height:1.05;letter-spacing:-.025em}
+.big .w{display:inline-block}
+.rules{position:absolute;left:150px;right:150px;top:340px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.rule{background:#fff;border:3px solid #1A1A2E;border-radius:30px;box-shadow:9px 9px 0 #1A1A2E;padding:44px 36px;text-align:center;opacity:0}
+.rule b{display:block;font-weight:900;font-size:120px;line-height:1;letter-spacing:-.02em}
+.rule span{display:block;margin-top:18px;font-weight:800;font-size:38px;line-height:1.2;color:#52526A}
+.friends{position:absolute;left:120px;right:120px;top:300px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.fr{text-align:center;opacity:0}
+.fr img{width:250px;height:250px;object-fit:contain}
+.fr b{display:block;font-weight:900;font-size:46px;margin-top:10px}
+.fr span{display:block;font-family:plexMono,monospace;font-weight:600;font-size:20px;letter-spacing:.12em;color:#C99A28;margin-top:4px}
+
+/* Muse */
+.blurcam{position:absolute;inset:0;opacity:0;-webkit-backdrop-filter:blur(26px) brightness(.62);backdrop-filter:blur(26px) brightness(.62);z-index:4}
+.museg{position:absolute;left:96px;top:300px;width:820px;opacity:0;z-index:5}
+.museg .word{font-weight:900;font-size:210px;line-height:1;letter-spacing:-.03em;margin-top:6px}
+.museg .ml{opacity:0}
+.cursor{display:inline-block;width:.42em;height:.86em;background:#1A1A2E;vertical-align:-.06em;margin-left:10px}
+.when{font-weight:800;font-size:44px;margin-top:10px;opacity:0}
+.browser{position:absolute;right:120px;top:120px;width:640px;height:820px;border-radius:22px;overflow:hidden;background:#fff;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 50px 120px rgba(26,26,46,.55);transform-origin:100% 50%;opacity:0;z-index:5}
+.browser video{position:absolute;left:0;top:50px;width:100%;height:calc(100% - 50px);object-fit:cover;object-position:50% 0%}
+.credit{position:absolute;right:120px;top:952px;font-family:plexMono,monospace;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#FFFBEE;opacity:0;z-index:6}
+
+/* kinetic words, name tag, chapter, HUD, captions, streaks */
+.kin{position:absolute;left:72px;bottom:230px;font-weight:900;font-size:130px;line-height:.98;letter-spacing:-.03em;color:#FFFBEE;text-shadow:0 6px 0 #1A1A2E,0 20px 50px rgba(0,0,0,.45);z-index:4}
+.kin .w{display:inline-block;opacity:0}
+.name{position:absolute;left:72px;bottom:230px;border-radius:22px;padding:18px 28px;opacity:0;z-index:4}
+.name b{display:block;font-weight:900;font-size:50px}
+.name span{display:block;font-family:plexMono,monospace;font-weight:600;font-size:17px;letter-spacing:.16em;text-transform:uppercase;color:#C99A28;margin-top:4px}
+.chap{position:absolute;left:64px;top:96px;font-family:plexMono,monospace;font-weight:600;font-size:18px;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,251,238,.6);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1.5px solid rgba(255,255,255,.85);border-radius:12px;padding:9px 14px;opacity:0;z-index:7}
+.hud{position:absolute;inset:0;pointer-events:none;z-index:8;font-family:plexMono,monospace;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#FFFFFF;mix-blend-mode:difference}
+.hud .tl{position:absolute;left:64px;top:52px}.hud .tr{position:absolute;right:64px;top:52px}
+.hud .rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#FFFFFF;margin-right:10px;vertical-align:1px}
+.hud .x{position:absolute;width:26px;height:26px}
+.hud .x::before,.hud .x::after{content:"";position:absolute;background:#FFFFFF}
+.hud .x::before{left:12px;top:0;width:2px;height:26px}.hud .x::after{top:12px;left:0;height:2px;width:26px}
+.cap{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);width:max-content;max-width:1500px;text-align:center;font-weight:900;font-size:54px;line-height:1.15;color:#FFFBEE;text-shadow:0 4px 0 #1A1A2E,0 0 18px rgba(26,26,46,.55);opacity:0;z-index:7}
+.cap .cw{display:inline-block;padding:0 .1em;border-radius:10px}
+.streak{position:absolute;top:-100px;bottom:-100px;width:640px;left:0;background:linear-gradient(90deg,rgba(237,195,95,0),#EDC35F 40%,#FFFBEE 55%,rgba(237,195,95,0));filter:blur(22px);z-index:9}
+
+/* cold open and end card */
+.open{position:absolute;inset:0;background:#FFFBEE;z-index:8}
+.open .dots{position:absolute;inset:-60px;background-image:radial-gradient(rgba(26,26,46,.09) 1.8px,transparent 1.9px);background-size:44px 44px}
+.open .num{position:absolute;left:0;right:0;top:360px;text-align:center;font-weight:900;font-size:260px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.open .lbl{position:absolute;left:0;right:0;top:650px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:26px;letter-spacing:.22em;text-transform:uppercase;color:#C99A28}
+.endc{position:absolute;inset:0;background:#FFFBEE;opacity:0;z-index:8}
+.estar{position:absolute;left:50%;top:250px;width:220px;height:220px;margin-left:-110px;object-fit:contain;opacity:0}
+.eword{position:absolute;left:0;right:0;top:520px;text-align:center;font-weight:900;font-size:110px;letter-spacing:-.02em;opacity:0}
+.ewith{position:absolute;left:0;right:0;top:680px;text-align:center;font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.24em;text-transform:uppercase;color:#C99A28;opacity:0}
+
+/* 20 October additions: chips under the curriculum card, the friends as film */
+.chips{position:absolute;left:70px;top:660px;display:flex;gap:16px;flex-wrap:wrap;width:900px;z-index:4}
+.chip{display:inline-block;border-radius:18px;padding:14px 22px;font-weight:900;font-size:40px;opacity:0}
+.screen .shot video{width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+.frv{width:250px;height:250px;margin:0 auto;border-radius:28px;overflow:hidden}
+.frv video{width:100%;height:100%;object-fit:cover}
+
+/* captions on a dark glass plate: the 20 October room is bright, and white
+   text on a light wall disappears (Nate's rule: captions never white on light) */
+.cap{background:rgba(26,26,46,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:18px;padding:10px 22px 12px;text-shadow:none;font-size:50px}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="157.4" data-width="1920" data-height="1080">
+<div class="reframe" id="reframe"><div class="drift" id="drift"><div class="punch" id="punch">
+<video id="vt" class="clip" src="assets/talking.mp4" muted playsinline data-start="2.6" data-duration="150.2" data-media-start="0" data-track-index="1"></video>
+</div></div></div>
+<audio id="voice" src="assets/voice.m4a" data-start="2.6" data-duration="150.2" data-track-index="4" data-volume="1"></audio>
+<div class="screen" id="sc1"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com · Should people wear smart glasses?</div></div><div class="shot"><img src="assets/slide-08.jpg" alt=""></div></div><div class="stag" id="sc1t">From our lesson: the real vote</div>
+<div class="glass name" id="nm2"><b>Justin Phillips</b><span>Founder, Guided Digital Childhood</span></div>
+<div class="screen" id="sv3"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com/curriculum</div></div><div class="shot"><video id="sv3v" class="clip" src="assets/curriculum.mp4" muted playsinline data-start="16.133" data-duration="6.58" data-media-start="0.0" data-track-index="3"></video></div></div><div class="stag" id="sv3t">Our curriculum: 34 modules, ages 4 to 16</div>
+<div class="chips" id="chips"><span class="glass chip" id="cp1">Keep the good</span><span class="glass chip" id="cp2">Learn the risks</span><span class="glass chip" id="cp3">No cliff edge at 16</span></div>
+<div class="chap" id="ch4">01 · What you raised</div>
+<div class="broll" id="br5"><video id="br5v" class="clip" src="assets/b1-filmed.mp4" muted playsinline data-start="25.133" data-duration="1.42" data-media-start="0.6" data-track-index="2"></video><div class="tag">Illustrative footage</div><div class="glass pill" id="br5p"><small>You pointed out</small>Filmed without knowing</div></div>
+<div class="streak" id="sk1"></div>
+<div class="screen" id="sc6"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com · Should people wear smart glasses?</div></div><div class="shot"><img src="assets/slide-21.jpg" alt=""></div></div><div class="stag" id="sc6t">From our lesson: where to be extra careful</div>
+<div class="kin" id="kn7"><span class="w" id="kn7w0">You speak up.</span><br><span class="w" id="kn7w1">Companies move.</span></div>
+<div class="broll" id="br8"><video id="br8v" class="clip" src="assets/b2-cover-light.mp4" muted playsinline data-start="35.833" data-duration="4.11" data-media-start="0.2" data-track-index="2"></video><div class="tag">Illustrative footage</div><div class="glass pill" id="br8p"><small>Summer 2026</small>Cover the light, recording stops</div></div>
+<div class="streak" id="sk2"></div>
+<div class="paper" id="pp9"><div class="dots" id="pp9d"></div><div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div><div class="eb ctr" id="gs">Good start. But</div><div class="slam" id="slam1"><span class="w">a</span><span class="w">light</span><span class="w">is</span><span class="w">not</span><br><span class="w"><span class="mark" id="pm">permission</span></span></div><img class="star3d" id="st1" src="assets/DiGi-star-3d.png" alt=""><div class="sub" id="sub1">It needs to go further.</div><div class="ruler"><div class="line"></div><div class="fill" style="width:35%"></div><span style="left:0%">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div></div>
+<div class="streak" id="sk3"></div>
+<div class="streak" id="sk4"></div>
+<div class="chap" id="ch10">02 · The good</div>
+<div class="glass panel" id="pn11"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">You were right</div><div class="st">There is<br><span class="mark" id="g1m">real good</span><br>here.</div></div></div>
+<div class="screen" id="sc12"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com · Should people wear smart glasses?</div></div><div class="shot"><img src="assets/slide-11.jpg" alt=""></div></div><div class="stag" id="sc12t">From our lesson: reading a menu abroad</div>
+<div class="broll" id="br13"><video id="br13v" class="clip" src="assets/b3-read-aloud.mp4" muted playsinline data-start="51.483" data-duration="2.32" data-media-start="0.8" data-track-index="2"></video><div class="tag">Illustrative footage</div><div class="glass pill" id="br13p"><small>You were right</small>Reads text aloud</div></div>
+<div class="streak" id="sk5"></div>
+<div class="glass panel" id="pn14"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">Announced by Meta</div><svg width="560" height="210" viewBox="0 0 690 260" style="margin-top:6px"><path d="M90 220c-34 0-58-28-58-76 0-66 46-116 108-116 58 0 100 44 100 100 0 42-24 62-44 80-16 15-22 28-22 46" fill="none" stroke="#1A1A2E" stroke-width="11" stroke-linecap="round"/><path class="wave" d="M280 102c22 26 22 76 0 102" fill="none" stroke="#C99A28" stroke-width="11" stroke-linecap="round"/><path class="wave" d="M318 72c38 42 38 120 0 162" fill="none" stroke="#C99A28" stroke-width="11" stroke-linecap="round"/><path class="wave" d="M356 42c54 60 54 162 0 222" fill="none" stroke="#C99A28" stroke-width="11" stroke-linecap="round"/></svg><div class="st" style="font-size:84px">Hearing support</div><div class="eb ink"><span class="mark" id="h1m">for some adults</span></div></div></div>
+<div class="chap" id="ch15">03 · What is coming</div>
+<div class="blurcam" id="blurcam"></div><div class="museg" id="museg"><div class="glass" style="padding:44px 52px;border-radius:34px"><div class="eb">Meta's AI agent</div><div class="word"><span class="ml">M</span><span class="ml">u</span><span class="ml">s</span><span class="ml">e</span><span class="cursor"></span></div><div class="when" id="when">coming to glasses in the next few months</div></div></div><div class="browser" id="browser"><div class="chrome"><i></i><i></i><i></i><div class="url">about.fb.com/news · The Biggest News From Connect 2026</div></div><video id="vmeta" class="clip" src="assets/meta-muse.mp4" muted playsinline data-start="57.317" data-duration="6.26" data-media-start="6.4" data-track-index="3"></video></div><div class="credit" id="credit">Source: Meta Newsroom, Connect 2026</div>
+<div class="streak" id="sk6"></div>
+<div class="glass panel" id="pn16"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">Talk to it</div><div><span class="bubble" id="bub">Hey Muse, order everything on this school list.</span></div><div class="todo"><div class="r" id="q1"><span class="box"><b id="t1">✓</b></span>Pencils</div><div class="r" id="q2"><span class="box"><b id="t2">✓</b></span>Calculator</div><div class="r" id="q3"><span class="box"><b id="t3">✓</b></span>Pencil case</div></div></div></div>
+<div class="paper" id="pp17"><div class="dots" id="pp17d"></div><div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div><div class="two" id="m1"><div class="big"><span class="w">Learning about tech</span><br><span class="w">can't stop at <span class="strike" id="mstr">screens</span>.</span></div></div><div class="two" id="m2"><div class="big" style="font-size:96px"><span class="w">It has to cover the tech</span><br><span class="w">you <span class="mark" id="mw">wear</span> and <span class="mark" id="mt">talk to</span>.</span></div></div><div class="ruler"><div class="line"></div><div class="fill" style="width:55%"></div><span style="left:0%">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div></div>
+<div class="streak" id="sk7"></div>
+<div class="streak" id="sk8"></div>
+<div class="chap" id="ch18">04 · Your view leads</div>
+<div class="glass panel" id="pn19"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">The honest bit</div><div class="swap"><div class="st a" id="v1" style="font-size:76px">Founders deciding what you need to know</div><div class="st b" id="v2" style="font-size:76px">A beautiful lesson about <span class="mark" id="v2m">completely the wrong thing</span></div></div></div></div>
+<div class="screen" id="sc20"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com · Should people wear smart glasses?</div></div><div class="shot"><img src="assets/slide-09.jpg" alt=""></div></div><div class="stag" id="sc20t">A pupil who voted, in our lesson</div>
+<div class="glass panel" id="pn21"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">VotesforSchools</div><div class="st" style="font-size:80px">Asks the people it's <span class="mark" id="vfm">actually about</span>.</div><div class="eb ink" style="margin-top:26px">58,767 of you this time</div></div></div>
+<div class="chap" id="ch22">05 · Your three rules</div>
+<div class="paper" id="pp23"><div class="dots" id="pp23d"></div><div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div><div class="eb ctr" style="top:210px">The three rules you asked for</div><div class="rules"><div class="rule" id="r1"><b>Ask</b><span>before you film anyone</span></div><div class="rule" id="r2"><b>Say</b><span>please stop</span></div><div class="rule" id="r3"><b>Tell</b><span>a trusted adult</span></div></div><div class="ruler"><div class="line"></div><div class="fill" style="width:75%"></div><span style="left:0%">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div></div>
+<div class="streak" id="sk9"></div>
+<div class="streak" id="sk10"></div>
+<div class="screen" id="sc24"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com · Should people wear smart glasses?</div></div><div class="shot"><img src="assets/slide-19.jpg" alt=""></div></div><div class="stag" id="sc24t">Bloop teaches ask, say, tell in our lesson</div>
+<div class="paper" id="pp25"><div class="dots" id="pp25d"></div><div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div><div class="eb ctr" style="top:170px">Our Planet Friends, one for each stage</div><div class="friends"><div class="fr" id="f0"><div class="frv"><video id="fv0" class="clip" src="assets/f-pebble.mp4" muted playsinline data-start="120.767" data-duration="4.07" data-media-start="0" data-track-index="5"></video></div><b>Pebble</b><span>4 to 7</span></div><div class="fr" id="f1"><div class="frv"><video id="fv1" class="clip" src="assets/f-bloop.mp4" muted playsinline data-start="120.767" data-duration="4.07" data-media-start="0" data-track-index="6"></video></div><b>Bloop</b><span>8 to 10</span></div><div class="fr" id="f2"><div class="frv"><video id="fv2" class="clip" src="assets/f-orbit.mp4" muted playsinline data-start="120.767" data-duration="4.07" data-media-start="0" data-track-index="7"></video></div><b>Orbit</b><span>11 to 13</span></div><div class="fr" id="f3"><div class="frv"><video id="fv3" class="clip" src="assets/f-nova.mp4" muted playsinline data-start="120.767" data-duration="4.07" data-media-start="0" data-track-index="8"></video></div><b>Nova</b><span>13 to 15</span></div><div class="fr" id="f4"><div class="frv"><video id="fv4" class="clip" src="assets/f-cosmo.mp4" muted playsinline data-start="120.767" data-duration="4.07" data-media-start="0" data-track-index="9"></video></div><b>Cosmo</b><span>16 plus</span></div></div><div class="ruler"><div class="line"></div><div class="fill" style="width:100%"></div><span style="left:0%">4</span><span style="left:25%">7</span><span style="left:50%">10</span><span style="left:66%">12</span><span style="left:91%">15</span><span style="left:100%">16</span></div></div>
+<div class="streak" id="sk11"></div>
+<div class="streak" id="sk12"></div>
+<div class="glass panel" id="pn26"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">And yes</div><div class="st" style="font-size:76px">Homework for the grown ups too</div><div class="row" id="h1">The adults</div><div class="row" id="h2">The tech companies</div></div></div>
+<div class="chap" id="ch27">06 · What happens next</div>
+<div class="screen" id="sc28"><div class="chrome"><i></i><i></i><i></i><div class="url">schools.guidedchildhood.com/lesson/should-people-wear-smart-glasses</div></div><div class="shot"><img src="assets/slide-landing.jpg" alt=""></div></div><div class="stag" id="sc28t">The lesson, free for every school that voted</div>
+<div class="glass panel" id="pn29"><div class="sheen"></div><div class="shine"></div><div class="pc"><div class="eb">Then</div><div class="st" style="font-size:80px">We come back and show you how your ideas shaped it</div><div class="loop"><span id="l1">Your ideas</span><i>→</i><span id="l2">Our lesson</span><i>→</i><span id="l3">Back to you</span></div></div></div>
+<div class="endc" id="endc"><div class="dots"></div><img class="estar" id="estar" src="assets/DiGi-star-3d.png" alt=""><div class="eword" id="eword">Guided Digital Childhood</div><div class="ewith" id="ewith">with VotesforSchools</div></div>
+<div class="streak" id="sk13"></div>
+<div class="cap" id="cap0"><span class="cw" id="cw0_0">59,000</span> <span class="cw" id="cw0_1">of</span> <span class="cw" id="cw0_2">you</span> <span class="cw" id="cw0_3">voted</span> <span class="cw" id="cw0_4">on</span> <span class="cw" id="cw0_5">smart</span> <span class="cw" id="cw0_6">glasses.</span></div>
+<div class="cap" id="cap1"><span class="cw" id="cw1_0">That&#x27;s</span> <span class="cw" id="cw1_1">a</span> <span class="cw" id="cw1_2">full</span> <span class="cw" id="cw1_3">football</span> <span class="cw" id="cw1_4">stadium</span> <span class="cw" id="cw1_5">of</span> <span class="cw" id="cw1_6">opinions.</span></div>
+<div class="cap" id="cap2"><span class="cw" id="cw2_0">And</span> <span class="cw" id="cw2_1">honestly,</span> <span class="cw" id="cw2_2">some</span> <span class="cw" id="cw2_3">of</span> <span class="cw" id="cw2_4">them</span> <span class="cw" id="cw2_5">are</span> <span class="cw" id="cw2_6">a</span></div>
+<div class="cap" id="cap3"><span class="cw" id="cw3_0">lot</span> <span class="cw" id="cw3_1">sharper</span> <span class="cw" id="cw3_2">than</span> <span class="cw" id="cw3_3">most</span> <span class="cw" id="cw3_4">adults.</span></div>
+<div class="cap" id="cap4"><span class="cw" id="cw4_0">I&#x27;m</span> <span class="cw" id="cw4_1">Justin.</span> <span class="cw" id="cw4_2">I</span> <span class="cw" id="cw4_3">run</span> <span class="cw" id="cw4_4">Guided</span> <span class="cw" id="cw4_5">Digital</span> <span class="cw" id="cw4_6">Childhood.</span></div>
+<div class="cap" id="cap5"><span class="cw" id="cw5_0">We</span> <span class="cw" id="cw5_1">help</span> <span class="cw" id="cw5_2">families</span> <span class="cw" id="cw5_3">and</span> <span class="cw" id="cw5_4">schools</span> <span class="cw" id="cw5_5">keep</span> <span class="cw" id="cw5_6">the</span></div>
+<div class="cap" id="cap6"><span class="cw" id="cw6_0">good</span> <span class="cw" id="cw6_1">of</span> <span class="cw" id="cw6_2">screens,</span> <span class="cw" id="cw6_3">learn</span> <span class="cw" id="cw6_4">the</span> <span class="cw" id="cw6_5">risks,</span></div>
+<div class="cap" id="cap7"><span class="cw" id="cw7_0">and</span> <span class="cw" id="cw7_1">make</span> <span class="cw" id="cw7_2">sure</span> <span class="cw" id="cw7_3">no</span> <span class="cw" id="cw7_4">one</span> <span class="cw" id="cw7_5">hits</span> <span class="cw" id="cw7_6">a</span></div>
+<div class="cap" id="cap8"><span class="cw" id="cw8_0">cliff</span> <span class="cw" id="cw8_1">edge</span> <span class="cw" id="cw8_2">at</span> <span class="cw" id="cw8_3">16.</span></div>
+<div class="cap" id="cap9"><span class="cw" id="cw9_0">You</span> <span class="cw" id="cw9_1">spotted</span> <span class="cw" id="cw9_2">the</span> <span class="cw" id="cw9_3">problem</span> <span class="cw" id="cw9_4">straight</span> <span class="cw" id="cw9_5">away.</span></div>
+<div class="cap" id="cap10"><span class="cw" id="cw10_0">Being</span> <span class="cw" id="cw10_1">filmed</span> <span class="cw" id="cw10_2">without</span> <span class="cw" id="cw10_3">knowing,</span></div>
+<div class="cap" id="cap11"><span class="cw" id="cw11_0">glasses</span> <span class="cw" id="cw11_1">on</span> <span class="cw" id="cw11_2">the</span> <span class="cw" id="cw11_3">roads,</span></div>
+<div class="cap" id="cap12"><span class="cw" id="cw12_0">in</span> <span class="cw" id="cw12_1">tests,</span> <span class="cw" id="cw12_2">and</span> <span class="cw" id="cw12_3">what</span> <span class="cw" id="cw12_4">happens</span> <span class="cw" id="cw12_5">to</span> <span class="cw" id="cw12_6">your</span></div>
+<div class="cap" id="cap13"><span class="cw" id="cw13_0">data.</span> <span class="cw" id="cw13_1">And</span> <span class="cw" id="cw13_2">when</span> <span class="cw" id="cw13_3">enough</span> <span class="cw" id="cw13_4">people</span> <span class="cw" id="cw13_5">speak</span> <span class="cw" id="cw13_6">up,</span></div>
+<div class="cap" id="cap14"><span class="cw" id="cw14_0">companies</span> <span class="cw" id="cw14_1">do</span> <span class="cw" id="cw14_2">move.</span></div>
+<div class="cap" id="cap15"><span class="cw" id="cw15_0">This</span> <span class="cw" id="cw15_1">summer</span> <span class="cw" id="cw15_2">Meta</span> <span class="cw" id="cw15_3">made</span> <span class="cw" id="cw15_4">its</span> <span class="cw" id="cw15_5">glasses</span> <span class="cw" id="cw15_6">stop</span></div>
+<div class="cap" id="cap16"><span class="cw" id="cw16_0">recording</span> <span class="cw" id="cw16_1">if</span> <span class="cw" id="cw16_2">you</span> <span class="cw" id="cw16_3">cover</span> <span class="cw" id="cw16_4">the</span> <span class="cw" id="cw16_5">light.</span></div>
+<div class="cap" id="cap21"><span class="cw" id="cw21_0">too.</span> <span class="cw" id="cw21_1">Glasses</span> <span class="cw" id="cw21_2">can</span> <span class="cw" id="cw21_3">translate,</span></div>
+<div class="cap" id="cap22"><span class="cw" id="cw22_0">read</span> <span class="cw" id="cw22_1">text</span> <span class="cw" id="cw22_2">aloud</span> <span class="cw" id="cw22_3">for</span> <span class="cw" id="cw22_4">people</span> <span class="cw" id="cw22_5">with</span> <span class="cw" id="cw22_6">sight</span></div>
+<div class="cap" id="cap23"><span class="cw" id="cw23_0">loss,</span> <span class="cw" id="cw23_1">and</span> <span class="cw" id="cw23_2">Meta</span> <span class="cw" id="cw23_3">has</span> <span class="cw" id="cw23_4">even</span> <span class="cw" id="cw23_5">announced</span> <span class="cw" id="cw23_6">hearing</span></div>
+<div class="cap" id="cap24"><span class="cw" id="cw24_0">support</span> <span class="cw" id="cw24_1">for</span> <span class="cw" id="cw24_2">some</span> <span class="cw" id="cw24_3">adults</span> <span class="cw" id="cw24_4">with</span> <span class="cw" id="cw24_5">hearing</span> <span class="cw" id="cw24_6">loss.</span></div>
+<div class="cap" id="cap25"><span class="cw" id="cw25_0">And</span> <span class="cw" id="cw25_1">here&#x27;s</span> <span class="cw" id="cw25_2">what&#x27;s</span> <span class="cw" id="cw25_3">coming</span> <span class="cw" id="cw25_4">next.</span></div>
+<div class="cap" id="cap26"><span class="cw" id="cw26_0">Meta</span> <span class="cw" id="cw26_1">is</span> <span class="cw" id="cw26_2">bringing</span> <span class="cw" id="cw26_3">its</span> <span class="cw" id="cw26_4">AI</span> <span class="cw" id="cw26_5">agent,</span></div>
+<div class="cap" id="cap27"><span class="cw" id="cw27_0">Muse,</span> <span class="cw" id="cw27_1">to</span> <span class="cw" id="cw27_2">glasses</span> <span class="cw" id="cw27_3">in</span> <span class="cw" id="cw27_4">the</span> <span class="cw" id="cw27_5">next</span> <span class="cw" id="cw27_6">few</span></div>
+<div class="cap" id="cap28"><span class="cw" id="cw28_0">months.</span> <span class="cw" id="cw28_1">You&#x27;ll</span> <span class="cw" id="cw28_2">be</span> <span class="cw" id="cw28_3">able</span> <span class="cw" id="cw28_4">to</span> <span class="cw" id="cw28_5">talk</span> <span class="cw" id="cw28_6">to</span></div>
+<div class="cap" id="cap29"><span class="cw" id="cw29_0">your</span> <span class="cw" id="cw29_1">glasses</span> <span class="cw" id="cw29_2">and</span> <span class="cw" id="cw29_3">ask</span> <span class="cw" id="cw29_4">them</span> <span class="cw" id="cw29_5">to</span> <span class="cw" id="cw29_6">do</span></div>
+<div class="cap" id="cap30"><span class="cw" id="cw30_0">things</span> <span class="cw" id="cw30_1">for</span> <span class="cw" id="cw30_2">you.</span></div>
+<div class="cap" id="cap35"><span class="cw" id="cw35_0">Here&#x27;s</span> <span class="cw" id="cw35_1">the</span> <span class="cw" id="cw35_2">honest</span> <span class="cw" id="cw35_3">bit.</span></div>
+<div class="cap" id="cap36"><span class="cw" id="cw36_0">Left</span> <span class="cw" id="cw36_1">alone,</span> <span class="cw" id="cw36_2">founders</span> <span class="cw" id="cw36_3">like</span> <span class="cw" id="cw36_4">me</span> <span class="cw" id="cw36_5">sit</span> <span class="cw" id="cw36_6">in</span></div>
+<div class="cap" id="cap37"><span class="cw" id="cw37_0">a</span> <span class="cw" id="cw37_1">meeting</span> <span class="cw" id="cw37_2">room</span> <span class="cw" id="cw37_3">deciding</span> <span class="cw" id="cw37_4">what</span> <span class="cw" id="cw37_5">you</span> <span class="cw" id="cw37_6">need</span></div>
+<div class="cap" id="cap38"><span class="cw" id="cw38_0">to</span> <span class="cw" id="cw38_1">know.</span> <span class="cw" id="cw38_2">Then</span> <span class="cw" id="cw38_3">we</span> <span class="cw" id="cw38_4">build</span> <span class="cw" id="cw38_5">a</span> <span class="cw" id="cw38_6">beautiful</span></div>
+<div class="cap" id="cap39"><span class="cw" id="cw39_0">lesson</span> <span class="cw" id="cw39_1">about</span> <span class="cw" id="cw39_2">completely</span> <span class="cw" id="cw39_3">the</span> <span class="cw" id="cw39_4">wrong</span> <span class="cw" id="cw39_5">thing.</span></div>
+<div class="cap" id="cap40"><span class="cw" id="cw40_0">You&#x27;re</span> <span class="cw" id="cw40_1">the</span> <span class="cw" id="cw40_2">ones</span> <span class="cw" id="cw40_3">living</span> <span class="cw" id="cw40_4">with</span> <span class="cw" id="cw40_5">this.</span></div>
+<div class="cap" id="cap41"><span class="cw" id="cw41_0">What</span> <span class="cw" id="cw41_1">you</span> <span class="cw" id="cw41_2">know</span> <span class="cw" id="cw41_3">and</span> <span class="cw" id="cw41_4">what</span> <span class="cw" id="cw41_5">you</span> <span class="cw" id="cw41_6">see</span></div>
+<div class="cap" id="cap42"><span class="cw" id="cw42_0">in</span> <span class="cw" id="cw42_1">the</span> <span class="cw" id="cw42_2">real</span> <span class="cw" id="cw42_3">world</span> <span class="cw" id="cw42_4">will</span> <span class="cw" id="cw42_5">shape</span> <span class="cw" id="cw42_6">the</span></div>
+<div class="cap" id="cap43"><span class="cw" id="cw43_0">answer.</span> <span class="cw" id="cw43_1">And</span> <span class="cw" id="cw43_2">that&#x27;s</span> <span class="cw" id="cw43_3">what</span> <span class="cw" id="cw43_4">VotesforSchools</span> <span class="cw" id="cw43_5">gets</span> <span class="cw" id="cw43_6">right.</span></div>
+<div class="cap" id="cap44"><span class="cw" id="cw44_0">It</span> <span class="cw" id="cw44_1">asks</span> <span class="cw" id="cw44_2">people</span> <span class="cw" id="cw44_3">it&#x27;s</span> <span class="cw" id="cw44_4">actually</span> <span class="cw" id="cw44_5">about.</span></div>
+<div class="cap" id="cap45"><span class="cw" id="cw45_0">So</span> <span class="cw" id="cw45_1">you</span> <span class="cw" id="cw45_2">asked</span> <span class="cw" id="cw45_3">for</span> <span class="cw" id="cw45_4">three</span> <span class="cw" id="cw45_5">simple</span> <span class="cw" id="cw45_6">rules.</span></div>
+<div class="cap" id="cap50"><span class="cw" id="cw50_0">are</span> <span class="cw" id="cw50_1">the</span> <span class="cw" id="cw50_2">heart</span> <span class="cw" id="cw50_3">of</span> <span class="cw" id="cw50_4">the</span> <span class="cw" id="cw50_5">lessons</span> <span class="cw" id="cw50_6">we&#x27;re</span></div>
+<div class="cap" id="cap51"><span class="cw" id="cw51_0">building</span> <span class="cw" id="cw51_1">with</span> <span class="cw" id="cw51_2">our</span> <span class="cw" id="cw51_3">Planet</span> <span class="cw" id="cw51_4">Friends.</span></div>
+<div class="cap" id="cap54"><span class="cw" id="cw54_0">And</span> <span class="cw" id="cw54_1">yes,</span> <span class="cw" id="cw54_2">the</span> <span class="cw" id="cw54_3">adults</span> <span class="cw" id="cw54_4">and</span> <span class="cw" id="cw54_5">the</span> <span class="cw" id="cw54_6">tech</span></div>
+<div class="cap" id="cap55"><span class="cw" id="cw55_0">companies</span> <span class="cw" id="cw55_1">have</span> <span class="cw" id="cw55_2">homework</span> <span class="cw" id="cw55_3">to</span> <span class="cw" id="cw55_4">do</span> <span class="cw" id="cw55_5">too.</span></div>
+<div class="cap" id="cap56"><span class="cw" id="cw56_0">So</span> <span class="cw" id="cw56_1">I</span> <span class="cw" id="cw56_2">promise</span> <span class="cw" id="cw56_3">you,</span></div>
+<div class="cap" id="cap57"><span class="cw" id="cw57_0">we&#x27;ll</span> <span class="cw" id="cw57_1">share</span> <span class="cw" id="cw57_2">that</span> <span class="cw" id="cw57_3">lesson</span> <span class="cw" id="cw57_4">with</span> <span class="cw" id="cw57_5">VotesforSchools,</span></div>
+<div class="cap" id="cap58"><span class="cw" id="cw58_0">free</span> <span class="cw" id="cw58_1">for</span> <span class="cw" id="cw58_2">your</span> <span class="cw" id="cw58_3">schools.</span></div>
+<div class="cap" id="cap59"><span class="cw" id="cw59_0">Then</span> <span class="cw" id="cw59_1">we&#x27;ll</span> <span class="cw" id="cw59_2">come</span> <span class="cw" id="cw59_3">back</span> <span class="cw" id="cw59_4">and</span> <span class="cw" id="cw59_5">show</span> <span class="cw" id="cw59_6">you</span></div>
+<div class="cap" id="cap60"><span class="cw" id="cw60_0">exactly</span> <span class="cw" id="cw60_1">how</span> <span class="cw" id="cw60_2">your</span> <span class="cw" id="cw60_3">ideas</span> <span class="cw" id="cw60_4">have</span> <span class="cw" id="cw60_5">shaped</span> <span class="cw" id="cw60_6">it.</span></div>
+<div class="cap" id="cap61"><span class="cw" id="cw61_0">So</span> <span class="cw" id="cw61_1">a</span> <span class="cw" id="cw61_2">big</span> <span class="cw" id="cw61_3">thank</span> <span class="cw" id="cw61_4">you.</span></div>
+<div class="cap" id="cap62"><span class="cw" id="cw62_0">You</span> <span class="cw" id="cw62_1">know</span> <span class="cw" id="cw62_2">the</span> <span class="cw" id="cw62_3">world</span> <span class="cw" id="cw62_4">better</span> <span class="cw" id="cw62_5">than</span> <span class="cw" id="cw62_6">we</span></div>
+<div class="cap" id="cap63"><span class="cw" id="cw63_0">do.</span> <span class="cw" id="cw63_1">Keep</span> <span class="cw" id="cw63_2">telling</span> <span class="cw" id="cw63_3">us,</span></div>
+<div class="cap" id="cap64"><span class="cw" id="cw64_0">we&#x27;re</span> <span class="cw" id="cw64_1">listening.</span></div>
+<div class="open" id="open"><div class="dots" id="odots"></div><div class="num" id="num">0</div><div class="lbl" id="olbl">pupils voted on smart glasses</div></div>
+<div class="hud"><div class="tl"><span class="rec"></span>GDC · VotesforSchools reply</div><div class="tr" id="tc">00:00:00</div>
+<div class="x" style="left:40px;top:40px"></div><div class="x" style="right:40px;top:40px"></div><div class="x" style="left:40px;bottom:40px"></div><div class="x" style="right:40px;bottom:40px"></div></div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+gsap.set(".streak",{xPercent:-160,skewX:-12});
+tl.fromTo("#drift",{scale:1},{scale:1.07,duration:150.2,ease:"none"},2.6);
+// cold open: the 59,000, then the camera
+var cnt = {v:0};
+tl.to(cnt,{v:59000,duration:1.5,ease:"power3.out",onUpdate:function(){ document.getElementById("num").textContent = Math.round(cnt.v).toLocaleString("en-GB"); }},0.2);
+tl.fromTo("#odots",{x:0,y:0},{x:-30,y:-22,duration:2.6,ease:"none"},0);
+tl.fromTo("#num",{scale:0.86,filter:"blur(10px)"},{scale:1,filter:"blur(0px)",duration:0.9,ease:"expo.out"},0.2);
+tl.fromTo("#olbl",{opacity:0,y:16},{opacity:1,y:0,duration:0.5,ease:"power2.out"},0.9);
+tl.to("#open",{opacity:0,duration:0.1,ease:"none"},2.6);
+var tc = {s:0};
+tl.to(tc,{s:157.4,duration:157.4,ease:"none",onUpdate:function(){ var f=Math.floor(tc.s*30)%30, sec=Math.floor(tc.s)%60, m=Math.floor(tc.s/60); document.getElementById("tc").textContent=("0"+m).slice(-2)+":"+("0"+sec).slice(-2)+":"+("0"+f).slice(-2); }},0);
+tl.fromTo("#sc1",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},8.916666666666666);
+tl.to("#sc1",{rotationY:4,y:-10,transformPerspective:1800,duration:2.79,ease:"sine.inOut"},9.616666666666667);
+tl.fromTo("#sc1 img",{scale:1.0},{scale:1.06,duration:3.69,ease:"none"},8.816666666666666);
+tl.fromTo("#sc1t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},9.316666666666666);
+tl.to("#sc1, #sc1t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},12.2);
+tl.fromTo("#nm2",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},12.733333333333333);
+tl.to("#nm2",{opacity:0,y:-10,duration:0.3,ease:"power2.in"},16.133333333333333);
+tl.fromTo("#sv3",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},16.233333333333334);
+tl.to("#sv3",{rotationY:4,y:-10,transformPerspective:1800,duration:5.68,ease:"sine.inOut"},16.933333333333334);
+tl.fromTo("#sv3t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},16.633333333333333);
+tl.to("#sv3, #sv3t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},22.416666666666668);
+tl.fromTo("#cp1",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},18.266666666666666);
+tl.fromTo("#cp2",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},19.283333333333335);
+tl.fromTo("#cp3",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},21.383333333333333);
+tl.to("#chips",{opacity:0,duration:0.3,ease:"power2.in"},22.416666666666668);
+tl.fromTo("#ch4",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},22.816666666666666);
+tl.to("#ch4",{opacity:0,duration:0.2,ease:"power2.in"},46.06666666666667);
+tl.fromTo("#sk1",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},24.966666666666665);
+tl.fromTo("#br5",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},25.133333333333333);
+tl.fromTo("#br5v",{scale:1.0},{scale:1.1,duration:1.42,ease:"none"},25.133333333333333);
+tl.fromTo("#br5p",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},25.583333333333332);
+tl.to("#br5",{opacity:0,duration:0.2,ease:"power2.in"},26.366666666666667);
+tl.fromTo("#sc6",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},26.666666666666668);
+tl.to("#sc6",{rotationY:4,y:-10,transformPerspective:1800,duration:3.38,ease:"sine.inOut"},27.366666666666667);
+tl.fromTo("#sc6 img",{scale:1.0},{scale:1.06,duration:4.28,ease:"none"},26.566666666666666);
+tl.fromTo("#sc6t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},27.066666666666666);
+tl.to("#sc6, #sc6t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},30.533333333333335);
+tl.fromTo("#kn7w0",{opacity:0,y:80,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.36,ease:"expo.out"},32.63333333333333);
+tl.fromTo("#kn7w1",{opacity:0,y:80,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.36,ease:"expo.out"},33.516666666666666);
+tl.to("#kn7 .w",{opacity:0,y:-60,filter:"blur(14px)",duration:0.28,ease:"power2.in"},35.63333333333333);
+tl.fromTo("#sk2",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},35.65);
+tl.fromTo("#br8",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},35.833333333333336);
+tl.fromTo("#br8v",{scale:1.0},{scale:1.1,duration:4.11,ease:"none"},35.833333333333336);
+tl.fromTo("#br8p",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},36.28333333333333);
+tl.to("#br8",{opacity:0,duration:0.2,ease:"power2.in"},39.733333333333334);
+tl.fromTo("#sk3",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},39.766666666666666);
+tl.fromTo("#pp9",{opacity:0},{opacity:1,duration:0.12,ease:"none"},39.93333333333333);
+tl.fromTo("#pp9d",{x:0,y:0},{x:-26,y:-20,duration:6.27,ease:"none"},39.93333333333333);
+tl.fromTo("#sk4",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},46.03333333333333);
+tl.to("#pp9",{opacity:0,duration:0.12,ease:"none"},46.21666666666667);
+tl.fromTo("#gs",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},40.083333333333336);
+tl.fromTo("#slam1 .w:nth-child(1)",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},41.11666666666667);
+tl.fromTo("#slam1 .w:nth-child(2)",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},41.21666666666667);
+tl.fromTo("#slam1 .w:nth-child(3)",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},41.68333333333333);
+tl.fromTo("#slam1 .w:nth-child(4)",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},41.766666666666666);
+tl.fromTo("#slam1 .w:nth-child(6)",{opacity:0,scale:2.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.26,ease:"expo.out"},42.016666666666666);
+tl.fromTo("#pm",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},42.416666666666664);
+tl.fromTo("#st1",{opacity:0,y:-280,scaleX:1,scaleY:1},{opacity:1,y:0,duration:0.32,ease:"power2.in"},42.766666666666666);
+tl.to("#st1",{scaleX:1.22,scaleY:0.78,duration:0.08,ease:"power2.out"},43.083333333333336);
+tl.to("#st1",{scaleX:1,scaleY:1,duration:0.4,ease:"power3.out"},43.166666666666664);
+tl.fromTo("#sub1",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},44.43333333333333);
+tl.fromTo("#ch10",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},46.36666666666667);
+tl.to("#ch10",{opacity:0,duration:0.2,ease:"power2.in"},57.06666666666667);
+tl.fromTo("#pn11",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},46.43333333333333);
+tl.fromTo("#pn11 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},46.516666666666666);
+tl.fromTo("#pn11 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},46.61666666666667);
+tl.fromTo("#g1m",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},48.833333333333336);
+tl.to("#pn11",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},49.233333333333334);
+tl.fromTo("#sc12",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},49.63333333333333);
+tl.to("#sc12",{rotationY:4,y:-10,transformPerspective:1800,duration:1.06,ease:"sine.inOut"},50.333333333333336);
+tl.fromTo("#sc12 img",{scale:1.0},{scale:1.06,duration:1.96,ease:"none"},49.53333333333333);
+tl.fromTo("#sc12t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},50.03333333333333);
+tl.to("#sc12, #sc12t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},51.18333333333333);
+tl.fromTo("#sk5",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},51.31666666666667);
+tl.fromTo("#br13",{opacity:0,filter:"blur(18px)"},{opacity:1,filter:"blur(0px)",duration:0.3,ease:"power2.out"},51.483333333333334);
+tl.fromTo("#br13v",{scale:1.0},{scale:1.1,duration:2.32,ease:"none"},51.483333333333334);
+tl.fromTo("#br13p",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},51.93333333333333);
+tl.to("#br13",{opacity:0,duration:0.2,ease:"power2.in"},53.61666666666667);
+tl.fromTo("#pn14",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},53.93333333333333);
+tl.fromTo("#pn14 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},54.016666666666666);
+tl.fromTo("#pn14 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},54.11666666666667);
+tl.fromTo("#pn14 .wave",{opacity:0,scale:0.5,transformOrigin:"0% 50%"},{opacity:1,scale:1,duration:0.35,ease:"power2.out",stagger:0.16},54.833333333333336);
+tl.fromTo("#h1m",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},55.78333333333333);
+tl.to("#pn14",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},56.86666666666667);
+tl.fromTo("#ch15",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},57.31666666666667);
+tl.to("#ch15",{opacity:0,duration:0.2,ease:"power2.in"},67.76666666666667);
+tl.fromTo("#sk6",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},57.13333333333333);
+tl.to("#blurcam",{opacity:1,duration:0.35,ease:"power2.out"},57.31666666666667);
+tl.fromTo("#museg",{opacity:0,x:-80},{opacity:1,x:0,duration:0.5,ease:"power3.out"},57.46666666666667);
+tl.set("#museg .ml",{opacity:0},57.31666666666667);
+tl.to("#museg .ml",{opacity:1,duration:0.01,ease:"none",stagger:0.11},61.766666666666666);
+tl.fromTo("#when",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},62.266666666666666);
+tl.fromTo("#browser",{opacity:0,rotationY:-30,x:180,transformPerspective:1600},{opacity:1,rotationY:-12,x:0,transformPerspective:1600,duration:0.8,ease:"power3.out"},57.61666666666667);
+tl.to("#browser",{rotationY:-5,y:-14,transformPerspective:1600,duration:5.06,ease:"sine.inOut"},58.416666666666664);
+tl.fromTo("#credit",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},58.11666666666667);
+tl.to("#museg, #browser, #credit",{opacity:0,duration:0.3,ease:"power2.in"},63.21666666666667);
+tl.to("#blurcam",{opacity:0,duration:0.35,ease:"power2.inOut"},63.31666666666667);
+tl.fromTo("#pn16",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},63.68333333333333);
+tl.fromTo("#pn16 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},63.766666666666666);
+tl.fromTo("#pn16 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},63.86666666666667);
+tl.fromTo("#t1",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},66.06666666666666);
+tl.fromTo("#t2",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},66.2);
+tl.fromTo("#t3",{opacity:0,scale:0.3},{opacity:1,scale:1,duration:0.22,ease:"power2.out"},66.63333333333334);
+tl.to("#pn16",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},67.56666666666666);
+tl.fromTo("#sk7",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},67.83333333333333);
+tl.fromTo("#pp17",{opacity:0},{opacity:1,duration:0.12,ease:"none"},68.01666666666667);
+tl.fromTo("#pp17d",{x:0,y:0},{x:-26,y:-20,duration:8.04,ease:"none"},68.01666666666667);
+tl.fromTo("#sk8",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},75.88333333333334);
+tl.to("#pp17",{opacity:0,duration:0.12,ease:"none"},76.06666666666666);
+tl.fromTo("#m1 .w",{opacity:0,y:40,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.4,ease:"expo.out",stagger:1.69},68.43333333333334);
+tl.fromTo("#mstr",{"--s":0},{"--s":1,duration:0.35,ease:"power2.out"},70.68333333333334);
+tl.to("#m1",{opacity:0,y:-40,filter:"blur(12px)",duration:0.3,ease:"power2.in"},71.06666666666666);
+tl.fromTo("#m2 .w",{opacity:0,y:40,filter:"blur(14px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.4,ease:"expo.out",stagger:0.55},71.31666666666666);
+tl.fromTo("#mw",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},73.26666666666667);
+tl.fromTo("#mt",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},73.63333333333334);
+tl.fromTo("#ch18",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},76.21666666666667);
+tl.to("#ch18",{opacity:0,duration:0.2,ease:"power2.in"},106.98333333333333);
+tl.fromTo("#pn19",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},80.21666666666667);
+tl.fromTo("#pn19 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},80.3);
+tl.fromTo("#pn19 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},80.4);
+tl.set("#v2",{opacity:0},80.1);
+tl.to("#v1",{opacity:0,y:-20,duration:0.3,ease:"power2.in"},85.46666666666667);
+tl.fromTo("#v2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4,ease:"expo.out"},85.71666666666667);
+tl.fromTo("#v2m",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},87.48333333333333);
+tl.to("#pn19",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},88.36666666666666);
+tl.fromTo("#sc20",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},88.81666666666666);
+tl.to("#sc20",{rotationY:4,y:-10,transformPerspective:1800,duration:7.06,ease:"sine.inOut"},89.51666666666667);
+tl.fromTo("#sc20 img",{scale:1.0},{scale:1.06,duration:7.96,ease:"none"},88.71666666666667);
+tl.fromTo("#sc20t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},89.21666666666667);
+tl.to("#sc20, #sc20t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},96.38333333333334);
+tl.fromTo("#pn21",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},96.85);
+tl.fromTo("#pn21 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},96.93333333333334);
+tl.fromTo("#pn21 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},97.03333333333333);
+tl.fromTo("#vfm",{"--m":0},{"--m":1,duration:0.4,ease:"power2.out"},100.56666666666666);
+tl.to("#pn21",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},106.78333333333333);
+tl.fromTo("#ch22",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},107.28333333333333);
+tl.to("#ch22",{opacity:0,duration:0.2,ease:"power2.in"},130.76666666666668);
+tl.fromTo("#sk9",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},109.21666666666667);
+tl.fromTo("#pp23",{opacity:0},{opacity:1,duration:0.12,ease:"none"},109.4);
+tl.fromTo("#pp23d",{x:0,y:0},{x:-26,y:-20,duration:6.62,ease:"none"},109.4);
+tl.fromTo("#sk10",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},115.83333333333333);
+tl.to("#pp23",{opacity:0,duration:0.12,ease:"none"},116.01666666666667);
+tl.fromTo("#r1",{opacity:0,y:60,scale:0.9,filter:"blur(12px)"},{opacity:1,y:0,scale:1,filter:"blur(0px)",duration:0.42,ease:"expo.out"},109.75);
+tl.fromTo("#r2",{opacity:0,y:60,scale:0.9,filter:"blur(12px)"},{opacity:1,y:0,scale:1,filter:"blur(0px)",duration:0.42,ease:"expo.out"},111.98333333333333);
+tl.fromTo("#r3",{opacity:0,y:60,scale:0.9,filter:"blur(12px)"},{opacity:1,y:0,scale:1,filter:"blur(0px)",duration:0.42,ease:"expo.out"},114.21666666666667);
+tl.fromTo("#sc24",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},116.21666666666667);
+tl.to("#sc24",{rotationY:4,y:-10,transformPerspective:1800,duration:3.64,ease:"sine.inOut"},116.91666666666667);
+tl.fromTo("#sc24 img",{scale:1.0},{scale:1.06,duration:4.54,ease:"none"},116.11666666666666);
+tl.fromTo("#sc24t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},116.61666666666666);
+tl.to("#sc24, #sc24t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},120.36666666666666);
+tl.fromTo("#sk11",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},120.58333333333333);
+tl.fromTo("#pp25",{opacity:0},{opacity:1,duration:0.12,ease:"none"},120.76666666666667);
+tl.fromTo("#pp25d",{x:0,y:0},{x:-26,y:-20,duration:4.07,ease:"none"},120.76666666666667);
+tl.fromTo("#sk12",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},124.65);
+tl.to("#pp25",{opacity:0,duration:0.12,ease:"none"},124.83333333333333);
+tl.fromTo("#f0",{opacity:0,y:90,scale:0.7},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},121.06666666666666);
+tl.fromTo("#f1",{opacity:0,y:90,scale:0.7},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},121.38333333333334);
+tl.fromTo("#f2",{opacity:0,y:90,scale:0.7},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},121.7);
+tl.fromTo("#f3",{opacity:0,y:90,scale:0.7},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},122.01666666666667);
+tl.fromTo("#f4",{opacity:0,y:90,scale:0.7},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(1.6)"},122.33333333333333);
+tl.fromTo("#pn26",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},125.96666666666667);
+tl.fromTo("#pn26 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},126.03333333333333);
+tl.fromTo("#pn26 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},126.13333333333334);
+tl.fromTo("#h1",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},126.33333333333333);
+tl.fromTo("#h2",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},128.03333333333333);
+tl.to("#pn26",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},130.56666666666666);
+tl.fromTo("#ch27",{opacity:0,x:-24},{opacity:1,x:0,duration:0.4,ease:"power3.out"},131.06666666666666);
+tl.to("#ch27",{opacity:0,duration:0.2,ease:"power2.in"},140.48333333333332);
+tl.fromTo("#sc28",{opacity:0,x:-140,rotationY:24,transformPerspective:1800},{opacity:1,x:0,rotationY:9,transformPerspective:1800,duration:0.7,ease:"power3.out"},132.86666666666667);
+tl.to("#sc28",{rotationY:4,y:-10,transformPerspective:1800,duration:3.53,ease:"sine.inOut"},133.56666666666666);
+tl.fromTo("#sc28 img",{scale:1.0},{scale:1.06,duration:4.43,ease:"none"},132.76666666666668);
+tl.fromTo("#sc28t",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},133.26666666666668);
+tl.to("#sc28, #sc28t",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},136.9);
+tl.fromTo("#pn29",{opacity:0,x:-110,rotation:-1.5},{...{opacity:1,x:0,rotation:0},duration:0.55,ease:"power3.out"},137.36666666666667);
+tl.fromTo("#pn29 .shine",{x:0},{x:1300,duration:0.8,ease:"power2.out"},137.45);
+tl.fromTo("#pn29 .pc > *",{opacity:0,y:16},{opacity:1,y:0,duration:0.4,ease:"power3.out",stagger:0.06},137.55);
+tl.fromTo("#l1",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},139.43333333333334);
+tl.fromTo("#l2",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},139.63333333333333);
+tl.fromTo("#l3",{opacity:0,y:22},{opacity:1,y:0,duration:0.4,ease:"expo.out"},140.11666666666667);
+tl.to("#pn29",{opacity:0,x:-60,duration:0.3,ease:"power2.in"},140.28333333333333);
+tl.fromTo("#sk13",{xPercent:-160,skewX:-12},{xPercent:500,skewX:-12,duration:0.36,ease:"power3.in"},152.71666666666667);
+tl.fromTo("#endc",{opacity:0},{opacity:1,duration:0.14,ease:"none"},152.9);
+tl.fromTo("#estar",{opacity:0,y:-260,scaleX:1,scaleY:1},{opacity:1,y:0,duration:0.34,ease:"power2.in"},153.15);
+tl.to("#estar",{scaleX:1.22,scaleY:0.78,duration:0.08,ease:"power2.out"},153.48333333333332);
+tl.to("#estar",{scaleX:1,scaleY:1,duration:0.4,ease:"power3.out"},153.56666666666666);
+tl.fromTo("#eword",{opacity:0,y:22},{opacity:1,y:0,duration:0.6,ease:"expo.out"},153.6);
+tl.fromTo("#ewith",{opacity:0,y:22},{opacity:1,y:0,duration:0.5,ease:"expo.out"},154.1);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},8.816666666666666);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},12.4);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},16.133333333333333);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},22.616666666666667);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},26.566666666666666);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},30.733333333333334);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},46.31666666666667);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},51.38333333333333);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},53.81666666666667);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},57.06666666666667);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},63.56666666666667);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},67.76666666666667);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},80.1);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},106.98333333333333);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},116.11666666666666);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},120.56666666666666);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},125.83333333333333);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},130.76666666666668);
+tl.to("#reframe",{scale:1.32,duration:0.8,ease:"power3.inOut"},132.76666666666668);
+tl.to("#reframe",{scale:1,duration:0.7,ease:"power3.inOut"},140.48333333333332);
+tl.set("#punch",{scale:1.0},2.6);
+tl.set("#punch",{scale:1.14},7.95);
+tl.set("#punch",{scale:1.0},12.6);
+tl.set("#punch",{scale:1.12},22.816666666666666);
+tl.set("#punch",{scale:1.0},30.833333333333332);
+tl.set("#punch",{scale:1.16},33.516666666666666);
+tl.set("#punch",{scale:1.0},46.266666666666666);
+tl.set("#punch",{scale:1.0},57.266666666666666);
+tl.set("#punch",{scale:1.0},67.96666666666667);
+tl.set("#punch",{scale:1.18},76.11666666666666);
+tl.set("#punch",{scale:1.0},80.1);
+tl.set("#punch",{scale:1.12},96.68333333333334);
+tl.set("#punch",{scale:1.1},107.18333333333334);
+tl.set("#punch",{scale:1.0},130.96666666666667);
+tl.set("#punch",{scale:1.0},140.68333333333334);
+tl.set("#punch",{scale:1.12},147.7);
+tl.fromTo("#cap0",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},2.783333333333333);
+tl.fromTo("#cw0_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},2.8666666666666667);
+tl.to("#cw0_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},3.7333333333333334);
+tl.fromTo("#cw0_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},3.7333333333333334);
+tl.to("#cw0_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},3.8666666666666667);
+tl.fromTo("#cw0_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},3.8666666666666667);
+tl.to("#cw0_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},4.066666666666666);
+tl.fromTo("#cw0_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},4.066666666666666);
+tl.to("#cw0_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},4.416666666666667);
+tl.fromTo("#cw0_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},4.416666666666667);
+tl.to("#cw0_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},4.533333333333333);
+tl.fromTo("#cw0_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},4.533333333333333);
+tl.to("#cw0_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},4.883333333333334);
+tl.fromTo("#cw0_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},4.883333333333334);
+tl.to("#cw0_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},5.566666666666666);
+tl.to("#cap0",{opacity:0,duration:0.04,ease:"none"},5.566666666666666);
+tl.fromTo("#cap1",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},5.633333333333334);
+tl.fromTo("#cw1_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},5.716666666666667);
+tl.to("#cw1_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},5.816666666666666);
+tl.fromTo("#cw1_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},5.816666666666666);
+tl.to("#cw1_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},5.866666666666666);
+tl.fromTo("#cw1_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},5.866666666666666);
+tl.to("#cw1_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},6.066666666666666);
+tl.fromTo("#cw1_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},6.066666666666666);
+tl.to("#cw1_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},6.5);
+tl.fromTo("#cw1_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},6.5);
+tl.to("#cw1_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},6.916666666666667);
+tl.fromTo("#cw1_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},6.916666666666667);
+tl.to("#cw1_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},7.016666666666667);
+tl.fromTo("#cw1_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},7.016666666666667);
+tl.to("#cw1_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},7.766666666666667);
+tl.to("#cap1",{opacity:0,duration:0.04,ease:"none"},7.766666666666667);
+tl.fromTo("#cap2",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},7.816666666666666);
+tl.fromTo("#cw2_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},7.9);
+tl.to("#cw2_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.0);
+tl.fromTo("#cw2_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},8.0);
+tl.to("#cw2_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.316666666666666);
+tl.fromTo("#cw2_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},8.316666666666666);
+tl.to("#cw2_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.583333333333334);
+tl.fromTo("#cw2_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},8.583333333333334);
+tl.to("#cw2_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.633333333333333);
+tl.fromTo("#cw2_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},8.633333333333333);
+tl.to("#cw2_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.833333333333334);
+tl.fromTo("#cw2_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},8.833333333333334);
+tl.to("#cw2_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.916666666666666);
+tl.fromTo("#cw2_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},9.0);
+tl.to("#cw2_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},8.916666666666666);
+tl.to("#cap2",{opacity:0,duration:0.04,ease:"none"},8.916666666666666);
+tl.fromTo("#cap3",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},8.966666666666667);
+tl.fromTo("#cw3_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},9.05);
+tl.to("#cw3_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},9.216666666666667);
+tl.fromTo("#cw3_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},9.216666666666667);
+tl.to("#cw3_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},9.583333333333334);
+tl.fromTo("#cw3_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},9.583333333333334);
+tl.to("#cw3_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},9.8);
+tl.fromTo("#cw3_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},9.8);
+tl.to("#cw3_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},10.016666666666667);
+tl.fromTo("#cw3_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},10.016666666666667);
+tl.to("#cw3_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},10.916666666666666);
+tl.to("#cap3",{opacity:0,duration:0.04,ease:"none"},10.916666666666666);
+tl.fromTo("#cap4",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},12.666666666666666);
+tl.fromTo("#cw4_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},12.733333333333333);
+tl.to("#cw4_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},13.033333333333333);
+tl.fromTo("#cw4_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},13.033333333333333);
+tl.to("#cw4_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},14.083333333333334);
+tl.fromTo("#cw4_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},14.083333333333334);
+tl.to("#cw4_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},14.133333333333333);
+tl.fromTo("#cw4_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},14.133333333333333);
+tl.to("#cw4_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},14.516666666666667);
+tl.fromTo("#cw4_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},14.516666666666667);
+tl.to("#cw4_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},14.816666666666666);
+tl.fromTo("#cw4_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},14.816666666666666);
+tl.to("#cw4_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},15.283333333333333);
+tl.fromTo("#cw4_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},15.283333333333333);
+tl.to("#cw4_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},16.183333333333334);
+tl.to("#cap4",{opacity:0,duration:0.04,ease:"none"},16.183333333333334);
+tl.fromTo("#cap5",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},16.366666666666667);
+tl.fromTo("#cw5_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},16.433333333333334);
+tl.to("#cw5_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},16.516666666666666);
+tl.fromTo("#cw5_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},16.516666666666666);
+tl.to("#cw5_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},16.916666666666668);
+tl.fromTo("#cw5_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},16.916666666666668);
+tl.to("#cw5_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},17.233333333333334);
+tl.fromTo("#cw5_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},17.233333333333334);
+tl.to("#cw5_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},17.316666666666666);
+tl.fromTo("#cw5_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},17.316666666666666);
+tl.to("#cw5_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},17.716666666666665);
+tl.fromTo("#cw5_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},17.716666666666665);
+tl.to("#cw5_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},18.033333333333335);
+tl.fromTo("#cw5_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},18.033333333333335);
+tl.to("#cw5_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},18.116666666666667);
+tl.to("#cap5",{opacity:0,duration:0.04,ease:"none"},18.116666666666667);
+tl.fromTo("#cap6",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},18.183333333333334);
+tl.fromTo("#cw6_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},18.266666666666666);
+tl.to("#cw6_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},18.333333333333332);
+tl.fromTo("#cw6_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},18.333333333333332);
+tl.to("#cw6_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},18.466666666666665);
+tl.fromTo("#cw6_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},18.466666666666665);
+tl.to("#cw6_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},19.283333333333335);
+tl.fromTo("#cw6_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},19.283333333333335);
+tl.to("#cw6_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},19.633333333333333);
+tl.fromTo("#cw6_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},19.633333333333333);
+tl.to("#cw6_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},19.833333333333332);
+tl.fromTo("#cw6_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},19.833333333333332);
+tl.to("#cw6_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},20.316666666666666);
+tl.to("#cap6",{opacity:0,duration:0.04,ease:"none"},20.316666666666666);
+tl.fromTo("#cap7",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},20.366666666666667);
+tl.fromTo("#cw7_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},20.45);
+tl.to("#cw7_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},20.6);
+tl.fromTo("#cw7_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},20.6);
+tl.to("#cw7_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},20.816666666666666);
+tl.fromTo("#cw7_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},20.816666666666666);
+tl.to("#cw7_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.033333333333335);
+tl.fromTo("#cw7_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.033333333333335);
+tl.to("#cw7_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.15);
+tl.fromTo("#cw7_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.15);
+tl.to("#cw7_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.316666666666666);
+tl.fromTo("#cw7_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.316666666666666);
+tl.to("#cw7_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.45);
+tl.fromTo("#cw7_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.533333333333335);
+tl.to("#cw7_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.45);
+tl.to("#cap7",{opacity:0,duration:0.04,ease:"none"},21.45);
+tl.fromTo("#cap8",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},21.516666666666666);
+tl.fromTo("#cw8_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.583333333333332);
+tl.to("#cw8_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},21.866666666666667);
+tl.fromTo("#cw8_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},21.866666666666667);
+tl.to("#cw8_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},22.083333333333332);
+tl.fromTo("#cw8_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},22.083333333333332);
+tl.to("#cw8_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},22.233333333333334);
+tl.fromTo("#cw8_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},22.233333333333334);
+tl.to("#cw8_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},22.866666666666667);
+tl.to("#cap8",{opacity:0,duration:0.04,ease:"none"},22.866666666666667);
+tl.fromTo("#cap9",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},22.916666666666668);
+tl.fromTo("#cw9_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},23.0);
+tl.to("#cw9_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},23.066666666666666);
+tl.fromTo("#cw9_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},23.066666666666666);
+tl.to("#cw9_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},23.433333333333334);
+tl.fromTo("#cw9_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},23.433333333333334);
+tl.to("#cw9_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},23.616666666666667);
+tl.fromTo("#cw9_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},23.616666666666667);
+tl.to("#cw9_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},24.033333333333335);
+tl.fromTo("#cw9_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},24.033333333333335);
+tl.to("#cw9_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},24.533333333333335);
+tl.fromTo("#cw9_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},24.533333333333335);
+tl.to("#cw9_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},25.15);
+tl.to("#cap9",{opacity:0,duration:0.04,ease:"none"},25.15);
+tl.fromTo("#cap10",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},25.216666666666665);
+tl.fromTo("#cw10_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},25.283333333333335);
+tl.to("#cw10_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},25.3);
+tl.fromTo("#cw10_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},25.3);
+tl.to("#cw10_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},25.683333333333334);
+tl.fromTo("#cw10_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},25.683333333333334);
+tl.to("#cw10_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},26.166666666666668);
+tl.fromTo("#cw10_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},26.166666666666668);
+tl.to("#cw10_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},26.516666666666666);
+tl.to("#cap10",{opacity:0,duration:0.04,ease:"none"},26.516666666666666);
+tl.fromTo("#cap11",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},26.583333333333332);
+tl.fromTo("#cw11_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},26.666666666666668);
+tl.to("#cw11_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},27.15);
+tl.fromTo("#cw11_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},27.15);
+tl.to("#cw11_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},27.283333333333335);
+tl.fromTo("#cw11_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},27.283333333333335);
+tl.to("#cw11_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},27.566666666666666);
+tl.fromTo("#cw11_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},27.566666666666666);
+tl.to("#cw11_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},27.916666666666668);
+tl.to("#cap11",{opacity:0,duration:0.04,ease:"none"},27.916666666666668);
+tl.fromTo("#cap12",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},27.966666666666665);
+tl.fromTo("#cw12_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},28.05);
+tl.to("#cw12_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},28.133333333333333);
+tl.fromTo("#cw12_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},28.133333333333333);
+tl.to("#cw12_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},28.466666666666665);
+tl.fromTo("#cw12_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},28.466666666666665);
+tl.to("#cw12_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},28.683333333333334);
+tl.fromTo("#cw12_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},28.683333333333334);
+tl.to("#cw12_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},29.133333333333333);
+tl.fromTo("#cw12_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},29.133333333333333);
+tl.to("#cw12_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},29.466666666666665);
+tl.fromTo("#cw12_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},29.466666666666665);
+tl.to("#cw12_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},29.6);
+tl.fromTo("#cw12_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},29.6);
+tl.to("#cw12_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},29.733333333333334);
+tl.to("#cap12",{opacity:0,duration:0.04,ease:"none"},29.733333333333334);
+tl.fromTo("#cap13",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},29.783333333333335);
+tl.fromTo("#cw13_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},29.866666666666667);
+tl.to("#cw13_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},30.383333333333333);
+tl.fromTo("#cw13_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},30.383333333333333);
+tl.to("#cw13_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},30.733333333333334);
+tl.fromTo("#cw13_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},30.733333333333334);
+tl.to("#cw13_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},31.183333333333334);
+tl.fromTo("#cw13_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},31.183333333333334);
+tl.to("#cw13_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},31.883333333333333);
+tl.fromTo("#cw13_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},31.883333333333333);
+tl.to("#cw13_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},32.63333333333333);
+tl.fromTo("#cw13_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},32.63333333333333);
+tl.to("#cw13_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},33.13333333333333);
+tl.fromTo("#cw13_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},33.13333333333333);
+tl.to("#cw13_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},33.38333333333333);
+tl.to("#cap13",{opacity:0,duration:0.04,ease:"none"},33.38333333333333);
+tl.fromTo("#cap14",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},33.43333333333333);
+tl.fromTo("#cw14_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},33.516666666666666);
+tl.to("#cw14_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},34.016666666666666);
+tl.fromTo("#cw14_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},34.016666666666666);
+tl.to("#cw14_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},34.13333333333333);
+tl.fromTo("#cw14_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},34.13333333333333);
+tl.to("#cw14_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},35.03333333333333);
+tl.to("#cap14",{opacity:0,duration:0.04,ease:"none"},35.03333333333333);
+tl.fromTo("#cap15",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},35.85);
+tl.fromTo("#cw15_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},35.93333333333333);
+tl.to("#cw15_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},36.18333333333333);
+tl.fromTo("#cw15_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},36.18333333333333);
+tl.to("#cw15_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},36.666666666666664);
+tl.fromTo("#cw15_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},36.666666666666664);
+tl.to("#cw15_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},36.916666666666664);
+tl.fromTo("#cw15_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},36.916666666666664);
+tl.to("#cw15_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},37.35);
+tl.fromTo("#cw15_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},37.35);
+tl.to("#cw15_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},37.35);
+tl.fromTo("#cw15_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},37.35);
+tl.to("#cw15_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},37.78333333333333);
+tl.fromTo("#cw15_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},37.78333333333333);
+tl.to("#cw15_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},37.88333333333333);
+tl.to("#cap15",{opacity:0,duration:0.04,ease:"none"},37.88333333333333);
+tl.fromTo("#cap16",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},37.95);
+tl.fromTo("#cw16_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},38.03333333333333);
+tl.to("#cw16_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},38.63333333333333);
+tl.fromTo("#cw16_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},38.63333333333333);
+tl.to("#cw16_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},38.766666666666666);
+tl.fromTo("#cw16_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},38.766666666666666);
+tl.to("#cw16_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},39.06666666666667);
+tl.fromTo("#cw16_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},39.06666666666667);
+tl.to("#cw16_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},39.233333333333334);
+tl.fromTo("#cw16_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},39.233333333333334);
+tl.to("#cw16_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},39.416666666666664);
+tl.fromTo("#cw16_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},39.416666666666664);
+tl.to("#cw16_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},39.78333333333333);
+tl.to("#cap16",{opacity:0,duration:0.04,ease:"none"},39.78333333333333);
+tl.fromTo("#cap21",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},49.166666666666664);
+tl.fromTo("#cw21_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},49.25);
+tl.to("#cw21_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},49.583333333333336);
+tl.fromTo("#cw21_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},49.583333333333336);
+tl.to("#cw21_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},50.13333333333333);
+tl.fromTo("#cw21_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},50.13333333333333);
+tl.to("#cw21_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},50.36666666666667);
+tl.fromTo("#cw21_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},50.36666666666667);
+tl.to("#cw21_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},51.266666666666666);
+tl.to("#cap21",{opacity:0,duration:0.04,ease:"none"},51.266666666666666);
+tl.fromTo("#cap22",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},51.516666666666666);
+tl.fromTo("#cw22_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},51.583333333333336);
+tl.to("#cw22_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},51.78333333333333);
+tl.fromTo("#cw22_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},51.78333333333333);
+tl.to("#cw22_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},52.11666666666667);
+tl.fromTo("#cw22_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},52.11666666666667);
+tl.to("#cw22_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},52.38333333333333);
+tl.fromTo("#cw22_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},52.38333333333333);
+tl.to("#cw22_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},52.53333333333333);
+tl.fromTo("#cw22_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},52.53333333333333);
+tl.to("#cw22_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},52.85);
+tl.fromTo("#cw22_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},52.85);
+tl.to("#cw22_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},53.1);
+tl.fromTo("#cw22_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},53.1);
+tl.to("#cw22_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},53.2);
+tl.to("#cap22",{opacity:0,duration:0.04,ease:"none"},53.2);
+tl.fromTo("#cap23",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},53.266666666666666);
+tl.fromTo("#cw23_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},53.333333333333336);
+tl.to("#cw23_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},53.75);
+tl.fromTo("#cw23_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},53.75);
+tl.to("#cw23_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},53.86666666666667);
+tl.fromTo("#cw23_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},53.86666666666667);
+tl.to("#cw23_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},53.96666666666667);
+tl.fromTo("#cw23_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},53.96666666666667);
+tl.to("#cw23_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},54.13333333333333);
+tl.fromTo("#cw23_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},54.13333333333333);
+tl.to("#cw23_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},54.666666666666664);
+tl.fromTo("#cw23_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},54.666666666666664);
+tl.to("#cw23_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},54.833333333333336);
+tl.fromTo("#cw23_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},54.833333333333336);
+tl.to("#cw23_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},55.06666666666667);
+tl.to("#cap23",{opacity:0,duration:0.04,ease:"none"},55.06666666666667);
+tl.fromTo("#cap24",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},55.13333333333333);
+tl.fromTo("#cw24_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},55.21666666666667);
+tl.to("#cw24_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},55.65);
+tl.fromTo("#cw24_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},55.65);
+tl.to("#cw24_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},55.78333333333333);
+tl.fromTo("#cw24_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},55.78333333333333);
+tl.to("#cw24_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},56.233333333333334);
+tl.fromTo("#cw24_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},56.233333333333334);
+tl.to("#cw24_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},56.266666666666666);
+tl.fromTo("#cw24_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},56.266666666666666);
+tl.to("#cw24_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},56.483333333333334);
+tl.fromTo("#cw24_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},56.483333333333334);
+tl.to("#cw24_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},56.983333333333334);
+tl.fromTo("#cw24_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},56.983333333333334);
+tl.to("#cw24_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},57.11666666666667);
+tl.to("#cap24",{opacity:0,duration:0.04,ease:"none"},57.11666666666667);
+tl.fromTo("#cap25",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},57.18333333333333);
+tl.fromTo("#cw25_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},57.266666666666666);
+tl.to("#cw25_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},57.5);
+tl.fromTo("#cw25_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},57.5);
+tl.to("#cw25_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},58.083333333333336);
+tl.fromTo("#cw25_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},58.083333333333336);
+tl.to("#cw25_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},58.43333333333333);
+tl.fromTo("#cw25_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},58.43333333333333);
+tl.to("#cw25_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},58.916666666666664);
+tl.fromTo("#cw25_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},58.916666666666664);
+tl.to("#cw25_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},59.61666666666667);
+tl.to("#cap25",{opacity:0,duration:0.04,ease:"none"},59.61666666666667);
+tl.fromTo("#cap26",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},59.68333333333333);
+tl.fromTo("#cw26_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},59.766666666666666);
+tl.to("#cw26_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},59.983333333333334);
+tl.fromTo("#cw26_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},59.983333333333334);
+tl.to("#cw26_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},60.21666666666667);
+tl.fromTo("#cw26_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},60.21666666666667);
+tl.to("#cw26_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},60.5);
+tl.fromTo("#cw26_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},60.5);
+tl.to("#cw26_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},60.78333333333333);
+tl.fromTo("#cw26_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},60.78333333333333);
+tl.to("#cw26_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},61.03333333333333);
+tl.fromTo("#cw26_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},61.03333333333333);
+tl.to("#cw26_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},61.71666666666667);
+tl.to("#cap26",{opacity:0,duration:0.04,ease:"none"},61.71666666666667);
+tl.fromTo("#cap27",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},61.78333333333333);
+tl.fromTo("#cw27_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},61.86666666666667);
+tl.to("#cw27_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},61.9);
+tl.fromTo("#cw27_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},61.9);
+tl.to("#cw27_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},61.95);
+tl.fromTo("#cw27_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},61.95);
+tl.to("#cw27_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},62.3);
+tl.fromTo("#cw27_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},62.3);
+tl.to("#cw27_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},62.416666666666664);
+tl.fromTo("#cw27_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},62.416666666666664);
+tl.to("#cw27_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},62.46666666666667);
+tl.fromTo("#cw27_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},62.46666666666667);
+tl.to("#cw27_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},62.71666666666667);
+tl.fromTo("#cw27_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},62.85);
+tl.to("#cw27_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},62.71666666666667);
+tl.to("#cap27",{opacity:0,duration:0.04,ease:"none"},62.71666666666667);
+tl.fromTo("#cap28",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},62.78333333333333);
+tl.fromTo("#cw28_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},62.86666666666667);
+tl.to("#cw28_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},63.266666666666666);
+tl.fromTo("#cw28_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},63.266666666666666);
+tl.to("#cw28_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},63.65);
+tl.fromTo("#cw28_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},63.65);
+tl.to("#cw28_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.03333333333333);
+tl.fromTo("#cw28_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.03333333333333);
+tl.to("#cw28_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.08333333333333);
+tl.fromTo("#cw28_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.08333333333333);
+tl.to("#cw28_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.16666666666667);
+tl.fromTo("#cw28_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.16666666666667);
+tl.to("#cw28_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.41666666666667);
+tl.fromTo("#cw28_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.41666666666667);
+tl.to("#cw28_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.43333333333334);
+tl.to("#cap28",{opacity:0,duration:0.04,ease:"none"},64.43333333333334);
+tl.fromTo("#cap29",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},64.48333333333333);
+tl.fromTo("#cw29_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.56666666666666);
+tl.to("#cw29_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},64.81666666666666);
+tl.fromTo("#cw29_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},64.81666666666666);
+tl.to("#cw29_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},65.26666666666667);
+tl.fromTo("#cw29_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},65.26666666666667);
+tl.to("#cw29_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},65.68333333333334);
+tl.fromTo("#cw29_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},65.68333333333334);
+tl.to("#cw29_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},65.76666666666667);
+tl.fromTo("#cw29_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},65.76666666666667);
+tl.to("#cw29_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},65.98333333333333);
+tl.fromTo("#cw29_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},65.98333333333333);
+tl.to("#cw29_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},66.06666666666666);
+tl.fromTo("#cw29_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},66.06666666666666);
+tl.to("#cw29_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},66.06666666666666);
+tl.to("#cap29",{opacity:0,duration:0.04,ease:"none"},66.06666666666666);
+tl.fromTo("#cap30",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},66.11666666666666);
+tl.fromTo("#cw30_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},66.2);
+tl.to("#cw30_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},66.63333333333334);
+tl.fromTo("#cw30_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},66.63333333333334);
+tl.to("#cw30_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},66.78333333333333);
+tl.fromTo("#cw30_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},66.78333333333333);
+tl.to("#cw30_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},67.68333333333334);
+tl.to("#cap30",{opacity:0,duration:0.04,ease:"none"},67.68333333333334);
+tl.fromTo("#cap35",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},78.16666666666667);
+tl.fromTo("#cw35_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},78.23333333333333);
+tl.to("#cw35_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},79.01666666666667);
+tl.fromTo("#cw35_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},79.01666666666667);
+tl.to("#cw35_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},79.13333333333334);
+tl.fromTo("#cw35_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},79.13333333333334);
+tl.to("#cw35_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},79.71666666666667);
+tl.fromTo("#cw35_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},79.71666666666667);
+tl.to("#cw35_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},80.06666666666666);
+tl.to("#cap35",{opacity:0,duration:0.04,ease:"none"},80.06666666666666);
+tl.fromTo("#cap36",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},80.11666666666666);
+tl.fromTo("#cw36_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},80.2);
+tl.to("#cw36_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},80.38333333333334);
+tl.fromTo("#cw36_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},80.38333333333334);
+tl.to("#cw36_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},80.7);
+tl.fromTo("#cw36_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},80.7);
+tl.to("#cw36_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.08333333333333);
+tl.fromTo("#cw36_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.08333333333333);
+tl.to("#cw36_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.41666666666667);
+tl.fromTo("#cw36_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.41666666666667);
+tl.to("#cw36_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.63333333333334);
+tl.fromTo("#cw36_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.63333333333334);
+tl.to("#cw36_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.73333333333333);
+tl.fromTo("#cw36_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.76666666666667);
+tl.to("#cw36_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.73333333333333);
+tl.to("#cap36",{opacity:0,duration:0.04,ease:"none"},81.73333333333333);
+tl.fromTo("#cap37",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},81.8);
+tl.fromTo("#cw37_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.88333333333334);
+tl.to("#cw37_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},81.91666666666667);
+tl.fromTo("#cw37_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},81.91666666666667);
+tl.to("#cw37_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},82.28333333333333);
+tl.fromTo("#cw37_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},82.28333333333333);
+tl.to("#cw37_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},82.51666666666667);
+tl.fromTo("#cw37_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},82.51666666666667);
+tl.to("#cw37_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},83.51666666666667);
+tl.fromTo("#cw37_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},83.51666666666667);
+tl.to("#cw37_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},83.71666666666667);
+tl.fromTo("#cw37_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},83.71666666666667);
+tl.to("#cw37_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},83.96666666666667);
+tl.fromTo("#cw37_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},83.96666666666667);
+tl.to("#cw37_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},84.33333333333333);
+tl.to("#cap37",{opacity:0,duration:0.04,ease:"none"},84.33333333333333);
+tl.fromTo("#cap38",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},84.4);
+tl.fromTo("#cw38_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},84.48333333333333);
+tl.to("#cw38_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},84.5);
+tl.fromTo("#cw38_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},84.5);
+tl.to("#cw38_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},85.11666666666666);
+tl.fromTo("#cw38_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},85.11666666666666);
+tl.to("#cw38_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},85.35);
+tl.fromTo("#cw38_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},85.35);
+tl.to("#cw38_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},85.63333333333334);
+tl.fromTo("#cw38_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},85.63333333333334);
+tl.to("#cw38_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},85.7);
+tl.fromTo("#cw38_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},85.7);
+tl.to("#cw38_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},85.86666666666666);
+tl.fromTo("#cw38_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},85.86666666666666);
+tl.to("#cw38_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},86.15);
+tl.to("#cap38",{opacity:0,duration:0.04,ease:"none"},86.15);
+tl.fromTo("#cap39",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},86.21666666666667);
+tl.fromTo("#cw39_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},86.28333333333333);
+tl.to("#cw39_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},86.6);
+tl.fromTo("#cw39_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},86.6);
+tl.to("#cw39_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},86.91666666666667);
+tl.fromTo("#cw39_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},86.91666666666667);
+tl.to("#cw39_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},87.36666666666666);
+tl.fromTo("#cw39_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},87.36666666666666);
+tl.to("#cw39_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},87.48333333333333);
+tl.fromTo("#cw39_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},87.48333333333333);
+tl.to("#cw39_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},87.73333333333333);
+tl.fromTo("#cw39_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},87.73333333333333);
+tl.to("#cw39_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},88.63333333333334);
+tl.to("#cap39",{opacity:0,duration:0.04,ease:"none"},88.63333333333334);
+tl.fromTo("#cap40",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},88.73333333333333);
+tl.fromTo("#cw40_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},88.81666666666666);
+tl.to("#cw40_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},89.48333333333333);
+tl.fromTo("#cw40_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},89.48333333333333);
+tl.to("#cw40_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},89.66666666666667);
+tl.fromTo("#cw40_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},89.66666666666667);
+tl.to("#cw40_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},90.01666666666667);
+tl.fromTo("#cw40_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},90.01666666666667);
+tl.to("#cw40_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},90.58333333333333);
+tl.fromTo("#cw40_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},90.58333333333333);
+tl.to("#cw40_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},90.91666666666667);
+tl.fromTo("#cw40_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},90.91666666666667);
+tl.to("#cw40_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},91.63333333333334);
+tl.to("#cap40",{opacity:0,duration:0.04,ease:"none"},91.63333333333334);
+tl.fromTo("#cap41",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},91.7);
+tl.fromTo("#cw41_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},91.78333333333333);
+tl.to("#cw41_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},92.01666666666667);
+tl.fromTo("#cw41_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},92.01666666666667);
+tl.to("#cw41_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},92.43333333333334);
+tl.fromTo("#cw41_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},92.43333333333334);
+tl.to("#cw41_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},92.46666666666667);
+tl.fromTo("#cw41_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},92.46666666666667);
+tl.to("#cw41_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},92.61666666666666);
+tl.fromTo("#cw41_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},92.61666666666666);
+tl.to("#cw41_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},92.86666666666666);
+tl.fromTo("#cw41_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},92.86666666666666);
+tl.to("#cw41_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},93.03333333333333);
+tl.fromTo("#cw41_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},93.03333333333333);
+tl.to("#cw41_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},93.2);
+tl.to("#cap41",{opacity:0,duration:0.04,ease:"none"},93.2);
+tl.fromTo("#cap42",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},93.26666666666667);
+tl.fromTo("#cw42_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},93.33333333333333);
+tl.to("#cw42_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},93.33333333333333);
+tl.fromTo("#cw42_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},93.33333333333333);
+tl.to("#cw42_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},93.51666666666667);
+tl.fromTo("#cw42_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},93.51666666666667);
+tl.to("#cw42_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},93.78333333333333);
+tl.fromTo("#cw42_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},93.78333333333333);
+tl.to("#cw42_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},94.35);
+tl.fromTo("#cw42_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},94.35);
+tl.to("#cw42_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},94.43333333333334);
+tl.fromTo("#cw42_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},94.43333333333334);
+tl.to("#cw42_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},94.61666666666666);
+tl.fromTo("#cw42_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},94.61666666666666);
+tl.to("#cw42_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},94.66666666666667);
+tl.to("#cap42",{opacity:0,duration:0.04,ease:"none"},94.66666666666667);
+tl.fromTo("#cap43",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},94.73333333333333);
+tl.fromTo("#cw43_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},94.81666666666666);
+tl.to("#cw43_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},96.68333333333334);
+tl.fromTo("#cw43_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},96.68333333333334);
+tl.to("#cw43_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},96.88333333333334);
+tl.fromTo("#cw43_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},96.88333333333334);
+tl.to("#cw43_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},97.43333333333334);
+tl.fromTo("#cw43_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},97.43333333333334);
+tl.to("#cw43_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},97.58333333333333);
+tl.fromTo("#cw43_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},97.58333333333333);
+tl.to("#cw43_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},98.53333333333333);
+tl.fromTo("#cw43_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},98.53333333333333);
+tl.to("#cw43_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},98.85);
+tl.fromTo("#cw43_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},98.85);
+tl.to("#cw43_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},99.3);
+tl.to("#cap43",{opacity:0,duration:0.04,ease:"none"},99.3);
+tl.fromTo("#cap44",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},99.36666666666666);
+tl.fromTo("#cw44_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},99.43333333333334);
+tl.to("#cw44_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},99.58333333333333);
+tl.fromTo("#cw44_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},99.58333333333333);
+tl.to("#cw44_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},99.91666666666667);
+tl.fromTo("#cw44_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},99.91666666666667);
+tl.to("#cw44_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},100.38333333333334);
+tl.fromTo("#cw44_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},100.38333333333334);
+tl.to("#cw44_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},100.56666666666666);
+tl.fromTo("#cw44_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},100.56666666666666);
+tl.to("#cw44_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},101.11666666666666);
+tl.fromTo("#cw44_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},101.11666666666666);
+tl.to("#cw44_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},102.01666666666667);
+tl.to("#cap44",{opacity:0,duration:0.04,ease:"none"},102.01666666666667);
+tl.fromTo("#cap45",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},107.25);
+tl.fromTo("#cw45_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},107.33333333333333);
+tl.to("#cw45_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},107.41666666666667);
+tl.fromTo("#cw45_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},107.41666666666667);
+tl.to("#cw45_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},107.53333333333333);
+tl.fromTo("#cw45_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},107.53333333333333);
+tl.to("#cw45_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},107.98333333333333);
+tl.fromTo("#cw45_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},107.98333333333333);
+tl.to("#cw45_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},108.23333333333333);
+tl.fromTo("#cw45_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},108.23333333333333);
+tl.to("#cw45_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},108.46666666666667);
+tl.fromTo("#cw45_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},108.46666666666667);
+tl.to("#cw45_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},108.9);
+tl.fromTo("#cw45_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},108.9);
+tl.to("#cw45_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},109.35);
+tl.to("#cap45",{opacity:0,duration:0.04,ease:"none"},109.35);
+tl.fromTo("#cap50",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},117.71666666666667);
+tl.fromTo("#cw50_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},117.78333333333333);
+tl.to("#cw50_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.01666666666667);
+tl.fromTo("#cw50_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.01666666666667);
+tl.to("#cw50_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.13333333333334);
+tl.fromTo("#cw50_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.13333333333334);
+tl.to("#cw50_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.23333333333333);
+tl.fromTo("#cw50_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.23333333333333);
+tl.to("#cw50_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.33333333333333);
+tl.fromTo("#cw50_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.33333333333333);
+tl.to("#cw50_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.43333333333334);
+tl.fromTo("#cw50_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.43333333333334);
+tl.to("#cw50_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.68333333333334);
+tl.fromTo("#cw50_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.68333333333334);
+tl.to("#cw50_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},118.71666666666667);
+tl.to("#cap50",{opacity:0,duration:0.04,ease:"none"},118.71666666666667);
+tl.fromTo("#cap51",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},118.76666666666667);
+tl.fromTo("#cw51_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},118.85);
+tl.to("#cw51_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},119.16666666666667);
+tl.fromTo("#cw51_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},119.16666666666667);
+tl.to("#cw51_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},119.28333333333333);
+tl.fromTo("#cw51_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},119.28333333333333);
+tl.to("#cw51_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},119.36666666666666);
+tl.fromTo("#cw51_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},119.36666666666666);
+tl.to("#cw51_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},119.68333333333334);
+tl.fromTo("#cw51_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},119.68333333333334);
+tl.to("#cw51_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},120.58333333333333);
+tl.to("#cap51",{opacity:0,duration:0.04,ease:"none"},120.58333333333333);
+tl.fromTo("#cap54",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},124.95);
+tl.fromTo("#cw54_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},125.03333333333333);
+tl.to("#cw54_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},125.36666666666666);
+tl.fromTo("#cw54_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},125.36666666666666);
+tl.to("#cw54_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},125.91666666666667);
+tl.fromTo("#cw54_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},125.91666666666667);
+tl.to("#cw54_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},126.33333333333333);
+tl.fromTo("#cw54_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},126.33333333333333);
+tl.to("#cw54_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},126.9);
+tl.fromTo("#cw54_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},126.9);
+tl.to("#cw54_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},127.23333333333333);
+tl.fromTo("#cw54_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},127.23333333333333);
+tl.to("#cw54_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},127.56666666666666);
+tl.fromTo("#cw54_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},127.56666666666666);
+tl.to("#cw54_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},127.9);
+tl.to("#cap54",{opacity:0,duration:0.04,ease:"none"},127.9);
+tl.fromTo("#cap55",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},127.96666666666667);
+tl.fromTo("#cw55_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},128.03333333333333);
+tl.to("#cw55_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},129.06666666666666);
+tl.fromTo("#cw55_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},129.06666666666666);
+tl.to("#cw55_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},129.4);
+tl.fromTo("#cw55_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},129.4);
+tl.to("#cw55_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},129.96666666666667);
+tl.fromTo("#cw55_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},129.96666666666667);
+tl.to("#cw55_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},130.11666666666667);
+tl.fromTo("#cw55_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},130.11666666666667);
+tl.to("#cw55_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},130.26666666666668);
+tl.fromTo("#cw55_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},130.26666666666668);
+tl.to("#cw55_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},130.88333333333333);
+tl.to("#cap55",{opacity:0,duration:0.04,ease:"none"},130.88333333333333);
+tl.fromTo("#cap56",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},130.93333333333334);
+tl.fromTo("#cw56_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},131.01666666666668);
+tl.to("#cw56_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},131.21666666666667);
+tl.fromTo("#cw56_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},131.21666666666667);
+tl.to("#cw56_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},131.53333333333333);
+tl.fromTo("#cw56_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},131.53333333333333);
+tl.to("#cw56_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},132.73333333333332);
+tl.fromTo("#cw56_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},132.73333333333332);
+tl.to("#cw56_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},132.91666666666666);
+tl.to("#cap56",{opacity:0,duration:0.04,ease:"none"},132.91666666666666);
+tl.fromTo("#cap57",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},132.96666666666667);
+tl.fromTo("#cw57_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},133.05);
+tl.to("#cw57_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},133.26666666666668);
+tl.fromTo("#cw57_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},133.26666666666668);
+tl.to("#cw57_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},133.48333333333332);
+tl.fromTo("#cw57_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},133.48333333333332);
+tl.to("#cw57_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},133.65);
+tl.fromTo("#cw57_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},133.65);
+tl.to("#cw57_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},133.96666666666667);
+tl.fromTo("#cw57_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},133.96666666666667);
+tl.to("#cw57_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},134.31666666666666);
+tl.fromTo("#cw57_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},134.31666666666666);
+tl.to("#cw57_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},135.21666666666667);
+tl.to("#cap57",{opacity:0,duration:0.04,ease:"none"},135.21666666666667);
+tl.fromTo("#cap58",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},135.58333333333334);
+tl.fromTo("#cw58_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},135.66666666666666);
+tl.to("#cw58_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},136.21666666666667);
+tl.fromTo("#cw58_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},136.21666666666667);
+tl.to("#cw58_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},136.31666666666666);
+tl.fromTo("#cw58_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},136.31666666666666);
+tl.to("#cw58_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},136.43333333333334);
+tl.fromTo("#cw58_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},136.43333333333334);
+tl.to("#cw58_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},137.26666666666668);
+tl.to("#cap58",{opacity:0,duration:0.04,ease:"none"},137.26666666666668);
+tl.fromTo("#cap59",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},137.31666666666666);
+tl.fromTo("#cw59_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},137.4);
+tl.to("#cw59_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},137.61666666666667);
+tl.fromTo("#cw59_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},137.61666666666667);
+tl.to("#cw59_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},137.96666666666667);
+tl.fromTo("#cw59_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},137.96666666666667);
+tl.to("#cw59_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},138.11666666666667);
+tl.fromTo("#cw59_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},138.11666666666667);
+tl.to("#cw59_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},138.33333333333334);
+tl.fromTo("#cw59_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},138.33333333333334);
+tl.to("#cw59_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},138.48333333333332);
+tl.fromTo("#cw59_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},138.48333333333332);
+tl.to("#cw59_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},138.71666666666667);
+tl.fromTo("#cw59_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},138.71666666666667);
+tl.to("#cw59_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},138.71666666666667);
+tl.to("#cap59",{opacity:0,duration:0.04,ease:"none"},138.71666666666667);
+tl.fromTo("#cap60",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},138.78333333333333);
+tl.fromTo("#cw60_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},138.86666666666667);
+tl.to("#cw60_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},139.41666666666666);
+tl.fromTo("#cw60_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},139.41666666666666);
+tl.to("#cw60_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},139.43333333333334);
+tl.fromTo("#cw60_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},139.43333333333334);
+tl.to("#cw60_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},139.63333333333333);
+tl.fromTo("#cw60_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},139.63333333333333);
+tl.to("#cw60_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},139.9);
+tl.fromTo("#cw60_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},139.9);
+tl.to("#cw60_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},140.11666666666667);
+tl.fromTo("#cw60_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},140.11666666666667);
+tl.to("#cw60_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},140.45);
+tl.fromTo("#cw60_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},140.45);
+tl.to("#cw60_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},141.35);
+tl.to("#cap60",{opacity:0,duration:0.04,ease:"none"},141.35);
+tl.fromTo("#cap61",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},141.81666666666666);
+tl.fromTo("#cw61_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},141.88333333333333);
+tl.to("#cw61_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},142.63333333333333);
+tl.fromTo("#cw61_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},142.63333333333333);
+tl.to("#cw61_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},142.81666666666666);
+tl.fromTo("#cw61_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},142.81666666666666);
+tl.to("#cw61_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},144.13333333333333);
+tl.fromTo("#cw61_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},144.13333333333333);
+tl.to("#cw61_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},144.3);
+tl.fromTo("#cw61_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},144.3);
+tl.to("#cw61_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},145.2);
+tl.to("#cap61",{opacity:0,duration:0.04,ease:"none"},145.2);
+tl.fromTo("#cap62",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},145.56666666666666);
+tl.fromTo("#cw62_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},145.65);
+tl.to("#cw62_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},145.83333333333334);
+tl.fromTo("#cw62_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},145.83333333333334);
+tl.to("#cw62_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},146.1);
+tl.fromTo("#cw62_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},146.1);
+tl.to("#cw62_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},146.28333333333333);
+tl.fromTo("#cw62_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},146.28333333333333);
+tl.to("#cw62_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},146.61666666666667);
+tl.fromTo("#cw62_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},146.61666666666667);
+tl.to("#cw62_4",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},146.98333333333332);
+tl.fromTo("#cw62_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},146.98333333333332);
+tl.to("#cw62_5",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},147.23333333333332);
+tl.fromTo("#cw62_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},147.25);
+tl.to("#cw62_6",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},147.23333333333332);
+tl.to("#cap62",{opacity:0,duration:0.04,ease:"none"},147.23333333333332);
+tl.fromTo("#cap63",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},147.3);
+tl.fromTo("#cw63_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},147.38333333333333);
+tl.to("#cw63_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},147.75);
+tl.fromTo("#cw63_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},147.75);
+tl.to("#cw63_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},147.93333333333334);
+tl.fromTo("#cw63_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},147.93333333333334);
+tl.to("#cw63_2",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},148.23333333333332);
+tl.fromTo("#cw63_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},148.23333333333332);
+tl.to("#cw63_3",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},148.43333333333334);
+tl.to("#cap63",{opacity:0,duration:0.04,ease:"none"},148.43333333333334);
+tl.fromTo("#cap64",{opacity:0,y:14},{opacity:1,y:0,duration:0.16,ease:"power2.out"},148.5);
+tl.fromTo("#cw64_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},148.58333333333334);
+tl.to("#cw64_0",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},148.73333333333332);
+tl.fromTo("#cw64_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE"},{backgroundColor:"rgba(237,195,95,1)",color:"#1A1A2E",duration:0.05,ease:"none"},148.73333333333332);
+tl.to("#cw64_1",{backgroundColor:"rgba(237,195,95,0)",color:"#FFFBEE",duration:0.05,ease:"none"},149.63333333333333);
+tl.to("#cap64",{opacity:0,duration:0.04,ease:"none"},149.63333333333333);
+tl.to({}, {duration:157.4}, 0);
+</script></body></html>
