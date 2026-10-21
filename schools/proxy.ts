@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
-import { isStandalonePath, isTasterPath } from '@/lib/taster'
+import { FREE_LESSON_COOKIE, isTasterPath, standaloneModuleOf } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
 import {
   LANGUAGES_COOKIE, LANGUAGES_DOOR, isLanguagesPath, langOfPath, languagesLive, languagesTokenAccess,
@@ -37,9 +37,13 @@ export async function proxy(request: NextRequest) {
   // through on purpose so a lesson link Justin sends actually opens. Keeping
   // them apart means the sample can be widened, narrowed or withdrawn without
   // anybody having to reason about the paid wall at the same time.
-  // isStandalonePath is the third: a lesson that is free because it stands
-  // outside the scheme altogether, so letting it through opens nothing paid.
-  if (isOpenPath(pathname) || isTasterPath(pathname) || isStandalonePath(pathname)) return NextResponse.next()
+  if (isOpenPath(pathname) || isTasterPath(pathname)) return NextResponse.next()
+
+  // The third: a lesson that is free because it stands outside the scheme
+  // altogether, so letting it through opens nothing paid. Since 21 October
+  // 2026 it asks for an email first (lib/taster.ts, FREE_LESSON_COOKIE).
+  const standalone = standaloneModuleOf(pathname)
+  if (standalone) return standaloneGate(request, standalone)
 
   // Three answers from the cookie: a licence opens everything; a pilot opens
   // its two lessons and the Hub (lib/pilot.ts) and meets the door with the
@@ -55,6 +59,17 @@ export async function proxy(request: NextRequest) {
   url.pathname = '/unlock'
   url.search = `?next=${encodeURIComponent(pathname + search)}${access?.tier === 'pilot' ? '&pilot=1' : ''}`
   return NextResponse.redirect(url)
+}
+
+// THE EMAIL GATE on a standalone lesson. A school with a code goes straight
+// in and is never asked (Justin, 21 October 2026); so does a teacher who has
+// already given an email. Anyone else sees the gate at the SAME URL: a
+// rewrite, not a redirect, so the link in an email still names the lesson,
+// and once the cookie is set a reload of that URL is the lesson itself.
+async function standaloneGate(request: NextRequest, moduleId: string) {
+  if (request.cookies.get(FREE_LESSON_COOKIE)?.value) return NextResponse.next()
+  if (await tokenAccess(request.cookies.get(ACCESS_COOKIE)?.value)) return NextResponse.next()
+  return NextResponse.rewrite(new URL(`/lesson/${moduleId}/gate`, request.url))
 }
 
 async function languagesGate(request: NextRequest) {

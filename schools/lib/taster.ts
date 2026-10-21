@@ -59,6 +59,31 @@ export function isStandaloneModule(moduleId: string): boolean {
   return (STANDALONE_MODULES as readonly string[]).includes(moduleId)
 }
 
+/** THE EMAIL GATE on the standalone lessons (21 October 2026, Justin: "can we
+ *  get the lesson with email address required"). The lessons stay free; the
+ *  door now asks where the teacher teaches before it opens, and remembers the
+ *  answer in this cookie for a year so nobody is asked twice. One cookie for
+ *  all three, because each lesson's bar links the other two.
+ *
+ *  It is a lead gate, not a paywall, so the cookie is a plain marker rather
+ *  than a signed token: forging it costs the same as typing a made up email.
+ *  A school with a code (licence or pilot) never meets the gate at all (Justin,
+ *  the same day: "if someone does have a license then we dont want to ask for
+ *  email"). proxy.ts holds the check; the gate page is
+ *  app/lesson/[module]/gate, shown at the lesson's own URL by a rewrite, so
+ *  the link in an email keeps working before and after.
+ *
+ *  The taster is NOT gated. Its order was Justin's own (taster, then lead) and
+ *  its bar already asks for the email after the lesson. */
+export const FREE_LESSON_COOKIE = 'gc_free_lesson'
+export const FREE_LESSON_MAX_AGE = 365 * 24 * 60 * 60
+
+/** The module a standalone path belongs to, or null. */
+export function standaloneModuleOf(pathname: string): string | null {
+  if (!isStandalonePath(pathname)) return null
+  return pathname.split('/').filter(Boolean)[1] ?? null
+}
+
 /** The name on the browser tab, so a page can name itself without a database
  *  read, the way the manifest does for the scheme. Keep it the row's title. */
 const STANDALONE_TITLES: Record<string, string> = {

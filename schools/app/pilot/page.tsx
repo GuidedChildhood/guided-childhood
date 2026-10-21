@@ -5,6 +5,7 @@ import { PILOT_PLACES } from '@/lib/pilot'
 import { pilotPlacesLeft } from '@/lib/pilot-places'
 import { TASTER_MODULES } from '@/lib/taster'
 import PilotForm from './PilotForm'
+import { pilotSource } from '@/lib/pilot-source'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE PILOT PAGE. Open to the world, the door every "Request a pilot" button
@@ -35,7 +36,9 @@ const body: React.CSSProperties = {
   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7,
 }
 
-export default async function PilotPage() {
+export default async function PilotPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
+  // The lesson whose Request a pilot button brought them here, if any.
+  const from = pilotSource((await searchParams).from)
   const left = await pilotPlacesLeft()
   const full = left !== null && left <= 0
 
@@ -91,7 +94,7 @@ export default async function PilotPage() {
           </p>
         </div>
 
-        <PilotForm full={full} />
+        <PilotForm full={full} from={from} />
       </div>
     </main>
   )
