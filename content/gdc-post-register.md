@@ -71,8 +71,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 042 | Same app, different rules | ready | moved off 038 |
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
 | 044 | A ban is already teaching, the question is what | ready, v4 | 2026-10-18 pack |
+| 045 | Fear is the engine on both sides now | ready | 2026-10-21 pack |
 
-**Next free number: 045.**
+**Next free number: 046.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
