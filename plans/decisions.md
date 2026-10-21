@@ -621,3 +621,7 @@ Canva put Common Sense Media's free lessons (60, US made, 20 to 40 minute decks)
 ## 21 October 2026: an email gate on the free standalone lessons
 
 Justin: "can we get the lesson with email address required as well as another button to request pilot", then "if someone does have a license then we dont want to ask for email". All three standalone lessons (they share one bar and link each other), including smart glasses for Votes for Schools. The proxy shows the gate at the lesson's own URL, so the link sent to Penny keeps working; a school code skips it, and a `gc_free_lesson` cookie stops anyone being asked twice. Email and school name only, stored as band `standalone` in the letterbox; Justin gets the lead note, the teacher gets no letter. Fails open if the save fails. A separate Request a pilot button carries `?from=<module>` into the pilot notes. The taster stays ungated. No migration. PR 1370.
+
+## 21 October 2026: tests never use up a pilot place
+
+The pilot page said "4 of 5 places left" because of Justin's own test request on 7 October. `pilotPlacesLeft` now leaves out requests from his addresses (FOUNDER_NOTIFY_EMAIL plus the two he tests from, and the app's own sender) and any whose school or contact is just "Test". The rows stay in the table. The test row itself is deleted only on Justin's yes. No migration.
