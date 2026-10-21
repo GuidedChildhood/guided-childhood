@@ -132,8 +132,17 @@ for (const path of [
   }
   ok('the stranger module is not standalone', !isStandaloneModule(STRANGER))
   const proxy = readFileSync(new URL('../schools/proxy.ts', import.meta.url), 'utf8')
-  ok('the proxy asks the standalone question too', /isTasterPath\(pathname\)\s*\|\|\s*isStandalonePath\(pathname\)/.test(proxy),
-    'if the proxy stops asking isStandalonePath, the link sent for a standalone lesson redirects to /unlock')
+  // Until 21 October 2026 the proxy let a standalone lesson straight through
+  // beside the taster. It now asks for an email first (standaloneGate, and
+  // FREE_LESSON_COOKIE in lib/taster.ts), so the question is no longer whether
+  // the path is waved past, it is whether the proxy still answers the
+  // standalone question BEFORE the paid wall. If it stops, a lesson link
+  // Justin sends falls through to /unlock, which is the thing that must never
+  // happen. This guard was left asserting the old shape and so failed on main
+  // for every pull request until it was corrected.
+  ok('the proxy answers the standalone question before the wall',
+    /standaloneModuleOf\(pathname\)/.test(proxy) && /standaloneGate\(/.test(proxy),
+    'if the proxy stops asking standaloneModuleOf before the access cookie, the link sent for a standalone lesson redirects to /unlock')
 }
 
 // ── The gated hub is still gated ────────────────────────────────────
