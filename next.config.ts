@@ -20,6 +20,17 @@ const nextConfig: NextConfig = {
       { source: '/class/:lessonId', destination: `${SCHOOLS}/class/:lessonId`, permanent: true },
     ]
   },
+  // PostHog, first party (components/Analytics.tsx). The browser posts to
+  // /ingest on our own domain and Vercel forwards it to PostHog's EU cloud, so
+  // there is no third party script host and the data stays in the EU.
+  async rewrites() {
+    return [
+      { source: '/ingest/static/:path*', destination: 'https://eu-assets.i.posthog.com/static/:path*' },
+      { source: '/ingest/:path*', destination: 'https://eu.i.posthog.com/:path*' },
+    ]
+  },
+  // PostHog's API paths end in a slash, and Next would otherwise redirect them.
+  skipTrailingSlashRedirect: true,
   images: {
     // DiGi the star is an SVG served through next/image (DigiCharacter). The
     // image optimizer refuses to serve SVGs unless this is set, which was

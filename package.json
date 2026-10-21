@@ -66,16 +66,18 @@
     "review-board": "node scripts/review-board.mjs",
     "migration-gap": "node scripts/migration-gap.mjs",
     "migration-gap-test": "node --test scripts/migration-gap.test.mjs",
-    "review-board-test": "node --test scripts/review-board.test.mjs"
+    "review-board-test": "node --test scripts/review-board.test.mjs",
+    "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts"
   },
   "dependencies": {
-    "@gc/shared": "file:./shared",
     "@anthropic-ai/sdk": "^0.104.1",
+    "@gc/shared": "file:./shared",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
     "gsap": "^3.15.0",
     "next": "16.2.9",
     "pdf-lib": "^1.17.1",
+    "posthog-js": "1.436.1",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
