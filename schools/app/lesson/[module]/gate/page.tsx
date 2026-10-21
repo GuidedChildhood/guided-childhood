@@ -83,7 +83,7 @@ export default async function StandaloneGatePage({ params }: { params: Promise<{
         )}
 
         <section style={{
-          background: '#fff', border: '2px solid var(--terracotta)',
+          background: 'var(--white)', border: '2px solid var(--terracotta)',
           borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '22px',
         }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)', ...PAGE.section, marginBottom: 'var(--space-2)' }}>
