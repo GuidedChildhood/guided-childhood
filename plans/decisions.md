@@ -625,3 +625,13 @@ Justin: "can we get the lesson with email address required as well as another bu
 ## 21 October 2026: tests never use up a pilot place
 
 The pilot page said "4 of 5 places left" because of Justin's own test request on 7 October. `pilotPlacesLeft` now leaves out requests from his addresses (FOUNDER_NOTIFY_EMAIL plus the two he tests from, and the app's own sender) and any whose school or contact is just "Test". The rows stay in the table. The test row itself is deleted only on Justin's yes. No migration.
+
+## 2026-10-21, SEO through gum for both apps
+
+gum (gumcli.dev, MIT) reads Search Console for www. and schools. through
+`npm run seo` (doctor, pull, report, inspect, submit). The pull runs on
+Justin's Mac because gum's Search Console auth is a browser OAuth a cloud
+session cannot finish; only the weekly numbers reach the repo. Measure first,
+then build the Phase 4 search pages in the order the data gives. Never the
+Indexing API, never a delete. Five public pages were missing from the sitemap;
+added, and `npm run sitemap-guard` now runs in CI. PR 1376.
