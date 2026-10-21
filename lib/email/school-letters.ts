@@ -109,7 +109,10 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
     }
   }
 
-  if (r.band !== 'draw') {
+  // The draw tells people what happens on the page; a standalone lesson lead
+  // (the schools email gate, 21 October 2026) already has the lesson open in
+  // front of them, so a letter would only be one more email. Neither has one.
+  if (r.band !== 'draw' && r.band !== 'standalone') {
     // An invoice request: the order itself.
     return {
       subject: `Your Guided Childhood invoice for ${r.school_name}`,

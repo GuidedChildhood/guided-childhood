@@ -617,3 +617,7 @@ Justin: connect Guided Childhood to Meta's Muse, and he is happy for us to appea
 ## 20 October 2026: the reply when a school already uses Common Sense
 
 Canva put Common Sense Media's free lessons (60, US made, 20 to 40 minute decks) into Canva Education from 9 October. Not a new competitor, since Common Sense UK was already free, but it anchors "free" in teachers' heads. Justin agreed a ready reply under campaign rule 12: never knock it, keep it, and name the UK statutory layer we add (the 57 RSHE requirements mapped, the DSL crosswalk, UK law, nothing to plan).
+
+## 21 October 2026: an email gate on the free standalone lessons
+
+Justin: "can we get the lesson with email address required as well as another button to request pilot", then "if someone does have a license then we dont want to ask for email". All three standalone lessons (they share one bar and link each other), including smart glasses for Votes for Schools. The proxy shows the gate at the lesson's own URL, so the link sent to Penny keeps working; a school code skips it, and a `gc_free_lesson` cookie stops anyone being asked twice. Email and school name only, stored as band `standalone` in the letterbox; Justin gets the lead note, the teacher gets no letter. Fails open if the save fails. A separate Request a pilot button carries `?from=<module>` into the pilot notes. The taster stays ungated. No migration. PR 1370.

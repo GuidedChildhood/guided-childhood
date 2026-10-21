@@ -19,6 +19,10 @@ import { otherStandaloneLessons, standaloneYears } from '@/lib/taster'
 // the list rather than the sentence: this bar used to say "any Year 8 or Year 9
 // class" whatever the lesson, and each other lesson is named with its own
 // years, because they are no longer all for the same classes.
+//
+// Since 21 October 2026 the lesson sits behind an email gate (lib/taster.ts),
+// so whoever sees this bar has already said where they teach, and the bar
+// closes on a separate Request a pilot button carrying the lesson's id.
 
 const eyebrow: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -71,6 +75,19 @@ export default function StandaloneBar({ moduleId }: { moduleId: string }) {
         Made by Guided Childhood, who write a full digital literacy scheme for schools.{' '}
         <Link href="/" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>See the scheme</Link>
       </p>
+      {/* Justin, 21 October 2026: "another button to request pilot". Its own
+          row under a rule, apart from the lesson's buttons, so it reads as
+          an offer rather than a step. The bar only renders without a school
+          code, so a licensed or pilot school never sees it. */}
+      <div style={{
+        borderTop: '1px solid var(--border)', marginTop: '18px', paddingTop: '18px',
+        display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, flex: '1 1 240px' }}>
+          Want lessons like this all year? Ask for a free one term pilot.
+        </p>
+        <Link href={`/pilot?from=${moduleId}`} className="btn btn-outline">Request a pilot</Link>
+      </div>
     </section>
   )
 }

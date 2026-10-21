@@ -31,7 +31,7 @@ const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillb
 // same letterbox on purpose (no new table, no second cron), so the only thing
 // that has to tell them apart is the email, and it very much does: an order
 // needs an invoice raised against a PO, and a lead needs a reply.
-const LEAD_BANDS = new Set(['draw', 'taster', 'pilot'])
+const LEAD_BANDS = new Set(['draw', 'taster', 'pilot', 'standalone'])
 
 const BAND_LABELS: Record<string, string> = {
   // A free class pack draw entry (schools /draw) uses the same letterbox.
@@ -40,6 +40,10 @@ const BAND_LABELS: Record<string, string> = {
   // taster, 11 September 2026). No PO, by design: asking a browsing teacher
   // for a purchase order is asking them to leave.
   taster: 'Sample lesson taster · lead',
+  // A teacher who gave an email to open a free standalone lesson (schools
+  // email gate, 21 October 2026). The notes name the lesson. No letter goes
+  // to the teacher: they already have the lesson (lib/email/school-letters.ts).
+  standalone: 'Free standalone lesson · lead',
   // A school asking for the free term (schools /pilot, 13 September 2026).
   // Five places; the pilot page counts them from these rows.
   pilot: 'Free one term pilot · lead',

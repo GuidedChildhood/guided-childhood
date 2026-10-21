@@ -31,7 +31,7 @@ function check(fd: FormData): Record<string, string> {
   return errs
 }
 
-export default function PilotForm({ full }: { full: boolean }) {
+export default function PilotForm({ full, from }: { full: boolean; from?: string | null }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [errs, setErrs] = useState<Record<string, string>>({})
@@ -72,6 +72,7 @@ export default function PilotForm({ full }: { full: boolean }) {
 
   return (
     <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      {from && <input type="hidden" name="from" value={from} />}
       <div>
         <label style={label} htmlFor="pilot_school_name">School name</label>
         <input className="input" id="pilot_school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-pilot-school' : undefined} />
