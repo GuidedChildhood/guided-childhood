@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type ReactNode, type CSSProperties } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
@@ -184,6 +184,9 @@ export default function StarterPackPage() {
       .catch(() => { /* the page reads the same without it */ })
   }, [])
   const [restored, setRestored] = useState(false)
+  // True when this visit picked up a half finished quiz from an earlier one,
+  // which is when Not you? Start fresh is shown beside the question count.
+  const [resumed, setResumed] = useState(false)
   // True only while we are landing back from Google or Apple. The page draws a
   // different screen for it, because the alternative is a parent who has just
   // signed in watching question one flash up at them.
@@ -196,23 +199,70 @@ export default function StarterPackPage() {
   // /api/go/starter, which sends a member home; this catches every other way
   // a signed in parent lands here (the website, a shared link, a bookmark).
   //
-  // A line above the intro, not a redirect. A parent showing a friend the
-  // starter pack on their own phone is a real case, and bouncing them to their
-  // dashboard would stop them doing exactly the thing we want.
-  const [signedIn, setSignedIn] = useState(false)
+  // Justin, 21 October 2026, opening it signed in: it showed the quiz filled
+  // in with his child's name, which is strange for someone who has done it.
+  // So a member gets a welcome back card INSTEAD of the quiz, wherever the
+  // quiz had got to. Still not a redirect: a parent may have tapped the link
+  // to check a second child, or be showing a friend on their own phone, and
+  // the card has a door for each.
+  //
+  // getSession first because it reads the cookie and costs no request, so a
+  // visitor who has never signed in sees the page at once. Only a session is
+  // worth the round trip to confirm it and fetch the children's names.
+  const [member, setMember] = useState<{ childNames: string[] } | null>(null)
+  const [authChecked, setAuthChecked] = useState(false)
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('finish') === '1') return
-    // ?preview=member shows the line without a session, the same dev only
+    // ?preview=member shows the card without a session, the same dev only
     // hook as ?preview=result, so the layout can be checked at 390 and 1280.
     if (process.env.NODE_ENV !== 'production' && new URLSearchParams(window.location.search).get('preview') === 'member') {
-      setSignedIn(true)
+      setMember({ childNames: ['Ava'] })
+      setAuthChecked(true)
       return
     }
-    supabase.auth.getUser()
-      .then(({ data }) => { if (data.user) setSignedIn(true) })
-      .catch(() => { /* reads as signed out, which shows the normal page */ })
+    ;(async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) return
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+        const { data: kids } = await supabase.from('children').select('name').eq('parent_id', user.id).order('is_primary', { ascending: false })
+        setMember({ childNames: (kids ?? []).map(k => (k.name ?? '').trim()).filter(Boolean) })
+      } catch { /* reads as signed out, which shows the normal page */ }
+      finally { setAuthChecked(true) }
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // ── NOT YOU? START FRESH ──────────────────────────────────────────────────
+  //
+  // A shared family laptop or a borrowed phone: the next person must never
+  // open this page to someone else's child's name. Every gc_starter_ key goes
+  // (progress, answers, email, names, the provider blob) and the state goes
+  // back to a first visit. A member is signed out of THIS browser only
+  // (scope local), so the parent's own phone stays signed in.
+  async function startFresh() {
+    if (member) {
+      try { await supabase.auth.signOut({ scope: 'local' }) } catch { /* the card still goes */ }
+      setMember(null)
+    }
+    try {
+      Object.keys(localStorage).filter(k => k.startsWith('gc_starter_')).forEach(k => localStorage.removeItem(k))
+    } catch { /* private mode */ }
+    resetChild()
+    setEmail(''); setName(''); setPassword('')
+    setReturning(false); setResumed(false)
+    setStep('intro')
+    window.scrollTo({ top: 0 })
+  }
+
+  // A brother or sister starts from a blank quiz, but the parent is the same
+  // person, so their name and email stay and they are not asked twice.
+  function resetChild() {
+    setAgeBand(null); setDobMonth(null); setDobYear(null)
+    setPicks([]); setWorryOther(''); setFeeling('unsure'); setTimeCommitment(null)
+    setChildName('')
+  }
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
   // Is there a faster way in on this deployment? Only the copy needs to know;
@@ -276,8 +326,19 @@ export default function StarterPackPage() {
       return
     }
     try {
-      const saved = localStorage.getItem('gc_starter_progress')
+      // Only a run stopped ON a question is a half finished quiz. Until
+      // 21 October 2026 progress was also written on the intro and on the
+      // account step, so a parent who had finished, or only looked, came back
+      // to question one already filled in with their child's name and no
+      // welcome back, because any saved progress hid the finished run. A
+      // record like that is thrown away here, and the save below no longer
+      // writes one.
+      const raw = localStorage.getItem('gc_starter_progress')
+      const QUIZ_STEPS = ['q1', 'q2', 'q4', 'details', 'q3', 'email']
+      const saved = raw && QUIZ_STEPS.includes((JSON.parse(raw) as { step?: string }).step ?? '') ? raw : null
+      if (raw && !saved) localStorage.removeItem('gc_starter_progress')
       if (saved) {
+        setResumed(true)
         const parsed = JSON.parse(saved) as { step: Step | 'details' | 'q3' | 'email'; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
         // A parent part way through keeps the birthday they already gave, and
@@ -332,8 +393,9 @@ export default function StarterPackPage() {
 
   // Save progress after every answer, not just at the end, so a refresh or
   // an accidental close does not throw away answers already given.
+  // Only while on a question: see the note on the restore above.
   useEffect(() => {
-    if (!restored) return
+    if (!restored || (step !== 'q1' && step !== 'q2' && step !== 'q4')) return
     try {
       localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment }))
     } catch {}
@@ -596,7 +658,13 @@ export default function StarterPackPage() {
   // of them, so it shows full rather than empty. An empty bar at the moment a
   // parent has answered everything reads as "you have done nothing yet", which
   // is the opposite of what has just happened.
-  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q4' ? 3 : step === 'account' ? 3 : 0
+  // The welcome back card stands in for whatever step the page restored, so a
+  // member never sees the quiz behind it. Until we know whether this is a
+  // member, a visit with saved history shows nothing rather than the wrong
+  // screen for a beat; a first visit has none, so it never waits.
+  const showCard = !!member || (returning && step === 'intro')
+  const holding = !authChecked && (resumed || returning)
+  const progress = showCard || holding ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q4' ? 3 : step === 'account' ? 3 : 0
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -656,72 +724,49 @@ export default function StarterPackPage() {
         `}</style>
         {progress > 0 && (
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: 'var(--ink-muted)', marginBottom: '36px',
-            animation: 'stepIn 0.45s ease both',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12,
+            marginBottom: '36px', animation: 'stepIn 0.45s ease both',
           }}>
-            Question {progress} of 3
+            <span style={{
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+              letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+            }}>
+              Question {progress} of 3
+            </span>
+            {/* A quiz picked up from an earlier visit may be someone else's
+                child on a shared device. */}
+            {resumed && step !== 'account' && <StartFreshLink onClick={startFresh} />}
           </div>
         )}
-        <div key={step} style={{ animation: 'stepIn 0.45s ease both' }}>
+        <div key={showCard ? 'card' : step} style={{ animation: 'stepIn 0.45s ease both', visibility: holding ? 'hidden' : undefined }}>
 
-        {/* Welcome back — a return visit with a saved email skips the quiz and
-            goes straight to the saved pathway or sign in. */}
-        {step === 'intro' && returning && (
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
-              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
-            </div>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)',
-              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
-              color: 'var(--ink)', marginBottom: '10px',
-            }}>
-              Welcome back.
-            </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '26px', lineHeight: 1.6 }}>
-              Your child&apos;s pathway is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}. Pick up where you left off.
-            </p>
-            <button
-              onClick={() => setStep('result')}
-              style={{ width: '100%', padding: '17px 28px', borderRadius: 'var(--radius-btn)', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
-            >
-              See my pathway
-            </button>
-            <Link
-              href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
-              style={{ display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
-            >
-              Sign in to my account
-            </Link>
-            <button onClick={() => { setReturning(false); setStep('q1') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
-              Start again for another child
-            </button>
-          </div>
+        {/* Welcome back. A signed in parent first, wherever the quiz had got
+            to, then a parent who finished here before without signing in.
+            One card shape for both: two doors and a way out for whoever is
+            actually holding the phone. */}
+        {showCard && member && (
+          <WelcomeBackCard
+            line={`You are signed in, so ${member.childNames.length === 1 ? `${member.childNames[0]}'s pathway is` : 'your pathway is'} waiting in the app.`}
+            primary={{ label: pathwayLabel(member.childNames), href: '/dashboard' }}
+            // The way the product adds a child: the add child form on the
+            // quests page, opened for them (QuestManager reads ?add_child).
+            secondary={{ label: 'Check another child', href: '/dashboard/quests?add_child=' }}
+            onStartFresh={startFresh}
+          />
+        )}
+        {showCard && !member && (
+          <WelcomeBackCard
+            line={<>{childName.trim() ? `${childName.trim()}'s pathway` : 'Your pathway'} is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}.</>}
+            primary={{ label: childName.trim() ? `See ${childName.trim()}'s pathway again` : 'See your pathway again', onClick: () => { setReturning(false); setStep('result') } }}
+            secondary={{ label: 'Start for another child', onClick: () => { resetChild(); setReturning(false); setStep('q1') } }}
+            signInHref={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+            onStartFresh={startFresh}
+          />
         )}
 
         {/* Intro — the story of what happens */}
-        {step === 'intro' && !returning && (
+        {step === 'intro' && !showCard && (
           <>
-            {signedIn && (
-              <Link
-                href="/dashboard"
-                data-signed-in-door
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-                  background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
-                  padding: '13px 16px', marginBottom: '22px', textDecoration: 'none',
-                }}
-              >
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
-                  You already have an account.
-                </span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-                  Open my app →
-                </span>
-              </Link>
-            )}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
@@ -937,7 +982,7 @@ export default function StarterPackPage() {
         )}
 
         {/* Q1 — Age */}
-        {step === 'q1' && (
+        {step === 'q1' && !showCard && (
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
@@ -1032,7 +1077,7 @@ export default function StarterPackPage() {
         )}
 
         {/* Q2 — Challenge (multi select, most pressing first) */}
-        {step === 'q2' && (
+        {step === 'q2' && !showCard && (
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
@@ -1146,7 +1191,7 @@ export default function StarterPackPage() {
             ever see. The feeling VALUE stays, defaulted to unsure, because
             the reveal copy reads it and the lead row carries it. */}
         {/* Q4 — Time commitment */}
-        {step === 'q4' && (
+        {step === 'q4' && !showCard && (
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
@@ -1239,3 +1284,78 @@ export default function StarterPackPage() {
    5. Save CTA (dark card, the one primary CTA)
    Spec: /plans/starter-result-wow-spec.md
 ──────────────────────────────────────────────────────────────── */
+
+// ── THE WELCOME BACK CARD (21 October 2026) ─────────────────────────────────
+//
+// One shape for a signed in parent and for a parent who finished here before:
+// DiGi, Welcome back, one line, the main door, the other door, and the quiet
+// way out for whoever is actually holding the phone. Calm and short, the Good
+// Inside reassurance screen rather than a dashboard: big text, nothing else.
+
+type Door = { label: string; href?: string; onClick?: () => void }
+
+function WelcomeBackCard({ line, primary, secondary, signInHref, onStartFresh }: {
+  line: ReactNode
+  primary: Door
+  secondary: Door
+  signInHref?: string
+  onStartFresh: () => void
+}) {
+  const main: CSSProperties = { width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px' }
+  const other: CSSProperties = {
+    display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '14px',
+    padding: '15px 20px', borderRadius: 'var(--radius-btn)', border: 'var(--edge)', background: 'var(--white)',
+    boxShadow: '0 5px 0 var(--ink)', color: 'var(--ink)', textDecoration: 'none', cursor: 'pointer',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+  }
+  const door = (d: Door, style: CSSProperties, className?: string) => d.href
+    ? <Link href={d.href} className={className} style={style}>{d.label}</Link>
+    : <button type="button" onClick={d.onClick} className={className} style={style}>{d.label}</button>
+  return (
+    <div data-welcome-back style={{ textAlign: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+        <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+      </div>
+      <h1 style={{
+        fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)',
+        fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
+        color: 'var(--ink)', marginBottom: '10px',
+      }}>
+        Welcome back
+      </h1>
+      <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '28px', lineHeight: 1.6 }}>
+        {line}
+      </p>
+      {door(primary, main, 'btn btn-gold')}
+      {door(secondary, other)}
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 22px', marginTop: '22px' }}>
+        {signInHref && (
+          <Link href={signInHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', letterSpacing: '0.06em', padding: '8px 0', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            Sign in to my account
+          </Link>
+        )}
+        <StartFreshLink onClick={onStartFresh} />
+      </div>
+    </div>
+  )
+}
+
+function StartFreshLink({ onClick }: { onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} data-start-fresh style={{
+      background: 'none', border: 'none', cursor: 'pointer', padding: '8px 0',
+      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)',
+      letterSpacing: '0.06em', textDecoration: 'underline', textUnderlineOffset: 3, whiteSpace: 'nowrap',
+    }}>
+      Not you? Start fresh
+    </button>
+  )
+}
+
+/** The main door's words: the child by name when there is one, both when two. */
+function pathwayLabel(names: string[]): string {
+  if (names.length === 1) return `Go to ${names[0]}'s pathway`
+  if (names.length === 2) return `Go to ${names[0]} and ${names[1]}'s pathways`
+  if (names.length > 2) return "Go to your children's pathways"
+  return 'Open my app'
+}

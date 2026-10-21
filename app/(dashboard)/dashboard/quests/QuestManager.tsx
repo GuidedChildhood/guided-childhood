@@ -206,10 +206,12 @@ export default function QuestManager() {
     const params = new URLSearchParams(window.location.search)
     const t = params.get('tab')
     if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
+    // An empty ?add_child= opens the form blank: the stage check's welcome
+    // back card sends a signed in parent here to Check another child.
     const name = params.get('add_child')
-    if (name && name.trim()) {
+    if (name !== null) {
       setAddingChild(true)
-      setNewChildName(name.trim().slice(0, 60))
+      if (name.trim()) setNewChildName(name.trim().slice(0, 60))
     }
   }, [])
 
