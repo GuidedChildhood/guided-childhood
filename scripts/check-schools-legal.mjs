@@ -77,8 +77,15 @@ function walk(dir, out = []) {
   }
   return out
 }
+// This rule is about COPY A SCHOOL READS, so a line that is plainly not
+// display text can say so and be skipped, the same way check-hex-ratchet.mjs
+// takes "hex-ok:". Put "legal-ok: <why>" on the line itself, never on the
+// file, so each exception is argued where it sits. Added 21 October 2026
+// because pilot-places.ts keeps an internal allowlist of the addresses Justin
+// tests from, which no school ever sees and which this rule was never aimed at.
 for (const p of [...walk('schools/app'), ...walk('schools/components'), ...walk('schools/lib')]) {
-  if (read(p).includes('thesocialbillboard')) fail(`${p} names the old founder address`)
+  const named = read(p).split('\n').filter((l) => l.includes('thesocialbillboard') && !/legal-ok:/.test(l))
+  if (named.length) fail(`${p} names the old founder address`)
 }
 
 // 6. The pilot numbers come from lib/pilot.ts.

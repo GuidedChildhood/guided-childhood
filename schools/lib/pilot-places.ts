@@ -11,7 +11,7 @@ import { PILOT_BAND, PILOT_PLACES } from './pilot'
 const OWN_ADDRESSES = new Set(
   [
     process.env.FOUNDER_NOTIFY_EMAIL,
-    'justin@thesocialbillboard.com',
+    'justin@thesocialbillboard.com', // legal-ok: an internal allowlist, never rendered to a school
     'j31phillips@gmail.com',
     'hello@guidedchildhood.com',
   ]
