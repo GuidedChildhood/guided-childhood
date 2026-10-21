@@ -87,9 +87,27 @@ Through `viral-post` and `content-engine`. Then the hard checks:
 - One founder scene at most, and never in line one. Scene led openings sit in
   the bottom third of the year. Log it in `founder-scenes-used.md`.
 
+## Step 4b. Refresh the desk
+
+**The Post Desk is the one place Justin opens: https://claude.ai/artifact/Xb6Jt6JAm2d3wrF7WXxeGY**
+
+It holds every written and checked post in full, ready to copy, with a first
+comment behind a fold and a Posted tick that remembers itself. It also carries
+the week's ideas and a map of where everything else lives.
+
+Read it with the Artifact tool, add this week's posts and ideas to its data, and
+publish it back to the same URL. Never create a second desk: a new URL is the
+exact fragmentation this page exists to end. If the Artifact tool is not in the
+session, say so plainly in the pull request and the hand over, so Justin knows
+the page is stale rather than finding out when he opens it.
+
+Posts stay on the desk until Justin ticks them. Claude never ticks one and never
+moves a register row to POSTED.
+
 ## Step 5. Hand over
 
 - Claim the numbers in `content/gdc-post-register.md` and name the version.
+- Refresh the Post Desk (step 4b) and give Justin the link in the hand over.
 - One Drive document per post, title prefixed with the number, carrying the
   body, the first comment, and what was checked.
 - A running order with a reason per slot, driven by each post's own clock.
