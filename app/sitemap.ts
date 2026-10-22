@@ -13,6 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/digi-squad', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/ban-workarounds', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/digitalwellbeing', priority: 0.5, changeFrequency: 'monthly' },
+    // Public and indexable all along, but missing here, so Google only found
+    // them through links (found by the gum SEO build, 21 October 2026).
+    // npm run sitemap-guard now fails when a marketing page is in neither
+    // this list nor its exclusions.
+    { path: '/passport', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/five-questions', priority: 0.6, changeFrequency: 'monthly' },
+    { path: '/evidence', priority: 0.6, changeFrequency: 'monthly' },
+    { path: '/free', priority: 0.6, changeFrequency: 'weekly' },
+    { path: '/free/planet-post', priority: 0.5, changeFrequency: 'monthly' },
   ]
 
   return routes.map(r => ({

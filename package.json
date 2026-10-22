@@ -66,7 +66,10 @@
     "review-board": "node scripts/review-board.mjs",
     "migration-gap": "node scripts/migration-gap.mjs",
     "migration-gap-test": "node --test scripts/migration-gap.test.mjs",
-    "review-board-test": "node --test scripts/review-board.test.mjs"
+    "review-board-test": "node --test scripts/review-board.test.mjs",
+    "seo": "node scripts/seo-gum.mjs",
+    "seo-test": "node --test scripts/seo-gum.test.mjs",
+    "sitemap-guard": "node scripts/check-sitemap-coverage.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

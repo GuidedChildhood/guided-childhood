@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/wiring-check.mjs
+      # A public page missing from the sitemap is the same kind of broken wire:
+      # up, and not connected to the list Google is handed. Plus the gum SEO
+      # wrapper's tests, which fake gum so they need no Google login.
+      - run: node scripts/check-sitemap-coverage.mjs
+      - run: node --test scripts/seo-gum.test.mjs
 
   # The check in guard, against the live component on the dev fixture.
   #
