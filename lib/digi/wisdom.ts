@@ -189,6 +189,8 @@ ${misses.length > 0 ? `
 WHAT DID NOT HOLD (${misses.length}, de-identified). These matter as much as the wins. A pattern that keeps coming back, or keeps not shifting, should make you MORE cautious about the advice around it, not less. Where a problem recurs often, say so in the wisdom itself, because a parent who is told something will fix it and then watches it return trusts nothing we say afterwards:
 ${misses.slice(0, 120).map(s => `- [${s.age ?? 'any'}] ${s.text}`).join('\n')}` : ''}
 
+Calibration, which matters more than the count. Never write that something "very rarely" comes back, that DiGi can say it "with confidence", or that a problem "stays sorted", because the evidence above includes problems that returned and the people reading this are parents who will be told it. Every piece names its caveat inside what_works: how often it came back, how long it took, or what is still unknown. Where two patterns pull against each other, such as problems that stay sorted and problems that return, merge them into one honest piece rather than writing both. Describe what families did and what followed, never a promise of what will happen for the next child.
+
 Write between 6 and 12 pieces of wisdom. Each is a pattern of what tends to work, phrased so DiGi can lean on it warmly and specifically, never as pressure and never as a rule. Where the evidence is mixed, say that plainly inside what_works rather than dropping the pattern or overselling it. Attach an age band only when the pattern is clearly stage specific, otherwise leave it null. Justin's voice: warm, plain, direct, no dashes.
 
 Reply with ONLY valid JSON in this shape:

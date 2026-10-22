@@ -1,0 +1,19 @@
+{
+  "_note": "The Search Console properties npm run seo reads. siteUrl is the property as Search Console names it (run npm run seo -- doctor to list yours). One Domain property covers both apps, so host splits the rows by app.",
+  "properties": [
+    {
+      "name": "parents",
+      "siteUrl": "sc-domain:guidedchildhood.com",
+      "host": "https://www.guidedchildhood.com",
+      "sitemap": "https://www.guidedchildhood.com/sitemap.xml",
+      "sitemapSource": "app/sitemap.ts"
+    },
+    {
+      "name": "schools",
+      "siteUrl": "sc-domain:guidedchildhood.com",
+      "host": "https://schools.guidedchildhood.com",
+      "sitemap": "https://schools.guidedchildhood.com/sitemap.xml",
+      "sitemapSource": "schools/app/sitemap.ts"
+    }
+  ]
+}

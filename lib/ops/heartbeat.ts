@@ -57,6 +57,20 @@ export function bodyReportsFailure(body: unknown): boolean {
   return Boolean(err)
 }
 
+/**
+ * The reason a run failed, lifted out of a reply that carries it in the body.
+ *
+ * A route that catches its own error answers 502 with {"error": "..."}, which
+ * lands in detail and leaves the error column null. The board reads the column,
+ * so on 18 October the wisdom rebuild showed as failing with no reason attached.
+ * Only a string reason is lifted, an object is left for detail to hold.
+ */
+export function errorFrom(body: unknown): string | null {
+  if (!body || typeof body !== 'object') return null
+  const err = (body as Record<string, unknown>).error
+  return typeof err === 'string' && err.trim() ? err.trim().slice(0, 2000) : null
+}
+
 export function processedFrom(body: unknown): number | null {
   if (!body || typeof body !== 'object') return null
   const b = body as Record<string, unknown>
@@ -113,7 +127,8 @@ export async function beginRun(job: string): Promise<RunHandle> {
       // The reply is stored verbatim. When a job misbehaves months from now the
       // question is always "what did it actually say", and a summarised number
       // cannot answer it.
-      await close({ ok, processed: processedFrom(body), detail: body ?? null })
+      const reason = ok ? null : errorFrom(body)
+      await close({ ok, processed: processedFrom(body), detail: body ?? null, ...(reason ? { error: reason } : {}) })
     },
     async fail(err) {
       const message = err instanceof Error ? err.message : String(err)
