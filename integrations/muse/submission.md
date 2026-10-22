@@ -114,8 +114,9 @@ keep them.
 - **Government or third party requests:** No documented process. True as of
   22 October 2026; it becomes Published process once the privacy policy says
   what we do with a police or court request.
-- **Personal data passed to an AI model:** Yes, the question goes to Anthropic
-  to write the answer.
+- **Personal data passed to an AI model:** AI model from a non restricted
+  origin. The question goes to Claude (Anthropic, United States) to write the
+  answer.
 - **Architecture:** stateless API, nothing stored per user.
 - **Whose data:** Authorizing end user, and Minors under 18.
 - **Payment products:** No.
