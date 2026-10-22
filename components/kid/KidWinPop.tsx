@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { squashLand } from '@gc/shared/motion'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -79,7 +80,12 @@ export default function KidWinPop({ token, wins, onDone, onOpenBook }: {
       // The stamp comes down from above, big, and lands with a tilt, the way a
       // real one is slammed onto a passport page. Justin, 2 September 2026:
       // "so great, you scored a stamp in your passport."
-      gsap.from('.gc-win-stamp', { scale: 2.4, opacity: 0, rotate: 8, duration: 0.5, ease: 'back.out(1.4)', delay: 0.45 })
+      // Then it squashes flat for a beat on impact and settles back, the
+      // squash and stretch landing from the Prompt Motion gallery (Justin,
+      // 22 October 2026), shared with the sticker so a reward lands one way.
+      const stamp = gsap.timeline({ delay: 0.45 })
+      stamp.from('.gc-win-stamp', { scale: 2.4, opacity: 0, rotate: 8, duration: 0.42, ease: 'power3.in' })
+      squashLand(stamp, '.gc-win-stamp')
     }, popRef)
     return () => ctx.revert()
   }, [win])
