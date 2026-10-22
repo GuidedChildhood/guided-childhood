@@ -196,3 +196,6 @@ session cannot finish; only the weekly numbers reach the repo. Measure first,
 then build the Phase 4 search pages in the order the data gives. Never the
 Indexing API, never a delete. Five public pages were missing from the sitemap;
 added, and `npm run sitemap-guard` now runs in CI. PR 1376.
+## 21 October 2026: the stage check knows someone who has been before
+
+Justin opened /starter-pack signed in and saw the quiz filled in with his child's name. Two causes: a signed in parent was never detected beyond a small line, and progress was saved on the intro and account steps, so any later visit restored question one pre filled and hid the finished run. Now a member gets a Welcome back card (Go to [child]'s pathway, Check another child into the add child form) instead of the quiz, never a redirect; a returning signed out parent gets the same card shape; every card and a restored mid quiz offer Not you? Start fresh, which clears every gc_starter_ key and signs out this browser only. Progress is saved only on a question. No migration. PR 1375.
