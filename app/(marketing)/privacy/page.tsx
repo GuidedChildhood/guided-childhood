@@ -12,7 +12,7 @@ export const metadata = {
 // not ask for a date of birth. A policy that changes and keeps its old date is
 // the same problem one level up, so the date moves with the words.
 // Bumped 20 October 2026: the section on asking us through Meta's Muse.
-const EFFECTIVE = '20 October 2026'
+const EFFECTIVE = '21 October 2026'
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
@@ -83,6 +83,7 @@ export default function PrivacyPage() {
         <li style={LI}><strong>Stripe</strong> for payments.</li>
         <li style={LI}><strong>PayPal</strong> to send referral rewards, if you have asked for one.</li>
         <li style={LI}><strong>Resend</strong> for our emails.</li>
+        <li style={LI}><strong>PostHog</strong>, hosted in the EU, to count visits to our public pages and see how far parents get through the stage check, so we know which pages help. It sets no cookie, keeps nothing on your device, and does not know who you are. It never runs on your child’s pages or inside your account, and it never sees anything you type.</li>
         <li style={LI}><strong>Anthropic</strong> to power DiGi: your questions are sent to the AI model to generate a reply. They are not used to train the model, and they are not sold or shared beyond answering you.</li>
       </ul>
 
@@ -103,7 +104,7 @@ export default function PrivacyPage() {
 
       <h2 style={H2}>Cookies</h2>
       <p style={P}>
-        We use only the essential cookies needed to keep you logged in and the site working. We do not use advertising or tracking cookies.
+        We use only the essential cookies needed to keep you logged in and the site working. We do not use advertising or tracking cookies. The visit counting on our public pages works without any cookie at all.
       </p>
 
       <h2 style={H2}>Security</h2>

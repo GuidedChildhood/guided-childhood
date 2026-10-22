@@ -18,6 +18,7 @@ import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetu
 import { enabledProviders } from '@/lib/auth/providers'
 import { bandForAge, isTooYoung } from '@/lib/children/age'
 import StartsAtFour from '@/components/children/StartsAtFour'
+import { track } from '@/components/Analytics'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
@@ -175,6 +176,10 @@ export default function StarterPackPage() {
   // sent them. The name comes from the server, read from the cookie the link
   // set, never from the address bar: ?school only says there is one to ask
   // about, so the other visitors cost no request.
+  // Each step of the stage check by its name and nothing else, so PostHog can
+  // show where parents stop (lib/analytics/posthog-policy.ts says why only
+  // the name). Does nothing until NEXT_PUBLIC_POSTHOG_KEY is set.
+  useEffect(() => { track('stage_check_step', { step }) }, [step])
   const [schoolName, setSchoolName] = useState<string | null>(null)
   useEffect(() => {
     if (!new URLSearchParams(window.location.search).has('school')) return
@@ -610,6 +615,7 @@ export default function StarterPackPage() {
       return
     }
     await captureLead({})
+    track('account_created')
 
     // With confirmation off a session exists now, so the answers are written
     // through and they walk into the product. With it on there is no session

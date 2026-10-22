@@ -7,6 +7,7 @@ import '@gc/shared/tokens.css'
 import './globals.css'
 import { SITE_URL } from '@/lib/config/site'
 import PwaRegister from '@/components/PwaRegister'
+import Analytics from '@/components/Analytics'
 import UpdateBanner from '@/components/UpdateBanner'
 
 // Fonts loaded through Next's font pipeline, not a CSS @import. The old import
@@ -126,6 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body>
         <PwaRegister />
+        <Analytics />
         <UpdateBanner />
         {children}
       </body>
