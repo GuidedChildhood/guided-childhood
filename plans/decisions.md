@@ -635,3 +635,6 @@ to the stage check. Cookieless (`persistence: 'memory'`), so the privacy page's
 `lib/analytics/posthog-policy.ts` keeps the child app, family codes and the
 dashboard out, strips query strings to utm and ref, and drops any event or
 property not named. Off until NEXT_PUBLIC_POSTHOG_KEY is set. PR 1377.
+## 21 October 2026: the stage check knows someone who has been before
+
+Justin opened /starter-pack signed in and saw the quiz filled in with his child's name. Two causes: a signed in parent was never detected beyond a small line, and progress was saved on the intro and account steps, so any later visit restored question one pre filled and hid the finished run. Now a member gets a Welcome back card (Go to [child]'s pathway, Check another child into the add child form) instead of the quiz, never a redirect; a returning signed out parent gets the same card shape; every card and a restored mid quiz offer Not you? Start fresh, which clears every gc_starter_ key and signs out this browser only. Progress is saved only on a question. No migration. PR 1375.
