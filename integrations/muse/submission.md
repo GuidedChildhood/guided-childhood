@@ -95,7 +95,7 @@ keep them.
 - **Sensitive data:** Youth data (questions are about a child, optional age),
   Health or medical data (a question may mention a child's mood or anxiety,
   never requested).
-- **Purpose:** providing the service the user asked for.
+- **Purpose:** Read only (retrieves information without changing external state). The one write is our own call count.
 - **Subprocessors:** Anthropic (Claude) generates the answer, and does not
   train on API data. Vercel hosts the API. Supabase holds a count of calls by
   type and time, and any answer our automatic safety check flags, kept with no
