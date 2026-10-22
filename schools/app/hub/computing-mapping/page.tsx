@@ -2,6 +2,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, positionCode } from '@gc/shared/schools-curriculum'
 import { COMPUTING_POS, COMPUTING_POS_COUNTS, COMPUTING_POS_SOURCE, COMPUTING_KEY_STAGES, type ComputingStatement, type ComputingVerdict } from '@gc/shared/schools-computing-pos'
+import CoverageBar from '@gc/shared/components/CoverageBar'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'The computing curriculum, and what this scheme teaches of it' }
@@ -131,6 +132,19 @@ export default function ComputingMappingPage() {
             {c.yourScheme} belong to your computing scheme. The taught ones are the safety, respect,
             privacy, reporting and discernment statements: the strand a digital literacy scheme exists for.
           </p>
+          {/* The whole answer as one bar, in the row colours, drawing itself
+              in as it scrolls into view. Most of it is honestly the computing
+              scheme's, and the bar shows that as plainly as the sentence. */}
+          <div style={{ margin: '4px 0 14px' }}>
+            <CoverageBar
+              label={`${c.full} of ${c.total} statements taught in full, ${c.partial} part taught, ${c.yourScheme} for your computing scheme`}
+              segments={[
+                { value: c.full, color: 'var(--retro-green)', label: 'Taught' },
+                { value: c.partial, color: 'var(--terracotta)', label: 'In progress' },
+                { value: c.yourScheme, color: 'var(--stage-2-bold)', label: 'Your computing scheme' },
+              ]}
+            />
+          </div>
           <p style={{ ...body, color: 'var(--ink-muted)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
             The programme of study&rsquo;s purpose of study says computing &ldquo;also ensures that pupils become
             digitally literate&rdquo;, and its fourth aim is that all pupils &ldquo;are responsible, competent, confident
