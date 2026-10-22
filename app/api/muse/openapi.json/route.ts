@@ -40,6 +40,15 @@ const spec = {
     contact: { email: 'hello@guidedchildhood.com', url: `${SITE_URL}/connectors/muse` },
   },
   servers: [{ url: SITE_URL }],
+  // Muse authenticates with a key we issue (MUSE_CONNECTOR_KEY), so only Muse
+  // can spend the day's DiGi answers. lib/muse/connector.ts also accepts it as
+  // a bearer token.
+  components: {
+    securitySchemes: {
+      museKey: { type: 'apiKey', in: 'header', name: 'x-api-key' },
+    },
+  },
+  security: [{ museKey: [] }],
   paths: {
     '/api/muse/ask': {
       post: {

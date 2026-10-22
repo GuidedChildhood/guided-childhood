@@ -120,3 +120,10 @@ keep them.
 - **Architecture:** Single purpose API. One job, answering a parent, nothing stored per user.
 - **Whose data:** Authorizing end user, and Minors under 18.
 - **Payment products:** No.
+
+## Credentials integration
+
+**Authentication method:** API key, header `x-api-key`. The key is
+`MUSE_CONNECTOR_KEY` in Vercel (Production). Without it anyone who finds the
+spec could spend the day's DiGi answers and every Muse parent would get the
+scripts only answer. The key is never written in this repo.
