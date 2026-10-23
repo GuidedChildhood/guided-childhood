@@ -233,6 +233,15 @@ post has been through this review, its Drive title gains `CLAUDE REVIEWED` and
 the date. Without that, every run reviews the same posts again, and the day it
 misses the marker is the day it rewrites a post Justin has already published.
 
+**NOT POSTED YET goes in the title (Justin, 23 October 2026).** Every Drive
+document for a post that has not gone out carries `NOT POSTED YET` right after
+the number, because `READY` does not say what it sounds like: it means nobody
+has checked it, not that it is waiting to go. The shape is
+`<number> NOT POSTED YET GDC-<number> <short title>, CLAUDE REVIEWED <date>`.
+Keep the marker when retitling a reviewed post. **Only Justin turns it into
+POSTED**, and only he moves the matching register row, because Claude cannot see
+LinkedIn and cannot know whether a post went out.
+
 **A scene is spent once.** The sweep takes one green scene per post from
 `content/brand-story/founder-context.md`, checks it against
 `content/brand-story/founder-scenes-used.md` first, and adds the row after. A
