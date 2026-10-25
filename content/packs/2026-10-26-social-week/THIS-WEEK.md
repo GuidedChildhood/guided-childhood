@@ -64,7 +64,7 @@ Send this to the parent who has just found out their child talks to an AI chatbo
 
 Fair point first: using a chatbot is not the worry. In a UK survey of 1,000 children aged 9 to 17, many used one for schoolwork and revision, and that is ordinary.
 
-The part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was about half.
+The part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was 50%.
 
 That is what children said about how it feels. It is a survey, so it cannot tell us whether a chatbot caused anything, or whether it is helping or hurting any one child. Feeling like a friend is not proof of harm.
 
@@ -82,7 +82,7 @@ Send this to the parent who has just found out their child talks to an AI chatbo
 
 Fair point first: using a chatbot is not the worry. In a UK survey of 1,000 children aged 9 to 17, many used one for schoolwork and revision, and that is ordinary.
 
-The part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was about half.
+The part worth a gentle question is how it feels. Of the children who use one, 35% said talking to it is like talking to a friend. Among the children the study counted as vulnerable, it was 50%.
 
 That is what children said about how it feels. It is a survey, so it cannot tell us whether a chatbot caused anything, or whether it is helping or hurting any one child. Feeling like a friend is not proof of harm.
 
@@ -96,7 +96,7 @@ What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-
 
 **First comment**
 
-Source: Internet Matters, Me, Myself and AI, July 2025. A survey of 1,000 UK children aged 9 to 17, plus focus groups. The 35% is of children who use chatbots, not of all children. Self reported, so it shows how it feels to them, not cause.
+Source: Internet Matters, Me, Myself and AI, July 2025. A survey of 1,000 UK children aged 9 to 17, plus focus groups. The 35% is of children who have used AI chatbots, not of all children, and it rises to 50% for vulnerable children who use them (children with an EHCP, receiving SEN support, or with a physical or mental health condition needing professional help). Self reported, so it shows how it feels to them, not cause.
 
 **Alt text**
 
@@ -113,9 +113,9 @@ Send this to the parent who thinks the ban will sort it out.
 
 Fair point first: for some families it will be a relief. A rule that applies to every child takes the "everyone else has it" fight away, and that is a real thing.
 
-The government has said it will ban under 16s from a named list of social media apps, due in spring 2027. Instagram, TikTok, Snapchat, YouTube, Facebook and X have been named. Messaging apps such as WhatsApp are left out, and the final list is still being set.
+The government says under 16s will be barred from social media platforms including Instagram, TikTok, Snapchat, YouTube, Facebook and X. It is expected to start in spring 2027, the exact list is still being decided, and messaging apps like WhatsApp are not meant to be included.
 
-Which means the group chat, the game and the late night watching are all still there. A ban on named apps does not teach a child to use any of them well. That is the start line, not the finish.
+Which means the group chat, the game and the late night watching are all still there. A ban on named platforms does not teach a child to use any of them well. That is the start line, not the finish.
 
 So here are the words, before it starts:
 
@@ -135,9 +135,9 @@ Send this to the parent who thinks the ban will sort it out.
 
 Fair point first: for some families it will be a relief. A rule that applies to every child takes the "everyone else has it" fight away, and that is a real thing.
 
-The government has said it will ban under 16s from a named list of social media apps, due in spring 2027. Instagram, TikTok, Snapchat, YouTube, Facebook and X have been named. Messaging apps such as WhatsApp are left out, and the final list is still being set.
+The government says under 16s will be barred from social media platforms including Instagram, TikTok, Snapchat, YouTube, Facebook and X. It is expected to start in spring 2027, the exact list is still being decided, and messaging apps like WhatsApp are not meant to be included.
 
-Which means the group chat, the game and the late night watching are all still there. A ban on named apps does not teach a child to use any of them well. That is the start line, not the finish.
+Which means the group chat, the game and the late night watching are all still there. A ban on named platforms does not teach a child to use any of them well. That is the start line, not the finish.
 
 So here are the words, before it starts:
 
@@ -153,7 +153,7 @@ What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-
 
 **First comment**
 
-Source for the plan: the UK government announcement of 15 June 2026, as reported by Al Jazeera (aljazeera.com/news/2026/6/15/britain-announces-sweeping-social-media-ban-for-under-16s). Regulations are due by the end of 2026 and the platform list is not final.
+Source: gov.uk, Social media to be banned for under 16s, 15 June 2026 (gov.uk/government/news/social-media-to-be-banned-for-under-16s-in-landmark-government-move-to-givekids-their-childhood-back). The list is illustrative and still being decided; the plan is expected to start in spring 2027. Messaging services like WhatsApp and Signal are not intended to be included.
 
 **Alt text**
 
