@@ -187,6 +187,15 @@ Justin: "can we get the lesson with email address required as well as another bu
 
 The pilot page said "4 of 5 places left" because of Justin's own test request on 7 October. `pilotPlacesLeft` now leaves out requests from his addresses (FOUNDER_NOTIFY_EMAIL plus the two he tests from, and the app's own sender) and any whose school or contact is just "Test". The rows stay in the table. The test row itself is deleted only on Justin's yes. No migration.
 
+## 2026-10-21, PostHog on the public pages only
+
+PostHog (EU cloud, via a first party /ingest rewrite) counts visits to the
+public pages and each stage check step, so we can see which page sends parents
+to the stage check. Cookieless (`persistence: 'memory'`), so the privacy page's
+"no tracking cookies" stays true and no banner is needed. An allowlist in
+`lib/analytics/posthog-policy.ts` keeps the child app, family codes and the
+dashboard out, strips query strings to utm and ref, and drops any event or
+property not named. Off until NEXT_PUBLIC_POSTHOG_KEY is set. PR 1377.
 ## 2026-10-21, SEO through gum for both apps
 
 gum (gumcli.dev, MIT) reads Search Console for www. and schools. through

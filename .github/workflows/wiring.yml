@@ -689,3 +689,15 @@ jobs:
       # holds them per file and per value and only ever shrinks. A new one
       # fails and names the token it already is. See check-hex-ratchet.mjs.
       - run: node scripts/check-hex-ratchet.mjs
+
+  # WHAT POSTHOG MAY SEE. lib/analytics/posthog-policy.ts is the before_send
+  # that keeps the child's pages, the codes in a URL and anything typed out of
+  # analytics. Its tests are plain node, so no npm ci.
+  analytics-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts

@@ -38,6 +38,18 @@ export async function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 404 })
   }
 
+  // next.config.ts turns off Next's own trailing slash redirect, because
+  // PostHog's API paths under /ingest end in a slash. Everywhere else it is
+  // put back here, so /starter-pack/ still lands on /starter-pack and search
+  // never sees two copies of one page.
+  if (pathname.length > 1 && pathname.endsWith('/') && !pathname.startsWith('/ingest/')) {
+    // A plain URL, not nextUrl.clone(): NextURL remembers the slash it was
+    // parsed with and puts it back, which redirected the page to itself.
+    const url = new URL(request.url)
+    url.pathname = pathname.replace(/\/+$/, '')
+    return NextResponse.redirect(url, 308)
+  }
+
   const isProtected = protectedPrefixes.some(p => pathname.startsWith(p))
   const isAuthPage = pathname === '/login' || pathname === '/signup'
 

@@ -29,6 +29,7 @@
     "helpline-guard": "node scripts/check-helplines.mjs",
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
+    "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts",
     "answer-beat-test": "node --experimental-strip-types scripts/answer-beat.test.mjs",
     "taster-guard": "node --experimental-strip-types scripts/check-taster-wall.mjs",
     "picker-guard": "node scripts/check-job-picker.mjs",
@@ -72,13 +73,14 @@
     "sitemap-guard": "node scripts/check-sitemap-coverage.mjs"
   },
   "dependencies": {
-    "@gc/shared": "file:./shared",
     "@anthropic-ai/sdk": "^0.104.1",
+    "@gc/shared": "file:./shared",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
     "gsap": "^3.15.0",
     "next": "16.2.9",
     "pdf-lib": "^1.17.1",
+    "posthog-js": "1.436.1",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
