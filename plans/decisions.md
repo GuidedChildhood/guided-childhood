@@ -208,3 +208,7 @@ added, and `npm run sitemap-guard` now runs in CI. PR 1376.
 ## 21 October 2026: the stage check knows someone who has been before
 
 Justin opened /starter-pack signed in and saw the quiz filled in with his child's name. Two causes: a signed in parent was never detected beyond a small line, and progress was saved on the intro and account steps, so any later visit restored question one pre filled and hid the finished run. Now a member gets a Welcome back card (Go to [child]'s pathway, Check another child into the add child form) instead of the quiz, never a redirect; a returning signed out parent gets the same card shape; every card and a restored mid quiz offer Not you? Start fresh, which clears every gc_starter_ key and signs out this browser only. Progress is saved only on a question. No migration. PR 1375.
+
+## 22 October 2026: three motions from the Prompt Motion gallery
+
+Justin pointed at prompt-motion.com; it is rendered promo videos, so for films it feeds product-shorts, and in the apps three moves were built in house style: numbers count up (shared CountUp, RSHE tiles and the Balance week total), coverage bars draw in (shared CoverageBar on the RSHE and computing mapping pages, Balance row bars), and a squash landing for the kid stamp and sticker (shared/motion.ts). Server renders the final state; reduced motion and print get it whole; public pages only animate what starts below the fold. PR 1381.

@@ -1,4 +1,6 @@
 import { RSHE_2026, RSHE_2026_COUNTS, type Rshe2026Requirement, type Rshe2026Verdict } from '@gc/shared/schools-rshe-2026'
+import CountUp from '@gc/shared/components/CountUp'
+import CoverageBar from '@gc/shared/components/CoverageBar'
 import { CURRICULUM, positionCode } from '@gc/shared/schools-curriculum'
 
 // THE REQUIREMENTS, ONE BY ONE, WITH THE GAPS IN THE SAME LIST.
@@ -126,7 +128,7 @@ function Count({ n, label, verdict }: { n: number; label: string; verdict: Rshe2
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
         color: v.fg, lineHeight: 1,
       }}>
-        {n}
+        <CountUp n={n} />
       </div>
       <div style={{ ...mono, marginTop: '6px', color: 'var(--ink-soft)' }}>{label}</div>
     </div>
@@ -153,6 +155,20 @@ export default function RequirementList() {
         <Count n={RSHE_2026_COUNTS.partial} label="In progress" verdict="PARTIAL" />
         <Count n={RSHE_2026_COUNTS.gap} label="Not covered" verdict="GAP" />
         <Count n={RSHE_2026_COUNTS.byDesign} label="Your scheme" verdict="BY_DESIGN" />
+      </div>
+
+      {/* The whole answer as one bar, in the same colours and order as the
+          tiles above, drawing itself in as it scrolls into view. */}
+      <div style={{ marginBottom: 'var(--space-5)' }}>
+        <CoverageBar
+          label={`${RSHE_2026_COUNTS.full} of ${RSHE_2026_COUNTS.total} requirements taught`}
+          segments={[
+            { value: RSHE_2026_COUNTS.full, color: 'var(--retro-green)', label: 'Taught' },
+            { value: RSHE_2026_COUNTS.partial, color: 'var(--terracotta)', label: 'In progress' },
+            { value: RSHE_2026_COUNTS.gap, color: 'var(--ink-light)', label: 'Not covered' },
+            { value: RSHE_2026_COUNTS.byDesign, color: 'var(--stage-2-bold)', label: 'Your scheme' },
+          ]}
+        />
       </div>
 
       {groups.map(g => (

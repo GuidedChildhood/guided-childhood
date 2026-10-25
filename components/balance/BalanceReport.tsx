@@ -13,6 +13,7 @@ import { gsap } from 'gsap'
 import { fmtMins, BUCKET_META, type ParentReport, type TypeGuide, type BucketSummary, type TopState } from '@/lib/balance/parent-report'
 import { SCREEN_GUIDE_SOURCES, type BucketStatus } from '@/lib/quests/screen-balance'
 import HappyIcon from '@/components/kid/HappyIcon'
+import CountUp from '@gc/shared/components/CountUp'
 
 const GOOD = '#4C9F6B'
 const OVER = '#D98B45'
@@ -95,6 +96,22 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
     return () => ctx.revert()
   }, [good])
 
+  // The bars draw themselves in from the left as the report opens, staggered
+  // down the page, the same move PassportBook's area bars make, so a parent
+  // watches the week fill rather than reading a finished chart cold. From the
+  // Prompt Motion gallery's draw on studies (Justin, 22 October 2026).
+  const rootRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      const bars = root.querySelectorAll('.gc-bal-fill')
+      if (bars.length) gsap.from(bars, { scaleX: 0, transformOrigin: 'left center', duration: 0.9, ease: 'power3.out', delay: 0.15, stagger: 0.06, clearProps: 'transform' })
+    }, root)
+    return () => ctx.revert()
+  }, [])
+
   const card: React.CSSProperties = {
     background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
     boxShadow: 'var(--lift)', padding: 18, marginBottom: 16,
@@ -148,7 +165,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: pill.fg, background: pill.bg, padding: '4px 8px', borderRadius: 'var(--radius-pill)', flexShrink: 0 }}>{pill.label}</span>
         </div>
         <div style={{ position: 'relative', height: 14, background: 'var(--cream)', borderRadius: 7 }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 7, background: fill }} />
+          <div className="gc-bal-fill" style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 7, background: fill }} />
           {guidePct > 0 && <div style={{ position: 'absolute', top: -3, bottom: -3, left: `${guidePct}%`, width: 0, borderLeft: `2px dashed ${OVER}`, zIndex: 2 }} />}
         </div>
         {/* A sentence, so it is set like one. Mono is for the labels and the
@@ -171,7 +188,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   }
 
   return (
-    <div>
+    <div ref={rootRef}>
       {/* One glanceable state for the whole child, read before any bars. */}
       <div style={{ ...card, background: top.bg, border: 'var(--edge)', display: 'flex', gap: 13, alignItems: 'flex-start' }}>
         <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{top.emoji}</span>
@@ -214,7 +231,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)',
               letterSpacing: '-0.03em', lineHeight: 1, color: over ? OVER : GOOD,
             }}>
-              {fmtMins(totalWeekMins)}
+              <CountUp n={totalWeekMins} format={fmtMins} immediate />
             </span>
             {/* Deliberately NOT "of 17h 30m healthy".
                 A weekly pot with a total beside it reads as a bar to fill, and

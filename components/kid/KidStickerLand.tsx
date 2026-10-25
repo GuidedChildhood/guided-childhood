@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { squashLand } from '@gc/shared/motion'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import { stickerWhy } from '@/lib/stickers/catalog'
@@ -69,7 +70,11 @@ export default function KidStickerLand({ token, stickers, buddy, onClose, onOpen
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ onComplete: () => setLanded(true) })
       tl.from('.gc-land-friend', { y: 40, opacity: 0, duration: 0.5, ease: 'back.out(1.6)' })
-        .from('.gc-land-sticker', { scale: 0, rotate: -25, duration: 0.65, ease: 'back.out(2.2)' }, '-=0.2')
+        .from('.gc-land-sticker', { scale: 0, rotate: -25, duration: 0.45, ease: 'power3.in' }, '-=0.2')
+      // The sticker lands with a squash and settles, the same landing as the
+      // stamp in KidWinPop (shared/motion.ts).
+      squashLand(tl, '.gc-land-sticker')
+      tl
         .from('.gc-land-spark', { scale: 0, opacity: 0, duration: 0.45, ease: 'back.out(2)', stagger: 0.04 }, '-=0.4')
         .from('.gc-land-words', { y: 14, opacity: 0, duration: 0.4, stagger: 0.08 }, '-=0.2')
         // The flight: hold, then down into the passport at the foot.
