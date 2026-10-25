@@ -78,7 +78,7 @@ export default function MuseConnectorPage() {
 
       <h2 style={H2}>Access</h2>
       <ul>
-        <li style={LI}>Free, with no Guided Childhood account needed.</li>
+        <li style={LI}>Free, with no Guided Childhood account needed. Muse calls us with a key we issue, sent in the <code style={INLINE}>x-api-key</code> header.</li>
         <li style={LI}>For parents and carers. Written for UK families, and useful anywhere.</li>
         <li style={LI}>A daily limit on fresh DiGi answers across everyone. Past it, Ask DiGi answers from our closest matching script instead, so a parent always gets the words.</li>
         <li style={LI}>The full specification is at <a href="/api/muse/openapi.json" style={{ ...LINK, ...INLINE }}>/api/muse/openapi.json</a>.</li>
