@@ -72,8 +72,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
 | 044 | A ban is already teaching, the question is what | ready, v4 | 2026-10-18 pack |
 | 045 | Fear is the engine on both sides now | ready | 2026-10-21 pack |
+| 046 | The age is the easy part (readiness) | ready, has a card | 2026-10-23 pack |
 
-**Next free number: 046.**
+**Next free number: 047.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
@@ -96,3 +97,18 @@ seventy thousand documents or two million. The v2 document is in the Drive
 trash and v4 replaces it. **A row saying ready means ready as of the newest
 version named in it.** If a version number here is behind the pack, the pack
 wins and the Drive document needs replacing before anything is posted.
+
+## The Drive title rule (Justin, 23 October 2026)
+
+**Every Drive document for a post that has not gone out carries NOT POSTED YET
+in its title**, right after the number. He asked for it because READY does not
+say what it sounds like: READY means nobody has checked it, and a title that
+only says READY gives no clue whether a post is still waiting to go out.
+
+The title shape is:
+
+`<number> NOT POSTED YET GDC-<number> <short title>, CLAUDE REVIEWED <date>`
+
+Only Justin changes NOT POSTED YET to POSTED, and only he moves the matching
+register row. Claude never does either, because Claude cannot see LinkedIn and
+cannot know whether a post went out.
