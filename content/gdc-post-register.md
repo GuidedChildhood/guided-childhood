@@ -75,7 +75,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 046 | The age is the easy part (readiness) | ready, has a card | 2026-10-23 pack |
 | 047 | Fifty six to eighty three (smartphone at eleven) | ready, v1, recruit strangers | 2026-10-26 pack |
 | 048 | The AI toy question (half of children have one) | ready, v1, start an argument | 2026-10-26 pack |
-| 049 | The ban that 85 percent ignored, and what the 14 to 15s did | ready, v1, build authority | 2026-10-26 pack |
+| 049 | Twenty five thousand teenagers and the lag (Manchester BeeWell) | ready, v1, build authority | 2026-10-26 pack |
 
 **Next free number: 050.**
 

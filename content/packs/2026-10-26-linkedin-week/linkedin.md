@@ -9,7 +9,7 @@ this week. Every post opens on a number inside a complete sentence.
 | Slot | Post | Job | Why this slot |
 |---|---|---|---|
 | Tue | GDC-047 half of UK children have an AI toy | Recruit strangers | Newest lane (children and AI, 6,036 in its first month). Reach post first so the comments post has a bigger baseline |
-| Thu | GDC-049 the Australian ban, 408 teenagers | Build authority | BMJ and Newcastle named in line one. The UK regulations are due before Parliament by the end of 2026, so the news clock is live |
+| Thu | GDC-049 Twenty five thousand teenagers | Build authority | Manchester named in line one and the Wrong Villain shape that produced the 75,842. Evidence that cuts against the headline, which the year file says to do more of |
 | Next Mon | GDC-048 the chatbot confidant | Start an argument | Same lane as 047, so it sits a week behind it, and a comments post lands better once strangers have found the account |
 
 ## Dropped, and why
@@ -23,10 +23,6 @@ this week. Every post opens on a number inside a complete sentence.
 - **Government "89 percent of parents".** gov.uk says 9 in 10 parents, and those
   are consultation responders. Used as such, in the first comment only.
 
-Previous Australia post: 15,186 impressions, 0.73 percent ER, which we
-read as the news hook exporting its audience. 049 is the evidence angle rather
-than the headline, so expect fewer impressions and a better ER. That is a
-hypothesis from one post.
 
 ---
 
@@ -64,35 +60,37 @@ Citation-verifier 26 Oct 2026: BSI CORRECTED (parent reported, not child reporte
 
 ---
 
-# GDC-049 · The ban and 408 teenagers
+# GDC-049 · Twenty five thousand teenagers and the lag
 
-**Job: build authority.** Hook 135 characters, body 1,533.
+**Job: build authority.** Hook 133 characters, body 1,695. Replaces the first 049 draft (the Australian BMJ study), withdrawn because GDC-044 and GDC-045 already carry that study.
 
-A BMJ study of 408 Australian teenagers found little evidence that the under 16 ban had reduced their social media use three months in.
+A study of 25,629 teenagers in Greater Manchester found no evidence that time on social media predicted later emotional difficulties.
 
-The team at the University of Newcastle surveyed the same young people before the law started in December 2025 and again about three months after.
+It followed the same young people for three years, surveying them each autumn from 2021 to 2023. The team is at the University of Manchester, and it was published in the Journal of Public Health in March 2026.
 
-Their conclusion, in their words: little evidence of immediate substantive reductions in reported use by adolescents under 16.
+The method matters. It separates what happens to a child from how children differ from each other, then asks a narrow question: does more social media this year predict more emotional difficulty next year? For girls and for boys, the answer was no. The same went for gaming.
 
-The detail is where it gets interesting. Use among 12 and 13 year olds was relatively stable. Among 14 and 15 year olds it was lower. A rule does not land evenly, and the children who were most online before are not always the ones who change.
+Now the honest part. This is not a finding of no link at all. At the same moment in time, more social media went with slightly more emotional difficulty, and the paper calls it small. What it did not find is that the one comes before the other.
 
-Now the part I want to be fair about. Three months is early. This was reported use, not measured use, and not harm. The authors do not say the law has failed, and neither am I. A ban can change a norm slowly and still be worth having.
+And the limits are the authors' own. Everything was self reported. It measured hours, not what the hours were spent on. The gap between surveys was a year, which can hide shorter term effects. The average age at the start was about twelve and a half, so this says nothing about a nine year old.
 
-Here in the UK the government has announced the same thing for spring 2027, with the first regulations due before Parliament by the end of this year. So this is the nearest thing to an early read on what is coming to every parent I know.
+The press release went further than the paper. It said social media and gaming did not cause symptoms. The paper says they may not play a causal role. That is a smaller claim and the right one.
 
-What it tells me is narrow. A line in the law changes what a platform has to do. It does not decide what a fourteen year old does at ten at night, or what they say when something goes wrong.
+Add it to the others. Different teams, different countries, a small effect each time.
 
-That part still belongs at the kitchen table. The ban is the deadline. It was never the plan.
+This is The Wrong Villain series continued.
 
-If the UK ban lands in spring, what is the first conversation you would want to have had with your child by then?
+What it leaves open is the part parents actually live with: not how long, but what, and who with, and what happened after.
+
+If hours is the wrong measure, what would you want researchers to count instead?
 
 ### First comment
 
-The study: Barnes and colleagues, University of Newcastle, "Assessing early effects of Australia's Social Media Minimum Age Act on adolescents' social media use", BMJ 2026;393:e363695. UK position: DSIT, 15 June 2026, protections expected in spring 2027 under secondary legislation; the government says 9 in 10 parents who responded to its consultation support a minimum age of 16, and those are people who chose to respond, not a representative sample. I have left out two figures that circulate about this study (an 85 percent share still using the platforms, and a 78 to 69 percent drop for 14 and 15 year olds) because I could not trace either to the paper itself. If you have read the full text and can, I would like to know. A starting point for your own child: guidedchildhood.com/v/li-1029-ban-408
+The paper: Cheng, Panayiotou, Finseras, Andersen and Humphrey, "How do social media use, gaming frequency, and internalizing symptoms predict each other over time in early-to-middle adolescence?", Journal of Public Health, volume 48, issue 1, March 2026, online December 2025. Sample 25,629 from the #BeeWell cohort in Greater Manchester, three annual waves, autumn 2021 to 2023. Outcome is the emotional difficulties scale of Me and My Feelings, which is a symptom score and not a diagnosis of anxiety or depression. The lagged paths from social media to later symptoms were not significant for girls or boys (for girls, b of minus 0.001 with a 95 percent interval of minus 0.009 to 0.006). Same wave associations were small but present. Two things I could not check: the supplementary tables on active versus passive use, and anything about heavy users as a group, because the paper treats hours as a continuous measure. University of Manchester release, 14 January 2026. The sourced breakdown behind this series: guidedchildhood.com/v/li-1029-beewell
 
 ### Checked
 
-Citation-verifier: study real, abstract wording confirmed from the abstract only (full text unreadable). 408 and the three month follow up rest on the abstract. Age range for the 408 left out because sources disagree (12 to 16 or 12 to 17). Government timing worded as "expected", per gov.uk. **Justin: before posting, open the BMJ page and confirm the "12 and 13 stable, 14 and 15 lower" line against the paper.** Also check Hansard for whether the regulations have been laid, and soften "due before Parliament by the end of this year" if they have.
+Citation-verifier 26 Oct 2026 against the paper itself (OUP, read to about 80 percent; supplementary tables S11 and S12 not read). Sample CONFIRMED. "Three years" CORRECTED to three annual waves. "No significant impact on wellbeing" CORRECTED to the paper's own wording. Press causal wording flagged and not used. Age DEMOTED to a limit. No dashes. No scene. Zero body links. Series line is the Wrong Villain, as in the posts that travelled.
 
 ---
 
