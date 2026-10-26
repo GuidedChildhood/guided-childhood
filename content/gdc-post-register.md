@@ -73,8 +73,11 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 044 | A ban is already teaching, the question is what | ready, v4 | 2026-10-18 pack |
 | 045 | Fear is the engine on both sides now | ready | 2026-10-21 pack |
 | 046 | The age is the easy part (readiness) | ready, has a card | 2026-10-23 pack |
+| 047 | Fifty six to eighty three (smartphone at eleven) | ready, v1, recruit strangers | 2026-10-26 pack |
+| 048 | The AI toy question (half of children have one) | ready, v1, start an argument | 2026-10-26 pack |
+| 049 | Twenty five thousand teenagers and the lag (Manchester BeeWell) | ready, v1, build authority | 2026-10-26 pack |
 
-**Next free number: 047.**
+**Next free number: 050.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
