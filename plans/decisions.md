@@ -212,3 +212,7 @@ Justin opened /starter-pack signed in and saw the quiz filled in with his child'
 ## 22 October 2026: three motions from the Prompt Motion gallery
 
 Justin pointed at prompt-motion.com; it is rendered promo videos, so for films it feeds product-shorts, and in the apps three moves were built in house style: numbers count up (shared CountUp, RSHE tiles and the Balance week total), coverage bars draw in (shared CoverageBar on the RSHE and computing mapping pages, Balance row bars), and a squash landing for the kid stamp and sticker (shared/motion.ts). Server renders the final state; reduced motion and print get it whole; public pages only animate what starts below the fold. PR 1381.
+
+## 1 November 2026: "Ask us for help" on the homework page, demand before build
+
+Justin: a button for assistance that arrives at hello@, and once requests build up, a step by step school framework tool for the topics asked about most. The row opens a topic (prefilled with this week's) and an optional note; the request emails hello@guidedchildhood.com with the subject "Homework help: Year N · topic", so an inbox search counts demand by topic. No table yet: the inbox is the ledger until volume earns one. Checked the "numbers up to 10,000,000" job: it is the DfE's verbatim Year 6 autumn objective (Year 5 is 1,000,000), so it is right for a Year 6 child.
