@@ -1,0 +1,70 @@
+{
+  "name": "2026-11-02-wed-panic-cycle",
+  "size": "portrait",
+  "lead": "pebble",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "pebble",
+      "tag": "1 / 6",
+      "eyebrow": "One study. Properly explained.",
+      "headline": "We have<br>been here<br><mark>before.</mark>",
+      "second": "Radio. Comics. TV."
+    },
+    {
+      "name": "concession",
+      "type": "big",
+      "eyebrow": "First, the fair point",
+      "headline": "Some worries<br>are real.",
+      "body": "New technology can bring real problems. Taking them seriously is not a panic.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "finding",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "What the research found",
+      "headline": "The same alarm<br>every time.",
+      "body": "A 2020 Cambridge paper traced the pattern from novels to video games. The worry came first. The evidence came later.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "reading",
+      "type": "quote",
+      "eyebrow": "The honest reading",
+      "quote": "A loud headline is a poor guide. Your own child is a better one.",
+      "attrib": "That is not the same as saying it is harmless."
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "The tonight line",
+      "headline": "Ask this at tea",
+      "not": "I read that screens are ruining children.",
+      "say": "Show me the part you like best. What do you find annoying about it?"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next scary headline.",
+      "send": "Send it to the parent who is losing sleep over one."
+    }
+  ],
+  "post": {
+    "date": "2026-11-04",
+    "day": "Wednesday 4 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who has just read a frightening headline about screens.\n\nFair point first: some of today's worries are real, and a new technology can bring real problems. Taking them seriously is not a panic.\n\nThe thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, comics, television and video games each set off the same alarm in their day. Each time the science started again from nothing, and the worry was loudest before the evidence arrived.\n\nThat does not mean this time is harmless. It means a loud headline is a poor guide, and the calm move is to look at your own child.\n\nTonight: pick one thing they do on a screen and ask them to show you the part they like best. Then ask what they find annoying about it. Listen first.\n\nWhat did your parents worry about that turned out to be fine?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who has just read a frightening headline about screens.\n\nFair point first: some of today's worries are real, and a new technology can bring real problems. Taking them seriously is not a panic.\n\nThe thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, comics, television and video games each set off the same alarm in their day. Each time the science started again from nothing, and the worry was loudest before the evidence arrived.\n\nThat does not mean this time is harmless. It means a loud headline is a poor guide, and the calm move is to look at your own child.\n\nTonight: pick one thing they do on a screen and ask them to show you the part they like best. Then ask what they find annoying about it. Listen first.\n\nWhat did your parents worry about that turned out to be fine?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of six. A large headline says we have been here before, with the planet friend Pebble beside it. The later cards give the fair point, what a 2020 Cambridge paper found about technology panics, and one question to ask at tea.",
+    "first_comment": "Source: Orben, A. (2020). The Sisyphean Cycle of Technology Panics. Perspectives on Psychological Science, 15(5), 1143 to 1157. A review of how earlier technologies drew the same pattern of public worry. It describes a pattern in how societies respond, and does not show that any current technology is safe."
+  }
+}

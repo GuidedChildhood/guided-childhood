@@ -1,0 +1,71 @@
+{
+  "name": "2026-11-02-fri-passport",
+  "size": "portrait",
+  "lead": "nova",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "hook",
+      "lead": "nova",
+      "tag": "1 / 6",
+      "eyebrow": "Service Friday",
+      "headline": "A sixteenth<br>birthday is<br>not a training<br><mark>course.</mark>",
+      "second": "We built a road."
+    },
+    {
+      "name": "problem",
+      "type": "big",
+      "eyebrow": "The gap",
+      "headline": "Nothing at nine.<br>Everything<br>at sixteen.",
+      "body": "In between, nobody says what the middle should look like.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "road",
+      "type": "road",
+      "lead": null,
+      "tag": "3 / 6",
+      "eyebrow": "The passport",
+      "headline": "Every age has a job.",
+      "second": "Five stages, 4 to 16."
+    },
+    {
+      "name": "hinge",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "How it fills in",
+      "headline": "Not a quiz.",
+      "body": "The stamps fill in from the jobs, lessons and check ins your family is already doing.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "Say it tonight",
+      "headline": "The next step",
+      "not": "You get a phone at sixteen. End of.",
+      "say": "You get a little more each time you show me you are ready. Let us work out the next step together."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the week they ask for more freedom.",
+      "send": "Send it to the parent with a nine year old and a long road ahead."
+    }
+  ],
+  "post": {
+    "date": "2026-11-06",
+    "day": "Friday 6 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent whose child is nine and whose sixteenth birthday feels a long way off.\n\nAt sixteen, a child gets the lot. At nine, they get very little. In between, most families have nothing to hold on to, and nobody says what the middle is meant to look like.\n\nA sixteenth birthday is not a training course.\n\nSo we made the passport. Five stages, from 4 to 16: calm screen offs, healthy habits, knows how it works, owns their footprint, ready for the world. Each stage earns a stamp, and the stamps fill in from the jobs, the lessons and the check ins you are already doing. It is not a quiz.\n\nThe idea of a graduated digital passport comes from Cambridge. It is not ours, and we say so. We built it into something a family can use on a Tuesday.\n\nWhich means the stage your child is at tonight has a job, and you can see it.\n\nSo that the words are ready: \"You do not get everything at sixteen. You get a little more each time you show me you are ready, and we work out the next step together.\"\n\nWhat is the one thing your child could do now that they could not do a year ago?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent whose child is nine and whose sixteenth birthday feels a long way off.\n\nAt sixteen, a child gets the lot. At nine, they get very little. In between, most families have nothing to hold on to, and nobody says what the middle is meant to look like.\n\nA sixteenth birthday is not a training course.\n\nSo we made the passport. Five stages, from 4 to 16: calm screen offs, healthy habits, knows how it works, owns their footprint, ready for the world. Each stage earns a stamp, and the stamps fill in from the jobs, the lessons and the check ins you are already doing. It is not a quiz.\n\nThe idea of a graduated digital passport comes from Cambridge. It is not ours, and we say so. We built it into something a family can use on a Tuesday.\n\nWhich means the stage your child is at tonight has a job, and you can see it.\n\nSo that the words are ready: \"You do not get everything at sixteen. You get a little more each time you show me you are ready, and we work out the next step together.\"\n\nWhat is the one thing your child could do now that they could not do a year ago?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of six. A large headline says a sixteenth birthday is not a training course, with the planet friend Nova beside it. The later cards show the gap between nine and sixteen, the five stage passport, and words to say about the next step."
+  }
+}
