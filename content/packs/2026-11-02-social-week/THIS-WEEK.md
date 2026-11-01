@@ -60,7 +60,7 @@ Send this to the parent who has just read a frightening headline about screens.
 
 Fair point first: some of today's worries are real, and a new technology can bring real problems. Taking them seriously is not a panic.
 
-The thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, comics, television and video games each set off the same alarm in their day. Each time the science started again from nothing, and the worry was loudest before the evidence arrived.
+The thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, film, comics, television and video games each set off the same alarm in their day. Each time the research started again from scratch, and the evidence did little to calm the worry.
 
 That does not mean this time is harmless. It means a loud headline is a poor guide, and the calm move is to look at your own child.
 
@@ -76,7 +76,7 @@ Send this to the parent who has just read a frightening headline about screens.
 
 Fair point first: some of today's worries are real, and a new technology can bring real problems. Taking them seriously is not a panic.
 
-The thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, comics, television and video games each set off the same alarm in their day. Each time the science started again from nothing, and the worry was loudest before the evidence arrived.
+The thing worth knowing is that we have been here before. Cambridge researcher Amy Orben looked at the history in a 2020 paper called The Sisyphean Cycle of Technology Panics. Novels, radio, film, comics, television and video games each set off the same alarm in their day. Each time the research started again from scratch, and the evidence did little to calm the worry.
 
 That does not mean this time is harmless. It means a loud headline is a poor guide, and the calm move is to look at your own child.
 
@@ -88,7 +88,7 @@ What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-
 
 **First comment**
 
-Source: Orben, A. (2020). The Sisyphean Cycle of Technology Panics. Perspectives on Psychological Science, 15(5), 1143 to 1157. A review of how earlier technologies drew the same pattern of public worry. It describes a pattern in how societies respond, and does not show that any current technology is safe.
+Source: Orben, A. (2020). The Sisyphean Cycle of Technology Panics. Perspectives on Psychological Science, 15(5), 1143 to 1157. A review of how earlier technologies, from novels to video games, drew the same pattern of public worry, with the academic study restarting for each new one. It describes a pattern in how societies respond, and does not show that any current technology is safe.
 
 **Alt text**
 
@@ -109,7 +109,7 @@ A sixteenth birthday is not a training course.
 
 So we made the passport. Five stages, from 4 to 16: calm screen offs, healthy habits, knows how it works, owns their footprint, ready for the world. Each stage earns a stamp, and the stamps fill in from the jobs, the lessons and the check ins you are already doing. It is not a quiz.
 
-The idea of a graduated digital passport comes from Cambridge. It is not ours, and we say so. We built it into something a family can use on a Tuesday.
+It is our answer to that gap, built to be something a family can use on a Tuesday.
 
 Which means the stage your child is at tonight has a job, and you can see it.
 
@@ -129,7 +129,7 @@ A sixteenth birthday is not a training course.
 
 So we made the passport. Five stages, from 4 to 16: calm screen offs, healthy habits, knows how it works, owns their footprint, ready for the world. Each stage earns a stamp, and the stamps fill in from the jobs, the lessons and the check ins you are already doing. It is not a quiz.
 
-The idea of a graduated digital passport comes from Cambridge. It is not ours, and we say so. We built it into something a family can use on a Tuesday.
+It is our answer to that gap, built to be something a family can use on a Tuesday.
 
 Which means the stage your child is at tonight has a job, and you can see it.
 
