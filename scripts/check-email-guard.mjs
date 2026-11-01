@@ -80,6 +80,8 @@ check('a plus alias stays its own address',
 const ALLOWED_OPT_OUTS = {
   // Ours, not a parent's. Nobody to unsubscribe and nothing to throttle.
   'app/api/admin/digi-insights/route.ts': 'operational',
+  // A parent's homework help request, sent to the hello@ inbox, not to them.
+  'app/api/learning/help-request/route.ts': 'operational',
   'app/api/cron/digi-insights/route.ts': 'operational',
   'app/api/cron/digi-quality/route.ts': 'operational',
   'app/api/cron/health-alert/route.ts': 'operational',

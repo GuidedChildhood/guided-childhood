@@ -144,6 +144,29 @@ export default function LearningYear({
     if (window.location.hash === '#this-week') setFold(f => ({ ...f, week: true }))
   }, [])
   const toggleFold = (key: string) => setFold(f => ({ ...f, [key]: !f[key] }))
+
+  // Ask us for help: the topic starts as this week's, which is the one most
+  // likely to be on the kitchen table, and the parent can change it.
+  const [helpTopic, setHelpTopic] = useState('')
+  const [helpNote, setHelpNote] = useState('')
+  const [helpBusy, setHelpBusy] = useState(false)
+  const [helpSent, setHelpSent] = useState(false)
+  const [helpError, setHelpError] = useState('')
+  async function sendHelp() {
+    setHelpBusy(true); setHelpError('')
+    try {
+      const r = await fetch('/api/learning/help-request', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ childId: v.childId, topic: helpTopic, note: helpNote }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (r.ok && d.ok) setHelpSent(true)
+      else setHelpError(d.error ?? 'That did not send. Please try again.')
+    } catch {
+      setHelpError('That did not send. Please try again.')
+    }
+    setHelpBusy(false)
+  }
   const v = views[active]
   const blurb = blurbs[active]
   const brief = briefs[active] ?? null
@@ -366,6 +389,66 @@ export default function LearningYear({
             <div style={FOLD}>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>{v.transition.line}</p>
               <Link href="/dashboard/secondary" style={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, textDecoration: 'none', background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>The five steps ›</Link>
+            </div>
+          )}
+
+          {/* ── ASK US FOR HELP (1 November 2026) ──────────────────────────
+              Justin: "a button for assistance, then it arrives as a message
+              to hello@ ... once I have enough requests we can build a school
+              framework tool that helps the child step by step". Demand first,
+              build second: the request goes to the inbox with the year and
+              the topic in the subject (app/api/learning/help-request), so the
+              most asked topic is the first one built. */}
+          {(
+            <Row icon="ask" title="Ask us for help" sub="Stuck on a topic? Tell us and we will help" onClick={() => {
+              if (!fold.ask && !helpTopic && brief) setHelpTopic(`${brief.subjectLabel}: ${brief.strand}`)
+              toggleFold('ask')
+            }} open={fold.ask} />
+          )}
+          {fold.ask && (
+            <div style={FOLD}>
+              {helpSent ? (
+                <p role="status" style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5 }}>
+                  Sent, thank you. We read every one, and the topics families ask about most are the ones we build step by step help for first.
+                </p>
+              ) : (
+                <>
+                  <label style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: 6 }} htmlFor="help-topic">
+                    Which topic?
+                  </label>
+                  <input
+                    id="help-topic"
+                    value={helpTopic}
+                    onChange={e => setHelpTopic(e.target.value)}
+                    placeholder="For example, long division"
+                    style={{ width: '100%', boxSizing: 'border-box', minHeight: 44, padding: '10px 12px', borderRadius: 12, border: '2px solid var(--ink-light)', font: 'inherit', fontSize: 'var(--text-base)', marginBottom: 10 }}
+                  />
+                  <label style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: 6 }} htmlFor="help-note">
+                    What is the sticking point? <span style={{ fontWeight: 600, color: 'var(--ink-soft)' }}>(optional)</span>
+                  </label>
+                  <textarea
+                    id="help-note"
+                    value={helpNote}
+                    onChange={e => setHelpNote(e.target.value)}
+                    rows={3}
+                    placeholder="What they find hard, or what the school asked for"
+                    style={{ width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: 12, border: '2px solid var(--ink-light)', font: 'inherit', fontSize: 'var(--text-base)', marginBottom: 12, resize: 'vertical' }}
+                  />
+                  {helpError && <p role="alert" style={{ margin: '0 0 10px', color: 'var(--danger)', fontSize: 'var(--text-base)' }}>{helpError}</p>}
+                  <button
+                    onClick={sendHelp}
+                    disabled={helpBusy || (!helpTopic.trim() && !helpNote.trim())}
+                    style={{
+                      minHeight: 44, padding: '10px 18px', borderRadius: 'var(--radius-btn)', cursor: 'pointer',
+                      background: 'var(--white)', color: 'var(--ink)', border: 'var(--edge)', boxShadow: '0 3px 0 var(--ink)',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+                      opacity: helpBusy || (!helpTopic.trim() && !helpNote.trim()) ? 0.6 : 1,
+                    }}
+                  >
+                    {helpBusy ? 'Sending' : 'Send it to us'}
+                  </button>
+                </>
+              )}
             </div>
           )}
 
