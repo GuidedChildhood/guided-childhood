@@ -224,3 +224,13 @@ Justin asked whether the Monday DiGi email came from real users: it does not. Ev
 ## 2 November 2026: DiGi learns from its failed tests, Justin taps approve
 
 Justin asked for DiGi to improve itself and chose "draft weekly, I tap approve" over self rewriting. Every Monday each failed case becomes one proposed rule (or a note that the test is out of date), emailed with a signed link to a page with Approve and Decline; the page's GET only shows, so a mail scanner cannot approve. Approved rules ride in the uncached system block for live DiGi and the evals, under every house rule, ceiling twelve before they are folded into the prompt by hand. Failed rotating cases are kept and re-run weekly. Migration 384, applied and read back. PR 1393.
+
+## 2026-11-02, click tracking, a Guides section, no community yet
+
+PostHog now records `link_click`: where a public page link went (cleaned by
+the policy) and a `data-track` label, never the link text. The five homepage
+buttons to the stage check are labelled. Blog: yes, as evergreen `/guides`
+built from real scripts and ordered by the gum report, pending Justin's yes.
+Community: not now and not on the homepage (safeguarding, the empty room); the
+June rule stands, a members only room at about 200 paying members.
+Plan: plans/2026-11-02-clicks-guides-community.md.

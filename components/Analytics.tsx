@@ -59,9 +59,27 @@ function start(): Promise<PostHog> {
  */
 export function track(event: 'stage_check_step', props: { step: (typeof STAGE_CHECK_STEPS)[number] }): void
 export function track(event: 'account_created'): void
+export function track(event: 'link_click', props: { to?: string; label?: string }): void
 export function track(event: string, props?: Record<string, unknown>) {
   if (!KEY || !isTrackedPath(window.location.pathname)) return
   start().then(ph => ph.capture(event, props)).catch(() => {})
+}
+
+/**
+ * Every link click on a public page, and any button that carries a
+ * data-track label. One listener on the document, so no page needs wiring:
+ * a link reports where it went, and a data-track on it or on an ancestor
+ * names which one it was (the homepage has five buttons to the stage check).
+ * The link's text is never read. Capture phase, so a link that navigates
+ * straight away still reports first; PostHog sends with a beacon on unload.
+ */
+function onClick(e: MouseEvent) {
+  const el = (e.target as Element | null)?.closest?.('a[href], [data-track]')
+  if (!el) return
+  const label = el.closest<HTMLElement>('[data-track]')?.dataset.track
+  const href = el instanceof HTMLAnchorElement ? el.href : undefined
+  if (!href && !label) return
+  track('link_click', { ...(href ? { to: href } : {}), ...(label ? { label } : {}) })
 }
 
 export default function Analytics() {
@@ -70,5 +88,10 @@ export default function Analytics() {
     if (!KEY || !isTrackedPath(pathname)) return
     start().catch(() => {})
   }, [pathname])
+  useEffect(() => {
+    if (!KEY) return
+    document.addEventListener('click', onClick, true)
+    return () => document.removeEventListener('click', onClick, true)
+  }, [])
   return null
 }
