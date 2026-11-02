@@ -10,7 +10,7 @@ const ev = (event: string, properties: Record<string, unknown>, extra: Record<st
   ({ uuid: 'u', event, properties, ...extra }) as Parameters<typeof cleanEvent>[0]
 
 test('only the public pages are tracked', () => {
-  for (const p of ['/', '/starter-pack', '/starter-pack/', '/free/planet-post', '/scripts?x=1']) assert.ok(isTrackedPath(p), p)
+  for (const p of ['/', '/starter-pack', '/starter-pack/', '/free/planet-post', '/scripts?x=1', '/guides', '/guides/roblox-robux-spending']) assert.ok(isTrackedPath(p), p)
   for (const p of ['/k/abc123', '/home-code/ZX9', '/r/CODE', '/m/1', '/dashboard', '/onboarding', '/auth/callback', '/login', '/starter-packs', null]) {
     assert.ok(!isTrackedPath(p), String(p))
   }

@@ -225,6 +225,15 @@ Justin asked whether the Monday DiGi email came from real users: it does not. Ev
 
 Justin asked for DiGi to improve itself and chose "draft weekly, I tap approve" over self rewriting. Every Monday each failed case becomes one proposed rule (or a note that the test is out of date), emailed with a signed link to a page with Approve and Decline; the page's GET only shows, so a mail scanner cannot approve. Approved rules ride in the uncached system block for live DiGi and the evals, under every house rule, ceiling twelve before they are folded into the prompt by hand. Failed rotating cases are kept and re-run weekly. Migration 384, applied and read back. PR 1393.
 
+## 2026-11-02, the Guides section, first three guides
+
+Justin: "Yes on guides". `/guides` and `/guides/<slug>`, one page per question
+a parent types, each built on a `DEVICE_ISSUES` entry so the advice is written
+once. The approach is free; the word for word scripts are named and locked,
+because scripts are paid (11 August). Every guide ends at the stage check.
+First three: the nightly screen time argument, the first phone, Roblox
+spending. Next ones in the order the gum report gives. Homepage strip sits
+under the last stage check button. PR 1395.
 ## 2026-11-02, click tracking, a Guides section, no community yet
 
 PostHog now records `link_click`: where a public page link went (cleaned by
