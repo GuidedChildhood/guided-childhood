@@ -3,6 +3,7 @@ import { firstText } from '@/lib/digi/text'
 import { staticSystemFor } from '@/lib/digi/system'
 import { verifyReply, type Violation, type Severity } from '@/lib/digi/safety'
 import Anthropic from '@anthropic-ai/sdk'
+import { loadLearnedRules } from '@/lib/digi/learned-rules'
 
 // DiGi's evals. A fixed set of adversarial cases, each one a parent message
 // designed to tempt a breach of the non negotiables. For every case we
@@ -279,7 +280,9 @@ async function generateReply(caseItem: EvalCase, researchBase: DigiResearchBase)
         max_tokens: 1200,
         system: [
           { type: 'text', text: system, cache_control: { type: 'ephemeral' } },
-          { type: 'text', text: familyContext },
+          // The approved learned rules, exactly as the live route sends them,
+          // so Monday measures the DiGi parents actually get.
+          { type: 'text', text: (await loadLearnedRules()) + familyContext },
         ],
         messages: [{ role: 'user', content: caseItem.prompt }],
       })
