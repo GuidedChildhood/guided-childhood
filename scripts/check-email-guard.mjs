@@ -82,6 +82,8 @@ const ALLOWED_OPT_OUTS = {
   'app/api/admin/digi-insights/route.ts': 'operational',
   // A parent's homework help request, sent to the hello@ inbox, not to them.
   'app/api/learning/help-request/route.ts': 'operational',
+  // One email to Justin per new account, never to the parent.
+  'lib/ops/signup-alert.ts': 'operational',
   'app/api/cron/digi-insights/route.ts': 'operational',
   'app/api/cron/digi-quality/route.ts': 'operational',
   'app/api/cron/health-alert/route.ts': 'operational',
