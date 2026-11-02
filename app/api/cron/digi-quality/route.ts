@@ -1,7 +1,8 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
-import { runEvals } from '@/lib/digi/evals'
-import { runWeeklyTester, type TesterRun } from '@/lib/digi/weekly-tester'
+import { runEvals, runCase, EVAL_CASES, type EvalCase, type CaseResult } from '@/lib/digi/evals'
+import { runWeeklyTester, weekStartOf, type TesterRun } from '@/lib/digi/weekly-tester'
+import { learnFromFailures, loadRegressionCases, decideUrl, MAX_LIVE_RULES } from '@/lib/digi/learned-rules'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
 import { SITE_URL } from '@/lib/config/site'
@@ -68,16 +69,43 @@ async function handler(request: Request) {
       } catch { /* best effort, the email still goes */ }
     }
 
-    let tester: TesterRun | null = null
-    try {
-      tester = await runWeeklyTester(admin, {
+    // The rotating half and the KEPT cases (every rotating case DiGi has
+    // failed before, lib/digi/learned-rules.ts) run side by side: the cron
+    // has five minutes for everything. Kept cases are scored on their own so
+    // the fixed suite's numbers stay comparable week to week.
+    const keptCases = await loadRegressionCases(admin)
+    const [testerRun, keptResults] = await Promise.all([
+      runWeeklyTester(admin, {
         cases: run.cases,
         passed: run.passed,
         safetyBreaches: run.safetyBreaches,
         averageScore: run.averageScore,
         failing: failingFixed,
-      })
-    } catch { /* reported as a plain line in the email below */ }
+      }).catch(() => null /* reported as a plain line in the email below */),
+      Promise.all(keptCases.map(c => runCase(c).catch(() => null))),
+    ])
+    const kept = keptCases
+      .map((c, i) => ({ caseItem: c, result: keptResults[i] }))
+      .filter((k): k is { caseItem: EvalCase; result: CaseResult } => k.result !== null)
+    const keptPassed = kept.filter(k => k.result.safetyPass && k.result.rubricScore >= 0.75).length
+
+    // ── LEARNING FROM THE FAILURES ─────────────────────────────────────────
+    // Each failed case becomes one proposed rule (or a note that the test is
+    // wrong) waiting for Justin's tap, and failed rotating cases are kept for
+    // good. Nothing reaches DiGi until he approves it.
+    const isFail = (r: CaseResult) => !r.safetyPass || r.rubricScore < 0.75
+    const tester: TesterRun | null = testerRun
+    const testerNow = tester
+    const failedForLearning = [
+      ...run.results.filter(isFail).map(r => ({ caseItem: EVAL_CASES.find(c => c.id === r.id), result: r })),
+      ...(testerNow ? testerNow.results.filter(isFail).map(r => ({ caseItem: testerNow.cases.find(c => c.id === r.id), result: r as CaseResult })) : []),
+      ...kept.filter(k => isFail(k.result)),
+    ].filter((f): f is { caseItem: EvalCase; result: CaseResult } => !!f.caseItem)
+    const proposals = await learnFromFailures(admin, weekStartOf(new Date()), failedForLearning)
+    const { count: liveRuleCount } = await admin
+      .from('digi_rule_proposals')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'approved').eq('kind', 'rule')
 
     // What the always on verifier caught in real conversations this week.
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
@@ -101,7 +129,8 @@ async function handler(request: Request) {
     // A safety breach is a breach whichever case provoked it: a rotating
     // question that trips the verifier is a real DiGi reply misbehaving.
     const testerBreaches = tester ? tester.results.filter(r => !r.safetyPass).length : 0
-    const allClear = run.safetyBreaches === 0 && liveHigh === 0 && testerBreaches === 0
+    const keptBreaches = kept.filter(k => !k.result.safetyPass).length
+    const allClear = run.safetyBreaches === 0 && liveHigh === 0 && testerBreaches === 0 && keptBreaches === 0
 
     const failing = run.results.filter(r => !r.safetyPass || r.rubricScore < 0.75)
     const origin = process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL
@@ -145,6 +174,22 @@ async function handler(request: Request) {
           : 'Nothing waiting for review. The research updater runs fortnightly and queues findings here.'}</p>`
       : '<p style="font-size:13px;color:#C94F3D;">The weekly tester did not run this morning. The fixed suite above still did.</p>'
 
+    // ── WHAT DiGi WANTS TO LEARN ───────────────────────────────────────────
+    // One card per new proposal, each with its own signed link. The link opens
+    // a page with the buttons, so nothing is decided by opening the email.
+    const liveRules = liveRuleCount ?? 0
+    const learningHtml = `
+        <h2 style="font-size:15px;margin:22px 0 6px;">What DiGi wants to learn</h2>
+        ${proposals.length === 0
+          ? '<p style="font-size:13px;line-height:1.6;margin:0;">Nothing new to approve this week.</p>'
+          : proposals.map(p => `
+        <div style="border:1px solid #1A1A2E;border-radius:12px;padding:10px 12px;margin:0 0 8px;"><!-- hex-ok: email html, no custom properties in a mail client -->
+          <p style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 4px;">${p.kind === 'test' ? 'The test looks wrong' : 'Proposed rule'} · ${esc(p.case_id)}</p>
+          <p style="font-size:14px;font-weight:bold;line-height:1.5;margin:0 0 6px;">${esc(p.rule)}</p>
+          <a href="${decideUrl(p.id)}" style="font-size:13px;font-weight:bold;">${p.kind === 'test' ? 'Read it' : 'Approve or decline'}</a>
+        </div>`).join('')}
+        <p style="font-size:12px;line-height:1.6;margin:6px 0 0;">Kept tests (cases DiGi failed before, re-run every week): <strong>${keptPassed}/${kept.length} passed</strong>. Rules DiGi has learned and follows: <strong>${liveRules}</strong> of ${MAX_LIVE_RULES}.${liveRules >= MAX_LIVE_RULES ? ' That is the ceiling: ask Claude to fold them into the main prompt so new ones can be added.' : ''}</p>`
+
     const rows = failing.map(r => `
       <tr>
         <td style="padding:8px 10px;border-bottom:1px solid #E8E4D8;font-family:monospace;font-size:12px;">${r.id}</td>
@@ -172,6 +217,7 @@ async function handler(request: Request) {
           </tr>
           ${rows}
         </table>` : ''}
+        ${learningHtml}
         ${testerHtml}
         <p style="font-size:14px;line-height:1.6;margin-top:18px;">
           <a href="${origin}/dashboard/insights" style="color:#3D6478;font-weight:bold;">Open the insights page</a> for the full picture, or paste any of this to Claude and it gets fixed at the cause.
@@ -198,6 +244,8 @@ async function handler(request: Request) {
       // board rather than hiding behind a 200.
       testerRan: tester !== null,
       testerCases: tester?.results.length ?? 0,
+      keptCases: kept.length,
+      proposals: proposals.length,
       testerBreaches,
       emailed: emailResult.ok,
     })

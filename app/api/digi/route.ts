@@ -31,6 +31,7 @@ import { consumeStream, type TurnUsage } from '@/lib/digi/stream'
 import { renderHorizons } from '@/lib/digi/horizons'
 import type { AgeBand as HorizonBand } from '@/lib/content/stages'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
+import { loadLearnedRules } from '@/lib/digi/learned-rules'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { asksAboutNextTerm, buildTermPreview, previewRules } from '@/lib/learning/term-preview'
 import { getFamilyRegion } from '@/lib/learning/region'
@@ -893,6 +894,12 @@ When a parent asks whether or for how long their child should use any device, do
   const reflectionGate = askedToday
     ? '\n\nTODAY\'S REFLECTIVE QUESTION HAS ALREADY BEEN ASKED. Do not add a separator line or a question at the end of this reply.'
     : ''
+  // Rules DiGi learned from its own failed tests, each one approved by Justin
+  // (lib/digi/learned-rules.ts, migration 384). Read from a five minute cache
+  // and '' when there are none, so the reply is exactly as before. They ride
+  // in the uncached block, ahead of the family, so a new approval never
+  // invalidates the cached static prompt.
+  const learnedRules = await loadLearnedRules()
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -954,7 +961,7 @@ When a parent asks whether or for how long their child should use any device, do
       max_tokens: 900,
       system: [
         { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
-        { type: 'text', text: familyContext },
+        { type: 'text', text: learnedRules + familyContext },
       ],
       messages,
       tools: DIGI_TOOLS,
@@ -1300,7 +1307,7 @@ When a parent asks whether or for how long their child should use any device, do
             max_tokens: 1600,
             system: [
               { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
-              { type: 'text', text: familyContext },
+              { type: 'text', text: learnedRules + familyContext },
             ],
             // The ORIGINAL messages, not the conversation the loop was
             // building. Whatever it had accumulated is what failed, and a
@@ -1364,7 +1371,7 @@ When a parent asks whether or for how long their child should use any device, do
                 max_tokens: 1600,
                 system: [
                   { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
-                  { type: 'text', text: familyContext },
+                  { type: 'text', text: learnedRules + familyContext },
                 ],
                 messages: [
                   ...conversation,
@@ -1457,7 +1464,7 @@ When a parent asks whether or for how long their child should use any device, do
             max_tokens: 1600,
             system: [
               { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
-              { type: 'text', text: familyContext },
+              { type: 'text', text: learnedRules + familyContext },
             ],
             messages: conversation,
             tools: DIGI_TOOLS,
