@@ -76,8 +76,11 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 047 | Fifty six to eighty three (smartphone at eleven) | ready, v1, recruit strangers | 2026-10-26 pack |
 | 048 | The AI toy question (half of children have one) | ready, v1, start an argument | 2026-10-26 pack |
 | 049 | Twenty five thousand teenagers and the lag (Manchester BeeWell) | ready, v1, build authority | 2026-10-26 pack |
+| 050 | Four ways to prove you are 16 (Ofcom) | drafted, v1, recruit strangers, planned Tue 3 Nov, **Ofcom PDF unread, Justin to check** | 2026-11-02 pack |
+| 051 | What Australian children do with AI (eSafety) | drafted, v1, build authority, planned Thu 5 Nov, **eSafety PDF unread, Justin to check** | 2026-11-02 pack |
+| 052 | A face scan to get into an app (Ofcom) | drafted, v1, start an argument, planned Mon 9 Nov, **Ofcom PDF unread, Justin to check** | 2026-11-02 pack |
 
-**Next free number: 050.**
+**Next free number: 053.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
