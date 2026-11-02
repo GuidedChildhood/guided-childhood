@@ -327,7 +327,7 @@ export default function HomePage() {
                 which asks a parent to decide on a product; "Find my child's
                 stage" asks the question they arrived with. */}
             <div className="fu" style={{ marginBottom: '12px' }}>
-              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-lg)', padding: '17px 42px' }}>
+              <Link href="/starter-pack" data-track="home-hero" className="btn btn-gold" style={{ fontSize: 'var(--text-lg)', padding: '17px 42px' }}>
                 Find my child&rsquo;s stage
               </Link>
             </div>
@@ -444,7 +444,7 @@ export default function HomePage() {
           ))}
         </div>
         <div className="fu" style={{ textAlign: 'center', marginTop: '28px' }}>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
+          <Link href="/starter-pack" data-track="home-inside" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
             Fix your fight first
           </Link>
         </div>
@@ -488,7 +488,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: 'var(--text-base)' }}>
+              <Link href="/starter-pack" data-track="home-ask-digi" className="btn btn-gold fu" style={{ fontSize: 'var(--text-base)' }}>
                 Ask DiGi your first question
               </Link>
             </div>
@@ -576,7 +576,7 @@ export default function HomePage() {
                   }}>
                     Ask DiGi about what is happening at home...
                   </div>
-                  <Link href="/starter-pack" aria-label="Ask DiGi" style={{
+                  <Link href="/starter-pack" data-track="home-digi-chat" aria-label="Ask DiGi" style={{
                     background: 'var(--terracotta)',
                     color: 'var(--ink)',
                     width: '36px',
@@ -669,7 +669,7 @@ export default function HomePage() {
           </p>
 
           <div className="fu" style={{ textAlign: 'center', marginTop: '22px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
+            <Link href="/starter-pack" data-track="home-how-it-works" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
               Start tonight
             </Link>
           </div>

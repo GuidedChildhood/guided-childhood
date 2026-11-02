@@ -68,3 +68,20 @@ test('events nobody named are dropped, autocapture included', () => {
   assert.equal(cleanEvent(ev('$exception', at), HOST), null)
   assert.equal(cleanEvent(ev('anything_new', at), HOST), null)
 })
+
+test('link clicks carry a cleaned destination and a safe label, never text', () => {
+  const at = { $current_url: `https://${HOST}/` }
+  const out = cleanEvent(ev('link_click', { ...at, to: `https://${HOST}/starter-pack?school=ABC&utm_source=fb`, label: 'home-hero', text: 'Start Ava\'s plan' }), HOST)
+  assert.ok(out)
+  assert.equal(out.properties.to, `https://${HOST}/starter-pack?utm_source=fb`)
+  assert.equal(out.properties.label, 'home-hero')
+  assert.equal(out.properties.text, undefined)
+  // A click towards a private page keeps only that it left for our own site.
+  assert.equal(cleanEvent(ev('link_click', { ...at, to: '/k/childtoken' }), HOST)?.properties.to, '')
+  // Somebody else's site: where, not the query.
+  assert.equal(cleanEvent(ev('link_click', { ...at, to: 'https://www.instagram.com/p/x?igsh=abc' }), HOST)?.properties.to, 'https://www.instagram.com/p/x')
+  // A label that is not a plain slug is refused, so free text cannot ride in on it.
+  assert.equal(cleanEvent(ev('link_click', { ...at, to: '/', label: 'Ava Smith' }), HOST), null)
+  // And a click on a private page is still dropped like everything else there.
+  assert.equal(cleanEvent(ev('link_click', { $current_url: `https://${HOST}/dashboard`, to: '/' }), HOST), null)
+})

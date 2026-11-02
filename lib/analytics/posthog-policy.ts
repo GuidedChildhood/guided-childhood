@@ -50,7 +50,16 @@ export const STAGE_CHECK_STEPS = ['intro', 'q1', 'q2', 'q4', 'reassure', 'result
 const OWN_EVENTS: Record<string, string[]> = {
   stage_check_step: ['step'],
   account_created: [],
+  // Justin, 2 November 2026: "a way to track clicks". Where a click went
+  // (cleaned like every other URL here) and, when the element carries one,
+  // its data-track label, so five homepage buttons that all go to the stage
+  // check can be told apart. Never the link's text: on the stage check
+  // result the text can carry the child's name.
+  link_click: ['to', 'label'],
 }
+
+/** A data-track label: short, lower case, words joined by hyphens. */
+export const TRACK_LABEL = /^[a-z0-9]+(-[a-z0-9]+)*$/
 
 /** PostHog's own events we want. Anything else (autocapture, exceptions, surveys) is dropped. */
 const SDK_EVENTS = new Set(['$pageview', '$pageleave'])
@@ -125,6 +134,12 @@ export function cleanEvent(event: CaptureResult | null, ownHost: string): Captur
     if (!allowed) return null
     properties = Object.fromEntries(Object.entries(props).filter(([k]) => k.startsWith('$') || SDK_KEYS.has(k) || allowed.includes(k)))
     if (event.event === 'stage_check_step' && !(STAGE_CHECK_STEPS as readonly unknown[]).includes(properties.step)) return null
+    if (event.event === 'link_click') {
+      const { to, label } = properties
+      if (label !== undefined && (typeof label !== 'string' || label.length > 40 || !TRACK_LABEL.test(label))) return null
+      if (to !== undefined && typeof to !== 'string') return null
+      properties = { ...properties, ...(typeof to === 'string' ? { to: cleanUrl(to, ownHost) } : {}) }
+    }
   }
 
   return {

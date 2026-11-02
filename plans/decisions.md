@@ -234,3 +234,12 @@ because scripts are paid (11 August). Every guide ends at the stage check.
 First three: the nightly screen time argument, the first phone, Roblox
 spending. Next ones in the order the gum report gives. Homepage strip sits
 under the last stage check button. PR 1395.
+## 2026-11-02, click tracking, a Guides section, no community yet
+
+PostHog now records `link_click`: where a public page link went (cleaned by
+the policy) and a `data-track` label, never the link text. The five homepage
+buttons to the stage check are labelled. Blog: yes, as evergreen `/guides`
+built from real scripts and ordered by the gum report, pending Justin's yes.
+Community: not now and not on the homepage (safeguarding, the empty room); the
+June rule stands, a members only room at about 200 paying members.
+Plan: plans/2026-11-02-clicks-guides-community.md.
