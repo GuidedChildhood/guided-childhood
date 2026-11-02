@@ -32,6 +32,7 @@ export const TRACKED_PATHS = [
   '/five-questions',
   '/evidence',
   '/free',
+  '/guides',
   '/get-started',
   '/join',
   '/digi-squad',

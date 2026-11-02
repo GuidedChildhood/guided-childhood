@@ -166,6 +166,12 @@ export function sitemapUrls(prop, root = ROOT) {
   const paths = new Set()
   for (const m of src.matchAll(/path:\s*'([^']*)'/g)) paths.add(m[1])
   for (const m of src.matchAll(/\$\{BASE(?:_URL)?\}(\/[^`]*)?`/g)) paths.add(m[1] || '')
+  // The guides are listed by spreading GUIDES, not as literals, so read their
+  // slugs from the one file that names them.
+  const guides = join(root, 'lib/content/guides.ts')
+  if (src.includes('GUIDES') && existsSync(guides)) {
+    for (const m of readFileSync(guides, 'utf8').matchAll(/slug:\s*'([^']+)'/g)) paths.add(`/guides/${m[1]}`)
+  }
   return [...paths].map(p => `${prop.host}${p === '/' ? '' : p}`)
 }
 

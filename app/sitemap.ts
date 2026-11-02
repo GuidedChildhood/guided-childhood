@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { SITE_URL as BASE_URL } from '@/lib/config/site'
+import { GUIDES } from '@/lib/content/guides'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
@@ -22,6 +23,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/evidence', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/free', priority: 0.6, changeFrequency: 'weekly' },
     { path: '/free/planet-post', priority: 0.5, changeFrequency: 'monthly' },
+    { path: '/guides', priority: 0.7, changeFrequency: 'weekly' },
+    // Every guide, from lib/content/guides.ts, so a new one is listed the day
+    // it ships (plans/2026-11-02-guides-plan.md).
+    ...GUIDES.map(g => ({ path: `/guides/${g.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
   ]
 
   return routes.map(r => ({

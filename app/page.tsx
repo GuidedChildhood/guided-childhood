@@ -23,6 +23,7 @@ import { CONTACT, hasAddress, hasCompany } from '@/lib/content/contact'
 // pass fixed robots, the sitemap and the metadataBase and missed the home page,
 // which is the page all of it points at.
 import { SITE_URL } from '@/lib/config/site'
+import { GUIDES } from '@/lib/content/guides'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood · A clear digital pathway from first screen to 16',
@@ -1160,6 +1161,27 @@ export default function HomePage() {
           </div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
             No card required · 30 day money back on launch
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          GUIDES · a quiet strip under the last stage check button, never
+          above it (plans/2026-11-02-guides-plan.md). Three cards, no feed.
+          ================================================================ */}
+      <section aria-label="Guides for parents" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(48px, 6vw, 72px) 16px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
+            <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, letterSpacing: '-.02em', margin: 0 }}>Guides for the questions parents ask most</h2>
+            <Link href="/guides" data-track="home-guides-all" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>All guides</Link>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+            {GUIDES.slice(0, 3).map(g => (
+              <Link key={g.slug} href={`/guides/${g.slug}`} data-track={`home-guide-${g.slug}`} style={{ display: 'block', textDecoration: 'none', background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>{g.ages}</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3, color: 'var(--ink)' }}>{g.question}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

@@ -57,6 +57,7 @@ test('sitemapUrls reads both sitemap sources, home page as the bare host', () =>
   const parents = sitemapUrls(config.properties[0])
   assert.ok(parents.includes('https://www.guidedchildhood.com'))
   assert.ok(parents.includes('https://www.guidedchildhood.com/starter-pack'))
+  assert.ok(parents.includes('https://www.guidedchildhood.com/guides/when-should-my-child-get-a-phone'), 'guides come from lib/content/guides.ts')
   const schools = sitemapUrls(config.properties[1])
   assert.ok(schools.includes('https://schools.guidedchildhood.com'))
   assert.ok(schools.includes('https://schools.guidedchildhood.com/curriculum'))
