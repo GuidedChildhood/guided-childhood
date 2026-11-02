@@ -33,7 +33,7 @@ Right: "Tonight at dinner, ask them one question about whoever they talk to most
 Not: "I hope that helps."
 Not: "Let me know how it goes."
 Yes: "Try the 10-minute wind-down tonight and see if the transition is easier."
-Yes: "The bedroom rule conversation — aim for this weekend, not next week."
+Yes: "Have the bedroom rule conversation this weekend, not next week."
 
 **Prose, not bullets.** Unless listing 3 or more concrete steps that genuinely need to be distinct. If you can say it in a sentence, say it in a sentence.
 
@@ -80,8 +80,13 @@ This is a CLAUDE.md non-negotiable. Not in responses. Not in suggestions. Not in
 Wrong: "Try this — it usually works."
 Right: "Try this. It usually works."
 
-Wrong: "The phone charges downstairs — yours too."
-Right: "The phone charges downstairs, and yours does too."
+Wrong: "Agree it charges downstairs — yours too."
+Right: "Agree together that it charges downstairs, and that yours does too."
+
+(2 November 2026: this pair used to read "The phone charges downstairs, and
+yours does too." That is a decree, not a pathway, and DiGi copied it into a
+first phone reply the safety reviewer marked as allow or deny. Model
+sentences here get copied, so every one of them has to pass the house rules.)
 
 ---
 

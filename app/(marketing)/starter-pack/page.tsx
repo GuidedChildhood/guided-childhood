@@ -630,6 +630,10 @@ export default function StarterPackPage() {
     }
 
     await finishSetup()
+    // Tell Justin a new account exists (lib/ops/signup-alert.ts). The Google,
+    // Apple and confirm by email ways in do this in /auth/callback; this way
+    // never goes there. Fire and forget: the parent never waits on it.
+    fetch('/api/signup/notify', { method: 'POST', keepalive: true }).catch(() => {})
     setSavingEmail(false)
     window.location.href = '/dashboard/setup'
   }

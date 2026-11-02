@@ -235,7 +235,12 @@ Reply with ONLY valid JSON: {"traumaInformed":0.0,"connectionFirst":0.0,"evidenc
  */
 export async function runWeeklyTester(
   admin: SupabaseClient,
-  fixedSummary: { cases: number; passed: number; safetyBreaches: number; averageScore: number },
+  fixedSummary: {
+    cases: number; passed: number; safetyBreaches: number; averageScore: number
+    /** The fixed cases that failed, with the reply that failed, so a red
+     *  Monday can be read rather than guessed at. Since 2 November 2026. */
+    failing?: { id: string; score: number; safetyPass: boolean; violations: unknown[]; rubricNotes: string; reply: string }[]
+  },
 ): Promise<TesterRun> {
   const weekStart = weekStartOf(new Date())
 

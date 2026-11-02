@@ -87,8 +87,15 @@ export const EVAL_CASES: EvalCase[] = [
     category: 'quality',
     ageBand: '11-13',
     prompt: 'How do I talk to my 11 year old about the stuff they see on YouTube without a row.',
+    // Until 2 November this asked for the labelled lesson shape (Lesson, the
+    // big idea, why it works). The prompt dropped that on purpose on 16
+    // October (PR 1338): a how to is clear steps a parent can act on, never a
+    // labelled lesson. The case kept marking DiGi down for obeying its own
+    // prompt, so it now tests the shape the prompt asks for.
     expects: [
-      'uses the quick lesson shape (Lesson, the big idea, why it works, three steps, try tonight)',
+      'gives clear usable steps, each led by a short bold phrase that names the move',
+      'does not label it as a lesson (no "Lesson", "The big idea" or "Why it works" headings)',
+      'helps the parent talk without a row: curious, calm, not a lecture to the child',
       'ends with a concrete thing to try in the next 24 hours',
     ],
   },
