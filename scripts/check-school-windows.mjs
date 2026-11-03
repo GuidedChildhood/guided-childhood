@@ -22,7 +22,7 @@
 
 import { readFileSync } from 'node:fs'
 import {
-  familyTargets, openWindow, windowCopy, windowPush, bandGroup, morningTarget, homeTarget,
+  familyTargets, openWindow, windowCopy, windowPush, windowPushFor, windowPushRotation, schoolDayNumber, ukDayNumber, bandGroup, morningTarget, homeTarget,
   SCHOOL_START_OPTIONS, HOME_OPTIONS, DEFAULT_MORNING_TARGET, DEFAULT_HOME_TARGET, CARD_OPEN_MINUTES,
 } from '../lib/home/school-window.ts'
 import { DAILY_MOMENTS } from '../lib/content/daily-moments.ts'
@@ -79,6 +79,37 @@ for (const window of ['morning', 'home']) {
     check(pushLine.body.length <= 160, `C: ${window}/${group} push body is push length`)
   }
 }
+// The rotation (Justin, 3 November 2026: the same reminder every day). Every
+// line any family could get, across both windows, both bands and every
+// combination of what they have tried, is held to the same rules as the
+// original line, and two school days in a row never repeat.
+const ctxs = []
+for (const usedDigi of [true, false]) for (const hasQuests of [true, false]) for (const triedScript of [true, false]) ctxs.push({ usedDigi, hasQuests, triedScript })
+const routes = new Set(['/dashboard', '/dashboard#school-window', '/dashboard/digi', '/dashboard/quests', '/dashboard/scripts'])
+let rotationOk = true, repeatsOk = true, freshOk = true, linesSeen = new Set()
+for (const window of ['morning', 'home']) {
+  for (const group of ['primary', 'secondary']) {
+    for (const c of ctxs) {
+      for (let day = 20000; day < 20028; day++) {
+        const ctx = { ...c, dayNumber: day }
+        for (const { kind, line } of windowPushRotation(window, group, 'Teo', ctx)) {
+          allCopy += ` ${line.title} ${line.body}`
+          linesSeen.add(line.body)
+          if (line.body.length > 160 || line.title.length > 40 || !routes.has(line.url)) rotationOk = false
+          if (kind === 'new' && ((line.url === '/dashboard/quests' && c.hasQuests) || (line.url === '/dashboard/scripts' && c.triedScript))) freshOk = false
+        }
+        const today = windowPushFor(window, group, 'Teo', ctx).body
+        const tomorrow = windowPushFor(window, group, 'Teo', { ...ctx, dayNumber: day + 1 }).body
+        if (today === tomorrow) repeatsOk = false
+      }
+    }
+  }
+}
+check(rotationOk, 'C: every rotating push is push length with a real link')
+check(repeatsOk, 'C: two days in a row never get the same push')
+check(freshOk, 'C: the something new line only offers a service the family has not tried')
+check(schoolDayNumber(ukDayNumber(new Date('2026-11-09T12:00:00Z'))) - schoolDayNumber(ukDayNumber(new Date('2026-11-06T12:00:00Z'))) === 1, 'C: Friday to Monday is one school day, so the weekend never repeats a kind')
+check(linesSeen.size >= 20, `C: the rotation has real variety (${linesSeen.size} distinct lines)`)
 allCopy += ' ' + mig
 check(!/restraint collapse/i.test(allCopy), 'C: no syndrome is named anywhere in the words or the seed')
 check(!/\b(late for school|lateness|makes? (them|children) late)\b/i.test(allCopy.replace(/No table measures lateness|Never say morning screens make children late|nothing here says clubs or screens change it/g, '')), 'C: nothing claims morning screens cause lateness')
@@ -93,6 +124,7 @@ check(pass.length > 0, 'D: the cron has a per family window pass')
 check(/familyTargets\(/.test(pass) && /dueNow\(/.test(pass), 'D: the pass uses the family targets and the half hour due rule')
 check(/isSchoolDay\(now, regionOf\.get\(user\)/.test(pass), 'D: the pass is quiet on non school days in the family\'s own region')
 check(/sendPush\(\{[^}]*userId:\s*user/.test(pass), 'D: the pass sends per family')
+check(/windowPushFor\(/.test(pass) && /schoolDayNumber\(ukDayNumber\(/.test(pass), 'D: the pass sends the rotating line for the day')
 check(!/CHECK_INS/.test(cron) && !/Morning check in/.test(cron) && !/School is out/.test(cron), 'D: the two broadcasts are gone')
 check(/runWindowPass\(nowMinutes\)/.test(cron.slice(cron.indexOf('async function handler'))), 'D: the handler runs the window pass on every run')
 check(/runEveningPass\(nowMinutes\)/.test(cron.slice(cron.indexOf('async function handler'))), 'D: the evening pass still runs')

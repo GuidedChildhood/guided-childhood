@@ -7,7 +7,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { londonToday, londonDayStart } from '@/lib/pathway/today'
 import { dueNow, eveningLine, reminderTargetMinutes, ukMinutesOf, quietNightNumber, eveningHeldForQuiet, londonDateOf, EVENING_QUIET_NIGHTS, REMINDER_EARLIEST, REMINDER_LATEST, DUE_WINDOW } from '@/lib/push/evening'
-import { familyTargets, windowPush, bandGroup, DEFAULT_MORNING_TARGET, DEFAULT_HOME_TARGET, type SchoolWindow } from '@/lib/home/school-window'
+import { familyTargets, windowPushFor, ukDayNumber, schoolDayNumber, bandGroup, DEFAULT_MORNING_TARGET, DEFAULT_HOME_TARGET, type SchoolWindow } from '@/lib/home/school-window'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
 
@@ -92,6 +92,20 @@ async function runWindowPass(nowMinutes: number) {
   const regionOf = new Map<string, Region>()
   for (const p of profilesRes.data ?? []) regionOf.set(p.id as string, isRegion(p.school_region) ? p.school_region : DEFAULT_REGION)
 
+  // What each family has and has not tried, so the line can rotate between
+  // the move, DiGi, tonight and one untried service (lib/home/school-window,
+  // Justin 3 November 2026). Three reads for every subscriber at once; a
+  // failed read counts as used, so it never nags about something they have.
+  const [digiRes, questsRes, scriptsRes] = await Promise.all([
+    admin.from('digi_questions').select('user_id').in('user_id', users),
+    admin.from('family_quests').select('user_id').in('user_id', users).eq('active', true),
+    admin.from('script_completions').select('user_id').in('user_id', users),
+  ])
+  const idsOf = (r: { data: { user_id: unknown }[] | null; error: unknown }) =>
+    r.error ? null : new Set((r.data ?? []).map(x => x.user_id as string))
+  const usedDigi = idsOf(digiRes), hasQuests = idsOf(questsRes), triedScript = idsOf(scriptsRes)
+  const dayNumber = schoolDayNumber(ukDayNumber(new Date()))
+
   const now = new Date()
   let due = 0, sent = 0, failed = 0, quiet = 0
   for (const user of users) {
@@ -108,7 +122,12 @@ async function runWindowPass(nowMinutes: number) {
     // The primary child names the push and sets the register; one push per
     // family, never one per child.
     const lead = kids[0] ?? null
-    const line = windowPush(window, bandGroup(lead?.age_band), lead?.name ?? null)
+    const line = windowPushFor(window, bandGroup(lead?.age_band), lead?.name ?? null, {
+      dayNumber,
+      usedDigi: usedDigi ? usedDigi.has(user) : true,
+      hasQuests: hasQuests ? hasQuests.has(user) : true,
+      triedScript: triedScript ? triedScript.has(user) : true,
+    })
     const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: WINDOW_SLOT[window] })
     sent += r.sent
     failed += r.failed

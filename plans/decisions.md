@@ -243,3 +243,7 @@ built from real scripts and ordered by the gum report, pending Justin's yes.
 Community: not now and not on the homepage (safeguarding, the empty room); the
 June rule stands, a members only room at about 200 paying members.
 Plan: plans/2026-11-02-clicks-guides-community.md.
+
+## 3 November 2026: the school window push changes every school day
+
+Justin: the home from school reminder was the same every day; make it engaging, helpful and varied ("try this", "have a concern, talk to DiGi, it learns from you", "see you tonight", services they have not used). The window push now rotates five kinds over each school week: the move (three wordings per band, all from the October briefing's verified ledger), DiGi (worded as new for a family that has never asked it), tonight's path, and one untried service (a job for stars, then the scripts) only while untried. Rotation counts school days, so Friday and Monday never match. Same moment, same one window per family, no new push. Guard: 52 checks. No migration.
