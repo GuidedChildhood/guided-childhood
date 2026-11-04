@@ -25,11 +25,11 @@
     0.3
    ],
    [
-    35.8,
+    36.0,
     0.3
    ],
    [
-    38.8,
+    39.0,
     0
    ]
   ]
@@ -118,7 +118,7 @@
   },
   {
    "id": "mon-link",
-   "dur": 3.6,
+   "dur": 4.8,
    "src": "rec/learns-monday.mp4",
    "mediaStart": 18.7,
    "ground": "white",
@@ -129,19 +129,19 @@
      "S": 2.77,
      "fx": 195,
      "fy": 270,
-     "py": 1100
+     "py": 1180
     }
    ],
    "overlays": [
     {
      "kind": "veil",
-     "h": 800,
+     "h": 980,
      "t0": 0,
      "fade": true
     },
     {
      "kind": "band",
-     "text": "It puts the worry on a check in",
+     "text": "It checks back in",
      "y": 430,
      "t0": 0.25,
      "x": 170,
@@ -174,7 +174,7 @@
    "overlays": [
     {
      "kind": "marker",
-     "text": "A few days on. Illustrative",
+     "text": "Friday. Illustrative",
      "y": 430,
      "t0": 0,
      "instant": true
@@ -207,28 +207,28 @@
   },
   {
    "id": "ask-again",
-   "dur": 5.4,
+   "dur": 4.4,
    "overlays": [
     {
      "kind": "marker",
-     "text": "Thursday",
-     "y": 300,
+     "text": "Next Monday. Illustrative",
+     "y": 430,
      "t0": 0,
      "instant": true
     },
     {
      "kind": "pill",
-     "text": "We agreed the ending like you said. Two good nights, then Sunday was a fight again.",
-     "y": 560,
+     "text": "Friday and Saturday were good. Sunday was a fight again.",
+     "y": 620,
      "t0": 0,
-     "typed": 0.2,
-     "typedFrom": 7
+     "typed": 0.15,
+     "typedFrom": 5
     }
    ],
    "sfx": [
     {
      "name": "sfx-send",
-     "at": 5.1,
+     "at": 4.1,
      "vol": 0.35
     }
    ]
@@ -243,9 +243,9 @@
    "cam": [
     {
      "t": 0,
-     "S": 2.77,
-     "fx": 195,
-     "fy": 230,
+     "S": 3.3,
+     "fx": 170,
+     "fy": 290,
      "py": 900
     }
    ],
@@ -253,7 +253,7 @@
     {
      "kind": "label",
      "text": "What DiGi shows while it thinks",
-     "y": 1300,
+     "y": 1250,
      "t0": 0
     }
    ],
@@ -288,7 +288,7 @@
      "x": 300,
      "w": 560,
      "align": "left",
-     "y": 790,
+     "y": 668,
      "t0": 0.2
     }
    ],
@@ -313,23 +313,23 @@
      "S": 2.77,
      "fx": 195,
      "fy": 200,
-     "py": 1150
+     "py": 1250
     }
    ],
    "overlays": [
     {
      "kind": "veil",
-     "h": 800,
+     "h": 980,
      "t0": 0,
      "fade": true
     },
     {
      "kind": "band",
-     "text": "It starts from what you tried",
+     "text": "It read your check in",
      "y": 430,
      "t0": 0.25,
-     "x": 170,
-     "w": 740
+     "x": 90,
+     "w": 900
     },
     {
      "kind": "label",
