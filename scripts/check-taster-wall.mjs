@@ -161,7 +161,10 @@ for (const path of ['/hub', '/hub/cpd', '/hub/policy', '/print']) {
 // not see it, which was the gate rather than her. It is an assurance
 // document, the same category as the mapping matrix, and nothing on it can
 // be taught from. The briefings it points at are still gated above.
-ok('the open path list is unchanged in size', OPEN_PATHS.length === 13,
+// 13 became 14 on 4 November 2026: /workshops, where a school asks about a
+// visit. It is an enquiry page like /pilot, nothing on it can be taught
+// from, and it stays noindex until WORKSHOPS_LAUNCHED (lib/workshops.ts).
+ok('the open path list is unchanged in size', OPEN_PATHS.length === 14,
   `OPEN_PATHS has ${OPEN_PATHS.length} entries. The taster is meant to travel through isTasterPath, not by adding routes here. If a page really should be public, change this number on purpose.`)
 
 // ── The two questions stay separate ─────────────────────────────────

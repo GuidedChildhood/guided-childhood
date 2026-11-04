@@ -34,7 +34,7 @@ const h2: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.section, color: 'var(--ink)', margin: '0 0 var(--space-3)',
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 3vw, 24px)',
+  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
 }
 const tick: React.CSSProperties = { color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }
 
@@ -116,10 +116,10 @@ export default async function WorkshopsPage({ searchParams }: { searchParams: Pr
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-4)' }}>
             {WORKSHOPS.map(w => (
               <article key={w.id} style={{ ...card, display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', border: w.flagship ? '2px solid var(--terracotta)' : card.border }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--space-2)', alignItems: 'baseline', flexWrap: 'wrap' }}>
                   <span style={{ ...eyebrow, color: 'var(--ink-muted)' }}>{w.years}</span>
                   {w.flagship && (
-                    <span style={{ ...eyebrow, fontSize: '0.68rem', color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1px solid var(--stage-1-bold)', borderRadius: 'var(--radius-pill)', padding: '3px 9px' }}>
+                    <span style={{ ...eyebrow, fontSize: 'var(--text-xs)', color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1px solid var(--stage-1-bold)', borderRadius: 'var(--radius-pill)', padding: 'var(--space-1) var(--space-2)' }}>
                       The flagship
                     </span>
                   )}
@@ -203,7 +203,7 @@ export default async function WorkshopsPage({ searchParams }: { searchParams: Pr
           <h2 id="ws-faq" style={h2}>Before you ask</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
             {FAQ.map(f => (
-              <details key={f.q} style={{ ...card, padding: '14px 18px' }}>
+              <details key={f.q} style={{ ...card, padding: 'var(--space-3) var(--space-4)' }}>
                 <summary style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', cursor: 'pointer' }}>{f.q}</summary>
                 <p style={{ ...body, fontSize: 'var(--text-base)', margin: 'var(--space-2) 0 0' }}>
                   {f.a}
