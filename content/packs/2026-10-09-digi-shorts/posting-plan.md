@@ -196,3 +196,5 @@ Monday: the screens off fight. Friday: a check in, getting there. Then Sunday go
 It remembers what you tried. Screens off, one week on. An example family, real app screens, example replies.
 
 **When:** around 19:30, after the fight, as with Short 1. £0 paid for the first 30 days.
+
+**v2, 4 November 2026 (post this one):** Justin asked for an Apple level finish where every graphic says what happens. The film now opens on THE PROBLEM in the parent's own words, then six numbered step cards say what DiGi does (gives you the words, puts the worry on a check in, asks how it went, remembers your family, keeps what worked and changes one thing, starts from your check in), each with a butter highlighter sweeping across the exact line on the real screen that proves it, and closes on THE DIFFERENCE: "It asks. It checks in. It remembers. It adjusts." Full cut 43s, TikTok cut 38.5s (drops step 5). The first versions are kept as `-v1`; post only the files without a suffix.

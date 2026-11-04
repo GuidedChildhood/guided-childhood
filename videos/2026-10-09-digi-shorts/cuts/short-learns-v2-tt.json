@@ -1,0 +1,495 @@
+{
+ "name": "short-learns-v2-tt",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.22
+   ],
+   [
+    4.0,
+    0.15
+   ],
+   [
+    11.0,
+    0.15
+   ],
+   [
+    11.5,
+    0.3
+   ],
+   [
+    35.5,
+    0.3
+   ],
+   [
+    38.5,
+    0
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "id": "open",
+   "dur": 4.6,
+   "fadeIn": 0,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "The problem",
+     "y": 330,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "pill",
+     "text": "Screens off. Same fight, every single day. What do I say?",
+     "y": 430,
+     "t0": 0,
+     "typed": 0.15,
+     "typedFrom": 7,
+     "instant": true
+    },
+    {
+     "kind": "marker",
+     "text": "Monday",
+     "y": 1060,
+     "t0": 0.6
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens, example replies.",
+     "y": 1300,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.4,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.1,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "dur": 4.5,
+   "src": "rec/learns-monday.mp4",
+   "mediaStart": 12.8,
+   "ground": "white",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 356,
+     "py": 1080,
+     "drift": 0.02,
+     "holdFor": 4.5
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 820,
+     "t0": 0
+    },
+    {
+     "kind": "step",
+     "n": 1,
+     "text": "Gives you the words for tonight",
+     "y": 300,
+     "t0": 0.15,
+     "eyebrow": "What DiGi does"
+    },
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 560,
+     "t0": 0.3
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 60,
+     "y": 340,
+     "w": 306,
+     "h": 33,
+     "t0": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "dur": 4.6,
+   "src": "rec/learns-monday.mp4",
+   "mediaStart": 19.0,
+   "ground": "white",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 236,
+     "py": 1080,
+     "drift": 0.02,
+     "holdFor": 4.6
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 820,
+     "t0": 0
+    },
+    {
+     "kind": "step",
+     "n": 2,
+     "text": "Puts the worry on a check in",
+     "y": 300,
+     "t0": 0.15
+    },
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 560,
+     "t0": 0.3
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 18,
+     "y": 188,
+     "w": 344,
+     "h": 32,
+     "t0": 0.8
+    },
+    {
+     "cls": "hl",
+     "x": 18,
+     "y": 221,
+     "w": 312,
+     "h": 32,
+     "t0": 1.15
+    },
+    {
+     "cls": "hl",
+     "x": 18,
+     "y": 254,
+     "w": 126,
+     "h": 32,
+     "t0": 1.5
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "dur": 4.6,
+   "src": "rec/followup.mp4",
+   "mediaStart": 5.0,
+   "cropTop": 390,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 165,
+     "py": 1150,
+     "drift": 0.015,
+     "holdFor": 4.6
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 3,
+     "text": "Asks how it went",
+     "y": 300,
+     "t0": 0.15,
+     "eyebrow": "Friday, illustrative"
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 480,
+     "t0": 1.3
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 234,
+     "y": 233,
+     "w": 44,
+     "h": 44,
+     "t0": 1.2
+    },
+    {
+     "cls": "hl",
+     "x": 40,
+     "y": 529,
+     "w": 306,
+     "h": 29,
+     "t0": 1.7
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 1.2,
+     "vol": 0.5
+    }
+   ],
+   "fadeIn": 0
+  },
+  {
+   "id": "twist",
+   "dur": 4.4,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "Then Sunday goes wrong",
+     "y": 330,
+     "t0": 0
+    },
+    {
+     "kind": "marker",
+     "text": "Next Monday. Illustrative",
+     "y": 1060,
+     "t0": 0.4
+    },
+    {
+     "kind": "pill",
+     "text": "Friday and Saturday were good. Sunday was a fight again.",
+     "y": 440,
+     "t0": 0,
+     "typed": 0.15,
+     "typedFrom": 5
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-send",
+     "at": 4.1,
+     "vol": 0.35
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "dur": 2.0,
+   "src": "rec/learns-chat.mp4",
+   "mediaStart": 20.2,
+   "ground": "white",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 3.2,
+     "fx": 165,
+     "fy": 320,
+     "py": 1060,
+     "drift": 0.01,
+     "holdFor": 2.0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 820,
+     "t0": 0
+    },
+    {
+     "kind": "step",
+     "n": 4,
+     "text": "Remembers your family",
+     "y": 300,
+     "t0": 0.15
+    },
+    {
+     "kind": "label",
+     "text": "What DiGi shows while it thinks",
+     "y": 560,
+     "t0": 0
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 16,
+     "y": 295,
+     "w": 292,
+     "h": 28,
+     "t0": 0.35
+    },
+    {
+     "cls": "hl",
+     "x": 16,
+     "y": 320,
+     "w": 68,
+     "h": 28,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-dots",
+     "at": 0.05,
+     "vol": 0.16
+    }
+   ]
+  },
+  {
+   "id": "s6",
+   "dur": 4.4,
+   "src": "rec/learns-chat.mp4",
+   "mediaStart": 29.0,
+   "ground": "white",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.8,
+     "fx": 195,
+     "fy": 150,
+     "py": 1040,
+     "drift": 0.02,
+     "holdFor": 4.4
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 820,
+     "t0": 0
+    },
+    {
+     "kind": "step",
+     "n": 5,
+     "text": "Starts from your check in",
+     "y": 300,
+     "t0": 0.15
+    },
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 560,
+     "t0": 0.3
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 16,
+     "y": 72,
+     "w": 292,
+     "h": 32,
+     "t0": 0.8
+    }
+   ]
+  },
+  {
+   "id": "diff",
+   "dur": 4.4,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "The difference",
+     "y": 520,
+     "t0": 0.1
+    },
+    {
+     "kind": "hook",
+     "text": "It asks.",
+     "y": 610,
+     "t0": 0.35
+    },
+    {
+     "kind": "hook",
+     "text": "It checks in.",
+     "y": 735,
+     "t0": 0.75
+    },
+    {
+     "kind": "hook",
+     "text": "It remembers.",
+     "y": 860,
+     "t0": 1.15
+    },
+    {
+     "kind": "hook",
+     "text": "It adjusts.",
+     "y": 985,
+     "t0": 1.5500000000000003
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.3,
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "dur": 5.0,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "eyebrow": "Coming off screens?",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/digi-learns-tt",
+     "slate": "An example family. Real app screens, example replies.",
+     "t0": 0.3,
+     "pressAt": 2.6,
+     "tagline": "One plan for screens, phones and AI."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 2.9,
+     "vol": 0.4
+    }
+   ]
+  }
+ ]
+}
