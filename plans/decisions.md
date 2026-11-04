@@ -255,3 +255,7 @@ Justin asked for DiGi clips that show the full cycle and how it learns; he chose
 ## 4 November 2026, the Muse connector submitted and locked to a key
 
 Justin submitted the Guided Childhood connector to Meta's Muse review at platform.muse.ai. It authenticates with an API key: `MUSE_CONNECTOR_KEY` is set in Vercel (Production) and the same key is on Meta's form, test and live. Checked live: calls with no key or a wrong key get 401, the spec and `/connectors/muse` stay public. Every form answer is in `integrations/muse/submission.md`. Rotating the key means changing Vercel and the Muse portal together, or Muse calls fail. PRs 1366 and 1380.
+
+## 4 November 2026: workshops page and enquiry built, hidden until DBS and insurance
+
+Phase 3 of the workshop audit: schools.guidedchildhood.com/workshops with the four workshops (Years 5 to 6 smartphone one as flagship) and an enquiry form. Enquiries post into the existing invoice_requests letterbox as band `workshop` (no new table); the cron treats it as a lead, emails Justin and sends the school a confirmation promising DBS and insurance certificates before any visit. Page is noindex, unlinked and out of the sitemap until WORKSHOPS_LAUNCHED in schools/lib/workshops.ts is flipped. No prices on the page until Justin picks a column. Privacy notice now names workshop enquiries. PR 1401.

@@ -109,6 +109,24 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
     }
   }
 
+  // A school asking about a visit (schools /workshops, 4 November 2026).
+  // Nothing is booked by the form, so the letter says so first: a head who
+  // pressed send needs to know they have not committed the school to a date
+  // or a fee. Justin replies by hand with a quote or a time to talk.
+  if (r.band === 'workshop') {
+    return {
+      subject: `Your workshop enquiry for ${r.school_name}`,
+      html: wrap([
+        `Hello ${name},`,
+        `Thank you for asking about a workshop for ${school}. Your enquiry is in, and nothing is booked or charged yet.`,
+        `I will reply within two working days, usually the same day, with a quote or a time to talk, whichever you asked for. If you gave dates, I will tell you which of them I can do.`,
+        `Before any visit is confirmed you will have my enhanced DBS certificate details and my public liability certificate, so your office can check them in advance. The class teacher stays in the room for every session, and your DSL gets a brief before the day.`,
+        `While you wait, <a href="${SITE}/curriculum" style="color:#C99A28;font-weight:700">the curriculum map</a> is open to read. Every workshop is built from those lessons, and the sample lesson is the real thing, nothing locked.`,
+        `Justin`,
+      ], { key: 'digi', name: 'DiGi', line: 'DiGi, the golden star, closes every lesson your classes will see.' }),
+    }
+  }
+
   // The draw tells people what happens on the page; a standalone lesson lead
   // (the schools email gate, 21 October 2026) already has the lesson open in
   // front of them, so a letter would only be one more email. Neither has one.
