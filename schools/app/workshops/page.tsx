@@ -34,7 +34,7 @@ const h2: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.section, color: 'var(--ink)', margin: '0 0 var(--space-3)',
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
+  background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
 }
 const tick: React.CSSProperties = { color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }
 

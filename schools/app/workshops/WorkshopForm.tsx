@@ -65,7 +65,7 @@ export default function WorkshopForm({ preselect }: { preselect?: string | null 
 
   if (state === 'done') {
     return (
-      <div role="status" style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: 'var(--space-5)', textAlign: 'center' }}>
+      <div role="status" style={{ background: 'var(--white)', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: 'var(--space-5)', textAlign: 'center' }}>
         <div aria-hidden style={{ fontSize: '36px', marginBottom: '10px' }}>⭐</div>
         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '8px' }}>
           Enquiry received
@@ -78,7 +78,7 @@ export default function WorkshopForm({ preselect }: { preselect?: string | null 
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <fieldset style={{ border: 0, padding: 0, margin: 0 }} aria-describedby={errs.workshop ? 'err-ws-workshop' : undefined}>
         <legend style={label}>Which workshop</legend>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--space-2)' }}>
@@ -88,7 +88,7 @@ export default function WorkshopForm({ preselect }: { preselect?: string | null 
               <label key={w.id} className="gc-ws-chip" data-on={on || undefined} style={{
                 display: 'flex', gap: 'var(--space-2)', alignItems: 'flex-start', cursor: 'pointer',
                 border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
-                background: on ? 'var(--stage-1)' : '#fff', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3)',
+                background: on ? 'var(--stage-1)' : 'var(--white)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3)',
               }}>
                 <input type="checkbox" name="workshop" value={w.id} checked={on} onChange={() => toggle(w.id)}
                   style={{ marginTop: '3px', accentColor: 'var(--terracotta-dark)', width: 18, height: 18, flexShrink: 0 }} />
