@@ -107,6 +107,17 @@ const spec = {
         },
       },
     },
+    '/api/muse/ping': {
+      get: {
+        operationId: 'ping',
+        summary: 'Check the connection and the key',
+        description: 'Answers 200 when the key is right and 401 when it is not. Changes nothing.',
+        responses: {
+          '200': { description: 'The key works.' },
+          '401': { description: 'An API key is required and was missing or wrong.' },
+        },
+      },
+    },
     '/api/muse/scripts': {
       get: {
         operationId: 'findScripts',
