@@ -76,7 +76,9 @@ for (let f = 0; f < N; f++) {
       // A page scroll eased over frames (smooth scrolling runs on the real clock).
       tween = { from: await page.evaluate(() => window.scrollY), to: e.to, f0: f, n: Math.round(((e.ms || 800) * FPS) / 1000) }
     } else if (e.do === 'scrollChat') {
-      await page.evaluate(() => { const u = document.querySelector('[data-role="user"]'); let el = u && u.parentElement; while (el && !(getComputedStyle(el).overflowY === 'auto' && el.scrollHeight > el.clientHeight)) el = el.parentElement; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }) })
+      // "back": stop this many px short of the bottom, so a line above the
+      // last buttons can be framed (the learns film's Monday check in line).
+      await page.evaluate((back) => { const u = document.querySelector('[data-role="user"]'); let el = u && u.parentElement; while (el && !(getComputedStyle(el).overflowY === 'auto' && el.scrollHeight > el.clientHeight)) el = el.parentElement; if (el) el.scrollTo({ top: Math.max(0, el.scrollHeight - el.clientHeight - (back || 0)), behavior: 'smooth' }) }, e.back || 0)
     }
   }
   if (tween) { const k = Math.min(1, (f - tween.f0 + 1) / tween.n), ease = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; await page.evaluate((y) => window.scrollTo(0, y), tween.from + (tween.to - tween.from) * ease); if (k >= 1) tween = null }

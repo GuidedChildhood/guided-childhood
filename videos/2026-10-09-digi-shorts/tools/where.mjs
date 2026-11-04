@@ -4,13 +4,13 @@
 // what the cut file's camera focus points use.
 //   node tools/where.mjs scenes/followup.json [--at 6000] "Did you get to try it?" "Getting there, up from"
 import { readFileSync } from 'node:fs'
-const { chromium } = await import('/Users/justinphillips/guided-childhood/node_modules/playwright/index.mjs')
+const { chromium } = await import(process.env.PLAYWRIGHT_DIR || '/Users/justinphillips/guided-childhood/node_modules/playwright/index.mjs')
 const argv = process.argv.slice(2); const S = JSON.parse(readFileSync(argv.shift(), 'utf8'))
 const ai = argv.indexOf('--at'); const AT = ai >= 0 ? Number(argv.splice(ai, 2)[1]) : 0
 const DEV = process.env.DEV || 'http://localhost:3000'
 const NAMES = { ...JSON.parse(readFileSync(new URL('./names.json', import.meta.url), 'utf8')), ...(S.swap || {}) }
 const NAMES_JS = readFileSync(new URL('./names.js', import.meta.url), 'utf8')
-const b = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' })
+const b = await chromium.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' })
 const p = await b.newPage({ viewport: { width: 390, height: S.height || 844 } })
 await p.addInitScript({ content: `window.__FILM_NAMES__ = ${JSON.stringify(NAMES)};\n${NAMES_JS}` })
 if (S.storage) await p.addInitScript((kv) => { for (const [k, v] of Object.entries(kv)) localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)) }, S.storage)

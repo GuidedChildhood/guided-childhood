@@ -1,0 +1,37 @@
+{
+ "name": "learns-chat",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 2",
+  "11 to 13": "8 to 10"
+ },
+ "seconds": 36,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 19700,
+   "wordMs": 55,
+   "body": "Two calm nights means the deal is working, so we keep it.\n\n**Give Sunday its own ending.** Sunday has a different shape, so agree its stop on Saturday and let Ava write it on the fridge.\n\n**Add nothing at the end, again.** The same words as the good nights: \"That was the deal. Well done.\"\n\nYour check in says getting there, so Coming off screens stays on it, and in four days I will ask again. The words are still in [The stopping point agreed in a calm moment](/dashboard/scripts/9671).\n\n**Tonight.** Ask Ava which Sunday ending feels fair to her."
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "We agreed the ending like you said. Two good nights, then Sunday was a fight again.",
+   "charMs": 25
+  },
+  {
+   "at": 2600,
+   "do": "press",
+   "key": "Enter"
+  },
+  {
+   "at": 28200,
+   "do": "scrollChat"
+  }
+ ],
+ "sendAt": 2.6
+}
