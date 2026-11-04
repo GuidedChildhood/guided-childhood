@@ -61,16 +61,53 @@ export function dailyCap(): number {
 }
 
 /**
- * The optional shared key. Unset, the routes are open, which is what Muse's
- * Raw API form assumes. Set, a request needs it in x-api-key or as a bearer
- * token, for the day Muse offers an auth setting or the routes are abused.
+ * The shared key Muse calls with (MUSE_CONNECTOR_KEY). Unset, the routes are
+ * open. Set, a request must carry it.
+ *
+ * Muse's form lets the developer choose how the key is sent, and its test
+ * step failed on 4 November 2026 while this only read two places. So every
+ * common placement is accepted: x-api-key, api-key or apikey headers, an
+ * Authorization header as Bearer, Token or bare, and an api_key or key query
+ * parameter. One key, many doors; the key is still the only thing that opens.
  */
+const KEY_HEADERS = ['x-api-key', 'api-key', 'apikey', 'x-muse-key']
+const KEY_PARAMS = ['api_key', 'apikey', 'key']
+
+export function presentedKeys(request: Request): string[] {
+  const found: string[] = []
+  for (const name of KEY_HEADERS) {
+    const v = request.headers.get(name)?.trim()
+    if (v) found.push(v)
+  }
+  const auth = request.headers.get('authorization')?.trim()
+  if (auth) found.push(auth.replace(/^(Bearer|Token|ApiKey|Api-Key)\s+/i, '').trim())
+  try {
+    const params = new URL(request.url).searchParams
+    for (const name of KEY_PARAMS) {
+      const v = params.get(name)?.trim()
+      if (v) found.push(v)
+    }
+  } catch { /* no usable URL, headers only */ }
+  return found
+}
+
+/** Constant time, so the comparison does not leak how much of a guess was right. */
+function sameKey(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  let diff = 0
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  return diff === 0
+}
+
 export function museAuthorised(request: Request): boolean {
   const key = process.env.MUSE_CONNECTOR_KEY?.trim()
   if (!key) return true
-  const header = request.headers.get('x-api-key')?.trim()
-    ?? request.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim()
-  return header === key
+  return presentedKeys(request).some(k => sameKey(k, key))
+}
+
+/** The 401 body: says where a key may go, never what was sent. */
+export const KEY_REFUSED = {
+  error: 'Missing or wrong API key. Send it in the x-api-key header, as an Authorization Bearer token, or as an api_key query parameter.',
 }
 
 const SCRIPT_STAGE: Record<Stage['id'], StageId> = {

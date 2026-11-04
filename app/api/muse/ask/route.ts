@@ -5,7 +5,7 @@ import { firstText } from '@/lib/digi/text'
 import { digiModelsFor } from '@/lib/config/digi'
 import { hasCrisisLanguage, hasSafeguardingLanguage, SAFEGUARDING_OPENER, lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import {
-  museAuthorised, cleanQuestion, stageForAge, dailyCap, buildAskPrompt, parseAskParts, partsFromScript,
+  museAuthorised, KEY_REFUSED, cleanQuestion, stageForAge, dailyCap, buildAskPrompt, parseAskParts, partsFromScript,
   composeAnswer, scriptUrl, GENERIC_PARTS, PRESENTATION_NOTE, CRISIS_NOTE, STAGE_CHECK_URL, STAGE_CHECK_LINE, type AskParts, type FreeScript,
 } from '@/lib/muse/connector'
 import { findFreeScripts } from '@/lib/muse/scripts'
@@ -104,7 +104,7 @@ function respond(body: {
 }
 
 export async function POST(request: Request) {
-  if (!museAuthorised(request)) return NextResponse.json({ error: 'Missing or wrong API key' }, { status: 401 })
+  if (!museAuthorised(request)) return NextResponse.json(KEY_REFUSED, { status: 401 })
 
   const body = await request.json().catch(() => ({})) as { question?: unknown; child_age?: unknown }
   const question = cleanQuestion(body.question)
