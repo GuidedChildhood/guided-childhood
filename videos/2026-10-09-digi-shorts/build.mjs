@@ -70,6 +70,9 @@ for (const [i, sh] of C.shots.entries()) {
     if (o.kind === 'pill') html += `<div id="${id}-o${j}" class="ov pillwrap" style="${style}"><span class="pill">${o.typed ? esc(o.text).split(' ').map((w, k) => k < (o.typedFrom || 0) ? w : `<span class="pw">${w}</span>`).join(' ') : esc(o.text)}</span></div>`
     else if (o.kind === 'digi') html += `<div id="${id}-o${j}" class="ov digi" style="left:${o.x}px;top:${o.y}px;width:${o.size}px;height:${o.size}px"><video id="${id}-o${j}-v" src="assets/digi/digi-idle-dc3673e0.mp4" muted playsinline loop data-start="${at(s + (o.t0 || 0))}" data-duration="${at((o.t1 ?? d) - (o.t0 || 0))}" data-track-index="2"></video></div>`
     else if (o.kind === 'end') html += `<div id="${id}-o${j}" class="ov endcard" style="top:${o.y}px"><div class="end-logo">${logo(64, 50)}</div>${o.tagline ? `<div class="end-tag">${esc(o.tagline)}</div>` : ''}${o.eyebrow ? `<div class="end-eyebrow">${esc(o.eyebrow)}</div>` : ''}<div class="end-line">${esc(o.line)}</div><div class="end-sub">${esc(o.sub)}</div><div class="end-btn" id="${id}-o${j}-btn">${esc(o.button)}</div><div class="end-url">${esc(o.url)}</div>${o.slate ? `<div class="end-slate">${esc(o.slate)}</div>` : ''}</div>`
+    // A numbered step card (the learns film, 4 November 2026): one beat, one
+    // plain line saying what DiGi does, so the story reads with the sound off.
+    else if (o.kind === 'step') html += `<div id="${id}-o${j}" class="ov stepwrap" style="${style}"><div class="step">${o.n != null ? `<span class="step-n">${esc(o.n)}</span>` : ''}<span class="step-body">${o.eyebrow ? `<span class="step-eye">${esc(o.eyebrow)}</span>` : ''}<span class="step-t">${esc(o.text)}</span></span></div></div>`
     else if (o.kind === 'marker') html += `<div id="${id}-o${j}" class="ov markerwrap" style="${style}"><span class="marker">${esc(o.text)}</span></div>`
     else if (o.kind === 'label') html += `<div id="${id}-o${j}" class="ov" style="${style}"><span class="label">${esc(o.text)}</span></div>`
     // A caption bar across the foot of the frame, so a label never sits on top of a line of UI text.
@@ -103,6 +106,8 @@ for (const [i, sh] of C.shots.entries()) {
     // A typed pill: the bubble lands, then its words arrive at reading pace,
     // so the opening moves while it holds long enough to be read.
     if (o.kind === 'pill' && o.typed) fromTo(`${sel} .pw`, { opacity: 0 }, { opacity: 1, duration: 0.12, stagger: o.typed, ease: 'none' }, t0 + 0.2)
+    if (o.kind === 'step') { fromTo(sel, { opacity: 0, y: 26, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' }, t0); if (o.t1 != null) to(sel, { opacity: 0, y: -10, duration: 0.3 }, t1 - 0.3); continue }
+    if (o.kind === 'hook') set(sel, { opacity: 1 }, t0)
     if (o.kind === 'hook') fromTo(`${sel} .hw`, { opacity: 0, y: 14, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, stagger: 0.06, ease: 'power2.out' }, t0)
     else fromTo(sel, { opacity: 0, y: o.kind === 'digi' ? 40 : 12 }, { opacity: 1, y: 0, duration: 0.45, ease: o.kind === 'digi' ? 'back.out(1.6)' : 'power2.out' }, t0)
     if (o.t1 != null) to(sel, { opacity: 0, duration: 0.3 }, t1 - 0.3)
@@ -184,6 +189,13 @@ html,body{width:${OW}px;height:${OH}px;overflow:hidden;background:#FDF6DE}
 .crop{position:relative}
 .inscreen{position:absolute}
 .inscreen.underline{background:#EDC35F;border-radius:3px;transform:scaleX(0)}
+.inscreen.hl{background:rgba(237,195,95,.55);border-radius:6px;mix-blend-mode:multiply;transform:scaleX(0)}
+.stepwrap{display:flex;justify-content:center}
+.step{display:flex;align-items:center;gap:30px;background:#fff;border:3px solid #1A1A2E;border-radius:40px;box-shadow:0 6px 0 #1A1A2E,0 30px 70px rgba(26,26,46,.12);padding:28px 40px 28px 28px;max-width:900px;text-align:left}
+.step-n{flex:none;width:92px;height:92px;border-radius:50%;background:#EDC35F;border:3px solid #1A1A2E;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:50px;color:#1A1A2E}
+.step-body{display:flex;flex-direction:column;gap:6px}
+.step-eye{font-family:plexMono,monospace;font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;color:#7A5A0E}
+.step-t{font-weight:900;font-size:58px;line-height:1.08;letter-spacing:-.015em;color:#1A1A2E}
 .inscreen.ripple{border-radius:50%;background:#1A1A2E;opacity:0}
 .marker{font-family:plexMono,monospace;font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#1A1A2E;background:rgba(253,246,222,.92);border:2px solid #1A1A2E;border-radius:100px;padding:14px 26px;display:inline-block}
 .markerwrap{display:flex;justify-content:center}
