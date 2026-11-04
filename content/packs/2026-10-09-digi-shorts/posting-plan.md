@@ -160,3 +160,39 @@ that, at most £100 on Meta, behind the film with the most starts per 1,000
 views, and only once it has 20 starts. Use a paid-only link code. Pause if a
 start costs more than £3 after 30 starts. Put five named sources on /evidence
 before any paid spend.
+
+---
+
+# Film 10: DiGi learns you (4 November 2026)
+
+The same example family as Short 1, across a week. Monday: DiGi answers and
+puts the worry on a check in. Friday: the real check in, this parent's own
+rating "Getting there". Next Monday: the parent says Sunday was a fight again,
+and DiGi's answer starts from the check in. The thinking line on screen is the
+real one, "Your own family history is part of this answer." Plan:
+`plans/2026-11-04-digi-learns-film-plan.md`.
+
+| File | Length | For |
+|---|---|---|
+| `films/digi-short-10-learns.mp4` | 39s | Instagram Reels, Facebook Reels |
+| `films/digi-short-10-learns-tt.mp4` | 39s | TikTok |
+
+Both are in `content/packs/2026-10-09-digi-shorts/films/`, with the sound
+already levelled. The end cards show `/v/digi-learns` and `/v/digi-learns-tt`.
+
+**Before posting:** on Admin, Film links, make `Digi learns`, `Digi learns tt`,
+`Digi learns ig` and `Digi learns fb`, and check each code matches. Post Short 1
+first if it has not gone out: this film is its second week.
+
+**Cover frame:** "It read your check in".
+
+**Instagram (link in bio):**
+Ask once, and DiGi remembers. It keeps what you tried, checks back in, and starts the next answer from how it went. Built on research. An example family, real app screens, example replies. Find your child's stage, three questions, link in bio.
+
+**Facebook (link in the post):**
+Monday: the screens off fight. Friday: a check in, getting there. Then Sunday goes wrong. DiGi does not start from zero. It read the check in, kept what worked, and changed one thing. An example family, real app screens, example replies. What stage is your child? Three questions, no sign up: guidedchildhood.com/v/digi-learns-fb
+
+**TikTok (bio link):**
+It remembers what you tried. Screens off, one week on. An example family, real app screens, example replies.
+
+**When:** around 19:30, after the fight, as with Short 1. £0 paid for the first 30 days.

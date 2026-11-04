@@ -243,3 +243,11 @@ built from real scripts and ordered by the gum report, pending Justin's yes.
 Community: not now and not on the homepage (safeguarding, the empty room); the
 June rule stands, a members only room at about 200 paying members.
 Plan: plans/2026-11-02-clicks-guides-community.md.
+
+## 3 November 2026: the school window push changes every school day
+
+Justin: the home from school reminder was the same every day; make it engaging, helpful and varied ("try this", "have a concern, talk to DiGi, it learns from you", "see you tonight", services they have not used). The window push now rotates five kinds over each school week: the move (three wordings per band, all from the October briefing's verified ledger), DiGi (worded as new for a family that has never asked it), tonight's path, and one untried service (a job for stars, then the scripts) only while untried. Rotation counts school days, so Friday and Monday never match. Same moment, same one window per family, no new push. Guard: 52 checks. No migration.
+
+## 4 November 2026: Film 10, DiGi learns you
+
+Justin asked for DiGi clips that show the full cycle and how it learns; he chose a new film for the learning loop, ending on the stage check. The example family from Short 1 across a week: Monday's reply puts the worry on a check in, Friday's real check in records Getting there, and next Monday's reply starts from it under the real thinking line "Your own family history is part of this answer." Proof path: the DiGi route reads concern scores, family memory and what worked before every reply. A marketer review fixed the timeline, took the remembering off the parent, and shortened both bands; its new hook was declined to keep Short 1's bubble. Films in content/packs/2026-10-09-digi-shorts/films. PR 1396.
