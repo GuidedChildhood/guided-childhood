@@ -251,3 +251,7 @@ Justin: the home from school reminder was the same every day; make it engaging, 
 ## 4 November 2026: Film 10, DiGi learns you
 
 Justin asked for DiGi clips that show the full cycle and how it learns; he chose a new film for the learning loop, ending on the stage check. The example family from Short 1 across a week: Monday's reply puts the worry on a check in, Friday's real check in records Getting there, and next Monday's reply starts from it under the real thinking line "Your own family history is part of this answer." Proof path: the DiGi route reads concern scores, family memory and what worked before every reply. A marketer review fixed the timeline, took the remembering off the parent, and shortened both bands; its new hook was declined to keep Short 1's bubble. Films in content/packs/2026-10-09-digi-shorts/films. PR 1396.
+
+## 4 November 2026, the Muse connector submitted and locked to a key
+
+Justin submitted the Guided Childhood connector to Meta's Muse review at platform.muse.ai. It authenticates with an API key: `MUSE_CONNECTOR_KEY` is set in Vercel (Production) and the same key is on Meta's form, test and live. Checked live: calls with no key or a wrong key get 401, the spec and `/connectors/muse` stay public. Every form answer is in `integrations/muse/submission.md`. Rotating the key means changing Vercel and the Muse portal together, or Muse calls fail. PRs 1366 and 1380.
