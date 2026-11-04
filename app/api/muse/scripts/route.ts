@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { museAuthorised, cleanQuestion, stageForAge, scriptUrl, PRESENTATION_NOTE, STAGE_CHECK_URL, STAGE_CHECK_LINE } from '@/lib/muse/connector'
+import { museAuthorised, KEY_REFUSED, cleanQuestion, stageForAge, scriptUrl, PRESENTATION_NOTE, STAGE_CHECK_URL, STAGE_CHECK_LINE } from '@/lib/muse/connector'
 import { findFreeScripts } from '@/lib/muse/scripts'
 
 // GET /api/muse/scripts?q=<topic>&child_age=<years>: up to three free scripts
@@ -10,7 +10,7 @@ import { findFreeScripts } from '@/lib/muse/scripts'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
-  if (!museAuthorised(request)) return NextResponse.json({ error: 'Missing or wrong API key' }, { status: 401 })
+  if (!museAuthorised(request)) return NextResponse.json(KEY_REFUSED, { status: 401 })
 
   const url = new URL(request.url)
   const query = cleanQuestion(url.searchParams.get('q'))
