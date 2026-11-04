@@ -5,7 +5,9 @@ old Etsy account into Guided Childhood and downloads that are paid for, so come
 up with ideas for downloads. Also need a once a week boost of a free download
 and capturing email addresses on Insta. Make a plan."
 
-Status: DRAFT, waiting on the four questions at the foot.
+Status: APPROVED by Justin, 4 November 2026. The shop is not switched over
+yet, so Part 1 comes first. Paid line in the ship order as written. Keyword
+DMs stay banned. £15 a week boost on the winner once four have run.
 
 ## What already exists (so none of it is rebuilt)
 
