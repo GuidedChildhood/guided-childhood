@@ -4,7 +4,7 @@
 //
 //   node content/printables/check-listing-tags.mjs [listing.md ...]
 //
-// With no arguments it checks the five packs the Passport names. The tags sit
+// With no arguments it checks the packs the Passport names. The tags sit
 // in a table under a heading that starts "## 13 tags", one row per tag:
 // | tag | characters |
 import { readFileSync } from 'node:fs'
@@ -12,7 +12,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = dirname(fileURLToPath(import.meta.url))
-const DEFAULT = ['calm-down-kit', 'starter-pack', 'star-chart', 'earn-your-screen-time', 'family-phone-agreement']
+const DEFAULT = ['calm-down-kit', 'starter-pack', 'star-chart', 'earn-your-screen-time', 'family-phone-agreement', 'script-cards']
   .map(p => join(ROOT, p, 'listing/listing.md'))
 const files = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT
 

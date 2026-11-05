@@ -99,11 +99,11 @@ out.push(`<div class="frame" data-name="01b-cover-road" style="padding:0;display
 out.push(fr('02-whats-inside', `
   <div class="mono eyebrow">What is inside</div>
   <h1>Everything in the pack</h1>
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:34px;margin-top:80px;width:100%;align-items:start;">
-    ${[1, 2, 4, 5, 6, 7, 8, 9, 10, 11].map(n => `<img class="page" src="${pv(n)}" style="width:100%;border-width:4px;border-radius:14px;box-shadow:0 10px 0 #1A1A2E;">`).join('')}
+  <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:26px;margin-top:80px;width:100%;align-items:start;">
+    ${[1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(n => `<img class="page" src="${pv(n)}" style="width:100%;border-width:4px;border-radius:14px;box-shadow:0 10px 0 #1A1A2E;">`).join('')}
   </div>
   <div style="display:flex;gap:24px;margin-top:70px;flex-wrap:wrap;justify-content:center;">
-    <span class="pill">Fold out passport</span><span class="pill">Five stage pages</span><span class="pill">Stamp sheet</span>
+    <span class="pill">Fold out passport</span><span class="pill">Five stages and guides</span><span class="pill">Stamp sheet</span>
   </div>`, true))
 
 // 3 · The fold out passport.
@@ -132,7 +132,7 @@ out.push(fr('04-five-stages', `
 // 5 · A stage page close up.
 out.push(fr('05-stage-page', `
   <div style="display:flex;gap:90px;align-items:center;height:100%;width:100%;">
-    <img class="page" src="${pv(6)}" style="width:960px;transform:rotate(-2.5deg);">
+    <img class="page" src="${pv(8)}" style="width:960px;transform:rotate(-2.5deg);">
     <div style="flex:1;">
       <div class="mono eyebrow">Five stage pages</div>
       <div style="font-weight:900;font-size:100px;line-height:1.02;letter-spacing:-2px;margin-top:24px;">Three things stamp each page</div>
@@ -142,19 +142,29 @@ out.push(fr('05-stage-page', `
     </div>
   </div>`))
 
+// 5b · A stage guide, beside its stage page. Uploaded as slot 11.
+out.push(fr('11-stage-guide', `
+  <div class="mono eyebrow">A guide for every stage</div>
+  <h1>What to say when it happens</h1>
+  <div class="sub">Each stage page has its own guide on the back.</div>
+  <div style="display:flex;gap:60px;margin-top:70px;align-items:flex-start;">
+    <img class="page" src="${pv(6)}" style="width:760px;transform:rotate(-3deg);">
+    <img class="page" src="${pv(7)}" style="width:760px;transform:rotate(2deg);">
+  </div>`))
+
 // 6 · Stamps and stickers.
 out.push(fr('06-stamps-and-stickers', `
   <div class="mono eyebrow">Stamp and sticker sheet</div>
   <h1>Earned, then stuck on</h1>
   <div class="sub">Print on sticker paper, or plain paper and a glue stick.</div>
-  <img class="page" src="${pv(9)}" style="width:920px;margin-top:56px;">`))
+  <img class="page" src="${pv(14)}" style="width:920px;margin-top:56px;">`))
 
 // 7 · What earns each stamp.
 out.push(fr('07-what-earns-each-stamp', `
   <div class="mono eyebrow">For the grown ups</div>
   <h1>What earns each stamp</h1>
   <div class="sub">A stamp is earned rather than a birthday reached.</div>
-  <img class="page" src="${pv(10)}" style="width:920px;margin-top:56px;">`))
+  <img class="page" src="${pv(15)}" style="width:920px;margin-top:56px;">`))
 
 // 8 · Phone version.
 out.push(fr('08-phone-version', `
@@ -169,7 +179,7 @@ out.push(fr('09-formats', `
   <div class="mono eyebrow">Instant download</div>
   <h1>Every format you need</h1>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:110px;width:1500px;">
-    ${[['A4', 'Full colour PDF, 11 pages'], ['US Letter', 'Sized for Letter paper, not squashed'], ['Ink saver', 'The same pages, light on ink'], ['Phone', 'Seven screens, 1080 by 1920']].map(([a, b]) => `<div style="background:#fff;border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:60px 56px;"><div style="font-weight:900;font-size:84px;">${a}</div><div style="font-weight:700;font-size:40px;color:#52526A;margin-top:14px;line-height:1.3;">${b}</div></div>`).join('')}
+    ${[['A4', 'Full colour PDF, 16 pages'], ['US Letter', 'Sized for Letter paper, not squashed'], ['Ink saver', 'The same pages, light on ink'], ['Phone', 'Seven screens, 1080 by 1920']].map(([a, b]) => `<div style="background:#fff;border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:60px 56px;"><div style="font-weight:900;font-size:84px;">${a}</div><div style="font-weight:700;font-size:40px;color:#52526A;margin-top:14px;line-height:1.3;">${b}</div></div>`).join('')}
   </div>
   <div class="sub" style="margin-top:110px;">Nothing is posted. Print as often as your family needs.</div>`, true))
 

@@ -3,8 +3,8 @@
 //
 //   node content/printables/build-pack.mjs <pack> [print|phone|listing]
 //
-// <pack> is calm-down-kit, starter-pack, star-chart, earn-your-screen-time or
-// family-phone-agreement. Needs playwright-core and a Chrome: the system
+// <pack> is calm-down-kit, starter-pack, star-chart, earn-your-screen-time,
+// family-phone-agreement or script-cards. Needs playwright-core and a Chrome: the system
 // Chrome on this Mac and the main checkout's playwright-core, unless CHROME
 // and PW_CORE say otherwise (same as the Passport's build-passport.mjs).
 //
@@ -34,6 +34,7 @@ const PACKS = {
   'star-chart': { file: 'star-reward-chart', source: 'starter-pack', edition: 'star-chart' },
   'earn-your-screen-time': { file: 'earn-your-screen-time' },
   'family-phone-agreement': { file: 'family-phone-agreement' },
+  'script-cards': { file: 'say-this-script-cards', cards: true },
 }
 
 const pack = process.argv[2]
@@ -87,6 +88,23 @@ if (!only || only === 'print') {
   const n = await sheets.count()
   for (let i = 0; i < n; i++) await sheets.nth(i).screenshot({ path: join(DIR, 'images/preview', `page-${String(i + 1).padStart(2, '0')}.png`) })
   console.log('previews', n)
+
+  // A card deck also renders every card on its own, front and back, for the
+  // listing photos: a fan of real cards reads as a deck where an A4 sheet of
+  // four does not. Each is the real render, cut line hidden.
+  if (cfg.cards) {
+    fresh(join(DIR, 'images/cards'))
+    await pv.evaluate(() => document.body.classList.add('photo'))
+    for (const side of ['front', 'back']) {
+      const slots = pv.locator(`.sheet[data-side="${side}"] .slot`)
+      const m = await slots.count()
+      for (let i = 0; i < m; i++) {
+        const id = await slots.nth(i).getAttribute('data-card')
+        await slots.nth(i).screenshot({ path: join(DIR, 'images/cards', `card-${id.padStart(2, '0')}-${side}.png`), omitBackground: true })
+      }
+    }
+    console.log('cards', await pv.locator('.sheet[data-side="front"] .slot').count())
+  }
 }
 
 if ((!only || only === 'phone') && existsSync(join(DIR, 'phone.html'))) {
