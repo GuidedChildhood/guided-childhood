@@ -100,7 +100,8 @@ async function handler(request: Request) {
           userId,
           title: 'Your week with DiGi ✨',
           body: review.summary.slice(0, 120),
-          url: '/dashboard',
+          // The week page is where the whole week is read back.
+          url: '/dashboard/week',
         }).catch(() => {})
 
       // The same review as an email, so the clever weekly read also reaches a

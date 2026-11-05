@@ -76,7 +76,9 @@ export async function POST(request: Request) {
       userId: link.user_id,
       title: `${child?.name ?? 'Your child'} finished their lesson 📘`,
       body: `${lesson.title}. ${lesson.stars} star${lesson.stars === 1 ? '' : 's'} landed in their bank.`,
-      url: '/dashboard',
+      // The tutor lesson was sent from the homework helper, so that is where
+      // the parent sees it landed.
+      url: link.child_id ? `/dashboard/homework?child=${link.child_id}` : '/dashboard/homework',
     })
   } catch { /* push is best effort, the stars are already banked */ }
 

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
 import { LATE_LIMIT_MS } from '@/lib/digi/reminders'
+import { destinationFor, reminderBody } from '@/lib/push/destination'
 
 // Sends the reminders a parent asked DiGi for (migration 359).
 //
@@ -51,11 +52,16 @@ async function handler(request: Request) {
     const at = new Date(String(r.remind_at))
     const late = now - at.getTime() > LATE_LIMIT_MS
 
+    // The tap opens the part of the app the reminder is about (a homework
+    // reminder opens the homework helper), not DiGi's chat every time.
+    // lib/push/destination.ts, Justin 5 November 2026.
+    const dest = destinationFor(String(r.body), r.child_id as string | null)
+
     if (!late) {
       const push = await sendPush({
         title: 'A reminder you asked DiGi for',
-        body: String(r.body),
-        url: '/dashboard/digi',
+        body: reminderBody(String(r.body), dest),
+        url: dest.href,
         userId: r.user_id as string,
         audience: 'parents',
       })
@@ -71,7 +77,7 @@ async function handler(request: Request) {
           title: 'Your reminder',
           body: String(r.body),
           reason: 'You asked DiGi to remind you.',
-          href: '/dashboard/digi',
+          href: dest.href,
         })
         carded++
       }
