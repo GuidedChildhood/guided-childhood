@@ -246,7 +246,7 @@ One says a teenager typing a worry into a machine at midnight is a child who did
 
 The other says that for some young people, saying it first to something with no face is a way of practising. Rehearsing the sentence before they say it to a parent. That isn't nothing.
 
-I don't think the survey can tell us which. Nobody has followed these children to find out.
+I don't think the survey can tell us which one it is. Nobody has followed these children for long enough to find out.
 
 What I do think is that the difference comes down to what happens next. Whether the conversation ends with a person, or ends with another conversation.
 
