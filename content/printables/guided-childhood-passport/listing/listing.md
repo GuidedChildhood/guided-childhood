@@ -7,6 +7,16 @@ banner says "Get your Guided Childhood Passport".
 
 Guided Childhood Passport Printable | Kids Stamp Book and Stickers | Ages 4 to 16
 
+## On Etsy
+
+Saved as a draft on 5 November 2026, listing 4610470092 (Shop Manager,
+Listings, Draft). Digital, category Chore Chart Templates, the 10 photos with
+01b first, the 4 files (A4, US Letter, A4 ink saver PDFs and the phone zip),
+title, description, 13 tags, £7.99, quantity 999, made by Justin, content
+created with an AI generator (the Planet Friends). Not published: it waits
+for the five packs its pages name. After publishing, add the permanent 25
+percent sale.
+
 ## Price and listing setup
 
 - List price: £7.99.
