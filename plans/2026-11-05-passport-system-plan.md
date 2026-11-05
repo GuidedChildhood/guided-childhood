@@ -83,11 +83,16 @@ flipping one flag in `passport-data.js` and rebuilding.
 
 | Page | Ready now | From the brief, once listed |
 |---|---|---|
-| Pebble, 4 to 7 | Calm Down Corner Kit (talk), Starter Pack, Star Chart, Earn Your Screen Time (doing) | Screens At Granny's (talk), Personalised Star Chart, Christmas Countdown, Are We Nearly There (doing) |
+| Pebble, 4 to 7 | Calm Down Corner Kit (talk), Star Chart, Earn Your Screen Time (doing) | Screens At Granny's (talk), Personalised Star Chart, Christmas Countdown, Are We Nearly There (doing) |
 | Bloop, 8 to 10 | Family Phone Agreement (talk), Earn Your Screen Time (doing) | Screens At Granny's (talk), Holiday Screen Deal, Christmas Countdown, Are We Nearly There (doing), 30 Day Reset Journal (check) |
 | Orbit, 11 to 12 | Family Phone Agreement (talk) | First Phone Kit (talk), Holiday Screen Deal (doing), 30 Day Reset Journal (check) |
 | Nova, 13 to 15 | none | First Phone Kit (doing), 30 Day Reset Journal (check) |
 | Cosmo, 16 and up | none | 30 Day Reset Journal (check) |
+
+The Starter Pack is not on a page: it stays the free gift at /etsy-bonus
+and is not sold, so a buyer of a cheaper pack is never handed a product the
+shop also charges for (Justin, 5 November 2026). Earn Your Screen Time moves
+to the same deal as the app and the Star Chart, one star is five minutes.
 
 Not on a page: the two bundles (they are made of the packs above), the class
 poster set (schools, not a family page) and the printed Passport (the

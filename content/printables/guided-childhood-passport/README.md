@@ -63,6 +63,7 @@ Starter Pack for an email. Discreet footer URL on every page.
    out) and "Digital Childhood Passport" (book). This product says "Guided
    Childhood Passport" to match the shop banner.
 5. **Before listing:** the stage pages name the ready packs (Calm Down
-   Corner Kit, Starter Pack, Star Chart, Earn Your Screen Time, Family Phone
-   Agreement). List those on Etsy first, or with the Passport.
+   Corner Kit, Star Chart, Earn Your Screen Time, Family Phone Agreement).
+   List those on Etsy first, or with the Passport. The Starter Pack is the
+   free gift at /etsy-bonus and is never sold (Justin, 5 November 2026).
 6. Nothing is listed on Etsy until Justin says so.
