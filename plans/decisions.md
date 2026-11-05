@@ -273,3 +273,7 @@ Justin chose the 3D DiGi shop icon on a warm gold ground (no black border) and a
 ## 5 November 2026: the app's platform guides match the Road to 16 evidence check
 
 The Road to 16 red team found the app's own settings rows out of date, so migration 385 corrects them, guarded on the 093 text: Roblox accounts from 5 with a parent (its UK terms), YouTube's Family Link content setting instead of a Restricted Mode lock most children cannot have, Facebook supervision without "message oversight", WhatsApp parent managed accounts with a "may not be in the UK yet" hedge, Snapchat Quick Add to friends of friends. The settings page words any age under 13 as "with a parent". The issue bank's group chat and sextortion lines carry the UKCIS rule that a nude image of anyone under 18 is never screenshotted, copied or forwarded. Justin applies 385. PR 1405.
+
+## 5 November 2026: the app's copies of the five Passport packs match the Etsy ones
+
+The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down Corner Kit, Earn Your Screen Time and Family Phone Agreement, still carrying the damaged Friend art. They are now built from the same print.html as the Etsy editions with `build-pack.mjs <pack> app`: colour and ink friendly (the Colour in button), A4, minus the Etsy last page (Passport sticker, /etsy-bonus gift, Etsy review). The star chart builder uses public/digi-squad/friends and public/printables/friends is deleted. /etsy-bonus now says thirteen pages, no colouring page and no game, which is what the email delivers. PR to follow 1408.

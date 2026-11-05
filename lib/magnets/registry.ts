@@ -79,12 +79,13 @@ export const MAGNETS: Record<string, Magnet> = {
     eyebrow: 'The starter pack',
     title: 'The Guided Childhood Starter Pack',
     intro:
-      'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football and dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+      'The whole deal on paper. The jobs you agree together, a star reward chart for the fridge, stars to stick, how to guides, a wake up workout, football and dance, a breakfast plate, a week of stories to read together and star tokens to cut out. One star is five minutes of screen time.',
     numbered: false,
     items: [],
     close: 'Print it, stick the chart on the fridge, and start today.',
     filename: 'The-Guided-Childhood-Starter-Pack',
-    // The real 11 page product, served straight from public.
+    // The real product, served straight from public: the app edition, 13
+    // pages, without the Etsy edition's last page (content/printables/build-pack.mjs app).
     staticPdf: '/printables/starter-pack-colour.pdf',
   },
   // THE PLANET POST, Issue 1 (13 October 2026): the first of the five free
