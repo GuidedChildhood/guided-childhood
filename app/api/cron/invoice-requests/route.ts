@@ -31,7 +31,7 @@ const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillb
 // same letterbox on purpose (no new table, no second cron), so the only thing
 // that has to tell them apart is the email, and it very much does: an order
 // needs an invoice raised against a PO, and a lead needs a reply.
-const LEAD_BANDS = new Set(['draw', 'taster', 'pilot', 'standalone'])
+const LEAD_BANDS = new Set(['draw', 'taster', 'pilot', 'standalone', 'workshop'])
 
 const BAND_LABELS: Record<string, string> = {
   // A free class pack draw entry (schools /draw) uses the same letterbox.
@@ -47,6 +47,10 @@ const BAND_LABELS: Record<string, string> = {
   // A school asking for the free term (schools /pilot, 13 September 2026).
   // Five places; the pilot page counts them from these rows.
   pilot: 'Free one term pilot · lead',
+  // A school asking about a visit (schools /workshops, 4 November 2026). The
+  // notes carry which workshops, year groups, dates, in person or online, a
+  // parent session, and whether they want a quote or a call.
+  workshop: 'Workshop enquiry · lead',
   // The founding schools rate (8 October 2026): the first fifty schools, any
   // primary, held while they stay. schools/lib/pricing.ts FOUNDING.
   founding_primary: 'Founding school, any primary · £195 a year, held while they stay',
@@ -134,7 +138,9 @@ async function handler(request: Request) {
           ${lead ? '' : `<tr><td style="padding-right:16px;color:#888">PO number</td><td><strong>${esc(r.po_number)}</strong></td></tr>`}
           ${r.notes ? `<tr><td style="padding-right:16px;color:#888">Notes</td><td>${esc(r.notes)}</td></tr>` : ''}
         </table>
-        <p style="margin-top:16px">${r.band === 'pilot'
+        <p style="margin-top:16px">${r.band === 'workshop'
+          ? 'A workshop enquiry. Nothing is booked. Reply within two working days with a quote or a call link, whichever the notes ask for, and check the dates against the diary. The school has had a confirmation that promises the DBS certificate details and the public liability certificate before any visit is confirmed, so send both with the confirmation.'
+          : r.band === 'pilot'
           ? 'A pilot. Add a code for this school to SCHOOLS_PILOT_CODES on the schools Vercel project as code:phase (primary, secondary, post16 or all_through, from the notes above), redeploy, and reply with it within two working days. The code opens the two lessons for that phase plus the Hub; a licence code goes in SCHOOLS_ACCESS_CODES instead. The school has already had a confirmation saying so.<br><br>And the thing you asked to be reminded of once schools were live: Cosmo still speaks in neither sixth form lesson. It is specced, it costs no credits, and it waits on two decisions from you, in plans/2026-09-14-cosmo-at-sixth-form-spec.md.'
           : lead
             ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'

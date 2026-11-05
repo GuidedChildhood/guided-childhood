@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { WORKSHOPS_LAUNCHED } from '@/lib/workshops'
 
 // Only the open pages belong in the sitemap: everything else redirects to
 // /unlock (which sets noindex), so listing gated routes would just hand
@@ -16,6 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/hub/dsl`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/pricing`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/pilot`, changeFrequency: 'monthly', priority: 0.7 },
+    // Listed only once workshops launch (lib/workshops.ts): until then the
+    // page is noindex and a sitemap row would contradict it.
+    ...(WORKSHOPS_LAUNCHED ? [{ url: `${BASE}/workshops`, changeFrequency: 'monthly' as const, priority: 0.7 }] : []),
     { url: `${BASE}/terms`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE}/privacy`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE}/dpa`, changeFrequency: 'yearly', priority: 0.3 },

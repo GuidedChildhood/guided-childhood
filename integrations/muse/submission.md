@@ -127,3 +127,8 @@ keep them.
 `MUSE_CONNECTOR_KEY` in Vercel (Production). Without it anyone who finds the
 spec could spend the day's DiGi answers and every Muse parent would get the
 scripts only answer. The key is never written in this repo.
+
+**How Muse sends your key:** Authorization header (Bearer).
+**Test request path:** `/api/muse/ping` (answers 200 with the right key,
+changes nothing). The key must be the value of `MUSE_CONNECTOR_KEY`; a
+Vercel variable with any other name is never read.
