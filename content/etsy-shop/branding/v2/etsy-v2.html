@@ -58,10 +58,16 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
   box-shadow:0 16px 0 var(--butter-dark);}
 .iconA .logo span{width:30px;border-radius:10px;}
 
-/* ============ ICON B: the 3D DiGi star (DiGi-star-3d.png, the one the app uses beside the friends) ============ */
-.iconB .tile{position:relative;width:290px;height:290px;border-radius:76px;background:#fff;border:7px solid var(--ink);
-  box-shadow:0 16px 0 var(--ink);display:flex;align-items:center;justify-content:center;}
-.iconB .tile img{width:224px;height:224px;filter:drop-shadow(0 8px 8px rgba(26,26,46,0.12));}
+/* ============ ICON B: the 3D DiGi star (DiGi-star-3d.png, the one the app uses beside the friends).
+   No black border: a full bleed warm gold ground, a soft light behind the star, a hairline gold
+   ring that survives Etsy's round crop, and two small sparks (the visual system's maximum). ============ */
+.iconB{background:radial-gradient(circle at 50% 44%,#FFFDF7 0%,#FFF3D2 38%,#F8DE96 78%,#EFC968 100%);}
+.iconB .ring{position:absolute;width:430px;height:430px;border-radius:50%;border:2px solid rgba(201,154,40,0.35);}
+.iconB .glow{position:absolute;width:330px;height:330px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,255,255,0.95),rgba(255,255,255,0) 100%);top:68px;}
+.iconB img.star{position:relative;width:300px;height:300px;margin-top:-6px;
+  filter:drop-shadow(0 18px 18px rgba(150,104,10,0.28)) drop-shadow(0 4px 4px rgba(150,104,10,0.18));}
+.iconB .spark{position:absolute;}
 
 /* ============ LISTING COVER 1500 x 1125 (renders 3000 x 2250, Etsy 4:3) ============ */
 .cover{width:1500px;height:1125px;background:var(--cream);position:relative;overflow:hidden;}
@@ -128,8 +134,11 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
     </div>
     <!-- ICON B -->
     <div class="icon iconB" id="iconB">
-      <div class="halo"></div>
-      <div class="tile"><img src="../../../../public/digi-squad/DiGi-star-3d.png" alt=""></div>
+      <div class="ring"></div>
+      <div class="glow"></div>
+      <img class="star" src="../../../../public/digi-squad/DiGi-star-3d.png" alt="">
+      <svg class="spark" style="left:96px;top:118px" width="34" height="34" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z" fill="#FFFFFF" opacity="0.95"/></svg>
+      <svg class="spark" style="right:92px;bottom:120px" width="22" height="22" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z" fill="#C99A28" opacity="0.7"/></svg>
     </div>
   </div>
 
