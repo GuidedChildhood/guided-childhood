@@ -9,6 +9,21 @@ Guided Childhood Passport Printable | Kids Stamp Book and Stickers | Ages 4 to 1
 
 ## On Etsy
 
+**Live since 5 November 2026**, published by Claude on Justin's word, US$1.00
+in listing fees (US$0.20 each, auto renewing every four months):
+
+- Passport: https://www.etsy.com/uk/listing/4610470092
+- Calm Down Corner Kit: https://www.etsy.com/uk/listing/4610482440
+- Star Chart: https://www.etsy.com/uk/listing/4610462957
+- Family Phone Agreement: https://www.etsy.com/uk/listing/4610484746
+- Earn Your Screen Time: https://www.etsy.com/uk/listing/4610487662
+
+The 25 percent sale is the shop wide sale already set up, 5 to 30 November
+2026. Etsy caps a sale at 30 days, so it has to be started again each month
+to stay permanent. UK buyers see prices with 20 percent VAT added by Etsy on
+digital downloads: the Passport shows Now £7.19, was £9.59.
+
+
 Saved as a draft on 5 November 2026, listing 4610470092 (Shop Manager,
 Listings, Draft). Digital, category Chore Chart Templates, the 10 photos with
 01b first, the 4 files (A4, US Letter, A4 ink saver PDFs and the phone zip),
