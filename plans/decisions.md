@@ -269,3 +269,7 @@ Justin approved the plan: the old Etsy shop is switched over first (not done yet
 ## 5 November 2026: Etsy branding v2 chosen, the Passport leads the shop
 
 Justin chose the 3D DiGi shop icon on a warm gold ground (no black border) and asked for the Passport on the banner: the five Planet Friends now walk the gold pathway to the burgundy Passport cover, with "Get your Guided Childhood Passport". So a printable Passport (fold out book, stage pages, stamp and sticker sheet, £7.99) joins the paid line and ships first, because the banner names it; the printed keepsake with real stickers follows later as a physical listing. Final images in content/etsy-shop/branding/final. PR 1402.
+
+## 5 November 2026: the app's platform guides match the Road to 16 evidence check
+
+The Road to 16 red team found the app's own settings rows out of date, so migration 385 corrects them, guarded on the 093 text: Roblox accounts from 5 with a parent (its UK terms), YouTube's Family Link content setting instead of a Restricted Mode lock most children cannot have, Facebook supervision without "message oversight", WhatsApp parent managed accounts with a "may not be in the UK yet" hedge, Snapchat Quick Add to friends of friends. The settings page words any age under 13 as "with a parent". The issue bank's group chat and sextortion lines carry the UKCIS rule that a nude image of anyone under 18 is never screenshotted, copied or forwarded. Justin applies 385. PR 1405.
