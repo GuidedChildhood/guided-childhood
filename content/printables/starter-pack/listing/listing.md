@@ -1,101 +1,117 @@
-# Etsy listing package — The Guided Childhood Starter Pack
+# Etsy listing package: The Starter Pack
 
-## Title (front loaded, ~70 characters)
+> **NOT FOR SALE ON ETSY.** Justin, 5 November 2026: the Starter Pack stays
+> the free email gift at guidedchildhood.com/etsy-bonus and is not listed on
+> Etsy. Do not create an Etsy draft from this file. It is kept as the record
+> of the pack, and its files stay, because the Star Chart prints from the
+> Starter Pack's print.html. Revisit only if that decision changes.
 
-Kids Star Reward Chart Screen Time Printable Pack Ages 4 up Instant Download
+One of the five packs the Guided Childhood Passport names on its stage pages
+(the Pebble page, under the doing). The shop's anchor listing. Made Etsy
+ready on 5 November 2026 and listed before or with the Passport.
 
-## Description (opening)
+## Title (86 characters)
 
-The calm way to end the screen time battle. This is a whole printable booklet,
-styled like a warm little newspaper, that turns real jobs into stars and stars
-into screen time. Print it, stick the chart on the fridge, and start today.
+The Starter Pack Printable | Kids Star Chart, Jobs and Screen Time Booklet | Ages 4 Up
 
-One star is five minutes of screen time. Children earn stars from real jobs,
-getting dressed, tidying up, helping at the table, moving their body, reading
-with a grown up, then spend them on games, the device or the telly. No hard
-stops, no daily fight, just a deal the whole family can see at a glance.
+## Price and listing setup
 
-Inside the pack:
-- The star reward chart, five daily jobs across the week, with your child's name
-- The jobs list for the fridge, with star values
+- List price: £9.99.
+- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
+  sale on this listing with no end date. Buyers see £9.99 crossed out and pay
+  £7.49.
+- £7.49 sits well above the £4 floor.
+- Evergreen. Refresh the photos at back to school and in January.
+- Type: digital download. Files: the three PDFs in `product/`.
+
+## Description
+
+One star is five minutes of screen time. Real jobs earn the stars, and the
+daily screen time question becomes a deal your family already made.
+
+The Starter Pack is a print at home booklet for ages 4 and up, styled like a
+little family newspaper, The Guided Childhood Weekly. You sit down together,
+agree five or six jobs, and put the chart on the fridge. Your child colours a
+star the moment a job is done and spends the stars on games, the device or
+the telly. Play and outside jobs pay the most stars, on purpose.
+
+What you get, 14 pages:
+
+- Let us agree the jobs: the page you fill in together before the chart
+- The star chart, with your own jobs, bonus rows and the spend row
+- The jobs list, with star values and how to make your chart
+- Stars to stick and Planet Friends to earn, plus the Planet Friend board
 - How to guides: lay the table, tidy your room, load the dishwasher
-- A five minute wake up workout, football skills and dance moves
-- A build your own healthy breakfast plate, backed by how children actually eat
-- A read with a grown up tick list and goal celebrations
-- The Star Run, a print and play board game
-- A DiGi colouring page
-- A tips and assembly page so it all becomes one little booklet
+- A five minute wake up workout, four football skills and six dance moves
+- A build your own breakfast plate, in three parts
+- Seven stories, seven nights: a reading week, with celebrations
+- Tips to put it together, cut out star tokens and a weekly tracker
+- Your Passport sticker for the Pebble page of the Guided Childhood Passport
+- A4 and US Letter in full colour, plus an ink friendly version
 
-Made for children four and up. Younger ones reward daily, older ones tally the
-week. Print at home on A4 or US Letter, colour version and an ink friendly
-version both included.
+This is an instant download. Nothing is posted. Print as many copies as your
+own family needs. For personal use only.
 
-## Tags (13, phrased away from the title)
+I am Justin, a dad who got tired of the screen time fight. The Starter Pack is
+the paper version of the deal in the Guided Childhood app. If anything will
+not print or open, message me and I will sort it fast.
 
-1. chore chart kids
-2. reward chart printable
-3. screen time contract
-4. behaviour chart
-5. star chart fridge
-6. kids routine chart
-7. responsibility chart
-8. printable kids planner
-9. chore chart ages 4
-10. family screen time
-11. printable activity pack
-12. kids print and play
-13. positive parenting tool
+## 13 tags (every one 20 characters or fewer)
 
-## Rendered mockups ready to upload (mockups/)
+| Tag | Characters |
+|---|---|
+| star chart kids | 15 |
+| reward chart | 12 |
+| chore chart kids | 16 |
+| screen time chart | 17 |
+| kids jobs chart | 15 |
+| sticker reward chart | 20 |
+| kids routine chart | 18 |
+| responsibility chart | 20 |
+| family screen rules | 19 |
+| kids activity pack | 18 |
+| fridge chart kids | 17 |
+| printable booklet | 17 |
+| parenting printable | 19 |
 
-Three of the ten slots are already built on brand, rendered locally at 2000 by
-2000 from the house design system (rebuild with the scratchpad
-`gh/build-mockups.mjs`):
+## The photo slots
 
-- `mockups/mockup-hero.png` — slot 1, the cover framed with an instant download
-  ribbon and trust badges. The listing thumbnail.
-- `mockups/mockup-how.png` — slot 6, the do a job, earn a star, spend it loop
-  with the one star is five minutes deal.
-- `mockups/mockup-contents.png` — slot 2, all eleven pages as a contents grid.
+| Slot | File | What it shows |
+|---|---|---|
+| 1 | `images/01-cover.png` | The cover, brand printable format: the star chart and the Weekly cover, Pebble, the gold pathway |
+| 2 | `images/02-whats-inside.png` | All fourteen pages, as rendered |
+| 3 | `images/03-close-up.png` | The star chart close up |
+| 4 | `images/04-passport-sticker.png` | The last page: the Pebble page sticker and the free gift |
+| 5 | `images/05-formats.png` | A4, US Letter, ink friendly, the sticker page |
+| 6 | `images/06-how-it-works.png` | Agree, earn, count, spend |
 
-The remaining slots (real fridge lifestyle, sizing guide, phone version, bonus
-mention) are photographic or need the Happy News art and are listed below.
+All 2000 by 2000, rendered from `listing/images.html` by
+`node content/printables/build-pack.mjs starter-pack listing`. Every page in
+them is the real page render, never a redraw. A real photo of the chart on a
+fridge (no faces) would be a strong slot 7 once one exists. The old
+`mockups/` folder is retired: its contents grid showed eleven pages and its
+how it works card was not the real page.
 
-## Ten image slots
-
-1. Lifestyle mockup, the chart on a real fridge with a child colouring a star
-2. Contents flat lay, all eleven pages fanned out
-3. Instant download overlay on the cover
-4. The star reward chart page, close up
-5. Sizing guide, A4 and US Letter, colour and ink friendly
-6. How it works, the earn a star, spend five minutes loop as a simple diagram
-7. The Star Run game page, dice and buttons on top
-8. The how to guides page
-9. The phone version, child facing pages on a phone (the differentiator)
-10. Bonus mention, free app trial at the back
-
-## Demo video script (5 to 15 seconds, hands on table)
+## Listing video (10 seconds, hands on table)
 
 Real hands, no faces. A printed chart lands on a wooden table. A hand writes a
-child's name at the top. A hand colours in one gold star. A second hand slides
-the sheet onto the fridge with a magnet. Text on screen: One star, five minutes.
-Jobs done, screen earned. End card: The Guided Childhood Starter Pack.
+name at the top. A hand colours one gold star. The sheet goes on the fridge
+under a magnet. Text on screen: One star, five minutes.
 
-## Reel script (Instagram, same hands on format)
+## Instagram reel (same footage)
 
-Hook text: The screen time fight ends here. Show the chart printing, the name
-going on, three stars getting coloured after three little jobs, then a child's
-hand picking a game. Text: They earned it, so there is nothing to argue about.
-End: Full printable pack, link in bio.
+First frame text: Jobs first. Then the screen. Everyone knows the deal.
+Caption: Agree the jobs together, colour a star when one is done, five minutes
+of screen a star. The Starter Pack, printable, link in bio.
 
-## Price
+## Compliance
 
-- Launch: 8 pounds, with a 20 percent opening sale to 6.40 for the first weeks.
-- Settle at 9 to 10 pounds as reviews build.
-- The anchor listing, evergreen, no season window.
-
-## Bonus wired
-
-Back page points to guidedchildhood.com/etsy-bonus, the free app trial. On Etsy
-this is a free bonus that extends the product, never a checkout or a cheaper on
-our site line.
+- No outcome or medical claims anywhere. The breakfast page is three parts on
+  a plate and nothing more; the move page is a game, not a health claim.
+- The last PDF page points to guidedchildhood.com/etsy-bonus. A Starter Pack
+  buyer already has the pack, so their line offers a copy kept in their inbox
+  to print again, which is what that page sends. No checkout link, no cheaper
+  elsewhere line.
+- The review line on the last page asks kindly and offers nothing in return.
+- The Planet Friends and DiGi were made with AI tools. Say so in the listing's
+  creation details, per Etsy's Creativity Standards.

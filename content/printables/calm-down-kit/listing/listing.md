@@ -1,76 +1,116 @@
-# Etsy Listing Package — The Calm Down Corner Kit
+# Etsy listing package: The Calm Down Corner Kit
 
-## Title (79 characters)
-Calm Down Corner Kit Printable | Feelings Cards Breathing Poster | Ages 4 to 9
+One of the five packs the Guided Childhood Passport names on its stage pages
+(the Pebble page, under the talk). Made Etsy ready on 5 November 2026 and
+listed before or with the Passport.
 
-## Price and rung
-List £5.99, permanent launch sale 25 percent off, lands at £4.49. Middle rung
-of the ladder (recipe 6, £5 to £8 band). Evergreen with two seasonal pushes:
-back to school (the classroom corner) and January (the fresh start corner).
-Dual market: parents at home plus teachers, which doubles the search surface.
+## Title (86 characters)
 
-## 13 tags (different phrasings from the title, 20 characters max)
-calm corner sign, feelings cards kids, emotions chart, breathing exercise,
-coping skills cards, calm down cards, big feelings, classroom calm kit,
-teacher printable, quiet time kit, instant download, parenting printable,
-finger tracing star
+The Calm Down Corner Kit Printable | Feelings Cards and Breathing Poster | Ages 4 to 9
 
-## What is inside (listing description bullets)
-- A warm A4 calm corner sign: My Calm Corner, all feelings welcome here
-- 8 feelings check in cards with big friendly faces: happy, sad, angry,
-  worried, frustrated, tired, excited and calm
-- The DiGi Junior star breathing poster: trace a side breathing in, hold at
-  the point, trace down breathing out, five rounds makes a super calm star
-- 12 calm choice cards: squeeze a cushion, drink of water, count 5 things
-  you can see, big stretch, ask for a hug and more, each with its own icon
-- The feeling is going page: a gentle after moment to notice how big the
-  feeling was and what helped, framed as noticing, never homework
-- A grown up script card in plain warm words: what to say in the moment and
-  what to save for later
-- A parent and teacher setup guide: the ten minute calm corner with things
-  you already own, and the golden rule that keeps it working
-- A4 and US Letter, full colour plus an ink friendly version where the faces
-  become colour in outlines
-- Phone sized star breathing and feelings check in screens included, so the
-  calm plan travels in a grown up's pocket too
-- Instant download, print as many times as you like, laminate and reuse
+## Price and listing setup
 
-## The 10 photo slots
-1. Lifestyle hero: the calm corner sign above a real cushion and soft toy
-   in a cosy corner, warm lamp light
-2. Flat lay of all 9 pages fanned on a wooden floor with the cut out cards
-3. Close up: a small hand tracing the breathing star (the Natalia shot)
-4. The 8 feelings cards cut out and fanned in a child's hands
-5. Instant download overlay graphic (no physical item ships)
-6. The 12 calm choice cards pegged on a string at child height
-7. The grown up script card propped on a shelf beside the corner
-8. Phone version of the star breathing screen on a phone, sofa background
-9. Sizing and formats guide (A4, US Letter, ink friendly, phone screens)
-10. Free bonus mention: DiGi Junior star plus "free animated breathing
-    pause inside"
+- List price: £5.99.
+- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
+  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
+  £4.49.
+- £4.49 sits above the £4 floor.
+- Evergreen, with pushes at back to school (the classroom corner) and January.
+- Type: digital download. Files: the three PDFs in `product/` plus a zip of
+  the two phone screens in `phone/` (Etsy allows five files per listing).
 
-## Listing video script (12 seconds, hands on table)
-Overhead, warm light. A small hand puts a finger on the green dot and traces
-slowly up one side of the laminated star. Pause at the point, held still for
-a real breath. The hand traces down the other side. Cut to the hand placing
-the Calm card back in a little pot next to the sign. Text overlay: "Trace.
-Hold. Breathe out." No faces, no voiceover, just paper and one small hand.
+## Description
 
-## Instagram reel script (the same footage plus hook)
-First frame text: "The corner that helps big feelings get smaller."
-Caption: A calm corner is chosen together before it is needed, never a spot
-children get sent to. This kit is the plan: feelings cards to point at, a
-star to breathe with, 12 calm things to try, and the exact words for the
-grown up. Ages 4 to 9, home and classroom versions of the same habit.
-Link in bio.
-Hashtags target teachers and parents: #earlyyears #calmcorner #parentingtips
-#teacherresources #ukparents
+A calm corner works when you set it up together on an ordinary day, long
+before a big feeling arrives. This kit is everything that corner needs.
 
-## Compliance notes (the claims rule, strict)
-This product helps children practise calming down and builds a calm corner
-habit. It is a parenting and teaching tool. NEVER claim it reduces anxiety,
-treats, calms the nervous system, regulates emotions clinically, or improves
-any mental health outcome, in the listing, the tags, the photos or the reel.
-No therapy language on child facing pages. Bonus link inside the PDF goes to
-a free page, never a checkout. No review incentives. AI assisted imagery
-disclosed per Etsy Creativity Standards.
+The Calm Down Corner Kit is a print at home set for ages 4 to 9. Pebble and
+DiGi Junior, the little star, keep your child company. You choose the spot
+together, practise the star breathing once for fun, and then the corner is
+already a friend when it is needed. It is a place your child chooses to go,
+never a place they get sent.
+
+What you get:
+
+- A calm corner sign: My Calm Corner, all feelings welcome here
+- 8 feelings check in cards with big friendly faces, from happy to worried
+- The star breathing poster: trace a side breathing in, hold at the point,
+  trace down breathing out
+- 12 calm choice cards, each with its own picture: squeeze a cushion, a drink
+  of water, a big stretch, ask for a hug and more
+- The feeling is going page, for after: how big was it, what helped
+- A grown up script card with the words for the moment and for later
+- A setup guide for parents and teachers: ten minutes, things you already own
+- Your Passport sticker for the Pebble page of the Guided Childhood Passport
+- A4 and US Letter in full colour, plus an ink friendly version
+- A phone version: the star breathing and the feelings check in, so the plan
+  travels in your pocket
+
+This is an instant download. Nothing is posted. Print as many copies as your
+own family or class needs. For personal and classroom use.
+
+It is a parenting and teaching tool for practising a calm pause together. It
+is not a treatment for anything.
+
+I am Justin, a dad who got tired of the screen time fight. If anything will
+not print or open, message me and I will sort it fast.
+
+## 13 tags (every one 20 characters or fewer)
+
+| Tag | Characters |
+|---|---|
+| calm down corner | 16 |
+| calm corner sign | 16 |
+| feelings cards kids | 19 |
+| emotions chart kids | 19 |
+| breathing poster | 16 |
+| star breathing | 14 |
+| calm down cards | 15 |
+| big feelings kids | 17 |
+| coping skills cards | 19 |
+| classroom calm kit | 18 |
+| eyfs printable | 14 |
+| quiet time kit | 14 |
+| parenting printable | 19 |
+
+## The photo slots
+
+| Slot | File | What it shows |
+|---|---|---|
+| 1 | `images/01-cover.png` | The cover, brand printable format: the sign and the poster, Pebble, the gold pathway |
+| 2 | `images/02-whats-inside.png` | All nine pages, as rendered |
+| 3 | `images/03-close-up.png` | The star breathing poster close up |
+| 4 | `images/04-passport-sticker.png` | The last page: the Pebble page sticker and the free gift |
+| 5 | `images/05-formats.png` | A4, US Letter, ink friendly, phone |
+| 6 | `images/06-how-it-works.png` | Choose, practise, point, after |
+| 7 | `images/07-phone-version.png` | The two phone screens |
+
+All 2000 by 2000, rendered from `listing/images.html` by
+`node content/printables/build-pack.mjs calm-down-kit listing`. Every page in
+them is the real page render, never a redraw. A real photo of the sign above a
+cushion (no faces) would be a strong slot 8 once one exists.
+
+## Listing video (12 seconds, hands on table)
+
+Overhead, warm light, no faces, no voiceover. A small hand puts a finger on the
+green dot and traces slowly up one side of the laminated star. A pause at the
+point, held for a real breath. The hand traces down the other side. Text on
+screen: Trace. Hold. Breathe out.
+
+## Instagram reel (same footage)
+
+First frame text: A calm corner is chosen together, before it is needed.
+Caption: Feelings cards to point at, a star to breathe with, twelve calm
+things to try, and the words for the grown up. Ages 4 to 9, at home or in
+class. Printable kit, link in bio.
+
+## Compliance
+
+- No outcome or medical claims anywhere. Never say it reduces anxiety, calms
+  the nervous system, regulates emotions or treats anything. It helps a family
+  or a class practise a calm pause, and says so.
+- The last PDF page points to guidedchildhood.com/etsy-bonus, a free page (the
+  Starter Pack for an email). No checkout link, no cheaper elsewhere line.
+- The review line on the last page asks kindly and offers nothing in return.
+- Pebble and DiGi were made with AI tools. Say so in the listing's creation
+  details, per Etsy's Creativity Standards.

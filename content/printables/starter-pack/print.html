@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <title>The Guided Childhood Starter Pack</title>
@@ -316,7 +316,7 @@
   .plate{width:76mm;height:76mm;border-radius:50%;border:3px solid var(--ink);background:var(--white);
     box-shadow:0 5px 0 var(--ink);position:relative;overflow:hidden;margin:0 auto;}
   .plate .slice{position:absolute;width:50%;height:50%;display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:9pt;text-align:center;color:var(--ink);padding:3mm;line-height:1.1;}
+    font-weight:800;font-size:8.2pt;text-align:center;color:var(--ink);padding:3mm 4.5mm;line-height:1.15;}
   .buildrow{display:flex;align-items:center;gap:3mm;background:var(--white);border:2px solid var(--ink);
     border-radius:12px;box-shadow:0 3px 0 var(--ink);padding:2.5mm 4mm;margin-bottom:2.5mm;}
   .buildrow .bnum{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--green);color:var(--white);
@@ -406,6 +406,15 @@
   body.ink .tracker .wk .box{background:var(--white);}
   body.ink .totalrow .tt,body.ink .appnote{background:var(--white);}
   body.ink .tok .fill{fill:var(--white)!important;stroke:var(--ink)!important;stroke-width:1.4!important;}
+  /* THE STAR CHART EDITION (content/printables/build-pack.mjs star-chart): the
+     same file with body.edition-star-chart, showing only the chart sheets, so
+     the standalone listing can never drift from the pack. Each edition keeps
+     its own last page. */
+  .sheet[data-edition="star-chart"]{display:none;}
+  body.edition-star-chart .sheet:not([data-star-chart]){display:none;}
+  body.edition-star-chart .sheet[data-edition="star-chart"]{display:flex;}
+  body.edition-star-chart .pg{visibility:hidden;}
+  @page{size:A4;margin:0;}
 </style>
 </head>
 <body>
@@ -418,7 +427,7 @@
     <div class="dateline">
       <span>Ages 4 and up</span>
       <span>The screen time starter pack</span>
-      <span>Free with your printable</span>
+      <span>Print at home</span>
     </div>
   </div>
 
@@ -432,13 +441,12 @@
     </p>
   </div>
 
-  <!-- Hero art slot: Happy News style family illustration (synced via Drive). -->
+  <!-- DiGi on the cover: the approved star, never a generated scene. -->
   <div style="flex:1;display:flex;align-items:center;justify-content:center;">
     <div class="hero-slot" style="width:150mm;height:78mm;border-radius:18px;overflow:hidden;
       background:var(--butter-lt);border:2.5px solid var(--ink);box-shadow:0 5px 0 var(--ink);
       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2mm;position:relative;">
-      <!-- Happy News hero illustration drops in here (images/cover-hero.png), synced via Drive. -->
-      <img src="images/DiGi-star.svg" alt="DiGi the golden star" style="width:40mm;height:40mm;">
+      <img src="images/DiGi-star-3d.png" alt="DiGi the golden star" style="width:44mm;height:44mm;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8pt;letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-dark);">DiGi, your family guide</div>
     </div>
   </div>
@@ -446,7 +454,7 @@
   <div class="cols">
     <div class="col"><span class="ch">Inside</span><span class="drop">A</span> star reward chart the whole family reads at a glance, plus the jobs that earn the stars.</div>
     <div class="col"><span class="ch">The deal</span><span class="drop">1</span> star is five minutes of screen. Earn them from real jobs, spend them on games, device or telly.</div>
-    <div class="col"><span class="ch">Also inside</span><span class="drop">H</span>ow to guides, moves, football, dance, a healthy breakfast plate and pages to colour.</div>
+    <div class="col"><span class="ch">Also inside</span><span class="drop">H</span>ow to guides, moves, football, dance, a breakfast plate and a week of stories to read.</div>
   </div>
 
   <div style="display:flex;gap:3mm;justify-content:center;margin-top:5mm;">
@@ -458,7 +466,7 @@
 </div>
 
 <!-- ============ PAGE 2 · AGREE THE JOBS FIRST ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <span class="eyebrow">Print this one first</span>
   <h1 style="font-size:29pt;margin-top:1.5mm;">Let us agree the jobs</h1>
   <p style="margin:2.5mm 0 0;max-width:174mm;">A chart a child had no say in is a chart you have to enforce every single day. So this comes out of the printer before the chart does. Sit down together, go through the day, and tick the ones that are theirs. What you both agree here is what goes on the chart.</p>
@@ -504,7 +512,7 @@
 </div>
 
 <!-- ============ PAGE 2 · THE STAR REWARD CHART ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="st" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></symbol></svg>
 
   <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:4mm;">
@@ -571,7 +579,7 @@
 </div>
 
 <!-- ============ PAGE 3 · JOBS LIST + HOW TO MAKE THE CHART ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <span class="eyebrow">The jobs that earn stars</span>
   <h2 style="margin-top:2mm;margin-bottom:3mm;">Pick your jobs, then write your own</h2>
 
@@ -602,7 +610,7 @@
 
   <div style="display:flex;gap:5mm;margin-top:4mm;flex:1;">
     <p style="flex:1;font-size:9pt;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:3mm 3.5mm;align-self:flex-start;">
-      Play and outside jobs pay the <strong>most</strong> stars on purpose. Screens are brilliant, but bodies and brains grow strongest running about and making things.
+      Play and outside jobs pay the <strong>most</strong> stars on purpose. Screens are brilliant, and running about and making things deserve the biggest reward.
     </p>
     <div style="flex:1.15;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:4mm 5mm;">
       <span class="eyebrow" style="color:var(--green-dark);">How to make your chart</span>
@@ -624,7 +632,7 @@
 </div>
 
 <!-- ============ PAGE 4 · STARS AND FRIENDS TO CUT OUT ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <span class="eyebrow">Cut these out</span>
   <h2 style="margin-top:2mm;margin-bottom:2mm;">Stars to stick, Friends to earn</h2>
   <p style="margin-bottom:1mm;max-width:172mm;">Colouring a star is lovely, and some children will never do it. Sticking one on is faster, and it survives a busy Tuesday. Print this page on sticker paper if you have it, otherwise cut and use a glue stick. The stars are cut to fit the chart squares exactly.</p>
@@ -646,7 +654,7 @@
 </div>
 
 <!-- ============ PAGE 5 · THE PLANET FRIEND BOARD ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <span class="eyebrow">The Planet Friend board</span>
   <h1 style="font-size:28pt;margin-top:1.5mm;">Four stars in a day earns a Planet Friend</h1>
   <p style="margin:3mm 0 1mm;max-width:174mm;">This is the whole deal in one line, and it is the same deal as the app. Stars buy minutes. A day where four jobs get done is a good day, and a good day brings a Planet Friend home. Five good days and the whole family is here.</p>
@@ -771,12 +779,19 @@
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:4mm;">
       <div class="artslot" style="flex:1;">
-        <!-- Happy News art: a child mid star jump (images/move-hero.png), synced via Drive. -->
-        <div class="ph"><img class="pi" src="images/DiGi-star.svg" alt=""><span class="pl">Star jump illustration</span></div>
+        <!-- Bloop, the page's own Friend, as the approved cutout, with a round counter. -->
+        <div class="ph" style="height:100%;justify-content:center;">
+          <img src="images/friends/bloop.png" alt="Bloop" style="width:52mm;height:52mm;object-fit:contain;">
+          <div style="font-weight:900;font-size:14pt;color:var(--ink);margin-top:1mm;">Tick each round</div>
+          <div style="display:flex;gap:4mm;margin-top:2mm;">
+            <span style="display:flex;align-items:center;gap:1.5mm;font-weight:800;font-size:10pt;"><span style="width:7mm;height:7mm;border:2px solid var(--ink);border-radius:6px;display:inline-block;background:#fff;"></span>Round 1</span>
+            <span style="display:flex;align-items:center;gap:1.5mm;font-weight:800;font-size:10pt;"><span style="width:7mm;height:7mm;border:2px solid var(--ink);border-radius:6px;display:inline-block;background:#fff;"></span>Round 2</span>
+          </div>
+        </div>
       </div>
       <div style="background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:14px;padding:4mm;">
         <span class="eyebrow" style="color:var(--butter-dark);">Why it pays big</span>
-        <p style="font-size:9pt;margin-top:2mm;">Moving first thing wakes the brain up better than any screen. That is why a good run about is worth <strong>three stars</strong> on the chart.</p>
+        <p style="font-size:9pt;margin-top:2mm;">Moving about is the job we most want to see, so a good run about is worth <strong>three stars</strong> on the chart.</p>
       </div>
     </div>
   </div>
@@ -831,34 +846,34 @@
 <div class="sheet">
   <div class="kicker-row">
     <span class="sec">Fuel</span>
-    <h2>Build a breakfast that lasts till lunch</h2>
+    <h2>Build a breakfast plate</h2>
     <img class="kfriend" src="images/friends/nova.png" alt=""><span class="pg">No. 7</span>
   </div>
-  <p style="margin-bottom:4mm;max-width:165mm;">A good breakfast is three parts on one plate. Get all three and a child stays full, calm and focused for the whole morning, no mid morning meltdown, no snack begging.</p>
+  <p style="margin-bottom:4mm;max-width:165mm;">A good breakfast is three parts on one plate. Let your child build it from the three parts, and talk about what goes in each one.</p>
 
   <div style="display:flex;gap:6mm;flex:1;align-items:center;">
     <div style="flex:1;">
       <div class="plate">
         <div class="slice" style="top:0;left:0;background:var(--tint-sage);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);border-radius:0 0 0 0;">Slow energy<br>oats, toast, cereal</div>
-        <div class="slice" style="top:0;right:0;background:var(--butter-lt);border-bottom:2px solid var(--ink);">Building blocks<br>egg, yoghurt, beans</div>
+        <div class="slice" style="top:0;right:0;background:var(--butter-lt);border-bottom:2px solid var(--ink);">Building blocks<br>egg, yoghurt,<br>beans</div>
         <div class="slice" style="bottom:0;left:0;width:100%;background:var(--pink);">Colour and water<br>fruit, veg, milk or water</div>
       </div>
       <p style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--ink-muted);letter-spacing:1px;margin-top:3mm;">FILL ALL THREE PARTS OF THE PLATE</p>
     </div>
 
     <div style="flex:1;">
-      <span class="eyebrow" style="color:var(--green-dark);">The child science, plainly</span>
+      <span class="eyebrow" style="color:var(--green-dark);">The three parts</span>
       <div style="margin-top:3mm;">
-        <div class="buildrow"><span class="bnum">1</span><span class="btext"><b>Slow energy</b> burns steady, so there is no sugar crash and grumpy hour before lunch.</span></div>
-        <div class="buildrow"><span class="bnum">2</span><span class="btext"><b>Building blocks</b> keep a child full for hours and help a growing body do its growing.</span></div>
-        <div class="buildrow"><span class="bnum">3</span><span class="btext"><b>Colour and water</b> wake up the brain and top up the water they lost overnight.</span></div>
+        <div class="buildrow"><span class="bnum">1</span><span class="btext"><b>Slow energy</b> is the filling part: oats, toast or cereal.</span></div>
+        <div class="buildrow"><span class="bnum">2</span><span class="btext"><b>Building blocks</b> are the protein part: an egg, yoghurt or beans.</span></div>
+        <div class="buildrow"><span class="bnum">3</span><span class="btext"><b>Colour and water</b> are the fresh part: fruit or veg, with milk or water.</span></div>
       </div>
       <div style="margin-top:3mm;background:var(--butter-lt);border:2px solid var(--butter-dark);border-radius:12px;padding:3mm 4mm;">
         <p style="font-size:9pt;color:var(--ink);"><strong>Make it a job:</strong> let them build their own plate from the three parts. A breakfast they built is a breakfast they eat, and that is a star earned.</p>
       </div>
     </div>
   </div>
-  <div class="footer"><span>guidedchildhood.com</span><span>Healthy breakfast · Build a plate that lasts till lunch</span></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Breakfast · Build a plate in three parts</span></div>
 </div>
 
 <!-- ============ PAGE 8 · READ TOGETHER + CELEBRATIONS ============ -->
@@ -913,7 +928,7 @@
         <div class="step"><span class="num"></span><span class="body"><b>Print the lot</b> on plain A4, or card for the chart and jobs list so they live on the fridge all year.</span></div>
         <div class="step"><span class="num"></span><span class="body"><b>Fridge pages:</b> the star chart and the jobs list. Laminate them or use a wallet, then a dry wipe pen resets every week.</span></div>
         <div class="step"><span class="num"></span><span class="body"><b>Cut out</b> the how to cards and pop them where the job happens, by the sink, the table, the toy box.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Booklet the rest:</b> stack the move, skills, breakfast, read and game pages, fold in half and staple the spine. A little newspaper of their own.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Booklet the rest:</b> stack the move, skills, breakfast and read pages, fold in half and staple the spine. A little newspaper of their own.</span></div>
         <div class="step"><span class="num"></span><span class="body"><b>Start small.</b> Pick three jobs for week one. Add more once the habit sticks. The chart only ever pays out.</span></div>
       </div>
     </div>
@@ -930,12 +945,12 @@
         </div>
       </div>
 
-      <!-- BONUS SLOT · Etsy edition keeps this, app edition strips it (build-app-editions.mjs) -->
-      <div class="etsy-bonus" style="background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:16px;padding:5mm;text-align:center;">
-        <span class="eyebrow" style="color:var(--butter-dark);">Your free bonus</span>
-        <h3 style="margin:2mm 0;font-size:14pt;">The whole app, free to try</h3>
-        <p style="font-size:9.5pt;">This chart is the paper version of what the Guided Childhood app does every day: sets the jobs, counts the stars, releases the screen time on its own. Scan or visit the page to try it free.</p>
-        <div style="margin-top:3mm;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11pt;letter-spacing:0.5px;color:var(--ink);background:var(--white);border:2px solid var(--ink);border-radius:10px;padding:2.5mm;">guidedchildhood.com/etsy-bonus</div>
+      <!-- The free bonus moved to the last page (../pack-finish.js), 5 November 2026. This
+           panel used to promise an app trial that /etsy-bonus does not give. -->
+      <div style="background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:16px;padding:5mm;text-align:center;">
+        <span class="eyebrow" style="color:var(--butter-dark);">For the full effect, the app</span>
+        <h3 style="margin:2mm 0;font-size:14pt;">The same deal, kept for you</h3>
+        <p style="font-size:9.5pt;">This chart is the paper version of what the Guided Childhood app does every day: it sets the jobs, counts the stars and keeps the screen time balance, so the paper chart and the app always agree.</p>
       </div>
     </div>
   </div>
@@ -943,7 +958,7 @@
 </div>
 
 <!-- ============ PAGE 12 · CUT OUT STAR TOKENS + PARENT TRACKER ============ -->
-<div class="sheet">
+<div class="sheet" data-star-chart>
   <div class="kicker-row">
     <span class="sec">Stars</span>
     <h2>Cut out your stars, keep the tracker</h2>
@@ -988,12 +1003,17 @@
       <div class="wk"><span class="d">Sun</span><div class="box"></div></div>
     </div>
     <div class="totalrow">
-      <div class="tt"><span class="big">▢ stars</span><span style="font-size:9pt;color:var(--ink-soft);">this week, added up from the boxes above</span></div>
+      <div class="tt" style="flex:0 0 52mm;flex-direction:column;align-items:flex-start;gap:1mm;"><span class="big">Week total</span><span style="display:block;width:100%;height:9mm;border:2px solid var(--ink);border-radius:8px;background:#fff;"></span><span style="font-size:8.5pt;color:var(--ink-soft);">stars, added up from the boxes above</span></div>
       <div class="appnote"><span class="ph">📱</span><p style="font-size:9pt;color:var(--ink);"><strong>Open Guided Childhood</strong> and add the week's stars to the time bank, so the offline chart and the app balance always match.</p></div>
     </div>
   </div>
   <div class="footer"><span>guidedchildhood.com</span><span>Cut out your stars · Parent tracker feeds the app</span></div>
 </div>
+
+<!-- ============ THE PASSPORT STICKER AND THE FREE GIFT (../pack-finish.js) ============ -->
+<div class="sheet" data-edition="starter-pack" data-finish='{"pack":"The Starter Pack","noun":"pack","pages":[["pebble","doing"]],"gift":"copy","thanks":"If the Weekly earns a place on your fridge, a kind review on Etsy helps another family find it."}'></div>
+<div class="sheet" data-star-chart data-edition="star-chart" data-finish='{"pack":"The Star Chart","noun":"chart","pages":[["pebble","doing"]],"thanks":"If this chart earns a place on your fridge, a kind review on Etsy helps another family find it."}'></div>
+<script src="../pack-finish.js"></script>
 
 </body>
 </html>

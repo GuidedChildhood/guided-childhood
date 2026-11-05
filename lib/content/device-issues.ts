@@ -120,6 +120,11 @@ const BARK: IssueSource = { name: 'Bark review, bypass methods', url: 'https://a
 const LOOT: IssueSource = { name: 'House of Commons Library, Loot boxes', url: 'https://commonslibrary.parliament.uk/research-briefings/cbp-8498/', kind: 'official_report' }
 const BRIEFING: IssueSource = { name: 'The ten problems parents actually have, verified briefing, 9 September 2026', url: 'https://guidedchildhood.co.uk/briefings/2026-09-09-parent-device-problems-v2.html', kind: 'journalism' }
 
+// Any line that tells a child or parent to screenshot carries the carve out:
+// a nude or sexual image of anyone under 18 is never screenshotted, copied or
+// forwarded. UKCIS, Sharing nudes and semi nudes, how to respond to an
+// incident (updated 11 March 2024): "Never view, copy, print, share, store or
+// save the imagery yourself". Matches the Road to 16 guide (PR 1403).
 export const DEVICE_ISSUES: DeviceIssue[] = [
   // ── 4 to 7 ────────────────────────────────────────────────────────────────
   {
@@ -261,7 +266,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     name: 'The Year 6 WhatsApp group',
     words: 'VERBATIM thread titles: "Yr6 class WhatsApp groups", "Online Harassment on Y6/Y7 Whatsapp Groups". Over half of 8 to 11s already use WhatsApp.',
     mechanism: 'A group of a hundred children with no adult and no skills for group talk; the first problems are social, not technical, and they happen at eleven at night.',
-    response: 'Teach group chat behaviour before the first group: what to do when it turns, a screenshot of anything upsetting comes to you and costs nothing, and the phone is not in the bedroom when the group is awake.',
+    response: 'Teach group chat behaviour before the first group: what to do when it turns, a screenshot of anything upsetting comes to you and costs nothing, and the phone is not in the bedroom when the group is awake. The one exception is a nude or sexual image of anyone under 18, which is never screenshotted, copied or forwarded: they just tell you.',
     prevent: 'The first group chat lesson at eight to ten, before the class group exists, so leaving a nasty chat is a skill they have rather than a crisis they are in.',
     source: MUMSNET_WHATSAPP,
     proof: { scripts: ['Added to a group by someone they do not know', 'When Group Chat Drama Comes Home', 'The class group at eleven at night'], category: 'social-media', mechanic: ['protected_window'], href: '/dashboard/scripts?cat=social-media' },
@@ -461,7 +466,7 @@ export const DEVICE_ISSUES: DeviceIssue[] = [
     name: 'Someone has a photo and is demanding money',
     words: 'NSPCC: Snapchat named in 40 percent of grooming offences where the platform was known.',
     mechanism: 'The threat works because the child believes telling costs them everything; it is the promise, not the settings, that breaks it.',
-    response: 'Do not pay, do not delete, screenshot and report, and say out loud that they are not in trouble. The script walks the first hour.',
+    response: 'Do not pay, do not delete, screenshot the messages and the account name and report, and say out loud that they are not in trouble. A nude or sexual image of anyone under 18 is never screenshotted, copied or forwarded, even to report it, so keep it out of the shot. The script walks the first hour.',
     prevent: 'The no confiscation promise and the report and block steps practised at eleven, so the first threat comes to you within the hour.',
     source: NSPCC,
     proof: { scripts: ['Someone has a photo and is demanding money', 'A message from someone they do not know'], category: 'staying-safe', mechanic: ['fair_play'], href: '/dashboard/scripts?cat=staying-safe' },

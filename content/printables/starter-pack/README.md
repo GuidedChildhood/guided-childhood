@@ -18,24 +18,25 @@ hosts. The characters demonstrate every job and skill, never decorate.
   in the library. Served funnel free (the app edition strips the last page
   bonus panel, the Etsy edition keeps it).
 
-## The pages (13)
+## The pages (14)
 
-1. Masthead cover, The Guided Childhood Weekly.
-2. The star reward chart, the hero. Name field, the deal, five daily jobs
-   across seven days, spend row, age guidance.
-3. The jobs list plus how to make your chart.
-4. How to guides: lay the table, tidy your room, load the dishwasher.
-5. Move your body, the five minute wake up workout.
-6. Football skills and dance moves.
-7. Healthy breakfast, build a plate that lasts till lunch.
-8. Read with a grown up tick list, plus goal celebrations.
-9. The Star Run, a print and play game.
-10. Colour in DiGi and the family.
-11. Tips, assembly and the free bonus (Etsy edition only).
-12. Cut out star tokens (real gold stars for younger children) plus a parent
-    tracker that reconciles the offline week into the app time bank.
-13. Cut out the Planet Friend family and the well done achievement bubbles
-    (five stars is twenty five minutes, and so on) to pin on the chart.
+1. Masthead cover, The Guided Childhood Weekly, with DiGi.
+2. Let us agree the jobs: the page filled in together first.
+3. The star chart: your jobs, bonus rows, the spend row.
+4. The jobs list with star values, plus how to make your chart.
+5. Stars to stick and Planet Friends to earn.
+6. The Planet Friend board: four stars a day earns a Friend.
+7. How to guides: lay the table, tidy your room, load the dishwasher.
+8. The five minute wake up workout, with Bloop and a round counter.
+9. Four football skills and six dance moves.
+10. A breakfast plate in three parts.
+11. Seven stories, seven nights, and the done it dance.
+12. Tips to put the pack together, and the app note.
+13. Cut out star tokens and the weekly tracker.
+14. The Passport sticker and the free gift (`../pack-finish.js`).
+
+Pages 2 to 6 and 13 are also the Star Chart (`../star-chart`), printed from
+this file with `body.edition-star-chart` and its own last page.
 
 ## The deal (must match the app)
 
@@ -43,20 +44,27 @@ hosts. The characters demonstrate every job and skill, never decorate.
 children (4 to 7) reward daily, older (8 up) tally weekly. Never a hard stop,
 always the calibrated pathway. Play and outside jobs pay the most stars.
 
-## Bonus wired
+## Etsy ready, 5 November 2026
 
-Last page points to guidedchildhood.com/etsy-bonus, the free app trial, on the
-Etsy edition only. No checkout link, no off Etsy transaction move.
+One of the five packs the Guided Childhood Passport names in the Go further
+strip on its stage pages: the Pebble page, under the doing. Checked and fixed before listing, per
+Justin's decision that the Passport does not go live before its packs.
 
-## Build
+- Art: approved Planet Friend cutouts and DiGi only (see images/images.md).
+- Last page: the pack's own Passport sticker for that page, then the free gift
+  at guidedchildhood.com/etsy-bonus (the Starter Pack for an email, which is
+  what that page gives). Shared with the other packs: `../pack-finish.js`.
+- Listing: `listing/listing.md` (title, description, 13 tags, price with the
+  permanent 25 percent sale) and `listing/images/`, the 2000 by 2000 photo
+  set from `listing/images.html` and `../listing-images.js`.
+- Checks: `node content/printables/check-listing-tags.mjs` and
+  `npm run ai-tells` on the listing and the rendered page text.
 
-`content/printables/starter-pack/print.html` is the Etsy edition (funnel kept).
-Rebuild with the scratchpad `gh/build-starter.mjs` script (A4, US Letter at
-0.94 scale, ink friendly, plus per page previews). The app edition strips the
-`.etsy-bonus` panel and is served from `public/printables`.
+## Rebuild
 
-## Illustrations
+    node content/printables/build-pack.mjs starter-pack [print|phone|listing]
 
-Happy News spirit illustrations (soft ink outlines, warm butter and cream) drop
-into the art slots on the cover and the move page, synced through the GUIDED
-CHARACTERS Google Drive folder. Job IDs in `images/images.md`.
+Prints A4, US Letter (the A4 sheet at 94 percent, centred) and ink friendly,
+writes `images/preview/`, the phone screens and the listing photos. System
+Chrome and the main checkout's playwright-core (override with CHROME and
+PW_CORE).

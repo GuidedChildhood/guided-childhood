@@ -1,76 +1,112 @@
-# Etsy Listing Package — The Family Phone Agreement
+# Etsy listing package: The Family Phone Agreement
 
-## Title (77 characters)
-Family Phone Agreement Printable | First Phone Contract Kids | Ages 10 to 12
+One of the five packs the Guided Childhood Passport names on its stage pages
+(the Bloop page and the Orbit page, under the talk). Made Etsy ready on
+5 November 2026 and listed before or with the Passport.
 
-## Price and rung
-List £4.99, launch sale 25 percent off, lands at £3.74. Sits on the £4 to £6
-rung (recipe 8, family screen agreements). The hero of the screen time
-contracts niche: verified whitespace, no incumbent listing owns "first phone
-agreement" as a warm, both sides product. Evergreen, with peaks at Christmas
-(the number one first phone moment), birthdays, and September.
+## Title (84 characters)
 
-## 13 tags (different phrasings from the title)
-first phone rules, phone contract teen, screen time agreement, tween phone
-rules, smartphone contract, new phone gift, family media plan, digital
-parenting, phone rules printable, internet safety kids, cell phone contract,
-parenting tween, first smartphone
+The Family Phone Agreement Printable | First Phone Contract for Kids | Ages 10 to 12
 
-## What is inside (listing description bullets)
-- The conversation page: five questions to talk through together before the
-  phone comes out of the box, with room to write what you both said
-- The agreement itself, a warm certificate style spread: five promises your
-  child writes in their own handwriting, four printed promises the parents
-  sign, signature and date boxes, and three term review date boxes
-- The golden rule built in: this deal binds both sides, so parents promise to
-  knock before they look, change the deal together and answer without anger
-- The trust levels page: three levels across bedtime, new apps and going out,
-  so your child can see exactly how the deal grows as trust grows
-- The when something feels wrong page: a calm three step card plus two cut
-  out wallet cards, one for the pocket, one for the school bag
-- A parent guide in plain English: why a ceremony beats a lecture and how to
-  run the signing evening in four steps
-- A4 and US Letter, full colour plus an ink friendly version
-- Phone sized copy of the deal and the feels wrong card, made to be saved to
-  your child's brand new phone on day one (no other listing has this)
-- Instant download, print as many times as you like, one purchase covers
-  every child in your family
+## Price and listing setup
 
-## The 10 photo slots
-1. Lifestyle hero: the signed agreement spread on a kitchen table, a gift
-   boxed phone beside it, warm evening light
-2. Flat lay of all 8 pages fanned on a wooden table
-3. Close up: a child's hand writing promise one in their own handwriting
-   (the Natalia shot)
-4. The two signature boxes signed, parent and child pens crossed on the table
-5. Instant download overlay graphic (no physical item ships)
-6. The trust levels page with level one circled in pencil
-7. The wallet cards cut out, one propped against a school bag
-8. Phone version of the deal on a phone lock screen, bedside table
-9. Sizing and formats guide (A4, US Letter, ink friendly, phone set)
-10. Free bonus mention: DiGi star plus "free screen time starter chart inside"
+- List price: £5.99, up from £4.99, because 25 percent off £4.99 is £3.74,
+  under the £4 floor.
+- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
+  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
+  £4.49.
+- Evergreen, with peaks at Christmas, birthdays and September.
+- Type: digital download. Files: the three PDFs in `product/` plus a zip of
+  the two phone screens in `phone/`.
 
-## Listing video script (12 seconds, hands on table)
-Overhead, kitchen table light. A child's hand writes "in the kitchen" on
-promise one. Cut to the parent's hand signing the parent box, then the
-child's hand signing theirs, pens crossing. Cut to both hands doing a small
-high five over the finished page, phone box blurred behind. Text overlay:
-"Not our rules. Our deal." No faces, no voiceover.
+## Description
 
-## Instagram reel script (the same footage plus hook)
-First frame text: "The first phone deserves a ceremony, not a lecture."
-Caption: The night the first phone arrives is the biggest digital moment of
-childhood. This agreement makes it a ceremony: your child writes their
-promises, you sign yours, and the deal grows as trust grows. Ages 10 to 12.
-Link in bio.
-Hashtags: #firstphone #tweenparenting #digitalparenting #screentime
-#ukparents
+The night the first phone arrives, your child will remember how it felt. This
+pack makes it a deal you build together at the kitchen table, rather than a
+list of rules handed down.
 
-## Compliance notes
-No medical claims anywhere: the copy promises a calmer handover and a deal
-the family builds together, never wellbeing or mental health outcomes. The
-bonus link inside the PDF goes to guidedchildhood.com/etsy-bonus, a free
-page, never a checkout, and no transaction ever moves off Etsy. No review
-incentives, the review ask is warm and unconditional. No affiliate links.
-Imagery is the house DiGi star SVG plus hand drawn SVG icons; if AI assisted
-imagery is added later, disclose per Etsy Creativity Standards.
+The Family Phone Agreement is a print at home pack for ages 10 to 12. You talk
+through five questions before the box is opened. Your child writes their own
+promises in their own handwriting. You sign promises too: to knock before you
+look, to change the deal together and never by ambush, and to answer any
+question without anger. Every school term you review it, and where trust has
+grown, the deal grows with it. Never a ban, never surveillance.
+
+What you get:
+
+- A parent guide: why a ceremony beats a lecture, and how to run the evening
+- Five questions to talk through together, with room for both your answers
+- My promises: five lines your child fills in
+- Our promises to you: the grown ups' side, signatures and review dates
+- Trust levels: how bedtime, new apps and going out grow over three levels
+- When something feels wrong: stop, keep it, tell your adult, plus two wallet
+  cards to cut out
+- Your Passport stickers, for the Bloop page and the Orbit page of the Guided
+  Childhood Passport
+- A4 and US Letter in full colour, plus an ink friendly version
+- A phone version: your child's copy of the deal and the feels wrong card, to
+  save on the new phone on day one
+
+This is an instant download. Nothing is posted. Print as many copies as your
+own family needs. For personal use only.
+
+I am Justin, a dad who got tired of the screen time fight. If anything will
+not print or open, message me and I will sort it fast.
+
+## 13 tags (every one 20 characters or fewer)
+
+| Tag | Characters |
+|---|---|
+| phone contract kids | 19 |
+| first phone rules | 17 |
+| first phone gift | 16 |
+| tween phone rules | 17 |
+| family phone rules | 18 |
+| smartphone contract | 19 |
+| phone agreement | 15 |
+| screen time contract | 20 |
+| family media plan | 17 |
+| online safety kids | 18 |
+| digital parenting | 17 |
+| new phone rules | 15 |
+| year 6 leavers gift | 19 |
+
+## The photo slots
+
+| Slot | File | What it shows |
+|---|---|---|
+| 1 | `images/01-cover.png` | The cover, brand printable format: both promise pages, DiGi, the gold pathway |
+| 2 | `images/02-whats-inside.png` | All eight pages, as rendered |
+| 3 | `images/03-close-up.png` | Our promises to you, close up |
+| 4 | `images/04-passport-sticker.png` | The last page: the Bloop and Orbit stickers and the free gift |
+| 5 | `images/05-formats.png` | A4, US Letter, ink friendly, phone |
+| 6 | `images/06-how-it-works.png` | Talk, write, sign, grow |
+| 7 | `images/07-phone-version.png` | The two phone screens |
+
+All 2000 by 2000, rendered from `listing/images.html` by
+`node content/printables/build-pack.mjs family-phone-agreement listing`. Every
+page in them is the real page render, never a redraw. The pack's own pages
+carry DiGi only, so slot 1 shows DiGi rather than a Planet Friend.
+
+## Listing video (12 seconds, hands on table)
+
+Overhead, kitchen table light, no faces, no voiceover. A child's hand writes
+"in the kitchen" on promise one. A grown up's hand signs the grown ups' box,
+then the child's hand signs theirs. Text on screen: Not our rules. Our deal.
+
+## Instagram reel (same footage)
+
+First frame text: The first phone deserves a ceremony, not a lecture.
+Caption: Your child writes their promises, you sign yours, and the deal grows
+as trust grows. Ages 10 to 12. Printable agreement, link in bio.
+
+## Compliance
+
+- No outcome or medical claims anywhere. The copy says what the family does,
+  never what it will do to the child.
+- The last PDF page points to guidedchildhood.com/etsy-bonus, a free page (the
+  Starter Pack for an email). It used to promise an Earn Your Screen Time
+  chart that page does not give. No checkout link, no cheaper elsewhere line.
+- The review line on the last page asks kindly and offers nothing in return.
+- DiGi, Bloop and Orbit were made with AI tools. Say so in the listing's
+  creation details, per Etsy's Creativity Standards.

@@ -1,25 +1,23 @@
-# Image ledger — The Family Phone Agreement
+# Image ledger: The Family Phone Agreement
 
-Built 21 July 2026. The Higgsfield CDN was blocked in this session, so no
-generation jobs were run. All imagery is local and license clean:
+Checked and rebuilt 5 November 2026, when the pack was made Etsy ready. No
+image in this pack is generated or redrawn. Every character is an approved
+file, copied in unaltered.
 
-- `DiGi-star.svg` — the house DiGi star (golden clay star, the guide who
-  speaks to parents), copied from `public/digi-squad/DiGi-star.svg`. Used on
-  the cover, page headers, the agreement bubbles, wallet cards and the bonus
-  page. Never the robot Digi.png.
-- Hand drawn inline SVG icons inside `print.html` and `phone.html` (moon,
-  clock, app tile, speech mark, meal plate, star), all drawn in house tokens
-  (ink outlines, tint fills).
-- `preview-page-1.png` to `preview-page-8.png` — page renders for QA.
-- `preview-ink-page-4.png`, `preview-ink-page-6.png` — ink friendly QA.
+| File | Source | Where |
+|---|---|---|
+| `friends/bloop.png`, `friends/orbit.png` | `public/digi-squad/friends/` | the two Passport stickers only |
+| `DiGi-star.svg` | `public/digi-squad/DiGi-star.svg` | the cover, page headers, the phone screens |
+| `DiGi-star-3d.png` | `public/digi-squad/DiGi-star-3d.png` | the last page (the free gift) and listing slot 6 |
+| `preview/page-NN.png` | build output, one per page, A4 colour | the check by eye and the listing photos |
+
+Hand drawn inline SVG (icons, stars, faces) lives in `print.html` and
+`phone.html` in house tokens.
+
+Never use `public/printables/friends/` or the old
+`starter-pack/images/friends/` art (damaged transparency), Sofia, Oliver,
+Zara, the green robot `Digi.png` or the owl. All retired.
 
 ## Rebuild
-Playwright script (scratchpad): `build-fpa.mjs` — renders `print.html` to
-the three PDFs in `product/`, screenshots `phone.html` sections to
-`phone/*.png` (1080x1920), and writes the page previews here. `check-ink.mjs`
-renders the ink class previews.
 
-## When Higgsfield is back
-Generate the listing photo imagery (kitchen table hero, flat lay) at 2x
-print resolution, one test image first, anchored to the DiGi star reference,
-and record job IDs here.
+    node content/printables/build-pack.mjs family-phone-agreement

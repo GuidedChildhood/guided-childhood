@@ -111,6 +111,17 @@ export default async function SocialSettingsPage({ searchParams }: { searchParam
   )
 }
 
+// Roblox's UK terms allow an account from 5, with features a parent switches
+// on (migration 385). "Account age 5" on its own reads like a go ahead for a
+// five year old, so an age under 13 is worded as what it is: an account a
+// parent opens and manages. Worked out here rather than stored, so the page
+// reads the same whether or not 385 has run yet.
+function ageLine(minAge: number) {
+  return minAge < 13
+    ? `Accounts from ${minAge} with a parent, not a readiness signal`
+    : `Account age ${minAge}, not a readiness signal`
+}
+
 function GuideCard({ g, dim }: { g: Guide; dim: boolean }) {
   return (
     <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px 18px', opacity: dim ? 0.82 : 1 }}>
@@ -120,7 +131,7 @@ function GuideCard({ g, dim }: { g: Guide; dim: boolean }) {
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{g.name}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
-              Account age {g.min_age}, not a readiness signal
+              {ageLine(g.min_age)}
             </span>
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px 0 0' }}>{g.blurb}</p>
