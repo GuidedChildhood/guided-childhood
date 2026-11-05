@@ -21,6 +21,7 @@ run again.
 | The dance video and Saturday football: he threatened a consequence, knew inside a minute it was wrong, and had nothing to give instead | green | GDC-044 | 18 Oct 2026 |
 | Covid, two small children at home and a business to keep alive, YouTube used as a babysitter to get through the day | green, his own first person part only | GDC-044 | 18 Oct 2026 |
 | Nine at night after a day like that, wishing something existed to manage the devices rather than just switch them off | green | GDC-044 | 18 Oct 2026 |
+| "Eventually the controls come off. What I want left behind is judgement." (the line itself, no scene) | green | Draft, not yet posted: `weeks/2026-11-09/thursday-the-one-line.md` | 5 Nov 2026 |
 
 ## The other store of scenes, which this ledger cannot see
 
