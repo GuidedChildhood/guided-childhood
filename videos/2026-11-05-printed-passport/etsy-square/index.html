@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <!-- Written by ../build.mjs: edit there and rebuild, or edit here and carry the change back. -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box;}
+      html,body{margin:0;width:1080px;height:1080px;overflow:hidden;background:#F9F8F6;}
+      #bg{position:absolute;inset:0;background:#F9F8F6;}
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1080" data-height="1080">
+      <div id="bg"></div>
+      <div id="cover" data-composition-id="cover" data-composition-src="compositions/cover.html" data-start="0" data-duration="2.6" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1080"></div>
+      <div id="spread" data-composition-id="spread" data-composition-src="compositions/spread.html" data-start="2.6" data-duration="5" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1080"></div>
+      <div id="stickers" data-composition-id="stickers" data-composition-src="compositions/stickers.html" data-start="7.6" data-duration="2.2" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1080"></div>
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="9.8" data-duration="2.2" data-track-index="4" data-track-kind="graphics" data-width="1080" data-height="1080"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

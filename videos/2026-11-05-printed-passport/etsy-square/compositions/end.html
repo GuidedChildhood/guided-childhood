@@ -1,0 +1,23 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;overflow:hidden;background:#F9F8F6;font-family:'Nunito',sans-serif;color:#1A1A2E;}
+    #root .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;}
+    #root img{display:block;}
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1080">
+
+    <svg id="end-road" data-layout-ignore viewBox="0 0 1080 1080" style="position:absolute;inset:0;width:1080px;height:1080px;"><path id="end-road-p" d="M -40 930 C 324 850, 594 1020, 842.4 930 S 1120 870, 1160 900" fill="none" stroke="#EDC35F" stroke-width="44" stroke-linecap="round"/><path id="end-road-dash" d="M -40 930 C 324 850, 594 1020, 842.4 930 S 1120 870, 1160 900" fill="none" stroke="#FFF6DE" stroke-width="4" stroke-dasharray="22 20" stroke-linecap="round"/></svg>
+    <div id="end-book" style="position:absolute;left:355px;top:150px;width:370px;height:522px;">
+      <img src="assets/p01-named.png" style="width:370px;height:522px;border-radius:8px;box-shadow:0 26px 50px rgba(26,26,46,0.28);">
+    </div>
+    <div id="end-line" class="mono" style="position:absolute;left:0;right:0;top:716px;text-align:center;font-size:32px;color:#52526A;">Made to order · Ages 4 to 16</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#end-book", { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#end-road-p", { strokeDasharray: 3000, strokeDashoffset: 3000 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 0);
+    tl.fromTo("#end-road-dash", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.75);
+    tl.fromTo("#end-line", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.12);
+    window.__timelines["end"] = tl;
+  </script>
+</template>

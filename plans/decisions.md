@@ -273,3 +273,7 @@ Justin chose the 3D DiGi shop icon on a warm gold ground (no black border) and a
 ## 5 November 2026: the app's platform guides match the Road to 16 evidence check
 
 The Road to 16 red team found the app's own settings rows out of date, so migration 385 corrects them, guarded on the 093 text: Roblox accounts from 5 with a parent (its UK terms), YouTube's Family Link content setting instead of a Restricted Mode lock most children cannot have, Facebook supervision without "message oversight", WhatsApp parent managed accounts with a "may not be in the UK yet" hedge, Snapchat Quick Add to friends of friends. The settings page words any age under 13 as "with a parent". The issue bank's group chat and sextortion lines carry the UKCIS rule that a nude image of anyone under 18 is never screenshotted, copied or forwarded. Justin applies 385. PR 1405.
+
+## 5 November 2026: the printed Passport, made to order through Etsy
+
+Justin asked for the Passport as a real printed book bought on Etsy. Etsy's built in print partners do not print a small stapled booklet, so it is a 16 page A6 book printed one copy at a time by Mixam UK, placed by hand for the first fifty orders, with the Mixam API wired only after that. The child's first name on the cover is optional and comes from Etsy's personalisation box; order files are gitignored. A kiss cut sticker sheet goes with it. Silent films for the Etsy listing (square) and for social (vertical, ending on the stage check), rendered from the real pages. Waits for Justin's Mixam proof copy, which sets the price. PR 1414.

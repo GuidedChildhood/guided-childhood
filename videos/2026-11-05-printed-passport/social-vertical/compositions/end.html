@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;overflow:hidden;background:#F9F8F6;font-family:'Nunito',sans-serif;color:#1A1A2E;}
+    #root .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;}
+    #root img{display:block;}
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
+
+    <svg id="end-road" data-layout-ignore viewBox="0 0 1080 1920" style="position:absolute;inset:0;width:1080px;height:1920px;"><path id="end-road-p" d="M -40 1770 C 324 1690, 594 1860, 842.4 1770 S 1120 1710, 1160 1740" fill="none" stroke="#EDC35F" stroke-width="44" stroke-linecap="round"/><path id="end-road-dash" d="M -40 1770 C 324 1690, 594 1860, 842.4 1770 S 1120 1710, 1160 1740" fill="none" stroke="#FFF6DE" stroke-width="4" stroke-dasharray="22 20" stroke-linecap="round"/></svg>
+    <div id="end-q" style="position:absolute;left:60px;right:60px;top:300px;text-align:center;font-weight:900;font-size:104px;line-height:1.06;letter-spacing:-0.02em;"><span class="w" style="display:inline-block;margin:0 12.48px;">What</span><span class="w" style="display:inline-block;margin:0 12.48px;">stage</span><span class="w" style="display:inline-block;margin:0 12.48px;">is</span><br><span class="w" style="display:inline-block;margin:0 12.48px;">your</span><span class="w" style="display:inline-block;margin:0 12.48px;">child?</span></div>
+    <div id="end-sub" style="position:absolute;left:0;right:0;top:550px;text-align:center;font-weight:800;font-size:56px;color:#52526A;">Three questions, no sign up.</div>
+    <div id="end-friends" style="position:absolute;left:0;right:0;top:760px;display:flex;justify-content:center;gap:22px;">
+      <img id="end-f0" src="assets/pebble.png" style="width:150px;height:150px;object-fit:contain;">
+      <img id="end-f1" src="assets/bloop.png" style="width:150px;height:150px;object-fit:contain;">
+      <img id="end-f2" src="assets/orbit.png" style="width:150px;height:150px;object-fit:contain;">
+      <img id="end-f3" src="assets/nova.png" style="width:150px;height:150px;object-fit:contain;">
+      <img id="end-f4" src="assets/cosmo.png" style="width:150px;height:150px;object-fit:contain;">
+    </div>
+    <img id="end-digi" src="assets/digi.png" style="position:absolute;left:450px;top:960px;width:180px;height:180px;object-fit:contain;">
+    <div id="end-url" class="mono" style="position:absolute;left:0;right:0;top:1190px;text-align:center;font-size:34px;color:#52526A;">guidedchildhood.com</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#end-q .w", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out", stagger: 0.08 }, 0.05);
+    tl.fromTo("#end-road-p", { strokeDasharray: 3000, strokeDashoffset: 3000 }, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" }, 0);
+    tl.fromTo("#end-road-dash", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.85);
+    tl.fromTo("#end-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.55);
+    tl.fromTo("#end-friends img", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.4)", stagger: 0.07 }, 0.75);
+    tl.fromTo("#end-digi", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 1.15);
+    tl.fromTo("#end-url", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.8);
+    window.__timelines["end"] = tl;
+  </script>
+</template>
