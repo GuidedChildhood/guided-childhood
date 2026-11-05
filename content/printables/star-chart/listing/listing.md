@@ -1,9 +1,10 @@
 # Etsy listing package: The Star Chart
 
-One of the five packs the Guided Childhood Passport names on its stage pages
-(the Pebble page, under the doing). The cheap single purpose listing beside
-the Starter Pack. Made Etsy ready on 5 November 2026 and listed before or with
-the Passport.
+Sold on its own, as an entry listing found by search. The Passport's Go
+further strip no longer names it (5 November 2026): it is the chart inside
+the free Starter Pack, so every Passport buyer already has it. It still ships
+with a Pebble page sticker, and its last page no longer asks a family to tick
+it in the strip. Etsy draft 4610462957.
 
 ## Title (81 characters)
 
@@ -25,9 +26,8 @@ The Star Chart Printable | Kids Reward Chart for Jobs and Screen Time | Ages 4 U
 One star is five minutes of screen time. Real jobs earn the stars, and the
 daily screen time question becomes a deal your family already made.
 
-The Star Chart is the chart from the Starter Pack, on its own, for ages 4 and
-up. You agree the jobs together first, write them on the chart, and stick it
-on the fridge. Your child colours a star the moment a job is done, and four
+The Star Chart is a print at home reward chart for ages 4 and up. You agree
+the jobs together first, write them on the chart, and stick it on the fridge. Your child colours a star the moment a job is done, and four
 stars in a day earns a Planet Friend for the board.
 
 What you get, 7 pages:
