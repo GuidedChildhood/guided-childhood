@@ -123,7 +123,7 @@ function secret(): string {
 // are flagged, the statutory ground each stands on and the note a teacher
 // gets, and it exists to be referenced from a school's safeguarding policy.
 // The staff briefings behind it stay gated, as they always have.
-export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/hub/dsl', '/philosophy', '/pilot', '/terms', '/privacy', '/dpa']
+export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/hub/dsl', '/philosophy', '/pilot', '/workshops', '/terms', '/privacy', '/dpa']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true

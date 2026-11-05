@@ -109,6 +109,29 @@ export const MAGNETS: Record<string, Magnet> = {
       { label: 'Fold up booklet', href: '/printables/free/planet-post-1-booklet-a4.pdf' },
     ],
   },
+  // THE ROAD TO 16 (5 November 2026): not a lead magnet but a reward. The
+  // printable Guided Childhood Passport promises it free once every page up to
+  // the child's age is stamped, claimed on /etsy-bonus (components/marketing/PassportRewardClaim).
+  // Built by content/printables/road-to-16-guide/build-guide.mjs, which copies
+  // the four PDFs here.
+  'road-to-16': {
+    slug: 'road-to-16',
+    eyebrow: 'The Road to 16',
+    title: 'The Road to 16: the grown ups guide to the whole journey',
+    intro:
+      'Your reward for a Guided Childhood Passport stamped up to your child\'s age. Balance, what to watch for at each stage, every big app with its own minimum age and the setting to lock first, and the school moments from the Year 6 phone ask to Year 11.',
+    numbered: false,
+    items: [],
+    close: 'Keep it where you will find it again. Each part comes round when your child reaches it.',
+    filename: 'The-Road-to-16',
+    emailBlurb: 'It is the Road to 16 guide, eleven pages to print and keep, your reward for a Passport stamped up to your child\'s age.',
+    staticPdf: '/printables/road-to-16/road-to-16-a4.pdf',
+    files: [
+      { label: 'US Letter', href: '/printables/road-to-16/road-to-16-letter.pdf' },
+      { label: 'Ink saver A4', href: '/printables/road-to-16/road-to-16-ink-a4.pdf' },
+      { label: 'Ink saver Letter', href: '/printables/road-to-16/road-to-16-ink-letter.pdf' },
+    ],
+  },
 }
 
 export function getMagnet(slug: string): Magnet | null {

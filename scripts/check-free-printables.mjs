@@ -45,5 +45,16 @@ check('no message bubble is coloured by its place in the list (the colour gave t
 check('the Friends line up uses the approved waving stills', /moods\?\.wave/.test(layout))
 check('the PDFs are rendered tagged, so screen readers can read them', /tagged: true/.test(readFileSync('scripts/render-free-printables.mjs', 'utf8')))
 
+// The Road to 16 (5 November 2026): the printable Passport promises it free
+// at /etsy-bonus once all five pages are stamped, so the promise has to land.
+const road = reg.slice(reg.indexOf("'road-to-16': {"))
+const roadFiles = [...road.slice(0, road.indexOf('\n  },')).matchAll(/'(\/printables\/road-to-16\/[^']+)'/g)].map(m => m[1])
+check('the Road to 16 magnet names its A4 file and three more', roadFiles.length >= 4)
+for (const h of roadFiles) check(`${h} is in public`, existsSync(`public${h}`))
+check('the Road to 16 cover the claim shows is in public', existsSync('public/printables/road-to-16/road-to-16-cover.png'))
+check('/etsy-bonus offers the Road to 16 claim', /<PassportRewardClaim \/>/.test(readFileSync('app/(marketing)/etsy-bonus/page.tsx', 'utf8')))
+check('the claim gates the download on the road-to-16 magnet', /slug="road-to-16"/.test(readFileSync('components/marketing/PassportRewardClaim.tsx', 'utf8')))
+check('the Road to 16 words have been through the evidence check', existsSync('content/printables/road-to-16-guide/evidence-check.md'))
+
 if (failures) { console.error(`\n${failures} free printable check(s) failed`); process.exit(1) }
 console.log('\nFree printables: every file there, every word clean')
