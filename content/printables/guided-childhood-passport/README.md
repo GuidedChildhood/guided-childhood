@@ -25,9 +25,11 @@ The Passport in the app. Layout and words are copied, not invented:
 ## Contents
 
 - `product/`: guided-childhood-passport-A4.pdf, -USLetter.pdf and
-  -A4-ink-saver.pdf. Eleven pages: front, how it works, the fold out sheet
-  (its own landscape page), five stage pages, stamp and sticker sheet, what
-  earns each stamp, the free bonus.
+  -A4-ink-saver.pdf. Sixteen pages: front, how it works, the fold out sheet
+  (its own landscape page), five stage pages each followed by its guide (so a
+  double sided print puts the guide on the back), stamp and sticker sheet,
+  what earns each stamp, the free bonus. The guides were added on 5 November
+  2026; every line is the app's, from `lib/content/stages.ts`.
 - `phone/`: seven 1080 by 1920 screens (cover, five stages, the stamp guide).
 - `listing/`: listing.md (title, description, tags, price, photos, video)
   and `images/`, photo slots 1 to 10 at 2000 by 2000 (two options for slot 1).
