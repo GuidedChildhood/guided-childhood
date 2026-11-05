@@ -421,7 +421,7 @@ export const PRINTABLES: Printable[] = [
     // marketing lead magnet at /starter-pack is a separate registry and is left
     // exactly as it was.
     retired: true,
-    blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+    blurb: 'The whole deal on paper. The jobs you agree together, a star reward chart for the fridge, stars to stick, how to guides, a wake up workout, football and dance, a breakfast plate, a week of stories to read together and star tokens to cut out. One star is five minutes of screen time.',
     sheetUrl: '/printables/starter-pack-colour.pdf',
     previewUrl: '/printables/starter-pack.png',
   },
