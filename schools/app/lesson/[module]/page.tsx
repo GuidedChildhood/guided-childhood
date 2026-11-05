@@ -20,6 +20,8 @@ import { neighbours, shapeOf, trackerActions } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
 import StandaloneBar from '@/app/taster/StandaloneBar'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
+import ParentShare from '@/components/ParentShare'
+import { parentShareFor } from '@/lib/parent-share'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
 //
@@ -178,6 +180,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
   const showPilot = access?.tier === 'pilot' && pilotModulesFor(access.phase).includes(moduleId)
   const parent = lesson.parent_note ?? {}
   const dsl = lesson.dsl_note ?? {}
+  // The parent link, only for a lesson this school's code opens (licence: all,
+  // pilot: its two) and only when the share secret is set (lib/parent-share.ts).
+  const share = access ? await parentShareFor(lesson.module_id) : null
 
   // The shape, counted from the slides themselves rather than asserted, so
   // this page can never promise a lesson a different lesson turns out to be.
@@ -749,6 +754,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             )}
           </div>
         )}
+
+        {/* The same note, as a link a parent opens on their phone. */}
+        {share && <ParentShare url={share.url} title={lesson.title} schoolRef={share.ref} />}
 
         {/* After the lesson, not in front of it. The form used to sit above
             the buttons and filled a phone's first screen; the lesson is what
