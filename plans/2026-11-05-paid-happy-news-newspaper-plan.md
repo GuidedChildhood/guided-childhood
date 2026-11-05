@@ -6,8 +6,8 @@ a way of doing that or should we just charge for each episode?" Later the same
 day: "also a christmas addition and christmas products in our digital safety
 theme".
 
-Status: research done, waiting for Justin's choices (bottom of this file).
-Nothing is built and nothing goes on Etsy until he says so.
+Status: Justin chose on 5 November 2026 (section 6) and Issue 1 is built in
+`content/printables/guided-times/`. Nothing goes on Etsy until he says so.
 
 ## 1. Can Etsy sell a subscription? No. Sell each issue.
 
@@ -123,8 +123,8 @@ the Winter Season bundle of Issues 1 to 3.
 
 ## 5. Issue 1, the shape (12 pages, A4 and US Letter)
 
-Twelve pages prints as three sheets folded into an A5 booklet, like a real
-paper, or flat on A4. Ages 6 to 11, read with a grown up nearby.
+Twelve pages, printed flat on A4 or US Letter. Ages 6 to 11, read with a
+grown up nearby.
 
 | Page | What | From the Planet Post |
 |---|---|---|
@@ -156,11 +156,23 @@ for the PDFs and the flipbook; the Planet Post itself is not changed.
 Price: £5.99 list, £4.49 in the 25 percent sale (above the £4 floor). Season
 bundle of three: £13.99 list, £10.49 in the sale.
 
-## 6. Choices for Justin
+## 6. Justin's choices, 5 November 2026
 
-1. The model: single issues plus season and back issue bundles (recommended),
-   or single issues only.
-2. Issue 1's theme (Christmas edition recommended).
-3. The paper's name.
-4. Whether the /etsy-bonus page keeps its one line about the app's founding
-   offer.
+1. The model: single issues plus season and back issue bundles.
+2. Issue 1's theme: the Christmas edition, New Screens Under the Tree.
+3. The name: "guided childhood news or better catchy name". It is The Guided
+   Times, with Guided Childhood News as the line above the name. No real
+   publication uses the name (searched 5 November 2026). It is one word in
+   `paper.js` if he wants it changed.
+4. /etsy-bonus keeps its one line about the app's founding offer.
+
+## 7. What was built
+
+`content/printables/guided-times/`: the series engine (paper.css, paper.js,
+the reader, build.mjs) and `issue-1/` (words, the five Etsy files, page
+previews in colour and ink friendly, eight listing photos, listing.md). The
+README there says how a new issue is made.
+
+Before Issue 1 is listed: set `live: true` in `issue-1/issue.js` for the
+Christmas Countdown and Screens At Granny's once their listings are live, and
+rebuild, so the shop page sells them. It shows only the five live packs today.
