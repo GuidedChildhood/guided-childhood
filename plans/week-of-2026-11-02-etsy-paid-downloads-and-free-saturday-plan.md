@@ -72,8 +72,10 @@ ours and not another screen time ticket.
 | 8 | **The 30 Day Screen Reset Journal.** The free Seven Night Reset grown into a month: one change a day, five faces each night, the line you draw at the end | Whole family | £7.99 | New Year reset is the January peak | The check in, baseline and five faces | MEDIUM |
 | 9 | **Our Class Screen Promise poster set.** For teachers: A3 poster, 30 pupil promise slips, a parent letter | KS1 and KS2 teachers | £6.99 | Teacher gifts peak in November and teachers buy for themselves in January. Feeds the schools app | The schools scheme and its lessons | SMALL |
 | 10 | **The Whole System Bundle.** Star chart, earn your screen time, calm down kit, the Five Fights words, the 30 day reset | Any parent | £24.99 | The top price point that makes the others look sensible | The whole product on paper | Bundle only |
+| 11 | **The Guided Childhood Passport, printable.** The burgundy passport to fold, five stage pages (Pebble to Cosmo), a printable stamp and sticker sheet, and the "what earns each stamp" page so a family can work towards it on paper | 4 to 16 | £7.99 | The banner sells it ("Get your Guided Childhood Passport"), so it must be listed before the new banner goes up | The Passport in the app (`components/pathway/PassportBook.tsx`, `PassportZineSheet.tsx`, the stamps in `PassportStamps.tsx`) | MEDIUM, mostly reuse |
+| 12 | **The printed Passport with real stickers.** Later: the £14 printed keepsake already in the app (`components/passport/PassportOrderCard.tsx`, `plans/2026-09-16-personalised-passports-and-stickers.md`) offered as a physical Etsy listing | 4 to 16 | £14 | The keepsake gift; physical, so shipping and a print partner first | As 11, plus the sticker sheet in `public/shop/sticker_sheet.webp` | LARGE, physical |
 
-Ship order: 1, 2, 3 by 20 November (Christmas has to be listed early to rank),
+Ship order: 11 first (the banner names it), then 1, 2, 3 by 20 November (Christmas has to be listed early to rank),
 then 5 and 4, then 7 by 12 December, 8 and 9 by 28 December for January.
 6 and 10 when there are reviews to carry them.
 

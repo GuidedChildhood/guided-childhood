@@ -259,3 +259,7 @@ Justin submitted the Guided Childhood connector to Meta's Muse review at platfor
 ## 4 November 2026: the Etsy Christmas line and Free Saturday
 
 Justin approved the plan: the old Etsy shop is switched over first (not done yet), then ten paid downloads in season order, First Phone Kit, Christmas Countdown and Screens At Granny's listed by 20 November. A free download every Saturday from 7 November, each the taster for a paid one, never listed on Etsy. Instagram emails come through the bio link and Story stickers to `/free?src=ig`; keyword DMs stay banned (funnel rule 4). Paid boost £15 a week, only behind the best free download once four have run. Plan: plans/week-of-2026-11-02-etsy-paid-downloads-and-free-saturday-plan.md. PR 1400.
+
+## 5 November 2026: Etsy branding v2 chosen, the Passport leads the shop
+
+Justin chose the 3D DiGi shop icon on a warm gold ground (no black border) and asked for the Passport on the banner: the five Planet Friends now walk the gold pathway to the burgundy Passport cover, with "Get your Guided Childhood Passport". So a printable Passport (fold out book, stage pages, stamp and sticker sheet, £7.99) joins the paid line and ships first, because the banner names it; the printed keepsake with real stickers follows later as a physical listing. Final images in content/etsy-shop/branding/final. PR 1402.

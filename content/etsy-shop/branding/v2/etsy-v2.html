@@ -32,7 +32,7 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
 .banner{width:1680px;height:420px;background:var(--cream);position:relative;overflow:hidden;}
 .banner .ground{position:absolute;right:-120px;top:-160px;width:1100px;height:760px;border-radius:50%;
   background:radial-gradient(closest-side,var(--tint) 0 62%,rgba(255,246,222,0) 100%);}
-.banner .words{position:absolute;left:170px;top:92px;width:640px;}
+.banner .words{position:absolute;left:120px;top:84px;width:640px;}
 .banner .brand{display:flex;align-items:center;gap:20px;}
 .banner .brand .logo{width:74px;height:74px;border-radius:20px;gap:6px;padding-bottom:16px;box-shadow:0 5px 0 var(--butter-dark);}
 .banner .brand .logo span{width:8px;border-radius:3px;}
@@ -40,10 +40,30 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
 .banner h1{font-weight:900;font-size:68px;line-height:0.95;letter-spacing:-2px;}
 .banner .tag{font-weight:700;font-size:26px;color:var(--ink-soft);margin:22px 0 0 2px;line-height:1.25;}
 .banner .tag b{color:var(--ink);font-weight:800;}
+.banner .tag .get{display:block;color:var(--ink);font-weight:900;font-size:30px;letter-spacing:-0.5px;margin-bottom:4px;}
+.banner .tag .get u{text-decoration:none;background:linear-gradient(transparent 62%,rgba(237,195,95,0.55) 62%);padding:0 2px;}
+/* The Passport cover, copied from components/pathway/PassportBook.tsx via tools/social-cards/template.html.
+   "Our family" where a child's name would be, per the visual system. */
+.pp{position:absolute;width:300px;height:420px;border-radius:14px 18px 18px 14px;
+  background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);
+  box-shadow:inset 0 0 0 2px rgba(237,195,95,.55),inset 0 0 0 5px rgba(237,195,95,.14),inset 12px 0 24px rgba(0,0,0,.25),0 18px 40px rgba(26,26,46,.22);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:34px 22px 26px;text-align:center;
+  transform-origin:top left;}
+.pp .t{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--butter);}
+.pp .rule{width:46px;height:1.5px;background:rgba(237,195,95,.55);margin:9px auto 0;}
+.pp .crest{width:84px;height:84px;border-radius:50%;margin:0 auto 14px;border:2.5px solid rgba(237,195,95,.85);
+  box-shadow:inset 0 0 0 4px rgba(237,195,95,.18);display:flex;align-items:center;justify-content:center;}
+.pp .crest div{display:flex;align-items:flex-end;gap:4.5px;height:34px;}
+.pp .crest b{display:block;width:6px;border-radius:3px;background:var(--butter);}
+.pp .n{font-weight:900;font-size:30px;color:var(--butter);}
+.pp .s{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,195,95,.7);margin-top:6px;}
+.pp .chips{display:flex;gap:7px;}
+.pp .chips span{width:34px;height:34px;border-radius:50%;background:#FFF7E8;border:1.5px solid var(--butter);overflow:hidden;display:flex;}
+.pp .chips img{width:100%;height:100%;object-fit:contain;}
 .banner .badges{display:flex;gap:10px;margin-top:22px;}
 .banner .badge{font-size:12.5px;letter-spacing:1.6px;color:var(--ink);background:#fff;border:2px solid var(--ink);
   border-radius:999px;padding:7px 15px;box-shadow:0 4px 0 var(--ink);}
-.banner .road{position:absolute;left:820px;top:0;width:720px;height:420px;}
+.banner .road{position:absolute;left:770px;top:0;width:820px;height:420px;}
 .banner .road svg{position:absolute;inset:0;}
 .friend{position:absolute;display:flex;flex-direction:column;align-items:center;}
 .friend img{display:block;filter:drop-shadow(0 6px 6px rgba(26,26,46,0.10));}
@@ -106,7 +126,7 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
         <div class="logo"><span style="height:15px"></span><span style="height:27px"></span><span style="height:42px"></span><span style="height:24px"></span></div>
         <h1>Guided Childhood</h1>
       </div>
-      <div class="tag">Screen time, <b>earned</b> not fought over.</div>
+      <div class="tag"><span class="get">Get your <u>Guided Childhood Passport</u></span>Screen time, <b>earned</b> not fought over.</div>
       <div class="badges">
         <span class="badge mono">Instant download</span>
         <span class="badge mono">Print at home</span>
@@ -114,15 +134,21 @@ body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
       </div>
     </div>
     <div class="road">
-      <svg viewBox="0 0 720 420" width="720" height="420">
-        <path d="M10 382 C 150 380, 200 330, 300 318 S 470 280, 540 228 S 650 140, 712 120"
+      <svg viewBox="0 0 820 420" width="820" height="420">
+        <path d="M8 384 C 120 382, 170 340, 250 330 S 380 296, 440 256 S 540 190, 640 170"
               fill="none" stroke="#EDC35F" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 17"/>
       </svg>
-      <div class="friend" style="left:10px;top:208px"><img src="../../../../public/digi-squad/friends/pebble.png" width="150"><span class="age mono">4 to 7</span></div>
-      <div class="friend" style="left:148px;top:172px"><img src="../../../../public/digi-squad/friends/bloop.png" width="160"><span class="age mono">8 to 10</span></div>
-      <div class="friend" style="left:292px;top:128px"><img src="../../../../public/digi-squad/friends/orbit.png" width="172"><span class="age mono">11 to 13</span></div>
-      <div class="friend" style="left:440px;top:80px"><img src="../../../../public/digi-squad/friends/nova.png" width="182"><span class="age mono">13 to 15</span></div>
-      <div class="friend" style="left:582px;top:30px"><img src="../../../../public/digi-squad/friends/cosmo.png" width="192"><span class="age mono">16 and up</span></div>
+      <div class="friend" style="left:0px;top:240px"><img src="../../../../public/digi-squad/friends/pebble.png" width="128"><span class="age mono">4 to 7</span></div>
+      <div class="friend" style="left:108px;top:208px"><img src="../../../../public/digi-squad/friends/bloop.png" width="134"><span class="age mono">8 to 10</span></div>
+      <div class="friend" style="left:222px;top:170px"><img src="../../../../public/digi-squad/friends/orbit.png" width="140"><span class="age mono">11 to 13</span></div>
+      <div class="friend" style="left:340px;top:128px"><img src="../../../../public/digi-squad/friends/nova.png" width="146"><span class="age mono">13 to 15</span></div>
+      <div class="friend" style="left:462px;top:84px"><img src="../../../../public/digi-squad/friends/cosmo.png" width="152"><span class="age mono">16 and up</span></div>
+      <div class="pp" style="left:612px;top:62px;transform:rotate(5deg) scale(0.66)">
+        <div><div class="t">Digital Childhood Passport</div><div class="rule"></div></div>
+        <div><div class="crest"><div><b style="height:12px"></b><b style="height:22px"></b><b style="height:34px"></b><b style="height:19px"></b></div></div>
+          <div class="n">Our family</div><div class="s">The journey to 16</div></div>
+        <div class="chips"><span><img src="../../../../public/digi-squad/friends/pebble.png"></span><span><img src="../../../../public/digi-squad/friends/bloop.png"></span><span><img src="../../../../public/digi-squad/friends/orbit.png"></span><span><img src="../../../../public/digi-squad/friends/nova.png"></span><span><img src="../../../../public/digi-squad/friends/cosmo.png"></span></div>
+      </div>
     </div>
   </div>
 
