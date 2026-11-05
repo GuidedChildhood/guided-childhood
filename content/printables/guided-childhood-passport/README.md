@@ -30,7 +30,7 @@ The Passport in the app. Layout and words are copied, not invented:
   earns each stamp, the free bonus.
 - `phone/`: seven 1080 by 1920 screens (cover, five stages, the stamp guide).
 - `listing/`: listing.md (title, description, tags, price, photos, video)
-  and `images/`, photo slots 2 to 10 at 2000 by 2000.
+  and `images/`, photo slots 1 to 10 at 2000 by 2000 (two options for slot 1).
 - `images/`: the approved art copied in (Friends from
   `public/digi-squad/friends/`, `DiGi-star-3d.png`) and `preview/`, the page
   renders used for checking and for the listing images.
@@ -54,8 +54,8 @@ Starter Pack for an email. Discreet footer URL on every page.
 
 ## Still open
 
-1. Photo slot 1, the cover frame, waits on
-   `content/etsy-shop/branding/v2/etsy-v2.html`.
+1. Photo slot 1: two options built from approved art (01 and 01b in
+   `listing/images/`). Justin picks one.
 2. Orbit's ages: the app says 11 to 12, the brief and the brand file say 11
    to 13. Built with the app's 11 to 12.
 3. Cover wording: the app's own covers say "Digital Literacy Passport" (fold

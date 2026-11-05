@@ -86,7 +86,7 @@ print or open, message me and I will sort it fast.
 
 | Slot | File | Status |
 |---|---|---|
-| 1 | Cover frame from the `#cover` block in `content/etsy-shop/branding/v2/etsy-v2.html` | **Waiting on Justin.** The file is not in the repo or on this Mac. |
+| 1 | `images/01-cover.png` (one Friend, the real page, the Passport) or `images/01b-cover-road.png` (all five Friends on the road to the Passport) | Built, **Justin picks one** |
 | 2 | `images/02-whats-inside.png` | Built |
 | 3 | `images/03-fold-out-passport.png` | Built |
 | 4 | `images/04-five-stages.png` | Built |
@@ -97,7 +97,12 @@ print or open, message me and I will sort it fast.
 | 9 | `images/09-formats.png` | Built |
 | 10 | `images/10-how-it-works.png` | Built |
 
-All nine are 2000 by 2000, rendered from `listing/images.html`. Every page
+All are 2000 by 2000, rendered from `listing/images.html`. The `etsy-v2.html`
+cover block the brief named was never found, so on 5 November 2026 Justin
+asked for the cover to be built from our own approved art instead. Option 01
+follows the brand file's printable format (big headline, the real page, one
+Friend, the gold pathway). Option 01b follows its road to 16 format. The
+headline is the shop banner's own line. Every page
 in them is the real page render, never a redraw. A real photo of the folded
 passport in a child's hand (no face) would be a strong swap for slot 10 once
 one exists.

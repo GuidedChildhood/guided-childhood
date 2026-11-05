@@ -34,6 +34,67 @@ const ph = n => `../phone/${n}.png`
 const fr = (name, inner, centre = false) => `<div class="frame" data-name="${name}" style="${centre ? 'justify-content:center;padding-bottom:200px;' : ''}">${inner}<div class="foot mono">Instant download · Guided Childhood</div></div>`
 const out = []
 
+// 1 · THE COVER FRAME, two options for Justin to pick from.
+//
+// The etsy-v2.html #cover block the brief names was never found, so these
+// follow brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 8 instead: 01 is format 3
+// (printable: big headline, the real page, one Friend, the gold pathway) and
+// 01b is format 5 (the road to 16: all five Friends rising to the Passport).
+// The headline is the shop banner's own line. The Passport is drawn from
+// PassportBook.tsx, the page is the real render, the Friends are the
+// approved cutouts, and the logo is shared/brand.ts's mark.
+const P = window.PASSPORT
+const logo = (h = 84) => `<div style="display:flex;align-items:center;gap:${h * 0.28}px;">
+  <span style="width:${h}px;height:${h}px;border-radius:${h * 0.26}px;background:#EDC35F;display:flex;align-items:flex-end;justify-content:center;gap:${h * 0.07}px;padding-bottom:${h * 0.2}px;">${P.logoBars.map(b => `<i style="display:block;width:${h * 0.1}px;height:${b / 16 * h * 0.62}px;background:#fff;border-radius:${h * 0.05}px;"></i>`).join('')}</span>
+  <span style="font-weight:800;font-size:${h * 0.5}px;color:#1A1A2E;">Guided Childhood</span></div>`
+const passport = (w, extra = '') => {
+  const k = w / 300
+  return `<div style="width:${w}px;height:${w * 1.4}px;border-radius:${14 * k}px ${18 * k}px ${18 * k}px ${14 * k}px;background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);box-shadow:inset 0 0 0 ${2 * k}px rgba(237,195,95,0.55), inset 0 0 0 ${5 * k}px rgba(237,195,95,0.14), inset ${12 * k}px 0 ${24 * k}px rgba(0,0,0,0.25), 0 ${18 * k}px 0 #2E0E16;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:${38 * k}px ${22 * k}px ${30 * k}px;color:#EDC35F;${extra}">
+    <div><div class="mono" style="font-size:${12 * k}px;letter-spacing:0.3em;">Guided Childhood</div><div style="width:${46 * k}px;height:${1.5 * k}px;background:rgba(237,195,95,0.55);margin:${10 * k}px auto 0;"></div></div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="width:${84 * k}px;height:${84 * k}px;border-radius:50%;border:${2.5 * k}px solid rgba(237,195,95,0.85);box-shadow:inset 0 0 0 ${4 * k}px rgba(237,195,95,0.18);display:flex;align-items:center;justify-content:center;"><div style="display:flex;align-items:flex-end;gap:${4.5 * k}px;height:${34 * k}px;">${P.logoBars.map(b => `<i style="display:block;width:${6 * k}px;height:${b / 14 * 34 * k}px;background:#EDC35F;border-radius:${3 * k}px;"></i>`).join('')}</div></div>
+      <div style="font-weight:900;font-size:${34 * k}px;line-height:1.05;margin-top:${16 * k}px;">Passport</div>
+      <div class="mono" style="font-size:${10 * k}px;color:rgba(237,195,95,0.65);margin-top:${8 * k}px;">The journey to 16</div>
+    </div>
+    <div style="display:flex;gap:${6 * k}px;">${S.map(s => `<span style="width:${30 * k}px;height:${30 * k}px;border-radius:50%;background:#FFF7E8;border:${1.5 * k}px solid ${s.colour};overflow:hidden;display:flex;"><img src="../images/friends/${s.key}.png" style="width:100%;height:100%;object-fit:contain;"></span>`).join('')}</div>
+  </div>`
+}
+// The gold pathway, the brand's one signature device.
+const road = d => `<svg viewBox="0 0 2000 2000" style="position:absolute;inset:0;width:2000px;height:2000px;z-index:1;"><path d="${d}" fill="none" stroke="#EDC35F" stroke-width="74" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#FFF6DE" stroke-width="7" stroke-dasharray="34 30" stroke-linecap="round"/></svg>`
+const pill = t => `<span class="mono" style="font-size:30px;background:#fff;border:5px solid #1A1A2E;border-radius:999px;box-shadow:0 7px 0 #1A1A2E;padding:16px 34px;color:#1A1A2E;letter-spacing:0.12em;">${t}</span>`
+const underline = w => `<svg viewBox="0 0 400 24" preserveAspectRatio="none" style="display:block;width:${w}px;height:26px;margin-top:6px;"><path d="M4 16 C 120 6, 260 4, 396 12" stroke="#EDC35F" stroke-width="16" fill="none" stroke-linecap="round"/></svg>`
+
+out.push(`<div class="frame" data-name="01-cover" style="padding:0;display:block;">
+  ${road('M -60 1690 C 420 1560, 760 1820, 1180 1660 S 1820 1380, 2080 1460')}
+  <div style="position:absolute;left:130px;top:150px;z-index:3;">
+    <div class="mono" style="font-size:34px;color:#C99A28;display:flex;align-items:center;gap:16px;"><span style="width:16px;height:16px;border-radius:50%;background:#EDC35F;display:inline-block;"></span>Print at home · Ages 4 to 16</div>
+    <div style="font-weight:900;font-size:150px;line-height:0.98;letter-spacing:-4px;margin-top:34px;color:#1A1A2E;">Get your<br>Guided<br>Childhood<br>Passport</div>
+    ${underline(560)}
+    <div style="font-weight:700;font-size:48px;color:#52526A;margin-top:40px;line-height:1.3;">A stamp for every stage,<br>earned at the kitchen table.</div>
+  </div>
+  <img src="${pv(4)}" style="position:absolute;z-index:2;right:110px;top:250px;width:760px;border:6px solid #1A1A2E;border-radius:22px;box-shadow:0 18px 0 #1A1A2E;transform:rotate(5deg);background:#fff;">
+  <div style="position:absolute;z-index:4;left:900px;top:930px;">${passport(380, 'transform:rotate(-7deg);')}</div>
+  <img src="../images/friends/pebble.png" style="position:absolute;z-index:5;left:250px;top:1180px;width:520px;height:520px;object-fit:contain;">
+  <div style="position:absolute;z-index:6;left:130px;bottom:110px;">${logo(84)}</div>
+  <div style="position:absolute;z-index:6;right:120px;bottom:120px;">${pill('Instant download')}</div>
+</div>`)
+
+out.push(`<div class="frame" data-name="01b-cover-road" style="padding:0;display:block;">
+  ${road('M -60 1600 C 480 1610, 900 1500, 1250 1290 S 1640 960, 1720 860').replace('<path ', '<path id="roadB" ')}
+  <div style="position:absolute;left:130px;top:150px;z-index:3;">
+    <div class="mono" style="font-size:34px;color:#C99A28;display:flex;align-items:center;gap:16px;"><span style="width:16px;height:16px;border-radius:50%;background:#EDC35F;display:inline-block;"></span>The journey to 16</div>
+    <div style="font-weight:900;font-size:150px;line-height:0.98;letter-spacing:-4px;margin-top:34px;color:#1A1A2E;">Get your Guided<br>Childhood Passport</div>
+    ${underline(640)}
+    <div style="font-weight:700;font-size:48px;color:#52526A;margin-top:36px;">Five stages. Five Planet Friends. One stamp each.</div>
+  </div>
+  ${S.map((s, i) => `<div class="onroad" data-t="${[0.09, 0.29, 0.48, 0.65, 0.8][i]}" data-w="${[250, 265, 280, 295, 310][i]}" style="position:absolute;z-index:4;text-align:center;">
+      <div class="mono" style="font-size:28px;color:${s.ink};margin-bottom:-4px;">${s.ages}</div>
+      <img src="../images/friends/${s.key}.png" style="width:100%;aspect-ratio:1;object-fit:contain;display:block;"></div>`).join('')}
+  <div style="position:absolute;z-index:5;right:100px;top:440px;">${passport(300, 'transform:rotate(6deg);')}</div>
+  <div style="position:absolute;z-index:6;left:130px;bottom:110px;">${logo(84)}</div>
+  <div style="position:absolute;z-index:6;right:120px;bottom:120px;">${pill('Print at home')}</div>
+</div>`)
+
 // 2 · What is inside: every page, as rendered.
 out.push(fr('02-whats-inside', `
   <div class="mono eyebrow">What is inside</div>
@@ -127,6 +188,13 @@ out.push(fr('10-how-it-works', `
   <div class="sub" style="margin-top:110px;">The check is a chat, never a test.</div>`, true))
 
 document.body.insertAdjacentHTML('beforeend', out.join('\n'))
+// Stand each Friend on the road: feet on the path, not floating above it.
+const rp = document.getElementById('roadB'), len = rp.getTotalLength()
+document.querySelectorAll('.onroad').forEach(el => {
+  const w = +el.dataset.w, pt = rp.getPointAtLength(len * +el.dataset.t)
+  el.style.width = w + 'px'; el.style.left = (pt.x - w / 2) + 'px'
+  el.style.top = (pt.y - w - 34 + w * 0.05) + 'px'
+})
 })()
 </script>
 </body>
