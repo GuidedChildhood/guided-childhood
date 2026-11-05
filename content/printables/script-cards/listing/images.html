@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Listing images</title>
+<link href="../fonts/local-fonts.css" rel="stylesheet">
+<!-- Etsy photo slots at 2000 by 2000, rendered by
+     node content/printables/build-pack.mjs script-cards listing
+     Every card shown is the real card render from images/cards, every page
+     the real page render from images/preview. The words are below; the
+     layout is ../../listing-images.js, shared by the packs. Deck numbers:
+     1 cover, 2 how to use, 3 14 25 36 47 the level cards, moment m is deck
+     m + 2 + its level, 58 the app card. -->
+</head>
+<body>
+<script>
+window.LISTING = {
+  name: "Say This", noun: "deck", stage: "every stage",
+  stickerLine: "A sticker for each level, Pebble to Cosmo, for the talk on every stage page.",
+  eyebrow: "Print at home · Ages 4 to 16",
+  headline: "Say<br>This", headSize: 190,
+  sub: "50 parent scripts for every<br>screen and tech moment",
+  friend: "digi", coverCards: [5, 28, 1],
+  pageCount: 32, pages: [],
+  insideTitle: "60 cards in five levels",
+  insideCards: [1, 3, 14, 25, 36, 47, 5, 17, 28, 45, 49, 58],
+  chips: ["50 moments", "5 levels", "Ages 4 to 16"],
+  closeUp: { card: 28, eyebrow: "How a card works", title: "The moment on the front. The words on the back.",
+    points: [["Front", "The moment, in your child's words"], ["Back", "What to say, and one line on why"], ["Every card", "A next step, never a yes or a no"]] },
+  stepsTitle: "Print. Cut. Read. Say.",
+  steps: [["Print", "Double sided, on card if you have it"], ["Cut", "Sixty cards, along the dashed lines"], ["Read", "Your level, before the moment comes"], ["Say", "The words, in your own voice"]],
+  stepsFoot: "Never a yes or a no. Always the next step.",
+  phone: ["level-1-pebble", "level-3-orbit", "level-5-cosmo"], phoneCount: 5,
+}
+</script>
+<script src="../../listing-images.js"></script>
+</body>
+</html>
