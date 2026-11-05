@@ -70,17 +70,19 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 041 | How would you test readiness | ready | moved off 037 |
 | 042 | Same app, different rules | ready | moved off 038 |
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
-| 044 | A ban is already teaching, the question is what | ready, v4 | 2026-10-18 pack |
-| 045 | Fear is the engine on both sides now | ready | 2026-10-21 pack |
-| 046 | The age is the easy part (readiness) | ready, has a card | 2026-10-23 pack |
-| 047 | Fifty six to eighty three (smartphone at eleven) | ready, v1, recruit strangers | 2026-10-26 pack |
-| 048 | The AI toy question (half of children have one) | ready, v1, start an argument | 2026-10-26 pack |
-| 049 | Twenty five thousand teenagers and the lag (Manchester BeeWell) | ready, v1, build authority | 2026-10-26 pack |
-| 050 | Four ways to prove you are 16 (Ofcom) | drafted, v1, recruit strangers, planned Tue 3 Nov, **Ofcom PDF unread, Justin to check** | 2026-11-02 pack |
-| 051 | What Australian children do with AI (eSafety) | drafted, v1, build authority, planned Thu 5 Nov, **eSafety PDF unread, Justin to check** | 2026-11-02 pack |
-| 052 | A face scan to get into an app (Ofcom) | drafted, v1, start an argument, planned Mon 9 Nov, **Ofcom PDF unread, Justin to check** | 2026-11-02 pack |
+| 044 | A ban is already teaching, the question is what | ready, **v5 revised 5 Nov**, trimmed to band, one scene not two | 2026-11-05 scrutiny pack |
+| 045 | Fear is the engine on both sides now | ready, **v2 revised 5 Nov**, register pass | 2026-11-05 scrutiny pack |
+| 046 | The age is the easy part (readiness) | ready, has a card, **left unedited on purpose, his own register** | 2026-10-23 pack |
+| 047 | Half of UK children have an AI toy | ready, **v2 revised 5 Nov**, recruit strangers | 2026-11-05 scrutiny pack |
+| 048 | The chatbot confidant | ready, **v2 revised 5 Nov**, start an argument | 2026-11-05 scrutiny pack |
+| 049 | Twenty five thousand teenagers and the lag (Manchester) | ready, **v2 revised 5 Nov**, second question removed | 2026-11-05 scrutiny pack |
+| 050 | Four ways to prove you are 16 (Ofcom) | ready, **v2 revised 5 Nov**, three facts corrected, **Ofcom PDF still unread (403)** | 2026-11-05 scrutiny pack |
+| 051 | What Australian children do with AI (eSafety) | **v2 restructured 5 Nov**, the 54 percent cannot be verified and no longer carries the post, **eSafety PDF still unread (503)** | 2026-11-05 scrutiny pack |
+| 052 | A face scan to get into an app (Ofcom) | ready, **v2 revised 5 Nov**, the 150,000 was wrongly credited to Ofcom | 2026-11-05 scrutiny pack |
 
-**Next free number: 053.**
+| 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
+
+**Next free number: 054.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
@@ -118,3 +120,37 @@ The title shape is:
 Only Justin changes NOT POSTED YET to POSTED, and only he moves the matching
 register row. Claude never does either, because Claude cannot see LinkedIn and
 cannot know whether a post went out.
+
+## The 5 November scrutiny pass
+
+Justin asked for every unposted post to be dug out, scrutinised, and made to read
+as him rather than as a machine. Ten were open: 044 to 053.
+
+**The register fault that ran through nine of them.** Not one contained a single
+paragraph of four words or fewer, and the contraction rate ran 0 to 50 percent
+against the 91 percent in the Meta post Justin wrote himself. The uniformity was
+the tell, not the level: 047, 048 and 049 were one batch and all three sat at
+exactly zero. Fixed in all nine. 046 was left alone, because he wrote it in his
+own quieter register and editing that out would be the opposite of the ask.
+
+**Three facts corrected, all in the Ofcom pair.** The 150,000 sixteen and
+seventeen year olds without a passport or licence is a CitizenCard estimate from
+a sample Ofcom itself calls non representative, and 052 credited it to Ofcom. The
+"margin of error of a few years" is a compliance vendor's wording, not Ofcom's.
+"Ofcom calls the list preliminary" is supported by nothing. Also reversed an
+earlier correction: "completely robust" IS Ofcom's own wording, so it is quoted.
+
+**The 94 percent in 050 was checked and is right**, against a suspicion that it
+was wrong. It is people aged 16 and over with a passport or driving licence, and
+the 150,000 is a different population, which is how the post uses them.
+
+**Numbering was out of sync.** The 047 row named the smartphone ownership post,
+which was dropped on 26 October because Ofcom's report could not be read, and
+the AI toy post sat under 048. The packs win, so 047 is the AI toy post and 048
+is the chatbot confidant. Corrected above.
+
+**Image type cannot be answered from our analytics.** The year file records no
+format column. One card, one video and two link posts is every format data point
+we hold, which the linkedin-week rule says is a hypothesis, not a rule. The
+finding that matters is that nine of the ten unposted posts carry no image at
+all. Detail in the 2026-11-05 scrutiny pack.
