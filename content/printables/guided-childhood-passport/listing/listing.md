@@ -25,7 +25,7 @@ digital with its own photos, files, tags and AI disclosure:
 | The Calm Down Corner Kit | 4610482440 | £5.99 |
 | The Star Chart | 4610462957 | £5.49 |
 | The Family Phone Agreement | 4610484746 | £5.99 |
-| Earn Your Screen Time | not yet: waits for its one star is five minutes fix | £5.99 |
+| Earn Your Screen Time | 4610487662 (one star is five minutes, PR 1408 commit d4b0ffd9f) | £5.99 |
 
 The Starter Pack is not listed: it is the free gift at /etsy-bonus.
 
