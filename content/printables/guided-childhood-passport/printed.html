@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Guided Childhood Passport, printed edition</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!--
+  THE PRINTED PASSPORT. The physical edition of product 1, sold on Etsy made
+  to order and printed one copy at a time by Mixam UK as an A6 stapled
+  booklet (plans/2026-11-05-printed-passport-plan.md).
+
+  THE PAGE BOX IS THE TRIM PLUS BLEED. A6 trims at 105 by 148 mm; Mixam wants
+  3 mm bleed on every edge, so each PDF page is 111 by 154 mm and every flood
+  of colour runs to the page edge. Words stay 6 mm inside the trim (9 mm
+  from the PDF edge), clear of the knife and the staples.
+
+  SIXTEEN PAGES, a multiple of four as a stapled book must be. Page 1 is the
+  front cover and a right hand page, so every even page is a left page. That
+  is why each stage sits on an even and odd pair: open the book and the talk,
+  the doing and the check face the stamp ring across the spread.
+
+  THE NAME. ?name=Alma (or window.PASSPORT_NAME, set by the build) prints the
+  child's first name in gold on the cover and on page 2. Without one, the
+  cover carries a gold line and the child writes it, which the September plan
+  thought was the better ritual anyway.
+
+  The sticker sheet is the last page in this file (body.stickers shows it
+  alone). body.cut keeps only the kiss cut lines, for the sticker printer.
+-->
+<style>
+  @page { size: 111mm 154mm; margin: 0; }
+  :root{
+    --bleed:3mm; --safe:9mm;
+    --ink:#1A1A2E; --ink-soft:#52526A; --ink-muted:#8888A0;
+    --butter:#EDC35F; --butter-dark:#C99A28; --butter-lt:#FFF6DE;
+    --burg:#571C2A; --gold:#EDC35F;
+    --p-cream:#FFFCF3; --p-ink:#2A1F14; --p-soft:#4A3B25; --p-faint:#A08247;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--p-ink);background:#d8d4cc;}
+  .pg{width:111mm;height:154mm;background:var(--p-cream);position:relative;overflow:hidden;break-after:page;}
+  .pg:last-child{break-after:auto;}
+  .safe{position:absolute;inset:var(--safe);display:flex;flex-direction:column;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+  .d{font-weight:900;letter-spacing:-0.01em;line-height:1.05;}
+  p{font-size:8pt;line-height:1.5;color:var(--p-soft);}
+  .folio{position:absolute;bottom:5.5mm;left:var(--safe);right:var(--safe);display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:5pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--p-faint);}
+  .burg{background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);color:var(--gold);}
+  .foilframe{position:absolute;inset:calc(var(--bleed) + 4mm);border:0.45mm solid rgba(237,195,95,0.6);border-radius:3mm;box-shadow:inset 0 0 0 1.2mm rgba(237,195,95,0.12);}
+  .crest{border-radius:50%;border:0.6mm solid rgba(237,195,95,0.9);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1mm rgba(237,195,95,0.18);}
+  .crest .bars{display:flex;align-items:flex-end;}
+  .crest .bars i{display:block;background:var(--gold);border-radius:0.6mm;}
+  .medal{border-radius:50%;overflow:hidden;background:#FFF7E8;display:inline-flex;align-items:center;justify-content:center;}
+  .medal img{width:100%;height:100%;object-fit:contain;}
+  .band{position:absolute;left:0;right:0;top:0;height:calc(var(--bleed) + 5mm);}
+  .part{display:flex;gap:2.6mm;align-items:flex-start;background:#fff;border:0.45mm solid var(--p-ink);border-radius:3mm;padding:2.2mm 2.8mm;}
+  .part .box{flex:0 0 4.6mm;height:4.6mm;border:0.45mm solid var(--p-ink);border-radius:50%;margin-top:0.3mm;}
+  .part .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:5pt;letter-spacing:0.14em;text-transform:uppercase;}
+  .part .t{font-weight:900;font-size:9.2pt;line-height:1.2;margin-top:0.4mm;}
+  .part .b{font-size:7.8pt;line-height:1.42;color:var(--p-soft);margin-top:0.6mm;}
+  .ring{border-radius:50%;border:0.6mm dashed rgba(42,31,20,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .rule{border-bottom:0.3mm solid;height:6.4mm;}
+  .lab{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:5pt;letter-spacing:0.14em;text-transform:uppercase;color:var(--p-faint);}
+
+  /* THE STICKER SHEET */
+  .cut{border:0.3mm dashed rgba(42,31,20,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  body.stickers .pg:not(.sheet){display:none;}
+  body.book .pg.sheet{display:none;}
+  body.cut .pg.sheet{background:#fff !important;}
+  body.cut .pg.sheet .art{visibility:hidden;}
+  body.cut .pg.sheet .cut{border:0.25pt solid #EC008C;}
+  body.cut .pg.sheet .labelcut{border:0.25pt solid #EC008C !important;background:none !important;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+<script src="passport-data.js"></script>
+<script>
+(() => {
+const P = window.PASSPORT
+const S = P.stages
+const img = k => `images/friends/${k}.png`
+const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+const raw = window.PASSPORT_NAME ?? new URLSearchParams(location.search).get('name') ?? ''
+const NAME = esc(raw.trim().slice(0, 16))
+const pages = []
+
+const crest = (d) => {
+  const h = d * 0.4, w = d * 0.07, gap = d * 0.055
+  const bars = P.logoBars.map(b => `<i style="width:${w}mm;height:${(b / 14) * h}mm;"></i>`).join('')
+  return `<div class="crest" style="width:${d}mm;height:${d}mm;"><div class="bars" style="gap:${gap}mm;height:${h}mm;">${bars}</div></div>`
+}
+const medals = (d, gap) => `<div style="display:flex;justify-content:center;gap:${gap}mm;">${S.map(s =>
+  `<span class="medal" style="width:${d}mm;height:${d}mm;border:0.35mm solid ${s.colour};"><img src="${img(s.key)}" alt="${s.friend}"></span>`).join('')}</div>`
+const folio = (l, r) => `<div class="folio"><span>${l}</span><span>${r}</span></div>`
+
+// ── 1 · FRONT COVER ─────────────────────────────────────────────────────
+pages.push(`<div class="pg burg">
+  <div class="foilframe"></div>
+  <div class="safe" style="align-items:center;justify-content:space-between;text-align:center;padding:4mm 0 3mm;">
+    <div>
+      <div class="mono" style="font-size:6.4pt;letter-spacing:0.32em;">Guided Childhood</div>
+      <div style="width:11mm;height:0.35mm;background:rgba(237,195,95,0.55);margin:2.2mm auto 0;"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      ${crest(25)}
+      <div class="d" style="font-size:25pt;margin-top:5mm;">Passport</div>
+      <div class="mono" style="font-size:5.8pt;letter-spacing:0.22em;color:rgba(237,195,95,0.75);margin-top:2.2mm;">The journey to 16</div>
+    </div>
+    <div style="width:100%;">
+      ${NAME
+        ? `<div class="d" style="font-size:15pt;">${NAME}</div><div style="width:44mm;height:0.35mm;background:rgba(237,195,95,0.55);margin:1.6mm auto 0;"></div>`
+        : `<div class="mono" style="font-size:5.2pt;color:rgba(237,195,95,0.7);">Name</div><div style="width:52mm;height:7mm;border-bottom:0.4mm solid rgba(237,195,95,0.8);margin:0 auto;"></div>`}
+      <div style="margin-top:5.5mm;">${medals(9.4, 2.2)}</div>
+      <div class="mono" style="font-size:5.2pt;color:rgba(237,195,95,0.65);margin-top:2.6mm;">Ages 4 to 16</div>
+    </div>
+  </div>
+</div>`)
+
+// ── 2 · THIS PASSPORT BELONGS TO ───────────────────────────────────────
+pages.push(`<div class="pg">
+  <div class="safe">
+    <div class="lab">This passport belongs to</div>
+    ${NAME
+      ? `<div class="d" style="font-size:17pt;margin-top:1.4mm;border-bottom:0.3mm solid var(--p-ink);padding-bottom:1.4mm;">${NAME}</div>`
+      : `<div class="rule" style="border-color:var(--p-ink);height:9mm;"></div>`}
+    <div style="display:flex;gap:4mm;margin-top:6mm;align-items:stretch;">
+      <div style="flex:0 0 34mm;height:42mm;border:0.45mm solid var(--p-ink);border-radius:2mm;background:#fff;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2mm;">
+        <span class="lab" style="text-align:center;">Draw your<br>passport photo</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div><div class="lab">Started on</div><div class="rule" style="border-color:var(--p-ink);"></div></div>
+        <div><div class="lab">Age when I started</div><div class="rule" style="border-color:var(--p-ink);"></div></div>
+        <div><div class="lab">My first page</div><div class="rule" style="border-color:var(--p-ink);"></div></div>
+      </div>
+    </div>
+    <div style="margin-top:6mm;">
+      <div class="lab">What every page builds</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.8mm;margin-top:2mm;">
+        ${P.areas.map(a => `<span style="font-size:7.6pt;font-weight:800;display:flex;gap:1.4mm;align-items:center;background:#fff;border:0.35mm solid rgba(42,31,20,0.25);border-radius:999px;padding:1.2mm 2.4mm;"><span>${a.mark}</span>${a.name}</span>`).join('')}
+      </div>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:3mm;">
+      <img src="images/DiGi-star-3d.png" alt="DiGi" style="width:13mm;height:13mm;object-fit:contain;">
+      <p style="font-size:7.4pt;">Keep this book somewhere safe. It is the record of the journey to 16, one stamp at a time.</p>
+    </div>
+  </div>
+  ${folio('2', 'guidedchildhood.com')}
+</div>`)
+
+// ── 3 · HOW IT WORKS, AND THE ROAD ─────────────────────────────────────
+pages.push(`<div class="pg">
+  <div class="safe">
+    <div class="mono" style="font-size:5.6pt;color:var(--butter-dark);">How it works</div>
+    <div class="d" style="font-size:15pt;margin-top:1.6mm;">A stamp is earned,<br>not given</div>
+    <p style="margin-top:2.4mm;">Five pages, one for every stage from four to sixteen. Each page belongs to a Planet Friend and asks for three things. When all three are done, the page gets its stamp.</p>
+    <div style="display:flex;flex-direction:column;gap:1.6mm;margin-top:3mm;">
+      ${[['1', 'The talk', 'Have the conversation. The words are on the page.'], ['2', 'The doing', 'Do one small thing together.'], ['3', 'The check', 'Your child tells you the big idea back. A chat, not a test.']].map(([n, t, b]) =>
+        `<div style="display:flex;gap:2.4mm;align-items:flex-start;"><span style="flex:0 0 5mm;height:5mm;border-radius:50%;background:var(--butter);border:0.35mm solid var(--p-ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:7pt;">${n}</span><span style="font-size:7.6pt;line-height:1.4;"><b style="font-weight:900;">${t}.</b> <span style="color:var(--p-soft);">${b}</span></span></div>`).join('')}
+    </div>
+    <p style="margin-top:3mm;">Join at any age. Start on the page your child is on now. The earlier pages stay open, so you can catch them up whenever you like.</p>
+    <div style="position:relative;display:flex;justify-content:space-between;margin-top:auto;">
+      <svg style="position:absolute;left:6mm;right:6mm;top:5.6mm;width:calc(100% - 12mm);height:2mm;" viewBox="0 0 100 2" preserveAspectRatio="none"><line x1="0" y1="1" x2="100" y2="1" stroke="#EDC35F" stroke-width="1.2" stroke-dasharray="2 1.6" stroke-linecap="round"/></svg>
+      ${S.map(s => `<div style="display:flex;flex-direction:column;align-items:center;width:17mm;position:relative;">
+        <span class="medal" style="width:12mm;height:12mm;background:#fff;border:0.45mm solid ${s.colour};"><img src="${img(s.key)}" alt="${s.friend}" style="width:11.4mm;height:11.4mm;"></span>
+        <span style="font-weight:900;font-size:7pt;margin-top:1mm;">${s.friend}</span>
+        <span class="mono" style="font-size:4.4pt;color:${s.ink};margin-top:0.3mm;letter-spacing:0.06em;">${s.ages}</span>
+      </div>`).join('')}
+    </div>
+  </div>
+  ${folio('The Guided Childhood Passport', '3')}
+</div>`)
+
+// The check line. Cosmo's check already ends "in their own words", which the
+// lead in says, so the tail is dropped rather than printed twice.
+const checkLine = s => { const c = s.check.replace(/, in their own words\.$/, '.'); return c.charAt(0).toLowerCase() + c.slice(1) }
+
+// GO FURTHER, as on the printable's stage pages: the shop packs that fit
+// this page, names only (passport-data.js PASSPORT_PACKS, ready ones only).
+// A page with none ready shows nothing, so the book never names a pack that
+// is not in the shop.
+const goFurther = s => {
+  const packs = (window.PASSPORT_PACKS[s.n] || []).filter(p => p.ready)
+  if (!packs.length) return ''
+  return `<div style="margin-top:2.4mm;border-top:0.3mm dashed rgba(42,31,20,0.3);padding-top:1.8mm;">
+    <div class="lab" style="color:${s.ink};">Go further on this page</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1.2mm;margin-top:1.2mm;">
+      ${packs.map(p => `<span style="display:inline-flex;align-items:center;gap:1mm;border:0.3mm solid ${s.colour};border-radius:999px;padding:0.6mm 1.8mm 0.6mm 0.9mm;background:#fff;">
+        <span style="width:2.6mm;height:2.6mm;border:0.3mm solid var(--p-ink);border-radius:50%;display:inline-block;"></span>
+        <span style="font-weight:800;font-size:6.2pt;">${p.name}</span></span>`).join('')}
+    </div>
+  </div>`
+}
+
+// ── 4 TO 13 · ONE SPREAD PER STAGE ─────────────────────────────────────
+for (const s of S) {
+  const left = 2 + s.n * 2, right = left + 1
+  pages.push(`<div class="pg">
+    <div class="band" style="background:${s.colour};"></div>
+    <div class="safe" style="top:calc(var(--safe) + 3mm);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:2mm;">
+        <div style="min-width:0;">
+          <div class="mono" style="font-size:5.2pt;color:${s.ink};">Stage ${s.n} · ${s.stage} · ${s.ages}</div>
+          <div class="d" style="font-size:17pt;margin-top:1.2mm;">${s.friend}</div>
+          <p style="font-size:7pt;font-weight:700;color:var(--p-ink);margin-top:1mm;line-height:1.35;">${s.blurb}</p>
+        </div>
+        <img src="${img(s.key)}" alt="${s.friend}" style="width:23mm;height:23mm;object-fit:contain;flex-shrink:0;">
+      </div>
+      <div class="mono" style="font-size:5pt;color:${s.ink};margin-top:2.4mm;">Three things stamp this page</div>
+      <div style="display:flex;flex-direction:column;gap:1.8mm;margin-top:1.6mm;">
+        <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">1 · The talk</div><div class="t">${s.talkTitle}</div><div class="b">Say this: &ldquo;${s.say}&rdquo;</div></div></div>
+        <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">2 · The doing</div><div class="b" style="color:var(--p-ink);font-weight:700;">${s.doing}</div></div></div>
+        <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">3 · The check</div><div class="b" style="color:var(--p-ink);font-weight:700;">Your child can tell you, in their own words: ${checkLine(s)}</div></div></div>
+      </div>
+      <div style="margin-top:auto;">
+        <div class="lab">What they said back</div>
+        <div class="rule" style="border-color:${s.colour};"></div>
+        <div class="rule" style="border-color:${s.colour};"></div>
+      </div>
+      ${goFurther(s)}
+    </div>
+    ${folio(left, `${s.friend} · ${s.ages}`)}
+  </div>`)
+  pages.push(`<div class="pg">
+    <div class="band" style="background:${s.colour};"></div>
+    <div class="safe" style="top:calc(var(--safe) + 3mm);align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span class="mono" style="font-size:5.2pt;color:${s.ink};">${s.friend}&rsquo;s stamp</span>
+        <span class="mono" style="font-size:5.2pt;color:var(--p-faint);">${s.n} of 5</span>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:3mm;">
+        <div class="ring" style="width:44mm;height:44mm;border-color:${s.colour};border-width:0.7mm;">
+          <span class="lab" style="font-size:5.4pt;">Stamp<br>here</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:3mm;">
+        <div><div class="lab">Date stamped</div><div class="rule" style="border-color:var(--p-ink);"></div></div>
+        <div><div class="lab">Signed by</div><div class="rule" style="border-color:var(--p-ink);"></div></div>
+      </div>
+      <div style="margin-top:3.4mm;">
+        <div class="lab">The best thing I learned</div>
+        <div class="rule" style="border-color:${s.colour};"></div>
+        <div class="rule" style="border-color:${s.colour};"></div>
+        <div class="rule" style="border-color:${s.colour};"></div>
+      </div>
+      <div style="margin-top:auto;border:0.35mm dashed rgba(42,31,20,0.3);border-radius:2.4mm;height:17mm;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 4mm;">
+        <span class="lab" style="line-height:1.6;">Extra stickers earned on this page<br>go here</span>
+      </div>
+    </div>
+    ${folio('The Guided Childhood Passport', right)}
+  </div>`)
+}
+
+// ── 14 · WHAT EARNS EACH STAMP ─────────────────────────────────────────
+pages.push(`<div class="pg">
+  <div class="safe">
+    <div class="mono" style="font-size:5.6pt;color:var(--butter-dark);">For the grown ups</div>
+    <div class="d" style="font-size:14pt;margin-top:1.4mm;">What earns each stamp</div>
+    <p style="margin-top:1.8mm;font-size:7.2pt;">All three: the talk, the doing, and the check. If the check does not land yet, try again another day.</p>
+    <div style="display:flex;flex-direction:column;gap:2mm;margin-top:3mm;">
+      ${S.map(s => `<div style="display:flex;gap:2.2mm;align-items:center;background:#fff;border:0.35mm solid ${s.colour};border-radius:2.4mm;padding:1.6mm 2.2mm;">
+        <img src="${img(s.key)}" alt="${s.friend}" style="width:9mm;height:9mm;object-fit:contain;flex-shrink:0;">
+        <div style="min-width:0;">
+          <div style="font-weight:900;font-size:7.2pt;">${s.friend} <span class="mono" style="font-size:4.6pt;color:${s.ink};letter-spacing:0.08em;">${s.ages}</span></div>
+          <div style="font-size:6.4pt;line-height:1.35;color:var(--p-soft);">${s.talkTitle}. ${s.doingShort}. ${s.checkShort}.</div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+  ${folio('14', 'guidedchildhood.com')}
+</div>`)
+
+// ── 15 · THE REWARD, AND THE APP ───────────────────────────────────────
+pages.push(`<div class="pg">
+  <div class="safe">
+    <div class="mono" style="font-size:5.6pt;color:var(--butter-dark);">Catch up, claim the reward</div>
+    <div class="d" style="font-size:14pt;margin-top:1.4mm;">The Road to 16 guide</div>
+    <p style="margin-top:2mm;">When every page up to your child&rsquo;s age is stamped, the Road to 16 guide is yours free: the balance, the behaviour to watch, each platform and the age it usually turns up, and the school pressure points along the way.</p>
+    <div style="margin-top:3mm;background:var(--butter-lt);border:0.45mm solid var(--p-ink);border-radius:3mm;box-shadow:0 1.2mm 0 var(--p-ink);padding:2.6mm 3mm;text-align:center;">
+      <div class="mono" style="font-size:7.4pt;letter-spacing:0.04em;text-transform:none;color:var(--ink);">guidedchildhood.com/etsy-bonus</div>
+    </div>
+    <div class="mono" style="font-size:5.6pt;color:var(--butter-dark);margin-top:6mm;">For the full effect, the app</div>
+    <p style="margin-top:1.6mm;">The Guided Childhood app runs this same Passport. Each stage comes with its lessons, every script and a short stage check, and the stamps land on their own. The paper book and the app are the same journey, so you can start here and carry on there.</p>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:3mm;">
+      <img src="images/DiGi-star-3d.png" alt="DiGi" style="width:14mm;height:14mm;object-fit:contain;">
+      <p style="font-size:7pt;">Made by Justin at Guided Childhood, a dad who got tired of the screen time fight.</p>
+    </div>
+  </div>
+  ${folio('The Guided Childhood Passport', '15')}
+</div>`)
+
+// ── 16 · BACK COVER ────────────────────────────────────────────────────
+pages.push(`<div class="pg burg">
+  <div class="foilframe"></div>
+  <div class="safe" style="align-items:center;justify-content:center;text-align:center;gap:3mm;">
+    ${crest(14)}
+    <div class="d" style="font-size:12pt;margin-top:2mm;">Every stamp in here<br>was earned</div>
+    <div style="display:flex;align-items:baseline;gap:2mm;margin-top:4mm;">
+      <span style="display:inline-block;width:10mm;border-bottom:0.4mm solid rgba(237,195,95,0.8);height:6mm;"></span>
+      <span class="mono" style="font-size:5.4pt;">of 5 stamped</span>
+    </div>
+    <div class="mono" style="font-size:5.2pt;color:rgba(237,195,95,0.7);margin-top:8mm;">guidedchildhood.com</div>
+  </div>
+</div>`)
+
+// ── THE STICKER SHEET ──────────────────────────────────────────────────
+// Stamps (29 mm) fit the 44 mm ring on each stamp page with room to spare.
+const TOP_ARC = 'M 13 50 A 37 37 0 0 1 87 50'
+const BOTTOM_ARC = 'M 11 50 A 39 39 0 0 0 89 50'
+const arc = (id, d, txt, fill) => `<path id="${id}" d="${d}" fill="none"/>
+  <text font-family="IBM Plex Mono" font-weight="600" font-size="6.6" letter-spacing="1.4" fill="${fill}" text-anchor="middle"><textPath href="#${id}" startOffset="50%">${txt}</textPath></text>`
+const D = 29
+const stamp = s => `<div class="cut" style="width:${D + 2}mm;height:${D + 2}mm;"><svg class="art" viewBox="0 0 100 100" style="width:${D}mm;height:${D}mm;transform:rotate(-8deg);">
+  <circle cx="50" cy="50" r="48" fill="#fff" stroke="${s.colour}" stroke-width="3.2"/>
+  <circle cx="50" cy="50" r="30.5" fill="${s.soft}" stroke="${s.colour}" stroke-width="0.8" stroke-dasharray="1.6 1.4"/>
+  ${arc('st' + s.n, TOP_ARC, `STAGE ${s.n} · ${s.stage.toUpperCase()}`, s.ink)}
+  ${arc('sb' + s.n, BOTTOM_ARC, 'STAMPED', s.ink)}
+  <image href="${img(s.key)}" x="27" y="21" width="46" height="46"/>
+  <text x="50" y="75.5" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="8" fill="${s.ink}">${s.friend}</text>
+</svg></div>`
+const seal = `<div class="cut" style="width:${D + 2}mm;height:${D + 2}mm;"><svg class="art" viewBox="0 0 100 100" style="width:${D}mm;height:${D}mm;">
+  <circle cx="50" cy="50" r="48" fill="#571C2A" stroke="#EDC35F" stroke-width="2.4"/>
+  <circle cx="50" cy="50" r="30.5" fill="none" stroke="#EDC35F" stroke-width="0.8" stroke-dasharray="1.6 1.4"/>
+  ${arc('sd1', TOP_ARC, 'PASSPORT COMPLETE', '#EDC35F')}
+  ${arc('sd2', BOTTOM_ARC, 'ALL FIVE STAMPED', '#EDC35F')}
+  <image href="images/DiGi-star-3d.png" x="25" y="24" width="50" height="50"/>
+</svg></div>`
+const star = `<div class="cut" style="width:12mm;height:12mm;"><div class="art" style="width:10.4mm;height:10.4mm;border-radius:50%;background:var(--butter-lt);border:0.35mm solid var(--butter-dark);display:flex;align-items:center;justify-content:center;"><img src="images/DiGi-star-3d.png" alt="DiGi" style="width:84%;height:84%;object-fit:contain;"></div></div>`
+pages.push(`<div class="pg sheet">
+  <div class="safe" style="top:7mm;bottom:7mm;left:7.5mm;right:7.5mm;">
+    <div class="art" style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span class="mono" style="font-size:5.4pt;color:var(--butter-dark);">Passport stickers</span>
+      <span class="mono" style="font-size:4.6pt;color:var(--p-faint);">Only when all three are done</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;justify-items:center;row-gap:1.4mm;margin-top:2mm;">
+      ${S.map(stamp).join('')}${seal}
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:2.6mm;">
+      <div class="labelcut" style="width:62mm;height:15mm;border-radius:3mm;border:0.3mm dashed rgba(42,31,20,0.5);display:flex;align-items:center;justify-content:center;">
+        <div class="art burg" style="width:60mm;height:13mm;border-radius:2.4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 4mm;">
+          <span class="mono" style="font-size:4.4pt;color:rgba(237,195,95,0.75);">This passport belongs to</span>
+          <span style="width:46mm;border-bottom:0.35mm solid rgba(237,195,95,0.85);height:5.4mm;"></span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:2.6mm;">${Array.from({ length: 7 }, () => star).join('')}</div>
+    <div style="display:flex;justify-content:space-between;margin-top:1.4mm;">${Array.from({ length: 7 }, () => star).join('')}</div>
+  </div>
+</div>`)
+
+document.body.insertAdjacentHTML('beforeend', pages.join('\n'))
+})()
+</script>
+</body>
+</html>
