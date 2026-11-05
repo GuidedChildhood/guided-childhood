@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guided Childhood Etsy branding v2</title>
+<!--
+  Etsy shop branding, version 2 (5 November 2026). Built to
+  brand/GDC_SOCIAL_VISUAL_SYSTEM.md: cream canvas, ink headline, one gold
+  pathway, approved Planet Friend cutouts only (never redrawn), the logo mark
+  drawn from shared/brand.ts (gold square, four rising white bars).
+  The banner is format 5, The Road To 16: the whole cast is allowed because
+  the shop covers the whole childhood journey, 4 to 16.
+  Render: node content/etsy-shop/branding/v2/render.mjs
+-->
+<style>
+@font-face{font-family:'Nunito';font-weight:200 1000;src:url('../../../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:600;src:url('../../../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
+:root{
+  --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A; --butter:#EDC35F;
+  --butter-dark:#C99A28; --tint:#FFF6DE;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{font-family:'Nunito',sans-serif;color:var(--ink);background:#bbb;}
+.stack{display:flex;flex-direction:column;gap:30px;padding:30px;align-items:flex-start;}
+.mono{font-family:'IBM Plex Mono',monospace;font-weight:600;text-transform:uppercase;}
+
+/* The logo mark, as shared/brand.ts draws it */
+.logo{background:var(--butter);display:flex;align-items:flex-end;justify-content:center;flex:none;}
+.logo span{background:#fff;display:block;}
+
+/* ============ BANNER 1680 x 420 (renders 3360 x 840) ============ */
+.banner{width:1680px;height:420px;background:var(--cream);position:relative;overflow:hidden;}
+.banner .ground{position:absolute;right:-120px;top:-160px;width:1100px;height:760px;border-radius:50%;
+  background:radial-gradient(closest-side,var(--tint) 0 62%,rgba(255,246,222,0) 100%);}
+.banner .words{position:absolute;left:170px;top:92px;width:640px;}
+.banner .brand{display:flex;align-items:center;gap:20px;}
+.banner .brand .logo{width:74px;height:74px;border-radius:20px;gap:6px;padding-bottom:16px;box-shadow:0 5px 0 var(--butter-dark);}
+.banner .brand .logo span{width:8px;border-radius:3px;}
+.banner .eyebrow{font-size:15px;letter-spacing:4px;color:var(--butter-dark);margin-bottom:14px;}
+.banner h1{font-weight:900;font-size:68px;line-height:0.95;letter-spacing:-2px;}
+.banner .tag{font-weight:700;font-size:26px;color:var(--ink-soft);margin:22px 0 0 2px;line-height:1.25;}
+.banner .tag b{color:var(--ink);font-weight:800;}
+.banner .badges{display:flex;gap:10px;margin-top:22px;}
+.banner .badge{font-size:12.5px;letter-spacing:1.6px;color:var(--ink);background:#fff;border:2px solid var(--ink);
+  border-radius:999px;padding:7px 15px;box-shadow:0 4px 0 var(--ink);}
+.banner .road{position:absolute;left:820px;top:0;width:720px;height:420px;}
+.banner .road svg{position:absolute;inset:0;}
+.friend{position:absolute;display:flex;flex-direction:column;align-items:center;}
+.friend img{display:block;filter:drop-shadow(0 6px 6px rgba(26,26,46,0.10));}
+.friend .age{font-size:11px;letter-spacing:1.5px;color:var(--ink-soft);margin-top:-6px;background:var(--cream);
+  padding:3px 8px;border-radius:999px;border:1.5px solid rgba(201,154,40,0.55);white-space:nowrap;}
+
+/* ============ ICON A 500 x 500 (renders 1000 x 1000): the logo mark ============ */
+.icon{width:500px;height:500px;background:var(--cream);position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;}
+.icon .halo{position:absolute;width:470px;height:470px;border-radius:50%;background:var(--tint);}
+.iconA .logo{position:relative;width:270px;height:270px;border-radius:72px;gap:22px;padding-bottom:62px;
+  box-shadow:0 16px 0 var(--butter-dark);}
+.iconA .logo span{width:30px;border-radius:10px;}
+
+/* ============ ICON B: DiGi star on the gold square ============ */
+.iconB .tile{position:relative;width:290px;height:290px;border-radius:76px;background:#fff;border:7px solid var(--ink);
+  box-shadow:0 16px 0 var(--ink);display:flex;align-items:center;justify-content:center;}
+.iconB .tile img{width:210px;height:210px;}
+
+/* ============ LISTING COVER 1500 x 1125 (renders 3000 x 2250, Etsy 4:3) ============ */
+.cover{width:1500px;height:1125px;background:var(--cream);position:relative;overflow:hidden;}
+.cover .ground{position:absolute;right:-260px;top:-140px;width:1250px;height:1250px;border-radius:50%;
+  background:radial-gradient(closest-side,var(--tint) 0 64%,rgba(255,246,222,0) 100%);}
+.cover .words{position:absolute;left:110px;top:150px;width:640px;}
+.cover .eyebrow{font-size:22px;letter-spacing:4px;color:var(--butter-dark);}
+.cover h2{font-weight:900;font-size:104px;line-height:0.94;letter-spacing:-3.5px;margin-top:22px;}
+.cover .underline{display:block;margin:20px 0 0 4px;}
+.cover .sub{font-weight:700;font-size:36px;line-height:1.25;color:var(--ink-soft);margin-top:26px;}
+.cover .pills{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px;}
+.cover .pill{font-size:19px;letter-spacing:2px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:12px 22px;box-shadow:0 5px 0 var(--ink);}
+.cover .pill.gold{background:var(--butter);box-shadow:0 5px 0 var(--butter-dark);border-color:var(--butter-dark);}
+.cover .page{position:absolute;right:140px;top:96px;width:560px;transform:rotate(3deg);border-radius:10px;
+  box-shadow:0 30px 60px rgba(26,26,46,0.18),0 4px 10px rgba(26,26,46,0.10);background:#fff;}
+.cover .page img{display:block;width:100%;border-radius:10px;}
+.cover .page2{position:absolute;right:420px;top:200px;width:480px;transform:rotate(-5deg);border-radius:10px;
+  box-shadow:0 24px 48px rgba(26,26,46,0.14);background:#fff;opacity:0.98;}
+.cover .page2 img{display:block;width:100%;border-radius:10px;}
+.cover .buddy{position:absolute;right:30px;bottom:6px;width:330px;filter:drop-shadow(0 10px 10px rgba(26,26,46,0.14));}
+.cover .foot{position:absolute;left:110px;bottom:70px;display:flex;align-items:center;gap:14px;font-weight:800;font-size:24px;}
+.cover .foot .logo{width:40px;height:40px;border-radius:11px;gap:3.5px;padding-bottom:9px;}
+.cover .foot .logo span{width:4.5px;border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="stack">
+
+  <!-- BANNER -->
+  <div class="banner" id="banner">
+    <div class="ground"></div>
+    <div class="words">
+      <div class="eyebrow mono">Printables for families, ages 4 to 16</div>
+      <div class="brand">
+        <div class="logo"><span style="height:15px"></span><span style="height:27px"></span><span style="height:42px"></span><span style="height:24px"></span></div>
+        <h1>Guided Childhood</h1>
+      </div>
+      <div class="tag">Screen time, <b>earned</b> not fought over.</div>
+      <div class="badges">
+        <span class="badge mono">Instant download</span>
+        <span class="badge mono">Print at home</span>
+        <span class="badge mono">Made by a dad</span>
+      </div>
+    </div>
+    <div class="road">
+      <svg viewBox="0 0 720 420" width="720" height="420">
+        <path d="M10 382 C 150 380, 200 330, 300 318 S 470 280, 540 228 S 650 140, 712 120"
+              fill="none" stroke="#EDC35F" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 17"/>
+      </svg>
+      <div class="friend" style="left:10px;top:208px"><img src="../../../../public/digi-squad/friends/pebble.png" width="150"><span class="age mono">4 to 7</span></div>
+      <div class="friend" style="left:148px;top:172px"><img src="../../../../public/digi-squad/friends/bloop.png" width="160"><span class="age mono">8 to 10</span></div>
+      <div class="friend" style="left:292px;top:128px"><img src="../../../../public/digi-squad/friends/orbit.png" width="172"><span class="age mono">11 to 13</span></div>
+      <div class="friend" style="left:440px;top:80px"><img src="../../../../public/digi-squad/friends/nova.png" width="182"><span class="age mono">13 to 15</span></div>
+      <div class="friend" style="left:582px;top:30px"><img src="../../../../public/digi-squad/friends/cosmo.png" width="192"><span class="age mono">16 and up</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:30px">
+    <!-- ICON A -->
+    <div class="icon iconA" id="iconA">
+      <div class="halo"></div>
+      <div class="logo"><span style="height:56px"></span><span style="height:100px"></span><span style="height:156px"></span><span style="height:90px"></span></div>
+    </div>
+    <!-- ICON B -->
+    <div class="icon iconB" id="iconB">
+      <div class="halo"></div>
+      <div class="tile"><img src="../../../../public/digi-squad/DiGi-star.svg" alt=""></div>
+    </div>
+  </div>
+
+  <!-- LISTING COVER, the frame every listing's first photo uses -->
+  <div class="cover" id="cover">
+    <div class="ground"></div>
+    <div class="page2"><img src="../../../../public/printables/earn-your-screen-time.png" alt=""></div>
+    <div class="page"><img src="../../../../public/printables/starter-pack.png" alt=""></div>
+    <img class="buddy" src="../../../../public/digi-squad/friends/pebble.png" alt="">
+    <div class="words">
+      <div class="eyebrow mono">Instant download</div>
+      <h2>The Starter Pack</h2>
+      <svg class="underline" width="420" height="22" viewBox="0 0 420 22"><path d="M4 14 C 120 4, 260 4, 416 12" fill="none" stroke="#EDC35F" stroke-width="9" stroke-linecap="round"/></svg>
+      <div class="sub">Real jobs earn stars. Stars become screen time. The fight becomes a deal.</div>
+      <div class="pills">
+        <span class="pill gold mono">Ages 4 and up</span>
+        <span class="pill mono">A4 and US Letter</span>
+        <span class="pill mono">Ink saver</span>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="logo"><span style="height:7px"></span><span style="height:13px"></span><span style="height:20px"></span><span style="height:11px"></span></div>
+      Guided Childhood
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
