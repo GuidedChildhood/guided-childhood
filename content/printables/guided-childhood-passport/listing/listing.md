@@ -14,8 +14,20 @@ Listings, Draft). Digital, category Chore Chart Templates, the 10 photos with
 01b first, the 4 files (A4, US Letter, A4 ink saver PDFs and the phone zip),
 title, description, 13 tags, £7.99, quantity 999, made by Justin, content
 created with an AI generator (the Planet Friends). Not published: it waits
-for the five packs its pages name. After publishing, add the permanent 25
-percent sale.
+for the packs its pages name. After publishing, add the permanent 25 percent
+sale.
+
+The packs, also saved as drafts the same day from PR 1408's files, each
+digital with its own photos, files, tags and AI disclosure:
+
+| Pack | Etsy draft | List price |
+|---|---|---|
+| The Calm Down Corner Kit | 4610482440 | £5.99 |
+| The Star Chart | 4610462957 | £5.49 |
+| The Family Phone Agreement | 4610484746 | £5.99 |
+| Earn Your Screen Time | not yet: waits for its one star is five minutes fix | £5.99 |
+
+The Starter Pack is not listed: it is the free gift at /etsy-bonus.
 
 ## Price and listing setup
 
