@@ -18,7 +18,7 @@
 
 import { useState } from 'react'
 import MagnetGate from '@/components/marketing/MagnetGate'
-import { BURGUNDY, GOLD, STAGE_COLOURS } from '@/lib/pathway/passport-print-style'
+import { BURGUNDY, BURGUNDY_FLAT, GOLD, PAGE_CREAM, STAGE_COLOURS } from '@/lib/pathway/passport-print-style'
 
 const FRIENDS = ['pebble', 'bloop', 'orbit', 'nova', 'cosmo']
 
@@ -39,7 +39,7 @@ export default function PassportRewardClaim() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', lineHeight: 1.1, margin: '0 0 10px', color: GOLD }}>
               The Road to 16 is yours
             </h2>
-            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.6, margin: 0, color: '#FBEED0' }}>
+            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.6, margin: 0, color: PAGE_CREAM }}>
               Every page stamped up to your child&apos;s age earns the grown ups guide to the whole journey: balance, the signs to watch for at each stage, every big app with its own minimum age and the setting to lock first, and the school moments from the Year 6 phone ask to the Year 7 group chats.
             </p>
           </div>
@@ -48,14 +48,14 @@ export default function PassportRewardClaim() {
           {FRIENDS.map((f, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img key={f} src={`/digi-squad/friends/${f}.png`} alt="" width={40} height={40}
-              style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${STAGE_COLOURS[i]}`, objectFit: 'contain' }} />
+              style={{ width: '40px', height: '40px', borderRadius: '50%', background: PAGE_CREAM, border: `2px solid ${STAGE_COLOURS[i]}`, objectFit: 'contain' }} />
           ))}
         </div>
       </div>
 
       <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', margin: '18px 0', padding: '16px 18px', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', cursor: 'pointer' }}>
         <input type="checkbox" checked={stamped} onChange={(e) => setStamped(e.target.checked)}
-          style={{ width: '22px', height: '22px', marginTop: '2px', flexShrink: 0, accentColor: '#571C2A' }} />
+          style={{ width: '22px', height: '22px', marginTop: '2px', flexShrink: 0, accentColor: BURGUNDY_FLAT }} />
         <span style={{ fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink)' }}>
           <strong>Every page of our Passport up to our child&apos;s age is stamped.</strong> Each one with its talk, its doing and its check, from Pebble onward.
         </span>

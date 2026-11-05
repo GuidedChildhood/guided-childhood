@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Guided Childhood Passport, phone version</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!--
+  The phone set: 1080 by 1920, one screen per image, for a family who keeps
+  the Passport on a phone as well as the fridge. Cover, the five stage pages
+  and the stamp guide. Built by build-passport.mjs from passport-data.js.
+-->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;background:#ccc;color:#2A1F14;}
+  .screen{width:1080px;height:1920px;position:relative;overflow:hidden;background:#FFFCF3;display:flex;flex-direction:column;padding:150px 84px 120px;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+  .part{display:flex;gap:30px;align-items:flex-start;background:#fff;border:5px solid #2A1F14;border-radius:40px;padding:34px 38px;box-shadow:0 10px 0 #2A1F14;}
+  .part .box{flex:0 0 56px;height:56px;border:5px solid #2A1F14;border-radius:50%;margin-top:6px;}
+  .crest{border-radius:50%;border:6px solid rgba(237,195,95,0.85);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 10px rgba(237,195,95,0.18);}
+</style>
+</head>
+<body>
+<script src="passport-data.js"></script>
+<script>
+(() => {
+const P = window.PASSPORT, S = P.stages
+const img = k => `images/friends/${k}.png`
+const out = []
+
+out.push(`<div class="screen" data-name="00-cover" style="background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);color:#EDC35F;align-items:center;text-align:center;justify-content:space-between;box-shadow:inset 0 0 0 10px rgba(237,195,95,0.55), inset 0 0 0 26px rgba(237,195,95,0.12);">
+  <div><div class="mono" style="font-size:34px;letter-spacing:0.3em;">Guided Childhood</div><div style="width:130px;height:4px;background:rgba(237,195,95,0.55);margin:30px auto 0;"></div></div>
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="crest" style="width:250px;height:250px;"><div style="display:flex;align-items:flex-end;gap:16px;height:100px;">${P.logoBars.map(b => `<i style="display:block;width:20px;height:${b / 14 * 100}px;background:#EDC35F;border-radius:8px;"></i>`).join('')}</div></div>
+    <div style="font-weight:900;font-size:150px;line-height:1;margin-top:60px;">Passport</div>
+    <div class="mono" style="font-size:32px;color:rgba(237,195,95,0.7);margin-top:28px;">The journey to 16</div>
+  </div>
+  <div>
+    <div style="display:flex;gap:22px;justify-content:center;">${S.map(s => `<span style="width:120px;height:120px;border-radius:50%;background:#FFF7E8;border:4px solid ${s.colour};overflow:hidden;display:flex;"><img src="${img(s.key)}" style="width:100%;height:100%;object-fit:contain;"></span>`).join('')}</div>
+    <div class="mono" style="font-size:28px;color:rgba(237,195,95,0.6);margin-top:36px;">Ages 4 to 16</div>
+  </div>
+</div>`)
+
+for (const s of S) {
+  out.push(`<div class="screen" data-name="0${s.n}-${s.key}">
+  <div style="position:absolute;left:0;right:0;top:0;height:40px;background:${s.colour};"></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:30px;">
+    <div style="flex:1;">
+      <div class="mono" style="font-size:30px;color:${s.ink};">Stage ${s.n} · Ages ${s.ages}</div>
+      <div style="font-weight:900;font-size:120px;line-height:1;margin-top:20px;">${s.friend}</div>
+      <div style="font-weight:700;font-size:40px;line-height:1.35;margin-top:26px;">&ldquo;${s.blurb}&rdquo;</div>
+    </div>
+    <img src="${img(s.key)}" style="width:330px;height:330px;object-fit:contain;flex-shrink:0;">
+  </div>
+  <div class="mono" style="font-size:30px;color:${s.ink};margin-top:60px;">Three things stamp this page</div>
+  <div style="display:flex;flex-direction:column;gap:36px;margin-top:30px;">
+    <div class="part"><span class="box"></span><div><div class="mono" style="font-size:26px;color:${s.ink};">The talk</div><div style="font-weight:900;font-size:46px;line-height:1.2;margin-top:8px;">${s.talkTitle}</div><div style="font-size:36px;line-height:1.4;color:#4A3B25;margin-top:12px;">&ldquo;${s.say}&rdquo;</div></div></div>
+    <div class="part"><span class="box"></span><div><div class="mono" style="font-size:26px;color:${s.ink};">The doing</div><div style="font-weight:800;font-size:40px;line-height:1.3;margin-top:8px;">${s.doingShort}</div></div></div>
+    <div class="part"><span class="box"></span><div><div class="mono" style="font-size:26px;color:${s.ink};">The check</div><div style="font-weight:800;font-size:40px;line-height:1.3;margin-top:8px;">${s.checkShort}</div></div></div>
+  </div>
+  <div class="mono" style="position:absolute;left:84px;right:84px;bottom:80px;display:flex;justify-content:space-between;font-size:24px;color:#A08247;"><span>The Guided Childhood Passport</span><span>${s.n} of 5</span></div>
+</div>`)
+}
+
+out.push(`<div class="screen" data-name="06-what-earns-a-stamp">
+  <div class="mono" style="font-size:30px;color:#C99A28;">For the grown ups</div>
+  <div style="font-weight:900;font-size:96px;line-height:1.02;margin-top:20px;">What earns<br>each stamp</div>
+  <div style="font-size:38px;line-height:1.45;color:#4A3B25;margin-top:30px;">The talk, the doing, and your child telling you the big idea back. All three, and the page gets its stamp.</div>
+  <div style="display:flex;flex-direction:column;gap:30px;margin-top:56px;">
+    ${S.map(s => `<div style="display:flex;gap:30px;align-items:center;background:#fff;border:4px solid ${s.colour};border-radius:36px;padding:24px 30px;">
+      <img src="${img(s.key)}" style="width:140px;height:140px;object-fit:contain;flex-shrink:0;">
+      <div><div style="font-weight:900;font-size:46px;line-height:1.1;">${s.friend} <span class="mono" style="font-size:24px;color:${s.ink};">${s.ages}</span></div>
+      <div style="font-size:32px;line-height:1.35;color:#4A3B25;margin-top:8px;">${s.talkTitle}. ${s.doingShort}.</div></div>
+    </div>`).join('')}
+  </div>
+</div>`)
+
+document.body.insertAdjacentHTML('beforeend', out.join('\n'))
+})()
+</script>
+</body>
+</html>
