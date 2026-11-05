@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import SharedLessonStart from '@/components/school/SharedLessonStart'
 import { parseSlides, visibleSlides } from '@gc/shared/lesson-slides'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import { createClient } from '@/lib/supabase/server'
@@ -183,17 +183,13 @@ function FullLesson({ row, path }: { row: NonNullable<Awaited<ReturnType<typeof 
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.35rem, 4vw, 1.7rem)', letterSpacing: '-0.02em', lineHeight: 1.2, color: 'var(--ink)', margin: '0 0 6px' }}>
             Go through it together
           </h2>
-          <p style={{ ...BODY, marginBottom: 16 }}>The same lesson the class had, worded for a child and a grown up on one screen. Nothing is saved as you go.</p>
-          <LessonPlayer
+          <p style={{ ...BODY, marginBottom: 16 }}>The same lesson the class had, worded for a child and a grown up on one screen. It fills the screen while you go through it, and nothing is saved as you go.</p>
+          <SharedLessonStart
             lessonId={row.id}
-            lessonSource="school_lesson"
             slides={slides}
             backHref={path}
-            audience="together"
             character={characterKeyFor(row.character_cast)}
             register={registerFor(row.key_stage)}
-            // Records nothing: no completion, no answers, nothing about a child.
-            completeEndpoint={null}
           />
         </section>
       )}
@@ -202,11 +198,11 @@ function FullLesson({ row, path }: { row: NonNullable<Awaited<ReturnType<typeof 
         {home ? (
           // The lessons page card picks the code up and asks which child, the
           // same door the QR on the parent note uses (lib/school/home-code.ts).
-          <Link href={`/dashboard/lessons?home=${encodeURIComponent(home)}`} className="btn btn-gold" style={{ minHeight: 48 }}>
+          <Link href={`/dashboard/lessons?home=${encodeURIComponent(home)}`} className="btn-outline" style={{ minHeight: 48, whiteSpace: 'normal' }}>
             Put it on your child’s passport
           </Link>
         ) : (
-          <Link href="/dashboard" className="btn btn-gold" style={{ minHeight: 48 }}>Go to your account</Link>
+          <Link href="/dashboard" className="btn-outline" style={{ minHeight: 48 }}>Go to your account</Link>
         )}
         {home && (
           <Link href="/dashboard" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>

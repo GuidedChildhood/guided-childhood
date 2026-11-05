@@ -63,6 +63,7 @@ test('the cookie the start route sets is verified again, never trusted', async (
   const other = (await schoolShareRef('kingsoak-2026', SECRET))!
   assert.equal(await readShareCookie(`${MODULE}:${other}.0011223344556677`, SECRET), null)
   assert.equal(await readShareCookie(`${MODULE}:${token}`, 'another-secret'), null)
+  assert.deepEqual(await readShareCookie(encodeURIComponent(shareCookieValue(MODULE, token)), SECRET), { moduleId: MODULE, ref, token })
   for (const bad of [undefined, null, '', 'nocolon', `:${token}`]) assert.equal(await readShareCookie(bad, SECRET), null, String(bad))
 })
 

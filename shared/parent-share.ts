@@ -113,6 +113,8 @@ export function shareCookieValue(moduleId: string, token: string): string {
 /** A cookie value read back, verified again rather than trusted. */
 export async function readShareCookie(value: string | null | undefined, secret: string): Promise<ParentShare | null> {
   if (typeof value !== 'string') return null
+  // Set as `module:token` and sent back percent encoded by some clients.
+  if (!value.includes(':') && value.includes('%3A')) { try { value = decodeURIComponent(value) } catch { return null } }
   const at = value.indexOf(':')
   if (at < 1) return null
   return readParentShare(value.slice(0, at), value.slice(at + 1), secret)

@@ -48,7 +48,7 @@ const EXAMPLE = {
     'device-sleep': 'Every device charges in the kitchen overnight',
     'ask-first': 'We look at a new game or app together before it is downloaded',
     'earn-time': 'Jobs earn stars, stars buy screen time',
-    'when-wrong': 'Tell us when something goes wrong online. Nobody loses their device for telling',
+    'money': 'One gift card a month, agreed together, and never topped up',
   },
 }
 
