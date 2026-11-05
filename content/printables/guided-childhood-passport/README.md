@@ -56,8 +56,8 @@ Starter Pack for an email. Discreet footer URL on every page.
 
 1. Photo slot 1 is 01b, the road to 16 (Justin, 5 November 2026).
 2. Orbit is 11 to 12, the app's ages (Justin, 5 November 2026).
-3. **Before listing:** the PDF promises the Road to 16 guide free when all
-   five pages are stamped, claimed at /etsy-bonus. The guide and that claim
+3. **Before listing:** the PDF promises the Road to 16 guide free when every
+   page up to the child's age is stamped, claimed at /etsy-bonus. The guide and that claim
    route must exist first.
 4. Cover wording: the app's own covers say "Digital Literacy Passport" (fold
    out) and "Digital Childhood Passport" (book). This product says "Guided

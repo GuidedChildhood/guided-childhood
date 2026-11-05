@@ -48,8 +48,8 @@ What you get:
 - A4 and US Letter in full colour, plus an ink saver version
 - A phone version: seven screens, so the Passport can live on a phone as well
   as the fridge
-- A reward at the end: stamp all five pages and the Road to 16 guide is
-  yours free
+- A reward: once every page up to your child's age is stamped, the Road to
+  16 guide is yours free
 
 The stages:
 

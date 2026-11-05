@@ -66,8 +66,12 @@ arrives, and the usual school pressures.
   doing or check. A name only, never a link or a price, because Etsy does
   not allow a file to send a buyer to a checkout. A family buys the pack,
   does it, ticks the part, and sticks the pack's sticker on the page.
-- The Road to 16 guide is the reward for a completed Passport, free, claimed
-  at /etsy-bonus. Product 1 already says so on the grown ups page.
+- The Road to 16 guide is the free reward, claimed at /etsy-bonus. It
+  unlocks when every page up to the child's age is stamped, not all five,
+  so a family starting at four is not waiting twelve years and the guide
+  arrives while its platform ages and school pressures are still ahead.
+  The Passport complete seal stays for all five. Recommended by Claude and
+  applied 5 November 2026; Justin can switch it back to all five.
 
 ## The pack map (5 November 2026)
 
