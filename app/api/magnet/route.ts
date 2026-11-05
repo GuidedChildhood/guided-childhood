@@ -15,12 +15,16 @@ import { sendPush } from '@/lib/push/send'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string; slug?: string }
+  let body: { email?: string; slug?: string; stageId?: string }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
   const slug = typeof body.slug === 'string' ? body.slug.trim() : ''
   const magnet = getMagnet(slug)
+  // Optional: the stage the parent picked on the page, '1' to '5', the same
+  // value the starter quiz writes. Only written when given, so a magnet
+  // download never wipes a stage the quiz already saved.
+  const stageId = typeof body.stageId === 'string' && /^[1-5]$/.test(body.stageId) ? body.stageId : null
 
   if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
     return NextResponse.json({ error: 'invalid email' }, { status: 400 })
@@ -52,7 +56,7 @@ export async function POST(req: NextRequest) {
     await supabase
       .from('starter_leads')
       .upsert(
-        { email, source: `magnet:${magnet.slug}`, updated_at: new Date().toISOString() },
+        { email, source: `magnet:${magnet.slug}`, updated_at: new Date().toISOString(), ...(stageId ? { stage_id: stageId } : {}) },
         { onConflict: 'email' },
       )
 

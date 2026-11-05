@@ -13,11 +13,15 @@ import Link from 'next/link'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function MagnetGate({
-  slug, heading, sub,
+  slug, heading, sub, stageId,
 }: {
   slug: string
   heading: string
   sub: string
+  // The pathway stage, '1' to '5', when the page asked for it (the Road to 16
+  // claim asks which Passport page the child is on). Saved onto the lead the
+  // same way the starter quiz saves it, so the first emails fit the child.
+  stageId?: string
 }) {
   const [email, setEmail] = useState('')
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
@@ -36,7 +40,7 @@ export default function MagnetGate({
       const res = await fetch('/api/magnet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: clean, slug }),
+        body: JSON.stringify({ email: clean, slug, stageId }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) { setError('Something went wrong. Try again in a moment.'); setState('idle'); return }

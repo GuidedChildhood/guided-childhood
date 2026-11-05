@@ -15,15 +15,29 @@
 // we cannot see anyway. The tick is the family saying it out loud, which is
 // the Passport's whole idea. The PDFs are public files, so nothing here is a
 // lock, and nothing needs to be.
+//
+// WHICH PAGE NOW. Beside the tick, an optional question: which Passport page
+// is the child on today. Not a check either. It is saved onto the lead as
+// stage_id, the same '1' to '5' the starter quiz writes, so the first emails
+// a Passport family gets fit their child's age (Justin, 5 November 2026).
 
 import { useState } from 'react'
 import MagnetGate from '@/components/marketing/MagnetGate'
 import { BURGUNDY, GOLD, STAGE_COLOURS } from '@/lib/pathway/passport-print-style'
 
 const FRIENDS = ['pebble', 'bloop', 'orbit', 'nova', 'cosmo']
+// The Passport's five pages, as lib/content/stages.ts ages them.
+const PAGES = [
+  { id: '1', name: 'Pebble', ages: '4 to 7' },
+  { id: '2', name: 'Bloop', ages: '8 to 10' },
+  { id: '3', name: 'Orbit', ages: '11 to 12' },
+  { id: '4', name: 'Nova', ages: '13 to 15' },
+  { id: '5', name: 'Cosmo', ages: '16 and up' },
+]
 
 export default function PassportRewardClaim() {
   const [stamped, setStamped] = useState(false)
+  const [page, setPage] = useState<string | undefined>()
 
   return (
     <section id="road-to-16" style={{ marginTop: '44px', scrollMarginTop: '24px' }}>
@@ -61,9 +75,34 @@ export default function PassportRewardClaim() {
         </span>
       </label>
 
+      {stamped && (
+        <fieldset style={{ border: 0, padding: 0, margin: '0 0 18px' }}>
+          <legend style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', marginBottom: '10px' }}>
+            Which page is your child on now? <span style={{ fontWeight: 400, color: 'var(--ink-soft)' }}>Optional, so what we send fits their age.</span>
+          </legend>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {PAGES.map((p, i) => {
+              const on = page === p.id
+              return (
+                <button key={p.id} type="button" aria-pressed={on} onClick={() => setPage(on ? undefined : p.id)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px 6px 6px', borderRadius: '999px', cursor: 'pointer',
+                    background: on ? '#FBEED0' : '#fff', border: `2px solid ${on ? '#571C2A' : 'var(--border)'}`, fontFamily: 'inherit', color: 'var(--ink)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/digi-squad/friends/${FRIENDS[i]}.png`} alt="" width={32} height={32}
+                    style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${STAGE_COLOURS[i]}`, objectFit: 'contain' }} />
+                  <span style={{ fontWeight: 800, fontSize: 'var(--text-base)' }}>{p.name}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)' }}>{p.ages}</span>
+                </button>
+              )
+            })}
+          </div>
+        </fieldset>
+      )}
+
       {stamped ? (
         <MagnetGate
           slug="road-to-16"
+          stageId={page}
           heading="Send me the Road to 16"
           sub="The full guide, ready to print at home on A4 or US Letter, with an ink saver version too. Pop your email in and it is yours."
         />
