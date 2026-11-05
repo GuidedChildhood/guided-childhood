@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Passport listing images</title>
+<link href="../fonts/local-fonts.css" rel="stylesheet">
+<!--
+  Etsy photo slots 2 to 10, 2000 by 2000. Every page shown is the real page
+  render from images/preview (built from print.html), never a redraw, per
+  brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 8.3. Slot 1 is the cover frame
+  from content/etsy-shop/branding/v2/etsy-v2.html, which is not in the repo
+  yet, so it is deliberately not built here.
+-->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;background:#bbb;color:#1A1A2E;}
+  .frame{width:2000px;height:2000px;position:relative;overflow:hidden;background:#F9F8F6;display:flex;flex-direction:column;align-items:center;padding:130px 120px 110px;margin-bottom:40px;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;}
+  .eyebrow{font-size:36px;color:#C99A28;}
+  h1{font-weight:900;font-size:122px;line-height:1.0;letter-spacing:-3px;text-align:center;margin-top:26px;}
+  .sub{font-weight:700;font-size:50px;color:#52526A;text-align:center;margin-top:28px;line-height:1.3;}
+  .page{border:7px solid #1A1A2E;border-radius:26px;box-shadow:0 20px 0 #1A1A2E;background:#fff;display:block;}
+  .pill{font-weight:800;font-size:40px;background:#fff;border:5px solid #1A1A2E;border-radius:999px;box-shadow:0 8px 0 #1A1A2E;padding:20px 44px;}
+  .foot{position:absolute;bottom:60px;left:0;right:0;text-align:center;font-size:28px;color:#8888A0;}
+</style>
+</head>
+<body>
+<script src="../passport-data.js"></script>
+<script>
+(() => {
+const S = window.PASSPORT.stages
+const pv = n => `../images/preview/page-${String(n).padStart(2, '0')}.png`
+const ph = n => `../phone/${n}.png`
+const fr = (name, inner, centre = false) => `<div class="frame" data-name="${name}" style="${centre ? 'justify-content:center;padding-bottom:200px;' : ''}">${inner}<div class="foot mono">Instant download · Guided Childhood</div></div>`
+const out = []
+
+// 2 · What is inside: every page, as rendered.
+out.push(fr('02-whats-inside', `
+  <div class="mono eyebrow">What is inside</div>
+  <h1>Everything in the pack</h1>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:34px;margin-top:80px;width:100%;align-items:start;">
+    ${[1, 2, 4, 5, 6, 7, 8, 9, 10, 11].map(n => `<img class="page" src="${pv(n)}" style="width:100%;border-width:4px;border-radius:14px;box-shadow:0 10px 0 #1A1A2E;">`).join('')}
+  </div>
+  <div style="display:flex;gap:24px;margin-top:70px;flex-wrap:wrap;justify-content:center;">
+    <span class="pill">Fold out passport</span><span class="pill">Five stage pages</span><span class="pill">Stamp sheet</span>
+  </div>`, true))
+
+// 3 · The fold out passport.
+out.push(fr('03-fold-out-passport', `
+  <div class="mono eyebrow">The fold out passport</div>
+  <h1>One sheet. One slit.<br>Three folds.</h1>
+  <div class="sub">A passport the size of a real one, from any home printer.</div>
+  <img class="page" src="${pv(3)}" style="width:1700px;margin-top:80px;">`))
+
+// 4 · The five stages.
+out.push(fr('04-five-stages', `
+  <div class="mono eyebrow">Ages 4 to 16</div>
+  <h1>A page for every stage</h1>
+  <div class="sub">Each one belongs to a Planet Friend.</div>
+  <div style="position:relative;display:flex;justify-content:space-between;width:100%;margin-top:150px;">
+    <svg style="position:absolute;left:150px;right:150px;top:150px;width:1460px;height:20px;" viewBox="0 0 100 2" preserveAspectRatio="none"><line x1="0" y1="1" x2="100" y2="1" stroke="#EDC35F" stroke-width="1.3" stroke-dasharray="2 1.5" stroke-linecap="round"/></svg>
+    ${S.map(s => `<div style="display:flex;flex-direction:column;align-items:center;width:330px;position:relative;">
+      <div style="width:310px;height:310px;border-radius:50%;background:${s.soft};border:7px solid ${s.colour};display:flex;align-items:center;justify-content:center;"><img src="../images/friends/${s.key}.png" style="width:290px;height:290px;object-fit:contain;"></div>
+      <div style="font-weight:900;font-size:62px;margin-top:30px;">${s.friend}</div>
+      <div class="mono" style="font-size:30px;color:${s.ink};margin-top:8px;">${s.ages}</div>
+      <div class="mono" style="font-size:22px;color:#8888A0;margin-top:10px;">${s.stage}</div>
+    </div>`).join('')}
+  </div>
+  <div class="sub" style="margin-top:150px;font-size:46px;">Join at any age. Earlier pages stay open to catch up.</div>`, true))
+
+// 5 · A stage page close up.
+out.push(fr('05-stage-page', `
+  <div style="display:flex;gap:90px;align-items:center;height:100%;width:100%;">
+    <img class="page" src="${pv(6)}" style="width:960px;transform:rotate(-2.5deg);">
+    <div style="flex:1;">
+      <div class="mono eyebrow">Five stage pages</div>
+      <div style="font-weight:900;font-size:100px;line-height:1.02;letter-spacing:-2px;margin-top:24px;">Three things stamp each page</div>
+      <div style="display:flex;flex-direction:column;gap:30px;margin-top:60px;">
+        ${[['The talk', 'The words to say, ready on the page'], ['The doing', 'One thing to do together tonight'], ['The check', 'Your child tells you the big idea back']].map(([a, b]) => `<div style="background:#fff;border:5px solid #1A1A2E;border-radius:30px;padding:30px 36px;"><div class="mono" style="font-size:26px;color:#C99A28;">${a}</div><div style="font-weight:800;font-size:42px;line-height:1.25;margin-top:8px;">${b}</div></div>`).join('')}
+      </div>
+    </div>
+  </div>`))
+
+// 6 · Stamps and stickers.
+out.push(fr('06-stamps-and-stickers', `
+  <div class="mono eyebrow">Stamp and sticker sheet</div>
+  <h1>Earned, then stuck on</h1>
+  <div class="sub">Print on sticker paper, or plain paper and a glue stick.</div>
+  <img class="page" src="${pv(9)}" style="width:920px;margin-top:56px;">`))
+
+// 7 · What earns each stamp.
+out.push(fr('07-what-earns-each-stamp', `
+  <div class="mono eyebrow">For the grown ups</div>
+  <h1>What earns each stamp</h1>
+  <div class="sub">A stamp is earned rather than a birthday reached.</div>
+  <img class="page" src="${pv(10)}" style="width:920px;margin-top:56px;">`))
+
+// 8 · Phone version.
+out.push(fr('08-phone-version', `
+  <div class="mono eyebrow">Phone version included</div>
+  <h1>On the fridge and<br>on the phone</h1>
+  <div style="display:flex;gap:60px;margin-top:90px;">
+    ${['00-cover', '01-pebble', '03-orbit'].map((n, i) => `<div style="width:470px;height:836px;border-radius:64px;background:#1A1A2E;padding:18px;box-shadow:0 20px 0 rgba(26,26,46,0.25);transform:rotate(${[-4, 0, 4][i]}deg);"><img src="${ph(n)}" style="width:100%;height:100%;border-radius:48px;display:block;"></div>`).join('')}
+  </div>`))
+
+// 9 · Formats.
+out.push(fr('09-formats', `
+  <div class="mono eyebrow">Instant download</div>
+  <h1>Every format you need</h1>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:110px;width:1500px;">
+    ${[['A4', 'Full colour PDF, 11 pages'], ['US Letter', 'Sized for Letter paper, not squashed'], ['Ink saver', 'The same pages, light on ink'], ['Phone', 'Seven screens, 1080 by 1920']].map(([a, b]) => `<div style="background:#fff;border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:60px 56px;"><div style="font-weight:900;font-size:84px;">${a}</div><div style="font-weight:700;font-size:40px;color:#52526A;margin-top:14px;line-height:1.3;">${b}</div></div>`).join('')}
+  </div>
+  <div class="sub" style="margin-top:110px;">Nothing is posted. Print as often as your family needs.</div>`, true))
+
+// 10 · How it works, the loop.
+out.push(fr('10-how-it-works', `
+  <div class="mono eyebrow">How it works</div>
+  <h1>Talk. Do. Check. Stamp.</h1>
+  <div style="display:flex;gap:36px;margin-top:140px;width:100%;">
+    ${[['1', 'Talk', 'Say the line on the page'], ['2', 'Do', 'One thing together tonight'], ['3', 'Check', 'They tell you it back'], ['4', 'Stamp', 'The page is earned']].map(([n, a, b], i) => `<div style="flex:1;background:${i === 3 ? '#FFF6DE' : '#fff'};border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:56px 34px;text-align:center;min-height:620px;display:flex;flex-direction:column;align-items:center;">
+      <div class="mono" style="font-size:40px;color:#C99A28;">${n}</div>
+      <div style="font-weight:900;font-size:80px;margin-top:20px;">${a}</div>
+      <div style="font-weight:700;font-size:40px;color:#52526A;line-height:1.3;margin-top:24px;">${b}</div>
+      ${i === 3 ? '<img src="../images/DiGi-star-3d.png" style="width:200px;height:200px;margin-top:auto;">' : ''}
+    </div>`).join('')}
+  </div>
+  <div class="sub" style="margin-top:110px;">The check is a chat, never a test.</div>`, true))
+
+document.body.insertAdjacentHTML('beforeend', out.join('\n'))
+})()
+</script>
+</body>
+</html>
