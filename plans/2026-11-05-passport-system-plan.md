@@ -57,11 +57,46 @@ arrives, and the usual school pressures.
 - No outcome or medical claims about a child. Packs say what the family does.
 - Planet Friends and DiGi only.
 
-## What Justin needs to decide
+## Decided by Justin, 5 November 2026
 
-1. Yes to the "Go further" strip on product 1 now, or wait until the packs
-   for it are listed?
-2. Which of the 12 products in the 5 November brief map to which page part
-   (that brief's list is in the other session, not in the repo).
-3. Is the Road to 16 guide a paid product, or the free reward for a
-   completed Passport?
+- Photo 1 is 01b, the road to 16. Orbit stays 11 to 12, the app's ages.
+- The "Go further" strip: yes, and Claude makes it work. It is one line at
+  the foot of each stage page saying "Go further on this page", then the
+  names of the packs in the shop that fit that page, each marked talk,
+  doing or check. A name only, never a link or a price, because Etsy does
+  not allow a file to send a buyer to a checkout. A family buys the pack,
+  does it, ticks the part, and sticks the pack's sticker on the page.
+- The Road to 16 guide is the reward for a completed Passport, free, claimed
+  at /etsy-bonus. Product 1 already says so on the grown ups page.
+
+## The pack map (5 November 2026)
+
+Each pack sits on the page whose ages it fits, under the part it helps with.
+Talk is words for a conversation, doing is something to set up or use, check
+is a record that shows it stuck. Ready means built and waiting to be listed;
+it prints in the strip now. The rest print once they are on Etsy, by
+flipping one flag in `passport-data.js` and rebuilding.
+
+| Page | Ready now | From the brief, once listed |
+|---|---|---|
+| Pebble, 4 to 7 | Calm Down Corner Kit (talk), Starter Pack, Star Chart, Earn Your Screen Time (doing) | Screens At Granny's (talk), Personalised Star Chart, Christmas Countdown, Are We Nearly There (doing) |
+| Bloop, 8 to 10 | Family Phone Agreement (talk), Earn Your Screen Time (doing) | Screens At Granny's (talk), Holiday Screen Deal, Christmas Countdown, Are We Nearly There (doing), 30 Day Reset Journal (check) |
+| Orbit, 11 to 12 | Family Phone Agreement (talk) | First Phone Kit (talk), Holiday Screen Deal (doing), 30 Day Reset Journal (check) |
+| Nova, 13 to 15 | none | First Phone Kit (doing), 30 Day Reset Journal (check) |
+| Cosmo, 16 and up | none | 30 Day Reset Journal (check) |
+
+Not on a page: the two bundles (they are made of the packs above), the class
+poster set (schools, not a family page) and the printed Passport (the
+physical edition of this product).
+
+**The gaps are the next packs worth making:** Orbit's algorithm
+conversation, anything for Nova and Cosmo, and the check part on every page.
+
+## Still to do
+
+1. Done: the brief is mapped and the strip is on product 1. List the ready
+   packs on Etsy before or with the Passport, because its pages name them.
+2. Each pack ships with its own small Passport sticker.
+3. The Road to 16 guide is written and evidence checked, and /etsy-bonus
+   offers it. Product 1 must not be listed before both exist, because its
+   PDF promises the guide.

@@ -48,6 +48,8 @@ What you get:
 - A4 and US Letter in full colour, plus an ink saver version
 - A phone version: seven screens, so the Passport can live on a phone as well
   as the fridge
+- A reward at the end: stamp all five pages and the Road to 16 guide is
+  yours free
 
 The stages:
 
@@ -86,7 +88,7 @@ print or open, message me and I will sort it fast.
 
 | Slot | File | Status |
 |---|---|---|
-| 1 | `images/01-cover.png` (one Friend, the real page, the Passport) or `images/01b-cover-road.png` (all five Friends on the road to the Passport) | Built, **Justin picks one** |
+| 1 | `images/01b-cover-road.png` (all five Friends on the road to the Passport) | Built. Justin chose this on 5 November 2026. `01-cover.png` is kept as a spare. |
 | 2 | `images/02-whats-inside.png` | Built |
 | 3 | `images/03-fold-out-passport.png` | Built |
 | 4 | `images/04-five-stages.png` | Built |

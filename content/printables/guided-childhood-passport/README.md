@@ -54,11 +54,15 @@ Starter Pack for an email. Discreet footer URL on every page.
 
 ## Still open
 
-1. Photo slot 1: two options built from approved art (01 and 01b in
-   `listing/images/`). Justin picks one.
-2. Orbit's ages: the app says 11 to 12, the brief and the brand file say 11
-   to 13. Built with the app's 11 to 12.
-3. Cover wording: the app's own covers say "Digital Literacy Passport" (fold
+1. Photo slot 1 is 01b, the road to 16 (Justin, 5 November 2026).
+2. Orbit is 11 to 12, the app's ages (Justin, 5 November 2026).
+3. **Before listing:** the PDF promises the Road to 16 guide free when all
+   five pages are stamped, claimed at /etsy-bonus. The guide and that claim
+   route must exist first.
+4. Cover wording: the app's own covers say "Digital Literacy Passport" (fold
    out) and "Digital Childhood Passport" (book). This product says "Guided
    Childhood Passport" to match the shop banner.
-4. Nothing is listed on Etsy until Justin says so.
+5. **Before listing:** the stage pages name the ready packs (Calm Down
+   Corner Kit, Starter Pack, Star Chart, Earn Your Screen Time, Family Phone
+   Agreement). List those on Etsy first, or with the Passport.
+6. Nothing is listed on Etsy until Justin says so.

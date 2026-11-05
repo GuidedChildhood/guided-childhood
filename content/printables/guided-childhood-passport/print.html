@@ -76,7 +76,7 @@
   /* A STAGE PAGE, full size. */
   .band{position:absolute;left:0;right:0;top:0;height:7mm;}
   .ring{border-radius:50%;border:0.7mm dashed rgba(42,31,20,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-  .part{display:flex;gap:4mm;align-items:flex-start;background:#fff;border:2px solid var(--p-ink);border-radius:14px;padding:3.6mm 4.5mm;}
+  .part{display:flex;gap:4mm;align-items:flex-start;background:#fff;border:2px solid var(--p-ink);border-radius:14px;padding:3mm 4.5mm;}
   .part .box{flex:0 0 7mm;height:7mm;border:2px solid var(--p-ink);border-radius:50%;margin-top:0.6mm;}
   .part .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:0.14em;text-transform:uppercase;}
   .part .t{font-weight:900;font-size:12.5pt;line-height:1.2;color:var(--p-ink);margin-top:0.6mm;}
@@ -282,6 +282,25 @@ pages.push(`<div class="zine">${cells}
   <span class="tick" style="right:0;top:50%;width:4mm;height:0.3mm;"></span>
 </div>`)
 
+// GO FURTHER: the ready packs for this page, each with a box to tick and
+// the part it helps with. Hidden on a page with no pack ready yet.
+const goFurther = s => {
+  const packs = (window.PASSPORT_PACKS[s.n] || []).filter(p => p.ready)
+  if (!packs.length) return ''
+  return `<div style="margin-top:4.5mm;border-top:0.35mm dashed rgba(42,31,20,0.3);padding-top:3mm;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span class="mono" style="font-size:6.8pt;color:${s.ink};">Go further on this page</span>
+      <span style="font-size:8pt;color:var(--p-faint);font-weight:700;">Packs in the Guided Childhood shop on Etsy. Tick when done, then add its sticker.</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:2mm;">
+      ${packs.map(p => `<span style="display:inline-flex;align-items:center;gap:1.6mm;border:1.4px solid ${s.colour};border-radius:999px;padding:1mm 2.6mm 1mm 1.4mm;background:#fff;" class="flood">
+        <span style="width:3.4mm;height:3.4mm;border:0.35mm solid var(--p-ink);border-radius:50%;display:inline-block;"></span>
+        <span class="mono" style="font-size:5.6pt;color:${s.ink};">${p.part}</span>
+        <span style="font-weight:800;font-size:8.2pt;color:var(--p-ink);">${p.name}</span></span>`).join('')}
+    </div>
+  </div>`
+}
+
 // ── PAGES 4 TO 8 · THE FIVE STAGE PAGES ─────────────────────────────────
 for (const s of S) {
   pages.push(`<div class="sheet" style="background:var(--p-cream);color:var(--p-ink);padding-top:16mm;">
@@ -293,32 +312,33 @@ for (const s of S) {
       <p style="margin-top:3mm;font-size:12pt;font-weight:700;color:var(--p-ink);line-height:1.4;">&ldquo;${s.blurb}&rdquo;</p>
       <p class="mono" style="margin-top:3mm;font-size:6.8pt;color:var(--p-faint);line-height:1.6;">This stage: ${s.focus}</p>
     </div>
-    <img src="${img(s.key)}" alt="${s.friend}, the Planet Friend for ages ${s.ages}" style="width:52mm;height:52mm;object-fit:contain;flex-shrink:0;">
+    <img src="${img(s.key)}" alt="${s.friend}, the Planet Friend for ages ${s.ages}" style="width:46mm;height:46mm;object-fit:contain;flex-shrink:0;">
   </div>
 
-  <div style="display:flex;gap:7mm;align-items:center;margin-top:5mm;">
-    <div class="ring" style="width:54mm;height:54mm;flex-shrink:0;border-color:${s.colour};border-width:0.8mm;">
+  <div style="display:flex;gap:7mm;align-items:center;margin-top:4mm;">
+    <div class="ring" style="width:47mm;min-width:47mm;height:47mm;flex:0 0 47mm;border-color:${s.colour};border-width:0.8mm;">
       <span class="mono" style="font-size:7pt;color:var(--p-faint);">Stamp<br>here</span>
     </div>
-    <div style="flex:1;display:flex;flex-direction:column;gap:4.5mm;">
+    <div style="flex:1;display:flex;flex-direction:column;gap:3mm;">
       <div><span class="mono" style="font-size:6.5pt;color:var(--p-faint);">Date stamped</span><div class="rule" style="border-color:var(--p-ink);height:7mm;"></div></div>
       <div><span class="mono" style="font-size:6.5pt;color:var(--p-faint);">Signed by</span><div class="rule" style="border-color:var(--p-ink);height:7mm;"></div></div>
       <div><span class="mono" style="font-size:6.5pt;color:var(--p-faint);">And by</span><div class="rule" style="border-color:var(--p-ink);height:7mm;"></div></div>
     </div>
   </div>
 
-  <div class="mono" style="font-size:7pt;color:${s.ink};margin-top:6mm;">Three things stamp this page</div>
-  <div style="display:flex;flex-direction:column;gap:3mm;margin-top:2.5mm;">
+  <div class="mono" style="font-size:7pt;color:${s.ink};margin-top:5mm;">Three things stamp this page</div>
+  <div style="display:flex;flex-direction:column;gap:2.4mm;margin-top:2.2mm;">
     <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">1 · The talk</div><div class="t">${s.talkTitle}</div><div class="b">Say this: &ldquo;${s.say}&rdquo;</div></div></div>
     <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">2 · The doing</div><div class="b" style="color:var(--p-ink);font-weight:700;font-size:10.5pt;">${s.doing}</div></div></div>
     <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">3 · The check</div><div class="b" style="color:var(--p-ink);font-weight:700;font-size:10.5pt;">Your child can tell you, in their own words: ${s.check.charAt(0).toLowerCase() + s.check.slice(1)}</div></div></div>
   </div>
 
-  <div style="margin-top:5mm;">
+  <div style="margin-top:4.5mm;">
     <span class="mono" style="font-size:6.5pt;color:var(--p-faint);">The best thing I learned</span>
     <div class="rule" style="border-color:${s.colour};"></div>
     <div class="rule" style="border-color:${s.colour};"></div>
   </div>
+  ${goFurther(s)}
   ${footer(`The Guided Childhood Passport · page ${s.n} of 5`)}
 </div>`)
 }
@@ -392,9 +412,13 @@ pages.push(`<div class="sheet" style="background:var(--p-cream);">
     <span></span>${['The talk', 'The doing', 'The check'].map(t => `<span class="mono" style="font-size:7pt;color:var(--p-faint);">${t}</span>`).join('')}
   </div>
   <div style="display:flex;flex-direction:column;gap:3.4mm;margin-top:2mm;">${S.map(row).join('')}</div>
-  <div class="card" style="margin-top:7mm;padding:4.5mm 5.5mm;box-shadow:none;background:#fff;">
+  <div class="card" style="margin-top:6mm;padding:4.5mm 5.5mm;box-shadow:none;background:#fff;">
     <div class="eyebrow" style="color:var(--ink);">Joining later than four?</div>
     <p style="margin-top:1.5mm;font-size:9.6pt;">Start on the page for your child&rsquo;s age today. Catching up an earlier page is its talk and its check. The habits are kept up on the page they are on now, never asked for twice.</p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4.5mm 5.5mm;box-shadow:none;background:#fff;">
+    <div class="eyebrow" style="color:var(--ink);">Finish the Passport, claim the reward</div>
+    <p style="margin-top:1.5mm;font-size:9.6pt;">When all five pages are stamped, the Road to 16 guide is yours free: the balance, the behaviour to watch, each platform and the age it usually turns up, and the school pressure points along the way. Claim it at guidedchildhood.com/etsy-bonus.</p>
   </div>
   <div class="card" style="margin-top:4mm;padding:4.5mm 5.5mm;box-shadow:none;background:#fff;">
     <div class="eyebrow" style="color:var(--ink);">For the full effect, the app</div>

@@ -24,6 +24,26 @@
 // Scripts are trimmed for paper, never reworded: every line below is the
 // app's own sentence or a cut of it.
 
+// GO FURTHER: the packs in the shop that fit each page, and which of the
+// three parts each one helps with. Justin, 5 November 2026: the Passport is
+// the system, and a family can buy a pack for a page, do it, tick it and
+// stick its sticker on. Only packs with `ready: true` print, and the rule is
+// that a pack is on Etsy before a Passport naming it is uploaded. A brief
+// pack goes live by flipping its flag and rebuilding. Names only, never a
+// link or a price: Etsy does not allow a file to send a buyer to a checkout.
+// The map and its reasons are in plans/2026-11-05-passport-system-plan.md.
+const pack = (name, part, ready = false) => ({ name, part, ready })
+window.PASSPORT_PACKS = {
+  1: [pack('The Calm Down Corner Kit', 'talk', true), pack('The Starter Pack', 'doing', true), pack('The Star Chart', 'doing', true), pack('Earn Your Screen Time', 'doing', true),
+      pack('Screens At Granny\'s', 'talk'), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing')],
+  2: [pack('The Family Phone Agreement', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
+      pack('Screens At Granny\'s', 'talk'), pack('The Holiday Screen Deal', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
+  3: [pack('The Family Phone Agreement', 'talk', true),
+      pack('The First Phone Kit', 'talk'), pack('The Holiday Screen Deal', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
+  4: [pack('The First Phone Kit', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
+  5: [pack('The 30 Day Screen Reset Journal', 'check')],
+}
+
 window.PASSPORT = {
   burgundy: '#571C2A',
   burgundyGrad: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
