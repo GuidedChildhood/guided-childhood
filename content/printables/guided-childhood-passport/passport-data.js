@@ -35,10 +35,12 @@
 // Say This (the script cards, plans/2026-11-05-script-cards-plan.md) is on
 // every page under the talk: each level's first card is that page's script.
 // The Starter Pack is not here: it is the free gift at /etsy-bonus and is
-// never sold (Justin, 5 November 2026).
+// never sold (Justin, 5 November 2026). Nor is the Star Chart: it is the
+// chart inside that free pack, so a Passport buyer already has it. It is
+// still sold on its own, to families who find it by search.
 const pack = (name, part, ready = false) => ({ name, part, ready })
 window.PASSPORT_PACKS = {
-  1: [pack('Say This', 'talk'), pack('The Calm Down Corner Kit', 'talk', true), pack('The Star Chart', 'doing', true), pack('Earn Your Screen Time', 'doing', true),
+  1: [pack('Say This', 'talk'), pack('The Calm Down Corner Kit', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
       pack('Screens At Granny\'s', 'talk'), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing')],
   2: [pack('Say This', 'talk'), pack('The Family Phone Agreement', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
       pack('Screens At Granny\'s', 'talk'), pack('The Holiday Screen Deal', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],

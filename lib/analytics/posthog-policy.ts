@@ -35,6 +35,8 @@ export const TRACKED_PATHS = [
   '/guides',
   '/get-started',
   '/join',
+  '/kids-app',
+  '/agreement',
   '/digi-squad',
   '/ban-workarounds',
   '/digitalwellbeing',

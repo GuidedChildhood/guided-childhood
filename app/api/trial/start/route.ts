@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { trialEndsAtFromNow } from '@/lib/config/trial'
 import { SCHOOL_LINK_COOKIE, normaliseLinkCode } from '@/lib/school/link'
 import { VIDEO_LINK_COOKIE } from '@/lib/video/link'
+import { SCHOOL_SHARE_COOKIE, readShareCookie, shareSecret } from '@/lib/school/share'
 
 // Start the free trial, once, ever.
 //
@@ -102,6 +103,22 @@ export async function POST(req: NextRequest) {
     try {
       await admin.from('profiles').update({ video_link: videoCode })
         .eq('id', user.id).is('video_link', null)
+    } catch { /* attribution is nice to have, the trial is not */ }
+  }
+
+  // ── WHICH SCHOOL'S LESSON SENT THEM (migration 386) ────────────────────
+  //
+  // A parent who opened a lesson a school shared and made the free account
+  // from it (app/(marketing)/from-school). The cookie is verified again here
+  // rather than trusted, so only a link the schools app signed can name a
+  // school. The ref is the school's pseudonym, never its access code
+  // (shared/parent-share.ts). Same rule as the two above: once, at a fresh
+  // grant, onto an empty column, best effort.
+  const share = granted ? await readShareCookie(req.cookies.get(SCHOOL_SHARE_COOKIE)?.value, shareSecret()) : null
+  if (share) {
+    try {
+      await admin.from('profiles').update({ school_share_ref: share.ref, school_share_module: share.moduleId })
+        .eq('id', user.id).is('school_share_ref', null)
     } catch { /* attribution is nice to have, the trial is not */ }
   }
 

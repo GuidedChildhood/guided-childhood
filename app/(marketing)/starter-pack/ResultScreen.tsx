@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { starterNext, SETUP_HREF } from '@/lib/starter/next'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Celebration from '@/components/ui/Celebration'
@@ -218,7 +219,11 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
-  const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard/setup'
+  // A page that sent them here with ?next= (lib/starter/next.ts) gets them
+  // back, through the login door too when the email still needs confirming.
+  const next = starterNext()
+  const loginQuery = [email ? `email=${encodeURIComponent(email)}` : '', next ? `next=${encodeURIComponent(next)}` : ''].filter(Boolean).join('&')
+  const enterHref = needsConfirm ? `/login${loginQuery ? `?${loginQuery}` : ''}` : (next ?? SETUP_HREF)
   const action = stage.challengeActions[challenge] ?? stage.action
   // Their words back, not ours. A parent who ticked "Bedtime screens" should
   // not be told we heard "Screens are taking over", even though that is the

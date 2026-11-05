@@ -21,7 +21,11 @@
 // Usage, in a pack's print.html, where its last sheet goes:
 //   <div class="sheet" data-finish='{"pack":"The Calm Down Corner Kit","noun":"kit","pages":[["pebble","talk"]]}'></div>
 //   <script src="../pack-finish.js"></script>
-// Optional: "gift":"copy" for the Starter Pack, "thanks" for the review line.
+// Optional: "gift":"copy" for the Starter Pack, "thanks" for the review line,
+// "strip":false for a pack the Passport's Go further strip does not name (the
+// Starter Pack and the Star Chart, which every Passport buyer already has in
+// the free gift), so the page never tells a family to tick a line that is not
+// there.
 // For a pack on three or more pages (Say This sits on all five): "where"
 // replaces the list of pages, "each" replaces the tick and stick sentence,
 // and the stickers go in one column per page. "app" adds one line about the
@@ -93,7 +97,7 @@ const finish = (el, o) => {
   <div class="pf-mono" style="font-size:8.5pt;color:#C99A28;margin-top:2mm;">The Guided Childhood Passport</div>
   <div style="font-weight:900;font-size:26pt;line-height:1.05;letter-spacing:-0.4px;margin-top:2.5mm;color:#1A1A2E;">Your Passport sticker${one ? '' : 's'}</div>
   <p style="margin-top:3mm;font-size:10.5pt;line-height:1.55;color:#52526A;max-width:170mm;">
-    ${o.pack} belongs on ${where}, in the Guided Childhood Passport. ${o.each || `When your family has used the ${o.noun}, tick it in the Go further strip on that page, then cut out the sticker and stick it on.`} The big one fits the stage page and the small one fits the fold out passport.
+    ${o.pack} belongs on ${where}, in the Guided Childhood Passport. ${o.each || `When your family has used the ${o.noun}, ${o.strip === false ? 'cut out the sticker and stick it on that page' : 'tick it in the Go further strip on that page, then cut out the sticker and stick it on'}.`} The big one fits the stage page and the small one fits the fold out passport.
   </p>
   <div class="pf-card pf-flood" style="margin-top:6mm;padding:6mm 6mm 5mm;background:#FFFCF3;display:flex;flex-direction:column;gap:5mm;">
     ${many
