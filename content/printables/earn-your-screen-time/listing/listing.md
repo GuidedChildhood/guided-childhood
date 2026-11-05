@@ -27,17 +27,22 @@ the ending rehearsed so it is no surprise.
 
 Earn Your Screen Time is a print at home chart pack for ages 5 to 11, with
 Pebble on the younger chart and Bloop on the older one. Your child earns
-stars for the jobs on the chart, swaps them for a screen token, and the timer
-matches the token. Earned tokens are never taken back. When time is nearly
-up, you hand over the five minutes card and let the card do the telling.
+stars for the jobs on the chart, and one star is five minutes of screen time,
+the same deal as the Guided Childhood app. Want a different rate? Agree it
+together and write it on the chart. When stars are spent you hand over a
+token, and the timer matches the token. Earned stars are never taken back.
+When time is nearly up, you hand over the five minutes card and let the card
+do the telling.
 
 What you get:
 
-- A two minute parent guide: daily rewards for 5 to 7, weekly for 8 to 11,
-  and the five house rules of the chart
+- A two minute parent guide: daily for 5 to 7, weekly for 8 to 11, and the
+  five house rules of the chart
 - The ages 5 to 7 chart: picture rows and stars to colour, counted at teatime
-- The ages 8 to 11 chart: a weekly tally and a menu to spend the stars on
-- Screen tokens to cut out: 10, 15 and 30 minutes, plus family swap tokens
+- The ages 8 to 11 chart: a weekly tally of stars and minutes, and a line for
+  your own rate
+- Screen tokens to cut out: 5, 15 and 30 minutes (1, 3 and 6 stars), plus
+  family swap tokens
 - The ending well cards: five minutes left, and time is up
 - Your Passport stickers, for the Pebble page and the Bloop page of the
   Guided Childhood Passport
@@ -77,7 +82,7 @@ not print or open, message me and I will sort it fast.
 | 3 | `images/03-close-up.png` | The ending well cards close up |
 | 4 | `images/04-passport-sticker.png` | The last page: the Pebble and Bloop stickers and the free gift |
 | 5 | `images/05-formats.png` | A4, US Letter, ink friendly, phone |
-| 6 | `images/06-how-it-works.png` | Earn, token, enjoy, end |
+| 6 | `images/06-how-it-works.png` | Earn, count, spend, end |
 | 7 | `images/07-phone-version.png` | The three phone screens |
 
 All 2000 by 2000, rendered from `listing/images.html` by
@@ -93,13 +98,16 @@ well.
 
 ## Instagram reel (same footage)
 
-First frame text: The token says 15 minutes. So does the timer.
-Caption: Stars for the jobs, a token for the stars, and a five minutes card so
+First frame text: One star, five minutes. The timer agrees.
+Caption: Stars for the jobs, five minutes a star, and a five minutes card so
 the ending is never a surprise. Ages 5 to 7 and 8 to 11. Printable chart pack,
 link in bio.
 
 ## Compliance
 
+- The deal matches the app and the Star Chart: one star is five minutes, and
+  a family can agree its own rate (Justin, 5 November 2026). The old three
+  stars a token system is gone.
 - No outcome or medical claims anywhere. The old cover line said the chart
   ends the battle, and the old last page said children who meet DiGi end
   screen time better on their own. Both are gone.

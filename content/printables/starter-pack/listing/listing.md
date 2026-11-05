@@ -1,5 +1,11 @@
 # Etsy listing package: The Starter Pack
 
+> **NOT FOR SALE ON ETSY.** Justin, 5 November 2026: the Starter Pack stays
+> the free email gift at guidedchildhood.com/etsy-bonus and is not listed on
+> Etsy. Do not create an Etsy draft from this file. It is kept as the record
+> of the pack, and its files stay, because the Star Chart prints from the
+> Starter Pack's print.html. Revisit only if that decision changes.
+
 One of the five packs the Guided Childhood Passport names on its stage pages
 (the Pebble page, under the doing). The shop's anchor listing. Made Etsy
 ready on 5 November 2026 and listed before or with the Passport.
