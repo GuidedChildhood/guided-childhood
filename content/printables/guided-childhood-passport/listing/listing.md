@@ -9,20 +9,62 @@ Guided Childhood Passport Printable | Kids Stamp Book and Stickers | Ages 4 to 1
 
 ## On Etsy
 
+**Live since 5 November 2026**, published by Claude on Justin's word, US$1.00
+in listing fees (US$0.20 each, auto renewing every four months):
+
+- Passport: https://www.etsy.com/uk/listing/4610470092
+- Calm Down Corner Kit: https://www.etsy.com/uk/listing/4610482440
+- Star Chart: https://www.etsy.com/uk/listing/4610462957
+- Family Phone Agreement: https://www.etsy.com/uk/listing/4610484746
+- Earn Your Screen Time: https://www.etsy.com/uk/listing/4610487662
+
+**Prices set so UK buyers pay round numbers (Justin, 5 November 2026).**
+Etsy adds 20 percent UK VAT to digital downloads for UK buyers and pays it
+to HMRC itself; Guided Childhood is not VAT registered and files nothing.
+So the list prices are the target divided by 0.9 (the sale times VAT):
+
+| Listing | List price | UK buyer pays in the sale |
+|---|---|---|
+| Passport | £6.66 | £5.99 |
+| Calm Down Corner Kit | £4.99 | £4.49 |
+| Family Phone Agreement | £4.99 | £4.49 |
+| Earn Your Screen Time | £4.99 | £4.49 |
+| Star Chart | £4.58 | £4.12 |
+
+Checked on the shop page the same day. The Star Chart's PDFs and photos 01,
+02 and 04 were replaced with PR 1410's, whose last page no longer points at
+the Passport strip.
+
+The 25 percent sale is the shop wide sale already set up, 5 to 30 November
+2026. Etsy caps a sale at 30 days, so it has to be started again each month
+to stay permanent.
+
+
 Saved as a draft on 5 November 2026, listing 4610470092 (Shop Manager,
 Listings, Draft). Digital, category Chore Chart Templates, the 10 photos with
 01b first, the 4 files (A4, US Letter, A4 ink saver PDFs and the phone zip),
-title, description, 13 tags, £7.99, quantity 999, made by Justin, content
+title, description, 13 tags, £7.99 (now £6.66, below), quantity 999, made by Justin, content
 created with an AI generator (the Planet Friends). Not published: it waits
-for the five packs its pages name. After publishing, add the permanent 25
-percent sale.
+for the packs its pages name. After publishing, add the permanent 25 percent
+sale.
+
+The packs, also saved as drafts the same day from PR 1408's files, each
+digital with its own photos, files, tags and AI disclosure:
+
+| Pack | Etsy draft | List price |
+|---|---|---|
+| The Calm Down Corner Kit | 4610482440 | £5.99 |
+| The Star Chart | 4610462957 | £5.49 |
+| The Family Phone Agreement | 4610484746 | £5.99 |
+| Earn Your Screen Time | 4610487662 (one star is five minutes, PR 1408 commit d4b0ffd9f) | £5.99 |
+
+The Starter Pack is not listed: it is the free gift at /etsy-bonus.
 
 ## Price and listing setup
 
-- List price: £7.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £7.99 crossed out and pay
-  £5.99.
+- List price: £6.66, so UK buyers see £7.99 crossed out and pay £5.99 once
+  Etsy adds VAT (see On Etsy above).
+- The 25 percent sale runs shop wide in Marketing, Sales and discounts.
 - £5.99 sits well above the £4 floor.
 - Evergreen. No season window. Refresh the photos at back to school and in
   January.
