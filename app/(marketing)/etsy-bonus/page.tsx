@@ -1,16 +1,23 @@
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import MagnetGate from '@/components/marketing/MagnetGate'
+import PassportRewardClaim from '@/components/marketing/PassportRewardClaim'
 
 // The Etsy landing. Every Guided Childhood printable sold on Etsy prints this
 // URL on its last page, so a buyer who liked the sheet lands here. It hands
 // over a genuine free bonus for the email, then points, once, at the founding
 // member offer. The purchase never moves off Etsy: this is the after, not a
 // second checkout. House rule 9: every CTA routes to /starter-pack.
+//
+// TWO GIFTS LIVE HERE. Every printable's buyer gets the Starter Pack. A family
+// whose printable Guided Childhood Passport is stamped up to the child's age also
+// claims the Road to 16 guide, which the Passport promises on its grown ups
+// page (Justin, 5 November 2026). The guide sits below the Starter Pack, with
+// a link to it at the top for the Passport families who arrive for it.
 
 export const metadata = {
   title: 'Your free bonus · Guided Childhood',
-  description: 'A thank you and a free bonus for your Guided Childhood printable, plus where the whole pathway lives if you want it.',
+  description: 'A thank you and a free bonus for your Guided Childhood printable, the Road to 16 guide for a Passport stamped up to your child\'s age, and where the whole pathway lives if you want it.',
 }
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
@@ -31,6 +38,9 @@ export default function EtsyBonusPage() {
       <p style={P}>
         You are exactly the kind of parent we make these for. As a little thank you, here is the full Guided Childhood Starter Pack, free. A whole newspaper styled booklet to print at home. No catch, and your purchase stays right where it was.
       </p>
+      <p style={{ ...P, fontWeight: 700, color: 'var(--ink)' }}>
+        Guided Childhood Passport stamped up to your child&apos;s age? <a href="#road-to-16" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>Claim the Road to 16 guide</a>.
+      </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', margin: '30px 0 36px' }}>
         {GETS.map(([icon, title, body], i) => (
@@ -49,6 +59,8 @@ export default function EtsyBonusPage() {
         heading="Send me the starter pack"
         sub="The full eleven page Guided Childhood Starter Pack, ready to print at home. Pop your email in and it is yours."
       />
+
+      <PassportRewardClaim />
 
       {/* The one permitted funnel line, once, routing to /starter-pack per house
           rule 9. Never a second purchase, just where the whole pathway lives. */}

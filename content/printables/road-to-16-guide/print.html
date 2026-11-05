@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Road to 16</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!--
+  THE ROAD TO 16, the free reward for a Guided Childhood Passport stamped up
+  to the child's age.
+  Pages are built by the script at the foot of this file from guide-data.js,
+  so the words live in one place. Same tokens, fonts and cover as the
+  Passport printable (content/printables/guided-childhood-passport/), so the
+  reward reads as the last page of the same book.
+
+  PAPER SIZES. Every page is portrait and is laid out in mm against --pw and
+  --ph. The build swaps the @page block and adds body.letter for US Letter,
+  which is 18mm shorter and 6mm wider than A4: every page leaves that much
+  room at its foot, so nothing is shrunk to fit.
+
+  INK SAVER. body.ink drops the burgundy cover and the colour floods to
+  outlines on white. The Planet Friends stay, small, because each part
+  belongs to its stage.
+-->
+<style id="pagesize">
+  @page { size: A4; margin: 0; }
+</style>
+<style>
+  :root{
+    --pw:210mm; --ph:297mm;
+    --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A; --ink-muted:#8888A0;
+    --butter:#EDC35F; --butter-dark:#C99A28; --butter-lt:#FFF6DE;
+    --burg:#571C2A; --gold:#EDC35F;
+    --p-cream:#FFFCF3; --p-ink:#2A1F14; --p-soft:#4A3B25; --p-faint:#A08247;
+  }
+  body.letter{ --pw:215.9mm; --ph:279.4mm; }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#d8d4cc;}
+  .sheet{width:var(--pw);height:var(--ph);background:var(--cream);position:relative;overflow:hidden;
+    break-after:page;padding:13mm 15mm 14mm;display:flex;flex-direction:column;}
+  .sheet:last-child{break-after:auto;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;letter-spacing:2.4px;text-transform:uppercase;color:var(--butter-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.02;letter-spacing:-0.5px;}
+  h2{font-weight:900;font-size:22pt;line-height:1.08;letter-spacing:-0.3px;}
+  h3{font-weight:900;font-size:12pt;line-height:1.2;color:var(--ink);}
+  p{font-size:10.2pt;line-height:1.5;color:var(--ink-soft);}
+  .intro{font-size:10.8pt;margin-top:2.5mm;max-width:165mm;}
+  .footer{position:absolute;bottom:7mm;left:15mm;right:15mm;display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:6.5pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:#fff;border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+  .soft{background:#fff;border:2px solid var(--ink);border-radius:14px;}
+  .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.8pt;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-muted);}
+  .friend{border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+  .friend img{width:100%;height:100%;object-fit:contain;}
+  .say{background:var(--butter-lt);border:2px solid var(--ink);border-radius:14px;padding:3.5mm 5mm;}
+  .say p{font-weight:800;color:var(--ink);font-size:11pt;line-height:1.45;}
+  .band{position:absolute;left:0;right:0;top:0;height:5mm;}
+
+  /* THE PASSPORT COVER, as the Passport printable and PassportBook.tsx draw it. */
+  .cover{background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);color:var(--gold);padding:0;align-items:center;justify-content:center;text-align:center;}
+  .cover .frame{position:absolute;inset:9mm;border:1.5px solid rgba(237,195,95,0.55);border-radius:6mm;box-shadow:inset 0 0 0 3mm rgba(237,195,95,0.08);}
+  .crest{border-radius:50%;border:2.5px solid rgba(237,195,95,0.85);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 4px rgba(237,195,95,0.18);}
+  .crest .bars{display:flex;align-items:flex-end;}
+  .crest .bars i{display:block;background:var(--gold);border-radius:3px;}
+  .medal{border-radius:50%;overflow:hidden;background:#FFF7E8;display:flex;align-items:center;justify-content:center;}
+  .medal img{width:100%;height:100%;object-fit:contain;}
+
+  /* INK SAVER */
+  body.ink .sheet{background:#fff;}
+  body.ink .card{box-shadow:none;}
+  body.ink .say,body.ink .flood{background:#fff !important;}
+  body.ink .cover{background:#fff !important;color:var(--burg) !important;}
+  body.ink .cover .frame{border-color:var(--burg);box-shadow:none;}
+  body.ink .cover .foil{color:var(--burg) !important;}
+  body.ink .cover .crest{border-color:var(--burg);box-shadow:none;}
+  body.ink .cover .crest .bars i{background:var(--burg) !important;}
+  body.ink .cover .medal{background:#fff !important;}
+  body.ink .band{background:#fff !important;border-bottom:0.6mm solid var(--p-ink);}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+<script src="guide-data.js"></script>
+<script>
+(() => {
+const G = window.GUIDE
+const S = G.stages
+const img = k => `images/friends/${k}.png`
+const stageOf = n => S[n - 1]
+const pages = []
+const footer = r => `<div class="footer"><span>guidedchildhood.com</span><span>${r}</span></div>`
+const friend = (s, d, w = 2) => `<span class="friend flood" style="width:${d}mm;height:${d}mm;border:${w}px solid ${s.colour};"><img src="${img(s.key)}" alt="${s.friend}"></span>`
+const crest = (d, stroke = 2.5) => {
+  const h = d * 0.4, w = d * 0.07, gap = d * 0.055
+  const bars = G.logoBars.map(b => `<i style="width:${w}mm;height:${(b / 14) * h}mm;"></i>`).join('')
+  return `<div class="crest" style="width:${d}mm;height:${d}mm;border-width:${stroke}px;"><div class="bars" style="gap:${gap}mm;height:${h}mm;">${bars}</div></div>`
+}
+const head = (eyebrow, title, intro) => `<div class="eyebrow">${eyebrow}</div><h2 style="margin-top:2mm;">${title}</h2>${intro ? `<p class="intro">${intro}</p>` : ''}`
+
+// ── PAGE 1 · THE COVER ───────────────────────────────────────────────────
+pages.push(`<div class="sheet cover">
+  <div class="frame"></div>
+  <div class="mono foil" style="font-size:9pt;letter-spacing:0.32em;color:var(--gold);">Guided Childhood</div>
+  <div class="foil" style="width:18mm;height:1.5px;background:rgba(237,195,95,0.55);margin:4mm auto 14mm;"></div>
+  ${crest(40, 3)}
+  <div class="foil" style="font-weight:900;font-size:50pt;line-height:1;margin-top:12mm;color:var(--gold);">The Road to 16</div>
+  <div class="mono foil" style="font-size:9pt;letter-spacing:0.22em;color:rgba(237,195,95,0.8);margin-top:6mm;">The grown ups guide to the whole journey</div>
+  <div style="display:flex;gap:5mm;justify-content:center;margin-top:22mm;">
+    ${S.map(s => `<span class="medal" style="width:20mm;height:20mm;border:2px solid ${s.colour};"><img src="${img(s.key)}" alt="${s.friend}"></span>`).join('')}
+  </div>
+  <div class="mono foil" style="font-size:7.5pt;letter-spacing:0.2em;color:rgba(237,195,95,0.7);margin-top:6mm;">Balance · Behaviour · The apps · School</div>
+  <div class="foil" style="position:absolute;bottom:20mm;left:0;right:0;font-weight:800;font-size:11pt;color:rgba(237,195,95,0.85);">Your reward for a Guided Childhood Passport stamped up to your child&rsquo;s age</div>
+</div>`)
+
+// ── PAGE 2 · YOU FINISHED THE PASSPORT ──────────────────────────────────
+const W = G.welcome
+pages.push(`<div class="sheet">
+  <div style="display:flex;gap:6mm;align-items:flex-start;">
+    <div style="flex:1;">
+      <div class="eyebrow">${W.eyebrow}</div>
+      <h1 style="margin-top:2.5mm;font-size:32pt;">${W.title}</h1>
+    </div>
+    <img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="width:34mm;height:34mm;flex-shrink:0;margin-top:-2mm;">
+  </div>
+  <div class="card" style="margin-top:6mm;padding:5mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:6mm;">
+    <div><div class="lbl">Awarded to the</div><div style="border-bottom:0.35mm solid var(--ink);height:9mm;"></div><div class="lbl" style="margin-top:1.5mm;">family</div></div>
+    <div><div class="lbl">Up to date on</div><div style="border-bottom:0.35mm solid var(--ink);height:9mm;"></div>
+      <div style="display:flex;gap:1.6mm;margin-top:2mm;">${S.map(s => friend(s, 7, 1.5)).join('')}</div></div>
+  </div>
+  ${W.lines.map((l, i) => `<p style="margin-top:${i ? 2.5 : 6}mm;font-size:10.8pt;">${l}</p>`).join('')}
+  <div class="lbl" style="margin-top:7mm;">What is inside</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:2.5mm;">
+    ${W.parts.map(([t, b], i) => `<div class="soft" style="padding:4mm 5mm;"><div class="mono" style="font-size:7pt;color:var(--butter-dark);">Part ${['one', 'two', 'three', 'four'][i]}</div><h3 style="margin-top:1mm;">${t}</h3><p style="margin-top:1mm;font-size:9.6pt;">${b}</p></div>`).join('')}
+  </div>
+  <div class="say" style="margin-top:7mm;"><p style="font-size:10.4pt;">${W.holdOnto}</p></div>
+  ${footer('The Road to 16')}
+</div>`)
+
+// ── PAGE 3 · THE ROAD AT A GLANCE ───────────────────────────────────────
+pages.push(`<div class="sheet">
+  ${head('The whole road on one page', 'Five stages, four to sixteen', 'The same five pages as your Passport. Each stage has a focus, a device that usually fits it, and one talk that matters most.')}
+  <div style="display:flex;flex-direction:column;gap:3.6mm;margin-top:6mm;">
+    ${S.map(s => `<div class="soft" style="display:flex;overflow:hidden;">
+      <div class="flood" style="width:30mm;background:${s.soft};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3mm 2mm;border-right:2px solid var(--ink);flex-shrink:0;">
+        ${friend(s, 17)}
+        <div style="font-weight:900;font-size:12pt;margin-top:1.2mm;">${s.friend}</div>
+        <div class="mono" style="font-size:6.5pt;color:${s.ink};">${s.ages}</div>
+      </div>
+      <div style="flex:1;padding:3.4mm 5mm;display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 5mm;align-content:center;">
+        <div style="grid-column:1 / -1;"><span class="mono" style="font-size:6.5pt;color:${s.ink};">Stage ${s.n} · ${s.stage}</span><h3 style="margin-top:0.6mm;">${s.focus}</h3></div>
+        <div><div class="lbl">The device</div><p style="font-size:9.3pt;margin-top:0.6mm;">${s.device}</p></div>
+        <div><div class="lbl">The talk</div><p style="font-size:9.3pt;margin-top:0.6mm;font-weight:700;color:var(--ink);">${s.talk}</p></div>
+      </div>
+    </div>`).join('')}
+  </div>
+  ${footer('The road at a glance')}
+</div>`)
+
+// ── PAGE 4 · BALANCE ────────────────────────────────────────────────────
+const B = G.balance
+pages.push(`<div class="sheet">
+  ${head(B.eyebrow, B.title, B.intro)}
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:5mm;">
+    ${B.kinds.map(([t, b], i) => `<div class="card" style="padding:4mm 4.5mm;box-shadow:0 4px 0 var(--ink);">
+      <div class="mono" style="font-size:6.8pt;color:var(--butter-dark);">${['One', 'Two', 'Three'][i]}</div>
+      <h3 style="margin-top:0.8mm;">${t}</h3><p style="margin-top:1.4mm;font-size:9.2pt;line-height:1.45;">${b}</p></div>`).join('')}
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:5mm;">
+    <div class="soft" style="padding:4mm 5mm;"><h3>${B.firstTitle}</h3><p style="margin-top:1.2mm;font-size:9.6pt;">${B.first}</p></div>
+    <div class="soft" style="padding:4mm 5mm;"><h3>${B.ladderTitle}</h3><p style="margin-top:1.2mm;font-size:9.6pt;">${B.ladder}</p></div>
+  </div>
+  <div class="say" style="margin-top:4mm;"><div class="lbl" style="color:var(--ink);">${B.ruleTitle}</div><p style="margin-top:1mm;font-size:10.4pt;">${B.rule}</p></div>
+  <div class="lbl" style="margin-top:5mm;">${B.phoneTitle}</div>
+  <div style="display:flex;flex-direction:column;gap:2mm;margin-top:2mm;">
+    ${S.map(s => `<div style="display:flex;gap:3mm;align-items:center;">${friend(s, 9, 1.5)}<span class="mono" style="font-size:6.5pt;color:${s.ink};width:17mm;flex-shrink:0;">${s.ages}</span><p style="font-size:9.4pt;">${s.yourPhone}</p></div>`).join('')}
+  </div>
+  ${footer('Part one · Balance')}
+</div>`)
+
+// ── PAGE 5 · BEHAVIOUR ──────────────────────────────────────────────────
+const H = G.behaviour
+pages.push(`<div class="sheet">
+  ${head(H.eyebrow, H.title, H.intro)}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3.4mm;margin-top:5mm;">
+    ${S.map(s => `<div class="soft" style="padding:3.2mm 4mm;${s.n === 5 ? '' : ''}">
+      <div style="display:flex;gap:2.5mm;align-items:center;">${friend(s, 10, 1.5)}<div><div style="font-weight:900;font-size:11pt;">${s.friend}</div><div class="mono" style="font-size:6.3pt;color:${s.ink};">${s.ages}</div></div></div>
+      <ul style="margin:2mm 0 0 4mm;display:flex;flex-direction:column;gap:0.8mm;">${s.signs.map(t => `<li style="font-size:9pt;line-height:1.38;color:var(--ink-soft);">${t}</li>`).join('')}</ul>
+    </div>`).join('')}
+    <div class="say" style="padding:3.2mm 4mm;">
+      <div class="lbl" style="color:var(--ink);">${H.whenTitle}</div>
+      ${H.when.map(t => `<p style="margin-top:1.4mm;font-size:9pt;font-weight:700;line-height:1.4;">${t}</p>`).join('')}
+    </div>
+  </div>
+  <div class="soft" style="margin-top:4mm;padding:3.4mm 5mm;"><div class="lbl">Not this</div><p style="margin-top:0.8mm;font-size:9.6pt;">${H.notThis}</p></div>
+  <p style="margin-top:4mm;font-size:9.6pt;font-weight:700;color:var(--ink);">${H.worried}</p>
+  ${footer('Part two · Behaviour')}
+</div>`)
+
+// ── PAGES 6 AND 7 · THE APPS ────────────────────────────────────────────
+const A = G.apps
+const appCard = a => {
+  const s = stageOf(a.stage)
+  return `<div class="soft" style="padding:3.6mm 4.5mm;display:flex;flex-direction:column;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:3mm;">
+      <div><div style="font-weight:900;font-size:13pt;line-height:1.1;"><span style="margin-right:1.5mm;">${a.emoji}</span>${a.name}</div>
+        <div style="display:flex;gap:1.6mm;align-items:center;margin-top:1.6mm;">${friend(s, 6.5, 1.2)}<span class="mono" style="font-size:6.2pt;color:${s.ink};white-space:nowrap;">${s.friend} page · ${s.ages}</span></div></div>
+      <div style="text-align:center;flex-shrink:0;"><div class="flood" style="width:14mm;height:14mm;border-radius:50%;border:2px solid var(--burg);background:var(--butter-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15pt;color:var(--burg);">${a.age}</div>
+        <div class="lbl" style="font-size:5.4pt;margin-top:0.8mm;">Its own<br>minimum age</div></div>
+    </div>
+    <p style="font-size:8.9pt;margin-top:1.8mm;line-height:1.4;">${a.rule}</p>
+    <div style="margin-top:2mm;"><div class="lbl" style="color:var(--ink);">Lock first</div><p style="font-size:8.9pt;margin-top:0.4mm;line-height:1.4;color:var(--ink);font-weight:700;">${a.lock}</p></div>
+    <div style="margin-top:1.8mm;"><div class="lbl">Watch for</div><p style="font-size:8.9pt;margin-top:0.4mm;line-height:1.4;">${a.watch}</p></div>
+  </div>`
+}
+pages.push(`<div class="sheet">
+  ${head(A.eyebrow, A.title, A.intro)}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:5mm;">${A.list.slice(0, 4).map(appCard).join('')}</div>
+  <div class="say" style="margin-top:4mm;"><p style="font-size:9.8pt;">${G.welcome.holdOnto}</p></div>
+  ${footer('Part three · The apps')}
+</div>`)
+pages.push(`<div class="sheet">
+  <div class="eyebrow">${A.eyebrow}, continued</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:4mm;">${A.list.slice(4).map(appCard).join('')}</div>
+  <div class="soft" style="margin-top:4mm;padding:3.6mm 5mm;"><div class="lbl">The law</div><p style="margin-top:0.8mm;font-size:9.4pt;">${A.lawNote}</p></div>
+  ${footer('Part three · The apps')}
+</div>`)
+
+// ── PAGE 8 · SCHOOL ─────────────────────────────────────────────────────
+const C = G.school
+pages.push(`<div class="sheet">
+  ${head(C.eyebrow, C.title, C.intro)}
+  <div style="position:relative;margin-top:4mm;display:flex;flex-direction:column;gap:2mm;">
+    <div style="position:absolute;left:7mm;top:4mm;bottom:4mm;border-left:0.7mm dashed var(--butter);"></div>
+    ${C.moments.map(m => { const s = stageOf(m.stage); return `<div style="display:flex;gap:4mm;align-items:flex-start;position:relative;">
+      ${friend(s, 14, 2)}
+      <div class="soft" style="flex:1;padding:2.1mm 4mm;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:3mm;"><h3 style="font-size:11.5pt;">${m.title}</h3><span class="mono" style="font-size:6.4pt;color:${s.ink};white-space:nowrap;">${m.years} · ages ${m.ages}</span></div>
+        <p style="font-size:8.6pt;line-height:1.36;margin-top:0.6mm;">${m.body}</p>
+        ${m.fact ? `<p style="font-size:8.4pt;line-height:1.33;margin-top:0.8mm;color:var(--burg);font-weight:800;">${m.fact}</p>` : ''}
+        <p style="font-size:8.4pt;line-height:1.33;margin-top:0.8mm;color:var(--ink);"><span class="lbl" style="color:var(--ink);margin-right:1.5mm;">Have ready</span>${m.ready}</p>
+      </div></div>` }).join('')}
+  </div>
+  <p style="margin-top:3mm;font-size:9pt;font-weight:700;color:var(--ink);">${C.schoolPolicy}</p>
+  ${footer('Part four · School')}
+</div>`)
+
+// ── PAGE 9 · WHEN SOMETHING GOES WRONG ──────────────────────────────────
+const X = G.wrong
+const nova = stageOf(4)
+pages.push(`<div class="sheet">
+  <div style="display:flex;gap:5mm;align-items:flex-start;"><div style="flex:1;">${head(X.eyebrow, X.title)}</div>${friend(nova, 22)}</div>
+  <div class="say" style="margin-top:4mm;"><div class="lbl" style="color:var(--ink);">Say this</div><p style="margin-top:1mm;font-size:12pt;">"${X.say}"</p><p style="margin-top:1.4mm;font-size:9pt;font-weight:600;color:var(--ink-soft);">${X.sayNote}</p></div>
+  <div style="display:flex;flex-direction:column;gap:2.4mm;margin-top:5mm;">
+    ${X.steps.map(([t, b], i) => `<div style="display:flex;gap:3.5mm;align-items:flex-start;">
+      <span class="flood" style="flex:0 0 8mm;height:8mm;border-radius:50%;background:var(--burg);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;border:2px solid var(--burg);">${i + 1}</span>
+      <div><h3 style="font-size:11pt;">${t}</h3><p style="font-size:9.4pt;margin-top:0.4mm;">${b}</p></div></div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4mm 5.5mm;">
+    <div class="lbl" style="color:var(--ink);">Where to get help, in the UK</div>
+    <div style="display:flex;flex-direction:column;margin-top:1.5mm;">
+      ${X.help.map(([w, h], i) => `<div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;padding:1.8mm 0;${i ? 'border-top:0.3mm solid rgba(26,26,46,0.15);' : ''}"><p style="font-size:9.2pt;">${w}</p><p style="font-size:9.2pt;font-weight:800;color:var(--ink);">${h}</p></div>`).join('')}
+    </div>
+  </div>
+  ${footer('When something goes wrong')}
+</div>`)
+
+// ── PAGE 10 · SIXTEEN ───────────────────────────────────────────────────
+const Z = G.sixteen
+const cosmo = stageOf(5)
+pages.push(`<div class="sheet">
+  <div style="display:flex;gap:5mm;align-items:flex-start;"><div style="flex:1;">${head(Z.eyebrow, Z.title, Z.intro)}</div>${friend(cosmo, 24)}</div>
+  <div class="say" style="margin-top:5mm;"><div class="lbl" style="color:var(--ink);">Cosmo's talk</div><p style="margin-top:1mm;font-size:12pt;">"${Z.say}"</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:5mm;">
+    <div class="soft" style="padding:4mm 5mm;"><h3>${Z.auditTitle}</h3><p style="margin-top:1.2mm;font-size:9.6pt;">${Z.audit}</p></div>
+    <div class="soft" style="padding:4mm 5mm;"><h3>${Z.talkTitle}</h3><p style="margin-top:1.2mm;font-size:9.6pt;">${Z.talk}</p></div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4mm 5.5mm;">
+    <h3>${Z.questionsTitle}</h3>
+    ${Z.questions.map(q => `<div style="margin-top:2.6mm;"><p style="font-weight:800;color:var(--ink);font-size:10pt;">${q}</p><div style="border-bottom:0.35mm solid ${cosmo.colour};height:7mm;"></div><div style="border-bottom:0.35mm solid ${cosmo.colour};height:7mm;"></div></div>`).join('')}
+  </div>
+  <div class="soft" style="margin-top:5mm;padding:4mm 5mm;display:flex;gap:4mm;align-items:center;">
+    <img src="images/DiGi-star-3d.png" alt="DiGi" style="width:16mm;height:16mm;flex-shrink:0;">
+    <div><h3>${Z.appTitle}</h3><p style="margin-top:0.8mm;font-size:9.4pt;">${Z.app}</p></div>
+  </div>
+  ${footer('Sixteen')}
+</div>`)
+
+// ── PAGE 11 · SOURCES ───────────────────────────────────────────────────
+pages.push(`<div class="sheet">
+  ${head('Where it comes from', 'Sources', G.sourcesIntro)}
+  <ol style="margin:5mm 0 0 5mm;display:flex;flex-direction:column;gap:1.7mm;">
+    ${G.sources.map(([what, where]) => `<li style="font-size:8.2pt;line-height:1.38;color:var(--ink-soft);padding-left:1mm;"><span style="font-weight:800;color:var(--ink);">${what}</span> ${where}</li>`).join('')}
+  </ol>
+  <p style="margin-top:auto;padding-bottom:6mm;font-size:8.6pt;">This guide is general information for families, not medical, legal or safeguarding advice about your child. If you are worried, talk to your child's school, your GP, or one of the services on the help page.</p>
+  ${footer('Sources')}
+</div>`)
+
+document.body.insertAdjacentHTML('beforeend', pages.join('\n'))
+})()
+</script>
+</body>
+</html>

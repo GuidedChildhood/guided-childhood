@@ -255,3 +255,7 @@ Justin asked for DiGi clips that show the full cycle and how it learns; he chose
 ## 4 November 2026, the Muse connector submitted and locked to a key
 
 Justin submitted the Guided Childhood connector to Meta's Muse review at platform.muse.ai. It authenticates with an API key: `MUSE_CONNECTOR_KEY` is set in Vercel (Production) and the same key is on Meta's form, test and live. Checked live: calls with no key or a wrong key get 401, the spec and `/connectors/muse` stay public. Every form answer is in `integrations/muse/submission.md`. Rotating the key means changing Vercel and the Muse portal together, or Muse calls fail. PRs 1366 and 1380.
+
+## 5 November 2026, the Road to 16 guide and its claim
+
+The free reward for a printable Passport stamped up to the child's age (Justin: the reward, not a product; unlocks when caught up, not at sixteen). Eleven pages, A4, Letter and ink saver, in the Passport's burgundy and gold: balance, signs by stage, eight apps with each one's own minimum age, the school moments, a help page, sixteen, sources. Every line is the app's own content or a sourced fact; the evidence red team passed it after fixes (content/printables/road-to-16-guide/evidence-check.md). /etsy-bonus keeps the Starter Pack and adds an honour based claim, magnet `road-to-16`. Found on the way: migration 093 says Roblox is 13 (its UK terms say 5) and four more stale settings lines. PR 1403.
