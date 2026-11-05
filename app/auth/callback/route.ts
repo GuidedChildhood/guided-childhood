@@ -1,11 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { announceSignup } from '@/lib/ops/signup-alert'
+import { safeNext } from '@/lib/auth/safe-next'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  // Checked, never glued on raw: next=@evil.example made the redirect below
+  // https://our.site@evil.example, which is another host (lib/auth/safe-next.ts).
+  const next = safeNext(searchParams.get('next')) ?? '/dashboard'
 
   if (code) {
     const supabase = await createClient()

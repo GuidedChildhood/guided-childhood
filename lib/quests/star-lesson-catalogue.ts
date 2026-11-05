@@ -64,6 +64,35 @@ export function getStarLessonByHomeCode(supabase: SupabaseClient, homeCode: stri
   )
 }
 
+// One lesson by MODULE id, for the page a school's parent share link opens
+// (app/(marketing)/from-school, 5 November 2026). Only the columns a parent is
+// shown: the parent note, the deck and the home code the start route carries
+// through sign up. Never teacher_notes beyond what the player needs, never the
+// DSL note, which is written for the school's safeguarding lead and nobody
+// else. The caller reads it with the admin client, because the content tables
+// revoked anon in migration 275, and only after the link's signature checked.
+export type ShareLessonRow = {
+  id: string
+  module_id: string
+  title: string
+  key_stage: string | null
+  year_band: string | null
+  single_action_outcome: string | null
+  character_cast: string | null
+  slides: unknown
+  parent_note: unknown
+  home_code: string | null
+}
+
+export function getStarLessonForShare(supabase: SupabaseClient, moduleId: string) {
+  return firstHit<ShareLessonRow>(supabase, from =>
+    from('school_lessons')
+      .select('id, module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, parent_note, home_code')
+      .eq('module_id', moduleId)
+      .maybeSingle() as never,
+  )
+}
+
 // Lesson ids for a set of MODULE ids, the other direction: the passport page
 // is a list of module ids (shared/passport-areas) and lesson_completions
 // stores lesson uuids, so filling one from the other needs this map. Same one

@@ -30,3 +30,18 @@ export async function navAccess(): Promise<{ licensed: boolean; pilot: boolean }
   const access = await currentAccess()
   return { licensed: access !== null, pilot: access?.tier === 'pilot' }
 }
+
+/** The access code behind a valid cookie, with what it opens, or null.
+ *
+ *  Only for the parent share link (lib/parent-share.ts), which turns the code
+ *  into a pseudonym and never prints it. The code is read off the cookie only
+ *  AFTER tokenAccess has checked its signature, expiry and that the code is
+ *  still on a list, so a hand edited cookie names nothing. */
+export async function currentSchool(): Promise<{ code: string; access: Access } | null> {
+  const store = await cookies()
+  const token = store.get(ACCESS_COOKIE)?.value
+  const access = await tokenAccess(token)
+  if (!access || !token) return null
+  const code = token.split('|')[0]
+  return code ? { code, access } : null
+}
