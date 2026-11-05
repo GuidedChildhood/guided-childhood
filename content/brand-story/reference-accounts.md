@@ -1,6 +1,6 @@
 # Reference accounts: what performs, and what we take
 
-**Written 7 September 2026.** Justin named two Instagram accounts and asked what
+**Written 7 September 2026, with section 11 added on 5 November 2026 from his grid read first hand.** Justin named two Instagram accounts and asked what
 performs on them so we can use it on ours: `dr_catherine_knibbs` and
 `family_it_guy`. This is the teardown and the playbook that comes out of it.
 
@@ -399,6 +399,135 @@ Named plainly so nobody treats this file as more certain than it is.
   they were recovered in full rather than summarised. They are the part to trust.
 - **Publication date of Tech-Smart Parenting** is stated in her own pre-order
   caption as 31 July. The year is not confirmed from a source we could open.
+
+## 11. `family_it_guy`, seen first hand (5 November 2026)
+
+**Why this section exists.** On 5 November 2026 Justin asked to "pretty much
+copy" this channel for the family account. Copying his posts would breach his
+copyright and our own brand rules, so what we copy is what works: the formats,
+the hooks, the structure, the length, the comment mechanics. Never his words,
+scripts, visuals, branding or face. Sections 1 to 10 were written in September
+without seeing his grid. This section was written from his grid, read in
+Justin's signed in Chrome. Nothing was downloaded. The playbook that turns it
+into our formats is `format-playbook-family-it-guy.md`, and the first five
+drafts are in `weeks/2026-11-09/`.
+
+### What was read
+
+- **The profile.** 362 posts and 238 thousand followers, counted on the page on
+  5 November (section 1's 197 thousand was a third party figure in September).
+  The bio is one promise line, "Keeping kids safe online shouldn't require an IT
+  degree", three emoji bullets, and one link to his paid iPhone guide.
+  Highlights: iPhone Guide, Podcast, Press, Website.
+- **The pinned three.** All Reels. A YouTube Shorts control explained honestly
+  (2.7 million views, April 2026), a Roblox safety update answered with "delete
+  it" (1.4 million), and a numbered list of five house rules sold as part two
+  (1.4 million, August 2025).
+- **The last 64 Reels, 30 July to 4 November 2026.** Views from the grid,
+  likes, comments, date and caption for each. Length read on the player for
+  six of them.
+- **The grid mix.** Of the last 144 grid items, 16 are carousels or single
+  images. The rest are Reels.
+
+### What the numbers say
+
+- **His baseline is about 17 thousand views.** That is the median of his 30
+  most recent Reels outside the pinned three. Most posts land between 8 and 50
+  thousand.
+- **The outliers are all one of four shapes.** Every Reel over 100 thousand in
+  those 100 days:
+
+| Views | Date | Shape | What it was, paraphrased |
+|---|---|---|---|
+| 558K | 15 Oct | Honest walkthrough | A new pause control on the parent's phone, shown on screen, 48 seconds |
+| 493K | 19 Sep | Honest walkthrough | The new iOS parental controls, one feature at a time, 77 seconds |
+| 290K | 21 Aug | A parent asked | Whether any Roblox chat skips age checks, and what age checks ask you to hand over |
+| 216K | 6 Aug | How it actually works | Why rejecting cookies does not stop tracking, 178 seconds |
+| 170K | 30 Jul | How it actually works | The cloud is a building full of computers |
+| 110K | 4 Sep | The one line | A single sentence opinion, caption 218 characters |
+| 109K | 7 Aug | A parent asked | Whether Roblox is a good fit for a particular child |
+| 107K | 30 Aug | Guest clip | A gaming expert on why free games are built to keep children playing, split screen, 70 seconds |
+
+  Just under the line: 80 thousand for "parents ask me all the time what phone"
+  and 79 thousand for a live chat question about Snapchat and friendships.
+
+- **The comment gate is on his two biggest recent Reels.** Three of 64 captions
+  end with a keyword ask ("Comment iPhone and I'll send you the link", to his
+  paid guide). Two of those three are the 558 thousand and the 493 thousand.
+  The 558 thousand Reel has 3,041 comments against 6,565 likes. On his other
+  Reels comments run at 2 to 10 percent of likes. A comment is a ranking
+  signal, so the gate probably fed the reach as well as the sales. We cannot
+  see whether a tool sends the DMs.
+- **Carousels do not work for him.** His carousels pull 43 to 709 likes. His
+  Reels pull hundreds to thousands. One carousel carried almost our own thesis,
+  that the phone question turns on readiness rather than age, and it got 49
+  likes. That reads as the format failing, not the idea.
+- **Cadence.** 60 Reels in 14 weeks, four to five a week, posted in US
+  daytime. Six of the 60 are collaborations, three of them with a monitoring
+  phone company.
+- **Length.** 45 seconds to three minutes. The two biggest recent ones are 48
+  and 77 seconds. Long explainers still travel when the subject is a system
+  parents cannot see.
+- **One anomaly, excluded.** A toddler YouTube channels Reel shows 923 thousand
+  views with 53 likes and no comments. That pattern looks like paid
+  promotion, so it is left out of every count above.
+
+### The anatomy
+
+- **Same set, every time.** The same desk, the same podcast microphone, the
+  same whiteboard behind him. He is recognisable before the hook is read.
+- **The hook plate.** One white rounded plate, bold black capitals, low in the
+  centre of the frame, on screen from frame one. Hooks are a question ("Can you
+  buy a phone without AI?"), news ("You can now pause your kid's iPhone"), or a
+  command ("Turn off their camera").
+- **The question card.** For audience questions, a screenshot style card sits
+  at the top of the frame with a small "from the live chat" label, and he
+  answers underneath it.
+- **The caption.** About 650 characters. Line one restates the hook. Short
+  paragraphs. A tick and cross list of what a setting does and does not do. The
+  exact settings path. The close is "share this with other parents", "save
+  this so you can check", or the comment keyword. Four to ten hashtags.
+- **The honest catch.** His biggest ever post is built on what a new control
+  does not do. He gives the platform credit, then names the gaps. That honesty
+  is the engine, and it is the part most like us.
+
+### Element by element: adopt, adapt, park or decline
+
+Weighed with `.claude/skills/feedback-filter` against THE-STORY.md section 9
+(parents to the stage check) and the five commitments.
+
+| # | What he does | Verdict | Why |
+|---|---|---|---|
+| 1 | The honest walkthrough: one control, what it does, what it does not | **Adapt** | His strongest format by far. Ours adds the third part a setting cannot do, the words and the child's step, so it ends on the child, never on a toggle |
+| 2 | "What they're NOT telling you" framing | **Adapt** | Keep the honesty, drop the suspicion. Ours says "what it does not do" plainly, which is calmer and more credible |
+| 3 | Comment keyword gate | **Adopt** | Approved on 7 September (section 7) and now seen working first hand. One per week, on Friday, to the free stage check, never a paid product |
+| 4 | The audience question card | **Adopt** | We already own the frame: DiGi, WHAT DO I SAY? with the A THING PARENTS SAY eyebrow (`brand/GDC_SOCIAL_VISUAL_SYSTEM.md` section 8). Quotes come from our parent voice research and are labelled illustrative. We never fake a live chat or a named parent |
+| 5 | How it actually works explainers | **Adopt** | Competence is the protection. It maps to the passport stamp "Knows how it works" and to real lessons |
+| 6 | Numbered five as house rules | **Adapt** | The numbered five stays. "Rules that aren't negotiable" goes. Ours is a ladder or five steps, which is a pathway |
+| 7 | Command hooks ("Delete it", "Turn off their camera", "Let your kids be bored") | **Decline** | Allow or deny in a hook. Non negotiable 1 |
+| 8 | The one line opinion | **Adapt** | Justin's own true lines from `founder-context.md`, one at a time, never repeated |
+| 9 | Same set and same hook plate | **Adopt** | Recognition is cheap and compounding. Our set is one kitchen corner; our plate is cream with ink Nunito 900, capitals only at six words or fewer |
+| 10 | Guest clip, split screen | **Park** | We have no podcast. Revisit when there is a recorded conversation worth clipping |
+| 11 | Collaborations with a monitoring phone company | **Decline** | Monitoring as the answer contradicts commitment 2, and a shared post reads as endorsement |
+| 12 | Bug finds and news reacts | **Park** | His weakest shape, around 20 thousand. When a headline is running it becomes a Research Wednesday peg, which the rhythm already allows |
+| 13 | Four to five Reels a week | **Park** | Four anchor posts plus one short film is what survives. Add a second film only after two weeks of numbers show films move stage checks |
+| 14 | One line bio, emoji bullets, one link, four highlights | **Adapt** | Our version: "Not a ban. A plan." and the stage check link. Highlights: Stage check, Scripts, Passport, Our story. Justin's call |
+| 15 | Four to ten hashtags | **Decline** | Our rule is occasional on Instagram, never on Facebook |
+| 16 | Platform as main character, sextortion and predator covers | **Decline** | Section 8 already: no fear engine, and the hidden thread test |
+| 17 | Reels first, carousels rarely | **Adopt** | First hand proof for the Friday rule in `weekly-rhythm.md`. Saturday carousels stay for sharing and saving, and each one gets a Reel version to test |
+
+### What this changes
+
+Nothing in `weekly-rhythm.md` changes until Justin picks formats. If he does,
+the playbook proposes one short film slot (Thursday, 19:30) and the honest
+walkthrough as a Friday option. The rest fits the four days as they are.
+
+### What could not be verified
+
+- Exact posting times for all 64. Six were read from the player.
+- Whether his comment gate replies are automated.
+- Reach from paid promotion, beyond the one obvious anomaly.
+- View counts are Instagram's own and include replays.
 
 ---
 

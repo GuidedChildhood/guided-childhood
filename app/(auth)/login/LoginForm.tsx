@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import ProviderButtons from '@/components/auth/ProviderButtons'
+import { safeNext, safeStarterNext } from '@/lib/auth/safe-next'
 
 // The family door. The School path picker retired at the split cutover:
 // the schools product is an open catalogue on its own domain with no
@@ -13,7 +14,9 @@ import ProviderButtons from '@/components/auth/ProviderButtons'
 export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const nextParam = searchParams.get('next')
+  // Read through safeNext, so a link somebody else wrote can only ever send a
+  // parent somewhere on this site after they sign in.
+  const nextParam = safeNext(searchParams.get('next'))
   const [email, setEmail] = useState(searchParams.get('email') ?? '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -144,7 +147,10 @@ export default function LoginForm() {
               product, and /signup is now a redirect to exactly this, so the
               link points at the real thing rather than through a bounce. */}
           New here?{' '}
-          <Link href="/starter-pack" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
+          {/* With the destination carried on, so a parent who arrived from a
+              lesson link or an email page and has no account yet makes one and
+              lands where they were going, not on the Setup Quest. */}
+          <Link href={safeStarterNext(nextParam) ? `/starter-pack?next=${encodeURIComponent(nextParam!)}` : '/starter-pack'} style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
             Start your pathway
           </Link>
         </p>

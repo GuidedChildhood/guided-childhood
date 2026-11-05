@@ -24,6 +24,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/free', priority: 0.6, changeFrequency: 'weekly' },
     { path: '/free/planet-post', priority: 0.5, changeFrequency: 'monthly' },
     { path: '/guides', priority: 0.7, changeFrequency: 'weekly' },
+    // Where the parent emails about the child's app and the family agreement
+    // land a parent who has no account yet (5 November 2026).
+    { path: '/kids-app', priority: 0.6, changeFrequency: 'monthly' },
+    { path: '/agreement', priority: 0.6, changeFrequency: 'monthly' },
     // Every guide, from lib/content/guides.ts, so a new one is listed the day
     // it ships (plans/2026-11-02-guides-plan.md).
     ...GUIDES.map(g => ({ path: `/guides/${g.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),

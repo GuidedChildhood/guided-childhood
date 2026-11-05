@@ -16,6 +16,7 @@ const ProviderButtons = dynamic(() => import('@/components/auth/ProviderButtons'
 const SavingPathway = dynamic(() => import('@/components/starter/SavingPathway'), { ssr: false })
 import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
 import { enabledProviders } from '@/lib/auth/providers'
+import { rememberStarterNext, starterNext, takeAfterSignupHref } from '@/lib/starter/next'
 import { bandForAge, isTooYoung } from '@/lib/children/age'
 import StartsAtFour from '@/components/children/StartsAtFour'
 import { track } from '@/components/Analytics'
@@ -217,6 +218,8 @@ export default function StarterPackPage() {
   const [member, setMember] = useState<{ childNames: string[] } | null>(null)
   const [authChecked, setAuthChecked] = useState(false)
   useEffect(() => {
+    // FIRST, before anything reads it: keep or clear ?next= (lib/starter/next.ts).
+    rememberStarterNext()
     if (new URLSearchParams(window.location.search).get('finish') === '1') return
     // ?preview=member shows the card without a session, the same dev only
     // hook as ?preview=result, so the layout can be checked at 390 and 1280.
@@ -231,6 +234,11 @@ export default function StarterPackPage() {
         if (!session) return
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
+        // A member sent here with somewhere to go (a lesson a school shared,
+        // the agreement page) goes there, rather than to a card asking which
+        // of two doors they meant. They already told us.
+        const next = starterNext()
+        if (next) { window.location.replace(takeAfterSignupHref()); return }
         const { data: kids } = await supabase.from('children').select('name').eq('parent_id', user.id).order('is_primary', { ascending: false })
         setMember({ childNames: (kids ?? []).map(k => (k.name ?? '').trim()).filter(Boolean) })
       } catch { /* reads as signed out, which shows the normal page */ }
@@ -310,8 +318,9 @@ export default function StarterPackPage() {
       if (pending) await writeStarterSetup(supabase, pending)
       if (cancelled) return
       // replace, not href: back from the Setup Quest should reach the site,
-      // never bounce through this screen and run the write again.
-      window.location.replace('/dashboard/setup')
+      // never bounce through this screen and run the write again. The Setup
+      // Quest unless the page that sent them asked for somewhere else.
+      window.location.replace(takeAfterSignupHref())
     })()
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -596,7 +605,10 @@ export default function StarterPackPage() {
       // empty string, so the column stays null and the greeting knows it does
       // not have a name.
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        // The confirm link lands on /auth/callback, which honours next the
+        // same way (lib/auth/safe-next.ts). Only sent when there is one, so
+        // every other sign up confirms exactly as before.
+        emailRedirectTo: `${window.location.origin}/auth/callback${starterNext() ? `?next=${encodeURIComponent(starterNext()!)}` : ''}`,
         ...(name.trim() ? { data: { full_name: name.trim() } } : {}),
       },
     })
@@ -635,7 +647,7 @@ export default function StarterPackPage() {
     // never goes there. Fire and forget: the parent never waits on it.
     fetch('/api/signup/notify', { method: 'POST', keepalive: true }).catch(() => {})
     setSavingEmail(false)
-    window.location.href = '/dashboard/setup'
+    window.location.href = takeAfterSignupHref()
   }
 
   // Everything the write through needs, gathered from state in one place, so
