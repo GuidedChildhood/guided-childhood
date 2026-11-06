@@ -2,7 +2,8 @@
 
 Product 11 in `content/etsy-shop/product-brief.md`. Built 6 November 2026 as a
 listing over five packs that already exist; it has no pages of its own. The
-brief says list it once there are reviews to carry it, so it waits.
+brief said list it once there are reviews to carry it; Justin listed it on
+6 November 2026 (listing 4611189376).
 
 One change from the brief: the brief names "the Five Fights words", which is a
 free Saturday download that is not built yet, and a paid bundle should not
@@ -22,11 +23,20 @@ Screen Time Bundle Printable | Star Chart, Reward Chart, Calm Down Kit, Script C
   £18.74.
 - Bought one by one the five packs list at £33.45, so the bundle is the better
   deal without the listing having to say so.
-- Type: digital download. Etsy allows five files, so attach one zip per pack:
-  `star-chart.zip`, `earn-your-screen-time.zip`, `calm-down-kit.zip`,
-  `say-this-script-cards.zip`, `30-day-screen-reset-journal.zip`. Each zip
-  holds that pack's three PDFs from its `product/` folder, plus its `phone/`
-  screens where it has them.
+- Type: digital download. Etsy allows five files. The live listing
+  (4611189376, listed 6 November 2026) ships these five zips, not one per
+  pack, because the Say This zip (15.5 MB, three 6 MB PDFs plus phone
+  screens) was over the upload limit:
+  1. The Star Chart plus Earn Your Screen Time: both packs' PDFs from their
+     `product/` folders, plus `phone/` screens where a pack has them.
+  2. The Calm Down Corner Kit plus The 30 Day Screen Reset Journal: both
+     packs' PDFs, plus `phone/` screens where a pack has them.
+  3. Say This, A4 plus phone: `say-this-script-cards-A4.pdf` and the Say
+     This `phone/` screens.
+  4. Say This, US Letter: `say-this-script-cards-USLetter.pdf`.
+  5. Say This, ink friendly: `say-this-script-cards-A4-ink-friendly.pdf`.
+  When a pack is rebuilt, rebuild the zip it sits in and swap that file on
+  the listing.
 
 ## Description
 
