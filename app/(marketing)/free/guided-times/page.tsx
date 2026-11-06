@@ -47,7 +47,7 @@ export default function GuidedTimesTaster() {
         {PAGES.map((pg, i) => (
           <figure key={pg.n} style={{ margin: 0 }}>
             <div style={{
-              background: '#fff', border: 'var(--edge)', borderRadius: 14, boxShadow: '0 5px 0 var(--ink)',
+              background: 'var(--white)', border: 'var(--edge)', borderRadius: 14, boxShadow: '0 5px 0 var(--ink)',
               padding: 8, transform: `rotate(${[-1, 0.8, -0.6, 1][i]}deg)`,
             }}>
               <Image
@@ -82,7 +82,7 @@ export default function GuidedTimesTaster() {
       </p>
 
       <div style={{
-        marginTop: 18, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        marginTop: 18, background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
         boxShadow: 'var(--lift)', padding: '22px 22px', textAlign: 'center',
       }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 6px' }}>
