@@ -47,6 +47,7 @@ const PACKS = {
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
   'star-swap-shop': { file: 'star-swap-shop' },
+  'where-phones-sleep': { file: 'where-phones-sleep' },
 }
 
 const pack = process.argv[2]
