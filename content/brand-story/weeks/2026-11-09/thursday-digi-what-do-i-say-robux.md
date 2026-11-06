@@ -4,9 +4,10 @@
 shape of his "a parent asked" and live chat question card, rebuilt in our own
 franchise frame (A THING PARENTS SAY, then DiGi's real reply).
 
-**Status: draft.** No filming by Justin. Built with `product-shorts` from the
-real app. DiGi's reply is captured live, never written here. The Thursday slot
-is a proposal (see the review).
+**Status: approved 6 November, waiting on the four film links.** No filming by
+Justin. Built with `product-shorts` from the real app. DiGi's reply is captured
+live, never written here. Thursday slot, opening line and no tool beat agreed
+(see the review).
 
 **Proposed date:** Thursday 12 November 2026, 19:30.
 
@@ -132,7 +133,7 @@ edit the reply: rerun, or change the question, and say so in the review.
 
 **No tool beat.** The arc's tool step has no natural match for game money (the
 star deal buys minutes, not Robux), so this film goes straight from the words
-to the check in. Built that way on 6 November; Justin's call on review.
+to the check in. Built that way on 6 November; Justin agreed the same day.
 
 **TikTok cut:** 35 seconds, drops the send and the tap lead in, own `/v/` code.
 

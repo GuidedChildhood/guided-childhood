@@ -30,6 +30,29 @@ as `weekly-rhythm.md` has them; none of these formats replaces either.
 4. **The bio and highlights** (optional): "Not a ban. A plan." plus the stage
    check link; highlights Stage check, Scripts, Passport, Our story.
 
+## Decided 6 November 2026
+
+Justin: "go" on the recommendations.
+
+1. **Thursday short film slot: yes**, one film a week for two weeks. Kept only
+   if the `/v/` links show films bringing stage checks.
+2. **Robux film, no tool beat: agreed.** The star deal buys minutes, not Robux,
+   so a tool beat would claim something the product does not do.
+3. **Robux opening line: OK as it is**, carried by the A THING PARENTS SAY
+   eyebrow and the example family slate.
+4. **This week:** the Robux film on Thursday 12 November and the phone carousel
+   on Saturday 14 November, both built. Snap Map runs Friday 13 November only
+   if Justin has the 45 minutes on Thursday for the Ghost Mode check and the
+   take; otherwise it moves to Friday 20 November. The one line (19 November)
+   and the feed (21 November) stay where they are.
+5. **PACK comment gate:** only on a day Justin can reply by hand within a few
+   hours; otherwise the post points to the link in bio.
+6. **Bio:** "Not a ban. A plan." plus the stage check link.
+
+Justin's Monday: the four film links (`robux`, `robux-ig`, `robux-fb`,
+`robux-tt`) on Admin, Film links, then merge PR 1424. He posts everything
+himself.
+
 ## Before anything is filmed or posted
 
 - **Snap Map:** check Ghost Mode on a real phone the day before filming, on a
