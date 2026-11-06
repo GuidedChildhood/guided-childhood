@@ -17,31 +17,32 @@ number yet.
 
 | Number | Value |
 | --- | --- |
-| Accounts | 32, one new in the last 30 days, two signed in during the last 14 |
+| Accounts | 32, and on a closer read 29 of them are Justin's own test addresses |
+| Real people with an account | 3: Natalia, one account named "cj", and none paying |
 | Stage checks started in the last 30 days | 4, all with no link (`direct`) |
-| Stage check leads | 54 ever, 3 in the last 30 days |
-| Leads who went on to make an account | 28 of 54 |
+| Stage check leads | 54, and all but two are test addresses (one is an academic in New Zealand) |
 
-Two things follow.
-
-**The door works and nobody is walking up to it.** About half of the people
-who finished the stage check went on to make an account. Most of them know
-Justin, so strangers will convert lower, but the problem is traffic, not the
-product or the stage check. Four starts in a month is the whole story.
+**Corrected the same day.** The first draft of this plan read "28 of 54 leads
+made an account" as proof the door works. Those 28 are Justin testing his
+own sign up. So there is no conversion rate yet, from strangers or anyone,
+and the honest starting point is zero real sign ups. That makes the warm ring
+more important, not less: the first twenty are people one step from Justin.
 
 **A small fault found on the way.** `starter_leads.converted` reads false for
-all 54, even the 28 with accounts, so anything counting on that column is
-blind. Worth one line of fix in the next build session, not part of this plan.
+every lead, even ones with accounts, so anything counting on that column is
+blind. One line of fix in the next build session, not part of this plan. Also
+worth a guard: test addresses (`justin+`, `j31phillips+`, `support+`) should
+be filtered out of every count the founder page shows.
 
 **What counts as a sign up here:** a new account made by someone Justin did
 not already know. The signup alert email (lib/ops/signup-alert.ts) already
 tells him about each one. Paying is the next plan, not this one.
 
-**The maths, as an assumption to test, not a forecast.** If one stranger in
-four who starts the stage check goes on to make an account, 20 sign ups need
-about 80 stage checks from strangers in three weeks, roughly four a day. We
-are at one a week. Check the real rate after the first 30 starts and redo
-this line.
+**The maths, as an assumption to test, not a forecast.** With no real rate
+yet, assume one stranger in four who starts the stage check makes an account.
+Then 20 sign ups need about 80 stage checks from strangers in three weeks,
+roughly four a day. We are at one a week. Check the real rate after the first
+30 starts and redo this line.
 
 ## 2. What the research says, in four findings
 
@@ -210,10 +211,12 @@ The post, on the day the admin names:
 Add Nextdoor: a free business page, then one post to the neighbourhood with
 the `nextdoor` link (Nextdoor says it has over 10 million UK users, LIKELY).
 
-Mumsnet: read the Talk guidelines yourself before posting anything. A
-moderator deleted a business post in the thread the research found, and
-self promotion there costs more than it brings. UNVERIFIED rules, so no post
-until you have read them.
+Mumsnet: the Talk guidelines (mumsnet.com/i/netiquette, read 6 November)
+allow "the odd link" others find useful but delete attempts to post links
+"as a way of promoting their own product". VERIFIED. The only official
+business route is paid advertising. So on Mumsnet Justin answers phone and
+screen threads as a parent with no link, and names the stage check only if
+someone asks what he uses. Never a thread of his own about it.
 
 ### Door 4. One class doing it together (days 5 to 21)
 
@@ -351,12 +354,35 @@ About 45 minutes a day. If only the Must happens, the plan still holds.
 - No child's face, no invented parent, no statistic we cannot source.
 - The founder count is shown as it really is in Stripe, never with a deadline.
 
-## 10. What is needed from Justin
+## 10. Decided with Justin, 6 November
 
-1. Yes or no to the four doors in this order, and the 45 minutes a day.
-2. The 30 names for the warm ring (only he knows them).
-3. Whether the press pitch can say "near Winscombe" or just "Somerset".
-4. Which school, if any, for the class message and the PTA talk.
-5. Yes or no to the Google Play test this week ($25 and 12 testers), and to a
-   build session for the Microsoft Store listing.
-6. Read the Mumsnet guidelines before any post there.
+1. The four doors in this order, 45 minutes a day: yes.
+2. The warm ring comes from his contacts. Thirty people chosen from the Mac
+   Contacts app (personal addresses, a phone number saved, no businesses or
+   trades, not Natalia), one draft each in Gmail, subject "A small favour,
+   one parent", every one using `warm-ring`. Most of the contacts date from
+   a 2021 import, so some addresses will bounce and some people he will not
+   want to ask: he deletes those drafts and sends the rest.
+3. Press says "a dad in Star, near Winscombe". The pilot campaign already
+   says "a parent in Winscombe" in public, and a named village is what local
+   desks want. Three pitches drafted: BBC Radio Somerset, Somerset Live
+   (newsdesk@westgaz.co.uk) and Bristol Parent. Each has a `[your phone
+   number]` line to fill. Nub News goes in through its "Nub It" button and
+   LocalReach by phone, both by hand.
+4. The PTA talk goes to the four nearest primaries with a parent association
+   contact: Winscombe Primary PTFA (through the office, 0.9 miles), Churchill
+   CofE Primary PTA (through the office, 1.8), Axbridge First School PTA
+   (pta@axbridgefirstschool.co.uk, 2.0) and the Friends of Banwell
+   (friendsofbanwell@gmail.com, 2.6). Shipham and Burrington have no parent
+   association contact on the web. All four heads may also have had the
+   schools pilot email in October; this ask goes to the parents' association,
+   not the head, and offers a talk for parents, not a pilot.
+5. Google Play test and the Microsoft Store: yes. A separate session is
+   packaging both (PWA wrap, assetlinks, listing copy, Families and Data
+   safety answers). Justin creates the developer accounts, pays the $25 and
+   invites the 12 testers himself.
+6. Mumsnet rules read (section 5, door 3): helpful replies, no links.
+
+Every draft sits in justin@thesocialbillboard.com, the mailbox the Gmail
+connector held today. Nothing was sent. If the press and PTA emails should
+come from hello@guidedchildhood.com, reconnect that mailbox and they move.
