@@ -23,13 +23,38 @@ deletion.
 
 Eyebrow, IBM Plex Mono: A THING PARENTS SAY
 
-> "He asks for Robux every single day. I don't want to be the one who always
+> "She asks for Robux every single day. I don't want to be the one who always
 > says no."
 
 Built from the situation in script 9651 and the "Roblox and the Robux" theme in
 `research/03-digi-code-mapper.md`. It is not a verbatim quote from one parent,
 so the eyebrow and the example family slate carry it. Leads with the feeling,
 as the product-shorts checklist asks.
+
+## DiGi's reply, captured 6 November 2026
+
+Generated from DiGi's real prompt the way `lib/digi/evals.ts` does it: the
+live static system prompt (`staticSystemFor`), the route's weighing and tool
+rules, a minimal family context (Ava, 9, Builder), the script link block for
+9651 and the parenting lane shape, on `claude-fable-5-1`. "She" because the
+film family's child is Ava (`tools/names.json`). Three runs, all passing
+`verifyReply` and all linking 9651; run 2 was chosen as the shortest (154
+words) and the closest to the card idea. Not edited. The film streams it
+through the real chat renderer. The other two runs are not used.
+
+> Daily asking is a child who does not know the answer yet, so she asks again. The fix is a deal she helped make, so the question stops landing on you.
+>
+> **Set the Robux deal once, in a calm moment.** Agree a fixed amount and a fixed day, say a gift card on the first of the month. Every ask after that gets the same calm answer: that is the deal, next card is on the first.
+>
+> **Make the spending hers.** Let her plan what the card buys and feel it run out. Running out teaches more than any no.
+>
+> The exact words are in [The first gift card, before the first spend](/dashboard/scripts/9651).
+>
+> **Tonight.** Tell her you want to sort Robux properly this weekend, together, and ask what she would buy first.
+>
+> ---
+>
+> Quick one for tonight: when Ava asks for Robux, is it usually straight after playing with friends, or out of nowhere?
 
 ---
 
@@ -106,11 +131,32 @@ edit the reply: rerun, or change the question, and say so in the review.
 
 **No tool beat.** The arc's tool step has no natural match for game money (the
 star deal buys minutes, not Robux), so this film goes straight from the words
-to the check in. Justin's call whether that is fine or whether it waits.
+to the check in. Built that way on 6 November; Justin's call on review.
 
 **TikTok cut:** 35 seconds, drops the send and the tap lead in, own `/v/` code.
 
 ---
+
+## Built 6 November 2026
+
+- **Cuts:** `videos/2026-10-09-digi-shorts/cuts/short-robux.json` (41.5s, Reels
+  and Facebook) and `short-robux-tt.json` (40s, TikTok). Scenes
+  `robux-chat`, `script-deck-9651`, `followup-robux`, `checkin-great-robux`.
+- **Real screens:** the DiGi chat with the captured reply above, the script
+  deck for 9651 (`/ref-script-deck?script=9651`, a fixture that reads the
+  migration text, checked against the live row), and the check in relabelled
+  to Gaming concerns.
+- **The arc:** the opening line, DiGi's thinking line ("Never a flat yes or no.
+  Working out your next step."), the reply with a push in on its plan line,
+  the Tonight line, Say this with two underlined phrases, the check in from a
+  few days on to Sorted, then the end card. No send beat and no tool beat.
+- **Labels:** example family slate, illustrative reply, illustrative time
+  markers, this parent's own rating.
+- **Kept off screen:** the chat's empty state, which suggests an Instagram
+  question for a nine year old, never appears; the Tonight beat is a still of
+  the finished reply for that reason.
+- **Links to make on Admin, Film links, before posting:** `/v/robux` for Reels
+  and Facebook, `/v/robux-tt` for TikTok.
 
 ## Proof path
 
