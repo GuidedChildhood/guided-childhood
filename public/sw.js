@@ -1,14 +1,21 @@
-// Bumped to v8 for the urgent notification options below. The cache name IS
+// Bumped to v9 for the offline page (6 November 2026, the Google Play build).
+// v8 was the urgent notification options below. The cache name IS
 // the update trigger: a service worker whose bytes change but whose name does
 // not can sit on a phone serving the old logic indefinitely, which is exactly
 // how an app installed before a fix never receives it.
-const CACHE_NAME = 'gc-v8'
+const CACHE_NAME = 'gc-v9'
 // Only static media is ever cached. Pages, scripts and styles are never stored,
 // so a deploy is picked up the instant the device is online, and the app can
 // never boot an old shell from a stale cache. The v7 bump purges anything the
 // earlier versions cached, including any old HTML or JS.
+//
+// The one page that IS stored is /offline.html, and it is never shown when the
+// network answers. It is a static file with no app code in it, so it cannot go
+// stale against a deploy the way a cached shell would.
+const OFFLINE_URL = '/offline.html'
 const STATIC_ASSETS = [
   '/icons/icon-192.png',
+  OFFLINE_URL,
 ]
 
 self.addEventListener('install', event => {
@@ -46,6 +53,21 @@ self.addEventListener('fetch', event => {
           }
           return res
         })
+      )
+    )
+    return
+  }
+
+  // A page load with no connection gets our own offline page instead of the
+  // browser's error. The network still answers first, every time: the page is
+  // only used when fetch itself throws, which is what no connection looks like.
+  // A server error is a real response and is passed through untouched. This is
+  // what the Google Play app (a Trusted Web Activity) needs to pass Chrome's
+  // offline check, and it is kinder on any home screen app.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() =>
+        caches.match(OFFLINE_URL).then(cached => cached ?? Response.error())
       )
     )
     return
