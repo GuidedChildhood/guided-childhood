@@ -110,7 +110,14 @@ function scene() {
 // ── Page furniture ──────────────────────────────────────────────────────
 const folio = n => `<div class="gt-folio">${wavy()}<div class="row mono"><span>The Guided Times · Issue ${I.number} · ${TASTER ? 'Free taster' : I.month}</span><span>guidedchildhood.com</span><span>${TASTER ? (n ? `Page ${n} of the full issue` : 'The free taster') : `Page ${n}`}</span></div></div>`
 const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${orn(14)}<span class="mono muted">${I.edition} · ${I.month}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
-const page = (n, inner, opts = {}) => `<section class="gt-page" id="p${n}" data-page="${n}" aria-label="Page ${n}">${opts.noHead ? '' : head(opts.section || '', opts.tint)}<div class="gt-body">${inner}</div>${folio(n)}</section>`
+// Pages number themselves in the order an issue lists them; the taster keeps
+// each page's number in the full issue.
+let PN = 0
+const V2 = I.design === 2
+// Issue 2 on: a coloured tab on the page edge naming the section, so a child
+// learns where their favourite page lives (research, 6 November 2026).
+const tab = (label, tint) => V2 && label ? `<div aria-hidden="true" class="flood" style="position:absolute;right:0;top:120px;width:22px;padding:14px 0;background:${tint};border:2.5px solid ${INK};border-right:0;border-radius:10px 0 0 10px;display:flex;justify-content:center;color:#fff"><span class="mono" style="writing-mode:vertical-rl;color:inherit;font-size:10px;letter-spacing:0.16em">${label}</span></div>` : ''
+const page = (_n, inner, opts = {}) => { const n = TASTER ? _n : ++PN; return `<section class="gt-page" id="p${n}" data-page="${n}" aria-label="Page ${n}">${opts.noHead ? '' : head(opts.section || '', opts.tint)}${tab(opts.section, opts.tint)}<div class="gt-body">${inner}</div>${folio(n)}</section>` }
 const ribbon = (t, fill = 'f-butter', size = 30, rot = -1) => `<h2 class="d ribbon ${fill}" style="font-size:${size}px;transform:rotate(${rot}deg)">${t}</h2>`
 const line = (label, size = 15, extra = '') => `<div class="line" style="font-size:${size}px;${extra}">${label ? `<span class="lab">${label}</span>` : ''}<span class="dots"></span></div>`
 const gu = (t = 'For grown ups') => `<span class="gu">${star(12)}${t}</span>`
@@ -265,12 +272,12 @@ function editor() {
     </div>
 
     <div style="margin-top:14px;flex:1 1 auto;min-height:0;display:flex;flex-direction:column">
-      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px"><span class="d" style="font-size:22px">${cm.title}</span><span class="mono muted">The comic strip</span></div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px"><span class="d" style="font-size:22px">${cm.title}</span><span class="mono muted">${cm.part || 'The comic strip'}</span>${cm.next ? `<span class="mono" style="margin-left:auto;background:${INK};color:#fff;border-radius:999px;padding:2px 9px">${cm.next}</span>` : ''}</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;flex:1 1 auto;min-height:0">
         ${cm.panels.map((p, i) => `<div class="box thin" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:8px">
           <div class="b" style="position:absolute;left:8px;right:8px;top:8px;font-size:13.5px;line-height:1.25;background:#fff;border:2.5px solid ${INK};border-radius:14px 14px 14px 4px;padding:6px 8px">${p.say}</div>
           <span class="mono" style="position:absolute;left:8px;bottom:5px;font-size:10px">${i + 1}</span>
-          <div style="display:flex;align-items:flex-end;gap:2px">${p.who === 'digi' ? img('digi', '', 92) : img(p.who, p.mood, 104)}${p.basket ? basket(54) : ''}${i === 0 ? present(44, C.sky, C.coral) : ''}</div>
+          <div style="display:flex;align-items:flex-end;gap:2px">${p.who === 'digi' ? img('digi', '', 92) : img(p.who, p.mood, 104)}${p.basket ? basket(54) : ''}${p.thing ? thing(p.thing, 44) : (i === 0 && !V2 ? present(44, C.sky, C.coral) : '')}</div>
         </div>`).join('')}
       </div>
     </div>`, { section: 'From the editor' })
@@ -376,10 +383,10 @@ function appDesk() {
     <div style="display:flex;align-items:center;gap:10px">${ribbon(a.kicker, 'f-sky', 26)}<span class="mono muted">${L.appsNote}</span></div>
     <h2 class="d" style="font-size:36px;letter-spacing:-0.03em;margin:10px 0 4px">${a.headline}</h2>
     <p style="font-size:16px">${a.intro}</p>
-    <div style="display:flex;gap:14px;align-items:center;margin:12px 0 4px">
+    ${a.pegi ? `<div style="display:flex;gap:14px;align-items:center;margin:12px 0 4px">
       ${a.pegi.map((n, i) => `<span class="flood" style="width:62px;height:62px;border:3px solid ${INK};border-radius:12px;background:${tints[i]};display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 4px 0 ${INK}"><span class="d" style="font-size:30px">${n}</span></span>`).join('')}
       <p class="b" style="flex:1;font-size:14.5px;line-height:1.35">${a.pegiLine}</p>
-    </div>
+    </div>` : `<div style="display:grid;grid-template-columns:repeat(${a.cards.length},1fr);gap:8px;margin:12px 0 4px">${a.cards.map(([ic, t], i) => `<div class="box thin ${['f-sky', 'f-butter', 'f-green', 'f-pink', 'f-teal'][i % 5]}" style="padding:7px 8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px">${icon(ic, 34)}<span class="b" style="font-size:13px;line-height:1.2">${t}</span></div>`).join('')}</div>`}
     <div style="display:flex;gap:14px;margin-top:12px">
       <div class="box f-paper" style="flex:1.25 1 0;padding:12px 14px">
         <h3 class="d" style="font-size:18px;margin-bottom:4px">${a.questions.title}</h3>
@@ -541,7 +548,8 @@ function make() {
         <div style="border-top:2.5px dashed #6B6B80;position:relative"><span class="mono muted" style="position:absolute;right:8px;top:-9px;background:#fff;font-size:9px;padding:0 4px">fold</span></div>
         <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px">${basket(80)}<span class="d" style="font-size:26px;text-align:center;line-height:1.05">${m.hanger.front}</span></div>
       </div>
-    </div>`, { section: 'Make and do', tint: '#B5487A' })
+    </div>
+    ${m.jokes ? `<div class="box thin f-butter" style="margin-top:12px;padding:8px 12px;display:flex;gap:14px;align-items:flex-start">${plate('bloop', 'happy', 50)}<div style="flex:1"><div class="mono">${m.jokes.title}</div>${m.jokes.items.map(([q, a]) => `<div class="small" style="margin-top:3px"><b>${q}</b> <span class="upside" style="display:inline-block">${a}</span></div>`).join('')}</div></div>` : ''}`, { section: 'Make and do', tint: '#B5487A' })
 }
 
 // ── PAGE 11, THE SHOP ───────────────────────────────────────────────────
@@ -609,6 +617,158 @@ function back() {
     </div>`, { section: 'The back page', tint: C.pine })
 }
 
+// ══ ISSUE 2 ON: THE NEW PAGES (6 November 2026) ═════════════════════════
+// From the design research: one big cover picture with a short headline, an
+// "In this issue" panel, a monthly family challenge with a certificate, a
+// pull out poster numbered across the series, a homework planner, a jokes
+// corner, and a back page that carries the shop, the next issue and the
+// answers. Each reads its words from the issue, like the rest.
+
+function cover2() {
+  const f = I.front, sc = scene(), sr = rng(41), CONF = [C.coral, C.butter, C.sky, C.green, C.pink]
+  const marks = Array.from({ length: 40 }, (_, i) => { const r = sr; const x = (r() * 680).toFixed(0), y = (r() * 240).toFixed(0), z = (2 + r() * 2.8).toFixed(1)
+    if (x < 470 && y < 230) return '' // nothing behind the headline's words
+    return sc.marks === 'confetti' ? `<rect class="fill" x="${x}" y="${y}" width="${z * 2.2}" height="${z * 1.2}" rx="1.5" transform="rotate(${(r() * 90).toFixed(0)} ${x} ${y})" fill="${CONF[i % 5]}" stroke="${INK}" stroke-width="1.2"/>`
+      : sc.marks === 'hearts' ? `<path class="fill" transform="translate(${x} ${y}) scale(${(z / 5).toFixed(2)})" d="M0 6 C-7 0 -3 -6 0 -2 C3 -6 7 0 0 6z" fill="${CONF[i % 5]}" stroke="${INK}" stroke-width="1.6"/>`
+      : `<circle cx="${x}" cy="${y}" r="${z}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>` }).join('')
+  const friends = f.friends || [['pebble', 'happy'], ['bloop', 'wave'], ['orbit', 'happy'], ['nova', 'wave'], ['cosmo', 'happy']]
+  return page(1, `
+    <header style="text-align:center">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end" class="mono">
+        <span style="text-align:left">No. ${I.number}<br>${I.month}</span><span>Guided Childhood News</span><span style="text-align:right">${I.ages.split(',')[0]}<br>Print, read, do</span>
+      </div>
+      <h1 class="d" style="font-size:76px;letter-spacing:-0.045em;line-height:0.95;margin:4px 0 2px;display:flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap">${orn(24, 2.6)}The Guided Times${orn(24, 2.6)}</h1>
+      <div class="b" style="font-size:16px">Happy news for growing up with screens</div>
+      <div style="border-top:5px solid ${INK};border-bottom:1.5px solid ${INK};height:9px;margin-top:8px"></div>
+      <div class="mono dateline" style="background:${C.pine};color:#fff;padding:5px 10px;margin-top:4px;display:flex;justify-content:space-between;border-radius:4px"><span>${I.edition}</span><span>${I.theme}</span><span>guidedchildhood.com</span></div>
+    </header>
+    <div class="box f-snow" style="position:relative;height:366px;flex-shrink:0;overflow:hidden;margin-top:12px">
+      <svg viewBox="0 0 680 358" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%">${marks}
+        <path class="fill" d="M0 292 Q 120 266 250 284 T 480 276 T 680 282 V358 H0 Z" fill="#fff" stroke="${INK}" stroke-width="3"/></svg>
+      <div style="position:absolute;left:22px;right:22px;top:16px">
+        <div class="mono muted">${f.kicker || 'Front page news'}</div>
+        <h2 class="d" style="font-size:${f.headlineSize || 66}px;letter-spacing:-0.04em;line-height:0.98;margin-top:4px;max-width:470px">${f.headline}</h2>
+        <p class="b" style="font-size:16.5px;line-height:1.35;margin-top:8px;max-width:400px">${f.standfirst}</p>
+      </div>
+      <div style="position:absolute;right:14px;top:10px;transform:rotate(9deg)">${burst(118, f.burst, f.burstColour || C.holly)}</div>
+      <div style="position:absolute;left:0;bottom:4px;width:170px;height:150px">${sc.left.replaceAll('bottom:22px', 'bottom:8px').replaceAll('bottom:16px', 'bottom:6px').replace(/<div style="position:absolute;left:118px;top:14px">[\s\S]*?<\/svg><\/div>/, '').replace('top:16px', 'top:-20px')}</div>
+      <div style="position:absolute;left:176px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:flex-end">
+        ${friends.map(([k, m], i) => `<div style="display:flex;flex-direction:column;align-items:center">${img(k, m, [92, 98, 92, 102, 96][i])}<span class="d" style="font-size:12px;margin-top:-8px;background:#fff;border:2px solid ${INK};border-radius:999px;padding:1px 9px">${NAMES[k]}</span></div>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:14px;flex:1 1 auto;min-height:0">
+      <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px">
+        <div class="cols2" style="font-size:15px">${f.paras.map((p, i) => `<p class="${i === 0 ? 'dropcap' : ''}">${p}</p>`).join('')}</div>
+        <div class="box thin f-paper" style="margin-top:auto;padding:9px 12px;display:flex;gap:10px;align-items:center">${burst(62, 'Wow!', C.butter, INK)}<div><div class="mono">${f.wow.title}</div><div class="small b">${f.wow.text}</div></div></div>
+      </div>
+      <nav class="box f-paper" style="width:228px;flex-shrink:0;padding:10px 12px">
+        <div class="mono" style="margin-bottom:6px">In this issue</div>
+        ${f.inThis.map(([n, t, ic]) => `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1.5px dotted #C9C9D6">${icon(ic, 30)}<span class="b" style="font-size:13.5px;line-height:1.2;flex:1">${t}</span><span class="stepno" style="width:26px;height:26px;font-size:14px">${n}</span></div>`).join('')}
+      </nav>
+    </div>`, { noHead: true })
+}
+
+function challenge() {
+  const c = I.challenge
+  return page(4, `
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(c.kicker, 'f-coral', 26)}<span class="mono muted">${c.note}</span></div>
+    <h2 class="d" style="font-size:38px;letter-spacing:-0.03em;margin:10px 0 4px">${c.headline}</h2>
+    <p style="font-size:15.5px">${c.intro}</p>
+    <div class="box" style="margin-top:12px;padding:10px 12px">
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td class="mono" style="padding:4px 6px">Name</td>${c.days.map(d => `<td class="mono" style="text-align:center;padding:4px 2px">${d}</td>`).join('')}</tr>
+        ${[1, 2, 3, 4, 5, 6].map(() => `<tr><td style="padding:3px 6px;width:150px"><div style="height:42px;border-bottom:2.5px dotted var(--write)"></div></td>${c.days.map(() => `<td style="text-align:center;padding:6px 2px"><span class="tick" style="width:34px;height:34px;border-radius:9px"></span></td>`).join('')}</tr>`).join('')}
+      </table>
+      <div class="small b" style="margin-top:6px">${c.rule}</div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:12px">${c.ideas.map((t, i) => `<div class="box thin ${['f-sky', 'f-butter', 'f-green'][i % 3]}" style="flex:1 1 0;padding:8px 10px"><div class="mono">${c.ideasTitle} ${i + 1}</div><div class="b small" style="margin-top:2px">${t}</div></div>`).join('')}</div>
+    <div style="margin-top:auto;position:relative;border:3px dashed ${INK};border-radius:16px;padding:14px 18px;text-align:center" class="f-paper flood">
+      <span class="scissors" style="left:-9px;top:-12px">✂</span>
+      <div style="display:flex;justify-content:center;gap:8px">${star(26)}${star(32)}${star(26)}</div>
+      <div class="mono" style="margin-top:4px">${c.certificate.kicker}</div>
+      <div class="d" style="font-size:34px;margin:2px 0 4px">${c.certificate.title}</div>
+      <p class="b" style="font-size:15px">${c.certificate.line}</p>
+      <div style="display:flex;gap:24px;margin-top:6px">${line('Our family', 15, 'flex:1')}${line('Date', 15, 'flex:0 0 200px')}</div>
+    </div>`, { section: c.section, tint: C.holly })
+}
+
+function poster() {
+  const p = I.poster
+  return page(7, `
+    <div class="flood" style="flex:1 1 auto;display:flex;flex-direction:column;border:4px solid ${INK};border-radius:20px;background:${C.paper};padding:16px 20px;position:relative;box-shadow:5px 6px 0 ${INK}">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono">${p.kicker}</span><span class="mono" style="background:${INK};color:#fff;border-radius:999px;padding:3px 10px">${p.collect}</span></div>
+      <h2 class="d" style="font-size:52px;letter-spacing:-0.04em;line-height:0.95;margin:10px 0 4px;text-align:center">${p.title}</h2>
+      <p class="b" style="text-align:center;font-size:15px">${p.sub}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0 8px">
+        ${p.kinds.map((k, i) => `<div class="box thin ${['f-sky', 'f-butter', 'f-green'][i]}" style="padding:8px 10px;display:flex;flex-direction:column;gap:4px">${icon(k.icon, 36)}<div class="d" style="font-size:18px">${k.title}</div><div class="small b">${k.text}</div><div style="height:30px;border-bottom:2.5px dotted var(--write);background:#fff;border-radius:6px"></div></div>`).join('')}
+      </div>
+      <div style="background:#fff;border:2.5px solid ${INK};border-radius:14px;padding:6px 14px 10px">
+        ${p.lines.map(l => line(l, 17, 'min-height:54px')).join('')}
+      </div>
+      <div class="mono" style="margin:12px 0 2px">${p.signTitle}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 22px;background:#fff;border:2.5px solid ${INK};border-radius:14px;padding:0 14px 10px">${[1, 2, 3, 4].map(() => line('', 15, 'min-height:52px')).join('')}</div>
+      <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end">${(p.friends || [['pebble', 'wave'], ['cosmo', 'happy']]).map(([k, m]) => img(k, m, 92)).join(`<div class="b small" style="text-align:center;max-width:300px;margin-bottom:10px">${p.foot}</div>`)}</div>
+    </div>`, { section: p.section, tint: C.pine })
+}
+
+function planner() {
+  const h = I.homework
+  return page(8, `
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(h.kicker, 'f-teal', 26)}<span class="mono muted">${L.homeworkNote}</span></div>
+    <div style="display:flex;gap:14px;align-items:flex-end;margin:10px 0 6px">
+      <div style="flex:1"><h2 class="d" style="font-size:36px;letter-spacing:-0.03em">${h.headline}</h2><p style="font-size:15.5px;margin-top:4px">${h.intro}</p></div>
+      ${img(h.by, 'thinking', 96)}
+    </div>
+    <div class="box" style="padding:8px 10px">
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <tr>${['', ...h.columns].map(t => `<td class="mono" style="padding:4px 6px;border-bottom:2px solid ${INK}">${t}</td>`).join('')}</tr>
+        ${h.days.map(d => `<tr><td class="d" style="padding:4px 6px;font-size:16px;width:96px;border-bottom:1.5px solid #C9C9D6">${d}</td>${h.columns.map((_, i) => `<td style="padding:4px 6px;border-bottom:1.5px solid #C9C9D6;${i === h.columns.length - 1 ? 'width:60px;text-align:center' : ''}">${i === h.columns.length - 1 ? '<span class="tick" style="width:26px;height:26px"></span>' : '<div style="height:52px"></div>'}</td>`).join('')}</tr>`).join('')}
+      </table>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <div class="box f-paper" style="flex:1 1 0;padding:10px 12px">
+        <h3 class="d" style="font-size:18px">${h.reading.title}</h3>
+        <p class="small" style="margin:2px 0 6px">${h.reading.line}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">${Array.from({ length: 14 }, (_, i) => `<span style="width:40px;height:40px;border:2.5px solid ${INK};border-radius:8px;display:inline-flex;align-items:flex-start;justify-content:flex-start;padding:2px 4px;font-family:var(--mono);font-size:10px;font-weight:600;background:#fff">${i + 1}</span>`).join('')}</div>
+      </div>
+      <div class="box f-pink" style="width:250px;flex-shrink:0;padding:10px 12px;display:flex;flex-direction:column;gap:4px">
+        <h3 class="d" style="font-size:18px">${h.ladderTitle}</h3>
+        ${h.ladder.map((t, i) => `<div style="display:flex;gap:7px;align-items:center"><span class="stepno" style="width:24px;height:24px;font-size:13px">${i + 1}</span><span class="b small">${t}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="box" style="margin-top:auto;padding:10px 14px;display:flex;gap:12px;align-items:center">
+      ${plate('digi', '', 56, 'f-butter')}<div>${gu()}<p class="small" style="margin-top:4px">${h.grownUps}</p></div>
+    </div>`, { section: 'The homework helper', tint: '#2A8C82' })
+}
+
+function back2() {
+  const b = I.back, s = I.shop, P = I.puzzles, { ws, mz } = window.GT_SOLVED
+  const ads = s.ads.filter(a => a.live)
+  const mini = `<div style="display:grid;grid-template-columns:repeat(10,11px);border:1.5px solid var(--answer);padding:2px">${ws.grid.flat().map((ch, i) => `<span style="width:11px;height:11px;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;${ws.hits.has(`${Math.floor(i / 10)},${i % 10}`) ? 'background:#D8D8E4;color:#1A1A2E' : 'color:#B0B0C0'}">${ch}</span>`).join('')}</div>`
+  return page(12, `
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(s.kicker, 'f-coral', 26)}<span class="mono muted">Small ads</span></div>
+    <h2 class="d" style="font-size:28px;letter-spacing:-0.03em;margin:8px 0 8px">${s.headline}</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      ${ads.map(a => `<div class="box thin" style="padding:8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px">${a.img ? `<div style="width:74px;height:100px;border:2px solid ${INK};border-radius:4px;overflow:hidden;background:#fff"><img class="art" src="${ART}/shop/${a.img}.png" alt="${a.name}, the first page" style="width:100%;height:100%;object-fit:cover;object-position:top"></div>` : thing(a.draw === 'house' ? 'house' : 'present', 70)}<div class="d" style="font-size:14.5px;line-height:1.1">${a.name}</div><div class="mono muted" style="font-size:9.5px">${a.ages}</div></div>`).join('')}
+    </div>
+    <div class="flood" style="margin-top:10px;background:${C.pine};color:#fff;border:2.5px solid ${INK};border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:10px">${star(24)}<div class="d" style="font-size:19px;color:inherit">${I.shopUrl}</div><div class="b small" style="margin-left:auto;color:inherit">${s.sticker}</div></div>
+    <div class="box f-snow" style="margin-top:12px;padding:10px 14px;display:flex;gap:12px;align-items:center">
+      <div style="flex:1"><div class="mono">${b.next.kicker}</div><p class="b" style="font-size:15px;margin-top:3px">${b.next.line}</p></div>${burst(80, `Issue ${I.nextIssue.number}`, C.sky, INK)}
+    </div>
+    <div class="flood" style="margin-top:12px;border:3px solid ${INK};border-radius:14px;background:${C.butter};padding:10px 14px;display:flex;gap:12px;align-items:center">
+      ${img('digi', '', 56)}<div><p class="d" style="font-size:17px;line-height:1.2">${b.gift}</p><p class="small b" style="margin-top:3px">${b.review}</p></div>
+    </div>
+    <div class="upside" style="margin-top:auto;padding-top:10px;display:flex;gap:18px;align-items:flex-start">
+      <div style="flex:1 1 0;min-width:0">
+        <div class="mono" style="font-size:10px;color:inherit;margin-bottom:3px">Orbit’s answers</div>
+        ${P.realOrPretend.answers.map(a => `<div style="font-size:12.5px;line-height:1.35">${a}</div>`).join('')}
+        <div style="font-size:12.5px;line-height:1.35;margin-top:3px">${P.code.answer || `The code says: ${P.code.message.toLowerCase()}.`}</div>
+      </div>
+      ${mini}
+      <div style="opacity:0.75">${mazeSvg(mz, 11, { solution: true, sw: 1.6 })}</div>
+    </div>`, { section: 'The back page', tint: C.pine })
+}
+
 // ── THE TASTER'S CLOSING PAGE ───────────────────────────────────────────
 function tasterEnd() {
   const t = I.taster, P = I.puzzles, { ws, mz } = window.GT_SOLVED
@@ -641,7 +801,8 @@ function tasterEnd() {
   </div>${folio(0)}</section>`
 }
 
-const ORDER = TASTER ? [front, idCard, puzzles, tasterEnd] : [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
+const PAGES = { front, cover2, editor, plan, idCard, challenge, bigQuestion, appDesk, poster, homework, planner, sites, puzzles, make, shop, back, back2 }
+const ORDER = TASTER ? [front, idCard, puzzles, tasterEnd] : I.pages ? I.pages.map(k => PAGES[k]) : [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
 document.getElementById('pages').innerHTML = ORDER.map(fn => fn()).join('')
 document.title = TASTER ? `The Guided Times, Issue ${I.number}: the free taster` : `The Guided Times, Issue ${I.number}: ${I.edition}, ${I.month}`
 })()
