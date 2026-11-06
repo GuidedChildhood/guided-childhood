@@ -26,12 +26,12 @@ const source = readFileSync(SRC, 'utf8')
   .replace(/const lowered = new Set<string>\(\)/, 'const lowered = new Set()')
   .replace(/function firstWord\(name: string\): string/, 'function firstWord(name)')
   .replace(/function newNamesIn\(texts: string\[\], known: string\[\] = \[\]\): string\[\]/, 'function newNamesIn(texts, known = [])')
-  .replace(/function addChildHref\(name: string\): string/, 'function addChildHref(name)')
+  .replace(/function holdNewChildName\(name: string\): void/, 'function holdNewChildName(name)')
   .replace(/const found: string\[\] = \[\]/, 'const found = []')
 
-let newNamesIn, addChildHref
+let newNamesIn, ADD_CHILD_HREF, ADD_CHILD_NAME_KEY, holdNewChildName
 try {
-  ;({ newNamesIn, addChildHref } = new Function(`${source}; return { newNamesIn, addChildHref }`)())
+  ;({ newNamesIn, ADD_CHILD_HREF, ADD_CHILD_NAME_KEY, holdNewChildName } = new Function(`${source}; return { newNamesIn, ADD_CHILD_HREF, ADD_CHILD_NAME_KEY, holdNewChildName }`)())
 } catch (err) {
   console.error('check-new-name FAILED\n')
   console.error(`  ${SRC} could not be evaluated: ${err.message}`)
@@ -103,13 +103,24 @@ for (const c of NEVER) {
   if (got.length > 0) problems.push(`WRONG    ${c.why}\n           offered [${got.join(', ')}] and should have offered nothing`)
 }
 
-// The offer has to reach the form that already exists, with the name in it.
-const href = addChildHref('Olga')
-if (href !== '/dashboard/quests?add_child=Olga') {
-  problems.push(`LINK     addChildHref points at "${href}". QuestManager reads ?add_child= to open its add child form with the name filled in.`)
+// The offer has to reach the form that already exists, with the name in it,
+// and the name must never be in the link (6 November 2026): a child's name in
+// a URL lands in request logs, analytics and browser history. QuestManager
+// opens the form on ?add_child= and takes the name from this tab's storage.
+if (ADD_CHILD_HREF !== '/dashboard/quests?add_child=') {
+  problems.push(`LINK     the add child offer points at "${ADD_CHILD_HREF}". QuestManager reads ?add_child= to open its add child form, and nothing may follow the = .`)
 }
-if (addChildHref('Mary Jane') !== '/dashboard/quests?add_child=Mary%20Jane') {
-  problems.push('LINK     addChildHref does not encode a name with a space, which would break the link.')
+const held = new Map()
+globalThis.sessionStorage = { setItem: (k, v) => held.set(k, String(v)), getItem: k => held.get(k) ?? null }
+holdNewChildName('  Mary Jane  ')
+if (held.get(ADD_CHILD_NAME_KEY) !== 'Mary Jane') {
+  problems.push(`LINK     holdNewChildName did not keep the name for the form (got "${held.get(ADD_CHILD_NAME_KEY)}").`)
+}
+delete globalThis.sessionStorage
+try { holdNewChildName('Olga') } catch { problems.push('LINK     holdNewChildName throws when storage is blocked; the form must still open, blank.') }
+const quests = readFileSync('app/(dashboard)/dashboard/quests/QuestManager.tsx', 'utf8')
+if (!quests.includes('ADD_CHILD_NAME_KEY')) {
+  problems.push('LINK     QuestManager does not read ADD_CHILD_NAME_KEY, so the add child form opens without the name DiGi offered.')
 }
 
 if (problems.length > 0) {

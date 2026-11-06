@@ -2,6 +2,7 @@ import { Resend } from 'resend'
 import { createHmac } from 'crypto'
 import { maySendProgramme, recordProgrammeSend } from './address-guard'
 import { APP_ORIGIN } from '@/lib/config/site'
+import { sealEmail } from './link-token'
 
 let _resend: Resend | null = null
 
@@ -56,10 +57,14 @@ export function leadUnsubscribeToken(email: string): string {
     .slice(0, 32)
 }
 
+// The address travels sealed (./link-token.ts), never in the clear: until 6
+// November 2026 this link read ?e=you@example.com&k=<hmac>, which put the
+// address in logs, history and Referer headers. The route still honours that
+// old shape, because a stop link already sitting in an inbox has to keep
+// working; nothing mints it any more. leadUnsubscribeToken stays for that.
 export function leadUnsubscribeUrl(email: string): string {
   const origin = APP_ORIGIN
-  const addr = email.trim().toLowerCase()
-  return `${origin}/api/email/unsubscribe?e=${encodeURIComponent(addr)}&k=${leadUnsubscribeToken(addr)}`
+  return `${origin}/api/email/unsubscribe?t=${sealEmail(email, 'unsub')}`
 }
 
 // Signed the same way as the unsubscribe links, and for a sharper reason than
@@ -90,8 +95,9 @@ export function starterCtaToken(email: string): string {
  */
 export function starterCtaUrl(email: string): string {
   const origin = APP_ORIGIN
-  const addr = email.trim().toLowerCase()
-  return `${origin}/api/go/starter?e=${encodeURIComponent(addr)}&k=${starterCtaToken(addr)}`
+  // Sealed, like the stop link above, and for the same reason. The route
+  // still reads the old ?e=&k= shape for links already in inboxes.
+  return `${origin}/api/go/starter?t=${sealEmail(email, 'cta')}`
 }
 
 /**

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { unsubscribeToken, leadUnsubscribeToken } from '@/lib/email'
+import { openEmail } from '@/lib/email/link-token'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,7 +9,7 @@ export const dynamic = 'force-dynamic'
 // link came from an email we sent, no login needed.
 //
 // Two kinds of recipient, one door. ?u is an account, and opts the profile out.
-// ?e is someone who gave us their email before they had an account, and stops
+// ?t (sealed; ?e in older emails) is someone who gave us their email before they had an account, and stops
 // the pre sign up sequence. That second case is the one that matters: a parent
 // who downloaded a printable with one address and then joined with another was
 // still being sold the thing they had already bought, with only a mailto to
@@ -19,8 +20,14 @@ export async function GET(req: NextRequest) {
   const token = req.nextUrl.searchParams.get('k')
 
   const validAccount = !!userId && !!token && token === unsubscribeToken(userId)
-  const addr = leadEmail?.trim().toLowerCase() ?? ''
-  const validLead = !!addr && !!token && token === leadUnsubscribeToken(addr)
+  // ?t= is the lead's address sealed (lib/email/link-token.ts), what every
+  // email has carried since 6 November 2026, so no address sits in the URL.
+  // ?e=&k= is the old shape, still honoured: a stop link already in an inbox
+  // has to keep working for as long as that email exists.
+  const sealed = openEmail(req.nextUrl.searchParams.get('t'), 'unsub')
+  const legacy = leadEmail?.trim().toLowerCase() ?? ''
+  const addr = sealed ?? (legacy && token && token === leadUnsubscribeToken(legacy) ? legacy : '')
+  const validLead = !!addr
 
   if (!validAccount && !validLead) {
     return NextResponse.json({ error: 'Invalid link' }, { status: 400 })

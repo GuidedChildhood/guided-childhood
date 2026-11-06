@@ -4,6 +4,7 @@ import { PRICING_BANDS, LICENCE_INCLUDES, FOUNDING } from '@/lib/pricing'
 import { foundingPlacesLeft } from '@/lib/founding-places'
 import { VAT_LINE } from '@gc/shared/legal'
 import InvoiceForm from './InvoiceForm'
+import { pilotPrefill } from '@/lib/pilot-prefill'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // The pricing page: five bands, decided 13 August 2026, with the per pupil
@@ -23,12 +24,16 @@ const eyebrow: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
 }
 
-// The end of a pilot arrives here with the school already typed in: the
-// confirmation email carries ?school=&name=&email= so a pilot turns into a
-// licence in one click (decision 5, 13 September 2026).
-export default async function PricingPage({ searchParams }: { searchParams: Promise<{ school?: string; name?: string; email?: string }> }) {
+// The end of a pilot arrives here with the school already typed in, so a
+// pilot turns into a licence in one click (decision 5, 13 September 2026).
+// The confirmation email carries ?pilot=<token>, an opaque value looked up on
+// the server (lib/pilot-prefill.ts, migration 387). It used to carry
+// ?school=&name=&email=, which put a head's name and address in logs, history
+// and Referer headers; those parameters are no longer read, and no pilot
+// letter carrying them was ever sent (no pilot place had been taken).
+export default async function PricingPage({ searchParams }: { searchParams: Promise<{ pilot?: string | string[] }> }) {
   const sp = await searchParams
-  const prefill = { school_name: sp.school?.slice(0, 200), contact_name: sp.name?.slice(0, 120), email: sp.email?.slice(0, 200) }
+  const prefill = await pilotPrefill(sp.pilot)
   // Counted from the requests; null when unreadable, and then the offer is
   // not shown at all rather than shown with a number that might be wrong.
   const founding = await foundingPlacesLeft()

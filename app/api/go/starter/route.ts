@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { createClient as createSessionClient } from '@/lib/supabase/server'
 import { sessionUser } from '@/lib/supabase/session'
 import { starterCtaToken } from '@/lib/email'
+import { openEmail } from '@/lib/email/link-token'
 import { APP_ORIGIN } from '@/lib/config/site'
 
 export const dynamic = 'force-dynamic'
@@ -26,9 +27,14 @@ export const dynamic = 'force-dynamic'
 const APP = APP_ORIGIN
 
 export async function GET(req: NextRequest) {
+  // ?t= is the address sealed (lib/email/link-token.ts), what every email has
+  // sent since 6 November 2026. ?e=&k= is the old shape, the address in the
+  // clear beside its HMAC, still honoured for links already in inboxes.
+  const sealed = openEmail(req.nextUrl.searchParams.get('t'), 'cta')
   const raw = req.nextUrl.searchParams.get('e') ?? ''
   const token = req.nextUrl.searchParams.get('k') ?? ''
-  const addr = raw.trim().toLowerCase()
+  const legacy = raw.trim().toLowerCase()
+  const addr = sealed ?? (legacy && token && token === starterCtaToken(legacy) ? legacy : '')
 
   const pack = NextResponse.redirect(`${APP}/starter-pack`, 302)
   const home = NextResponse.redirect(`${APP}/dashboard`, 302)
@@ -47,7 +53,7 @@ export async function GET(req: NextRequest) {
     // mail app's own browser. Carry on to the address check.
   }
 
-  if (!addr || !token || token !== starterCtaToken(addr)) return pack
+  if (!addr) return pack
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY

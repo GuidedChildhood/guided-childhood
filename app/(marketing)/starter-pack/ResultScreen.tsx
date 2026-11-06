@@ -222,7 +222,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // A page that sent them here with ?next= (lib/starter/next.ts) gets them
   // back, through the login door too when the email still needs confirming.
   const next = starterNext()
-  const loginQuery = [email ? `email=${encodeURIComponent(email)}` : '', next ? `next=${encodeURIComponent(next)}` : ''].filter(Boolean).join('&')
+  // No address in the link (6 November 2026): ?from=starter has the login form
+  // fill the email from gc_starter_email, which the starter pack saved on this
+  // device, so a URL never carries it into logs or history (funnel audit fix 8).
+  const loginQuery = [email ? 'from=starter' : '', next ? `next=${encodeURIComponent(next)}` : ''].filter(Boolean).join('&')
   const enterHref = needsConfirm ? `/login${loginQuery ? `?${loginQuery}` : ''}` : (next ?? SETUP_HREF)
   const action = stage.challengeActions[challenge] ?? stage.action
   // Their words back, not ours. A parent who ticked "Bedtime screens" should

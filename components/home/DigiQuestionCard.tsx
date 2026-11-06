@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
-import { newNamesIn, addChildHref } from '@/lib/digi/new-name'
+import { newNamesIn, ADD_CHILD_HREF, holdNewChildName } from '@/lib/digi/new-name'
 
 // One question from DiGi, once a day, on Home.
 //
@@ -108,7 +108,8 @@ export default function DigiQuestionCard({ question, childId, knownNames = [] }:
             {fresh.map(name => (
               <Link
                 key={name}
-                href={addChildHref(name)}
+                href={ADD_CHILD_HREF}
+                onClick={() => holdNewChildName(name)}
                 style={{
                   display: 'inline-flex', alignItems: 'center',
                   background: '#fff', border: '1.5px dashed var(--terracotta-dark)',

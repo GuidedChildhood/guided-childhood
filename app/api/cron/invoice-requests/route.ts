@@ -64,6 +64,21 @@ const BAND_LABELS: Record<string, string> = {
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
+type InvoiceRow = {
+  id: string
+  school_name: string
+  band: string
+  pupil_count: number | null
+  contact_name: string
+  email: string
+  po_number: string
+  notes: string | null
+  created_at: string
+  notified_at: string | null
+  confirmed_at: string | null
+  prefill_token?: string | null
+}
+
 async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
@@ -86,13 +101,23 @@ async function handler(request: Request) {
   }
 
   const supabase = createAdminClient()
-  const { data: requests, error } = await supabase
+  // prefill_token (migration 387) is what the pilot letter's licence link
+  // carries in place of the school's name and email. If this deploy lands
+  // before the migration has run, the column is missing (Postgres 42703) and
+  // the read is made again without it: the letters keep going, and the pilot
+  // one links to the plain pricing page until the column exists, rather than
+  // every school letter stopping on a 500.
+  const COLUMNS = 'id, school_name, band, pupil_count, contact_name, email, po_number, notes, created_at, notified_at, confirmed_at'
+  const pending = (columns: string) => supabase
     .schema('schools')
     .from('invoice_requests')
-    .select('id, school_name, band, pupil_count, contact_name, email, po_number, notes, created_at, notified_at, confirmed_at')
+    .select(columns)
     .or('notified_at.is.null,confirmed_at.is.null')
     .order('created_at')
     .limit(20)
+    .overrideTypes<InvoiceRow[], { merge: false }>()
+  let { data: requests, error } = await pending(`${COLUMNS}, prefill_token`)
+  if (error?.code === '42703') ({ data: requests, error } = await pending(COLUMNS))
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   // An empty invoice pile is not an empty postbag: the supplies letterbox is
   // a separate table and has to be emptied whether or not anyone bought a

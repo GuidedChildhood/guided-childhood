@@ -22,7 +22,7 @@ async function Both({ searchParams }: { searchParams: Promise<{ reader?: string 
   const which = reader === 'member' ? 'member' : 'lead'
   const email = magnetEmail({
     magnetTitle: 'The Planet Post', downloadUrl: '#', files, reader: which,
-    cta: '/api/go/starter?e=example&k=example',
+    cta: '/api/go/starter?t=example',
     blurb: 'Colour in and fill in, with a screen promise to sign together. No login needed.',
   })
   return (
