@@ -142,9 +142,9 @@ export const ANSWERS: Record<string, Answer> = {
   controller_fights: {
     question: 'How do I get them off it without a meltdown?',
     answer: 'An ending they can see coming, and the next session paid for honestly rather than argued for.',
-    proof: ['Timer and warning nudges', 'Jobs that buy game time'],
+    proof: ['The timer that calls time', 'Jobs that buy game time'],
     how: [
-      { id: 'balance', line: 'An ending they can see coming, with a warning before the last minute.' },
+      { id: 'balance', line: 'An ending agreed before it starts, so the timer calls time, not you.' },
       { id: 'kidapp', line: 'The next session paid for with jobs, so it is theirs, not begged for.' },
       { id: 'script', line: 'The words for the handover, so you are not the one who ends the game.' },
       { id: 'lesson', line: 'A short lesson on why stopping is hard, done together.' },
