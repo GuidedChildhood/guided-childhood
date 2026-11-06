@@ -514,6 +514,54 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: '/printables/script-cards-colour.pdf',
     previewUrl: '/printables/script-cards.png',
   },
+  // The build next five from the Etsy top sellers research
+  // (plans/2026-11-06-etsy-build-next-five-plan.md, PR 1425), free in the app
+  // like every Etsy download.
+  {
+    key: 'phone-treasure-hunt',
+    title: 'The Phone Under The Tree Treasure Hunt', emoji: '🎁', kind: 'hunt',
+    stages: [2, 3], minutes: 'One morning', setting: 'indoors', skill: 'First phone',
+    stars: 5,
+    blurb: 'Ten clue cards hidden around the house, each with one line of the phone plan to read out loud, and a box at the end: the phone, or the plan and a date. Then the phone promises, signed together.',
+    sheetUrl: '/printables/phone-treasure-hunt-colour.pdf',
+    previewUrl: '/printables/phone-treasure-hunt.png',
+  },
+  {
+    key: 'planet-day-flip-chart',
+    title: 'The Planet Day Flip Chart', emoji: '🗂️', kind: 'challenge',
+    stages: [1, 2], minutes: 'Every day', setting: 'indoors', skill: 'Routines',
+    stars: 5,
+    blurb: 'A morning, after school and bedtime routine flip chart with 120 picture cards. Gold cards are my time, star cards are earned with jobs, and striped cards are the times screens rest.',
+    sheetUrl: '/printables/planet-day-flip-chart-colour.pdf',
+    previewUrl: '/printables/planet-day-flip-chart.png',
+  },
+  {
+    key: 'jobs-board',
+    title: 'The Jobs Board for 11 to 15s', emoji: '📋', kind: 'challenge',
+    stages: [3, 4], minutes: 'All week', setting: 'anywhere', skill: 'Jobs and stars',
+    stars: 5,
+    blurb: 'Family jobs everyone does for no stars, earning jobs that pay in screen time, stars to minutes, pitch a job slips and a deal you both sign.',
+    sheetUrl: '/printables/jobs-board-colour.pdf',
+    previewUrl: '/printables/jobs-board.png',
+  },
+  {
+    key: 'table-talk-cards',
+    title: 'What Would You Do? Table Talk Cards', emoji: '🗨️', kind: 'brain',
+    stages: [2, 3, 4], minutes: 'Ten minutes', setting: 'anywhere', skill: 'Talking it through',
+    stars: 5,
+    blurb: 'A hundred cards for tea time: everyday questions, real online situations from the lessons, and what would DiGi say? The answer is upside down at the foot.',
+    sheetUrl: '/printables/table-talk-cards-colour.pdf',
+    previewUrl: '/printables/table-talk-cards.png',
+  },
+  {
+    key: 'road-to-16-board-game',
+    title: 'The Road to 16 Board Game', emoji: '🎲', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'Thirty minutes', setting: 'indoors', skill: 'Family game',
+    stars: 5,
+    blurb: 'A family board game from age 4 to 16, hosted by DiGi. Jobs earn stars, stripy squares rest, family jobs help, and every choice card is a real question from the lessons.',
+    sheetUrl: '/printables/road-to-16-board-game-colour.pdf',
+    previewUrl: '/printables/road-to-16-board-game.png',
+  },
 ]
 
 // The real, finished products we have built and shipped to Etsy, now brought
@@ -617,6 +665,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
   ...Object.fromEntries([
     'first-phone-kit', 'christmas-countdown', 'screens-at-grannys', 'are-we-nearly-there',
     'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards',
+    'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game',
   ].map(k => [k, { preview: `/printables/${k}.png`, colour: `/printables/${k}-colour.pdf`, colourIn: `/printables/${k}-colourin.pdf` }])),
 }
 
