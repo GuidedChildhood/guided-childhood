@@ -210,6 +210,15 @@ The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down
 
 Justin: "all etsy downloads should be in app for free to child and parent." Every Etsy pack in the app library is free for any parent and opens straight away for the child, with no Ask and no paywall. Nine more are added (First Phone Kit, Christmas Countdown, Screens At Granny's, Are We Nearly There, Holiday Screen Deal, Screen Reset Journal, Star Swap Shop, Guided Times 1, Say This script cards, which are for grown ups only), and the Starter Pack is back in the grid. Not in the app as their own card: the Star Chart, the printable Passport (the app has both of its own), the Class Screen Promise (for teachers) and the bundles. `npm run etsy-in-app`, in CI, fails a new Etsy pack until it has an app edition. PR 1427.
 
+## 6 November 2026: Etsy listing photos in the Canva look, varied per product
+Justin: the photos "look more AI than Canva" and should not all look alike.
+`listing-images.js`, `bundle-images.js` and the Passport's `images.html` now
+build flat paper photos: serif headline, handwritten note, real pages on a
+clipboard or fridge with washi tape, no 3D characters, road or ink outlines.
+Each product sets one of five themes and one of three cover layouts so shop
+neighbours differ. The Etsy creation setting stays "With an AI generator"
+while AI made friends are printed on the pages. Rules in the printables
+engine skill, step 7b.
 ## 6 November 2026: the five build next Etsy packs, built
 
 From the top sellers research's build next list, in deadline order: the Phone Under The Tree Treasure Hunt (13 pages, Orbit, list by 20 November, now also in the Christmas Phone Bundle at the same £14.99), the Planet Day Flip Chart (25 pages, 120 picture cards), the Jobs Board for 11 to 15s (8 pages), What Would You Do? Table Talk cards (100 cards) and the Road to 16 Board Game (19 pages plus an A3 board). Every line has a proof path in the product; titles lead with the format that sells. build-pack.mjs gains fillable PDF fields (so "fillable" is true), an A3 output, and a Letter fix: Letter had been printing at about 88 percent and off centre, the older packs keep that until rebuilt. Not uploaded. PR 1425.
