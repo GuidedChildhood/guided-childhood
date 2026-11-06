@@ -1,6 +1,14 @@
 # Issue 6 · A year of posting, and the thirteen clicks
 
-**Venue: LinkedIn newsletter, NOT the parent Substack.** **Length:** 1,813 words.
+**Venue: LinkedIn newsletter, NOT the parent Substack.** **Length:** 1,585 words,
+trimmed to the LinkedIn standard rather than the Substack one. See the length note
+in `00-plan.md`: the Substack standard is 1,800 to 2,500, LinkedIn is 1,200 to
+1,600, and applying the Substack number here was an error Justin caught.
+
+**This issue needs two things to publish, not one.** The article below, and the
+short note to your network at the foot of this file, which is what appears in the
+feed when the newsletter goes out. Our one previous LinkedIn newsletter used a
+141 word note and that is the precedent being followed.
 
 **Why the venue matters.** This issue is about our own numbers. Putting our traffic
 data in front of a parent who is worried about their eleven year old spends their
@@ -32,12 +40,6 @@ So the profile outperformed every link in every post by more than twelve to one,
 I knew in theory that LinkedIn suppresses posts with external links. Everybody who writes about this platform says so, usually with a confident percentage attached. What I did not have was my own number, and my own number is not a 25 to 60 percent penalty. It is thirteen clicks against 165, which is not a penalty so much as a different mechanism entirely.
 
 The link is not a weak call to action. The link is not the call to action at all. The post is, and the profile is what collects.
-
-Two other things in the account summary are worth more than they look.
-
-**Seventy percent of the reach was out of network.** Which means the posts were travelling to strangers rather than circulating among people who already know me. That is the only number on this page that actually matters for growth, and it is the one nobody reports.
-
-**Saves: 801. Reposts: 121.** Six and a half saves for every repost. People were quietly filing things rather than publicly endorsing them, which tells you something about the subject I write about.
 
 ## The near controlled experiment I did by accident
 
@@ -123,15 +125,7 @@ I earned it, as far as I can tell, by staying in one subject. Children, screens,
 
 The practical version: the discipline that felt like a constraint was the thing doing the work.
 
-## The 801 saves
-
-One more figure I nearly skipped. 801 saves against 121 reposts, so six and a half to one.
-
-People were filing these posts privately rather than endorsing them publicly, and once I noticed that I understood the subject better than I had from any of the engagement data.
-
-If you write about children and screens, your reader is often a parent who agrees with you and does not want their colleagues, their family or their child's school to see them agreeing. The subject carries judgement in both directions: you're either the parent who's too relaxed or the parent who's too strict, and neither is a thing people want attached to their name in a professional feed.
-
-A high save to repost ratio is a signal that your audience is being careful, not that they're uninterested. I'd been reading it as the second thing.
+One more figure in the same spirit: 801 saves against 121 reposts, six and a half to one. People were filing these privately rather than endorsing them publicly, which makes sense for a subject where you're either the parent who's too relaxed or the parent who's too strict. A high save to repost ratio means your audience is being careful, not uninterested, and I'd been reading it as the second thing.
 
 ## The three rules I would give anyone writing about a contested subject
 
@@ -145,13 +139,11 @@ A high save to repost ratio is a signal that your audience is being careful, not
 
 Export your last year. Sort by impressions. Then read the first two lines of your top five and your bottom five next to each other, and say out loud what differs.
 
-It took me twenty minutes and it changed how I write. You may find the opposite of what I found, in which case I'd genuinely like to hear it, because a single account is a sample of one and I've just spent two thousand words being careful about exactly that kind of claim.
+It took me twenty minutes and it changed how I write. You may find the opposite of what I found, in which case I'd genuinely like to hear it, because a single account is a sample of one and I've just spent a newsletter being careful about exactly that kind of claim.
 
-One last thing, since this is a newsletter about being honest with data.
+Before I exported it I'd have told you with real confidence that scene led openings were my strongest work. My memory of my own performance wasn't slightly wrong. It was inverted.
 
-The reason I can show you any of this is that I exported it once and wrote it down in a file. Before that I'd been working from memory and from other people's blog posts, and I'd have told you with real confidence that scene led openings were my strongest work. My memory of my own performance was not slightly wrong. It was inverted.
-
-Whatever you measure, the thing you'll learn most from is the number that contradicts what you already believe about yourself. Mine was thirteen.
+Mine was thirteen. What's yours?
 
 ---
 
@@ -164,3 +156,19 @@ The paired Australia posts are both in that file with their opening lines record
 The 75,842 post is the Wrong Villain meta analysis post, at 2.09 percent engagement. The scene led openings cited at 1,701, 1,167 and 1,164 are all in the same file.
 
 **The limits of all of this.** It is one account, in one subject area, over one year, with no control for topic, timing, or the fact that I got better at writing over the period. The paired Australia posts are the closest thing to a controlled comparison and they are still two posts, two months apart, with a different audience size behind them. I am reporting what my data says, not what is true in general.
+
+---
+
+## The note to your network
+
+Paste into "Tell your network what your newsletter is about" when publishing. No link needed, the article is attached.
+
+I exported a year of my own LinkedIn numbers and one of them embarrassed me.
+
+275,018 impressions. 114,314 people. Thirteen clicks on links in posts, for the whole year. The profile button got 165.
+
+So I went through the rest of it properly, and found a pair of posts I'd written two months apart about the same study, with the same evidence and a different opening. One did 15,186. The other did under 1,154.
+
+This is what the difference was, what it cost me to find out I'd been wrong about my own best writing for a year, and the two things my data still cannot tell me.
+
+What's the number in your own analytics that contradicts what you believe about your writing?

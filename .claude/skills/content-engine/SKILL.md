@@ -93,6 +93,20 @@ Justin's highest performing posts (75,842 impressions, The Wrong Villain series)
 
 - **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).
 - **Substack**: one full issue, story led, 1,800 to 2,500 words, subject line options.
+- **LinkedIn newsletter**: a different length from Substack, and the two are not
+  interchangeable (Justin, 6 November 2026, catching exactly that mistake).
+  **1,200 to 1,600 words**, plus a separate note to the network of roughly 140
+  words, which is what appears in the feed when the edition goes out and is the
+  piece most likely to be forgotten. A LinkedIn newsletter is therefore always
+  two deliverables, never one.
+  The basis, stated honestly: we hold **no data of our own on newsletter length**.
+  External guidance is vendor blogs with undisclosed methods, clustering at 800
+  to 1,500 words for newsletters and 1,500 to 2,500 for articles generally, so
+  1,200 to 1,600 is the overlap and nothing more than a judgement. What we do
+  know from our own account is that three LinkedIn article posts came fourth,
+  fifth and eighth of about fourteen, above every stat card but one, and that a
+  LinkedIn newsletter link is not an off platform link. Replace this range the
+  moment there is a real number behind it.
 - **Mumsnet**: one post written as a genuine forum contribution: humble, practical, first person parent voice, no marketing scent, no links unless asked, invites discussion. Mumsnet detects and destroys astroturf, so it must read as a parent sharing what they learned.
 - **Reddit**: one post for a relevant subreddit (r/Parenting, r/ScienceBasedParenting, r/Teachers): evidence first, citations linked inline, neutral professional tone, zero promotion, structured for comment discussion. On r/ScienceBasedParenting every claim needs its study link.
 - **Facebook**: one post for parent groups: warm, shorter sentences, one idea, shareable, ends with a question that invites parents to answer.
