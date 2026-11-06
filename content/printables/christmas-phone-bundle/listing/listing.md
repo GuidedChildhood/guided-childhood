@@ -5,6 +5,14 @@ listing over packs that already exist; it has no pages of its own. For
 the parent putting a first phone under the tree: list it straight after the
 First Phone Kit.
 
+## Live on Etsy: edit it, never relist
+
+The three pack version went live on 6 November 2026 as listing 4611169093 at
+£14.99, with three zips (first-phone-kit, family-phone-agreement,
+calm-down-kit). Once PR 1425 merges, edit that live listing (no Etsy fee):
+add `phone-treasure-hunt.zip`, and replace the title, description, tags and
+photos with the ones below. Do not make a new listing.
+
 ## Title (128 characters)
 
 First Phone Bundle Printable | Phone Kit, Phone Agreement, Christmas Treasure Hunt and Calm Down Kit | Phone Gift | Ages 9 to 13
