@@ -56,11 +56,11 @@ const PACKS = {
   // No app edition: a classroom poster set for teachers, not a family sheet.
   'class-screen-promise': { file: 'class-screen-promise' },
   // The build next five, plans/2026-11-06-etsy-build-next-five-plan.md
-  'phone-treasure-hunt': { file: 'phone-under-the-tree-treasure-hunt', fields: true },
-  'planet-day-flip-chart': { file: 'planet-day-flip-chart', fields: true },
-  'jobs-board': { file: 'jobs-board-11-to-15', fields: true },
-  'table-talk-cards': { file: 'what-would-you-do-table-talk-cards', cards: true },
-  'road-to-16-board-game': { file: 'road-to-16-board-game', a3: 'board-a3.html' },
+  'phone-treasure-hunt': { file: 'phone-under-the-tree-treasure-hunt', fields: true, app: 'phone-treasure-hunt' },
+  'planet-day-flip-chart': { file: 'planet-day-flip-chart', fields: true, app: 'planet-day-flip-chart' },
+  'jobs-board': { file: 'jobs-board-11-to-15', fields: true, app: 'jobs-board' },
+  'table-talk-cards': { file: 'what-would-you-do-table-talk-cards', cards: true, app: 'table-talk-cards' },
+  'road-to-16-board-game': { file: 'road-to-16-board-game', a3: 'board-a3.html', app: 'road-to-16-board-game' },
   // Bundles have no pages of their own: listing photos only (bundle-images.js).
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
