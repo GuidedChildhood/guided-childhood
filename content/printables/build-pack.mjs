@@ -4,7 +4,7 @@
 //   node content/printables/build-pack.mjs <pack> [print|phone|listing]
 //
 // <pack> is calm-down-kit, starter-pack, star-chart, earn-your-screen-time,
-// family-phone-agreement or script-cards. Needs playwright-core and a Chrome: the system
+// family-phone-agreement, script-cards or star-swap-shop. Needs playwright-core and a Chrome: the system
 // Chrome on this Mac and the main checkout's playwright-core, unless CHROME
 // and PW_CORE say otherwise (same as the Passport's build-passport.mjs).
 //
@@ -35,6 +35,7 @@ const PACKS = {
   'earn-your-screen-time': { file: 'earn-your-screen-time' },
   'family-phone-agreement': { file: 'family-phone-agreement' },
   'script-cards': { file: 'say-this-script-cards', cards: true },
+  'star-swap-shop': { file: 'star-swap-shop' },
 }
 
 const pack = process.argv[2]
