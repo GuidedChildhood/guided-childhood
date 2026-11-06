@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>{{TITLE}}</title>
+<style>
+{{STYLE}}
+</style>
+</head>
+<body>
+<!-- THE GUIDED TIMES, the page turning reader. One file: every font and
+     picture is inside it, so it works offline, with no account, in any
+     browser. Without scripts (some phone previews run none) the pages sit in
+     a strip you swipe left and right. -->
+<header id="bar" aria-label="Reader controls">
+  <span class="gt-title">The Guided Times</span>
+  <span id="where" aria-live="polite"></span>
+  <span class="gt-tools">
+    <button id="contents" type="button" aria-haspopup="dialog">Contents</button>
+    <button id="zoom" type="button" aria-pressed="false">Zoom</button>
+  </span>
+</header>
+<main id="pages" aria-label="The newspaper pages">
+{{PAGES}}
+</main>
+<div id="stage" aria-hidden="true"><div id="book"></div></div>
+<nav id="turn" aria-label="Turn the page">
+  <button id="prev" type="button" aria-label="Previous page">&#8249;</button>
+  <button id="next" type="button" aria-label="Next page">&#8250;</button>
+</nav>
+<div id="hint" hidden><span>Swipe or tap the edge to turn the page.<br>Double tap to zoom in.</span></div>
+<dialog id="toc" aria-label="Contents"></dialog>
+<script>
+{{SCRIPT}}
+</script>
+</body>
+</html>

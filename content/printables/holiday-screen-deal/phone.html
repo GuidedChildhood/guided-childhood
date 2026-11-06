@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Holiday Screen Deal · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--coral-lt:#FBEADB;--green:#2F8F6B;--green-dark:#236F52;--tint-sage:#E8F0EE;
+    --bloop-soft:#E4F0D4;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  .title{font-weight:900;font-size:76px;line-height:1.05;margin-top:20px;}
+  .lead{font-weight:700;font-size:34px;color:var(--ink-soft);margin-top:16px;line-height:1.35;}
+  .card{background:var(--white);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);}
+  .term{display:flex;gap:30px;align-items:flex-start;padding:34px 38px;margin-top:30px;}
+  .num{width:78px;height:78px;border-radius:50%;background:var(--terracotta);border:6px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px;flex-shrink:0;}
+  .term .hd{font-weight:900;font-size:44px;line-height:1.1;}
+  .term .bd{font-weight:700;font-size:32px;color:var(--ink-soft);line-height:1.35;margin-top:8px;}
+  .blank{display:inline-block;width:120px;border-bottom:5px solid var(--ink);height:40px;vertical-align:bottom;}
+  .foot{margin-top:auto;padding-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+  .job{display:flex;align-items:center;justify-content:space-between;padding:34px 36px;
+    border-top:4px solid var(--border);font-weight:800;font-size:40px;}
+  .job:first-child{border-top:none;}
+  .job .s{display:flex;align-items:center;gap:6px;font-weight:900;}
+  .job .s svg{width:44px;height:44px;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · OUR HOLIDAY DEAL -->
+<div class="screen" data-name="our-holiday-deal" style="background:var(--bloop-soft);">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:30px;">
+    <div>
+      <div class="eyebrow" style="color:var(--green-dark);">Our holiday deal</div>
+      <div class="title">Five things<br>we agreed</div>
+    </div>
+    <img src="images/friends/bloop.png" alt="Bloop" style="width:260px;height:260px;object-fit:contain;">
+  </div>
+  <div class="card term">
+    <div class="num">1</div>
+    <div><div class="hd">My core: <span class="blank"></span> min a day</div><div class="bd">Mine every day, no stars needed.</div></div>
+  </div>
+  <div class="card term">
+    <div class="num">2</div>
+    <div><div class="hd">1 star = <span class="blank"></span> minutes</div><div class="bd">On any screen in the house.</div></div>
+  </div>
+  <div class="card term">
+    <div class="num">3</div>
+    <div><div class="hd">Cap: <span class="blank"></span> stars a week</div><div class="bd">Then the jar is full until Monday.</div></div>
+  </div>
+  <div class="card term">
+    <div class="num">4</div>
+    <div><div class="hd">Protected times</div><div class="bd">Meals, the hour before bed, family days. No stars can buy them.</div></div>
+  </div>
+  <div class="card term" style="background:var(--terracotta-lt);">
+    <div class="num">5</div>
+    <div><div class="hd">An ask, never a sneaky start</div><div class="bd">We always answer: a yes, or a not now and what comes next.</div></div>
+  </div>
+  <div style="display:flex;gap:40px;margin-top:56px;">
+    <div style="flex:1;"><div style="border-bottom:5px solid var(--ink);height:80px;"></div><div class="eyebrow" style="font-size:22px;letter-spacing:4px;color:var(--ink-muted);margin-top:12px;">Signed by me</div></div>
+    <div style="flex:1;"><div style="border-bottom:5px solid var(--ink);height:80px;"></div><div class="eyebrow" style="font-size:22px;letter-spacing:4px;color:var(--ink-muted);margin-top:12px;">Signed by my grown up</div></div>
+  </div>
+  <div class="foot">Guided Childhood · The Holiday Screen Deal</div>
+</div>
+
+<!-- SCREEN 2 · THE JOBS BOARD -->
+<div class="screen" data-name="jobs-board">
+  <div class="eyebrow">The jobs board</div>
+  <div class="title">Jobs that<br>earn stars</div>
+  <div class="lead">One star is five minutes. Tell your grown up when a job is done. The stars count when they say yes.</div>
+  <div class="card" style="margin-top:40px;" id="joblist"></div>
+  <div class="card" style="margin-top:40px;padding:34px 38px;background:var(--tint-sage);">
+    <div style="font-weight:900;font-size:42px;line-height:1.15;">Family jobs earn nothing</div>
+    <div style="font-weight:700;font-size:32px;color:var(--ink-soft);line-height:1.35;margin-top:10px;">
+      Clearing my plate, putting my things away, helping when visitors come. Everyone does them, because we live here.
+    </div>
+  </div>
+  <div class="foot">Guided Childhood · The Jobs Board</div>
+</div>
+
+<script>
+(() => {
+  const star = '<svg viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round"/></svg>'
+  const jobs = [
+    ['Help cook a meal', 2], ['Hoover a room', 2], ['Clear and wipe the table', 1],
+    ['Sort the recycling', 1], ['Wash the car or the bikes', 3], ['Write a thank you note', 1],
+    ['Sort toys to give away', 3], ['Help in the garden', 2],
+  ]
+  document.getElementById('joblist').innerHTML = jobs.map(([j, n]) =>
+    `<div class="job"><span>${j}</span><span class="s">${star.repeat(n)}</span></div>`).join('')
+})()
+</script>
+</body>
+</html>

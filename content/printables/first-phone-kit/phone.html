@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The First Phone Kit · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The parent's own copy, on their own phone: the setup night checklist
+     (print page 7) and the week by week plan (print pages 8 and 9). Same
+     words as the print, so the two never drift. -->
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--orbit:#3E86BC;--orbit-soft:#DCEBF7;--orbit-ink:#1F4E6E;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:76px 60px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:5px;text-transform:uppercase;color:var(--coral);}
+  .title{font-weight:900;font-size:76px;line-height:1.05;margin-top:16px;}
+  .lead{font-weight:700;font-size:32px;line-height:1.4;color:var(--ink-soft);margin-top:18px;}
+  .list{flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:36px;}
+  .item{display:flex;gap:28px;align-items:center;background:var(--white);border:6px solid var(--ink);
+    border-radius:32px;box-shadow:0 9px 0 var(--ink);padding:22px 30px;}
+  .item .box{width:58px;height:58px;border:6px solid var(--ink);border-radius:16px;flex-shrink:0;}
+  .item .t{font-weight:900;font-size:38px;line-height:1.1;}
+  .item .s{font-weight:700;font-size:27px;line-height:1.3;color:var(--ink-soft);margin-top:4px;}
+  .week{background:var(--white);border:6px solid var(--ink);border-radius:36px;box-shadow:0 10px 0 var(--ink);padding:30px 36px;}
+  .wk{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;letter-spacing:3px;
+    text-transform:uppercase;color:#fff;background:var(--orbit-ink);border-radius:999px;padding:8px 22px;}
+  .week .t{font-weight:900;font-size:50px;line-height:1.1;margin-top:14px;}
+  .week .s{font-weight:700;font-size:30px;line-height:1.35;color:var(--ink-soft);margin-top:8px;}
+  .foot{margin-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · SETUP NIGHT -->
+<div class="screen" data-name="setup-night">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">The night it arrives</div>
+      <div class="title">Setup night</div>
+    </div>
+    <img src="images/DiGi-star.svg" alt="DiGi" style="width:150px;height:160px;">
+  </div>
+  <div class="lead">Side by side, before it goes in a pocket. iPhone: Screen Time. Android: Google Family Link.</div>
+  <div class="list">
+    <div class="item"><div class="box"></div><div><div class="t">Two codes</div><div class="s">Unlock code you both know. Controls code only you know.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">A bedtime lock</div><div class="s">At the time on the deal. Downtime, or bedtime.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Daily time limits</div><div class="s">Match the deal. Change them at a review.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">App approvals</div><div class="s">New apps and purchases ask you first. Do this one first.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Age ratings and safe search</div><div class="s">Apps, films and music set to their age.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Contacts</div><div class="s">The people from their deal, saved in together.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Location, agreed out loud</div><div class="s">If it is on, they know it is on.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">The charger's new home</div><div class="s">Outside the bedroom. Yours goes there too.</div></div></div>
+    <div class="item"><div class="box"></div><div><div class="t">The weekly report</div><div class="s">Look at it with them, not at them.</div></div></div>
+  </div>
+  <div class="foot">Guided Childhood · The First Phone Kit</div>
+</div>
+
+<!-- SCREEN 2 · THE FIRST 30 DAYS -->
+<div class="screen" data-name="first-30-days">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">The first 30 days</div>
+      <div class="title">One small thing<br>a week</div>
+    </div>
+    <img src="images/friends/orbit.png" alt="Orbit" style="width:190px;height:190px;object-fit:contain;">
+  </div>
+  <div class="lead">A missed day is just a missed day. Start again tomorrow. Weekend check in: child answers first.</div>
+  <div class="list" style="margin-top:34px;">
+    <div class="week"><span class="wk">Week 1 · Days 1 to 7</span><div class="t">Phone to bed, unasked</div><div class="s">To its charger outside the bedroom at the agreed time. Grown ups' phones too.</div></div>
+    <div class="week"><span class="wk">Week 2 · Days 8 to 14</span><div class="t">Ask before you add</div><div class="s">Every new app starts with a chat: what it is, who is on it, what it costs.</div></div>
+    <div class="week"><span class="wk">Week 3 · Days 15 to 21</span><div class="t">Group chats sleep too</div><div class="s">Muted at the bedtime lock. Once, show a grown up one thing from a chat.</div></div>
+    <div class="week"><span class="wk">Week 4 · Days 22 to 30</span><div class="t">Show me your favourite</div><div class="s">Ten minutes, they drive. Ask: "Why do you think it showed you that?"</div></div>
+  </div>
+  <div style="margin-top:34px;background:var(--terracotta-lt);border:6px solid var(--ink);border-radius:36px;padding:26px 34px;">
+    <div style="font-weight:900;font-size:34px;line-height:1.3;">Every weekend: what was the best thing your phone did for you this week?</div>
+    <div style="font-weight:700;font-size:27px;color:var(--ink-soft);margin-top:8px;">Day 30: the first review, on the deal.</div>
+  </div>
+  <div class="foot">Guided Childhood · The First Phone Kit</div>
+</div>
+
+</body>
+</html>

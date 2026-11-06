@@ -1,0 +1,126 @@
+/* THE GUIDED TIMES, the paid Happy News newspaper (5 November 2026).
+ *
+ * The Planet Post's finish (white stock, ink lines, crayon fills, bursts,
+ * ribbons, Nunito 900), on its own masthead and in a real newspaper's grid:
+ * ears either side of the name, thick and thin rules, columns, small ads.
+ * See plans/2026-11-05-paid-happy-news-newspaper-plan.md.
+ *
+ * ONE PAGE SIZE FOR EVERY OUTPUT. A page is 740 by 1000 CSS pixels, the
+ * Planet Post's box (components/printables/news/PlanetPost.tsx): 195.8 by
+ * 264.6 mm, inside both A4 (7 mm clear at the sides) and US Letter (7 mm
+ * clear top and bottom), so the same page prints on either paper, fills the screen PDF exactly and
+ * scales into the page turning reader.
+ *
+ * INK FRIENDLY. body.ink turns every fill white and keeps every line, so
+ * the paper prints on a nearly empty cartridge and becomes a colouring page.
+ */
+
+:root {
+  --ink: #1A1A2E;
+  --muted: #5E5E74;      /* 6.1:1 on white, eyebrows and folios only */
+  --answer: #3F3F55;     /* the Planet Post's answers grey, 10:1 */
+  --write: #9A9AB0;      /* the dotted write in line */
+  --paper: #FEF7E0;      /* butter light */
+  --butter: #EDC35F;
+  --c-butter: #F4D072;
+  --c-sky: #8EC3F0;
+  --c-coral: #F2957A;
+  --c-green: #93CFA8;
+  --c-pink: #F2A0C4;
+  --c-teal: #7FCFC6;
+  --holly: #C8483A;      /* the Christmas edition's red: masthead rules, the burst */
+  --pine: #2E7D5A;       /* The Guided Times' own colour, every issue */
+  --snow: #EAF3FB;
+  --display: 'Nunito', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+.gt-page {
+  width: 740px; height: 1000px; position: relative; overflow: hidden;
+  background: #fff; color: var(--ink); padding: 24px 30px 16px;
+  display: flex; flex-direction: column;
+  font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.45;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.gt-page h1, .gt-page h2, .gt-page h3, .gt-page p { margin: 0; }
+.gt-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+
+/* Type */
+.d { font-family: var(--display); font-weight: 900; letter-spacing: -0.02em; line-height: 1.02; }
+.mono { font-family: var(--mono); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; font-size: 11px; line-height: 1.3; }
+.muted { color: var(--muted); }
+.b { font-weight: 800; }
+.small { font-size: 13px; line-height: 1.4; }
+
+/* The printed box: ink edge, hard ledge */
+.box { background: #fff; border: 3px solid var(--ink); border-radius: 14px; box-shadow: 4px 5px 0 var(--ink); }
+.box.thin { border-width: 2.5px; box-shadow: 3px 4px 0 var(--ink); }
+.box.flat { box-shadow: none; }
+.f-paper { background: var(--paper); }
+.f-butter { background: var(--c-butter); }
+.f-sky { background: var(--c-sky); }
+.f-coral { background: var(--c-coral); }
+.f-green { background: var(--c-green); }
+.f-pink { background: var(--c-pink); }
+.f-teal { background: var(--c-teal); }
+.f-snow { background: var(--snow); }
+
+/* Folio: the wavy rule and the running foot */
+.gt-folio { flex-shrink: 0; margin-top: 10px; }
+.gt-folio .row { display: flex; justify-content: space-between; margin-top: 5px; font-size: 10px; color: var(--muted); }
+
+/* Running head on inner pages: a thin newspaper strip */
+.gt-head { display: flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 3px solid var(--ink); margin-bottom: 4px; }
+.gt-head .name { font-size: 20px; }
+.gt-head .sec { margin-left: auto; }
+.gt-head-rule { height: 0; border-top: 1px solid var(--ink); margin-bottom: 12px; }
+
+/* Section ribbon */
+.ribbon { display: inline-block; font-size: 30px; border: 3px solid var(--ink); border-radius: 10px; padding: 5px 14px 6px; box-shadow: 3px 4px 0 var(--ink); transform: rotate(-1deg); }
+
+/* A Friend on a round plate */
+.plate { border-radius: 50%; border: 3px solid var(--ink); background: var(--paper); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.plate img { width: 84%; height: 84%; object-fit: contain; }
+
+/* Write in */
+.line { display: flex; align-items: flex-end; gap: 8px; min-height: 46px; }
+.line .lab { font-weight: 800; white-space: nowrap; padding-bottom: 3px; }
+.line .dots { flex: 1; border-bottom: 2.5px dotted var(--write); align-self: stretch; }
+.blank { display: inline-block; flex-shrink: 0; background: #fff; border: 3px solid var(--ink); border-radius: 8px; }
+.tick { display: inline-block; width: 20px; height: 20px; border: 2.5px solid var(--ink); border-radius: 5px; flex-shrink: 0; background: #fff; }
+.circ { display: inline-block; width: 22px; height: 22px; border: 3px solid var(--ink); border-radius: 50%; flex-shrink: 0; background: #fff; }
+.stepno { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid var(--ink); background: var(--butter); display: inline-flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 16px; line-height: 1; flex-shrink: 0; }
+.pill { font-family: var(--display); font-weight: 900; font-size: 14px; line-height: 1.1; border: 2px solid var(--ink); border-radius: 999px; padding: 4px 12px; text-align: center; background: #fff; }
+
+/* Newspaper columns */
+.cols2 { column-count: 2; column-gap: 22px; column-rule: 1.5px solid var(--ink); }
+.cols2 p + p { margin-top: 8px; }
+.dropcap::first-letter { float: left; font-weight: 900; font-size: 54px; line-height: 0.86; padding: 4px 6px 0 0; }
+
+/* The grown ups' star marker */
+.gu { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--ink); color: #fff; border-radius: 999px; padding: 3px 9px 3px 6px; }
+
+/* Cut and fold */
+.cut { border: 2.5px dashed var(--ink); }
+.scissors { position: absolute; font-size: 15px; background: #fff; line-height: 1; }
+
+/* Answers, upside down */
+.upside { transform: rotate(180deg); color: var(--answer); }
+
+/* ── INK FRIENDLY ──────────────────────────────────────────────────────── */
+body.ink .f-paper, body.ink .f-butter, body.ink .f-sky, body.ink .f-coral, body.ink .f-green,
+body.ink .f-pink, body.ink .f-teal, body.ink .f-snow, body.ink .plate, body.ink .stepno,
+body.ink .flood { background: #fff !important; }
+body.ink .box { box-shadow: none; }
+body.ink .ribbon { box-shadow: none; background: #fff !important; }
+body.ink .fill, .colour .fill { fill: #fff !important; }
+body.ink .ink-hide { display: none !important; }
+body.ink img.art { filter: grayscale(1) opacity(0.5); }
+body.ink .dateline { background: #fff !important; color: var(--ink) !important; border: 2.5px solid var(--ink); }
+body.ink .gu { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+.ink-only { display: none; }
+body.ink .ink-only { display: block; }
+/* Words printed white on a fill go ink when the fill goes white. */
+body.ink .flood, body.ink .burst-t, body.ink .sec { color: var(--ink) !important; }
+body.ink .sec { background: #fff !important; border: 2px solid var(--ink); }

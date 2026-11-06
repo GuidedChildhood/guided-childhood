@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Screens At Granny's</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --coral-lt:#FBEADB; --green:#2F8F6B; --green-dark:#236F52; --tint-sage:#E8F0EE;
+    --tint-blue:#D8E8F8; --bloop-soft:#E4F0D4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .cut{border:2.5px dashed var(--ink);border-radius:16px;background:var(--white);position:relative;}
+  .scissors{position:absolute;top:-3.4mm;left:8mm;background:var(--cream);padding:0 1.5mm;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;}
+  .fill{display:inline-block;border-bottom:1.6px solid var(--ink);height:5mm;vertical-align:bottom;}
+  .rule{border-bottom:1.6px solid var(--ink);height:7.5mm;}
+  .tick{display:inline-block;width:3.8mm;height:3.8mm;border:1.6px solid var(--ink);border-radius:1mm;
+    vertical-align:-0.6mm;margin-right:1.6mm;background:var(--white);}
+  .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.4px;
+    text-transform:uppercase;color:var(--terracotta-dark);}
+  .star{display:inline-block;}
+  .bigbox{display:inline-block;width:24mm;height:15mm;border:2.5px solid var(--ink);border-radius:10px;
+    background:var(--white);vertical-align:middle;}
+  /* Kind of time cards */
+  .kind{display:flex;gap:6mm;align-items:stretch;padding:6mm;}
+  .kind .badge{width:30mm;flex-shrink:0;border:2.5px solid var(--ink);border-radius:14px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3mm;}
+  .kind .badge .k{font-weight:900;font-size:15pt;line-height:1.05;margin-top:2mm;}
+  .kind h3{font-weight:900;font-size:17pt;line-height:1.1;}
+  .kind p{font-size:10.5pt;margin-top:2mm;}
+  /* Visit tally */
+  table.tally{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);}
+  table.tally th{background:var(--green);color:var(--white);font-weight:800;font-size:10pt;
+    padding:3mm 2mm;border-bottom:2.5px solid var(--ink);text-align:center;line-height:1.2;}
+  table.tally th:first-child{background:var(--ink);}
+  table.tally td{border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);text-align:center;height:25mm;vertical-align:middle;}
+  table.tally td:first-child{border-left:none;}
+  table.tally tr:nth-child(2) td{border-top:none;}
+  table.tally td.day{font-weight:900;font-size:13pt;width:22mm;}
+  table.tally td.day span{display:block;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;
+    letter-spacing:1px;color:var(--ink-muted);margin-top:1.5mm;}
+  .mins{display:inline-block;width:14mm;border-bottom:1.6px solid var(--ink);height:6mm;}
+  .face{width:9mm;height:9mm;}
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .cover-friend{background:var(--white) !important;box-shadow:none !important;}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .bubble,body.ink table.tally{box-shadow:none;}
+  body.ink .card,body.ink .cut,body.ink .badge,body.ink .tintbg{background:var(--white) !important;}
+  body.ink .scissors{background:var(--white);}
+  body.ink table.tally th{background:var(--white);color:var(--ink);}
+  body.ink .face-fill,body.ink .tint-fill{fill:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:10mm;" class="eyebrow">Guided Childhood · Print at Home</div>
+  <h1 style="margin-top:7mm;font-size:46pt;">Screens at<br>Granny's</h1>
+  <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:14pt;">
+    House rules that travel.<br>The same screen deal, in a different house.
+  </p>
+  <img class="cover-friend" src="images/friends/bloop.png" alt="Bloop, a Planet Friend"
+       style="width:92mm;height:92mm;object-fit:contain;background:var(--bloop-soft);margin-top:9mm;border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);">
+  <div style="display:flex;gap:3.5mm;margin-top:10mm;flex-wrap:wrap;justify-content:center;max-width:175mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">A card for the grown ups</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">My deal card</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Visit tally</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Thank you notes</div>
+    <div class="card tintbg" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;background:var(--terracotta-lt);">Ages 4 to 12</div>
+  </div>
+  <p style="margin-top:8mm;font-size:10.5pt;max-width:140mm;">
+    For Christmas at Granny's, a weekend at Grandad's, or any house that is not
+    your own. Fill it in together before you go, and hand the card over with the
+    first cup of tea.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Bloop · Ages 4 to 12</span></div>
+</div>
+
+<!-- PAGE 2 · FOR THE GROWN UPS AT HOME -->
+<div class="sheet">
+  <div class="eyebrow">For the grown ups at home · Ten minutes before you pack the car</div>
+  <h2 style="margin-top:3mm;">Why your screen deal should travel with you</h2>
+  <p style="margin-top:4mm;">
+    At home there is a rhythm. Your child knows when screens are on and when they rest.
+    Then you arrive somewhere else, and every bit of it goes up for grabs. A different telly,
+    cousins with tablets, a grandparent who loves saying yes, and you, feeling awkward about
+    saying no in somebody else's front room. Your child spots the gap in about four minutes.
+  </p>
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--coral);">Without a deal</div>
+      <p style="margin-top:2mm;">
+        Granny guesses. Your child asks whichever grown up is most likely to say yes.
+        The host ends up as the referee in their own house, and you spend the visit
+        either nagging or feeling guilty for not nagging.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">With a deal that travels</div>
+      <p style="margin-top:2mm;">
+        The rules are the ones your child already knows, written on a card. Your host
+        never has to invent anything or be the baddie. Fewer arguments for them, and
+        a lot less guilt for everyone, you included.
+      </p>
+    </div>
+  </div>
+  <div class="card tintbg" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">The golden rule</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:12.5pt;">
+      Same deal, different house. And the host is always the boss of their own house.
+    </p>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Ten minutes together, the week before you go</div>
+    <p style="margin-top:2mm;">
+      <strong>1.</strong> Sit down with your child, this pack and a pen. Read page three out loud together.<br>
+      <strong>2.</strong> Fill in My deal at Granny's with your child. Let them write the jobs in their own words.<br>
+      <strong>3.</strong> Fill in the card for the grown ups: your child's own time, your star rate, the times screens rest, and your phone number.<br>
+      <strong>4.</strong> Cut out both copies of the grown ups card. One for your host, one for the fridge at the other house, or the second grandparent.<br>
+      <strong>5.</strong> Hand it over on arrival, with a cup of tea, before anyone has asked for anything.<br>
+      <strong>6.</strong> Pack the visit tally and a pen. Count the stars together at bedtime.
+    </p>
+  </div>
+  <p style="margin-top:4mm;font-size:9.5pt;">
+    The three kinds of time on the next page are the same three the Guided Childhood app uses:
+    your child's own time, time earned with stars, and protected time that no stars can buy.
+    If you already set them in the app, copy the same numbers onto the cards. This pack is a
+    parenting tool for your family. It does not promise any result for your child.
+  </p>
+  <div class="card" style="margin-top:5mm;padding:5mm;display:flex;gap:5mm;align-items:center;">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+    <div>
+      <div class="eyebrow" style="color:var(--green-dark);">When Granny does it differently</div>
+      <p style="margin-top:2mm;">
+        She lets them watch the film past bedtime. That is fine: her house, her treat. Say it
+        out loud so it stays a gift and never turns into a gap: <strong>"Granny's house, Granny's
+        treat. Our deal picks up again at home."</strong>
+      </p>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · For the Grown Ups</span></div>
+</div>
+
+<!-- PAGE 3 · THE THREE KINDS OF TIME -->
+<div class="sheet">
+  <div style="display:flex;align-items:center;gap:6mm;">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:30mm;height:30mm;object-fit:contain;">
+    <div class="bubble" style="flex:1;">Screen time comes in three kinds. They come with us wherever we go, even to Granny's.</div>
+  </div>
+  <div class="eyebrow" style="margin-top:6mm;">Read it together</div>
+  <h2 style="margin-top:2mm;font-size:24pt;">The three kinds of time</h2>
+
+  <div class="card kind" style="margin-top:6mm;">
+    <div class="badge tintbg" style="background:var(--terracotta-lt);">
+      <svg width="54" height="54" viewBox="0 0 60 60"><circle class="face-fill" cx="30" cy="30" r="24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="3"/><path d="M30 16 V30 L39 36" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="k">Our time</div>
+    </div>
+    <div style="flex:1;">
+      <div class="lbl">Kind one · it is yours</div>
+      <h3 style="margin-top:1mm;">A little every day, no strings</h3>
+      <p>A small amount of screen time each day that is simply yours. You do not earn it and nobody
+      takes it away for a grumpy moment. It does not save up, so today's is for today, and it is
+      the time you use first.</p>
+    </div>
+  </div>
+
+  <div class="card kind" style="margin-top:6mm;">
+    <div class="badge tintbg" style="background:var(--bloop-soft);">
+      <svg width="54" height="54" viewBox="0 0 24 24"><path class="tint-fill" d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      <div class="k">Earned time</div>
+    </div>
+    <div style="flex:1;">
+      <div class="lbl">Kind two · you earn it</div>
+      <h3 style="margin-top:1mm;">Do a job, earn a star</h3>
+      <p>Extra jobs earn stars. One star is five minutes of screen time, on any screen, unless your
+      family agrees a different rate. Stars you have earned are never taken back. Clearing your own
+      plate does not count: that is just what family does.</p>
+    </div>
+  </div>
+
+  <div class="card kind" style="margin-top:6mm;">
+    <div class="badge tintbg" style="background:var(--tint-blue);">
+      <svg width="54" height="54" viewBox="0 0 60 60"><path class="tint-fill" d="M30 7 L50 15 V30 C50 42 41 50 30 54 C19 50 10 42 10 30 V15 Z" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/><path d="M38 24 a10 10 0 1 1 -8 -6 a7.5 7.5 0 0 0 8 6 z" fill="#1A1A2E"/></svg>
+      <div class="k">Protected time</div>
+    </div>
+    <div style="flex:1;">
+      <div class="lbl">Kind three · screens rest</div>
+      <h3 style="margin-top:1mm;">Times no stars can buy</h3>
+      <p>Mealtimes, bedtime and the hour before it. At Granny's, maybe the Christmas dinner table
+      too. If you really want a screen then, you can ask. The grown up hears it, and you always
+      get an answer and a next step.</p>
+    </div>
+  </div>
+
+  <div class="card tintbg" style="margin-top:6mm;padding:4mm 5mm;display:flex;justify-content:space-between;align-items:center;background:var(--terracotta-lt);">
+    <div style="font-weight:900;font-size:12pt;">Our time first, then stars.</div>
+    <div style="font-weight:800;font-size:10.5pt;color:var(--ink-soft);">1 star = 5 minutes · 3 stars = 15 minutes</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · Three Kinds of Time</span></div>
+</div>
+
+<!-- PAGE 4 · THE CARD FOR THE GRANDPARENTS (TWO TO A PAGE) -->
+<div class="sheet" style="padding-top:11mm;">
+  <div class="eyebrow">For your host · Fill in both, cut out, hand one over with the tea</div>
+  <div class="hostcards" style="display:flex;flex-direction:column;gap:9mm;margin-top:6mm;"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · The Grown Ups Card · 2 copies</span></div>
+</div>
+
+<!-- PAGE 5 · THE CARD FOR THE CHILD -->
+<div class="sheet">
+  <div class="cut" style="flex:1;padding:8mm 9mm 7mm;margin-top:2mm;margin-bottom:8mm;display:flex;flex-direction:column;">
+    <span class="scissors">✂ Cut out and keep it in your bag</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:4mm;">
+      <div>
+        <div class="eyebrow">My card · I take it with me</div>
+        <h1 style="margin-top:2mm;font-size:38pt;">My deal at<br>Granny's</h1>
+      </div>
+      <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:40mm;height:40mm;object-fit:contain;">
+    </div>
+    <div style="font-weight:800;font-size:13pt;margin-top:3mm;">My name is <span class="fill" style="width:62mm;height:7mm;"></span></div>
+    <div style="font-weight:700;font-size:10pt;color:var(--ink-soft);margin-top:2mm;">Not Granny's house? Write whose: <span class="fill" style="width:52mm;"></span></div>
+
+    <div style="display:flex;gap:5mm;margin-top:6mm;">
+      <div class="card tintbg" style="flex:1;padding:4mm;text-align:center;background:var(--terracotta-lt);">
+        <div class="lbl">Our time</div>
+        <div style="font-weight:900;font-size:13pt;margin-top:1.5mm;">Every day I get</div>
+        <div style="margin-top:2.5mm;"><span class="bigbox"></span></div>
+        <div style="font-weight:900;font-size:13pt;margin-top:2mm;">minutes</div>
+      </div>
+      <div class="card tintbg" style="flex:1;padding:4mm;text-align:center;background:var(--bloop-soft);">
+        <div class="lbl">Earned time</div>
+        <div style="font-weight:900;font-size:13pt;margin-top:1.5mm;">1 star buys me</div>
+        <div style="margin-top:2.5mm;"><span class="bigbox"></span></div>
+        <div style="font-weight:900;font-size:13pt;margin-top:2mm;">minutes</div>
+      </div>
+      <div class="card tintbg" style="flex:1;padding:4mm;text-align:center;background:var(--tint-blue);">
+        <div class="lbl">Protected time</div>
+        <div style="font-weight:900;font-size:13pt;margin-top:1.5mm;">Screens rest from</div>
+        <div style="margin-top:2.5mm;"><span class="bigbox"></span></div>
+        <div style="font-weight:900;font-size:13pt;margin-top:2mm;">and at meals</div>
+      </div>
+    </div>
+
+    <div style="margin-top:6mm;">
+      <div style="font-weight:900;font-size:14pt;">Jobs I can do to earn a star here</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:8mm;margin-top:1mm;">
+        <div class="rule"></div><div class="rule"></div><div class="rule"></div><div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:6mm;padding:4mm 5mm;display:flex;align-items:center;gap:4mm;">
+      <img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:13mm;height:14mm;flex-shrink:0;">
+      <div>
+        <div class="lbl" style="color:var(--coral);">If I want more, I say</div>
+        <div style="font-weight:900;font-size:14pt;line-height:1.25;margin-top:1mm;">"Can we ask Mum or Dad?"</div>
+      </div>
+    </div>
+
+    <div style="margin-top:6mm;">
+      <div style="font-weight:900;font-size:14pt;">When screens rest, I could</div>
+      <div style="display:flex;flex-wrap:wrap;gap:2.5mm;margin-top:2.5mm;">
+        <span class="card" style="padding:1.5mm 4mm;font-weight:800;font-size:10pt;box-shadow:0 3px 0 var(--ink);">Play cards with Grandad</span>
+        <span class="card" style="padding:1.5mm 4mm;font-weight:800;font-size:10pt;box-shadow:0 3px 0 var(--ink);">Bake something</span>
+        <span class="card" style="padding:1.5mm 4mm;font-weight:800;font-size:10pt;box-shadow:0 3px 0 var(--ink);">Look at old photos</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:8mm;margin-top:0.5mm;"><div class="rule"></div><div class="rule"></div></div>
+    </div>
+
+    <div style="margin-top:auto;padding-top:5mm;">
+      <div style="font-weight:900;font-size:13pt;">Stars I earned helping <span style="font-weight:700;font-size:10pt;color:var(--ink-soft);">colour one in for every job</span></div>
+      <div class="stars" data-n="12" data-size="12.5" style="display:flex;justify-content:space-between;margin-top:2.5mm;"></div>
+      <div class="stars" data-n="12" data-size="12.5" style="display:flex;justify-content:space-between;margin-top:1.5mm;"></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · My Deal</span></div>
+</div>
+
+<!-- PAGE 6 · THE VISIT TALLY -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4mm;">
+    <div>
+      <div class="eyebrow">Count it together at bedtime</div>
+      <h2 style="margin-top:2mm;font-size:24pt;">My visit tally</h2>
+      <p style="margin-top:2mm;max-width:130mm;">One row for each day of the visit. Colour the stars you earned,
+      write the minutes you used, and circle the face that fits the day.</p>
+    </div>
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:28mm;height:28mm;object-fit:contain;">
+  </div>
+  <table class="tally" style="margin-top:5mm;">
+    <tr><th>Day</th><th>Stars I earned</th><th>Our time used</th><th>Star time used</th><th>My day</th></tr>
+  </table>
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:4mm 5mm;">
+      <div class="eyebrow">Whole visit</div>
+      <p style="margin-top:1.5mm;font-weight:800;color:var(--ink);font-size:10.5pt;line-height:1.7;">
+        Stars I earned: <span class="mins"></span><br>The best bit: <span class="mins" style="width:40mm;"></span>
+      </p>
+    </div>
+    <div class="card tintbg" style="flex:1.3;padding:4mm 5mm;background:var(--terracotta-lt);">
+      <div class="eyebrow" style="color:var(--terracotta-dark);">For the grown up counting</div>
+      <p style="margin-top:1.5mm;font-size:9.5pt;line-height:1.5;color:var(--ink);">
+        A sad face is welcome here. Ask about it at bedtime, kindly. Stars on this page
+        are never rubbed out.
+      </p>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · Visit Tally · Up to 7 days</span></div>
+</div>
+
+<!-- PAGE 7 · THANK YOU FOR HAVING ME NOTES (TWO TO A PAGE) -->
+<div class="sheet" style="padding-top:11mm;">
+  <div class="eyebrow">Optional · Write it on the last day, leave it somewhere they will find it</div>
+  <div class="thanks" style="display:flex;flex-direction:column;gap:9mm;margin-top:6mm;"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Screens At Granny's · Thank You Notes · 2 copies</span></div>
+</div>
+
+<!-- PAGE 8 · THE PASSPORT STICKER AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"Screens At Granny&#39;s","noun":"cards","pages":[["bloop","doing"]],"strip":false,"thanks":"If these cards made a visit a little easier, a kind review on Etsy helps another family find them."}'></div>
+
+<script>
+// Repeated parts, written once. Static markup after this runs, so the build
+// sees exactly what a family prints.
+const STAR = 'M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z'
+const star = mm => `<svg class="star" viewBox="0 0 24 24" style="width:${mm}mm;height:${mm}mm;"><path d="${STAR}" fill="none" stroke="#1A1A2E" stroke-width="1.3" stroke-linejoin="round"/></svg>`
+document.querySelectorAll('.stars').forEach(el => {
+  el.innerHTML = Array.from({ length: Number(el.dataset.n) }, () => star(Number(el.dataset.size))).join('')
+})
+
+// The card for the host, twice.
+const host = `
+<div class="cut" style="height:122mm;padding:6mm 6mm 5mm;display:flex;flex-direction:column;">
+  <span class="scissors">✂ Cut along the dashed line</span>
+  <div style="display:flex;align-items:center;gap:4mm;">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:17mm;height:17mm;object-fit:contain;">
+    <div style="flex:1;">
+      <div style="font-weight:900;font-size:15.5pt;line-height:1.1;">How screens work for <span class="fill" style="width:44mm;height:6mm;"></span></div>
+      <div style="font-size:9pt;color:var(--ink-soft);margin-top:1mm;line-height:1.4;">Thank you for having us. This is the deal we use at home, so nobody has to make one up here.</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.12fr;gap:5mm;margin-top:3.5mm;flex:1;">
+    <div style="display:flex;flex-direction:column;gap:2.6mm;">
+      <div><div class="lbl">Their own time each day</div>
+        <div style="font-weight:800;font-size:10pt;margin-top:0.8mm;"><span class="fill" style="width:16mm;"></span> minutes, no strings</div></div>
+      <div><div class="lbl">Our star rate</div>
+        <div style="font-weight:800;font-size:10pt;margin-top:0.8mm;">1 star = <span class="fill" style="width:12mm;"></span> minutes</div></div>
+      <div><div class="lbl">Screens rest (no stars can buy these)</div>
+        <div style="font-weight:700;font-size:9.5pt;margin-top:1mm;line-height:1.75;">
+          <span class="tick"></span>At mealtimes and the Christmas table<br>
+          <span class="tick"></span>From <span class="fill" style="width:13mm;height:4.5mm;"></span> until morning<br>
+          <span class="tick"></span><span class="fill" style="width:50mm;height:4.5mm;"></span>
+        </div></div>
+      <div><div class="lbl">Jobs that can earn a star in your house</div>
+        <div class="rule" style="height:6mm;"></div><div class="rule" style="height:6mm;"></div></div>
+    </div>
+    <div class="tintbg" style="background:var(--terracotta-lt);border:2px solid var(--ink);border-radius:12px;padding:3.5mm 4mm;display:flex;flex-direction:column;">
+      <div class="lbl" style="color:var(--coral);">If they ask for more, try</div>
+      <div style="font-weight:800;font-size:10pt;line-height:1.35;margin-top:1mm;">"I can see you really want more. Let's ask Mum or Dad together."</div>
+      <div style="font-size:8.6pt;line-height:1.4;color:var(--ink-soft);margin-top:1.5mm;">Then message us. We will answer with a next step: a job to earn it, a time later, or a yes. You never have to be the one who says no.</div>
+      <div class="lbl" style="color:var(--coral);margin-top:2.5mm;">At a protected time, try</div>
+      <div style="font-weight:800;font-size:10pt;line-height:1.35;margin-top:1mm;">"Screens rest while we eat. I know it is hard to pause. It will still be there after."</div>
+      <div style="font-size:8.6pt;line-height:1.4;color:var(--ink-soft);margin-top:2.5mm;"><strong>Want to give extra as a treat?</strong> That is yours to give. Just tell them it is a treat from you.</div>
+      <div style="font-weight:800;font-size:9.5pt;margin-top:auto;padding-top:2mm;">Message us on <span class="fill" style="width:30mm;"></span></div>
+    </div>
+  </div>
+  <div style="margin-top:3mm;padding-top:2.5mm;border-top:1.6px dashed var(--border);display:flex;align-items:center;gap:3mm;">
+    <svg width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0;"><path class="tint-fill" d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+    <div style="font-weight:800;font-size:9.5pt;line-height:1.35;">Your house, your rules. If anything here does not suit you, change it, and tell us so we can say the same thing.</div>
+  </div>
+</div>`
+document.querySelector('.hostcards').innerHTML = host + host
+
+// The thank you note, twice.
+const face = `<svg viewBox="0 0 60 60" style="width:12mm;height:12mm;"><circle class="face-fill" cx="30" cy="30" r="24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="3"/><circle cx="22" cy="26" r="2.4" fill="#1A1A2E"/><circle cx="38" cy="26" r="2.4" fill="#1A1A2E"/><path d="M20 35 Q30 45 40 35" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"/></svg>`
+const note = `
+<div class="cut" style="height:122mm;padding:7mm 8mm 6mm;display:flex;gap:6mm;">
+  <span class="scissors">✂ Cut along the dashed line</span>
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:center;gap:3mm;">${face}<div style="font-weight:900;font-size:21pt;line-height:1.05;">Thank you for<br>having me!</div></div>
+    <div style="font-weight:800;font-size:12pt;margin-top:4mm;">Dear <span class="fill" style="width:50mm;height:6mm;"></span></div>
+    <div style="font-weight:800;font-size:11pt;margin-top:4mm;">My favourite thing we did was</div>
+    <div class="rule" style="height:8mm;"></div><div class="rule" style="height:8mm;"></div>
+    <div style="font-weight:800;font-size:11pt;margin-top:3.5mm;">A job I helped with</div>
+    <div class="rule" style="height:8mm;"></div>
+    <div style="font-weight:800;font-size:11pt;margin-top:3.5mm;">Next time, can we</div>
+    <div class="rule" style="height:8mm;"></div>
+    <div style="font-weight:800;font-size:12pt;margin-top:auto;">Love from <span class="fill" style="width:44mm;height:6mm;"></span></div>
+  </div>
+  <div style="width:62mm;display:flex;flex-direction:column;">
+    <div class="lbl" style="text-align:center;">Draw us together</div>
+    <div style="flex:1;margin-top:2mm;border:2px solid var(--ink);border-radius:12px;background:var(--white);"></div>
+  </div>
+</div>`
+document.querySelector('.thanks').innerHTML = note + note
+
+// The visit tally rows.
+const faces = ['M20 35 Q30 45 40 35', 'M21 38 H39', 'M20 41 Q30 32 40 41'].map(d =>
+  `<svg class="face" viewBox="0 0 60 60"><circle class="face-fill" cx="30" cy="30" r="24" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="3"/><circle cx="22" cy="26" r="2.4" fill="#1A1A2E"/><circle cx="38" cy="26" r="2.4" fill="#1A1A2E"/><path d="${d}" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"/></svg>`).join(' ')
+const rows = Array.from({ length: 7 }, (_, i) => `<tr>
+  <td class="day">Day ${i + 1}<span>date</span><span style="display:block;border-bottom:1.4px solid #1A1A2E;width:14mm;margin:0.5mm auto 0;height:3mm;"></span></td>
+  <td style="width:52mm;">${Array.from({ length: 5 }, () => star(8)).join(' ')}</td>
+  <td><span class="mins"></span> <span style="font-weight:700;font-size:8.5pt;color:var(--ink-soft);">mins</span></td>
+  <td><span class="mins"></span> <span style="font-weight:700;font-size:8.5pt;color:var(--ink-soft);">mins</span></td>
+  <td style="width:36mm;">${faces}</td></tr>`).join('')
+document.querySelector('table.tally').insertAdjacentHTML('beforeend', rows)
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>
