@@ -176,3 +176,14 @@ README there says how a new issue is made.
 Before Issue 1 is listed: set `live: true` in `issue-1/issue.js` for the
 Christmas Countdown and Screens At Granny's once their listings are live, and
 rebuild, so the shop page sells them. It shows only the five live packs today.
+
+## 8. The free taster on Instagram (6 November 2026)
+
+Justin: "can we make sure that this is also built in carousel format selling
+on instagram gdc account for free but they need to add email address to get
+download". He chose a taster over the whole issue, so the free version feeds
+the Etsy listing instead of competing with it. Four pages at
+guidedchildhood.com/free/guided-times for an email (front page, ID card,
+puzzles, the six step plan), ending at the stage check and naming the Etsy
+shop for the full issue. The carousel is drafted for his approval in
+`Carousels/Review Queue` with the gdc-instagram-carousel skill.

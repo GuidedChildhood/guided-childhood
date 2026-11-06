@@ -15,6 +15,10 @@ export const metadata = {
 
 const FREE = [
   {
+    href: '/free/guided-times', img: '/printables/free/guided-times-1-taster-p1.png',
+    title: 'The Guided Times, the free taster', sub: 'Four pages of our Christmas newspaper for kids: a new screen ID card, puzzles and the Christmas morning plan. Ages 6 to 11.',
+  },
+  {
     href: '/free/planet-post', img: '/printables/free/planet-post-1-p1.png',
     title: 'The Planet Post, Issue 1', sub: 'A four page newspaper for kids about how screens work in your house. Ages 6 to 11.',
   },

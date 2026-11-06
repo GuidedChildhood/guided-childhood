@@ -9,6 +9,11 @@
 // (brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 15).
 (() => {
 const I = window.ISSUE
+// THE FREE TASTER (6 November 2026, Justin: free on Instagram for an email,
+// as a taster, never the whole paid issue). print.html?edition=taster draws
+// four pages: the front, the ID card, the puzzles and a closing page that
+// gives the six step plan, the answers, and where the full issue is.
+const TASTER = new URLSearchParams(location.search).get('edition') === 'taster'
 const ART = window.GT_ART || '../images'
 const INK = '#1A1A2E'
 const C = { butter: '#F4D072', sky: '#8EC3F0', coral: '#F2957A', green: '#93CFA8', paper: '#FEF7E0', pink: '#F2A0C4', teal: '#7FCFC6', holly: '#C8483A', pine: '#2E7D5A', snow: '#EAF3FB' }
@@ -69,7 +74,7 @@ const ICONS = {
 const icon = (k, size = 52) => `<svg viewBox="0 0 72 72" width="${size}" height="${size}" aria-hidden="true" style="display:block;flex-shrink:0">${ICONS[k]}</svg>`
 
 // ── Page furniture ──────────────────────────────────────────────────────
-const folio = n => `<div class="gt-folio">${wavy()}<div class="row mono"><span>The Guided Times · Issue ${I.number} · ${I.month}</span><span>guidedchildhood.com</span><span>Page ${n}</span></div></div>`
+const folio = n => `<div class="gt-folio">${wavy()}<div class="row mono"><span>The Guided Times · Issue ${I.number} · ${TASTER ? 'Free taster' : I.month}</span><span>guidedchildhood.com</span><span>${TASTER ? (n ? `Page ${n} of the full issue` : 'The free taster') : `Page ${n}`}</span></div></div>`
 const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${flake(14)}<span class="mono muted">${I.edition} · ${I.month}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
 const page = (n, inner, opts = {}) => `<section class="gt-page" id="p${n}" data-page="${n}" aria-label="Page ${n}">${opts.noHead ? '' : head(opts.section || '', opts.tint)}<div class="gt-body">${inner}</div>${folio(n)}</section>`
 const ribbon = (t, fill = 'f-butter', size = 30, rot = -1) => `<h2 class="d ribbon ${fill}" style="font-size:${size}px;transform:rotate(${rot}deg)">${t}</h2>`
@@ -175,7 +180,7 @@ function front() {
 
     <div style="display:flex;gap:18px;margin-top:12px;flex:1 1 auto;min-height:0">
       <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:12px">
-        <div class="cols2" style="font-size:16.5px">${f.paras.map((p, i) => `<p class="${i === 0 ? 'dropcap' : ''}">${p}</p>`).join('')}</div>
+        <div class="cols2" style="font-size:16.5px">${(TASTER ? I.taster.frontParas : f.paras).map((p, i) => `<p class="${i === 0 ? 'dropcap' : ''}">${p}</p>`).join('')}</div>
         <div style="display:flex;gap:12px;margin-top:auto">
           <div class="box thin" style="flex:1.3 1 0;padding:10px 12px;display:flex;gap:10px;align-items:center">
             ${plate(f.quote.by, 'happy', 58, 'f-coral')}
@@ -188,8 +193,8 @@ function front() {
         </div>
       </div>
       <nav class="box f-paper" style="width:212px;flex-shrink:0;padding:10px 12px">
-        <div class="mono" style="margin-bottom:5px">Inside today</div>
-        ${I.inside.map(([n, t]) => `<a href="#p${n}" data-goto="${n}" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
+        <div class="mono" style="margin-bottom:5px">${TASTER ? 'In the full issue' : 'Inside today'}</div>
+        ${I.inside.map(([n, t]) => `<a ${TASTER ? '' : `href="#p${n}" data-goto="${n}"`} style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
       </nav>
     </div>`, { noHead: true })
 }
@@ -568,7 +573,39 @@ function back() {
     </div>`, { section: 'The back page', tint: C.pine })
 }
 
-const ORDER = [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
+// ── THE TASTER'S CLOSING PAGE ───────────────────────────────────────────
+function tasterEnd() {
+  const t = I.taster, P = I.puzzles, { ws, mz } = window.GT_SOLVED
+  const mini = `<div style="display:grid;grid-template-columns:repeat(10,11px);border:1.5px solid var(--answer);padding:2px">${ws.grid.flat().map((ch, i) => `<span style="width:11px;height:11px;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;${ws.hits.has(`${Math.floor(i / 10)},${i % 10}`) ? 'background:#D8D8E4;color:#1A1A2E' : 'color:#B0B0C0'}">${ch}</span>`).join('')}</div>`
+  return `<section class="gt-page" id="taster-end" data-page="end" aria-label="The free taster, closing page">${head('Free taster', C.pine)}<div class="gt-body">
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(t.planTitle, 'f-green', 26)}<span class="mono muted">${t.planKicker}</span></div>
+    <p style="font-size:15.5px;margin:10px 0 8px">${t.planIntro}</p>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px">
+      ${I.plan.steps.map((s, i) => `<li class="box thin" style="padding:8px 10px;display:flex;gap:9px;align-items:center">${icon(s.icon, 38)}<span class="stepno">${i + 1}</span><span class="d" style="font-size:16px;line-height:1.1">${s.head}</span></li>`).join('')}
+    </ol>
+    <div class="box f-paper" style="margin-top:16px;padding:12px 14px">
+      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><h2 class="d" style="font-size:24px">${t.fullTitle}</h2><span class="small b">${t.fullLine}</span></div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin-top:10px">
+        ${[2, 3, 5, 6, 7, 8, 10, 11].map(n => `<div style="border:2px solid ${INK};border-radius:4px;overflow:hidden;background:#fff"><img class="art" src="images/thumbs/page-${String(n).padStart(2, '0')}.png" alt="Page ${n} of the full issue" style="display:block;width:100%"></div>`).join('')}
+      </div>
+      <div class="flood" style="margin-top:12px;background:${C.pine};color:#fff;border:2.5px solid ${INK};border-radius:12px;padding:9px 14px;display:flex;align-items:center;gap:12px">${star(26)}<div><div class="mono" style="color:inherit">${t.whereKicker}</div><div class="d" style="font-size:20px;color:inherit">${t.where}</div></div></div>
+    </div>
+    <div class="box" style="margin-top:14px;padding:10px 14px;display:flex;gap:12px;align-items:center">
+      ${plate('digi', '', 56, 'f-butter')}<div><div class="d" style="font-size:18px">${t.stageTitle}</div><p class="small b" style="margin-top:2px">${t.stageLine}</p></div>
+    </div>
+    <div class="upside" style="margin-top:auto;padding-top:12px;display:flex;gap:18px;align-items:flex-start">
+      <div style="flex:1 1 0;min-width:0">
+        <div class="mono" style="font-size:10px;color:inherit;margin-bottom:3px">Orbit’s answers</div>
+        ${P.realOrPretend.answers.map(a => `<div style="font-size:12.5px;line-height:1.35">${a}</div>`).join('')}
+        <div style="font-size:12.5px;line-height:1.35;margin-top:3px">The code says: ${P.code.message.toLowerCase()}. Stop, close it, and tell a grown up.</div>
+      </div>
+      ${mini}
+      <div style="opacity:0.75">${mazeSvg(mz, 11, { solution: true, sw: 1.6 })}</div>
+    </div>
+  </div>${folio(0)}</section>`
+}
+
+const ORDER = TASTER ? [front, idCard, puzzles, tasterEnd] : [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
 document.getElementById('pages').innerHTML = ORDER.map(fn => fn()).join('')
-document.title = `The Guided Times, Issue ${I.number}: ${I.edition}, ${I.month}`
+document.title = TASTER ? `The Guided Times, Issue ${I.number}: the free taster` : `The Guided Times, Issue ${I.number}: ${I.edition}, ${I.month}`
 })()
