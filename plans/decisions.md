@@ -225,4 +225,4 @@ From the top sellers research's build next list, in deadline order: the Phone Un
 
 ## 6 November 2026: the Guided Times has its own app edition
 
-Justin said yes to an app version without the Etsy pages. `build.mjs issue-1 app` prints `?edition=app`: no shop page, the back page swaps the /etsy-bonus gift and Etsy review for app lines, and the contents renumber. Eleven pages, colour and ink friendly; the Etsy and taster editions are unchanged. Issues 2 and 3 carry the shop on their back page and need an app back page first. Where Phones Sleep, merged without one, gets its app edition in the same PR, so the etsy-in-app guard passes on main again.
+Justin said yes to an app version without the Etsy pages. `build.mjs issue-1 app` prints `?edition=app`: no shop page, the back page swaps the /etsy-bonus gift and Etsy review for app lines, and the contents renumber. Eleven pages, colour and ink friendly; the Etsy and taster editions are unchanged. Issues 2 and 3 carry the shop on their back page and need an app back page first.

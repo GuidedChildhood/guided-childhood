@@ -498,9 +498,9 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'where-phones-sleep',
     title: 'Where Phones Sleep', emoji: '🔌', kind: 'challenge',
-    stages: [1, 2], minutes: 'Every night', setting: 'indoors', skill: 'Bedtime',
+    stages: [1, 2], minutes: 'Every night', setting: 'indoors', skill: 'Routines',
     stars: 5,
-    blurb: 'Every device in the house sleeps in the kitchen, grown ups\' phones too. The charging station poster, a sign for the chargers, the bedtime docking line for the fridge, and labels and cable flags with the Planet Friends.',
+    blurb: 'One shelf in the kitchen where every device in the house sleeps, grown ups too. Signs for the charging station, a bedtime charging line for the fridge, spot labels, a phones in the basket sign for meals and the family tech rules on one page.',
     sheetUrl: '/printables/where-phones-sleep-colour.pdf',
     previewUrl: '/printables/where-phones-sleep.png',
   },
@@ -673,8 +673,9 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
   },
   ...Object.fromEntries([
     'first-phone-kit', 'christmas-countdown', 'screens-at-grannys', 'are-we-nearly-there',
-    'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards', 'where-phones-sleep',
+    'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards',
     'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game',
+    'where-phones-sleep',
   ].map(k => [k, { preview: `/printables/${k}.png`, colour: `/printables/${k}-colour.pdf`, colourIn: `/printables/${k}-colourin.pdf` }])),
 }
 
