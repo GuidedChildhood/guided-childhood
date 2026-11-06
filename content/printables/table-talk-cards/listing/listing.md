@@ -7,6 +7,11 @@ bundle, and teen situation cards as a thin but badged format). Ages 8 to 14,
 Orbit fronts it, Bloop and DiGi hold a suit each. Our Say This deck is words
 for the parent; this deck is questions for the child.
 
+## Live on Etsy
+
+Live as listing 4611225108, listed 6 November 2026. Any change is an edit to that
+listing. Do not make a new one.
+
 ## Title (122 characters)
 
 100 Family Conversation Cards Printable | Table Talk Questions for Kids and Tweens, Online Safety Scenarios | Ages 8 to 14

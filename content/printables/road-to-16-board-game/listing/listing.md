@@ -5,6 +5,11 @@ row 6 of the top sellers research (a printable feelings board game at 87
 reviews, 100 percent recommend, 1,724 favourites, £5.75). Ages 6 to 12. DiGi
 hosts; one zone per Planet Friend, Pebble to Cosmo.
 
+## Live on Etsy
+
+Live as listing 4611206743, listed 6 November 2026. Any change is an edit to that
+listing. Do not make a new one.
+
 ## Title (117 characters)
 
 Printable Board Game for Kids | Family Game Night, 48 Choice Cards, Online Safety and Screen Time Game | Ages 6 to 12

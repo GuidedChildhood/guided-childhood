@@ -6,6 +6,11 @@ Bestseller at £5.82 from a 64k sales shop, and a buyer hides a gift at the
 end). For parents of 9 to 13 year olds putting a first phone under the tree.
 Fronted by Orbit. **List it by 20 November.**
 
+## Live on Etsy
+
+Live as listing 4611203487, listed 6 November 2026. Any change is an edit to that
+listing. Do not make a new one.
+
 ## Title (123 characters)
 
 Christmas Treasure Hunt for Older Kids Printable | 10 Clue Cards, First Phone Gift Reveal and Phone Promises | Ages 9 to 13

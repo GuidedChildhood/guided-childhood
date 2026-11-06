@@ -7,11 +7,10 @@ First Phone Kit.
 
 ## Live on Etsy: edit it, never relist
 
-The three pack version went live on 6 November 2026 as listing 4611169093 at
-£14.99, with three zips (first-phone-kit, family-phone-agreement,
-calm-down-kit). Once PR 1425 merges, edit that live listing (no Etsy fee):
-add `phone-treasure-hunt.zip`, and replace the title, description, tags and
-photos with the ones below. Do not make a new listing.
+Live as listing 4611169093 at £14.99. It went live on 6 November 2026 with
+three packs, and the same day it was edited in place to the four pack version
+below (title, description, tags, eight photos, `phone-treasure-hunt.zip`
+added). Any change is an edit to that listing. Do not make a new one.
 
 ## Title (128 characters)
 

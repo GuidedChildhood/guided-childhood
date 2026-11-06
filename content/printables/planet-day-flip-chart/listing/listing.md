@@ -6,6 +6,11 @@ from a 196k sales shop, and 215 routine picture cards at 118 reviews). Ages 4
 to 10: Pebble's set for 4 to 7, Bloop's for 8 to 10. The title leads with
 the format that sells, routine chart, and the screen time rule sits inside.
 
+## Live on Etsy
+
+Live as listing 4611204247, listed 6 November 2026. Any change is an edit to that
+listing. Do not make a new one.
+
 ## Title (135 characters)
 
 Routine Flip Chart Printable for Kids | 120 Picture Cards, Morning and Bedtime Routine, Visual Schedule with Screen Time | Ages 4 to 10

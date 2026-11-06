@@ -6,6 +6,11 @@ at 31 reviews and a teen allowance chart, both Bestsellers, with teen
 keywords thin on supply). Fronted by Orbit (11 to 12) and Nova (13 to 15).
 The title leads with chore chart, the format that sells.
 
+## Live on Etsy
+
+Live as listing 4611204953, listed 6 November 2026. Any change is an edit to that
+listing. Do not make a new one.
+
 ## Title (131 characters)
 
 Teen Chore Chart Printable | Tween and Teenager Weekly Jobs Board, Earn Screen Time Chart, Family Chores | Fillable | Ages 11 to 15
