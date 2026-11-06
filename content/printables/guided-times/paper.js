@@ -557,22 +557,25 @@ function shop() {
   const s = I.shop
   const ads = s.ads.filter(a => a.live)
   const feature = ads.find(a => a.feature), rest = ads.filter(a => !a.feature)
+  // More than four small ads (the Christmas line once it is live): everything
+  // a size smaller, so the page still fits.
+  const many = rest.length > 4, tw = many ? 70 : 96, th = many ? 96 : 132
   const thumb = a => a.img
-    ? `<div style="width:96px;height:132px;flex-shrink:0;border:2.5px solid ${INK};border-radius:6px;overflow:hidden;background:#fff;transform:rotate(-2deg);box-shadow:3px 4px 0 ${INK}"><img class="art" src="${ART}/shop/${a.img}.png" alt="${a.name}, the first page" style="width:100%;height:100%;object-fit:cover;object-position:top"></div>`
-    : `<div style="width:96px;flex-shrink:0;display:flex;justify-content:center">${a.draw === 'house' ? icon('house', 80) : present(80, C.coral, C.butter)}</div>`
-  const ad = (a, i) => `<div class="box thin" style="padding:10px 12px;display:flex;gap:12px;align-items:center;position:relative">
-    ${thumb(a)}<div style="min-width:0"><div class="mono muted" style="font-size:10px">${a.ages}</div><h3 class="d" style="font-size:18px;line-height:1.1;margin:2px 0 4px">${a.name}</h3><p class="small">${a.line}</p></div></div>`
+    ? `<div style="width:${tw}px;height:${th}px;flex-shrink:0;border:2.5px solid ${INK};border-radius:6px;overflow:hidden;background:#fff;transform:rotate(-2deg);box-shadow:3px 4px 0 ${INK}"><img class="art" src="${ART}/shop/${a.img}.png" alt="${a.name}, the first page" style="width:100%;height:100%;object-fit:cover;object-position:top"></div>`
+    : `<div style="width:${tw}px;flex-shrink:0;display:flex;justify-content:center">${a.draw === 'house' ? icon('house', many ? 62 : 80) : a.draw === 'doors' ? icon('calendar', many ? 62 : 80) : present(many ? 62 : 80, C.coral, C.butter)}</div>`
+  const ad = (a, i) => `<div class="box thin" style="padding:${many ? '7px 10px' : '10px 12px'};display:flex;gap:${many ? 10 : 12}px;align-items:center;position:relative">
+    ${thumb(a)}<div style="min-width:0"><div class="mono muted" style="font-size:10px">${a.ages}</div><h3 class="d" style="font-size:${many ? 16 : 18}px;line-height:1.1;margin:2px 0 3px">${a.name}</h3><p class="small" style="${many ? 'font-size:12.5px;line-height:1.3' : ''}">${a.line}</p></div></div>`
   return page(11, `
     <div style="display:flex;align-items:center;gap:10px">${ribbon(s.kicker, 'f-coral', 26)}<span class="mono muted">Small ads</span></div>
     <h2 class="d" style="font-size:34px;letter-spacing:-0.03em;margin:10px 0 4px">${s.headline}</h2>
     <p style="font-size:15px;margin-bottom:12px">${s.intro}</p>
-    ${feature ? `<div class="box f-paper" style="padding:14px 16px;display:flex;gap:18px;align-items:center;position:relative">
-      <div style="width:150px;height:206px;flex-shrink:0;border:3px solid ${INK};border-radius:8px;overflow:hidden;transform:rotate(-3deg);box-shadow:4px 5px 0 ${INK};background:#fff"><img class="art" src="${ART}/shop/${feature.img}.png" alt="${feature.name}, the cover" style="width:100%;height:100%;object-fit:cover;object-position:top"></div>
-      <div style="flex:1"><div class="mono muted">${feature.ages} · Start here</div><h3 class="d" style="font-size:28px;margin:4px 0 6px">${feature.name}</h3><p style="font-size:15.5px">${feature.line}</p>
+    ${feature ? `<div class="box f-paper" style="padding:${many ? '10px 14px' : '14px 16px'};display:flex;gap:18px;align-items:center;position:relative">
+      <div style="width:${many ? 112 : 150}px;height:${many ? 154 : 206}px;flex-shrink:0;border:3px solid ${INK};border-radius:8px;overflow:hidden;transform:rotate(-3deg);box-shadow:4px 5px 0 ${INK};background:#fff"><img class="art" src="${ART}/shop/${feature.img}.png" alt="${feature.name}, the cover" style="width:100%;height:100%;object-fit:cover;object-position:top"></div>
+      <div style="flex:1;padding-right:${many ? 96 : 0}px"><div class="mono muted">${feature.ages} · Start here</div><h3 class="d" style="font-size:28px;margin:4px 0 6px">${feature.name}</h3><p style="font-size:15.5px">${feature.line}</p>
         <div style="display:flex;gap:6px;margin-top:10px">${['pebble', 'bloop', 'orbit', 'nova', 'cosmo'].map(k => plate(k, 'happy', 44)).join('')}</div></div>
       <div style="position:absolute;right:10px;bottom:10px;transform:rotate(8deg)">${burst(92, 'Start here!', C.butter, '#1A1A2E')}</div>
     </div>` : ''}
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">${rest.map(ad).join('')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:${many ? 9 : 12}px;margin-top:${many ? 10 : 14}px">${rest.map(ad).join('')}</div>
     <div style="margin-top:14px;display:flex;align-items:center;gap:10px;justify-content:center" class="b">${star(22)}<span style="font-size:15px">${s.sticker}</span>${star(22)}</div>
     <div class="flood" style="margin-top:auto;background:${C.pine};color:#fff;border:3px solid ${INK};border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:14px">
       ${star(34)}<div><div class="mono" style="color:inherit">Find them all</div><div class="d" style="font-size:24px;color:inherit">${I.shopUrl}</div></div>
