@@ -12,13 +12,14 @@ Kids Christmas Newspaper Printable | New Tablet or Phone Activity Pages | Ages 6
 
 ## On Etsy
 
-Saved as a draft on 6 November 2026, listing 4611120805 (Shop Manager,
+Saved on 6 November 2026 as listing 4611120805 (Shop Manager,
 Listings, Draft). Digital, category Worksheets, celebration Christmas, the
 8 photos with 01-cover first, the 5 files, title, description, 13 tags,
 £5.99, quantity 999, made by Justin, content created with an AI generator
 (the Planet Friends), automatic renewal, Etsy Ads on as the shop's default.
-Not published: Justin presses Publish. Then check it is in the shop's 25
-percent sale.
+Published on 6 November 2026 at Justin's word: etsy.com/uk/listing/4611120805.
+It is in the shop's 25 percent sale: UK buyers see Now £5.39, was £7.19,
+which is £4.49 and £5.99 with VAT added.
 
 ## Price and listing setup
 

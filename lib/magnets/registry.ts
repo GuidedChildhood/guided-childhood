@@ -110,6 +110,27 @@ export const MAGNETS: Record<string, Magnet> = {
       { label: 'Fold up booklet', href: '/printables/free/planet-post-1-booklet-a4.pdf' },
     ],
   },
+  // THE GUIDED TIMES, the free taster (6 November 2026). Justin: free on the
+  // Instagram carousel for an email, as a taster of the paid issue on Etsy,
+  // never the whole thing. Four pages of Issue 1, the Christmas edition: the
+  // front page, the new screen ID card, the puzzles and the six step plan.
+  // Built by content/printables/guided-times/build.mjs (the taster stage).
+  'guided-times-taster': {
+    slug: 'guided-times-taster',
+    eyebrow: 'The Guided Times',
+    title: 'The Guided Times, Issue 1: the free taster',
+    intro:
+      'Four pages from the Christmas edition of our newspaper for kids aged 6 to 11: the front page, your child\'s new screen ID card, Orbit\'s Christmas puzzles and the six step Christmas morning plan.',
+    numbered: false,
+    items: [],
+    close: 'Print it, grab a pencil, and set the new screen up together.',
+    filename: 'The-Guided-Times-Issue-1-Taster',
+    emailBlurb: 'It is four pages of The Guided Times for your child to read and fill in, with the six things to do together before a new tablet, console or phone is switched on. No login needed.',
+    staticPdf: '/printables/free/guided-times-1-taster-a4.pdf',
+    files: [
+      { label: 'US Letter', href: '/printables/free/guided-times-1-taster-letter.pdf' },
+    ],
+  },
   // THE ROAD TO 16 (5 November 2026): not a lead magnet but a reward. The
   // printable Guided Childhood Passport promises it free once every page up to
   // the child's age is stamped, claimed on /etsy-bonus (components/marketing/PassportRewardClaim).

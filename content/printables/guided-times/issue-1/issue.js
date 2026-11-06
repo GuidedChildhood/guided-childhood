@@ -229,6 +229,26 @@ window.ISSUE = {
     ],
   },
 
+  // The free taster (6 November 2026): the front page, the ID card, the
+  // puzzles and a closing page. Free on guidedchildhood.com for an email,
+  // never on Etsy. The page that links to Etsy is the website's, never an
+  // Etsy file, so it may name the shop.
+  taster: {
+    frontParas: [
+      'This Christmas, lots of children will unwrap a tablet, a games console or a first phone. If that is you, hooray! But here is the big news: the best bit is not the box. It is setting it up together.',
+      'This is a free taster of the paper. Turn over for your new screen\u2019s ID card and Orbit\u2019s Christmas puzzles, then the Christmas morning plan on the last page.',
+    ],
+    planTitle: 'The Christmas morning plan',
+    planKicker: 'Six things to do together',
+    planIntro: 'Before a new tablet, console or phone is switched on, do these six together, in order. The full issue gives each one a page of its own.',
+    fullTitle: 'Liked it? There are eight more pages',
+    fullLine: 'The big question, the app desk, the homework helper, good websites, Boxing Day bingo and the page turning version for any screen.',
+    whereKicker: 'The full issue',
+    where: 'The Guided Times, in our Etsy shop: GuidedChildhood',
+    stageTitle: 'What stage is your child?',
+    stageLine: 'Three questions, no sign up, and you get the plan that fits their age: guidedchildhood.com/starter-pack',
+  },
+
   back: {
     promise: {
       headline: 'Our Christmas screen promise',
