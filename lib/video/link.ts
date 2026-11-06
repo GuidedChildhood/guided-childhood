@@ -39,14 +39,16 @@ export function codeFromTitle(title: string): string | null {
 // founder page can add up the week. A start with no link at all is counted
 // too, against one of three rows that are never links themselves.
 
+// tiktok and youtube since migration 387 (funnel audit, 6 November 2026):
+// until then their links had to be filed as film or other.
 export const CHANNELS = [
-  'film', 'linkedin', 'facebook', 'group', 'instagram', 'print',
+  'film', 'linkedin', 'facebook', 'group', 'instagram', 'tiktok', 'youtube', 'print',
   'share', 'referral', 'school', 'direct', 'other',
 ] as const
 export type Channel = typeof CHANNELS[number]
 
 /** The channels a founder can make a link for. referral, school and direct are counted without one. */
-export const LINK_CHANNELS: Channel[] = ['film', 'linkedin', 'facebook', 'group', 'instagram', 'print', 'share', 'other']
+export const LINK_CHANNELS: Channel[] = ['film', 'linkedin', 'facebook', 'group', 'instagram', 'tiktok', 'youtube', 'print', 'share', 'other']
 
 /** What the founder page calls each channel. */
 export const CHANNEL_LABEL: Record<Channel, string> = {
@@ -55,6 +57,8 @@ export const CHANNEL_LABEL: Record<Channel, string> = {
   facebook: 'Facebook',
   group: 'Parent groups',
   instagram: 'Instagram',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
   print: 'Print and the newspaper',
   share: 'Shared from the stage result',
   referral: 'A member’s referral link',

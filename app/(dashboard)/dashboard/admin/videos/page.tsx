@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { APP_ORIGIN } from '@/lib/config/site'
 import { CHANNELS, CHANNEL_LABEL, isChannel, LINK_CHANNELS, type Channel } from '@/lib/video/link'
-import VideoLinks, { type VideoLinkRow, type ChannelRow } from './VideoLinks'
+import VideoLinks, { type VideoLinkRow, type ChannelRow, type CampaignRow } from './VideoLinks'
 
 // Where the stage checks come from (migrations 372 and 379).
 //
@@ -125,6 +125,38 @@ export default async function VideoLinksPage() {
   }).filter(c => c.started > 0 || c.links > 0 || c.channel === 'direct')
     .sort((a, b) => b.startedWeek - a.startedWeek || b.started - a.started)
 
+  // ── BY POST, FROM THE UTMs (migration 387) ───────────────────────────────
+  //
+  // The channel says which kind of link; the UTMs say which platform and which
+  // post. Added up across codes, so a campaign that came in on a /v/ link and
+  // on a bare ?utm_ visit reads as one row. Before 387 both reads fail and the
+  // table is simply not drawn.
+  const { data: utmRows, error: utmError } = await admin.from('video_link_utm_counts')
+    .select('utm_source, utm_campaign, started, started_week')
+  const { data: utmFamilies } = await admin.from('profiles')
+    .select('utm_source, utm_campaign').or('utm_source.not.is.null,utm_campaign.not.is.null')
+  const campaignKey = (r: { utm_source?: unknown; utm_campaign?: unknown }) =>
+    `${(r.utm_source as string | null) ?? ''}|${(r.utm_campaign as string | null) ?? ''}`
+  const byCampaign = new Map<string, CampaignRow>()
+  const campaignRow = (r: { utm_source?: unknown; utm_campaign?: unknown }) => {
+    const key = campaignKey(r)
+    let row = byCampaign.get(key)
+    if (!row) {
+      row = { source: (r.utm_source as string | null) ?? null, campaign: (r.utm_campaign as string | null) ?? null, startedWeek: 0, started: 0, signedUp: 0 }
+      byCampaign.set(key, row)
+    }
+    return row
+  }
+  for (const r of utmError ? [] : utmRows ?? []) {
+    const row = campaignRow(r)
+    row.started += Number(r.started) || 0
+    row.startedWeek += Number(r.started_week) || 0
+  }
+  for (const f of utmError ? [] : utmFamilies ?? []) campaignRow(f).signedUp += 1
+  const campaigns: CampaignRow[] = [...byCampaign.values()]
+    .sort((a, b) => b.startedWeek - a.startedWeek || b.started - a.started || b.signedUp - a.signedUp)
+    .slice(0, 30)
+
   const fridayNumber = channels.reduce((s, c) => s + c.startedWeek, 0)
   const startedEver = channels.reduce((s, c) => s + c.started, 0)
 
@@ -146,7 +178,7 @@ export default async function VideoLinksPage() {
           The links table is not there yet. It arrives with migration 372.
         </p>
       ) : (
-        <VideoLinks rows={rows} channels={channels} fridayNumber={fridayNumber} startedEver={startedEver} byChannel={!viewError} />
+        <VideoLinks rows={rows} channels={channels} campaigns={utmError ? null : campaigns} fridayNumber={fridayNumber} startedEver={startedEver} byChannel={!viewError} />
       )}
     </div>
   )

@@ -106,6 +106,9 @@ export default function PrivacyPage() {
       <p style={P}>
         We use only the essential cookies needed to keep you logged in and the site working. We do not use advertising or tracking cookies. The visit counting on our public pages works without any cookie at all.
       </p>
+      <p style={P}>
+        When you arrive through one of our own links, from a post, a newsletter or a school, a small cookie of ours remembers which link and which post it was for a few weeks, so we can count which posts help parents. It holds the name of the post, never anything about you, and it is not shared with anyone.
+      </p>
 
       <h2 style={H2}>Security</h2>
       <p style={P}>

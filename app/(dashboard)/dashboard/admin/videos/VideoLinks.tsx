@@ -18,6 +18,15 @@ export type VideoLinkRow = {
   paying: number
 }
 
+/** One post, by its UTMs (migration 387). */
+export type CampaignRow = {
+  source: string | null
+  campaign: string | null
+  startedWeek: number
+  started: number
+  signedUp: number
+}
+
 export type ChannelRow = {
   channel: Channel
   label: string
@@ -62,11 +71,15 @@ const CODE_HINT: Partial<Record<Channel, string>> = {
   linkedin: 'li-1022-the-post-in-a-few-words',
   facebook: 'fb-1021-phone-policy (the Sunday batch prints it)',
   group: 'grp-1022-the-group-name',
+  tiktok: 'tt-bio-w45',
+  youtube: 'yt-1106-the-short-in-a-few-words',
 }
 
-export default function VideoLinks({ rows, channels, fridayNumber, startedEver, byChannel }: {
+export default function VideoLinks({ rows, channels, campaigns, fridayNumber, startedEver, byChannel }: {
   rows: VideoLinkRow[]
   channels: ChannelRow[]
+  /** Null before migration 387, when no UTMs are kept. */
+  campaigns: CampaignRow[] | null
   fridayNumber: number
   startedEver: number
   /** False before migration 379, when every link is still a film. */
@@ -149,6 +162,41 @@ export default function VideoLinks({ rows, channels, fridayNumber, startedEver, 
           following a link. No link means typed in, bookmarked or the home page.
         </p>
       </section>
+
+      {/* ── BY POST ──────────────────────────────────────────────────────
+          The UTMs on a post's link (migration 387): which platform and which
+          post, beside the channel above. Only visits whose link carried
+          them are here. */}
+      {campaigns && (
+        <section style={CARD} data-campaigns>
+          <div style={MONO}>By post, from the UTMs</div>
+          {campaigns.length === 0 ? (
+            <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              No visits with UTMs yet. Add utm_source, utm_medium and utm_campaign to a post&apos;s link and it shows here.
+            </p>
+          ) : (
+            <div role="table" aria-label="Stage checks by post" style={{ marginTop: 10, background: 'var(--white)', border: 'var(--edge)', borderRadius: 14, overflow: 'hidden' }}>
+              <div role="row" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 44px 44px 56px', gap: 6, padding: '10px 12px', borderBottom: '1.5px solid var(--border)' }}>
+                <span role="columnheader" style={MONO}>Post</span>
+                <span role="columnheader" style={{ ...MONO, textAlign: 'right' }}>Week</span>
+                <span role="columnheader" style={{ ...MONO, textAlign: 'right' }}>All</span>
+                <span role="columnheader" style={{ ...MONO, textAlign: 'right' }}>Joined</span>
+              </div>
+              {campaigns.map((c, i) => (
+                <div role="row" key={`${c.source}|${c.campaign}`} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 44px 44px 56px', gap: 6, padding: '10px 12px', borderTop: i === 0 ? 'none' : '1.5px solid var(--border)', alignItems: 'baseline' }}>
+                  <span role="cell" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', minWidth: 0, overflowWrap: 'anywhere' }}>
+                    {c.campaign ?? 'No campaign'}
+                    <span style={{ fontWeight: 600, color: 'var(--ink-soft)' }}> · {c.source ?? 'no source'}</span>
+                  </span>
+                  <span role="cell" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'right' }}>{c.startedWeek}</span>
+                  <span role="cell" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink-soft)', textAlign: 'right' }}>{c.started}</span>
+                  <span role="cell" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink-soft)', textAlign: 'right' }}>{c.signedUp}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       <form onSubmit={add} style={{ ...CARD, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }} data-video-link-add>
         <label style={{ ...MONO, flexBasis: '100%' }} htmlFor="link-title">Make a link for a post</label>

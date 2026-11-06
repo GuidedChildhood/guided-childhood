@@ -39,7 +39,10 @@ check('the no link rows are never offered as a link',
 
 // ── THE TABLE ───────────────────────────────────────────────────────────────
 const sql = read('supabase/migrations/379_stage_checks_by_source.sql').replace(/--[^\n]*/g, '')
-const channelList = sql.match(/check \(channel in \(([\s\S]*?)\)\)/)?.[1] ?? ''
+// The channel list was last redrawn by 387 (tiktok and youtube), so that is
+// the one the app must agree with.
+const sql387 = read('supabase/migrations/387_utm_and_the_video_channels.sql').replace(/--[^\n]*/g, '')
+const channelList = sql387.match(/check \(channel in \(([\s\S]*?)\)\)/)?.[1] ?? ''
 check('the database allows exactly the channels the app knows',
   CHANNELS.every(c => channelList.includes(`'${c}'`)) && (channelList.match(/'/g) ?? []).length === CHANNELS.length * 2)
 check('the no link rows are switched off, so /v/direct is not a way in',
@@ -47,6 +50,11 @@ check('the no link rows are switched off, so /v/direct is not a way in',
 check('the printed and published ?src= codes are links from day one',
   ['planet-post-1', 'guided-planet-001', 'guided-planet-002'].every(c => sql.includes(`'${c}'`)))
 check('the share action’s code is a link', sql.includes(`'${SHARE_CODE}'`))
+check('tiktok and youtube are channels a founder can make a link for',
+  ['tiktok', 'youtube'].every(c => LINK_CHANNELS.includes(c)))
+check('the counts by post are service role only too',
+  /revoke all on public\.video_link_utm_counts from anon, authenticated/.test(sql387)
+  && !/grant[^;]*video_link_utm_counts[^;]*to[^;]*(anon|authenticated)/.test(sql387))
 check('the counts are service role only',
   /revoke all on public\.video_link_counts from anon, authenticated/.test(sql)
   && !/grant[^;]*video_link_counts[^;]*to[^;]*(anon|authenticated)/.test(sql))
@@ -61,6 +69,12 @@ check('the stage check reads ?src= and hands it to the server',
 check('and takes it out of the address bar, so a reload is not a second follow', /params\.delete\('src'\)/.test(pack))
 const v = read('app/v/[code]/route.ts')
 const follow = read('app/api/video-link/follow/route.ts')
+check('/v/ keeps the UTMs on its redirect and tells the stage check it has counted the visit',
+  /utmQuery\(utm\)/.test(read('app/v/[code]/route.ts')) && /VIA_PARAM/.test(read('app/v/[code]/route.ts')))
+check('the stage check posts the UTMs, but not again after /v/',
+  /JSON\.stringify\(\{ src, utm \}\)/.test(pack) && /params\.get\(VIA_PARAM\) === VIA_LINK/.test(pack))
+check('the start counter and the trial grant read the UTM cookie',
+  /UTM_COOKIE/.test(started) && /UTM_COOKIE/.test(read('app/api/trial/start/route.ts')))
 check('/v/ and ?src= follow a link the same way', /followLink\(/.test(v) && /followLink\(/.test(follow)
   && /rememberLink\(/.test(v) && /rememberLink\(/.test(follow))
 check('a follow only counts a live link', /\.eq\('active', true\)/.test(read('lib/video/follow.ts')))
