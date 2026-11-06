@@ -1,0 +1,148 @@
+const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const read = (k) => { try { return localStorage.getItem(k) === '1' } catch (e) { return false } };
+const write = (k, v) => { try { v ? localStorage.setItem(k, '1') : localStorage.removeItem(k) } catch (e) {} };
+const pkey = (p) => 'gdc-desk-posted-' + p.n;
+
+/* Copy as PLAIN TEXT, always.
+   Justin, 6 November 2026: copying from this page was arriving with a black
+   background. The cause was the old fallback, which selected the styled <pre>
+   and copied it as rich HTML, so in dark mode the clipboard carried
+   background:#1D1A12 into LinkedIn and Substack.
+   A textarea's value is plain text by definition, so execCommand('copy') from a
+   hidden textarea can never carry styling. That is the fallback now. The last
+   resort reveals a plain white textarea to copy from by hand, never the <pre>. */
+async function copyPlain(text, btn) {
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+  const done = (msg) => {
+    btn.textContent = msg;
+    setTimeout(() => { btn.textContent = btn.dataset.label }, 1800);
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return done('Copied');
+    }
+  } catch (e) { /* fall through, this throws in app webviews and insecure contexts */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand && document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) return done('Copied');
+  } catch (e) { /* fall through */ }
+  const host = btn.closest('.copy, .field');
+  if (host && !host.querySelector('textarea.manual')) {
+    const ta = document.createElement('textarea');
+    ta.className = 'manual';
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    host.appendChild(ta);
+    ta.focus();
+    ta.select();
+  }
+  done('Copy from the white box');
+}
+
+function render() {
+  const live = D.posts.filter((p) => !read(pkey(p)));
+  const line = () => live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.';
+  document.getElementById('count').textContent = line();
+  document.getElementById('posts').innerHTML = D.posts.map((p, i) => `
+    <article class="card ${i === 0 && !read(pkey(p)) ? 'top' : ''} ${read(pkey(p)) ? 'is-done' : ''}" data-n="${esc(p.n)}">
+      <div class="head">
+        <div class="title">${esc(p.title)}</div>
+        <div class="chips"><span class="chip num">GDC-${esc(p.n)}</span><span class="chip">LinkedIn</span><span class="chip">${p.chars} chars</span>${p.card ? '<span class="chip">has a card</span>' : '<span class="chip warn">no image</span>'}</div>
+      </div>
+      <div class="copy">
+        <div class="top"><span class="eyebrow">The post</span><button type="button" data-copy="body">Copy post</button></div>
+        <pre>${esc(p.body)}</pre>
+      </div>
+      <details>
+        <summary>First comment, post this yourself the moment it goes live</summary>
+        <div class="copy">
+          <div class="top"><span class="eyebrow">First comment</span><button type="button" data-copy="comment">Copy comment</button></div>
+          <pre>${esc(p.comment)}</pre>
+        </div>
+      </details>
+      <p class="meta">${esc(p.checked)}</p>
+      <label class="done"><input type="checkbox" id="done-${esc(p.n)}" ${read(pkey(p)) ? 'checked' : ''}> Posted</label>
+    </article>`).join('');
+}
+
+document.getElementById('newscount').textContent =
+  D.news.length + ' written, none sent. Each one needs a title and a subtitle as well as the body, which is what the two fields at the top of every card are for.';
+
+document.getElementById('news').innerHTML = D.news.map((x) => `
+  <article class="card" data-news="${x.n}">
+    <div class="head">
+      <div class="title">${esc(x.title)}</div>
+      <div class="chips"><span class="chip num">Issue ${x.n}</span><span class="chip${x.venue === 'LinkedIn' ? ' warn' : ''}">${esc(x.venue)}</span><span class="chip">${x.words} words</span>${x.series ? `<span class="chip">${esc(x.series)}</span>` : ''}</div>
+    </div>
+    <div class="field">
+      <div class="row"><span class="eyebrow">Title</span><button type="button" data-news-copy="title">Copy title</button></div>
+      <div class="val">${esc(x.title)}</div>
+    </div>
+    <div class="field">
+      <div class="row"><span class="eyebrow">Subtitle</span><button type="button" data-news-copy="subtitle">Copy subtitle</button></div>
+      <div class="val sub">${esc(x.subtitle)}</div>
+    </div>
+    <details>
+      <summary>Two other title options, if the first one does not sit right</summary>
+      <div class="subjects">
+        ${x.subjects.slice(1).map((s, i) => `<div class="opt"><span>${esc(s)}</span><button type="button" data-news-copy="subject${i + 1}">Copy</button></div>`).join('')}
+      </div>
+    </details>
+    <div class="copy">
+      <div class="top"><span class="eyebrow">The issue</span><button type="button" data-news-copy="body">Copy body</button></div>
+      <pre>${esc(x.body)}</pre>
+    </div>
+    ${x.note ? `
+    <details>
+      <summary>The note to your network, which is what shows in the feed. A LinkedIn newsletter needs this as well as the article.</summary>
+      <div class="copy">
+        <div class="top"><span class="eyebrow">Note to the network</span><button type="button" data-news-copy="note">Copy note</button></div>
+        <pre>${esc(x.note)}</pre>
+      </div>
+    </details>` : ''}
+  </article>`).join('');
+
+document.getElementById('ideas').innerHTML = D.ideas.map((x) => `
+  <article class="card idea">
+    <div class="head"><div class="title">${esc(x.t)}</div><div class="chips"><span class="chip warn">${esc(x.v)}</span></div></div>
+    <p>${esc(x.s)}</p>
+    <p class="why"><strong>Why it is ours.</strong> ${esc(x.a)}</p>
+    <p class="meta">Proof path: ${esc(x.p)}</p>
+  </article>`).join('');
+
+render();
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-copy], button[data-news-copy]');
+  if (!b) return;
+  const art = b.closest('article');
+  if (b.dataset.copy) {
+    const p = D.posts.find((x) => x.n === art.dataset.n);
+    return copyPlain(p[b.dataset.copy], b);
+  }
+  const x = D.news.find((n) => String(n.n) === art.dataset.news);
+  const k = b.dataset.newsCopy;
+  const m = k.match(/^subject(\d)$/);
+  return copyPlain(m ? x.subjects[Number(m[1])] : x[k], b);
+});
+
+document.addEventListener('change', (e) => {
+  if (!e.target.matches('label.done input')) return;
+  const art = e.target.closest('article');
+  write('gdc-desk-posted-' + art.dataset.n, e.target.checked);
+  art.classList.toggle('is-done', e.target.checked);
+  const live = D.posts.filter((p) => !read(pkey(p)));
+  document.getElementById('count').textContent =
+    live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.';
+});
+</script>
