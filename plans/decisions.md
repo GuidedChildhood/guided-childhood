@@ -222,3 +222,7 @@ engine skill, step 7b.
 ## 6 November 2026: the five build next Etsy packs, built
 
 From the top sellers research's build next list, in deadline order: the Phone Under The Tree Treasure Hunt (13 pages, Orbit, list by 20 November, now also in the Christmas Phone Bundle at the same £14.99), the Planet Day Flip Chart (25 pages, 120 picture cards), the Jobs Board for 11 to 15s (8 pages), What Would You Do? Table Talk cards (100 cards) and the Road to 16 Board Game (19 pages plus an A3 board). Every line has a proof path in the product; titles lead with the format that sells. build-pack.mjs gains fillable PDF fields (so "fillable" is true), an A3 output, and a Letter fix: Letter had been printing at about 88 percent and off centre, the older packs keep that until rebuilt. Not uploaded. PR 1425.
+
+## 6 November 2026: the Guided Times has its own app edition
+
+Justin said yes to an app version without the Etsy pages. `build.mjs issue-1 app` prints `?edition=app`: no shop page, the back page swaps the /etsy-bonus gift and Etsy review for app lines, and the contents renumber. Eleven pages, colour and ink friendly; the Etsy and taster editions are unchanged. Issues 2 and 3 carry the shop on their back page and need an app back page first. Where Phones Sleep, merged without one, gets its app edition in the same PR, so the etsy-in-app guard passes on main again.

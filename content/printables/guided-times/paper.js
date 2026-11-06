@@ -14,6 +14,15 @@ const I = window.ISSUE
 // four pages: the front, the ID card, the puzzles and a closing page that
 // gives the six step plan, the answers, and where the full issue is.
 const TASTER = new URLSearchParams(location.search).get('edition') === 'taster'
+// THE APP EDITION (print.html?edition=app, build.mjs issue-N app). Every Etsy
+// download is free in the Guided Childhood app (Justin, 6 November 2026), and
+// a free paper has nothing to sell: the shop page goes, the back page takes
+// the issue's app lines in place of the Etsy ones (issue.js app), and the
+// contents on the front skip the shop and count the pages after it down one.
+const APP = new URLSearchParams(location.search).get('edition') === 'app'
+let SHOP_AT = 0 // the shop's page number in the full issue, set before drawing
+const renumber = n => (SHOP_AT && n > SHOP_AT ? n - 1 : n)
+const backWords = () => (APP && I.app ? { ...I.back, ...I.app } : I.back)
 // The words around the stories that change with the season. Issue 1's are
 // the defaults, so an issue overrides only what it needs (issue.js labels).
 const L = Object.assign({
@@ -237,7 +246,7 @@ function front() {
       </div>
       <nav class="box f-paper" style="width:212px;flex-shrink:0;padding:10px 12px">
         <div class="mono" style="margin-bottom:5px">${TASTER ? 'In the full issue' : 'Inside today'}</div>
-        ${I.inside.map(([n, t]) => `<a ${TASTER ? '' : `href="#p${n}" data-goto="${n}"`} style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
+        ${I.inside.filter(([n]) => !SHOP_AT || n !== SHOP_AT).map(([n, t]) => [renumber(n), t]).map(([n, t]) => `<a ${TASTER ? '' : `href="#p${n}" data-goto="${n}"`} style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
       </nav>
     </div>`, { noHead: true })
 }
@@ -585,7 +594,7 @@ function shop() {
 
 // ── PAGE 12, THE BACK PAGE ──────────────────────────────────────────────
 function back() {
-  const b = I.back, P = I.puzzles, { ws, mz } = window.GT_SOLVED
+  const b = backWords(), P = I.puzzles, { ws, mz } = window.GT_SOLVED
   const mini = `<div style="display:grid;grid-template-columns:repeat(10,11px);border:1.5px solid var(--answer);padding:2px">${ws.grid.flat().map((ch, i) => `<span style="width:11px;height:11px;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;${ws.hits.has(`${Math.floor(i / 10)},${i % 10}`) ? 'background:#D8D8E4;color:#1A1A2E' : 'color:#B0B0C0'}">${ch}</span>`).join('')}</div>`
   return page(12, `
     <div class="box" style="padding:14px 18px;display:flex;flex-direction:column">
@@ -805,7 +814,9 @@ function tasterEnd() {
 }
 
 const PAGES = { front, cover2, editor, plan, idCard, challenge, bigQuestion, appDesk, poster, homework, planner, sites, puzzles, make, shop, back, back2 }
-const ORDER = TASTER ? [front, idCard, puzzles, tasterEnd] : I.pages ? I.pages.map(k => PAGES[k]) : [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
+const FULL = TASTER ? [front, idCard, puzzles, tasterEnd] : I.pages ? I.pages.map(k => PAGES[k]) : [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
+if (APP) SHOP_AT = FULL.indexOf(shop) + 1
+const ORDER = APP ? FULL.filter(fn => fn !== shop) : FULL
 document.getElementById('pages').innerHTML = ORDER.map(fn => fn()).join('')
 document.title = TASTER ? `The Guided Times, Issue ${I.number}: the free taster` : `The Guided Times, Issue ${I.number}: ${I.edition}, ${I.month}`
 })()

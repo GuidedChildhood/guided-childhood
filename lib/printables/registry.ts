@@ -496,11 +496,20 @@ export const PRINTABLES: Printable[] = [
     previewUrl: '/printables/star-swap-shop.png',
   },
   {
+    key: 'where-phones-sleep',
+    title: 'Where Phones Sleep', emoji: '🔌', kind: 'challenge',
+    stages: [1, 2], minutes: 'Every night', setting: 'indoors', skill: 'Bedtime',
+    stars: 5,
+    blurb: 'Every device in the house sleeps in the kitchen, grown ups\' phones too. The charging station poster, a sign for the chargers, the bedtime docking line for the fridge, and labels and cable flags with the Planet Friends.',
+    sheetUrl: '/printables/where-phones-sleep-colour.pdf',
+    previewUrl: '/printables/where-phones-sleep.png',
+  },
+  {
     key: 'guided-times-1',
     title: 'The Guided Times, Issue 1', emoji: '🗞️', kind: 'brain',
     stages: [1, 2, 3], minutes: 'A few sittings', setting: 'anywhere', skill: 'Reading',
     stars: 5,
-    blurb: 'A twelve page Christmas newspaper for children: a letter from DiGi, the Christmas morning plan for a new screen, puzzles, make and do, and a screen promise to sign together.',
+    blurb: 'An eleven page Christmas newspaper for children: a letter from DiGi, the Christmas morning plan for a new screen, puzzles, make and do, and a screen promise to sign together.',
     sheetUrl: '/printables/guided-times-1-colour.pdf',
     previewUrl: '/printables/guided-times-1.png',
   },
@@ -664,7 +673,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
   },
   ...Object.fromEntries([
     'first-phone-kit', 'christmas-countdown', 'screens-at-grannys', 'are-we-nearly-there',
-    'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards',
+    'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards', 'where-phones-sleep',
     'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game',
   ].map(k => [k, { preview: `/printables/${k}.png`, colour: `/printables/${k}-colour.pdf`, colourIn: `/printables/${k}-colourin.pdf` }])),
 }
