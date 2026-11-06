@@ -172,9 +172,9 @@ pages.push(`<div class="pg">
   ${folio('The Guided Childhood Passport', '3')}
 </div>`)
 
-// The check line. Cosmo's check already ends "in their own words", which the
-// lead in says, so the tail is dropped rather than printed twice.
-const checkLine = s => { const c = s.check.replace(/, in their own words\.$/, '.'); return c.charAt(0).toLowerCase() + c.slice(1) }
+// The check line follows the lead in "Your child can tell you, in their own
+// words:", so no check in passport-data.js says that phrase again.
+const checkLine = s => s.check.charAt(0).toLowerCase() + s.check.slice(1)
 
 // GO FURTHER, as on the printable's stage pages: the shop packs that fit
 // this page, names only (passport-data.js PASSPORT_PACKS, ready ones only).
