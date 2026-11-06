@@ -45,19 +45,20 @@ const PACKS = {
   'star-chart': { file: 'star-reward-chart', source: 'starter-pack', edition: 'star-chart' },
   'earn-your-screen-time': { file: 'earn-your-screen-time', app: 'earn-your-screen-time' },
   'family-phone-agreement': { file: 'family-phone-agreement', app: 'family-phone-agreement' },
-  'script-cards': { file: 'say-this-script-cards', cards: true },
+  'script-cards': { file: 'say-this-script-cards', cards: true, app: 'script-cards' },
   // The rest of the paid line, plans/2026-11-06-etsy-paid-downloads-build-plan.md
-  'first-phone-kit': { file: 'first-phone-kit' },
-  'christmas-countdown': { file: 'christmas-screen-free-countdown' },
-  'screens-at-grannys': { file: 'screens-at-grannys' },
-  'are-we-nearly-there': { file: 'are-we-nearly-there' },
-  'holiday-screen-deal': { file: 'holiday-screen-deal' },
-  'screen-reset-journal': { file: '30-day-screen-reset-journal' },
+  'first-phone-kit': { file: 'first-phone-kit', app: 'first-phone-kit' },
+  'christmas-countdown': { file: 'christmas-screen-free-countdown', app: 'christmas-countdown' },
+  'screens-at-grannys': { file: 'screens-at-grannys', app: 'screens-at-grannys' },
+  'are-we-nearly-there': { file: 'are-we-nearly-there', app: 'are-we-nearly-there' },
+  'holiday-screen-deal': { file: 'holiday-screen-deal', app: 'holiday-screen-deal' },
+  'screen-reset-journal': { file: '30-day-screen-reset-journal', app: 'screen-reset-journal' },
+  // No app edition: a classroom poster set for teachers, not a family sheet.
   'class-screen-promise': { file: 'class-screen-promise' },
   // Bundles have no pages of their own: listing photos only (bundle-images.js).
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
-  'star-swap-shop': { file: 'star-swap-shop' },
+  'star-swap-shop': { file: 'star-swap-shop', app: 'star-swap-shop' },
 }
 
 const pack = process.argv[2]
