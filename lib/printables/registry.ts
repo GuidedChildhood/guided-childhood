@@ -73,12 +73,10 @@ export type Printable = {
    */
   drawn?: DrawnKey
   /**
-   * Free to download without a membership. Almost nothing is: the printables
-   * are a member feature and the preview is the sell. The exception is the
-   * Starter Pack, which is the lead magnet every marketing CTA on the site
-   * points at. Giving it away at the front door and then locking the same
-   * booklet inside the app is the wrong way round, and it also meant nobody,
-   * including us, could open it to check it.
+   * Free to download without a membership. Every Etsy download is (set by
+   * the LOCAL_PRODUCTS overlay below; Justin, 6 November 2026), and so are the
+   * Planet Friend mission sheets. The generated library sheets and the
+   * builders stay a member feature.
    */
   free?: boolean
   /**
@@ -88,6 +86,12 @@ export type Printable = {
    * to fold the old multi page Starter Pack into the tidier star chart builder.
    */
   retired?: boolean
+  /**
+   * For the grown ups only: shown in the parent's library but never in the
+   * child's stage grid. The Say This script cards are words for a parent to
+   * say, not a sheet for a child to finish and hand back.
+   */
+  grownUps?: boolean
 }
 
 export const PRINTABLES: Printable[] = [
@@ -416,14 +420,99 @@ export const PRINTABLES: Printable[] = [
     // whole marketing site hands out at /starter-pack, so locking it inside the
     // app was giving it away to strangers and charging members for it.
     free: true,
-    // Retired from the app library: the star chart builder is the tidier in app
-    // version now, so the old multi page booklet no longer shows as a card. The
-    // marketing lead magnet at /starter-pack is a separate registry and is left
-    // exactly as it was.
-    retired: true,
-    blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+    // Back in the library, 6 November 2026. It was retired in July when the
+    // star chart builder became the tidier in app chart, but it has since been
+    // rebuilt as the fourteen page Etsy flagship, and every Etsy download is in
+    // the app (see LOCAL_PRODUCTS). The builder still leads the page.
+    blurb: 'The whole deal on paper. The jobs you agree together, a star reward chart for the fridge, stars to stick, how to guides, a wake up workout, football and dance, a breakfast plate, a week of stories to read together and star tokens to cut out. One star is five minutes of screen time.',
     sheetUrl: '/printables/starter-pack-colour.pdf',
     previewUrl: '/printables/starter-pack.png',
+  },
+  // The paid Etsy line built in November 2026
+  // (plans/2026-11-06-etsy-paid-downloads-build-plan.md), in the app free for
+  // parent and child like every Etsy download. Each one is the Etsy pack
+  // without its last page: node content/printables/build-pack.mjs <pack> app.
+  {
+    key: 'first-phone-kit',
+    title: 'The First Phone Kit', emoji: '📱', kind: 'challenge',
+    stages: [2, 3, 4], minutes: 'The first month', setting: 'anywhere', skill: 'First phone',
+    stars: 5,
+    blurb: 'The phone arrives with a plan. A readiness check for you both, the phone deal your child writes, a setup night checklist, one small thing a week for the first month, and the words for the first wobble.',
+    sheetUrl: '/printables/first-phone-kit-colour.pdf',
+    previewUrl: '/printables/first-phone-kit.png',
+  },
+  {
+    key: 'christmas-countdown',
+    title: 'The Christmas Screen Free Countdown', emoji: '🎄', kind: 'bucket',
+    stages: [1, 2, 3], minutes: '24 days', setting: 'indoors', skill: 'Family time',
+    stars: 5,
+    blurb: 'Twenty four doors, 1 to 24 December, one small thing to do together each day with things already in the house. A tree poster, a card for every day and stickers for the doors.',
+    sheetUrl: '/printables/christmas-countdown-colour.pdf',
+    previewUrl: '/printables/christmas-countdown.png',
+  },
+  {
+    key: 'screens-at-grannys',
+    title: "Screens At Granny's", emoji: '🏡', kind: 'challenge',
+    stages: [1, 2, 3], minutes: 'One visit', setting: 'anywhere', skill: 'Routines',
+    stars: 5,
+    blurb: 'House rules that travel. Your screen deal on a card for the host and one for your child, a visit tally, and thank you notes to leave behind. Same deal, different house.',
+    sheetUrl: '/printables/screens-at-grannys-colour.pdf',
+    previewUrl: '/printables/screens-at-grannys.png',
+  },
+  {
+    key: 'are-we-nearly-there',
+    title: 'Are We Nearly There?', emoji: '🚗', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'One journey', setting: 'anywhere', skill: 'Travel games',
+    stars: 5,
+    blurb: 'A screen free journey pack. Car bingo for little ones and a hard card for older ones, number plates, twenty questions, a journey map, doodles, and a tablet deal agreed before you set off.',
+    sheetUrl: '/printables/are-we-nearly-there-colour.pdf',
+    previewUrl: '/printables/are-we-nearly-there.png',
+  },
+  {
+    key: 'holiday-screen-deal',
+    title: 'The Holiday Screen Deal', emoji: '🗓️', kind: 'challenge',
+    stages: [1, 2, 3], minutes: 'Two weeks', setting: 'anywhere', skill: 'Routines',
+    stars: 5,
+    blurb: 'Two weeks off school, one deal made together on day one. A daily core, a jobs board, a two week grid and a look back at the end, so nobody argues on day six.',
+    sheetUrl: '/printables/holiday-screen-deal-colour.pdf',
+    previewUrl: '/printables/holiday-screen-deal.png',
+  },
+  {
+    key: 'screen-reset-journal',
+    title: 'The 30 Day Screen Reset Journal', emoji: '📓', kind: 'challenge',
+    stages: [2, 3, 4, 5], minutes: '30 days', setting: 'anywhere', skill: 'Wellbeing',
+    stars: 5,
+    blurb: 'One small change a day for thirty days, a face to circle each night, then your family decides what stays. Children 8 and up write alongside a grown up, younger ones draw.',
+    sheetUrl: '/printables/screen-reset-journal-colour.pdf',
+    previewUrl: '/printables/screen-reset-journal.png',
+  },
+  {
+    key: 'star-swap-shop',
+    title: 'The Star Swap Shop', emoji: '🛍️', kind: 'challenge',
+    stages: [1, 2], minutes: 'All week', setting: 'anywhere', skill: 'Screen time',
+    stars: 5,
+    blurb: 'Earn stars all week, then spend them on swap day: on screen time, on time together, or save up for something big. Charts for two ages, a swap menu, tickets and habit cards to collect.',
+    sheetUrl: '/printables/star-swap-shop-colour.pdf',
+    previewUrl: '/printables/star-swap-shop.png',
+  },
+  {
+    key: 'guided-times-1',
+    title: 'The Guided Times, Issue 1', emoji: '🗞️', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'A few sittings', setting: 'anywhere', skill: 'Reading',
+    stars: 5,
+    blurb: 'A twelve page Christmas newspaper for children: a letter from DiGi, the Christmas morning plan for a new screen, puzzles, make and do, and a screen promise to sign together.',
+    sheetUrl: '/printables/guided-times-1-colour.pdf',
+    previewUrl: '/printables/guided-times-1.png',
+  },
+  {
+    key: 'script-cards',
+    title: 'Say This: The Script Cards', emoji: '💬', kind: 'brain',
+    stages: [1, 2, 3, 4, 5], minutes: 'Any moment', setting: 'anywhere', skill: 'Talking it through',
+    stars: 0,
+    grownUps: true,
+    blurb: 'Fifty hard screen moments from 4 to 16, the moment on the front and the words to say on the back, with one line on why. For the grown ups.',
+    sheetUrl: '/printables/script-cards-colour.pdf',
+    previewUrl: '/printables/script-cards.png',
   },
 ]
 
@@ -434,6 +523,11 @@ export const PRINTABLES: Printable[] = [
 // preview and both editions come straight from public. Optional blurb and title
 // overrides keep the card honest where the earlier sheet described something
 // different.
+//
+// EVERY ONE OF THESE IS FREE, for the parent and the child. Justin, 6 November
+// 2026: "all etsy downloads should be in app for free to child and parent."
+// The overlay below sets free on each, so a new Etsy pack needs only its entry
+// here, and npm run etsy-in-app fails if an Etsy pack has no app edition.
 //
 // Character note: four of these covers were drawn with the retired squad
 // (Oliver, Zara, Sofia), and for a while the fix was to point those four card
@@ -481,6 +575,8 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     preview: '/printables/calm-down-corner.png',
     colour: '/printables/calm-down-corner-colour.pdf',
     colourIn: '/printables/calm-down-corner-colourin.pdf',
+    title: 'The Calm Down Corner Kit',
+    blurb: 'A cosy spot and a plan for big feelings. Feelings cards, the star breathing poster, twelve calm choices to try, and the words for the grown up in the moment.',
   },
   'count-to-20': {
     preview: '/printables/count-to-20.png',
@@ -491,6 +587,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     preview: '/printables/earn-your-screen-time.png',
     colour: '/printables/earn-your-screen-time-colour.pdf',
     colourIn: '/printables/earn-your-screen-time-colourin.pdf',
+    blurb: 'A chart for ages 5 to 7 and one for 8 to 11, screen tokens to cut out, and the ending well cards. Earned first, agreed together, enjoyed in full.',
   },
   'family-phone-agreement': {
     preview: '/printables/family-phone-agreement.png',
@@ -517,6 +614,10 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     colour: '/printables/starter-pack-colour.pdf',
     colourIn: '/printables/starter-pack-colourin.pdf',
   },
+  ...Object.fromEntries([
+    'first-phone-kit', 'christmas-countdown', 'screens-at-grannys', 'are-we-nearly-there',
+    'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards',
+  ].map(k => [k, { preview: `/printables/${k}.png`, colour: `/printables/${k}-colour.pdf`, colourIn: `/printables/${k}-colourin.pdf` }])),
 }
 
 for (const p of PRINTABLES) {
@@ -525,6 +626,7 @@ for (const p of PRINTABLES) {
   p.previewUrl = local.preview
   p.pdfColour = local.colour
   p.pdfColourIn = local.colourIn
+  p.free = true
   if (local.blurb) p.blurb = local.blurb
   if (local.title) p.title = local.title
 }
@@ -549,7 +651,7 @@ export function getPrintable(key: string): Printable | null {
 
 export function printablesForStage(stageId: number | null | undefined): Printable[] {
   const stage = stageId && stageId >= 1 && stageId <= 5 ? stageId : 2
-  return PRINTABLES.filter(p => p.stages.includes(stage) && !p.retired)
+  return PRINTABLES.filter(p => p.stages.includes(stage) && !p.retired && !p.grownUps)
 }
 
 // The app library: every printable still on show, retired ones dropped. The
