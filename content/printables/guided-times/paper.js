@@ -109,7 +109,7 @@ function scene() {
 
 // ── Page furniture ──────────────────────────────────────────────────────
 const folio = n => `<div class="gt-folio">${wavy()}<div class="row mono"><span>The Guided Times · Issue ${I.number} · ${TASTER ? 'Free taster' : I.month}</span><span>guidedchildhood.com</span><span>${TASTER ? (n ? `Page ${n} of the full issue` : 'The free taster') : `Page ${n}`}</span></div></div>`
-const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${orn(14)}<span class="mono muted">${I.edition} · ${I.month}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
+const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${orn(14)}<span class="mono muted">${I.headLabel || `${I.edition} · ${I.month}`}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
 // Pages number themselves in the order an issue lists them; the taster keeps
 // each page's number in the full issue.
 let PN = 0
@@ -651,7 +651,7 @@ function cover2() {
         <p class="b" style="font-size:16.5px;line-height:1.35;margin-top:8px;max-width:400px">${f.standfirst}</p>
       </div>
       <div style="position:absolute;right:14px;top:10px;transform:rotate(9deg)">${burst(118, f.burst, f.burstColour || C.holly)}</div>
-      <div style="position:absolute;left:0;bottom:4px;width:170px;height:150px">${sc.left.replaceAll('bottom:22px', 'bottom:8px').replaceAll('bottom:16px', 'bottom:6px').replace(/<div style="position:absolute;left:118px;top:14px">[\s\S]*?<\/svg><\/div>/, '').replace('top:16px', 'top:-20px')}</div>
+      <div style="position:absolute;left:0;bottom:4px;width:170px;height:150px">${sc.left.replaceAll('bottom:22px', 'bottom:8px').replaceAll('bottom:16px', 'bottom:6px').replace(/<div style="position:absolute;left:\d+px;top:\d+px">[\s\S]*?<\/svg><\/div>/g, '')}</div>
       <div style="position:absolute;left:176px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:flex-end">
         ${friends.map(([k, m], i) => `<div style="display:flex;flex-direction:column;align-items:center">${img(k, m, [92, 98, 92, 102, 96][i])}<span class="d" style="font-size:12px;margin-top:-8px;background:#fff;border:2px solid ${INK};border-radius:999px;padding:1px 9px">${NAMES[k]}</span></div>`).join('')}
       </div>

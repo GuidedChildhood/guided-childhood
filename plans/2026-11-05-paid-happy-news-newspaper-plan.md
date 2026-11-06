@@ -187,3 +187,16 @@ guidedchildhood.com/free/guided-times for an email (front page, ID card,
 puzzles, the six step plan), ending at the stage check and naming the Etsy
 shop for the full issue. The carousel is drafted for his approval in
 `Carousels/Review Queue` with the gdc-instagram-carousel skill.
+
+## 9. Issues 2 and 3 (6 November 2026)
+
+Justin: "also build next additions or time relative have some grabbing news
+headline to get attention and research all best news paper ideas similar to
+this to get ideas and top level design". Researched the front pages and
+regular features of the best children's and good news titles (ideas only).
+Built Issue 2 (January 2027, "New Year, New Deal!", the new year screen
+deal) and Issue 3 (February 2027, "Tech Check Time!", the Safer Internet Day
+special) with the design upgrades listed in the README. Both have their five
+Etsy files; neither is listed. Their listing packages and photos are still
+to make before they go on Etsy (Issue 2 by 27 December, Issue 3 by 25
+January).
