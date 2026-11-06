@@ -51,9 +51,9 @@
 const pack = (name, part, ready = false) => ({ name, part, ready })
 window.PASSPORT_PACKS = {
   1: [pack('Say This', 'talk', true), pack('The Calm Down Corner Kit', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
-      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing')],
+      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing', true)],
   2: [pack('Say This', 'talk', true), pack('The Family Phone Agreement', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
-      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Holiday Screen Deal', 'doing', true), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing'), pack('The 30 Day Screen Reset Journal', 'check', true)],
+      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Holiday Screen Deal', 'doing', true), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
   3: [pack('Say This', 'talk', true), pack('The Family Phone Agreement', 'talk', true),
       pack('The First Phone Kit', 'talk', true), pack('The Holiday Screen Deal', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
   4: [pack('Say This', 'talk', true), pack('The First Phone Kit', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
