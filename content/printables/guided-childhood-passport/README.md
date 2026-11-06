@@ -64,8 +64,13 @@ Starter Pack for an email. Discreet footer URL on every page.
 4. Cover wording: the app's own covers say "Digital Literacy Passport" (fold
    out) and "Digital Childhood Passport" (book). This product says "Guided
    Childhood Passport" to match the shop banner.
-5. **Before listing:** the stage pages name the ready packs (Calm Down
-   Corner Kit, Earn Your Screen Time, Family Phone Agreement).
-   List those on Etsy first, or with the Passport. The Starter Pack is the
-   free gift at /etsy-bonus and is never sold (Justin, 5 November 2026).
+5. The stage pages name only packs that are live on Etsy. Since 6 November
+   2026 that is Say This, Calm Down Corner Kit, Earn Your Screen Time,
+   Family Phone Agreement, The Star Swap Shop, The First Phone Kit, The
+   Christmas Screen Free Countdown, Screens at Granny’s, Are We Nearly There,
+   The Holiday Screen Deal and The 30 Day Screen Reset Journal. The
+   Personalised Star Chart stays off until it is built and listed. A new
+   pack goes on the page by flipping its `ready` flag once it is live, then
+   rebuilding. The Starter Pack is the free gift at /etsy-bonus and is never
+   sold (Justin, 5 November 2026).
 6. Nothing is listed on Etsy until Justin says so.
