@@ -509,7 +509,7 @@ export const PRINTABLES: Printable[] = [
     title: 'The Guided Times, Issue 1', emoji: '🗞️', kind: 'brain',
     stages: [1, 2, 3], minutes: 'A few sittings', setting: 'anywhere', skill: 'Reading',
     stars: 5,
-    blurb: 'A twelve page Christmas newspaper for children: a letter from DiGi, the Christmas morning plan for a new screen, puzzles, make and do, and a screen promise to sign together.',
+    blurb: 'An eleven page Christmas newspaper for children: a letter from DiGi, the Christmas morning plan for a new screen, puzzles, make and do, and a screen promise to sign together.',
     sheetUrl: '/printables/guided-times-1-colour.pdf',
     previewUrl: '/printables/guided-times-1.png',
   },

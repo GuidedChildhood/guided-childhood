@@ -1,7 +1,12 @@
 // Builds an issue of The Guided Times: the PDFs, the page turning reader,
 // the page previews and the listing photos.
 //
-//   node content/printables/guided-times/build.mjs [issue-1] [print|reader|listing]
+//   node content/printables/guided-times/build.mjs [issue-1] [print|reader|listing|taster|app]
+//
+// THE APP EDITION (app, never part of a full build): print.html?edition=app,
+// the paper without its shop or Etsy lines, to public/printables as
+// guided-times-N-colour.pdf, -colourin.pdf (ink friendly) and the card
+// guided-times-N.png, A4 only. Free in the app, like every Etsy download.
 //
 // Needs playwright-core and a Chrome: the system Chrome on this Mac and the
 // main checkout's playwright-core, unless CHROME and PW_CORE say otherwise
@@ -194,6 +199,26 @@ if (!only || only === 'taster') {
   const pages = pv.locator('.gt-page'), n = await pages.count()
   for (let i = 0; i < n; i++) await pages.nth(i).screenshot({ path: join(PUB, `${base}-p${i + 1}.png`) })
   console.log('taster previews', n)
+}
+
+if (only === 'app') {
+  // Issue 2 on carries the shop on its back page (back2), and without it that
+  // page is half empty. It needs an app back page of its own before it goes in.
+  if (/'back2'/.test(readFileSync(join(DIR, 'issue.js'), 'utf8'))) throw new Error(`${issue} has the shop on its back page: give it an app back page before an app edition`)
+  if (!/\n  app: \{/.test(readFileSync(join(DIR, 'issue.js'), 'utf8'))) throw new Error(`${issue}/issue.js has no app lines for the back page`)
+  const OUT = join(ROOT, '../../../public/printables'), key = `guided-times-${N}`
+  const page = await browser.newPage({ viewport: { width: 900, height: 1100 } })
+  await open(page, false, 'app'); await checkOverflow(page)
+  for (const [name, ink] of [[`${key}-colour.pdf`, false], [`${key}-colourin.pdf`, true]]) {
+    await open(page, ink, 'app'); await page.addStyleTag({ content: PAPERS.a4 })
+    await page.emulateMedia({ media: 'print' })
+    await page.pdf({ path: join(OUT, name), preferCSSPageSize: true, printBackground: true, tagged: true, outline: true })
+    await page.emulateMedia({ media: 'screen' })
+    console.log('app pdf', name, await page.locator('.gt-page').count(), 'pages')
+  }
+  // The card is page one of the colour PDF, as for every app printable.
+  execFileSync('pdftoppm', ['-png', '-f', '1', '-l', '1', '-scale-to', '1400', '-singlefile', join(OUT, `${key}-colour.pdf`), join(OUT, key)])
+  console.log('app card', `${key}.png`)
 }
 
 if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html'))) {

@@ -68,6 +68,17 @@ previews straight into `public/printables/free/guided-times-1-taster-*`. The
 gate is the `guided-times-taster` magnet in `lib/magnets/registry.ts` and the
 page is `/free/guided-times`. It is never listed on Etsy.
 
+## The app edition (6 November 2026)
+
+Every Etsy download is free in the Guided Childhood app (Justin, 6 November
+2026), and Justin said yes to a Guided Times without its Etsy pages there.
+`build.mjs issue-N app` prints `print.html?edition=app` to
+`public/printables/guided-times-N-colour.pdf`, `-colourin.pdf` and the card
+`guided-times-N.png`, A4 only. The shop page goes, the back page takes the
+issue's `app` lines in place of the Etsy ones, and the contents renumber, so
+Issue 1 is eleven pages. Issue 2 on carries the shop on its back page, so the
+build refuses them until they have an app back page of their own.
+
 ## A new issue
 
 Copy `issue-1` to `issue-2`, rewrite `issue.js`, check the shop page's `live`
