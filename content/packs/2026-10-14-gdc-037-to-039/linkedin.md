@@ -141,7 +141,7 @@ What would you want them to measure before anybody calls it a success?
 
 ### First comment
 
-The official Bradford page puts it at around 4,000 young people aged twelve to fifteen, randomly assigned, six weeks, measuring anxiety, sleep and bullying. Wellcome funding of £1.2 million, running to April 2028. Two things I have deliberately not stated, because public sources currently disagree on them: the exact daily cap, and how many schools are in. It is a daily limit plus an overnight curfew rather than a full ban, so it is not a referendum on the Government's policy. When results do come, adherence, other devices in the house, and what the time got spent on instead will all matter more than the top line.
+Checked again on 6 November. It is co led by Professor Amy Orben at Cambridge and Dr Dan Lewer at Born in Bradford, launched in secondary schools in autumn 2026: around 4,000 students in years 8 to 10, aged twelve to fifteen, across ten Bradford secondary schools, with half of each year group randomly assigned a daily cap and a night time block and the rest carrying on as normal. Wellcome funded at £1.2 million from April 2026, with support from the NIHR Yorkshire and Humber ARC. The primary outcome is self reported anxiety, with sleep, bullying, body image, school life and time with friends and family alongside it. Two things I am not stating, because I could not find either: an end date, and when it reports. I looked twice. It is a cap and a curfew rather than a full ban, so it is not a referendum on the Government's policy. When results do come, adherence, other devices in the house, and what the time got spent on instead will all matter more than the top line.
 
 ---
 
