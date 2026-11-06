@@ -50,6 +50,18 @@ An age on a box will not do that for us.
 
 If a toy in your house could talk back tomorrow, what is the first thing you would want to know about it?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Parents in the UK say half of their children have already been given an AI toy or learning device, and 38 percent own two or more.
+
+That's a parent survey, so it's what parents report. And the headline the British Standards Institution actually drew from it was not about danger. It was about how little guidance exists for the adults buying these things.
+
+I've written up what the numbers do and don't say, and the four things a child should be able to tell you about a toy that talks back.
+
+Is there one in your house already, and do you know what it remembers?
+
 ### First comment
 
 Sources, so you can check me. BSI press release, 11 May 2026: half of children have already had an AI enabled toy or learning device bought for them (50 percent), 38 percent own two or more, FocalData survey of 1,000 UK parents of children up to 16. Common Sense Media, AI in the Toy Box, January 2026: nearly half of American parents have bought or considered buying AI toys; it recommends no child aged five or under uses them. Note the two surveys are different countries and different questions, so I have not put them on one chart. The stage check, if you want a starting point for your own child: guidedchildhood.com/v/li-1027-ai-toy
@@ -129,6 +141,18 @@ What I do think is that the difference comes down to what happens next. Whether 
 That is why the one question I ask about any tool a child talks to is not whether it is safe. It is whether it points back to a human when it matters.
 
 Parents, which is it in your house: a place to practise, or a place to hide?
+
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Twelve percent of American teenagers have asked a chatbot for emotional support or advice. Fifty four percent have used one for schoolwork.
+
+There are two readings of that twelve percent and I hold both on different days. One is a child who didn't have, or didn't trust, a person to tell at midnight. The other is a child practising the sentence before they say it out loud to somebody.
+
+The survey can't settle which, and nobody has followed these children long enough to find out. What I think it comes down to is in the post.
+
+Who would your child tell first, and would you know either way?
 
 ### First comment
 
