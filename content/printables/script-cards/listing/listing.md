@@ -9,13 +9,25 @@ talk, and is the first pack on the Nova and Cosmo pages.
 
 Say This Parenting Conversation Cards | 50 Screen Time Scripts for Parents | Printable Phone and Tech Talk Deck | Ages 4 to 16
 
+## On Etsy
+
+Published 6 November 2026: https://www.etsy.com/uk/listing/4611181732
+(Toys & Games, Card Games, digital). Made from a copy of the Family Phone
+Agreement listing, so the settings match the other packs: made by me, content
+created with an AI generator, automatic renewal, in Etsy Ads. The 7 photos,
+the 3 PDFs and the phone screens zip are uploaded. Checked on the live page
+the same day: Now £5.99, was £7.99.
+
 ## Price and listing setup
 
-- List price: £7.99. In Etsy, Shop Manager, Marketing, Sales and discounts:
-  run a 25 percent off sale on this listing with no end date. Buyers see
-  £7.99 crossed out and pay £5.99, above the £4 floor.
-- Why £7.99: 60 cards across all five stages is more than a single pack
-  (£5.99 list), and it matches the Passport's list price.
+- List price on Etsy: £6.66. Etsy adds 20 percent UK VAT to digital
+  downloads, so the list price is the target divided by 0.9 (the sale times
+  VAT), the shop's rule since 5 November 2026 (see the Passport's
+  listing.md). UK buyers see £7.99 crossed out and pay £5.99.
+- The 25 percent sale is the shop wide sale in Marketing, Sales and
+  discounts. Etsy caps a sale at 30 days, so it is started again each month.
+- £5.99 sits above the £4 floor. 60 cards across all five stages is more
+  than a single pack and the same as the Passport.
 - Evergreen, with peaks at Christmas, the new school year and Year 6.
 - Type: digital download. Files: the three PDFs in `product/` plus a zip of
   the five phone screens in `phone/`.
@@ -121,5 +133,6 @@ the back, and why. Printable deck, link in bio.
 - The review line on the last page asks kindly and offers nothing in return.
 - DiGi and the five Planet Friends were made with AI tools. Say so in the
   listing's creation details, per Etsy's Creativity Standards.
-- List Say This on Etsy before any Passport whose Go further strip names it
-  is uploaded. It is in `passport-data.js` with `ready: false` until then.
+- Listed 6 November 2026, so Say This is `ready: true` in `passport-data.js`.
+  The Passport's PDFs need rebuilding and uploading again for its Go further
+  strip to show it.
