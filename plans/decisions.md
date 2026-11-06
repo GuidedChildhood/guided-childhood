@@ -294,3 +294,7 @@ A new paid Etsy printable from Justin's ask for "Diary of a CEO cards but script
 ## 6 November 2026: the rest of the Etsy paid line, built
 
 Justin: "etsy top sellers research and add all products not yet added". Products 2 to 9 and 11 of content/etsy-shop/product-brief.md are built to the five packs' standard: the First Phone Kit, the Christmas Screen Free Countdown, Screens At Granny's, Are We Nearly There, the Holiday Screen Deal, the 30 Day Screen Reset Journal, Our Class Screen Promise, and two bundles photographed from the packs' real pages. The Whole System Bundle carries Say This where the brief named the free Five Fights words. Personalised Star Chart and the printed Passport are not in it. Research: screen time charts alone barely sell on Etsy, chore and routine charts do; five new formats wait for Justin's yes. Not uploaded. PR 1422.
+
+## 6 November 2026: the week of 9 November approved as recommended
+
+Justin said go on the recommendations: a Thursday film slot for two weeks, kept only if `/v/` numbers show films bring stage checks; the Robux film ships with no tool beat (the star deal buys minutes, not Robux) and its opening line as is; the phone carousel on Saturday 14 November; Snap Map on Friday 13 only if he has the time Thursday, else Friday 20; the PACK gate only on days he can reply within hours; bio "Not a ban. A plan." He makes the four film links and merges. Detail: content/brand-story/weeks/2026-11-09/review.md. PR 1424.

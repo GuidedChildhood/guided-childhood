@@ -7,7 +7,9 @@ with the third part he never gets to: the words, and the step the child takes.
 **Status: draft.** Needs Justin to film 45 seconds, and the setting re checked
 on a real phone the day before (see the review). Carries the week's comment gate.
 
-**Proposed date:** Friday 13 November 2026, 19:30.
+**Proposed date:** Friday 13 November 2026, 19:30, only if Justin has the 45
+minutes on Thursday for the phone check and the take. Otherwise Friday 20
+November (decided 6 November, see the review).
 
 ---
 

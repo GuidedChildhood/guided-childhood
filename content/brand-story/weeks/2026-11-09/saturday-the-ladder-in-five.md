@@ -9,7 +9,7 @@ franchise, built with `gdc-instagram-carousel` from approved assets, plus a
 Reel cut from the same cards to test against it (his carousels underperform
 his Reels badly, so we test rather than assume).
 
-**Proposed date:** Saturday 14 November 2026.
+**Date:** Saturday 14 November 2026 (approved 6 November, see the review).
 
 ---
 
