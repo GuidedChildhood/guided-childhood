@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The ladder in five</title>
+<!--
+  Saturday 14 November 2026 (proposed). THE ROAD TO 16, seven cards, 4:5.
+  Brief: content/brand-story/weeks/2026-11-09/saturday-the-ladder-in-five.md
+  Wording: PHONE_LADDER in lib/content/passport.ts lines 83 to 113, as approved
+  by Justin on 6 November 2026. Do not reword the cards here.
+
+  A sibling of tools/social-cards/template.html: the same frame (mono eyebrow
+  with the lead's dot, page count, logo mark), the same road (StageRoad.tsx
+  butter with the dotted trail and the chunky 0 7px shadow), the same
+  Passport cover copied from PassportBook.tsx with "Our family" in place of a
+  name. The canvas stays cream on every card (the brief), and each rung takes
+  its friend's dot, eyebrow and body ink so the swipe reads as five stages.
+
+  Characters: the approved 512 cutouts in public/digi-squad/friends only.
+  Render: node render.mjs (beside this file).
+-->
+<style>
+@font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;src:url('../../../../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;src:url('../../../../../app/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;src:url('../../../../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;src:url('../../../../../app/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');}
+
+:root{
+  /* shared/tokens.css */
+  --cream:#F9F8F6; --white:#FFFFFF;
+  --ink:#1A1A2E; --ink-soft:#52526A;
+  --gold:#EDC35F; --gold-dark:#C99A28;
+  --accent:var(--gold-dark); --lead-ink:var(--ink-soft);
+  --m:88px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#8a8a8a;font-family:'Nunito',sans-serif;color:var(--ink);}
+#sheet{display:flex;flex-wrap:wrap;align-items:flex-start;gap:40px;padding:40px;}
+
+.card{position:relative;overflow:hidden;background:var(--cream);width:1080px;height:1350px;}
+
+.top{position:absolute;left:var(--m);right:var(--m);top:var(--m);z-index:6;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--lead-ink);}
+.eyebrow{display:flex;align-items:center;gap:14px;}
+.eyebrow i{display:block;width:14px;height:14px;border-radius:50%;background:var(--accent);flex:none;}
+.count{font-weight:500;}
+
+.foot{position:absolute;left:var(--m);bottom:72px;z-index:6;display:flex;align-items:center;gap:16px;}
+.mark{width:46px;height:46px;border-radius:13px;background:var(--gold);box-shadow:0 4px 0 var(--gold-dark);
+  display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:10px;flex:none;}
+.mark b{display:block;width:5px;border-radius:3px;background:#fff;}
+.word{font-weight:800;font-size:28px;letter-spacing:-.01em;color:var(--ink);}
+
+.zone{position:absolute;left:var(--m);right:var(--m);top:190px;z-index:4;display:flex;flex-direction:column;}
+.h-l{font-weight:900;font-size:96px;line-height:.97;letter-spacing:-.03em;}
+.h-c{font-weight:900;font-size:88px;line-height:.98;letter-spacing:-.03em;}
+.body{font-weight:650;font-size:40px;line-height:1.3;color:var(--lead-ink);max-width:880px;margin-top:40px;text-wrap:balance;}
+
+svg.road{position:absolute;left:0;top:0;pointer-events:none;z-index:2;}
+.friend{position:absolute;z-index:3;}
+.label{position:absolute;z-index:4;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;text-align:center;width:180px;}
+
+/* passport cover, from components/pathway/PassportBook.tsx, no child's name */
+.passport{position:absolute;z-index:3;width:300px;height:420px;border-radius:14px 18px 18px 14px;
+  background:linear-gradient(160deg,#6B2333 0%,#571C2A 55%,#4A1723 100%);
+  box-shadow:inset 0 0 0 2px rgba(237,195,95,.55),inset 0 0 0 5px rgba(237,195,95,.14),inset 12px 0 24px rgba(0,0,0,.25),0 18px 40px rgba(26,26,46,.18);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:34px 22px 26px;text-align:center;}
+.passport .t{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+.passport .rule{width:46px;height:1.5px;background:rgba(237,195,95,.55);margin:9px auto 0;}
+.crest{width:84px;height:84px;border-radius:50%;margin:0 auto 14px;border:2.5px solid rgba(237,195,95,.85);
+  box-shadow:inset 0 0 0 4px rgba(237,195,95,.18);display:flex;align-items:center;justify-content:center;}
+.crest div{display:flex;align-items:flex-end;gap:4.5px;height:34px;}
+.crest b{display:block;width:6px;border-radius:3px;background:var(--gold);}
+.passport .n{font-weight:900;font-size:30px;color:var(--gold);}
+.passport .s{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,195,95,.65);margin-top:6px;}
+.chips{display:flex;gap:7px;}
+.chips span{width:34px;height:34px;border-radius:50%;background:#FFF7E8;border:1.5px solid var(--gold);overflow:hidden;display:flex;}
+.chips img{width:100%;height:100%;object-fit:contain;}
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script>
+const ROOT = '../../../../../';
+const W = 1080, H = 1350;
+
+/* Friend triplets from shared/schools-curriculum.ts; art is the approved cutout. */
+const LEADS = {
+  pebble: { accent:'#C99A28', ink:'#7A5A0E', art:'public/digi-squad/friends/pebble.png' },
+  bloop:  { accent:'#6C9E38', ink:'#3F5E1E', art:'public/digi-squad/friends/bloop.png' },
+  orbit:  { accent:'#3E86BC', ink:'#1F4E6E', art:'public/digi-squad/friends/orbit.png' },
+  nova:   { accent:'#7E5AB0', ink:'#4A2F73', art:'public/digi-squad/friends/nova.png' },
+  cosmo:  { accent:'#CE7328', ink:'#8F4A12', art:'public/digi-squad/friends/cosmo.png' },
+};
+/* The five steps of PHONE_LADDER, each with the friend for that stage
+   (digi-squad/README.md). Labels are the ladder's own ages. */
+const CAST = [
+  { key:'pebble', ages:'4 to 8' },
+  { key:'bloop',  ages:'9 to 10' },
+  { key:'orbit',  ages:'11 to 12' },
+  { key:'nova',   ages:'13 to 15' },
+  { key:'cosmo',  ages:'16' },
+];
+
+/* The seven approved cards. Wording exactly as the brief. */
+const CARDS = [
+  { name:'cover', art:'cast', eyebrow:'The road to 16', cls:'h-c',
+    headline:'Nobody goes from no phone to everything in one birthday.',
+    body:'Five steps. Where is yours?' },
+  { name:'pebble', lead:'pebble', art:'friend', eyebrow:'4 to 8',
+    headline:'No personal phone.',
+    body:'Shared family screens, in the same room. This is where the first habits form.' },
+  { name:'bloop', lead:'bloop', art:'friend', eyebrow:'Around 9 to 10',
+    headline:'A first feature phone, if one is needed.',
+    body:'Calls and texts, no apps, no feed. The walk home, without the algorithm.' },
+  { name:'orbit', lead:'orbit', art:'friend', eyebrow:'11 to 12',
+    headline:'Still no social media.',
+    body:'If a smartphone is truly needed, it is locked down and set up together.' },
+  { name:'nova', lead:'nova', art:'friend', eyebrow:'13 to 15',
+    headline:'A smartphone, with agreed guidelines.',
+    body:'Social media introduced slowly and talked through. Each step earned.' },
+  { name:'cosmo', lead:'cosmo', art:'cosmo-passport', eyebrow:'16',
+    headline:'The full phone.',
+    body:'They step onto real feeds already knowing how they work and how to get help.' },
+  { name:'save', art:'passport-end', eyebrow:'Save this',
+    headline:'Prepared, not postponed.',
+    body:'Save it for the day the phone conversation starts.' },
+];
+
+const MARK = `<div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div>`;
+
+/* The road. Rung cards share one wave that enters and leaves at H-200, so the
+   swipe reads as one continuous road. The cover climbs; the last card ends. */
+function roadD(c, i){
+  if (c.art === 'cast')
+    return `M-40 ${H-170} C 200 ${H-170}, 340 ${H-200}, 500 ${H-290} S 780 ${H-480}, ${W+40} ${H-520}`;
+  if (c.art === 'passport-end')
+    return `M-40 ${H-200} C 200 ${H-200}, 420 ${H-170}, 560 ${H-230} S 700 ${H-300}, 760 ${H-300}`;
+  const y = H-200, a = (i % 2 ? -1 : 1) * 46;
+  return `M-40 ${y} C ${W*0.28} ${y + a}, ${W*0.62} ${y-a}, ${W + 40} ${y}`;
+}
+function roadSVG(d){
+  return `<svg class="road" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><g fill="none" stroke-linecap="round">
+    <path d="${d}" stroke="#C99A28" stroke-width="44" transform="translate(0 7)"/>
+    <path class="road-line" d="${d}" stroke="#EDC35F" stroke-width="44"/>
+    <path d="${d}" stroke="#F9F8F6" stroke-width="5" stroke-dasharray="2 26"/>
+  </g></svg>`;
+}
+function passportHTML(cls){
+  return `<div class="passport ${cls}">
+    <div><div class="t">Digital Childhood Passport</div><div class="rule"></div></div>
+    <div><div class="crest"><div><b style="height:12px"></b><b style="height:22px"></b><b style="height:34px"></b><b style="height:19px"></b></div></div>
+      <div class="n">Our family</div><div class="s">The journey to 16</div></div>
+    <div class="chips">${CAST.map(c => `<span><img src="${ROOT + LEADS[c.key].art}"></span>`).join('')}</div>
+  </div>`;
+}
+
+function cardHTML(c, i){
+  const L = LEADS[c.lead] || { accent:'#C99A28', ink:'#52526A' };
+  let art = '';
+  if (c.art === 'friend') art = `<img class="friend on-road" data-x="${W-90-200}" data-w="400" src="${ROOT + L.art}">`;
+  if (c.art === 'cosmo-passport') art = `<img class="friend on-road" data-x="560" data-w="360" src="${ROOT + L.art}">${passportHTML('on-road-pp')}`;
+  if (c.art === 'passport-end') art = passportHTML('at-end');
+  if (c.art === 'cast') art = `<div class="cast"></div>`;
+  return `<div class="card" style="--accent:${L.accent};--lead-ink:${L.ink}" data-name="${c.name}">
+    <div class="top"><div class="eyebrow"><i></i>${c.eyebrow}</div><div class="count">${i + 1} / ${CARDS.length}</div></div>
+    <div class="zone"><div class="${c.cls || 'h-l'}">${c.headline}</div><p class="body">${c.body}</p></div>
+    ${roadSVG(roadD(c, i))}
+    ${art}
+    <div class="foot">${MARK}<div class="word">Guided Childhood</div></div>
+  </div>`;
+}
+
+/* After layout, stand everything on the road wherever the curve is. */
+function place(card){
+  const path = card.querySelector('.road-line');
+  const len = path.getTotalLength();
+  const at = (x) => {
+    let lo = 0, hi = len;
+    for (let k = 0; k < 30; k++) { const mid = (lo + hi) / 2; if (path.getPointAtLength(mid).x < x) lo = mid; else hi = mid; }
+    return path.getPointAtLength(lo);
+  };
+  card.querySelectorAll('img.on-road').forEach(img => {
+    const x = +img.dataset.x, w = +img.dataset.w, p = at(x);
+    img.style.width = w + 'px';
+    img.style.left = (x-w / 2) + 'px';
+    img.style.top = (p.y-w * 0.93) + 'px';
+  });
+  const pp = card.querySelector('.on-road-pp');
+  if (pp) { /* the Passport waits further up the road, just past Cosmo */
+    const s = .74, x = 850, p = at(x);
+    pp.style.cssText = `left:${x-150*s}px;top:${p.y-420*s-6}px;transform:rotate(4deg) scale(${s});transform-origin:top left`;
+  }
+  const end = card.querySelector('.at-end');
+  if (end) { /* the road ends under the Passport */
+    const p = path.getPointAtLength(len), s = .92;
+    end.style.cssText = `left:${p.x-150*s}px;top:${p.y-420*s-4}px;transform:rotate(3deg) scale(${s});transform-origin:top left`;
+  }
+  const cast = card.querySelector('.cast');
+  if (cast) {
+    const fr = [.16, .33, .50, .67, .835], w = 172;
+    cast.innerHTML = CAST.map((c, n) => {
+      const p = path.getPointAtLength(len * fr[n]), f = LEADS[c.key];
+      return `<img class="friend" src="${ROOT + f.art}" style="width:${w}px;left:${p.x-w/2}px;top:${p.y-w + 14}px">
+        <div class="label" style="left:${p.x-90}px;top:${p.y-w-14}px;color:${f.accent}">${c.ages}</div>`;
+    }).join('');
+  }
+}
+
+async function renderAll(){
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = CARDS.map(cardHTML).join('');
+  await Promise.all([...sheet.querySelectorAll('img')].map(img => img.complete ? 0 : new Promise(r => { img.onload = img.onerror = r; })));
+  await document.fonts.ready;
+  sheet.querySelectorAll('.card').forEach(place);
+  window.RENDERED = true;
+}
+renderAll();
+</script>
+</body>
+</html>
