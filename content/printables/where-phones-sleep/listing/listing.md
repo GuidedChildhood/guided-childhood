@@ -41,9 +41,10 @@ fridge where everyone can see it. Pick the spot, set a docking time for
 each person, put your own phone there first, and let the signs do the
 reminding.
 
-Phones out of the bedroom at night is the UK Chief Medical Officers' own
-advice for families, and this pack makes it the easy, visible habit in your
-kitchen.
+Phones out of the bedroom at bedtime is part of the UK Chief Medical
+Officers' 2019 advice for parents and carers. This pack gives that habit a
+home in your kitchen, where everyone can see it. Not endorsed by the UK
+Chief Medical Officers or the UK Government.
 
 What you get:
 
@@ -73,8 +74,7 @@ This is an instant download. Nothing is posted. Print as many copies as your
 own family needs. For personal use only.
 
 I am Justin, a dad who got tired of the screen time fight. In our house my
-phone docks first, because a rule the grown ups keep is the easiest one to
-keep. If anything will not print or open, message me and I will sort it
+phone docks first, so the rule is for everyone. If anything will not print or open, message me and I will sort it
 fast.
 
 ## 13 tags (every one 20 characters or fewer)
@@ -138,9 +138,13 @@ phones in the basket rule for dinner. Printable, link in bio.
   (earning minutes) or the Table Talk cards (questions for the table).
 - One evidence line, in the parent guide and the description: the UK Chief
   Medical Officers' 2019 advice to leave phones outside the bedroom at
-  bedtime, quoted with its source. The pack says plainly that it claims
-  nothing stronger and will not fix sleep or behaviour. Checked by the
-  evidence red team: `../evidence-check.md`.
+  bedtime, quoted word for word with its full source and a not endorsed
+  line (Open Government Licence and CAP 3.52). The pack says plainly that it
+  claims nothing stronger and promises no better sleep or behaviour. Keep
+  the Chief Medical Officers and any health words out of the title and tags.
+  Checked by the evidence red team: `../evidence-check.md`.
+- Before listing, open etsy.com/legal/prohibited in a browser and read the
+  medical claims section (the red team could not fetch it).
 - The deal matches the app and every chart: one star is five minutes.
 - No outcome or medical claims. The copy says what the family does, never
   that it improves sleep, mood or behaviour.
