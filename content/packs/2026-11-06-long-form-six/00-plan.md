@@ -50,6 +50,7 @@ so the next session inherits them.
 | `4-the-syllabus-a-law-wrote.md` | Australia three months on, and who taught the lesson first | Substack | Strong, citation checked in October |
 | `5-two-governments.md` | Sweden's reversal, and legislating while the trial runs | Substack | Strong, rebuilt after the trial check |
 | `6-a-year-of-posting.md` | 275,018 impressions and thirteen link clicks | **LinkedIn** | Our own export, no verification risk |
+| `7-what-to-do-before-march.md` | The four things worth doing in the time left | Substack | Strong, and open about what is untested |
 
 ## What changed from the ideas file, and why
 
@@ -108,8 +109,34 @@ Issue 6 is the one that does not go to parents. It is about our own numbers, and
 putting those in front of a worried parent spends their attention on our business
 rather than their child.
 
-## The series, if he wants it
+## The series, now complete
 
-Issues 2, 3 and 4 are The Readiness Papers one, two and three. The fourth, "what
-to do before March", is the only part of the arc not written here, and it is the
-only one that would carry a direct ask. Say the word and it gets written.
+Justin said yes on 6 November, so all four Readiness Papers exist.
+
+| | Issue | File |
+|---|---|---|
+| One | The age was never the hard part | `2-the-age-is-the-easy-part.md` |
+| Two | What a check can and cannot buy | `3-what-you-would-hand-over.md` |
+| Three | What a deadline teaches while we wait | `4-the-syllabus-a-law-wrote.md` |
+| Four | What to do before March | `7-what-to-do-before-march.md` |
+
+**Paper four is the only one carrying a direct ask**, which keeps the series at
+one in four on selling. If the ask is ever cut, cut the whole closing section
+rather than softening it into a hint, which is the version that reads as
+marketing.
+
+It also adds the audience the other three ignore: the child who is fourteen now
+and will be fifteen when this lands, for whom the restriction is a removal rather
+than a door staying shut. That child experiences the ban as something taken by
+the government at the age when fairness matters most, and the two things that
+follow (say early and often that you did not choose this, and make sure the
+friendships that matter have a route that survives March) are the most practical
+paragraphs in the whole series.
+
+## A guard note, so nobody "fixes" the questions
+
+Issues 2, 3 and 4 contain two or three question marks each. A machine check
+flagged them. They are not faults: they are the three readiness signals, the
+"who holds the file" test, and the test to apply to any proposal. The one closing
+question rule is a LinkedIn post mechanic and does not apply to a long form
+issue. This is now written into the content engine skill.

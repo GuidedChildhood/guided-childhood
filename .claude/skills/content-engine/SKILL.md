@@ -93,6 +93,13 @@ Justin's highest performing posts (75,842 impressions, The Wrong Villain series)
 
 - **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).
 - **Substack**: one full issue, story led, 1,800 to 2,500 words, subject line options.
+  **The one closing question rule does NOT apply here.** That is a LinkedIn post
+  mechanic, where a single question at the end next to the comment box is doing a
+  job in the feed. In a long form issue, embedded questions are normal prose and
+  are often the substance: the three readiness signals in the age issue are three
+  questions, and the age check issue turns on "who holds the file, for how long,
+  and what happens when my child is told no". A guard that counts question marks
+  across a newsletter will flag good writing, so do not let it.
 - **LinkedIn newsletter**: a different length from Substack, and the two are not
   interchangeable (Justin, 6 November 2026, catching exactly that mistake).
   **1,200 to 1,600 words**, plus a separate note to the network of roughly 140
