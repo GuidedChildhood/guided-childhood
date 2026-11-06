@@ -18,7 +18,7 @@
 // data-star-chart, so a change to the pack's chart flows straight through.
 
 import { createRequire } from 'node:module'
-import { existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -43,9 +43,64 @@ const PACKS = {
   'holiday-screen-deal': { file: 'holiday-screen-deal' },
   'screen-reset-journal': { file: '30-day-screen-reset-journal' },
   'class-screen-promise': { file: 'class-screen-promise' },
+  // The build next five, plans/2026-11-06-etsy-build-next-five-plan.md
+  'phone-treasure-hunt': { file: 'phone-under-the-tree-treasure-hunt', fields: true },
+  'planet-day-flip-chart': { file: 'planet-day-flip-chart', fields: true },
+  'jobs-board': { file: 'jobs-board-11-to-15', fields: true },
+  'table-talk-cards': { file: 'what-would-you-do-table-talk-cards', cards: true },
+  'road-to-16-board-game': { file: 'road-to-16-board-game' },
   // Bundles have no pages of their own: listing photos only (bundle-images.js).
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
+}
+
+// FILLABLE FIELDS. A pack with fields: true gets a typing layer over its
+// write in spaces, so the listing can truthfully say the names and the lines
+// fill in on screen. Any element in print.html with data-field="name" becomes
+// a text field over its own box; elements sharing a name share one value, so
+// a child's name typed once fills every page. data-size sets the type size in
+// points (default 11), data-multi makes it wrap. The fields have no fill and
+// no border, so a printed blank copy still shows the lines to write on.
+// Letter is the A4 sheet at 94 percent with a 9.25mm left margin, as above.
+const PDFLIB = process.env.PDF_LIB ?? '/Users/justinphillips/guided-childhood/node_modules/pdf-lib'
+async function measureFields(page) {
+  return page.evaluate(() => {
+    const px = 25.4 / 96
+    const out = []
+    const sheets = [...document.querySelectorAll('.sheet')].filter(s => s.offsetParent !== null)
+    sheets.forEach((sheet, i) => {
+      const o = sheet.getBoundingClientRect()
+      sheet.querySelectorAll('[data-field]').forEach(el => {
+        if (el.offsetParent === null) return
+        const r = el.getBoundingClientRect()
+        out.push({ page: i, name: el.dataset.field, x: (r.left - o.left) * px, y: (r.top - o.top) * px,
+          w: r.width * px, h: r.height * px, size: +(el.dataset.size || 11), multi: 'multi' in el.dataset })
+      })
+    })
+    return out
+  })
+}
+async function addFields(file, fields, letter) {
+  const { PDFDocument, StandardFonts, rgb } = require(PDFLIB)
+  const doc = await PDFDocument.load(readFileSync(file))
+  const form = doc.getForm()
+  const font = await doc.embedFont(StandardFonts.HelveticaBold)
+  const pt = mm => mm * 72 / 25.4
+  const made = {}
+  for (const f of fields) {
+    const pg = doc.getPage(f.page)
+    const k = letter ? 0.94 : 1, dx = letter ? 9.25 : 0
+    let tf = made[f.name]
+    if (!tf) {
+      tf = made[f.name] = form.createTextField(f.name)
+      if (f.multi) tf.enableMultiline()
+    }
+    tf.addToPage(pg, { x: pt(dx + f.x * k), y: pg.getHeight() - pt((f.y + f.h) * k), width: pt(f.w * k), height: pt(f.h * k),
+      font, textColor: rgb(0.102, 0.102, 0.18), backgroundColor: undefined, borderColor: undefined, borderWidth: 0 })
+    tf.setFontSize(f.size * k)
+  }
+  form.updateFieldAppearances(font)
+  writeFileSync(file, await doc.save())
 }
 
 const pack = process.argv[2]
@@ -80,9 +135,16 @@ if ((!only || only === 'print') && !cfg.bundle) {
   await open(page, join(SRC, 'print.html'))
   const pdf = async (name, ink, letter) => {
     await page.evaluate(ink => document.body.classList.toggle('ink', ink), ink)
+    // The pages declare @page size A4, and Chrome fits that A4 box into the
+    // Letter sheet before applying the scale, which printed Letter at about
+    // 88 percent and off centre. Saying Letter here makes the 94 percent real.
+    await page.evaluate(letter => {
+      document.getElementById('letter-page')?.remove()
+      if (letter) document.head.insertAdjacentHTML('beforeend', '<style id="letter-page">@page{size:215.9mm 279.4mm;margin:0 0 0 9.25mm;}</style>')
+    }, letter)
     await page.waitForTimeout(200)
     const opts = letter
-      ? { width: '215.9mm', height: '279.4mm', scale: 0.94, margin: { left: '9.2mm', top: '0mm', right: '0mm', bottom: '0mm' } }
+      ? { width: '215.9mm', height: '279.4mm', scale: 0.94, margin: { left: '9.25mm', top: '0mm', right: '0mm', bottom: '0mm' } }
       : { format: 'A4' }
     await page.pdf({ path: join(DIR, 'product', name), printBackground: true, ...opts })
     console.log('pdf', name)
@@ -90,6 +152,14 @@ if ((!only || only === 'print') && !cfg.bundle) {
   await pdf(`${cfg.file}-A4.pdf`, false, false)
   await pdf(`${cfg.file}-USLetter.pdf`, false, true)
   await pdf(`${cfg.file}-A4-ink-friendly.pdf`, true, false)
+  if (cfg.fields) {
+    await page.evaluate(() => document.body.classList.remove('ink'))
+    const fields = await measureFields(page)
+    for (const [name, letter] of [[`${cfg.file}-A4.pdf`, false], [`${cfg.file}-USLetter.pdf`, true], [`${cfg.file}-A4-ink-friendly.pdf`, false]]) {
+      await addFields(join(DIR, 'product', name), fields, letter)
+    }
+    console.log('fillable fields', fields.length)
+  }
 
   // Page previews, used for the check by eye and for the listing photos.
   fresh(join(DIR, 'images/preview'))
