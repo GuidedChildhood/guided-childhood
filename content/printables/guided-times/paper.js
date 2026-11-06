@@ -14,6 +14,22 @@ const I = window.ISSUE
 // four pages: the front, the ID card, the puzzles and a closing page that
 // gives the six step plan, the answers, and where the full issue is.
 const TASTER = new URLSearchParams(location.search).get('edition') === 'taster'
+// The words around the stories that change with the season. Issue 1's are
+// the defaults, so an issue overrides only what it needs (issue.js labels).
+const L = Object.assign({
+  heroCaption: 'The Planet Friends, ready for a cosy Christmas. One Friend for every stage of growing up.',
+  featureNote: 'The big feature · pages 3 and 4',
+  cardNote: 'Fill it in together',
+  cardDrawHint: 'Draw your new screen here',
+  drawNote: 'Where will it charge tonight?',
+  questionNote: 'Read both sides, then vote',
+  appsNote: 'Apps, games and age labels',
+  homeworkNote: 'For school nights, and the holidays',
+  sitesNote: 'Checked by Orbit',
+  makeNote: 'Screen free fun for the holidays',
+  scene: 'christmas',
+  ornament: 'flake',
+}, I.labels || {})
 const ART = window.GT_ART || '../images'
 const INK = '#1A1A2E'
 const C = { butter: '#F4D072', sky: '#8EC3F0', coral: '#F2957A', green: '#93CFA8', paper: '#FEF7E0', pink: '#F2A0C4', teal: '#7FCFC6', holly: '#C8483A', pine: '#2E7D5A', snow: '#EAF3FB' }
@@ -63,6 +79,14 @@ const basket = (w) => `<svg viewBox="0 0 120 80" width="${w}" height="${w * 0.66
   <text x="98" y="16" font-family="Nunito" font-weight="900" font-size="15" fill="${INK}">z</text><text x="106" y="8" font-family="Nunito" font-weight="900" font-size="11" fill="${INK}">z</text></svg>`
 
 const ICONS = {
+  calendar: `<rect class="fill" x="8" y="12" width="56" height="52" rx="7" fill="#fff" stroke="${INK}" stroke-width="4.5"/><rect class="fill" x="8" y="12" width="56" height="15" rx="6" fill="${C.coral}" stroke="${INK}" stroke-width="4.5"/><path d="M22 6v12M50 6v12" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><text x="36" y="55" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="24" fill="${INK}">1</text>`,
+  lock: `<rect class="fill" x="12" y="30" width="48" height="36" rx="8" fill="${C.butter}" stroke="${INK}" stroke-width="4.5"/><path d="M22 30 V22 a14 14 0 0 1 28 0 V30" fill="none" stroke="${INK}" stroke-width="5"/><circle cx="36" cy="46" r="5" fill="${INK}"/><path d="M36 48v8" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`,
+  heart: `<path class="fill" d="M36 62S8 44 8 25a14 14 0 0 1 28 -6 14 14 0 0 1 28 6c0 19 -28 37 -28 37z" fill="${C.pink}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/>`,
+  chat: `<path class="fill" d="M10 14 h52 a6 6 0 0 1 6 6 v26 a6 6 0 0 1 -6 6 H30 l-12 12 v-12 h-8 a6 6 0 0 1 -6 -6 V20 a6 6 0 0 1 6 -6z" fill="${C.sky}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><circle cx="24" cy="33" r="3.5" fill="${INK}"/><circle cx="36" cy="33" r="3.5" fill="${INK}"/><circle cx="48" cy="33" r="3.5" fill="${INK}"/>`,
+  shield: `<path class="fill" d="M36 6 L62 16 V34 C62 50 50 60 36 66 C22 60 10 50 10 34 V16 Z" fill="${C.green}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><path d="M24 36 l8 8 16 -16" fill="none" stroke="${INK}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  moon: `<path class="fill" d="M44 8a28 28 0 1 0 20 46 22 22 0 0 1 -20 -46z" fill="${C.butter}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/>`,
+  target: `<circle class="fill" cx="36" cy="36" r="28" fill="${C.coral}" stroke="${INK}" stroke-width="4.5"/><circle class="fill" cx="36" cy="36" r="17" fill="#fff" stroke="${INK}" stroke-width="4"/><circle class="fill" cx="36" cy="36" r="7" fill="${C.coral}" stroke="${INK}" stroke-width="3.5"/>`,
+  book: `<path class="fill" d="M8 16 C20 12 30 14 36 20 C42 14 52 12 64 16 V60 C52 56 42 58 36 64 C30 58 20 56 8 60 Z" fill="${C.sky}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><path d="M36 20 V64" stroke="${INK}" stroke-width="4"/>`,
   tag: `<path class="fill" d="M10 30 L30 10 H62 V42 L42 62 Z" fill="${C.butter}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><circle cx="50" cy="22" r="5" fill="#fff" stroke="${INK}" stroke-width="3.5"/><path d="M24 40 L40 24" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`,
   basket: `<rect class="fill" x="22" y="6" width="28" height="22" rx="4" fill="${C.sky}" stroke="${INK}" stroke-width="3.5"/><path class="fill" d="M6 24 H66 L60 56 H12 Z" fill="${C.butter}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M20 32 L23 50 M36 32 V50 M52 32 L49 50" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`,
   key: `<circle class="fill" cx="22" cy="36" r="14" fill="${C.butter}" stroke="${INK}" stroke-width="4.5"/><circle cx="22" cy="36" r="4.5" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M35 36 H64 M54 36 V46 M62 36 V44" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>`,
@@ -73,9 +97,19 @@ const ICONS = {
 }
 const icon = (k, size = 52) => `<svg viewBox="0 0 72 72" width="${size}" height="${size}" aria-hidden="true" style="display:block;flex-shrink:0">${ICONS[k]}</svg>`
 
+const fireworks = (w, color = C.coral) => `<svg viewBox="0 0 100 100" width="${w}" height="${w}" aria-hidden="true" style="display:block">${Array.from({ length: 12 }, (_, i) => { const a = (Math.PI * 2 * i) / 12; return `<path d="M${(50 + 14 * Math.cos(a)).toFixed(1)} ${(50 + 14 * Math.sin(a)).toFixed(1)} L${(50 + 40 * Math.cos(a)).toFixed(1)} ${(50 + 40 * Math.sin(a)).toFixed(1)}" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><circle class="fill" cx="${(50 + 44 * Math.cos(a)).toFixed(1)}" cy="${(50 + 44 * Math.sin(a)).toFixed(1)}" r="4.5" fill="${[color, C.butter, C.sky][i % 3]}" stroke="${INK}" stroke-width="2"/>` }).join('')}<circle class="fill" cx="50" cy="50" r="8" fill="${C.butter}" stroke="${INK}" stroke-width="3"/></svg>`
+const thing = (name, w) => name === 'present' ? present(w, C.coral, C.butter) : name === 'basket' ? basket(w) : name === 'tree' ? tree(w) : name === 'fireworks' ? fireworks(w) : ICONS[name] ? icon(name, w) : ''
+const orn = (size, sw) => L.ornament === 'star' ? star(size) : L.ornament === 'heart' ? icon('heart', size) : flake(size, sw)
+// The cover picture's props and its falling marks, per season.
+function scene() {
+  if (L.scene === 'newyear') return { marks: 'confetti', left: `<div style="position:absolute;left:14px;bottom:22px">${icon('calendar', 116)}</div><div style="position:absolute;left:118px;top:14px">${fireworks(84)}</div><div style="position:absolute;left:128px;bottom:14px">${fireworks(52, C.sky)}</div>` }
+  if (L.scene === 'safer') return { marks: 'hearts', left: `<div style="position:absolute;left:12px;bottom:22px">${icon('shield', 112)}</div><div style="position:absolute;left:120px;bottom:16px">${icon('lock', 64)}</div><div style="position:absolute;left:126px;top:16px">${icon('heart', 50)}</div>` }
+  return { marks: 'snow', left: `<div style="position:absolute;left:14px;bottom:20px">${tree(118)}</div><div style="position:absolute;left:112px;bottom:14px">${present(56, C.coral, C.butter)}</div><div style="position:absolute;left:150px;bottom:12px">${present(40, C.sky, C.pink)}</div>` }
+}
+
 // ── Page furniture ──────────────────────────────────────────────────────
 const folio = n => `<div class="gt-folio">${wavy()}<div class="row mono"><span>The Guided Times · Issue ${I.number} · ${TASTER ? 'Free taster' : I.month}</span><span>guidedchildhood.com</span><span>${TASTER ? (n ? `Page ${n} of the full issue` : 'The free taster') : `Page ${n}`}</span></div></div>`
-const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${flake(14)}<span class="mono muted">${I.edition} · ${I.month}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
+const head = (section, tint = C.pine) => `<div class="gt-head"><span class="d name">The Guided Times</span>${orn(14)}<span class="mono muted">${I.edition} · ${I.month}</span><span class="mono sec" style="background:${tint};color:#fff;border-radius:999px;padding:3px 10px" >${section}</span></div><div class="gt-head-rule"></div>`
 const page = (n, inner, opts = {}) => `<section class="gt-page" id="p${n}" data-page="${n}" aria-label="Page ${n}">${opts.noHead ? '' : head(opts.section || '', opts.tint)}<div class="gt-body">${inner}</div>${folio(n)}</section>`
 const ribbon = (t, fill = 'f-butter', size = 30, rot = -1) => `<h2 class="d ribbon ${fill}" style="font-size:${size}px;transform:rotate(${rot}deg)">${t}</h2>`
 const line = (label, size = 15, extra = '') => `<div class="line" style="font-size:${size}px;${extra}">${label ? `<span class="lab">${label}</span>` : ''}<span class="dots"></span></div>`
@@ -148,7 +182,11 @@ function front() {
   const f = I.front
   const friends = [['pebble', 'happy'], ['bloop', 'wave'], ['orbit', 'happy'], ['nova', 'wave'], ['cosmo', 'happy']]
   const sr = rng(41)
-  const snow = Array.from({ length: 34 }, () => { const r = sr; return `<circle cx="${(r() * 680).toFixed(0)}" cy="${(r() * 150).toFixed(0)}" r="${(2 + r() * 2.6).toFixed(1)}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>` }).join('')
+  const sc = scene(), CONF = [C.coral, C.butter, C.sky, C.green, C.pink]
+  const snow = Array.from({ length: 34 }, (_, i) => { const r = sr; const x = (r() * 680).toFixed(0), y = (r() * 150).toFixed(0), z = (2 + r() * 2.6).toFixed(1)
+    return sc.marks === 'confetti' ? `<rect class="fill" x="${x}" y="${y}" width="${z * 2.2}" height="${z * 1.2}" rx="1.5" transform="rotate(${(r() * 90).toFixed(0)} ${x} ${y})" fill="${CONF[i % 5]}" stroke="${INK}" stroke-width="1.2"/>`
+      : sc.marks === 'hearts' ? `<path class="fill" transform="translate(${x} ${y}) scale(${(z / 5).toFixed(2)})" d="M0 6 C-7 0 -3 -6 0 -2 C3 -6 7 0 0 6z" fill="${CONF[i % 5]}" stroke="${INK}" stroke-width="1.6"/>`
+      : `<circle cx="${x}" cy="${y}" r="${z}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>` }).join('')
   return page(1, `
     <header style="text-align:center">
       <div style="display:flex;justify-content:space-between;align-items:flex-end" class="mono">
@@ -156,7 +194,7 @@ function front() {
         <span>Guided Childhood News</span>
         <span style="text-align:right">${I.ages.split(',')[0]}<br>Print, read, do</span>
       </div>
-      <h1 class="d" style="font-size:76px;letter-spacing:-0.045em;line-height:0.95;margin:4px 0 2px;display:flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap">${flake(24, 2.6)}The Guided Times${flake(24, 2.6)}</h1>
+      <h1 class="d" style="font-size:76px;letter-spacing:-0.045em;line-height:0.95;margin:4px 0 2px;display:flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap">${orn(24, 2.6)}The Guided Times${orn(24, 2.6)}</h1>
       <div class="b" style="font-size:16px">Happy news for growing up with screens</div>
       <div style="border-top:5px solid ${INK};border-bottom:1.5px solid ${INK};height:9px;margin-top:8px"></div>
       <div class="mono dateline" style="background:${C.pine};color:#fff;padding:5px 10px;margin-top:4px;display:flex;justify-content:space-between;border-radius:4px"><span>${I.edition}</span><span>${I.theme}</span><span>guidedchildhood.com</span></div>
@@ -168,15 +206,13 @@ function front() {
     <div class="box f-snow" style="position:relative;height:226px;flex-shrink:0;overflow:hidden">
       <svg viewBox="0 0 680 212" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%">${snow}
         <path class="fill" d="M0 168 Q 120 140 250 158 T 480 150 T 680 156 V212 H0 Z" fill="#fff" stroke="${INK}" stroke-width="3"/></svg>
-      <div style="position:absolute;left:14px;bottom:20px">${tree(118)}</div>
-      <div style="position:absolute;left:112px;bottom:14px">${present(56, C.coral, C.butter)}</div>
-      <div style="position:absolute;left:150px;bottom:12px">${present(40, C.sky, C.pink)}</div>
+      ${sc.left}
       <div style="position:absolute;left:196px;right:30px;bottom:14px;display:flex;justify-content:space-between;align-items:flex-end">
         ${friends.map(([k, m], i) => `<div style="display:flex;flex-direction:column;align-items:center">${img(k, m, [86, 92, 86, 96, 92][i])}<span class="d" style="font-size:12px;margin-top:-8px;background:#fff;border:2px solid ${INK};border-radius:999px;padding:1px 9px">${NAMES[k]}</span></div>`).join('')}
       </div>
       <div style="position:absolute;right:10px;top:6px;transform:rotate(9deg)">${burst(96, f.burst)}</div>
     </div>
-    <div class="small muted" style="margin:6px 2px 0">The Planet Friends, ready for a cosy Christmas. One Friend for every stage of growing up.</div>
+    <div class="small muted" style="margin:6px 2px 0">${L.heroCaption}</div>
 
     <div style="display:flex;gap:18px;margin-top:12px;flex:1 1 auto;min-height:0">
       <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:12px">
@@ -187,7 +223,7 @@ function front() {
             <div><div class="d" style="font-size:15px;line-height:1.2">“${f.quote.text}”</div><div class="mono muted" style="margin-top:4px;font-size:10px">${NAMES[f.quote.by]}, the Friend for 16 and up</div></div>
           </div>
           <div class="box thin f-paper" style="flex:1 1 0;padding:10px 12px">
-            <div style="display:flex;align-items:center;gap:6px">${flake(16)}<span class="mono">${f.weather.title}</span></div>
+            <div style="display:flex;align-items:center;gap:6px">${orn(16)}<span class="mono">${f.weather.title}</span></div>
             <div class="small b" style="margin-top:4px">${f.weather.line}</div>
           </div>
         </div>
@@ -244,7 +280,7 @@ function editor() {
 function plan() {
   const p = I.plan
   return page(3, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(p.kicker, 'f-green', 26)}<span class="mono muted">The big feature · pages 3 and 4</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(p.kicker, 'f-green', 26)}<span class="mono muted">${L.featureNote}</span></div>
     <h2 class="d" style="font-size:38px;letter-spacing:-0.03em;margin:12px 0 6px">${p.headline}</h2>
     <p style="font-size:16px">${p.intro}</p>
     <ol style="list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 16px">
@@ -255,7 +291,7 @@ function plan() {
     </ol>
     <div style="margin-top:14px;display:flex;align-items:stretch;gap:6px">
       ${p.morning.map((m, i) => `${i ? `<svg viewBox="0 0 30 30" width="22" height="22" aria-hidden="true" style="align-self:center;flex-shrink:0"><path d="M4 15h20M16 7l8 8-8 8" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ''}<div style="flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px">
-        <div style="height:74px;display:flex;align-items:flex-end">${m.who ? img(m.who, m.mood, 74) : m.draw === 'present' ? present(62, C.coral, C.butter) : basket(80)}</div>
+        <div style="height:74px;display:flex;align-items:flex-end">${m.who ? img(m.who, m.mood, 74) : thing(m.draw, m.draw === 'basket' ? 80 : 62)}</div>
         <div class="d" style="font-size:15px;line-height:1.1">${m.head}</div><div class="small muted b" style="line-height:1.2">${m.when}</div></div>`).join('')}
     </div>
     <div class="box f-paper" style="margin-top:auto;padding:12px 14px;display:flex;gap:12px;align-items:center">
@@ -268,11 +304,11 @@ function idCard() {
   return page(4, `
     <div class="box" style="padding:0;overflow:hidden">
       <div class="flood" style="background:${C.pine};color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:3px solid ${INK}">
-        ${star(26)}<h2 class="d" style="font-size:28px;color:inherit">${c.title}</h2><span class="mono" style="margin-left:auto;color:inherit">Fill it in together</span>
+        ${star(26)}<h2 class="d" style="font-size:28px;color:inherit">${c.title}</h2><span class="mono" style="margin-left:auto;color:inherit">${L.cardNote}</span>
       </div>
       <div style="display:flex;gap:16px;padding:14px 16px 8px">
         <div style="width:190px;flex-shrink:0;display:flex;flex-direction:column;gap:8px">
-          <div style="height:200px;border:3px dashed ${INK};border-radius:12px;display:flex;align-items:flex-end;justify-content:center;padding:8px"><span class="b small muted" style="text-align:center">Draw your new screen here</span></div>
+          <div style="height:200px;border:3px dashed ${INK};border-radius:12px;display:flex;align-items:flex-end;justify-content:center;padding:8px"><span class="b small muted" style="text-align:center">${L.cardDrawHint}</span></div>
           <div class="b small">It is a: <span class="muted">(circle one)</span></div>
           <div style="display:flex;flex-wrap:wrap;gap:6px">${c.kinds.map(k => `<span class="pill">${k}</span>`).join('')}</div>
         </div>
@@ -289,7 +325,7 @@ function idCard() {
     </div>
 
     <div class="box f-snow" style="margin-top:16px;flex:1 1 auto;min-height:0;position:relative;padding:12px 16px;display:flex;flex-direction:column">
-      <div style="display:flex;align-items:center;gap:10px"><span class="d" style="font-size:22px">${c.draw}</span><span class="mono muted" style="margin-left:auto">Where will it charge tonight?</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><span class="d" style="font-size:22px">${c.draw}</span><span class="mono muted" style="margin-left:auto">${L.drawNote}</span></div>
       <div style="flex:1 1 auto;margin-top:8px;border:3px dashed ${INK};border-radius:12px;background:#fff"></div>
       <div style="position:absolute;right:26px;bottom:24px">${basket(110)}</div>
       <div style="position:absolute;left:28px;bottom:22px">${img('bloop', 'thinking', 104)}</div>
@@ -306,7 +342,7 @@ function bigQuestion() {
     ${s.points.map(t => `<div style="display:flex;gap:8px;align-items:flex-start;background:#fff;border:2.5px solid ${INK};border-radius:12px;padding:5px 9px">${star(16)}<span class="b" style="font-size:14px;line-height:1.28">${t}</span></div>`).join('')}
   </div>`
   return page(5, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(q.kicker, 'f-coral', 26)}<span class="mono muted">Read both sides, then vote</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(q.kicker, 'f-coral', 26)}<span class="mono muted">${L.questionNote}</span></div>
     <h2 class="d" style="font-size:36px;letter-spacing:-0.03em;margin:10px 0 5px">${q.question}</h2>
     <p style="font-size:15.5px;margin-bottom:10px">${q.intro}</p>
     <div style="display:flex;gap:14px">${side(q.yes, 'f-sky', 'Side one')}${side(q.no, 'f-butter', 'Side two')}</div>
@@ -337,7 +373,7 @@ function appDesk() {
     <rect class="fill" x="24" y="144" width="72" height="26" rx="13" fill="${C.butter}" stroke="${INK}" stroke-width="2.5"/><text x="60" y="161" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="10" fill="${INK}">10 min earned</text>
     <circle cx="60" cy="193" r="5" fill="${INK}"/></svg>`
   return page(6, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(a.kicker, 'f-sky', 26)}<span class="mono muted">Apps, games and age labels</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(a.kicker, 'f-sky', 26)}<span class="mono muted">${L.appsNote}</span></div>
     <h2 class="d" style="font-size:36px;letter-spacing:-0.03em;margin:10px 0 4px">${a.headline}</h2>
     <p style="font-size:16px">${a.intro}</p>
     <div style="display:flex;gap:14px;align-items:center;margin:12px 0 4px">
@@ -382,7 +418,7 @@ function homework() {
     <path d="M12 6 V354 M58 6 V354" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>
     ${Array.from({ length: rungs }, (_, i) => `<path d="M12 ${330 - i * 70} H58" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>`).join('')}</svg>`
   return page(7, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(h.kicker, 'f-teal', 26)}<span class="mono muted">For school nights, and the holidays</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(h.kicker, 'f-teal', 26)}<span class="mono muted">${L.homeworkNote}</span></div>
     <div style="display:flex;gap:16px;margin-top:12px">
       <div style="flex:1 1 0;min-width:0">
         <h2 class="d" style="font-size:36px;letter-spacing:-0.03em;margin-bottom:10px">${h.headline}</h2>
@@ -428,7 +464,7 @@ function sites() {
       <span style="flex:1;margin-left:5px;background:#fff;border:2px solid ${INK};border-radius:999px;padding:1px 9px;font-family:var(--mono);font-weight:600;font-size:11.5px;letter-spacing:0.02em">${x.url}</span></div>
     <div style="padding:7px 10px 9px"><h3 class="d" style="font-size:18px">${x.name}</h3><p class="small" style="margin-top:2px">${x.text}</p></div></div>`
   return page(8, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(s.kicker, 'f-butter', 26)}<span class="mono muted">Checked by Orbit</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(s.kicker, 'f-butter', 26)}<span class="mono muted">${L.sitesNote}</span></div>
     <div style="display:flex;align-items:center;gap:12px;margin:10px 0 4px">
       <div style="flex:1"><h2 class="d" style="font-size:33px;letter-spacing:-0.03em">${s.headline}</h2><p style="font-size:15.5px;margin-top:5px">${s.intro}</p></div>
       ${img(s.by, 'wave', 92)}
@@ -486,7 +522,7 @@ function puzzles() {
 function make() {
   const m = I.make, b = m.bingo, tints = ['f-sky', 'f-butter', 'f-green', 'f-pink']
   return page(10, `
-    <div style="display:flex;align-items:center;gap:10px">${ribbon(m.kicker, 'f-pink', 26)}<span class="mono muted">Screen free fun for the holidays</span></div>
+    <div style="display:flex;align-items:center;gap:10px">${ribbon(m.kicker, 'f-pink', 26)}<span class="mono muted">${L.makeNote}</span></div>
     <div style="display:flex;align-items:flex-end;gap:12px;margin:10px 0 8px">
       <div style="flex:1"><h2 class="d" style="font-size:38px;letter-spacing:-0.03em">${b.headline}</h2><p style="font-size:15px;margin-top:4px">${b.intro}</p></div>
       ${img('pebble', 'happy', 92)}
@@ -560,7 +596,7 @@ function back() {
 
     <div class="box" style="margin-top:16px;flex:1 1 auto;min-height:0;padding:8px 14px;display:flex;gap:14px;align-items:center;overflow:hidden">
       <div style="width:200px;flex-shrink:0"><div class="d" style="font-size:22px;line-height:1.1">${b.colour.title}</div><p class="small b" style="margin-top:6px">${b.colour.line}</p></div>
-      <div class="colour" style="flex:1;display:flex;align-items:flex-end;justify-content:center;gap:4px;height:100%">${tree(88)}${present(64, '#fff', '#fff')}${present(46, '#fff', '#fff')}${basket(88)}</div>
+      <div class="colour" style="flex:1;display:flex;align-items:flex-end;justify-content:center;gap:4px;height:100%">${(b.colour.things || ['tree', 'present', 'present', 'basket']).map((t, i) => thing(t, [88, 64, 46, 88][i] || 64)).join('')}</div>
     </div>
     <div class="upside" style="margin-top:auto;padding-top:12px;display:flex;gap:18px;align-items:flex-start">
       <div style="flex:1 1 0;min-width:0">
