@@ -4,7 +4,7 @@
 //   node content/printables/build-pack.mjs <pack> [print|phone|listing]
 //
 // <pack> is calm-down-kit, starter-pack, star-chart, earn-your-screen-time,
-// family-phone-agreement or script-cards. Needs playwright-core and a Chrome: the system
+// family-phone-agreement, script-cards, or one of the paid line in PACKS. Needs playwright-core and a Chrome: the system
 // Chrome on this Mac and the main checkout's playwright-core, unless CHROME
 // and PW_CORE say otherwise (same as the Passport's build-passport.mjs).
 //
@@ -35,6 +35,17 @@ const PACKS = {
   'earn-your-screen-time': { file: 'earn-your-screen-time' },
   'family-phone-agreement': { file: 'family-phone-agreement' },
   'script-cards': { file: 'say-this-script-cards', cards: true },
+  // The rest of the paid line, plans/2026-11-06-etsy-paid-downloads-build-plan.md
+  'first-phone-kit': { file: 'first-phone-kit' },
+  'christmas-countdown': { file: 'christmas-screen-free-countdown' },
+  'screens-at-grannys': { file: 'screens-at-grannys' },
+  'are-we-nearly-there': { file: 'are-we-nearly-there' },
+  'holiday-screen-deal': { file: 'holiday-screen-deal' },
+  'screen-reset-journal': { file: '30-day-screen-reset-journal' },
+  'class-screen-promise': { file: 'class-screen-promise' },
+  // Bundles have no pages of their own: listing photos only (bundle-images.js).
+  'christmas-phone-bundle': { bundle: true },
+  'whole-system-bundle': { bundle: true },
 }
 
 const pack = process.argv[2]
@@ -63,7 +74,7 @@ const fresh = dir => {
   for (const f of readdirSync(dir)) if (f.endsWith('.png')) rmSync(join(dir, f))
 }
 
-if (!only || only === 'print') {
+if ((!only || only === 'print') && !cfg.bundle) {
   mkdirSync(join(DIR, 'product'), { recursive: true })
   const page = await browser.newPage()
   await open(page, join(SRC, 'print.html'))
