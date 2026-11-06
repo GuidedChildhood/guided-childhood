@@ -185,6 +185,12 @@ build.
   download!"), `fridgeNote` and `fridgeLine` (the fridge photo),
   `stickerNote`, `coverTicks` (three ticked features). Keep the cover's key
   words inside the middle three quarters, which survives Etsy's crop.
+- **Real life photos.** Every A4 pack also names two `scenes` (fridge,
+  classroom, kitchen table, Christmas, from `content/printables/listing-scenes/`)
+  and the build lays its real hero page onto the blank sheet in each, as
+  `01c` and `01d` after the cover. Never ask an image model to draw the
+  printable: generate a new scene with a blank sheet only, measure its
+  corners into `quads.json`, and composite (see that folder's README).
 - **Check by eye.** Render the whole set, make a contact sheet, and check
   that no headline runs under the pages, nothing touches the footer, and
   the cover reads at thumbnail size, before anything is uploaded.

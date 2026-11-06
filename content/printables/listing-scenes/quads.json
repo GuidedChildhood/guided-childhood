@@ -1,0 +1,11 @@
+{
+  "_about": "Corners of the blank sheet in each 1024px scene, top left, top right, bottom right, bottom left. Measured on a pixel grid and checked by eye, 6 November 2026. scene-composite.mjs uses these and only detects the sheet to keep magnets and pins on top.",
+  "fridge-white": [[305, 229], [722, 233], [710, 798], [305, 799]],
+  "fridge-cream": [[320, 217], [710, 222], [707, 767], [317, 772]],
+  "christmas-fridge": [[338, 279], [701, 284], [696, 781], [336, 778]],
+  "classroom-hessian": [[288, 196], [735, 196], [737, 818], [288, 819]],
+  "classroom-cork": [[318, 234], [689, 234], [685, 758], [318, 758]],
+  "table-oak": [[263, 133], [760, 133], [758, 871], [263, 871]],
+  "table-breakfast": [[258, 146], [766, 146], [768, 869], [256, 869]],
+  "christmas-table": [[248, 132], [775, 132], [773, 880], [248, 880]]
+}

@@ -31,6 +31,7 @@ import { createRequire } from 'node:module'
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
 
 const ROOT = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
@@ -236,6 +237,14 @@ if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html')
     await frames.nth(i).screenshot({ path: join(DIR, 'listing/images', `${id}.png`) })
   }
   console.log('listing images', n)
+  // Real life photos: the pack's hero page laid onto the blank sheet in each
+  // scene the listing names (scenes: [...] in window.LISTING), by
+  // scene-composite.mjs. Named 01c, 01d so they follow the cover on Etsy.
+  const real = await page.evaluate(() => { const L = window.LISTING || {}; return { scenes: L.scenes || [], page: L.scenePage || L.fridgePage || (L.cover && L.cover[0]) } })
+  real.scenes.forEach((s, i) => {
+    const pv = join(DIR, 'images/preview', `page-${String(real.page).padStart(2, '0')}.png`)
+    execFileSync(process.execPath, [join(ROOT, 'scene-composite.mjs'), s, pv, join(DIR, 'listing/images', `01${'cdefg'[i]}-real-${s}.png`)], { stdio: 'inherit' })
+  })
 }
 
 if (only === 'app') {
