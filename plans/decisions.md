@@ -287,3 +287,7 @@ Justin: a homework reminder he had asked DiGi for opened DiGi's chat; it should 
 ## 5 November 2026: Say This, the script cards deck
 
 A new paid Etsy printable from Justin's ask for "Diary of a CEO cards but scripts for every moment": 60 cards, 50 parent scripts in five levels, one per Planet Friend (4 to 16). The format of premium conversation decks, our own look. Card 1 of each level is that stage's script in stages.ts (the Passport page's talk); the rest are live `scripts` rows word for word, each id in cards-data.js. £7.99 list, £5.99 on the permanent sale. On every Passport page under the talk, not ready until listed. Not uploaded. PR 1416.
+
+## 6 November 2026: the rest of the Etsy paid line, built
+
+Justin: "etsy top sellers research and add all products not yet added". Products 2 to 9 and 11 of content/etsy-shop/product-brief.md are built to the five packs' standard: the First Phone Kit, the Christmas Screen Free Countdown, Screens At Granny's, Are We Nearly There, the Holiday Screen Deal, the 30 Day Screen Reset Journal, Our Class Screen Promise, and two bundles photographed from the packs' real pages. The Whole System Bundle carries Say This where the brief named the free Five Fights words. Personalised Star Chart and the printed Passport are not in it. Research: screen time charts alone barely sell on Etsy, chore and routine charts do; five new formats wait for Justin's yes. Not uploaded. PR 1422.
