@@ -1,0 +1,5 @@
+/* Listing photo fonts, Google Fonts, SIL Open Font License. DM Serif Display
+   for headlines and Caveat for the handwritten notes give the photo set the
+   look of a family designed listing, not a rendered one (Justin, 6 Nov 2026). */
+@font-face{font-family:'DM Serif Display';font-style:normal;font-weight:400;src:url('DMSerifDisplay.woff2') format('woff2');}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:600 700;src:url('Caveat.woff2') format('woff2');}

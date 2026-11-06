@@ -301,3 +301,13 @@ The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down
 ## 6 November 2026: every Etsy download is in the app, free for parent and child
 
 Justin: "all etsy downloads should be in app for free to child and parent." Every Etsy pack in the app library is free for any parent and opens straight away for the child, with no Ask and no paywall. Nine more are added (First Phone Kit, Christmas Countdown, Screens At Granny's, Are We Nearly There, Holiday Screen Deal, Screen Reset Journal, Star Swap Shop, Guided Times 1, Say This script cards, which are for grown ups only), and the Starter Pack is back in the grid. Not in the app as their own card: the Star Chart, the printable Passport (the app has both of its own), the Class Screen Promise (for teachers) and the bundles. `npm run etsy-in-app`, in CI, fails a new Etsy pack until it has an app edition. PR 1427.
+
+## 6 November 2026: Etsy listing photos in the Canva look, varied per product
+Justin: the photos "look more AI than Canva" and should not all look alike.
+`listing-images.js`, `bundle-images.js` and the Passport's `images.html` now
+build flat paper photos: serif headline, handwritten note, real pages on a
+clipboard or fridge with washi tape, no 3D characters, road or ink outlines.
+Each product sets one of five themes and one of three cover layouts so shop
+neighbours differ. The Etsy creation setting stays "With an AI generator"
+while AI made friends are printed on the pages. Rules in the printables
+engine skill, step 7b.

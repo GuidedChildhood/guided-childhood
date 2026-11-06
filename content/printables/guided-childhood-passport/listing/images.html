@@ -23,6 +23,28 @@
   .pill{font-weight:800;font-size:40px;background:#fff;border:5px solid #1A1A2E;border-radius:999px;box-shadow:0 8px 0 #1A1A2E;padding:20px 44px;}
   .foot{position:absolute;bottom:60px;left:0;right:0;text-align:center;font-size:28px;color:#8888A0;}
 </style>
+<link href="../../listing-fonts/fonts.css" rel="stylesheet">
+<style>
+  /* The Canva look over the slots below (Justin, 6 November 2026), the same
+     palette and type as listing-images.js: soft paper, a serif headline, tag
+     eyebrows, soft shadows, no ink outlines, offset shadows or road. */
+  body > .frame{background:#FBF6EC;}
+  body > .frame:nth-of-type(4n+2){background:#E7EEDF;}
+  body > .frame:nth-of-type(4n+3){background:#F8E6DC;}
+  body > .frame:nth-of-type(4n){background:#E3EDF3;}
+  h1{font-family:"DM Serif Display",Georgia,serif !important;font-weight:400 !important;letter-spacing:-1px !important;color:#2E2A26;}
+  .mono.eyebrow{display:inline-block;background:#fff;color:#2E2A26 !important;font-family:"Nunito",sans-serif !important;font-weight:800;font-size:34px !important;letter-spacing:0.14em;border-radius:999px;padding:16px 38px;}
+  .sub{font-weight:600 !important;color:#6F675E !important;}
+  .page{border:none !important;border-radius:6px !important;box-shadow:0 2px 4px rgba(46,42,38,0.08),0 28px 60px rgba(46,42,38,0.16) !important;}
+  .pill{border:none !important;box-shadow:0 10px 26px rgba(46,42,38,0.10) !important;}
+  [style*="solid #1A1A2E"]{border-color:transparent !important;}
+  [style*="0 #1A1A2E"]{box-shadow:0 16px 40px rgba(46,42,38,0.10) !important;}
+  .foot{font-family:"Nunito",sans-serif !important;font-weight:700;letter-spacing:0.12em;color:#A39A8F !important;}
+  svg[viewBox="0 0 2000 2000"]{display:none;}
+  .cv-serif{font-family:"DM Serif Display",Georgia,serif;font-weight:400;letter-spacing:-1px;}
+  img[src*="DiGi-star-3d"]{display:none;}
+  .cv-hand{font-family:"Caveat",cursive;font-weight:700;}
+</style>
 </head>
 <body>
 <script src="../passport-data.js"></script>
@@ -64,35 +86,32 @@ const road = d => `<svg viewBox="0 0 2000 2000" style="position:absolute;inset:0
 const pill = t => `<span class="mono" style="font-size:30px;background:#fff;border:5px solid #1A1A2E;border-radius:999px;box-shadow:0 7px 0 #1A1A2E;padding:16px 34px;color:#1A1A2E;letter-spacing:0.12em;">${t}</span>`
 const underline = w => `<svg viewBox="0 0 400 24" preserveAspectRatio="none" style="display:block;width:${w}px;height:26px;margin-top:6px;"><path d="M4 16 C 120 6, 260 4, 396 12" stroke="#EDC35F" stroke-width="16" fill="none" stroke-linecap="round"/></svg>`
 
-out.push(`<div class="frame" data-name="01-cover" style="padding:0;display:block;">
-  ${road('M -60 1690 C 420 1560, 760 1820, 1180 1660 S 1820 1380, 2080 1460')}
-  <div style="position:absolute;left:130px;top:150px;z-index:3;">
-    <div class="mono" style="font-size:34px;color:#C99A28;display:flex;align-items:center;gap:16px;"><span style="width:16px;height:16px;border-radius:50%;background:#EDC35F;display:inline-block;"></span>Print at home · Ages 4 to 16</div>
-    <div style="font-weight:900;font-size:150px;line-height:0.98;letter-spacing:-4px;margin-top:34px;color:#1A1A2E;">Get your<br>Guided<br>Childhood<br>Passport</div>
-    ${underline(560)}
-    <div style="font-weight:700;font-size:48px;color:#52526A;margin-top:40px;line-height:1.3;">A stamp for every stage,<br>earned at the kitchen table.</div>
+// 1 · Cover, the Canva look (Justin, 6 November 2026): flat paper colours, a
+// serif headline with a handwritten note, the real stage page on a kraft
+// clipboard and the drawn passport book beside it. No rendered character and
+// no road; the old 01b road cover is retired.
+const K = { ink: "#2E2A26", soft: "#6F675E", gold: "#C9962B", cream: "#FBF6EC", butter: "#F6E2A6" }
+const spark = (x, y, sz, col = K.gold, rot = 0) => `<svg viewBox="0 0 100 100" style="position:absolute;left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;transform:rotate(${rot}deg);z-index:4;"><path d="M50 0 C55 38 62 45 100 50 C62 55 55 62 50 100 C45 62 38 55 0 50 C38 45 45 38 50 0Z" fill="${col}"/></svg>`
+const tick = `<svg viewBox="0 0 40 40" style="width:46px;height:46px;flex-shrink:0;"><circle cx="20" cy="20" r="20" fill="${K.butter}"/><path d="M11 21 L18 28 L30 13" stroke="${K.ink}" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+out.push(`<div class="frame" data-name="01-cover" style="padding:0;display:block;background:${K.cream};">
+  <div style="position:absolute;right:-160px;top:180px;width:1260px;height:1380px;border-radius:640px 640px 120px 120px;background:${K.butter};opacity:0.55;"></div>
+  ${spark(840, 300, 70)}${spark(1830, 1280, 90, K.gold, 12)}${spark(150, 1180, 54, K.gold, -10)}
+  <div style="position:absolute;left:130px;top:130px;z-index:5;font-weight:800;font-size:30px;letter-spacing:0.18em;text-transform:uppercase;">Guided Childhood</div>
+  <div style="position:absolute;left:130px;top:300px;z-index:5;width:800px;">
+    <span style="font-weight:800;font-size:34px;letter-spacing:0.14em;text-transform:uppercase;background:${K.butter};border-radius:999px;padding:16px 38px;">Print at home · Ages 4 to 16</span>
+    <div class="cv-serif" style="font-size:136px;line-height:1.0;margin-top:48px;color:${K.ink};">Get your<br>Guided Childhood Passport</div>
+    <div style="font-weight:600;font-size:46px;color:${K.soft};margin-top:40px;line-height:1.35;">A stamp for every stage,<br>earned at the kitchen table.</div>
+    <div class="cv-hand" style="font-size:78px;color:${K.gold};margin-top:46px;transform:rotate(-4deg);transform-origin:left;">ages 4 to 16!</div>
   </div>
-  <img src="${pv(4)}" style="position:absolute;z-index:2;right:110px;top:250px;width:760px;border:6px solid #1A1A2E;border-radius:22px;box-shadow:0 18px 0 #1A1A2E;transform:rotate(5deg);background:#fff;">
-  <div style="position:absolute;z-index:4;left:900px;top:930px;">${passport(380, 'transform:rotate(-7deg);')}</div>
-  <img src="../images/friends/pebble.png" style="position:absolute;z-index:5;left:250px;top:1180px;width:520px;height:520px;object-fit:contain;">
-  <div style="position:absolute;z-index:6;left:130px;bottom:110px;">${logo(84)}</div>
-  <div style="position:absolute;z-index:6;right:120px;bottom:120px;">${pill('Instant download')}</div>
-</div>`)
-
-out.push(`<div class="frame" data-name="01b-cover-road" style="padding:0;display:block;">
-  ${road('M -60 1600 C 480 1610, 900 1500, 1250 1290 S 1640 960, 1720 860').replace('<path ', '<path id="roadB" ')}
-  <div style="position:absolute;left:130px;top:150px;z-index:3;">
-    <div class="mono" style="font-size:34px;color:#C99A28;display:flex;align-items:center;gap:16px;"><span style="width:16px;height:16px;border-radius:50%;background:#EDC35F;display:inline-block;"></span>The journey to 16</div>
-    <div style="font-weight:900;font-size:150px;line-height:0.98;letter-spacing:-4px;margin-top:34px;color:#1A1A2E;">Get your Guided<br>Childhood Passport</div>
-    ${underline(640)}
-    <div style="font-weight:700;font-size:48px;color:#52526A;margin-top:36px;">Five stages. Five Planet Friends. One stamp each.</div>
+  <div style="position:absolute;z-index:3;right:110px;top:250px;transform:rotate(3deg);width:930px;padding:120px 45px 50px;border-radius:40px;background:#C89E6C;background-image:linear-gradient(135deg,rgba(255,255,255,0.10),rgba(0,0,0,0.06));box-shadow:0 30px 70px rgba(46,42,38,0.22);">
+    <span style="position:absolute;left:50%;top:22px;transform:translateX(-50%);width:300px;height:110px;border-radius:26px;background:linear-gradient(#E9E7E3,#BDB9B2);box-shadow:0 6px 12px rgba(46,42,38,0.25);"></span>
+    <span style="position:absolute;left:50%;top:50px;transform:translateX(-50%);width:120px;height:40px;border-radius:20px;background:#C89E6C;"></span>
+    <img src="${pv(4)}" style="display:block;width:840px;background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(46,42,38,0.15);">
   </div>
-  ${S.map((s, i) => `<div class="onroad" data-t="${[0.09, 0.29, 0.48, 0.65, 0.8][i]}" data-w="${[250, 265, 280, 295, 310][i]}" style="position:absolute;z-index:4;text-align:center;">
-      <div class="mono" style="font-size:28px;color:${s.ink};margin-bottom:-4px;">${s.ages}</div>
-      <img src="../images/friends/${s.key}.png" style="width:100%;aspect-ratio:1;object-fit:contain;display:block;"></div>`).join('')}
-  <div style="position:absolute;z-index:5;right:100px;top:440px;">${passport(300, 'transform:rotate(6deg);')}</div>
-  <div style="position:absolute;z-index:6;left:130px;bottom:110px;">${logo(84)}</div>
-  <div style="position:absolute;z-index:6;right:120px;bottom:120px;">${pill('Print at home')}</div>
+  <div class="cv-book" style="position:absolute;z-index:6;left:760px;top:1020px;">${passport(340, "transform:rotate(-8deg);")}</div>
+  <div style="position:absolute;left:130px;right:130px;bottom:250px;z-index:8;background:#fff;border-radius:999px;box-shadow:0 14px 40px rgba(46,42,38,0.10);display:flex;justify-content:space-around;align-items:center;padding:34px 40px;">
+    ${["Print at home", "A4 + US Letter", "Ink friendly"].map(t => `<span style="display:flex;align-items:center;gap:18px;font-weight:800;font-size:40px;">${tick}${t}</span>`).join("")}
+  </div>
 </div>`)
 
 // 2 · What is inside: every page, as rendered.
@@ -198,13 +217,6 @@ out.push(fr('10-how-it-works', `
   <div class="sub" style="margin-top:110px;">The check is a chat, never a test.</div>`, true))
 
 document.body.insertAdjacentHTML('beforeend', out.join('\n'))
-// Stand each Friend on the road: feet on the path, not floating above it.
-const rp = document.getElementById('roadB'), len = rp.getTotalLength()
-document.querySelectorAll('.onroad').forEach(el => {
-  const w = +el.dataset.w, pt = rp.getPointAtLength(len * +el.dataset.t)
-  el.style.width = w + 'px'; el.style.left = (pt.x - w / 2) + 'px'
-  el.style.top = (pt.y - w - 34 + w * 0.05) + 'px'
-})
 })()
 </script>
 </body>
