@@ -81,6 +81,7 @@ const smallSticker = (s, d) => `<div class="pf-cut" style="width:${d + 2}mm;heig
     </svg></div>`
 
 const finish = (el, o) => {
+  if (!o.pages.length) return giftOnly(el, o)
   const pages = o.pages.map(([key, part]) => ({ ...STAGES[key], key, part }))
   const page = p => `the ${p.friend} page (ages ${p.ages})`
   let where = pages.every(p => p.part === pages[0].part)
@@ -115,6 +116,26 @@ const finish = (el, o) => {
     <div>
       <div class="pf-mono" style="font-size:8pt;color:#C99A28;">A free gift for your family</div>
       <p style="margin-top:2mm;font-size:10.5pt;line-height:1.55;color:#52526A;">${gift}</p>
+      <div class="pf-card pf-flood" style="display:inline-block;margin-top:4mm;padding:3mm 7mm;background:#FFF6DE;box-shadow:0 4px 0 #1A1A2E;">
+        <span class="pf-mono" style="font-size:12pt;letter-spacing:1px;text-transform:none;color:#1A1A2E;">guidedchildhood.com/etsy-bonus</span>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;margin-bottom:6mm;font-size:9pt;line-height:1.5;color:#52526A;">Made by Justin at Guided Childhood, a dad who got tired of the screen time fight. ${o.thanks}</p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin, DiGi and the Planet Friends</span></div>`
+}
+
+// No Passport page: a thank you heading, then the same gift block.
+function giftOnly(el, o) {
+  el.innerHTML = `
+  <div class="pf-mono" style="font-size:8.5pt;color:#C99A28;margin-top:2mm;">Guided Childhood</div>
+  <div style="font-weight:900;font-size:26pt;line-height:1.05;letter-spacing:-0.4px;margin-top:2.5mm;color:#1A1A2E;">Thank you</div>
+  <p style="margin-top:3mm;font-size:10.5pt;line-height:1.55;color:#52526A;max-width:170mm;">${o.intro ?? ''}</p>
+  <div style="margin-top:auto;border-top:0.35mm dashed rgba(26,26,46,0.3);padding-top:6mm;display:flex;gap:7mm;align-items:center;">
+    <img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="width:30mm;height:30mm;flex-shrink:0;">
+    <div>
+      <div class="pf-mono" style="font-size:8pt;color:#C99A28;">A free gift for your family</div>
+      <p style="margin-top:2mm;font-size:10.5pt;line-height:1.55;color:#52526A;">As a thank you, the full Guided Childhood Starter Pack is yours free: the star chart, the jobs that earn the stars, and a whole booklet of things to do away from a screen. Pop your email in at the address below and it is yours.</p>
       <div class="pf-card pf-flood" style="display:inline-block;margin-top:4mm;padding:3mm 7mm;background:#FFF6DE;box-shadow:0 4px 0 #1A1A2E;">
         <span class="pf-mono" style="font-size:12pt;letter-spacing:1px;text-transform:none;color:#1A1A2E;">guidedchildhood.com/etsy-bonus</span>
       </div>

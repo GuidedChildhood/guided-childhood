@@ -25,7 +25,7 @@ const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, 
 const P: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
 
 const GETS = [
-  ['📰', 'The whole starter pack', 'Eleven pages: the fridge star chart, the jobs that earn stars, how to guides, a workout, football, dance, a healthy breakfast, a game and pages to colour.'],
+  ['📰', 'The whole starter pack', 'Thirteen pages: the jobs you agree together, the fridge star chart, stars to stick, how to guides, a wake up workout, football and dance, a breakfast plate, a week of stories to read together and star tokens to cut out.'],
   ['⭐', 'The same system, on paper', 'One star is five minutes of screen time. Real jobs earn the stars, the daily battle becomes a deal the whole family already made.'],
   ['📮', 'Straight to your inbox', 'Pop your email in and we send it over right away, then a short, warm welcome, never spam.'],
 ]
@@ -57,7 +57,7 @@ export default function EtsyBonusPage() {
       <MagnetGate
         slug="starter-pack"
         heading="Send me the starter pack"
-        sub="The full eleven page Guided Childhood Starter Pack, ready to print at home. Pop your email in and it is yours."
+        sub="The full thirteen page Guided Childhood Starter Pack, ready to print at home. Pop your email in and it is yours."
       />
 
       <PassportRewardClaim />

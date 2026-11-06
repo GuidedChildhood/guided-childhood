@@ -14,6 +14,9 @@
 //   closeUp: { page, eyebrow, title, points: [[label, line] x3] },
 //   pageCount, phone: [...screen file names] (optional),
 //   steps: [[title, line] x4], stepsFoot,
+//   noSticker: true (optional, a pack with no Passport page: slot 4 is left out),
+//   fourth: [title, line] (optional, the fourth format card when there is no phone),
+//   phoneTitle (optional, slot 7's headline when the pack does not live on the fridge),
 // }
 //
 // A CARD DECK (Say This) shows cards, not A4 sheets of four, because a fan of
@@ -102,7 +105,7 @@ out.push(fr('03-close-up', `
   </div>`))
 
 // 4 · The Passport sticker: the pack's last page, as rendered.
-out.push(fr('04-passport-sticker', `
+if (!L.noSticker) out.push(fr('04-passport-sticker', `
   <div class="mono eyebrow">The Guided Childhood Passport</div>
   <h1>Do it, tick it,<br>stick it on</h1>
   <div class="sub">${L.stickerLine || `Your ${L.noun} comes with its own sticker for the ${L.stage} page.`}</div>
@@ -110,25 +113,25 @@ out.push(fr('04-passport-sticker', `
 
 // 5 · Formats.
 const formats = [['A4', `Full colour PDF, ${L.pageCount} pages`], ['US Letter', 'Sized for Letter paper, nothing cut off'], ['Ink friendly', 'The same pages, light on ink']]
-formats.push(L.phone ? ['Phone', `${L.phoneCount || L.phone.length} screens, 1080 by 1920`] : ['Sticker page', 'Your Passport sticker, last page'])
+formats.push(L.phone ? ['Phone', `${L.phoneCount || L.phone.length} screens, 1080 by 1920`] : (L.fourth || ['Sticker page', 'Your Passport sticker, last page']))
 out.push(fr('05-formats', `
   <div class="mono eyebrow">Instant download</div>
   <h1>Every format you need</h1>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:110px;width:1500px;">
     ${formats.map(([a, b]) => `<div style="background:#fff;border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:60px 56px;"><div style="font-weight:900;font-size:84px;">${a}</div><div style="font-weight:700;font-size:40px;color:#52526A;margin-top:14px;line-height:1.3;">${b}</div></div>`).join('')}
   </div>
-  <div class="sub" style="margin-top:110px;">Nothing is posted. Print as often as your family needs.</div>`, true))
+  <div class="sub" style="margin-top:110px;">${L.formatsFoot || 'Nothing is posted. Print as often as your family needs.'}</div>`, true))
 
 // 6 · How it works.
 out.push(fr('06-how-it-works', `
   <div class="mono eyebrow">How it works</div>
   <h1>${L.stepsTitle}</h1>
   <div style="display:flex;gap:36px;margin-top:140px;width:100%;">
-    ${L.steps.map(([a, b], i) => `<div style="flex:1;background:${i === L.steps.length - 1 ? '#FFF6DE' : '#fff'};border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:56px 34px;text-align:center;min-height:620px;display:flex;flex-direction:column;align-items:center;">
+    ${L.steps.map(([a, b], i) => `<div style="flex:1;background:${i + 1 === L.steps.length ? '#FFF6DE' : '#fff'};border:6px solid #1A1A2E;border-radius:40px;box-shadow:0 14px 0 #1A1A2E;padding:56px 34px;text-align:center;min-height:620px;display:flex;flex-direction:column;align-items:center;">
       <div class="mono" style="font-size:40px;color:#C99A28;">${i + 1}</div>
       <div style="font-weight:900;font-size:${a.length > 7 ? 66 : 80}px;margin-top:20px;line-height:1.05;">${a}</div>
       <div style="font-weight:700;font-size:40px;color:#52526A;line-height:1.3;margin-top:24px;">${b}</div>
-      ${i === L.steps.length - 1 ? '<img src="../images/DiGi-star-3d.png" style="width:200px;height:200px;margin-top:auto;">' : ''}
+      ${i + 1 === L.steps.length ? '<img src="../images/DiGi-star-3d.png" style="width:200px;height:200px;margin-top:auto;">' : ''}
     </div>`).join('')}
   </div>
   <div class="sub" style="margin-top:110px;">${L.stepsFoot}</div>`, true))
@@ -136,7 +139,7 @@ out.push(fr('06-how-it-works', `
 // 7 · Phone version, where the pack has one.
 if (L.phone) out.push(fr('07-phone-version', `
   <div class="mono eyebrow">Phone version included</div>
-  <h1>On the fridge and<br>on the phone</h1>
+  <h1>${L.phoneTitle || 'On the fridge and<br>on the phone'}</h1>
   <div style="display:flex;gap:60px;margin-top:90px;">
     ${L.phone.map((n, i, a) => `<div style="width:470px;height:836px;border-radius:64px;background:#1A1A2E;padding:18px;box-shadow:0 20px 0 rgba(26,26,46,0.25);transform:rotate(${a.length === 2 ? [-3, 3][i] : [-4, 0, 4][i]}deg);"><img src="../phone/${n}.png" style="width:100%;height:100%;border-radius:48px;display:block;"></div>`).join('')}
   </div>`))

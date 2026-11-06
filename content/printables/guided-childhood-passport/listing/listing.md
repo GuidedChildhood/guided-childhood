@@ -94,6 +94,10 @@ What you get:
   burgundy passport the size of a real one. Instructions included.
 - Five full size stage pages, one per Planet Friend, with the stamp ring, the
   three things to do, and lines for the best thing they learned
+- A guide for every stage, on the back of its page: what to say when screens
+  take over, when the mood dips, when it is a game, staying safe online,
+  starting a conversation and the phone question, plus a line for your own
+  phone and what is worth a closer look
 - A stamp and sticker sheet: five big stage stamps, a Passport complete seal,
   small stamps and Friend stickers for the fold out book, and twenty DiGi stars
 - A page for grown ups explaining what earns each stamp, at every stage
@@ -150,6 +154,7 @@ print or open, message me and I will sort it fast.
 | 8 | `images/08-phone-version.png` | Built |
 | 9 | `images/09-formats.png` | Built |
 | 10 | `images/10-how-it-works.png` | Built |
+| 11 | `images/11-stage-guide.png` | Built 5 November 2026, when the stage guides were added |
 
 All are 2000 by 2000, rendered from `listing/images.html`. The `etsy-v2.html`
 cover block the brief named was never found, so on 5 November 2026 Justin

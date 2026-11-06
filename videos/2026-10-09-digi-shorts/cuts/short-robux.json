@@ -1,0 +1,495 @@
+{
+ "name": "short-robux",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.22
+   ],
+   [
+    4.0,
+    0.15
+   ],
+   [
+    19.4,
+    0.15
+   ],
+   [
+    19.9,
+    0.3
+   ],
+   [
+    39.0,
+    0.3
+   ],
+   [
+    42.0,
+    0
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "id": "hook",
+   "dur": 6.0,
+   "overlays": [
+    {
+     "kind": "band",
+     "text": "A thing parents say",
+     "y": 290,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "pill",
+     "text": "She asks for Robux every single day. I don't want to be the one who always says no.",
+     "y": 560,
+     "t0": 0,
+     "typed": 0.13,
+     "typedFrom": 7,
+     "instant": true
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens, example replies.",
+     "y": 1360,
+     "t0": 2.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.25,
+     "vol": 0.16
+    },
+    {
+     "name": "sfx-tap",
+     "at": 0.9,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.6,
+     "vol": 0.16
+    }
+   ],
+   "fadeIn": 0
+  },
+  {
+   "id": "chat-think",
+   "dur": 2.1,
+   "src": "rec/robux-chat.mp4",
+   "mediaStart": 9.125,
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.77,
+     "fx": 195,
+     "fy": 230,
+     "py": 900
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "What DiGi shows while it thinks",
+     "y": 1300,
+     "t0": 0
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-dots",
+     "at": 0.05,
+     "vol": 0.18
+    }
+   ]
+  },
+  {
+   "id": "chat-stream",
+   "dur": 0.6,
+   "src": "rec/robux-chat.mp4",
+   "mediaStart": 11.25,
+   "ground": "white",
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 300,
+     "py": 1100
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "x": 300,
+     "w": 560,
+     "align": "left",
+     "y": 960,
+     "t0": 0
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.05,
+     "vol": 0.4
+    }
+   ]
+  },
+  {
+   "id": "chat-plan",
+   "dur": 5.0,
+   "src": "stills/robux-reply-full.png",
+   "srcH": 1500,
+   "cropTop": 465,
+   "clipH": 625,
+   "ground": "white",
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.75,
+     "fx": 200,
+     "fy": 80,
+     "py": 900
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 560,
+     "t0": 0,
+     "instant": true
+    }
+   ]
+  },
+  {
+   "id": "chat-tonight",
+   "dur": 6.0,
+   "src": "stills/robux-reply-full.png",
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 200,
+     "fy": 78,
+     "py": 900
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 620,
+     "t0": 0
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0,
+     "vol": 0.14
+    }
+   ],
+   "srcH": 1500,
+   "cropTop": 955,
+   "clipH": 1118
+  },
+  {
+   "id": "deck-say",
+   "dur": 5.9,
+   "src": "rec/script-deck-9651.mp4",
+   "srcH": 1000,
+   "mediaStart": 3.0,
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.7,
+     "fx": 195,
+     "fy": 303,
+     "py": 420
+    },
+    {
+     "t": 1.0,
+     "S": 3.0,
+     "fx": 195,
+     "fy": 640,
+     "py": 1050,
+     "dur": 0.7
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "underline",
+     "x": 158,
+     "y": 631,
+     "w": 180,
+     "h": 3,
+     "t0": 1.8,
+     "t1": 5.9
+    },
+    {
+     "cls": "underline",
+     "x": 47,
+     "y": 662,
+     "w": 194,
+     "h": 3,
+     "t0": 1.95,
+     "t1": 5.9
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "veil",
+     "h": 420,
+     "t0": 0
+    },
+    {
+     "kind": "veil",
+     "h": 780,
+     "t0": 1.0,
+     "fade": true
+    },
+    {
+     "kind": "band",
+     "text": "Say this in a calm moment",
+     "y": 430,
+     "t0": 1.4
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-whoosh",
+     "at": 0,
+     "vol": 0.18
+    },
+    {
+     "name": "sfx-shimmer",
+     "at": 1.8,
+     "vol": 0.18
+    }
+   ]
+  },
+  {
+   "id": "followup2",
+   "dur": 4.6,
+   "src": "rec/followup-robux.mp4",
+   "mediaStart": 5.0,
+   "cropTop": 390,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 165,
+     "py": 1150
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A few days on. Illustrative",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 575,
+     "t0": 1.2
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 234,
+     "y": 233,
+     "w": 44,
+     "h": 44,
+     "t0": 1.2
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 1.2,
+     "vol": 0.5
+    }
+   ],
+   "fadeIn": 0
+  },
+  {
+   "id": "great",
+   "dur": 1.8,
+   "src": "rec/checkin-great-robux.mp4",
+   "mediaStart": 0.9,
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1150
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week on. Illustrative",
+     "y": 430,
+     "t0": 0
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 660,
+     "t0": 0.6
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "ripple",
+     "x": 297,
+     "y": 52,
+     "w": 44,
+     "h": 44,
+     "t0": 0.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.6,
+     "vol": 0.5
+    },
+    {
+     "name": "sfx-chime",
+     "at": 1.1,
+     "vol": 0.45
+    }
+   ]
+  },
+  {
+   "id": "great-hold",
+   "dur": 5.0,
+   "src": "stills/great-card-robux.png",
+   "srcH": 1000,
+   "clipH": 1000,
+   "cropTop": 748,
+   "fadeIn": 0,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.9,
+     "fx": 195,
+     "fy": 125,
+     "py": 1150
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "marker",
+     "text": "A week on. Illustrative",
+     "y": 430,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "label",
+     "text": "This parent's own rating",
+     "y": 660,
+     "t0": 0,
+     "instant": true
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "dur": 5.0,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "eyebrow": "Gaming concerns?",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/robux",
+     "slate": "An example family. Real app screens, example replies.",
+     "t0": 0.3,
+     "pressAt": 2.6,
+     "tagline": "One plan for screens, phones and AI."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 2.9,
+     "vol": 0.4
+    }
+   ]
+  }
+ ],
+ "rail": {
+  "y": 236,
+  "from": "deck-say",
+  "fromT": 0.1,
+  "until": "great-hold",
+  "steps": [
+   {
+    "label": "Asked DiGi",
+    "shot": "deck-say",
+    "t": 0.35,
+    "vol": 0.14
+   },
+   {
+    "label": "The words",
+    "shot": "deck-say",
+    "t": 1.8
+   },
+   {
+    "label": "Checked in",
+    "shot": "followup2",
+    "t": 1.5
+   },
+   {
+    "label": "Sorted",
+    "shot": "great",
+    "t": 1.1,
+    "silent": true
+   }
+  ]
+ }
+}

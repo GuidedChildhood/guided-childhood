@@ -1,0 +1,34 @@
+{
+ "name": "robux-chat-tall",
+ "url": "/ref-digi-chat?kids=1",
+ "swap": {
+  "Stage 3": "Stage 2",
+  "11 to 13": "8 to 10"
+ },
+ "seconds": 21.5,
+ "stubs": [
+  {
+   "match": "/api/digi",
+   "method": "POST",
+   "delayMs": 8700,
+   "wordMs": 55,
+   "body": "Daily asking is a child who does not know the answer yet, so she asks again. The fix is a deal she helped make, so the question stops landing on you.\n\n**Set the Robux deal once, in a calm moment.** Agree a fixed amount and a fixed day, say a gift card on the first of the month. Every ask after that gets the same calm answer: that is the deal, next card is on the first.\n\n**Make the spending hers.** Let her plan what the card buys and feel it run out. Running out teaches more than any no.\n\nThe exact words are in [The first gift card, before the first spend](/dashboard/scripts/9651).\n\n**Tonight.** Tell her you want to sort Robux properly this weekend, together, and ask what she would buy first.\n\n---\n\nQuick one for tonight: when Ava asks for Robux, is it usually straight after playing with friends, or out of nowhere?"
+  }
+ ],
+ "actions": [
+  {
+   "at": 300,
+   "do": "type",
+   "selector": "textarea",
+   "text": "She asks for Robux every single day. I don't want to be the one who always says no.",
+   "charMs": 25
+  },
+  {
+   "at": 2525,
+   "do": "press",
+   "key": "Enter"
+  }
+ ],
+ "sendAt": 2.525,
+ "height": 1500
+}

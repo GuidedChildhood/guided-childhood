@@ -21,7 +21,7 @@ headline, IBM Plex Mono eyebrow. Approved character art only
 
 | Card | Eyebrow | Headline | Body (two lines at most) | Art |
 |---|---|---|---|---|
-| 1 | THE ROAD TO 16 | Nobody goes from no phone to everything in one birthday. | Five rungs. Where is yours? | The pathway, all five friends small |
+| 1 | THE ROAD TO 16 | Nobody goes from no phone to everything in one birthday. | Five steps. Where is yours? | The pathway, all five friends small |
 | 2 | 4 TO 8 | No personal phone. | Shared family screens, in the same room. This is where the first habits form. | Pebble |
 | 3 | AROUND 9 TO 10 | A first feature phone, if one is needed. | Calls and texts, no apps, no feed. The walk home, without the algorithm. | Bloop |
 | 4 | 11 TO 12 | Still no social media. | If a smartphone is truly needed, it is locked down and set up together. | Orbit |
@@ -33,10 +33,10 @@ Check each friend against its stage in `digi-squad/README.md` before render.
 
 ## Instagram caption
 
-> Five rungs, from 4 to 16. Where is yours?
+> Five steps, from 4 to 16. Where is yours?
 >
 > Most of us were handed a plan with two steps: no phone, then everything. The
-> ladder in the app has five.
+> phone plan in the app has five.
 >
 > 1. 4 to 8: no personal phone. Shared screens, same room.
 > 2. Around 9 to 10: a first feature phone, if one is needed. Calls and texts, no feed.
@@ -44,10 +44,10 @@ Check each friend against its stage in `digi-squad/README.md` before render.
 > 4. 13 to 15: a smartphone with agreed guidelines, and social media introduced slowly.
 > 5. 16: the full phone, and they arrive already knowing how it works.
 >
-> The ages are a guide. The rung is your child, which is why each step is
+> The ages are a guide. Your child sets the pace, which is why each step is
 > earned and talked through rather than given on a birthday.
 >
-> Which rung was the hardest one in your house?
+> Which step was the hardest one in your house?
 >
 > What stage is your child? Three questions, no sign up, link in bio.
 
@@ -56,7 +56,7 @@ Check each friend against its stage in `digi-squad/README.md` before render.
 > Nobody goes from no phone to everything in one birthday. Or rather, most of
 > us were handed exactly that plan: no phone, then the lot.
 >
-> The phone ladder in Guided Childhood has five rungs.
+> The phone plan in Guided Childhood has five steps.
 >
 > 1. 4 to 8: no personal phone. Shared family screens, always in the same room. This is where the very first habits form.
 > 2. Around 9 to 10: a first feature phone, if one is needed. Calls and texts, no apps, no feed. The independence of a walk home, without handing over the algorithm.
@@ -64,11 +64,11 @@ Check each friend against its stage in `digi-squad/README.md` before render.
 > 4. 13 to 15: a smartphone with agreed guidelines. Social media introduced slowly and watched, each step talked through.
 > 5. 16: the full phone and real social media. They arrive already knowing how feeds work and how to get help.
 >
-> The ages are a guide. The rung is your child, which is why each step is
+> The ages are a guide. Your child sets the pace, which is why each step is
 > earned and talked through rather than handed over on a birthday. Prepared,
 > not postponed.
 >
-> Which rung was the hardest one in your house?
+> Which step was the hardest one in your house?
 >
 > What stage is your child? Three questions, no sign up:
 > https://guidedchildhood.com/starter-pack
@@ -97,7 +97,11 @@ carousel, not the same week.
 ## Checks
 
 - Allow or deny: the ladder names what each rung looks like, never "never" or
-  "must". "The ages are a guide. The rung is your child" carries the stage
+  "must". "The ages are a guide. Your child sets the pace" carries the stage
   rather than age line.
 - The ban: not mentioned. The ladder stands on its own whatever the law does.
 - Dashes: ages written "4 to 8", never with a dash. Run `npm run ai-tells`.
+- Public wording (6 November): "ladder" and "rung" are kept out of the cards
+  and captions under the carousel skill's rule (`references/ladder.md`); the
+  public copy says "steps" and "phone plan". They stay in file names and these
+  notes, which are internal.

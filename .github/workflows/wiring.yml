@@ -29,6 +29,9 @@ jobs:
       # wrapper's tests, which fake gum so they need no Google login.
       - run: node scripts/check-sitemap-coverage.mjs
       - run: node --test scripts/seo-gum.test.mjs
+      # Every Etsy download is in the app, free for parent and child (Justin,
+      # 6 November 2026). A new pack fails here until it has an app edition.
+      - run: node scripts/check-etsy-in-app.mjs
 
   # The check in guard, against the live component on the dev fixture.
   #

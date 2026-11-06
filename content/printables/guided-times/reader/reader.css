@@ -1,0 +1,85 @@
+/* The page turning reader around the pages (reader.html, reader.js). */
+html, body { margin: 0; height: 100%; }
+body { background: #E9E2D3; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+
+#bar {
+  position: fixed; left: 0; right: 0; top: 0; height: 52px; z-index: 50;
+  display: flex; align-items: center; gap: 12px; padding: 0 14px;
+  padding-top: env(safe-area-inset-top);
+  background: #1A1A2E; color: #fff; font-family: 'Nunito', system-ui, sans-serif;
+}
+#bar .gt-title { font-weight: 900; font-size: 18px; letter-spacing: -0.02em; white-space: nowrap; }
+#where { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; white-space: nowrap; }
+#bar .gt-tools { margin-left: auto; display: none; gap: 8px; }
+html.js #bar .gt-tools { display: flex; }
+#bar button, #turn button, #toc button {
+  font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 15px; color: #1A1A2E;
+  background: #EDC35F; border: 2.5px solid #1A1A2E; border-radius: 12px; padding: 6px 12px; cursor: pointer;
+}
+#bar button:focus-visible, #turn button:focus-visible, #toc button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+#bar button[aria-pressed="true"] { background: #fff; }
+@media (max-width: 560px) { #bar .gt-title { display: none; } #bar { gap: 8px; padding: 0 10px; } #bar button { font-size: 14px; padding: 5px 10px; } }
+
+/* No script: a strip of pages that snaps page by page. */
+#pages { position: fixed; inset: 52px 0 0 0; display: flex; gap: 16px; overflow-x: auto; overflow-y: auto; scroll-snap-type: x mandatory; padding: 16px; box-sizing: border-box; }
+#pages .gt-page { flex: 0 0 auto; scroll-snap-align: center; zoom: 0.46; box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+@media (min-width: 500px) { #pages .gt-page { zoom: 0.6; } }
+@media (min-width: 900px) and (min-height: 700px) { #pages .gt-page { zoom: 0.8; } }
+#turn, #stage { display: none; }
+html.js #pages { display: none; }
+
+/* With script: the book. */
+html.js #stage {
+  position: fixed; inset: 52px 0 0 0; display: grid; place-items: center;
+  perspective: 2400px; overflow: hidden; touch-action: pan-y pinch-zoom; user-select: none; -webkit-user-select: none;
+}
+html.js #stage.zoomed { overflow: auto; place-items: start; touch-action: auto; }
+#book { position: relative; transition: transform 0.6s cubic-bezier(.3,.1,.2,1); margin: auto; }
+#book.spread.at-front { transform: translateX(-25%); }
+#book.spread.at-back { transform: translateX(25%); }
+#stage.zoomed #book { transform: none; }
+.leaf { position: absolute; top: 0; height: 100%; transform-style: preserve-3d; transform-origin: left center;
+  transition: transform 0.75s cubic-bezier(.45,.05,.2,1); }
+.spread .leaf { left: 50%; width: 50%; }
+.single .leaf { left: 0; width: 100%; }
+.leaf.turned { transform: rotateY(-180deg); }
+.single .leaf.turned { transform: rotateY(-180deg) translateZ(0); visibility: hidden; transition: transform 0.75s cubic-bezier(.45,.05,.2,1), visibility 0s linear 0.75s; }
+.face { position: absolute; inset: 0; overflow: hidden; background: #fff; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 2px 6px rgba(26,26,46,.10); }
+.leaf:not(.turned) + .leaf:not(.turned) .face { box-shadow: none; }
+.face > .gt-page { transform: scale(var(--s)); transform-origin: 0 0; }
+.face.back { transform: rotateY(180deg); }
+/* Safari draws a face's back through it when anything inside the page has
+   its own transform, so backface-visibility cannot be trusted. Each face is
+   shown or hidden at the half way point of the turn instead, when the leaf
+   is edge on and neither side can be seen. */
+.face { transition: visibility 0s linear 0.37s; }
+.leaf .face.back, .leaf.turned .face.front { visibility: hidden; }
+.leaf.turned .face.back { visibility: visible; }
+#book.still .face, #book.still .leaf { transition: none !important; }
+/* The fold: a soft shadow along the spine, like a real paper's centre. */
+.spread .face.front::after, .spread .face.back::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8%; pointer-events: none; }
+.spread .face.front::after { left: 0; background: linear-gradient(90deg, rgba(26,26,46,.16), rgba(26,26,46,0)); }
+.spread .face.back::after { right: 0; background: linear-gradient(270deg, rgba(26,26,46,.16), rgba(26,26,46,0)); }
+.leaf.turning .face::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26,26,46,.12), rgba(255,255,255,0) 60%); pointer-events: none; z-index: 2; }
+.blank { width: 100%; height: 100%; background: #FBF8F1; }
+
+html.js #turn { display: block; }
+#turn button { position: fixed; top: 50%; z-index: 40; width: 46px; height: 64px; margin-top: -32px; font-size: 32px; line-height: 1; padding: 0; opacity: 0.92; }
+#prev { left: 10px; } #next { right: 10px; }
+#turn button:disabled { opacity: 0.25; cursor: default; }
+@media (max-width: 640px) { #turn button { top: auto; bottom: 14px; margin-top: 0; width: 54px; height: 46px; } }
+
+#hint { position: fixed; left: 50%; bottom: 74px; transform: translateX(-50%); z-index: 60; background: #1A1A2E; color: #fff; border-radius: 14px; padding: 10px 16px; text-align: center; font: 800 15px/1.35 'Nunito', system-ui, sans-serif; box-shadow: 0 6px 20px rgba(0,0,0,.25); pointer-events: none; }
+
+#toc { border: 3px solid #1A1A2E; border-radius: 16px; padding: 18px; max-width: min(420px, 92vw); box-shadow: 5px 6px 0 #1A1A2E; font-family: 'Nunito', system-ui, sans-serif; }
+#toc::backdrop { background: rgba(26,26,46,.45); }
+#toc h2 { margin: 0 0 10px; font-weight: 900; font-size: 22px; }
+#toc ol { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; }
+#toc ol button { width: 100%; text-align: left; background: #FEF7E0; display: flex; gap: 10px; }
+#toc ol button b { min-width: 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf, #book { transition: none !important; }
+}
+/* On a phone the turned page leaves the screen: its blank back is never shown. */
+.single .leaf.turned .face.back { visibility: hidden; }
