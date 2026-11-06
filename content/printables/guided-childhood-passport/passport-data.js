@@ -289,7 +289,7 @@ window.PASSPORT = {
       say: 'You are at the age where you get to decide what kind of digital life you build. What does your online presence say about who you are? Not to me. To the world.',
       doing: 'A joint digital audit: go through their online presence together as peers. What does it say? What would they change?',
       doingShort: 'A digital audit together, as peers',
-      check: 'What their phone gives them and what it costs them, in their own words.',
+      check: 'What their phone gives them and what it costs them.',
       checkShort: 'What their phone gives, and what it costs',
       guide: {
               "year": "Year 11 and above",
