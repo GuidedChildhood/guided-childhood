@@ -273,3 +273,7 @@ Justin chose the 3D DiGi shop icon on a warm gold ground (no black border) and a
 ## 5 November 2026: the app's platform guides match the Road to 16 evidence check
 
 The Road to 16 red team found the app's own settings rows out of date, so migration 385 corrects them, guarded on the 093 text: Roblox accounts from 5 with a parent (its UK terms), YouTube's Family Link content setting instead of a Restricted Mode lock most children cannot have, Facebook supervision without "message oversight", WhatsApp parent managed accounts with a "may not be in the UK yet" hedge, Snapchat Quick Add to friends of friends. The settings page words any age under 13 as "with a parent". The issue bank's group chat and sextortion lines carry the UKCIS rule that a nude image of anyone under 18 is never screenshotted, copied or forwarded. Justin applies 385. PR 1405.
+
+## 6 November 2026: Robux DiGi short and the five step phone carousel built, review weighed
+
+Justin picked the Robux film and the phone carousel from the Family IT Guy drafts. DiGi's reply in the film is a real generation from the live prompt (the evals method), unedited, chosen from three runs. The marketer review caught "fix" on screen, a flash of the script's Not this ultimatum and an empty first frame; all fixed by framing and cuts, never by editing the reply (plans/2026-11-06-robux-short-review-weighed.md). "Ladder" and "rung" stay out of public copy (carousel skill rule). Links: robux-ig, robux-fb, robux-tt. PR 1424.

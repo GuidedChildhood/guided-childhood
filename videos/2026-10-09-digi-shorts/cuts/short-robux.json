@@ -17,19 +17,19 @@
     0.15
    ],
    [
-    18.75,
+    19.4,
     0.15
    ],
    [
-    19.25,
+    19.9,
     0.3
    ],
    [
-    38.45,
+    39.0,
     0.3
    ],
    [
-    41.45,
+    42.0,
     0
    ]
   ]
@@ -43,14 +43,17 @@
      "kind": "band",
      "text": "A thing parents say",
      "y": 290,
-     "t0": 0
+     "t0": 0,
+     "instant": true
     },
     {
      "kind": "pill",
      "text": "She asks for Robux every single day. I don't want to be the one who always says no.",
      "y": 560,
-     "t0": 0.4,
-     "typed": 0.13
+     "t0": 0,
+     "typed": 0.13,
+     "typedFrom": 7,
+     "instant": true
     },
     {
      "kind": "eyebrow",
@@ -75,13 +78,14 @@
      "at": 1.6,
      "vol": 0.16
     }
-   ]
+   ],
+   "fadeIn": 0
   },
   {
    "id": "chat-think",
-   "dur": 2.05,
+   "dur": 2.1,
    "src": "rec/robux-chat.mp4",
-   "mediaStart": 9.15,
+   "mediaStart": 9.125,
    "ground": "white",
    "fadeIn": 0.15,
    "cam": [
@@ -110,8 +114,8 @@
    ]
   },
   {
-   "id": "chat-reply",
-   "dur": 5.0,
+   "id": "chat-stream",
+   "dur": 0.6,
    "src": "rec/robux-chat.mp4",
    "mediaStart": 11.25,
    "ground": "white",
@@ -123,14 +127,6 @@
      "fx": 195,
      "fy": 300,
      "py": 1100
-    },
-    {
-     "t": 1.9,
-     "S": 2.9,
-     "fx": 195,
-     "fy": 500,
-     "py": 1000,
-     "dur": 0.7
     }
    ],
    "overlays": [
@@ -141,8 +137,7 @@
      "w": 560,
      "align": "left",
      "y": 960,
-     "t0": 0.2,
-     "t1": 1.9
+     "t0": 0
     }
    ],
    "sfx": [
@@ -154,25 +149,53 @@
    ]
   },
   {
-   "id": "chat-tonight",
-   "dur": 6.0,
-   "src": "stills/robux-tonight.png",
+   "id": "chat-plan",
+   "dur": 5.0,
+   "src": "stills/robux-reply-full.png",
+   "srcH": 1500,
+   "cropTop": 465,
+   "clipH": 625,
    "ground": "white",
-   "fadeIn": 0.15,
+   "fadeIn": 0,
    "cam": [
     {
      "t": 0,
-     "S": 2.9,
-     "fx": 195,
-     "fy": 190,
-     "py": 850
+     "S": 2.75,
+     "fx": 200,
+     "fy": 80,
+     "py": 900
     }
    ],
    "overlays": [
     {
      "kind": "label",
      "text": "Illustrative reply",
-     "y": 190,
+     "y": 560,
+     "t0": 0,
+     "instant": true
+    }
+   ]
+  },
+  {
+   "id": "chat-tonight",
+   "dur": 6.0,
+   "src": "stills/robux-reply-full.png",
+   "ground": "white",
+   "fadeIn": 0.15,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 200,
+     "fy": 78,
+     "py": 900
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "label",
+     "text": "Illustrative reply",
+     "y": 620,
      "t0": 0
     }
    ],
@@ -182,11 +205,14 @@
      "at": 0,
      "vol": 0.14
     }
-   ]
+   ],
+   "srcH": 1500,
+   "cropTop": 955,
+   "clipH": 1118
   },
   {
    "id": "deck-say",
-   "dur": 7.4,
+   "dur": 5.9,
    "src": "rec/script-deck-9651.mp4",
    "srcH": 1000,
    "mediaStart": 3.0,
@@ -201,19 +227,11 @@
     },
     {
      "t": 1.0,
-     "S": 3.3,
+     "S": 3.0,
      "fx": 195,
      "fy": 640,
-     "py": 1210,
+     "py": 1050,
      "dur": 0.7
-    },
-    {
-     "t": 4.9,
-     "S": 2.7,
-     "fx": 195,
-     "fy": 303,
-     "py": 420,
-     "dur": 0.6
     }
    ],
    "inScreen": [
@@ -224,7 +242,7 @@
      "w": 180,
      "h": 3,
      "t0": 1.8,
-     "t1": 4.9
+     "t1": 5.9
     },
     {
      "cls": "underline",
@@ -233,7 +251,7 @@
      "w": 194,
      "h": 3,
      "t0": 1.95,
-     "t1": 4.9
+     "t1": 5.9
     }
    ],
    "overlays": [
@@ -246,15 +264,13 @@
      "kind": "veil",
      "h": 780,
      "t0": 1.0,
-     "t1": 5.4,
      "fade": true
     },
     {
      "kind": "band",
      "text": "Say this in a calm moment",
      "y": 430,
-     "t0": 1.4,
-     "t1": 4.9
+     "t0": 1.4
     }
    ],
    "sfx": [
@@ -267,16 +283,6 @@
      "name": "sfx-shimmer",
      "at": 1.8,
      "vol": 0.18
-    },
-    {
-     "name": "sfx-tap",
-     "at": 6.0,
-     "vol": 0.45
-    },
-    {
-     "name": "sfx-whoosh",
-     "at": 7.1,
-     "vol": 0.16
     }
    ]
   },
@@ -385,7 +391,7 @@
   },
   {
    "id": "great-hold",
-   "dur": 3.6,
+   "dur": 5.0,
    "src": "stills/great-card-robux.png",
    "srcH": 1000,
    "clipH": 1000,
@@ -471,7 +477,7 @@
    {
     "label": "The words",
     "shot": "deck-say",
-    "t": 6.8
+    "t": 1.8
    },
    {
     "label": "Checked in",

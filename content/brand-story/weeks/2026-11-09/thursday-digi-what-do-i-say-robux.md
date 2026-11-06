@@ -65,9 +65,10 @@ through the real chat renderer. The other two runs are not used.
 > Send this to the parent who heard "can I have Robux?" again today.
 >
 > The asking usually starts before any money has gone anywhere. That is the
-> good moment, and it does not come round again.
+> good moment to agree a deal.
 >
-> The plan in our script for it:
+> We asked DiGi, the guide inside Guided Childhood, built on research. An
+> example family, real app screens. The plan in our script for it:
 >
 > 1. One card a month, an amount you agree together.
 > 2. It is theirs, to spend however they like in the game.
@@ -87,11 +88,11 @@ through the real chat renderer. The other two runs are not used.
 > Send this to the parent who heard "can I have Robux?" again today.
 >
 > The asking usually starts before any money has gone anywhere. That is the
-> good moment, and it does not come round again. Once the spending has
-> started, every request is a negotiation and you are the person who says no.
+> good moment to agree a deal. Once the spending has started, every request
+> is a negotiation and you are the person who says no.
 >
-> We asked DiGi, the guide inside Guided Childhood. It never answers with a
-> yes or a no. It gives you where you are, the next step, and the words.
+> We asked DiGi, the guide inside Guided Childhood, built on research. It
+> never answers with a yes or a no. It gives you where you are, the next step, and the words.
 >
 > The plan in our script for it:
 >
@@ -107,7 +108,7 @@ through the real chat renderer. The other two runs are not used.
 > What was the first thing your child ever wanted to buy inside a game?
 >
 > What stage is your child? Three questions, no sign up:
-> https://guidedchildhood.com/starter-pack
+> guidedchildhood.com/v/robux-fb
 
 ---
 
@@ -139,8 +140,8 @@ to the check in. Built that way on 6 November; Justin's call on review.
 
 ## Built 6 November 2026
 
-- **Cuts:** `videos/2026-10-09-digi-shorts/cuts/short-robux.json` (41.5s, Reels
-  and Facebook) and `short-robux-tt.json` (40s, TikTok). Scenes
+- **Cuts:** `videos/2026-10-09-digi-shorts/cuts/short-robux.json` (42s, Reels
+  and Facebook) and `short-robux-tt.json` (38.6s, TikTok). Scenes
   `robux-chat`, `script-deck-9651`, `followup-robux`, `checkin-great-robux`.
 - **Real screens:** the DiGi chat with the captured reply above, the script
   deck for 9651 (`/ref-script-deck?script=9651`, a fixture that reads the
@@ -153,10 +154,17 @@ to the check in. Built that way on 6 November; Justin's call on review.
 - **Labels:** example family slate, illustrative reply, illustrative time
   markers, this parent's own rating.
 - **Kept off screen:** the chat's empty state, which suggests an Instagram
-  question for a nine year old, never appears; the Tonight beat is a still of
-  the finished reply for that reason.
-- **Links to make on Admin, Film links, before posting:** `/v/robux` for Reels
-  and Facebook, `/v/robux-tt` for TikTok.
+  question for a nine year old, never appears. The reply streams for 0.6s and
+  stops before its word "fix" (banned on screen); the plan and Tonight beats
+  are crops of `stills/robux-reply-full.png`, the last frame of the same chat
+  recorded at a taller viewport (`robux-chat-tall`), so the plan step reads
+  whole instead of under the composer. The deck beat ends on Say this, before
+  the Not this card ("Ask me again and the game goes") can flash past.
+- **Review:** `plans/2026-11-06-robux-short-review-weighed.md`.
+- **Links to make on Admin, Film links, before posting** (one per platform, as
+  the series posting plan does): `robux-ig` as the Instagram bio link,
+  `robux-fb` in the Facebook text, `robux-tt` on the TikTok cut's end card.
+  The Reels end card shows `/v/robux`, so make that one too.
 
 ## Proof path
 
