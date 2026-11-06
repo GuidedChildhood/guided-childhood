@@ -65,7 +65,7 @@ const PACKS = {
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
   'star-swap-shop': { file: 'star-swap-shop', app: 'star-swap-shop' },
-  'where-phones-sleep': { file: 'where-phones-sleep' },
+  'where-phones-sleep': { file: 'where-phones-sleep', app: 'where-phones-sleep' },
 }
 
 // FILLABLE FIELDS. A pack with fields: true gets a typing layer over its

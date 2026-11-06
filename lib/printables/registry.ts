@@ -496,6 +496,15 @@ export const PRINTABLES: Printable[] = [
     previewUrl: '/printables/star-swap-shop.png',
   },
   {
+    key: 'where-phones-sleep',
+    title: 'Where Phones Sleep', emoji: '🔌', kind: 'challenge',
+    stages: [1, 2], minutes: 'Every night', setting: 'indoors', skill: 'Routines',
+    stars: 5,
+    blurb: 'One shelf in the kitchen where every device in the house sleeps, grown ups too. Signs for the charging station, a bedtime charging line for the fridge, spot labels, a phones in the basket sign for meals and the family tech rules on one page.',
+    sheetUrl: '/printables/where-phones-sleep-colour.pdf',
+    previewUrl: '/printables/where-phones-sleep.png',
+  },
+  {
     key: 'guided-times-1',
     title: 'The Guided Times, Issue 1', emoji: '🗞️', kind: 'brain',
     stages: [1, 2, 3], minutes: 'A few sittings', setting: 'anywhere', skill: 'Reading',
@@ -666,6 +675,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     'first-phone-kit', 'christmas-countdown', 'screens-at-grannys', 'are-we-nearly-there',
     'holiday-screen-deal', 'screen-reset-journal', 'star-swap-shop', 'guided-times-1', 'script-cards',
     'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game',
+    'where-phones-sleep',
   ].map(k => [k, { preview: `/printables/${k}.png`, colour: `/printables/${k}-colour.pdf`, colourIn: `/printables/${k}-colourin.pdf` }])),
 }
 
