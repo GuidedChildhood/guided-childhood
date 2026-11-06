@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Screens At Granny's · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-blue:#D8E8F8;--bloop-soft:#E4F0D4;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;letter-spacing:4px;
+    text-transform:uppercase;color:var(--terracotta-dark);}
+  .hero{display:flex;align-items:center;gap:34px;margin-top:22px;}
+  .hero img{width:220px;height:220px;object-fit:contain;}
+  .bubble{background:var(--white);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:34px 40px;font-weight:800;font-size:38px;
+    line-height:1.3;position:relative;flex:1;}
+  .bubble:after{content:'';position:absolute;left:-30px;top:50%;transform:translateY(-50%);
+    border-top:24px solid transparent;border-bottom:24px solid transparent;
+    border-right:30px solid var(--ink);}
+  .box{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:30px 38px;}
+  .fill{display:inline-block;border-bottom:5px solid var(--ink);height:46px;vertical-align:bottom;}
+  .row{font-weight:800;font-size:38px;line-height:1.3;margin-top:10px;}
+  .kind{display:flex;gap:34px;align-items:center;}
+  .kind .badge{width:190px;height:190px;flex-shrink:0;border:6px solid var(--ink);border-radius:34px;
+    display:flex;align-items:center;justify-content:center;}
+  .kind h3{font-weight:900;font-size:50px;line-height:1.1;margin-top:8px;}
+  .kind p{font-weight:700;font-size:33px;line-height:1.35;color:var(--ink-soft);margin-top:10px;}
+  .foot{margin-top:auto;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · THE CARD FOR THE HOST, TO SEND BY MESSAGE -->
+<div class="screen" data-name="card-for-the-host">
+  <div class="eyebrow">For our host · thank you for having us</div>
+  <div class="hero">
+    <img src="images/friends/bloop.png" alt="Bloop">
+    <div class="bubble">How screens work for us. Your house, your rules: this is just so you know.</div>
+  </div>
+  <div class="box" style="margin-top:44px;">
+    <div class="lbl">Their own time each day</div>
+    <div class="row"><span class="fill" style="width:150px;"></span> minutes, no strings</div>
+    <div class="lbl" style="margin-top:30px;">Our star rate</div>
+    <div class="row">1 star = <span class="fill" style="width:120px;"></span> minutes</div>
+    <div class="lbl" style="margin-top:30px;">Screens rest, no stars can buy these</div>
+    <div class="row">At mealtimes, and from <span class="fill" style="width:150px;"></span> until morning</div>
+    <div class="lbl" style="margin-top:30px;">Jobs that can earn a star with you</div>
+    <div class="row"><span class="fill" style="width:100%;"></span></div>
+  </div>
+  <div class="box" style="margin-top:40px;background:var(--terracotta-lt);">
+    <div class="lbl" style="color:var(--coral);">If they ask for more, try</div>
+    <div class="row" style="font-size:40px;">"I can see you really want more. Let's ask Mum or Dad together."</div>
+    <div style="font-weight:700;font-size:32px;line-height:1.35;color:var(--ink-soft);margin-top:16px;">
+      Then message us. We will answer with a next step: a job to earn it, a time later, or a yes.
+      You never have to be the one who says no.</div>
+    <div class="lbl" style="color:var(--coral);margin-top:30px;">At a protected time, try</div>
+    <div class="row" style="font-size:40px;">"Screens rest while we eat. I know it is hard to pause. It will still be there after."</div>
+  </div>
+  <div style="font-weight:800;font-size:34px;line-height:1.35;text-align:center;margin-top:40px;">
+    If anything here does not suit your house, change it,<br>and tell us so we can say the same thing.</div>
+  <div class="foot">Guided Childhood · Screens at Granny's</div>
+</div>
+
+<!-- SCREEN 2 · THE THREE KINDS OF TIME -->
+<div class="screen" data-name="three-kinds-of-time">
+  <div class="eyebrow">The three kinds of time</div>
+  <div class="hero">
+    <img src="images/friends/bloop.png" alt="Bloop">
+    <div class="bubble">Same three kinds of time, whatever house we are in.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:40px;margin-top:50px;">
+    <div class="box kind">
+      <div class="badge" style="background:var(--terracotta-lt);">
+        <svg width="130" height="130" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="3"/><path d="M30 16 V30 L39 36" fill="none" stroke="#1A1A2E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="flex:1;"><div class="lbl">Our time</div><h3>A little every day, no strings</h3>
+        <p>Yours. Not earned, never taken away. Today's is for today, and it goes first.</p></div>
+    </div>
+    <div class="box kind">
+      <div class="badge" style="background:var(--bloop-soft);">
+        <svg width="130" height="130" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="flex:1;"><div class="lbl">Earned time</div><h3>Do a job, earn a star</h3>
+        <p>One star is five minutes, on any screen. Earned stars are never taken back.</p></div>
+    </div>
+    <div class="box kind">
+      <div class="badge" style="background:var(--tint-blue);">
+        <svg width="130" height="130" viewBox="0 0 60 60"><path d="M30 7 L50 15 V30 C50 42 41 50 30 54 C19 50 10 42 10 30 V15 Z" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/><path d="M38 24 a10 10 0 1 1 -8 -6 a7.5 7.5 0 0 0 8 6 z" fill="#1A1A2E"/></svg>
+      </div>
+      <div style="flex:1;"><div class="lbl">Protected time</div><h3>Times no stars can buy</h3>
+        <p>Meals, bedtime and the hour before. Want a screen then? Ask. You always get an answer.</p></div>
+    </div>
+  </div>
+  <div class="box" style="margin-top:50px;background:var(--terracotta-lt);text-align:center;">
+    <div style="font-weight:900;font-size:46px;">Our time first, then stars</div>
+    <div style="font-weight:700;font-size:32px;color:var(--ink-soft);margin-top:10px;">1 star = 5 minutes · 3 stars = 15 minutes</div>
+  </div>
+  <div class="foot">Guided Childhood · Screens at Granny's</div>
+</div>
+
+</body>
+</html>

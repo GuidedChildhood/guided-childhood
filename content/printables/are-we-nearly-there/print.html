@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Are We Nearly There</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --coral-lt:#FBEADB; --green:#2F8F6B; --green-dark:#236F52; --tint-sage:#E8F0EE;
+    --tint-blue:#D8E8F8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .head{display:flex;align-items:center;gap:6mm;}
+  .head img{width:28mm;height:28mm;object-fit:contain;flex-shrink:0;}
+  .line{border-bottom:2px solid var(--ink);flex:1;min-height:9mm;}
+  .field{display:flex;align-items:flex-end;gap:3mm;font-weight:800;font-size:11.5pt;margin-top:3mm;}
+  .field .line{min-height:7mm;}
+  .tick{width:6mm;height:6mm;border:2.5px solid var(--ink);border-radius:2mm;flex-shrink:0;background:var(--white);}
+  .opt{display:flex;align-items:center;gap:3mm;font-weight:800;font-size:11pt;margin-top:2.6mm;}
+  .opt .line{min-height:6mm;}
+  .star{width:9mm;height:9mm;flex-shrink:0;}
+  /* Car bingo */
+  .bingo{display:grid;gap:3.5mm;margin-top:5mm;}
+  .bcell{background:var(--white);border:2.5px solid var(--ink);border-radius:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2mm;}
+  .bcell{height:46mm;}
+  .bcell svg{width:30mm;height:30mm;}
+  .bcell .lbl{font-weight:900;font-size:12pt;margin-top:1mm;}
+  .wcell{background:var(--white);border:2.5px solid var(--ink);border-radius:12px;height:35mm;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:2mm;
+    font-weight:800;font-size:11.5pt;line-height:1.2;}
+  .free{background:var(--terracotta-lt);}
+  /* Number plates and the alphabet */
+  .plate{display:flex;align-items:center;gap:1.5mm;background:#FFF1B8;border:2.5px solid var(--ink);
+    border-radius:8px;padding:1.5mm 2.5mm;flex-shrink:0;}
+  .plate .digits{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:10pt;color:var(--ink-muted);letter-spacing:1px;margin-right:1mm;}
+  .plate .box{width:8.5mm;height:9mm;background:var(--white);border:2px solid var(--ink);border-radius:3px;}
+  .alpha{display:grid;grid-template-columns:repeat(6,1fr);gap:2.5mm;margin-top:4mm;}
+  .acell{background:var(--white);border:2.5px solid var(--ink);border-radius:10px;height:17mm;
+    padding:1.5mm 2.5mm;display:flex;flex-direction:column;}
+  .acell b{font-weight:900;font-size:15pt;line-height:1;}
+  .acell .line{border-bottom:1.5px solid var(--ink-muted);margin-top:auto;min-height:0;flex:none;}
+  /* Would you rather */
+  .wyr{display:grid;grid-template-columns:1fr 1fr;gap:3mm 4mm;margin-top:3.5mm;}
+  .wyr .card{padding:2mm 3.5mm;box-shadow:0 3px 0 var(--ink);display:flex;align-items:center;gap:2.5mm;}
+  .wyr .pick{flex:1;border:2px dashed var(--ink);border-radius:999px;padding:1.6mm 2mm;text-align:center;
+    font-weight:800;font-size:10pt;line-height:1.2;}
+  .wyr .or{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;font-weight:600;letter-spacing:1px;color:var(--coral);text-transform:uppercase;}
+  .qdots{display:grid;grid-template-columns:repeat(10,1fr);gap:2.5mm;margin-top:3mm;}
+  .qdots span{height:8.5mm;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:9pt;color:var(--ink-soft);background:var(--white);}
+  /* Doodles */
+  .doodles{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:5mm;margin-top:5mm;flex:1;margin-bottom:8mm;}
+  .doodle{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;padding:3.5mm 4.5mm;display:flex;flex-direction:column;}
+  .doodle .eyebrow{font-size:7.5pt;letter-spacing:1.8px;}
+  .doodle .q{font-weight:900;font-size:12.5pt;line-height:1.25;margin-top:1mm;}
+  /* Tally */
+  table.tally{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);margin-top:5mm;}
+  table.tally th{background:var(--ink);color:var(--white);font-weight:800;font-size:10pt;text-align:left;padding:2.6mm 4mm;}
+  table.tally td{border-top:1.5px solid var(--border);padding:2.4mm 4mm;vertical-align:middle;}
+  table.tally td.g{font-weight:900;font-size:11.5pt;}
+  table.tally td.how{font-weight:700;font-size:9.5pt;color:var(--ink-soft);line-height:1.35;}
+  table.tally td.s{white-space:nowrap;}
+  table.tally td.s svg{width:8mm;height:8mm;margin-right:0.6mm;}
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .bubble,body.ink table.tally{box-shadow:none;}
+  body.ink .card,body.ink .free,body.ink .plate,body.ink .wyr .card{background:var(--white) !important;}
+  body.ink table.tally th{background:var(--white);color:var(--ink);border-bottom:2px solid var(--ink);}
+  body.ink .tint-fill{fill:var(--white) !important;}
+  body.ink{--tf:#FFFFFF;}
+  body.ink .road-gold{stroke:var(--white) !important;}
+  body.ink .road-dash{stroke:var(--ink-muted) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- Shared drawings: a star to colour, and the sixteen car bingo pictures.
+     Hand drawn in house colours; fills marked tint-fill go white in the ink
+     friendly print so a child can colour them in. -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="star-gold" viewBox="0 0 24 24"><path class="tint-fill" d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" style="fill:var(--tf,#EDC35F)" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <!-- red car -->
+    <symbol id="i-car" viewBox="0 0 48 48"><path class="tint-fill" d="M5 33 V27 Q5 24 8 23.5 L13 22 L17 15 Q18 13.5 20 13.5 H31 Q33 13.5 34.5 15 L39 22 L41 22.5 Q44 23.5 44 27 V33 Z" fill="#D4600A" style="fill:var(--tf,#D4600A)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path class="tint-fill" d="M17.5 22 L20.5 16.5 H25 V22 Z M28 16.5 H31 L34.5 22 H28 Z" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="2" stroke-linejoin="round"/><circle cx="14" cy="34" r="5" fill="#1A1A2E"/><circle cx="14" cy="34" r="2" fill="#fff"/><circle cx="35" cy="34" r="5" fill="#1A1A2E"/><circle cx="35" cy="34" r="2" fill="#fff"/></symbol>
+    <!-- tractor -->
+    <symbol id="i-tractor" viewBox="0 0 48 48"><path class="tint-fill" d="M9 30 V20 H22 V9 H32 V20 H40 Q43 20 43 23 V32 H24 Z" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path class="tint-fill" d="M24.5 12 H29.5 V19 H24.5 Z" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="2"/><path d="M36 20 V13" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round"/><circle cx="15" cy="33" r="9" fill="#fff" stroke="#1A1A2E" stroke-width="2.4"/><circle cx="15" cy="33" r="3.2" fill="#1A1A2E"/><circle cx="37" cy="36" r="5.5" fill="#fff" stroke="#1A1A2E" stroke-width="2.4"/><circle cx="37" cy="36" r="2" fill="#1A1A2E"/></symbol>
+    <!-- bridge -->
+    <symbol id="i-bridge" viewBox="0 0 48 48"><path class="tint-fill" d="M3 16 H45 V34 H39 Q39 22 24 22 Q9 22 9 34 H3 Z" fill="#EDC35F" style="fill:var(--tf,#EDC35F)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path d="M3 21 H45" stroke="#1A1A2E" stroke-width="2"/><path d="M4 39 Q8 37 12 39 T20 39 T28 39 T36 39 T44 39" fill="none" stroke="#2E6F8E" stroke-width="2.4" stroke-linecap="round"/><path d="M10 44 Q14 42 18 44 T26 44 T34 44" fill="none" stroke="#2E6F8E" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <!-- cow -->
+    <symbol id="i-cow" viewBox="0 0 48 48"><path d="M10 32 V41 M16 32 V41 M28 32 V41 M34 32 V41" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><rect x="6" y="17" width="31" height="17" rx="7" fill="#fff" stroke="#1A1A2E" stroke-width="2.4"/><path d="M12 18 Q16 22 13 27 Q9 26 8 21 Z M24 25 Q29 22 31 28 Q27 33 23 30 Z" fill="#1A1A2E"/><path d="M6 22 Q2 25 3 30" fill="none" stroke="#1A1A2E" stroke-width="2.2" stroke-linecap="round"/><rect class="tint-fill" x="33" y="11" width="11" height="14" rx="5" fill="#FBCFE8" style="fill:var(--tf,#FBCFE8)" stroke="#1A1A2E" stroke-width="2.4"/><path d="M34 12 L31 8 M43 12 L46 8" stroke="#1A1A2E" stroke-width="2.2" stroke-linecap="round"/><circle cx="36.5" cy="16" r="1.3" fill="#1A1A2E"/><circle cx="40.5" cy="16" r="1.3" fill="#1A1A2E"/><circle cx="37" cy="21.5" r="0.9" fill="#1A1A2E"/><circle cx="40" cy="21.5" r="0.9" fill="#1A1A2E"/></symbol>
+    <!-- petrol station -->
+    <symbol id="i-petrol" viewBox="0 0 48 48"><rect class="tint-fill" x="9" y="7" width="20" height="35" rx="3" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="2.4"/><rect x="13" y="11" width="12" height="9" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="2"/><path d="M15.5 14 H22.5 M15.5 17 H20" stroke="#1A1A2E" stroke-width="1.6" stroke-linecap="round"/><path d="M6 42 H32" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><path d="M29 16 H34 Q37 16 37 19 V33 Q37 36 39.5 36 Q42 36 42 33 V18 L38 13" fill="none" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="18" width="4.5" height="7" rx="1" fill="#1A1A2E"/></symbol>
+    <!-- motorway sign -->
+    <symbol id="i-sign" viewBox="0 0 48 48"><path d="M14 33 V45 M34 33 V45" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><rect class="tint-fill" x="3" y="6" width="42" height="28" rx="4" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="2.4"/><path d="M14 28 V15 M14 15 L10 19 M14 15 L18 19" fill="none" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 14 H39 M24 20 H36 M24 26 H38" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <!-- church spire -->
+    <symbol id="i-church" viewBox="0 0 48 48"><path d="M24 2 V7 M21.5 4.5 H26.5" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/><path class="tint-fill" d="M24 7 L31 24 H17 Z" fill="#C99A28" style="fill:var(--tf,#C99A28)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><rect class="tint-fill" x="16" y="24" width="16" height="20" fill="#EDC35F" style="fill:var(--tf,#EDC35F)" stroke="#1A1A2E" stroke-width="2.4"/><path d="M21 44 V36 Q24 32 27 36 V44" fill="#fff" stroke="#1A1A2E" stroke-width="2" stroke-linejoin="round"/><path d="M5 44 H43" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><path d="M8 44 V33 L12 30 L16 33" fill="none" stroke="#1A1A2E" stroke-width="2"/><path d="M32 33 L36 30 L40 33 V44" fill="none" stroke="#1A1A2E" stroke-width="2"/></symbol>
+    <!-- caravan -->
+    <symbol id="i-caravan" viewBox="0 0 48 48"><path class="tint-fill" d="M6 33 V18 Q6 11 13 11 H34 Q41 11 41 18 V33 Z" fill="#FEF7E0" style="fill:var(--tf,#FEF7E0)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path d="M6 22 H41" stroke="#D4600A" stroke-width="2.6"/><rect class="tint-fill" x="10" y="15" width="11" height="6" rx="1.5" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="1.8"/><rect x="27" y="17" width="8" height="16" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="2"/><path d="M41 31 H46" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round"/><circle cx="17" cy="35" r="4.5" fill="#1A1A2E"/><circle cx="17" cy="35" r="1.6" fill="#fff"/></symbol>
+    <!-- dog in a car -->
+    <symbol id="i-dog" viewBox="0 0 48 48"><path class="tint-fill" d="M3 44 V18 Q3 12 9 12 H39 Q45 12 45 18 V44" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path class="tint-fill" d="M15 44 Q12 30 15 24 Q18 18 24 18 Q30 18 33 24 Q36 30 33 44 Z" fill="#EDC35F" style="fill:var(--tf,#EDC35F)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 22 Q9 24 10 34 Q14 33 16 28 Z M32 22 Q39 24 38 34 Q34 33 32 28 Z" fill="#C99A28" stroke="#1A1A2E" stroke-width="2" stroke-linejoin="round"/><circle cx="20.5" cy="27" r="1.6" fill="#1A1A2E"/><circle cx="27.5" cy="27" r="1.6" fill="#1A1A2E"/><path d="M21.5 32 Q24 30 26.5 32 Q24 35 21.5 32 Z" fill="#1A1A2E"/><path d="M24 35 V37 Q24 41 26.5 40 Q28 39.5 27.5 37 L24 36" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <!-- sheep -->
+    <symbol id="i-sheep" viewBox="0 0 48 48"><path d="M14 33 V42 M20 33 V42 M28 33 V42 M33 33 V42" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><path d="M10 26 Q6 22 10 18 Q10 12 16 13 Q19 8 24 11 Q29 8 32 13 Q38 12 38 18 Q42 22 38 27 Q38 33 32 32 Q28 36 24 33 Q19 36 16 32 Q10 33 10 26 Z" fill="#fff" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="40" cy="20" rx="5.5" ry="7" fill="#1A1A2E"/><circle cx="41.5" cy="18.5" r="1.2" fill="#fff"/></symbol>
+    <!-- lorry -->
+    <symbol id="i-lorry" viewBox="0 0 48 48"><rect class="tint-fill" x="2" y="10" width="30" height="23" rx="2" fill="#E8F0EE" style="fill:var(--tf,#E8F0EE)" stroke="#1A1A2E" stroke-width="2.4"/><path class="tint-fill" d="M32 17 H39 L45 25 V33 H32 Z" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path class="tint-fill" d="M35 20 H38.5 L42 25 H35 Z" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="35" r="4.5" fill="#1A1A2E"/><circle cx="20" cy="35" r="4.5" fill="#1A1A2E"/><circle cx="39" cy="35" r="4.5" fill="#1A1A2E"/><circle cx="10" cy="35" r="1.6" fill="#fff"/><circle cx="20" cy="35" r="1.6" fill="#fff"/><circle cx="39" cy="35" r="1.6" fill="#fff"/></symbol>
+    <!-- bus -->
+    <symbol id="i-bus" viewBox="0 0 48 48"><rect class="tint-fill" x="5" y="5" width="38" height="34" rx="5" fill="#D4600A" style="fill:var(--tf,#D4600A)" stroke="#1A1A2E" stroke-width="2.4"/><path d="M5 22 H43" stroke="#1A1A2E" stroke-width="2"/><rect x="9" y="9" width="8" height="9" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><rect x="20" y="9" width="8" height="9" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><rect x="31" y="9" width="8" height="9" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><rect x="9" y="25" width="8" height="8" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><rect x="20" y="25" width="8" height="8" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><rect x="31" y="25" width="8" height="12" rx="1.5" fill="#fff" stroke="#1A1A2E" stroke-width="1.8"/><circle cx="13" cy="40" r="4.5" fill="#1A1A2E"/><circle cx="35" cy="40" r="4.5" fill="#1A1A2E"/></symbol>
+    <!-- bicycle -->
+    <symbol id="i-bike" viewBox="0 0 48 48"><circle cx="12" cy="32" r="9" fill="none" stroke="#1A1A2E" stroke-width="2.4"/><circle cx="36" cy="32" r="9" fill="none" stroke="#1A1A2E" stroke-width="2.4"/><path d="M12 32 L19 19 H33 L36 32 M19 19 L25 32 L33 19 M25 32 H12 M17 15 H23 M33 19 L31 12 H36" fill="none" stroke="#2F8F6B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="25" cy="32" r="2" fill="#1A1A2E"/></symbol>
+    <!-- traffic lights -->
+    <symbol id="i-lights" viewBox="0 0 48 48"><path d="M24 40 V46" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/><rect x="14" y="2" width="20" height="38" rx="6" fill="#1A1A2E"/><circle class="tint-fill" cx="24" cy="10" r="4.6" fill="#D4600A" style="fill:var(--tf,#D4600A)" stroke="#fff" stroke-width="1.4"/><circle class="tint-fill" cx="24" cy="21" r="4.6" fill="#EDC35F" style="fill:var(--tf,#EDC35F)" stroke="#fff" stroke-width="1.4"/><circle class="tint-fill" cx="24" cy="32" r="4.6" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#fff" stroke-width="1.4"/></symbol>
+    <!-- wind turbine -->
+    <symbol id="i-turbine" viewBox="0 0 48 48"><path class="tint-fill" d="M22.5 18 L21 45 H27 L25.5 18 Z" fill="#fff" style="fill:var(--tf,#fff)" stroke="#1A1A2E" stroke-width="2.2" stroke-linejoin="round"/><path class="tint-fill" d="M24 16 L22 2.5 Q24 1 26 2.5 Z M24 16 L36.5 22 Q36.5 24.5 34 25 Z M24 16 L11.5 22 Q11.5 24.5 14 25 Z" fill="#E8F0EE" style="fill:var(--tf,#E8F0EE)" stroke="#1A1A2E" stroke-width="2.2" stroke-linejoin="round"/><circle cx="24" cy="16" r="3" fill="#1A1A2E"/><path d="M14 45 H34" stroke="#2F8F6B" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <!-- aeroplane -->
+    <symbol id="i-plane" viewBox="0 0 48 48"><path class="tint-fill" d="M4 26 Q4 22 9 22 H38 Q45 22 45 26 Q45 30 38 30 H9 Q4 30 4 26 Z" fill="#fff" style="fill:var(--tf,#fff)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/><path class="tint-fill" d="M20 22 L28 8 H32 L28 22 Z M20 30 L28 42 H32 L28 30 Z M6 22 L4 14 H8 L12 22" fill="#D8E8F8" style="fill:var(--tf,#D8E8F8)" stroke="#1A1A2E" stroke-width="2.2" stroke-linejoin="round"/><path d="M33 25 H35 M37 25 H39" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/><path d="M4 38 Q10 36 16 38" fill="none" stroke="#8888A0" stroke-width="2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:8mm;" class="eyebrow">Guided Childhood · Print at Home</div>
+  <h1 style="margin-top:6mm;font-size:46pt;">Are We<br>Nearly There?</h1>
+  <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:13.5pt;">
+    A screen free journey pack, and a deal<br>for the tablet you agree before you set off.
+  </p>
+  <div style="position:relative;width:182mm;height:112mm;margin-top:4mm;">
+    <svg viewBox="0 0 700 430" style="position:absolute;inset:0;width:100%;height:100%;">
+      <path d="M -20 380 C 140 300, 260 420, 380 340 S 600 250, 720 300" fill="none" stroke="#1A1A2E" stroke-width="66" stroke-linecap="round"/>
+      <path class="road-gold" d="M -20 380 C 140 300, 260 420, 380 340 S 600 250, 720 300" fill="none" stroke="#EDC35F" stroke-width="56" stroke-linecap="round"/>
+      <path class="road-dash" d="M -20 380 C 140 300, 260 420, 380 340 S 600 250, 720 300" fill="none" stroke="#FFF6DE" stroke-width="5" stroke-dasharray="22 18" stroke-linecap="round"/>
+      <use href="#star-gold" x="40" y="60" width="44" height="44"/>
+      <use href="#star-gold" x="600" y="40" width="54" height="54"/>
+      <use href="#star-gold" x="560" y="150" width="30" height="30"/>
+    </svg>
+    <img class="cover-friend" src="images/friends/pebble.png" alt="Pebble, a Planet Friend"
+         style="position:absolute;left:50%;top:0;transform:translateX(-50%);width:92mm;height:92mm;object-fit:contain;">
+  </div>
+  <div style="display:flex;gap:3.5mm;margin-top:6mm;flex-wrap:wrap;justify-content:center;max-width:180mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The journey deal card</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Car bingo for two ages</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">A journey map to colour</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Games, questions, doodles</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;background:var(--terracotta-lt);">Ages 4 to 11</div>
+  </div>
+  <p style="margin-top:7mm;font-size:10.5pt;max-width:140mm;">
+    Pebble and Bloop ride along. The tablet still comes, at the point you all agreed,
+    and stars from the games add minutes to it.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Pebble and Bloop · Ages 4 to 11</span></div>
+</div>
+
+<!-- PAGE 2 · HOW TO USE IT -->
+<div class="sheet">
+  <div class="eyebrow">Five minutes before you set off</div>
+  <h2 style="margin-top:3mm;">How to use this pack</h2>
+  <p style="margin-top:4mm;">
+    On our long drives the tablet fight was never really about whether. It was about when. Twenty
+    minutes in, someone asks, someone says not yet, and the next hour is a negotiation at seventy
+    miles an hour. This pack moves that conversation to the kitchen table, before anyone is buckled in.
+    The tablet comes at a point you all agreed. Until then there are games, and every game can add
+    minutes to the tablet time.
+  </p>
+  <div class="card" style="margin-top:5mm;padding:4.5mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">The one rule</div>
+    <p style="margin-top:1.5mm;font-weight:800;color:var(--ink);font-size:12pt;">
+      The tablet comes when the deal card says it does. Nobody has to ask, and nobody has to argue.
+    </p>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:7mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">Get it ready</div>
+      <p style="margin-top:2mm;">
+        Print the pages and clip them to a clipboard or a big hardback book. Put pencils, a couple of
+        crayons and a sharpener in a bag. Print one bingo card for each child, and a fresh set for
+        the way home.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">Agree the deal first</div>
+      <p style="margin-top:2mm;">
+        Fill in the deal card together before you leave. Let your child write or draw the stop where
+        the tablet comes in. Read it back, everyone signs, and it rides in the front with the snacks.
+      </p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:7mm;padding:5mm;">
+    <div class="eyebrow">On the road</div>
+    <p style="margin-top:2mm;">
+      <strong style="color:var(--ink);">1.</strong> Start with the looking games: car bingo, the number plates, the alphabet. They keep eyes out of the window.<br>
+      <strong style="color:var(--ink);">2.</strong> At the end of each game, colour the stars on the tally page. Stars earned stay earned, even if the journey gets grumpy later.<br>
+      <strong style="color:var(--ink);">3.</strong> When the agreed point arrives, the tablet comes out with the minutes on the tally. No new conditions get added on the motorway.<br>
+      <strong style="color:var(--ink);">4.</strong> Give a five minute warning before tablet time ends, then it goes back in the bag.
+    </p>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:7mm;">
+    <div class="card" style="flex:1;padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">The star rate</div>
+      <p style="margin-top:1.5mm;">
+        One star is five minutes of screen time, the same rate as the Guided Childhood app.
+        Want your own rate? Agree it and write it on the deal card.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">The driver drives</div>
+      <p style="margin-top:1.5mm;">
+        Spotting and writing are for passengers. The driver can still guess in twenty questions.
+        If reading in the car makes someone feel queasy, stick to the window games.
+      </p>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · How to use it</span></div>
+</div>
+
+<!-- PAGE 3 · THE JOURNEY DEAL CARD -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble">
+    <div style="flex:1;">
+      <div class="eyebrow">Fill it in at home · Everyone signs</div>
+      <h2 style="margin-top:1.5mm;font-size:24pt;">Our journey deal</h2>
+      <p style="margin-top:1mm;font-weight:700;color:var(--ink);">The tablet is coming. Here is when, and how to earn more of it.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:3.5mm 5mm 4.5mm;">
+    <div class="field">We are going to<div class="line"></div></div>
+    <div style="display:flex;gap:6mm;">
+      <div class="field" style="flex:1;">Leaving on<div class="line"></div></div>
+      <div class="field" style="flex:1;">Travellers<div class="line"></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">1 · The tablet comes in</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 6mm;">
+      <div class="opt"><span class="tick"></span>After the next town</div>
+      <div class="opt"><span class="tick"></span>At the services</div>
+      <div class="opt"><span class="tick"></span>At the halfway point</div>
+      <div class="opt"><span class="tick"></span>After<div class="line"></div></div>
+    </div>
+    <div class="field" style="margin-top:3.5mm;">Tablet time that is yours anyway<div class="line" style="flex:0 0 22mm;"></div>minutes</div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4mm 5mm;">
+    <div class="eyebrow" style="color:var(--green-dark);">2 · Stars from the games add minutes</div>
+    <div style="display:flex;align-items:center;gap:4mm;margin-top:2.5mm;">
+      <svg class="star"><use href="#star-gold"/></svg>
+      <div style="font-weight:900;font-size:14pt;">1 star =</div>
+      <div class="line" style="flex:0 0 20mm;min-height:8mm;"></div>
+      <div style="font-weight:900;font-size:14pt;">minutes</div>
+      <div style="font-weight:700;font-size:9.5pt;color:var(--ink-soft);margin-left:auto;">The app uses 5.</div>
+    </div>
+    <div class="field" style="margin-top:3mm;">The most stars for this journey<div class="line" style="flex:0 0 22mm;"></div><span style="font-weight:700;font-size:9.5pt;color:var(--ink-soft);">if you want a top limit</span></div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4mm 5mm;">
+    <div class="eyebrow">3 · The protected bits, no screens at any price</div>
+    <div class="opt"><span class="tick"></span>The first half hour. The window is the show.</div>
+    <div class="opt"><span class="tick"></span>The last ten minutes. Arriving and saying hello.</div>
+    <div class="opt"><span class="tick"></span>Meals at the services</div>
+    <div class="opt"><span class="tick"></span><div class="line"></div></div>
+    <p style="margin-top:3mm;font-size:9.5pt;">Want the tablet at another time? Ask. A grown up will talk it through and say what happens next.</p>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4mm 5mm;">
+    <div class="eyebrow" style="color:var(--green-dark);">4 · When tablet time ends</div>
+    <p style="margin-top:1.5mm;font-weight:800;color:var(--ink);font-size:11pt;">A five minute warning. Finish the level, then it goes back in the bag.</p>
+  </div>
+  <div style="display:flex;gap:6mm;margin-top:7mm;">
+    <div class="field" style="flex:1;">Signed<div class="line"></div></div>
+    <div class="field" style="flex:1;">And<div class="line"></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · The Journey Deal</span></div>
+</div>
+
+<!-- PAGE 4 · CAR BINGO, PICTURES (YOUNGER) -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble">
+    <div style="flex:1;">
+      <div class="eyebrow">Ages 4 to 7 · One card each</div>
+      <h2 style="margin-top:1.5mm;font-size:24pt;">Car bingo</h2>
+      <p style="margin-top:1mm;font-weight:700;color:var(--ink);">Spot it out of the window, then colour it in or cross it off.</p>
+    </div>
+  </div>
+  <div class="bingo" style="grid-template-columns:repeat(4,1fr);">
+    <div class="bcell"><svg><use href="#i-car"/></svg><div class="lbl">Red car</div></div>
+    <div class="bcell"><svg><use href="#i-tractor"/></svg><div class="lbl">Tractor</div></div>
+    <div class="bcell"><svg><use href="#i-bridge"/></svg><div class="lbl">Bridge</div></div>
+    <div class="bcell"><svg><use href="#i-cow"/></svg><div class="lbl">Cow</div></div>
+    <div class="bcell"><svg><use href="#i-petrol"/></svg><div class="lbl">Petrol station</div></div>
+    <div class="bcell"><svg><use href="#i-sign"/></svg><div class="lbl">Motorway sign</div></div>
+    <div class="bcell"><svg><use href="#i-church"/></svg><div class="lbl">Church spire</div></div>
+    <div class="bcell"><svg><use href="#i-caravan"/></svg><div class="lbl">Caravan</div></div>
+    <div class="bcell"><svg><use href="#i-dog"/></svg><div class="lbl">Dog in a car</div></div>
+    <div class="bcell"><svg><use href="#i-sheep"/></svg><div class="lbl">Sheep</div></div>
+    <div class="bcell"><svg><use href="#i-lorry"/></svg><div class="lbl">Lorry</div></div>
+    <div class="bcell"><svg><use href="#i-bus"/></svg><div class="lbl">Bus</div></div>
+    <div class="bcell"><svg><use href="#i-bike"/></svg><div class="lbl">Bicycle</div></div>
+    <div class="bcell"><svg><use href="#i-lights"/></svg><div class="lbl">Traffic lights</div></div>
+    <div class="bcell"><svg><use href="#i-turbine"/></svg><div class="lbl">Wind turbine</div></div>
+    <div class="bcell"><svg><use href="#i-plane"/></svg><div class="lbl">Aeroplane</div></div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:3.5mm 5mm;display:flex;align-items:center;gap:4mm;background:var(--terracotta-lt);">
+    <svg class="star" style="width:11mm;height:11mm;"><use href="#star-gold"/></svg>
+    <div style="font-weight:800;font-size:11pt;line-height:1.4;">A line of four, across, down or corner to corner: shout BINGO for 1 star.<br>The whole card: a full house, 3 stars.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Car Bingo · Ages 4 to 7</span></div>
+</div>
+
+<!-- PAGE 5 · CAR BINGO, WORDS (OLDER) -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop">
+    <div style="flex:1;">
+      <div class="eyebrow" style="color:var(--green-dark);">Ages 8 to 11 · One card each</div>
+      <h2 style="margin-top:1.5mm;font-size:24pt;">Car bingo, the hard card</h2>
+      <p style="margin-top:1mm;font-weight:700;color:var(--ink);">First to spot it calls it. Cross it off, then hunt for the next one.</p>
+    </div>
+  </div>
+  <div class="bingo" style="grid-template-columns:repeat(5,1fr);gap:3mm;">
+    <div class="wcell">A red car</div>
+    <div class="wcell">A tractor</div>
+    <div class="wcell">A bridge over the road</div>
+    <div class="wcell">A field of cows</div>
+    <div class="wcell">A petrol station</div>
+    <div class="wcell">A blue motorway sign</div>
+    <div class="wcell">A church spire</div>
+    <div class="wcell">A caravan</div>
+    <div class="wcell">A dog in a car</div>
+    <div class="wcell">A horse box</div>
+    <div class="wcell">A wind turbine</div>
+    <div class="wcell">A police car</div>
+    <div class="wcell free" style="flex-direction:column;"><img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:13mm;height:14mm;"><span style="font-size:9.5pt;margin-top:1mm;">Free space</span></div>
+    <div class="wcell">A castle or a ruin</div>
+    <div class="wcell">A roundabout with a tree on it</div>
+    <div class="wcell">A tunnel</div>
+    <div class="wcell">A yellow car</div>
+    <div class="wcell">A car towing a boat</div>
+    <div class="wcell">A motorbike</div>
+    <div class="wcell">A river</div>
+    <div class="wcell">A lorry from another country</div>
+    <div class="wcell">A place name with a Z in it</div>
+    <div class="wcell">An L plate</div>
+    <div class="wcell">A postbox</div>
+    <div class="wcell">A car with the roof down</div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:3.5mm 5mm;display:flex;align-items:center;gap:4mm;background:var(--tint-sage);">
+    <svg class="star" style="width:11mm;height:11mm;"><use href="#star-gold"/></svg>
+    <div style="font-weight:800;font-size:11pt;line-height:1.4;">A line of five, any direction, through the free star: 1 star.<br>Every square crossed off: a full house, 3 stars.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Car Bingo · Ages 8 to 11</span></div>
+</div>
+
+<!-- PAGE 6 · NUMBER PLATES AND THE ALPHABET -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:24mm;height:24mm;">
+    <div style="flex:1;">
+      <div class="eyebrow" style="color:var(--green-dark);">Two looking games</div>
+      <h2 style="margin-top:1.5mm;">The number plate game</h2>
+      <p style="margin-top:1mm;">Take the last three letters of a number plate and make a silly sentence. KDT could be
+      Kangaroos Dance Tonight. Three sentences earn a star.</p>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:3mm;margin-top:4mm;">
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+    <div style="display:flex;align-items:flex-end;gap:4mm;"><div class="plate"><span class="digits">AB12</span><span class="box"></span><span class="box"></span><span class="box"></span></div><div class="line" style="min-height:10mm;"></div></div>
+  </div>
+  <p style="margin-top:3mm;font-size:9.5pt;">Younger players: hunt for a plate with the first letter of your name in it instead.</p>
+  <h2 style="margin-top:6mm;">Alphabet spotting</h2>
+  <p style="margin-top:1mm;">Find something out of the window for every letter, from A to Z, and write or draw it.
+  Older players: find the letters in order on signs and plates. A star when you reach I, another at R, and one more at Z.</p>
+  <div class="alpha">
+    <div class="acell"><b>A</b><div class="line"></div></div><div class="acell"><b>B</b><div class="line"></div></div><div class="acell"><b>C</b><div class="line"></div></div><div class="acell"><b>D</b><div class="line"></div></div><div class="acell"><b>E</b><div class="line"></div></div><div class="acell"><b>F</b><div class="line"></div></div>
+    <div class="acell"><b>G</b><div class="line"></div></div><div class="acell"><b>H</b><div class="line"></div></div><div class="acell"><b>I</b><div class="line"></div></div><div class="acell"><b>J</b><div class="line"></div></div><div class="acell"><b>K</b><div class="line"></div></div><div class="acell"><b>L</b><div class="line"></div></div>
+    <div class="acell"><b>M</b><div class="line"></div></div><div class="acell"><b>N</b><div class="line"></div></div><div class="acell"><b>O</b><div class="line"></div></div><div class="acell"><b>P</b><div class="line"></div></div><div class="acell"><b>Q</b><div class="line"></div></div><div class="acell"><b>R</b><div class="line"></div></div>
+    <div class="acell"><b>S</b><div class="line"></div></div><div class="acell"><b>T</b><div class="line"></div></div><div class="acell"><b>U</b><div class="line"></div></div><div class="acell"><b>V</b><div class="line"></div></div><div class="acell"><b>W</b><div class="line"></div></div><div class="acell"><b>X</b><div class="line"></div></div>
+    <div class="acell"><b>Y</b><div class="line"></div></div><div class="acell"><b>Z</b><div class="line"></div></div>
+    <div class="acell" style="grid-column:span 4;background:var(--terracotta-lt);justify-content:center;flex-direction:row;align-items:center;gap:3mm;">
+      <svg class="star" style="width:9mm;height:9mm;"><use href="#star-gold"/></svg>
+      <span style="font-weight:800;font-size:10pt;line-height:1.3;">Stuck on Q, X or Z? The letter can be anywhere in the word. A taXi counts.</span>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Plates and Letters</span></div>
+</div>
+
+<!-- PAGE 7 · TWENTY QUESTIONS AND WOULD YOU RATHER -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:24mm;height:24mm;">
+    <div style="flex:1;">
+      <div class="eyebrow" style="color:var(--green-dark);">Talking games · The driver can play these</div>
+      <h2 style="margin-top:1.5mm;">Twenty questions</h2>
+      <p style="margin-top:1mm;">One person thinks of something. Everyone else asks questions that can only be answered
+      yes or no. Tick a circle for each one. Guess it inside twenty to win. A round played earns a star.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Think of</div>
+    <div style="display:flex;flex-wrap:wrap;gap:2.5mm;margin-top:2.5mm;">
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">An animal</span>
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">Something in our kitchen</span>
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">A character from a book</span>
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">A food</span>
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">A place we have been</span>
+      <span class="card" style="box-shadow:none;border-width:2px;border-radius:999px;padding:1.4mm 4mm;font-weight:800;font-size:10pt;">Someone in the car</span>
+    </div>
+    <div class="qdots">
+      <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+      <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+    </div>
+  </div>
+  <h2 style="margin-top:4.5mm;">Would you rather</h2>
+  <p style="margin-top:1mm;">Circle your pick, then say why. Everyone answers, grown ups too. Three answers with a reason earn a star.</p>
+  <div class="wyr">
+    <div class="card"><div class="pick">Have a tail</div><span class="or">or</span><div class="pick">Have wings</div></div>
+    <div class="card"><div class="pick">Talk to animals</div><span class="or">or</span><div class="pick">Speak every language</div></div>
+    <div class="card"><div class="pick">Live in a treehouse</div><span class="or">or</span><div class="pick">Live on a houseboat</div></div>
+    <div class="card"><div class="pick">Breakfast for tea every day</div><span class="or">or</span><div class="pick">Tea for breakfast every day</div></div>
+    <div class="card"><div class="pick">Be mouse sized for a day</div><span class="or">or</span><div class="pick">Be giraffe tall for a day</div></div>
+    <div class="card"><div class="pick">A pet dragon</div><span class="or">or</span><div class="pick">A pet dinosaur</div></div>
+    <div class="card"><div class="pick">Snow every Christmas</div><span class="or">or</span><div class="pick">Sun every birthday</div></div>
+    <div class="card"><div class="pick">Fly</div><span class="or">or</span><div class="pick">Breathe underwater</div></div>
+    <div class="card"><div class="pick">A car that floats</div><span class="or">or</span><div class="pick">A bike that flies</div></div>
+    <div class="card"><div class="pick">Invent a new sport</div><span class="or">or</span><div class="pick">Invent a new sweet</div></div>
+    <div class="card"><div class="pick">Sprout ice cream</div><span class="or">or</span><div class="pick">Chocolate covered sprouts</div></div>
+    <div class="card"><div class="pick">Swap with your teacher for a day</div><span class="or">or</span><div class="pick">Swap with the driver for a day</div></div>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:2.5mm 5mm 3mm;box-shadow:0 3px 0 var(--ink);display:flex;align-items:flex-end;gap:3mm;">
+    <span style="font-weight:800;font-size:10.5pt;white-space:nowrap;">Make one up for the grown ups:</span><div class="line" style="min-height:7mm;"></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Talking Games</span></div>
+</div>
+
+<!-- PAGE 8 · THE JOURNEY MAP TO COLOUR -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble" style="width:24mm;height:24mm;">
+    <div style="flex:1;">
+      <div class="eyebrow">Colour as you go</div>
+      <h2 style="margin-top:1.5mm;">Our journey map</h2>
+      <p style="margin-top:1mm;">Colour a star each time you stop or pass a big place, and draw what you saw in the box.
+      When the tablet comes in, draw a little tablet on the road at that spot. Every stop drawn earns a star.</p>
+    </div>
+  </div>
+  <svg viewBox="0 -60 700 860" style="width:182mm;height:224mm;margin-top:2mm;">
+    <!-- scenery to colour -->
+    <path class="tint-fill" d="M40 80 Q40 52 70 55 Q80 30 110 40 Q135 26 150 52 Q180 52 175 80 Z" fill="#fff" style="fill:var(--tf,#fff)" stroke="#1A1A2E" stroke-width="4" stroke-linejoin="round"/>
+    <path class="tint-fill" d="M430 800 Q520 690 610 760 Q650 720 700 750 V800 Z" fill="#E8F0EE" style="fill:var(--tf,#E8F0EE)" stroke="#1A1A2E" stroke-width="4" stroke-linejoin="round"/>
+        <g><path d="M670 348 V378" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><circle class="tint-fill" cx="670" cy="330" r="24" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="4"/></g>
+    <g><path d="M50 348 V378" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><circle class="tint-fill" cx="50" cy="330" r="22" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="4"/></g>
+    <g><path d="M70 588 V618" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><circle class="tint-fill" cx="70" cy="570" r="20" fill="#2F8F6B" style="fill:var(--tf,#2F8F6B)" stroke="#1A1A2E" stroke-width="4"/></g>
+    <!-- the gold road -->
+    <path d="M 110 730 C 300 760, 600 700, 590 590 C 580 490, 140 520, 130 410 C 120 300, 580 330, 580 220 C 580 120, 300 140, 330 70" fill="none" stroke="#1A1A2E" stroke-width="62" stroke-linecap="round"/>
+    <path class="road-gold" d="M 110 730 C 300 760, 600 700, 590 590 C 580 490, 140 520, 130 410 C 120 300, 580 330, 580 220 C 580 120, 300 140, 330 70" fill="none" stroke="#EDC35F" stroke-width="52" stroke-linecap="round"/>
+    <path class="road-dash" d="M 110 730 C 300 760, 600 700, 590 590 C 580 490, 140 520, 130 410 C 120 300, 580 330, 580 220 C 580 120, 300 140, 330 70" fill="none" stroke="#FFF6DE" stroke-width="5" stroke-dasharray="20 18" stroke-linecap="round"/>
+    <!-- home -->
+    <g transform="translate(18 650)">
+      <path class="tint-fill" d="M10 60 V30 L45 4 L80 30 V60 Z" fill="#FEF7E0" style="fill:var(--tf,#FEF7E0)" stroke="#1A1A2E" stroke-width="4.5" stroke-linejoin="round"/>
+      <path class="tint-fill" d="M2 34 L45 0 L88 34" fill="none" stroke="#D4600A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="36" y="36" width="18" height="24" rx="2" fill="#fff" stroke="#1A1A2E" stroke-width="3.5"/>
+    </g>
+    <text x="63" y="785" text-anchor="middle" font-family="IBM Plex Mono" font-weight="600" font-size="20" letter-spacing="3" fill="#1A1A2E">HOME</text>
+    <!-- there -->
+    <g transform="translate(330 70)">
+      <path d="M0 0 V-62" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/>
+      <path class="tint-fill" d="M0 -62 H52 L42 -48 L52 -34 H0 Z" fill="#D4600A" style="fill:var(--tf,#D4600A)" stroke="#1A1A2E" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="0" cy="0" r="9" fill="#1A1A2E"/>
+    </g>
+    <text x="314" y="42" text-anchor="end" font-family="Nunito" font-weight="900" font-size="34" fill="#1A1A2E">There!</text>
+    <!-- drawing boxes, joined to their stops -->
+    <g fill="none" stroke="#1A1A2E" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round">
+      <path d="M425 712 L320 640"/><path d="M360 504 L470 455"/><path d="M351 315 L230 255"/><path d="M444 132 L520 50"/>
+    </g>
+    <g font-family="IBM Plex Mono" font-weight="600" font-size="16" letter-spacing="2" fill="#52526A">
+      <rect x="150" y="550" width="175" height="115" rx="14" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><text x="166" y="576">STOP 1</text>
+      <rect x="440" y="370" width="200" height="115" rx="14" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><text x="456" y="396">STOP 2</text>
+      <rect x="40" y="160" width="195" height="115" rx="14" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><text x="56" y="186">STOP 3</text>
+      <rect x="490" y="-55" width="195" height="115" rx="14" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><text x="506" y="-29">STOP 4</text>
+    </g>
+    <!-- a star at each stop -->
+    <g>
+      <circle cx="425" cy="712" r="34" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><use href="#star" x="398" y="685" width="54" height="54"/>
+      <circle cx="360" cy="504" r="34" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><use href="#star" x="333" y="477" width="54" height="54"/>
+      <circle cx="351" cy="315" r="34" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><use href="#star" x="324" y="288" width="54" height="54"/>
+      <circle cx="444" cy="132" r="34" fill="#fff" stroke="#1A1A2E" stroke-width="4"/><use href="#star" x="417" y="105" width="54" height="54"/>
+    </g>
+  </svg>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Journey Map</span></div>
+</div>
+
+<!-- PAGE 9 · DOODLE AND DRAWING PROMPTS -->
+<div class="sheet">
+  <div class="head">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble" style="width:24mm;height:24mm;">
+    <div style="flex:1;">
+      <div class="eyebrow">Pencils out · Any drawing counts</div>
+      <h2 style="margin-top:1.5mm;">Doodles for the road</h2>
+      <p style="margin-top:1mm;">Pick any box. Scribbles, stick people and wobbly lines all count. Every two drawings earn a star.</p>
+    </div>
+  </div>
+  <div class="doodles">
+    <div class="doodle"><div class="eyebrow">Doodle 1</div><div class="q">The funniest vehicle you have seen today</div></div>
+    <div class="doodle"><div class="eyebrow">Doodle 2</div><div class="q">Design a car for our family. What does it need?</div></div>
+    <div class="doodle"><div class="eyebrow">Doodle 3</div><div class="q">What do you think "there" will look like? Draw it before we arrive</div></div>
+    <div class="doodle"><div class="eyebrow">Doodle 4</div><div class="q">A cloud out of the window that looks like something else</div></div>
+    <div class="doodle"><div class="eyebrow">Doodle 5</div><div class="q">A sign for a town that does not exist. Give it a name</div></div>
+    <div class="doodle"><div class="eyebrow">Doodle 6</div><div class="q">The snack you are hoping for at the next stop</div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Doodles</span></div>
+</div>
+
+<!-- PAGE 10 · THE STAR TALLY -->
+<div class="sheet">
+  <div class="head">
+    <img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:22mm;height:24mm;">
+    <div style="flex:1;">
+      <div class="eyebrow">Count up at the agreed stop</div>
+      <h2 style="margin-top:1.5mm;font-size:24pt;">The star tally</h2>
+      <p style="margin-top:1mm;font-weight:700;color:var(--ink);">Colour a star for each one earned. Stars earned stay earned.</p>
+    </div>
+  </div>
+  <table class="tally">
+    <tr><th>Game</th><th>How the stars come</th><th>Stars</th></tr>
+    <tr><td class="g">Car bingo</td><td class="how">1 for a line, 3 for a full house</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Number plates</td><td class="how">1 for every three silly sentences</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Alphabet spotting</td><td class="how">1 at I, 1 at R, 1 at Z</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Twenty questions</td><td class="how">1 for each round played</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Would you rather</td><td class="how">1 for three answers with a reason</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Journey map</td><td class="how">1 for every stop drawn</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+    <tr><td class="g">Doodles</td><td class="how">1 for every two drawings</td><td class="s"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></td></tr>
+  </table>
+  <div class="card" style="margin-top:6mm;padding:4.5mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Add it up</div>
+    <div style="display:flex;align-items:flex-end;gap:2.5mm;margin-top:3mm;font-weight:900;font-size:13pt;">
+      Stars<div class="line" style="flex:0 0 18mm;"></div>&times; our rate<div class="line" style="flex:0 0 18mm;"></div>= <div class="line" style="flex:0 0 20mm;"></div>extra minutes
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:2.5mm;margin-top:4mm;font-weight:900;font-size:13pt;">
+      Yours anyway<div class="line" style="flex:0 0 18mm;"></div>+ extra<div class="line" style="flex:0 0 18mm;"></div>= <div class="line" style="flex:0 0 20mm;"></div>minutes in all
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;">
+    <div class="field" style="margin-top:0;">The tablet came in at<div class="line"></div></div>
+    <div class="field">The best thing we spotted<div class="line"></div></div>
+    <div class="field">Spare stars? We agreed<div class="line"></div></div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:3.5mm 5mm;display:flex;align-items:center;gap:4mm;">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble" style="width:15mm;height:15mm;object-fit:contain;">
+    <p style="font-weight:700;color:var(--ink);font-size:10pt;">
+      Pebble says: when the five minute warning comes, finish your level, then pass the tablet to the front. Ending well is part of the deal.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Are We Nearly There · Star Tally</span></div>
+</div>
+
+<!-- PAGE 11 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"Are We Nearly There","noun":"pack","pages":[["pebble","doing"],["bloop","doing"]],"strip":false,"thanks":"If this pack made a long journey a little easier, a kind review on Etsy helps another family find it."}'></div>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

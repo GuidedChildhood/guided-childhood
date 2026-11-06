@@ -50,3 +50,27 @@ Any GAP worth building becomes its own row in a later plan.
 ## Not in scope
 
 Uploading to Etsy. The listings land ready; the Etsy session saves the drafts.
+
+## Done, 6 November 2026
+
+All nine built, every page and photo checked by eye, ai-tells and the tag
+check passing. Pages: First Phone Kit 12, Christmas Countdown 11, Screens At
+Granny's 8, Are We Nearly There 11, Holiday Screen Deal 9, Reset Journal 16,
+Class Screen Promise 11. Bundles reuse the packs' real page renders through
+the new `bundle-images.js`.
+
+Shared changes: `pack-finish.js` has Nova and Cosmo stickers and a gift only
+last page (`"pages":[]`); `listing-images.js` reads `noSticker`, `fourth` and
+`formatsFoot`; `build-pack.mjs` knows the new packs and the bundles.
+
+One swap from the brief: the Whole System Bundle carries Say This (the paid
+script cards) where the brief named the Five Fights words, which is a free
+Saturday download not yet built.
+
+## Research outcome
+
+`plans/2026-11-06-etsy-top-sellers-research.md`. Headline: screen time charts
+alone barely sell on Etsy, chore and routine charts do, so titles should lead
+with the chore or routine format. Build next, waiting for Justin's yes: the
+Planet Day flip chart, a Road to 16 board game, What Would You Do table talk
+cards, a Phone Under The Tree treasure hunt, and a jobs board for 11 to 15s.
