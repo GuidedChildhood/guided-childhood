@@ -49,7 +49,12 @@ Write to `content/packs/<yyyy-mm-dd>-<slug>/`:
 **`substack-issue.md`** — one full newsletter issue:
 - 3 subject line options and a preview line
 - Opening story in Justin's voice, then the substance in short sections, then one practical takeaway a parent can use tonight, then a soft close
-- 800 to 1,200 words, claims mapped to sources at the bottom
+- **1,800 to 2,500 words** (Justin, 6 November 2026), claims mapped to sources at
+  the bottom, with the limits of each source stated there rather than buried.
+  The old spec said 800 to 1,200; the issues that actually went out ran 1,398,
+  1,714, 1,365 and 2,146, so the spec was stale rather than the practice. A
+  short note of 400 to 600 words inside a waterfall pack is a different thing
+  and is fine, but it is a note and not an issue.
 
 In chat, give Justin the single best hook from the pack and anything the Scientist could not verify.
 
@@ -87,7 +92,7 @@ Justin's highest performing posts (75,842 impressions, The Wrong Villain series)
 ## Channel variants (produce all of these in every pack)
 
 - **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).
-- **Substack**: one full issue, story led, 800 to 1,200 words, subject line options.
+- **Substack**: one full issue, story led, 1,800 to 2,500 words, subject line options.
 - **Mumsnet**: one post written as a genuine forum contribution: humble, practical, first person parent voice, no marketing scent, no links unless asked, invites discussion. Mumsnet detects and destroys astroturf, so it must read as a parent sharing what they learned.
 - **Reddit**: one post for a relevant subreddit (r/Parenting, r/ScienceBasedParenting, r/Teachers): evidence first, citations linked inline, neutral professional tone, zero promotion, structured for comment discussion. On r/ScienceBasedParenting every claim needs its study link.
 - **Facebook**: one post for parent groups: warm, shorter sentences, one idea, shareable, ends with a question that invites parents to answer.
