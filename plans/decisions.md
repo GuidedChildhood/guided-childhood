@@ -199,6 +199,9 @@ A new paid Etsy printable from Justin's ask for "Diary of a CEO cards but script
 
 Justin: "etsy top sellers research and add all products not yet added". Products 2 to 9 and 11 of content/etsy-shop/product-brief.md are built to the five packs' standard: the First Phone Kit, the Christmas Screen Free Countdown, Screens At Granny's, Are We Nearly There, the Holiday Screen Deal, the 30 Day Screen Reset Journal, Our Class Screen Promise, and two bundles photographed from the packs' real pages. The Whole System Bundle carries Say This where the brief named the free Five Fights words. Personalised Star Chart and the printed Passport are not in it. Research: screen time charts alone barely sell on Etsy, chore and routine charts do; five new formats wait for Justin's yes. Not uploaded. PR 1422.
 
+## 6 November 2026: the first 20 sign ups, four doors and a link for each
+
+Justin asked for founder podcasts, YouTube and launch sites reviewed and a plan for the first 20 sign ups. Read live: 4 stage checks started in 30 days, and of 32 accounts and 54 leads all but a handful are Justin's own test addresses, so there are no real sign ups yet. The research says parent products grow through groups parents already belong to (Smartphone Free Childhood, Wait Until 8th) and directories bring makers, not UK parents. So the plan is three weeks at 45 minutes a day, in this order: friends of friends, local press on the Christmas and ban moment, local parent groups with the admin's yes, one class or PTA together. Directories and app stores get one evening each. Nineteen tracked `/v/` codes made in `video_links`, one per door. Found: `starter_leads.converted` is false for all 54. Same day, Justin's answers: warm ring drafted to 30 people from his Contacts, press says Star near Winscombe, PTA talk drafts to the four nearest primaries, Google Play and Microsoft Store packaging in its own session; all drafts in Gmail, nothing sent. Plan: plans/week-of-2026-11-02-first-20-signups-plan.md. PR 1431.
 ## 5 November 2026: the app's copies of the five Passport packs match the Etsy ones
 
 The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down Corner Kit, Earn Your Screen Time and Family Phone Agreement, still carrying the damaged Friend art. They are now built from the same print.html as the Etsy editions with `build-pack.mjs <pack> app`: colour and ink friendly (the Colour in button), A4, minus the Etsy last page (Passport sticker, /etsy-bonus gift, Etsy review). The star chart builder uses public/digi-squad/friends and public/printables/friends is deleted. /etsy-bonus now says thirteen pages, no colouring page and no game, which is what the email delivers. PR to follow 1408.
@@ -207,6 +210,15 @@ The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down
 
 Justin: "all etsy downloads should be in app for free to child and parent." Every Etsy pack in the app library is free for any parent and opens straight away for the child, with no Ask and no paywall. Nine more are added (First Phone Kit, Christmas Countdown, Screens At Granny's, Are We Nearly There, Holiday Screen Deal, Screen Reset Journal, Star Swap Shop, Guided Times 1, Say This script cards, which are for grown ups only), and the Starter Pack is back in the grid. Not in the app as their own card: the Star Chart, the printable Passport (the app has both of its own), the Class Screen Promise (for teachers) and the bundles. `npm run etsy-in-app`, in CI, fails a new Etsy pack until it has an app edition. PR 1427.
 
+## 6 November 2026: Etsy listing photos in the Canva look, varied per product
+Justin: the photos "look more AI than Canva" and should not all look alike.
+`listing-images.js`, `bundle-images.js` and the Passport's `images.html` now
+build flat paper photos: serif headline, handwritten note, real pages on a
+clipboard or fridge with washi tape, no 3D characters, road or ink outlines.
+Each product sets one of five themes and one of three cover layouts so shop
+neighbours differ. The Etsy creation setting stays "With an AI generator"
+while AI made friends are printed on the pages. Rules in the printables
+engine skill, step 7b.
 ## 6 November 2026: the five build next Etsy packs, built
 
 From the top sellers research's build next list, in deadline order: the Phone Under The Tree Treasure Hunt (13 pages, Orbit, list by 20 November, now also in the Christmas Phone Bundle at the same £14.99), the Planet Day Flip Chart (25 pages, 120 picture cards), the Jobs Board for 11 to 15s (8 pages), What Would You Do? Table Talk cards (100 cards) and the Road to 16 Board Game (19 pages plus an A3 board). Every line has a proof path in the product; titles lead with the format that sells. build-pack.mjs gains fillable PDF fields (so "fillable" is true), an A3 output, and a Letter fix: Letter had been printing at about 88 percent and off centre, the older packs keep that until rebuilt. Not uploaded. PR 1425.
