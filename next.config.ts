@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
       { source: '/educator', destination: SCHOOLS, permanent: true },
       { source: '/educator/:path*', destination: `${SCHOOLS}/:path*`, permanent: true },
       { source: '/class/:lessonId', destination: `${SCHOOLS}/class/:lessonId`, permanent: true },
+      // The child's app has a public page (5 November 2026); /app is the
+      // short name a parent might type from an email or a poster.
+      { source: '/app', destination: '/kids-app', permanent: false },
+      { source: '/star-quest', destination: '/kids-app', permanent: false },
     ]
   },
   // PostHog, first party (components/Analytics.tsx). The browser posts to

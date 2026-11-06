@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Christmas Screen Free Countdown</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The Christmas Screen Free Countdown, ages 4 to 11. Built by
+       node content/printables/build-pack.mjs christmas-countdown
+     The 24 days live once, in DAYS at the foot of this file, and fill the
+     planner, the poster, the cards and the stickers, so a change to a day
+     reaches every page that names it. Every card carries data-day, so a
+     taster edition (days 1 to 7) can hide the rest; see README.md. -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --coral-lt:#FBE4D0; --green:#2F8F6B; --tint-sage:#E8F0EE; --tree:#D9EBE2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .chip{padding:3mm 5mm;font-weight:800;font-size:10.5pt;}
+  .lines div{border-bottom:2px solid var(--ink);height:11mm;}
+  .fr{object-fit:contain;border:2.5px solid var(--ink);border-radius:50%;flex-shrink:0;}
+
+  /* The cover tree: DiGi on top, then the five friends, two then three. */
+  .cover-tree{display:flex;flex-direction:column;align-items:center;gap:3.5mm;margin-top:10mm;}
+  .cover-tree .row{display:flex;gap:4mm;}
+  .cover-tree .fr{width:41mm;height:41mm;box-shadow:0 4px 0 var(--ink);}
+
+  /* The poster. Door positions are set in mm by the script below. */
+  .poster{position:relative;width:186mm;flex:1;margin:0 auto;}
+  .door{position:absolute;width:26mm;height:30mm;background:var(--white);border:2.5px solid var(--ink);
+    border-radius:10px;box-shadow:0 3px 0 var(--ink);display:flex;flex-direction:column;align-items:center;}
+  .door .n{font-weight:900;font-size:13pt;line-height:1;margin-top:1.3mm;height:5.2mm;}
+  .door .spot{width:20.5mm;height:20.5mm;border-radius:50%;border:0.45mm dashed rgba(26,26,46,0.5);margin-top:0.6mm;}
+  .door.last{background:var(--terracotta-lt);}
+
+  /* The activity cards, six to a page. */
+  .cards{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:5mm;
+    flex:1;margin-top:4mm;margin-bottom:2mm;}
+  .dcard{background:var(--white);border:2.5px dashed var(--ink);border-radius:16px;padding:4.5mm 5mm 4mm;
+    display:flex;flex-direction:column;min-height:0;}
+  .dtop{display:flex;align-items:center;gap:3mm;}
+  .dnum{width:16mm;height:16mm;border-radius:50%;background:var(--terracotta);border:2.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20pt;line-height:1;flex-shrink:0;}
+  .dmeta .mono{font-size:8pt;color:var(--ink-soft);}
+  .dmeta .who{font-weight:800;font-size:12.5pt;margin-top:0.6mm;}
+  .dtop .fr{width:19mm;height:19mm;margin-left:auto;}
+  .dtitle{font-weight:900;font-size:17pt;line-height:1.12;margin-top:3.5mm;}
+  .dline{font-size:12.5pt;line-height:1.42;color:var(--ink);margin-top:2.2mm;}
+  .dneed{margin-top:auto;padding-top:2mm;border-top:1.5px dashed rgba(26,26,46,0.3);display:flex;gap:2.5mm;align-items:baseline;}
+  .dneed .mono{font-size:7.5pt;color:var(--green);flex-shrink:0;}
+  .dneed span:last-child{font-weight:700;font-size:10.5pt;}
+
+  /* The planner. */
+  table.plan{width:100%;border-collapse:separate;border-spacing:0;margin-top:4mm;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;}
+  .plan td,.plan th{padding:0 2.5mm;height:7.9mm;font-size:9.5pt;text-align:left;border-bottom:1px solid var(--border);}
+  .plan th{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--ink-soft);background:var(--terracotta-lt);height:7.5mm;}
+  .plan tr:last-child td{border-bottom:0;}
+  .plan .d{font-weight:900;width:20mm;white-space:nowrap;}
+  .plan .f{width:27mm;white-space:nowrap;}
+  .plan .f span{display:inline-flex;align-items:center;gap:1.8mm;vertical-align:middle;line-height:1;}
+  .plan .f img{width:6.5mm;height:6.5mm;border-width:1.5px;}
+  .plan .a{font-weight:800;}
+  .plan .need{color:var(--ink-soft);}
+  .plan .tick{width:12mm;}
+  .plan .tick i{display:block;width:5mm;height:5mm;border:2px solid var(--ink);border-radius:50%;margin:0 auto;}
+  .plan tr.wk td{border-top:2px solid var(--ink);}
+
+  /* The sticker sheet. */
+  .stickers{display:grid;grid-template-columns:repeat(6,1fr);row-gap:5.5mm;margin-top:6mm;justify-items:center;}
+  .cut{width:23mm;height:23mm;border:0.35mm dashed rgba(26,26,46,0.45);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;}
+  .cut svg{width:21mm;height:21mm;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .card,body.ink .door{box-shadow:none;}
+  body.ink .card,body.ink .dcard,body.ink .door{background:var(--white) !important;}
+  body.ink .fr{background:var(--white) !important;box-shadow:none !important;}
+  body.ink .dnum{background:var(--white);}
+  body.ink .tint-fill{fill:var(--white) !important;}
+  body.ink .plan th{background:var(--white);}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:8mm;" class="eyebrow">Guided Childhood · Print at home · Ages 4 to 11</div>
+  <h1 style="margin-top:6mm;font-size:40pt;">The Christmas<br>Screen Free Countdown</h1>
+  <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:14pt;">
+    24 days of something to do together,<br>away from a screen.
+  </p>
+  <div class="cover-tree">
+    <img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="width:46mm;height:46mm;margin-bottom:-2mm;">
+    <div class="row">
+      <img class="fr" data-f="pebble" alt="Pebble">
+      <img class="fr" data-f="bloop" alt="Bloop">
+    </div>
+    <div class="row">
+      <img class="fr" data-f="orbit" alt="Orbit">
+      <img class="fr" data-f="nova" alt="Nova">
+      <img class="fr" data-f="cosmo" alt="Cosmo">
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:13mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card chip">24 door poster</div>
+    <div class="card chip">24 activity cards</div>
+    <div class="card chip">24 stickers</div>
+    <div class="card chip" style="background:var(--terracotta-lt);">1 to 24 December</div>
+  </div>
+  <p style="margin-top:9mm;font-size:11pt;max-width:150mm;">
+    One door a day. Ten to twenty minutes, mostly with things already in your house.
+    Pebble, Bloop, Orbit, Nova and Cosmo take turns, and DiGi sits on top of the tree.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Christmas Screen Free Countdown</span></div>
+</div>
+
+<!-- PAGE 2 · HOW IT WORKS, FOR THE GROWN UP -->
+<div class="sheet">
+  <div class="eyebrow">For the grown up · Read this one first</div>
+  <h2 style="margin-top:3mm;">How the countdown works</h2>
+  <p style="margin-top:3mm;">
+    Twenty four doors, one a day from 1 December. Behind each door is one small thing to do together
+    away from a screen. Most take ten to twenty minutes and use what is already in the house.
+    There is nothing to buy.
+  </p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:5mm;">
+    <div class="card" style="padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green);">1 · Pin up the poster</div>
+      <p style="margin-top:1.5mm;">At your child's eye height: the fridge, a door, the bottom of the stairs. Write your family name on it.</p>
+    </div>
+    <div class="card" style="padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green);">2 · Cut out the cards</div>
+      <p style="margin-top:1.5mm;">Keep them in an envelope or a mug by the poster. Glance at the planner on page 3 each Sunday so nothing catches you out.</p>
+    </div>
+    <div class="card" style="padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green);">3 · Open a door a day</div>
+      <p style="margin-top:1.5mm;">Your child finds today's number on the tree. Read the card out and do it together. Ten to twenty minutes is plenty.</p>
+    </div>
+    <div class="card" style="padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green);">4 · Stick the sticker</div>
+      <p style="margin-top:1.5mm;">The matching sticker covers the door. Watching the tree fill up is half the fun.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Swap any day that does not fit</div>
+    <p style="margin-top:1.5mm;font-weight:800;color:var(--ink);font-size:11.5pt;line-height:1.45;">
+      Late home, someone poorly, a party? Swap the card with a later one, do two tomorrow, or skip it.
+      A missed door just gets its sticker late.
+    </p>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">What it is for</div>
+      <p style="margin-top:1.5mm;">
+        December evenings are long and everyone is tired, so screens fill a lot of the gaps.
+        Nothing here gets switched off. The countdown adds one small thing a day that you do together,
+        so there is always something else to reach for.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Ages 4 to 11</div>
+      <p style="margin-top:1.5mm;">
+        Little ones need you for the reading and the scissors. Older ones can run the day
+        themselves, and some will want to. More than one child? Take turns finding the door
+        and sticking the sticker.
+      </p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4.5mm 5mm;display:flex;align-items:center;gap:4mm;">
+    <div style="display:flex;gap:1.5mm;flex-shrink:0;">
+      <img class="fr" data-f="pebble" alt="Pebble" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="bloop" alt="Bloop" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="orbit" alt="Orbit" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="nova" alt="Nova" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="cosmo" alt="Cosmo" style="width:12mm;height:12mm;">
+    </div>
+    <p style="font-size:10pt;">
+      The five Planet Friends take a day each, in turn, and DiGi the golden star sits on top of the tree.
+      Ask your child whose day it is before you read the card.
+    </p>
+  </div>
+  <div style="margin-top:5mm;padding:0 1mm;">
+    <p style="font-size:9.5pt;">
+      <strong style="color:var(--ink);">You will need:</strong> a printer, scissors, and sticker paper or a glue stick.
+      In the Guided Childhood app, a child's five a day works the same way: a small mix of things to do each day,
+      ticked off together. This countdown is that idea, wrapped up for December.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>How it works · For the grown up</span></div>
+</div>
+
+<!-- PAGE 3 · THE 24 DAYS AT A GLANCE -->
+<div class="sheet">
+  <div class="eyebrow">For the grown up · Keep it by the poster</div>
+  <h2 style="margin-top:3mm;">The 24 days at a glance</h2>
+  <p style="margin-top:2mm;">
+    Look a week ahead so biscuit day and jigsaw day do not catch you short. Move any day to one that suits you better.
+  </p>
+  <table class="plan">
+    <thead><tr><th>Date</th><th>Whose day</th><th>What we do</th><th>You need</th><th style="text-align:center;">Done</th></tr></thead>
+    <tbody id="plan"></tbody>
+  </table>
+  <div class="card" style="margin-top:6mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Quick swaps for a day that will not fit</div>
+    <p style="margin-top:1.5mm;color:var(--ink);font-weight:700;font-size:10pt;line-height:1.5;">
+      A bath with extra bubbles and a story. A hunt for ten red things round the house.
+      Build something from the recycling. Breakfast in pyjamas, all at the table. A call to a grandparent.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The 24 days at a glance</span></div>
+</div>
+
+<!-- PAGE 4 · THE COUNTDOWN POSTER -->
+<div class="sheet" style="padding:12mm 12mm 13mm;">
+  <div class="poster" id="poster">
+    <div style="position:absolute;left:0;top:0;width:52mm;">
+      <div class="eyebrow">Print and pin it up</div>
+      <div style="font-weight:900;font-size:25pt;line-height:1.02;margin-top:2.5mm;">Our<br>Christmas<br>Countdown</div>
+      <div class="mono" style="font-size:7.5pt;color:var(--ink-soft);margin-top:5mm;">The</div>
+      <div style="border-bottom:2px solid var(--ink);height:8mm;width:46mm;"></div>
+      <div class="mono" style="font-size:7.5pt;color:var(--ink-soft);margin-top:1.5mm;">family</div>
+    </div>
+    <div style="position:absolute;right:0;top:0;width:50mm;text-align:right;">
+      <div class="card" style="padding:3.5mm 4mm;text-align:left;">
+        <div class="eyebrow" style="color:var(--green);font-size:7.5pt;">Every day</div>
+        <div style="font-weight:800;font-size:10pt;line-height:1.4;margin-top:1.5mm;">
+          1. Find today's door.<br>2. Do its card together.<br>3. Stick on its sticker.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer" style="left:12mm;right:12mm;"><span>guidedchildhood.com</span><span>The countdown poster · Pin it at child height</span></div>
+</div>
+
+<!-- PAGES 5 TO 8 · THE ACTIVITY CARDS, filled from DAYS -->
+<div class="sheet" data-cards="1">
+  <div class="eyebrow">Cut out · Keep them in an envelope by the poster</div>
+  <h2 style="margin-top:2mm;">Days 1 to 6</h2>
+  <div class="cards"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Activity cards · 1 to 6 December</span></div>
+</div>
+<div class="sheet" data-cards="7">
+  <div class="eyebrow">Cut out · Keep them in an envelope by the poster</div>
+  <h2 style="margin-top:2mm;">Days 7 to 12</h2>
+  <div class="cards"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Activity cards · 7 to 12 December</span></div>
+</div>
+<div class="sheet" data-cards="13">
+  <div class="eyebrow">Cut out · Keep them in an envelope by the poster</div>
+  <h2 style="margin-top:2mm;">Days 13 to 18</h2>
+  <div class="cards"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Activity cards · 13 to 18 December</span></div>
+</div>
+<div class="sheet" data-cards="19">
+  <div class="eyebrow">Cut out · Keep them in an envelope by the poster</div>
+  <h2 style="margin-top:2mm;">Days 19 to 24</h2>
+  <div class="cards"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Activity cards · 19 to 24 December</span></div>
+</div>
+
+<!-- PAGE 9 · THE STICKER SHEET -->
+<div class="sheet">
+  <div class="eyebrow">Print on sticker paper, or plain paper and a glue stick</div>
+  <h2 style="margin-top:2mm;">Your countdown stickers</h2>
+  <p style="margin-top:2mm;">
+    One sticker for each door. Cut round the dashed circle and stick it on the door with the same number.
+    Little hands can cut roughly. Nobody checks the edges.
+  </p>
+  <div class="stickers" id="stickers"></div>
+  <div class="card" style="margin-top:6mm;padding:4.5mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Six spares, with DiGi Junior</div>
+    <p style="margin-top:1.5mm;">For a sticker that goes missing, a swapped day, or a day so good it deserves two.</p>
+    <div style="display:flex;justify-content:space-between;margin-top:3mm;" id="spares"></div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:4.5mm 5mm;">
+    <div class="eyebrow" style="color:var(--green);">Draw your own</div>
+    <p style="margin-top:1.5mm;">Swapped in an idea of your own? Draw its sticker here: a snowman, a jigsaw piece, your dog in a hat.</p>
+    <div style="display:flex;justify-content:space-between;margin-top:3mm;" id="own"></div>
+  </div>
+  <p style="margin-top:5mm;font-size:9.5pt;">
+    Printing tip: choose actual size, not fit to page, so each sticker matches its circle on the poster.
+    More than one child? Print a sheet each and take turns on the doors.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sticker sheet · 24 days, 6 spares, 6 of your own</span></div>
+</div>
+
+<!-- PAGE 10 · OUR FAVOURITE DAYS -->
+<div class="sheet">
+  <div class="eyebrow">Fill this in together on Christmas Eve</div>
+  <h2 style="margin-top:2mm;font-size:24pt;">Our favourite days</h2>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow" style="color:var(--green);">Our three best days</div>
+    <div style="display:flex;flex-direction:column;gap:3.5mm;margin-top:3mm;">
+      <div style="display:flex;align-items:flex-end;gap:4mm;">
+        <div style="width:16mm;height:16mm;border:2.5px solid var(--ink);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:6.5pt;color:var(--ink-muted);">DAY</div>
+        <div style="flex:1;"><div style="font-weight:800;font-size:11pt;">It was the best because</div><div style="border-bottom:2px solid var(--ink);height:8mm;"></div></div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:4mm;">
+        <div style="width:16mm;height:16mm;border:2.5px solid var(--ink);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:6.5pt;color:var(--ink-muted);">DAY</div>
+        <div style="flex:1;"><div style="font-weight:800;font-size:11pt;">It was the best because</div><div style="border-bottom:2px solid var(--ink);height:8mm;"></div></div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:4mm;">
+        <div style="width:16mm;height:16mm;border:2.5px solid var(--ink);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:6.5pt;color:var(--ink-muted);">DAY</div>
+        <div style="flex:1;"><div style="font-weight:800;font-size:11pt;">It was the best because</div><div style="border-bottom:2px solid var(--ink);height:8mm;"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;flex:1;display:flex;flex-direction:column;">
+    <div class="eyebrow" style="color:var(--green);">Draw the moment you liked most</div>
+    <div style="flex:1;margin-top:3mm;border:2px dashed rgba(26,26,46,0.3);border-radius:12px;"></div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">In January, we will keep doing</div>
+    <div class="lines"><div></div><div></div></div>
+    <p style="margin-top:2.5mm;font-size:9.5pt;">Pick one and give it a day of the week. Saturday den night counts.</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:4mm;margin-top:5mm;margin-bottom:3mm;">
+    <div style="display:flex;gap:1.5mm;flex-shrink:0;">
+      <img class="fr" data-f="pebble" alt="Pebble" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="bloop" alt="Bloop" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="orbit" alt="Orbit" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="nova" alt="Nova" style="width:12mm;height:12mm;">
+      <img class="fr" data-f="cosmo" alt="Cosmo" style="width:12mm;height:12mm;">
+    </div>
+    <div style="flex:1;">
+      <div class="mono" style="font-size:7.5pt;color:var(--ink-soft);">Signed by all of us</div>
+      <div style="border-bottom:2px solid var(--ink);height:9mm;"></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Our favourite days · Christmas Eve</span></div>
+</div>
+
+<!-- PAGE 11 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The Christmas Screen Free Countdown","noun":"countdown","pages":[["pebble","doing"],["bloop","doing"]],"strip":false,"thanks":"If the countdown earns a spot on your fridge this December, a kind review on Etsy helps another family find it."}'></div>
+
+<script>
+// The five Planet Friends take turns, Pebble first, and their colours are the
+// Passport's own stage colours (pack-finish.js), so a sticker here matches.
+const FRIENDS = {
+  pebble: { name: 'Pebble', colour: '#EDC35F', soft: '#FBEED0' },
+  bloop: { name: 'Bloop', colour: '#2F8F6B', soft: '#E4F0D4' },
+  orbit: { name: 'Orbit', colour: '#2E6F8E', soft: '#DCEBF7' },
+  nova: { name: 'Nova', colour: '#7A5CC0', soft: '#ECE3F7' },
+  cosmo: { name: 'Cosmo', colour: '#D4600A', soft: '#FBE4D0' },
+}
+const TURN = ['pebble', 'bloop', 'orbit', 'nova', 'cosmo']
+
+// The 24 days: title, what to do, what you need. Cheap or free, ten to twenty
+// minutes, all of them done together and away from a screen.
+const DAYS = [
+  ['Make a paper chain', 'Cut paper into strips, loop them and glue or tape each one into the next. How long can your family make it?', 'Paper, scissors, glue or tape'],
+  ['Hot chocolate and a story', 'Make a warm drink, get under one blanket and read a story out loud. Take turns doing the voices.', 'A book, a mug each'],
+  ['Paper snowflakes', 'Fold a square of paper into a small triangle, snip shapes out of the edges, then open it up. Stick them on a window.', 'Paper, scissors'],
+  ['Kitchen disco', 'Everyone picks two songs. Push back the chairs and dance. The grown ups have to dance too.', 'Some music'],
+  ['A card for someone on their own', 'Make a card for a neighbour or a relative who lives by themselves. Post it, or pop it through their door together.', 'Paper, pens'],
+  ['Winter lights walk', 'Wrap up after dark and walk round your streets. Count the lit up trees and windows. Who spots the most?', 'Coats, a torch'],
+  ['Build a blanket den', 'Chairs, blankets, cushions and pegs. When it is built, read, play or have a snack inside it.', 'Blankets, chairs, pegs'],
+  ['Start a gratitude jar', 'Write or draw one thing you are glad about on a scrap of paper and drop it in a jar. Add one more each day until Christmas.', 'A jar, scraps of paper'],
+  ['Board game night', 'Pick a board game or a pack of cards and play together. The winner chooses the next game.', 'Any game, or a pack of cards'],
+  ['Say thank you', 'Write a thank you note for a teacher, a lollipop person or the bin crew. Say one thing they do that helps.', 'Paper, pens'],
+  ['Biscuit day', 'Bake a batch together, or ice some plain biscuits from the cupboard. Save one for someone else.', 'Biscuits, or flour, butter and sugar'],
+  ['Sock snowball fight', 'Roll clean socks into balls and have a snowball fight indoors. Then pair all the socks back up.', 'Clean socks'],
+  ['Torch stories', 'Lights off, torch on. Tell a story one sentence each, then make shadow animals on the wall.', 'A torch'],
+  ['Jigsaw time', 'Tip out a jigsaw and do it together, edges first. Leave it out and come back to it later.', 'A jigsaw'],
+  ['Cook dinner together', 'Everyone gets a job: wash, stir, lay the table or write the menu. The cook is in charge tonight.', "Tonight's dinner"],
+  ['Winter nature table', 'Go out and collect pine cones, leaves, twigs and stones. Arrange them on a tray at home.', 'A walk, a tray'],
+  ['Draw your family', 'Everyone draws everyone else. Swap the drawings and guess who is who. Pin the best ones up.', 'Paper, pens'],
+  ['Sing to someone', 'Learn one carol or winter song together. Sing it to a neighbour, a grandparent on the phone, or the cat.', 'Your voices'],
+  ['Wrap a present', 'Wrap something for someone in your family: a drawing, something you made, or a voucher for one free hug.', 'Paper, tape'],
+  ['A letter to next year', 'Write or draw a letter to yourself, to open next Christmas. What do you hope the new year brings?', 'Paper, an envelope'],
+  ['The shortest day', 'Today is the shortest day of the year, or very close. Eat tea by fairy lights or torchlight and each say one thing you are looking forward to.', 'Fairy lights or a torch'],
+  ['Christmas charades', 'Act out a film, a book, an animal or a Christmas song without saying a word. Everyone guesses.', 'Nothing at all'],
+  ['Give one thing', 'Choose a toy or a book you have finished with, for a charity shop or a younger friend. Wrap it up if you like.', 'A bag'],
+  ['Christmas Eve box', 'Fill a box with pyjamas, a book and a torch for tonight. Then fill in Our favourite days together.', 'A box, pyjamas, a book'],
+]
+const friendOf = d => TURN[(d+4) % 5]
+const art = k => `images/friends/${k}.png`
+const pad = n => String(n).padStart(2, '0')
+
+// Every cutout on the page sits in its own stage colour.
+document.querySelectorAll('img.fr[data-f]').forEach(img => {
+  img.src = art(img.dataset.f)
+  img.style.background = FRIENDS[img.dataset.f].soft
+})
+
+// The planner.
+document.getElementById('plan').innerHTML = DAYS.map(([t, , need], i) => {
+  const d = i+1, f = friendOf(d)
+  return `<tr class="${d === 8 || d === 15 || d === 22 ? 'wk' : ''}"><td class="d">${d} Dec</td>
+    <td class="f"><span><img class="fr" src="${art(f)}" style="background:${FRIENDS[f].soft}" alt="">${FRIENDS[f].name}</span></td>
+    <td class="a">${t}</td><td class="need">${need}</td><td class="tick"><i></i></td></tr>`
+}).join('')
+
+// The poster: a tree of doors, rows of one to six, three more in the pot,
+// DiGi on top. The numbers are scattered, so finding today's door is part of
+// the game; 24 is the top of the tree, right under DiGi.
+const ROWS = [[24], [7, 15], [19, 3, 11], [9, 22, 1, 16], [13, 5, 20, 8, 17], [2, 18, 10, 23, 6, 14], [12, 21, 4]]
+const W = 26, H = 30, G = 3, MID = 93, TOP = 36
+const poster = document.getElementById('poster')
+const rowY = r => TOP + r*(H+G)
+const apex = TOP-26, base = rowY(6)-1
+const tree = `<svg viewBox="0 0 186 270" style="position:absolute;left:0;top:0;width:186mm;height:270mm;">
+  <path class="tint-fill" d="M ${MID} ${apex} L ${MID+93} ${base} L ${MID-93} ${base} Z" fill="#D9EBE2" stroke="#2F8F6B" stroke-width="0.9" stroke-linejoin="round"/>
+  <path class="tint-fill" d="M ${MID-52} ${rowY(6)-1} L ${MID+52} ${rowY(6)-1} L ${MID+46} ${rowY(6)+H+5} L ${MID-46} ${rowY(6)+H+5} Z" fill="#FBE4D0" stroke="#D4600A" stroke-width="0.9" stroke-linejoin="round"/>
+  ${[[14, 112], [22, 150], [8, 190], [172, 108], [162, 150], [178, 186], [30, 236], [156, 238]].map(([x, y], i) =>
+    `<path d="M ${x} ${y-3.2} Q ${x} ${y} ${x+3.2} ${y} Q ${x} ${y} ${x} ${y+3.2} Q ${x} ${y} ${x-3.2} ${y} Q ${x} ${y} ${x} ${y-3.2} Z" fill="${i % 3 === 1 ? '#D4600A' : '#EDC35F'}"/>`).join('')}
+</svg>`
+poster.insertAdjacentHTML('afterbegin', tree)
+ROWS.forEach((row, r) => {
+  const width = row.length*W + (row.length-1)*G
+  row.forEach((n, i) => {
+    const x = MID-width/2 + i*(W+G)
+    const f = friendOf(n)
+    poster.insertAdjacentHTML('beforeend', `<div class="door${n === 24 ? ' last' : ''}" style="left:${x}mm;top:${rowY(r)}mm;">
+      <div class="n" style="color:${n === 24 ? '#1A1A2E' : FRIENDS[f].colour === '#EDC35F' ? '#C99A28' : FRIENDS[f].colour}">${n}</div><div class="spot"></div></div>`)
+  })
+})
+poster.insertAdjacentHTML('beforeend', `<img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="position:absolute;left:${MID-17}mm;top:0;width:34mm;height:34mm;z-index:2;">`)
+
+// The cards.
+document.querySelectorAll('[data-cards]').forEach(sheet => {
+  const from = +sheet.dataset.cards
+  sheet.querySelector('.cards').innerHTML = DAYS.slice(from-1, from+5).map(([t, line, need], i) => {
+    const d = from+i, f = friendOf(d)
+    return `<div class="dcard" data-day="${d}">
+      <div class="dtop">
+        <div class="dnum">${d}</div>
+        <div class="dmeta"><div class="mono">${d} December</div><div class="who">${FRIENDS[f].name}'s day</div></div>
+        <img class="fr" src="${art(f)}" style="background:${FRIENDS[f].soft}" alt="${FRIENDS[f].name}">
+      </div>
+      <div class="dtitle">${t}</div>
+      <div class="dline">${line}</div>
+      <div class="dneed"><span class="mono">You need</span><span>${need}</span></div>
+    </div>`
+  }).join('')
+})
+
+// The stickers: the day's friend, the date in a gold badge. Sized to the
+// dashed circle on each door.
+const sticker = (d, f) => `<div class="cut"><svg viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" class="tint-fill" fill="${FRIENDS[f].soft}" stroke="${FRIENDS[f].colour}" stroke-width="6"/>
+  <image href="${art(f)}" x="12" y="7" width="70" height="70"/>
+  <circle cx="74" cy="74" r="19" fill="#EDC35F" stroke="#1A1A2E" stroke-width="3.5" class="tint-fill"/>
+  <text x="74" y="81.5" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="${d > 9 ? 19 : 22}" fill="#1A1A2E">${d}</text>
+</svg></div>`
+document.getElementById('stickers').innerHTML = DAYS.map((_, i) => sticker(i+1, friendOf(i+1))).join('')
+document.getElementById('own').innerHTML = Array.from({ length: 6 }, () => `<div class="cut"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#1A1A2E" stroke-width="3"/></svg></div>`).join('')
+document.getElementById('spares').innerHTML = Array.from({ length: 6 }, () => `<div class="cut"><svg viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" class="tint-fill" fill="#FEF7E0" stroke="#EDC35F" stroke-width="6"/>
+  <image href="images/DiGi-star.svg" x="20" y="16" width="60" height="64"/>
+</svg></div>`).join('')
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

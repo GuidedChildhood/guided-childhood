@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Say This · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- Five phone screens, 1080 by 1920, one per level: the level's first card,
+     the stage's own script from lib/content/stages.ts, to keep on the phone
+     for the moment the deck is not in reach. Words from cards-data.js.
+     Rendered by node content/printables/build-pack.mjs script-cards phone -->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:#1A1A2E;}
+  .screen{width:1080px;height:1920px;padding:96px 76px 80px;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;}
+  .chip{font-size:24px;background:#fff;border:5px solid #1A1A2E;border-radius:999px;padding:12px 26px;}
+  .moment{font-weight:900;font-size:78px;line-height:1.05;letter-spacing:-1.5px;margin-top:22px;}
+  .card{background:#FFFCF3;border:7px solid #1A1A2E;border-radius:48px;box-shadow:0 14px 0 #1A1A2E;padding:56px 56px 50px;margin-top:56px;}
+  .say{font-weight:800;font-size:46px;line-height:1.38;padding-left:30px;border-left:12px solid #EDC35F;margin-top:20px;}
+  .why{font-weight:700;font-size:32px;line-height:1.4;color:#52526A;margin-top:12px;}
+</style>
+</head>
+<body>
+<div id="screens"></div>
+<script src="cards-data.js"></script>
+<script>
+const D = window.SAY_THIS
+document.getElementById('screens').innerHTML = Object.entries(D.levels).map(([k, l]) => {
+  const c = D.cards.find(x => x.level === k)
+  return `<div class="screen" data-name="level-${l.n}-${k}" style="background:${l.soft};">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span class="mono" style="font-size:28px;color:${l.ink};">Say This · ${String(c.n).padStart(2, '0')}</span>
+      <span class="mono chip">Level ${l.n} · ${l.friend} · ${l.ages}</span>
+    </div>
+    <div class="mono" style="font-size:28px;color:${l.ink};margin-top:90px;">${c.label}</div>
+    <div class="moment">${c.kind === 'q' ? '&ldquo;' + c.front + '&rdquo;' : c.front}</div>
+    <div class="card">
+      <div class="mono" style="font-size:28px;color:#C99A28;">Say this</div>
+      <div class="say">${c.say}</div>
+      <div class="mono" style="font-size:24px;color:${l.ink};margin-top:44px;">Why it works</div>
+      <div class="why">${c.why}</div>
+    </div>
+    <svg viewBox="0 0 1080 360" preserveAspectRatio="none" style="position:absolute;left:0;bottom:0;width:1080px;height:360px;">
+      <path d="M -40 300 C 200 230, 400 340, 620 270 S 960 170, 1120 220" fill="none" stroke="#EDC35F" stroke-width="44" stroke-linecap="round"/>
+      <path d="M -40 300 C 200 230, 400 340, 620 270 S 960 170, 1120 220" fill="none" stroke="#FFF6DE" stroke-width="5" stroke-dasharray="26 22"/></svg>
+    <img src="images/friends/${k}.png" alt="${l.friend}" style="position:absolute;right:60px;bottom:110px;width:330px;height:330px;object-fit:contain;">
+    <div style="position:absolute;left:76px;bottom:150px;font-weight:700;font-size:30px;color:${l.ink};max-width:520px;line-height:1.35;">${c.sub}</div>
+  </div>`
+}).join('')
+</script>
+</body>
+</html>

@@ -238,7 +238,7 @@ async function handler(req: NextRequest) {
         ? `${line(childItems[0])}, in about ${childItems[0].minutesAway} minutes.`
         : `${childItems.map(line).join('. ')}.`
       try {
-        const r = await sendPush({ userId, audience: 'kids', childId, title: 'Almost time ⏰', body: childBody })
+        const r = await sendPush({ userId, audience: 'kids', childId, title: 'Almost time ⏰', body: childBody, url: '/' })
         if ((r).sent > 0) kids++
       } catch { /* best effort */ }
     }

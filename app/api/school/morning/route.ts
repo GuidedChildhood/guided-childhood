@@ -140,7 +140,7 @@ async function handler(req: NextRequest) {
         ? `Today: ${childTitles[0]}.`
         : `Today: ${childTitles.slice(0, 3).join(', ')}${childTitles.length > 3 ? ', and more' : ''}.`
       try {
-        const r = await sendPush({ userId, audience: 'kids', childId: kid.id, title: 'For school today 🎒', body: childBody })
+        const r = await sendPush({ userId, audience: 'kids', childId: kid.id, title: 'For school today 🎒', body: childBody, url: '/' })
         if ((r).sent > 0) kids++
       } catch { /* best effort */ }
     }

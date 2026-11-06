@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Listing images</title>
+<link href="../fonts/local-fonts.css" rel="stylesheet">
+<!-- Etsy photo slots at 2000 by 2000, rendered by
+     node content/printables/build-pack.mjs whole-system-bundle listing
+     A bundle has no pages of its own: every page shown is the real render
+     from the pack it comes from. Layout: ../../bundle-images.js -->
+</head>
+<body>
+<script>
+window.BUNDLE = {
+  name: "The Whole System Bundle",
+  eyebrow: "Print at home · For ages 4 and up",
+  headline: "The Whole System<br>Bundle", headSize: 150,
+  friend: "digi",
+  packs: [
+    { dir: "star-chart", name: "The Star Chart", line: "Agree the jobs, earn the stars, one star is five minutes", pages: 7, show: [2, 4], cover: 2 },
+    { dir: "earn-your-screen-time", name: "Earn Your Screen Time", line: "Screen time as a deal: earned first, agreed together", pages: 7, show: [3, 5] },
+    { dir: "calm-down-kit", name: "The Calm Down Corner Kit", line: "Feelings cards, star breathing and the words for the moment", pages: 9, show: [4, 5] },
+    { dir: "script-cards", name: "Say This script cards", line: "Fifty scripts for the hard screen moments, ages 4 to 16", pages: 32, show: [6, 10] },
+    { dir: "screen-reset-journal", name: "The 30 Day Screen Reset Journal", line: "One small change a day, five faces each night", pages: 16, show: [4, 5] },
+  ],
+  fourth: ["Phone", "Screens from the packs that have them"],
+  stepsTitle: "The whole system, on paper",
+  steps: [["Earn", "Jobs earn stars, stars earn screen time"], ["Calm", "A corner and a plan for the big feelings"], ["Words", "A script card for every screen moment"], ["Reset", "Thirty days, one change at a time"]],
+  stepsFoot: "Time that is theirs, time they earn, and time nobody can buy.",
+}
+</script>
+<script src="../../bundle-images.js"></script>
+</body>
+</html>

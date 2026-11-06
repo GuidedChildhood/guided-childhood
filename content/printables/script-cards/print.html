@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Say This: The Guided Childhood Script Cards</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!--
+  SAY THIS, THE SCRIPT CARDS. Built by
+    node content/printables/build-pack.mjs script-cards
+  into A4, US Letter and ink friendly PDFs.
+
+  THE FORMAT IS A CONVERSATION DECK, THE LOOK IS OURS. The moment big on the
+  front, the words on the back, numbered, five colour coded levels (one per
+  Planet Friend, in the brand's friend tints), a cover card and a how to use
+  card. Every word comes from cards-data.js, which names each card's script.
+
+  THE SHEETS. Page 1 is how to print. Then fronts and backs alternate, four
+  cards to a sheet, 15 sheets, 60 cards. A back sheet is the front sheet
+  mirrored left to right, so printing double sided and flipping on the long
+  edge puts every back behind its own front. Each card's fill runs 1.5mm past
+  its dashed cut line, so a printer a little out of line leaves no white
+  edge. The last page is the shared Passport finish (../pack-finish.js).
+
+  US LETTER is this A4 page at 94 percent, centred, done by build-pack.mjs.
+  Centred matters here: it keeps the mirror symmetric, so duplex still lines
+  up on Letter.
+-->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --paper:#FFFCF3; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --gold:#EDC35F; --gold-dark:#C99A28; --butter:#FFF6DE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .sheet.cards{background:var(--white);padding:0;display:block;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;}
+  .box{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+
+  /* The sheet of four. Cards are 88 by 124mm with a 6mm gutter. */
+  .sheet-head{position:absolute;top:8mm;left:14mm;right:14mm;display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);}
+  .slot{position:absolute;width:88mm;height:124mm;}
+  .bleed{position:absolute;inset:-1.5mm;border-radius:5.5mm;}
+  .cut{position:absolute;inset:0;border:0.3mm dashed rgba(26,26,46,0.55);border-radius:4mm;pointer-events:none;z-index:5;}
+  .face{position:absolute;inset:0;padding:6.5mm 6.5mm 6mm;display:flex;flex-direction:column;overflow:hidden;}
+
+  /* Front of a moment card */
+  .top{display:flex;justify-content:space-between;align-items:center;}
+  .num{font-weight:900;font-size:17pt;line-height:1;letter-spacing:-0.3px;}
+  .num small{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;letter-spacing:1px;color:var(--ink-muted);margin-left:1mm;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6pt;letter-spacing:1.2px;text-transform:uppercase;
+    background:var(--white);border:0.45mm solid var(--ink);border-radius:999px;padding:1.2mm 2.6mm;color:var(--ink);}
+  .label{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.6px;text-transform:uppercase;margin-top:10mm;}
+  .moment{font-weight:900;line-height:1.08;letter-spacing:-0.4px;color:var(--ink);margin-top:3mm;position:relative;}
+  .moment.q:before{content:'\201C';}
+  .sub{font-weight:600;font-size:9pt;line-height:1.45;color:var(--ink-soft);margin-top:4.5mm;max-width:62mm;}
+  .friend{position:absolute;right:2.5mm;bottom:3mm;width:38mm;height:38mm;object-fit:contain;z-index:2;}
+  .road{position:absolute;left:0;bottom:0;width:88mm;height:30mm;z-index:1;}
+  .mark{position:absolute;left:6.5mm;bottom:5.5mm;z-index:3;font-family:'IBM Plex Mono',monospace;font-weight:600;
+    font-size:6pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink);}
+
+  /* Back of a moment card */
+  .bhead{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:3mm;border-bottom:0.35mm dashed rgba(26,26,46,0.25);}
+  .bhead .t{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;letter-spacing:1.3px;text-transform:uppercase;}
+  .say-l{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-top:4.5mm;}
+  .say{font-weight:700;line-height:1.42;color:var(--ink);margin-top:2.2mm;padding-left:3.2mm;border-left:1.1mm solid var(--gold);}
+  .why-l{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;letter-spacing:1.6px;text-transform:uppercase;margin-top:4mm;}
+  .why{font-weight:600;font-size:8pt;line-height:1.45;color:var(--ink-soft);margin-top:1.4mm;}
+  .help{margin-top:3mm;border:0.4mm solid var(--ink);border-radius:2.5mm;padding:2mm 2.6mm;font-weight:700;font-size:7.5pt;line-height:1.4;color:var(--ink);background:var(--white);}
+  .bfoot{margin-top:auto;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:5.8pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-muted);padding-top:2mm;}
+  .dot{display:inline-block;width:2.2mm;height:2.2mm;border-radius:50%;margin-right:1.4mm;vertical-align:-0.2mm;}
+
+  .lines{display:flex;flex-direction:column;gap:6.5mm;margin-top:4mm;}
+  .lines i{display:block;border-bottom:0.4mm solid rgba(26,26,46,0.45);height:0;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .bleed{background:var(--white) !important;}
+  body.ink .box{box-shadow:none;}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:block !important;}
+  body.ink .flood{background:var(--white) !important;}
+  /* Single card renders for the listing photos (build-pack.mjs, cards: true). */
+  body.photo .cut{display:none;}
+  body.photo .slot{border-radius:4mm;overflow:hidden;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · START HERE -->
+<div class="sheet">
+  <div class="eyebrow">Guided Childhood · Print at home · Ages 4 to 16</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:3mm;">
+    <div>
+      <div style="font-weight:900;font-size:44pt;line-height:0.95;letter-spacing:-1px;">Say This</div>
+      <svg viewBox="0 0 400 24" preserveAspectRatio="none" style="display:block;width:62mm;height:4mm;margin-top:1.5mm;"><path d="M4 16 C 120 6, 260 4, 396 12" stroke="#EDC35F" stroke-width="14" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-weight:800;font-size:15pt;margin-top:3mm;">The words for every screen moment</div>
+    </div>
+    <img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="width:34mm;height:34mm;">
+  </div>
+  <p style="margin-top:5mm;max-width:172mm;">
+    Fifty cards, one for each of the hard screen and tech moments of a childhood, from the first tablet to the last rule. The moment is on the
+    front, in your child's words or as it happens. The words to say are on the back, with one line on why they work.
+    None of them is a yes or a no. Every card is a next step you can take tonight.
+  </p>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="box" style="flex:1;padding:4mm 4.5mm;">
+      <div class="eyebrow">Print</div>
+      <p style="margin-top:2mm;font-size:9.5pt;">Pages 2 to 31 are the cards. Print them double sided and choose <b style="color:var(--ink);">flip on long edge</b>. Card or thick paper, 200 to 300gsm, feels like a real deck. Try pages 2 and 3 first to check the backs line up.</p>
+    </div>
+    <div class="box" style="flex:1;padding:4mm 4.5mm;">
+      <div class="eyebrow">No duplex?</div>
+      <p style="margin-top:2mm;font-size:9.5pt;">Print every page single sided. Cut out each front and its back, then glue them together back to back. Page 3 is the back of page 2, page 5 the back of page 4, and so on.</p>
+    </div>
+    <div class="box" style="flex:1;padding:4mm 4.5mm;">
+      <div class="eyebrow">Cut</div>
+      <p style="margin-top:2mm;font-size:9.5pt;">Cut along the dashed lines. The colour runs a little past each line, so a small wobble never shows. Round the corners with scissors if you like.</p>
+    </div>
+  </div>
+
+  <div style="font-weight:900;font-size:17pt;margin-top:6mm;">Five levels, one for each stage</div>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">Start at your child's age. Read the level before it too: the moments do not wait for birthdays.</p>
+  <div id="levelKey" style="display:flex;flex-direction:column;gap:2mm;margin-top:3mm;"></div>
+
+  <div class="box flood" style="margin-top:5mm;padding:3.5mm 6mm;background:var(--butter);display:flex;gap:5mm;align-items:center;">
+    <div style="font-weight:900;font-size:22pt;color:var(--gold-dark);line-height:1;">60</div>
+    <p style="font-size:9.5pt;color:var(--ink);font-weight:600;">cards in all: a cover, how to use, five level cards, the fifty moments, a card about the app and two blank cards for a moment of your own.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Say This · Start here</span></div>
+</div>
+
+<div id="deck"></div>
+
+<!-- LAST PAGE · the Passport stickers and the free gift -->
+<div class="sheet" data-finish='{"pack":"Say This","noun":"cards","pages":[["pebble","talk"],["bloop","talk"],["orbit","talk"],["nova","talk"],["cosmo","talk"]],"where":"every stage page, under the talk, from Pebble (ages 4 to 7) to Cosmo (16 and up)","each":"When your family has used a level, tick Say This in the Go further strip on that stage page, then cut out its sticker and stick it on.","app":"The Guided Childhood app holds every script, over 300 of them, plus the lessons and the stage check, so the next hard moment already has its words.","thanks":"If the cards helped, a review on Etsy helps another parent find them."}'></div>
+
+<script src="cards-data.js"></script>
+<script>
+(() => {
+const D = window.SAY_THIS
+const L = D.levels
+const DIGI = { friend: 'DiGi', ages: '4 to 16', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' }
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
+const q = s => `&ldquo;${esc(s)}&rdquo;`
+
+// The level key on page 1.
+document.getElementById('levelKey').innerHTML = Object.entries(L).map(([k, l]) => {
+  const nums = D.cards.filter(c => c.level === k).map(c => c.n)
+  return `<div style="display:flex;align-items:center;gap:4mm;background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:1.4mm 4mm;">
+    <img src="images/friends/${k}.png" alt="${l.friend}" style="width:12mm;height:12mm;object-fit:contain;">
+    <div style="width:30mm;"><div class="mono" style="font-size:6.5pt;color:${l.ink};">Level ${l.n}</div><div style="font-weight:900;font-size:13pt;">${l.friend}</div></div>
+    <div style="width:22mm;font-weight:800;font-size:10pt;">${l.ages}</div>
+    <div style="flex:1;font-weight:600;font-size:9pt;color:var(--ink-soft);line-height:1.4;">${l.about}</div>
+    <div class="mono" style="font-size:7pt;color:${l.ink};white-space:nowrap;">Cards ${nums[0]} to ${nums[nums.length - 1]}</div>
+  </div>`
+}).join('')
+
+// The gold pathway, one per front, drawn in code (brand section 6).
+const road = () => `<svg class="road colour-only" viewBox="0 0 880 300" preserveAspectRatio="none">
+  <path d="M -20 250 C 160 200, 300 290, 470 236 S 760 150, 900 190" fill="none" stroke="#EDC35F" stroke-width="20" stroke-linecap="round"/>
+  <path d="M -20 250 C 160 200, 300 290, 470 236 S 760 150, 900 190" fill="none" stroke="#FFF6DE" stroke-width="2.4" stroke-dasharray="12 11" stroke-linecap="round"/></svg>
+  <svg class="road ink-only" viewBox="0 0 880 300" preserveAspectRatio="none">
+  <path d="M -20 250 C 160 200, 300 290, 470 236 S 760 150, 900 190" fill="none" stroke="#C99A28" stroke-width="3" stroke-dasharray="14 10" stroke-linecap="round"/></svg>`
+
+const momentSize = t => t.length <= 18 ? 30 : t.length <= 28 ? 26 : t.length <= 38 ? 23 : 20.5
+const saySize = c => { const w = c.say.split(' ').length + (c.help ? 14 : 0); return w > 80 ? 8.6 : w > 65 ? 9.3 : w > 50 ? 10 : w > 38 ? 11 : w > 26 ? 12 : 13.5 }
+const chip = l => `<span class="chip">Level ${l.n} · ${l.friend} · ${l.ages}</span>`
+
+// Each card is { front, back, fill, backFill }.
+const cards = []
+const add = (front, back, fill, backFill = 'var(--paper)') => cards.push({ front, back, fill, backFill })
+
+// 1 · The cover card.
+add(`<div style="display:flex;flex-direction:column;align-items:center;text-align:center;height:100%;">
+    <div class="mono" style="font-size:6.5pt;color:var(--gold-dark);margin-top:3mm;">Guided Childhood · Script cards</div>
+    <img src="images/DiGi-star-3d.png" alt="" style="width:26mm;height:26mm;margin-top:3mm;">
+    <div style="font-weight:900;font-size:38pt;line-height:0.92;letter-spacing:-1px;margin-top:3mm;">Say<br>This</div>
+    <div style="font-weight:800;font-size:10.5pt;line-height:1.3;margin-top:4mm;">The words for every<br>screen moment</div>
+    <div class="mono" style="font-size:6pt;color:var(--ink-soft);margin-top:2.5mm;">50 scripts · Ages 4 to 16</div>
+    <div style="position:absolute;left:0;right:0;bottom:11mm;height:20mm;">
+      <svg viewBox="0 0 880 240" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;" class="colour-only">
+        <path d="M -20 170 C 150 120, 300 210, 450 150 S 740 90, 900 130" fill="none" stroke="#EDC35F" stroke-width="22" stroke-linecap="round"/>
+        <path d="M -20 170 C 150 120, 300 210, 450 150 S 740 90, 900 130" fill="none" stroke="#FFF6DE" stroke-width="2.4" stroke-dasharray="12 11"/></svg>
+      ${['pebble', 'bloop', 'orbit', 'nova', 'cosmo'].map((k, i) => `<img src="images/friends/${k}.png" alt="${L[k].friend}" style="position:absolute;bottom:${[2, 0, 4, 6, 3][i]}mm;left:${4 + i * 16}mm;width:15mm;height:15mm;object-fit:contain;">`).join('')}
+    </div>
+    <div style="position:absolute;bottom:5mm;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:2mm;">
+      <span style="width:5mm;height:5mm;border-radius:1.3mm;background:#EDC35F;display:flex;align-items:flex-end;justify-content:center;gap:0.35mm;padding-bottom:1mm;">${[5, 9, 14, 8].map(b => `<i style="display:block;width:0.5mm;height:${(b / 16 * 3.1).toFixed(2)}mm;background:#fff;border-radius:0.25mm;"></i>`).join('')}</span>
+      <span style="font-weight:800;font-size:7.5pt;">Guided Childhood</span></div>
+  </div>`,
+  `<div class="mono" style="font-size:7pt;color:var(--gold-dark);">What is in the deck</div>
+   <div style="font-weight:900;font-size:17pt;line-height:1.1;margin-top:2mm;">Fifty moments, five levels</div>
+   <div style="display:flex;flex-direction:column;gap:2.2mm;margin-top:5mm;">
+   ${Object.entries(L).map(([k, l]) => { const ns = D.cards.filter(c => c.level === k).map(c => c.n); return `<div style="display:flex;align-items:center;gap:3mm;background:${l.soft};border-radius:3mm;padding:1.8mm 3mm;" class="flood">
+     <span class="dot" style="background:${l.accent};margin:0;"></span>
+     <span style="font-weight:900;font-size:10pt;width:15mm;">${l.friend}</span>
+     <span style="font-weight:700;font-size:8.5pt;flex:1;">${l.ages}</span>
+     <span class="mono" style="font-size:6pt;color:${l.ink};">${ns[0]} to ${ns[ns.length - 1]}</span></div>` }).join('')}
+   </div>
+   <p style="font-size:8pt;line-height:1.5;margin-top:5mm;">The first card of every level is the talk on that stage's page of the Guided Childhood Passport.</p>
+   <div class="bfoot"><span>guidedchildhood.com</span><span>Say This</span></div>`, 'var(--paper)')
+
+// 2 · How to use.
+add(`<div class="mono" style="font-size:7pt;color:var(--gold-dark);">Before the first card</div>
+   <div style="font-weight:900;font-size:19pt;line-height:1.05;margin-top:2mm;">How to use<br>these cards</div>
+   <div style="display:flex;flex-direction:column;gap:3.6mm;margin-top:5mm;">
+   ${[['Find the moment', 'Go to your child\'s level, then the moment on the front that sounds like your house.'],
+      ['Read it before you need it', 'The words land best practised at the kettle, not found in the middle of a meltdown.'],
+      ['Say it your way', 'Keep the meaning, change the words until they sound like you.'],
+      ['Then the next step', 'No card is a yes or a no. Each one is where to go next.']].map(([a, b], i) => `<div style="display:flex;gap:3mm;">
+      <span style="flex-shrink:0;width:6mm;height:6mm;border-radius:50%;border:0.45mm solid var(--ink);background:#EDC35F;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:8pt;" class="flood">${i + 1}</span>
+      <div><div style="font-weight:900;font-size:9.5pt;">${a}</div><div style="font-weight:600;font-size:8pt;line-height:1.4;color:var(--ink-soft);margin-top:0.6mm;">${b}</div></div></div>`).join('')}
+   </div>`,
+  `<div class="mono" style="font-size:7pt;color:var(--gold-dark);">When a moment is not here</div>
+   <div style="font-weight:900;font-size:16pt;line-height:1.12;margin-top:2mm;">Two blank cards are at the back</div>
+   <p style="font-size:8.5pt;line-height:1.5;margin-top:3mm;">Write your own moment on the front and the words that work in your house on the back. Your family knows things no deck can.</p>
+   <div style="margin-top:5mm;background:var(--butter);border-radius:3mm;padding:3.5mm 4mm;" class="flood">
+     <div class="mono" style="font-size:6.5pt;color:var(--gold-dark);">The app</div>
+     <p style="font-size:8.5pt;line-height:1.5;margin-top:1.5mm;color:var(--ink);font-weight:600;">These are 50 of the scripts in the Guided Childhood app. The app holds every one of them, over 300, plus the lessons and the stage check.</p>
+   </div>
+   <div class="bfoot"><span>guidedchildhood.com</span><span>Say This</span></div>`, 'var(--paper)')
+
+// 3 · The levels and the moments.
+for (const [k, l] of Object.entries(L)) {
+  const mine = D.cards.filter(c => c.level === k)
+  add(`<div class="top"><span class="mono" style="font-size:7pt;color:${l.ink};">Level ${l.n} of 5</span><span class="mono" style="font-size:7pt;color:${l.ink};">${l.stage}</span></div>
+     <img src="images/friends/${k}.png" alt="${l.friend}" style="width:52mm;height:52mm;object-fit:contain;align-self:center;margin-top:5mm;position:relative;z-index:2;">
+     <div style="text-align:center;margin-top:1mm;position:relative;z-index:2;">
+       <div style="font-weight:900;font-size:30pt;line-height:1;letter-spacing:-0.6px;">${l.friend}</div>
+       <div style="font-weight:800;font-size:11pt;margin-top:1.5mm;">Ages ${l.ages}</div>
+       <div style="font-weight:600;font-size:8.5pt;line-height:1.45;color:var(--ink-soft);margin-top:2.5mm;padding:0 2mm;">${l.about}</div>
+     </div>
+     ${road()}`,
+    `<div class="bhead"><span class="t" style="color:${l.ink};">Level ${l.n} · ${l.friend} · ${l.ages}</span></div>
+     <div style="font-weight:900;font-size:13pt;margin-top:4mm;">The moments in this level</div>
+     <div style="display:flex;flex-direction:column;gap:1.7mm;margin-top:3mm;">
+     ${mine.map(c => `<div style="display:flex;gap:2.5mm;align-items:baseline;"><span class="mono" style="font-size:6.5pt;color:${l.ink};width:6mm;letter-spacing:0.5px;">${String(c.n).padStart(2, '0')}</span><span style="font-weight:700;font-size:8.5pt;line-height:1.3;">${esc(c.front)}</span></div>`).join('')}
+     </div>
+     <div class="bfoot"><span><span class="dot" style="background:${l.accent};"></span>Say This</span><span>guidedchildhood.com</span></div>`,
+    l.soft)
+
+  for (const c of mine) {
+    const num = String(c.n).padStart(2, '0')
+    add(`<div class="top"><span class="num" style="color:${l.ink};">${num}<small>/ 50</small></span>${chip(l)}</div>
+       <div class="label" style="color:${l.ink};">${c.label}</div>
+       <div class="moment ${c.kind}" style="font-size:${momentSize(c.front)}pt;">${c.kind === 'q' ? esc(c.front) + '&rdquo;' : esc(c.front)}</div>
+       ${c.sub ? `<div class="sub">${esc(c.sub)}</div>` : ''}
+       ${road()}
+       <img class="friend" src="images/friends/${k}.png" alt="${l.friend}">
+       <div class="mark">Say This</div>`,
+      `<div class="bhead"><span class="t" style="color:${l.ink};">${num} · ${c.label}</span><span class="t" style="color:var(--ink-muted);">${l.friend}</span></div>
+       <div style="margin:auto 0;padding:2mm 0;">
+       <div class="say-l" style="margin-top:0;">Say this</div>
+       <div class="say" style="font-size:${saySize(c)}pt;">${esc(c.say)}</div>
+       <div class="why-l" style="color:${l.ink};">Why it works</div>
+       <div class="why">${esc(c.why)}</div>
+       ${c.help ? `<div class="help">${esc(c.help)}</div>` : ''}
+       </div>
+       <div class="bfoot"><span><span class="dot" style="background:${l.accent};"></span>Level ${l.n} · Ages ${l.ages}</span><span>guidedchildhood.com</span></div>`,
+      l.soft)
+  }
+}
+
+// 4 · The app card.
+add(`<div class="top"><span class="mono" style="font-size:7pt;color:var(--gold-dark);">When you need the next one</span></div>
+   <img src="images/DiGi-star-3d.png" alt="DiGi, the golden star" style="width:36mm;height:36mm;align-self:center;margin-top:7mm;position:relative;z-index:2;">
+   <div style="text-align:center;position:relative;z-index:2;margin-top:3mm;">
+     <div style="font-weight:900;font-size:22pt;line-height:1.05;letter-spacing:-0.4px;">50 here.<br>Over 300<br>in the app.</div>
+   </div>
+   ${road()}`,
+  `<div class="bhead"><span class="t" style="color:var(--gold-dark);">The Guided Childhood app</span></div>
+   <div style="font-weight:900;font-size:14pt;line-height:1.15;margin-top:4mm;">The deck is a start. The app is the whole road to 16.</div>
+   <div style="display:flex;flex-direction:column;gap:2.6mm;margin-top:4mm;">
+   ${[['Every script', 'Over 300 moments, for every age from 4 to 16.'],
+      ['The lessons', 'Ten minutes a day, parent and child together.'],
+      ['The stage check', 'Three questions that show where your child is now.']].map(([a, b]) => `<div style="display:flex;gap:2.6mm;"><span class="dot" style="background:#EDC35F;margin-top:1.4mm;flex-shrink:0;"></span><div><div style="font-weight:900;font-size:9pt;">${a}</div><div style="font-weight:600;font-size:8pt;line-height:1.4;color:var(--ink-soft);">${b}</div></div></div>`).join('')}
+   </div>
+   <div class="bfoot"><span>guidedchildhood.com</span><span>Say This</span></div>`, DIGI.soft)
+
+// 5 · Two blank cards.
+for (let i = 0; i < 2; i++) add(`<div class="top"><span class="num" style="color:${DIGI.ink};">${i ? 'B' : 'A'}<small>/ yours</small></span><span class="chip">Our family</span></div>
+   <div class="label" style="color:${DIGI.ink};">Our moment</div>
+   <div class="lines" style="margin-top:5mm;gap:8mm;">${'<i></i>'.repeat(5)}</div>
+   ${road()}
+   <img class="friend" src="images/DiGi-star-3d.png" alt="DiGi" style="width:24mm;height:24mm;right:5mm;bottom:6mm;">
+   <div class="mark">Say This</div>`,
+  `<div class="bhead"><span class="t" style="color:${DIGI.ink};">${i ? 'B' : 'A'} · Our moment</span></div>
+   <div class="say-l">Say this</div>
+   <div class="lines">${'<i></i>'.repeat(6)}</div>
+   <div class="why-l" style="color:${DIGI.ink};">Why it works for us</div>
+   <div class="lines">${'<i></i>'.repeat(2)}</div>
+   <div class="bfoot"><span>Written by us</span><span>guidedchildhood.com</span></div>`, DIGI.soft)
+
+// Lay out 4 per sheet: fronts, then the mirrored backs.
+const W = 88, H = 124, G = 6
+const X0 = (210 - 2 * W - G) / 2, Y0 = (296 - 2 * H - G) / 2 + 2
+const pos = (r, c) => `left:${X0 + c * (W + G)}mm;top:${Y0 + r * (H + G)}mm;`
+const sheets = Math.ceil(cards.length / 4)
+let html = ''
+for (let s = 0; s < sheets; s++) {
+  const four = cards.slice(s * 4, s * 4 + 4)
+  const head = side => `<div class="sheet-head"><span>Say This · Sheet ${s + 1} of ${sheets} · ${side}</span><span>${side === 'Fronts' ? 'Print double sided · Flip on long edge' : 'The back of the page before'}</span></div>`
+  html += `<div class="sheet cards" data-side="front">${head('Fronts')}${four.map((c, i) => `<div class="slot" data-card="${s * 4 + i + 1}" style="${pos(i >> 1, i & 1)}"><div class="bleed flood" style="background:${c.fill};"></div><div class="face">${c.front}</div><div class="cut"></div></div>`).join('')}</div>`
+  html += `<div class="sheet cards" data-side="back">${head('Backs')}${four.map((c, i) => `<div class="slot" data-card="${s * 4 + i + 1}" style="${pos(i >> 1, 1 - (i & 1))}"><div class="bleed flood" style="background:${c.backFill};"></div><div class="face">${c.back}</div><div class="cut"></div></div>`).join('')}</div>`
+}
+document.getElementById('deck').innerHTML = html
+window.SAY_THIS_COUNT = cards.length
+})()
+</script>
+<script src="../pack-finish.js"></script>
+</body>
+</html>

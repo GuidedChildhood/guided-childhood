@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Holiday Screen Deal</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The Holiday Screen Deal. Two weeks of school holiday, one deal agreed on
+     day one. The three kinds of time are the app's own (lib/quests/time-tiers.ts):
+     a core that is the child's whatever happens, stars earned through jobs at
+     one star for five minutes (lib/quests/device-time.ts), and protected times
+     no stars can buy, where a start becomes an ask. The weekly cap and the
+     Monday reset are lib/quests/star-week.ts. Family jobs earn nothing
+     (lib/quests/bank.ts: contribution is belonging). Stars count when a grown
+     up says yes (lib/quests/today-split.ts). The holiday guide numbers on the
+     setup page are the app's age guide relaxed for the Christmas holidays
+     (lib/quests/screen-balance.ts BAND x lib/learning/holidays.ts relax 1.2). -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --coral-lt:#FBEADB; --green:#2F8F6B; --green-dark:#236F52; --tint-sage:#E8F0EE;
+    --tint-blue:#D8E8F8; --pink:#FBCFE8; --bloop-soft:#E4F0D4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .blank{display:inline-block;border-bottom:2px solid var(--ink);height:6mm;vertical-align:bottom;}
+  .line{border-bottom:2px solid var(--ink);height:10mm;}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:8mm;height:8mm;
+    border-radius:50%;background:var(--terracotta);border:2px solid var(--ink);font-weight:900;
+    font-size:10.5pt;color:var(--ink);flex-shrink:0;}
+  .tick{width:6mm;height:6mm;border:2.5px solid var(--ink);border-radius:2mm;background:var(--white);
+    display:inline-block;flex-shrink:0;}
+  .fill{font-weight:800;color:var(--ink);font-size:11pt;line-height:2.1;}
+
+  /* The deal page */
+  .deal-grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:5mm;}
+  .deal-card{padding:4.5mm 5mm;}
+  .deal-card .hd{display:flex;align-items:center;gap:3mm;font-weight:900;font-size:13pt;}
+  .deal-card .why{font-size:9pt;line-height:1.45;margin-top:1.5mm;}
+  .protect{display:flex;align-items:center;gap:3mm;font-weight:800;font-size:11pt;margin-top:2.6mm;}
+  .sigbox{flex:1;}
+  .sigline{border-bottom:2px solid var(--ink);height:20mm;}
+  .siglabel{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1px;
+    text-transform:uppercase;color:var(--ink-muted);margin-top:1.5mm;}
+
+  /* The daily core */
+  .core-row{display:flex;align-items:center;gap:5mm;padding:4.4mm 5mm;margin-top:5mm;}
+  .core-ico{width:21mm;height:21mm;border-radius:50%;border:2.5px solid var(--ink);display:flex;
+    align-items:center;justify-content:center;flex-shrink:0;}
+  .core-ico svg{width:13mm;height:13mm;}
+  .core-name{font-weight:900;font-size:17pt;line-height:1.1;}
+  .core-what{display:flex;align-items:flex-end;gap:2mm;margin-top:2.5mm;font-weight:700;font-size:10pt;color:var(--ink-soft);}
+  .core-what span.l{flex:1;border-bottom:2px solid var(--ink-muted);height:6mm;}
+  .bigtick{width:17mm;height:17mm;border:3px solid var(--ink);border-radius:5mm;background:var(--white);flex-shrink:0;}
+
+  /* The jobs board */
+  table.jobs{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);}
+  table.jobs th{background:var(--green);color:var(--white);font-weight:800;font-size:10pt;
+    padding:2.6mm 3mm;border-bottom:2.5px solid var(--ink);text-align:left;}
+  table.jobs th.c{text-align:center;}
+  table.jobs td{border-top:1.5px solid var(--border);height:13.6mm;padding:0 3mm;font-weight:800;font-size:10.5pt;}
+  table.jobs tbody tr:first-child td{border-top:none;}
+  table.jobs td.stars{text-align:center;white-space:nowrap;}
+  table.jobs td.stars svg{width:5mm;height:5mm;vertical-align:middle;}
+  table.jobs td.own{color:var(--ink-muted);font-weight:700;font-size:9pt;}
+  table.jobs td .w{display:inline-block;width:100%;border-bottom:2px solid var(--ink-muted);height:6mm;}
+
+  /* The week grid */
+  table.week{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);}
+  table.week th{background:var(--ink);color:var(--white);font-weight:800;font-size:9pt;
+    padding:2.4mm 1.5mm;line-height:1.2;text-align:center;}
+  table.week th:first-child{text-align:left;padding-left:4mm;}
+  table.week td{border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);height:25.5mm;text-align:center;vertical-align:middle;}
+  table.week td:first-child{border-left:none;text-align:left;padding-left:4mm;}
+  table.week tbody tr:first-child td{border-top:none;}
+  .dayname{font-weight:900;font-size:15pt;}
+  .daydate{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);margin-top:2mm;}
+  .daydate i{display:inline-block;width:14mm;border-bottom:1.5px solid var(--ink-muted);margin-left:1mm;}
+  .dots{display:flex;gap:1.6mm;justify-content:center;}
+  .dot{width:6.8mm;height:6.8mm;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;}
+  .dot svg{width:4.2mm;height:4.2mm;}
+  .writebox{width:15mm;height:13mm;border:2px dashed var(--ink-muted);border-radius:3mm;margin:0 auto;}
+  .smile{width:15mm;height:15mm;margin:0 auto;display:block;}
+  .totals{display:flex;gap:4mm;margin-top:5mm;}
+  .total{flex:1;padding:3.5mm 4mm;}
+  .total .lbl{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);}
+  .total .val{border-bottom:2px solid var(--ink);height:10mm;margin-top:1mm;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .cover-friend{background:var(--white) !important;box-shadow:none !important;}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .bubble,body.ink table.jobs,body.ink table.week{box-shadow:none;}
+  body.ink .card,body.ink .core-ico,body.ink .tinted{background:var(--white) !important;}
+  body.ink table.jobs th,body.ink table.week th{background:var(--white);color:var(--ink);border-bottom:2.5px solid var(--ink);}
+  body.ink .num{background:var(--white);}
+  body.ink .tint-fill{fill:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:10mm;" class="eyebrow">Guided Childhood · Print at Home</div>
+  <h1 style="margin-top:7mm;font-size:46pt;">The Holiday<br>Screen Deal</h1>
+  <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:14pt;line-height:1.45;">
+    Two weeks off school, one deal made together.<br>Agreed on day one, so nobody argues on day six.
+  </p>
+  <img class="cover-friend" src="images/friends/bloop.png" alt="Bloop, a Planet Friend"
+       style="width:98mm;height:98mm;object-fit:contain;background:var(--bloop-soft);margin-top:9mm;border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);">
+  <div style="display:flex;gap:4mm;margin-top:10mm;flex-wrap:wrap;justify-content:center;max-width:170mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Our holiday deal</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">My daily core</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The jobs board</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Two week grid</div>
+    <div class="card tinted" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;background:var(--terracotta-lt);">Ages 5 to 12</div>
+  </div>
+  <p style="margin-top:8mm;font-size:10.5pt;max-width:140mm;">
+    Written for the Christmas holidays, and it works for any school holiday:
+    Easter, half term or the summer, two weeks at a time.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Bloop · Ages 5 to 12</span></div>
+</div>
+
+<!-- PAGE 2 · HOW IT WORKS -->
+<div class="sheet">
+  <div class="eyebrow">For the grown up · Read this first</div>
+  <h2 style="margin-top:3mm;">Ten minutes on day one</h2>
+  <p style="margin-top:4mm;">
+    School holidays take away the shape of the day, and screens rush in to fill the gap.
+    By the third morning you are bargaining over breakfast. This planner puts a shape back,
+    and you agree it once, together, at the kitchen table, before anybody is cross.
+    Then the deal does the arguing, and you get to be on the same side as your child.
+  </p>
+  <div style="display:flex;gap:4mm;margin-top:5mm;">
+    <div class="card tinted" style="flex:1;padding:4.5mm;background:var(--tint-sage);">
+      <div class="eyebrow" style="color:var(--green-dark);">1 · The core</div>
+      <p style="margin-top:2mm;font-size:9.5pt;line-height:1.5;">A small amount of screen time that is theirs every day, no stars needed.
+      It keeps the screen from becoming the prize. It does not carry over to tomorrow.</p>
+    </div>
+    <div class="card tinted" style="flex:1;padding:4.5mm;background:var(--terracotta-lt);">
+      <div class="eyebrow" style="color:var(--terracotta-dark);">2 · Earned time</div>
+      <p style="margin-top:2mm;font-size:9.5pt;line-height:1.5;">Jobs earn stars. One star is five minutes, on any screen in the house.
+      A weekly cap keeps the total sensible, and the count starts fresh each Monday.</p>
+    </div>
+    <div class="card tinted" style="flex:1;padding:4.5mm;background:var(--coral-lt);">
+      <div class="eyebrow">3 · Protected</div>
+      <p style="margin-top:2mm;font-size:9.5pt;line-height:1.5;">Meals, the hour before bed, family days. No number of stars can buy these.
+      A screen wanted then becomes an ask, never a sneaky start.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">The ten minute setup</div>
+    <p style="margin-top:2mm;line-height:1.7;">
+      <strong>1.</strong> Print the deal, the jobs board and both weeks. Read the deal out loud together.<br>
+      <strong>2.</strong> Fill in the core and your star rate. Five minutes a star is where the app starts.<br>
+      <strong>3.</strong> Choose the jobs together. Let your child suggest at least two of them.<br>
+      <strong>4.</strong> Agree the protected times and the weekly cap, then both sign.<br>
+      <strong>5.</strong> Stick the deal and week one on the fridge. Two minutes each evening fills in the day.
+    </p>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:5mm;">
+    <div class="card" style="flex:1.15;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">Where to start the numbers</div>
+      <p style="margin-top:2mm;font-size:9.5pt;line-height:1.5;">
+        In the holidays the Guided Childhood app starts from the age guidance, loosened a little:
+        about <strong>70 minutes a day at 5 to 7</strong>, <strong>90 at 8 to 10</strong> and <strong>110 at 11 to 12</strong>.
+        A week of core plus the cap is the most screen time the week can hold, so set them to land near that.
+        Say your child is 8: a core of 30 minutes and a cap of 84 stars comes to 90 minutes a day,
+        if every star is earned. Your family, your numbers.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">How an ask works</div>
+      <p style="margin-top:2mm;font-size:9.5pt;line-height:1.5;">
+        A film on Christmas Eve, a call with cousins at teatime. Asks are allowed. You answer
+        every one with a yes, or with a not now and what comes next: "after lunch", "tomorrow
+        morning", "once the walk is done". Your child always knows the next step.
+      </p>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;display:flex;align-items:center;gap:5mm;background:var(--bloop-soft);">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+    <div>
+      <div class="eyebrow" style="color:var(--green-dark);">Each evening, two minutes</div>
+      <p style="margin-top:1.5mm;font-size:9.5pt;line-height:1.5;">Colour the core dots on the week grid, write the stars earned and the minutes used,
+      and let your child draw the day's face. That small habit is the whole planner. On Monday the star count starts fresh.</p>
+    </div>
+  </div>
+  <p style="margin-top:4.5mm;font-size:9.5pt;">
+    Stars count when a grown up says yes to the job. Earned stars are never taken back, so
+    consequences live somewhere else. If the deal is not working by day seven, change one thing
+    together. A deal you both still believe in beats a perfect one that nobody keeps.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · How It Works</span></div>
+</div>
+
+<!-- PAGE 3 · OUR HOLIDAY DEAL -->
+<div class="sheet tinted" style="background:var(--bloop-soft);">
+  <div class="card" style="flex:1;padding:6mm 7mm;display:flex;flex-direction:column;box-shadow:0 5px 0 var(--green-dark);margin-bottom:5mm;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:5mm;">
+      <div>
+        <div class="eyebrow" style="color:var(--green-dark);">Day one · Read it out loud, then both sign</div>
+        <h2 style="margin-top:2mm;font-size:26pt;">Our holiday deal</h2>
+      </div>
+      <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:24mm;height:24mm;object-fit:contain;">
+    </div>
+    <div class="fill" style="margin-top:2mm;">
+      The <span class="blank" style="width:60mm;"></span> family<br>
+      These holidays run from <span class="blank" style="width:32mm;"></span> to <span class="blank" style="width:32mm;"></span>
+    </div>
+
+    <div class="deal-grid">
+      <div class="card deal-card">
+        <div class="hd"><span class="num">1</span>My core screen time</div>
+        <div class="fill" style="margin-top:2mm;"><span class="blank" style="width:16mm;"></span> minutes a day are mine.</div>
+        <p class="why">No stars needed. Whatever else happens, this is mine. It does not carry over to tomorrow.</p>
+      </div>
+      <div class="card deal-card">
+        <div class="hd"><span class="num">2</span>Our star rate</div>
+        <div class="fill" style="margin-top:2mm;">1 star = <span class="blank" style="width:18mm;"></span> minutes.</div>
+        <p class="why">Five is where most families start. Stars work on any screen: TV, tablet, console, phone, computer.</p>
+      </div>
+      <div class="card deal-card">
+        <div class="hd"><span class="num">3</span>The weekly cap</div>
+        <div class="fill" style="margin-top:2mm;">Up to <span class="blank" style="width:16mm;"></span> stars a week,<br>
+          that is <span class="blank" style="width:16mm;"></span> minutes.</div>
+        <p class="why">When the cap is reached, the jar is full until Monday, when it starts fresh.</p>
+      </div>
+      <div class="card deal-card">
+        <div class="hd"><span class="num">4</span>Our protected times</div>
+        <p class="why">No stars can buy these. Tick ours.</p>
+        <div class="protect"><span class="tick"></span>Mealtimes</div>
+        <div class="protect"><span class="tick"></span>Screens rest from <span class="blank" style="width:18mm;height:5mm;"></span></div>
+        <div class="protect"><span class="tick"></span>Family days: <span class="blank" style="flex:1;height:5mm;"></span></div>
+        <div class="protect"><span class="tick"></span><span class="blank" style="flex:1;height:5mm;"></span></div>
+      </div>
+    </div>
+
+    <div class="card deal-card" style="margin-top:5mm;">
+      <div class="hd"><span class="num">5</span>How an ask works</div>
+      <div style="display:flex;gap:6mm;margin-top:2.5mm;">
+        <div style="flex:1;">
+          <div class="eyebrow" style="font-size:7.5pt;color:var(--green-dark);">My half</div>
+          <p style="margin-top:1mm;font-weight:800;color:var(--ink);font-size:10.5pt;line-height:1.45;">
+            If I want a screen in a protected time, I ask. I do not just start.
+          </p>
+        </div>
+        <div style="flex:1;">
+          <div class="eyebrow" style="font-size:7.5pt;color:var(--green-dark);">Our half</div>
+          <p style="margin-top:1mm;font-weight:800;color:var(--ink);font-size:10.5pt;line-height:1.45;">
+            We always answer. A yes, or a not now and what comes next.
+          </p>
+        </div>
+      </div>
+      <div class="fill" style="margin-top:3mm;display:flex;align-items:flex-end;gap:2mm;">Our not now words <span class="blank" style="flex:1;"></span></div>
+      <p class="why">Like "after lunch", "tomorrow morning" or "once the walk is done".</p>
+    </div>
+
+    <div style="display:flex;gap:5mm;margin-top:auto;padding-top:5mm;">
+      <div class="sigbox"><div class="sigline"></div><div class="siglabel">Signed by me</div></div>
+      <div class="sigbox"><div class="sigline"></div><div class="siglabel">Signed by my grown up</div></div>
+      <div class="sigbox" style="flex:0.55;"><div class="sigline"></div><div class="siglabel">Date</div></div>
+    </div>
+    <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:10pt;text-align:center;">
+      We check this deal again on day seven, and change one thing together if we need to.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · Our Deal</span></div>
+</div>
+
+<!-- PAGE 4 · MY DAILY CORE -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:5mm;">
+    <div>
+      <div class="eyebrow">Print one per day, or laminate and use a dry wipe pen</div>
+      <h2 style="margin-top:2mm;font-size:30pt;">My daily core</h2>
+      <div class="fill" style="margin-top:1mm;font-size:12pt;">Day <span class="blank" style="width:16mm;"></span> &nbsp; Date <span class="blank" style="width:34mm;"></span></div>
+    </div>
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:30mm;height:30mm;object-fit:contain;">
+  </div>
+  <div class="bubble" style="margin:3mm 0 1mm 6mm;">
+    Five things make a good holiday day. Tick them in any order. My screen time is one of them, and it is mine.
+  </div>
+
+  <div class="card core-row">
+    <div class="core-ico tinted" style="background:var(--tint-sage);"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6.5" fill="#2F8F6B" stroke="#1A1A2E" stroke-width="1.5"/><path d="M12 15.5V22M9 22h6" stroke="#1A1A2E" stroke-width="1.8" stroke-linecap="round"/><path d="M10 8.5l2 2 2.5-3" fill="none" stroke="#E8F0EE" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+    <div style="flex:1;"><div class="core-name">Something outdoors</div><div class="core-what">What I did <span class="l"></span></div></div>
+    <div class="bigtick"></div>
+  </div>
+  <div class="card core-row">
+    <div class="core-ico tinted" style="background:var(--terracotta-lt);"><svg viewBox="0 0 24 24"><path d="M4.5 19.5l1.4-4.8L15.8 4.8l3.4 3.4-9.9 9.9z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/><path d="M4.5 19.5l1.4-4.8 3.4 3.4z" fill="#1A1A2E"/><path d="M13.8 6.8l3.4 3.4" stroke="#1A1A2E" stroke-width="1.3"/></svg></div>
+    <div style="flex:1;"><div class="core-name">Something I made</div><div class="core-what">What I made <span class="l"></span></div></div>
+    <div class="bigtick"></div>
+  </div>
+  <div class="card core-row">
+    <div class="core-ico tinted" style="background:#FDEEF5;"><svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-8.6-9.4A4.8 4.8 0 0 1 12 7.2a4.8 4.8 0 0 1 8.6 3.9c-1.1 4.8-8.6 9.4-8.6 9.4z" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+    <div style="flex:1;"><div class="core-name">Something for someone else</div><div class="core-what">Who and what <span class="l"></span></div></div>
+    <div class="bigtick"></div>
+  </div>
+  <div class="card core-row">
+    <div class="core-ico tinted" style="background:var(--tint-blue);"><svg viewBox="0 0 24 24"><path d="M3.5 5.5c3-1.5 5.5-1.5 8.5 0v14c-3-1.5-5.5-1.5-8.5 0zM20.5 5.5c-3-1.5-5.5-1.5-8.5 0v14c3-1.5 5.5-1.5 8.5 0z" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+    <div style="flex:1;"><div class="core-name">Reading</div><div class="core-what">What I read <span class="l"></span></div></div>
+    <div class="bigtick"></div>
+  </div>
+  <div class="card core-row">
+    <div class="core-ico tinted" style="background:var(--coral-lt);"><svg viewBox="0 0 24 24"><rect x="2.8" y="4.5" width="18.4" height="12.5" rx="2.5" fill="#FBEADB" stroke="#1A1A2E" stroke-width="1.5"/><path d="M9 21h6M12 17v4" stroke="#1A1A2E" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 8.2v5l4-2.5z" fill="#D4600A"/></svg></div>
+    <div style="flex:1;"><div class="core-name">My screen time</div><div class="core-what">My core <span class="l" style="flex:0 0 14mm;"></span> min &nbsp; + earned <span class="l" style="flex:0 0 14mm;"></span> min</div></div>
+    <div class="bigtick"></div>
+  </div>
+
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;display:flex;align-items:center;gap:6mm;background:var(--terracotta-lt);">
+    <div style="font-weight:900;font-size:12pt;flex:1;">The best bit of today was <span class="blank" style="width:80mm;"></span></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · My Daily Core</span></div>
+</div>
+
+<!-- PAGE 5 · THE JOBS BOARD -->
+<div class="sheet">
+  <div class="eyebrow">Choose these together on day one</div>
+  <h2 style="margin-top:2mm;font-size:26pt;">The jobs board</h2>
+  <p style="margin-top:2mm;">
+    Each job earns stars. One star is five minutes of screen time, or the rate on your deal.
+    Done a job? Tell your grown up. The stars count when they say yes.
+  </p>
+  <table class="jobs" style="margin-top:4mm;">
+    <tr><th style="width:52%;">Jobs that earn stars</th><th class="c" style="width:18%;">Stars</th><th>Times done</th></tr>
+    <tbody id="jobrows"></tbody>
+  </table>
+
+  <div class="card tinted" style="margin-top:6mm;padding:4.5mm 5mm;background:var(--tint-sage);">
+    <div style="display:flex;align-items:center;gap:4mm;">
+      <svg width="34" height="34" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M3.5 11.5L12 4l8.5 7.5" fill="none" stroke="#1A1A2E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h13V10" class="tint-fill" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 17.5s-3-1.8-3.4-3.7A1.9 1.9 0 0 1 12 12.3a1.9 1.9 0 0 1 3.4 1.5c-.4 1.9-3.4 3.7-3.4 3.7z" fill="#D4600A"/></svg>
+      <div>
+        <div style="font-weight:900;font-size:13pt;">Family jobs: everyone does them, nobody is paid</div>
+        <p style="font-size:9.5pt;line-height:1.45;">These earn no stars, because they are part of living here. The grown ups do them too.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 6mm;margin-top:3mm;">
+      <div class="protect" style="margin-top:0;"><span class="tick"></span>Clear my own plate</div>
+      <div class="protect" style="margin-top:0;"><span class="tick"></span>Put my things away</div>
+      <div class="protect" style="margin-top:0;"><span class="tick"></span>Help when visitors come</div>
+      <div class="protect" style="margin-top:0;"><span class="tick"></span><span class="blank" style="flex:1;height:5mm;"></span></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · The Jobs Board</span></div>
+</div>
+
+<!-- PAGE 6 · WEEK ONE -->
+<div class="sheet week-sheet" data-week="one">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:5mm;">
+    <div>
+      <div class="eyebrow">Two minutes each evening, together</div>
+      <h2 style="margin-top:2mm;font-size:28pt;">Week one</h2>
+    </div>
+    <div class="card tinted" style="padding:3mm 5mm;background:var(--terracotta-lt);text-align:center;">
+      <div class="eyebrow" style="font-size:7pt;color:var(--terracotta-dark);">Our cap this week</div>
+      <div style="font-weight:900;font-size:13pt;margin-top:1mm;"><span class="blank" style="width:16mm;"></span> stars</div>
+    </div>
+  </div>
+  <p style="margin-top:2mm;font-size:9.5pt;">
+    Colour a dot for each part of the daily core. Write the stars earned and the minutes used.
+    Keep a running total of stars so you can see the cap coming. Then draw today's face.
+  </p>
+  <table class="week" style="margin-top:3.5mm;">
+    <tr><th style="width:23%;">Day</th><th style="width:27%;">Daily core</th><th>Stars<br>earned</th><th>Stars<br>so far</th><th>Minutes<br>used</th><th>Draw<br>my face</th></tr>
+    <tbody class="weekrows"></tbody>
+  </table>
+  <div class="totals">
+    <div class="card total"><div class="lbl">Stars this week</div><div class="val"></div></div>
+    <div class="card total"><div class="lbl">Minutes this week</div><div class="val"></div></div>
+    <div class="card total tinted" style="flex:1.6;background:var(--tint-sage);"><div class="lbl">Best bit of week one</div><div class="val"></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · Week One</span></div>
+</div>
+
+<!-- PAGE 7 · WEEK TWO -->
+<div class="sheet week-sheet" data-week="two">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:5mm;">
+    <div>
+      <div class="eyebrow">The jar starts fresh this week</div>
+      <h2 style="margin-top:2mm;font-size:28pt;">Week two</h2>
+    </div>
+    <div class="card tinted" style="padding:3mm 5mm;background:var(--terracotta-lt);text-align:center;">
+      <div class="eyebrow" style="font-size:7pt;color:var(--terracotta-dark);">Our cap this week</div>
+      <div style="font-weight:900;font-size:13pt;margin-top:1mm;"><span class="blank" style="width:16mm;"></span> stars</div>
+    </div>
+  </div>
+  <p style="margin-top:2mm;font-size:9.5pt;">
+    Day seven check: is the deal working? If something keeps causing a row, change one thing
+    together and write it here.
+    <span class="blank" style="display:block;width:100%;height:9mm;"></span>
+  </p>
+  <table class="week" style="margin-top:3.5mm;">
+    <tr><th style="width:23%;">Day</th><th style="width:27%;">Daily core</th><th>Stars<br>earned</th><th>Stars<br>so far</th><th>Minutes<br>used</th><th>Draw<br>my face</th></tr>
+    <tbody class="weekrows"></tbody>
+  </table>
+  <div class="totals">
+    <div class="card total"><div class="lbl">Stars this week</div><div class="val"></div></div>
+    <div class="card total"><div class="lbl">Minutes this week</div><div class="val"></div></div>
+    <div class="card total tinted" style="flex:1.6;background:var(--tint-sage);"><div class="lbl">Best bit of week two</div><div class="val"></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · Week Two</span></div>
+</div>
+
+<!-- PAGE 8 · THE END OF HOLIDAY LOOK BACK -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:5mm;">
+    <div>
+      <div class="eyebrow">The last evening of the holidays</div>
+      <h2 style="margin-top:2mm;font-size:26pt;">The look back</h2>
+    </div>
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:24mm;height:24mm;object-fit:contain;">
+  </div>
+  <p style="margin-top:2mm;">
+    Sit down together with both weeks in front of you. No marks out of ten. You are looking
+    for what to keep.
+  </p>
+  <div style="display:flex;gap:5mm;margin-top:4mm;">
+    <div class="card" style="flex:1;padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">What worked</div>
+      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    </div>
+    <div class="card" style="flex:1;padding:4.5mm 5mm;">
+      <div class="eyebrow">What was hard</div>
+      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4.5mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Our favourite thing away from a screen</div>
+    <div class="line"></div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4.5mm 5mm;">
+    <div class="eyebrow" style="color:var(--green-dark);">What we keep for term time</div>
+    <p style="font-size:9.5pt;margin-top:1mm;">School hours become protected time. The rest of the deal can come with you.</p>
+    <div class="fill" style="margin-top:1mm;">
+      Core on school days <span class="blank" style="width:16mm;"></span> minutes &nbsp; At weekends <span class="blank" style="width:16mm;"></span> minutes<br>
+      Screens rest from <span class="blank" style="width:20mm;"></span> on school nights &nbsp; 1 star = <span class="blank" style="width:14mm;"></span> minutes<br>
+      The jobs we keep <span class="blank" style="width:120mm;"></span>
+    </div>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card tinted" style="flex:1;padding:4.5mm 5mm;background:var(--tint-sage);">
+      <div class="eyebrow" style="color:var(--green-dark);">Something I am proud of</div>
+      <div class="line"></div><div class="line"></div>
+      <div class="siglabel">From me</div>
+    </div>
+    <div class="card tinted" style="flex:1;padding:4.5mm 5mm;background:var(--tint-sage);">
+      <div class="eyebrow" style="color:var(--green-dark);">Something I noticed about you</div>
+      <div class="line"></div><div class="line"></div>
+      <div class="siglabel">From my grown up</div>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;display:flex;align-items:center;gap:5mm;background:var(--bloop-soft);">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:18mm;height:18mm;object-fit:contain;flex-shrink:0;">
+    <div class="fill" style="flex:1;line-height:1.5;">Keep this page. Next holiday, start the new deal from here.<br>
+      Our next holiday starts <span class="blank" style="width:40mm;"></span></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Holiday Screen Deal · The Look Back</span></div>
+</div>
+
+<!-- PAGE 9 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The Holiday Screen Deal","noun":"deal","pages":[["pebble","doing"],["bloop","doing"]],"strip":false,"thanks":"If this deal earned its place on your fridge these holidays, a kind review on Etsy helps another family find it."}'></div>
+
+<script>
+// Repeated rows, written once. Static text only, nothing fetched.
+(() => {
+  const star = (f) => `<svg viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="${f}" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round"/></svg>`
+  const stars = n => Array.from({ length: n }, () => star('#EDC35F')).join('') + ` <b style="font-size:10pt;margin-left:1mm;">${n}</b>`
+  const jobs = [
+    ['Help cook a meal', 2], ['Hoover a room', 2], ['Clear and wipe the table after dinner', 1],
+    ['Sort the recycling', 1], ['Wash the car or the bikes', 3], ['Write a thank you note', 1],
+    ['Sort toys or clothes to give away', 3], ['Help in the garden or walk the dog', 2],
+  ]
+  const own = 4
+  const rows = jobs.map(([j, n]) => `<tr><td>${j}</td><td class="stars">${stars(n)}</td><td></td></tr>`)
+  for (let i = 0; i < own; i++) rows.push(`<tr><td class="own"><span class="w"></span></td><td class="stars"><span class="w" style="width:12mm;"></span></td><td></td></tr>`)
+  document.getElementById('jobrows').innerHTML = rows.join('')
+
+  // The five parts of the daily core, as tiny dots to colour in.
+  const ico = [
+    '<circle cx="12" cy="10" r="7" fill="#2F8F6B"/><path d="M12 16v6" stroke="#1A1A2E" stroke-width="2.6"/>',
+    '<path d="M5 19l1.5-5L16 4.5l3.5 3.5L10 17.5z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.6"/>',
+    '<path d="M12 20.5s-7.5-4.6-8.6-9.4A4.8 4.8 0 0 1 12 7.2a4.8 4.8 0 0 1 8.6 3.9c-1.1 4.8-8.6 9.4-8.6 9.4z" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="1.8"/>',
+    '<path d="M3.5 5.5c3-1.5 5.5-1.5 8.5 0v14c-3-1.5-5.5-1.5-8.5 0zM20.5 5.5c-3-1.5-5.5-1.5-8.5 0v14c3-1.5 5.5-1.5 8.5 0z" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="1.8"/>',
+    '<rect x="2.5" y="4" width="19" height="13" rx="2.5" fill="#FBEADB" stroke="#1A1A2E" stroke-width="1.8"/><path d="M10 7.5v6l5-3z" fill="#D4600A"/><path d="M8.5 21h7" stroke="#1A1A2E" stroke-width="2.2" stroke-linecap="round"/>',
+  ]
+  const dots = `<div class="dots">${ico.map(i => `<span class="dot"><svg viewBox="0 0 24 24">${i}</svg></span>`).join('')}</div>`
+  const face = `<svg class="smile" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="#1A1A2E" stroke-width="2"/><circle cx="14" cy="16" r="1.8" fill="#1A1A2E"/><circle cx="26" cy="16" r="1.8" fill="#1A1A2E"/></svg>`
+  const box = '<div class="writebox"></div>'
+  document.querySelectorAll('.week-sheet').forEach(sheet => {
+    const first = sheet.dataset.week === 'one' ? 1 : 8
+    const r = []
+    for (let d = first; d < first + 7; d++) {
+      r.push(`<tr><td><div class="dayname">Day ${d}</div><div class="daydate">Date<i></i></div></td><td>${dots}</td><td>${box}</td><td>${box}</td><td>${box}</td><td>${face}</td></tr>`)
+    }
+    sheet.querySelector('.weekrows').innerHTML = r.join('')
+  })
+})()
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

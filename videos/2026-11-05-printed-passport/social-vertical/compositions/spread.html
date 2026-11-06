@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;overflow:hidden;background:#F9F8F6;font-family:'Nunito',sans-serif;color:#1A1A2E;}
+    #root .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;}
+    #root img{display:block;}
+  </style>
+  <div id="root" data-composition-id="spread" data-width="1080" data-height="1920">
+
+    <div id="spread-rig" style="position:absolute;left:0;top:0;width:1080px;height:1920px;">
+      <img src="assets/p05.png" style="position:absolute;left:540px;top:520px;width:500px;height:705px;border-radius:0 8px 8px 0;box-shadow:0 26px 50px rgba(26,26,46,0.24);">
+      <div id="gutter" style="position:absolute;left:490px;top:520px;width:100px;height:705px;background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(42,31,20,0.14) 48%,rgba(42,31,20,0.2) 50%,rgba(42,31,20,0.14) 52%,rgba(0,0,0,0) 100%);"></div>
+      <div id="flap" data-layout-allow-overflow style="position:absolute;left:540px;top:520px;width:500px;height:705px;transform-style:preserve-3d;transform-origin:0% 50%;">
+        <img src="assets/p01-named.png" style="position:absolute;inset:0;width:500px;height:705px;border-radius:0 8px 8px 0;backface-visibility:hidden;">
+        <img src="assets/p04.png" style="position:absolute;inset:0;width:500px;height:705px;border-radius:8px 0 0 8px;backface-visibility:hidden;transform:rotateY(180deg);box-shadow:0 26px 50px rgba(26,26,46,0.24);">
+      </div>
+      <svg id="tick-0" viewBox="0 0 24 24" style="position:absolute;left:72.0952380952381px;top:700.8095238095239px;width:44px;height:44px;"><path id="tick-0-p" d="M4 13 L10 19 L21 5" fill="none" stroke="#C99A28" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg id="tick-1" viewBox="0 0 24 24" style="position:absolute;left:72.0952380952381px;top:823.2857142857143px;width:44px;height:44px;"><path id="tick-1-p" d="M4 13 L10 19 L21 5" fill="none" stroke="#C99A28" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg id="tick-2" viewBox="0 0 24 24" style="position:absolute;left:72.0952380952381px;top:906.7142857142858px;width:44px;height:44px;"><path id="tick-2-p" d="M4 13 L10 19 L21 5" fill="none" stroke="#C99A28" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <img id="stamp" src="assets/sticker-01.png" style="position:absolute;left:716.1904761904761px;top:619.4285714285713px;width:147.61904761904762px;height:147.61904761904762px;filter:drop-shadow(0 4px 4px rgba(0,0,0,0.18));">
+    </div>
+    <div id="spread-t1" style="position:absolute;left:60px;right:60px;top:220px;text-align:center;font-weight:900;font-size:60px;line-height:1.06;letter-spacing:-0.02em;"><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">Talk.</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">Do.</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">Check.</span></div>
+    <div id="spread-t2" style="position:absolute;left:60px;right:60px;top:220px;text-align:center;font-weight:900;font-size:60px;line-height:1.06;letter-spacing:-0.02em;"><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">Then</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">the</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">stamp</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">goes</span><span class="w" style="display:inline-block;margin:0 7.199999999999999px;">in.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#spread-rig", { x: -250 }, { x: 0, duration: 1.1, ease: "power2.inOut" }, 0.1);
+    tl.fromTo("#gutter", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.6);
+    tl.fromTo("#flap", { rotationY: 0, transformPerspective: 2500 }, { rotationY: -180, transformPerspective: 2500, duration: 1.1, ease: "power2.inOut" }, 0.1);
+    tl.fromTo("#spread-t1 .w", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out", stagger: 0.08 }, 0.9);
+    tl.fromTo("#tick-0-p", { strokeDasharray: 40, strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 1.95);
+    tl.fromTo("#tick-1-p", { strokeDasharray: 40, strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 2.25);
+    tl.fromTo("#tick-2-p", { strokeDasharray: 40, strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 2.55);
+        tl.to("#spread-t1", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 2.75);
+    tl.fromTo("#spread-t2 .w", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out", stagger: 0.08 }, 2.95);
+    tl.fromTo("#stamp", { scale: 1.7, rotation: 14, opacity: 0, y: -40 }, { scale: 1, rotation: 0, opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, 3.35);
+    tl.fromTo("#spread-rig", { scale: 1 }, { scale: 1.012, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "790px 693.2380952380952px" }, 3.77);
+        tl.to("#spread-t2", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 5.1000000000000005);
+    tl.to("#spread-rig", { x: -648, opacity: 0, duration: 0.35, ease: "power3.in" }, 5.050000000000001);
+    window.__timelines["spread"] = tl;
+  </script>
+</template>

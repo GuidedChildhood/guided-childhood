@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { hasFullAccess, needsMembership, needsPlanChoice } from '@/lib/access'
 import { sessionUser } from '@/lib/supabase/session'
+import { safeNext } from '@/lib/auth/safe-next'
 
 // Where the two doors live. Exempt from its own redirect, or the block would
 // bounce against itself for ever.
@@ -166,10 +167,12 @@ export async function middleware(request: NextRequest) {
     // not on the dashboard home).
     if (user && isAuthPage) {
       const url = request.nextUrl.clone()
-      const next = url.searchParams.get('next')
-      url.pathname = next && next.startsWith('/') && !next.startsWith('//') ? next : '/dashboard'
-      url.searchParams.delete('next')
-      return NextResponse.redirect(url)
+      // safeNext keeps the query on the destination (a share link carries its
+      // token in the path, but a next can carry ?child= and the like), so the
+      // redirect is built from it whole rather than poured into pathname,
+      // which would percent encode the ? and 404.
+      const next = safeNext(url.searchParams.get('next')) ?? '/dashboard'
+      return NextResponse.redirect(new URL(next, request.url))
     }
 
     return supabaseResponse

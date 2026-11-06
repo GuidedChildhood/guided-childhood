@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The First Phone Kit</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The First Phone Kit. Proof paths, so every page says what the app does:
+     the check      components/printables/drawn/ReadyForMyPhoneSheet.tsx (the ten stops),
+                    lib/content/readiness.ts (a pathway, never a verdict),
+                    lib/content/stages.ts (Orbit: the bedroom rule, yourPhone, a calls
+                    and texts phone suggested first)
+     the deal       lib/content/agreement-clauses.ts (first-phone clauses: device-sleep
+                    "grown ups included", meals "grown ups too", when-wrong "nobody is in
+                    trouble", keep-talking "one honest chat a week"), kid-contract.ts,
+                    agreement-promises.ts (one promise list for both sides)
+     setup night    supabase/migrations/014_device_safety_hub.sql (the iPhone and Android
+                    guides: two codes, Downtime, app approval first, the weekly report
+                    together), lib/content/device-issues.ts night_phone
+     the words      scripts table rows, as content/printables/script-cards/cards-data.js
+                    holds them (cards 14, 19, 22, 23), and device-issues class_group_chat
+                    for the screenshot exception
+     The child's deal is written by the child; the Family Phone Agreement is the
+     parent led family deal, so this kit does not repeat its pages. -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --tint-blue:#D8E8F8; --tint-sage:#E8F0EE;
+    --orbit:#3E86BC; --orbit-soft:#DCEBF7; --orbit-ink:#1F4E6E;
+    --bloop:#6C9E38; --bloop-soft:#E4F0D4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 16mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:6mm;}
+  .lines{background:repeating-linear-gradient(to bottom,transparent 0,transparent 8.5mm,#B9B9C8 8.5mm,#B9B9C8 9mm);}
+  .wl{display:block;border-bottom:1.6px solid #B9B9C8;height:8mm;}
+
+  /* The four steps on page two */
+  .stepcard{padding:4.5mm 5mm;display:flex;flex-direction:column;}
+  .stepcard .n{width:10mm;height:10mm;border-radius:50%;border:2.5px solid var(--ink);background:var(--terracotta);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12pt;flex-shrink:0;}
+  .stepcard .t{font-weight:900;font-size:14pt;line-height:1.1;}
+  .stepcard .when{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.3px;text-transform:uppercase;color:var(--orbit-ink);margin-top:1mm;}
+
+  /* The readiness check */
+  .rows{flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:5mm;}
+  .rrow{background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:3mm 4mm 3mm 3.5mm;
+    display:flex;align-items:center;gap:3.5mm;}
+  .rrow .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:9pt;color:var(--orbit);width:5mm;flex-shrink:0;}
+  .rrow .say{font-weight:800;font-size:12.5pt;line-height:1.22;color:var(--ink);}
+  .rrow.parent .say{font-size:11pt;}
+  .rrow .next{font-size:8.6pt;line-height:1.4;color:var(--ink-soft);margin-top:1mm;font-weight:600;}
+  .rrow .next b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.8pt;letter-spacing:1px;text-transform:uppercase;color:var(--terracotta-dark);margin-right:1mm;}
+  .rate{display:flex;gap:2.2mm;flex-shrink:0;}
+  .rate div{display:flex;flex-direction:column;align-items:center;width:12.5mm;}
+  .rate i{display:block;width:8.5mm;height:8.5mm;border-radius:50%;border:2.5px solid var(--ink);background:var(--white);}
+  .rate span{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:5.8pt;letter-spacing:0.6px;text-transform:uppercase;margin-top:1mm;white-space:nowrap;}
+  .rate .r i{border-color:var(--green);} .rate .r span{color:var(--green);}
+  .rate .nr i{border-color:var(--terracotta-dark);} .rate .nr span{color:var(--terracotta-dark);}
+  .rate .ny i{border-color:var(--orbit);} .rate .ny span{color:var(--orbit);}
+  .rate-key{display:flex;gap:2.2mm;padding-right:4mm;justify-content:flex-end;}
+
+  /* The deal */
+  .deal{background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:3.5mm 5mm 2mm;}
+  .deal .q{font-weight:900;font-size:12.5pt;color:var(--ink);display:flex;gap:2.5mm;align-items:baseline;}
+  .deal .q .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:9pt;color:var(--orbit);}
+  .deal .hint{font-size:8.6pt;font-weight:600;color:var(--ink-muted);margin-top:0.5mm;}
+  .promise{display:flex;gap:3mm;align-items:flex-start;}
+  .promise svg{flex-shrink:0;margin-top:0.6mm;}
+  .promise p{font-weight:800;color:var(--ink);font-size:12.5pt;line-height:1.35;}
+  .promise p span{display:block;font-weight:600;color:var(--ink-soft);font-size:10.2pt;margin-top:0.8mm;}
+  .sigbox{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);padding:3.5mm 4.5mm 4mm;}
+  .siglabel{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.4px;
+    text-transform:uppercase;color:var(--ink-muted);margin-top:2mm;}
+  .sigline{border-bottom:2px solid var(--ink);height:14mm;}
+  .datebox{flex:1;background:var(--white);border:2px dashed var(--ink);border-radius:12px;padding:3mm 4mm;}
+  .datebox .lbl{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.4px;
+    text-transform:uppercase;color:var(--orbit-ink);}
+  .datebox .line{border-bottom:2px solid var(--ink);height:8mm;margin-top:1mm;}
+
+  /* Setup night */
+  .check{display:flex;gap:4mm;align-items:flex-start;background:var(--white);border:2px solid var(--ink);
+    border-radius:12px;padding:3mm 4.5mm 3mm 3.5mm;}
+  .box{width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:2.5mm;background:var(--white);flex-shrink:0;}
+  .check .box{margin-top:0.3mm;}
+  .check p{font-size:9.6pt;line-height:1.42;color:var(--ink-soft);font-weight:600;}
+  .check p b{font-weight:900;color:var(--ink);font-size:11pt;}
+
+  /* The first 30 days */
+  .week{padding:4.5mm 5.5mm 4mm;display:flex;flex-direction:column;flex:1;}
+  .week .wk{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;letter-spacing:1.8px;text-transform:uppercase;
+    color:var(--white);background:var(--orbit-ink);border-radius:999px;padding:1.2mm 3.5mm;display:inline-block;}
+  .week .wt{font-weight:900;font-size:17pt;line-height:1.1;margin-top:2mm;}
+  .week .wd{font-size:9.8pt;line-height:1.45;color:var(--ink-soft);font-weight:600;margin-top:1.5mm;}
+  .days{display:flex;gap:2.2mm;margin-top:3.5mm;}
+  .days > div{flex:1;display:flex;flex-direction:column;align-items:center;gap:1mm;}
+  .days .box{width:100%;height:11mm;border-radius:3mm;flex:none;}
+  .days span{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;letter-spacing:0.8px;text-transform:uppercase;color:var(--ink-muted);}
+  .checkin{margin-top:3.5mm;border-top:1.5px dashed rgba(26,26,46,0.3);padding-top:2.5mm;}
+  .checkin .lbl{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.2pt;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracotta-dark);}
+  .checkin .cq{font-weight:800;font-size:10pt;color:var(--ink);margin-top:2mm;}
+
+  /* The words */
+  .script{padding:5mm 5.5mm;display:flex;gap:4.5mm;}
+  .script .lab{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.2pt;letter-spacing:1.5px;text-transform:uppercase;color:var(--orbit-ink);}
+  .script .front{font-weight:900;font-size:14pt;line-height:1.2;margin-top:1mm;}
+  .script .sit{font-size:8.6pt;font-weight:600;color:var(--ink-muted);margin-top:1mm;line-height:1.35;}
+  .script .say{font-weight:700;font-size:11.6pt;line-height:1.45;color:var(--ink);}
+  .script .why{font-size:8.6pt;line-height:1.4;color:var(--ink-soft);margin-top:1.5mm;}
+  .script .why b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.6pt;letter-spacing:1px;text-transform:uppercase;color:var(--terracotta-dark);margin-right:1mm;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .bubble,body.ink .sigbox{box-shadow:none !important;}
+  body.ink .tinted{background:var(--white) !important;}
+  body.ink .stepcard .n{background:var(--white);}
+  body.ink .week .wk{background:var(--white);color:var(--ink);border:1.5px solid var(--ink);}
+  body.ink .cover-card{background:var(--white) !important;box-shadow:none !important;}
+  body.ink .fill{fill:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div class="eyebrow" style="margin-top:8mm;">Guided Childhood · Print at Home · Ages 9 to 13</div>
+  <h1 style="margin-top:7mm;font-size:50pt;">The First<br>Phone Kit</h1>
+  <p style="margin-top:6mm;font-weight:700;color:var(--ink);font-size:14.5pt;line-height:1.4;">
+    The phone arrives with a plan,<br>and the plan is made together.
+  </p>
+  <div class="cover-card" style="margin-top:9mm;width:150mm;height:96mm;background:var(--orbit-soft);border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;gap:4mm;position:relative;">
+    <img src="images/friends/orbit.png" alt="Orbit, a Planet Friend" style="width:88mm;height:88mm;object-fit:contain;">
+    <svg width="118" height="200" viewBox="0 0 60 100" style="margin-right:4mm;">
+      <rect x="4" y="3" width="52" height="94" rx="9" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3" class="fill"/>
+      <rect x="10" y="13" width="40" height="70" rx="3" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="1.6" class="fill"/>
+      <rect x="23" y="7" width="14" height="2.4" rx="1.2" fill="#1A1A2E"/>
+      <circle cx="30" cy="90" r="3" fill="none" stroke="#1A1A2E" stroke-width="1.6"/>
+      <path d="M30 26 33.6 33.4l8.1 1-6 5.5 1.6 8L30 44l-7.3 4 1.6-8-6-5.5 8.1-1z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M17 60h26M17 66h20M17 72h23" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+    </svg>
+  </div>
+  <div style="display:flex;gap:3.5mm;margin-top:10mm;flex-wrap:wrap;justify-content:center;max-width:175mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The readiness check</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">My phone deal</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Setup night</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The first 30 days</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The words for the wobbles</div>
+  </div>
+  <p style="margin-top:8mm;font-size:10.5pt;max-width:140mm;">
+    Orbit walks your family through it in four steps: an honest check, a deal
+    your child writes, one evening of setup, and a month of small practice.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Orbit · Ages 11 to 12</span></div>
+</div>
+
+<!-- PAGE 2 · HOW TO USE THE KIT -->
+<div class="sheet">
+  <div class="eyebrow">Read this first · Ten minutes, before anything else</div>
+  <h2 style="margin-top:3mm;">The phone arrives with a plan</h2>
+  <p style="margin-top:3.5mm;">
+    A first phone usually turns up in a rush. A birthday, a new school, a box opened on the sofa and
+    handed straight over. The rules come later, one argument at a time. This kit turns that round.
+    You do four things, in this order, and the phone lands on a plan your child helped to make.
+  </p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:5mm;">
+    <div class="card stepcard">
+      <div style="display:flex;gap:3mm;align-items:center;"><div class="n">1</div><div><div class="t">The check</div><div class="when">Pages 3 and 4 · A few weeks before</div></div></div>
+      <p style="margin-top:2.5mm;font-size:9.6pt;">Honest questions for your child and for you. Every answer is ready, nearly or not yet, and each one comes with the thing to practise next.</p>
+    </div>
+    <div class="card stepcard">
+      <div style="display:flex;gap:3mm;align-items:center;"><div class="n">2</div><div><div class="t">The deal</div><div class="when">Pages 5 and 6 · The week before</div></div></div>
+      <p style="margin-top:2.5mm;font-size:9.6pt;">Your child writes their phone deal in their own words. You add your promises. You both sign, and a date goes on the calendar to look at it again.</p>
+    </div>
+    <div class="card stepcard">
+      <div style="display:flex;gap:3mm;align-items:center;"><div class="n">3</div><div><div class="t">Setup night</div><div class="when">Page 7 · The night it arrives</div></div></div>
+      <p style="margin-top:2.5mm;font-size:9.6pt;">One evening side by side, switching on the settings that hold the deal: the codes, the bedtime lock, the app approvals, the charger's new home.</p>
+    </div>
+    <div class="card stepcard">
+      <div style="display:flex;gap:3mm;align-items:center;"><div class="n">4</div><div><div class="t">The first 30 days</div><div class="when">Pages 8 to 11 · The month after</div></div></div>
+      <p style="margin-top:2.5mm;font-size:9.6pt;">One small thing to practise each week, a tick a day, ten minutes at the weekend, and the words for the first wobbles.</p>
+    </div>
+  </div>
+
+  <div class="card tinted" style="margin-top:6mm;padding:5mm 6mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Say this out loud before the box is opened</div>
+    <p style="margin-top:2.5mm;font-weight:900;color:var(--ink);font-size:14pt;line-height:1.35;">
+      "If you ever show me something bad on it, the phone stays yours. Telling me never costs you the phone."
+    </p>
+    <p style="margin-top:2.5mm;font-size:9.6pt;">
+      The whole kit rests on this promise. Children go quiet when telling costs them the phone, so it goes
+      first, before any settings, and it is the first promise in your half of the deal on page six.
+    </p>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:4.5mm 5mm;">
+      <div class="eyebrow" style="color:var(--orbit-ink);">Smartphone, or calls and texts?</div>
+      <p style="margin-top:2mm;font-size:9.6pt;">The kit works for either. For eleven and twelve year olds, Guided Childhood suggests a first phone that does calls and texts with no apps, and a smartphone as the next step. Already chosen a smartphone? Every page is built for that too.</p>
+    </div>
+    <div class="card" style="flex:1;padding:4.5mm 5mm;display:flex;gap:3.5mm;align-items:flex-start;">
+      <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:17mm;height:17mm;object-fit:contain;background:var(--bloop-soft);border:2px solid var(--ink);border-radius:50%;flex-shrink:0;">
+      <div>
+        <div class="eyebrow" style="color:#3F5E1E;">Nine or ten?</div>
+        <p style="margin-top:2mm;font-size:9.6pt;">Bloop looks after ages eight to ten. Do the check and the deal now, while the phone is still a plan. Every decision is easier before the box is opened.</p>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:5mm;align-items:center;margin-top:auto;margin-bottom:2mm;">
+    <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:24mm;height:24mm;object-fit:contain;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">
+      What you need: a pen each, this kit printed on A4, an evening with nothing else on,
+      and the phone still in its box until page seven.
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>First Phone Kit · How to use it</span></div>
+</div>
+
+<!-- PAGE 3 · THE READINESS CHECK, THE CHILD'S SIDE -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Step one · The readiness check · Your side</div>
+      <h2 style="margin-top:2mm;font-size:24pt;">How ready am I for my phone?</h2>
+    </div>
+    <div class="colour-only" style="display:flex;gap:1mm;flex-shrink:0;">
+      <img src="images/friends/bloop.png" alt="Bloop" style="width:19mm;height:19mm;object-fit:contain;background:var(--bloop-soft);border:2px solid var(--ink);border-radius:50%;">
+      <img src="images/friends/orbit.png" alt="Orbit" style="width:19mm;height:19mm;object-fit:contain;background:var(--orbit-soft);border:2px solid var(--ink);border-radius:50%;">
+    </div>
+  </div>
+  <p style="margin-top:2.5mm;font-weight:700;color:var(--ink);font-size:11.5pt;line-height:1.45;">
+    Colour one circle on every line. Be honest. Not yet is a good answer:
+    it tells us what to practise next. Then a grown up reads it with you.
+  </p>
+  <div class="rows">
+    <div class="rrow"><div class="num">1</div><div style="flex:1;"><div class="say">I put my screen down when someone talks to me.</div><div class="next"><b>Practise</b>For a week, screen face down the moment someone starts talking. Grown ups too.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">2</div><div style="flex:1;"><div class="say">My screens go to bed before I do, outside my room.</div><div class="next"><b>Practise</b>A tablet or console goes to its charger at the agreed time for a week, without being asked.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">3</div><div style="flex:1;"><div class="say">I can spend my screen time a bit at a time, not all in one go.</div><div class="next"><b>Practise</b>Split your time into two goes a day for a week, and notice which felt better.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">4</div><div style="flex:1;"><div class="say">I know exactly who I would tell if something felt wrong.</div><div class="next"><b>Practise</b>Name two grown ups out loud: one at home and one away from home.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">5</div><div style="flex:1;"><div class="say">I can make a strong password and keep it away from friends.</div><div class="next"><b>Practise</b>Make one together from three random words, and agree who is allowed to know it.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">6</div><div style="flex:1;"><div class="say">I know a stranger online is still a stranger.</div><div class="next"><b>Practise</b>Talk it through: someone you only know from a game sends you a message. What do you do?</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">7</div><div style="flex:1;"><div class="say">I can leave a screen in another room and not mind.</div><div class="next"><b>Practise</b>One evening this week with every screen in another room, the whole family.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow"><div class="num">8</div><div style="flex:1;"><div class="say">I have shown a grown up how I would ask for help.</div><div class="next"><b>Practise</b>Act it out once: what you would say, and what you would show them.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Readiness Check · My side</span></div>
+</div>
+
+<!-- PAGE 4 · THE READINESS CHECK, THE GROWN UP'S SIDE -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Step one · The readiness check · The grown up's side</div>
+      <h2 style="margin-top:2mm;">How ready am I for their phone?</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2.5mm;">
+    The same three answers, for you, and the same rule: honest beats impressive. Fill it in on your own,
+    then show your child what you circled. Seeing you mark a not yet makes theirs easier to say.
+  </p>
+  <div class="rows" style="margin-top:4mm;">
+    <div class="rrow parent"><div class="num">1</div><div style="flex:1;"><div class="say">I can say what this phone is for in one sentence.</div><div class="next"><b>Practise</b>Agree the sentence with your child. It goes at the top of their deal on page five.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">2</div><div style="flex:1;"><div class="say">I know where it will charge at night, and my phone charges there too.</div><div class="next"><b>Practise</b>Move your own charger out of the bedroom this week, where they can see it.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">3</div><div style="flex:1;"><div class="say">I can stay calm if they show me something upsetting.</div><div class="next"><b>Practise</b>Have your first sentence ready: "I am really glad you told me." Then the promise from page two.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">4</div><div style="flex:1;"><div class="say">I know how to switch on the settings on this phone.</div><div class="next"><b>Practise</b>Read page seven once before setup night, and charge the phone before you start.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">5</div><div style="flex:1;"><div class="say">We have talked about group chats before there is one.</div><div class="next"><b>Practise</b>Ask: the class group turns mean at eleven at night. What would you do? Listen before you answer.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">6</div><div style="flex:1;"><div class="say">We already agree how screen time works in our house.</div><div class="next"><b>Practise</b>Name the three kinds out loud: a small core that is theirs, extra time earned through jobs, and protected times nobody can buy.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">7</div><div style="flex:1;"><div class="say">I put my own phone down where they can see me do it.</div><div class="next"><b>Practise</b>Say it when you stop: "I have been on that too long, I am putting it down."</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+    <div class="rrow parent"><div class="num">8</div><div style="flex:1;"><div class="say">I can say not yet without saying no.</div><div class="next"><b>Practise</b>Try: "Not yet, and here is what gets us there." Then name the next step together.</div></div>
+      <div class="rate"><div class="r"><i></i><span>Ready</span></div><div class="nr"><i></i><span>Nearly</span></div><div class="ny"><i></i><span>Not yet</span></div></div></div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;background:var(--orbit-soft);">
+    <div class="eyebrow" style="color:var(--orbit-ink);">Reading both pages together</div>
+    <div style="display:flex;gap:4mm;margin-top:2mm;">
+      <p style="flex:1;font-size:8.8pt;line-height:1.4;"><b style="color:var(--green);">Mostly ready.</b> Go on to the deal. The nearly lines become week one practice.</p>
+      <p style="flex:1;font-size:8.8pt;line-height:1.4;"><b style="color:var(--terracotta-dark);">Mostly nearly.</b> Pick two lines each, practise for a fortnight, then do the check again.</p>
+      <p style="flex:1;font-size:8.8pt;line-height:1.4;"><b style="color:var(--orbit);">Mostly not yet.</b> Good to know now. One line a week, check again in a month. Write the deal anyway.</p>
+    </div>
+    <p style="margin-top:2mm;font-size:8.8pt;font-weight:800;color:var(--ink);">No pass mark and no date. The check only ever tells you the next thing to practise.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Readiness Check · The grown up's side</span></div>
+</div>
+
+<!-- PAGE 5 · MY PHONE DEAL, WRITTEN BY THE CHILD -->
+<div class="sheet tinted" style="background:var(--orbit-soft);">
+  <div class="card" style="flex:1;padding:6mm 7mm;display:flex;flex-direction:column;box-shadow:0 5px 0 var(--orbit-ink);">
+    <div class="head" style="align-items:center;">
+      <div>
+        <div class="eyebrow" style="color:var(--orbit-ink);">Step two · Written by me</div>
+        <h2 style="margin-top:2mm;font-size:28pt;">My phone deal</h2>
+        <p style="margin-top:1.5mm;font-weight:700;color:var(--ink);font-size:11pt;">
+          My words, my handwriting. A grown up can help with spelling, never with choosing.
+        </p>
+      </div>
+      <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:30mm;height:30mm;object-fit:contain;flex-shrink:0;">
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:4mm;">
+      <div class="deal">
+        <div class="q"><span class="num">1</span>What I will use my phone for</div>
+        <div class="hint">Calling home? Music? Messaging my friends? My top three.</div>
+        <div class="lines" style="height:27mm;"></div>
+      </div>
+      <div class="deal">
+        <div class="q"><span class="num">2</span>Where my phone sleeps at night</div>
+        <div class="hint">And the time it goes there.</div>
+        <div class="lines" style="height:18mm;"></div>
+      </div>
+      <div class="deal">
+        <div class="q"><span class="num">3</span>If I see something that worries me, I will</div>
+        <div class="hint">Who I go to, and what I show them.</div>
+        <div class="lines" style="height:18mm;"></div>
+      </div>
+      <div class="deal">
+        <div class="q"><span class="num">4</span>People I can call any time</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:8mm;">
+          <span class="wl" style="height:10mm;"></span><span class="wl" style="height:10mm;"></span>
+          <span class="wl" style="height:10mm;"></span><span class="wl" style="height:10mm;"></span>
+        </div>
+        <div style="height:2mm;"></div>
+      </div>
+      <div class="deal">
+        <div class="q"><span class="num">5</span>When I want more time, I will</div>
+        <div class="hint">How will I ask? What will I do if the answer is not yet?</div>
+        <div class="lines" style="height:18mm;"></div>
+      </div>
+      <div class="deal" style="border-style:dashed;">
+        <div class="q"><span class="num">6</span>One rule I am adding myself</div>
+        <div class="lines" style="height:9mm;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>My Phone Deal · Written by me</span></div>
+</div>
+
+<!-- PAGE 6 · THE GROWN UP'S PROMISES, SIGNATURES, REVIEW DATES -->
+<div class="sheet tinted" style="background:var(--orbit-soft);">
+  <div class="card" style="flex:1;padding:6mm 7mm;display:flex;flex-direction:column;box-shadow:0 5px 0 var(--orbit-ink);">
+    <div class="eyebrow" style="color:var(--orbit-ink);">Step two · The grown up's half</div>
+    <h2 style="margin-top:2mm;font-size:26pt;">Our promises to you</h2>
+    <p style="margin-top:1.5mm;font-weight:700;color:var(--ink);font-size:11pt;">
+      Read out loud before anyone signs. Your deal binds us too.
+    </p>
+
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;margin-top:2mm;">
+      <div class="promise">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" class="fill"/></svg>
+        <p>Telling us never costs you the phone.<span>If something goes wrong, show us. Nobody is in trouble, and the phone stays yours.</span></p>
+      </div>
+      <div class="promise">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" class="fill"/></svg>
+        <p>Our phones sleep outside bedrooms too.<span>The same spot, the same time, grown ups included.</span></p>
+      </div>
+      <div class="promise">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" class="fill"/></svg>
+        <p>No phones at the table, ours included.<span>One meal a day where we actually talk.</span></p>
+      </div>
+      <div class="promise">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" class="fill"/></svg>
+        <p>Big decisions get talked through before they are made.<span>If your deal needs changing, you hear about it first and you get a say.</span></p>
+      </div>
+      <div class="promise">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.3" class="fill"/></svg>
+        <p>One honest chat a week about how it is going.<span>Your answers first, our questions second. The weekly questions are on pages eight and nine.</span></p>
+      </div>
+      <div class="deal" style="border-style:dashed;padding:3mm 4.5mm 1.5mm;">
+        <div class="q" style="font-size:11pt;">One promise of our own</div>
+        <div class="lines" style="height:9mm;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:4mm;margin-top:4mm;">
+      <div class="sigbox">
+        <div class="eyebrow" style="font-size:7.5pt;color:var(--orbit-ink);">Signed by me</div>
+        <div class="sigline"></div>
+        <div class="siglabel">My name and signature</div>
+      </div>
+      <div class="sigbox">
+        <div class="eyebrow" style="font-size:7.5pt;color:var(--orbit-ink);">Signed by us</div>
+        <div class="sigline"></div>
+        <div class="siglabel">Grown up's name and signature</div>
+      </div>
+      <div class="sigbox" style="flex:0.55;">
+        <div class="eyebrow" style="font-size:7.5pt;color:var(--orbit-ink);">Date</div>
+        <div class="sigline"></div>
+        <div class="siglabel">Today</div>
+      </div>
+    </div>
+
+    <p style="margin-top:6mm;font-weight:800;color:var(--ink);font-size:10.5pt;">We look at this deal again on:</p>
+    <div style="display:flex;gap:4mm;margin-top:2.5mm;">
+      <div class="datebox"><div class="lbl">After the first 30 days</div><div class="line"></div></div>
+      <div class="datebox"><div class="lbl">Next term</div><div class="line"></div></div>
+      <div class="datebox"><div class="lbl">The term after</div><div class="line"></div></div>
+    </div>
+    <p style="margin-top:3.5mm;font-size:9pt;">Keep both pages where you can both see them. A photo of the signed deal makes a good first picture for the new phone.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>My Phone Deal · Our promises</span></div>
+</div>
+
+<!-- PAGE 7 · SETUP NIGHT -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Step three · The night it arrives</div>
+      <h2 style="margin-top:2mm;">Setup night checklist</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2.5mm;font-size:10pt;">
+    Sit side by side and do it together, before the phone goes in a pocket. Phone menus move with every
+    update, so this list says what to switch on, not where to tap. On an iPhone most of it lives in
+    <b style="color:var(--ink);">Screen Time</b>. On Android it lives in <b style="color:var(--ink);">Google Family Link</b>,
+    which is easiest set up before your child's Google account is made. Stuck? Search the settings for the words in bold.
+  </p>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:4mm;">
+    <div class="check"><div class="box"></div><p><b>Two codes.</b> The unlock code: you both know it. A separate code for the controls: only the grown up knows it. If one person knows both, the controls do nothing.</p></div>
+    <div class="check"><div class="box"></div><p><b>A bedtime lock</b> at the time on the deal. iPhone calls it Downtime; Family Link calls it bedtime. Only the apps you choose work after it starts.</p></div>
+    <div class="check"><div class="box"></div><p><b>Daily time limits</b> that match the deal. Start where the deal says, and change them at a review, never in the middle of an argument.</p></div>
+    <div class="check"><div class="box"></div><p><b>App approvals.</b> New apps and purchases ask a grown up first: Ask to Buy on iPhone, app approval in Family Link. If you only do one thing tonight, do this one.</p></div>
+    <div class="check"><div class="box"></div><p><b>Age ratings and safe search.</b> Set apps, films and music to their age, and switch safe search on.</p></div>
+    <div class="check"><div class="box"></div><p><b>Contacts.</b> Save the people from page five into the phone together, and choose who can still get through during the bedtime lock.</p></div>
+    <div class="check"><div class="box"></div><p><b>Location sharing, agreed out loud.</b> Decide together whether it is on, who can see it, and why. If it is on, they know it is on.</p></div>
+    <div class="check"><div class="box"></div><p><b>The charger's new home.</b> Plug it in tonight where the phone will sleep, outside the bedroom, and put yours there too. If the phone was going to be the alarm clock, a real alarm clock takes the job.</p></div>
+    <div class="check"><div class="box"></div><p><b>The weekly report.</b> Pick the evening you will look at it together. Look at it with them, not at them.</p></div>
+  </div>
+  <div class="card tinted" style="margin-top:4mm;padding:3.5mm 5mm;background:var(--orbit-soft);display:flex;gap:4mm;align-items:center;">
+    <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:14mm;height:14mm;object-fit:contain;flex-shrink:0;">
+    <p style="font-size:9.4pt;color:var(--ink);font-weight:700;">A calls and texts phone? Do the codes, the contacts, location and the charger. The rest is ready for when a smartphone comes along.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>First Phone Kit · Setup night</span></div>
+</div>
+
+<!-- PAGE 8 · THE FIRST 30 DAYS, WEEKS ONE AND TWO -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Step four · The first 30 days</div>
+      <h2 style="margin-top:2mm;">One small thing a week</h2>
+    </div>
+    <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:20mm;height:20mm;object-fit:contain;background:var(--orbit-soft);border:2px solid var(--ink);border-radius:50%;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2.5mm;font-size:10pt;">
+    Tick a box for each day it happened. A missed day stays empty: no catching up and no telling off, just
+    start again tomorrow. At the weekend, ten minutes and the three questions. Your child answers first.
+  </p>
+  <div style="flex:1;display:flex;flex-direction:column;gap:6mm;margin-top:4.5mm;">
+    <div class="card week">
+      <div><span class="wk">Week 1 · Days 1 to 7</span></div>
+      <div class="wt">Phone to bed, unasked</div>
+      <div class="wd">At the time on the deal, the phone goes to its charger outside the bedroom without anyone asking. Grown ups' phones go too.</div>
+      <div class="days"><div><div class="box"></div><span>Day 1</span></div><div><div class="box"></div><span>Day 2</span></div><div><div class="box"></div><span>Day 3</span></div><div><div class="box"></div><span>Day 4</span></div><div><div class="box"></div><span>Day 5</span></div><div><div class="box"></div><span>Day 6</span></div><div><div class="box"></div><span>Day 7</span></div></div>
+      <div class="checkin" style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="lbl">The weekend check in</div>
+        <div><div class="cq">What was the best thing your phone did for you this week?</div><span class="wl"></span></div>
+        <div><div class="cq">What made bedtime easy, and what made it hard?</div><span class="wl"></span></div>
+        <div><div class="cq">Did anyone need a reminder? Grown ups count.</div><span class="wl"></span></div>
+      </div>
+    </div>
+    <div class="card week">
+      <div><span class="wk">Week 2 · Days 8 to 14</span></div>
+      <div class="wt">Ask before you add</div>
+      <div class="wd">Every new app or game starts with a chat: what it is, who is on it, whether it costs anything. Then the approval on the phone.</div>
+      <div class="days"><div><div class="box"></div><span>Day 8</span></div><div><div class="box"></div><span>Day 9</span></div><div><div class="box"></div><span>Day 10</span></div><div><div class="box"></div><span>Day 11</span></div><div><div class="box"></div><span>Day 12</span></div><div><div class="box"></div><span>Day 13</span></div><div><div class="box"></div><span>Day 14</span></div></div>
+      <div class="checkin" style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="lbl">The weekend check in</div>
+        <div><div class="cq">What was the best thing your phone did for you this week?</div><span class="wl"></span></div>
+        <div><div class="cq">What did you ask for, and what did we decide together?</div><span class="wl"></span></div>
+        <div><div class="cq">Was there anything you wanted but did not ask about?</div><span class="wl"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The First 30 Days · Weeks 1 and 2</span></div>
+</div>
+
+<!-- PAGE 9 · THE FIRST 30 DAYS, WEEKS THREE AND FOUR -->
+<div class="sheet">
+  <div class="eyebrow">Step four · The first 30 days</div>
+  <h2 style="margin-top:2mm;">Weeks three and four</h2>
+  <div style="flex:1;display:flex;flex-direction:column;gap:6mm;margin-top:5mm;">
+    <div class="card week">
+      <div><span class="wk">Week 3 · Days 15 to 21</span></div>
+      <div class="wt">Group chats sleep too</div>
+      <div class="wd">Chats get muted when the bedtime lock starts and opened again in the morning. Once this week, show a grown up one thing from a chat, good or bad.</div>
+      <div class="days"><div><div class="box"></div><span>Day 15</span></div><div><div class="box"></div><span>Day 16</span></div><div><div class="box"></div><span>Day 17</span></div><div><div class="box"></div><span>Day 18</span></div><div><div class="box"></div><span>Day 19</span></div><div><div class="box"></div><span>Day 20</span></div><div><div class="box"></div><span>Day 21</span></div></div>
+      <div class="checkin" style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="lbl">The weekend check in</div>
+        <div><div class="cq">What was the best thing your phone did for you this week?</div><span class="wl"></span></div>
+        <div><div class="cq">Which chat is the busiest, and what happens if you miss a bit of it?</div><span class="wl"></span></div>
+        <div><div class="cq">Did anything in a chat bother you this week?</div><span class="wl"></span></div>
+      </div>
+    </div>
+    <div class="card week">
+      <div><span class="wk">Week 4 · Days 22 to 30</span></div>
+      <div class="wt">Show me your favourite</div>
+      <div class="wd">Ten minutes together on whatever they use most. They drive, you watch. Ask: "Why do you think it showed you that?"</div>
+      <div class="days" style="gap:1.6mm;"><div><div class="box"></div><span>Day 22</span></div><div><div class="box"></div><span>Day 23</span></div><div><div class="box"></div><span>Day 24</span></div><div><div class="box"></div><span>Day 25</span></div><div><div class="box"></div><span>Day 26</span></div><div><div class="box"></div><span>Day 27</span></div><div><div class="box"></div><span>Day 28</span></div><div><div class="box"></div><span>Day 29</span></div><div><div class="box"></div><span>Day 30</span></div></div>
+      <div class="checkin" style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="lbl">The weekend check in</div>
+        <div><div class="cq">What was the best thing your phone did for you this week?</div><span class="wl"></span></div>
+        <div><div class="cq">What did it show you that surprised you?</div><span class="wl"></span></div>
+        <div><div class="cq">If you could change one thing about it, what would it be?</div><span class="wl"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The First 30 Days · Weeks 3 and 4</span></div>
+</div>
+
+<!-- PAGE 10 · DAY 30, THE FIRST REVIEW -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Step four · Day 30</div>
+      <h2 style="margin-top:2mm;">The first review</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2.5mm;font-size:10pt;">
+    Ten minutes, something nice to eat, and the deal from pages five and six on the table. Your child answers
+    first. Nothing on this page is a verdict. It decides the next step.
+  </p>
+  <div style="display:flex;flex-direction:column;gap:3.5mm;margin-top:4.5mm;">
+    <div class="deal"><div class="q"><span class="num">1</span>What did the phone make easier this month?</div><div class="lines" style="height:27mm;"></div></div>
+    <div class="deal"><div class="q"><span class="num">2</span>What was harder than we expected?</div><div class="lines" style="height:27mm;"></div></div>
+    <div class="deal"><div class="q"><span class="num">3</span>Which week's practice stuck, and which needs another go?</div><div class="lines" style="height:27mm;"></div></div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:4mm 4.5mm 2.5mm;">
+      <div class="eyebrow" style="color:var(--green);">Keep</div>
+      <p style="font-size:8.6pt;line-height:1.35;margin-top:1mm;">What stays exactly as it is</p>
+      <div class="lines" style="height:36mm;"></div>
+    </div>
+    <div class="card" style="flex:1;padding:4mm 4.5mm 2.5mm;">
+      <div class="eyebrow" style="color:var(--terracotta-dark);">Loosen</div>
+      <p style="font-size:8.6pt;line-height:1.35;margin-top:1mm;">One thing that has earned more room</p>
+      <div class="lines" style="height:36mm;"></div>
+    </div>
+    <div class="card" style="flex:1;padding:4mm 4.5mm 2.5mm;">
+      <div class="eyebrow" style="color:var(--orbit);">Practise</div>
+      <p style="font-size:8.6pt;line-height:1.35;margin-top:1mm;">One thing for next month</p>
+      <div class="lines" style="height:36mm;"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:auto;align-items:stretch;">
+    <div class="card tinted" style="flex:1.6;padding:4mm 5mm;background:var(--orbit-soft);display:flex;gap:3.5mm;align-items:center;">
+      <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:20mm;height:20mm;object-fit:contain;flex-shrink:0;">
+      <p style="font-size:9.4pt;color:var(--ink);font-weight:700;line-height:1.45;">Changed something? Write it into the deal on page five, both initial it, and you are done. Then keep looking at it every term.</p>
+    </div>
+    <div class="datebox" style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+      <div class="lbl">Our next review</div><div class="line"></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The First 30 Days · The first review</span></div>
+</div>
+
+<!-- PAGE 11 · THE WORDS FOR THE FIRST WOBBLE -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Keep this one by the charger</div>
+      <h2 style="margin-top:2mm;">The words for the first wobble</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2.5mm;font-size:10pt;">
+    Four moments that often turn up in the first month, with the words from the Guided Childhood script
+    library. Short on purpose, so they come back to you when you need them.
+  </p>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:4mm;">
+    <div class="card script">
+      <div style="width:52mm;flex-shrink:0;"><div class="lab">Too long on it</div><div class="front">"Five more minutes. Please."</div><div class="sit">Bedtime has already been stretched twice.</div></div>
+      <div style="flex:1;"><div class="say">"I know. And we are done now. Device off. I will come in to say goodnight."</div><div class="why"><b>Why</b>The five more minutes negotiation reflects genuine disappointment, not defiance.</div></div>
+    </div>
+    <div class="card script">
+      <div style="width:52mm;flex-shrink:0;"><div class="lab">A group chat upset</div><div class="front">"Nothing. I am fine."</div><div class="sit">They came home quiet, and something happened in the group chat.</div></div>
+      <div style="flex:1;"><div class="say">"Something happened in the group chat, didn't it. You don't have to tell me what. But I am here if you do."</div><div class="why"><b>Why</b>Naming what you can see and leaving the door open gets you more than demanding to see the evidence.</div></div>
+    </div>
+    <div class="card script">
+      <div style="width:52mm;flex-shrink:0;"><div class="lab">A new app</div><div class="front">"Everyone is on it but me."</div><div class="sit">Their friends are all on an app or a chat they are not.</div></div>
+      <div style="flex:1;"><div class="say">"I want you to be connected with your friends. Let us look at this together and work out whether it is designed for your age and what the rules would be if you joined."</div><div class="why"><b>Why</b>Blanket refusal at this stage pushes the conversation underground.</div></div>
+    </div>
+    <div class="card script">
+      <div style="width:52mm;flex-shrink:0;"><div class="lab">Something went wrong</div><div class="front">"If I tell you, will you take my phone?"</div></div>
+      <div style="flex:1;"><div class="say">"I need you to hear this properly. If you ever see something on your phone that scares you, or someone sends you something horrible, or you get into something you cannot get out of, you come and show me, and the phone stays yours. I will not take it off you for telling me. Telling me is the thing that keeps it."</div><div class="why"><b>Why</b>Children go quiet when telling costs them the phone.</div></div>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:3.5mm 5mm;background:var(--tint-sage);">
+    <p style="font-size:9.2pt;line-height:1.45;color:var(--ink);font-weight:600;"><b style="font-weight:900;color:var(--green);">Screenshots.</b>
+      Anything upsetting can come to you as a screenshot, and it costs them nothing. The one exception: a nude or sexual
+      picture of anyone under 18 is never screenshotted, copied or sent on, not even to you. They just come and tell you.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>First Phone Kit · The words</span></div>
+</div>
+
+<!-- PAGE 12 · THE PASSPORT STICKER AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The First Phone Kit","noun":"kit","pages":[["orbit","doing"]],"strip":false,"thanks":"If this kit helped the phone arrive on a plan, a kind review on Etsy helps another family find it before their big day."}'></div>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

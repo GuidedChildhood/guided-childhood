@@ -118,6 +118,8 @@ export async function POST(req: NextRequest) {
       audience: 'kids',
       // The stars were banked for one child; only that child's phone hears it.
       childId,
+      // The child's own app, where the bank shows the stars.
+      url: '/',
       title: 'Your star chart stars landed ⭐',
       body: `${total} star${total === 1 ? '' : 's'} in the bank from your week beginning ${formatWeekBeginning(weekStart)}.`,
     }).catch(() => {})
