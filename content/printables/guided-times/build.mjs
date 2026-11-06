@@ -50,8 +50,8 @@ const ready = async page => {
   await page.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 30000 })
   await page.waitForTimeout(300)
 }
-const open = async (page, ink = false) => {
-  await page.goto('file://' + join(DIR, 'print.html'))
+const open = async (page, ink = false, edition = '') => {
+  await page.goto('file://' + join(DIR, 'print.html') + (edition ? `?edition=${edition}` : ''))
   if (ink) await page.evaluate(() => document.body.classList.add('ink'))
   await ready(page)
 }
@@ -165,6 +165,35 @@ if (!only || only === 'reader') {
   const zip = join(out, `${SLUG}-Turn-The-Pages.zip`); rmSync(zip, { force: true })
   execFileSync('zip', ['-j', '-q', zip, join(build, htmlName), join(build, 'How-to-open-it.txt')])
   console.log('reader', htmlName, Math.round(statSync(join(build, htmlName)).size / 1024), 'KB; zip', Math.round(statSync(zip).size / 1024), 'KB')
+}
+
+// THE FREE TASTER (6 November 2026): four pages, free on the website for an
+// email (lib/magnets/registry.ts, app/(marketing)/free/guided-times). It goes
+// straight into the site's public folder, beside the Planet Post's files, with
+// a 740 by 1000 preview of each page for the web page. Run after print: its
+// last page shows the full issue's page previews.
+if (!only || only === 'taster') {
+  const PUB = join(ROOT, '../../../public/printables/free')
+  const base = `guided-times-${N}-taster`
+  mkdirSync(PUB, { recursive: true })
+  // The closing page's eight small pages: 240 px copies, so the emailed PDF
+  // stays light rather than carrying eight full renders.
+  const thumbs = join(DIR, 'images/thumbs'); rmSync(thumbs, { recursive: true, force: true }); mkdirSync(thumbs, { recursive: true })
+  for (const f of readdirSync(join(DIR, 'images/preview'))) execFileSync('sips', ['-Z', '240', join(DIR, 'images/preview', f), '--out', join(thumbs, f)], { stdio: 'ignore' })
+  const page = await browser.newPage({ viewport: { width: 900, height: 1100 } })
+  await open(page, false, 'taster'); await checkOverflow(page)
+  for (const [suffix, paper] of [['a4', 'a4'], ['letter', 'letter']]) {
+    await open(page, false, 'taster'); await page.addStyleTag({ content: PAPERS[paper] })
+    await page.emulateMedia({ media: 'print' })
+    await page.pdf({ path: join(PUB, `${base}-${suffix}.pdf`), preferCSSPageSize: true, printBackground: true, tagged: true, outline: true })
+    await page.emulateMedia({ media: 'screen' })
+    console.log('taster pdf', `${base}-${suffix}.pdf`)
+  }
+  const pv = await browser.newPage({ viewport: { width: 900, height: 1100 } })
+  await open(pv, false, 'taster')
+  const pages = pv.locator('.gt-page'), n = await pages.count()
+  for (let i = 0; i < n; i++) await pages.nth(i).screenshot({ path: join(PUB, `${base}-p${i + 1}.png`) })
+  console.log('taster previews', n)
 }
 
 if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html'))) {

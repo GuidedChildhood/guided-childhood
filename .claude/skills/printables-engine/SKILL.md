@@ -152,11 +152,46 @@ our site line, nothing that moves an Etsy transaction off Etsy.
 - Title, front loaded, around 70 characters: product, format, age band
 - 13 tags phrased differently from the title
 - All 10 image slots planned: lifestyle mockup first, contents flat lay,
-  instant download overlay, sizing guide, how it works, bonus mention
+  instant download overlay, sizing guide, how it works, bonus mention,
+  built in the Canva look with a theme and layout of its own (step 7b)
 - A 5 to 15 second demo video script in the hands on table format: real
   hands using the printable, the Natalia method, nothing produced
 - Price, rung on the ladder, launch sale line, seasonal window
 - The reel script for Instagram in the same hands on format
+
+**7b. Listing photos: the Canva look.** (Justin, 6 November 2026: "the
+cover images look more AI than Canva, the goal is to look like I designed
+them in Canva, and so all listings do not look too similar.") The photo set
+is built by `content/printables/listing-images.js` (packs) and
+`bundle-images.js` (bundles) from the pack's `listing/images.html`, rendered
+by `build-pack.mjs <pack> listing`. Never hand draw a set; set the data and
+build.
+- **The look.** Flat soft paper backgrounds, a DM Serif Display headline
+  with one Caveat handwritten note, the real pages lying flat with a soft
+  shadow and a strip of washi tape, a kraft clipboard or a fridge door with
+  magnets as the mockup, small flat sparkles, flat line icons, a white ticked
+  feature bar. Fonts live in `content/printables/listing-fonts/`.
+- **Never in a listing photo.** Rendered 3D characters standing alone, the
+  3D road, thick ink outlines, hard offset shadows, glossy gradients. The
+  friends appear only where they are printed on the real pages.
+- **Variety, so the shop never looks like one template.** Every pack sets
+  `theme` (butter, sage, blush, sky, lilac) and `layout` (clipboard,
+  clipboard-left, stack) in its `window.LISTING`, every bundle sets `theme`.
+  Before choosing, look at the shop's live listings and the section the
+  product will sit in, and pick a theme and layout its neighbours do not
+  use. Card decks fan real cards instead of a layout. Unset, the builder
+  picks from the name, which is a fallback, not a choice.
+- **Per product words.** `note` (cover handwriting, default "instant
+  download!"), `fridgeNote` and `fridgeLine` (the fridge photo),
+  `stickerNote`, `coverTicks` (three ticked features). Keep the cover's key
+  words inside the middle three quarters, which survives Etsy's crop.
+- **Check by eye.** Render the whole set, make a contact sheet, and check
+  that no headline runs under the pages, nothing touches the footer, and
+  the cover reads at thumbnail size, before anything is uploaded.
+- **Honest creation setting.** While the Planet Friends or DiGi (made with
+  AI) are printed on the pages, the listing's "How is this digital content
+  created?" stays on "With an AI generator", whatever the photos look like.
+  It moves to "Created by me" only when every page is free of AI made art.
 
 **8. Mobbin check.** Before finalising any layout that is app like (planner
 pages, phone versions), pull reference screens per the MOBBIN FIRST rule.

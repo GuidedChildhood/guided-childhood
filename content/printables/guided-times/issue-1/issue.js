@@ -224,9 +224,29 @@ window.ISSUE = {
       { key: 'earn', name: 'Earn Your Screen Time', ages: 'Ages 5 to 11', line: 'Screen tokens to cut out and ending cards, so the end of screen time is no surprise.', img: 'earn-your-screen-time', live: true },
       { key: 'phone', name: 'The Family Phone Agreement', ages: 'Ages 10 to 12', line: 'A first phone deal your child writes with you, rather than rules handed down.', img: 'family-phone-agreement', live: true },
       { key: 'calm', name: 'The Calm Down Corner Kit', ages: 'Ages 4 to 9', line: 'A calm corner sign, feelings cards and star breathing, set up together on an ordinary day.', img: 'calm-down-kit', live: true },
-      { key: 'countdown', name: 'The Christmas Screen Free Countdown', ages: 'Ages 4 to 11', line: '24 doors from 1 to 24 December, one Planet Friend activity a day, and a sticker sheet.', draw: 'doors', live: false },
-      { key: 'granny', name: 'Screens At Granny’s', ages: 'Christmas visits', line: 'House rules that travel: a card for the grandparents and a card for your child.', draw: 'house', live: false },
+      { key: 'countdown', name: 'The Christmas Screen Free Countdown', ages: 'Ages 4 to 11', line: '24 doors from 1 to 24 December, one Planet Friend activity a day, and a sticker sheet.', draw: 'doors', live: true }, // Etsy listing 4611164377, live 6 November 2026
+      { key: 'granny', name: 'Screens At Granny’s', ages: 'Christmas visits', line: 'House rules that travel: a card for the grandparents and a card for your child.', draw: 'house', live: true }, // Etsy listing 4611184524, live 6 November 2026
     ],
+  },
+
+  // The free taster (6 November 2026): the front page, the ID card, the
+  // puzzles and a closing page. Free on guidedchildhood.com for an email,
+  // never on Etsy. The page that links to Etsy is the website's, never an
+  // Etsy file, so it may name the shop.
+  taster: {
+    frontParas: [
+      'This Christmas, lots of children will unwrap a tablet, a games console or a first phone. If that is you, hooray! But here is the big news: the best bit is not the box. It is setting it up together.',
+      'This is a free taster of the paper. Turn over for your new screen\u2019s ID card and Orbit\u2019s Christmas puzzles, then the Christmas morning plan on the last page.',
+    ],
+    planTitle: 'The Christmas morning plan',
+    planKicker: 'Six things to do together',
+    planIntro: 'Before a new tablet, console or phone is switched on, do these six together, in order. The full issue gives each one a page of its own.',
+    fullTitle: 'Liked it? There are eight more pages',
+    fullLine: 'The big question, the app desk, the homework helper, good websites, Boxing Day bingo and the page turning version for any screen.',
+    whereKicker: 'The full issue',
+    where: 'The Guided Times, in our Etsy shop: GuidedChildhood',
+    stageTitle: 'What stage is your child?',
+    stageLine: 'Three questions, no sign up, and you get the plan that fits their age: guidedchildhood.com/starter-pack',
   },
 
   back: {
