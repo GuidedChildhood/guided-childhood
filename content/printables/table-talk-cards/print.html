@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>What Would You Do? Table Talk Cards</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- What Would You Do? Table Talk cards, ages 8 to 14. 100 conversation
+  cards in three suits, every word in cards-data.js:
+    Talk at tea (40, Bloop)        everyday questions that start talk at tea
+    Online (34, Orbit)             the lessons' real choice questions, retold as
+                                   open questions; the lesson's right answer is
+                                   the strong move, printed upside down at the
+                                   foot. Each names its source (content/modules
+                                   or the family lesson migrations 074, 076, 110).
+    What would DiGi say? (26)      the ask, then DiGi's pathway upside down:
+                                   where you are, the next step, the words. Never
+                                   a yes or a no (digi/01-philosophy.md).
+  The Say This deck is words for the parent; this deck is questions for the
+  child, so the two do not overlap.
+
+  THE SHEETS. Page 1 cover, page 2 how to use (ten minutes). Then 25 sheets
+  of four, cards 88 by 124mm like Say This, each fill running 1.5mm past the
+  dashed cut line. Every card shares one back (page 28), symmetric, so it
+  can go on the reverse of any sheet. A ring hole guide sits in each card's
+  top left corner. The last page is the shared Passport finish.
+-->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --gold:#EDC35F; --gold-dark:#C99A28; --butter:#FFF6DE;
+    --coral:#D4600A; --green:#2F8F6B; --tint-sage:#E8F0EE;
+    --bloop:#2F8F6B; --bloop-soft:#E4F0D4; --bloop-ink:#3F5E1E;
+    --orbit:#2E6F8E; --orbit-soft:#DCEBF7; --orbit-ink:#1F4E6E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 16mm;display:flex;flex-direction:column;}
+  .sheet.cards{background:var(--white);padding:0;display:block;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);width:0;height:0;
+    border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;border-right:4.5mm solid var(--ink);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:6mm;}
+  .pt{display:flex;gap:3.5mm;align-items:flex-start;padding:3.5mm 4.5mm;}
+  .pt .sw{width:12mm;height:12mm;border-radius:3mm;border:2.5px solid var(--ink);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .pt .t{font-weight:900;font-size:12pt;line-height:1.2;}
+  .pt p{font-size:9.4pt;line-height:1.45;margin-top:0.8mm;}
+
+  /* Sheets of four. */
+  .sheet-head{position:absolute;top:8mm;left:14mm;right:14mm;display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);}
+  .slot{position:absolute;width:88mm;height:124mm;}
+  .bleed{position:absolute;inset:-1.5mm;border-radius:5.5mm;}
+  .cut{position:absolute;inset:0;border:0.3mm dashed rgba(26,26,46,0.55);border-radius:4mm;pointer-events:none;z-index:5;}
+  .face{position:absolute;inset:0;padding:7mm 7mm 6mm;display:flex;flex-direction:column;overflow:hidden;}
+  .hole{position:absolute;left:4.5mm;top:4.5mm;width:5mm;height:5mm;border-radius:50%;border:0.35mm dashed rgba(26,26,46,0.45);background:rgba(255,255,255,0.7);z-index:4;}
+  .top{display:flex;justify-content:space-between;align-items:center;padding-left:6mm;}
+  .suit{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.8pt;letter-spacing:1.6px;text-transform:uppercase;}
+  .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1px;color:var(--ink-muted);}
+  .q{font-weight:900;font-size:18.5pt;line-height:1.2;margin-top:8mm;color:var(--ink);}
+  .q.long{font-size:16pt;}
+  .q.big{font-size:22pt;line-height:1.16;}
+  .ask{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.6px;text-transform:uppercase;margin-top:4mm;}
+  .friend{position:absolute;object-fit:contain;}
+  .flip{margin-top:auto;border-top:0.4mm dashed rgba(26,26,46,0.35);padding-top:3mm;transform:rotate(180deg);}
+  .flip .l{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.4pt;letter-spacing:1.4px;text-transform:uppercase;}
+  .flip .a{font-weight:800;font-size:11.6pt;line-height:1.38;margin-top:1.2mm;color:var(--ink);}
+  .tip{font-weight:700;font-size:8.6pt;color:var(--ink-soft);margin-top:auto;line-height:1.35;}
+  .mark{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);margin-top:2mm;}
+  .back{align-items:center;justify-content:center;text-align:center;}
+  body.photo .cut,body.photo .hole{display:none;}
+  body.photo .slot{border-radius:4mm;overflow:hidden;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .card,body.ink .bubble{box-shadow:none !important;}
+  body.ink .bleed,body.ink .tinted{background:var(--white) !important;}
+  body.ink .cover-card{background:var(--white) !important;box-shadow:none !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+<script src="cards-data.js"></script>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div class="eyebrow" style="margin-top:8mm;">Guided Childhood · Print at Home · Ages 8 to 14</div>
+  <h1 style="margin-top:6mm;font-size:46pt;">What Would<br>You Do?</h1>
+  <p style="margin-top:3mm;font-weight:800;color:var(--ink);font-size:17pt;">Table Talk Cards</p>
+  <p style="margin-top:3mm;font-weight:700;color:var(--ink);font-size:13.5pt;line-height:1.4;">100 conversation cards for tea time, the car<br>and the moments when nobody is talking.</p>
+  <div class="cover-card" style="margin-top:8mm;width:166mm;height:92mm;background:var(--orbit-soft);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);position:relative;overflow:hidden;" id="cover-fan"></div>
+  <div style="display:flex;gap:3.5mm;margin-top:9mm;flex-wrap:wrap;justify-content:center;max-width:180mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">40 talk at tea</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">34 online situations</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">26 what would DiGi say?</div>
+  </div>
+  <p style="margin-top:6mm;font-size:10.5pt;max-width:150mm;">The online cards come from the real choice questions in Guided Childhood's lessons: group chats, a game asking to chat, a photo request, a pop up with a timer.</p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Orbit · Ages 11 to 12 · Bloop · Ages 8 to 10</span></div>
+</div>
+
+<!-- PAGE 2 · HOW TO USE: TEN MINUTES -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Read this first</div>
+      <h2 style="margin-top:2mm;">Ten minutes, then stop</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">These cards are questions for your child, not a lesson for them. The aim is one good conversation, and the best ones are short. Pick a card or two at tea, or in the car, and stop while it is still fun. Ten minutes is plenty.</p>
+  <div style="display:flex;flex-direction:column;gap:3.5mm;margin-top:5mm;">
+    <div class="card pt"><div class="sw" style="background:var(--bloop-soft);"><img src="images/friends/bloop.png" alt="" style="width:11mm;height:11mm;object-fit:contain;"></div><div><div class="t">Talk at tea · 40 cards</div><p>Everyday questions to get everyone talking. Everybody answers, the person who read it goes last, and grown ups answer too.</p></div></div>
+    <div class="card pt"><div class="sw" style="background:var(--orbit-soft);"><img src="images/friends/orbit.png" alt="" style="width:11mm;height:11mm;object-fit:contain;"></div><div><div class="t">Online · 34 cards</div><p>Real situations: a group chat that turns unkind, a game that asks for your school, a pop up with a timer. Talk it through first. Then turn the card round: the foot has the strong move from the lesson it comes from.</p></div></div>
+    <div class="card pt"><div class="sw" style="background:var(--butter);"><img src="images/DiGi-star-3d.png" alt="" style="width:11mm;height:11mm;object-fit:contain;"></div><div><div class="t">What would DiGi say? · 26 cards</div><p>Something a child might ask: can I have a phone, can I stay up, can I post this. Everyone guesses what DiGi would say. DiGi never says yes or no. It says where you are, the next step, and the words. Turn the card round to check.</p></div></div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow" style="color:var(--green);">The one rule at the table</div>
+    <p style="margin-top:1.5mm;font-size:10pt;color:var(--ink);font-weight:700;">Nobody gets in trouble for an answer. If an online card brings up something real, thank them for telling you, and come back to it later, just the two of you.</p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <p style="font-size:9.8pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;">Printing.</b> Card stock works best. Cut on the dashed lines. Want backs? Print page 28 on the reverse of each card sheet, either way up. Punch the small circle in the corner and the cards go on a ring, one suit per ring.</p>
+  </div>
+  <div style="display:flex;gap:4mm;align-items:center;margin-top:auto;margin-bottom:2mm;">
+    <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">Keep the deck by the table. The cards work best when they turn up on an ordinary Tuesday.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Table Talk · How to use</span></div>
+</div>
+
+<div id="deck"></div>
+
+<!-- PAGE 29 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"What Would You Do?","noun":"cards","pages":[["bloop","talk"],["orbit","talk"]],"strip":false,"thanks":"If the cards got your table talking, a kind review on Etsy helps another family find them."}'></div>
+
+<script>
+(() => {
+const T = window.TALK
+const S = {
+  everyday: { name: 'Talk at tea', soft: '#E4F0D4', ink: '#3F5E1E', img: 'images/friends/bloop.png' },
+  online: { name: 'Online', soft: '#DCEBF7', ink: '#1F4E6E', img: 'images/friends/orbit.png' },
+  digi: { name: 'What would DiGi say?', soft: '#FFF6DE', ink: '#8A6A12', img: 'images/DiGi-star-3d.png' },
+}
+const cards = []
+let n = 0
+T.everyday.forEach(q => { n++; cards.push({ s: 'everyday', html: face('everyday', n, q, null) }) })
+T.online.forEach(([q, a]) => { n++; cards.push({ s: 'online', html: face('online', n, q, a) }) })
+T.digi.forEach(([q, a]) => { n++; cards.push({ s: 'digi', html: face('digi', n, `"${q}"`, a) }) })
+
+function face(k, i, q, a) {
+  const s = S[k]
+  const long = q.length > 95
+  const friend = k === 'digi'
+    ? `<img class="friend colour-only" src="${s.img}" alt="DiGi" style="right:5mm;top:4mm;width:15mm;height:15mm;">`
+    : k === 'online' ? `<img class="friend colour-only" src="${s.img}" alt="" style="right:4mm;top:3.5mm;width:15mm;height:15mm;">` : ''
+  const ask = k === 'online' ? 'What would you do?' : k === 'digi' ? 'What would DiGi say?' : 'Everyone answers. The reader goes last.'
+  const foot = a
+    ? `<div class="flip"><div class="l" style="color:${s.ink};">${k === 'online' ? 'Turn it round · A strong move' : 'Turn it round · DiGi says'}</div><div class="a">${a}</div></div>`
+    : `<img class="friend colour-only" src="${s.img}" alt="Bloop" style="right:5mm;bottom:5mm;width:30mm;height:30mm;"><div class="tip">Grown ups answer too.</div><div class="mark">Table Talk · guidedchildhood.com</div>`
+  return `<div class="top"><span class="suit" style="color:${s.ink};">${s.name}</span><span class="num" style="margin-right:${k === 'everyday' ? 0 : 17}mm;">${i}</span></div>${friend}
+    <div class="q${k === 'everyday' ? ' big' : long ? ' long' : ''}">${q}</div>
+    ${k === 'digi' ? `<div class="ask" style="color:${s.ink};">${ask}</div>` : ''}
+    ${foot}`
+}
+
+const back = `<div class="face back">
+  <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:40mm;height:40mm;object-fit:contain;">
+  <div style="font-weight:900;font-size:22pt;line-height:1.05;margin-top:3mm;">What Would<br>You Do?</div>
+  <div class="mono" style="font-size:7pt;color:#1F4E6E;margin-top:3mm;">Table Talk · 100 cards</div>
+  <div class="mono" style="font-size:6pt;color:#8888A0;margin-top:10mm;">guidedchildhood.com</div></div>`
+
+const W = 88, H = 124, G = 6
+const X0 = 14, Y0 = 23 // centred: what is left of 210 by 296 after two cards and a gutter, halved (Y plus 2)
+const pos = (r, c) => `left:${X0 + c * (W + G)}mm;top:${Y0 + r * (H + G)}mm;`
+let html = ''
+for (let sh = 0; sh < 25; sh++) {
+  const four = cards.slice(sh * 4, sh * 4 + 4)
+  const suits = [...new Set(four.map(c => S[c.s].name))].join(' · ')
+  html += `<div class="sheet cards" data-side="front"><div class="sheet-head"><span>Table Talk · Sheet ${sh + 1} of 25 · ${suits}</span><span>Cards ${sh * 4 + 1} to ${sh * 4 + 4}</span></div>
+    ${four.map((c, i) => `<div class="slot" data-card="${sh * 4 + i + 1}" style="${pos(i >> 1, i & 1)}"><div class="bleed" style="background:${S[c.s].soft};"></div><div class="face">${c.html}</div><span class="hole"></span><div class="cut"></div></div>`).join('')}</div>`
+}
+// One back for every card. The ids name the cards the listing photos show
+// front and back (listing-images.js closeUp.card).
+html += `<div class="sheet cards" data-side="back"><div class="sheet-head"><span>Table Talk · Card backs</span><span>Optional · Print on the reverse of any card sheet</span></div>
+  ${[1, 49, 77, 80].map((id, i) => `<div class="slot" data-card="${id}" style="${pos(i >> 1, i & 1)}"><div class="bleed" style="background:#DCEBF7;"></div>${back}<div class="cut"></div></div>`).join('')}</div>`
+document.getElementById('deck').outerHTML = html
+
+const fan = [cards[2], cards[52], cards[76]]
+document.getElementById('cover-fan').innerHTML = fan.map((c, i) => `<div style="position:absolute;width:88mm;height:124mm;left:${[8, 39, 70][i]}mm;top:${[14, 6, 14][i]}mm;transform:scale(0.62) rotate(${[-8, 0, 8][i]}deg);transform-origin:top left;">
+  <div class="bleed" style="inset:0;background:${S[c.s].soft};border:2.5px solid #1A1A2E;border-radius:5mm;"></div><div class="face">${c.html}</div></div>`).join('')
+})()
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

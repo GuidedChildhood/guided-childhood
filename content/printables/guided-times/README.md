@@ -42,6 +42,32 @@ Checked on 5 November 2026 in Chrome and in WebKit (Safari's engine) at
 when a page has transformed children, so the reader swaps the faces at the
 half way point of a turn rather than trusting it.
 
+## Issues 2 and 3, and the design upgrades (6 November 2026)
+
+Justin: build the next issues around the calendar, with headlines that grab
+attention, after researching the best children's and good news papers.
+Issue 2 is January 2027, New Year, New Deal!; Issue 3 is February 2027, the
+Safer Internet Day special, Tech Check Time! (Tuesday 9 February, the UK
+theme "Reflect on tech", checked on saferinternet.org.uk). Both use
+`design: 2`: one big cover picture and a short headline, a Wow fact, an "In
+this issue" panel, section tabs on the page edge, the monthly family
+challenge with a certificate, a pull out poster numbered across the series,
+a homework planner, a jokes corner, the comic carried on from issue to
+issue, and a back page with the shop, the next issue and the answers. An
+issue lists its pages in `pages` and its seasonal words in `labels`; Issue 1
+keeps the original layout and renders exactly as it did.
+
+## The free taster (6 November 2026)
+
+Justin: the paper also goes on the Guided Childhood Instagram carousel, free
+for an email, as a taster and never the whole issue. `print.html?edition=taster`
+draws four pages (the front, the ID card, the puzzles, and a closing page with
+the six step plan, the answers, the full issue's pages and the stage check).
+`build.mjs issue-1 taster` writes the A4 and US Letter PDFs and four page
+previews straight into `public/printables/free/guided-times-1-taster-*`. The
+gate is the `guided-times-taster` magnet in `lib/magnets/registry.ts` and the
+page is `/free/guided-times`. It is never listed on Etsy.
+
 ## A new issue
 
 Copy `issue-1` to `issue-2`, rewrite `issue.js`, check the shop page's `live`

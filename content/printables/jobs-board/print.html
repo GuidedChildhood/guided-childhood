@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Jobs Board for 11 to 15s</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The Jobs Board for 11 to 15s. A teen and tween chore chart with two
+     columns that never mix: family jobs (no stars) and earning jobs (stars).
+     Proof paths:
+       family jobs    migration 223 family_quests.is_family_job, "a family job
+                      carries no stars because contribution is belonging, not
+                      payment"; still ticked, still counted (lib/quests/bank.ts)
+       the rate       lib/quests/templates.ts STAR_MINUTES 5; per child
+                      child_time_settings.star_minutes (migration 225); parent
+                      presets 5, 10, 15 (components/quests/TimeTiersCard.tsx)
+       weekly most    lib/quests/star-week.ts weeklyStarCap: healthy daily minutes
+                      (lib/quests/screen-balance.ts: 90 for 11 to 13, 120 for 13 to
+                      15) times seven, over the rate. 126 and 168 at five minutes.
+                      The week resets Monday morning.
+       my time        core_minutes_daily (migration 223), "Free time is always
+                      theirs, no stars needed"
+       protected      lib/quests/time-tiers.ts: an hour before bed (from 20:00 for
+                      11 to 13, 21:00 for 13 to 15, to 07:00), mealtimes, school
+                      08:45 to 15:15. A start inside one is an ask, never a refusal.
+       pitch a job    components/kid/KidAskForJob.tsx ("Pitch a job", "Got a quest
+                      idea?"), app/api/quests/request/route.ts: a pitch has a title
+                      and can swap an existing job (swap_quest_id); the grown up
+                      sets the stars when they say yes.
+       the ladder     THE-STORY.md section 3: parent regulation, then shared, then
+                      self regulation; the objective is a system they stop needing.
+     No money page: the product's mechanic is stars to minutes, not pocket money. -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --terracotta:#EDC35F; --terracotta-dark:#C99A28;
+    --terracotta-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --tint-sage:#E8F0EE;
+    --orbit:#2E6F8E; --orbit-soft:#DCEBF7; --orbit-ink:#1F4E6E;
+    --nova:#7A5CC0; --nova-soft:#ECE3F7; --nova-ink:#4A2F73;
+    --heart:#FDE8EC; --heart-ink:#B4455C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 16mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:6mm;}
+  .fl{display:inline-block;border-bottom:1.6px solid #B9B9C8;height:5.5mm;vertical-align:bottom;}
+  .wl{display:block;border-bottom:1.6px solid #B9B9C8;height:7.5mm;}
+  .n{width:9mm;height:9mm;border-radius:50%;border:2.5px solid var(--ink);background:var(--terracotta);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;flex-shrink:0;}
+  .pt{display:flex;gap:3.5mm;align-items:flex-start;padding:3.5mm 4.5mm;}
+  .pt .t{font-weight:900;font-size:12pt;line-height:1.2;}
+  .pt p{font-size:9.4pt;line-height:1.45;margin-top:0.8mm;}
+
+  /* The board */
+  .bd{display:grid;gap:1.2mm;align-items:center;}
+  .bd.fam{grid-template-columns:1fr 26mm repeat(7,9.5mm);}
+  .bd.earn{grid-template-columns:1fr 16mm repeat(7,9.5mm) 14mm;}
+  .bd .h{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.6pt;letter-spacing:0.8px;text-align:center;color:var(--ink-soft);text-transform:uppercase;}
+  .bd .h.l{text-align:left;}
+  .bd .j{background:var(--white);border:2px solid var(--ink);border-radius:8px;height:10.5mm;display:flex;align-items:center;padding:0 3mm;font-weight:800;font-size:10pt;}
+  .bd .w{background:var(--white);border:2px solid var(--ink);border-radius:8px;height:10.5mm;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:9.4pt;}
+  .bd .c{height:10.5mm;border:2px solid var(--ink);border-radius:8px;background:var(--white);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;}
+  .col-head{display:flex;align-items:center;gap:3mm;margin-top:4mm;padding:2.5mm 4mm;border:2.5px solid var(--ink);border-radius:12px;}
+  .col-head .t{font-weight:900;font-size:14pt;}
+  .col-head .s{font-size:9pt;font-weight:700;color:var(--ink-soft);}
+  .col-head .ic{width:10mm;height:10mm;flex-shrink:0;}
+  .ex{font-family:'Nunito',sans-serif;font-weight:800;color:#2B4FA0;}
+
+  /* The converter */
+  .conv{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm;margin-top:3mm;}
+  .conv > div{background:var(--white);border:2px solid var(--ink);border-radius:10px;padding:2mm 3mm;display:flex;justify-content:space-between;align-items:center;}
+  .conv b{font-weight:900;font-size:11pt;}
+  .conv span{font-weight:700;font-size:9pt;color:var(--ink-soft);}
+  .win{display:flex;gap:3.5mm;align-items:center;background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:2.6mm 4mm;}
+  .win .sw{width:11mm;height:11mm;border-radius:2.5mm;border:2px solid var(--ink);flex-shrink:0;background:repeating-linear-gradient(135deg,#1A1A2E 0 1.4mm,#fff 1.4mm 2.8mm);}
+  .win .t{font-weight:900;font-size:11pt;}
+  .win .s{font-weight:600;font-size:9pt;color:var(--ink-soft);margin-top:0.4mm;}
+
+  /* Pitch slips */
+  .slips{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:5mm;flex:1;margin-top:4mm;}
+  .slip{background:var(--white);border:2.5px solid var(--ink);border-radius:14px;padding:4mm 4.5mm;display:flex;flex-direction:column;
+    outline:0.4mm dashed rgba(26,26,46,0.5);outline-offset:2mm;}
+  .slip .k{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.6px;text-transform:uppercase;color:var(--orbit-ink);}
+  .slip .t{font-weight:900;font-size:13pt;line-height:1.1;margin-top:0.5mm;}
+  .slip .l{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.2pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-muted);margin-top:2mm;}
+  .slip .wl{height:6.5mm;}
+  .slip .yes{margin-top:auto;border-top:1.5px dashed rgba(26,26,46,0.3);padding-top:2mm;display:flex;gap:2.5mm;align-items:center;flex-wrap:wrap;}
+  .slip .yes span{display:inline-flex;align-items:center;gap:1.2mm;font-weight:800;font-size:8.4pt;}
+  .slip .yes i{display:inline-block;width:4mm;height:4mm;border:1.8px solid var(--ink);border-radius:1mm;}
+
+  /* The deal */
+  .term{background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:3mm 4.5mm;}
+  .term .q{font-weight:900;font-size:11.2pt;color:var(--ink);display:flex;gap:2.5mm;align-items:baseline;}
+  .term .q .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;color:var(--orbit);}
+  .term .hint{font-size:8.6pt;font-weight:600;color:var(--ink-muted);margin-top:0.5mm;}
+  .sigbox{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:3.5mm 4.5mm 4mm;}
+  .siglabel{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);margin-top:2mm;}
+  .sigline{border-bottom:2px solid var(--ink);height:12mm;}
+  .ladder{display:flex;gap:2mm;margin-top:3mm;}
+  .ladder > div{flex:1;border:2px solid var(--ink);border-radius:10px;padding:2.5mm 3mm;background:var(--white);display:flex;gap:2mm;align-items:flex-start;}
+  .ladder i{display:block;width:5mm;height:5mm;border:2px solid var(--ink);border-radius:1.2mm;flex-shrink:0;margin-top:0.4mm;}
+  .ladder b{font-weight:900;font-size:10pt;display:block;}
+  .ladder span{font-weight:600;font-size:8.4pt;color:var(--ink-soft);line-height:1.35;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .card,body.ink .bubble,body.ink .sigbox{box-shadow:none !important;}
+  body.ink .tinted,body.ink .col-head{background:var(--white) !important;}
+  body.ink .n{background:var(--white);}
+  body.ink .cover-card{background:var(--white) !important;box-shadow:none !important;}
+  body.ink .fill{fill:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div class="eyebrow" style="margin-top:8mm;">Guided Childhood · Print at Home · Ages 11 to 15</div>
+  <h1 style="margin-top:6mm;font-size:50pt;">The Jobs Board</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:16pt;">for 11 to 15s</p>
+  <p style="margin-top:4mm;font-weight:700;color:var(--ink);font-size:13.5pt;line-height:1.4;">
+    A weekly chore chart for tweens and teens. Family jobs<br>everyone does, earning jobs that pay in screen time.
+  </p>
+  <div class="cover-card" style="margin-top:8mm;width:160mm;height:84mm;background:var(--nova-soft);border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);display:flex;align-items:flex-end;justify-content:center;gap:0;overflow:hidden;">
+    <img src="images/friends/orbit.png" alt="Orbit, a Planet Friend" style="width:64mm;height:64mm;object-fit:contain;margin-bottom:6mm;">
+    <img src="images/friends/nova.png" alt="Nova, a Planet Friend" style="width:80mm;height:80mm;object-fit:contain;">
+  </div>
+  <div style="display:flex;gap:3.5mm;margin-top:9mm;flex-wrap:wrap;justify-content:center;max-width:180mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">The weekly board, filled and blank</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Stars to minutes</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Pitch a job slips</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Our jobs deal</div>
+  </div>
+  <p style="margin-top:7mm;font-size:10.5pt;max-width:150mm;">
+    Built so they run it themselves: they pitch the jobs, they count the stars, and the deal is signed by both of you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Orbit · Ages 11 to 12 · Nova · Ages 13 to 15</span></div>
+</div>
+
+<!-- PAGE 2 · FOR THE GROWN UP -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Read this first</div>
+      <h2 style="margin-top:2mm;">Two columns that never mix</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">
+    At eleven to fifteen the screen argument stops being about bedtime stories and starts being about
+    fairness. This board makes the rules visible, so the deal does the arguing and you get to be on
+    their side of it. There are two columns, and the line between them matters most.
+  </p>
+  <div style="display:flex;flex-direction:column;gap:3.5mm;margin-top:5mm;">
+    <div class="card pt" style="background:var(--heart);"><div class="n" style="background:var(--heart);">1</div><div><div class="t">Family jobs: no stars, ever</div><p>Emptying the dishwasher, their own washing, laying the table. Everyone in the house does these, grown ups included. They get ticked, never paid, because contribution is belonging, not payment.</p></div></div>
+    <div class="card pt"><div class="n">2</div><div><div class="t">Earning jobs: stars for screen time</div><p>Bigger or extra jobs: washing the car, a full clean of the bathroom, helping a younger sibling with reading. Each has a star value you agree. One star is five minutes, or ten or fifteen if you choose.</p></div></div>
+    <div class="card pt"><div class="n" style="background:#fff;">3</div><div><div class="t">A weekly most</div><p>Guided Childhood's guide for a healthy day is about an hour and a half of screen time at 11 to 13 and two hours at 13 to 15. At five minutes a star that is at most 126 stars a week for 11 to 13 and 168 for 13 to 15. The week starts on Monday.</p></div></div>
+    <div class="card pt"><div class="n" style="background:#fff;">4</div><div><div class="t">Protected time: no star buys it</div><p>The hour before bed, mealtimes and school hours. If they want a screen inside one, it comes to you as an ask, and it is your call every time. It is never for sale.</p></div></div>
+    <div class="card pt"><div class="n">5</div><div><div class="t">They pitch the jobs</div><p>The pitch slips let them propose a new earning job, or swap one they are tired of. You set the stars when you say yes.</p></div></div>
+  </div>
+  <div style="display:flex;gap:4mm;align-items:center;margin-top:auto;margin-bottom:2mm;">
+    <img class="colour-only" src="images/friends/nova.png" alt="Nova" style="width:24mm;height:24mm;object-fit:contain;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">The aim is a board they stop needing. You run it, then you run it together, then they run it and you check in.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Jobs Board · For the grown up</span></div>
+</div>
+
+<div id="boards"></div>
+
+<!-- PAGE 5 · STARS TO MINUTES AND THE PROTECTED WINDOWS -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Keep this one by the board</div>
+      <h2 style="margin-top:2mm;">Stars to minutes</h2>
+    </div>
+    <img class="colour-only" src="images/friends/orbit.png" alt="Orbit" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <div style="display:flex;gap:6mm;flex-wrap:wrap;font-weight:800;font-size:11pt;">
+      <span>My rate: one star is <span class="fl" data-field="rate" style="width:12mm;"></span> minutes</span>
+      <span>My time each day: <span class="fl" data-field="mytime" style="width:12mm;"></span> minutes, no stars needed</span>
+    </div>
+    <div style="font-weight:800;font-size:11pt;margin-top:2.5mm;">This week's most: <span class="fl" data-field="cap" style="width:14mm;"></span> stars <span style="font-weight:600;font-size:9pt;color:var(--ink-soft);">(the guide at five minutes a star: 126 for 11 to 13, 168 for 13 to 15)</span></div>
+  </div>
+  <div class="mono" style="font-size:7.5pt;color:var(--ink-muted);margin-top:5mm;">At five minutes a star</div>
+  <div class="conv" id="conv5"></div>
+  <div class="mono" style="font-size:7.5pt;color:var(--ink-muted);margin-top:4mm;">At ten minutes a star</div>
+  <div class="conv" id="conv10"></div>
+  <div class="eyebrow" style="margin-top:6mm;color:var(--ink-soft);">Protected time · No star buys these</div>
+  <div style="display:flex;flex-direction:column;gap:2.6mm;margin-top:2.5mm;">
+    <div class="win"><div class="sw"></div><div><div class="t">The hour before bed, until morning</div><div class="s">From <span class="fl" data-field="bed-from" style="width:18mm;"></span> on school nights. The app's start: 20:00 for 11 to 13, 21:00 for 13 to 15.</div></div></div>
+    <div class="win"><div class="sw"></div><div><div class="t">Mealtimes</div><div class="s">Phones rest while we eat. Grown ups too.</div></div></div>
+    <div class="win"><div class="sw"></div><div><div class="t">School hours</div><div class="s">Weekdays in term time, 08:45 to 15:15, or <span class="fl" data-field="school" style="width:30mm;"></span></div></div></div>
+  </div>
+  <div class="card tinted" style="margin-top:4mm;padding:3.5mm 5mm;background:var(--terracotta-lt);">
+    <p style="font-size:9.6pt;color:var(--ink);font-weight:700;">Want a screen inside one? Ask. It is a conversation, never a sale: stars cannot buy protected time, and the answer is your grown up's call.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Jobs Board · Stars to minutes</span></div>
+</div>
+
+<!-- PAGE 6 · PITCH A JOB -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Cut out six slips · Hand one over when you have an idea</div>
+      <h2 style="margin-top:2mm;">Pitch a job</h2>
+    </div>
+    <img class="colour-only" src="images/friends/nova.png" alt="Nova" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2mm;font-size:9.8pt;">Got a quest idea? Write it up and hand it over. Your grown up says yes, let us talk, or tweak it, and sets the stars when it goes on the board.</p>
+  <div class="slips" id="slips"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Jobs Board · Pitch a job</span></div>
+</div>
+
+<!-- PAGE 7 · OUR JOBS DEAL -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Sign it together · Look at it again each half term</div>
+      <h2 style="margin-top:2mm;">Our jobs deal</h2>
+    </div>
+    <div class="colour-only" style="display:flex;gap:1mm;flex-shrink:0;">
+      <img src="images/friends/orbit.png" alt="Orbit" style="width:18mm;height:18mm;object-fit:contain;background:var(--orbit-soft);border:2px solid var(--ink);border-radius:50%;">
+      <img src="images/friends/nova.png" alt="Nova" style="width:18mm;height:18mm;object-fit:contain;background:var(--nova-soft);border:2px solid var(--ink);border-radius:50%;">
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:2.6mm;margin-top:4mm;">
+    <div class="term"><div class="q"><span class="num">1</span>Our family jobs, no stars</div><div class="hint">Everyone in the house does these, grown ups included.</div><span class="wl" data-field="deal-family"></span></div>
+    <div class="term"><div class="q"><span class="num">2</span>One star is <span class="fl" data-field="rate" style="width:12mm;"></span> minutes, and the most in a week is <span class="fl" data-field="cap" style="width:14mm;"></span> stars</div><div class="hint">The week starts on Monday. Stars over the most wait for the holidays.</div></div>
+    <div class="term"><div class="q"><span class="num">3</span>My time is <span class="fl" data-field="mytime" style="width:12mm;"></span> minutes a day, whatever happens</div><div class="hint">It is not a reward, so it is never taken away as a punishment.</div></div>
+    <div class="term"><div class="q"><span class="num">4</span>Protected time: the hour before bed, meals, school</div><div class="hint">No stars buy it. A screen inside it starts with an ask.</div></div>
+    <div class="term"><div class="q"><span class="num">5</span>New jobs start as a pitch</div><div class="hint">You can swap a job you are tired of. The stars are agreed when the pitch gets a yes.</div></div>
+    <div class="term"><div class="q"><span class="num">6</span>One thing we are adding ourselves</div><span class="wl" data-field="deal-own"></span></div>
+  </div>
+  <div class="eyebrow" style="margin-top:4mm;color:var(--ink-soft);">Who runs the board · Tick where you are now</div>
+  <div class="ladder">
+    <div><i></i><div><b>The grown up</b><span>Adds the jobs and checks the stars</span></div></div>
+    <div><i></i><div><b>Together</b><span>We add the jobs and count the stars side by side</span></div></div>
+    <div><i></i><div><b>Me</b><span>I run it; we look at it once a week</span></div></div>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:4mm;">
+    <div class="sigbox"><div class="siglabel">Signed, the job holder</div><div class="sigline"></div></div>
+    <div class="sigbox"><div class="siglabel">Signed, the grown up</div><div class="sigline"></div></div>
+  </div>
+  <div style="font-weight:800;font-size:10pt;margin-top:3.5mm;">We look at it again on <span class="fl" data-field="review" style="width:40mm;"></span></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Jobs Board · Our jobs deal</span></div>
+</div>
+
+<!-- PAGE 8 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The Jobs Board","noun":"board","pages":[["orbit","doing"],["nova","doing"]],"strip":false,"thanks":"If the board took some heat out of the week, a kind review on Etsy helps another family find it."}'></div>
+
+<script>
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const heart = '<svg class="ic" viewBox="0 0 24 24"><path d="M12 20C5 15.5 3 12 3 9a4 4 0 0 1 9-2 4 4 0 0 1 9 2c0 3-2 6.5-9 11z" fill="#FDE8EC" stroke="#1A1A2E" stroke-width="1.8" class="fill"/></svg>'
+const star = '<svg class="ic" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.6" stroke-linejoin="round" class="fill"/></svg>'
+const EX = {
+  fam: [['Empty the dishwasher', 'Me', [1, 0, 1, 0, 1, 0, 1]], ['My washing to the basket', 'Me', [1, 1, 1, 1, 1, 1, 0]], ['Lay or clear the table', 'Everyone', [1, 1, 0, 1, 1, 1, 1]], ['Bins out on bin night', 'Me', [0, 0, 1, 0, 0, 0, 0]], ['Feed the cat', 'Me and Gran', [1, 1, 1, 1, 1, 1, 1]], ['', '', []]],
+  earn: [['Wash the car', 4, [0, 0, 0, 0, 0, 1, 0]], ['Clean the bathroom', 6, [0, 0, 0, 1, 0, 0, 0]], ['Hoover the stairs', 3, [0, 1, 0, 0, 0, 0, 0]], ['Reading with my brother', 2, [1, 0, 1, 0, 1, 0, 0]], ['Cook tea for everyone', 8, [0, 0, 0, 0, 0, 0, 1]], ['Garden: weeds and leaves', 5, [0, 0, 0, 0, 0, 1, 0]], ['', '', []], ['', '', []]],
+}
+const board = filled => {
+  const v = (x, f) => filled ? `<span class="ex">${x}</span>` : `<span data-field="${f}" data-size="10" style="display:block;width:100%;height:100%;"></span>`
+  const ticks = (t, k) => DAYS.map((_, d) => `<div class="c">${filled && t[d] ? '<span class="ex">✓</span>' : ''}</div>`).join('')
+  const total = r => r[2].reduce((a, b) => a + b, 0) * (r[1] || 0)
+  const earnTotal = EX.earn.reduce((a, r) => a + total(r), 0)
+  return `<div class="sheet">
+    <div class="head"><div><div class="eyebrow">${filled ? 'A filled example · Yours is the next page' : 'Week of'} ${filled ? '' : '<span class="fl" data-field="week" style="width:34mm;"></span>'}</div>
+      <h2 style="margin-top:2mm;">${filled ? '<span class="ex">Sam</span>' : '<span data-field="name" data-size="18" style="display:inline-block;width:58mm;border-bottom:2.5px solid var(--ink);height:10mm;vertical-align:bottom;"></span>'}'s jobs board</h2></div>
+      <div class="colour-only" style="display:flex;gap:1mm;flex-shrink:0;">
+        <img src="images/friends/orbit.png" alt="Orbit" style="width:17mm;height:17mm;object-fit:contain;background:var(--orbit-soft);border:2px solid var(--ink);border-radius:50%;">
+        <img src="images/friends/nova.png" alt="Nova" style="width:17mm;height:17mm;object-fit:contain;background:var(--nova-soft);border:2px solid var(--ink);border-radius:50%;">
+      </div></div>
+    <div class="col-head tinted" style="background:var(--heart);">${heart}<div><div class="t">Family jobs</div><div class="s">No stars. Everyone in the house does these, grown ups included.</div></div></div>
+    <div class="bd fam" style="margin-top:2mm;"><div class="h l">The job</div><div class="h">Who</div>${DAYS.map(d => `<div class="h">${d}</div>`).join('')}
+      ${EX.fam.map((r, i) => `<div class="j">${v(r[0], 'fam-' + i)}</div><div class="w">${v(r[1], 'who-' + i)}</div>${ticks(r[2], i)}`).join('')}</div>
+    <div class="col-head tinted" style="background:var(--terracotta-lt);">${star}<div><div class="t">Earning jobs</div><div class="s">Stars for screen time, agreed before the job starts. One star is ${filled ? '<span class="ex">5</span>' : '<span class="fl" data-field="rate" style="width:9mm;"></span>'} minutes.</div></div></div>
+    <div class="bd earn" style="margin-top:2mm;"><div class="h l">The job</div><div class="h">Stars</div>${DAYS.map(d => `<div class="h">${d}</div>`).join('')}<div class="h">Total</div>
+      ${EX.earn.map((r, i) => `<div class="j">${v(r[0], 'earn-' + i)}</div><div class="w">${v(r[1], 'stars-' + i)}</div>${ticks(r[2], i)}<div class="w">${filled ? (total(r) ? `<span class="ex">${total(r)}</span>` : '') : v('', 'total-' + i)}</div>`).join('')}</div>
+    <div style="display:flex;gap:3mm;margin-top:3.5mm;">
+      <div class="card" style="flex:1;padding:2.6mm 4mm;box-shadow:none;font-weight:800;font-size:10pt;">Stars this week: ${filled ? `<span class="ex">${earnTotal}</span>` : '<span class="fl" data-field="week-stars" style="width:14mm;"></span>'} of ${filled ? '<span class="ex">126</span>' : '<span class="fl" data-field="cap" style="width:12mm;"></span>'} most</div>
+      <div class="card" style="flex:1;padding:2.6mm 4mm;box-shadow:none;font-weight:800;font-size:10pt;">That is ${filled ? `<span class="ex">${earnTotal * 5}</span>` : '<span class="fl" data-field="week-mins" style="width:14mm;"></span>'} minutes on top of my time</div>
+    </div>
+    <div class="footer"><span>guidedchildhood.com</span><span>Jobs Board · ${filled ? 'A filled example' : 'The weekly board'}</span></div></div>`
+}
+document.getElementById('boards').outerHTML = board(true) + board(false)
+
+const conv = (rate, el) => document.getElementById(el).innerHTML = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24].map(s => `<div><b>${s} ${s === 1 ? 'star' : 'stars'}</b><span>${s * rate >= 60 ? `${Math.floor(s * rate / 60)} h${s * rate % 60 ? ' ' + (s * rate % 60) + ' min' : ''}` : s * rate + ' min'}</span></div>`).join('')
+conv(5, 'conv5'); conv(10, 'conv10')
+
+document.getElementById('slips').innerHTML = Array.from({ length: 6 }, (_, i) => `<div class="slip">
+  <div class="k">Pitch a job</div><div class="t">Got a quest idea?</div>
+  <div class="l">The job</div><span class="wl" data-field="pitch-job-${i}" data-size="10"></span>
+  <div class="l">Why it helps the house</div><span class="wl" data-field="pitch-why-${i}" data-size="10"></span>
+  <div class="l">How long it takes, and how often</div><span class="wl" data-field="pitch-long-${i}" data-size="10"></span>
+  <div class="l">Swap it for (optional)</div><span class="wl" data-field="pitch-swap-${i}" data-size="10"></span>
+  <div class="yes"><span><i></i>Yes</span><span><i></i>Let us talk</span><span><i></i>Tweak it</span><span style="margin-left:auto;">★ <span class="fl" data-field="pitch-stars-${i}" style="width:9mm;height:4.5mm;"></span></span></div>
+</div>`).join('')
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

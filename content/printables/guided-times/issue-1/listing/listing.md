@@ -12,13 +12,14 @@ Kids Christmas Newspaper Printable | New Tablet or Phone Activity Pages | Ages 6
 
 ## On Etsy
 
-Saved as a draft on 6 November 2026, listing 4611120805 (Shop Manager,
+Saved on 6 November 2026 as listing 4611120805 (Shop Manager,
 Listings, Draft). Digital, category Worksheets, celebration Christmas, the
 8 photos with 01-cover first, the 5 files, title, description, 13 tags,
 £5.99, quantity 999, made by Justin, content created with an AI generator
 (the Planet Friends), automatic renewal, Etsy Ads on as the shop's default.
-Not published: Justin presses Publish. Then check it is in the shop's 25
-percent sale.
+Published on 6 November 2026 at Justin's word: etsy.com/uk/listing/4611120805.
+It is in the shop's 25 percent sale: UK buyers see Now £5.39, was £7.19,
+which is £4.49 and £5.99 with VAT added.
 
 ## Price and listing setup
 
@@ -153,9 +154,11 @@ any screen. Ages 6 to 11. Link in bio.
   anywhere in the paper. The website appears as plain text: the app desk names
   guidedchildhood.com as information, and the back page names the free gift at
   guidedchildhood.com/etsy-bonus.
-- The shop page lists only products live on Etsy. The Christmas Countdown and
-  Screens At Granny's are in `issue.js` with `live: false`; set them to `true`
-  and rebuild once their listings are live, before this issue is listed.
+- The shop page lists only products live on Etsy. The Christmas Screen Free
+  Countdown (listing 4611164377) and Screens At Granny's (listing 4611184524)
+  went live on 6 November 2026 and are switched on in `issue.js`; the files
+  were rebuilt the same day. The live listing's files need swapping for the
+  rebuilt ones.
 - The next issue line says "the end of December", not a date.
 - The Planet Friends and DiGi were made with AI tools. Say so in the
   listing's creation details, per Etsy's Creativity Standards.

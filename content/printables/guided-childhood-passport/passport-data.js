@@ -50,14 +50,14 @@
 // still sold on its own, to families who find it by search.
 const pack = (name, part, ready = false) => ({ name, part, ready })
 window.PASSPORT_PACKS = {
-  1: [pack('Say This', 'talk'), pack('The Calm Down Corner Kit', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
-      pack('Screens At Granny\'s', 'talk'), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing')],
-  2: [pack('Say This', 'talk'), pack('The Family Phone Agreement', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
-      pack('Screens At Granny\'s', 'talk'), pack('The Holiday Screen Deal', 'doing'), pack('The Christmas Screen Free Countdown', 'doing'), pack('Are We Nearly There', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
-  3: [pack('Say This', 'talk'), pack('The Family Phone Agreement', 'talk', true),
-      pack('The First Phone Kit', 'talk'), pack('The Holiday Screen Deal', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
-  4: [pack('Say This', 'talk'), pack('The First Phone Kit', 'doing'), pack('The 30 Day Screen Reset Journal', 'check')],
-  5: [pack('Say This', 'talk'), pack('The 30 Day Screen Reset Journal', 'check')],
+  1: [pack('Say This', 'talk', true), pack('The Calm Down Corner Kit', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
+      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Personalised Star Chart', 'doing'), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing', true)],
+  2: [pack('Say This', 'talk', true), pack('The Family Phone Agreement', 'talk', true), pack('Earn Your Screen Time', 'doing', true),
+      pack('Screens at Granny’s', 'talk', true), pack('The Star Swap Shop', 'doing', true), pack('The Holiday Screen Deal', 'doing', true), pack('The Christmas Screen Free Countdown', 'doing', true), pack('Are We Nearly There', 'doing', true), pack('Where Phones Sleep', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
+  3: [pack('Say This', 'talk', true), pack('The Family Phone Agreement', 'talk', true),
+      pack('The First Phone Kit', 'talk', true), pack('The Holiday Screen Deal', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
+  4: [pack('Say This', 'talk', true), pack('The First Phone Kit', 'doing', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
+  5: [pack('Say This', 'talk', true), pack('The 30 Day Screen Reset Journal', 'check', true)],
 }
 
 window.PASSPORT = {

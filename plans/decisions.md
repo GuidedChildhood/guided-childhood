@@ -31,31 +31,13 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
 | `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-30 | 297 |
-| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-19 | 119 |
+| `plans/decisions-archive/2026-10.md` | 2026-10-01 to 2026-10-22 | 128 |
+| `plans/decisions-archive/2026-11.md` | 2026-11-01 to 2026-11-04 | 10 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-30 · 30 September 2026: migration 358 is live, the under 7 shelf is seven lessons · `plans/decisions-archive/2026-09.md`
-- 2026-10-01 · 1 October 2026: the master plan, the content pack, the explainer template, the daily desk · `plans/decisions-archive/2026-10.md`
-- 2026-10-01 · 1 October 2026: the founder context and the weekly image sheet · `plans/decisions-archive/2026-10.md`
-- 2026-10-01 · 1 October 2026: The Social Billboard playlist card and Instagram carousels (PR 1184) · `plans/decisions-archive/2026-10.md`
-- 2026-10-02 · 2 October 2026: parents can talk to DiGi, and DiGi can read aloud, both optional · `plans/decisions-archive/2026-10.md`
-- 2026-10-02 · 2 October 2026: the handover series is told by Justin alone · `plans/decisions-archive/2026-10.md`
-- 2026-10-02 · 2 October 2026: why the explainer looked basic, and the DiGi brain film (PR 1184) · `plans/decisions-archive/2026-10.md`
-- 2026-10-02 · 2 October 2026: DiGi reminders, log a moment, worries tracked, hands free (PR 1186) · `plans/decisions-archive/2026-10.md`
-- 2026-10-02 · 2 October 2026: migration 359 live, LinkedIn pack, PRs 1187 and 1188 unblocked · `plans/decisions-archive/2026-10.md`
-- 2026-10-04 · 4 October 2026: Give £5, get £5 built for Guided Childhood (PR 1190, migration 360) · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: two sessions, one Social Billboard feed · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: the Social Billboard lane is blocked by the site, not by content · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: one control document for the Social Billboard parent launch (PR 1192) · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: Space playlist approved; the review behind it becomes a post (PR 1192) · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: one social visual system, the real assets win · `plans/decisions-archive/2026-10.md`
-- 2026-10-05 · 5 October 2026: the six formats built, and the Sunday batch · `plans/decisions-archive/2026-10.md`
-- 2026-10-06 · 6 October 2026: the free pilot email campaign, Wessex first, then 15 miles · `plans/decisions-archive/2026-10.md`
-- 2026-10-06 · 6 October 2026: Social Billboard cards use black, white and yellow only · `plans/decisions-archive/2026-10.md`
-- 2026-10-07 · 7 October 2026: Two brains, one clock has sound and 1080p clips (PR 1184) · `plans/decisions-archive/2026-10.md`
 - 2026-10-07 · 7 October 2026: every script Justin has to record, as read cards · `plans/decisions-archive/2026-10.md`
 - 2026-10-07 · 7 October 2026: the check in rates on faces, one outcome per tap, two fives still rest a worry · `plans/decisions-archive/2026-10.md`
 - 2026-10-07 · 7 October 2026, later: one five rests a worry, and the faces get the happy news finish · `plans/decisions-archive/2026-10.md`
@@ -157,114 +139,33 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-10-18 · 18 October 2026: GDC-044, the ban is a teaching instrument · `plans/decisions-archive/2026-10.md`
 - 2026-10-18 · 18 October 2026: GDC-044 v2, the post was betting on the wrong commitment · `plans/decisions-archive/2026-10.md`
 - 2026-10-19 · 19 October 2026: the ad studio skill, cards A and C first, 381 confirmed live · `plans/decisions-archive/2026-10.md`
+- 2026-10-20 · 20 October 2026: the ad campaign council · `plans/decisions-archive/2026-10.md`
+- 2026-10-20 · 20 October 2026, the Meta Muse connector · `plans/decisions-archive/2026-10.md`
+- 2026-10-20 · 20 October 2026: the reply when a school already uses Common Sense · `plans/decisions-archive/2026-10.md`
+- 2026-10-21 · 21 October 2026: an email gate on the free standalone lessons · `plans/decisions-archive/2026-10.md`
+- 2026-10-21 · 21 October 2026: tests never use up a pilot place · `plans/decisions-archive/2026-10.md`
+- 2026-10-21 · 2026-10-21, PostHog on the public pages only · `plans/decisions-archive/2026-10.md`
+- 2026-10-21 · 2026-10-21, SEO through gum for both apps · `plans/decisions-archive/2026-10.md`
+- 2026-10-21 · 21 October 2026: the stage check knows someone who has been before · `plans/decisions-archive/2026-10.md`
+- 2026-10-22 · 22 October 2026: three motions from the Prompt Motion gallery · `plans/decisions-archive/2026-10.md`
+- 2026-11-01 · 1 November 2026: "Ask us for help" on the homework page, demand before build · `plans/decisions-archive/2026-11.md`
+- 2026-11-02 · 2 November 2026: DiGi's Monday failures fixed at the cause, and an email per new signup · `plans/decisions-archive/2026-11.md`
+- 2026-11-02 · 2 November 2026: DiGi learns from its failed tests, Justin taps approve · `plans/decisions-archive/2026-11.md`
+- 2026-11-02 · 2026-11-02, the Guides section, first three guides · `plans/decisions-archive/2026-11.md`
+- 2026-11-02 · 2026-11-02, click tracking, a Guides section, no community yet · `plans/decisions-archive/2026-11.md`
+- 2026-11-03 · 3 November 2026: the school window push changes every school day · `plans/decisions-archive/2026-11.md`
+- 2026-11-04 · 4 November 2026: Film 10, DiGi learns you · `plans/decisions-archive/2026-11.md`
+- 2026-11-04 · 4 November 2026, the Muse connector submitted and locked to a key · `plans/decisions-archive/2026-11.md`
+- 2026-11-04 · 4 November 2026: workshops page and enquiry built, hidden until DBS and insurance · `plans/decisions-archive/2026-11.md`
+- 2026-11-04 · 4 November 2026: the Etsy Christmas line and Free Saturday · `plans/decisions-archive/2026-11.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
 
-## 20 October 2026: the ad campaign council
-
-Three agents (ads, parent forums, creative) researched and debated the ad
-campaign over three rounds. Direction agreed; last round fixes applied.
-Butter becomes one mark per card, never a surface; espresso buttons; no 3D
-characters on paid ads; flat real screen crops; the full hook on every card;
-Round 1 tests five hooks led by the free scripts. Brief in
-`briefings/2026-10-19-ad-campaign-council.md`.
-
-## 20 October 2026, the Meta Muse connector
-
-Justin: connect Guided Childhood to Meta's Muse, and he is happy for us to appear inside it. Built as a Raw API with an OpenAPI spec (`/api/muse/ask`, `/api/muse/scripts`, `/api/muse/openapi.json`, docs at `/connectors/muse`), no new packages. Muse pays nothing, so the revenue is the funnel: every answer ends at `/starter-pack?src=muse`, counted by migration 379. Parents only, nothing about a child stored; crisis questions get the helplines and nothing else. `MUSE_DAILY_CAP` (default 300) caps model answers, then free scripts answer instead. Free scripts only, never paid ones, and never the Planet Friends mission prompts. Migration 383. Justin submits the form at platform.muse.ai after deploy. PR 1366.
-
-## 20 October 2026: the reply when a school already uses Common Sense
-
-Canva put Common Sense Media's free lessons (60, US made, 20 to 40 minute decks) into Canva Education from 9 October. Not a new competitor, since Common Sense UK was already free, but it anchors "free" in teachers' heads. Justin agreed a ready reply under campaign rule 12: never knock it, keep it, and name the UK statutory layer we add (the 57 RSHE requirements mapped, the DSL crosswalk, UK law, nothing to plan).
-
-## 21 October 2026: an email gate on the free standalone lessons
-
-Justin: "can we get the lesson with email address required as well as another button to request pilot", then "if someone does have a license then we dont want to ask for email". All three standalone lessons (they share one bar and link each other), including smart glasses for Votes for Schools. The proxy shows the gate at the lesson's own URL, so the link sent to Penny keeps working; a school code skips it, and a `gc_free_lesson` cookie stops anyone being asked twice. Email and school name only, stored as band `standalone` in the letterbox; Justin gets the lead note, the teacher gets no letter. Fails open if the save fails. A separate Request a pilot button carries `?from=<module>` into the pilot notes. The taster stays ungated. No migration. PR 1370.
-
-## 21 October 2026: tests never use up a pilot place
-
-The pilot page said "4 of 5 places left" because of Justin's own test request on 7 October. `pilotPlacesLeft` now leaves out requests from his addresses (FOUNDER_NOTIFY_EMAIL plus the two he tests from, and the app's own sender) and any whose school or contact is just "Test". The rows stay in the table. The test row itself is deleted only on Justin's yes. No migration.
-
-## 2026-10-21, PostHog on the public pages only
-
-PostHog (EU cloud, via a first party /ingest rewrite) counts visits to the
-public pages and each stage check step, so we can see which page sends parents
-to the stage check. Cookieless (`persistence: 'memory'`), so the privacy page's
-"no tracking cookies" stays true and no banner is needed. An allowlist in
-`lib/analytics/posthog-policy.ts` keeps the child app, family codes and the
-dashboard out, strips query strings to utm and ref, and drops any event or
-property not named. Off until NEXT_PUBLIC_POSTHOG_KEY is set. PR 1377.
-## 2026-10-21, SEO through gum for both apps
-
-gum (gumcli.dev, MIT) reads Search Console for www. and schools. through
-`npm run seo` (doctor, pull, report, inspect, submit). The pull runs on
-Justin's Mac because gum's Search Console auth is a browser OAuth a cloud
-session cannot finish; only the weekly numbers reach the repo. Measure first,
-then build the Phase 4 search pages in the order the data gives. Never the
-Indexing API, never a delete. Five public pages were missing from the sitemap;
-added, and `npm run sitemap-guard` now runs in CI. PR 1376.
-## 21 October 2026: the stage check knows someone who has been before
-
-Justin opened /starter-pack signed in and saw the quiz filled in with his child's name. Two causes: a signed in parent was never detected beyond a small line, and progress was saved on the intro and account steps, so any later visit restored question one pre filled and hid the finished run. Now a member gets a Welcome back card (Go to [child]'s pathway, Check another child into the add child form) instead of the quiz, never a redirect; a returning signed out parent gets the same card shape; every card and a restored mid quiz offer Not you? Start fresh, which clears every gc_starter_ key and signs out this browser only. Progress is saved only on a question. No migration. PR 1375.
-
-## 22 October 2026: three motions from the Prompt Motion gallery
-
-Justin pointed at prompt-motion.com; it is rendered promo videos, so for films it feeds product-shorts, and in the apps three moves were built in house style: numbers count up (shared CountUp, RSHE tiles and the Balance week total), coverage bars draw in (shared CoverageBar on the RSHE and computing mapping pages, Balance row bars), and a squash landing for the kid stamp and sticker (shared/motion.ts). Server renders the final state; reduced motion and print get it whole; public pages only animate what starts below the fold. PR 1381.
-
-## 1 November 2026: "Ask us for help" on the homework page, demand before build
-
-Justin: a button for assistance that arrives at hello@, and once requests build up, a step by step school framework tool for the topics asked about most. The row opens a topic (prefilled with this week's) and an optional note; the request emails hello@guidedchildhood.com with the subject "Homework help: Year N · topic", so an inbox search counts demand by topic. No table yet: the inbox is the ledger until volume earns one. Checked the "numbers up to 10,000,000" job: it is the DfE's verbatim Year 6 autumn objective (Year 5 is 1,000,000), so it is right for a Year 6 child.
-
-## 2 November 2026: DiGi's Monday failures fixed at the cause, and an email per new signup
-
-Justin asked whether the Monday DiGi email came from real users: it does not. Every case is a test question, and this week's rotating five were the fallback set because no parent spoke to DiGi in seven days (31 accounts, one paid and it is his, no signup since 28 September). Fixes: the howto case still asked for the labelled lesson shape the prompt dropped on 16 October, so the test moved, not DiGi; the voice file's model bedroom sentence was a decree DiGi copied, now an agreed pathway; a number test in the prompt (no r, β, d or percentage unless it is word for word in the knowledge base) and a fabrication rule in the safety reviewer; the Monday cron now stores each failing reply and says how many real conversations there were. New: lib/ops/signup-alert.ts emails Justin once per new account, from /auth/callback and the starter pack. No migration. PR 1392.
-
-## 2 November 2026: DiGi learns from its failed tests, Justin taps approve
-
-Justin asked for DiGi to improve itself and chose "draft weekly, I tap approve" over self rewriting. Every Monday each failed case becomes one proposed rule (or a note that the test is out of date), emailed with a signed link to a page with Approve and Decline; the page's GET only shows, so a mail scanner cannot approve. Approved rules ride in the uncached system block for live DiGi and the evals, under every house rule, ceiling twelve before they are folded into the prompt by hand. Failed rotating cases are kept and re-run weekly. Migration 384, applied and read back. PR 1393.
-
-## 2026-11-02, the Guides section, first three guides
-
-Justin: "Yes on guides". `/guides` and `/guides/<slug>`, one page per question
-a parent types, each built on a `DEVICE_ISSUES` entry so the advice is written
-once. The approach is free; the word for word scripts are named and locked,
-because scripts are paid (11 August). Every guide ends at the stage check.
-First three: the nightly screen time argument, the first phone, Roblox
-spending. Next ones in the order the gum report gives. Homepage strip sits
-under the last stage check button. PR 1395.
-## 2026-11-02, click tracking, a Guides section, no community yet
-
-PostHog now records `link_click`: where a public page link went (cleaned by
-the policy) and a `data-track` label, never the link text. The five homepage
-buttons to the stage check are labelled. Blog: yes, as evergreen `/guides`
-built from real scripts and ordered by the gum report, pending Justin's yes.
-Community: not now and not on the homepage (safeguarding, the empty room); the
-June rule stands, a members only room at about 200 paying members.
-Plan: plans/2026-11-02-clicks-guides-community.md.
-
-## 3 November 2026: the school window push changes every school day
-
-Justin: the home from school reminder was the same every day; make it engaging, helpful and varied ("try this", "have a concern, talk to DiGi, it learns from you", "see you tonight", services they have not used). The window push now rotates five kinds over each school week: the move (three wordings per band, all from the October briefing's verified ledger), DiGi (worded as new for a family that has never asked it), tonight's path, and one untried service (a job for stars, then the scripts) only while untried. Rotation counts school days, so Friday and Monday never match. Same moment, same one window per family, no new push. Guard: 52 checks. No migration.
-
-## 4 November 2026: Film 10, DiGi learns you
-
-Justin asked for DiGi clips that show the full cycle and how it learns; he chose a new film for the learning loop, ending on the stage check. The example family from Short 1 across a week: Monday's reply puts the worry on a check in, Friday's real check in records Getting there, and next Monday's reply starts from it under the real thinking line "Your own family history is part of this answer." Proof path: the DiGi route reads concern scores, family memory and what worked before every reply. A marketer review fixed the timeline, took the remembering off the parent, and shortened both bands; its new hook was declined to keep Short 1's bubble. Films in content/packs/2026-10-09-digi-shorts/films. PR 1396.
-
-## 4 November 2026, the Muse connector submitted and locked to a key
-
-Justin submitted the Guided Childhood connector to Meta's Muse review at platform.muse.ai. It authenticates with an API key: `MUSE_CONNECTOR_KEY` is set in Vercel (Production) and the same key is on Meta's form, test and live. Checked live: calls with no key or a wrong key get 401, the spec and `/connectors/muse` stay public. Every form answer is in `integrations/muse/submission.md`. Rotating the key means changing Vercel and the Muse portal together, or Muse calls fail. PRs 1366 and 1380.
-
 ## 5 November 2026, the Road to 16 guide and its claim
 
 The free reward for a printable Passport stamped up to the child's age (Justin: the reward, not a product; unlocks when caught up, not at sixteen). Eleven pages, A4, Letter and ink saver, in the Passport's burgundy and gold: balance, signs by stage, eight apps with each one's own minimum age, the school moments, a help page, sixteen, sources. Every line is the app's own content or a sourced fact; the evidence red team passed it after fixes (content/printables/road-to-16-guide/evidence-check.md). /etsy-bonus keeps the Starter Pack and adds an honour based claim, magnet `road-to-16`. Found on the way: migration 093 says Roblox is 13 (its UK terms say 5) and four more stale settings lines. PR 1403.
-## 4 November 2026: workshops page and enquiry built, hidden until DBS and insurance
-
-Phase 3 of the workshop audit: schools.guidedchildhood.com/workshops with the four workshops (Years 5 to 6 smartphone one as flagship) and an enquiry form. Enquiries post into the existing invoice_requests letterbox as band `workshop` (no new table); the cron treats it as a lead, emails Justin and sends the school a confirmation promising DBS and insurance certificates before any visit. Page is noindex, unlinked and out of the sitemap until WORKSHOPS_LAUNCHED in schools/lib/workshops.ts is flipped. No prices on the page until Justin picks a column. Privacy notice now names workshop enquiries. PR 1401.
-## 4 November 2026: the Etsy Christmas line and Free Saturday
-
-Justin approved the plan: the old Etsy shop is switched over first (not done yet), then ten paid downloads in season order, First Phone Kit, Christmas Countdown and Screens At Granny's listed by 20 November. A free download every Saturday from 7 November, each the taster for a paid one, never listed on Etsy. Instagram emails come through the bio link and Story stickers to `/free?src=ig`; keyword DMs stay banned (funnel rule 4). Paid boost £15 a week, only behind the best free download once four have run. Plan: plans/week-of-2026-11-02-etsy-paid-downloads-and-free-saturday-plan.md. PR 1400.
 
 ## 5 November 2026: Etsy branding v2 chosen, the Passport leads the shop
 
@@ -277,9 +178,11 @@ The Road to 16 red team found the app's own settings rows out of date, so migrat
 ## 6 November 2026: Robux DiGi short and the five step phone carousel built, review weighed
 
 Justin picked the Robux film and the phone carousel from the Family IT Guy drafts. DiGi's reply in the film is a real generation from the live prompt (the evals method), unedited, chosen from three runs. The marketer review caught "fix" on screen, a flash of the script's Not this ultimatum and an empty first frame; all fixed by framing and cuts, never by editing the reply (plans/2026-11-06-robux-short-review-weighed.md). "Ladder" and "rung" stay out of public copy (carousel skill rule). Links: robux-ig, robux-fb, robux-tt. PR 1424.
+
 ## 5 November 2026: the printed Passport, made to order through Etsy
 
 Justin asked for the Passport as a real printed book bought on Etsy. Etsy's built in print partners do not print a small stapled booklet, so it is a 16 page A6 book printed one copy at a time by Mixam UK, placed by hand for the first fifty orders, with the Mixam API wired only after that. The child's first name on the cover is optional and comes from Etsy's personalisation box; order files are gitignored. A kiss cut sticker sheet goes with it. Silent films for the Etsy listing (square) and for social (vertical, ending on the stage check), rendered from the real pages. Waits for Justin's Mixam proof copy, which sets the price. PR 1414.
+
 ## 5 November 2026: email landing pages, and schools share every lesson with parents
 
 Justin: the email links to the child's app and the agreement sent signed out parents to login ("fix create"), and schools should share lessons that parents read by signing up free ("a secret way to get users"). Public /kids-app and /agreement now explain each one with the real product and one door, the starter pack with ?next= back to the app share step or the builder; the starter pack, login and /auth/callback honour next through lib/auth/safe-next.ts (the callback's unchecked next was an open redirect). The schools lesson page mints a signed parent link per lesson for a licence (all lessons) or pilot (its two); /from-school/<module>/<ref>.<sig> shows title, what was learned and the question to anybody, and the full note and lesson to any account, recording nothing. The ref is a pseudonym of the school's access code. Migration 386 adds profiles.school_share_ref and school_share_module, written once at the trial grant; PARENT_SHARE_SECRET on both Vercel projects. Justin applies 386. PR 1412.
@@ -287,6 +190,7 @@ Justin: the email links to the child's app and the agreement sent signed out par
 ## 5 November 2026: every reminder opens the part of the app it is about
 
 Justin: a homework reminder he had asked DiGi for opened DiGi's chat; it should open the homework helper, and each reminder should link to the relevant service. lib/push/destination.ts reads the reminder's own words (homework, school, screens, bedtime, jobs, check in, lessons, scripts, agreement, devices; anything else stays on DiGi), opens that page for the child, and adds "Tap to open the homework helper." to the push. Also: the weekly review opens the week page, a finished tutor lesson opens the homework helper, and three child pushes open the child's app instead of the parent dashboard. Guard: check-push-destinations, in the checkin chain.
+
 ## 5 November 2026: Say This, the script cards deck
 
 A new paid Etsy printable from Justin's ask for "Diary of a CEO cards but scripts for every moment": 60 cards, 50 parent scripts in five levels, one per Planet Friend (4 to 16). The format of premium conversation decks, our own look. Card 1 of each level is that stage's script in stages.ts (the Passport page's talk); the rest are live `scripts` rows word for word, each id in cards-data.js. £7.99 list, £5.99 on the permanent sale. On every Passport page under the talk, not ready until listed. Not uploaded. PR 1416.
@@ -298,3 +202,30 @@ Justin: "etsy top sellers research and add all products not yet added". Products
 ## 6 November 2026: the week of 9 November approved as recommended
 
 Justin said go on the recommendations: a Thursday film slot for two weeks, kept only if `/v/` numbers show films bring stage checks; the Robux film ships with no tool beat (the star deal buys minutes, not Robux) and its opening line as is; the phone carousel on Saturday 14 November; Snap Map on Friday 13 only if he has the time Thursday, else Friday 20; the PACK gate only on days he can reply within hours; bio "Not a ban. A plan." He makes the four film links and merges. Detail: content/brand-story/weeks/2026-11-09/review.md. PR 1424.
+## 6 November 2026: the first 20 sign ups, four doors and a link for each
+
+Justin asked for founder podcasts, YouTube and launch sites reviewed and a plan for the first 20 sign ups. Read live: 4 stage checks started in 30 days, and of 32 accounts and 54 leads all but a handful are Justin's own test addresses, so there are no real sign ups yet. The research says parent products grow through groups parents already belong to (Smartphone Free Childhood, Wait Until 8th) and directories bring makers, not UK parents. So the plan is three weeks at 45 minutes a day, in this order: friends of friends, local press on the Christmas and ban moment, local parent groups with the admin's yes, one class or PTA together. Directories and app stores get one evening each. Nineteen tracked `/v/` codes made in `video_links`, one per door. Found: `starter_leads.converted` is false for all 54. Same day, Justin's answers: warm ring drafted to 30 people from his Contacts, press says Star near Winscombe, PTA talk drafts to the four nearest primaries, Google Play and Microsoft Store packaging in its own session; all drafts in Gmail, nothing sent. Plan: plans/week-of-2026-11-02-first-20-signups-plan.md. PR 1431.
+## 5 November 2026: the app's copies of the five Passport packs match the Etsy ones
+
+The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down Corner Kit, Earn Your Screen Time and Family Phone Agreement, still carrying the damaged Friend art. They are now built from the same print.html as the Etsy editions with `build-pack.mjs <pack> app`: colour and ink friendly (the Colour in button), A4, minus the Etsy last page (Passport sticker, /etsy-bonus gift, Etsy review). The star chart builder uses public/digi-squad/friends and public/printables/friends is deleted. /etsy-bonus now says thirteen pages, no colouring page and no game, which is what the email delivers. PR to follow 1408.
+
+## 6 November 2026: every Etsy download is in the app, free for parent and child
+
+Justin: "all etsy downloads should be in app for free to child and parent." Every Etsy pack in the app library is free for any parent and opens straight away for the child, with no Ask and no paywall. Nine more are added (First Phone Kit, Christmas Countdown, Screens At Granny's, Are We Nearly There, Holiday Screen Deal, Screen Reset Journal, Star Swap Shop, Guided Times 1, Say This script cards, which are for grown ups only), and the Starter Pack is back in the grid. Not in the app as their own card: the Star Chart, the printable Passport (the app has both of its own), the Class Screen Promise (for teachers) and the bundles. `npm run etsy-in-app`, in CI, fails a new Etsy pack until it has an app edition. PR 1427.
+
+## 6 November 2026: Etsy listing photos in the Canva look, varied per product
+Justin: the photos "look more AI than Canva" and should not all look alike.
+`listing-images.js`, `bundle-images.js` and the Passport's `images.html` now
+build flat paper photos: serif headline, handwritten note, real pages on a
+clipboard or fridge with washi tape, no 3D characters, road or ink outlines.
+Each product sets one of five themes and one of three cover layouts so shop
+neighbours differ. The Etsy creation setting stays "With an AI generator"
+while AI made friends are printed on the pages. Rules in the printables
+engine skill, step 7b.
+## 6 November 2026: the five build next Etsy packs, built
+
+From the top sellers research's build next list, in deadline order: the Phone Under The Tree Treasure Hunt (13 pages, Orbit, list by 20 November, now also in the Christmas Phone Bundle at the same £14.99), the Planet Day Flip Chart (25 pages, 120 picture cards), the Jobs Board for 11 to 15s (8 pages), What Would You Do? Table Talk cards (100 cards) and the Road to 16 Board Game (19 pages plus an A3 board). Every line has a proof path in the product; titles lead with the format that sells. build-pack.mjs gains fillable PDF fields (so "fillable" is true), an A3 output, and a Letter fix: Letter had been printing at about 88 percent and off centre, the older packs keep that until rebuilt. Not uploaded. PR 1425.
+
+## 6 November 2026: Google Play and Microsoft Store packaging, payments stay on the web
+
+Section 7 of the first 20 sign ups plan. The Play app is a Trusted Web Activity (`com.guidedchildhood.app`, Bubblewrap, `npm run android-build`), opening `/dashboard?source=play`; the upload key lives in `~/GuidedChildhood-signing/`, never in git. Families policy applies: children use the child side and a child's link opens in the app. Payments inside the Play app would breach Play's billing rules for UK users, so the Play app goes consumption only (no payment links while `source=play`), which is a follow up that must land before the first closed test upload, with a report button on the child's hint card and a privacy policy update. Microsoft allows our own billing for non game apps, so Windows needs none of that. Everything Justin does is in `app-stores/README.md`. PR 1434.

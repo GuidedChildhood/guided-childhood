@@ -183,12 +183,14 @@ const checkLine = s => s.check.charAt(0).toLowerCase() + s.check.slice(1)
 const goFurther = s => {
   const packs = (window.PASSPORT_PACKS[s.n] || []).filter(p => p.ready)
   if (!packs.length) return ''
-  return `<div style="margin-top:2.4mm;border-top:0.3mm dashed rgba(42,31,20,0.3);padding-top:1.8mm;">
+  // Compact pills: stage 2 names nine packs, and on A6 the full size pills
+  // ran past the safe margin (6 November 2026).
+  return `<div style="margin-top:2mm;border-top:0.3mm dashed rgba(42,31,20,0.3);padding-top:1.6mm;">
     <div class="lab" style="color:${s.ink};">Go further on this page</div>
-    <div style="display:flex;flex-wrap:wrap;gap:1.2mm;margin-top:1.2mm;">
-      ${packs.map(p => `<span style="display:inline-flex;align-items:center;gap:1mm;border:0.3mm solid ${s.colour};border-radius:999px;padding:0.6mm 1.8mm 0.6mm 0.9mm;background:#fff;">
-        <span style="width:2.6mm;height:2.6mm;border:0.3mm solid var(--p-ink);border-radius:50%;display:inline-block;"></span>
-        <span style="font-weight:800;font-size:6.2pt;">${p.name}</span></span>`).join('')}
+    <div style="display:flex;flex-wrap:wrap;gap:0.9mm;margin-top:1mm;">
+      ${packs.map(p => `<span style="display:inline-flex;align-items:center;gap:0.8mm;border:0.3mm solid ${s.colour};border-radius:999px;padding:0.35mm 1.5mm 0.35mm 0.7mm;background:#fff;">
+        <span style="width:2.2mm;height:2.2mm;border:0.3mm solid var(--p-ink);border-radius:50%;display:inline-block;"></span>
+        <span style="font-weight:800;font-size:5.6pt;">${p.name}</span></span>`).join('')}
     </div>
   </div>`
 }
@@ -213,7 +215,7 @@ for (const s of S) {
         <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">2 · The doing</div><div class="b" style="color:var(--p-ink);font-weight:700;">${s.doing}</div></div></div>
         <div class="part"><span class="box"></span><div><div class="lbl" style="color:${s.ink};">3 · The check</div><div class="b" style="color:var(--p-ink);font-weight:700;">Your child can tell you, in their own words: ${checkLine(s)}</div></div></div>
       </div>
-      <div style="margin-top:auto;">
+      <div style="margin-top:auto;padding-top:2.4mm;">
         <div class="lab">What they said back</div>
         <div class="rule" style="border-color:${s.colour};"></div>
         <div class="rule" style="border-color:${s.colour};"></div>
