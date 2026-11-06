@@ -70,6 +70,14 @@ function render() {
           <pre>${esc(p.comment)}</pre>
         </div>
       </details>
+      ${p.share ? `
+      <details>
+        <summary>Share to your network, a few sentences to put above it</summary>
+        <div class="copy">
+          <div class="top"><span class="eyebrow">Share note</span><button type="button" data-copy="share">Copy share note</button></div>
+          <pre>${esc(p.share)}</pre>
+        </div>
+      </details>` : ''}
       <p class="meta">${esc(p.checked)}</p>
       <label class="done"><input type="checkbox" id="done-${esc(p.n)}" ${read(pkey(p)) ? 'checked' : ''}> Posted</label>
     </article>`).join('');

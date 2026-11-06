@@ -84,6 +84,18 @@ What it leaves open is the part parents actually live with: not how long, but wh
 
 If hours is the wrong measure, what would you want researchers to count instead?
 
+### Share to your network
+
+A few sentences to put above it when you share it on, or in the "tell your network" box if this one goes out as an article. It leads on the number and leaves the argument in the piece.
+
+A study followed 25,629 teenagers in Greater Manchester for three years and found no evidence that time on social media predicted later emotional difficulties.
+
+That is the largest UK sample I have seen put to this question, and the thing worth noticing is that the press release went further than the paper did. The release said social media and gaming did not cause symptoms. The paper says they may not play a causal role, which is a smaller claim and the right one.
+
+I have written up what it found, what it did not find, and the limits its own authors name.
+
+If hours is the wrong measure, what would you want researchers to count instead?
+
 ### First comment
 
 The paper: Cheng, Panayiotou, Finseras, Andersen and Humphrey, "How do social media use, gaming frequency, and internalizing symptoms predict each other over time in early-to-middle adolescence?", Journal of Public Health, volume 48, issue 1, March 2026, online December 2025. Sample 25,629 from the #BeeWell cohort in Greater Manchester, three annual waves, autumn 2021 to 2023. Outcome is the emotional difficulties scale of Me and My Feelings, which is a symptom score and not a diagnosis of anxiety or depression. The lagged paths from social media to later symptoms were not significant for girls or boys (for girls, b of minus 0.001 with a 95 percent interval of minus 0.009 to 0.006). Same wave associations were small but present. Two things I could not check: the supplementary tables on active versus passive use, and anything about heavy users as a group, because the paper treats hours as a continuous measure. University of Manchester release, 14 January 2026. The sourced breakdown behind this series: guidedchildhood.com/v/li-1029-beewell
