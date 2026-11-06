@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>The Guided Times: listing photos</title>
+<link rel="stylesheet" href="../../fonts/local-fonts.css">
+<style>
+  /* The Etsy photo set, 2000 by 2000 each, rendered by build.mjs. Every page
+     shown is the real page render from images/preview, never a redraw. */
+  body { margin: 0; background: #555; font-family: 'Nunito', sans-serif; color: #1A1A2E; }
+  .frame { width: 2000px; height: 2000px; position: relative; overflow: hidden; background: #E9E2D3; margin-bottom: 40px; }
+  .pg { position: absolute; background: #fff; box-shadow: 0 30px 60px rgba(26,26,46,.28), 0 4px 10px rgba(26,26,46,.15); }
+  .pg img { display: block; width: 100%; }
+  .d { font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+  .mono { font-family: 'IBM Plex Mono', monospace; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .tag { position: absolute; background: #1A1A2E; color: #fff; border-radius: 999px; padding: 18px 40px; font-size: 44px; font-weight: 900; }
+  .burst { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .burst svg { position: absolute; inset: 0; }
+  .burst span { position: relative; font-weight: 900; line-height: 1.02; }
+  .headline { position: absolute; left: 110px; right: 110px; font-size: 120px; }
+  .sub { position: absolute; left: 110px; right: 110px; font-size: 52px; font-weight: 800; line-height: 1.25; }
+  .pill { display: inline-block; background: #fff; border: 5px solid #1A1A2E; border-radius: 999px; padding: 12px 34px; font-size: 42px; font-weight: 900; box-shadow: 6px 8px 0 #1A1A2E; margin: 0 14px 18px 0; }
+  .device { position: absolute; background: #1A1A2E; box-shadow: 0 30px 60px rgba(26,26,46,.3); }
+  .file { width: 300px; height: 380px; background: #fff; border: 6px solid #1A1A2E; border-radius: 22px; box-shadow: 8px 10px 0 #1A1A2E; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 24px 18px; box-sizing: border-box; text-align: center; }
+  .file img { width: 190px; border: 3px solid #1A1A2E; }
+</style>
+</head>
+<body>
+<script src="listing.js"></script>
+<script>
+const P = n => `../images/preview/page-${String(n).padStart(2, '0')}.png`
+const INK = n => `../images/preview-ink/page-${String(n).padStart(2, '0')}.png`
+const burst = (size, text, fill = '#C8483A', fg = '#fff', fs = 0.16) => {
+  const pts = []; for (let i = 0; i < 24; i++) { const r = i % 2 ? 41 : 50, a = Math.PI * 2 * i / 24 - Math.PI / 2; pts.push(`${(50 + r * Math.cos(a)).toFixed(1)},${(50 + r * Math.sin(a)).toFixed(1)}`) }
+  return `<svg viewBox="0 0 100 100"><polygon points="${pts.join(' ')}" fill="${fill}" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/></svg><span style="color:${fg};font-size:${size * fs}px;max-width:${size * 0.66}px">${text}</span>`
+}
+const pg = (src, x, y, w, rot = 0, extra = '') => `<div class="pg" style="left:${x}px;top:${y}px;width:${w}px;transform:rotate(${rot}deg);${extra}"><img src="${src}" alt=""></div>`
+const L = window.LISTING
+const frames = []
+
+// 1. The cover: the front page, big, with what it is.
+frames.push(['01-cover', `
+  ${pg(P(2), 980, 330, 820, 6)}
+  ${pg(P(1), 180, 210, 1040, -3)}
+  <div class="burst" style="left:1380px;top:120px;width:470px;height:470px;transform:rotate(10deg)">${burst(470, L.coverBurst, L.burstColour, '#fff', 0.15)}</div>
+  <div class="tag" style="left:1330px;top:1520px;transform:rotate(-3deg)">12 printable pages</div>
+  <div class="tag" style="left:1290px;top:1660px;transform:rotate(2deg);background:#2E7D5A">Ages 6 to 11</div>
+  <div class="tag" style="left:1260px;top:1800px;transform:rotate(-2deg);background:#EDC35F;color:#1A1A2E;border:5px solid #1A1A2E">Turn the pages on a screen</div>`])
+
+// 2. Everything inside.
+frames.push(['02-whats-inside', `
+  <div class="headline d" style="top:90px">Twelve pages, every one with something to do</div>
+  <div style="position:absolute;left:110px;top:400px;display:grid;grid-template-columns:repeat(6,276px);gap:28px">
+    ${Array.from({ length: 12 }, (_, i) => `<div class="pg" style="position:relative;width:276px"><img src="${P(i + 1)}" alt=""></div>`).join('')}
+  </div>
+  <div class="sub" style="top:1270px">${L.contents}</div>`])
+
+// 3. The big feature spread, open like a real paper.
+frames.push(['03-feature-spread', `
+  <div class="headline d" style="top:90px">${L.spread.title}</div>
+  <div class="sub" style="top:230px">${L.spread.sub}</div>
+  <div style="position:absolute;left:150px;top:480px;width:1700px;display:flex;transform:rotate(-1.5deg);box-shadow:0 30px 60px rgba(26,26,46,.28)">
+    <img src="${P(L.spread.pages[0])}" style="width:850px;display:block" alt=""><img src="${P(L.spread.pages[1])}" style="width:850px;display:block" alt="">
+    <div style="position:absolute;left:810px;top:0;bottom:0;width:80px;background:linear-gradient(90deg,rgba(26,26,46,0),rgba(26,26,46,.18),rgba(26,26,46,0))"></div>
+  </div>`])
+
+// 4. On any screen: the page turning version.
+frames.push(['04-turn-the-pages', `
+  <div class="headline d" style="top:90px">Turn the pages on any screen</div>
+  <div class="sub" style="top:230px">Print it, or open the page turning version on a phone, tablet or computer. No app, no account, works offline.</div>
+  <div class="device" style="left:110px;top:520px;width:1360px;height:900px;border-radius:40px;padding:40px;box-sizing:border-box">
+    <div style="background:#E9E2D3;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <img src="${P(L.screen[0])}" style="height:760px;box-shadow:0 8px 20px rgba(0,0,0,.2)" alt=""><img src="${P(L.screen[1])}" style="height:760px;box-shadow:0 8px 20px rgba(0,0,0,.2)" alt="">
+    </div></div>
+  <div style="position:absolute;left:250px;top:1420px;width:1080px;height:40px;background:#3A3A50;border-radius:0 0 40px 40px"></div>
+  <div class="device" style="left:1380px;top:820px;width:500px;height:1000px;border-radius:70px;padding:28px;box-sizing:border-box;transform:rotate(4deg)">
+    <div style="background:#fff;width:100%;height:100%;border-radius:46px;overflow:hidden;display:flex;align-items:center"><img src="${P(L.screen[2])}" style="width:100%" alt=""></div></div>
+  <div class="burst" style="left:120px;top:1500px;width:360px;height:360px;transform:rotate(-8deg)">${burst(360, 'Swipe to turn the page', '#EDC35F', '#1A1A2E', 0.13)}</div>`])
+
+// 5. Puzzles and make and do.
+frames.push(['05-puzzles-and-games', `
+  ${pg(P(L.fun.pages[1]), 1010, 300, 860, 4)}
+  ${pg(P(L.fun.pages[0]), 130, 240, 900, -3)}
+  <div class="tag" style="left:150px;top:1580px;transform:rotate(-2deg)">${L.fun.tags[0]}</div>
+  <div class="tag" style="left:780px;top:1740px;transform:rotate(2deg);background:#B5487A">${L.fun.tags[1]}</div>`])
+
+// 6. For grown ups too.
+frames.push(['06-for-grown-ups', `
+  <div class="headline d" style="top:90px">Pages for grown ups too</div>
+  <div class="sub" style="top:230px">${L.grown.sub}</div>
+  ${pg(P(L.grown.pages[2]), 1180, 520, 700, 5)}
+  ${pg(P(L.grown.pages[1]), 650, 480, 700, -1)}
+  ${pg(P(L.grown.pages[0]), 120, 540, 700, -5)}`])
+
+// 7. The files.
+frames.push(['07-what-you-get', `
+  <div class="headline d" style="top:90px">Five files, instant download</div>
+  <div style="position:absolute;left:110px;top:420px;display:flex;gap:46px;flex-wrap:wrap;width:1800px">
+    ${[[P(1), 'A4 colour PDF'], [P(1), 'US Letter colour PDF'], [INK(1), 'Ink friendly A4 and Letter'], [P(L.filesPages[0]), 'Read on screen PDF'], [P(L.filesPages[1]), 'Page turning version']].map(([s, t]) => `<div class="file"><img src="${s}" alt=""><div class="d" style="font-size:38px;line-height:1.05">${t}</div></div>`).join('')}
+  </div>
+  <div class="sub" style="top:1000px">Print the pages you want, as often as your family needs. Nothing is posted.</div>
+  <div style="position:absolute;left:110px;top:1240px">
+    <span class="pill">Ages 6 to 11</span><span class="pill">12 pages</span><span class="pill">Answers included</span><span class="pill">No app needed</span><span class="pill">Works offline</span>
+  </div>`])
+
+// 8. Collect every issue.
+frames.push(['08-collect-every-issue', `
+  ${pg(P(1), 520, 260, 960, -2)}
+  <div class="burst" style="left:120px;top:160px;width:420px;height:420px;transform:rotate(-10deg)">${burst(420, `Issue ${L.number}`, '#2E7D5A', '#fff', 0.2)}</div>
+  <div class="tag" style="left:150px;top:1640px">Collect every issue of The Guided Times</div>
+  <div class="tag" style="left:330px;top:1790px;background:#EDC35F;color:#1A1A2E;border:5px solid #1A1A2E">Tap the heart on our shop to see the next one</div>`])
+
+document.body.innerHTML = frames.map(([name, html]) => `<div class="frame" data-name="${name}">${html}</div>`).join('')
+</script>
+</body>
+</html>

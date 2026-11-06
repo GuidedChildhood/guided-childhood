@@ -157,8 +157,8 @@ any screen. Ages 6 to 11. Link in bio.
 - The shop page lists only products live on Etsy. The Christmas Screen Free
   Countdown (listing 4611164377) and Screens At Granny's (listing 4611184524)
   went live on 6 November 2026 and are switched on in `issue.js`; the files
-  were rebuilt the same day. The live listing's files need swapping for the
-  rebuilt ones.
+  were rebuilt the same day and swapped onto the live listing, with the new
+  photo 2, the same day at Justin's word.
 - The next issue line says "the end of December", not a date.
 - The Planet Friends and DiGi were made with AI tools. Say so in the
   listing's creation details, per Etsy's Creativity Standards.
