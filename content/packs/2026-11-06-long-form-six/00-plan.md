@@ -3,10 +3,42 @@
 Justin, 6 November 2026: "can we do all of them", answering the six ideas in
 `content/newsletter/long-form-ideas.md`.
 
-All six are written. Each is 1,800 to 2,500 words, the standard the ideas file
-proposed, which is what the best recent issues already were rather than the
-800 to 1,200 the content engine skill still specifies. The skill is updated in
-this pack's PR so the next session inherits the real number.
+All six are written. The five Substack issues are 1,800 to 2,500 words, the
+standard the ideas file proposed, which is what the best recent issues already
+were rather than the 800 to 1,200 the content engine skill used to specify.
+
+## The length note, after Justin caught an error
+
+Issue 6 was first written at 1,813 words, because the Substack standard was
+applied to it without asking whether a LinkedIn newsletter behaves the same way.
+Justin asked "it's not LinkedIn newsletter length?" and he was right: nobody had
+checked.
+
+What checking found:
+
+- **We hold no data of our own on newsletter length.** Not for Substack, not for
+  LinkedIn. Twenty seven Substack issues have gone out with no open rate held
+  anywhere in this repo.
+- **External guidance is weak and contradictory.** Newsletter advice clusters at
+  800 to 1,500 words, article advice at 1,500 to 2,500, all of it from vendor
+  blogs with undisclosed methods.
+- **What we do know, from `linkedin-engagement.md`,** is that three LinkedIn
+  article posts came fourth, fifth and eighth of about fourteen, above every stat
+  card but one, and that a LinkedIn newsletter link is not an off platform link
+  because the penalty is for sending people away. The reason to use the
+  newsletter is that subscribers get notified, which is distribution that does
+  not depend on the feed.
+
+So the standard is now split: **Substack 1,800 to 2,500, LinkedIn 1,200 to
+1,600**, with the LinkedIn figure openly a judgement sitting in the overlap of
+the external ranges rather than a finding. Issue 6 is trimmed to 1,585.
+
+**And a LinkedIn newsletter is two deliverables, not one.** Our single previous
+LinkedIn newsletter, for the Social Reckoning issue on 18 October, paired the
+article with a 141 word note to the network, which is what shows in the feed when
+the edition publishes. Issue 6 had no note until this was spotted. It now carries
+one at 142 words, at the foot of its file. Both points are written into the skill
+so the next session inherits them.
 
 ## The six
 
