@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Jobs Board · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The job holder's own copy, on their own phone: the deal at a glance
+     (print pages 5 and 7) and how to pitch a job (page 6). Same words as the
+     print, so the two never drift. -->
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--nova-soft:#ECE3F7;--heart:#FDE8EC;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:76px 60px 60px;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;letter-spacing:5px;text-transform:uppercase;color:var(--coral);}
+  .title{font-weight:900;font-size:76px;line-height:1.05;margin-top:16px;}
+  .lead{font-weight:700;font-size:32px;line-height:1.4;color:var(--ink-soft);margin-top:18px;}
+  .list{flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:36px;}
+  .item{background:var(--white);border:6px solid var(--ink);border-radius:32px;box-shadow:0 9px 0 var(--ink);padding:26px 34px;display:flex;gap:28px;align-items:center;}
+  .item .sw{width:76px;height:76px;border-radius:18px;border:6px solid var(--ink);flex-shrink:0;}
+  .item .t{font-weight:900;font-size:42px;line-height:1.1;}
+  .item .s{font-weight:700;font-size:29px;line-height:1.3;color:var(--ink-soft);margin-top:6px;}
+  .stripes{background:repeating-linear-gradient(135deg,#1A1A2E 0 10px,#fff 10px 20px);}
+  .foot{margin-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="screen" data-name="the-deal">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div><div class="eyebrow">My jobs deal</div><div class="title">How the<br>board works</div></div>
+    <img src="images/friends/nova.png" alt="Nova" style="width:220px;height:220px;object-fit:contain;">
+  </div>
+  <div class="lead">Two columns that never mix. The week starts on Monday.</div>
+  <div class="list">
+    <div class="item"><div class="sw" style="background:var(--heart);"></div><div><div class="t">Family jobs</div><div class="s">No stars. Everyone in the house does these, grown ups included.</div></div></div>
+    <div class="item"><div class="sw" style="background:var(--terracotta);"></div><div><div class="t">Earning jobs</div><div class="s">Stars for screen time, agreed before the job starts.</div></div></div>
+    <div class="item"><div class="sw" style="background:var(--terracotta-lt);"></div><div><div class="t">My time</div><div class="s">A little every day, whatever happens. Stars go on top.</div></div></div>
+    <div class="item"><div class="sw" style="background:#fff;"></div><div><div class="t">A weekly most</div><div class="s">Stars over it wait for the holidays.</div></div></div>
+    <div class="item"><div class="sw stripes"></div><div><div class="t">Protected time</div><div class="s">The hour before bed, meals, school. No star buys it. Want a screen? Ask.</div></div></div>
+  </div>
+  <div class="foot">Guided Childhood · The Jobs Board</div>
+</div>
+
+<div class="screen" data-name="pitch-a-job">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div><div class="eyebrow">Pitch a job</div><div class="title">Got a<br>quest idea?</div></div>
+    <img src="images/friends/orbit.png" alt="Orbit" style="width:220px;height:220px;object-fit:contain;">
+  </div>
+  <div class="lead">Write it on a slip and hand it over. A good pitch answers four things.</div>
+  <div class="list">
+    <div class="item"><div class="sw" style="background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px;">1</div><div><div class="t">The job</div><div class="s">Say exactly what gets done.</div></div></div>
+    <div class="item"><div class="sw" style="background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px;">2</div><div><div class="t">Why it helps the house</div><div class="s">Who it makes life easier for.</div></div></div>
+    <div class="item"><div class="sw" style="background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px;">3</div><div><div class="t">How long, how often</div><div class="s">Once a week? Every bin night?</div></div></div>
+    <div class="item"><div class="sw" style="background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px;">4</div><div><div class="t">A swap, if you want one</div><div class="s">Trade away a job you are tired of.</div></div></div>
+    <div class="item" style="background:var(--terracotta-lt);"><div><div class="t">Then your grown up decides</div><div class="s">Yes, let us talk, or tweak it. They set the stars when it goes on the board.</div></div></div>
+  </div>
+  <div class="foot">Guided Childhood · The Jobs Board</div>
+</div>
+
+</body>
+</html>

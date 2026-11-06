@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Phone Under The Tree Treasure Hunt · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The grown up's copy on their own phone: the hiding map (print page 3), so
+     the route travels in a pocket on the night, and the promises (page 10).
+     Same words as the print, so the two never drift. -->
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--orbit:#3E86BC;--orbit-soft:#DCEBF7;--orbit-ink:#1F4E6E;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:76px 60px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:5px;text-transform:uppercase;color:var(--coral);}
+  .title{font-weight:900;font-size:76px;line-height:1.05;margin-top:16px;}
+  .lead{font-weight:700;font-size:32px;line-height:1.4;color:var(--ink-soft);margin-top:18px;}
+  .list{flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-top:34px;}
+  .item{display:flex;gap:28px;align-items:center;background:var(--white);border:6px solid var(--ink);
+    border-radius:30px;box-shadow:0 8px 0 var(--ink);padding:16px 30px;}
+  .item .no{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;letter-spacing:2px;color:var(--orbit-ink);width:150px;flex-shrink:0;}
+  .item .box{width:52px;height:52px;border:6px solid var(--ink);border-radius:14px;flex-shrink:0;margin-left:auto;}
+  .item .t{font-weight:900;font-size:38px;line-height:1.1;}
+  .item .s{font-weight:700;font-size:26px;line-height:1.3;color:var(--ink-soft);margin-top:2px;}
+  .foot{margin-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · THE HIDING MAP -->
+<div class="screen" data-name="hiding-map">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">For the grown up</div>
+      <div class="title">The hiding map</div>
+    </div>
+    <img src="images/DiGi-star.svg" alt="DiGi" style="width:150px;height:160px;">
+  </div>
+  <div class="lead">Card 1 stays with you. Each card hides where the one before it points.</div>
+  <div class="list">
+    <div class="item"><div class="no">CARD 1</div><div><div class="t">In your hand</div><div class="s">Give it to them to start</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 2</div><div><div class="t">The fridge door</div><div class="s">Under a magnet</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 3</div><div><div class="t">The kitchen table</div><div class="s">Taped underneath</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 4</div><div><div class="t">By the front door</div><div class="s">In the biggest shoe</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 5</div><div><div class="t">The bookshelf</div><div class="s">Between two books</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 6</div><div><div class="t">Where the keys live</div><div class="s">The hook, bowl or drawer</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 7</div><div><div class="t">The sofa</div><div class="s">Under a cushion</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 8</div><div><div class="t">The bathroom mirror</div><div class="s">Tucked in the frame or taped on</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 9</div><div><div class="t">A clock</div><div class="s">Behind or under it</div></div><div class="box"></div></div>
+    <div class="item"><div class="no">CARD 10</div><div><div class="t">The charging spot</div><div class="s">Where phones sleep at night</div></div><div class="box"></div></div>
+    <div class="item" style="background:var(--terracotta-lt);"><div class="no">THE BOX</div><div><div class="t">Under the tree</div><div class="s">A box card and the promises on top</div></div><div class="box"></div></div>
+  </div>
+  <div class="foot">Guided Childhood · The Treasure Hunt</div>
+</div>
+
+<!-- SCREEN 2 · OUR PHONE PROMISES -->
+<div class="screen" data-name="our-promises">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">Sign it together</div>
+      <div class="title">Our phone<br>promises</div>
+    </div>
+    <img src="images/friends/orbit.png" alt="Orbit" style="width:200px;height:200px;object-fit:contain;">
+  </div>
+  <div class="lead">Every promise counts for grown ups too. One set of rules for the house, not two.</div>
+  <div class="list">
+    <div class="item"><div><div class="t">Phones sleep outside bedrooms</div><div class="s">Grown ups' phones included</div></div></div>
+    <div class="item"><div><div class="t">Screens off an hour before bed</div><div class="s">Every night</div></div></div>
+    <div class="item"><div><div class="t">Phones rest while we eat</div><div class="s">Grown ups too. It will still be there after.</div></div></div>
+    <div class="item"><div><div class="t">Out? Always answer</div><div class="s">Or ring straight back</div></div></div>
+    <div class="item"><div><div class="t">Never write it if you would not say it</div><div class="s">To someone's face</div></div></div>
+    <div class="item"><div><div class="t">No real money without asking</div><div class="s">Ask first, every time</div></div></div>
+    <div class="item" style="background:var(--terracotta-lt);"><div><div class="t">Something wrong? Tell a grown up</div><div class="s">Nobody is in trouble. Telling never costs the phone.</div></div></div>
+  </div>
+  <div class="foot">Guided Childhood · The Treasure Hunt</div>
+</div>
+
+</body>
+</html>

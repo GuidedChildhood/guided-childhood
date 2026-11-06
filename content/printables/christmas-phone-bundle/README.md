@@ -1,6 +1,6 @@
 # The Christmas Phone Bundle
 
-A bundle over packs that already exist, so it has no pages of its own. The
+A bundle over four packs that already exist (the First Phone Kit, the Phone Under The Tree Treasure Hunt, the Family Phone Agreement, the Calm Down Corner Kit), so it has no pages of its own. The
 listing, its price and the files to attach are in `listing/listing.md`. The
 photos are `listing/images/`, rendered from `listing/images.html` through
 `../bundle-images.js` by `node content/printables/build-pack.mjs christmas-phone-bundle listing`.

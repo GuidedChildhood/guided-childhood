@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Road to 16 Board Game</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The Road to 16 Board Game, ages 6 to 12. DiGi hosts, one zone per Planet
+     Friend. The board is board.js, drawn once and shown here as four A4 tiles
+     (and whole in board-a3.html). Proof paths:
+       the zones       lib/content/stages.ts and stage-characters.ts: Pebble 4 to
+                       7, Bloop 8 to 10, Orbit 11 to 12, Nova 13 to 15, Cosmo 16
+       choice cards    cards-data.js: 48 of the lessons' real choice questions,
+                       each naming its module or migration
+       job squares     earning jobs pay stars (lib/quests/templates.ts)
+       family squares  migration 223 is_family_job: no stars, contribution is
+                       belonging, not payment
+       stripy squares  protected time no stars can buy (lib/quests/time-tiers.ts)
+       the last page   the stage check, "What stage is your child? Three
+                       questions, no sign up." (lib/content/guides.ts STAGE_CHECK_HOOK)
+     A wrong answer costs nothing: telling and trying are never punished,
+     the same rule as the app (digi/07-trust-framework.md). -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --terracotta:#EDC35F; --terracotta-dark:#C99A28;
+    --terracotta-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --tint-sage:#E8F0EE; --butter:#FFF6DE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 16mm;display:flex;flex-direction:column;}
+  .sheet.tile{padding:0;display:block;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);width:0;height:0;
+    border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;border-right:4.5mm solid var(--ink);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:6mm;}
+  .n{width:10mm;height:10mm;border-radius:50%;border:2.5px solid var(--ink);background:var(--terracotta);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13pt;flex-shrink:0;}
+  .rule{display:flex;gap:4mm;align-items:flex-start;padding:3.6mm 4.5mm;}
+  .rule .t{font-weight:900;font-size:13.5pt;line-height:1.25;}
+  .rule p{font-size:11pt;line-height:1.45;margin-top:0.6mm;color:var(--ink);font-weight:600;}
+  .land{display:flex;gap:3mm;align-items:center;background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:2.4mm 3.5mm;}
+  .land .sq{width:13mm;height:13mm;border-radius:2.5mm;border:2px solid var(--ink);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15pt;overflow:hidden;}
+  .land .t{font-weight:900;font-size:11.4pt;}
+  .land p{font-size:10pt;line-height:1.4;color:var(--ink);font-weight:600;margin-top:0.3mm;}
+  .stripes{background:repeating-linear-gradient(135deg,#1A1A2E 0 1.3mm,#fff 1.3mm 2.6mm);}
+
+  /* Tiles */
+  .tile svg.b{position:absolute;inset:0;width:210mm;height:296mm;}
+  .trim{position:absolute;border:0 dashed rgba(26,26,46,0.55);z-index:3;}
+  .trim span{position:absolute;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-muted);background:#F9F8F6;padding:0 1.5mm;white-space:nowrap;}
+  .tlabel{position:absolute;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.5pt;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);z-index:3;}
+
+  /* Choice cards, six to a page */
+  .cc-sheet{padding:12mm 14mm 14mm;}
+  .cgrid{display:grid;grid-template-columns:repeat(2,88mm);grid-auto-rows:80mm;gap:6mm;justify-content:center;margin-top:3mm;}
+  .cc{position:relative;border-radius:4mm;background:var(--white);border:2px solid var(--ink);overflow:hidden;display:flex;flex-direction:column;
+    outline:0.35mm dashed rgba(26,26,46,0.5);outline-offset:1.8mm;}
+  .cc .band{height:10mm;display:flex;align-items:center;gap:2mm;padding:0 3mm;border-bottom:2px solid var(--ink);flex-shrink:0;}
+  .cc .band img{width:8mm;height:8mm;object-fit:contain;}
+  .cc .band b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.6pt;letter-spacing:1.3px;text-transform:uppercase;}
+  .cc .band .no{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6.6pt;color:var(--ink-muted);}
+  .cc .q{font-weight:900;font-size:12.8pt;line-height:1.25;padding:3.5mm 4.5mm 0;}
+  .cc .opts{display:flex;flex-direction:column;gap:2.2mm;padding:3.5mm 4.5mm 0;}
+  .cc .o{display:flex;gap:2mm;align-items:flex-start;font-weight:700;font-size:10pt;line-height:1.3;}
+  .cc .o i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;width:5mm;height:5mm;border-radius:50%;border:1.6px solid var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .cc .ans{margin-top:auto;transform:rotate(180deg);border-bottom:0.4mm dashed rgba(26,26,46,0.35);padding:2mm 4.5mm 2.4mm;font-weight:800;font-size:9.4pt;}
+  .cc .ans span{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:6pt;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-muted);}
+  .cc.back{align-items:center;justify-content:center;text-align:center;}
+
+  /* Counters and tokens */
+  .tent{width:30mm;height:76mm;border:0.4mm dashed rgba(26,26,46,0.6);border-radius:2mm;display:flex;flex-direction:column;background:#fff;}
+  .tent .base{height:12mm;background:#F3F3F7;display:flex;align-items:center;justify-content:center;}
+  .tent .base span{font-family:'IBM Plex Mono',monospace;font-size:5pt;letter-spacing:1px;color:var(--ink-muted);text-transform:uppercase;}
+  .tent .face{height:26mm;display:flex;align-items:center;justify-content:center;border-top:0.4mm dashed rgba(26,26,46,0.45);}
+  .tent .face img{width:22mm;height:22mm;object-fit:contain;}
+  .tok{width:18mm;height:18mm;border-radius:50%;border:0.4mm dashed rgba(26,26,46,0.6);display:flex;align-items:center;justify-content:center;background:#fff;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .card,body.ink .bubble{box-shadow:none !important;}
+  body.ink .tinted,body.ink .cc .band{background:var(--white) !important;}
+  body.ink .fill{fill:var(--white) !important;}
+  body.ink .bg{fill:var(--white) !important;}
+  body.ink .cover-card{background:var(--white) !important;box-shadow:none !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+<script src="board.js"></script>
+<script src="cards-data.js"></script>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div class="eyebrow" style="margin-top:6mm;">Guided Childhood · Print at Home · Ages 6 to 12</div>
+  <h1 style="margin-top:5mm;font-size:44pt;">The Road to 16<br>Board Game</h1>
+  <p style="margin-top:3mm;font-weight:700;color:var(--ink);font-size:13pt;line-height:1.4;">A family board game from age 4 to 16, hosted by DiGi.<br>Jobs earn stars, stripy squares rest, and every card is a real choice.</p>
+  <div class="cover-card" style="margin-top:6mm;width:132mm;height:186mm;border:2.5px solid var(--ink);border-radius:8px;box-shadow:0 5px 0 var(--ink);overflow:hidden;background:#F9F8F6;">
+    <svg id="cover-board" viewBox="0 0 420 592" style="width:100%;height:100%;display:block;"></svg>
+  </div>
+  <div style="display:flex;gap:3mm;margin-top:6mm;flex-wrap:wrap;justify-content:center;max-width:182mm;">
+    <div class="card" style="padding:2.4mm 4mm;font-weight:800;font-size:10pt;">60 square board</div>
+    <div class="card" style="padding:2.4mm 4mm;font-weight:800;font-size:10pt;">48 choice cards</div>
+    <div class="card" style="padding:2.4mm 4mm;font-weight:800;font-size:10pt;">5 Planet Friend counters</div>
+    <div class="card" style="padding:2.4mm 4mm;font-weight:800;font-size:10pt;">40 star tokens</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>DiGi and the Planet Friends · Ages 6 to 12</span></div>
+</div>
+
+<!-- PAGE 2 · HOW TO PLAY -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">How to play · Two to five players · About 30 minutes</div>
+      <h2 style="margin-top:2mm;font-size:26pt;">How to play</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star-3d.png" alt="DiGi" style="width:24mm;height:24mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:2mm;font-size:10.5pt;color:var(--ink);font-weight:700;">You need: the board, a dice, a counter each, the star tokens, and the choice cards in five piles, one for each Friend.</p>
+  <div style="display:flex;flex-direction:column;gap:2.6mm;margin-top:3.5mm;">
+    <div class="card rule"><div class="n">1</div><div><div class="t">Start on square 1, with Pebble</div><p>The youngest player goes first.</p></div></div>
+    <div class="card rule"><div class="n">2</div><div><div class="t">Roll the dice and move</div><p>Follow the gold road up the board.</p></div></div>
+    <div class="card rule" style="flex-direction:column;"><div style="display:flex;gap:4mm;align-items:center;"><div class="n">3</div><div class="t">See where you landed</div></div>
+      <div style="display:flex;flex-direction:column;gap:2mm;margin-top:2.4mm;width:100%;">
+        <div class="land"><div class="sq" style="background:#FBEED0;">?</div><div><div class="t">Choice card</div><p>Someone reads you a card from your Friend's pile. Right answer? Take a star. Not sure? Read the answer out loud. Nobody loses anything.</p></div></div>
+        <div class="land"><div class="sq" style="background:#FEF7E0;" id="r-job"></div><div><div class="t">Job</div><p>Take the stars shown on the square.</p></div></div>
+        <div class="land"><div class="sq" style="background:#FDE8EC;" id="r-fam"></div><div><div class="t">Family job</div><p>Pick another player and move them forward 2. No stars: helping at home is part of being a family.</p></div></div>
+        <div class="land"><div class="sq stripes"></div><div><div class="t">Stripy square</div><p>Screens rest here. You cannot spend stars while you are on it.</p></div></div>
+      </div></div>
+    <div class="card rule"><div class="n">4</div><div><div class="t">Star time</div><p>Before you roll, you can pay 2 stars to roll twice and add them up. Not on a stripy square.</p></div></div>
+    <div class="card rule"><div class="n">5</div><div><div class="t">The first to 16 wins</div><p>You do not need an exact roll. Keep going until everyone is home. The most stars picks the next game.</p></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · How to play</span></div>
+</div>
+
+<!-- PAGE 3 · MAKING THE BOARD -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Ten minutes with tape</div>
+      <h2 style="margin-top:2mm;">Making the board</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">The board is four A4 sheets, pages 4 to 7, that tape into one big board twice the size of A3. Or print the separate A3 file in the download on one sheet, if your printer takes A3.</p>
+  <div style="display:flex;gap:8mm;margin-top:6mm;align-items:center;">
+    <svg viewBox="0 0 100 140" style="width:62mm;flex-shrink:0;">
+      <rect x="6" y="6" width="42" height="60" rx="1.5" fill="#FBEED0" stroke="#1A1A2E" stroke-width="1" class="fill"/>
+      <rect x="52" y="6" width="42" height="60" rx="1.5" fill="#E4F0D4" stroke="#1A1A2E" stroke-width="1" class="fill"/>
+      <rect x="6" y="70" width="42" height="60" rx="1.5" fill="#DCEBF7" stroke="#1A1A2E" stroke-width="1" class="fill"/>
+      <rect x="52" y="70" width="42" height="60" rx="1.5" fill="#ECE3F7" stroke="#1A1A2E" stroke-width="1" class="fill"/>
+      <text x="27" y="40" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#1A1A2E">1</text>
+      <text x="73" y="40" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#1A1A2E">2</text>
+      <text x="27" y="104" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#1A1A2E">3</text>
+      <text x="73" y="104" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#1A1A2E">4</text>
+      <path d="M50 4v132M4 68h92" stroke="#D4600A" stroke-width="1.2" stroke-dasharray="3 2"/>
+    </svg>
+    <div style="display:flex;flex-direction:column;gap:3mm;flex:1;">
+      <div class="card rule"><div class="n">1</div><div><div class="t">Print pages 4 to 7</div><p>Full size, no scaling. Thick paper holds up best.</p></div></div>
+      <div class="card rule"><div class="n">2</div><div><div class="t">Trim the inside edges</div><p>Each sheet has a dashed trim line on the edges that meet the others. Cut along it to lose the white printer border.</p></div></div>
+      <div class="card rule"><div class="n">3</div><div><div class="t">Line up and tape</div><p>Sheet 1 top left, 2 top right, 3 bottom left, 4 bottom right. Follow the gold road across the joins and tape on the back.</p></div></div>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:6mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <p style="font-size:10pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;color:var(--green);">Make it last.</b> Glue the taped board onto a flattened cereal box or a sheet of card, and it folds in half to store.</p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <p style="font-size:10pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;">The rest.</b> Page 8 is the counters and star tokens. Pages 9 to 16 are the 48 choice cards, six to a page, and page 17 is their backs, to print on the reverse if you want. Keep the cards in five piles, one per Friend.</p>
+  </div>
+  <div style="display:flex;gap:4mm;align-items:center;margin-top:auto;margin-bottom:2mm;">
+    <img class="colour-only" src="images/friends/bloop.png" alt="Bloop" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">Younger players can be read their cards. Older players read for them. Everyone plays the same board.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · Making the board</span></div>
+</div>
+
+<div id="tiles"></div>
+
+<!-- PAGE 8 · COUNTERS AND STAR TOKENS -->
+<div class="sheet" id="counters">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Cut, fold and stand · Glue the two bases together</div>
+      <h2 style="margin-top:2mm;">Counters and star tokens</h2>
+    </div>
+  </div>
+  <div id="tents" style="display:flex;justify-content:space-between;margin-top:5mm;"></div>
+  <p style="margin-top:3mm;font-size:9.4pt;">Fold each counter along the dashed lines into a tent, with the Friend facing out on both sides, and glue the two grey bases together.</p>
+  <div class="eyebrow" style="margin-top:5mm;color:var(--terracotta-dark);">40 star tokens</div>
+  <div id="tokens" style="display:grid;grid-template-columns:repeat(8,18mm);gap:4mm;margin-top:3mm;justify-content:center;"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · Counters and stars</span></div>
+</div>
+
+<div id="card-pages"></div>
+
+<!-- PAGE 18 · FOR THE GROWN UP: THE ROAD BEHIND THE GAME -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · After the game</div>
+      <h2 style="margin-top:2mm;">The real road to 16</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">The five zones on the board are the five stages Guided Childhood uses to get a child to sixteen ready for a phone and social media, ten minutes a day, with you beside them. Every choice card is a real question from one of its lessons.</p>
+  <div id="stages" style="display:flex;flex-direction:column;gap:3mm;margin-top:5mm;"></div>
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;">
+    <div class="eyebrow" style="color:var(--ink-soft);">The rules are the app's rules</div>
+    <p style="margin-top:1.5mm;font-size:10pt;color:var(--ink);font-weight:600;">Jobs earn stars. Family jobs earn none, because helping at home is part of living there. Stripy squares are protected time that no star can buy: bedtime, meals and school. A wrong answer costs nothing, because telling and trying should never be punished. If the game starts a question at home, that is the conversation worth having.</p>
+  </div>
+  <div class="card tinted" style="margin-top:4mm;padding:5mm 6mm;background:var(--butter);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">Where is your child on the road?</div>
+    <p style="margin-top:2mm;font-size:12pt;color:var(--ink);font-weight:800;">What stage is your child? Three questions, no sign up. The stage check is free at guidedchildhood.com.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · The real road</span></div>
+</div>
+
+<!-- PAGE 19 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The Road to 16 Board Game","noun":"game","pages":[["pebble","doing"],["bloop","doing"],["orbit","doing"]],"strip":false,"where":"the Pebble, Bloop or Orbit page, under the doing, whichever stage your child is on","each":"When your family has played it, cut out the sticker for your stage and stick it on.","thanks":"If the game got your table laughing, a kind review on Etsy helps another family find it."}'></div>
+
+<script>
+(() => {
+const B = window.BOARD
+document.getElementById('cover-board').innerHTML = B.content()
+
+// The four tiles. Each shows a 210 by 296 window of the 420 by 592 board.
+const TILES = [[0, 0, 'Sheet 1 · Top left'], [1, 0, 'Sheet 2 · Top right'], [0, 1, 'Sheet 3 · Bottom left'], [1, 1, 'Sheet 4 · Bottom right']]
+document.getElementById('tiles').outerHTML = TILES.map(([qx, qy, name]) => {
+  const right = qx === 0, bottom = qy === 0
+  return `<div class="sheet tile"><svg class="b" viewBox="${qx * 210} ${qy * 296} 210 296">${B.content()}</svg>
+    ${right ? `<div class="trim" style="top:0;bottom:0;right:5mm;border-right-width:0.4mm;"><span style="top:50%;right:-3mm;transform:translateY(-50%) rotate(90deg);transform-origin:right center;">Trim</span></div>` : `<div class="trim" style="top:0;bottom:0;left:5mm;border-left-width:0.4mm;"></div>`}
+    ${bottom ? `<div class="trim" style="left:0;right:0;bottom:5mm;border-bottom-width:0.4mm;"><span style="left:50%;bottom:-2mm;transform:translateX(-50%);">Trim</span></div>` : `<div class="trim" style="left:0;right:0;top:5mm;border-top-width:0.4mm;"></div>`}
+    <div class="tlabel" style="${right ? 'left:8mm' : 'right:8mm'};${bottom ? 'top:7mm' : 'bottom:7mm'};">${name} · guidedchildhood.com</div></div>`
+}).join('')
+
+// Counters: a tent each, the Friend on both faces.
+document.getElementById('tents').innerHTML = B.zones.map(z => `<div class="tent"><div class="base"><span>Glue</span></div>
+  <div class="face" style="background:${z.soft};"><img src="images/friends/${z.key}.png" alt="${z.name}"></div>
+  <div class="face" style="background:${z.soft};transform:rotate(180deg);"><img src="images/friends/${z.key}.png" alt="${z.name}"></div>
+  <div class="base" style="border-top:0.4mm dashed rgba(26,26,46,0.45);"><span>Glue</span></div></div>`).join('')
+const star = `<svg viewBox="0 0 24 24" style="width:12mm;height:12mm;"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.4" stroke-linejoin="round" class="fill"/></svg>`
+document.getElementById('tokens').innerHTML = Array.from({ length: 40 }, () => `<div class="tok">${star}</div>`).join('')
+
+// Choice cards, six to a page, then one page of backs.
+const C = window.CHOICE
+const all = []
+B.zones.forEach(z => C[z.key].forEach(c => all.push({ z, c })))
+const ABC = ['A', 'B', 'C']
+const face = ({ z, c }, i) => `<div class="cc"><div class="band tinted" style="background:${z.soft};"><img class="colour-only" src="images/friends/${z.key}.png" alt=""><b style="color:${z.ink};">${z.name} zone · ${z.key === 'cosmo' ? 'age 16' : 'ages ' + z.ages}</b><span class="no">${i + 1}</span></div>
+  <div class="q">${c[0]}</div>
+  <div class="opts">${c[1].map((o, k) => `<div class="o"><i>${ABC[k]}</i><span>${o}</span></div>`).join('')}</div>
+  <div class="ans"><span>Turn it round · The answer</span><br>${ABC[c[2]]}: ${c[1][c[2]]}</div></div>`
+let html = ''
+for (let s = 0; s < 48; s += 6) {
+  const six = all.slice(s, s + 6)
+  const zones = [...new Set(six.map(x => x.z.name))].join(' and ')
+  html += `<div class="sheet cc-sheet"><div class="mono" style="font-size:7.5pt;color:var(--ink-muted);display:flex;justify-content:space-between;"><span>Choice cards ${s + 1} to ${s + 6} · ${zones}</span><span>Cut on the dashed lines</span></div>
+    <div class="cgrid">${six.map((x, k) => face(x, s + k)).join('')}</div>
+    <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · Choice cards</span></div></div>`
+}
+html += `<div class="sheet cc-sheet"><div class="mono" style="font-size:7.5pt;color:var(--ink-muted);display:flex;justify-content:space-between;"><span>Card backs · optional</span><span>Print on the reverse of any card page</span></div>
+  <div class="cgrid">${Array.from({ length: 6 }, () => `<div class="cc back tinted" style="background:#FFF6DE;"><img src="images/DiGi-star-3d.png" alt="DiGi" style="width:26mm;height:26mm;">
+    <div style="font-weight:900;font-size:16pt;margin-top:2mm;">Choice card</div>
+    <div style="font-weight:700;font-size:9pt;color:var(--ink-soft);margin-top:2mm;line-height:1.4;padding:0 6mm;">Right? Take a star.<br>Not sure? Read the answer out loud.<br>Nobody loses anything.</div>
+    <div class="mono" style="font-size:6pt;color:var(--ink-muted);margin-top:4mm;">The Road to 16 · guidedchildhood.com</div></div>`).join('')}</div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Road to 16 · Card backs</span></div></div>`
+document.getElementById('card-pages').outerHTML = html
+
+// The stages page.
+const BLURB = {
+  pebble: 'First relationships with technology, before habits form.',
+  bloop: 'Building digital habits before the algorithm learns them.',
+  orbit: 'The algorithm conversation before social media.',
+  nova: 'Identity and digital footprint while the relationship still holds.',
+  cosmo: 'Real digital independence before they leave home.',
+}
+document.getElementById('stages').innerHTML = B.zones.map(z => `<div class="card" style="padding:3mm 4.5mm;display:flex;gap:4mm;align-items:center;box-shadow:none;">
+  <img class="colour-only" src="images/friends/${z.key}.png" alt="${z.name}" style="width:16mm;height:16mm;object-fit:contain;background:${z.soft};border:2px solid var(--ink);border-radius:50%;flex-shrink:0;">
+  <div><div style="font-weight:900;font-size:12pt;">${z.name} · ${z.key === 'cosmo' ? '16 and up' : 'ages ' + z.ages}</div><div style="font-weight:600;font-size:9.6pt;color:var(--ink-soft);margin-top:0.5mm;">${BLURB[z.key]}</div></div></div>`).join('')
+
+// Rule page swatches.
+document.getElementById('r-job').innerHTML = `<div style="width:10mm;height:10mm;">${window.ICONS('settable', '#fff')}</div>`
+document.getElementById('r-fam').innerHTML = `<div style="width:10mm;height:10mm;">${window.ICONS('hug', '#fff')}</div>`
+})()
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>

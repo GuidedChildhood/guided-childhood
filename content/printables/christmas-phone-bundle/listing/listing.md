@@ -1,13 +1,21 @@
 # Etsy listing package: The Christmas Phone Bundle
 
 Product 5 in `content/etsy-shop/product-brief.md`. Built 6 November 2026 as a
-listing over three packs that already exist; it has no pages of its own. For
+listing over packs that already exist; it has no pages of its own. For
 the parent putting a first phone under the tree: list it straight after the
 First Phone Kit.
 
-## Title (126 characters)
+## Live on Etsy: edit it, never relist
 
-First Phone Bundle Printable | First Phone Kit, Family Phone Agreement and Calm Down Kit | Christmas Phone Gift | Ages 9 to 13
+The three pack version went live on 6 November 2026 as listing 4611169093 at
+£14.99, with three zips (first-phone-kit, family-phone-agreement,
+calm-down-kit). Once PR 1425 merges, edit that live listing (no Etsy fee):
+add `phone-treasure-hunt.zip`, and replace the title, description, tags and
+photos with the ones below. Do not make a new listing.
+
+## Title (128 characters)
+
+First Phone Bundle Printable | Phone Kit, Phone Agreement, Christmas Treasure Hunt and Calm Down Kit | Phone Gift | Ages 9 to 13
 
 ## Price and listing setup
 
@@ -15,29 +23,36 @@ First Phone Bundle Printable | First Phone Kit, Family Phone Agreement and Calm 
 - In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
   sale on this listing with no end date. Buyers see £14.99 crossed out and pay
   £11.24.
-- Bought one by one the three packs list at £21.97, so the bundle is the
-  better deal without the listing having to say so.
+- Bought one by one the four packs list at £27.96, so the bundle is the
+  better deal without the listing having to say so. The treasure hunt joined
+  on 6 November 2026 (PR 1425) at the same price: the research's bundle rule
+  is roughly two singles, and the Kit plus the Agreement list at £14.98.
 - Season: from now to Christmas Eve, then again before the summer holidays and
   secondary school.
 - Type: digital download. Attach one zip per pack: `first-phone-kit.zip`,
-  `family-phone-agreement.zip`, `calm-down-kit.zip`. Each zip holds that
-  pack's three PDFs from its `product/` folder and its `phone/` screens.
+  `phone-treasure-hunt.zip`, `family-phone-agreement.zip`, `calm-down-kit.zip`.
+  Each zip holds that pack's three PDFs from its `product/` folder and its
+  `phone/` screens. Four files, inside Etsy's five.
 
 ## Description
 
 A phone under the tree is a big moment, and the easiest Christmas morning is
 the one where the plan was made before the box was wrapped.
 
-The Christmas Phone Bundle is three Guided Childhood printables in one
+The Christmas Phone Bundle is four Guided Childhood printables in one
 download, for families with a child of 9 to 13 getting their first phone.
 Every pack is the full pack, the same as when it is bought on its own.
 
-What you get, 29 pages across three packs:
+What you get, 42 pages across four packs:
 
 - The First Phone Kit (12 pages): the readiness check, both sides; the phone
   deal your child writes in their own words; your promises back; the setup
   night checklist; the first 30 days, one small thing a week; the first
   review; and the words for the first wobbles
+- The Phone Under The Tree Treasure Hunt (13 pages): ten clue cards to hide
+  around your home, each with a riddle and one line of the plan your child
+  reads out loud, the hiding map, two box cards and the phone promises to sign
+  before it is switched on
 - The Family Phone Agreement (8 pages): five questions to talk through, your
   child's promises and yours, the trust levels, and what to do when
   something feels wrong
@@ -46,7 +61,7 @@ What you get, 29 pages across three packs:
 - Passport stickers in every pack, for the stage pages of the Guided Childhood
   Passport
 - Every pack in A4 and US Letter in full colour, plus an ink friendly version
-- Phone screens from all three packs, so the plan travels in your pocket
+- Phone screens from all four packs, so the plan travels in your pocket
 
 This is an instant download. Nothing is posted. Print as many copies as your
 own family needs. For personal use only.
@@ -70,7 +85,7 @@ not print or open, message me and I will sort it fast.
 | christmas phone gift | 20 |
 | tween phone rules | 17 |
 | new phone checklist | 19 |
-| calm down corner | 16 |
+| phone treasure hunt | 19 |
 | parenting bundle | 16 |
 | parenting printable | 19 |
 | digital safety kids | 19 |
@@ -79,13 +94,14 @@ not print or open, message me and I will sort it fast.
 
 | Slot | File | What it shows |
 |---|---|---|
-| 1 | `images/01-cover.png` | The three pack covers, the First Phone Kit on top, Orbit, the gold pathway |
-| 2 | `images/02-whats-inside.png` | Three packs, 29 pages, one row each |
+| 1 | `images/01-cover.png` | The four pack covers, the First Phone Kit on top, Orbit, the gold pathway |
+| 2 | `images/02-whats-inside.png` | Four packs, 42 pages, one row each |
 | 3 | `images/03-first-phone-kit.png` | The readiness check and the setup night checklist |
-| 4 | `images/04-family-phone-agreement.png` | The promises and the trust levels |
-| 5 | `images/05-calm-down-kit.png` | The feelings cards and star breathing |
-| 6 | `images/06-formats.png` | A4, US Letter, ink friendly, phone |
-| 7 | `images/07-how-it-works.png` | Check, agree, set up, steady |
+| 4 | `images/04-phone-treasure-hunt.png` | Clue cards and the box cards |
+| 5 | `images/05-family-phone-agreement.png` | The promises and the trust levels |
+| 6 | `images/06-calm-down-kit.png` | The feelings cards and star breathing |
+| 7 | `images/07-formats.png` | A4, US Letter, ink friendly, phone |
+| 8 | `images/08-how-it-works.png` | Check, agree, hunt, steady |
 
 All 2000 by 2000, rendered from `listing/images.html` by
 `node content/printables/build-pack.mjs christmas-phone-bundle listing`.

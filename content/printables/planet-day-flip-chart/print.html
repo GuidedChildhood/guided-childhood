@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Planet Day Flip Chart</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The Planet Day Flip Chart, ages 4 to 10. A routine flip chart (morning,
+     after school, bedtime) with 120 picture cards, and the three kinds of
+     time built into the cards themselves. Proof paths:
+       my time        lib/quests/time-tiers.ts (core: a small unconditional daily
+                      baseline the parent sets, spent first), the parent card's
+                      "Free time is always theirs, no stars needed, so the screen
+                      never becomes the prize" (components/quests/TimeTiersCard.tsx)
+       earned time    lib/quests/templates.ts STAR_MINUTES 5, per child
+                      child_time_settings.star_minutes (migration 225), presets
+                      5, 10, 15 ("ONE STAR BUYS")
+       weekly most    lib/quests/star-week.ts weeklyStarCap: the healthy daily
+                      minutes for the age (screen-balance.ts: 60 for 4 to 7, 75 for
+                      8 to 10) times seven, over the rate. 84 and 105 at five minutes.
+                      The week starts Monday.
+       protected      lib/quests/time-tiers.ts: bedtime (an hour before bed),
+                      mealtimes, school hours. No stars buy them, and a start inside
+                      one goes to the parent as an ask. The child's words: "Screens
+                      rest while we eat. I know it is hard to pause. It will still be
+                      there after."
+       family jobs    migration 223 is_family_job: no stars, because contribution
+                      is belonging, not payment.
+     The routine cards themselves earn nothing: a routine is what we do. Stars
+     come from the job cards, as they do from quests in the app. -->
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --terracotta:#EDC35F; --terracotta-dark:#C99A28;
+    --terracotta-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --tint-sage:#E8F0EE;
+    --pebble:#EDC35F; --pebble-soft:#FBEED0; --pebble-ink:#7A5A0E;
+    --bloop:#2F8F6B; --bloop-soft:#E4F0D4; --bloop-ink:#3F5E1E;
+    --morning:#FBEED0; --after:#E4F0D4; --bed:#DCEBF7; --rest:#EDEDF3;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 16mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  .mono{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:22pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:6mm;}
+  .fl{display:inline-block;border-bottom:1.6px solid #B9B9C8;height:5.5mm;vertical-align:bottom;}
+
+  /* Time keys */
+  .key{display:flex;gap:3.5mm;align-items:flex-start;padding:3.5mm 4.5mm;}
+  .key .sw{width:15mm;height:15mm;border-radius:3mm;border:2.5px solid var(--ink);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .key .t{font-weight:900;font-size:12.5pt;line-height:1.2;}
+  .key p{font-size:9.4pt;line-height:1.45;margin-top:0.8mm;}
+  .rest-border{background:repeating-linear-gradient(135deg,#1A1A2E 0 1.4mm,#fff 1.4mm 2.8mm);}
+
+  /* The boards */
+  .board{padding:12mm 14mm 0;}
+  .staple{position:absolute;top:5mm;left:0;right:0;display:flex;justify-content:center;gap:50mm;}
+  .staple i{display:block;width:12mm;height:0;border-top:1.4mm solid #B9B9C8;border-radius:1mm;}
+  .bhead{display:flex;align-items:center;gap:4mm;height:22mm;}
+  .bhead img{width:22mm;height:22mm;object-fit:contain;flex-shrink:0;}
+  .bhead .t{font-weight:900;font-size:27pt;line-height:1;}
+  .bhead .s{font-weight:700;font-size:11pt;color:var(--ink-soft);margin-top:1.5mm;}
+  .grid{display:grid;grid-template-columns:repeat(3,52mm);gap:3mm;justify-content:center;margin-top:2mm;}
+  .slot{width:52mm;height:52mm;border:0.6mm dashed rgba(26,26,46,0.45);border-radius:4.5mm;background:var(--white);position:relative;
+    display:flex;align-items:center;justify-content:center;}
+  .slot .no{position:absolute;left:2.5mm;top:2mm;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;color:var(--ink-muted);}
+  .slot .dot{width:12mm;height:12mm;border-radius:50%;border:0.5mm dashed rgba(26,26,46,0.25);}
+  .slot .tick{position:absolute;right:2mm;bottom:2mm;width:7mm;height:7mm;border-radius:50%;border:2px solid var(--ink);background:var(--white);}
+  .strip{margin-top:3mm;display:flex;gap:3.5mm;align-items:center;border:2.5px solid var(--ink);border-radius:12px;padding:2.2mm 4mm;background:var(--white);}
+  .strip .badge{width:10mm;height:10mm;border-radius:2.5mm;flex-shrink:0;border:2px solid var(--ink);}
+  .strip .t{font-weight:800;font-size:10.5pt;line-height:1.3;color:var(--ink);}
+  .tab{position:absolute;left:0;right:0;height:15mm;display:flex;align-items:center;justify-content:space-between;padding:0 16mm;border-top:2.5px solid var(--ink);}
+  .tab .lab{font-weight:900;font-size:17pt;display:flex;align-items:center;gap:3mm;}
+  .tab .lab span{width:8mm;height:8mm;border-radius:50%;border:2px solid var(--ink);}
+  .tab .site{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1.4px;color:var(--ink-muted);text-transform:uppercase;}
+  .cutaway{position:absolute;left:0;right:0;bottom:0;background:repeating-linear-gradient(45deg,#EFEFF3 0 2mm,#F9F8F6 2mm 4mm);
+    border-top:0.5mm dashed var(--ink);display:flex;align-items:flex-start;justify-content:center;padding-top:3mm;}
+  .cutaway span{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-muted);background:var(--cream);padding:0.5mm 3mm;}
+
+  /* Ready made chart */
+  .wk{display:grid;grid-template-columns:62mm repeat(7,1fr);gap:1.4mm;align-items:center;}
+  .wk .h{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;letter-spacing:1px;text-align:center;color:var(--ink-soft);}
+  .wk .r{display:flex;align-items:center;gap:2.5mm;background:var(--white);border:2px solid var(--ink);border-radius:9px;padding:0.8mm 2mm;height:11.4mm;}
+  .wk .r svg{width:10mm;height:10mm;flex-shrink:0;}
+  .wk .r b{font-weight:800;font-size:9.6pt;line-height:1.15;}
+  .wk .c{height:11.4mm;border:2px solid var(--ink);border-radius:9px;background:var(--white);}
+  .wk .sec{grid-column:1 / -1;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;letter-spacing:1.6px;text-transform:uppercase;margin-top:1.6mm;}
+
+  /* Picture cards: 12 to a page at 2 inches */
+  .cards{padding:12mm 14mm 14mm;}
+  .cgrid{display:grid;grid-template-columns:repeat(3,50.8mm);grid-auto-rows:50.8mm;gap:5mm;justify-content:center;margin-top:4mm;}
+  .pc{width:50.8mm;height:50.8mm;border-radius:4mm;background:var(--white);position:relative;overflow:hidden;
+    outline:0.4mm dashed rgba(26,26,46,0.5);outline-offset:1.6mm;border:2px solid var(--ink);display:flex;flex-direction:column;}
+  .pc .band{height:7mm;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;
+    font-size:5.8pt;letter-spacing:1.3px;text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--ink);flex-shrink:0;}
+  .pc .ic{flex:1;display:flex;align-items:center;justify-content:center;}
+  .pc .ic svg{width:25mm;height:25mm;}
+  .pc .lb{font-weight:900;font-size:10.5pt;line-height:1.1;text-align:center;padding:0 2.5mm 3mm;min-height:10mm;display:flex;align-items:center;justify-content:center;}
+  .pc .star{position:absolute;right:1.6mm;top:8.6mm;display:flex;align-items:center;gap:0.6mm;font-weight:900;font-size:8pt;}
+  .pc .star .sv{width:9mm;height:6mm;border-bottom:1.4px solid var(--ink);}
+  .pc .heart{position:absolute;right:2mm;top:8.6mm;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:5.2pt;letter-spacing:0.6px;text-transform:uppercase;color:#B4455C;text-align:right;line-height:1.3;}
+  .pc.rest{border:none;background:repeating-linear-gradient(135deg,#1A1A2E 0 1.4mm,#fff 1.4mm 2.8mm);}
+  .pc.rest .in{position:absolute;inset:2.2mm;background:var(--white);border-radius:2.4mm;display:flex;flex-direction:column;border:1.5px solid var(--ink);}
+  .pc.rest .band{background:var(--rest);}
+  .pc .blank{border-bottom:1.6px solid #B9B9C8;width:36mm;height:7mm;}
+
+  /* Tally strips */
+  .tally{padding:4mm 5mm;}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:2mm;margin-top:3mm;}
+  .days > div{border:2px solid var(--ink);border-radius:8px;background:var(--white);padding:1.5mm 1mm 2mm;display:flex;flex-direction:column;align-items:center;gap:1mm;}
+  .days .d{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;letter-spacing:1px;}
+  .days svg{width:7.5mm;height:7.5mm;}
+
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .card,body.ink .bubble{box-shadow:none !important;}
+  body.ink .tinted,body.ink .pc .band,body.ink .tab,body.ink .key .sw.tint{background:var(--white) !important;}
+  body.ink .icf{fill:var(--white) !important;}
+  body.ink .cutaway{background:var(--white);}
+  body.ink .cover-card{background:var(--white) !important;box-shadow:none !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div class="eyebrow" style="margin-top:8mm;">Guided Childhood · Print at Home · Ages 4 to 10</div>
+  <h1 style="margin-top:6mm;font-size:48pt;">The Planet Day<br>Flip Chart</h1>
+  <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:14pt;line-height:1.4;">
+    A routine chart for morning, after school and bedtime,<br>with 120 picture cards to move as the day goes.
+  </p>
+  <div class="cover-card" style="margin-top:8mm;width:160mm;height:84mm;background:var(--pebble-soft);border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;gap:6mm;">
+    <img src="images/friends/pebble.png" alt="Pebble, a Planet Friend" style="width:66mm;height:66mm;object-fit:contain;">
+    <div id="cover-cards" style="display:grid;grid-template-columns:repeat(2,26mm);gap:3mm;"></div>
+    <img src="images/friends/bloop.png" alt="Bloop, a Planet Friend" style="width:46mm;height:46mm;object-fit:contain;">
+  </div>
+  <div style="display:flex;gap:3.5mm;margin-top:9mm;flex-wrap:wrap;justify-content:center;max-width:180mm;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">2 flip charts</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">120 picture cards</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">2 ready made week charts</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Star tally and star shop</div>
+  </div>
+  <p style="margin-top:7mm;font-size:10.5pt;max-width:150mm;">
+    Pebble's set for ages 4 to 7 and Bloop's for 8 to 10. The week starts on Monday,
+    and the screen time cards show which time is theirs, which is earned, and which no star can buy.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Pebble · Ages 4 to 7 · Bloop · Ages 8 to 10</span></div>
+</div>
+
+<!-- PAGE 2 · FOR THE GROWN UP: THREE KINDS OF TIME -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Read this first</div>
+      <h2 style="margin-top:2mm;">Three kinds of time, on one chart</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">
+    A routine chart tells a child what comes next, so you are not the one saying it ten times. This one
+    also settles the question that starts most screen arguments: is it screen time now? The picture
+    cards come in kinds, and each kind looks different, so a child of four can read the answer off the chart.
+  </p>
+  <div style="display:flex;flex-direction:column;gap:3.5mm;margin-top:5mm;">
+    <div class="card key"><div class="sw tint" style="background:var(--terracotta);" id="k-my"></div><div><div class="t">My time: theirs, every day</div><p>A small amount of screen time you set, with no stars needed, so the screen never becomes the prize. It is spent first. Fifteen or twenty minutes is plenty to start. Gold cards.</p></div></div>
+    <div class="card key"><div class="sw tint" style="background:#fff;" id="k-star"></div><div><div class="t">Star time: earned with jobs</div><p>Extra time comes from the job cards with a star space. One star is five minutes unless you choose ten or fifteen. Routine cards earn nothing: getting dressed is just what we do.</p></div></div>
+    <div class="card key"><div class="sw rest-border"></div><div><div class="t">Protected time: no star can buy it</div><p>Breakfast, lunch, tea, school time and the hour before bed. Striped cards, and no star space on them, so the chart itself shows what stars cannot buy. If they ask for a screen inside one, the ask comes to you, and it is your call every time.</p></div></div>
+    <div class="card key"><div class="sw tint" style="background:#FDE8EC;" id="k-heart"></div><div><div class="t">Family jobs: no stars, ever</div><p>Some jobs are just part of living together. Every job card has a twin marked family job. Choose which kind each job is in your house. Contribution is belonging, not payment.</p></div></div>
+  </div>
+  <div class="card tinted" style="margin-top:5mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">How many stars in a week?</div>
+    <p style="margin-top:1.5mm;font-size:9.6pt;color:var(--ink);font-weight:600;">Guided Childhood's guide for a healthy day is about an hour of screen time for ages 4 to 7 and an hour and a quarter for 8 to 10. The app turns that into the most stars a child can hold in a week: at five minutes a star, 84 for Pebble's age and 105 for Bloop's. The tally strip on page 24 has a line for your number. The week starts on Monday.</p>
+  </div>
+  <div style="display:flex;gap:4mm;align-items:center;margin-top:auto;margin-bottom:2mm;">
+    <img class="colour-only" src="images/friends/pebble.png" alt="Pebble" style="width:22mm;height:22mm;object-fit:contain;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">The aim is a chart they stop needing. Start with you moving the cards, then do it together, then let them run it.</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Planet Day · Three kinds of time</span></div>
+</div>
+
+<!-- PAGE 3 · HOW TO MAKE IT -->
+<div class="sheet">
+  <div class="head">
+    <div>
+      <div class="eyebrow">For the grown up · Ten minutes with scissors</div>
+      <h2 style="margin-top:2mm;">Making the flip chart</h2>
+    </div>
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;">
+  </div>
+  <p style="margin-top:3mm;">Each flip chart is four sheets stacked and stapled at the top. Each sheet is cut a little shorter than the one under it, so every label shows at the bottom like a staircase. Flip a sheet up to see what comes next.</p>
+  <div style="display:flex;gap:8mm;margin-top:6mm;align-items:flex-start;">
+    <svg viewBox="0 0 100 140" style="width:70mm;flex-shrink:0;">
+      <rect x="10" y="6" width="80" height="128" rx="3" fill="#DCEBF7" stroke="#1A1A2E" stroke-width="1.4" class="icf"/>
+      <rect x="10" y="6" width="80" height="116" rx="3" fill="#E4F0D4" stroke="#1A1A2E" stroke-width="1.4" class="icf"/>
+      <rect x="10" y="6" width="80" height="104" rx="3" fill="#FBEED0" stroke="#1A1A2E" stroke-width="1.4" class="icf"/>
+      <rect x="10" y="6" width="80" height="92" rx="3" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="1.4"/>
+      <path d="M10 88h80M10 100h80M10 112h80M10 124h80" stroke="#1A1A2E" stroke-width="0.8"/>
+      <text x="16" y="94.5" font-family="Nunito" font-weight="900" font-size="5.2" fill="#1A1A2E">My Planet Day</text>
+      <text x="16" y="106.5" font-family="Nunito" font-weight="900" font-size="5.2" fill="#1A1A2E">Morning</text>
+      <text x="16" y="118.5" font-family="Nunito" font-weight="900" font-size="5.2" fill="#1A1A2E">After school</text>
+      <text x="16" y="130.5" font-family="Nunito" font-weight="900" font-size="5.2" fill="#1A1A2E">Bedtime</text>
+      <path d="M30 10h10M60 10h10" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <text x="50" y="40" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="6" fill="#52526A">Flip up</text>
+      <path d="M50 46v-0M44 54l6-6 6 6" stroke="#1A1A2E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div style="display:flex;flex-direction:column;gap:3mm;flex:1;">
+      <div class="card key"><div><div class="t">1 · Print one set</div><p>Pebble's set is pages 4 to 7, Bloop's is 8 to 11. Thick paper or card stock.</p></div></div>
+      <div class="card key"><div><div class="t">2 · Cut on the line</div><p>Each sheet shows a dashed cut line over a striped strip. Cut the strip off. The bedtime sheet stays whole.</p></div></div>
+      <div class="card key"><div><div class="t">3 · Stack and staple</div><p>Bedtime at the bottom, then after school, morning, and the name sheet on top. Line up the top edges and staple at the two marks.</p></div></div>
+      <div class="card key"><div><div class="t">4 · The cards</div><p>Cut the picture cards on their dashed lines. A sticky dot or a hook and loop dot on each slot lets them move.</p></div></div>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:6mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <p style="font-size:9.8pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;color:var(--green);">Laminate it if you can.</b> Then the tick in each slot wipes clean with a dry wipe pen, and the chart lasts the year. No laminator? Clear sticky back plastic does the same job.</p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <p style="font-size:9.8pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;">No time to cut?</b> Pages 12 and 13 are ready made week charts, one for each age, with the routine already printed in and a tick box for every day from Monday.</p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <p style="font-size:9.8pt;color:var(--ink);font-weight:600;"><b style="font-weight:900;">Typing names in.</b> The PDF is fillable. Open it in a free PDF reader to type your child's name on the name sheets and the blank cards, then print.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Planet Day · Making it</span></div>
+</div>
+
+<div id="boards"></div>
+<div id="weeks"></div>
+<div id="card-pages"></div>
+
+<!-- PAGE 24 · STAR TALLY AND THE STAR SHOP -->
+<div class="sheet" id="tally"></div>
+
+<!-- PAGE 25 · THE PASSPORT STICKERS AND THE FREE GIFT (../pack-finish.js) -->
+<div class="sheet" data-finish='{"pack":"The Planet Day Flip Chart","noun":"flip chart","pages":[["pebble","doing"],["bloop","doing"]],"strip":false,"thanks":"If the chart made your mornings a little calmer, a kind review on Etsy helps another family find it."}'></div>
+
+<script>
+const F = {
+  pebble: { name: 'Pebble', ages: '4 to 7', col: '#EDC35F', soft: '#FBEED0', ink: '#7A5A0E', img: 'images/friends/pebble.png' },
+  bloop: { name: 'Bloop', ages: '8 to 10', col: '#2F8F6B', soft: '#E4F0D4', ink: '#3F5E1E', img: 'images/friends/bloop.png' },
+}
+const STAR = (c = '#EDC35F', s = '#1A1A2E') => `<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="${c}" stroke="${s}" stroke-width="1.6" stroke-linejoin="round" class="icf"/></svg>`
+
+// Groups: band colour, band label, kind ('routine', 'job', 'family', 'rest', 'my', 'earned', 'blank')
+const G = {
+  morning: ['#FBEED0', 'Morning', 'routine'], after: ['#E4F0D4', 'After school', 'routine'], bed: ['#DCEBF7', 'Bedtime', 'routine'],
+  job: ['#FEF7E0', 'Job · earns stars', 'job'], family: ['#FDE8EC', 'Family job', 'family'],
+  rest: ['#EDEDF3', 'Screens rest', 'rest'], my: ['#EDC35F', 'My time', 'my'], earned: ['#FEF7E0', 'Star time', 'earned'],
+  blank: ['#FFFFFF', 'My own card', 'blank'],
+}
+const C = []
+const add = (g, list) => list.forEach(([ic, lb]) => C.push({ g, ic, lb }))
+add('morning', [['alarm', 'Wake up'], ['curtains', 'Open the curtains'], ['toilet', 'Toilet'], ['handwash', 'Wash my hands'], ['face', 'Wash my face'], ['teeth', 'Brush my teeth'], ['hair', 'Brush my hair'], ['dress', 'Get dressed'], ['socks', 'Socks on'], ['shoes', 'Shoes on'], ['coat', 'Coat on'], ['bed', 'Make my bed'], ['breakfast', 'Breakfast'], ['drink', 'A drink'], ['pet', 'Say hello to the pet'], ['bag', 'Pack my bag'], ['bottle', 'Water bottle'], ['lunchbox', 'Lunchbox'], ['walk', 'Walk to school'], ['car', 'Car to school']])
+add('after', [['shoesoff', 'Shoes off'], ['hangcoat', 'Hang up my coat'], ['unpack', 'Unpack my bag'], ['lunchbox', 'Lunchbox to the kitchen'], ['handwash', 'Wash my hands'], ['snack', 'Snack'], ['homework', 'Homework'], ['reading', 'Reading'], ['outside', 'Play outside'], ['bike', 'Bike ride'], ['ball', 'Ball games'], ['music', 'Music practice'], ['draw', 'Drawing'], ['blocks', 'Building'], ['puzzle', 'Puzzle'], ['tidy', 'Tidy my toys'], ['chat', 'Talk about my day'], ['call', 'Call the family'], ['swim', 'Swimming'], ['bus', 'Bus home']])
+add('bed', [['tidy', 'Tidy up'], ['bath', 'Bath'], ['shower', 'Shower'], ['pyjamas', 'Pyjamas on'], ['teeth', 'Brush my teeth'], ['toilet', 'Toilet'], ['laundry', 'Clothes in the basket'], ['layout', 'Clothes for tomorrow'], ['bag', 'Bag for tomorrow'], ['water', 'Glass of water'], ['story', 'Story'], ['reading', 'Read to myself'], ['bestbit', 'Best bit of my day'], ['hug', 'Cuddle'], ['nightlight', 'Night light'], ['sleep', 'Sleep']])
+const JOBS = [['plants', 'Water the plants'], ['bin', 'Empty a bin'], ['recycle', 'Sort the recycling'], ['socksmatch', 'Pair the socks'], ['dust', 'Dusting'], ['sweep', 'Sweep the floor'], ['dishes', 'Help wash up'], ['settable', 'Set the table'], ['cleartable', 'Clear the table'], ['cook', 'Help cook tea'], ['car2', 'Help wash the car'], ['pet', 'Feed the pet']]
+add('job', JOBS); add('family', JOBS)
+add('rest', [['breakfast', 'Breakfast'], ['breakfast', 'Breakfast'], ['meal', 'Lunch'], ['meal', 'Lunch'], ['meal', 'Tea time'], ['meal', 'Tea time'], ['school', 'School time'], ['school', 'School time'], ['sleep', 'The hour before bed'], ['sleep', 'The hour before bed'], ['sleep', 'Bedtime'], ['sleep', 'Bedtime']])
+add('my', [['screen', 'My time'], ['screen', 'My time'], ['screen', 'My time'], ['screen', 'My time']])
+add('earned', [['screen', 'Star time'], ['screen', 'Star time'], ['screen', 'Star time'], ['screen', 'Star time']])
+for (let i = 0; i < 20; i++) C.push({ g: 'blank', ic: 'pencilblank', lb: '' })
+
+let fid = 0
+const pcard = (c, i) => {
+  const [band, label, kind] = G[c.g]
+  const fill = kind === 'my' ? '#FBEED0' : band === '#FFFFFF' ? '#F3F3F7' : band
+  const inner = `<div class="band" style="background:${band};">${label}</div>
+    <div class="ic">${ICONS(c.ic, fill)}</div>
+    <div class="lb">${kind === 'blank' ? `<span class="blank" data-field="card-${i + 1}" data-size="10"></span>` : c.lb}</div>
+    ${kind === 'job' || kind === 'earned' ? `<div class="star">${STAR()}<span class="sv" data-field="stars-${i + 1}" data-size="9"></span></div>` : ''}
+    ${kind === 'family' ? `<div class="heart">No stars<br>we all help</div>` : ''}
+    ${kind === 'my' ? `<div class="heart" style="color:#7A5A0E;">Mine<br>every day</div>` : ''}`
+  return kind === 'rest'
+    ? `<div class="pc rest rest-border"><div class="in">${inner}</div></div>`
+    : `<div class="pc">${inner}</div>`
+}
+
+// Boards: the name sheet, then morning, after school, bedtime. Cut heights in mm.
+const PARTS = [
+  { key: 'name', cut: 222, tab: 'My Planet Day', dot: '#FFFFFF' },
+  { key: 'morning', cut: 240, tab: 'Morning', dot: '#FBEED0', sub: 'Up, dressed, ready to go', rest: ['breakfast', 'Screens rest at breakfast and in school time.'] },
+  { key: 'after', cut: 258, tab: 'After school', dot: '#E4F0D4', sub: 'Home, snack, play, jobs', rest: ['meal', 'Screens rest at tea time. It will still be there after.'] },
+  { key: 'bed', cut: null, tab: 'Bedtime', dot: '#DCEBF7', sub: 'Wind down, wash, story, sleep', rest: ['sleep', 'Screens rest from <span class="fl" data-field="bedtime-FR" style="width:20mm;"></span>, an hour before bed, until morning.'] },
+]
+const board = (fk, p, i) => {
+  const f = F[fk]
+  const tabTop = (p.cut ?? 276) + (-16)
+  const tabs = PARTS.slice(0, i + 1).length
+  const staple = `<div class="staple"><i></i><i></i></div>`
+  const tab = `<div class="tab" style="top:${tabTop}mm;background:${p.dot};"><div class="lab"><span style="background:${p.key === 'name' ? f.col : p.dot};"></span>${p.tab}</div><div class="site">${f.name} · Ages ${f.ages} · guidedchildhood.com</div></div>`
+  const cut = p.cut ? `<div class="cutaway" style="top:${p.cut}mm;"><span>Cut along the dashed line and throw this strip away</span></div>` : ''
+  if (p.key === 'name') return `<div class="sheet board" style="background:${f.soft};">${staple}
+    <div style="text-align:center;margin-top:6mm;" class="mono"><span style="font-size:8pt;color:${f.ink};">The top sheet · Flip up to start the day</span></div>
+    <div style="display:flex;justify-content:center;margin-top:8mm;"><img src="${f.img}" alt="${f.name}" style="width:84mm;height:84mm;object-fit:contain;"></div>
+    <div style="text-align:center;margin-top:2mm;"><div data-field="name-${fk}" data-size="28" style="display:inline-block;width:120mm;height:15mm;border-bottom:2.5px solid var(--ink);"></div></div>
+    <div style="text-align:center;font-weight:900;font-size:34pt;line-height:1.05;margin-top:2mm;">'s Planet Day</div>
+    <div style="display:flex;gap:3mm;justify-content:center;margin-top:7mm;">
+      ${[['#EDC35F', 'Gold', 'My time, mine every day'], ['#FEF7E0', 'Star', 'Star time, earned with jobs'], ['rest', 'Stripes', 'Screens rest, no star buys it']].map(([c, a, b]) => `<div style="background:#fff;border:2px solid var(--ink);border-radius:10px;padding:2.2mm 3mm;display:flex;gap:2mm;align-items:center;width:56mm;">
+        <div class="${c === 'rest' ? 'rest-border' : ''}" style="width:9mm;height:9mm;border-radius:2mm;border:2px solid var(--ink);flex-shrink:0;${c === 'rest' ? '' : `background:${c};`}display:flex;align-items:center;justify-content:center;">${a === 'Star' ? `<div style="width:6mm;height:6mm;">${STAR()}</div>` : ''}</div>
+        <div style="font-size:9pt;line-height:1.25;font-weight:800;">${b}</div></div>`).join('')}
+    </div>
+    ${tab}${cut}</div>`
+  return `<div class="sheet board">${staple}
+    <div class="bhead"><img class="colour-only" src="${f.img}" alt="${f.name}"><div><div class="t">${p.tab}</div><div class="s">${p.sub}</div></div>
+      <div style="margin-left:auto;text-align:right;" class="mono"><span style="font-size:7pt;color:var(--ink-muted);">Put a card in each slot.<br>Tick it when it is done.</span></div></div>
+    <div class="grid">${Array.from({ length: 9 }, (_, k) => `<div class="slot"><span class="no">${k + 1}</span><span class="dot"></span><span class="tick"></span></div>`).join('')}</div>
+    ${p.key === 'after' ? `<div class="strip" style="background:#FFFCF3;"><div class="badge" style="background:#EDC35F;"></div><div class="t">My time today: <span class="fl" data-field="mytime-${fk}" style="width:16mm;"></span> minutes, mine every day. Star time on top: one star is <span class="fl" data-field="rate-${fk}" style="width:10mm;"></span> minutes.</div></div>` : ''}
+    <div class="strip"><div class="badge rest-border"></div><div class="t">${p.rest[1].replace('FR', fk)}</div></div>
+    ${tab}${cut}</div>`
+}
+let html = ''
+for (const fk of ['pebble', 'bloop']) PARTS.forEach((p, i) => html += board(fk, p, i))
+document.getElementById('boards').outerHTML = html
+
+// Ready made week charts, Monday start.
+const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+const WEEK = {
+  pebble: [['Morning', '#FBEED0', [['alarm', 'Wake up'], ['dress', 'Get dressed'], ['breakfast', 'Breakfast'], ['teeth', 'Brush my teeth'], ['shoes', 'Shoes and coat on']]],
+    ['After school', '#E4F0D4', [['unpack', 'Unpack my bag'], ['snack', 'Snack'], ['outside', 'Play'], ['tidy', 'Tidy my toys']]],
+    ['Bedtime', '#DCEBF7', [['bath', 'Bath or wash'], ['pyjamas', 'Pyjamas on'], ['teeth', 'Brush my teeth'], ['story', 'Story'], ['sleep', 'Sleep']]]],
+  bloop: [['Morning', '#FBEED0', [['bed', 'Make my bed'], ['dress', 'Get dressed'], ['breakfast', 'Breakfast'], ['teeth', 'Brush my teeth'], ['bag', 'Pack my bag']]],
+    ['After school', '#E4F0D4', [['lunchbox', 'Lunchbox to the kitchen'], ['homework', 'Homework'], ['reading', 'Reading'], ['outside', 'Play outside']]],
+    ['Bedtime', '#DCEBF7', [['laundry', 'Clothes in the basket'], ['layout', 'Bag and clothes ready'], ['teeth', 'Brush my teeth'], ['reading', 'Read to myself'], ['sleep', 'Lights out']]]],
+}
+let wk = ''
+for (const fk of ['pebble', 'bloop']) {
+  const f = F[fk]
+  wk += `<div class="sheet">
+    <div class="head"><div><div class="eyebrow" style="color:${f.ink};">Ready made · ${f.name} · Ages ${f.ages} · No cutting</div>
+      <h2 style="margin-top:2mm;"><span data-field="name-${fk}" data-size="18" style="display:inline-block;width:62mm;border-bottom:2.5px solid var(--ink);height:10mm;vertical-align:bottom;"></span>'s week</h2></div>
+      <img class="colour-only" src="${f.img}" alt="${f.name}" style="width:24mm;height:24mm;object-fit:contain;flex-shrink:0;"></div>
+    <p style="margin-top:2mm;font-size:9.6pt;">Tick each one when it is done. A missed tick is just a missed tick: tomorrow is a new column.</p>
+    <div class="wk" style="margin-top:3mm;"><div></div>${DAYS.map(d => `<div class="h">${d}</div>`).join('')}
+      ${WEEK[fk].map(([sec, col, rows]) => `<div class="sec" style="color:${f.ink};">${sec}</div>${rows.map(([ic, lb]) => `<div class="r" style="background:${col};">${ICONS(ic, '#fff')}<b>${lb}</b></div>${DAYS.map(() => '<div class="c"></div>').join('')}`).join('')}`).join('')}
+    </div>
+    <div style="display:flex;gap:3mm;margin-top:3.5mm;">
+      <div class="strip" style="flex:1;margin-top:0;background:#FFFCF3;"><div class="badge" style="background:#EDC35F;"></div><div class="t" style="font-size:9.4pt;">My time: <span class="fl" data-field="mytime-${fk}" style="width:12mm;"></span> minutes a day, mine</div></div>
+      <div class="strip rest-border" style="flex:1;margin-top:0;padding:1.2mm;border-color:var(--ink);background:repeating-linear-gradient(135deg,#1A1A2E 0 1.4mm,#fff 1.4mm 2.8mm);"><div style="background:#fff;border-radius:8px;padding:1.6mm 3mm;width:100%;font-weight:800;font-size:9.4pt;">Screens rest at meals, school and the hour before bed</div></div>
+    </div>
+    <div class="footer"><span>guidedchildhood.com</span><span>Planet Day · ${f.name}'s week</span></div></div>`
+}
+document.getElementById('weeks').outerHTML = wk
+
+// The 120 picture cards, twelve to a page.
+let cp = ''
+const ORDER = [['morning', 'after'], ['after', 'bed'], ['bed', 'job'], ['job', 'family'], ['family', 'rest'], ['rest', 'my']]
+for (let s = 0; s < 120; s += 12) {
+  const set = C.slice(s, s + 12)
+  const names = [...new Set(set.map(c => G[c.g][1]))].join(' · ')
+  cp += `<div class="sheet cards"><div class="mono" style="font-size:7.5pt;color:var(--ink-muted);display:flex;justify-content:space-between;"><span>Picture cards ${s + 1} to ${s + 12} · ${names}</span><span>Cut on the dashed lines</span></div>
+    <div class="cgrid">${set.map((c, i) => pcard(c, s + i)).join('')}</div>
+    <div class="footer"><span>guidedchildhood.com</span><span>Planet Day · Cards ${s + 1} to ${s + 12}</span></div></div>`
+}
+document.getElementById('card-pages').outerHTML = cp
+document.getElementById('cover-cards').innerHTML = [C[7], C[12], C[96], C[108]].map((c, i) => pcard(c, 900 + i).replace('class="pc', 'style="transform:scale(0.512);transform-origin:top left;width:50.8mm;height:50.8mm;outline:none;" class="pc')).map(h => `<div style="width:26mm;height:26mm;">${h}</div>`).join('')
+
+// The tally strips and the star shop.
+const strip = fk => { const f = F[fk]; return `<div class="card tally">
+  <div style="display:flex;align-items:center;gap:3mm;"><img class="colour-only" src="${f.img}" alt="${f.name}" style="width:14mm;height:14mm;object-fit:contain;">
+    <div style="font-weight:900;font-size:14pt;">${f.name}'s star tally · Ages ${f.ages}</div>
+    <div class="mono" style="margin-left:auto;font-size:7pt;color:var(--ink-muted);">Week of <span class="fl" data-field="week-${fk}" style="width:24mm;"></span></div></div>
+  <div class="days">${DAYS.map(d => `<div><span class="d">${d}</span>${Array.from({ length: 4 }, () => STAR('#fff')).join('')}</div>`).join('')}</div>
+  <p style="margin-top:2.5mm;font-size:9.2pt;color:var(--ink);font-weight:700;">One star is <span class="fl" data-field="rate-${fk}" style="width:10mm;"></span> minutes. This week's most is <span class="fl" data-field="cap-${fk}" style="width:12mm;"></span> stars (our guide: ${fk === 'pebble' ? 84 : 105} at five minutes). Stars used this week: <span class="fl" data-field="used-${fk}" style="width:12mm;"></span></p>
+</div>` }
+document.getElementById('tally').innerHTML = `
+  <div class="head"><div><div class="eyebrow">Cut out a strip for the bottom of the chart</div><h2 style="margin-top:2mm;">The star tally and the star shop</h2></div>
+  <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:22mm;flex-shrink:0;"></div>
+  <p style="margin-top:2.5mm;font-size:10pt;">Colour a star for each job card done. Stars come from jobs only, never from the routine. The week starts on Monday.</p>
+  <div style="display:flex;flex-direction:column;gap:4mm;margin-top:4mm;">${strip('pebble')}${strip('bloop')}</div>
+  <div style="display:flex;gap:4mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:4mm 5mm;"><div class="eyebrow" style="color:var(--terracotta-dark);">What stars can buy</div>
+      <p style="margin-top:2mm;font-size:10pt;color:var(--ink);font-weight:700;">Minutes of screen time, at your rate, on top of my time.</p>
+      <p style="margin-top:2mm;font-size:9.4pt;">Write two other things stars could buy in your house:</p>
+      <span class="fl" data-field="shop-1" style="display:block;width:100%;height:7mm;"></span><span class="fl" data-field="shop-2" style="display:block;width:100%;height:7mm;"></span></div>
+    <div class="card" style="flex:1;padding:4mm 5mm;"><div class="eyebrow" style="color:var(--ink-soft);">What stars never buy</div>
+      <p style="margin-top:2mm;font-size:10pt;color:var(--ink);font-weight:700;">Screens at breakfast, lunch or tea, in school time, or in the hour before bed.</p>
+      <p style="margin-top:2mm;font-size:9.4pt;">If they ask inside one, the ask comes to you, and it is your call. Say it kindly: "Screens rest while we eat. I know it is hard to pause. It will still be there after."</p></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Planet Day · Star tally and star shop</span></div>`
+
+// The time key swatches on page 2.
+document.getElementById('k-star').innerHTML = `<div style="width:10mm;height:10mm;">${STAR()}</div>`
+document.getElementById('k-heart').innerHTML = `<div style="width:10mm;height:10mm;">${ICONS('hug', '#FDE8EC')}</div>`
+document.getElementById('k-my').innerHTML = `<div style="width:11mm;height:11mm;">${ICONS('screen', '#FBEED0')}</div>`
+</script>
+<script src="../pack-finish.js"></script>
+
+</body>
+</html>
