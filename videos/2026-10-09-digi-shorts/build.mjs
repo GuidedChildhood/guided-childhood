@@ -102,7 +102,10 @@ for (const [i, sh] of C.shots.entries()) {
   for (const [j, o] of (sh.overlays || []).entries()) {
     const sel = `#${id}-o${j}`, t0 = s + (o.t0 || 0), t1 = s + (o.t1 ?? d)
     if (o.kind === 'end') { fromTo(sel, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t0); if (o.pressAt != null) { to(`${sel}-btn`, { y: 5, boxShadow: '0 1px 0 #000', duration: 0.09, yoyo: true, repeat: 1 }, t0 + o.pressAt) } continue }
-    if (o.instant || (o.kind === 'veil' && !o.fade)) { set(sel, { opacity: 1 }, t0); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
+    // An instant typed pill is there from its first frame with its typedFrom
+    // words already in (the checklist's complete first frame), and the rest
+    // of its words still arrive at reading pace.
+    if (o.instant || (o.kind === 'veil' && !o.fade)) { set(sel, { opacity: 1 }, t0); if (o.kind === 'pill' && o.typed) fromTo(`${sel} .pw`, { opacity: 0 }, { opacity: 1, duration: 0.12, stagger: o.typed, ease: 'none' }, t0 + 0.2); if (o.t1 != null) set(sel, { opacity: 0 }, t1); continue }
     // A typed pill: the bubble lands, then its words arrive at reading pace,
     // so the opening moves while it holds long enough to be read.
     if (o.kind === 'pill' && o.typed) fromTo(`${sel} .pw`, { opacity: 0 }, { opacity: 1, duration: 0.12, stagger: o.typed, ease: 'none' }, t0 + 0.2)

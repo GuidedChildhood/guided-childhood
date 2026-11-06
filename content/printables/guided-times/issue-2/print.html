@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Guided Times, Issue 2</title>
+<link rel="stylesheet" href="../fonts/local-fonts.css">
+<link rel="stylesheet" href="../paper.css">
+<style>
+  /* On screen: the pages stacked, for checking by eye. In print, build.mjs
+     sets the paper (A4, US Letter or the screen page) and centres each page. */
+  body { margin: 0; background: #E9E6DF; }
+  #pages { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+  #pages .gt-page { box-shadow: 0 2px 14px rgba(0,0,0,.18); }
+  @media print {
+    body { background: #fff; }
+    #pages { display: block; padding: 0; }
+    #pages .gt-page { box-shadow: none; break-after: page; margin: 0 auto; }
+    #pages .gt-page:last-child { break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<main id="pages"></main>
+<script src="issue.js"></script>
+<script src="../paper.js"></script>
+</body>
+</html>

@@ -79,12 +79,13 @@ export const MAGNETS: Record<string, Magnet> = {
     eyebrow: 'The starter pack',
     title: 'The Guided Childhood Starter Pack',
     intro:
-      'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football and dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+      'The whole deal on paper. The jobs you agree together, a star reward chart for the fridge, stars to stick, how to guides, a wake up workout, football and dance, a breakfast plate, a week of stories to read together and star tokens to cut out. One star is five minutes of screen time.',
     numbered: false,
     items: [],
     close: 'Print it, stick the chart on the fridge, and start today.',
     filename: 'The-Guided-Childhood-Starter-Pack',
-    // The real 11 page product, served straight from public.
+    // The real product, served straight from public: the app edition, 13
+    // pages, without the Etsy edition's last page (content/printables/build-pack.mjs app).
     staticPdf: '/printables/starter-pack-colour.pdf',
   },
   // THE PLANET POST, Issue 1 (13 October 2026): the first of the five free
@@ -107,6 +108,27 @@ export const MAGNETS: Record<string, Magnet> = {
       { label: 'Ink saver A4', href: '/printables/free/planet-post-1-ink-a4.pdf' },
       { label: 'Ink saver Letter', href: '/printables/free/planet-post-1-ink-letter.pdf' },
       { label: 'Fold up booklet', href: '/printables/free/planet-post-1-booklet-a4.pdf' },
+    ],
+  },
+  // THE GUIDED TIMES, the free taster (6 November 2026). Justin: free on the
+  // Instagram carousel for an email, as a taster of the paid issue on Etsy,
+  // never the whole thing. Four pages of Issue 1, the Christmas edition: the
+  // front page, the new screen ID card, the puzzles and the six step plan.
+  // Built by content/printables/guided-times/build.mjs (the taster stage).
+  'guided-times-taster': {
+    slug: 'guided-times-taster',
+    eyebrow: 'The Guided Times',
+    title: 'The Guided Times, Issue 1: the free taster',
+    intro:
+      'Four pages from the Christmas edition of our newspaper for kids aged 6 to 11: the front page, your child\'s new screen ID card, Orbit\'s Christmas puzzles and the six step Christmas morning plan.',
+    numbered: false,
+    items: [],
+    close: 'Print it, grab a pencil, and set the new screen up together.',
+    filename: 'The-Guided-Times-Issue-1-Taster',
+    emailBlurb: 'It is four pages of The Guided Times for your child to read and fill in, with the six things to do together before a new tablet, console or phone is switched on. No login needed.',
+    staticPdf: '/printables/free/guided-times-1-taster-a4.pdf',
+    files: [
+      { label: 'US Letter', href: '/printables/free/guided-times-1-taster-letter.pdf' },
     ],
   },
   // THE ROAD TO 16 (5 November 2026): not a lead magnet but a reward. The

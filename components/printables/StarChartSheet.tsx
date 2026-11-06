@@ -236,7 +236,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
                   display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
                 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/printables/friends/${f.key}.png`} alt={f.name} style={{ width: '92%', height: '92%', objectFit: 'contain' }} />
+                  <img src={`/digi-squad/friends/${f.key}.png`} alt={f.name} style={{ width: '92%', height: '92%', objectFit: 'contain' }} />
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: f.accent, marginTop: 5 }}>{f.name}</div>
               </div>

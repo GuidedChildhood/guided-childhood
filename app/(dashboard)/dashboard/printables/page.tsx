@@ -116,9 +116,9 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         Print it, put the crayons out, and the screens look after themselves. Every finished sheet is worth stars: add it to the quest list, they hand the page back, you approve, the stars land in their bank.
       </p>
 
-      {/* The star chart, typed before it is printed. This is the starter pack
-          now: the old multi page booklet was retired into this tidier builder,
-          and it stays first because it is the one every family uses. */}
+      {/* The star chart, typed before it is printed. It stays first because it
+          is the one every family uses. The full Starter Pack booklet is back in
+          the grid below with every other Etsy download, free (6 November 2026). */}
       <Link
         href="/dashboard/printables/star-chart"
         style={{
