@@ -10,16 +10,24 @@ any ads are Justin's to set.
 
 Shop section: First Phone & Tech Rules.
 
+Published 6 November 2026 with Justin's yes:
+https://www.etsy.com/uk/listing/4611203989 (Contract & Agreement Templates,
+digital). Made from a copy of the Family Phone Agreement listing: made by me,
+content created with an AI generator, automatic renewal. Etsy Ads off and not
+featured, per Justin. The 8 Canva-look photos, the 3 PDFs and the phone
+screens zip are uploaded. Checked on the live page the same day: £4.49, was
+£5.99. Etsy list price £4.99 (the shop's VAT rule: target divided by 0.9).
+
 ## Title (110 characters)
 
 Phone Charging Station Sign Printable | Family Screen Time Rules | Phones in the Basket | Kitchen Fridge Signs
 
 ## Price and listing setup
 
-- List price: £5.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run the shop's
-  standing 25 percent off sale on this listing with no end date. Buyers see
-  £5.99 crossed out and pay £4.49.
+- Etsy list price: £4.99. Etsy adds 20 percent UK VAT, so UK buyers see
+  £5.99 crossed out and pay £4.49 in the sale.
+- The 25 percent sale is the shop wide sale in Marketing, Sales and
+  discounts. Etsy caps a sale at 30 days, so it is started again each month.
 - £4.49 sits above the £4 floor, level with Earn Your Screen Time, the Family
   Phone Agreement and the Calm Down Corner Kit.
 - One tier, no variations.

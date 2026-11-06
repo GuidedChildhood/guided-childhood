@@ -68,7 +68,8 @@ Starter Pack for an email. Discreet footer URL on every page.
    2026 that is Say This, Calm Down Corner Kit, Earn Your Screen Time,
    Family Phone Agreement, The Star Swap Shop, The First Phone Kit, The
    Christmas Screen Free Countdown, Screens at Granny’s, Are We Nearly There,
-   The Holiday Screen Deal and The 30 Day Screen Reset Journal. The
+   The Holiday Screen Deal, The 30 Day Screen Reset Journal and Where Phones
+   Sleep. The
    Personalised Star Chart stays off until it is built and listed. A new
    pack goes on the page by flipping its `ready` flag once it is live, then
    rebuilding. The Starter Pack is the free gift at /etsy-bonus and is never
