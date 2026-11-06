@@ -1,0 +1,30 @@
+<!doctype html>
+<!--
+  The Google Play feature graphic, 1024 x 500. Rendered to PNG by
+  scripts/app-stores/render-feature-graphic.mjs. Built only from approved
+  assets: DiGi from public/digi-squad/DiGi-star.svg, Nunito and IBM Plex Mono
+  from app/fonts, colours from shared/tokens.css. No app screen is drawn here,
+  so nothing can be an invented screen.
+-->
+<html lang="en-GB"><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: Nunito; src: url(../app/fonts/nunito-latin-wght-normal.woff2) format('woff2'); font-weight: 200 1000; }
+  @font-face { font-family: Plex; src: url(../app/fonts/ibm-plex-mono-latin-600-normal.woff2) format('woff2'); font-weight: 600; }
+  html, body { margin: 0; }
+  .card { width: 1024px; height: 500px; background: #FEF7E0; position: relative; overflow: hidden; font-family: Nunito, sans-serif; color: #1A1A2E; }
+  .text { position: absolute; left: 64px; top: 96px; width: 530px; }
+  .eyebrow { font-family: Plex, monospace; font-weight: 600; font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: #52526A; margin-bottom: 18px; }
+  h1 { font-weight: 900; font-size: 56px; line-height: 1.04; margin: 0 0 22px; letter-spacing: -0.01em; }
+  p { font-weight: 600; font-size: 23px; line-height: 1.35; margin: 0; color: #52526A; }
+  .disc { position: absolute; right: 64px; top: 90px; width: 320px; height: 320px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 8px 0 #EDC35F; }
+  .digi { position: absolute; right: 99px; top: 112px; width: 250px; }
+</style></head>
+<body><div class="card">
+  <div class="text">
+    <div class="eyebrow">Guided Childhood</div>
+    <h1>Ready for a phone by sixteen.</h1>
+    <p>Ten minutes a day, parent and child together, with the actual words for the hard bits.</p>
+  </div>
+  <div class="disc"></div>
+  <img class="digi" src="../public/digi-squad/DiGi-star.svg" alt="">
+</div></body></html>

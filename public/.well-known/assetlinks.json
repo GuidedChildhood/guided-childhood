@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.guidedchildhood.app",
+      "sha256_cert_fingerprints": [
+        "79:A5:F0:07:A1:F7:BA:9C:B1:9C:9F:BD:48:05:AA:DA:E7:0A:3B:EB:28:05:A2:13:93:9C:16:9B:D1:13:4B:B2"
+      ]
+    }
+  }
+]

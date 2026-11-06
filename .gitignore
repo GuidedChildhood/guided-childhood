@@ -65,3 +65,9 @@ publishing/issues/*/dist/*-print.pdf
 publishing/issues/*/dist/*-ink.pdf
 publishing/issues/*/state.json
 publishing/issues/*/events.jsonl
+
+# App store packages (6 November 2026). The Gradle project regenerates from
+# app-stores/android/twa-manifest.json; signing keys never live in the repo.
+app-stores/android/build/
+*.keystore
+*.jks
