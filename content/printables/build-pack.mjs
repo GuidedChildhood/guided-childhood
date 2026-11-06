@@ -48,7 +48,7 @@ const PACKS = {
   'planet-day-flip-chart': { file: 'planet-day-flip-chart', fields: true },
   'jobs-board': { file: 'jobs-board-11-to-15', fields: true },
   'table-talk-cards': { file: 'what-would-you-do-table-talk-cards', cards: true },
-  'road-to-16-board-game': { file: 'road-to-16-board-game' },
+  'road-to-16-board-game': { file: 'road-to-16-board-game', a3: 'board-a3.html' },
   // Bundles have no pages of their own: listing photos only (bundle-images.js).
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
@@ -73,7 +73,7 @@ async function measureFields(page) {
       sheet.querySelectorAll('[data-field]').forEach(el => {
         if (el.offsetParent === null) return
         const r = el.getBoundingClientRect()
-        out.push({ page: i, name: el.dataset.field, x: (r.left - o.left) * px, y: (r.top - o.top) * px,
+        out.push({ page: i, name: el.dataset.field, x: (r.left-o.left) * px, y: (r.top-o.top) * px,
           w: r.width * px, h: r.height * px, size: +(el.dataset.size || 11), multi: 'multi' in el.dataset })
       })
     })
@@ -95,7 +95,7 @@ async function addFields(file, fields, letter) {
       tf = made[f.name] = form.createTextField(f.name)
       if (f.multi) tf.enableMultiline()
     }
-    tf.addToPage(pg, { x: pt(dx + f.x * k), y: pg.getHeight() - pt((f.y + f.h) * k), width: pt(f.w * k), height: pt(f.h * k),
+    tf.addToPage(pg, { x: pt(dx + f.x * k), y: pg.getHeight()-pt((f.y + f.h) * k), width: pt(f.w * k), height: pt(f.h * k),
       font, textColor: rgb(0.102, 0.102, 0.18), backgroundColor: undefined, borderColor: undefined, borderWidth: 0 })
     tf.setFontSize(f.size * k)
   }
@@ -159,6 +159,15 @@ if ((!only || only === 'print') && !cfg.bundle) {
       await addFields(join(DIR, 'product', name), fields, letter)
     }
     console.log('fillable fields', fields.length)
+  }
+
+  // A pack with a3 also prints that page on one A3 sheet (the board game's
+  // whole board, for a printer that takes A3).
+  if (cfg.a3) {
+    const a3 = await browser.newPage()
+    await open(a3, join(SRC, cfg.a3))
+    await a3.pdf({ path: join(DIR, 'product', `${cfg.file}-board-A3.pdf`), printBackground: true, format: 'A3' })
+    console.log('pdf', `${cfg.file}-board-A3.pdf`)
   }
 
   // Page previews, used for the check by eye and for the listing photos.

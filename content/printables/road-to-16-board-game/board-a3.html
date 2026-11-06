@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>The Road to 16 Board Game · A3 board</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<!-- The whole board on one A3 sheet, for a printer that takes A3. The same
+     drawing as the four A4 tiles in print.html (board.js), at 71 percent.
+     Built by build-pack.mjs (a3: 'board-a3.html'). -->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{background:#ddd;}
+  .sheet{width:297mm;height:420mm;background:#F9F8F6;overflow:hidden;}
+  svg{display:block;width:297mm;height:418.6mm;}
+  @page{size:A3;margin:0;}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+<script src="board.js"></script>
+<div class="sheet"><svg id="b" viewBox="0 0 420 592"></svg></div>
+<script>document.getElementById('b').innerHTML = window.BOARD.content()</script>
+</body>
+</html>
