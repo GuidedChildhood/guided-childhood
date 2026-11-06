@@ -61,11 +61,12 @@ await page.emulateMedia({ media: 'print' })
  *
  * A picture that failed to load measures zero however much room the layout gave
  * it, so without this the one thing Justin actually asked about cannot be
- * measured at all. The stand in is a REAL Planet Friend, the vendored Pebble the
- * star chart already prints, rather than a square drawn here: aspect ratio is
- * the whole question when a picture is told to fit inside a box. These are drawn
- * tall, 656 by 859, so they cap on the height of the box and never on its width,
- * and a square stub would have measured a fit the real art never gets.
+ * measured at all. The stand in is a REAL Planet Friend, the same Pebble cutout
+ * the poster and the star chart print (public/digi-squad/friends), rather than
+ * a box drawn here: aspect ratio is the whole question when a picture is told
+ * to fit inside a box. The old tall copies in public/printables/friends had
+ * damaged transparency and were removed on 5 November 2026; the approved
+ * cutouts are 512 square, so this now measures the art the child really gets.
  *
  * Swapped on the element rather than intercepted on the wire. Route interception
  * left the requests failing in this sandbox, and same origin art out of /public
@@ -75,7 +76,7 @@ const withRealArt = () => page.evaluate(() => Promise.all(
   [...document.querySelectorAll('.fp-card img')].map(img => new Promise(done => {
     img.addEventListener('load', done, { once: true })
     img.addEventListener('error', done, { once: true })
-    img.src = '/printables/friends/pebble.png'
+    img.src = '/digi-squad/friends/pebble.png'
   })),
 ))
 
