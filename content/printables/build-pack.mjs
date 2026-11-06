@@ -46,6 +46,7 @@ const PACKS = {
   // Bundles have no pages of their own: listing photos only (bundle-images.js).
   'christmas-phone-bundle': { bundle: true },
   'whole-system-bundle': { bundle: true },
+  'star-swap-shop': { file: 'star-swap-shop' },
 }
 
 const pack = process.argv[2]
