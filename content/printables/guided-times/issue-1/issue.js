@@ -224,8 +224,8 @@ window.ISSUE = {
       { key: 'earn', name: 'Earn Your Screen Time', ages: 'Ages 5 to 11', line: 'Screen tokens to cut out and ending cards, so the end of screen time is no surprise.', img: 'earn-your-screen-time', live: true },
       { key: 'phone', name: 'The Family Phone Agreement', ages: 'Ages 10 to 12', line: 'A first phone deal your child writes with you, rather than rules handed down.', img: 'family-phone-agreement', live: true },
       { key: 'calm', name: 'The Calm Down Corner Kit', ages: 'Ages 4 to 9', line: 'A calm corner sign, feelings cards and star breathing, set up together on an ordinary day.', img: 'calm-down-kit', live: true },
-      { key: 'countdown', name: 'The Christmas Screen Free Countdown', ages: 'Ages 4 to 11', line: '24 doors from 1 to 24 December, one Planet Friend activity a day, and a sticker sheet.', draw: 'doors', live: false },
-      { key: 'granny', name: 'Screens At Granny’s', ages: 'Christmas visits', line: 'House rules that travel: a card for the grandparents and a card for your child.', draw: 'house', live: false },
+      { key: 'countdown', name: 'The Christmas Screen Free Countdown', ages: 'Ages 4 to 11', line: '24 doors from 1 to 24 December, one Planet Friend activity a day, and a sticker sheet.', draw: 'doors', live: true }, // Etsy listing 4611164377, live 6 November 2026
+      { key: 'granny', name: 'Screens At Granny’s', ages: 'Christmas visits', line: 'House rules that travel: a card for the grandparents and a card for your child.', draw: 'house', live: true }, // Etsy listing 4611184524, live 6 November 2026
     ],
   },
 
