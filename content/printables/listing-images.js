@@ -23,6 +23,7 @@
 //   noSticker: true (optional, a pack with no Passport page: slot 4 is left out),
 //   fourth: [title, line] (optional, the fourth format card when there is no phone),
 //   note (optional): the handwritten line on the cover, default "instant download!",
+//   phoneTitle (optional, slot 7's headline when the pack does not live on the fridge),
 // }
 //
 // A CARD DECK (Say This) shows cards, not A4 sheets, because a fan of real
@@ -221,7 +222,7 @@ out.push(fr('06-how-it-works', T.bg[5], `
 if (L.phone) out.push(fr('07-phone-version', T.bg[6], `
   ${spark(210, 220, 70, '#fff')}${spark(1700, 1560, 90, C.gold, 15)}
   <span class="tag" style="background:#fff;">Phone version included</span>
-  <h1>On the fridge and<br>on the phone</h1>
+  <h1>${L.phoneTitle || 'On the fridge and<br>on the phone'}</h1>
   <div style="display:flex;gap:64px;margin-top:100px;">
     ${L.phone.map((n, i, a) => `<div style="width:470px;height:836px;border-radius:64px;background:${C.ink};padding:16px;box-shadow:0 30px 60px rgba(46,42,38,0.18);transform:rotate(${a.length === 2 ? [-3, 3][i] : [-4, 0, 4][i]}deg);"><img src="../phone/${n}.png" style="width:100%;height:100%;border-radius:50px;display:block;"></div>`).join('')}
   </div>`))
