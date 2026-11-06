@@ -1,0 +1,59 @@
+<!doctype html>
+<!--
+  The page the service worker shows when a page cannot load because there is
+  no connection (public/sw.js, the navigation fallback).
+
+  Why it exists: an app installed from Google Play opens the site inside a
+  Trusted Web Activity, and Chrome's quality checks for those expect the app
+  to show something of its own when offline rather than the browser's dinosaur.
+  It also makes the home screen app on any phone fail kindly.
+
+  Self contained on purpose: no scripts, no stylesheets, no fonts fetched. The
+  only outside file is the star icon, which the service worker precaches next
+  to this page. Nunito is used if the phone already has it cached, otherwise
+  the system font stands in.
+
+  Try again is an empty link on purpose: the page is served in place of the
+  one that failed, so an empty href reloads that page, whether it was the
+  parent's dashboard or a child's own jobs, with no script needed.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F7F3EE">
+<meta name="robots" content="noindex">
+<title>No connection just now</title>
+<style>
+  :root { --bg: #F7F3EE; --ink: #1A1A2E; --ink-soft: #52526A; --butter: #EDC35F; --butter-dark: #C99A28; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Nunito, ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+  main { max-width: 360px; text-align: center; }
+  img { width: 96px; height: 96px; }
+  h1 { font-weight: 900; font-size: 28px; line-height: 1.15; margin: 16px 0 12px; }
+  p { font-size: 17px; line-height: 1.5; color: var(--ink-soft); margin: 0 0 28px; }
+  a.button {
+    display: inline-block; min-height: 52px; padding: 14px 32px;
+    background: var(--butter); color: var(--ink);
+    font-weight: 800; font-size: 17px; text-decoration: none;
+    border-radius: 16px; box-shadow: 0 5px 0 var(--butter-dark);
+  }
+  a.button:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--butter-dark); }
+</style>
+</head>
+<body>
+<main>
+  <img src="/icons/icon-192.png" alt="">
+  <h1>No connection just now</h1>
+  <p>Your family's plan is safe. It needs the internet to load, so check your wifi or data and try again.</p>
+  <a class="button" href="">Try again</a>
+</main>
+</body>
+</html>

@@ -72,7 +72,10 @@
     "review-board-test": "node --test scripts/review-board.test.mjs",
     "seo": "node scripts/seo-gum.mjs",
     "seo-test": "node --test scripts/seo-gum.test.mjs",
-    "sitemap-guard": "node scripts/check-sitemap-coverage.mjs"
+    "sitemap-guard": "node scripts/check-sitemap-coverage.mjs",
+    "android-build": "bash scripts/app-stores/build-android.sh",
+    "play-fingerprint": "node scripts/app-stores/add-play-fingerprint.mjs",
+    "app-icons": "node scripts/app-stores/make-maskable-icons.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",
