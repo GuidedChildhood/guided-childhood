@@ -301,3 +301,7 @@ The app library and /starter-pack served old PDFs of the Starter Pack, Calm Down
 ## 6 November 2026: every Etsy download is in the app, free for parent and child
 
 Justin: "all etsy downloads should be in app for free to child and parent." Every Etsy pack in the app library is free for any parent and opens straight away for the child, with no Ask and no paywall. Nine more are added (First Phone Kit, Christmas Countdown, Screens At Granny's, Are We Nearly There, Holiday Screen Deal, Screen Reset Journal, Star Swap Shop, Guided Times 1, Say This script cards, which are for grown ups only), and the Starter Pack is back in the grid. Not in the app as their own card: the Star Chart, the printable Passport (the app has both of its own), the Class Screen Promise (for teachers) and the bundles. `npm run etsy-in-app`, in CI, fails a new Etsy pack until it has an app edition. PR 1427.
+
+## 6 November 2026: the Guided Times has its own app edition
+
+Justin said yes to an app version without the Etsy pages. `build.mjs issue-1 app` prints the paper with `?app`: the shop page goes, the back page swaps the Etsy review and bonus lines for app ones, and the contents renumber. Eleven pages, colour and ink friendly. The Etsy files are unchanged. PR 1427.

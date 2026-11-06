@@ -1,6 +1,7 @@
 // THE GUIDED TIMES: lays out an issue (window.ISSUE) as twelve 740 by 1000
-// pages inside #pages. The same pages print to A4 and US Letter, fill the
-// screen PDF and are lifted whole into the page turning reader.
+// pages (eleven in the app edition, see APP below) inside #pages. The same
+// pages print to A4 and US Letter, fill the screen PDF and are lifted whole
+// into the page turning reader.
 //
 // Drawn things are drawn here in SVG (the masthead snow, the tree, the
 // ladder, the maze), in the Happy News hand: thick ink, flat crayon fills
@@ -9,6 +10,14 @@
 // (brand/GDC_SOCIAL_VISUAL_SYSTEM.md section 15).
 (() => {
 const I = window.ISSUE
+// THE APP EDITION (print.html?app, built by build.mjs issue-N app): the same
+// paper without the Etsy shop page, and with the back page's Etsy lines
+// swapped for the issue's app lines. The back page becomes page 11 and the
+// contents on the front follow it. In the app the paper is free, so a shop
+// page and "review us on Etsy" are only noise to a family reading it there.
+const APP = new URLSearchParams(location.search).has('app')
+const SHOP_PAGE = 11
+const renumber = n => (APP && n > SHOP_PAGE ? n - 1 : n)
 const ART = window.GT_ART || '../images'
 const INK = '#1A1A2E'
 const C = { butter: '#F4D072', sky: '#8EC3F0', coral: '#F2957A', green: '#93CFA8', paper: '#FEF7E0', pink: '#F2A0C4', teal: '#7FCFC6', holly: '#C8483A', pine: '#2E7D5A', snow: '#EAF3FB' }
@@ -189,7 +198,7 @@ function front() {
       </div>
       <nav class="box f-paper" style="width:212px;flex-shrink:0;padding:10px 12px">
         <div class="mono" style="margin-bottom:5px">Inside today</div>
-        ${I.inside.map(([n, t]) => `<a href="#p${n}" data-goto="${n}" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
+        ${I.inside.filter(([n]) => !(APP && n === SHOP_PAGE)).map(([n0, t]) => [renumber(n0), t]).map(([n, t]) => `<a href="#p${n}" data-goto="${n}" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:2px 0;border-bottom:1.5px dotted #C9C9D6"><span class="d" style="font-size:16px;width:22px;flex-shrink:0">${n}</span><span class="b" style="font-size:13.5px;line-height:1.2">${t}</span></a>`).join('')}
       </nav>
     </div>`, { noHead: true })
 }
@@ -533,9 +542,9 @@ function shop() {
 
 // ── PAGE 12, THE BACK PAGE ──────────────────────────────────────────────
 function back() {
-  const b = I.back, P = I.puzzles, { ws, mz } = window.GT_SOLVED
+  const b = APP ? { ...I.back, ...I.app } : I.back, P = I.puzzles, { ws, mz } = window.GT_SOLVED
   const mini = `<div style="display:grid;grid-template-columns:repeat(10,11px);border:1.5px solid var(--answer);padding:2px">${ws.grid.flat().map((ch, i) => `<span style="width:11px;height:11px;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;${ws.hits.has(`${Math.floor(i / 10)},${i % 10}`) ? 'background:#D8D8E4;color:#1A1A2E' : 'color:#B0B0C0'}">${ch}</span>`).join('')}</div>`
-  return page(12, `
+  return page(renumber(12), `
     <div class="box" style="padding:14px 18px;display:flex;flex-direction:column">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">${plate(b.promise.by, 'happy', 66, 'f-butter')}<h2 class="d" style="font-size:32px">${b.promise.headline}</h2></div>
       ${b.promise.lines.map(l => line(l, 15.5)).join('')}
@@ -568,7 +577,7 @@ function back() {
     </div>`, { section: 'The back page', tint: C.pine })
 }
 
-const ORDER = [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back]
+const ORDER = [front, editor, plan, idCard, bigQuestion, appDesk, homework, sites, puzzles, make, shop, back].filter(fn => !(APP && fn === shop))
 document.getElementById('pages').innerHTML = ORDER.map(fn => fn()).join('')
 document.title = `The Guided Times, Issue ${I.number}: ${I.edition}, ${I.month}`
 })()

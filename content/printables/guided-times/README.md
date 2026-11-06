@@ -42,10 +42,19 @@ Checked on 5 November 2026 in Chrome and in WebKit (Safari's engine) at
 when a page has transformed children, so the reader swaps the faces at the
 half way point of a turn rather than trusting it.
 
+## The app edition
+
+`build.mjs issue-N app` prints `print.html?app` to
+`public/printables/guided-times-N-colour.pdf`, `-colourin.pdf` and the card
+`guided-times-N.png`, A4 only. It is the paper without the shop page, and the
+back page takes the issue's `app` lines in place of the Etsy ones, so it is
+eleven pages. Every Etsy download is free in the app (Justin, 6 November 2026),
+and a free paper has nothing to sell. A new issue needs its own `app` lines.
+
 ## A new issue
 
 Copy `issue-1` to `issue-2`, rewrite `issue.js`, check the shop page's `live`
-flags, run the build, look at every page in `images/preview` and
+flags, run the build and the app build, look at every page in `images/preview` and
 `images/preview-ink`, run `npm run ai-tells` and the tag check, then write its
 listing. Keep each issue different from the free Planet Post: that is the
 website's free paper and never goes on Etsy.

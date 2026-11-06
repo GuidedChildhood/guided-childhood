@@ -240,4 +240,12 @@ window.ISSUE = {
     gift: 'A free gift from us: the Guided Childhood Starter Pack, at guidedchildhood.com/etsy-bonus',
     review: 'If your family enjoyed this issue, a short review on Etsy helps other families find us. Thank you.',
   },
+
+  // The app edition (print.html?app): these replace the back page's Etsy
+  // lines, and the shop page is left out. Free in the app, so nothing to sell.
+  app: {
+    next: { kicker: 'Coming next', line: 'Issue 2, January 2027: The new year screen deal. Look for it in the printables in the Guided Childhood app at the end of December.' },
+    gift: 'Signed your promise? Stick it on the fridge where the whole family can see it.',
+    review: 'More Planet Friend printables are waiting for you in the app, ready to print.',
+  },
 }

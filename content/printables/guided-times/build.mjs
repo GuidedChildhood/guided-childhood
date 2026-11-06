@@ -1,7 +1,12 @@
 // Builds an issue of The Guided Times: the PDFs, the page turning reader,
 // the page previews and the listing photos.
 //
-//   node content/printables/guided-times/build.mjs [issue-1] [print|reader|listing]
+//   node content/printables/guided-times/build.mjs [issue-1] [print|reader|listing|app]
+//
+// THE APP EDITION (app, never part of a full build): print.html?app, the
+// paper without its Etsy shop page or the Etsy lines on the back page, to
+// public/printables/guided-times-N-colour.pdf, -colourin.pdf (ink friendly)
+// and the card guided-times-N.png, A4 only. It is free in the app.
 //
 // Needs playwright-core and a Chrome: the system Chrome on this Mac and the
 // main checkout's playwright-core, unless CHROME and PW_CORE say otherwise
@@ -50,8 +55,8 @@ const ready = async page => {
   await page.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 30000 })
   await page.waitForTimeout(300)
 }
-const open = async (page, ink = false) => {
-  await page.goto('file://' + join(DIR, 'print.html'))
+const open = async (page, ink = false, app = false) => {
+  await page.goto('file://' + join(DIR, 'print.html') + (app ? '?app' : ''))
   if (ink) await page.evaluate(() => document.body.classList.add('ink'))
   await ready(page)
 }
@@ -75,6 +80,22 @@ async function checkOverflow(page) {
   })
   if (bad.length) { console.error('OVERFLOW\n  ' + bad.join('\n  ')); process.exitCode = 1 }
   return bad
+}
+
+if (only === 'app') {
+  const OUT = join(ROOT, '../../../public/printables'), key = `guided-times-${N}`
+  const page = await browser.newPage({ viewport: { width: 900, height: 1100 } })
+  await open(page, false, true); await checkOverflow(page)
+  for (const [name, ink] of [[`${key}-colour.pdf`, false], [`${key}-colourin.pdf`, true]]) {
+    await open(page, ink, true); await page.addStyleTag({ content: PAPERS.a4 })
+    await page.emulateMedia({ media: 'print' })
+    await page.pdf({ path: join(OUT, name), preferCSSPageSize: true, printBackground: true, tagged: true, outline: true })
+    await page.emulateMedia({ media: 'screen' })
+    console.log('app pdf', name, await page.locator('.gt-page').count(), 'pages')
+  }
+  // The card is page one of the colour PDF, as it is for every app printable.
+  execFileSync('pdftoppm', ['-png', '-f', '1', '-l', '1', '-scale-to', '1400', '-singlefile', join(OUT, `${key}-colour.pdf`), join(OUT, key)])
+  console.log('app card', `${key}.png`)
 }
 
 if (!only || only === 'print') {
