@@ -10,6 +10,16 @@ Countdown and Screens At Granny's.
 
 Kids Christmas Newspaper Printable | New Tablet or Phone Activity Pages | Ages 6 to 11
 
+## On Etsy
+
+Saved as a draft on 6 November 2026, listing 4611120805 (Shop Manager,
+Listings, Draft). Digital, category Worksheets, celebration Christmas, the
+8 photos with 01-cover first, the 5 files, title, description, 13 tags,
+£5.99, quantity 999, made by Justin, content created with an AI generator
+(the Planet Friends), automatic renewal, Etsy Ads on as the shop's default.
+Not published: Justin presses Publish. Then check it is in the shop's 25
+percent sale.
+
 ## Price and listing setup
 
 - List price: £5.99.
