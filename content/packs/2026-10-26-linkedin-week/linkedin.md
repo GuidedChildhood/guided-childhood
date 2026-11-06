@@ -78,7 +78,7 @@ Citation-verifier 26 Oct 2026: BSI CORRECTED (parent reported, not child reporte
 
 A study of 25,629 teenagers in Greater Manchester found no evidence that time on social media predicted later emotional difficulties.
 
-It followed the same young people for three years, surveying them each autumn from 2021 to 2023. The team is at the University of Manchester, and it was published in the Journal of Public Health in March 2026.
+It ran each autumn from 2021 to 2023. Anyone who answered at least one of the three rounds is in that total, so it is not 25,629 children measured three times. The team is at the University of Manchester, and it was published in the Journal of Public Health in March 2026.
 
 The method matters. It separates what happens to a child from how children differ from each other, then asks a narrow question: does more social media this year predict more emotional difficulty next year? For girls and for boys, the answer was no. The same went for gaming.
 
@@ -100,7 +100,7 @@ If hours is the wrong measure, what would you want researchers to count instead?
 
 A few sentences to put above it when you share it on, or in the "tell your network" box if this one goes out as an article. It leads on the number and leaves the argument in the piece.
 
-A study followed 25,629 teenagers in Greater Manchester for three years and found no evidence that time on social media predicted later emotional difficulties.
+A study of 25,629 teenagers in Greater Manchester found no evidence that time on social media predicted later emotional difficulties.
 
 That is the largest UK sample I have seen put to this question, and the thing worth noticing is that the press release went further than the paper did. The release said social media and gaming did not cause symptoms. The paper says they may not play a causal role, which is a smaller claim and the right one.
 

@@ -15,6 +15,14 @@ One dict, written into the pack files and onto the desk, so the two cannot drift
 import re, json, sys, os
 
 SHARES = {
+ # 049's share note is written into the pack file by hand rather than here,
+ # because it was added before this script existed. Its first line was corrected
+ # on 6 November: it said the study "followed 25,629 teenagers for three years",
+ # which the paper does not support. The methods say "a final sample of N = 25 629
+ # observations", reached by a drop in approach that includes any participant with
+ # at least one of the three annual data points. The loose version came from the
+ # university's own press release, which is the thing the post criticises, so the
+ # post had borrowed the fault it was pointing at.
  '053': {
   'file': '2026-11-05-judging-the-evidence',
   'text': """Court filings unsealed last month show Meta employees discussing a whisper strategy against Jonathan Haidt, and nobody has shown it was ever carried out.
