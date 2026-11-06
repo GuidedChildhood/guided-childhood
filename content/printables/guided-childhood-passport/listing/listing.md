@@ -18,6 +18,12 @@ in listing fees (US$0.20 each, auto renewing every four months):
 - Family Phone Agreement: https://www.etsy.com/uk/listing/4610484746
 - Earn Your Screen Time: https://www.etsy.com/uk/listing/4610487662
 
+**Files and photos swapped 6 November 2026**, on Justin's yes: the A4, US
+Letter and ink saver PDFs rebuilt in PR 1437, so every stage page's Go
+further strip names Say This and the other packs live that day. The phone
+zip is unchanged. All 11 listing photos were swapped for the rebuilt set
+(the Canva look plus the new strip). Published with no fee.
+
 **Prices set so UK buyers pay round numbers (Justin, 5 November 2026).**
 Etsy adds 20 percent UK VAT to digital downloads for UK buyers and pays it
 to HMRC itself; Guided Childhood is not VAT registered and files nothing.
