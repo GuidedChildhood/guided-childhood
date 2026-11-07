@@ -57,6 +57,9 @@ in our own voice, with a proof path in the product, is not our post. Drop it.
 
 ## Step 3. Pick the week
 
+Run the `post-picker` agent first. It sweeps every written, unposted post
+and returns a running order. Write new posts only for the slots it cannot fill.
+
 Three to five posts. That is the floor from the 90 day read, not a target, and
 two quiet weeks give back most of the compounding.
 
