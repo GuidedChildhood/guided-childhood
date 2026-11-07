@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, startCode } from '@/lib/video/link'
+import { UTM_COOKIE, utmFromCookie } from '@/lib/video/utm'
+import { insertLinkEvent } from '@/lib/video/follow'
 import { REF_COOKIE } from '@/lib/referrals'
 import { SCHOOL_LINK_COOKIE } from '@/lib/school/link'
 
-// A stage check was begun (migrations 372 and 379). The stage check calls this
-// once, on the first answer, for every visitor.
+// A stage check was begun (migrations 372, 379 and 388). The stage check calls
+// this once, on the first answer, for every visitor.
 //
 // Until 379 only a visitor holding a film cookie was counted, so the founder
 // could not say how many checks had been begun at all. Now every start is
@@ -14,8 +16,11 @@ import { SCHOOL_LINK_COOKIE } from '@/lib/school/link'
 // startCode). Counted once per browser per follow: the started cookie says
 // this one is already in.
 //
-// Nothing about the visitor is stored. The row is a code, the word started
-// and the time.
+// Since 388 the row carries the post's UTMs when the visit had them, so a
+// start with no source link but utm_source=tiktok is no longer just "direct".
+//
+// Nothing about the visitor is stored. The row is a code, the word started,
+// the post's UTMs and the time.
 
 export async function POST(req: NextRequest) {
   const code = startCode({
@@ -28,8 +33,7 @@ export async function POST(req: NextRequest) {
 
   let counted = false
   try {
-    const { error } = await createAdminClient().from('video_link_events').insert({ code, kind: 'started' })
-    counted = !error
+    counted = await insertLinkEvent(createAdminClient(), { code, kind: 'started' }, utmFromCookie(req.cookies.get(UTM_COOKIE)?.value))
   } catch { /* a missed count must never cost a parent the stage check */ }
 
   const res = NextResponse.json({ ok: true, counted })

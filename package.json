@@ -30,6 +30,7 @@
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
     "share-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/auth/safe-next.test.ts lib/school/share.test.ts",
+    "utm-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/video/utm.test.ts",
     "privacy-links-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/email/link-token.test.ts",
     "pii-url-guard": "node scripts/check-no-pii-in-urls.mjs",
     "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts",
