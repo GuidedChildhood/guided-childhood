@@ -13,7 +13,7 @@ window.CHOICE = {
     ['Someone in your game says: hi! What is your name? What do you do?', ['Tell them, because they sound friendly', 'Do not answer, and go and show your grown up', 'Tell them your first name only'], 1, 'migration 076, Who is behind the screen'],
     ['You showed your grown up a message from a stranger. What happens next?', ['They are glad you showed them, and they help', 'You lose the game as a punishment', 'You get told off'], 0, 'migration 076, Who is behind the screen'],
     ['You tapped something by accident and the screen looks strange. If you tell, what happens?', ['I get in trouble for tapping', 'My grown up is glad I told them, and they help', 'The tablet goes away for ever'], 1, 'migration 074, The stop and tell rule'],
-    ['Why does a five minute warning help?', ['It gives my body time to get ready for the ending', 'It means I get extra screen time', 'It makes the game go faster'], 0, 'migration 076, When the screen goes to sleep'],
+    ['Why is the end of an episode a good place to stop?', ['It is a real ending, so stopping feels easier', 'It means I get extra screen time', 'It makes the game go faster'], 0, 'eyfs-30-the-screen-never-says-stop'],
     ['Someone in a game asks for your password. What now?', ['Keep it private and tell a grown up', 'Tell them, because free coins are fun', 'Tell them half of it'], 0, 'ks1-32-private-like-a-toothbrush'],
     ['A talking speaker asks where you live. What do you do?', ['Tell it, because it is only a machine', 'Keep it private and ask a grown up', 'Tell it, because it sounds friendly'], 1, 'ks1-33-who-is-on-the-other-side'],
   ],

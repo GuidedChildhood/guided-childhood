@@ -76,7 +76,7 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks1-03-real-pretend-computer':             'ai',      // real, pretend, or made by a computer
   'ks1-32-private-like-a-toothbrush':         'safe',    // keep it private, not sure ask, someone asks tell
   'ks1-33-who-is-on-the-other-side':          'ai',      // someone I know, someone I do not know, or a machine
-  'ks2-04-screen-routines':                   'balance', // warn, finish, swap
+  'ks2-04-screen-routines':                   'balance', // agree, finish, swap
   'ks2-05-gaming-time-spend':                 'balance', // gaming time first, the spend is the trick inside it
   'ks2-06-how-algorithms-work':               'ai',      // you watch, it learns, it serves more
   'ks2-07-privacy-reputation':                'safe',    // the share test is a safety test: where I am, future me
