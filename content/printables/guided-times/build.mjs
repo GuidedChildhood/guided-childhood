@@ -232,6 +232,12 @@ if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html')
     await frames.nth(i).screenshot({ path: join(dir, `${id}.png`) })
   }
   console.log('listing images', n)
+  // Real life photos: the real front page on the Christmas table and the
+  // breakfast table (../scene-composite.mjs), named 01c and 01d so they sit
+  // with the cover. Justin, 6 November 2026: real images for every listing.
+  for (const [i, s] of ['christmas-table', 'table-breakfast'].entries()) {
+    execFileSync(process.execPath, [join(ROOT, '..', 'scene-composite.mjs'), s, join(DIR, 'images/preview/page-01.png'), join(dir, `01${'cd'[i]}-real-${s}.jpg`)], { stdio: 'inherit' })
+  }
 }
 
 for (const f of existsSync(join(DIR, 'product')) ? readdirSync(join(DIR, 'product')) : []) {
