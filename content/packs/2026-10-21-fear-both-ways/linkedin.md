@@ -63,6 +63,18 @@ This is The Wrong Villain series continued.
 
 What would actually change your mind about the ban?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+A study everyone quoted said 85 percent of Australian teenagers got round the under sixteen ban. It doesn't say that.
+
+The number almost nobody quoted is the regulator's own. In its follow up of 803 children, the share who actually held an account fell from 52.4 percent to 42.1 percent. That is the one measurable thing the ban has done so far, and it is missing from both arguments.
+
+I've written up what the BMJ paper found, what the regulator found, and why fear is now the engine on both sides.
+
+Which of those two numbers reached you first?
+
 ### First comment
 
 Sources, and where I have been careful. The study is Barnes et al., BMJ 2026;393:e363695, University of Newcastle, published 24 June 2026. It recruited 436 adolescents aged 12 to under 17 and followed up with 408 of them three months in. It reports that more than 85 percent of under sixteens were still using platforms covered by the Act, mostly through accounts they already held, and finds insufficient evidence of a substantive early reduction. Its own authors say the full impacts may not be evident for a decade. It is one Australian state, the answers are self reported, and the confidence intervals are wide enough that modest effects cannot be ruled out, which is exactly why it cannot carry the weight either camp puts on it. The regulator's figures are the eSafety Commissioner's three month follow up, published July 2026, which surveyed 803 children aged 10 to 15: 85.9 percent using at least one age restricted platform before the ban and 81.5 percent after, measured with or without an account, and account ownership down from 52.4 percent to 42.1 percent, which eSafety calls modest but statistically significant. eSafety also says plainly that the report is not an assessment of whether platforms complied. The Psychology Today piece is Emma Bruehlman-Senecal, Why Banning Social Media Won't Fix Teen Mental Health, 15 October 2026, and it is worth reading: it is right that age checks create their own privacy problem, and right that for some children these platforms are where they find people like them. My disagreement is with one line, where the BMJ paper is cited as teenagers circumventing the ban. Continued use on an existing account is not circumvention, and the paper does not test whether the ban failed. On Jonathan Haidt, the thing he is right about is that parents are not imagining the problem. Where I part company is the size of the effect and the confidence of the conclusion. UK timing: the government has said enforcement from 2027, and a firmer date has been reported but I have not verified it, so I have said 2027.

@@ -104,6 +104,18 @@ A situation a child can learn to interrupt is worth more than a diagram of how i
 
 What would tell you that a feed had started choosing for you?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+The Social Reckoning is in UK cinemas, built on Frances Haugen's disclosures. The spine of it is real. The dialogue isn't.
+
+What I can't do is round the problem up to match the film. Ofcom says personalised recommendations are a main route by which children meet harmful content, and its own evidence says recommender systems aren't inherently harmful, with the risk coming from repetition, combination and intensity. Both of those sit in the same document.
+
+I've written up where the film is accurate, where it isn't, and why being precise about it is not the same as being soft.
+
+I couldn't name the moment a feed turned in my own house. Could you?
+
 ### First comment
 
 Sources, and the limits that matter. The film is described by Sony as based on the events behind the Facebook Files, so it is a drama rather than a documentary. Molly Russell's inquest conclusion is the Chief Coroner's own wording and I have not shortened it. Ofcom's Children's Register of Risks is where the recommender finding comes from, and the same document is clear that these systems are not inherently harmful, which is a qualification I would rather state than have pointed out to me. The five steps are a rehearsal, not proven protection, and nothing a child does replaces a platform's duty to make the design safer. Our schools pilot is at schools.guidedchildhood.com/pilot.
@@ -138,6 +150,18 @@ And here is the part nobody can hand to the researchers. A limit changes access.
 That is the argument I would rather we were having.
 
 What would you want them to measure before anybody calls it a success?
+
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+About four thousand teenagers in Bradford are being assigned either a daily social media limit with an overnight curfew, or their usual use, and then measured.
+
+Nearly everything the rest of us quote, me included, shows an association. This is built to show what changes when use actually goes down. That's a different thing, and I've quietly wanted somebody to do it for a long time.
+
+There are no results yet. Anybody telling you this proves limits work, or proves they don't, hasn't read it.
+
+What would a result have to show before you changed something at home?
 
 ### First comment
 
@@ -182,6 +206,18 @@ But tonight, four questions beat the clock.
 Who are you playing with. How do you know them. Can they reach you outside the game. What would make you leave and come and tell me.
 
 Which of those four has your family actually had?
+
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Among parents whose children game, 64 percent said talking to strangers worried them. Only 43 percent set any rule about who their child can play with. Time limits ran at 56 percent.
+
+I set a timer because it was the rule I could actually enforce. That's the honest reason and it took me a while to admit it.
+
+This isn't an argument against online friends. Ofcom's own figures say 96 percent of children who game online play with friends or family at least sometimes. It's an argument that a clock can't tell a child who is trustworthy.
+
+Two children, both an hour. What would tell you the difference?
 
 ### First comment
 

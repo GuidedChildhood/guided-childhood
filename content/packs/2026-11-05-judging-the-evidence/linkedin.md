@@ -87,6 +87,20 @@ With the UK moving towards under sixteen restrictions, parents need perspective 
 
 Are we still judging the evidence, or have we started judging whose side people are on?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Court filings unsealed last month show Meta employees discussing a whisper strategy against Jonathan Haidt, and nobody has shown it was ever carried out.
+
+What happened next is the part I wrote about. A researcher who has challenged Haidt's conclusions says a newspaper suggested she was paid by Meta to do it. Her name is not in those filings. The link was made by the reader.
+
+I go through what the documents say, what they don't, and why a researcher with inconvenient findings is somebody you answer rather than somebody you discredit.
+
+When did you last change your mind because of a study you didn't want to be true?
+
+*Her name is left out of the share note on purpose. The nuance that protects it lives in the post, and a reshare blurb is not the place to put an accusation at the top.*
+
 ### First comment
 
 Sources, and where I've been careful. The Meta documents were unsealed in the federal social media multidistrict litigation in California, in front of Judge Yvonne Gonzalez Rogers, and reported from 27 October. I've described the line about turning academics against Haidt rather than quoting it, because outlets reporting the same note give it slightly differently and I haven't read the filing myself. The phrase I have quoted, whisper strategy, is quoted the same way everywhere. Nothing reported shows the plan was carried out, Meta hasn't commented, and the notes are a messy internal brainstorm, so treat them as what Meta discussed rather than what Meta did. Candice Odgers set out her position on her own Substack on 29 October: Meta does not fund her research and she has never been approached by Meta to shape what she says publicly. She characterises the Times piece as suggesting she and others were paid, and that characterisation is hers, not mine, which matters because so far as I can tell the article did not state it outright. Her name does not appear in the Meta notes. The National Academies report is Social Media and Adolescent Health, consensus study highlights, December 2023, and both quoted sentences are from it word for word. The same report says the rigorous designs that would settle causation are lacking, which is a limit on my argument as much as on anyone else's. On the UK, enforcement from 2027 is what the government has said; a firmer date has been reported but I haven't verified it.
