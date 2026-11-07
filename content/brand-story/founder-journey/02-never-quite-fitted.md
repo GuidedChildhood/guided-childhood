@@ -1,6 +1,6 @@
 # 2 · Never quite fitted
 
-**Privacy: GREEN.** Names Guided Childhood: no. Proposed: Wednesday 18 November.
+**Privacy: GREEN.** Names Guided Childhood: no. **Replaced by 2b**, which Justin approved on 7 November. Kept as the fallback if he changes his mind.
 
 **The scene:** `founder-context.md`, "The founder arc" and "Education and finding
 his ability later". Easily distracted, very messy handwriting, struggled with
@@ -83,7 +83,7 @@ The handwriting photo, slow push in, three plates:
 
 # 2b · The table (optional swap for post 2)
 
-**Privacy: AMBER. Needs Justin's yes.** Two AMBER items at once: the maths
+**Privacy: AMBER. Approved by Justin, 7 November 2026.** 2b runs on Wednesday 18 November in place of post 2. Two AMBER items at once: the maths
 table incident with his father, and feeling like a failure at school. It also
 puts his dad in a hard light, so a word with his dad first may be kind. The
 context says use it rarely and only where it is about learning, parenting or

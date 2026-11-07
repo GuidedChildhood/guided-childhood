@@ -17,8 +17,8 @@ growing up with these tools from the start.
 judgement." From "What Guided Childhood is really trying to achieve". It is
 reserved for the brand account's Thursday Reel on 19 November
 (`weeks/2026-11-09/thursday-the-one-line.md`), so using it here is a deliberate
-echo four weeks later, on a different account. **Needs his word.** The
-alternative close is below.
+echo four weeks later, on a different account. **Approved by Justin, 7
+November 2026.** The alternative close below is not in use.
 
 **On honesty about the code:** the AI writes most of it, and anyone who looks
 at the repository can see that. Saying so first is stronger than being found
