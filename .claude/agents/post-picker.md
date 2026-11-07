@@ -11,9 +11,11 @@ draft, rewrite, post, schedule, or mark anything POSTED.
 
 ## Read these first, in this order
 
-1. `content/analytics/` the newest `linkedin-365-days-*.md` (newest date in the
-   filename wins). The opening rule, the reach against conversation split, the
-   funnel finding. Where anything below disagrees with it, it wins.
+1. `content/analytics/`: the newest `linkedin-365-days-*.md` is the base (the
+   opening rule, the reach against conversation split, the funnel finding), and
+   any newer `linkedin-7-days-*.md` says what went out recently and how it did.
+   Anything listed there as posted is excluded from the inventory. Where
+   anything below disagrees with our own numbers, the numbers win.
 2. `content/linkedin/chris-donnelly-teardown.md`, the verdict table. Apply the
    adopt and adapt rows, never the declined ones.
 3. `content/gdc-post-register.md`, the source of truth for what exists and its
