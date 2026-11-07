@@ -48,7 +48,7 @@
       "type": "objective",
       "gains": [
         "Explain why a routine beats willpower every single time",
-        "Run the cool down lap: warn, finish, swap",
+        "Run the cool down lap: agree, finish, swap",
         "Spot when a screen is quietly stealing sleep, dinner or homework time",
         "Design one routine tonight that is yours, not one handed to you"
       ],
@@ -130,9 +130,9 @@
       "phase": "teach",
       "steps": [
         {
-          "text": "Give yourself a warning before the end. Five more minutes, said out loud or set on a timer. No surprises.",
-          "emoji": "📣",
-          "title": "Warn"
+          "text": "Agree your finishing line before you start: one episode, this match, until the timer goes. Decided while you are calm, so the end is never a surprise.",
+          "emoji": "🤝",
+          "title": "Agree"
         },
         {
           "text": "Stop at a real finishing line: the end of the video, the round, the level. Never mid game, that is what makes stopping hurt.",
@@ -145,7 +145,7 @@
           "title": "Swap"
         }
       ],
-      "script": "Walk the three steps as they build and get the class chanting them back: warn, finish, swap. Explain the racing picture, a driver at 200 miles an hour does not slam the brakes, they do a cool down lap. Your brain at full game speed is the same. Then point at the three verdict chips: today you become routine detectives, and every situation gets one of these three verdicts. Routine ready means the lap is there. Needs a lap means part of the plan is missing. Willpower trap means no plan at all, just hoping to resist.",
+      "script": "Walk the three steps as they build and get the class chanting them back: agree, finish, swap. Explain the racing picture, a driver at 200 miles an hour does not slam the brakes, they do a cool down lap. Your brain at full game speed is the same. Then point at the three verdict chips: today you become routine detectives, and every situation gets one of these three verdicts. Routine ready means the lap is there. Needs a lap means part of the plan is missing. Willpower trap means no plan at all, just hoping to resist.",
       "caption": "Three steps, every time screens need to end. Racing drivers do a cool down lap, they never just slam the brakes.",
       "heading": "The cool down lap",
       "minutes": 3,
@@ -164,7 +164,7 @@
         {
           "text": "Finish the level, then swap to the thing you lined up",
           "correct": true,
-          "feedback": "Exactly. The warning meant no surprises, the finish step means end at a real finishing line, and the swap is ready and waiting. That is the whole lap."
+          "feedback": "Exactly. You agreed the finishing line before you started, so the end of the level is the stop, and the swap is ready and waiting. That is the whole lap."
         },
         {
           "text": "Turn it off instantly, mid level, no matter what",
@@ -172,12 +172,12 @@
           "feedback": "Slamming the brakes mid level is what makes stopping feel horrible, and horrible stops turn into arguments. Finish at a real finishing line, that is the point of the lap."
         },
         {
-          "text": "Ignore the warning, you will stop when you feel like it",
+          "text": "Start another level, you will stop when you feel like it",
           "correct": false,
           "feedback": "You will not feel like it, and that is not a you problem, it is the design of the game. Feeling like stopping is willpower, and willpower loses. The lap wins."
         }
       ],
-      "question": "Your five minute warning goes off right in the middle of a level. What does the cool down lap say to do?"
+      "question": "You agreed to stop at the end of this level, then tea. The level is nearly done. What does the cool down lap say to do?"
     },
     {
       "mode": "pairs",
@@ -296,7 +296,7 @@
       "avatar": "🎮",
       "handle": "Squad Chat 🎮",
       "prompt": "Homework is sitting there, the squad is waiting, the round starts in two minutes. What would a designed routine have already decided?",
-      "script": "Read it like a real message, pace and all, then ask the prompt. The point to land: in this moment, willpower has already lost, the pull is too strong at two minutes to kickoff. But a designed routine decided this hours ago: homework first with the phone in another room, warning set, and the squad session is the SWAP, the reward waiting at the finish line. Ask the class to say what that pupil could message back. Best answer sounds like: on at 5, save me a spot. Not a no. A when.",
+      "script": "Read it like a real message, pace and all, then ask the prompt. The point to land: in this moment, willpower has already lost, the pull is too strong at two minutes to kickoff. But a designed routine decided this hours ago: homework first with the phone in another room, the finishing line agreed, and the squad session is the SWAP, the reward waiting at the finish line. Ask the class to say what that pupil could message back. Best answer sounds like: on at 5, save me a spot. Not a no. A when.",
       "minutes": 2,
       "platform": "message"
     },
@@ -304,9 +304,9 @@
       "mode": "groups",
       "type": "discussion",
       "phase": "teach",
-      "prompt": "Design mission: build a homework routine using warn, finish, swap. Decide exactly where each step goes.",
+      "prompt": "Design mission: build a homework routine using agree, finish, swap. Decide exactly where each step goes.",
       "script": "Groups of three or four, ninety seconds on the timer, this is the design challenge of the day. Every group must place all three steps somewhere. Collect one routine per group after the chime and test it out loud against the squad chat scenario: would this routine have survived GET ON NOW? Celebrate the group that put the gaming session after homework as the swap, that is the pro move, the screen becomes the reward instead of the enemy.",
-      "lookFor": "The warning set before screens start, not during. A named finishing line, end of round or end of video, never mid anything. A real swap into homework, and the fun thing placed after homework as the reward. Bonus brilliance: the phone in a different room while working.",
+      "lookFor": "The finishing line agreed before screens start, not during: end of round or end of video, never mid anything. A real swap into homework, and the fun thing placed after homework as the reward. Bonus brilliance: the phone in a different room while working.",
       "minutes": 3,
       "seconds": 90,
       "extension": true
@@ -318,7 +318,7 @@
       "minutes": 2,
       "options": [
         {
-          "text": "Before the battle starts: decide the warning, the finishing line and the swap while you are calm",
+          "text": "Before the battle starts: agree the finishing line and the swap while you are calm",
           "correct": true,
           "feedback": "That is the designer's move. Routines win battles before they begin. Deciding at 4pm is easy. Deciding mid round at 9pm is nearly impossible, for anyone."
         },
@@ -368,7 +368,7 @@
       "extension": true
     },
     {
-      "body": "Six situations on your worksheet: after school, bedtime, mealtimes and homework. Read each one like a detective and give your verdict: Routine ready, Needs a lap, or Willpower trap. Every verdict needs a reason, and if your verdict is Needs a lap, write which step is missing: warn, finish or swap. Fifteen minutes. Number six is a big claim from Teo, and your job is to agree or disagree with real reasoning.",
+      "body": "Six situations on your worksheet: after school, bedtime, mealtimes and homework. Read each one like a detective and give your verdict: Routine ready, Needs a lap, or Willpower trap. Every verdict needs a reason, and if your verdict is Needs a lap, write which step is missing: agree, finish or swap. Fifteen minutes. Number six is a big claim from Teo, and your job is to agree or disagree with real reasoning.",
       "type": "tryit",
       "label": "Your turn",
       "phase": "practise",
@@ -403,7 +403,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, still working alone. This one tests the ownership idea, which is the part that makes tonight's mission real. After answers are in, point at the commitment line on the exit card: tonight's routine, in their own words, warning, finishing line and swap all named.",
+      "script": "Second exit check, still working alone. This one tests the ownership idea, which is the part that makes tonight's mission real. After answers are in, point at the commitment line on the exit card: tonight's routine, in their own words, the agreed end, the finishing line and the swap all named.",
       "minutes": 2,
       "options": [
         {
@@ -425,7 +425,7 @@
       "question": "Exit check two. Tonight you set one screen routine. Who should design it, and why does that matter?"
     },
     {
-      "text": "Warn it. Finish it. Swap it. I designed this routine, so this routine is MINE.",
+      "text": "Agree it. Finish it. Swap it. I designed this routine, so this routine is MINE.",
       "type": "quote",
       "label": "Say it like Bloop",
       "phase": "close",
@@ -438,7 +438,7 @@
       "phase": "close",
       "points": [
         "Routines beat willpower because you decide once, when you are calm, instead of fighting the pull every time.",
-        "The cool down lap: warn before the end, finish at a real finishing line, swap to the next thing you lined up.",
+        "The cool down lap: agree the end before you start, finish at a real finishing line, swap to the next thing you lined up.",
         "Screens sleep outside the bedroom, because scrolled minutes are sleep minutes poured away, and they never come back.",
         "A routine you design is a routine you keep. Tonight you set one: after school, bedtime, mealtime or homework."
       ],
@@ -450,7 +450,7 @@
       "type": "digi",
       "lines": [
         "Your mission, and it is a good one.",
-        "Build one screen routine this week: warn, finish, swap.",
+        "Build one screen routine this week: agree, finish, swap.",
         "Stick to it for seven days and see what changes. I think you will like it."
       ],
       "phase": "close",
@@ -479,7 +479,7 @@
       "type": "digi",
       "lines": [
         "Mission complete, Routine Builders! ⭐",
-        "Remember the lap: warn, finish, swap. It works because YOU designed it, and designers stick to their own designs.",
+        "Remember the lap: agree, finish, swap. It works because YOU designed it, and designers stick to their own designs.",
         "Tonight's mission: set ONE routine and run it. After school, bedtime, mealtime or homework. Just one, and make it completely yours.",
         "Bloop will be asking about your badge next lesson. Sleep well tonight, squad, your tomorrow will thank you. See you next time!"
       ],
@@ -523,26 +523,26 @@
   },
   "sort_order": 4,
   "parent_note": {
-    "taught": "Today your child learned why routines beat willpower: apps are designed with no finishing line, so the fix is a better design, not more effort. They learned a three step tool called the cool down lap (warn, finish, swap) and they have committed to setting one screen routine tonight.",
+    "taught": "Today your child learned why routines beat willpower: apps are designed with no finishing line, so the fix is a better design, not more effort. They learned a three step tool called the cool down lap (agree, finish, swap) and they have committed to setting one screen routine tonight.",
     "headline": "What we taught today, and one thing to try at home",
     "passport": "This lesson has a place on your child's passport page, the journey to sixteen that home and school build together. The class met it today; it goes on the page when your child does its own short check at home, in their app. Each stage ends with a stamp that is earned, never just a birthday reached. Ask your child what their cool down lap is.",
-    "try_this": "Tonight, ask your child to design their own cool down lap for bedtime: when the warning happens, what the finishing line is, and what they swap to. Let them set the terms, and if you can, agree together that screens charge outside the bedroom. A routine they design is a routine they keep.",
+    "try_this": "Tonight, ask your child to design their own cool down lap for bedtime: the finishing line they agree before the screen goes on, and what they swap to. Let them set the terms, and if you can, agree together that screens charge outside the bedroom. A routine they design is a routine they keep.",
     "family_question": "Can you teach me the cool down lap? Explain why a routine beats willpower.",
-    "listen_for": "You know apps have no finishing line, so you warn, finish and swap instead of relying on willpower at bedtime.",
+    "listen_for": "You know apps have no finishing line, so you agree, finish and swap instead of relying on willpower at bedtime.",
     "then_ask": "Where should my phone sleep tonight, and why?",
     "no_login_required": true
   },
   "video_beats": [],
   "teacher_notes": {
     "send": {
-      "eal": "Warn, finish and swap are the three words to pre teach. The routine detective verdicts, ready, lap or trap, work as thumbs once the three words are solid.",
+      "eal": "Agree, finish and swap are the three words to pre teach. The routine detective verdicts, ready, lap or trap, work as thumbs once the three words are solid.",
       "sensory": "Autoplay and its pull are described, never demonstrated. Keep it that way for this class: a room full of sound and motion would be teaching the opposite of the lesson.",
-      "attention": "The cool down lap is an executive function scaffold by design. Let the pupils who find stopping hardest write the warn step for the class: they are the experts in what does not work.",
-      "communication": "The class tally answers by moving a token, not by speaking. Put sentence stems on the board for the routine share: my warn is, my finish is, my swap is."
+      "attention": "The cool down lap is an executive function scaffold by design. Let the pupils who find stopping hardest write the agree step for the class: they are the experts in what does not work.",
+      "communication": "The class tally answers by moving a token, not by speaking. Put sentence stems on the board for the routine share: we agree, I finish at, I swap to."
     },
     "tool": {
       "lines": [
-        "Warn",
+        "Agree",
         "Finish",
         "Swap"
       ],
@@ -551,8 +551,8 @@
     },
     "i_can": [
       "I can spot the difference between a routine that works and a trap.",
-      "I can run my own cool down lap: warn, finish, swap.",
-      "I can explain to someone at home why the warn step makes stopping easier."
+      "I can run my own cool down lap: agree, finish, swap.",
+      "I can explain to someone at home why agreeing the end first makes stopping easier."
     ],
     "cycles": [
       {
@@ -565,7 +565,7 @@
         "verb": "Practise",
         "title": "The cool down lap",
         "minutes": 7,
-        "outcome": "I can run my own cool down lap: warn, finish, swap."
+        "outcome": "I can run my own cool down lap: agree, finish, swap."
       },
       {
         "verb": "Place",
@@ -608,21 +608,21 @@
         "teaching_point": "Apps and games are built with no finishing line, so willpower is the wrong tool. This is the misconception to smash."
       },
       {
-        "answer": "Warn, finish, swap.",
+        "answer": "Agree, finish, swap.",
         "format": "short_answer",
         "question": "What are the three steps of the cool down lap?",
         "teaching_point": "The tool they leave with. Three words, in order."
       },
       {
-        "answer": "It lets your brain finish what it started",
+        "answer": "The end is planned, so it is not a surprise",
         "format": "tick_one",
         "options": [
           "It makes you feel guilty",
-          "It lets your brain finish what it started",
+          "The end is planned, so it is not a surprise",
           "It turns the screen off faster"
         ],
-        "question": "Why does the warning step work?",
-        "teaching_point": "Not willpower, not punishment. The warning gives the brain a landing place, which is why it works."
+        "question": "Why does agreeing the end first work?",
+        "teaching_point": "Not willpower, not punishment. The end was decided while calm, so stopping is the plan, not a fight in the moment."
       },
       {
         "answer": "routine",
@@ -683,12 +683,12 @@
       "Putting the phone on silent fixes the bedroom problem (silent stops the pings but not the pull, checking is still one reach away all night, and displaced sleep never comes back)",
       "Routines are punishments adults hand out (this module never bans screens, the child designs the routine, chooses the finishing line and the swap, and ownership is exactly what makes it stick)"
     ],
-    "paper_fallback": "The whole lesson runs from the printed pack. Read the title and mission aloud, teach the keywords from the sheet, run the retrieval question by hands up. Draw the cool down lap on the board as three boxes (warn, finish, swap) and the bedtime spiral as four arrows in a circle. Both scenarios are printed as cards: read them in role, then take verdicts by hands. Discussions run exactly the same with a watch instead of the on screen timer. Worksheet, exit quiz and commitment card are all in the pack.",
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the title and mission aloud, teach the keywords from the sheet, run the retrieval question by hands up. Draw the cool down lap on the board as three boxes (agree, finish, swap) and the bedtime spiral as four arrows in a circle. Both scenarios are printed as cards: read them in role, then take verdicts by hands. Discussions run exactly the same with a watch instead of the on screen timer. Worksheet, exit quiz and commitment card are all in the pack.",
     "passport_stage": "builder",
-    "commitment_stem": "My commitment: tonight my cool down lap is warn at ..., finish when ..., and swap to ...",
+    "commitment_stem": "My commitment: tonight my cool down lap is agree ... before I start, finish when ..., and swap to ...",
     "differentiation": {
       "stretch": "Early finishers redesign worksheet item three so it earns Routine ready, naming all three steps. Deeper stretch: which of the four moments (after school, bedtime, mealtimes, homework) is hardest to design for, and why does bedtime beat the others for sneaky design like autoplay?",
-      "support": "Work worksheet items one to three aloud with the support group, reading each scenario and walking the three verdict options together. Keep the bookmark strip with warn, finish, swap in front of each pupil. Accept the verdict alone for items one and two, then coach the reason."
+      "support": "Work worksheet items one to three aloud with the support group, reading each scenario and walking the three verdict options together. Keep the bookmark strip with agree, finish, swap in front of each pupil. Accept the verdict alone for items one and two, then coach the reason."
     },
     "prior_knowledge": [
       "A pupil can describe their own evening in order, from getting home to lights out.",
@@ -698,8 +698,8 @@
     "worksheet_items": [
       {
         "n": 1,
-        "item": "Maya plays one round after school. Her timer warns her five minutes before dinner, she finishes the round, then goes to help set the table.",
-        "teaching_point": "All three steps are present: the warning, a real finishing line (end of round) and a swap (setting the table). This is what a designed routine looks like on an ordinary day.",
+        "item": "Maya plays one round after school. Before she starts, she agrees one round and then dinner. She finishes the round, then goes to help set the table.",
+        "teaching_point": "All three steps are present: the end agreed before she started, a real finishing line (end of round) and a swap (setting the table). This is what a designed routine looks like on an ordinary day.",
         "expected_verdict": "Routine ready"
       },
       {
@@ -716,14 +716,14 @@
       },
       {
         "n": 4,
-        "item": "It is Saturday and Jess wants a long gaming morning. She sets a warning for when lunch is close, names her finishing line as the end of the match, and plans a bike ride with her brother straight after.",
-        "teaching_point": "Long screen sessions can be routine ready too. This module is not about less at all costs, it is about designed time with a warning, a finishing line and a swap. Jess designed hers.",
+        "item": "It is Saturday and Jess wants a long gaming morning. Before she starts, she agrees with her dad that the last match before lunch is her finishing line, and plans a bike ride with her brother straight after.",
+        "teaching_point": "Long screen sessions can be routine ready too. What makes it work is designed time: an agreed end, a finishing line and a swap. Jess designed hers.",
         "expected_verdict": "Routine ready"
       },
       {
         "n": 5,
-        "item": "Amara gives herself a five minute warning before tea, but she always stops mid video, so stopping feels horrible and she keeps sneaking the tablet back to the table.",
-        "teaching_point": "The warn step is there but the finish step is missing. Stopping mid video is slamming the brakes, which is why it hurts and why the routine keeps breaking. Fix: end at the end of a video, and add a swap.",
+        "item": "Amara agrees to stop when tea is ready, but tea is always ready mid video, so stopping feels horrible and she keeps sneaking the tablet back to the table.",
+        "teaching_point": "The agree step is there but the finish step is missing. Tea arriving mid video is slamming the brakes, which is why it hurts and why the routine keeps breaking. Fix: agree to stop at the end of a video, and add a swap.",
         "expected_verdict": "Needs a lap"
       },
       {
@@ -734,12 +734,12 @@
       }
     ],
     "essential_question": "Why is it so hard to stop, even when I meant to?",
-    "learning_objective": "Pupils can design one screen routine using the cool down lap (warn, finish, swap), explain why routines beat willpower, and commit to setting one routine at home tonight.",
+    "learning_objective": "Pupils can design one screen routine using the cool down lap (agree, finish, swap), explain why routines beat willpower, and commit to setting one routine at home tonight.",
     "key_learning_points": [
       "Willpower runs out, especially when you are tired. A routine does not.",
       "A routine is decided once, in a calm moment, and followed after that.",
-      "The cool down lap is warn, finish, swap.",
-      "The warning is what makes stopping possible, because it lets the brain finish.",
+      "The cool down lap is agree, finish, swap.",
+      "Agreeing the end before you start is what makes stopping possible, because the stop is part of the plan, not a surprise.",
       "Where a screen sleeps decides whether it interrupts your sleep."
     ],
     "hard_questions": [

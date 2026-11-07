@@ -728,3 +728,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts
+      # The UTMs kept with a sign up and a pilot request (migration 388): only
+      # slugs about the post, never an email or a number, and the database
+      # checking the same pattern. Plain node too.
+      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/video/utm.test.ts

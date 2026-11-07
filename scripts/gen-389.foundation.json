@@ -1,0 +1,198 @@
+{
+  "when_the_screen_goes_to_sleep": {
+    "id": "3cc159b1-f3cd-46b9-9eb1-fc29c7899e40",
+    "old_slides_md5": "40a54441fc0a4ffe46ba9d4c63675ad4",
+    "slides": [
+      {
+        "body": "A sofa lesson about endings. We practise saying goodbye to the screen so the goodbye stops being scary.",
+        "type": "title",
+        "phase": "starter",
+        "title": "When the screen goes to sleep",
+        "script": "Recall first: what is our stop and tell rule? Stop, and tell a grown up. Today is a different kind of goodbye: how we say bye bye to the screen when it is time.",
+        "eyebrow": "Foundation · Ages 4 to 7 · Healthy balance",
+        "minutes": 1,
+        "character": "football"
+      },
+      {
+        "why": "Endings feel big when they are a surprise. Our plan makes the ending small: a stopping place, a wave, a next thing.",
+        "type": "objective",
+        "gains": [
+          "I know our stopping place, like the end of the episode",
+          "I can wave goodbye to the screen",
+          "I know the next thing comes straight after"
+        ],
+        "phase": "starter",
+        "minutes": 1,
+        "outcome": "I can say goodbye to the screen calmly when we reach our stopping place."
+      },
+      {
+        "type": "keywords",
+        "phase": "starter",
+        "words": [
+          {
+            "word": "the stopping place",
+            "meaning": "Where the screen stops, picked before it goes on, like the end of the episode."
+          },
+          {
+            "word": "the next thing",
+            "meaning": "What we run to after the screen: a snack, a story, a job."
+          }
+        ],
+        "script": "Say each word and let your child say it back. The stopping place and the next thing are the two halves of every calm ending.",
+        "heading": "Our special words",
+        "minutes": 1
+      },
+      {
+        "body": "Big feelings come when the screen stops in the middle of something. So we pick the stopping place before the screen goes on: one episode, then snack. When the episode ends, the screen is done.",
+        "type": "concept",
+        "emoji": "🏁",
+        "phase": "teach",
+        "script": "Say it the same way every time, before you press play: one episode, then it is snack. Then the show ends it, not you, and there is no countdown to argue with. When the end comes, tell them what comes next, not how long is left.",
+        "heading": "The stopping place",
+        "minutes": 2
+      },
+      {
+        "body": "When time is up, we wave and say bye bye screen, see you tomorrow. Then we go straight to the next thing: a snack, a story, a job helping your grown up. Endings are easier when something nice is waiting.",
+        "type": "concept",
+        "emoji": "👋",
+        "phase": "teach",
+        "script": "The wave sounds silly and works like magic: it gives the ending a shape. Have the next thing genuinely ready before the wave happens. A child running toward something is not fighting what they left.",
+        "heading": "Wave goodbye, then run to the next thing",
+        "minutes": 2
+      },
+      {
+        "type": "choice",
+        "phase": "practise",
+        "minutes": 2,
+        "options": [
+          {
+            "text": "Wave bye bye to the screen and go to the next thing",
+            "correct": true,
+            "feedback": "Yes. The wave finishes it, and the next thing is waiting for you."
+          },
+          {
+            "text": "Hold the screen tight and look away from your grown up",
+            "correct": false,
+            "feedback": "Holding tight makes the goodbye bigger and slower. The wave makes it small and quick."
+          }
+        ],
+        "question": "The episode has finished, and that was our stopping place. What do we do?"
+      },
+      {
+        "type": "choice",
+        "phase": "prove",
+        "minutes": 2,
+        "options": [
+          {
+            "text": "So I know where the end is before I start",
+            "correct": true,
+            "feedback": "Exactly. You knew the end before the screen went on, so it is not a surprise."
+          },
+          {
+            "text": "So I can ask for one more when we get there",
+            "correct": false,
+            "feedback": "The stopping place is the end, not a place to ask for more. When we get there, the next thing starts."
+          }
+        ],
+        "question": "Why do we pick the stopping place before the screen goes on?"
+      },
+      {
+        "type": "choice",
+        "phase": "prove",
+        "minutes": 2,
+        "options": [
+          {
+            "text": "Because episodes are always short",
+            "correct": false,
+            "feedback": "Some are short, but that is not the magic. The magic is that the show has finished, so nothing gets cut off."
+          },
+          {
+            "text": "Because the show has finished, so nothing is cut off",
+            "correct": true,
+            "feedback": "That is it. Big feelings come from being stopped in the middle. At the end of the episode, the show is already done."
+          },
+          {
+            "text": "They do not, endings feel horrible anyway",
+            "correct": false,
+            "feedback": "Endings feel much easier when the show has already finished. Nothing gets cut off at our stopping place."
+          }
+        ],
+        "question": "Why do endings feel easier at the end of an episode?"
+      },
+      {
+        "type": "choice",
+        "phase": "prove",
+        "minutes": 2,
+        "options": [
+          {
+            "text": "Grabbing the tablet back for one more go, so the cross feeling stops",
+            "correct": false,
+            "feedback": "One more go makes the ending come round again, and the cross feeling with it. Wave bye bye and run to the next thing."
+          },
+          {
+            "text": "Waving bye bye and running to the next thing",
+            "correct": true,
+            "feedback": "The wave finishes it, the next thing catches you. Cross feelings shrink fast when your hands are busy."
+          },
+          {
+            "text": "Shouting until the feeling goes away by itself",
+            "correct": false,
+            "feedback": "Shouting feeds the cross feeling. A snack, a story or a job helping shrinks it much faster."
+          }
+        ],
+        "question": "The screen is done and your body still feels cross. What helps most?"
+      },
+      {
+        "type": "recap",
+        "phase": "close",
+        "points": [
+          "We pick the stopping place before we start.",
+          "Wave bye bye screen, see you tomorrow.",
+          "Run straight to the next thing together."
+        ],
+        "heading": "The lesson in three ticks",
+        "minutes": 1
+      },
+      {
+        "body": "Before bed, let your child choose what comes straight after screen time tomorrow, and have it ready. A snack, a story, a job with you. Their choice, waiting for them.",
+        "type": "tryit",
+        "phase": "close",
+        "script": "A next thing they chose themselves pulls twice as hard as one you announce at switch off time.",
+        "heading": "Pick tomorrow's next thing tonight",
+        "minutes": 1
+      },
+      {
+        "type": "digi",
+        "lines": [
+          "A stopping place, a wave, a next thing.",
+          "Endings are easier when nothing is a surprise.",
+          "Bye bye screen, see you tomorrow."
+        ],
+        "phase": "close",
+        "heading": "DiGi says",
+        "minutes": 1
+      }
+    ],
+    "columns": {
+      "the_idea": [
+        "Little children do not end screen time, the ritual ends it for them. A gentle warning, a goodbye to the screen and a next thing to run to turn the hardest moment of the day into a routine.",
+        "Little children do not end screen time, the ritual ends it for them. A stopping place picked before it starts, a goodbye to the screen and a next thing to run to turn the hardest moment of the day into a routine."
+      ],
+      "try_this": [
+        "Give a five minute whisper before the end, let your child wave goodbye to the screen, and have the next thing ready: a snack, a job, a game. The goodbye does the heavy lifting.",
+        "Before the screen goes on, pick the stopping place together: one episode, then snack. When it ends, let your child wave goodbye and have the next thing ready. Tell them what comes next, not how long is left."
+      ],
+      "key_message": [
+        "Warn, wave goodbye, move on to the next thing.",
+        "Pick the stopping place, wave goodbye, move on to the next thing."
+      ]
+    }
+  },
+  "big_feelings_and_the_screen": {
+    "id": "158dee38-97ba-4b45-ae2b-55711a3cbf4e",
+    "slide0_script": [
+      "Recall: what do we do when the screen goes to sleep? A whisper, a wave, a next thing. Today we talk about the feelings that sometimes arrive after the wave.",
+      "Recall: what do we do when the screen goes to sleep? A stopping place, a wave, a next thing. Today we talk about the feelings that sometimes arrive after the wave."
+    ]
+  }
+}

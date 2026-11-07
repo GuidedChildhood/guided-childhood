@@ -145,7 +145,7 @@ window.ISSUE = {
       title: 'Dear DiGi',
       letter: '“My tablet says time is up right in the middle of a level. It is not fair!”',
       from: 'A question lots of children ask',
-      reply: 'That one is tricky. Before you start, agree with your grown up what happens at the end of a level, and when the five minute warning comes, find a save point and stop there.',
+      reply: 'That one is tricky. Before you start, agree with your grown up that you stop at the end of a level, not on the clock. Then the save point is the finish, and you know what comes next.',
     },
     ours: {
       title: 'Our app: Guided Childhood',

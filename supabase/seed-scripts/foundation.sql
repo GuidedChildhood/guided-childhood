@@ -174,10 +174,10 @@ values
   'foundation',
   'Meltdown moving to dinner',
   'Calling your child off a screen to come to the table tips them straight into a meltdown, every time.',
-  'I know it is really hard to stop when you are having fun. Your brain wants to keep going. Two more minutes, then we save it and come to dinner together.',
+  'I know it is really hard to stop when you are having fun. Your brain wants to keep going. When this episode ends, we stop and come to dinner together.',
   '"Dinner is ready now, screen off, come on." A sudden stop gives the brain no time to switch tracks.',
-  'Stopping a screen drops dopamine sharply, and a young brain feels that as a real loss, not a tantrum for effect. The meltdown is a nervous system reaction to an abrupt change, not defiance. A short, warned bridge gives the brain time to shift gear before the screen goes off. Naming the difficulty and counting it down together turns the cliff edge into a slope.',
-  'Tonight, give a clear two-minute warning before dinner, and watch whether the landing is softer.',
+  'Stopping a screen drops dopamine sharply, and a young brain feels that as a real loss, not a tantrum for effect. The meltdown is a nervous system reaction to an abrupt change, not defiance. Ending at a natural stopping point, like the end of an episode, gives the brain a finish line instead of a cut. Making it part of the dinner routine, and naming what comes next rather than how long is left, turns the cliff edge into a slope.',
+  'Tonight, stop at the end of the episode and say what comes next, then watch whether the landing is softer.',
   'none',
   false,
   115

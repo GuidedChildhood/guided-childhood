@@ -22,6 +22,17 @@ run again.
 | Covid, two small children at home and a business to keep alive, YouTube used as a babysitter to get through the day | green, his own first person part only | GDC-044 | 18 Oct 2026 |
 | Nine at night after a day like that, wishing something existed to manage the devices rather than just switch them off | green | GDC-044 | 18 Oct 2026 |
 | "Eventually the controls come off. What I want left behind is judgement." (the line itself, no scene) | green | Draft, not yet posted: `weeks/2026-11-09/thursday-the-one-line.md` | 5 Nov 2026 |
+| The Porsche in the garage, passing tools at seven | green | Draft, personal Instagram: `founder-journey/01-the-garage.md` | 7 Nov 2026 |
+| School never quite fitting, messy handwriting, the broken leg at fourteen, A levels | green | Draft, personal Instagram: `founder-journey/02-never-quite-fitted.md` | 7 Nov 2026 |
+| The maths homework at the dinner table with his dad | amber, needs his yes | Draft, personal Instagram, optional swap: `founder-journey/02-never-quite-fitted.md` (2b) | 7 Nov 2026 |
+| Dropping out of college in London, not telling his parents, the gym | green | Draft, personal Instagram: `founder-journey/03-no-plan-b.md` | 7 Nov 2026 |
+| The boss who backed him, director at 32 | green | Draft, personal Instagram: `founder-journey/04-the-boss.md` | 7 Nov 2026 |
+| Helping build the online accounting service around 2010 | green | Draft, personal Instagram: `founder-journey/05-the-first-build.md` | 7 Nov 2026 |
+| The YouTube recommendation, picking videos by hand, The Social Billboard | green | Draft, personal Instagram: `founder-journey/06-the-recommendations.md` | 7 Nov 2026 |
+| His eldest's friend moved to Wales and WhatsApp kept it going | amber, needs his yes | Draft, personal Instagram: `founder-journey/07-wales.md` | 7 Nov 2026 |
+| Reading Haidt, then Odgers, Orben, Przybylski, Ferguson; what a playlist cannot teach | green | Draft, personal Instagram: `founder-journey/08-the-research.md` | 7 Nov 2026 |
+| The dance video and Saturday football, second use, "my youngest" | amber, needs his yes to run again | Draft, personal Instagram: `founder-journey/09-the-dance-video.md` | 7 Nov 2026 |
+| The morning walks and learning to build with AI | green | Draft, personal Instagram: `founder-journey/10-building-it-myself.md` | 7 Nov 2026 |
 
 ## The other store of scenes, which this ledger cannot see
 
