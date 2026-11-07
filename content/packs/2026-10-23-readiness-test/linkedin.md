@@ -82,6 +82,18 @@ An age tells you when the door opens. It tells you nothing about who walks throu
 
 If you had to judge whether a child was ready for something online, what would you actually look at?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+I've built a product around the word readiness and I still can't tell you how to test it.
+
+That's the uncomfortable centre of it, and picking a better age doesn't make it go away. One child in this country can face three different legal ages for three different things, and not one of the three describes the child in front of you.
+
+I've written up the closest I've got, which is three things a parent can see for themselves, and I'm open about what we hold no evidence for.
+
+If an age tells you when the door opens, what tells you who's ready to walk through it?
+
 ### First comment
 
 Where the three ages come from, since the card leans on them. Thirteen is the platform minimum in most terms of service, which traces back to the United States children's privacy law rather than to any finding about thirteen year olds. Sixteen is the UK social media restriction, announced June 2026 with enforcement from 2027. Eighteen is Character.AI, which ended open ended chats for under eighteens from 25 November 2025 after lawsuits and an FTC inquiry, replacing them with a narrower creative experience. Three different answers about the same child, each arrived at by a different route, and none of them derived from evidence about what a child at that age can actually do. On our own stage check, I meant the line in the post literally: we have no outcome evidence that a child who finishes a stage behaves differently afterwards. It is three questions and a starting point, not a measurement, and I would rather say that than imply otherwise. If anyone knows of a readiness instrument for children online that has been tested against what children actually do later, I would genuinely like to read it.

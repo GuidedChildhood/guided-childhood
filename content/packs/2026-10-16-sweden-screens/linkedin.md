@@ -131,6 +131,18 @@ A school can change its tools. A parent cannot. So my bet, and I will call it a 
 
 What actually changed in your house, the device or the rules around it?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Sweden threw out its national digitisation plan in 2023 and funded printed textbooks in 2024. All of that is accurate, and five years ago I'd have shared it without checking.
+
+What the viral version leaves out is who called it a crisis. Sweden's own education agency never did, and it named a different main problem from the one the government named. Only one of those is a villain you can fix with a book order.
+
+I've written up what the policy actually did, and how thin the research underneath it is.
+
+What makes you check a story you already agree with?
+
 ### First comment
 
 Sources. The crisis framing: Reimers, Martin Bylund and Stenliden, Constructions of a reading crisis, Discourse: Studies in the Cultural Politics of Education, 2025, which documents that the National Agency for Education emphasised the positives of PIRLS 2021 while the government called it a crisis, that Sweden moved up the league table and declined less than most countries, and that the agency named segregation where the government named digitalisation and migration. Policy: the digitisation plan was scrapped in May 2023 for not being sufficiently evidence based, and an ordinance in force from 1 July 2025 restricts non analogue tools in preschool. Textbook funding is reported at around 2.1 billion kronor, though figures vary between reports, so I have said reported rather than confirmed. PISA 2025 published 8 September 2026: Sweden reading 466, down 21, against an OECD average that fell 14 to 463, and those students were born in 2009. Reading: Delgado and colleagues 2018, g = 0.21 across 54 studies and 171,055 students, and Furenes, Kucirkova and Bus 2021 for the child specific figure near 0.10 with a confidence interval including zero. Handwriting: Van der Weel and Van der Meer 2024, 36 university students, and a 2025 commentary by Pinet and Longcamp disputes the learning claim. On classroom devices generally, Ferguson's 2025 paper is titled Smartphone bans in schools remain unproven, and the English study of 1,227 students across 30 schools found no difference in attainment or wellbeing, so I am not arguing for a ban either. What I am not claiming: that Sweden acted in bad faith, that publishers drove this, or that the reading decline is invented. Reading difficulties among Swedish 10 year olds are reported to have risen from 12 to 19 percent in five years and the pandemic sits inside that window.

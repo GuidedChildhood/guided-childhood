@@ -19,7 +19,7 @@
 // the quad that is not sheet (a magnet, a pin) is kept from the scene.
 import { createRequire } from 'module'
 import { readFileSync, existsSync } from 'fs'
-import { dirname, join, resolve } from 'path'
+import { basename, dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'
 const require = createRequire(import.meta.url)
 const PW = process.env.PW_CORE ?? '/Users/justinphillips/guided-childhood/node_modules/playwright-core'
@@ -30,17 +30,19 @@ const HERE = dirname(fileURLToPath(import.meta.url))
 const [scene, pagePath, outPath, sizeArg] = process.argv.slice(2)
 const TOL = +(process.env.SHEET_TOL || 42)
 const QUADS = existsSync(join(HERE, 'listing-scenes', 'quads.json')) ? JSON.parse(readFileSync(join(HERE, 'listing-scenes', 'quads.json'), 'utf8')) : {}
-const fixedQuad = QUADS[scene] || null
+const sceneKey = basename(scene).replace(/\.(png|jpe?g)$/, '')
+const fixedQuad = QUADS[sceneKey] || null
 if (!scene || !pagePath || !outPath) {
   console.error('Usage: node scene-composite.mjs <scene name or png> <page.png> <out.png> [size, default 2000]')
   process.exit(1)
 }
-const scenePath = existsSync(scene) ? scene : join(HERE, 'listing-scenes', `${scene}.png`)
-const dataUrl = p => 'data:image/png;base64,' + readFileSync(p).toString('base64')
+// Scenes live in listing-scenes/ as JPEG (the 2160px enlargements) or PNG.
+const scenePath = existsSync(scene) ? scene : [`${scene}.jpg`, `${scene}.png`].map(f => join(HERE, 'listing-scenes', f)).find(existsSync)
+const dataUrl = p => `data:image/${/\.jpe?g$/i.test(p) ? 'jpeg' : 'png'};base64,` + readFileSync(p).toString('base64')
 
 const browser = await chromium.launch({ executablePath: existsSync(CHROME) ? CHROME : undefined })
 const page = await browser.newPage()
-const result = await page.evaluate(async ({ sceneUrl, pageUrl, size, TOL, fixedQuad }) => {
+const result = await page.evaluate(async ({ sceneUrl, pageUrl, size, TOL, fixedQuad, SOFTNESS, jpeg }) => {
   const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src })
   const [sc, pg] = await Promise.all([load(sceneUrl), load(pageUrl)])
   const W = sc.naturalWidth, H = sc.naturalHeight
@@ -100,7 +102,8 @@ const result = await page.evaluate(async ({ sceneUrl, pageUrl, size, TOL, fixedQ
   // Intersect x = a1*y + b1 with y = a2*x + b2.
   const meet = ([a1, b1], [a2, b2]) => { const x = (a1 * b2 + b1) / (1 - a1 * a2); return [x, a2 * x + b2] }
   // A measured quad (listing-scenes/quads.json) wins over the fitted one.
-  const quad = fixedQuad || [meet(L, T), meet(R, T), meet(R, B), meet(L, B)] // tl tr br bl
+  // quads.json is measured on the 1024px scenes; scale it to this scene.
+  const quad = fixedQuad ? fixedQuad.map(([x, y]) => [x * W / 1024, y * W / 1024]) : [meet(L, T), meet(R, T), meet(R, B), meet(L, B)] // tl tr br bl
 
   // 3. Output canvas at the target size.
   const k = size / W
@@ -136,12 +139,42 @@ const result = await page.evaluate(async ({ sceneUrl, pageUrl, size, TOL, fixedQ
   lums.sort((a, b) => a - b)
   const white = lums[Math.floor(lums.length * 0.9)] || 240
   const xs = q.map(p => p[0]), ys = q.map(p => p[1])
-  const x1 = Math.max(0, Math.floor(Math.min(...xs))), x2 = Math.min(size - 1, Math.ceil(Math.max(...xs)))
-  const y1 = Math.max(0, Math.floor(Math.min(...ys))), y2 = Math.min(size - 1, Math.ceil(Math.max(...ys)))
+  const x1 = Math.max(0, Math.floor(Math.min(...xs)) - 1), x2 = Math.min(size - 1, Math.ceil(Math.max(...xs)) + 1)
+  const y1 = Math.max(0, Math.floor(Math.min(...ys)) - 1), y2 = Math.min(size - 1, Math.ceil(Math.max(...ys)) + 1)
+  // What makes a composite look pasted on: a page sharper than the room
+  // around it, hard stair stepped edges, ink blacker and brighter than ink on
+  // paper ever is, and paper with no fibre or grain. So each output pixel is
+  // the average of 9 samples spread a little over its footprint (soft like a
+  // lens, and the edge coverage is antialiased), the ink sits in the paper
+  // (blacks lifted, colour calmed a touch), and the paper gets a faint fibre
+  // and the photo's fine grain. SOFT widens the footprint in output pixels.
+  const SOFT = SOFTNESS
+  const hash = (x, y) => { let n = x * 374761393 + y * 668265263; n = (n ^ (n >> 13)) * 1274126177; return ((n ^ (n >> 16)) & 0xffff) / 0xffff }
+  const vnoise = (x, y) => { // smooth value noise for the paper fibre
+    const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi
+    const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy)
+    const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1)
+    return (a + (b - a) * sx) * (1 - sy) + (c + (d - c) * sx) * sy
+  }
+  const sample = (u, v, out) => {
+    const fx = u * (PW - 1), fy = v * (PH - 1), ix = Math.floor(fx), iy = Math.floor(fy), ax = fx - ix, ay = fy - iy
+    const i00 = (iy * PW + ix) * 4, i10 = (iy * PW + Math.min(PW - 1, ix + 1)) * 4
+    const i01 = (Math.min(PH - 1, iy + 1) * PW + ix) * 4, i11 = (Math.min(PH - 1, iy + 1) * PW + Math.min(PW - 1, ix + 1)) * 4
+    for (let c = 0; c < 3; c++) out[c] += (P[i00 + c] * (1 - ax) + P[i10 + c] * ax) * (1 - ay) + (P[i01 + c] * (1 - ax) + P[i11 + c] * ax) * ay
+  }
+  const offs = [-1, 0, 1].map(t => t * (0.5 + SOFT) / 1.5)
+  const acc = [0, 0, 0]
   for (let y = y1; y <= y2; y++) for (let x = x1; x <= x2; x++) {
-    const w = h[6] * x + h[7] * y + 1
-    const u = (h[0] * x + h[1] * y + h[2]) / w, v = (h[3] * x + h[4] * y + h[5]) / w
-    if (u < 0 || v < 0 || u > 1 || v > 1) continue
+    acc[0] = acc[1] = acc[2] = 0
+    let hits = 0
+    for (const oy of offs) for (const ox of offs) {
+      const X = x + 0.5 + ox, Y = y + 0.5 + oy
+      const w = h[6] * X + h[7] * Y + 1
+      const u = (h[0] * X + h[1] * Y + h[2]) / w, v = (h[3] * X + h[4] * Y + h[5]) / w
+      if (u < 0 || v < 0 || u > 1 || v > 1) continue
+      sample(u, v, acc); hits++
+    }
+    if (!hits) continue
     const sx = Math.min(W - 1, Math.floor(x / k)), sy = Math.min(H - 1, Math.floor(y / k))
     // A magnet or pin over the paper is coloured or dark; shadowed paper is
     // grey. Keep the scene where it is coloured or dark, so the magnets stay
@@ -150,23 +183,28 @@ const result = await page.evaluate(async ({ sceneUrl, pageUrl, size, TOL, fixedQ
       if (mx - mn > 38 || lum(si) < 110) continue }
     const di = (y * size + x) * 4
     const shade = Math.min(1.04, Math.max(0.55, (0.299 * D[di] + 0.587 * D[di + 1] + 0.114 * D[di + 2]) / white))
-    // Bilinear sample of the page.
-    const fx = u * (PW - 1), fy = v * (PH - 1), ix = Math.floor(fx), iy = Math.floor(fy), ax = fx - ix, ay = fy - iy
-    const i00 = (iy * PW + ix) * 4, i10 = (iy * PW + Math.min(PW - 1, ix + 1)) * 4
-    const i01 = (Math.min(PH - 1, iy + 1) * PW + ix) * 4, i11 = (Math.min(PH - 1, iy + 1) * PW + Math.min(PW - 1, ix + 1)) * 4
-    for (let c = 0; c < 3; c++) {
-      const val = (P[i00 + c] * (1 - ax) + P[i10 + c] * ax) * (1 - ay) + (P[i01 + c] * (1 - ax) + P[i11 + c] * ax) * ay
-      // Warm the page very slightly towards the scene's paper colour, so it
-      // sits in the room's light rather than looking pasted on.
-      D[di + c] = Math.min(255, val * shade * 0.97 + D[di + c] * 0.03)
+    const cover = hits / 9
+    const r = acc[0] / hits, g = acc[1] / hits, b = acc[2] / hits
+    const l = 0.299 * r + 0.587 * g + 0.114 * b
+    const fibre = 1 + (vnoise(x / 5, y / 5) - 0.5) * 0.014 + (vnoise(x / 1.6, y / 1.6) - 0.5) * 0.012
+    const grain = (hash(x + 911, y + 37) - 0.5) * 5
+    for (const [c, val] of [[0, r], [1, g], [2, b]]) {
+      // Ink in paper: colour calmed 7 percent towards its own grey, blacks
+      // lifted to the darkest a home printer lays down.
+      let ink = l + (val - l) * 0.93
+      ink = 22 + ink * (233 / 255)
+      const lit = ink * shade * fibre * 0.975 + D[di + c] * 0.025 + grain
+      D[di + c] = Math.max(0, Math.min(255, lit * cover + D[di + c] * (1 - cover)))
     }
   }
   xo.putImageData(O, 0, 0)
-  const blob = await out.convertToBlob({ type: 'image/png' })
+  // A .jpg out path saves a JPEG at 92: a fifth of the size, and what Etsy
+  // takes (10 MB a file). The grain makes a PNG of a photo very large.
+  const blob = await out.convertToBlob(jpeg ? { type: 'image/jpeg', quality: 0.92 } : { type: 'image/png' })
   const buf = new Uint8Array(await blob.arrayBuffer())
   let bin = ''; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000))
   return { png: btoa(bin), quad: quad.map(p => p.map(Math.round)), white: Math.round(white), area }
-}, { sceneUrl: dataUrl(scenePath), pageUrl: dataUrl(resolve(pagePath)), size: +(sizeArg || 2000), TOL, fixedQuad })
+}, { sceneUrl: dataUrl(scenePath), pageUrl: dataUrl(resolve(pagePath)), size: +(sizeArg || 2000), TOL, fixedQuad, SOFTNESS: +(process.env.SOFT ?? 0.7), jpeg: /\.jpe?g$/i.test(outPath) })
 await browser.close()
 if (result.error) { console.error('scene-composite:', result.error); process.exit(1) }
 const { writeFileSync } = await import('fs')

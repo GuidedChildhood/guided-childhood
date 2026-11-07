@@ -59,9 +59,21 @@ This is the ban series continued.
 
 If your child is twelve now, what do you want them to understand by the day the checks start?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Ofcom has named four ways to check that a UK user is 16, and says no method is "completely robust against circumvention by children".
+
+The quieter line in the same document is the one I keep returning to. Ofcom will publish research on how children get round the checks within twelve months of the ban taking effect, which means the first year runs without it.
+
+I go through all four methods, the numbers that decide who actually gets through, and which of those numbers are Ofcom's own.
+
+If the first year runs with no evidence on circumvention, what fills that gap in your house?
+
 ### First comment
 
-Source: Ofcom, "Rapid assessment of highly effective age assurance at 16", 29 October 2026. The four methods, the 94 percent (all UK residents aged 16 and over, not 16 and 17 year olds), the 150,000, the 90 percent bank account figure (UK 16 to 17 year olds), "a few years" margin on facial estimation and the twelve month circumvention research commitment are all from that document. "Cannot be entirely eliminated" is Ofcom's wording. My line about the first year is my reading, not Ofcom's. If you want a starting point for your own child: guidedchildhood.com/v/li-1103-ofcom-four (link to be made on /dashboard/admin/videos, channel LinkedIn).
+Source: Ofcom, "Rapid assessment of highly effective age assurance at 16", 29 October 2026, and I want to be precise about which parts are Ofcom's and which are not, because I have seen several of these misattributed. From Ofcom: the four methods, its phrase for them as methods currently capable of being highly effective, the challenge age approach with a second check near the threshold, the commitment to publish research on circumvention within twelve months of the ban taking effect, and the quoted wording that no age assurance method is "completely robust against circumvention by children". The 94 percent is people aged 16 and over holding a passport or driving licence, which is the whole adult population and not 16 and 17 year olds; that figure and the roughly 90 percent bank account figure for 16 and 17 year olds both reach me through one secondary summary rather than the document itself. The 150,000 holding neither document is NOT Ofcom's estimate: it comes from CitizenCard, out of a school survey of 8,459 sixteen and seventeen year olds that Ofcom itself describes as a non representative sample. And I am not giving you a margin of error for face scanning in years, because no source I can reach quotes Ofcom putting a number on it; the remedy is confirmed, the size is not. I have not read the primary document, because Ofcom's site refuses the tools I use. My line about the first year is my reading, not Ofcom's. If you want a starting point for your own child: guidedchildhood.com/v/li-1103-ofcom-four (link to be made on /dashboard/admin/videos, channel LinkedIn).
 
 ### Checked
 
@@ -92,6 +104,18 @@ What does carry across any country is the habit of asking who is on the other si
 This is the children and AI series continued.
 
 When your child is stuck or worried, who do you think they ask first?
+
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Australia's online safety regulator asked 1,950 children about AI, and 78 percent had used an assistant while only 8 percent had used a companion.
+
+Almost all the worry, and almost all the proposed rules, are aimed at the 8 percent. The tool nearly four children in five actually use is the ordinary assistant, the one parents think of as homework help.
+
+I've written up what the survey found, what its wider numbers can and can't carry, and why these are Australian children rather than British ones.
+
+Does the AI in your house look like homework help, or has it become something else?
 
 ### First comment
 
@@ -126,9 +150,21 @@ This is the ban series continued.
 
 Would you let your child use a face scan or a bank check to get into an app, and what would you want promised in return?
 
+### Share to your network
+
+A few sentences to sit above the post when you reshare it. Leads on the number, adds something the post keeps until later, and asks a different question so the reshare is not a duplicate of the original.
+
+Ofcom has four ways to check that a UK user is 16, and each one asks a family to hand over something different.
+
+A passport or driving licence. A digital ID you do once and reuse. A bank check, which about 90 percent of sixteen and seventeen year olds could pass. Or a face scan, which has a margin of error right at the age that matters.
+
+I take each one in turn and say what it costs, including the figure doing the rounds that isn't actually Ofcom's.
+
+Which of the four would you be most reluctant to hand over?
+
 ### First comment
 
-Source: Ofcom, "Rapid assessment of highly effective age assurance at 16", 29 October 2026. The four methods, the 150,000 (16 and 17 year olds with neither passport nor driving licence), the 90 percent bank account figure, the margin of error "of a few years at 16" and the plan to consult on draft guidance in the coming months are all from that document. "Around one in ten" is my arithmetic from the 90 percent, not an Ofcom number. A starting point for the conversation at home: guidedchildhood.com/v/li-1109-face-scan (link to be made on /dashboard/admin/videos, channel LinkedIn).
+Source: Ofcom, "Rapid assessment of highly effective age assurance at 16", 29 October 2026, with the attributions separated out, because several of these get credited to Ofcom when they should not be. From Ofcom: the four methods, the challenge age approach with a second check for anyone scanning near the line, and the plan to consult on draft guidance once the Government's regulations are laid. The roughly 90 percent bank account figure for 16 and 17 year olds reaches me through one secondary summary rather than the document itself, and "around one in ten" is my arithmetic from it rather than an Ofcom number. The 150,000 holding neither a passport nor a licence is NOT Ofcom's estimate: it is CitizenCard's, from a school survey of 8,459 sixteen and seventeen year olds that Ofcom itself calls a non representative sample, so treat it as an order of magnitude. I am not stating a margin of error in years for face scanning, because no source I can reach quotes Ofcom giving one. I have not read the primary document; Ofcom's site refuses the tools I use. A starting point for the conversation at home: guidedchildhood.com/v/li-1109-face-scan (link to be made on /dashboard/admin/videos, channel LinkedIn).
 
 ### Checked
 
