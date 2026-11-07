@@ -1,0 +1,202 @@
+<script>
+const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const key = (n) => 'gdc-week-posted-' + n;
+const read = (n) => { try { return localStorage.getItem(key(n)) === '1' } catch (e) { return false } };
+const write = (n, v) => { try { v ? localStorage.setItem(key(n), '1') : localStorage.removeItem(key(n)) } catch (e) {} };
+
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+/* Dates are built from parts so a date never shifts by a timezone. */
+function toDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function monday(dt) {
+  const d = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+  const shift = (d.getDay() + 6) % 7;       // Monday is 0
+  d.setDate(d.getDate() - shift);
+  return d;
+}
+const stamp = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const longDate = (d) => DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+const shortDate = (d) => d.getDate() + ' ' + MONTHS[d.getMonth()];
+
+const today = (() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()) })();
+
+/* Group the slots into Monday weeks, in order. */
+const weeks = [];
+D.slots.forEach((s) => {
+  s.dt = toDate(s.date);
+  const k = stamp(monday(s.dt));
+  let w = weeks.find((x) => x.key === k);
+  if (!w) { w = {key: k, start: monday(s.dt), slots: []}; weeks.push(w) }
+  w.slots.push(s);
+});
+weeks.sort((a, b) => a.start - b.start);
+
+/* Open on the week containing today, else the nearest week still ahead,
+   else the last one, so the page is never blank. */
+let at = weeks.findIndex((w) => stamp(w.start) === stamp(monday(today)));
+if (at < 0) at = weeks.findIndex((w) => w.start >= today);
+if (at < 0) at = weeks.length - 1;
+
+/* Copy as PLAIN TEXT, always. A textarea's value is plain text by definition,
+   so execCommand from a hidden one can never carry styling into LinkedIn.
+   The last resort reveals a plain white textarea, never the styled block. */
+async function copyPlain(text, btn) {
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+  const done = (msg) => {
+    btn.textContent = msg;
+    setTimeout(() => { btn.textContent = btn.dataset.label }, 1800);
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return done('Copied');
+    }
+  } catch (e) { /* throws in app webviews and insecure contexts, fall through */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand && document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) return done('Copied');
+  } catch (e) { /* fall through */ }
+  const host = btn.closest('.txt') || btn.closest('.copy');
+  if (host && !host.querySelector('textarea.manual')) {
+    const ta = document.createElement('textarea');
+    ta.className = 'manual';
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    host.appendChild(ta);
+    ta.focus(); ta.select();
+  }
+  done('Copy from the white box');
+}
+
+const LABEL = {body: 'Copy post', comment: 'Copy first comment', share: 'Copy share note'};
+
+function slotCard(s) {
+  const isDone = read(s.n);
+  const isToday = stamp(s.dt) === stamp(today);
+  const steps = D.steps.map((st) => `
+      <li>
+        <div class="txt">
+          <span>${esc(st.t)}</span>
+          ${st.copy ? `<button type="button" data-copy="${st.copy}" data-n="${esc(s.n)}">${LABEL[st.copy]}</button>` : ''}
+        </div>
+      </li>`).join('');
+  return `
+    <article class="slot ${isToday && !isDone ? 'now' : ''} ${isDone ? 'is-done' : ''}" data-n="${esc(s.n)}">
+      <div class="head">
+        <div>
+          <div class="when">${isToday ? 'Today, ' : ''}${esc(longDate(s.dt))}, morning</div>
+          <div class="title">${esc(s.title)}</div>
+        </div>
+        <div class="chips">
+          <span class="chip num">GDC-${esc(s.n)}</span>
+          <span class="chip">${s.chars} chars</span>
+          ${s.card ? '<span class="chip">has a card</span>' : '<span class="chip warn">no image</span>'}
+        </div>
+      </div>
+      <p class="why">${esc(s.why)}</p>
+      ${s.gate ? `<p class="gate"><b>Before you post.</b> ${esc(s.gate)}</p>` : ''}
+      <ol class="steps">${steps}</ol>
+      <details>
+        <summary>Read the whole post, the first comment and the share note</summary>
+        <div class="copy">
+          <div class="top"><span class="when">The post</span><button type="button" class="ghost" data-copy="body" data-n="${esc(s.n)}">Copy post</button></div>
+          <pre>${esc(s.body)}</pre>
+          <div class="top"><span class="when">First comment</span><button type="button" class="ghost" data-copy="comment" data-n="${esc(s.n)}">Copy first comment</button></div>
+          <pre>${esc(s.comment)}</pre>
+          ${s.share ? `
+          <div class="top"><span class="when">Share note, for a reshare in a week or two</span><button type="button" class="ghost" data-copy="share" data-n="${esc(s.n)}">Copy share note</button></div>
+          <pre>${esc(s.share)}</pre>` : ''}
+        </div>
+      </details>
+      <label class="done"><input type="checkbox" id="done-${esc(s.n)}" ${isDone ? 'checked' : ''}> Posted, and the first comment is up</label>
+    </article>`;
+}
+
+function renderToday() {
+  const el = document.getElementById('today');
+  const left = D.slots.filter((s) => !read(s.n));
+  const mine = D.slots.find((s) => stamp(s.dt) === stamp(today));
+  if (!left.length) {
+    el.className = 'today rest';
+    el.innerHTML = '<div class="big">All ' + D.slots.length + ' posted.</div><p>Nothing left in the queue. Next week needs new posts.</p>';
+    return;
+  }
+  if (mine && !read(mine.n)) {
+    el.className = 'today';
+    el.innerHTML = '<div class="when">Today</div><div class="big">GDC-' + esc(mine.n) + ', ' + esc(mine.title) + '</div>' +
+      '<p>' + esc(mine.why) + '</p>';
+    return;
+  }
+  if (mine) {
+    el.className = 'today rest';
+    const nxt = D.slots.find((s) => s.dt > today && !read(s.n));
+    el.innerHTML = '<div class="big">Done for today.</div><p>' +
+      (nxt ? 'Next is ' + esc(longDate(nxt.dt)) + ', GDC-' + esc(nxt.n) + '.' : 'Nothing else scheduled.') + '</p>';
+    return;
+  }
+  const nxt = D.slots.find((s) => s.dt >= today && !read(s.n));
+  const over = D.slots.filter((s) => s.dt < today && !read(s.n));
+  el.className = 'today rest';
+  el.innerHTML = '<div class="big">Nothing due today.</div><p>' +
+    (nxt ? 'Next is ' + esc(longDate(nxt.dt)) + ', GDC-' + esc(nxt.n) + ', ' + esc(nxt.title) + '.' : 'Nothing else scheduled.') +
+    (over.length ? ' ' + over.length + ' slot' + (over.length > 1 ? 's have' : ' has') + ' gone by unposted, and they are still in the weeks above.' : '') +
+    '</p>';
+}
+
+function render() {
+  const w = weeks[at];
+  document.getElementById('weeklabel').textContent = 'Week of ' + shortDate(w.start);
+  document.getElementById('week').innerHTML = w.slots.map(slotCard).join('');
+  const done = D.slots.filter((s) => read(s.n)).length;
+  document.getElementById('prog').textContent =
+    done + ' of ' + D.slots.length + ' posted, ' + (D.slots.length - done) + ' to go. Week ' +
+    (at + 1) + ' of ' + weeks.length + '.';
+  document.getElementById('prev').disabled = at === 0;
+  document.getElementById('next').disabled = at === weeks.length - 1;
+  renderToday();
+}
+
+document.getElementById('desklink').href = D.desk;
+document.getElementById('prev').addEventListener('click', () => { if (at > 0) { at--; render() } });
+document.getElementById('next').addEventListener('click', () => { if (at < weeks.length - 1) { at++; render() } });
+document.getElementById('now').addEventListener('click', () => {
+  let i = weeks.findIndex((x) => stamp(x.start) === stamp(monday(today)));
+  if (i < 0) i = weeks.findIndex((x) => x.start >= today);
+  at = i < 0 ? weeks.length - 1 : i;
+  render();
+});
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-copy]');
+  if (!b) return;
+  const s = D.slots.find((x) => x.n === b.dataset.n);
+  if (!s) return;
+  copyPlain(s[b.dataset.copy], b);
+});
+
+document.addEventListener('change', (e) => {
+  if (!e.target.matches('label.done input')) return;
+  const art = e.target.closest('article');
+  write(art.dataset.n, e.target.checked);
+  art.classList.toggle('is-done', e.target.checked);
+  if (e.target.checked) art.classList.remove('now');
+  const done = D.slots.filter((s) => read(s.n)).length;
+  document.getElementById('prog').textContent =
+    done + ' of ' + D.slots.length + ' posted, ' + (D.slots.length - done) + ' to go. Week ' +
+    (at + 1) + ' of ' + weeks.length + '.';
+  renderToday();
+});
+
+render();
+</script>

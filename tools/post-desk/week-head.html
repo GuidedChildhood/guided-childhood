@@ -1,0 +1,125 @@
+<title>Posting Week</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* One column. A today banner, then one week at a time, each post a numbered
+   run of steps. Same tokens as the Post Desk so it reads as the same tool. */
+:root{
+  --bg:#F9F8F6; --card:#FFFFFF; --fg:#1A1A2E; --soft:#52526A; --line:#EAEAF0;
+  --gold:#EDC35F; --gold-dark:#C99A28; --done:#2F8F6B; --warn:#B4552F;
+  --display:'Nunito',ui-rounded,system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1D1A12;--card:#2E2818;--fg:#FFF9E8;--soft:#CFC5A8;--line:#3E3726;--gold-dark:#EDC35F;--done:#5FC49B;--warn:#E89472;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1D1A12;--card:#2E2818;--fg:#FFF9E8;--soft:#CFC5A8;--line:#3E3726;--gold-dark:#EDC35F;--done:#5FC49B;--warn:#E89472;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:16px;line-height:1.45;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dark)}
+h1{font-weight:900;font-size:clamp(30px,7vw,44px);line-height:1.03;letter-spacing:-.02em;margin:6px 0 0;text-wrap:balance}
+h2{font-weight:900;font-size:20px;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{color:var(--soft);font-weight:600;margin:10px 0 0;max-width:62ch}
+
+/* Today */
+.today{background:var(--card);border:2px solid var(--gold);border-radius:20px;box-shadow:0 5px 0 var(--gold-dark);padding:20px;display:flex;flex-direction:column;gap:8px}
+.today .big{font-weight:900;font-size:clamp(20px,5vw,26px);letter-spacing:-.01em;text-wrap:balance}
+.today p{margin:0;color:var(--soft);font-weight:600;font-size:15px}
+.today.rest{border-style:dashed;box-shadow:none}
+
+/* Week switcher */
+.weeknav{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.weeknav .label{font-weight:900;font-size:18px;letter-spacing:-.01em;min-width:0}
+.weeknav .btns{display:flex;gap:8px;flex:none}
+.prog{font-family:var(--mono);font-size:11.5px;color:var(--soft);letter-spacing:.06em}
+
+/* A slot */
+.slot{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.slot.now{border:2px solid var(--gold);box-shadow:0 5px 0 var(--gold-dark)}
+.slot.is-done{opacity:.5}
+/* Always stacked, so every card's head reads the same whatever the title length. */
+.slot .head{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.when{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dark);font-variant-numeric:tabular-nums}
+.title{font-weight:900;font-size:19px;letter-spacing:-.01em;min-width:0;text-wrap:balance}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:8px;background:var(--bg);color:var(--soft);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.chip.num{background:var(--gold);color:#1A1A2E;border-color:var(--gold-dark)}
+.chip.warn{color:var(--warn);border-color:var(--warn)}
+.why{margin:0;color:var(--soft);font-weight:600;font-size:14.5px}
+.gate{margin:0;background:var(--bg);border:1px solid var(--warn);border-left-width:4px;border-radius:12px;padding:12px;font-weight:600;font-size:14.5px;color:var(--fg)}
+.gate b{color:var(--warn)}
+
+/* The steps, a real sequence so they are numbered */
+ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;min-width:0}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;font-size:12px;width:28px;height:28px;border-radius:9px;background:var(--bg);border:1px solid var(--line);color:var(--gold-dark);display:grid;place-items:center}
+ol.steps .txt{font-weight:600;font-size:15px;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+ol.steps li.did::before{background:var(--done);border-color:var(--done);color:#fff}
+
+.copy{display:flex;flex-direction:column;gap:8px;min-width:0}
+.copy .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.copy pre{margin:0;white-space:pre-wrap;font-family:var(--display);font-weight:600;font-size:15px;color:var(--fg);background:var(--bg);border-radius:12px;padding:14px;min-width:0;overflow-wrap:anywhere;border:1px solid var(--line)}
+button{font-family:var(--display);font-weight:800;font-size:14px;border:0;border-radius:12px;padding:8px 14px;background:var(--gold);color:#1A1A2E;box-shadow:0 3px 0 var(--gold-dark);cursor:pointer}
+button.ghost{background:transparent;color:var(--soft);box-shadow:none;border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:default;box-shadow:none}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+label.done{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--soft);border-top:1px solid var(--line);padding-top:14px}
+label.done input{width:22px;height:22px;accent-color:var(--done)}
+details>summary{cursor:pointer;font-weight:800;color:var(--soft);font-size:14px}
+details[open]>summary{margin-bottom:10px}
+.rules{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.rules ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-weight:600;color:var(--soft);font-size:15px}
+a{color:var(--gold-dark);font-weight:800}
+/* Plain white box, the last resort copy. Never the styled block, so a hand
+   copy cannot carry a dark background into LinkedIn. */
+textarea.manual{width:100%;min-height:140px;font:600 15px var(--display);color:#111;background:#fff;border:2px solid var(--warn);border-radius:12px;padding:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Guided Childhood</div>
+    <h1>Posting Week</h1>
+    <p class="lede">Four a week, weekday mornings, one a day and never two. The order is
+    whatever goes stale soonest. The Post Desk is the library; this is the plan.</p>
+  </header>
+
+  <div id="today" class="today"></div>
+
+  <div class="weeknav">
+    <div class="label" id="weeklabel"></div>
+    <div class="btns">
+      <button type="button" class="ghost" id="prev">Earlier</button>
+      <button type="button" class="ghost" id="now">This week</button>
+      <button type="button" class="ghost" id="next">Later</button>
+    </div>
+  </div>
+  <div class="prog" id="prog"></div>
+
+  <section id="week" class="band" style="display:flex;flex-direction:column;gap:16px"></section>
+
+  <div class="rules">
+    <h2>The rules this plan is built on</h2>
+    <ul>
+      <li>One post a day at most. Two posts less than about eight hours apart eat each other's first hour.</li>
+      <li>The link goes in your first comment, never in the post. A year of links in the body produced thirteen clicks.</li>
+      <li>Be there for the first sixty minutes. Your own replies count as comments and lift the post.</li>
+      <li>A number in the first line, inside a complete sentence, and one question at the end next to the comment box.</li>
+      <li>Nothing here is posted or scheduled for you. You post, so the first comment lands the second it goes live.</li>
+      <li>Thirteen of these fourteen have no image, which every card says. A text post still works and several
+      of your best were text, but it is the one thing on this page that is missing rather than decided.</li>
+    </ul>
+  </div>
+
+  <div class="rules">
+    <h2>Where the full text lives</h2>
+    <ul>
+      <li>Every post, first comment, share note and all thirteen long form issues are on the <a id="desklink" href="#">Post Desk</a>.</li>
+      <li>Ticking a post here is this page's own list. The desk keeps its own.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const D = __DATA__;
+</script>
