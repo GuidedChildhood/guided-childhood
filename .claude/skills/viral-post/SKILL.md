@@ -243,6 +243,11 @@ headline, hero stat, caption, two bar values and labels, and the kicker, open it
 photo led post instead (founder story, softer posts), fall back to a real photo of Justin woven
 into the story, per linkedin-engagement.md.
 
+Render it with `node .claude/skills/viral-post/render-card.js card.html card.png`. It embeds the
+real Playfair Display and Source Serif 4 from `fonts/` and refuses to write a card whose fonts
+did not load, because Google Fonts is blocked in the build container and a screenshot silently
+falls back to Georgia.
+
 ---
 
 ## PART 5. BEST IN CLASS LINKEDIN, 2026 (what the algorithm rewards)

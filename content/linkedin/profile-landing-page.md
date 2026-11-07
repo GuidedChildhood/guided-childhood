@@ -22,8 +22,9 @@ line that turns a stranger reading one post into a follower.
 1. **Link: guidedchildhood.com/starter-pack**
    Title: `What stage is your child?`
    Description: `Three questions, no sign up. See what your child is ready for next, and the one thing to work on this week.`
-2. **The Substack newsletter.** The second thing a stranger can own. Needs the
-   Substack address from Justin.
+2. **The Substack newsletter: https://open.substack.com/pub/justiniphillips**
+   The second thing a stranger can own, the follower who is his rather than
+   LinkedIn's.
 3. **The beta = 0.061 post** (75,842 impressions). The best proof that the
    account is worth following, and the first card in the series.
 4. **The schools banner** (`content/linkedin/featured-banner/banner-1200x627.png`),

@@ -50,11 +50,10 @@ ratio. Putting bars on it would have been a data visualisation of nothing, so
 the card is hero, caption and kicker, and the layout was recentred so the cream
 reads as deliberate instead of as a gap.
 
-**One limitation.** Google Fonts is blocked from the build container, so the
-rendered PNG fell back to Georgia instead of Playfair Display. Opening
-`stat-card.html` in a browser on a machine with network access and screenshotting
-at 1080 by 1350 gives the intended face. The PNG is usable as it stands; it is
-just not the final typeface.
+**Fonts fixed 7 November.** The first PNG fell back to Georgia because Google
+Fonts is blocked from the build container. It has been re-rendered in the real
+Playfair Display and Source Serif 4 with `.claude/skills/viral-post/render-card.js`,
+which embeds the fonts. The PNG in this folder is final.
 
 ## The post
 
