@@ -19,7 +19,7 @@
     {
       "id": "ks2-04-screen-routines", "character": "bloop", "register": "playful", "titleKey": "bloop",
       "arrival": null,
-      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission, and it is a good one.", "Build one screen routine this week: warn, finish, swap.", "Stick to it for seven days and see what changes. I think you will like it."] }
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission, and it is a good one.", "Build one screen routine this week: agree, finish, swap.", "Stick to it for seven days and see what changes. I think you will like it."] }
     },
     {
       "id": "ks2-05-gaming-time-spend", "character": "bloop", "register": "playful", "titleKey": "bloop",

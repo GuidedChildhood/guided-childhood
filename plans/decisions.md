@@ -240,3 +240,7 @@ Evidence map C1: Hiniker 2016 (ages 1 to 5) found warned endings went with more 
 ## 6 November 2026: real photos first, filled in, on every listing
 
 Justin: "make the real images the first image on Etsy", "real images for all listings and super real images", "make the chart look great printed out, special that someone will buy". The real life photo is now photo one (the thumbnail) on every listing, and the Canva cover moves a few places in. The eight scenes are enlarged to 2160px on Higgsfield, and scene-composite.mjs now matches the page to the room (nine samples a pixel for lens softness and clean edges, ink lifted to what a printer lays down, paper fibre and grain). Charts set `inUse`, so the photo shows them filled in by `content/printables/in-use.js`: a name, jobs written in, a week of stars, the daily totals. Only the photo is filled in, never the product. The card decks, both bundles and the Guided Times get real photos too, so all 23 listings have them. Rules in the printables engine skill, step 7b.
+
+## 7 November 2026: the two lessons stop teaching the warning
+
+Justin: "Rewrite both." The Foundation home lesson's five minute whisper becomes the stopping place, picked before the screen goes on; KS2 ks2-04's cool down lap becomes agree, finish, swap, and ks2-05's recall follows. Migration 389 (gen-389.mjs) writes them, guarded on production's hashes so a hand edit aborts it. Not applied. PR 1452.

@@ -96,13 +96,13 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Retrieval from last lesson. Thirty seconds of thinking time, then cold call two pupils for the three words of the lap, warn, finish, swap. Today builds on it, because the reason stopping is hard is not weakness, it is design, and we are about to see the blueprints.",
+      "script": "Retrieval from last lesson. Thirty seconds of thinking time, then cold call two pupils for the three words of the lap, agree, finish, swap. Today builds on it, because the reason stopping is hard is not weakness, it is design, and we are about to see the blueprints.",
       "minutes": 3,
       "options": [
         {
-          "text": "Warn, finish, swap: a warning that time is nearly up, finish the round you are in, then swap to the next thing",
+          "text": "Agree, finish, swap: agree the end before you start, finish the round you are in, then swap to the next thing",
           "correct": true,
-          "feedback": "That is the lap. The warning means no surprises, finishing the round means no rage quitting mid match, and swapping straight to something else stops the game pulling you back."
+          "feedback": "That is the lap. Agreeing the end first means no surprises, finishing the round means no rage quitting mid match, and swapping straight to something else stops the game pulling you back."
         },
         {
           "text": "Turn everything off instantly the second time is up",
@@ -112,7 +112,7 @@
         {
           "text": "Ask for ten more minutes, then ten more after that",
           "correct": false,
-          "feedback": "That is not a lap, that is extra time on a loop. The warning and the finish are what make stopping feel fair to everyone."
+          "feedback": "That is not a lap, that is extra time on a loop. The agreed end and the finish are what make stopping feel fair to everyone."
         }
       ],
       "question": "Warm up from last lesson. Screen time is nearly up and you are mid game. What is the cool down lap?"
