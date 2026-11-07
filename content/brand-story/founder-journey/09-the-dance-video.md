@@ -1,6 +1,6 @@
 # 9 · The dance video
 
-**Privacy: AMBER. Needs Justin's yes.** A specific story about Teo. The brief
+**Privacy: AMBER. Approved by Justin, 7 November 2026.** Including the second use of the scene. A specific story about Teo. The brief
 and the context both allow it only as "my youngest", only with his approval,
 and only told respectfully. Never named, no age (the founder canon says no
 children's ages, so the "around four" in the source is left out), and no
