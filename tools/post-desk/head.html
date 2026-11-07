@@ -1,0 +1,116 @@
+<title>Post Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* One column. Ready posts first, newest at the top, then ideas, then the map of where things live. */
+:root{
+  --bg:#F9F8F6; --card:#FFFFFF; --fg:#1A1A2E; --soft:#52526A; --line:#EAEAF0;
+  --gold:#EDC35F; --gold-dark:#C99A28; --done:#2F8F6B; --warn:#B4552F;
+  --display:'Nunito',ui-rounded,system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1D1A12;--card:#2E2818;--fg:#FFF9E8;--soft:#CFC5A8;--line:#3E3726;--gold-dark:#EDC35F;--done:#5FC49B;--warn:#E89472;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1D1A12;--card:#2E2818;--fg:#FFF9E8;--soft:#CFC5A8;--line:#3E3726;--gold-dark:#EDC35F;--done:#5FC49B;--warn:#E89472;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:16px;line-height:1.45;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px;display:flex;flex-direction:column;gap:30px}
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dark)}
+h1{font-weight:900;font-size:clamp(30px,7vw,44px);line-height:1.03;letter-spacing:-.02em;margin:6px 0 0;text-wrap:balance}
+h2{font-weight:900;font-size:22px;margin:0;letter-spacing:-.01em}
+.lede{color:var(--soft);font-weight:600;margin:10px 0 0;max-width:62ch}
+section.band{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card.top{border:2px solid var(--gold);box-shadow:0 5px 0 var(--gold-dark)}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.title{font-weight:900;font-size:19px;letter-spacing:-.01em;min-width:0;text-wrap:balance}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:8px;background:var(--bg);color:var(--soft);border:1px solid var(--line)}
+.chip.num{background:var(--gold);color:#1A1A2E;border-color:var(--gold-dark)}
+.chip.warn{color:var(--warn);border-color:var(--warn)}
+.copy{display:flex;flex-direction:column;gap:8px;min-width:0}
+.copy .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.copy pre{margin:0;white-space:pre-wrap;font-family:var(--display);font-weight:600;font-size:15px;color:var(--fg);background:var(--bg);border-radius:12px;padding:14px;min-width:0;overflow-wrap:anywhere;border:1px solid var(--line)}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--soft);letter-spacing:.04em}
+button{font-family:var(--display);font-weight:800;font-size:14px;border:0;border-radius:12px;padding:8px 14px;background:var(--gold);color:#1A1A2E;box-shadow:0 3px 0 var(--gold-dark);cursor:pointer}
+button.ghost{background:transparent;color:var(--soft);box-shadow:none;border:1px solid var(--line)}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+label.done{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--soft)}
+label.done input{width:20px;height:20px;accent-color:var(--done)}
+.card.is-done{opacity:.55}
+details>summary{cursor:pointer;font-weight:800;color:var(--soft);font-size:14px}
+details[open]>summary{margin-bottom:10px}
+a{color:inherit}
+.rules{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.rules ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-weight:600;color:var(--soft);font-size:15px}
+.map{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.map .card{gap:8px;padding:16px}
+.map p{margin:0;font-weight:600;color:var(--soft);font-size:14.5px}
+.idea p{margin:0;font-weight:600;font-size:15px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.field .val{font-weight:700;font-size:16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;overflow-wrap:anywhere}
+.field .val.sub{font-weight:600;font-size:15px;color:var(--soft)}
+.subjects{display:flex;flex-direction:column;gap:6px}
+.subjects .opt{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-weight:600;font-size:14.5px}
+.subjects .opt span{min-width:0;overflow-wrap:anywhere}
+.subjects button{padding:5px 10px;font-size:12.5px;box-shadow:0 2px 0 var(--gold-dark);flex:none}
+/* The manual fallback. A plain textarea, never a styled block, so a hand copy
+   carries no background colour into LinkedIn or Substack. */
+textarea.manual{width:100%;min-height:140px;font:600 15px var(--display);color:#111;background:#fff;border:2px solid var(--warn);border-radius:12px;padding:12px}
+.idea .why{color:var(--soft)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Guided Childhood</div>
+    <h1>Post Desk</h1>
+    <p class="lede">Everything that is written, checked and waiting to go out. Open this, copy the words, post them, tick it off. Nothing here has been posted or scheduled by anyone but you.</p>
+  </header>
+
+  <section class="band">
+    <h2>Ready to post</h2>
+    <p class="meta" id="count"></p>
+    <div id="posts" style="display:flex;flex-direction:column;gap:16px"></div>
+  </section>
+
+  <section class="band">
+    <h2>The rules every post already passed</h2>
+    <div class="rules">
+      <ul>
+        <li>A number inside a complete sentence that contradicts what the reader expects, in the first two lines. Not a bare number, not one delayed to sentence three.</li>
+        <li>No dashes anywhere, checked by machine over the full unicode dash range.</li>
+        <li>No link in the body. A year of in post links produced thirteen clicks, so the link goes in the first comment and the profile button does the work.</li>
+        <li>One closing question, nothing after it.</li>
+        <li>One scene from your own house at most, and never in line one. Every scene led opening in the past year sits in the bottom third.</li>
+        <li>Every figure traced to a primary source before the post exists.</li>
+        <li>Every Copy button puts <strong>plain text</strong> on the clipboard, never styled HTML, so nothing arrives in LinkedIn or Substack carrying this page's background colour.</li>
+        <li>Contractions, and at least one very short paragraph. Nine posts were rewritten on 5 November because none of them had either, and that uniformity is what reads as machine written.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Ideas, swept this week</h2>
+    <p class="meta">Nothing here is a post yet. Each one needs its figures checked against the primary source first, which is the step that caught a false claim in GDC-044 before it went out.</p>
+    <div id="ideas" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <section class="band">
+    <h2>Newsletters, with their titles and subtitles</h2>
+    <p class="meta" id="newscount"></p>
+    <div id="news" style="display:flex;flex-direction:column;gap:16px"></div>
+  </section>
+
+  <section class="band">
+    <h2>Where everything lives</h2>
+    <div class="map">
+      <div class="card"><div class="eyebrow">This page</div><p>The posts themselves, in full, ready to copy. Start here.</p></div>
+      <div class="card"><div class="eyebrow">Drive, GDC posts</div><p>The same posts as documents, plus the ones whose copy only exists there: 035, 036, 040, 041 and 042. A document titled NOT POSTED YET has not gone out. Only you change that.</p></div>
+      <div class="card"><div class="eyebrow">Instagram and Facebook</div><p>This week's cards are on the <a href="https://claude.ai/artifact/1yUXSQ4EdHBThHkEPfWf7v">GDC posts page</a>, rebuilt every Sunday evening.</p></div>
+      <div class="card"><div class="eyebrow">The register</div><p>content/gdc-post-register.md in the repo is the only place a number is claimed. A row stays ready until you say otherwise.</p></div>
+    </div>
+  </section>
+</div>
+<script>
+const D = __DATA__;

@@ -189,8 +189,15 @@ build.
   classroom, kitchen table, Christmas, from `content/printables/listing-scenes/`)
   and the build lays its real hero page onto the blank sheet in each, as
   `01c` and `01d` after the cover. Never ask an image model to draw the
-  printable: generate a new scene with a blank sheet only, measure its
-  corners into `quads.json`, and composite (see that folder's README).
+  printable: generate a new scene with a blank sheet only, enlarge it to
+  2160px, measure its corners at 1024px into `quads.json`, and composite
+  (see that folder's README). Every listing gets real photos, card decks
+  (a sheet of cards by the scissors) and bundles (`scenePack`) included.
+- **Real photo first.** (Justin, 6 November 2026.) On Etsy the first real
+  photo is photo one, the thumbnail shoppers see, and the Canva cover sits
+  a few places in. Charts, trackers and boards set `inUse` so the photo
+  shows them filled in, with a child's name, jobs written in and a week of
+  stars: a chart in use sells, a blank one reads as a mockup.
 - **Check by eye.** Render the whole set, make a contact sheet, and check
   that no headline runs under the pages, nothing touches the footer, and
   the cover reads at thumbnail size, before anything is uploaded.
