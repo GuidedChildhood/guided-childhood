@@ -39,10 +39,10 @@ check('the no link rows are never offered as a link',
 
 // ── THE TABLE ───────────────────────────────────────────────────────────────
 const sql = read('supabase/migrations/379_stage_checks_by_source.sql').replace(/--[^\n]*/g, '')
-// The channel list was last redrawn by 387 (tiktok and youtube), so that is
+// The channel list was last redrawn by 388 (tiktok and youtube), so that is
 // the one the app must agree with.
-const sql387 = read('supabase/migrations/387_utm_and_the_video_channels.sql').replace(/--[^\n]*/g, '')
-const channelList = sql387.match(/check \(channel in \(([\s\S]*?)\)\)/)?.[1] ?? ''
+const sql388 = read('supabase/migrations/388_utm_and_the_video_channels.sql').replace(/--[^\n]*/g, '')
+const channelList = sql388.match(/check \(channel in \(([\s\S]*?)\)\)/)?.[1] ?? ''
 check('the database allows exactly the channels the app knows',
   CHANNELS.every(c => channelList.includes(`'${c}'`)) && (channelList.match(/'/g) ?? []).length === CHANNELS.length * 2)
 check('the no link rows are switched off, so /v/direct is not a way in',
@@ -53,8 +53,8 @@ check('the share action’s code is a link', sql.includes(`'${SHARE_CODE}'`))
 check('tiktok and youtube are channels a founder can make a link for',
   ['tiktok', 'youtube'].every(c => LINK_CHANNELS.includes(c)))
 check('the counts by post are service role only too',
-  /revoke all on public\.video_link_utm_counts from anon, authenticated/.test(sql387)
-  && !/grant[^;]*video_link_utm_counts[^;]*to[^;]*(anon|authenticated)/.test(sql387))
+  /revoke all on public\.video_link_utm_counts from anon, authenticated/.test(sql388)
+  && !/grant[^;]*video_link_utm_counts[^;]*to[^;]*(anon|authenticated)/.test(sql388))
 check('the counts are service role only',
   /revoke all on public\.video_link_counts from anon, authenticated/.test(sql)
   && !/grant[^;]*video_link_counts[^;]*to[^;]*(anon|authenticated)/.test(sql))

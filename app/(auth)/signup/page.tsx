@@ -27,16 +27,17 @@ import { redirect } from 'next/navigation'
 // closes and points at the good one. Nothing inside either flow moves.
 //
 // Nothing is lost by coming this way: /starter-pack carries the same
-// ProviderButtons, so Google sign up still works, and the email typed here
-// rides along in the query string so nobody types it twice. The wizard at
+// ProviderButtons, so Google sign up still works. The wizard at
 // /onboarding is untouched and still reached by anyone part way through setup
 // (app/(dashboard)/dashboard/page.tsx redirects there while onboarding_complete
 // is false), so a family mid setup today finishes exactly as before.
 
-export default async function SignupPage({ searchParams }: {
-  searchParams: Promise<{ email?: string }>
-}) {
-  const { email } = await searchParams
-  const to = email ? `/starter-pack?email=${encodeURIComponent(email)}` : '/starter-pack'
-  redirect(to)
+//
+// NO EMAIL IN THE REDIRECT (6 November 2026). This used to forward ?email= on
+// to /starter-pack, which never read it, so all it did was copy an address
+// into one more URL, and a URL lands in request logs, analytics and browser
+// history (the funnel audit, fix 8). Nothing links here with ?email= now
+// either. Anything on the query string is dropped on purpose.
+export default function SignupPage() {
+  redirect('/starter-pack')
 }

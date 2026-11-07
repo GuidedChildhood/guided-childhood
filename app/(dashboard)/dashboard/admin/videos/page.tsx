@@ -125,11 +125,11 @@ export default async function VideoLinksPage() {
   }).filter(c => c.started > 0 || c.links > 0 || c.channel === 'direct')
     .sort((a, b) => b.startedWeek - a.startedWeek || b.started - a.started)
 
-  // ── BY POST, FROM THE UTMs (migration 387) ───────────────────────────────
+  // ── BY POST, FROM THE UTMs (migration 388) ───────────────────────────────
   //
   // The channel says which kind of link; the UTMs say which platform and which
   // post. Added up across codes, so a campaign that came in on a /v/ link and
-  // on a bare ?utm_ visit reads as one row. Before 387 both reads fail and the
+  // on a bare ?utm_ visit reads as one row. Before 388 both reads fail and the
   // table is simply not drawn.
   const { data: utmRows, error: utmError } = await admin.from('video_link_utm_counts')
     .select('utm_source, utm_campaign, started, started_week')

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { followLink, rememberLink, rememberUtm } from '@/lib/video/follow'
 import { readUtm, utmQuery, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 
-// The source link, /v/<code> (migrations 372, 379 and 387).
+// The source link, /v/<code> (migrations 372, 379 and 388).
 //
 // A film's caption, a LinkedIn first comment, a group seed, a Facebook post or
 // the share action on the stage result carries this. It counts the follow,
@@ -11,7 +11,7 @@ import { readUtm, utmQuery, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 // counts a start against the same code (/api/video-link/started) and
 // /api/trial/start writes it onto the profile at the grant.
 //
-// Since 387 the post's UTMs come too (funnel audit, 6 November 2026): counted
+// Since 388 the post's UTMs come too (funnel audit, 6 November 2026): counted
 // on the opened row, remembered for the start and the grant, and kept on the
 // redirect so PostHog's $pageview sees them. Only the four cleaned utm_* values
 // travel; any other parameter on the link is left behind. via=v tells the

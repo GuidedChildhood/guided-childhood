@@ -18,7 +18,7 @@ export type VideoLinkRow = {
   paying: number
 }
 
-/** One post, by its UTMs (migration 387). */
+/** One post, by its UTMs (migration 388). */
 export type CampaignRow = {
   source: string | null
   campaign: string | null
@@ -78,7 +78,7 @@ const CODE_HINT: Partial<Record<Channel, string>> = {
 export default function VideoLinks({ rows, channels, campaigns, fridayNumber, startedEver, byChannel }: {
   rows: VideoLinkRow[]
   channels: ChannelRow[]
-  /** Null before migration 387, when no UTMs are kept. */
+  /** Null before migration 388, when no UTMs are kept. */
   campaigns: CampaignRow[] | null
   fridayNumber: number
   startedEver: number
@@ -164,7 +164,7 @@ export default function VideoLinks({ rows, channels, campaigns, fridayNumber, st
       </section>
 
       {/* ── BY POST ──────────────────────────────────────────────────────
-          The UTMs on a post's link (migration 387): which platform and which
+          The UTMs on a post's link (migration 388): which platform and which
           post, beside the channel above. Only visits whose link carried
           them are here. */}
       {campaigns && (

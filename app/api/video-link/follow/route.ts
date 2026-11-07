@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { followLink, rememberLink, rememberUtm } from '@/lib/video/follow'
 import { readUtm } from '@/lib/video/utm'
 
-// /starter-pack?src=<code>, read (migrations 379 and 387).
+// /starter-pack?src=<code>, read (migrations 379 and 388).
 //
 // The Planet Post went to print with ?src=planet-post-1 and The Guided Planet
 // publishes ?src=guided-planet-00N, and until now nothing read either. The
@@ -10,7 +10,7 @@ import { readUtm } from '@/lib/video/utm'
 // remembered exactly as /v/<code> would, an unknown one is ignored and the
 // visitor's start counts as no link.
 //
-// Since 387 the stage check posts the visit's UTMs as well, with or without a
+// Since 388 the stage check posts the visit's UTMs as well, with or without a
 // src. They go on the opened row and into their own cookie for the start and
 // the trial grant. With no src, a utm_campaign that is itself a live code is
 // followed as one (funnel audit, fix 7), so a post that carries only UTMs is

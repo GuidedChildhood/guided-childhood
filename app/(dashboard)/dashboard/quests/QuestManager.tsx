@@ -27,6 +27,7 @@ import { PRINTABLES } from '@/lib/printables/registry'
 import { deviceLabel, deviceEmoji, DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
 import type { FamilyDevice } from '@/lib/devices/family'
+import { ADD_CHILD_NAME_KEY } from '@/lib/digi/new-name'
 
 // When a child asks for a printable their pitch reads either "Print the
 // {title} sheet" (full access, no printer at home) or "Please can I do the
@@ -198,19 +199,26 @@ export default function QuestManager() {
   // Open straight to a tab when linked with ?tab=, so the setup step Send
   // your child their phone link lands on Share, not the default Quests tab.
   //
-  // ?add_child=Olga opens the add child form with the name already in it.
-  // DiGi offers that link when a parent talks about a child we have never been
-  // introduced to (lib/digi/new-name.ts), and an offer that lands on a page
-  // with the form still closed is an offer that made them do the work twice.
+  // ?add_child= opens the add child form, with the name already in it when
+  // DiGi offered one. DiGi offers that link when a parent talks about a child
+  // we have never been introduced to (lib/digi/new-name.ts), and an offer that
+  // lands on a page with the form still closed is an offer that made them do
+  // the work twice. The name comes from this tab's sessionStorage, never the
+  // URL (6 November 2026): ?add_child=Olga wrote a child's name into request
+  // logs and browser history. Taken once, so a reload does not refill it.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const t = params.get('tab')
     if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
     // An empty ?add_child= opens the form blank: the stage check's welcome
     // back card sends a signed in parent here to Check another child.
-    const name = params.get('add_child')
-    if (name !== null) {
+    if (params.get('add_child') !== null) {
       setAddingChild(true)
+      let name = ''
+      try {
+        name = sessionStorage.getItem(ADD_CHILD_NAME_KEY) ?? ''
+        sessionStorage.removeItem(ADD_CHILD_NAME_KEY)
+      } catch { /* storage blocked: the form opens blank */ }
       if (name.trim()) setNewChildName(name.trim().slice(0, 60))
     }
   }, [])

@@ -185,7 +185,18 @@ export function newNamesIn(texts: string[], known: string[] = []): string[] {
   return found
 }
 
-/** Where the offer goes: the add child form we already have, name filled in. */
-export function addChildHref(name: string): string {
-  return `/dashboard/quests?add_child=${encodeURIComponent(name)}`
+/** Where the offer goes: the add child form we already have, opened. */
+export const ADD_CHILD_HREF = '/dashboard/quests?add_child='
+
+// THE NAME RIDES IN THE TAB, NOT THE URL (6 November 2026). The link used to be
+// ?add_child=Olga, which wrote a child's name into request logs, analytics and
+// browser history (the funnel audit, fix 8, and the sweep that followed it).
+// Now the offer's onClick holds the name in this tab's sessionStorage and the
+// add child form (QuestManager) takes it from there, once. If storage is
+// blocked the form still opens, blank, which is what an empty ?add_child= has
+// always done.
+export const ADD_CHILD_NAME_KEY = 'gc_add_child_name'
+
+export function holdNewChildName(name: string): void {
+  try { sessionStorage.setItem(ADD_CHILD_NAME_KEY, name.trim().slice(0, 60)) } catch { /* the form opens blank */ }
 }

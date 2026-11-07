@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
     } catch { /* attribution is nice to have, the trial is not */ }
   }
 
-  // ── WHICH POST SENT THEM, BY ITS UTMs (migration 387) ──────────────────
+  // ── WHICH POST SENT THEM, BY ITS UTMs (migration 388) ──────────────────
   //
   // The UTMs of the visit that brought them (funnel audit, 6 November 2026),
   // beside video_link: the code says which of our links, the UTMs say which

@@ -4,7 +4,7 @@ import { VIDEO_LINK_COOKIE, VIDEO_STARTED_COOKIE, VIDEO_LINK_MAX_AGE_SECONDS, no
 import { UTM_COOKIE, utmCookieValue, utmColumns, type Utm } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
 
-// Following a source link, in one place (migrations 372, 379 and 387).
+// Following a source link, in one place (migrations 372, 379 and 388).
 //
 // Two ways in share it: /v/<code> in a caption, and /starter-pack?src=<code>
 // on things already printed or published (the Planet Post went to print with
@@ -12,12 +12,12 @@ import { hasUtm } from '@gc/shared/utm'
 // code in a cookie for the start counter and the trial grant, and clear any
 // earlier start marker, because a new follow is a new chance to start.
 //
-// Since 387 the follow carries the post's UTMs too: on the opened row, and in
+// Since 388 the follow carries the post's UTMs too: on the opened row, and in
 // their own cookie for the start counter and the trial grant.
 //
 // Server only: it writes with the service role.
 
-/** Insert an event row with its UTMs; on a database without 387, without them. */
+/** Insert an event row with its UTMs; on a database without 388, without them. */
 export async function insertLinkEvent(
   admin: ReturnType<typeof createAdminClient>,
   row: { code: string; kind: 'opened' | 'started' },
@@ -27,7 +27,7 @@ export async function insertLinkEvent(
   const { error } = await admin.from('video_link_events').insert({ ...row, ...cols })
   if (!error) return true
   if (!hasUtm(cols)) return false
-  // The count matters more than its UTMs: a database that has not had 387
+  // The count matters more than its UTMs: a database that has not had 388
   // rejects the new columns, so the row goes in without them.
   const retry = await admin.from('video_link_events').insert(row)
   return !retry.error

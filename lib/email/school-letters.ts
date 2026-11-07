@@ -23,6 +23,25 @@ export type LetterboxRow = {
   email: string
   po_number: string
   notes: string | null
+  /** Migration 387. The opaque value the pilot letter's licence link carries
+   *  instead of the school's details. Null only if the cron read a row before
+   *  the migration ran; the link then goes to the plain pricing page. */
+  prefill_token?: string | null
+}
+
+// THE LICENCE LINK CARRIES A TOKEN, NEVER A NAME (6 November 2026).
+//
+// It used to be /pricing?school=&name=&email=, which put a head's name and
+// address into server logs, browser history and Referer headers (the funnel
+// audit, fix 8). Now it is /pricing?pilot=<token>, the row's random
+// prefill_token, and the schools pricing page looks the row up on the server
+// (schools/lib/pilot-prefill.ts). Same one click, same form already filled in.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+export function licenceLink(token: string | null | undefined): string {
+  return token && UUID.test(token)
+    ? `${SITE}/pricing?pilot=${token.toLowerCase()}`
+    : `${SITE}/pricing`
 }
 
 const esc = (s: string) =>
@@ -78,7 +97,6 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
   const school = esc(r.school_name)
 
   if (r.band === 'pilot') {
-    const q = new URLSearchParams({ school: r.school_name, name: r.contact_name, email: r.email }).toString()
     return {
       subject: `Your pilot request for ${r.school_name}`,
       html: wrap([
@@ -86,7 +104,7 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
         `Thank you for asking for a pilot for ${school}. It is in, and I will reply within two working days, usually the same day, with your school code.`,
         `The code opens two lessons for a term, matched to the phase you teach, with the classroom player and the script on every slide, every printable for both, and the Hub. The rest of the scheme stays visible on the map and opens with a licence. One code for the whole staff room, no card, no contract, no pupil data.`,
         `To start on the day the code arrives: open <a href="${SITE}/curriculum" style="color:#C99A28;font-weight:700">the curriculum map</a>, find the two marked In your pilot, and press Teach this lesson. The night before takes five minutes with the run sheet.`,
-        `When the term ends you decide. Carrying on is one click, with your details already filled in: <a href="${SITE}/pricing?${esc(q)}" style="color:#C99A28;font-weight:700">turn the pilot into a licence</a>. Stopping is fine too, and I would still like to hear what you thought.`,
+        `When the term ends you decide. Carrying on is one click, with your details already filled in: <a href="${esc(licenceLink(r.prefill_token))}" style="color:#C99A28;font-weight:700">turn the pilot into a licence</a>. Stopping is fine too, and I would still like to hear what you thought.`,
         `If your data protection officer wants the paperwork first, the privacy notice and the data processing agreement are at <a href="${SITE}/dpa" style="color:#C99A28;font-weight:700">${SITE}/dpa</a>, ready to print and sign.`,
         `If you want to try something before the code lands, <a href="${SITE}/lesson/ks3-12-misinfo-deepfakes" style="color:#C99A28;font-weight:700">the sample lesson</a> is open now. It is the real thing, nothing locked.`,
         `Justin`,

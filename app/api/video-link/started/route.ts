@@ -6,7 +6,7 @@ import { insertLinkEvent } from '@/lib/video/follow'
 import { REF_COOKIE } from '@/lib/referrals'
 import { SCHOOL_LINK_COOKIE } from '@/lib/school/link'
 
-// A stage check was begun (migrations 372, 379 and 387). The stage check calls
+// A stage check was begun (migrations 372, 379 and 388). The stage check calls
 // this once, on the first answer, for every visitor.
 //
 // Until 379 only a visitor holding a film cookie was counted, so the founder
@@ -16,7 +16,7 @@ import { SCHOOL_LINK_COOKIE } from '@/lib/school/link'
 // startCode). Counted once per browser per follow: the started cookie says
 // this one is already in.
 //
-// Since 387 the row carries the post's UTMs when the visit had them, so a
+// Since 388 the row carries the post's UTMs when the visit had them, so a
 // start with no source link but utm_source=tiktok is no longer just "direct".
 //
 // Nothing about the visitor is stored. The row is a code, the word started,

@@ -430,7 +430,7 @@ export default function StarterPackPage() {
     } catch {}
   }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
-  // ── ?src= AND THE UTMs, READ (migrations 379 and 387) ───────────────────
+  // ── ?src= AND THE UTMs, READ (migrations 379 and 388) ───────────────────
   //
   // Printed and published pieces carry /starter-pack?src=<code> (the Planet
   // Post went to print with src=planet-post-1), and until now nothing read it.
@@ -438,7 +438,7 @@ export default function StarterPackPage() {
   // /v/<code> would be. The param then leaves the address bar, so a reload or
   // a copied link is not a second follow.
   //
-  // Since 387 the post's UTMs are posted with it, or on their own, so the
+  // Since 388 the post's UTMs are posted with it, or on their own, so the
   // count and the sign up keep which platform and which post sent them. They
   // stay in the address bar for PostHog's $pageview; only src and via go.
   // via=v means /v/<code> has counted this visit already, so nothing is posted.
@@ -806,7 +806,10 @@ export default function StarterPackPage() {
             line={<>{childName.trim() ? `${childName.trim()}'s pathway` : 'Your pathway'} is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}.</>}
             primary={{ label: childName.trim() ? `See ${childName.trim()}'s pathway again` : 'See your pathway again', onClick: () => { setReturning(false); setStep('result') } }}
             secondary={{ label: 'Start for another child', onClick: () => { resetChild(); setReturning(false); setStep('q1') } }}
-            signInHref={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+            // No address in the link (6 November 2026): ?from=starter tells the
+            // login form to fill the email from gc_starter_email, which this
+            // page saved on this device, so it is still typed only once.
+            signInHref={email ? '/login?from=starter' : '/login'}
             onStartFresh={startFresh}
           />
         )}

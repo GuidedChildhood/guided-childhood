@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -17,7 +17,22 @@ export default function LoginForm() {
   // Read through safeNext, so a link somebody else wrote can only ever send a
   // parent somewhere on this site after they sign in.
   const nextParam = safeNext(searchParams.get('next'))
-  const [email, setEmail] = useState(searchParams.get('email') ?? '')
+  const [email, setEmail] = useState('')
+  // Arriving from the starter pack's welcome back card (?from=starter), the
+  // address the parent typed there is filled in for them. It comes from this
+  // device's own storage, where the starter pack keeps it, never from the URL:
+  // until 6 November 2026 the link carried ?email=, which put the address in
+  // request logs, analytics and browser history (the funnel audit, fix 8).
+  const fromStarter = searchParams.get('from') === 'starter'
+  useEffect(() => {
+    if (!fromStarter) return
+    try {
+      const saved = localStorage.getItem('gc_starter_email')
+      if (saved) setEmail(current => current || saved)
+    } catch {
+      // Storage blocked (a private window): they type it, as on any visit.
+    }
+  }, [fromStarter])
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)

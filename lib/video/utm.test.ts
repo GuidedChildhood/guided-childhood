@@ -72,7 +72,7 @@ test('a visit from a post opens on question one; others meet the intro', () => {
 })
 
 test('the database checks the same pattern the app cleans to', () => {
-  const sql = readFileSync('supabase/migrations/387_utm_and_the_video_channels.sql', 'utf8')
+  const sql = readFileSync('supabase/migrations/388_utm_and_the_video_channels.sql', 'utf8')
   const checks = sql.match(/~ '([^']+)'/g) ?? []
   assert.equal(checks.length, 8)
   assert.ok(checks.every(c => c === `~ '${UTM_VALUE_PATTERN}'`))

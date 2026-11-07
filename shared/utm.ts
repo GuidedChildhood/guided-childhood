@@ -15,7 +15,7 @@
 // email address (it has an @), a long run of digits (a phone number) or a
 // sentence typed into an address bar never reaches a database. These values
 // are about the post, never about the person. The database checks the same
-// pattern (migration 387), and scripts/check-stage-sources.mjs pins the two
+// pattern (migration 388), and scripts/check-stage-sources.mjs pins the two
 // together.
 //
 // Pure, so both apps and the tests can import it.
@@ -24,7 +24,7 @@ export const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_conten
 export type UtmKey = typeof UTM_KEYS[number]
 export type Utm = Partial<Record<UtmKey, string>>
 
-/** The pattern a kept value matches. Mirrored by the check in migration 387. */
+/** The pattern a kept value matches. Mirrored by the check in migration 388. */
 export const UTM_VALUE_PATTERN = '^[a-z0-9]+([_-][a-z0-9]+)*$'
 const VALUE = new RegExp(UTM_VALUE_PATTERN)
 export const UTM_VALUE_MAX = 60

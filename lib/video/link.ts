@@ -39,7 +39,7 @@ export function codeFromTitle(title: string): string | null {
 // founder page can add up the week. A start with no link at all is counted
 // too, against one of three rows that are never links themselves.
 
-// tiktok and youtube since migration 387 (funnel audit, 6 November 2026):
+// tiktok and youtube since migration 388 (funnel audit, 6 November 2026):
 // until then their links had to be filed as film or other.
 export const CHANNELS = [
   'film', 'linkedin', 'facebook', 'group', 'instagram', 'tiktok', 'youtube', 'print',
