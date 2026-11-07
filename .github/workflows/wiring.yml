@@ -167,6 +167,11 @@ jobs:
       # quietly broken. The rules that must fire and the ones that must never
       # fire are pinned, so nothing ever offers to add Minecraft as a child.
       - run: node scripts/check-new-name.mjs
+      # No name or email address in a URL: logs, analytics, history and the
+      # Referer header all keep it. The pilot letter's /pricing?school=&name=
+      # &email= is how this was found (funnel audit, 6 November 2026). See the
+      # header of check-no-pii-in-urls.mjs.
+      - run: node scripts/check-no-pii-in-urls.mjs
       # Our link is guidedchildhood.com. The .co.uk 404ed under every post in the
       # 19 October social week pack, so it may not come back into the copy.
       - run: node scripts/check-live-domain.mjs
@@ -692,6 +697,21 @@ jobs:
       # holds them per file and per value and only ever shrinks. A new one
       # fails and names the token it already is. See check-hex-ratchet.mjs.
       - run: node scripts/check-hex-ratchet.mjs
+
+  # THE LINKS IN OUR EMAILS THAT KNOW WHO THEY WERE SENT TO. The lead stop and
+  # starter links carry a sealed token, the pilot letter's licence link a
+  # random one (migration 387), and none may carry a name or an address. These
+  # import the real email module, which needs its packages, hence npm ci.
+  privacy-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run privacy-links-test
 
   # WHAT POSTHOG MAY SEE. lib/analytics/posthog-policy.ts is the before_send
   # that keeps the child's pages, the codes in a URL and anything typed out of
