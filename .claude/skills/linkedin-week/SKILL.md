@@ -23,6 +23,9 @@ account data, the account data wins.
    says so.
 3. `.claude/skills/viral-post/SKILL.md`, the formula and the stat card.
 4. `content/gdc-post-register.md`, so a number is never claimed twice.
+5. `content/linkedin/chris-donnelly-teardown.md`, the million follower
+   playbook with our verdict on each point. Step 2 runs his topic log: note
+   which posts in our lane gained followers for the people who wrote them.
 
 ## Step 1. Our own numbers
 
