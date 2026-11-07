@@ -172,6 +172,10 @@ jobs:
       # &email= is how this was found (funnel audit, 6 November 2026). See the
       # header of check-no-pii-in-urls.mjs.
       - run: node scripts/check-no-pii-in-urls.mjs
+      # A question handed to DiGi is sealed for one parent on the server
+      # (lib/digi/prompt-token.ts): it opens for them, for nobody else, and an
+      # old ?q= card href is resealed rather than passed on as words.
+      - run: npm run digi-handoff-test
       # Our link is guidedchildhood.com. The .co.uk 404ed under every post in the
       # 19 October social week pack, so it may not come back into the copy.
       - run: node scripts/check-live-domain.mjs

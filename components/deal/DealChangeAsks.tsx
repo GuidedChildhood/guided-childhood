@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { REPLY_MAX, talkPromptFor, type DealChangeAsk } from '@/lib/deal/change-requests'
+import { digiHeldHref, holdDigiPrompt } from '@/lib/digi/handoff'
 
 // The child has asked to change the deal (migration 381). The grown up's card.
 //
@@ -60,7 +61,11 @@ export default function DealChangeAsks() {
       setReplyFor(null)
       setReply('')
       if (kind === 'yes') router.push('/dashboard/agreement')
-      if (kind === 'talk') router.push(`/dashboard/digi?q=${encodeURIComponent(talkPromptFor(ask.child_name, ask))}`)
+      if (kind === 'talk') {
+        // The child's name and their own words stay in the tab, never the URL.
+        holdDigiPrompt(talkPromptFor(ask.child_name, ask))
+        router.push(digiHeldHref())
+      }
     } catch {
       setFailed(ask.id)
     } finally {

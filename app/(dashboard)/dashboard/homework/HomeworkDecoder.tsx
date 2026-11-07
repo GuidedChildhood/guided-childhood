@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import TutorLessonCard from '@/components/learning/TutorLessonCard'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // Paste the homework, get back what it is.
 //
@@ -203,8 +204,8 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 </div>
               )}
 
-              <Link
-                href={`/dashboard/digi?q=${encodeURIComponent(`We are stuck on this homework: ${text.slice(0, 300)}`)}`}
+              <DigiAskLink
+                prompt={`We are stuck on this homework: ${text.slice(0, 300)}`}
                 style={{
                   display: 'inline-flex', justifyContent: 'center', padding: '13px 18px', textDecoration: 'none',
                   background: '#fff', color: 'var(--ink)', borderRadius: 'var(--radius-btn)', border: 'var(--edge)', boxShadow: 'var(--lift)',
@@ -212,7 +213,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 }}
               >
                 Still stuck? Ask DiGi
-              </Link>
+              </DigiAskLink>
             </div>
           )}
         </>

@@ -7,6 +7,7 @@ import { categoryForConcern } from '@/lib/content/signal-map'
 import { bandOf } from '@/lib/concerns/bands'
 import { SILVER_RUN, TOP_BAND } from '@/lib/concerns/resting'
 import { checkinOutcome, ATTENTION_BAND, type CheckinOutcome } from '@/lib/concerns/outcome'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -743,15 +744,15 @@ export default function ConcernCheckIn({
         // whether or not yesterday was better, and the outcome says so.
         const nextMove = (outcome?.actions.length ?? 0) > 0
         const scriptCat = nextMove ? categoryForConcern(c.slug, c.label) : null
-        const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
-          `${c.label} is ${scoreWord(value[c.id] ?? 2).toLowerCase()} at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
-        )}`
+        // It names the child, so it waits in DiGi's box by way of the tab, never
+        // the URL (lib/digi/handoff.ts).
+        const digiAsk = `${c.label} is ${scoreWord(value[c.id] ?? 2).toLowerCase()} at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
         // The same two buttons on the open row and on the folded line, so the
         // help offered at the tap is still there after the row has folded.
         const actionPills = nextMove && outcome ? (
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {outcome.actions.map(a => a === 'digi'
-              ? <Link key="digi" href={digiHref} style={pill}>Ask DiGi</Link>
+              ? <DigiAskLink key="digi" prompt={digiAsk} mode="draft" child={childId} style={pill}>Ask DiGi</DigiAskLink>
               : scriptCat
                 ? <Link key="script" href={`/dashboard/scripts/category/${scriptCat}`} style={pill}>Get the words</Link>
                 : null)}

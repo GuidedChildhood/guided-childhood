@@ -9,6 +9,7 @@ import ShareScript from '@/components/scripts/ShareScript'
 import TakeoverReader from '@/components/ui/TakeoverReader'
 import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/card-system'
 import HappyIcon from '@/components/kid/HappyIcon'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The whole script detail page as one presentational view: the page route
 // fetches the data, this file owns how it looks. One card system, one spacing
@@ -307,12 +308,12 @@ export default function ScriptDetailView({
               Need help adapting this for your situation? Ask DiGi.
             </p>
           </div>
-          <Link
-            href={`/dashboard/digi?q=${encodeURIComponent(`I need help with the script: ${script.title}. My situation: `)}`}
+          <DigiAskLink
+            prompt={`I need help with the script: ${script.title}. My situation: `}
             style={{ ...chunky('butter'), maxWidth: '100%', boxSizing: 'border-box' }}
           >
             Ask DiGi about this
-          </Link>
+          </DigiAskLink>
         </div>
 
         {/* Turn the words into something that lasts: a shared family agreement */}

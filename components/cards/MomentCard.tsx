@@ -6,6 +6,7 @@ import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacte
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { momentPhotoForTitle } from '@/lib/content/moment-photos'
 import { momentLook } from '@/lib/content/moment-look'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 export interface Moment {
   id: string
@@ -271,8 +272,8 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                     half finished answer in a box that vanishes on the next tap
                     is worse than no box. */}
                 {!thinking && question && (
-                  <a
-                    href={`/dashboard/digi?q=${encodeURIComponent(question)}`}
+                  <DigiAskLink
+                    prompt={question}
                     onClick={e => e.stopPropagation()}
                     style={{
                       alignSelf: 'flex-start', marginLeft: 58,
@@ -284,7 +285,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                     }}
                   >
                     Answer this with DiGi →
-                  </a>
+                  </DigiAskLink>
                 )}
               </div>
             )
@@ -351,7 +352,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 Take me to relevant scripts →
               </a>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 2 }}>
-                <a href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`} onClick={e => e.stopPropagation()} style={lesserLink}>Ask DiGi more →</a>
+                <DigiAskLink prompt={moment.title} onClick={e => e.stopPropagation()} style={lesserLink}>Ask DiGi more →</DigiAskLink>
                 <button
                   onClick={async e => {
                     e.stopPropagation()
