@@ -20,6 +20,8 @@ import { rememberStarterNext, starterNext, takeAfterSignupHref } from '@/lib/sta
 import { bandForAge, isTooYoung } from '@/lib/children/age'
 import StartsAtFour from '@/components/children/StartsAtFour'
 import { track } from '@/components/Analytics'
+import { readUtm, opensOnQuestionOne, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
+import { hasUtm } from '@gc/shared/utm'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
@@ -77,6 +79,11 @@ const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
 
 export default function StarterPackPage() {
   const [step, setStep] = useState<Step>('intro')
+  // The query string as the visitor arrived, read once. The ?src= effect
+  // below takes src and via out of the address bar, and the restore effect
+  // still needs to know they were there.
+  const arrival = useRef<URLSearchParams | null>(null)
+  const arrivedWith = () => (arrival.current ??= new URLSearchParams(window.location.search))
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
   // ── MONTH AND YEAR, NOT A BAND ──────────────────────────────────────────────
   //
@@ -401,6 +408,14 @@ export default function StarterPackPage() {
           setReturning(true)
         } catch {}
       }
+      // ── STRAIGHT TO QUESTION ONE FROM A POST (funnel audit, fix 4) ──────
+      //
+      // The post said "Free stage check" and the parent tapped it, so the
+      // intro saying it again is one more screen before the thing they came
+      // for. A visit through a source link, a ?src= or a social utm_source
+      // opens on question one (lib/video/utm opensOnQuestionOne). Not over a
+      // half finished quiz or a finished one: those keep their own screens.
+      if (!saved && !(savedEmail && savedAnswers) && opensOnQuestionOne(arrivedWith())) setStep('q1')
     } catch {}
     setRestored(true)
   }, [])
@@ -415,21 +430,31 @@ export default function StarterPackPage() {
     } catch {}
   }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
-  // ── ?src=, READ (migration 379) ──────────────────────────────────────────
+  // ── ?src= AND THE UTMs, READ (migrations 379 and 388) ───────────────────
   //
   // Printed and published pieces carry /starter-pack?src=<code> (the Planet
   // Post went to print with src=planet-post-1), and until now nothing read it.
   // Posted once on arrival: a live code is counted and remembered exactly as
   // /v/<code> would be. The param then leaves the address bar, so a reload or
   // a copied link is not a second follow.
+  //
+  // Since 388 the post's UTMs are posted with it, or on their own, so the
+  // count and the sign up keep which platform and which post sent them. They
+  // stay in the address bar for PostHog's $pageview; only src and via go.
+  // via=v means /v/<code> has counted this visit already, so nothing is posted.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
+    const params = new URLSearchParams(arrivedWith())
     const src = params.get('src')
-    if (!src) return
-    fetch('/api/video-link/follow', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ src }), keepalive: true,
-    }).catch(() => {})
+    const utm = readUtm(params)
+    const counted = params.get(VIA_PARAM) === VIA_LINK
+    if (!counted && (src || hasUtm(utm))) {
+      fetch('/api/video-link/follow', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ src, utm }), keepalive: true,
+      }).catch(() => {})
+    }
+    if (!src && !params.has(VIA_PARAM)) return
     params.delete('src')
+    params.delete(VIA_PARAM)
     const rest = params.toString()
     window.history.replaceState(window.history.state, '', window.location.pathname + (rest ? `?${rest}` : '') + window.location.hash)
   }, [])
@@ -781,7 +806,10 @@ export default function StarterPackPage() {
             line={<>{childName.trim() ? `${childName.trim()}'s pathway` : 'Your pathway'} is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}.</>}
             primary={{ label: childName.trim() ? `See ${childName.trim()}'s pathway again` : 'See your pathway again', onClick: () => { setReturning(false); setStep('result') } }}
             secondary={{ label: 'Start for another child', onClick: () => { resetChild(); setReturning(false); setStep('q1') } }}
-            signInHref={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+            // No address in the link (6 November 2026): ?from=starter tells the
+            // login form to fill the email from gc_starter_email, which this
+            // page saved on this device, so it is still typed only once.
+            signInHref={email ? '/login?from=starter' : '/login'}
             onStartFresh={startFresh}
           />
         )}
@@ -806,10 +834,13 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
-              Let us build your child&apos;s pathway.
+              Your free stage check
             </h1>
+            {/* The words the posts use (funnel audit, fix 4). The four free
+                days are told on the account screen, where they apply, not
+                here before the parent has seen anything. */}
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
-              Two minutes, then four days free. No card.
+              Three questions, two minutes. See your child&apos;s stage before you make an account.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
               {[

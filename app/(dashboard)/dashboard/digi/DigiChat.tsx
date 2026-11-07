@@ -1,7 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
-import { newNamesIn, addChildHref } from '@/lib/digi/new-name'
+import { newNamesIn, ADD_CHILD_HREF, holdNewChildName } from '@/lib/digi/new-name'
 import { useRouter } from 'next/navigation'
 import { currentChildId } from '@/lib/children/current'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
@@ -1440,7 +1440,8 @@ export default function DigiChat({
                   {fresh.map(name => (
                     <Link
                       key={name}
-                      href={addChildHref(name)}
+                      href={ADD_CHILD_HREF}
+                      onClick={() => holdNewChildName(name)}
                       style={{
                         display: 'inline-flex', alignItems: 'center', gap: '6px',
                         background: 'var(--cream)', border: '1.5px dashed var(--terracotta-dark)',

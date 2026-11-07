@@ -2,7 +2,7 @@
 
 import { db as letterbox } from '@/lib/supabase/server-db'
 import { PILOT_BAND } from '@/lib/pilot'
-import { pilotSource } from '@/lib/pilot-source'
+import { pilotSource, pilotAttribution, attributionNote } from '@/lib/pilot-source'
 
 // THE PILOT LETTERBOX. The same table as an invoice request, the taster and
 // the draw (schools.invoice_requests, migration 195), with band 'pilot' and
@@ -31,6 +31,10 @@ export async function requestPilot(formData: FormData): Promise<PilotRequestResu
   // The lesson whose button sent them (21 October 2026), so the note says
   // which free lesson turned into a pilot request.
   const from = pilotSource(field('from'))
+  // The post that brought them (funnel audit, 6 November 2026): ?src= and the
+  // utm_* values the page carried as hidden fields, cleaned again here because
+  // a form is the visitor's to edit.
+  const source = attributionNote(pilotAttribution(formData))
 
   if (!schoolName || !contactName) {
     return { ok: false, error: 'Your name and your school are both needed, so we know who the code is for.' }
@@ -44,7 +48,7 @@ export async function requestPilot(formData: FormData): Promise<PilotRequestResu
 
   const PHASE_WORDS: Record<string, string> = { primary: 'Primary', secondary: 'Secondary', all_through: 'All through', post16: 'Sixth form or college' }
   const START_WORDS: Record<string, string> = { this_term: 'this term', next_term: 'next term', not_sure: 'start not decided' }
-  const notes = ['Pilot request', role, PHASE_WORDS[phase], START_WORDS[start], from ? `from ${from}` : '', message].filter(Boolean).join(' · ')
+  const notes = ['Pilot request', role, PHASE_WORDS[phase], START_WORDS[start], from ? `from ${from}` : '', source, message].filter(Boolean).join(' · ')
 
   const { error } = await letterbox.schema('schools').from('invoice_requests').insert({
     school_name: schoolName,

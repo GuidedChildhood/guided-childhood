@@ -4,6 +4,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { requestPilot } from './actions'
 import { TASTER_MODULES } from '@/lib/taster'
+// Type only: lib/pilot-source carries the curriculum list, which has no place
+// in this form's bundle.
+import type { PilotAttribution } from '@/lib/pilot-source'
+import { UTM_KEYS } from '@gc/shared/utm'
+
+const ATTRIBUTION_FIELDS = ['src', ...UTM_KEYS] as const
 
 // The pilot request form. Small enough to answer on a phone between lessons:
 // the school, who you are, where to send the code, and two optional picks
@@ -31,7 +37,7 @@ function check(fd: FormData): Record<string, string> {
   return errs
 }
 
-export default function PilotForm({ full, from }: { full: boolean; from?: string | null }) {
+export default function PilotForm({ full, from, source }: { full: boolean; from?: string | null; source?: PilotAttribution }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [errs, setErrs] = useState<Record<string, string>>({})
@@ -73,6 +79,9 @@ export default function PilotForm({ full, from }: { full: boolean; from?: string
   return (
     <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {from && <input type="hidden" name="from" value={from} />}
+      {/* Which post sent them, when its link said so. Slugs only, cleaned on
+          the page and again in the action. */}
+      {ATTRIBUTION_FIELDS.map(k => source?.[k] ? <input key={k} type="hidden" name={k} value={source[k]} /> : null)}
       <div>
         <label style={label} htmlFor="pilot_school_name">School name</label>
         <input className="input" id="pilot_school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-pilot-school' : undefined} />

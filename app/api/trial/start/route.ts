@@ -4,6 +4,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { trialEndsAtFromNow } from '@/lib/config/trial'
 import { SCHOOL_LINK_COOKIE, normaliseLinkCode } from '@/lib/school/link'
 import { VIDEO_LINK_COOKIE } from '@/lib/video/link'
+import { UTM_COOKIE, utmFromCookie, utmColumns } from '@/lib/video/utm'
+import { hasUtm } from '@gc/shared/utm'
 import { SCHOOL_SHARE_COOKIE, readShareCookie, shareSecret } from '@/lib/school/share'
 
 // Start the free trial, once, ever.
@@ -103,6 +105,22 @@ export async function POST(req: NextRequest) {
     try {
       await admin.from('profiles').update({ video_link: videoCode })
         .eq('id', user.id).is('video_link', null)
+    } catch { /* attribution is nice to have, the trial is not */ }
+  }
+
+  // ── WHICH POST SENT THEM, BY ITS UTMs (migration 388) ──────────────────
+  //
+  // The UTMs of the visit that brought them (funnel audit, 6 November 2026),
+  // beside video_link: the code says which of our links, the UTMs say which
+  // platform and which post. Remembered in their own cookie by the follow
+  // (lib/video/follow rememberUtm) and cleaned again here, because a cookie
+  // is the visitor's to edit. Same rule as the others: once, at a fresh grant,
+  // onto an empty set, best effort.
+  const utm = granted ? utmColumns(utmFromCookie(req.cookies.get(UTM_COOKIE)?.value)) : {}
+  if (hasUtm(utm)) {
+    try {
+      await admin.from('profiles').update(utm)
+        .eq('id', user.id).is('utm_source', null).is('utm_campaign', null)
     } catch { /* attribution is nice to have, the trial is not */ }
   }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { requestInvoice } from './actions'
 import { PRICING_BANDS, FOUNDING } from '@/lib/pricing'
 
@@ -44,6 +44,17 @@ export default function InvoiceForm({ preselect, prefill, foundingOpen = false }
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [errs, setErrs] = useState<Record<string, string>>({})
+
+  // The pilot's licence link arrives as ?pilot=<token> (lib/pilot-prefill.ts).
+  // Once the server has filled the form from it, take it out of the address
+  // bar, so the history entry, a copied link and the Referer of every request
+  // after this one carry nothing that opens the school's details.
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (!url.searchParams.has('pilot')) return
+    url.searchParams.delete('pilot')
+    window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash)
+  }, [])
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
