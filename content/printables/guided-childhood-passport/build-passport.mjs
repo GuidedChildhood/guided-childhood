@@ -15,6 +15,7 @@ import { createRequire } from 'node:module'
 import { existsSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
 
 const DIR = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
@@ -112,6 +113,11 @@ if (!only || only === 'listing') {
     await frames.nth(i).screenshot({ path: join(DIR, 'listing/images', `${id}.png`) })
   }
   console.log('listing images', n)
+  // Real life photos: Pebble's page (page 4) on the kitchen table and the
+  // fridge, by ../scene-composite.mjs, named 01c and 01d to sit with the cover.
+  for (const [i, s] of ['table-oak', 'fridge-cream'].entries()) {
+    execFileSync(process.execPath, [join(DIR, '..', 'scene-composite.mjs'), s, join(DIR, 'images/preview/page-04.png'), join(DIR, 'listing/images', `01${'cd'[i]}-real-${s}.jpg`)], { stdio: 'inherit' })
+  }
 }
 
 // THE PRINTED EDITION (printed.html). The blank booklet and the sticker

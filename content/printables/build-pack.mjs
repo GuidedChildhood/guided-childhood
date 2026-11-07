@@ -226,12 +226,14 @@ if ((!only || only === 'phone') && existsSync(join(DIR, 'phone.html'))) {
 }
 
 if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html'))) {
-  fresh(join(DIR, 'listing/images'))
+  // SCENES_ONLY=1 redoes only the real life photos, leaving the rest as built.
+  const scenesOnly = !!process.env.SCENES_ONLY
+  if (!scenesOnly) fresh(join(DIR, 'listing/images'))
   const page = await browser.newPage({ viewport: { width: 2000, height: 2000 } })
   await page.goto('file://' + join(DIR, 'listing/images.html'))
   await ready(page)
   const frames = page.locator('.frame')
-  const n = await frames.count()
+  const n = scenesOnly ? 0 : await frames.count()
   for (let i = 0; i < n; i++) {
     const id = await frames.nth(i).getAttribute('data-name')
     await frames.nth(i).screenshot({ path: join(DIR, 'listing/images', `${id}.png`) })
@@ -240,11 +242,36 @@ if ((!only || only === 'listing') && existsSync(join(DIR, 'listing/images.html')
   // Real life photos: the pack's hero page laid onto the blank sheet in each
   // scene the listing names (scenes: [...] in window.LISTING), by
   // scene-composite.mjs. Named 01c, 01d so they follow the cover on Etsy.
-  const real = await page.evaluate(() => { const L = window.LISTING || {}; return { scenes: L.scenes || [], page: L.scenePage || L.fridgePage || (L.cover && L.cover[0]) } })
+  const real = await page.evaluate(() => { const L = window.LISTING || window.BUNDLE || {}; return { scenes: L.scenes || [], page: L.scenePage || L.fridgePage || (L.cover && L.cover[0]), inUse: L.inUse || null, from: L.scenePack || null } })
+  // A bundle has no pages of its own: scenePack names the pack whose page it
+  // shows (its preview, or that pack's print.html when filled in).
+  const fromCfg = real.from ? PACKS[real.from] : cfg
+  const fromDir = real.from ? join(ROOT, real.from) : DIR
+  const fromSrc = real.from ? join(ROOT, fromCfg.source ?? real.from) : SRC
+  let pv = join(fromDir, 'images/preview', `page-${String(real.page).padStart(2, '0')}.png`)
+  // inUse in window.LISTING: the scene page is shown filled in the way a
+  // family would (a name, jobs written in, a week of stars), by in-use.js.
+  // Only the photo is filled in; the product files never are.
+  if (real.scenes.length && real.inUse) {
+    const iu = await browser.newPage({ viewport: { width: 1000, height: 1300 }, deviceScaleFactor: 2.5 })
+    await iu.goto('file://' + join(fromSrc, 'print.html'))
+    if (fromCfg.edition) await iu.evaluate(e => document.body.classList.add('edition-' + e), fromCfg.edition)
+    await ready(iu)
+    await iu.addStyleTag({ content: `@font-face{font-family:'InUseHand';src:url('file://${join(ROOT, 'listing-fonts/Caveat.woff2')}') format('woff2');}` })
+    await iu.addScriptTag({ path: join(ROOT, 'in-use.js') })
+    await iu.evaluate(() => document.fonts.load("26pt 'InUseHand'"))
+    const sheet = iu.locator('.sheet:visible').nth(real.page - 1)
+    await sheet.evaluate((el, o) => window.fillInUse(el, o === true ? {} : o), real.inUse)
+    await iu.waitForTimeout(300)
+    mkdirSync(join(DIR, 'images/preview'), { recursive: true })
+    pv = join(DIR, 'images/preview', `in-use-${String(real.page).padStart(2, '0')}.png`)
+    await sheet.screenshot({ path: pv })
+    await iu.close()
+  }
   real.scenes.forEach((s, i) => {
-    const pv = join(DIR, 'images/preview', `page-${String(real.page).padStart(2, '0')}.png`)
-    execFileSync(process.execPath, [join(ROOT, 'scene-composite.mjs'), s, pv, join(DIR, 'listing/images', `01${'cdefg'[i]}-real-${s}.png`)], { stdio: 'inherit' })
+    execFileSync(process.execPath, [join(ROOT, 'scene-composite.mjs'), s, pv, join(DIR, 'listing/images', `01${'cdefg'[i]}-real-${s}.jpg`)], { stdio: 'inherit' })
   })
+  if (real.inUse && !process.env.KEEP_IN_USE) rmSync(pv, { force: true })
 }
 
 if (only === 'app') {

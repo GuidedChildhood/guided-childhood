@@ -49,6 +49,30 @@ Write to `content/packs/<yyyy-mm-dd>-<slug>/`:
 **`substack-issue.md`** — one full newsletter issue:
 - 3 subject line options and a preview line
 - Opening story in Justin's voice, then the substance in short sections, then one practical takeaway a parent can use tonight, then a soft close
+
+**Every issue carries two jobs, and the second one is the one that gets cut
+under time pressure** (Justin, 6 November 2026, asking for the long form
+versions: research all the data, "goal one" the researched analysis, "goal two"
+the takeaway for parents). Write both deliberately, and be able to point at each
+in the finished draft:
+
+1. **The analysis that earns the reader's respect.** Not the finding, the
+   working. What the study actually measured, how many children, over how long,
+   what the design can separate that a weaker one cannot, where the press
+   release went further than the paper, and which figure rests on one source. A
+   reader who finishes this half should understand the evidence well enough to
+   argue with somebody about it. This is the half that makes a stranger trust a
+   stranger, and it is why the issues run long.
+2. **The takeaway a parent can use this week.** Concrete, small enough to do,
+   and honest about what it is not. Never "talk to your child more". Something
+   with a shape: the four questions, the one thing to say at the start, the
+   setting to change tonight. It follows from the analysis rather than sitting
+   beside it, so a reader can see why this is the thing to do rather than
+   something else.
+
+A draft with only the first half is a research note, and the parent who needed
+it leaves with nothing to do. A draft with only the second is advice, and there
+is already too much of that. Neither half is optional.
 - **1,800 to 2,500 words** (Justin, 6 November 2026), claims mapped to sources at
   the bottom, with the limits of each source stated there rather than buried.
   The old spec said 800 to 1,200; the issues that actually went out ran 1,398,
@@ -93,6 +117,13 @@ Justin's highest performing posts (75,842 impressions, The Wrong Villain series)
 
 - **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).
 - **Substack**: one full issue, story led, 1,800 to 2,500 words, subject line options.
+  **The one closing question rule does NOT apply here.** That is a LinkedIn post
+  mechanic, where a single question at the end next to the comment box is doing a
+  job in the feed. In a long form issue, embedded questions are normal prose and
+  are often the substance: the three readiness signals in the age issue are three
+  questions, and the age check issue turns on "who holds the file, for how long,
+  and what happens when my child is told no". A guard that counts question marks
+  across a newsletter will flag good writing, so do not let it.
 - **LinkedIn newsletter**: a different length from Substack, and the two are not
   interchangeable (Justin, 6 November 2026, catching exactly that mistake).
   **1,200 to 1,600 words**, plus a separate note to the network of roughly 140
