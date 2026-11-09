@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
   "researchId": "GDC-RR-0754a1641c",
-  "registerVersion": 3,
-  "createdAt": "2026-11-09T14:15:13.177Z",
+  "registerVersion": 6,
+  "createdAt": "2026-11-09T14:26:41.167Z",
   "stage": "EDITORIAL READY",
   "productionStatus": "EDITORIAL READY",
   "proposedTitle": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
@@ -131,8 +131,8 @@
     "digi": "No change. DiGi should not cite a figure like this at all.",
     "historyChecker": "No change."
   },
-  "gdcPostNumber": null,
-  "gdcPostNumberNote": "No number assigned. Stage 2 must claim the next free number in content/gdc-post-register.md before writing, and must not invent one here.",
+  "gdcPostNumber": "054",
+  "gdcPostNumberNote": "This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.",
   "recommendedAudience": "The evidence literate part of the LinkedIn following: school leaders, safeguarding leads and the researchers who already correct this field. The parent facing Substack is the wrong venue, because the usable content is a methods lesson rather than something to do tonight.",
   "recommendedPlatforms": [
     "LinkedIn post"
@@ -141,11 +141,10 @@
   "urgency": "Low. Nothing expires. The value is the reasoning, not the news.",
   "supportingFiles": [
     "content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
-    "scripts/radar/reviews/GDC-RR-0754a1641c.json",
-    "content/research-register/studies.jsonl"
+    "scripts/radar/reviews/GDC-RR-0754a1641c.json"
   ],
   "history": {
     "registerJsonl": "content/research-register/studies.jsonl",
-    "studyVersions": 3
+    "studyVersions": 6
   }
 }

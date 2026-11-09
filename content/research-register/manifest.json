@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.0.0",
- "generatedAt": "2026-11-09T14:17:59.833Z",
+ "generatedAt": "2026-11-09T14:26:41.168Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -28,7 +28,7 @@
    "recommendedPlatforms": [
     "LinkedIn post"
    ],
-   "gdcPostNumber": null,
+   "gdcPostNumber": "054",
    "primaryUrl": "https://doi.org/10.1177/13591045261487468",
    "doi": "10.1177/13591045261487468",
    "publishedDate": "2026-11-06",
@@ -37,7 +37,7 @@
    "handoffDoc": "https://docs.google.com/document/d/1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw/edit",
    "handoffJsonInRepo": "/home/user/guided-childhood/content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "registerVersion": 5
+   "registerVersion": 6
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

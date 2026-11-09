@@ -82,7 +82,17 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
 
-**Next free number: 054.**
+| 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
+
+**Next free number: 055.**
+
+**Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
+Stage 2 to claim the next free number here before writing. ChatGPT cannot write
+to this file, so a number it claimed in Drive would be invisible to the next
+Claude session, which is the exact collision described at the top of this file
+and the reason it exists. So the number is claimed here, in the one place a
+number is ever claimed, and the handoff carries it. ChatGPT uses 054 and does
+not pick its own.
 
 ## 041 and 046 are the same post
 

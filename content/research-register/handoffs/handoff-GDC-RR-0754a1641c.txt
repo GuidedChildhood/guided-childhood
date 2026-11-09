@@ -1,13 +1,13 @@
 GDC RESEARCH HANDOFF  GDC-RR-0754a1641c
 Stage 1 complete, ready for Stage 2 editorial production
-Schema 1.0.0  created 2026-11-09T14:15:13.177Z  register version 3
+Schema 1.0.0  created 2026-11-09T14:26:41.167Z  register version 6
 
 STATUS
   production status: EDITORIAL READY
   editorial priority: BANK
   Claude review: CLAUDE REVIEWED, EDIT, 2026-11-09T13:40:00Z
-  GDC post number: NONE ASSIGNED
-  No number assigned. Stage 2 must claim the next free number in content/gdc-post-register.md before writing, and must not invent one here.
+  GDC post number: 054
+  This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.
 
 THE STORY
   proposed title: A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.
