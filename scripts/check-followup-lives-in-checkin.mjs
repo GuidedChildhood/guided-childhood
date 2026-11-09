@@ -86,7 +86,13 @@ if (!prompts) {
     // so deleting the filter and keeping the variable name passed it. Caught
     // by mutation testing, which is the only reason this line is here.
     const responses = [...prompts.matchAll(/NextResponse\.json\(\{\s*prompts:/g)].length
-    const calls = [...prompts.matchAll(/withoutWorryFollowUps\s*\(/g)].length - 1 // minus the definition
+    // A call site is the name then an optional type argument then "(". The
+    // definition is excluded by name, not by subtracting one: PR 1458 made it
+    // generic (withoutWorryFollowUps<T ...>(), the old pattern stopped matching
+    // the definition, and "minus one" then ate a real call and failed a route
+    // that filters both exits.
+    const defs = [...prompts.matchAll(/function\s+withoutWorryFollowUps\b/g)].length
+    const calls = [...prompts.matchAll(/\bwithoutWorryFollowUps\s*(?:<[^()]*?>)?\s*\(/g)].length - defs
     if (calls < responses) {
       problems.push(
         `${PROMPTS}: ${responses} prompt responses but the filter is called ${calls} time${calls === 1 ? '' : 's'}. ` +
