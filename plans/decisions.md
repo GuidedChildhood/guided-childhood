@@ -252,6 +252,44 @@ The follow up PR 1450 left: about thirty links opened DiGi as `?q=<question>` or
 
 Justin: "Rewrite both." The Foundation home lesson's five minute whisper becomes the stopping place, picked before the screen goes on; KS2 ks2-04's cool down lap becomes agree, finish, swap, and ks2-05's recall follows. Migration 389 (gen-389.mjs) writes them, guarded on production's hashes so a hand edit aborts it. Not applied. PR 1452.
 
+## 9 November 2026: 388 and 389 applied, and three that were live with no ledger row
+
+Justin: "Merge 388 and 389 and any others in superbase". The sweep found five
+candidates with no ledger row. The live schema cut that to two: 381, 382 and
+383 were already applied in full (tables, indexes, policies, RLS, grants and
+383's muse row all present), they just never got a ledger entry. They have one
+now, so the next sweep stops re-reading them. A missing ledger row is not
+evidence a migration did not run, which is why the probe comes second.
+
+388 went in as one transaction, because it drops and re-adds the channel
+constraint and a timeout between the two would leave video_links unconstrained.
+All 33 rows already fitted the new list, which only adds tiktok and youtube.
+
+389 is the one worth keeping. It is 101 KB, and a 27 KB single line is what
+scripts/module-to-chunks.mjs calls the least reliable thing in the pipeline.
+It did not need carrying: production held the old module files, so only the
+difference had to move. Diffing the old and new content/modules in git gave
+49 changed leaf values, which became 49 jsonb_set statements of a few hundred
+bytes each, paths computed rather than hand derived. 14.8 KB instead of 76 KB,
+no line over 653 characters.
+
+What makes it safe is the ordering, again. Each deck ran as one transaction:
+389's own guard on the before hash, the updates, then an assertion that the
+deck now hashes to 389's after hash. Both after hashes were first proved in
+Python to equal the repo's content/modules, so a wrong paste could not commit,
+it could only roll back. The Foundation lesson was verified the same way, by
+an order independent digest of all 83 string values plus the three columns.
+
+Verified after: ks2-04 is d5d3b529, ks2-05 is aed88edc, both equal to the
+files; zero live lessons mention the whisper and zero school decks mention
+warn, finish.
+
+Two things found on the way. 384 is used twice in the ledger,
+384_the_match_ending_is_agreed_first and 384_digi_learned_rules, so one of
+them was numbered over another lane's migration. And 383's muse_calls still
+carries a default select grant to authenticated, which its own comment says
+nobody but the service role should reach; RLS with no policies means a parent
+sees zero rows, so nothing is exposed, but the grant should not be there.
 ## 9 November 2026: the usual rows, thirty everyday flashpoints headed off
 
 Justin's Monday morning row over an 11 year old's room, and 29 more like it. `lib/content/family-flashpoints.ts` is the twin of the device issues bank for rows that are not about screens. Each row has the parent's line first, the plan, the child's part, the real scripts, a source (checked, one demoted and rephrased) and a heads up. `/dashboard/flashpoints` says "these happen in every house". One tap raises the row as a concern and turns on its heads up, which replaces the usual window push on the day and in the window it happens, at most two days a week, and never goes to a child's device. The plan can be sent to the other parent with the share sheet. DiGi reads the rows when no device issue matches. The room reset stays a starred job, as the template already has it. No migration. Guard: `check-family-flashpoints`. PR 1461.
