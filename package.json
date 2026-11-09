@@ -63,6 +63,7 @@
     "evidence-guard": "node --experimental-strip-types scripts/check-evidence-status.mjs",
     "your-school-guard": "node scripts/check-your-school-local.mjs",
     "ai-tells": "node scripts/check-ai-tells.mjs",
+    "rhythm": "node scripts/rhythm.mjs",
     "etsy-in-app": "node scripts/check-etsy-in-app.mjs",
     "social-cards": "node scripts/check-live-domain.mjs && node tools/social-cards/render.mjs",
     "live-domain-guard": "node scripts/check-live-domain.mjs",
