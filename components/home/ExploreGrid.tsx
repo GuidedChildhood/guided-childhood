@@ -90,6 +90,9 @@ function groups(scriptHref: string): Group[] {
         // Vetted outside tools, evidence graded. One inbound link before this,
         // from a report block most families never open.
         { href: '/dashboard/toolbox', label: 'The toolbox', sub: 'Outside tools, graded honestly', emoji: '🧰' },
+        // The thirty everyday rows, each with a plan and a heads up before it
+        // (lib/content/family-flashpoints.ts, Justin 9 November 2026).
+        { href: '/dashboard/flashpoints', label: 'The usual rows', sub: 'Every house has them, headed off', emoji: '🧭' },
       ],
     },
     {

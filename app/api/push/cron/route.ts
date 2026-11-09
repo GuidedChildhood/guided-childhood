@@ -10,6 +10,7 @@ import { dueNow, eveningLine, reminderTargetMinutes, ukMinutesOf, quietNightNumb
 import { familyTargets, windowPushFor, ukDayNumber, schoolDayNumber, bandGroup, DEFAULT_MORNING_TARGET, DEFAULT_HOME_TARGET, type SchoolWindow } from '@/lib/home/school-window'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
+import { claimedFlashpoints, pickHeadsUp, headsUpPush, type ClaimedConcern } from '@/lib/push/flashpoint-heads-up'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
 // schedules are fixed UTC, but the promise shown in Settings is a UK
@@ -79,11 +80,11 @@ async function runWindowPass(nowMinutes: number) {
   // Children carry the times and the band; the profile carries the calendar.
   // The times read fails soft to the defaults until migration 363 has run.
   const [kidsRes, profilesRes] = await Promise.all([
-    admin.from('children').select('parent_id, name, age_band, is_primary, school_start_minutes, home_minutes').in('parent_id', users).order('is_primary', { ascending: false })
-      .then(r => r.error ? admin.from('children').select('parent_id, name, age_band, is_primary').in('parent_id', users).order('is_primary', { ascending: false }) : r),
+    admin.from('children').select('id, parent_id, name, age_band, is_primary, school_start_minutes, home_minutes').in('parent_id', users).order('is_primary', { ascending: false })
+      .then(r => r.error ? admin.from('children').select('id, parent_id, name, age_band, is_primary').in('parent_id', users).order('is_primary', { ascending: false }) : r),
     admin.from('profiles').select('id, school_region').in('id', users),
   ])
-  type Kid = { parent_id: string; name: string | null; age_band: string | null; is_primary: boolean | null; school_start_minutes?: number | null; home_minutes?: number | null }
+  type Kid = { id: string; parent_id: string; name: string | null; age_band: string | null; is_primary: boolean | null; school_start_minutes?: number | null; home_minutes?: number | null }
   const kidsOf = new Map<string, Kid[]>()
   for (const k of (kidsRes.data ?? []) as Kid[]) {
     if (!kidsOf.has(k.parent_id)) kidsOf.set(k.parent_id, [])
@@ -96,14 +97,25 @@ async function runWindowPass(nowMinutes: number) {
   // the move, DiGi, tonight and one untried service (lib/home/school-window,
   // Justin 3 November 2026). Three reads for every subscriber at once; a
   // failed read counts as used, so it never nags about something they have.
-  const [digiRes, questsRes, scriptsRes] = await Promise.all([
+  //
+  // And the rows each family has said are theirs (lib/push/flashpoint-heads-up,
+  // Justin 9 November 2026): the open worries, read once for everyone. A
+  // failed read means no heads up, and the usual line goes as before.
+  const [digiRes, questsRes, scriptsRes, concernsRes] = await Promise.all([
     admin.from('digi_questions').select('user_id').in('user_id', users),
     admin.from('family_quests').select('user_id').in('user_id', users).eq('active', true),
     admin.from('script_completions').select('user_id').in('user_id', users),
+    admin.from('concerns').select('user_id, child_id, slug, label').in('user_id', users).in('status', ['open', 'improving']),
   ])
+  const concernsOf = new Map<string, ClaimedConcern[]>()
+  for (const c of (concernsRes.error ? [] : concernsRes.data ?? []) as (ClaimedConcern & { user_id: string })[]) {
+    if (!concernsOf.has(c.user_id)) concernsOf.set(c.user_id, [])
+    concernsOf.get(c.user_id)!.push({ slug: c.slug, label: c.label, child_id: c.child_id })
+  }
   const idsOf = (r: { data: { user_id: unknown }[] | null; error: unknown }) =>
     r.error ? null : new Set((r.data ?? []).map(x => x.user_id as string))
   const usedDigi = idsOf(digiRes), hasQuests = idsOf(questsRes), triedScript = idsOf(scriptsRes)
+  const ukDay = ukDayNumber(new Date())
   const dayNumber = schoolDayNumber(ukDayNumber(new Date()))
 
   const now = new Date()
@@ -118,7 +130,20 @@ async function runWindowPass(nowMinutes: number) {
       : null
     if (!window) continue
     due++
-    if (!isSchoolDay(now, regionOf.get(user) ?? DEFAULT_REGION)) { quiet++; continue }
+    const schoolDay = isSchoolDay(now, regionOf.get(user) ?? DEFAULT_REGION)
+    // A row this family has claimed, due in this window today, speaks instead
+    // of the usual line. It is also the only thing that speaks on a non
+    // school day, and only for a row that happens then.
+    const heads = pickHeadsUp(window, ukDay, schoolDay, claimedFlashpoints(concernsOf.get(user) ?? []))
+    if (heads) {
+      const forKid = kids.find(k => k.id === heads.childId) ?? kids[0] ?? null
+      const push = headsUpPush(heads.flashpoint, forKid?.name ?? null, forKid?.id ?? null)
+      const r = await sendPush({ ...push, userId: user, slot: WINDOW_SLOT[window] })
+      sent += r.sent
+      failed += r.failed
+      continue
+    }
+    if (!schoolDay) { quiet++; continue }
     // The primary child names the push and sets the register; one push per
     // family, never one per child.
     const lead = kids[0] ?? null
