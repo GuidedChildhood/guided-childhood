@@ -38,6 +38,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 label.done{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--soft)}
 label.done input{width:20px;height:20px;accent-color:var(--done)}
 .card.is-done{opacity:.55}
+/* A post inside its few days on the desk is still a post he has to work with,
+   so it is only lightly dimmed and its note is at full strength. */
+.card.is-done.is-grace{opacity:.88}
+.meta.grace{color:var(--fg);font-weight:700;opacity:1}
 details>summary{cursor:pointer;font-weight:800;color:var(--soft);font-size:14px}
 details[open]>summary{margin-bottom:10px}
 a{color:inherit}

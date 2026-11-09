@@ -1,7 +1,34 @@
 const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const read = (k) => { try { return localStorage.getItem(k) === '1' } catch (e) { return false } };
-const write = (k, v) => { try { v ? localStorage.setItem(k, '1') : localStorage.removeItem(k) } catch (e) {} };
+
+/* Ticked posts do not leave the desk straight away.
+   Justin, 9 November 2026: clear off the ones marked as posted a few days after
+   the marker, so he still has access to add comments.
+   The first hours after a post goes out are when the comments arrive and when
+   replying matters most, so a post he has just ticked is exactly the one he
+   still needs to reach. It stays in the live list, greyed, with the date it
+   clears, and moves itself to the put away section after GRACE_DAYS. */
+const GRACE_DAYS = 3;
+const DAY = 86400000;
+
+/* The value stored is now the tick time in milliseconds. The old value was the
+   string '1' with no time in it, so anything ticked before this change has no
+   date to count from. Those are treated as already past the grace period,
+   which keeps them where he last left them rather than pulling them back onto
+   the desk days later. */
+const stamp = (k) => { try { const v = localStorage.getItem(k); return v === null ? null : (v === '1' ? 0 : Number(v) || 0) } catch (e) { return null } };
+const read = (k) => stamp(k) !== null;
+const write = (k, v) => { try { v ? localStorage.setItem(k, String(Date.now())) : localStorage.removeItem(k) } catch (e) {} };
 const pkey = (p) => 'gdc-desk-posted-' + p.n;
+
+/* Ticked, but still inside its few days on the desk. */
+const inGrace = (p) => { const t = stamp(pkey(p)); return t !== null && t > 0 && (Date.now() - t) < GRACE_DAYS * DAY };
+const clearsOn = (p) => new Date(stamp(pkey(p)) + GRACE_DAYS * DAY)
+  .toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+const graceLine = (p) => {
+  const days = Math.max(0, GRACE_DAYS - Math.floor((Date.now() - stamp(pkey(p))) / DAY));
+  return 'Marked posted. Staying on the desk ' + (days === 1 ? 'until tomorrow' : 'for ' + days + ' more days')
+    + ', so you can still get at it to add comments. Clears itself on ' + clearsOn(p) + '.';
+};
 
 /* Copy as PLAIN TEXT, always.
    Justin, 6 November 2026: copying from this page was arriving with a black
@@ -55,7 +82,7 @@ async function copyPlain(text, btn) {
    mis-tap should not lose a post. Unticking puts it back where it was. */
 function card (p, i) {
   return `
-    <article class="card ${i === 0 && !read(pkey(p)) ? 'top' : ''} ${read(pkey(p)) ? 'is-done' : ''}" data-n="${esc(p.n)}">
+    <article class="card ${i === 0 && !read(pkey(p)) ? 'top' : ''} ${read(pkey(p)) ? 'is-done' : ''} ${inGrace(p) ? 'is-grace' : ''}" data-n="${esc(p.n)}">
       <div class="head">
         <div class="title">${esc(p.title)}</div>
         <div class="chips"><span class="chip num">GDC-${esc(p.n)}</span><span class="chip">LinkedIn</span><span class="chip">${p.chars} chars</span>${p.card ? '<span class="chip">has a card</span>' : '<span class="chip warn">no image</span>'}</div>
@@ -79,17 +106,22 @@ function card (p, i) {
           <pre>${esc(p.share)}</pre>
         </div>
       </details>` : ''}
+      ${inGrace(p) ? `<p class="meta grace">${esc(graceLine(p))}</p>` : ''}
       <p class="meta">${esc(p.checked)}</p>
       <label class="done"><input type="checkbox" id="done-${esc(p.n)}" ${read(pkey(p)) ? 'checked' : ''}> Posted</label>
     </article>`;
 }
 
 function render() {
-  const live = D.posts.filter((p) => !read(pkey(p)));
-  const done = D.posts.filter((p) => read(pkey(p)));
-  document.getElementById('count').textContent = live.length
-    ? live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
-    : 'All ' + D.posts.length + ' marked as posted. Nothing left on the desk.';
+  /* A ticked post stays in the live list until its grace days are up. */
+  const live = D.posts.filter((p) => !read(pkey(p)) || inGrace(p));
+  const done = D.posts.filter((p) => read(pkey(p)) && !inGrace(p));
+  const togo = D.posts.filter((p) => !read(pkey(p))).length;
+  const resting = live.length - togo;
+  document.getElementById('count').textContent = togo
+    ? togo + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
+      + (resting ? ' ' + resting + (resting === 1 ? ' posted one is' : ' posted ones are') + ' still here for comments.' : '')
+    : 'All ' + D.posts.length + ' marked as posted. Nothing left to write.';
   document.getElementById('posts').innerHTML = live.map(card).join('');
   const wrap = document.getElementById('postedwrap');
   wrap.hidden = done.length === 0;
@@ -166,25 +198,38 @@ document.addEventListener('click', (e) => {
    wrong post. So a tick only greys it where it is, and a button appears to put
    the ticked ones away when you are ready. */
 function sweepButton () {
-  const n = D.posts.filter((p) => read(pkey(p))).length;
+  /* The grace period does this on its own after GRACE_DAYS. The button is the
+     override for when he knows he is finished with a post sooner. */
   const inList = [...document.querySelectorAll('#posts article.is-done')].length;
   const b = document.getElementById('sweep');
   b.hidden = inList === 0;
-  b.textContent = 'Put away the ' + inList + (inList === 1 ? ' posted one' : ' posted');
-  document.getElementById('count').textContent = (D.posts.length - n)
-    ? (D.posts.length - n) + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
-    : 'All ' + D.posts.length + ' marked as posted. Nothing left on the desk.';
+  b.textContent = inList === 1 ? 'Put that one away now' : 'Put those ' + inList + ' away now';
+  const togo = D.posts.filter((p) => !read(pkey(p))).length;
+  document.getElementById('count').textContent = togo
+    ? togo + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
+      + (inList ? ' ' + inList + (inList === 1 ? ' posted one is' : ' posted ones are') + ' still here for comments.' : '')
+    : 'All ' + D.posts.length + ' marked as posted. Nothing left to write.';
 }
 
 document.addEventListener('change', (e) => {
   if (!e.target.matches('label.done input')) return;
   const art = e.target.closest('article');
   write('gdc-desk-posted-' + art.dataset.n, e.target.checked);
-  art.classList.toggle('is-done', e.target.checked);
+  /* Redraw this one card where it stands, so the grace note appears or goes
+     without anything else on the page shifting under his thumb. The card keeps
+     its place because a ticked post stays in the live list during its grace. */
+  const p = D.posts.find((x) => x.n === art.dataset.n);
+  const live = D.posts.filter((x) => !read(pkey(x)) || inGrace(x));
+  if (p) art.outerHTML = card(p, live.indexOf(p));
   sweepButton();
 });
 
 document.getElementById('sweep').addEventListener('click', () => {
+  /* Expire the grace on everything ticked but still on the desk, by writing the
+     legacy stamp, which inGrace treats as already up. */
+  D.posts.filter((p) => inGrace(p)).forEach((p) => {
+    try { localStorage.setItem(pkey(p), '1') } catch (e) {}
+  });
   const open = document.getElementById('postedwrap').open;
   render();
   document.getElementById('postedwrap').open = open;
