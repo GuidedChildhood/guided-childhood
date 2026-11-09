@@ -8,6 +8,7 @@ import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacte
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 import { schoolChipFor } from '@/lib/digi/school-chip'
+import { DIGI_HELD_PARAM, DIGI_PROMPT_PARAMS, takeHeldDigiPrompt, type DigiHandoff } from '@/lib/digi/handoff'
 import { canDictate, startDictation, readAloud, stopReading, readAloudOn, setReadAloud, HANDS_FREE_PAUSE_MS, HANDS_FREE_QUIET_MS, type Dictation } from '@/lib/voice/digi-voice'
 import { warmVoices } from '@/lib/voice/english-voice'
 
@@ -166,7 +167,7 @@ export function AnswerBody({ text }: { text: string }) {
 
 export default function DigiChat({
   initialMessages,
-  initialAsk,
+  handoff,
   initialCount,
   dailyLimit,
   stagePrompts,
@@ -178,9 +179,10 @@ export default function DigiChat({
   knownNames = [],
 }: {
   initialMessages: Message[]
-  /** A question pre written by another surface (a dip at the check in), so
-   *  the box arrives filled and the parent only has to send it. */
-  initialAsk?: string | null
+  /** A question handed over by another surface, opened on the server from a
+   *  sealed ?p= link (or an old ?q= / ?ask=). A question held in this tab is
+   *  collected below instead. See lib/digi/handoff.ts. */
+  handoff?: DigiHandoff | null
   initialCount: number
   /**
    * Messages a day, or null when there is no limit.
@@ -225,7 +227,7 @@ export default function DigiChat({
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [historyOpen, setHistoryOpen] = useState(false)
-  const [input, setInput] = useState(initialAsk ?? '')
+  const [input, setInput] = useState(handoff?.mode === 'draft' ? handoff.text : '')
   const [loading, setLoading] = useState(false)
   const [streamingReply, setStreamingReply] = useState(false)
   // Justin: "when you ask for DiGi's help it does run through what is
@@ -579,13 +581,42 @@ export default function DigiChat({
   // ready made question: send it straight away so the conversation is
   // already under way, rather than dumping a long sentence into a one
   // line box where it sits half clipped and looks broken.
+  //
+  // The question never sits in the URL (lib/digi/handoff.ts): it was held in
+  // this tab by the link's tap (?held=1), or sealed into ?p= and opened by the
+  // page on the server. Either way every handoff parameter is wiped from the
+  // address bar here, so it is not in history or the next Referer, while the
+  // child and device stay.
+  // Once per mount: the server's handoff is a prop, so without this a second
+  // run of the effect (React's dev double run) would ask the question twice.
+  const handedOff = useRef(false)
   useEffect(() => {
+    if (handedOff.current) return
+    handedOff.current = true
     const searchParams = new URLSearchParams(window.location.search)
-    const q = searchParams.get('q')
     const device = searchParams.get('device')
     if (device) setDeviceKey(device)
-    if (!q) return
-    window.history.replaceState(null, '', window.location.pathname)
+    const held = searchParams.get(DIGI_HELD_PARAM) ? takeHeldDigiPrompt() : null
+    if (DIGI_PROMPT_PARAMS.some(k => searchParams.has(k))) {
+      for (const k of DIGI_PROMPT_PARAMS) searchParams.delete(k)
+      const rest = searchParams.toString()
+      const clean = rest ? `${window.location.pathname}?${rest}` : window.location.pathname
+      // One tick later, not now. This effect runs before the app router's own
+      // (a child's effects run first), so a replaceState here happens before
+      // Next has hooked history and the router never hears of it. The
+      // router.refresh after a sent question then wrote the old URL, words and
+      // all, straight back into the address bar. Deferred, the router has
+      // hooked history and keeps the clean URL as its own.
+      window.setTimeout(() => window.history.replaceState(null, '', clean), 0)
+    }
+    const arrived = held ?? handoff ?? null
+    if (!arrived) return
+    if (arrived.mode === 'draft') {
+      setInput(arrived.text)
+      requestAnimationFrame(() => textareaRef.current?.focus())
+      return
+    }
+    const q = arrived.text
     if (/:\s*$/.test(q)) {
       const topicMatch = q.match(/:\s*([^.]+)\.[^.]*:\s*$/)
       setContinuingTopic(topicMatch?.[1]?.trim() ?? 'this script')

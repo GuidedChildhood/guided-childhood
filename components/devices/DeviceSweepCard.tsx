@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { currentChildId } from '@/lib/children/current'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // DiGi's fortnightly nudge on the Device Safety Hub: has a new device come into
 // the house, and do the settings still match the child's age. It shows at most
@@ -142,12 +143,12 @@ export default function DeviceSweepCard() {
               what changes at their new age, or what to know about the games on
               the console we know is in the house. */}
           {chat && (
-            <a
-              href={`/dashboard/digi?q=${encodeURIComponent(chat.q)}`}
+            <DigiAskLink
+              prompt={chat.q}
               style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'underline', padding: '11px 2px' }}
             >
               {chat.label}
-            </a>
+            </DigiAskLink>
           )}
         </div>
       )}

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // One vetted tool, in the honest shape DiGi always uses: the problem in a
 // parent's words, the fix and the science behind it, and the benefit of
@@ -59,9 +60,9 @@ export default function ToolCard({ tool }: { tool: Tool }) {
             See it{tool.affiliate ? '' : ''} →
           </a>
         ) : (
-          <Link href={`/dashboard/digi?q=${encodeURIComponent(`I am looking at ${tool.category.toLowerCase()} to help with: ${tool.problem} Which specific one would you recommend for our family and what should I check before signing up?`)}`} style={ctaStyle}>
+          <DigiAskLink prompt={`I am looking at ${tool.category.toLowerCase()} to help with: ${tool.problem} Which specific one would you recommend for our family and what should I check before signing up?`} style={ctaStyle}>
             Ask DiGi which one fits us →
-          </Link>
+          </DigiAskLink>
         )}
         {tool.affiliate && tool.url && (
           <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '7px' }}>

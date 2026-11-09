@@ -3,6 +3,7 @@ import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { TRANSITION_STEPS, transitionFor, transitionAsk } from '@/lib/learning/transition'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The Year 6 into Year 7 phone bridge.
 //
@@ -105,8 +106,8 @@ export default async function SecondaryPage() {
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
           The five steps are the order. What you actually decide inside them is yours, and it depends on things only you know about {name}.
         </p>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(ask)}`}
+        <DigiAskLink
+          prompt={ask}
           style={{
             display: 'inline-flex', padding: '13px 18px', textDecoration: 'none',
             background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)',
@@ -115,7 +116,7 @@ export default async function SecondaryPage() {
           }}
         >
           Work it through with DiGi
-        </Link>
+        </DigiAskLink>
       </div>
     </div>
   )

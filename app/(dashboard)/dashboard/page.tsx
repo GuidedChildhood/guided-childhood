@@ -78,6 +78,7 @@ import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
 import DigiFlashUp from '@/components/digi/DigiFlashUp'
 import DigiPrintableNudge from '@/components/digi/DigiPrintableNudge'
 import DigiScriptNudge from '@/components/digi/DigiScriptNudge'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 import { printablesForStage } from '@/lib/printables/registry'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -1980,9 +1981,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
           {getStagePrompts(stage.id).map((prompt, i) => (
-            <Link
+            <DigiAskLink
               key={i}
-              href={qc(`/dashboard/digi?q=${encodeURIComponent(prompt)}`)}
+              prompt={prompt}
+              child={child?.id}
               style={{
                 display: 'block',
                 padding: '10px 14px',
@@ -1996,7 +1998,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               }}
             >
               {prompt}
-            </Link>
+            </DigiAskLink>
           ))}
         </div>
 

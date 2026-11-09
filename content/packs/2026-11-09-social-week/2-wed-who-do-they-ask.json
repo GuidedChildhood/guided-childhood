@@ -1,0 +1,70 @@
+{
+  "name": "2026-11-09-wed-who-do-they-ask",
+  "size": "portrait",
+  "lead": "orbit",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "question",
+      "lead": "orbit",
+      "tag": "1 / 6",
+      "eyebrow": "Orbit asks",
+      "headline": "When they are stuck, who do they ask?",
+      "body": "Almost 2,000 children were asked about AI. Swipe."
+    },
+    {
+      "name": "concession",
+      "type": "big",
+      "eyebrow": "First, the fair point",
+      "headline": "Companion apps<br>deserve attention.",
+      "body": "Worrying about them is not a panic.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "finding",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "What the regulator found",
+      "headline": "78% and 8%.",
+      "body": "Of almost 2,000 Australian children aged 10 to 17, 78% had used an AI assistant. 8% had used a companion. Source: eSafety Commissioner, August 2026.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "reading",
+      "type": "quote",
+      "eyebrow": "The honest reading",
+      "quote": "Australian children, not British ones. One survey, February to March 2026.",
+      "attrib": "Of users, 54% said personal or social reasons. That is a wide bucket."
+    },
+    {
+      "name": "tonight",
+      "type": "script",
+      "eyebrow": "The tonight line",
+      "headline": "Ask it as curiosity",
+      "not": "Are you talking to a chatbot behind my back?",
+      "say": "When you are stuck, who do you ask? Do you ever ask an AI?"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next AI headline.",
+      "send": "Send it to the parent who thinks it is all companion apps."
+    }
+  ],
+  "post": {
+    "date": "2026-11-11",
+    "day": "Wednesday 11 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who is worried about AI companion apps.\n\nFair point first: companion apps deserve attention, and worrying about them is not a panic.\n\nHere is the part the headlines miss. Australia's online safety regulator surveyed almost 2,000 Australian children aged 10 to 17 about AI in early 2026. 78 percent had used an AI assistant, the ordinary kind that many parents think of as homework help. 8 percent had used an AI companion.\n\nAmong the children who had used either, 54 percent said they had used it for personal or social reasons. That is a wide bucket. It could be a chat about a game as easily as a worry, and it is one survey.\n\nThese are Australian children, not British ones, so do not carry the percentages across. What does carry across is the question: when your child is stuck or worried, who do they ask first?\n\nTonight: ask it as plain curiosity. \"When you are stuck, who do you ask? Do you ever ask an AI?\" Listen first. Do not react.\n\nWhen your child is stuck, who do you think they ask first?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who is worried about AI companion apps.\n\nFair point first: companion apps deserve attention, and worrying about them is not a panic.\n\nHere is the part the headlines miss. Australia's online safety regulator surveyed almost 2,000 Australian children aged 10 to 17 about AI in early 2026. 78 percent had used an AI assistant, the ordinary kind that many parents think of as homework help. 8 percent had used an AI companion.\n\nAmong the children who had used either, 54 percent said they had used it for personal or social reasons. That is a wide bucket. It could be a chat about a game as easily as a worry, and it is one survey.\n\nThese are Australian children, not British ones, so do not carry the percentages across. What does carry across is the question: when your child is stuck or worried, who do they ask first?\n\nTonight: ask it as plain curiosity. \"When you are stuck, who do you ask? Do you ever ask an AI?\" Listen first. Do not react.\n\nWhen your child is stuck, who do you think they ask first?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of six. Orbit, the blue planet friend, sits beside the question: when they are stuck, who do they ask? The later cards give the fair point, an Australian regulator's survey of almost 2,000 children, an honest reading of it, and one question to ask at tea.",
+    "first_comment": "Source: eSafety Commissioner (Australia), \"Talking to machines: Children's experiences with AI assistants and companions\", August 2026. Survey of almost 2,000 children living in Australia, aged 10 to 17, fielded February to March 2026. 78 percent and 8 percent are of all children surveyed. 54 percent is of the children who had used an assistant or a companion, not of all children. One country, one survey; in some cases a parent may have answered for the child. It does not tell us what British children do."
+  }
+}

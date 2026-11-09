@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 type ScriptData = {
   sort_order: number
@@ -548,13 +549,13 @@ function CompletionCard({
         >
           ← Back to list
         </Link>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(`I just read the script: ${script.title}. I want to adapt it for my situation.`)}`}
+        <DigiAskLink
+          prompt={`I just read the script: ${script.title}. I want to adapt it for my situation.`}
           className="btn btn-gold"
           style={{ flex: 1, textAlign: 'center', padding: '13px 18px', fontSize: 'var(--text-base)' }}
         >
           Ask DiGi about this
-        </Link>
+        </DigiAskLink>
         <Link
           href="/dashboard/pathway"
           style={{

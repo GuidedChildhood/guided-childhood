@@ -6,6 +6,7 @@
 
 import { followUpOpener } from '@/lib/digi/followup-queue'
 import { deviceLabel } from '@/lib/quests/device-time'
+import { digiPromptHref, resealDigiHref } from '@/lib/digi/prompt-token'
 
 type NotifClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
@@ -123,9 +124,12 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       body: d.body as string,
       // A follow up card made before 7 October 2026 has no href, and "You
       // flagged: How did that go?" told DiGi nothing. The thread is the body.
-      href: (d.href as string | null) || `/dashboard/digi?q=${encodeURIComponent(
+      // Sealed for this parent (lib/digi/prompt-token.ts): the thread names the
+      // child and the family's words, so it never rides in the URL as text. A
+      // card stored before 7 November 2026 with ?q= words is resealed here.
+      href: resealDigiHref(d.href as string | null, userId) || digiPromptHref(userId,
         d.kind === 'follow_up' ? followUpOpener(String(d.body)) : `You flagged: ${d.title}. Can we talk it through?`,
-      )}`,
+      ),
       at: String(d.created_at),
     })
   }

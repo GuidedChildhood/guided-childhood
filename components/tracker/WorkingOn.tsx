@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from 'react'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import { scoreWord } from '@/components/daily/ConcernCheckIn'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The heart of Progress: not a graph, but the real list of what this
 // family is working on, and the parent's own verdict on each. Solved
@@ -320,8 +321,9 @@ export default function WorkingOn({
                     scripts". DiGi opens with the question already written;
                     the scripts open already searched for this worry. */}
                 <div data-moment-tools style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
-                  <a
-                    href={`/dashboard/digi?ask=${encodeURIComponent(`Help me with ${c.label.toLowerCase()} for ${childName}. What should I try first?`)}`}
+                  <DigiAskLink
+                    prompt={`Help me with ${c.label.toLowerCase()} for ${childName}. What should I try first?`}
+                    mode="draft"
                     style={{
                       background: 'var(--terracotta)', border: 'var(--edge)', color: 'var(--ink)',
                       borderRadius: 'var(--radius-btn)', padding: '9px 12px', textDecoration: 'none', flex: '1 1 0', textAlign: 'center', whiteSpace: 'nowrap',
@@ -330,7 +332,7 @@ export default function WorkingOn({
                     }}
                   >
                     Ask DiGi
-                  </a>
+                  </DigiAskLink>
                   <a
                     href={`/dashboard/scripts?q=${encodeURIComponent(c.label)}`}
                     style={{

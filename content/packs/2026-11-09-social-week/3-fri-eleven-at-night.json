@@ -1,0 +1,69 @@
+{
+  "name": "2026-11-09-fri-eleven-at-night",
+  "size": "portrait",
+  "lead": "digi",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "hook",
+      "type": "question",
+      "lead": "digi",
+      "tag": "1 / 6",
+      "eyebrow": "DiGi, what do I say?",
+      "headline": "It is eleven at night. Something happened online.",
+      "body": "Who do you ask? Swipe."
+    },
+    {
+      "name": "options",
+      "type": "big",
+      "eyebrow": "The usual options",
+      "headline": "A group.<br>A panicked search.<br>Your sleeping partner.",
+      "body": "None of them know your child.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "no-verdict",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "What we made",
+      "headline": "An AI that<br>will not give<br>a verdict.",
+      "body": "A verdict ends the conversation. DiGi gives you the conditions instead.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "conditions",
+      "type": "big",
+      "eyebrow": "What you get",
+      "headline": "Structure, time,<br>who agrees,<br>when to review.",
+      "body": "A plan the two of you can say out loud.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "hinge",
+      "type": "quote",
+      "eyebrow": "Why it fits your child",
+      "quote": "The answer for a nine year old is not the answer for a fourteen year old.",
+      "attrib": "DiGi knows where your child is on the pathway."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the night you need it.",
+      "send": "Send it to the parent who messages you at eleven."
+    }
+  ],
+  "post": {
+    "date": "2026-11-13",
+    "day": "Friday 13 November",
+    "time": "10:00",
+    "channels": [
+      "Instagram",
+      "Facebook"
+    ],
+    "instagram": "Send this to the parent who is awake at eleven worrying about something their child saw.\n\nIt is eleven at night and something has happened online. The options are a Facebook group, a panicked search, or waking your partner.\n\nWe built an AI for parents and then forbade it from giving an answer.\n\nThat is DiGi. It will not say yes or no, because a verdict ends the conversation. Instead:\n\n1. You tell DiGi what happened, in your own words.\n2. It knows your child's stage, so the answer for a nine year old is not the answer for a fourteen year old.\n3. It will not say allow or ban.\n4. It gives you the conditions: what structure, at what time, agreed with whom, reviewed together when.\n5. It gives you the words to open the conversation.\n\nA verdict ends the conversation. Conditions keep it going.\n\nWhat do you do at eleven at night when you do not know what to say?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who is awake at eleven worrying about something their child saw.\n\nIt is eleven at night and something has happened online. The options are a Facebook group, a panicked search, or waking your partner.\n\nWe built an AI for parents and then forbade it from giving an answer.\n\nThat is DiGi. It will not say yes or no, because a verdict ends the conversation. Instead:\n\n1. You tell DiGi what happened, in your own words.\n2. It knows your child's stage, so the answer for a nine year old is not the answer for a fourteen year old.\n3. It will not say allow or ban.\n4. It gives you the conditions: what structure, at what time, agreed with whom, reviewed together when.\n5. It gives you the words to open the conversation.\n\nA verdict ends the conversation. Conditions keep it going.\n\nWhat do you do at eleven at night when you do not know what to say?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "alt": "Card one of six. DiGi, the golden star, beside the question: it is eleven at night and something happened online, who do you ask? The later cards show what DiGi gives instead of a verdict: the conditions, fitted to your child's stage."
+  }
+}

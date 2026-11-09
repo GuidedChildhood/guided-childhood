@@ -11,6 +11,7 @@ import ScriptFridgeCard from '@/components/rightnow/ScriptFridgeCard'
 import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
 import { currentChildId } from '@/lib/children/current'
 import HappyIcon from '@/components/kid/HappyIcon'
+import { digiHeldHref, holdDigiPrompt } from '@/lib/digi/handoff'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -331,11 +332,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     } catch { /* cancelled */ }
   }
 
-  const digiHref = `/dashboard/digi?q=${encodeURIComponent(
-    script
-      ? `Happening right now: ${pickedLabel.toLowerCase()}. I just used the script ${script.title}. Talk me through what comes next.`
-      : `Happening right now: ${pickedLabel.toLowerCase()}. Talk me through it.`
-  )}`
+  // Held in the tab on the tap, never written into the URL (lib/digi/handoff.ts).
+  const digiAsk = script
+    ? `Happening right now: ${pickedLabel.toLowerCase()}. I just used the script ${script.title}. Talk me through what comes next.`
+    : `Happening right now: ${pickedLabel.toLowerCase()}. Talk me through it.`
 
   return (
     <>
@@ -764,8 +764,8 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     </div>
                   )}
                   <Link
-                    href={digiHref}
-                    onClick={() => setOpen(false)}
+                    href={digiHeldHref()}
+                    onClick={() => { holdDigiPrompt(digiAsk); setOpen(false) }}
                     style={{
                       display: 'block', textAlign: 'center', textDecoration: 'none',
                       background: 'var(--terracotta)', color: 'var(--ink)',

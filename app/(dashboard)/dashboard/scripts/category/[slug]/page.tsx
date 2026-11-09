@@ -5,6 +5,7 @@ import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { CATEGORY_META } from '../../page'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 const STAGE_LABELS: Record<string, string> = {
   foundation:  'Ages 4 to 7',
@@ -183,12 +184,12 @@ export default async function CategoryPage({
                   >
                     {isDone ? 'Read again' : 'Start deck'}
                   </Link>
-                  <Link
-                    href={`/dashboard/digi?q=${encodeURIComponent(`Help me with: ${script.title}`)}`}
+                  <DigiAskLink
+                    prompt={`Help me with: ${script.title}`}
                     style={chunky('white')}
                   >
                     Ask DiGi
-                  </Link>
+                  </DigiAskLink>
                 </div>
               )}
             </div>

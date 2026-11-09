@@ -20,6 +20,17 @@
 // say), rename the parameter rather than adding an exception: the name is
 // what a reader of the logs will take it to be.
 //
+// DIGI'S QUESTIONS (7 November 2026). The same goes for a question handed to
+// DiGi: /dashboard/digi?q=<words> or ?ask=<words>. Those words were often a
+// child's name and the family's own ("Olga asked to keep her phone till
+// nine"), and they cannot be caught by a parameter name, since q is just q.
+// So the rule for DiGi is stricter and simpler: a q= or ask= on a DiGi link
+// may only carry a string fixed in the code. Anything computed, a template
+// ${...} or a string joined on, fails, because this script cannot tell a
+// variable holding a script title from one holding a child's name. Hand the
+// question over with DigiAskLink or holdDigiPrompt (client) or digiPromptHref
+// (server) instead; lib/digi/handoff.ts says why.
+//
 //   node scripts/check-no-pii-in-urls.mjs
 
 import { readFileSync, readdirSync, statSync } from 'node:fs'
@@ -36,6 +47,16 @@ const ASSIGNED = new RegExp(`(?:[?&]|['"\`])${PERSON}=(?:\\$\\{|['"\`]\\s*\\+)`,
 const PARAMS_OBJECT = new RegExp(`URLSearchParams\\(\\s*\\{[^}]*\\b${PERSON}\\s*:`, 'i')
 const PARAMS_SET = new RegExp(`searchParams\\.(?:set|append)\\(\\s*['"\`]${PERSON}['"\`]`, 'i')
 
+// A DiGi link: /dashboard/digi?... or a bare digi?... on the same line.
+const DIGI_LINK = /\/dashboard\/digi\?|\bdigi\?/
+// ?q=${  &ask=' +  is a computed question. ${encodeURIComponent('fixed words')}
+// is let through: a literal is the same for every family and names nobody.
+// The } and quotes catch a q= that follows an optional part, as in
+// ?${childId ? `child=${childId}&` : ''}ask=${...}.
+const DIGI_COMPUTED = /[?&}'"`](?:q|ask)=(?:\$\{(?!encodeURIComponent\(\s*(['"])[^'"`$]*\1\s*\)\})|['"`]\s*\+)/
+// A DiGi URL built with URLSearchParams or searchParams.set and a q or ask.
+const DIGI_PARAMS = /URLSearchParams\(\s*\{[^}]*\b(?:q|ask)\s*:|searchParams\.(?:set|append)\(\s*['"`](?:q|ask)['"`]/
+
 function* walk(p) {
   const st = statSync(p, { throwIfNoEntry: false })
   if (!st) return
@@ -48,6 +69,7 @@ function* walk(p) {
 const code = line => line.replace(/^\s*(\/\/|\*|\/\*).*$/, '').replace(/\s\/\/\s.*$/, '')
 
 const problems = []
+let digiProblems = 0
 let files = 0
 for (const root of ROOTS) {
   for (const file of walk(root)) {
@@ -62,6 +84,9 @@ for (const root of ROOTS) {
       if (/searchParams\.set\('school', code!?\)/.test(line)) return
       if (ASSIGNED.test(line) || PARAMS_OBJECT.test(line) || PARAMS_SET.test(line)) {
         problems.push(`${file}:${i + 1}  ${raw.trim().slice(0, 160)}`)
+      } else if (DIGI_LINK.test(line) && (DIGI_COMPUTED.test(line) || DIGI_PARAMS.test(line))) {
+        problems.push(`${file}:${i + 1}  ${raw.trim().slice(0, 160)}  (a computed question for DiGi)`)
+        digiProblems++
       }
     })
   }
@@ -73,6 +98,10 @@ if (problems.length) {
   console.error('\nA name or an email in a URL ends up in logs, analytics, history and Referer headers.')
   console.error('Carry an opaque token and resolve it on the server (lib/email/link-token.ts,')
   console.error('schools/lib/pilot-prefill.ts), or hand it over in this device\'s storage.')
+  if (digiProblems) {
+    console.error('\nA question for DiGi: use DigiAskLink or holdDigiPrompt in client code, or')
+    console.error('digiPromptHref (sealed for the parent) on the server. See lib/digi/handoff.ts.')
+  }
   process.exit(1)
 }
-console.log(`check-no-pii-in-urls ok: ${files} files, no name or email put into a URL.`)
+console.log(`check-no-pii-in-urls ok: ${files} files, no name, email or computed DiGi question put into a URL.`)

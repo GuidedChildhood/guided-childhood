@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // Year 6 into Year 7, on Home, for the months it is actually happening.
 //
@@ -92,8 +93,8 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
         >
           See the five steps
         </Link>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(bridge.ask)}`}
+        <DigiAskLink
+          prompt={bridge.ask}
           style={{
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
             background: '#fff', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
@@ -102,7 +103,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           }}
         >
           Ask DiGi
-        </Link>
+        </DigiAskLink>
       </div>
     </div>
   )
