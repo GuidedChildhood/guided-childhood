@@ -249,3 +249,7 @@ Justin: "make the real images the first image on Etsy", "real images for all lis
 ## 7 November 2026: the two lessons stop teaching the warning
 
 Justin: "Rewrite both." The Foundation home lesson's five minute whisper becomes the stopping place, picked before the screen goes on; KS2 ks2-04's cool down lap becomes agree, finish, swap, and ks2-05's recall follows. Migration 389 (gen-389.mjs) writes them, guarded on production's hashes so a hand edit aborts it. Not applied. PR 1452.
+
+## 9 November 2026: the usual rows, thirty everyday flashpoints headed off
+
+Justin's Monday morning row over an 11 year old's room, and 29 more like it. `lib/content/family-flashpoints.ts` is the twin of the device issues bank for rows that are not about screens. Each row has the parent's line first, the plan, the child's part, the real scripts, a source (checked, one demoted and rephrased) and a heads up. `/dashboard/flashpoints` says "these happen in every house". One tap raises the row as a concern and turns on its heads up, which replaces the usual window push on the day and in the window it happens, at most two days a week, and never goes to a child's device. The plan can be sent to the other parent with the share sheet. DiGi reads the rows when no device issue matches. The room reset stays a starred job, as the template already has it. No migration. Guard: `check-family-flashpoints`. PR 1461.
