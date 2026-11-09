@@ -318,3 +318,16 @@ custom curriculum planning, AI generated evidence.
 | C | Record who taught it | **Optional initials, off by default.** A teacher's name is staff personal data; initials keep the DPA simple |
 | D | Free text note on a delivery | **Keep, 280 characters, with "no pupil names" under the box.** The DPA currently says no free text about pupils, so the wording changes to "free text written by staff, which must not name pupils" |
 | E | Legal text | The DPA line "the classroom player sends nothing to the server" and the privacy policy change in PR 1. Worth a read before it ships |
+
+## Decided, 9 November 2026 (Justin, through the question cards)
+
+| | Decision |
+|---|---|
+| A | **Reversed** the 29 August "no delivery state on the server" rule, for delivery records only. No pupil data, no accounts. |
+| B | **Anyone holding the school code** sees and corrects the record; corrections logged with a reason. |
+| C | **Optional teacher initials**, off by default. |
+| D | **Optional note, 280 characters**, "no pupil names" under the box. |
+| E | Justin **reads the DPA and privacy wording** before the first tracking PR merges. |
+| French | The Mark delivered button comes to French first among the improvements; French media **moves to our storage now**; French stays **hidden until launch**. |
+
+Build order: PR 1 (records, button, assessment sheet, legal draft) then PR 2 (tracker on server records), with French wired into PR 1.

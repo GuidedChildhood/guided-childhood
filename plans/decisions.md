@@ -305,3 +305,7 @@ Justin asked for one tap delivery records, optional assessment and automatic rep
 ## 9 November 2026: the pilot teacher's French arrives in the languages tab
 
 Justin asked for her KS2 French (french-curriculum.pages.dev) on the platform as its own tab, in our structure. `scripts/languages/sync-french.mjs` parses her site's data files without running them into `schools/lib/languages/fr.json`; `/languages/fr` generates the year view, unit, lesson, full screen teach (her decks framed) and a KS2 coverage grid from it. Media stays on her host for now (186 MB for two units). The nav gets a Languages tab only for a languages code, so the 9 October hidden rule holds; `check-languages-door` allows that one conditional link. Plan with eight improvement ideas: `plans/2026-11-09-french-into-languages-plan.md`.
+
+## 9 November 2026: tracking approved, bridge b reversed for delivery records
+
+Justin approved the one click tracking spec as recommended: delivery records go on the server (the 29 August bridge b rule reversed for these only, still no pupil data or accounts), anyone with the school code sees and corrects them, optional teacher initials, optional 280 character note, and he reads the DPA and privacy wording before PR 1 merges. French: Mark delivered is its first improvement, its media moves to our storage now, and it stays hidden until launch. Detail in the spec's Decided table.
