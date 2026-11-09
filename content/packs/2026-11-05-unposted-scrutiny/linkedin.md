@@ -252,6 +252,8 @@ What I do think is that the difference comes down to what happens next. Whether 
 
 So the one question I ask about any tool a child talks to isn't whether it's safe.
 
+Safety is the floor.
+
 It's whether it points back to a human when it matters.
 
 Parents, which is it in your house: a place to practise, or a place to hide?
@@ -307,6 +309,8 @@ To be fair, none of this says the ban can't work. A ban with real checks is a be
 
 But look at what a check does. It decides who gets through the door.
 
+Nothing more.
+
 It doesn't decide what a fifteen year old does with a friend's login, or what they feel when something odd lands in their feed.
 
 Ofcom says it'll publish research on circumvention within twelve months of the ban coming into effect. Until then, what a child understands about why the rule exists is doing a lot of the work.
@@ -334,7 +338,9 @@ That's eSafety's "Talking to machines", published in August, with the children s
 
 But the shape of it survives the border, and the shape is the point.
 
-Almost every child is on the ordinary assistant. The one parents think of as homework help. Very few are on a companion app, which is the thing the headlines and most of the proposed rules are about.
+Almost every child is on the ordinary assistant. The one parents think of as homework help.
+
+Not the scary one. Very few are on a companion app, which is the thing the headlines and most of the proposed rules are about.
 
 So a rule written for companion apps misses the tool nearly four children in five actually use.
 

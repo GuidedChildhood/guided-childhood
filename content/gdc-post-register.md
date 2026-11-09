@@ -84,6 +84,41 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 **Next free number: 054.**
 
+## What is on the Post Desk, 9 November 2026
+
+The desk now carries **24 posts**, every ready and unposted row above that has
+copy in this repository: 053 down to 037, then 025, 024, 023, 021, 020, 019, 018.
+
+**Ten of those were missing from it until 9 November.** The desk was built from
+the recent packs and held 037 to 053 only, so seven October rewrites plus 040,
+041 and 042 were ready, unposted and invisible on the page Justin schedules
+from. The worst of it was **025, which has a deadline**: the European
+Commission's feedback window on the EU KIDS Act closes 26 November 2026, and
+that post is the only one in the register with an expiry date.
+
+**Two ready rows are still not on the desk: 035 and 036.** Their copy is in
+Drive markdown and not in this repository, so there was nothing to put on the
+page. They need the Drive post review before they count as ready, per
+CLAUDE.md, and that has not been run on them.
+
+The ten added have **not** been through the 5 November scrutiny pass, which
+covered 044 to 053 only. Each one's note on the desk says so.
+
+## The ChatGPT register disagrees with this one
+
+The 9 November ChatGPT daily brief in Drive states that **051 was published on
+5 November** and that **052 is scheduled for Tuesday 10 November at 08:00**.
+This register has both as ready and unposted, with 050 and 051 held because the
+Ofcom and eSafety PDFs are still unread.
+
+Both cannot be true. ChatGPT's own brief concedes its 051 publication URL is
+missing. Claude cannot see LinkedIn, so neither system can settle it and
+**only Justin can**. Nothing here has been changed to match the brief, because
+rule 4 says a published number is spent for good and acting on an unverified
+publication claim is how a number gets burned. This is the exact failure mode
+the top of this file describes: two systems assigning state, neither able to
+see the other.
+
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
 before the feature" (7 October). The second one holds it.
