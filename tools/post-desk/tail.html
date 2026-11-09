@@ -49,11 +49,12 @@ async function copyPlain(text, btn) {
   done('Copy from the white box');
 }
 
-function render() {
-  const live = D.posts.filter((p) => !read(pkey(p)));
-  const line = () => live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.';
-  document.getElementById('count').textContent = line();
-  document.getElementById('posts').innerHTML = D.posts.map((p, i) => `
+/* Justin, 9 November 2026: take what is posted off the desk.
+   Ticking Posted moves a post out of the working list and into a folded
+   section at the foot. Nothing is deleted, because the tick is one tap and a
+   mis-tap should not lose a post. Unticking puts it back where it was. */
+function card (p, i) {
+  return `
     <article class="card ${i === 0 && !read(pkey(p)) ? 'top' : ''} ${read(pkey(p)) ? 'is-done' : ''}" data-n="${esc(p.n)}">
       <div class="head">
         <div class="title">${esc(p.title)}</div>
@@ -80,7 +81,23 @@ function render() {
       </details>` : ''}
       <p class="meta">${esc(p.checked)}</p>
       <label class="done"><input type="checkbox" id="done-${esc(p.n)}" ${read(pkey(p)) ? 'checked' : ''}> Posted</label>
-    </article>`).join('');
+    </article>`;
+}
+
+function render() {
+  const live = D.posts.filter((p) => !read(pkey(p)));
+  const done = D.posts.filter((p) => read(pkey(p)));
+  document.getElementById('count').textContent = live.length
+    ? live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
+    : 'All ' + D.posts.length + ' marked as posted. Nothing left on the desk.';
+  document.getElementById('posts').innerHTML = live.map(card).join('');
+  const wrap = document.getElementById('postedwrap');
+  wrap.hidden = done.length === 0;
+  document.getElementById('postedcount').textContent =
+    done.length + (done.length === 1 ? ' posted, put away' : ' posted, put away');
+  document.getElementById('posted').innerHTML = done.map(card).join('');
+  const b = document.getElementById('sweep');
+  if (b) b.hidden = true;
 }
 
 document.getElementById('newscount').textContent =
@@ -144,13 +161,33 @@ document.addEventListener('click', (e) => {
   return copyPlain(m ? x.subjects[Number(m[1])] : x[k], b);
 });
 
+/* Ticking does NOT move the card. A card that vanishes under your thumb slides
+   the next one into its place, and on a phone the second tap then lands on the
+   wrong post. So a tick only greys it where it is, and a button appears to put
+   the ticked ones away when you are ready. */
+function sweepButton () {
+  const n = D.posts.filter((p) => read(pkey(p))).length;
+  const inList = [...document.querySelectorAll('#posts article.is-done')].length;
+  const b = document.getElementById('sweep');
+  b.hidden = inList === 0;
+  b.textContent = 'Put away the ' + inList + (inList === 1 ? ' posted one' : ' posted');
+  document.getElementById('count').textContent = (D.posts.length - n)
+    ? (D.posts.length - n) + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
+    : 'All ' + D.posts.length + ' marked as posted. Nothing left on the desk.';
+}
+
 document.addEventListener('change', (e) => {
   if (!e.target.matches('label.done input')) return;
   const art = e.target.closest('article');
   write('gdc-desk-posted-' + art.dataset.n, e.target.checked);
   art.classList.toggle('is-done', e.target.checked);
-  const live = D.posts.filter((p) => !read(pkey(p)));
-  document.getElementById('count').textContent =
-    live.length + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.';
+  sweepButton();
+});
+
+document.getElementById('sweep').addEventListener('click', () => {
+  const open = document.getElementById('postedwrap').open;
+  render();
+  document.getElementById('postedwrap').open = open;
+  sweepButton();
 });
 </script>
