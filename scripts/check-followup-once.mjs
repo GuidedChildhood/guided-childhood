@@ -70,7 +70,9 @@ check('an expiring thread is raised onto the tracker before the card goes',
   && cron.indexOf('raiseConcern(admin') < cron.indexOf("update({ status: 'dismissed' })\n    .eq('kind', 'follow_up')"))
 check('and only when the thread was not already on a worry', /if \(!o \|\| o\.concern_id\) continue/.test(cron))
 check('and the outcome is linked to the worry it became', /update\(\{ concern_id: row\.id \}\)/.test(cron))
-check('a new card opens DiGi on its thread', /href: `\/dashboard\/digi\?\$\{f\.child_id[\s\S]{0,80}q=\$\{encodeURIComponent\(followUpOpener\(f\.question\)\)\}`/.test(cron))
+// Since PR 1458 (7 November 2026) the thread travels sealed for this parent,
+// never as ?q=<words> in the URL, so the wire checked is digiPromptHref.
+check('a new card opens DiGi on its thread', /href: digiPromptHref\(f\.user_id, followUpOpener\(f\.question\), \{ child: f\.child_id \}\)/.test(cron))
 const collect = code(readFileSync('lib/notifications/collect.ts', 'utf8'))
 check('an old card without an href opens on its thread too', /followUpOpener\(String\(d\.body\)\)/.test(collect))
 const deck = code(readFileSync('components/digi/DigiPrompts.tsx', 'utf8'))
@@ -84,7 +86,7 @@ check('the save route plants the invite on a tough score', /band <= ATTENTION_BA
 check('keyed by the worry, so it lands once', /source = `checkin:\$\{concern\.id\}`/.test(route) && /\.eq\('source', source\)\.in\('status', \['pending', 'seen'\]\)/.test(route))
 check('and only when no card is already open', /if \(!count\)/.test(route))
 check('and clears when the worry lifts', /update\(\{ status: 'dismissed' \}\)[\s\S]{0,120}\.eq\('source', source\)/.test(route))
-check('the invite opens DiGi with the same ask as the row', /What is our next move\?/.test(route) && /\/dashboard\/digi\?/.test(route))
+check('the invite opens DiGi with the same ask as the row', /const ask = `[\s\S]{0,200}?What is our next move\?`/.test(route) && /href: digiPromptHref\(user\.id, ask, /.test(route))
 check('the route compares bands through the one bandOf', /from '@\/lib\/concerns\/bands'/.test(route) && !/const band = \(n: number\)/.test(route))
 check('the invite can never block the save', route.indexOf('if (isScore(score)) {\n    try {') > route.indexOf('await markFirstCheckIn'))
 

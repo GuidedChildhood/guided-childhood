@@ -24,7 +24,7 @@ export default async function DigiHandoffFixture({ searchParams }: { searchParam
   const sealedSend = sealDigiPrompt(FIXTURE_PARENT, SEND, 'send')
   const sealedDraft = sealDigiPrompt(FIXTURE_PARENT, DRAFT, 'draft')
   const foreign = sealDigiPrompt('someone-else', SEND, 'send')
-  const link = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', padding: '8px 10px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', background: '#fff', textDecoration: 'none' } as const
+  const link = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', padding: '8px 10px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', background: 'var(--white)', textDecoration: 'none' } as const
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
       <nav data-fixture-links style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', padding: '12px 16px' }}>
