@@ -95,12 +95,35 @@ export function upsert(rec, { reason = '', actor = 'radar' } = {}) {
   const prev = idx.heads[id] || null
   const version = (prev?.version || 0) + 1
 
+  // A rerun must never undo progress. Found on 9 November by rerunning the
+  // engine: the discovery pass writes status DISCOVERED on everything it finds,
+  // which pushed an already reviewed story back to the start of the pipeline
+  // and emptied the Stage 2 queue. The dossier then reset claudeStatus to
+  // PENDING on a record that had a stored review.
+  //
+  // Nothing was lost, because this file is append only and the review was still
+  // attached, but the queue was wrong and that is the thing Stage 2 reads. So
+  // the guard lives here, once, rather than in every caller: a status only ever
+  // moves forward, unless the caller is deliberately parking or killing the
+  // record with HOLD or REJECTED.
+  let status = rec.status || prev?.status || 'DISCOVERED'
+  if (prev && !['HOLD', 'REJECTED'].includes(status)) {
+    const from = RANK[prev.status] ?? -1
+    const to = RANK[status] ?? -1
+    if (to < from) status = prev.status
+  }
+  // A stored review is evidence. Never let a later pass claim it is pending.
+  const claudeStatus = (prev?.claudeReview || rec.claudeReview)
+    ? (rec.claudeStatus === 'CLAUDE REVIEWED' || prev?.claudeStatus === 'CLAUDE REVIEWED' ? 'CLAUDE REVIEWED' : (rec.claudeStatus || prev?.claudeStatus))
+    : (rec.claudeStatus || prev?.claudeStatus)
+
   const next = {
     ...prev,
     ...rec,
     studyId: id,
     version,
-    status: rec.status || prev?.status || 'DISCOVERED',
+    status,
+    ...(claudeStatus ? { claudeStatus } : {}),
     firstFound: prev?.firstFound || new Date().toISOString(),
     lastChecked: new Date().toISOString(),
     changeReason: reason,
@@ -126,6 +149,16 @@ export function upsert(rec, { reason = '', actor = 'radar' } = {}) {
 }
 
 export function get(id) { return load().heads[id] || null }
+
+/**
+ * How far along the pipeline each status is. HOLD and REJECTED sit outside the
+ * ladder: they are deliberate decisions, not progress, and they are the only
+ * statuses a caller may move a record to from anywhere.
+ */
+const RANK = {
+  DISCOVERED: 0, VERIFIED: 1, 'CLAUDE REVIEWED': 2, 'EDITORIAL READY': 3,
+  'ASSETS READY': 4, APPROVED: 5, PUBLISHED: 6,
+}
 
 export function all() { return Object.values(load().heads) }
 

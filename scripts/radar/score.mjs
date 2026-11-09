@@ -75,6 +75,16 @@ const UK = [
   [/\bEurope|European\b/i, 1],
 ]
 
+// A paper genuinely about children almost always says so in its title. The
+// first live rerun on 9 November scored "Religious Communities and Social Media
+// in North Macedonia" as CORE, because it is about social media and mentions
+// youth somewhere in the abstract. It is not about children using anything.
+//
+// So the child signal has to be in the TITLE for a record to reach CORE. This
+// is a centrality test rather than another keyword: an abstract mention means
+// children came up, a title mention means children are the subject.
+const CHILD_IN_TITLE = /\b(child|children|childhood|adolescen\w*|teen\w*|youth|pupil\w*|infant\w*|toddler\w*|preschool\w*|school-?age\w*|young people|minors?|boys?|girls?|KS[1-4]|key stage)\b/i
+
 function hits(text, table) {
   let total = 0
   const matched = []
@@ -109,6 +119,10 @@ export function score(rec) {
   // status, which is a thing the brief has to get right.
   if (rec.isOfficial) s += 3
 
-  const band = core.total === 0 ? 'PERIPHERAL' : s >= 9 ? 'CORE' : s >= 4 ? 'ADJACENT' : 'PERIPHERAL'
-  return { score: s, band, parts: { core: core.matched, method: method.matched, penalty: pen.matched, uk: uk.matched } }
+  const childIsTheSubject = CHILD_IN_TITLE.test(rec.title || '')
+  let band = core.total === 0 ? 'PERIPHERAL' : s >= 9 ? 'CORE' : s >= 4 ? 'ADJACENT' : 'PERIPHERAL'
+  // No children in the title, no CORE, however high the score.
+  if (band === 'CORE' && !childIsTheSubject) band = 'ADJACENT'
+  return { score: s, band, childIsTheSubject,
+    parts: { core: core.matched, method: method.matched, penalty: pen.matched, uk: uk.matched } }
 }

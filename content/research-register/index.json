@@ -43,11 +43,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-3913ef0116",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.654Z",
-   "lastChecked": "2026-11-09T14:11:15.654Z",
-   "changeReason": "discovery run, streams 01,03,22",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.219Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-0754a1641c": {
    "title": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis.",
@@ -93,14 +94,14 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 6,
+   "version": 12,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-09T14:26:41.164Z",
-   "changeReason": "GDC-054 claimed in the post register by Claude, because ChatGPT cannot write to that file",
-   "changedBy": "claude:register",
+   "lastChecked": "2026-11-09T14:37:01.337Z",
+   "changeReason": "back off HOLD",
+   "changedBy": "test",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
-    "checkedAt": "2026-11-09T14:12:46.831Z",
+    "checkedAt": "2026-11-09T14:35:35.470Z",
     "doi": "10.1177/13591045261487468",
     "doiResolves": true,
     "canonicalTitle": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis.",
@@ -263,7 +264,8 @@
    },
    "driveHandoffDoc": "https://docs.google.com/document/d/1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw/edit",
    "driveFolder": "https://drive.google.com/drive/folders/10TsNEU7FDxBp52te-xtytQ9yY-_ON-fN",
-   "gdcPostNumber": "054"
+   "gdcPostNumber": "054",
+   "childIsTheSubject": true
   },
   "GDC-RR-04ce5786d0": {
    "title": "Risks and Opportunities in Digital Media Interventions for Youth: A Scientometric Review",
@@ -305,11 +307,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-04ce5786d0",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-09T14:11:15.655Z",
-   "changeReason": "discovery run, streams 05,08,09,13,22",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.223Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-d49a029e70": {
    "title": "Evaluating Human-Robot Interaction With a Socially Assistive Robot in Pediatric Health Care: Mixed Methods Pilot Study.",
@@ -352,11 +355,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-d49a029e70",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-09T14:11:15.655Z",
-   "changeReason": "discovery run, streams 08,18,19",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.224Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": false
   },
   "GDC-RR-4cdb28660e": {
    "title": "Neonatal malaria management: a global survey of current practice.",
@@ -398,11 +402,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-4cdb28660e",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.656Z",
-   "lastChecked": "2026-11-09T14:11:15.656Z",
-   "changeReason": "discovery run, streams 01,09",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.231Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": false
   },
   "GDC-RR-26d109b285": {
    "title": "Sensory Literacies in Early Childhood Education: A Multimodal Interaction Analysis of Olfaction‐Enhanced Shared Reading",
@@ -443,11 +448,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-26d109b285",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.657Z",
-   "lastChecked": "2026-11-09T14:11:15.657Z",
-   "changeReason": "discovery run, streams 05,08",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.234Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-159233af83": {
    "title": "Implementation of canva-based learning media to develop object-classification skills in children aged 5–6 years",
@@ -485,11 +491,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-159233af83",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.658Z",
-   "lastChecked": "2026-11-09T14:11:15.658Z",
-   "changeReason": "discovery run, streams 08",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.236Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-d1f9996f06": {
    "title": "When perpetrators are also victims: latent profiles of traditional and cyberbullying among adolescents who bully in 42 countries",
@@ -534,14 +541,14 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-d1f9996f06",
-   "version": 2,
+   "version": 5,
    "firstFound": "2026-11-09T14:11:15.659Z",
-   "lastChecked": "2026-11-09T14:12:47.448Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-09T14:36:16.237Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
    "dossier": {
     "studyId": "GDC-RR-d1f9996f06",
-    "checkedAt": "2026-11-09T14:12:47.131Z",
+    "checkedAt": "2026-11-09T14:35:36.023Z",
     "doi": "10.21203/rs.3.rs-11415047/v1",
     "doiResolves": true,
     "canonicalTitle": "When perpetrators are also victims: latent profiles of traditional and cyberbullying among adolescents who bully in 42 countries",
@@ -595,7 +602,8 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "PENDING",
+   "childIsTheSubject": true
   },
   "GDC-RR-e923851b08": {
    "title": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",
@@ -636,14 +644,14 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-e923851b08",
-   "version": 3,
+   "version": 6,
    "firstFound": "2026-11-09T14:11:15.659Z",
-   "lastChecked": "2026-11-09T14:12:47.130Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-09T14:36:16.239Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
    "dossier": {
     "studyId": "GDC-RR-e923851b08",
-    "checkedAt": "2026-11-09T14:12:47.079Z",
+    "checkedAt": "2026-11-09T14:35:35.769Z",
     "doi": "10.1177/00333549261480962",
     "doiResolves": true,
     "canonicalTitle": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",
@@ -694,7 +702,8 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "PENDING",
+   "childIsTheSubject": true
   },
   "GDC-RR-30c990ff8f": {
    "title": "Understanding Primary Care Provider Decisions Regarding Referral to Early Intervention for Children with Developmental Delays.",
@@ -737,11 +746,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-30c990ff8f",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.660Z",
-   "lastChecked": "2026-11-09T14:11:15.660Z",
-   "changeReason": "discovery run, streams 18,19,20,22",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.241Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-00baf00c43": {
    "title": "Recent trends of infant motor activity estimation using wearable sensors: A scoping review.",
@@ -791,11 +801,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-00baf00c43",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.661Z",
-   "lastChecked": "2026-11-09T14:11:15.661Z",
-   "changeReason": "discovery run, streams 01,02,07,09,18,19,20,22",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.242Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-ce0516cd06": {
    "title": "THE IMPACT OF GLOBAL YOUTH MOVEMENTS ON INDIAN YOUTH (2020–OCTOBER 2026) A Sociological Study of Political Consciousness, Digital Activism and Social Change",
@@ -840,11 +851,12 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-ce0516cd06",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.661Z",
-   "lastChecked": "2026-11-09T14:11:15.661Z",
-   "changeReason": "discovery run, streams 01,15,21,23",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.243Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": true
   },
   "GDC-RR-bafc7bb71a": {
    "title": "National support for a healthy checkout policy: a randomised message-framing experiment.",
@@ -890,11 +902,113 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-bafc7bb71a",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-09T14:11:15.662Z",
-   "lastChecked": "2026-11-09T14:11:15.662Z",
-   "changeReason": "discovery run, streams 08,19,22,23",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-09T14:36:16.244Z",
+   "changeReason": "backfill childIsTheSubject",
+   "changedBy": "radar:score",
+   "childIsTheSubject": false
+  },
+  "GDC-RR-e0121857da": {
+   "title": "Religious Communities and Social Media in North Macedonia: Between Digital Presence and Online Engagement",
+   "doi": "10.3390/rel17111316",
+   "pmid": null,
+   "url": "https://doi.org/10.3390/rel17111316",
+   "journal": "Religions",
+   "published": "2026-11-09",
+   "authors": "Aleksandar Grizhev, Ivan Blazhevski, Ruzica Cacanoska",
+   "abstract": "Religious communities increasingly operate within digital environments where institutional communication, religious practice, and audience interaction intersect. Yet, establishing a presence on social media does not necessarily translate into meaningful engagement or dialogue. This study examines how the principal religious communities in North Macedonia use social media platforms and how their institutional communication practices are reflected in the digital public sphere. Drawing on an exploratory qualitative content analysis conducted between January and June 2025, this research examines institutional and institutionally associated Facebook, Instagram, and YouTube accounts of the principal religious communities in the country while considering selected smaller communities where relevant. The analysis focuses on platform presence, posting practices, types of content, language use, multimedia formats, institutional organization, and patterns of interaction with followers. The findings reveal substantial differences in the visibility, intensity, and sophistication of digital communication across religious communities. However, despite greater use of multimedia, multilingual communication, and more frequent posting among some actors, communication remains predominantly oriented toward dissemination rather than sustained dialogue. More interactive practices are observed mainly in youth-oriented and community-focused accounts. This study argues that digital presence, dissemination, engagement, and dialogue should be understood as distinct but overlapping dimensions of institutional religious communication. It also contributes to the study of digital religion by examining these dynamics in a religiously plural Southeast European context.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "06",
+    "08"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 9,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+1 \\bEurope|European\\b"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-06",
+    "until": "2026-11-09"
+   },
+   "studyId": "GDC-RR-e0121857da",
+   "version": 3,
+   "firstFound": "2026-11-09T14:35:29.311Z",
+   "lastChecked": "2026-11-09T14:36:04.146Z",
+   "changeReason": "rescored: CORE now requires the child term in the title",
+   "changedBy": "radar:score",
+   "dossier": {
+    "studyId": "GDC-RR-e0121857da",
+    "checkedAt": "2026-11-09T14:35:35.664Z",
+    "doi": "10.3390/rel17111316",
+    "doiResolves": true,
+    "canonicalTitle": "Religious Communities and Social Media in North Macedonia: Between Digital Presence and Online Engagement",
+    "indexedDate": "2026-11-09",
+    "crossrefOnlineDate": "2026-11-09",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Religions",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "qualitative",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING",
+   "childIsTheSubject": false
   }
  },
  "keys": {
@@ -948,6 +1062,9 @@
   "doi:10.1017/s1368980026103723": "GDC-RR-bafc7bb71a",
   "pmid:42989587": "GDC-RR-bafc7bb71a",
   "url:doi.org/10.1017/s1368980026103723": "GDC-RR-bafc7bb71a",
-  "title:national support for a healthy checkout policy a randomised message framing experiment": "GDC-RR-bafc7bb71a"
+  "title:national support for a healthy checkout policy a randomised message framing experiment": "GDC-RR-bafc7bb71a",
+  "doi:10.3390/rel17111316": "GDC-RR-e0121857da",
+  "url:doi.org/10.3390/rel17111316": "GDC-RR-e0121857da",
+  "title:religious communities and social media in north macedonia between digital presence and online engagement": "GDC-RR-e0121857da"
  }
 }

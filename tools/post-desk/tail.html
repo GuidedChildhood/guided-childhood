@@ -118,10 +118,16 @@ function render() {
   const done = D.posts.filter((p) => read(pkey(p)) && !inGrace(p));
   const togo = D.posts.filter((p) => !read(pkey(p))).length;
   const resting = live.length - togo;
-  document.getElementById('count').textContent = togo
-    ? togo + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
-      + (resting ? ' ' + resting + (resting === 1 ? ' posted one is' : ' posted ones are') + ' still here for comments.' : '')
-    : 'All ' + D.posts.length + ' marked as posted. Nothing left to write.';
+  /* Three different empty states, and they mean different things. A desk with
+     no posts at all is a fresh start, not a finished queue. Justin cleared it
+     on 9 November 2026 and the old wording, "All 0 marked as posted", read as
+     a bug. */
+  document.getElementById('count').textContent = !D.posts.length
+    ? 'Nothing on the desk. Cleared on 9 November to start fresh, and the old posts are archived rather than deleted. The next one arrives from the Research Radar.'
+    : togo
+      ? togo + ' of ' + D.posts.length + ' still to go. Newest at the top, because the oldest goes stale soonest.'
+        + (resting ? ' ' + resting + (resting === 1 ? ' posted one is' : ' posted ones are') + ' still here for comments.' : '')
+      : 'All ' + D.posts.length + ' marked as posted. Nothing left to write.';
   document.getElementById('posts').innerHTML = live.map(card).join('');
   const wrap = document.getElementById('postedwrap');
   wrap.hidden = done.length === 0;
