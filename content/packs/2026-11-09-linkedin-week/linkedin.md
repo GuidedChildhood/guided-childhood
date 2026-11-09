@@ -124,7 +124,7 @@ Character.AI dates confirmed from TechCrunch and Fortune (company page not fetch
 
 # GDC-045 · Fear is the engine on both sides now (v3, 9 Nov)
 
-**Job:** recruit strangers. **Plan:** Fri 13 Nov. **Card:** needs one, "52.4 to 42.1 percent", accounts held before and after the ban.
+**Job:** recruit strangers. **Plan:** Fri 13 Nov. **Card:** `content/packs/2026-11-09-cards/gdc-045-card.png`, 52.4% to 42.1%, accounts held before and three months in. Same eSafety PDF tick applies to the card.
 
 ## Post
 
