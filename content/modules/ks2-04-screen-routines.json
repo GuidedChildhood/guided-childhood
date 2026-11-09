@@ -177,7 +177,7 @@
           "feedback": "You will not feel like it, and that is not a you problem, it is the design of the game. Feeling like stopping is willpower, and willpower loses. The lap wins."
         }
       ],
-      "question": "You agreed to stop at the end of this level, then tea. The level is nearly done. What does the cool down lap say to do?"
+      "question": "You agreed to stop at the end of this level, then tea. It is nearly done. What does the cool down lap say?"
     },
     {
       "mode": "pairs",
@@ -296,7 +296,7 @@
       "avatar": "🎮",
       "handle": "Squad Chat 🎮",
       "prompt": "Homework is sitting there, the squad is waiting, the round starts in two minutes. What would a designed routine have already decided?",
-      "script": "Read it like a real message, pace and all, then ask the prompt. The point to land: in this moment, willpower has already lost, the pull is too strong at two minutes to kickoff. But a designed routine decided this hours ago: homework first with the phone in another room, the finishing line agreed, and the squad session is the SWAP, the reward waiting at the finish line. Ask the class to say what that pupil could message back. Best answer sounds like: on at 5, save me a spot. Not a no. A when.",
+      "script": "Read it like a real message, pace and all, then ask the prompt. The point to land: at two minutes to kickoff, willpower has already lost. A designed routine decided this hours ago: homework first with the phone in another room, the finishing line agreed, and the squad session as the SWAP, the reward at the finish line. Ask the class what that pupil could message back. Best answer: on at 5, save me a spot. Not a no. A when.",
       "minutes": 2,
       "platform": "message"
     },
