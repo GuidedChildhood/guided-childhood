@@ -79,7 +79,9 @@ if (page) {
 const working = read('components/tracker/WorkingOn.tsx')
 if (working) {
   const bare = code(working)
-  if (!/data-moment-tools/.test(bare) || !/\/dashboard\/digi\?ask=/.test(bare) || !/\/dashboard\/scripts\?q=/.test(bare)) fail.push('components/tracker/WorkingOn.tsx: a moment no longer offers Ask DiGi and the scripts for it.')
+  // Since PR 1458 the DiGi question is held in the tab by DigiAskLink rather
+  // than written into the URL as ?ask=<words>, because it names the child.
+  if (!/data-moment-tools/.test(bare) || !/<DigiAskLink\s+prompt=\{`[^`]*What should I try first\?`\}/.test(bare) || !/\/dashboard\/scripts\?q=/.test(bare)) fail.push('components/tracker/WorkingOn.tsx: a moment no longer offers Ask DiGi and the scripts for it.')
 }
 
 // ── 2. THE LIST CARRIES THE ANCHOR ──────────────────────────────────────────
