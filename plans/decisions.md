@@ -297,3 +297,7 @@ Justin's Monday morning row over an 11 year old's room, and 29 more like it. `li
 ## 9 November 2026: main green again after 1452 and 1458
 
 Two merges turned main red and nobody's PR could go green on top. 1458 sealed the DiGi links and four guards still read `?q=` and `?ask=`; they follow `digiPromptHref` and `DigiAskLink` now, and a hand typed `#fff` became `var(--white)` (PR 1464). 1452's agree, finish, swap lengthened two ks2-04 slides past the wall: slide 17's teacher script and slide 9's question, both tightened with nothing taught changing; migration 390 carries the same two edits, guarded per value on the live text (checked read only, both match), not applied (PR 1465).
+
+## 9 November 2026: one click lesson tracking, audited, not built
+
+Justin asked for one tap delivery records, optional assessment and automatic reports across every lesson type. Audit and spec in `plans/2026-11-09-one-click-tracking-spec.md`. Finding: the tracker and every curriculum mapping already exist, but delivery lives in one browser's localStorage, so there is no whole school record. Proposal: one `schools.lesson_deliveries` table keyed by the existing school pseudonym, framework credits computed at read time (no double counting), seven reports off one query. Needs Justin to reverse the 29 August "no delivery state on the server" rule. Waiting on his approval; nothing built.
