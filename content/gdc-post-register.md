@@ -77,7 +77,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 048 | The chatbot confidant | ready, **v2 revised 5 Nov**, start an argument | 2026-11-05 scrutiny pack |
 | 049 | Twenty five thousand teenagers and the lag (Manchester) | ready, **v2 revised 5 Nov**, second question removed. Justin thinks it is **scheduled** (7 Nov); the 6 Nov fix in the 10-26 pack may not be in the scheduled copy | 2026-11-05 scrutiny pack |
 | 050 | Four ways to prove you are 16 (Ofcom) | ready, **v2 revised 5 Nov**, three facts corrected, **Ofcom PDF still unread (403)** | 2026-11-05 scrutiny pack |
-| 051 | What Australian children do with AI (eSafety) | **v2 restructured 5 Nov**, the 54 percent cannot be verified and no longer carries the post, **eSafety PDF still unread (503)** | 2026-11-05 scrutiny pack |
+| 051 | What Australian children do with AI (eSafety) | **POSTED.** Justin confirmed 9 November. **No URL captured**, so this row rests on his word rather than on a checked link. ChatGPT's brief put it on 5 November, which matches but is not independently confirmed. v2 restructured 5 Nov, the 54 percent did not carry the post | 2026-11-05 scrutiny pack |
 | 052 | A face scan to get into an app (Ofcom) | ready, **v2 revised 5 Nov**, the 150,000 was wrongly credited to Ofcom | 2026-11-05 scrutiny pack |
 
 | 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
@@ -153,20 +153,27 @@ first comment, a duplicate number, posts out of order, or a character count out
 of step with its body. Until today the data and the build step existed only in
 a session scratchpad, which is how ten ready posts stayed invisible.
 
-## The ChatGPT register disagrees with this one
+## The ChatGPT register disagreement, settled on 051
 
-The 9 November ChatGPT daily brief in Drive states that **051 was published on
-5 November** and that **052 is scheduled for Tuesday 10 November at 08:00**.
-This register has both as ready and unposted, with 050 and 051 held because the
-Ofcom and eSafety PDFs are still unread.
+The 9 November ChatGPT daily brief stated that **051 was published on 5
+November** and that **052 is scheduled for Tuesday 10 November at 08:00**. This
+register had both as ready and unposted. Claude left it alone, because rule 4
+says a published number is spent for good and acting on an unverified
+publication claim is how a number gets burned.
 
-Both cannot be true. ChatGPT's own brief concedes its 051 publication URL is
-missing. Claude cannot see LinkedIn, so neither system can settle it and
-**only Justin can**. Nothing here has been changed to match the brief, because
-rule 4 says a published number is spent for good and acting on an unverified
-publication claim is how a number gets burned. This is the exact failure mode
-the top of this file describes: two systems assigning state, neither able to
-see the other.
+**Justin settled 051 on 9 November: it has gone out.** The row is now POSTED and
+051 is off the Post Desk. No URL was captured, so the row rests on his word.
+ChatGPT's date of 5 November matches what he says but was never confirmed by a
+link.
+
+**052 is still unsettled.** ChatGPT says it is scheduled for 10 November at
+08:00. This register has it ready and unposted, and it remains on the desk.
+Nothing changes until Justin says.
+
+The lesson is the one at the top of this file. Two systems assigned state,
+neither could see the other, and the only thing that resolved it was the person
+who can actually see LinkedIn. **A URL against each posted row is what would
+make this register trustworthy rather than merely agreed.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
