@@ -67,7 +67,7 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 038 | Four thousand teenagers are about to test what argument cannot | ready, planned Mon 19 Oct | this pack |
 | 039 | The rule I could actually enforce | ready, planned Wed 14 Oct | this pack |
 | 040 | Two children, same game | ready | moved off 036 |
-| 041 | How would you test readiness | ready | moved off 037 |
+| 041 | How would you test readiness | **DUPLICATE OF 046, do not post both.** 98.6 percent identical, found 9 Nov. Justin retires one | moved off 037 |
 | 042 | Same app, different rules | ready | moved off 038 |
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
 | 044 | A ban is already teaching, the question is what | ready, **v5 revised 5 Nov**, trimmed to band, one scene not two | 2026-11-05 scrutiny pack |
@@ -84,10 +84,30 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 **Next free number: 054.**
 
+## 041 and 046 are the same post
+
+Found on 9 November by comparing every post's opening line and closing question
+once they were all on the desk together. **041 and 046 are 98.6 percent
+identical**: the same opening, the same closing question, the same argument.
+046 carries one extra founder sentence and says "One child" where 041 says
+"A child". That is the whole difference.
+
+Posting both would publish the same argument twice. **046 is the one to keep**,
+because it is planned for 11 November, it has a card, and it holds his own
+founder line. 041 is the parked GDC-001 rewritten towards the same idea.
+
+Neither has been retired here, because only Justin retires a number. 041 sits
+on the desk with DO NOT POST THIS AND 046 at the top of its note.
+
+This slipped through because the two were written in different packs three weeks
+apart, and the desk was the first place they ever appeared side by side. The
+Drive post review now compares openings and closing questions across the
+register before it claims anything.
+
 ## What is on the Post Desk, 9 November 2026
 
-The desk now carries **24 posts**, every ready and unposted row above that has
-copy in this repository: 053 down to 037, then 025, 024, 023, 021, 020, 019, 018.
+The desk now carries **26 posts**, every ready and unposted row above that has
+copy we can reach: 053 down to 035, then 025, 024, 023, 021, 020, 019, 018.
 
 **Ten of those were missing from it until 9 November.** The desk was built from
 the recent packs and held 037 to 053 only, so seven October rewrites plus 040,
@@ -96,13 +116,32 @@ from. The worst of it was **025, which has a deadline**: the European
 Commission's feedback window on the EU KIDS Act closes 26 November 2026, and
 that post is the only one in the register with an expiry date.
 
-**Two ready rows are still not on the desk: 035 and 036.** Their copy is in
-Drive markdown and not in this repository, so there was nothing to put on the
-page. They need the Drive post review before they count as ready, per
-CLAUDE.md, and that has not been run on them.
+**035 and 036 went on later the same day.** I first said their copy was only in
+Drive markdown with nothing to put on the page. That was wrong: both had been
+rewritten on 21 October and the rewrites were sitting in the ZZ DRIVE REVIEW
+doc in the same folder. They are on the desk now. **036 carries a question for
+Justin**, from that review: the paragraph about morning walks and AI is a
+paraphrase of his founder context and he is asked to confirm or change it
+before posting. 036 is also the stalest post we hold, since its OpenAI and
+Common Sense figures are from 7 October and the AI lane moves fastest.
 
-The ten added have **not** been through the 5 November scrutiny pass, which
+The twelve added have **not** been through the 5 November scrutiny pass, which
 covered 044 to 053 only. Each one's note on the desk says so.
+
+**Every post now carries a principled repost ask**, written for its own
+argument. On 9 November only one of the 24 had one, while the best performing
+post we have ever published did. The ask sits in the paragraph BEFORE the
+closing question, because the question goes last with nothing after it. No post
+carries an in post follow ask: that reads as bait now and the profile earns the
+follow instead.
+
+**The desk is reproducible from this repository for the first time.** Its
+contents are `tools/post-desk/desk-data.json` and the page is assembled by
+`python3 tools/post-desk/build.py`, which refuses to build on a dash, a post
+over 3,000 characters, a post that does not end on its question, a post with no
+first comment, a duplicate number, posts out of order, or a character count out
+of step with its body. Until today the data and the build step existed only in
+a session scratchpad, which is how ten ready posts stayed invisible.
 
 ## The ChatGPT register disagrees with this one
 
