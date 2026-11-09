@@ -19,7 +19,7 @@ has been quietly running the experiment.
 
 The first wave of it finished about a week ago.
 
-It is called the IRL Trial, it is based in Bradford, and its protocol is published.
+It is called the IRL Trial and it is based in Bradford. Its protocol is published.
 I have read it, all of it, and it is the most interesting document I have come
 across this year. Not because it settles the argument. Because of how carefully it
 refuses to pretend it can.

@@ -3,11 +3,7 @@
 **Venue: Substack.** Part of The Wrong Villain series. A response to Christopher
 Ferguson's piece of 17 August 2026. Read in full before drafting.
 
-**Justin: this one is about a researcher you know, so the temperature is yours to
-set.** It is written generous and it concedes a great deal, but it does say where
-his argument slips, and it says out loud that he is describing your business. If
-you would rather it were softer, or not published at all, that is a reasonable
-call and the work is not wasted either way.
+**Justin read it and chose to publish it as written, 9 November 2026.**
 
 ## Subject lines
 

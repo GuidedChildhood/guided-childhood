@@ -27,9 +27,9 @@ platforms three months after the ban began, mostly on accounts they already had.
 Still using is not the same as broke in. One describes a door being forced. The
 other describes a door that was never shut behind the people already inside.
 
-That distinction is not pedantry, and I am going to spend this issue on it, because
-the way this one paper has been used tells you almost everything about how the
-argument over children and phones is now conducted. Both sides are quoting it.
+That distinction is not pedantry. I am going to spend this issue on it, because
+the way this one paper has been used tells you how the argument over children and
+phones is now conducted. Both sides are quoting it.
 Both sides are quoting it for things it does not say. And the single number in this
 whole story that actually measures the effect of the ban is being quoted by
 neither.
@@ -78,10 +78,12 @@ do not quote it because it is not nothing.
 I find that genuinely clarifying. When a number is inconvenient to everybody, it is
 usually the one worth knowing.
 
-The same regulator's work also found the thing that should embarrass every platform
-in this story: around half the children who still had accounts said the platform
-had never checked their age, and 37 percent had simply entered an age of sixteen or
-over. The ban did not fail because children are cunning. It is leaking because
+The same regulator's work found the thing that should embarrass every platform in
+this story. Around half the children who still had accounts said the platform had
+never checked their age. Thirty seven percent had simply entered an age of sixteen
+or over.
+
+Typed a number in. That was the gate. The ban did not fail because children are cunning. It is leaking because
 nobody was checking.
 
 ## The design flaw hiding inside the 85 percent
@@ -100,11 +102,11 @@ straightforward. The second is expensive, requires a platform to admit roughly h
 many under age users it has been carrying, and guarantees a wave of angry
 fourteen year olds and their parents.
 
-If you gate the entrance and do not sweep the building, then on day one of your ban
-almost every child you were worried about is already inside, holding a working
-account, and your headline circumvention figure will be enormous within three
-months. Not because enforcement failed. Because enforcement was never asked to do
-that job.
+Gate the entrance and skip the sweep. On day one almost every child you were
+worried about is already inside with a working account, and your circumvention
+figure will be enormous within three months.
+
+Not because enforcement failed. Because nobody asked it to do that job.
 
 Which is exactly what the regulator's other finding suggests was happening anyway:
 around half the children who still had accounts said the platform had never
@@ -160,9 +162,9 @@ Circumvention is visible within weeks. A journalist can find a fourteen year old
 with an account in an afternoon. "They are all still on it" is available as a story
 almost at once, and it is true.
 
-Whatever benefit a protected period might deliver, if it delivers one, shows up in
-mental health data years later, confounded by everything else that happened in
-those years, and will be contested when it arrives.
+Whatever benefit a protected period might deliver, if it delivers one, shows up
+years later. Confounded by everything else that happened in between. And contested
+the moment it arrives.
 
 So the first two years of any ban will be dominated by evidence of failure,
 regardless of whether it works. Everyone who wants it to fail will have material.

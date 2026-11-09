@@ -26,6 +26,13 @@
 // machine is a side effect of sounding more like a person, and only the first
 // of those is worth aiming at.
 //
+// One caveat on the baseline, found while using it on 9 November. His own
+// writing is personal and spoken: scenes, a story, sentences from one word to
+// 116. A two thousand word evidence essay legitimately has a flatter rhythm
+// than an anecdote, so a long form issue is not expected to hit his spread, and
+// chasing it by surgery on sentences makes the prose worse rather than better.
+// Read the numbers as a prompt to look, never as a target to hit.
+//
 // ai-tells.md calls these the soft tells, "the writer's ear, not the guard",
 // and says a guard firing on them would cost more than it caught. That is
 // right, which is why nothing here exits non zero. It reports and you judge.
@@ -115,8 +122,14 @@ function measure (text) {
     .filter(([, n]) => n > 1)
     .sort((a, b) => b[1] - a[1])
 
-  // The rule of three: "a, b and c" inside one sentence.
-  const triads = sents.filter(s => /\w+,\s+\w[\w ]*,\s+and?\s+\w/.test(s)).length
+  // Comma series: "a, b and c" inside one sentence. Called a series and not a
+  // rule of three on purpose, because on 9 November the first version counted
+  // quotes from sources ("TikTok, Instagram, and Snapchat") and a regulator's
+  // own slogan ("check, chat and change") as our stylistic tic. Sentences
+  // carrying quotation marks are now left out, and the number is a prompt to
+  // go and look rather than a verdict.
+  const triads = sents.filter(s => !/["\u201c\u201d]/.test(s) &&
+    /\w+,\s+\w[\w ]*,\s+and?\s+\w/.test(s)).length
 
   const all = words(text.toLowerCase()).map(w => w.replace(/[^a-z']/g, ''))
   const unique = new Set(all.filter(Boolean))
@@ -157,13 +170,15 @@ function verdict (m, b) {
   const out = []
   // Sentence burstiness is the one that matters most, so it gets the real test.
   if (b && m.sCV < b.sCV * 0.8) {
-    out.push(`sentences are more uniform than his: ${pct(m.sCV)} against ${pct(b.sCV)}. Break one up or let one run.`)
+    out.push(`sentences are more uniform than his: ${pct(m.sCV)} against ${pct(b.sCV)}. Let one RUN long and add a very short one. Breaking long sentences up lowers this, which is the opposite of what it looks like.`)
   }
   if (b && m.pCV < b.pCV * 0.8) {
     out.push(`paragraphs are more even than his: ${pct(m.pCV)} against ${pct(b.pCV)}. Lumpy is human.`)
   }
   if (!m.short) out.push('no sentence of five words or fewer. One very short one changes the whole rhythm.')
-  if (m.triadRate > 6) out.push(`${m.triads} rule of three sentences, ${f1(m.triadRate)}% of them. One is rhythm, four is a machine.`)
+  if (b && m.triadRate > Math.max(4, b.triadRate * 2.5)) {
+    out.push(`${m.triads} comma series, ${f1(m.triadRate)}% of sentences against his ${f1(b.triadRate)}%. Read them: some will be real lists and some will be the tic.`)
+  }
   if (m.adverbs > Math.max(3, m.sents * 0.03)) out.push(`${m.adverbs} reflex adverbs. Genuinely, honestly, really, simply.`)
   // An opener only counts against a draft if it runs well ahead of his own
   // rate for the same opener. Four of anything in two thousand words is normal.
@@ -195,7 +210,7 @@ if (WANT_BASELINE || !targets.length) {
   console.log(`  sentence length  mean ${f1(b.sMean)}, spread ${pct(b.sCV)}, shortest ${b.sMin}, longest ${b.sMax}`)
   console.log(`  paragraph length mean ${f1(b.pMean)}, spread ${pct(b.pCV)}`)
   console.log(`  ${b.short} sentences of 5 words or fewer, ${b.long} of 35 or more`)
-  console.log(`  rule of three in ${f1(b.triadRate)}% of sentences, ${b.adverbs} reflex adverbs`)
+  console.log(`  comma series in ${f1(b.triadRate)}% of sentences, ${b.adverbs} reflex adverbs`)
   console.log(`\nThe spread figures are what matters. Aim near his, not above a threshold.\n`)
   if (!targets.length) process.exit(0)
 }
@@ -209,7 +224,7 @@ for (const t of targets) {
   console.log(`  ${m.words} words, ${m.sents} sentences, ${m.paras} paragraphs`)
   console.log(`  sentence spread ${pct(m.sCV)} (his ${pct(b.sCV)}), mean ${f1(m.sMean)} (his ${f1(b.sMean)}), ${m.sMin} to ${m.sMax} words`)
   console.log(`  paragraph spread ${pct(m.pCV)} (his ${pct(b.pCV)})`)
-  console.log(`  ${m.short} very short sentences, ${m.long} long ones, ${m.triads} triads, ${m.adverbs} reflex adverbs`)
+  console.log(`  ${m.short} very short sentences, ${m.long} long ones, ${m.triads} comma series, ${m.adverbs} reflex adverbs`)
   if (v.length) {
     console.log('  read back:')
     for (const line of v) console.log(`    ${line}`)
