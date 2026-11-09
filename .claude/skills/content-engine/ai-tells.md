@@ -82,6 +82,51 @@ comment reply skill already bans several of these as reflexes.
 **Too many words with no cost.** A paragraph nobody would be annoyed to lose.
 If cutting it changes nothing, it was machine filler.
 
+## The meter, for the soft half
+
+Justin, 9 November 2026, asked how to avoid AI detection, since detectors look
+for groupings of words, and whether there is a tool.
+
+Two things are worth knowing before reaching for one.
+
+**The groupings model is the old one.** Perplexity and burstiness is what the
+first generation of detectors measured, and GPTZero moved off it in 2023 for an
+end to end classifier. The phrase half of the problem is what `npm run ai-tells`
+already covers.
+
+**And you cannot aim at a detector.** Independent testing puts real world false
+positive rates around 18 percent, and a 2026 follow up found a mean of 61.3
+percent on essays by non native English writers, because careful, plain, evenly
+built prose is exactly what the statistical methods call machine written. A score
+is noise. Rewriting good sentences to beat it makes the writing worse, which is
+the opposite of the point.
+
+So `npm run rhythm` aims at Justin instead. It measures a draft against the
+rhythm of his own writing, from `founder-context.md` and `founding-story.md`.
+**It prints and never fails a build**, because everything in the soft list above
+is a judgement.
+
+His baseline, as of 9 November: mean sentence 12.8 words, **spread 79 percent**,
+shortest 1, longest 116, 17 percent of his sentences five words or fewer,
+paragraph spread 52 percent, rule of three in **1.6 percent** of sentences.
+
+What it found on the first run, across seven long form issues:
+
+- **Triads at 6.7 to 8.3 percent against his 1.6.** Four to five times his rate.
+  The most consistent tell in our drafts.
+- **Sentence spread below his** in five of seven, worst at 62 percent. Uniform.
+- **Mean sentence length 15.1 to 16.3 against his 12.8.** We write longer than he
+  does, every time.
+- **"That is" opening sentences at four to seven times his rate**, and "I have"
+  opening sentences he never opens that way.
+
+One caution learned on the same run. The first version counted repeated openers
+raw, and flagged "it is" across every issue, which looked like a fingerprint. It
+is not: normalised, we use it 1.7 times his rate and he uses it freely. **Compare
+rates to his, never raw counts**, or the tool will send you to flatten prose that
+already sounds like him. It still cannot tell a style tic from a proper noun, so
+it flags things like a source's name appearing at the start of six sentences.
+
 ## The read back
 
 Before any copy goes to Justin, read it as if he said it out loud to another

@@ -38,6 +38,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 label.done{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--soft)}
 label.done input{width:20px;height:20px;accent-color:var(--done)}
 .card.is-done{opacity:.55}
+/* A post inside its few days on the desk is still a post he has to work with,
+   so it is only lightly dimmed and its note is at full strength. */
+.card.is-done.is-grace{opacity:.88}
+.meta.grace{color:var(--fg);font-weight:700;opacity:1}
 details>summary{cursor:pointer;font-weight:800;color:var(--soft);font-size:14px}
 details[open]>summary{margin-bottom:10px}
 a{color:inherit}
@@ -72,7 +76,12 @@ textarea.manual{width:100%;min-height:140px;font:600 15px var(--display);color:#
   <section class="band">
     <h2>Ready to post</h2>
     <p class="meta" id="count"></p>
+    <button type="button" id="sweep" class="ghost" hidden style="align-self:flex-start"></button>
     <div id="posts" style="display:flex;flex-direction:column;gap:16px"></div>
+    <details id="postedwrap" hidden>
+      <summary id="postedcount"></summary>
+      <div id="posted" style="display:flex;flex-direction:column;gap:16px;margin-top:14px"></div>
+    </details>
   </section>
 
   <section class="band">

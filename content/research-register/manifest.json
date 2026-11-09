@@ -1,0 +1,44 @@
+{
+ "schemaVersion": "1.0.0",
+ "generatedAt": "2026-11-09T14:26:41.168Z",
+ "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
+ "rules": [
+  "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
+  "Only figures listed in the handoff under FIGURES CLEARED FOR USE may appear in copy.",
+  "A story with claudeStatus other than CLAUDE REVIEWED is not eligible, whatever else it says.",
+  "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
+ ],
+ "counts": {
+  "total": 13,
+  "byStatus": {
+   "DISCOVERED": 10,
+   "EDITORIAL READY": 1,
+   "VERIFIED": 2
+  }
+ },
+ "queue": [
+  {
+   "researchId": "GDC-RR-0754a1641c",
+   "title": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis.",
+   "proposedTitle": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
+   "editorialPriority": "BANK",
+   "urgency": "Low. Nothing expires. The value is the reasoning, not the news.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn post"
+   ],
+   "gdcPostNumber": "054",
+   "primaryUrl": "https://doi.org/10.1177/13591045261487468",
+   "doi": "10.1177/13591045261487468",
+   "publishedDate": "2026-11-06",
+   "design": "meta-analysis",
+   "figuresCleared": 5,
+   "handoffDoc": "https://docs.google.com/document/d/1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw/edit",
+   "handoffJsonInRepo": "/home/user/guided-childhood/content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
+   "firstFound": "2026-11-09T14:11:15.655Z",
+   "registerVersion": 6
+  }
+ ],
+ "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"
+}

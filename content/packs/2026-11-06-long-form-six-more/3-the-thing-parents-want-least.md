@@ -26,16 +26,16 @@ That gap is the story, and it is a more useful story than the one in the
 headlines, because it is not about whether the toys are evil. It is about a product
 being built to do the one job its buyers put at the bottom of the list.
 
-Half of UK children have already been given one.
+Half of UK children have already had one bought for them.
 
 ## The numbers, and whose they are
 
 I want to be careful here, because the good research on this is American and the UK
 number is thin, and those two facts get blended in most coverage.
 
-**The UK figure.** A survey of 1,000 UK parents, carried out by FocalData in May
+**The UK figure.** A survey of 1,000 UK parents, carried out by Focaldata in May
 2026 and published by the British Standards Institution, found parents reporting
-that around half of their children have been given an AI toy or learning device,
+that around half of their children have had an AI toy or learning device bought for them,
 and that 38 percent own two or more. It is a parent survey, so it is what parents
 report rather than what children do, and "AI enabled toy or learning device" is a
 wide box that holds a spelling tutor and a talking bear in the same hand. I have
@@ -253,7 +253,7 @@ breaches of Google's developer rule, and the 50,000 lines of children's dialogue
 exposed by Bondu are all from this report.
 
 **The UK figure is the weakest thing in this issue and I have said so in the text.**
-FocalData, 1,000 UK parents, May 2026, published by the British Standards
+Focaldata, 1,000 UK parents, May 2026, published by the British Standards
 Institution: around half of children given an AI toy or learning device, 38 percent
 with two or more. I have the published summary and not the underlying tables. It is
 a parent report, not an observation of children, and the category is broad.

@@ -27,28 +27,31 @@ platforms three months after the ban began, mostly on accounts they already had.
 Still using is not the same as broke in. One describes a door being forced. The
 other describes a door that was never shut behind the people already inside.
 
-That distinction is not pedantry, and I am going to spend this issue on it, because
-the way this one paper has been used tells you almost everything about how the
-argument over children and phones is now conducted. Both sides are quoting it.
+That distinction is not pedantry. I am going to spend this issue on it, because
+the way this one paper has been used tells you how the argument over children and
+phones is now conducted. Both sides are quoting it.
 Both sides are quoting it for things it does not say. And the single number in this
 whole story that actually measures the effect of the ban is being quoted by
 neither.
 
 ## What the paper is, and what it found
 
-The study is in the BMJ, from a team at the University of Newcastle in Australia. It
-recruited 436 adolescents and followed up with 408 of them three months after the
-ban came into force.
+The study is in the BMJ, from a team at the University of Newcastle in Australia,
+published on 24 June. It recruited 436 adolescents aged 12 to 17, most of them in
+New South Wales, and followed up with 408 of them three months after the ban came
+into force.
 
 Its finding on continued use is the 85 percent figure, and the crucial detail is
 the mechanism: most of those still using were on accounts that already existed
 before the ban. The platforms did not let them back in. The platforms never
 removed them.
 
-The paper also says, in its own terms, that there is not enough evidence of a real
-drop in use. And its authors say the full picture may take a decade.
+The paper also says, in its own terms, that there is insufficient evidence of a
+real drop in use. Which is not the same as saying nothing changed, and I want to
+hold that distinction, because I am about to be hard on people who lose it.
 
-One Australian state. Self reported answers. Four hundred and eight young people.
+One Australian state, mostly. Self reported answers. Four hundred and eight young
+people, three months in.
 
 A good, careful, small study of the first three months of a policy that will take
 years to assess, which has been handed a job it cannot do.
@@ -75,10 +78,12 @@ do not quote it because it is not nothing.
 I find that genuinely clarifying. When a number is inconvenient to everybody, it is
 usually the one worth knowing.
 
-The same regulator's work also found the thing that should embarrass every platform
-in this story: around half the children who still had accounts said the platform
-had never checked their age, and 37 percent had simply entered an age of sixteen or
-over. The ban did not fail because children are cunning. It is leaking because
+The same regulator's work found the thing that should embarrass every platform in
+this story. Around half the children who still had accounts said the platform had
+never checked their age. Thirty seven percent had simply entered an age of sixteen
+or over.
+
+Typed a number in. That was the gate. The ban did not fail because children are cunning. It is leaking because
 nobody was checking.
 
 ## The design flaw hiding inside the 85 percent
@@ -97,11 +102,11 @@ straightforward. The second is expensive, requires a platform to admit roughly h
 many under age users it has been carrying, and guarantees a wave of angry
 fourteen year olds and their parents.
 
-If you gate the entrance and do not sweep the building, then on day one of your ban
-almost every child you were worried about is already inside, holding a working
-account, and your headline circumvention figure will be enormous within three
-months. Not because enforcement failed. Because enforcement was never asked to do
-that job.
+Gate the entrance and skip the sweep. On day one almost every child you were
+worried about is already inside with a working account, and your circumvention
+figure will be enormous within three months.
+
+Not because enforcement failed. Because nobody asked it to do that job.
 
 Which is exactly what the regulator's other finding suggests was happening anyway:
 around half the children who still had accounts said the platform had never
@@ -126,11 +131,11 @@ the effect sizes that would carry it. I have written about that at length and I
 stand by it.
 
 What I had not noticed is that the people who spend their days correcting him have
-started doing the same thing with the same material. A Psychology Today piece last
-month cited this BMJ paper as proof that the ban had failed.
+started doing the same thing with the same material. A Psychology Today piece
+published on 30 June cited this BMJ paper as proof that the ban had failed.
 
-The paper does not say the ban failed. It says we cannot tell yet. Its own authors
-say a decade.
+The paper does not say the ban failed. It says there is not enough evidence yet,
+three months in, on four hundred and eight young people in one state.
 
 So you now have two camps, pointing at one small three month study of one
 Australian state, each announcing that it settles a question the study explicitly
@@ -157,9 +162,9 @@ Circumvention is visible within weeks. A journalist can find a fourteen year old
 with an account in an afternoon. "They are all still on it" is available as a story
 almost at once, and it is true.
 
-Whatever benefit a protected period might deliver, if it delivers one, shows up in
-mental health data years later, confounded by everything else that happened in
-those years, and will be contested when it arrives.
+Whatever benefit a protected period might deliver, if it delivers one, shows up
+years later. Confounded by everything else that happened in between. And contested
+the moment it arrives.
 
 So the first two years of any ban will be dominated by evidence of failure,
 regardless of whether it works. Everyone who wants it to fail will have material.
@@ -234,7 +239,8 @@ about it than be vague.
 ## Where this leaves a parent
 
 The ban will do whatever it does. Nobody writing about it today knows which, and
-the most honest people in the field are the ones saying a decade.
+the most honest people in the field are the ones saying so rather than the ones
+with a verdict three months in.
 
 What happens in your house between now and the day it lands is the part nobody is
 legislating, and it is the part that is entirely yours.
@@ -256,24 +262,31 @@ them four times across three sessions. So this issue rests on our own earlier
 verification rather than on a reading made while writing it, which is a weaker
 position than the other issues in this batch and you should weigh it accordingly.
 
-**The BMJ study**, from a team at the University of Newcastle, Australia. 436
-adolescents recruited, 408 followed up three months after the ban commenced. More
-than 85 percent of under sixteens still using the platforms, mostly on pre existing
-accounts. The paper's own statement that there is insufficient evidence of a
-meaningful fall in use, and its authors' view that the full picture may take a
-decade, are both from the paper. Limitations are the authors' own: one Australian
-state, self reported.
+**The BMJ study**, from a team at the University of Newcastle, Australia,
+published 24 June. 436 adolescents aged 12 to 17 recruited, most of them in New
+South Wales, 408 followed up three months after the ban commenced. More than 85
+percent of under sixteens still using the platforms, mostly on pre existing
+accounts. The paper's own statement is that there is insufficient evidence of a
+meaningful fall in use. Limitations are the authors' own: self reported, and one
+state for most of the sample.
 
-**The eSafety Commissioner's follow up**, 803 children. Account holding on age
+**A correction to an earlier version of this issue.** It said the paper's authors
+expect the full picture to take a decade. **That sentence appears in no source**,
+and a citation check on 9 November found it in the posts this issue was built
+from. It has been cut here and from GDC-045. I had carried it forward from our own
+drafts without reading it in the paper, which is the exact fault this issue is
+about.
+
+**The eSafety Commissioner's follow up**, 803 children aged 10 to 15. Account holding on age
 restricted platforms falling from 52.4 percent to 42.1 percent, which eSafety
 characterises as modest and statistically significant. The figures on children
 saying the platform never checked their age, and on the 37 percent who entered an
 age of sixteen or over, are from the same body of work and also appear in our
 earlier pack on what the ban teaches.
 
-**The Psychology Today piece** citing the BMJ paper as proof the ban failed is from
-last month. I am describing how a published argument used a published paper, and
-both are checkable by anybody who wants to.
+**The Psychology Today piece** citing the BMJ paper as proof the ban failed was
+published on 30 June. I am describing how a published argument used a published
+paper, and both are checkable by anybody who wants to.
 
 **Jonathan Haidt.** I am characterising a public argument made at length in a
 bestselling book and in many interviews, not a private view, and I have written

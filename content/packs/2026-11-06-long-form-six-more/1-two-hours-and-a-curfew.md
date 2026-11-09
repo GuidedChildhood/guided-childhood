@@ -19,7 +19,7 @@ has been quietly running the experiment.
 
 The first wave of it finished about a week ago.
 
-It is called the IRL Trial, it is based in Bradford, and its protocol is published.
+It is called the IRL Trial and it is based in Bradford. Its protocol is published.
 I have read it, all of it, and it is the most interesting document I have come
 across this year. Not because it settles the argument. Because of how carefully it
 refuses to pretend it can.
@@ -160,6 +160,57 @@ And the authors put the condition in the sentence themselves: "we cannot
 demonstrate strong evidence of a causal relationship". That is what the trial now
 running is for.
 
+## One study suggests the curfew is the stronger half
+
+Here is something I did not expect to find while reading around this, and it
+makes me more interested in one half of the Bradford design than the other.
+
+A team at King's College London surveyed 1,043 of their own students about phone
+use and sleep. Published in 2021, data collected in early 2019. They measured
+three things: how long people were on the phone, whether they scored as addicted
+on a standard scale, and when they last used it at night.
+
+Then they asked which of those predicted poor sleep.
+
+**Daily hours did almost nothing.** Against a baseline of three hours a day, four
+hours came out at 1.01, five hours at 0.73, more than five hours at 1.10. None of
+those is statistically significant. Spending more than five hours a day on a phone
+was not associated with worse sleep than spending three.
+
+**The time of night did a great deal.** Last using the phone at one in the morning
+or later, rather than before eleven, came out at 3.91. Nearly four times, and it
+is the largest association in the paper by a distance.
+
+Now the caveats, and they are serious enough that I nearly left this out.
+
+**There are no children in this study.** The youngest person in it is eighteen.
+They are university students at one London university, 73 percent of them women,
+recruited by being approached on campus. The authors say plainly that their sample
+is not representative of UK young adults, let alone of anyone's thirteen year old.
+
+It is cross sectional, so it cannot tell you which came first. The authors say so:
+no causal relationships can be drawn, and they cannot rule out reverse causality,
+which here means a young person sleeping badly and reaching for the phone at one
+in the morning because they are already awake. That reading fits the data exactly
+as well.
+
+And one more, which matters for the comparison I just made. The late night figure
+is **not** adjusted for daily hours. The authors say the two could not go in the
+same model together, so I cannot tell you that timing beats duration in a single
+fair test. What I can tell you is that in the model where hours were tested, hours
+did not predict poor sleep, and in a separate model, timing did, strongly.
+
+I should also say that the paper's own discussion goes further than its design
+allows, calling this a deleterious impact on sleep, which is a causal verb from a
+study its own limitations section says cannot establish cause. That is the same
+fault I spend most of my time pointing at. It does not make the numbers wrong. It
+means read the tables and not the summary.
+
+So I am holding this loosely. But it is a UK dataset, it points the same way as
+the Manchester work on children, and it points at the curfew rather than the cap.
+
+Bradford is testing both at once.
+
 ## What it cannot tell you, and this is the part that matters at home
 
 Six weeks of a two hour cap will tell us whether anxiety scores shift.
@@ -279,6 +330,45 @@ thirteen children per thousand, are the paper's own figures **under its own stat
 assumption that the association is causal**, which the paper says it cannot
 demonstrate. It is a cross sectional study. It cannot establish cause, and it says
 so.
+
+**The King's College London sleep study**, for the section on the curfew. Sei Yon
+Sohn, Lauren Krasnoff, Philippa Rees, Nicola J. Kalk and Ben Carter, "The
+Association Between Smartphone Addiction and Sleep: A UK Cross Sectional Study of
+Young Adults", Frontiers in Psychiatry, volume 12, 2 March 2021, doi
+10.3389/fpsyt.2021.629407. Read from the article page, including its tables.
+
+1,043 participants aged 18 to 30, students at King's College London, recruited
+opportunistically on campus, 73.2 percent female, surveyed between 21 January and
+4 February 2019. Smartphone addiction prevalence 38.9 percent. Poor sleep 61.6
+percent.
+
+From Table 2, outcome poor sleep, adjusted for age, gender, ethnicity, site,
+addiction, daily hours and where the phone sleeps: addicted 1.41 (1.06 to 1.87, p
+= 0.018); against a reference of three hours a day, four hours 1.01 (0.68 to
+1.49), five hours 0.73 (0.47 to 1.12), more than five hours 1.10 (0.72 to 1.69),
+none significant. From Table 4, outcome addiction, adjusted for age, gender,
+ethnicity and site: last use at 1am or later versus before 11pm, 3.91 (2.32 to
+6.61, p < 0.001).
+
+**Four limits on it, all of which the issue states in the text.** There are no
+children in it, the youngest participant is eighteen. It is a convenience sample
+from one university and the authors say it is not representative of UK young
+adults. The data are pre pandemic and the authors flag that. And it is cross
+sectional, so, in their own words, no causal relationships can be drawn and they
+cannot ignore the possibility of reverse causality.
+
+**A fifth limit, which I have not seen anybody note.** The late night figure is
+not adjusted for daily hours. The authors say the two could not be fitted in the
+same model because of collinearity, so this paper does not contain a single fair
+test of timing against duration, and the issue does not claim one.
+
+**And the paper overclaims in its own discussion**, calling this a deleterious
+impact on sleep, which is a causal verb its limitations section rules out. Its
+discussion also says a three fold risk where its table says 3.91. The issue says
+so rather than quietly using the tables and praising the paper. Its funding
+statement and its conflict of interest statement also contradict each other, one
+saying there was no funding source and the other naming institutional support,
+which I have not resolved and am not reporting either way.
 
 **The 86 percent** of ten to twelve year olds in Bradford with their own social
 media profile is cited in the trial protocol to Ofcom's Children and Parents: Media

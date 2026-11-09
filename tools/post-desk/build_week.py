@@ -14,34 +14,41 @@ import re, json, os
 DESK = '/tmp/claude-0/-home-user/8607980e-4828-5409-a1c4-d7fee401bbd9/scratchpad/desk/'
 OUT = DESK + 'week.html'
 
-# date, post number, why this slot
+# date, post number, why this slot. Follows the Monday LinkedIn pass of
+# 9 November, which cut the week from four posts to three: nine posts the week
+# before split the attention and the week ran at half. Two days apart, nothing
+# back to back on the same story.
 SCHEDULE = [
-    ('2026-11-09', '053', 'The filings are the most perishable thing in the queue, so it leads.'),
-    ('2026-11-10', '045', 'Pegged to a piece published last month, so it goes while that is still live.'),
-    ('2026-11-12', '050', 'Ofcom published on 29 October. Two clear days after 053 so each gets its own run.'),
-    ('2026-11-13', '037', 'The film is still in cinemas. This one stops working when it leaves.'),
-    ('2026-11-16', '052', 'Same Ofcom source as 050, different question, so a week behind it.'),
-    ('2026-11-17', '047', 'Before Christmas buying, which is when a parent decides about an AI toy.'),
-    ('2026-11-19', '048', 'Sits near 047 on purpose: the toy post and the chatbot post answer each other.'),
-    ('2026-11-20', '043', 'Evergreen, and a good Friday post because it is a story rather than a number.'),
-    ('2026-11-23', '051', 'The AI lane again, a week clear of 048.'),
-    ('2026-11-24', '038', 'The trial second wave finishes before Christmas, so November is its window.'),
-    ('2026-11-26', '039', 'Gaming, and it lands well mid week when parents are in the thick of it.'),
-    ('2026-11-27', '044', 'Closes the ban run before the readiness pair.'),
-    ('2026-11-30', '046', 'Opens the last week on the thing the whole product is about.'),
-    ('2026-12-01', '049', 'Evergreen, strongest evidence, a good one to end the backlog on.'),
+    ('2026-11-09', '047', 'The Monday pass put this first: a number that contradicts the reader, and a card.'),
+    ('2026-11-11', '046', 'Opens on a declared uncertainty, the second shape that wins on your account.'),
+    ('2026-11-13', '045', 'Re verified on 9 November. Check the eSafety PDF before this one if you can.'),
+    ('2026-11-16', '053', 'The court filings are the most perishable thing left in the queue.'),
+    ('2026-11-18', '048', 'Sits near the toy post on purpose: the two answer each other.'),
+    ('2026-11-20', '043', 'Evergreen, and a story rather than a number, which suits the end of a week.'),
+    ('2026-11-23', '044', 'Closes the ban run.'),
+    ('2026-11-25', '037', 'Only while the film is still in cinemas.'),
+    ('2026-11-27', '038', 'The trial second wave finishes before Christmas, so November is its window.'),
+    ('2026-11-30', '039', 'Gaming, and it lands well at the start of a week.'),
+    ('2026-12-02', '049', 'Strongest evidence of the lot, a good one to end the backlog on.'),
 ]
+
+# Not scheduled. The source document is still unread, so these wait.
+HELD = {
+    '050': 'Ofcom\'s PDF is still unread, four attempts, 403 every time. The post is honest about where each figure comes from, so it is safe as written, but the Monday pass is holding it until somebody opens the document.',
+    '051': 'Same, for eSafety. 503 every time. Held by the Monday pass.',
+    '052': 'Same Ofcom source as 050. Held with it.',
+}
+
+# Cards made on 9 November, plus 046's own.
+CARDS = {'045', '046', '047', '048'}
 
 # A note on the figures, where there is one worth knowing before posting.
 GATES = {
-    '050': ('Three figures reach us through one secondary summary, and the post now '
-            'says so in its own text, so it is safe as written. Opening the Ofcom PDF '
-            'would let you drop the hedges.'),
-    '052': ('Same as 050. The 150,000 is credited to CitizenCard in the first comment, '
-            'not to Ofcom, which is the fix from 6 November.'),
-    '051': ('The 54 percent question wording is still unread after four attempts at '
-            'eSafety. The post is built on the 78 and 8 split instead, which is '
-            'corroborated, so it stands as written.'),
+    '045': ('Re verified on 9 November. The BMJ paper is 436 adolescents aged 12 to 17, '
+            'mostly New South Wales, published 24 June, and it says there is insufficient '
+            'evidence of a drop rather than that nothing changed. The eSafety figures are '
+            '803 children aged 10 to 15 and reach us through snippets, so tick them against '
+            'the PDF if you can open it.'),
 }
 
 STEPS = [
@@ -65,7 +72,9 @@ def main():
     posts = load()
     missing = [n for _, n, _ in SCHEDULE if n not in posts]
     assert not missing, 'not on the desk: %s' % missing
-    assert len(SCHEDULE) == len(posts), 'scheduled %d of %d posts' % (len(SCHEDULE), len(posts))
+    assert not (set(n for _, n, _ in SCHEDULE) & set(HELD)), 'a held post is also scheduled'
+    assert len(SCHEDULE) + len(HELD) == len(posts), (
+        'scheduled %d and held %d of %d posts' % (len(SCHEDULE), len(HELD), len(posts)))
 
     slots = []
     for date, n, why in SCHEDULE:
@@ -73,11 +82,18 @@ def main():
         slots.append({
             'date': date, 'n': n, 'title': p['title'], 'why': why,
             'body': p['body'], 'comment': p['comment'], 'share': p.get('share', ''),
-            'chars': p['chars'], 'card': bool(p.get('card')),
+            'chars': p['chars'], 'card': n in CARDS or bool(p.get('card')),
             'gate': GATES.get(n, ''),
         })
 
-    data = {'slots': slots, 'steps': [{'t': t, 'copy': c} for t, c in STEPS],
+    held = []
+    for n, why in HELD.items():
+        p = posts[n]
+        held.append({'n': n, 'title': p['title'], 'why': why, 'body': p['body'],
+                     'comment': p['comment'], 'share': p.get('share', ''),
+                     'chars': p['chars'], 'card': n in CARDS})
+
+    data = {'slots': slots, 'held': held, 'steps': [{'t': t, 'copy': c} for t, c in STEPS],
             'desk': 'https://claude.ai/artifact/Xb6Jt6JAm2d3wrF7WXxeGY'}
 
     page = open(DESK + 'week-head.html', encoding='utf-8').read().replace(

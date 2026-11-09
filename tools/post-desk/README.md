@@ -44,3 +44,24 @@ copyable fields, with the two alternative titles behind a disclosure.
 A **LinkedIn** newsletter needs a third thing, the note to the network, which is
 what appears in the feed when the edition publishes. Issue 6 is the only LinkedIn
 one and its card carries that note.
+
+## A posted post does not leave the desk straight away
+
+Justin, 9 November 2026: clear off the ones marked as posted a few days after
+the marker, so he still has access to add comments.
+
+The first hours after a post goes out are when the comments arrive and when
+replying to them matters most, which makes the post he has just ticked the one
+he still needs to reach. So ticking Posted no longer hands it to the folded
+section at the foot. It stays in the working list, lightly dimmed, carrying the
+date it clears, and moves itself away after `GRACE_DAYS`, which is 3.
+
+**The stored value is now the tick time in milliseconds.** It used to be the
+string `1`, which carries no date. Anything ticked before this change therefore
+has nothing to count from, and `inGrace` treats a `1` as already past its grace
+so it stays where he left it. Without that, every post he had already cleared
+would have climbed back onto the desk.
+
+The "Put those N away now" button is the override for when he is finished with a
+post sooner. It writes the legacy `1` to expire the grace rather than deleting
+anything, so an accidental press is undone by unticking.

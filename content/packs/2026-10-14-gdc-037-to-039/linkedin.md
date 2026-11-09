@@ -133,7 +133,7 @@ I have been arguing about this for years on evidence that cannot settle it, and 
 
 Which is why Bradford matters if you have a child between twelve and fifteen.
 
-The IRL Trial has moved into schools. Year groups are being assigned either a daily social media limit with an overnight curfew, or their usual use, for six weeks, and researchers will compare anxiety, sleep, bullying, and time spent with friends and family. It is led from Bradford with Amy Orben at Cambridge, funded by Wellcome.
+The IRL Trial has moved into schools. Year groups are being assigned either a daily social media limit with an overnight curfew, or their usual use, for six weeks, and researchers will compare anxiety, sleep, bullying, and time spent with friends and family. It is led from Bradford with Amy Orben at Cambridge, funded by Wellcome with support from the NIHR.
 
 Nearly everything the rest of us quote, me included, shows an association. This is built to show what changes when use actually goes down.
 

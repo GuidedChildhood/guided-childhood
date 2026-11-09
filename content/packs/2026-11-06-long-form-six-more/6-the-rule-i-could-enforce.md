@@ -138,8 +138,8 @@ nothing has ever gone wrong, and so the subject has never come up.
 The group I find more interesting is not the nine percent who set nothing. It is
 the much larger group who set something, just not a rule about who. Most parents in
 that survey set at least one rule and most of them did not set that one. Those are
-engaged parents, paying attention, doing the work, and landing on the rule with the
-scoreboard. That is not negligence. That is a design problem, and the design is
+engaged parents, paying attention and doing the work, who land on the rule with
+the scoreboard. That is not negligence. It is a design problem, and the design is
 ours to fix rather than theirs.
 
 ## The part that costs me something to write

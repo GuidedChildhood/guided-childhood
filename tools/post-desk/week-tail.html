@@ -167,6 +167,31 @@ function render() {
   renderToday();
 }
 
+/* The held posts render once: no date, no steps, and no Posted tick, because
+   nothing here is due. Just what it is and what it is waiting on. */
+document.getElementById('held').innerHTML = (D.held || []).map((s) => `
+  <article class="slot" data-n="${esc(s.n)}">
+    <div class="head">
+      <div class="when">Waiting on its source</div>
+      <div class="title">${esc(s.title)}</div>
+      <div class="chips">
+        <span class="chip num">GDC-${esc(s.n)}</span>
+        <span class="chip">${s.chars} chars</span>
+        ${s.card ? '<span class="chip">has a card</span>' : '<span class="chip warn">no image</span>'}
+      </div>
+    </div>
+    <p class="gate"><b>Held.</b> ${esc(s.why)}</p>
+    <details>
+      <summary>Read it anyway</summary>
+      <div class="copy">
+        <div class="top"><span class="when">The post</span><button type="button" class="ghost" data-held="body" data-n="${esc(s.n)}">Copy post</button></div>
+        <pre>${esc(s.body)}</pre>
+        <div class="top"><span class="when">First comment</span><button type="button" class="ghost" data-held="comment" data-n="${esc(s.n)}">Copy first comment</button></div>
+        <pre>${esc(s.comment)}</pre>
+      </div>
+    </details>
+  </article>`).join('');
+
 document.getElementById('desklink').href = D.desk;
 document.getElementById('prev').addEventListener('click', () => { if (at > 0) { at--; render() } });
 document.getElementById('next').addEventListener('click', () => { if (at < weeks.length - 1) { at++; render() } });
@@ -178,11 +203,13 @@ document.getElementById('now').addEventListener('click', () => {
 });
 
 document.addEventListener('click', (e) => {
-  const b = e.target.closest('button[data-copy]');
+  const b = e.target.closest('button[data-copy], button[data-held]');
   if (!b) return;
-  const s = D.slots.find((x) => x.n === b.dataset.n);
+  const held = !!b.dataset.held;
+  const list = held ? (D.held || []) : D.slots;
+  const s = list.find((x) => x.n === b.dataset.n);
   if (!s) return;
-  copyPlain(s[b.dataset.copy], b);
+  copyPlain(s[held ? b.dataset.held : b.dataset.copy], b);
 });
 
 document.addEventListener('change', (e) => {
