@@ -16,15 +16,15 @@ private context is in any draft.
 | # | Post | The one scene | Level | Names GDC | Format |
 |---|---|---|---|---|---|
 | 1 | The garage | Dad rebuilding the damaged Porsche, passing tools at seven | GREEN | no | Single photo, or Reel |
-| 2 | Never quite fitted | School, messy handwriting, the broken leg at fourteen, A levels | GREEN | no | Single photo of his handwriting |
-| 2b | The table (optional swap) | The maths homework at the dinner table with his dad | **AMBER** | no | Single photo or text card |
+| 2 | Never quite fitted (fallback only) | School, messy handwriting, the broken leg at fourteen, A levels | GREEN | no | Single photo of his handwriting |
+| 2b | The table (runs in slot 2) | The maths homework at the dinner table with his dad | **AMBER, approved** | no | Text card |
 | 3 | No plan B | Dropping out of college in London, not telling his parents, the gym | GREEN | no | Text card |
 | 4 | The boss | The manager and the boss who backed him, director at 32 | GREEN | no | Photo from work, or text card |
 | 5 | The first build | The online accounting service around 2010 | GREEN | no | Text card or carousel |
 | 6 | The recommendations | The YouTube moment, picking videos by hand, The Social Billboard | GREEN | no | Carousel |
-| 7 | Wales | His eldest's friend moved away and WhatsApp kept it going | **AMBER** | no | Single photo, no faces |
+| 7 | Wales | His eldest's friend moved away and WhatsApp kept it going | **AMBER, approved** | no | Single photo, no faces |
 | 8 | The research | Haidt, then Odgers, Orben, Przybylski, Ferguson, and what a playlist cannot teach | GREEN | **yes** | Carousel |
-| 9 | The dance video | His youngest, the dance video, the Saturday football threat, DiGi | **AMBER** | **yes** (DiGi) | Reel with a real DiGi screen |
+| 9 | The dance video | His youngest, the dance video, the Saturday football threat, DiGi | **AMBER, approved** | **yes** (DiGi) | Reel with a real DiGi screen |
 | 10 | Building it myself | The morning walks, AI coding, "Eventually the controls come off" | GREEN | **yes** | Reel on the lane |
 
 Three of ten name Guided Childhood or DiGi (8, 9, 10), which is the one in
@@ -59,12 +59,12 @@ the same day. Wednesday because it keeps the gap even.
 | Date | Post |
 |---|---|
 | Sun 15 Nov | 1 · The garage |
-| Wed 18 Nov | 2 · Never quite fitted (or 2b if he says yes) |
+| Wed 18 Nov | 2b · The table |
 | Sun 22 Nov | 3 · No plan B |
 | Wed 25 Nov | 4 · The boss |
 | Sun 29 Nov | 5 · The first build |
 | Wed 2 Dec | 6 · The recommendations |
-| Sun 6 Dec | 7 · Wales (or its GREEN fallback) |
+| Sun 6 Dec | 7 · Wales |
 | Wed 9 Dec | 8 · The research |
 | Sun 13 Dec | 9 · The dance video |
 | Wed 16 Dec | 10 · Building it myself |
@@ -75,7 +75,12 @@ up, because the series only works in order.
 Reply to every comment on posts 2b, 3 and 7 in person. Those are the ones where
 people will answer with their own story, and the reply is the work.
 
-## The AMBER posts, which need his yes
+## The AMBER posts
+
+**Justin said yes to all three, and to post 10's closing line, on 7 November
+2026.** 2b runs in slot 2; post 2 and post 7's GREEN fallback stay in their
+files in case he changes his mind. Still worth a word with his dad before 2b
+and with his eldest before post 7.
 
 1. **2b · The table.** His dad, the maths homework, feeling scared and useless.
    AMBER on two counts: the maths table incident and feeling like a failure at
