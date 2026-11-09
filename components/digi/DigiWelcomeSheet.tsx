@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
 import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
+import { digiHeldHref, holdDigiPrompt } from '@/lib/digi/handoff'
 
 type ChildInfo = { name: string; ageBand: string | null }
 
@@ -177,10 +178,9 @@ export default function DigiWelcomeSheet({ childrenInfo, guide, newFamily = fals
 
   function bringUpToSpeed() {
     const q = text.trim()
-    const href = q
-      ? `/dashboard/digi?q=${encodeURIComponent(q)}`
-      : '/dashboard/digi'
-    router.push(href)
+    // What the parent typed is theirs: held in the tab, never put in the URL.
+    if (q) holdDigiPrompt(q)
+    router.push(q ? digiHeldHref() : '/dashboard/digi')
   }
 
   function onTouchStart(e: React.TouchEvent) {

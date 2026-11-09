@@ -12,6 +12,7 @@ import { parseSlides, visibleSlides, autoSlidesFromLesson } from '@gc/shared/les
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { hasFullAccess } from '@/lib/access'
 import { isParentLessonFree } from '@/lib/content/lesson-access'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 const STAGE_LABEL: Record<string, { label: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',        bg: 'var(--stage-1)' },
@@ -304,13 +305,14 @@ export default async function LessonDetailPage({ params, searchParams }: {
             Want to take this further? Ask DiGi.
           </p>
         </div>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}${childQS}`}
+        <DigiAskLink
+          prompt={lesson.digi_prompt}
+          child={childQS ? child?.id : null}
           className="btn btn-gold"
           style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
         >
           Ask DiGi about this
-        </Link>
+        </DigiAskLink>
       </div>
 
       {/* Back to all */}

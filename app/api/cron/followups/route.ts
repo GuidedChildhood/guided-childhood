@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { planDeliveries, staleBefore, issueLabelFrom, followUpOpener, CARD_STALE_DAYS, CHECKIN_INVITE_DAYS } from '@/lib/digi/followup-queue'
 import { raiseConcern, toSlug } from '@/lib/concerns/raise'
+import { digiPromptHref } from '@/lib/digi/prompt-token'
 
 // DiGi keeps its promise.
 //
@@ -203,8 +204,10 @@ async function handler(request: Request) {
       // promise with nothing learned from it beats a dropped promise.
       outcome_id: outcome?.id ?? null,
       // The thread itself, so tapping the card opens DiGi on what it was
-      // about rather than on the words "How did that go?".
-      href: `/dashboard/digi?${f.child_id ? `child=${f.child_id}&` : ''}q=${encodeURIComponent(followUpOpener(f.question))}`,
+      // about rather than on the words "How did that go?". Sealed for this
+      // parent: the question is the family's own words and the href travels
+      // to a push and a URL (lib/digi/prompt-token.ts).
+      href: digiPromptHref(f.user_id, followUpOpener(f.question), { child: f.child_id }),
     })
     if (cardError) continue
 

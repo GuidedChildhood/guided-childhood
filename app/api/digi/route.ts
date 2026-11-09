@@ -17,6 +17,7 @@ import { getRatingShifts } from '@/lib/digi/rating-loop'
 import { getWorryStrand } from '@/lib/digi/approaches'
 import { inferSituation } from '@/lib/digi/situation'
 import { inferIssue } from '@/lib/content/device-issues-match'
+import { inferFlashpoint } from '@/lib/content/family-flashpoints-match'
 import { lexicalFlags, highestSeverity, hasCrisisLanguage, hasSafeguardingLanguage, CRISIS_OPENER, SAFEGUARDING_OPENER } from '@/lib/digi/safety'
 import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
@@ -477,6 +478,11 @@ export async function POST(request: Request) {
   // answer each device issue with a solution that exists. Keywords, no model
   // call; the band ranks the tie.
   const issue = inferIssue(String(message), (child?.age_band as AgeBand | null) ?? null)
+  // When it is not a device problem, it may be one of the everyday rows
+  // (lib/content/family-flashpoints.ts, Justin 9 November 2026): the room,
+  // the school run, the Sunday homework panic. Asked second, so a message about
+  // the console at bedtime stays a device issue.
+  const flashpoint = issue ? null : inferFlashpoint(String(message), (child?.age_band as AgeBand | null) ?? null)
   // The live concerns for this child, needed by the score read below and by
   // the concerns block further down. Computed once, here, so the read can sit
   // in the wave.
@@ -520,8 +526,8 @@ export async function POST(request: Request) {
       : Promise.resolve(''),
     // The real rows for the issue's proof scripts, so the links DiGi offers
     // are titles that exist at numbers that exist.
-    issue
-      ? supabase.from('scripts').select('sort_order, title').in('title', issue.proof.scripts)
+    issue || flashpoint
+      ? supabase.from('scripts').select('sort_order, title').in('title', issue ? issue.proof.scripts : flashpoint!.proof.scripts)
       : Promise.resolve({ data: null }),
     supabase.from('scripts').select('sort_order, title, situation, category'),
     supabase
@@ -570,6 +576,17 @@ export async function POST(request: Request) {
     const rows = (issueScriptsResult?.data ?? []) as { sort_order: number; title: string }[]
     const links = rows.map(r => `[${r.title}](/dashboard/scripts/${r.sort_order})`).join(', ')
     issueKnowledge = `\n\nTHE ISSUE THIS FAMILY IS IN, from the bank of the top device problems parents raise at this age: "${issue.name}". What is going on: ${issue.mechanism} The pathway: ${issue.response} What makes it smaller a stage earlier: ${issue.prevent} Evidence: ${issue.source.name}. Answer with this pathway in your own words, as a next step and the words to say, never as a rule and never as taking the device away. ${links ? `Offer one of these real scripts for it, linked exactly as written: ${links}.` : ''}`
+  }
+  // ── OR AN EVERYDAY ROW, WITH ITS PLAN, THE PARENT'S LINE AND ITS SCRIPTS ──
+  //
+  // The same shape as the issue block. The parent's own line comes first
+  // because the parent asking is often the one already at the end of their
+  // tether, and the plan is never a punishment or a confiscation.
+  if (!issue && flashpoint) {
+    const rows = (issueScriptsResult?.data ?? []) as { sort_order: number; title: string }[]
+    const links = rows.map(r => `[${r.title}](/dashboard/scripts/${r.sort_order})`).join(', ')
+    const childQ = child?.id ? `?child=${child.id}` : ''
+    issueKnowledge = `\n\nTHE EVERYDAY ROW THIS FAMILY IS IN, from the bank of thirty rows most families have: "${flashpoint.name}" (it tends to happen: ${flashpoint.when}). What is going on: ${flashpoint.mechanism} A line for the parent to steady themselves first: ${flashpoint.parentFirst} The plan: ${flashpoint.plan} The child's part: ${flashpoint.childSide} What makes it smaller a stage earlier: ${flashpoint.prevent} Evidence: ${flashpoint.source.name}. Answer with this in your own words: start with the parent, then one next step and the words to say, never a rule, never a punishment. Say plainly that this happens in most houses. ${links ? `Offer one of these real scripts for it, linked exactly as written: ${links}.` : ''} If it keeps happening, offer the plan page, where one tap sends a heads up before it: [the plan for this](/dashboard/flashpoints${childQ}#${flashpoint.key}).`
   }
   const expertKnowledge = wantsResearch ? expertKnowledgeRaw : ''
   const aggregateWisdom = wantsResearch ? aggregateWisdomRaw : ''

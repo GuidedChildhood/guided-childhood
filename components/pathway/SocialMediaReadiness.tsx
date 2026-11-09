@@ -4,6 +4,7 @@ import {
   PASSPORT_EVIDENCE,
   type EvidencePoint,
 } from '@/lib/content/passport'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The social media passport, made real on the dashboard. It shows a parent
 // where their child is on the passport journey and, from about 13, turns the
@@ -145,12 +146,10 @@ export default function SocialMediaReadiness({
 
       {/* Actions */}
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(
-            isHeavy
-              ? `How do I start the heavy social media training for ${name} as they approach 16?`
-              : `How do I build ${name}'s social media readiness at this stage?`
-          )}`}
+        <DigiAskLink
+          prompt={isHeavy
+            ? `How do I start the heavy social media training for ${name} as they approach 16?`
+            : `How do I build ${name}'s social media readiness at this stage?`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
@@ -160,7 +159,7 @@ export default function SocialMediaReadiness({
           }}
         >
           {isHeavy ? 'Start the training with DiGi' : 'Talk it through with DiGi'}
-        </Link>
+        </DigiAskLink>
         <Link
           href="/passport"
           style={{

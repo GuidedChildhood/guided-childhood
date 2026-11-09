@@ -7,6 +7,7 @@ import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPr
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import { pickWelcomeCards, cardAction, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The welcome when the app opens. Duolingo does this right: welcome back, one
 // beat, gone. So this is one card, one tap, and never a word about how long
@@ -347,8 +348,8 @@ export default function MissionWelcome({
 
         {/* One tap in, one tap past, and the way past is never hidden. */}
         <div style={{ display: 'flex', gap: 8, padding: '12px 18px 18px' }}>
-          <Link
-            href={`/dashboard/digi?q=${encodeURIComponent(card.ask)}`}
+          <DigiAskLink
+            prompt={card.ask}
             onClick={close}
             style={{
               flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
@@ -360,7 +361,7 @@ export default function MissionWelcome({
             }}
           >
             Ask DiGi this
-          </Link>
+          </DigiAskLink>
           {/* Next while there is more to see, the way out on the last one.
               Following the question closes the whole hello rather than parking
               them mid sequence, because they have gone to have the conversation

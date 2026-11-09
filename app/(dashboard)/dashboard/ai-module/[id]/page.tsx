@@ -6,6 +6,7 @@ import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, visibleSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The stage a lesson audience sits in, for the honest Key Stage chip.
 const AUDIENCE_STAGE: Record<string, string> = {
@@ -180,13 +181,13 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
             Want to take this further? Ask DiGi.
           </p>
         </div>
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}`}
+        <DigiAskLink
+          prompt={lesson.digi_prompt}
           className="btn btn-gold"
           style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
         >
           Ask DiGi about this
-        </Link>
+        </DigiAskLink>
       </div>
 
       {/* Back to all */}

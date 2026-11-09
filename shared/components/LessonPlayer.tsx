@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import { digiHeldHref, holdDigiPrompt } from '../digi-handoff'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import FriendPlate from './FriendPlate'
@@ -2315,7 +2316,7 @@ export default function LessonPlayer({
             Go back over it
           </button>
           {digiPrompt && (
-            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
+            <Link href={digiHeldHref()} onClick={() => holdDigiPrompt(digiPrompt)} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
               Talk it through with DiGi
             </Link>
           )}
@@ -2371,7 +2372,7 @@ export default function LessonPlayer({
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
           {digiPrompt && (
-            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
+            <Link href={digiHeldHref()} onClick={() => holdDigiPrompt(digiPrompt)} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
               Talk it through with DiGi
             </Link>
           )}

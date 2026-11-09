@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // What is coming at school, four to six weeks out.
 //
@@ -87,8 +88,8 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
         </p>
       </div>
 
-      <Link
-        href={`/dashboard/digi?q=${encodeURIComponent(ahead.ask)}`}
+      <DigiAskLink
+        prompt={ahead.ask}
         style={{
           display: 'inline-flex', padding: '11px 17px', textDecoration: 'none',
           background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
@@ -97,7 +98,7 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
         }}
       >
         Ask DiGi about it
-      </Link>
+      </DigiAskLink>
     </div>
   )
 }

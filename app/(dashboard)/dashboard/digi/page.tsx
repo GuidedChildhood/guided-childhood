@@ -6,6 +6,7 @@ import { getTrialConfig } from '@/lib/config/trial'
 import { redirect } from 'next/navigation'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import DigiChat from './DigiChat'
+import { resolveDigiHandoff } from '@/lib/digi/prompt-token'
 
 function getStagePrompts(stageId: number, childName: string | null): string[] {
   const name = (childName && childName !== 'Your child') ? childName : null
@@ -42,18 +43,21 @@ function getStagePrompts(stageId: number, childName: string | null): string[] {
 
 type StoredMessage = { role: string; content: string; timestamp?: string }
 
-export default async function DigiPage({ searchParams }: { searchParams: Promise<{ child?: string; ask?: string }> }) {
+export default async function DigiPage({ searchParams }: { searchParams: Promise<{ child?: string; ask?: string; q?: string; p?: string }> }) {
   // Which child this page is about, so the switcher in the layout actually
   // changes the page rather than only the pills. See lib/children/server.ts.
-  // ?ask= arrives from a dip at the check in with the question already
-  // written, so a parent lands here one tap from sending rather than having
-  // to retype what the app already knows. Capped so a mangled link cannot
-  // stuff the box.
-  const { child: childParam, ask } = await searchParams
-  const initialAsk = typeof ask === 'string' ? ask.slice(0, 300) : null
+  const { child: childParam, ask, q, p } = await searchParams
   const supabase = await createClient()
   const user = await sessionUser(supabase)
   if (!user) redirect('/login')
+
+  // A question handed over by another surface (lib/digi/handoff.ts). ?p= is a
+  // link sealed on the server for this parent only; a question held in the tab
+  // (?held=1) is collected by DigiChat itself, since only the browser has it.
+  // ?q= and ?ask= carried the words themselves until 7 November 2026 and are
+  // still honoured for pushes and cards already on phones; DigiChat strips all
+  // of them from the address bar as soon as the page opens.
+  const handoff = resolveDigiHandoff({ p, q, ask }, user.id)
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -143,7 +147,7 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
       // keep the previous child's bubbles on screen under the new name.
       key={childResult.child?.id ?? 'family'}
       initialMessages={initialMessages}
-      initialAsk={initialAsk}
+      handoff={handoff}
       initialCount={initialCount}
       dailyLimit={dailyLimit}
       stagePrompts={stagePrompts}
