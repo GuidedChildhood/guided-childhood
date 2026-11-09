@@ -39,8 +39,8 @@ it needs a slot the week of 16 November. Held (source unread): 050, 051, 052.
 
 # GDC-047 · Half of UK children have an AI toy (v3, 9 Nov)
 
-**Job:** recruit strangers. **Plan:** Mon 9 Nov. **Card:** needs one, "50 percent",
-with "38 percent own two or more" underneath.
+**Job:** recruit strangers. **Plan:** Mon 9 Nov. **Card:** `content/packs/2026-11-09-cards/gdc-047-card.png`, "50%" with
+"38% own two or more" underneath, worded to v3 ("bought for them", Focaldata).
 
 ## Post
 
@@ -80,7 +80,7 @@ Figures traced by citation-verifier 9 Nov. Dashes: checked below. No founder sce
 
 # GDC-046 · The age is the easy part (unchanged, Justin's own register)
 
-**Job:** start an argument. **Plan:** Wed 11 Nov. **Card:** `content/packs/2026-10-23-readiness-test/gdc-046-card.png` (13, 16, 18; fell back to Georgia, re-render for the intended face).
+**Job:** start an argument. **Plan:** Wed 11 Nov. **Card:** `content/packs/2026-10-23-readiness-test/gdc-046-card.png` (13, 16, 18; re-rendered 9 Nov in the real Playfair Display and Source Serif 4).
 
 Do not add contractions. He wrote it that way on purpose.
 
@@ -124,7 +124,7 @@ Character.AI dates confirmed from TechCrunch and Fortune (company page not fetch
 
 # GDC-045 · Fear is the engine on both sides now (v3, 9 Nov)
 
-**Job:** recruit strangers. **Plan:** Fri 13 Nov. **Card:** needs one, "52.4 to 42.1 percent", accounts held before and after the ban.
+**Job:** recruit strangers. **Plan:** Fri 13 Nov. **Card:** `content/packs/2026-11-09-cards/gdc-045-card.png`, 52.4% to 42.1%, accounts held before and three months in. Same eSafety PDF tick applies to the card.
 
 ## Post
 
