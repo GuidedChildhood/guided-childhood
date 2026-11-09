@@ -71,9 +71,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 042 | Same app, different rules | ready | moved off 038 |
 | 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
 | 044 | A ban is already teaching, the question is what | ready, **v5 revised 5 Nov**, trimmed to band, one scene not two | 2026-11-05 scrutiny pack |
-| 045 | Fear is the engine on both sides now | ready, **v2 revised 5 Nov**, register pass | 2026-11-05 scrutiny pack |
-| 046 | The age is the easy part (readiness) | ready, has a card, **left unedited on purpose, his own register** | 2026-10-23 pack |
-| 047 | Half of UK children have an AI toy | ready, **v2 revised 5 Nov**, recruit strangers | 2026-11-05 scrutiny pack |
+| 045 | Fear is the engine on both sides now | ready, **v3 revised 9 Nov**, planned Fri 13 Nov, BMJ and eSafety wording corrected, **eSafety PDF still to tick** | 2026-11-05 scrutiny pack |
+| 046 | The age is the easy part (readiness) | ready, planned Wed 11 Nov, has a card, **left unedited on purpose, his own register** | 2026-10-23 pack |
+| 047 | Half of UK children have an AI toy | ready, **v3 revised 9 Nov**, planned Mon 9 Nov, bought for them wording, Common Sense claim trimmed, recruit strangers | 2026-11-05 scrutiny pack |
 | 048 | The chatbot confidant | ready, **v2 revised 5 Nov**, start an argument | 2026-11-05 scrutiny pack |
 | 049 | Twenty five thousand teenagers and the lag (Manchester) | ready, **v2 revised 5 Nov**, second question removed | 2026-11-05 scrutiny pack |
 | 050 | Four ways to prove you are 16 (Ofcom) | ready, **v2 revised 5 Nov**, three facts corrected, **Ofcom PDF still unread (403)** | 2026-11-05 scrutiny pack |
