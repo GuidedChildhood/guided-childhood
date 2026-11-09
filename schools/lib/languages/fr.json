@@ -1,0 +1,4603 @@
+{
+ "origin": "https://french-curriculum.pages.dev",
+ "years": [
+  {
+   "year": 3,
+   "units": [
+    {
+     "ht": 1,
+     "fr": "Je parle français",
+     "en": "I speak French"
+    },
+    {
+     "ht": 2,
+     "fr": "Les couleurs",
+     "en": "Colours",
+     "slug": "y3-ht2-les-couleurs"
+    },
+    {
+     "ht": 3,
+     "fr": "Les animaux",
+     "en": "Animals"
+    },
+    {
+     "ht": 4,
+     "fr": "Ours brun, ours brun, que vois-tu ?",
+     "en": "Brown Bear, Brown Bear"
+    },
+    {
+     "ht": 5,
+     "fr": "Les sports et les opinions",
+     "en": "Sports and opinions"
+    },
+    {
+     "ht": 6,
+     "fr": "Le Zoo Rigolo !",
+     "en": "The funny zoo"
+    }
+   ]
+  },
+  {
+   "year": 4,
+   "units": [
+    {
+     "ht": 1,
+     "fr": "Je me présente",
+     "en": "I introduce myself"
+    },
+    {
+     "ht": 2,
+     "fr": "Je peux…",
+     "en": "I can…",
+     "slug": "y4-ht2-je-peux"
+    },
+    {
+     "ht": 3,
+     "fr": "As-tu un animal ?",
+     "en": "Do you have a pet?"
+    },
+    {
+     "ht": 4,
+     "fr": "La Chenille qui fait des trous",
+     "en": "The Very Hungry Caterpillar"
+    },
+    {
+     "ht": 5,
+     "fr": "Le Café Français",
+     "en": "The French café"
+    },
+    {
+     "ht": 6,
+     "fr": "Tout sur moi",
+     "en": "All about me"
+    }
+   ]
+  }
+ ],
+ "units": {
+  "y3-ht2-les-couleurs": {
+   "year": 3,
+   "ht": 2,
+   "fr": "Les couleurs",
+   "en": "Colours",
+   "colour": "#7B3F98",
+   "summary": "Ten colours, « C'est … », « Quelle couleur ? » and « Ma couleur préférée, c'est le … ». Ends with Guess Who!, Mon bilan and a Christmas lesson.",
+   "assessLesson": 6,
+   "assessPlan": [
+    {
+     "code": "S1",
+     "lessons": [
+      5,
+      6
+     ],
+     "how": "observed",
+     "s5": "Holds a short conversation without prompts: asks and answers about colour, age and ça va, adds « Et toi ? » and keeps it going with a new partner.",
+     "what": "Lesson 5 class survey, or Lesson 6 Guess Who!: listen to each pair as they ask and answer (couleur préférée, âge, ça va).",
+     "files": [
+      "Y3_HT2_Class_survey.pdf",
+      "Y3_HT2_L6_Qui_est-ce_Guess_Who.pdf"
+     ]
+    },
+    {
+     "code": "R1",
+     "lessons": [
+      6
+     ],
+     "how": "written",
+     "s5": "Reads a short new text (for example a character described by colour, age and ça va) and shows they understand it, working out new words from what they already know.",
+     "what": "Mon bilan, part 1: read and colour.",
+     "files": [
+      "Y3_HT2_L6_Mon_bilan_v2.pdf"
+     ]
+    },
+    {
+     "code": "R2",
+     "lessons": [
+      1,
+      2,
+      4
+     ],
+     "how": "observed",
+     "s5": "Sings the songs confidently, changes a line to use their own favourite colour, and notices French sounds such as « oi » in the words.",
+     "what": "Songs: note who sings along and points to the colours they hear."
+    },
+    {
+     "code": "W1",
+     "lessons": [
+      6
+     ],
+     "how": "written",
+     "s5": "Writes several sentences from memory (colour, age, ça va), joins them with « et », and adapts them to describe someone new, such as a friend or a Guess Who! character.",
+     "what": "Mon bilan, parts 2 and 3: Camille's three sentences, then three about me, with nothing on display.",
+     "files": [
+      "Y3_HT2_L6_Mon_bilan_v2.pdf",
+      "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+     ]
+    }
+   ],
+   "sound": "oi",
+   "soundHint": "says “wa”: moi, toi, trois, noir",
+   "phonics": "y3_ht2_phonics_oi.html",
+   "lessons": [
+    {
+     "n": 1,
+     "fr": "Les couleurs 1",
+     "en": "Colours 1",
+     "ican": "Say 5 colours in French.",
+     "words": "rouge, jaune, bleu, vert, gris",
+     "slides": "Les_couleurs_1.html",
+     "songs": [
+      0
+     ],
+     "book": "Colour the splats on the Snap sheet and write the colour words. Cut out and play Snap: say the French word every time you turn a card. Or play a memory game with the cards (face down, say each colour as you turn it). ★ Challenge: On the back, write the 5 colours from memory.",
+     "files": [
+      {
+       "kind": "game",
+       "t": "Snap cards",
+       "f": "Y3_HT2_Snap_card_templates.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Snap cards",
+       "f": "Y3_HT2_Snap_card_templates_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Snap cards (owls)",
+       "f": "Y3_HT2_Snap_card_templates_Inclusion_Owls.pdf"
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "fr": "Les couleurs 2",
+     "en": "Colours 2",
+     "ican": "Say 5 more colours in French.",
+     "words": "orange, noir, blanc, violet, rose",
+     "slides": "Les_couleurs_2.html",
+     "songs": [
+      2
+     ],
+     "book": "Same Snap sheet: colour 5 more splats and write the colour words. Cut out and play Snap: say the French word every time you turn a card. Or play a memory game with the cards. ★ Challenge: On the back, write all 10 colours from memory.",
+     "files": [
+      {
+       "kind": "game",
+       "t": "Snap cards",
+       "f": "Y3_HT2_Snap_card_templates.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Snap cards",
+       "f": "Y3_HT2_Snap_card_templates_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Snap cards (owls)",
+       "f": "Y3_HT2_Snap_card_templates_Inclusion_Owls.pdf"
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "fr": "Quelle couleur ?",
+     "en": "What colour?",
+     "ican": "Say what colour something is.",
+     "words": "Quelle couleur ? C'est …",
+     "slides": "Les_couleurs_3.html",
+     "songs": [
+      0
+     ],
+     "book": "Stick the alien strip down the side of your page. Next to each alien, write « C'est … » and its colour. Challenge: draw your own alien and write its colour.",
+     "files": [
+      {
+       "kind": "game",
+       "t": "Bingo: picture boards",
+       "f": "Y3_HT2_L3_Bingo_pictures.pdf"
+      },
+      {
+       "kind": "game",
+       "t": "Bingo: word boards + caller list",
+       "f": "Y3_HT2_L3_Bingo_words.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Bingo: picture boards",
+       "f": "Y3_HT2_L3_Bingo_pictures_Inclusion.pdf"
+      },
+      {
+       "kind": "sheet",
+       "t": "Quelle couleur ? aliens",
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens.pdf"
+      },
+      {
+       "kind": "sheet",
+       "t": "Alien strips to cut out and stick (12 per page)",
+       "f": "Y3_HT2_L3_Aliens_to_cut_out.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Alien strips with C'est … lines and colour help (4 per page)",
+       "f": "Y3_HT2_L3_Aliens_to_cut_out_Adapted.pdf"
+      },
+      {
+       "kind": "game",
+       "t": "Guess Who! aliens: board + secret cards",
+       "f": "Y3_HT2_L3_Guess_Who_aliens.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Quelle couleur ? aliens (word box)",
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Adapted.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Guess Who! aliens with the colour words",
+       "f": "Y3_HT2_L3_Guess_Who_aliens_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Quelle couleur ? join the alien to its colour",
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Inclusion_join.pdf"
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "fr": "Quelle est ta couleur préférée ?",
+     "en": "What is your favourite colour?",
+     "ican": "Ask what someone's favourite colour is.",
+     "words": "Quelle est ta couleur préférée ?",
+     "slides": "Les_couleurs_4.html",
+     "songs": [
+      0
+     ],
+     "book": "In your book: write the question, your name and your answer. Ask the friends on your table « Quelle est ta couleur préférée ? » and write each name and answer. ★ Challenge: Ask someone on another table and write their name and answer.",
+     "files": [
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence cards",
+       "f": "Y3_HT2_L4_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence pieces",
+       "f": "Y3_HT2_L4_Cut_and_stick_words_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Table survey with the sentences written in",
+       "f": "Y3_HT2_L4_Table_survey_Adapted.pdf"
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "fr": "Ma couleur préférée",
+     "en": "My favourite colour",
+     "ican": "Answer and ask « Et toi ? ».",
+     "words": "Ma couleur préférée, c'est le … Et toi ?",
+     "slides": "Les_couleurs_5.html",
+     "songs": [
+      0
+     ],
+     "book": "Class survey: ask friends, tally the answers. ★ Challenge: Finish the sentence: « La couleur préférée de la classe, c'est le … ».",
+     "files": [
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Class survey: tick the colours",
+       "f": "Y3_HT2_L5_Class_survey_Adapted.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Survey: colour and stick",
+       "f": "Y3_HT2_L5_Survey_Inclusion.pdf"
+      },
+      {
+       "kind": "game",
+       "t": "Guess Who! cards",
+       "f": "Y3_HT2_L5_Qui_est-ce_cards.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Guess Who! cards",
+       "f": "Y3_HT2_L5_Qui_est-ce_cards_Inclusion.pdf"
+      },
+      {
+       "kind": "sheet",
+       "t": "Class survey",
+       "f": "Y3_HT2_Class_survey.pdf"
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "fr": "Guess Who!",
+     "en": "colour, age, ça va",
+     "ican": "Ask and answer three questions about me.",
+     "words": "colour, age, ça va",
+     "slides": "Les_couleurs_6.html",
+     "songs": [
+      0
+     ],
+     "book": "Mon bilan (assessment), then Guess Who! in pairs.",
+     "files": [
+      {
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y3_HT2_L6_Mon_bilan_v2.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf"
+      },
+      {
+       "kind": "game",
+       "t": "Guess Who! board (8 characters)",
+       "f": "Y3_HT2_L6_Qui_est-ce_Guess_Who.pdf"
+      },
+      {
+       "lv": "challenge",
+       "kind": "game",
+       "t": "Guess Who! 16-card challenge",
+       "f": "Y3_HT2_L6_Qui_est-ce_Guess_Who_16_challenge.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Guess Who! easy (colours)",
+       "f": "Y3_HT2_L6_Qui_est-ce_Guess_Who_Inclusion_colours.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "game",
+       "t": "Guess Who! (3 characters)",
+       "f": "Y3_HT2_L6_Qui_est-ce_Guess_Who_Inclusion_3_characters.pdf"
+      }
+     ]
+    },
+    {
+     "n": 7,
+     "culture": "Christmas",
+     "fr": "Joyeux Noël !",
+     "en": "Happy Christmas!",
+     "ican": "Say Joyeux Noël and name some Christmas traditions in France.",
+     "words": "le marché de Noël, le calendrier de l'Avent, le réveillon, la bûche de Noël, la crèche, les chaussures, la galette des rois",
+     "slides": "Les_couleurs_7.html",
+     "songs": [
+      1
+     ],
+     "book": "Make a fact file about Christmas in France: choose four things you learnt, write the French word and what it is, then draw a picture for each. ★ Challenge: what is the same in the UK, and what is different?",
+     "files": [
+      {
+       "kind": "sheet",
+       "t": "Noël tree (extra)",
+       "f": "Y3_HT2_Noel_tree.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Fact file: photos and sentences to finish",
+       "f": "Y3_HT2_Noel_fact_file_Adapted.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: photo to word",
+       "f": "Y3_HT2_Noel_cut_and_stick_Inclusion.pdf"
+      }
+     ]
+    }
+   ],
+   "whatICanDo": {
+    "t": "What I can do",
+    "f": "Y3_HT2_What_I_can_do.pdf"
+   },
+   "wordMats": [
+    {
+     "t": "Word mat (colour)",
+     "f": "Y3_HT2_Word_mat_colour.pdf"
+    },
+    {
+     "t": "Word mat (black and white)",
+     "f": "Y3_HT2_Word_mat_BW.pdf"
+    },
+    {
+     "lv": "inclusion",
+     "kind": "mat",
+     "t": "Word mat: 10 colours",
+     "f": "Y3_HT2_Word_mat_Inclusion_colours.pdf"
+    }
+   ],
+   "activities": [
+    {
+     "lv": "inclusion",
+     "kind": "activity",
+     "t": "Colours: colour, trace, join and cut-and-stick (4 pages, uses the 10-colour word mat)",
+     "f": "Y3_HT2_Word_mat_Inclusion_colours_activities.pdf",
+     "lessons": [
+      1,
+      2
+     ]
+    }
+   ],
+   "assessment": [
+    {
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y3_HT2_L6_Mon_bilan_v2.pdf"
+    },
+    {
+     "lv": "adapted",
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+    },
+    {
+     "lv": "inclusion",
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf"
+    }
+   ],
+   "teacher": [
+    {
+     "t": "Lesson overview",
+     "f": "Y3_HT2_Lesson_overview.pdf"
+    },
+    {
+     "t": "Class tracker",
+     "f": "Y3_HT2_Class_tracker.pdf"
+    },
+    {
+     "t": "SOLO table",
+     "f": "Y3_HT2_SOLO_table.pdf"
+    }
+   ],
+   "songs": [
+    {
+     "t": "Les couleurs: song 1 (jaune, bleu, rouge, vert, gris)",
+     "f": "songs/chanson-des-couleurs-1.mp4",
+     "poster": "songs/chanson-des-couleurs-1.jpg"
+    },
+    {
+     "t": "Mon beau sapin",
+     "f": "songs/mon-beau-sapin.mp4",
+     "poster": "songs/mon-beau-sapin.jpg"
+    },
+    {
+     "t": "Les couleurs: song 2 (orange, noir, blanc, violet, rose)",
+     "f": "songs/chanson-des-couleurs-2.mp4",
+     "poster": "songs/chanson-des-couleurs-2.jpg"
+    }
+   ]
+  },
+  "y4-ht2-je-peux": {
+   "year": 4,
+   "ht": 2,
+   "fr": "Je peux…",
+   "en": "I can…",
+   "colour": "#A8437A",
+   "summary": "Ten action verbs, « Je peux … », « Je ne peux pas … », « Tu peux … ? » and longer sentences with et / mais. Ends with Guess Who! and Mon bilan.",
+   "assessLesson": 6,
+   "assessPlan": [
+    {
+     "code": "S2",
+     "lessons": [
+      5,
+      6
+     ],
+     "how": "observed",
+     "s5": "Speaks in extended sentences mixing je peux, je ne peux pas, et and mais, adds detail, and asks and answers « Tu peux … ? » spontaneously.",
+     "what": "Guess Who! « Tu peux … ? » and longer sentences with et / mais."
+    },
+    {
+     "code": "R3",
+     "lessons": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "how": "observed",
+     "s5": "Uses the word mat independently to find new verbs (including extension verbs), works out new sentences and checks their own spellings without being asked.",
+     "what": "Every lesson: who uses the word mat to find and check verbs in book work and games.",
+     "files": [
+      "Y4_HT2_Word_mat_colour.pdf"
+     ]
+    },
+    {
+     "code": "G1",
+     "lessons": [
+      4,
+      6
+     ],
+     "how": "written",
+     "s5": "Explains the pattern (ne … pas around peux; the verb after peux stays in the infinitive) and applies it to new verbs and to questions such as « Tu peux … ? ».",
+     "what": "Lesson 4: make a sentence negative and explain ne … pas. Lesson 6: Mon bilan ✓ / ✗ part.",
+     "files": [
+      "Y4_HT2_L6_Mon_bilan_v2.pdf"
+     ]
+    },
+    {
+     "code": "W1",
+     "lessons": [
+      6
+     ],
+     "how": "written",
+     "s5": "Writes a short paragraph from memory about what they and others can and can't do, using et and mais and new verbs from the word mat.",
+     "what": "Mon bilan, parts 2 to 4: write Je peux / Je ne peux pas sentences from memory, then about themselves (Moi !), nothing on display.",
+     "files": [
+      "Y4_HT2_L6_Mon_bilan_v2.pdf",
+      "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+     ]
+    }
+   ],
+   "sound": "eu",
+   "soundHint": "like the “u” in “fur”: peux, deux, bleu",
+   "phonics": "y4_ht2_phonics_eu.html",
+   "lessons": [
+    {
+     "n": 1,
+     "fr": "Les verbes",
+     "en": "Verbs",
+     "ican": "Say 5 action words.",
+     "words": "danser, chanter, sauter, cuisiner, faire du vélo",
+     "slides": "Je_peux_1.html",
+     "songs": [
+      0
+     ],
+     "book": "Book: write at least 3 verbs, then draw them. ★ Challenge: Write the English next to each verb.",
+     "files": [
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: picture to word",
+       "f": "Y4_HT2_L1_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Les verbes (trace)",
+       "f": "Y4_HT2_L1_Les_verbes_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "mat",
+       "t": "Picture word mat: verbs",
+       "f": "Y4_HT2_Word_mat_Inclusion_verbs.pdf"
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "fr": "Les verbes 2",
+     "en": "More verbs",
+     "ican": "Say 5 more action words.",
+     "words": "jouer au foot, patiner, dessiner, nager, parler français",
+     "slides": "Je_peux_2.html",
+     "songs": [
+      1
+     ],
+     "book": "Book: write the new verbs with the English (danser = to dance), then draw. ★ Challenge: Write all 10 verbs from memory.",
+     "files": [
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: picture to word",
+       "f": "Y4_HT2_L2_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Les verbes 2 (trace)",
+       "f": "Y4_HT2_L2_Les_verbes_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "mat",
+       "t": "Picture word mat: verbs",
+       "f": "Y4_HT2_Word_mat_Inclusion_verbs.pdf"
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "fr": "Je peux…",
+     "en": "I can…",
+     "ican": "Say what I can do.",
+     "words": "Je peux + verb. Tu peux … ? Oui, je peux !",
+     "slides": "Je_peux_3.html",
+     "book": "In your book: write some sentences, « Je peux » + a verb. ★ Challenge: ask a friend « Tu peux … ? » and write their name and answer (e.g. Tu peux nager ? Marie : Oui, je peux !).",
+     "files": [
+      {
+       "kind": "sheet",
+       "t": "Je peux pictures to stick in (10 icons, no text)",
+       "f": "Y4_HT2_L3_Je_peux_pictures.pdf"
+      },
+      {
+       "kind": "sheet",
+       "t": "Picture sentences: Je peux …",
+       "f": "Y4_HT2_L3_Picture_sentences.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Je peux pictures with the sentence (Je peux + verb)",
+       "f": "Y4_HT2_L3_Je_peux_pictures_Adapted.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Je peux…",
+       "f": "Y4_HT2_L3_Je_peux_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence cards",
+       "f": "Y4_HT2_L3_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: word cards",
+       "f": "Y4_HT2_L3_Cut_and_stick_words_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "mat",
+       "t": "Picture word mat: sentences",
+       "f": "Y4_HT2_Word_mat_Inclusion_sentences.pdf"
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "fr": "Je ne peux pas…",
+     "en": "I can't…",
+     "ican": "Say what I can't do.",
+     "words": "Je ne peux pas + verb",
+     "slides": "Je_peux_4.html",
+     "book": "In your book: look at each picture and write the sentence. No cross: « Je peux … ». Red cross: « Je ne peux pas … ». ★ Challenge: Write two sentences about you: one with « Je peux », one with « Je ne peux pas ».",
+     "files": [
+      {
+       "kind": "sheet",
+       "t": "Picture strips to stick in books",
+       "f": "Y4_HT2_L4_Picture_strips.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Picture strips with writing lines and help",
+       "f": "Y4_HT2_L4_Picture_strips_Adapted.pdf"
+      },
+      {
+       "kind": "sheet",
+       "t": "Picture sentences: Je peux … / Je ne peux pas …",
+       "f": "Y4_HT2_L4_Picture_sentences.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Je ne peux pas…",
+       "f": "Y4_HT2_L4_Je_ne_peux_pas_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence cards",
+       "f": "Y4_HT2_L4_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: word cards",
+       "f": "Y4_HT2_L4_Cut_and_stick_words_Inclusion.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "mat",
+       "t": "Picture word mat: sentences",
+       "f": "Y4_HT2_Word_mat_Inclusion_sentences.pdf"
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "fr": "et / mais",
+     "en": "and / but",
+     "ican": "Make longer sentences.",
+     "words": "Je peux nager et danser. Je peux nager mais je ne peux pas cuisiner.",
+     "slides": "Je_peux_5.html",
+     "songs": [
+      2
+     ],
+     "book": "In your book: look at the pictures and write the sentence with « et » or « mais ». ★ Challenge: write your own sentence with et and mais, and draw a picture.",
+     "files": [
+      {
+       "kind": "sheet",
+       "t": "Picture strips to stick in books",
+       "f": "Y4_HT2_L5_Picture_strips.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Picture strips with sentence frames and help",
+       "f": "Y4_HT2_L5_Picture_strips_Adapted.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "et / mais",
+       "f": "Y4_HT2_L5_Et_mais_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence cards",
+       "f": "Y4_HT2_L5_Cut_and_stick_Inclusion.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: sentence pieces",
+       "f": "Y4_HT2_L5_Cut_and_stick_chunks_Inclusion.pdf"
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "fr": "Guess Who! + Mon bilan",
+     "en": "and my review",
+     "ican": "Ask « Tu peux … ? », answer, and show what I know.",
+     "words": "Tu peux … ? Oui, je peux… / Non, je ne peux pas…",
+     "slides": "Je_peux_6.html",
+     "book": "Mon bilan (assessment), then Guess Who! in pairs.",
+     "files": [
+      {
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y4_HT2_L6_Mon_bilan_v2.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "assess",
+       "t": "Mon bilan",
+       "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf"
+      },
+      {
+       "kind": "game",
+       "t": "Guess Who! board",
+       "f": "Y4_HT2_L6_Tu_peux_Guess_Who.pdf"
+      },
+      {
+       "lv": "challenge",
+       "kind": "game",
+       "t": "Guess Who! 12-card challenge",
+       "f": "Y4_HT2_L6_Tu_peux_Guess_Who_12_challenge.pdf"
+      },
+      {
+       "lv": "adapted",
+       "kind": "game",
+       "t": "Guess Who! (4 characters)",
+       "f": "Y4_HT2_L6_Tu_peux_Guess_Who_Inclusion_4.pdf"
+      }
+     ]
+    },
+    {
+     "n": 7,
+     "culture": "Christmas",
+     "fr": "Joyeux Noël !",
+     "en": "Happy Christmas!",
+     "ican": "Say Joyeux Noël and name some Christmas traditions in France.",
+     "words": "Saint-Nicolas, les treize desserts, les santons",
+     "slides": "Je_peux_7.html",
+     "book": "Make a fact file about Christmas in France: write about Saint-Nicolas, les treize desserts and les santons, with the French word and what it is, then draw a picture for each. ★ Challenge: what is the same in the UK, and what is different?",
+     "files": [
+      {
+       "lv": "adapted",
+       "kind": "sheet",
+       "t": "Fact file: photos and sentences to finish",
+       "f": "Y4_HT2_Noel_fact_file_Adapted.pdf"
+      },
+      {
+       "lv": "inclusion",
+       "kind": "sheet",
+       "t": "Cut and stick: photo to word",
+       "f": "Y4_HT2_Noel_cut_and_stick_Inclusion.pdf"
+      }
+     ]
+    }
+   ],
+   "whatICanDo": {
+    "t": "What I can do",
+    "f": "Y4_HT2_What_I_can_do.pdf"
+   },
+   "wordMats": [
+    {
+     "t": "Word mat (colour)",
+     "f": "Y4_HT2_Word_mat_colour.pdf"
+    },
+    {
+     "t": "Word mat (black and white)",
+     "f": "Y4_HT2_Word_mat_BW.pdf"
+    },
+    {
+     "lv": "adapted",
+     "kind": "mat",
+     "t": "Picture word mat: verbs",
+     "f": "Y4_HT2_Word_mat_Inclusion_verbs.pdf"
+    },
+    {
+     "lv": "adapted",
+     "kind": "mat",
+     "t": "Picture word mat: sentences",
+     "f": "Y4_HT2_Word_mat_Inclusion_sentences.pdf"
+    }
+   ],
+   "assessment": [
+    {
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y4_HT2_L6_Mon_bilan_v2.pdf"
+    },
+    {
+     "lv": "adapted",
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+    },
+    {
+     "lv": "inclusion",
+     "kind": "assess",
+     "t": "Mon bilan",
+     "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf"
+    }
+   ],
+   "teacher": [
+    {
+     "t": "Lesson overview",
+     "f": "Y4_HT2_Lesson_overview.pdf"
+    },
+    {
+     "t": "Class tracker",
+     "f": "Y4_HT2_Class_tracker.pdf"
+    },
+    {
+     "t": "SOLO table",
+     "f": "Y4_HT2_SOLO_table.pdf"
+    }
+   ],
+   "songs": [
+    {
+     "t": "Les verbes: song 1",
+     "f": "song/je_peux_lecon1_video.mp4"
+    },
+    {
+     "t": "Les verbes: song 2",
+     "f": "song/je_peux_lecon2_video.mp4"
+    },
+    {
+     "t": "et / mais song",
+     "f": "song/je_peux_et_mais_video_slow.mp4"
+    }
+   ]
+  }
+ },
+ "curriculum": {
+  "units": {
+   "y3-ht1": {
+    "year": "y3",
+    "ht": 1,
+    "ready": true,
+    "unit": "Je parle français",
+    "en": "I speak French",
+    "theme": "Ourselves and Humankind",
+    "summary": "Greetings, feelings, name, numbers 1 to 10 and age (j'ai … ans). Lesson 1 Bienvenue au Monde Francophone (not assessed). Useful words: merci, oui, non. Extension: à plus tard, bonsoir, très bien / très mal; 11 to 20 as a challenge only.",
+    "sound": "ou",
+    "soundHint": "as in bonjour, vous, nous",
+    "soundSays": "like “oo” in soup, never “ow”",
+    "phonicsNote": "One sound this half-term. About 3 sound words and 1 to 2 traps per lesson; retrieval only covers what has been taught so far. Lesson 5: nous, tout, toujours + trap “bon”. Silent final letters noticed informally (nous, trois); in six and dix the final x IS pronounced (/s/). Transcription: choice of 2.",
+    "grammar": "Chunks only.",
+    "culture": "Bienvenue au Monde Francophone: flags and countries where French is spoken (Lesson 1, not assessed).",
+    "lessons": [
+     [
+      "Bienvenue au Monde Francophone",
+      "France & the francophone world (not assessed)"
+     ],
+     [
+      "Greetings & how are you feeling?",
+      "Bonjour, salut, ça va ?, bien / mal, merci"
+     ],
+     [
+      "What is your name?",
+      "Comment t'appelles-tu ? Je m'appelle …"
+     ],
+     [
+      "Numbers 1 to 10",
+      "un, dix"
+     ],
+     [
+      "How old are you?",
+      "Quel âge as-tu ? J'ai … ans."
+     ],
+     [
+      "Consolidation & assessment",
+      "Short conversation + What I can do sheet"
+     ]
+    ],
+    "ican": [
+     "I can say bonjour and au revoir, and name some countries where French is spoken.",
+     "I can ask somebody how they are feeling in French and reply.",
+     "I can ask somebody their name in French and say my own name.",
+     "I can count from 1 to 10 in French.",
+     "I can ask somebody how old they are in French and say my age.",
+     "I can use everything I have learned this half-term in a short conversation."
+    ],
+    "codes": [
+     {
+      "code": "L1",
+      "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+      "pupil": "Listen carefully and show I understand by joining in and responding.",
+      "s3": "Responds to several of the unit's questions (ça va ?, comment t'appelles-tu ?, quel âge as-tu ?) with a word or gesture, sometimes after a model.",
+      "s4": "Responds promptly and correctly to all the unit's questions with short phrases, without a model.",
+      "idea": "Circulate during the paired greeting and name exchanges (Lessons 2 to 3) and note who responds without prompting."
+     },
+     {
+      "code": "S1",
+      "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+      "pupil": "Have a conversation: ask and answer questions.",
+      "s3": "Asks or answers several questions in separate exchanges (greeting, name, age) with prompting.",
+      "s4": "Holds a short linked conversation: greets, asks and answers feeling, name and age, and asks Et toi ?",
+      "idea": "The Lesson 5 conversations with each pupil (already recorded this year); the Lesson 6 mini-dialogue for anyone missed."
+     },
+     {
+      "code": "W1",
+      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+      "pupil": "Write phrases from memory and change them to make new sentences.",
+      "s3": "Writes one or two familiar phrases from memory with some errors (e.g. Je m'appelle …).",
+      "s4": "Writes their replies (greeting, feeling, name and age) from memory, clearly enough to be understood, adapted with their own details.",
+      "idea": "Lesson 6 ‘Fill in the conversation’ sheet, written with nothing on display; the Lesson 5 age worksheet as supporting evidence."
+     }
+    ],
+    "vocab": [
+     [
+      "bonjour",
+      "hello"
+     ],
+     [
+      "salut",
+      "hi"
+     ],
+     [
+      "au revoir",
+      "goodbye"
+     ],
+     [
+      "ça va ?",
+      "how are you?"
+     ],
+     [
+      "ça va bien",
+      "I'm fine"
+     ],
+     [
+      "ça va mal",
+      "I'm not great"
+     ],
+     [
+      "merci",
+      "thank you"
+     ],
+     [
+      "oui",
+      "yes"
+     ],
+     [
+      "non",
+      "no"
+     ],
+     [
+      "Je m'appelle …",
+      "My name is …"
+     ],
+     [
+      "Quel âge as-tu ?",
+      "How old are you?"
+     ],
+     [
+      "J'ai … ans.",
+      "I am … years old."
+     ]
+    ],
+    "exit": [
+     "Write how you say hello in French.",
+     "Write: My name is … in French.",
+     "Write the question: How old are you?"
+    ],
+    "wordmat": {
+     "title": "Je parle français",
+     "subtitle": "I speak French",
+     "panels": [
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 2 · Greetings & feelings",
+       "colour": "#D7E9FA",
+       "rows": [
+        [
+         "Bonjour !",
+         "Hello!"
+        ],
+        [
+         "Salut !",
+         "Hi!"
+        ],
+        [
+         "Ça va ?",
+         "How are you?"
+        ],
+        [
+         "Ça va bien.",
+         "I am fine."
+        ],
+        [
+         "Ça va mal.",
+         "I am not great."
+        ],
+        [
+         "Comme ci, comme ça.",
+         "So-so."
+        ],
+        [
+         "Au revoir !",
+         "Goodbye!"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 3 · What is your name?",
+       "colour": "#DFF3E3",
+       "rows": [
+        [
+         "Comment t'appelles-tu ?",
+         "What is your name?"
+        ],
+        [
+         "Je m'appelle …",
+         "My name is …"
+        ],
+        [
+         "Et toi ?",
+         "And you?"
+        ],
+        [
+         "Enchanté(e) !",
+         "Nice to meet you!"
+        ]
+       ]
+      },
+      {
+       "type": "numbers",
+       "span": "half",
+       "title": "Lesson 4 · Numbers 1 to 10",
+       "colour": "#FCF3CF",
+       "nums": [
+        [
+         "1",
+         "un"
+        ],
+        [
+         "2",
+         "deux"
+        ],
+        [
+         "3",
+         "trois"
+        ],
+        [
+         "4",
+         "quatre"
+        ],
+        [
+         "5",
+         "cinq"
+        ],
+        [
+         "6",
+         "six"
+        ],
+        [
+         "7",
+         "sept"
+        ],
+        [
+         "8",
+         "huit"
+        ],
+        [
+         "9",
+         "neuf"
+        ],
+        [
+         "10",
+         "dix"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 5 · How old are you?",
+       "colour": "#E6DAF5",
+       "rows": [
+        [
+         "Quel âge as-tu ?",
+         "How old are you?"
+        ],
+        [
+         "J'ai … ans.",
+         "I am … years old."
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Useful words",
+       "colour": "#E3F1EF",
+       "rows": [
+        [
+         "merci",
+         "thank you"
+        ],
+        [
+         "oui",
+         "yes"
+        ],
+        [
+         "non",
+         "no"
+        ]
+       ]
+      }
+     ],
+     "extension": {
+      "title": "Extension: for a challenge!",
+      "colour": "#FCE0EC",
+      "rows": [
+       [
+        "À plus tard !",
+        "See you later!"
+       ],
+       [
+        "Bonsoir !",
+        "Good evening!"
+       ],
+       [
+        "Ça va très bien.",
+        "I'm very well."
+       ],
+       [
+        "Ça va très mal.",
+        "I'm very bad."
+       ]
+      ],
+      "nums": [
+       [
+        "11",
+        "onze"
+       ],
+       [
+        "12",
+        "douze"
+       ],
+       [
+        "13",
+        "treize"
+       ],
+       [
+        "14",
+        "quatorze"
+       ],
+       [
+        "15",
+        "quinze"
+       ],
+       [
+        "16",
+        "seize"
+       ],
+       [
+        "17",
+        "dix-sept"
+       ],
+       [
+        "18",
+        "dix-huit"
+       ],
+       [
+        "19",
+        "dix-neuf"
+       ],
+       [
+        "20",
+        "vingt"
+       ]
+      ]
+     }
+    }
+   },
+   "y3-ht2": {
+    "year": "y3",
+    "ht": 2,
+    "ready": true,
+    "unit": "Les couleurs",
+    "en": "Colours",
+    "theme": "Culture and Diversity",
+    "summary": "10 core colours, 5 per lesson, all from the song: rouge, jaune, bleu, vert, gris (Lesson 1) and orange, noir, blanc, violet, rose (Lesson 2). Taught as chunks, no agreement. Extension: marron. Numbers are not core (taught in HT1): quick recap only. Builds to « Quelle est ta couleur préférée ? », « Ma couleur préférée, c'est le … Et toi ? ». Uses “Les couleurs et les nombres” lessons 1 to 3 and the songs “Les couleurs” and “Quelle est ta couleur préférée ?”.",
+    "sound": "oi",
+    "soundHint": "as in trois, moi, noir",
+    "soundSays": "like “wa”",
+    "phonicsNote": "About 3 sound words and 1 to 2 traps per lesson. Suggested: L1 moi, toi, trois (trap: tout) · L2 noir, voilà, poisson (trap: bonjour) · L3 roi, boîte, froid · L4 pourquoi, voir, soir (trap: nous) · L5 étoile, oiseau, mois · L6 recap · L7 Christmas lesson, no phonics. Transcription: choice of 2.",
+    "grammar": "Chunks only. Colour after the noun comes in HT3.",
+    "culture": "Noël: le réveillon, la bûche de Noël, les marchés de Noël, le calendrier de l'Avent.",
+    "lessons": [
+     [
+      "Les couleurs 1",
+      "LA L1: rouge, jaune, bleu, vert, gris. Song: “Les couleurs”"
+     ],
+     [
+      "Les couleurs 2",
+      "orange, noir, blanc, violet, rose. Extension: marron"
+     ],
+     [
+      "C'est rouge ! Quelle couleur ?",
+      "LA L3 consolidation: C'est … / Quelle couleur ?"
+     ],
+     [
+      "Quelle est ta couleur préférée ?",
+      "The question. Song: “Quelle est ta couleur préférée ?”"
+     ],
+     [
+      "Ma couleur préférée, c'est le …",
+      "The answer + Et toi ? Class survey sheet"
+     ],
+     [
+      "Qui est-ce ?",
+      "Guess Who: colour, age and ça va. Exit slip (W1)"
+     ],
+     [
+      "Joyeux Noël !",
+      "Discrete Christmas lesson: Noël en France, colour-by-number tree"
+     ]
+    ],
+    "ican": [
+     "I can say 5 colours in French.",
+     "I can say 5 more colours in French.",
+     "I can say what colour something is (c'est …).",
+     "I can ask « Quelle est ta couleur préférée ? »",
+     "I can answer « Ma couleur préférée, c'est le … » and ask « Et toi ? »",
+     "I can ask and answer three questions about me.",
+     "I can say Joyeux Noël and name some Christmas traditions in France."
+    ],
+    "codes": [
+     {
+      "code": "S1",
+      "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+      "pupil": "Have a conversation: ask and answer questions.",
+      "s3": "Asks the question or answers Ma couleur préférée, c'est le … with a prompt card or model.",
+      "s4": "Asks and answers the question in the class survey, adds Et toi ? and keeps the exchange going without the prompt.",
+      "idea": "Lesson 5 class survey: listen to each pair as they ask and answer."
+     },
+     {
+      "code": "R1",
+      "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+      "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+      "s3": "Matches several colour words to pictures or colour blobs, with some errors.",
+      "s4": "Reads all 10 colour words and short sentences (C'est rouge. Ma couleur préférée, c'est le bleu.) and matches them correctly.",
+      "idea": "Lesson 6 Mon bilan, part 1 (read and colour). Back-up: Lesson 7 colour-by-number tree or the Lesson 3 read-and-match."
+     },
+     {
+      "code": "R2",
+      "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+      "pupil": "Enjoy stories, songs and rhymes in French.",
+      "s3": "Joins in parts of the colour songs and recognises several colour words in them.",
+      "s4": "Sings whole verses and picks out the colours and the question when they hear them in the songs.",
+      "idea": "The songs in Lessons 1, 2 and 4: note who sings along and can point to the colours they hear."
+     },
+     {
+      "code": "W1",
+      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+      "pupil": "Write phrases from memory and change them to make new sentences.",
+      "s3": "Writes several colour words from memory, some misspelt.",
+      "s4": "Writes Ma couleur préférée, c'est le … from memory with a correctly spelt colour.",
+      "idea": "Lesson 6 Mon bilan, part 2 (Coco's 4 questions), written with nothing on display."
+     }
+    ],
+    "vocab": [
+     [
+      "rouge",
+      "red"
+     ],
+     [
+      "jaune",
+      "yellow"
+     ],
+     [
+      "bleu",
+      "blue"
+     ],
+     [
+      "vert",
+      "green"
+     ],
+     [
+      "gris",
+      "grey"
+     ],
+     [
+      "orange",
+      "orange"
+     ],
+     [
+      "noir",
+      "black"
+     ],
+     [
+      "blanc",
+      "white"
+     ],
+     [
+      "violet",
+      "purple"
+     ],
+     [
+      "rose",
+      "pink"
+     ],
+     [
+      "C'est …",
+      "It is …"
+     ],
+     [
+      "Quelle couleur ?",
+      "Which colour?"
+     ],
+     [
+      "Quelle est ta couleur préférée ?",
+      "What is your favourite colour?"
+     ],
+     [
+      "Ma couleur préférée, c'est le …",
+      "My favourite colour is …"
+     ],
+     [
+      "Et toi ?",
+      "And you?"
+     ]
+    ],
+    "exit": [
+     "Write 3 colours in French.",
+     "Write: My favourite colour is … in French.",
+     "Draw a blob and write its colour: C'est …"
+    ],
+    "wordmat": {
+     "title": "Les couleurs",
+     "subtitle": "Colours",
+     "panels": [
+      {
+       "type": "colours",
+       "span": "half",
+       "title": "Lesson 1 · Les couleurs 1",
+       "colour": "#D7E9FA",
+       "rows": [
+        [
+         "rouge",
+         "red",
+         "#E53935"
+        ],
+        [
+         "jaune",
+         "yellow",
+         "#FDD835"
+        ],
+        [
+         "bleu",
+         "blue",
+         "#1E88E5"
+        ],
+        [
+         "vert",
+         "green",
+         "#43A047"
+        ],
+        [
+         "gris",
+         "grey",
+         "#9E9E9E"
+        ]
+       ]
+      },
+      {
+       "type": "colours",
+       "span": "half",
+       "title": "Lesson 2 · Les couleurs 2",
+       "colour": "#DFF3E3",
+       "rows": [
+        [
+         "orange",
+         "orange",
+         "#FB8C00"
+        ],
+        [
+         "noir",
+         "black",
+         "#212121"
+        ],
+        [
+         "blanc",
+         "white",
+         "#FFFFFF"
+        ],
+        [
+         "violet",
+         "purple",
+         "#8E24AA"
+        ],
+        [
+         "rose",
+         "pink",
+         "#F48FB1"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 3 · Quelle couleur ?",
+       "colour": "#FCF3CF",
+       "rows": [
+        [
+         "Quelle couleur ?",
+         "Which colour?"
+        ],
+        [
+         "C'est rouge.",
+         "It's red."
+        ],
+        [
+         "C'est vert et rose.",
+         "It's green and pink."
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 4 · Ta couleur préférée",
+       "colour": "#E6DAF5",
+       "rows": [
+        [
+         "Quelle est ta couleur préférée ?",
+         "What is your favourite colour?"
+        ],
+        [
+         "Le rose !",
+         "Pink!"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 5 · Ma couleur préférée",
+       "colour": "#FDE2D2",
+       "rows": [
+        [
+         "Ma couleur préférée, c'est le …",
+         "My favourite colour is …"
+        ],
+        [
+         "Et toi ?",
+         "And you?"
+        ],
+        [
+         "Tu t'appelles … ?",
+         "Are you called …?"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 6 · Qui est-ce ?",
+       "colour": "#DDEFF7",
+       "rows": [
+        [
+         "Quel âge as-tu ?",
+         "How old are you?"
+        ],
+        [
+         "J'ai … ans.",
+         "I am … years old."
+        ],
+        [
+         "Ça va ?",
+         "How are you?"
+        ],
+        [
+         "Ça va bien. / Comme ci, comme ça. / Ça va mal.",
+         "I'm fine. / So-so. / Not great."
+        ],
+        [
+         "Tu t'appelles … ?",
+         "Are you called …?"
+        ],
+        [
+         "Oui ! / Non !",
+         "Yes! / No!"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 7 · Joyeux Noël !",
+       "colour": "#F8E1E1",
+       "rows": [
+        [
+         "Joyeux Noël !",
+         "Happy Christmas!"
+        ],
+        [
+         "le sapin de Noël",
+         "the Christmas tree"
+        ],
+        [
+         "la bûche de Noël",
+         "the Christmas log cake"
+        ],
+        [
+         "le calendrier de l'Avent",
+         "the Advent calendar"
+        ]
+       ]
+      },
+      {
+       "type": "numbers",
+       "span": "full",
+       "title": "Recap · Numbers 1 to 10 (ages and the Noël tree)",
+       "colour": "#E3F1EF",
+       "nums": [
+        [
+         "1",
+         "un"
+        ],
+        [
+         "2",
+         "deux"
+        ],
+        [
+         "3",
+         "trois"
+        ],
+        [
+         "4",
+         "quatre"
+        ],
+        [
+         "5",
+         "cinq"
+        ],
+        [
+         "6",
+         "six"
+        ],
+        [
+         "7",
+         "sept"
+        ],
+        [
+         "8",
+         "huit"
+        ],
+        [
+         "9",
+         "neuf"
+        ],
+        [
+         "10",
+         "dix"
+        ]
+       ]
+      }
+     ],
+     "extension": {
+      "title": "Extension",
+      "colour": "#FCE0EC",
+      "rows": [
+       [
+        "marron",
+        "brown"
+       ]
+      ]
+     }
+    },
+    "extras": [
+     "survey",
+     "noel"
+    ]
+   },
+   "y3-ht3": {
+    "year": "y3",
+    "ht": 3,
+    "ready": false,
+    "unit": "Les animaux",
+    "en": "Animals",
+    "theme": "Community and Citizenship",
+    "summary": "Core: chat, chien, cheval, canard, poisson, ours, souris (chosen for Ours brun and known sounds). Je suis + un/une + animal + colour. Extension: cochon, vache, mouton (“Les animaux” slides can support).",
+    "sound": "ch",
+    "soundHint": "as in chat, chien, cheval",
+    "soundSays": "like “sh”",
+    "phonicsNote": "Transcription: choice of 2.",
+    "grammar": "un / une + je suis. Colour AFTER the animal (noun, adjective order) is the grammar point. Adjective agreement is NOT taught; a feminine animal (une souris) only with same-sound colours.",
+    "culture": "What animals say in French: ouaf ouaf, miaou, coin-coin.",
+    "codes": [
+     {
+      "code": "S2",
+      "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+      "pupil": "Speak in sentences using words and phrases I know.",
+      "s3": "Says Je suis un chat or names an animal with a colour, with support.",
+      "s4": "Says full sentences Je suis un chien rouge, with un/une and the colour after the animal, for several animals.",
+      "idea": "Dice game: roll animal + colour and say the sentence."
+     },
+     {
+      "code": "R1",
+      "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+      "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+      "s3": "Reads several animal words and matches them to pictures.",
+      "s4": "Reads short sentences (Je suis un cheval noir) and matches or draws them correctly.",
+      "idea": "Read-and-draw: pupils draw the animal in the right colour."
+     },
+     {
+      "code": "G1",
+      "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+      "pupil": "Understand and use a grammar pattern.",
+      "s3": "Puts the colour after the animal when prompted, or picks un/une with help.",
+      "s4": "Explains and applies colour-after-noun and un/une in new sentences, and notices how this differs from English.",
+      "idea": "Sentence-builder cards: order the cards and explain the choice."
+     },
+     {
+      "code": "W2",
+      "nc": "Describe people, places, things and actions orally and in writing.",
+      "pupil": "Describe people, animals and things in speaking and writing.",
+      "s3": "Writes an animal and a colour with support from the word mat.",
+      "s4": "Writes several sentences describing animals (Je suis un poisson orange) with correct word order.",
+      "idea": "Write and draw your own animal; book scrutiny."
+     }
+    ]
+   },
+   "y3-ht4": {
+    "year": "y3",
+    "ht": 4,
+    "ready": false,
+    "unit": "Ours brun, ours brun, que vois-tu ?",
+    "en": "Brown Bear, Brown Bear",
+    "theme": "Exploration and Discovery",
+    "summary": "Je vois / tu vois with the HT3 animals. Guess Who board: « Tu vois un chien bleu ? Oui. / Non. » (not “tu es”). New colour brun (blanc and violet were taught in HT2), used only with masculine animals. Pupils write their own version of the book.",
+    "sound": "Checkpoint 1: ou, oi, ch",
+    "soundHint": "",
+    "soundSays": "",
+    "phonicsNote": "Phonics checkpoint 1 (ou, oi, ch): reading aloud and transcription, choice of 2.",
+    "grammar": "Je vois / tu vois; colour after the noun.",
+    "culture": "Eric Carle's picture book in French (authentic text). Easter: les cloches and chocolate fish (not a rabbit); le poisson d'avril.",
+    "codes": [
+     {
+      "code": "L2",
+      "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+      "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+      "s3": "Joins in the repeated lines of the story and recognises some sound-spelling links (ou, oi, ch).",
+      "s4": "Reads and says new words with ou, oi and ch correctly in the checkpoint, linking sound to spelling.",
+      "idea": "Phonics checkpoint 1: read aloud and transcribe (choice of 2)."
+     },
+     {
+      "code": "S3",
+      "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+      "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+      "s3": "Reads part of the story aloud; some sounds anglicised.",
+      "s4": "Reads their page aloud clearly with accurate ou, oi, ch sounds and intonation for the question.",
+      "idea": "Reading the class story aloud in turns."
+     },
+     {
+      "code": "S4",
+      "nc": "Present ideas and information orally to a range of audiences.",
+      "pupil": "Present to an audience.",
+      "s3": "Presents their page to a partner or small group with support.",
+      "s4": "Reads their own Ours brun version to the class, clearly and confidently.",
+      "idea": "Reading their own Ours brun version to the class."
+     },
+     {
+      "code": "R2",
+      "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+      "pupil": "Enjoy stories, songs and rhymes in French.",
+      "s3": "Joins in with the story and its repeated pattern.",
+      "s4": "Retells or predicts the next page using the pattern, showing they enjoy and understand the story.",
+      "idea": "Story sessions: predict the next animal and colour."
+     }
+    ]
+   },
+   "y3-ht5": {
+    "year": "y3",
+    "ht": 5,
+    "ready": false,
+    "unit": "Les sports et les opinions",
+    "en": "Sports and opinions",
+    "theme": "Expression and Creativity",
+    "summary": "The 12 sports on the Guess Who sheet: le volley, le surf, le badminton, l'équitation, la gymnastique, le ski, le judo, la natation, la danse, le tennis, le rugby, le football. J'aime, j'adore, je n'aime pas, je déteste; mais / et. Guess Who: « Tu aimes … ? »",
+    "sound": "r",
+    "soundHint": "as in rugby, rouge, Ours brun",
+    "soundSays": "from the back of the throat",
+    "phonicsNote": "Pronunciation focus. Transcription: choice of 3 to 4.",
+    "grammar": "Opinions joined with mais / et.",
+    "culture": "French sport and well-known French sportspeople speaking simple French.",
+    "codes": [
+     {
+      "code": "L1",
+      "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+      "pupil": "Listen carefully and show I understand by joining in and responding.",
+      "s3": "Understands several sports and opinions when heard, with gestures.",
+      "s4": "Understands longer spoken opinions joined with et / mais and responds correctly.",
+      "idea": "Listen and point / thumbs up, down game."
+     },
+     {
+      "code": "S2",
+      "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+      "pupil": "Speak in sentences using words and phrases I know.",
+      "s3": "Says J'aime le football or names sports with an opinion, with support.",
+      "s4": "Says linked sentences: J'adore le tennis mais je déteste le rugby.",
+      "idea": "Guess Who: « Tu aimes … ? » and opinion chains."
+     },
+     {
+      "code": "R3",
+      "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
+      "pupil": "Use a word list to understand new words.",
+      "s3": "Uses the weekly word list to find one new sport with help.",
+      "s4": "Uses the word list independently to understand and use new sports words in a sentence.",
+      "idea": "Word-list challenge with new sports."
+     },
+     {
+      "code": "G1",
+      "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+      "pupil": "Understand and use a grammar pattern.",
+      "s3": "Uses j'aime / je n'aime pas correctly with support.",
+      "s4": "Joins two opinions with mais / et and uses the negative correctly in new sentences.",
+      "idea": "Sentence-building cards with mais / et."
+     }
+    ]
+   },
+   "y3-ht6": {
+    "year": "y3",
+    "ht": 6,
+    "ready": false,
+    "unit": "Le Zoo Rigolo !",
+    "en": "The funny zoo",
+    "theme": "Ourselves and Humankind",
+    "summary": "End-of-year performance using all Year 3 language.",
+    "sound": "Checkpoint 2: all Y3 sounds",
+    "soundHint": "",
+    "soundSays": "",
+    "phonicsNote": "Phonics checkpoint 2 (all Year 3 sounds): reading aloud and transcription, choice of 3 to 4.",
+    "grammar": "Consolidation of all Year 3 structures.",
+    "culture": "Birthdays & celebrations: Joyeux / Bon anniversaire, the birthday song, French birthday cards.",
+    "codes": [
+     {
+      "code": "L2",
+      "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+      "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+      "s3": "Joins in songs and rhymes from the year and links some sounds to spellings.",
+      "s4": "Reads unseen words with all Year 3 sounds correctly in checkpoint 2.",
+      "idea": "Phonics checkpoint 2."
+     },
+     {
+      "code": "S3",
+      "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+      "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+      "s3": "Says their part with mostly understandable pronunciation.",
+      "s4": "Says their part accurately and with expression so the audience understands every line.",
+      "idea": "Rehearsals for Le Zoo Rigolo !"
+     },
+     {
+      "code": "S4",
+      "nc": "Present ideas and information orally to a range of audiences.",
+      "pupil": "Present to an audience.",
+      "s3": "Takes part in the performance with support.",
+      "s4": "Presents their part confidently to a real audience (parents or assembly).",
+      "idea": "Le Zoo Rigolo ! performance."
+     },
+     {
+      "code": "W2",
+      "nc": "Describe people, places, things and actions orally and in writing.",
+      "pupil": "Describe people, animals and things in speaking and writing.",
+      "s3": "Writes a short description of an animal with support.",
+      "s4": "Writes several sentences describing animals and what they like, with correct word order.",
+      "idea": "Programme or zoo poster writing."
+     }
+    ]
+   },
+   "y4-ht1": {
+    "year": "y4",
+    "ht": 1,
+    "ready": true,
+    "unit": "Je me présente",
+    "en": "I introduce myself",
+    "theme": "Ourselves and Humankind",
+    "summary": "Name; age with « Quel âge as-tu ?, J'ai … ans » only; nationality je suis anglais(e) / français(e) in Lesson 3, each pupil using their own form; numbers 11 to 20 in Lesson 4, taught BEFORE age (Lesson 5) so pupils can practise them as ages. No appearance vocabulary; no avoir or third-person teaching.",
+    "sound": "en / an + silent letters",
+    "soundHint": "as in ans, comment, anglais",
+    "soundSays": "nasal, through the nose, no “n” at the end",
+    "phonicsNote": "en/an plus silent final letters. About 3 sound words and 1 to 2 traps per lesson; retrieval only covers what has been taught. Transcription: choice of 3.",
+    "grammar": "Chunks; je suis + nationality (own form).",
+    "culture": "Monde francophone revisited and la rentrée: the French school day.",
+    "lessons": [
+     [
+      "Monde francophone & la rentrée",
+      "Francophone world revisited; the French school day"
+     ],
+     [
+      "Greetings, feelings & name",
+      "Y3 retrieval: bonjour, ça va ?, comment t'appelles-tu ?"
+     ],
+     [
+      "Je suis anglais(e)",
+      "Nationality: je suis anglais / anglaise (own form)"
+     ],
+     [
+      "Numbers 11 to 20",
+      "onze, vingt"
+     ],
+     [
+      "Quel âge as-tu ?",
+      "Quel âge as-tu ? J'ai … ans, using 1 to 20"
+     ],
+     [
+      "Je me présente",
+      "Consolidation & assessment: introduce myself"
+     ]
+    ],
+    "ican": [
+     "I can greet somebody and say how I feel.",
+     "I can ask somebody's name and say mine.",
+     "I can say my nationality.",
+     "I can count from 11 to 20 in French.",
+     "I can ask somebody's age and say mine.",
+     "I can introduce myself (name, age, nationality)."
+    ],
+    "codes": [
+     {
+      "code": "L1",
+      "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+      "pupil": "Listen carefully and show I understand by joining in and responding.",
+      "s3": "Understands and responds to several familiar questions (ça va ?, comment t'appelles-tu ?, quel âge as-tu ?) with support.",
+      "s4": "Understands and answers all the unit's questions promptly in full sentences, including nationality.",
+      "idea": "Lesson 2 greetings retrieval: note who responds without prompting."
+     },
+     {
+      "code": "S1",
+      "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+      "pupil": "Have a conversation: ask and answer questions.",
+      "s3": "Answers questions about name, age and nationality one at a time, with prompts.",
+      "s4": "Asks and answers all the questions in a linked conversation, uses Et toi ? and their own form of anglais / anglaise.",
+      "idea": "Lesson 5 paired conversation (name, nationality, age), or 1:1 in Lesson 6."
+     },
+     {
+      "code": "S3",
+      "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+      "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+      "s3": "In the conversation, most words are understandable; some sounds anglicised (e.g. saying the s in ans).",
+      "s4": "Speaks fluently in the conversation with accurate en/an and silent final letters, so a listener understands every sentence.",
+      "idea": "Lesson 6 conversation with the teacher or a partner, using their completed sheet."
+     },
+     {
+      "code": "R1",
+      "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+      "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+      "s3": "Reads short phrases and matches several to their meaning or a picture.",
+      "s4": "Reads a short introduction (name, age, nationality) and answers true/false questions about it correctly.",
+      "idea": "Lesson 5 or 6 true/false speech bubbles (« Lis : vrai ou faux ? »)."
+     }
+    ],
+    "vocab": [
+     [
+      "bonjour",
+      "hello"
+     ],
+     [
+      "ça va ?",
+      "how are you?"
+     ],
+     [
+      "ça va très bien",
+      "I'm very well"
+     ],
+     [
+      "Comment t'appelles-tu ?",
+      "What is your name?"
+     ],
+     [
+      "Je m'appelle …",
+      "My name is …"
+     ],
+     [
+      "Quel âge as-tu ?",
+      "How old are you?"
+     ],
+     [
+      "J'ai … ans.",
+      "I am … years old."
+     ],
+     [
+      "Je suis anglais.",
+      "I am English (boy)."
+     ],
+     [
+      "Je suis anglaise.",
+      "I am English (girl)."
+     ],
+     [
+      "Et toi ?",
+      "And you?"
+     ],
+     [
+      "au revoir",
+      "goodbye"
+     ],
+     [
+      "à plus tard",
+      "see you later"
+     ]
+    ],
+    "exit": [
+     "Write the question: How old are you?",
+     "Write your age: J'ai … ans.",
+     "Write your nationality: Je suis …"
+    ],
+    "wordmat": {
+     "title": "Je me présente",
+     "subtitle": "I introduce myself",
+     "panels": [
+      {
+       "type": "phrase",
+       "span": "full",
+       "title": "Lesson 2 · Greetings, feelings & name",
+       "colour": "#D7E9FA",
+       "rows": [
+        [
+         "Bonjour ! / Salut !",
+         "Hello! / Hi!"
+        ],
+        [
+         "Ça va ?",
+         "How are you?"
+        ],
+        [
+         "Ça va (très) bien.",
+         "I am (very) well."
+        ],
+        [
+         "Ça va (très) mal.",
+         "I am (really) not great."
+        ],
+        [
+         "Comme ci, comme ça.",
+         "So-so."
+        ],
+        [
+         "Comment t'appelles-tu ?",
+         "What is your name?"
+        ],
+        [
+         "Je m'appelle …",
+         "My name is …"
+        ],
+        [
+         "Au revoir ! À plus tard !",
+         "Goodbye! See you later!"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 3 · Je suis anglais(e)",
+       "colour": "#DFF3E3",
+       "note": "use the form that is right for you",
+       "rows": [
+        [
+         "Je suis anglais.",
+         "I am English (boy)."
+        ],
+        [
+         "Je suis anglaise.",
+         "I am English (girl)."
+        ]
+       ]
+      },
+      {
+       "type": "numbers",
+       "span": "half",
+       "title": "Lesson 4 · Numbers 11 to 20",
+       "colour": "#FCF3CF",
+       "nums": [
+        [
+         "11",
+         "onze"
+        ],
+        [
+         "12",
+         "douze"
+        ],
+        [
+         "13",
+         "treize"
+        ],
+        [
+         "14",
+         "quatorze"
+        ],
+        [
+         "15",
+         "quinze"
+        ],
+        [
+         "16",
+         "seize"
+        ],
+        [
+         "17",
+         "dix-sept"
+        ],
+        [
+         "18",
+         "dix-huit"
+        ],
+        [
+         "19",
+         "dix-neuf"
+        ],
+        [
+         "20",
+         "vingt"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 5 · Quel âge as-tu ?",
+       "colour": "#E6DAF5",
+       "rows": [
+        [
+         "Quel âge as-tu ?",
+         "How old are you?"
+        ],
+        [
+         "J'ai … ans.",
+         "I am … years old."
+        ],
+        [
+         "Et toi ?",
+         "And you?"
+        ]
+       ]
+      },
+      {
+       "type": "numbers",
+       "span": "half",
+       "title": "Recap · Numbers 1 to 10",
+       "colour": "#FCF3CF",
+       "nums": [
+        [
+         "1",
+         "un"
+        ],
+        [
+         "2",
+         "deux"
+        ],
+        [
+         "3",
+         "trois"
+        ],
+        [
+         "4",
+         "quatre"
+        ],
+        [
+         "5",
+         "cinq"
+        ],
+        [
+         "6",
+         "six"
+        ],
+        [
+         "7",
+         "sept"
+        ],
+        [
+         "8",
+         "huit"
+        ],
+        [
+         "9",
+         "neuf"
+        ],
+        [
+         "10",
+         "dix"
+        ]
+       ]
+      }
+     ],
+     "extension": {
+      "title": "Extension: for a challenge!",
+      "colour": "#FCE0EC",
+      "note": "use the form that is right for you",
+      "rows": [
+       [
+        "Je suis français / française.",
+        "I am French."
+       ],
+       [
+        "Je suis irlandais / irlandaise.",
+        "I am Irish."
+       ],
+       [
+        "Je suis gallois / galloise.",
+        "I am Welsh."
+       ],
+       [
+        "Je suis écossais / écossaise.",
+        "I am Scottish."
+       ]
+      ]
+     }
+    }
+   },
+   "y4-ht2": {
+    "year": "y4",
+    "ht": 2,
+    "ready": true,
+    "unit": "Je peux…",
+    "en": "I can…",
+    "theme": "Culture and Diversity",
+    "summary": "Our own unit, 6 lessons, with Marie and Pierre. Verbs (infinitives): danser, chanter, sauter, cuisiner, faire du vélo, jouer au foot, patiner, dessiner, nager, parler français; extension (all -er): jouer d'un instrument, jouer de la guitare, jouer au hockey, grimper, skier. Most end in -er (faire ends in -re). Je peux + infinitive; je ne peux pas; et / mais. « Tu peux … ? » with the Guess Who board. Negation (ne … pas) isolated and assessed. Marie and Pierre show what they can and can't do.",
+    "note2627": "",
+    "sound": "eu",
+    "soundHint": "as in peux, deux, bleu, neuf, jeu",
+    "soundSays": "like the “u” in “fur”, lips rounded",
+    "phonicsNote": "eu: peux, deux, bleu, neuf, jeu. About 3 sound words and 1 to 2 traps per lesson. Transcription: choice of 3.",
+    "grammar": "Modal + infinitive: je peux / tu peux; negation ne … pas (assessed).",
+    "culture": "",
+    "lessons": [
+     [
+      "5 verbs (infinitives)",
+      "danser, chanter, sauter, cuisiner, faire du vélo; most infinitives end in -er"
+     ],
+     [
+      "5 more verbs",
+      "jouer au foot, patiner, dessiner, nager, parler français"
+     ],
+     [
+      "Je peux + verb",
+      "Je peux nager. Tu peux … ? Oui, je peux !"
+     ],
+     [
+      "Je ne peux pas",
+      "ne … pas goes around peux: Je ne peux pas patiner."
+     ],
+     [
+      "Et / mais + bingo",
+      "Je peux nager mais je ne peux pas cuisiner. Loto des verbes"
+     ],
+     [
+      "Qui est-ce ? + Mon bilan",
+      "Guess Who: « Tu peux … ? » Assessment: Mon bilan"
+     ]
+    ],
+    "ican": [
+     "I can say 5 action words (infinitives).",
+     "I can say 5 more action words.",
+     "I can say what I can do: je peux + verb.",
+     "I can say what I can't do: je ne peux pas + verb.",
+     "I can use et / mais to make longer sentences.",
+     "I can ask « Tu peux … ? » and answer in Guess Who."
+    ],
+    "codes": [
+     {
+      "code": "S2",
+      "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+      "pupil": "Speak in sentences using words and phrases I know.",
+      "s3": "Says several je peux + verb sentences, sometimes needing the word mat.",
+      "s4": "Says longer sentences joining can and can't with et / mais (Je peux nager mais je ne peux pas patiner).",
+      "idea": "Guess Who « Tu peux … ? » and Lesson 6 speaking task."
+     },
+     {
+      "code": "R3",
+      "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
+      "pupil": "Use a word list to understand new words.",
+      "s3": "Uses the word mat to find the verb they need, with help.",
+      "s4": "Uses the word mat independently every lesson to find and check verbs and sentences, including extension verbs.",
+      "idea": "Observed daily: book work and games with the word mat."
+     },
+     {
+      "code": "W1",
+      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+      "pupil": "Write phrases from memory and change them to make new sentences.",
+      "s3": "Writes one or two je peux sentences from memory, with errors.",
+      "s4": "Writes je peux / je ne peux pas sentences from memory, adapting the verb to talk about themselves.",
+      "idea": "Lesson 6 Mon bilan, nothing on display."
+     },
+     {
+      "code": "G1",
+      "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+      "pupil": "Understand and use a grammar pattern.",
+      "s3": "Recognises ne … pas and makes a negative with support.",
+      "s4": "Applies ne … pas around peux in new sentences and knows the verb after peux stays in the infinitive.",
+      "idea": "Lesson 4 sentence-builder: make it negative and explain."
+     }
+    ],
+    "vocab": [
+     [
+      "danser",
+      "to dance"
+     ],
+     [
+      "chanter",
+      "to sing"
+     ],
+     [
+      "sauter",
+      "to jump"
+     ],
+     [
+      "cuisiner",
+      "to cook"
+     ],
+     [
+      "faire du vélo",
+      "to ride a bike"
+     ],
+     [
+      "jouer au foot",
+      "to play football"
+     ],
+     [
+      "patiner",
+      "to ice-skate"
+     ],
+     [
+      "dessiner",
+      "to draw"
+     ],
+     [
+      "nager",
+      "to swim"
+     ],
+     [
+      "parler français",
+      "to speak French"
+     ],
+     [
+      "Je peux …",
+      "I can …"
+     ],
+     [
+      "Je ne peux pas …",
+      "I can't …"
+     ],
+     [
+      "Tu peux … ?",
+      "Can you … ?"
+     ],
+     [
+      "et",
+      "and"
+     ],
+     [
+      "mais",
+      "but"
+     ]
+    ],
+    "exit": [
+     "Write one thing you can do: Je peux …",
+     "Write one thing you can't do: Je ne peux pas …",
+     "Join them with mais."
+    ],
+    "wordmat": {
+     "title": "Je peux…",
+     "subtitle": "I can…",
+     "panels": [
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 1 · 5 verbs",
+       "colour": "#D7E9FA",
+       "rows": [
+        [
+         "danser",
+         "to dance"
+        ],
+        [
+         "chanter",
+         "to sing"
+        ],
+        [
+         "sauter",
+         "to jump"
+        ],
+        [
+         "cuisiner",
+         "to cook"
+        ],
+        [
+         "faire du vélo",
+         "to ride a bike"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 2 · 5 more verbs",
+       "colour": "#DFF3E3",
+       "rows": [
+        [
+         "jouer au foot",
+         "to play football"
+        ],
+        [
+         "patiner",
+         "to ice-skate"
+        ],
+        [
+         "dessiner",
+         "to draw"
+        ],
+        [
+         "nager",
+         "to swim"
+        ],
+        [
+         "parler français",
+         "to speak French"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lessons 3 to 4 · Je peux / je ne peux pas",
+       "colour": "#E6DAF5",
+       "rows": [
+        [
+         "Je peux nager.",
+         "I can swim."
+        ],
+        [
+         "Je ne peux pas nager.",
+         "I can't swim."
+        ],
+        [
+         "Tu peux danser ?",
+         "Can you dance?"
+        ],
+        [
+         "Oui, je peux.",
+         "Yes, I can."
+        ],
+        [
+         "Non, je ne peux pas.",
+         "No, I can't."
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 5 · et / mais",
+       "colour": "#FCF3CF",
+       "rows": [
+        [
+         "et",
+         "and"
+        ],
+        [
+         "mais",
+         "but"
+        ],
+        [
+         "Je peux chanter et danser.",
+         "I can sing and dance."
+        ],
+        [
+         "Je peux nager mais je ne peux pas patiner.",
+         "I can swim but I can't skate."
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "The infinitive",
+       "colour": "#EDEDED",
+       "note": "the “to …” form of a verb",
+       "rows": [
+        [
+         "danser",
+         "to dance"
+        ],
+        [
+         "-er",
+         "most of our verbs end in -er"
+        ],
+        [
+         "faire",
+         "ends in -re, still an infinitive"
+        ]
+       ]
+      }
+     ],
+     "extension": {
+      "title": "Extension: more -er verbs",
+      "colour": "#FCE0EC",
+      "rows": [
+       [
+        "jouer d'un instrument",
+        "to play an instrument"
+       ],
+       [
+        "jouer de la guitare",
+        "to play the guitar"
+       ],
+       [
+        "jouer au hockey",
+        "to play hockey"
+       ],
+       [
+        "grimper",
+        "to climb"
+       ],
+       [
+        "skier",
+        "to ski"
+       ]
+      ]
+     }
+    }
+   },
+   "y4-ht3": {
+    "year": "y4",
+    "ht": 3,
+    "ready": true,
+    "unit": "As-tu un animal ?",
+    "en": "Do you have a pet?",
+    "theme": "Community and Citizenship",
+    "summary": "Intermediate unit (replaces “La date”). 8 pets: un chien, un chat, un lapin, un hamster, un poisson rouge, un oiseau, une souris, une tortue. J'ai … et …; qui s'appelle … (chunk); je n'ai pas de / d' … (chunk, not assessed); mais. Extra j'ai practice; links to HT6 third person. “La date” (months, 21 to 31) is left to Years 5 to 6; the days of the week come with La Chenille (HT4).",
+    "sound": "Silent final consonants",
+    "soundHint": "as in chat, souris, pas, chez",
+    "soundSays": "the last consonant is usually silent",
+    "phonicsNote": "Silent final consonants revisited and formalised: chat, souris, pas, chez. “CaReFuL” exceptions c, r, f, l are often said (e.g. hamster, neuf). Trapdoor game: “Is the last letter silent?” Transcription: free, building to checkpoint 3.",
+    "grammar": "J'ai + noun; qui s'appelle and je n'ai pas de as chunks.",
+    "culture": "Geography & landmarks: the Eiffel Tower and a few French regions and cities.",
+    "lessons": [
+     [
+      "Eight pets",
+      "un chien, un chat, un lapin, un hamster, un poisson rouge, un oiseau, une souris, une tortue"
+     ],
+     [
+      "J'ai + et",
+      "J'ai un chien et un chat."
+     ],
+     [
+      "Qui s'appelle …",
+      "J'ai un lapin qui s'appelle Flocon."
+     ],
+     [
+      "Negatives",
+      "Je n'ai pas de chat. (chunk, not assessed)"
+     ],
+     [
+      "Mais",
+      "J'ai un chien mais je n'ai pas de chat."
+     ],
+     [
+      "Revise & assessment",
+      "As-tu un animal ? assessment"
+     ]
+    ],
+    "ican": [
+     "I can name 8 pets with un / une.",
+     "I can say which pets I have (j'ai, et).",
+     "I can say my pet's name (qui s'appelle).",
+     "I can say which pets I don't have.",
+     "I can make a longer sentence with mais.",
+     "I can ask « As-tu un animal ? » and answer."
+    ],
+    "codes": [
+     {
+      "code": "L1",
+      "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+      "pupil": "Listen carefully and show I understand by joining in and responding.",
+      "s3": "Understands several pet words and j'ai sentences when heard, with picture support.",
+      "s4": "Understands longer spoken sentences with et, mais and qui s'appelle and responds correctly.",
+      "idea": "Listen-and-tick pets grid (Lessons 2 to 3)."
+     },
+     {
+      "code": "S1",
+      "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+      "pupil": "Have a conversation: ask and answer questions.",
+      "s3": "Answers « As-tu un animal ? » with J'ai … or Non, with prompts.",
+      "s4": "Asks and answers « As-tu un animal ? » in a linked exchange, adding the pet's name or what they don't have.",
+      "idea": "Lesson 6 paired conversation or class survey."
+     },
+     {
+      "code": "R2",
+      "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+      "pupil": "Enjoy stories, songs and rhymes in French.",
+      "s3": "Joins in with the unit song or rhyme and recognises several pets in it.",
+      "s4": "Sings or reads the song / rhyme confidently and picks out the pets and names they hear.",
+      "idea": "The song in Lessons 1 to 2."
+     },
+     {
+      "code": "W2",
+      "nc": "Describe people, places, things and actions orally and in writing.",
+      "pupil": "Describe people, animals and things in speaking and writing.",
+      "s3": "Writes J'ai un chien or names pets with support from the word mat.",
+      "s4": "Writes several sentences about their pets (or imaginary pets) with et, mais and qui s'appelle.",
+      "idea": "Lesson 6 writing: my pets; book scrutiny."
+     }
+    ],
+    "vocab": [
+     [
+      "un chien",
+      "a dog"
+     ],
+     [
+      "un chat",
+      "a cat"
+     ],
+     [
+      "un lapin",
+      "a rabbit"
+     ],
+     [
+      "un hamster",
+      "a hamster"
+     ],
+     [
+      "un poisson rouge",
+      "a goldfish"
+     ],
+     [
+      "un oiseau",
+      "a bird"
+     ],
+     [
+      "une souris",
+      "a mouse"
+     ],
+     [
+      "une tortue",
+      "a tortoise"
+     ],
+     [
+      "As-tu un animal ?",
+      "Do you have a pet?"
+     ],
+     [
+      "J'ai …",
+      "I have …"
+     ],
+     [
+      "qui s'appelle …",
+      "who is called …"
+     ],
+     [
+      "Je n'ai pas de …",
+      "I don't have a …"
+     ]
+    ],
+    "exit": [
+     "Write 2 pets with un / une.",
+     "Write: I have a dog called … in French.",
+     "Write one pet you don't have: Je n'ai pas de …"
+    ],
+    "wordmat": {
+     "title": "As-tu un animal ?",
+     "subtitle": "Do you have a pet?",
+     "panels": [
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 1 · Eight pets",
+       "colour": "#D7E9FA",
+       "rows": [
+        [
+         "un chien",
+         "a dog"
+        ],
+        [
+         "un chat",
+         "a cat"
+        ],
+        [
+         "un lapin",
+         "a rabbit"
+        ],
+        [
+         "un hamster",
+         "a hamster"
+        ],
+        [
+         "un poisson rouge",
+         "a goldfish"
+        ],
+        [
+         "un oiseau",
+         "a bird"
+        ],
+        [
+         "une souris",
+         "a mouse"
+        ],
+        [
+         "une tortue",
+         "a tortoise"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lessons 2 to 3 · J'ai … qui s'appelle …",
+       "colour": "#DFF3E3",
+       "rows": [
+        [
+         "As-tu un animal ?",
+         "Do you have a pet?"
+        ],
+        [
+         "J'ai un chat.",
+         "I have a cat."
+        ],
+        [
+         "J'ai un chien et un lapin.",
+         "I have a dog and a rabbit."
+        ],
+        [
+         "J'ai un lapin qui s'appelle …",
+         "I have a rabbit called …"
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 4 · Je n'ai pas de …",
+       "colour": "#E6DAF5",
+       "rows": [
+        [
+         "Je n'ai pas de chat.",
+         "I don't have a cat."
+        ],
+        [
+         "Je n'ai pas d'oiseau.",
+         "I don't have a bird."
+        ],
+        [
+         "Je n'ai pas d'animal.",
+         "I don't have a pet."
+        ]
+       ]
+      },
+      {
+       "type": "phrase",
+       "span": "half",
+       "title": "Lesson 5 · mais",
+       "colour": "#FCF3CF",
+       "rows": [
+        [
+         "mais",
+         "but"
+        ],
+        [
+         "J'ai un chien mais je n'ai pas de chat.",
+         "I have a dog but I don't have a cat."
+        ]
+       ]
+      }
+     ],
+     "extension": {
+      "title": "Extension: for a challenge!",
+      "colour": "#FCE0EC",
+      "rows": [
+       [
+        "un serpent",
+        "a snake"
+       ],
+       [
+        "un cochon d'Inde",
+        "a guinea pig"
+       ],
+       [
+        "un cheval",
+        "a horse"
+       ],
+       [
+        "une araignée",
+        "a spider"
+       ]
+      ]
+     }
+    }
+   },
+   "y4-ht4": {
+    "year": "y4",
+    "ht": 4,
+    "ready": false,
+    "unit": "La Chenille qui fait des trous",
+    "en": "The Very Hungry Caterpillar",
+    "theme": "Exploration and Discovery",
+    "summary": "Vocabulary from the book: core fruit une pomme, des poires, des prunes, des fraises, des oranges, and the days of the week (lundi to dimanche); the other foods receptively. Receptive past tense and partitive articles.",
+    "sound": "Checkpoint 3",
+    "soundHint": "",
+    "soundSays": "",
+    "phonicsNote": "Phonics checkpoint 3: reading aloud and free transcription (no scaffold).",
+    "grammar": "Partitive (du / de la / des) and past tense, receptive only.",
+    "culture": "Eric Carle's picture book in French (authentic text).",
+    "codes": [
+     {
+      "code": "L2",
+      "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+      "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+      "s3": "Joins in the story's repeated lines and links some sounds to spellings.",
+      "s4": "Reads and freely transcribes unseen words using all known sounds in checkpoint 3.",
+      "idea": "Phonics checkpoint 3 (free transcription)."
+     },
+     {
+      "code": "S3",
+      "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+      "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+      "s3": "Reads part of the story aloud; some sounds anglicised.",
+      "s4": "Reads a page fluently with accurate sounds, silent letters and liaison where taught.",
+      "idea": "Reading the story aloud in turns."
+     },
+     {
+      "code": "R2",
+      "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+      "pupil": "Enjoy stories, songs and rhymes in French.",
+      "s3": "Joins in with the story and recognises fruit words.",
+      "s4": "Retells or predicts the story using its pattern, showing understanding of the receptive past tense.",
+      "idea": "Story sessions: sequence the pages."
+     }
+    ]
+   },
+   "y4-ht5": {
+    "year": "y4",
+    "ht": 5,
+    "ready": false,
+    "unit": "Le Café Français",
+    "en": "The French café",
+    "theme": "Expression and Creativity",
+    "summary": "Drinks: un orangina, un jus de pomme, un jus d'orange, un diabolo menthe, de l'eau, une limonade. Food: un croissant, un pain au chocolat, des chips, des biscuits, des raisins, une gaufre. Multiples of ten to 100 (dix, vingt, trente … cent) for prices. Je voudrais …, s'il vous plaît, merci; formal vous. Year 7 pupils visit. (“Au salon de thé” can support it.)",
+    "sound": "eau + liaison",
+    "soundHint": "as in l'eau, un gâteau, vous avez",
+    "soundSays": "eau like “o”; liaison links a silent consonant to the next vowel",
+    "phonicsNote": "eau and liaison. Transcription: free.",
+    "grammar": "Formal vous register.",
+    "culture": "French café culture; Year 7 visit.",
+    "codes": [
+     {
+      "code": "S2",
+      "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+      "pupil": "Speak in sentences using words and phrases I know.",
+      "s3": "Orders one item with Je voudrais … with a prompt.",
+      "s4": "Orders several items in full sentences with s'il vous plaît and responds to the waiter.",
+      "idea": "Café role-play."
+     },
+     {
+      "code": "S4",
+      "nc": "Present ideas and information orally to a range of audiences.",
+      "pupil": "Present to an audience.",
+      "s3": "Takes part in the café with a script.",
+      "s4": "Serves or orders confidently for the visiting Year 7 pupils.",
+      "idea": "Year 7 café visit."
+     },
+     {
+      "code": "W1",
+      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+      "pupil": "Write phrases from memory and change them to make new sentences.",
+      "s3": "Writes one order from memory with errors.",
+      "s4": "Writes a short café order from memory, adapting items and quantities.",
+      "idea": "Menu and order writing; exit slip."
+     },
+     {
+      "code": "G1",
+      "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+      "pupil": "Understand and use a grammar pattern.",
+      "s3": "Recognises vous as the polite form when prompted.",
+      "s4": "Chooses tu or vous correctly for the situation and explains why.",
+      "idea": "Tu or vous? sorting task."
+     }
+    ]
+   },
+   "y4-ht6": {
+    "year": "y4",
+    "ht": 6,
+    "ready": false,
+    "unit": "Tout sur moi",
+    "en": "All about me",
+    "theme": "Ourselves and Humankind",
+    "summary": "Profile for the middle-school teacher: name, age, nationality, birthday month (mon anniversaire, c'est en mai), pets, what I can / can't do, likes. Receptive third person only (il / elle s'appelle, il / elle a …, il / elle peut).",
+    "sound": "Consolidation: no new sounds",
+    "soundHint": "",
+    "soundSays": "",
+    "phonicsNote": "Consolidation of all sounds; free transcription.",
+    "grammar": "Receptive third person (il / elle s'appelle, a, peut).",
+    "culture": "La Fête nationale (14 juillet).",
+    "codes": [
+     {
+      "code": "L2",
+      "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+      "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+      "s3": "Links familiar sounds to spellings with some errors.",
+      "s4": "Reads and spells new words accurately using all sounds learnt.",
+      "idea": "End-of-year phonics review."
+     },
+     {
+      "code": "S4",
+      "nc": "Present ideas and information orally to a range of audiences.",
+      "pupil": "Present to an audience.",
+      "s3": "Presents a few facts about themselves with notes.",
+      "s4": "Presents their profile clearly to the class or a visitor without reading every word.",
+      "idea": "Presenting Tout sur moi."
+     },
+     {
+      "code": "W2",
+      "nc": "Describe people, places, things and actions orally and in writing.",
+      "pupil": "Describe people, animals and things in speaking and writing.",
+      "s3": "Writes a few sentences about themselves with support.",
+      "s4": "Writes a full profile (name, age, nationality, birthday month, pets, can / can't, likes) with connectives.",
+      "idea": "Tout sur moi profile for the middle-school teacher."
+     },
+     {
+      "code": "R1",
+      "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+      "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+      "s3": "Reads a classmate's profile and picks out some facts.",
+      "s4": "Reads a profile written in the third person and answers questions about it correctly.",
+      "idea": "Guess whose profile it is (il / elle …)."
+     }
+    ]
+   }
+  },
+  "order": [
+   "y3-ht1",
+   "y3-ht2",
+   "y3-ht3",
+   "y3-ht4",
+   "y3-ht5",
+   "y3-ht6",
+   "y4-ht1",
+   "y4-ht2",
+   "y4-ht3",
+   "y4-ht4",
+   "y4-ht5",
+   "y4-ht6"
+  ],
+  "solo": [
+   "Prestructural",
+   "Unistructural",
+   "Multistructural",
+   "Relational",
+   "Extended abstract"
+  ],
+  "nc": {
+   "L1": "Listen attentively to spoken language and show understanding by joining in and responding.",
+   "L2": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+   "S1": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+   "S2": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+   "S3": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+   "S4": "Present ideas and information orally to a range of audiences.",
+   "R1": "Read carefully and show understanding of words, phrases and simple writing.",
+   "R2": "Appreciate stories, songs, poems and rhymes in the language.",
+   "R3": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
+   "W1": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+   "W2": "Describe people, places, things and actions orally and in writing.",
+   "G1": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English."
+  }
+ },
+ "codes": {
+  "y3-ht1": {
+   "unit": "Je parle français",
+   "en": "I speak French",
+   "codes": [
+    {
+     "code": "L1",
+     "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+     "pupil": "Listen carefully and show I understand by joining in and responding.",
+     "s3": "Responds to several of the unit's questions (ça va ?, comment t'appelles-tu ?, quel âge as-tu ?) with a word or gesture, sometimes after a model.",
+     "s4": "Responds promptly and correctly to all the unit's questions with short phrases, without a model.",
+     "idea": "Circulate during the paired greeting and name exchanges (Lessons 2 to 3) and note who responds without prompting."
+    },
+    {
+     "code": "S1",
+     "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+     "pupil": "Have a conversation: ask and answer questions.",
+     "s3": "Asks or answers several questions in separate exchanges (greeting, name, age) with prompting.",
+     "s4": "Holds a short linked conversation: greets, asks and answers feeling, name and age, and asks Et toi ?",
+     "idea": "The Lesson 5 conversations with each pupil (already recorded this year); the Lesson 6 mini-dialogue for anyone missed."
+    },
+    {
+     "code": "W1",
+     "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+     "pupil": "Write phrases from memory and change them to make new sentences.",
+     "s3": "Writes one or two familiar phrases from memory with some errors (e.g. Je m'appelle …).",
+     "s4": "Writes their replies (greeting, feeling, name and age) from memory, clearly enough to be understood, adapted with their own details.",
+     "idea": "Lesson 6 ‘Fill in the conversation’ sheet, written with nothing on display; the Lesson 5 age worksheet as supporting evidence."
+    }
+   ]
+  },
+  "y3-ht2": {
+   "unit": "Les couleurs",
+   "en": "Colours",
+   "codes": [
+    {
+     "code": "S1",
+     "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+     "pupil": "Have a conversation: ask and answer questions.",
+     "s3": "Asks the question or answers Ma couleur préférée, c'est le … with a prompt card or model.",
+     "s4": "Asks and answers the question in the class survey, adds Et toi ? and keeps the exchange going without the prompt.",
+     "idea": "Lesson 5 class survey: listen to each pair as they ask and answer."
+    },
+    {
+     "code": "R1",
+     "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+     "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+     "s3": "Matches several colour words to pictures or colour blobs, with some errors.",
+     "s4": "Reads all 10 colour words and short sentences (C'est rouge. Ma couleur préférée, c'est le bleu.) and matches them correctly.",
+     "idea": "Lesson 6 Mon bilan, part 1 (read and colour). Back-up: Lesson 7 colour-by-number tree or the Lesson 3 read-and-match."
+    },
+    {
+     "code": "R2",
+     "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+     "pupil": "Enjoy stories, songs and rhymes in French.",
+     "s3": "Joins in parts of the colour songs and recognises several colour words in them.",
+     "s4": "Sings whole verses and picks out the colours and the question when they hear them in the songs.",
+     "idea": "The songs in Lessons 1, 2 and 4: note who sings along and can point to the colours they hear."
+    },
+    {
+     "code": "W1",
+     "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+     "pupil": "Write phrases from memory and change them to make new sentences.",
+     "s3": "Writes several colour words from memory, some misspelt.",
+     "s4": "Writes Ma couleur préférée, c'est le … from memory with a correctly spelt colour.",
+     "idea": "Lesson 6 Mon bilan, part 2 (Coco's 4 questions), written with nothing on display."
+    }
+   ]
+  },
+  "y3-ht3": {
+   "unit": "Les animaux",
+   "en": "Animals",
+   "codes": [
+    {
+     "code": "S2",
+     "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+     "pupil": "Speak in sentences using words and phrases I know.",
+     "s3": "Says Je suis un chat or names an animal with a colour, with support.",
+     "s4": "Says full sentences Je suis un chien rouge, with un/une and the colour after the animal, for several animals.",
+     "idea": "Dice game: roll animal + colour and say the sentence."
+    },
+    {
+     "code": "R1",
+     "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+     "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+     "s3": "Reads several animal words and matches them to pictures.",
+     "s4": "Reads short sentences (Je suis un cheval noir) and matches or draws them correctly.",
+     "idea": "Read-and-draw: pupils draw the animal in the right colour."
+    },
+    {
+     "code": "G1",
+     "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+     "pupil": "Understand and use a grammar pattern.",
+     "s3": "Puts the colour after the animal when prompted, or picks un/une with help.",
+     "s4": "Explains and applies colour-after-noun and un/une in new sentences, and notices how this differs from English.",
+     "idea": "Sentence-builder cards: order the cards and explain the choice."
+    },
+    {
+     "code": "W2",
+     "nc": "Describe people, places, things and actions orally and in writing.",
+     "pupil": "Describe people, animals and things in speaking and writing.",
+     "s3": "Writes an animal and a colour with support from the word mat.",
+     "s4": "Writes several sentences describing animals (Je suis un poisson orange) with correct word order.",
+     "idea": "Write and draw your own animal; book scrutiny."
+    }
+   ]
+  },
+  "y3-ht4": {
+   "unit": "Ours brun, ours brun, que vois-tu ?",
+   "en": "Brown Bear, Brown Bear",
+   "codes": [
+    {
+     "code": "L2",
+     "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+     "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+     "s3": "Joins in the repeated lines of the story and recognises some sound-spelling links (ou, oi, ch).",
+     "s4": "Reads and says new words with ou, oi and ch correctly in the checkpoint, linking sound to spelling.",
+     "idea": "Phonics checkpoint 1: read aloud and transcribe (choice of 2)."
+    },
+    {
+     "code": "S3",
+     "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+     "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+     "s3": "Reads part of the story aloud; some sounds anglicised.",
+     "s4": "Reads their page aloud clearly with accurate ou, oi, ch sounds and intonation for the question.",
+     "idea": "Reading the class story aloud in turns."
+    },
+    {
+     "code": "S4",
+     "nc": "Present ideas and information orally to a range of audiences.",
+     "pupil": "Present to an audience.",
+     "s3": "Presents their page to a partner or small group with support.",
+     "s4": "Reads their own Ours brun version to the class, clearly and confidently.",
+     "idea": "Reading their own Ours brun version to the class."
+    },
+    {
+     "code": "R2",
+     "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+     "pupil": "Enjoy stories, songs and rhymes in French.",
+     "s3": "Joins in with the story and its repeated pattern.",
+     "s4": "Retells or predicts the next page using the pattern, showing they enjoy and understand the story.",
+     "idea": "Story sessions: predict the next animal and colour."
+    }
+   ]
+  },
+  "y3-ht5": {
+   "unit": "Les sports et les opinions",
+   "en": "Sports and opinions",
+   "codes": [
+    {
+     "code": "L1",
+     "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+     "pupil": "Listen carefully and show I understand by joining in and responding.",
+     "s3": "Understands several sports and opinions when heard, with gestures.",
+     "s4": "Understands longer spoken opinions joined with et / mais and responds correctly.",
+     "idea": "Listen and point / thumbs up, down game."
+    },
+    {
+     "code": "S2",
+     "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+     "pupil": "Speak in sentences using words and phrases I know.",
+     "s3": "Says J'aime le football or names sports with an opinion, with support.",
+     "s4": "Says linked sentences: J'adore le tennis mais je déteste le rugby.",
+     "idea": "Guess Who: « Tu aimes … ? » and opinion chains."
+    },
+    {
+     "code": "R3",
+     "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
+     "pupil": "Use a word list to understand new words.",
+     "s3": "Uses the weekly word list to find one new sport with help.",
+     "s4": "Uses the word list independently to understand and use new sports words in a sentence.",
+     "idea": "Word-list challenge with new sports."
+    },
+    {
+     "code": "G1",
+     "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+     "pupil": "Understand and use a grammar pattern.",
+     "s3": "Uses j'aime / je n'aime pas correctly with support.",
+     "s4": "Joins two opinions with mais / et and uses the negative correctly in new sentences.",
+     "idea": "Sentence-building cards with mais / et."
+    }
+   ]
+  },
+  "y3-ht6": {
+   "unit": "Le Zoo Rigolo !",
+   "en": "The funny zoo",
+   "codes": [
+    {
+     "code": "L2",
+     "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+     "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+     "s3": "Joins in songs and rhymes from the year and links some sounds to spellings.",
+     "s4": "Reads unseen words with all Year 3 sounds correctly in checkpoint 2.",
+     "idea": "Phonics checkpoint 2."
+    },
+    {
+     "code": "S3",
+     "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+     "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+     "s3": "Says their part with mostly understandable pronunciation.",
+     "s4": "Says their part accurately and with expression so the audience understands every line.",
+     "idea": "Rehearsals for Le Zoo Rigolo !"
+    },
+    {
+     "code": "S4",
+     "nc": "Present ideas and information orally to a range of audiences.",
+     "pupil": "Present to an audience.",
+     "s3": "Takes part in the performance with support.",
+     "s4": "Presents their part confidently to a real audience (parents or assembly).",
+     "idea": "Le Zoo Rigolo ! performance."
+    },
+    {
+     "code": "W2",
+     "nc": "Describe people, places, things and actions orally and in writing.",
+     "pupil": "Describe people, animals and things in speaking and writing.",
+     "s3": "Writes a short description of an animal with support.",
+     "s4": "Writes several sentences describing animals and what they like, with correct word order.",
+     "idea": "Programme or zoo poster writing."
+    }
+   ]
+  },
+  "y4-ht1": {
+   "unit": "Je me présente",
+   "en": "I introduce myself",
+   "codes": [
+    {
+     "code": "L1",
+     "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+     "pupil": "Listen carefully and show I understand by joining in and responding.",
+     "s3": "Understands and responds to several familiar questions (ça va ?, comment t'appelles-tu ?, quel âge as-tu ?) with support.",
+     "s4": "Understands and answers all the unit's questions promptly in full sentences, including nationality.",
+     "idea": "Lesson 2 greetings retrieval: note who responds without prompting."
+    },
+    {
+     "code": "S1",
+     "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+     "pupil": "Have a conversation: ask and answer questions.",
+     "s3": "Answers questions about name, age and nationality one at a time, with prompts.",
+     "s4": "Asks and answers all the questions in a linked conversation, uses Et toi ? and their own form of anglais / anglaise.",
+     "idea": "Lesson 5 paired conversation (name, nationality, age), or 1:1 in Lesson 6."
+    },
+    {
+     "code": "S3",
+     "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+     "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+     "s3": "In the conversation, most words are understandable; some sounds anglicised (e.g. saying the s in ans).",
+     "s4": "Speaks fluently in the conversation with accurate en/an and silent final letters, so a listener understands every sentence.",
+     "idea": "Lesson 6 conversation with the teacher or a partner, using their completed sheet."
+    },
+    {
+     "code": "R1",
+     "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+     "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+     "s3": "Reads short phrases and matches several to their meaning or a picture.",
+     "s4": "Reads a short introduction (name, age, nationality) and answers true/false questions about it correctly.",
+     "idea": "Lesson 5 or 6 true/false speech bubbles (« Lis : vrai ou faux ? »)."
+    }
+   ]
+  },
+  "y4-ht2": {
+   "unit": "Je peux…",
+   "en": "I can…",
+   "codes": [
+    {
+     "code": "S2",
+     "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+     "pupil": "Speak in sentences using words and phrases I know.",
+     "s3": "Says several je peux + verb sentences, sometimes needing the word mat.",
+     "s4": "Says longer sentences joining can and can't with et / mais (Je peux nager mais je ne peux pas patiner).",
+     "idea": "Guess Who « Tu peux … ? » and Lesson 6 speaking task."
+    },
+    {
+     "code": "R3",
+     "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
+     "pupil": "Use a word list to understand new words.",
+     "s3": "Uses the word mat to find the verb they need, with help.",
+     "s4": "Uses the word mat independently every lesson to find and check verbs and sentences, including extension verbs.",
+     "idea": "Observed daily: book work and games with the word mat."
+    },
+    {
+     "code": "W1",
+     "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+     "pupil": "Write phrases from memory and change them to make new sentences.",
+     "s3": "Writes one or two je peux sentences from memory, with errors.",
+     "s4": "Writes je peux / je ne peux pas sentences from memory, adapting the verb to talk about themselves.",
+     "idea": "Lesson 6 Mon bilan, nothing on display."
+    },
+    {
+     "code": "G1",
+     "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+     "pupil": "Understand and use a grammar pattern.",
+     "s3": "Recognises ne … pas and makes a negative with support.",
+     "s4": "Applies ne … pas around peux in new sentences and knows the verb after peux stays in the infinitive.",
+     "idea": "Lesson 4 sentence-builder: make it negative and explain."
+    }
+   ]
+  },
+  "y4-ht3": {
+   "unit": "As-tu un animal ?",
+   "en": "Do you have a pet?",
+   "codes": [
+    {
+     "code": "L1",
+     "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+     "pupil": "Listen carefully and show I understand by joining in and responding.",
+     "s3": "Understands several pet words and j'ai sentences when heard, with picture support.",
+     "s4": "Understands longer spoken sentences with et, mais and qui s'appelle and responds correctly.",
+     "idea": "Listen-and-tick pets grid (Lessons 2 to 3)."
+    },
+    {
+     "code": "S1",
+     "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
+     "pupil": "Have a conversation: ask and answer questions.",
+     "s3": "Answers « As-tu un animal ? » with J'ai … or Non, with prompts.",
+     "s4": "Asks and answers « As-tu un animal ? » in a linked exchange, adding the pet's name or what they don't have.",
+     "idea": "Lesson 6 paired conversation or class survey."
+    },
+    {
+     "code": "R2",
+     "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+     "pupil": "Enjoy stories, songs and rhymes in French.",
+     "s3": "Joins in with the unit song or rhyme and recognises several pets in it.",
+     "s4": "Sings or reads the song / rhyme confidently and picks out the pets and names they hear.",
+     "idea": "The song in Lessons 1 to 2."
+    },
+    {
+     "code": "W2",
+     "nc": "Describe people, places, things and actions orally and in writing.",
+     "pupil": "Describe people, animals and things in speaking and writing.",
+     "s3": "Writes J'ai un chien or names pets with support from the word mat.",
+     "s4": "Writes several sentences about their pets (or imaginary pets) with et, mais and qui s'appelle.",
+     "idea": "Lesson 6 writing: my pets; book scrutiny."
+    }
+   ]
+  },
+  "y4-ht4": {
+   "unit": "La Chenille qui fait des trous",
+   "en": "The Very Hungry Caterpillar",
+   "codes": [
+    {
+     "code": "L2",
+     "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+     "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+     "s3": "Joins in the story's repeated lines and links some sounds to spellings.",
+     "s4": "Reads and freely transcribes unseen words using all known sounds in checkpoint 3.",
+     "idea": "Phonics checkpoint 3 (free transcription)."
+    },
+    {
+     "code": "S3",
+     "nc": "Develop accurate pronunciation and intonation so that others understand when reading aloud or using familiar words and phrases.",
+     "pupil": "Pronounce words clearly so others understand me when I read aloud.",
+     "s3": "Reads part of the story aloud; some sounds anglicised.",
+     "s4": "Reads a page fluently with accurate sounds, silent letters and liaison where taught.",
+     "idea": "Reading the story aloud in turns."
+    },
+    {
+     "code": "R2",
+     "nc": "Appreciate stories, songs, poems and rhymes in the language.",
+     "pupil": "Enjoy stories, songs and rhymes in French.",
+     "s3": "Joins in with the story and recognises fruit words.",
+     "s4": "Retells or predicts the story using its pattern, showing understanding of the receptive past tense.",
+     "idea": "Story sessions: sequence the pages."
+    }
+   ]
+  },
+  "y4-ht5": {
+   "unit": "Le Café Français",
+   "en": "The French café",
+   "codes": [
+    {
+     "code": "S2",
+     "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
+     "pupil": "Speak in sentences using words and phrases I know.",
+     "s3": "Orders one item with Je voudrais … with a prompt.",
+     "s4": "Orders several items in full sentences with s'il vous plaît and responds to the waiter.",
+     "idea": "Café role-play."
+    },
+    {
+     "code": "S4",
+     "nc": "Present ideas and information orally to a range of audiences.",
+     "pupil": "Present to an audience.",
+     "s3": "Takes part in the café with a script.",
+     "s4": "Serves or orders confidently for the visiting Year 7 pupils.",
+     "idea": "Year 7 café visit."
+    },
+    {
+     "code": "W1",
+     "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
+     "pupil": "Write phrases from memory and change them to make new sentences.",
+     "s3": "Writes one order from memory with errors.",
+     "s4": "Writes a short café order from memory, adapting items and quantities.",
+     "idea": "Menu and order writing; exit slip."
+    },
+    {
+     "code": "G1",
+     "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
+     "pupil": "Understand and use a grammar pattern.",
+     "s3": "Recognises vous as the polite form when prompted.",
+     "s4": "Chooses tu or vous correctly for the situation and explains why.",
+     "idea": "Tu or vous? sorting task."
+    }
+   ]
+  },
+  "y4-ht6": {
+   "unit": "Tout sur moi",
+   "en": "All about me",
+   "codes": [
+    {
+     "code": "L2",
+     "nc": "Explore the patterns and sounds of language through songs and rhymes and link the spelling, sound and meaning of words.",
+     "pupil": "Explore sounds through songs and rhymes and link sound, spelling and meaning.",
+     "s3": "Links familiar sounds to spellings with some errors.",
+     "s4": "Reads and spells new words accurately using all sounds learnt.",
+     "idea": "End-of-year phonics review."
+    },
+    {
+     "code": "S4",
+     "nc": "Present ideas and information orally to a range of audiences.",
+     "pupil": "Present to an audience.",
+     "s3": "Presents a few facts about themselves with notes.",
+     "s4": "Presents their profile clearly to the class or a visitor without reading every word.",
+     "idea": "Presenting Tout sur moi."
+    },
+    {
+     "code": "W2",
+     "nc": "Describe people, places, things and actions orally and in writing.",
+     "pupil": "Describe people, animals and things in speaking and writing.",
+     "s3": "Writes a few sentences about themselves with support.",
+     "s4": "Writes a full profile (name, age, nationality, birthday month, pets, can / can't, likes) with connectives.",
+     "idea": "Tout sur moi profile for the middle-school teacher."
+    },
+    {
+     "code": "R1",
+     "nc": "Read carefully and show understanding of words, phrases and simple writing.",
+     "pupil": "Read carefully and show I understand words, phrases and simple writing.",
+     "s3": "Reads a classmate's profile and picks out some facts.",
+     "s4": "Reads a profile written in the third person and answers questions about it correctly.",
+     "idea": "Guess whose profile it is (il / elle …)."
+    }
+   ]
+  }
+ },
+ "sequence": {
+  "Les_couleurs_1.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Ça va ?",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Remember!",
+    0
+   ],
+   [
+    "Listen and choose",
+    0
+   ],
+   [
+    "Game",
+    1
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "Worksheet",
+    0
+   ],
+   [
+    "How did it go?",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_2.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Remember!",
+    0
+   ],
+   [
+    "Listen and choose",
+    0
+   ],
+   [
+    "Splat !",
+    0
+   ],
+   [
+    "Worksheet",
+    0
+   ],
+   [
+    "How did it go?",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_3.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "New sentences",
+    0
+   ],
+   [
+    "Quelle couleur ?",
+    0
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Remember!",
+    0
+   ],
+   [
+    "Read and choose",
+    0
+   ],
+   [
+    "Bingo",
+    1
+   ],
+   [
+    "Guess Who!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "My book",
+    0
+   ],
+   [
+    "How did it go?",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_4.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Les phrases",
+    0
+   ],
+   [
+    "La question",
+    0
+   ],
+   [
+    "Chanson",
+    0
+   ],
+   [
+    "Répétez !",
+    0
+   ],
+   [
+    "La balle",
+    0
+   ],
+   [
+    "With your partner",
+    1
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "Mon cahier",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_5.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Les phrases",
+    0
+   ],
+   [
+    "Chanson",
+    0
+   ],
+   [
+    "Répétez !",
+    1
+   ],
+   [
+    "Guess Who!",
+    0
+   ],
+   [
+    "With your partner",
+    0
+   ],
+   [
+    "To play",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "Résultats",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_6.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "Mon bilan",
+    0
+   ],
+   [
+    "Chanson",
+    0
+   ],
+   [
+    "Les questions",
+    0
+   ],
+   [
+    "Guess Who! Easy",
+    0
+   ],
+   [
+    "Guess Who! Faces",
+    0
+   ],
+   [
+    "Guess Who! Challenge",
+    0
+   ],
+   [
+    "Guess Who!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Les_couleurs_7.html": [
+   [
+    "Bonjour !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Et en France ?",
+    0
+   ],
+   [
+    "Le calendrier de l'Avent",
+    0
+   ],
+   [
+    "Le marché de Noël",
+    0
+   ],
+   [
+    "La crèche",
+    0
+   ],
+   [
+    "Le réveillon",
+    0
+   ],
+   [
+    "La bûche de Noël",
+    0
+   ],
+   [
+    "Les chaussures",
+    0
+   ],
+   [
+    "La galette des rois",
+    0
+   ],
+   [
+    "Pareil ou différent ?",
+    0
+   ],
+   [
+    "Chanson",
+    0
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "In your book: ideas",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_1.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "All together",
+    0
+   ],
+   [
+    "Grammar",
+    0
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "The wheel",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Read and choose",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_2.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "All together",
+    0
+   ],
+   [
+    "All together",
+    0
+   ],
+   [
+    "Grammar",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "The wheel",
+    0
+   ],
+   [
+    "Reverse bingo",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Read and choose",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_3.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "Grammar",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "All together",
+    0
+   ],
+   [
+    "Tu peux … ?",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "The wheel",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Read and choose",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_4.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "Grammar",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "All together",
+    0
+   ],
+   [
+    "Tu peux … ?",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "The wheel",
+    0
+   ],
+   [
+    "Repeat!",
+    0
+   ],
+   [
+    "Read and choose",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_5.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "Grammar: et",
+    0
+   ],
+   [
+    "Grammar: mais",
+    0
+   ],
+   [
+    "Grammar: et + mais",
+    0
+   ],
+   [
+    "New words",
+    0
+   ],
+   [
+    "Défi",
+    0
+   ],
+   [
+    "Tu peux … ?",
+    0
+   ],
+   [
+    "Fais une phrase",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_6.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Phonics",
+    0
+   ],
+   [
+    "Réponds à Marie",
+    0
+   ],
+   [
+    "Let's revise",
+    0
+   ],
+   [
+    "Grammar: Je peux",
+    0
+   ],
+   [
+    "Grammar: Je ne peux pas",
+    0
+   ],
+   [
+    "Grammar: Tu peux … ?",
+    0
+   ],
+   [
+    "Grammar: et / mais",
+    0
+   ],
+   [
+    "Tu peux … ?",
+    0
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "Mon bilan",
+    0
+   ],
+   [
+    "Guess Who! (easy)",
+    0
+   ],
+   [
+    "Guess Who!",
+    0
+   ],
+   [
+    "Guess Who! (challenge)",
+    0
+   ],
+   [
+    "With your partner",
+    0
+   ],
+   [
+    "What's missing?",
+    1
+   ],
+   [
+    "Song",
+    0
+   ],
+   [
+    "Quick!",
+    0
+   ],
+   [
+    "Splat !",
+    1
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ],
+  "Je_peux_7.html": [
+   [
+    "Salut !",
+    0
+   ],
+   [
+    "Today",
+    0
+   ],
+   [
+    "Saint-Nicolas",
+    0
+   ],
+   [
+    "Les treize desserts",
+    0
+   ],
+   [
+    "Les santons",
+    0
+   ],
+   [
+    "Vrai ou faux ?",
+    0
+   ],
+   [
+    "Chanson",
+    0
+   ],
+   [
+    "WALT",
+    0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "In your book",
+    0
+   ],
+   [
+    "In your book: ideas",
+    0
+   ],
+   [
+    "Bravo",
+    0
+   ],
+   [
+    "Au revoir !",
+    0
+   ],
+   [
+    "Où est Pierre ?",
+    0
+   ]
+  ]
+ }
+}

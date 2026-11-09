@@ -301,3 +301,7 @@ Two merges turned main red and nobody's PR could go green on top. 1458 sealed th
 ## 9 November 2026: one click lesson tracking, audited, not built
 
 Justin asked for one tap delivery records, optional assessment and automatic reports across every lesson type. Audit and spec in `plans/2026-11-09-one-click-tracking-spec.md`. Finding: the tracker and every curriculum mapping already exist, but delivery lives in one browser's localStorage, so there is no whole school record. Proposal: one `schools.lesson_deliveries` table keyed by the existing school pseudonym, framework credits computed at read time (no double counting), seven reports off one query. Needs Justin to reverse the 29 August "no delivery state on the server" rule. Waiting on his approval; nothing built.
+
+## 9 November 2026: the pilot teacher's French arrives in the languages tab
+
+Justin asked for her KS2 French (french-curriculum.pages.dev) on the platform as its own tab, in our structure. `scripts/languages/sync-french.mjs` parses her site's data files without running them into `schools/lib/languages/fr.json`; `/languages/fr` generates the year view, unit, lesson, full screen teach (her decks framed) and a KS2 coverage grid from it. Media stays on her host for now (186 MB for two units). The nav gets a Languages tab only for a languages code, so the 9 October hidden rule holds; `check-languages-door` allows that one conditional link. Plan with eight improvement ideas: `plans/2026-11-09-french-into-languages-plan.md`.

@@ -25,7 +25,14 @@ const LICENSED = [
   { href: '/hub', label: 'The Hub' },
 ]
 
-export default function SiteNav({ licensed = false, pilot = false }: { licensed?: boolean; pilot?: boolean }) {
+// THE LANGUAGES TAB (9 November 2026). French and Spanish are a separate
+// subject from the digital scheme, with their own code, so they get their own
+// tab set apart from the digital rooms by a divider rather than joining the
+// row. It renders only when `languages` is true, which navAccess() sets from a
+// valid languages cookie or LANGUAGES_LIVE, so a stranger still sees nothing
+// while the area is hidden. scripts/check-languages-door.mjs allows this one
+// link and fails if it ever stops being conditional.
+export default function SiteNav({ licensed = false, pilot = false, languages = false }: { licensed?: boolean; pilot?: boolean; languages?: boolean }) {
   const pathname = usePathname()
   const links = licensed ? [OPEN[0], OPEN[1], ...LICENSED, OPEN[2], OPEN[3]] : OPEN
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
@@ -41,6 +48,14 @@ export default function SiteNav({ licensed = false, pilot = false }: { licensed?
               {l.label}
             </Link>
           ))}
+          {languages && (
+            <>
+              <span aria-hidden className="gc-nav-divider" />
+              <Link href="/languages" className="gc-nav-link gc-nav-lang" aria-current={pathname.startsWith('/languages') ? 'page' : undefined}>
+                Languages
+              </Link>
+            </>
+          )}
           {!licensed && (
             <Link href="/unlock" className="gc-nav-link gc-nav-code-inline" aria-current={pathname.startsWith('/unlock') ? 'page' : undefined}>
               School code
@@ -91,6 +106,9 @@ export default function SiteNav({ licensed = false, pilot = false }: { licensed?
         }
         .gc-nav-link[aria-current="page"] { color: var(--ink); font-weight: 800; border-bottom-color: var(--terracotta); }
         .gc-nav-code-inline { display: none; }
+        .gc-nav-divider { flex: none; width: 1px; height: 22px; background: var(--border); margin: 0 8px; }
+        .gc-nav-lang { color: var(--terracotta-dark); }
+        .gc-nav-lang[aria-current="page"] { color: var(--terracotta-dark); }
         .gc-nav-side { display: flex; align-items: center; justify-content: end; gap: 6px; }
         .gc-nav-code {
           display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
