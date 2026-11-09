@@ -44,14 +44,14 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 002 | What a child learns from a relationship with no boundaries | superseded by 021 | Drive archive |
 | 012 | Content waterfall | reference, not a post | Drive |
 | 017 | What do we teach during the wait | never written | retired |
-| 018 | Ready for what | ready | queue doc |
-| 019 | AI literacy needs somebody to own it | ready | queue doc |
-| 020 | A photograph is information | ready | queue doc |
-| 021 | The relationship with no friction | ready | queue doc |
+| 018 | Ready for what | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
+| 019 | AI literacy needs somebody to own it | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
+| 020 | A photograph is information | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
+| 021 | The relationship with no friction | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
 | 022 | The problem with calling 2.8 million children screen time | **POSTED** Sept | Drive |
-| 023 | The child who never put them on | ready | queue doc |
-| 024 | The safety feature is not the outcome | ready | queue doc |
-| 025 | Europe drew a staircase | ready, post before 26 Nov | Drive |
+| 023 | The child who never put them on | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
+| 024 | The safety feature is not the outcome | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | queue doc |
+| 025 | Europe drew a staircase | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, post before 26 Nov | Drive |
 | 026 | The deepfake rule moved from guidance to enforcement | **POSTED** | Drive |
 | 027 | WhatsApp supervision without reading the messages | **POSTED** | Drive |
 | 028 | The ban is a staging post | **POSTED** | Drive |
@@ -61,26 +61,26 @@ Claimed means a number is spoken for, whatever state the post is in.
 | 032 | The child who never put on the glasses | superseded by 023 | Drive archive |
 | 033 | A child's photo is no longer only a photo | superseded by 020 | Drive archive |
 | 034 | The safety rule only works if we can measure it | superseded by 024 | Drive archive |
-| 035 | The risk assessment belongs before the feature | ready | Drive markdown |
-| 036 | Fifteen minutes is not a safety test | ready | Drive markdown |
-| 037 | The film is dramatic. The design problem is real. | ready, planned Fri 16 Oct | this pack |
-| 038 | Four thousand teenagers are about to test what argument cannot | ready, planned Mon 19 Oct | this pack |
-| 039 | The rule I could actually enforce | ready, planned Wed 14 Oct | this pack |
-| 040 | Two children, same game | ready | moved off 036 |
-| 041 | How would you test readiness | **DUPLICATE OF 046, do not post both.** 98.6 percent identical, found 9 Nov. Justin retires one | moved off 037 |
-| 042 | Same app, different rules | ready | moved off 038 |
-| 043 | Five years ago I would have shared that post (Sweden) | ready | 2026-10-16 pack |
-| 044 | A ban is already teaching, the question is what | ready, **v5 revised 5 Nov**, trimmed to band, one scene not two | 2026-11-05 scrutiny pack |
-| 045 | Fear is the engine on both sides now | ready, **v3 revised 9 Nov**, planned Fri 13 Nov, BMJ and eSafety wording corrected, **eSafety PDF still to tick** | 2026-11-05 scrutiny pack |
-| 046 | The age is the easy part (readiness) | ready, planned Wed 11 Nov, has a card (re rendered in the real fonts, 2026-11-09 cards pack), **left unedited on purpose, his own register** | 2026-10-23 pack |
-| 047 | Half of UK children have an AI toy | ready, **v3 revised 9 Nov**, planned Mon 9 Nov, bought for them wording, Common Sense claim trimmed, recruit strangers. Justin thinks it is **scheduled** (7 Nov); card in the 2026-11-09 cards pack | 2026-11-05 scrutiny pack |
-| 048 | The chatbot confidant | ready, **v2 revised 5 Nov**, start an argument | 2026-11-05 scrutiny pack |
-| 049 | Twenty five thousand teenagers and the lag (Manchester) | ready, **v2 revised 5 Nov**, second question removed. Justin thinks it is **scheduled** (7 Nov); the 6 Nov fix in the 10-26 pack may not be in the scheduled copy | 2026-11-05 scrutiny pack |
-| 050 | Four ways to prove you are 16 (Ofcom) | ready, **v2 revised 5 Nov**, three facts corrected, **Ofcom PDF still unread (403)** | 2026-11-05 scrutiny pack |
-| 051 | What Australian children do with AI (eSafety) | **v2 restructured 5 Nov**, the 54 percent cannot be verified and no longer carries the post, **eSafety PDF still unread (503)** | 2026-11-05 scrutiny pack |
-| 052 | A face scan to get into an app (Ofcom) | ready, **v2 revised 5 Nov**, the 150,000 was wrongly credited to Ofcom | 2026-11-05 scrutiny pack |
+| 035 | The risk assessment belongs before the feature | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | Drive markdown |
+| 036 | Fifteen minutes is not a safety test | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | Drive markdown |
+| 037 | The film is dramatic. The design problem is real. | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, planned Fri 16 Oct | this pack |
+| 038 | Four thousand teenagers are about to test what argument cannot | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, planned Mon 19 Oct | this pack |
+| 039 | The rule I could actually enforce | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, planned Wed 14 Oct | this pack |
+| 040 | Two children, same game | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | moved off 036 |
+| 041 | How would you test readiness | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: **DUPLICATE OF 046, do not post both.** 98.6 percent identical, found 9 Nov. Justin retires one | moved off 037 |
+| 042 | Same app, different rules | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | moved off 038 |
+| 043 | Five years ago I would have shared that post (Sweden) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready | 2026-10-16 pack |
+| 044 | A ban is already teaching, the question is what | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v5 revised 5 Nov**, trimmed to band, one scene not two | 2026-11-05 scrutiny pack |
+| 045 | Fear is the engine on both sides now | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v3 revised 9 Nov**, planned Fri 13 Nov, BMJ and eSafety wording corrected, **eSafety PDF still to tick** | 2026-11-05 scrutiny pack |
+| 046 | The age is the easy part (readiness) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, planned Wed 11 Nov, has a card (re rendered in the real fonts, 2026-11-09 cards pack), **left unedited on purpose, his own register** | 2026-10-23 pack |
+| 047 | Half of UK children have an AI toy | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v3 revised 9 Nov**, planned Mon 9 Nov, bought for them wording, Common Sense claim trimmed, recruit strangers. Justin thinks it is **scheduled** (7 Nov); card in the 2026-11-09 cards pack | 2026-11-05 scrutiny pack |
+| 048 | The chatbot confidant | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v2 revised 5 Nov**, start an argument | 2026-11-05 scrutiny pack |
+| 049 | Twenty five thousand teenagers and the lag (Manchester) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v2 revised 5 Nov**, second question removed. Justin thinks it is **scheduled** (7 Nov); the 6 Nov fix in the 10-26 pack may not be in the scheduled copy | 2026-11-05 scrutiny pack |
+| 050 | Four ways to prove you are 16 (Ofcom) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v2 revised 5 Nov**, three facts corrected, **Ofcom PDF still unread (403)** | 2026-11-05 scrutiny pack |
+| 051 | What Australian children do with AI (eSafety) | **POSTED.** Justin confirmed 9 November. **No URL captured**, so this row rests on his word rather than on a checked link. ChatGPT's brief put it on 5 November, which matches but is not independently confirmed. v2 restructured 5 Nov, the 54 percent did not carry the post | 2026-11-05 scrutiny pack |
+| 052 | A face scan to get into an app (Ofcom) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, **v2 revised 5 Nov**, the 150,000 was wrongly credited to Ofcom | 2026-11-05 scrutiny pack |
 
-| 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
+| 053 | Judging the evidence, or whose side people are on (Meta, Odgers) | **RETIRED 9 Nov, start fresh.** Not posted, not deleted: the copy stays in its pack and the number is never reused. Was: ready, Justin wrote it, scrutiny applied | 2026-11-05 judging the evidence pack |
 
 | 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
 
@@ -153,20 +153,27 @@ first comment, a duplicate number, posts out of order, or a character count out
 of step with its body. Until today the data and the build step existed only in
 a session scratchpad, which is how ten ready posts stayed invisible.
 
-## The ChatGPT register disagrees with this one
+## The ChatGPT register disagreement, settled on 051
 
-The 9 November ChatGPT daily brief in Drive states that **051 was published on
-5 November** and that **052 is scheduled for Tuesday 10 November at 08:00**.
-This register has both as ready and unposted, with 050 and 051 held because the
-Ofcom and eSafety PDFs are still unread.
+The 9 November ChatGPT daily brief stated that **051 was published on 5
+November** and that **052 is scheduled for Tuesday 10 November at 08:00**. This
+register had both as ready and unposted. Claude left it alone, because rule 4
+says a published number is spent for good and acting on an unverified
+publication claim is how a number gets burned.
 
-Both cannot be true. ChatGPT's own brief concedes its 051 publication URL is
-missing. Claude cannot see LinkedIn, so neither system can settle it and
-**only Justin can**. Nothing here has been changed to match the brief, because
-rule 4 says a published number is spent for good and acting on an unverified
-publication claim is how a number gets burned. This is the exact failure mode
-the top of this file describes: two systems assigning state, neither able to
-see the other.
+**Justin settled 051 on 9 November: it has gone out.** The row is now POSTED and
+051 is off the Post Desk. No URL was captured, so the row rests on his word.
+ChatGPT's date of 5 November matches what he says but was never confirmed by a
+link.
+
+**052 is still unsettled.** ChatGPT says it is scheduled for 10 November at
+08:00. This register has it ready and unposted, and it remains on the desk.
+Nothing changes until Justin says.
+
+The lesson is the one at the top of this file. Two systems assigned state,
+neither could see the other, and the only thing that resolved it was the person
+who can actually see LinkedIn. **A URL against each posted row is what would
+make this register trustworthy rather than merely agreed.**
 
 Note on 035: the number was used twice, once for "AI literacy has become a job"
 (6 October, since rewritten as 019) and once for "The risk assessment belongs
