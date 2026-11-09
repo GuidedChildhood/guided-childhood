@@ -69,7 +69,7 @@ would have made GDC-038 wrong. Both were wrong. Cambridge's own announcement and
 St John's College confirm a daily cap and a night time block, co led by Professor
 Amy Orben at Cambridge with Dr Dan Lewer at Born in Bradford, about 4,000 students
 in years 8 to 10 across 10 Bradford secondary schools, funded by Wellcome at
-£1,200,000 from 1 April 2026. GDC-038 is right on all of that. What it should not
+£1,200,000 from 1 April 2026 with NIHR support (NIHR205448). GDC-038 is right on all of that. What it should not
 claim is "running to April 2028" or results in summer 2027, because neither is
 findable.
 
