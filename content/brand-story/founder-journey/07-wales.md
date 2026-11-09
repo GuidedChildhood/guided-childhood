@@ -1,6 +1,6 @@
 # 7 · Wales
 
-**Privacy: AMBER. Needs Justin's yes.** A specific story about Alma, and a
+**Privacy: AMBER. Approved by Justin, 7 November 2026.** A specific story about Alma, and a
 detail about a child's friendship. The draft never names her and says "my
 eldest", but anyone who knows the family will know who it is. Worth asking her
 before it runs. The GREEN fallback is at the bottom and runs if he says no.
