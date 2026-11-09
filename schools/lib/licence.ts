@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import { ACCESS_COOKIE, tokenAccess, type Access } from './access'
+import { LANGUAGES_COOKIE, languagesLive, languagesTokenAccess } from './languages-access'
 
 // "Is this visitor a school that has paid?" asked from a server component.
 //
@@ -25,10 +26,14 @@ export async function currentAccess(): Promise<Access | null> {
 }
 
 /** What the nav needs: the two rooms for any code, and the right word on
- *  the chip. A pilot school is named as one, never as licensed. */
-export async function navAccess(): Promise<{ licensed: boolean; pilot: boolean }> {
+ *  the chip. A pilot school is named as one, never as licensed. The
+ *  languages tab shows for a languages code, or for everyone once
+ *  LANGUAGES_LIVE is on; a scheme code alone never shows it. */
+export async function navAccess(): Promise<{ licensed: boolean; pilot: boolean; languages: boolean }> {
   const access = await currentAccess()
-  return { licensed: access !== null, pilot: access?.tier === 'pilot' }
+  const store = await cookies()
+  const languages = languagesLive() || (await languagesTokenAccess(store.get(LANGUAGES_COOKIE)?.value)) !== null
+  return { licensed: access !== null, pilot: access?.tier === 'pilot', languages }
 }
 
 /** The access code behind a valid cookie, with what it opens, or null.

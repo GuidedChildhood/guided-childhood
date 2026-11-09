@@ -32,10 +32,29 @@ const walk = dir => readdirSync(dir).flatMap(name => {
 })
 
 // 1. Hidden: no link in from anywhere.
-const inside = p => p.startsWith(join('schools', 'app', 'languages')) || p === join('schools', 'lib', 'languages-access.ts') || p === join('schools', 'proxy.ts')
+const inside = p => p.startsWith(join('schools', 'app', 'languages')) || p.startsWith(join('schools', 'lib', 'languages')) || p === join('schools', 'proxy.ts')
+
+// THE ONE SANCTIONED LINK IN (9 November 2026): the Languages tab in the
+// schools nav, which renders only when navAccess() says the visitor holds a
+// languages code or LANGUAGES_LIVE is on. It is allowed on exactly those terms:
+// the link must sit inside a `languages && (` block, navAccess must derive
+// `languages` from the languages cookie or the live flag, and nothing else in
+// the file may name the path.
+const NAV = join('schools', 'components', 'SiteNav.tsx')
+{
+  const src = readFileSync(NAV, 'utf8')
+  const block = src.match(/\{languages && \(([\s\S]*?)\n\s*\)\}/)
+  const outside = block ? src.replace(block[0], '') : src
+  ok('the Languages tab renders only inside a `languages && (` block', !!block && /href="\/languages"/.test(block[1]))
+  ok('SiteNav names /languages nowhere else', !/["'`(]\/languages(\/|["'`?#)])/.test(outside))
+  const licence = readFileSync(join('schools', 'lib', 'licence.ts'), 'utf8')
+  ok('navAccess sets languages only from the languages cookie or LANGUAGES_LIVE',
+    /const languages = languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
+}
+
 for (const root of ['schools', 'app', 'components', 'shared', 'lib']) {
   for (const file of walk(root)) {
-    if (inside(file)) continue
+    if (inside(file) || file === NAV) continue
     const src = readFileSync(file, 'utf8')
     ok(`no link to /languages in ${file}`, !/["'`(]\/languages(\/|["'`?#)])/.test(src),
       'languages are hidden until LANGUAGES_LIVE is switched on; link to them only once they launch')
