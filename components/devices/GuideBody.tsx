@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import type { DeviceGuide } from '@/app/(dashboard)/dashboard/devices/DeviceList'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // The settings walkthrough for one device, on its own.
 //
@@ -95,8 +96,9 @@ export default function GuideBody({
               a nag: the row already counts, and the words below say so. */}
           {isAgreed ? 'Set the settings up too' : isDone ? 'Marked as set up ✓' : 'Mark as set up'}
         </button>
-        <Link
-          href={`/dashboard/digi?device=${guide.device_key}&q=${encodeURIComponent(`Can you walk me through setting up ${guide.name} step by step?`)}`}
+        <DigiAskLink
+          prompt={`Can you walk me through setting up ${guide.name} step by step?`}
+          device={guide.device_key}
           className="btn btn-outline"
           style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: 'var(--text-base)' }}
         >
@@ -105,7 +107,7 @@ export default function GuideBody({
               sides, so the words ran to the edges and the pair stopped looking
               like a pair. The question it sends is still the full one. */}
           Ask DiGi to help
-        </Link>
+        </DigiAskLink>
       </div>
 
       {footer}

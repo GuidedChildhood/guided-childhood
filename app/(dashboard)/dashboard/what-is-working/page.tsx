@@ -5,6 +5,7 @@ import BackTo from '@/components/nav/BackTo'
 import MovementLine from '@/components/working/MovementLine'
 import { getMovements, movementSentence, spanWords, usedWords } from '@/lib/working/movement'
 import { isNewFamily, dayOneLine, waitingForSecondLook, lookWord, readFirstWin } from '@/lib/working/first-week'
+import DigiAskLink from '@/components/digi/DigiAskLink'
 
 // WHAT IS WORKING.
 //
@@ -72,13 +73,13 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
 
   // A dip's most useful travel companion is the dip itself: the DiGi button
   // used to open the chat cold, so the parent had to retype what this page
-  // was already displaying. The question rides along in ?ask= now.
+  // was already displaying. The question waits in DiGi's box now, held in the
+  // tab rather than written into the URL, since it names the child
+  // (lib/digi/handoff.ts).
   const dipAsk = slipped.length > 0
-    ? encodeURIComponent(
-        slipped.length === 1
-          ? `${withChild(slipped[0])} slipped at our check ins. What is our next move?`
-          : `A few of our worries slipped at check in: ${slipped.map(withChild).join(', ')}. Where do we start?`
-      )
+    ? slipped.length === 1
+      ? `${withChild(slipped[0])} slipped at our check ins. What is our next move?`
+      : `A few of our worries slipped at check in: ${slipped.map(withChild).join(', ')}. Where do we start?`
     : null
 
   // The one line at the top is the best real sentence there is, not a summary
@@ -204,14 +205,14 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
             A dip is information, not a verdict. It usually means something changed at home rather than that anything failed, and it is the most useful thing to bring to DiGi.
           </p>
-          <Link href={dipAsk ? `/dashboard/digi?ask=${dipAsk}` : '/dashboard/digi'} style={{
+          <DigiAskLink prompt={dipAsk ?? ''} mode="draft" style={{
             display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: 'var(--radius-tile)', padding: '11px 18px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}>
             Talk it through with DiGi
-          </Link>
+          </DigiAskLink>
         </div>
       )}
 

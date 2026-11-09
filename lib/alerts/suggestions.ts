@@ -2,6 +2,7 @@ import type { createClient } from '@/lib/supabase/server'
 import { getJourney } from '@/lib/pathway/journey'
 import type { StageId } from '@/lib/pathway/progress'
 import { isTogetherStage } from '@/lib/lessons/school-path'
+import { digiPromptHref } from '@/lib/digi/prompt-token'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -122,7 +123,7 @@ export async function getSuggestions(
     key: `digi:${rc.slug}`, kind: 'digi', urgency: 5, emoji: '◎',
     title: `${rc.label} keeps coming up`,
     body: `It has come up ${rc.times_flagged} times. Let DiGi build you a proper plan.`,
-    cta: 'Talk to DiGi', href: `/dashboard/digi?q=${encodeURIComponent('Help me with ' + rc.label)}`,
+    cta: 'Talk to DiGi', href: digiPromptHref(userId, `Help me with ${rc.label}`),
   })
 
   if (journey.lessons.total > 0 && journey.lessons.done < journey.lessons.total && journey.lessons.nextTitle) s.push({

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { readMoment } from '@/lib/digi/moment'
+import { resealDigiHref } from '@/lib/digi/prompt-token'
 
 // GET: the parent's pending proactive prompts. When nothing is pending, DiGi
 // reads the moment (lib/digi/moment.ts) and steps in only if there is
@@ -17,8 +18,13 @@ export async function GET() {
     .order('created_at', { ascending: false }).limit(3)
 
   const { data: pending } = await pendingQuery()
+  // A card stored before 7 November 2026 may carry the family's words as
+  // ?q= text in its href; reseal it before it reaches the page.
+  const sealed = <T extends { href?: string | null }>(rows: T[]) =>
+    rows.map(r => ({ ...r, href: resealDigiHref(r.href, user.id) }))
+
   const shown = await withoutWorryFollowUps(supabase, pending ?? [])
-  if (shown.length > 0) return NextResponse.json({ prompts: shown })
+  if (shown.length > 0) return NextResponse.json({ prompts: sealed(shown) })
 
   // ── THE MOMENT READER, NOT THE CALENDAR ────────────────────────────────────
   //
@@ -33,7 +39,7 @@ export async function GET() {
   } catch { /* a dashboard visit never fails on a step in */ }
 
   const { data: fresh } = await pendingQuery()
-  return NextResponse.json({ prompts: await withoutWorryFollowUps(supabase, fresh ?? []) })
+  return NextResponse.json({ prompts: sealed(await withoutWorryFollowUps(supabase, fresh ?? [])) })
 }
 
 /**
@@ -50,10 +56,10 @@ export async function GET() {
  * worry is later answered simply stops existing on both screens at once.
  * Advice with no worry attached still shows here, exactly as before.
  */
-async function withoutWorryFollowUps(
+async function withoutWorryFollowUps<T extends { kind?: string | null; outcome_id?: string | null }>(
   supabase: Awaited<ReturnType<typeof createClient>>,
-  prompts: { kind?: string | null; outcome_id?: string | null }[],
-) {
+  prompts: T[],
+): Promise<T[]> {
   const ids = prompts.filter(p => p.kind === 'follow_up' && p.outcome_id).map(p => p.outcome_id as string)
   if (ids.length === 0) return prompts
   try {

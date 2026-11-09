@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import { digiHeldHref, holdDigiPrompt } from '@/lib/digi/handoff'
 
 // DiGi noticing a device pattern and checking in about it, per child, from
 // that child's real device data. The server decides whether there is
@@ -68,7 +69,8 @@ export default function DigiDeviceCheckin({ fixture }: { fixture?: Checkin }) {
       }).catch(() => { /* best effort */ })
     }
     if (event === 'yes') {
-      router.push(`/dashboard/digi?q=${encodeURIComponent(checkin.chatMessage)}`)
+      holdDigiPrompt(checkin.chatMessage)
+      router.push(digiHeldHref())
       return
     }
     setDismissed('not_really')

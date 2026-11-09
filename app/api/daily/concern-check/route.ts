@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { bandOf } from '@/lib/concerns/bands'
 import { ATTENTION_BAND, BAND_WORDS } from '@/lib/concerns/outcome'
+import { digiPromptHref } from '@/lib/digi/prompt-token'
 
 // The morning after a concern is flagged, the daily loop asks how it went.
 //
@@ -201,7 +202,8 @@ export async function POST(request: Request) {
             title: `DiGi can help with ${label.toLowerCase()}`,
             body: `${name ? `${name}'s ` : ''}${label.toLowerCase()} was ${word} at today's check in. Talk it through when you have a minute, or get the words for tonight.`,
             reason: 'A tough score on the daily check in.',
-            href: `/dashboard/digi?${concern.child_id ? `child=${concern.child_id}&` : ''}ask=${encodeURIComponent(ask)}`,
+            // Names the child, so sealed for this parent, never words in a URL.
+            href: digiPromptHref(user.id, ask, { child: concern.child_id, mode: 'draft' }),
             cta: 'Talk it through',
             source,
           })
