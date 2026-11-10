@@ -115,3 +115,15 @@ Justin chose "move to our storage now" on 9 November.
 - A deck is somebody else's page with its own scripts, so it is served with a sandbox and
   never runs with this app's origin. Decks check the languages code; sheets and songs do
   not, because they are public already.
+
+## The print room, and the files stay on her site for now (10 November 2026)
+
+- The first mirror run stopped: GitHub does not hold the two Supabase secrets. Justin then
+  chose to **keep the files on her website for now**. Nothing was lost: the media route
+  already falls back to her site, and the mirror job now waits quietly (a notice, no red
+  cross) until `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are added as
+  repository secrets. Adding them is the whole switch.
+- **`/languages/fr/print`**, the French print room: every sheet in the scheme on one page
+  (89 today), by unit and lesson, the class, adapted and inclusion versions side by side,
+  with link chips (`?level=`) to narrow to one version. Linked from the French home and
+  from each unit. Behind the languages code like the rest.

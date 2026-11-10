@@ -37,4 +37,13 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: node scripts/languages/mirror-french-media.mjs
+        run: |
+          # Justin, 10 November 2026: the files stay on the author's site for
+          # now. Until both secrets exist this says so and stops quietly, so a
+          # synced unit never leaves a red cross on main. Adding the secrets is
+          # the whole switch: the next run copies everything.
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::notice::The French media mirror is waiting for the NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY secrets. Nothing copied; the pages load from the author's site."
+            exit 0
+          fi
+          node scripts/languages/mirror-french-media.mjs

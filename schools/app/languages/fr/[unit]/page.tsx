@@ -158,6 +158,9 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
               </div>
             ))}
           </div>
+          <Link href={`/languages/fr/print#${u.key}`} style={{ ...small, display: 'inline-block', marginTop: 'var(--space-3)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+            Every sheet for this unit, lesson by lesson, in the print room
+          </Link>
         </Section>
       )}
 
