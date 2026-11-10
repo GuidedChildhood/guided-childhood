@@ -3,18 +3,18 @@
   "manifest": {
    "role": "manifest",
    "studyId": null,
-   "fileId": "1H84xv1rdodFOg33EUuvALjwq_fPcveMr",
-   "title": "manifest.json [28ec992e] 2026-11-10 12:40, CURRENT QUEUE",
-   "commit": "28ec992ed1330c02040aa7cca6e302ac1ecd6cc3",
-   "factsSha256": "c6836bfbeed484bbe0d3a50d616b487bc81691fbc12c7b1bd889f0d0e057b0a4",
-   "sha256": "1ab07215586da666a0651574feeab9cc563ce59222831f719ca9cfc4dd55ca45",
+   "fileId": "1-nQpreqWFJ8HWgE4ers5IPRltaz-FVoB",
+   "title": "manifest.json [cc8b3d96] 2026-11-10 13:57, CURRENT QUEUE (empty, GDC-054 is with Justin)",
+   "commit": "cc8b3d96ea9c3ca0d9caf57d066b787a8a75e008",
+   "factsSha256": "8730203005d169941f59045e6b3f1c981a70591c9047f2b4e7b16dae2bca147b",
+   "sha256": "52966bcd313c148848e1c64cdfc711477245f2a772cba59d3e2109fea1d2d36c",
    "verification": {
     "ok": true,
     "level": "BYTE IDENTICAL",
     "problems": [],
-    "sha256": "1ab07215586da666a0651574feeab9cc563ce59222831f719ca9cfc4dd55ca45"
+    "sha256": "52966bcd313c148848e1c64cdfc711477245f2a772cba59d3e2109fea1d2d36c"
    },
-   "at": "2026-11-10T12:46:54.816Z"
+   "at": "2026-11-10T16:29:07.536Z"
   },
   "handoff:GDC-RR-0754a1641c": {
    "role": "handoff",
@@ -70,5 +70,5 @@
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-10T12:55:32.186Z"
+ "lastSuccessAt": "2026-11-10T16:29:07.536Z"
 }
