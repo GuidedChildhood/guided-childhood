@@ -4,11 +4,11 @@
 |---|---|
 | Run | Parents, 1 of 13 |
 | Service | The pitch: the loop, with the star quest leading |
-| Format | Reel, 29 seconds, 1080 by 1920. **Built** |
+| Format | Reel, 30 seconds, 1080 by 1920. **Built** |
 | Channels | Guided Childhood Instagram and Facebook Reels. TikTok takes the same cut |
 | Proposed | Tuesday 17 November, 19:30 |
 | Free step | The stage check |
-| Files | `built/01-the-plan-in-thirty-seconds.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-01.json` |
+| Files | `built/01-the-plan-in-thirty-seconds/the-plan-in-thirty-seconds.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-01.json` |
 
 ## Hook
 
@@ -27,12 +27,12 @@ Silent first. Every line below is on screen. There is no voice.
 | Time | On screen | Real screen underneath |
 |---|---|---|
 | 0.0 | A THING PARENTS SAY. "It's utterly miserable constantly policing screen time." Then: INSIDE GUIDED CHILDHOOD, 1 OF 13 | None |
-| 3.4 | Not a ban. A plan. | None |
-| 6.0 | 1. They earn the screen time | The ask box: "Sam is asking for 30 minutes. That is 6 stars on the Console." Yes, or Not yet |
-| 10.6 | 2. You tap what is hard right now | The stage check, question two: "What are you dealing with right now?" |
-| 15.0 | 3. You get the words for tonight | The script deck, the Say this card |
-| 20.0 | 4. And you watch it move | The check in: five faces, one tap, the line that comes back |
-| 24.4 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. See what to do tonight. `guidedchildhood.com/v/tour-01` | The end card, with the approved DiGi star |
+| 3.6 | Not a ban. A plan. Four moves. Thirty seconds. | None |
+| 6.2 | THE STAR QUEST. 1. They earn screen time | The ask box: "Sam is asking for 30 minutes. That is 6 stars on the Console." Yes, or Not yet |
+| 10.8 | MOMENTS. 2. You tap what is hard | The stage check, question two: "What are you dealing with right now?" |
+| 15.6 | SCRIPTS, FOR TONIGHT. 3. You get the words | The script deck, the Say this card |
+| 20.4 | THE CHECK IN. 4. You watch it move | The check in: five faces, one tap, the line that comes back |
+| 25.0 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. See what to do tonight. `guidedchildhood.com/v/tour-01` | The end card, with the approved DiGi star |
 
 Slate on the first and last frame: "An example family. Real app screens."
 
