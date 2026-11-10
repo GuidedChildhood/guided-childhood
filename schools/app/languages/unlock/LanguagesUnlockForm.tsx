@@ -40,7 +40,7 @@ export default function LanguagesUnlockForm({ next }: { next: string }) {
       </label>
       <input
         className="input" id="code" name="code" required autoFocus autoComplete="off"
-        autoCapitalize="off" spellCheck={false} maxLength={64} placeholder="your languages code"
+        autoCapitalize="off" autoCorrect="off" spellCheck={false} maxLength={64} placeholder="your languages code"
         style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
       />
       {error && (
