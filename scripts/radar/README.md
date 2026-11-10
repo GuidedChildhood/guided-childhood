@@ -108,6 +108,32 @@ question. The rule that stops it:
 - Say in the hand over that the pull request needs merging. Until it is merged
   main does not agree with Drive.
 
+## Who fixes a pack that is not right
+
+Two different kinds of problem, two different answers. Settled on 10 November
+on the first real pack, GDC-054.
+
+- **A breach of the handoff goes back to ChatGPT.** A figure that was not
+  cleared, a prohibited claim, a wrong or invented post number, a pack written
+  from an old handoff version, a causal claim. Claude does not repair these,
+  because a quiet repair hides that Stage 2 misread the handoff. The reasons
+  go in the start here document and ChatGPT writes the next version.
+- **Voice and house style are edited by Claude.** Rhythm, the shapes the
+  ai-tells guard cannot see, the proof path, the repost ask, the closing
+  question, a missing "the source is in the comments". This is the standing
+  rule in `.claude/skills/content-engine/drive-post-review.md`: every post in
+  Drive gets a Claude review and, where it is a fix, a rewrite. The edit is
+  saved as the next version, titled `... DRAFT v2, Claude edit of v1`, the
+  original is kept and retitled, and it goes through the same QA.
+
+When Claude has edited a pack, the stored review says so in plain words: the
+editor and the reviewer are the same, the mechanical checks are independent,
+and whether it sounds like Justin is his to judge. The Post Desk card carries
+the same sentence.
+
+A pack reaches the Post Desk only at ASSETS READY. Putting it there is not
+approval. Approval is Justin posting it.
+
 ## What a HOLD means
 
 Every gate returns PASS or HOLD with reasons, and writes the result onto the
@@ -127,7 +153,7 @@ to what is in the queue does.
 ## Tests
 
 ```
-npm run radar-pipeline-test   # 114 checks, throwaway register, the seven failures simulated
+npm run radar-pipeline-test   # 133 checks, throwaway register, the seven failures simulated
 npm run radar-drop-test       # the two full text lanes
 ```
 
@@ -145,9 +171,10 @@ conflicting post number, missing Claude review, failed editorial QA.
   identical, for the queue, the number list and the handoff; the start here
   Doc, text identical; and a labelled test pack written as a Google Doc, read
   back, parsed and passed through QA, then removed.
-- **Whether ChatGPT can read each Drive file has not been tested from here.**
-  Claude cannot run ChatGPT. The start here document is a Google Doc for that
-  reason; the JSON copies are for verification and for Claude.
+- **ChatGPT's side worked on its first real run, 10 November.** It read the
+  start here document, wrote GDC-054 in the right layout, and saved it in the
+  right folder under the right title. One run is one run: it is not yet proven
+  on a story with no post number, or on a HOLD coming back.
 - The QA pass checks a pack against the handoff and the house rules. It cannot
   tell whether a claim is true, cannot see an image and cannot read LinkedIn.
 - A LinkedIn link that answers proves the URL exists. It does not prove the
