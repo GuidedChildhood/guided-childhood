@@ -34,6 +34,8 @@
     "privacy-links-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/email/link-token.test.ts",
     "pii-url-guard": "node scripts/check-no-pii-in-urls.mjs",
     "radar-drop-test": "node scripts/radar/test-drop.mjs",
+    "radar-pipeline-test": "node scripts/radar/test-pipeline.mjs",
+    "radar-dashboard": "node scripts/radar/dashboard.mjs",
     "digi-handoff-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/digi/prompt-token.test.ts",
     "posthog-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/analytics/posthog-policy.test.ts",
     "answer-beat-test": "node --experimental-strip-types scripts/answer-beat.test.mjs",

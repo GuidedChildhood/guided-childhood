@@ -18,7 +18,7 @@ export function buildManifest() {
     || String(a.firstFound).localeCompare(String(b.firstFound)))
 
   return {
-    schemaVersion: '1.0.0',
+    schemaVersion: '1.1.0',
     generatedAt: new Date().toISOString(),
     purpose: 'Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.',
     rules: [
@@ -44,7 +44,19 @@ export function buildManifest() {
       design: r.dossier?.design || null,
       figuresCleared: (r.claudeReview?.verifiedStatistics || []).length,
       handoffDoc: r.driveHandoffDoc || null,
-      handoffJsonInRepo: r.handoff?.json || null,
+      // The machine readable handoff as a Drive file, once it has been copied
+      // there and verified, with the version so a reader can tell two apart.
+      handoffJsonDriveFileId: r.driveHandoffJsonId || null,
+      handoffVersion: r.handoff?.version || null,
+      handoffSourceCommit: r.handoff?.sourceCommit || null,
+      // Repo RELATIVE, always. The audit on 10 November found this emitting
+      // an absolute container path, /home/user/guided-childhood/..., which
+      // means nothing to ChatGPT, nothing on Justin's machine and nothing in
+      // the next container. A path in a shared artefact has to be relative to
+      // the thing both sides can see, which is the repository root.
+      handoffJsonInRepo: r.handoff?.json
+        ? String(r.handoff.json).replace(/^.*?(content\/research-register\/)/, '$1')
+        : null,
       firstFound: r.firstFound,
       registerVersion: r.version,
     })),
