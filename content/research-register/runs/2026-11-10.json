@@ -1,0 +1,136 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-10",
+ "startedAt": "2026-11-10T17:09:25.236Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-10T17:11:04.682Z",
+   "commit": "28867af5",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "HOLD",
+   "by": "script",
+   "reasons": [
+    "C-2026-11-10-03: originalUrl is missing or is not a link. A candidate with no primary source cannot be checked. publicationDate is missing or is not YYYY-MM-DD. It is the date the source was published, not the date it was found. candidateClaims is empty. Say what the source is believed to show, so it can be checked. limitations is empty. A candidate with no stated limits has not been read critically."
+   ],
+   "detail": {
+    "documents": 1,
+    "batches": [
+     {
+      "file": "1YHgd56SUgZ2oGp0AQRP1HH0bwacX2xUq__CANDIDATES-2026-11-10-RELAY-TEST.json",
+      "verdict": "PASS",
+      "batchId": "2026-11-10-relay-test-01",
+      "alreadyIngested": false,
+      "results": [
+       {
+        "candidateId": "C-2026-11-10-01",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-3d31eb1683",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-10-02",
+        "outcome": "DUPLICATE",
+        "researchId": "GDC-RR-0754a1641c",
+        "reasons": [
+         "already held as GDC-RR-0754a1641c, status ASSETS READY, matched on doi"
+        ]
+       },
+       {
+        "candidateId": "C-2026-11-10-03",
+        "outcome": "HELD",
+        "researchId": null,
+        "reasons": [
+         "originalUrl is missing or is not a link. A candidate with no primary source cannot be checked.",
+         "publicationDate is missing or is not YYYY-MM-DD. It is the date the source was published, not the date it was found.",
+         "candidateClaims is empty. Say what the source is believed to show, so it can be checked.",
+         "limitations is empty. A candidate with no stated limits has not been read critically."
+        ]
+       }
+      ]
+     }
+    ],
+    "postingPackRead": false
+   },
+   "at": "2026-11-10T17:11:04.724Z",
+   "commit": "28867af5",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 6,
+    "total": 23
+   },
+   "at": "2026-11-10T17:17:53.825Z",
+   "commit": "28867af5",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 4,
+    "confirmed": 4,
+    "unconfirmed": []
+   },
+   "at": "2026-11-10T17:17:54.496Z",
+   "commit": "28867af5",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "4 stories reviewed claim by claim today: GDC-RR-e22bd17322, GDC-RR-e923851b08, GDC-RR-86c1075a30 and the inbox candidate GDC-RR-3d31eb1683. 5 verified records still wait."
+   ],
+   "detail": null,
+   "at": "2026-11-10T17:18:47.247Z",
+   "commit": "28867af5",
+   "attempts": 2
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-3d31eb1683",
+      "gdcPostNumber": "058",
+      "handoffVersion": 2
+     }
+    ],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-3d31eb1683",
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-10T17:22:12.195Z",
+   "commit": "28867af5",
+   "attempts": 3
+  }
+ ],
+ "updatedAt": "2026-11-10T17:22:12.218Z"
+}

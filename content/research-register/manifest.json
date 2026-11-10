@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-10T12:40:32.638Z",
+ "generatedAt": "2026-11-10T17:22:12.193Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,38 +9,118 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 16,
+  "total": 23,
   "byStatus": {
-   "DISCOVERED": 12,
-   "EDITORIAL READY": 1,
-   "VERIFIED": 3
+   "DISCOVERED": 13,
+   "ASSETS READY": 1,
+   "VERIFIED": 5,
+   "EDITORIAL READY": 4
   }
  },
  "queue": [
   {
-   "researchId": "GDC-RR-0754a1641c",
-   "title": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis.",
-   "proposedTitle": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
-   "editorialPriority": "BANK",
-   "urgency": "Low. Nothing expires. The value is the reasoning, not the news.",
+   "researchId": "GDC-RR-3d31eb1683",
+   "title": "Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect",
+   "proposedTitle": "A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.",
+   "editorialPriority": "HIGH",
+   "urgency": "High for a short window. It is four days old and the story moves when the company replies or the Commission decides.",
    "claudeStatus": "CLAUDE REVIEWED",
    "claudeVerdict": "EDIT",
    "recommendedPlatforms": [
     "LinkedIn post"
    ],
-   "gdcPostNumber": "054",
-   "primaryUrl": "https://doi.org/10.1177/13591045261487468",
-   "doi": "10.1177/13591045261487468",
+   "gdcPostNumber": "058",
+   "primaryUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes",
+   "doi": null,
    "publishedDate": "2026-11-06",
-   "design": "meta-analysis",
-   "figuresCleared": 5,
-   "handoffDoc": "https://docs.google.com/document/d/1GN4wkAFgUrIO5DPE_TpIvZz9t9ehcCg8cSUZFeQ-i-c/edit",
-   "handoffJsonDriveFileId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
+   "design": null,
+   "figuresCleared": 1,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
    "handoffVersion": 2,
-   "handoffSourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
-   "firstFound": "2026-11-09T14:11:15.655Z",
-   "registerVersion": 18
+   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-3d31eb1683.json",
+   "firstFound": "2026-11-10T17:11:04.719Z",
+   "registerVersion": 14
+  },
+  {
+   "researchId": "GDC-RR-e923851b08",
+   "title": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",
+   "proposedTitle": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
+   "editorialPriority": "BANK",
+   "urgency": "Medium. Published four days ago, so it is current, and nothing in it expires.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn post",
+    "Instagram caption",
+    "Facebook caption"
+   ],
+   "gdcPostNumber": "056",
+   "primaryUrl": "https://pubmed.ncbi.nlm.nih.gov/42992549/",
+   "doi": "10.1177/00333549261480962",
+   "publishedDate": "2026-11-06",
+   "design": "survey",
+   "figuresCleared": 2,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
+   "handoffVersion": 2,
+   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-e923851b08.json",
+   "firstFound": "2026-11-09T14:11:15.659Z",
+   "registerVersion": 17
+  },
+  {
+   "researchId": "GDC-RR-e22bd17322",
+   "title": "Feasibility Study of Methods and Data to Understand the Impact of Smartphones and Social Media on Children and Young People",
+   "proposedTitle": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
+   "editorialPriority": "BANK",
+   "urgency": "Medium. The report is ten months old as a publication, so it is not news, but it is UK, official, and directly relevant to the argument about the under 16 restriction. It does not expire.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn post",
+    "Newsletter"
+   ],
+   "gdcPostNumber": "055",
+   "primaryUrl": "https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people",
+   "doi": null,
+   "publishedDate": "2026-01-20",
+   "design": null,
+   "figuresCleared": 7,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
+   "handoffVersion": 2,
+   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-e22bd17322.json",
+   "firstFound": "2026-11-10T09:19:14.418Z",
+   "registerVersion": 20
+  },
+  {
+   "researchId": "GDC-RR-86c1075a30",
+   "title": "Families’ attitudes towards age assurance: research commissioned by the ICO and Ofcom",
+   "proposedTitle": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
+   "editorialPriority": "BANK",
+   "urgency": "Low to medium. The research is from 2022 and must be dated in the first lines. Its relevance comes from the restriction that is on its way, so it does not expire soon.",
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeVerdict": "EDIT",
+   "recommendedPlatforms": [
+    "LinkedIn post",
+    "Facebook caption"
+   ],
+   "gdcPostNumber": "057",
+   "primaryUrl": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
+   "doi": null,
+   "publishedDate": "2022-10-11",
+   "design": null,
+   "figuresCleared": 5,
+   "handoffDoc": null,
+   "handoffJsonDriveFileId": null,
+   "handoffVersion": 2,
+   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-86c1075a30.json",
+   "firstFound": "2026-11-10T09:23:10.230Z",
+   "registerVersion": 16
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

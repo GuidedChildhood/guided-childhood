@@ -1,0 +1,208 @@
+{
+ "schemaVersion": "1.1.0",
+ "researchId": "GDC-RR-86c1075a30",
+ "registerVersion": 13,
+ "handoffVersion": 2,
+ "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+ "createdAt": "2026-11-10T17:09:25.224Z",
+ "stage": "EDITORIAL READY",
+ "productionStatus": "EDITORIAL READY",
+ "proposedTitle": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
+ "proposedAngle": "I do not know whether the new age checks will hold. What I do know is what the regulators found the last time they sat in families' homes and asked: most of the children had got past the age check or knew someone who had, the parents often knew, and some had helped. Do not write this as a telling off. Write it as a parent who recognises the reasoning, because the report explains why parents did it, and the reason is the story.",
+ "oneStory": "In 2022 the ICO and Ofcom commissioned researchers to spend time with families and ask about age checks. The researchers found most children had got round them or knew someone who had, that parents were often aware, and that some parents had helped, for example by telling a child to enter a different date of birth.",
+ "oneTension": "Parents told the researchers they wanted age checks to exist. The same parents were not enforcing the ones that did exist, because an age limit that takes no account of their own child felt arbitrary and saying no meant their child being the one left out.",
+ "oneBelief": "A rule that a family does not believe in does not get kept at home, whatever the law says. A deadline is not a plan. What changes behaviour is a parent who has decided, with their child, what this child is ready for and why.",
+ "oneTakeaway": "Before the next age limit arrives, decide what you actually think your child is ready for and say it to them in your own words. A rule you can explain is one you will keep.",
+ "research": {
+  "title": "Families’ attitudes towards age assurance: research commissioned by the ICO and Ofcom",
+  "authors": "Competition and Markets Authority",
+  "journal": "Competition and Markets Authority",
+  "doi": null,
+  "pmid": null,
+  "primaryUrl": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
+  "publishedDate": "2022-10-11",
+  "indexedDate": "2022-10-11",
+  "peerReviewed": false,
+  "isPreprint": false,
+  "design": null,
+  "sampleSize": null,
+  "ageRange": null,
+  "country": "UK",
+  "followUp": null,
+  "funding": [],
+  "preregistered": false,
+  "streams": [
+   "drop"
+  ],
+  "foundBy": [
+   "manual-drop"
+  ]
+ },
+ "sourceUrls": [
+  {
+   "url": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
+   "kind": "primary",
+   "verifiedAt": "2026-11-10T16:56:50.299Z",
+   "how": "recorded, DOI not confirmed to resolve"
+  }
+ ],
+ "verification": {
+  "dossierCheckedAt": "2026-11-10T16:56:50.299Z",
+  "claudeReviewedAt": "2026-11-10T17:00:00Z",
+  "fullTextChecked": false,
+  "reviewBasis": "The full text, held in the register cache (digest cdf32d71 checked against the register before reading). Read in full: the preface, the executive summary, the background and methodology, the passages in sections 1 and 3 on circumvention and on how parents oversee use, the conclusions, and the start of the methodology annex. The GOV.UK publication page was resolved through the content API, which gives the published date as 11 October 2022."
+ },
+ "verifiedStatistics": [
+  "18 families interviewed in depth in their own homes",
+  "8 focus groups, 4 with parents and 4 with children aged 13 to 17",
+  "home visits of about 4 hours each, after a 3 day media diary",
+  "7 age assurance methods were shown to families",
+  "fieldwork from May to August 2022, published 11 October 2022"
+ ],
+ "notQuotable": [
+  "the sample size, which could not be extracted from the available text",
+  "any claim of precision, since no confidence interval was found",
+  "any percentage or proportion of parents or children: this is qualitative research and gives none",
+  "the names or ages of the children and parents in the report's case examples: they are illustrations from private homes and we do not repeat them",
+  "'Ofcom says', 'the ICO says' or 'the regulators found': the report gives participants' views, not the regulators' position",
+  "any statement that age checks do not work or that the under 16 restriction will fail",
+  "any statement that parents are to blame, lazy or careless: the report gives their reasons and the copy must too",
+  "any implication that this describes today: it is 2022, before the Online Safety Act was passed"
+ ],
+ "clearedFigures": [
+  "18 families interviewed in depth in their own homes",
+  "8 focus groups, 4 with parents and 4 with children aged 13 to 17",
+  "home visits of about 4 hours each, after a 3 day media diary",
+  "7 age assurance methods were shown to families",
+  "fieldwork from May to August 2022, published 11 October 2022"
+ ],
+ "prohibitedClaims": [
+  "any percentage or proportion of parents or children: this is qualitative research and gives none",
+  "the names or ages of the children and parents in the report's case examples: they are illustrations from private homes and we do not repeat them",
+  "'Ofcom says', 'the ICO says' or 'the regulators found': the report gives participants' views, not the regulators' position",
+  "any statement that age checks do not work or that the under 16 restriction will fail",
+  "any statement that parents are to blame, lazy or careless: the report gives their reasons and the copy must too",
+  "any implication that this describes today: it is 2022, before the Online Safety Act was passed"
+ ],
+ "evidenceConfidence": "HIGH that the report says what is written here: it was read in full text. MODERATE as a description of how families behaved in 2022: it is careful qualitative work by an experienced agency, with separate interviews for parent and child and observation in the home, but it is a small sample chosen for variety. LOW as a guide to how families behave now, four years and one Act of Parliament later.",
+ "limitations": [
+  "Qualitative. 18 families and 8 focus groups. It shows what happens and why, not how often.",
+  "Four years old. Fieldwork ran from May to August 2022, when the usual age check was a typed date of birth.",
+  "It predates the Online Safety Act and the stronger age assurance now required of services.",
+  "It reports what participants said and did in front of a researcher. Some may have said what sounded reasonable.",
+  "The focus groups with children covered ages 13 to 17 only.",
+  "It was commissioned to inform regulators' thinking on age assurance, not to test whether any method works."
+ ],
+ "contradictoryEvidence": [
+  "From the same report: families saw hard identifiers such as a passport or driving licence as the most effective method. That is evidence that parents are not against age checks as such, and that stronger checks might be treated differently from a typed date of birth.",
+  "From the same report: most parents felt services should have age assurance measures. The finding is a tension, not a rejection.",
+  "The context has changed since the fieldwork. Services are now under legal duties to use stronger age assurance, so behaviour found in 2022 may not carry over. This is context, not a study, and no claim about how well the new checks work is cleared.",
+  "GDC-RR-e923851b08, reviewed today from its abstract: where parents used digital monitoring, parent and teen accounts of the teen's online life agreed more closely. That sits awkwardly beside a reading of this report as 'tools do nothing'."
+ ],
+ "whatThisDoesNotProve": [
+  "How common it is for parents to help a child past an age check.",
+  "That age checks cannot work, or that the under 16 restriction will fail.",
+  "That parents who helped were wrong to. The report does not judge them and neither do we.",
+  "That talking to your child works better than controls. Parents said they valued it more. The study did not measure outcomes.",
+  "Anything about how families behave under the rules in force today."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The predictable errors are a percentage invented from a qualitative study, and 'Ofcom admits age checks do not work'. Neither is in the report.",
+ "claimVerification": [
+  {
+   "claim": "The research was qualitative: in depth interviews with 18 families in their homes, and 8 focus groups, 4 with parents and 4 with children aged 13 to 17, carried out from May to August 2022.",
+   "status": "VERIFIED",
+   "basis": "Executive summary and methodology. The home visits lasted about four hours each and were preceded by a three day media diary. The research was carried out by an independent agency, Revealing Reality."
+  },
+  {
+   "claim": "Most children in the study had got round age assurance themselves, typically by entering a false age, or knew someone who had.",
+   "status": "QUALIFIED",
+   "basis": "The report's own words: 'Most children had circumvented current age assurance methods themselves (typically self-declaration on social media platforms) or knew someone who had.' Qualified because 'most' here means most of a small, deliberately varied qualitative sample. It is not a national rate and must never be given a percentage."
+  },
+  {
+   "claim": "Parents were often aware of this, and some had helped.",
+   "status": "VERIFIED",
+   "basis": "Executive summary: 'parents were often aware of this, and sometimes facilitated it'. Section 1 gives the example of telling a child to use an incorrect date of birth, and section 3 says some parents 'were happy to set up children's accounts using their own information, including their age'. The section heading in the conclusions reads 'many parents were allowing, and even facilitating, their children to circumvent current age assurance measures'."
+  },
+  {
+   "claim": "Many parents saw the minimum ages on social media and games as arbitrary, and wanted stronger checks for gambling, pornography and buying alcohol than for social media.",
+   "status": "VERIFIED",
+   "basis": "Executive summary and conclusions. Parents weighed their own child's maturity and their own sense of the risk, not only the child's age."
+  },
+  {
+   "claim": "Parents often put good communication with their child ahead of other ways of overseeing what they did online.",
+   "status": "VERIFIED",
+   "basis": "Executive summary: 'parents often felt that maintaining good communication with their child about their online behaviours was a high priority over other methods'. This is the line that meets our own position, so it is quoted exactly and not stretched: it reports what parents said they valued, not what works."
+  },
+  {
+   "claim": "As children get older, parents become less motivated and less able to monitor or restrict, and children become more motivated and more able to get round controls.",
+   "status": "VERIFIED",
+   "basis": "Executive summary, section 3. The ways children got round controls included reaching parents' settings, opening new accounts when a parent followed the first, and using a VPN."
+  },
+  {
+   "claim": "Parents and children saw a passport or driving licence as the most effective way to check age.",
+   "status": "VERIFIED",
+   "basis": "Executive summary. It matters because it cuts against a lazy reading: these families did not think age checks were pointless, they thought self declaration was."
+  },
+  {
+   "claim": "A given percentage of UK parents help their children lie about their age.",
+   "status": "UNSUPPORTED",
+   "basis": "This study cannot give a percentage. It is 18 families and 8 groups. Any national figure would have to come from separate survey research, which was not read in this run."
+  },
+  {
+   "claim": "Age checks do not work, so the under 16 restriction will fail.",
+   "status": "UNSUPPORTED",
+   "basis": "The fieldwork was in 2022, when the usual check was typing in a date of birth. The law and the methods have both changed since. The study describes how families behaved towards weak checks they did not believe in. It says nothing about how they will behave towards stronger ones."
+  },
+  {
+   "claim": "Ofcom and the ICO say parents help children get round age checks.",
+   "status": "QUALIFIED",
+   "basis": "The report states that it 'represents the views of research participants obtained through the commissioned research, and not those of the ICO or Ofcom'. The correct attribution is research commissioned by the ICO and Ofcom and carried out by Revealing Reality. Never 'Ofcom says' or 'the ICO found'. GOV.UK lists the page under the Competition and Markets Authority because of the regulators' joint forum. Do not attribute it to that body either."
+  }
+ ],
+ "claudeReview": {
+  "status": "CLAUDE REVIEWED",
+  "reviewedAt": "2026-11-10T17:00:00Z",
+  "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+  "verdict": "EDIT",
+  "unresolvedQuestions": [
+   "Whether Ofcom or the ICO have published newer research with families since stronger age assurance came in. Not searched in this run.",
+   "Any national survey figure for how many children use services under age. Not read in this run, so no number is cleared.",
+   "The exact start date and scope of the under 16 restriction should be taken from docs/11 and the current law, not from this report."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-86c1075a30.json"
+ },
+ "gdcBeliefs": [
+  "A deadline is not a plan. The law can set an age. It cannot make a family believe in it.",
+  "The positive pathway, not the ban, and ban neutral: this story is not an argument against the restriction and must not read as one.",
+  "Connection is the protection: parents in this research ranked communication above other methods, in their own words.",
+  "Never allow or deny. A parent deciding what this child is ready for, and saying why, is the opposite of a rule nobody believes in."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change. It is the clearest evidence in the register for why the product is staged by readiness and not by birthday alone.",
+  "schoolLesson": "Useful background for any parent evening on the under 16 restriction: start from the fact that parents have reasons, not from compliance.",
+  "parentTool": "The stage check is the proof path: three questions about one child that give a parent a view of their own on what the child is ready for, which is exactly what the parents in this research were weighing when they called age limits arbitrary. No outcome is claimed.",
+  "digi": "When a parent asks whether to let a child sign up under age, DiGi must not allow or deny. This report supports the calibrated answer: what is your child ready for, what would you want in place, and what will you say to them.",
+  "historyChecker": "No change."
+ },
+ "gdcPostNumber": "057",
+ "gdcPostNumberNote": "This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.",
+ "recommendedAudience": "Parents, and school leaders preparing families for the under 16 restriction.",
+ "recommendedPlatforms": [
+  "LinkedIn post",
+  "Facebook caption"
+ ],
+ "recommendedFormats": [
+  "LinkedIn post",
+  "Facebook caption"
+ ],
+ "editorialAngle": "I do not know whether the new age checks will hold. What I do know is what the regulators found the last time they sat in families' homes and asked: most of the children had got past the age check or knew someone who had, the parents often knew, and some had helped. Do not write this as a telling off. Write it as a parent who recognises the reasoning, because the report explains why parents did it, and the reason is the story.",
+ "editorialPriority": "BANK",
+ "urgency": "Low to medium. The research is from 2022 and must be dated in the first lines. Its relevance comes from the restriction that is on its way, so it does not expire soon.",
+ "supportingFiles": [
+  "content/research-register/handoffs/handoff-GDC-RR-86c1075a30.json"
+ ],
+ "history": {
+  "registerJsonl": "content/research-register/studies.jsonl",
+  "studyVersions": 13
+ }
+}

@@ -1,6 +1,6 @@
 {
   "studyId": "GDC-RR-86c1075a30",
-  "reviewedAt": "2026-11-10T17:50:00Z",
+  "reviewedAt": "2026-11-10T17:00:00Z",
   "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
   "reviewBasis": "The full text, held in the register cache (digest cdf32d71 checked against the register before reading). Read in full: the preface, the executive summary, the background and methodology, the passages in sections 1 and 3 on circumvention and on how parents oversee use, the conclusions, and the start of the methodology annex. The GOV.UK publication page was resolved through the content API, which gives the published date as 11 October 2022.",
   "verdict": "EDIT",
