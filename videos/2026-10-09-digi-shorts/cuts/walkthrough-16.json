@@ -1,0 +1,359 @@
+{
+ "name": "walkthrough-16",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.2
+   ],
+   [
+    5.6,
+    0.15
+   ],
+   [
+    6.1,
+    0.3
+   ],
+   [
+    26.4,
+    0.3
+   ],
+   [
+    29.4,
+    0
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "id": "open",
+   "dur": 3.8,
+   "fadeIn": 0,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "One week, one head",
+     "y": 330,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "pill",
+     "text": "PE kit. Trip money. Christmas jumper day.",
+     "y": 430,
+     "t0": 0,
+     "typed": 0.16,
+     "typedFrom": 2,
+     "instant": true
+    },
+    {
+     "kind": "marker",
+     "text": "Inside Guided Childhood. 9 of 13",
+     "y": 1090,
+     "t0": 1.2
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens.",
+     "y": 1300,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.4,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.0,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "dur": 2.4,
+   "overlays": [
+    {
+     "kind": "hook",
+     "text": "One place.",
+     "y": 640,
+     "t0": 0.15
+    },
+    {
+     "kind": "hook",
+     "text": "Tick it off.",
+     "y": 780,
+     "t0": 0.7
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.15,
+     "vol": 0.3
+    },
+    {
+     "name": "sfx-land",
+     "at": 0.7,
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "dur": 4.6,
+   "src": "captures/wt/school-week.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 1,
+     "eyebrow": "School alerts",
+     "text": "Everything from school, in one place",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 153,
+     "y": 102,
+     "w": 169,
+     "h": 21,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 153,
+     "y": 124,
+     "w": 150,
+     "h": 21,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 823,
+   "clipH": 470
+  },
+  {
+   "id": "s2",
+   "dur": 4.4,
+   "src": "captures/wt/school-week.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 3.0,
+     "fx": 235,
+     "fy": 160,
+     "py": 1060,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 2,
+     "eyebrow": "Set it once",
+     "text": "It comes round every week",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 153,
+     "y": 227,
+     "w": 77,
+     "h": 24,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 153,
+     "y": 258,
+     "w": 158,
+     "h": 27,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 823,
+   "cropTop": 80,
+   "clipH": 440
+  },
+  {
+   "id": "s3",
+   "dur": 4.4,
+   "src": "captures/wt/kid-week.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 2.7,
+     "fx": 195,
+     "fy": 0,
+     "py": 680,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 3,
+     "eyebrow": "Their app",
+     "text": "It lands with them too",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 90,
+     "y": 240,
+     "w": 250,
+     "h": 22,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 90,
+     "y": 262,
+     "w": 120,
+     "h": 22,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 559,
+   "cropTop": 180,
+   "clipH": 420
+  },
+  {
+   "id": "s4",
+   "dur": 4.8,
+   "src": "captures/wt/homework-stuck.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 4,
+     "eyebrow": "Homework",
+     "text": "And it explains the homework",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 17,
+     "y": 104,
+     "w": 340,
+     "h": 23,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 17,
+     "y": 128,
+     "w": 300,
+     "h": 23,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 445
+  },
+  {
+   "id": "end",
+   "dur": 5.0,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "tagline": "One plan for screens, phones and AI.",
+     "eyebrow": "Inside Guided Childhood. 9 of 13",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/tour-16",
+     "slate": "An example family. Real app screens.",
+     "t0": 0.3,
+     "pressAt": 2.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 2.9,
+     "vol": 0.4
+    }
+   ]
+  }
+ ]
+}

@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 2 of 13 |
 | Service | The star quest: jobs, stars, minutes, and the holiday bank (map entries 2 and 15) |
-| Format | Reel, about 30 seconds. Not built |
+| Format | Reel, 33 seconds, 1080 by 1920. **Built** |
 | Channels | Guided Childhood Instagram and Facebook Reels, TikTok cut |
 | Proposed | Sunday 22 November, 19:30 |
 | Free step | The stage check |
+| Files | `built/04-the-star-quest/we-wrote-down-the-price.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-04.json` |
 
 ## Hook
 
@@ -15,17 +16,18 @@
 
 ## Script, shot by shot
 
-| Beat | On screen | Real screen |
+| Time | On screen | Real screen |
 |---|---|---|
-| Open | A THING PARENTS SAY. "Can I have ten more minutes?" Forty times a day. | None |
-| 1 | You set the jobs. | The parent's quests page, "The deal: quests earn stars", Add a job |
-| 2 | They tick them off. | The child's jobs: "Feed the dog before school, worth 3 stars", "One hour of outside play, worth 5 stars" |
-| 3 | Stars turn into minutes. | The ask box: "That is 6 stars" for 30 minutes |
-| 4 | Outside pays the most. | The same list, the 5 star job highlighted |
-| 5 | Some time cannot be bought. | The time tiers screen: bedtime, mealtimes, school hours |
-| End | INSIDE GUIDED CHILDHOOD, 2 OF 13. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-04` | End card |
+| 0.0 | A THING CHILDREN SAY. "Can I have ten more minutes?" Then: INSIDE GUIDED CHILDHOOD, 2 OF 13 | None |
+| 3.4 | We wrote down the price. Jobs. Stars. Minutes. | None |
+| 6.0 | FAMILY QUESTS. 1. You set the jobs | The parent's board: "On Ava's board", with a family job that pays no stars and "Homework done before the phone comes out" |
+| 10.6 | THEIR APP. 2. They tick them off | The child's jobs: "Feed the dog before school, worth 3 stars" |
+| 15.2 | ASK FIRST. 3. Stars turn into minutes | The ask box: "That is 6 stars on the Console." |
+| 19.6 | ON PURPOSE. 4. Outside pays the most | "One hour of outside play, worth 5 stars" |
+| 23.8 | BEDTIME, MEALS, SCHOOL. 5. Some time is not for sale. It still comes to you as an ask | The ask inside a rest window: "Screens are meant to be resting right now. Saying yes still works." |
+| 28.4 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-04` | End card |
 
-Never shown: any job that pays stars for reading. Stars are for jobs.
+Never shown: any job that pays stars for reading. The child's jobs screen is cropped above "If you fancy more".
 
 ## Caption, Instagram
 
@@ -87,3 +89,4 @@ What would be the first job on your board?
 - No claim that a child will behave differently. The claim is that the argument has somewhere else to go.
 - Family jobs sit outside the stars. If a beat shows one, it is labelled as unpaid.
 - The hook is the service map's own, in the family "we". It is a family screen argument, which the founder context marks amber, so it is flagged here for Justin's yes.
+- Built 10 November from the reference pages `ref-job-board`, `ref-kid-jobs`, `ref-ask-first` and `ref-ask-popup`. The time tiers screen was blank in the old capture, so the rest window ask stands in for it.

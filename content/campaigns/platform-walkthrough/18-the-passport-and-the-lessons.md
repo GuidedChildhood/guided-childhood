@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 11 of 13 |
 | Service | The passport, the lessons, and the printed keepsake (map entries 3, 6 and 17) |
-| Format | Carousel, 8 cards, in the franchise THE ROAD TO 16. Not built |
+| Format | Carousel, 7 cards, 1080 by 1350, in the franchise THE ROAD TO 16. **Built** |
 | Channels | Guided Childhood Instagram. Facebook takes card 1 and the text |
 | Proposed | Tuesday 15 December, 19:00, ten days before a phone goes under the tree |
 | Free step | The stage check |
+| Files | `built/18-the-passport-and-the-lessons/`, deck at `built/decks/18-the-passport-and-the-lessons.json` |
 
 ## Hook
 
@@ -17,14 +18,13 @@
 
 | Card | Words | Image |
 |---|---|---|
-| 1 | THE ROAD TO 16. A sixteenth birthday is not a training course. | The five Planet Friends on the gold pathway, the passport at the end |
-| 2 | Five stages. One stamp each. | The passport book, cover |
-| 3 | 4 to 7. Calm screen offs. | Pebble, the stage page |
-| 4 | 8 to 10. Healthy habits. | Bloop |
-| 5 | 11 to 13. Knows how it works. | Orbit |
-| 6 | 13 to 15. Owns their footprint. Then 16: ready for the world. | Nova, with Cosmo at the end of the road |
-| 7 | The stamps come from what you do. Jobs, check ins and lessons. Fifteen of the lessons are about social media, before the account exists. | The lessons page, Social Media Ready |
-| 8 | What stage is your child? Three questions. No sign up. | The stage result screen |
+| 1 | THE ROAD TO 16. A birthday is not a training course. | The five Planet Friends on the gold pathway, the passport at the end |
+| 2 | Five stages. One job each. 4 to 7, calm screen offs. 8 to 10, healthy habits. 11 to 13, knows how it works. 13 to 15, owns their footprint. 16, ready for the world. | One band a stage, each with its friend |
+| 3 | Each stage ends in a stamp. The stamps fill in from what you already do: jobs, check ins and lessons. | None |
+| 4 | Fifteen lessons before the first account. Social Media Ready runs from 8 to 16. The lesson is how it works. | None |
+| 5 | Want it real? There is a printed one. | The keepsakes screen: The printed passport |
+| 6 | Find the stage first. | The stage result: "Sam's pathway is ready." |
+| 7 | Keep this one. Save it for the week the phone question comes up. Send it to the parent whose child wants a phone for Christmas. | None, Orbit |
 
 ## Caption, Instagram
 
@@ -99,3 +99,4 @@ What do you wish somebody had taught you before your first phone?
 - No claim that a stamped child is ready or safe. A stamp records what the family did.
 - "Ready for the world" is the product's own name for the last stamp, used as a name.
 - Charms, the bracelet, the plush and the magnetic chart are coming soon in the app and are not mentioned.
+- **For Justin:** card 5 shows the printed passport at £14, as the keepsakes screen has it. The Etsy decision of 5 November says the price waits on the Mixam proof copy. Confirm the price, or the card is cropped above it.

@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 8 of 13 |
 | Service | Moments, the check in, what is working, the week's balance (map entries 13 and 20) |
-| Format | Carousel, 7 cards. Not built |
+| Format | Carousel, 7 cards, 1080 by 1350. **Built** |
 | Channels | Guided Childhood Instagram. Facebook takes card 1 and the text |
 | Proposed | Sunday 6 December, 19:30 |
 | Free step | The stage check |
+| Files | `built/14-moments-and-the-check-in/`, deck at `built/decks/14-moments-and-the-check-in.json` |
 
 ## Hook
 
@@ -17,13 +18,13 @@
 
 | Card | Words | Screen |
 |---|---|---|
-| 1 | Write the problem down the day it starts. | None |
-| 2 | Tap what was hard today. Each one joins your list, and we bring you the words for it. | Home, "What came up today?" |
-| 3 | The first tap is your starting line. Everything after is measured against it. | The first check in |
-| 4 | Then one tap a day. Really tough. Hard going. Up and down. Getting there. Going great. | The five faces |
-| 5 | A worry can rest. One "going great" and it steps back. It returns in a week to check it held. | The check in outcome line |
-| 6 | And you can see what moved. No family score. Just each worry, and where it is now. | "Here is what has actually moved" |
-| 7 | Keep this one. Save it for the day something starts. | None |
+| 1 | Write the problem down the day it starts. | None, Orbit |
+| 2 | You name what is hard. | "Heard. These are on your tracker" |
+| 3 | The first tap is your starting line. | The first check in: "Where things are now. One tap each, just to see where things stand. No right answer." |
+| 4 | Then one tap a day. | The five faces: Really tough, Hard going, Up and down, Getting there, Going great |
+| 5 | A worry can rest. It is checked again in a week. | "Sorted! That is a great day. Off your list. We will check in a week that it held." |
+| 6 | And you can see what moved. No family score. Each worry, where it started and where it is now. | None |
+| 7 | Keep this one. Save it for the day something starts. Send it to the parent who cannot tell if anything is getting better. | None, Orbit |
 
 ## Caption, Instagram
 
@@ -87,3 +88,4 @@ What is one thing that was hard in your house a year ago and is fine now?
 - Every rating is the parent's own. Nothing here claims a child improved.
 - "Six weeks" in the hook is a figure of speech from the service map. If Justin wants no number at all: "Later, you will not believe it was ever that bad."
 - The two children comparison from the service map's balance entry is left out. It reads as a claim about effects.
+- The worries on card 2 are the reference page's made up list. The what is working page is not shown: on a real account it carries the family's own record.

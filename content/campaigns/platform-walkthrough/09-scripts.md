@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 5 of 13 |
 | Service | Scripts for the parent, and the child's own openers (map entries 5 and 19) |
-| Format | Carousel, 7 cards. Not built |
+| Format | Carousel, 6 cards, 1080 by 1350. **Built** |
 | Channels | Guided Childhood Instagram. Facebook takes card 1 and the text |
 | Proposed | Sunday 29 November, 19:30 |
 | Free step | The stage check |
+| Files | `built/09-scripts/`, deck at `built/decks/09-scripts.json` |
 
 ## Hook
 
@@ -17,16 +18,14 @@
 
 | Card | Words | Screen |
 |---|---|---|
-| 1 | A THING PARENTS SAY. "Because I said so." You know what you mean. Then the words go. | None |
-| 2 | So we wrote them down. What to say, what not to say, and why it works. | The scripts page |
-| 3 | One card at a time. Step 1 of 4. Say this. Use these words tonight. | The script deck, the Say this card |
-| 4 | You can practise first. Rehearse with DiGi before you have the real one. | The rehearse screen |
-| 5 | Then tell us which line worked. The next script starts from that one. | "Which line worked?" |
-| 6 | Your child gets words too. For the hardest sentence: "something happened." | The child's Telling a grown up page |
-| 7 | Keep this one. Save it for the next conversation you are dreading. | None |
+| 1 | A THING PARENTS SAY. "Because I said so." You knew what you meant. Then the words went. | None, Bloop |
+| 2 | So we wrote the words down. | The live Scripts page: "What to say, what not to say, and why it works." |
+| 3 | One card at a time. | The script deck: Step 1 of 4, Say this |
+| 4 | Rehearse it first. Practise with DiGi before the real conversation. Then tell us which line worked, and the next script starts there. | None |
+| 5 | Your child gets words too. And a promise from you. | The live page "What they tell you, and what you do", and its promise card |
+| 6 | Keep this one. Save it for the next conversation you are dreading. Send it to the parent who rehearses it all day. | None, Bloop |
 
-Card 3 shows a real script from the `scripts` table, word for word. It is
-chosen at build time and checked against the live row that day.
+Card 3 is free script 9671 from the `scripts` table, word for word, the same one the films use.
 
 ## Caption, Instagram
 
@@ -88,3 +87,4 @@ What is the sentence you wish you had ready?
 - Scripts open with the account, inside the four free days. The post does not say any script is free for ever.
 - The quote on card 1 is labelled as a thing parents say.
 - "Something happened" stays general. No example of what happened is shown.
+- Cards 2 and 5 are captures of the live app from Justin's signed in Chrome, name swapped. The Scripts page is cropped above "Recommended next", because that part shows the family's own worries.

@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 10 of 13 |
 | Service | Printables, crafts and the family agreement (map entries 9 and 10) |
-| Format | Carousel, 7 cards. Not built |
+| Format | Carousel, 7 cards, 1080 by 1350. **Built**, with card 1 waiting on a real photo |
 | Channels | Guided Childhood Instagram. Facebook takes card 1 and the text |
 | Proposed | Sunday 13 December, 19:30, the weekend before the holidays |
 | Free step | The stage check |
+| Files | `built/17-printables-and-crafts/`, deck at `built/decks/17-printables-and-crafts.json` |
 
 ## Hook
 
@@ -17,13 +18,13 @@
 
 | Card | Words | Image |
 |---|---|---|
-| 1 | Every tool for managing screens is itself a screen. Ours prints. | A real photo: a printed sheet on a real fridge. Justin to supply |
-| 2 | 47 things to print. Charts, games, kits and colouring. | The printables page, "The offline pathway" |
-| 3 | A star chart built from your own jobs. | The star chart builder |
-| 4 | Things to make. Kindness Postcards. Phones Go To Bed. The Ice Cream Shop. | Three real page previews |
-| 5 | An agreement you write together. Read it out loud, then sign. It goes on the fridge. | The family agreement, step three |
-| 6 | Finished sheets earn stars. Paper counts the same as everything else. | The child's printables tab |
-| 7 | Keep this one. Save it for the first wet day of the holidays. | Colour in Bloop, the line art |
+| 1 | Every tool for managing screens is a screen. Ours prints. | For now, Pebble on the road. The real fridge photo replaces it |
+| 2 | 47 things to print. | The live Printables page: "The offline pathway" |
+| 3 | A star chart, built from your own jobs. | The star chart sheet: "Ava's star chart" |
+| 4 | Things to make. | The real page: Pebble's Ice Cream Shop |
+| 5 | An agreement you write together. | The real page: The Family Phone Agreement |
+| 6 | Finished sheets earn stars. Paper counts the same as everything else on the board. | None |
+| 7 | Keep this one. Save it for the first wet day of the holidays. Send it to the parent facing two weeks off school. | None, Pebble |
 
 ## Caption, Instagram
 
@@ -89,3 +90,4 @@ What is stuck to your fridge right now?
 - No Planet Post page is shown, so the "Read for 20 minutes" line cannot appear.
 - The ten years of card and cake toppers is the Inspired by Alma story, already public on this account. It is the family's history, not a scene about a child.
 - Re count the registry on the day. It was 47 on 10 November.
+- The star chart crop stops after the second job, so the row that pays for reading with a grown up is not in the image.

@@ -1,0 +1,356 @@
+{
+ "name": "walkthrough-19",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.2
+   ],
+   [
+    5.6,
+    0.15
+   ],
+   [
+    6.1,
+    0.3
+   ],
+   [
+    29.0,
+    0.3
+   ],
+   [
+    32.0,
+    0
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "id": "open",
+   "dur": 3.6,
+   "fadeIn": 0,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "The problem",
+     "y": 330,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "pill",
+     "text": "Every screen time app is built for the parent.",
+     "y": 430,
+     "t0": 0,
+     "typed": 0.16,
+     "typedFrom": 4,
+     "instant": true
+    },
+    {
+     "kind": "marker",
+     "text": "Inside Guided Childhood. 12 of 13",
+     "y": 1090,
+     "t0": 1.2
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens.",
+     "y": 1300,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.4,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.0,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "dur": 2.4,
+   "overlays": [
+    {
+     "kind": "hook",
+     "text": "So we built one",
+     "y": 640,
+     "t0": 0.15
+    },
+    {
+     "kind": "hook",
+     "text": "for them.",
+     "y": 780,
+     "t0": 0.7
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.15,
+     "vol": 0.3
+    },
+    {
+     "name": "sfx-land",
+     "at": 0.7,
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "dur": 4.4,
+   "src": "captures/kid-home.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 1,
+     "eyebrow": "A link. No login.",
+     "text": "Their own app",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 2298,
+   "cropTop": 272,
+   "clipH": 632
+  },
+  {
+   "id": "s2",
+   "dur": 4.4,
+   "src": "captures/wt/kid-five.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 2,
+     "eyebrow": "Five a day",
+     "text": "Their five for today",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 115,
+     "y": 160,
+     "w": 200,
+     "h": 22,
+     "t0": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 392
+  },
+  {
+   "id": "s3",
+   "dur": 4.4,
+   "src": "captures/wt/kid-pitch.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 2.7,
+     "fx": 195,
+     "fy": 0,
+     "py": 700,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 3,
+     "eyebrow": "Their idea, your yes",
+     "text": "They can pitch a job",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 36,
+     "y": 226,
+     "w": 214,
+     "h": 27,
+     "t0": 1.1
+    },
+    {
+     "cls": "ripple",
+     "x": 173,
+     "y": 285,
+     "w": 44,
+     "h": 44,
+     "t0": 3.0
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 3.0,
+     "vol": 0.5
+    }
+   ],
+   "srcH": 403,
+   "cropTop": 165,
+   "clipH": 403
+  },
+  {
+   "id": "s4",
+   "dur": 4.4,
+   "src": "captures/wt/sticker-book.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 4,
+     "eyebrow": "Planet Friends",
+     "text": "Friends to bring home",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 45,
+     "y": 140,
+     "w": 300,
+     "h": 23,
+     "t0": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 741,
+   "clipH": 400
+  },
+  {
+   "id": "nobot",
+   "dur": 3.4,
+   "overlays": [
+    {
+     "kind": "hook",
+     "text": "No chatbot.",
+     "y": 640,
+     "t0": 0.15
+    },
+    {
+     "kind": "support",
+     "text": "Your child never chats with an AI here.",
+     "y": 800,
+     "t0": 0.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.15,
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "dur": 5.0,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "tagline": "One plan for screens, phones and AI.",
+     "eyebrow": "Inside Guided Childhood. 12 of 13",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/tour-19",
+     "slate": "An example family. Real app screens.",
+     "t0": 0.3,
+     "pressAt": 2.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 2.9,
+     "vol": 0.4
+    }
+   ]
+  }
+ ]
+}

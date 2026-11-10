@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 3 of 13. **The first objection post** |
 | Service | Devices, the first phone guide, the app settings, the Year 6 bridge (map entries 12 and 14) |
-| Format | Carousel, 7 cards. Not built |
+| Format | Carousel, 7 cards, 1080 by 1350. **Built** |
 | Channels | Guided Childhood Instagram. Facebook takes card 1 and the text |
 | Proposed | Tuesday 24 November, 19:00, in Black Friday week |
 | Free step | The stage check |
+| Files | `built/05-is-this-just-parental-controls/`, deck at `built/decks/05-is-this-just-parental-controls.json` |
 
 ## Hook
 
@@ -19,13 +20,13 @@ Card 1, under the eyebrow A THING PARENTS ASK.
 
 | Card | Words | Screen |
 |---|---|---|
-| 1 | A THING PARENTS ASK. "Is this just parental controls?" No. Swipe for the honest answer. | None |
-| 2 | Controls decide today. A block answers one evening. It teaches nothing about the next one. | None |
-| 3 | We do help you set them. Every device, set up once, properly. | The devices page, "Set up every device the right way" |
-| 4 | Then app by app. | "The settings to lock, app by app" |
-| 5 | And the first phone gets let out a bit at a time. "Not a brick phone. A phone you release, bit by bit." | The first phone guide |
-| 6 | That is the easy half. The other half is the words, the deal and the practice. That half is the product. | The script deck |
-| 7 | Keep this one. Save it for the week a new device comes home. | None |
+| 1 | A THING PARENTS ASK. "Is this just parental controls?" No. Here is the honest answer. | None, DiGi |
+| 2 | A control decides today. It answers one evening. It teaches nothing about the next one. | None, the ink card |
+| 3 | We do help you set them. Every device, once. | "The screens in your home" |
+| 4 | Then app by app. | The live page "The settings to lock, app by app" |
+| 5 | And the first phone gets let out a bit at a time. | The live page "Not a brick phone. A phone you release, bit by bit." |
+| 6 | That is the easy half. The other half is the words. | The script deck, the Say this card |
+| 7 | Keep this one. Save it for the week a new device comes home. Send it to the parent with a new tablet arriving this week. | None, DiGi |
 
 ## Caption, Instagram
 
@@ -83,3 +84,5 @@ Which device in your house has settings you have never opened?
 - No rival is named. No "allow" or "ban" verdict on any app.
 - The phone carousel of 14 November showed the five steps. This one shows the setup screens and does not repeat them.
 - Re check each settings screen the day before it is captured, because platforms move toggles.
+- Cards 4 and 5 are captures of the live app from Justin's own signed in Chrome on 10 November, with the film family's name swapped in. The app list on card 4 is in the order for the signed in child's age band.
+- Card 5 shows the product's own words "with safe settings". They describe the settings, not a child.

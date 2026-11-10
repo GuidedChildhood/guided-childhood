@@ -4,10 +4,11 @@
 |---|---|
 | Run | Playlists, 2 of 3 |
 | Service | The Social Billboard: the playlist builder, on its real screens |
-| Format | Carousel, 6 slides, 1080 by 1350. Not built |
+| Format | Carousel, 6 slides, 1080 by 1350. **Built** |
 | Channels | The Social Billboard Instagram. Facebook takes slide 1 and the text |
 | Proposed | Sunday 29 November, 10:00 |
 | Free step | The first playlist: `thesocialbillboard.com/safe-youtube-for-kids` |
+| Files | `built/08-playlists-five-choices/`, deck at `tools/tsb-playlist-card/decks/walkthrough-02-five-choices.json` |
 
 ## Hook
 
@@ -82,3 +83,4 @@ Justin
 - The age bands are written "3 to 6", never with a dash. The site itself uses dashes; the post does not copy them.
 - No banned playlists words. No claim about what a child will or will not see beyond the playlist the parent approved.
 - Carries Justin's phone check of the sign up buttons in the checklist before it is posted, as the playlists rules ask.
+- Slide 5 is the real playlist screenshot from the card tool, so it shows the titles and thumbnails of four real YouTube videos. The existing playlists decks already use it. Say if it should be swapped for one of Justin's own.

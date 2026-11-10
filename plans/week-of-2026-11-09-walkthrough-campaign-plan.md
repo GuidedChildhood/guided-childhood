@@ -8,8 +8,10 @@ service benefit, eg moments, scripts, DiGi, school reminders, crafts, every
 service and benefit, walkthroughs that are engaging with goal of free sign ups."
 
 The drafts are in `content/campaigns/platform-walkthrough/`, one file per post.
-Posts 1 to 3 are built, one per format and one per brand, so the look can be
-judged before the other 17 are made.
+Posts 1 to 3 were built first, one per format and one per brand, so the look
+could be judged. Justin said yes to it the same day ("Yes, build the rest"),
+and **all 20 are now built** (section 11). The table in section 4 is the plan
+as first written; each draft file carries what was really made.
 
 ---
 
@@ -239,7 +241,7 @@ only points at the parents stage check, so it covers the 13 parents posts.
 
 ## 9. What Justin decides
 
-1. **The look.** The three built pieces on the review page: yes, or what to change.
+1. **The look.** Decided 10 November: yes, build the rest.
 2. **The numbering.** Per run on screen (recommended), or one "of 20" set on his own LinkedIn as well.
 3. **The ask ratio.** Three asks a week on the family account for five weeks, or stretch the run to two a week and finish in January.
 4. **Credits.** None are needed for any of the 20 as planned. Only if he wants photo carousels or generated cover loops.
@@ -254,3 +256,42 @@ only points at the parents stage check, so it covers the 13 parents posts.
 - Every proof path opened in the code or on the live site on 10 November
 - The film read frame by frame from contact sheets (the checklist in `product-shorts`)
 - Not done: the marketer review and feedback filter pass that `product-shorts` asks for before a film is posted. It runs once Justin has said yes to the look, on the final cut.
+
+## 11. Built, 10 November
+
+All 20, none of it with an image or video model.
+
+- **Parents Reels 1, 4, 7, 16 and 19**: the film engine, from the reference
+  preview pages with the film family's names. Cuts are
+  `videos/2026-10-09-digi-shorts/cuts/walkthrough-*.json`. Post 12 is Film 10
+  as it stands, with a new cover frame.
+- **Parents carousels and cards 5, 9, 10, 14, 17, 18 and 20**:
+  `tools/social-cards`, decks in `built/decks/*.json`. The template gained a
+  framed screen card, a start number for lists and a tighter five band row.
+- **Schools 2, 6, 11 and 15**: captures of the public live site
+  (`built/decks/capture-schools.mjs`), decks in `built/decks/*-schools.html`.
+- **Playlists 3, 8 and 13**: `tools/tsb-playlist-card`.
+
+**Six screens came from the live app.** No reference page shows the Scripts
+page, the app settings, the first phone guide, the Printables page or the
+tell a parent page. Justin signed in on Chrome and they were captured there on
+10 November, at desktop width, with the film family's names swapped in on the
+page before the capture, the same swap the film tools make. Anything showing
+the family's own worries or record was cropped out or not captured. They are
+in `built/screens-live/`.
+
+**What changed from the drafts as first written.** The parents carousels end
+on the save and send card, as the visual system asks, so most are 6 or 7 cards
+and not 7 or 8. Post 16 shows the weekly reminder, the child's week and the
+homework explainer; the snap a letter and Letterbox screens are in its captions
+only. Post 19 shows the sticker book where the games were planned. Post 13 is
+black, not white, because the playlists template highlights in red on white.
+
+**Still open on the built pieces.**
+
+- Post 17, card 1 wants a real fridge photo from Justin.
+- Post 18, card 5 shows the printed passport at £14. Confirm the price.
+- Post 8, slide 5 shows four real YouTube video titles from the existing
+  playlist screenshot.
+- The marketer review that `product-shorts` asks for has not been run on the
+  five new films.

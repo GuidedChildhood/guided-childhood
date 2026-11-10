@@ -4,10 +4,11 @@
 |---|---|
 | Run | Schools, 2 of 4 |
 | Service | The curriculum map, Reception to Year 13 |
-| Format | Carousel, 7 pages. A PDF for LinkedIn. Not built |
+| Format | Carousel, 8 pages, 1080 by 1350, and a PDF for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn as a document post, the Guided Childhood LinkedIn page |
 | Proposed | Thursday 26 November, 07:45 |
 | Free step | Teach the free lesson, reached from the map |
+| Files | `built/06-schools-every-year-has-a-job/` (8 PNGs and `carousel.pdf`), deck at `built/decks/06-schools.html` |
 
 ## Hook
 
@@ -18,12 +19,13 @@
 | Page | Words | Screen |
 |---|---|---|
 | 1 | EVERY YEAR HAS A JOB. 2 OF 4. Reception to Year 13, in one map. | The curriculum map header |
-| 2 | Reception. Screens shared with a grown up, and the first idea of real and made. | The Reception cards, Pebble |
-| 3 | Years 1 to 6. The habits years, before the first phone. | The KS2 cards |
-| 4 | Years 7 to 9. The detective years: feeds, fakes, scams and honest self checks. | The KS3 cards, Orbit |
-| 5 | Years 10 and 11. The serious cases, named plainly and taught calmly. | The KS4 cards |
-| 6 | Years 12 and 13. AI used well, data rights, and the first CV. | The KS5 cards |
-| 7 | 34 modules. Every card is open to read. One lesson is free to teach today. schools.guidedchildhood.com/curriculum | The map counter, "34 of 34 modules live" |
+| 2 | Reception. Screens with a grown up. And the first idea of what is real and what is made. | The Reception cards, Pebble |
+| 3 | Years 1 and 2. Feelings, kindness and the first spotting skills. | The Key Stage 1 cards, Pebble |
+| 4 | Years 3 to 6. The habits years, before the first phone. | The Key Stage 2 cards, Bloop |
+| 5 | Years 7 to 9. The detective years. Feeds, fakes, scams and honest self checks. | The Key Stage 3 cards, Orbit |
+| 6 | Years 10 and 11. The serious cases, named plainly and taught calmly. | The Key Stage 4 cards, Nova |
+| 7 | Years 12 and 13. AI used well, data rights and the first CV. | The Key Stage 5 cards, Cosmo |
+| 8 | 34 modules. Every card open to read. And one whole lesson is free to teach today. schools.guidedchildhood.com/curriculum | None |
 
 ## Post text, LinkedIn (Justin)
 
@@ -82,3 +84,4 @@ https://schools.guidedchildhood.com/curriculum?utm_source=linkedin&utm_medium=so
 
 - "Cambridge research points to windows of sensitivity in early adolescence" is on the map. It is left out of the post, because a research line needs its own source check before it goes on LinkedIn.
 - "The ban" is not argued either way.
+- Each crop starts at the lesson cards, so the map's own "Why now" paragraphs, one of which cites research, are not in the image.

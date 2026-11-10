@@ -4,10 +4,11 @@
 |---|---|
 | Run | Schools, 3 of 4 |
 | Service | The Hub: the safeguarding crosswalk and the staff briefings |
-| Format | Carousel, 6 pages. A PDF for LinkedIn. Not built |
+| Format | Carousel, 6 pages, 1080 by 1350, and a PDF for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn as a document post, the Guided Childhood LinkedIn page |
 | Proposed | Thursday 3 December, 07:45 |
 | Free step | Request the free pilot: `schools.guidedchildhood.com/pilot` |
+| Files | `built/11-schools-the-safeguarding-crosswalk/` (6 PNGs and `carousel.pdf`), deck at `built/decks/11-schools.html` |
 
 ## Hook
 
@@ -82,3 +83,4 @@ https://schools.guidedchildhood.com/pilot?utm_source=linkedin&utm_medium=social&
 - The count is read off the live page on the day. The code's manifest has 18 flagged and the live page says 17, so the page is the number to use, and somebody should reconcile the two.
 - No disclosure example. No statistic. Nothing that reads as a warning about children.
 - The pilot has five places. The post never prints how many are left.
+- Page 6 shows the top of the live pilot page, cropped above the places left counter.
