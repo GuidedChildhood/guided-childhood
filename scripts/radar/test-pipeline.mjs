@@ -303,6 +303,11 @@ reg.upsert({ ...reg.get(ID), editorialPriority: 'HIGH' }, { reason: 'test, the s
 check('when the story it describes changes, the start here document is stale', S.syncState().roles.stage2Brief.current === false && isHold(S.driveReadable('stage2Brief')))
 reg.upsert({ ...reg.get(ID), editorialPriority: seed.editorialPriority }, { reason: 'test, undo', actor: 'test' })
 check('and current again once the story is back as it was', S.syncState().roles.stage2Brief.current === true)
+const asExport = (t) => Buffer.from('\uFEFF' + t.replace(/\n/g, '\r\n')).toString('base64')
+check('a Doc export with its byte order mark and CRLF endings is TEXT IDENTICAL', C.verifyDocExport(brief.text, asExport(brief.text)).level === 'TEXT IDENTICAL')
+check('one changed digit anywhere in a Doc is caught, with the line', !C.verifyDocExport(brief.text, asExport(brief.text.replace('GDC-055', 'GDC-056'))).ok)
+check('a Doc cut short is caught', !C.verifyDocExport(brief.text, asExport(brief.text.slice(0, 900))).ok)
+check('an empty export is a failure', !C.verifyDocExport(brief.text, '').ok)
 check('the doc probe refuses a document that is cut short', !C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'THE NUMBER RULE', contains: ['a', 'b', 'c'] }).ok)
 check('the doc probe accepts the real start, end and lines, through the markdown',
   C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'Nothing is posted by anyone but him.', contains: ['r = 0.308, 95% CI 0.239 to 0.374, p \\< 0.001, the pooled correlation', 'No dashes anywhere, of any length.', 'STATUS: DRAFT'] }).ok)
