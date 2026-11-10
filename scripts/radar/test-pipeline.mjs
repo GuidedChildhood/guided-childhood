@@ -339,6 +339,8 @@ check('once a pack is through, the start here document tells Stage 2 not to writ
   /WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK/.test(briefAfter.text) && /Do not write this story again/.test(briefAfter.text) && /WHAT TO WRITE NEXT\n  Nothing\. The queue is empty/.test(briefAfter.text))
 check('and carries the review notes back, since there is no other channel', briefAfter.text.includes('Figures match the cleared list'))
 check('still with no dash in it', !/[\u2010-\u2015\u2212]/.test(briefAfter.text))
+check('with an empty queue the document still does not carry the repository head, so a commit cannot make it stale',
+  !briefAfter.text.split('\n').filter((l) => !l.startsWith('Generated ')).join('\n').includes(C.repoState().commit))
 
 section('STAGE 4, approval and publication controls')
 const live404 = async () => ({ verdict: 'NOT LIVE', httpStatus: 404, provesItIsLive: false })

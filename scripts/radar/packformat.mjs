@@ -223,7 +223,10 @@ export function stage2Brief({ links = {} } = {}) {
     // current head here, so the document changed on every commit to anything
     // and was reported stale the moment it was pushed. A pack is written from
     // a handoff, and the handoff's commit only moves when the handoff does.
-    sourceCommit: next?.handoffSourceCommit || r.commit }).split('\n')) line(`    ${t}`)
+    // And never the repository head as a fallback. With an empty queue that is
+    // what this printed, so the document went stale on the next commit to
+    // anything, the same fault as before by a different door.
+    sourceCommit: next?.handoffSourceCommit || 'COPY IT FROM THE HANDOFF' }).split('\n')) line(`    ${t}`)
   line()
   // The only channel back to Stage 2. Claude cannot message ChatGPT, so what
   // was found in its last pack is written here, where it reads first.
