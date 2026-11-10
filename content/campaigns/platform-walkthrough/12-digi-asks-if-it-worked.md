@@ -4,11 +4,11 @@
 |---|---|
 | Run | Parents, 7 of 13 |
 | Service | DiGi, and the check back (map entries 4 and 21) |
-| Format | Reel, 43 seconds. **Reused:** Film 10, "DiGi learns you", built 4 November and never posted |
+| Format | Reel, 43 seconds. **Reused:** Film 10, "DiGi learns you", built 4 November and never posted. Cover frame **built** |
 | Channels | Guided Childhood Instagram and Facebook Reels, TikTok cut |
 | Proposed | Friday 4 December, 19:00 |
 | Free step | The stage check |
-| Files | `content/packs/2026-10-09-digi-shorts/films/digi-short-10-learns.mp4` and `digi-short-10-learns-tt.mp4` (post the files with no suffix) |
+| Files | `content/packs/2026-10-09-digi-shorts/films/digi-short-10-learns.mp4` and `digi-short-10-learns-tt.mp4` (post the files with no suffix); cover at `built/12-digi-asks-if-it-worked/cover.png` |
 
 ## Hook
 

@@ -4,10 +4,11 @@
 |---|---|
 | Run | Playlists, 3 of 3. **The playlists objection post** |
 | Service | The Social Billboard: the question every parent asks, and the free playlist |
-| Format | One card, 1080 by 1350, with a square twin. Not built |
+| Format | One card, 1080 by 1350. **Built** |
 | Channels | The Social Billboard Instagram and Facebook |
 | Proposed | Sunday 6 December, 10:00 |
 | Free step | The first playlist: `thesocialbillboard.com/safe-youtube-for-kids` |
+| Files | `built/13-playlists-is-this-just-youtube-kids/`, deck at `tools/tsb-playlist-card/decks/walkthrough-03-is-this-just-youtube-kids.json` |
 
 ## Hook
 
@@ -71,9 +72,9 @@ Justin
 
 ## Visual brief
 
-- White slide, black Montserrat, the question in the one yellow highlight.
-  The same masthead and session bar as posts 3 and 8, with the END block
-  filled, because this is the last of the three.
+- Black slide, white Montserrat, "YouTube Kids?" in the one yellow, the same
+  masthead as posts 3 and 8. The white slide was tried and dropped: the
+  template highlights in red on white, and red is not for this.
 - No YouTube logo, no screenshot of YouTube Kids, no red.
 
 ## Proof

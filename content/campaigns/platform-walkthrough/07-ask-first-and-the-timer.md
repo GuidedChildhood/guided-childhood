@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 4 of 13 |
 | Service | Ask first, and the timer you can both see (map entry 1) |
-| Format | Reel, about 28 seconds. Not built |
+| Format | Reel, 34 seconds, 1080 by 1920. **Built** |
 | Channels | Guided Childhood Instagram and Facebook Reels, TikTok cut |
 | Proposed | Friday 27 November, 19:00 |
 | Free step | The stage check |
+| Files | `built/07-ask-first-and-the-timer/two-more-minutes.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-07.json` |
 
 ## Hook
 
@@ -15,15 +16,17 @@
 
 ## Script, shot by shot
 
-| Beat | On screen | Real screen |
+| Time | On screen | Real screen |
 |---|---|---|
-| Open | A THING CHILDREN SAY. "Two more minutes." | None |
-| 1 | First, they ask. | The child's ask screen: what will you use, how long |
-| 2 | You get it on your phone. | "Sam is asking for 30 minutes." Yes, or Not yet |
-| 3 | You both watch the same clock. | The timer running, 19:57 |
-| 4 | The timer says stop. Not you. | The timer ending: "Time for offline fun!" |
-| 5 | Inside bedtime, it still comes to you as an ask. | The ask pop up in a protected window |
-| End | INSIDE GUIDED CHILDHOOD, 4 OF 13. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-07` | End card |
+| 0.0 | A THING CHILDREN SAY. "Two more minutes." Then: INSIDE GUIDED CHILDHOOD, 4 OF 13 | None |
+| 3.0 | It is never two more minutes. | None |
+| 5.4 | ASK FIRST. 1. First, they ask | The child's app: "Asked your grown up for 30 min on the TV. Waiting for their yes" |
+| 9.4 | ON YOUR PHONE. 2. You say yes, or not yet | "Sam is asking for 30 minutes." Yes, or Not yet |
+| 13.8 | THEIR SCREEN. 3. They start the timer | "They said yes! Tap to start your timer" |
+| 17.4 | ONE CLOCK. 4. You both watch it | The timer counting down from 19:57 |
+| 21.0 | NOT YOU. 5. The timer says stop | "Time for offline fun!" |
+| 24.2 | INSIDE BEDTIME. 6. It still comes to you | "Screens are meant to be resting right now. Saying yes still works." |
+| 28.8 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-07` | End card |
 
 ## Caption, Instagram
 
@@ -79,3 +82,4 @@ What do you say when the time is up?
 
 - The Five O'Clock Handover (13 November) gave the words for the ending. This post shows the timer and does not repeat that carousel.
 - The research on warned endings is about 1 to 5 year olds, so no study appears on screen. The ending is agreed first, not warned.
+- Built 10 November. The old bedtime still carried a real nickname, so that screen was captured again with the film family's name.

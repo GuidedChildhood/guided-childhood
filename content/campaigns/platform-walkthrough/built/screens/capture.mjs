@@ -45,9 +45,12 @@ const SHOTS = [
   ['kid-five', 'ref-kid-five', ['Your five for today', -22], ['Phones down together', 80]],
   ['sticker-book', 'ref-sticker-book', ['MY STICKER BOOK', -24], ['Cosmo', 110]],
   ['kid-week', 'ref-kid-week', ['This week', -10], ['Add to today', 40]],
+  ['ask-bedtime', 'ref-ask-popup?bedtime=1', ['Screen time ask', -30], ['Decide later', 30]],
+  ['kid-asked', 'ref-ask-first?view=child', ['Asked your grown up', -34], ['Waiting for their yes', 30]],
+  ['kid-yes', 'ref-ask-first?view=child', ['They said yes', -34], ['Start my 30 minutes', 34]],
 ]
 
-const args = process.argv.slice(2)
+const args = process.argv.slice(2).filter((a) => a !== '--rows')
 const browser = await chromium.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
 async function open(path, dpr = 3) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: dpr })
@@ -100,6 +103,14 @@ if (args[0] === '--map') {
     const y = Math.max(0, a.top + start[1]), h = b.bottom + end[1] - y
     await page.screenshot({ path: join(HERE, `${name}.png`), fullPage: true, clip: { x: 0, y, width: 390, height: h } })
     console.log(`ok   ${name.padEnd(16)} 390 x ${Math.round(h)}${h > 840 ? '  (taller than the phone frame)' : ''}`)
+    // --rows prints where each line of text sits inside the crop, for the film's camera and highlights.
+    if (process.argv.includes('--rows')) {
+      const rows = await page.evaluate(([y, h]) => { const out = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n
+        while ((n = w.nextNode())) { const t = n.nodeValue.trim(); if (!t) continue; const r = n.parentElement.getBoundingClientRect(); const top = r.top + scrollY - y
+          if (!r.width || top < 0 || top > h) continue; out.push(`     ${String(Math.round(top)).padStart(4)} ${String(Math.round(r.left)).padStart(4)} ${String(Math.round(r.width)).padStart(4)} ${String(Math.round(r.height)).padStart(3)}  ${t.slice(0, 56)}`) }
+        return out }, [y, h])
+      console.log(rows.join('\n'))
+    }
     await page.close()
   }
 }

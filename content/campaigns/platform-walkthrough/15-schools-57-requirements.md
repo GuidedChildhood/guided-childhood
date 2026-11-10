@@ -4,10 +4,11 @@
 |---|---|
 | Run | Schools, 4 of 4. **The schools objection post** |
 | Service | The Hub: the RSHE statutory mapping |
-| Format | One card, 1080 by 1350, with a three page document version for LinkedIn. Not built |
+| Format | One card, 1080 by 1350, and a three page document for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn, the Guided Childhood LinkedIn page |
 | Proposed | Tuesday 8 December, 07:45 |
 | Free step | Request the free pilot: `schools.guidedchildhood.com/pilot` |
+| Files | `built/15-schools-57-requirements/` (3 PNGs and `carousel.pdf`); the card is `01-fifty-seven.png`; deck at `built/decks/15-schools.html` |
 
 ## Hook
 

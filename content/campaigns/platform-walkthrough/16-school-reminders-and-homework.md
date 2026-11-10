@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 9 of 13 |
 | Service | School alerts and reminders, and the homework helper (map entries 7 and 8) |
-| Format | Reel, about 30 seconds. Not built |
+| Format | Reel, 29 seconds, 1080 by 1920. **Built** |
 | Channels | Guided Childhood Instagram and Facebook Reels, TikTok cut |
 | Proposed | Friday 11 December, 19:00, the last full week of term |
 | Free step | The stage check |
+| Files | `built/16-school-reminders-and-homework/ten-past-eight.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-16.json` |
 
 ## Hook
 
@@ -15,14 +16,15 @@
 
 ## Script, shot by shot
 
-| Beat | On screen | Real screen |
+| Time | On screen | Real screen |
 |---|---|---|
-| Open | Christmas jumper day. Nativity costume. Trip money. All this week. | None |
-| 1 | Snap the letter. DiGi reads it. | "Snap it and DiGi reads it", then "Add this reminder" |
-| 2 | Set it once. Every week. | The repeat choice: "Every Tuesday" |
-| 3 | Send it to them. | "Send to Sam", then "Sent to Sam" |
-| 4 | Homework you do not recognise? | "What is this homework?", then "One thing to do tonight" |
-| End | INSIDE GUIDED CHILDHOOD, 9 OF 13. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-16` | End card |
+| 0.0 | ONE WEEK, ONE HEAD. PE kit. Trip money. Christmas jumper day. Then: INSIDE GUIDED CHILDHOOD, 9 OF 13 | None |
+| 3.8 | One place. Tick it off. | None |
+| 6.2 | SCHOOL ALERTS. 1. Everything from school, in one place | "This week": Reading record signed and in the bag, Return the consent form |
+| 10.8 | SET IT ONCE. 2. It comes round every week | The same screen, closer: "weekly" and "they get it too" |
+| 15.2 | THEIR APP. 3. It lands with them too | The child's week: "PE kit, and the black shorts not the blue ones" |
+| 19.6 | HOMEWORK. 4. And it explains the homework | "Stuck on tonight's homework? Paste it in. We say what it is for and how the school teaches it." |
+| 24.4 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-16` | End card |
 
 ## Caption, Instagram
 
@@ -87,3 +89,4 @@ What is the one school thing you always remember too late?
 - The service map said not to claim email forwarding. That note is out of date: the Letterbox is live. Check the card still says "Your letterbox is working" before filming.
 - "School chest" is not used anywhere. No parent sees that name.
 - The hook is in the family "we". It is a joke about the parents, not a story about a child.
+- Built 10 November from `ref-school-card`, `ref-kid-week` and `ref-learning-year`. The snap a letter and Letterbox screens are in the captions and not in the film, because no reference page shows them. They can be added from the live app.

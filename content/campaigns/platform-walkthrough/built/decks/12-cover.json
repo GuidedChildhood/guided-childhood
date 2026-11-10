@@ -1,0 +1,10 @@
+{
+ "name": "12-cover",
+ "size": "story",
+ "lead": "digi",
+ "eyebrow": "Inside Guided Childhood &middot; 7 of 13",
+ "numbered": false,
+ "cards": [
+  {"name": "cover", "type": "hook", "scale": "h-xl", "headline": "It read your <mark>check in.</mark>", "body": "DiGi asks if it worked."}
+ ]
+}

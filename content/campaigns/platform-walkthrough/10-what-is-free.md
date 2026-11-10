@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 6 of 13. **The second objection post** |
 | Service | The price, said plainly |
-| Format | One card, 1080 by 1350. Not built |
+| Format | One card, 1080 by 1350. **Built** |
 | Channels | Guided Childhood Instagram and Facebook |
 | Proposed | Tuesday 1 December, 19:00 |
 | Free step | The stage check |
+| Files | `built/10-what-is-free/01-what-is-free.png`, deck at `built/decks/10-what-is-free.json` |
 
 ## Hook
 

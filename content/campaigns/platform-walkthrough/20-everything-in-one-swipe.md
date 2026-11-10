@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 13 of 13. **The recap** |
 | Service | The index of the whole run |
-| Format | Carousel, 10 cards. Pin it. Not built |
+| Format | Carousel, 7 cards, 1080 by 1350. Pin it. **Built** |
 | Channels | Guided Childhood Instagram (pinned) and Facebook. A longer version for Justin's LinkedIn that indexes all three platforms |
 | Proposed | Sunday 20 December, 19:30, the first Sunday of the holidays |
 | Free step | The stage check |
+| Files | `built/20-everything-in-one-swipe/`, deck at `built/decks/20-everything-in-one-swipe.json` |
 
 ## Hook
 
@@ -15,21 +16,17 @@
 
 ## Slides
 
-One line a piece, each with the number of the post that showed it, so a
-parent can go back and find it.
+One line a piece, numbered as the posts were, so a parent can go back and find each one.
 
 | Card | Words |
 |---|---|
-| 1 | INSIDE GUIDED CHILDHOOD · 13 OF 13. Twelve things we built so you can stop policing. Save this one. |
-| 2 | 1. The plan in four moves. 2. Jobs, stars and minutes: the price, written down. |
-| 3 | 3. Every device set up once. 4. They ask first, and you both watch the timer. |
-| 4 | 5. The words, for you and for them. 6. What is free, and what it costs after. |
-| 5 | 7. DiGi, which asks if it worked. 8. One tap a day, and you can see what moved. |
-| 6 | 9. School reminders that go to them. 10. 47 things that come out of a printer. |
-| 7 | 11. Five stages and a passport. 12. Their own app, with no login. |
-| 8 | What is not in it. No ban. No spying. No chatbot for your child. No overall score. |
-| 9 | Not a ban. A plan. |
-| 10 | What stage is your child? Three questions. No sign up. Link in bio. |
+| 1 | INSIDE GUIDED CHILDHOOD · 13 OF 13. Twelve things we built so you can stop policing. |
+| 2 | The deal. 1. The plan, in four moves. 2. Jobs, stars and minutes. 3. Every device, set up once. 4. Ask first, and the timer. |
+| 3 | The words. 5. The words, for you and for them. 6. What is free, and what it costs. 7. DiGi, which asks if it worked. 8. One tap a day, and what moved. |
+| 4 | The rest of the house. 9. School reminders and homework. 10. 47 things to print. 11. Five stages and a passport. 12. Their own app, no login. |
+| 5 | What is not in it. No ban. No spying. No chatbot for your child. No family score. |
+| 6 | What stage is your child? Three questions. No sign up. Link in bio. |
+| 7 | Keep this one. Save this one. It is the index. Send it to the parent who is tired of policing. |
 
 ## Caption, Instagram
 

@@ -4,10 +4,11 @@
 |---|---|
 | Run | Parents, 12 of 13 |
 | Service | The child's app, the games, and AI (map entries 11 and 16) |
-| Format | Reel, about 30 seconds. Not built |
+| Format | Reel, 32 seconds, 1080 by 1920. **Built** |
 | Channels | Guided Childhood Instagram and Facebook Reels, TikTok cut |
 | Proposed | Friday 18 December, 19:00, the last day of term |
 | Free step | The stage check |
+| Files | `built/19-the-childs-app/their-side-of-it.mp4`, cut at `videos/2026-10-09-digi-shorts/cuts/walkthrough-19.json` |
 
 ## Hook
 
@@ -15,16 +16,16 @@
 
 ## Script, shot by shot
 
-| Beat | On screen | Real screen |
+| Time | On screen | Real screen |
 |---|---|---|
-| Open | Every screen time app is built for the parent. | None |
-| 1 | So we built one for them. A link. No login. No account. | The child's home |
-| 2 | Their five for today. | "Your five for today" |
-| 3 | Their stars, and what they are saving for. | The balance |
-| 4 | They can pitch a job. You approve it. | "Got a quest idea?", Pitch it |
-| 5 | Games that teach the hard stuff. Real or Fake? Scam or Safe? | The games |
-| 6 | And no chatbot. Your child never chats with an AI here. | The child's home again |
-| End | INSIDE GUIDED CHILDHOOD, 12 OF 13. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-19` | End card |
+| 0.0 | THE PROBLEM. Every screen time app is built for the parent. Then: INSIDE GUIDED CHILDHOOD, 12 OF 13 | None |
+| 3.6 | So we built one for them. | None |
+| 6.0 | A LINK. NO LOGIN. 1. Their own app | The child's home: "Go Sam! 3 of your five to go." |
+| 10.4 | FIVE A DAY. 2. Their five for today | "Your five for today": Screen break together |
+| 14.8 | THEIR IDEA, YOUR YES. 3. They can pitch a job | "Got a quest idea? … Your grown up says yes and it turns into a real quest with stars." |
+| 19.2 | PLANET FRIENDS. 4. Friends to bring home | The sticker book: "Finish full days to bring them home" |
+| 23.6 | No chatbot. Your child never chats with an AI here. | None |
+| 27.0 | One plan for screens, phones and AI. What stage is your child? Three questions, no sign up. `guidedchildhood.com/v/tour-19` | End card |
 
 ## Caption, Instagram
 
@@ -95,3 +96,4 @@ What job would your child pitch if you let them name the price?
 - **One exception to say honestly if asked.** For ages 10 and over there is a homework hint card: one fixed card, no follow up box, nothing stored. That is not a chat, and "never chats with an AI" is the rule as Justin worded it on 16 October. The Facebook text says "chats", not "no AI anywhere".
 - The service map's hook for this entry ("The app my daughter opens…") is a story about one of the children, so it is not used. Its AI hook names the youngest and is not used either.
 - No claim about what the games do for a child. They pay stars for getting it right.
+- Built 10 November. The games are in the captions and not in the film, because no reference page shows them. The sticker book takes that beat.

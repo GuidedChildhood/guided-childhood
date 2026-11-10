@@ -1,0 +1,412 @@
+{
+ "name": "walkthrough-04",
+ "music": {
+  "file": "music-leberch.mp3",
+  "mediaStart": 12.3,
+  "lane": [
+   [
+    0,
+    0
+   ],
+   [
+    1.0,
+    0.2
+   ],
+   [
+    5.6,
+    0.15
+   ],
+   [
+    6.1,
+    0.3
+   ],
+   [
+    30.4,
+    0.3
+   ],
+   [
+    33.4,
+    0
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "id": "open",
+   "dur": 3.4,
+   "fadeIn": 0,
+   "overlays": [
+    {
+     "kind": "eyebrow",
+     "text": "A thing children say",
+     "y": 330,
+     "t0": 0,
+     "instant": true
+    },
+    {
+     "kind": "pill",
+     "text": "“Can I have ten more minutes?”",
+     "y": 430,
+     "t0": 0,
+     "typed": 0.16,
+     "typedFrom": 3,
+     "instant": true
+    },
+    {
+     "kind": "marker",
+     "text": "Inside Guided Childhood. 2 of 13",
+     "y": 1090,
+     "t0": 1.2
+    },
+    {
+     "kind": "eyebrow",
+     "text": "An example family. Real app screens.",
+     "y": 1300,
+     "t0": 1.8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-tap",
+     "at": 0.4,
+     "vol": 0.14
+    },
+    {
+     "name": "sfx-tap",
+     "at": 1.0,
+     "vol": 0.14
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "dur": 2.6,
+   "overlays": [
+    {
+     "kind": "hook",
+     "text": "We wrote down",
+     "y": 640,
+     "t0": 0.15
+    },
+    {
+     "kind": "hook",
+     "text": "the price.",
+     "y": 780,
+     "t0": 0.7
+    },
+    {
+     "kind": "support",
+     "text": "Jobs. Stars. Minutes.",
+     "y": 960,
+     "t0": 1.2
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.15,
+     "vol": 0.3
+    },
+    {
+     "name": "sfx-land",
+     "at": 0.7,
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "dur": 4.6,
+   "src": "captures/wt/jobs-board.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 2.2,
+     "fx": 195,
+     "fy": 0,
+     "py": 620,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 1,
+     "eyebrow": "Family quests",
+     "text": "You set the jobs",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 54,
+     "y": 392,
+     "w": 270,
+     "h": 23,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 54,
+     "y": 417,
+     "w": 150,
+     "h": 23,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 1848,
+   "clipH": 500
+  },
+  {
+   "id": "s2",
+   "dur": 4.6,
+   "src": "captures/wt/kid-jobs.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 2,
+     "eyebrow": "Their app",
+     "text": "They tick them off",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 80,
+     "y": 519,
+     "w": 112,
+     "h": 22,
+     "t0": 1.1
+    },
+    {
+     "cls": "ripple",
+     "x": 322,
+     "y": 462,
+     "w": 44,
+     "h": 44,
+     "t0": 3.0
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 3.0,
+     "vol": 0.5
+    }
+   ],
+   "srcH": 816,
+   "cropTop": 240,
+   "clipH": 600
+  },
+  {
+   "id": "s3",
+   "dur": 4.4,
+   "src": "captures/ask-first-parent.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 2.7,
+     "fx": 195,
+     "fy": 105,
+     "py": 1010,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 3,
+     "eyebrow": "Ask first",
+     "text": "Stars turn into minutes",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 31,
+     "y": 107,
+     "w": 236,
+     "h": 25,
+     "t0": 1.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "cropTop": 52,
+   "clipH": 266
+  },
+  {
+   "id": "s4",
+   "dur": 4.2,
+   "src": "captures/wt/kid-jobs.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "S": 2.9,
+     "fx": 195,
+     "fy": 0,
+     "py": 700,
+     "t": 0
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 4,
+     "eyebrow": "On purpose",
+     "text": "Outside pays the most",
+     "y": 300,
+     "t0": 0.15
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 80,
+     "y": 724,
+     "w": 112,
+     "h": 22,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 816,
+   "cropTop": 620,
+   "clipH": 800
+  },
+  {
+   "id": "s5",
+   "dur": 4.6,
+   "src": "captures/wt/ask-bedtime.png",
+   "fadeIn": 0.2,
+   "cam": [
+    {
+     "t": 0,
+     "S": 2.6,
+     "fx": 195,
+     "fy": 0,
+     "py": 640
+    }
+   ],
+   "overlays": [
+    {
+     "kind": "step",
+     "n": 5,
+     "eyebrow": "Bedtime, meals, school",
+     "text": "Some time is not for sale",
+     "y": 300,
+     "t0": 0.15
+    },
+    {
+     "kind": "label",
+     "text": "It still comes to you as an ask",
+     "y": 530,
+     "t0": 0.4
+    }
+   ],
+   "inScreen": [
+    {
+     "cls": "hl",
+     "x": 49,
+     "y": 208,
+     "w": 290,
+     "h": 21,
+     "t0": 1.1
+    },
+    {
+     "cls": "hl",
+     "x": 49,
+     "y": 229,
+     "w": 232,
+     "h": 21,
+     "t0": 1.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-pop",
+     "at": 0.15,
+     "vol": 0.35
+    }
+   ],
+   "srcH": 399
+  },
+  {
+   "id": "end",
+   "dur": 5.0,
+   "overlays": [
+    {
+     "kind": "digi",
+     "x": 405,
+     "y": 120,
+     "size": 270,
+     "t0": 0
+    },
+    {
+     "kind": "end",
+     "y": 420,
+     "tagline": "One plan for screens, phones and AI.",
+     "eyebrow": "Inside Guided Childhood. 2 of 13",
+     "line": "What stage is your child?",
+     "sub": "Three questions, no sign up. See what to do tonight.",
+     "button": "Find my child's stage",
+     "url": "guidedchildhood.com/v/tour-04",
+     "slate": "An example family. Real app screens.",
+     "t0": 0.3,
+     "pressAt": 2.6
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sfx-land",
+     "at": 0.25,
+     "vol": 0.35
+    },
+    {
+     "name": "sfx-tap",
+     "at": 2.9,
+     "vol": 0.4
+    }
+   ]
+  }
+ ]
+}
