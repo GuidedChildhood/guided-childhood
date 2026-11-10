@@ -355,3 +355,7 @@ Justin said yes to the look of posts 1 to 3, so the other seventeen were built t
 ## 10 November 2026: the French scheme syncs every night
 
 Justin said yes to a nightly sync. `languages-sync.yml` reads the author's data each night and, only when it changed, opens or refreshes one pull request (`languages/french-sync`) with the new `fr.json`; merging it is what goes live. The sync script now refuses to write a file whose shape the pages could not draw. Slides, songs and sheets are not in this: they load from her site as they are.
+
+## 10 November 2026: the Research Radar and ChatGPT run as one gated pipeline
+
+Justin asked for an audit and repair of the Claude and ChatGPT workflow. The audit found the repo manifest, the Drive manifest and the live register each giving a different record count (14, 25, 16), and the queue pointing Stage 2 at a handoff doc he had already retitled superseded. Decided: GitHub owns post numbers, research history and publication status; Drive holds stamped copies (source commit, content digest, facts digest) that are only counted as synced after a readback compares. Every gate returns PASS or HOLD with reasons, and a HOLD never continues quietly. What is still manual, and said so on the dashboard: the copy to Drive is a Claude step, ChatGPT cannot see GitHub or be started by Claude, and approval, posting and the link stay with Justin. `scripts/radar/README.md` is the operating guide; `npm run radar-pipeline-test` is the proof. PR 1482.

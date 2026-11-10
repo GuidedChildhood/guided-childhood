@@ -254,6 +254,46 @@ check('it is caught at the opening too', dupe.reasons.some((x) => /opening is no
 check('the duplication corpus is the real archive, not a stub', corpus.length >= 20, `${corpus.length} posts with bodies`)
 
 // ===========================================================================
+section('THE PACK FORMAT, the way a pack comes back from Stage 2')
+// ===========================================================================
+const F = await import('./packformat.mjs')
+const gp = goodPack()
+const packDoc = [
+  `RESEARCH ID: ${gp.researchId}`, `GDC POST NUMBER: ${gp.gdcPostNumber}`, 'HANDOFF VERSION: 1', `SOURCE COMMIT: ${gp.sourceCommit}`, 'STATUS: DRAFT', '',
+  '=== LINKEDIN POST ===', '(250 to 450 words. The closing question is the last sentence. No link. No dashes.)', gp.linkedin.body, '',
+  '=== FIRST COMMENT ===', gp.linkedin.firstComment, '',
+  '=== INSTAGRAM CAPTION ===', '',
+  '=== VISUAL BRIEF ===', gp.visual.brief, '',
+  '=== ASSETS USED ===', gp.visual.assetsUsed[0], '',
+  '=== SOURCES ===', 'https://doi.org/10.1177/13591045261487468',
+].join('\n')
+const parsed = F.parsePackText(packDoc)
+check('a pack document parses into its research ID, number, version and commit',
+  parsed.researchId === ID && parsed.gdcPostNumber === '054' && parsed.handoffVersion === 1 && parsed.sourceCommit === gp.sourceCommit)
+check('the post body survives the trip word for word', parsed.linkedin?.body === gp.linkedin.body)
+check('template guidance left in brackets is not read as copy', !/250 to 450 words/.test(parsed.linkedin?.body || ''))
+check('an empty section is absent rather than an empty string', parsed.instagram === undefined)
+check('the parsed pack passes the same QA as the object did', Q.checkPack(parsed).verdict === 'PASS', Q.checkPack(parsed).failures.map((f) => f.check).join(' | '))
+// The same document as Drive hands it back: bold labels, escaped punctuation.
+const asDrive = packDoc.replace(/^(RESEARCH ID|GDC POST NUMBER|HANDOFF VERSION|SOURCE COMMIT|STATUS):/gm, '**$1:**')
+  .replace(/^=== (.+) ===$/gm, '## \\=== $1 \\===').replace(/_/g, '\\_').replace(/\./g, '\\.')
+const parsedDrive = F.parsePackText(asDrive)
+check('the same pack read back through Drive, with its markdown, parses the same',
+  parsedDrive.researchId === ID && parsedDrive.gdcPostNumber === '054' && parsedDrive.linkedin?.body === gp.linkedin.body && parsedDrive.visual?.assetsUsed?.length === 1,
+  JSON.stringify({ id: parsedDrive.researchId, n: parsedDrive.gdcPostNumber, body: (parsedDrive.linkedin?.body || '').length }))
+const noHeader = F.parsePackText('=== LINKEDIN POST ===\n' + gp.linkedin.body)
+const noHeaderQa = Q.checkPack(noHeader)
+check('a pack with no header is a HOLD that names what is missing',
+  noHeaderQa.verdict === 'HOLD' && noHeaderQa.failures.some((f) => /research ID/.test(f.check)) && noHeaderQa.failures.some((f) => /post number/.test(f.check)))
+const brief = F.stage2Brief()
+check('the Stage 2 brief names the story, its number and every cleared figure',
+  brief.text.includes(ID) && /GDC post number: 054/.test(brief.text) && brief.text.includes('r = 0.308') && brief.text.includes('93.85'))
+check('the Stage 2 brief tells ChatGPT not to claim a number', /Do not use it/.test(brief.text) && /claimed in GitHub and nowhere else/.test(brief.text))
+check('the Stage 2 brief carries the commit it was generated from', brief.text.includes(C.repoState().commit))
+check('the Stage 2 brief contains no dash', !/[\u2010-\u2015\u2212]/.test(brief.text))
+check('the pack template inside the brief parses back to the right story', F.parsePackText(F.packTemplate({ researchId: ID, gdcPostNumber: '054', handoffVersion: 2, sourceCommit: 'abc' })).researchId === ID)
+
+// ===========================================================================
 section('THE CLEAN RUN, start to finish')
 // ===========================================================================
 check('the handoff rebuilds once the number conflict is gone', P.handoff(ID).verdict === 'PASS')

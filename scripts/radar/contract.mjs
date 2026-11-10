@@ -297,7 +297,10 @@ export function validateSnapshot(obj, { expectRole = null, freshPayload = null, 
  */
 export function unmangle(text) {
   return String(text || '')
-    .replace(/\\([[\]_*`#.\-+!(){}>~|])/g, '$1')
+    // Punctuation markdown escapes. Deliberately NOT the double quote, the
+    // slash or the backslash itself: those are real escapes inside a JSON
+    // string, and stripping them would corrupt the thing being verified.
+    .replace(/\\([[\]_*`#.\-+!(){}>~|=<&$])/g, '$1')
     .replace(/ /g, ' ')
     .trim()
 }
