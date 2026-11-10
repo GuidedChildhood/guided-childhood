@@ -14,6 +14,22 @@
     "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f"
    },
    "at": "2026-11-10T12:19:52.916Z"
+  },
+  "handoff:GDC-RR-0754a1641c": {
+   "role": "handoff",
+   "studyId": "GDC-RR-0754a1641c",
+   "fileId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
+   "title": "RESEARCH HANDOFF GDC-RR-0754a1641c, GDC-054, v2, machine readable [a35c17b4]",
+   "commit": "a35c17b425205c2253005a95d2a9e67612cdadba",
+   "factsSha256": "fefee7ec2587a9d5c4ec1def805f0689c706fcb9303fdb65e120ec5a93e2a345",
+   "sha256": "f8ea9b260103f4d0701f9c531687c671a011f5f689ad62aece854753411b9da4",
+   "verification": {
+    "ok": true,
+    "level": "SIZE, HEAD AND TAIL",
+    "problems": [],
+    "note": "Stored size is exactly 14381 bytes and 563 leading plus 36 trailing base64 characters match. Not a full byte comparison."
+   },
+   "at": "2026-11-10T12:40:17.774Z"
   }
  },
  "failures": [
@@ -35,5 +51,5 @@
    "verdict": "FAILED VERIFICATION"
   }
  ],
- "lastSuccessAt": "2026-11-10T12:19:52.916Z"
+ "lastSuccessAt": "2026-11-10T12:40:17.774Z"
 }

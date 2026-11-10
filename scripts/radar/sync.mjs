@@ -131,9 +131,9 @@ export function prepareSnapshot(roleName, { studyId = null } = {}) {
  * whose readback did not match, which is what makes the dashboard's "last
  * successful synchronisation" mean something.
  */
-export function acceptSnapshot({ role, fileId, title, sentText, readBackText = null, download = null, studyId = null }) {
+export function acceptSnapshot({ role, fileId, title, sentText, readBackText = null, download = null, studyId = null, verification = null }) {
   // Prefer the true bytes. The markdown readback is the fallback, and weaker.
-  const v = download ? verifyDownload(sentText, download) : verifyReadback(sentText, readBackText)
+  const v = verification || (download ? verifyDownload(sentText, download) : verifyReadback(sentText, readBackText))
   const state = loadState()
   const entry = {
     role,
@@ -158,6 +158,9 @@ export function acceptSnapshot({ role, fileId, title, sentText, readBackText = n
       'The Drive copy must be treated as unusable until this is resolved. Nothing downstream may read it.' }
   }
   state.verified[studyId ? `${role}:${studyId}` : role] = entry
+  // A verified copy answers any earlier failed attempt for the same role, so
+  // the dashboard shows what is wrong now rather than what was wrong once.
+  state.failures = (state.failures || []).filter((f) => !(f.role === role && (f.studyId || null) === (studyId || null)))
   state.lastSuccessAt = entry.at
   saveState(state)
   return { ok: true, verdict: 'SYNCED', verification: v, message:

@@ -94,11 +94,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 17,
+   "version": 18,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-10T12:37:48.411Z",
-   "changeReason": "HANDOFF: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-10T12:40:17.778Z",
+   "changeReason": "handoff version 2 copied to Drive as a Doc and as JSON, both read back and verified",
+   "changedBy": "radar:sync",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
     "checkedAt": "2026-11-09T14:35:35.470Z",
@@ -266,19 +266,27 @@
     "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
     "builtAt": "2026-11-10T12:37:48.406Z"
    },
-   "driveHandoffDoc": "https://docs.google.com/document/d/1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8/edit",
+   "driveHandoffDoc": "https://docs.google.com/document/d/1GN4wkAFgUrIO5DPE_TpIvZz9t9ehcCg8cSUZFeQ-i-c/edit",
    "driveFolder": "https://drive.google.com/drive/folders/10TsNEU7FDxBp52te-xtytQ9yY-_ON-fN",
    "gdcPostNumber": "054",
    "childIsTheSubject": true,
-   "driveHandoffDocId": "1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8",
+   "driveHandoffDocId": "1GN4wkAFgUrIO5DPE_TpIvZz9t9ehcCg8cSUZFeQ-i-c",
    "supersededDriveDocs": [
-    "1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw"
+    "1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw",
+    "1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8"
    ],
    "gate": {
     "verdict": "PASS",
     "stage": "HANDOFF",
     "reasons": [],
     "at": "2026-11-10T12:37:48.411Z"
+   },
+   "driveHandoffJsonId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
+   "driveHandoffVerified": {
+    "json": "SIZE, HEAD AND TAIL",
+    "doc": "HEAD, TAIL AND PROBES",
+    "at": "2026-11-10T12:40:17.777Z",
+    "handoffVersion": 2
    }
   },
   "GDC-RR-04ce5786d0": {

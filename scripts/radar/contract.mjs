@@ -80,7 +80,10 @@ export function repoState() {
     try { return execFileSync('git', args, { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() } catch { return dflt }
   }
   const commit = git(['rev-parse', 'HEAD'], 'unknown')
-  const dirty = git(['status', '--porcelain'], '')
+  // sync-state.json is a log of what was verified in Drive. It is written by
+  // the act of syncing, goes into no payload, and so does not make a snapshot
+  // unreproducible. Counting it would mark every second snapshot DIRTY.
+  const dirty = git(['status', '--porcelain'], '').split('\n').filter((l) => l && !l.endsWith('content/research-register/sync-state.json')).join('\n')
   return {
     commit,
     shortCommit: commit.slice(0, 8),
@@ -364,6 +367,30 @@ export function verifyDownload(sentText, { base64 = null, storedSize = null, hea
   if (problems.length) return { ok: false, level: 'DIFFERENT', problems }
   return { ok: true, level: 'SIZE, HEAD AND TAIL', problems: [],
     note: `Stored size is exactly ${sent.length} bytes and ${String(headB64).length} leading plus ${String(tailB64).length} trailing base64 characters match. Not a full byte comparison.` }
+}
+
+/**
+ * Verify a Google Doc against the text it was made from.
+ *
+ * A converted Doc cannot be compared byte for byte: Drive reflows it and the
+ * read call escapes punctuation. So this takes the start, the end and a set of
+ * lines copied from the readback, and checks the sent text begins with the
+ * first, ends with the second and contains every one of the rest. It proves
+ * the document is whole and is the right one. It does not prove every
+ * character in between, and the level it reports says so.
+ */
+export function verifyDocProbe(sentText, { head, tail, contains = [] } = {}) {
+  const norm = (x) => unmangle(x).replace(/\s+/g, ' ').trim()
+  const sent = norm(sentText)
+  const problems = []
+  if (!head || !sent.startsWith(norm(head))) problems.push('the document does not start the way the sent text starts')
+  if (!tail || !sent.endsWith(norm(tail))) problems.push('the document does not end the way the sent text ends, so it may be cut short')
+  const missing = contains.filter((c) => !sent.includes(norm(c)))
+  if (missing.length) problems.push(`${missing.length} line(s) read back from the document are not in the sent text: ${missing.map((m) => String(m).slice(0, 50)).join(' | ')}`)
+  if (contains.length < 3) problems.push('fewer than three probe lines were supplied, which is too few to call it checked')
+  if (problems.length) return { ok: false, level: 'DIFFERENT', problems }
+  return { ok: true, level: 'HEAD, TAIL AND PROBES', problems: [],
+    note: `A converted Google Doc cannot be compared byte for byte. Start, end and ${contains.length} lines read back from it all match the sent text.` }
 }
 
 /**
