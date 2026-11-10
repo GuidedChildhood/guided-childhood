@@ -1,0 +1,55 @@
+{
+ "name": "09-scripts",
+ "size": "portrait",
+ "lead": "bloop",
+ "eyebrow": "Inside Guided Childhood &middot; 5 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "situation",
+   "eyebrow": "A thing parents say",
+   "tag": "5 of 13",
+   "quote": "Because I said so.",
+   "turn": "You knew what you meant. Then the words went.",
+   "pill": "Swipe &rarr;"
+  },
+  {
+   "name": "written-down",
+   "type": "shot",
+   "headline": "So we wrote the words down.",
+   "image": "content/campaigns/platform-walkthrough/built/screens-live/scripts.png",
+   "width": 880,
+   "top": 350
+  },
+  {
+   "name": "one-card",
+   "type": "shot",
+   "headline": "One card at a time.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/script-say.png",
+   "width": 420,
+   "top": 350
+  },
+  {
+   "name": "rehearse",
+   "type": "text",
+   "headline": "Rehearse it first.",
+   "body": "Practise with DiGi before the real conversation. Then tell us which line worked, and the next script starts there."
+  },
+  {
+   "name": "their-words",
+   "type": "shot",
+   "headline": "Your child gets words too.<br>And a promise from you.",
+   "image": "content/campaigns/platform-walkthrough/built/screens-live/tell-a-parent.png",
+   "width": 860,
+   "top": 440,
+   "image2": "content/campaigns/platform-walkthrough/built/screens-live/tell-a-parent-promise.png",
+   "top2": 925
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save it for the next conversation you are dreading.",
+   "send": "Send it to the parent who rehearses it all day."
+  }
+ ]
+}

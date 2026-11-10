@@ -1,0 +1,69 @@
+{
+ "name": "20-everything-in-one-swipe",
+ "size": "portrait",
+ "lead": "digi",
+ "eyebrow": "Inside Guided Childhood &middot; 13 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "hook",
+   "scale": "h-l",
+   "headline": "Twelve things<br>we built so you<br>can <mark>stop policing.</mark>"
+  },
+  {
+   "name": "one-to-four",
+   "type": "list",
+   "headline": "The deal",
+   "items": [
+    "The plan, in four moves",
+    "Jobs, stars and minutes",
+    "Every device, set up once",
+    "Ask first, and the timer"
+   ]
+  },
+  {
+   "name": "five-to-eight",
+   "type": "list",
+   "start": 5,
+   "headline": "The words",
+   "items": [
+    "The words, for you and for them",
+    "What is free, and what it costs",
+    "DiGi, which asks if it worked",
+    "One tap a day, and what moved"
+   ]
+  },
+  {
+   "name": "nine-to-twelve",
+   "type": "list",
+   "start": 9,
+   "headline": "The rest of the house",
+   "items": [
+    "School reminders and homework",
+    "47 things to print",
+    "Five stages and a passport",
+    "Their own app, no login"
+   ]
+  },
+  {
+   "name": "not-in-it",
+   "type": "big",
+   "tone": "ink",
+   "headline": "What is <mark>not</mark> in it.",
+   "body": "No ban. No spying. No chatbot for your child. No family score."
+  },
+  {
+   "name": "stage-check",
+   "type": "cta",
+   "headline": "What stage is your child?",
+   "body": "Three questions. No sign up.",
+   "pill": "Link in bio"
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save this one. It is the index.",
+   "send": "Send it to the parent who is tired of policing."
+  }
+ ]
+}

@@ -110,6 +110,12 @@ svg.road{position:absolute;left:0;top:0;pointer-events:none;z-index:2;}
 /* ---------------- format pieces ---------------- */
 .qmark{font-weight:900;font-size:220px;line-height:.6;color:var(--accent);height:110px;}
 
+/* A real screen capture in a frame. The road is allowed to pass behind it
+   (GDC_SOCIAL_VISUAL_SYSTEM.md, section 6), so a tall phone screen can run
+   down to the foot of the card and stay readable. Added 10 November 2026. */
+.shot{position:absolute;z-index:5;border:3px solid var(--ink);border-radius:28px;overflow:hidden;background:#fff;
+  box-shadow:0 8px 0 var(--ink),0 30px 60px rgba(26,26,46,.14);}
+.shot img{display:block;width:100%;}
 .sheet-img{position:absolute;z-index:3;background:#fff;box-shadow:0 24px 50px rgba(26,26,46,.16);
   outline:1px solid rgba(26,26,46,.06);transform:rotate(-2.5deg);}
 
@@ -159,6 +165,11 @@ svg.road{position:absolute;left:0;top:0;pointer-events:none;z-index:2;}
 .band .age small{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;}
 .band .what{padding:22px 30px 22px 26px;display:flex;align-items:center;}
 .band .what p{font-weight:700;font-size:32px;line-height:1.28;color:var(--ink);}
+/* Five bands (the whole road, 4 to 16) need a tighter row to clear the road. */
+.bands.tight{gap:14px;}
+.bands.tight .age{padding:10px 8px;gap:3px;}
+.bands.tight .age img{width:54px;height:54px;}
+.bands.tight .what{padding:12px 30px 12px 26px;}
 
 /* a counted list: only when the number is true (five good things) */
 .items{display:flex;flex-direction:column;gap:30px;}
@@ -301,6 +312,12 @@ function inner(c, ctx){
       ${c.body ? `<p class="body" style="margin-top:40px">${c.body}</p>` : ''}
       ${c.pill ? `<div style="margin-top:48px"><span class="pill">${c.pill}</span></div>` : ''}`;
 
+  /* A real screen with one line above it. image, width, top; image2 for a second frame. */
+  case 'shot':
+    return `<div class="${c.scale || 'h-s'}">${c.headline}</div>
+      ${c.body ? `<p class="body" style="margin-top:24px;max-width:none">${c.body}</p>` : ''}
+      ${c.caption ? `<div class="label" style="margin-top:22px">${c.caption}</div>` : ''}`;
+
   case 'quote':
     return `<div class="qmark">&ldquo;</div>
       <div class="${c.scale || 'h-m'}">${c.quote}</div>
@@ -315,7 +332,7 @@ function inner(c, ctx){
 
   case 'ages':
     return `${c.headline ? `<div class="${c.scale || 'h-s'}" style="margin-bottom:40px">${c.headline}</div>` : ''}
-      <div class="bands">${(c.bands || []).map(b => {
+      <div class="bands${(c.bands || []).length > 4 ? ' tight' : ''}">${(c.bands || []).map(b => {
         const f = LEADS[b.friend || friendForAge(b.age)] || LEADS.digi;
         return `<div class="band"><div class="age" style="background:${f.soft};color:${f.ink}">
           <img src="${ROOT + f.art}"><b>${b.age}</b><small>${b.stage || ''}</small></div>
@@ -324,7 +341,7 @@ function inner(c, ctx){
 
   case 'list':
     return `${c.headline ? `<div class="${c.scale || 'h-s'}" style="margin-bottom:44px">${c.headline}</div>` : ''}
-      <div class="items">${(c.items || []).map((t, n) => `<div class="item"><span class="n">${n + 1}</span><span class="t">${t}</span></div>`).join('')}</div>`;
+      <div class="items">${(c.items || []).map((t, n) => `<div class="item"><span class="n">${n + (c.start || 1)}</span><span class="t">${t}</span></div>`).join('')}</div>`;
 
   case 'photo':
     return `<div class="frame" style="margin-top:40px">
@@ -355,6 +372,10 @@ function extras(c, ctx){
   if (c.type === 'screen' && c.image)
     return `<div class="phone" style="right:80px;top:190px"><img src="${ROOT + c.image}"></div>
       ${c.caption ? `<div class="label" style="position:absolute;right:88px;top:${H - 300}px;text-align:right;font-size:17px;z-index:4">${c.caption}</div>` : ''}`;
+  if (c.type === 'shot' && c.image) {
+    const frame = (img, w, top) => `<div class="shot" style="width:${w}px;left:${(W - w) / 2}px;top:${top}px"><img src="${ROOT + img}"></div>`;
+    return frame(c.image, c.width || 470, c.top || 430) + (c.image2 ? frame(c.image2, c.width2 || c.width || 470, c.top2) : '');
+  }
   if (c.type === 'road')
     return passportHTML(`left:${W - 280}px;top:${H - 880}px;transform:rotate(4deg) scale(.72);transform-origin:top left`) + `<div class="cast"></div>`;
   return '';

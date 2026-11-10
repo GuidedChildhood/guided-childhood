@@ -1,0 +1,58 @@
+{
+ "name": "14-moments-and-the-check-in",
+ "size": "portrait",
+ "lead": "orbit",
+ "eyebrow": "Inside Guided Childhood &middot; 8 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "hook",
+   "scale": "h-l",
+   "headline": "Write the<br>problem down<br><mark>the day it starts.</mark>"
+  },
+  {
+   "name": "name-it",
+   "type": "shot",
+   "headline": "You name what is hard.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/checkin-heard.png",
+   "width": 440,
+   "top": 350
+  },
+  {
+   "name": "starting-line",
+   "type": "shot",
+   "headline": "The first tap is your starting line.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/checkin-first.png",
+   "width": 560,
+   "top": 440
+  },
+  {
+   "name": "one-tap",
+   "type": "shot",
+   "headline": "Then one tap a day.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/checkin-faces.png",
+   "width": 540,
+   "top": 350
+  },
+  {
+   "name": "a-worry-rests",
+   "type": "shot",
+   "headline": "A worry can rest. It is checked again in a week.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/checkin-sorted.png",
+   "width": 760,
+   "top": 460
+  },
+  {
+   "name": "what-moved",
+   "type": "text",
+   "headline": "And you can see what moved.",
+   "body": "No family score. Each worry, where it started and where it is now."
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save it for the day something starts.",
+   "send": "Send it to the parent who cannot tell if anything is getting better."
+  }
+ ]
+}
