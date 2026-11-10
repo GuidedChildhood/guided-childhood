@@ -291,6 +291,18 @@ check('the Stage 2 brief names the story, its number and every cleared figure',
 check('the Stage 2 brief tells ChatGPT not to claim a number', /Do not use it/.test(brief.text) && /claimed in GitHub and nowhere else/.test(brief.text))
 check('the Stage 2 brief carries the commit it was generated from', brief.text.includes(C.repoState().commit))
 check('the Stage 2 brief contains no dash', !/[\u2010-\u2015\u2212]/.test(brief.text))
+// The start here document is tracked for freshness like the JSON beside it.
+const okDoc = { ok: true, level: 'HEAD, TAIL AND PROBES', problems: [] }
+check('a start here document that failed verification is not recorded', !S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: { ok: false, level: 'DIFFERENT', problems: ['cut short'] } }).ok && !S.syncState().roles.stage2Brief)
+check('a verified start here document is recorded as current', S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: okDoc }).ok && S.syncState().roles.stage2Brief.current === true)
+check('regenerating it a moment later does not make it stale', S.briefFacts(F.stage2Brief().text) === S.briefFacts(brief.text))
+reg.upsert({ ...reg.get(ID), editorialPriority: 'HIGH' }, { reason: 'test, the story changes priority after the brief was written', actor: 'test' })
+check('when the story it describes changes, the start here document is stale', S.syncState().roles.stage2Brief.current === false && isHold(S.driveReadable('stage2Brief')))
+reg.upsert({ ...reg.get(ID), editorialPriority: seed.editorialPriority }, { reason: 'test, undo', actor: 'test' })
+check('and current again once the story is back as it was', S.syncState().roles.stage2Brief.current === true)
+check('the doc probe refuses a document that is cut short', !C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'THE NUMBER RULE', contains: ['a', 'b', 'c'] }).ok)
+check('the doc probe accepts the real start, end and lines, through the markdown',
+  C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'Nothing is posted by anyone but him.', contains: ['r = 0.308, 95% CI 0.239 to 0.374, p \\< 0.001, the pooled correlation', 'No dashes anywhere, of any length.', 'STATUS: DRAFT'] }).ok)
 check('the pack template inside the brief parses back to the right story', F.parsePackText(F.packTemplate({ researchId: ID, gdcPostNumber: '054', handoffVersion: 2, sourceCommit: 'abc' })).researchId === ID)
 
 // ===========================================================================

@@ -69,7 +69,7 @@ export function preflight({ postRegisterPath = POST_REGISTER, requireDrive = tru
   }
 
   if (requireDrive) {
-    for (const role of ['manifest', 'postRegister']) {
+    for (const role of ['manifest', 'postRegister', 'stage2Brief']) {
       const g = driveReadable(role)
       if (g.verdict !== 'PASS') reasons.push(...g.reasons)
     }

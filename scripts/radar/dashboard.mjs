@@ -29,7 +29,11 @@ const when = (iso) => {
   const M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   return `${d.getUTCDate()} ${M[d.getUTCMonth()]}, ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')} UTC`
 }
-const clip = (s, n = 110) => (String(s || '').length > n ? `${String(s).slice(0, n - 1).trimEnd()}…` : String(s || ''))
+// A source title is a citation, but this is a page Justin reads, and the house
+// rule is no dashes in anything he reads. A range becomes "to", anything else
+// a comma.
+const plain = (s) => String(s || '').replace(/(\d)\s*[\u2010-\u2015\u2212]\s*/g, '$1 to ').replace(/\s*[\u2010-\u2015\u2212]\s*/g, ', ')
+const clip = (raw, n = 110) => { const s = plain(raw); return s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s }
 
 /** Sort every record into exactly one place on the board. */
 export function collect() {
@@ -138,7 +142,11 @@ export function render(d = collect()) {
     ? `${needsYou} pack${needsYou === 1 ? '' : 's'} waiting for your yes.`
     : blockedCount
       ? `Nothing needs your approval. ${blockedCount} thing${blockedCount === 1 ? ' is' : 's are'} blocked.`
-      : 'Nothing needs you right now.'
+      : g.readyForProduction.length
+        ? `${g.readyForProduction.length} stor${g.readyForProduction.length === 1 ? 'y is' : 'ies are'} ready for ChatGPT to write.`
+        : g.awaitingQa.length
+          ? `${g.awaitingQa.length} draft${g.awaitingQa.length === 1 ? ' is' : 's are'} being checked.`
+          : 'Nothing needs you right now.'
 
   const blockedBody = `<ul class="list">${
     systemBlocks.map((b) => `<li class="row bad"><div class="chips"><span class="chip bad">${esc(b.stage)}</span></div><div class="why">${esc(b.reason)}</div>${b.at ? `<div class="meta">${esc(when(b.at))}</div>` : ''}</li>`).join('')
@@ -153,9 +161,9 @@ export function render(d = collect()) {
   }</ul>`
 
   const syncBody = `<ul class="list">${
-    ['manifest', 'postRegister'].map((role) => {
+    ['stage2Brief', 'manifest', 'postRegister'].map((role) => {
       const r = sync.roles[role]
-      const name = role === 'manifest' ? 'The queue ChatGPT reads' : 'The list of taken post numbers'
+      const name = { stage2Brief: 'The start here document ChatGPT opens first', manifest: 'The queue', postRegister: 'The list of taken post numbers' }[role]
       if (!r) return `<li class="row bad"><div class="rt">${name}</div><div class="chips"><span class="chip bad">never verified in Drive</span></div><div class="why">ChatGPT has nothing safe to read for this yet.</div></li>`
       return `<li class="row ${r.current ? '' : 'bad'}"><div class="rt">${name}</div>
         <div class="chips"><span class="chip ${r.current ? 'good' : 'bad'}">${r.current ? 'in step' : 'out of date'}</span><span class="chip">${esc(String(r.verifiedAt).toLowerCase())}</span></div>
@@ -276,7 +284,7 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
     body: `<ul class="list">${
       g.published.map((p) => `<li class="row"><div class="rt">${esc(clip(p.title))}</div><div class="chips"><span class="chip good">link checked</span></div><div class="meta">${esc(p.url || '')}</div></li>`).join('')
     }${
-      posted.map((p) => `<li class="row"><div class="rt">${esc(p.title)}</div><div class="chips"><span class="chip num">GDC ${esc(p.number)}</span><span class="chip">${esc(p.evidence)}</span></div></li>`).join('')
+      posted.map((p) => `<li class="row"><div class="rt">${esc(plain(p.title))}</div><div class="chips"><span class="chip num">GDC ${esc(p.number)}</span><span class="chip">${esc(p.evidence)}</span></div></li>`).join('')
     }</ul>`, empty: 'Nothing is recorded as posted.' })}
 
   ${section({ id: 'sync', title: 'Drive, last checked copy', count: syncWord, tone: syncTone,
