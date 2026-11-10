@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
+import Reveal from '@/components/Reveal'
 import { eyebrow, panel } from '@/components/ui'
 import { byLevel, LEVEL_LABEL, mediaUrl, type SheetFile } from '@/lib/languages/french'
 
@@ -20,25 +21,39 @@ export const small: CSSProperties = {
 
 export const card: CSSProperties = { ...panel, background: 'var(--white)' }
 
+// On a wide screen the whole trail. On a phone a trail wraps onto two lines
+// and starts the second with an orphan arrow, so it becomes the one thing a
+// thumb wants there: a back link to the parent.
 export function Crumbs({ trail }: { trail: { href?: string; label: string }[] }) {
+  const parent = [...trail].reverse().find(t => t.href)
   return (
-    <nav aria-label="Breadcrumb" style={{ ...eyebrow, display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
-      {trail.map((t, i) => (
-        <span key={i} style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
-          {i > 0 && <span aria-hidden>›</span>}
-          {t.href ? <Link href={t.href} style={{ color: 'var(--ink-muted)', textDecoration: 'none' }}>{t.label}</Link> : <span style={{ color: 'var(--ink)' }}>{t.label}</span>}
-        </span>
-      ))}
+    <nav aria-label="Breadcrumb" className="gc-fr-crumbs" style={{ ...eyebrow, marginBottom: 'var(--space-4)' }}>
+      <span className="gc-fr-crumbs-full" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+        {trail.map((t, i) => (
+          <span key={i} style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
+            {i > 0 && <span aria-hidden>›</span>}
+            {t.href ? <Link href={t.href} style={{ color: 'var(--ink-muted)', textDecoration: 'none' }}>{t.label}</Link> : <span style={{ color: 'var(--ink)' }}>{t.label}</span>}
+          </span>
+        ))}
+      </span>
+      {parent?.href && (
+        <Link className="gc-fr-crumbs-back" href={parent.href} style={{ color: 'var(--ink-muted)', textDecoration: 'none', minHeight: 44, alignItems: 'center' }}>
+          ‹ {parent.label}
+        </Link>
+      )}
+      <style>{`.gc-fr-crumbs-back { display: none } @media (max-width: 640px) { .gc-fr-crumbs-full { display: none !important } .gc-fr-crumbs-back { display: inline-flex } .gc-fr-crumbs { margin-bottom: var(--space-2) !important } }`}</style>
     </nav>
   )
 }
 
+// A section rises in as it arrives (the house Reveal: opacity and transform
+// only, nothing above the fold is ever hidden, reduced motion shows it all).
 export function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <section style={card}>
+    <Reveal as="section" style={card}>
       <h2 style={{ ...langEyebrow, margin: '0 0 var(--space-3)' }}>{label}</h2>
       {children}
-    </section>
+    </Reveal>
   )
 }
 

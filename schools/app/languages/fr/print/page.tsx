@@ -5,7 +5,7 @@ import {
   FRENCH_UNITS, LEVEL_LABEL, lessonsOf, mediaUrl, sheetList,
   type FrenchUnit, type Level, type SheetFile,
 } from '@/lib/languages/french'
-import { body, card, Crumbs, langEyebrow, small } from '../_ui'
+import { body, card, langEyebrow, small } from '../_ui'
 
 // /languages/fr/print: THE FRENCH PRINT ROOM (10 November 2026).
 //
@@ -61,9 +61,8 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
   const total = units.reduce((n, u) => n + groupsOf(u).reduce((m, g) => m + g.files.filter(show).length, 0), 0)
 
   return (
-    <div style={{ maxWidth: '980px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
-        <Crumbs trail={[{ href: '/languages', label: 'Languages' }, { href: '/languages/fr', label: 'French' }, { label: 'Print room' }]} />
         <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Every sheet in one place</p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           French print room

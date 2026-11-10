@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
-import { btnGold, eyebrow } from '@/components/ui'
+import { eyebrow } from '@/components/ui'
 import { FRENCH_UNITS, frenchUnit, KS2_STATEMENTS, lessonsOf, mediaUrl, sheetList, type SheetFile } from '@/lib/languages/french'
 import { body, card, Crumbs, langEyebrow, Section, Sheets, small, Words } from '../_ui'
 
@@ -34,13 +34,17 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
   ].filter(x => x.files.length > 0) : []
 
   return (
-    <div style={{ maxWidth: '920px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
         <Crumbs trail={[{ href: '/languages', label: 'Languages' }, { href: '/languages/fr', label: 'French' }, { label: `Year ${u.year}, half term ${u.ht}` }]} />
         <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Year {u.year} · Half term {u.ht}{p.theme ? ` · ${p.theme}` : ''}</p>
         <h1 lang="fr" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: 0 }}>{u.fr}</h1>
         <p style={{ ...body, fontWeight: 700, color: 'var(--ink)', margin: 'var(--space-1) 0 var(--space-3)' }}>{u.en}</p>
         {(d?.summary || p.summary) && <p style={{ ...body, maxWidth: '680px' }}>{d?.summary ?? p.summary}</p>}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'var(--space-4)' }}>
+          {d && lessons[0]?.deck?.slides && <Link href={`/languages/fr/${u.key}/1/teach`} className="btn btn-gold">Teach lesson 1</Link>}
+          {paperwork.length > 0 && <Link href={`/languages/fr/print#${u.key}`} className="btn btn-outline">Print the sheets</Link>}
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-3)' }}>
@@ -74,8 +78,8 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
       <Section label={`The lessons (${lessons.length})`}>
         <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' }}>
           {lessons.map(l => (
-            <li key={l.n} style={{ borderTop: '1px solid var(--border)' }}>
-              <Link href={`/languages/fr/${u.key}/${l.n}`} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minHeight: 56, padding: 'var(--space-2) 0', textDecoration: 'none', color: 'var(--ink)' }}>
+            <li key={l.n} className="gc-fr-row" style={{ borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Link href={`/languages/fr/${u.key}/${l.n}`} style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minHeight: 56, padding: 'var(--space-2) 0', textDecoration: 'none', color: 'var(--ink)' }}>
                 <span aria-hidden style={{
                   width: 32, height: 32, flexShrink: 0, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   background: 'var(--butter-lt)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
@@ -84,18 +88,31 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
                   <span lang="fr" style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>{l.title}</span>
                   <span style={{ ...small, display: 'block' }}>{l.detail}</span>
                 </span>
-                <span style={{ ...eyebrow, color: l.deck?.slides ? 'var(--retro-green)' : 'var(--ink-light)', whiteSpace: 'nowrap' }}>
-                  {l.deck?.slides ? 'Slides' : 'Plan'}
-                </span>
               </Link>
+              {l.deck?.slides ? (
+                <Link href={`/languages/fr/${u.key}/${l.n}/teach`} className="gc-fr-play" aria-label={`Teach lesson ${l.n}, ${l.title}, on the board`}>
+                  <span aria-hidden>▶</span>
+                </Link>
+              ) : (
+                <span style={{ ...eyebrow, color: 'var(--ink-light)', whiteSpace: 'nowrap' }}>Plan</span>
+              )}
             </li>
           ))}
         </ol>
-        {d && lessons[0] && (
-          <Link href={`/languages/fr/${u.key}/1/teach`} style={{ ...btnGold, marginTop: 'var(--space-3)', textDecoration: 'none' }}>
-            Teach lesson 1
-          </Link>
-        )}
+        <style>{`
+          .gc-fr-row { transition: background-color .15s ease; }
+          .gc-fr-row:hover { background: var(--warm); }
+          .gc-fr-play {
+            flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+            border-radius: 50%; background: var(--terracotta); color: var(--ink); text-decoration: none;
+            font-size: var(--text-sm); padding-left: var(--space-1); box-shadow: 0 3px 0 var(--terracotta-dark);
+            transition: transform .15s ease;
+          }
+          .gc-fr-play:hover { transform: translateY(-1px); }
+          .gc-fr-play:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--terracotta-dark); }
+          .gc-fr-play:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+          @media (prefers-reduced-motion: reduce) { .gc-fr-row, .gc-fr-play { transition: none; } .gc-fr-play:hover { transform: none; } }
+        `}</style>
       </Section>
 
       {p.vocab && p.vocab.length > 0 && (
