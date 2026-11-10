@@ -295,6 +295,9 @@ check('the Stage 2 brief contains no dash', !/[\u2010-\u2015\u2212]/.test(brief.
 const okDoc = { ok: true, level: 'HEAD, TAIL AND PROBES', problems: [] }
 check('a start here document that failed verification is not recorded', !S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: { ok: false, level: 'DIFFERENT', problems: ['cut short'] } }).ok && !S.syncState().roles.stage2Brief)
 check('a verified start here document is recorded as current', S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: okDoc }).ok && S.syncState().roles.stage2Brief.current === true)
+check('outside its Generated line, the document does not mention the repository head, so a commit cannot make it stale',
+  !brief.text.split('\n').filter((l) => !l.startsWith('Generated ')).join('\n').includes(C.repoState().commit) || reg.get(ID).handoff.sourceCommit === C.repoState().commit)
+check('the pack template carries the handoff commit', brief.text.includes(`SOURCE COMMIT: ${reg.get(ID).handoff.sourceCommit}`))
 check('regenerating it a moment later does not make it stale', S.briefFacts(F.stage2Brief().text) === S.briefFacts(brief.text))
 reg.upsert({ ...reg.get(ID), editorialPriority: 'HIGH' }, { reason: 'test, the story changes priority after the brief was written', actor: 'test' })
 check('when the story it describes changes, the start here document is stale', S.syncState().roles.stage2Brief.current === false && isHold(S.driveReadable('stage2Brief')))
