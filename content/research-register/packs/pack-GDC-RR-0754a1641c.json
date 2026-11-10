@@ -1,0 +1,28 @@
+{
+ "researchId": "GDC-RR-0754a1641c",
+ "gdcPostNumber": "054",
+ "handoffVersion": 2,
+ "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "A new study landed that would make my argument easier to sell.\n\nI am not going to use it that way.\n\nThe paper is a peer reviewed meta analysis of social media use and adolescent mental health. It reports a pooled correlation of r = 0.308.\n\nIf you already believe social media is harming children that might sound like the confirmation you have been waiting for, and I build something for parents who are worried about exactly this, so a number like that would suit me.\n\nWhich is why I read past it.\n\nThe analysis pools 12 studies contributing 15 effect sizes, and it reports heterogeneity of I squared = 93.85 percent. Put plainly, the studies inside it disagree with each other so much that averaging them tells you very little about any one of them, and nothing about your own child.\n\nTwo more things.\n\nA correlation is not proof that social media caused anything. And one pooled measure of social media use cannot tell us what a particular child watched, who they spoke to, what happened at bedtime, or what else was going on in their life.\n\nThe authors also report differences across school stages. That is worth investigating. It is not a sound basis for calling younger children the most vulnerable.\n\nThe summary does not say which countries the studies come from, so I would not carry any of it across to children here.\n\nNone of that makes the paper wrong. It deserves to be read and set beside the other evidence. But a result that points the way I would like deserves the same scrutiny as one that does not. Probably more.\n\nIt is the reason the stage check we built asks three questions about one child, yours, and promises nothing about what happens next.\n\nThe paper is linked in the comments.\n\nIf this is how you want evidence handled, repost it. The response should be in proportion to the evidence, and that has to cut both ways.\n\nWhen did you last turn down a number that suited you?",
+  "firstComment": "The paper: https://doi.org/10.1177/13591045261487468\n\nThe strongest objection is that a peer reviewed meta analysis is still useful evidence even when its studies differ. Agreed. I am not rejecting the paper or the correlation it reports. My caution is about treating a pool of correlational studies that disagree this much as a settled answer about any one child."
+ },
+ "declined": {
+  "INSTAGRAM CAPTION": "NOT RECOMMENDED FOR THIS HANDOFF. The reviewed audience is evidence literate professionals and the approved format is LinkedIn only.",
+  "FACEBOOK CAPTION": "NOT RECOMMENDED FOR THIS HANDOFF. The methodological discussion does not provide a sufficiently direct parent action to justify a separate Facebook post.",
+  "NEWSLETTER": "NOT WARRANTED. This is a focused methods lesson, not a parent facing weekly flagship edition.",
+  "ASSETS USED": "NONE. No card has been made. The post goes out as text only unless one is built from an approved brand asset."
+ },
+ "visual": {
+  "brief": "One restrained editorial card if a previously approved brand asset is available. Warm paper background, navy typography, restrained yellow underline. Headline: THE NUMBER IS REAL. THE CERTAINTY IS NOT. A small handwritten annotation asks: DID THE STUDIES AGREE? Use no invented screenshot, person or character. Do not produce an asset until the approved source asset has been identified.",
+  "assetsUsed": []
+ },
+ "sources": [
+  "https://doi.org/10.1177/13591045261487468"
+ ],
+ "packVersion": 2,
+ "author": "Claude, an edit of ChatGPT v1",
+ "editOf": "1JIA-uiHv932AkeLblEo8YqMNB4_Z8GdMZ4ObuR2Nu2k",
+ "driveFileId": "15dJoSU0vNuG2FSnHI3cVVeW7X2vkcLm7fsU3D1vWf14"
+}

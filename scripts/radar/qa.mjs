@@ -27,7 +27,9 @@
 // image, and cannot read LinkedIn. It checks a pack against the handoff and
 // the house rules. Truth is the dossier's job and the directed review's job.
 
-import { readFileSync, existsSync } from 'node:fs'
+import { readFileSync, existsSync, writeFileSync, mkdtempSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import * as reg from './register.mjs'
 import { parsePostRegister, POST_REGISTER, REPO } from './contract.mjs'
@@ -47,6 +49,26 @@ export const LIMITS = {
 // Any of these in copy is a fail. Dashes are rule 4 of the non-negotiables.
 const DASHES = /[‐-―−]/
 const URL_IN_BODY = /https?:\/\/\S+/i
+
+/**
+ * Run the repo's own ai-tells guard over a piece of copy. One set of rules,
+ * the one in scripts/check-ai-tells.mjs, rather than a second copy here that
+ * would drift. Returns { ok, findings }.
+ */
+export function aiTells(text) {
+  const dir = mkdtempSync(join(tmpdir(), 'radar-tells-'))
+  const file = join(dir, 'copy.md')
+  writeFileSync(file, `${text}\n`)
+  try {
+    execFileSync('node', [join(REPO, 'scripts/check-ai-tells.mjs'), file], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+    return { ok: true, findings: [] }
+  } catch (e) {
+    const out = `${e.stdout || ''}${e.stderr || ''}`.split('\n').map((l) => l.trim()).filter((l) => l && !/to fix\./.test(l))
+    // The guard not being there is not a pass. Say so.
+    if (!existsSync(join(REPO, 'scripts/check-ai-tells.mjs'))) return { ok: false, findings: ['scripts/check-ai-tells.mjs is missing, so the copy could not be checked'] }
+    return { ok: false, findings: out.map((l) => l.replace(file, 'copy').slice(0, 160)) }
+  }
+}
 
 /** Words, counted the way a person would count them. */
 const words = (s) => String(s || '').trim().split(/\s+/).filter(Boolean).length
@@ -215,6 +237,17 @@ export function checkPack(pack, { record = null, corpus = null } = {}) {
   add('carries a source commit', !!pack?.sourceCommit,
     pack?.sourceCommit ? `from commit ${String(pack.sourceCommit).slice(0, 8)}` : 'no sourceCommit, so there is no way to know which version of the handoff this was written from')
 
+  // A pack written from an older handoff is written from superseded facts.
+  // The brief asks that every output keep its version, and this is what the
+  // version is for.
+  const current = rec?.handoff?.version
+  const stated = pack?.handoffVersion == null ? null : Number(pack.handoffVersion)
+  add('the pack was written from the current handoff', current == null || stated === current,
+    current == null ? 'no handoff version on the record to compare with'
+      : stated == null ? `the pack does not say which handoff version it was written from. The current one is ${current}.`
+        : stated === current ? `handoff version ${current}`
+          : `the pack was written from handoff version ${stated} and the current one is ${current}. Rewrite it from the current handoff.`)
+
   // 1. Eligibility, rechecked here because the register can move.
   const el = rec ? eligibility(rec) : { verdict: 'HOLD', reasons: ['no record to check'] }
   add('the research is still eligible for Stage 2', el.verdict === 'PASS', el.reasons.join(' | ') || 'eligible')
@@ -260,6 +293,15 @@ export function checkPack(pack, { record = null, corpus = null } = {}) {
 
     add('a first comment is supplied', !!pack?.linkedin?.firstComment,
       pack?.linkedin?.firstComment ? 'present' : 'no first comment. The link and the pre empted objection live there, and it has to go up the moment the post does.')
+
+    // drive-post-review, check 9: the link goes in the first comment "and the
+    // body says so". A reader who wants the paper has to know where it is.
+    const commentHasLink = /https?:\/\//.test(pack?.linkedin?.firstComment || '')
+    add('the post says the source is in the comments', !commentHasLink || /\bcomments?\b/i.test(li),
+      commentHasLink ? (/\bcomments?\b/i.test(li) ? 'it does' : 'the first comment carries a link and the post never says so. One plain line: the paper is in the comments.') : 'no link in the first comment, so nothing to point at')
+
+    const tells = aiTells([li, pack?.linkedin?.firstComment].filter(Boolean).join('\n\n'))
+    add('the copy passes the ai-tells guard', tells.ok, tells.ok ? 'no dash, no stock phrase, no correction shape' : tells.findings.join(' | '))
   }
 
   // 4. Figures. Nothing in copy that the handoff did not clear.
@@ -320,18 +362,30 @@ export function checkPack(pack, { record = null, corpus = null } = {}) {
   }
 
   // 8. Image accuracy. Claude cannot see an image, so this checks the brief.
-  if (pack?.visual) {
-    const v = pack.visual
+  //
+  // Rewritten on 10 November after the first real pack, which this section got
+  // wrong in both directions. It FAILED the brief for containing the word
+  // "invented", in the sentence "Use no invented screenshot, person or
+  // character". And it PASSED "ASSETS USED: NONE" as one approved asset.
+  if (pack?.visual || pack?.declined?.['ASSETS USED'] || pack?.declined?.['VISUAL BRIEF']) {
+    const v = pack.visual || {}
     const assets = v.assetsUsed || []
-    add('the visual names the approved assets it uses', assets.length > 0,
-      assets.length ? assets.join(', ') : 'no assetsUsed listed. Every visual must come from the approved brand assets, never a regenerated character and never an invented screen.')
-    const invented = /\b(invented|mock ?up of a screen|placeholder screen|regenerated|new character|AI generated child|synthetic parent)\b/i.test(JSON.stringify(v))
+    const declaredNone = !!(pack?.declined?.['ASSETS USED'] || pack?.declined?.['VISUAL BRIEF'])
+    add('the visual names its approved assets, or says plainly there is none', assets.length > 0 || declaredNone,
+      assets.length ? assets.join(', ')
+        : declaredNone ? 'declared: no asset. The post goes out as text only unless a card is built from an approved brand asset.'
+          : 'a visual is described with no assets listed and no statement that there are none. Every visual comes from the approved brand assets, never a regenerated character and never an invented screen.')
+    // A brief that FORBIDS invention is doing its job. Drop any clause that
+    // negates before looking for the thing itself.
+    const affirmative = String(v.brief || '').split(/(?<=[.!?])\s+/)
+      .filter((sent) => !/\b(no|not|never|without|avoid|do not|don't)\b/i.test(sent)).join(' ')
+    const invented = /\b(invented|mock ?up of a screen|placeholder screen|regenerated|new character|AI generated child|synthetic (parent|person|child))\b/i.test(affirmative)
     add('the visual brief does not describe an invented screen or person', !invented,
       invented ? 'the brief describes something regenerated or invented. Only real screens and approved characters.' : 'nothing invented described')
-    add('the visual does not present a synthetic person as a real parent', !/\breal parent\b/i.test(String(v.brief || '')) || !/\b(generated|synthetic|AI)\b/i.test(String(v.brief || '')),
+    add('the visual does not present a synthetic person as a real parent', !/\breal parent\b/i.test(affirmative) || !/\b(generated|synthetic|AI)\b/i.test(affirmative),
       'checked the brief wording')
   } else {
-    add('a visual brief is present', false, 'no visual in the pack. Every post needs its card or an explicit note that it goes out as text only.')
+    add('a visual brief is present, or the pack says there is none', false, 'no visual section and no statement that the post is text only. Write the brief, or write NONE under ASSETS USED.')
   }
 
   // 9. Approval status. Nothing may claim approval it does not have.

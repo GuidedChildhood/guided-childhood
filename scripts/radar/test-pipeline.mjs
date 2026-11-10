@@ -65,7 +65,7 @@ const UNREVIEWED = reg.all().find((r) => r.doi === '10.9999/test.unreviewed').st
 
 // --- the pack a correct Stage 2 would hand back, from fixtures.mjs -----------
 const { FIXTURE_BODY: GOOD_BODY, fixturePack, fixturePackText } = await import('./fixtures.mjs')
-const goodPack = () => fixturePack(C.repoState().commit)
+const goodPack = () => fixturePack(C.repoState().commit, reg.get(ID)?.handoff?.version ?? 1)
 
 // ===========================================================================
 section('PREFLIGHT')
@@ -232,10 +232,10 @@ section('THE PACK FORMAT, the way a pack comes back from Stage 2')
 // ===========================================================================
 const F = await import('./packformat.mjs')
 const gp = goodPack()
-const packDoc = fixturePackText(gp.sourceCommit)
+const packDoc = fixturePackText(gp.sourceCommit, { handoffVersion: gp.handoffVersion })
 const parsed = F.parsePackText(packDoc)
 check('a pack document parses into its research ID, number, version and commit',
-  parsed.researchId === ID && parsed.gdcPostNumber === '054' && parsed.handoffVersion === 1 && parsed.sourceCommit === gp.sourceCommit)
+  parsed.researchId === ID && parsed.gdcPostNumber === '054' && parsed.handoffVersion === gp.handoffVersion && parsed.sourceCommit === gp.sourceCommit)
 check('the post body survives the trip word for word', parsed.linkedin?.body === gp.linkedin.body)
 check('template guidance left in brackets is not read as copy', !/250 to 450 words/.test(parsed.linkedin?.body || ''))
 check('an empty section is absent rather than an empty string', parsed.instagram === undefined)
@@ -256,7 +256,34 @@ const asRealDrive = packDoc.split('\n').map((l) => (l === '' ? '  ' : l.replace(
 const parsedReal = F.parsePackText(asRealDrive)
 check('a pack in the exact shape the live Drive test returned parses to the same words',
   parsedReal.researchId === ID && parsedReal.gdcPostNumber === '054' && parsedReal.linkedin?.body.split(/\s+/).join(' ') === gp.linkedin.body.split(/\s+/).join(' '))
+check('paragraphs come back one blank line apart, never two', !/\n{3,}/.test(parsedReal.linkedin.body) && parsedReal.linkedin.body === gp.linkedin.body)
 check('and passes QA', Q.checkPack(parsedReal).verdict === 'PASS', Q.checkPack(parsedReal).failures.map((f) => f.check).join(' | '))
+// THE FIRST REAL PACK. ChatGPT wrote GDC-054 on 10 November and this file is
+// exactly what Drive returned. It is kept because it broke the QA gate in two
+// opposite directions on first contact, which no fixture I wrote had done.
+const realText = readFileSync(join(process.cwd(), 'scripts/radar/fixtures/pack-054-v1-as-drive-returned.txt'), 'utf8')
+const real = F.parsePackText(realText)
+check('the first real pack parses: identity, number, version and commit', real.researchId === ID && real.gdcPostNumber === '054' && real.handoffVersion === 2 && /^[0-9a-f]{40}$/.test(real.sourceCommit || ''))
+check('its three declined sections are recorded as declined, not read as captions',
+  !real.instagram && !real.facebook && !real.newsletter && ['INSTAGRAM CAPTION', 'FACEBOOK CAPTION', 'NEWSLETTER'].every((k) => /^NOT (RECOMMENDED|WARRANTED)/.test(real.declined?.[k] || '')))
+check('"ASSETS USED: NONE" is no assets, not one asset', Array.isArray(real.visual?.assetsUsed) && real.visual.assetsUsed.length === 0 && /^NONE/.test(real.declined?.['ASSETS USED'] || ''))
+check('the real pack comes back with one blank line between paragraphs', !/\n{3,}/.test(real.linkedin.body) && real.linkedin.body.split('\n\n').length === 17)
+const realQa = Q.checkPack(real)
+const realCheck = (re) => realQa.checks.find((c) => re.test(c.name))
+check('a brief that says "use no invented screenshot" is not failed for the word invented', realCheck(/invented screen or person/).pass === true)
+check('a pack that says plainly it has no card passes the asset check as text only', realCheck(/names its approved assets/).pass === true && /text only/.test(realCheck(/names its approved assets/).detail))
+check('a brief that DOES describe an invented screen still fails',
+  Q.checkPack({ ...gp, visual: { brief: 'A mock up of a screen showing the app with a regenerated character.', assetsUsed: ['x'] } }).failures.some((f) => /invented screen or person/.test(f.check)))
+check('a visual with no assets and no statement that there are none still fails',
+  Q.checkPack({ ...gp, visual: { brief: 'A card.', assetsUsed: [] } }).failures.some((f) => /names its approved assets/.test(f.check)))
+check('the real pack is held for never saying the source is in the comments', realCheck(/source is in the comments/).pass === false)
+check('the real pack passes the repo ai-tells guard', realCheck(/ai-tells guard/).pass === true, realCheck(/ai-tells guard/).detail)
+check('copy with a dash or a stock phrase fails the ai-tells guard, by name',
+  (() => { const r = Q.aiTells('It is worth noting that this \u2014 frankly \u2014 matters.'); return !r.ok && r.findings.length >= 1 })())
+check('every figure in the real pack was on the cleared list', realCheck(/every figure in the copy was cleared/).pass === true)
+const stalePack = Q.checkPack({ ...gp, handoffVersion: (gp.handoffVersion || 1) - 1 })
+check('a pack written from an older handoff version is a HOLD', stalePack.failures.some((f) => /current handoff/.test(f.check)), stalePack.failures.map((f) => f.why).join(' | ').slice(0, 90))
+check('a pack that does not say its handoff version is a HOLD', Q.checkPack({ ...gp, handoffVersion: undefined }).failures.some((f) => /current handoff/.test(f.check)))
 const noHeader = F.parsePackText('=== LINKEDIN POST ===\n' + gp.linkedin.body)
 const noHeaderQa = Q.checkPack(noHeader)
 check('a pack with no header is a HOLD that names what is missing',
@@ -307,6 +334,12 @@ check('a failed save of the pack is a HOLD', isHold(P.recordPackSave(ID, { verif
 check('a verified save of the pack is accepted', P.recordPackSave(ID, { fileId: 'test-pack', verification: C.verifyDownload(packText, { base64: Buffer.from(packText).toString('base64') }) }).verdict === 'PASS')
 check('now it reaches ASSETS READY', P.readyForApproval(ID).verdict === 'PASS' && reg.get(ID).status === 'ASSETS READY')
 
+const briefAfter = F.stage2Brief()
+check('once a pack is through, the start here document tells Stage 2 not to write it again',
+  /WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK/.test(briefAfter.text) && /Do not write this story again/.test(briefAfter.text) && /WHAT TO WRITE NEXT\n  Nothing\. The queue is empty/.test(briefAfter.text))
+check('and carries the review notes back, since there is no other channel', briefAfter.text.includes('Figures match the cleared list'))
+check('still with no dash in it', !/[\u2010-\u2015\u2212]/.test(briefAfter.text))
+
 section('STAGE 4, approval and publication controls')
 const live404 = async () => ({ verdict: 'NOT LIVE', httpStatus: 404, provesItIsLive: false })
 const liveOk = async (url) => ({ url, verdict: 'URL RESOLVES', httpStatus: 200, provesItIsLive: true, provesItIsOurs: false, provesTheContent: false })
@@ -327,7 +360,11 @@ check('the live research register index is byte for byte unchanged', digest(LIVE
 check('the live research register history is byte for byte unchanged', digest(LIVE_JSONL) === before.jsonl)
 check('the post register is unchanged, so no number was created or moved', digest(LIVE_POSTS) === before.posts)
 const liveNow = JSON.parse(readFileSync(LIVE_INDEX, 'utf8')).heads[ID]
-check('the real story is still EDITORIAL READY and still unpublished', liveNow.status === 'EDITORIAL READY' && !liveNow.publishedUrl, liveNow.status)
+// Compared with what it was before the test ran, not with a status written
+// into the test. This check said EDITORIAL READY until the real story moved to
+// ASSETS READY on 10 November, at which point the test failed for the story
+// making progress.
+check('the real story has the status it had before the test, and the test published nothing', liveNow.status === live.status && liveNow.publishedUrl === live.publishedUrl && liveNow.version === live.version, `${live.status} before, ${liveNow.status} after`)
 
 console.log(`\n${failed ? `${failed} of ${count} checks FAILED` : `all ${count} pipeline checks passed`}`)
 console.log(`throwaway register: ${TMP}`)
