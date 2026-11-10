@@ -313,3 +313,28 @@ Justin approved the one click tracking spec as recommended: delivery records go 
 ## 10 November 2026: French media mirrors into our storage, from GitHub
 
 Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
+
+## 10 November 2026: 390 applied, and the sweep is clear
+
+390 is the follow up to 389: two ks2-04 slides grew past what a projector and
+a teacher laptop show at once, and check-wall-fit turned main red. Applied as
+one transaction with its own per value guards and proof, so an abort would have
+left the deck alone. Both slides are now the shorter text, and the live ks2-04
+digest is 055deef8, equal to content/modules, so the deck and its file still
+match after both migrations.
+
+Nothing else is outstanding. 390 was the only file in the repo without its
+effect in the database. Worth writing down how that was established, because
+the ledger alone says the opposite: 252 of the 380 numbered migration files
+have no ledger row under their number, and nearly all of those are old rows
+recorded under a name with no number prefix (361 is
+lesson_clips_every_browser_can_play, 363 is school_day_windows). So the
+number comparison is noise. What settles it is the live schema: everything
+from 350 up was probed by its own effect, usually the backup table each one
+creates, and all of it is there.
+
+Left from yesterday, still open and not mine: the concern-guards failure on
+main is a miscount in scripts/check-followup-lives-in-checkin.mjs, not a fault
+in the route it guards. The guard subtracts one for its helper's definition,
+and the helper became generic, so the definition no longer matches the pattern
+and two real call sites count as one. The patch is on PR 1462.
