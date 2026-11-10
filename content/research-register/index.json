@@ -94,11 +94,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 12,
+   "version": 13,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-09T14:37:01.337Z",
-   "changeReason": "back off HOLD",
-   "changedBy": "test",
+   "lastChecked": "2026-11-10T11:22:35.829Z",
+   "changeReason": "Audit 10 Nov: the manifest pointed Stage 2 at the Drive doc Justin had retitled ZZ SUPERSEDED. Repointed at the refreshed GDC-054 handoff and recorded the superseded id so it is never picked up again.",
+   "changedBy": "radar:audit",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
     "checkedAt": "2026-11-09T14:35:35.470Z",
@@ -262,10 +262,14 @@
     "json": "/home/user/guided-childhood/content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
     "doc": "/home/user/guided-childhood/content/research-register/handoffs/handoff-GDC-RR-0754a1641c.txt"
    },
-   "driveHandoffDoc": "https://docs.google.com/document/d/1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw/edit",
+   "driveHandoffDoc": "https://docs.google.com/document/d/1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8/edit",
    "driveFolder": "https://drive.google.com/drive/folders/10TsNEU7FDxBp52te-xtytQ9yY-_ON-fN",
    "gdcPostNumber": "054",
-   "childIsTheSubject": true
+   "childIsTheSubject": true,
+   "driveHandoffDocId": "1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8",
+   "supersededDriveDocs": [
+    "1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw"
+   ]
   },
   "GDC-RR-04ce5786d0": {
    "title": "Risks and Opportunities in Digital Media Interventions for Youth: A Scientometric Review",

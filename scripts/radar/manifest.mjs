@@ -44,7 +44,14 @@ export function buildManifest() {
       design: r.dossier?.design || null,
       figuresCleared: (r.claudeReview?.verifiedStatistics || []).length,
       handoffDoc: r.driveHandoffDoc || null,
-      handoffJsonInRepo: r.handoff?.json || null,
+      // Repo RELATIVE, always. The audit on 10 November found this emitting
+      // an absolute container path, /home/user/guided-childhood/..., which
+      // means nothing to ChatGPT, nothing on Justin's machine and nothing in
+      // the next container. A path in a shared artefact has to be relative to
+      // the thing both sides can see, which is the repository root.
+      handoffJsonInRepo: r.handoff?.json
+        ? String(r.handoff.json).replace(/^.*?(content\/research-register\/)/, '$1')
+        : null,
       firstFound: r.firstFound,
       registerVersion: r.version,
     })),

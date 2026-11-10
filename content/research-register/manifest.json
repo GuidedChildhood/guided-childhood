@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.0.0",
- "generatedAt": "2026-11-09T14:37:01.376Z",
+ "generatedAt": "2026-11-10T11:22:35.875Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,9 +9,9 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 14,
+  "total": 16,
   "byStatus": {
-   "DISCOVERED": 10,
+   "DISCOVERED": 12,
    "EDITORIAL READY": 1,
    "VERIFIED": 3
   }
@@ -34,10 +34,10 @@
    "publishedDate": "2026-11-06",
    "design": "meta-analysis",
    "figuresCleared": 5,
-   "handoffDoc": "https://docs.google.com/document/d/1nG_kkk1VR2k-DalnNK5kkFbDId6o07WYysq4t-DtUbw/edit",
-   "handoffJsonInRepo": "/home/user/guided-childhood/content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
+   "handoffDoc": "https://docs.google.com/document/d/1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8/edit",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-0754a1641c.json",
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "registerVersion": 12
+   "registerVersion": 13
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"
