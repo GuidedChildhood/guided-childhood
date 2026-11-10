@@ -146,3 +146,13 @@ motion and the best way to navigate. Review of the French pages against the digi
 
 Not changed: her slides themselves. They are her own design inside the frame (their own
 font and colours). Restyling the slides to ours is a separate job that needs her say.
+
+## The digital print room, the same day (10 November 2026)
+
+Justin flagged `/print` in the same breath: "much tidier, neater, Apple style, motion,
+simpleness". It was a table per key stage with seven pills on every row: 238 identical
+buttons, the seventh column running off a laptop screen, and only the first column visible
+on a phone. It is now one line per lesson that opens in place to show its seven sheets,
+each with a line saying what it is. Native `<details>` sharing a name (one open at a
+time), so no script, and the page stays static and cached. Year group chips jump to each
+stage. Nothing was removed.
