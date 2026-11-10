@@ -16,8 +16,12 @@ What runs without anybody carrying anything, as of 10 November 2026:
 | 08:00 daily | ChatGPT scheduled task | writes its brief, and one `CANDIDATES` document into the Drive inbox |
 | 09:17 weekdays | Claude Code scheduled task, in the cloud | reads the inbox, checks and reviews, claims numbers, builds handoffs, copies the queue to Drive and verifies it, checks any pack that has come back |
 | 11:00 daily | ChatGPT scheduled task | reads the start here document, writes one pack per cleared story |
-| 12:23 weekdays | Claude Code scheduled task, in the cloud | checks and reviews those packs, puts the ones that pass in front of Justin |
+| 12:23 weekdays | Claude Code scheduled task, **created and switched off** | checks and reviews those packs the same day. It could not be given the Drive connector from a session, so it stays off until Justin adds Google Drive to it on the routines page. Until then the 09:17 run checks packs the next morning |
 | 10:43 UTC weekdays | GitHub Actions | goes red if the morning run left no log, or logged a HOLD or an ERROR |
+
+What ChatGPT's two tasks must be told is in
+`scripts/radar/routines/chatgpt-prompts.md`. Justin pastes it once. The steps of
+the two Claude runs are in `scripts/radar/routines/`.
 
 What is still a person, on purpose:
 
