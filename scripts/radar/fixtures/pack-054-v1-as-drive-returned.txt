@@ -1,0 +1,125 @@
+RESEARCH ID: GDC-RR-0754a1641c
+
+GDC POST NUMBER: 054
+
+HANDOFF VERSION: 2
+
+SOURCE COMMIT: 36e84f90e6fe765fb552f027cc5edd9c7b53c861
+
+STATUS: DRAFT
+
+  
+
+\=== LINKEDIN POST ===
+
+A new study landed that would make my argument easier to sell.
+
+  
+
+And I am not going to use its headline number to frighten parents.
+
+  
+
+The paper is a peer reviewed meta analysis of social media use and adolescent mental health. It reports a pooled correlation of r = 0.308.
+
+  
+
+If you already believe social media is harming children, that might sound like the confirmation you have been waiting for.
+
+  
+
+I work on helping families navigate childhood technology. A finding like this could be convenient for me.
+
+  
+
+That is precisely why I want to examine it more carefully.
+
+  
+
+The analysis combines 12 studies contributing 15 effect sizes. More importantly, it reports heterogeneity of I squared = 93.85 percent.
+
+  
+
+In plain English, the findings vary enormously between the included studies. Putting them together produces a number, but it does not make the underlying disagreement disappear.
+
+  
+
+There is another distinction worth making.
+
+  
+
+A correlation is not proof that social media caused a mental health difficulty. And a pooled measure of social media use cannot tell us what a particular child watched, who they spoke to, what happened at bedtime, or what else was going on in their life.
+
+  
+
+The authors also report differences across educational stages. That is interesting to investigate, but it is not a sound basis for declaring younger children the most vulnerable.
+
+  
+
+I am not saying the study should be dismissed. It deserves to be read, questioned and compared with other evidence.
+
+  
+
+I am saying that a result pointing in the direction we prefer deserves the same scrutiny as a result that challenges us.
+
+  
+
+Parents do not need another frightening statistic stripped of context. Schools do not need an apparently definitive answer built on studies that disagree.
+
+  
+
+We need better questions about content, relationships, timing and individual circumstances.
+
+  
+
+The next time a headline announces a bigger effect, I would look beyond the headline and ask how many studies were combined and how consistently they agreed.
+
+  
+
+If a finding supports what we already believe, are we checking it as carefully as the findings that do not?
+
+  
+
+\=== FIRST COMMENT ===
+
+Source: https://doi.org/10.1177/13591045261487468
+
+  
+
+The strongest objection is that a peer reviewed meta analysis can still provide useful evidence even when studies differ. Agreed. This is not a rejection of the paper or its reported correlation. The caution is about treating a highly heterogeneous pool of correlational findings as a settled causal answer for individual children.
+
+  
+
+\=== INSTAGRAM CAPTION ===
+
+NOT RECOMMENDED FOR THIS HANDOFF. The reviewed audience is evidence literate professionals and the approved format is LinkedIn only.
+
+  
+
+\=== FACEBOOK CAPTION ===
+
+NOT RECOMMENDED FOR THIS HANDOFF. The methodological discussion does not provide a sufficiently direct parent action to justify a separate Facebook post.
+
+  
+
+\=== NEWSLETTER ===
+
+NOT WARRANTED. This is a focused methods lesson, not a parent facing weekly flagship edition.
+
+  
+
+\=== VISUAL BRIEF ===
+
+One restrained editorial card if a previously approved brand asset is available. Warm paper background, navy typography, restrained yellow underline. Headline: THE NUMBER IS REAL. THE CERTAINTY IS NOT. A small handwritten annotation asks: DID THE STUDIES AGREE? Use no invented screenshot, person or character. Do not produce an asset until the approved source asset has been identified.
+
+  
+
+\=== ASSETS USED ===
+
+NONE. No approved visual asset was provided or verified.
+
+  
+
+\=== SOURCES ===
+
+https://doi.org/10.1177/13591045261487468

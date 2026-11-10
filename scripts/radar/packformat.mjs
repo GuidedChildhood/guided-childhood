@@ -26,6 +26,9 @@ const HEADER_FIELDS = {
   'STATUS': 'status',
 }
 
+/** How a section says it has been left out on purpose. */
+const DECLINED = /^(none\b|n\/a\b|not (recommended|warranted|applicable|required|needed|used)\b|no (asset|visual|card|image)s?\b|text only\b)/i
+
 const SECTIONS = {
   'LINKEDIN POST': ['linkedin', 'body'],
   'FIRST COMMENT': ['linkedin', 'firstComment'],
@@ -62,7 +65,7 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '(What the card shows. Approved brand assets only.)',
     '',
     '=== ASSETS USED ===',
-    '(One approved asset per line.)',
+    '(One approved asset per line, or NONE if the post goes out as text only.)',
     '',
     '=== SOURCES ===',
     '(One URL per line, taken from the handoff.)',
@@ -85,6 +88,19 @@ export function parsePackText(text) {
     const [group, field] = SECTIONS[current]
     // Bracketed guidance left in from the template is not content.
     const body = buf.join('\n').replace(/^\s*\((?:[^()]|\([^()]*\))*\)\s*$/gm, '').trim()
+    // A section that says there is nothing here is a decision, not copy. The
+    // first real pack from Stage 2, on 10 November, filled three sections with
+    // "NOT RECOMMENDED FOR THIS HANDOFF..." and listed its assets as "NONE. No
+    // approved visual asset was provided", and the parser read the first as
+    // captions and the second as one approved asset. Both are kept, with the
+    // reason given, under `declined`, and neither is treated as content.
+    if (body && DECLINED.test(body)) {
+      pack.declined = pack.declined || {}
+      pack.declined[current] = body.replace(/\s+/g, ' ')
+      if (group === 'visual' && field === 'assetsUsed') { pack.visual = pack.visual || {}; pack.visual.assetsUsed = [] }
+      buf = []
+      return
+    }
     if (body) {
       if (group === 'sources') pack.sources = body.split('\n').map((x) => x.trim()).filter(Boolean)
       else {
@@ -178,6 +194,11 @@ export function stage2Brief({ links = {} } = {}) {
   line(`  LinkedIn post: ${LIMITS.linkedinWordsMin} to ${LIMITS.linkedinWordsMax} words.`)
   line('  The single closing question is the last sentence, with nothing after it.')
   line('  No link in the post. The source link goes in the first comment.')
+  line('  The post says, in one plain line, that the source is in the comments.')
+  line('  In the paragraph before the closing question, one repost ask written for this post\'s own argument. No follow ask.')
+  line('  The closing question is one a parent or a teacher answers from experience, not "do you agree".')
+  line('  Vary the sentences. One that runs long, one of five words or fewer. A post where every sentence is the same length reads as machine written.')
+  line('  If a section does not apply, write NOT RECOMMENDED and the reason. If there is no card, write NONE under ASSETS USED.')
   line('  No dashes anywhere, of any length.')
   line('  The opening and the close must not repeat an earlier post.')
   line('  Visuals use approved brand assets only. No invented screen, no regenerated character, no synthetic person shown as a real parent.')

@@ -1,0 +1,27 @@
+{
+ "researchId": "GDC-RR-0754a1641c",
+ "gdcPostNumber": "054",
+ "handoffVersion": 2,
+ "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "A new study landed that would make my argument easier to sell.\n\n\n\nAnd I am not going to use its headline number to frighten parents.\n\n\n\nThe paper is a peer reviewed meta analysis of social media use and adolescent mental health. It reports a pooled correlation of r = 0.308.\n\n\n\nIf you already believe social media is harming children, that might sound like the confirmation you have been waiting for.\n\n\n\nI work on helping families navigate childhood technology. A finding like this could be convenient for me.\n\n\n\nThat is precisely why I want to examine it more carefully.\n\n\n\nThe analysis combines 12 studies contributing 15 effect sizes. More importantly, it reports heterogeneity of I squared = 93.85 percent.\n\n\n\nIn plain English, the findings vary enormously between the included studies. Putting them together produces a number, but it does not make the underlying disagreement disappear.\n\n\n\nThere is another distinction worth making.\n\n\n\nA correlation is not proof that social media caused a mental health difficulty. And a pooled measure of social media use cannot tell us what a particular child watched, who they spoke to, what happened at bedtime, or what else was going on in their life.\n\n\n\nThe authors also report differences across educational stages. That is interesting to investigate, but it is not a sound basis for declaring younger children the most vulnerable.\n\n\n\nI am not saying the study should be dismissed. It deserves to be read, questioned and compared with other evidence.\n\n\n\nI am saying that a result pointing in the direction we prefer deserves the same scrutiny as a result that challenges us.\n\n\n\nParents do not need another frightening statistic stripped of context. Schools do not need an apparently definitive answer built on studies that disagree.\n\n\n\nWe need better questions about content, relationships, timing and individual circumstances.\n\n\n\nThe next time a headline announces a bigger effect, I would look beyond the headline and ask how many studies were combined and how consistently they agreed.\n\n\n\nIf a finding supports what we already believe, are we checking it as carefully as the findings that do not?",
+  "firstComment": "Source: https://doi.org/10.1177/13591045261487468\n\n\n\nThe strongest objection is that a peer reviewed meta analysis can still provide useful evidence even when studies differ. Agreed. This is not a rejection of the paper or its reported correlation. The caution is about treating a highly heterogeneous pool of correlational findings as a settled causal answer for individual children."
+ },
+ "declined": {
+  "INSTAGRAM CAPTION": "NOT RECOMMENDED FOR THIS HANDOFF. The reviewed audience is evidence literate professionals and the approved format is LinkedIn only.",
+  "FACEBOOK CAPTION": "NOT RECOMMENDED FOR THIS HANDOFF. The methodological discussion does not provide a sufficiently direct parent action to justify a separate Facebook post.",
+  "NEWSLETTER": "NOT WARRANTED. This is a focused methods lesson, not a parent facing weekly flagship edition.",
+  "ASSETS USED": "NONE. No approved visual asset was provided or verified."
+ },
+ "visual": {
+  "brief": "One restrained editorial card if a previously approved brand asset is available. Warm paper background, navy typography, restrained yellow underline. Headline: THE NUMBER IS REAL. THE CERTAINTY IS NOT. A small handwritten annotation asks: DID THE STUDIES AGREE? Use no invented screenshot, person or character. Do not produce an asset until the approved source asset has been identified.",
+  "assetsUsed": []
+ },
+ "sources": [
+  "https://doi.org/10.1177/13591045261487468"
+ ],
+ "packVersion": 1,
+ "author": "ChatGPT",
+ "driveFileId": "1JIA-uiHv932AkeLblEo8YqMNB4_Z8GdMZ4ObuR2Nu2k"
+}

@@ -94,11 +94,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 19,
+   "version": 21,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-10T12:46:54.823Z",
-   "changeReason": "handoff JSON in Drive re-verified byte for byte from the downloaded bytes",
-   "changedBy": "radar:sync",
+   "lastChecked": "2026-11-10T13:54:29.341Z",
+   "changeReason": "QA: HOLD, the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
     "checkedAt": "2026-11-09T14:35:35.470Z",
@@ -276,10 +276,12 @@
     "1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8"
    ],
    "gate": {
-    "verdict": "PASS",
-    "stage": "HANDOFF",
-    "reasons": [],
-    "at": "2026-11-10T12:37:48.411Z"
+    "verdict": "HOLD",
+    "stage": "QA",
+    "reasons": [
+     "the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
+    ],
+    "at": "2026-11-10T13:54:29.340Z"
    },
    "driveHandoffJsonId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
    "driveHandoffVerified": {
@@ -287,7 +289,26 @@
     "doc": "HEAD, TAIL AND PROBES",
     "at": "2026-11-10T12:40:17.777Z",
     "handoffVersion": 2
-   }
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-0754a1641c.json",
+    "submittedAt": "2026-11-10T13:54:29.338Z",
+    "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
+    "gdcPostNumber": "054"
+   },
+   "packQa": {
+    "verdict": "HOLD",
+    "checked": 27,
+    "failedCount": 1,
+    "failures": [
+     {
+      "check": "the post says the source is in the comments",
+      "why": "the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
+     }
+    ],
+    "checkedAt": "2026-11-10T13:54:29.337Z"
+   },
+   "packReview": null
   },
   "GDC-RR-04ce5786d0": {
    "title": "Risks and Opportunities in Digital Media Interventions for Youth: A Scientometric Review",

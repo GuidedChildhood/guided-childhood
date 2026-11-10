@@ -17,14 +17,15 @@ export const FIXTURE_BODY = [
   'Here is what I think it does show. Something real is going on for some children, and it is not evenly spread. The paper found the link looked different at different school stages, which is a reason to ask which child, and when, before asking how much.',
   'Here is what it does not show. It does not show that social media causes the harm, and it does not tell a parent anything about their own son or daughter.',
   'I would rather be trusted with a small true number than believed with a large shaky one. If the response to this is going to be proportional to the evidence, that has to cut both ways, including when the evidence flatters me.',
+  'The paper is linked in the comments.',
   'When did you last turn down a statistic that suited you?',
 ].join('\n\n')
 
-export const fixturePack = (sourceCommit) => ({
+export const fixturePack = (sourceCommit, handoffVersion = 1) => ({
   researchId: FIXTURE_ID,
   gdcPostNumber: '054',
   sourceCommit,
-  handoffVersion: 1,
+  handoffVersion,
   status: 'DRAFT',
   linkedin: {
     body: FIXTURE_BODY,
