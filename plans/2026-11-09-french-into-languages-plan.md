@@ -99,3 +99,19 @@ Typecheck, `check-languages-door` (with its new rule), ai-tells and the scale an
 guards on every new file, Playwright at 390 and 1440 with a made up local languages code
 (never a real one): no code gets a 404, a French code sees the tab and every page, a
 scheme code sees no tab.
+
+## Media moves to our storage (10 November 2026)
+
+Justin chose "move to our storage now" on 9 November.
+
+- `scripts/languages/mirror-french-media.mjs` copies every file the scheme names (104 for
+  the first two full units: decks, phonics decks, songs, posters, sheets) into the public
+  Supabase bucket `languages`, under `fr/<unit folder>/<path>`. It only adds and updates.
+- It runs in GitHub Actions (`.github/workflows/languages-media.yml`), which already holds
+  the Supabase key as a secret, so the key never has to be typed anywhere. It runs when
+  `fr.json` changes on main, and by hand.
+- `/languages/fr/media/...` is the one address the pages use. It serves our copy and falls
+  back to her site for a file not copied yet, so nothing breaks while the mirror catches up.
+- A deck is somebody else's page with its own scripts, so it is served with a sandbox and
+  never runs with this app's origin. Decks check the languages code; sheets and songs do
+  not, because they are public already.

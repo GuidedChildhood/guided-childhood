@@ -52,6 +52,20 @@ const NAV = join('schools', 'components', 'SiteNav.tsx')
     /const languages = languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
 }
 
+// THE MEDIA ROUTE GATES ITSELF (10 November 2026). Its paths all carry a dot,
+// which the proxy's matcher skips, so the proxy never sees them. A deck must
+// therefore check the languages code in the route, and must be sent with a
+// sandbox so its scripts never run with this app's origin.
+{
+  const route = readFileSync(join('schools', 'app', 'languages', 'fr', 'media', '[...path]', 'route.ts'), 'utf8')
+  ok('the media route checks the languages code before serving a deck',
+    /languagesTokenAccess\(/.test(route) && /if \(!access\?\.langs\.includes\('fr'\)\) return gone\(\)/.test(route))
+  ok('a deck is served sandboxed, without allow-same-origin',
+    /'Content-Security-Policy': DECK_SANDBOX/.test(route) && /const DECK_SANDBOX = 'sandbox [^']*'/.test(route) && !/allow-same-origin/.test(route.replace(/\/\/.*$/gm, '')))
+  const teach = readFileSync(join('schools', 'app', 'languages', 'fr', '[unit]', '[lesson]', 'teach', 'page.tsx'), 'utf8')
+  ok('the teach frame is sandboxed, without allow-same-origin', /sandbox="[^"]*allow-scripts[^"]*"/.test(teach) && !/sandbox="[^"]*allow-same-origin/.test(teach))
+}
+
 for (const root of ['schools', 'app', 'components', 'shared', 'lib']) {
   for (const file of walk(root)) {
     if (inside(file) || file === NAV) continue

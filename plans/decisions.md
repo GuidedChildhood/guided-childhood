@@ -309,3 +309,7 @@ Justin asked for her KS2 French (french-curriculum.pages.dev) on the platform as
 ## 9 November 2026: tracking approved, bridge b reversed for delivery records
 
 Justin approved the one click tracking spec as recommended: delivery records go on the server (the 29 August bridge b rule reversed for these only, still no pupil data or accounts), anyone with the school code sees and corrects them, optional teacher initials, optional 280 character note, and he reads the DPA and privacy wording before PR 1 merges. French: Mark delivered is its first improvement, its media moves to our storage now, and it stays hidden until launch. Detail in the spec's Decided table.
+
+## 10 November 2026: French media mirrors into our storage, from GitHub
+
+Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
