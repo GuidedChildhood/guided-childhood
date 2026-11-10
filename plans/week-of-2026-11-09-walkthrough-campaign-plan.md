@@ -1,6 +1,6 @@
 # The walkthrough: 20 posts, three platforms, one goal
 
-Written 10 November 2026, marketing lane, PR 1471. **Drafts only.** Nothing is
+Written 10 November 2026, marketing lane, PR 1475 (1471 was the claim and was merged empty). **Drafts only.** Nothing is
 posted, scheduled or spent until Justin says yes in chat.
 
 Justin's ask: "A walkthrough of platforms, a series of 20 posts explaining each
