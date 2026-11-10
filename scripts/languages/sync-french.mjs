@@ -122,7 +122,41 @@ const data = clean({
   codes: g.CODES,
   sequence: g.SEQ,
 })
+// THE SHAPE CHECK (10 November 2026). The nightly sync opens a pull request
+// with whatever this writes, and the pages read the file with no types to
+// catch a surprise. So a file the pages could not draw never gets written:
+// if her data changes shape, this stops with the reason and last night's
+// file stays in place.
+function shapeProblems(d) {
+  const out = []
+  const units = d.curriculum?.units
+  if (!Array.isArray(d.years) || d.years.length === 0) out.push('years is not a list')
+  if (!units || typeof units !== 'object') return [...out, 'curriculum.units is missing']
+  if (!Array.isArray(d.curriculum.order) || d.curriculum.order.length === 0) out.push('curriculum.order is not a list')
+  for (const key of d.curriculum.order ?? []) {
+    const u = units[key]
+    if (!u) { out.push(`${key}: named in the order but has no unit`); continue }
+    if (typeof u.unit !== 'string' || typeof u.en !== 'string') out.push(`${key}: no French or English title`)
+    if (!/^y\d+$/.test(String(u.year)) || !Number.isFinite(Number(u.ht))) out.push(`${key}: year or half term is not readable`)
+    if (u.ready === true && !Array.isArray(u.lessons)) out.push(`${key}: marked ready with no lessons`)
+    for (const k of ['vocab', 'ican', 'codes', 'exit']) if (u[k] !== undefined && !Array.isArray(u[k])) out.push(`${key}: ${k} is not a list`)
+  }
+  for (const [slug, u] of Object.entries(d.units ?? {})) {
+    if (!/^[A-Za-z0-9_-]+$/.test(slug)) out.push(`${slug}: not a safe folder name`)
+    if (!Array.isArray(u.lessons) || u.lessons.length === 0) out.push(`${slug}: no lessons`)
+    for (const l of u.lessons ?? []) if (!Number.isFinite(l.n) || typeof l.fr !== 'string') out.push(`${slug}: a lesson has no number or title`)
+  }
+  if (!d.curriculum.nc || typeof d.curriculum.nc !== 'object') out.push('curriculum.nc (the statements) is missing')
+  return out
+}
+const problems = shapeProblems(data)
+if (problems.length) {
+  console.error(`The scheme's data has changed shape, so nothing was written:\n  ${problems.join('\n  ')}`)
+  process.exit(1)
+}
+
 const text = JSON.stringify(data, null, 1) + '\n'
+
 
 if (process.argv.includes('--check')) {
   let current = ''

@@ -317,6 +317,30 @@ Justin asked for a 20 post walkthrough of the three platforms, one service a pos
 
 Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
 
+## 10 November 2026: 390 applied, and the sweep is clear
+
+390 is the follow up to 389: two ks2-04 slides grew past what a projector and
+a teacher laptop show at once, and check-wall-fit turned main red. Applied as
+one transaction with its own per value guards and proof, so an abort would have
+left the deck alone. Both slides are now the shorter text, and the live ks2-04
+digest is 055deef8, equal to content/modules, so the deck and its file still
+match after both migrations.
+
+Nothing else is outstanding. 390 was the only file in the repo without its
+effect in the database. Worth writing down how that was established, because
+the ledger alone says the opposite: 252 of the 380 numbered migration files
+have no ledger row under their number, and nearly all of those are old rows
+recorded under a name with no number prefix (361 is
+lesson_clips_every_browser_can_play, 363 is school_day_windows). So the
+number comparison is noise. What settles it is the live schema: everything
+from 350 up was probed by its own effect, usually the backup table each one
+creates, and all of it is there.
+
+Left from yesterday, still open and not mine: the concern-guards failure on
+main is a miscount in scripts/check-followup-lives-in-checkin.mjs, not a fault
+in the route it guards. The guard subtracts one for its helper's definition,
+and the helper became generic, so the definition no longer matches the pattern
+and two real call sites count as one. The patch is on PR 1462.
 ## 10 November 2026: French files stay on her site for now; the print room
 
 The mirror's first run found no Supabase secrets in GitHub. Justin chose to keep the French files on the author's site for now: the media route already falls back to it, and the mirror job waits quietly until the two secrets are added (that is the whole switch). New page `/languages/fr/print`, the French print room: all 89 sheets on one page by unit and lesson, three versions side by side, a link filter per version.
@@ -328,3 +352,6 @@ Justin asked for our level of finish on the French pages, with motion and better
 ## 10 November 2026: the walkthrough campaign, all 20 built
 
 Justin said yes to the look of posts 1 to 3, so the other seventeen were built the same afternoon, all free: four more parents Reels from the reference pages, seven parents carousels and cards with `tools/social-cards`, three schools decks from captures of the live site, two playlists decks. Six pages of the live parent app that no reference page shows (Scripts, app settings, first phone, Printables, tell a parent) were captured in his signed in Chrome, with the film family's names swapped on the page first and anything showing the family's own record cropped out. `tools/social-cards` gained a framed screen card (`shot`), a `start` number for lists and a tighter five band row. Open on the built pieces: a real fridge photo for post 17, the printed passport price on post 18, the marketer review of the five new films. Nothing posted, scheduled or spent. PR 1478.
+## 10 November 2026: the French scheme syncs every night
+
+Justin said yes to a nightly sync. `languages-sync.yml` reads the author's data each night and, only when it changed, opens or refreshes one pull request (`languages/french-sync`) with the new `fr.json`; merging it is what goes live. The sync script now refuses to write a file whose shape the pages could not draw. Slides, songs and sheets are not in this: they load from her site as they are.
