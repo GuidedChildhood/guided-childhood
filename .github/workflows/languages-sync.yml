@@ -1,0 +1,69 @@
+name: languages-sync
+
+# THE NIGHTLY FRENCH SYNC (Justin, 10 November 2026: "yes night sync").
+#
+# The French scheme is written on its author's own site. Every night this
+# reads her data (scripts/languages/sync-french.mjs, which parses it and never
+# runs it) and, only if something changed, opens one pull request with the
+# new schools/lib/languages/fr.json. Merging that pull request is what puts
+# her changes on our pages; nothing reaches the live site unreviewed.
+#
+# ONE PULL REQUEST, KEPT UP TO DATE. The branch has a fixed name, so three
+# nights of her edits are one pull request showing the latest, never three.
+# A night with no change does nothing at all.
+#
+# IF HER DATA CHANGES SHAPE the sync script stops before it writes, the job
+# goes red, and last night's file stays in place.
+#
+# Her slides, songs and sheets are not part of this: they load from her site
+# as they are, so an edit to a slide shows the moment she makes it.
+
+on:
+  schedule:
+    - cron: '23 2 * * *'   # every night, 02:23 UTC
+  workflow_dispatch: {}
+
+concurrency:
+  group: languages-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read the scheme from its author's site
+        run: node scripts/languages/sync-french.mjs | tee sync-summary.txt
+      - name: Open or refresh the pull request if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain schools/lib/languages/fr.json)" ]; then
+            echo "::notice::The French scheme has not changed since the last sync."
+            exit 0
+          fi
+          branch="languages/french-sync"
+          git config user.name "The French sync"
+          git config user.email "routine@guidedchildhood.com"
+          git checkout -B "$branch"
+          git add schools/lib/languages/fr.json
+          git commit -m "French: the scheme as its author has it on $(date -u +%Y-%m-%d)"
+          git push --force -u origin "$branch"
+          summary="$(tail -n 1 sync-summary.txt)"
+          body="The nightly sync found changes on the French scheme's own site.
+
+          ${summary}
+
+          Merging this puts them on the French pages. The file is generated, so there is nothing to edit by hand: to change the content, change it on the author's site and the next night's sync refreshes this pull request."
+          if [ -n "$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')" ]; then
+            echo "::notice::Refreshed the open French sync pull request."
+          else
+            gh pr create --base main --head "$branch" --title "French: nightly sync from the scheme" --body "$body"
+          fi

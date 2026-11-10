@@ -156,3 +156,12 @@ on a phone. It is now one line per lesson that opens in place to show its seven 
 each with a line saying what it is. Native `<details>` sharing a name (one open at a
 time), so no script, and the page stays static and cached. Year group chips jump to each
 stage. Nothing was removed.
+
+## The nightly sync (10 November 2026)
+
+Justin: "yes night sync". `.github/workflows/languages-sync.yml` runs the sync script every
+night at 02:23 UTC. If her data changed it opens one pull request (fixed branch
+`languages/french-sync`, refreshed in place on later nights); if not, it does nothing.
+Merging the pull request is what puts her changes live. The sync script now checks the
+shape of her data before writing, so a change the pages could not draw stops the job and
+leaves the last good file in place (proved by feeding it a broken file).
