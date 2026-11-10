@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>02 · The deepfakes lesson is already written</title>
+<!--
+  The walkthrough campaign, post 2 (Schools, 1 of 4). Eight pages, 1080 x 1350.
+  Render: node content/campaigns/platform-walkthrough/built/decks/render.mjs 02-schools
+  Every screen is a capture of the live public schools site, taken 10 November
+  2026 (the files in ../02-schools-the-lesson-is-written/screens). Colours are
+  the schools home hero's own teal (schools/app/page.tsx) and shared/tokens.css.
+  Fonts are the self hosted files in app/fonts. No dashes in any copy.
+-->
+<style>
+@font-face{font-family:nunito;src:url("../../../../../app/fonts/nunito-latin-wght-normal.woff2") format("woff2");font-weight:200 1000}
+@font-face{font-family:plex;src:url("../../../../../app/fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");font-weight:600}
+:root{--teal-a:#2B5665;--teal-b:#1E4652;--teal-c:#173C46;--cream:#F9F8F6;--ink:#1A1A2E;--soft:#52526A;--butter:#EDC35F;--butter-dk:#C99A28;--tint:#FFF6DE}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#ddd;font-family:nunito,sans-serif;-webkit-font-smoothing:antialiased}
+.page{position:relative;width:1080px;height:1350px;overflow:hidden;color:var(--ink);background:var(--cream);page-break-after:always;break-after:page}
+.page.teal{background:linear-gradient(162deg,var(--teal-a) 0%,var(--teal-b) 52%,var(--teal-c) 100%);color:#fff}
+.page.ink{background:var(--ink);color:#fff}
+
+/* The franchise frame: the same on every page, which is what makes it a series. */
+.frame{position:absolute;left:72px;right:72px;top:60px;display:flex;justify-content:space-between;align-items:center;font-family:plex,monospace;font-weight:600;font-size:22px;letter-spacing:.17em;text-transform:uppercase;color:#7A5A0E;z-index:5}
+.teal .frame,.ink .frame{color:var(--butter)}
+.count{border:2.5px solid currentColor;border-radius:999px;padding:9px 18px 8px;letter-spacing:.14em}
+.rule{position:absolute;left:72px;right:72px;top:122px;height:2px;background:rgba(26,26,46,.14);z-index:5}
+.teal .rule,.ink .rule{background:rgba(255,255,255,.2)}
+
+/* The gold pathway, the signature device: one dotted trail that leaves each
+   page at the height the next one picks it up, so the swipe feels like travel. */
+.path{position:absolute;left:0;top:0;width:1080px;height:1350px;z-index:1;pointer-events:none}
+.path path{fill:none;stroke:var(--butter);stroke-width:9;stroke-linecap:round;stroke-dasharray:1 26}
+
+.body{position:absolute;left:72px;right:72px;top:176px;z-index:3}
+h1{font-weight:900;font-size:104px;line-height:1.0;letter-spacing:-.032em}
+h2{font-weight:900;font-size:76px;line-height:1.03;letter-spacing:-.028em}
+.gold{color:var(--butter)}
+.sub{font-weight:700;font-size:38px;line-height:1.26;margin-top:26px;color:var(--soft);max-width:900px}
+.teal .sub,.ink .sub{color:rgba(255,255,255,.84)}
+.eyebrow{font-family:plex,monospace;font-weight:600;font-size:24px;letter-spacing:.17em;text-transform:uppercase;color:var(--butter);margin-bottom:26px}
+
+/* The numbered step, borrowed from the film's step cards so the Reels and the
+   carousels read as one campaign. */
+.step{display:flex;align-items:flex-start;gap:28px}
+.n{flex:none;width:84px;height:84px;border-radius:50%;background:var(--butter);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:46px;margin-top:4px}
+
+/* A real capture, framed as a window. The address is the page's real one. */
+.win{position:absolute;left:72px;width:936px;border:3px solid var(--ink);border-radius:24px;background:#fff;box-shadow:0 10px 0 var(--ink),0 34px 70px rgba(26,26,46,.16);overflow:hidden;z-index:3}
+.teal .win{box-shadow:0 10px 0 #0E2A32,0 34px 70px rgba(0,0,0,.3);border-color:#0E2A32}
+.bar{height:46px;display:flex;align-items:center;gap:9px;padding:0 20px;background:#F1EFEA;border-bottom:2px solid rgba(26,26,46,.12)}
+.bar i{width:11px;height:11px;border-radius:50%;background:rgba(26,26,46,.2);display:block}
+.bar span{margin-left:14px;font-family:plex,monospace;font-weight:600;font-size:17px;letter-spacing:.02em;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win img{display:block;width:100%}
+.label{position:absolute;font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);z-index:4}
+
+/* The teacher's real words, set large, because a desktop screen scaled to a
+   phone cannot carry them. The capture above it is the proof. */
+.quote{position:absolute;left:72px;right:72px;background:var(--tint);border:3px solid var(--ink);border-radius:26px;box-shadow:0 7px 0 var(--ink);padding:30px 36px 34px;z-index:4}
+.quote b{display:block;font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.16em;text-transform:uppercase;color:#7A5A0E;margin-bottom:12px}
+.quote p{font-weight:800;font-size:37px;line-height:1.22;letter-spacing:-.01em}
+.quote.big p{font-size:52px;line-height:1.12;letter-spacing:-.02em;font-weight:900}
+
+.foot{position:absolute;left:72px;right:72px;bottom:54px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.logo{display:flex;align-items:center;gap:16px;font-weight:800;font-size:28px;letter-spacing:-.01em}
+.logo img{width:46px;height:46px;display:block}
+.logo em{font-style:normal;color:var(--butter)}
+.pg{font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.15em;color:var(--soft)}
+.teal .pg,.ink .pg{color:rgba(255,255,255,.6)}
+.pill{display:inline-block;background:var(--butter);color:var(--ink);border:3px solid #0E2A32;border-radius:18px;box-shadow:0 6px 0 #0E2A32;padding:20px 30px;font-weight:900;font-size:40px;letter-spacing:-.01em}
+.src{font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:40px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- 1 · cover -->
+<section class="page teal" data-name="01-cover">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M520,1273 C680,1273 900,1262 1090,1225"/></svg>
+  <div class="body">
+    <h1>The deepfakes lesson is <span class="gold">already written.</span></h1>
+    <p class="sub">Free to teach. No login. No email.</p>
+  </div>
+  <div class="win" style="top:652px">
+    <div class="bar"><i></i><i></i><i></i><span>schools.guidedchildhood.com/teach/ks3-12-misinfo-deepfakes</span></div>
+    <div style="height:462px;overflow:hidden"><img src="../02-schools-the-lesson-is-written/screens/player-open.png" alt=""></div>
+  </div>
+  <div class="foot"><span class="logo"><img src="../../../../../schools/app/icon.svg" alt="">Guided Childhood <em>Schools</em></span><span></span></div>
+</section>
+
+<!-- 2 · the problem -->
+<section class="page ink" data-name="02-the-problem">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1225 C340,1262 700,1160 1090,1195"/></svg>
+  <div class="body" style="top:270px">
+    <div class="eyebrow">The problem</div>
+    <h1 style="font-size:98px">A statutory topic.<br>A non specialist.<br><span class="gold">A Sunday evening.</span></h1>
+    <p class="sub" style="margin-top:44px">The RSHE guidance now lists deepfakes: how they are used, the harm they can do and how to identify them. Somebody has to plan that lesson.</p>
+    <p class="src">RSHE statutory guidance, Department for Education, July 2025. In force from 1 September 2026.</p>
+  </div>
+  <div class="foot"><span></span><span class="pg">2 / 8</span></div>
+</section>
+
+<!-- 3 · one button -->
+<section class="page" data-name="03-one-button">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1195 C320,1160 760,1262 1090,1230"/></svg>
+  <div class="body"><div class="step"><span class="n">1</span><div>
+    <h2>75 minutes. 35 slides.<br>One button.</h2>
+    <p class="sub">Open the page and press Teach this lesson.</p></div></div>
+  </div>
+  <div class="win" style="top:520px">
+    <div class="bar"><i></i><i></i><i></i><span>schools.guidedchildhood.com/lesson/ks3-12-misinfo-deepfakes</span></div>
+    <img src="../02-schools-the-lesson-is-written/screens/lesson-head.png" alt="">
+  </div>
+  <div class="foot"><span></span><span class="pg">3 / 8</span></div>
+</section>
+
+<!-- 4 · the script -->
+<section class="page" data-name="04-the-script">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1230 C330,1268 740,1170 1090,1200"/></svg>
+  <div class="body"><div class="step"><span class="n">2</span><div>
+    <h2>Your words are under every slide.</h2>
+    <p class="sub">Word for word, so a non specialist reads it well the first time.</p></div></div>
+  </div>
+  <div class="win" style="top:486px">
+    <div class="bar"><i></i><i></i><i></i><span>The real player. Slide 4 of 35</span></div>
+    <div style="height:456px;overflow:hidden"><img src="../02-schools-the-lesson-is-written/screens/player-talk-script.png" alt="" style="margin-top:-100px"></div>
+  </div>
+  <div class="quote" style="top:1036px;padding:24px 34px 28px">
+    <b>The teacher script on this slide</b>
+    <p style="font-size:34px">“Sixty seconds. Something you saw that turned out to be false. Then tell your partner how you found out.”</p>
+  </div>
+  <div class="foot"><span></span><span class="pg">4 / 8</span></div>
+</section>
+
+<!-- 5 · retrieval -->
+<section class="page" data-name="05-recall-first">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1200 C300,1170 780,1262 1090,1232"/></svg>
+  <div class="body"><div class="step"><span class="n">3</span><div>
+    <h2>Last lesson comes back first.</h2>
+    <p class="sub">Retrieval is built into every lesson, not left to whoever remembers.</p></div></div>
+  </div>
+  <div class="win" style="top:566px">
+    <div class="bar"><i></i><i></i><i></i><span>The real player. Slide 6 of 35</span></div>
+    <div style="height:556px;overflow:hidden"><img src="../02-schools-the-lesson-is-written/screens/player-recall.png" alt=""></div>
+  </div>
+  <div class="foot"><span></span><span class="pg">5 / 8</span></div>
+</section>
+
+<!-- 6 · the pack -->
+<section class="page" data-name="06-the-pack">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1232 C340,1268 720,1170 1090,1198"/></svg>
+  <div class="body"><div class="step"><span class="n">4</span><div>
+    <h2>The pack prints from the page.</h2>
+    <p class="sub">Starter quiz, exit quiz, pupil booklet, knowledge organiser and the learning record.</p></div></div>
+  </div>
+  <div class="win" style="top:640px">
+    <div class="bar"><i></i><i></i><i></i><span>schools.guidedchildhood.com/lesson/ks3-12-misinfo-deepfakes</span></div>
+    <img src="../02-schools-the-lesson-is-written/screens/lesson-buttons.png" alt="">
+  </div>
+  <div class="foot"><span></span><span class="pg">6 / 8</span></div>
+</section>
+
+<!-- 7 · what goes wrong -->
+<section class="page" data-name="07-what-goes-wrong">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1198 C320,1160 760,1250 1090,1170"/></svg>
+  <div class="body"><div class="step"><span class="n">5</span><div>
+    <h2>It tells you what goes wrong.</h2>
+    <p class="sub">Every lesson has one thing to do first.</p></div></div>
+  </div>
+  <div class="quote big" style="top:500px">
+    <b>From the planning page</b>
+    <p>“Run one check on something true before you run three on something false.”</p>
+  </div>
+  <div class="win" style="top:880px">
+    <div class="bar"><i></i><i></i><i></i><span>schools.guidedchildhood.com/lesson/ks3-12-misinfo-deepfakes</span></div>
+    <img src="../02-schools-the-lesson-is-written/screens/lesson-one-thing.png" alt="">
+  </div>
+  <div class="foot"><span></span><span class="pg">7 / 8</span></div>
+</section>
+
+<!-- 8 · the free step -->
+<section class="page teal" data-name="08-teach-it-tomorrow">
+  <div class="frame"><span>Every year has a job.</span><span class="count">1 of 4</span></div><div class="rule"></div>
+  <svg class="path" viewBox="0 0 1080 1350"><path d="M-10,1170 C14,1150 34,1112 58,1086"/></svg>
+  <div class="body">
+    <h1>Teach it <span class="gold">tomorrow.</span></h1>
+    <p class="sub">One whole lesson, free. No login, no email.</p>
+  </div>
+  <div class="win" style="top:520px">
+    <div class="bar"><i></i><i></i><i></i><span>schools.guidedchildhood.com/curriculum</span></div>
+    <img src="../02-schools-the-lesson-is-written/screens/map-head.png" alt="">
+  </div>
+  <div style="position:absolute;left:72px;top:1036px;z-index:4">
+    <span class="pill">schools.guidedchildhood.com</span>
+    <p class="src" style="margin-top:28px;color:rgba(255,255,255,.72)">Curriculum, then Free sample.<br>One of 34 modules, Reception to Year 13.</p>
+  </div>
+  <div class="foot"><span class="logo"><img src="../../../../../schools/app/icon.svg" alt="">Guided Childhood <em>Schools</em></span><span class="pg">8 / 8</span></div>
+</section>
+
+</body>
+</html>
