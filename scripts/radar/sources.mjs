@@ -392,7 +392,8 @@ export const BLOCKED_SOURCES = [
   { host: 'www.ofcom.org.uk', status: 403, note: 'Cloudflare bot challenge, across many sessions. Research Ofcom commissioned through a department is still read IN FULL through the govuk-attachment lane. Ofcom-only material needs the PDF in Drive.' },
   { host: 'ico.org.uk', status: 403, note: 'Cloudflare bot challenge. Same route out as Ofcom: ICO commissioned research on GOV.UK is read in full through the govuk-attachment lane.' },
   { host: 'www.cochranelibrary.com', status: 403, note: 'Cloudflare bot challenge. Cochrane reviews with a DOI are still found through Crossref and Europe PMC.' },
-  { host: 'www.esafety.gov.au', status: 503, note: 'Cloudflare. Refused across five attempts in four sessions, and it is not on GOV.UK, so there is no route round it. Needs the PDF in Drive.' },
+  { host: 'www.esafety.gov.au', status: 503, note: 'Cloudflare. Refused across five attempts in four sessions. Three mirrors were then tried on 10 November and none works: apo.org.au is 403 Cloudflare as well, data.gov.au answers but carries no eSafety research, and web.archive.org is unreachable. This is the one blocked source with no route round it, so it needs the PDF in Drive.' },
+  { host: 'apo.org.au', status: 403, note: 'Cloudflare. Tried on 10 November as a mirror for eSafety reports, which it does host. Blocked the same way as the originals.' },
   // Tested on 10 November specifically to get round the four above. It does not
   // work, by any path: curl is reset at the egress every time and the fetch
   // tool refuses the host outright. So the archive is not a fallback and the

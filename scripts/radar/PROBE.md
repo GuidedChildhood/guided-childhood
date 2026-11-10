@@ -34,7 +34,9 @@ this: a Cloudflare rule or a rate limit can change without notice.
 | Ofcom | 403 Cloudflare | **mostly solved.** Research Ofcom commissioned through a department is read in full through the GOV.UK attachment lane. Ofcom-only material still needs the PDF in Drive |
 | ICO | 403 Cloudflare | same route out as Ofcom. The ICO and Ofcom age assurance research was ingested in full this way, 21,851 words |
 | Cochrane Library | 403 Cloudflare | Cochrane reviews with a DOI are found through Crossref and Europe PMC |
-| eSafety Australia | 503 Cloudflare | refused five times across four sessions, and it is not on GOV.UK, so there is no route round it. Needs the PDF in Drive |
+| eSafety Australia | 503 Cloudflare | refused five times across four sessions. Three mirrors tried on 10 November, none works, so this is the one blocked source with no route round it. Needs the PDF in Drive |
+| Analysis and Policy Observatory | 403 Cloudflare | tried as a mirror for eSafety reports, which it does host. Blocked the same way as the originals |
+| data.gov.au | 200, but empty | answers, and carries no eSafety research. Searching it for eSafety returns NSW roads annual reports |
 | web.archive.org | reset, then refused | tested on 10 November precisely to get round the four above. Snapshots were confirmed to EXIST through `archive.org/wayback/available`, but every fetch path failed: curl is reset at the egress and the fetch tool refuses the host. **The archive is not a fallback** |
 | OECD SDMX | 406 | rejects every `format` value tried on the dataflow endpoint. Not pursued |
 | Google Scholar | not attempted | no API, and scraping it is against its terms |
@@ -63,7 +65,8 @@ unreviewed document at the head of the Stage 2 queue.
 1. **A Semantic Scholar API key.** One free key turns a 429 into a working
    source with citation context and reference lists.
 2. **The eSafety PDFs in Drive.** It is the one blocked source with no route
-   round it. Ofcom and the ICO now largely have one.
+   round it: the site, its APO mirror and the web archive are all refused, and
+   data.gov.au does not carry its research. Ofcom and the ICO now have a route.
 3. **A shared contact address in `RADAR_CONTACT`.** Crossref, PubMed and
    OpenAlex all give a higher rate limit to a client that identifies itself, and
    OpenAlex's 429 may well be the shared proxy address rather than us. It must
