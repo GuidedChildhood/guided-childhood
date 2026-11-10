@@ -1,10 +1,10 @@
 {
  "schemaVersion": "1.1.0",
  "researchId": "GDC-RR-0754a1641c",
- "registerVersion": 13,
- "handoffVersion": 1,
- "sourceCommit": "a8f7114403dba07f4c1a67e3f828973f452e9219",
- "createdAt": "2026-11-10T12:25:20.166Z",
+ "registerVersion": 15,
+ "handoffVersion": 2,
+ "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
+ "createdAt": "2026-11-10T12:37:48.406Z",
  "stage": "EDITORIAL READY",
  "productionStatus": "EDITORIAL READY",
  "proposedTitle": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
@@ -177,6 +177,6 @@
  ],
  "history": {
   "registerJsonl": "content/research-register/studies.jsonl",
-  "studyVersions": 13
+  "studyVersions": 15
  }
 }

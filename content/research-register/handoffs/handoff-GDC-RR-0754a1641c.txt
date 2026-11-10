@@ -1,7 +1,7 @@
 GDC RESEARCH HANDOFF  GDC-RR-0754a1641c
 Stage 1 complete, ready for Stage 2 editorial production
-Schema 1.1.0  handoff version 1  created 2026-11-10T12:25:20.166Z
-Register version 13  source commit a8f71144
+Schema 1.1.0  handoff version 2  created 2026-11-10T12:37:48.406Z
+Register version 15  source commit 36e84f90
 
 STATUS
   production status: EDITORIAL READY
