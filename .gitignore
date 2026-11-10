@@ -71,3 +71,9 @@ publishing/issues/*/events.jsonl
 app-stores/android/build/
 *.keystore
 *.jks
+
+# Research radar full text cache. The register row is the permanent record and
+# carries the URL, the lane and a sha256 of the text, so a document can be
+# fetched again and proved identical. The text itself would add megabytes a
+# month to a repo that already watches its own size.
+content/research-register/documents/

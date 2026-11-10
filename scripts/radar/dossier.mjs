@@ -26,7 +26,7 @@
 // PENDING. Gate J: "Never claim Claude checked anything until Claude has
 // actually run and its output is stored."
 
-import { getJson, get } from './sources.mjs'
+import { getJson, get, mailtoParam } from './sources.mjs'
 import * as reg from './register.mjs'
 
 const CAUSAL = /\b(causes?|caused|causal|leads to|results in|drives|due to|because of|impact(s|ed)? on|effect of)\b/i
@@ -160,7 +160,7 @@ export async function buildDossier(rec) {
   // online date routinely differ by weeks and the protocol asks for both.
   if (d.doi) {
     const clean = String(d.doi).replace(/^https?:\/\/(dx\.)?doi\.org\//, '')
-    const { ok, json, status } = await getJson(`https://api.crossref.org/works/${encodeURIComponent(clean)}?mailto=justin@thesocialbillboard.com`)
+    const { ok, json, status } = await getJson(`https://api.crossref.org/works/${encodeURIComponent(clean)}${mailtoParam('?')}`)
     if (ok && json?.message) {
       const m = json.message
       d.doiResolves = true
