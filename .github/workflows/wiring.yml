@@ -625,6 +625,9 @@ jobs:
       # passport fact copied instead of read, or a pupil field appearing at
       # all. Strip types because it imports the model it checks.
       - run: node --experimental-strip-types scripts/check-lesson-tracker.mjs
+      # The school's record of what it taught (migration 391): the school is
+      # read from the cookie, no pupil can be recorded, and a lesson counts once.
+      - run: node --experimental-strip-types scripts/check-lesson-records.mjs
       # Every safeguarding flagged module has a staff briefing, and every page
       # counts them from the manifest rather than by hand. Header of
       # check-flagged-briefings.mjs.

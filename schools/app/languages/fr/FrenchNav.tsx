@@ -29,7 +29,7 @@ const ROOMS = [
 export default function FrenchNav() {
   const pathname = usePathname()
   const inPrint = pathname.startsWith('/languages/fr/print')
-  const inPlan = pathname.startsWith('/languages/fr/plan') || pathname.startsWith('/languages/fr/coverage') || pathname.endsWith('/plans')
+  const inPlan = pathname.startsWith('/languages/fr/plan') || pathname.startsWith('/languages/fr/coverage') || pathname.startsWith('/languages/fr/progress') || pathname.endsWith('/plans')
   const active = (href: string) =>
     href === '/languages/fr/print' ? inPrint : href === '/languages/fr/plan' ? inPlan : !inPrint && !inPlan
   return (

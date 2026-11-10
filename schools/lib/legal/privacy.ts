@@ -33,7 +33,7 @@ export const PRIVACY: LegalDoc = {
       `We send a confirmation email to the address you gave, and a copy of each request to the founder, so that nothing waits. Our basis is the same as in 2.1.`,
       `Our hosting provider keeps short lived technical logs of requests to the site, which include an IP address, the time and the page requested. They exist to keep the Service secure and running. We do not use them to identify anyone, and our basis is our legitimate interest in running a secure service.`,
       `Some things live only in your browser and never reach us: the AI governance reviews your school writes, which may name a member of staff, the record of which passport pages a classroom screen has filled, and the name of your safeguarding lead if you type it into the Hub so the lessons can say it. They are stored on that device and never sent to us. The reviews can be exported as a file or printed, and clearing the browser clears all of them.`,
-      `The classroom player sends us nothing. There is no record of which teacher taught which lesson, which class saw it, or how any pupil answered.`,
+      `The classroom player sends us nothing while a lesson is taught. If a member of your staff presses "Mark lesson delivered", we keep your school's lesson record: which lesson, the date, the class label they typed, and anything they chose to add about how the class as a whole did, which can be a judgement, a count of pupils at each level, and a short note. It is kept so that your school has one record across every laptop. There is no record of which teacher taught it or how any one pupil answered, and no pupil is named.`,
     ]),
     section(3, 'never', 'What we never do', [
       `We do not collect any personal data about pupils. There are no pupil accounts, logins, names, photographs or profiles anywhere in the Service.`,
@@ -56,6 +56,7 @@ export const PRIVACY: LegalDoc = {
     section(5, 'keep', 'How long we keep it', [
       `A request that does not lead to a licence, whether a lead, a sample lesson pack, a free lesson or a draw entry, is deleted twelve months after our last contact with you.`,
       `A licensed School's contact details are kept for the life of its licence and for six years after the last invoice, because tax law requires us to keep accounting records for that long. We keep only what that requires.`,
+      `Your school's lesson record is kept for the life of the licence and one year after it ends, then deleted. We delete it sooner if the School asks in writing.`,
       `The cookie expires after 180 days, or sooner if the code is withdrawn. Technical logs are kept briefly by our hosting provider and then deleted.`,
     ]),
     section(6, 'rights', 'Your rights', [

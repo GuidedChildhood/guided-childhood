@@ -12,6 +12,7 @@ import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
+import RecordLesson from '@/components/records/RecordLesson'
 import { LessonOpened } from '@/components/tracker/signals'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { evidenceStatus } from '@gc/shared/evidence-status'
@@ -775,6 +776,18 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               hubOpen={!!access}
             />
           </div>
+        )}
+
+        {/* The one tap that says it was taught, saved for the school and not
+            for this laptop (10 November 2026). Only with a school code. */}
+        {access && (
+          <section style={{ marginTop: '28px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>Taught it? Record it for your school</h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-3)' }}>
+              The class and the date, saved on every laptop. No pupil is named.
+            </p>
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} />
+          </section>
         )}
 
         {showPilot && <div style={{ marginTop: '28px' }}><PilotStrip /></div>}

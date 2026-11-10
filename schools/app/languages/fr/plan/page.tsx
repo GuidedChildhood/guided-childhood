@@ -10,6 +10,7 @@ import { body, card, langEyebrow, small } from '../_ui'
 // Three things a teacher or a subject lead looks up, none of which is
 // teaching a lesson, so they share one room instead of taking a tab each:
 //
+//   0. the school's own record: progress, class by class (/languages/fr/progress)
 //   1. the lesson plans, by unit, ready to print
 //   2. assessment across the year: which statements each half term assesses
 //   3. the coverage grid against the KS2 programme of study
@@ -32,9 +33,19 @@ export default function FrenchPlanRoom() {
           Plan and assess
         </h1>
         <p style={{ ...body, maxWidth: '600px' }}>
-          The lesson plans to print, what each half term assesses, and where the national curriculum is covered.
+          Where each class is, the lesson plans to print, what each half term assesses, and where the national
+          curriculum is covered.
         </p>
       </div>
+
+      <Link href="/languages/fr/progress" className="gc-fr-tile" style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', textDecoration: 'none', borderLeft: '4px solid var(--terracotta)' }}>
+        <span style={{ minWidth: 0 }}>
+          <span style={{ ...langEyebrow, display: 'block' }}>Your school&apos;s record</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginTop: 'var(--space-1)' }}>Progress, class by class</span>
+          <span style={{ ...small, display: 'block' }}>Which lessons each class has had, and how pupils are doing against each statement. It fills itself in.</span>
+        </span>
+        <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink-light)' }}>›</span>
+      </Link>
 
       <section aria-labelledby="plans">
         <h2 id="plans" style={{ ...eyebrow, margin: '0 0 var(--space-2)' }}>Lesson plans, ready to print</h2>

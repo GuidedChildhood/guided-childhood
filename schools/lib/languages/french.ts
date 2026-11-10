@@ -197,6 +197,20 @@ export function assessedIn(u: FrenchUnit, n: number): AssessPlan[] {
   return (u.deck?.assessPlan ?? []).filter(p => (p.lessons ?? []).includes(n))
 }
 
+/** The statements a teacher is asked to count pupils against after one lesson.
+ *  The ones the scheme assesses in that lesson, and in the unit's last lesson
+ *  every statement of the unit, because that is when the What I can do sheet
+ *  is finished. A culture lesson is not assessed, so it asks for none. */
+export function codesToRecord(u: FrenchUnit, l: FrenchLesson): Statement[] {
+  if (l.culture) return []
+  const all = assessedCodes(u)
+  const numbered = teachingLessons(u)
+  const last = u.deck?.assessLesson ?? numbered[numbered.length - 1]?.n
+  if (l.n === last) return all
+  const today = new Set(assessedIn(u, l.n).map(a => a.code))
+  return all.filter(c => today.has(c.code))
+}
+
 /** The unit's extra activities that belong to one lesson. */
 export function activitiesFor(u: FrenchUnit, n: number): SheetFile[] {
   return sheetList(u.deck?.activities).filter(a => !a.lessons || a.lessons.includes(n))
