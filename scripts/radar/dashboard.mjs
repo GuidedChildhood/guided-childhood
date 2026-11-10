@@ -21,6 +21,9 @@ import { syncState } from './sync.mjs'
 import { preflight } from './pipeline.mjs'
 import { eligibility } from './qa.mjs'
 
+// The one page Justin copies posts from. Never a second one.
+const POST_DESK = 'https://claude.ai/artifact/Xb6Jt6JAm2d3wrF7WXxeGY'
+
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const when = (iso) => {
   if (!iso) return 'never'
@@ -60,7 +63,7 @@ export function collect() {
     }
     if (r.status === 'PUBLISHED') { g.published.push({ ...row, url: r.publishedUrl, evidence: r.publishedCheck?.verdict || 'not recorded', at: r.publishedAt }); continue }
     if (r.status === 'APPROVED') { g.awaitingApproval.push({ ...row, note: 'Approved. Waiting for you to post it and give me the link.', approved: true }); continue }
-    if (r.status === 'ASSETS READY') { g.awaitingApproval.push({ ...row, note: 'Checked and reviewed. Waiting for your yes.' }); continue }
+    if (r.status === 'ASSETS READY') { g.awaitingApproval.push({ ...row, note: 'Checked and reviewed. It is on the Post Desk, ready for you to read and copy.' }); continue }
     if (r.status === 'EDITORIAL READY') {
       const el = eligibility(r)
       if (el.verdict !== 'PASS') { g.blocked.push({ ...row, stage: 'ELIGIBILITY', reasons: el.reasons, at: r.lastChecked }); continue }
@@ -257,7 +260,7 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
 
   ${section({ id: 'approval', title: 'Waiting for you', count: g.awaitingApproval.length, tone: g.awaitingApproval.length ? 'gold' : '',
     lede: 'Packs that passed every check and my review. Nothing goes out until you say yes, and nothing is marked posted without a link that answers.',
-    body: list(g.awaitingApproval), empty: 'No pack is waiting for your approval.' })}
+    body: list(g.awaitingApproval) + `<p class="lede"><a href="${POST_DESK}">Open the Post Desk</a> to read it, copy it and post it. Then send me the link.</p>`, empty: 'No pack is waiting for your approval.' })}
 
   ${section({ id: 'blocked', title: 'Blocked, and why', count: blockedCount, tone: blockedCount ? 'bad' : 'good',
     lede: 'Anything that failed a check stops here with its reason. It does not carry on quietly.',
