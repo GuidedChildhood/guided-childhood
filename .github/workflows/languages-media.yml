@@ -1,0 +1,49 @@
+name: languages-media
+
+# Copies the French decks, songs and sheets into our own storage
+# (scripts/languages/mirror-french-media.mjs). It runs here because the
+# repository already holds the Supabase key as a secret, so the key is never
+# needed on a laptop or in a chat.
+#
+# It runs when the synced scheme changes on main (a new unit arrived), when the
+# script or this file changes, or by hand from the Actions tab. It only adds
+# and updates files; it never deletes one.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - schools/lib/languages/fr.json
+      - scripts/languages/mirror-french-media.mjs
+      - .github/workflows/languages-media.yml
+
+concurrency:
+  group: languages-media
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Mirror the French media into storage
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          # Justin, 10 November 2026: the files stay on the author's site for
+          # now. Until both secrets exist this says so and stops quietly, so a
+          # synced unit never leaves a red cross on main. Adding the secrets is
+          # the whole switch: the next run copies everything.
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::notice::The French media mirror is waiting for the NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY secrets. Nothing copied; the pages load from the author's site."
+            exit 0
+          fi
+          node scripts/languages/mirror-french-media.mjs

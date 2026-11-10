@@ -25,6 +25,10 @@ export function buildBrief({ runStats = null, date = new Date() } = {}) {
   const awaiting = all.filter((r) => r.status === 'VERIFIED' && r.claudeStatus !== 'CLAUDE REVIEWED')
   const core = all.filter((r) => r.relevanceBand === 'CORE')
   const newToday = all.filter((r) => String(r.firstFound).slice(0, 10) === today)
+  // Records whose whole text we hold, rather than an abstract. These came in
+  // through the drop lane or the GOV.UK attachment lane, and they are the only
+  // records where a figure may be quoted from the body of a document.
+  const fullText = all.filter((r) => r.fullTextAvailable && r.fullTextPath)
 
   // The top three are drawn only from studies that have actually been through
   // a stored Claude review. If fewer than three exist, fewer than three are
@@ -71,7 +75,16 @@ export function buildBrief({ runStats = null, date = new Date() } = {}) {
   line('   LIMITATIONS, stated because the brief is worthless without them:')
   for (const b of BLOCKED_SOURCES) line(`     ${b.host}: ${b.status ?? 'not attempted'}. ${b.note}`)
   line('     Google Scholar has no API and is not scraped.')
-  line('     Full texts are generally not read. Figures come from abstracts unless a dossier says otherwise.')
+  // This used to say flatly that full texts are not read. That stopped being
+  // true on 10 November, when the drop and GOV.UK attachment lanes started
+  // storing whole documents, so the brief now counts them rather than
+  // understating what it has.
+  if (fullText.length) {
+    line(`     Full text IS held for ${fullText.length} record(s), listed in section 4. For every other record,`)
+    line('     figures come from the abstract unless a dossier says otherwise.')
+  } else {
+    line('     Full texts are not read. Figures come from abstracts unless a dossier says otherwise.')
+  }
   line()
 
   line('2. TOP DISCOVERIES, VERIFIED AND CLAUDE REVIEWED')
@@ -106,6 +119,13 @@ export function buildBrief({ runStats = null, date = new Date() } = {}) {
   line(`   ${newToday.length} record(s) first seen today out of ${all.length} in the register.`)
   line('   Dedup is by DOI, PMID, PMCID, canonical URL and normalised title, so a study')
   line('   found again is an updated row rather than a new discovery.')
+  if (fullText.length) {
+    line(`   ${fullText.length} record(s) held in FULL TEXT, not as an abstract:`)
+    for (const r of fullText) {
+      line(`     (${r.studyId}) ${(r.words || 0).toLocaleString()} words, ${r.provenance?.lane || 'unknown lane'}`)
+      line(`       ${String(r.title).slice(0, 96)}`)
+    }
+  }
   line()
 
   line('5. EDITORIAL DECISION')

@@ -1009,6 +1009,108 @@
    },
    "claudeStatus": "PENDING",
    "childIsTheSubject": false
+  },
+  "GDC-RR-e22bd17322": {
+   "title": "Feasibility Study of Methods and Data to Understand the Impact of Smartphones and Social Media on Children and Young People",
+   "url": "https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people",
+   "journal": "DSIT",
+   "published": "2026-01-20",
+   "authors": "DSIT",
+   "abstract": "OFFICIAL\n\n`\n\nFeasibility Study of Methods and Data to Understand the Impact of\nSmartphones and Social Media on Children and Young People\nMay 2025\n\nOFFICIAL\n\n1\n\n\fOFFICIAL\n\n`\n\nFeasibility Study of Methods and Data to Understand the Impact of Smartphones and\nSocial Media on Children and Young People .......................................................................... 1\nList of Abbreviations............................................................................................................ 7\nAcknowledgements ............................................................................................................... 9\n\nPeer Review ................................................................................................................................................... 9\nRecommended Citation.................................................................................................................................. 9\nTeam Contributions ....................................................................................................................................... 9\nFunder Involvement ..................................................................................................................................... 10\nConflicts of Interest ..................................................................................................................................... 11\n\nExecutive Summary ........................................................................................................... 12\nIntroduction ........................................................................................................................ 15\nReport Development Methodology ................................................................................... 17\n\nTable 1. Scientific Consortium ..................................................................................................................... 17\nOverview of Report ..................................................................................................................................... 19\nScope of Report ........................................................................................................................................... 19\nPrimary Definitions...................................................................................................................................... 20\n\nDigitalisation of Childhood and Adolescence in the UK ................................................. 20\n\nFigure 1. Proportion of children and young people in the UK with personal smartphones, by age. Data\ntaken from Ofcom, 2024a............................................................................................................................. 21\n\nThe State of Science in the Policymaking Process........................................................... 22\n\nThe Past Five Years of UK Research-Policy Responses ............................................................................. 22\nUnderstanding Causal Evidence in Research on Digital Technologies and Young People ......................... 25\nThe Difficulty Assessing Causal Evidence .................................................................................................. 27\nFigure 2. Graph depicting technology diffusion in the United Kingdom. Data taken from Comin & Hobjin\n(2004)........................................................................................................................................................... 32\nThe Role of Scientists as Independent Safety Testers.................................................................................. 35\n\nSummaries of Standalone Research Reports ................................................................... 37",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": true,
+   "streams": [
+    "drop"
+   ],
+   "foundBy": [
+    "manual-drop"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 18,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\bsmartphone|mobile phone\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br",
+     "+3 \\bOfcom|\\bDfE\\b|Department for Edu"
+    ]
+   },
+   "provenance": {
+    "lane": "manual-drop",
+    "reasonThisLaneExists": "the publisher cannot be fetched from the container, see PROBE.md",
+    "originalFile": "dsit-smartphones.pdf",
+    "droppedBy": "radar:drop"
+   },
+   "fullTextAvailable": true,
+   "words": 118865,
+   "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-e22bd17322.txt",
+   "studyId": "GDC-RR-e22bd17322",
+   "version": 8,
+   "firstFound": "2026-11-10T09:19:14.418Z",
+   "lastChecked": "2026-11-10T09:24:26.063Z",
+   "changeReason": "digest recorded so the text cache can be rebuilt and verified",
+   "changedBy": "radar:drop",
+   "textSha256": "98287ac5599431f45dbc4ffb7c4e12f4713b15d0a0660565d885b37e20e3c740",
+   "textBytes": 854953
+  },
+  "GDC-RR-86c1075a30": {
+   "title": "Families’ attitudes towards age assurance: research commissioned by the ICO and Ofcom",
+   "url": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
+   "journal": "Competition and Markets Authority",
+   "published": "2022-10-11",
+   "authors": "Competition and Markets Authority",
+   "abstract": "Contents\nPreface\n\n3-4\n\nAbout Revealing Reality\n\n5\n\nExecutive summary\n\n6-7\n\nBackground & methodology\n\n8-10\n\nSection 1: What do families think about the\nconcept of age assurance and why?\n\n11-16\n\nSection 2: What do families think about age\nassurance methods?\n\n17-33\n\nSection 3: How do families currently approach\nparental controls and monitoring?\n\n34-41\n\nSection 4: Conclusions\n\n42-43\n\nAnnex: Methodology and sample detail\n\n44-47\n\n2\n\n\fPreface\nThe Information Commissioner’s Office (ICO) is the UK’s independent regulator for information rights\nlegislation. This includes the Data Protection Act 2018 and the UK General Data Protection Regulation\n(UKGDPR). In September 2021, the ICO’s Age Appropriate Design Code (AADC or Children’s code), a\nstatutory code, came into force. This requires organisations which are offering online services likely to be\naccessed by children to conform to 15 standards. Standard three of the code sets an expectation that online\nplatforms either establish the age of their users with an appropriate degree of certainty, or apply the standards\nin the code to all users.\nOfcom has a statutory duty to promote and research media literacy, including in respect of material available on\nthe internet. A key way it seeks to fulfil this duty is through its Making Sense of Media programme, which aims\nto help improve the online skills, knowledge and understanding of children and adults in the UK. Ofcom was\nalso given powers in autumn 2020 to regulate UK-established video-sharing platforms (VSPs). And in December\n2020, the Government confirmed its intention to nominate Ofcom as the regulator for online safety in the UK,\nunder the Online Safety Bill.\nThe Digital Regulation Cooperation Forum (DRCF) brings together four UK regulators tasked with regulating\ndigital services to collectively drive greater regulatory co-operation and deliver coherent approaches to digital\nregulation. Through the DRCF workplan for 2022-23, the ICO and Ofcom committed to working together on\nprotecting children online and synchronising their efforts – with a particular focus on improving outcomes for\nchildren and parents – by ensuring privacy and online safety protections work in unison. This includes joint\nresearch on age assurance, as well as a joint working framework to support the oversight of Ofcom’s Video\nSharing Platform (VSP) regulatory framework and the ICO’s Children’s code.\nThis research will also inform Ofcom’s preparations for implementing the new online safety laws, as referenced\nin Ofcom’s Roadmap to Online Safety Regulation. As part of these preparations, Ofcom is building a robust\nevidence base, bringing together internal and external data, collected using different methods, from a variety of\ndifferent sources. This programme of research will further develop Ofcom’s understanding of online harms and\nhow it can help to promote a safer user experience.\nAge Assurance Research\nAge assurance refers to a number of measures which would allow organisations to prevent children from\naccessing services which are inappropriate for their age, and also to tailor services to suit their developmental\nneeds 1.\nThe role of age assurance in children’s use of online services is an area of mutual interest for both the ICO and\nOfcom as age assurance products that comply with data protection legislation and meet further online safety\nobjectives will help to deliver a stronger, more positive outcome for children online. Given it is an area where\nthere are interlinking responsibilities, this research has been commissioned to aid coherence between these two\nbodies and will help to inform policies and guidance in this area.\nThis research provides an understanding of the attitudes parents and children have about age assurance. The\nresearch shows there is parental and child support for the principle of age assurance, but also recognises some\nmethods raise concerns related to privacy, parental control, child autonomy and usability.\nThe ICO and Ofcom will play close att",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "isOfficial": true,
+   "streams": [
+    "drop"
+   ],
+   "foundBy": [
+    "manual-drop"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 26,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bage assurance|age verification|a",
+     "+4 \\bparental control|parental monito",
+     "+3 \\bdigital literacy|media literacy\\",
+     "+2 \\bonline safety\\b",
+     "+4 \\bparent(s|al)? and (teen|child|ad"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br",
+     "+3 \\bOfcom|\\bDfE\\b|Department for Edu"
+    ]
+   },
+   "provenance": {
+    "lane": "govuk-attachment",
+    "reasonThisLaneExists": "the regulator site is blocked but GOV.UK serves the same report",
+    "govukPath": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
+    "pdfUrl": "https://assets.publishing.service.gov.uk/media/6343dd3f8fa8f52a5803e669/Ofcom_ICO_joint_research_-_age_assurance_report.pdf",
+    "droppedBy": "radar:govuk"
+   },
+   "fullTextAvailable": true,
+   "words": 21851,
+   "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
+   "studyId": "GDC-RR-86c1075a30",
+   "version": 4,
+   "firstFound": "2026-11-10T09:23:10.230Z",
+   "lastChecked": "2026-11-10T09:24:26.938Z",
+   "changeReason": "provenance corrected to the GOV.UK attachment lane",
+   "changedBy": "radar:govuk",
+   "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
+   "textBytes": 137677
   }
  },
  "keys": {
@@ -1065,6 +1167,10 @@
   "title:national support for a healthy checkout policy a randomised message framing experiment": "GDC-RR-bafc7bb71a",
   "doi:10.3390/rel17111316": "GDC-RR-e0121857da",
   "url:doi.org/10.3390/rel17111316": "GDC-RR-e0121857da",
-  "title:religious communities and social media in north macedonia between digital presence and online engagement": "GDC-RR-e0121857da"
+  "title:religious communities and social media in north macedonia between digital presence and online engagement": "GDC-RR-e0121857da",
+  "url:www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people": "GDC-RR-e22bd17322",
+  "title:feasibility study of methods and data to understand the impact of smartphones and social": "GDC-RR-e22bd17322",
+  "url:www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom": "GDC-RR-86c1075a30",
+  "title:families attitudes towards age assurance research commissioned by the ico and ofcom": "GDC-RR-86c1075a30"
  }
 }

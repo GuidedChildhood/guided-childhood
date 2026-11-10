@@ -6,7 +6,9 @@ import { FRENCH_UNITS, frenchLesson, frenchUnit, lessonsOf, mediaUrl } from '@/l
 // /languages/fr/[unit]/[lesson]/teach: the deck on the board, full screen,
 // with one thin bar to get back. The deck is the author's own interactive
 // stage (arrows, songs and games built in), framed rather than rebuilt, so
-// nothing a class taps is lost. It sits above the site nav on purpose: the
+// nothing a class taps is lost. It is sandboxed with an origin of its own
+// (the media route sends the same rule as a header), so a deck's scripts
+// never run as this app. It sits above the site nav on purpose: the
 // board shows the lesson and nothing else.
 
 export function generateStaticParams() {
@@ -46,6 +48,7 @@ export default async function FrenchTeachPage({ params }: { params: Promise<{ un
       <iframe
         src={src}
         title={`${l.title}, slides`}
+        sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-presentation"
         allow="autoplay; fullscreen"
         allowFullScreen
         style={{ flex: '1 1 auto', width: '100%', border: 0, background: 'var(--ink)' }}

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
 import { btnGold, eyebrow } from '@/components/ui'
-import { FRENCH_UNITS, frenchUnit, KS2_STATEMENTS, lessonsOf, mediaUrl, type SheetFile } from '@/lib/languages/french'
+import { FRENCH_UNITS, frenchUnit, KS2_STATEMENTS, lessonsOf, mediaUrl, sheetList, type SheetFile } from '@/lib/languages/french'
 import { body, card, Crumbs, langEyebrow, Section, Sheets, small, Words } from '../_ui'
 
 // /languages/fr/[unit]: one half term on one page. The plan (sound, words,
@@ -26,11 +26,11 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
   const d = u.deck
   const lessons = lessonsOf(u)
   const paperwork: { label: string; files: SheetFile[] }[] = d ? [
-    { label: 'Word mats', files: d.wordMats ?? [] },
-    { label: 'What I can do', files: d.whatICanDo ?? [] },
-    { label: 'Extra activities', files: d.activities ?? [] },
-    { label: 'Assessment', files: d.assessment ?? [] },
-    { label: 'For the teacher', files: d.teacher ?? [] },
+    { label: 'Word mats', files: sheetList(d.wordMats) },
+    { label: 'What I can do', files: sheetList(d.whatICanDo) },
+    { label: 'Extra activities', files: sheetList(d.activities) },
+    { label: 'Assessment', files: sheetList(d.assessment) },
+    { label: 'For the teacher', files: sheetList(d.teacher) },
   ].filter(x => x.files.length > 0) : []
 
   return (
@@ -158,6 +158,9 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
               </div>
             ))}
           </div>
+          <Link href={`/languages/fr/print#${u.key}`} style={{ ...small, display: 'inline-block', marginTop: 'var(--space-3)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+            Every sheet for this unit, lesson by lesson, in the print room
+          </Link>
         </Section>
       )}
 
