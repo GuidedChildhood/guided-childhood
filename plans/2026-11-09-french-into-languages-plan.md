@@ -115,3 +115,44 @@ Justin chose "move to our storage now" on 9 November.
 - A deck is somebody else's page with its own scripts, so it is served with a sandbox and
   never runs with this app's origin. Decks check the languages code; sheets and songs do
   not, because they are public already.
+
+## The print room, and the files stay on her site for now (10 November 2026)
+
+- The first mirror run stopped: GitHub does not hold the two Supabase secrets. Justin then
+  chose to **keep the files on her website for now**. Nothing was lost: the media route
+  already falls back to her site, and the mirror job now waits quietly (a notice, no red
+  cross) until `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are added as
+  repository secrets. Adding them is the whole switch.
+- **`/languages/fr/print`**, the French print room: every sheet in the scheme on one page
+  (89 today), by unit and lesson, the class, adapted and inclusion versions side by side,
+  with link chips (`?level=`) to narrow to one version. Linked from the French home and
+  from each unit. Behind the languages code like the rest.
+
+## The finish pass: navigation, motion and the house look (10 November 2026)
+
+Justin: make sure her lessons carry our level of finish ("professional Apple look"), with
+motion and the best way to navigate. Review of the French pages against the digital side
+(the Hub, the curriculum map), at 390 and 1440. What fell short, and the fix:
+
+| Found | Fix |
+|---|---|
+| Buttons were a paler yellow than the site's gold button (`ui.ts` inline styles) | The house `.btn .btn-gold` and `.btn-outline` classes everywhere |
+| No way to move between Units, Print room and Coverage except the breadcrumb | One segmented control at the top of every French page |
+| The lesson page was all text: nothing showed what the board would show | A live preview of the lesson's first slide as the hero, one tap to teach |
+| Teaching a lesson from the unit page took two taps | A play button on every lesson row |
+| The languages home was one card on an empty page | The French card with its actions, and the units that are ready to teach now |
+| No motion at all | The house `Reveal` (fade and rise, reduced motion honoured) on sections below the fold; hover on rows and cards |
+| Breadcrumb wrapped onto two lines on a phone | On a phone it is one back link to the parent |
+
+Not changed: her slides themselves. They are her own design inside the frame (their own
+font and colours). Restyling the slides to ours is a separate job that needs her say.
+
+## The digital print room, the same day (10 November 2026)
+
+Justin flagged `/print` in the same breath: "much tidier, neater, Apple style, motion,
+simpleness". It was a table per key stage with seven pills on every row: 238 identical
+buttons, the seventh column running off a laptop screen, and only the first column visible
+on a phone. It is now one line per lesson that opens in place to show its seven sheets,
+each with a line saying what it is. Native `<details>` sharing a name (one open at a
+time), so no script, and the page stays static and cached. Year group chips jump to each
+stage. Nothing was removed.

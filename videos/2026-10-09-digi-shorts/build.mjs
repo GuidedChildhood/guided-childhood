@@ -119,7 +119,9 @@ for (const [i, sh] of C.shots.entries()) {
   for (const [j, o] of (sh.inScreen || []).entries()) {
     if (/ripple/.test(o.cls || '')) {
       // A tap is a ripple and the real pressed state, never a finger.
-      fromTo(`#${id}-in${j}`, { scale: 0.2, opacity: 0.32 }, { scale: 1.6, opacity: 0, duration: 0.5, ease: 'power2.out', transformOrigin: '50% 50%' }, s + o.t0)
+      // immediateRender false: without it the ripple's start state paints from
+      // frame one, and a grey dot sits on the screen until the tap.
+      fromTo(`#${id}-in${j}`, { scale: 0.2, opacity: 0.32 }, { scale: 1.6, opacity: 0, duration: 0.5, ease: 'power2.out', transformOrigin: '50% 50%', immediateRender: false }, s + o.t0)
     } else {
       fromTo(`#${id}-in${j}`, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.45, ease: 'power2.out', transformOrigin: '0 50%' }, s + o.t0)
       if (o.t1 != null) to(`#${id}-in${j}`, { opacity: 0, duration: 0.25 }, s + o.t1)

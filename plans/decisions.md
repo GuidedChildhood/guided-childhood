@@ -310,6 +310,9 @@ Justin asked for her KS2 French (french-curriculum.pages.dev) on the platform as
 
 Justin approved the one click tracking spec as recommended: delivery records go on the server (the 29 August bridge b rule reversed for these only, still no pupil data or accounts), anyone with the school code sees and corrects them, optional teacher initials, optional 280 character note, and he reads the DPA and privacy wording before PR 1 merges. French: Mark delivered is its first improvement, its media moves to our storage now, and it stays hidden until launch. Detail in the spec's Decided table.
 
+## 10 November 2026: the walkthrough campaign, 20 drafts and three built
+
+Justin asked for a 20 post walkthrough of the three platforms, one service a post, one goal: free sign ups. Plan: `plans/week-of-2026-11-09-walkthrough-campaign-plan.md`; drafts and the three built pieces (a 30 second Reel cut from existing real captures, an 8 page schools carousel from captures of the live site, a playlists card) in `content/campaigns/platform-walkthrough/`. The spine is the sideways launch sequence with a problem, promise, proof, proposal shape and no agitate. Split 13 parents, 4 schools, 3 playlists, numbered per account because the three audiences never see each other's posts. Found on the live sites: schools has no open catalogue any more (the free steps are one whole lesson and the pilot), parents have no free tier (four days of everything, no card), "school chest" is on no live page, and school email forwarding is live. Nothing posted, scheduled or spent; six decisions wait on Justin. The film engine's tap ripple no longer paints a dot before the tap. PR 1471 was merged as the empty claim; the work is PR 1475.
 ## 10 November 2026: French media mirrors into our storage, from GitHub
 
 Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
@@ -338,3 +341,10 @@ main is a miscount in scripts/check-followup-lives-in-checkin.mjs, not a fault
 in the route it guards. The guard subtracts one for its helper's definition,
 and the helper became generic, so the definition no longer matches the pattern
 and two real call sites count as one. The patch is on PR 1462.
+## 10 November 2026: French files stay on her site for now; the print room
+
+The mirror's first run found no Supabase secrets in GitHub. Justin chose to keep the French files on the author's site for now: the media route already falls back to it, and the mirror job waits quietly until the two secrets are added (that is the whole switch). New page `/languages/fr/print`, the French print room: all 89 sheets on one page by unit and lesson, three versions side by side, a link filter per version.
+
+## 10 November 2026: the finish pass on French and the digital print room
+
+Justin asked for our level of finish on the French pages, with motion and better navigation, then flagged `/print`. French: one segmented control on every page (Units, Print room, Coverage), a live sandboxed preview of the first slide on the lesson page, a play button per lesson row, the house Reveal and the site's own button classes. `/print`: 238 pills in tables became one row per lesson that opens to its seven sheets (native details, no script, still cached). Her slides themselves are untouched; restyling them needs her say. Her own site is not changed by any of this.

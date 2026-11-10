@@ -3,7 +3,7 @@ import { PAGE } from '@gc/shared/page-scale'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
 import { FRENCH_UNITS, KS2_STATEMENTS } from '@/lib/languages/french'
-import { body, card, Crumbs, langEyebrow, small } from '../_ui'
+import { body, card, langEyebrow, small } from '../_ui'
 
 // /languages/fr/coverage: the KS2 languages programme of study against every
 // unit. Generated from the statements each unit names as assessed, so the
@@ -22,10 +22,9 @@ export default function FrenchCoverage() {
   const gaps = codes.filter(c => plannedCount(c) === 0)
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
-        <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-          <Crumbs trail={[{ href: '/languages', label: 'Languages' }, { href: '/languages/fr', label: 'French' }, { label: 'Coverage' }]} />
+        <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 'var(--space-2)' }}>
           <PrintButton label="Print the coverage grid" />
         </div>
         <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>KS2 languages programme of study</p>
