@@ -50,25 +50,24 @@
   },
   "stage2Brief": {
    "role": "stage2Brief",
-   "fileId": "16yYpI6Yh7m81bVDFNndWeVWSfS63eBSBTQHlmYpV7WM",
-   "title": "GDC STAGE 2 START HERE [e058a47b] 10 Nov 2026, CURRENT",
+   "fileId": "1wNYcOSDVl7hbCNdge0DUyygqsSf6tnCIf-8bMbf4Tro",
+   "title": "GDC STAGE 2 START HERE [5380577c] 10 Nov 2026 16:30, CURRENT",
    "links": {
-    "manifest": "1H84xv1rdodFOg33EUuvALjwq_fPcveMr",
-    "postRegister": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt",
-    "handoffJson": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi"
+    "manifest": "1-nQpreqWFJ8HWgE4ers5IPRltaz-FVoB",
+    "postRegister": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt"
    },
-   "commit": "e058a47bb04307ae2bbd6b9e668b6128ad8d7a5d",
-   "factsSha256": "47c65c1890b4b607c3e1748a3e48e890022c2a6777f83419a90aa2a3c3574d93",
-   "sha256": "994da73f719109396d15dd8459554f60aa5b7aa5336135cee673d3b17681f04a",
+   "commit": "5380577c290044d27a14a303e7631a57f04280db",
+   "factsSha256": "a77911cdd4343689d99e3eefc9fdbe8ee958e8feb13263f6ac0982f0fa8b3f0d",
+   "sha256": "c52c5eeffd10b43c5affd5262cf4eefcad8f999b1f65b60cf50be5327ce5c900",
    "verification": {
     "ok": true,
     "level": "TEXT IDENTICAL",
     "problems": [],
     "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
    },
-   "at": "2026-11-10T12:55:32.186Z"
+   "at": "2026-11-10T16:31:26.764Z"
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-10T16:29:07.536Z"
+ "lastSuccessAt": "2026-11-10T16:31:26.764Z"
 }
