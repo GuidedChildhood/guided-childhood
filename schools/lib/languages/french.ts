@@ -13,9 +13,10 @@ import raw from './fr.json'
 //   units             the units with the full classroom set, keyed by slug:
 //                     interactive decks, songs and the printable sheets.
 //
-// THE MEDIA stays on her host for now (186 MB for the first two full units,
-// and still changing). Every URL to a deck, song or sheet goes through
-// mediaUrl() below, so moving them to our own storage is one constant.
+// THE MEDIA is mirrored into our own storage (scripts/languages/
+// mirror-french-media.mjs) and served through /languages/fr/media, which
+// falls back to her site for anything not copied yet. Every URL to a deck,
+// song or sheet goes through mediaUrl() below.
 
 export type Level = 'class' | 'adapted' | 'inclusion'
 export type FileKind = 'sheet' | 'inclusion' | 'game' | 'assess' | 'teacher' | 'mat' | 'activity' | string
@@ -69,11 +70,13 @@ type DeckUnit = {
   soundHint?: string
   phonics?: string
   lessons: DeckLesson[]
-  whatICanDo?: SheetFile[]
-  wordMats?: SheetFile[]
-  activities?: SheetFile[]
-  assessment?: SheetFile[]
-  teacher?: SheetFile[]
+  // Her data holds each of these as a list, or as one object when there is
+  // only one file (whatICanDo is). Read them through sheetList(), never raw.
+  whatICanDo?: SheetFile[] | SheetFile
+  wordMats?: SheetFile[] | SheetFile
+  activities?: SheetFile[] | SheetFile
+  assessment?: SheetFile[] | SheetFile
+  teacher?: SheetFile[] | SheetFile
   songs?: Song[]
 }
 
@@ -88,6 +91,11 @@ type Raw = {
 const data = raw as unknown as Raw
 
 export const FR_ORIGIN = data.origin
+
+/** A file list from her data as a real list, whichever of the two shapes it came in. */
+export function sheetList(v: SheetFile[] | SheetFile | undefined): SheetFile[] {
+  return Array.isArray(v) ? v : v ? [v] : []
+}
 
 /** One unit, both halves joined: the plan for every unit, the classroom set where it exists. */
 export type FrenchUnit = {
@@ -149,10 +157,12 @@ export function deckSequence(slides: string | undefined): string[] {
   return (data.sequence[slides] ?? []).map(([title]) => title)
 }
 
-/** Every deck, song and sheet URL. Sheets live in the unit's print folder. */
+/** Every deck, song and sheet URL. Sheets live in the unit's print folder.
+ *  All of them go through /languages/fr/media, which serves our own copy and
+ *  falls back to the author's site for a file not mirrored yet. */
 export function mediaUrl(slug: string, file: string, kind: 'deck' | 'sheet'): string {
   const path = kind === 'sheet' ? `print/${file}` : file
-  return `${FR_ORIGIN}/units/${encodeURIComponent(slug)}/${path.split('/').map(encodeURIComponent).join('/')}`
+  return `/languages/fr/media/${encodeURIComponent(slug)}/${path.split('/').map(encodeURIComponent).join('/')}`
 }
 
 /** The KS2 languages statements, by code (L1, S2, R3, W4). */
