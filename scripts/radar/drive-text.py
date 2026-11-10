@@ -3,6 +3,12 @@
 # usage: drive-text.py <transcript.jsonl> <fileId or a phrase from the title> <out.txt>
 import sys, json
 tr, needle, out = sys.argv[1:4]
+if tr == 'auto':
+    # the transcript of the session that is running: the newest one on disk
+    import glob, os
+    cands = glob.glob(os.path.expanduser('~/.claude/projects/*/*.jsonl'))
+    if not cands: sys.exit('no session transcript found under ~/.claude/projects')
+    tr = max(cands, key=os.path.getmtime)
 found = None
 def walk(o):
     global found

@@ -2,6 +2,12 @@
 # the comparison is done by a program on the real bytes, not by eye.
 import sys, json, re, base64, hashlib
 tr, fid, out = sys.argv[1:4]
+if tr == 'auto':
+    # the transcript of the session that is running: the newest one on disk
+    import glob, os
+    cands = glob.glob(os.path.expanduser('~/.claude/projects/*/*.jsonl'))
+    if not cands: sys.exit('no session transcript found under ~/.claude/projects')
+    tr = max(cands, key=os.path.getmtime)
 best = None
 with open(tr, encoding='utf-8', errors='replace') as f:
     for line in f:

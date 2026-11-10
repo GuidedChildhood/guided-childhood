@@ -86,6 +86,28 @@ When a pack comes back from ChatGPT:
 5. `node scripts/radar/pipeline.mjs ready <researchId>` moves it to ASSETS
    READY only if QA passed, the review passed and the Drive save verified.
 
+Both helper scripts take `auto` as the transcript, meaning the session that is
+running:
+
+```
+python3 scripts/radar/drive-bytes.py auto <fileId> out.bin      # after a download
+python3 scripts/radar/drive-text.py  auto "<title phrase>" out.txt  # after a read
+```
+
+## One register, never two
+
+On 10 November the 09:17 routine built a 25 record register in its own session
+and uploaded a queue to Drive from it. None of that reached main, so the next
+session started from 16 records and the repo file said 14. Three answers to one
+question. The rule that stops it:
+
+- If an open pull request already touches `content/research-register/`, carry
+  on from that branch. Do not start a second register from main.
+- Push the branch and open the pull request BEFORE copying anything to Drive,
+  so every Drive copy is stamped with a commit that exists in GitHub.
+- Say in the hand over that the pull request needs merging. Until it is merged
+  main does not agree with Drive.
+
 ## What a HOLD means
 
 Every gate returns PASS or HOLD with reasons, and writes the result onto the
