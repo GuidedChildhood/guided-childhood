@@ -26,7 +26,9 @@
 // PENDING. Gate J: "Never claim Claude checked anything until Claude has
 // actually run and its output is stored."
 
-import { getJson, get, mailtoParam } from './sources.mjs'
+import { createHash } from 'node:crypto'
+import { existsSync, readFileSync } from 'node:fs'
+import { getJson, get, mailtoParam, govukPublication } from './sources.mjs'
 import * as reg from './register.mjs'
 
 const CAUSAL = /\b(causes?|caused|causal|leads to|results in|drives|due to|because of|impact(s|ed)? on|effect of)\b/i
@@ -178,8 +180,37 @@ export async function buildDossier(rec) {
       d.doiResolves = false
       notes.push(`DOI did not resolve through Crossref (HTTP ${status}). Treat the citation as unconfirmed.`)
     }
+  } else if (rec.isOfficial && /^https:\/\/www\.gov\.uk\/government\/publications\//.test(rec.url || '')) {
+    // An official document has no DOI. Its canonical record is the GOV.UK
+    // publication page, so that is what gets resolved instead: the page must
+    // exist, name a publishing body, and carry the date the register holds.
+    const { ok, publication, status } = await govukPublication(rec.url)
+    if (ok && publication?.title) {
+      d.officialRecord = { url: publication.url, title: publication.title, published: publication.published, organisations: publication.organisations, attachments: publication.pdfs.length }
+      d.officialRecordResolves = true
+      d.automaticChecks.push('GOV.UK publication page resolved through the content API')
+      d.datesAgree = !!publication.published && publication.published === String(d.indexedDate || '').slice(0, 10)
+      if (!d.datesAgree) notes.push(`date disagreement: the register says ${d.indexedDate}, GOV.UK says first published ${publication.published}`)
+      notes.push('an official document, not a journal article: the date is the day GOV.UK published it, which can be long after the work was done. Read the document for its own date before calling it new.')
+    } else {
+      d.officialRecordResolves = false
+      notes.push(`the GOV.UK publication page did not resolve (HTTP ${status}). Treat the citation as unconfirmed.`)
+    }
   } else {
     notes.push('no DOI on the record, so there is no canonical identifier to verify against')
+  }
+
+  // Full text held from the drop lane. It only counts as checked when the
+  // file on disk is the same document the register recorded, digest for
+  // digest: a quietly revised attachment must not inherit an old review.
+  if (rec.fullTextPath && rec.textSha256) {
+    if (existsSync(rec.fullTextPath) && createHash('sha256').update(readFileSync(rec.fullTextPath, 'utf8')).digest('hex') === rec.textSha256) {
+      d.fullTextHeld = true
+      d.automaticChecks.push('full text held, and its digest matches the register')
+    } else {
+      d.fullTextHeld = false
+      notes.push('the register records full text, but the file is missing or its digest does not match. Fetch it again before quoting from it.')
+    }
   }
 
   if (!d.abstractAvailable) notes.push('no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.')
@@ -191,7 +222,7 @@ export async function buildDossier(rec) {
 
   // The automatic verdict is narrow on purpose: it says the record is a real,
   // identifiable, dated study, not that its findings are sound.
-  const identifiable = d.doiResolves === true || !!rec.pmid
+  const identifiable = d.doiResolves === true || !!rec.pmid || d.officialRecordResolves === true
   d.automaticVerdict = identifiable && !!d.indexedDate ? 'RECORD CONFIRMED' : 'RECORD UNCONFIRMED'
   if (identifiable) d.automaticChecks.push('a dated, identifiable primary record exists')
 

@@ -1,0 +1,119 @@
+{
+  "studyId": "GDC-RR-e923851b08",
+  "reviewedAt": "2026-11-10T17:35:00Z",
+  "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+  "reviewBasis": "The abstract only, as held by PubMed (record 42992549, fetched 10 November 2026), with the author affiliations, keywords and conflicts statement from the same record, and the Crossref record for DOI 10.1177/00333549261480962. The full text was NOT read. The publisher's page refused the request and the PubMed Central copy is under embargo until 6 November 2027. Every verdict below is about what the abstract states.",
+  "verdict": "EDIT",
+  "proposedTitle": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
+  "proposedAngle": "I would have told you I had a fair idea what my children do online. A study out this week asked parents and their teenagers the same questions separately and compared the answers, and the parents generally thought they knew more than they did. Stay with the uncomfortable part, which is that it applies to the person writing the post, and be straight about the finding that is awkward for us: the gap was smallest where parents monitored.",
+  "oneStory": "Researchers compared what parents said about their teenagers' online lives with what the teenagers said themselves, across 522 pairs, and found the parents generally overestimated how much they knew.",
+  "oneTension": "The gap was smallest in families where parents used digital monitoring. That is awkward for anybody, us included, who says connection matters more than surveillance. And it is still not evidence that monitoring keeps a child safe, because the study measured whether two people gave the same answer, not what happened to the child.",
+  "oneBelief": "You do not find out what your child does online by assuming you know. You find out by being alongside them, and by asking in a way that makes it easy to tell you. We would rather publish a finding that complicates our own argument than leave it out.",
+  "oneTakeaway": "Tonight, ask your child one question about what they did online today, and notice whether the answer surprises you.",
+
+  "claims": [
+    {
+      "claim": "The study used data from 522 parent and teen pairs.",
+      "status": "VERIFIED",
+      "basis": "Stated in the abstract. The abstract also says the estimates were weighted and accounted for a complex survey design, which suggests a survey panel rather than a convenience sample, but it does not name the survey."
+    },
+    {
+      "claim": "Parents generally overestimated their knowledge of their teenagers' online activities.",
+      "status": "VERIFIED",
+      "basis": "The abstract's own words: 'consistent discrepancies, with parents generally overestimating their knowledge of teens' online activities'. Verified as what the paper reports. The abstract gives no size for the gap, so it cannot be described as large, small, or any fraction."
+    },
+    {
+      "claim": "The disagreement between parent and teen reports was lowest when parents used digital monitoring strategies.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the abstract and must be reported, because it is the finding that cuts against our own position. Qualified for three reasons. The abstract does not define 'digital monitoring strategies', so it could mean software, checking a device, or something lighter. The design is a survey at one point in time, so it cannot say monitoring produced the agreement: families who already talk openly may also be the ones who monitor. And agreement between two reports is the outcome, not the child's safety or wellbeing."
+    },
+    {
+      "claim": "Monitoring software keeps teenagers safer online.",
+      "status": "UNSUPPORTED",
+      "basis": "The study measured whether parents and teenagers gave matching answers. It did not measure harm, risk exposure outcomes or wellbeing, at least not on the evidence of the abstract."
+    },
+    {
+      "claim": "Parents do not know what their children do online.",
+      "status": "UNSUPPORTED",
+      "basis": "Too strong. The finding is that parents on average rate their knowledge higher than their teenagers' answers support. It is a gap, not ignorance, and it is an average across pairs."
+    },
+    {
+      "claim": "The teenager's account is the true one.",
+      "status": "QUALIFIED",
+      "basis": "The abstract treats the teen report as the reference when it says parents 'overestimate'. A teenager's own report can also be wrong or guarded. The safe wording is that the two accounts differ and the parent's is the more confident one."
+    },
+    {
+      "claim": "This describes UK families.",
+      "status": "REQUIRES SOURCE",
+      "basis": "The abstract does not say where the families live. All five authors are at the Division of Adolescent and School Health at the United States Centers for Disease Control and Prevention, and the journal is Public Health Reports, so a United States sample is likely, but that is an inference and the full text was not read. Do not describe the sample as American as a fact, and do not carry the finding across to UK families as though it were measured here."
+    }
+  ],
+
+  "verifiedStatistics": [
+    "522 parent and teen pairs",
+    "published online 6 November 2026 in Public Health Reports"
+  ],
+  "notQuotable": [
+    "any percentage, fraction or multiple: the abstract gives none",
+    "any age range for the teenagers: the abstract says teens and nothing more precise",
+    "the name of the survey, which the abstract does not give",
+    "the country of the sample as a stated fact",
+    "any statement that monitoring apps work, protect children or are recommended by this study",
+    "any statement that parents are in the dark or know nothing",
+    "any figure about UK parents"
+  ],
+
+  "evidenceConfidence": "MODERATE that the direction of the main finding is sound: it comes from a public health agency's research division, in a peer reviewed journal, using weighted survey estimates, and it agrees with a long line of earlier work on the gap between what parents believe and what adolescents report. LOW on everything else, because only the abstract was read: no sizes, no definitions, no ages and no country can be confirmed.",
+
+  "limitations": [
+    "Abstract only. The full text is behind the publisher's wall and under embargo in PubMed Central until 6 November 2027.",
+    "One point in time. It cannot show that any parenting practice causes better knowledge.",
+    "Both sides are self report. Neither the parent nor the teenager was checked against device data, on the evidence of the abstract.",
+    "'Digital monitoring strategies' and 'digital mediation practices' are not defined in the abstract.",
+    "The outcome is agreement between two answers. It is not a measure of harm or of wellbeing.",
+    "The sample's country, the teenagers' ages and the year of the survey are not stated in the abstract.",
+    "522 pairs is a modest sample for weighted national estimates, and no intervals are given in the abstract."
+  ],
+
+  "contradictoryEvidence": [
+    "From this register, read in full text: the 2022 research commissioned by the ICO and Ofcom (GDC-RR-86c1075a30) found children getting round parental controls by reaching their parents' settings, opening second accounts when a parent followed the first, and using a VPN. Monitoring a child can see around does not produce knowledge. That cuts against reading this study as a case for controls.",
+    "The same ICO and Ofcom research found parents 'often felt that maintaining good communication with their child about their online behaviours was a high priority over other methods'. Parents themselves rank talking above tools.",
+    "NOT CLEARED FOR COPY, from the reviewer's knowledge of the literature and not fetched in this run: a long standing finding in adolescent research is that what parents know comes mostly from what the child chooses to tell them, more than from tracking or control. If that holds here, 'monitoring' in this study may be standing in for families where disclosure is already easy. It needs sourcing before it is written anywhere."
+  ],
+
+  "whatThisDoesNotProve": [
+    "That monitoring software makes a child safer.",
+    "That monitoring causes parents to know more. It may be the other way round, or both may follow from an open relationship.",
+    "That UK parents overestimate what they know. It was not measured here.",
+    "That any particular parent is wrong about their own child.",
+    "That anything we build closes the gap. We hold no evidence of that."
+  ],
+
+  "mediaMisrepresentation": "No coverage was searched for in this run, and four days after publication there may be none. The predictable error is a headline that says monitoring apps work, or one that says parents have no idea what their children do online. The abstract supports neither.",
+
+  "gdcBeliefs": [
+    "Connection is the protection. This study is a fair challenge to how we say that, and the honest version is that connection and knowing are not the same thing, and a parent can feel close and still be guessing.",
+    "The child is a participant. The product has the parent and the child working on the same thing together, which is one way a parent sees what is actually happening.",
+    "We publish the findings that are awkward for us."
+  ],
+
+  "productImplications": {
+    "digitalPathwayOS": "No change, and no claim that it closes this gap.",
+    "schoolLesson": "No change.",
+    "parentTool": "A caution about our own stage check, which is answered by the parent. If parents overestimate what they know, the parent's answers are a starting point and not a measurement, which is how the stage check already describes itself. That honesty is the proof path for this story: three questions about one child, and no promise about what happens next.",
+    "digi": "When a parent says 'I know what they are doing online', DiGi can gently suggest asking the child rather than assuming, without citing a figure.",
+    "historyChecker": "No change."
+  },
+
+  "recommendedAudience": "Parents first. This is the rare research story that is about them rather than about their child, and it gives them something to do tonight.",
+  "recommendedPlatforms": ["LinkedIn post", "Instagram caption", "Facebook caption"],
+  "urgency": "Medium. Published four days ago, so it is current, and nothing in it expires.",
+  "unresolvedQuestions": [
+    "The size of the gap, which needs the full text.",
+    "What counted as a digital monitoring strategy.",
+    "The country, the survey and the year.",
+    "The ages of the teenagers.",
+    "Whether the paper measured any outcome for the teenagers beyond agreement."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-e923851b08.json"
+}
