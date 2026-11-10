@@ -324,3 +324,7 @@ The mirror's first run found no Supabase secrets in GitHub. Justin chose to keep
 ## 10 November 2026: the finish pass on French and the digital print room
 
 Justin asked for our level of finish on the French pages, with motion and better navigation, then flagged `/print`. French: one segmented control on every page (Units, Print room, Coverage), a live sandboxed preview of the first slide on the lesson page, a play button per lesson row, the house Reveal and the site's own button classes. `/print`: 238 pills in tables became one row per lesson that opens to its seven sheets (native details, no script, still cached). Her slides themselves are untouched; restyling them needs her say. Her own site is not changed by any of this.
+
+## 10 November 2026: the French scheme syncs every night
+
+Justin said yes to a nightly sync. `languages-sync.yml` reads the author's data each night and, only when it changed, opens or refreshes one pull request (`languages/french-sync`) with the new `fr.json`; merging it is what goes live. The sync script now refuses to write a file whose shape the pages could not draw. Slides, songs and sheets are not in this: they load from her site as they are.
