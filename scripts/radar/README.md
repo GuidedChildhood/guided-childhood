@@ -67,12 +67,18 @@ Copying to Drive, for the session doing it:
 2. Create the file in the Stage 2 folder with conversion to a Google type
    switched off, so the stored bytes are the sent bytes.
 3. Download it again (the download call, not the read call: the read call
-   renders markdown and adds escaping) and pass both to `acceptSnapshot`.
+   renders markdown and adds escaping), pull the bytes out of the transcript
+   with `drive-bytes.py`, and pass both to `acceptSnapshot`. Never compare by
+   eye or retype base64: that was tried on 10 November and was wrong three
+   times running. For a Google Doc, download its plain text export and use
+   `verifyDocExport`, which compares the whole text.
 4. Retitle the copy it replaces `ZZ SUPERSEDED ...`. One current file per role.
 
 When a pack comes back from ChatGPT:
 
-1. Read the pack Doc from Drive and save its text to a file.
+1. Read the pack Doc from Drive and save its text to a file. `drive-text.py`
+   pulls exactly what the read returned out of the session transcript, and
+   `drive-bytes.py` does the same for a download, so nothing is retyped.
 2. `parsePackText` (in `packformat.mjs`) turns it into a pack object.
 3. `node scripts/radar/pipeline.mjs submit pack.json` runs the QA pass. A HOLD
    prints every reason. Write those back to Drive for ChatGPT and stop.
@@ -99,7 +105,7 @@ to what is in the queue does.
 ## Tests
 
 ```
-npm run radar-pipeline-test   # 99 checks, throwaway register, the seven failures simulated
+npm run radar-pipeline-test   # 114 checks, throwaway register, the seven failures simulated
 npm run radar-drop-test       # the two full text lanes
 ```
 
@@ -113,6 +119,10 @@ conflicting post number, missing Claude review, failed editorial QA.
 
 ## Known limits
 
+- **Tested for real on 10 November:** write to Drive and read back, byte
+  identical, for the queue, the number list and the handoff; the start here
+  Doc, text identical; and a labelled test pack written as a Google Doc, read
+  back, parsed and passed through QA, then removed.
 - **Whether ChatGPT can read each Drive file has not been tested from here.**
   Claude cannot run ChatGPT. The start here document is a Google Doc for that
   reason; the JSON copies are for verification and for Claude.
