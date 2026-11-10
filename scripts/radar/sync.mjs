@@ -105,6 +105,31 @@ export function acceptBrief({ fileId, title, sentText, verification, links = {} 
   return { ok: true, verdict: 'SYNCED', verification, message: `start here document verified in Drive at ${verification.level}` }
 }
 
+/**
+ * Record a verified copy of the approval sheet. Kept apart from the roles
+ * Stage 2 reads, so a pack reaching Justin never makes ChatGPT's inputs look
+ * stale. `sha256` is of the text, which carries no date, so an unchanged desk
+ * is recognised and not uploaded again.
+ */
+export function acceptApprovalDesk({ fileId, title, sentText, verification }) {
+  const state = loadState()
+  if (!verification?.ok) {
+    state.failures.unshift({ role: 'approvalDesk', fileId, title, verification, at: new Date().toISOString(), verdict: 'FAILED VERIFICATION' })
+    saveState(state)
+    return { ok: false, verdict: 'HOLD', verification, message: `The approval sheet was NOT accepted: ${(verification?.problems || ['no verification supplied']).join('; ')}` }
+  }
+  state.approvalDesk = { fileId, title, sha256: sha256(sentText), commit: repoState().commit, verification, at: new Date().toISOString() }
+  state.failures = (state.failures || []).filter((f) => f.role !== 'approvalDesk')
+  saveState(state)
+  return { ok: true, verdict: 'SYNCED', verification, message: `approval sheet verified in Drive at ${verification.level}` }
+}
+
+/** Is the approval sheet in Drive the one the repository would write now? */
+export function approvalDeskCurrent(text) {
+  const d = loadState().approvalDesk
+  return { current: !!d && d.sha256 === sha256(text), fileId: d?.fileId || null, at: d?.at || null }
+}
+
 /** The payload for a role as the repository stands right now. */
 export function currentPayload(roleName, { studyId = null } = {}) {
   let payload

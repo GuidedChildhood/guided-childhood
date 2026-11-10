@@ -1,0 +1,96 @@
+# The Research Radar gate and watchdog.
+#
+# Two jobs, and neither needs a secret, a model or a paid service.
+#
+# gate      On every pull request that touches the radar. The unattended
+#           Claude run opens a pull request each morning; this checks its
+#           output with code that is not the thing that produced it: the test
+#           suites, then the integrity rules in scripts/radar/gate.mjs (no
+#           number claimed twice, nothing past the review without a review,
+#           nothing approved or published without Justin and a checked URL).
+#
+# watchdog  Weekdays, after the morning run should have finished. It looks on
+#           every branch for today's run log. If there is none, the job fails,
+#           and a failed scheduled job is what GitHub emails about. A run that
+#           silently did not happen is the failure this exists to catch.
+#
+# What this deliberately does not do: run Claude. The judgement steps (the
+# evidence review, the edit for voice) and every copy to Drive are done by the
+# scheduled Claude Code task, which has the Drive connector. Moving them here
+# would need an API key and a Google credential, which is a cost and a secret
+# and so is Justin's decision. See scripts/radar/README.md.
+name: Research Radar gate
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/radar/**'
+      - 'content/research-register/**'
+      - 'content/gdc-post-register.md'
+      - '.github/workflows/radar-gate.yml'
+  schedule:
+    - cron: '43 10 * * 1-5'   # weekdays 10:43 UTC, after the 09:17 London run
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pipeline tests, throwaway register
+        run: node scripts/radar/test-pipeline.mjs
+      - name: Relay tests, throwaway register
+        run: node scripts/radar/test-relay.mjs
+      - name: Integrity of what is committed
+        run: |
+          node scripts/radar/gate.mjs | tee gate.txt
+          {
+            echo '### Research Radar integrity'
+            echo '```'
+            cat gate.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  watchdog:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Did the morning run happen
+        run: |
+          set -euo pipefail
+          TODAY=$(date -u +%F)
+          LOG="content/research-register/runs/${TODAY}.json"
+          git fetch --quiet --depth 1 origin '+refs/heads/*:refs/remotes/origin/*'
+          FOUND=""
+          for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin); do
+            if git cat-file -e "${ref}:${LOG}" 2>/dev/null; then FOUND="$ref"; break; fi
+          done
+          {
+            echo "### Research Radar, ${TODAY}"
+            if [ -z "$FOUND" ]; then
+              echo "No run log for today on any branch. The morning run did not happen, or did not push."
+            else
+              echo "Run log found on \`${FOUND}\`."
+              echo '```'
+              git show "${FOUND}:${LOG}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const r=JSON.parse(s);for(const x of r.stages)console.log(x.stage.padEnd(14),x.verdict.padEnd(9),(x.reasons[0]||"").slice(0,140));for(const d of r.disagreements||[])console.log("DISAGREEMENT   ",d.slice(0,160))})'
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -z "$FOUND" ]; then echo "::error::No Research Radar run log for ${TODAY} on any branch."; exit 1; fi
+          # A run that logged a HOLD or an ERROR needs a person.
+          if git show "${FOUND}:${LOG}" | grep -Eq '"verdict": "(HOLD|ERROR)"'; then echo "::error::Today's Research Radar run has a stage on HOLD or in ERROR. Open the job summary."; exit 1; fi

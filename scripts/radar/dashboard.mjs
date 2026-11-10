@@ -18,7 +18,9 @@ import { dirname, join } from 'node:path'
 import * as reg from './register.mjs'
 import { githubFacts, parsePostRegister } from './contract.mjs'
 import { syncState } from './sync.mjs'
-import { preflight } from './pipeline.mjs'
+import { preflight, founderStatus } from './pipeline.mjs'
+import { loadRun, STAGES } from './daily.mjs'
+import { recentReceipts } from './candidates.mjs'
 import { eligibility } from './qa.mjs'
 
 // The one page Justin copies posts from. Never a second one.
@@ -62,8 +64,9 @@ export function collect() {
       continue
     }
     if (r.status === 'PUBLISHED') { g.published.push({ ...row, url: r.publishedUrl, evidence: r.publishedCheck?.verdict || 'not recorded', at: r.publishedAt }); continue }
-    if (r.status === 'APPROVED') { g.awaitingApproval.push({ ...row, note: 'Approved. Waiting for you to post it and give me the link.', approved: true }); continue }
-    if (r.status === 'ASSETS READY') { g.awaitingApproval.push({ ...row, note: 'Checked and reviewed. It is on the Post Desk, ready for you to read and copy.' }); continue }
+    if (r.status === 'APPROVED') { g.awaitingApproval.push({ ...row, founder: 'APPROVED', note: 'You approved it. Post it and send me the link, and it is marked published once the link answers.', approved: true }); continue }
+    if (r.status === 'ASSETS READY' && founderStatus(r) === 'CHANGES REQUESTED') { g.awaitingApproval.push({ ...row, founder: 'CHANGES REQUESTED', note: `You asked for changes: ${r.founderDecision?.note || ''} The new version comes back here once it has been checked again.` }); continue }
+    if (r.status === 'ASSETS READY') { g.awaitingApproval.push({ ...row, founder: 'READY FOR JUSTIN', note: 'Checked and reviewed. It is on the Post Desk, ready for you to read and copy.' }); continue }
     if (r.status === 'EDITORIAL READY') {
       const el = eligibility(r)
       if (el.verdict !== 'PASS') { g.blocked.push({ ...row, stage: 'ELIGIBILITY', reasons: el.reasons, at: r.lastChecked }); continue }
@@ -96,11 +99,21 @@ export function collect() {
   for (const reason of pre.reasons) systemBlocks.push({ stage: 'PREFLIGHT', reason })
   for (const f of sync.recentFailures || []) systemBlocks.push({ stage: 'DRIVE SAVE', reason: `${f.role}: ${(f.verification?.problems || []).join('; ') || 'verification failed'}`, at: f.at })
 
-  return { g, posted, facts, sync, pre, systemBlocks, builtAt: new Date().toISOString(), newToday: g.discovered.filter((x) => x.isNew).length }
+  // Today's run, and what came in through the inbox. Both are read from the
+  // files the run itself wrote, so this page reports the run and never infers it.
+  const run = loadRun(today)
+  const stages = STAGES.map(([name, who]) => {
+    const e = run.stages.find((x) => x.stage === name)
+    return { name, who, verdict: e ? e.verdict : 'NOT RUN', at: e?.at || null, reason: e?.reasons?.[0] || '', attempts: e?.attempts || 0 }
+  })
+  const inbox = recentReceipts(3)
+
+  return { g, posted, facts, sync, pre, systemBlocks, run, stages, inbox, builtAt: new Date().toISOString(), newToday: g.discovered.filter((x) => x.isNew).length }
 }
 
 function storyRow(r, { showNote = true } = {}) {
   const chips = [
+    r.founder ? `<span class="chip good">${esc(r.founder)}</span>` : '',
     r.number ? `<span class="chip num">GDC ${esc(String(r.number).padStart(3, '0'))}</span>` : '',
     r.priority ? `<span class="chip">${esc(r.priority)}</span>` : '',
     r.band ? `<span class="chip">${esc(r.band)}</span>` : '',
@@ -261,6 +274,16 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
   ${section({ id: 'approval', title: 'Waiting for you', count: g.awaitingApproval.length, tone: g.awaitingApproval.length ? 'gold' : '',
     lede: 'Packs that passed every check and my review. Nothing goes out until you say yes, and nothing is marked posted without a link that answers.',
     body: list(g.awaitingApproval) + `<p class="lede"><a href="${POST_DESK}">Open the Post Desk</a> to read it, copy it and post it. Then send me the link.</p>`, empty: 'No pack is waiting for your approval.' })}
+
+  ${section({ id: 'run', title: "Today's run", count: `${d.stages.filter((x) => x.verdict === 'PASS').length} of ${d.stages.length}`, tone: d.stages.some((x) => ['HOLD', 'ERROR'].includes(x.verdict)) ? 'bad' : d.stages.every((x) => x.verdict === 'PASS') ? 'good' : '',
+    lede: 'Each stage of the day, in order, with what it said. A stage marked NOT RUN did not happen, which is different from finding nothing.',
+    body: `<ul class="list">${d.stages.map((x) => `<li class="row"><div class="rt">${esc(x.name)}</div><div class="chips"><span class="chip ${x.verdict === 'PASS' ? 'good' : ['HOLD', 'ERROR'].includes(x.verdict) ? 'bad' : ''}">${esc(x.verdict)}</span><span class="chip">${x.who === 'claude' ? 'Claude' : 'script'}</span>${x.at ? `<span class="chip">${esc(when(x.at))}</span>` : ''}</div>${x.reason ? `<div class="note">${esc(plain(x.reason).slice(0, 260))}</div>` : ''}</li>`).join('')}</ul>`,
+    empty: 'Nothing has run today.' })}
+
+  ${section({ id: 'inbox', title: 'From ChatGPT, the candidate inbox', count: d.inbox.reduce((n, b) => n + b.results.length, 0),
+    lede: 'Research ChatGPT sent in, and what became of each one. A candidate is not cleared until it has been through the evidence check.',
+    body: `<ul class="list">${d.inbox.flatMap((b) => b.results.map((x) => `<li class="row"><div class="rt">${esc(clip(x.title || x.candidateId))}</div><div class="chips"><span class="chip ${x.outcome === 'INGESTED' ? 'good' : x.outcome === 'HELD' ? 'bad' : ''}">${esc(x.outcome)}</span><span class="chip">${esc(String(b.ingestedAt).slice(0, 10))}</span></div>${(x.reasons || [])[0] ? `<div class="note">${esc(plain(x.reasons[0]).slice(0, 220))}</div>` : ''}<div class="meta">${esc(x.researchId || x.candidateId)}, sent by ${esc(clip(b.createdBy, 60))}</div></li>`)).join('')}</ul>`,
+    empty: 'Nothing has come through the inbox yet.' })}
 
   ${section({ id: 'blocked', title: 'Blocked, and why', count: blockedCount, tone: blockedCount ? 'bad' : 'good',
     lede: 'Anything that failed a check stops here with its reason. It does not carry on quietly.',
