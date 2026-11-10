@@ -414,7 +414,12 @@ check('the chosen face is butter and the others are not',
   /terracotta\)/.test(filled[2] || '') && filled.filter(f => /terracotta\)/.test(f || '')).length === 1,
   filled.join(' | '))
 
-// And it hands over to the next unanswered one.
+// And it hands over to the next unanswered one. The handover is a smooth
+// scroll that starts after the save, so wait for it to begin instead of
+// reading the position once: on a slow runner one read lands before the first
+// frame of the scroll and fails a page that is behaving (PR 1484, 10 November
+// 2026, same app code as a head that passed). The assertion is unchanged.
+await p.waitForFunction(() => window.scrollY > 0, null, { timeout: 4000 }).catch(() => {})
 const scrolled = await p.evaluate(() => window.scrollY)
 check('the page moved on to the next concern', scrolled > 0, `scrollY ${scrolled}`)
 
