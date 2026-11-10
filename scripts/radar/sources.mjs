@@ -17,7 +17,24 @@ import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
-const UA = 'GuidedChildhoodResearchRadar/1.0 (+https://guidedchildhood.com; mailto:justin@thesocialbillboard.com)'
+// Crossref, PubMed and OpenAlex all ask automated clients for a contact
+// address, and reward one with a higher rate limit. It must NOT be a personal
+// address: this header goes to every index on every request, and an individual's
+// email is not ours to hand to five external services.
+//
+// Found on 10 November: the first version of this file put a personal address
+// in here and in the Crossref mailto. That was wrong and is now a config value,
+// empty by default. Set RADAR_CONTACT to a shared inbox (research@ or similar)
+// and the polite pools switch on; leave it unset and the radar still works, in
+// the public pool, with nobody's address leaving the container.
+export const CONTACT = process.env.RADAR_CONTACT || ''
+
+const UA = `GuidedChildhoodResearchRadar/1.0 (+https://guidedchildhood.com${CONTACT ? `; mailto:${CONTACT}` : ''})`
+
+/** `&mailto=` for the indexes that take one, or nothing at all. */
+export function mailtoParam(sep = '&') {
+  return CONTACT ? `${sep}mailto=${encodeURIComponent(CONTACT)}` : ''
+}
 
 export const CACHE_DIR = process.env.RADAR_CACHE || '/tmp/radar-cache'
 
@@ -127,6 +144,71 @@ export async function getJson(url, opts) {
   try { return { ...r, json: JSON.parse(r.body) } } catch (e) { return { ...r, ok: false, json: null, error: 'bad JSON: ' + e.message } }
 }
 
+/**
+ * Download a file to disk. Separate from get() on purpose: get() keeps bodies
+ * as text in a JSON cache, which would quietly mangle a PDF. This writes the
+ * bytes straight out and caches nothing, because the caller already has the
+ * file afterwards.
+ *
+ * Added 10 November, when assets.publishing.service.gov.uk turned out to be
+ * reachable. That is the host GOV.UK serves publication attachments from, so it
+ * is how an Ofcom or ICO report that was commissioned through a department can
+ * be read in full even though ofcom.org.uk and ico.org.uk are both blocked.
+ */
+export async function getFile(url, destPath, { maxRequests = 400, timeoutMs = 120000, maxBytes = 80 * 1024 * 1024 } = {}) {
+  if (budgetUsed >= maxRequests) return { ok: false, status: 0, error: 'request budget spent', url }
+  const host = new URL(url).hostname
+  while (inflight.get(host)) await sleep(50)
+  inflight.set(host, true)
+  try {
+    const gap = HOST_GAP[host] ?? HOST_GAP.default
+    const since = Date.now() - (lastHit.get(host) || 0)
+    if (since < gap) await sleep(gap - since)
+    budgetUsed += 1
+    lastHit.set(host, Date.now())
+    const ctl = new AbortController()
+    const t = setTimeout(() => ctl.abort(), timeoutMs)
+    let res
+    try {
+      res = await fetch(url, { headers: { 'User-Agent': UA, Accept: '*/*' }, redirect: 'follow', signal: ctl.signal })
+    } catch (e) {
+      clearTimeout(t)
+      return { ok: false, status: 0, error: String(e.message || e), url }
+    }
+    clearTimeout(t)
+    if (!res.ok) return { ok: false, status: res.status, error: `HTTP ${res.status}`, url }
+    const buf = Buffer.from(await res.arrayBuffer())
+    if (buf.length > maxBytes) return { ok: false, status: res.status, error: `file is ${buf.length} bytes, over the ${maxBytes} cap`, url }
+    writeFileSync(destPath, buf)
+    return { ok: true, status: res.status, path: destPath, bytes: buf.length, contentType: res.headers.get('content-type') || '', url }
+  } finally {
+    inflight.delete(host)
+  }
+}
+
+/**
+ * One GOV.UK publication, with its attachments. Takes the path the search API
+ * returns, e.g. /government/publications/<slug>.
+ */
+export async function govukPublication(path) {
+  const clean = String(path || '').replace(/^https?:\/\/www\.gov\.uk/, '').replace(/^\//, '')
+  const { ok, json, status, error } = await getJson(`https://www.gov.uk/api/content/${clean}`)
+  if (!ok) return { ok: false, status, error, publication: null }
+  return {
+    ok: true,
+    publication: {
+      title: (json.title || '').trim(),
+      summary: (json.description || '').trim(),
+      published: (json.first_published_at || json.public_updated_at || '').slice(0, 10),
+      organisations: (json.links?.organisations || []).map((o) => o.title).filter(Boolean),
+      url: `https://www.gov.uk/${clean}`,
+      pdfs: (json.details?.attachments || [])
+        .filter((a) => a.content_type === 'application/pdf' && a.url)
+        .map((a) => ({ title: (a.title || '').trim(), url: a.url })),
+    },
+  }
+}
+
 // ---------------------------------------------------------------------------
 // The sources. Each returns an array of raw records in a common shape.
 // `since` and `until` are ISO dates. Every one of these was probed working.
@@ -194,7 +276,7 @@ export async function pubmed(query, since, until, { retmax = 25 } = {}) {
 
 /** Crossref, for the authoritative DOI record and the real online date. */
 export async function crossref(query, since, until, { rows = 25 } = {}) {
-  const url = `https://api.crossref.org/works?query=${encodeURIComponent(query)}&filter=from-online-pub-date:${since},until-online-pub-date:${until}&rows=${rows}&sort=published&order=desc&mailto=justin@thesocialbillboard.com`
+  const url = `https://api.crossref.org/works?query=${encodeURIComponent(query)}&filter=from-online-pub-date:${since},until-online-pub-date:${until}&rows=${rows}&sort=published&order=desc${mailtoParam()}`
   const { ok, json, status, error } = await getJson(url)
   if (!ok) return { ok: false, source: 'crossref', status, error, records: [] }
   const records = (json?.message?.items || []).map((w) => ({
@@ -299,7 +381,7 @@ export async function doaj(query, { pageSize = 20 } = {}) {
   return { ok: true, source: 'doaj', records }
 }
 
-export const WORKING_SOURCES = ['europepmc', 'pubmed', 'crossref', 'medrxiv', 'govuk', 'doaj']
+export const WORKING_SOURCES = ['europepmc', 'pubmed', 'crossref', 'medrxiv', 'govuk', 'govuk-attachment', 'doaj']
 
 // Probed on 9 November 2026 and NOT usable from this container. Kept here so a
 // later run does not waste a budget rediscovering it, and so the brief can say
@@ -307,10 +389,15 @@ export const WORKING_SOURCES = ['europepmc', 'pubmed', 'crossref', 'medrxiv', 'g
 export const BLOCKED_SOURCES = [
   { host: 'api.openalex.org', status: 429, note: 'Insufficient budget on the shared proxy address. Retried at 20 second spacing, same answer. Crossref and Europe PMC cover the same records.' },
   { host: 'api.semanticscholar.org', status: 429, note: 'Rate limited without an API key. Would work with a key.' },
-  { host: 'www.ofcom.org.uk', status: 403, note: 'Cloudflare bot challenge. Blocked across many sessions. Ofcom material that reaches GOV.UK is still found through the govuk source.' },
-  { host: 'ico.org.uk', status: 403, note: 'Cloudflare bot challenge.' },
+  { host: 'www.ofcom.org.uk', status: 403, note: 'Cloudflare bot challenge, across many sessions. Research Ofcom commissioned through a department is still read IN FULL through the govuk-attachment lane. Ofcom-only material needs the PDF in Drive.' },
+  { host: 'ico.org.uk', status: 403, note: 'Cloudflare bot challenge. Same route out as Ofcom: ICO commissioned research on GOV.UK is read in full through the govuk-attachment lane.' },
   { host: 'www.cochranelibrary.com', status: 403, note: 'Cloudflare bot challenge. Cochrane reviews with a DOI are still found through Crossref and Europe PMC.' },
-  { host: 'www.esafety.gov.au', status: 0, note: 'Cloudflare bot challenge. Refused across four attempts in three sessions.' },
+  { host: 'www.esafety.gov.au', status: 503, note: 'Cloudflare. Refused across five attempts in four sessions, and it is not on GOV.UK, so there is no route round it. Needs the PDF in Drive.' },
+  // Tested on 10 November specifically to get round the four above. It does not
+  // work, by any path: curl is reset at the egress every time and the fetch
+  // tool refuses the host outright. So the archive is not a fallback and the
+  // brief must not imply the radar can see these regulators.
+  { host: 'web.archive.org', status: 0, note: 'Unreachable from this container by every path tried. Snapshots of the blocked regulators were confirmed to EXIST through archive.org/wayback/available, but cannot be fetched. Not a fallback.' },
   { host: 'sdmx.oecd.org', status: 406, note: 'Rejects every format value we tried for the dataflow endpoint. Not pursued: OECD indicators are rarely the primary source for a daily finding.' },
   { host: 'scholar.google.com', status: null, note: 'No API and scraping it is against its terms. Not attempted.' },
 ]
