@@ -15,7 +15,11 @@
 // only place a number is claimed, and a handoff either carries a number that
 // already exists there or carries null.
 
-export const SCHEMA_VERSION = '1.0.0'
+// 1.1.0, 10 November: adds handoffVersion, sourceCommit, sourceUrls with their
+// verification dates, and the names the repair brief uses (clearedFigures,
+// prohibitedClaims, recommendedFormats) alongside the original ones, so a
+// reader written against either finds what it expects.
+export const SCHEMA_VERSION = '1.1.0'
 
 export const PRIORITIES = ['BREAKING', 'HIGH', 'BANK', 'LOW']
 
@@ -24,7 +28,7 @@ export const PRIORITIES = ['BREAKING', 'HIGH', 'BANK', 'LOW']
  * Claude review. Throws rather than emit a handoff that claims a review that
  * has not happened, which is gate J of the protocol.
  */
-export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority = 'BANK', audience, platforms, supportingFiles = [] } = {}) {
+export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority = 'BANK', audience, platforms, supportingFiles = [], sourceCommit = null, handoffVersion = 1 } = {}) {
   if (!rec?.dossier) throw new Error(`${rec?.studyId}: no dossier, run the verification pass first`)
   if (!claudeReview) throw new Error(`${rec.studyId}: no stored Claude review. The protocol forbids handing off a story as reviewed when it has not been.`)
   if (!claudeReview.claims?.length) throw new Error(`${rec.studyId}: the Claude review has no claim by claim verdicts`)
@@ -37,6 +41,12 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
     // identity and provenance
     researchId: rec.studyId,
     registerVersion: rec.version,
+    // Which handoff this is for this story, counting from 1, and the commit
+    // the facts were read at. Without these two a Drive copy cannot be told
+    // from the one before it, which is how Stage 2 came to be pointed at a
+    // superseded document on 10 November.
+    handoffVersion,
+    sourceCommit,
     createdAt: new Date().toISOString(),
     stage: 'EDITORIAL READY',
     productionStatus: 'EDITORIAL READY',
@@ -72,6 +82,18 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
       foundBy: rec.foundBy || [],
     },
 
+    // every source, with the date each was last verified and how
+    sourceUrls: [
+      ...(rec.url ? [{ url: rec.url, kind: 'primary', verifiedAt: d.checkedAt || null, how: d.doiResolves ? 'DOI resolved through Crossref' : 'recorded, DOI not confirmed to resolve' }] : []),
+      ...(rec.doi ? [{ url: `https://doi.org/${String(rec.doi).replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}`, kind: 'doi', verifiedAt: d.checkedAt || null, how: d.doiResolves ? 'resolves' : 'not confirmed' }] : []),
+    ].filter((x, i, a) => a.findIndex((y) => y.url === x.url) === i),
+    verification: {
+      dossierCheckedAt: d.checkedAt || null,
+      claudeReviewedAt: claudeReview.reviewedAt || null,
+      fullTextChecked: !!d.fullTextChecked,
+      reviewBasis: claudeReview.reviewBasis || null,
+    },
+
     // the figures Stage 2 is allowed to put in copy. Anything not in here is
     // not cleared, and the reason is in notQuotable.
     verifiedStatistics: claudeReview.verifiedStatistics || [],
@@ -81,6 +103,10 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
       ...(d.statistics?.hasConfidenceInterval ? [] : ['any claim of precision, since no confidence interval was found']),
       ...(claudeReview.notQuotable || []),
     ],
+
+    // the same two lists under the names the repair brief uses
+    clearedFigures: claudeReview.verifiedStatistics || [],
+    prohibitedClaims: claudeReview.notQuotable || [],
 
     // confidence and the honest limits
     evidenceConfidence: claudeReview.evidenceConfidence || null,
@@ -113,6 +139,8 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
     // production direction
     recommendedAudience: audience || claudeReview.recommendedAudience || null,
     recommendedPlatforms: platforms || claudeReview.recommendedPlatforms || [],
+    recommendedFormats: platforms || claudeReview.recommendedPlatforms || [],
+    editorialAngle: claudeReview.proposedAngle || null,
     editorialPriority: priority,
     urgency: claudeReview.urgency || null,
 
@@ -132,7 +160,8 @@ export function handoffDoc(h) {
 
   line(`GDC RESEARCH HANDOFF  ${h.researchId}`)
   line(`Stage 1 complete, ready for Stage 2 editorial production`)
-  line(`Schema ${h.schemaVersion}  created ${h.createdAt}  register version ${h.registerVersion}`)
+  line(`Schema ${h.schemaVersion}  handoff version ${h.handoffVersion}  created ${h.createdAt}`)
+  line(`Register version ${h.registerVersion}  source commit ${h.sourceCommit ? String(h.sourceCommit).slice(0, 8) : 'not recorded'}`)
   line()
   line('STATUS')
   line(`  production status: ${h.productionStatus}`)
@@ -205,7 +234,9 @@ export function handoffDoc(h) {
   line()
   line('FOR STAGE 2')
   line('  Read this against the GDC Daily Content Operating System, the Current')
-  line('  Posting Pack, the Story Bible and the permanent GDC post register.')
+  line('  Posting Pack and the GDC POST REGISTER mirror in this folder.')
+  line('  (An earlier version of this template also named a Story Bible. The audit')
+  line('  on 10 November found no such document in Drive, so it is not listed.)')
   line('  Normal LinkedIn length is 250 to 450 words. The question goes last with')
   line('  nothing after it. No link in the post body: it belongs in the first')
   line('  comment. No dashes anywhere. Nothing publishes without Justin.')
