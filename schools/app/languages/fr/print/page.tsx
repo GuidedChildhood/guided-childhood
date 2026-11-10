@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import { eyebrow } from '@/components/ui'
 import {
-  FRENCH_UNITS, LEVEL_LABEL, lessonsOf, mediaUrl, sheetList,
+  FRENCH_UNITS, LEVEL_LABEL, lessonLabel, lessonsOf, mediaUrl, sheetList,
   type FrenchUnit, type Level, type SheetFile,
 } from '@/lib/languages/french'
 import { body, card, langEyebrow, small } from '../_ui'
@@ -25,7 +25,7 @@ import { body, card, langEyebrow, small } from '../_ui'
 
 export const metadata = { title: 'French print room' }
 
-const LEVELS: Level[] = ['class', 'adapted', 'inclusion']
+const LEVELS: Level[] = ['class', 'challenge', 'adapted', 'inclusion']
 const isLevel = (v: string | undefined): v is Level => !!v && (LEVELS as string[]).includes(v)
 const levelOf = (f: SheetFile): Level => f.lv ?? 'class'
 
@@ -38,7 +38,7 @@ function groupsOf(u: FrenchUnit): Group[] {
   return [
     { label: 'Word mats', files: sheetList(d.wordMats) },
     { label: 'What I can do', files: sheetList(d.whatICanDo) },
-    ...lessonsOf(u).map(l => ({ label: `Lesson ${l.n}: ${l.title}`, files: sheetList(l.deck?.files) })),
+    ...lessonsOf(u).map(l => ({ label: `${lessonLabel(l)}: ${l.title}`, files: sheetList(l.deck?.files) })),
     { label: 'Extra activities', files: sheetList(d.activities) },
     { label: 'Assessment', files: sheetList(d.assessment) },
     { label: 'For the teacher', files: sheetList(d.teacher) },

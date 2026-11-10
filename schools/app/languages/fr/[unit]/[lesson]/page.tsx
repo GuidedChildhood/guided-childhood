@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
 import { eyebrow } from '@/components/ui'
-import { deckSequence, FRENCH_UNITS, frenchLesson, frenchUnit, lessonsOf, mediaUrl } from '@/lib/languages/french'
+import { assessedIn, deckSequence, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl, teachingLessons } from '@/lib/languages/french'
 import { body, Crumbs, langEyebrow, Section, Sheets, small } from '../../_ui'
 import DeckPreview from '../../DeckPreview'
 
@@ -28,9 +28,12 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
   if (!u || !u.ready) notFound()
   const l = frenchLesson(u, Number(lesson))
   if (!l) notFound()
-  const all = lessonsOf(u)
-  const prev = all.find(x => x.n === l.n - 1)
-  const next = all.find(x => x.n === l.n + 1)
+  // A culture lesson sits outside the unit's numbered lessons, so it is not
+  // "lesson 7 of 7" and it has no neighbours: it goes back to its unit.
+  const all = teachingLessons(u)
+  const prev = l.culture ? undefined : all.find(x => x.n === l.n - 1)
+  const next = l.culture ? undefined : all.find(x => x.n === l.n + 1)
+  const assess = l.culture ? [] : assessedIn(u, l.n)
   const deck = l.deck
   const songs = deck?.songs?.map(i => u.deck?.songs?.[i]).filter((s): s is NonNullable<typeof s> => !!s) ?? []
   const order = deckSequence(deck?.slides)
@@ -41,14 +44,14 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
         { href: '/languages', label: 'Languages' },
         { href: '/languages/fr', label: 'French' },
         { href: `/languages/fr/${u.key}`, label: u.fr },
-        { label: `Lesson ${l.n}` },
+        { label: lessonLabel(l) },
       ]} />
 
       {/* THE HERO: the words on one side, the lesson itself on the other.
           On a phone the slide comes first, because it is the lesson. */}
       <div className="gc-fr-hero">
         <div>
-          <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Year {u.year} · {u.fr} · Lesson {l.n} of {all.length}</p>
+          <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>Year {u.year} · {u.fr} · {l.culture ? `Culture · ${l.culture}` : `Lesson ${l.n} of ${all.length}`}</p>
           <h1 lang="fr" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: 0 }}>{l.title}</h1>
           {deck?.en && <p style={{ ...body, fontWeight: 700, color: 'var(--ink)', margin: 'var(--space-1) 0 0' }}>{deck.en}</p>}
           <p style={{ ...body, margin: 'var(--space-3) 0 0' }}>
@@ -62,7 +65,15 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
               <span style={small}>The slides for this lesson are still being made. The plan is below.</span>
             )}
             {deck?.files && deck.files.length > 0 && <a href="#sheets" className="btn btn-outline">Sheets ({deck.files.length})</a>}
+            {u.deck && <Link href={`/languages/fr/${u.key}/plans#lesson-${l.n}`} className="btn btn-outline">Lesson plan</Link>}
           </div>
+          {assess.length > 0 && (
+            <p style={{ ...small, margin: 'var(--space-3) 0 0' }}>
+              <b style={{ color: 'var(--ink)' }}>Assess today:</b>{' '}
+              {assess.map(a => `${a.code} (${a.how === 'written' ? 'written' : 'observed'})`).join(' · ')}
+            </p>
+          )}
+          {l.culture && <p style={{ ...small, margin: 'var(--space-3) 0 0' }}>A culture lesson. It is taught with this unit and is not assessed.</p>}
         </div>
         {deck?.slides && u.slug && (
           <DeckPreview src={mediaUrl(u.slug, deck.slides, 'deck')} href={`/languages/fr/${u.key}/${l.n}/teach`} title={l.title} />
