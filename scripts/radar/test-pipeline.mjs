@@ -334,6 +334,12 @@ check('a failed save of the pack is a HOLD', isHold(P.recordPackSave(ID, { verif
 check('a verified save of the pack is accepted', P.recordPackSave(ID, { fileId: 'test-pack', verification: C.verifyDownload(packText, { base64: Buffer.from(packText).toString('base64') }) }).verdict === 'PASS')
 check('now it reaches ASSETS READY', P.readyForApproval(ID).verdict === 'PASS' && reg.get(ID).status === 'ASSETS READY')
 
+const briefAfter = F.stage2Brief()
+check('once a pack is through, the start here document tells Stage 2 not to write it again',
+  /WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK/.test(briefAfter.text) && /Do not write this story again/.test(briefAfter.text) && /WHAT TO WRITE NEXT\n  Nothing\. The queue is empty/.test(briefAfter.text))
+check('and carries the review notes back, since there is no other channel', briefAfter.text.includes('Figures match the cleared list'))
+check('still with no dash in it', !/[\u2010-\u2015\u2212]/.test(briefAfter.text))
+
 section('STAGE 4, approval and publication controls')
 const live404 = async () => ({ verdict: 'NOT LIVE', httpStatus: 404, provesItIsLive: false })
 const liveOk = async (url) => ({ url, verdict: 'URL RESOLVES', httpStatus: 200, provesItIsLive: true, provesItIsOurs: false, provesTheContent: false })

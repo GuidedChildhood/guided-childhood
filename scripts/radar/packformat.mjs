@@ -225,6 +225,20 @@ export function stage2Brief({ links = {} } = {}) {
     // a handoff, and the handoff's commit only moves when the handoff does.
     sourceCommit: next?.handoffSourceCommit || r.commit }).split('\n')) line(`    ${t}`)
   line()
+  // The only channel back to Stage 2. Claude cannot message ChatGPT, so what
+  // was found in its last pack is written here, where it reads first.
+  const returned = reg.all().filter((x) => x.pack && x.packQa).sort((a, b) => String(b.pack.submittedAt).localeCompare(String(a.pack.submittedAt))).slice(0, 3)
+  if (returned.length) {
+    line('WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK')
+    for (const x of returned) {
+      const n = x.gdcPostNumber ? `GDC-${String(x.gdcPostNumber).padStart(3, '0')}` : 'no number'
+      line(`  ${x.studyId} ${n}: automatic checks ${x.packQa.verdict}, Claude review ${x.packReview?.verdict || 'not yet done'}, now ${x.status}.`)
+      if (x.status !== 'EDITORIAL READY') line('    Do not write this story again. It is no longer in the queue.')
+      for (const f of (x.packQa.failures || []).slice(0, 6)) line(`    Held on: ${f.check}. ${f.why}`)
+      for (const l of String(x.packReview?.notes || '').split('\n').filter(Boolean)) line(`    ${l}`)
+    }
+    line()
+  }
   line('WHAT HAPPENS NEXT')
   line('  Claude reads the pack, runs the automatic checks, and reviews it.')
   line('  If a check fails the pack is held and the reasons are written back. Fix those and save v2 as a new Doc.')
