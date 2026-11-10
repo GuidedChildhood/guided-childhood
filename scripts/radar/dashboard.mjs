@@ -280,8 +280,8 @@ section.band{display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
     body: `<ul class="list">${d.stages.map((x) => `<li class="row"><div class="rt">${esc(x.name)}</div><div class="chips"><span class="chip ${x.verdict === 'PASS' ? 'good' : ['HOLD', 'ERROR'].includes(x.verdict) ? 'bad' : ''}">${esc(x.verdict)}</span><span class="chip">${x.who === 'claude' ? 'Claude' : 'script'}</span>${x.at ? `<span class="chip">${esc(when(x.at))}</span>` : ''}</div>${x.reason ? `<div class="note">${esc(plain(x.reason).slice(0, 260))}</div>` : ''}</li>`).join('')}</ul>`,
     empty: 'Nothing has run today.' })}
 
-  ${section({ id: 'inbox', title: 'From ChatGPT, the candidate inbox', count: d.inbox.reduce((n, b) => n + b.results.length, 0),
-    lede: 'Research ChatGPT sent in, and what became of each one. A candidate is not cleared until it has been through the evidence check.',
+  ${section({ id: 'inbox', title: 'The candidate inbox', count: d.inbox.reduce((n, b) => n + b.results.length, 0),
+    lede: 'Research sent in through the Drive inbox, who sent it, and what became of each one. A candidate is not cleared until it has been through the evidence check.',
     body: `<ul class="list">${d.inbox.flatMap((b) => b.results.map((x) => `<li class="row"><div class="rt">${esc(clip(x.title || x.candidateId))}</div><div class="chips"><span class="chip ${x.outcome === 'INGESTED' ? 'good' : x.outcome === 'HELD' ? 'bad' : ''}">${esc(x.outcome)}</span><span class="chip">${esc(String(b.ingestedAt).slice(0, 10))}</span></div>${(x.reasons || [])[0] ? `<div class="note">${esc(plain(x.reasons[0]).slice(0, 220))}</div>` : ''}<div class="meta">${esc(x.researchId || x.candidateId)}, sent by ${esc(clip(b.createdBy, 60))}</div></li>`)).join('')}</ul>`,
     empty: 'Nothing has come through the inbox yet.' })}
 

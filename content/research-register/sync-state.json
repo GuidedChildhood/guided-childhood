@@ -3,18 +3,18 @@
   "manifest": {
    "role": "manifest",
    "studyId": null,
-   "fileId": "1-nQpreqWFJ8HWgE4ers5IPRltaz-FVoB",
-   "title": "manifest.json [cc8b3d96] 2026-11-10 13:57, CURRENT QUEUE (empty, GDC-054 is with Justin)",
-   "commit": "cc8b3d96ea9c3ca0d9caf57d066b787a8a75e008",
-   "factsSha256": "8730203005d169941f59045e6b3f1c981a70591c9047f2b4e7b16dae2bca147b",
-   "sha256": "52966bcd313c148848e1c64cdfc711477245f2a772cba59d3e2109fea1d2d36c",
+   "fileId": "1YhZb6IillAQ8GoxDcD4JLUhDW3yBx156",
+   "title": "manifest.json [8b7f1d27] 2026-11-10 17:25, CURRENT QUEUE, 4 stories",
+   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+   "factsSha256": "2d3d4999304565a353ec8d6c1611ffddb696428e4acceabeb13d5251d03b867c",
+   "sha256": "bccaba40b7181228e3f81e69015e84a09113efd0a5cdae28ee33e90a8471168a",
    "verification": {
     "ok": true,
     "level": "BYTE IDENTICAL",
     "problems": [],
-    "sha256": "52966bcd313c148848e1c64cdfc711477245f2a772cba59d3e2109fea1d2d36c"
+    "sha256": "bccaba40b7181228e3f81e69015e84a09113efd0a5cdae28ee33e90a8471168a"
    },
-   "at": "2026-11-10T16:29:07.536Z"
+   "at": "2026-11-10T17:25:57.442Z"
   },
   "handoff:GDC-RR-0754a1641c": {
    "role": "handoff",
@@ -35,39 +35,80 @@
   "postRegister": {
    "role": "postRegister",
    "studyId": null,
-   "fileId": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt",
-   "title": "GDC POST REGISTER mirror [28ec992e] 2026-11-10 12:40, CURRENT, read only",
-   "commit": "28ec992ed1330c02040aa7cca6e302ac1ecd6cc3",
-   "factsSha256": "a44c43fcf3af363649f689308ea763c073101c6cacaf5f24ed7f2201766d69e4",
-   "sha256": "cf90447c76a00459be3ea9fa5f5dbd4c6cc09682f7e14de8cf71ec8aff316f80",
+   "fileId": "1pZqW6mlg7FfYRRUOUHdWkAGUd1JpTnIa",
+   "title": "GDC POST REGISTER mirror [8b7f1d27] 2026-11-10 17:25, CURRENT, read only",
+   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+   "factsSha256": "6e4b99cadc4acd343c0ee8d0c1ab27a9d5777bcee5d8ca44f429b53e5e0a549a",
+   "sha256": "d38aae22d749a0adbb4904f2854a62d65dcafd0ce70b9e619ec9f266611a3493",
    "verification": {
     "ok": true,
     "level": "BYTE IDENTICAL",
     "problems": [],
-    "sha256": "cf90447c76a00459be3ea9fa5f5dbd4c6cc09682f7e14de8cf71ec8aff316f80"
+    "sha256": "d38aae22d749a0adbb4904f2854a62d65dcafd0ce70b9e619ec9f266611a3493"
    },
-   "at": "2026-11-10T12:46:54.818Z"
+   "at": "2026-11-10T17:26:22.670Z"
   },
   "stage2Brief": {
    "role": "stage2Brief",
-   "fileId": "1wNYcOSDVl7hbCNdge0DUyygqsSf6tnCIf-8bMbf4Tro",
-   "title": "GDC STAGE 2 START HERE [5380577c] 10 Nov 2026 16:30, CURRENT",
+   "fileId": "1h0D25Alclita0qV7kweJxfHWZoYItxnoHeX6v8bS-M4",
+   "title": "GDC STAGE 2 START HERE [8b7f1d27] 10 Nov 2026 17:26, CURRENT",
    "links": {
-    "manifest": "1-nQpreqWFJ8HWgE4ers5IPRltaz-FVoB",
-    "postRegister": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt"
+    "manifest": "1YhZb6IillAQ8GoxDcD4JLUhDW3yBx156",
+    "postRegister": "1pZqW6mlg7FfYRRUOUHdWkAGUd1JpTnIa",
+    "handoffJsons": {
+     "GDC-RR-3d31eb1683": "1C8ZDrFE_BHnE67MY5gVzasrq_lsHhka8",
+     "GDC-RR-e923851b08": "1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8",
+     "GDC-RR-e22bd17322": "1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA",
+     "GDC-RR-86c1075a30": "1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv"
+    },
+    "handoffDocs": {
+     "GDC-RR-3d31eb1683": "https://drive.google.com/file/d/1C8ZDrFE_BHnE67MY5gVzasrq_lsHhka8/view",
+     "GDC-RR-e923851b08": "https://drive.google.com/file/d/1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8/view",
+     "GDC-RR-e22bd17322": "https://drive.google.com/file/d/1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA/view",
+     "GDC-RR-86c1075a30": "https://drive.google.com/file/d/1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv/view"
+    }
    },
-   "commit": "5380577c290044d27a14a303e7631a57f04280db",
-   "factsSha256": "a77911cdd4343689d99e3eefc9fdbe8ee958e8feb13263f6ac0982f0fa8b3f0d",
-   "sha256": "c52c5eeffd10b43c5affd5262cf4eefcad8f999b1f65b60cf50be5327ce5c900",
+   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+   "factsSha256": "46d076d64acb7bb440825a7603760e7425abbd72277d863ae1a2fbc7d37035ad",
+   "sha256": "6ed3644274fa5753c9ef99c395b81813fecd2a982a71b829a5ad02fa9522d605",
    "verification": {
     "ok": true,
     "level": "TEXT IDENTICAL",
     "problems": [],
     "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
    },
-   "at": "2026-11-10T16:31:26.764Z"
+   "at": "2026-11-10T17:26:47.761Z"
+  },
+  "handoff:GDC-RR-3d31eb1683": {
+   "role": "handoff",
+   "studyId": "GDC-RR-3d31eb1683",
+   "fileId": "1C8ZDrFE_BHnE67MY5gVzasrq_lsHhka8",
+   "title": "RESEARCH HANDOFF GDC-RR-3d31eb1683, GDC-058, v2",
+   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+   "factsSha256": "d7e5fbbd6dd994d4fdc6aa598958004c1aadbea018ce228292c165df4c451995",
+   "sha256": "dab4577dd1c9d5442fe5c8e9f1b18637e1d097d69838d8c26fb438086248672e",
+   "verification": {
+    "ok": true,
+    "level": "BYTE IDENTICAL",
+    "problems": [],
+    "sha256": "dab4577dd1c9d5442fe5c8e9f1b18637e1d097d69838d8c26fb438086248672e"
+   },
+   "at": "2026-11-10T17:25:57.507Z"
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-10T16:31:26.764Z"
+ "lastSuccessAt": "2026-11-10T17:26:47.761Z",
+ "approvalDesk": {
+  "fileId": "1n3emSpcD_NwYUJEEVFZe7IHdc7AhIHqFGTnp0NrX258",
+  "title": "GDC APPROVAL DESK [8b7f1d27] 10 Nov 2026 17:26, CURRENT, for Justin",
+  "sha256": "1029c1961dd482dfaa6a53992fe96984ea888fce3e8727c043ef8931daacb622",
+  "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+  "verification": {
+   "ok": true,
+   "level": "TEXT IDENTICAL",
+   "problems": [],
+   "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
+  },
+  "at": "2026-11-10T17:26:58.115Z"
+ }
 }

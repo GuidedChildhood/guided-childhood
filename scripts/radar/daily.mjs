@@ -28,7 +28,7 @@ import { join, basename } from 'node:path'
 import * as reg from './register.mjs'
 import { repoState, sha256, parsePostRegister, internalNumberConflicts } from './contract.mjs'
 import { preflight, handoff, claimNumber, submitPack, founderStatus } from './pipeline.mjs'
-import { ingestBatch, receipt } from './candidates.mjs'
+import { ingestBatch, loadLedger } from './candidates.mjs'
 import { buildManifest } from './manifest.mjs'
 import { parsePackText } from './packformat.mjs'
 
@@ -257,8 +257,15 @@ export function summary(date = today()) {
   const inbox = ran.get('INBOX')?.detail
   if (inbox?.batches?.length) {
     line()
-    line('FROM CHATGPT\'S INBOX')
-    for (const b of inbox.batches) for (const x of b.results) line(`  ${x.candidateId}: ${x.outcome}${x.researchId ? `, ${x.researchId}` : ''}${x.reasons?.[0] ? `. ${x.reasons[0]}` : ''}`)
+    // Named by who actually sent each batch. A test batch written by Claude
+    // must never read as something ChatGPT did.
+    line('FROM THE CANDIDATE INBOX')
+    const senders = loadLedger().batches || {}
+    for (const b of inbox.batches) {
+      const sender = Object.values(senders).find((x) => x.batchId === b.batchId)?.createdBy || 'sender not recorded'
+      line(`  Batch ${b.batchId}, sent by: ${sender}`)
+      for (const x of b.results) line(`    ${x.candidateId}: ${x.outcome}${x.researchId ? `, ${x.researchId}` : ''}${x.reasons?.[0] ? `. ${x.reasons[0]}` : ''}`)
+    }
   }
   line()
   line('Nothing was posted, scheduled or sent. Approval is yours.')

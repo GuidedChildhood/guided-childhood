@@ -5,15 +5,39 @@ radar can and cannot reach on the web.
 
 ## The honest status line
 
-**The gates are automated and tested. The joins between the two AIs are not
-automatic.** Three things still need a person or a Claude session:
+**Every gate is automated and tested. The relay between the two AIs is a
+schedule of four runs, two of them Claude's. Two things are not automatic and
+are not meant to be.**
 
-1. **Copying anything to Drive is a Claude step.** A Node script cannot reach
-   the Drive connector. A session prepares the snapshot, writes it, reads it
-   back and compares. Nothing counts as synced until that comparison passes.
-2. **ChatGPT cannot see GitHub and Claude cannot start ChatGPT.** ChatGPT reads
-   the stamped copies in Drive, when Justin asks it or its own schedule fires.
-3. **Approval, posting and the link are Justin's.** On purpose.
+What runs without anybody carrying anything, as of 10 November 2026:
+
+| When (London) | Who | What |
+|---|---|---|
+| 08:00 daily | ChatGPT scheduled task | writes its brief, and one `CANDIDATES` document into the Drive inbox |
+| 09:17 weekdays | Claude Code scheduled task, in the cloud | reads the inbox, checks and reviews, claims numbers, builds handoffs, copies the queue to Drive and verifies it, checks any pack that has come back |
+| 11:00 daily | ChatGPT scheduled task | reads the start here document, writes one pack per cleared story |
+| 12:23 weekdays | Claude Code scheduled task, in the cloud | checks and reviews those packs, puts the ones that pass in front of Justin |
+| 10:43 UTC weekdays | GitHub Actions | goes red if the morning run left no log, or logged a HOLD or an ERROR |
+
+What is still a person, on purpose:
+
+1. **Approval, posting and the link are Justin's.** Nothing here can do them.
+2. **Merging the day's pull request.** Each Claude run pushes a branch and opens
+   a pull request. Until it is merged, main does not agree with Drive. The gate
+   in GitHub Actions checks it; merging it is Justin's click unless he asks for
+   the gate to merge it.
+
+What is not proven, said plainly:
+
+- **ChatGPT has not yet written a candidate document.** It has written a file to
+  Drive every day since at least 30 October, including raw `.md` files, so the
+  write is known to work. Whether its scheduled task produces valid JSON in the
+  inbox is unproven until its 08:00 prompt is changed and it runs once.
+- **The Claude scheduled task is a research preview feature.** It has run every
+  weekday morning, and the documentation promises no retry and no failure
+  notice. That is what the GitHub watchdog is for.
+- Copying to Drive is still a Claude step. A Node script cannot reach the Drive
+  connector, in a session or in GitHub Actions.
 
 ## Who owns what
 
@@ -51,15 +75,62 @@ flowchart TD
 ## The daily run, in order
 
 ```
-node scripts/radar/pipeline.mjs preflight            # HOLD here means stop and fix first
-node scripts/radar/pipeline.mjs handoff <researchId> # for each newly reviewed story
+node scripts/radar/daily.mjs morning --inbox <dir> --posting-pack <file>
+                                   # preflight, inbox, discover, dossier, who is waiting
+node scripts/radar/pipeline.mjs review <researchId>   # after writing reviews/<id>.json
+node scripts/radar/daily.mjs handoffs                 # number, handoff and queue, idempotent
 node scripts/radar/sync.mjs prepare manifest "" out.json       # then write to Drive, read back
 node scripts/radar/sync.mjs prepare postRegister "" out.json   # same
 node scripts/radar/sync.mjs prepare handoff <researchId> out.json
 node scripts/radar/packformat.mjs > start-here.txt   # the one doc ChatGPT opens first
-node scripts/radar/sync.mjs state                    # what Drive holds and whether it is in step
-npm run radar-dashboard                              # rebuild the Radar Desk
+node scripts/radar/daily.mjs packs <dir>              # QA over every pack text handed to it
+node scripts/radar/approval.mjs approval.txt          # the one sheet behind the Post Desk
+node scripts/radar/daily.mjs log "DRIVE SYNC" PASS "..."   # the steps only Claude can do
+node scripts/radar/daily.mjs summary                  # what Justin reads
+node scripts/radar/gate.mjs                           # integrity of what is about to be pushed
+npm run radar-dashboard                               # rebuild the Radar Desk
 ```
+
+Every stage writes PASS, HOLD, WAITING, SKIPPED or ERROR to
+`content/research-register/runs/<date>.json`. A stage that did not run shows as
+NOT RUN in the summary, which is different from finding nothing.
+
+## The candidate inbox
+
+Folder: `DRIVE.CANDIDATE_INBOX` in `contract.mjs`, inside the Stage 2 folder.
+ChatGPT saves one document a day, in the shape of
+`scripts/radar/candidate.schema.json`. A `.json` file, a `.md` file or a Google
+Doc with the JSON inside are all read.
+
+- A candidate is a pointer and a set of claims to check. It enters the register
+  as DISCOVERED, with its claims stored under `candidate` and marked UNVERIFIED.
+  Nothing in it can be quoted. The dossier and the directed review run on it
+  like any other record.
+- Ingest is idempotent. `content/research-register/inbox-ledger.json` is keyed
+  by the digest of the document and by batch and candidate id.
+- Deduplication runs against the research register, the post register, the
+  archived and published posts, and ChatGPT's posting pack when the run has
+  read it.
+- A candidate with no original link, no publication date, no claims or no
+  stated limits is HELD, and the reason is written into the start here
+  document, which is the only channel back to ChatGPT.
+- "Official" is the sender's word. A public body's page is only confirmed on a
+  host listed in `dossier.mjs`, once it answers and carries the title and date.
+- A document that has been read is retitled `ZZ INGESTED`. Never deleted.
+
+## The four statuses Justin sees
+
+| On the approval desk | In the register |
+|---|---|
+| READY FOR JUSTIN | ASSETS READY |
+| CHANGES REQUESTED | ASSETS READY, with an open `founderDecision` |
+| APPROVED | APPROVED |
+| PUBLISHED | PUBLISHED |
+
+`requestChanges`, `approve` and `publish` in `pipeline.mjs` are the only way
+between them, and the first two accept only Justin, with his words. A pack he
+sent back cannot be approved, and cannot return to ready, until a version
+submitted after he asked has been through QA, review and a verified save.
 
 Copying to Drive, for the session doing it:
 
@@ -154,16 +225,45 @@ to what is in the queue does.
 
 ```
 npm run radar-pipeline-test   # 133 checks, throwaway register, the seven failures simulated
+npm run radar-relay-test      # 86 checks: a candidate from the inbox to PUBLISHED
 npm run radar-drop-test       # the two full text lanes
+npm run radar-gate            # 15 integrity rules over what is committed
 ```
 
-Both run against a temporary register and never write to the real one. The
-pipeline test ends by comparing digests of the live register, its history and
-the post register from before and after.
+The three test suites run against a temporary register and never write to the
+real one. The pipeline and relay tests end by comparing digests of the live
+register, its history and the post register from before and after. In the relay
+test the candidate document and the production response are simulated, and say
+so: ChatGPT cannot be started from a script.
+
+`.github/workflows/radar-gate.yml` runs the pipeline test, the relay test and
+the gate on every pull request that touches the radar. It needs no secret.
 
 The seven failures simulated, each of which must end in a HOLD: missing
 repository access, stale manifest, duplicate story, failed Drive save,
 conflicting post number, missing Claude review, failed editorial QA.
+
+## Running Claude somewhere else, costed and not switched on
+
+Investigated on 10 November 2026 against the published documentation.
+
+- **Where it runs now.** A Claude Code scheduled task in the cloud. Included in
+  the subscription, uses its usage allowance, has the Drive connector, can push
+  and open a pull request. Labelled research preview. No documented retry or
+  failure notice. Minimum interval one hour.
+- **GitHub Actions with Claude inside.** Supported, on a `schedule:` cron, with
+  `anthropics/claude-code-action` or `claude -p`. It needs either an API key,
+  billed per token, or a subscription token from `claude setup-token`. Neither
+  can use the claude.ai Drive connector, so Drive would need its own Google
+  credential held as a GitHub secret. GitHub documents that scheduled jobs can
+  be delayed or dropped under load.
+- **Rough API cost** for a run reading 150,000 tokens and writing 20,000, at
+  list price with no caching: about 0.50 US dollars on the mid tier model and
+  about 2 on the top one. At two runs a weekday that is roughly 22 or 88
+  dollars a month.
+- **Decision left to Justin.** It adds a bill and two secrets and removes
+  nothing that is failing today, so it was not enabled. The repository already
+  has two workflows that read `ANTHROPIC_API_KEY`, so the key may already exist.
 
 ## Known limits
 
@@ -171,6 +271,12 @@ conflicting post number, missing Claude review, failed editorial QA.
   identical, for the queue, the number list and the handoff; the start here
   Doc, text identical; and a labelled test pack written as a Google Doc, read
   back, parsed and passed through QA, then removed.
+- **The inbox was tested for real on 10 November** with a batch written by
+  Claude and marked as such: written to the inbox, read back byte identical,
+  ingested. One candidate, the European Commission's preliminary finding on
+  TikTok, taken from ChatGPT's own brief of that day, went on to be confirmed
+  against the Commission's page, reviewed, numbered GDC-058 and queued. A
+  repeat was recognised and a broken entry was held.
 - **ChatGPT's side worked on its first real run, 10 November.** It read the
   start here document, wrote GDC-054 in the right layout, and saved it in the
   right folder under the right title. One run is one run: it is not yet proven
