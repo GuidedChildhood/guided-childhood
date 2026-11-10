@@ -33,13 +33,28 @@ export function languagesLive(): boolean {
   return (process.env.LANGUAGES_LIVE || '').trim().toLowerCase() === 'true'
 }
 
+// A CODE AS A PERSON MEANS IT (10 November 2026). Justin saved a code in
+// Vercel and the door refused it for an hour, because a code is typed by
+// hand twice, once into a settings box and once at the door, and the two
+// did not agree to the character. None of the differences that creep in
+// carry any meaning, so none of them should decide whether a school gets
+// in: capitals, spaces, quote marks around the value, and the long dashes a
+// phone swaps in for a hyphen all fold away here, on both sides.
+function plainCode(raw: string): string {
+  return raw
+    .toLowerCase()
+    .replace(/[\u2010-\u2015\u2212]/g, '-')
+    .replace(/["'\u2018\u2019\u201c\u201d`]/g, '')
+    .replace(/\s+/g, '')
+}
+
 function languageCodes(): Map<string, Lang[]> {
   const out = new Map<string, Lang[]>()
   for (const entry of (process.env.SCHOOLS_LANGUAGES_CODES || '').split(',')) {
     const [rawCode, rawLang] = entry.split(':')
-    const code = (rawCode ?? '').trim().toLowerCase()
+    const code = plainCode(rawCode ?? '')
     if (!code) continue
-    const lang = (rawLang ?? '').trim().toLowerCase()
+    const lang = plainCode(rawLang ?? '')
     out.set(code, lang === 'es' || lang === 'fr' ? [lang] : [...LANGS])
   }
   return out
@@ -77,8 +92,10 @@ export function languagesCodesConfigured(): boolean {
 /** Check a code a teacher has just typed. Returns the normalised code, or
  *  null when it is not a languages code. */
 export function matchLanguagesCode(input: string): string | null {
-  const tidy = input.trim().toLowerCase().replace(/\s+/g, '')
-  return [...languageCodes().keys()].find(c => c.replace(/\s+/g, '') === tidy) ?? null
+  // The ending that says which language (:fr) belongs in the settings box,
+  // not at the door, but a person who was shown "code:fr" will type it.
+  const tidy = plainCode(input).replace(/:(fr|es|both)$/, '')
+  return [...languageCodes().keys()].find(c => c === tidy) ?? null
 }
 
 /** Mint a cookie value for a code that has already been checked. */

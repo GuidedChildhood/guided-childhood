@@ -94,6 +94,17 @@ const L = await import('../schools/lib/languages-access.ts')
 ok('languages are hidden by default', L.languagesLive() === false)
 ok('a languages code is matched', L.matchLanguagesCode(' ES-Code ') === 'es-code')
 ok('a scheme code is not a languages code', L.matchLanguagesCode('scheme-code') === null)
+// A code is typed by hand twice, so the slips that carry no meaning must not
+// lock a school out (10 November 2026).
+ok('the :fr ending typed at the door is forgiven', L.matchLanguagesCode('fr-code:fr') === 'fr-code')
+ok('a long dash typed for a hyphen is forgiven', L.matchLanguagesCode('es\u2013code') === 'es-code' && L.matchLanguagesCode('es\u2014code') === 'es-code')
+ok('quote marks around a typed code are forgiven', L.matchLanguagesCode('\u201ces-code\u201d') === 'es-code')
+process.env.SCHOOLS_LANGUAGES_CODES = '"Both Code", \u201cES\u2014code:es\u201d ,fr-code : FR'
+ok('quotes, capitals, spaces and long dashes in the saved value are forgiven',
+  L.matchLanguagesCode('bothcode') === 'bothcode' && L.matchLanguagesCode('es-code') === 'es-code' && L.matchLanguagesCode('fr-code') === 'fr-code')
+ok('a forgiven saved code still opens only its language', JSON.stringify((await L.languagesTokenAccess(await L.issueLanguagesToken('es-code')))?.langs) === '["es"]')
+ok('a wrong code is still refused', L.matchLanguagesCode('es-cod') === null && L.matchLanguagesCode('') === null)
+process.env.SCHOOLS_LANGUAGES_CODES = 'both-code,es-code:es,fr-code:fr'
 
 const both = await L.issueLanguagesToken('both-code')
 const es = await L.issueLanguagesToken('es-code')
