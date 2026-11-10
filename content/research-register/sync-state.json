@@ -1,0 +1,21 @@
+{
+ "verified": {
+  "manifest": {
+   "role": "manifest",
+   "studyId": null,
+   "fileId": "1eMpNFHlO3jiFBgMRIB-IJ6Uq0XJle5TU",
+   "title": "manifest.json [9a86fd59] 2026-11-10 11:23",
+   "commit": "9a86fd5921139a6459ae4536e0c9deeaddd5d1f9",
+   "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f",
+   "verification": {
+    "ok": true,
+    "level": "SEMANTICALLY EQUAL",
+    "problems": [],
+    "note": "Not byte identical, because Drive adds markdown escaping to an uploaded JSON file. Parsed, every field matches."
+   },
+   "at": "2026-11-10T11:37:26.469Z"
+  }
+ },
+ "failures": [],
+ "lastSuccessAt": "2026-11-10T11:37:26.469Z"
+}

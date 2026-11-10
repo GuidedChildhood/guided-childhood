@@ -41,7 +41,11 @@ export const ROLES = {
   postRegister: {
     role: 'postRegister',
     driveTitle: 'GDC POST REGISTER mirror',
-    mimeType: 'text/plain',
+    // JSON, not prose. The audit found the previous mirror had been retitled
+    // "DO NOT USE" with nothing replacing it, so for a day ChatGPT had no way
+    // to see which numbers were taken. A stamped, parseable mirror is how that
+    // stops being a judgement call.
+    mimeType: 'application/json',
     description: 'A read only mirror of the one place a GDC number is claimed. Drive must never claim a number; it reads this to find out what is taken.',
   },
   handoff: {
@@ -72,7 +76,21 @@ export function prepareSnapshot(roleName, { studyId = null } = {}) {
     payload = {
       purpose: 'Read only mirror. GitHub owns these numbers. Never claim a number here; claim it in content/gdc-post-register.md and let this mirror catch up.',
       nextFreeNumber: githubFacts().postRegister.nextFree,
-      rows: parsePostRegister().map((x) => ({ number: x.number, title: x.title, posted: x.posted, claimed: x.claimed, retired: x.retired, state: x.state })),
+      rule: 'A published number is spent for good, and a retired number is never reused either, so the next free number is always one above the highest, never a gap.',
+      // The state cell is trimmed. Every retired row in the register carries
+      // the same long sentence of explanation, which made the mirror 12 KB of
+      // mostly repetition. The flags carry the decision; the full prose stays
+      // in content/gdc-post-register.md, which is the authority anyway.
+      rows: parsePostRegister().map((x) => ({
+        number: x.number,
+        title: x.title,
+        taken: true,
+        posted: x.posted,
+        claimed: x.claimed,
+        retired: x.retired,
+        superseded: x.superseded,
+        state: x.state.replace(/\s+/g, ' ').slice(0, 90),
+      })),
     }
   } else if (roleName === 'handoff') {
     if (!studyId) throw new Error('a handoff snapshot needs a studyId')
