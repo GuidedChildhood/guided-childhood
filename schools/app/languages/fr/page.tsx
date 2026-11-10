@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
-import { eyebrow } from '@/components/ui'
+import { btnQuiet, eyebrow } from '@/components/ui'
 import { FRENCH_UNITS, FRENCH_YEARS, lessonsOf } from '@/lib/languages/french'
 import { body, card, Crumbs, langEyebrow, small } from './_ui'
 
@@ -30,6 +30,9 @@ export default function FrenchHome() {
           {ready} of {FRENCH_UNITS.length} units ready, {decks} lessons with interactive slides.{' '}
           <Link href="/languages/fr/coverage" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>See the curriculum coverage</Link>
         </p>
+        <Link href="/languages/fr/print" style={{ ...btnQuiet, textDecoration: 'none', marginTop: 'var(--space-3)' }}>
+          Print room: every sheet in one place
+        </Link>
       </div>
 
       {FRENCH_YEARS.map(year => (

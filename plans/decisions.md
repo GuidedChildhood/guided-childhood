@@ -313,3 +313,7 @@ Justin approved the one click tracking spec as recommended: delivery records go 
 ## 10 November 2026: French media mirrors into our storage, from GitHub
 
 Justin's 9 November call. `scripts/languages/mirror-french-media.mjs` copies the 104 decks, songs and sheets into the public `languages` bucket, run by `.github/workflows/languages-media.yml` because GitHub already holds the Supabase key (no key typed anywhere). Pages use one route, `/languages/fr/media`, which serves our copy and falls back to her site until a file is mirrored. Decks are served sandboxed so their scripts never run as the schools app. Also fixed: the "What I can do" sheet was missing from unit pages.
+
+## 10 November 2026: French files stay on her site for now; the print room
+
+The mirror's first run found no Supabase secrets in GitHub. Justin chose to keep the French files on the author's site for now: the media route already falls back to it, and the mirror job waits quietly until the two secrets are added (that is the whole switch). New page `/languages/fr/print`, the French print room: all 89 sheets on one page by unit and lesson, three versions side by side, a link filter per version.
