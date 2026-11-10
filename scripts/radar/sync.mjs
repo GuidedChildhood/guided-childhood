@@ -26,7 +26,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import * as reg from './register.mjs'
 import { buildManifest } from './manifest.mjs'
-import { stamp, validateSnapshot, verifyReadback, repoState, sha256, githubFacts, parsePostRegister, DRIVE, REPO } from './contract.mjs'
+import { stamp, factsDigest, verifyReadback, verifyDownload, repoState, sha256, githubFacts, parsePostRegister, DRIVE, REPO } from './contract.mjs'
 
 const STATE = join(reg.DIR, 'sync-state.json')
 
@@ -37,6 +37,8 @@ export const ROLES = {
     driveTitle: 'manifest.json',
     mimeType: 'application/json',
     description: 'The Stage 2 queue. ChatGPT takes queue[0] and produces from the handoff it names.',
+    // Not facts Stage 2 acts on. See factsDigest in contract.mjs.
+    volatile: ['counts', 'registerVersion'],
   },
   postRegister: {
     role: 'postRegister',
@@ -64,11 +66,8 @@ export const ROLES = {
  * fastest place to spot a stale copy, and because the audit found three
  * superseded files whose only marker was Justin hand editing their titles.
  */
-export function prepareSnapshot(roleName, { studyId = null } = {}) {
-  const spec = ROLES[roleName]
-  if (!spec) throw new Error(`unknown sync role: ${roleName}`)
-  const r = repoState()
-
+/** The payload for a role as the repository stands right now. */
+export function currentPayload(roleName, { studyId = null } = {}) {
   let payload
   if (roleName === 'manifest') {
     payload = buildManifest()
@@ -97,9 +96,19 @@ export function prepareSnapshot(roleName, { studyId = null } = {}) {
     const path = join(reg.DIR, 'handoffs', `handoff-${studyId}.json`)
     if (!existsSync(path)) throw new Error(`no handoff at ${path}. Build it before syncing.`)
     payload = JSON.parse(readFileSync(path, 'utf8'))
+  } else {
+    throw new Error(`unknown sync role: ${roleName}`)
   }
+  return payload
+}
 
-  const stamped = stamp(payload, { role: spec.role, note: spec.description })
+export function prepareSnapshot(roleName, { studyId = null } = {}) {
+  const spec = ROLES[roleName]
+  if (!spec) throw new Error(`unknown sync role: ${roleName}`)
+  const r = repoState()
+  const payload = currentPayload(roleName, { studyId })
+
+  const stamped = stamp(payload, { role: spec.role, note: spec.description, volatile: spec.volatile || [] })
   const text = JSON.stringify(stamped, null, 1)
   const digest = sha256(text)
 
@@ -122,15 +131,20 @@ export function prepareSnapshot(roleName, { studyId = null } = {}) {
  * whose readback did not match, which is what makes the dashboard's "last
  * successful synchronisation" mean something.
  */
-export function acceptSnapshot({ role, fileId, title, sentText, readBackText, studyId = null }) {
-  const v = verifyReadback(sentText, readBackText)
+export function acceptSnapshot({ role, fileId, title, sentText, readBackText = null, download = null, studyId = null }) {
+  // Prefer the true bytes. The markdown readback is the fallback, and weaker.
+  const v = download ? verifyDownload(sentText, download) : verifyReadback(sentText, readBackText)
   const state = loadState()
   const entry = {
     role,
     studyId,
     fileId,
     title,
-    commit: repoState().commit,
+    // The SNAPSHOT's commit and facts, read out of what was sent. The first
+    // version recorded the repo head at the moment of acceptance instead, so
+    // a snapshot taken at 9a86fd59 was shown as current at a8f71144.
+    commit: sentContract(sentText).sourceCommit || 'unknown',
+    factsSha256: sentContract(sentText).factsSha256 || null,
     sha256: sha256(sentText),
     verification: v,
     at: new Date().toISOString(),
@@ -150,6 +164,10 @@ export function acceptSnapshot({ role, fileId, title, sentText, readBackText, st
     `${role} verified in Drive at ${v.level}${v.note ? `. ${v.note}` : ''}` }
 }
 
+function sentContract(sentText) {
+  try { return JSON.parse(sentText)._contract || {} } catch { return {} }
+}
+
 export function loadState() {
   mkdirSync(reg.DIR, { recursive: true })
   if (!existsSync(STATE)) return { verified: {}, failures: [], lastSuccessAt: null }
@@ -167,13 +185,27 @@ export function syncState() {
   const here = repoState()
   const out = { lastSuccessAt: s.lastSuccessAt, repoCommit: here.commit, roles: {}, recentFailures: (s.failures || []).slice(0, 5) }
   for (const [k, e] of Object.entries(s.verified || {})) {
+    // Regenerate the payload as the repo stands now and compare the facts.
+    // A commit that changes nothing Stage 2 reads does not make Drive stale.
+    let current = false
+    let staleBy = null
+    try {
+      const [role, studyId] = k.split(':')
+      const fresh = factsDigest(currentPayload(role, { studyId: studyId || null }), { volatile: ROLES[role]?.volatile || [] })
+      current = !!e.factsSha256 && fresh === e.factsSha256
+      if (!e.factsSha256) staleBy = 'this snapshot predates the facts digest, so its freshness cannot be established. Re sync it.'
+      else if (!current) staleBy = 'the facts in the repository have changed since this snapshot was verified'
+    } catch (err) {
+      staleBy = `could not regenerate the payload to compare: ${err.message}`
+    }
     out.roles[k] = {
       fileId: e.fileId,
+      title: e.title,
       at: e.at,
-      commit: e.commit,
-      current: e.commit === here.commit,
+      snapshotCommit: e.commit,
+      current,
       verifiedAt: e.verification?.level || 'unknown',
-      staleBy: e.commit === here.commit ? null : 'the repo has moved on since this snapshot was verified',
+      staleBy,
     }
   }
   const anyStale = Object.values(out.roles).some((r) => !r.current)
@@ -189,7 +221,7 @@ export function driveReadable(roleKey = 'manifest') {
   const s = syncState()
   const r = s.roles[roleKey]
   if (!r) return { verdict: 'HOLD', reasons: [`${roleKey} has never been synced to Drive and verified, so there is nothing safe for Stage 2 to read`] }
-  if (!r.current) return { verdict: 'HOLD', reasons: [`the verified Drive copy of ${roleKey} is from commit ${String(r.commit).slice(0, 8)} and the repo is at ${String(s.repoCommit).slice(0, 8)}. Re sync before Stage 2 reads it.`] }
+  if (!r.current) return { verdict: 'HOLD', reasons: [`the verified Drive copy of ${roleKey} (taken at ${String(r.snapshotCommit).slice(0, 8)}) is stale: ${r.staleBy}. Re sync before Stage 2 reads it.`] }
   return { verdict: 'PASS', reasons: [], fileId: r.fileId, at: r.at }
 }
 

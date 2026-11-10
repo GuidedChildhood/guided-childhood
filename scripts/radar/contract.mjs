@@ -25,12 +25,24 @@
 //
 // And every write is read back and compared before it is called done.
 //
-// One honest limit, measured rather than assumed: Drive converts an uploaded
-// .json file, and reading it back returns markdown escaped text, so `[0]`
-// comes back as `\[0\]`. Byte equality is therefore NOT achievable through
-// this API. Verification parses the readback and compares the semantic fields
-// and the embedded digest instead, and says which of the two it managed. A
-// readback that cannot be parsed at all is a failure, not a warning.
+// One thing measured rather than assumed, and corrected the same day. Drive has
+// two ways to give a file back and they behave differently:
+//
+//   read_file_content      renders the file as markdown, so `[0]` comes back as
+//                          `\[0\]` and `_contract` as `\_contract`. NOT the bytes.
+//   download_file_content  returns the true bytes, base64 encoded.
+//
+// The first version of this comment said byte equality was not achievable. That
+// was wrong: it is, through the download call, and the manifest was verified
+// byte identical that way (same sha256, cmp clean). So there are three levels
+// of proof and every verification says which one it reached:
+//
+//   BYTE IDENTICAL            downloaded bytes equal sent bytes
+//   SIZE, HEAD AND TAIL       stored size exact, both ends match, for a file
+//                             too large to round trip through a tool result
+//   SEMANTICALLY EQUAL        markdown readback parsed, every field matches
+//
+// Anything that cannot be parsed or does not match is a failure, not a warning.
 
 import { readFileSync, existsSync } from 'node:fs'
 import { createHash } from 'node:crypto'
@@ -65,7 +77,7 @@ export const sha256 = (s) => createHash('sha256').update(String(s)).digest('hex'
 /** The commit the facts came from, and whether the tree is dirty. */
 export function repoState() {
   const git = (args, dflt = '') => {
-    try { return execFileSync('git', args, { cwd: REPO, encoding: 'utf8' }).trim() } catch { return dflt }
+    try { return execFileSync('git', args, { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() } catch { return dflt }
   }
   const commit = git(['rev-parse', 'HEAD'], 'unknown')
   const dirty = git(['status', '--porcelain'], '')
@@ -174,7 +186,37 @@ export function reconcileNumbers(driveText, { path = POST_REGISTER } = {}) {
  * Wrap a payload with the provenance a reader needs to tell whether it is
  * current. `payload` is any JSON serialisable object.
  */
-export function stamp(payload, { role, note = '' } = {}) {
+/**
+ * A digest of the FACTS in a payload, ignoring when it was generated.
+ *
+ * Staleness has to mean "the facts changed", not "somebody committed". The
+ * first version judged a snapshot stale whenever the repo head moved, which
+ * would have put Stage 2 on HOLD every time any session touched any file. And
+ * a digest of the whole payload is no use either, because the manifest carries
+ * its own generatedAt and so never hashes the same twice.
+ */
+export function factsDigest(payload, { volatile = [] } = {}) {
+  // `volatile` names fields that move without the facts a reader acts on
+  // moving. The manifest carries the register's total counts and each record's
+  // version number: a discovery run that finds three new unchecked studies
+  // changes both, and changes nothing about what ChatGPT should write next.
+  const skip = new Set(['generatedAt', 'createdAt', '_contract', ...volatile])
+  const strip = (o) => {
+    if (Array.isArray(o)) return o.map(strip)
+    if (o && typeof o === 'object') {
+      const out = {}
+      for (const k of Object.keys(o).sort()) {
+        if (skip.has(k)) continue
+        out[k] = strip(o[k])
+      }
+      return out
+    }
+    return o
+  }
+  return sha256(JSON.stringify(strip(payload)))
+}
+
+export function stamp(payload, { role, note = '', volatile = [] } = {}) {
   const r = repoState()
   const body = JSON.stringify(payload)
   return {
@@ -186,9 +228,10 @@ export function stamp(payload, { role, note = '' } = {}) {
       sourceTreeDirty: r.dirty,
       sourceTreeDirtyFiles: r.dirtyFiles,
       contentSha256: sha256(body),
+      factsSha256: factsDigest(payload, { volatile }),
       generatedAt: new Date().toISOString(),
       authority: 'GitHub owns this fact. This Drive copy is a snapshot. If the two disagree, GitHub wins and this file is stale.',
-      howToCheck: 'Compare _contract.sourceCommit with the head of the branch, and _contract.contentSha256 with a digest of everything outside _contract.',
+      howToCheck: 'contentSha256 is a digest of everything outside _contract, so an edited or mangled copy shows. factsSha256 ignores timestamps: if a fresh snapshot has a different factsSha256, the facts have moved and this copy is stale.',
       ...(r.dirty ? { warning: `Taken from a working tree with ${r.dirtyFiles} uncommitted file(s), so it cannot be reproduced from sourceCommit alone.` } : {}),
       ...(note ? { note } : {}),
     },
@@ -201,7 +244,7 @@ export function stamp(payload, { role, note = '' } = {}) {
  * boolean, because "I could not tell" is a different answer from "it is stale"
  * and the dashboard has to show which.
  */
-export function validateSnapshot(obj, { expectRole = null } = {}) {
+export function validateSnapshot(obj, { expectRole = null, freshPayload = null, volatile = [] } = {}) {
   const problems = []
   const c = obj?._contract
   if (!c) {
@@ -215,13 +258,21 @@ export function validateSnapshot(obj, { expectRole = null } = {}) {
   const digestOk = actual === c.contentSha256
   if (!digestOk) problems.push(`contentSha256 does not match the payload. Stated ${String(c.contentSha256).slice(0, 12)}, actual ${actual.slice(0, 12)}. The file has been edited since it was generated, or it was mangled in transit.`)
 
-  const here = repoState()
-  const sameCommit = c.sourceCommit === here.commit
   if (c.sourceTreeDirty) problems.push('generated from a dirty working tree, so sourceCommit does not fully describe it')
 
+  // Stale means the FACTS have moved, not that the repo head has. Give it the
+  // payload as it would be generated right now and it compares the two.
+  const here = repoState()
+  const snapshotFacts = factsDigest(payload, { volatile })
+  const freshFacts = freshPayload ? factsDigest(freshPayload, { volatile }) : null
+  const factsMatch = freshFacts ? freshFacts === snapshotFacts : null
+  if (factsMatch === false) problems.push('the facts in the repository have changed since this snapshot was taken')
+
   let verdict
-  if (problems.length && !digestOk) verdict = 'CORRUPT'
-  else if (!sameCommit) verdict = 'STALE'
+  if (!digestOk) verdict = 'CORRUPT'
+  else if (expectRole && c.role !== expectRole) verdict = 'WRONG ROLE'
+  else if (factsMatch === false) verdict = 'STALE'
+  else if (factsMatch === null) verdict = 'INTACT, FRESHNESS NOT CHECKED'
   else if (problems.length) verdict = 'CURRENT WITH WARNINGS'
   else verdict = 'CURRENT'
 
@@ -229,7 +280,7 @@ export function validateSnapshot(obj, { expectRole = null } = {}) {
     verdict,
     current: verdict === 'CURRENT' || verdict === 'CURRENT WITH WARNINGS',
     digestOk,
-    sameCommit,
+    factsMatch,
     snapshotCommit: c.sourceCommit,
     repoCommit: here.commit,
     generatedAt: c.generatedAt,
@@ -280,11 +331,36 @@ export function verifyReadback(sent, readBack) {
     return { ok: false, level: 'DIFFERENT', problems: ['the readback parsed but does not match what was sent, field for field'] }
   }
   // Plain text: compare with whitespace normalised, since Drive reflows.
-  const norm = (s) => unmangle(s).replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, '\n\n')
+  const norm = (s) => unmangle(s).replace(/\s+/g, ' ').trim()
   if (norm(sent) === norm(readBack)) {
     return { ok: true, level: 'SEMANTICALLY EQUAL', problems: [], note: 'Not byte identical; whitespace was reflowed by Drive. The text matches otherwise.' }
   }
   return { ok: false, level: 'DIFFERENT', problems: ['the text that came back differs from the text that was sent by more than whitespace'] }
+}
+
+/**
+ * Verify against the true bytes from download_file_content.
+ *
+ * Give it the whole base64 for the strongest proof. For a file too large to
+ * pass back through a tool result intact, give the stored size plus the first
+ * and last stretch of the base64; that is weaker and it says so.
+ */
+export function verifyDownload(sentText, { base64 = null, storedSize = null, headB64 = null, tailB64 = null } = {}) {
+  const sent = Buffer.from(String(sentText), 'utf8')
+  const sentB64 = sent.toString('base64')
+  if (base64) {
+    const got = Buffer.from(String(base64).replace(/\s+/g, ''), 'base64')
+    if (got.equals(sent)) return { ok: true, level: 'BYTE IDENTICAL', problems: [], sha256: sha256(sentText) }
+    return { ok: false, level: 'DIFFERENT', problems: [`downloaded ${got.length} bytes, sent ${sent.length}, and they are not equal`] }
+  }
+  const problems = []
+  if (storedSize == null) problems.push('no stored size given')
+  else if (Number(storedSize) !== sent.length) problems.push(`Drive stored ${storedSize} bytes, ${sent.length} were sent`)
+  if (!headB64 || !sentB64.startsWith(String(headB64).replace(/\s+/g, ''))) problems.push('the start of the downloaded file does not match what was sent')
+  if (!tailB64 || !sentB64.endsWith(String(tailB64).replace(/\s+/g, ''))) problems.push('the end of the downloaded file does not match what was sent')
+  if (problems.length) return { ok: false, level: 'DIFFERENT', problems }
+  return { ok: true, level: 'SIZE, HEAD AND TAIL', problems: [],
+    note: `Stored size is exactly ${sent.length} bytes and ${String(headB64).length} leading plus ${String(tailB64).length} trailing base64 characters match. Not a full byte comparison.` }
 }
 
 /**

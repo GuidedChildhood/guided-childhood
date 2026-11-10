@@ -115,6 +115,11 @@ export function figuresIn(text) {
   const found = []
   // Strip the things that are never a research figure before looking.
   const stripped = t
+    // A link is not a claim. The first clean run of the pipeline test failed
+    // here: the DOI in the first comment, doi.org/10.1177/1359..., was read as
+    // two uncleared research figures. Links and bare DOIs go first.
+    .replace(/https?:\/\/\S+/gi, ' ')
+    .replace(/\b10\.\d{4,9}\/\S+/g, ' ')
     .replace(/\bGDC[\s-]?\d{2,3}\b/gi, ' ')
     .replace(/\bstage\s+\d\b/gi, ' ')
     .replace(/\b(19|20)\d{2}\b/g, ' ')

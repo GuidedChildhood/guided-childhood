@@ -5,17 +5,35 @@
    "studyId": null,
    "fileId": "1eMpNFHlO3jiFBgMRIB-IJ6Uq0XJle5TU",
    "title": "manifest.json [9a86fd59] 2026-11-10 11:23",
-   "commit": "9a86fd5921139a6459ae4536e0c9deeaddd5d1f9",
+   "commit": "a8f7114403dba07f4c1a67e3f828973f452e9219",
    "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f",
    "verification": {
     "ok": true,
-    "level": "SEMANTICALLY EQUAL",
+    "level": "BYTE IDENTICAL",
     "problems": [],
-    "note": "Not byte identical, because Drive adds markdown escaping to an uploaded JSON file. Parsed, every field matches."
+    "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f"
    },
-   "at": "2026-11-10T11:37:26.469Z"
+   "at": "2026-11-10T12:19:52.916Z"
   }
  },
- "failures": [],
- "lastSuccessAt": "2026-11-10T11:37:26.469Z"
+ "failures": [
+  {
+   "role": "postRegister",
+   "studyId": null,
+   "fileId": "1JaOBaVR8djiHAIQYqwkc_P9zF3X9TgGU",
+   "title": "GDC POST REGISTER mirror [a8f71144] 2026-11-10 11:39",
+   "commit": "a8f7114403dba07f4c1a67e3f828973f452e9219",
+   "sha256": "55e635c6a1716a09135427d442ff3af9f8a921c4194fb1ac46ab1ed85ae69cd9",
+   "verification": {
+    "ok": false,
+    "level": "DIFFERENT",
+    "problems": [
+     "the end of the downloaded file does not match what was sent"
+    ]
+   },
+   "at": "2026-11-10T12:19:52.950Z",
+   "verdict": "FAILED VERIFICATION"
+  }
+ ],
+ "lastSuccessAt": "2026-11-10T12:19:52.916Z"
 }
