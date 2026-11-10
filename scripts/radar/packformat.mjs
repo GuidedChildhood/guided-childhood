@@ -87,7 +87,10 @@ export function parsePackText(text) {
     if (!current) return
     const [group, field] = SECTIONS[current]
     // Bracketed guidance left in from the template is not content.
-    const body = buf.join('\n').replace(/^\s*\((?:[^()]|\([^()]*\))*\)\s*$/gm, '').trim()
+    // Drive doubles the blank line between paragraphs, on a read and on an
+    // export alike. Left alone, a post copied from the desk pastes into
+    // LinkedIn with two blank lines between every paragraph. One blank line.
+    const body = buf.join('\n').replace(/^\s*\((?:[^()]|\([^()]*\))*\)\s*$/gm, '').replace(/[ \t]+$/gm, '').replace(/\n{3,}/g, '\n\n').trim()
     // A section that says there is nothing here is a decision, not copy. The
     // first real pack from Stage 2, on 10 November, filled three sections with
     // "NOT RECOMMENDED FOR THIS HANDOFF..." and listed its assets as "NONE. No

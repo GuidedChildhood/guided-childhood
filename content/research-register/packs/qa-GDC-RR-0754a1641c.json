@@ -1,15 +1,10 @@
 {
- "verdict": "HOLD",
+ "verdict": "PASS",
  "researchId": "GDC-RR-0754a1641c",
  "gdcPostNumber": "054",
  "checked": 27,
- "failedCount": 1,
- "failures": [
-  {
-   "check": "the post says the source is in the comments",
-   "why": "the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
-  }
- ],
+ "failedCount": 0,
+ "failures": [],
  "checks": [
   {
    "name": "carries a research ID",
@@ -19,7 +14,7 @@
   {
    "name": "the research ID exists in the register",
    "pass": true,
-   "detail": "found, register version 19"
+   "detail": "found, register version 21"
   },
   {
    "name": "carries a source commit",
@@ -54,12 +49,12 @@
   {
    "name": "LinkedIn word count is in band",
    "pass": true,
-   "detail": "346 words, band is 250 to 450"
+   "detail": "342 words, band is 250 to 450"
   },
   {
    "name": "LinkedIn character count is within the platform limit",
    "pass": true,
-   "detail": "2145 characters, LinkedIn truncates above 3000"
+   "detail": "1911 characters, LinkedIn truncates above 3000"
   },
   {
    "name": "no dashes anywhere in the copy",
@@ -83,8 +78,8 @@
   },
   {
    "name": "the post says the source is in the comments",
-   "pass": false,
-   "detail": "the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
+   "pass": true,
+   "detail": "it does"
   },
   {
    "name": "the copy passes the ai-tells guard",
@@ -119,7 +114,7 @@
   {
    "name": "the post as a whole is not a near duplicate",
    "pass": true,
-   "detail": "closest post is GDC-042 at 1 percent. 041 and 046 were 98.6 percent identical and nearly both went out."
+   "detail": "closest post is GDC-042 at 2 percent. 041 and 046 were 98.6 percent identical and nearly both went out."
   },
   {
    "name": "the visual names its approved assets, or says plainly there is none",
@@ -147,6 +142,6 @@
    "detail": "no publishedUrl claimed"
   }
  ],
- "checkedAt": "2026-11-10T13:54:29.337Z",
+ "checkedAt": "2026-11-10T13:56:01.718Z",
  "ceiling": "This pass checks the pack against the handoff and the house rules. It cannot tell whether a claim is true, cannot see an image, and cannot read LinkedIn."
 }

@@ -256,6 +256,7 @@ const asRealDrive = packDoc.split('\n').map((l) => (l === '' ? '  ' : l.replace(
 const parsedReal = F.parsePackText(asRealDrive)
 check('a pack in the exact shape the live Drive test returned parses to the same words',
   parsedReal.researchId === ID && parsedReal.gdcPostNumber === '054' && parsedReal.linkedin?.body.split(/\s+/).join(' ') === gp.linkedin.body.split(/\s+/).join(' '))
+check('paragraphs come back one blank line apart, never two', !/\n{3,}/.test(parsedReal.linkedin.body) && parsedReal.linkedin.body === gp.linkedin.body)
 check('and passes QA', Q.checkPack(parsedReal).verdict === 'PASS', Q.checkPack(parsedReal).failures.map((f) => f.check).join(' | '))
 // THE FIRST REAL PACK. ChatGPT wrote GDC-054 on 10 November and this file is
 // exactly what Drive returned. It is kept because it broke the QA gate in two
@@ -266,6 +267,7 @@ check('the first real pack parses: identity, number, version and commit', real.r
 check('its three declined sections are recorded as declined, not read as captions',
   !real.instagram && !real.facebook && !real.newsletter && ['INSTAGRAM CAPTION', 'FACEBOOK CAPTION', 'NEWSLETTER'].every((k) => /^NOT (RECOMMENDED|WARRANTED)/.test(real.declined?.[k] || '')))
 check('"ASSETS USED: NONE" is no assets, not one asset', Array.isArray(real.visual?.assetsUsed) && real.visual.assetsUsed.length === 0 && /^NONE/.test(real.declined?.['ASSETS USED'] || ''))
+check('the real pack comes back with one blank line between paragraphs', !/\n{3,}/.test(real.linkedin.body) && real.linkedin.body.split('\n\n').length === 17)
 const realQa = Q.checkPack(real)
 const realCheck = (re) => realQa.checks.find((c) => re.test(c.name))
 check('a brief that says "use no invented screenshot" is not failed for the word invented', realCheck(/invented screen or person/).pass === true)
@@ -352,7 +354,11 @@ check('the live research register index is byte for byte unchanged', digest(LIVE
 check('the live research register history is byte for byte unchanged', digest(LIVE_JSONL) === before.jsonl)
 check('the post register is unchanged, so no number was created or moved', digest(LIVE_POSTS) === before.posts)
 const liveNow = JSON.parse(readFileSync(LIVE_INDEX, 'utf8')).heads[ID]
-check('the real story is still EDITORIAL READY and still unpublished', liveNow.status === 'EDITORIAL READY' && !liveNow.publishedUrl, liveNow.status)
+// Compared with what it was before the test ran, not with a status written
+// into the test. This check said EDITORIAL READY until the real story moved to
+// ASSETS READY on 10 November, at which point the test failed for the story
+// making progress.
+check('the real story has the status it had before the test, and the test published nothing', liveNow.status === live.status && liveNow.publishedUrl === live.publishedUrl && liveNow.version === live.version, `${live.status} before, ${liveNow.status} after`)
 
 console.log(`\n${failed ? `${failed} of ${count} checks FAILED` : `all ${count} pipeline checks passed`}`)
 console.log(`throwaway register: ${TMP}`)

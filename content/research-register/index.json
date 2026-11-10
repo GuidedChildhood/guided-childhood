@@ -76,7 +76,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "relevanceScore": 9,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -94,10 +94,10 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 21,
+   "version": 29,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-10T13:54:29.341Z",
-   "changeReason": "QA: HOLD, the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line",
+   "lastChecked": "2026-11-10T13:56:01.731Z",
+   "changeReason": "ASSETS READY: PASS",
    "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
@@ -276,12 +276,10 @@
     "1THxU6E8xIXvekkysMIfp9DqEyquT9Q7ngKHKPkkaAr8"
    ],
    "gate": {
-    "verdict": "HOLD",
-    "stage": "QA",
-    "reasons": [
-     "the post says the source is in the comments: the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
-    ],
-    "at": "2026-11-10T13:54:29.340Z"
+    "verdict": "PASS",
+    "stage": "ASSETS READY",
+    "reasons": [],
+    "at": "2026-11-10T13:56:01.731Z"
    },
    "driveHandoffJsonId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
    "driveHandoffVerified": {
@@ -292,23 +290,29 @@
    },
    "pack": {
     "file": "content/research-register/packs/pack-GDC-RR-0754a1641c.json",
-    "submittedAt": "2026-11-10T13:54:29.338Z",
+    "submittedAt": "2026-11-10T13:56:01.719Z",
     "sourceCommit": "36e84f90e6fe765fb552f027cc5edd9c7b53c861",
     "gdcPostNumber": "054"
    },
    "packQa": {
-    "verdict": "HOLD",
+    "verdict": "PASS",
     "checked": 27,
-    "failedCount": 1,
-    "failures": [
-     {
-      "check": "the post says the source is in the comments",
-      "why": "the first comment carries a link and the post never says so. One plain line: the paper is in the comments."
-     }
-    ],
-    "checkedAt": "2026-11-10T13:54:29.337Z"
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-10T13:56:01.718Z"
    },
-   "packReview": null
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "ChatGPT v1 was sound on the evidence: only the five cleared figures, no causal claim, the subgroup claim correctly refused, the question last, a first comment with the source and the objection. It was held at QA on one point, that the post never says the source is in the comments.\nv2 is my edit of it under the standing rule that every Drive post gets a Claude review and rewrite (drive-post-review, Justin 13 and 14 October). The argument, the order and most of the sentences are ChatGPT's. What changed:\n1. Rhythm. Sentence spread 47 percent against his 79; now 69. One sentence runs to 40 words and three are five words or fewer.\n2. Shapes the ai-tells guard cannot see: the two paragraph \"I am not saying, I am saying\" correction; the \"Parents do not need, Schools do not need, We need\" triad; \"That is precisely why\", \"More importantly\", \"There is another distinction worth making\"; and \"navigate\".\n3. A proof path (check 4): one sentence on the stage check, three questions about one child and no promise about outcomes, verified against THE-STORY.md.\n4. Not UK (check 7): the summary does not say which countries the studies come from, so nothing is carried across to children here. From the review's own unresolved question.\n5. The close (check 5): a repost ask written for this argument in the paragraph before the question, and a closing question answered from experience in place of a yes or no.\nLimits of this review, stated because gate J applies to it: the author and the reviewer of v2 are the same. The 27 mechanical checks are independent of me. The judgement that it sounds like Justin is not, and that part is his to make. No card exists; it is text only.",
+    "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn. Reviewer is also the editor of v2.",
+    "reviewedAt": "2026-11-10T13:56:01.723Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "15dJoSU0vNuG2FSnHI3cVVeW7X2vkcLm7fsU3D1vWf14",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-10T13:56:01.726Z"
+   }
   },
   "GDC-RR-04ce5786d0": {
    "title": "Risks and Opportunities in Digital Media Interventions for Youth: A Scientometric Review",
