@@ -6,6 +6,7 @@ spent until Justin says yes in chat.
 
 - The plan, the strategy, the calendar and the decisions: `plans/week-of-2026-11-09-walkthrough-campaign-plan.md`
 - The review page Justin was sent: https://claude.ai/artifact/VzV9qtvPqDJRYsZmhQEj89
+- The dates Justin agreed and what to upload each day: `schedule.md`
 - One file per post here, `01` to `20`: hook, script or slides, a caption per channel, the visual brief, the proof and the checks.
 
 ## What is built
@@ -44,7 +45,7 @@ All of it renders free. Nothing in this folder used an image or video model.
 
 ## Before any of it goes out
 
-1. Justin's yes on the look, the numbering, the dates and the ask ratio (section 9 of the plan).
+1. Justin has said yes to the look, the dates and three posts a week. The numbering and the schools free step stand as built unless he says otherwise (section 9 of the plan).
 2. The tracked links made on Admin, Film links (section 8 of the plan).
 3. For each film: the marketer review and feedback filter pass from `product-shorts`.
 4. For each playlists post: Justin's phone check of the sign up buttons.

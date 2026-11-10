@@ -243,9 +243,9 @@ only points at the parents stage check, so it covers the 13 parents posts.
 
 1. **The look.** Decided 10 November: yes, build the rest.
 2. **The numbering.** Per run on screen (recommended), or one "of 20" set on his own LinkedIn as well.
-3. **The ask ratio.** Three asks a week on the family account for five weeks, or stretch the run to two a week and finish in January.
+3. **The ask ratio.** Decided 10 November: three a week for the five weeks.
 4. **Credits.** None are needed for any of the 20 as planned. Only if he wants photo carousels or generated cover loops.
-5. **The dates**, and Sunday 19:30 or 10:00.
+5. **The dates.** Decided 10 November: as proposed, starting Tuesday 17 November. Sunday posts at 19:30. The day by day list is `content/campaigns/platform-walkthrough/schedule.md`.
 6. **Schools free step.** The free lesson on posts 2 and 6 and the pilot on 11 and 15 (recommended), or the pilot on all four.
 7. **Three stale lines found on the way**, none fixed here: the schools home hero still says "ready for September 2026", `schools/public/og.png` says 25 modules (there are 34), and THE-STORY section 9 still lists a free tier that the code removed in August.
 

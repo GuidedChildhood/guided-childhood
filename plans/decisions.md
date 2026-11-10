@@ -355,3 +355,7 @@ Justin said yes to the look of posts 1 to 3, so the other seventeen were built t
 ## 10 November 2026: the French scheme syncs every night
 
 Justin said yes to a nightly sync. `languages-sync.yml` reads the author's data each night and, only when it changed, opens or refreshes one pull request (`languages/french-sync`) with the new `fr.json`; merging it is what goes live. The sync script now refuses to write a file whose shape the pages could not draw. Slides, songs and sheets are not in this: they load from her site as they are.
+
+## 10 November 2026: the walkthrough runs from 17 November, three a week
+
+Justin: "Yes, 17 November". The walkthrough starts Tuesday 17 November and runs to Sunday 20 December as proposed, three posts a week on the family account (Tuesday, Friday, Sunday), which lifts the one ask in five rule for those five weeks; Monday and Wednesday still carry none. Schools go on his LinkedIn on Thursdays, playlists on Sunday mornings. The day by day list, with the file to upload and the links to make, is `content/campaigns/platform-walkthrough/schedule.md`. He posts and schedules; nothing was scheduled for him.
