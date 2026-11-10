@@ -1,0 +1,68 @@
+/* The schools look for the walkthrough campaign: the site's own teal, cream and butter. Shared by posts 6, 11 and 15; post 2 carries its own copy. */
+@font-face{font-family:nunito;src:url("../../../../../app/fonts/nunito-latin-wght-normal.woff2") format("woff2");font-weight:200 1000}
+@font-face{font-family:plex;src:url("../../../../../app/fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");font-weight:600}
+:root{--teal-a:#2B5665;--teal-b:#1E4652;--teal-c:#173C46;--cream:#F9F8F6;--ink:#1A1A2E;--soft:#52526A;--butter:#EDC35F;--butter-dk:#C99A28;--tint:#FFF6DE}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#ddd;font-family:nunito,sans-serif;-webkit-font-smoothing:antialiased}
+.page{position:relative;width:1080px;height:1350px;overflow:hidden;color:var(--ink);background:var(--cream);page-break-after:always;break-after:page}
+.page.teal{background:linear-gradient(162deg,var(--teal-a) 0%,var(--teal-b) 52%,var(--teal-c) 100%);color:#fff}
+.page.ink{background:var(--ink);color:#fff}
+
+/* The franchise frame: the same on every page, which is what makes it a series. */
+.frame{position:absolute;left:72px;right:72px;top:60px;display:flex;justify-content:space-between;align-items:center;font-family:plex,monospace;font-weight:600;font-size:22px;letter-spacing:.17em;text-transform:uppercase;color:#7A5A0E;z-index:5}
+.teal .frame,.ink .frame{color:var(--butter)}
+.count{border:2.5px solid currentColor;border-radius:999px;padding:9px 18px 8px;letter-spacing:.14em}
+.rule{position:absolute;left:72px;right:72px;top:122px;height:2px;background:rgba(26,26,46,.14);z-index:5}
+.teal .rule,.ink .rule{background:rgba(255,255,255,.2)}
+
+/* The gold pathway, the signature device: one dotted trail that leaves each
+   page at the height the next one picks it up, so the swipe feels like travel. */
+.path{position:absolute;left:0;top:0;width:1080px;height:1350px;z-index:1;pointer-events:none}
+.path path{fill:none;stroke:var(--butter);stroke-width:9;stroke-linecap:round;stroke-dasharray:1 26}
+
+.body{position:absolute;left:72px;right:72px;top:176px;z-index:3}
+h1{font-weight:900;font-size:104px;line-height:1.0;letter-spacing:-.032em}
+h2{font-weight:900;font-size:76px;line-height:1.03;letter-spacing:-.028em}
+.gold{color:var(--butter)}
+.sub{font-weight:700;font-size:38px;line-height:1.26;margin-top:26px;color:var(--soft);max-width:900px}
+.teal .sub,.ink .sub{color:rgba(255,255,255,.84)}
+.eyebrow{font-family:plex,monospace;font-weight:600;font-size:24px;letter-spacing:.17em;text-transform:uppercase;color:var(--butter);margin-bottom:26px}
+
+/* The numbered step, borrowed from the film's step cards so the Reels and the
+   carousels read as one campaign. */
+.step{display:flex;align-items:flex-start;gap:28px}
+.n{flex:none;width:84px;height:84px;border-radius:50%;background:var(--butter);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:46px;margin-top:4px}
+
+/* A real capture, framed as a window. The address is the page's real one. */
+.win{position:absolute;left:72px;width:936px;border:3px solid var(--ink);border-radius:24px;background:#fff;box-shadow:0 10px 0 var(--ink),0 34px 70px rgba(26,26,46,.16);overflow:hidden;z-index:3}
+.teal .win{box-shadow:0 10px 0 #0E2A32,0 34px 70px rgba(0,0,0,.3);border-color:#0E2A32}
+.bar{height:46px;display:flex;align-items:center;gap:9px;padding:0 20px;background:#F1EFEA;border-bottom:2px solid rgba(26,26,46,.12)}
+.bar i{width:11px;height:11px;border-radius:50%;background:rgba(26,26,46,.2);display:block}
+.bar span{margin-left:14px;font-family:plex,monospace;font-weight:600;font-size:17px;letter-spacing:.02em;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win img{display:block;width:100%}
+.label{position:absolute;font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);z-index:4}
+
+/* The teacher's real words, set large, because a desktop screen scaled to a
+   phone cannot carry them. The capture above it is the proof. */
+.quote{position:absolute;left:72px;right:72px;background:var(--tint);border:3px solid var(--ink);border-radius:26px;box-shadow:0 7px 0 var(--ink);padding:30px 36px 34px;z-index:4}
+.quote b{display:block;font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.16em;text-transform:uppercase;color:#7A5A0E;margin-bottom:12px}
+.quote p{font-weight:800;font-size:37px;line-height:1.22;letter-spacing:-.01em}
+.quote.big p{font-size:52px;line-height:1.12;letter-spacing:-.02em;font-weight:900}
+
+.foot{position:absolute;left:72px;right:72px;bottom:54px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.logo{display:flex;align-items:center;gap:16px;font-weight:800;font-size:28px;letter-spacing:-.01em}
+.logo img{width:46px;height:46px;display:block}
+.logo em{font-style:normal;color:var(--butter)}
+.pg{font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.15em;color:var(--soft)}
+.teal .pg,.ink .pg{color:rgba(255,255,255,.6)}
+.pill{display:inline-block;background:var(--butter);color:var(--ink);border:3px solid #0E2A32;border-radius:18px;box-shadow:0 6px 0 #0E2A32;padding:20px 30px;font-weight:900;font-size:40px;letter-spacing:-.01em}
+.src{font-family:plex,monospace;font-weight:600;font-size:19px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:40px;line-height:1.5}
+
+/* Added for posts 6, 11 and 15. */
+.page.tint{background:var(--soft-ground);color:var(--ink)}
+.page.tint .frame{color:var(--friend-ink)}
+.page.tint .sub{color:var(--friend-ink)}
+.chip{display:inline-block;font-family:plex,monospace;font-weight:600;font-size:22px;letter-spacing:.16em;text-transform:uppercase;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:9px 18px 8px;margin-bottom:24px;box-shadow:0 4px 0 var(--ink)}
+.friend{position:absolute;right:54px;bottom:112px;width:250px;z-index:4;filter:drop-shadow(0 14px 18px rgba(26,26,46,.18))}
+.giant{font-weight:900;font-size:440px;line-height:.82;letter-spacing:-.05em;color:var(--butter);margin-left:-14px}
+.lead{font-weight:800;font-size:54px;line-height:1.12;letter-spacing:-.02em;margin-top:34px;max-width:900px}

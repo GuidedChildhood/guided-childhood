@@ -52,8 +52,10 @@ for (const [name, path, start, end, [above, below], wait, col] of SHOTS) {
       const links = [...sec.querySelectorAll('a')].filter((a) => /lesson|unlock|teach/i.test(a.innerText)).map((a) => a.getBoundingClientRect())
       const first = Math.min(...links.map((l) => l.top))
       // Start at the cards, not the paragraph above them: the post writes its own line for each stage.
-      const heads = [...sec.querySelectorAll('h3')].map((h) => h.getBoundingClientRect().top)
-      return { top: Math.min(...heads) + scrollY - 122, bottom: Math.max(...links.filter((l) => l.top < first + 40).map((l) => l.bottom)) + scrollY + 34 }
+      // The card is the first box around a lesson title that also holds the friend's picture.
+      const card = (h) => { let e = h; while (e.parentElement && e !== sec && !e.querySelector('img')) e = e.parentElement; return e.getBoundingClientRect().top }
+      const heads = [...sec.querySelectorAll('h3')].map(card)
+      return { top: Math.min(...heads) + scrollY - 14, bottom: Math.max(...links.filter((l) => l.top < first + 40).map((l) => l.bottom)) + scrollY + 34 }
     }, start)
     if (!r) { console.log(`FAIL ${name}`); continue }
     top = r.top - above; bottom = r.bottom
