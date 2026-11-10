@@ -97,3 +97,94 @@ export function Sheets({ slug, files }: { slug: string; files: SheetFile[] }) {
     </div>
   )
 }
+
+// A section that stays shut until it is wanted. The unit page leads with its
+// lessons; everything a teacher looks up rather than uses (the sound, the
+// statements, the unit's sheets) folds away behind its own line, so the page
+// is as long as the job in hand. A native <details>: it opens with a key and
+// with no script, and it prints open.
+export function Fold({ label, hint, children, open }: { label: string; hint?: string; children: ReactNode; open?: boolean }) {
+  return (
+    <details className="gc-fr-fold" open={open}>
+      <summary>
+        <span style={{ flex: '1 1 auto', minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{label}</span>
+          {hint && <span style={{ ...small, display: 'block' }}>{hint}</span>}
+        </span>
+        <span aria-hidden className="gc-fr-fold-chev">›</span>
+      </summary>
+      <div className="gc-fr-fold-body">{children}</div>
+    </details>
+  )
+}
+
+/** The one stylesheet for a group of folds. Render it once beside them. */
+export function FoldStyles() {
+  return (
+    <style>{`
+      .gc-fr-folds { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28); }
+      .gc-fr-fold + .gc-fr-fold { border-top: 1px solid var(--border); }
+      .gc-fr-fold > summary { display: flex; align-items: center; gap: var(--space-3); min-height: 60px; padding: var(--space-2) var(--space-4); cursor: pointer; list-style: none; transition: background-color .15s ease; }
+      .gc-fr-fold > summary::-webkit-details-marker { display: none; }
+      .gc-fr-fold > summary:hover, .gc-fr-fold[open] > summary { background: var(--warm); }
+      .gc-fr-fold > summary:focus-visible { outline: none; box-shadow: inset 0 0 0 3px var(--terracotta); }
+      .gc-fr-fold-chev { flex: none; font-family: var(--font-display); font-weight: 800; font-size: var(--text-xl); line-height: 1; color: var(--ink-light); transition: transform .22s cubic-bezier(0.22,1,0.36,1), color .15s ease; }
+      .gc-fr-fold[open] > summary .gc-fr-fold-chev { transform: rotate(90deg); color: var(--terracotta-dark); }
+      .gc-fr-fold-body { padding: var(--space-4); animation: gc-fr-fold-open .28s cubic-bezier(0.22,1,0.36,1); }
+      @keyframes gc-fr-fold-open { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+      @media (max-width: 560px) { .gc-fr-fold > summary { padding: var(--space-2) var(--space-3); } .gc-fr-fold-body { padding: var(--space-3); } }
+      @media (prefers-reduced-motion: reduce) { .gc-fr-fold-body { animation: none; } .gc-fr-fold-chev, .gc-fr-fold > summary { transition: none; } }
+      @media print { .gc-fr-fold > .gc-fr-fold-body { display: block !important; } }
+    `}</style>
+  )
+}
+
+/** The play button on a lesson row, and the row's hover. Render once per page that lists lessons. */
+export function LessonRowStyles() {
+  return (
+    <style>{`
+      .gc-fr-list { list-style: none; margin: 0; padding: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28); }
+      .gc-fr-list > li:first-child { border-top: 0 !important; }
+      .gc-fr-row { transition: background-color .15s ease; }
+      @media (max-width: 560px) { .gc-fr-list > li { padding: 0 var(--space-3) !important; } }
+      .gc-fr-row:hover { background: var(--warm); }
+      .gc-fr-play {
+        flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+        border-radius: 50%; background: var(--terracotta); color: var(--ink); text-decoration: none;
+        font-size: var(--text-sm); padding-left: var(--space-1); box-shadow: 0 3px 0 var(--terracotta-dark);
+        transition: transform .15s ease;
+      }
+      .gc-fr-play:hover { transform: translateY(-1px); }
+      .gc-fr-play:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--terracotta-dark); }
+      .gc-fr-play:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+      @media (prefers-reduced-motion: reduce) { .gc-fr-row, .gc-fr-play { transition: none; } .gc-fr-play:hover { transform: none; } }
+    `}</style>
+  )
+}
+
+/** One lesson in a list: its number or star, its title, and a play button if it has slides. */
+export function LessonRow({ unitKey, n, mark, title, detail, hasSlides }: {
+  unitKey: string; n: number; mark: string; title: string; detail: string; hasSlides: boolean
+}) {
+  return (
+    <li className="gc-fr-row" style={{ borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)', padding: '0 var(--space-4)' }}>
+      <Link href={`/languages/fr/${unitKey}/${n}`} style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minHeight: 60, padding: 'var(--space-2) 0', textDecoration: 'none', color: 'var(--ink)' }}>
+        <span aria-hidden style={{
+          width: 32, height: 32, flexShrink: 0, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          background: 'var(--butter-lt)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
+        }}>{mark}</span>
+        <span style={{ flex: '1 1 auto', minWidth: 0 }}>
+          <span lang="fr" style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>{title}</span>
+          <span style={{ ...small, display: 'block' }}>{detail}</span>
+        </span>
+      </Link>
+      {hasSlides ? (
+        <Link href={`/languages/fr/${unitKey}/${n}/teach`} className="gc-fr-play" aria-label={`Teach ${title} on the board`}>
+          <span aria-hidden>▶</span>
+        </Link>
+      ) : (
+        <span style={{ ...eyebrow, color: 'var(--ink-light)', whiteSpace: 'nowrap' }}>Plan</span>
+      )}
+    </li>
+  )
+}

@@ -165,3 +165,25 @@ night at 02:23 UTC. If her data changed it opens one pull request (fixed branch
 Merging the pull request is what puts her changes live. The sync script now checks the
 shape of her data before writing, so a change the pages could not draw stops the job and
 leaves the last good file in place (proved by feeding it a broken file).
+
+## The simple flow, and the three pages hers had that ours did not (10 November 2026)
+
+Justin: yes to bringing across lesson plans, assessment across the year and culture, and
+"really simplify the flow and set up for her site here so it is easy to flow through".
+
+Adding three pages as three more tabs would have made six rooms. So the section is
+re-cut around what a teacher is doing, and stays at three:
+
+| Room | What is in it |
+|---|---|
+| **Teach** | Pick the year, see the six half terms in order, open a unit, press play on a lesson. Culture lessons sit here too, marked with a star, as on her site. |
+| **Print** | The print room (unchanged). |
+| **Plan and assess** | Assessment across the year, the lesson plans for each unit (printable), and the curriculum coverage grid. |
+
+The unit page was seven long sections. It now leads with the lessons, because that is
+why a teacher opens it, and folds the reference material (about the unit, assessment, the
+unit's sheets, exit questions) into sections that open on a tap.
+
+Also fixed: two sheets marked "challenge" were being left out, because the reader only
+knew three levels; and a culture lesson (Joyeux Noël) was numbered as lesson 7 when her
+scheme keeps it outside the unit's six.

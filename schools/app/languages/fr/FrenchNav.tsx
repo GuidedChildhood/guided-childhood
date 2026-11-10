@@ -14,18 +14,24 @@ import { usePathname } from 'next/navigation'
 //
 // The teach view covers the whole screen and does not show it.
 
+// THREE ROOMS, NAMED FOR WHAT A TEACHER IS DOING (10 November 2026). The
+// scheme has more than three kinds of page (lesson plans, assessment across
+// the year, culture lessons, the coverage grid), and a tab for each would be
+// six doors where a teacher wants one. So each kind lives in the room it is
+// used in: culture lessons are taught, so they are in Teach; plans, assessment
+// and coverage are the paperwork, so they share Plan and assess.
 const ROOMS = [
-  { href: '/languages/fr', label: 'Units' },
-  { href: '/languages/fr/print', label: 'Print room' },
-  { href: '/languages/fr/coverage', label: 'Coverage' },
+  { href: '/languages/fr', label: 'Teach' },
+  { href: '/languages/fr/print', label: 'Print' },
+  { href: '/languages/fr/plan', label: 'Plan and assess' },
 ]
 
 export default function FrenchNav() {
   const pathname = usePathname()
+  const inPrint = pathname.startsWith('/languages/fr/print')
+  const inPlan = pathname.startsWith('/languages/fr/plan') || pathname.startsWith('/languages/fr/coverage') || pathname.endsWith('/plans')
   const active = (href: string) =>
-    href === '/languages/fr'
-      ? !pathname.startsWith('/languages/fr/print') && !pathname.startsWith('/languages/fr/coverage')
-      : pathname.startsWith(href)
+    href === '/languages/fr/print' ? inPrint : href === '/languages/fr/plan' ? inPlan : !inPrint && !inPlan
   return (
     <nav aria-label="French" className="no-print gc-fr-rooms">
       <span className="gc-fr-rooms-name">French</span>

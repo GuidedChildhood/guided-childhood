@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { eyebrow } from '@/components/ui'
-import { FRENCH_UNITS, frenchLesson, frenchUnit, lessonsOf, mediaUrl } from '@/lib/languages/french'
+import { FRENCH_UNITS, frenchLesson, frenchUnit, lessonsOf, mediaUrl, teachingLessons } from '@/lib/languages/french'
 
 // /languages/fr/[unit]/[lesson]/teach: the deck on the board, full screen,
 // with one thin bar to get back. The deck is the author's own interactive
@@ -28,7 +28,8 @@ export default async function FrenchTeachPage({ params }: { params: Promise<{ un
   const l = u ? frenchLesson(u, Number(lesson)) : null
   if (!u || !l || !l.deck?.slides || !u.slug) notFound()
   const src = mediaUrl(u.slug, l.deck.slides, 'deck')
-  const next = lessonsOf(u).find(x => x.n === l.n + 1)
+  // The next numbered lesson. A culture lesson is not the one after lesson 6.
+  const next = l.culture ? undefined : teachingLessons(u).find(x => x.n === l.n + 1)
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 400, background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>

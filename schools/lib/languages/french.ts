@@ -18,7 +18,7 @@ import raw from './fr.json'
 // falls back to her site for anything not copied yet. Every URL to a deck,
 // song or sheet goes through mediaUrl() below.
 
-export type Level = 'class' | 'adapted' | 'inclusion'
+export type Level = 'challenge' | 'class' | 'adapted' | 'inclusion'
 export type FileKind = 'sheet' | 'inclusion' | 'game' | 'assess' | 'teacher' | 'mat' | 'activity' | string
 export type SheetFile = { t: string; f: string; lv?: Level; kind?: FileKind; lessons?: number[] }
 export type Song = { t: string; f: string; poster?: string }
@@ -27,6 +27,9 @@ export type AssessPlan = { code: string; lessons: number[]; how: string; s5?: st
 
 export type DeckLesson = {
   n: number
+  // A culture lesson (Christmas, say) sits outside the unit's numbered lessons
+  // and is not assessed. The scheme marks it by naming what it is.
+  culture?: string
   fr: string
   en: string
   ican: string
@@ -85,6 +88,7 @@ type Raw = {
   years: { year: number; units: { ht: number; fr: string; en: string; slug?: string }[] }[]
   units: Record<string, DeckUnit>
   curriculum: { units: Record<string, PlanUnit>; order: string[]; solo: string[]; nc: Record<string, string> }
+  codes?: Record<string, { codes?: Statement[] }>
   sequence: Record<string, [string, number][]>
 }
 
@@ -137,14 +141,32 @@ export function frenchUnit(key: string): FrenchUnit | null {
   return FRENCH_UNITS.find(u => u.key === key) ?? null
 }
 
-/** The ready plan lessons as one list, with the classroom set joined where it exists. */
-export type FrenchLesson = { n: number; title: string; detail: string; deck: DeckLesson | null }
+/** The ready plan lessons as one list, with the classroom set joined where it exists.
+ *  `culture` is set on a culture lesson, which the scheme keeps outside the
+ *  unit's numbered lessons: it is taught, but it is not one of the six and it
+ *  is not assessed. */
+export type FrenchLesson = { n: number; title: string; detail: string; deck: DeckLesson | null; culture: string | null }
 
 export function lessonsOf(u: FrenchUnit): FrenchLesson[] {
   if (u.deck) {
-    return u.deck.lessons.map(l => ({ n: l.n, title: l.fr, detail: l.ican, deck: l }))
+    return u.deck.lessons.map(l => ({ n: l.n, title: l.fr, detail: l.ican, deck: l, culture: l.culture ?? null }))
   }
-  return (u.plan.lessons ?? []).map(([title, detail], i) => ({ n: i + 1, title, detail, deck: null }))
+  return (u.plan.lessons ?? []).map(([title, detail], i) => ({ n: i + 1, title, detail, deck: null, culture: null }))
+}
+
+/** The numbered lessons of a unit, without its culture lessons. */
+export function teachingLessons(u: FrenchUnit): FrenchLesson[] {
+  return lessonsOf(u).filter(l => !l.culture)
+}
+
+/** A unit's culture lessons. */
+export function cultureLessons(u: FrenchUnit): FrenchLesson[] {
+  return lessonsOf(u).filter(l => !!l.culture)
+}
+
+/** What a lesson is called in a list: "Lesson 3", or what a culture lesson is about. */
+export function lessonLabel(l: FrenchLesson): string {
+  return l.culture ? l.culture : `Lesson ${l.n}`
 }
 
 export function frenchLesson(u: FrenchUnit, n: number): FrenchLesson | null {
@@ -155,6 +177,29 @@ export function frenchLesson(u: FrenchUnit, n: number): FrenchLesson | null {
 export function deckSequence(slides: string | undefined): string[] {
   if (!slides) return []
   return (data.sequence[slides] ?? []).map(([title]) => title)
+}
+
+/** A lesson plan's sequence: the slide titles as a teacher would say them,
+ *  each once, without the housekeeping slides (the WALT, the title). This is
+ *  how the scheme's own printed plan lists them. */
+export function planSequence(slides: string | undefined): string[] {
+  const named = deckSequence(slides).map(t => t.replace(/Qui est-ce\s*\?/gi, 'Guess Who!').replace(/^(colour )?loto$/i, 'Bingo'))
+  return named.filter((t, i, a) => a.indexOf(t) === i && !/^(walt|lq|li|lo|title)$/i.test(t))
+}
+
+/** The statements a unit assesses, for every unit of the two years, ready or not. */
+export function assessedCodes(u: FrenchUnit): Statement[] {
+  return data.codes?.[u.key]?.codes ?? u.plan.codes ?? []
+}
+
+/** What is assessed in one lesson: the unit's assessment plan, narrowed to it. */
+export function assessedIn(u: FrenchUnit, n: number): AssessPlan[] {
+  return (u.deck?.assessPlan ?? []).filter(p => (p.lessons ?? []).includes(n))
+}
+
+/** The unit's extra activities that belong to one lesson. */
+export function activitiesFor(u: FrenchUnit, n: number): SheetFile[] {
+  return sheetList(u.deck?.activities).filter(a => !a.lessons || a.lessons.includes(n))
 }
 
 /** Every deck, song and sheet URL. Sheets live in the unit's print folder.
@@ -170,15 +215,27 @@ export const KS2_STATEMENTS: Record<string, string> = data.curriculum.nc
 
 export const SOLO_LEVELS: string[] = data.curriculum.solo
 
+/** "SOLO 4 (relational)": the scheme records each pupil at SOLO 3, 4 or 5, and
+ *  these are its own names for them. They are not relabelled as "expected" or
+ *  "greater depth", which would be our reading of her model, not her model. */
+export function soloName(level: 3 | 4 | 5): string {
+  const name = SOLO_LEVELS[level - 1]
+  return name ? `SOLO ${level} (${name.toLowerCase()})` : `SOLO ${level}`
+}
+
 export const LEVEL_LABEL: Record<Level, string> = {
+  challenge: 'Challenge',
   class: 'Class',
   adapted: 'Adapted',
   inclusion: 'Inclusion',
 }
 
+/** What each letter of a statement code stands for (L1 is a listening statement). */
+export const SKILL_LABEL: Record<string, string> = { L: 'Listening', S: 'Speaking', R: 'Reading', W: 'Writing', G: 'Grammar' }
+
 /** Sheets grouped by level, class first, so a page lists the three versions together. */
 export function byLevel(files: SheetFile[]): [Level, SheetFile[]][] {
-  const order: Level[] = ['class', 'adapted', 'inclusion']
+  const order: Level[] = ['class', 'challenge', 'adapted', 'inclusion']
   return order
     .map(lv => [lv, files.filter(f => (f.lv ?? 'class') === lv)] as [Level, SheetFile[]])
     .filter(([, fs]) => fs.length > 0)
