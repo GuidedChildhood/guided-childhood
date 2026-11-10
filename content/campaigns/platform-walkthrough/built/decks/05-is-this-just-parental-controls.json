@@ -1,0 +1,62 @@
+{
+ "name": "05-is-this-just-parental-controls",
+ "size": "portrait",
+ "lead": "digi",
+ "eyebrow": "Inside Guided Childhood &middot; 3 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "situation",
+   "eyebrow": "A thing parents ask",
+   "tag": "3 of 13",
+   "quote": "Is this just parental controls?",
+   "turn": "No. Here is the honest answer.",
+   "pill": "Swipe &rarr;"
+  },
+  {
+   "name": "controls-decide-today",
+   "type": "big",
+   "tone": "ink",
+   "headline": "A control decides <mark>today.</mark>",
+   "body": "It answers one evening. It teaches nothing about the next one."
+  },
+  {
+   "name": "every-device",
+   "type": "shot",
+   "headline": "We do help you set them.<br>Every device, once.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/devices.png",
+   "width": 540,
+   "top": 440
+  },
+  {
+   "name": "app-by-app",
+   "type": "shot",
+   "headline": "Then app by app.",
+   "image": "content/campaigns/platform-walkthrough/built/screens-live/social-settings-top.png",
+   "width": 800,
+   "top": 350
+  },
+  {
+   "name": "first-phone",
+   "type": "shot",
+   "headline": "And the first phone gets let out a bit at a time.",
+   "image": "content/campaigns/platform-walkthrough/built/screens-live/first-phone.png",
+   "width": 840,
+   "top": 440
+  },
+  {
+   "name": "the-other-half",
+   "type": "shot",
+   "headline": "That is the easy half.<br><mark>The other half is the words.</mark>",
+   "image": "content/campaigns/platform-walkthrough/built/screens/script-say.png",
+   "width": 400,
+   "top": 430
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save it for the week a new device comes home.",
+   "send": "Send it to the parent with a new tablet arriving this week."
+  }
+ ]
+}

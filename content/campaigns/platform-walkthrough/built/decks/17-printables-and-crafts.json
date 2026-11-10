@@ -1,0 +1,58 @@
+{
+ "name": "17-printables-and-crafts",
+ "size": "portrait",
+ "lead": "pebble",
+ "eyebrow": "Inside Guided Childhood &middot; 10 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "hook",
+   "scale": "h-l",
+   "headline": "Every tool for managing screens is a screen. <mark>Ours prints.</mark>"
+  },
+  {
+   "name": "things-to-print",
+   "type": "shot",
+   "headline": "47 things to print.",
+   "image": "content/campaigns/platform-walkthrough/built/screens-live/printables.png",
+   "width": 900,
+   "top": 350
+  },
+  {
+   "name": "star-chart",
+   "type": "shot",
+   "headline": "A star chart, built from your own jobs.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/star-chart.png",
+   "width": 700,
+   "top": 450
+  },
+  {
+   "name": "things-to-make",
+   "type": "printable",
+   "lead": null,
+   "headline": "Things <mark>to make.</mark>",
+   "image": "public/printables/ice-cream-shop.png",
+   "width": 520
+  },
+  {
+   "name": "agreement",
+   "type": "printable",
+   "lead": null,
+   "headline": "An agreement you <mark>write together.</mark>",
+   "image": "public/printables/family-phone-agreement.png",
+   "width": 520
+  },
+  {
+   "name": "earns-stars",
+   "type": "text",
+   "headline": "Finished sheets earn stars.",
+   "body": "Paper counts the same as everything else on the board."
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "save": "Save it for the first wet day of the holidays.",
+   "send": "Send it to the parent facing two weeks off school."
+  }
+ ]
+}

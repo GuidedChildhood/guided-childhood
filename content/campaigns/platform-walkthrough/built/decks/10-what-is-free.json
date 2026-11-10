@@ -1,0 +1,22 @@
+{
+ "name": "10-what-is-free",
+ "size": "portrait",
+ "lead": "digi",
+ "eyebrow": "Inside Guided Childhood &middot; 6 of 13",
+ "cards": [
+  {
+   "name": "what-is-free",
+   "type": "list",
+   "friend": true,
+   "tag": "6 of 13",
+   "scale": "h-m",
+   "headline": "What is free.<br><mark>And what it costs after.</mark>",
+   "items": [
+    "The stage check. Three questions, no sign up.",
+    "Then four days of everything. No card.",
+    "After that, &pound;12.99 a month."
+   ]
+  }
+ ],
+ "numbered": false
+}

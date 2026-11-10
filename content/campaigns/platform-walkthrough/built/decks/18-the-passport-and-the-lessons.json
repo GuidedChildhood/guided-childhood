@@ -1,0 +1,86 @@
+{
+ "name": "18-the-passport-and-the-lessons",
+ "size": "portrait",
+ "lead": null,
+ "eyebrow": "The Road to 16 &middot; 11 of 13",
+ "cards": [
+  {
+   "name": "cover",
+   "type": "road",
+   "headline": "A birthday is not<br>a <mark>training course.</mark>"
+  },
+  {
+   "name": "five-stages",
+   "type": "ages",
+   "headline": "Five stages. One job each.",
+   "bands": [
+    {
+     "age": "4 to 7",
+     "stage": "Foundation",
+     "what": "Calm screen offs.",
+     "friend": "pebble"
+    },
+    {
+     "age": "8 to 10",
+     "stage": "Builder",
+     "what": "Healthy habits.",
+     "friend": "bloop"
+    },
+    {
+     "age": "11 to 13",
+     "stage": "Explorer",
+     "what": "Knows how it works.",
+     "friend": "orbit"
+    },
+    {
+     "age": "13 to 15",
+     "stage": "Shaper",
+     "what": "Owns their footprint.",
+     "friend": "nova"
+    },
+    {
+     "age": "16",
+     "stage": "Independent",
+     "what": "Ready for the world.",
+     "friend": "cosmo"
+    }
+   ]
+  },
+  {
+   "name": "stamps",
+   "type": "text",
+   "headline": "Each stage ends in a stamp.",
+   "body": "The stamps fill in from what you already do: jobs, check ins and lessons."
+  },
+  {
+   "name": "lessons",
+   "type": "text",
+   "headline": "Fifteen lessons before the first account.",
+   "body": "Social Media Ready runs from 8 to 16. The lesson is how it works."
+  },
+  {
+   "name": "printed-passport",
+   "type": "shot",
+   "headline": "Want it real? There is a printed one.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/keepsake.png",
+   "width": 440,
+   "top": 440
+  },
+  {
+   "name": "find-the-stage",
+   "type": "shot",
+   "headline": "Find the stage first.",
+   "image": "content/campaigns/platform-walkthrough/built/screens/stage-result.png",
+   "width": 480,
+   "top": 350
+  },
+  {
+   "name": "ask",
+   "type": "ask",
+   "lead": "orbit",
+   "ground": "cream",
+   "save": "Save it for the week the phone question comes up.",
+   "send": "Send it to the parent whose child wants a phone for Christmas."
+  }
+ ]
+}
