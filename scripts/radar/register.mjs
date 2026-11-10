@@ -83,7 +83,7 @@ export function studyId(rec) {
  * Add a record, or add a new version of one we already hold.
  * Returns { id, action: 'created' | 'updated' | 'unchanged', version }.
  */
-export function upsert(rec, { reason = '', actor = 'radar' } = {}) {
+export function upsert(rec, { reason = '', actor = 'radar', allowBackward = false } = {}) {
   const idx = load()
   const keys = dedupKeys(rec)
 
@@ -107,7 +107,9 @@ export function upsert(rec, { reason = '', actor = 'radar' } = {}) {
   // moves forward, unless the caller is deliberately parking or killing the
   // record with HOLD or REJECTED.
   let status = rec.status || prev?.status || 'DISCOVERED'
-  if (prev && !['HOLD', 'REJECTED'].includes(status)) {
+  // allowBackward is for one caller: Justin withdrawing an approval he gave.
+  // That is a decision, not a rerun, and it is the only backward move there is.
+  if (prev && !allowBackward && !['HOLD', 'REJECTED'].includes(status)) {
     const from = RANK[prev.status] ?? -1
     const to = RANK[status] ?? -1
     if (to < from) status = prev.status

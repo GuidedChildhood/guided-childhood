@@ -24,7 +24,7 @@ import { join } from 'node:path'
 import * as reg from './register.mjs'
 import { buildHandoff, handoffDoc } from './handoff.mjs'
 import { checkPack, eligibility } from './qa.mjs'
-import { parsePostRegister, internalNumberConflicts, repoState, POST_REGISTER } from './contract.mjs'
+import { parsePostRegister, internalNumberConflicts, nextFreeNumber, repoState, POST_REGISTER } from './contract.mjs'
 import { driveReadable } from './sync.mjs'
 import { checkUrl } from './posted.mjs'
 
@@ -40,6 +40,58 @@ function recordGate(studyId, result) {
   if (!rec) return
   reg.upsert({ ...rec, gate: { verdict: result.verdict, stage: result.stage, reasons: result.reasons, at: new Date().toISOString() } },
     { reason: `${result.stage}: ${result.verdict}${result.reasons.length ? `, ${result.reasons[0].slice(0, 120)}` : ''}`, actor: 'radar:pipeline' })
+}
+
+// ---------------------------------------------------------------------------
+// The directed review. Stage 1's last step, and the one a machine cannot do.
+// ---------------------------------------------------------------------------
+
+const REVIEW_VERDICTS = ['SHIP', 'EDIT', 'HOLD', 'REJECT']
+const DASH = /[\u2010-\u2015\u2212]/
+
+/**
+ * Store a claim by claim review on a record. Until 10 November this was done
+ * by hand with a one line upsert, which meant nothing checked that a review
+ * was a review: it could have had no claims, no limits and no statement of
+ * what the study does not prove, and still moved a story forward.
+ *
+ * The verdict decides where the story goes. SHIP and EDIT move it to
+ * EDITORIAL READY, which is what lets a handoff be built. HOLD parks it.
+ * REJECT ends it. None of them is approval of copy, because there is no copy
+ * yet.
+ */
+export function storeReview(studyId, review, { reviewPath = null } = {}) {
+  const rec = reg.get(studyId)
+  if (!rec) return hold('REVIEW', `no such research record: ${studyId}`)
+  const reasons = []
+  const r = review || {}
+  if (r.studyId !== studyId) reasons.push(`the review is for ${r.studyId || 'no record'}, not ${studyId}`)
+  if (!rec.dossier) reasons.push('no dossier on the record. The automatic check runs before the review, not after.')
+  else if (rec.dossier.automaticVerdict !== 'RECORD CONFIRMED') reasons.push(`the dossier verdict is ${rec.dossier.automaticVerdict}. A study that cannot be identified cannot be reviewed.`)
+  if (!REVIEW_VERDICTS.includes(r.verdict)) reasons.push(`the verdict must be one of ${REVIEW_VERDICTS.join(', ')}`)
+  if (!r.reviewedAt || Number.isNaN(Date.parse(r.reviewedAt))) reasons.push('no dated reviewedAt')
+  if (!String(r.reviewBasis || '').trim()) reasons.push('no reviewBasis. The review has to say what was actually read: abstract, full text, or both.')
+  const claims = Array.isArray(r.claims) ? r.claims : []
+  if (!claims.length) reasons.push('no claim by claim verdicts')
+  claims.forEach((c, i) => {
+    if (!reg.CLAIM_STATUSES.includes(c.status)) reasons.push(`claim ${i + 1} has status ${c.status || 'none'}, which is not one of ${reg.CLAIM_STATUSES.join(', ')}`)
+    if (!String(c.claim || '').trim() || !String(c.basis || '').trim()) reasons.push(`claim ${i + 1} is missing its wording or its basis`)
+  })
+  for (const k of ['limitations', 'contradictoryEvidence', 'whatThisDoesNotProve']) {
+    if (!Array.isArray(r[k]) || !r[k].length) reasons.push(`${k} is empty. A review that found no limits has not looked.`)
+  }
+  if (!Array.isArray(r.verifiedStatistics)) reasons.push('verifiedStatistics must be a list, empty if no figure may be quoted')
+  if (!Array.isArray(r.notQuotable)) reasons.push('notQuotable must be a list')
+  // The review is copied into the handoff, and the handoff goes to Drive.
+  if (DASH.test(JSON.stringify(r))) reasons.push('the review contains a dash. Its text is copied into the handoff, and no copy carries one.')
+  if (reasons.length) { const h = hold('REVIEW', reasons); recordGate(studyId, h); return h }
+
+  const status = r.verdict === 'REJECT' ? 'REJECTED' : r.verdict === 'HOLD' ? 'HOLD' : 'EDITORIAL READY'
+  reg.upsert({ ...rec, claudeStatus: 'CLAUDE REVIEWED', claudeReview: { ...r, storedAt: reviewPath || r.storedAt || null }, status, editorialPriority: rec.editorialPriority || 'BANK' },
+    { reason: `directed Claude review stored, verdict ${r.verdict}, ${claims.length} claims`, actor: 'claude:review' })
+  const out = pass('REVIEW', { status, claims: claims.length })
+  recordGate(studyId, out)
+  return out
 }
 
 // ---------------------------------------------------------------------------
@@ -79,6 +131,75 @@ export function preflight({ postRegisterPath = POST_REGISTER, requireDrive = tru
 
 // ---------------------------------------------------------------------------
 // Stage 1 to Stage 2. The handoff.
+// ---------------------------------------------------------------------------
+// The post number. Claimed in GitHub, by a gate, and nowhere else.
+// ---------------------------------------------------------------------------
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const TABLE_ROW = /^\|\s*\d{2,3}\s*\|/
+
+/**
+ * Claim the next free GDC number for a reviewed story, by adding its row to
+ * content/gdc-post-register.md. Until 10 November this was an edit made by
+ * hand, which is how two systems came to hold different numbers.
+ *
+ * Idempotent: a record that already carries a number gets that number back,
+ * provided the register agrees it exists. Only a story that has passed the
+ * directed review may hold a number, so numbers are not spent on research
+ * that is later rejected. If the file does not parse cleanly after the edit
+ * the edit is undone and the result is a HOLD.
+ */
+export function claimNumber(studyId, { postRegisterPath = POST_REGISTER } = {}) {
+  const rec = reg.get(studyId)
+  if (!rec) return hold('NUMBER', `no such research record: ${studyId}`)
+  let rows
+  try { rows = parsePostRegister(postRegisterPath) } catch (e) { return hold('NUMBER', `the post register cannot be read: ${e.message}`) }
+  const conflicts = internalNumberConflicts(postRegisterPath)
+  if (conflicts.length) { const h = hold('NUMBER', conflicts.map((c) => `GDC-${c.number} is claimed twice in the register. Nothing new is claimed until that is settled.`)); recordGate(studyId, h); return h }
+
+  if (rec.gdcPostNumber) {
+    const n = String(rec.gdcPostNumber).padStart(3, '0')
+    if (!rows.some((x) => x.number === n)) { const h = hold('NUMBER', `the record carries GDC-${n}, which has no row in the GitHub register`); recordGate(studyId, h); return h }
+    return pass('NUMBER', { gdcPostNumber: n, claimed: false, note: 'already claimed, nothing changed' })
+  }
+  const el = eligibility(rec)
+  if (el.verdict !== 'PASS') { const h = hold('NUMBER', ['a number is only claimed for a story that has passed the directed review', ...el.reasons]); recordGate(studyId, h); return h }
+  // The register may already hold a row for this research, claimed by hand.
+  const mine = rows.find((x) => `${x.state} ${x.where}`.includes(studyId))
+  if (mine) {
+    reg.upsert({ ...rec, gdcPostNumber: mine.number }, { reason: `GDC-${mine.number} was already claimed for this record in the register`, actor: 'radar:pipeline' })
+    return pass('NUMBER', { gdcPostNumber: mine.number, claimed: false, note: 'the register already named this record' })
+  }
+
+  const number = nextFreeNumber(postRegisterPath)
+  const before = readFileSync(postRegisterPath, 'utf8')
+  const now = new Date()
+  const title = String(rec.claudeReview?.proposedTitle || rec.title).replace(/\|/g, ',').replace(/[‐-―−]/g, ' ').replace(/\s+/g, ' ').trim()
+  const row = `| ${number} | ${title} | **CLAIMED ${now.getUTCDate()} ${MONTHS[now.getUTCMonth()]} for the Research Radar handoff ${studyId}.** Claude reviewed, verdict ${rec.claudeReview?.verdict}, filed ${rec.editorialPriority || 'BANK'}. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-${studyId}.json |`
+  const lines = before.split('\n')
+  let last = -1
+  lines.forEach((l, i) => { if (TABLE_ROW.test(l)) last = i })
+  if (last < 0) return hold('NUMBER', 'the post register has no table rows to add to')
+  lines.splice(last + 1, 0, '', row)
+  let after = lines.join('\n')
+  const nextLine = /\*\*Next free number: \d{2,3}\.\*\*/
+  if (nextLine.test(after)) after = after.replace(nextLine, `**Next free number: ${String(Number(number) + 1).padStart(3, '0')}.**`)
+  writeFileSync(postRegisterPath, after)
+
+  // Read it back. A claim that broke the file is not a claim.
+  let ok = false
+  try {
+    const again = parsePostRegister(postRegisterPath)
+    ok = again.length === rows.length + 1 && again.some((x) => x.number === number && x.claimed) && !internalNumberConflicts(postRegisterPath).length
+  } catch { ok = false }
+  if (!ok) { writeFileSync(postRegisterPath, before); const h = hold('NUMBER', `claiming GDC-${number} left the register unreadable or inconsistent, so the edit was undone`); recordGate(studyId, h); return h }
+
+  reg.upsert({ ...reg.get(studyId), gdcPostNumber: number }, { reason: `GDC-${number} claimed in the post register by the pipeline, because ChatGPT cannot write to that file`, actor: 'radar:pipeline' })
+  const out = pass('NUMBER', { gdcPostNumber: number, claimed: true })
+  recordGate(studyId, out)
+  return out
+}
+
 // ---------------------------------------------------------------------------
 
 /**
@@ -160,8 +281,10 @@ export function submitPack(pack, { corpus = null } = {}) {
   reg.upsert({ ...rec,
     pack: { file: `content/research-register/packs/pack-${studyId}.json`, submittedAt: new Date().toISOString(), sourceCommit: pack.sourceCommit || null, gdcPostNumber: qa.gdcPostNumber },
     packQa: { verdict: qa.verdict, checked: qa.checked, failedCount: qa.failedCount, failures: qa.failures, checkedAt: qa.checkedAt },
-    // A new pack invalidates any review of the previous one.
+    // A new pack invalidates any review of the previous one, and the Drive
+    // save that was verified was of the previous text.
     packReview: null,
+    ...(rec.pack ? { packDrive: null } : {}),
   }, { reason: `pack submitted, QA ${qa.verdict}, ${qa.failedCount} of ${qa.checked} failed`, actor: 'radar:pipeline' })
 
   const out = qa.verdict === 'PASS'
@@ -232,8 +355,14 @@ export function readyForApproval(studyId) {
   if (rec.packQa?.verdict !== 'PASS') reasons.push(`automated QA is ${rec.packQa?.verdict || 'not run'}`)
   if (rec.packReview?.verdict !== 'PASS') reasons.push(`Claude's review of the pack is ${rec.packReview?.verdict || 'not done'}`)
   if (!rec.packDrive?.verified) reasons.push('the pack has not been verifiably saved to Drive, so Justin would have nothing to open')
+  // Justin asked for changes. Only a version submitted after he asked answers that.
+  const asked = openChangeRequest(rec)
+  if (asked && !(rec.pack?.submittedAt && rec.pack.submittedAt > asked.at)) {
+    reasons.push(`Justin asked for changes on ${asked.at.slice(0, 10)} and no new version has been submitted since: "${asked.note.slice(0, 160)}"`)
+  }
   if (reasons.length) { const h = hold('ASSETS READY', reasons); recordGate(studyId, h); return h }
 
+  if (asked) reg.upsert({ ...rec, founderDecision: { ...asked, resolvedAt: new Date().toISOString() } }, { reason: 'the changes Justin asked for have a new version, checked and reviewed', actor: 'radar:pipeline' })
   if (rec.status === 'EDITORIAL READY') reg.setStatus(studyId, 'ASSETS READY', { reason: 'QA passed, Claude reviewed the pack, Drive save verified', actor: 'radar:pipeline' })
   const out = pass('ASSETS READY')
   recordGate(studyId, out)
@@ -243,6 +372,47 @@ export function readyForApproval(studyId) {
 // ---------------------------------------------------------------------------
 // Stage 4. Justin.
 // ---------------------------------------------------------------------------
+
+/**
+ * The four words Justin sees. The register keeps its own finer statuses; this
+ * is the same state said the way the approval desk says it.
+ */
+export function founderStatus(rec) {
+  if (!rec) return null
+  if (rec.status === 'PUBLISHED') return 'PUBLISHED'
+  if (rec.status === 'APPROVED') return 'APPROVED'
+  if (rec.status === 'ASSETS READY') return openChangeRequest(rec) ? 'CHANGES REQUESTED' : 'READY FOR JUSTIN'
+  return null
+}
+
+/** A request for changes that no later version has answered yet. */
+function openChangeRequest(rec) {
+  const d = rec?.founderDecision
+  return d && d.state === 'CHANGES REQUESTED' && !d.resolvedAt ? d : null
+}
+
+/**
+ * Justin asked for changes. Only he can, and his words are kept. The pack
+ * stays where he can see it, the earlier Claude review no longer counts, and
+ * neither `ready` nor `approve` will pass until a new version has been
+ * through QA and review again.
+ */
+export function requestChanges(studyId, { requestedBy, note } = {}) {
+  const rec = reg.get(studyId)
+  if (!rec) return hold('CHANGES REQUESTED', `no such research record: ${studyId}`)
+  if (requestedBy !== 'Justin') return hold('CHANGES REQUESTED', `only Justin sends a pack back from the approval desk. Got "${requestedBy || 'nobody'}".`)
+  if (!String(note || '').trim()) return hold('CHANGES REQUESTED', 'a change request needs what Justin actually asked for, in his words')
+  if (!['ASSETS READY', 'APPROVED'].includes(rec.status)) {
+    const h = hold('CHANGES REQUESTED', `status is ${rec.status}. Only a pack that is in front of Justin, or one he approved and has not yet posted, can be sent back.`)
+    recordGate(studyId, h); return h
+  }
+  reg.upsert({ ...rec, status: 'ASSETS READY', approval: null, packReview: null,
+    founderDecision: { state: 'CHANGES REQUESTED', by: 'Justin', note: String(note), at: new Date().toISOString(), againstPack: rec.pack?.submittedAt || null, resolvedAt: null } },
+    { reason: `changes requested by Justin: "${String(note).slice(0, 160)}"`, actor: 'justin', allowBackward: true })
+  const out = pass('CHANGES REQUESTED', { note: 'The next version goes through QA and review again before it returns to READY FOR JUSTIN.' })
+  recordGate(studyId, out)
+  return out
+}
 
 /**
  * Founder approval. Only ever called on Justin's explicit instruction, and
@@ -255,6 +425,10 @@ export function approve(studyId, { approvedBy, instruction } = {}) {
   if (!rec) return hold('APPROVAL', `no such research record: ${studyId}`)
   if (approvedBy !== 'Justin') return hold('APPROVAL', `only Justin approves. Got approvedBy "${approvedBy || 'nobody'}".`)
   if (!String(instruction || '').trim()) return hold('APPROVAL', 'approval needs the instruction Justin actually gave, word for word, so the record shows what he approved')
+  if (openChangeRequest(rec)) {
+    const h = hold('APPROVAL', 'Justin asked for changes to this pack and the new version has not been through QA and review yet. The version he objected to cannot be approved.')
+    recordGate(studyId, h); return h
+  }
   if (rec.status !== 'ASSETS READY') {
     const h = hold('APPROVAL', `status is ${rec.status}. Only a pack at ASSETS READY can be approved, which means QA passed, Claude reviewed it and it is verifiably in Drive.`)
     recordGate(studyId, h); return h
@@ -294,6 +468,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const [, , cmd, a, b] = process.argv
   const show = (r) => { console.log(`${r.verdict}  ${r.stage}`); for (const x of r.reasons) console.log(`  ${x}`); process.exitCode = r.verdict === 'PASS' ? 0 : 1 }
   if (cmd === 'preflight') show(preflight())
+  else if (cmd === 'review' && a) { const path = b || `scripts/radar/reviews/${a}.json`; show(storeReview(a, JSON.parse(readFileSync(path, 'utf8')), { reviewPath: path })) }
+  else if (cmd === 'number' && a) { const r = claimNumber(a); show(r); if (r.gdcPostNumber) console.log(`  GDC-${r.gdcPostNumber}${r.claimed ? ', claimed now' : ', already held'}`) }
   else if (cmd === 'handoff' && a) show(handoff(a))
   else if (cmd === 'submit' && a) show(submitPack(JSON.parse(readFileSync(a, 'utf8'))))
   else if (cmd === 'ready' && a) show(readyForApproval(a))
@@ -301,6 +477,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   else {
     console.log('usage:')
     console.log('  node scripts/radar/pipeline.mjs preflight')
+    console.log('  node scripts/radar/pipeline.mjs review <researchId> [review.json]')
+    console.log('  node scripts/radar/pipeline.mjs number <researchId>')
     console.log('  node scripts/radar/pipeline.mjs handoff <researchId>')
     console.log('  node scripts/radar/pipeline.mjs submit <pack.json>')
     console.log('  node scripts/radar/pipeline.mjs ready <researchId>')
