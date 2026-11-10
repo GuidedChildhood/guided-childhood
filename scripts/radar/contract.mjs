@@ -394,6 +394,24 @@ export function verifyDocProbe(sentText, { head, tail, contains = [] } = {}) {
 }
 
 /**
+ * Verify a Google Doc against the text it was made from, using its plain text
+ * export. Stronger than verifyDocProbe: the whole document is compared, not a
+ * sample. Drive adds a byte order mark, turns line endings into CRLF and
+ * changes how blank lines are spaced, so those three things are normalised and
+ * nothing else is. Every word and every character within a line must match.
+ */
+export function verifyDocExport(sentText, exportBase64) {
+  const got = Buffer.from(String(exportBase64 || '').replace(/\s+/g, ''), 'base64').toString('utf8')
+  if (!got.trim()) return { ok: false, level: 'UNREADABLE', problems: ['the export of the document came back empty'] }
+  const norm = (x) => String(x).replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n').map((l) => l.replace(/\s+$/, '')).filter((l) => l !== '').join('\n')
+  const a = norm(sentText); const b = norm(got)
+  if (a === b) return { ok: true, level: 'TEXT IDENTICAL', problems: [], note: 'Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc.' }
+  const al = a.split('\n'); const bl = b.split('\n')
+  const at = al.findIndex((l, i) => l !== bl[i])
+  return { ok: false, level: 'DIFFERENT', problems: [`the document differs from the sent text at line ${at + 1}: sent "${String(al[at] ?? '(nothing)').slice(0, 60)}", Drive has "${String(bl[at] ?? '(nothing)').slice(0, 60)}"`] }
+}
+
+/**
  * Everything the dashboard and the gates need to know about the repo side,
  * in one call, so no caller has to assemble it and get it subtly wrong.
  */

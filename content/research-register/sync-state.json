@@ -3,17 +3,18 @@
   "manifest": {
    "role": "manifest",
    "studyId": null,
-   "fileId": "1eMpNFHlO3jiFBgMRIB-IJ6Uq0XJle5TU",
-   "title": "manifest.json [9a86fd59] 2026-11-10 11:23",
-   "commit": "a8f7114403dba07f4c1a67e3f828973f452e9219",
-   "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f",
+   "fileId": "1H84xv1rdodFOg33EUuvALjwq_fPcveMr",
+   "title": "manifest.json [28ec992e] 2026-11-10 12:40, CURRENT QUEUE",
+   "commit": "28ec992ed1330c02040aa7cca6e302ac1ecd6cc3",
+   "factsSha256": "c6836bfbeed484bbe0d3a50d616b487bc81691fbc12c7b1bd889f0d0e057b0a4",
+   "sha256": "1ab07215586da666a0651574feeab9cc563ce59222831f719ca9cfc4dd55ca45",
    "verification": {
     "ok": true,
     "level": "BYTE IDENTICAL",
     "problems": [],
-    "sha256": "59137b7da06c411eaa566bcff38abaa14049614e47d8681be532ee787c76bb0f"
+    "sha256": "1ab07215586da666a0651574feeab9cc563ce59222831f719ca9cfc4dd55ca45"
    },
-   "at": "2026-11-10T12:19:52.916Z"
+   "at": "2026-11-10T12:46:54.816Z"
   },
   "handoff:GDC-RR-0754a1641c": {
    "role": "handoff",
@@ -25,31 +26,49 @@
    "sha256": "f8ea9b260103f4d0701f9c531687c671a011f5f689ad62aece854753411b9da4",
    "verification": {
     "ok": true,
-    "level": "SIZE, HEAD AND TAIL",
+    "level": "BYTE IDENTICAL",
     "problems": [],
-    "note": "Stored size is exactly 14381 bytes and 563 leading plus 36 trailing base64 characters match. Not a full byte comparison."
+    "sha256": "f8ea9b260103f4d0701f9c531687c671a011f5f689ad62aece854753411b9da4"
    },
-   "at": "2026-11-10T12:40:17.774Z"
-  }
- },
- "failures": [
-  {
+   "at": "2026-11-10T12:46:54.818Z"
+  },
+  "postRegister": {
    "role": "postRegister",
    "studyId": null,
-   "fileId": "1JaOBaVR8djiHAIQYqwkc_P9zF3X9TgGU",
-   "title": "GDC POST REGISTER mirror [a8f71144] 2026-11-10 11:39",
-   "commit": "a8f7114403dba07f4c1a67e3f828973f452e9219",
-   "sha256": "55e635c6a1716a09135427d442ff3af9f8a921c4194fb1ac46ab1ed85ae69cd9",
+   "fileId": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt",
+   "title": "GDC POST REGISTER mirror [28ec992e] 2026-11-10 12:40, CURRENT, read only",
+   "commit": "28ec992ed1330c02040aa7cca6e302ac1ecd6cc3",
+   "factsSha256": "a44c43fcf3af363649f689308ea763c073101c6cacaf5f24ed7f2201766d69e4",
+   "sha256": "cf90447c76a00459be3ea9fa5f5dbd4c6cc09682f7e14de8cf71ec8aff316f80",
    "verification": {
-    "ok": false,
-    "level": "DIFFERENT",
-    "problems": [
-     "the end of the downloaded file does not match what was sent"
-    ]
+    "ok": true,
+    "level": "BYTE IDENTICAL",
+    "problems": [],
+    "sha256": "cf90447c76a00459be3ea9fa5f5dbd4c6cc09682f7e14de8cf71ec8aff316f80"
    },
-   "at": "2026-11-10T12:19:52.950Z",
-   "verdict": "FAILED VERIFICATION"
+   "at": "2026-11-10T12:46:54.818Z"
+  },
+  "stage2Brief": {
+   "role": "stage2Brief",
+   "fileId": "16yYpI6Yh7m81bVDFNndWeVWSfS63eBSBTQHlmYpV7WM",
+   "title": "GDC STAGE 2 START HERE [e058a47b] 10 Nov 2026, CURRENT",
+   "links": {
+    "manifest": "1H84xv1rdodFOg33EUuvALjwq_fPcveMr",
+    "postRegister": "189vB1GZYUt60l2PqgzzucR9zZoaZsxHt",
+    "handoffJson": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi"
+   },
+   "commit": "e058a47bb04307ae2bbd6b9e668b6128ad8d7a5d",
+   "factsSha256": "47c65c1890b4b607c3e1748a3e48e890022c2a6777f83419a90aa2a3c3574d93",
+   "sha256": "994da73f719109396d15dd8459554f60aa5b7aa5336135cee673d3b17681f04a",
+   "verification": {
+    "ok": true,
+    "level": "TEXT IDENTICAL",
+    "problems": [],
+    "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
+   },
+   "at": "2026-11-10T12:55:32.186Z"
   }
- ],
- "lastSuccessAt": "2026-11-10T12:40:17.774Z"
+ },
+ "failures": [],
+ "lastSuccessAt": "2026-11-10T12:55:32.186Z"
 }

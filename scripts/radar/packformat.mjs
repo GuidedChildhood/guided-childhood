@@ -194,7 +194,12 @@ export function stage2Brief({ links = {} } = {}) {
   line(`  Title it exactly: PACK ${next ? next.researchId : 'GDC-RR-xxxxxxxxxx'} GDC-${next?.gdcPostNumber || 'NNN'} DRAFT v1`)
   line('  Use exactly this layout, with the labels unchanged:')
   line()
-  for (const t of packTemplate({ researchId: next?.researchId || 'GDC-RR-xxxxxxxxxx', gdcPostNumber: next?.gdcPostNumber, handoffVersion: next?.handoffVersion, sourceCommit: r.commit }).split('\n')) line(`    ${t}`)
+  for (const t of packTemplate({ researchId: next?.researchId || 'GDC-RR-xxxxxxxxxx', gdcPostNumber: next?.gdcPostNumber, handoffVersion: next?.handoffVersion,
+    // The handoff's commit, not the repository's. The first version put the
+    // current head here, so the document changed on every commit to anything
+    // and was reported stale the moment it was pushed. A pack is written from
+    // a handoff, and the handoff's commit only moves when the handoff does.
+    sourceCommit: next?.handoffSourceCommit || r.commit }).split('\n')) line(`    ${t}`)
   line()
   line('WHAT HAPPENS NEXT')
   line('  Claude reads the pack, runs the automatic checks, and reviews it.')

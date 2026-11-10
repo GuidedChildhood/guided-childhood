@@ -94,10 +94,10 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 18,
+   "version": 19,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-10T12:40:17.778Z",
-   "changeReason": "handoff version 2 copied to Drive as a Doc and as JSON, both read back and verified",
+   "lastChecked": "2026-11-10T12:46:54.823Z",
+   "changeReason": "handoff JSON in Drive re-verified byte for byte from the downloaded bytes",
    "changedBy": "radar:sync",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
@@ -283,7 +283,7 @@
    },
    "driveHandoffJsonId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
    "driveHandoffVerified": {
-    "json": "SIZE, HEAD AND TAIL",
+    "json": "BYTE IDENTICAL",
     "doc": "HEAD, TAIL AND PROBES",
     "at": "2026-11-10T12:40:17.777Z",
     "handoffVersion": 2

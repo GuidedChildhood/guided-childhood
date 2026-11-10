@@ -63,35 +63,9 @@ reg.upsert({ title: 'An unreviewed study about children and smartphone use at sc
   { reason: 'test seed', actor: 'test' })
 const UNREVIEWED = reg.all().find((r) => r.doi === '10.9999/test.unreviewed').studyId
 
-// --- the pack a correct Stage 2 would hand back ----------------------------
-// A TEST FIXTURE. Written to pass the house rules using only the five figures
-// the real review cleared. It is not a draft for publication and nothing in
-// this file can publish it.
-const GOOD_BODY = [
-  'I nearly used a number this week that would have made my argument look much stronger.',
-  'A new meta-analysis pooled 12 studies on social media and adolescent mental health and reported a correlation of r = 0.308. That is far bigger than the figures I usually quote, and I will be honest that part of me wanted it to be true.',
-  'I build a product for parents who are worried about exactly this. A bigger number would sell it better.',
-  'So I read past the headline figure, and one line stopped me. The heterogeneity was 93.85 percent. In plain terms, the studies inside it disagree with each other so much that averaging them tells you very little about any one child.',
-  'That is not a criticism of the researchers. They ran the checks you would hope for and reported what they found. It is a limit on what the result can carry.',
-  'A pooled figure from a handful of studies that disagree is not stronger evidence than one large, careful cohort that follows the same teenagers over time. It only looks stronger because it is one tidy number.',
-  'Here is what I think it does show. Something real is going on for some children, and it is not evenly spread. The paper found the link looked different at different school stages, which is a reason to ask which child, and when, before asking how much.',
-  'Here is what it does not show. It does not show that social media causes the harm, and it does not tell a parent anything about their own son or daughter.',
-  'I would rather be trusted with a small true number than believed with a large shaky one. If the response to this is going to be proportional to the evidence, that has to cut both ways, including when the evidence flatters me.',
-  'When did you last turn down a statistic that suited you?',
-].join('\n\n')
-
-const goodPack = () => ({
-  researchId: ID,
-  gdcPostNumber: '054',
-  sourceCommit: C.repoState().commit,
-  handoffVersion: 1,
-  status: 'DRAFT',
-  linkedin: {
-    body: GOOD_BODY,
-    firstComment: 'The paper is here: https://doi.org/10.1177/13591045261487468 . The strongest objection is that a pooled estimate is still the best single summary we have. I think that holds when the studies broadly agree, and these do not.',
-  },
-  visual: { brief: 'Research card, one hero figure, cream ground, one accent.', assetsUsed: ['.claude/skills/viral-post/stat-card.html'] },
-})
+// --- the pack a correct Stage 2 would hand back, from fixtures.mjs -----------
+const { FIXTURE_BODY: GOOD_BODY, fixturePack, fixturePackText } = await import('./fixtures.mjs')
+const goodPack = () => fixturePack(C.repoState().commit)
 
 // ===========================================================================
 section('PREFLIGHT')
@@ -258,15 +232,7 @@ section('THE PACK FORMAT, the way a pack comes back from Stage 2')
 // ===========================================================================
 const F = await import('./packformat.mjs')
 const gp = goodPack()
-const packDoc = [
-  `RESEARCH ID: ${gp.researchId}`, `GDC POST NUMBER: ${gp.gdcPostNumber}`, 'HANDOFF VERSION: 1', `SOURCE COMMIT: ${gp.sourceCommit}`, 'STATUS: DRAFT', '',
-  '=== LINKEDIN POST ===', '(250 to 450 words. The closing question is the last sentence. No link. No dashes.)', gp.linkedin.body, '',
-  '=== FIRST COMMENT ===', gp.linkedin.firstComment, '',
-  '=== INSTAGRAM CAPTION ===', '',
-  '=== VISUAL BRIEF ===', gp.visual.brief, '',
-  '=== ASSETS USED ===', gp.visual.assetsUsed[0], '',
-  '=== SOURCES ===', 'https://doi.org/10.1177/13591045261487468',
-].join('\n')
+const packDoc = fixturePackText(gp.sourceCommit)
 const parsed = F.parsePackText(packDoc)
 check('a pack document parses into its research ID, number, version and commit',
   parsed.researchId === ID && parsed.gdcPostNumber === '054' && parsed.handoffVersion === 1 && parsed.sourceCommit === gp.sourceCommit)
@@ -281,6 +247,16 @@ const parsedDrive = F.parsePackText(asDrive)
 check('the same pack read back through Drive, with its markdown, parses the same',
   parsedDrive.researchId === ID && parsedDrive.gdcPostNumber === '054' && parsedDrive.linkedin?.body === gp.linkedin.body && parsedDrive.visual?.assetsUsed?.length === 1,
   JSON.stringify({ id: parsedDrive.researchId, n: parsedDrive.gdcPostNumber, body: (parsedDrive.linkedin?.body || '').length }))
+// What Drive REALLY hands back, recorded from a live test on 10 November: a
+// labelled test pack was written to Drive as a Google Doc, read back, parsed
+// and checked, then removed. Every section label came back with its first
+// equals sign escaped, and every line break came back doubled with a padded
+// blank line between paragraphs. This reproduces that shape exactly.
+const asRealDrive = packDoc.split('\n').map((l) => (l === '' ? '  ' : l.replace(/^===/, '\\==='))).join('\n\n')
+const parsedReal = F.parsePackText(asRealDrive)
+check('a pack in the exact shape the live Drive test returned parses to the same words',
+  parsedReal.researchId === ID && parsedReal.gdcPostNumber === '054' && parsedReal.linkedin?.body.split(/\s+/).join(' ') === gp.linkedin.body.split(/\s+/).join(' '))
+check('and passes QA', Q.checkPack(parsedReal).verdict === 'PASS', Q.checkPack(parsedReal).failures.map((f) => f.check).join(' | '))
 const noHeader = F.parsePackText('=== LINKEDIN POST ===\n' + gp.linkedin.body)
 const noHeaderQa = Q.checkPack(noHeader)
 check('a pack with no header is a HOLD that names what is missing',
@@ -291,6 +267,26 @@ check('the Stage 2 brief names the story, its number and every cleared figure',
 check('the Stage 2 brief tells ChatGPT not to claim a number', /Do not use it/.test(brief.text) && /claimed in GitHub and nowhere else/.test(brief.text))
 check('the Stage 2 brief carries the commit it was generated from', brief.text.includes(C.repoState().commit))
 check('the Stage 2 brief contains no dash', !/[\u2010-\u2015\u2212]/.test(brief.text))
+// The start here document is tracked for freshness like the JSON beside it.
+const okDoc = { ok: true, level: 'HEAD, TAIL AND PROBES', problems: [] }
+check('a start here document that failed verification is not recorded', !S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: { ok: false, level: 'DIFFERENT', problems: ['cut short'] } }).ok && !S.syncState().roles.stage2Brief)
+check('a verified start here document is recorded as current', S.acceptBrief({ fileId: 'b', title: 't', sentText: brief.text, verification: okDoc }).ok && S.syncState().roles.stage2Brief.current === true)
+check('outside its Generated line, the document does not mention the repository head, so a commit cannot make it stale',
+  !brief.text.split('\n').filter((l) => !l.startsWith('Generated ')).join('\n').includes(C.repoState().commit) || reg.get(ID).handoff.sourceCommit === C.repoState().commit)
+check('the pack template carries the handoff commit', brief.text.includes(`SOURCE COMMIT: ${reg.get(ID).handoff.sourceCommit}`))
+check('regenerating it a moment later does not make it stale', S.briefFacts(F.stage2Brief().text) === S.briefFacts(brief.text))
+reg.upsert({ ...reg.get(ID), editorialPriority: 'HIGH' }, { reason: 'test, the story changes priority after the brief was written', actor: 'test' })
+check('when the story it describes changes, the start here document is stale', S.syncState().roles.stage2Brief.current === false && isHold(S.driveReadable('stage2Brief')))
+reg.upsert({ ...reg.get(ID), editorialPriority: seed.editorialPriority }, { reason: 'test, undo', actor: 'test' })
+check('and current again once the story is back as it was', S.syncState().roles.stage2Brief.current === true)
+const asExport = (t) => Buffer.from('\uFEFF' + t.replace(/\n/g, '\r\n')).toString('base64')
+check('a Doc export with its byte order mark and CRLF endings is TEXT IDENTICAL', C.verifyDocExport(brief.text, asExport(brief.text)).level === 'TEXT IDENTICAL')
+check('one changed digit anywhere in a Doc is caught, with the line', !C.verifyDocExport(brief.text, asExport(brief.text.replace('GDC-055', 'GDC-056'))).ok)
+check('a Doc cut short is caught', !C.verifyDocExport(brief.text, asExport(brief.text.slice(0, 900))).ok)
+check('an empty export is a failure', !C.verifyDocExport(brief.text, '').ok)
+check('the doc probe refuses a document that is cut short', !C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'THE NUMBER RULE', contains: ['a', 'b', 'c'] }).ok)
+check('the doc probe accepts the real start, end and lines, through the markdown',
+  C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'Nothing is posted by anyone but him.', contains: ['r = 0.308, 95% CI 0.239 to 0.374, p \\< 0.001, the pooled correlation', 'No dashes anywhere, of any length.', 'STATUS: DRAFT'] }).ok)
 check('the pack template inside the brief parses back to the right story', F.parsePackText(F.packTemplate({ researchId: ID, gdcPostNumber: '054', handoffVersion: 2, sourceCommit: 'abc' })).researchId === ID)
 
 // ===========================================================================

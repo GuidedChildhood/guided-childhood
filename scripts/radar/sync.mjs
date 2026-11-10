@@ -26,6 +26,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import * as reg from './register.mjs'
 import { buildManifest } from './manifest.mjs'
+import { stage2Brief } from './packformat.mjs'
 import { stamp, factsDigest, verifyReadback, verifyDownload, repoState, sha256, githubFacts, parsePostRegister, DRIVE, REPO } from './contract.mjs'
 
 const STATE = join(reg.DIR, 'sync-state.json')
@@ -50,6 +51,16 @@ export const ROLES = {
     mimeType: 'application/json',
     description: 'A read only mirror of the one place a GDC number is claimed. Drive must never claim a number; it reads this to find out what is taken.',
   },
+  // Not JSON and not stamped the same way: this is the Google Doc ChatGPT opens
+  // first. It is tracked here because it is the copy that matters most. If the
+  // queue or the numbers move and this document does not, Stage 2 is reading
+  // yesterday's instructions however fresh the JSON beside it is.
+  stage2Brief: {
+    role: 'stage2Brief',
+    driveTitle: 'GDC STAGE 2 START HERE',
+    mimeType: 'text/plain',
+    description: 'The one document Stage 2 opens first.',
+  },
   handoff: {
     role: 'handoff',
     driveTitle: 'RESEARCH HANDOFF',
@@ -66,6 +77,34 @@ export const ROLES = {
  * fastest place to spot a stale copy, and because the audit found three
  * superseded files whose only marker was Justin hand editing their titles.
  */
+/**
+ * The facts in a start here document: everything except the line that says
+ * when it was generated and from which commit. Two briefs built a day apart
+ * from an unchanged queue are the same document.
+ */
+export function briefFacts(text) {
+  return sha256(String(text).split('\n').filter((l) => !l.startsWith('Generated ')).join('\n'))
+}
+
+/**
+ * Record a verified Google Doc copy of the start here document. `links` are
+ * the Drive ids it was generated with, kept so it can be regenerated and
+ * compared later.
+ */
+export function acceptBrief({ fileId, title, sentText, verification, links = {} }) {
+  const state = loadState()
+  if (!verification?.ok) {
+    state.failures.unshift({ role: 'stage2Brief', fileId, title, verification, at: new Date().toISOString(), verdict: 'FAILED VERIFICATION' })
+    saveState(state)
+    return { ok: false, verdict: 'HOLD', verification, message: `The start here document was NOT accepted: ${(verification?.problems || ['no verification supplied']).join('; ')}` }
+  }
+  state.verified.stage2Brief = { role: 'stage2Brief', fileId, title, links, commit: repoState().commit, factsSha256: briefFacts(sentText), sha256: sha256(sentText), verification, at: new Date().toISOString() }
+  state.failures = (state.failures || []).filter((f) => f.role !== 'stage2Brief')
+  state.lastSuccessAt = state.verified.stage2Brief.at
+  saveState(state)
+  return { ok: true, verdict: 'SYNCED', verification, message: `start here document verified in Drive at ${verification.level}` }
+}
+
 /** The payload for a role as the repository stands right now. */
 export function currentPayload(roleName, { studyId = null } = {}) {
   let payload
@@ -194,6 +233,12 @@ export function syncState() {
     let staleBy = null
     try {
       const [role, studyId] = k.split(':')
+      if (role === 'stage2Brief') {
+        current = briefFacts(stage2Brief({ links: e.links || {} }).text) === e.factsSha256
+        if (!current) staleBy = 'the queue, the numbers or the rules have changed since this document was written, so ChatGPT would be reading old instructions'
+        out.roles[k] = { fileId: e.fileId, title: e.title, at: e.at, snapshotCommit: e.commit, current, verifiedAt: e.verification?.level || 'unknown', staleBy }
+        continue
+      }
       const fresh = factsDigest(currentPayload(role, { studyId: studyId || null }), { volatile: ROLES[role]?.volatile || [] })
       current = !!e.factsSha256 && fresh === e.factsSha256
       if (!e.factsSha256) staleBy = 'this snapshot predates the facts digest, so its freshness cannot be established. Re sync it.'
