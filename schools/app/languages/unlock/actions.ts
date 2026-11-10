@@ -26,6 +26,13 @@ export async function unlockLanguages(formData: FormData): Promise<UnlockResult>
     return { ok: false, error: 'That code did not match. Email hello@guidedchildhood.com and we will send it again.' }
   }
 
+  // 10 November 2026: with a right code and no signing key the door used to
+  // hang on "Checking" for ever, because signing a cookie with an empty key
+  // throws. That is a setup fault, not a typing one, and it now says so.
+  if (!(process.env.SCHOOLS_ACCESS_SECRET || '').trim()) {
+    return { ok: false, error: 'Your code is right, but the site is missing its signing key (SCHOOLS_ACCESS_SECRET), so it cannot open yet. Email hello@guidedchildhood.com.' }
+  }
+
   const store = await cookies()
   store.set(LANGUAGES_COOKIE, await issueLanguagesToken(code), {
     httpOnly: true,

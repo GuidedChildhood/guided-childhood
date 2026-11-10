@@ -29,6 +29,13 @@ export async function unlock(formData: FormData): Promise<UnlockResult> {
     }
   }
 
+  // 10 November 2026: with a right code and no signing key this used to hang
+  // on "Checking" for ever, because signing a cookie with an empty key throws
+  // (found on the languages door, which shares the key). It now says so.
+  if (!(process.env.SCHOOLS_ACCESS_SECRET || '').trim()) {
+    return { ok: false, error: 'Your code is right, but the site is missing its signing key (SCHOOLS_ACCESS_SECRET), so it cannot open yet. Email hello@guidedchildhood.com.' }
+  }
+
   const store = await cookies()
   store.set(ACCESS_COOKIE, await issueToken(code), {
     httpOnly: true,

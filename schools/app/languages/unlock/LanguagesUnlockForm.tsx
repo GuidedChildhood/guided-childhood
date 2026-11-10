@@ -14,7 +14,10 @@ export default function LanguagesUnlockForm({ next }: { next: string }) {
     e.preventDefault()
     setError('')
     setChecking(true)
+    // A door must never be left saying "Checking" with nothing behind it: if
+    // the action itself fails, say so and give the button back.
     const result = await unlockLanguages(new FormData(e.currentTarget))
+      .catch(() => ({ ok: false as const, error: 'That did not go through. Try once more, and if it happens again email hello@guidedchildhood.com.' }))
     if (result.ok) {
       router.replace(next)
       router.refresh()
