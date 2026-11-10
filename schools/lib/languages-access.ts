@@ -66,6 +66,14 @@ function sameSignature(a: string, b: string): boolean {
   return diff === 0
 }
 
+/** True when this deployment has at least one languages code. The door uses
+ *  it to tell "that code is wrong" from "no code has reached this site yet",
+ *  which look identical from the outside and have different fixes: the first
+ *  is a typing mistake, the second is an env var saved without a redeploy. */
+export function languagesCodesConfigured(): boolean {
+  return languageCodes().size > 0
+}
+
 /** Check a code a teacher has just typed. Returns the normalised code, or
  *  null when it is not a languages code. */
 export function matchLanguagesCode(input: string): string | null {
