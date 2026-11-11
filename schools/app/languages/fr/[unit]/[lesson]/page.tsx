@@ -118,6 +118,19 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
             )}
           </div>
         )}
+        {/* THE SOUND OF THE HALF TERM, beside the lesson (11 November 2026). It
+            was on the unit page and the plans; a teacher who opens the lesson
+            straight from the list never saw it. Hers, synced, not rewritten. */}
+        {u.plan.sound && (
+          <div>
+            <span style={label}>The sound this half term</span>
+            <p style={{ ...body, margin: 0 }}>
+              <b lang="fr" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{u.plan.sound}</b>
+              {u.plan.soundHint ? <> {u.plan.soundHint}</> : null}
+              {u.plan.soundSays ? <>. Say it {u.plan.soundSays}.</> : null}
+            </p>
+          </div>
+        )}
         {deck?.words && (
           <div>
             <span style={label}>The words today</span>
