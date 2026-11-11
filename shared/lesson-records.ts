@@ -186,6 +186,52 @@ export function cleanObjectiveMarks(raw: unknown, count: number): Record<string,
   return out
 }
 
+/** HOW MANY, ON THE TWO QUIZZES THE LESSON ALREADY HAS (11 November 2026).
+ *  A lesson opens on a starter quiz that looks back and closes on an exit
+ *  quiz about today. A teacher who counts hands on each has two honest facts
+ *  about the class: how many still had the earlier learning, and how many
+ *  left with today's. Three numbers, no names, and never subtracted from each
+ *  other: they are two different quizzes, so the pair is not a gain score.
+ *  Kept inside the marks under one reserved key, beside the judgements. */
+export type QuizCounts = { pupils: number; starter: number | null; exit: number | null }
+export const QUIZ_KEY = '_quiz'
+
+/** Quiz counts as typed. Pupils is 1 to 120; each count is 0 to pupils or
+ *  left empty. Null unless there are pupils and at least one count, because
+ *  a class size alone says nothing. */
+export function cleanQuizCounts(raw: unknown): QuizCounts | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const n = (v: unknown) => {
+    const x = typeof v === 'string' && v.trim() !== '' ? Number(v) : v
+    return typeof x === 'number' && Number.isInteger(x) && x >= 0 && x <= MAX_PUPILS ? x : null
+  }
+  const r = raw as Record<string, unknown>
+  const pupils = n(r.pupils)
+  if (pupils === null || pupils < 1) return null
+  const within = (v: unknown) => { const x = n(v); return x !== null && x <= pupils ? x : null }
+  const starter = within(r.starter), exit = within(r.exit)
+  return starter === null && exit === null ? null : { pupils, starter, exit }
+}
+
+/** The quiz counts read back out of a stored mark, or null. */
+export function quizCountsIn(marks: Record<string, unknown>): QuizCounts | null {
+  return cleanQuizCounts(marks[QUIZ_KEY])
+}
+
+/** The two shares across a set of deliveries, each over the pupils counted
+ *  for that quiz. Null for a quiz nobody counted. */
+export function quizShares(list: Delivery[]): { starter: number | null; exit: number | null; lessons: number } {
+  let sp = 0, sr = 0, ep = 0, er = 0, lessons = 0
+  for (const d of list) {
+    const q = quizCountsIn(d.marks)
+    if (!q) continue
+    lessons += 1
+    if (q.starter !== null) { sp += q.pupils; sr += q.starter }
+    if (q.exit !== null) { ep += q.pupils; er += q.exit }
+  }
+  return { starter: sp > 0 ? Math.round((sr / sp) * 100) : null, exit: ep > 0 ? Math.round((er / ep) * 100) : null, lessons }
+}
+
 export function cleanJudgement(raw: unknown): Judgement | null {
   return typeof raw === 'string' && (JUDGEMENTS as string[]).includes(raw) ? raw as Judgement : null
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 import {
-  academicYear, classesIn, cleanGroup, cleanYear, forClass, JUDGEMENT_LABEL, JUDGEMENTS, yearLabel, type Delivery, type Judgement,
+  academicYear, classesIn, cleanGroup, cleanYear, forClass, JUDGEMENT_LABEL, JUDGEMENTS, quizCountsIn, quizShares, yearLabel, type Delivery, type Judgement,
 } from '@gc/shared/lesson-records'
 import { AREA_ORDER, AREAS, areaOf } from '@gc/shared/passport-areas'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER, positionOf } from '@gc/shared/schools-curriculum'
@@ -130,6 +130,9 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
   }
   const all = tally(inScope)
   const judged = all.secure + all.developing + all.revisit
+  // The two quizzes, where a teacher counted them: the latest record of each
+  // lesson for this class, so a lesson taught twice is counted once.
+  const quiz = quizShares([...byLesson.values()].map(v => v.latest))
 
   const chip = (on: boolean): React.CSSProperties => ({
     ...mono, display: 'inline-flex', alignItems: 'center', minHeight: 44, padding: '0 var(--space-3)',
@@ -267,6 +270,26 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           </section>
         )}
 
+        {!everyClass && quiz.lessons > 0 && (
+          <section aria-labelledby="quizzes" style={panel}>
+            <h2 id="quizzes" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>What the class arrived with, and left with</h2>
+            <p style={{ ...smallText, margin: '0 0 var(--space-3)' }}>
+              From the quiz counts on {quiz.lessons} {quiz.lessons === 1 ? 'lesson' : 'lessons'}. The starter looks back at earlier lessons and the exit quiz is about the lesson
+              just taught, so these are two different quizzes and not a gain score.
+            </p>
+            <div className="gc-prog-two">
+              <div>
+                <b>{quiz.starter === null ? 'Not counted' : `${quiz.starter}%`}</b>
+                <span>got most of the starter quiz right: the earlier learning was still there</span>
+              </div>
+              <div>
+                <b>{quiz.exit === null ? 'Not counted' : `${quiz.exit}%`}</b>
+                <span>got most of the exit quiz right: the lesson landed</span>
+              </div>
+            </div>
+          </section>
+        )}
+
         {!everyClass && revisit.length > 0 && (
           <section aria-labelledby="revisit" style={{ ...panel, borderLeft: '4px solid var(--coral-dark)' }}>
             <h2 id="revisit" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>To teach again</h2>
@@ -300,12 +323,14 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
                 {list.map(m => {
                   const rec = byLesson.get(m.moduleId)
                   const j = rec && isJudgement(rec.latest.assessment) ? rec.latest.assessment : null
+                  const q = rec ? quizCountsIn(rec.latest.marks) : null
+                  const counted = q ? [q.starter !== null ? `starter ${q.starter} of ${q.pupils}` : '', q.exit !== null ? `exit ${q.exit} of ${q.pupils}` : ''].filter(Boolean).join(', ') : ''
                   return (
                     <li key={m.moduleId} data-on={rec ? '' : undefined}>
                       <span aria-hidden className="gc-prog-n">{rec ? '✓' : positionOf(m.moduleId)?.index ?? ''}</span>
                       <span style={{ flex: '1 1 auto', minWidth: 0 }}>
                         <Link href={`/lesson/${m.moduleId}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: rec ? 'var(--ink)' : 'var(--ink-muted)', textDecoration: 'none' }}>{m.title}</Link>
-                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}` : `Not taught yet${suggestedYear(m.moduleId) === null ? '' : ` · suggested for ${yearName(suggestedYear(m.moduleId)!)}`}`}</span>
+                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}${counted ? ` · ${counted}` : ''}` : `Not taught yet${suggestedYear(m.moduleId) === null ? '' : ` · suggested for ${yearName(suggestedYear(m.moduleId)!)}`}`}</span>
                       </span>
                       {rec && <span className="gc-prog-j" data-j={j ?? 'none'}>{j ? JUDGEMENT_LABEL[j] : 'Not assessed'}</span>}
                     </li>
@@ -372,6 +397,11 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
         .gc-prog-areas th, .gc-prog-areas td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); text-align: left; font-weight: 400; }
         .gc-prog-areas thead th { border-top: 0; font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
         .gc-prog-areas tbody th { font-weight: 700; }
+        .gc-prog-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+        .gc-prog-two > div { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-tile); padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
+        .gc-prog-two b { font-family: var(--font-display); font-weight: 900; font-size: var(--text-2xl); color: var(--ink); line-height: 1.1; }
+        .gc-prog-two span { font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink-muted); line-height: 1.5; }
+        @media (max-width: 560px) { .gc-prog-two { grid-template-columns: minmax(0, 1fr); } }
         .gc-prog-get { font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--terracotta-dark); text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
         .gc-prog-grid { border-collapse: collapse; width: 100%; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink); }
         .gc-prog-grid th, .gc-prog-grid td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); border-left: 1px solid var(--border); text-align: left; vertical-align: top; font-weight: 400; }

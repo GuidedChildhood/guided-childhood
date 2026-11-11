@@ -1,5 +1,5 @@
 import {
-  academicYear, cleanYear, csvFile, JUDGEMENT_LABEL, JUDGEMENTS, type Judgement,
+  academicYear, cleanYear, csvFile, JUDGEMENT_LABEL, JUDGEMENTS, quizCountsIn, type Judgement,
 } from '@gc/shared/lesson-records'
 import { CURRICULUM, KEY_STAGE_META } from '@gc/shared/schools-curriculum'
 import { asList } from '@/lib/notes'
@@ -39,9 +39,10 @@ export async function GET(req: Request) {
     for (const r of (data ?? []) as { module_id: string; teacher_notes: { i_can?: unknown } | null }[]) iCan.set(r.module_id, asList(r.teacher_notes?.i_can))
   }
 
-  const rows: unknown[][] = [['Date', 'Class', 'Key stage', 'Lesson', 'Judgement of the class', 'Objectives needing revisiting', 'Note']]
+  const rows: unknown[][] = [['Date', 'Class', 'Key stage', 'Lesson', 'Judgement of the class', 'Objectives needing revisiting', 'Pupils counted', 'Most of the starter quiz right', 'Most of the exit quiz right', 'Note']]
   for (const d of deliveries) {
     const m = byId.get(d.lessonKey)
+    const q = quizCountsIn(d.marks)
     const again = Object.entries(d.marks).filter(([, v]) => v === 'revisit')
       .map(([i]) => iCan.get(d.lessonKey)?.[Number(i)]).filter((t): t is string => !!t)
     rows.push([
@@ -51,6 +52,9 @@ export async function GET(req: Request) {
       m?.title ?? d.lessonKey,
       isJudgement(d.assessment) ? JUDGEMENT_LABEL[d.assessment] : 'Not assessed',
       again.join('; '),
+      q?.pupils ?? '',
+      q?.starter ?? '',
+      q?.exit ?? '',
       d.note ?? '',
     ])
   }

@@ -145,6 +145,16 @@ for (const route of ['schools/app/hub/progress/export/route.ts', 'schools/app/la
   ok(`${route} is never cached`, /no-store/.test(src))
 }
 
+// The quiz counts: three whole numbers, and a count can never exceed the room.
+ok('quiz counts need the pupils and at least one count', R.cleanQuizCounts({ pupils: '30' }) === null && R.cleanQuizCounts({ starter: 4 }) === null)
+ok('a count larger than the room is dropped', R.cleanQuizCounts({ pupils: 30, starter: 31, exit: 20 })?.starter === null && R.cleanQuizCounts({ pupils: 30, starter: 31 }) === null)
+ok('quiz counts hold nothing but numbers', JSON.stringify(R.cleanQuizCounts({ pupils: '30', starter: '18', exit: '26', name: 'a child' })) === '{"pupils":30,"starter":18,"exit":26}')
+ok('a room over 120 is not a class', R.cleanQuizCounts({ pupils: 500, exit: 3 }) === null)
+const quizRows = [row('q1', 'ks2-04', '2026-11-03', ['6B'], { _quiz: { pupils: 30, starter: 15, exit: 27 } }), row('q2', 'ks2-05', '2026-11-10', ['6B'], { _quiz: { pupils: 20, starter: null, exit: 13 } }), row('q3', 'ks2-06', '2026-11-11', ['6B'])]
+const shares = R.quizShares(quizRows)
+ok('quiz shares are over the pupils counted for that quiz', shares.starter === 50 && shares.exit === 80 && shares.lessons === 2)
+ok('the quiz counts do not read as a judgement by objective', Object.keys(R.cleanObjectiveMarks({ _quiz: { pupils: 3 }, 0: 'secure' }, 3)).join() === '0')
+
 // The legal text has to say what the product now does.
 const dpa = read('schools/lib/legal/dpa.ts'); const privacy = read('schools/lib/legal/privacy.ts')
 ok('the DPA no longer says a lesson sends nothing to the server, full stop', !/the classroom player sends nothing to the server\.`/.test(dpa))
