@@ -148,7 +148,31 @@
    "at": "2026-11-11T11:40:21.730Z",
    "commit": "fde90da6",
    "attempts": 2
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "The branch claude/radar-2026-11-11 could not be pushed. The git proxy answered: GuidedChildhood/guided-childhood is not in this session's authorized repository set. The session had no tool to attach the repository, so the clone was read only. Today's work is committed in the session only and no pull request exists. A patch of it was left in Drive for Justin."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:40:58.601Z",
+   "commit": "144711ad",
+   "attempts": 1
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "Not rebuilt or published. It must be built from a commit that exists in GitHub and today's commit could not be pushed. The Post Desk is unchanged: no new pack reached ASSETS READY in this run."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:40:58.694Z",
+   "commit": "144711ad",
+   "attempts": 1
   }
  ],
- "updatedAt": "2026-11-11T11:40:21.763Z"
+ "updatedAt": "2026-11-11T11:40:58.722Z"
 }
