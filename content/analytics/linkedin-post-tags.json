@@ -1,0 +1,18 @@
+{
+  "7525116173273710592": { "registerRow": "GDC-049", "registerStatus": "RETIRED 9 Nov, not posted", "topic": "screen time evidence", "openingStyle": "named study and its finding", "lane": "evidence led", "visual": "none, article link" },
+  "7524738675025362944": { "registerRow": "GDC-053", "registerStatus": "RETIRED 9 Nov, not posted", "topic": "the evidence argument", "openingStyle": "news fact", "lane": "evidence led", "visual": "still image" },
+  "7524381701721128961": { "registerRow": "GDC-043", "registerStatus": "RETIRED 9 Nov, not posted", "topic": "schools and screens", "openingStyle": "changed my mind", "lane": "evidence led", "visual": "still image" },
+  "7525833190016552960": { "registerRow": null, "registerStatus": null, "topic": "schools lesson", "openingStyle": "a head teacher's problem", "lane": "product led", "visual": "document", "note": "ChatGPT's brief calls this GDC-052. The register has no Class Chat row and holds 052 as a retired Ofcom post." },
+  "7524010705545502720": { "topic": "feeds and algorithms", "openingStyle": "home scene", "lane": "evidence led", "visual": "still image" },
+  "7525463595887804416": { "registerRow": "GDC-041 or 046", "registerStatus": "RETIRED 9 Nov, not posted", "topic": "readiness", "openingStyle": "admitted uncertainty about our own product", "lane": "product led", "visual": "not known" },
+  "7526192369067569152": { "registerRow": "GDC-050", "registerStatus": "RETIRED 9 Nov, not posted", "topic": "the under 16 ban", "openingStyle": "named body and its finding", "lane": "evidence led", "visual": "not known" },
+  "7523764810010902528": { "topic": "first phone", "openingStyle": "advice", "lane": "product led", "visual": "document" },
+  "7520050275068481536": { "topic": "screen time evidence", "openingStyle": "claim about the debate", "lane": "evidence led", "visual": "none, article link" },
+  "7522605885240713216": { "topic": "the evidence argument", "openingStyle": "question", "lane": "evidence led", "visual": "none, article link" },
+  "7522205957792141312": { "topic": "the under 16 ban", "openingStyle": "named body and a deadline", "lane": "evidence led", "visual": "none" },
+  "7517482944861679616": { "topic": "feeds and algorithms", "openingStyle": "news fact", "lane": "evidence led", "visual": "none, article link" },
+  "7522930707640455168": { "topic": "the school day card", "openingStyle": "series continuation", "lane": "product led", "visual": "still image" },
+  "7509877073574895617": { "topic": "schools", "openingStyle": "question", "lane": "product led", "visual": "none, article link" },
+  "7523295627879993344": { "topic": "gaming and strangers", "openingStyle": "home scene", "lane": "evidence led", "visual": "still image" },
+  "7468206162870611968": { "topic": "screen time evidence", "openingStyle": "named study and its finding", "lane": "evidence led", "visual": "still image", "note": "The year's best post. 1,394 reactions and 186 comments in total." }
+}

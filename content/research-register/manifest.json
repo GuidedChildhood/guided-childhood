@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-10T17:22:12.193Z",
+ "generatedAt": "2026-11-11T12:33:20.230Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,40 +9,16 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 23,
+  "total": 31,
   "byStatus": {
-   "DISCOVERED": 13,
-   "ASSETS READY": 1,
-   "VERIFIED": 5,
-   "EDITORIAL READY": 4
+   "DISCOVERED": 20,
+   "ASSETS READY": 2,
+   "HOLD": 3,
+   "EDITORIAL READY": 3,
+   "REJECTED": 3
   }
  },
  "queue": [
-  {
-   "researchId": "GDC-RR-3d31eb1683",
-   "title": "Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect",
-   "proposedTitle": "A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.",
-   "editorialPriority": "HIGH",
-   "urgency": "High for a short window. It is four days old and the story moves when the company replies or the Commission decides.",
-   "claudeStatus": "CLAUDE REVIEWED",
-   "claudeVerdict": "EDIT",
-   "recommendedPlatforms": [
-    "LinkedIn post"
-   ],
-   "gdcPostNumber": "058",
-   "primaryUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes",
-   "doi": null,
-   "publishedDate": "2026-11-06",
-   "design": null,
-   "figuresCleared": 1,
-   "handoffDoc": null,
-   "handoffJsonDriveFileId": null,
-   "handoffVersion": 2,
-   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-3d31eb1683.json",
-   "firstFound": "2026-11-10T17:11:04.719Z",
-   "registerVersion": 14
-  },
   {
    "researchId": "GDC-RR-e923851b08",
    "title": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",

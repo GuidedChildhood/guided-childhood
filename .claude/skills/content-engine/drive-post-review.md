@@ -37,6 +37,13 @@ uncertainty did 6,008 and 3,155 impressions and carried 67 percent of every
 comment that month. The two that opened on a figure did 1,002 and 698 and got
 none.
 
+**Superseded twice since. Read the newest file in `content/analytics/` before
+applying the paragraph below.** The year file and the seven day files of 7 and
+11 November all put a named study or body and its finding, in one complete
+sentence, ahead of an uncertainty or a scene: 4,545 impressions on 11 November
+against 81 for a post that opened on what he could not answer. The uncertainty
+still belongs in the post. It goes second, after the fact.
+
 So the opening is something he cannot answer, or a small true scene. The news,
 the number and the source move to the third paragraph where they reward a reader
 who stayed. If the first line is the most interesting fact in the post, the post

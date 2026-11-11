@@ -3,18 +3,18 @@
   "manifest": {
    "role": "manifest",
    "studyId": null,
-   "fileId": "1YhZb6IillAQ8GoxDcD4JLUhDW3yBx156",
-   "title": "manifest.json [8b7f1d27] 2026-11-10 17:25, CURRENT QUEUE, 4 stories",
-   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
-   "factsSha256": "2d3d4999304565a353ec8d6c1611ffddb696428e4acceabeb13d5251d03b867c",
-   "sha256": "bccaba40b7181228e3f81e69015e84a09113efd0a5cdae28ee33e90a8471168a",
+   "fileId": "1YmPcH63zpy6w_wS3J4ChkbMQEzPhVck6",
+   "title": "manifest.json [231eac56] 2026-11-11 11:19, CURRENT QUEUE, 3 stories",
+   "commit": "231eac566f0fc300b32143eff5f2dc440881db31",
+   "factsSha256": "d5bf97c7469973486c246e7798e8c22955bd7f5a0da0524c0ebf305e221189e9",
+   "sha256": "b8e73aa4000ca23337ea8f6b0a57736984708cf0e689ae54bd07e72aa9bc35e7",
    "verification": {
     "ok": true,
     "level": "BYTE IDENTICAL",
     "problems": [],
-    "sha256": "bccaba40b7181228e3f81e69015e84a09113efd0a5cdae28ee33e90a8471168a"
+    "sha256": "b8e73aa4000ca23337ea8f6b0a57736984708cf0e689ae54bd07e72aa9bc35e7"
    },
-   "at": "2026-11-10T17:25:57.442Z"
+   "at": "2026-11-11T11:19:19.298Z"
   },
   "handoff:GDC-RR-0754a1641c": {
    "role": "handoff",
@@ -50,34 +50,32 @@
   },
   "stage2Brief": {
    "role": "stage2Brief",
-   "fileId": "1h0D25Alclita0qV7kweJxfHWZoYItxnoHeX6v8bS-M4",
-   "title": "GDC STAGE 2 START HERE [8b7f1d27] 10 Nov 2026 17:26, CURRENT",
+   "fileId": "15oPwn4_f1wN_caoBvbhTpC4vzY5Crr8pmcjfomw4L2o",
+   "title": "GDC STAGE 2 START HERE [231eac56] 2026-11-11 11:19, CURRENT",
    "links": {
-    "manifest": "1YhZb6IillAQ8GoxDcD4JLUhDW3yBx156",
+    "manifest": "1YmPcH63zpy6w_wS3J4ChkbMQEzPhVck6",
     "postRegister": "1pZqW6mlg7FfYRRUOUHdWkAGUd1JpTnIa",
     "handoffJsons": {
-     "GDC-RR-3d31eb1683": "1C8ZDrFE_BHnE67MY5gVzasrq_lsHhka8",
      "GDC-RR-e923851b08": "1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8",
      "GDC-RR-e22bd17322": "1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA",
      "GDC-RR-86c1075a30": "1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv"
     },
     "handoffDocs": {
-     "GDC-RR-3d31eb1683": "https://drive.google.com/file/d/1C8ZDrFE_BHnE67MY5gVzasrq_lsHhka8/view",
      "GDC-RR-e923851b08": "https://drive.google.com/file/d/1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8/view",
      "GDC-RR-e22bd17322": "https://drive.google.com/file/d/1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA/view",
      "GDC-RR-86c1075a30": "https://drive.google.com/file/d/1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv/view"
     }
    },
-   "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
-   "factsSha256": "46d076d64acb7bb440825a7603760e7425abbd72277d863ae1a2fbc7d37035ad",
-   "sha256": "6ed3644274fa5753c9ef99c395b81813fecd2a982a71b829a5ad02fa9522d605",
+   "commit": "231eac566f0fc300b32143eff5f2dc440881db31",
+   "factsSha256": "eba0f688736700d465ea48ddf36dbdfbef15eb29aefd8db7a9c154ba180a20bb",
+   "sha256": "7832961f9feaf069beab32041c5f58e0ae8a59464d6700a008aa3cd3a26c316a",
    "verification": {
     "ok": true,
     "level": "TEXT IDENTICAL",
     "problems": [],
     "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
    },
-   "at": "2026-11-10T17:26:47.761Z"
+   "at": "2026-11-11T11:20:23.837Z"
   },
   "handoff:GDC-RR-3d31eb1683": {
    "role": "handoff",
@@ -97,18 +95,18 @@
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-10T17:26:47.761Z",
+ "lastSuccessAt": "2026-11-11T11:20:23.837Z",
  "approvalDesk": {
-  "fileId": "1n3emSpcD_NwYUJEEVFZe7IHdc7AhIHqFGTnp0NrX258",
-  "title": "GDC APPROVAL DESK [8b7f1d27] 10 Nov 2026 17:26, CURRENT, for Justin",
-  "sha256": "1029c1961dd482dfaa6a53992fe96984ea888fce3e8727c043ef8931daacb622",
-  "commit": "8b7f1d27344494f945c7b9e6505dd1a37b9a4a2e",
+  "fileId": "1be8jwkw9wi_WuuWr_byunUTmPCYzGB3F25pLY84rNwc",
+  "title": "GDC APPROVAL DESK [9b02383e] 2026-11-11 11:32, CURRENT, for Justin",
+  "sha256": "21021c7d92a35ec2ef39b2d99936ab77c7107b16da140b5989a8de20e096879a",
+  "commit": "9b02383e2da15e398b9717553219e73bc19ffb4d",
   "verification": {
    "ok": true,
    "level": "TEXT IDENTICAL",
    "problems": [],
    "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
   },
-  "at": "2026-11-10T17:26:58.115Z"
+  "at": "2026-11-11T11:33:23.206Z"
  }
 }
