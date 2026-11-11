@@ -73,8 +73,9 @@ picture.
    room). A room or an object, never a person we invented.
 9. **The proven format in this market is plain video in a real home.** Statics
    are the support act. The video round matters more than polish on the cards.
-10. **"Jobs first" is contested** as of 6 November. Lead card 5 on the part
-    Kairoo does not have.
+10. **"Jobs first" is contested** as of 6 November. Card 5 now leads on the
+    part Kairoo does not have: "They earn their screen time. You set the
+    rate." (changed 11 November).
 
 ---
 

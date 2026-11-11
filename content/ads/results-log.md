@@ -19,7 +19,7 @@ A verdict needs at least 300 reached; below that it is too early.
 | not yet | round 1 (11 Nov) | mid match | They cannot stop in the middle of a match. | stacked, free script | r1-mid-match | | | | |
 | not yet | round 1 (11 Nov) | left out | Everyone is on Snapchat. They are not. | stacked, free script | r1-left-out | | | | |
 | not yet | round 1 (11 Nov) | before the box | Plan the first phone before the box is opened. | stacked, free script | r1-before-the-box | | | | |
-| not yet | round 1 (11 Nov) | jobs first | Jobs first. Then their time. | stacked, My time screen | r1-jobs-first | | | | |
+| not yet | round 1 (11 Nov) | earned time | They earn their screen time. You set the rate. | stacked, My time screen | r1-earned-time | | | | |
 
 ## What we learned
 

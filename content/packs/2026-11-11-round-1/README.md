@@ -16,7 +16,7 @@ Nothing here has been posted, boosted, scheduled or uploaded.
 | `02-mid-match.png` | They cannot stop in the middle of a match. | The free script, Say this, whole | `r1-mid-match` |
 | `03-left-out.png` | Everyone is on Snapchat. They are not. | The free script, Say this, whole | `r1-left-out` |
 | `04-before-the-box.png` | Plan the first phone before the box is opened. | The free script, Say this, whole | `r1-before-the-box` |
-| `05-jobs-first.png` | Jobs first. Then their time. | The child's page: a job waiting, My time, 40 min ready | `r1-jobs-first` |
+| `05-earned-time.png` | They earn their screen time. You set the rate. | The child's page: a job waiting, 8 stars in the bank, My time 40 min ready | `r1-earned-time` |
 
 The control is the pitch from THE-STORY section 10, so every other hook is
 measured against the line we already use.
@@ -45,7 +45,7 @@ Scored on the ten lines in the ad studio skill, one point each:
 | Mid match | 9 | 10 |
 | Left out | 9 | 10 |
 | Before the box | 8 | 2: the quote is the longest, so its words are the smallest of the five in the feed. 10 |
-| Jobs first | 9 | 10 |
+| Earned time | 9 | 10 |
 
 Line 10 (Justin would post it without changing a word) is his to give, so no
 card can score ten here.
@@ -106,7 +106,7 @@ each is the same real capture as before, untouched.
 | Mid match | A controller left on the arm of the sofa | `content/ads/scenes/mid-match-sofa.jpg` |
 | Left out | A school bag and shoes dropped in the hallway | `content/ads/scenes/left-out-hallway.jpg` |
 | Before the box | A plain sealed box on brown paper | `content/ads/scenes/before-the-box-table.jpg` |
-| Jobs first | The dog's bowl and lead by the back door (the job on screen is Feed the dog) | `content/ads/scenes/jobs-first-dog-bowl.jpg` |
+| Earned time | The dog's bowl and lead by the back door (the job on screen is Feed the dog) | `content/ads/scenes/earned-time-dog-bowl.jpg` |
 
 Cost: ten images, 27.5 credits, agreed by Justin before each batch. One was
 picked per card; the rest stay on Higgsfield.
@@ -116,5 +116,7 @@ against the cap of 10, and the scores stand, with line 1 now carried by the
 picture as well as the headline. The cards without pictures are kept in
 `plain/` in case the plain version is wanted.
 
-Open for Justin: card 5's hook. Kairoo began running "Jobs first. Then screen
-time." on 6 November.
+Card 5 was "Jobs first. Then their time." until Kairoo began running "Jobs
+first. Then screen time." on 6 November. Justin said rewrite it. It now leads
+on what Kairoo does not have: the child earns the time, and the parent sets
+the rate. Its link code is `r1-earned-time`.

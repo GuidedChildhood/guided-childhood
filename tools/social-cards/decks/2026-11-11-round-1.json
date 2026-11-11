@@ -118,9 +118,9 @@
       }
     },
     {
-      "name": "jobs-first",
-      "src": "r1-jobs-first",
-      "headline": "Jobs first. Then <mark>their time.</mark>",
+      "name": "earned-time",
+      "src": "r1-earned-time",
+      "headline": "They earn their<br>screen time.<br><mark>You set the rate.</mark>",
       "screen": {
         "image": "content/ads/screens/kid-my-time.png",
         "points": 390,
@@ -139,14 +139,14 @@
         "bg": "#F9F8F6"
       },
       "ad": {
-        "text": "Jobs first, then their time. Your child does their jobs, the jobs earn stars, and the stars become screen time at a rate you set. Bedtime and mealtimes cannot be bought at any price.\n\nIt is one part of the plan from where your child is now to sixteen. Start with three questions.",
+        "text": "Your child does a job, you say yes, and it earns a star. The stars become screen time at a rate you set for each child. Bedtime and mealtimes cannot be bought at any price.\n\nIt is one part of the plan from where your child is now to sixteen. Start with three questions.",
         "headline": "What stage is your child?",
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
       "small": "Three questions, no sign up.",
       "scene": {
-        "image": "content/ads/scenes/jobs-first-dog-bowl.jpg",
+        "image": "content/ads/scenes/earned-time-dog-bowl.jpg",
         "x": 0.68
       }
     }
