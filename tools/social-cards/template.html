@@ -53,6 +53,8 @@ body{background:#8a8a8a;font-family:'Nunito',sans-serif;color:var(--ink);}
 .card.size-square{width:1080px;height:1080px;}
 .card.size-story{width:1080px;height:1920px;}
 .card.size-fb{width:1200px;height:630px;--m:72px;}
+/* Pinterest's 2:3 pin (11 November 2026). */
+.card.size-pin{width:1000px;height:1500px;--m:80px;}
 
 /* The serious beat. Once per deck at most. */
 .card.tone-ink{--ground:var(--espresso);--accent:var(--gold);--lead-ink:#E8DFC8;color:#FFF9E8;}
@@ -229,7 +231,7 @@ function friendForAge(age){
   return null;
 }
 
-const SIZES = { portrait:[1080,1350], square:[1080,1080], story:[1080,1920], fb:[1200,630] };
+const SIZES = { portrait:[1080,1350], square:[1080,1080], story:[1080,1920], fb:[1200,630], pin:[1000,1500] };
 
 /* Which formats stand the lead on the road by default: the cover, the
    question, the situation and the last card. One friend per deck, seen at
