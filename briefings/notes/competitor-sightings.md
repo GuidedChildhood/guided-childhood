@@ -12,6 +12,72 @@ logged here does yet.
 
 ---
 
+## 11 November 2026, Meta Ad Library sweep (read live, UK, active ads)
+
+Read in Justin's own browser, sorted by days live. Nothing clicked. Days live
+is a clue that an ad pays, never proof, and none of these numbers is ours.
+
+### Qustodio. The only proven set, and it is video shot in real homes.
+- **Longest running:** three vertical videos live 240 to 244 days, two of them
+  in several versions. A boy peering round a door, "Nobody's gonna know!". An
+  empty hallway, "When they say: I'll text you when I get there". A dad at a
+  kitchen worktop with his phone, "Stay close, even from a distance", then
+  "Tap to try it free".
+- **Format:** silent text hook over a real, ordinary home, a named moment in
+  the child's own words, one green caption plate. This is our `silent-ugc`
+  format. Nothing glossy.
+- **Their statics** (86 to 97 days, several versions): pale brand ground,
+  headline left, a cut out black and white photo of a child with a phone, a
+  full width button. "Protect your kids online", "Your digital parenting
+  struggle? Solved", "Keep my kid safe".
+- **Borrow:** the picture carries the moment before the words do. A home, a
+  hallway, a door. **Do not borrow:** the fear buttons, a child's face, "safe".
+
+### Kairoo. A whole campaign in the last 11 days, and it has our hook.
+- **Seen:** ten ads, all 5 to 11 days old, so they prove nothing yet. Seven
+  illustrated statics in a warm animated film style (a child at a table, a
+  parent behind, a lamp lit room), each with a two line headline, three small
+  ticks and "Free to download". Three videos of a parent in a hallway or
+  kitchen.
+- **Headlines:** "Homework done? Phone's on." "At nine o'clock, it's not you
+  saying no." "Less nagging. More calm." "Chores done? Screens on." "They do
+  the jobs. You stop nagging." And **"Jobs first. Then screen time."**, five
+  days old.
+- **How close:** that last line is our Round 1 card 5, "Jobs first. Then
+  their time.", written by the council on 20 October. They are now paying to
+  say it. Ours has to say what theirs cannot: the child earns stars at a rate
+  the parent sets, bedtime cannot be bought, and the aim is to need it less.
+  Kairoo locks and unlocks; that is still allow or deny.
+- **The look:** the illustrated children are generated, in the style the
+  marketing engineer talk demonstrates. Warm and finished, and it also looks
+  like every other generated family. Whether it pays is not known for another
+  three weeks at least. Check again on 2 December.
+
+### Good Inside. One ad, the founder to camera.
+- **Seen:** one video, 50 days, several versions. Dr Becky sat facing the
+  camera, captions on, "Tired of parenting advice that backfires with your
+  strong willed kid?"
+- **Borrow:** the founder says it. This is the case for Justin on camera.
+
+### The talk's own adverts (Cody Schneider, Greg Isenberg's channel)
+Watched frame by frame at 41:28 to 43:16. Four by five statics: a wordmark, a
+large serif headline, one generated picture (an engraving, a jumper on a
+counter, a product wrapper), one line, a small button. And one avatar video, a
+woman in a kitchen with a caption pill. They were made in minutes and have
+never run, so they show a level of finish, not a result. The structure is the
+one our stacked card already has. What they have and Round 1 lacked is the
+picture.
+
+### What to take, added to the seven above
+8. **Lead with a picture of the moment** (Qustodio's hallway, Kairoo's lamp lit
+   room). A room or an object, never a person we invented.
+9. **The proven format in this market is plain video in a real home.** Statics
+   are the support act. The video round matters more than polish on the cards.
+10. **"Jobs first" is contested** as of 6 November. Lead card 5 on the part
+    Kairoo does not have.
+
+---
+
 ## 16 October 2026, two incumbent releases (review board, researched)
 
 Both are named in the competitor watch field already. Neither does our core

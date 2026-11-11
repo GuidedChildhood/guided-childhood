@@ -87,3 +87,21 @@ checks begun and signups from the first click. The founder links page
    stands it is £5 a day for 7 days, £35 at most. This is quicker and it
    breaks the money rule (never pay to find out if something works), so it is
    Justin's call.
+
+## Added later the same day: a picture behind the screen
+
+Justin asked whether these match the finish of the adverts in the talk and of
+the competitors' best. Compared against both
+(`briefings/notes/competitor-sightings.md`, 11 November): the structure
+matches, the picture was missing. `scene-proof/` holds the mid match card
+again with a photograph of the moment behind the real script, in two
+versions. The photographs are generated (GPT Image, 5.5 credits for the two,
+agreed by Justin first): a sofa, a lamp and a controller, nobody in them. The
+script on top is the same real capture.
+
+These two are a proof of the look, not part of the round. They have no link
+codes and are not to be posted. If Justin picks the look, all five cards get a
+scene and the round is rendered again before anything goes out.
+
+Open for Justin: card 5's hook. Kairoo began running "Jobs first. Then screen
+time." on 6 November.

@@ -24,7 +24,9 @@
 //                exact spec to stage checks begun, signups and payment
 //                (migrations 372, 379, 388). Without one a test cannot be read.
 //   real screens every image is a capture in content/ads/screens (visual
-//                system section 1: never an invented screen)
+//                system section 1: never an invented screen). A generated
+//                scene may sit behind one, from content/ads/scenes, never
+//                instead of one
 //   no dashes    non negotiable 4
 //   the copy     a round card carries `ad`: the words that run beside it on
 //                Facebook and Instagram, held to the same rules, so the deck
@@ -54,6 +56,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DECKS = join(ROOT, 'tools/social-cards/decks')
 const SCREENS = 'content/ads/screens/'
+const SCENES = 'content/ads/scenes/'
 
 const HOOK_ASK = 'What stage is your child?'
 const HOOK_LINE = 'Three questions, no sign up.'
@@ -120,6 +123,16 @@ export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) 
   for (const [where, path] of images(card)) {
     if (!path.startsWith(SCREENS)) breaks.push(`${where} image ${path} is not a real capture in ${SCREENS}`)
     else if (!fileExists(path)) breaks.push(`${where} image ${path} does not exist`)
+  }
+
+  // A scene is a generated photograph of a room or objects behind the real
+  // screen (visual system section 15: never a person, a character or a
+  // screen). It lives apart from the real captures so the two cannot be mixed up.
+  if (card.scene) {
+    const p = card.scene.image || ''
+    if (!p.startsWith(SCENES)) breaks.push(`scene image ${p} is not in ${SCENES}`)
+    else if (!fileExists(p)) breaks.push(`scene image ${p} does not exist`)
+    if (!card.screen?.image) breaks.push('a scene needs a real screen on top of it; a generated picture alone proves nothing')
   }
 
   // The copy.

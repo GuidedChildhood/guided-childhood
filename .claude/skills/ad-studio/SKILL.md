@@ -133,6 +133,18 @@ Make them with the tools we already have:
   captures a public script page and prints the crop, from SAY THIS to the end
   of its quote. The renderer prints each card's butter share and fails over
   10 percent.
+- **A picture of the moment, behind the real screen:** a stacked card may
+  carry `scene`, a generated photograph that fills the slot with the real
+  screen sitting on it (`2026-11-11-scene-proof.json` is the model). The
+  competitors' longest running ads all lead with a picture; this is how ours
+  does without inventing anything. The rules are visual system section 15,
+  all of them: a room or objects only, never a person, a child's face, a
+  character, a logo or a screen; no text in the image; our palette; and
+  **Justin's yes on the credit cost before any paid generation.** GPT Image
+  on Higgsfield is 2.75 credits an image at 2k. Scenes live in
+  `content/ads/scenes/`, apart from the real captures, and the gate refuses a
+  scene with no real screen on it. Video is a different order of cost:
+  Seedance 2.5 is 128 credits for eight seconds at 1080p.
 - **The words beside the card:** every round card carries `ad`: `text` (what
   runs above the card), `headline` and `description` (the hook, word for
   word). The gate holds them to the same rules as the card.
