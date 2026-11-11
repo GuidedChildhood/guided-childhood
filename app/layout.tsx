@@ -56,6 +56,11 @@ export const metadata: Metadata = {
   // separately and all three were wrong together: see that file for why the
   // domain is .com and why the app goes to app. and not www.
   metadataBase: new URL(SITE_URL),
+  // Pinterest's claim of www.guidedchildhood.com (Justin, 11 November 2026).
+  // Renders <meta name="p:domain_verify"> in the head of every page, the
+  // homepage included, which is where Pinterest looks. Keep it after the claim
+  // succeeds: Pinterest re-checks it, and removing it unclaims the site.
+  verification: { other: { 'p:domain_verify': 'd298f85f4b0c9c4ddcc8035ba72ae378' } },
   title: {
     default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',
