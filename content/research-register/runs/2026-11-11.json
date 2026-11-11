@@ -135,18 +135,6 @@
    "attempts": 2
   },
   {
-   "stage": "RADAR DESK",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "Rebuilt from 4dd36fd0 and published to the one Radar Desk at about 12:50 UTC, second firing. It shows 0 awaiting review and the three new holds. The commit it names is not in GitHub yet, because the push was refused."
-   ],
-   "detail": null,
-   "at": "2026-11-11T12:34:04.760Z",
-   "commit": "4dd36fd0",
-   "attempts": 3
-  },
-  {
    "stage": "APPROVAL DESK",
    "verdict": "PASS",
    "by": "claude",
@@ -157,7 +145,19 @@
    "at": "2026-11-11T12:34:04.881Z",
    "commit": "4dd36fd0",
    "attempts": 2
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "Rebuilt and published again at about 13:10 UTC by a session, from a commit that is in GitHub, after the second firing's two commits were taken from its Drive patch, applied unchanged and pushed in pull request 1494. The PUSH error stands: a scheduled run cannot push until the repository is added to the routine."
+   ],
+   "detail": null,
+   "at": "2026-11-11T13:08:01.377Z",
+   "commit": "b466d7c7",
+   "attempts": 4
   }
  ],
- "updatedAt": "2026-11-11T12:34:04.917Z"
+ "updatedAt": "2026-11-11T13:08:01.415Z"
 }
