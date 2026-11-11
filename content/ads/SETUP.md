@@ -78,18 +78,47 @@ full access to it.
 
 ### E. Make the Page safe, separately, and soon
 This is not about adverts. The only person who controls the portfolio that
-owns your Page no longer works with you. She can remove you from it, and if
-her Facebook account is ever closed or taken over, so can whoever holds it.
+owns your Page no longer works with you and cannot be reached (Justin,
+11 November 2026). She can remove you from it, and if her Facebook account is
+ever closed or taken over, so can whoever holds it.
 
-- **If Anna can be reached:** ask for one thing, two minutes of her time. In
-  Inspired by Alma: Settings, People, Justin Phillips, change to **Full
-  access**. After that you can do everything yourself, including removing her.
-- **If she cannot:** Meta Business Support (business.facebook.com/help,
-  Contact support) has a process for a business whose admin has left. It asks
-  for proof that the business is yours and it is slow, so start it early.
-- Once you have full access: move the Page into the Guided Childhood
-  portfolio (Pages, The Guided Childhood, Remove; then add it in the new
-  one), and swap the 60 day key for a system user key that does not expire.
+Only Meta can change this now. Meta's own help pages do not publish a form
+for it; the route below is what the guides written for businesses in this
+position describe, so expect the details to differ a little on the day.
+
+1. **Gather proof first**, because it is what they ask for:
+   - something official showing the business is yours (a company
+     registration, a tax letter or a bank statement in the business name);
+   - photo ID in your name;
+   - an old Facebook advertising receipt for the business, if one exists;
+   - a short signed statement: who you are, that Anna Quiles was given admin
+     access while she worked with the business, the date she left, and that
+     she cannot be reached.
+2. **Open a case.** Go to business.facebook.com/business-support-home (you
+   are already signed in; I checked it opens, and you have no open cases).
+   Paste the wording below into "Ask a question" and follow it through to a
+   person. If it only offers articles, ask for "contact support" or "chat
+   with a representative".
+3. **Ask for one thing**, with both numbers, so nobody has to look them up:
+
+   > I own the business behind the portfolio Inspired by Alma (ID
+   > 2120467128232867). The only person with full access, Anna Quiles, left
+   > the business a long time ago and cannot be reached. I have partial
+   > access to the portfolio and full access to its Facebook Page, The Guided
+   > Childhood (ID 1560723440917227). Please give me, Justin Phillips, full
+   > access to the portfolio. I can provide proof of ownership, ID and a
+   > signed statement.
+
+4. **Keep the case number** and reply from the same account. Guides put this
+   at days to a few weeks. Nothing about the adverts waits on it.
+5. **Once you have full access:** remove Anna, add Natalia as a second full
+   access admin so one person is never the only key again, move the Page
+   into the Guided Childhood portfolio, and swap the 60 day key for a system
+   user key that does not expire.
+
+Until then, two things worth doing today, both from your own Facebook
+account: turn on two step login if it is not on, and check that Natalia can
+still get into the Page. You two are the only people holding it.
 
 Then tell Claude the keys are in. It runs
 

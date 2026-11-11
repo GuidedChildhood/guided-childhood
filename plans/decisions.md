@@ -263,3 +263,7 @@ The video round starts with one twenty second advert on the mid match moment, Ju
 ## 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet
 
 Justin was not sure who owns the Inspired by Alma business portfolio. Looked, read only: two people, Justin with partial access and Anna Quiles with full access, who left long ago. She alone can move the Page or add an admin. So the setup no longer waits on her: a Guided Childhood portfolio and ad account of its own, and Justin's own 60 day token in place of a system user, since he has full access to the Page himself. The app goes Live, not development. Separately and soon, the Page needs making safe: Anna raises him to full access, or Meta Business Support's process for a departed admin. `content/ads/SETUP.md`.
+
+## 11 November 2026: Anna cannot be reached, so the Page goes to Meta support
+
+Justin cannot reach Anna Quiles, the only full access admin of the portfolio that owns the Page. Only Meta can change that. Meta publishes no form for a departed admin; the route in `content/ads/SETUP.md` section E (proof of ownership, ID, a signed statement, a case opened from Business Support Home) is what third party guides describe, and is marked as such. The wording to paste is written with both IDs. Justin opens the case himself. Adverts do not wait on it.
