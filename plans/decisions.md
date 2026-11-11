@@ -259,3 +259,7 @@ Justin set the goal: the best performing adverts, built on what is proven, with 
 ## 11 November 2026: ad video 1, the script for Justin to camera
 
 The video round starts with one twenty second advert on the mid match moment, Justin to camera on his own phone, because every competitor advert past 180 days is plain video. Sixty words, every line taken from the live free script, ending on the hook word for word, plus a second opening filmed in the same sitting so only the hook is tested. No scene from his own life is used. Read cards in `content/read-cards/2026-11-11-ad-video-1.json`; script, sources and the cut plan in `content/packs/2026-11-11-ad-video-1/`. Not filmed. His digital twin reads the same cards as a third version later.
+
+## 11 November 2026: the Facebook key is Justin's own, because the Page cannot be moved yet
+
+Justin was not sure who owns the Inspired by Alma business portfolio. Looked, read only: two people, Justin with partial access and Anna Quiles with full access, who left long ago. She alone can move the Page or add an admin. So the setup no longer waits on her: a Guided Childhood portfolio and ad account of its own, and Justin's own 60 day token in place of a system user, since he has full access to the Page himself. The app goes Live, not development. Separately and soon, the Page needs making safe: Anna raises him to full access, or Meta Business Support's process for a departed admin. `content/ads/SETUP.md`.

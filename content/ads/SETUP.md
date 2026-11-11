@@ -9,8 +9,10 @@ into `.env.local` on his laptop and nowhere else. Never into chat.
 ## What is there today
 
 - **Facebook Page:** "The Guided Childhood" exists, and Justin has full access
-  to it. It is owned by the **Inspired by Alma** business portfolio, where
-  Justin has only partial access.
+  to it (so does Natalia). It is owned by the **Inspired by Alma** business
+  portfolio. That portfolio has two people: Justin with partial access, and
+  **Anna Quiles with full access**, who left a long time ago. She is the only
+  person who can move the Page, add an admin or remove one.
 - **Facebook ad account:** the one that opens is an old personal account
   (19251331) holding 2018 Etsy campaigns, with an expired card. Not the place
   for Guided Childhood.
@@ -23,46 +25,41 @@ unpaid bill, a rejected advert) reaching another's.
 
 ## Facebook and Instagram, step by step (about 30 minutes)
 
+None of this needs Anna. The Page stays where it is for now, and the key is
+Justin's own, because he personally has full access to the Page. A system
+user would need the Page moved first, which only Anna can do.
+
 ### A. A business portfolio of its own
 1. Go to business.facebook.com. Open the menu at the top left that shows
    "Inspired by Alma" and choose **Create a business portfolio**.
 2. Name it **Guided Childhood**, with your name and the Guided Childhood
-   email. Confirm the email Meta sends.
+   email. Confirm the email Meta sends. You have full control of this one.
 
-### B. Bring the Page across
-The Page belongs to Inspired by Alma, so this needs whoever has full control
-there. Either:
-- **Cleanest:** in Inspired by Alma, Settings, Pages, The Guided Childhood,
-  **Remove**. The Page is not deleted, only released. Then in Guided
-  Childhood, Settings, Accounts, Pages, **Add**, Add an existing Facebook
-  Page. You are its admin, so it arrives at once.
-- **Quickest:** in Inspired by Alma, Settings, Pages, The Guided Childhood,
-  **Assign partner**, paste the Guided Childhood portfolio's business ID
-  (Settings, Business info), and allow Create ads.
-
-Then add the Instagram account: Settings, Accounts, Instagram accounts, Add.
-
-### C. A new ad account
-3. Settings, Accounts, Ad accounts, **Add**, Create a new ad account.
+### B. A new ad account
+3. In the new portfolio: Settings, Accounts, Ad accounts, **Add**, Create a
+   new ad account.
 4. Name **Guided Childhood**. Time zone **Europe/London**, currency **GBP**.
    Neither can be changed afterwards.
 5. It is for **My business**. Give yourself full control.
 6. Add a card: Billing and payments, Add payment method. Nothing is charged
    until an advert is switched on.
 
-### D. The key the uploader uses
-7. Settings, Users, System users, **Add**. Name `gc-ad-uploader`, role Admin.
-8. On that system user, **Assign assets**: the new ad account (full control)
-   and the Page (full control).
-9. Go to developers.facebook.com, My Apps, **Create app**. Choose Other, then
+### C. The key the uploader uses
+7. Go to developers.facebook.com, My Apps, **Create app**. Choose Other, then
    Business. Name it `GC ad uploader` and attach it to the Guided Childhood
-   portfolio. Add the **Marketing API** product. Leave it in development
-   mode; it only ever talks to your own ad account, so it needs no review.
-10. Back on the system user, **Generate token**. Pick that app, expiry
-    **Never**, and tick `ads_management`, `pages_read_engagement` and
-    `pages_show_list`. Copy the token once; Meta does not show it again.
+   portfolio. Add the **Marketing API** product.
+8. Switch the app to **Live** (the toggle at the top; it asks for a privacy
+   policy address, which is guidedchildhood.com/privacy). Left in
+   development, Meta is likely to refuse the adverts it makes.
+9. In the app: Tools, **Graph API Explorer**. Choose the app, then **Get User
+   Access Token**, and tick `ads_management`, `pages_show_list` and
+   `pages_read_engagement`. Generate, and approve as yourself, choosing The
+   Guided Childhood when it asks which Pages.
+10. Tools, **Access Token Debugger**, paste the token, **Extend Access Token**.
+    That one lasts about 60 days. Copy it. When it runs out, repeat steps 9
+    and 10, which is two minutes.
 
-### E. Four lines on your laptop
+### D. Four lines on your laptop
 11. Open `.env.local` in the `guided-childhood` folder and add (the template
     lists them):
 
@@ -70,8 +67,29 @@ Then add the Instagram account: Settings, Accounts, Instagram accounts, Add.
     META_ACCESS_TOKEN=      the token from step 10
     META_AD_ACCOUNT_ID=     the number after act_ in the Ads Manager address
     META_PAGE_ID=1560723440917227
-    META_INSTAGRAM_ID=      optional, from Instagram accounts in Settings
+    META_INSTAGRAM_ID=      optional
     ```
+
+If the upload is refused because of who owns the Page, nothing is lost: the
+five cards, their words and their links are in
+`content/packs/2026-11-11-round-1/`, and loading them by hand in Ads Manager
+takes about fifteen minutes. You can pick the Page there because you have
+full access to it.
+
+### E. Make the Page safe, separately, and soon
+This is not about adverts. The only person who controls the portfolio that
+owns your Page no longer works with you. She can remove you from it, and if
+her Facebook account is ever closed or taken over, so can whoever holds it.
+
+- **If Anna can be reached:** ask for one thing, two minutes of her time. In
+  Inspired by Alma: Settings, People, Justin Phillips, change to **Full
+  access**. After that you can do everything yourself, including removing her.
+- **If she cannot:** Meta Business Support (business.facebook.com/help,
+  Contact support) has a process for a business whose admin has left. It asks
+  for proof that the business is yours and it is slow, so start it early.
+- Once you have full access: move the Page into the Guided Childhood
+  portfolio (Pages, The Guided Childhood, Remove; then add it in the new
+  one), and swap the 60 day key for a system user key that does not expire.
 
 Then tell Claude the keys are in. It runs
 
@@ -95,7 +113,8 @@ The uploader has not yet run against the live API, only against a stand in.
 The first real run may need a field adjusting. It keeps a receipt, so a
 second run carries on from where the first stopped.
 
-To take the access away: delete the token on the system user.
+To take the access away: Facebook Settings, Business integrations, remove
+`GC ad uploader`.
 
 ## Google Ads, step by step (20 minutes, then a wait of some days)
 
