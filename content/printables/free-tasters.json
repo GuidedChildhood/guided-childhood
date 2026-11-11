@@ -1,0 +1,631 @@
+{
+  "about": "The free tasters (11 November 2026). Justin, 9 November: tasters free, full on Etsy. Each row is two or three pages of a paid pack, given for an email on guidedchildhood.com/free/<slug>; the full pack stays on Etsy and free inside the app. The Saturday post engine (Carousels, gc-weekly-promise) reads slug, title, ages, url and status, and rotates the live rows in this order. The site and scripts/build-tasters.mjs read the rest. status: live means the page and an Etsy listing are both live; no-listing means the page is live and the full pack is only in the app so far; hold means the page works by direct link but is not promoted: not on the /free index, not in the sitemap, not indexed, and not for the Saturday post (holdReason says why). inApp says the full pack is also free to print inside the app, so the emails and pages only offer that where it is true. Rebuild the PDFs with node scripts/build-tasters.mjs after changing pages or a listing.",
+  "tasters": [
+    {
+      "slug": "christmas-countdown",
+      "title": "The Christmas Screen Free Countdown",
+      "ages": "4 to 11", "agesMin": 4, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/christmas-countdown",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611164377",
+      "inApp": true,
+      "service": "S13",
+      "source": "content/printables/christmas-countdown/product/christmas-screen-free-countdown-A4.pdf",
+      "pages": [1, 4, 5],
+      "pageCount": 11,
+      "blurb": "24 days of something to do together, away from a screen. The taster is the tree poster and the first six doors.",
+      "pageNotes": [
+        { "h": "The cover", "b": "One door a day, 1 to 24 December, with a Planet Friend on every one." },
+        { "h": "The countdown tree", "b": "Pin it up, find today's door, do its card together, stick on its sticker." },
+        { "h": "Doors 1 to 6", "b": "The first six activity cards to cut out, from a paper chain to hot chocolate and a story." }
+      ]
+    },
+    {
+      "slug": "where-phones-sleep",
+      "title": "Where Phones Sleep",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/where-phones-sleep",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611203989",
+      "inApp": true,
+      "service": "S10",
+      "source": "content/printables/where-phones-sleep/product/where-phones-sleep-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 10,
+      "blurb": "Kitchen charging station signs, so every device in the house sleeps out of the bedroom. Yours goes first.",
+      "pageNotes": [
+        { "h": "The cover", "b": "What is in the full pack: the station poster, the bedtime chart and the fridge pages." },
+        { "h": "Two minutes before you print", "b": "One shelf in the kitchen, every device sleeps there, and why the grown ups go first." },
+        { "h": "Devices sleep here", "b": "The charging station sign itself, with the time everyone docks written in." }
+      ]
+    },
+    {
+      "slug": "earn-your-screen-time",
+      "title": "Earn Your Screen Time",
+      "ages": "5 to 11", "agesMin": 5, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/earn-your-screen-time",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4610487662",
+      "inApp": true,
+      "service": "S2",
+      "source": "content/printables/earn-your-screen-time/product/earn-your-screen-time-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 7,
+      "blurb": "A chart that turns screen time into a deal: earned first, agreed together, enjoyed in full. One star is five minutes.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The chart for 5 to 7s, the chart for 8 to 11s, and tokens to cut out." },
+        { "h": "Why it is not a bribe", "b": "You are not paying your child to behave. You are making a deal visible." },
+        { "h": "My week, ages 5 to 7", "b": "Pebble's chart: colour a star for every win, and earn the screen time together." }
+      ]
+    },
+    {
+      "slug": "first-phone-kit",
+      "title": "The First Phone Kit",
+      "ages": "9 to 13", "agesMin": 9, "agesMax": 13,
+      "url": "https://www.guidedchildhood.com/free/first-phone-kit",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611163573",
+      "inApp": true,
+      "service": "S14",
+      "source": "content/printables/first-phone-kit/product/first-phone-kit-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 12,
+      "blurb": "The phone arrives with a plan, and the plan is made together. The taster includes the readiness check your child fills in.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The readiness check, the phone deal, setup night, the first 30 days and the words for the wobbles." },
+        { "h": "Read this first", "b": "Ten minutes before anything else, because a first phone usually turns up in a rush." },
+        { "h": "How ready am I?", "b": "Your child's side of the readiness check. Not yet is a good answer: it says what to practise next." }
+      ]
+    },
+    {
+      "slug": "screens-at-grannys",
+      "title": "Screens at Granny's",
+      "ages": "4 to 12", "agesMin": 4, "agesMax": 12,
+      "url": "https://www.guidedchildhood.com/free/screens-at-grannys",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611184524",
+      "inApp": true,
+      "service": "S2",
+      "source": "content/printables/screens-at-grannys/product/screens-at-grannys-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 8,
+      "blurb": "House rules that travel. The same screen deal, in a different house, with a card for the grown ups there.",
+      "pageNotes": [
+        { "h": "The cover", "b": "A card for the grown ups, your child's deal card, a visit tally and thank you notes." },
+        { "h": "Before you pack the car", "b": "Why your screen deal should travel with you, so nobody is the bad guy at Granny's." },
+        { "h": "The three kinds of time", "b": "Yours every day, earned with stars, and resting time. Read it together before you go." }
+      ]
+    },
+    {
+      "slug": "holiday-screen-deal",
+      "title": "The Holiday Screen Deal",
+      "ages": "5 to 12", "agesMin": 5, "agesMax": 12,
+      "url": "https://www.guidedchildhood.com/free/holiday-screen-deal",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611186090",
+      "inApp": true,
+      "service": "S15",
+      "source": "content/printables/holiday-screen-deal/product/holiday-screen-deal-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "Two weeks off school, one deal made together. Agreed on day one, so nobody argues on day six.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Our holiday deal, my daily core, the jobs board and the two week grid." },
+        { "h": "Ten minutes on day one", "b": "Holidays take away the shape of the day. This puts a simple one back." },
+        { "h": "Our holiday deal", "b": "Read it out loud, then both sign: the core time, the star rate and the protected times." }
+      ]
+    },
+    {
+      "slug": "say-this",
+      "title": "Say This: the script cards",
+      "ages": "4 to 16", "agesMin": 4, "agesMax": 16,
+      "url": "https://www.guidedchildhood.com/free/say-this",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611181732",
+      "inApp": true,
+      "service": "S5",
+      "source": "content/printables/script-cards/product/say-this-script-cards-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 32,
+      "blurb": "The words for every screen moment. The taster is the list of all fifty moments and the first sheet of cards.",
+      "pageNotes": [
+        { "h": "Every moment in the deck", "b": "Fifty hard screen moments, from the first tablet to the last rule, across five levels." },
+        { "h": "Sheet 1, the fronts", "b": "How to use the cards, and the first cards to cut out." },
+        { "h": "Sheet 1, the backs", "b": "The words to say, printed on the back of each card." }
+      ]
+    },
+    {
+      "slug": "star-swap-shop",
+      "title": "The Star Swap Shop",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/star-swap-shop",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611161063",
+      "inApp": true,
+      "service": "S2",
+      "source": "content/printables/star-swap-shop/product/star-swap-shop-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 10,
+      "blurb": "Earn stars all week. On swap day, spend them on screen time, or on time with you.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Screen time, time together and the big save, all on one shop shelf." },
+        { "h": "One shelf, not the whole shop", "b": "Why a shop where screens are one choice beats a chart that only pays out in screens." },
+        { "h": "My star week, ages 4 to 7", "b": "Pebble's chart: a star for every win, then swap them or save them up." }
+      ]
+    },
+    {
+      "slug": "calm-down-kit",
+      "title": "The Calm Down Corner Kit",
+      "ages": "4 to 9", "agesMin": 4, "agesMax": 9,
+      "url": "https://www.guidedchildhood.com/free/calm-down-kit",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4610482440",
+      "inApp": true,
+      "service": "S19",
+      "source": "content/printables/calm-down-kit/product/calm-down-kit-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "A cosy corner and a plan, for the big feeling moments. The taster includes the corner sign.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Eight feelings cards, the star breathing poster and twelve calm choice cards." },
+        { "h": "What a calm corner is", "b": "A cosy spot you choose together, in a calm moment, before it is ever needed." },
+        { "h": "My Calm Corner", "b": "The sign for the corner. All feelings welcome here." }
+      ]
+    },
+    {
+      "slug": "star-chart",
+      "title": "The Star Reward Chart",
+      "ages": "4 and up", "agesMin": 4, "agesMax": 16,
+      "url": "https://www.guidedchildhood.com/free/star-chart",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4610462957",
+      "inApp": false,
+      "service": "S2",
+      "source": "content/printables/star-chart/product/star-reward-chart-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 7,
+      "blurb": "A reward chart for jobs and screen time, made with your child rather than handed to them.",
+      "pageNotes": [
+        { "h": "Let us agree the jobs", "b": "Print this one first. A chart a child had no say in is one you enforce every day." },
+        { "h": "My star chart", "b": "Write in the jobs you agreed, then colour a star each time one is done." },
+        { "h": "The jobs that earn stars", "b": "Tick the ones that fit your family and write your own on the blank rows." }
+      ]
+    },
+    {
+      "slug": "family-phone-agreement",
+      "title": "The Family Phone Agreement",
+      "ages": "10 to 12", "agesMin": 10, "agesMax": 12,
+      "url": "https://www.guidedchildhood.com/free/family-phone-agreement",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4610484746",
+      "inApp": true,
+      "service": "S10",
+      "source": "content/printables/family-phone-agreement/product/family-phone-agreement-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 8,
+      "blurb": "A first phone deal your family writes together and signs together. The taster includes the five questions to talk through first.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Not a list of rules handed down. A deal your family writes, signs and grows." },
+        { "h": "Why a ceremony beats a lecture", "b": "Make the first phone feel like joining something, not signing surrender papers." },
+        { "h": "Five questions to talk through", "b": "No wrong answers. What you decide tonight becomes the agreement." }
+      ]
+    },
+    {
+      "slug": "phone-treasure-hunt",
+      "title": "The Phone Under The Tree Treasure Hunt",
+      "ages": "9 to 13", "agesMin": 9, "agesMax": 13,
+      "url": "https://www.guidedchildhood.com/free/phone-treasure-hunt",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611203487",
+      "inApp": true,
+      "service": "S14",
+      "source": "content/printables/phone-treasure-hunt/product/phone-under-the-tree-treasure-hunt-A4.pdf",
+      "pages": [1, 2, 4],
+      "pageCount": 13,
+      "blurb": "Ten clues around your home, ten things that are true before a phone, and one box at the end.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Ten clue cards, the hiding map and the box card for a first phone at Christmas." },
+        { "h": "Setting up the hunt", "b": "Twenty minutes the night before, so the phone arrives with a plan." },
+        { "h": "The first clue cards", "b": "A rhyming riddle on each card, and a true thing your child reads out on the way." }
+      ]
+    },
+    {
+      "slug": "screen-reset-journal",
+      "title": "The 30 Day Screen Reset Journal",
+      "ages": "8 and up, with the grown ups", "agesMin": 8, "agesMax": 16,
+      "url": "https://www.guidedchildhood.com/free/screen-reset-journal",
+      "status": "live",
+      "season": "new-year",
+      "etsyListing": "4611167675",
+      "inApp": true,
+      "service": "S13",
+      "source": "content/printables/screen-reset-journal/product/30-day-screen-reset-journal-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 16,
+      "blurb": "One small change a day, five faces each night, then your family decides what stays.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Thirty small changes and five faces to colour each evening." },
+        { "h": "Ten minutes, every evening", "b": "Nothing gets taken away for good and nobody is on trial." },
+        { "h": "Where we start", "b": "Day zero: a snapshot of how things are now, so day thirty has something to look back at." }
+      ]
+    },
+    {
+      "slug": "are-we-nearly-there",
+      "title": "Are We Nearly There?",
+      "ages": "4 to 11", "agesMin": 4, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/are-we-nearly-there",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611185504",
+      "inApp": true,
+      "service": "S2",
+      "source": "content/printables/are-we-nearly-there/product/are-we-nearly-there-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 11,
+      "blurb": "A screen free journey pack, and a deal for the tablet you agree before you set off.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The journey deal card, car bingo for two ages, a map to colour, games and quests." },
+        { "h": "How to use this pack", "b": "The tablet fight on a long drive is never about whether. It is about when." },
+        { "h": "Our journey deal", "b": "Fill it in at home and everyone signs: when the tablet comes in, and how to earn more." }
+      ]
+    },
+    {
+      "slug": "jobs-board",
+      "title": "The Jobs Board for 11 to 15s",
+      "ages": "11 to 15", "agesMin": 11, "agesMax": 15,
+      "url": "https://www.guidedchildhood.com/free/jobs-board",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611204953",
+      "inApp": true,
+      "service": "S2",
+      "source": "content/printables/jobs-board/product/jobs-board-11-to-15-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 8,
+      "blurb": "A weekly jobs board for tweens and teens. Family jobs everyone does, and earning jobs that pay in screen time.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The weekly board, filled and blank, and the stars to minutes table." },
+        { "h": "Two columns that never mix", "b": "At eleven to fifteen the screen argument is about fairness. This makes the rules visible." },
+        { "h": "A filled example", "b": "Sam's board, so you can see how family jobs and earning jobs sit side by side." }
+      ]
+    },
+    {
+      "slug": "planet-day-flip-chart",
+      "title": "The Planet Day Flip Chart",
+      "ages": "4 to 10", "agesMin": 4, "agesMax": 10,
+      "url": "https://www.guidedchildhood.com/free/planet-day-flip-chart",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611204247",
+      "inApp": true,
+      "service": "S1",
+      "source": "content/printables/planet-day-flip-chart/product/planet-day-flip-chart-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 25,
+      "blurb": "A routine chart for morning, after school and bedtime, with picture cards to move as the day goes.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Morning, after school and bedtime, with 120 picture cards in the full pack." },
+        { "h": "Three kinds of time, on one chart", "b": "A routine chart says what comes next, so you are not the one saying it ten times." },
+        { "h": "Making the flip chart", "b": "Ten minutes with scissors: four sheets, stacked and stapled, every label showing." }
+      ]
+    },
+    {
+      "slug": "table-talk-cards",
+      "title": "What Would You Do? Table Talk Cards",
+      "ages": "8 to 14", "agesMin": 8, "agesMax": 14,
+      "url": "https://www.guidedchildhood.com/free/table-talk-cards",
+      "status": "live",
+      "season": null,
+      "etsyListing": "4611225108",
+      "inApp": true,
+      "service": "S6",
+      "source": "content/printables/table-talk-cards/product/what-would-you-do-table-talk-cards-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 29,
+      "blurb": "Conversation cards for tea time, the car and the moments when nobody is talking.",
+      "pageNotes": [
+        { "h": "The cover", "b": "100 cards in the full deck, from talk at tea to what would you do online." },
+        { "h": "Ten minutes, then stop", "b": "Questions for your child, not a lesson for them. The best talks are short." },
+        { "h": "The first four cards", "b": "Talk at tea, cards 1 to 4. Grown ups answer too." }
+      ]
+    },
+    {
+      "slug": "road-to-16-board-game",
+      "title": "The Road to 16 Board Game",
+      "ages": "6 to 12", "agesMin": 6, "agesMax": 12,
+      "url": "https://www.guidedchildhood.com/free/road-to-16-board-game",
+      "status": "live",
+      "season": "christmas",
+      "etsyListing": "4611206743",
+      "inApp": true,
+      "service": "S3",
+      "source": "content/printables/road-to-16-board-game/product/road-to-16-board-game-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 19,
+      "blurb": "A family board game hosted by DiGi. Jobs earn stars, stripy squares rest, and every card is a real choice.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The board, 48 choice cards and the star tokens in the full game." },
+        { "h": "How to play", "b": "Two to five players, about thirty minutes, starting on square 1 with Pebble." },
+        { "h": "Making the board", "b": "Four A4 sheets tape into one board twice the size of A3." }
+      ]
+    },
+    {
+      "slug": "passport",
+      "title": "The Guided Childhood Passport",
+      "ages": "4 to 16", "agesMin": 4, "agesMax": 16,
+      "url": "https://www.guidedchildhood.com/free/passport",
+      "status": "live",
+      "season": "new-year",
+      "etsyListing": "4610470092",
+      "inApp": false,
+      "service": "S3",
+      "source": "content/printables/guided-childhood-passport/product/guided-childhood-passport-A4.pdf",
+      "pages": [1, 2, 4],
+      "pageCount": 16,
+      "blurb": "One page for every stage, from four to sixteen. The taster is how it works and Pebble's page, the first stage.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Print, fold, stamp. Every stamp is earned at the kitchen table." },
+        { "h": "How the Passport works", "b": "Five pages, one per stage, each with a conversation, a thing to do and a check." },
+        { "h": "Pebble's page, ages 4 to 7", "b": "The Foundation stage: first relationships with technology, before habits form." }
+      ]
+    },
+    {
+      "slug": "school-year-planner",
+      "title": "My School Year Planner 2026 to 2027",
+      "ages": "8 to 11", "agesMin": 8, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/school-year-planner",
+      "status": "no-listing",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S7",
+      "source": "content/printables/school-year-planner/product/school-year-planner-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 22,
+      "blurb": "A school year diary your child owns, with the whole Planet Friends team cheering them on.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Hello from DiGi: this planner is yours, and the whole team is in it." },
+        { "h": "This planner belongs to", "b": "Name, class, teacher, school and the goals for the year." },
+        { "h": "My timetable", "b": "Copy it in once, then snap a photo of it for the fridge and the car." }
+      ]
+    },
+    {
+      "slug": "guided-times-2",
+      "title": "The Guided Times, Issue 2: New Year, New Deal",
+      "ages": "6 to 11", "agesMin": 6, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/guided-times-2",
+      "status": "no-listing",
+      "season": "new-year",
+      "etsyListing": null,
+      "inApp": false,
+      "service": "S10",
+      "source": "content/printables/guided-times/issue-2/product/The-Guided-Times-Issue-2-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 12,
+      "blurb": "Three pages of the New Year edition of our newspaper for kids: the front page, the editor's letter and the big feature.",
+      "pageNotes": [
+        { "h": "The front page", "b": "New Year, new deal: the Planet Friends write their screen deals." },
+        { "h": "A letter from the editor", "b": "This month is all about fresh starts." },
+        { "h": "The big feature", "b": "Write your family's screen deal, a short list everyone agrees." }
+      ]
+    },
+    {
+      "slug": "guided-times-3",
+      "title": "The Guided Times, Issue 3: Tech Check Time",
+      "ages": "6 to 11", "agesMin": 6, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/guided-times-3",
+      "status": "no-listing",
+      "season": "february",
+      "etsyListing": null,
+      "inApp": false,
+      "service": "S6",
+      "source": "content/printables/guided-times/issue-3/product/The-Guided-Times-Issue-3-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 12,
+      "blurb": "Three pages of our Safer Internet Day special for kids: the front page, the editor's letter and the six question tech check.",
+      "pageNotes": [
+        { "h": "The front page", "b": "Tech check time, the Safer Internet Day special." },
+        { "h": "A letter from the editor", "b": "Safer Internet Day is on Tuesday 9 February 2027." },
+        { "h": "The big feature", "b": "Pick one app, game or show you love, then answer six questions out loud." }
+      ]
+    },
+    {
+      "slug": "a-to-z-showdown",
+      "title": "DiGi's A to Z Showdown",
+      "ages": "7 to 11", "agesMin": 7, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/a-to-z-showdown",
+      "status": "no-listing",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S11",
+      "source": "content/printables/a-to-z-showdown/product/a-to-z-showdown-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "The quiz where you race the alphabet, solo or head to head. The taster is the rules and the wheel.",
+      "pageNotes": [
+        { "h": "The cover", "b": "78 clues over three rounds in the full game." },
+        { "h": "How to play", "b": "Five easy steps: one host holds the cards, everyone else races." },
+        { "h": "The famous wheel", "b": "Start at A and go clockwise. Laminate it and it lasts for ever." }
+      ]
+    },
+    {
+      "slug": "back-to-school-escape",
+      "title": "Zara's Back to School Escape",
+      "ages": "8 to 13", "agesMin": 8, "agesMax": 13,
+      "url": "https://www.guidedchildhood.com/free/back-to-school-escape",
+      "status": "hold",
+      "holdReason": "Its pages use a retired character (Zara). Not promoted until redrawn with the Planet Friends (found in PR 1497).",
+      "season": "september",
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S8",
+      "source": "content/printables/back-to-school-escape/product/back-to-school-escape-colour-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "Five clues, one padlock, and a classroom to escape from. The taster is the mission and the first clue.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The classroom is locked. Solve five puzzles to crack the code." },
+        { "h": "How to play", "b": "The mission, and the grown up guide." },
+        { "h": "Clue 1 of 5", "b": "Count the supplies. The total is your first digit." }
+      ]
+    },
+    {
+      "slug": "count-to-20",
+      "title": "Count to 20 with Sofia",
+      "ages": "4 to 7", "agesMin": 4, "agesMax": 7,
+      "url": "https://www.guidedchildhood.com/free/count-to-20",
+      "status": "hold",
+      "holdReason": "Its pages use a retired character (Sofia). Not promoted until redrawn with the Planet Friends (found in PR 1497).",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S8",
+      "source": "content/printables/count-to-20/product/count-to-20-colour-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "Number cards and a counting mat. The taster is the guide and the cards for one to eight.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Count the dots, find the number, and cheer out loud." },
+        { "h": "How to play", "b": "Sofia's guide, and a note for the grown ups." },
+        { "h": "Number cards, one to eight", "b": "Cut along the lines, count the dots and say the number out loud." }
+      ]
+    },
+    {
+      "slug": "ice-cream-shop",
+      "title": "Pebble's Ice Cream Shop",
+      "ages": "5 to 7", "agesMin": 5, "agesMax": 7,
+      "url": "https://www.guidedchildhood.com/free/ice-cream-shop",
+      "status": "no-listing",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S11",
+      "source": "content/printables/ice-cream-shop/product/ice-cream-shop-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "A pretend play money game with real UK coin values. The taster is the setup and the shop menu.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Open your shop. Learn your coins." },
+        { "h": "Set up the shop", "b": "About ten minutes, then the till does the teaching." },
+        { "h": "The shop menu", "b": "Every price is coin practice, from a 20p scoop to a 70p triple." }
+      ]
+    },
+    {
+      "slug": "left-and-right",
+      "title": "Left and Right with Oliver",
+      "ages": "4 to 7", "agesMin": 4, "agesMax": 7,
+      "url": "https://www.guidedchildhood.com/free/left-and-right",
+      "status": "hold",
+      "holdReason": "Its pages use a retired character (Oliver). Not promoted until redrawn with the Planet Friends (found in PR 1497).",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S8",
+      "source": "content/printables/left-and-right/product/left-and-right-colour-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 8,
+      "blurb": "A football game that teaches left and right. The taster is the guide and the sorting pitch.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Oliver kicks with his right foot. Learn which side is which." },
+        { "h": "How to play", "b": "Find left and right on your body first, then on the pitch." },
+        { "h": "The sorting mat", "b": "Left cards on the left, right cards on the right." }
+      ]
+    },
+    {
+      "slug": "what-do-they-do",
+      "title": "What Do They Do?",
+      "ages": "5 to 8", "agesMin": 5, "agesMax": 8,
+      "url": "https://www.guidedchildhood.com/free/what-do-they-do",
+      "status": "hold",
+      "holdReason": "Its pages use retired characters. Not promoted until redrawn with the Planet Friends (found in PR 1497).",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S8",
+      "source": "content/printables/what-do-they-do/product/what-do-they-do-colour-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 9,
+      "blurb": "A detective game about jobs, syllables and the tools they use. The taster is the guide and the first job cards.",
+      "pageNotes": [
+        { "h": "The cover", "b": "A baker, a vet, a postie and more. Clap, build, match." },
+        { "h": "How to play", "b": "Eight workers have lost the words for their jobs." },
+        { "h": "The first job cards", "b": "Clap the beats, cut the syllable tiles and build the word." }
+      ]
+    },
+    {
+      "slug": "word-fishing",
+      "title": "Word Fishing",
+      "ages": "4 to 7", "agesMin": 4, "agesMax": 7,
+      "url": "https://www.guidedchildhood.com/free/word-fishing",
+      "status": "no-listing",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S8",
+      "source": "content/printables/word-fishing/product/word-fishing-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 10,
+      "blurb": "A build at home phonics game for Phase 2 and 3 tricky words. The taster is the build and the three games.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Print it, build it, fish for words." },
+        { "h": "The ten minute build", "b": "Everything is already in your kitchen drawer." },
+        { "h": "How to play", "b": "Three games, one pond. Five minutes a day beats an hour on Sunday." }
+      ]
+    },
+    {
+      "slug": "class-screen-promise",
+      "title": "Our Class Screen Promise",
+      "ages": "5 to 11", "agesMin": 5, "agesMax": 11,
+      "url": "https://www.guidedchildhood.com/free/class-screen-promise",
+      "status": "hold",
+      "holdReason": "For teachers, not parents. Fits the schools site better than a parents' Saturday post.",
+      "season": null,
+      "etsyListing": "4611168261",
+      "inApp": false,
+      "service": "S18",
+      "source": "content/printables/class-screen-promise/product/class-screen-promise-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 11,
+      "blurb": "Six promises your class talks about, votes on and signs together, then keeps on the wall.",
+      "pageNotes": [
+        { "h": "The cover", "b": "The class poster, pupil slips and a letter home in the full pack." },
+        { "h": "Making the promise with your class", "b": "One lesson: read it together, talk each line through, vote, sign." },
+        { "h": "The class poster", "b": "We are kind, we tell, real or pretend. Said together, kept together." }
+      ]
+    },
+    {
+      "slug": "fish-tank-splash",
+      "title": "Splash! Match the Fish",
+      "ages": "2 to 5", "agesMin": 2, "agesMax": 5,
+      "url": "https://www.guidedchildhood.com/free/fish-tank-splash",
+      "status": "hold",
+      "holdReason": "Ages 2 to 5, below the 4 to 16 family the product serves (Justin, 16 October 2026), and its pages still use DiGi's old robot voice.",
+      "season": null,
+      "etsyListing": null,
+      "inApp": true,
+      "service": "S9",
+      "source": "content/printables/colour-splash-fish-tank/product/colour-splash-fish-tank-colour-A4.pdf",
+      "pages": [1, 2, 3],
+      "pageCount": 8,
+      "blurb": "A first colour matching game for little hands. The taster is the guide and the first bowls.",
+      "pageNotes": [
+        { "h": "The cover", "b": "Six fishbowls and lots of little fish." },
+        { "h": "How to play", "b": "Pop the fish out and find the bowl of the same colour." },
+        { "h": "Line up the bowls", "b": "Red, orange and yellow, set out where your child can reach." }
+      ]
+    }
+  ]
+}
