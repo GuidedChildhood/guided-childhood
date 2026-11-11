@@ -12,6 +12,25 @@ import Link from 'next/link'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+// Which post sent this visitor, read from the page's own address (11 November
+// 2026, the free tasters). A Saturday post links to /free/<slug>?src=ig or
+// with utm_* on it; this hands those on in the POST body so the claim is
+// counted against the post. Only these five keys travel, and the server cleans
+// each one to a slug (shared/utm.ts), so nothing about the person can ride
+// along. The email itself only ever goes in the body, never in an address.
+const ATTRIBUTION_KEYS = ['src', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const
+function pageAttribution(): Record<string, string> {
+  const out: Record<string, string> = {}
+  try {
+    const q = new URLSearchParams(window.location.search)
+    for (const k of ATTRIBUTION_KEYS) {
+      const v = q.get(k)
+      if (v && v.length <= 60) out[k] = v
+    }
+  } catch { /* no window, no attribution */ }
+  return out
+}
+
 export default function MagnetGate({
   slug, heading, sub,
 }: {
@@ -36,7 +55,7 @@ export default function MagnetGate({
       const res = await fetch('/api/magnet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: clean, slug }),
+        body: JSON.stringify({ email: clean, slug, ...pageAttribution() }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) { setError('Something went wrong. Try again in a moment.'); setState('idle'); return }

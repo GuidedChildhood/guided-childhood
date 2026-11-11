@@ -1017,6 +1017,80 @@ export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
   }
 }
 
+// ── THE TASTER NURTURE (11 November 2026) ──────────────────────────────────
+//
+// A follower takes a free taster of a printable pack on /free/<slug>. Email 1
+// is the taster itself, at once (magnetEmail, transactional). These are the
+// other two, sent by the email cron on the taster's own clock and under the
+// one a week floor, which is why the days are 0, 1 and 7: three emails in a
+// week only fit around a six day floor that way.
+//
+//   day 1  the free stage check, the one hook used everywhere
+//   day 7  the rest of the pack (Etsy, or free in the app), and membership
+//
+// Lines reused from the email library (GC06 the stage check, GC09 the paid
+// part plainly, GC15 free to print), so the voice matches the tour. No claim
+// about what a child will become; the pack and the plan are described, not
+// promised.
+
+export function tasterStageEmail(params: {
+  tasterTitle: string
+  unsubscribe: string
+  cta: string
+}): EmailContent {
+  const { tasterTitle, unsubscribe, cta } = params
+  return {
+    subject: 'What stage is your child at?',
+    html: wrapper(
+      heading('Before the phone question comes the stage question.') +
+      p(`You picked up the free taster of <strong>${tasterTitle}</strong>. I hope it has made it to the kitchen table.`) +
+      p(`Paper works best when it fits where your child is right now. So here is the free thing every printable leads to: the stage check.`) +
+      p(`Three questions about your child, what worries you and how much time you have. Then you see their stage and their first steps. It takes two minutes, and there is nothing to sign up for to see it.`) +
+      button('Find your child\'s stage', cta) +
+      p(`Two children? Take it once for each. Every child has their own stage.`),
+      unsubscribe
+    ),
+  }
+}
+
+export function tasterFullPackEmail(params: {
+  tasterTitle: string
+  pageCount: number
+  tasterPages: number
+  /** The Etsy listing, when the full pack is on Etsy. */
+  etsyUrl: string | null
+  /** The full pack is free to print inside the app. */
+  inApp: boolean
+  unsubscribe: string
+  /** The membership page. */
+  joinUrl: string
+}): EmailContent {
+  const { tasterTitle, pageCount, tasterPages, etsyUrl, inApp, unsubscribe, joinUrl } = params
+  const rest = pageCount - tasterPages
+  const etsyBlock = etsyUrl
+    ? p(`Last week you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. If they earned their place on the fridge, the other ${rest} pages are in the full pack on Etsy, ready to print at home.`) +
+      button('See the full pack on Etsy', etsyUrl)
+    : p(`Last week you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. I hope they earned their place on the fridge.`)
+  const appLine = inApp
+    ? p(etsyUrl
+      ? `Or print it free inside Guided Childhood. Every pack in the shop is in the app too, this one included, during the four free days and for members.`
+      : `The full pack is free to print inside Guided Childhood, all ${pageCount} pages, during the four free days and for members.`)
+    : p(`Inside Guided Childhood, most of our printable packs are free to print, during the four free days and for members.`)
+  return {
+    subject: etsyUrl ? `The rest of ${tasterTitle}` : 'One more thing to print, and the plan behind it',
+    html: wrapper(
+      heading(etsyUrl ? 'The rest of the pack.' : 'The plan behind the paper.') +
+      etsyBlock +
+      appLine +
+      p(`Most of what I send you is free. This bit is about the paid part, once, plainly. Membership is everything in the platform: the scripts for the hard conversations, your child's own app with earned screen time, the printables, and DiGi whenever something comes up.`) +
+      p(`Start with four free days, no card needed. The membership page shows the prices plainly, including how many founding places are left.`) +
+      button('See membership', joinUrl) +
+      p(`Still early, and I would rather tell you that than oversell it. Reply with any question. I read every one.`),
+      unsubscribe
+    ),
+  }
+}
+
 export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string = `${APP}/starter-pack`, reader: Reader = 'lead'): EmailContent {
   return {
     subject: 'Print it tonight, offline win tomorrow',
