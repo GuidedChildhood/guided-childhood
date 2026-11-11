@@ -16,18 +16,6 @@
    "attempts": 1
   },
   {
-   "stage": "APPROVAL DESK",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "GDC-054 and GDC-058 are READY FOR JUSTIN, on the Post Desk and in the Founder Approval Desk folder with the approval sheet and the optional film for 058."
-   ],
-   "detail": null,
-   "at": "2026-11-11T11:33:23.374Z",
-   "commit": "9b02383e",
-   "attempts": 1
-  },
-  {
    "stage": "PREFLIGHT",
    "verdict": "PASS",
    "by": "script",
@@ -63,18 +51,6 @@
    "at": "2026-11-11T11:38:24.020Z",
    "commit": "fde90da6",
    "attempts": 1
-  },
-  {
-   "stage": "RADAR DESK",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "Rebuilt and published at 12:27 UTC by a session, after the unattended run's two commits were taken from its patch in Drive, applied unchanged and pushed in pull request 1494. The PUSH error above stands: the unattended run itself could not push."
-   ],
-   "detail": null,
-   "at": "2026-11-11T12:26:57.943Z",
-   "commit": "0685fc08",
-   "attempts": 2
   },
   {
    "stage": "INBOX",
@@ -157,7 +133,31 @@
    "at": "2026-11-11T12:33:43.068Z",
    "commit": "001a1506",
    "attempts": 2
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "Rebuilt from 4dd36fd0 and published to the one Radar Desk at about 12:50 UTC, second firing. It shows 0 awaiting review and the three new holds. The commit it names is not in GitHub yet, because the push was refused."
+   ],
+   "detail": null,
+   "at": "2026-11-11T12:34:04.760Z",
+   "commit": "4dd36fd0",
+   "attempts": 3
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "Unchanged in the second firing. GDC-054 and GDC-058 are READY FOR JUSTIN, on the Post Desk and in the Founder Approval Desk folder. Nothing new reached ASSETS READY, so the Post Desk was not republished."
+   ],
+   "detail": null,
+   "at": "2026-11-11T12:34:04.881Z",
+   "commit": "4dd36fd0",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-11T12:33:43.100Z"
+ "updatedAt": "2026-11-11T12:34:04.917Z"
 }
