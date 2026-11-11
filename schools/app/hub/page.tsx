@@ -186,7 +186,7 @@ export default async function HubPage() {
             so a subject lead who opened the Hub never met it. Named for what
             it is, so "the record" means one thing on this page. */}
         <Link className="gc-tap" href="/hub/progress" style={{
-          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-4)',
+          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-2)',
           background: 'var(--white)', border: '1px solid var(--border)', borderTop: '4px solid var(--terracotta-dark)',
           borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
           boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
@@ -203,6 +203,10 @@ export default async function HubPage() {
             delivered button. No pupil is named.
           </span>
         </Link>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-4)' }}>
+          The same record, read against the statutory content:{' '}
+          <Link href="/hub/coverage" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what has been taught, requirement by requirement</Link>.
+        </p>
 
         {/* THE ONE THING ONLY THE SCHOOL CAN SAY. The lessons teach that
             there is somebody in this building whose job is safeguarding;
