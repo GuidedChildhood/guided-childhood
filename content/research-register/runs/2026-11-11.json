@@ -163,16 +163,16 @@
   },
   {
    "stage": "RADAR DESK",
-   "verdict": "HOLD",
+   "verdict": "PASS",
    "by": "claude",
    "reasons": [
-    "Not rebuilt or published. It must be built from a commit that exists in GitHub and today's commit could not be pushed. The Post Desk is unchanged: no new pack reached ASSETS READY in this run."
+    "Rebuilt and published at 12:27 UTC by a session, after the unattended run's two commits were taken from its patch in Drive, applied unchanged and pushed in pull request 1494. The PUSH error above stands: the unattended run itself could not push."
    ],
    "detail": null,
-   "at": "2026-11-11T11:40:58.694Z",
-   "commit": "144711ad",
-   "attempts": 1
+   "at": "2026-11-11T12:26:57.943Z",
+   "commit": "0685fc08",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-11T11:40:58.722Z"
+ "updatedAt": "2026-11-11T12:26:57.988Z"
 }
