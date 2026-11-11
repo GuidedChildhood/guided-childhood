@@ -48,9 +48,14 @@ user would need the Page moved first, which only Anna can do.
 7. Go to developers.facebook.com, My Apps, **Create app**. Choose Other, then
    Business. Name it `GC ad uploader` and attach it to the Guided Childhood
    portfolio. Add the **Marketing API** product.
-8. Switch the app to **Live** (the toggle at the top; it asks for a privacy
-   policy address, which is guidedchildhood.com/privacy). Left in
-   development, Meta is likely to refuse the adverts it makes.
+8. **Publish the app.** There is no Live switch any more. Open App
+   settings, Basic, and fill in **Privacy policy URL** with
+   `https://www.guidedchildhood.com/privacy` (and Terms of service with
+   `https://www.guidedchildhood.com/terms`), then Save changes. Then open
+   **Publish** in the left menu and press **Publish** at the bottom right,
+   which is greyed out until the privacy link is saved. On 11 November that
+   link was the only thing missing. Left unpublished, Meta is likely to
+   refuse the adverts the app makes.
 9. In the app: Tools, **Graph API Explorer**. Choose the app, then **Get User
    Access Token**, and tick `ads_management`, `pages_show_list` and
    `pages_read_engagement`. Generate, and approve as yourself, choosing The
