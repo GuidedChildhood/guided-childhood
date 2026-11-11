@@ -26,6 +26,10 @@
     back       { image, tilt }        optional second phone behind
     callouts   [{ image, crop:[x,y,w,h], zoom, left, top, tilt, label }]
                crop is in the screen's own 390 wide points
+    src        the card's own link code (the ledger; not drawn)
+
+  Deck fields: "round": "yyyy-mm-dd-name" makes the deck an ad round, which
+  `npm run ad-gate` (scripts/check-ad-round.mjs) must pass before rendering.
 -->
 <style>
 @font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;src:url('../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
