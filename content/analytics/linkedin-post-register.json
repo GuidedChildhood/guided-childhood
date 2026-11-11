@@ -1,0 +1,528 @@
+{
+  "schema": "gdc.linkedin-post-analytics/1.0",
+  "imports": [
+    {
+      "digest": "a192801c447e356c",
+      "capturedAt": "2026-11-11T11:04:00.000Z",
+      "windowDays": 7,
+      "source": "Top performing posts screen, pasted by Justin 11 November 2026",
+      "posts": 16
+    }
+  ],
+  "posts": {
+    "7525116173273710592": {
+      "activityId": "7525116173273710592",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7525116173273710592",
+      "publishedAt": "2026-11-08T08:45:05.606Z",
+      "registerRow": "GDC-049",
+      "registerStatus": "RETIRED 9 Nov, not posted",
+      "topic": "screen time evidence",
+      "openingStyle": "named study and its finding",
+      "lane": "evidence led",
+      "visual": "none, article link",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 74,
+          "checkpoint": "72h",
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 4545,
+          "reactions": 29,
+          "comments": 18,
+          "reposts": 5,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "A study followed 25,629 teenagers in Greater Manchester for three years and found no evidence that time on social media predicted later emotional difficulties.",
+      "words": 116,
+      "format": "article share",
+      "attachmentTitle": "Twenty five thousand teenagers and the lag"
+    },
+    "7524738675025362944": {
+      "activityId": "7524738675025362944",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7524738675025362944",
+      "publishedAt": "2026-11-07T07:45:03.010Z",
+      "registerRow": "GDC-053",
+      "registerStatus": "RETIRED 9 Nov, not posted",
+      "topic": "the evidence argument",
+      "openingStyle": "news fact",
+      "lane": "evidence led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 99,
+          "checkpoint": null,
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 910,
+          "reactions": 14,
+          "comments": 9,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "Court filings unsealed last month show Meta employees discussing a whisper strategy against Jonathan Haidt.",
+      "words": 412,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7524381701721128961": {
+      "activityId": "7524381701721128961",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7524381701721128961",
+      "publishedAt": "2026-11-06T08:06:33.942Z",
+      "registerRow": "GDC-043",
+      "registerStatus": "RETIRED 9 Nov, not posted",
+      "topic": "schools and screens",
+      "openingStyle": "changed my mind",
+      "lane": "evidence led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 123,
+          "checkpoint": null,
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 880,
+          "reactions": 11,
+          "comments": 4,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "Five years ago I would have shared the Sweden story without checking it.",
+      "words": 412,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7525833190016552960": {
+      "activityId": "7525833190016552960",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7525833190016552960",
+      "publishedAt": "2026-11-10T08:14:15.719Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "schools lesson",
+      "openingStyle": "a head teacher's problem",
+      "lane": "product led",
+      "visual": "document",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 27,
+          "checkpoint": "24h",
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 231,
+          "reactions": 2,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "For a lot of heads, the class group chat is the problem that walks in on Monday morning.",
+      "words": 158,
+      "format": "document, 7 pages",
+      "attachmentTitle": "The Class Chat",
+      "note": "ChatGPT's brief calls this GDC-052. The register has no Class Chat row and holds 052 as a retired Ofcom post."
+    },
+    "7524010705545502720": {
+      "activityId": "7524010705545502720",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7524010705545502720",
+      "publishedAt": "2026-11-05T07:32:21.561Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "feeds and algorithms",
+      "openingStyle": "home scene",
+      "lane": "evidence led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 148,
+          "checkpoint": null,
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 159,
+          "reactions": 4,
+          "comments": 3,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "I have watched a YouTube feed narrow in my own house, and I still could not tell you the moment it turned.",
+      "words": 265,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7520050275068481536": {
+      "activityId": "7520050275068481536",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520050275068481536",
+      "publishedAt": "2026-10-25T09:15:01.354Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "screen time evidence",
+      "openingStyle": "claim about the debate",
+      "lane": "evidence led",
+      "visual": "none, article link",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 410,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 117,
+          "reactions": 7,
+          "comments": 7,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "The debate about screen time and children's mental health has been stuck in the wrong place.",
+      "words": 33,
+      "format": "article share",
+      "attachmentTitle": "The Pathway Problem: What the Research Actually Says About Children, Social Media, and Mental Health"
+    },
+    "7525463595887804416": {
+      "activityId": "7525463595887804416",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7525463595887804416",
+      "publishedAt": "2026-11-09T07:45:37.612Z",
+      "registerRow": "GDC-041 or 046",
+      "registerStatus": "RETIRED 9 Nov, not posted",
+      "topic": "readiness",
+      "openingStyle": "admitted uncertainty about our own product",
+      "lane": "product led",
+      "visual": "not known",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 51,
+          "checkpoint": null,
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 81,
+          "reactions": 1,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "I have built a products around the word readiness and I still cannot tell you how to test it.",
+      "words": 389,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7523764810010902528": {
+      "activityId": "7523764810010902528",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7523764810010902528",
+      "publishedAt": "2026-11-04T15:15:15.497Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "first phone",
+      "openingStyle": "advice",
+      "lane": "product led",
+      "visual": "document",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 164,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 72,
+          "reactions": 2,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "The easiest time to plan a child's first phone is while it is still in the box.",
+      "words": 157,
+      "format": "document, 9 pages",
+      "attachmentTitle": "Before the Box"
+    },
+    "7522605885240713216": {
+      "activityId": "7522605885240713216",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7522605885240713216",
+      "publishedAt": "2026-11-01T10:30:06.300Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "the evidence argument",
+      "openingStyle": "question",
+      "lane": "evidence led",
+      "visual": "none, article link",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 241,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 50,
+          "reactions": 3,
+          "comments": 5,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "What if we look back at the Meta case… and realise we blamed the wrong thing?",
+      "words": 16,
+      "format": "article share",
+      "attachmentTitle": null
+    },
+    "7526192369067569152": {
+      "activityId": "7526192369067569152",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7526192369067569152",
+      "publishedAt": "2026-11-11T08:01:30.678Z",
+      "registerRow": "GDC-050",
+      "registerStatus": "RETIRED 9 Nov, not posted",
+      "topic": "the under 16 ban",
+      "openingStyle": "named body and its finding",
+      "lane": "evidence led",
+      "visual": "not known",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 3,
+          "checkpoint": null,
+          "partial": false,
+          "window": "past 7 days",
+          "impressions": 48,
+          "reactions": null,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "Ofcom has named four ways to check that a UK user is 16, and says no method is \"completely robust against circumvention by children\".",
+      "words": 335,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7468206162870611968": {
+      "activityId": "7468206162870611968",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7468206162870611968",
+      "publishedAt": "2026-06-04T07:45:01.789Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "screen time evidence",
+      "openingStyle": "named study and its finding",
+      "lane": "evidence led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 3843,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 44,
+          "reactions": 1394,
+          "comments": 186,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.",
+      "words": 324,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null,
+      "note": "The year's best post. 1,394 reactions and 186 comments in total."
+    },
+    "7522205957792141312": {
+      "activityId": "7522205957792141312",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7522205957792141312",
+      "publishedAt": "2026-10-31T08:00:56.166Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "the under 16 ban",
+      "openingStyle": "named body and a deadline",
+      "lane": "evidence led",
+      "visual": "none",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 267,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 33,
+          "reactions": 5,
+          "comments": 2,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "By the end of this month, Ofcom has to tell Parliament how to prove a child is sixteen.",
+      "words": 324,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7517482944861679616": {
+      "activityId": "7517482944861679616",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7517482944861679616",
+      "publishedAt": "2026-10-18T07:13:22.134Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "feeds and algorithms",
+      "openingStyle": "news fact",
+      "lane": "evidence led",
+      "visual": "none, article link",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 580,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 22,
+          "reactions": 8,
+          "comments": 2,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "Aaron Sorkin calls his new film a painting, not a photograph.",
+      "words": 107,
+      "format": "article share",
+      "attachmentTitle": "The Social Reckoning: what is true, what is drama, and what it leaves out"
+    },
+    "7522930707640455168": {
+      "activityId": "7522930707640455168",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7522930707640455168",
+      "publishedAt": "2026-11-02T08:00:49.995Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "the school day card",
+      "openingStyle": "series continuation",
+      "lane": "product led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 219,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 18,
+          "reactions": 2,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "Part two, as promised.",
+      "words": 558,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    },
+    "7509877073574895617": {
+      "activityId": "7509877073574895617",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7509877073574895617",
+      "publishedAt": "2026-09-27T07:30:21.109Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "schools",
+      "openingStyle": "question",
+      "lane": "product led",
+      "visual": "none, article link",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 1084,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 15,
+          "reactions": 20,
+          "comments": 2,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "When a child sees something they were never meant to see, what have we already taught them to do next?",
+      "words": 69,
+      "format": "article share",
+      "attachmentTitle": "The child who sees it anyway"
+    },
+    "7523295627879993344": {
+      "activityId": "7523295627879993344",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7523295627879993344",
+      "publishedAt": "2026-11-03T08:10:53.760Z",
+      "registerRow": null,
+      "registerStatus": null,
+      "topic": "gaming and strangers",
+      "openingStyle": "home scene",
+      "lane": "evidence led",
+      "visual": "still image",
+      "snapshots": [
+        {
+          "capturedAt": "2026-11-11T11:04:00.000Z",
+          "ageHours": 195,
+          "checkpoint": null,
+          "partial": true,
+          "window": "past 7 days",
+          "impressions": 14,
+          "reactions": 1,
+          "comments": null,
+          "reposts": null,
+          "clicks": null,
+          "saves": null,
+          "followerChange": null,
+          "importDigest": "a192801c447e356c"
+        }
+      ],
+      "hook": "I set a timer on my children’s screens because it was the rule I could actually check.",
+      "words": 385,
+      "format": "text or image, the screen does not say which",
+      "attachmentTitle": null
+    }
+  }
+}

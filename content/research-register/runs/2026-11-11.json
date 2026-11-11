@@ -1,0 +1,105 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-11",
+ "startedAt": "2026-11-11T11:05:35.218Z",
+ "stages": [
+  {
+   "stage": "PACK QA",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "packs": 2,
+    "results": [
+     {
+      "file": "1QFBVfdPvGBVYj9EiKNLsSpLzughCgANIUMwzkJWCSog__pack.txt",
+      "researchId": "GDC-RR-3d31eb1683",
+      "verdict": "PASS",
+      "note": "already checked, unchanged"
+     },
+     {
+      "file": "1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8__pack.txt",
+      "researchId": "GDC-RR-3d31eb1683",
+      "verdict": "PASS",
+      "failed": 0,
+      "checked": 29
+     }
+    ]
+   },
+   "at": "2026-11-11T11:07:45.428Z",
+   "commit": "cb5dd07c",
+   "attempts": 2
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "The 09:17 scheduled run started and stopped after three minutes, leaving no log and no branch. Its message told it to find the working branch by listing pull requests, and a scheduled run has no tool for that. The message was rewritten at 11:02 to use git alone and never to stop without a log. Today's stages below were done by hand in a session."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:17:42.671Z",
+   "commit": "cb5dd07c",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "WAITING",
+   "by": "claude",
+   "reasons": [
+    "No CANDIDATES document from ChatGPT today. Its 08:00 message has not been changed, so its research still arrives only in the daily brief."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:17:42.777Z",
+   "commit": "cb5dd07c",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "No research was reviewed today. Five records still wait. The morning run did not do it and this session was spent on the pack, the numbers and the film."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:17:42.877Z",
+   "commit": "cb5dd07c",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-058: ChatGPT v1 passed 29 of 29 checks as written. Edited for the opening, rhythm and a proof path as v2, which passed 29 of 29 from the text Drive holds. Source page read again today. Now READY FOR JUSTIN."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:17:42.984Z",
+   "commit": "cb5dd07c",
+   "attempts": 1
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-11T11:17:47.293Z",
+   "commit": "cb5dd07c",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-11T11:17:47.325Z"
+}

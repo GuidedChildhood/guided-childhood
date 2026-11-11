@@ -65,6 +65,13 @@ export const DRIVE = {
   // Where ChatGPT drops research candidates, one document a day. Created on
   // 10 November inside the Stage 2 folder. scripts/radar/candidates.mjs reads it.
   CANDIDATE_INBOX: '1YznBz3TzuBMMDGbTGKUWOSYmJUaiCeIs',
+  // One folder whose link never changes. The approval sheet inside it is a
+  // new file each time the queue moves, because a Doc cannot be rewritten
+  // through the connector, so Justin bookmarks the folder and not the sheet.
+  APPROVAL_DESK_FOLDER: '1VAk2598afXaJWz2OvCVgd7mAHSaNfmPU',
+  // Where a pasted LinkedIn "Top performing posts" screen is left for the
+  // morning run. See scripts/analytics/linkedin.mjs.
+  ANALYTICS_INBOX: '1SxdsTtPSZqkkG1Rsvuxpy0tdHRS7sq1u',
   // Reference material Stage 2 reads. Read only to this session, which is
   // correct: Claude should not be editing the operating instructions.
   OPERATING_SYSTEM: '1DIHc8sD_EfxfjK6RGIqwxlmCFCG-t2JguWa9HKDaZzU',

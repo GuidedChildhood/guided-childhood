@@ -53,6 +53,28 @@ twice.
   that. Retitle the version you edited with `CLAUDE REVIEWED <date>, edited,
   use v<n+1>`. Never delete it.
 
+## 3a. The visual decision, and a film only when it earns one
+
+Justin, 11 November 2026: decide for each story whether text, a still image, a
+carousel or a motion graphic fits, on the performance evidence and editorial
+judgement, "not a rule that every post needs an image".
+
+1. Read the newest report in `content/analytics/`. Then record the decision
+   with `decideVisual` in `assets.mjs`: the choice and the reason in a
+   sentence. **Text only is the default while the evidence is silent**, and the
+   handoff's own formats still bind.
+2. A film is made from code, in the house look, by the method in
+   `.claude/skills/explainer-video` and `talking-head-video/motion-standard.md`.
+   Only words the review cleared go on screen. No chart, no number that is not
+   cleared, no platform logo, no invented screen, no person, no character.
+3. `recordAsset` runs `ffprobe` and a full decode, hashes the file and stores
+   your review of the frames you looked at. An asset that does not verify, or
+   was not looked at, holds the pack. Upload the file to the Founder Approval
+   Desk folder with conversion off and record it with `recordAssetDrive`.
+4. **If production fails, record the failure** (`recordAsset` with `failure`)
+   and the pack goes forward as text only with the failure on the sheet. Never
+   put a generated image in its place.
+
 ## 4. Review, save, ready
 
 1. `reviewPack` with real notes: what ChatGPT got right, what you changed and
@@ -61,6 +83,9 @@ twice.
    it sounds like Justin is his to judge.
 2. `recordPackSave` with the verification of the Drive copy.
 3. `node scripts/radar/pipeline.mjs ready <id>`. That is as far as you go.
+   Once it passes, retitle the Doc Justin will open so it no longer says
+   DRAFT: `PACK <research id> GDC-<number> v<n> READY FOR JUSTIN, checked <date>`.
+   A draft is never shown as the final version.
 4. `node scripts/radar/daily.mjs log "PACK REVIEW" PASS "<which packs, which verdicts>"`.
 
 **Never call `approve`. Never call `requestChanges` unless Justin's own words
@@ -75,7 +100,9 @@ he has given you.**
    not approved until he says so. Build, look at it at phone width, publish to
    the same Post Desk URL.
 2. Regenerate the approval sheet and the start here document, copy both to
-   Drive and verify them, as in section 6 of the morning runbook. The start
+   Drive and verify them, as in section 6 of the morning runbook. The approval
+   sheet goes in the Founder Approval Desk folder (`DRIVE.APPROVAL_DESK_FOLDER`),
+   whose link never changes. The start
    here document carries what happened to each pack, which is how ChatGPT
    learns a pack was held.
 3. Rebuild and publish the Radar Desk.

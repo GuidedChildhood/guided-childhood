@@ -94,11 +94,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 30,
+   "version": 31,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-10T17:11:04.722Z",
-   "changeReason": "sent again through the inbox as C-2026-11-10-02, already held",
-   "changedBy": "radar:inbox",
+   "lastChecked": "2026-11-11T11:17:43.080Z",
+   "changeReason": "visual decision: text only",
+   "changedBy": "radar:assets",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
     "checkedAt": "2026-11-09T14:35:35.470Z",
@@ -320,7 +320,13 @@
      "sentBy": "claude-relay-test, written by Claude from the research item in ChatGPT's daily brief of 10 November 2026. ChatGPT did not write this document.",
      "at": "2026-11-10T17:15:00Z"
     }
-   ]
+   ],
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "The pack asks for a card only if an approved brand asset is identified, and none has been. Justin's numbers of 11 November do not show that an image helps: the best post of the week carried none.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-11T11:17:43.079Z"
+   }
   },
   "GDC-RR-04ce5786d0": {
    "title": "Risks and Opportunities in Digital Media Interventions for Youth: A Scientometric Review",
@@ -1750,7 +1756,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "candidate": {
     "candidateId": "C-2026-11-10-01",
     "batchId": "2026-11-10-relay-test-01",
@@ -1798,11 +1804,11 @@
    },
    "childIsTheSubject": false,
    "studyId": "GDC-RR-3d31eb1683",
-   "version": 14,
+   "version": 26,
    "firstFound": "2026-11-10T17:11:04.719Z",
-   "lastChecked": "2026-11-10T17:22:12.185Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-11T11:07:45.579Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-3d31eb1683",
     "checkedAt": "2026-11-10T17:17:53.928Z",
@@ -1977,9 +1983,9 @@
    "editorialPriority": "HIGH",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-10T17:22:12.182Z"
+    "at": "2026-11-11T11:07:45.578Z"
    },
    "gdcPostNumber": "058",
    "handoff": {
@@ -1991,6 +1997,33 @@
     "builtAt": "2026-11-10T17:22:12.177Z",
     "reviewDigest": "cbea2bdbac0163db",
     "gdcPostNumber": "058"
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-3d31eb1683.json",
+    "submittedAt": "2026-11-11T11:07:45.412Z",
+    "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+    "gdcPostNumber": "058",
+    "digest": "145b9483ca4fdf27",
+    "driveFile": "1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8__pack.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 29,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-11T11:07:45.409Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "ChatGPT v1 was sound on the evidence and passed all 29 automatic checks as written: the word preliminary carried every time, no number from the page, no claim about the UK, no claim of harm, the other formats correctly declined, a first comment with the source and the strongest objection.\nv2 is my edit of it under the standing rule that every Drive post gets a Claude review (drive-post-review). The argument, the takeaway, the first comment and most of the sentences are ChatGPT's. What changed:\n1. The opening. v1 opened on a line about the debate and reached the fact in the third paragraph. Justin's numbers of 11 November put the post that opened on the named body and the finding, in one complete sentence, at 4,545 impressions against 81 to 910 for the rest of the week. v2 opens on the Commission and the finding, then on the one word that must not be dropped.\n2. Rhythm. Sentence spread 55 percent against his 79; now 68. One sentence runs to 44 words and three are five words or fewer.\n3. A proof path (check 4): one sentence on the stage check as three questions about one child and a starting point, with no promise, as the evidence review names it.\n4. The quoted design point now follows the Commission's page as re-read on 11 November: the design can be harmful when the content is about sadness, isolation or body image. \"Can\" is the Commission's word.\n5. Removed a suggested card line from the visual brief. The handoff asks for text only.\nLimits of this review, stated because gate J applies to it: the editor and the reviewer of v2 are the same. The 29 mechanical checks are independent of me. Whether it sounds like Justin is his to judge. \"My own rules at home were about how long\" rests on his own posted line about setting a timer; he should cut it if it is not true of him.",
+    "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn. Reviewer is also the editor of v2.",
+    "reviewedAt": "2026-11-11T11:07:45.550Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-11T11:07:45.562Z"
    }
   },
   "GDC-RR-e1a6cd5229": {

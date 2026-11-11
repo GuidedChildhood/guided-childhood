@@ -87,7 +87,9 @@
     "sitemap-guard": "node scripts/check-sitemap-coverage.mjs",
     "android-build": "bash scripts/app-stores/build-android.sh",
     "play-fingerprint": "node scripts/app-stores/add-play-fingerprint.mjs",
-    "app-icons": "node scripts/app-stores/make-maskable-icons.mjs"
+    "app-icons": "node scripts/app-stores/make-maskable-icons.mjs",
+    "radar-assets-test": "node scripts/radar/test-assets.mjs",
+    "linkedin-analytics": "node scripts/analytics/linkedin.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",
