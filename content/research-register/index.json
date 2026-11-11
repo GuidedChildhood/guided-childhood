@@ -585,7 +585,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 7,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -602,11 +602,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-d1f9996f06",
-   "version": 5,
+   "version": 7,
    "firstFound": "2026-11-09T14:11:15.659Z",
-   "lastChecked": "2026-11-09T14:36:16.237Z",
-   "changeReason": "backfill childIsTheSubject",
-   "changedBy": "radar:score",
+   "lastChecked": "2026-11-11T12:33:03.319Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-d1f9996f06",
     "checkedAt": "2026-11-09T14:35:36.023Z",
@@ -663,8 +663,110 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING",
-   "childIsTheSubject": true
+   "claudeStatus": "CLAUDE REVIEWED",
+   "childIsTheSubject": true,
+   "claudeReview": {
+    "studyId": "GDC-RR-d1f9996f06",
+    "reviewedAt": "2026-11-11T12:33:03Z",
+    "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held until a peer reviewed version exists.",
+    "reviewBasis": "The full text of version 1 of the preprint, read in this run from the Research Square page at researchsquare.com/article/rs-11415047/v1: abstract, methods, results on class structure and on problematic social media use, the limitations paragraph and the declarations. The supplementary tables in the additional file were not read. The page itself states that it is a preprint, that it has not been peer reviewed by a journal, and that its status is under review.",
+    "claims": [
+     {
+      "claim": "Among adolescents who report bullying others, three patterns can be told apart: bullying only in person, some involvement online, and a smaller group who both bully and are bullied in person and online.",
+      "status": "QUALIFIED",
+      "basis": "Results, tables 2 and 3: a three class latent class solution in 48,465 adolescents from 42 countries in the 2017/18 Health Behaviour in School aged Children survey. Qualified because the paper is not peer reviewed, the authors chose three classes while the fit indices kept improving with more, and the limitations paragraph says the online involved group did not appear again when bullying was defined more strictly."
+     },
+     {
+      "claim": "The group who both bully and are bullied fare worst on health, life satisfaction, family and peer support and school experience.",
+      "status": "QUALIFIED",
+      "basis": "Abstract and results. Every measure is self report from one survey at one time. The limitations paragraph says the direction cannot be drawn: lower life satisfaction may follow from bullying or may come before it."
+     },
+     {
+      "claim": "Problematic social media use rises across the three groups and is highest among those who both bully and are bullied.",
+      "status": "QUALIFIED",
+      "basis": "Results, risk behaviours: the share classed as problematic users rises across the three groups for boys and for girls, on the nine item Social Media Disorder Scale. Qualified because the methods report that 18 percent of the individual items and 22 percent of the total score were missing and were not imputed, the data are from 2017 and 2018, and it is an association in one survey."
+     },
+     {
+      "claim": "Problematic social media use causes bullying, or bullying causes problematic use.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper does not claim it and its limitations paragraph rules it out: a cross sectional design cannot give the direction of any association."
+     },
+     {
+      "claim": "Poorer communication with a mother puts a child at risk of becoming both bully and victim.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract reports less ease of communication with mothers in that group. That is a difference between groups at one time, in self report. It would flatter our view that connection is the protection, so it was checked hardest, and the design cannot carry it."
+     },
+     {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The Research Square page says it is a preprint that has not been peer reviewed by a journal, status under review, version 1. The register already marks it as a preprint."
+     }
+    ],
+    "notQuotable": [
+     "every figure in the preprint, including the sample size, the class sizes, the effect sizes and the shares classed as problematic users: nothing is cleared while it is not peer reviewed",
+     "any statement that social media use leads to bullying or the reverse",
+     "any statement about what a parent talking with a child prevents",
+     "any statement that this describes children today: the survey was run in 2017 and 2018"
+    ],
+    "evidenceConfidence": "HIGH that the preprint says what is written here: the main text was read. LOW as evidence we can use: not peer reviewed, one time point, self report, data eight years old, and one of its three groups does not survive a stricter definition.",
+    "limitations": [
+     "A preprint, version 1, not peer reviewed, under review at a journal.",
+     "Cross sectional. The authors say they cannot give the direction of any association or say whether adolescents move between groups.",
+     "All measures are self report by the adolescent.",
+     "The data were collected in 2017 and 2018, before the pandemic. The authors say online behaviour changed after that.",
+     "Only adolescents who reported bullying others were analysed, so nothing carries across to adolescents who do not.",
+     "The online involved group did not appear again under a stricter definition of bullying.",
+     "Full measurement invariance between boys and girls was not supported.",
+     "22 percent of total scores on the social media scale were missing and were not imputed.",
+     "Ages 11, 13 and 15 only. The 42 countries are pooled and no UK figure was read.",
+     "The supplementary tables, which hold the family results, were not read in this run.",
+     "The authors state that a large language model was used for language editing, cross checking of outputs and formatting."
+    ],
+    "contradictoryEvidence": [
+     "From the same paper: the online involved group was not recovered when bullying was defined as two to three times a month or more, so one of the three groups depends on where the line is drawn.",
+     "From the same paper: the test for boys gave some support for four groups, not three.",
+     "From the same paper: the limitations paragraph says lower life satisfaction may come before bullying involvement as easily as after it.",
+     "No outside study was read against it in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That social media use makes a child a bully or a victim.",
+     "That a close relationship with a parent prevents bullying.",
+     "Anything about children under 11, or about UK children on their own.",
+     "Anything about how children behave online now.",
+     "Anything about what a parent or a school should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a preprint posted this week.",
+    "gdcBeliefs": [
+     "Evidence or silence. A preprint is not evidence we publish from.",
+     "The line about communication with mothers agrees with what we believe and is held to a higher standard for that reason. It does not meet it."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "Whether a peer reviewed version appears, and whether the three groups survive review. Look again then."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-d1f9996f06.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T12:33:03.318Z"
+   }
   },
   "GDC-RR-e923851b08": {
    "title": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",
@@ -2158,7 +2260,7 @@
    "foundBy": [
     "pubmed"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 8,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -2176,11 +2278,11 @@
     "until": "2026-11-11"
    },
    "studyId": "GDC-RR-e1a6cd5229",
-   "version": 3,
+   "version": 5,
    "firstFound": "2026-11-10T17:17:53.811Z",
-   "lastChecked": "2026-11-11T11:38:23.826Z",
-   "changeReason": "discovery run, streams 01,19",
-   "changedBy": "radar:discover",
+   "lastChecked": "2026-11-11T12:33:03.410Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-e1a6cd5229",
     "checkedAt": "2026-11-10T17:17:54.242Z",
@@ -2238,7 +2340,100 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-e1a6cd5229",
+    "reviewedAt": "2026-11-11T12:33:03Z",
+    "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held until the full text has been read.",
+    "reviewBasis": "The abstract only, read in this run in two places that agree: the PubMed record 43000569 and the abstract the publisher deposited with Crossref for DOI 10.1007/s00431-026-07569-z. The full text was not read. Crossref lists the article under a Creative Commons licence, so it is open, but the Springer article page and PDF both answered the container with a browser challenge page, and the fetch tool was turned away for want of cookies. No figure is cleared from an abstract alone.",
+    "claims": [
+     {
+      "claim": "Once family circumstances are accounted for, children in single parent households do not have measurably different screen time.",
+      "status": "QUALIFIED",
+      "basis": "Abstract: after full adjustment the association was not statistically significant, in the Longitudinal Study of Australian Children, ages 6 to 13, 8,706 children at baseline. Qualified because only the abstract was read, a result that is not significant is not proof of no difference, and how screen time was measured and who reported it is not in the abstract."
+     },
+     {
+      "claim": "A child moving between a two parent and a single parent household does not change their screen time.",
+      "status": "QUALIFIED",
+      "basis": "Abstract: neither direction of transition was associated with a change, using matched comparison children. The confidence intervals printed in the abstract are very wide, which says the number of children who made a transition was small. The honest reading is that no change was detected, not that there is none."
+     },
+     {
+      "claim": "Each extra sibling goes with less screen time.",
+      "status": "QUALIFIED",
+      "basis": "Abstract: an association of roughly twenty minutes a week less for each additional sibling. Small beside a week of screen time, observational, and the abstract does not say why. Not read in the full text."
+     },
+     {
+      "claim": "The analysis was planned in advance.",
+      "status": "REQUIRES SOURCE",
+      "basis": "The abstract calls the models pre registered. The registration itself was not found or read in this run."
+     },
+     {
+      "claim": "Single parents can stop worrying about screens, or having brothers and sisters protects a child from screens.",
+      "status": "UNSUPPORTED",
+      "basis": "Neither is in the abstract. The study measures amount of time, not what the time was spent on or what it did, and the sibling result is an association."
+     }
+    ],
+    "notQuotable": [
+     "every figure in the abstract, including the sample size, the minutes per week and the confidence intervals: the full text was not read and nothing is cleared",
+     "any statement that family breakdown does or does not affect a child on screens",
+     "any statement that siblings reduce screen time as cause and effect",
+     "any carrying of the result across to UK families"
+    ],
+    "evidenceConfidence": "MODERATE that the abstract says what is written here: it was read in two independent records that agree. NOT ASSESSED as evidence, because the methods, the measure of screen time and the limitations are in a full text that could not be reached.",
+    "limitations": [
+     "Abstract only. The methods, results tables and the authors own limitations were not read.",
+     "Australian children. Nothing on the UK.",
+     "How screen time was measured, and whether a parent or the child reported it, is not stated in the abstract.",
+     "The confidence intervals for the two transition results are very wide, so the study could not rule out changes of an hour or more a week in either direction.",
+     "It measures amount of screen time only. Nothing on content, context or what a family does together.",
+     "Ages 6 to 13. Nothing on older teenagers.",
+     "Observational, even with matching. Unmeasured differences between families remain possible."
+    ],
+    "contradictoryEvidence": [
+     "From the same abstract: the authors open by saying children screen time does vary by family structure in earlier cross sectional work. Their finding is that the difference is largely explained by sociodemographic factors, which is not the same as there being no difference in what families live with.",
+     "From the same abstract: the transition estimates point in opposite directions with intervals that span zero widely, so they do not agree with each other on anything beyond no detectable change.",
+     "The earlier cross sectional studies the abstract refers to were not read in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That family structure has no effect on a child digital life.",
+     "That more siblings cause less screen time.",
+     "Anything about harm, benefit, or what children do on screens.",
+     "Anything about UK families.",
+     "Anything about what a parent should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run.",
+    "gdcBeliefs": [
+     "Evidence or silence. An abstract is a pointer, not a source.",
+     "It neither flatters nor cuts against what we sell. Its use to us would be to keep blame off single parents, and that needs the full text first."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "The full text. It is open access, so the PDF can be left in Drive and ingested with ingest.mjs, after which this review is redone from the paper.",
+     "How many children made each transition."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-e1a6cd5229.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T12:33:03.408Z"
+   }
   },
   "GDC-RR-477a38762a": {
    "title": "English immersive game participation and attention, emotional health, and cognitive function in children: a cross-sectional study",
@@ -3099,7 +3294,7 @@
    "foundBy": [
     "pubmed"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 5,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -3115,11 +3310,11 @@
     "until": "2026-11-11"
    },
    "studyId": "GDC-RR-19396d6493",
-   "version": 2,
+   "version": 6,
    "firstFound": "2026-11-11T11:38:23.859Z",
-   "lastChecked": "2026-11-11T11:38:24.018Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-11T12:33:19.912Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-19396d6493",
     "checkedAt": "2026-11-11T11:38:23.902Z",
@@ -3175,7 +3370,95 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-19396d6493",
+    "reviewedAt": "2026-11-11T12:33:19Z",
+    "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held. Nothing of it has been read beyond its title.",
+    "reviewBasis": "The bibliographic records only, read in this run: the PubMed record 43008758 and the Crossref record for DOI 10.1016/S2352-4642(26)00301-9. Neither carries an abstract. The Lancet page answered 403 to the container and to the fetch tool, the ScienceDirect page answered 403, and the Elsevier text mining address refused the request. So the title, the journal, the five author surnames, three affiliations, the received and accepted dates and a reference count of 7 were read, and not one sentence of the article.",
+    "claims": [
+     {
+      "claim": "Policy on young people and social media should be built on how ready a child is, not on an age limit.",
+      "status": "REQUIRES SOURCE",
+      "basis": "This is the title, and it is the argument we sell: a pathway to readiness and not a ban by birthday. That is exactly why it gets more scrutiny and not less. The article text was not read, so what the authors mean by readiness, what they propose and what they concede are unknown."
+     },
+     {
+      "claim": "This is research evidence that readiness matters more than age.",
+      "status": "UNSUPPORTED",
+      "basis": "Nothing read supports calling it evidence. Crossref gives it 7 references and no abstract, and PubMed gives no abstract, which is the shape of a comment or viewpoint. That is an inference from the record and the article type was not seen. An opinion in a good journal is still an opinion."
+     },
+     {
+      "claim": "The Lancet backs a readiness approach over age limits.",
+      "status": "UNSUPPORTED",
+      "basis": "A piece published in a journal is the view of its authors. Nothing read says otherwise, and the journal name must not be used as an endorsement."
+     },
+     {
+      "claim": "The article was peer reviewed.",
+      "status": "REQUIRES SOURCE",
+      "basis": "PubMed lists received and accepted dates, 7 September and 29 October 2026. Whether that reflects external peer review or editorial review is not stated in anything read."
+     }
+    ],
+    "notQuotable": [
+     "anything at all from the article: no sentence of it was read",
+     "the title used as a finding, a headline claim or a proof point for the product",
+     "the journal name used to lend weight to our position",
+     "any statement that experts, researchers or the Lancet say readiness beats age"
+    ],
+    "evidenceConfidence": "NONE as evidence: the text was not read and the record points to an opinion piece. HIGH only that an article with this title exists in this journal with this DOI, which the dossier confirmed and two records repeat.",
+    "limitations": [
+     "No part of the article was read. Every route to the text was refused.",
+     "No abstract exists in PubMed or Crossref.",
+     "A reference count of 7 and no abstract point to a comment or viewpoint, which reports no data of its own. That is inferred, not seen.",
+     "It agrees with our commercial position, so it carries the highest risk of being overread by us.",
+     "What the authors mean by digital readiness may not be what we mean by it.",
+     "Declarations of interest were not seen.",
+     "The dossier and the register describe it as a journal article, which is how PubMed labels it. That label says nothing about whether it holds data."
+    ],
+    "contradictoryEvidence": [
+     "The case for age based limits, which this title argues against, is held by governments that have legislated on it. Our own position is ban neutral, and a piece that argues against age limits is not neutral.",
+     "Our own register holds a cleared story on age assurance (GDC-057, research commissioned by the ICO and Ofcom) which treats age checks as something families already live with, and a cleared story (GDC-055) in which a government feasibility study says the decisive experiment on harm has not been run. Neither supports a confident claim for or against age limits.",
+     "No outside source was read against it in this run, and the article own counter arguments, if it gives any, are unread."
+    ],
+    "whatThisDoesNotProve": [
+     "That readiness predicts how a child fares online better than age does.",
+     "That age limits do not work.",
+     "That any programme which builds readiness works, ours included.",
+     "Anything about any child."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run.",
+    "gdcBeliefs": [
+     "Evidence or silence, and hardest of all when the title says what we would like to hear.",
+     "We are ban neutral. A deadline is not a plan, and an opinion piece is not a proof of that."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "The text. If Justin wants this considered, the PDF needs to be left in Drive, and the review is then redone from the article.",
+     "Whether it is a Comment, a Viewpoint or Correspondence.",
+     "What the 7 references are, and whether any of them is evidence we should be reading directly."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-19396d6493.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T12:33:19.911Z"
+   }
   }
  },
  "keys": {

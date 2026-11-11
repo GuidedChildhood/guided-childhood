@@ -1,0 +1,95 @@
+{
+  "studyId": "GDC-RR-d1f9996f06",
+  "reviewedAt": "2026-11-11T12:33:03Z",
+  "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held until a peer reviewed version exists.",
+  "reviewBasis": "The full text of version 1 of the preprint, read in this run from the Research Square page at researchsquare.com/article/rs-11415047/v1: abstract, methods, results on class structure and on problematic social media use, the limitations paragraph and the declarations. The supplementary tables in the additional file were not read. The page itself states that it is a preprint, that it has not been peer reviewed by a journal, and that its status is under review.",
+  "claims": [
+    {
+      "claim": "Among adolescents who report bullying others, three patterns can be told apart: bullying only in person, some involvement online, and a smaller group who both bully and are bullied in person and online.",
+      "status": "QUALIFIED",
+      "basis": "Results, tables 2 and 3: a three class latent class solution in 48,465 adolescents from 42 countries in the 2017/18 Health Behaviour in School aged Children survey. Qualified because the paper is not peer reviewed, the authors chose three classes while the fit indices kept improving with more, and the limitations paragraph says the online involved group did not appear again when bullying was defined more strictly."
+    },
+    {
+      "claim": "The group who both bully and are bullied fare worst on health, life satisfaction, family and peer support and school experience.",
+      "status": "QUALIFIED",
+      "basis": "Abstract and results. Every measure is self report from one survey at one time. The limitations paragraph says the direction cannot be drawn: lower life satisfaction may follow from bullying or may come before it."
+    },
+    {
+      "claim": "Problematic social media use rises across the three groups and is highest among those who both bully and are bullied.",
+      "status": "QUALIFIED",
+      "basis": "Results, risk behaviours: the share classed as problematic users rises across the three groups for boys and for girls, on the nine item Social Media Disorder Scale. Qualified because the methods report that 18 percent of the individual items and 22 percent of the total score were missing and were not imputed, the data are from 2017 and 2018, and it is an association in one survey."
+    },
+    {
+      "claim": "Problematic social media use causes bullying, or bullying causes problematic use.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper does not claim it and its limitations paragraph rules it out: a cross sectional design cannot give the direction of any association."
+    },
+    {
+      "claim": "Poorer communication with a mother puts a child at risk of becoming both bully and victim.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract reports less ease of communication with mothers in that group. That is a difference between groups at one time, in self report. It would flatter our view that connection is the protection, so it was checked hardest, and the design cannot carry it."
+    },
+    {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The Research Square page says it is a preprint that has not been peer reviewed by a journal, status under review, version 1. The register already marks it as a preprint."
+    }
+  ],
+  "notQuotable": [
+    "every figure in the preprint, including the sample size, the class sizes, the effect sizes and the shares classed as problematic users: nothing is cleared while it is not peer reviewed",
+    "any statement that social media use leads to bullying or the reverse",
+    "any statement about what a parent talking with a child prevents",
+    "any statement that this describes children today: the survey was run in 2017 and 2018"
+  ],
+  "evidenceConfidence": "HIGH that the preprint says what is written here: the main text was read. LOW as evidence we can use: not peer reviewed, one time point, self report, data eight years old, and one of its three groups does not survive a stricter definition.",
+  "limitations": [
+    "A preprint, version 1, not peer reviewed, under review at a journal.",
+    "Cross sectional. The authors say they cannot give the direction of any association or say whether adolescents move between groups.",
+    "All measures are self report by the adolescent.",
+    "The data were collected in 2017 and 2018, before the pandemic. The authors say online behaviour changed after that.",
+    "Only adolescents who reported bullying others were analysed, so nothing carries across to adolescents who do not.",
+    "The online involved group did not appear again under a stricter definition of bullying.",
+    "Full measurement invariance between boys and girls was not supported.",
+    "22 percent of total scores on the social media scale were missing and were not imputed.",
+    "Ages 11, 13 and 15 only. The 42 countries are pooled and no UK figure was read.",
+    "The supplementary tables, which hold the family results, were not read in this run.",
+    "The authors state that a large language model was used for language editing, cross checking of outputs and formatting."
+  ],
+  "contradictoryEvidence": [
+    "From the same paper: the online involved group was not recovered when bullying was defined as two to three times a month or more, so one of the three groups depends on where the line is drawn.",
+    "From the same paper: the test for boys gave some support for four groups, not three.",
+    "From the same paper: the limitations paragraph says lower life satisfaction may come before bullying involvement as easily as after it.",
+    "No outside study was read against it in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That social media use makes a child a bully or a victim.",
+    "That a close relationship with a parent prevents bullying.",
+    "Anything about children under 11, or about UK children on their own.",
+    "Anything about how children behave online now.",
+    "Anything about what a parent or a school should do."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a preprint posted this week.",
+  "gdcBeliefs": [
+    "Evidence or silence. A preprint is not evidence we publish from.",
+    "The line about communication with mothers agrees with what we believe and is held to a higher standard for that reason. It does not meet it."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody yet.",
+  "unresolvedQuestions": [
+    "Whether a peer reviewed version appears, and whether the three groups survive review. Look again then."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-d1f9996f06.json"
+}
