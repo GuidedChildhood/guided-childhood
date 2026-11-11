@@ -89,3 +89,26 @@ Google set up as well, at a top finish, and asked why not an avatar.
   each with its own link code, and the numbers decide. Whether the twin reads
   as AI made, which the council found costs attention, is the thing the test
   measures.
+
+## 11 November, evening: the goal, the swipe file, and what the accounts need
+
+Justin set the goal: the best performing adverts, built on what is proven,
+copying the adverts that worked as far as we can, with Facebook and Google
+ready to upload to.
+
+- **The goal is written down** in `content/ads/proven-rules.md`, with the one
+  number it is judged on.
+- **Step 4 is done**: `content/ads/swipe/ads.json`, 21 adverts from six
+  companies, and nine rules drawn from the eight that have run 90 days or
+  more. The first rule changes the order of work: everything past 180 days is
+  video, so the video round (step 6) comes next, before more cards.
+- **"As much as possible" has a line.** We copy structure. Their pictures,
+  films and sentences stay theirs, and the sweep stays by hand: a scraper
+  breaks Meta's terms on the account we mean to advertise from.
+- **The accounts are not ready, and not for the reason expected.** Looked at
+  both, read only. The Facebook Page (The Guided Childhood) is owned by the
+  Inspired by Alma business portfolio, where Justin has partial access, so he
+  cannot make a system user there. His own ad account is an old one with an
+  expired card and Etsy campaigns in it. The Google Ads login opens another
+  business's account. Guided Childhood needs its own of each:
+  `content/ads/SETUP.md`, rewritten to what is actually there.

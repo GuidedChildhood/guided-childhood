@@ -35,6 +35,9 @@ switch something on or spend, stop and hand it over.
 4. `content/ads/results-log.md`: what already ran and what it did. Never
    remake a loser without saying why this time is different.
 5. `ad-library-watchlist.md` in this folder: who to watch and the links.
+6. `content/ads/proven-rules.md`: the goal, and what the adverts that have run
+   longest share. `content/ads/swipe/ads.json` is the evidence under it, one
+   entry per advert read. Add to both after every sweep.
 
 ## Phase 1 · Find the winners
 
@@ -64,6 +67,15 @@ these is available, in this order:
 3. **Ads seen in his feed.** A screenshot of an ad in the wild still counts
    for the teardown, but has no days live figure, so it ranks below a library
    ad that has run 90 days.
+
+**What a sweep keeps.** For each advert: who, the library id, days live,
+whether it is in several versions, video or image, the hook in a few words,
+what the picture is of, what to borrow and what to leave. That goes in
+`content/ads/swipe/ads.json`. Their images, films and body copy are never
+saved into the repo or reused: they are theirs, and we borrow structure only.
+A sweep is read by hand, a handful of pages, in Justin's browser. Never a
+standing scraper: collecting from the library by machine breaks Meta's terms,
+and it is the same account we advertise from.
 
 Pick the five strongest across the watchlist. Fewer good ones beat many weak
 ones.
