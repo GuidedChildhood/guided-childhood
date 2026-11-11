@@ -17,6 +17,7 @@ import { repoState, sha256, parsePostRegister, nextFreeNumber, unmangle, DRIVE }
 import { buildManifest } from './manifest.mjs'
 import { LIMITS } from './qa.mjs'
 import * as reg from './register.mjs'
+import { recentReceipts, SCHEMA_ID } from './candidates.mjs'
 
 const HEADER_FIELDS = {
   'RESEARCH ID': 'researchId',
@@ -35,6 +36,8 @@ const SECTIONS = {
   'INSTAGRAM CAPTION': ['instagram', 'caption'],
   'FACEBOOK CAPTION': ['facebook', 'caption'],
   'NEWSLETTER': ['newsletter', 'body'],
+  'REEL SCRIPT': ['reel', 'script'],
+  'EVIDENCE NOTES': ['evidence', 'notes'],
   'VISUAL BRIEF': ['visual', 'brief'],
   'ASSETS USED': ['visual', 'assetsUsed'],
   'SOURCES': ['sources', null],
@@ -61,11 +64,17 @@ export function packTemplate({ researchId, gdcPostNumber, handoffVersion, source
     '',
     '=== NEWSLETTER ===',
     '',
+    '=== REEL SCRIPT ===',
+    '(Only if the handoff asks for a Reel or Short. Spoken lines as Justin would say them, and the on screen words. Otherwise NOT RECOMMENDED and why.)',
+    '',
     '=== VISUAL BRIEF ===',
     '(What the card shows. Approved brand assets only.)',
     '',
     '=== ASSETS USED ===',
     '(One approved asset per line, or NONE if the post goes out as text only.)',
+    '',
+    '=== EVIDENCE NOTES ===',
+    '(What this research does not show, and any claim you chose not to make. Taken from the handoff, in your own plain words.)',
     '',
     '=== SOURCES ===',
     '(One URL per line, taken from the handoff.)',
@@ -160,31 +169,41 @@ export function stage2Brief({ links = {} } = {}) {
   line(`Generated ${new Date().toISOString()} from commit ${r.commit}${r.dirty ? ' (with uncommitted changes)' : ''}`)
   line('GitHub is the authority. This document is a copy. If it is more than a day old, ask Justin for a fresh one before writing.')
   line()
-  line('WHAT TO WRITE NEXT')
+  line('WHAT TO WRITE')
   if (!next) {
     line('  Nothing. The queue is empty. Do not start a story that is not listed here.')
+    line()
   } else {
-    line(`  Research ID: ${next.researchId}`)
-    line(`  GDC post number: ${next.gdcPostNumber || 'none yet, see THE NUMBER RULE'}`)
-    line(`  Working title: ${next.proposedTitle || next.title}`)
-    line(`  Priority: ${next.editorialPriority}. ${next.urgency || ''}`)
-    line(`  Formats: ${(next.recommendedPlatforms || []).join(', ') || 'LinkedIn post'}`)
-    line(`  Claude review: ${next.claudeStatus}, verdict ${next.claudeVerdict}`)
-    line(`  Handoff, version ${next.handoffVersion ?? 'unknown'}, to read in full before writing:`)
-    line(`    for people: ${next.handoffDoc || 'not yet in Drive'}`)
-    line(`    machine readable: ${url(links.handoffJson || next.handoffJsonDriveFileId)}`)
-    if (m.queue.length > 1) line(`  ${m.queue.length - 1} more behind it. Take them in the order the manifest gives.`)
+    line(`  ${m.queue.length} ${m.queue.length === 1 ? 'story is' : 'stories are'} cleared. Write each one as its own pack, in this order.`)
+    line('  A story that is not in this list is not cleared, whatever the daily brief says about it.')
+    line()
+    // Every story, each with its own figures and limits. The first version of
+    // this document described only the first story, so a run that could have
+    // written three packs wrote one and Justin had to ask for the others.
+    m.queue.forEach((q, i) => {
+      const r2 = reg.get(q.researchId)
+      const number = q.gdcPostNumber ? `GDC-${String(q.gdcPostNumber).padStart(3, '0')}` : 'no number yet, see THE NUMBER RULE'
+      line(`STORY ${i + 1} OF ${m.queue.length}: ${q.researchId}, ${number}`)
+      line(`  Working title: ${q.proposedTitle || q.title}`)
+      line(`  Priority: ${q.editorialPriority}. ${q.urgency || ''}`)
+      line(`  Formats to produce: ${(q.recommendedPlatforms || []).join(', ') || 'LinkedIn post'}. Nothing else. Write NOT RECOMMENDED under every other section.`)
+      line(`  Claude review: ${q.claudeStatus}, verdict ${q.claudeVerdict}`)
+      line(`  Handoff version ${q.handoffVersion ?? 'unknown'}, source commit ${q.handoffSourceCommit || 'see the handoff'}. Read it in full before writing:`)
+      line(`    for people: ${(links.handoffDocs || {})[q.researchId] || q.handoffDoc || 'not yet in Drive'}`)
+      line(`    machine readable: ${url((links.handoffJsons || {})[q.researchId] || (i === 0 ? links.handoffJson : null) || q.handoffJsonDriveFileId)}`)
+      line(`  Title the pack exactly: PACK ${q.researchId} ${q.gdcPostNumber ? `GDC-${String(q.gdcPostNumber).padStart(3, '0')}` : 'GDC-NNN'} DRAFT v1`)
+      line('  The figures you may use, and no others:')
+      const cl = r2?.claudeReview?.verifiedStatistics || []
+      if (!cl.length) line('    None. Do not put a number in the copy.')
+      for (const c of cl) line(`    ${c}`)
+      line('  What you may not say:')
+      for (const p of r2?.claudeReview?.notQuotable || []) line(`    ${p}`)
+      for (const p of r2?.claudeReview?.whatThisDoesNotProve || []) line(`    This research does not prove: ${p}`)
+      line()
+    })
   }
-  line()
-  line('THE FIGURES YOU MAY USE')
-  const cleared = rec?.claudeReview?.verifiedStatistics || []
-  if (!cleared.length) line('  None. Do not put a number in the copy.')
-  for (const c of cleared) line(`  ${c}`)
-  line('  No other number may appear anywhere in the pack. The check compares every figure against this list.')
-  line()
-  line('WHAT YOU MAY NOT SAY')
-  for (const p of rec?.claudeReview?.notQuotable || []) line(`  ${p}`)
-  for (const p of rec?.claudeReview?.whatThisDoesNotProve || []) line(`  This research does not prove: ${p}`)
+  line('FOR EVERY STORY')
+  line('  No number may appear anywhere in a pack unless it is in that story\'s own list above. The check compares every figure against it.')
   line('  Never claim an outcome for a child. Never "safe online" or "ready for social media".')
   line()
   line('THE NUMBER RULE')
@@ -214,8 +233,8 @@ export function stage2Brief({ links = {} } = {}) {
   line('  There is no Story Bible in Drive. If an older instruction names one, ignore that line.')
   line()
   line('HOW TO HAND THE PACK BACK')
-  line(`  Save ONE Google Doc in this folder: https://drive.google.com/drive/folders/${DRIVE.STAGE2_FOLDER}`)
-  line(`  Title it exactly: PACK ${next ? next.researchId : 'GDC-RR-xxxxxxxxxx'} GDC-${next?.gdcPostNumber || 'NNN'} DRAFT v1`)
+  line(`  Save each pack as a Google Doc in this folder: https://drive.google.com/drive/folders/${DRIVE.STAGE2_FOLDER}`)
+  line('  One Doc per story, titled as shown under that story above. Never two stories in one Doc.')
   line('  Use exactly this layout, with the labels unchanged:')
   line()
   for (const t of packTemplate({ researchId: next?.researchId || 'GDC-RR-xxxxxxxxxx', gdcPostNumber: next?.gdcPostNumber, handoffVersion: next?.handoffVersion,
@@ -239,6 +258,33 @@ export function stage2Brief({ links = {} } = {}) {
       if (x.status !== 'EDITORIAL READY') line('    Do not write this story again. It is no longer in the queue.')
       for (const f of (x.packQa.failures || []).slice(0, 6)) line(`    Held on: ${f.check}. ${f.why}`)
       for (const l of String(x.packReview?.notes || '').split('\n').filter(Boolean)) line(`    ${l}`)
+      if (x.founderDecision?.state === 'CHANGES REQUESTED' && !x.founderDecision.resolvedAt) line(`    Justin asked for changes: ${x.founderDecision.note}`)
+    }
+    line()
+  }
+  // The other half of the relay: how research reaches Claude without Justin
+  // carrying it, and what became of what was sent.
+  line('HOW TO SEND RESEARCH TO CLAUDE')
+  line(`  Save ONE document a day in the inbox: https://drive.google.com/drive/folders/${DRIVE.CANDIDATE_INBOX}`)
+  line('  Title it: CANDIDATES YYYY-MM-DD. A .json file is best. A Google Doc or a .md file with the JSON in it is also read.')
+  line(`  It must be JSON in the shape "${SCHEMA_ID}". The schema and an example to copy are in that folder, in the file that starts READ ME.`)
+  line('  Every candidate needs the original link, the date the source was published, what you believe it shows, and what it cannot show.')
+  line('  Leave researchId null for anything new. GitHub gives it an id. An empty list is a normal day.')
+  line('  A candidate is not cleared. Do not write copy from one. It is cleared only when it appears under WHAT TO WRITE above.')
+  line()
+  const receipts = recentReceipts(3)
+  if (receipts.length) {
+    line('WHAT HAPPENED TO THE CANDIDATES YOU SENT')
+    for (const b of receipts) {
+      line(`  Batch ${b.batchId}, read ${String(b.ingestedAt).slice(0, 10)}:`)
+      if (!b.results.length) line('    no candidates in it')
+      for (const x of b.results) {
+        const live = x.researchId ? reg.get(x.researchId) : null
+        const where = x.outcome === 'INGESTED' ? `taken in as ${x.researchId}, now ${live?.status || 'DISCOVERED'}${live?.claudeReview ? `, review verdict ${live.claudeReview.verdict}` : ', not yet reviewed'}`
+          : x.outcome === 'DUPLICATE' ? `already held. ${(x.reasons || []).join(' ')}`
+            : `held. ${(x.reasons || []).join(' ')}`
+        line(`    ${x.candidateId}: ${where}`)
+      }
     }
     line()
   }

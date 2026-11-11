@@ -31,6 +31,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import { getJson, get, mailtoParam, govukPublication } from './sources.mjs'
 import * as reg from './register.mjs'
 
+// Public bodies whose own pages count as a primary record. Short on purpose:
+// a host is added when a real record needs it, not in case one might.
+const OFFICIAL_HOSTS = ['gov.uk', 'europa.eu', 'ofcom.org.uk', 'ico.org.uk', 'nhs.uk', 'parliament.uk', 'who.int', 'oecd.org', 'esafety.gov.au']
+
 const CAUSAL = /\b(causes?|caused|causal|leads to|results in|drives|due to|because of|impact(s|ed)? on|effect of)\b/i
 const HEDGED = /\b(associat|correlat|linked to|related to|predict|accompan)/i
 
@@ -196,6 +200,38 @@ export async function buildDossier(rec) {
       d.officialRecordResolves = false
       notes.push(`the GOV.UK publication page did not resolve (HTTP ${status}). Treat the citation as unconfirmed.`)
     }
+  } else if (rec.isOfficial && rec.url) {
+    // Any other official page: a regulator's statement, a commission press
+    // release. "Official" is the sender's word when a record came through the
+    // inbox, so it is only believed for a host on the list below, and only
+    // once the page itself has answered and carries the title and the date.
+    let host = ''
+    try { host = new URL(rec.url).hostname.toLowerCase() } catch { /* handled below */ }
+    const known = OFFICIAL_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))
+    if (!known) {
+      d.officialRecordResolves = false
+      notes.push(`the record is marked official, but ${host || 'its link'} is not a host the radar recognises as a public body. Treat it as unconfirmed until a person has looked.`)
+    } else {
+      const r = await get(rec.url, { retries: 2, timeoutMs: 20000 })
+      const page = r.ok ? String(r.body || '').replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ') : ''
+      const words = reg.titleKey(rec.title).split(' ').filter((w) => w.length > 3)
+      const pageKey = ` ${reg.titleKey(page.slice(0, 200000)).split(' ').join(' ')} `
+      const lower = page.toLowerCase().replace(/[^a-z0-9]+/g, ' ')
+      const found = words.filter((w) => lower.includes(` ${w} `) || pageKey.includes(` ${w} `)).length
+      const titleMatches = words.length > 0 && found / words.length >= 0.7
+      const iso = String(rec.published || '').slice(0, 10)
+      const [y, mo, da] = iso.split('-').map(Number)
+      const MONTH = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'][mo - 1]
+      const dateOnPage = !!iso && (page.includes(iso) || new RegExp(`\\b0?${da}\\s+${MONTH}\\s+${y}\\b`, 'i').test(page) || new RegExp(`\\b${MONTH}\\s+0?${da},?\\s+${y}\\b`, 'i').test(page))
+      d.officialRecord = { url: rec.url, host, httpStatus: r.status, titleWordsFound: `${found} of ${words.length}`, dateOnPage }
+      d.officialRecordResolves = r.ok && titleMatches
+      d.datesAgree = dateOnPage
+      if (!r.ok) notes.push(`the official page did not answer (HTTP ${r.status}). Treat the citation as unconfirmed.`)
+      else if (!titleMatches) notes.push(`the page answered, but only ${found} of ${words.length} title words are on it. It may not be the document the record names.`)
+      else d.automaticChecks.push(`official page on ${host} answered and carries the title`)
+      if (r.ok && !dateOnPage) notes.push(`the date on the record, ${iso}, was not found on the page. Check the publication date by eye before calling it new.`)
+      notes.push('a statement by a public body is evidence of what that body said and did. It is not a research finding, and a preliminary finding is not a decision.')
+    }
   } else {
     notes.push('no DOI on the record, so there is no canonical identifier to verify against')
   }
@@ -213,6 +249,7 @@ export async function buildDossier(rec) {
     }
   }
 
+  if ((rec.foundBy || []).includes('chatgpt-inbox')) notes.push('this record came through the candidate inbox. Its summary and claims are the sender\'s wording, not the source\'s, so nothing extracted from them above is a fact about the source.')
   if (!d.abstractAvailable) notes.push('no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.')
   if (!d.sampleSize) notes.push('sample size not extractable: do not quote an N')
   if (!d.statistics.hasEffectSize) notes.push('no effect size found in the available text: do not describe the size of the finding')

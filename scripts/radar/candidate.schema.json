@@ -1,0 +1,193 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "gdc.research-candidates/1.0",
+ "title": "Guided Childhood research candidates, one batch",
+ "description": "What ChatGPT drops in the research candidate inbox. A candidate is a pointer to a source and what the sender believes it says. Nothing here is treated as verified.",
+ "type": "object",
+ "required": [
+  "schema",
+  "batchId",
+  "createdAt",
+  "createdBy",
+  "candidates"
+ ],
+ "additionalProperties": true,
+ "properties": {
+  "schema": {
+   "const": "gdc.research-candidates/1.0"
+  },
+  "batchId": {
+   "type": "string",
+   "minLength": 6,
+   "description": "Unique per document. Suggested: the date and the run, for example 2026-11-11-chatgpt-0800."
+  },
+  "createdAt": {
+   "type": "string",
+   "format": "date-time"
+  },
+  "createdBy": {
+   "type": "string",
+   "description": "Who wrote this document, for example chatgpt-scheduled-0800. Never Claude and never Justin unless that is true."
+  },
+  "candidates": {
+   "type": "array",
+   "maxItems": 12,
+   "description": "May be empty. A day with nothing worth sending is a normal day.",
+   "items": {
+    "type": "object",
+    "required": [
+     "candidateId",
+     "title",
+     "sourceType",
+     "originalUrl",
+     "publicationDate",
+     "candidateClaims",
+     "limitations"
+    ],
+    "additionalProperties": true,
+    "properties": {
+     "candidateId": {
+      "type": "string",
+      "minLength": 4,
+      "description": "The sender's own id, unique inside the batch. Not a GDC-RR id."
+     },
+     "researchId": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "pattern": "^GDC-RR-[0-9a-f]{10}$",
+      "description": "Only when this is a record already in the queue or manifest. Null for anything new: GitHub assigns the id, the sender never invents one."
+     },
+     "title": {
+      "type": "string",
+      "minLength": 8
+     },
+     "sourceType": {
+      "enum": [
+       "journal-article",
+       "preprint",
+       "official-document",
+       "regulator-statement",
+       "dataset",
+       "news-report",
+       "other"
+      ]
+     },
+     "originalUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The primary source itself: the journal page, the DOI link, the regulator's own page. Not a news article about it, unless sourceType is news-report."
+     },
+     "otherUrls": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "format": "uri"
+      }
+     },
+     "doi": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "pmid": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "publisher": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "The journal or the publishing body."
+     },
+     "authors": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "publicationDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "The date the source itself was published, YYYY-MM-DD. Not the date it was found."
+     },
+     "summary": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "candidateClaims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "object",
+       "required": [
+        "claim"
+       ],
+       "properties": {
+        "claim": {
+         "type": "string",
+         "minLength": 10
+        },
+        "figure": {
+         "type": [
+          "string",
+          "null"
+         ],
+         "description": "Any number the claim rests on, exactly as the source gives it."
+        },
+        "whereInSource": {
+         "type": [
+          "string",
+          "null"
+         ],
+         "description": "Abstract, page number, section heading, or the URL of the passage."
+        }
+       }
+      }
+     },
+     "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "string",
+       "minLength": 5
+      },
+      "description": "What the source cannot show. If the sender can think of none, it has not looked."
+     },
+     "whyItMatters": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "ukRelevance": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "suggestedFormats": {
+      "type": "array",
+      "items": {
+       "enum": [
+        "linkedin",
+        "image",
+        "instagram",
+        "facebook",
+        "reel",
+        "newsletter"
+       ]
+      }
+     }
+    }
+   }
+  }
+ }
+}

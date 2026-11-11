@@ -223,7 +223,7 @@ export function eligibility(studyIdOrRecord) {
  *
  * Every check appends to one list. The verdict is HOLD if anything failed.
  */
-export function checkPack(pack, { record = null, corpus = null } = {}) {
+export function checkPack(pack, { record = null, corpus = null, postRegisterPath = undefined } = {}) {
   const checks = []
   const add = (name, pass, detail) => checks.push({ name, pass: !!pass, detail })
 
@@ -253,7 +253,7 @@ export function checkPack(pack, { record = null, corpus = null } = {}) {
   add('the research is still eligible for Stage 2', el.verdict === 'PASS', el.reasons.join(' | ') || 'eligible')
 
   // 2. The post number. Requirement 2: never two claims on one number.
-  const rows = parsePostRegister()
+  const rows = parsePostRegister(postRegisterPath)
   const num = pack?.gdcPostNumber ? String(pack.gdcPostNumber).padStart(3, '0') : null
   if (!num) {
     add('carries a GDC post number', false, 'no gdcPostNumber. Stage 2 must claim the next free number in the GitHub register before writing.')
@@ -306,8 +306,28 @@ export function checkPack(pack, { record = null, corpus = null } = {}) {
 
   // 4. Figures. Nothing in copy that the handoff did not clear.
   const cleared = rec?.claudeReview?.verifiedStatistics || []
-  const allCopy = [li, pack?.linkedin?.firstComment, pack?.instagram?.caption, pack?.facebook?.caption, pack?.newsletter?.body]
+  const allCopy = [li, pack?.linkedin?.firstComment, pack?.instagram?.caption, pack?.facebook?.caption, pack?.newsletter?.body, pack?.reel?.script]
     .filter(Boolean).join('\n\n')
+
+  // 4a. The formats. The handoff says which formats this story is worth, and
+  // Justin's instruction on 10 November was not to produce every format for
+  // every story. A caption nobody asked for is production volume, and each
+  // extra piece is one more place for an uncleared claim to sit.
+  const asked = (rec?.claudeReview?.recommendedPlatforms || []).join(' ').toLowerCase()
+  const produced = [
+    ['Instagram caption', pack?.instagram?.caption, /instagram/],
+    ['Facebook caption', pack?.facebook?.caption, /facebook/],
+    ['newsletter', pack?.newsletter?.body, /newsletter|substack/],
+    ['Reel or Short script', pack?.reel?.script, /reel|short|video/],
+  ].filter(([, body]) => !!body)
+  const unasked = produced.filter(([, , re]) => !re.test(asked)).map(([name]) => name)
+  add('every format produced was asked for by the handoff', !rec || unasked.length === 0,
+    !rec ? 'no record to compare with'
+      : unasked.length ? `the handoff asks for ${rec.claudeReview?.recommendedPlatforms?.join(', ') || 'a LinkedIn post only'}, and the pack also carries: ${unasked.join(', ')}. Write NOT RECOMMENDED under those and give the reason.`
+        : `${produced.length} other format(s) produced, all asked for`)
+  const otherCopy = produced.map(([, body]) => body).join('\n\n')
+  add('no dashes in the other formats', !DASHES.test(otherCopy),
+    DASHES.test(otherCopy) ? 'a caption, the newsletter or the script carries a dash. None in any copy.' : (produced.length ? 'none found' : 'no other format to check'))
   const uncleared = figuresIn(allCopy).filter((f) => !isCleared(f, cleared))
   add('every figure in the copy was cleared by the review', uncleared.length === 0,
     uncleared.length

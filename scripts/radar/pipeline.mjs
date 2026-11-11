@@ -22,7 +22,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import * as reg from './register.mjs'
-import { buildHandoff, handoffDoc } from './handoff.mjs'
+import { buildHandoff, handoffDoc, PRIORITIES } from './handoff.mjs'
 import { checkPack, eligibility } from './qa.mjs'
 import { parsePostRegister, internalNumberConflicts, nextFreeNumber, repoState, POST_REGISTER } from './contract.mjs'
 import { driveReadable } from './sync.mjs'
@@ -70,6 +70,9 @@ export function storeReview(studyId, review, { reviewPath = null } = {}) {
   else if (rec.dossier.automaticVerdict !== 'RECORD CONFIRMED') reasons.push(`the dossier verdict is ${rec.dossier.automaticVerdict}. A study that cannot be identified cannot be reviewed.`)
   if (!REVIEW_VERDICTS.includes(r.verdict)) reasons.push(`the verdict must be one of ${REVIEW_VERDICTS.join(', ')}`)
   if (!r.reviewedAt || Number.isNaN(Date.parse(r.reviewedAt))) reasons.push('no dated reviewedAt')
+  // Caught on the day this gate was written: three reviews were stamped up to
+  // forty minutes ahead of the clock. A review cannot have happened later than now.
+  else if (Date.parse(r.reviewedAt) > Date.now() + 5 * 60000) reasons.push(`reviewedAt is ${r.reviewedAt}, which is in the future. Stamp it with the time the review was actually done.`)
   if (!String(r.reviewBasis || '').trim()) reasons.push('no reviewBasis. The review has to say what was actually read: abstract, full text, or both.')
   const claims = Array.isArray(r.claims) ? r.claims : []
   if (!claims.length) reasons.push('no claim by claim verdicts')
@@ -87,7 +90,7 @@ export function storeReview(studyId, review, { reviewPath = null } = {}) {
   if (reasons.length) { const h = hold('REVIEW', reasons); recordGate(studyId, h); return h }
 
   const status = r.verdict === 'REJECT' ? 'REJECTED' : r.verdict === 'HOLD' ? 'HOLD' : 'EDITORIAL READY'
-  reg.upsert({ ...rec, claudeStatus: 'CLAUDE REVIEWED', claudeReview: { ...r, storedAt: reviewPath || r.storedAt || null }, status, editorialPriority: rec.editorialPriority || 'BANK' },
+  reg.upsert({ ...rec, claudeStatus: 'CLAUDE REVIEWED', claudeReview: { ...r, storedAt: reviewPath || r.storedAt || null }, status, editorialPriority: PRIORITIES.includes(r.editorialPriority) ? r.editorialPriority : (rec.editorialPriority || 'BANK') },
     { reason: `directed Claude review stored, verdict ${r.verdict}, ${claims.length} claims`, actor: 'claude:review' })
   const out = pass('REVIEW', { status, claims: claims.length })
   recordGate(studyId, out)
@@ -268,11 +271,11 @@ export function handoff(studyId, { postRegisterPath = POST_REGISTER } = {}) {
  * and the full QA result are stored whatever the outcome, so a HOLD can be
  * read later by the person fixing it.
  */
-export function submitPack(pack, { corpus = null } = {}) {
+export function submitPack(pack, { corpus = null, postRegisterPath = undefined } = {}) {
   const studyId = pack?.researchId
   if (!studyId || !reg.get(studyId)) return hold('QA', `the pack names research record ${studyId || 'nothing'}, which is not in the register`)
 
-  const qa = checkPack(pack, { corpus })
+  const qa = checkPack(pack, { corpus, postRegisterPath })
   mkdirSync(PACKS(), { recursive: true })
   writeFileSync(join(PACKS(), `pack-${studyId}.json`), JSON.stringify(pack, null, 1))
   writeFileSync(join(PACKS(), `qa-${studyId}.json`), JSON.stringify(qa, null, 1))
