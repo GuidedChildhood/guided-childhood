@@ -606,6 +606,18 @@
         }
       ],
       "instructions": "Four questions. Nobody marks these and nobody sees them but you."
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Says who owns a piece of work, runs the two fair dealing questions, and credits an AI tool, saying what they did.",
+        "developing": "Knows credit is not permission, but says fair use for fair dealing, or credits an AI tool without saying what they did.",
+        "revisit": "Says a credit or no copyright intended makes a repost fine, or that posting hands ownership to the app."
+      }
     }
   },
   "sort_order": 34,

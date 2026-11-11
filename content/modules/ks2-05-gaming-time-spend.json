@@ -570,7 +570,7 @@
         "The games companies have teams of expert designers. From today, every one of them has to get past YOU. See you next lesson!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card before they leave. Collect them in, they are your evidence for the register.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card before they leave. Collect them in, they show you who to revisit next lesson.",
       "heading": "DiGi wraps the mission",
       "minutes": 1
     }
@@ -599,12 +599,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Runs the three spend spotters on an offer without prompting and explains that a loot box sells a chance, not a thing.",
+        "developing": "Spots the countdown clock or the mystery chest but needs the bookmark to name all three spotters or turn gems into pounds.",
+        "revisit": "Says the timer means a great deal, that all game spending is a scam, or that only weak willed people get hooked."
+      }
     }
   },
   "sort_order": 5,
@@ -705,7 +708,7 @@
         "teaching_point": "The rush is the design, not a kindness. Naming the purpose is what breaks it."
       },
       {
-        "answer": "What is the real price, what am I actually getting, and what is the rush?",
+        "answer": "Is it rushing me? Is it hiding the price? Is it random like a raffle?",
         "format": "short_answer",
         "question": "What are the three spend spotter questions?",
         "teaching_point": "The tool they leave with. Three questions, asked before the tap, never after."
@@ -820,7 +823,7 @@
       "Game currency hides the real price, because gems do not feel like pounds.",
       "A loot box sells a chance, not a thing.",
       "A countdown clock is there to stop you thinking, not to help you.",
-      "The spend spotters ask: what is the real price, what am I actually getting, and what is the rush?"
+      "The spend spotters ask: is it rushing me, is it hiding the price, is it random like a raffle?"
     ],
     "hard_questions": [
       {

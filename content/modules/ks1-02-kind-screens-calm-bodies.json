@@ -356,12 +356,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names a feeling such as wiggly or grumpy, says Pebble's three steps and names the grown up they would tell.",
+        "developing": "Chants the three steps and points to a feelings face, but needs help choosing between take a break and tell.",
+        "revisit": "Says telling a grown up is telling tales, or would keep a yucky screen feeling secret to stay out of trouble."
+      }
     }
   },
   "sort_order": 2,
@@ -471,10 +474,10 @@
         "teaching_point": "Telling about a feeling is not telling tales. Children who confuse the two go quiet exactly when you need them not to."
       },
       {
-        "answer": "named",
+        "answer": "break",
         "format": "fill_blank",
-        "question": "Feelings pass more quickly once you have ___ them.",
-        "teaching_point": "The mechanism behind step two. Naming is not a nicety, it is what makes the feeling shrink."
+        "question": "When my body feels wiggly, tired and grumpy after a screen, I take a ___.",
+        "teaching_point": "Wiggly plus tired plus grumpy is the body saying enough for now. A break, a stretch and a drink helps the body feel calm again."
       }
     ],
     "worksheet": {
@@ -577,7 +580,7 @@
     "learning_objective": "Pupils can name how their body and mood feel after screen time using simple feeling words, and know to tell a trusted grown up, especially when something on a screen feels bad.",
     "key_learning_points": [
       "Screens leave a feeling in your body, and the feeling is real.",
-      "Wiggly and grumpy are two of the feelings screens can leave behind.",
+      "Wiggly and grumpy are two of the feelings screens can leave behind, and they mean take a break.",
       "Feelings pass more quickly once you have named them.",
       "Pebble's three steps are feel it, name it, tell a grown up.",
       "Telling a grown up is brave, not naughty."

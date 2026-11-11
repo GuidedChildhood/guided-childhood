@@ -364,7 +364,7 @@
         }
       ],
       "minutes": 2,
-      "script": "First of our two finishing questions, and every child answers. Read the question and all three answers aloud with actions, wait five seconds, then everyone votes with fingers. Ask one child to show the wave and say the next thing. Record who got it on the exit sheet by eye; nobody's answer is read out as wrong.",
+      "script": "First of our two finishing questions, and every child answers. Read the question and all three answers aloud with actions, wait five seconds, then everyone votes with fingers. Ask one child to show the wave and say the next thing. Note by eye who to revisit tomorrow; nobody's answer is read out as wrong.",
       "together_prompt": "This is a check question. Read it and the answers, then let them choose on their own."
     },
     {
@@ -480,12 +480,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Says the next show starts by itself, then picks a stop, waves bye bye and names a next thing unprompted.",
+        "developing": "Waves bye bye with the class, but needs help to find the stop or name a next thing.",
+        "revisit": "Says the screen will say when to stop, chooses just one more, or treats stopping as a punishment."
+      }
     }
   },
   "parent_note": {

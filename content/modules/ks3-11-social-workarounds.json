@@ -452,7 +452,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, and it mirrors evidence item one, so a wrong answer here tells you exactly who to mark as working towards on the register. Silent, independent, no conferring, this pair of questions is the printed exit quiz.",
+      "script": "First of two exit checks, and it mirrors evidence item one, so a wrong answer here tells you exactly who to note down and come back to next lesson. Silent, independent, no conferring, this pair of questions is the printed exit quiz.",
       "minutes": 2,
       "options": [
         {
@@ -551,7 +551,7 @@
         "Spotting the trick was never the point. Knowing the price is. It is about knowing the price. You know it now. See you next lesson!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card. Collect them in, they are your evidence for the register.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card. Collect them in, they show you who to revisit next lesson.",
       "heading": "DiGi walks you out",
       "minutes": 1
     }
@@ -582,12 +582,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the protection behind a rule, says what a workaround skips, and explains why it is a trade, never a free win.",
+        "developing": "Says a workaround is a trade but cannot name the protection lost, or treats a giant group chat as private.",
+        "revisit": "Says an age setting only unlocks features, a workaround just skips an annoying rule, or a borrowed account is safe."
+      }
     }
   },
   "sort_order": 11,
@@ -718,10 +721,10 @@
         "teaching_point": "Carried forward from ks2-06, because today the machine is being asked to judge an age."
       },
       {
-        "answer": "Any platform with a plausible minimum age.",
+        "answer": "Any two of: content filtering, who can make contact, advertising and profiling, how a report is handled.",
         "format": "short_answer",
-        "question": "Name one platform and the minimum age it sets.",
-        "teaching_point": "They know these. Getting them said out loud stops the lesson feeling theoretical."
+        "question": "From Why thirteen? in primary: name two of the protections wired to your age on an app.",
+        "teaching_point": "Carried forward from ks2-26. If the class can name them, cycle one is a reminder, and the new learning is what a workaround trades away."
       },
       {
         "answer": "False",
@@ -755,7 +758,7 @@
     },
     "prior_knowledge": [
       "A pupil can explain how a feed learns from what they watch, from ks2-06.",
-      "A pupil knows that platforms have minimum ages and can name one.",
+      "A pupil can say what the number on an app is protecting, and that four protections are wired to it, from ks2-26.",
       "A pupil can describe a group chat they have been in, without naming anyone."
     ],
     "worksheet_items": [

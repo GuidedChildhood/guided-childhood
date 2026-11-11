@@ -404,7 +404,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of the two exit checks, these two questions are the printed exit quiz. Silent, individual answers. A wrong answer here tells you who to mark as working towards on the register.",
+      "script": "First of the two exit checks, these two questions are the printed exit quiz. Silent, individual answers. A wrong answer here tells you who to note down for a quiet revisit next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -428,7 +428,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, silent and individual. Together the two questions prove the outcome: recognising escalation from the outside, and recognising grooming by its signature. Collect the printed quizzes as evidence for the register.",
+      "script": "Second exit check, silent and individual. Together the two questions prove the outcome: recognising escalation from the outside, and recognising grooming by its signature. Collect the printed quizzes, they show you who to revisit.",
       "minutes": 2,
       "options": [
         {
@@ -540,12 +540,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Runs the pipeline check on a new clip and gives a verdict with a reason, naming the supplied enemy and who profits.",
+        "developing": "Says the three check questions back but gives verdicts without a reason, or cannot spot isolate, flatter, escalate in a message.",
+        "revisit": "Says it is just jokes, that only loners get radicalised, or hears the lesson as an attack on boys."
+      }
     }
   },
   "sort_order": 18,
@@ -677,7 +680,7 @@
       {
         "answer": "Any two of: urgency, outrage, flattery, FOMO, dark patterns, rage bait.",
         "format": "short_answer",
-        "question": "Name two persuasion techniques from the last lesson.",
+        "question": "Name two persuasion techniques from the manipulation lesson.",
         "teaching_point": "Carried forward from ks4-15. Outrage is the one that matters most today."
       },
       {

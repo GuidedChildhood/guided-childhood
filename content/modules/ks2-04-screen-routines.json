@@ -379,7 +379,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, these two are the printed exit quiz, so pupils answer alone, no partner talk. A wrong answer here tells you who to mark as working towards on the register. The second option is the one to watch: any pupil who thinks routine means ban has missed the heart of the module.",
+      "script": "First of two exit checks, these two are the printed exit quiz, so pupils answer alone, no partner talk. A wrong answer here tells you who to note down and revisit before next lesson. The second option is the one to watch: any pupil who thinks routine means ban has missed the heart of the module.",
       "minutes": 2,
       "options": [
         {
@@ -484,7 +484,7 @@
         "Bloop will be asking about your badge next lesson. Sleep well tonight, squad, your tomorrow will thank you. See you next time!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes and commitment cards go out as this plays, named copies from the print room. Collect the exit quizzes in, they are your evidence for the register. The commitment card goes home in the bag with the parent note.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes and commitment cards go out as this plays, named copies from the print room. Collect the exit quizzes in, they show you who to revisit next lesson. The commitment card goes home in the bag with the parent note.",
       "heading": "DiGi sends you on your mission",
       "minutes": 1
     }
@@ -513,12 +513,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Says agree, finish, swap in order and explains that the end is agreed while calm, so stopping is the plan.",
+        "developing": "Names agree, finish, swap but cannot say why agreeing the end first makes stopping easier.",
+        "revisit": "Says stopping is easy if you really try, or treats a routine as a ban or a punishment adults hand out."
+      }
     }
   },
   "sort_order": 4,

@@ -376,7 +376,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, same rules, silent and independent. This one tests the bottomless bowl idea. Both exit checks go home on the printed quiz, so collect them in, they are your evidence for the register.",
+      "script": "Second exit check, same rules, silent and independent. This one tests the bottomless bowl idea. Both exit checks go home on the printed quiz, so collect them in, they show you who to revisit next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -485,12 +485,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Says the feed loop, you watch, it learns, it serves more, and uses it to explain why a feed never ends.",
+        "developing": "Says the loop with the bookmark in front of them but cannot yet use it to explain a real feed.",
+        "revisit": "Says the app reads minds, the feed is a lucky coincidence, or the feed learns nothing unless you like or comment."
+      }
     }
   },
   "sort_order": 6,

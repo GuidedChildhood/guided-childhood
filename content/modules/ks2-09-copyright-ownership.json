@@ -453,7 +453,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "The thinking question, and the one a visitor to your classroom would love: it proves pupils are reasoning, not reciting. If anyone answered true with a clever argument during the discussion, honour that here, then land the line that settles it: the ownership argument is not finished, the honesty rule is. Collect both exit checks in, they are your evidence for the register.",
+      "script": "The thinking question, and the one a visitor to your classroom would love: it proves pupils are reasoning, not reciting. If anyone answered true with a clever argument during the discussion, honour that here, then land the line that settles it: the ownership argument is not finished, the honesty rule is. Collect both exit checks in, they show you who to revisit next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -558,12 +558,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Chooses credit or ask first for a case with a reason, and says AI pictures come from makers who were not asked.",
+        "developing": "Says make it, credit it, ask first but blurs credit and permission, naming the maker when the case needs a yes.",
+        "revisit": "Says anything online is free to use, or refuses to use anyone else’s work at all, which is fear, not fairness."
+      }
     }
   },
   "sort_order": 9,

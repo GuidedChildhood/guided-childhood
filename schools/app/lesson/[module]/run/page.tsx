@@ -8,6 +8,7 @@ import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-sta
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import RecordLesson from '@/components/records/RecordLesson'
+import { descriptorsOf } from '@gc/shared/lesson-records'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { shapeOf, trackerActions } from '@/lib/tracker'
 import { currentAccess } from '@/lib/licence'
@@ -69,6 +70,7 @@ type Lesson = {
   teacher_notes: TeacherNotes | null
   parent_note: ParentNote | null
   dsl_note: DslNote | null
+  assessment: unknown
 }
 
 // Teacher facing names for the slide types, so a row reads as an activity
@@ -141,7 +143,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note')
+    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note, assessment')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -410,13 +412,13 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             school and not for this laptop. Only for a school with a code: a
             free sample visitor has no school to save it for. Never printed. */}
         {access && (
-          <section className="no-print" style={{ ...card, margin: '0 0 16px' }}>
+          <section id="record" className="no-print" style={{ ...card, margin: '0 0 16px', scrollMarginTop: 'var(--space-4)' }}>
             <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '4px' }}>When it is taught · one tap</div>
             <h2 style={h2}>Record it for your school</h2>
             <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 var(--space-3)' }}>
               The class and the date, saved for your school on every laptop. No pupil is named.
             </p>
-            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} recordHref="/hub/progress" />
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} descriptors={descriptorsOf(lesson.assessment)} recordHref="/hub/progress" />
           </section>
         )}
 

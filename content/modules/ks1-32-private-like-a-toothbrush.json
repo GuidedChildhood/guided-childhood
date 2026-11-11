@@ -497,12 +497,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the four private things, says keep, ask, tell, and chooses tell when someone asks for a password.",
+        "developing": "Says that is private in the private game, but needs the picture cards to name all four private things.",
+        "revisit": "Gives the password for free coins, or says private means a secret kept from grown ups."
+      }
     }
   },
   "parent_note": {

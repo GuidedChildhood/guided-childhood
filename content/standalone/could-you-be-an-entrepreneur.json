@@ -662,6 +662,18 @@
           "teaching_point": "Keep the sentence. The lesson ends with a small try built on it."
         }
       ]
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Uses the real figures to weigh up working for yourself, and plans a small try with an adult who knows.",
+        "developing": "Recalls the figures on how long businesses last and what they pay, but plans a try with no adult in it.",
+        "revisit": "Says most new businesses fail in their first year, or that working for yourself always pays more than a job."
+      }
     }
   },
   "sort_order": 901,

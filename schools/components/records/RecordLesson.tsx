@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
 import {
   canUndo, cleanGroups, JUDGEMENT_LABEL, JUDGEMENTS, levelsIn, shareAtFourOrAbove,
-  type Delivery, type Judgement, type LevelCount, type Subject,
+  type Delivery, type Descriptors, type Judgement, type LevelCount, type Subject,
 } from '@gc/shared/lesson-records'
 import { assessDelivery, lessonRecord, markDelivered, undoDelivery } from '@/app/records/actions'
 
@@ -39,6 +39,9 @@ type Props = {
   levelKey?: string
   /** Digital: the lesson's "I can" statements. */
   objectives?: string[]
+  /** Digital: what each judgement looks like in THIS lesson, one line each,
+   *  from the lesson row. Absent, the buttons stand alone as they always have. */
+  descriptors?: Descriptors | null
   /** Where the whole record lives, for the link under a saved lesson. */
   recordHref?: string
 }
@@ -48,7 +51,7 @@ const CLASS_KEY = (s: Subject) => `gc_records_class_${s}`
 const longDate = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })
 
-export default function RecordLesson({ subject, lessonKey, statements = [], levelNames = ['Level 3', 'Level 4', 'Level 5'], levelKey, objectives = [], recordHref }: Props) {
+export default function RecordLesson({ subject, lessonKey, statements = [], levelNames = ['Level 3', 'Level 4', 'Level 5'], levelKey, objectives = [], descriptors = null, recordHref }: Props) {
   const [loaded, setLoaded] = useState(false)
   const [school, setSchool] = useState(true)
   const [failed, setFailed] = useState(false)
@@ -212,7 +215,7 @@ export default function RecordLesson({ subject, lessonKey, statements = [], leve
             <p className="gc-rec-quiet">Nothing to assess in this lesson. That is the whole record.</p>
           )}
           {subject === 'digital' && (
-            <Judge key={current.id} objectives={objectives} delivery={current} pending={pending}
+            <Judge key={current.id} objectives={objectives} descriptors={descriptors} delivery={current} pending={pending}
               onSave={(judgement, objectiveMarks, note) => assess({ judgement, objectiveMarks, note }, 'Saved.')} />
           )}
 
@@ -307,8 +310,8 @@ function Levels({ statements, levelNames, levelKey, delivery, pending, onSave }:
 }
 
 /** Digital: the teacher's judgement of the class, and by objective if wanted. */
-function Judge({ objectives, delivery, pending, onSave }: {
-  objectives: string[]; delivery: Delivery; pending: boolean
+function Judge({ objectives, descriptors, delivery, pending, onSave }: {
+  objectives: string[]; descriptors: Descriptors | null; delivery: Delivery; pending: boolean
   onSave: (judgement: string | undefined, objectiveMarks: Record<string, Judgement>, note: string) => void
 }) {
   const start = (JUDGEMENTS as string[]).includes(delivery.assessment) ? delivery.assessment as Judgement : null
@@ -328,12 +331,22 @@ function Judge({ objectives, delivery, pending, onSave }: {
   return (
     <div className="gc-rec-next">
       <p className="gc-rec-ask">How did the class do? <span>Optional</span></p>
-      <div className="gc-rec-judge" role="group" aria-label="How the class did">
+      {/* WHAT EACH ONE LOOKS LIKE, ON THE BUTTON (11 November 2026). Three
+          words with nothing under them ask a teacher to guess where the line
+          is, and two teachers guess differently. Each button now carries what
+          that judgement looks like in this lesson, in the lesson's own words. */}
+      <div className="gc-rec-judge" role="group" aria-label="How the class did" data-described={descriptors ? '' : undefined}>
         {JUDGEMENTS.map(j => (
-          <button key={j} type="button" className="gc-rec-choice" aria-pressed={judgement === j} onClick={() => pick(j)} disabled={pending}>{JUDGEMENT_LABEL[j]}</button>
+          <button key={j} type="button" className="gc-rec-choice" aria-pressed={judgement === j} onClick={() => pick(j)} disabled={pending}>
+            <span className="gc-rec-choice-name">{JUDGEMENT_LABEL[j]}</span>
+            {descriptors && <span className="gc-rec-desc">{descriptors[j]}</span>}
+          </button>
         ))}
       </div>
-      <p className="gc-rec-quiet" style={{ margin: 0 }}>Your judgement of the class as a whole. Leave it and the lesson reads as delivered, not assessed.</p>
+      <p className="gc-rec-quiet" style={{ margin: 0 }}>
+        {descriptors ? 'Pick the one most of the class matched. ' : 'Your judgement of the class as a whole. '}
+        Leave it and the lesson reads as delivered, not assessed.
+      </p>
 
       {objectives.length > 0 && (
         <details className="gc-rec-more">
@@ -397,6 +410,10 @@ function RecordStyles() {
       .gc-rec-counts input { text-align: center; }
       .gc-rec-judge { display: flex; flex-wrap: wrap; gap: var(--space-2); }
       .gc-rec-choice { min-height: 56px; padding: 0 var(--space-4); cursor: pointer; background: var(--white); color: var(--ink); border: 1.5px solid var(--border); border-radius: var(--radius-btn); font-family: var(--font-display); font-weight: 800; font-size: var(--text-base); transition: background-color .15s ease, border-color .15s ease; }
+      .gc-rec-judge[data-described] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+      .gc-rec-judge[data-described] .gc-rec-choice { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: var(--space-1); padding: var(--space-3); text-align: left; }
+      .gc-rec-desc { font-family: var(--font-body); font-weight: 400; font-size: var(--text-sm); line-height: 1.45; color: var(--ink-muted); }
+      .gc-rec-choice[aria-pressed="true"] .gc-rec-desc { color: var(--white); }
       .gc-rec-choice-sm { min-height: 44px; padding: 0 var(--space-3); font-size: var(--text-sm); }
       .gc-rec-choice:hover { border-color: var(--terracotta); }
       .gc-rec-choice[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
@@ -407,6 +424,7 @@ function RecordStyles() {
       .gc-rec-error { margin: 0; font-family: var(--font-body); font-weight: 600; font-size: var(--text-sm); color: var(--ink); background: var(--warm); border-left: 4px solid var(--terracotta-dark); padding: var(--space-2) var(--space-3); border-radius: var(--radius-tile); }
       .gc-rec-saved { margin: 0; font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--ink); }
       @keyframes gc-rec-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+      @media (max-width: 720px) { .gc-rec-judge[data-described] { grid-template-columns: minmax(0, 1fr); } }
       @media (max-width: 560px) { .gc-rec-main { align-self: stretch; } .gc-rec-choice { flex: 1 1 100%; } .gc-rec-choice-sm { flex: 1 1 0; padding: 0 var(--space-1); } .gc-rec-done { padding: var(--space-3); } }
       @media (prefers-reduced-motion: reduce) { .gc-rec-done { animation: none; } .gc-rec-choice { transition: none; } }
       @media print { .gc-rec { display: none !important; } }

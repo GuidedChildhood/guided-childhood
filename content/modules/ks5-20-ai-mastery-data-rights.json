@@ -169,9 +169,9 @@
       "mode": "pairs",
       "type": "discussion",
       "phase": "teach",
-      "prompt": "Most people stop at the first of those four. Tell your partner which one you actually stop at, and be honest.",
-      "script": "Sixty seconds, and be honest with each other rather than with me. Which of those four do you actually get to. The next two slides explain why the answer matters more than it used to.",
-      "lookFor": "Nearly everyone stops at using it. The gap between using and checking is the whole lesson, and it lands harder when they hear themselves say it.",
+      "prompt": "Take the last thing you asked an AI tool. Rewrite it as a brief: context, constraints, a clear job.",
+      "script": "Sixty seconds in pairs. They rewrite the prompt they named at the start as a brief: context, constraints, a clear job. Hear one rewrite aloud. The next two slides explain why a good brief is only half of it.",
+      "lookFor": "All three parts in the rewrite: context, constraints, a clear job. A vague prompt gets the average of the internet, a precise one something worth editing.",
       "minutes": 2,
       "seconds": 60,
       "extension": true
@@ -534,12 +534,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Checks a claim somewhere the AI did not write, defends the verdict aloud, and names the data trade behind a free tool.",
+        "developing": "Says use it, check it, own it, but still reads a fluent answer as an accurate one.",
+        "revisit": "Says hallucinations will be fixed by the next update, or that companies have their data anyway so it does not matter."
+      }
     }
   },
   "sort_order": 20,

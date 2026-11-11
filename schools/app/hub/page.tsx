@@ -145,7 +145,7 @@ export default async function HubPage() {
           boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
         }}>
           <span style={{ ...eyebrow, color: 'var(--green-dark)', display: 'block', marginBottom: '6px' }}>
-            Start here · your coverage record
+            Start here · this laptop&apos;s checklist
           </span>
           <span style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
             <span aria-hidden style={{ fontSize: 'var(--text-3xl)', flexShrink: 0, lineHeight: 1 }}>✅</span>
@@ -159,7 +159,7 @@ export default async function HubPage() {
               </span>
               <span style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
                 {[
-                  ['Achieves', 'a printable coverage record of the whole scheme'],
+                  ['Achieves', 'a printable checklist of the whole scheme, lesson by lesson'],
                   ['Helps', 'answers a deep dive on one page, no spreadsheet'],
                   ['Never', 'who was in the room. No pupil data, no accounts'],
                 ].map(([k, v]) => (
@@ -170,6 +170,32 @@ export default async function HubPage() {
                 ))}
               </span>
             </span>
+          </span>
+        </Link>
+
+        {/* THE SCHOOL'S RECORD, ONE CLICK FROM THE HUB (11 November 2026). The
+            tracker above is this laptop's own ticks. The record is what the
+            Mark lesson delivered button saves for the whole school: which
+            class had which lesson, when, and how it went. It was reachable
+            only from a link inside the tracker and from the foot of a lesson,
+            so a subject lead who opened the Hub never met it. Named for what
+            it is, so "the record" means one thing on this page. */}
+        <Link className="gc-tap" href="/hub/progress" style={{
+          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-4)',
+          background: 'var(--white)', border: '1px solid var(--border)', borderTop: '4px solid var(--terracotta-dark)',
+          borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
+          boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
+        }}>
+          <span style={{ ...eyebrow, color: 'var(--terracotta-dark)', display: 'block', marginBottom: 'var(--space-1)' }}>
+            Your school&apos;s record · the same on every laptop
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 'var(--space-1)' }}>
+            Class progress →
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+            Which class has had which lesson, when, how it went and what to teach again. Every class side by
+            side, last year&apos;s record, and one spreadsheet to download. It fills itself in from the Mark lesson
+            delivered button. No pupil is named.
           </span>
         </Link>
 
