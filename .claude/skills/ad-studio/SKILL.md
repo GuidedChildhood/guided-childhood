@@ -108,8 +108,15 @@ Make them with the tools we already have:
   `npm run social-cards -- tools/social-cards/decks/<round>.json`. It draws a
   real device with a real screen in it, at 2160 by 2700, with one line of the
   screen lifted out large as a callout. This is the quality bar Justin set on
-  19 October, matching the competitor ads. `ad-round-phone.json` is the model;
-  the fields are documented at the top of `ad-template.html`.
+  19 October, matching the competitor ads. The fields are documented at the
+  top of `ad-template.html`. `ad-round-phone.json` shows the layout but
+  predates the council and fails the gate; do not copy its copy or its look.
+- **Every deck is a round, every card has a code.** The deck carries
+  `"round": "<yyyy-mm-dd>-<name>"` and every card `"src": "<code>"`, its own
+  link code, never reused (for example `ig-1111-mid-match`). This is the
+  ledger: the card's exact spec in the deck, joined by its code to the opens,
+  stage checks begun and signups the database counts per link. Make each
+  code on the founder links page before the post goes out.
 - **Real screens for them:** `content/ads/screens/`. For a new one, capture a
   ref fixture or the live stage check at 390 wide and three times the pixels
   (`deviceScaleFactor: 3`), never a signed in family. A callout is a crop of
@@ -126,7 +133,44 @@ Write the pack to `content/packs/<date>-<round>/README.md`: the cards, a
 caption for Instagram (no link in the caption, "link in bio") and one for
 Facebook (link in the body), and which card is the control.
 
-## Phase 4 · The gates
+## Phase 4 · The creative director, then the gates
+
+Nothing reaches Justin until it has passed a reviewer that is not the maker.
+Two passes, in this order, and a card that fails goes round again. Three loops
+at most; a card still failing after three is dropped from the round, with a
+line in the pack saying why.
+
+**Pass 1, the machine: `npm run ad-gate`.** Run it on every round deck before
+rendering. It fails on anything a script can be right about: the full hook on
+every card, a unique `src` per card, real screens only, dashes, borrowed
+proof, an unnamed expert, a promised outcome, competitor words and fear
+buttons, butter as a ground, more than one gold mark, a question outside the
+button, tilted callouts. Fix the deck until it passes. Never weaken a rule to
+get a card through; if a rule is wrong, that is a decision for Justin and a
+change to `scripts/check-ad-round.mjs` with the reason.
+
+**Pass 2, the eye: the vision review.** Render, then open every PNG with the
+Read tool and score it out of ten, one point per line, writing the scores into
+the pack README:
+
+1. The moment is named in the first three words of the headline.
+2. Readable at thumbnail size: shrink it in your head to a third of a phone
+   width; the headline and the hook still read.
+3. The screen proves the headline; a parent could find that screen in the app.
+4. One gold detail, a third of the card empty, nothing glows or shines.
+5. It looks like a real app screenshot in a plain card, not a made image.
+6. Nothing is cut off, overlapping or sitting in the outer 5 percent.
+7. It sounds like a parent talking, in parents' own words
+   (`research/homepage-audience-language.md`), not like us.
+8. It could not be a Qustodio, Bark or Kairoo ad with the logo swapped.
+9. The hook is the only thing that changes between cards in a round.
+10. Justin would post it without changing a word.
+
+Under eight: name the lines it lost, fix them, render and score again. At
+eight or more it goes on to the gates below, which the two passes do not
+replace: the pass checks the card, the gates check the claims.
+
+### The gates
 
 Every card and caption passes all of these, or it does not go in the pack.
 
