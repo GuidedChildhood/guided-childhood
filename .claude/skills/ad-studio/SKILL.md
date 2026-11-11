@@ -135,7 +135,9 @@ Make them with the tools we already have:
   10 percent.
 - **A picture of the moment, behind the real screen:** a stacked card may
   carry `scene`, a generated photograph that fills the slot with the real
-  screen sitting on it (`2026-11-11-scene-proof.json` is the model). The
+  screen sitting on it (`2026-11-11-round-1.json` is the model). Ask for
+  the subject in the left third and the rest soft and empty, so the screen
+  has somewhere to sit. The
   competitors' longest running ads all lead with a picture; this is how ours
   does without inventing anything. The rules are visual system section 15,
   all of them: a room or objects only, never a person, a child's face, a

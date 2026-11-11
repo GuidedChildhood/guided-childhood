@@ -203,7 +203,7 @@ function stackedHTML(c){
     <div class="top">${MARK}<div class="word">Guided Childhood</div></div>
     <div class="head" style="height:${top - 120 - 40}px"><h1>${c.headline}</h1></div>
     ${c.scene
-      ? `<div class="slot scene" style="top:${top}px;height:${H - top - bottom}px;background-image:url('${ROOT + c.scene.image}')">${flatHTML({ ...c.screen, inset: 34, left: ((c.scene.x ?? 0.72) * 100) + '%' })}</div>`
+      ? `<div class="slot scene" style="top:${top}px;height:${H - top - bottom}px;background-image:url('${ROOT + c.scene.image}')">${flatHTML({ ...c.screen, inset: 24, left: ((c.scene.x ?? 0.72) * 100) + '%' })}</div>`
       : `<div class="slot" style="top:${top}px;height:${H - top - bottom}px">${flatHTML(c.screen)}</div>`}
     <div class="cta"><div class="pill">${c.pill}</div><div class="small">${c.small}</div></div>
   </div>`;

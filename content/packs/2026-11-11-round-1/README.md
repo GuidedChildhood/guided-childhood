@@ -88,20 +88,33 @@ checks begun and signups from the first click. The founder links page
    breaks the money rule (never pay to find out if something works), so it is
    Justin's call.
 
-## Added later the same day: a picture behind the screen
+## A picture of the moment behind each screen
 
 Justin asked whether these match the finish of the adverts in the talk and of
 the competitors' best. Compared against both
 (`briefings/notes/competitor-sightings.md`, 11 November): the structure
-matches, the picture was missing. `scene-proof/` holds the mid match card
-again with a photograph of the moment behind the real script, in two
-versions. The photographs are generated (GPT Image, 5.5 credits for the two,
-agreed by Justin first): a sofa, a lamp and a controller, nobody in them. The
-script on top is the same real capture.
+matched, the picture was missing. He said yes to a picture on all five.
 
-These two are a proof of the look, not part of the round. They have no link
-codes and are not to be posted. If Justin picks the look, all five cards get a
-scene and the round is rendered again before anything goes out.
+Each card now has a photograph of its moment behind the real screen. The
+photographs are generated with GPT Image under visual system section 15: a
+room and objects, nobody in them, no text, our palette. The screen on top of
+each is the same real capture as before, untouched.
+
+| Card | The picture | File |
+| :-- | :-- | :-- |
+| Control | A mug of tea, a lunch box and a school jumper on the kitchen table | `content/ads/scenes/control-kitchen-table.jpg` |
+| Mid match | A controller left on the arm of the sofa | `content/ads/scenes/mid-match-sofa.jpg` |
+| Left out | A school bag and shoes dropped in the hallway | `content/ads/scenes/left-out-hallway.jpg` |
+| Before the box | A plain sealed box on brown paper | `content/ads/scenes/before-the-box-table.jpg` |
+| Jobs first | The dog's bowl and lead by the back door (the job on screen is Feed the dog) | `content/ads/scenes/jobs-first-dog-bowl.jpg` |
+
+Cost: ten images, 27.5 credits, agreed by Justin before each batch. One was
+picked per card; the rest stay on Higgsfield.
+
+Checked again after the change: the gate passes, butter is 1.4 to 3.7 percent
+against the cap of 10, and the scores stand, with line 1 now carried by the
+picture as well as the headline. The cards without pictures are kept in
+`plain/` in case the plain version is wanted.
 
 Open for Justin: card 5's hook. Kairoo began running "Jobs first. Then screen
 time." on 6 November.

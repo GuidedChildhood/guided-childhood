@@ -32,7 +32,11 @@
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
-      "small": "Three questions, no sign up."
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/control-kitchen-table.jpg",
+        "x": 0.69
+      }
     },
     {
       "name": "mid-match",
@@ -54,7 +58,11 @@
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
-      "small": "Three questions, no sign up."
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/mid-match-sofa.jpg",
+        "x": 0.7
+      }
     },
     {
       "name": "left-out",
@@ -76,7 +84,11 @@
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
-      "small": "Three questions, no sign up."
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.7
+      }
     },
     {
       "name": "before-the-box",
@@ -99,7 +111,11 @@
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
-      "small": "Three questions, no sign up."
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/before-the-box-table.jpg",
+        "x": 0.7
+      }
     },
     {
       "name": "jobs-first",
@@ -128,7 +144,11 @@
         "description": "Three questions, no sign up."
       },
       "pill": "What stage is your child? &rarr;",
-      "small": "Three questions, no sign up."
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/jobs-first-dog-bowl.jpg",
+        "x": 0.68
+      }
     }
   ]
 }

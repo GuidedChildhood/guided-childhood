@@ -389,3 +389,7 @@ Justin asked for step 2 with the creating and the uploading set up, at a top fin
 ## 11 November 2026: the ads measured against the talk's and the competitors', and a picture added
 
 Justin asked whether Round 1 matches the finish of the adverts in the talk and of the competitors' proven ads, using the same products. Watched the talk's adverts frame by frame and read the Meta Ad Library live (`briefings/notes/competitor-sightings.md`). Found: the only proven set is Qustodio's plain videos in real homes (240 days and more); Kairoo launched a generated, illustrated campaign 5 to 11 days ago, including "Jobs first. Then screen time.", which is our card 5; the talk's adverts share our card's structure and add a picture. So a stacked card may now carry `scene`, a generated photograph of a room or objects behind the real screen, under visual system section 15 with nothing loosened. Proof made for mid match: 5.5 credits, agreed first. Seedance costed at 128 credits for eight seconds, not run. Open with Justin: scenes on all five, and card 5's hook.
+
+## 11 November 2026: all five Round 1 cards carry a picture
+
+Justin said yes to a picture behind the screen on all five cards. Each has a generated photograph of its moment (a room and objects, nobody in it, visual system section 15) with the real screen untouched on top. Ten images, 27.5 credits in all, agreed first. Gate passes, butter under 4 percent. The plain cards are kept in `content/packs/2026-11-11-round-1/plain/`. Card 5's hook is still open with Justin.
