@@ -1,28 +1,31 @@
 {
- "researchId": "GDC-RR-3d31eb1683",
- "gdcPostNumber": "058",
- "handoffVersion": 2,
- "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
- "status": "DRAFT",
- "linkedin": {
-  "body": "The European Commission has preliminarily found TikTok in breach of European Union law over the way its For You feed works.\n\nPreliminarily is the Commission's own word, and it has to stay in the sentence. This is a finding published on 6 November 2026 under the Digital Services Act, which TikTok can answer before anything is decided, and it does not prove that the feed has harmed a child or that anything has changed for families in the UK.\n\nI would still read it twice.\n\nThe Commission calls it the rabbit hole effect. The more someone engages with a type of content, it says, the more the feed recommends similar material, and that design can be harmful when the content is about sadness, isolation or body image.\n\nThat is a regulator describing a design. It is not a study.\n\nBut it is about what a child is shown, and my own rules at home were about how long.\n\nA timer can tell me how long a child was on an app. It cannot tell me what kept arriving during that time, what was repeated, or what the feed learned to serve next. Children can spend the same amount of time on the same platform and be shown very different worlds.\n\nSo look at the feed.\n\nSit beside your child for a short scroll and ask what it has been showing them lately, and why they think those things keep coming back. Keep it light. The aim is to make the recommendation system visible enough to talk about.\n\nNone of this replaces time limits, platform responsibility or safer design. I build a parent tool, so I am not neutral, and our stage check is three questions about one child and a starting point, with no promise about what happens next.\n\nThe source is in the comments.\n\nIf more parents and teachers need this distinction, repost it. The conversation should include what fills the time as well as how long the timer ran.\n\nWhen you last looked at a child's feed, what pattern did you notice?",
-  "firstComment": "The European Commission announcement, published 6 November 2026:\nhttps://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes\n\nThe strongest objection is that this is a regulator's preliminary view, not research demonstrating harm. Agreed. TikTok can respond, the decision may change, and the Digital Services Act is European Union law. The useful point is narrower: a personalised feed shapes what fills the time, so a timer alone cannot describe the experience."
- },
- "declined": {
-  "INSTAGRAM CAPTION": "NOT RECOMMENDED. The verified handoff approves LinkedIn only, and this regulatory distinction needs the full caveat.",
-  "FACEBOOK CAPTION": "NOT RECOMMENDED. The verified handoff approves LinkedIn only, and no separate parent action warrants another post today.",
-  "NEWSLETTER": "NOT RECOMMENDED. Keep the weekly flagship slot for the strongest synthesis rather than expanding a preliminary finding into long form.",
-  "REEL SCRIPT": "NOT RECOMMENDED. The handoff does not request a Reel or Short. Do not record or generate video for this story today.",
-  "VISUAL BRIEF": "NOT RECOMMENDED. Publish as text only. No approved source asset was named, so no photo is captured and no image is generated.",
-  "ASSETS USED": "NONE"
- },
- "visual": {
-  "assetsUsed": []
- },
- "evidence": {
-  "notes": "This is a preliminary European Commission finding, not a final decision and not a peer reviewed study.\n\nIt does not prove that TikTok has broken the law, that its feed causes mental health problems, that the finding applies in the UK, or that time limits are useless.\n\nNo claim is made about TikTok's response because it was not read in the verified handoff.\n\nNo number from the Commission page appears in the copy. The only cleared factual marker is that the Commission published the finding on 6 November 2026.\n\nProduct implication: no product change and no outcome claim. The stage check is named as a starting point only. A parent tool can help start a calmer conversation but cannot protect a child from a feed."
- },
- "sources": [
-  "https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes"
- ]
+  "researchId": "GDC-RR-3d31eb1683",
+  "gdcPostNumber": "058",
+  "handoffVersion": 2,
+  "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+  "status": "DRAFT",
+  "linkedin": {
+    "body": "The European Commission has preliminarily found TikTok in breach of European Union law over the way its For You feed works.\n\nPreliminarily is the Commission's own word, and it has to stay in the sentence. This is a finding published on 6 November 2026 under the Digital Services Act, which TikTok can answer before anything is decided, and it does not prove that the feed has harmed a child or that anything has changed for families in the UK.\n\nI would still read it twice.\n\nThe Commission calls it the rabbit hole effect. The more someone engages with a type of content, it says, the more the feed recommends similar material, and that design can be harmful when the content is about sadness, isolation or body image.\n\nThat is a regulator describing a design. It is not a study.\n\nBut it is about what a child is shown, and my own rules at home were about how long.\n\nA timer can tell me how long a child was on an app. It cannot tell me what kept arriving during that time, what was repeated, or what the feed learned to serve next. Children can spend the same amount of time on the same platform and be shown very different worlds.\n\nSo look at the feed.\n\nSit beside your child for a short scroll and ask what it has been showing them lately, and why they think those things keep coming back. Keep it light. The aim is to make the recommendation system visible enough to talk about.\n\nNone of this replaces time limits, platform responsibility or safer design. I build a parent tool, so I am not neutral, and our stage check is three questions about one child and a starting point, with no promise about what happens next.\n\nThe source is in the comments.\n\nIf more parents and teachers need this distinction, repost it. The conversation should include what fills the time as well as how long the timer ran.\n\nWhen you last looked at a child's feed, what pattern did you notice?",
+    "firstComment": "The European Commission announcement, published 6 November 2026:\nhttps://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes\n\nThe strongest objection is that this is a regulator's preliminary view, not research demonstrating harm. Agreed. TikTok can respond, the decision may change, and the Digital Services Act is European Union law. The useful point is narrower: a personalised feed shapes what fills the time, so a timer alone cannot describe the experience."
+  },
+  "declined": {
+    "INSTAGRAM CAPTION": "NOT RECOMMENDED. The verified handoff approves LinkedIn only, and this regulatory distinction needs the full caveat.",
+    "FACEBOOK CAPTION": "NOT RECOMMENDED. The verified handoff approves LinkedIn only, and no separate parent action warrants another post today.",
+    "NEWSLETTER": "NOT RECOMMENDED. Keep the weekly flagship slot for the strongest synthesis rather than expanding a preliminary finding into long form.",
+    "REEL SCRIPT": "NOT RECOMMENDED. The handoff does not request a Reel or Short. Do not record or generate video for this story today.",
+    "VISUAL BRIEF": "NOT RECOMMENDED. Publish as text only. No approved source asset was named, so no photo is captured and no image is generated.",
+    "ASSETS USED": "NONE"
+  },
+  "visual": {
+    "assetsUsed": []
+  },
+  "evidence": {
+    "notes": "This is a preliminary European Commission finding, not a final decision and not a peer reviewed study.\n\nIt does not prove that TikTok has broken the law, that its feed causes mental health problems, that the finding applies in the UK, or that time limits are useless.\n\nNo claim is made about TikTok's response because it was not read in the verified handoff.\n\nNo number from the Commission page appears in the copy. The only cleared factual marker is that the Commission published the finding on 6 November 2026.\n\nProduct implication: no product change and no outcome claim. The stage check is named as a starting point only. A parent tool can help start a calmer conversation but cannot protect a child from a feed."
+  },
+  "sources": [
+    "https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes"
+  ],
+  "author": "Claude, an edit of ChatGPT v1",
+  "editOf": "1QFBVfdPvGBVYj9EiKNLsSpLzughCgANIUMwzkJWCSog",
+  "packVersion": 2
 }
