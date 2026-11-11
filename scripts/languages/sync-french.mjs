@@ -31,6 +31,15 @@ import { readFileSync, writeFileSync } from 'node:fs'
 
 const ORIGIN = 'https://french-curriculum.pages.dev'
 const FILES = ['units', 'curriculum', 'codes', 'sequence']
+// THE HANDBOOK (11 November 2026). The author rebuilt her home page as a
+// handbook for a head: what the curriculum is for, how learning builds, how
+// progress is assessed and reported, and why the lessons run as they do. Its
+// long text is one more data file (curriculum_page.js). A few short pieces
+// (her reasons, how each statement grows) sit as literals inside the page's
+// own script, bank.js; those are lifted out by name and parsed as data, the
+// same way, and never run.
+const PAGE_FILE = 'curriculum_page'
+const BANK_FILE = 'bank'
 const OUT = 'schools/lib/languages/fr.json'
 const DROP = new Set(['formKey', 'appUrl', 'author'])
 
@@ -75,7 +84,7 @@ function literalToJson(src) {
 
 /** Every window.NAME = value; in one file. */
 function globalsOf(src) {
-  const parts = src.split(/^\s*window\.([A-Z]+)\s*=\s*/m).slice(1)
+  const parts = src.split(/^\s*window\.([A-Z_]+)\s*=\s*/m).slice(1)
   const out = {}
   for (let k = 0; k < parts.length; k += 2) {
     // Comments go first, so a trailing comment cannot hide the closing ;.
@@ -108,8 +117,76 @@ async function fetchText(name) {
   return res.text()
 }
 
+/** The balanced [ ... ] or { ... } that starts at or after `from`, as source text.
+ *  Strings are skipped so a bracket inside one does not count. */
+function literalAt(src, from) {
+  let i = from
+  while (i < src.length && src[i] !== '[' && src[i] !== '{') i++
+  if (i >= src.length) return null
+  const start = i
+  let depth = 0
+  for (; i < src.length; i++) {
+    const c = src[i]
+    if (c === '"' || c === "'" || c === '`') {
+      const q = c
+      for (i++; i < src.length && src[i] !== q; i++) if (src[i] === '\\') i++
+      continue
+    }
+    if (c === '[' || c === '{') depth++
+    else if (c === ']' || c === '}') { depth--; if (depth === 0) return src.slice(start, i + 1) }
+  }
+  return null
+}
+
+/** A named literal out of the page script: the value after `anchor`, searched
+ *  from `after` if given. Null when the script no longer has it. */
+function lifted(src, anchor, after) {
+  const base = after ? src.indexOf(after) : 0
+  if (base < 0) return null
+  const at = src.indexOf(anchor, base)
+  if (at < 0) return null
+  const text = literalAt(src, at + anchor.length)
+  if (!text) return null
+  try { return JSON.parse(literalToJson(text)) } catch { return null }
+}
+
+/** The words of one callout box in the page script, without its markup. */
+function calloutOf(src, title) {
+  const at = src.indexOf(`block("${title}", \`<div class="callout">`)
+  if (at < 0) return null
+  const from = src.indexOf('<div class="callout">', at) + '<div class="callout">'.length
+  const to = src.indexOf('</div>', from)
+  return to < 0 ? null : src.slice(from, to).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+}
+
 const g = {}
 for (const f of FILES) Object.assign(g, globalsOf(await fetchText(f)))
+
+// The handbook is extra. If her site drops the file or reshapes the script,
+// the lessons still sync: the piece that could not be read keeps the value it
+// had last night, and the run says which piece that was.
+let before = {}
+try { before = JSON.parse(readFileSync(OUT, 'utf8')) } catch { /* first run */ }
+const kept = []
+const or = (name, value, old) => {
+  if (value !== null && value !== undefined) return value
+  kept.push(name)
+  return old ?? null
+}
+let page = null
+try { page = globalsOf(await fetchText(PAGE_FILE)).CURRIC_PAGE ?? null } catch { /* kept below */ }
+let bank = ''
+try { bank = await fetchText(BANK_FILE) } catch { /* kept below */ }
+const handbook = {
+  think: or('her reasons', lifted(bank, 'const THINK = '), before.handbook?.think),
+  grow: or('how each statement grows', lifted(bank, 'const GROW = '), before.handbook?.grow),
+  marie: or('Marie and Pierre', lifted(bank, 'const R = ', 'function marie()'), before.handbook?.marie),
+  levels: or('the four levels', lifted(bank, 'const L = ', 'function inclusion()'), before.handbook?.levels),
+  progressShows: or('how progress shows', lifted(bank, 'block("How progress shows", cards('), before.handbook?.progressShows),
+  shortAnswer: or('the short answer', calloutOf(bank, 'The short answer'), before.handbook?.shortAnswer),
+  believe: or('what we believe', calloutOf(bank, 'What we believe'), before.handbook?.believe),
+  goodGame: or('what makes a good game', calloutOf(bank, 'What makes a good game'), before.handbook?.goodGame),
+}
 for (const need of ['YEARS', 'UNITS', 'CURRIC', 'CODES', 'SEQ']) {
   if (!g[need]) throw new Error(`missing window.${need} on ${ORIGIN}`)
 }
@@ -121,6 +198,8 @@ const data = clean({
   curriculum: g.CURRIC,
   codes: g.CODES,
   sequence: g.SEQ,
+  page: or('the curriculum text', page, before.page),
+  handbook,
 })
 // THE SHAPE CHECK (10 November 2026). The nightly sync opens a pull request
 // with whatever this writes, and the pages read the file with no types to
@@ -147,6 +226,20 @@ function shapeProblems(d) {
     for (const l of u.lessons ?? []) if (!Number.isFinite(l.n) || typeof l.fr !== 'string') out.push(`${slug}: a lesson has no number or title`)
   }
   if (!d.curriculum.nc || typeof d.curriculum.nc !== 'object') out.push('curriculum.nc (the statements) is missing')
+  // The handbook, where it is present, has to be the shape the pages draw.
+  const pairs = v => Array.isArray(v) && v.every(r => Array.isArray(r) && r.length >= 2 && r.every(x => typeof x === 'string'))
+  const pg = d.page
+  if (pg) {
+    for (const k of ['intent', 'lesson', 'research', 'vocabulary', 'inclusion', 'assessment', 'impact']) if (pg[k] !== undefined && !pairs(pg[k])) out.push(`page.${k} is not a list of rows`)
+    for (const k of ['intro', 'pillars', 'audience', 'books']) if (pg[k] !== undefined && typeof pg[k] !== 'string') out.push(`page.${k} is not text`)
+    for (const y of ['y3', 'y4']) {
+      if (pg.phonics && pg.phonics[y] !== undefined && !pairs(pg.phonics[y])) out.push(`page.phonics.${y} is not a list of rows`)
+      if (pg.culture && pg.culture[y] !== undefined && !pairs(pg.culture[y])) out.push(`page.culture.${y} is not a list of rows`)
+    }
+  }
+  const hb = d.handbook ?? {}
+  for (const k of ['think', 'marie', 'levels', 'progressShows']) if (hb[k] && !pairs(hb[k])) out.push(`handbook.${k} is not a list of rows`)
+  if (hb.grow && (typeof hb.grow !== 'object' || Object.values(hb.grow).some(v => typeof v !== 'string'))) out.push('handbook.grow is not code to text')
   return out
 }
 const problems = shapeProblems(data)
@@ -169,5 +262,6 @@ if (process.argv.includes('--check')) {
 } else {
   writeFileSync(OUT, text)
   const ready = Object.values(data.curriculum.units).filter(u => u.ready).length
+  if (kept.length) console.log(`kept from the last sync, because the author's site no longer had them in a readable form: ${kept.join(', ')}`)
   console.log(`wrote ${OUT}: ${Object.keys(data.curriculum.units).length} units, ${ready} ready, ${Object.keys(data.units).length} with decks, ${Object.keys(data.sequence).length} decks`)
 }

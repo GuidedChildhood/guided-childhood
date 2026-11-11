@@ -484,7 +484,7 @@
    ],
    "teacher": [
     {
-     "t": "Lesson overview",
+     "t": "Unit overview",
      "f": "Y3_HT2_Lesson_overview.pdf"
     },
     {
@@ -907,7 +907,7 @@
    ],
    "teacher": [
     {
-     "t": "Lesson overview",
+     "t": "Unit overview",
      "f": "Y4_HT2_Lesson_overview.pdf"
     },
     {
@@ -4599,5 +4599,556 @@
     0
    ]
   ]
+ },
+ "page": {
+  "intro": "How the French scheme for Years 3 and 4 is built: what we want pupils to achieve, how every lesson works, the activities we use, and how learning builds over two years.",
+  "intent": [
+   [
+    "Inspire a love of languages",
+    "French is fun and engaging, and built on evidence of what makes language learning stick, not only what makes it enjoyable."
+   ],
+   [
+    "Real communication",
+    "Pupils grow the confidence to listen, speak and hold real conversations. The audience grows on purpose: a partner, a small group, the class, then parents or an assembly, older pupils, and finally a new teacher."
+   ],
+   [
+    "French culture",
+    "A planned cultural strand with several touchpoints each year, tied to units and the calendar, not left to chance."
+   ],
+   [
+    "Confidence and curiosity",
+    "A have-a-go culture, supported by quick checks every lesson, so pupils and teachers know where they stand long before any test."
+   ]
+  ],
+  "pillars": "Phonics, vocabulary and grammar are taught as three explicit, interwoven strands. Phonics and retrieval always come before new language.",
+  "lesson": [
+   [
+    "Phonics",
+    "3 minutes",
+    "Read known and new words with the sound of the half term aloud (decoding)."
+   ],
+   [
+    "Transcription",
+    "3 minutes",
+    "Hear it, write it: the same sounds the other way round (encoding)."
+   ],
+   [
+    "Retrieval",
+    "Tu te souviens ?",
+    "Picture → say the French. Spaced and mixed so pupils know more and remember more."
+   ],
+   [
+    "I do",
+    "Focused instruction",
+    "New language one item at a time, big in the middle, then all together (Tous ensemble)."
+   ],
+   [
+    "We do",
+    "Practise",
+    "Guided practice: games, songs, paired talk and worked examples."
+   ],
+   [
+    "You do",
+    "Learning check",
+    "Independent work: write first, then draw. Assessment evidence is gathered here."
+   ],
+   [
+    "Consolidate",
+    "Review",
+    "How did it go? What's next? « Au revoir ! » and « Où est Pierre ? »."
+   ]
+  ],
+  "research": [
+   [
+    "The National Curriculum for languages (Key Stage 2)",
+    "The statutory programme of study: listening, speaking, reading, writing and grammar. Every unit is assessed against its codes."
+   ],
+   [
+    "Teaching Schools Council: MFL Pedagogy Review (2016)",
+    "Phonics, vocabulary and grammar taught explicitly and practised often, which is why they are the three strands of every unit."
+   ],
+   [
+    "NCELP (National Centre for Excellence for Language Pedagogy)",
+    "Teaching sound, vocabulary and grammar systematically, and revisiting earlier language through spaced retrieval."
+   ],
+   [
+    "SEND Code of Practice (2015) and EEF guidance on SEN in mainstream schools",
+    "Behind the Inclusion work: high-quality teaching for every pupil, adapted so that all pupils can take part in the same lesson."
+   ],
+   [
+    "Learning science",
+    "Cognitive load theory (routines and small steps so children are not overwhelmed), dual coding (the French word paired with its picture) and the SOLO taxonomy of Biggs and Collis, used for assessment."
+   ],
+   [
+    "Ofsted's languages research review",
+    "Phonics, vocabulary and grammar as the three pillars of progress."
+   ],
+   [
+    "Rosenshine's Principles of Instruction",
+    "Daily review, new material in small steps, guided then independent practice."
+   ],
+   [
+    "EEF guidance",
+    "Retrieval practice, spacing and interleaving to reduce cognitive load."
+   ],
+   [
+    "Association for Language Learning (Sue Cave)",
+    "The phonics games used every day: Pause and Say, Phonic Bingo…"
+   ]
+  ],
+  "vocabulary": [
+   [
+    "Fixed core",
+    "A small, useful core set (anchored to the words pupils will need later at GCSE). Every pupil is taught and assessed on it."
+   ],
+   [
+    "Pupil-chosen extension",
+    "A few extra words each pupil chooses, kept in a 'mes mots' corner of the word mat. A deliberate way to keep every pupil, including boys and disadvantaged pupils, interested."
+   ],
+   [
+    "Revisited, not listed",
+    "Words are revisited, connected and reused across units rather than taught as one-off topic lists."
+   ]
+  ],
+  "activities": {
+   "phonics": [
+    [
+     "Pause and Say",
+     "Teacher shows a word; pause; everyone says it together."
+    ],
+    [
+     "Phonic Bingo",
+     "Bingo boards of sound words; listen and cover."
+    ],
+    [
+     "Phonic Happy Families",
+     "Collect words that share the same sound."
+    ],
+    [
+     "Find Your Group",
+     "Pupils hold word cards and find others with the same sound."
+    ]
+   ],
+   "lesson": [
+    [
+     "Fire and Hire",
+     "Point at a picture on the board and say a word. If it is the right word for the picture, the class repeats it; if it is the wrong word, they stay silent. Sometimes a child leads at the board."
+    ],
+    [
+     "Marie and Pierre",
+     "Two real toys with their own personalities, who only speak French. Marie (a teddy) is shy, timid, calm and quiet. Her best friend Pierre (a toy duck) is loud, cheeky and outgoing. Hold one up and pupils speak or sing to match: quiet for Marie, loud for Pierre, especially during songs. Pupils talk to them and ask them questions in French. A child who is upset or feeling down can keep Marie or Pierre at their table. Pierre also hides for the game « Où est Pierre ? », which pupils love."
+    ],
+    [
+     "Guess Who!",
+     "Ask yes/no questions to find a hidden character: on the board first, then in pairs."
+    ],
+    [
+     "Splat! (fly swatters)",
+     "Two pupils race to splat the picture of the word they hear."
+    ],
+    [
+     "Bingo",
+     "Picture or word boards; the caller says the French and pupils cover it."
+    ],
+    [
+     "Song + gap-fill",
+     "Learn the unit song, then fill in missing words in the lyrics."
+    ],
+    [
+     "Kim's game / What's missing?",
+     "One picture disappears; pupils say which one has gone."
+    ],
+    [
+     "Snap, pairs and memory",
+     "Pupils make the cards, then say the French every time they turn one."
+    ],
+    [
+     "Dice game",
+     "Roll for a picture (and a colour); say the full sentence."
+    ],
+    [
+     "Category sort",
+     "Sort words or pictures into groups, then explain the choice."
+    ],
+    [
+     "Ball chain (Et toi ?)",
+     "Answer the question, say « Et toi ? » and throw the ball to someone new."
+    ],
+    [
+     "Class survey",
+     "Ask friends a question and record the answers; look at the results together."
+    ],
+    [
+     "Battleships",
+     "Find your partner's ships by saying grid words in French."
+    ],
+    [
+     "Puppets and role-play",
+     "Short dialogues with puppets or in role (café, interview…)."
+    ],
+    [
+     "Word search and Dobble",
+     "Retrieval games to recall vocabulary quickly."
+    ],
+    [
+     "Treasure hunt",
+     "Find French clues around the room or playground."
+    ]
+   ],
+   "assess": [
+    [
+     "Mon bilan",
+     "The end-of-unit written check (Lesson 6), done with nothing on display, in Class, Adapted and Inclusion versions. It gives the written evidence for the unit's reading, writing and grammar codes."
+    ],
+    [
+     "Observed tasks",
+     "Speaking and listening codes are judged during planned activities: the survey, Guess Who!, songs, conversations and performances."
+    ],
+    [
+     "Circulate and observe",
+     "The teacher listens to pairs and notes speaking and listening evidence."
+    ],
+    [
+     "Three-face self-assessment",
+     "Pupils rate themselves on the What I can do sheet."
+    ],
+    [
+     "Phonics checkpoints",
+     "Reading aloud and transcription checks, three times across the two years."
+    ],
+    [
+     "Mini-whiteboards, hands and thumbs",
+     "Instant checks every lesson to adapt teaching straight away."
+    ]
+   ]
+  },
+  "phonics": {
+   "y3": [
+    [
+     "HT1",
+     "ou (bonjour, nous, tout); silent final letters noticed",
+     "Choice of 2"
+    ],
+    [
+     "HT2",
+     "oi (trois, moi, noir)",
+     "Choice of 2"
+    ],
+    [
+     "HT3",
+     "ch (chat, chien, cheval)",
+     "Choice of 2"
+    ],
+    [
+     "HT4",
+     "Checkpoint 1: ou, oi, ch",
+     "Choice of 2"
+    ],
+    [
+     "HT5",
+     "r (pronunciation focus)",
+     "Choice of 3 to 4"
+    ],
+    [
+     "HT6",
+     "Checkpoint 2: all Year 3 sounds",
+     "Choice of 3 to 4"
+    ]
+   ],
+   "y4": [
+    [
+     "HT1",
+     "en / an + silent letters (j'ai … ans, anglais)",
+     "Choice of 3"
+    ],
+    [
+     "HT2",
+     "eu (peux, deux, bleu, neuf, jeu)",
+     "Reduced scaffold"
+    ],
+    [
+     "HT3",
+     "Silent final consonants; the CaReFuL exceptions (c, r, f, l)",
+     "Reduced scaffold"
+    ],
+    [
+     "HT4",
+     "Checkpoint 3",
+     "Free transcription"
+    ],
+    [
+     "HT5",
+     "eau + liaison (l'eau, un gâteau)",
+     "Free transcription"
+    ],
+    [
+     "HT6",
+     "Consolidation: no new sounds",
+     "Free transcription"
+    ]
+   ],
+   "note": "About 3 sound words and 1 to 2 traps per lesson. No 'tricky word' lists: those words are learnt by heart. The phonics apps also bring back sounds from earlier half terms so they are not forgotten."
+  },
+  "grammar": {
+   "y3": "Chunks (HT1 to 2) → un / une with je suis (HT3) → the colour after the noun (HT3 to 4) → je vois / tu vois (HT4) → opinions joined with et / mais (HT5). No adjective agreement.",
+   "y4": "Je peux / tu peux + infinitive and ne … pas (HT2) → j'ai + noun, with qui s'appelle and je n'ai pas de as chunks (HT3) → partitive and past tense heard, not produced (HT4) → polite vous (HT5) → il / elle understood (HT6)."
+  },
+  "audience": "Partner → small group → whole class → parents or assembly (Le Zoo Rigolo !) → older pupils (Le Café Français) → a new teacher (Tout sur moi, handed on at the end of Year 4).",
+  "books": "Two picture books anchor the two years, both in Spring 2 (HT4): Ours brun, ours brun, que vois-tu ? in Year 3 (short and repetitive) and La Chenille qui fait des trous in Year 4 (a step up, with the past tense heard). The same slot also holds a phonics checkpoint.",
+  "culture": {
+   "y3": [
+    [
+     "HT1",
+     "Bienvenue au monde francophone: flags and countries where French is spoken"
+    ],
+    [
+     "HT2",
+     "Noël: le réveillon, la bûche de Noël, les marchés de Noël, le calendrier de l'Avent"
+    ],
+    [
+     "HT3",
+     "What animals say in French (ouaf ouaf, miaou, coin-coin)"
+    ],
+    [
+     "HT4",
+     "Ours brun, an authentic picture book; Easter: les cloches, chocolate fish and le poisson d'avril"
+    ],
+    [
+     "HT5",
+     "French sport and French sportspeople"
+    ],
+    [
+     "HT6",
+     "Birthdays: « Joyeux anniversaire », the birthday song, French birthday cards"
+    ]
+   ],
+   "y4": [
+    [
+     "HT1",
+     "Le monde francophone revisited; la rentrée and the French school day"
+    ],
+    [
+     "HT2",
+     "Christmas in France: Saint-Nicolas, the 13 desserts, santons"
+    ],
+    [
+     "HT3",
+     "Geography and landmarks: the Eiffel Tower, French regions and cities"
+    ],
+    [
+     "HT4",
+     "La Chenille qui fait des trous, an authentic picture book"
+    ],
+    [
+     "HT5",
+     "Café culture: ordering politely, with older pupils as visitors"
+    ],
+    [
+     "HT6",
+     "La Fête nationale (14 juillet)"
+    ]
+   ]
+  },
+  "inclusion": [
+   [
+    "Lower attainment",
+    "The fixed core only, more scaffolding held for longer, more repetition and spaced retrieval, fewer choices at once. Use the Adapted sheets."
+   ],
+   [
+    "Pupils who need individual support",
+    "No single template: resources follow the child's interests and needs, with manipulatives and picture support. Pupils may step back from fast spontaneous games such as Guess Who. Use the Inclusion sheets and simple word mats."
+   ],
+   [
+    "Greater depth",
+    "An extension vocabulary bank and a ★ Challenge in each lesson."
+   ],
+   [
+    "Pupils already fluent in French",
+    "These pupils usually speak and understand French well, so their focus is on reading and writing. Where it suits the pupil, they are also offered a second language, currently Spanish, to push their curiosity."
+   ]
+  ],
+  "assessment": [
+   [
+    "SOLO levels",
+    "Judged at SOLO 3 (multistructural), 4 (relational) or 5 (extended abstract); below 3 is recorded as 'not yet' with a note."
+   ],
+   [
+    "Twice a year",
+    "Each National Curriculum code is logged twice a year (R3 once): about 4 judgements per half term, 23 per pupil per year."
+   ],
+   [
+    "Reporting",
+    "For each code, report the number of pupils below SOLO 4, at SOLO 4 and at SOLO 5."
+   ],
+   [
+    "Every lesson",
+    "Quick checks (circulating, mini-whiteboards, thumbs) are not recorded; they shape the lesson there and then."
+   ]
+  ],
+  "impact": [
+   [
+    "SOLO trend data",
+    "Does each pupil's level rise between the two logged moments for the same code?"
+   ],
+   [
+    "Phonics checkpoint trend",
+    "The same reading-aloud and transcription check three times across two years: a fair before/after comparison."
+   ],
+   [
+    "Book scrutiny",
+    "Dated work in books: Mon bilan, the Ours brun book, birthday cards, the Tout sur moi profile."
+   ],
+   [
+    "Pupil voice",
+    "Self-assessment faces and the words pupils choose for 'mes mots'."
+   ],
+   [
+    "Transition",
+    "Tout sur moi goes to the next teacher: real evidence of what each pupil can do at the end of Year 4."
+   ],
+   [
+    "Moderation",
+    "Keep exemplar work each term and re-check a sample of SOLO judgements against it."
+   ]
+  ]
+ },
+ "handbook": {
+  "think": [
+   [
+    "Why does every lesson start with phonics?",
+    "It is a warm-up that prepares pupils for the lesson ahead. Through continuous practice they can decode more and more words, they grow in confidence, and their pronunciation improves."
+   ],
+   [
+    "Why is retrieval always at the beginning?",
+    "To make connections with prior learning before anything new is introduced."
+   ],
+   [
+    "Why does every lesson follow the same shape?",
+    "Routines help children feel safe and stop them feeling overwhelmed. Because the routine takes care of itself, children can concentrate on the new content."
+   ],
+   [
+    "Why do pupils see the picture before the word?",
+    "To avoid misconceptions and the bad habits that come from reading a word incorrectly. We also avoid learning French word, then English word, then image. We go from the French word to the image."
+   ],
+   [
+    "Why is grammar explained?",
+    "So children understand what they are doing, rather than only copying a pattern."
+   ],
+   [
+    "Why colour coding?",
+    "It helps children understand how a sentence works, and remember it."
+   ],
+   [
+    "Why write first and draw afterwards?",
+    "Pupils do the hard work first and then draw, so that more of their time is spent thinking about the new content."
+   ],
+   [
+    "What makes a good game?",
+    "Children use the language they know and meet no barriers, because the game is easy to follow. Games are normally played in pairs or teams, while the teacher walks around, observes and gives feedback. We avoid games where children get out of control or need to shout."
+   ],
+   [
+    "Why does the audience grow?",
+    "There is a progression from small and comfortable to wider and more challenging. Pupils get motivated and see a purpose for what they are preparing, so the learning is meaningful."
+   ],
+   [
+    "Why are there different levels of work?",
+    "We think of all our pupils. Most work at Class level. Adapted is the same work with scaffolding. A Challenge is always offered, as there are no limits. Inclusion is for those who cannot access what the rest of the class is doing, and they still feel part of the group because their work links to each day's objective."
+   ],
+   [
+    "Why so much cut and stick and joining in the Inclusion work?",
+    "The Inclusion work is designed for pupils with special educational needs (SEN). These pupils find the work accessible and more fun, so they engage. We can talk as they work, and they can discuss their learning with support staff. The same work as the rest of the class may be overwhelming, and they may not engage."
+   ],
+   [
+    "Why SOLO?",
+    "SOLO shows how deep a pupil's understanding is, not just how many answers are right. It moves from knowing separate words, to linking them into sentences, to using language in new ways."
+   ],
+   [
+    "Why Mon bilan?",
+    "It is structured and can be done under controlled conditions, so it gives clear written evidence. Speaking and listening are observed during planned activities."
+   ]
+  ],
+  "grow": {
+   "L1": "From short questions answered with short phrases, to longer sentences with et, mais and qui s'appelle, answered in full sentences.",
+   "L2": "From reading new words with ou, oi and ch, to reading and spelling unseen words using every sound learnt, with free transcription.",
+   "S1": "From a short exchange about name, age and feelings, to longer linked conversations with extra detail and their own forms (anglais / anglaise).",
+   "S2": "From single descriptive sentences, to longer sentences joined with et / mais and full sentences with polite forms (s'il vous plaît).",
+   "S3": "From reading a page aloud with ou, oi and ch, to speaking fluently with en/an, silent letters and liaison.",
+   "S4": "From reading to the class, to performing for parents, then serving visiting Year 7s and presenting without reading every word.",
+   "R1": "From matching words and short sentences, to reading a profile in the third person and answering questions about it.",
+   "R2": "From picking out words in a song or patterned book, to retelling a story that includes the past tense.",
+   "R3": "From using the word list to find new words with support, to using the word mat independently every lesson, including extension verbs.",
+   "W1": "From one learnt sentence with a correctly spelt word, to adapting sentences about themselves (can / can't, a café order).",
+   "W2": "From describing animals with correct word order, to a full profile joined with connectives.",
+   "G1": "From adjective position and un / une, to ne … pas around peux, the infinitive, and choosing tu or vous with a reason."
+  },
+  "marie": [
+   [
+    "Who they are",
+    "Two real toys with their own personalities. Marie, a teddy, is shy, timid, calm and quiet. Her best friend Pierre, a toy duck, is loud, cheeky and outgoing."
+   ],
+   [
+    "How they began",
+    "They began as a class mascot. It went so well that they were given personalities. Children ask about them when the teacher arrives, or if they have not been brought out."
+   ],
+   [
+    "In songs",
+    "When Marie is held up, the class sings quietly. When Pierre is held up, they sing loudly. Everyone joins in, even children who show challenging behaviour. It also helps to keep the class quiet at the end of a song, ready to listen."
+   ],
+   [
+    "They only speak French",
+    "So children have to use their knowledge of French to speak to them. Pupils talk to them and ask them questions."
+   ],
+   [
+    "When a child is upset",
+    "A child who is upset or feeling down can keep Marie or Pierre at their table."
+   ],
+   [
+    "Où est Pierre ?",
+    "Pierre hides for this hide-and-seek game, and the class says the word louder as the seeker gets closer. Children love it."
+   ]
+  ],
+  "levels": [
+   [
+    "Class",
+    "Most pupils work at this level."
+   ],
+   [
+    "★ Challenge",
+    "Always offered, as there are no limits."
+   ],
+   [
+    "Adapted",
+    "The same work with scaffolding."
+   ],
+   [
+    "Inclusion",
+    "For those who cannot access what the rest of the class is doing. They still feel part of the group because their work links to each day's objective."
+   ]
+  ],
+  "progressShows": [
+   [
+    "Harder language",
+    "Every half term adds new vocabulary and a new grammar step, so the same code is assessed on harder French: chunks, un / une and colours in Year 3; je peux + infinitive, ne … pas, j'ai and vous in Year 4."
+   ],
+   [
+    "More at the same SOLO level",
+    "Each code has its own SOLO descriptors for each unit. SOLO 4 in Year 4 asks for longer, linked sentences and more independence than SOLO 4 in Year 3 (see the table below)."
+   ],
+   [
+    "Less support",
+    "Scaffolds are reduced over time. In phonics, transcription moves from a choice of 2 in Year 3 to free transcription in Year 4."
+   ],
+   [
+    "A wider audience",
+    "Pupils speak and write for a partner, then a group, the class, parents, older pupils and finally a new teacher."
+   ],
+   [
+    "Tracked over time",
+    "Each code is logged twice a year, so a pupil's SOLO level for the same code can be compared across both years."
+   ]
+  ],
+  "shortAnswer": "The code stays the same, but the French gets harder and the SOLO level asks for more. A Year 4 pupil at SOLO 4 in S1 is doing much more than a Year 3 pupil at SOLO 4 in S1.",
+  "believe": "Children learn a language when they are engaged and see a purpose for it. They use it in real scenarios and it covers their interests. Playing games allows repetition and engagement. We want them to be as involved as possible, using all they have learnt as they keep learning.",
+  "goodGame": "Children use the language they know and meet no barriers, because it is easy to follow. Pairs or teams, with the teacher walking around, observing and giving feedback. We avoid games where children get out of control or need to shout."
  }
 }

@@ -98,6 +98,53 @@ export function Sheets({ slug, files }: { slug: string; files: SheetFile[] }) {
   )
 }
 
+/** A grid of short cards: a heading and a sentence or two. The handbook is mostly these. */
+export function Cards({ rows }: { rows: [string, string][] | null | undefined }) {
+  if (!rows || rows.length === 0) return null
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-3)' }}>
+      {rows.map(([t, d]) => (
+        <div key={t} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3)' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 var(--space-1)' }}>{t}</h3>
+          <p style={{ ...small, margin: 0 }}>{d}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** A progression as a row of steps with an arrow between them. */
+export function Flow({ steps }: { steps: string[] }) {
+  if (steps.length === 0) return null
+  return (
+    <ol style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-2)', listStyle: 'none', padding: 0, margin: 0 }}>
+      {steps.map((s, i) => (
+        <li key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          {i > 0 && <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>→</span>}
+          <span style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-1) var(--space-3)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.45 }}>{s}</span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/** The one thing to take away from a section, set apart. */
+export function Callout({ children }: { children: ReactNode }) {
+  return (
+    <p style={{ ...body, margin: 0, color: 'var(--ink)', background: 'var(--butter-lt)', borderLeft: '4px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: 'var(--space-3) var(--space-4)' }}>{children}</p>
+  )
+}
+
+/** A handbook section: a heading and what is under it. */
+export function Part({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
+  return (
+    <section id={id} aria-label={title} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', scrollMarginTop: 'var(--space-7)' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, margin: 'var(--space-3) 0 0' }}>{title}</h2>
+      {children}
+    </section>
+  )
+}
+
 // A section that stays shut until it is wanted. The unit page leads with its
 // lessons; everything a teacher looks up rather than uses (the sound, the
 // statements, the unit's sheets) folds away behind its own line, so the page
