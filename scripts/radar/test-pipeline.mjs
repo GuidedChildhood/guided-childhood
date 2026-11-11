@@ -212,7 +212,7 @@ reg.upsert({ ...reg.get(UNREVIEWED), gdcPostNumber: null }, { reason: 'test, und
 const rec = C.reconcileNumbers('Today ChatGPT drafted GDC-054 and also claimed GDC-077 for a new idea.')
 check('a number claimed only in a Drive document is reported as a conflict', rec.conflicts.length === 1 && rec.conflicts[0].number === '077')
 check('reconciliation confirms the number GitHub does hold', rec.confirmed.some((x) => x.number === '054'))
-check('the next free number is one above the highest, never a gap', rec.nextFree === '055', rec.nextFree)
+check('the next free number is one above the highest, never a gap', rec.nextFree === C.nextFreeNumber() && Number(rec.nextFree) === Math.max(...C.parsePostRegister().map((r) => r.n)) + 1, rec.nextFree)
 
 // ===========================================================================
 section('SIMULATION 3, duplicate story')
@@ -290,7 +290,7 @@ check('a pack with no header is a HOLD that names what is missing',
   noHeaderQa.verdict === 'HOLD' && noHeaderQa.failures.some((f) => /research ID/.test(f.check)) && noHeaderQa.failures.some((f) => /post number/.test(f.check)))
 const brief = F.stage2Brief()
 check('the Stage 2 brief names the story, its number and every cleared figure',
-  brief.text.includes(ID) && /GDC post number: 054/.test(brief.text) && brief.text.includes('r = 0.308') && brief.text.includes('93.85'))
+  brief.text.includes(`STORY 1 OF 1: ${ID}, GDC-054`) && brief.text.includes('r = 0.308') && brief.text.includes('93.85'))
 check('the Stage 2 brief tells ChatGPT not to claim a number', /Do not use it/.test(brief.text) && /claimed in GitHub and nowhere else/.test(brief.text))
 check('the Stage 2 brief carries the commit it was generated from', brief.text.includes(C.repoState().commit))
 check('the Stage 2 brief contains no dash', !/[\u2010-\u2015\u2212]/.test(brief.text))
@@ -308,7 +308,7 @@ reg.upsert({ ...reg.get(ID), editorialPriority: seed.editorialPriority }, { reas
 check('and current again once the story is back as it was', S.syncState().roles.stage2Brief.current === true)
 const asExport = (t) => Buffer.from('\uFEFF' + t.replace(/\n/g, '\r\n')).toString('base64')
 check('a Doc export with its byte order mark and CRLF endings is TEXT IDENTICAL', C.verifyDocExport(brief.text, asExport(brief.text)).level === 'TEXT IDENTICAL')
-check('one changed digit anywhere in a Doc is caught, with the line', !C.verifyDocExport(brief.text, asExport(brief.text.replace('GDC-055', 'GDC-056'))).ok)
+check('one changed digit anywhere in a Doc is caught, with the line', !C.verifyDocExport(brief.text, asExport(brief.text.replace(`GDC-${C.nextFreeNumber()}`, 'GDC-999'))).ok)
 check('a Doc cut short is caught', !C.verifyDocExport(brief.text, asExport(brief.text.slice(0, 900))).ok)
 check('an empty export is a failure', !C.verifyDocExport(brief.text, '').ok)
 check('the doc probe refuses a document that is cut short', !C.verifyDocProbe(brief.text, { head: 'GDC STAGE 2, START HERE', tail: 'THE NUMBER RULE', contains: ['a', 'b', 'c'] }).ok)
@@ -336,7 +336,7 @@ check('now it reaches ASSETS READY', P.readyForApproval(ID).verdict === 'PASS' &
 
 const briefAfter = F.stage2Brief()
 check('once a pack is through, the start here document tells Stage 2 not to write it again',
-  /WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK/.test(briefAfter.text) && /Do not write this story again/.test(briefAfter.text) && /WHAT TO WRITE NEXT\n  Nothing\. The queue is empty/.test(briefAfter.text))
+  /WHAT HAPPENED TO THE PACKS ALREADY HANDED BACK/.test(briefAfter.text) && /Do not write this story again/.test(briefAfter.text) && /WHAT TO WRITE\n  Nothing\. The queue is empty/.test(briefAfter.text))
 check('and carries the review notes back, since there is no other channel', briefAfter.text.includes('Figures match the cleared list'))
 check('still with no dash in it', !/[\u2010-\u2015\u2212]/.test(briefAfter.text))
 check('with an empty queue the document still does not carry the repository head, so a commit cannot make it stale',

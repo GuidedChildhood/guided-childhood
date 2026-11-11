@@ -1,6 +1,6 @@
 {
   "studyId": "GDC-RR-e22bd17322",
-  "reviewedAt": "2026-11-10T17:20:00Z",
+  "reviewedAt": "2026-11-10T16:50:00Z",
   "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
   "reviewBasis": "The full text, held in the register cache (118,865 words, digest 98287ac5 checked against the register before reading). Read in full: the acknowledgements, peer review, funder and conflicts statements, the executive summary, the report development methodology, the summary of the evidence review with its numbered key findings, and the conclusions of Appendix 1. Searched but not read line by line: Appendices 2 to 8. The GOV.UK publication page was resolved through the content API, which gives the first published date as 20 January 2026. The report's own cover date is May 2025.",
   "verdict": "EDIT",

@@ -1,0 +1,98 @@
+{
+ "schemaVersion": "1.0.0",
+ "batches": {
+  "e870cd5088074e74b0b60f4428ea34852ea5877b827952c6bf804bb99af31d82": {
+   "batchId": "2026-11-10-relay-test-01",
+   "createdBy": "claude-relay-test, written by Claude from the research item in ChatGPT's daily brief of 10 November 2026. ChatGPT did not write this document.",
+   "createdAt": "2026-11-10T17:15:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1YHgd56SUgZ2oGp0AQRP1HH0bwacX2xUq",
+   "driveTitle": "1YHgd56SUgZ2oGp0AQRP1HH0bwacX2xUq__CANDIDATES-2026-11-10-RELAY-TEST.json",
+   "ingestedAt": "2026-11-10T17:11:04.724Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-10-01",
+     "title": "Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-3d31eb1683",
+     "band": "ADJACENT",
+     "score": 14,
+     "reasons": [],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-10-02",
+     "title": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis",
+     "outcome": "DUPLICATE",
+     "researchId": "GDC-RR-0754a1641c",
+     "duplicateOf": "GDC-RR-0754a1641c",
+     "where": "RESEARCH REGISTER",
+     "reasons": [
+      "already held as GDC-RR-0754a1641c, status ASSETS READY, matched on doi"
+     ],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-10-03",
+     "title": "A candidate with no source, sent on purpose",
+     "outcome": "HELD",
+     "researchId": null,
+     "reasons": [
+      "originalUrl is missing or is not a link. A candidate with no primary source cannot be checked.",
+      "publicationDate is missing or is not YYYY-MM-DD. It is the date the source was published, not the date it was found.",
+      "candidateClaims is empty. Say what the source is believed to show, so it can be checked.",
+      "limitations is empty. A candidate with no stated limits has not been read critically."
+     ],
+     "warnings": [
+      "a news report is a pointer, not a source. The review will look for the primary document behind it."
+     ]
+    }
+   ]
+  }
+ },
+ "candidates": {
+  "2026-11-10-relay-test-01/C-2026-11-10-01": {
+   "candidateId": "C-2026-11-10-01",
+   "title": "Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-3d31eb1683",
+   "band": "ADJACENT",
+   "score": 14,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-10-relay-test-01",
+   "at": "2026-11-10T17:11:04.720Z"
+  },
+  "2026-11-10-relay-test-01/C-2026-11-10-02": {
+   "candidateId": "C-2026-11-10-02",
+   "title": "Mental Health Effects of Social Media Use Among Adolescents Across Educational Stages: A Meta-Analysis",
+   "outcome": "DUPLICATE",
+   "researchId": "GDC-RR-0754a1641c",
+   "duplicateOf": "GDC-RR-0754a1641c",
+   "where": "RESEARCH REGISTER",
+   "reasons": [
+    "already held as GDC-RR-0754a1641c, status ASSETS READY, matched on doi"
+   ],
+   "warnings": [],
+   "batchId": "2026-11-10-relay-test-01",
+   "at": "2026-11-10T17:11:04.724Z"
+  },
+  "2026-11-10-relay-test-01/C-2026-11-10-03": {
+   "candidateId": "C-2026-11-10-03",
+   "title": "A candidate with no source, sent on purpose",
+   "outcome": "HELD",
+   "researchId": null,
+   "reasons": [
+    "originalUrl is missing or is not a link. A candidate with no primary source cannot be checked.",
+    "publicationDate is missing or is not YYYY-MM-DD. It is the date the source was published, not the date it was found.",
+    "candidateClaims is empty. Say what the source is believed to show, so it can be checked.",
+    "limitations is empty. A candidate with no stated limits has not been read critically."
+   ],
+   "warnings": [
+    "a news report is a pointer, not a source. The review will look for the primary document behind it."
+   ],
+   "batchId": "2026-11-10-relay-test-01",
+   "at": "2026-11-10T17:11:04.724Z"
+  }
+ }
+}

@@ -289,7 +289,7 @@ const saveLedger = (l) => writeFileSync(LEDGER(), JSON.stringify(l, null, 1))
  *   HELD              failed validation. The reasons go back to the sender.
  *   ALREADY INGESTED  this exact document was read on an earlier run.
  */
-export function ingestBatch(text, { source = {}, postingPackText = '', actor = 'radar:inbox', corpus = null } = {}) {
+export function ingestBatch(text, { source = {}, postingPackText = '', actor = 'radar:inbox', corpus = null, postRegisterPath = POST_REGISTER } = {}) {
   const digest = sha256(String(text || ''))
   const ledger = loadLedger()
   const prior = ledger.batches[digest]
@@ -315,7 +315,7 @@ export function ingestBatch(text, { source = {}, postingPackText = '', actor = '
     if (check.errors.length) {
       r = { candidateId: check.candidateId, title: c?.title || null, outcome: 'HELD', researchId: null, reasons: check.errors, warnings: check.warnings }
     } else {
-      const d = dedupe(c, { postingPackText, corpus })
+      const d = dedupe(c, { postingPackText, corpus, postRegisterPath })
       if (d.duplicate) {
         r = { candidateId: c.candidateId, title: c.title, outcome: 'DUPLICATE', researchId: d.where === 'RESEARCH REGISTER' ? d.of : null, duplicateOf: d.of, where: d.where, reasons: [d.reason], warnings: check.warnings }
         // Note on the existing record that it was sent again, so a story the

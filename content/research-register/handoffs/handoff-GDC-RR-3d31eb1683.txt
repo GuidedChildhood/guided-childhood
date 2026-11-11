@@ -1,0 +1,119 @@
+GDC RESEARCH HANDOFF  GDC-RR-3d31eb1683
+Stage 1 complete, ready for Stage 2 editorial production
+Schema 1.1.0  handoff version 2  created 2026-11-10T17:22:12.177Z
+Register version 11  source commit 28867af5
+
+STATUS
+  production status: EDITORIAL READY
+  editorial priority: HIGH
+  Claude review: CLAUDE REVIEWED, EDIT, 2026-11-10T17:16:00Z
+  GDC post number: 058
+  This number already exists in content/gdc-post-register.md. Stage 1 never assigns one.
+
+THE STORY
+  proposed title: A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.
+  angle: I am not sure a time limit is the right question, and this week a regulator gave me a reason to keep doubting it. The European Commission's preliminary view of TikTok is about what the feed does with a child's attention once it has it, not about how many minutes they spend. Be exact about what this is: a preliminary finding, under EU law, that the company can answer. Then give a parent the one thing they can do with it, which is to look at what the feed is serving and not only at the timer.
+  ONE STORY: On 6 November the European Commission said it had preliminarily found TikTok in breach of the Digital Services Act because of the way its For You feed keeps recommending more of whatever a user engages with, including content about sadness, isolation and body image.
+  ONE TENSION: It is a regulator's preliminary view, not a ruling and not a study, and it does not apply in the UK. It is also the clearest official statement so far that the risk sits in how a feed is built, which is something a screen time limit does not touch.
+  ONE GDC BELIEF: Screen time is not one thing. Two children can spend the same hour on the same app and be shown two different worlds. What a child is being served matters more than how long the timer ran.
+  ONE TAKEAWAY: This week, sit beside your child for five minutes of their feed and ask what it has been showing them lately. You are looking at the feed, not the clock.
+
+THE RESEARCH
+  Commission preliminarily finds TikTok's For You feed in breach of Digital Services Act for harmful rabbit holes effect
+  authors not recorded
+  European Commission, published 2026-11-06
+  https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-you-feed-breach-digital-services-act-harmful-rabbit-holes
+  DOI none   PMID none
+  design: not determined
+  sample: not extractable   ages: not stated   country: not stated
+  peer reviewed: NO, PREPRINT   preregistered: not stated
+  funding: none declared in the record
+  found by streams inbox via chatgpt-inbox
+
+FIGURES CLEARED FOR USE
+  published by the European Commission on 6 November 2026
+
+DO NOT QUOTE
+  the sample size, which could not be extracted from the available text
+  any claim of precision, since no confidence interval was found
+  any number at all: the page gives none
+  'found guilty', 'ruled', 'fined', 'illegal' or 'banned': it is a preliminary finding
+  any statement that TikTok has been shown to harm children
+  any statement about what TikTok said in reply: it was not read
+  any claim that this applies in the UK
+  the detail of the longer press release, which was not read
+
+WHAT THIS DOES NOT PROVE
+  That TikTok has broken the law.
+  That the For You feed causes mental health problems in children.
+  That anything changes for families in the UK.
+  That time limits are useless. The finding is about design. It says nothing against limits.
+  That anything we build protects a child from a feed. We hold no such evidence.
+
+LIMITATIONS
+  Not research. It is a regulator's statement of a preliminary view.
+  Preliminary. The company can reply and the Commission may change its position.
+  European Union law only.
+  Only the short news page was read, not the full press release or any decision document.
+  The company's response was not sought or read.
+  The record came from the candidate inbox. Its summary was the sender's wording and was replaced by what the page says.
+
+CONTRADICTORY OR NULL EVIDENCE
+  The government's feasibility study reviewed today (GDC-RR-e22bd17322) found low certainty that social media use causes poorer mental health across the population. A regulator acting on a belief does not raise that certainty.
+  The same study does support one half of the Commission's point: its narrative review found the type of content consumed plays a key role, positive or negative. That is support for 'content matters', not for 'this feed harms children'.
+  TikTok's own account of its recommender system and its safeguards was not read. It exists and it will dispute this.
+
+MEDIA COVERAGE
+  Coverage was not searched in this run. The predictable error is dropping the word preliminary, so that a step in a procedure reads as a verdict.
+
+CLAIM BY CLAIM
+  [VERIFIED] The European Commission has preliminarily found TikTok in breach of the Digital Services Act for the rabbit hole effect of its recommender system.
+      basis: The first sentence of the Commission's page, published 6 November 2026. The word 'preliminarily' is the Commission's own and has to travel with the claim every time.
+  [VERIFIED] The Commission says the For You feed shows a continuous stream of personalised videos, and that the more a user interacts with a type of content the more of it the feed recommends, including content related to mental health struggles and body image.
+      basis: Stated on the page. Verified as what the Commission says about the design. It is the regulator's description, not an independent measurement.
+  [QUALIFIED] These rabbit holes can have a detrimental impact on users' mental health, especially that of minors and vulnerable adults.
+      basis: The page says exactly this, with the word 'can'. It is the Commission's assessment in a preliminary finding. The evidence behind it is not set out on the page and the longer press release was not read. Write it as what the Commission says, never as an established effect.
+  [VERIFIED] The preliminary findings concern both TikTok's risk assessment and its mitigation measures.
+      basis: Stated on the page.
+  [UNSUPPORTED] TikTok has been found to have broken the law, or has been fined.
+      basis: A preliminary finding is a step in a procedure. The company has the right to reply and no decision has been taken. Nothing on the page mentions a penalty.
+  [UNSUPPORTED] This shows TikTok damages children's mental health.
+      basis: It shows that a regulator believes the design can do so and is acting on that belief. That is evidence about the regulator, not about children.
+  [UNSUPPORTED] This changes what TikTok must do in the UK.
+      basis: The Digital Services Act is European Union law. The UK has its own regime. The same app is used here, which is the whole of the UK relevance.
+
+EVIDENCE CONFIDENCE
+  HIGH that the Commission said this on 6 November: the page was read on the Commission's own site. LOW as evidence about children: it is a regulator's preliminary position, the supporting evidence is not on the page, and the company has not yet answered.
+
+UNRESOLVED VERIFICATION QUESTIONS
+  What the full press release adds, and what evidence the Commission cites.
+  What TikTok has said in reply.
+  Whether Ofcom has said anything comparable about recommender systems under the UK regime. Not searched in this run.
+
+GUIDED CHILDHOOD
+  beliefs this touches:
+  'Screen time' is not one exposure. What is on the screen and what it displaces matter more than the minutes.
+  The response should be in proportion to the evidence, and that cuts both ways: a regulator's preliminary view is not proof.
+  A deadline is not a plan. Whatever regulators decide, a parent can look at a feed tonight.
+  product implications:
+    digitalPathwayOS: No change.
+    schoolLesson: No change. Worth noting for any lesson that touches how a feed chooses what to show, without citing this as proof of harm.
+    parentTool: The stage check is the proof path: three questions about one child, a starting point and no promise. Nothing in this story is evidence for an outcome.
+    digi: If asked about TikTok, DiGi keeps to a calibrated pathway and may say that a regulator is examining how the feed recommends content, with the word preliminary.
+    historyChecker: No change.
+
+PRODUCTION DIRECTION
+  audience: Parents, and school leaders who field the screen time question.
+  platforms: LinkedIn post
+  urgency: High for a short window. It is four days old and the story moves when the company replies or the Commission decides.
+
+FOR STAGE 2
+  Read this against the GDC Daily Content Operating System, the Current
+  Posting Pack and the GDC POST REGISTER mirror in this folder.
+  (An earlier version of this template also named a Story Bible. The audit
+  on 10 November found no such document in Drive, so it is not listed.)
+  Normal LinkedIn length is 250 to 450 words. The question goes last with
+  nothing after it. No link in the post body: it belongs in the first
+  comment. No dashes anywhere. Nothing publishes without Justin.
+
+  Machine readable version of this handoff: content/research-register/handoffs/handoff-GDC-RR-3d31eb1683.json

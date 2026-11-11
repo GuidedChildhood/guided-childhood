@@ -84,7 +84,15 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 054 | A new meta-analysis says the effect is much bigger, and why we are not using it | **CLAIMED 9 Nov for the Research Radar handoff GDC-RR-0754a1641c.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-0754a1641c.json |
 
-**Next free number: 055.**
+| 055 | The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-e22bd17322.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-e22bd17322.json |
+
+| 056 | How much do you really know about what your child does online? A new study suggests less than you think. I include myself. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-e923851b08.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-e923851b08.json |
+
+| 057 | The regulators asked families about age checks. They found that parents were often the ones helping children past them. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-86c1075a30.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-86c1075a30.json |
+
+| 058 | A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-3d31eb1683.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-3d31eb1683.json |
+
+**Next free number: 059.**
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write

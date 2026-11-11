@@ -62,6 +62,9 @@ export const POST_REGISTER = join(REPO, 'content/gdc-post-register.md')
  */
 export const DRIVE = {
   STAGE2_FOLDER: '10TsNEU7FDxBp52te-xtytQ9yY-_ON-fN',
+  // Where ChatGPT drops research candidates, one document a day. Created on
+  // 10 November inside the Stage 2 folder. scripts/radar/candidates.mjs reads it.
+  CANDIDATE_INBOX: '1YznBz3TzuBMMDGbTGKUWOSYmJUaiCeIs',
   // Reference material Stage 2 reads. Read only to this session, which is
   // correct: Claude should not be editing the operating instructions.
   OPERATING_SYSTEM: '1DIHc8sD_EfxfjK6RGIqwxlmCFCG-t2JguWa9HKDaZzU',
