@@ -1,75 +1,89 @@
-# Etsy Listing Package — Pebble's Ice Cream Shop
+# Etsy listing package: Ice Cream Shop Money Game
 
-## Title (74 characters)
-Ice Cream Shop Money Game Printable | UK Coins Pretend Play | Ages 5 to 7
+One of the older games, listed on 11 November 2026 with the Canva look photo set. Its last page was swapped by `../cut-pack.mjs` for the thank you page with the gift /etsy-bonus really gives: the old page promised a bonus of its own that the page does not hand over.
 
-## Price and rung
-List £5.99, permanent 25 percent launch sale, lands at £4.49. Entry rung of
-the ladder alongside the screen time chart, built for review velocity. The
-verified gap: pound coin editions of this game barely exist on Etsy while
-dollar versions are crowded, so UK coin practice is the whole positioning.
-Evergreen with a summer holiday peak; refresh imagery for rainy October
-half term and Christmas play shop season.
+## Title (114 characters)
 
-## 13 tags (different phrasings from the title)
-play money printable, uk coin game, year 1 maths game, year 2 money maths,
-ice cream role play, pretend play food, counting coins kids, giving change
-game, ks1 maths at home, summer holiday game, pretend shop props, instant
-download game, homeschool uk maths
+Ice Cream Shop Money Game Printable | UK Coins Pretend Play, Play Money and Menu, Year 1 and 2 Maths | Ages 5 to 7
 
-## What is inside (listing description bullets)
-- A big laminate friendly shop menu with prices chosen for coin practice:
-  every price on the board can be made with two or three real UK coins
-- Two pages of printable UK play coins close to real size: lots of 1p, 2p,
-  5p and 10p plus 20p, 50p, £1 and £2, in easy sort colours
-- Cut out cones, twelve scoops in six flavours and toppings, so every order
-  is built for real before it is paid for
-- Three games in rising difficulty, labelled to the curriculum: Year 1
-  recognising coins, Year 2 making amounts from coin combinations, Year 2
-  stretch giving change from 50p and £1
-- Twelve order and challenge cards with answers, including four giving
-  change challenges
-- The shopkeeper kit: colour in name badges, OPEN and CLOSED signs, a
-  today's special board and a receipt pad
-- A4 and US Letter, full colour plus an ink friendly version
-- Phone sized menu and coin chart included, so the game travels to
-  grandma's house on a lock screen
-- Instant download, print as many times as you like, works with printed
-  coins or real pocket change
+## Price and listing setup
 
-## The 10 photo slots
-1. Lifestyle hero: the menu propped on a kitchen table, cut coins in a
-   bowl, a teddy in the queue
-2. Flat lay of all 9 pages fanned on a wooden table
-3. Close up: child's hand paying with three printed coins (the Natalia shot)
-4. The coin pages, some coins cut out, scissors in frame
-5. Instant download overlay graphic (no physical item ships)
-6. The built order: cone, two scoops and a flake assembled beside the menu
-7. The order cards fanned with one challenge card front and centre
-8. The shopkeeper badge coloured in and pinned on a jumper, no face
-9. Phone menu and coin chart on a phone propped by the till
-10. Sizing and formats guide plus free Mini Market bonus mention
+- List price: £3.99, set on 11 November 2026. Etsy adds 20 percent UK
+  VAT, so UK buyers see £4.79.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £3.59.
+- Etsy section: Games & Learning. Copy the category and attributes from the
+  live listing "Printable Board Game for Kids".
+- Evergreen, with pushes at half terms, the summer holidays and Christmas.
+- Type: digital download. Files: the three PDFs in `product/` and the 2 phone screens in `phone/`.
 
-## Listing video script (12 seconds, hands on table)
-Overhead, kitchen light. A child's hand slides three printed coins across
-the table: 20p, 20p, 5p. Cut to the same hand stacking two scoop cards on
-a cone card and adding a flake. Cut to a parent hand ringing an imaginary
-bell and both hands high five. Text overlay: "Pay it. Build it. Learn your
-coins." No faces, no voiceover.
+## Description
 
-## Instagram reel script (the same footage plus hook)
-First frame text: "Her maths homework is a double scoop with a flake."
-Caption: The shop teaches what worksheets cannot: reaching into a till,
-counting coins into a hand, giving change from 50p. Year 1 and Year 2
-money maths hiding inside a pretend ice cream shop. Ages 5 to 7. Printed
-coins included, real pocket change welcome. Link in bio.
-Hashtags target teachers and parents: #earlyyears #ks1maths #ukparents
-#learningthroughplay #moneymaths
+Open the shop. Learn the coins. Every price on the menu is coin practice.
 
-## Compliance notes
-No medical claims anywhere. The play coins are stylised originals in house
-colours with PLAY MONEY on every face, not reproductions of Royal Mint
-artwork. Bonus link inside the PDF goes to a free page, never a checkout.
-No review incentives. AI assisted imagery disclosed per Etsy Creativity
-Standards (Pebble character art; all other artwork is original vector
-illustration).
+The Ice Cream Shop is a pretend play money game for ages 5 to 7, with UK coins from 1p to £2. Your child is the shopkeeper and you are the customer, because the one behind the till does the counting. Three games grow with them: pay the price, make the amount another way, then give the change.
+
+What you get, 9 pages:
+
+- The menu board, to prop on the counter, with a price for every scoop and topping
+- Cones, scoops and toppings to cut out and build each order
+- Play money in UK coin values: 1p, 2p, 5p, 10p, 20p, 50p, £1 and £2
+- 12 order and challenge cards, with the answers at the foot of each card
+- A shopkeeper badge, an open and closed sign, a today's special sign and a receipt pad
+- A set up page for grown ups with the three games and the Year 1 and Year 2 maths behind them
+- A4 and US Letter in full colour, plus an ink friendly version
+- A phone version: the coin chart and the menu board
+- A thank you page with a free gift for your family
+
+This is an instant download. Nothing is posted. Print as many copies as your own family needs. For personal use only.
+
+I am Justin, a dad who got tired of the screen time fight. If anything will not print or open, message me and I will sort it fast.
+
+## 13 tags (every one 20 characters or fewer)
+
+| Tag | Characters |
+|---|---|
+| play money printable | 20 |
+| uk coins game | 13 |
+| pretend play shop | 17 |
+| money maths game | 16 |
+| coin recognition | 16 |
+| role play printable | 19 |
+| year 1 maths | 12 |
+| year 2 maths | 12 |
+| counting money kids | 19 |
+| shop role play | 14 |
+| summer activity kids | 20 |
+| rainy day activity | 18 |
+| homeschool maths | 16 |
+
+## The photo slots
+
+In upload order: the two real life photos lead, then the cover.
+
+| Slot | File | What it shows |
+|---|---|---|
+| 1 | `images/01c-real-table-breakfast.jpg` | Real life: the real page laid into a room scene |
+| 2 | `images/01d-real-table-oak.jpg` | Real life: the real page laid into a second scene |
+| 3 | `images/01-cover.png` | The cover, in the Canva look |
+| 4 | `images/01b-on-the-fridge.png` | The page on a fridge door |
+| 5 | `images/02-whats-inside.png` | Every page, as rendered |
+| 6 | `images/03-close-up.png` | A page close up |
+| 7 | `images/05-formats.png` | The formats |
+| 8 | `images/06-how-it-works.png` | How it works |
+| 9 | `images/07-phone-version.png` | The phone screens |
+
+All 2000 by 2000, rendered from `listing/images.html` by
+`node content/printables/build-pack.mjs ice-cream-shop listing`. Every page in them
+is the real page render, made straight from the product PDF by
+`../pdf-previews.mjs`, never a redraw.
+
+## Compliance
+
+- No outcome or medical claims anywhere.
+- The last PDF page points to guidedchildhood.com/etsy-bonus, a free page (the
+  full Starter Pack for an email). No checkout link, no cheaper elsewhere line.
+- The review line on the last page asks kindly and offers nothing in return.
+- DiGi, the Planet Friends and the room scenes in the photos were made with AI
+  tools. Set "How is this digital content created?" to "With an AI generator",
+  per Etsy's Creativity Standards.

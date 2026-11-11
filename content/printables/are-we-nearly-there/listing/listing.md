@@ -12,13 +12,12 @@ Car Games Printable for Kids | Car Bingo, Road Trip Activities and Screen Time D
 
 ## Price and listing setup
 
-- List price: £4.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £4.99 crossed out and pay
-  £3.74.
-- £3.74 sits under the £4 floor on purpose. This is the entry offer of the
-  paid line: a small, easy first purchase before a summer or Christmas
-  journey, which brings a family into the shop and onto the free gift page.
+- List price: £2.49, set on 11 November 2026 (it was £4.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £2.99.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.24.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Seasonal, with pushes before Easter, the summer holidays, October half term
   and Christmas travel.
 - Type: digital download. Files: the three PDFs in `product/`. No phone

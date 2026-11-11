@@ -9,11 +9,12 @@ Christmas Screen Free Countdown Printable | 24 Day Family Advent Activities | Ki
 
 ## Price and listing setup
 
-- List price: £5.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
-  £4.49.
-- £4.49 sits above the £4 floor.
+- List price: £4.49, set on 11 November 2026 (it was £5.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £5.39.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £4.04.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Seasonal: live by 20 November, pushed hardest from 20 November to 3 December,
   when families are still setting up for the 1st. Leave it live through
   December for late starters (the cards say any day can be swapped or doubled).

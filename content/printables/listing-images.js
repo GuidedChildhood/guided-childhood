@@ -24,6 +24,7 @@
 //   fourth: [title, line] (optional, the fourth format card when there is no phone),
 //   note (optional): the handwritten line on the cover, default "instant download!",
 //   phoneTitle (optional, slot 7's headline when the pack does not live on the fridge),
+//   noFridge: true (optional, leaves out slot 1b, the page on a fridge door),
 // }
 //
 // A CARD DECK (Say This) shows cards, not A4 sheets, because a fan of real
@@ -136,7 +137,9 @@ out.push(`<div class="frame" data-name="01-cover" style="padding:0;display:block
 
 // 1b · On the fridge: the hero page held by magnets on a flat fridge door,
 // the in use photo every best selling chart listing carries.
-const fridgePage = L.fridgePage || (L.cover && L.cover[0])
+// noFridge: true leaves this slot out for a product that never goes on a
+// fridge (a card deck to cut out, a game for the car).
+const fridgePage = !L.noFridge && (L.fridgePage || (L.cover && L.cover[0]))
 if (fridgePage) out.push(`<div class="frame" data-name="01b-on-the-fridge" style="padding:0;display:block;background:${T.bg[7]};">
   <div style="position:absolute;left:280px;top:110px;width:1440px;height:2100px;border-radius:70px;background:linear-gradient(90deg,#F7F7F4,#EDEDE8);box-shadow:0 30px 80px rgba(46,42,38,0.16);"></div>
   <span style="position:absolute;left:370px;top:330px;width:46px;height:640px;border-radius:23px;background:linear-gradient(90deg,#D9D8D2,#C4C2BB);box-shadow:0 8px 16px rgba(46,42,38,0.16);"></span>

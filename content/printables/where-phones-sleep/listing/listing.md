@@ -24,12 +24,12 @@ Phone Charging Station Sign Printable | Family Screen Time Rules | Phones in the
 
 ## Price and listing setup
 
-- Etsy list price: £4.99. Etsy adds 20 percent UK VAT, so UK buyers see
-  £5.99 crossed out and pay £4.49 in the sale.
-- The 25 percent sale is the shop wide sale in Marketing, Sales and
-  discounts. Etsy caps a sale at 30 days, so it is started again each month.
-- £4.49 sits above the £4 floor, level with Earn Your Screen Time, the Family
-  Phone Agreement and the Calm Down Corner Kit.
+- List price: £2.49, set on 11 November 2026 (it was £4.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £2.99.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.24.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - One tier, no variations.
 - Under £8, so no Etsy Ads on it (launch plan rule). No Offsite Ads.
 - Evergreen. Push it in early January (new year resets), at back to school,

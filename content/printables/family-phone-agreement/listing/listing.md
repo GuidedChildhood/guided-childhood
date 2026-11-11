@@ -10,11 +10,12 @@ The Family Phone Agreement Printable | First Phone Contract for Kids | Ages 10 t
 
 ## Price and listing setup
 
-- List price: £5.99, up from £4.99, because 25 percent off £4.99 is £3.74,
-  under the £4 floor.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
-  £4.49.
+- List price: £2.49, set on 11 November 2026 (it was £4.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £2.99.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.24.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen, with peaks at Christmas, birthdays and September.
 - Type: digital download. Files: the three PDFs in `product/` plus a zip of
   the two phone screens in `phone/`.

@@ -198,6 +198,17 @@ build.
   a few places in. Charts, trackers and boards set `inUse` so the photo
   shows them filled in, with a child's name, jobs written in and a week of
   stars: a chart in use sells, a blank one reads as a mockup.
+- **Spin offs.** (Justin, 11 November 2026: more listings, so the shop shows
+  up in more searches.) A few pages of a live pack that stand on their own
+  (a poster, a card set, a chart) can be sold alone at the entry price.
+  `content/printables/cut-pack.mjs` copies the pages out of the parent's
+  product PDFs, never redrawn, and ends them on the thank you page from
+  `pack-finish.js` with no Passport sticker. Previews come from the PDF
+  (`pdf-previews.mjs`), the pack is `pdfOnly` in `build-pack.mjs`, the listing
+  says which pack it comes from, and it is a named exception in
+  `scripts/check-etsy-in-app.mjs`. Leave out any page that points at another
+  page of its parent. Give its real photos a different page or room from the
+  parent's, so the two listings never show the same picture.
 - **Check by eye.** Render the whole set, make a contact sheet, and check
   that no headline runs under the pages, nothing touches the footer, and
   the cover reads at thumbnail size, before anything is uploaded.

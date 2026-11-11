@@ -13,10 +13,12 @@ for the parent; this deck is questions for the child.
 
 ## Price and listing setup
 
-- List price: £5.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
-  £4.49.
+- List price: £3.49, set on 11 November 2026 (it was £5.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £4.19.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £3.14.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen, with pushes at Christmas (stocking fillers), Easter and the
   summer holidays (long car journeys).
 - Type: digital download. Files: the three PDFs in `product/`.

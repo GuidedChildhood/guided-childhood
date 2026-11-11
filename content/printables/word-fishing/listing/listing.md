@@ -1,70 +1,87 @@
-# Etsy Listing Package — Word Fishing
+# Etsy listing package: Word Fishing Phonics Game
 
-## Title (80 characters)
-Word Fishing Phonics Game Printable | Phase 2 Phase 3 Tricky Words | Ages 4 to 7
+One of the older games, listed on 11 November 2026 with the Canva look photo set. Its last page was swapped by `../cut-pack.mjs` for the thank you page with the gift /etsy-bonus really gives: the old page promised a bonus of its own that the page does not hand over.
 
-## Price and rung
-List £3.99, permanent launch sale 25 percent off, lands at £2.99. Entry rung
-of the ladder, the review velocity engine for the early years lane. Evergreen,
-push hard at back to school and again in January when reading homework starts
-to bite. Verified gap: the top English language rival listing has 12 ratings,
-so review velocity wins this niche fast.
+## Title (119 characters)
 
-## 13 tags (different phrasings from the title)
-tricky word game, magnetic fishing game, sight word printable, phonics
-activity, learning to read game, reception phonics, year 1 literacy, cvc word
-game, letter sounds game, homeschool phonics, fine motor activity, quiet time
-activity, kids fishing game
+Word Fishing Phonics Game Printable | Tricky Words Magnetic Fishing Game, Phase 2 and Phase 3 Sight Words | Ages 4 to 7
 
-## What is inside (listing description bullets)
-- 42 word fish and 16 letter fish in five friendly colours, each carrying one
-  Phase 2 or Phase 3 tricky word or a first letter sound (s a t p i n m d)
-- 9 blank fish for spelling lists, names and new words from school
-- The 10 minute build page: a materials table of cheap household items you
-  already own (paperclips, a magnet, string, a wooden spoon), five illustrated
-  steps, prep time, mess level and a laminate tip so one print lasts years
-- How to play: three games in one pond, Catch and say, Word match, and Beat
-  the clock, plus a note on keeping it playful, never a test
-- A4 and US Letter, full colour plus an ink friendly version the kids can
-  colour in themselves
-- Phone sized how to play and tricky words practice screens included, so the
-  game travels to grandparents and waiting rooms
-- Instant download, print as many times as you like
+## Price and listing setup
 
-## The 10 photo slots
-1. Lifestyle hero: child hand dangling the spoon rod over a blue scarf pond
-   full of laminated fish, mid catch
-2. Cover page flat lay with real scissors, paperclips and a ball of string
-3. Close up: one coral fish with a paperclip on its nose, magnet approaching
-4. The full shoal: all 58 cut out fish fanned in rainbow order
-5. Instant download overlay graphic (no physical item ships)
-6. The build page with the five steps circled, 10 minute promise highlighted
-7. Child hands lining up letter fish to spell sat on the pond edge
-8. Phone practice screen on a phone propped by a cereal bowl
-9. Sizing and formats guide (A4, US Letter, ink friendly, phone)
-10. Free bonus mention: DiGi star plus "free Secret Word decoding game inside"
+- List price: £2.99, set on 11 November 2026. Etsy adds 20 percent UK
+  VAT, so UK buyers see £3.59.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.69.
+- Etsy section: Games & Learning. Copy the category and attributes from the
+  live listing "Printable Board Game for Kids".
+- Evergreen, with pushes at back to school and in January.
+- Type: digital download. Files: the three PDFs in `product/` and the 2 phone screens in `phone/`.
 
-## Listing video script (12 seconds, hands on table)
-Overhead, kitchen table light. A child's hand dangles the wooden spoon rod,
-string and magnet over the blue scarf pond. The magnet clicks onto a coral
-fish's paperclip nose. The fish lifts, dripping with drama. The child holds it
-up and a small voice off camera reads "the!". The fish drops into a bowl
-labelled MY CATCH. Text overlay: "Catch it. Read it. Keep it." No faces, no
-voiceover beyond the one word.
+## Description
 
-## Instagram reel script (the same footage plus hook)
-First frame text: "Reading practice they beg for. Built from a spoon and a
-paperclip."
-Caption: Ten minutes to build, years of fishing. Every fish carries one
-Phase 2 or Phase 3 tricky word, the magnet does the magic, and your child
-reads without noticing they are practising. Laminate it once and the blank
-fish become every spelling list forever. Ages 4 to 7. Link in bio.
-Hashtags target teachers and parents: #phonics #earlyyears #learningthroughplay
-#trickywords #ukparents
+A paperclip on every fish, a magnet on a string, and reading practice turns into the best game in the house.
 
-## Compliance notes
-No medical or educational outcome claims, "reading practice" not "improves
-reading age". Phase 2 and Phase 3 are the generic UK phonics phase labels
-parents search for; never name any commercial phonics scheme in the listing
-or the PDF. Bonus link inside the PDF goes to a free page, never a checkout.
-No review incentives. Hand drawn SVG artwork, no AI imagery to disclose.
+Word Fishing is a build at home phonics game for ages 4 to 7. Your child catches a fish and reads the word on it. Read it right and it goes in the bucket. The build takes ten minutes with things from the kitchen drawer: paperclips, a fridge magnet, string and a wooden spoon. Those are not included.
+
+What you get, 10 pages:
+
+- 42 tricky word fish: 18 for Phase 2 (the, to, I, no, go, into) and 24 for Phase 3 (he, she, we, me, be, was, you, they, all, are, my, her)
+- 16 letter fish for younger anglers: s, a, t, p, i, n, m and d, twice each, to catch and build a word
+- 12 blank fish for this week's spellings, names or any word you like
+- The ten minute build: what you need and five steps
+- Three games on one pond: catch and say, word match and beat the clock
+- A4 and US Letter in full colour, plus an ink friendly version
+- A phone version: how to play and the tricky words to practise
+- A thank you page with a free gift for your family
+
+This is an instant download. Nothing is posted. Print as many copies as your own family needs. For personal use only.
+
+I am Justin, a dad who got tired of the screen time fight. If anything will not print or open, message me and I will sort it fast.
+
+## 13 tags (every one 20 characters or fewer)
+
+| Tag | Characters |
+|---|---|
+| phonics game | 12 |
+| tricky words | 12 |
+| sight words game | 16 |
+| magnetic fishing | 16 |
+| reception phonics | 17 |
+| early reading game | 18 |
+| eyfs printable | 14 |
+| letters and sounds | 18 |
+| reading practice | 16 |
+| homeschool phonics | 18 |
+| literacy game kids | 18 |
+| cvc words | 9 |
+| ks1 phonics | 11 |
+
+## The photo slots
+
+In upload order: the two real life photos lead, then the cover.
+
+| Slot | File | What it shows |
+|---|---|---|
+| 1 | `images/01c-real-table-breakfast.jpg` | Real life: the real page laid into a room scene |
+| 2 | `images/01d-real-classroom-cork.jpg` | Real life: the real page laid into a second scene |
+| 3 | `images/01-cover.png` | The cover, in the Canva look |
+| 4 | `images/02-whats-inside.png` | Every page, as rendered |
+| 5 | `images/03-close-up.png` | A page close up |
+| 6 | `images/05-formats.png` | The formats |
+| 7 | `images/06-how-it-works.png` | How it works |
+| 8 | `images/07-phone-version.png` | The phone screens |
+
+All 2000 by 2000, rendered from `listing/images.html` by
+`node content/printables/build-pack.mjs word-fishing listing`. Every page in them
+is the real page render, made straight from the product PDF by
+`../pdf-previews.mjs`, never a redraw.
+
+## Compliance
+
+- No outcome or medical claims anywhere.
+- The last PDF page points to guidedchildhood.com/etsy-bonus, a free page (the
+  full Starter Pack for an email). No checkout link, no cheaper elsewhere line.
+- The review line on the last page asks kindly and offers nothing in return.
+- DiGi, the Planet Friends and the room scenes in the photos were made with AI
+  tools. Set "How is this digital content created?" to "With an AI generator",
+  per Etsy's Creativity Standards.

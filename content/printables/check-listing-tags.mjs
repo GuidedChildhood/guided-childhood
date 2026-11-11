@@ -13,7 +13,10 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = dirname(fileURLToPath(import.meta.url))
 const DEFAULT = ['calm-down-kit', 'starter-pack', 'star-chart', 'earn-your-screen-time', 'family-phone-agreement', 'script-cards', 'star-swap-shop',
-  'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game', 'christmas-phone-bundle', 'where-phones-sleep']
+  'phone-treasure-hunt', 'planet-day-flip-chart', 'jobs-board', 'table-talk-cards', 'road-to-16-board-game', 'christmas-phone-bundle', 'where-phones-sleep',
+  // listed 11 November 2026: four older games and eight spin offs
+  'a-to-z-showdown', 'ice-cream-shop', 'school-year-planner', 'word-fishing', 'star-breathing-poster', 'feelings-cards', 'weekly-routine-chart',
+  'routine-picture-cards', 'car-bingo', 'devices-sleep-here-sign', 'family-tech-rules', 'screen-time-tokens']
   .map(p => join(ROOT, p, 'listing/listing.md'))
 const files = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT
 

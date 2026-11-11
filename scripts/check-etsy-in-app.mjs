@@ -38,6 +38,15 @@ const NOT_IN_APP = {
   'class-screen-promise': 'a classroom poster set for teachers, not a family sheet',
   'christmas-phone-bundle': 'a bundle of packs that are each in the app',
   'whole-system-bundle': 'a bundle of packs that are each in the app',
+  // Spin offs: a few pages of a bigger pack sold on their own (content/printables/cut-pack.mjs).
+  'star-breathing-poster': 'pages of the Calm Down Corner Kit, which is in the app',
+  'feelings-cards': 'pages of the Calm Down Corner Kit, which is in the app',
+  'weekly-routine-chart': 'pages of the Planet Day Flip Chart, which is in the app',
+  'routine-picture-cards': 'pages of the Planet Day Flip Chart, which is in the app',
+  'car-bingo': 'pages of Are We Nearly There, which is in the app',
+  'devices-sleep-here-sign': 'pages of Where Phones Sleep, which is in the app',
+  'family-tech-rules': 'pages of Where Phones Sleep, which is in the app',
+  'screen-time-tokens': 'pages of Earn Your Screen Time, which is in the app',
 }
 
 const listed = dir => existsSync(join(PACKS, dir, 'listing/listing.md'))

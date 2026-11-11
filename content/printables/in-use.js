@@ -10,7 +10,7 @@
 //
 //   fillInUse(sheet, { name, writes, rows, days })
 //
-// name    the child's name, written in the "belongs to" box
+// name    the child's name, written in the "belongs to" box or on a name line
 // writes  words for the blank write in lines, in order
 // days    how many day columns of stars are coloured (the week so far)
 // Everything is deterministic (seeded), so a rebuild gives the same photo.
@@ -53,6 +53,10 @@ window.fillInUse = function fillInUse(sheet, opt = {}) {
       let left = r.width * 0.45
       if (words) { const rr = document.createRange(); rr.selectNodeContents(words); left = rr.getBoundingClientRect().right - r.left + 12 }
       hand(h, o.name, '30pt', `position:absolute;left:${left}px;bottom:4px;font-weight:400;`)
+    } else {
+      // A name line that is a fillable field ("____'s week").
+      const f = sheet.querySelector('[data-field^="name"]')
+      if (f && !f.textContent.trim()) { f.style.position = 'relative'; hand(f, o.name, '26pt', 'position:absolute;left:2mm;bottom:0.5mm;font-weight:400;') }
     }
   }
 
@@ -78,6 +82,29 @@ window.fillInUse = function fillInUse(sheet, opt = {}) {
     if (isNum) hand(line, nums[k++], '15pt', 'position:absolute;left:50%;bottom:-0.4mm;transform:translateX(-50%);')
     else hand(line, o.writes[w++], '14pt', 'position:absolute;left:0.5mm;bottom:-0.4mm;')
   })
+
+  // 2c. A short fillable blank beside "minutes" or "stars" takes a number.
+  sheet.querySelectorAll('span.fl').forEach(f => {
+    if (f.textContent.trim() || k >= nums.length || !/stars?|minutes/i.test(f.parentElement.textContent)) return
+    f.style.position = 'relative'; f.style.display = 'inline-block'
+    hand(f, o.minutes || '30', '14pt', 'position:absolute;left:50%;bottom:-0.4mm;transform:translateX(-50%);')
+  })
+
+  // 2d. A week of tick boxes (.wk .c, seven to a row): ticked for the days
+  // done so far, with the odd one missed, as a real week is.
+  const boxes = [...sheet.querySelectorAll('.wk .c')]
+  const rowsOf = []
+  for (const b of boxes) {
+    const top = Math.round(b.getBoundingClientRect().top)
+    let row = rowsOf.find(r => Math.abs(r.top - top) < 4)
+    if (!row) rowsOf.push(row = { top, cells: [] })
+    row.cells.push(b)
+  }
+  rowsOf.forEach(row => row.cells.sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left).forEach((b, di) => {
+    if (di >= o.days || rnd() < 0.14) return
+    b.style.display = 'flex'; b.style.alignItems = 'center'; b.style.justifyContent = 'center'
+    hand(b, '✓', '21pt', 'color:#2B3A67;')
+  }))
 
   // 3. Stars coloured for the days done so far. A real week has gaps.
   // Rows are found by position, not markup: small icons (under 12mm) that

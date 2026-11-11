@@ -11,10 +11,12 @@ Printable Board Game for Kids | Family Game Night, 48 Choice Cards, Online Safet
 
 ## Price and listing setup
 
-- List price: £7.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £7.99 crossed out and pay
-  £5.99.
+- List price: £5.99, set on 11 November 2026 (it was £7.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £7.19.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £5.39.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen, with pushes at Christmas, the February half term and the summer
   holidays.
 - Type: digital download. Files: the three PDFs in `product/` plus the A3

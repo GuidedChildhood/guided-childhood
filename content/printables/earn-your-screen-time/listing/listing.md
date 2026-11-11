@@ -10,11 +10,12 @@ Earn Your Screen Time Chart Printable | Kids Reward Tokens and Ending Cards | Ag
 
 ## Price and listing setup
 
-- List price: £5.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
-  £4.49.
-- £4.49 sits above the £4 floor.
+- List price: £2.99, set on 11 November 2026 (it was £4.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £3.59.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.69.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen. Refresh the photos at back to school and in January.
 - Type: digital download. Files: the three PDFs in `product/` plus a zip of
   the three phone screens in `phone/`.

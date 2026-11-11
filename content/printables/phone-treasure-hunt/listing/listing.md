@@ -12,10 +12,12 @@ Christmas Treasure Hunt for Older Kids Printable | 10 Clue Cards, First Phone Gi
 
 ## Price and listing setup
 
-- List price: £5.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £5.99 crossed out and pay
-  £4.49.
+- List price: £4.49, set on 11 November 2026 (it was £5.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £5.39.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £4.04.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Season: from listing day to Christmas Eve, then birthdays all year (the
   riddle on card 10 says "beside the tree", and the blank cards cover any
   other day).
