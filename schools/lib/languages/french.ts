@@ -83,6 +83,42 @@ type DeckUnit = {
   songs?: Song[]
 }
 
+type Row2 = [string, string]
+type Row3 = [string, string, string]
+
+/** The author's long form text about the scheme: what it is for, how a lesson
+ *  runs, how learning builds, how it is assessed (her curriculum_page.js). */
+export type FrenchPage = {
+  intro?: string
+  intent?: Row2[]
+  pillars?: string
+  lesson?: Row3[]
+  research?: Row2[]
+  vocabulary?: Row2[]
+  activities?: { phonics?: Row2[]; lesson?: Row2[]; assess?: Row2[] }
+  phonics?: { y3?: Row3[]; y4?: Row3[]; note?: string }
+  grammar?: { y3?: string; y4?: string }
+  audience?: string
+  books?: string
+  culture?: { y3?: Row2[]; y4?: Row2[] }
+  inclusion?: Row2[]
+  assessment?: Row2[]
+  impact?: Row2[]
+}
+
+/** The short pieces that live in her page script: her reasons, how each
+ *  statement grows from Year 3 to Year 4, the two class toys, the four levels. */
+export type FrenchHandbook = {
+  think?: Row2[] | null
+  grow?: Record<string, string> | null
+  marie?: Row2[] | null
+  levels?: Row2[] | null
+  progressShows?: Row2[] | null
+  shortAnswer?: string | null
+  believe?: string | null
+  goodGame?: string | null
+}
+
 type Raw = {
   origin: string
   years: { year: number; units: { ht: number; fr: string; en: string; slug?: string }[] }[]
@@ -90,11 +126,25 @@ type Raw = {
   curriculum: { units: Record<string, PlanUnit>; order: string[]; solo: string[]; nc: Record<string, string> }
   codes?: Record<string, { codes?: Statement[] }>
   sequence: Record<string, [string, number][]>
+  page?: FrenchPage | null
+  handbook?: FrenchHandbook | null
 }
 
 const data = raw as unknown as Raw
 
 export const FR_ORIGIN = data.origin
+
+/** The handbook: her own words about the scheme, for a head or a subject lead. */
+export const FR_PAGE: FrenchPage = data.page ?? {}
+export const FR_HANDBOOK: FrenchHandbook = data.handbook ?? {}
+
+/** "a → b → c" as its steps. She writes a progression as one arrowed line. */
+export function flowSteps(s: string | undefined): string[] {
+  return (s ?? '').split('→').map(x => x.trim()).filter(Boolean)
+}
+
+/** The order the scheme lists its statements in: listening, speaking, reading, writing, grammar. */
+export const CODE_ORDER = ['L1', 'L2', 'S1', 'S2', 'S3', 'S4', 'R1', 'R2', 'R3', 'W1', 'W2', 'G1']
 
 /** A file list from her data as a real list, whichever of the two shapes it came in. */
 export function sheetList(v: SheetFile[] | SheetFile | undefined): SheetFile[] {

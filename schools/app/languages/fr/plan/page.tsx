@@ -11,6 +11,8 @@ import { body, card, langEyebrow, small } from '../_ui'
 // teaching a lesson, so they share one room instead of taking a tab each:
 //
 //   0. the school's own record: progress, class by class (/languages/fr/progress)
+//   0b. the handbook the scheme's author wrote for a head: how progress is
+//       assessed, the curriculum, how the lessons work (11 November 2026)
 //   1. the lesson plans, by unit, ready to print
 //   2. assessment across the year: which statements each half term assesses
 //   3. the coverage grid against the KS2 programme of study
@@ -46,6 +48,24 @@ export default function FrenchPlanRoom() {
         </span>
         <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink-light)' }}>›</span>
       </Link>
+
+      <section aria-labelledby="handbook">
+        <h2 id="handbook" style={{ ...eyebrow, margin: '0 0 var(--space-2)' }}>For a head or a subject lead</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-3)' }}>
+          {[
+            { href: '/languages/fr/assessment', title: 'How progress is assessed', line: 'Same statements in both years: where the progress shows, and how it is recorded' },
+            { href: '/languages/fr/curriculum', title: 'The curriculum', line: 'What it is for, the long term plan for each year, and how learning builds' },
+            { href: '/languages/fr/approach', title: 'How the lessons work', line: 'The seven steps of every lesson, the thinking behind them, the activities' },
+          ].map((t, i) => (
+            <Reveal key={t.href} delay={i * 0.05} y={14}>
+              <Link href={t.href} className="gc-fr-tile" style={{ ...card, display: 'block', height: '100%', textDecoration: 'none' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
+                <span style={{ ...small, display: 'block', marginTop: 'var(--space-1)' }}>{t.line}</span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section aria-labelledby="plans">
         <h2 id="plans" style={{ ...eyebrow, margin: '0 0 var(--space-2)' }}>Lesson plans, ready to print</h2>

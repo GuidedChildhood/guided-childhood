@@ -5,7 +5,7 @@ import {
 } from '@gc/shared/lesson-records'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
-import { assessedCodes, FRENCH_UNITS, FRENCH_YEARS, SKILL_LABEL, soloName, teachingLessons } from '@/lib/languages/french'
+import { assessedCodes, CODE_ORDER, FRENCH_UNITS, FRENCH_YEARS, SKILL_LABEL, teachingLessons } from '@/lib/languages/french'
 import { readDeliveries } from '@/lib/records'
 import { body, card, langEyebrow, small } from '../_ui'
 
@@ -96,7 +96,20 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
         </section>
       )}
 
-      {years.map(y => (
+      {years.map(y => {
+        // THE TREND. The scheme assesses each statement twice a year, in two
+        // different units, and asks whether the level rises between the two.
+        // This is that question for the class: the share at SOLO 4 or above
+        // each time the statement came round.
+        const yearUnits = FRENCH_UNITS.filter(u => u.year === y)
+        const assesses = (u: typeof yearUnits[number], c: string) => assessedCodes(u).some(x => x.code === c)
+        const shareOf = (u: typeof yearUnits[number], c: string) => {
+          const l = assesses(u, c) ? latestLevels(rows, u.key, c) : null
+          return l ? shareAtFourOrAbove(l.levels) : null
+        }
+        const yearCodes = CODE_ORDER.filter(c => yearUnits.some(u => assesses(u, c)))
+        const anyLevels = yearCodes.some(c => yearUnits.some(u => shareOf(u, c) !== null))
+        return (
         <section key={y} aria-labelledby={`y${y}`}>
           <h2 id={`y${y}`} style={{ ...eyebrow, margin: 'var(--space-2) 0 var(--space-2)' }}>Year {y}</h2>
           <ol className="gc-fr-prog">
@@ -149,7 +162,7 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
                             </div>
                             {latest && share !== null ? (
                               <div className="gc-fr-prog-level">
-                                <div className="gc-fr-prog-bar" role="img" aria-label={`${latest.levels.s3} pupils at ${soloName(3)}, ${latest.levels.s4} at ${soloName(4)}, ${latest.levels.s5} at ${soloName(5)}`}>
+                                <div className="gc-fr-prog-bar" role="img" aria-label={`${latest.levels.s3} pupils below SOLO 4, ${latest.levels.s4} at SOLO 4, ${latest.levels.s5} at SOLO 5`}>
                                   {latest.levels.s3 > 0 && <span data-l="3" style={{ flexGrow: latest.levels.s3 }}>{latest.levels.s3}</span>}
                                   {latest.levels.s4 > 0 && <span data-l="4" style={{ flexGrow: latest.levels.s4 }}>{latest.levels.s4}</span>}
                                   {latest.levels.s5 > 0 && <span data-l="5" style={{ flexGrow: latest.levels.s5 }}>{latest.levels.s5}</span>}
@@ -168,21 +181,64 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
               )
             })}
           </ol>
+
+          {anyLevels && (
+            <div style={{ marginTop: 'var(--space-4)' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>Each statement, each time it comes round</h3>
+              <p style={{ ...small, margin: '0 0 var(--space-2)' }}>
+                The share of the class at SOLO 4 or above. A statement is assessed in more than one half term, and a later
+                unit asks for more at the same level, so holding the same share is progress too.
+              </p>
+              <div style={{ ...card, padding: 0, overflowX: 'auto' }}>
+                <table className="gc-fr-trend">
+                  <thead>
+                    <tr>
+                      <th scope="col">Statement</th>
+                      {yearUnits.map(u => <th key={u.key} scope="col" className="gc-fr-trend-c">HT{u.ht}</th>)}
+                      <th scope="col" className="gc-fr-trend-c">Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {yearCodes.map(c => {
+                      const seen = yearUnits.map(u => shareOf(u, c)).filter((v): v is number => v !== null)
+                      const change = seen.length >= 2 ? seen[seen.length - 1] - seen[0] : null
+                      return (
+                        <tr key={c}>
+                          <th scope="row"><span className="gc-fr-trend-code">{c}</span> {SKILL_LABEL[c[0]] ?? ''}</th>
+                          {yearUnits.map(u => {
+                            const v = shareOf(u, c)
+                            return (
+                              <td key={u.key} className="gc-fr-trend-c">
+                                {v !== null ? <b>{v}%</b> : assesses(u, c) ? <span className="gc-fr-trend-due" aria-label="assessed here, not recorded yet">to come</span> : null}
+                              </td>
+                            )
+                          })}
+                          <td className="gc-fr-trend-c">{change === null ? null : <b>{change > 0 ? `up ${change}` : change < 0 ? `down ${-change}` : 'level'}</b>}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </section>
-      ))}
+        )
+      })}
 
       {deliveries.length > 0 && (
         <>
           <div className="gc-fr-prog-key" aria-hidden>
-            <span><i data-l="3" /> {soloName(3)}</span>
-            <span><i data-l="4" /> {soloName(4)}</span>
-            <span><i data-l="5" /> {soloName(5)}</span>
+            <span><i data-l="3" /> Below SOLO 4</span>
+            <span><i data-l="4" /> SOLO 4</span>
+            <span><i data-l="5" /> SOLO 5</span>
           </div>
           <p style={{ ...small, margin: 0 }}>
             This records the lessons delivered and the teacher&apos;s own count of pupils at each level, taken from the
             What I can do sheet. No pupil is named, so each child&apos;s own level stays on the sheet in their book,
             which is what a report to parents is written from. SOLO 3, 4 and 5 are this scheme&apos;s own levels;
-            there is no national test in primary languages.
+            there is no national test in primary languages.{' '}
+            <Link href="/languages/fr/assessment" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>How progress is assessed</Link>
           </p>
         </>
       )}
@@ -210,6 +266,12 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
         .gc-fr-prog-key { display: flex; flex-wrap: wrap; gap: var(--space-3); font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink-muted); }
         .gc-fr-prog-key span { display: inline-flex; align-items: center; gap: var(--space-2); }
         .gc-fr-prog-key i { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--border); display: inline-block; }
+        .gc-fr-trend { border-collapse: collapse; width: 100%; min-width: 620px; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink); }
+        .gc-fr-trend th, .gc-fr-trend td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); text-align: left; font-weight: 400; }
+        .gc-fr-trend thead th { border-top: 0; font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+        .gc-fr-trend .gc-fr-trend-c { text-align: center; }
+        .gc-fr-trend-code { font-family: var(--font-mono); font-weight: 600; font-size: var(--text-xs); color: var(--terracotta-dark); margin-right: var(--space-1); }
+        .gc-fr-trend-due { font-size: var(--text-xs); color: var(--ink-light); }
         @media (max-width: 640px) {
           .gc-fr-prog > li { padding: var(--space-3); }
           .gc-fr-prog-dots { grid-template-columns: repeat(3, minmax(0, 1fr)); }

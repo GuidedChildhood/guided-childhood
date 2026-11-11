@@ -5,10 +5,10 @@ import { frLessonKey } from '@gc/shared/lesson-records'
 import RecordLesson from '@/components/records/RecordLesson'
 import { eyebrow } from '@/components/ui'
 import {
-  activitiesFor, assessedIn, codesToRecord, deckSequence, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
+  activitiesFor, assessedIn, codesToRecord, deckSequence, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
   sheetList, SKILL_LABEL, soloName, teachingLessons,
 } from '@/lib/languages/french'
-import { body, card, Crumbs, langEyebrow, Sheets, small } from '../../_ui'
+import { body, card, Crumbs, Fold, FoldStyles, langEyebrow, Sheets, small } from '../../_ui'
 import DeckPreview from '../../DeckPreview'
 
 // /languages/fr/[unit]/[lesson]: ONE LESSON, START TO FINISH (10 November 2026).
@@ -77,6 +77,9 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
   const sheets = [...sheetList(deck?.files), ...activitiesFor(u, l.n)]
   const classMats = sheetList(u.deck?.wordMats).filter(m => (m.lv ?? 'class') === 'class')
   const teachHref = `/languages/fr/${u.key}/${l.n}/teach`
+  // The scheme zips every sheet for a lesson into one pack, beside its decks.
+  const pack = u.deck && u.slug ? mediaUrl(u.slug, `zip/Y${u.year}_HT${u.ht}_Lesson_${l.n}.zip`, 'deck') : null
+  const seven = FR_PAGE.lesson ?? []
 
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
@@ -135,8 +138,9 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
         )}
         {!deck && <p style={{ ...body, margin: 0 }}>{l.detail}</p>}
         {u.deck && (
-          <div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
             <Link href={`/languages/fr/${u.key}/plans#lesson-${l.n}`} className="btn btn-outline">Open the lesson plan</Link>
+            {pack && sheets.length > 0 && <a href={pack} download className="btn btn-outline">Download every sheet</a>}
           </div>
         )}
       </Step>
@@ -165,6 +169,25 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
             </ol>
           </div>
         )}
+        {seven.length > 0 && !l.culture && (
+          <div className="gc-fr-folds">
+            <Fold label="How the lesson runs, step by step" hint={`The same ${seven.length} steps every lesson, so the class knows what is coming`}>
+              <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                {seven.map(([step, timing, what], i) => (
+                  <li key={step} style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
+                    <span aria-hidden className="gc-fr-stepnum" style={{ width: 32, height: 32, fontSize: 'var(--text-sm)' }}>{i + 1}</span>
+                    <span style={{ minWidth: 0 }}>
+                      <b style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{step}</b>{' '}
+                      <span style={small}>{timing}</span>
+                      <span style={{ ...small, display: 'block', color: 'var(--ink)' }}>{what}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <Link href="/languages/fr/approach" style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>Why the lessons run this way</Link>
+            </Fold>
+          </div>
+        )}
         {deck?.book && (
           <div>
             <span style={label}>The main task, in their books</span>
@@ -190,8 +213,8 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
           subject="fr"
           lessonKey={frLessonKey(u.key, l.n)}
           statements={toRecord.map(c => ({ code: c.code, skill: SKILL_LABEL[c.code[0]] ?? 'Statement', pupil: c.pupil }))}
-          levelNames={['SOLO 3', 'SOLO 4', 'SOLO 5']}
-          levelKey={`${soloName(3)}, ${soloName(4)}, ${soloName(5)}.`}
+          levelNames={['Below SOLO 4', 'SOLO 4', 'SOLO 5']}
+          levelKey={`This is how the scheme reports each statement. Below SOLO 4 is ${soloName(3)}, and anyone not there yet.`}
           recordHref="/languages/fr/progress"
         />
       </Step>
@@ -201,6 +224,7 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
         {next ? <Link href={`/languages/fr/${u.key}/${next.n}`} className="btn btn-outline">Lesson {next.n} ›</Link> : <Link href={`/languages/fr/${u.key}`} className="btn btn-outline">Back to the unit</Link>}
       </nav>
 
+      <FoldStyles />
       <style>{`
         .gc-fr-steps { display: inline-flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
         .gc-fr-steps a {

@@ -786,7 +786,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-3)' }}>
               The class and the date, saved on every laptop. No pupil is named.
             </p>
-            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} />
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} recordHref="/hub/progress" />
           </section>
         )}
 

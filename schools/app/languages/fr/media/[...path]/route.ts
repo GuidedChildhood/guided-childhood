@@ -30,7 +30,7 @@ import { FR_ORIGIN, FRENCH_UNITS } from '@/lib/languages/french'
 // framed from her site.
 
 const BUCKET = 'languages'
-const SAFE = /^[A-Za-z0-9_-]+(\/[A-Za-z0-9_-]+)*\.(html|pdf|mp4|mp3|jpg|jpeg|png|webp|svg)$/
+const SAFE = /^[A-Za-z0-9_-]+(\/[A-Za-z0-9_-]+)*\.(html|pdf|mp4|mp3|jpg|jpeg|png|webp|svg|zip)$/
 const DECK_SANDBOX = 'sandbox allow-scripts allow-popups allow-popups-to-escape-sandbox allow-presentation'
 
 const gone = () => new Response('Not found', { status: 404, headers: { 'X-Robots-Tag': 'noindex, nofollow' } })

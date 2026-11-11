@@ -117,3 +117,43 @@ adversarial pass: 12 confirmed, 2 corrected, none thrown out.
 
 Could not be verified, so not relied on: an Ofsted languages subject report after 2021, ICO
 guidance on small counts, and any evidence on trust tracking requirements.
+
+## The author's handbook, and what the digital side takes from it (11 November 2026)
+
+Justin: she has updated her own site, so review it, add what she changed to ours, and take
+anything good for the digital side, "especially the progress reporting".
+
+**What she changed.** Her home page is now a handbook for a head, in four parts:
+curriculum (overview, a long term plan per year, progression), assessment (progress from
+Year 3 to Year 4, SOLO levels, what is assessed and when), pedagogy (her thinking, how a
+lesson runs, the activities, the two class toys, inclusion) and a document bank. The
+lessons, slides and sheets did not change, apart from one sheet renamed.
+
+**Into ours, all synced, nothing retyped.** The sync now also reads her long text file and
+lifts six short pieces out of her page script as data (never run); if her site reshapes
+one, that piece keeps last night's value and the lessons still sync.
+
+| Hers | Ours | Where |
+|---|---|---|
+| Progress from Year 3 to Year 4, SOLO, how it is recorded | **How progress is assessed** | `/languages/fr/assessment` |
+| Overview, long term plan, progression | **The curriculum** | `/languages/fr/curriculum` |
+| Our thinking, how a lesson runs, activities, the toys, inclusion | **How the lessons work** | `/languages/fr/approach` |
+| How a lesson runs | The seven steps, folded into step 2 of every lesson page | lesson page |
+| The lesson pack (zip) | "Download every sheet" in Get ready | lesson page |
+| "Report the number of pupils below SOLO 4, at SOLO 4 and at SOLO 5" | The count boxes now use exactly her three columns | Record step, progress page |
+| "Each code is logged twice a year": does the level rise between the two? | A table of each statement each time it comes round, with the change | `/languages/fr/progress` |
+
+Still three rooms. The three new pages sit in Plan and assess, as tiles on its home.
+
+**Weighed for the digital side (feedback filter).**
+
+| Her idea | Verdict | What the digital side does |
+|---|---|---|
+| Progress is shown against a fixed sequence | **Adopt** | `/hub/progress`: a class's key stage, lesson by lesson, with the date each was taught |
+| Report how many are below, at and above, not a mark | **Adopt** | The class judgements added up: needs revisiting, developing, secure |
+| A judgement exists to change what is taught next | **Adopt** | "To teach again": every objective marked needs revisiting, with its lesson. This is also the one thing Ofsted's toolkit asks of assessment |
+| The same skill assessed again later, to see it rise | **Adapt** | The digital lessons do not repeat a statement, so the nearest true thing is the four areas the passport records: delivered and judged, by area |
+| Quick checks every lesson are not recorded | **Already ours** | The judgement is optional and one tap |
+| "Our thinking": the reason for each routine | **Already built** | The philosophy page and each lesson's teacher notes |
+| Moderation: keep exemplar work and re-check a sample | **Park** | Her practice, on paper. We have no source for it in the digital scheme and no place to keep work |
+| A named pupil's level tracked over time | **Decline for now** | Needs pupil data. Unchanged from the decision above |

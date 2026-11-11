@@ -416,7 +416,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 var(--space-3)' }}>
               The class and the date, saved for your school on every laptop. No pupil is named.
             </p>
-            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} />
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} recordHref="/hub/progress" />
           </section>
         )}
 

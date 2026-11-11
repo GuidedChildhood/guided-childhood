@@ -294,7 +294,7 @@ function Levels({ statements, levelNames, levelKey, delivery, pending, onSave }:
               ))}
             </div>
             {total > 0 && share !== null && (
-              <p className="gc-rec-quiet" style={{ margin: 0 }}>{total} pupils counted · <b>{share}%</b> at {levelNames[1]} or above</p>
+              <p className="gc-rec-quiet" style={{ margin: 0 }}>{total} pupils counted · <b>{share}%</b> at {levelNames[1]} or above · {c.s3} below</p>
             )}
           </fieldset>
         )
