@@ -30,6 +30,9 @@ export type QuizQuestion = {
   pairs?: { left: string; right: string }[]
   answer: string
   teaching_point: string
+  /** The lesson a question came from, on a quiz that mixes lessons (the look
+   *  back quiz). Shown on the teacher's answer copy only. */
+  source?: string
 }
 
 const mono: React.CSSProperties = {
@@ -150,6 +153,10 @@ function Question({ q, n, answers, accent }: { q: QuizQuestion; n: number; answe
 
       {/* Ours, not Oak's: what to do about a wrong answer, not only what the
           right one was. It is the reason a cover teacher can run this. */}
+      {answers && q.source && (
+        <p style={{ ...mono, margin: '6px 0 0', paddingLeft: '14px' }}>From {q.source}</p>
+      )}
+
       {answers && q.teaching_point && (
         <p style={{
           ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '6px 0 0',
@@ -163,9 +170,13 @@ function Question({ q, n, answers, accent }: { q: QuizQuestion; n: number; answe
 }
 
 export default function QuizSheet({
-  kind, moduleId, title, yearBand, keyStage, characterCast, questions, answers,
+  kind, moduleId, title, yearBand, keyStage, characterCast, questions, answers, otherHref,
 }: {
-  kind: 'starter' | 'exit'
+  // 'lookback' is the quiz that mixes lessons already taught (11 November
+  // 2026). It has no module of its own, so its route passes otherHref.
+  kind: 'starter' | 'exit' | 'lookback'
+  /** Where the other version of this sheet lives, when it is not a module's. */
+  otherHref?: string
   moduleId: string
   title: string
   yearBand: string
@@ -178,11 +189,13 @@ export default function QuizSheet({
   // on the teacher's answer sheet (the print kit, 14 September 2026).
   const friend = friendFor(characterCast, keyStage)
   const reg = printRegister(keyStage)
-  const name = kind === 'starter' ? 'Starter quiz' : 'Exit quiz'
+  const name = kind === 'starter' ? 'Starter quiz' : kind === 'exit' ? 'Exit quiz' : 'Look back quiz'
   const purpose = kind === 'starter'
     ? 'What they need to know before this lesson. Run it cold, before you teach anything.'
-    : 'What they know now. Run it at the end, and mark it against the answer sheet.'
-  const other = answers ? `/print/${moduleId}/${kind}-quiz` : `/print/${moduleId}/${kind}-quiz?answers=1`
+    : kind === 'exit'
+      ? 'What they know now. Run it at the end, and mark it against the answer sheet.'
+      : 'What has stuck from the lessons already taught. Run it cold, with no warning and no revision. Each answer names its lesson, so a question most of the class missed tells you which one to go back to.'
+  const other = otherHref ?? (answers ? `/print/${moduleId}/${kind}-quiz` : `/print/${moduleId}/${kind}-quiz?answers=1`)
 
   return (
     <main style={{ background: '#fff', color: 'var(--ink)', padding: '0 8px 40px', maxWidth: '740px', margin: '0 auto' }}>
@@ -210,7 +223,9 @@ export default function QuizSheet({
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '18px' }}>
         {kind === 'starter'
           ? 'This is a readiness check, not a test of the child. Nothing here is recorded, and a class that struggles with it is telling you where to start rather than failing anything.'
-          : 'This checks what the lesson taught, not what a child is worth. Nothing here is recorded and no score leaves the room.'}
+          : kind === 'exit'
+            ? 'This checks what the lesson taught, not what a child is worth. Nothing here is recorded and no score leaves the room.'
+            : 'This checks what has stuck, not what a child is worth. Nothing here is recorded and no score leaves the room.'}
       </p>
 
       <PrintBrandFooter />

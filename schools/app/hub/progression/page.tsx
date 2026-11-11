@@ -83,6 +83,7 @@ export default function ProgressionMap() {
                     <div className="gc-pm-yearname">
                       <span>{yearName(year)}</span>
                       <small>{lessons.length} {lessons.length === 1 ? 'lesson' : 'lessons'}</small>
+                      <Link href={`/print/look-back?y=${year}`} className="gc-pm-quiz no-print">Look back quiz</Link>
                     </div>
                     <ol className="gc-pm-lessons">
                       {lessons.map(m => {
@@ -168,6 +169,8 @@ export default function ProgressionMap() {
         .gc-pm-yearname { background: var(--butter-lt); padding: var(--space-4) var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); border-right: 1px solid var(--border); }
         .gc-pm-yearname span { font-family: var(--font-display); font-weight: 900; font-size: var(--text-xl); color: var(--ink); line-height: 1.1; }
         .gc-pm-yearname small { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+        .gc-pm-quiz { font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--ink); text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+        .gc-pm-quiz:focus-visible { outline: 3px solid var(--terracotta); outline-offset: 2px; }
         .gc-pm-lessons { list-style: none; margin: 0; padding: 0; }
         .gc-pm-lessons > li { padding: var(--space-3) var(--space-4); }
         .gc-pm-lessons > li + li { border-top: 1px solid var(--border); }

@@ -81,6 +81,11 @@ const DOCS: Doc[] = [
     body: 'What each year teaches, from Reception to Year 13, with the earlier lessons each one builds on and the later ones it leads to. The page for the question a subject lead is asked first.',
   },
   {
+    href: '/print/look-back', icon: 'quiz', disc: 'teal', accent: 'var(--green-dark)',
+    title: 'The look back quiz',
+    body: 'One sheet for the end of a term, drawn from the exit questions of the lessons a class has already been taught, with an answer copy that names the lesson each question came from.',
+  },
+  {
     href: '/hub/year-plan', icon: 'calendar', disc: 'green', accent: 'var(--green-dark)',
     title: 'The year at a glance',
     body: 'A suggested year and term for every lesson. For the staffroom wall and the subject lead’s long term plan.',

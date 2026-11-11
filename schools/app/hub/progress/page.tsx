@@ -366,6 +366,14 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           </section>
         )}
 
+        {!everyClass && group && all.delivered > 0 && (
+          <p className="no-print" style={{ ...smallText, margin: 0, color: 'var(--ink)' }}>
+            End of term?{' '}
+            <Link href={`/print/look-back?class=${encodeURIComponent(group)}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Print a look back quiz for {group}</Link>,
+            drawn from the lessons above, with one more question on anything judged developing or needing revisiting.
+          </p>
+        )}
+
         {deliveries.length > 0 && (
           <p style={{ ...smallText, margin: 0 }}>
             This records lessons delivered and the teacher&apos;s own judgement of the class. It is not a measure of pupil
