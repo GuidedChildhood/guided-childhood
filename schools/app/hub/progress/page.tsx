@@ -5,6 +5,7 @@ import {
 } from '@gc/shared/lesson-records'
 import { AREA_ORDER, AREAS, areaOf } from '@gc/shared/passport-areas'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER, positionOf } from '@gc/shared/schools-curriculum'
+import { suggestedYear, yearName } from '@gc/shared/schools-progression'
 import PrintButton from '@/components/PrintButton'
 import { asList } from '@/lib/notes'
 import { readDeliveries, recordYears } from '@/lib/records'
@@ -304,7 +305,7 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
                       <span aria-hidden className="gc-prog-n">{rec ? '✓' : positionOf(m.moduleId)?.index ?? ''}</span>
                       <span style={{ flex: '1 1 auto', minWidth: 0 }}>
                         <Link href={`/lesson/${m.moduleId}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: rec ? 'var(--ink)' : 'var(--ink-muted)', textDecoration: 'none' }}>{m.title}</Link>
-                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}` : 'Not taught yet'}</span>
+                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}` : `Not taught yet${suggestedYear(m.moduleId) === null ? '' : ` · suggested for ${yearName(suggestedYear(m.moduleId)!)}`}`}</span>
                       </span>
                       {rec && <span className="gc-prog-j" data-j={j ?? 'none'}>{j ? JUDGEMENT_LABEL[j] : 'Not assessed'}</span>}
                     </li>

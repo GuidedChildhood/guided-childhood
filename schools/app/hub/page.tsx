@@ -76,9 +76,14 @@ const DOCS: Doc[] = [
     body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
   },
   {
+    href: '/hub/progression', icon: 'compass', disc: 'pink', accent: 'var(--green-dark)',
+    title: 'The progression map',
+    body: 'What each year teaches, from Reception to Year 13, with the earlier lessons each one builds on and the later ones it leads to. The page for the question a subject lead is asked first.',
+  },
+  {
     href: '/hub/year-plan', icon: 'calendar', disc: 'green', accent: 'var(--green-dark)',
     title: 'The year at a glance',
-    body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
+    body: 'A suggested year and term for every lesson. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
     href: '/hub/passport', icon: 'passport', disc: 'teal', accent: 'var(--gold-dark)',
