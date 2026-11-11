@@ -138,8 +138,12 @@ Every path below exists in this repo as of 5 October 2026.
 - The butter rounded square with four rising white bars, beside
   "Guided Childhood" in Nunito 800. Data in `shared/brand.ts` (`LOGO_GOLD`,
   `LOGO_BARS`, `BRAND_NAME`), drawn by `shared/components/PrintBrand.tsx`.
-- There is no logo image file. A social template draws the mark from
-  `shared/brand.ts`, the way `PrintBrand` does, rather than a star or an emoji.
+- Two image files exist for places that need one (11 November 2026, the
+  Pinterest profile): `content/brand-assets/guided-childhood-profile-1000.png`
+  (the mark alone on cream, sized to sit inside a circular crop) and
+  `content/brand-assets/guided-childhood-lockup-1600x600.png` (mark and name).
+  Both are drawn from `shared/brand.ts` by `content/brand-assets/render-logo.mjs`.
+  A social template still draws the mark in code, never a star or an emoji.
 
 ### Product proof
 

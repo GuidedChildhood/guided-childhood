@@ -18,6 +18,22 @@ import { buildManifest } from './manifest.mjs'
 import { LIMITS } from './qa.mjs'
 import * as reg from './register.mjs'
 import { recentReceipts, SCHEMA_ID } from './candidates.mjs'
+import { readFileSync, existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
+// Justin's own numbers, boiled down to a few lines Stage 2 can act on. The
+// evidence file is the authority and this is its summary: when he pastes new
+// analytics, the dated file in content/analytics/ is written first and this
+// is rewritten from it. Without it ChatGPT keeps writing the opening that
+// lost last week, because nothing ever told it which one won.
+const WORKING = fileURLToPath(new URL('../../content/analytics/what-is-working.json', import.meta.url))
+export function whatIsWorking(path = WORKING) {
+  if (!existsSync(path)) return null
+  try {
+    const w = JSON.parse(readFileSync(path, 'utf8'))
+    return Array.isArray(w.lines) && w.lines.length ? w : null
+  } catch { return null }
+}
 
 const HEADER_FIELDS = {
   'RESEARCH ID': 'researchId',
@@ -226,6 +242,14 @@ export function stage2Brief({ links = {} } = {}) {
   line('  Visuals use approved brand assets only. No invented screen, no regenerated character, no synthetic person shown as a real parent.')
   line('  Do not mark anything APPROVED or PUBLISHED. Only Justin does that.')
   line()
+  const working = whatIsWorking()
+  if (working) {
+    line(`WHAT IS WORKING ON LINKEDIN, from Justin's own numbers of ${working.asOf}`)
+    line(`  ${working.standing}`)
+    for (const l of working.lines) line(`  ${l}`)
+    line('  None of this loosens a rule above. A cleared figure is still the only figure, and the limit still travels with the claim.')
+    line()
+  }
   line('WHAT ELSE TO READ')
   line(`  GDC Daily Content Operating System: https://docs.google.com/document/d/${DRIVE.OPERATING_SYSTEM}/edit`)
   line(`  Current LinkedIn Posting Pack: https://docs.google.com/document/d/${DRIVE.POSTING_PACK}/edit`)

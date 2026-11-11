@@ -1,0 +1,63 @@
+{
+  "studyId": "GDC-RR-e0121857da",
+  "reviewedAt": "2026-11-11T11:40:15Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+  "verdict": "REJECT",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Rejected.",
+  "reviewBasis": "The abstract and the Crossref record only. The publisher page at mdpi.com refused the request from this run with a 403, so the full text was not read. That is enough for this verdict, because the rejection is on scope and not on the quality of the work: the abstract is clear about what the study is.",
+  "claims": [
+    {
+      "claim": "This study is about children, young people or families and their use of social media.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract describes a qualitative content analysis of the Facebook, Instagram and YouTube accounts of religious institutions in North Macedonia between January and June 2025. Its subject is how institutions communicate. Children and parents are not studied. The register already marks the record as one where the child is not the subject."
+    },
+    {
+      "claim": "The study found that religious communities mostly use social media to broadcast and not to hold a conversation.",
+      "status": "QUALIFIED",
+      "basis": "That is what the abstract says. Qualified because it was read in the abstract only, and because it is an exploratory qualitative reading of accounts in one country."
+    },
+    {
+      "claim": "The study tells us something about how young people engage online.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract says more interactive practice was seen mainly in accounts aimed at youth. That is an observation about what institutions post, not about young people, and it cannot be stretched into one."
+    }
+  ],
+  "notQuotable": [
+    "anything from this paper: it is outside our subject and was read in the abstract only"
+  ],
+  "evidenceConfidence": "MODERATE that the abstract is described correctly. NOT ASSESSED as research, because the full text was not reached. No relevance to our subject.",
+  "limitations": [
+    "Read in the abstract only. The publisher page was blocked to this run.",
+    "Exploratory qualitative content analysis of institutional accounts in one country.",
+    "No children, no parents, no outcomes for anyone.",
+    "It reached the register because the words social media, Instagram and YouTube score points, not because of its subject."
+  ],
+  "contradictoryEvidence": [
+    "None was looked for, because nothing in the paper bears on a claim we would make. The one line that touches young people, that youth oriented accounts were more interactive, sits beside the paper own main finding that communication stays one way."
+  ],
+  "whatThisDoesNotProve": [
+    "Anything about children, parents, schools, phones or readiness for social media.",
+    "Anything about the UK."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected to touch our subject.",
+  "gdcBeliefs": [
+    "The hidden thread: a story that does not relate to what the product does is not a story for us, however sound the research."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody. Out of scope.",
+  "unresolvedQuestions": [
+    "Whether scoring should stop a record with no child, parent, school or adolescent term anywhere from reaching the review queue at all. This one took a review slot from a record about children."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-e0121857da.json"
+}

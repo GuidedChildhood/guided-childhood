@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1350">
+    <title>GDC 058 Look at the feed, not only the clock</title>
+    <!--
+      GDC 058. A silent editorial motion graphic for LinkedIn, 1080 by 1350, 30 fps, 19.8 s.
+      Rendered with HyperFrames 0.8.82 (the renderer the explainer-video and
+      talking-head-video skills name). See render.sh and storyboard.md.
+
+      The look is decided by brand/GDC_SOCIAL_VISUAL_SYSTEM.md:
+        canvas  #F9F8F6 (cream), butter ground #FFF6DE on the last screen only
+        ink     #1A1A2E (the very dark navy), secondary #52526A
+        gold    #EDC35F, gold shadow #C99A28
+        tiles   the soft grounds from section 4: #FBEED0 #FBE4D0 (warm row),
+                #DCEBF7 #E4F0D4 (cool row). Blank shapes, nothing inside them.
+        type    Nunito 900 headlines, Nunito 700 to 800 body, IBM Plex Mono 600 eyebrow
+        footer  the logo mark drawn from shared/brand.ts beside "Guided Childhood"
+                in Nunito 800, as tools/social-cards/template.html draws it
+
+      What is deliberately absent: any number other than the date, any chart,
+      any app screen or logo, any person or character. The clock is a plain ring
+      and the two rows are blank tiles.
+
+      Timing follows the reading rule in product-shorts (0.6 s plus words / 3.3,
+      plus 0.5 s for a new screen). Every tween starts and ends on a 30 fps frame.
+      GSAP is bundled in assets/vendor so the render needs no network.
+    -->
+    <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+    <style>
+      @font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;src:url('assets/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+      @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;src:url('assets/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
+
+      :root{
+        --cream:#F9F8F6; --tint-butter:#FFF6DE; --ink:#1A1A2E; --ink-soft:#52526A;
+        --gold:#EDC35F; --gold-dark:#C99A28; --white:#FFFFFF;
+        --m:90px; /* side margin. Text lives inside x 90 to 990, y 90 to 1265. */
+      }
+      *{margin:0;padding:0;box-sizing:border-box;}
+      html,body{width:1080px;height:1350px;overflow:hidden;background:#F9F8F6;}
+      #root{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--cream);
+        font-family:'Nunito',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+      /* ---------- the ground, the grain and the footer: one clip for the whole film ---------- */
+      #frame{position:absolute;inset:0;}
+      #butter-ground{position:absolute;inset:0;background:var(--tint-butter);opacity:0;}
+      #grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none;
+        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='360' height='360' filter='url(%23n)'/></svg>");}
+      .foot{position:absolute;left:var(--m);bottom:90px;display:flex;align-items:center;gap:16px;}
+      .mark{width:46px;height:46px;border-radius:13px;background:var(--gold);box-shadow:0 4px 0 var(--gold-dark);
+        display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:10px;flex:none;}
+      .mark b{display:block;width:5px;border-radius:3px;background:#fff;}
+      .word{font-weight:800;font-size:28px;letter-spacing:-.01em;color:var(--ink);}
+
+      /* ---------- shared pieces ---------- */
+      .screen{position:absolute;inset:0;}
+      .ln{display:block;white-space:nowrap;will-change:transform,opacity;}
+      .h{position:absolute;left:var(--m);font-weight:900;letter-spacing:-.02em;color:var(--ink);}
+      .ring{position:absolute;width:170px;height:170px;transform-origin:0 0;}
+      .ring svg{display:block;width:100%;height:100%;overflow:visible;}
+      .strip{position:absolute;height:170px;}
+      .tile{position:absolute;top:0;width:150px;height:170px;border-radius:22px;border:4px solid var(--ink);}
+      .warm-a{background:#FBEED0;} .warm-b{background:#FBE4D0;}
+      .cool-a{background:#DCEBF7;} .cool-b{background:#E4F0D4;}
+
+      /* ---------- screen A: the clock, then what kept arriving ---------- */
+      #a-l1{top:112px;font-size:86px;line-height:1.06;}
+      #a-l2{top:326px;font-size:86px;line-height:1.06;}
+      #a-ring1{left:var(--m);top:650px;}
+      #a-ring2{left:var(--m);top:880px;}
+      #a-strip1{left:300px;top:650px;}
+      #a-strip2{left:300px;top:880px;}
+
+      /* ---------- screen B: the Commission's preliminary finding ---------- */
+      #b-card{position:absolute;left:60px;right:60px;top:164px;padding:56px 54px 58px;background:var(--white);
+        border:4px solid var(--ink);border-radius:28px;box-shadow:0 10px 0 var(--ink);}
+      .eyebrow{display:flex;align-items:center;gap:16px;font-family:'IBM Plex Mono',monospace;font-weight:600;
+        font-size:31px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;}
+      .eyebrow i{display:block;width:16px;height:16px;border-radius:50%;background:var(--gold);flex:none;}
+      #b-head{margin-top:40px;font-weight:900;font-size:74px;line-height:1.09;letter-spacing:-.02em;color:var(--ink);}
+      .mk-wrap{position:relative;display:inline-block;isolation:isolate;}
+      .mk{position:absolute;left:-10px;right:-10px;top:48%;bottom:2%;background:var(--gold);border-radius:8px;
+        z-index:-1;transform-origin:0 50%;}
+      #b-rule{margin-top:40px;height:4px;border-radius:2px;background:var(--ink);transform-origin:0 50%;}
+      #b-sub{margin-top:36px;font-weight:800;font-size:50px;line-height:1.16;letter-spacing:-.01em;color:var(--ink);}
+
+      /* ---------- screen C: the close ---------- */
+      #c-head{top:118px;font-size:124px;line-height:1.02;}
+      .ul-wrap{position:relative;display:inline-block;}
+      #c-ul{position:absolute;left:-6px;bottom:-22px;width:calc(100% + 12px);height:30px;overflow:visible;}
+      #c-ring{left:var(--m);top:820px;width:120px;height:120px;}
+      #c-strip{left:262px;top:760px;height:240px;}
+      #c-strip .tile{width:196px;height:240px;border-radius:26px;}
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="19.8" data-width="1080" data-height="1350" data-fps="30">
+
+      <!-- The ground, the paper grain and the brand footer. Never moves. -->
+      <div id="frame" class="clip" data-start="0" data-duration="19.8" data-track-index="0">
+        <div id="butter-ground"></div>
+        <div id="grain"></div>
+      </div>
+
+      <!-- SCREEN A, frames 0 to 197. Beat 1 the clock, beat 2 what kept arriving. -->
+      <div id="sA" class="clip screen" data-start="0" data-duration="6.6" data-track-index="1">
+        <div id="a-l1" class="h">
+          <span class="ln" data-layout-allow-overlap>A timer can tell me</span>
+          <span class="ln" data-layout-allow-overlap>how long.</span>
+        </div>
+        <div id="a-l2" class="h">
+          <span class="ln" data-layout-allow-overlap>It cannot tell me</span>
+          <span class="ln" data-layout-allow-overlap>what kept arriving.</span>
+        </div>
+
+        <!-- Two identical plain clocks: the same amount of time. -->
+        <div id="a-ring1" class="ring">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="9"/>
+            <circle class="arc" cx="100" cy="100" r="76" fill="none" stroke="#EDC35F" stroke-width="12" stroke-linecap="butt" transform="rotate(-90 100 100)"/>
+            <path d="M100 22 V34 M178 100 H166 M100 178 V166 M22 100 H34" stroke="#1A1A2E" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <line class="hand" x1="100" y1="100" x2="100" y2="46" stroke="#1A1A2E" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="10" fill="#1A1A2E"/>
+          </svg>
+        </div>
+        <div id="a-ring2" class="ring">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="9"/>
+            <circle class="arc-done" cx="100" cy="100" r="76" fill="none" stroke="#EDC35F" stroke-width="12" stroke-linecap="butt" transform="rotate(-90 100 100)"/>
+            <path d="M100 22 V34 M178 100 H166 M100 178 V166 M22 100 H34" stroke="#1A1A2E" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <line x1="100" y1="100" x2="100" y2="46" stroke="#1A1A2E" stroke-width="9" stroke-linecap="round" transform="rotate(240 100 100)"/>
+            <circle cx="100" cy="100" r="10" fill="#1A1A2E"/>
+          </svg>
+        </div>
+
+        <!-- Two rows of blank tiles in different tints: very different worlds. -->
+        <div id="a-strip1" class="strip">
+          <div data-layout-allow-overflow class="tile warm-a" style="left:0"></div>
+          <div data-layout-allow-overflow class="tile warm-b" style="left:168px"></div>
+          <div data-layout-allow-overflow class="tile warm-a" style="left:336px"></div>
+          <div data-layout-allow-overflow class="tile warm-b" style="left:504px"></div>
+          <div data-layout-allow-overflow class="tile warm-a" style="left:672px"></div>
+        </div>
+        <div id="a-strip2" class="strip">
+          <div data-layout-allow-overflow class="tile cool-a" style="left:0"></div>
+          <div data-layout-allow-overflow class="tile cool-b" style="left:168px"></div>
+          <div data-layout-allow-overflow class="tile cool-a" style="left:336px"></div>
+          <div data-layout-allow-overflow class="tile cool-b" style="left:504px"></div>
+          <div data-layout-allow-overflow class="tile cool-a" style="left:672px"></div>
+        </div>
+      </div>
+
+      <!-- SCREEN B, frames 197 to 464. The finding, with its caveat. -->
+      <div id="sB" class="clip screen" data-start="6.5" data-duration="9" data-track-index="2">
+        <div id="b-card">
+          <div class="eyebrow"><i></i><span>Published 6 November 2026</span></div>
+          <div id="b-head">
+            <span class="ln" data-layout-allow-overlap>The European</span>
+            <span class="ln" data-layout-allow-overlap>Commission has</span>
+            <span class="ln" data-layout-allow-overlap><span class="mk-wrap" data-layout-allow-overlap><i class="mk" id="b-mk"></i>preliminarily</span> found</span>
+            <span class="ln" data-layout-allow-overlap>TikTok in breach</span>
+            <span class="ln" data-layout-allow-overlap>of the Digital</span>
+            <span class="ln" data-layout-allow-overlap>Services Act.</span>
+          </div>
+          <div id="b-rule"></div>
+          <div id="b-sub">
+            <span class="ln" data-layout-allow-overlap>A preliminary finding,</span>
+            <span class="ln" data-layout-allow-overlap>not a decision.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN C, frames 464 to 594. The close. Nothing in the headline moves once it lands. -->
+      <div id="sC" class="clip screen" data-start="15.4" data-duration="4.4" data-track-index="1">
+        <div id="c-head" class="h">
+          <span class="ln" data-layout-allow-overlap>Look at</span>
+          <span class="ln" data-layout-allow-overlap><span class="ul-wrap" data-layout-allow-overlap>the feed<svg id="c-ul" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true"><path id="c-ul-path" d="M8 18 C 90 6, 250 26, 392 12" fill="none" stroke="#EDC35F" stroke-width="16" stroke-linecap="round"/></svg></span>,</span>
+          <span class="ln" data-layout-allow-overlap>not only</span>
+          <span class="ln" data-layout-allow-overlap>the clock.</span>
+        </div>
+        <div id="c-ring" class="ring">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="11"/>
+            <path d="M100 22 V34 M178 100 H166 M100 178 V166 M22 100 H34" stroke="#1A1A2E" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <line x1="100" y1="100" x2="100" y2="46" stroke="#1A1A2E" stroke-width="11" stroke-linecap="round" transform="rotate(240 100 100)"/>
+            <circle cx="100" cy="100" r="11" fill="#1A1A2E"/>
+          </svg>
+        </div>
+        <div id="c-strip" class="strip">
+          <div data-layout-allow-overflow class="tile warm-a" style="left:0"></div>
+          <div data-layout-allow-overflow class="tile cool-a" style="left:218px"></div>
+          <div data-layout-allow-overflow class="tile warm-b" style="left:436px"></div>
+          <div data-layout-allow-overflow class="tile cool-b" style="left:654px"></div>
+        </div>
+      </div>
+
+      <!-- The brand footer sits above every screen and never animates. -->
+      <div id="foot" class="clip" data-start="0" data-duration="19.8" data-track-index="3">
+        <div class="foot">
+          <div class="mark"><b style="height:9px"></b><b style="height:16px"></b><b style="height:24px"></b><b style="height:14px"></b></div>
+          <div class="word">Guided Childhood</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = window.__timelines["main"] = gsap.timeline({ paused: true });
+
+      // Every time below is a frame number at 30 fps, so every tween starts and
+      // ends on a frame boundary. f(97) is frame 97, which is 3.2333 s.
+      function f(n) { return n / 30; }
+
+      // The clock arc: two thirds of the way round, the same on both clocks.
+      var ARC = 2 * Math.PI * 76;
+      var SWEEP = 240; // degrees. Stops short of a tick so the hand stays a hand.
+      var ARC_END = ARC * (120 / 360); // what is left of the ring after the sweep
+      gsap.set(".arc", { strokeDasharray: ARC + " " + ARC, strokeDashoffset: ARC });
+      gsap.set(".arc-done", { strokeDasharray: ARC + " " + ARC, strokeDashoffset: ARC_END });
+
+      // ---------------- SCREEN A ----------------
+      // Beat 1, frames 0 to 97. The first line is on screen from frame 0, so the
+      // first frame works as the thumbnail. The life in the beat is the clock.
+      gsap.set("#a-ring1", { x: 0, y: -150, scale: 2.5 });
+      gsap.set("#a-l2 .ln", { opacity: 0, y: 26 });
+      gsap.set("#a-ring2", { opacity: 0, y: 24 });
+      gsap.set("#a-strip1, #a-strip2", { x: 100 });
+      gsap.set("#a-strip1 .tile, #a-strip2 .tile", { opacity: 0, x: 150 });
+      tl.to("#a-ring1 .arc", { strokeDashoffset: ARC_END, duration: f(60), ease: "power1.inOut" }, f(9));
+      tl.to("#a-ring1 .hand", { rotation: SWEEP, svgOrigin: "100 100", duration: f(60), ease: "power1.inOut" }, f(9));
+
+      // Beat 2, frames 97 to 191. The clock steps down to head a row, its twin
+      // joins it, the second line lands (frame 109) and the tiles keep arriving.
+      tl.to("#a-ring1", { x: 0, y: 0, scale: 1, duration: f(18), ease: "power2.inOut" }, f(94));
+      tl.to("#a-l1", { color: "#52526A", duration: f(12), ease: "power2.out" }, f(97));
+      tl.to("#a-l2 .ln", { opacity: 1, y: 0, duration: f(9), ease: "power2.out", stagger: f(3) }, f(97));
+      tl.to("#a-ring2", { opacity: 1, y: 0, duration: f(12), ease: "power2.out" }, f(112));
+      tl.to("#a-strip1 .tile", { opacity: 1, x: 0, duration: f(15), ease: "power2.out", stagger: f(6) }, f(115));
+      tl.to("#a-strip2 .tile", { opacity: 1, x: 0, duration: f(15), ease: "power2.out", stagger: f(6) }, f(118));
+      tl.to("#a-strip1, #a-strip2", { x: 0, duration: f(72), ease: "power1.out" }, f(115));
+      // Exit A, frames 191 to 197: up and out. The card then rises from below,
+      // the same direction of travel, so the two never sit on top of each other.
+      tl.to("#sA", { y: -40, opacity: 0, duration: f(6), ease: "power2.in" }, f(191));
+
+      // ---------------- SCREEN B ----------------
+      // Beat 3, frames 197 to 234. The card rises in, landed at frame 206.
+      // The marker then sweeps under "preliminarily".
+      gsap.set("#b-card", { opacity: 0, y: 60 });
+      gsap.set("#b-mk", { scaleX: 0 });
+      gsap.set("#b-rule", { scaleX: 0 });
+      gsap.set("#b-sub .ln", { opacity: 0, y: 20 });
+      tl.to("#b-card", { opacity: 1, y: 0, duration: f(9), ease: "power2.out" }, f(197));
+      tl.to("#b-mk", { scaleX: 1, duration: f(15), ease: "power2.out" }, f(216));
+      // Beat 4, frames 234 to 458. The caveat joins and everything holds for reading.
+      tl.to("#b-rule", { scaleX: 1, duration: f(15), ease: "power2.out" }, f(234));
+      tl.to("#b-sub .ln", { opacity: 1, y: 0, duration: f(9), ease: "power2.out", stagger: f(3) }, f(237));
+      // Exit B, frames 458 to 464: up and out, the same direction as A.
+      tl.to("#sB", { y: -40, opacity: 0, duration: f(6), ease: "power2.in" }, f(458));
+
+      // ---------------- SCREEN C ----------------
+      // Beat 5, frames 464 to 594. The ground warms to the butter tint, the
+      // close rises in and is landed by frame 473. After that only the gold line
+      // and the tiles finish settling; the words never move again.
+      var UL = document.getElementById("c-ul-path").getTotalLength();
+      gsap.set("#c-ul-path", { strokeDasharray: UL + " " + UL, strokeDashoffset: UL });
+      gsap.set("#c-head", { opacity: 0, y: 40 });
+      gsap.set("#c-ring", { opacity: 0, y: 24 });
+      gsap.set("#c-strip .tile", { opacity: 0, x: 150 });
+      tl.to("#butter-ground", { opacity: 1, duration: f(15), ease: "power1.inOut" }, f(458));
+      tl.to("#c-head", { opacity: 1, y: 0, duration: f(9), ease: "power2.out" }, f(464));
+      tl.to("#c-ul-path", { strokeDashoffset: 0, duration: f(15), ease: "power2.out" }, f(476));
+      tl.to("#c-ring", { opacity: 1, y: 0, duration: f(12), ease: "power2.out" }, f(470));
+      tl.to("#c-strip .tile", { opacity: 1, x: 0, duration: f(15), ease: "power2.out", stagger: f(3) }, f(473));
+
+      // The slot anchor: the timeline can never end early.
+      tl.to({}, { duration: f(594) }, 0);
+    </script>
+  </body>
+</html>

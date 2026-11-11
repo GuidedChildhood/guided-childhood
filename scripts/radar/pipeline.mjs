@@ -27,6 +27,7 @@ import { checkPack, eligibility } from './qa.mjs'
 import { parsePostRegister, internalNumberConflicts, nextFreeNumber, repoState, POST_REGISTER } from './contract.mjs'
 import { driveReadable } from './sync.mjs'
 import { checkUrl } from './posted.mjs'
+import { assetProblems } from './assets.mjs'
 
 const PACKS = () => join(reg.DIR, 'packs')
 const HANDOFFS = () => join(reg.DIR, 'handoffs')
@@ -358,6 +359,10 @@ export function readyForApproval(studyId) {
   if (rec.packQa?.verdict !== 'PASS') reasons.push(`automated QA is ${rec.packQa?.verdict || 'not run'}`)
   if (rec.packReview?.verdict !== 'PASS') reasons.push(`Claude's review of the pack is ${rec.packReview?.verdict || 'not done'}`)
   if (!rec.packDrive?.verified) reasons.push('the pack has not been verifiably saved to Drive, so Justin would have nothing to open')
+  // A film or an image that was made and not checked, or checked and not
+  // looked at, holds the pack. A pack with no asset at all is not held: text
+  // only is a real answer.
+  reasons.push(...assetProblems(rec))
   // Justin asked for changes. Only a version submitted after he asked answers that.
   const asked = openChangeRequest(rec)
   if (asked && !(rec.pack?.submittedAt && rec.pack.submittedAt > asked.at)) {

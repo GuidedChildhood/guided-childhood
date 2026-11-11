@@ -206,6 +206,10 @@ jobs:
       # The free printables: every file the download and the email name is in
       # public, the words carry no dash, and the newspaper ends at the stage check.
       - run: node scripts/check-free-printables.mjs
+      # The free tasters (11 November 2026): never more than three pages and
+      # fewer than half a pack, every taster file built, no dash, and the three
+      # emails fitting a week under the one a week floor.
+      - run: npm run tasters-test
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs
