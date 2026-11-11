@@ -1,0 +1,10 @@
+{
+  "name": "2026-11-11-gdc-058-motion",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "DO_NOT_TRACK=1 npx --yes hyperframes@0.8.82 check",
+    "preview": "DO_NOT_TRACK=1 npx --yes hyperframes@0.8.82 preview",
+    "render": "sh render.sh"
+  }
+}

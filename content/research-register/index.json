@@ -1804,11 +1804,11 @@
    },
    "childIsTheSubject": false,
    "studyId": "GDC-RR-3d31eb1683",
-   "version": 26,
+   "version": 29,
    "firstFound": "2026-11-10T17:11:04.719Z",
-   "lastChecked": "2026-11-11T11:07:45.579Z",
-   "changeReason": "ASSETS READY: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-11T11:29:29.297Z",
+   "changeReason": "asset copy in Drive verified",
+   "changedBy": "radar:assets",
    "dossier": {
     "studyId": "GDC-RR-3d31eb1683",
     "checkedAt": "2026-11-10T17:17:53.928Z",
@@ -2024,7 +2024,49 @@
     "fileId": "1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8",
     "level": "TEXT IDENTICAL",
     "at": "2026-11-11T11:07:45.562Z"
-   }
+   },
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "The handoff asks for a LinkedIn post and nothing else, and the best post in Justin's numbers of 11 November carried no image. No film has ever been measured on the account, so there is no evidence for or against one. A short silent film is offered as an optional first test, so the analytics register gets its first motion reading. The post is cleared without it.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-11T11:29:12.630Z"
+   },
+   "assets": [
+    {
+     "kind": "motion",
+     "role": "optional",
+     "file": "content/packs/2026-11-11-gdc-058-motion/gdc-058-look-at-the-feed.mp4",
+     "sha256": "681fb8eea89771fecc7221d70a1254028b206777c5f4474aa833503125d64a6c",
+     "source": "Rendered from code with HyperFrames, the renderer the explainer-video skill names. Source and render script are in the same folder. No image or video service was used.",
+     "facts": {
+      "bytes": 1847695,
+      "seconds": 19.8,
+      "width": 1080,
+      "height": 1350,
+      "fps": "30/1",
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audio": "none, silent",
+      "playsThrough": true
+     },
+     "verified": true,
+     "problems": [],
+     "review": {
+      "verdict": "PASS",
+      "notes": "Looked at the contact sheet of all five beats and the caveat frame at full size. On screen, in order: \"A timer can tell me how long.\" with a plain clock; \"It cannot tell me what kept arriving.\" with two identical clocks beside two rows of blank tiles in different tints; a white card dated 6 November 2026 reading \"The European Commission has preliminarily found TikTok in breach of the Digital Services Act.\" with the word preliminarily marked in yellow, then \"A preliminary finding, not a decision.\"; and \"Look at the feed, not only the clock.\" No number but the date, no chart, no platform logo or screen, no person, no character, no dash. Nunito and the mono label loaded. Two approved lines are carried by the picture and not as words, to keep every line readable inside 20 seconds. Not checked: how it plays inside LinkedIn, and the small Guided Childhood mark in the footer was drawn from the brand values in code and has not been compared side by side with the approved logo file, so Justin should glance at it.",
+      "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn. The film was made by a subagent of this session and looked at by the session itself.",
+      "at": "2026-11-11T11:29:13.314Z"
+     },
+     "drive": {
+      "fileId": "1ctNIc7DcfJI0338NnbNcNfRjsrhatJ_W",
+      "verified": true,
+      "level": "SIZE MATCHES, uploaded by hash, not downloaded again",
+      "bytesInDrive": 1847695,
+      "at": "2026-11-11T11:29:29.295Z"
+     },
+     "at": "2026-11-11T11:29:13.319Z"
+    }
+   ]
   },
   "GDC-RR-e1a6cd5229": {
    "title": "Changes in family structure and children's screen time: a longitudinal study of Australian children.",

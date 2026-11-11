@@ -19,7 +19,9 @@ request touches `content/research-register/`, carry on from its branch.
 ## 1. Find the packs
 
 In the Stage 2 folder (`DRIVE.STAGE2_FOLDER`), every Google Doc whose title
-starts `PACK` and does not carry `CLAUDE REVIEWED` or `ZZ`.
+starts `PACK` and does not carry `CLAUDE REVIEWED`, `READY FOR JUSTIN` or `ZZ`.
+A finished pack is moved into the Founder Approval Desk folder, so what is
+left in the Stage 2 folder is work in progress.
 
 If there is none: `node scripts/radar/daily.mjs log "PACK QA" PASS "no pack was waiting"`
 and go to step 6.
@@ -85,6 +87,7 @@ judgement, "not a rule that every post needs an image".
 3. `node scripts/radar/pipeline.mjs ready <id>`. That is as far as you go.
    Once it passes, retitle the Doc Justin will open so it no longer says
    DRAFT: `PACK <research id> GDC-<number> v<n> READY FOR JUSTIN, checked <date>`.
+   Then move that Doc into the Founder Approval Desk folder.
    A draft is never shown as the final version.
 4. `node scripts/radar/daily.mjs log "PACK REVIEW" PASS "<which packs, which verdicts>"`.
 
