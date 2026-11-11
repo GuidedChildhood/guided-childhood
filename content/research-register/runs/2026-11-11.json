@@ -31,42 +31,6 @@
    "attempts": 2
   },
   {
-   "stage": "PREFLIGHT",
-   "verdict": "ERROR",
-   "by": "claude",
-   "reasons": [
-    "The 09:17 scheduled run started and stopped after three minutes, leaving no log and no branch. Its message told it to find the working branch by listing pull requests, and a scheduled run has no tool for that. The message was rewritten at 11:02 to use git alone and never to stop without a log. Today's stages below were done by hand in a session."
-   ],
-   "detail": null,
-   "at": "2026-11-11T11:17:42.671Z",
-   "commit": "cb5dd07c",
-   "attempts": 1
-  },
-  {
-   "stage": "INBOX",
-   "verdict": "WAITING",
-   "by": "claude",
-   "reasons": [
-    "No CANDIDATES document from ChatGPT today. Its 08:00 message has not been changed, so its research still arrives only in the daily brief."
-   ],
-   "detail": null,
-   "at": "2026-11-11T11:17:42.777Z",
-   "commit": "cb5dd07c",
-   "attempts": 1
-  },
-  {
-   "stage": "REVIEW",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "No research was reviewed today. Five records still wait. The morning run did not do it and this session was spent on the pack, the numbers and the film."
-   ],
-   "detail": null,
-   "at": "2026-11-11T11:17:42.877Z",
-   "commit": "cb5dd07c",
-   "attempts": 1
-  },
-  {
    "stage": "PACK REVIEW",
    "verdict": "PASS",
    "by": "claude",
@@ -75,28 +39,6 @@
    ],
    "detail": null,
    "at": "2026-11-11T11:17:42.984Z",
-   "commit": "cb5dd07c",
-   "attempts": 1
-  },
-  {
-   "stage": "HANDOFFS",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "built": [],
-    "alreadyCurrent": [
-     "GDC-RR-e923851b08",
-     "GDC-RR-e22bd17322",
-     "GDC-RR-86c1075a30"
-    ],
-    "queue": [
-     "GDC-RR-e923851b08",
-     "GDC-RR-e22bd17322",
-     "GDC-RR-86c1075a30"
-    ]
-   },
-   "at": "2026-11-11T11:17:47.293Z",
    "commit": "cb5dd07c",
    "attempts": 1
   },
@@ -123,7 +65,90 @@
    "at": "2026-11-11T11:33:23.374Z",
    "commit": "9b02383e",
    "attempts": 1
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-11T11:36:30.175Z",
+   "commit": "fde90da6",
+   "attempts": 2
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 8,
+    "total": 31
+   },
+   "at": "2026-11-11T11:38:23.864Z",
+   "commit": "fde90da6",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 1,
+    "confirmed": 1,
+    "unconfirmed": []
+   },
+   "at": "2026-11-11T11:38:24.020Z",
+   "commit": "fde90da6",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "WAITING",
+   "by": "claude",
+   "reasons": [
+    "No CANDIDATES document from ChatGPT today. The inbox held only its read me, the schema and the ingested test from 10 November. ChatGPT's brief names research on adolescent phone use and sleep and a Scottish evidence review that are not in the inbox, so they were not carried across."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:38:28.524Z",
+   "commit": "fde90da6",
+   "attempts": 3
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed from the source, all REJECT: GDC-RR-5e3088d8f0 (a 115 student proceedings paper that flatters our view and cannot carry it), GDC-RR-477a38762a (learning games study that contradicts itself on consent and design), GDC-RR-e0121857da (religious institutions in North Macedonia, out of scope, abstract only). 3 wait for tomorrow."
+   ],
+   "detail": null,
+   "at": "2026-11-11T11:40:21.569Z",
+   "commit": "fde90da6",
+   "attempts": 3
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-11T11:40:21.730Z",
+   "commit": "fde90da6",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-11T11:33:23.407Z"
+ "updatedAt": "2026-11-11T11:40:21.763Z"
 }

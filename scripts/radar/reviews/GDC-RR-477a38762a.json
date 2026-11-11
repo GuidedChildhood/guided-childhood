@@ -1,0 +1,92 @@
+{
+  "studyId": "GDC-RR-477a38762a",
+  "reviewedAt": "2026-11-11T11:40:15Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+  "verdict": "REJECT",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Rejected.",
+  "reviewBasis": "The full text, read in this run from the open access article page at frontiersin.org (journal Frontiers in Public Health, DOI 10.3389/fpubh.2026.2004219). Read in full: abstract, materials and methods, the opening of the results, the discussion with its limitations paragraph, the conclusion, and the ethics, funding and conflict statements. The results tables were not read cell by cell, so no figure is cleared.",
+  "claims": [
+    {
+      "claim": "What a child does on a screen matters more than how long they are on it.",
+      "status": "UNSUPPORTED",
+      "basis": "This is the reading that would suit us, because it matches our line that the content matters alongside the clock, so it was checked hardest. The study cannot carry it. It is one cross sectional analysis of 215 children in which the exposure is a parent recalling the past month, immersion and English integration are each a single questionnaire item, and the paper itself says the association with English integration should be regarded as descriptive and not as an effect of the content."
+    },
+    {
+      "claim": "Children who spent longer on English language learning games scored better on a selective attention task.",
+      "status": "QUALIFIED",
+      "basis": "Reported in the abstract and discussed in section 4 as an association that held after adjustment. Qualified because the discussion says the reverse explanation cannot be ruled out, that children with better attention may be the ones who take to such games, and because the high participation group was older and differed in family socioeconomic status."
+    },
+    {
+      "claim": "English game time was associated with better working memory.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper says this association was no longer significant after correction across all seven outcomes and fell below the smallest effect the study could detect, and calls it preliminary."
+    },
+    {
+      "claim": "Total daily screen time was associated with poorer attention and more emotional and hyperactivity symptoms.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the abstract and the discussion. Qualified because total screen time is one parent reported number for the past month, the emotional and hyperactivity outcomes are also parent report, and the design is cross sectional."
+    },
+    {
+      "claim": "The study design and consent are clearly described.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper contradicts itself. Section 2.1 says the data came from an archive, that informed consent was waived and that the researchers had no contact with identities. Section 2.3 says the parent questionnaire was handed out by the researcher at a parent and teacher meeting. The ethics statement says written informed consent was given by legal guardians. The sensitivity analysis is described as excluding the pure English group and gives n = 157 in a way that cannot be told apart from the size of the group removed. These cannot all be true as written."
+    },
+    {
+      "claim": "Immersion was rated by the child.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract and methods call it a self rating, and the methods say the whole questionnaire was completed by parents in one session. Who gave the rating is not clear."
+    }
+  ],
+  "notQuotable": [
+    "every figure in the paper, including the sample size, the coefficients and the p values: the study is rejected and nothing from it is cleared",
+    "any statement that educational or immersive games improve attention, memory or mood",
+    "any statement that this study shows content matters more than time",
+    "any advice to parents or schools drawn from it, including the paper own suggestion that schools add such games to lessons"
+  ],
+  "evidenceConfidence": "HIGH that the paper says what is written here, apart from the tables, which were not read cell by cell. LOW as evidence: cross sectional, parent recall, single item measures, a single author, and an account of its own data collection and consent that does not agree with itself.",
+  "limitations": [
+    "Cross sectional and retrospective. The paper says it cannot establish causality or direction.",
+    "215 children from one regional database in China, kept from 312, with 47 dropped for missing data.",
+    "Game participation is a parent recalling the past month. Immersion and English integration are single items on a questionnaire the author designed.",
+    "The low participation group had 11 children and was merged into the middle group.",
+    "Parents education, the intensity of English teaching at school and the child baseline ability were not controlled, by the paper own account.",
+    "Four of the seven outcomes were treated as exploratory with no correction.",
+    "The subject is English as a foreign language games for children in China. It does not transfer to UK families.",
+    "The description of consent and of how the questionnaire was collected is inconsistent within the paper.",
+    "A single author. No funding declared."
+  ],
+  "contradictoryEvidence": [
+    "From the same paper: after the pure English group was excluded, the associations of English integration with selective attention and inhibition control were no longer significant, and the authors say selection cannot be ruled out.",
+    "From the same paper: the working memory association did not survive correction across all outcomes.",
+    "From the same paper: cognitive flexibility and hyperactivity symptoms were not related to any game variable.",
+    "From the same paper: the discussion accepts that children with better attention may simply be more likely to play and keep playing these games."
+  ],
+  "whatThisDoesNotProve": [
+    "That learning games improve attention, memory or emotional health.",
+    "That content matters more than duration.",
+    "That total screen time harms attention or mood.",
+    "Anything about UK children, or about the games and apps UK children use."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. The predictable error would be a headline that learning games are good for children brains, which the paper does not show.",
+  "gdcBeliefs": [
+    "Evidence or silence. The finding points the way we already lean, which is the reason to turn it down when the study is this weak.",
+    "Our position that what is on the screen matters alongside the clock stands on other sources. This paper is not one of them."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody. Not for use.",
+  "unresolvedQuestions": [
+    "The dossier recorded the design as longitudinal cohort. The paper is cross sectional and says so in its title. The word longitudinal in the abstract, where it calls for future longitudinal research, appears to have set the field."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-477a38762a.json"
+}

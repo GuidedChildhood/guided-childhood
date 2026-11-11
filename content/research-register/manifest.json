@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-11T11:17:47.290Z",
+ "generatedAt": "2026-11-11T11:40:21.727Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,12 +9,13 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 23,
+  "total": 31,
   "byStatus": {
-   "DISCOVERED": 13,
+   "DISCOVERED": 20,
    "ASSETS READY": 2,
-   "VERIFIED": 5,
-   "EDITORIAL READY": 3
+   "VERIFIED": 3,
+   "EDITORIAL READY": 3,
+   "REJECTED": 3
   }
  },
  "queue": [

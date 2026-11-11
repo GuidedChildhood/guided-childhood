@@ -1122,7 +1122,7 @@
    "foundBy": [
     "crossref"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 9,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -1141,11 +1141,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-e0121857da",
-   "version": 3,
+   "version": 5,
    "firstFound": "2026-11-09T14:35:29.311Z",
-   "lastChecked": "2026-11-09T14:36:04.146Z",
-   "changeReason": "rescored: CORE now requires the child term in the title",
-   "changedBy": "radar:score",
+   "lastChecked": "2026-11-11T11:40:16.187Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-e0121857da",
     "checkedAt": "2026-11-09T14:35:35.664Z",
@@ -1199,8 +1199,78 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING",
-   "childIsTheSubject": false
+   "claudeStatus": "CLAUDE REVIEWED",
+   "childIsTheSubject": false,
+   "claudeReview": {
+    "studyId": "GDC-RR-e0121857da",
+    "reviewedAt": "2026-11-11T11:40:15Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+    "verdict": "REJECT",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Rejected.",
+    "reviewBasis": "The abstract and the Crossref record only. The publisher page at mdpi.com refused the request from this run with a 403, so the full text was not read. That is enough for this verdict, because the rejection is on scope and not on the quality of the work: the abstract is clear about what the study is.",
+    "claims": [
+     {
+      "claim": "This study is about children, young people or families and their use of social media.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract describes a qualitative content analysis of the Facebook, Instagram and YouTube accounts of religious institutions in North Macedonia between January and June 2025. Its subject is how institutions communicate. Children and parents are not studied. The register already marks the record as one where the child is not the subject."
+     },
+     {
+      "claim": "The study found that religious communities mostly use social media to broadcast and not to hold a conversation.",
+      "status": "QUALIFIED",
+      "basis": "That is what the abstract says. Qualified because it was read in the abstract only, and because it is an exploratory qualitative reading of accounts in one country."
+     },
+     {
+      "claim": "The study tells us something about how young people engage online.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract says more interactive practice was seen mainly in accounts aimed at youth. That is an observation about what institutions post, not about young people, and it cannot be stretched into one."
+     }
+    ],
+    "notQuotable": [
+     "anything from this paper: it is outside our subject and was read in the abstract only"
+    ],
+    "evidenceConfidence": "MODERATE that the abstract is described correctly. NOT ASSESSED as research, because the full text was not reached. No relevance to our subject.",
+    "limitations": [
+     "Read in the abstract only. The publisher page was blocked to this run.",
+     "Exploratory qualitative content analysis of institutional accounts in one country.",
+     "No children, no parents, no outcomes for anyone.",
+     "It reached the register because the words social media, Instagram and YouTube score points, not because of its subject."
+    ],
+    "contradictoryEvidence": [
+     "None was looked for, because nothing in the paper bears on a claim we would make. The one line that touches young people, that youth oriented accounts were more interactive, sits beside the paper own main finding that communication stays one way."
+    ],
+    "whatThisDoesNotProve": [
+     "Anything about children, parents, schools, phones or readiness for social media.",
+     "Anything about the UK."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. None is expected to touch our subject.",
+    "gdcBeliefs": [
+     "The hidden thread: a story that does not relate to what the product does is not a story for us, however sound the research."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody. Out of scope.",
+    "unresolvedQuestions": [
+     "Whether scoring should stop a record with no child, parent, school or adolescent term anywhere from reaching the review queue at all. This one took a review slot from a record about children."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-e0121857da.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T11:40:16.186Z"
+   }
   },
   "GDC-RR-e22bd17322": {
    "title": "Feasibility Study of Methods and Data to Understand the Impact of Smartphones and Social Media on Children and Young People",
@@ -2102,15 +2172,15 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-07",
-    "until": "2026-11-10"
+    "since": "2026-11-08",
+    "until": "2026-11-11"
    },
    "studyId": "GDC-RR-e1a6cd5229",
-   "version": 2,
+   "version": 3,
    "firstFound": "2026-11-10T17:17:53.811Z",
-   "lastChecked": "2026-11-10T17:17:54.494Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-11T11:38:23.826Z",
+   "changeReason": "discovery run, streams 01,19",
+   "changedBy": "radar:discover",
    "dossier": {
     "studyId": "GDC-RR-e1a6cd5229",
     "checkedAt": "2026-11-10T17:17:54.242Z",
@@ -2198,7 +2268,7 @@
    "foundBy": [
     "crossref"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 10,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -2217,11 +2287,11 @@
     "until": "2026-11-10"
    },
    "studyId": "GDC-RR-477a38762a",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-10T17:17:53.814Z",
-   "lastChecked": "2026-11-10T17:17:54.241Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-11T11:40:16.109Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-477a38762a",
     "checkedAt": "2026-11-10T17:17:54.127Z",
@@ -2275,7 +2345,106 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-477a38762a",
+    "reviewedAt": "2026-11-11T11:40:15Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+    "verdict": "REJECT",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Rejected.",
+    "reviewBasis": "The full text, read in this run from the open access article page at frontiersin.org (journal Frontiers in Public Health, DOI 10.3389/fpubh.2026.2004219). Read in full: abstract, materials and methods, the opening of the results, the discussion with its limitations paragraph, the conclusion, and the ethics, funding and conflict statements. The results tables were not read cell by cell, so no figure is cleared.",
+    "claims": [
+     {
+      "claim": "What a child does on a screen matters more than how long they are on it.",
+      "status": "UNSUPPORTED",
+      "basis": "This is the reading that would suit us, because it matches our line that the content matters alongside the clock, so it was checked hardest. The study cannot carry it. It is one cross sectional analysis of 215 children in which the exposure is a parent recalling the past month, immersion and English integration are each a single questionnaire item, and the paper itself says the association with English integration should be regarded as descriptive and not as an effect of the content."
+     },
+     {
+      "claim": "Children who spent longer on English language learning games scored better on a selective attention task.",
+      "status": "QUALIFIED",
+      "basis": "Reported in the abstract and discussed in section 4 as an association that held after adjustment. Qualified because the discussion says the reverse explanation cannot be ruled out, that children with better attention may be the ones who take to such games, and because the high participation group was older and differed in family socioeconomic status."
+     },
+     {
+      "claim": "English game time was associated with better working memory.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper says this association was no longer significant after correction across all seven outcomes and fell below the smallest effect the study could detect, and calls it preliminary."
+     },
+     {
+      "claim": "Total daily screen time was associated with poorer attention and more emotional and hyperactivity symptoms.",
+      "status": "QUALIFIED",
+      "basis": "Stated in the abstract and the discussion. Qualified because total screen time is one parent reported number for the past month, the emotional and hyperactivity outcomes are also parent report, and the design is cross sectional."
+     },
+     {
+      "claim": "The study design and consent are clearly described.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper contradicts itself. Section 2.1 says the data came from an archive, that informed consent was waived and that the researchers had no contact with identities. Section 2.3 says the parent questionnaire was handed out by the researcher at a parent and teacher meeting. The ethics statement says written informed consent was given by legal guardians. The sensitivity analysis is described as excluding the pure English group and gives n = 157 in a way that cannot be told apart from the size of the group removed. These cannot all be true as written."
+     },
+     {
+      "claim": "Immersion was rated by the child.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract and methods call it a self rating, and the methods say the whole questionnaire was completed by parents in one session. Who gave the rating is not clear."
+     }
+    ],
+    "notQuotable": [
+     "every figure in the paper, including the sample size, the coefficients and the p values: the study is rejected and nothing from it is cleared",
+     "any statement that educational or immersive games improve attention, memory or mood",
+     "any statement that this study shows content matters more than time",
+     "any advice to parents or schools drawn from it, including the paper own suggestion that schools add such games to lessons"
+    ],
+    "evidenceConfidence": "HIGH that the paper says what is written here, apart from the tables, which were not read cell by cell. LOW as evidence: cross sectional, parent recall, single item measures, a single author, and an account of its own data collection and consent that does not agree with itself.",
+    "limitations": [
+     "Cross sectional and retrospective. The paper says it cannot establish causality or direction.",
+     "215 children from one regional database in China, kept from 312, with 47 dropped for missing data.",
+     "Game participation is a parent recalling the past month. Immersion and English integration are single items on a questionnaire the author designed.",
+     "The low participation group had 11 children and was merged into the middle group.",
+     "Parents education, the intensity of English teaching at school and the child baseline ability were not controlled, by the paper own account.",
+     "Four of the seven outcomes were treated as exploratory with no correction.",
+     "The subject is English as a foreign language games for children in China. It does not transfer to UK families.",
+     "The description of consent and of how the questionnaire was collected is inconsistent within the paper.",
+     "A single author. No funding declared."
+    ],
+    "contradictoryEvidence": [
+     "From the same paper: after the pure English group was excluded, the associations of English integration with selective attention and inhibition control were no longer significant, and the authors say selection cannot be ruled out.",
+     "From the same paper: the working memory association did not survive correction across all outcomes.",
+     "From the same paper: cognitive flexibility and hyperactivity symptoms were not related to any game variable.",
+     "From the same paper: the discussion accepts that children with better attention may simply be more likely to play and keep playing these games."
+    ],
+    "whatThisDoesNotProve": [
+     "That learning games improve attention, memory or emotional health.",
+     "That content matters more than duration.",
+     "That total screen time harms attention or mood.",
+     "Anything about UK children, or about the games and apps UK children use."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The predictable error would be a headline that learning games are good for children brains, which the paper does not show.",
+    "gdcBeliefs": [
+     "Evidence or silence. The finding points the way we already lean, which is the reason to turn it down when the study is this weak.",
+     "Our position that what is on the screen matters alongside the clock stands on other sources. This paper is not one of them."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody. Not for use.",
+    "unresolvedQuestions": [
+     "The dossier recorded the design as longitudinal cohort. The paper is cross sectional and says so in its title. The word longitudinal in the abstract, where it calls for future longitudinal research, appears to have set the field."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-477a38762a.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T11:40:16.108Z"
+   }
   },
   "GDC-RR-5e3088d8f0": {
    "title": "The Role of Parent–Child Relationships in Problematic Social Media Use and Mental Health among Chinese Adolescents",
@@ -2299,7 +2468,7 @@
    "foundBy": [
     "crossref"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 13,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -2319,11 +2488,11 @@
     "until": "2026-11-10"
    },
    "studyId": "GDC-RR-5e3088d8f0",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-10T17:17:53.816Z",
-   "lastChecked": "2026-11-10T17:17:54.125Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-11T11:40:16.033Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-5e3088d8f0",
     "checkedAt": "2026-11-10T17:17:53.937Z",
@@ -2377,7 +2546,100 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-5e3088d8f0",
+    "reviewedAt": "2026-11-11T11:40:15Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+    "verdict": "REJECT",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Rejected.",
+    "reviewBasis": "The full text, read in this run from the publisher PDF at lnep.ewapub.com/article/view/38894.pdf (six pages, pages 119 to 124 of volume 161), together with the publisher landing page. Read in full: abstract, methods, results, discussion and conclusion. The page footer of the PDF identifies it as a paper in the proceedings of a conference, and the author affiliation is given as a high school in Beijing.",
+    "claims": [
+     {
+      "claim": "A better relationship between parent and child protects a teenager from the mental health effects of problematic social media use.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper does not show this and says so. Its discussion states that the findings do not show that improving communication will change either outcome, and that the design cannot establish the order of influence. This is the reading that would flatter our own position that connection is the protection, so it was checked hardest. One survey of 115 students at one point in time cannot carry it."
+     },
+     {
+      "claim": "Among the students surveyed, higher problematic use scores went with poorer reported communication with parents, and better communication went with higher self esteem.",
+      "status": "QUALIFIED",
+      "basis": "Results section: correlations and a mediation model on all 115 participants, adjusted for age, gender and socioeconomic status. Qualified because every measure is self report from the same student in the same sitting, the sample is small and its recruitment is not described, and the model is a mediation analysis on cross sectional data, which the paper itself cites as a known source of bias."
+     },
+     {
+      "claim": "The same indirect pathway was found for depressive symptoms.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper reports the opposite. The indirect estimate for depressive symptoms had a confidence interval that included zero, and the association between relationship quality and depressive symptoms was not significant."
+     },
+     {
+      "claim": "The study measured problematic social media use.",
+      "status": "QUALIFIED",
+      "basis": "Methods section 2.3.1: the instrument was the Mobile Phone Addiction Index, whose items ask about time on a mobile phone in general. The title and abstract call this problematic social media use. The measure and the label do not match."
+     },
+     {
+      "claim": "This is peer reviewed journal research.",
+      "status": "QUALIFIED",
+      "basis": "Crossref lists it as a journal article and the dossier therefore marked it peer reviewed. The PDF shows it is a conference proceedings paper in a lecture notes series, by a single author whose affiliation is a high school, received on 8 October 2026 and published on 10 November 2026. What review it had is not stated."
+     }
+    ],
+    "notQuotable": [
+     "every figure in the paper, including the sample size, the correlations and the mediation estimates: the study is rejected and nothing from it is cleared",
+     "any statement that talking with your child protects their mental health, on the strength of this paper",
+     "any statement that this is a study of social media: the instrument asks about mobile phones",
+     "the standard error printed for the depressive symptom coefficient, which is negative in the paper and so is a misprint at best"
+    ],
+    "evidenceConfidence": "HIGH that the paper says what is written here: it was read in full. VERY LOW as evidence about families. One small self report survey, one time point, an instrument that does not match the title, in a proceedings series.",
+    "limitations": [
+     "115 students aged 15 to 18. How and where they were recruited is not described.",
+     "Cross sectional. The paper itself says it cannot show which came first.",
+     "Every variable is self report from the same student in one questionnaire of five to ten minutes, so shared method bias is likely.",
+     "The exposure was measured with a mobile phone addiction index, not a social media measure.",
+     "Mediation was tested on data from a single time point, a method the paper own reference list flags as biased.",
+     "A conference proceedings paper by a single author affiliated to a high school. The review process is not stated.",
+     "The methods give the survey period as between April and June of the following year without saying which year.",
+     "One reported standard error is negative, which is not possible.",
+     "China only. Nothing on the UK and nothing on children under 15."
+    ],
+    "contradictoryEvidence": [
+     "From the same paper: the indirect pathway through the relationship with parents was not supported for depressive symptoms, and relationship quality was not significantly associated with depressive symptoms once adjusted.",
+     "From the same paper: the discussion says the findings do not show that improving communication will, by itself, change either outcome.",
+     "The paper cites Maxwell and Cole, 2007, on bias in cross sectional analyses of longitudinal mediation, which is a direct methodological objection to its own main analysis. That reference was seen in the reference list and not read in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That a close relationship with a parent protects a child from harm online.",
+     "That phone or social media use damages the relationship with a parent, or the reverse.",
+     "Anything about children younger than 15, or about families in the UK.",
+     "Anything about what a parent should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a proceedings paper of this size.",
+    "gdcBeliefs": [
+     "Evidence or silence. A finding that agrees with us is held to a higher standard, and this one does not meet it.",
+     "Connection is the protection is our position on other grounds. This paper adds nothing to it and must not be cited for it."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody. Not for use.",
+    "unresolvedQuestions": [
+     "Whether the dossier should treat a Crossref journal article in a proceedings or lecture notes series as peer reviewed. It marked this one so, and the PDF says conference proceedings."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-5e3088d8f0.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-11T11:40:16.032Z"
+   }
   },
   "GDC-RR-01aaf8d3cb": {
    "title": "Screen-based media use and emotional and behavioural problems among children aged 6–7 years: a longitudinal cohort study",
@@ -2506,6 +2768,414 @@
    "lastChecked": "2026-11-10T17:17:53.822Z",
    "changeReason": "discovery run, streams 08,23",
    "changedBy": "radar:discover"
+  },
+  "GDC-RR-145e62ea60": {
+   "title": "Atomoxetine-associated Raynaud’s phenomenon in children: an under-recognized risk of non-stimulant ADHD therapy",
+   "doi": "10.3389/fphar.2026.1968909",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/fphar.2026.1968909",
+   "journal": "Frontiers in Pharmacology",
+   "published": "2026-11-11",
+   "authors": "Wenxiu Mo, Lin Liu, Zheyu Cui, Yan Li, Huawei Mao",
+   "abstract": "Raynaud’s phenomenon (RP) is an increasingly recognized yet still underreported adverse effect of ADHD pharmacotherapy. Whereas stimulant-associated RP is well documented, atomoxetine-related RP has surfaced only in isolated pediatric cases, leaving a gap in our understanding of non-stimulant toxicity. This narrative review reports the first Asian pediatric case identified in English- and regional-language literature and synthesizes the global evidence base, integrating five pediatric cases, targeted literature retrieval, and disproportionality analyses of FAERS and WHO VigiBase. Atomoxetine carries a consistent pharmacovigilance signal for RP. Beyond the elevation of synaptic cleft norepinephrine, the five cases point to suspected contributors: plasma drug concentration, CYP2D6-mediated metabolic variability—particularly relevant in East Asian populations—and individual susceptibility with superimposed triggers. Onset latency is highly variable (hours to years), and the course in reported cases is milder and fully reversible, without digital ulceration, features consistent with, though not determined by, the sustained, gradual peripheral noradrenergic elevation produced by selective norepinephrine transporter inhibition, in contrast to the rapid catecholamine surges typical of stimulants. These findings call for longitudinal vigilance beyond the titration phase, prompt exclusion of secondary causes, and systematic pharmacovigilance reporting.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "01",
+    "04",
+    "05",
+    "06",
+    "12",
+    "20"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-145e62ea60",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.832Z",
+   "lastChecked": "2026-11-11T11:38:23.832Z",
+   "changeReason": "discovery run, streams 01,04,05,06,12,20",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-6ea01c5e1a": {
+   "title": "Artificial intelligence diffusion, adaptive Human-Capital Transformation, and unequal development: evidence from a 50-country panel",
+   "doi": "10.3389/frai.2026.1901423",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/frai.2026.1901423",
+   "journal": "Frontiers in Artificial Intelligence",
+   "published": "2026-11-11",
+   "authors": "Gustavo Pessoa, Svetlana Tolstikova, Nurlan Kaldibayev, Zhanneta Gerzelieva, Vadim Ponkratov, Andrey Masterov, Nikolay Kuznetsov, Andrey Pozdnyaev, Elena Mikhina, Anna Shkalenko, Marina Vasiljeva, Irina Nikolaeva",
+   "abstract": "Introduction Despite expanding artificial intelligence (AI) research, evidence remains fragmented on how AI capacity, Human-Capital Transformation, institutions, and labor-market structure jointly relate to unequal development. Methods Using 229 country-year observations from 50 purposively selected economies over 2020–2024, this study integrates conceptual development, composite measurement, panel estimation, country configurations, and conditional projections for 2026–2027. Moving beyond traditional productivist paradigms, this study conceptualizes adaptive human capital (AHC) as the dynamic capacity to preserve, renew, recombine, and redeploy human capabilities under technological change, with health sustaining adaptability, lifelong learning enabling renewal, and skills recalibration supporting resilience. This model distinguishes adaptive capacity from its observable educational and digital foundations. Five author-constructed indices capture AI Diffusion Capacity (AIDC), Human-Capital Transformation (HCT), Enabling Conditions, AI-Related Labor-Market Pressure, and multidimensional Development Outcomes. Two-way fixed-effects models use country-clustered standard errors, restricted wild-cluster-bootstrap inference, and false-discovery-rate correction. Sensitivity checks examine alternative weights, component exclusion, and 1,000 positive random-weight draws. Results AIDC coefficients are positive for HCT (β = 0.220, p = 0.0063) and Development Outcomes (β = 0.160, p = 0.027), although the latter attenuates after income adjustment. The strongest results concern labor absorption: negative AIDC coefficients for total unemployment (β = −0.359) and youth unemployment (β = −0.319) and a positive coefficient for the employment-to-population ratio (β = 0.258) remain significant after income adjustment and false-discovery-rate correction. Comparisons among similar AIDC countries identify configuration-level heterogeneity without a consistently dominant human-capital, institutional, or labor-market correlate. Complementary AIDC–HCT and AIDC–unemployment maps distinguish aligned and asymmetric country configurations; the latter classifies 14, 12, 11, and 13 economies into four labor-market groups. Conditional joint AIDC–HCT paths imply declining Development Outcomes under the lower scenario and improving outcomes under the central and upper scenarios; separate AIDC paths map labor-configuration transitions. Discussion Unequal development is reflected in asymmetric technological and labor-market configurations: 12 countries combine above-average AIDC with above-median unemployment, whereas 11 combine below-average AIDC with unemployment at or below the sample median of 4.545%. The study connects an adaptive human-capital framework with differentiated empirical evidence on technological capacity, human capabilities, and labor absorption, informing country-specific priorities for technological scaling, capability renewal, and support during labor-market transitions.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "12"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-6ea01c5e1a",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.837Z",
+   "lastChecked": "2026-11-11T11:38:23.837Z",
+   "changeReason": "discovery run, streams 08,12",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-063230519e": {
+   "title": "Scaffolding young children’s AI use: opening pedagogical black boxes in early childhood classrooms",
+   "doi": "10.1007/s44436-026-00046-2",
+   "pmid": null,
+   "url": "https://doi.org/10.1007/s44436-026-00046-2",
+   "journal": "AI, Brain and Child",
+   "published": "2026-11-11",
+   "authors": "Xinyun Hu, Boris Wai Yan Choy",
+   "abstract": "Abstract Given their real-time responsive capabilities, artificial intelligence (AI) technologies have been positioned as cognitive partners for young children. However, research and policy directives have tended toward technological determinism, which black-boxes how these technologies function in early childhood education (ECE). Applying Actor-Network Theory (ANT), this qualitative case study deconstructs pedagogical black boxes during a plant inquiry unit involving a teacher, four children (aged 5–6), and AI-integrated devices. The findings provide a typology of three pedagogical black boxes: operational (obscuring technical constraints), epistemic (obscuring knowledge construction), and relational (obscuring negotiations of agency and classroom authority). Analysis of the case illustrated how these black boxes opened through distance (children’s communication gaps), breakdown (AI errors), and innovation (negotiation over AI use), revealing hidden dynamics in AI integration, such as uncertainty, people at work, decisions, competition, and controversies. Teacher scaffolding emerged as a key mediator of child-AI interactions, translating children’s open-ended inquiries into AI-legible inputs, transforming AI errors into opportunities for evaluative judgement, and recalibrating children’s AI interactions into child-led scientific inquiry. Ultimately, the paper shows that the seamless integration of AI is neither realistic nor pedagogically effective, and exemplifies how emergent frictions can foster young learners’ AI literacy, evaluative judgement, and relational agency.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "05",
+    "08",
+    "09",
+    "11",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-063230519e",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.841Z",
+   "lastChecked": "2026-11-11T11:38:23.841Z",
+   "changeReason": "discovery run, streams 05,08,09,11,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-3525014c5a": {
+   "title": "Community-based Screening for Autism Spectrum Disorder Among Children in Pondicherry: A Cross-sectional Study",
+   "doi": "10.1177/09731342261502592",
+   "pmid": null,
+   "url": "https://doi.org/10.1177/09731342261502592",
+   "journal": "Journal of Indian Association for Child and Adolescent Mental Health",
+   "published": "2026-11-10",
+   "authors": "Bhavani S, Sarah Catherine S, Nishanth Rajan, Priya Jose, Peter Prasanth Kumar K, Shanthi Kannan",
+   "abstract": "Background: Most Indian studies on Autism Spectrum Disorder (ASD) are hospital-based, and community-level data using standardized screening tools remain limited. Community screening can help identify children at risk and generate hypotheses regarding associated factors. The main objective of the study was to screen for ASD among children in Pondicherry and to identify associated factors. Methods: A community-based cross-sectional screening study was conducted in rural and urban areas of Pondicherry between September 2023 and February 2024. Children aged 18 months to 14 years ( n = 272) were screened using the AIIMS-modified INCLEN diagnostic tool for ASD. Participants were recruited using convenience sampling. Socio-demographic details and information on perinatal, familial, environmental, and behavioral factors were collected through parental interviews. Environmental variables such as ventilation and overcrowding were self-reported. The proportion of screen-positive ASD was calculated. Associations between screen-positive ASD and various factors were explored using Fisher’s exact test and Mann–Whitney U test. Results: Seven children were found to be screen-positive for ASD, yielding a proportion of 2.57% (95% CI: 1.03%-5.26%) in this screened sample. Screen-positive ASD showed significant associations with male gender ( P = .006), age group 5–10 years ( P = .04), late preterm birth ( P = .013), respiratory distress at birth ( P = .015), and reduced time spent in outdoor play ( P = .033). Other socio-demographic, familial, and environmental variables did not show significant associations. These findings represent unadjusted exploratory associations. Conclusion: This community-based screening study identified a small proportion of children who screened positive for ASD and highlighted several factors that showed exploratory associations. The findings underscore the importance of community screening and the need for larger, methodologically robust studies to estimate the proportion and evaluate risk factors for ASD in the Indian context.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "03",
+    "19",
+    "20",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-3525014c5a",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.845Z",
+   "lastChecked": "2026-11-11T11:38:23.845Z",
+   "changeReason": "discovery run, streams 03,19,20,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-6079ade78d": {
+   "title": "Multiscale Evaluation of Quercetin Against Vibrio parahaemolyticus and Vibrio vulnificus in Seafood and Food-Contact Surfaces",
+   "doi": "10.3390/cimb48111198",
+   "pmid": null,
+   "url": "https://doi.org/10.3390/cimb48111198",
+   "journal": "Current Issues in Molecular Biology",
+   "published": "2026-11-11",
+   "authors": "Nigar Sultana Meghla, Md Furkanur Rahaman Mizan, Syeda Roufun Nesa, Sangha Han, Iksoon Kang, Sang-Do Ha",
+   "abstract": "Vibrio parahaemolyticus and Vibrio vulnificus biofilms pose a major challenge to seafood safety owing to their persistence on food-contact surfaces and increased tolerance to antimicrobial interventions. This study investigated the antibiofilm efficacy and mechanisms of quercetin using integrated structural, physiological, and molecular approaches. Quercetin exhibited concentration-dependent biofilm inhibition and reduced mature biofilms on abiotic surfaces, while its efficacy in inhibiting biofilm formation was evaluated on seafood. Quercetin suppressed early biofilm establishment by reducing cell surface hydrophobicity, bacterial adhesion, autoaggregation, motility, cellular respiration, and ATP production, thereby limiting bacterial attachment and microcolony formation. Fourier-transform infrared spectroscopy revealed changes in the EPS-associated spectral profiles of both species, indicating alterations in the biochemical composition of the biofilm matrix. These spectral changes varied between V. vulnificus and V. parahaemolyticus. Gene expression analysis demonstrated coordinated downregulation of quorum sensing (QS), adhesion, and EPS biosynthesis genes, accompanied by increased membrane permeability, intracellular protein leakage, and metabolic dysfunction. In a 6 h screen, 1/2 MIC caused only minor changes in the color and texture of shrimp and oyster, whereas MIC caused larger changes; no cytotoxicity was detected under the tested conditions. Collectively, these findings demonstrate that quercetin disrupts Vibrio biofilms through coordinated mechanisms with limited short-term effects on seafood color and texture at 1/2 MIC, supporting further evaluation as a natural, industry-relevant strategy for controlling seafood-associated Vibrio biofilms and improving seafood safety.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [
+    "National Research Foundation of Korea"
+   ],
+   "citedBy": 0,
+   "streams": [
+    "05",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-6079ade78d",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.850Z",
+   "lastChecked": "2026-11-11T11:38:23.850Z",
+   "changeReason": "discovery run, streams 05,22,23",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-7e9b72deec": {
+   "title": "A blended digital parenting intervention for the prevention of sexual violence, exploitative sex, and maltreatment of children at scale in Tanzania: a cluster-randomised, controlled trial.",
+   "doi": "10.1016/s0140-6736(26)01819-2",
+   "pmid": "43008768",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43008768/",
+   "journal": "Lancet (London, England)",
+   "published": "2026-11-10",
+   "authors": "Cluver LD, Ornellas A, Klapwijk JM, Nyalali K, Chetty AN, Mgunga S, Melendez-Torres GJ, Kahwa J, Awah I, Baerecke L, Booij A, Christine L, de Graaf K, Lachman JM, Markle L, Mjwara SN, Stern D, Te Winkel E, Tsoanyane S, Sherr L, Wambura M, Green O, Ngcobo L, Mwakakeke S, Desmond C, Clements L, Kijoti E, Manjengenja N, Wamoyi J",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "streams": [
+    "16",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 4,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+4 \\brandomis(ed|ation)|randomiz(ed|a"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-7e9b72deec",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.853Z",
+   "lastChecked": "2026-11-11T11:38:23.853Z",
+   "changeReason": "discovery run, streams 16,19,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-bfd4ff8bf4": {
+   "title": "Scaling guided play through educational media: bridging theory and practice across diverse global contexts",
+   "doi": "10.3389/feduc.2026.1892203",
+   "pmid": null,
+   "url": "https://doi.org/10.3389/feduc.2026.1892203",
+   "journal": "Frontiers in Education",
+   "published": "2026-11-11",
+   "authors": "Kim Foulds, Jennifer M. Zosh, Rosemarie Truglio, Jessica DiSalvo, Shanna Kohn, Autumn Zitani",
+   "abstract": "This paper explores the intersection of theory and industry practice, examining how educational media leverages playful learning to facilitate transfer of learning in children living in diverse global contexts. Central to this discussion is the evolution of Sesame Street , highlighting its strategic shift toward utilizing guided play models. We ground this discussion in Esme &amp;amp; Roy , an animated series that established Sesame Workshop's approach to modeling guided play on screen and show how that approach shaped two future productions: the playful “approaches to learning” curriculum of Sesame Street Seasons 51–52, and Watch, Play, Learn , a suite of early learning videos designed to support children affected by crisis and conflict. Together, these examples demonstrate how intentional media design can support transfer of learning across varied geographic contexts and how theory informs practice, which then further refines theory. The paper concludes by discussing the implications of these advancements for the future of educational media and playful learning.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [
+    "LEGO Foundation"
+   ],
+   "citedBy": 0,
+   "streams": [
+    "08",
+    "15",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-bfd4ff8bf4",
+   "version": 1,
+   "firstFound": "2026-11-11T11:38:23.856Z",
+   "lastChecked": "2026-11-11T11:38:23.856Z",
+   "changeReason": "discovery run, streams 08,15,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-19396d6493": {
+   "title": "Digital readiness, not age: youth social media policy needs a developmental approach.",
+   "doi": "10.1016/s2352-4642(26)00301-9",
+   "pmid": "43008758",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/43008758/",
+   "journal": "The Lancet. Child & adolescent health",
+   "published": "2026-11-10",
+   "authors": "Zhang Q, Tan C, Ni Y, Marciano L, Yue Z",
+   "abstract": "",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "streams": [
+    "18",
+    "23"
+   ],
+   "foundBy": [
+    "pubmed"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-08",
+    "until": "2026-11-11"
+   },
+   "studyId": "GDC-RR-19396d6493",
+   "version": 2,
+   "firstFound": "2026-11-11T11:38:23.859Z",
+   "lastChecked": "2026-11-11T11:38:24.018Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-19396d6493",
+    "checkedAt": "2026-11-11T11:38:23.902Z",
+    "doi": "10.1016/s2352-4642(26)00301-9",
+    "doiResolves": true,
+    "canonicalTitle": "Digital readiness, not age: youth social media policy needs a developmental approach.",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "The Lancet. Child & adolescent health",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": false,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.",
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
   }
  },
  "keys": {
@@ -2587,6 +3257,32 @@
   "title:screen use agreements and conflict dynamics in early childhood a cross cultural qualitative study": "GDC-RR-eef52db260",
   "doi:10.54254/2753-7064/2026.38655": "GDC-RR-defe812271",
   "url:doi.org/10.54254/2753-7064/2026.38655": "GDC-RR-defe812271",
-  "title:power and the cost of faith a case study of religion communication and commercialisation": "GDC-RR-defe812271"
+  "title:power and the cost of faith a case study of religion communication and commercialisation": "GDC-RR-defe812271",
+  "doi:10.3389/fphar.2026.1968909": "GDC-RR-145e62ea60",
+  "url:doi.org/10.3389/fphar.2026.1968909": "GDC-RR-145e62ea60",
+  "title:atomoxetine associated raynaud s phenomenon in children an under recognized risk of non stimulant": "GDC-RR-145e62ea60",
+  "doi:10.3389/frai.2026.1901423": "GDC-RR-6ea01c5e1a",
+  "url:doi.org/10.3389/frai.2026.1901423": "GDC-RR-6ea01c5e1a",
+  "title:artificial intelligence diffusion adaptive human capital transformation and unequal development evidence from a 50": "GDC-RR-6ea01c5e1a",
+  "doi:10.1007/s44436-026-00046-2": "GDC-RR-063230519e",
+  "url:doi.org/10.1007/s44436-026-00046-2": "GDC-RR-063230519e",
+  "title:scaffolding young children s ai use opening pedagogical black boxes in early childhood classrooms": "GDC-RR-063230519e",
+  "doi:10.1177/09731342261502592": "GDC-RR-3525014c5a",
+  "url:doi.org/10.1177/09731342261502592": "GDC-RR-3525014c5a",
+  "title:community based screening for autism spectrum disorder among children in pondicherry a cross sectional": "GDC-RR-3525014c5a",
+  "doi:10.3390/cimb48111198": "GDC-RR-6079ade78d",
+  "url:doi.org/10.3390/cimb48111198": "GDC-RR-6079ade78d",
+  "title:multiscale evaluation of quercetin against vibrio parahaemolyticus and vibrio vulnificus in seafood and food": "GDC-RR-6079ade78d",
+  "doi:10.1016/s0140-6736(26)01819-2": "GDC-RR-7e9b72deec",
+  "pmid:43008768": "GDC-RR-7e9b72deec",
+  "url:pubmed.ncbi.nlm.nih.gov/43008768": "GDC-RR-7e9b72deec",
+  "title:a blended digital parenting intervention for the prevention of sexual violence exploitative sex and": "GDC-RR-7e9b72deec",
+  "doi:10.3389/feduc.2026.1892203": "GDC-RR-bfd4ff8bf4",
+  "url:doi.org/10.3389/feduc.2026.1892203": "GDC-RR-bfd4ff8bf4",
+  "title:scaling guided play through educational media bridging theory and practice across diverse global contexts": "GDC-RR-bfd4ff8bf4",
+  "doi:10.1016/s2352-4642(26)00301-9": "GDC-RR-19396d6493",
+  "pmid:43008758": "GDC-RR-19396d6493",
+  "url:pubmed.ncbi.nlm.nih.gov/43008758": "GDC-RR-19396d6493",
+  "title:digital readiness not age youth social media policy needs a developmental approach": "GDC-RR-19396d6493"
  }
 }
