@@ -26,6 +26,9 @@
 //   real screens every image is a capture in content/ads/screens (visual
 //                system section 1: never an invented screen)
 //   no dashes    non negotiable 4
+//   the copy     a round card carries `ad`: the words that run beside it on
+//                Facebook and Instagram, held to the same rules, so the deck
+//                is the whole advert
 //   the gates    no borrowed proof (user counts, ratings, percentages without
 //                a source), no unnamed expert, no outcome promised for a child
 //                (ready, safe), no words a competitor owns or a fear button
@@ -93,6 +96,7 @@ function plain(html) {
 
 function images(card) {
   const out = []
+  if (card.screen?.image) out.push(['screen', card.screen.image])
   if (card.phone?.image) out.push(['phone', card.phone.image])
   if (card.back?.image) out.push(['back', card.back.image])
   for (const [i, c] of (card.callouts || []).entries()) if (c.image) out.push([`callout ${i + 1}`, c.image])
@@ -119,7 +123,12 @@ export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) 
   }
 
   // The copy.
-  const fields = TEXT_FIELDS.map((f) => [f, card[f]]).concat((card.callouts || []).map((c, i) => [`callout ${i + 1} label`, c.label]))
+  // The words that run beside the card on Facebook and Instagram are held to
+  // the same rules as the card. Its headline is the hook, so it may ask.
+  const adCopy = Object.entries(card.ad || {}).map(([k, v]) => [`ad ${k}`, v])
+  const fields = TEXT_FIELDS.map((f) => [f, card[f]])
+    .concat((card.callouts || []).map((c, i) => [`callout ${i + 1} label`, c.label]))
+    .concat(adCopy)
   for (const [field, raw] of fields) {
     if (!raw) continue
     const text = plain(raw)
@@ -129,7 +138,7 @@ export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) 
       const hit = text.match(rule.re)
       if (hit) breaks.push(`${field} says "${hit[0]}": ${rule.why}`)
     }
-    if (field !== 'pill' && text.includes('?')) breaks.push(`${field} asks a question; the only question on the card is the button (council 19 October)`)
+    if (field !== 'pill' && field !== 'ad headline' && text.includes('?')) breaks.push(`${field} asks a question; the only question on the card is the button (council 19 October)`)
   }
 
   // The look.
@@ -156,6 +165,13 @@ function checkDeck({ path, deck }, seen) {
   for (const [i, card] of (deck.cards || []).entries()) {
     const label = `card ${i + 1} (${card.name || 'unnamed'})`
     for (const b of checkCard(card)) breaks.push(`${label}: ${b}`)
+    // A round card carries the words that run beside it, so the deck is the
+    // whole advert and the uploader (scripts/ad-upload-meta.mjs) invents nothing.
+    if (deck.round) {
+      if (!card.ad?.text) breaks.push(`${label}: no ad.text, the words that run above the card`)
+      if (plain(card.ad?.headline) !== HOOK_ASK) breaks.push(`${label}: ad.headline must be "${HOOK_ASK}"`)
+      if (plain(card.ad?.description) !== HOOK_LINE) breaks.push(`${label}: ad.description must be "${HOOK_LINE}"`)
+    }
     if (card.src) {
       const where = `${relative(ROOT, path)} ${label}`
       if (seen.has(card.src)) breaks.push(`${label}: src "${card.src}" is already used by ${seen.get(card.src)}; one code per card, ever, or two cards share one result`)

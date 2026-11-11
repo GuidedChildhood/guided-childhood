@@ -16,7 +16,15 @@
   show a screen the product does not have.
 
   Card fields:
-    layout     "right" (words left, phone right) or "center"
+    layout     "right" (words left, phone right), "center", or "stacked"
+               (the Round 1 held treatment, ad council 19 October: headline
+               full width, one flat real screen in a fixed slot, the espresso
+               button, the hook line. No phone frame, glow, pathway or callout.)
+    screen     stacked only: { image, crop:[x,y,w,h], points, mount, bg } a flat crop of
+               a real capture, in the capture's own points (points is the
+               capture's width in points, 390 for a phone screen). The 2.5px
+               ink edge is drawn outside the crop, never over it. The slot is
+               at most 760 by 730 and 30 percent of the card.
     ground     "cream" (default) or "butter"
     eyebrow, headline (<mark> for the gold underline), sub, pill
     phone      { image, tilt, bar }   the screen, a path from the repo root;
@@ -114,6 +122,21 @@ mark::after{content:'';position:absolute;left:-4px;right:-6px;bottom:2px;height:
 .word{font-weight:800;font-size:30px;letter-spacing:-.01em;}
 .foot.on-white{background:rgba(255,255,255,.92);padding:12px 22px 12px 14px;border-radius:20px;
   box-shadow:0 10px 30px rgba(26,26,46,.12);}
+
+/* stacked: the Round 1 held treatment. Cream, ink, one butter underline, an
+   espresso button (.btn-ink in shared/tokens.css), and a flat real screen. */
+.stacked .top{position:absolute;left:70px;top:62px;display:flex;align-items:center;gap:14px;}
+.stacked .top .mark{width:42px;height:42px;border-radius:12px;gap:3px;padding:0 8px 10px;box-shadow:0 3px 0 var(--gold-dark);}
+.stacked .top .mark b{width:4px;}
+.stacked .top .word{font-size:25px;}
+.stacked .head{position:absolute;left:70px;right:70px;top:120px;display:flex;align-items:flex-end;}
+.stacked h1{margin:0;font-size:var(--h,92px);line-height:1.03;letter-spacing:-.03em;text-wrap:balance;}
+.stacked mark::after{height:20px;bottom:4px;border-radius:10px;box-shadow:none;}
+.stacked .slot{position:absolute;left:70px;right:70px;display:flex;align-items:center;justify-content:center;}
+.stacked .flat{border:4px solid var(--ink);border-radius:26px;overflow:hidden;background-color:#fff;background-repeat:no-repeat;box-sizing:content-box;}
+.stacked .cta{position:absolute;left:70px;right:70px;bottom:60px;display:flex;flex-direction:column;align-items:center;}
+.stacked .pill{margin-top:0;background:#2E2818;color:#fff;box-shadow:0 6px 0 #171307;border-radius:20px;padding:24px 38px;font-size:33px;}
+.stacked .small{font-family:'Nunito',sans-serif;font-weight:700;font-size:30px;letter-spacing:0;color:var(--ink-soft);margin-top:24px;}
 </style>
 </head>
 <body>
@@ -147,7 +170,38 @@ function pathSVG(y, colour){
   </svg>`;
 }
 
+/* The fixed screen slot of the stacked layout: the crop is fitted inside a box
+   of 760 by 624, the same on every card, and never more than 30 percent of
+   the card. */
+const SLOT_TOP = 458, SLOT_BOTTOM = 268;
+const SLOT_W = 760, SLOT_H = H - SLOT_TOP - SLOT_BOTTOM, SLOT_AREA = W * H * 0.30;
+function flatHTML(sc){
+  const [x, y, w, h] = sc.crop, pts = sc.points || 390;
+  /* mount: plain margin in the screen's own background colour, in points
+     [top, right, bottom, left], for a crop whose content runs to its edge.
+     It adds no screen content; the capture inside is untouched. */
+  const [mt, mr, mb, ml] = sc.mount || [0, 0, 0, 0];
+  const tw = w + ml + mr, th = h + mt + mb;
+  const z = Math.min(SLOT_W / tw, SLOT_H / th, Math.sqrt(SLOT_AREA / (tw * th)));
+  return `<div class="flat" style="border-width:${(2.5 * z).toFixed(2)}px;border-radius:${Math.round(18 * z)}px;
+    background-color:${sc.bg || '#fff'};padding:${mt * z}px ${mr * z}px ${mb * z}px ${ml * z}px">
+    <div style="width:${Math.round(w * z)}px;height:${Math.round(h * z)}px;background-repeat:no-repeat;
+    background-image:url('${ROOT + sc.image}');background-size:${pts * z}px auto;
+    background-position:${-x * z}px ${-y * z}px"></div></div>`;
+}
+
+function stackedHTML(c){
+  const top = SLOT_TOP, bottom = SLOT_BOTTOM;
+  return `<div class="ad cream stacked" style="${c.h ? '--h:' + c.h + 'px' : ''}" data-name="${c.name}">
+    <div class="top">${MARK}<div class="word">Guided Childhood</div></div>
+    <div class="head" style="height:${top - 120 - 40}px"><h1>${c.headline}</h1></div>
+    <div class="slot" style="top:${top}px;height:${H - top - bottom}px">${flatHTML(c.screen)}</div>
+    <div class="cta"><div class="pill">${c.pill}</div><div class="small">${c.small}</div></div>
+  </div>`;
+}
+
 function adHTML(c, deck){
+  if ((c.layout || deck.layout) === 'stacked') return stackedHTML(c);
   const ground = c.ground || deck.ground || 'cream';
   const layout = c.layout || 'right';
   const pathColour = ground === 'butter' ? '#FEF7E0' : '#EDC35F';

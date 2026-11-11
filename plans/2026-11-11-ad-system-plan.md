@@ -67,3 +67,25 @@ Each step is one small pull request, merged before the next starts.
 8. **Meta writes (when a winner is spending).** Writes only, rate limited, a
    human approval on every change, every read from our own tables. Justin's
    call on the access token.
+
+## 11 November, later: step 2 done, and two things Justin moved
+
+Justin asked for step 2 with the creating and the uploading to Facebook and
+Google set up as well, at a top finish, and asked why not an avatar.
+
+- **Step 2 is built**: `content/packs/2026-11-11-round-1/`, five cards in the
+  council's held treatment, gated, measured for butter and scored.
+- **Step 8 came forward, fenced.** `npm run ad-upload` loads a round into
+  Facebook and Instagram ads with everything PAUSED. Switching on stays with
+  Justin. It is proved against a stand in only, since no token exists yet.
+  Google waits for a developer token and a winning hook
+  (`content/ads/SETUP.md`).
+- **The avatar.** The decline in row 6 was never "no avatar". It is "no
+  synthetic person presented as a real parent or customer", because that is a
+  testimonial nobody gave. An avatar of Justin himself, saying what Justin
+  would say, is allowed by `silent-ugc` (he is option 2, the face already) and
+  is what `lesson-video` already uses. So step 6 becomes: one script, read
+  twice, once by Justin's own digital twin and once by Justin on his phone,
+  each with its own link code, and the numbers decide. Whether the twin reads
+  as AI made, which the council found costs attention, is the thing the test
+  measures.
