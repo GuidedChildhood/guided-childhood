@@ -7,6 +7,7 @@ import { parseSlides, visibleSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
+import RecordLesson from '@/components/records/RecordLesson'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { shapeOf, trackerActions } from '@/lib/tracker'
 import { currentAccess } from '@/lib/licence'
@@ -402,6 +403,22 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             </TickRow>
           )}
         </section>
+
+        {/* ── RECORD ── the run ends in the one button (10 November 2026,
+            plans/2026-11-10-lesson-run-and-records-plan.md). Everything above
+            is what to do; this is the tap that says it was done, saved for the
+            school and not for this laptop. Only for a school with a code: a
+            free sample visitor has no school to save it for. Never printed. */}
+        {access && (
+          <section className="no-print" style={{ ...card, margin: '0 0 16px' }}>
+            <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '4px' }}>When it is taught · one tap</div>
+            <h2 style={h2}>Record it for your school</h2>
+            <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 var(--space-3)' }}>
+              The class and the date, saved for your school on every laptop. No pupil is named.
+            </p>
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} recordHref="/hub/progress" />
+          </section>
+        )}
 
         <div className="no-print" style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', marginTop: '24px' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>

@@ -59,5 +59,8 @@ export function section(n: number, id: string, title: string, clauses: ClauseInp
 }
 
 /** The one version line every document shows at the top and the foot. */
-export const LEGAL_VERSION = '1.0'
-export const LEGAL_DATED = '20 September 2026'
+// 1.1, 10 November 2026: the school's lesson record (migration 391). The DPA
+// and the privacy notice both said the classroom player sends nothing to the
+// server, which stopped being true the day Mark lesson delivered shipped.
+export const LEGAL_VERSION = '1.1'
+export const LEGAL_DATED = '10 November 2026'

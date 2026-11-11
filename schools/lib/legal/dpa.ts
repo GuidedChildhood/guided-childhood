@@ -3,6 +3,10 @@ import { section, LEGAL_VERSION, LEGAL_DATED, type LegalDoc } from './types'
 
 // THE DATA PROCESSING AGREEMENT, version 1.0, 13 September 2026.
 //
+// 1.1, 10 November 2026: the school's lesson record (migration 391) is named
+// in section 2, given its role in section 3, and its safeguards in the annexes.
+// Justin reads this wording before the record ships (decision E, 9 November).
+//
 // The data protection pack promised "a short data processing agreement
 // covering that contact data, available for signature with the licence"
 // since 10 September, and until today there was nothing to sign. This is it.
@@ -33,12 +37,14 @@ export const DPA: LegalDoc = {
       `"UK GDPR", "Data Protection Act 2018", "controller", "processor", "personal data", "processing" and "personal data breach" have the meanings given in UK data protection law.`,
     ]),
     section(2, 'data', 'What personal data is involved', [
-      `Pupils: none. The Service holds no personal data about pupils. It has no pupil accounts, names, photographs, dates of birth, contact details, free text about pupils, special category data, or record of which pupil saw which lesson. Where a pupil's name appears in the teaching, it is handwritten on paper that stays in the School.`,
+      `Pupils: none. The Service holds no personal data about pupils. It has no pupil accounts, names, photographs, dates of birth, contact details, special category data, or record of which pupil saw which lesson or how any one pupil did. Where a pupil's name appears in the teaching, it is handwritten on paper that stays in the School.`,
+      `The School's lesson record: when a member of the School's staff presses "Mark lesson delivered", the Service keeps, for the School, which lesson it was, the date, and the class label that member of staff typed, such as 4B. If they choose to add it, the Service also keeps their judgement of the class as a whole, a count of how many pupils are at each level, and a note of up to 280 characters. The record is about a class, never about a pupil. Staff must not put a pupil's name, or anything else that identifies a pupil or another person, in a class label or a note, and the Service says so beside both boxes.`,
       `Staff: the contact data a member of the School's staff gives Guided Childhood to run a pilot or a licence, set out in Annex 1.`,
       `Records held only on the School's own devices, such as the AI governance reviews the School writes, are never sent to Guided Childhood and are outside this agreement.`,
     ]),
     section(3, 'roles', 'The roles', [
       `For the contact data in Annex 1, Guided Childhood is an independent controller. It decides why and how that data is used, for the purposes in Annex 1 and no other, and it is responsible to the individuals concerned and to the Information Commissioner for that use. The School is a controller of its own staff data. Each party complies with UK data protection law for its own processing.`,
+      `The School's lesson record is kept at the School's request and on its instructions. It is designed to hold no personal data. To the extent that it ever does, for example because a note written by staff identifies someone, Guided Childhood is a processor for that data and section 5 applies to it.`,
       `If, now or in future, the School asks Guided Childhood to process personal data on the School's behalf and on its instructions, for example if a feature is introduced that stores staff accounts, class records or pupil data at the School's request, Guided Childhood is a processor for that data and section 5 applies to it automatically, without a new agreement, unless the parties agree otherwise in writing.`,
     ]),
     section(4, 'always', 'Commitments that apply in every case', [
@@ -78,6 +84,7 @@ export const DPA: LegalDoc = {
         { label: 'Basis', text: `Guided Childhood as controller: the steps needed to enter and perform the contract with the School, and its legitimate interest in answering leads and running the draw.` },
         { label: 'Where', text: `Stored in a database hosted by Supabase in Ireland. The invoice and billing contact in Stripe. Emails sent through Resend. Pages served by Vercel.` },
         { label: 'How long', text: `Twelve months after the last contact where no licence follows. For a licensed School, the life of the licence and six years after the last invoice, for accounting records.` },
+        { label: 'The lesson record', text: `Not personal data by design: the lesson, the date, a class label, and what staff chose to add about the class as a whole (section 2). Kept for the life of the licence and one year after it ends, then deleted, or deleted sooner on the School's written request.` },
         { label: 'Pupil data', text: `None.` },
       ],
     },
@@ -85,7 +92,8 @@ export const DPA: LegalDoc = {
       id: 'annex2',
       title: 'The security measures',
       rows: [
-        { label: 'Least data', text: `No pupil data, no teacher accounts and no session data, by design. The school code is a signed cookie, not an identity, and the classroom player sends nothing to the server.` },
+        { label: 'Least data', text: `No pupil data and no teacher accounts, by design. The school code is a signed cookie, not an identity. The classroom player sends nothing to the server while a lesson is taught. The only thing a lesson ever sends is the lesson record in section 2, and only when a member of staff presses the button.` },
+        { label: 'The lesson record', text: `Kept under a pseudonym of the school code, never under the code or the School's name. It can be read and written only by the Service's own server, with keys that never reach a browser, and the server works out which School is asking from the signed cookie, so one School cannot reach another's record. Every change to a record is logged.` },
         { label: 'In transit', text: `Every page and every request travels over HTTPS.` },
         { label: 'At rest', text: `The request table can be read only with server side keys that never reach a browser. Row level security lets the public site insert a request and nothing else. Backups are managed by the database provider within the same region.` },
         { label: 'The code', text: `The school code cookie is signed with a keyed hash and checked against the current allow list on every request, so a withdrawn code stops at once. Codes are configuration on the server, never in the page.` },

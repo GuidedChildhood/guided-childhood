@@ -43,10 +43,18 @@ export default async function DataProtectionPage() {
           <p style={body}>
             <strong>None.</strong> The schools platform processes no pupil data at all. A school signs in
             with a class code, which identifies the school and nothing else: no pupil names, no dates of
-            birth, no photographs, no contact details, no free text about pupils, no special category
-            data, and no record of which pupil saw which lesson. Where a name appears in the teaching, it
+            birth, no photographs, no contact details, no special category data, and no record of which
+            pupil saw which lesson or how any one pupil did. Where a name appears in the teaching, it
             is handwritten on a printed worksheet or learning record that never leaves your school.
             Children in the family product interact through a parent held link token, never an account.
+          </p>
+          <p style={body}>
+            <strong>The lesson record.</strong> When a member of staff presses Mark lesson delivered, we keep
+            for your school which lesson it was, the date and the class label they typed, such as 4B. If
+            they choose to add it, we also keep their judgement of the class as a whole, a count of how
+            many pupils are at each level, and a note of up to 280 characters. It is a record about a class,
+            never about a pupil, and both boxes say that no name belongs in them. It is kept under a
+            pseudonym of your school code, and only our own server can read it.
           </p>
         </div>
 

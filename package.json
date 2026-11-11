@@ -72,6 +72,7 @@
     "live-domain-guard": "node scripts/check-live-domain.mjs",
     "social-week": "node tools/social-cards/week.mjs",
     "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs",
+    "lesson-records-guard": "node --experimental-strip-types scripts/check-lesson-records.mjs",
     "planet": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs publishing/cli.ts",
     "planet-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test publishing/tests/*.test.ts",
     "review-board": "node scripts/review-board.mjs",

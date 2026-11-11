@@ -121,6 +121,13 @@ export default async function HubTrackerPage() {
           left on it.
         </p>
 
+        {/* The ticks above are this laptop's. The school's own record, the same
+            on every laptop, is one page away (11 November 2026). */}
+        <p className="no-print" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '640px', marginBottom: 'var(--space-5)' }}>
+          For a record that is the same on every laptop, press Mark lesson delivered at the foot of a lesson.{' '}
+          <Link href="/hub/progress" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>See each class&rsquo;s progress</Link>
+        </p>
+
         <HubTracker pilot={pilot} rest={rest} pilotPhase={phase} />
       </div>
     </main>
