@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { ONBOARDING_TO_SLUG, LABEL } from '@/lib/concerns/worry-map'
+import { getMovements, movementSentence } from '@/lib/working/movement'
 
 // ── WHAT THIS FAMILY KEEPS, FROM THEIR OWN ROWS ─────────────────────────────
 //
@@ -33,6 +34,16 @@ export type WhatYouKeep = {
   questJobs: number
   /** Stars the parent has approved on those jobs. */
   starsEarned: number
+  /**
+   * The family's own line, when a worry has really moved up: "Bedtime screens
+   * went from 2 to 4 over three weeks." From lib/working/movement.ts, so it is
+   * the same sentence What is working says, and null unless two real scores
+   * exist. The board's will pay lens, 12 November 2026: the ask quotes the
+   * family's history at the moment it appears.
+   */
+  moved: string | null
+  /** Scripts the parent said worked (script_completions.worked 'yes'). */
+  scriptsWorked: number
 }
 
 /** The upgrade page's honest empty state: nothing of theirs yet, and the next step. */
@@ -41,6 +52,7 @@ export const KEEP_FALLBACK = 'Nothing to name yet. Your first check in takes a m
 export const EMPTY_KEEP: WhatYouKeep = {
   childName: null, worry: null, worryNamedOnly: false,
   checkIns: 0, scriptsOpened: 0, questJobs: 0, starsEarned: 0,
+  moved: null, scriptsWorked: 0,
 }
 
 async function count(q: PromiseLike<{ count: number | null; error: unknown }>): Promise<number> {
@@ -66,7 +78,7 @@ function namedAtSignUp(answers: unknown): string | null {
 
 export async function getWhatYouKeep(supabase: SupabaseClient, userId: string): Promise<WhatYouKeep> {
   try {
-    const [kidsRes, profileRes, concernRes, checkIns, scriptsOpened, questJobs, starsEarned] = await Promise.all([
+    const [kidsRes, profileRes, concernRes, checkIns, scriptsOpened, questJobs, starsEarned, scriptsWorked, movements] = await Promise.all([
       // Primary first, then oldest: the same order lib/children/server.ts reads.
       supabase.from('children').select('name').eq('parent_id', userId)
         .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1),
@@ -81,6 +93,9 @@ export async function getWhatYouKeep(supabase: SupabaseClient, userId: string): 
         .eq('user_id', userId).eq('active', true)),
       count(supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
         .eq('user_id', userId).eq('status', 'approved')),
+      count(supabase.from('script_completions').select('id', { count: 'exact', head: true })
+        .eq('user_id', userId).eq('worked', 'yes')),
+      getMovements(supabase, userId).catch(() => []),
     ])
 
     const rawName = ((kidsRes.data ?? [])[0] as { name?: string | null } | undefined)?.name?.trim() ?? ''
@@ -95,10 +110,27 @@ export async function getWhatYouKeep(supabase: SupabaseClient, userId: string): 
       worry: tracked ?? named,
       worryNamedOnly: !tracked && !!named,
       checkIns, scriptsOpened, questJobs, starsEarned,
+      moved: bestMove(movements, tracked),
+      scriptsWorked,
     }
   } catch {
     return EMPTY_KEEP
   }
+}
+
+/**
+ * The one movement worth quoting at the ask: a worry that really went up, the
+ * tracked one first, else the biggest rise. Never a slip or a hold, which are
+ * true but are not a reason to pay, and never a reconstructed line.
+ */
+export function bestMove(movements: Parameters<typeof movementSentence>[0][], tracked: string | null): string | null {
+  const ups = movements.filter(m => m.startScore != null && m.endScore != null && m.points.length >= 2 && m.endScore > m.startScore && m.status !== 'resolved')
+  if (!ups.length) return null
+  const pick = ups.find(m => tracked && m.label === tracked)
+    ?? [...ups].sort((a, b) => ((b.endScore! - b.startScore!) - (a.endScore! - a.startScore!)))[0]
+  const line = movementSentence(pick)
+  if (!line) return null
+  return pick.childName ? `${pick.childName}: ${line.replace(/\.$/, '')}` : line.replace(/\.$/, '')
 }
 
 /** "Bedtime screens" reads as "bedtime screens" mid sentence; "AI chatbots" stays. */
@@ -123,6 +155,8 @@ export function possessive(childName: string | null): string {
  */
 export function keepsItems(k: WhatYouKeep): string[] {
   const items: string[] = []
+  // Their own movement first: the one line that is theirs and nobody else's.
+  if (k.moved) items.push(k.moved)
   // The check in count is across every worry, so it is its own line rather
   // than being pinned to the one worry named above it.
   if (k.worry) {
@@ -138,7 +172,9 @@ export function keepsItems(k: WhatYouKeep): string[] {
     const head = `${whose[0].toUpperCase()}${whose.slice(1)} star quest, with ${plural(k.questJobs, 'job', 'jobs')} on it`
     items.push(k.starsEarned > 0 ? `${head} and ${plural(k.starsEarned, 'star', 'stars')} earned` : head)
   }
-  if (k.scriptsOpened > 0) {
+  if (k.scriptsWorked > 0) {
+    items.push(`${plural(k.scriptsWorked, 'script', 'scripts')} you marked as working, which DiGi remembers`)
+  } else if (k.scriptsOpened > 0) {
     items.push(`${plural(k.scriptsOpened, 'script', 'scripts')} you have opened`)
   }
   return items

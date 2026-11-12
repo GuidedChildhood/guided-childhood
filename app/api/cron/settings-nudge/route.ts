@@ -112,7 +112,7 @@ async function handler(request: Request) {
 
       if (!title || !body) continue
 
-      await sendPush({ userId, title, body, url })
+      await sendPush({ userId, title, body, url, nudge: true })
       sent += 1
     } catch { /* best effort per family */ }
   }

@@ -17,6 +17,14 @@ interface Props {
   count: number
   aliveToday: boolean
   firstName?: string
+  /**
+   * Every day this parent has shown up, ever (lib/pathway/streak total). It
+   * never resets, so a missed day never reads as starting from nothing. The
+   * board's keeps coming back lens, 12 November 2026: with no grace day
+   * (decided), the lifetime count beside the flame is how a broken run still
+   * says "you have done this before".
+   */
+  total?: number
 }
 
 type State = {
@@ -29,8 +37,20 @@ type State = {
   warm: boolean
 }
 
-function resolveState(count: number, aliveToday: boolean, firstName?: string): State {
+function resolveState(count: number, aliveToday: boolean, firstName?: string, total = 0): State {
   const who = firstName ? `, ${firstName}` : ''
+  // A restart, not a first day: the run ended but the days shown up did not.
+  if (count === 0 && total > 0) {
+    return {
+      mood: 'wave',
+      eyebrow: `${total} ${total === 1 ? 'day' : 'days'} shown up so far`,
+      headline: 'Welcome back',
+      body: `Every one of those days still counts${who}. One small thing today starts the next run.`,
+      cta: 'Start today',
+      href: '/dashboard/daily',
+      warm: true,
+    }
+  }
   if (count > 0 && aliveToday) {
     return {
       mood: 'happy',
@@ -64,8 +84,10 @@ function resolveState(count: number, aliveToday: boolean, firstName?: string): S
   }
 }
 
-export default function DigiStreakWidget({ count, aliveToday, firstName }: Props) {
-  const s = resolveState(count, aliveToday, firstName)
+export default function DigiStreakWidget({ count, aliveToday, firstName, total = 0 }: Props) {
+  const s = resolveState(count, aliveToday, firstName, total)
+  // The lifetime count sits under the run once it says more than the run does.
+  const lifetime = count > 0 && total > count ? `${total} days shown up in all` : null
   const ref = useRef<HTMLDivElement>(null)
   const starRef = useRef<HTMLDivElement>(null)
 
@@ -119,6 +141,11 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
               <span aria-hidden style={{ display: 'inline-flex', lineHeight: 1, filter: aliveToday ? 'none' : 'grayscale(0.7) opacity(0.6)' }}><HappyIcon name="flame" size={24} /></span>
             )}
           </div>
+          {lifetime && (
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-soft)', marginBottom: 4 }}>
+              {lifetime}
+            </div>
+          )}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{s.body}</p>
         </div>
       </div>

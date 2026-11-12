@@ -26,8 +26,11 @@ import { SITE_URL } from '@/lib/config/site'
 import { GUIDES } from '@/lib/content/guides'
 
 export const metadata: Metadata = {
-  title: 'Guided Childhood · A clear digital pathway from first screen to 16',
-  description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests for UK families, evidence informed, finished with your child\'s Digital Passport. Ask DiGi anything at any hour.',
+  title: 'Guided Childhood · What to say tonight, from first screen to 16',
+  // In the parent's words, not ours (the board's audience lens, 12 November
+  // 2026): the nightly fight, the phone coming, what to say tonight. The
+  // product names (the Digital Passport, the tracker) are inside the page.
+  description: 'The nightly screen fight, the first phone coming, the group chat you are not in. For UK parents of children aged 4 to 16: the words to say tonight, a plan for your child\'s age, and a check in that shows you what is working. Free to start.',
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
@@ -36,16 +39,16 @@ export const metadata: Metadata = {
     'chores for screen time', 'safe device settings by age',
   ],
   openGraph: {
-    title: 'A clear digital pathway from first screen to 16.',
-    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Guided Digital Childhood Passport. Free to start.',
+    title: 'What to say tonight, from first screen to 16.',
+    description: 'The nightly screen fight, the first phone coming, the group chat you are not in. The words for tonight and a plan for your child\'s age, 4 to 16. Free to start.',
     url: SITE_URL,
     type: 'website',
     locale: 'en_GB',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'A clear digital pathway from first screen to 16.',
-    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport.',
+    title: 'What to say tonight, from first screen to 16.',
+    description: 'The nightly screen fight, the first phone coming, the group chat you are not in. The words for tonight and a plan for your child\'s age, 4 to 16.',
   },
   alternates: {
     canonical: SITE_URL,
@@ -137,6 +140,18 @@ const MOMENTS = [
     back: 'You are not a bad parent. You are a parent without a script for a problem that did not exist when you were a child. Guilt after shouting means you care. Say nothing tonight except: "I am sorry I shouted earlier. Tomorrow we try again." Then use DiGi to get the exact words before the next moment happens. You do not lose patience when you already know what to say.',
     bg: 'var(--stage-2)',
     stage: 'All stages',
+  },
+  {
+    // The 14 to 16 end, in that parent's words (the board's audience lens,
+    // 12 November 2026). Stage 4 read as "Ages 13 to 15" and stage 5 as "16
+    // and above", so the parent of a 15 year old with a phone already in the
+    // bedroom saw nothing that was plainly for her. This is her first step.
+    frontLabel: 'Fifteen already',
+    front: '"She is fifteen. The phone already lives in her bedroom and her group chats run past midnight. Is it too late to change anything?"',
+    backLabel: 'Where to start at 14 to 16',
+    back: 'It is not too late, but the job changes. At this age rules you set alone stop working, and rules they help write keep working. Start with one thing, not ten: where the phone sleeps. Say: "I am not taking your phone. I want us to agree one thing together, where it charges at night, and I will do the same." With the under 16 social media ban coming, the next two years are about judgement, so they reach sixteen choosing well rather than just allowed.',
+    bg: 'var(--stage-4)',
+    stage: 'Stage 4 to 5 · Ages 14 to 16',
   },
 ]
 

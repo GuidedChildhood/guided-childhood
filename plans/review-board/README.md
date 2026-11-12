@@ -65,7 +65,10 @@ The board reads what these already find; it never redoes them.
 
 The Wednesday walkthrough saves its report in `walkthroughs/<date>.md`. The
 instructions a routine reads from the repo live in `routines/`, always read
-from `origin/main` and never from a checkout.
+from `origin/main` and never from a checkout: `weekly-board.md` (the Friday
+board), `ux-walkthrough.md` (Wednesday) and `health-sweep-migrations.md`. Each
+routine's message points at its file, and each file ends the same way: never
+finish without a trace (12 November 2026, after five silent Fridays).
 
 ## The one limit worth knowing
 

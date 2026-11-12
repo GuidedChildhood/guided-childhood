@@ -213,6 +213,12 @@ jobs:
       # Our link is guidedchildhood.com. The .co.uk 404ed under every post in the
       # 19 October social week pack, so it may not come back into the copy.
       - run: node scripts/check-live-domain.mjs
+      # Every parent piece ends at the stage check: the hook line plus its /v/
+      # link. Schools and playlists pieces name their own audience.
+      - run: node scripts/check-stage-check-ending.mjs
+      # Two reminders a day at most: every scheduled parent nudge claims a
+      # slot (lib/push/nudge-cap.ts, migration 395).
+      - run: node scripts/check-nudge-cap.mjs
       # The question a parent is asked about a suggestion lives on the worry
       # row in the check in, not on a card on Home. Three files have to agree
       # for that to hold and none of them fails a build if they stop agreeing:

@@ -1702,7 +1702,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           value={streak.count > 0 ? `${streak.count} day streak` : undefined}
           count={suggestions.length}
         >
-          <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
+          <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} total={streak.total} />
           {revealed.has('moments') && (
             <>
               <DigiPrompts />

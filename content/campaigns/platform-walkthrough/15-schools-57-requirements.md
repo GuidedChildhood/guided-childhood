@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Schools, 4 of 4. **The schools objection post** |
+| Audience | Schools: heads and safeguarding leads. Ends at the schools site, not the parent stage check |
 | Service | The Hub: the RSHE statutory mapping |
 | Format | One card, 1080 by 1350, and a three page document for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn, the Guided Childhood LinkedIn page |

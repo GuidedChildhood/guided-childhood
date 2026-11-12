@@ -1,0 +1,94 @@
+{
+  "studyId": "GDC-RR-34b3878324",
+  "reviewedAt": "2026-11-12T09:24:20Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held until a peer reviewed version exists, with measures of uncertainty.",
+  "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF linked on the Research Square page for DOI 10.21203/rs.3.rs-11401343/v1: abstract, background, methods, results, table 1, discussion, the strengths and limitations section, the conclusions and the declarations. The page states that it is a preprint, not peer reviewed by a journal, status under review. The underlying Flash Eurobarometer 579 tables were not read in this run.",
+  "claims": [
+    {
+      "claim": "Across the EU, teenagers who started social media at 13 or younger more often report long weekend screen time than those who started at 14 to 18.",
+      "status": "QUALIFIED",
+      "basis": "Results and table 1: the early group more often reported at least 6, 8 and 10 hours on a typical weekend day. Qualified because the early group figures are the authors' own approximations, made by averaging two published subgroups by sample size rather than with survey weights, no confidence interval or test was computed, and the methods say the denominators should be checked against the original tabulation before final submission."
+    },
+    {
+      "claim": "Starting social media early leads to heavier screen use later.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract, discussion and conclusions each say the findings should not be read as evidence that earlier access causes later intensive use. Nothing was adjusted for current age, cohort, country, gender, family or income."
+    },
+    {
+      "claim": "Early starters spend more time on screens on school days.",
+      "status": "UNSUPPORTED",
+      "basis": "Table 1 shows no difference or a small reverse difference on school days for social media initiation, and lower school day screen time in the early smartphone group."
+    },
+    {
+      "claim": "Early starters more often feel their screen time is too high.",
+      "status": "QUALIFIED",
+      "basis": "Results: a few points more in the early group for total screen time and social media time rated too high. A single perception item, not a measure of problematic use, with no test of whether the gap exceeds sampling error."
+    },
+    {
+      "claim": "This supports a minimum age of 13 or a staged access law.",
+      "status": "UNSUPPORTED",
+      "basis": "The discussion says the data neither confirm nor refute any proposed age boundary, cannot identify an optimal age, and cannot evaluate supervised accounts. It agrees with our readiness view, so it was checked hardest, and the design cannot carry it."
+    },
+    {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The Research Square page says it is a preprint that has not been peer reviewed, version 1, under review at a journal."
+    }
+  ],
+  "notQuotable": [
+    "every percentage in the preprint, including the weekend screen time shares and the perceived overuse shares: approximated, untested and not peer reviewed",
+    "the survey sample size as if it were the number analysed: the unit of analysis is the published subgroup",
+    "any statement that starting social media early causes more screen time",
+    "any statement that the study supports an age limit or a staged access law"
+  ],
+  "evidenceConfidence": "HIGH that the preprint says what is written here: the full text was read. LOW as evidence we can use: a descriptive comparison of published aggregate percentages, combined by approximation, with no uncertainty and no adjustment, not peer reviewed.",
+  "limitations": [
+    "A preprint, version 1, not peer reviewed.",
+    "Descriptive comparison of published aggregate subgroup percentages. No individual records, no confidence intervals, no tests, no adjustment.",
+    "The early group percentages are sample size weighted approximations of two published subgroups, not survey weighted estimates.",
+    "The authors note that the subgroup denominators and category treatment should still be checked against the original tabulation.",
+    "Age at first social media use and first smartphone are recalled by the teenager.",
+    "Screen time and perceived overuse are self report and do not distinguish what the time was spent on.",
+    "The 10 to 13 category includes children who were 13, so it is not an under 13 group.",
+    "Early and late groups likely differ in current age and cohort, which was not adjusted for.",
+    "EU 27 only. No UK data."
+  ],
+  "contradictoryEvidence": [
+    "From the same paper: on school days the early social media group did not report more screen time, and the early smartphone group reported less.",
+    "From the same paper: the gaps in perceived overuse for smartphone ownership were small.",
+    "The paper's own background cites a large review of meta analyses and a review of social media and adolescent mental health that both describe the evidence as mixed and heterogeneous.",
+    "No outside study was read against it in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That starting social media earlier causes more screen time later.",
+    "That any age limit works, or what the right age is.",
+    "Anything about UK children.",
+    "Anything about mental health: the complaints in the survey were not linked to age of first access.",
+    "Anything about what parents should do."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a preprint posted this week.",
+  "gdcBeliefs": [
+    "Readiness, not age. The paper's own framing about developmental timing and graduated autonomy sits close to ours, which is why it is held to a higher standard. It does not meet it yet.",
+    "Evidence or silence. A preprint with no measure of uncertainty is not evidence we publish from."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody yet.",
+  "unresolvedQuestions": [
+    "Whether a peer reviewed version appears with survey weighted estimates and uncertainty. Look again then.",
+    "Whether the official Flash Eurobarometer 579 report itself, which is a primary EU source, is worth its own record."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-34b3878324.json"
+}

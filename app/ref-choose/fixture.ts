@@ -11,4 +11,6 @@ export const REF_KEEP: WhatYouKeep = {
   scriptsOpened: 2,
   questJobs: 4,
   starsEarned: 7,
+  moved: 'Bedtime screens went from 2 to 4 over two weeks',
+  scriptsWorked: 1,
 }
