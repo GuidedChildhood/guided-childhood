@@ -1,7 +1,7 @@
 {
   "schema": "gdc.publication-register/1.0",
-  "generatedAt": "2026-11-12T12:46:17.327Z",
-  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "generatedAt": "2026-11-12T13:23:56.922Z",
+  "sourceCommit": "217ae67b6ce5055b26f5f9d1c8e3f5c68f6be6bc",
   "scheduleObservedAt": "2026-11-12",
   "scheduleStanding": "Reported by Justin. Claude cannot read LinkedIn or Metricool.",
   "rows": [

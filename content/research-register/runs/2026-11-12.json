@@ -172,27 +172,6 @@
    "attempts": 3
   },
   {
-   "stage": "PACK QA",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "packs": 1,
-    "results": [
-     {
-      "file": "PACK GDC-RR-86c1075a30 GDC-057 DRAFT v2.txt",
-      "researchId": "GDC-RR-86c1075a30",
-      "verdict": "PASS",
-      "failed": 0,
-      "checked": 29
-     }
-    ]
-   },
-   "at": "2026-11-12T12:43:24.356Z",
-   "commit": "df950292",
-   "attempts": 3
-  },
-  {
    "stage": "PACK REVIEW",
    "verdict": "PASS",
    "by": "claude",
@@ -203,7 +182,19 @@
    "at": "2026-11-12T12:46:38.085Z",
    "commit": "df950292",
    "attempts": 2
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "afternoon run: no pack was waiting in the Stage 2 folder. The only PACK documents there are the two v1 drafts already titled CLAUDE REVIEWED. GDC-055, 056 and 057 were written and checked at 12:43 and are in the Founder Approval Desk folder"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:24:16.837Z",
+   "commit": "217ae67b",
+   "attempts": 4
   }
  ],
- "updatedAt": "2026-11-12T12:46:38.116Z"
+ "updatedAt": "2026-11-12T13:24:16.866Z"
 }
