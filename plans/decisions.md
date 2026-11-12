@@ -301,3 +301,33 @@ Justin: "the email funnel that gives our printables away for free ... we promise
 ## 12 November 2026: migrations 393 and 394 applied, after PR 1496 merged
 
 Justin said yes. Both parts were applied to production through the Supabase tools, each value guarded on the exact value it replaced, and none refused. All 37 lessons now carry the three descriptor lines (secure, developing, needs revisiting) and the 21 musts are live, including the five answer keys that disagreed with their own wall. Spot checked against the lesson files afterwards (ks2-05 answer key, ks4-19 warm up, ks4-29 fifth exit question, the descriptors): equal. PR 1496.
+
+## 12 November 2026: 391 and 392 applied, and 394 was already in
+
+The sweep found four candidates past 390 and only two needed applying.
+
+391 (the school's lesson records) and 392 (the free taster claims) each went in
+as one transaction, so neither table existed for an instant without its RLS and
+grants. Verified after: 391 has its 17 and 8 columns, 12 and 3 checks, the
+foreign key, both indexes and both comments, service_role holding exactly
+insert, select and update on the records and insert and select on the trail,
+with no delete on either and nothing at all for anon or authenticated, both
+refused on the real access path. The old schools.lesson_deliveries is untouched
+at 6 columns, which 391 asks for by name. 392 has its table, view, four indexes
+and the lead foreign key set to set null on erasure.
+
+394 needed nothing. Another session was applying 393 and 394 as this ran, and
+its ledger rows are minutes old. Rather than carry 32 KB of generated content
+into a deck another session was writing, all 65 of 394's target values were
+compared against live by digest first: every one already held the new value. So
+the probe is what stopped two sessions writing the same 65 values at once, and
+it is the reason to keep probing before applying rather than after.
+
+Worth keeping: 394's slide 24 hash looked like neither the old nor the new
+value at first glance, which is what prompted the full check. It was the new
+value's hash all along. One value read in isolation can mislead; 65 compared
+at once cannot.
+
+Left for Justin: my own ledger row for 394 duplicates the one that session
+wrote, and the delete needs a confirmation in the Supabase tool that has gone
+unanswered twice. Harmless, both name the same migration.
