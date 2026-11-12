@@ -3691,7 +3691,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 17,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -3714,11 +3714,11 @@
     "until": "2026-11-12"
    },
    "studyId": "GDC-RR-34b3878324",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-12T09:21:43.255Z",
-   "lastChecked": "2026-11-12T09:21:43.439Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-12T09:24:20.210Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-34b3878324",
     "checkedAt": "2026-11-12T09:21:43.388Z",
@@ -3784,7 +3784,108 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-34b3878324",
+    "reviewedAt": "2026-11-12T09:24:20Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held until a peer reviewed version exists, with measures of uncertainty.",
+    "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF linked on the Research Square page for DOI 10.21203/rs.3.rs-11401343/v1: abstract, background, methods, results, table 1, discussion, the strengths and limitations section, the conclusions and the declarations. The page states that it is a preprint, not peer reviewed by a journal, status under review. The underlying Flash Eurobarometer 579 tables were not read in this run.",
+    "claims": [
+     {
+      "claim": "Across the EU, teenagers who started social media at 13 or younger more often report long weekend screen time than those who started at 14 to 18.",
+      "status": "QUALIFIED",
+      "basis": "Results and table 1: the early group more often reported at least 6, 8 and 10 hours on a typical weekend day. Qualified because the early group figures are the authors' own approximations, made by averaging two published subgroups by sample size rather than with survey weights, no confidence interval or test was computed, and the methods say the denominators should be checked against the original tabulation before final submission."
+     },
+     {
+      "claim": "Starting social media early leads to heavier screen use later.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract, discussion and conclusions each say the findings should not be read as evidence that earlier access causes later intensive use. Nothing was adjusted for current age, cohort, country, gender, family or income."
+     },
+     {
+      "claim": "Early starters spend more time on screens on school days.",
+      "status": "UNSUPPORTED",
+      "basis": "Table 1 shows no difference or a small reverse difference on school days for social media initiation, and lower school day screen time in the early smartphone group."
+     },
+     {
+      "claim": "Early starters more often feel their screen time is too high.",
+      "status": "QUALIFIED",
+      "basis": "Results: a few points more in the early group for total screen time and social media time rated too high. A single perception item, not a measure of problematic use, with no test of whether the gap exceeds sampling error."
+     },
+     {
+      "claim": "This supports a minimum age of 13 or a staged access law.",
+      "status": "UNSUPPORTED",
+      "basis": "The discussion says the data neither confirm nor refute any proposed age boundary, cannot identify an optimal age, and cannot evaluate supervised accounts. It agrees with our readiness view, so it was checked hardest, and the design cannot carry it."
+     },
+     {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The Research Square page says it is a preprint that has not been peer reviewed, version 1, under review at a journal."
+     }
+    ],
+    "notQuotable": [
+     "every percentage in the preprint, including the weekend screen time shares and the perceived overuse shares: approximated, untested and not peer reviewed",
+     "the survey sample size as if it were the number analysed: the unit of analysis is the published subgroup",
+     "any statement that starting social media early causes more screen time",
+     "any statement that the study supports an age limit or a staged access law"
+    ],
+    "evidenceConfidence": "HIGH that the preprint says what is written here: the full text was read. LOW as evidence we can use: a descriptive comparison of published aggregate percentages, combined by approximation, with no uncertainty and no adjustment, not peer reviewed.",
+    "limitations": [
+     "A preprint, version 1, not peer reviewed.",
+     "Descriptive comparison of published aggregate subgroup percentages. No individual records, no confidence intervals, no tests, no adjustment.",
+     "The early group percentages are sample size weighted approximations of two published subgroups, not survey weighted estimates.",
+     "The authors note that the subgroup denominators and category treatment should still be checked against the original tabulation.",
+     "Age at first social media use and first smartphone are recalled by the teenager.",
+     "Screen time and perceived overuse are self report and do not distinguish what the time was spent on.",
+     "The 10 to 13 category includes children who were 13, so it is not an under 13 group.",
+     "Early and late groups likely differ in current age and cohort, which was not adjusted for.",
+     "EU 27 only. No UK data."
+    ],
+    "contradictoryEvidence": [
+     "From the same paper: on school days the early social media group did not report more screen time, and the early smartphone group reported less.",
+     "From the same paper: the gaps in perceived overuse for smartphone ownership were small.",
+     "The paper's own background cites a large review of meta analyses and a review of social media and adolescent mental health that both describe the evidence as mixed and heterogeneous.",
+     "No outside study was read against it in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That starting social media earlier causes more screen time later.",
+     "That any age limit works, or what the right age is.",
+     "Anything about UK children.",
+     "Anything about mental health: the complaints in the survey were not linked to age of first access.",
+     "Anything about what parents should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a preprint posted this week.",
+    "gdcBeliefs": [
+     "Readiness, not age. The paper's own framing about developmental timing and graduated autonomy sits close to ours, which is why it is held to a higher standard. It does not meet it yet.",
+     "Evidence or silence. A preprint with no measure of uncertainty is not evidence we publish from."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "Whether a peer reviewed version appears with survey weighted estimates and uncertainty. Look again then.",
+     "Whether the official Flash Eurobarometer 579 report itself, which is a primary EU source, is worth its own record."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-34b3878324.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-12T09:24:20.207Z"
+   }
   },
   "GDC-RR-925d3c951a": {
    "title": "Navigating Digital Platforms in Adolescence: A Population‑Based Study of Online Sexual Experiences and Violations",
@@ -4016,7 +4117,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "VERIFIED",
+   "status": "REJECTED",
    "relevanceScore": 13,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -4035,11 +4136,11 @@
     "until": "2026-11-12"
    },
    "studyId": "GDC-RR-b3cbb73e58",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-12T09:21:43.270Z",
-   "lastChecked": "2026-11-12T09:21:43.953Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-12T09:24:20.290Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-b3cbb73e58",
     "checkedAt": "2026-11-12T09:21:43.730Z",
@@ -4096,7 +4197,98 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-b3cbb73e58",
+    "reviewedAt": "2026-11-12T09:24:20Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+    "verdict": "REJECT",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Rejected.",
+    "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF linked on the Research Square page for DOI 10.21203/rs.3.rs-11137657/v1: abstract, introduction, methods including recruitment, tables 1 to 4, ethics, data collection and analysis, the opening of the results, the conclusion and the limitations section. The quoted participant excerpts in the results were sampled rather than read one by one.",
+    "claims": [
+     {
+      "claim": "Mobile phones both help and hurt children's schoolwork, depending on how they are used.",
+      "status": "QUALIFIED",
+      "basis": "This is what the participants described in interviews and one focus group. Qualified because it is 28 people in one rural district, all accounts are self report, and the conclusion says the findings are perceptions, not evidence that phone use causes lower performance."
+     },
+     {
+      "claim": "Recreational phone use caused declining academic performance.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract says performance declined attributable to recreational use. The limitations section says the study cannot establish a causal relationship and used no school records or exam results. The abstract claims more than the paper supports."
+     },
+     {
+      "claim": "The mere presence of a phone impairs concentration.",
+      "status": "UNSUPPORTED",
+      "basis": "Stated in the abstract as a finding. In this design it can only be what some participants said."
+     },
+     {
+      "claim": "Teachers play a mediating role, endorsing educational apps.",
+      "status": "UNSUPPORTED",
+      "basis": "The limitations section says teachers were not interviewed. Everything about teachers is second hand from children and parents."
+     },
+     {
+      "claim": "Outcomes depend on self regulation and parental guidance, not the technology.",
+      "status": "UNSUPPORTED",
+      "basis": "This is the reading that would suit us, because it matches our line that guidance matters more than the device, so it was checked hardest. A qualitative study of 28 people with no comparison cannot show what outcomes depend on."
+     }
+    ],
+    "notQuotable": [
+     "every statement in the paper as a finding: the study is rejected and nothing is cleared",
+     "any statement that phones or social media lower school performance",
+     "any statement that guidance or self regulation explains outcomes",
+     "any participant quotation"
+    ],
+    "evidenceConfidence": "HIGH that the paper says what is written here. LOW as evidence: qualitative, 28 participants, one rural district in Bangladesh, self report, no academic records, teachers not interviewed, and an abstract that claims cause where the paper's own limitations rule it out. Not peer reviewed.",
+    "limitations": [
+     "A preprint, not peer reviewed.",
+     "Qualitative: 20 interviews and one focus group, 28 people, purposive sampling.",
+     "All eight focus group children were boys.",
+     "One rural upazila in Bangladesh. The authors say transferability is limited even within Bangladesh.",
+     "Self report only. No exam results or school records.",
+     "Teachers were not interviewed, though the abstract describes their role.",
+     "A single data collector, who also translated the transcripts.",
+     "Cross sectional. No change over time was examined."
+    ],
+    "contradictoryEvidence": [
+     "From the same paper: the conclusion and limitations say the findings should not be read as evidence that phone use directly causes lower performance, which contradicts the abstract's wording.",
+     "No outside study was read against it in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "That phones or social media lower children's school results.",
+     "That guidance or self regulation protects school results.",
+     "Anything about UK children or UK schools.",
+     "Anything about what parents or teachers should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. None is expected.",
+    "gdcBeliefs": [
+     "Guidance over the device is our view, and this paper agrees with it. That is a reason for more scrutiny, and it does not survive it.",
+     "Evidence or silence."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody.",
+    "unresolvedQuestions": [
+     "None worth following for content."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-b3cbb73e58.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-12T09:24:20.288Z"
+   }
   },
   "GDC-RR-bf6c483886": {
    "title": "Quality and Reliability of YouTube Content on Infant Choking Management: A Cross-Sectional Study of Guideline Adherence.",
@@ -4598,7 +4790,7 @@
    "foundBy": [
     "crossref"
    ],
-   "status": "VERIFIED",
+   "status": "HOLD",
    "relevanceScore": 12,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -4617,11 +4809,11 @@
     "until": "2026-11-12"
    },
    "studyId": "GDC-RR-cc7b7da589",
-   "version": 2,
+   "version": 4,
    "firstFound": "2026-11-12T09:21:43.313Z",
-   "lastChecked": "2026-11-12T09:21:44.194Z",
-   "changeReason": "automatic dossier: RECORD CONFIRMED",
-   "changedBy": "radar:dossier",
+   "lastChecked": "2026-11-12T09:24:20.378Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-cc7b7da589",
     "checkedAt": "2026-11-12T09:21:43.956Z",
@@ -4690,7 +4882,101 @@
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
-   "claudeStatus": "PENDING"
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-cc7b7da589",
+    "reviewedAt": "2026-11-12T09:24:20Z",
+    "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+    "verdict": "HOLD",
+    "editorialPriority": "LOW",
+    "proposedTitle": null,
+    "proposedAngle": null,
+    "verifiedStatistics": [],
+    "recommendedPlatforms": [],
+    "urgency": "None. Held until a version is approved by its reviewers.",
+    "reviewBasis": "The article page for version 2 at f1000research.com/articles/15-1204/v2 (DOI 10.12688/f1000research.186320.2), read in this run: abstract, amendments from version 1, introduction, eligibility criteria, the included studies table, the limitations section in full, competing interests and grant information, and the open peer review panel. F1000Research publishes before review. The only reviewer report shown, on version 1, dated 21 August 2026, gave the status Not Approved. Version 2 was published on 12 November 2026 and shows no reviewer status yet. The register's dossier marked it peer reviewed, which is wrong on this evidence.",
+    "claims": [
+     {
+      "claim": "Sexual minority young people meet barriers to exploring their identity on social media at personal, family and peer, cultural and legal, and platform levels.",
+      "status": "QUALIFIED",
+      "basis": "The four themes come from 30 studies. Qualified because 63 percent of them are qualitative, confidence in the themes was not graded, few studies measured identity exploration directly, and the same reviewers built the themes and the framework."
+     },
+     {
+      "claim": "Most of the included studies found family rejection, hate speech or stigma.",
+      "status": "QUALIFIED",
+      "basis": "The percentages in the abstract are shares of the 30 included studies that touched each theme, not shares of young people. Any reading as prevalence would be wrong."
+     },
+     {
+      "claim": "Platform algorithms make sexual minority youth invisible.",
+      "status": "UNSUPPORTED",
+      "basis": "Algorithmic invisibility is one sub theme drawn from a minority of qualitative studies, and the authors say platform conditions in older studies may have changed."
+     },
+     {
+      "claim": "This applies to children.",
+      "status": "UNSUPPORTED",
+      "basis": "The review covers ages 12 to 25, and the limitations say several included studies sampled people over 25 or did not report age."
+     },
+     {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The only reviewer report shown is Not Approved, on version 1. Version 2 has no reviewer status."
+     }
+    ],
+    "notQuotable": [
+     "every figure in the review, including the study counts and the theme percentages",
+     "any statement that social media harms or helps sexual minority young people",
+     "any statement about children specifically",
+     "any statement about what parents should do"
+    ],
+    "evidenceConfidence": "MEDIUM that the review says what is written here: the main sections and the limitations were read, the results section was not read theme by theme. LOW as evidence we can use: not approved by its one reviewer, mostly qualitative, ungraded, and mostly about young adults.",
+    "limitations": [
+     "F1000Research version 2, not yet approved. The one reviewer report on version 1 was Not Approved.",
+     "30 studies, 63 percent qualitative, mostly convenience samples from already active communities.",
+     "English language studies only.",
+     "Confidence in findings not formally assessed.",
+     "Only two of 30 studies on transgender and gender diverse adolescents.",
+     "Ages 12 to 25, with some studies older or with no age stated.",
+     "No grey literature search.",
+     "The same reviewers developed the themes and the framework, which needs testing in independent data.",
+     "The authors themselves flag a contested included study."
+    ],
+    "contradictoryEvidence": [
+     "From the same review: the introduction cites evidence that the same young people rely on social media to find community and make sense of their identities, so the platforms are described as both a barrier and a lifeline.",
+     "From the same review: anonymity is reported to protect and to enable abuse.",
+     "No outside study was read against it in this run."
+    ],
+    "whatThisDoesNotProve": [
+     "How common any of these barriers are.",
+     "Anything about children under 12, or about UK children on their own.",
+     "That any platform design change would help.",
+     "Anything about what parents should do."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run.",
+    "gdcBeliefs": [
+     "Connection is the protection. Family rejection appears as a barrier in this review, which sits close to our view, and that is a reason to hold it to a higher standard.",
+     "Safeguarding sensitivity: any content on this subject would need particular care and would never single out a child."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "No change.",
+     "digi": "No change.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "unresolvedQuestions": [
+     "Whether version 2 is approved by its reviewers. Look again then.",
+     "Whether the dossier's peer reviewed flag for F1000Research records should be changed in code: F1000 publishes before review."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-cc7b7da589.json"
+   },
+   "editorialPriority": "LOW",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-12T09:24:20.374Z"
+   }
   },
   "GDC-RR-fbb1f60e3c": {
    "title": "Social inequalities and nurturing care determinants of early language developmental delay among Ecuadorian children aged 12-42 months.",

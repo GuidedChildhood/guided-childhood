@@ -1,0 +1,87 @@
+{
+  "studyId": "GDC-RR-cc7b7da589",
+  "reviewedAt": "2026-11-12T09:24:20Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held until a version is approved by its reviewers.",
+  "reviewBasis": "The article page for version 2 at f1000research.com/articles/15-1204/v2 (DOI 10.12688/f1000research.186320.2), read in this run: abstract, amendments from version 1, introduction, eligibility criteria, the included studies table, the limitations section in full, competing interests and grant information, and the open peer review panel. F1000Research publishes before review. The only reviewer report shown, on version 1, dated 21 August 2026, gave the status Not Approved. Version 2 was published on 12 November 2026 and shows no reviewer status yet. The register's dossier marked it peer reviewed, which is wrong on this evidence.",
+  "claims": [
+    {
+      "claim": "Sexual minority young people meet barriers to exploring their identity on social media at personal, family and peer, cultural and legal, and platform levels.",
+      "status": "QUALIFIED",
+      "basis": "The four themes come from 30 studies. Qualified because 63 percent of them are qualitative, confidence in the themes was not graded, few studies measured identity exploration directly, and the same reviewers built the themes and the framework."
+    },
+    {
+      "claim": "Most of the included studies found family rejection, hate speech or stigma.",
+      "status": "QUALIFIED",
+      "basis": "The percentages in the abstract are shares of the 30 included studies that touched each theme, not shares of young people. Any reading as prevalence would be wrong."
+    },
+    {
+      "claim": "Platform algorithms make sexual minority youth invisible.",
+      "status": "UNSUPPORTED",
+      "basis": "Algorithmic invisibility is one sub theme drawn from a minority of qualitative studies, and the authors say platform conditions in older studies may have changed."
+    },
+    {
+      "claim": "This applies to children.",
+      "status": "UNSUPPORTED",
+      "basis": "The review covers ages 12 to 25, and the limitations say several included studies sampled people over 25 or did not report age."
+    },
+    {
+      "claim": "This is peer reviewed research.",
+      "status": "UNSUPPORTED",
+      "basis": "The only reviewer report shown is Not Approved, on version 1. Version 2 has no reviewer status."
+    }
+  ],
+  "notQuotable": [
+    "every figure in the review, including the study counts and the theme percentages",
+    "any statement that social media harms or helps sexual minority young people",
+    "any statement about children specifically",
+    "any statement about what parents should do"
+  ],
+  "evidenceConfidence": "MEDIUM that the review says what is written here: the main sections and the limitations were read, the results section was not read theme by theme. LOW as evidence we can use: not approved by its one reviewer, mostly qualitative, ungraded, and mostly about young adults.",
+  "limitations": [
+    "F1000Research version 2, not yet approved. The one reviewer report on version 1 was Not Approved.",
+    "30 studies, 63 percent qualitative, mostly convenience samples from already active communities.",
+    "English language studies only.",
+    "Confidence in findings not formally assessed.",
+    "Only two of 30 studies on transgender and gender diverse adolescents.",
+    "Ages 12 to 25, with some studies older or with no age stated.",
+    "No grey literature search.",
+    "The same reviewers developed the themes and the framework, which needs testing in independent data.",
+    "The authors themselves flag a contested included study."
+  ],
+  "contradictoryEvidence": [
+    "From the same review: the introduction cites evidence that the same young people rely on social media to find community and make sense of their identities, so the platforms are described as both a barrier and a lifeline.",
+    "From the same review: anonymity is reported to protect and to enable abuse.",
+    "No outside study was read against it in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "How common any of these barriers are.",
+    "Anything about children under 12, or about UK children on their own.",
+    "That any platform design change would help.",
+    "Anything about what parents should do."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run.",
+  "gdcBeliefs": [
+    "Connection is the protection. Family rejection appears as a barrier in this review, which sits close to our view, and that is a reason to hold it to a higher standard.",
+    "Safeguarding sensitivity: any content on this subject would need particular care and would never single out a child."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody yet.",
+  "unresolvedQuestions": [
+    "Whether version 2 is approved by its reviewers. Look again then.",
+    "Whether the dossier's peer reviewed flag for F1000Research records should be changed in code: F1000 publishes before review."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-cc7b7da589.json"
+}

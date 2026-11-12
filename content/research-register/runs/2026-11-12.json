@@ -54,70 +54,6 @@
    "attempts": 1
   },
   {
-   "stage": "REVIEW",
-   "verdict": "WAITING",
-   "by": "claude",
-   "reasons": [
-    "7 verified records need a directed review before anything can be written from them"
-   ],
-   "detail": {
-    "waiting": [
-     {
-      "researchId": "GDC-RR-34b3878324",
-      "band": "CORE",
-      "score": 17,
-      "title": "Early Digital Media Initiation and Current Exposure Profiles Among European Adolescents: A Descriptive Secondary Analysis of Flash Eurobarometer FL579 Early digital media initiation and adolescent exposure profiles",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-b3cbb73e58",
-      "band": "CORE",
-      "score": 13,
-      "title": "From learning tool to digital distraction: Mobile phone and social media use and its impact on children's academic performance in rural Bangladesh",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-cc7b7da589",
-      "band": "CORE",
-      "score": 12,
-      "title": "Revealing Barriers to Identity Exploration Among Sexual Minority Youth in Social Media Environments: A Systematic Literature Review",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-bf6c483886",
-      "band": "CORE",
-      "score": 9,
-      "title": "Quality and Reliability of YouTube Content on Infant Choking Management: A Cross-Sectional Study of Guideline Adherence.",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-7e9b72deec",
-      "band": "ADJACENT",
-      "score": 8,
-      "title": "A blended digital parenting intervention for the prevention of sexual violence, exploitative sex, and maltreatment of children at scale in Tanzania: a cluster-randomised, controlled trial.",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-925d3c951a",
-      "band": "ADJACENT",
-      "score": 8,
-      "title": "Navigating Digital Platforms in Adolescence: A Population‑Based Study of Online Sexual Experiences and Violations",
-      "fromInbox": false
-     },
-     {
-      "researchId": "GDC-RR-ba1fec0984",
-      "band": "ADJACENT",
-      "score": 5,
-      "title": "Automated Detection and Classification of Strabismus in Smartphone Images",
-      "fromInbox": false
-     }
-    ]
-   },
-   "at": "2026-11-12T09:21:45.478Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
    "stage": "PUSH",
    "verdict": "ERROR",
    "by": "claude",
@@ -128,7 +64,77 @@
    "at": "2026-11-12T09:21:56.513Z",
    "commit": "85863bda",
    "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed from full text: GDC-RR-34b3878324 HOLD (EU Eurobarometer preprint, approximated, no uncertainty), GDC-RR-b3cbb73e58 REJECT (28 person qualitative preprint, abstract claims cause), GDC-RR-cc7b7da589 HOLD (F1000 review, one reviewer Not Approved, dossier wrongly marked it peer reviewed). 4 wait: bf6c483886, 7e9b72deec, 925d3c951a, ba1fec0984. Nothing came through the inbox."
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:26.393Z",
+   "commit": "4dfeaf0d",
+   "attempts": 2
+  },
+  {
+   "stage": "LINKEDIN NUMBERS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "the analytics inbox holds only its read me, nothing pasted"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:26.505Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-12T09:24:26.642Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "PACKS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting: GDC-054 v2 and GDC-058 v2 are READY FOR JUSTIN and left alone; ChatGPT wrote no pack for GDC-055, 056 or 057 yesterday"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:43.020Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "nothing new to copy: sync state shows manifest, post register, start here and both handoffs current (BYTE IDENTICAL and TEXT IDENTICAL from earlier verified saves), approvalDeskCurrent true; no story cleared today so no new handoff"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:07.736Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
   }
  ],
- "updatedAt": "2026-11-12T09:21:56.542Z"
+ "updatedAt": "2026-11-12T09:25:07.779Z"
 }

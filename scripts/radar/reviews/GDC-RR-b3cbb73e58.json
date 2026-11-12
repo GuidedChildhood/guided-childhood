@@ -1,0 +1,84 @@
+{
+  "studyId": "GDC-RR-b3cbb73e58",
+  "reviewedAt": "2026-11-12T09:24:20Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 12 November 2026",
+  "verdict": "REJECT",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Rejected.",
+  "reviewBasis": "The full text of version 1 of the preprint, read in this run from the PDF linked on the Research Square page for DOI 10.21203/rs.3.rs-11137657/v1: abstract, introduction, methods including recruitment, tables 1 to 4, ethics, data collection and analysis, the opening of the results, the conclusion and the limitations section. The quoted participant excerpts in the results were sampled rather than read one by one.",
+  "claims": [
+    {
+      "claim": "Mobile phones both help and hurt children's schoolwork, depending on how they are used.",
+      "status": "QUALIFIED",
+      "basis": "This is what the participants described in interviews and one focus group. Qualified because it is 28 people in one rural district, all accounts are self report, and the conclusion says the findings are perceptions, not evidence that phone use causes lower performance."
+    },
+    {
+      "claim": "Recreational phone use caused declining academic performance.",
+      "status": "UNSUPPORTED",
+      "basis": "The abstract says performance declined attributable to recreational use. The limitations section says the study cannot establish a causal relationship and used no school records or exam results. The abstract claims more than the paper supports."
+    },
+    {
+      "claim": "The mere presence of a phone impairs concentration.",
+      "status": "UNSUPPORTED",
+      "basis": "Stated in the abstract as a finding. In this design it can only be what some participants said."
+    },
+    {
+      "claim": "Teachers play a mediating role, endorsing educational apps.",
+      "status": "UNSUPPORTED",
+      "basis": "The limitations section says teachers were not interviewed. Everything about teachers is second hand from children and parents."
+    },
+    {
+      "claim": "Outcomes depend on self regulation and parental guidance, not the technology.",
+      "status": "UNSUPPORTED",
+      "basis": "This is the reading that would suit us, because it matches our line that guidance matters more than the device, so it was checked hardest. A qualitative study of 28 people with no comparison cannot show what outcomes depend on."
+    }
+  ],
+  "notQuotable": [
+    "every statement in the paper as a finding: the study is rejected and nothing is cleared",
+    "any statement that phones or social media lower school performance",
+    "any statement that guidance or self regulation explains outcomes",
+    "any participant quotation"
+  ],
+  "evidenceConfidence": "HIGH that the paper says what is written here. LOW as evidence: qualitative, 28 participants, one rural district in Bangladesh, self report, no academic records, teachers not interviewed, and an abstract that claims cause where the paper's own limitations rule it out. Not peer reviewed.",
+  "limitations": [
+    "A preprint, not peer reviewed.",
+    "Qualitative: 20 interviews and one focus group, 28 people, purposive sampling.",
+    "All eight focus group children were boys.",
+    "One rural upazila in Bangladesh. The authors say transferability is limited even within Bangladesh.",
+    "Self report only. No exam results or school records.",
+    "Teachers were not interviewed, though the abstract describes their role.",
+    "A single data collector, who also translated the transcripts.",
+    "Cross sectional. No change over time was examined."
+  ],
+  "contradictoryEvidence": [
+    "From the same paper: the conclusion and limitations say the findings should not be read as evidence that phone use directly causes lower performance, which contradicts the abstract's wording.",
+    "No outside study was read against it in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That phones or social media lower children's school results.",
+    "That guidance or self regulation protects school results.",
+    "Anything about UK children or UK schools.",
+    "Anything about what parents or teachers should do."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected.",
+  "gdcBeliefs": [
+    "Guidance over the device is our view, and this paper agrees with it. That is a reason for more scrutiny, and it does not survive it.",
+    "Evidence or silence."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody.",
+  "unresolvedQuestions": [
+    "None worth following for content."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-b3cbb73e58.json"
+}
