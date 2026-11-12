@@ -51,7 +51,24 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # THE BROWSER INSTALL RETRIES (12 November 2026). On 11 November, from
+      # 13:51 to about 18:00 UTC, every run on main and every PR failed here
+      # and nowhere else: the runner could not resolve the Ubuntu mirrors, so
+      # apt could not fetch the browser's system fonts and no guard ran at
+      # all. Three tries twenty seconds apart ride out a short DNS blip. If
+      # the mirrors are still unreachable, the browser alone is installed and
+      # the job goes on; it prints a warning, because the slide measure was
+      # baselined with the system fonts, so read any new wall fit failure in
+      # that run with that in mind.
+      - name: Install the browser
+        run: |
+          for i in 1 2 3; do
+            npx playwright install --with-deps chromium && exit 0
+            echo "Browser install attempt $i failed, retrying in 20 seconds"
+            sleep 20
+          done
+          echo "::warning::The Ubuntu mirrors could not be reached. Installing the browser without its system fonts."
+          npx playwright install chromium
       - name: Start the app and run the guards
         run: |
           # No GC_DEV_SLIDES here on purpose. The guards in this job want the
@@ -108,7 +125,24 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # THE BROWSER INSTALL RETRIES (12 November 2026). On 11 November, from
+      # 13:51 to about 18:00 UTC, every run on main and every PR failed here
+      # and nowhere else: the runner could not resolve the Ubuntu mirrors, so
+      # apt could not fetch the browser's system fonts and no guard ran at
+      # all. Three tries twenty seconds apart ride out a short DNS blip. If
+      # the mirrors are still unreachable, the browser alone is installed and
+      # the job goes on; it prints a warning, because the slide measure was
+      # baselined with the system fonts, so read any new wall fit failure in
+      # that run with that in mind.
+      - name: Install the browser
+        run: |
+          for i in 1 2 3; do
+            npx playwright install --with-deps chromium && exit 0
+            echo "Browser install attempt $i failed, retrying in 20 seconds"
+            sleep 20
+          done
+          echo "::warning::The Ubuntu mirrors could not be reached. Installing the browser without its system fonts."
+          npx playwright install chromium
       - name: Start the app and measure every slide
         run: |
           # GC_DEV_SLIDES is read by the SERVER, in app/dev/lesson-player/page.tsx,
