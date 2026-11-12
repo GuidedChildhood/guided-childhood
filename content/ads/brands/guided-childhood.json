@@ -1,0 +1,17 @@
+{
+  "id": "guided-childhood",
+  "name": "Guided Childhood",
+  "what": "Parents app: getting a child ready for a phone and social media, staged 4 to 16, ten minutes a day, together.",
+  "audience": "UK parents of children 8 to 13 in the first phone years",
+  "story": "THE-STORY.md sections 1, 2, 9 and 10",
+  "visual_system": "brand/GDC_SOCIAL_VISUAL_SYSTEM.md",
+  "theme": "gc",
+  "hook": { "ask": "What stage is your child?", "line": "Three questions, no sign up." },
+  "funnel": "https://www.guidedchildhood.com/v/<code>",
+  "counting": "video_links and video_link_events per code, profiles.video_link for signups (migrations 372, 379, 388); read with the SQL in ad studio Phase 7",
+  "judge_on": "stage checks begun per thousand reached",
+  "channels": ["meta"],
+  "watchlist": ".claude/skills/ad-studio/ad-library-watchlist.md",
+  "meta_env_suffix": "",
+  "extra_banned": []
+}

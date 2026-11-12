@@ -1,0 +1,127 @@
+{
+  "name": "2026-11-12-sb-round-1",
+  "round": "2026-11-12-sb-round-1",
+  "brand": "social-billboard",
+  "theme": "tsb",
+  "template": "ad",
+  "layout": "stacked",
+  "cards": [
+    {
+      "name": "control",
+      "src": "sb1-control",
+      "headline": "YouTube for kids, <mark>without the algorithm.</mark>",
+      "h": 78,
+      "screen": {
+        "image": "content/ads/screens/tsb/criteria-length-time.png",
+        "points": 394.3,
+        "crop": [
+          0,
+          318,
+          394.3,
+          240
+        ]
+      },
+      "ad": {
+        "text": "You set the age, the tone, the time of day and how long it runs. We build the playlist to match. Nothing autoplays that you didn't choose, nothing is recommended, and there is no next video waiting.\n\nThe videos come from YouTube, so what your child already loves is still there. The feed around it is not.",
+        "headline": "Create your first playlist",
+        "description": "Free on one playlist. No card."
+      },
+      "pill": "Create your first playlist &rarr;",
+      "small": "Free on one playlist. No card."
+    },
+    {
+      "name": "it-ends",
+      "src": "sb1-it-ends",
+      "headline": "When the playlist ends, <mark>it ends.</mark>",
+      "screen": {
+        "image": "content/ads/screens/tsb/build-a-playlist.png",
+        "points": 342,
+        "crop": [
+          0,
+          386,
+          342,
+          262
+        ]
+      },
+      "ad": {
+        "text": "Twenty minutes means twenty minutes. When the playlist ends, nothing follows it: no up next, no rabbit hole, and no argument about just one more.\n\nYou set the length before they press play.",
+        "headline": "Create your first playlist",
+        "description": "Free on one playlist. No card."
+      },
+      "pill": "Create your first playlist &rarr;",
+      "small": "Free on one playlist. No card."
+    },
+    {
+      "name": "bedtime",
+      "src": "sb1-bedtime",
+      "headline": "Twenty calm minutes before bed. <mark>Then it stops.</mark>",
+      "h": 84,
+      "screen": {
+        "image": "content/ads/screens/tsb/criteria-bedtime.png",
+        "points": 394.3,
+        "crop": [
+          0,
+          0,
+          394.3,
+          284
+        ],
+        "maxWidth": 560
+      },
+      "scene": {
+        "image": "content/ads/scenes/tsb-night-sky-square.png",
+        "x": 0.6
+      },
+      "ad": {
+        "text": "After school is not the same as bedtime, and the playlist shouldn't be either. Choose calm, choose bedtime, choose twenty minutes, and we build a playlist to match.\n\nThen it stops, and they go to bed.",
+        "headline": "Create your first playlist",
+        "description": "Free on one playlist. No card."
+      },
+      "pill": "Create your first playlist &rarr;",
+      "small": "Free on one playlist. No card."
+    },
+    {
+      "name": "you-chose",
+      "src": "sb1-you-chose",
+      "headline": "Nothing plays that <mark>you didn't choose.</mark>",
+      "screen": {
+        "image": "content/ads/screens/tsb/criteria-type-tone.png",
+        "points": 394.3,
+        "crop": [
+          0,
+          0,
+          394.3,
+          193
+        ]
+      },
+      "ad": {
+        "text": "Every video your child can watch here got there because someone decided it should: you chose it, or you set the conditions and we built to them.\n\nNothing is recommended. Nothing turns up that you didn't choose.",
+        "headline": "Create your first playlist",
+        "description": "Free on one playlist. No card."
+      },
+      "pill": "Create your first playlist &rarr;",
+      "small": "Free on one playlist. No card."
+    },
+    {
+      "name": "five-decisions",
+      "src": "sb1-five-decisions",
+      "headline": "Five decisions, <mark>made by you.</mark>",
+      "screen": {
+        "image": "content/ads/screens/tsb/build-a-playlist.png",
+        "points": 342,
+        "crop": [
+          0,
+          0,
+          342,
+          368
+        ]
+      },
+      "ad": {
+        "text": "Age, tone, type, time of day and length. Five decisions, made by you, before your child ever presses play. We build the playlist to match.\n\nNothing is recommended, and when it ends, it ends.",
+        "headline": "Create your first playlist",
+        "description": "Free on one playlist. No card."
+      },
+      "pill": "Create your first playlist &rarr;",
+      "small": "Free on one playlist. No card."
+    }
+  ]
+}

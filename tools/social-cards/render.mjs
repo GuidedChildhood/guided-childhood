@@ -89,7 +89,8 @@ for (const deckPath of deckPaths) {
     // Ad cards: how much of the finished card is butter, counting the butter
     // inside the real screen. One mark, never a surface: 10 percent at most
     // (ad council, 19 October 2026). Measured, because by eye it was missed.
-    const butter = isAd ? await butterShare(browser, png) : null
+    // The butter cap is Guided Childhood's rule; another brand's yellow is its own.
+    const butter = isAd && !deck.theme ? await butterShare(browser, png) : null
     const note = butter === null ? '' : `  butter ${butter.toFixed(1)}%${butter > 10 ? '  OVER the 10% cap' : ''}`
     if (butter > 10) overButter++
     console.log(`  ${file.replace(HERE + '/', '')}${note}`)

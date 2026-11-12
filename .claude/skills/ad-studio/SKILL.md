@@ -23,6 +23,18 @@ and every ad PAUSED (Phase 5). Paused is the fence. If a step would publish,
 switch something on or spend, stop and hand it over.
 
 Justin's one page on how to use all this is `content/ads/HOW-TO-USE.md`.
+
+**Three brands, one system** (12 November 2026). A deck carries `"brand"`:
+`guided-childhood` (the default), `social-billboard` or `guided-schools`.
+Each brand's profile in `content/ads/brands/<id>.json` gives its story file,
+visual system, hook, funnel link, how its results are counted, its channels,
+its watchlist and its own banned words, and the gate and uploader read it.
+Read the brand's profile and its story file in Phase 0 instead of
+THE-STORY.md when the brand is not Guided Childhood. Never mix the brands'
+looks or claims: The Social Billboard has its own palette and rules, and
+"Guided Childhood is not by The Social Billboard". A profile whose
+`hook_status` says PROPOSED blocks its round until Justin agrees the hook.
+The plan for the other two brands is `plans/2026-11-12-ad-system-three-brands-plan.md`.
 Keep it true when anything here changes.
 
 ## Phase 0 · Read, every time
