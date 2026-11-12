@@ -1,10 +1,10 @@
 {
  "schemaVersion": "1.1.0",
  "researchId": "GDC-RR-f0fb8386cd",
- "registerVersion": 6,
- "handoffVersion": 1,
- "sourceCommit": "217ae67b6ce5055b26f5f9d1c8e3f5c68f6be6bc",
- "createdAt": "2026-11-12T14:46:59.608Z",
+ "registerVersion": 11,
+ "handoffVersion": 3,
+ "sourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+ "createdAt": "2026-11-12T14:47:59.855Z",
  "stage": "EDITORIAL READY",
  "productionStatus": "EDITORIAL READY",
  "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
@@ -14,7 +14,7 @@
  "oneBelief": "A parent should be able to tell what a tool is for and where it stops. An AI that helps a parent think is a different thing from an AI treating a child, and a product should say which it is.",
  "oneTakeaway": "Before your child uses any AI tool for something that matters, ask what the survey's parents said they would ask: is it accurate, who is overseeing it, and where does what my child says go.",
  "research": {
-  "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+  "title": "Parent Comfort With Artificial Intelligence Led Behavioral Therapy for Their Child",
   "authors": "Rosemary A. Martoma, Jonathan H. Cantor, Ryan K. McBain, et al.",
   "journal": "JAMA Pediatrics",
   "doi": "10.1001/jamapediatrics.2026.4939",
@@ -208,6 +208,6 @@
  ],
  "history": {
   "registerJsonl": "content/research-register/studies.jsonl",
-  "studyVersions": 6
+  "studyVersions": 11
  }
 }

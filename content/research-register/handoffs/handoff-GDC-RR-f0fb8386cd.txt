@@ -1,7 +1,7 @@
 GDC RESEARCH HANDOFF  GDC-RR-f0fb8386cd
 Stage 1 complete, ready for Stage 2 editorial production
-Schema 1.1.0  handoff version 1  created 2026-11-12T14:46:59.608Z
-Register version 6  source commit 217ae67b
+Schema 1.1.0  handoff version 3  created 2026-11-12T14:47:59.855Z
+Register version 11  source commit 34962187
 
 STATUS
   production status: EDITORIAL READY
@@ -19,7 +19,7 @@ THE STORY
   ONE TAKEAWAY: Before your child uses any AI tool for something that matters, ask what the survey's parents said they would ask: is it accurate, who is overseeing it, and where does what my child says go.
 
 THE RESEARCH
-  Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child
+  Parent Comfort With Artificial Intelligence Led Behavioral Therapy for Their Child
   Rosemary A. Martoma, Jonathan H. Cantor, Ryan K. McBain, et al.
   JAMA Pediatrics, published 2026-11-02
   https://doi.org/10.1001/jamapediatrics.2026.4939

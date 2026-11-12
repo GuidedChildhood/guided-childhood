@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-12T14:46:59.657Z",
+ "generatedAt": "2026-11-12T14:47:59.880Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -40,11 +40,11 @@
    "figuresCleared": 11,
    "handoffDoc": null,
    "handoffJsonDriveFileId": null,
-   "handoffVersion": 1,
-   "handoffSourceCommit": "217ae67b6ce5055b26f5f9d1c8e3f5c68f6be6bc",
+   "handoffVersion": 3,
+   "handoffSourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
    "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "registerVersion": 9
+   "registerVersion": 14
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

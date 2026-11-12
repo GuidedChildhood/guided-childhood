@@ -211,7 +211,7 @@
      {
       "researchId": "GDC-RR-f0fb8386cd",
       "gdcPostNumber": "059",
-      "handoffVersion": 1
+      "handoffVersion": 3
      }
     ],
     "alreadyCurrent": [],
@@ -222,10 +222,10 @@
      "GDC-RR-f0fb8386cd"
     ]
    },
-   "at": "2026-11-12T14:46:59.660Z",
-   "commit": "217ae67b",
-   "attempts": 2
+   "at": "2026-11-12T14:47:59.882Z",
+   "commit": "34962187",
+   "attempts": 3
   }
  ],
- "updatedAt": "2026-11-12T14:46:59.691Z"
+ "updatedAt": "2026-11-12T14:47:59.909Z"
 }

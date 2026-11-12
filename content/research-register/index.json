@@ -5623,9 +5623,9 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 9,
+   "version": 14,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-12T14:46:59.653Z",
+   "lastChecked": "2026-11-12T14:47:59.876Z",
    "changeReason": "handoff tied to the review it was built from",
    "changedBy": "radar:daily",
    "dossier": {
@@ -5818,16 +5818,16 @@
     "verdict": "PASS",
     "stage": "HANDOFF",
     "reasons": [],
-    "at": "2026-11-12T14:46:59.643Z"
+    "at": "2026-11-12T14:47:59.870Z"
    },
    "gdcPostNumber": "059",
    "handoff": {
     "json": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
     "doc": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.txt",
-    "version": 1,
+    "version": 3,
     "schemaVersion": "1.1.0",
-    "sourceCommit": "217ae67b6ce5055b26f5f9d1c8e3f5c68f6be6bc",
-    "builtAt": "2026-11-12T14:46:59.608Z",
+    "sourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+    "builtAt": "2026-11-12T14:47:59.855Z",
     "reviewDigest": "ff0e1a1fc996e324",
     "gdcPostNumber": "059"
    }
