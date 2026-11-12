@@ -331,3 +331,7 @@ at once cannot.
 Left for Justin: my own ledger row for 394 duplicates the one that session
 wrote, and the delete needs a confirmation in the Supabase tool that has gone
 unanswered twice. Harmless, both name the same migration.
+
+## 12 November 2026: the second ad talk weighed, the results read, the Monday loop
+
+Justin brought a second talk (seven rules for digital marketing) and asked for the best of both talks in a routine that gathers feedback and keeps our adverts ahead. Weighed point by point (`plans/2026-11-12-second-ad-video-weighed.md`). Adopted: the words are the targeting (segment versions of a winner, two or three words changed), one niche until exhausted, a monthly check of who the chatbots recommend. Declined: rewarding reviews (unlawful when hidden in the UK) and a third party MCP holding the ad account. Built: `npm run ad-results` (Meta reach and spend, reads only, joined with our per link counts) and ad studio Phase 7, the weekly loop. Instagram linked to the uploader the same day (`META_INSTAGRAM_ID`, after adding the Instagram use case to the app).
