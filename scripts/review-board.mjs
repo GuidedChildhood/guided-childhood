@@ -708,7 +708,20 @@ export function pulseLine(pulse, on = today()) {
   const three = v && isNum(v.reachedThree) && isNum(v.families)
     ? `${v.reachedThree} of ${plural(v.families, 'family', 'families')}`
     : 'unknown'
-  return `Real behaviour, from the product pulse of ${at}: day done rate ${pct(h.dayDoneRate7d)}${doneNote}; seven day return ${pct(h.returnedD7)}; families with a second check in ${second}; families reaching three of the five value signals ${three}.`
+  return `Real behaviour, from the product pulse of ${at}: day done rate ${pct(h.dayDoneRate7d)}${doneNote}; seven day return ${pct(h.returnedD7)}; families with a second check in ${second}; families reaching three of the five value signals ${three}. ${stageCheckLine(pulse.stageChecksWeek)}`
+}
+
+/**
+ * The marketing lens's weekly number: stage checks begun in seven days, per
+ * channel of the /v/ link that brought them. Unknown when the rows did not
+ * carry it (an older pulse file), never zero.
+ */
+export function stageCheckLine(rows) {
+  if (!Array.isArray(rows)) return 'Stage checks begun in the last seven days, by channel: unknown.'
+  const clean = rows.filter(r => r && typeof r.channel === 'string' && isNum(r.n) && r.n > 0)
+  const total = clean.reduce((a, r) => a + r.n, 0)
+  if (!total) return 'Stage checks begun in the last seven days, by channel: none through a link.'
+  return `Stage checks begun in the last seven days, by channel: ${total} (${clean.map(r => `${r.channel} ${r.n}`).join(', ')}).`
 }
 
 /**
@@ -730,6 +743,7 @@ export async function pulseFromRows(rows) {
     const { valueSignals } = await import(pathToFileURL(join(ROOT, 'lib/home/value-signals.ts')).href)
     return {
       generatedAt: rows.generatedAt,
+      stageChecksWeek: arr(rows.stageChecksWeek),
       habit: habitMetrics(sessions, rows.today),
       valueSignals: valueSignals({ families, ...Object.fromEntries(names.map(n => [n, sig[n]])) }),
     }

@@ -7,6 +7,26 @@ Drive, the downloaded guides on this Mac, and three transcripts weighed in
 animation becomes our fourth content format. No dashes anywhere. The Google
 Doc copy sits in 00 CONTROL ROOM.
 
+## The bet for the next month (set 12 November 2026)
+
+**The bet:** the platform walkthrough, 13 parent pieces from Tuesday
+17 November to Sunday 20 December (`content/campaigns/platform-walkthrough/`),
+each ending at the stage check with its own `/v/` link.
+
+**The measure:** stage checks begun through those links. The board prints it
+every Friday as the last sentence of its real behaviour line ("Stage checks
+begun in the last seven days, by channel"), and `/dashboard/admin/videos` has
+it per post.
+
+**The bar:** 80 by 20 December. That is the first 20 sign ups plan's own
+arithmetic (one stranger in four who starts makes an account, so 20 sign ups
+need about 80 starts). The starting point is 4 stage checks in the 30 days
+to 2 November, all with no link. Justin can move the bar; the board reads
+whatever is written here.
+
+**If it misses:** the per post numbers say which format moved anyone, and the
+next month's bet is that format only.
+
 ## 1. The goal and the maths
 
 £4,000 a month recurring is about 325 paying families, which at the 4

@@ -77,6 +77,7 @@
     "etsy-in-app": "node scripts/check-etsy-in-app.mjs",
     "social-cards": "node scripts/check-live-domain.mjs && node tools/social-cards/render.mjs",
     "live-domain-guard": "node scripts/check-live-domain.mjs",
+    "stage-check-guard": "node scripts/check-stage-check-ending.mjs",
     "social-week": "node tools/social-cards/week.mjs",
     "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs",
     "lesson-records-guard": "node --experimental-strip-types scripts/check-lesson-records.mjs",

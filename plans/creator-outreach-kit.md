@@ -26,7 +26,7 @@ Keep it this short. A wall of text gets ignored. If they have a collab email in 
 
 ## Message 2 — the gentle follow up (only if no reply after 5 to 7 days)
 
-> Hi [name], just floating this back up in case it got buried. Totally fine if it is not for you. If it helps, here is the tool so you can see what I mean: guidedchildhood.co.uk/starter-pack. Have a lovely week either way.
+> Hi [name], just floating this back up in case it got buried. Totally fine if it is not for you. If it helps, here is the tool so you can see what I mean: guidedchildhood.com/starter-pack. Have a lovely week either way.
 >
 > Justin
 
@@ -54,14 +54,14 @@ Fill [£X] and [Y] from your cap. At £2.50 per thousand views, 100k guaranteed 
 
 > Thanks [name], really looking forward to it. Here is everything.
 >
-> **The tool:** guidedchildhood.co.uk/starter-pack
+> **The tool:** guidedchildhood.com/starter-pack
 > **What to show:** open it, answer the three questions, show your stage result. If you want, ask it one real parenting question and show the answer. Keep it in your normal style, the more natural the better.
 > **The one rule:** camera on you and your phone, never your child's face.
 > **Your pinned first comment** (please pin this under the video):
 >
 > It's Guided Childhood. Three questions, no sign up, tells you your child's stage. Link in my bio.
 >
-> **Your bio link for the video window:** guidedchildhood.co.uk/starter-pack
+> **Your bio link for the video window:** guidedchildhood.com/starter-pack
 >
 > That is it. Anything you are unsure about, just ask. Thank you.
 >

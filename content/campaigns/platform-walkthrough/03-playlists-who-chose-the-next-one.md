@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Playlists, 1 of 3 |
+| Audience | The Social Billboard: ends at its own free playlist, never the Guided Childhood stage check |
 | Service | The Social Billboard: the next video problem |
 | Format | One card, 1080 by 1350. **Built** |
 | Channels | The Social Billboard Instagram and Facebook |

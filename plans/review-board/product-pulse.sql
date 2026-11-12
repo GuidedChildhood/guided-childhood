@@ -48,5 +48,15 @@ select jsonb_build_object(
     -- The parent answered DiGi's "how did that go?".
     'followUpAnswered', (select coalesce(jsonb_agg(distinct user_id), '[]'::jsonb)
                            from public.digi_outcomes where verdict is not null)
-  )
+  ),
+  -- Stage checks begun in the last seven days, per channel of the link that
+  -- brought them (migrations 372 and 388). Counts only, nothing about a person.
+  -- This is the marketing lens's weekly number, put where the board reads it.
+  'stageChecksWeek', (select coalesce(jsonb_agg(jsonb_build_object('channel', channel, 'n', n) order by n desc), '[]'::jsonb)
+                        from (select coalesce(l.channel, 'other') as channel, count(*)::int as n
+                                from public.video_link_events e
+                                join public.video_links l on l.code = e.code
+                               where e.kind = 'started'
+                                 and e.created_at >= now() - interval '7 days'
+                               group by 1) s)
 ) as pulse_rows;
