@@ -1,0 +1,154 @@
+{
+  "name": "2026-11-11-round-1",
+  "round": "2026-11-11-round-1",
+  "template": "ad",
+  "layout": "stacked",
+  "cards": [
+    {
+      "name": "control-digi",
+      "src": "r1-control-digi",
+      "headline": "Tell it what went wrong today. Get <mark>one thing</mark> to do.",
+      "h": 88,
+      "screen": {
+        "image": "content/ads/screens/digi.png",
+        "points": 390,
+        "crop": [
+          0,
+          188,
+          390,
+          382.2
+        ],
+        "mount": [
+          0,
+          0,
+          16,
+          0
+        ],
+        "bg": "#FFFFFF"
+      },
+      "ad": {
+        "text": "Tell it what actually went wrong today. It gives you one thing to do and the words to say, for your child's age.\n\nGuided Childhood is the plan from where your child is now to sixteen, ten minutes a day, worked on together.\n\nStart with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/control-kitchen-table.jpg",
+        "x": 0.69
+      }
+    },
+    {
+      "name": "mid-match",
+      "src": "r1-mid-match",
+      "headline": "They cannot stop in the middle of <mark>a match.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-mid-match.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          327.7,
+          356.3,
+          468.8
+        ]
+      },
+      "ad": {
+        "text": "You say it is time to come off. They go from fine to furious in about four seconds, because walking out in the middle of a match costs them something real.\n\nThere are words for that moment. Agree how many matches before the game starts, and they stop at the end of the last one.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/mid-match-sofa.jpg",
+        "x": 0.7
+      }
+    },
+    {
+      "name": "left-out",
+      "src": "r1-left-out",
+      "headline": "Everyone is on Snapchat. <mark>They are not.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-snapchat.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          569.7
+        ]
+      },
+      "ad": {
+        "text": "The plans get made on Snapchat, and your ten year old is not on it. They are not making that up, and it is a horrible feeling.\n\nThere are words for that conversation. They start with believing them, and they end with working out who would text them.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/left-out-hallway.jpg",
+        "x": 0.7
+      }
+    },
+    {
+      "name": "before-the-box",
+      "src": "r1-before-the-box",
+      "headline": "Plan the first phone before <mark>the box</mark> is opened.",
+      "h": 88,
+      "screen": {
+        "image": "content/ads/screens/say-before-the-box.png",
+        "points": 360.1,
+        "crop": [
+          1.9,
+          300.4,
+          356.3,
+          603.4
+        ]
+      },
+      "ad": {
+        "text": "If a phone is coming before secondary school, the easiest time to agree how it will work is before the box is opened, while nobody is arguing.\n\nThree things to decide together: where it sleeps at night, what it is for to start with, and that telling you about something bad never costs them the phone.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/before-the-box-table.jpg",
+        "x": 0.7
+      }
+    },
+    {
+      "name": "earned-time",
+      "src": "r1-earned-time",
+      "headline": "They earn their<br>screen time.<br><mark>You set the rate.</mark>",
+      "screen": {
+        "image": "content/ads/screens/kid-my-time.png",
+        "points": 390,
+        "crop": [
+          0,
+          176.4,
+          390,
+          431.6
+        ],
+        "mount": [
+          14,
+          0,
+          0,
+          0
+        ],
+        "bg": "#F9F8F6"
+      },
+      "ad": {
+        "text": "Your child does a job, you say yes, and it earns a star. The stars become screen time at a rate you set for each child. Bedtime and mealtimes cannot be bought at any price.\n\nIt is one part of the plan from where your child is now to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/earned-time-dog-bowl.jpg",
+        "x": 0.68
+      }
+    }
+  ]
+}

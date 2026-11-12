@@ -67,3 +67,48 @@ Each step is one small pull request, merged before the next starts.
 8. **Meta writes (when a winner is spending).** Writes only, rate limited, a
    human approval on every change, every read from our own tables. Justin's
    call on the access token.
+
+## 11 November, later: step 2 done, and two things Justin moved
+
+Justin asked for step 2 with the creating and the uploading to Facebook and
+Google set up as well, at a top finish, and asked why not an avatar.
+
+- **Step 2 is built**: `content/packs/2026-11-11-round-1/`, five cards in the
+  council's held treatment, gated, measured for butter and scored.
+- **Step 8 came forward, fenced.** `npm run ad-upload` loads a round into
+  Facebook and Instagram ads with everything PAUSED. Switching on stays with
+  Justin. It is proved against a stand in only, since no token exists yet.
+  Google waits for a developer token and a winning hook
+  (`content/ads/SETUP.md`).
+- **The avatar.** The decline in row 6 was never "no avatar". It is "no
+  synthetic person presented as a real parent or customer", because that is a
+  testimonial nobody gave. An avatar of Justin himself, saying what Justin
+  would say, is allowed by `silent-ugc` (he is option 2, the face already) and
+  is what `lesson-video` already uses. So step 6 becomes: one script, read
+  twice, once by Justin's own digital twin and once by Justin on his phone,
+  each with its own link code, and the numbers decide. Whether the twin reads
+  as AI made, which the council found costs attention, is the thing the test
+  measures.
+
+## 11 November, evening: the goal, the swipe file, and what the accounts need
+
+Justin set the goal: the best performing adverts, built on what is proven,
+copying the adverts that worked as far as we can, with Facebook and Google
+ready to upload to.
+
+- **The goal is written down** in `content/ads/proven-rules.md`, with the one
+  number it is judged on.
+- **Step 4 is done**: `content/ads/swipe/ads.json`, 21 adverts from six
+  companies, and nine rules drawn from the eight that have run 90 days or
+  more. The first rule changes the order of work: everything past 180 days is
+  video, so the video round (step 6) comes next, before more cards.
+- **"As much as possible" has a line.** We copy structure. Their pictures,
+  films and sentences stay theirs, and the sweep stays by hand: a scraper
+  breaks Meta's terms on the account we mean to advertise from.
+- **The accounts are not ready, and not for the reason expected.** Looked at
+  both, read only. The Facebook Page (The Guided Childhood) is owned by the
+  Inspired by Alma business portfolio, where Justin has partial access, so he
+  cannot make a system user there. His own ad account is an old one with an
+  expired card and Etsy campaigns in it. The Google Ads login opens another
+  business's account. Guided Childhood needs its own of each:
+  `content/ads/SETUP.md`, rewritten to what is actually there.

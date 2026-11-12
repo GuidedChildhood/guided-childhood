@@ -53,3 +53,9 @@ cuts, captions and frames them.
   in `content/brand-story/posted-log.md`. One 34 MB file,
   RecordIt-1791286948.MP4 (6 October, My Drive root), may be the stage check
   screen recording and has not been opened.
+
+## Added 11 November 2026: ad video 1
+
+`2026-11-11-ad-video-1.json`, eight cards: the mid match advert to camera,
+twenty seconds, and a second opening for the hook test. The script and where
+each line comes from are in `content/packs/2026-11-11-ad-video-1/README.md`.

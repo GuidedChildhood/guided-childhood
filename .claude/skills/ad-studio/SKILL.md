@@ -1,6 +1,6 @@
 ---
 name: ad-studio
-description: Make Guided Childhood adverts the same way every time, built from what competitors' best performing ads actually do. Use whenever Justin says "make an ad", "make adverts", "ads like theirs", "what ads are working", "do an ad round", "remake this ad for us", pastes a screenshot of a competitor's ad or an Ad Library page, or wants to boost a post. Finds the competitor ads that have run longest (the best public sign an ad works), tears each down into hook, format, offer and proof, rebuilds the structure with our own message in our visual system, makes three to five hook variants, gates every claim, and plans an organic test before any money is spent. Keeps a results log so each round learns from the last. Never posts, boosts or touches Ads Manager.
+description: Make Guided Childhood adverts the same way every time, built from what competitors' best performing ads actually do. Use whenever Justin says "make an ad", "make adverts", "ads like theirs", "what ads are working", "do an ad round", "remake this ad for us", pastes a screenshot of a competitor's ad or an Ad Library page, or wants to boost a post. Finds the competitor ads that have run longest (the best public sign an ad works), tears each down into hook, format, offer and proof, rebuilds the structure with our own message in our visual system, makes three to five hook variants, gates every claim, and plans an organic test before any money is spent. Keeps a results log so each round learns from the last. Can load a round into Facebook and Instagram ads switched off; never posts, never switches an ad on, never spends.
 ---
 
 # Ad studio
@@ -16,8 +16,11 @@ Ours is the gap none of them fill: getting a child ready for a phone and
 social media, together, staged to 16. An ad that sounds like Qustodio loses
 the one thing that makes ours worth clicking.
 
-**Nothing here posts, schedules, boosts or opens Ads Manager.** Justin does
-all of that. If a step would publish or spend, stop and hand it over.
+**Nothing here posts, switches an ad on or spends.** Justin does all of
+that. One thing changed on 11 November 2026, at his ask: `npm run ad-upload`
+loads a round into Facebook and Instagram ads with the campaign, the ad set
+and every ad PAUSED (Phase 5). Paused is the fence. If a step would publish,
+switch something on or spend, stop and hand it over.
 
 ## Phase 0 · Read, every time
 
@@ -32,6 +35,9 @@ all of that. If a step would publish or spend, stop and hand it over.
 4. `content/ads/results-log.md`: what already ran and what it did. Never
    remake a loser without saying why this time is different.
 5. `ad-library-watchlist.md` in this folder: who to watch and the links.
+6. `content/ads/proven-rules.md`: the goal, and what the adverts that have run
+   longest share. `content/ads/swipe/ads.json` is the evidence under it, one
+   entry per advert read. Add to both after every sweep.
 
 ## Phase 1 · Find the winners
 
@@ -61,6 +67,15 @@ these is available, in this order:
 3. **Ads seen in his feed.** A screenshot of an ad in the wild still counts
    for the teardown, but has no days live figure, so it ranks below a library
    ad that has run 90 days.
+
+**What a sweep keeps.** For each advert: who, the library id, days live,
+whether it is in several versions, video or image, the hook in a few words,
+what the picture is of, what to borrow and what to leave. That goes in
+`content/ads/swipe/ads.json`. Their images, films and body copy are never
+saved into the repo or reused: they are theirs, and we borrow structure only.
+A sweep is read by hand, a handful of pages, in Justin's browser. Never a
+standing scraper: collecting from the library by machine breaks Meta's terms,
+and it is the same account we advertise from.
 
 Pick the five strongest across the watchlist. Fewer good ones beat many weak
 ones.
@@ -122,6 +137,31 @@ Make them with the tools we already have:
   (`deviceScaleFactor: 3`), never a signed in family. A callout is a crop of
   the same capture, never redrawn. Set the phone's `bar` to the screen's top
   colour so the status bar runs into it.
+- **The Round 1 treatment, the default for a hook test:** `"layout": "stacked"`
+  on the deck. Headline full width, one flat real screen in a fixed slot (no
+  phone frame, glow or callout), the espresso button, the hook line.
+  `2026-11-11-round-1.json` is the model. A card's `screen` is a crop of a
+  real capture; `node tools/social-cards/capture.mjs say <script id> <name>`
+  captures a public script page and prints the crop, from SAY THIS to the end
+  of its quote. The renderer prints each card's butter share and fails over
+  10 percent.
+- **A picture of the moment, behind the real screen:** a stacked card may
+  carry `scene`, a generated photograph that fills the slot with the real
+  screen sitting on it (`2026-11-11-round-1.json` is the model). Ask for
+  the subject in the left third and the rest soft and empty, so the screen
+  has somewhere to sit. The
+  competitors' longest running ads all lead with a picture; this is how ours
+  does without inventing anything. The rules are visual system section 15,
+  all of them: a room or objects only, never a person, a child's face, a
+  character, a logo or a screen; no text in the image; our palette; and
+  **Justin's yes on the credit cost before any paid generation.** GPT Image
+  on Higgsfield is 2.75 credits an image at 2k. Scenes live in
+  `content/ads/scenes/`, apart from the real captures, and the gate refuses a
+  scene with no real screen on it. Video is a different order of cost:
+  Seedance 2.5 is 128 credits for eight seconds at 1080p.
+- **The words beside the card:** every round card carries `ad`: `text` (what
+  runs above the card), `headline` and `description` (the hook, word for
+  word). The gate holds them to the same rules as the card.
 - **Flat cards:** the original template (card type `cta`, one friend, one gold
   mark, `first-phone-ad.json`) is for organic posts and carousels. Use it for
   an ad only when the idea has no screen to show.
@@ -207,7 +247,16 @@ works, only to scale something proven.
 4. **The winner** is the variant with the most stage checks begun per
    thousand people reached, with at least 300 reached. Below that, call it
    too early and keep it running.
-5. **Only then a boost brief** for Justin, one short block: which post, the
+5. **Load it into Meta, switched off.** `npm run ad-upload -- <round>` is a
+   dry run that prints every call; `--go` sends them. It refuses a deck that
+   fails the gate, uploads the cards from `content/packs/<round>/`, and
+   creates one campaign, one ad set and one ad per card, all PAUSED, each ad
+   linking to its own code with `utm_medium=paid`. The ids land in
+   `content/ads/meta/<round>.json` so a second run never makes a copy. The
+   audience and budget come from `content/ads/meta/config.json`. Setup is in
+   `content/ads/SETUP.md`. It never reads results from Meta; results come
+   from our own tables. Justin switches on only the winner.
+6. **Only then a boost brief** for Justin, one short block: which post, the
    audience (UK parents of children 8 to 13, the first phone years), a small
    daily budget and a fixed end date, so the most it can cost is known before
    it starts. He sets the budget and decides whether to spend. Paid spend
