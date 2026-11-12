@@ -39,6 +39,16 @@ export const DIGI_MODEL_FALLBACKS = [
 // tiers can be split again without a deploy; the ladder behind it is the same.
 export const DIGI_MODEL_CHAT = envOr('DIGI_MODEL_CHAT', 'claude-fable-5-1')
 
+// The model on trial (Justin, 12 November 2026: "test, switch if equal"). It
+// answers nothing live. The admin evals run it beside DIGI_MODEL on the same
+// cases (POST /api/admin/digi-evals?model=candidate) so the switch is a
+// number, not a hunch. Claude Fable 5.2: $8 / $40 per million tokens against
+// $10 / $50 for Fable 5.1, same request surface for how DiGi calls it. The
+// switch itself is DIGI_MODEL and DIGI_MODEL_CHAT in Vercel, and only after
+// the candidate passes as many cases, with no safety breach, and an average
+// within two points.
+export const DIGI_MODEL_CANDIDATE = envOr('DIGI_MODEL_CANDIDATE', 'claude-fable-5-2')
+
 // The fast tier for mechanical jobs: memory extraction, feedback
 // classification, prompt chips, moment copy, the lane classifier. The deep
 // model's judgement is wasted there; latency and cost are not.

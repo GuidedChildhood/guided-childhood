@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { runEvals, type EvalRun } from '@/lib/digi/evals'
 import { highestSeverity } from '@/lib/digi/safety'
-import { DIGI_RESEARCH_BASE, parseResearchBase } from '@/lib/config/digi'
+import { DIGI_RESEARCH_BASE, DIGI_MODEL, DIGI_MODEL_CANDIDATE, parseResearchBase } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 
 // Founder facing, on demand: run the DiGi eval suite and return the scored
@@ -27,13 +27,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not authorised' }, { status: 403 })
   }
 
-  const research = new URL(request.url).searchParams.get('research')
+  const params = new URL(request.url).searchParams
+  const research = params.get('research')
+  const trial = params.get('model') === 'candidate' && DIGI_MODEL_CANDIDATE !== DIGI_MODEL
   const other = DIGI_RESEARCH_BASE === 'file' ? 'retrieval' : 'file'
 
   let run: EvalRun
   let compare: EvalRun | null = null
   try {
-    if (research === 'both') {
+    if (trial) {
+      ;[run, compare] = await Promise.all([runEvals(DIGI_RESEARCH_BASE), runEvals(DIGI_RESEARCH_BASE, DIGI_MODEL_CANDIDATE)])
+    } else if (research === 'both') {
       ;[run, compare] = await Promise.all([runEvals(DIGI_RESEARCH_BASE), runEvals(other)])
     } else {
       run = await runEvals(research ? parseResearchBase(research) : DIGI_RESEARCH_BASE)
