@@ -175,3 +175,13 @@ The message to Justin is the output of `daily.mjs summary`, preceded by three
 lines: what was verified and the verdicts, what is ready for him and what is
 with ChatGPT, and what he needs to decide. Any disagreement, any HOLD and any
 pull request that needs merging go in the third line.
+
+## Before the handoffs: reconcile what is scheduled
+
+`npm run radar-reconcile` builds content/publication/publication-register.json
+from the post register, the research register and the schedule Justin last
+reported. Log it as stage "PREFLIGHT" detail or as a disagreement: a HOLD here
+is a list for Justin, not a thing to fix. Never edit linkedin-schedule.json
+from anything but Justin's own words or screenshots. `daily.mjs handoffs` runs
+the same check itself and will not hand ChatGPT a story that is already
+scheduled or published.

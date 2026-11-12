@@ -3,16 +3,89 @@
   "source": "Reported by Justin on 12 November 2026 from screenshots of his LinkedIn scheduled posts. Claude did not see the screenshots and cannot read LinkedIn. Treat each row as scheduled until it is checked again.",
   "owner": "LinkedIn native scheduling, Justin's personal profile",
   "posts": [
-    { "scheduledFor": "2026-11-13T08:00", "subject": "AI chatbots and teenage emotional support", "withImage": true, "gdcNumber": null, "registerMatch": "Probably GDC-048, The chatbot confidant, which the register holds as RETIRED 9 Nov. Not confirmed.", "claudeReviewed": "UNKNOWN", "liveUrl": null },
-    { "scheduledFor": "2026-11-14T08:00", "subject": "AI toys", "withImage": true, "gdcNumber": null, "registerMatch": "Probably GDC-047, Half of UK children have an AI toy, which the register holds as RETIRED 9 Nov. Not confirmed.", "claudeReviewed": "UNKNOWN", "liveUrl": null },
-    { "scheduledFor": "2026-11-15T08:45", "subject": "Bradford social media trial", "withImage": null, "gdcNumber": null, "registerMatch": "No row found in the post register.", "claudeReviewed": "UNKNOWN", "liveUrl": null },
-    { "scheduledFor": "2026-11-16T08:00", "subject": "GDC-054, the meta analysis", "withImage": true, "gdcNumber": "054", "registerMatch": "GDC-054, research GDC-RR-0754a1641c, READY FOR JUSTIN.", "claudeReviewed": "The text was reviewed. The image was not: no image for 054 is recorded or was checked.", "liveUrl": null },
-    { "scheduledFor": "2026-11-18T07:30", "subject": "GDC-058, the European Commission and TikTok", "withImage": null, "gdcNumber": "058", "registerMatch": "GDC-058, research GDC-RR-3d31eb1683, READY FOR JUSTIN.", "claudeReviewed": "The v2 text was reviewed. Whether the scheduled copy is v2 is not verified.", "liveUrl": null },
-    { "scheduledFor": "2026-11-29T08:45", "subject": "Screen time research", "withImage": null, "gdcNumber": null, "registerMatch": "Not identified.", "claudeReviewed": "UNKNOWN", "liveUrl": null },
-    { "scheduledFor": "2026-12-06T08:30", "subject": "Social media and children, clarification article", "withImage": null, "gdcNumber": null, "registerMatch": "Not identified.", "claudeReviewed": "UNKNOWN", "liveUrl": null }
+    {
+      "scheduledFor": "2026-11-13T08:00",
+      "subject": "AI chatbots and teenage emotional support",
+      "withImage": true,
+      "gdcNumber": null,
+      "registerMatch": "Probably GDC-048, The chatbot confidant, which the register holds as RETIRED 9 Nov. Not confirmed.",
+      "claudeReviewed": "UNKNOWN",
+      "liveUrl": null,
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-11-14T08:00",
+      "subject": "AI toys",
+      "withImage": true,
+      "gdcNumber": null,
+      "registerMatch": "Probably GDC-047, Half of UK children have an AI toy, which the register holds as RETIRED 9 Nov. Not confirmed.",
+      "claudeReviewed": "UNKNOWN",
+      "liveUrl": null,
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-11-15T08:45",
+      "subject": "Bradford social media trial",
+      "withImage": null,
+      "gdcNumber": null,
+      "registerMatch": "No row found in the post register.",
+      "claudeReviewed": "UNKNOWN",
+      "liveUrl": null,
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-11-16T08:00",
+      "subject": "GDC-054, the meta analysis",
+      "withImage": true,
+      "gdcNumber": "054",
+      "registerMatch": "GDC-054, research GDC-RR-0754a1641c, READY FOR JUSTIN.",
+      "claudeReviewed": "The text was reviewed. The image was not: no image for 054 is recorded or was checked.",
+      "liveUrl": null,
+      "approvedByJustin": "2026-11-12, \"approive lkinked in\"",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-11-18T07:30",
+      "subject": "GDC-058, the European Commission and TikTok",
+      "withImage": null,
+      "gdcNumber": "058",
+      "registerMatch": "GDC-058, research GDC-RR-3d31eb1683, READY FOR JUSTIN.",
+      "claudeReviewed": "The v2 text was reviewed. Whether the scheduled copy is v2 is not verified.",
+      "liveUrl": null,
+      "approvedByJustin": "2026-11-12, \"approive lkinked in\"",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-11-29T08:45",
+      "subject": "Screen time research",
+      "withImage": null,
+      "gdcNumber": null,
+      "registerMatch": "Not identified.",
+      "claudeReviewed": "UNKNOWN",
+      "liveUrl": null,
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    },
+    {
+      "scheduledFor": "2026-12-06T08:30",
+      "subject": "Social media and children, clarification article",
+      "withImage": null,
+      "gdcNumber": null,
+      "registerMatch": "Not identified.",
+      "claudeReviewed": "UNKNOWN",
+      "liveUrl": null,
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
+    }
   ],
   "metricoolDrafts": [
-    { "gdcNumber": "054", "draftId": null, "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 16 November. Must not be scheduled or published while that slot stands." },
-    { "gdcNumber": "058", "draftId": null, "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 18 November. Must not be scheduled or published while that slot stands." }
+    {
+      "gdcNumber": "054",
+      "draftId": null,
+      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 16 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it."
+    },
+    {
+      "gdcNumber": "058",
+      "draftId": null,
+      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 18 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it."
+    }
   ]
 }

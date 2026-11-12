@@ -31,6 +31,7 @@ import { preflight, handoff, claimNumber, submitPack, founderStatus } from './pi
 import { ingestBatch, loadLedger } from './candidates.mjs'
 import { buildManifest } from './manifest.mjs'
 import { parsePackText } from './packformat.mjs'
+import { classify, reconcile } from './publication.mjs'
 
 const RUNS = () => join(reg.DIR, 'runs')
 export const VERDICTS = ['PASS', 'HOLD', 'WAITING', 'SKIPPED', 'ERROR']
@@ -154,8 +155,15 @@ export async function handoffs({ postRegisterPath = undefined } = {}) {
   const opt = postRegisterPath ? { postRegisterPath } : {}
   return stage('HANDOFFS', () => {
     const ready = reg.byStatus('EDITORIAL READY')
-    const built = []; const kept = []; const reasons = []
+    const built = []; const kept = []; const reasons = []; const duplicateCheck = {}
+    // Reconciliation comes first (Justin, 12 November 2026): a story that is
+    // already scheduled or published is never handed to ChatGPT a second time,
+    // and anything short of NEW is said out loud beside the queue.
+    const pub = reconcile(opt).register
     for (const r of ready) {
+      const dup = classify(r.studyId, { register: pub })
+      duplicateCheck[r.studyId] = dup.result
+      if (dup.result === 'DUPLICATE') { reasons.push(`${r.studyId}: not handed off, ${dup.why}`); continue }
       const n = claimNumber(r.studyId, opt)
       if (n.verdict !== 'PASS') { reasons.push(`${r.studyId}: no number, ${n.reasons.join(' ')}`); continue }
       const rec = reg.get(r.studyId)
@@ -172,7 +180,7 @@ export async function handoffs({ postRegisterPath = undefined } = {}) {
     writeFileSync(join(reg.DIR, 'manifest.json'), JSON.stringify(m, null, 1))
     const conflicts = internalNumberConflicts(postRegisterPath)
     for (const c of conflicts) reasons.push(`GDC-${c.number} is claimed twice in the post register`)
-    return { verdict: reasons.length ? 'HOLD' : 'PASS', reasons, detail: { built, alreadyCurrent: kept, queue: m.queue.map((q) => q.researchId) } }
+    return { verdict: reasons.length ? 'HOLD' : 'PASS', reasons, detail: { built, alreadyCurrent: kept, duplicateCheck, queue: m.queue.map((q) => q.researchId) } }
   })
 }
 

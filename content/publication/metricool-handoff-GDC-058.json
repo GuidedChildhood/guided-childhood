@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-12T11:55:42.375Z",
-  "sourceCommit": "056860022404f8c6d0fb209fb079de7d0896d280",
+  "generatedAt": "2026-11-12T12:20:19.522Z",
+  "sourceCommit": "4db054026a3c0cfa1c1a1ee2924a3f391befd1c0",
   "gdcPostNumber": "058",
   "researchId": "GDC-RR-3d31eb1683",
   "title": "A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.",
@@ -31,7 +31,7 @@
       "attach": "only if Justin asks for it"
     }
   ],
-  "approvalStatus": "READY FOR JUSTIN",
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "DUPLICATE",
     "why": "This post is already scheduled in LinkedIn itself for 2026-11-18T07:30."
@@ -47,8 +47,7 @@
     "schedulingPermitted": false,
     "autoPublishPermitted": false,
     "why": [
-      "already scheduled in LinkedIn itself for 2026-11-18T07:30 (observed 2026-11-12). A second copy through Metricool would be a duplicate.",
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+      "already scheduled in LinkedIn itself for 2026-11-18T07:30 (observed 2026-11-12). A second copy through Metricool would be a duplicate."
     ],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",

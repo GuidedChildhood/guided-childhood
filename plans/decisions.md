@@ -346,6 +346,12 @@ Justin said load them. All five round 1 adverts are in the Guided Childhood ad a
 
 Justin's answers to the board's ten out of ten questions (`plans/week-of-2026-11-09-ten-out-of-ten-plan.md`): test Fable 5.2 and switch only if it scores as well; Home becomes the lead plus one slot; schools, French, Etsy and ads keep going; under 4 email list, 14 to 16 first step and two reminders a day agreed. Built as one PR per step (1509, 1511 to 1514, 1516, and the eval). Migration 395 claimed for the nudge cap. The Fable 5.2 switch is held for the side by side eval (`DIGI_MODEL_CANDIDATE`, the "Compare the new model" button); the bar is as many cases passed, no breach, average within two points. DIGI_MODEL stays claude-fable-5-1 until then.
 
+## 12 November 2026: reconciliation before the next batch
+
+- Justin: build the reconciliation and handoff contract first, before the next batch of posts is written.
+- `scripts/radar/publication.mjs` builds one publication register (slot owner, approval, schedule, live URL) and classifies each queued story NEW, FOLLOW UP, OVERLAP, DUPLICATE or UNKNOWN. SCHEDULED needs Justin's approval on record plus exactly one slot owner. PUBLISHED needs a URL.
+- `daily.mjs handoffs` refuses to hand ChatGPT a DUPLICATE. Today it reports HOLD with ten things to settle, all of them Justin's to decide.
+- Why: on 12 November two posts sat in LinkedIn and Metricool at once and five scheduled posts had no record. No single file showed it.
 ## 12 November 2026: migration 395 applied
 
 Justin said apply it. `parent_nudge_log` and `claim_parent_nudge` are live: RLS on, three columns, no read or execute for authenticated, execute for service_role, checked after applying. The two reminders a day cap (PR 1512) now takes effect; before this it failed open by design.

@@ -76,7 +76,7 @@
    "foundBy": [
     "europepmc"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "relevanceScore": 9,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -94,11 +94,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-0754a1641c",
-   "version": 31,
+   "version": 33,
    "firstFound": "2026-11-09T14:11:15.655Z",
-   "lastChecked": "2026-11-11T11:17:43.080Z",
-   "changeReason": "visual decision: text only",
-   "changedBy": "radar:assets",
+   "lastChecked": "2026-11-12T12:20:19.330Z",
+   "changeReason": "APPROVAL: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-0754a1641c",
     "checkedAt": "2026-11-09T14:35:35.470Z",
@@ -277,9 +277,9 @@
    ],
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-10T13:56:01.731Z"
+    "at": "2026-11-12T12:20:19.328Z"
    },
    "driveHandoffJsonId": "1vUmhHeV3LVfg5OZIYbAa94uh5G0maFEi",
    "driveHandoffVerified": {
@@ -326,6 +326,11 @@
     "reason": "The pack asks for a card only if an approved brand asset is identified, and none has been. Justin's numbers of 11 November do not show that an image helps: the best post of the week carried none.",
     "decidedBy": "Claude Code, directed run",
     "at": "2026-11-11T11:17:43.079Z"
+   },
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "approive lkinked in, check surces (12 November 2026, in answer to: say approve 054 and 058 if scheduling them was your approval, and which copy to keep, LinkedIn or Metricool)",
+    "approvedAt": "2026-11-12T12:20:19.314Z"
    }
   },
   "GDC-RR-04ce5786d0": {
@@ -1928,7 +1933,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "ASSETS READY",
+   "status": "APPROVED",
    "candidate": {
     "candidateId": "C-2026-11-10-01",
     "batchId": "2026-11-10-relay-test-01",
@@ -1976,11 +1981,11 @@
    },
    "childIsTheSubject": false,
    "studyId": "GDC-RR-3d31eb1683",
-   "version": 29,
+   "version": 31,
    "firstFound": "2026-11-10T17:11:04.719Z",
-   "lastChecked": "2026-11-11T11:29:29.297Z",
-   "changeReason": "asset copy in Drive verified",
-   "changedBy": "radar:assets",
+   "lastChecked": "2026-11-12T12:20:19.346Z",
+   "changeReason": "APPROVAL: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-3d31eb1683",
     "checkedAt": "2026-11-10T17:17:53.928Z",
@@ -2155,9 +2160,9 @@
    "editorialPriority": "HIGH",
    "gate": {
     "verdict": "PASS",
-    "stage": "ASSETS READY",
+    "stage": "APPROVAL",
     "reasons": [],
-    "at": "2026-11-11T11:07:45.578Z"
+    "at": "2026-11-12T12:20:19.345Z"
    },
    "gdcPostNumber": "058",
    "handoff": {
@@ -2238,7 +2243,12 @@
      },
      "at": "2026-11-11T11:29:13.319Z"
     }
-   ]
+   ],
+   "approval": {
+    "approvedBy": "Justin",
+    "instruction": "approive lkinked in, check surces (12 November 2026, in answer to: say approve 054 and 058 if scheduling them was your approval, and which copy to keep, LinkedIn or Metricool)",
+    "approvedAt": "2026-11-12T12:20:19.336Z"
+   }
   },
   "GDC-RR-e1a6cd5229": {
    "title": "Changes in family structure and children's screen time: a longitudinal study of Australian children.",
