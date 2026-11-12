@@ -1053,6 +1053,24 @@ export function tasterStageEmail(params: {
   }
 }
 
+// The one email for the under 4 list (lib/starter/turns-four.ts): the month
+// the child turns 4, and never before.
+export function turnsFourEmail(params: { unsubscribe: string; cta: string }): EmailContent {
+  const { unsubscribe, cta } = params
+  return {
+    subject: 'They turn 4 this month',
+    html: wrapper(
+      heading('You asked us to write when they turned 4.') +
+      p(`So here we are. This is the month, and everything we make is written for children from 4 to 16.`) +
+      p(`Four is a good time to start. The habits a family sets now, who decides when the screen goes off, where the tablet sleeps, what you say when it does, are the ones the next twelve years are built on.`) +
+      p(`The first step is the stage check. Three questions about your child, what worries you and how much time you have. Then you see their stage and the first things to try. It takes two minutes and there is nothing to sign up for to see it.`) +
+      button('Find your child\'s stage', cta) +
+      p(`This is the only email we promised you. If you would rather not hear from us again, the link below stops everything.`),
+      unsubscribe
+    ),
+  }
+}
+
 export function tasterFullPackEmail(params: {
   tasterTitle: string
   pageCount: number
