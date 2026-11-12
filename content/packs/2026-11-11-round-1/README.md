@@ -120,3 +120,70 @@ Card 5 was "Jobs first. Then their time." until Kairoo began running "Jobs
 first. Then screen time." on 6 November. Justin said rewrite it. It now leads
 on what Kairoo does not have: the child earns the time, and the parent sets
 the rate. Its link code is `r1-earned-time`.
+
+## The benchmark: against the best that is known to work
+
+Added 12 November 2026 (ad studio Phase 4, pass 3). Each card scored against
+the proven competitor static closest in format, both on rubric lines 1 to 7
+and 9 (eight lines, one point each). The benchmark is Qustodio's static frame,
+live 96 and 97 days in several versions (`content/ads/swipe/ads.json`): a
+headline left on a pale ground, a cut out photo of a child with a phone, a
+full width button.
+
+| Line | Qustodio "Know where they are, always" | Ours, mid match | Ours, left out | Ours, before the box | Ours, earned time | Ours, control |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
+| 1 One moment named first | 0 | 1 | 1 | 1 | 0 | 0 |
+| 2 Reads at thumbnail size | 1 | 1 | 1 | 1 | 1 | 1 |
+| 3 The screen proves the headline | 0 | 1 | 1 | 1 | 1 | 1 |
+| 4 One gold detail, space, no glow | 1 | 1 | 1 | 1 | 1 | 1 |
+| 5 Nothing looks made | 0 | 1 | 1 | 1 | 1 | 1 |
+| 6 Nothing cut off | 1 | 1 | 1 | 1 | 1 | 1 |
+| 7 A parent's own words | 0 | 1 | 1 | 1 | 0 | 0 |
+| 9 One frame, many lines | 1 | 1 | 1 | 1 | 1 | 1 |
+| **Total of 8** | **4** | **8** | **8** | **8** | **6** | **6** |
+
+Every card scores above the benchmark. Their frame shows a stock looking child
+and a promise; ours shows the moment and the real screen that answers it.
+
+What theirs does that ours does not, and what we do about it:
+
+- **A full width button in a strong colour.** Ours is smaller. Kept for Round
+  1 so the test measures only the hook; tried in Round 2 if the click rate is
+  low against reach.
+- **Their longest runners are not statics at all.** Their three adverts past
+  240 days are plain videos in real homes. No card beats that. Ad video 1
+  (`content/packs/2026-11-11-ad-video-1/`) is the answer, waiting on Justin's
+  filming.
+- **A child's face, and "keep my kid safe".** Left out on purpose: never a
+  child's face, never a promised outcome.
+
+Earned time and the control lose lines 1 and 7 because they name a mechanism
+rather than a moment. That is fine for the control, which is the line we
+already use, and it is the open question the test answers for earned time.
+
+## Loaded into Ads Manager, switched off (12 November 2026)
+
+`npm run ad-upload -- 2026-11-11-round-1 --go`: all 17 calls went through on
+the first run. One campaign ("GC 2026-11-11-round-1", traffic), one ad set
+and five adverts, every one PAUSED, each linking to its own code with
+`utm_medium=paid`, each running as The Guided Childhood on Facebook and
+@guidedchildhood on Instagram. Meta was still reviewing the five ("in
+process") when they were checked. The ids are in
+`content/ads/meta/2026-11-11-round-1.json`.
+
+Before switching on, in Ads Manager: the ad set's end date was written as
+19 November (seven days from loading), so move it to seven days from the day
+it is switched on; and check the audience (UK, 25 and over, Advantage+) and
+the budget (£5 a day).
+
+## Switched on: the paid test (12 November 2026)
+
+Justin chose the paid test and said yes to the exact terms: the five adverts,
+one ad set, £5 a day until 19 November at about 11:08, about £35 at most, on
+the Visa ending 2258, paid as THE SOCIAL BILLBOARD LTD. Meta had passed all
+five in review. Campaign, ad set and adverts switched on and confirmed ACTIVE.
+This breaks the free first rule knowingly, at a capped cost; the uploader
+still only ever creates adverts switched off.
+
+The Monday loop on 16 November reads it first; the verdict needs 300 reached
+per card. The test ends on its own on 19 November.
