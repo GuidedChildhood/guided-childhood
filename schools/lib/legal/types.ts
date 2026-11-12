@@ -64,5 +64,7 @@ export function section(n: number, id: string, title: string, clauses: ClauseInp
 // server, which stopped being true the day Mark lesson delivered shipped.
 // 1.2, 11 November 2026: the record can also hold how many pupils got most of
 // the starter quiz or the exit quiz right. A count about a class, no names.
+// Also 1.2, 12 November: a pilot contact joins the schools mailing list in
+// Mailchimp, which becomes the fifth provider in both documents.
 export const LEGAL_VERSION = '1.2'
 export const LEGAL_DATED = '11 November 2026'

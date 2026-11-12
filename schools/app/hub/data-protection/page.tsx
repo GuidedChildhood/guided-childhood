@@ -88,7 +88,7 @@ export default async function DataProtectionPage() {
           <h2 style={h2}>4. Storage, subprocessors and retention</h2>
           <p style={body}>
             Data is stored with Supabase (database, hosted in Ireland) behind row level security, the
-              application is served by Vercel, confirmation emails go through Resend and invoices are raised in Stripe. Transport is encrypted throughout. There are no
+              application is served by Vercel, confirmation emails go through Resend, a pilot contact joins the schools mailing list in Mailchimp, and invoices are raised in Stripe. Transport is encrypted throughout. There are no
             pupil rows to retain or delete. On licence termination the school&rsquo;s account and contact
             details are deleted on request or after the retention period set out in the privacy notice and the data processing agreement. Access within Guided Childhood is limited to what operating the service requires.
           </p>

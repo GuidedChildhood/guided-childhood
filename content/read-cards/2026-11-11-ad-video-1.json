@@ -1,0 +1,62 @@
+{
+ "title": "Ad video 1: mid match, Justin to camera",
+ "printed": "11 November 2026",
+ "cover": [
+  "One advert, twenty seconds, filmed twice with two different openings.",
+  "Six cards. One clip per card. Ten minutes."
+ ],
+ "pieces": [
+  {
+   "id": "V1",
+   "title": "Mid match, the advert",
+   "platform": "Facebook and Instagram advert, vertical",
+   "length": "20 seconds to camera",
+   "setup": [
+    "Phone upright at eye level, window light in front of you, never behind.",
+    "Sit where the gaming happens: the sofa. A controller on the arm beside you if there is one.",
+    "Your own phone, no tripod polish. The adverts that last look like this.",
+    "Say card 1 twice. We keep the better one.",
+    "Source: content/packs/2026-11-11-ad-video-1"
+   ],
+   "cards": [
+    {
+     "text": "They can't stop in the middle of a match.",
+     "direction": "Straight in. No hello."
+    },
+    {
+     "text": "You say it's time to come off. They go from fine to furious in about four seconds.",
+     "direction": ""
+    },
+    {
+     "text": "So agree it before they start. How many matches. They stop at the end of the last one.",
+     "direction": "Slower. These are the words they came for."
+    },
+    {
+     "text": "That's one script from Guided Childhood. What stage is your child? Three questions, no sign up.",
+     "direction": "The last two sentences word for word, every time."
+    }
+   ]
+  },
+  {
+   "id": "V1B",
+   "title": "Mid match, the second opening",
+   "platform": "Same advert, a different first five seconds",
+   "length": "8 seconds, two cards",
+   "setup": [
+    "Same seat, same light, straight after V1.",
+    "These two cards replace cards 1 and 2. Cards 3 and 4 are reused from V1.",
+    "This is the test: which opening makes more parents tap."
+   ],
+   "cards": [
+    {
+     "text": "It's a game. Turn it off now. Most of us have said it.",
+     "direction": "The first two sentences in the voice you would say them in."
+    },
+    {
+     "text": "And they go from fine to furious, because they can't stop in the middle of a match.",
+     "direction": ""
+    }
+   ]
+  }
+ ]
+}
