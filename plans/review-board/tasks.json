@@ -11,12 +11,12 @@
       ],
       "proof": "supabase/migrations/377_the_guided_planet.sql; scripts/check-migration-grants.mjs fails on main",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "supabase/migrations/377_the_guided_planet.sql lines 143 to 151; plans/decisions-archive/2026-10.md L854; main green 9 November, PRs 1464 and 1465"
     },
     {
       "id": "social-week-live-starter-pack-link",
@@ -29,12 +29,12 @@
       ],
       "proof": "content/packs/2026-10-19-social-week/1-wed-phone-policy.json, 2-fri-scripts.json, 3-sat-happy-news.json; guidedchildhood.co.uk/starter-pack returned 404 on 13 October 2026",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "plans/decisions-archive/2026-10.md L1054; scripts/check-live-domain.mjs wired at .github/workflows/wiring.yml line 215"
     },
     {
       "id": "live-founder-checkout-test",
@@ -48,12 +48,12 @@
       ],
       "proof": "THE-STORY.md section 12; plans/2026-09-30-control-room.md section 1 (revenue £0); lib/stripe/index.ts getFounderCount",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-11-03",
+      "snooze_until": "2026-11-03",
+      "closed": "2026-11-03",
+      "note": "asked 2 November, not yet"
     },
     {
       "id": "count-stage-checks-by-source",
@@ -67,12 +67,12 @@
       ],
       "proof": "app/api/video-link/started/route.ts counts only cookie holders; app/(marketing)/free/planet-post/page.tsx sends ?src= that nothing reads",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1323, supabase/migrations/379_stage_checks_by_source.sql, 388_utm_and_the_video_channels.sql, app/(dashboard)/dashboard/admin/videos/page.tsx. The Friday reading part carries on as friday-number-by-channel"
     },
     {
       "id": "sprint-numbers-to-board",
@@ -86,12 +86,12 @@
       ],
       "proof": "content/brand-story/posted-log.md says none posted; plans/2026-09-30-control-room.md section 3 keeps the numbers in the Drive tracker only",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-11-09",
+      "snooze_until": "2026-11-16",
+      "closed": "2026-11-03",
+      "note": "asked 2 November, not yet"
     },
     {
       "id": "board-reads-real-numbers",
@@ -107,12 +107,12 @@
       ],
       "proof": "lib/home/habit-metrics.ts wired to app/api/admin/product-pulse/route.ts; plans/review-board/runs is empty",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "commit 3289a4ce; plans/review-board/product-pulse.sql; the pulse line in this run"
     },
     {
       "id": "paywall-names-what-ai-cannot",
@@ -126,12 +126,12 @@
       ],
       "proof": "components/upgrade/WhatYouAreBuying.tsx; app/(gate)/dashboard/choose/page.tsx; app/page.tsx (only 'DiGi remembers')",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1328; components/upgrade/WhatAChatbotCannot.tsx on home, choose and upgrade"
     },
     {
       "id": "first-phone-worry-gets-its-words",
@@ -144,12 +144,12 @@
       ],
       "proof": "lib/content/signal-map.ts (categoryForConcern returns null); lib/pathway/tonight.ts (phones-and-messaging shares the bedtime case)",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1315; scripts/check-concern-loop.mjs"
     },
     {
       "id": "evening-push-stops-when-quiet",
@@ -162,12 +162,12 @@
       ],
       "proof": "app/api/push/cron/route.ts runEveningPass has no ceiling on unanswered nights",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1314; app/api/push/cron quiet nights"
     },
     {
       "id": "story-true-this-week",
@@ -182,12 +182,12 @@
       ],
       "proof": "THE-STORY.md lines 189 and 323 to 349; app/api/stripe/checkout/route.ts; components/quests/ChildLinkShare.tsx; plans/decisions-archive/2026-08.md 14 August entry",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1319 (16 October); THE-STORY.md Jigsaw from £495; section 9 plan choice at end of sign up. Section 12 has gone stale again: story-open-work-true-in-november"
     },
     {
       "id": "health-sweep-checks-applied-migrations",
@@ -200,12 +200,12 @@
       ],
       "proof": "plans/decisions.md, 13 October 2026: migration 360 was never applied, so the whole referral feature had no tables",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1326; plans/review-board/routines/health-sweep-migrations.md"
     },
     {
       "id": "digital-parenting-week-in-batch",
@@ -218,12 +218,12 @@
       ],
       "proof": "nothing in the repo mentions the week; date only from nationaltoday.com",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1317; plans/2026-10-16-digital-parenting-week-plan.md (date unconfirmed on a primary source, so two date free pieces)"
     },
     {
       "id": "confirm-ico-fee-paid",
@@ -234,14 +234,14 @@
       "lenses": [
         "business-running"
       ],
-      "proof": "THE-STORY.md section 12; plans/go-live-safety-checklist.md section 1; no record in plans/decisions-archive",
+      "proof": "plans/review-board/answers: snoozed repeatedly between 14 October and 11 November",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
+      "asked": "2026-11-11",
+      "snooze_until": "2026-11-18",
       "closed": null,
-      "note": ""
+      "note": "asked 2 November, not yet"
     },
     {
       "id": "decide-vercel-project",
@@ -250,17 +250,16 @@
       "size": "small",
       "priority": 2,
       "lenses": [
-        "simplicity-flow",
         "business-running"
       ],
-      "proof": "THE-STORY.md section 11; both guided-childhood and guided-childhood-app build main and both fail today",
+      "proof": "plans/review-board/answers: snoozed or not yet repeatedly between 14 October and 11 November",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
+      "asked": "2026-11-11",
+      "snooze_until": "2026-11-18",
       "closed": null,
-      "note": ""
+      "note": "asked 2 November, not yet"
     },
     {
       "id": "decide-child-side-model-rule",
@@ -273,11 +272,11 @@
       ],
       "proof": "scripts/check-child-has-no-model.mjs fails on app/api/kid/homework-help/route.ts; THE-STORY.md sections 6 and 7",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
+      "asked": "2026-10-14",
+      "snooze_until": "2026-10-21",
+      "closed": "2026-10-14",
       "note": ""
     },
     {
@@ -291,12 +290,12 @@
       ],
       "proof": "scripts/check-child-has-no-model.mjs is in neither package.json nor .github/workflows/wiring.yml",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1319; package.json child-model-guard; .github/workflows/wiring.yml line 233; scripts/check-child-has-no-model.mjs passes"
     },
     {
       "id": "paywall-ask-is-personal",
@@ -309,12 +308,12 @@
       ],
       "proof": "components/access/TwoDoors.tsx; app/(gate)/dashboard/choose/page.tsx (same copy for every family)",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1329; app/(dashboard)/dashboard/upgrade/page.tsx line 231 (what this family keeps, from their own rows)"
     },
     {
       "id": "what-we-are-not-on-stage-check",
@@ -327,12 +326,12 @@
       ],
       "proof": "app/page.tsx line 728 holds the only full statement; nothing under app/(marketing)/starter-pack or join",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1332; components/marketing/WhatWeAreNot.tsx"
     },
     {
       "id": "stage-result-share-action",
@@ -345,12 +344,12 @@
       ],
       "proof": "app/(marketing)/starter-pack/ResultScreen.tsx has no share; plans/DISTRIBUTION-PLAYBOOK-step-by-step.md step 1.2",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1324; app/(marketing)/starter-pack/ResultScreen.tsx; scripts/check-stage-share.mjs"
     },
     {
       "id": "home-stage-names-match-product",
@@ -363,12 +362,12 @@
       ],
       "proof": "app/page.tsx lines 67, 75, 84, 1201 against lib/content/stages.ts lines 86, 167, 300",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1331; app/page.tsx"
     },
     {
       "id": "parent-pages-in-parents-words",
@@ -381,23 +380,23 @@
       ],
       "proof": "app/(marketing)/ban-workarounds/page.tsx line 283; app/(marketing)/join/page.tsx lines 236 to 262; research/homepage-audience-language.md section 6",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1333; app/(marketing)/join/page.tsx and ban-workarounds/page.tsx"
     },
     {
       "id": "home-cards-one-slot",
       "title": "Bring Home's small cards under one slot below the lead, one card a day, chosen by a tier in lib/home/next-up.ts, and split dashboard/page.tsx so each card family has its own component.",
       "owner": "claude",
       "size": "medium",
-      "priority": 3,
+      "priority": 2,
       "lenses": [
         "simplicity-flow"
       ],
-      "proof": "app/(dashboard)/dashboard/page.tsx (2,055 lines, about 45 cards); lib/home/habit-nudges.ts; lib/home/welcome-cards.ts; THE-STORY.md section 11 one picker",
+      "proof": "app/(dashboard)/dashboard/page.tsx (2,069 lines, about 20 conditional cards)",
       "due": "2026-10-27",
       "status": "open",
       "created": "2026-10-13",
@@ -417,12 +416,12 @@
       ],
       "proof": "app/api/daily/tonight/route.ts; lib/working/movement.ts; lib/pathway/tonight.ts scriptHref",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1316; supabase/migrations/380_a_tonight_tap_joins_the_ledger.sql; app/api/daily/tonight/route.ts"
     },
     {
       "id": "first-week-proves-value",
@@ -436,12 +435,12 @@
       ],
       "proof": "app/(dashboard)/dashboard/what-is-working/page.tsx shows movement only after two points; lib/concerns/baseline.ts",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1320; scripts/check-concern-loop.mjs"
     },
     {
       "id": "phone-craft-tap-and-focus",
@@ -454,12 +453,12 @@
       ],
       "proof": "app/(dashboard)/dashboard/quests/QuestManager.tsx lines 1230 and 1653; components/kid/KidRoad.tsx:76; no focus visible rule in shared/tokens.css",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1321, commit 9443d9ab; scripts/check-tap-targets.mjs (npm run tap-guard)"
     },
     {
       "id": "loading-states-and-hex-ratchet",
@@ -472,12 +471,12 @@
       ],
       "proof": "only 2 loading.tsx files against 288 pages; about 1,400 hex values in app and components",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1322, commit 8db1b199; nine loading.tsx files; scripts/check-hex-ratchet.mjs with hex-baseline.json"
     },
     {
       "id": "fallback-models-current",
@@ -490,23 +489,26 @@
       ],
       "proof": "lib/config/digi.ts lines 30 to 34 and 109; lib/config/ai-module.ts lines 6 to 10; scripts/check-digi-model.mjs",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-12",
+      "note": "PR 1318; lib/config/digi.ts lines 32 to 36 (claude-fable-5-1, claude-opus-5-5, claude-sonnet-5-5)"
     },
     {
       "id": "ux-walkthrough-report-in-repo",
-      "title": "Make the Wednesday UX walkthrough save its report under plans/review-board so the board and later sessions can read it.",
+      "title": "Make the Wednesday UX walkthrough actually save its report: drop the 'open a pull request' step a scheduled run cannot do, commit walkthroughs/<date>.md to its branch with git, and have each report walk the phone ask, switch off fight and bedtime loops with a seeded family at 390 by 844 and 1280 by 800, screenshots included.",
       "owner": "claude",
       "size": "small",
-      "priority": 3,
+      "priority": 2,
       "lenses": [
+        "ai-tools-watch",
+        "solves-problem",
+        "ux-expert",
         "business-running"
       ],
-      "proof": "brief: the 7 October walkthrough report lives in that session only",
+      "proof": "plans/review-board/walkthroughs/ holds only README.md; plans/review-board/routines/ux-walkthrough.md tells the run to open a pull request",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
@@ -527,12 +529,12 @@
       ],
       "proof": ".github/workflows/weekly_meeting.yml (cron Monday 09:00 UTC); agents/crew.py line 52",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-10-16",
+      "snooze_until": "2026-10-21",
+      "closed": "2026-10-16",
+      "note": "Monday crew and weekly_meeting deleted (PR 1334); the daily briefing stays for now"
     },
     {
       "id": "decide-parent-flame-grace-day",
@@ -545,12 +547,12 @@
       ],
       "proof": "lib/pathway/streak.ts resets to 0 after one empty day; the 13 September plan ticked a grace day that is not in the code",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-10-16",
+      "snooze_until": "2026-10-21",
+      "closed": "2026-10-16",
+      "note": "Same as the child: miss a day and the run starts again, said kindly. No grace day; current behaviour stays"
     },
     {
       "id": "decide-under-four-customer",
@@ -563,12 +565,12 @@
       ],
       "proof": "lib/children/age.ts line 38 clamps under 4s into 4 to 7; the 18 August perfect customer says 2 to 16",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
-      "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "asked": "2026-10-16",
+      "snooze_until": "2026-10-21",
+      "closed": "2026-10-16",
+      "note": "Later: customer line becomes 4 to 16; an under 4 parent is told plainly we start at 4, with a come back note"
     },
     {
       "id": "decide-journey-page-name",
@@ -581,12 +583,12 @@
       ],
       "proof": "components/dashboard/MobileTabBar.tsx; components/home/ExploreGrid.tsx; components/nav/BackTo.tsx lines 35 and 36; THE-STORY.md section 11",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
-      "asked": null,
+      "asked": "2026-10-15",
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-10-15",
+      "note": "Passport everywhere; Road to sixteen is the subtitle; Pathway stays DiGi's word, never a page name"
     },
     {
       "id": "decide-pathway-session-line",
@@ -599,8 +601,232 @@
       ],
       "proof": "app/(dashboard)/dashboard/upgrade/page.tsx line 278; no other trace in code or decisions",
       "due": "2026-10-20",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
+      "asked": "2026-10-16",
+      "snooze_until": "2026-10-23",
+      "closed": "2026-10-16",
+      "note": "Take the line off the upgrade page; it can come back once a first session is booked"
+    },
+    {
+      "id": "five-real-families-run-a-week",
+      "title": "Send the 30 warm ring messages drafted in Gmail on 6 November, follow up the replies, and get five real families signed up and running one week, so we have a first real day done rate, a seven day return and a first paying family or the named reason there is none.",
+      "owner": "justin",
+      "size": "medium",
+      "priority": 1,
+      "lenses": [
+        "keeps-coming-back",
+        "will-pay",
+        "right-audience",
+        "business-running"
+      ],
+      "proof": "plans/week-of-2026-11-02-first-20-signups-plan.md lines 138 and 387; product pulse 12 November (day done rate 0%, last completed day 28 September, revenue £0)",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "board-routine-saves-its-run",
+      "title": "Make the Friday board routine save its run: add plans/review-board/routines/weekly-board.md read from origin/main, have it find branches and PRs with git instead of listing pull requests, and always commit runs/<date>.md, scorecard.json and tasks.json, or print the report and say plainly it could not save.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "ai-tools-watch",
+        "business-running"
+      ],
+      "proof": "plans/review-board/runs/ holds only 2026-10-13.md; last fired 6 November, 71 seconds, no output; plans/decisions.md 11 November (a scheduled run cannot list pull requests)",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "campaign-pieces-end-at-stage-check",
+      "title": "Before the walkthrough campaign starts on 17 November, make the stage check the last line of every parent facing piece (the Robux DiGi piece, playlists 03, 08 and 13), mark the school pieces 02, 06, 11 and 15 as a different audience in schedule.md, and add a guard that fails if a parent facing file in content/campaigns lacks a starter-pack link or the hook line.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "marketing"
+      ],
+      "proof": "content/campaigns/platform-walkthrough/03-playlists-who-chose-the-next-one.md; plans/decisions.md 10 November (the walkthrough runs from 17 November)",
+      "due": "2026-11-16",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "friday-number-by-channel",
+      "title": "Add to the weekly board run, beside the pulse line, stage checks begun in seven days and sign ups, each by channel from video_links and the UTM fields kept on the profile, and write the next month's one bet and its measure at the top of plans/2026-10-01-marketing-master-plan.md.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "marketing",
+        "right-audience",
+        "business-running"
+      ],
+      "proof": "app/(dashboard)/dashboard/admin/videos/page.tsx (the number exists but nothing reads it); supabase/migrations/379_stage_checks_by_source.sql and 388_utm_and_the_video_channels.sql",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "outreach-plans-live-domain",
+      "title": "Swap guidedchildhood.co.uk/starter-pack for the .com address in plans/creator-outreach-kit.md (lines 29, 57, 64) and plans/DISTRIBUTION-PLAYBOOK-step-by-step.md (line 19), and add both files to ROOTS in scripts/check-live-domain.mjs.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "marketing"
+      ],
+      "proof": "plans/creator-outreach-kit.md line 57; scripts/check-live-domain.mjs line 23",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "merged-pr-closes-its-task",
+      "title": "Have scripts/review-board.mjs mark a task done, with the PR number as proof, when a merge on origin/main names its id, so built work stops showing as late and the session start alert stops asking about it.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "plans/review-board/tasks.json: 21 tasks built 14 to 16 October still open and LATE in npm run review-board -- list",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "story-open-work-true-in-november",
+      "title": "Rewrite THE-STORY section 12 against main today: move the October decisions, the live checkout, count by source, the paywall and the first week work into built, and list what is really open (real families, the board and walkthrough routines, ICO fee, Vercel project).",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "business-running"
+      ],
+      "proof": "THE-STORY.md lines 339 to 384, 'Checked against the code on main, 16 October 2026'",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "home-page-in-parents-words",
+      "title": "Rewrite the home page title, description, Open Graph text and the FaqAccordion 'what do I get' answer in the parent's words (the nightly fight, the phone coming, what to say tonight), put the plain age beside each stage name so a 15 year old fits a stage, and add one line that the rules are agreed together, not imposed.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "right-audience",
+        "competitor-watch"
+      ],
+      "proof": "app/page.tsx lines 30 to 48 and 93 to 101; components/marketing/FaqAccordion.tsx line 7; briefings/notes/competitor-sightings.md 16 October",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "first-48-hours-shows-three",
+      "title": "Show three of the four things a chatbot cannot do in a new family's first 48 hours: 'Day 1 is your starting point' on Home after the first worry check in, a quoted 'last time you told me' after the first DiGi answer, the start point and next look in the weekly review email when a worry has one or two ratings, and a 'three felt in week one' count in the product pulse.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 2,
+      "lenses": [
+        "value-above-ai",
+        "solves-problem"
+      ],
+      "proof": "components/home/DayCheckup.tsx; app/api/cron/weekly-review/route.ts; product pulse 12 November (1 of 32 families reach three of five value signals)",
+      "due": "2026-11-26",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "flame-shows-lifetime-days",
+      "title": "Show the lifetime days shown up beside the parent's flame and one warm line on Home after a restart, so a missed day never reads as zero, keeping the no grace day decision.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "keeps-coming-back"
+      ],
+      "proof": "lib/pathway/streak.ts (total returned, read in one place); app/(dashboard)/dashboard/page.tsx",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "push-daily-ceiling",
+      "title": "Add one ceiling on pushes per parent per day across the evening, re engagement, flashpoint heads up and school window crons, enforced in lib/push/send.ts.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "keeps-coming-back"
+      ],
+      "proof": "lib/push/send.ts (no per day ceiling); lib/push/flashpoint-heads-up.ts; lib/push/reengage.ts",
+      "due": "2026-11-26",
+      "status": "open",
+      "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "tap-in-competitor-sightings",
+      "title": "Add TAP: Tech Activity Pact to briefings/notes/competitor-sightings.md and correct the 'Kairoo is the only one' framing.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "competitor-watch"
+      ],
+      "proof": "https://apps.apple.com/app/id6759011242 (read 12 November 2026 by the competitor lens); briefings/notes/competitor-sightings.md",
+      "due": "2026-11-19",
+      "status": "open",
+      "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
       "closed": null,
