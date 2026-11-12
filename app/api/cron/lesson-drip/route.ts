@@ -101,7 +101,7 @@ async function handler(request: Request) {
       const title = `Your read this fortnight ${emoji}`
       const body = `DiGi here. ${next.title} is in your lessons. A few minutes, written for you rather than ${name}, so you know the ground before it comes up at home.`
 
-      await sendPush({ userId, title, body, url: '/dashboard/lessons' })
+      await sendPush({ userId, title, body, url: '/dashboard/lessons', nudge: true })
       sent += 1
     } catch { /* best effort per family */ }
   }

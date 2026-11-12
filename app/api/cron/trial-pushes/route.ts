@@ -105,7 +105,7 @@ async function handler(request: Request) {
       body = seatsLine
     }
 
-    const sent = await sendPush({ userId: p.id, title, body, url: '/dashboard/upgrade' })
+    const sent = await sendPush({ userId: p.id, title, body, url: '/dashboard/upgrade', nudge: true })
     if (sent.error) {
       // Transport failure: release the lock so tomorrow's run can retry.
       results.errors++
