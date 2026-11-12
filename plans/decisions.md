@@ -339,3 +339,7 @@ Justin brought a second talk (seven rules for digital marketing) and asked for t
 ## 12 November 2026: ten out of ten, the build order, and the Fable 5.2 trial
 
 Justin's answers to the board's ten out of ten questions (`plans/week-of-2026-11-09-ten-out-of-ten-plan.md`): test Fable 5.2 and switch only if it scores as well; Home becomes the lead plus one slot; schools, French, Etsy and ads keep going; under 4 email list, 14 to 16 first step and two reminders a day agreed. Built as one PR per step (1509, 1511 to 1514, 1516, and the eval). Migration 395 claimed for the nudge cap. The Fable 5.2 switch is held for the side by side eval (`DIGI_MODEL_CANDIDATE`, the "Compare the new model" button); the bar is as many cases passed, no breach, average within two points. DIGI_MODEL stays claude-fable-5-1 until then.
+
+## 12 November 2026: migration 395 applied
+
+Justin said apply it. `parent_nudge_log` and `claim_parent_nudge` are live: RLS on, three columns, no read or execute for authenticated, execute for service_role, checked after applying. The two reminders a day cap (PR 1512) now takes effect; before this it failed open by design.
