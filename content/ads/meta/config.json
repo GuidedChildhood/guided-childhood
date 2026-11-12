@@ -3,9 +3,17 @@
   "dailyBudgetPence": 500,
   "days": 7,
   "targeting": {
-    "geo_locations": { "countries": ["GB"] },
+    "geo_locations": {
+      "countries": [
+        "GB"
+      ]
+    },
     "age_min": 28,
     "age_max": 54,
-    "targeting_automation": { "advantage_audience": 1 }
-  }
+    "targeting_automation": {
+      "advantage_audience": 1
+    }
+  },
+  "advertiser": "Guided Childhood",
+  "payer": "Guided Childhood"
 }

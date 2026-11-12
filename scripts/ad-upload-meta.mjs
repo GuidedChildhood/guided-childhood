@@ -81,6 +81,11 @@ export function plan(deck, config, env) {
         daily_budget: config.dailyBudgetPence, end_time: ends,
         billing_event: 'IMPRESSIONS', optimization_goal: 'LINK_CLICKS',
         bid_strategy: 'LOWEST_COST_WITHOUT_CAP', targeting: config.targeting,
+        // Who the advert is for and who pays, shown to people in the places
+        // that require it. Ads Manager refuses to publish an ad set without
+        // them (found 12 November 2026, round 1).
+        ...(config.advertiser ? { dsa_beneficiary: config.advertiser } : {}),
+        ...(config.payer ? { dsa_payor: config.payer } : {}),
       },
     },
   ]
