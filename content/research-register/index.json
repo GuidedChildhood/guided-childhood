@@ -2244,48 +2244,55 @@
    "title": "Changes in family structure and children's screen time: a longitudinal study of Australian children.",
    "doi": "10.1007/s00431-026-07569-z",
    "pmid": "43000569",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43000569/",
+   "url": "https://doi.org/10.1007/s00431-026-07569-z",
    "journal": "European journal of pediatrics",
    "published": "2026-11-09",
-   "authors": "Shifera N, Pagano R, Sanders T",
-   "abstract": "",
+   "authors": "Shifera N, Pagano R, Sanders T.",
+   "abstract": "Children's screen time varies by family structure, but evidence remains cross-sectional, making it difficult to determine whether differences reflect family structure or pre-existing sociodemographic inequalities. To our knowledge, no study has used matched comparison groups to test whether screen time changes following family transitions (two-parent to single-parent and vice versa). Using data from the Longitudinal Study of Australian Children, a nationally representative study drawing on the Baby and Kindergarten cohorts to follow children aged 6 to 13 (N = 8706 at baseline; mean age, 6.86 years; 51% male; 85% in two-parent households), we used pre-registered multilevel mixed-effects models to examine associations between family structure, sibling number, and screen time, and propensity score-matched piecewise regression to test changes in screen time following family transitions. After full adjustment, living in a single-parent household was not significantly associated with screen time (B = 11.98 min/week; 95% CI, - 7.41 to 31.37). Transitions from two-parent to single-parent (B = 18.45 min/week; 95% CI, - 94.48 to 131.39) or from single-parent to two-parent (B = - 49.47 min/week; 95% CI, - 247.58 to 148.64) were not associated with changes in screen time. In contrast, each additional sibling was associated with lower screen time (B = - 22.71 min/week; 95% CI, - 30.18 to - 15.25).<h4>Conclusion</h4>The association between family structure and screen time is largely explained by sociodemographic factors, and family transitions do not produce significant changes in screen time. Interventions to reduce screen time may be better directed at sociodemographic inequalities rather than at family structure or transitions, while considering siblings.<h4>What is known</h4>• Most evidence on family structure and children's screen time is cross-sectional, leaving unclear whether family structure or pre-existing family differences explain observed patterns. • No study has used matched comparison groups to examine whether children's screen time trajectories shift following a family structure transition.<h4>What is new</h4>• Screen time levels and trajectories were compared before and after transitions in both directions, between children who transitioned and matched children in stable households. • After adjustment, family structure was not associated with screen time, and transitions were not associated with changes in screen time; having more siblings was consistently associated with lower screen time.",
    "isPreprint": false,
    "peerReviewed": true,
    "pubTypes": "Journal Article",
    "grants": [],
    "streams": [
     "01",
-    "19"
+    "08",
+    "19",
+    "21",
+    "22",
+    "24"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
-   "status": "HOLD",
-   "relevanceScore": 8,
-   "relevanceBand": "ADJACENT",
+   "status": "VERIFIED",
+   "relevanceScore": 13,
+   "relevanceBand": "CORE",
    "relevanceParts": {
     "core": [
      "+5 \\bscreen time\\b"
     ],
     "method": [
-     "+3 \\blongitudinal|cohort|prospective|"
+     "+3 \\blongitudinal|cohort|prospective|",
+     "+3 \\bpreregist|pre-?regist|specificat",
+     "+2 \\bnationally representative\\b"
     ],
     "penalty": [],
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-08",
-    "until": "2026-11-11"
+    "since": "2026-11-09",
+    "until": "2026-11-12"
    },
    "studyId": "GDC-RR-e1a6cd5229",
-   "version": 5,
+   "version": 7,
    "firstFound": "2026-11-10T17:17:53.811Z",
-   "lastChecked": "2026-11-11T12:33:03.410Z",
-   "changeReason": "REVIEW: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-12T09:21:43.725Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
    "dossier": {
     "studyId": "GDC-RR-e1a6cd5229",
-    "checkedAt": "2026-11-10T17:17:54.242Z",
+    "checkedAt": "2026-11-12T09:21:43.442Z",
     "doi": "10.1007/s00431-026-07569-z",
     "doiResolves": true,
     "canonicalTitle": "Changes in family structure and children's screen time: a longitudinal study of Australian children.",
@@ -2295,18 +2302,23 @@
     "peerReviewed": true,
     "isPreprint": false,
     "journal": "European journal of pediatrics",
-    "sampleSize": null,
-    "ageRange": null,
+    "sampleSize": 8706,
+    "ageRange": "6 to 13",
     "country": null,
     "design": "longitudinal cohort",
     "followUp": null,
     "exposureStated": null,
     "statistics": {
-     "hasConfidenceInterval": false,
+     "hasConfidenceInterval": true,
      "hasPValue": false,
-     "hasEffectSize": false,
+     "hasEffectSize": true,
      "hasAbsoluteRisk": false,
-     "quotedNumbers": []
+     "quotedNumbers": [
+      "N = 8706",
+      "51%",
+      "85%",
+      "95%"
+     ]
     },
     "limitationsStated": false,
     "attritionStated": false,
@@ -2314,10 +2326,10 @@
      "Australian Catholic University Limited"
     ],
     "conflictsStated": false,
-    "preregistered": false,
+    "preregistered": true,
     "abstractClaimsCause": false,
-    "abstractHedges": false,
-    "abstractAvailable": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
     "fullTextChecked": false,
     "automaticChecks": [
      "DOI resolved through Crossref",
@@ -2331,12 +2343,7 @@
      "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
     ],
     "claudeStatus": "PENDING",
-    "notes": [
-     "no usable abstract reached this container, so sample size, design and statistics could not be extracted. Full text needed before any figure is quoted.",
-     "sample size not extractable: do not quote an N",
-     "no effect size found in the available text: do not describe the size of the finding",
-     "no confidence interval found: do not present the estimate as precise"
-    ],
+    "notes": [],
     "citedBy": 0,
     "automaticVerdict": "RECORD CONFIRMED"
    },
@@ -2433,7 +2440,10 @@
     "stage": "REVIEW",
     "reasons": [],
     "at": "2026-11-11T12:33:03.408Z"
-   }
+   },
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false
   },
   "GDC-RR-477a38762a": {
    "title": "English immersive game participation and attention, emotional health, and cognitive function in children: a cross-sectional study",
@@ -3086,13 +3096,13 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-08",
-    "until": "2026-11-11"
+    "since": "2026-11-09",
+    "until": "2026-11-12"
    },
    "studyId": "GDC-RR-063230519e",
-   "version": 1,
+   "version": 2,
    "firstFound": "2026-11-11T11:38:23.841Z",
-   "lastChecked": "2026-11-11T11:38:23.841Z",
+   "lastChecked": "2026-11-12T09:21:43.268Z",
    "changeReason": "discovery run, streams 05,08,09,11,23",
    "changedBy": "radar:discover"
   },
@@ -3191,44 +3201,124 @@
    "title": "A blended digital parenting intervention for the prevention of sexual violence, exploitative sex, and maltreatment of children at scale in Tanzania: a cluster-randomised, controlled trial.",
    "doi": "10.1016/s0140-6736(26)01819-2",
    "pmid": "43008768",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43008768/",
+   "url": "https://doi.org/10.1016/s0140-6736(26)01819-2",
    "journal": "Lancet (London, England)",
    "published": "2026-11-10",
-   "authors": "Cluver LD, Ornellas A, Klapwijk JM, Nyalali K, Chetty AN, Mgunga S, Melendez-Torres GJ, Kahwa J, Awah I, Baerecke L, Booij A, Christine L, de Graaf K, Lachman JM, Markle L, Mjwara SN, Stern D, Te Winkel E, Tsoanyane S, Sherr L, Wambura M, Green O, Ngcobo L, Mwakakeke S, Desmond C, Clements L, Kijoti E, Manjengenja N, Wamoyi J",
-   "abstract": "",
+   "authors": "Cluver LD, Ornellas A, Klapwijk JM, Nyalali K, Chetty AN, Mgunga S, Melendez-Torres GJ, Kahwa J, Awah I, Baerecke L, Booij A, Christine L, de Graaf K, Lachman JM, Markle L, Mjwara SN, Stern D, Te Winkel E, Tsoanyane S, Sherr L, Wambura M, Green O, Ngcobo L, Mwakakeke S, Desmond C, Clements L, Kijoti E, Manjengenja N, Wamoyi J.",
+   "abstract": "Childhood sexual, physical, and verbal violence are global public health priorities, affecting 1 billion children each year. ParentApp integrates sexual violence prevention into WHO-UNICEF's open-access Parenting for Lifelong Health programme, using innovative blended digital delivery. We aimed to test the efficacy of ParentApp in preventing sexual violence and maltreatment against adolescent-aged children and improving preventive mechanisms such as family mental health and adolescent-caregiver relationships. This cluster-randomised, controlled trial was conducted in 80 Tanzanian sub-wards. Participants were primary caregivers aged 18 years and older and their adolescents (aged 10-17 years). Sub-wards were randomly assigned (1:1) to receive either ParentApp (intervention group) or a control WASHApp programme. Clusters were randomly assigned in blocks of six, stratified by urban versus rural location. Statisticians carrying out randomisation and data analysts were masked; it was not possible to mask participants or researchers. Intervention groups received a low-cost Android phone installed with ParentApp, a 12-module offline-first app, with one in-person orientation session and remote support via WhatsApp group chats, at a delivery cost of US$6 per family at scale, or $10 with 20% smartphone provision. Control groups received a low-cost Android phone installed with WASHApp, a 12-module offline-first app for water, sanitation, and hygiene, with one in-person orientation session. The primary outcomes were adolescent sexual violence victimisation and maltreatment and high-risk situations for sexual violence, assessed in all participants irrespective of uptake and engagement at 5 months and 18 months post-baseline. The trial was registered on March 14, 2023, with OSF (https://osf.io/t9fxz) and is completed. Between May 11 and Oct 9, 2023, 2692 caregiver-adolescent dyads were screened for study eligibility; 2396 adolescents (1217 [50·8%] female and 1179 [49·2%] male) and 2396 caregivers (1795 [74·9%] female and 601 [25·1%] male) were recruited. 2145 (89·5%) adolescents and 2252 (94·0%) caregivers were retained in the study and included in analyses at 18 months. Adolescent girls in ParentApp clusters had a substantial reduction in past-month sexual violence victimisation compared with those in control clusters (incidence rate ratio [IRR] 0·43 [95% CI 0·21-0·86]; p=0·018), with no effect for boys (1·21 [0·59-2·43]; p=0·60). Past-month maltreatment (physical abuse, verbal abuse, and neglect) was lower in ParentApp clusters than in control clusters (adolescent report IRR 0·92 [0·88-0·96]; p<0·0001, caregiver report 0·87 [0·82-0·92]; p<0·0001). Past-month exposure to high-risk situations for sexual violence was lower in ParentApp clusters than in control clusters (adolescent girls IRR 0·87 [0·77-0·97]; p=0·012, adolescent boys 0·85 [0·79-0·91]; p<0·0001, caregiver report 0·81 [0·75-0·88]; p<0·0001). There were no reported adverse events. A low-cost blended digital parenting programme in countries such as Tanzania could simultaneously reduce childhood sexual violence (for girls) and maltreatment and sexual violence risk situations (for girls and boys). UK Research and Innovation Global Challenges Research Fund, The Oak Foundation, The LEGO Foundation, The European Research Council, and an anonymous donor.",
    "isPreprint": false,
    "peerReviewed": true,
-   "pubTypes": "Journal Article",
+   "pubTypes": "IM; Journal Article",
    "grants": [],
    "streams": [
+    "03",
+    "12",
     "16",
     "19",
-    "22"
+    "22",
+    "23"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
-   "status": "DISCOVERED",
-   "relevanceScore": 4,
-   "relevanceBand": "PERIPHERAL",
+   "status": "VERIFIED",
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
    "relevanceParts": {
-    "core": [],
+    "core": [
+     "+4 \\bsmartphone|mobile phone\\b"
+    ],
     "method": [
      "+4 \\brandomis(ed|ation)|randomiz(ed|a"
     ],
-    "penalty": [],
-    "uk": []
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": [
+     "+3 \\bUnited Kingdom|\\bUK\\b|Britain|Br",
+     "+1 \\bEurope|European\\b"
+    ]
    },
    "windowSearched": {
-    "since": "2026-11-08",
-    "until": "2026-11-11"
+    "since": "2026-11-09",
+    "until": "2026-11-12"
    },
    "studyId": "GDC-RR-7e9b72deec",
-   "version": 1,
+   "version": 3,
    "firstFound": "2026-11-11T11:38:23.853Z",
-   "lastChecked": "2026-11-11T11:38:23.853Z",
-   "changeReason": "discovery run, streams 16,19,22",
-   "changedBy": "radar:discover"
+   "lastChecked": "2026-11-12T09:21:44.744Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false,
+   "dossier": {
+    "studyId": "GDC-RR-7e9b72deec",
+    "checkedAt": "2026-11-12T09:21:44.443Z",
+    "doi": "10.1016/s0140-6736(26)01819-2",
+    "doiResolves": true,
+    "canonicalTitle": "A blended digital parenting intervention for the prevention of sexual violence, exploitative sex, and maltreatment of children at scale in Tanzania: a cluster-randomised, controlled trial.",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Lancet (London, England)",
+    "sampleSize": 2396,
+    "ageRange": "10 to 17",
+    "country": "UK, US",
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": true,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "20%",
+      "8%",
+      "2%",
+      "9%",
+      "1%",
+      "5%",
+      "0%",
+      "95%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "University of Oxford Nuffield College",
+     "The Leverhulme Trust",
+     "UNICEF",
+     "LEGO Foundation",
+     "Generali Foundation The Human Safety Net"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
   },
   "GDC-RR-bfd4ff8bf4": {
    "title": "Scaling guided play through educational media: bridging theory and practice across diverse global contexts",
@@ -3278,23 +3368,24 @@
    "title": "Digital readiness, not age: youth social media policy needs a developmental approach.",
    "doi": "10.1016/s2352-4642(26)00301-9",
    "pmid": "43008758",
-   "url": "https://pubmed.ncbi.nlm.nih.gov/43008758/",
+   "url": "https://doi.org/10.1016/s2352-4642(26)00301-9",
    "journal": "The Lancet. Child & adolescent health",
    "published": "2026-11-10",
-   "authors": "Zhang Q, Tan C, Ni Y, Marciano L, Yue Z",
+   "authors": "Zhang Q, Tan C, Ni Y, Marciano L, Yue Z.",
    "abstract": "",
    "isPreprint": false,
    "peerReviewed": true,
-   "pubTypes": "Journal Article",
+   "pubTypes": "IM; Journal Article",
    "grants": [],
    "streams": [
     "18",
     "23"
    ],
    "foundBy": [
+    "europepmc",
     "pubmed"
    ],
-   "status": "HOLD",
+   "status": "VERIFIED",
    "relevanceScore": 5,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -3306,18 +3397,18 @@
     "uk": []
    },
    "windowSearched": {
-    "since": "2026-11-08",
-    "until": "2026-11-11"
+    "since": "2026-11-09",
+    "until": "2026-11-12"
    },
    "studyId": "GDC-RR-19396d6493",
-   "version": 6,
+   "version": 8,
    "firstFound": "2026-11-11T11:38:23.859Z",
-   "lastChecked": "2026-11-11T12:33:19.912Z",
-   "changeReason": "REVIEW: PASS",
-   "changedBy": "radar:pipeline",
+   "lastChecked": "2026-11-12T09:21:45.193Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
    "dossier": {
     "studyId": "GDC-RR-19396d6493",
-    "checkedAt": "2026-11-11T11:38:23.902Z",
+    "checkedAt": "2026-11-12T09:21:44.944Z",
     "doi": "10.1016/s2352-4642(26)00301-9",
     "doiResolves": true,
     "canonicalTitle": "Digital readiness, not age: youth social media policy needs a developmental approach.",
@@ -3458,7 +3549,1371 @@
     "stage": "REVIEW",
     "reasons": [],
     "at": "2026-11-11T12:33:19.911Z"
-   }
+   },
+   "pmcid": null,
+   "citedBy": 0,
+   "openAccess": false
+  },
+  "GDC-RR-ba1fec0984": {
+   "title": "Automated Detection and Classification of Strabismus in Smartphone Images",
+   "doi": "10.21203/rs.3.rs-11437464/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11437464/v1",
+   "journal": "Research Square",
+   "published": "2026-11-09",
+   "authors": "Radhakrishnan AT, Koritala² B, Hess³ RF, Basir⁴ O, Birch² EE, Thompson¹ B.",
+   "abstract": "<title>Abstract</title> <p>Purpose Accurate detection of strabismus from smartphone images remains challenging, particularly in distinguishing true strabismus from pseudo-strabismus, in which apparent ocular misalignment is caused by facial anatomy rather than abnormal eye position. This study developed and evaluated a fully automated smartphone-based approach that explicitly models interocular asymmetry between the corneal light reflex (CLR) and pupil center for strabismus detection and classification. Methods A Mask R-CNN framework was trained to localize pupil centers and CLR positions from facial images. Geometric asymmetry parameters derived from the CLR-pupil relationship in the two eyes were used to detect strabismus and classify detected cases as horizontal or vertical deviations, with horizontal cases further classified as esotropia or exotropia. The final evaluation used a separate set of 205 clinically labeled smartphone images comprising orthotropic children, pseudo-strabismus cases, and children with strabismus. Results Of 110 orthotropic images, 107 were correctly classified as orthotropic, while 87 of 95 strabismic images were correctly identified. Overall strabismus detection accuracy was 94.63%, with 96.67% precision, 91.58% sensitivity, 97.27% specificity, and an F1-score of 94.06%. Horizontal-versus-vertical classification achieved 95.40% accuracy, and classification of horizontal strabismus as esotropia or exotropia achieved 96.15% accuracy. None of the 12 pseudo-strabismus cases in the test set was misclassified as strabismus. Conclusion Explicit modeling of interocular CLR-pupil asymmetry enables accurate automated detection and classification of strabismus from smartphone images and may help distinguish true strabismus from pseudo-strabismus. Following prospective clinical validation, this approach has potential to support accessible smartphone-based strabismus screening.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "19"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 5,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bsmartphone|mobile phone\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-ba1fec0984",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.252Z",
+   "lastChecked": "2026-11-12T09:21:45.441Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-ba1fec0984",
+    "checkedAt": "2026-11-12T09:21:45.196Z",
+    "doi": "10.21203/rs.3.rs-11437464/v1",
+    "doiResolves": true,
+    "canonicalTitle": "Automated Detection and Classification of Strabismus in Smartphone Images",
+    "indexedDate": "2026-11-09",
+    "crossrefOnlineDate": "2026-11-09",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Research Square",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "94.63%",
+      "96.67%",
+      "91.58%",
+      "97.27%",
+      "94.06%",
+      "95.40%",
+      "96.15%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": true,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise",
+     "the abstract itself uses causal language without hedging. Check the design supports it before repeating any of that wording.",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-34b3878324": {
+   "title": "Early Digital Media Initiation and Current Exposure Profiles Among European Adolescents: A Descriptive Secondary Analysis of Flash Eurobarometer FL579 Early digital media initiation and adolescent exposure profiles",
+   "doi": "10.21203/rs.3.rs-11401343/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11401343/v1",
+   "journal": "Research Square",
+   "published": "2026-11-10",
+   "authors": "Peter L, Laugner E, Fegert JM, Köhler-Dauner F.",
+   "abstract": "<title>Abstract</title> <p>Background The developmental timing of first access to social media and personal smartphones has become a key issue in European debates on child online safety. Current policy frameworks emphasize age-appropriate safeguards, safer digital-service design, and shared responsibilities across platforms, public institutions, families, and young people. Empirical evidence on digital-media use and adolescent health is heterogeneous, and little is known about whether adolescents with early versus late access show different current exposure profiles. This study descriptively compared current screen-time and perceived-overuse profiles according to the reported age of social media initiation and first personal smartphone ownership among adolescents in the European Union. Methods We conducted a descriptive secondary analysis of published, survey-weighted aggregate subgroup tabulations from Flash Eurobarometer FL579, Impact of excessive screen time and social media on young people’s mental health. The survey included 26,297 adolescents aged 13–18 years across the 27 EU Member States. For the primary policy-oriented comparison, early access was operationalized as access before or around age 13 years by combining the available categories “below 10 years” and “10–13 years”, later access was defined as access at age 14–18 years. Outcomes were reported screen-time thresholds on typical school and weekend days and self-reported perceptions that total screen time or social media time was too high. Published survey-weighted percentages, approximate combined-group percentages, and absolute percentage-point differences between groups are reported. No individual-level, inferential, or causal analyses were performed. Results Current weekend screen-time profiles differed by the reported age of social media initiation. Adolescents reporting social media initiation before or around age 13 years, compared with those reporting initiation at age 14–18 years, more frequently reported at least 6 hours (50.6% vs. 40.0%), 8 hours (29.9% vs. 23.0%), and 10 hours (16.5% vs. 11.0%) of screen time on a typical weekend day. Differences on school days were small or absent. Descriptive comparisons by age at first personal smartphone ownership showed a similar weekend pattern: 49.1% versus 39.0% reported at least 6 hours of weekend screen time. A higher proportion of adolescents in the before/around-age-13 social-media-initiation group rated their total screen time as too high (42.8% vs. 39.0%) and their social media time as too high (41.0% vs. 37.0%). Conclusions In these aggregate European data, social media initiation before or around age 13 years was descriptively related to a more intensive current weekend exposure profile and to somewhat more frequent perceptions of overuse. Comparable descriptive patterns for first personal smartphone ownership were weaker, particularly for school-day screen time and perceived social-media overuse. Findings should not be interpreted as evidence that earlier access causes later intensive use. Rather, they highlight the relevance of considering developmental timing alongside family media practices, platform design, and broader social contexts in research and prevention.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "18",
+    "19",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 17,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+5 \\bscreen time\\b",
+     "+4 \\bsmartphone|mobile phone\\b",
+     "+2 \\bonline safety\\b"
+    ],
+    "method": [
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": [
+     "+1 \\bEurope|European\\b"
+    ]
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-34b3878324",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.255Z",
+   "lastChecked": "2026-11-12T09:21:43.439Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-34b3878324",
+    "checkedAt": "2026-11-12T09:21:43.388Z",
+    "doi": "10.21203/rs.3.rs-11401343/v1",
+    "doiResolves": true,
+    "canonicalTitle": "Early Digital Media Initiation and Current Exposure Profiles Among European Adolescents: A Descriptive Secondary Analysis of Flash Eurobarometer FL579 Early digital media initiation and adolescent exposure profiles",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11-10",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Research Square",
+    "sampleSize": 26297,
+    "ageRange": "13 to 18",
+    "country": null,
+    "design": "survey",
+    "followUp": null,
+    "exposureStated": "self-reported",
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "50.6%",
+      "40.0%",
+      "29.9%",
+      "23.0%",
+      "16.5%",
+      "11.0%",
+      "49.1%",
+      "39.0%",
+      "42.8%",
+      "41.0%",
+      "37.0%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-925d3c951a": {
+   "title": "Navigating Digital Platforms in Adolescence: A Population‑Based Study of Online Sexual Experiences and Violations",
+   "doi": "10.31234/osf.io/xjrqu",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.31234/osf.io/xjrqu",
+   "journal": "PsyArXiv",
+   "published": "2026-11-10",
+   "authors": "Ferschmann L, Sætren SS, Chauviré-Geib K, Haag A, Rassenhofer M, Dimitrijevic O, Hellevik PM, Augusti E, Hafstad GS.",
+   "abstract": "<p>Background Digital platforms provide contexts for both normative adolescent sexual exploration and potential victimization. We lack understanding of the diversity of experiences adolescents encounter, and importantly, and how they subjectively appraise them. How a young person subjectively perceives an event may impact associations with health.Methods This preregistered study used population-based self-report data from 3,675 adolescents aged 12–16 years to examine the prevalence of different online sexual experiences and violations, ranging from sharing sexual content to having nude images spread on social media. Additionally, the study probes several measures of subjective appraisals, including how distressing experiences were, regret and assessments of the extent to which one felt one was forced or tricked into the experience. Generalized linear models were used to examine associations between cumulative exposure to online sexual experiences and violations and mental health symptoms (Hopkins Symptom Checklist), somatic symptoms (Children’s Somatic Symptoms Inventory), and current and peak subjective distress related to these experiences. Regret was examined as a potential moderator. Logistic regression examined the history of offline sexual abuse by an adult as a risk factor.Results By age 16, 49% of adolescents reported at least one online sexual experience or violation. Greater cumulative exposure was associated with more mental and somatic symptoms and higher current and peak subjective distress. Associations with symptoms remained even when accounting for symptoms from two years prior, family affluence, removing most severe items, and excluding participants reporting being coerced or tricked into the experience. Regret did not moderate exposure – subjective distress associations. Offline sexual abuse by an adult substantially increased the odds of having online sexual experiences or violations. Girls reported more coercion and subjective distress related to online sexual experiences, although boys were less likely to provide data on these measures.Conclusions Digital contexts should be recognized as important developmental arenas in which adolescents navigate sexuality and intimacy, and where normative exploratory processes and potential risks co-occur. Future research should examine the socio-contextual factors that may render some online sexual experiences detrimental to health, informing efforts to create safer digital spaces that support adolescents’ exploration while protecting them from harm.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "08",
+    "12",
+    "16",
+    "19",
+    "24"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [
+     "+3 \\bpreregist|pre-?regist|specificat",
+     "+2 \\bparent(al)? report|self-?report|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-925d3c951a",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.259Z",
+   "lastChecked": "2026-11-12T09:21:44.941Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-925d3c951a",
+    "checkedAt": "2026-11-12T09:21:44.746Z",
+    "doi": "10.31234/osf.io/xjrqu",
+    "doiResolves": true,
+    "canonicalTitle": "Navigating Digital Platforms in Adolescence: A Population‑Based Study of Online Sexual Experiences and Violations",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11-10",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "PsyArXiv",
+    "sampleSize": 3675,
+    "ageRange": "12 to 16",
+    "country": null,
+    "design": null,
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "49%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": true,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "no confidence interval found: do not present the estimate as precise",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-0aa86d7876": {
+   "title": "Kinematic Features of Handwriting Speed: A Comparative Study of Autistic and Non-Autistic Youth.",
+   "doi": "10.1002/aur.70389",
+   "pmid": "43001612",
+   "pmcid": null,
+   "url": "https://doi.org/10.1002/aur.70389",
+   "journal": "Autism research : official journal of the International Society for Autism Research",
+   "published": "2026-11-09",
+   "authors": "Orefice C, Cardillo R, D'Antrassi P, Mammarella IC.",
+   "abstract": "Handwriting has received limited attention in Autism Spectrum Disorder (ASD), making systematic investigation crucial. Digital assessments enable deeper analysis of handwriting characteristics and challenges in autistic children and adolescents. This study examined kinematic predictors of handwriting speed in autistic individuals without intellectual disability compared to non-autistic peers. Two hundred and four participants (White ethnicity, 8-17 years, autistic = 68 [54 M], M<sub>age</sub> = 12.08 (2.42); non-autistic = 136 [96 M], M<sub>age</sub> = 11.97 (2.00), matched for age, IQ, handedness, and sex, completed a tablet-based sentence-copying task under maximum accuracy (MA) and speed (MS) conditions. Completion time and kinematic measures (path length, pressure, pen angle, and writing/total time ratio) were recorded. Autistic participants were slower than non-autistic peers in both conditions (p<sub>s</sub> ≤ 0.006, d<sub>s</sub> ≥ 0.47), with distinct kinematic profiles. In MA (pseudo R<sup>2</sup> = 0.41, p = 0.017), shorter completion time (CT) was linked to greater writing-time proportion for all participants (B = -0.09, p = 0.012), with higher pressure being associated to longer CT only in autism (B = -0.157, p = 0.021). In MS (pseudo R<sup>2</sup> = 0.40, p = 0.05), shorter CT related to larger handwriting (i.e., longer path length) in autism (B = 0.20, p < 0.001) and to greater writing-time proportion in the non-autistic group (B = -0.30, p < 0.001). Findings underscore the importance of handwriting in functional assessment and support the need for tailored educational accommodations for autistic students.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [
+    "Ministero dell'Università e della Ricerca (MUR - Ministry of University and Research, Italy) PNC0000002 Spoke 2-CUP B53C22006460001"
+   ],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "05",
+    "08",
+    "20"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-0aa86d7876",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.262Z",
+   "lastChecked": "2026-11-12T09:21:43.262Z",
+   "changeReason": "discovery run, streams 05,08,20",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-6fb90e43f3": {
+   "title": "Family support within psychosocial care of children with type 1 diabetes: impact on quality of life and treatment adherence",
+   "doi": "10.22141/2224-0551.21.7.2026.1981",
+   "pmid": null,
+   "url": "https://doi.org/10.22141/2224-0551.21.7.2026.1981",
+   "journal": "CHILD`S HEALTH",
+   "published": "2026-11-12",
+   "authors": "V. Ojovan",
+   "abstract": "Background. Childhood and adolescent type 1 diabetes requires continuous medical monitoring, as well as long-term psychological, behavioural and social support. This is because daily treatment-related activities are substantially influenced by patterns of family interaction. The aim of this study was to provide a theoretical rationale for the importance of parental involvement. This involvement is in shaping emotional well-being, treatment-related behaviour and adaptation. These are among underage patients with impaired carbohydrate metabolism. Materials and methods. To this end, the study employed scientific evidence analysis and synthesis, comparative methods, systematisation, generalisation, and structural-logical modelling. These methods enabled the identification of the key ways in which family support influences the quality of life, treatment-related behaviour, and psychosocial adaptation of children with type 1 diabetes. Results. Constructive parental involvement was found to encompass emotional availability, coordinated responsibility, self-management assistance, autonomy support and conflict reduction. The most compelling evidence concerns the adverse role of diabetes-specific conflict. A systematic review of 20 studies found that 17 studies associated it with higher glycated haemoglobin levels. Seven studies found it to be associated with poorer self-management. A further seven studies found it to be associated with worse psychological outcomes. Intervention programmes were shown to have a positive effect on parental confidence, adolescent self-efficacy, communication and certain behavioural outcomes. However, their impact on metabolic control was inconsistent. It was shown that digital tools were only beneficial when combined with direct psychological support. Conclusions. The optimal approach is a model of flexible shared management. Adults remain involved in this model. They gradually transfer part of the responsibility to the child. This is in accordance with the child’s age, maturity and skills. These findings could inform the development of medical and psychological support programmes for families.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "02",
+    "03",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\bsystematic review|umbrella revie"
+    ],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-6fb90e43f3",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.265Z",
+   "lastChecked": "2026-11-12T09:21:43.265Z",
+   "changeReason": "discovery run, streams 02,03,19,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-b3cbb73e58": {
+   "title": "From learning tool to digital distraction: Mobile phone and social media use and its impact on children's academic performance in rural Bangladesh",
+   "doi": "10.21203/rs.3.rs-11137657/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11137657/v1",
+   "journal": "Research Square",
+   "published": "2026-11-10",
+   "authors": "Howlader T, 2. Dr. Taufiq-E-Ahmed Shovo.",
+   "abstract": "<title>Abstract</title> <p> This study investigates the dual impact of mobile phone usage on children’s academic performance in <italic>Sarankhola</italic> Upazila, Bagerhat District, Bangladesh. Using a qualitative exploratory design, data were gathered through in-depth interviews and a focus group discussion with twenty-eight participants, including children and their parents. Grounded in Self-Regulated Learning Theory and the Displacement Hypothesis, the findings reveal that mobile phones simultaneously enhance and undermine academic outcomes. Children who strategically accessed educational platforms including YouTube tutorials, Ten-Minute School, and applications such as Photomath, reported improved subject comprehension and acquired skills beyond the formal curriculum. Conversely, the majority of participants experienced attentional disruption, fragmented study habits, and declining performance attributable to recreational engagement with social media and gaming. The mere proximity of a device was sufficient to impair concentration. A clear bifurcation emerged between a minority of self-regulated learners who leveraged phones for academic gain and a larger group whose unregulated recreational use displaced study time, physical activity, and reading. Teachers occupied an ambivalent but critical mediating role, opposing unstructured use while endorsing specific educational applications. The study provides evidence that academic outcomes depend not on the technology itself but on children’s self-regulatory capacity, parental guidance, and teacher-directed integration. </p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "05",
+    "07",
+    "08",
+    "10",
+    "18",
+    "19",
+    "22",
+    "23"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 13,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\bsmartphone|mobile phone\\b",
+     "+3 \\bgaming|video game|loot box\\b",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-b3cbb73e58",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.270Z",
+   "lastChecked": "2026-11-12T09:21:43.953Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-b3cbb73e58",
+    "checkedAt": "2026-11-12T09:21:43.730Z",
+    "doi": "10.21203/rs.3.rs-11137657/v1",
+    "doiResolves": true,
+    "canonicalTitle": "From learning tool to digital distraction: Mobile phone and social media use and its impact on children's academic performance in rural Bangladesh",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11-10",
+    "datesAgree": true,
+    "peerReviewed": false,
+    "isPreprint": true,
+    "journal": "Research Square",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "qualitative",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": true,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise",
+     "the abstract itself uses causal language without hedging. Check the design supports it before repeating any of that wording.",
+     "PREPRINT, not peer reviewed. Say so in any copy that uses it."
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-bf6c483886": {
+   "title": "Quality and Reliability of YouTube Content on Infant Choking Management: A Cross-Sectional Study of Guideline Adherence.",
+   "doi": "10.1111/jpc.70652",
+   "pmid": "43006751",
+   "pmcid": null,
+   "url": "https://doi.org/10.1111/jpc.70652",
+   "journal": "Journal of paediatrics and child health",
+   "published": "2026-11-10",
+   "authors": "Aközlü Z, Küçük S, Durmuş EE.",
+   "abstract": "<h4>Aim</h4>YouTube is frequently used by parents as a primary source of information for paediatric emergencies, including infant choking. This study aimed to evaluate the comprehensiveness, reliability, and quality of YouTube videos regarding choking management in infants (0-12 months) and to assess whether video popularity is associated with content quality.<h4>Methods</h4>Of the first 200 videos retrieved by a YouTube search on January 20, 2026, 40 met predefined eligibility criteria and were analysed using the modified DISCERN (mDISCERN), the Global Quality Scale (GQS), and a guideline-derived Infant Choking Management Checklist (ICMC; 0-20). Kruskal-Wallis tests and Spearman correlations with false discovery rate adjustment were used.<h4>Results</h4>Educational health channels (40.0%) and official health institutions (22.5%) were the primary uploaders. The median ICMC score was 14.0 (IQR 12.0-15.5), and median GQS and mDISCERN scores were both 3.0 (moderate quality and reliability). Intervention technique steps were almost always demonstrated, whereas recognition and safety steps were frequently omitted; only 18.8% of videos warned against blind finger sweeps. Scores did not differ significantly by video source or practitioner background (p > 0.05). ICMC scores correlated strongly with GQS scores (ρ = 0.834, p < 0.001), whereas engagement metrics were not associated with any content score.<h4>Conclusions</h4>In this sample, YouTube videos on infant choking management were of moderate quality and reliability and often omitted the recognition and safety steps of the guideline algorithm. No association between popularity and content quality was identified. Healthcare professionals should guide parents towards vetted, evidence-based resources covering the complete algorithm.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "07",
+    "09",
+    "19",
+    "22",
+    "24"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 9,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f",
+     "+3 \\btiktok|instagram|snapchat|youtub"
+    ],
+    "method": [
+     "+2 \\bno association|null (result|find"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-bf6c483886",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.273Z",
+   "lastChecked": "2026-11-12T09:21:44.440Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-bf6c483886",
+    "checkedAt": "2026-11-12T09:21:44.198Z",
+    "doi": "10.1111/jpc.70652",
+    "doiResolves": true,
+    "canonicalTitle": "Quality and Reliability of YouTube Content on Infant Choking Management: A Cross-Sectional Study of Guideline Adherence.",
+    "indexedDate": "2026-11-10",
+    "crossrefOnlineDate": "2026-11-10",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "Journal of paediatrics and child health",
+    "sampleSize": null,
+    "ageRange": "not stated, described as infant",
+    "country": null,
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": true,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": true,
+     "quotedNumbers": [
+      "40.0%",
+      "22.5%",
+      "18.8%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-511ce36728": {
+   "title": "Healthcare professionals' experiences of using an Artificial Intelligence training tool to practice asking questions about child abuse.",
+   "doi": "10.1016/j.chiabu.2026.108410",
+   "pmid": "43008333",
+   "pmcid": null,
+   "url": "https://doi.org/10.1016/j.chiabu.2026.108410",
+   "journal": "Child abuse & neglect",
+   "published": "2026-11-10",
+   "authors": "Helena A, Maria Ö, Catharina A, Inger K, David E, Anna LO.",
+   "abstract": "Children with chronic diseases face an increased risk of child abuse. The aim was to explore healthcare professionals' experiences with an artificial intelligence (AI)-based training tool for practicing questions to identify potential child abuse as well as their overall experiences of asking such questions. An exploratory qualitative study was conducted at a pediatric hospital in Sweden. Fifteen healthcare professionals participated. Following a brief educational session on child abuse and its consequences, participants used an AI-based training tool to practice asking questions about potential child abuse in simulated conversations. Semi-structured interviews analyzed using Systematic Text Condensation, a thematic cross-case analysis method. Four categories emerged from the analysis, 'Perceptions of interaction and support in the training tool', 'An opportunity to practice asking questions about child abuse', 'Organizational support for learning and development', 'Difficulties and uncertainty in asking questions about child abuse'. The training tool was perceived as credible and engaging, and useful for practicing difficult conversations. The analysis revealed a need for practice in asking difficult questions and a need for managerial guidance to allocate time. Regular follow-up visits increase opportunities to build trust and are perceived to make it easier to ask sensitive questions. Healthcare professionals described uncertainty regarding how to ask about child abuse. Practicing with an AI-based training tool in simulated conversations appeared to increase their confidence and preparedness for addressing potential child abuse in clinical encounters.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "IM; Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -4,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-511ce36728",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.276Z",
+   "lastChecked": "2026-11-12T09:21:43.276Z",
+   "changeReason": "discovery run, streams 01",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-8dad786396": {
+   "title": "Youth Perspectives on AI through Empirical Analysis of Adolescent Views on Education Identity and Social Inclusion",
+   "doi": "10.21203/rs.3.rs-11017670/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11017670/v1",
+   "journal": "Research Square",
+   "published": "2026-11-09",
+   "authors": "Sofi SA, Ashraf M, Gani SH, Qureshi F, Amoozegar A, Khawaja S, Tilwani SA, Elsheikh Y.",
+   "abstract": "<title>Abstract</title> <p>The rise of Artificial Intelligence (AI) has significantly shaped the way adolescents access information, engage in learning activities, and interact within digital communities in today's educational landscape. The impact of AI Literacy, Perceived Usefulness, and Perceived Risk/Concern on Educational Engagement and Social Inclusion among adolescents was explored, with Attitude toward AI and Identity Congruence serving as mediators. The research philosophy used was positivist, the approach used was deductive and the research design used was cross-sectional quantitative. The data was obtained from 800 secondary school students aged 13–18 years using a structured questionnaire and analyzed using the Structural Equation Modeling (SEM) technique. The results indicated that AI Literacy and Perceived Usefulness significantly and positively affected Attitude toward AI and Identity Congruence, while Perceived Risk/Concern had significant negative effects on the constructs.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "08",
+    "11"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-8dad786396",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.280Z",
+   "lastChecked": "2026-11-12T09:21:43.280Z",
+   "changeReason": "discovery run, streams 08,11",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-d54865040b": {
+   "title": "New Frontiers in Diabetes Management: Exploring Parental Perspectives on Artificial Intelligence and Novel Therapies in Paediatric Diabetes Care",
+   "doi": "10.21203/rs.3.rs-11442727/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11442727/v1",
+   "journal": "Research Square",
+   "published": "2026-11-10",
+   "authors": "Yu GC, Tung JY, Pang GS, Chan K, See QW, Wong WH, Poon SW.",
+   "abstract": "<title>Abstract</title> <p>Objectives: Paediatric diabetes outcomes remained suboptimal despite therapeutic advances over the past decade. Emerging technologies and novel therapeutics offer opportunity to improve metabolic control. This study evaluated parental awareness, acceptance, and concerns regarding artificial intelligence (AI) and novel therapies in paediatric diabetes in Hong Kong, and identified barriers to their adoption. <h4>Methods:</h4> A multi-centre prospective survey was among parents of children under 18 years diagnosed with either type 1 diabetes (T1DM) or type 2 diabetes (T2DM) across three sites in Hong Kong. Two questionnaires evaluated attitudes toward AI and perceptions of novel therapies (islet/stem cell therapy and antibody screening in siblings). <h4>Results:</h4> 76 parents were included in the survey on AI. 73.7% reported no prior knowledge, yet 52.1% indicated willingness to use AI. Primary perceived benefits included early complication detection (76.3%) and fewer clinic visits (61.8%), while cost (26%) was the most frequently cited barrier. Parents preferred a \"human-in-the-loop\" approach. 112 parents of children with T1DM were included in the survey on novel therapies. Acceptance was high: 70.0% would consider islet/stem cell therapy and 78.2% were willing to pursue antibody screening for siblings. Safety (77.1%) and long-term side effects (72.1%) were the principal concerns, and sibling presence and prior awareness were significantly associated with acceptance. <h4>Conclusion:</h4> Parents demonstrated readiness to adopt AI and novel therapeutics in diabetes care, provided there is clear clinical oversight, evidence on safety and efficacy, and financial accessibility. Education initiatives to improve awareness are warranted to support informed uptake of these innovations.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "18",
+    "19"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-d54865040b",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.285Z",
+   "lastChecked": "2026-11-12T09:21:43.285Z",
+   "changeReason": "discovery run, streams 01,18,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-110b7c3dd2": {
+   "title": "Apply for a court order to make arrangements for a child or resolve a dispute about their upbringing: Form C100",
+   "doi": null,
+   "pmid": null,
+   "url": "https://www.gov.uk/government/publications/form-c100-application-under-the-children-act-1989-for-a-child-arrangements-prohibited-steps-specific-issue-section-8-order-or-to-vary-or-discharge",
+   "journal": "HM Courts & Tribunals Service",
+   "published": "2026-11-11",
+   "authors": "HM Courts & Tribunals Service",
+   "abstract": "Use this form to apply for a 'child arrangements', 'prohibited steps' or 'specific issue' order under the Children Act 1989. You might be able to apply online.",
+   "isPreprint": false,
+   "peerReviewed": false,
+   "pubTypes": "form",
+   "grants": [],
+   "streams": [
+    "07"
+   ],
+   "foundBy": [
+    "govuk"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-110b7c3dd2",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.288Z",
+   "lastChecked": "2026-11-12T09:21:43.288Z",
+   "changeReason": "discovery run, streams 07",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-9185598887": {
+   "title": "Deepnude Forensics: Detection, Attribution, and Defense Against AI-Generated Intimate Image Abuse",
+   "doi": "10.20944/preprints202611.1122.v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.20944/preprints202611.1122.v1",
+   "journal": "Preprints.org",
+   "published": "2026-11-11",
+   "authors": "dos Santos JA.",
+   "abstract": "The commoditization of open-weight generative image models has collapsed the technical and eco- nomic barriers to producing non-consensual intimate imagery (“deepnudes”) and, in its most severe form, synthetic Child Sexual Abuse Material (CSAM). Unlike photographic abuse material, synthetic content is unbounded in volume, detaches from any specific victim-identification signal, and sys- tematically defeats the perceptual-hash infrastructure (PhotoDNA, Project Arachnid, INTERPOL ICSE) on which global child-protection operations depend. Building on our prior work on machine- learning deep nude detection, this paper first develops the theoretical foundations of deep nude detection techniques—decomposing the task into explicitness, manipulation, and subject-attribute factors with a decision- and information-theoretic account of multi-cue fusion—and then presents an end-to-end, defense-oriented framework with cybersecurity at its core that (i) formally charac- terizes the open “uncensored” generation ecosystem and the model-level mechanisms by which safety alignment is stripped, treated strictly as a threat model rather than a recipe; (ii) formalizes the reverse engineering of generative pipelines for attribution—tracing a synthetic artifact back to its originating model family through diffusion reconstruction error, latent and weight-space fingerprints, spectral forensics, membership inference, and foundation-model feature forensics; (iii) specifies a multi-stream detection architecture, with algorithms, designed to be trained without possessing illegal material, using a curated-benign public track with suspect material confined to accredited enclaves, benign adult/synthetic proxies, and a privacy-preserving federated protocol; (iv) analyzes preemptive defenses—adversarial immunization (PhotoGuard, Glaze, Nightshade), data poisoning, and prove- nance watermarking (C2PA, SynthID, Stable Signature)—together with their documented robustness failures under purification and adaptive attack; and (v) maps the whole to operational law-enforcement workflows (INTERPOL, NCMEC, Canadian Centre for Child Protection), to a multi-jurisdiction legal analysis, and to forensic-admissibility and chain-of-custody constraints. We contribute a layered risk taxonomy, a reproducible evaluation protocol and benchmark design with explicit ethical controls, a cybersecurity-hardening checklist for the model supply chain, an illustrative (benign) end-to-end walkthrough, and a prioritized research and policy agenda. Our central thesis is that durable defense requires shifting from post hoc content matching toward generative-pipeline forensics: detecting, attributing, and raising the cost of synthesis at the model and provenance layers. We position this work as a critical synthesis, a proposed reference architecture, and an evaluation protocol rather than an empirically validated system: the figures are illustrative of the protocol, not measured results, and we mark throughout what is established in prior work, what is proposed here, and what remains to be validated—particularly for the hashing, attribution, and privacy guarantees, whose scope we state conservatively.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "09",
+    "11",
+    "13",
+    "16",
+    "19",
+    "23",
+    "24"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f"
+    ],
+    "method": [],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-9185598887",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.292Z",
+   "lastChecked": "2026-11-12T09:21:43.292Z",
+   "changeReason": "discovery run, streams 09,11,13,16,19,23,24",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-c0fb42ad60": {
+   "title": "Markerless video analysis is feasible during a soccer program for autistic children in the SPARK pilot study",
+   "doi": "10.21203/rs.3.rs-11388326/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11388326/v1",
+   "journal": "Research Square",
+   "published": "2026-11-11",
+   "authors": "Assenza G, Merone M, Ricci L, Barboni S, Ferraro C, Fornari D, Idini GL, Manzi B, Martino M, Ribolsi M, Lazzaro VD, Schena E, Pecchia L.",
+   "abstract": "<title>Abstract</title> <p>Objective measurement of behavior during real-world interventions in autistic children remains challenging. This prospective, single-arm pilot study assessed the feasibility of markerless video analysis during an eight-week structured soccer program. Ten boys aged 7.5–10 years with level 1 autism completed eight weekly 60-minute sessions. Recordings from sessions 1 and 8 were processed using two-dimensional pose estimation to extract seven candidate motor and socio-motor metrics. Paired recordings were analyzable in all participants. HeadUp ratio, Posture Stability, Movement Fluidity, Active Time, Proximity, and Orientation increased in every child, whereas Restlessness decreased (exact two-sided Wilcoxon p = 0.00195 for each metric; all significant after false-discovery-rate correction). Among paired caregiver questionnaires, mean social responsiveness raw scores decreased from 97.22 to 76.78 and parenting stress scores from 100.11 to 85.56 (p = 0.0117 for each). Digital and questionnaire changes were directionally congruent, without formal association testing. Markerless analysis provided feasible, low-burden longitudinal measurement during naturalistic activities in autistic children. The uncontrolled design and absence of formal measurement validation preclude conclusions about intervention efficacy, reliability, or construct validity. Further validation is required before these metrics can serve as established clinical outcomes.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "01",
+    "19",
+    "20",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -4,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [
+     "-5 \\bpolitical participation|democrac"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-c0fb42ad60",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.299Z",
+   "lastChecked": "2026-11-12T09:21:43.299Z",
+   "changeReason": "discovery run, streams 01,19,20,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-909546c605": {
+   "title": "Adapting a Shared Digital Communication Intervention for Caregivers of Children with Physical Disabilities and Professionals through Co-design: A Workshop Study",
+   "doi": "10.64898/2026.11.10.26367483",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.64898/2026.11.10.26367483",
+   "journal": "medRxiv",
+   "published": "2026-11-10",
+   "authors": "Jensen LWH, Johansen SK, Lyng KD, Rahbek O, Kold S.",
+   "abstract": "<h4>Introduction: </h4> Caregivers of children with disabilities act as intermediaries between professionals due to fragmented communication and information sharing across sectors. The use of shared digital communication may support integrated care. Therefore, this study explored challenges and needs among caregivers and professionals and how an existing shared digital communication intervention could be adapted to support communication and coordination in this context. Methods Three future workshops involved 26 co-designers: caregivers (n=8), professionals across sectors (n=14), and software developers (n=4). Caregiver and professional data were analysed thematically, followed by matrix analysis to identify convergences, tensions, and design principles. In workshop with software developers, design principles were translated into design specifications. Results Both caregivers and professionals described how caregivers become de facto care coordinators. Clear responsibilities, continuity, and shared knowledge were identified as essential for improving communication and coordination. Shared digital communication was considered promising, but tensions emerged between accessibility and workload, and between transparency and confidentiality. The adapted intervention incorporated structured communication, shared responsibility, relational continuity, a shared overview, and a human digital coordination function. Discussion/conclusion The adapted intervention provides a foundation for cross-sector communication between caregivers and professionals and adds to the evidence base of communication solutions that may strengthen integrated care.",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "20",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-909546c605",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.305Z",
+   "lastChecked": "2026-11-12T09:21:43.305Z",
+   "changeReason": "discovery run, streams 20,22",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-76e5148170": {
+   "title": "A Lifelong Responsibility: A Transcendental Phenomenological Study of Mothers of Children with Disabilities",
+   "doi": "10.21203/rs.3.rs-11659615/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11659615/v1",
+   "journal": "Research Square",
+   "published": "2026-11-10",
+   "authors": "Candemir G, Tunç MF, Tunç E.",
+   "abstract": "<title>Abstract</title> <p>Raising a child with a disability is a complex and enduring experience that can reshape mothers’ psychological, social, relational, and future-oriented lives. Although qualitative research on maternal caregiving is growing, less is known about how mothers’ concerns about their children’s futures are intertwined with their own life course and how culturally grounded meaning-making shapes this experience. This study aimed to explore the lived experiences of mothers of children with disabilities and the meanings they attribute to motherhood and their children’s futures. A qualitative study guided by Moustakas’s transcendental phenomenological approach was conducted with six mothers of children with disabilities. Participants were selected through criterion sampling. Data were generated through an online focus group and analyzed by distinguishing individual experiential accounts from interactional contributions, followed by phenomenological synthesis across participants. Four interrelated dimensions emerged: finding new meaning in life, motherhood at the center of life, living with uncertainty, and the need to be seen and understood. Mothers described motherhood as an enduring responsibility involving personal transformation, self-deprioritization, emotional demands, and continuous adaptation. Major concerns involved education, independent living, and life after parents. Understanding, acceptance, and peer support were also emphasized. The findings highlight the need for family-centered psychosocial services that address mothers’ well-being alongside their children’s developmental needs, including peer support and future-oriented planning.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "19",
+    "20"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -6,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bveterinar|dental|dermatolog|opht"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-76e5148170",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.309Z",
+   "lastChecked": "2026-11-12T09:21:43.309Z",
+   "changeReason": "discovery run, streams 03,19,20",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-cc7b7da589": {
+   "title": "Revealing Barriers to Identity Exploration Among Sexual Minority Youth in Social Media Environments: A Systematic Literature Review",
+   "doi": "10.12688/f1000research.186320.2",
+   "pmid": null,
+   "url": "https://doi.org/10.12688/f1000research.186320.2",
+   "journal": "F1000Research",
+   "published": "2026-11-12",
+   "authors": "Gilang Setiawan, Vanggi Eka Riski, Gustaf Silvester Jacob, Sufaat Sufaat, Wa Fela La Masi, Izzuliyah Nur Baitullah, AR Zamam Lubab, Daffa Lazuardy Noer Syahbana",
+   "abstract": "Background Sexual minority youth (SMY) depend on social media for identity exploration, yet these platforms also harbor factors that may obstruct that process. Such barriers have been documented at psychological, interpersonal, sociocultural, and platform levels but have not been synthesized within a unified framework. This review synthesizes empirical evidence on these barriers and interprets it through a hypothesized integrative framework, proposed here, that combines Communication Privacy Management, Minority Stress Theory, and Affordances Theory. Methods Following PRISMA 2020 guidelines and a pre-registered protocol at the Open Science Framework (https://doi.org/10.17605/OSF.IO/ZF7RT), systematic searches were conducted in Scopus ( n = 385), Web of Science ( n = 370), and JSTOR ( n = 58). Of 408 unique records, 30 empirical articles were included after two-stage screening. Inter-rater reliability: κ = .99 (title and abstract screening) and κ = .90 (full-text screening). Inductive thematic synthesis was applied, with study quality assessed using the Joanna Briggs Institute Critical Appraisal Tools and the Mixed Methods Appraisal Tool. The hypothesized framework served as a sensitizing lens only after themes were developed. Results Four analytical themes were identified: (1) psychological internal barriers ( n = 22; 73.3%), including internalized homophobia, expected rejection, and identity concealment; (2) interpersonal stigma and discrimination ( n = 25; 83.3%), including hate speech, family rejection, and identity erasure; (3) sociocultural and legal constraints ( n = 14; 46.7%), including religious-legal condemnation and conservative norms; and (4) structural platform and algorithmic barriers ( n = 18; 60.0%), including context collapse, algorithmic invisibility, and over-moderation. Most studies spanned several themes, suggesting possible mutual reinforcement. Conclusions Barriers to SMY identity exploration appear layered and interdependent and are not well captured by any single theory. Evidence was mostly qualitative and cross-sectional, and confidence in findings was not formally graded. The hypothesized framework, formalized as six testable propositions, can guide empirical testing and intervention.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [
+    "Lembaga Pengelola Dana Pendidikan"
+   ],
+   "citedBy": 0,
+   "streams": [
+    "03",
+    "08",
+    "09",
+    "13",
+    "16",
+    "19",
+    "22",
+    "24"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "VERIFIED",
+   "relevanceScore": 12,
+   "relevanceBand": "CORE",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b",
+     "+4 \\balgorithm|recommender|\\bfeed\\b|f"
+    ],
+    "method": [
+     "+3 \\bpreregist|pre-?regist|specificat"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-cc7b7da589",
+   "version": 2,
+   "firstFound": "2026-11-12T09:21:43.313Z",
+   "lastChecked": "2026-11-12T09:21:44.194Z",
+   "changeReason": "automatic dossier: RECORD CONFIRMED",
+   "changedBy": "radar:dossier",
+   "dossier": {
+    "studyId": "GDC-RR-cc7b7da589",
+    "checkedAt": "2026-11-12T09:21:43.956Z",
+    "doi": "10.12688/f1000research.186320.2",
+    "doiResolves": true,
+    "canonicalTitle": "Revealing Barriers to Identity Exploration Among Sexual Minority Youth in Social Media Environments: A Systematic Literature Review",
+    "indexedDate": "2026-11-12",
+    "crossrefOnlineDate": "2026-11-12",
+    "datesAgree": true,
+    "peerReviewed": true,
+    "isPreprint": false,
+    "journal": "F1000Research",
+    "sampleSize": null,
+    "ageRange": null,
+    "country": null,
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": false,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "n = 385",
+      "n = 370",
+      "n = 58",
+      "n = 22",
+      "73.3%",
+      "n = 25",
+      "83.3%",
+      "n = 14",
+      "46.7%",
+      "n = 18",
+      "60.0%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Lembaga Pengelola Dana Pendidikan"
+    ],
+    "conflictsStated": false,
+    "preregistered": true,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "sample size not extractable: do not quote an N",
+     "no effect size found in the available text: do not describe the size of the finding",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "PENDING"
+  },
+  "GDC-RR-fbb1f60e3c": {
+   "title": "Social inequalities and nurturing care determinants of early language developmental delay among Ecuadorian children aged 12-42 months.",
+   "doi": "10.1016/j.puhe.2026.106547",
+   "pmid": "43008583",
+   "pmcid": null,
+   "url": "https://doi.org/10.1016/j.puhe.2026.106547",
+   "journal": "Public health",
+   "published": "2026-11-10",
+   "authors": "Dueñas-Espín I, Tello B, Belmont P, Rubio-Codina M, García-González JM, Marchman VA.",
+   "abstract": "Early language development is a key indicator of child well-being and is influenced by social, environmental, and biological factors. The study aimed to estimate the prevalence of language developmental delay and identify associated factors among Ecuadorian children aged 12-42 months. Cross-sectional analytical study using nationally representative survey data. Cross-sectional analytical study using data from the 2018 Ecuadorian National Health and Nutrition Survey (ENSANUT). We included a nationally representative sample of 8446 children aged 12-42 months. Language delay was defined as scores below the 10th percentile on the MacArthur-Bates Communicative Development Inventories using age- and sex-specific national reference curves. Survey-weighted logistic regression models assessed associations according to the UNICEF early childhood development framework. The prevalence of language developmental delay was 14.5%. Delay was associated with male sex (aOR 1.46, 95% CI 1.18-1.81), increasing age (aOR 1.03 per month, 95% CI 1.02-1.05), prematurity (aOR 1.38, 95% CI 1.04-1.84), and greater daily screen exposure (aOR 1.07 per hour/day, 95% CI 1.01-1.15). Protective factors included higher HOME stimulation (aOR 0.61, 95% CI 0.48-0.79), playing with ≥3 toy types (aOR 0.75, 95% CI 0.57-0.98), and more children's books (aOR 0.90 per book, 95% CI 0.84-0.96). Structural socioeconomic factors were not significant. Approximately one in seven Ecuadorian children aged 12-42 months experienced language developmental delay. Lower home stimulation, fewer children's books, limited play opportunities, greater screen exposure, prematurity, male sex, and older age were independently associated with delay.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "IM; Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "06",
+    "21"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -3,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [
+     "+2 \\bnationally representative\\b"
+    ],
+    "penalty": [
+     "-5 \\bmalaria|neonatal|sepsis|immunis|"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-fbb1f60e3c",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.319Z",
+   "lastChecked": "2026-11-12T09:21:43.319Z",
+   "changeReason": "discovery run, streams 03,06,21",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-ecd6db94f3": {
+   "title": "Connecting Caregivers to Community Resources: A Mixed-Methods Evaluation of a Virtual Assistant for Childhood Cancer Survivorship",
+   "doi": "10.21203/rs.3.rs-11270648/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11270648/v1",
+   "journal": "Research Square",
+   "published": "2026-11-10",
+   "authors": "Skeens MA, Booze AM, Wisne LM, Dyer EC, Olshefski R, Sezgin E.",
+   "abstract": "<title>Abstract</title> <p> Purpose Caregivers of childhood cancer survivors (CCS) may experience persistent challenges identifying and accessing supportive resources. We evaluated the usability and acceptability of a virtual assistant (VA) designed to connect caregivers with community resources and explored whether social context influenced perceptions of the tool. Methods This mixed-methods cross-sectional study evaluated caregivers of childhood cancer survivors who completed usability testing of a community resource VA, and then the System Usability Scale (SUS), caregiver satisfaction questionnaire, reaction cards and semi-structured interviews. Neighborhood and geographic social context were characterized using the Child Opportunity Index, Area Deprivation Index (ADI), Appalachian residence, and rurality. Quantitative analyses were exploratory, and interviews underwent qualitative content analysis. Results The VA demonstrated above-average usability (mean SUS = 77.09, <italic>SD</italic> = 18.04); all caregivers (n = 15; 86.7% female, 93.3% White) rated it as easy to use and not overly time-consuming. Common reactions included “accessible,” “connected,” and “useful.” Greater neighborhood deprivation was associated with higher satisfaction across several domains, including perceived ability to identify resources caregivers could not find independently. Appalachian caregivers similarly reported greater perceived benefit for resource identification. Qualitative analyses identified three themes: perceived value was greatest earlier in the cancer trajectory; caregivers prioritized convenient integration into familiar digital platforms; and an intuitive interface reduced burden and supported confident use. Conclusions A caregiver-facing VA for community resource navigation was usable and acceptable. Perceived value varied by social context and timing, suggesting particular utility for families experiencing greater structural barriers. Implications for Cancer Survivors Digital resource-navigation tools may provide scalable support across treatment and survivorship. </p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "21"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -2,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-ecd6db94f3",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.323Z",
+   "lastChecked": "2026-11-12T09:21:43.323Z",
+   "changeReason": "discovery run, streams 21",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-f635fad402": {
+   "title": "Supporting health and wellbeing through creativity: a qualitative study with parents in economically deprived coastal communities.",
+   "doi": "10.1177/17579139261497958",
+   "pmid": "43006679",
+   "pmcid": null,
+   "url": "https://doi.org/10.1177/17579139261497958",
+   "journal": "Perspectives in public health",
+   "published": "2026-11-10",
+   "authors": "Kennedy S, Sawyer A, Boseley R, Salami-Oru T, Johnson H, Aicken C, Sherriff N.",
+   "abstract": "<h4>Aims</h4>Evidence suggests that engaging with creative activities can prevent poor health, promote good health and mitigate the impact of social disadvantage. Parents/carers living in economically deprived areas may face multiple barriers to engaging in creative activities. This study explored how primary carers of children aged 0-11 years living in economically deprived coastal areas of East Sussex engaged with creative activities to support their health and wellbeing. Our broad definition of creativity encompassed both 'everyday' creative activities (e.g. crafting, baking) and engagement with the arts and cultural assets. Barriers and facilitators to engaging in such activities, and perspectives on how participation in creative activities could be supported for parents were explored.<h4>Methods</h4>A cross-sectional qualitative design was utilised with semi-structured interviews and photo elicitation. Interviews with 28 parents (27 mothers) living in the coastal towns of Hastings, St Leonards or Bexhill were conducted in person or online during February-March 2025. Thematic analysis was used to generate, describe, and analyse themes within the data.<h4>Results</h4>Four main themes captured parents' experiences and perspectives of engaging in creative activities: (1) 'identity and engagement with creative activities'; (2) 'empowering engagement in creativity'; (3) 'challenges to creativity'; and (4) 'future opportunities'. Parents valued the benefits of engaging in creative activities (e.g. on mental health, self-identity and social connection) but experienced multiple barriers to accessing these, related to childcare, cost, location and confidence. Parents who had experienced and recovered from poor mental health were more likely to prioritise personal creative time as essential for maintaining their wellbeing.<h4>Conclusions</h4>Parents living in deprived coastal areas engaged in a wide range of creative activities that supported their wellbeing. Prioritising communication of, and access to, creative health opportunities for parents could add value to creativity, particularly everyday creative activities which may be more accessible to parents.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "Journal Article",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "03",
+    "19"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -4,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-f635fad402",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.328Z",
+   "lastChecked": "2026-11-12T09:21:43.328Z",
+   "changeReason": "discovery run, streams 03,19",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-82a2cb5213": {
+   "title": "Developing and Evaluating Digital School Asset Management for Accountability in an Indonesian Island District",
+   "doi": "10.62951/ijsie.v3i4.564",
+   "pmid": null,
+   "url": "https://doi.org/10.62951/ijsie.v3i4.564",
+   "journal": "International Journal of Studies in International Education",
+   "published": "2026-11-12",
+   "authors": "Fitra Rahmadani Mustafa, Abd Hamid Isa, Lia Nurhayati",
+   "abstract": "Elementary schools require reliable asset information to account for infrastructure and coordinate district oversight. This study developed and evaluated a digital School Asset Management Information System (SIMA) in Tinangkung, an Indonesian island district. An ADDIE research-and-development process combined baseline interviews and surveys, model design, expert review, pilot testing, and an expanded one-group pretest–posttest evaluation. Four experts judged the model fit for implementation with minor revisions; 30 users completed an 18-item practicality questionnaire; and 14 schools contributed paired accountability measurements. Preliminary responses showed manual records in 10 of 11 schools (90.9%) and no direct district data integration in seven (63.6%). The initial practicality score was 75.51% of the possible total. After implementation, mean data accuracy increased from 74.2% to 98.2%, reporting timeliness from 0.0% to 92.3%, and digital asset traceability from 75.4% to 100.0%. Mean normalized gains were 0.94, 0.92, and 1.00, respectively. Primary paired comparisons were statistically significant at the 5% level. The findings indicate promising short-term administrative improvements associated with a three-axis school–cloud–district system, while the absence of a comparison group prevents exclusive causal attribution. The analysis concerns operational governance indicators, not student achievement, long-term financial savings, cybersecurity assurance, or external audit judgments, none of which were measured directly.",
+   "isPreprint": false,
+   "peerReviewed": true,
+   "pubTypes": "journal-article",
+   "grants": [],
+   "citedBy": 0,
+   "streams": [
+    "08"
+   ],
+   "foundBy": [
+    "crossref"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": 0,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-82a2cb5213",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.332Z",
+   "lastChecked": "2026-11-12T09:21:43.332Z",
+   "changeReason": "discovery run, streams 08",
+   "changedBy": "radar:discover"
+  },
+  "GDC-RR-19eb1d5d25": {
+   "title": "Effectiveness of a Social Media–Based Peer Support Intervention for Improving Medication Adherence and Health-Related Quality of Life among Young People Living with HIV in Ghana: A Single-Group Pretest–Posttest Quasi-Experimental Study",
+   "doi": "10.21203/rs.3.rs-11386436/v1",
+   "pmid": null,
+   "pmcid": null,
+   "url": "https://doi.org/10.21203/rs.3.rs-11386436/v1",
+   "journal": "Research Square",
+   "published": "2026-11-09",
+   "authors": "Mensah E, Gmayinaam VU, Osei E.",
+   "abstract": "<title>Abstract</title> <p>Background: Young people living with HIV (YPLHIV) frequently encounter barriers to antiretroviral therapy (ART) adherence and experience suboptimal health-related quality of life (HRQoL), which together undermine viral suppression and long-term prognosis. While peer support interventions can enhance engagement in HIV care, empirical data regarding social media–facilitated peer networks among YPLHIV in sub-Saharan Africa remain scarce. This study evaluated the effectiveness of a structured, professionally moderated social media–based peer support intervention designed to enhance medication adherence and HRQoL among YPLHIV receiving ART in Ghana Methods: A single-group pretest–posttest quasi-experimental study was conducted among 124 young adults aged 18–34 years attending the HIV Clinic of Kade Government Hospital in the Kwaebibirim Municipality, Ghana. The six-month intervention utilized Chatterbox (for anonymous group interactions) and WhatsApp (for confidential one-on-one professional counselling). Medication adherence was evaluated using the 10-item Medication Adherence Rating Scale (MARS-10), and HRQoL was assessed using the World Health Organization Quality of Life-BREF (WHOQOL-BREF). Pre- and post-intervention outcomes were compared using paired t-tests, Wilcoxon signed-rank tests, and McNemar’s tests. Population-averaged generalized estimating equations (GEE) with a log link, Poisson family, and robust standard errors were fitted to estimate adjusted prevalence ratios (aPRs) and 95% confidence intervals (CIs) for factors associated with poor medication adherence and poor HRQoL. <h4>Results:</h4> Following the six-month intervention, the proportion of participants achieving good medication adherence rose from 21.1% (26/124) to 78.9% (98/124; p<0.001). Statistically significant gains occurred across all four WHOQOL-BREF domains (all p<0.001). The overall prevalence of poor HRQoL declined from 96.8% to 3.2% (p<0.001). Medication adherence correlated positively with physical (r=0.660), psychological (r=0.752), social (r=0.623), and environmental (r=0.730) health domains (all p<0.001). In multivariable GEE modeling, the post-intervention period was independently associated with an 80% reduction in the prevalence of poor medication adherence (aPR = 0.20, 95% CI: 0.12–0.34) and a 96% reduction in poor overall HRQoL (aPR = 0.04, 95% CI: 0.01–0.13). Participants with unsuppressed viral load (≥50 copies/mL) were over twice as likely to experience poor adherence as suppressed peers (aPR = 2.31, 95% CI: 1.58–3.39). Never-married participants had a lower prevalence of poor HRQoL than those who were married or cohabiting (aPR = 0.86, 95% CI: 0.75–0.99). <h4>Conclusion:</h4> A structured, multidisciplinary social media peer-support intervention was associated with substantial improvements in medication adherence, HRQoL, and virological suppression among young people living with HIV. Integrating digital peer networks into routine differentiated service delivery represents an effective and scalable avenue for youth-centered HIV care in resource-limited environments.</p>",
+   "isPreprint": true,
+   "peerReviewed": false,
+   "pubTypes": "Preprint",
+   "grants": [],
+   "citedBy": 0,
+   "openAccess": false,
+   "streams": [
+    "09",
+    "19",
+    "22"
+   ],
+   "foundBy": [
+    "europepmc"
+   ],
+   "status": "DISCOVERED",
+   "relevanceScore": -1,
+   "relevanceBand": "PERIPHERAL",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [],
+    "penalty": [
+     "-4 \\bprimary care|clinician|physician"
+    ],
+    "uk": []
+   },
+   "windowSearched": {
+    "since": "2026-11-09",
+    "until": "2026-11-12"
+   },
+   "studyId": "GDC-RR-19eb1d5d25",
+   "version": 1,
+   "firstFound": "2026-11-12T09:21:43.335Z",
+   "lastChecked": "2026-11-12T09:21:43.335Z",
+   "changeReason": "discovery run, streams 09,19,22",
+   "changedBy": "radar:discover"
   }
  },
  "keys": {
@@ -3566,6 +5021,76 @@
   "doi:10.1016/s2352-4642(26)00301-9": "GDC-RR-19396d6493",
   "pmid:43008758": "GDC-RR-19396d6493",
   "url:pubmed.ncbi.nlm.nih.gov/43008758": "GDC-RR-19396d6493",
-  "title:digital readiness not age youth social media policy needs a developmental approach": "GDC-RR-19396d6493"
+  "title:digital readiness not age youth social media policy needs a developmental approach": "GDC-RR-19396d6493",
+  "url:doi.org/10.1007/s00431-026-07569-z": "GDC-RR-e1a6cd5229",
+  "doi:10.21203/rs.3.rs-11437464/v1": "GDC-RR-ba1fec0984",
+  "url:doi.org/10.21203/rs.3.rs-11437464/v1": "GDC-RR-ba1fec0984",
+  "title:automated detection and classification of strabismus in smartphone images": "GDC-RR-ba1fec0984",
+  "doi:10.21203/rs.3.rs-11401343/v1": "GDC-RR-34b3878324",
+  "url:doi.org/10.21203/rs.3.rs-11401343/v1": "GDC-RR-34b3878324",
+  "title:early digital media initiation and current exposure profiles among european adolescents a descriptive secondary": "GDC-RR-34b3878324",
+  "doi:10.31234/osf.io/xjrqu": "GDC-RR-925d3c951a",
+  "url:doi.org/10.31234/osf.io/xjrqu": "GDC-RR-925d3c951a",
+  "title:navigating digital platforms in adolescence a population based study of online sexual experiences and": "GDC-RR-925d3c951a",
+  "doi:10.1002/aur.70389": "GDC-RR-0aa86d7876",
+  "pmid:43001612": "GDC-RR-0aa86d7876",
+  "url:doi.org/10.1002/aur.70389": "GDC-RR-0aa86d7876",
+  "title:kinematic features of handwriting speed a comparative study of autistic and non autistic youth": "GDC-RR-0aa86d7876",
+  "doi:10.22141/2224-0551.21.7.2026.1981": "GDC-RR-6fb90e43f3",
+  "url:doi.org/10.22141/2224-0551.21.7.2026.1981": "GDC-RR-6fb90e43f3",
+  "title:family support within psychosocial care of children with type 1 diabetes impact on quality": "GDC-RR-6fb90e43f3",
+  "doi:10.21203/rs.3.rs-11137657/v1": "GDC-RR-b3cbb73e58",
+  "url:doi.org/10.21203/rs.3.rs-11137657/v1": "GDC-RR-b3cbb73e58",
+  "title:from learning tool to digital distraction mobile phone and social media use and its": "GDC-RR-b3cbb73e58",
+  "doi:10.1111/jpc.70652": "GDC-RR-bf6c483886",
+  "pmid:43006751": "GDC-RR-bf6c483886",
+  "url:doi.org/10.1111/jpc.70652": "GDC-RR-bf6c483886",
+  "title:quality and reliability of youtube content on infant choking management a cross sectional study": "GDC-RR-bf6c483886",
+  "doi:10.1016/j.chiabu.2026.108410": "GDC-RR-511ce36728",
+  "pmid:43008333": "GDC-RR-511ce36728",
+  "url:doi.org/10.1016/j.chiabu.2026.108410": "GDC-RR-511ce36728",
+  "title:healthcare professionals experiences of using an artificial intelligence training tool to practice asking questions": "GDC-RR-511ce36728",
+  "doi:10.21203/rs.3.rs-11017670/v1": "GDC-RR-8dad786396",
+  "url:doi.org/10.21203/rs.3.rs-11017670/v1": "GDC-RR-8dad786396",
+  "title:youth perspectives on ai through empirical analysis of adolescent views on education identity and": "GDC-RR-8dad786396",
+  "doi:10.21203/rs.3.rs-11442727/v1": "GDC-RR-d54865040b",
+  "url:doi.org/10.21203/rs.3.rs-11442727/v1": "GDC-RR-d54865040b",
+  "title:new frontiers in diabetes management exploring parental perspectives on artificial intelligence and novel therapies": "GDC-RR-d54865040b",
+  "url:www.gov.uk/government/publications/form-c100-application-under-the-children-act-1989-for-a-child-arrangements-prohibited-steps-specific-issue-section-8-order-or-to-vary-or-discharge": "GDC-RR-110b7c3dd2",
+  "title:apply for a court order to make arrangements for a child or resolve a": "GDC-RR-110b7c3dd2",
+  "doi:10.20944/preprints202611.1122.v1": "GDC-RR-9185598887",
+  "url:doi.org/10.20944/preprints202611.1122.v1": "GDC-RR-9185598887",
+  "title:deepnude forensics detection attribution and defense against ai generated intimate image abuse": "GDC-RR-9185598887",
+  "url:doi.org/10.1016/s0140-6736(26)01819-2": "GDC-RR-7e9b72deec",
+  "doi:10.21203/rs.3.rs-11388326/v1": "GDC-RR-c0fb42ad60",
+  "url:doi.org/10.21203/rs.3.rs-11388326/v1": "GDC-RR-c0fb42ad60",
+  "title:markerless video analysis is feasible during a soccer program for autistic children in the": "GDC-RR-c0fb42ad60",
+  "doi:10.64898/2026.11.10.26367483": "GDC-RR-909546c605",
+  "url:doi.org/10.64898/2026.11.10.26367483": "GDC-RR-909546c605",
+  "title:adapting a shared digital communication intervention for caregivers of children with physical disabilities and": "GDC-RR-909546c605",
+  "doi:10.21203/rs.3.rs-11659615/v1": "GDC-RR-76e5148170",
+  "url:doi.org/10.21203/rs.3.rs-11659615/v1": "GDC-RR-76e5148170",
+  "title:a lifelong responsibility a transcendental phenomenological study of mothers of children with disabilities": "GDC-RR-76e5148170",
+  "doi:10.12688/f1000research.186320.2": "GDC-RR-cc7b7da589",
+  "url:doi.org/10.12688/f1000research.186320.2": "GDC-RR-cc7b7da589",
+  "title:revealing barriers to identity exploration among sexual minority youth in social media environments a": "GDC-RR-cc7b7da589",
+  "doi:10.1016/j.puhe.2026.106547": "GDC-RR-fbb1f60e3c",
+  "pmid:43008583": "GDC-RR-fbb1f60e3c",
+  "url:doi.org/10.1016/j.puhe.2026.106547": "GDC-RR-fbb1f60e3c",
+  "title:social inequalities and nurturing care determinants of early language developmental delay among ecuadorian children": "GDC-RR-fbb1f60e3c",
+  "doi:10.21203/rs.3.rs-11270648/v1": "GDC-RR-ecd6db94f3",
+  "url:doi.org/10.21203/rs.3.rs-11270648/v1": "GDC-RR-ecd6db94f3",
+  "title:connecting caregivers to community resources a mixed methods evaluation of a virtual assistant for": "GDC-RR-ecd6db94f3",
+  "doi:10.1177/17579139261497958": "GDC-RR-f635fad402",
+  "pmid:43006679": "GDC-RR-f635fad402",
+  "url:doi.org/10.1177/17579139261497958": "GDC-RR-f635fad402",
+  "title:supporting health and wellbeing through creativity a qualitative study with parents in economically deprived": "GDC-RR-f635fad402",
+  "doi:10.62951/ijsie.v3i4.564": "GDC-RR-82a2cb5213",
+  "url:doi.org/10.62951/ijsie.v3i4.564": "GDC-RR-82a2cb5213",
+  "title:developing and evaluating digital school asset management for accountability in an indonesian island district": "GDC-RR-82a2cb5213",
+  "doi:10.21203/rs.3.rs-11386436/v1": "GDC-RR-19eb1d5d25",
+  "url:doi.org/10.21203/rs.3.rs-11386436/v1": "GDC-RR-19eb1d5d25",
+  "title:effectiveness of a social media based peer support intervention for improving medication adherence and": "GDC-RR-19eb1d5d25",
+  "url:doi.org/10.1016/s2352-4642(26)00301-9": "GDC-RR-19396d6493"
  }
 }

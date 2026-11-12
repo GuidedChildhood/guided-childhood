@@ -1,0 +1,134 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-12",
+ "startedAt": "2026-11-12T09:21:08.023Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-12T09:21:08.023Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 0,
+    "note": "the inbox held no new document"
+   },
+   "at": "2026-11-12T09:21:08.054Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 21,
+    "total": 52
+   },
+   "at": "2026-11-12T09:21:43.349Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 9,
+    "confirmed": 9,
+    "unconfirmed": []
+   },
+   "at": "2026-11-12T09:21:45.445Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "WAITING",
+   "by": "claude",
+   "reasons": [
+    "7 verified records need a directed review before anything can be written from them"
+   ],
+   "detail": {
+    "waiting": [
+     {
+      "researchId": "GDC-RR-34b3878324",
+      "band": "CORE",
+      "score": 17,
+      "title": "Early Digital Media Initiation and Current Exposure Profiles Among European Adolescents: A Descriptive Secondary Analysis of Flash Eurobarometer FL579 Early digital media initiation and adolescent exposure profiles",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-b3cbb73e58",
+      "band": "CORE",
+      "score": 13,
+      "title": "From learning tool to digital distraction: Mobile phone and social media use and its impact on children's academic performance in rural Bangladesh",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-cc7b7da589",
+      "band": "CORE",
+      "score": 12,
+      "title": "Revealing Barriers to Identity Exploration Among Sexual Minority Youth in Social Media Environments: A Systematic Literature Review",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-bf6c483886",
+      "band": "CORE",
+      "score": 9,
+      "title": "Quality and Reliability of YouTube Content on Infant Choking Management: A Cross-Sectional Study of Guideline Adherence.",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-7e9b72deec",
+      "band": "ADJACENT",
+      "score": 8,
+      "title": "A blended digital parenting intervention for the prevention of sexual violence, exploitative sex, and maltreatment of children at scale in Tanzania: a cluster-randomised, controlled trial.",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-925d3c951a",
+      "band": "ADJACENT",
+      "score": 8,
+      "title": "Navigating Digital Platforms in Adolescence: A Population‑Based Study of Online Sexual Experiences and Violations",
+      "fromInbox": false
+     },
+     {
+      "researchId": "GDC-RR-ba1fec0984",
+      "band": "ADJACENT",
+      "score": 5,
+      "title": "Automated Detection and Classification of Strabismus in Smartphone Images",
+      "fromInbox": false
+     }
+    ]
+   },
+   "at": "2026-11-12T09:21:45.478Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "Push refused. add_repo is not in this session: ToolSearch for add_repo, claude-code-remote add_repo and select of both full names returned no matching tool, so it could not be called. Git proxy answered twice: remote: access denied by the git proxy: GuidedChildhood/guided-childhood is not in this session's authorized repository set, so the proxy will not inject a credential for it. To fix, add the repository to the session's sources. (HTTP 403)"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:21:56.513Z",
+   "commit": "85863bda",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-12T09:21:56.542Z"
+}
