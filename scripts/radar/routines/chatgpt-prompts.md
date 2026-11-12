@@ -64,3 +64,35 @@ as a new Doc with v2 in the title.
 Do not mark anything APPROVED or PUBLISHED. Do not post, schedule or send anything.
 Finish by telling Justin which packs you saved, by title, and that they are waiting for Claude's check.
 ```
+
+## Send once, any time: the Metricool check (12 November 2026)
+
+Claude cannot see Metricool or LinkedIn. This asks ChatGPT for the facts only
+it can read, and tells it what it must not do while two posts sit in both places.
+
+```
+Do not create, schedule, publish, delete or reschedule anything in Metricool or LinkedIn.
+This is a read only check. Report facts and nothing else.
+
+1. List every draft and every scheduled post in Metricool for Justin's LinkedIn profile.
+   For each give: the Metricool draft ID, the first line of the text, the date and time if it
+   has one, whether it is a draft or scheduled, the autoPublish setting, and what is attached.
+
+2. GDC-054 and GDC-058 are already scheduled in LinkedIn itself, for 16 November 08:00 and
+   18 November 07:30. Their Metricool drafts must stay as drafts with no date. Confirm for each
+   that it has no date and that autoPublish is off. If either has a date, say so and stop.
+   Do not fix it yourself.
+
+3. If any GDC number has more than one draft, list all of them. Do not delete any.
+
+4. From now on, before you create any Metricool draft, open the file
+   content/publication/metricool-handoff-GDC-NNN.json for that post in the
+   GuidedChildhood/guided-childhood repository, or ask Justin for it. Create a draft only if
+   draftCreationPermitted is true. Add a date only if schedulingPermitted is true AND Justin has
+   given you the time in his own words. Use finalText and firstComment exactly as written.
+
+5. A Metricool draft is not approval. Only Justin approves. Never mark anything approved,
+   scheduled or published on his behalf.
+
+Reply as a plain list, one draft per line, so Justin can paste it straight to Claude.
+```

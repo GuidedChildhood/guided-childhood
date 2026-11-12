@@ -1,0 +1,266 @@
+{
+  "schema": "gdc.publication-register/1.0",
+  "generatedAt": "2026-11-12T12:13:43.890Z",
+  "sourceCommit": "618acea6ac8b58f99e92bee83e8d1444eadb6d9d",
+  "scheduleObservedAt": "2026-11-12",
+  "scheduleStanding": "Reported by Justin. Claude cannot read LinkedIn or Metricool.",
+  "rows": [
+    {
+      "gdcPostNumber": null,
+      "title": "AI chatbots and teenage emotional support",
+      "researchId": null,
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "NO RECORD, SLOT REPORTED",
+      "slotOwner": "LINKEDIN NATIVE",
+      "scheduledFor": "2026-11-13T08:00",
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "image, reported, not on our record",
+      "liveUrl": null,
+      "postRegisterState": "NO ROW",
+      "registerMatchNote": "Probably GDC-048, The chatbot confidant, which the register holds as RETIRED 9 Nov. Not confirmed.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": null,
+      "title": "AI toys",
+      "researchId": null,
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "NO RECORD, SLOT REPORTED",
+      "slotOwner": "LINKEDIN NATIVE",
+      "scheduledFor": "2026-11-14T08:00",
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "image, reported, not on our record",
+      "liveUrl": null,
+      "postRegisterState": "NO ROW",
+      "registerMatchNote": "Probably GDC-047, Half of UK children have an AI toy, which the register holds as RETIRED 9 Nov. Not confirmed.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": null,
+      "title": "Bradford social media trial",
+      "researchId": null,
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "NO RECORD, SLOT REPORTED",
+      "slotOwner": "LINKEDIN NATIVE",
+      "scheduledFor": "2026-11-15T08:45",
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "NO ROW",
+      "registerMatchNote": "No row found in the post register.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": "054",
+      "title": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
+      "researchId": "GDC-RR-0754a1641c",
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "READY FOR JUSTIN, SLOT REPORTED",
+      "slotOwner": "CONFLICT",
+      "scheduledFor": "2026-11-16T08:00",
+      "metricoolDraftId": null,
+      "metricoolDraft": "reported",
+      "approval": null,
+      "reviewedPack": "https://docs.google.com/document/d/15dJoSU0vNuG2FSnHI3cVVeW7X2vkcLm7fsU3D1vWf14/edit",
+      "visual": "text only",
+      "liveUrl": null,
+      "postRegisterState": "CLAIMED",
+      "registerMatchNote": "GDC-054, research GDC-RR-0754a1641c, READY FOR JUSTIN.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled in LinkedIn for 2026-11-16T08:00 and also held as a Metricool draft. One of the two has to go, and that is Justin's choice."
+        },
+        {
+          "blocking": true,
+          "what": "scheduled, and no approval from Justin is on record. Scheduling it himself may well be his approval. It needs saying once so the record can hold it."
+        },
+        {
+          "blocking": true,
+          "what": "scheduled with an image that was never checked. Our record for this post has no image."
+        },
+        {
+          "blocking": false,
+          "what": "the scheduled copy has not been compared with the reviewed text"
+        },
+        {
+          "blocking": false,
+          "what": "the Metricool draft has no draft ID on record, so it cannot be told apart from a second one"
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": "058",
+      "title": "A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.",
+      "researchId": "GDC-RR-3d31eb1683",
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "READY FOR JUSTIN, SLOT REPORTED",
+      "slotOwner": "CONFLICT",
+      "scheduledFor": "2026-11-18T07:30",
+      "metricoolDraftId": null,
+      "metricoolDraft": "reported",
+      "approval": null,
+      "reviewedPack": "https://docs.google.com/document/d/1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8/edit",
+      "visual": "text only",
+      "liveUrl": null,
+      "postRegisterState": "CLAIMED",
+      "registerMatchNote": "GDC-058, research GDC-RR-3d31eb1683, READY FOR JUSTIN.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled in LinkedIn for 2026-11-18T07:30 and also held as a Metricool draft. One of the two has to go, and that is Justin's choice."
+        },
+        {
+          "blocking": true,
+          "what": "scheduled, and no approval from Justin is on record. Scheduling it himself may well be his approval. It needs saying once so the record can hold it."
+        },
+        {
+          "blocking": false,
+          "what": "whether the scheduled post carries an image or film is not recorded"
+        },
+        {
+          "blocking": false,
+          "what": "the scheduled copy has not been compared with the reviewed text"
+        },
+        {
+          "blocking": false,
+          "what": "the Metricool draft has no draft ID on record, so it cannot be told apart from a second one"
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": null,
+      "title": "Screen time research",
+      "researchId": null,
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "NO RECORD, SLOT REPORTED",
+      "slotOwner": "LINKEDIN NATIVE",
+      "scheduledFor": "2026-11-29T08:45",
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "NO ROW",
+      "registerMatchNote": "Not identified.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": null,
+      "title": "Social media and children, clarification article",
+      "researchId": null,
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "NO RECORD, SLOT REPORTED",
+      "slotOwner": "LINKEDIN NATIVE",
+      "scheduledFor": "2026-12-06T08:30",
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "NO ROW",
+      "registerMatchNote": "Not identified.",
+      "scheduleObservedAt": "2026-11-12",
+      "issues": [
+        {
+          "blocking": true,
+          "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
+        }
+      ]
+    },
+    {
+      "gdcPostNumber": "055",
+      "title": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
+      "researchId": "GDC-RR-e22bd17322",
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "EDITORIAL READY",
+      "slotOwner": "NONE",
+      "scheduledFor": null,
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "CLAIMED",
+      "registerMatchNote": null,
+      "scheduleObservedAt": null,
+      "issues": []
+    },
+    {
+      "gdcPostNumber": "056",
+      "title": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
+      "researchId": "GDC-RR-e923851b08",
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "EDITORIAL READY",
+      "slotOwner": "NONE",
+      "scheduledFor": null,
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "CLAIMED",
+      "registerMatchNote": null,
+      "scheduleObservedAt": null,
+      "issues": []
+    },
+    {
+      "gdcPostNumber": "057",
+      "title": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
+      "researchId": "GDC-RR-86c1075a30",
+      "account": "Justin Phillips, personal LinkedIn profile",
+      "status": "EDITORIAL READY",
+      "slotOwner": "NONE",
+      "scheduledFor": null,
+      "metricoolDraftId": null,
+      "metricoolDraft": "none recorded",
+      "approval": null,
+      "reviewedPack": null,
+      "visual": "not recorded",
+      "liveUrl": null,
+      "postRegisterState": "CLAIMED",
+      "registerMatchNote": null,
+      "scheduleObservedAt": null,
+      "issues": []
+    }
+  ]
+}

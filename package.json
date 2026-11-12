@@ -96,6 +96,8 @@
     "play-fingerprint": "node scripts/app-stores/add-play-fingerprint.mjs",
     "app-icons": "node scripts/app-stores/make-maskable-icons.mjs",
     "radar-assets-test": "node scripts/radar/test-assets.mjs",
+    "radar-reconcile": "node scripts/radar/publication.mjs reconcile",
+    "radar-publication-test": "node scripts/radar/test-publication.mjs",
     "linkedin-analytics": "node scripts/analytics/linkedin.mjs"
   },
   "dependencies": {
