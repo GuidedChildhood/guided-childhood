@@ -1,0 +1,40 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-12T12:46:17.086Z",
+  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "gdcPostNumber": "057",
+  "researchId": "GDC-RR-86c1075a30",
+  "title": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "In 2022, researchers commissioned by the ICO and Ofcom went into family homes to ask about age checks. They interviewed 18 families in depth, in home visits of about 4 hours each, and ran 8 focus groups, 4 with parents and 4 with children aged 13 to 17. The fieldwork ran from May to August 2022 and it was published on 11 October 2022.\n\nMost of the children they met had got past an age check themselves or knew someone who had. Parents were often aware. Some had helped.\n\nRead the date again. This was before the Online Safety Act, when the usual age check was a typed date of birth. It is also a small study chosen for variety, so it tells us what happened in these homes and why, and nothing about how common it is.\n\nThe why is the part worth reading.\n\nThese were not careless parents. Most of them told the researchers they wanted services to check ages. But many saw the minimum age on social media and games as arbitrary, because it took no account of their own child, and saying no meant their child being the one left out. So they weighed what they knew about their own child against a box on a sign up form.\n\nI recognise that reasoning.\n\nNone of this means age checks cannot work, and it is not an argument against the new age limit that is on its way. Families in the same study thought a passport or a driving licence would be the most effective check, and the rules are stronger now than they were then.\n\nWhat it suggests to me is smaller. A rule a family does not believe in is hard to keep at home. A deadline is not a plan.\n\nIt is the reason the stage check we built asks three questions about one child and gives a parent a starting point of their own, with no promise about what happens next.\n\nThe source is in the comments.\n\nIf you know a family getting ready for the new rules, repost this. A rule you can explain to your child is easier to hold than one that was handed to you.\n\nWhat would you need to believe about an age limit before you held the line on it at home?",
+  "firstComment": "The research, on GOV.UK: https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom\n\nThe strongest objection is that this is from 2022 and the checks have changed. Agreed, and the post says so. It cannot tell us how families behave under the rules in force today. What it can tell us is why these parents did what they did, and that reasoning does not depend on the technology.",
+  "sources": [
+    "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/1X0oFT713nKO4P5Jzmg7k_tLVd_mZVsFK-IraxJ3r_G4/edit",
+  "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+  },
+  "assets": [],
+  "approvalStatus": "READY FOR JUSTIN",
+  "duplicateCheck": {
+    "result": "UNKNOWN",
+    "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
+  },
+  "linkedinNativeSchedule": null,
+  "metricool": {
+    "draftCreationPermitted": true,
+    "schedulingPermitted": false,
+    "autoPublishPermitted": false,
+    "why": [
+      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    ],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

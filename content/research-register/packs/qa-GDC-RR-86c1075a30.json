@@ -1,0 +1,157 @@
+{
+ "verdict": "PASS",
+ "researchId": "GDC-RR-86c1075a30",
+ "gdcPostNumber": "057",
+ "checked": 29,
+ "failedCount": 0,
+ "failures": [],
+ "checks": [
+  {
+   "name": "carries a research ID",
+   "pass": true,
+   "detail": "researchId GDC-RR-86c1075a30"
+  },
+  {
+   "name": "the research ID exists in the register",
+   "pass": true,
+   "detail": "found, register version 26"
+  },
+  {
+   "name": "carries a source commit",
+   "pass": true,
+   "detail": "from commit 28867af5"
+  },
+  {
+   "name": "the pack was written from the current handoff",
+   "pass": true,
+   "detail": "handoff version 2"
+  },
+  {
+   "name": "the research is still eligible for Stage 2",
+   "pass": true,
+   "detail": "eligible"
+  },
+  {
+   "name": "the post number exists in the GitHub register",
+   "pass": true,
+   "detail": "GDC-057 is in the register"
+  },
+  {
+   "name": "the post number is not already published",
+   "pass": true,
+   "detail": "not published"
+  },
+  {
+   "name": "the post number matches this research",
+   "pass": true,
+   "detail": "register record carries 057, pack carries 057"
+  },
+  {
+   "name": "LinkedIn word count is in band",
+   "pass": true,
+   "detail": "385 words, band is 250 to 450"
+  },
+  {
+   "name": "LinkedIn character count is within the platform limit",
+   "pass": true,
+   "detail": "1989 characters, LinkedIn truncates above 3000"
+  },
+  {
+   "name": "no dashes anywhere in the copy",
+   "pass": true,
+   "detail": "none"
+  },
+  {
+   "name": "no link in the post body",
+   "pass": true,
+   "detail": "none"
+  },
+  {
+   "name": "the closing question is last with nothing after it",
+   "pass": true,
+   "detail": "the last sentence is the question"
+  },
+  {
+   "name": "a first comment is supplied",
+   "pass": true,
+   "detail": "present"
+  },
+  {
+   "name": "the post says the source is in the comments",
+   "pass": true,
+   "detail": "it does"
+  },
+  {
+   "name": "the copy passes the ai-tells guard",
+   "pass": true,
+   "detail": "no dash, no stock phrase, no correction shape"
+  },
+  {
+   "name": "every format produced was asked for by the handoff",
+   "pass": true,
+   "detail": "1 other format(s) produced, all asked for"
+  },
+  {
+   "name": "no dashes in the other formats",
+   "pass": true,
+   "detail": "none found"
+  },
+  {
+   "name": "every figure in the copy was cleared by the review",
+   "pass": true,
+   "detail": "4 figure(s) checked, all cleared"
+  },
+  {
+   "name": "no prohibited claim appears",
+   "pass": true,
+   "detail": "6 restriction(s) recorded on this story. These are prose, so they are listed for the reviewer rather than matched automatically: any percentage or proportion of parents or children: this is qualitative research and gives none | the names or ages of the children and parents in the report's case examples: they are illustrations from private homes and we do not repeat them"
+  },
+  {
+   "name": "an evidence claim has a source in the first comment",
+   "pass": true,
+   "detail": "the first comment carries the link"
+  },
+  {
+   "name": "the opening is not a repeat of an existing post",
+   "pass": true,
+   "detail": "closest opening is none at 0 percent"
+  },
+  {
+   "name": "the close is not a repeat of an existing post",
+   "pass": true,
+   "detail": "closest close is GDC-038 at 8 percent"
+  },
+  {
+   "name": "the post as a whole is not a near duplicate",
+   "pass": true,
+   "detail": "closest post is GDC-050 at 2 percent. 041 and 046 were 98.6 percent identical and nearly both went out."
+  },
+  {
+   "name": "the visual names its approved assets, or says plainly there is none",
+   "pass": true,
+   "detail": "declared: no asset. The post goes out as text only unless a card is built from an approved brand asset."
+  },
+  {
+   "name": "the visual brief does not describe an invented screen or person",
+   "pass": true,
+   "detail": "nothing invented described"
+  },
+  {
+   "name": "the visual does not present a synthetic person as a real parent",
+   "pass": true,
+   "detail": "checked the brief wording"
+  },
+  {
+   "name": "the pack does not claim an approval it has not got",
+   "pass": true,
+   "detail": "status DRAFT, which claims nothing"
+  },
+  {
+   "name": "the pack does not claim to have been posted",
+   "pass": true,
+   "detail": "no publishedUrl claimed"
+  }
+ ],
+ "checkedAt": "2026-11-12T12:43:24.326Z",
+ "ceiling": "This pass checks the pack against the handoff and the house rules. It cannot tell whether a claim is true, cannot see an image, and cannot read LinkedIn."
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-12T12:46:16.930Z",
+  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "gdcPostNumber": "056",
+  "researchId": "GDC-RR-e923851b08",
+  "title": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "A study published online on 6 November 2026 in Public Health Reports compared what parents said about their teenagers' online lives with what the teenagers said themselves, across 522 parent and teen pairs.\n\nThe parents generally overestimated how much they knew.\n\nI would have told you I had a fair idea what my own children do online. So I am not reading this as a study about other people.\n\nThere are two easy headlines here, and the abstract supports neither. One says parents have no idea. The other says monitoring works. What it reports is narrower: when a parent and a teenager were asked about the same things separately, their answers often did not match, and the parent was usually the more confident of the two.\n\nThen comes the awkward part.\n\nThe gap was smallest in families where parents used digital monitoring. I build a parent tool, and I have said many times that connection matters more than surveillance, so I would rather tell you that than leave it out.\n\nIt is still not evidence that monitoring keeps a child safer. The study measured whether two people gave the same answer. It did not measure what happened to the child, it was a survey at a single point in time, and families who already talk easily may also be the ones who monitor.\n\nI have only read the abstract. It gives no size for the gap, no ages and no country, so I will not put a number on it or carry it across to families here.\n\nIt is why the stage check we built treats a parent's answers as a starting point: three questions about one child, and no promise about what happens next.\n\nThe source is in the comments.\n\nIf you know a parent who is sure they know, repost this. Being close to a child and knowing what fills their screen are different things, and most of us assume the first covers the second.\n\nWhat could you ask your child tonight that you think you already know the answer to?",
+  "firstComment": "The study, Decoding Digital Risk, in Public Health Reports: https://doi.org/10.1177/00333549261480962\n\nThe strongest objection is that the gap was smallest where parents monitored, so the answer must be to monitor. It may be part of an answer. But the study compared two sets of answers at a single point in time. It cannot say monitoring produced the agreement, and it did not measure whether any child was safer. I have read the abstract only, and I have said so in the post.",
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/42992549/",
+    "https://doi.org/10.1177/00333549261480962"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/1fV6m2cw04TBKC0JD568QKkaXUIuHG_A-PZgycXbFPE4/edit",
+  "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+  },
+  "assets": [],
+  "approvalStatus": "READY FOR JUSTIN",
+  "duplicateCheck": {
+    "result": "UNKNOWN",
+    "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
+  },
+  "linkedinNativeSchedule": null,
+  "metricool": {
+    "draftCreationPermitted": true,
+    "schedulingPermitted": false,
+    "autoPublishPermitted": false,
+    "why": [
+      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    ],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

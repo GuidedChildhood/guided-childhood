@@ -1,0 +1,30 @@
+{
+ "researchId": "GDC-RR-e22bd17322",
+ "gdcPostNumber": "055",
+ "handoffVersion": 2,
+ "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+ "status": "DRAFT",
+ "linkedin": {
+  "body": "A scientific consortium of 14 UK academics across 10 universities, commissioned by the government, went looking for the evidence on time spent on social media and adolescent mental health. They found 7 systematic reviews. They rated 1 of the 7 as high quality and 6 as critically low.\n\nThat is the ground the whole argument stands on.\n\nThe report is dated May 2025 and was published on GOV.UK on 20 January 2026. Each side of the debate tends to quote half of it, so here are both halves.\n\nThere is a link. Across those reviews it is small and it is consistent, and it also appears in studies that follow young people over time. Anyone who tells you the report found nothing has not read it.\n\nAnd the cause is uncertain. The consortium judged the certainty that social media itself is doing the damage to be low, and found no experiment that had tested it in healthy adolescents, although trials that cut back use in other groups showed some benefit, which matters and which I am not going to skip.\n\nLow certainty is not proof of harm. Nor is it proof of safety.\n\nThe underlying reports were produced between December 2024 and March 2025. I do not know what has been published since, and the research the report asks for is framed around the next 2 to 3 years.\n\nOne more thing. The report separates the average across a population from harm to an individual child, which it treats as real and urgent. That distinction is why the stage check we built asks three questions about one child and offers a starting point, with no promise about what happens next. Nothing we make has been tested in the way this report asks for.\n\nThe source is in the comments.\n\nIf you would rather people argued from what the evidence says than from what they wish it said, repost this. The response should be in proportion to the evidence, and that cuts both ways.\n\nWhen someone tells you the science is settled, which study do you ask them to show you?",
+  "firstComment": "The report, on GOV.UK: https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people\n\nThe strongest objection is that a small, consistent link in thousands of young people is reason enough to act without waiting for a trial. That is a fair position, and the report does not argue against it. My point is narrower. Acting under uncertainty is reasonable. Describing the uncertainty as settled, in either direction, is not what this report says."
+ },
+ "declined": {
+  "INSTAGRAM CAPTION": "NOT RECOMMENDED. The handoff asks for a LinkedIn post and a newsletter only.",
+  "FACEBOOK CAPTION": "NOT RECOMMENDED. The handoff asks for a LinkedIn post and a newsletter only.",
+  "REEL SCRIPT": "NOT RECOMMENDED. The handoff does not ask for a Reel or Short.",
+  "VISUAL BRIEF": "NOT RECOMMENDED. Text only. No approved brand asset is identified for this story, and the best post in Justin's numbers of 11 November carried no image.",
+  "ASSETS USED": "NONE"
+ },
+ "newsletter": {
+  "body": "The report both sides quote half of\n\nIn January the government published a report it had commissioned from a scientific consortium of 14 UK academics across 10 universities. The question was how to find out what smartphones and social media are doing to children and young people. Part of the answer was a look at what we know already.\n\nOn time spent on social media and adolescent mental health, they found 7 systematic reviews. They rated 1 of the 7 as high quality and 6 as critically low.\n\nWhat those reviews show is a small, consistent link between more time on social media and poorer mental health, and it appears in studies that follow young people over time. So it is wrong to say the report found nothing.\n\nWhat they do not show is the cause. The consortium judged that certainty to be low, and found no experiment testing it in healthy adolescents. Trials that reduced use in other groups showed some benefit. So it is also wrong to say the report confirmed the harm.\n\nLow certainty is uncomfortable. It is not proof of harm and it is not proof of safety.\n\nTwo cautions. The underlying reports were produced between December 2024 and March 2025, so anything published since is outside it. And the report is about the average across a population. It says plainly that harm to an individual child is a separate matter, and a real one.\n\nThat second point is the one a parent can use. No average tells you about your child. What you can see in front of you does: what they watch, when, and what it is pushing out of their day. Our stage check is built on that, three questions about one child and a starting point, with no promise about what follows. Nothing we make has been tested in the way this report asks for.\n\nThe research it recommends is framed around the next 2 to 3 years. Families cannot wait that long for a Tuesday night.\n\nSource: https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people"
+ },
+ "visual": {
+  "assetsUsed": []
+ },
+ "evidence": {
+  "notes": "The report does not show that social media is harmless, for children in general or for any one child. It does not show that social media causes mental health problems: it rates that certainty as low. It does not test an age restriction, so it says nothing on whether one would work. It does not show that anything we build helps. It covers work up to early 2025 and nothing since. No effect size is given because none was extracted that could be checked. No consortium member is named."
+ },
+ "sources": [
+  "https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people"
+ ]
+}

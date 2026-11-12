@@ -1,0 +1,40 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-12T12:46:17.009Z",
+  "sourceCommit": "df9502922cf4a320f7800cd94815cd985f1bfa23",
+  "gdcPostNumber": "055",
+  "researchId": "GDC-RR-e22bd17322",
+  "title": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "A scientific consortium of 14 UK academics across 10 universities, commissioned by the government, went looking for the evidence on time spent on social media and adolescent mental health. They found 7 systematic reviews. They rated 1 of the 7 as high quality and 6 as critically low.\n\nThat is the ground the whole argument stands on.\n\nThe report is dated May 2025 and was published on GOV.UK on 20 January 2026. Each side of the debate tends to quote half of it, so here are both halves.\n\nThere is a link. Across those reviews it is small and it is consistent, and it also appears in studies that follow young people over time. Anyone who tells you the report found nothing has not read it.\n\nAnd the cause is uncertain. The consortium judged the certainty that social media itself is doing the damage to be low, and found no experiment that had tested it in healthy adolescents, although trials that cut back use in other groups showed some benefit, which matters and which I am not going to skip.\n\nLow certainty is not proof of harm. Nor is it proof of safety.\n\nThe underlying reports were produced between December 2024 and March 2025. I do not know what has been published since, and the research the report asks for is framed around the next 2 to 3 years.\n\nOne more thing. The report separates the average across a population from harm to an individual child, which it treats as real and urgent. That distinction is why the stage check we built asks three questions about one child and offers a starting point, with no promise about what happens next. Nothing we make has been tested in the way this report asks for.\n\nThe source is in the comments.\n\nIf you would rather people argued from what the evidence says than from what they wish it said, repost this. The response should be in proportion to the evidence, and that cuts both ways.\n\nWhen someone tells you the science is settled, which study do you ask them to show you?",
+  "firstComment": "The report, on GOV.UK: https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people\n\nThe strongest objection is that a small, consistent link in thousands of young people is reason enough to act without waiting for a trial. That is a fair position, and the report does not argue against it. My point is narrower. Acting under uncertainty is reasonable. Describing the uncertainty as settled, in either direction, is not what this report says.",
+  "sources": [
+    "https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/1Zeoh9Y1P4clbEqeHbsnWoue0Kdu0FmJUNwYrBgxTdAY/edit",
+  "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text."
+  },
+  "assets": [],
+  "approvalStatus": "READY FOR JUSTIN",
+  "duplicateCheck": {
+    "result": "UNKNOWN",
+    "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
+  },
+  "linkedinNativeSchedule": null,
+  "metricool": {
+    "draftCreationPermitted": true,
+    "schedulingPermitted": false,
+    "autoPublishPermitted": false,
+    "why": [
+      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    ],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

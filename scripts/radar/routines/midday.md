@@ -126,6 +126,30 @@ it back. The file says whether a draft may be made and whether it may be
 scheduled, and both are no until Justin has approved. Never change those two
 lines by hand.
 
+## 5b. The daily flow check: did every hand in the chain do its part
+
+Justin, 12 November 2026: check that it all flows every day. Before you
+finish, answer these five from the files themselves, never from memory, and
+log the answer as stage "FLOW CHECK" (PASS only if all five are yes):
+
+1. 08:00 ChatGPT research: is there a `CANDIDATES <today>` file in the
+   candidate inbox folder?
+2. 09:17 Claude: does today's run log show the morning stages, and is there a
+   start here document ending CURRENT dated today?
+3. 11:00 ChatGPT writing: for every story under WHAT TO WRITE, is there a pack
+   in the Stage 2 folder?
+4. 13:17 Claude: has every pack found been checked, and does every pack that
+   reached READY FOR JUSTIN have a `METRICOOL HANDOFF GDC-NNN` in the Approval
+   Desk folder?
+5. Yesterday's 14:30 ChatGPT step cannot be seen from here. Say so. Never
+   report it as done.
+
+Put the result in the first line of the reply to Justin, in plain words:
+"Flow check: all four visible steps ran" or "Flow check: ChatGPT did not
+write today, nothing reached Metricool". A missing step is named with who
+owns it. Do not do ChatGPT's step for it and do not write a pack yourself
+unless Justin asks.
+
 ## 6. Finish
 
 ```
