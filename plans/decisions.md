@@ -352,6 +352,9 @@ Justin's answers to the board's ten out of ten questions (`plans/week-of-2026-11
 - `scripts/radar/publication.mjs` builds one publication register (slot owner, approval, schedule, live URL) and classifies each queued story NEW, FOLLOW UP, OVERLAP, DUPLICATE or UNKNOWN. SCHEDULED needs Justin's approval on record plus exactly one slot owner. PUBLISHED needs a URL.
 - `daily.mjs handoffs` refuses to hand ChatGPT a DUPLICATE. Today it reports HOLD with ten things to settle, all of them Justin's to decide.
 - Why: on 12 November two posts sat in LinkedIn and Metricool at once and five scheduled posts had no record. No single file showed it.
+## 12 November 2026: migration 395 applied
+
+Justin said apply it. `parent_nudge_log` and `claim_parent_nudge` are live: RLS on, three columns, no read or execute for authenticated, execute for service_role, checked after applying. The two reminders a day cap (PR 1512) now takes effect; before this it failed open by design.
 ## 12 November 2026: round 1 paid test switched on
 
 Justin chose the paid test over free first, and confirmed the terms: five adverts, £5 a day until 19 November, about £35 at most, Visa ending 2258, paid as The Social Billboard Ltd. Meta had approved all five; switched on and confirmed active. A knowing exception to the money rule at a capped cost. The uploader still creates adverts switched off only. First read in the Monday loop on 16 November.
