@@ -15,11 +15,11 @@ A verdict needs at least 300 reached; below that it is too early.
 | not yet | first phone (14 Oct) | A | One day you'll hand them a phone. | 1, big hook | to make | | | | |
 | not yet | first phone (14 Oct) | C | The words for tonight's argument. A plan to sixteen. | 1, big hook | to make | | | | |
 | held back | first phone (14 Oct) | B | Tired of saying time's up every night? | 1, big hook | | | | | held for round two |
-| not yet | round 1 (11 Nov) | control | Tell it what went wrong today. Get one thing to do. | stacked, DiGi screen | r1-control-digi | | | | |
-| not yet | round 1 (11 Nov) | mid match | They cannot stop in the middle of a match. | stacked, free script | r1-mid-match | | | | |
-| not yet | round 1 (11 Nov) | left out | Everyone is on Snapchat. They are not. | stacked, free script | r1-left-out | | | | |
-| not yet | round 1 (11 Nov) | before the box | Plan the first phone before the box is opened. | stacked, free script | r1-before-the-box | | | | |
-| not yet | round 1 (11 Nov) | earned time | They earn their screen time. You set the rate. | stacked, My time screen | r1-earned-time | | | | |
+| loaded paused 12 Nov | round 1 (11 Nov) | control | Tell it what went wrong today. Get one thing to do. | stacked, DiGi screen | r1-control-digi | | | | |
+| loaded paused 12 Nov | round 1 (11 Nov) | mid match | They cannot stop in the middle of a match. | stacked, free script | r1-mid-match | | | | |
+| loaded paused 12 Nov | round 1 (11 Nov) | left out | Everyone is on Snapchat. They are not. | stacked, free script | r1-left-out | | | | |
+| loaded paused 12 Nov | round 1 (11 Nov) | before the box | Plan the first phone before the box is opened. | stacked, free script | r1-before-the-box | | | | |
+| loaded paused 12 Nov | round 1 (11 Nov) | earned time | They earn their screen time. You set the rate. | stacked, My time screen | r1-earned-time | | | | |
 
 ## What we learned
 
