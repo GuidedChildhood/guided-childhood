@@ -50,32 +50,28 @@
   },
   "stage2Brief": {
    "role": "stage2Brief",
-   "fileId": "15oPwn4_f1wN_caoBvbhTpC4vzY5Crr8pmcjfomw4L2o",
-   "title": "GDC STAGE 2 START HERE [231eac56] 2026-11-11 11:19, CURRENT",
+   "fileId": "1IAp85_-NJ02G_WhylOZvJC7f_jIGy9r9apSGSQYgVz8",
+   "title": "GDC STAGE 2 START HERE [468426d3] 2026-11-12 14:49, CURRENT",
    "links": {
-    "manifest": "1YmPcH63zpy6w_wS3J4ChkbMQEzPhVck6",
-    "postRegister": "1pZqW6mlg7FfYRRUOUHdWkAGUd1JpTnIa",
+    "manifest": "1h1N4QhpzpTiJaF80F26_8gBkt4_Z-XF4",
+    "postRegister": "14PAggz35d-YZ_zAwn9GijpxpngTPKQSd",
     "handoffJsons": {
-     "GDC-RR-e923851b08": "1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8",
-     "GDC-RR-e22bd17322": "1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA",
-     "GDC-RR-86c1075a30": "1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv"
+     "GDC-RR-f0fb8386cd": "1aQcyTYeig0-z1acOdxboLf5pTRgFqd9t"
     },
     "handoffDocs": {
-     "GDC-RR-e923851b08": "https://drive.google.com/file/d/1CP3KBGC9xyXLyYmm4jZsOJ0iG-4urci8/view",
-     "GDC-RR-e22bd17322": "https://drive.google.com/file/d/1DvyYDl60Bnzzc10Hk5qxG5tUNkJTXfNA/view",
-     "GDC-RR-86c1075a30": "https://drive.google.com/file/d/1RSqQMqiBgw_p1LyAYM4duGT8NQ-cc-Qv/view"
+     "GDC-RR-f0fb8386cd": "https://drive.google.com/file/d/1aQcyTYeig0-z1acOdxboLf5pTRgFqd9t/view"
     }
    },
-   "commit": "231eac566f0fc300b32143eff5f2dc440881db31",
-   "factsSha256": "eba0f688736700d465ea48ddf36dbdfbef15eb29aefd8db7a9c154ba180a20bb",
-   "sha256": "7832961f9feaf069beab32041c5f58e0ae8a59464d6700a008aa3cd3a26c316a",
+   "commit": "468426d3fdae17d670f88911bf6420068c130068",
+   "factsSha256": "3c5eb81d6e2ed3eaf1ee92089a16845e26ca3a385b92776ea762bbbdf407489e",
+   "sha256": "76a747299cb7e44d74aae6482bfb26fcb020bda1bea070c31d44aa7565fa6a68",
    "verification": {
     "ok": true,
     "level": "TEXT IDENTICAL",
     "problems": [],
     "note": "Every line of the document matches the text it was made from. Only the byte order mark, line endings and blank line spacing differ, which Drive changes on every Doc."
    },
-   "at": "2026-11-11T11:20:23.837Z"
+   "at": "2026-11-12T14:52:39.835Z"
   },
   "handoff:GDC-RR-3d31eb1683": {
    "role": "handoff",
@@ -111,7 +107,7 @@
   }
  },
  "failures": [],
- "lastSuccessAt": "2026-11-12T14:49:01.477Z",
+ "lastSuccessAt": "2026-11-12T14:52:39.835Z",
  "approvalDesk": {
   "fileId": "1be8jwkw9wi_WuuWr_byunUTmPCYzGB3F25pLY84rNwc",
   "title": "GDC APPROVAL DESK [9b02383e] 2026-11-11 11:32, CURRENT, for Justin",

@@ -28,18 +28,6 @@
    "attempts": 1
   },
   {
-   "stage": "DRIVE SYNC",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "nothing new to copy: sync state shows manifest, post register, start here and both handoffs current (BYTE IDENTICAL and TEXT IDENTICAL from earlier verified saves), approvalDeskCurrent true; no story cleared today so no new handoff"
-   ],
-   "detail": null,
-   "at": "2026-11-12T09:25:07.736Z",
-   "commit": "4dfeaf0d",
-   "attempts": 1
-  },
-  {
    "stage": "APPROVAL DESK",
    "verdict": "PASS",
    "by": "claude",
@@ -225,7 +213,19 @@
    "at": "2026-11-12T14:47:59.882Z",
    "commit": "34962187",
    "attempts": 3
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "queue, number mirror and GDC-059 handoff BYTE IDENTICAL; start here document TEXT IDENTICAL; the four files they replace retitled ZZ"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:52:39.914Z",
+   "commit": "468426d3",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-12T14:47:59.909Z"
+ "updatedAt": "2026-11-12T14:52:39.941Z"
 }
