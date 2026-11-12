@@ -22,6 +22,19 @@ A verdict needs at least 300 reached; below that it is too early.
 | paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | earned time | They earn their screen time. You set the rate. | stacked, My time screen | r1-earned-time | | | | |
 | paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | mid match simple | They cannot stop in the middle of a match. | stacked, one line of the script, hook as words not a button | r1-mid-match-simple | | | | |
 
+## The Social Billboard
+
+Judged on landing page visits per thousand reached until sign ups can be
+counted per link (see `content/ads/brands/social-billboard.json`).
+
+| Posted | Round | Card | Hook | Format | Link code | Reached | Visits | Sign ups | Verdict |
+| :-- | :-- | :-- | :-- | :-- | :-- | --: | --: | --: | :-- |
+| not yet | sb round 1 (12 Nov) | control | YouTube for kids, without the algorithm. | stacked, tsb | sb1-control | | | | |
+| not yet | sb round 1 (12 Nov) | it ends | When the playlist ends, it ends. | stacked, tsb | sb1-it-ends | | | | |
+| not yet | sb round 1 (12 Nov) | bedtime | Twenty calm minutes before bed. Then it stops. | stacked, tsb, night sky | sb1-bedtime | | | | |
+| not yet | sb round 1 (12 Nov) | you chose | Nothing plays that you didn't choose. | stacked, tsb | sb1-you-chose | | | | |
+| not yet | sb round 1 (12 Nov) | five decisions | Five decisions, made by you. | stacked, tsb | sb1-five-decisions | | | | |
+
 ## What we learned
 
 Nothing yet. One line per round once the numbers are in.
