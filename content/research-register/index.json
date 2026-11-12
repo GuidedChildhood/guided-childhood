@@ -795,7 +795,7 @@
     "pubmed",
     "europepmc"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "relevanceScore": 8,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -812,11 +812,11 @@
     "until": "2026-11-09"
    },
    "studyId": "GDC-RR-e923851b08",
-   "version": 17,
+   "version": 27,
    "firstFound": "2026-11-09T14:11:15.659Z",
-   "lastChecked": "2026-11-10T17:09:25.155Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-12T12:43:10.919Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-e923851b08",
     "checkedAt": "2026-11-09T14:35:35.769Z",
@@ -988,9 +988,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-10T17:09:25.151Z"
+    "at": "2026-11-12T12:43:10.917Z"
    },
    "gdcPostNumber": "056",
    "handoff": {
@@ -1002,6 +1002,39 @@
     "builtAt": "2026-11-10T17:09:25.129Z",
     "reviewDigest": "715df033d6360f1a",
     "gdcPostNumber": "056"
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-e923851b08.json",
+    "submittedAt": "2026-11-12T12:42:10.885Z",
+    "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+    "gdcPostNumber": "056",
+    "digest": "fefd73c3b5aa5ba6",
+    "driveFile": "PACK GDC-RR-e923851b08 GDC-056 DRAFT v1.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 29,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-12T12:42:10.883Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "Written by Claude on 12 November at Justin's instruction (he chose \"Write the 3 queued posts now\"), not by ChatGPT, from the cleared handoff version 2 only. The automatic checks passed on the first submission. Every figure is from the cleared list and each prohibited claim was checked against the copy by hand: no percentage, no outcome claimed for a child, no named clinician, the limits of the source stated in the post, the finding that cuts against our own position kept in, one sentence of proof path on the stage check with no promise. Opens on the named source and its finding, as the 11 November numbers suggest. Limits of this review, stated because gate J applies: the author and the reviewer are the same. The mechanical checks are independent of me. Whether it sounds like Justin is his to judge, and any first person line about his own family is his to cut if it is not true of him.",
+    "reviewedBy": "Claude Code, directed run",
+    "reviewedAt": "2026-11-12T12:42:38.713Z"
+   },
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-12T12:42:38.704Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1fV6m2cw04TBKC0JD568QKkaXUIuHG_A-PZgycXbFPE4",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-12T12:43:10.896Z"
    }
   },
   "GDC-RR-30c990ff8f": {
@@ -1395,7 +1428,7 @@
    "foundBy": [
     "manual-drop"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "relevanceScore": 18,
    "relevanceBand": "CORE",
    "relevanceParts": {
@@ -1420,11 +1453,11 @@
    "words": 118865,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-e22bd17322.txt",
    "studyId": "GDC-RR-e22bd17322",
-   "version": 20,
+   "version": 30,
    "firstFound": "2026-11-10T09:19:14.418Z",
-   "lastChecked": "2026-11-10T17:09:25.194Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-12T12:43:11.029Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "textSha256": "98287ac5599431f45dbc4ffb7c4e12f4713b15d0a0660565d885b37e20e3c740",
    "textBytes": 854953,
    "dossier": {
@@ -1636,9 +1669,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-10T17:09:25.191Z"
+    "at": "2026-11-12T12:43:11.027Z"
    },
    "gdcPostNumber": "055",
    "handoff": {
@@ -1650,6 +1683,39 @@
     "builtAt": "2026-11-10T17:09:25.187Z",
     "reviewDigest": "cdab0d7f9745cbe7",
     "gdcPostNumber": "055"
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-e22bd17322.json",
+    "submittedAt": "2026-11-12T12:42:10.806Z",
+    "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+    "gdcPostNumber": "055",
+    "digest": "50ec272e4265c3f1",
+    "driveFile": "PACK GDC-RR-e22bd17322 GDC-055 DRAFT v1.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 29,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-12T12:42:10.804Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "Written by Claude on 12 November at Justin's instruction (he chose \"Write the 3 queued posts now\"), not by ChatGPT, from the cleared handoff version 2 only. The automatic checks passed on the first submission. Every figure is from the cleared list and each prohibited claim was checked against the copy by hand: no percentage, no outcome claimed for a child, no named clinician, the limits of the source stated in the post, the finding that cuts against our own position kept in, one sentence of proof path on the stage check with no promise. Opens on the named source and its finding, as the 11 November numbers suggest. Limits of this review, stated because gate J applies: the author and the reviewer are the same. The mechanical checks are independent of me. Whether it sounds like Justin is his to judge, and any first person line about his own family is his to cut if it is not true of him.",
+    "reviewedBy": "Claude Code, directed run",
+    "reviewedAt": "2026-11-12T12:42:38.731Z"
+   },
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-12T12:42:38.726Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1Zeoh9Y1P4clbEqeHbsnWoue0Kdu0FmJUNwYrBgxTdAY",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-12T12:43:11.007Z"
    }
   },
   "GDC-RR-86c1075a30": {
@@ -1668,7 +1734,7 @@
    "foundBy": [
     "manual-drop"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "relevanceScore": 26,
    "relevanceBand": "ADJACENT",
    "relevanceParts": {
@@ -1697,11 +1763,11 @@
    "words": 21851,
    "fullTextPath": "/home/user/guided-childhood/content/research-register/documents/GDC-RR-86c1075a30.txt",
    "studyId": "GDC-RR-86c1075a30",
-   "version": 16,
+   "version": 34,
    "firstFound": "2026-11-10T09:23:10.230Z",
-   "lastChecked": "2026-11-10T17:09:25.232Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-12T12:46:16.873Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "textSha256": "cdf32d71de3ac48e164229f65d11daccb016904eb2eb0ac1f9b7c61cf988895d",
    "textBytes": 137677,
    "dossier": {
@@ -1901,9 +1967,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-10T17:09:25.229Z"
+    "at": "2026-11-12T12:46:16.872Z"
    },
    "gdcPostNumber": "057",
    "handoff": {
@@ -1915,6 +1981,39 @@
     "builtAt": "2026-11-10T17:09:25.224Z",
     "reviewDigest": "786e4e4cbfad4023",
     "gdcPostNumber": "057"
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-86c1075a30.json",
+    "submittedAt": "2026-11-12T12:43:24.330Z",
+    "sourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
+    "gdcPostNumber": "057",
+    "digest": "823a886c96550775",
+    "driveFile": "PACK GDC-RR-86c1075a30 GDC-057 DRAFT v2.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 29,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-12T12:43:24.326Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "v2, written by Claude on 12 November at Justin's instruction, from the cleared handoff version 2 only. v1 passed every automatic check but its opening sentence was ungrammatical: it had been bent to carry the cleared figures word for word. v2 rewrites that one paragraph in plain English and changes nothing else; the automatic checks passed again. Every figure is from the cleared list, there is no percentage, the report is dated in the first line, parents are given their reasons and not blamed, and nothing is said about how common this is or about today. Limits of this review, stated because gate J applies: the author and the reviewer are the same. The mechanical checks are independent of me. Whether it sounds like Justin is his to judge.",
+    "reviewedBy": "Claude Code, directed run",
+    "reviewedAt": "2026-11-12T12:46:16.844Z"
+   },
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "No approved brand asset is identified for this story, and the best post in the numbers of 11 November carried no image. Six comparable posts is too few to say an image or a film would help, so the post goes out as text.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-12T12:42:38.741Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1X0oFT713nKO4P5Jzmg7k_tLVd_mZVsFK-IraxJ3r_G4",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-12T12:46:16.860Z"
    }
   },
   "GDC-RR-3d31eb1683": {

@@ -148,30 +148,6 @@
    "attempts": 1
   },
   {
-   "stage": "PACK QA",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "no pack waiting in the Stage 2 folder; every PACK document already carries CLAUDE REVIEWED or READY FOR JUSTIN"
-   ],
-   "detail": null,
-   "at": "2026-11-12T09:26:35.673Z",
-   "commit": "eddc1f5b",
-   "attempts": 1
-  },
-  {
-   "stage": "PACK REVIEW",
-   "verdict": "SKIPPED",
-   "by": "claude",
-   "reasons": [
-    "no pack waiting to review"
-   ],
-   "detail": null,
-   "at": "2026-11-12T09:26:35.771Z",
-   "commit": "eddc1f5b",
-   "attempts": 1
-  },
-  {
    "stage": "PATCH",
    "verdict": "PASS",
    "by": "claude",
@@ -194,7 +170,40 @@
    "at": "2026-11-12T12:13:16.179Z",
    "commit": "618acea6",
    "attempts": 3
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "packs": 1,
+    "results": [
+     {
+      "file": "PACK GDC-RR-86c1075a30 GDC-057 DRAFT v2.txt",
+      "researchId": "GDC-RR-86c1075a30",
+      "verdict": "PASS",
+      "failed": 0,
+      "checked": 29
+     }
+    ]
+   },
+   "at": "2026-11-12T12:43:24.356Z",
+   "commit": "df950292",
+   "attempts": 3
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-056, 055 and 057 written by Claude at Justin's instruction, checked, reviewed PASS, saved to Drive TEXT IDENTICAL, now ASSETS READY"
+   ],
+   "detail": null,
+   "at": "2026-11-12T12:46:38.085Z",
+   "commit": "df950292",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-12T12:13:16.229Z"
+ "updatedAt": "2026-11-12T12:46:38.116Z"
 }
