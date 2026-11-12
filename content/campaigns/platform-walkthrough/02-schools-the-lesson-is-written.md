@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Schools, 1 of 4 |
+| Audience | Schools: heads and safeguarding leads. Ends at the schools site, not the parent stage check |
 | Service | Zero prep lessons: the one whole lesson any teacher can teach free |
 | Format | Carousel, 8 pages, 1080 by 1350. A PDF for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn as a document post, the Guided Childhood LinkedIn page, Facebook as page one plus the text |

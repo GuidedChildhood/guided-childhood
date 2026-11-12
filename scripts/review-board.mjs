@@ -708,7 +708,32 @@ export function pulseLine(pulse, on = today()) {
   const three = v && isNum(v.reachedThree) && isNum(v.families)
     ? `${v.reachedThree} of ${plural(v.families, 'family', 'families')}`
     : 'unknown'
-  return `Real behaviour, from the product pulse of ${at}: day done rate ${pct(h.dayDoneRate7d)}${doneNote}; seven day return ${pct(h.returnedD7)}; families with a second check in ${second}; families reaching three of the five value signals ${three}.`
+  return `Real behaviour, from the product pulse of ${at}: day done rate ${pct(h.dayDoneRate7d)}${doneNote}; seven day return ${pct(h.returnedD7)}; families with a second check in ${second}; families reaching three of the five value signals ${three}. ${firstWeekLine(pulse.firstWeek)} ${stageCheckLine(pulse.stageChecksWeek)}`
+}
+
+/**
+ * First week, three felt: of the families whose first week ended in the last
+ * fortnight, how many reach three of the five value signals. The value above
+ * AI lens's ten row asks for the first week to make three of them felt, not
+ * just present. Unknown when the rows did not carry it.
+ */
+export function firstWeekLine(v) {
+  if (!v || typeof v !== 'object' || !isNum(v.families) || !isNum(v.reachedThree)) return 'First week, three felt: unknown.'
+  if (v.families === 0) return 'First week, three felt: no family finished a first week in the last fortnight.'
+  return `First week, three felt: ${v.reachedThree} of ${plural(v.families, 'family', 'families')} past their first week.`
+}
+
+/**
+ * The marketing lens's weekly number: stage checks begun in seven days, per
+ * channel of the /v/ link that brought them. Unknown when the rows did not
+ * carry it (an older pulse file), never zero.
+ */
+export function stageCheckLine(rows) {
+  if (!Array.isArray(rows)) return 'Stage checks begun in the last seven days, by channel: unknown.'
+  const clean = rows.filter(r => r && typeof r.channel === 'string' && isNum(r.n) && r.n > 0)
+  const total = clean.reduce((a, r) => a + r.n, 0)
+  if (!total) return 'Stage checks begun in the last seven days, by channel: none through a link.'
+  return `Stage checks begun in the last seven days, by channel: ${total} (${clean.map(r => `${r.channel} ${r.n}`).join(', ')}).`
 }
 
 /**
@@ -728,8 +753,13 @@ export async function pulseFromRows(rows) {
   try {
     const { habitMetrics } = await import(pathToFileURL(join(ROOT, 'lib/home/habit-metrics.ts')).href)
     const { valueSignals } = await import(pathToFileURL(join(ROOT, 'lib/home/value-signals.ts')).href)
+    const signalRows = Object.fromEntries(names.map(n => [n, sig[n]]))
+    const firstWeek = arr(rows.firstWeekFamilies)
     return {
       generatedAt: rows.generatedAt,
+      stageChecksWeek: arr(rows.stageChecksWeek),
+      // Null when the rows predate the field: unknown, never zero.
+      firstWeek: firstWeek ? valueSignals({ families: firstWeek, ...signalRows }) : null,
       habit: habitMetrics(sessions, rows.today),
       valueSignals: valueSignals({ families, ...Object.fromEntries(names.map(n => [n, sig[n]])) }),
     }

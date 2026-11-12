@@ -29,7 +29,8 @@ import AddChildName from '@/components/dashboard/AddChildName'
 import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTopSlot, countWaitingToday } from '@/lib/home/school-spotlight'
-import { pickNextUp } from '@/lib/home/next-up'
+import { pickNextUp, dayIndex as londonDayIndex } from '@/lib/home/next-up'
+import { pickHomeSlot } from '@/lib/home/home-slot'
 import PassportPeek from '@/components/home/PassportPeek'
 import IssueOfTheWeek from '@/components/home/IssueOfTheWeek'
 import { pickIssueOfWeek } from '@/lib/home/issue-of-week'
@@ -1017,6 +1018,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // on a family's first day, exactly as before.
   const issueOfWeek = !firstRun ? issueOfWeekRead : null
 
+  // THE ONE SLOT (lib/home/home-slot.ts, 12 November 2026). Eight cards used
+  // to stack under the lead on a busy day; now they share one place. Each card
+  // still renders where it always did, gated on being today's pick.
+  const homeSlot = pickHomeSlot({
+    digiQuestion: !firstRun && Boolean(pendingQuestionResult?.data?.question),
+    catchup: !firstRun && Boolean(catchup),
+    schoolWindow: Boolean(schoolWindow),
+    phoneBridge: Boolean(phoneBridge),
+    stickerNews: hasKidLink && (stickerNews?.recent?.length ?? 0) > 0,
+    schoolAhead: Boolean(schoolAhead),
+    termPreview: Boolean(termPreview),
+    digiWord: !firstRun,
+  }, londonDayIndex())
+
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
@@ -1250,8 +1265,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* DiGi's word. The knock on the door while an insight is unread, right
           under whoever is waiting and above the road, because it is the one
           thing on Home that was written for this family this week. */}
-      {!firstRun && <DigiWordCard />}
-      {!firstRun && pendingQuestionResult?.data?.question && (
+      {homeSlot === 'digiWord' && <DigiWordCard />}
+      {homeSlot === 'digiQuestion' && pendingQuestionResult?.data?.question && (
         <DigiQuestionCard
           question={pendingQuestionResult.data.question as string}
           childId={(pendingQuestionResult.data.child_id as string | null) ?? null}
@@ -1279,7 +1294,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           meets their child's week before they are handed another checklist.
           Nothing happened means no card, and a parent who is here every day
           never sees it, which is the point. It is news. */}
-      {!firstRun && catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
+      {homeSlot === 'catchup' && catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
 
       {/* One quiet card, only when something is true, and only ever one.
           Justin: "little nudges ... but not intrusive or annoying." It sits
@@ -1301,7 +1316,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           what is left rather than only counting it. */}
       {/* Good news first: what they earned this week and why, with the
           passport doors on the first one (14 September 2026). */}
-      {hasKidLink && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
+      {homeSlot === 'stickerNews' && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} firstDay={firstDay} />
@@ -1416,7 +1431,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Year 6 into Year 7. The one card that earns a place near the top
           without being asked for: it happens once, and what a family decides in
           these few weeks sets the next five years. */}
-      {phoneBridge && <PhoneBridgeCard bridge={phoneBridge} />}
+      {homeSlot === 'phoneBridge' && phoneBridge && <PhoneBridgeCard bridge={phoneBridge} />}
 
       {/* THE ONE TIME WE COME BACK. Every other surface that asked a family to
           set up a child device now goes quiet the moment they say no. Silence
@@ -1432,12 +1447,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* Otherwise, whatever school has coming, four to six weeks out. Early
           enough to be a head start rather than a warning. */}
-      {schoolAhead && <SchoolAheadCard ahead={schoolAhead} />}
+      {homeSlot === 'schoolAhead' && schoolAhead && <SchoolAheadCard ahead={schoolAhead} />}
 
       {/* What the class will be working on next term. Three subjects, one line
           each, and one thing to do about it. Only in a holiday and the first
           week back, because that is when the question is live. */}
-      {termPreview && (
+      {homeSlot === 'termPreview' && termPreview && (
         <TermPreviewCard preview={termPreview} childName={(child?.name as string | null) ?? null} />
       )}
 
@@ -1489,7 +1504,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Before school and home from school, in this family's own window on
           school days (migration 362 times, lib/home/school-window). One move,
           the words, and the one tap log. Quiet the rest of the day. */}
-      {schoolWindow && <SchoolWindowCard data={schoolWindow} />}
+      {homeSlot === 'schoolWindow' && schoolWindow && <SchoolWindowCard data={schoolWindow} />}
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
           finished lands on an overview of what is waiting from their child,

@@ -81,6 +81,15 @@ export function plan(deck, config, env) {
         daily_budget: config.dailyBudgetPence, end_time: ends,
         billing_event: 'IMPRESSIONS', optimization_goal: 'LINK_CLICKS',
         bid_strategy: 'LOWEST_COST_WITHOUT_CAP', targeting: config.targeting,
+        // Who the advert is for and who pays, shown to people in the places
+        // that require it. Ads Manager refuses to publish an ad set without
+        // them (found 12 November 2026, round 1). Ads Manager offers only a
+        // verified identity here; on round 1 that was THE SOCIAL BILLBOARD LTD,
+        // chosen by Justin (it is a company he runs and it pays). If Meta does
+        // not take the name through the API, pick it once in Ads Manager, Ad
+        // set, Ad transparency, Advertiser, then Publish (the ads stay off).
+        ...(config.advertiser ? { dsa_beneficiary: config.advertiser } : {}),
+        ...(config.payer ? { dsa_payor: config.payer } : {}),
       },
     },
   ]

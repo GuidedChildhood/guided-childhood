@@ -22,6 +22,9 @@ loads a round into Facebook and Instagram ads with the campaign, the ad set
 and every ad PAUSED (Phase 5). Paused is the fence. If a step would publish,
 switch something on or spend, stop and hand it over.
 
+Justin's one page on how to use all this is `content/ads/HOW-TO-USE.md`.
+Keep it true when anything here changes.
+
 ## Phase 0 · Read, every time
 
 1. `THE-STORY.md` sections 1, 2, 9 and 10: the one line story, parents' own
@@ -198,7 +201,8 @@ the pack README:
    width; the headline and the hook still read.
 3. The screen proves the headline; a parent could find that screen in the app.
 4. One gold detail, a third of the card empty, nothing glows or shines.
-5. It looks like a real app screenshot in a plain card, not a made image.
+5. Nothing looks made: the screen is a real capture, any scene is a believable
+   photograph of an ordinary home, nothing glossy.
 6. Nothing is cut off, overlapping or sitting in the outer 5 percent.
 7. It sounds like a parent talking, in parents' own words
    (`research/homepage-audience-language.md`), not like us.
@@ -207,8 +211,22 @@ the pack README:
 10. Justin would post it without changing a word.
 
 Under eight: name the lines it lost, fix them, render and score again. At
-eight or more it goes on to the gates below, which the two passes do not
-replace: the pass checks the card, the gates check the claims.
+eight or more it goes on to the benchmark.
+
+**Pass 3, the benchmark: as good as the best that is known to work.** Justin,
+12 November 2026: make sure the advert is as good as the best competitor
+advert that is known to work. For each card, take the proven advert (90 days
+or more) in `content/ads/swipe/ads.json` closest to it in format, open it
+live in the Ad Library, and score both on lines 1 to 7 and 9 of the rubric
+(line 8 cannot apply to theirs, line 10 is Justin's). Ours must score at
+least what theirs does. Then write the one thing theirs does that ours does
+not, and either fix it or say why we leave it (a fear button, a child's
+face). The table goes in the pack README. A proven video beats any card, so
+when the closest proven advert is a video the honest line is that the card
+is the support act and the video round is the answer.
+
+The gates below are not replaced by the three passes: the passes check the
+card, the gates check the claims.
 
 ### The gates
 

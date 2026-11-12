@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Playlists, 2 of 3 |
+| Audience | The Social Billboard: ends at its own free playlist, never the Guided Childhood stage check |
 | Service | The Social Billboard: the playlist builder, on its real screens |
 | Format | Carousel, 6 slides, 1080 by 1350. **Built** |
 | Channels | The Social Billboard Instagram. Facebook takes slide 1 and the text |

@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Playlists, 3 of 3. **The playlists objection post** |
+| Audience | The Social Billboard: ends at its own free playlist, never the Guided Childhood stage check |
 | Service | The Social Billboard: the question every parent asks, and the free playlist |
 | Format | One card, 1080 by 1350. **Built** |
 | Channels | The Social Billboard Instagram and Facebook |
