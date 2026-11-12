@@ -56,15 +56,20 @@ export default function InsightsBoard() {
   const [evalRun, setEvalRun] = useState<EvalRun | null>(null)
   const [openCase, setOpenCase] = useState<string | null>(null)
   const [wisdom, setWisdom] = useState<WisdomRebuild | null>(null)
-  const [qLoading, setQLoading] = useState<'evals' | 'compare' | 'wisdom' | 'embed' | null>(null)
+  const [qLoading, setQLoading] = useState<'evals' | 'compare' | 'model' | 'wisdom' | 'embed' | null>(null)
   const [qError, setQError] = useState('')
 
   // 'both' scores the live research base and the other one on the same cases
   // (lib/config/digi.ts, DIGI_RESEARCH_BASE): the read before the switch flips.
-  async function runEvals(research: 'live' | 'both' = 'live') {
-    setQLoading(research === 'both' ? 'compare' : 'evals'); setQError('')
+  // 'model' runs the live model and the one on trial (DIGI_MODEL_CANDIDATE)
+  // on the same cases: the read before DIGI_MODEL moves.
+  async function runEvals(research: 'live' | 'both' | 'model' = 'live') {
+    setQLoading(research === 'both' ? 'compare' : research === 'model' ? 'model' : 'evals'); setQError('')
     try {
-      const res = await fetch(research === 'both' ? '/api/admin/digi-evals?research=both' : '/api/admin/digi-evals', { method: 'POST' })
+      const url = research === 'both' ? '/api/admin/digi-evals?research=both'
+        : research === 'model' ? '/api/admin/digi-evals?model=candidate'
+        : '/api/admin/digi-evals'
+      const res = await fetch(url, { method: 'POST' })
       const json = await res.json()
       if (!res.ok) { setQError(json.error ?? 'Could not run the evals.'); return }
       setEvalRun(json)
@@ -665,6 +670,9 @@ export default function InsightsBoard() {
           <button onClick={() => runEvals('both')} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
             {qLoading === 'compare' ? 'Scoring both bases...' : 'Compare research bases'}
           </button>
+          <button onClick={() => runEvals('model')} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+            {qLoading === 'model' ? 'Scoring both models...' : 'Compare the new model'}
+          </button>
           <button onClick={rebuildWisdom} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
             {qLoading === 'wisdom' ? 'Rebuilding wisdom...' : 'Rebuild shared wisdom'}
           </button>
@@ -691,10 +699,12 @@ export default function InsightsBoard() {
             {evalRun.compare && (
               <div style={{ marginBottom: 12 }}>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
-                  Live base: {evalRun.researchBase ?? 'file'}. The other base, {evalRun.compare.researchBase}, on the same cases:
+                  {evalRun.compare.model !== evalRun.model
+                    ? `Live model: ${evalRun.model}. The model on trial, ${evalRun.compare.model}, on the same cases. Switch only if it passes as many, with no safety breach, and the average is within two points:`
+                    : `Live base: ${evalRun.researchBase ?? 'file'}. The other base, ${evalRun.compare.researchBase}, on the same cases:`}
                 </p>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <Stat label={`Passed (${evalRun.compare.researchBase})`} value={`${evalRun.compare.passed}/${evalRun.compare.cases}`} tone={evalRun.compare.passed === evalRun.compare.cases ? 'good' : 'warn'} />
+                  <Stat label={`Passed (${evalRun.compare.model !== evalRun.model ? evalRun.compare.model : evalRun.compare.researchBase})`} value={`${evalRun.compare.passed}/${evalRun.compare.cases}`} tone={evalRun.compare.passed === evalRun.compare.cases ? 'good' : 'warn'} />
                   <Stat label="Safety breaches" value={String(evalRun.compare.safetyBreaches)} tone={evalRun.compare.safetyBreaches === 0 ? 'good' : 'bad'} />
                   <Stat label="Average score" value={`${Math.round(evalRun.compare.averageScore * 100)}%`} tone={evalRun.compare.averageScore >= 0.8 ? 'good' : evalRun.compare.averageScore >= 0.6 ? 'warn' : 'bad'} />
                 </div>
