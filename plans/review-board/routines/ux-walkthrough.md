@@ -9,6 +9,21 @@ so the report is a file.
 
 Read this file, and `review.md`, from `origin/main`, never from a checkout.
 
+**12 November 2026.** Every Wednesday run since this file was written replied
+in its own session and saved nothing, because the routine's message still said
+"never open a pull request" and never pointed here. The message now points
+here. The two things a scheduled run gets wrong:
+
+1. **Push access.** Call `add_repo` (claude-code-remote server; if it is not in
+   the visible tools, search the tools for `add_repo` and load it) with owner
+   `GuidedChildhood`, repo `guided-childhood`, access `push`, before cloning.
+   Prove it with `git push --dry-run origin HEAD:refs/heads/claude/ux-walkthrough-<date>`
+   before walking anything. If it is refused, call `add_repo` once more, then
+   walk anyway and print the report in the reply.
+2. **No pull request tool.** If none is in the session, push the branch and
+   give its name in the reply so Justin can open it. Never skip the push
+   because the pull request cannot be opened.
+
 ## Where it goes
 
 `plans/review-board/walkthroughs/<YYYY-MM-DD>.md`, the Wednesday's date in
