@@ -187,3 +187,30 @@ still only ever creates adverts switched off.
 
 The Monday loop on 16 November reads it first; the verdict needs 300 reached
 per card. The test ends on its own on 19 November.
+
+## A sixth card: mid match, the simple version (12 November 2026)
+
+Seeing mid match at feed size, three things looked weak: about sixty words of
+script at a size near the edge of readable (Qustodio's proven statics carry
+about eight words), the button drawn on the card repeating the button Meta
+adds underneath, and the scene mostly hidden behind the script. Justin said
+go ahead with a simpler version in the same test.
+
+`06-mid-match-simple.png`, code `r1-mid-match-simple`:
+
+- Same headline and scene.
+- The screen is only the opening of the script, SAY THIS and its first
+  sentence, about twice the size. It is a real capture of the same live page
+  at 365 points wide, a real phone width, chosen because at that width the
+  first sentence ends exactly at the end of a line, so the crop cuts no word
+  and hides nothing mid line (`capture.mjs --width 365 --lines 3`). The line
+  is the opener rather than "Before you start, we agree how many matches",
+  because no phone width breaks that one cleanly.
+- The hook is set as words, not a drawn button (`"cta": "text"`), word for
+  word as before, so the gate still checks it.
+- Butter 3.0 percent. Gate passed. Vision pass 9 of 10 (line 10 is Justin's).
+  Benchmark 8 of 8 against Qustodio's 4.
+
+It shares the ad set's £5 a day, so the test costs the same. This card tests
+the treatment, not the hook, so it is read against mid match only: if simple
+wins there, Round 2 is built simple.

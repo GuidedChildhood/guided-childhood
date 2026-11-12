@@ -39,6 +39,11 @@
                visual system section 15), filling the slot behind the real
                screen. x is where the screen sits across it, 0 to 1 (default
                0.72), so the photograph's subject stays in view.
+    cta        stacked only, optional: "text" sets the hook as plain words, not a
+               drawn button, so the card does not repeat the button Meta adds
+               under every advert. The words are the same and the gate still
+               checks them.
+    screen.maxWidth  a narrower screen inside a scene, so more of the scene shows
     src        the card's own link code (the ledger; not drawn)
 
   Deck fields: "round": "yyyy-mm-dd-name" makes the deck an ad round, which
@@ -143,6 +148,8 @@ mark::after{content:'';position:absolute;left:-4px;right:-6px;bottom:2px;height:
 .stacked .slot.scene .flat{position:absolute;top:50%;transform:translate(-50%,-50%);box-shadow:0 18px 40px rgba(26,26,46,.28);}
 .stacked .cta{position:absolute;left:70px;right:70px;bottom:60px;display:flex;flex-direction:column;align-items:center;}
 .stacked .pill{margin-top:0;background:#2E2818;color:#fff;box-shadow:0 6px 0 #171307;border-radius:20px;padding:24px 38px;font-size:33px;}
+.stacked .cta.plain .pill{background:none;box-shadow:none;color:var(--ink);padding:0;font-size:40px;}
+.stacked .cta.plain .small{margin-top:14px;}
 .stacked .small{font-family:'Nunito',sans-serif;font-weight:700;font-size:30px;letter-spacing:0;color:var(--ink-soft);margin-top:24px;}
 </style>
 </head>
@@ -189,7 +196,7 @@ function flatHTML(sc){
      It adds no screen content; the capture inside is untouched. */
   const [mt, mr, mb, ml] = sc.mount || [0, 0, 0, 0];
   const tw = w + ml + mr, th = h + mt + mb;
-  const z = Math.min(SLOT_W / tw, (SLOT_H - (sc.inset || 0) * 2) / th, Math.sqrt(SLOT_AREA / (tw * th)));
+  const z = Math.min((sc.maxWidth || SLOT_W) / tw, (SLOT_H - (sc.inset || 0) * 2) / th, Math.sqrt(SLOT_AREA / (tw * th)));
   return `<div class="flat" style="${sc.left ? 'left:' + sc.left + ';' : ''}border-width:${(2.5 * z).toFixed(2)}px;border-radius:${Math.round(18 * z)}px;
     background-color:${sc.bg || '#fff'};padding:${mt * z}px ${mr * z}px ${mb * z}px ${ml * z}px">
     <div style="width:${Math.round(w * z)}px;height:${Math.round(h * z)}px;background-repeat:no-repeat;
@@ -205,7 +212,7 @@ function stackedHTML(c){
     ${c.scene
       ? `<div class="slot scene" style="top:${top}px;height:${H - top - bottom}px;background-image:url('${ROOT + c.scene.image}')">${flatHTML({ ...c.screen, inset: 24, left: ((c.scene.x ?? 0.72) * 100) + '%' })}</div>`
       : `<div class="slot" style="top:${top}px;height:${H - top - bottom}px">${flatHTML(c.screen)}</div>`}
-    <div class="cta"><div class="pill">${c.pill}</div><div class="small">${c.small}</div></div>
+    <div class="cta${c.cta === 'text' ? ' plain' : ''}"><div class="pill">${c.pill}</div><div class="small">${c.small}</div></div>
   </div>`;
 }
 

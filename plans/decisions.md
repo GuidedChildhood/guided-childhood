@@ -358,3 +358,7 @@ Justin said apply it. `parent_nudge_log` and `claim_parent_nudge` are live: RLS 
 ## 12 November 2026: round 1 paid test switched on
 
 Justin chose the paid test over free first, and confirmed the terms: five adverts, £5 a day until 19 November, about £35 at most, Visa ending 2258, paid as The Social Billboard Ltd. Meta had approved all five; switched on and confirmed active. A knowing exception to the money rule at a capped cost. The uploader still creates adverts switched off only. First read in the Monday loop on 16 November.
+
+## 12 November 2026: a simple version of mid match joins the paid test
+
+Seen at feed size, the round 1 cards carry too many words to read, repeat Meta's own button, and hide their scene. Justin said go ahead with a simpler mid match in the same test: the same headline and scene, only SAY THIS and the script's first sentence, twice the size (a real capture at 365 points, where that sentence ends a line), and the hook as words, not a drawn button. Loaded, switched on inside the same £5 a day, in Meta's review. Read against mid match only; if simple wins, Round 2 is built simple. `capture.mjs` gained `--width` and `--lines`; the template gained `cta: "text"` and `screen.maxWidth`.
