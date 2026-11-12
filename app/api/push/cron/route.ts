@@ -138,7 +138,7 @@ async function runWindowPass(nowMinutes: number) {
     if (heads) {
       const forKid = kids.find(k => k.id === heads.childId) ?? kids[0] ?? null
       const push = headsUpPush(heads.flashpoint, forKid?.name ?? null, forKid?.id ?? null)
-      const r = await sendPush({ ...push, userId: user, slot: WINDOW_SLOT[window] })
+      const r = await sendPush({ ...push, userId: user, slot: WINDOW_SLOT[window], nudge: true })
       sent += r.sent
       failed += r.failed
       continue
@@ -153,7 +153,7 @@ async function runWindowPass(nowMinutes: number) {
       hasQuests: hasQuests ? hasQuests.has(user) : true,
       triedScript: triedScript ? triedScript.has(user) : true,
     })
-    const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: WINDOW_SLOT[window] })
+    const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: WINDOW_SLOT[window], nudge: true })
     sent += r.sent
     failed += r.failed
   }
@@ -287,7 +287,7 @@ async function runEveningPass(nowMinutes: number) {
     // same supabase-js API, a different type name.
     const streakCount = isDone ? 0 : (await getDailyStreak(admin as unknown as Parameters<typeof getDailyStreak>[0], user)).count
     const line = eveningLine({ done: isDone, streakCount, childName: childName.get(user) ?? null })
-    const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: 'evening' })
+    const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: 'evening', nudge: true })
     sent += r.sent
     failed += r.failed
   }

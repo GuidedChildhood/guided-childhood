@@ -1090,7 +1090,7 @@ export default function StarterPackPage() {
               </select>
             </div>
             {dob && isTooYoung(dob) && (
-              <StartsAtFour dob={dob} name={childName} after="Got an older child as well? Put their birthday in instead." />
+              <StartsAtFour dob={dob} name={childName} capture after="Got an older child as well? Put their birthday in instead." />
             )}
 
             {/* THE STAGE IS NOT ANNOUNCED HERE ANY MORE.

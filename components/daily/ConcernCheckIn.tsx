@@ -1058,6 +1058,18 @@ export default function ConcernCheckIn({
             {childName ? `${childName} is done ✓` : 'All checked in ✓'} We will read these into next week.
           </div>
 
+          {/* DAY ONE IS THE STARTING POINT (12 November 2026, the board's value
+              above AI lens). A first check in has no line to show yet, which
+              is exactly when a parent wonders what the stars were for. So the
+              promise is said once, on the day it is made: this is where we
+              start, and the next check in shows the move. Gone as soon as any
+              row has history, when the link below takes over. */}
+          {concerns.every(c => c.lastScore == null) && (
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+              Today is your starting point. From the next check in, we show you where each one moves.
+            </p>
+          )}
+
           {/* ── THE DOOR TO THE WHOLE PICTURE (29 August 2026) ─────────────
               From the value visibility audit: the data went in here every day
               and came back only in the Sunday email. The per row verdict above

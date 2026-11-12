@@ -12,6 +12,28 @@ logged here does yet.
 
 ---
 
+## 12 November 2026, TAP: Tech Activity Pact (App Store, read by the review board)
+
+**Where.** The App Store listing (apps.apple.com/app/id6759011242), read
+12 November 2026 by the competitor watch lens.
+
+**What it sells.** An iPhone and iPad app where teens propose agreements and
+parents sign them, with daily check ins, a family streak and a way to
+renegotiate a rule. From $9.99 a month, ages 9 to 17.
+
+**How close.** Closer than most on the agreement idea: it is a second Kairoo
+style agreement app and it is already live, so "Kairoo is the only one" no
+longer holds. It does not do our core loop. Nothing staged to 16, no tested
+words for the hard moment, no worry tracked from a baseline, no child side
+where real jobs earn agreed time.
+
+**Worth borrowing.** Only the renegotiation idea, and we already have it: a
+child can ask to change the deal from their own app and the parent agrees it
+with one tap (`app/api/kid/deal-change`). Our pages already
+say the deal is agreed, not imposed: the result page's "A number you agreed
+this morning" (`app/(marketing)/starter-pack/ResultScreen.tsx`) and "the deal
+is theirs" on the home page.
+
 ## 11 November 2026, Meta Ad Library sweep (read live, UK, active ads)
 
 Read in Justin's own browser, sorted by days live. Nothing clicked. Days live

@@ -177,6 +177,7 @@ export default function DigiChat({
   stageName,
   childName,
   knownNames = [],
+  remembered = null,
 }: {
   initialMessages: Message[]
   /** A question handed over by another surface, opened on the server from a
@@ -207,6 +208,13 @@ export default function DigiChat({
   /** Every child on this account, so a name that is not one of them can be
    *  offered as a new one rather than quietly absorbed. */
   knownNames?: string[]
+  /**
+   * The newest thing DiGi filed about this family (digi_memory), one sentence.
+   * Shown as a quiet quote on open, so a parent coming back sees that DiGi
+   * kept what they said: the thing a free chatbot cannot do, made visible
+   * rather than only true (the board's value above AI lens, 12 November 2026).
+   */
+  remembered?: string | null
 }) {
   // A NEW CHAT EVERY TIME YOU OPEN IT.
   //
@@ -1161,6 +1169,18 @@ export default function DigiChat({
           }}>
             Let&apos;s make today a little easier.
           </p>
+        )}
+
+        {remembered && (
+          <figure style={{
+            margin: '0 0 18px', padding: '12px 14px',
+            background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          }}>
+            <figcaption className="eyebrow" style={{ marginBottom: '6px', fontSize: 'var(--text-xs)' }}>What I remember</figcaption>
+            <blockquote style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
+              {remembered}
+            </blockquote>
+          </figure>
         )}
 
         {messages.length === 0 && (

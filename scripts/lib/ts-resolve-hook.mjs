@@ -18,5 +18,12 @@ export async function resolve(specifier, context, nextResolve) {
       if (existsSync(fileURLToPath(candidate))) return nextResolve(candidate, context)
     }
   }
+  // `next/server` and `next/navigation` are CommonJS files with no exports
+  // map, which Next's bundler finds and Node's ESM resolver does not. Try the
+  // .js file before giving up, so a guard can load a route that imports them
+  // (scripts/checkout-flow.test.mjs stands NextResponse in with a mock).
+  if (spec === 'next/server' || spec === 'next/navigation' || spec === 'next/headers') {
+    return nextResolve(spec + '.js', context)
+  }
   return nextResolve(spec, context)
 }

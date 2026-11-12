@@ -713,7 +713,10 @@ body.gc-input-focused .gc-dash:has(.digi-chat) > main { padding-bottom: 0 !impor
   gap: 14px;
 }
 @media (max-width: 900px) { .placard-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px)  { .placard-grid { grid-template-columns: 1fr; gap: 10px; } }
+/* Four cards (the home page added 14 to 16 on 12 November 2026) sit two by
+   two rather than three and a lonely one. */
+.placard-grid.placard-grid-4 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 600px)  { .placard-grid, .placard-grid.placard-grid-4 { grid-template-columns: 1fr; gap: 10px; } }
 
 .placard-wrapper {
   perspective: 1200px;
