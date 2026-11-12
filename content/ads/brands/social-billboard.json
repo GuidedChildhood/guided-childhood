@@ -1,0 +1,25 @@
+{
+  "id": "social-billboard",
+  "name": "The Social Billboard",
+  "what": "Algorithm free YouTube playlists for children 3 to 16: the parent sets the shape of the session (age band, calm or energetic, educational or entertainment, time of day, length) before the child presses play. No up next, no autoplay; when the playlist ends, it ends.",
+  "audience": "UK parents of children 3 to 12 who use YouTube and dislike the feed",
+  "story": "~/Library/Mobile Documents/com~apple~CloudDocs/Social Billboard/CLAUDE.md, product.md, evidence-and-claims.md, brand.md",
+  "visual_system": "Social Billboard brand.md: near black #0A0A0A, accent #FFD100 (text on gold always #0A0A0A), Montserrat 800 headings, sentence case; tools/tsb-playlist-card for the look",
+  "theme": "tsb",
+  "hook": { "ask": "Build tonight's playlist", "line": "Free on one playlist, no card." },
+  "hook_status": "PROPOSED, not agreed with Justin. The free plan's contents are unconfirmed against the built product (product.md), so the line must not run until confirmed.",
+  "funnel": "https://www.thesocialbillboard.com/safe-youtube-for-kids?utm_source=<platform>&utm_medium=<paid|social>&utm_campaign=<round>&utm_content=<card>",
+  "counting": "NOT BUILT. The site is run by the developer; there is no per link count of sign ups yet. Until there is, judge on Meta's landing page views and cost per landing page view, and say so in every verdict.",
+  "judge_on": "landing page views per thousand reached, until sign ups per link can be counted",
+  "channels": ["meta"],
+  "watchlist": "content/ads/brands/social-billboard-watchlist.md",
+  "meta_env_suffix": "_SB",
+  "extra_banned": [
+    { "re": "age[ -]appropriate", "why": "say age banded; appropriate is a judgement needing a published framework (Social Billboard rule 4)" },
+    { "re": "\\b\\d+(\\.\\d+)?\\s*(/\\s*10|stars?|out of)\\b", "why": "no numeric scores or ratings anywhere (YouTube API terms, two violations already)" },
+    { "re": "expert[ -]curated|curated by experts", "why": "a credential claim with no named expert (CAP Code 3.7; open question)" },
+    { "re": "no (adverts|ads)\\b", "why": "YouTube embeds can show pre roll; say no adverts sold by us, or nothing" },
+    { "re": "free forever", "why": "say free on one playlist" },
+    { "re": "hand (over|them) the (tablet|ipad|phone)", "why": "it is a website, not a device lock" }
+  ]
+}

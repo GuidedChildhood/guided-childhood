@@ -1,0 +1,22 @@
+{
+  "id": "guided-schools",
+  "name": "Guided Childhood Schools",
+  "what": "Zero prep online safety and digital lessons for schools, EYFS to KS5, mapped to the 2025 RSHE guidance, with the DSL hub; five flat bands from £495 a year, on invoice.",
+  "audience": "UK primary heads, deputies, DSLs and PSHE or computing leads; trust leaders for groups of schools",
+  "story": "THE-STORY.md section 6 (the schools app) and schools/01",
+  "visual_system": "shared/tokens.css (the same tokens as the parents app), schools site look",
+  "theme": "gc",
+  "hook": { "ask": "Try a free lesson", "line": "No login. Ready to teach today." },
+  "hook_status": "PROPOSED, not agreed with Justin. The open catalogue with no login is real (THE-STORY section 6).",
+  "funnel": "https://schools.guidedchildhood.com/pilot?src=<code>&utm_source=<platform>&utm_medium=<paid|social>&utm_campaign=<round>&utm_content=<card>",
+  "counting": "The pilot form keeps ?src and the utm values on each request's notes line (schools/lib/pilot-source.ts). Judge on pilot requests per pound once money is spent.",
+  "judge_on": "pilot requests begun per thousand reached",
+  "channels": ["linkedin", "google_search", "meta"],
+  "channel_note": "Schools suppliers barely buy Meta adverts (12 November sweep): the National College advertises to school and trust leaders on LinkedIn; on Meta only Wellio, 8 days old. LinkedIn first; Meta only as a cheap test for teachers.",
+  "watchlist": "content/ads/brands/guided-schools-watchlist.md",
+  "meta_env_suffix": "_SCHOOLS",
+  "extra_banned": [
+    { "re": "ofsted[ -](approved|endorsed|recognised)", "why": "Ofsted approves no resources" },
+    { "re": "\\b(fully|100 ?%) compliant\\b", "why": "we map to the guidance; compliance is the school's judgement" }
+  ]
+}

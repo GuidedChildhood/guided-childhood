@@ -1,0 +1,20 @@
+{
+  "audienceName": "UK, 25 and over, Advantage+ audience; a cheap Meta test only, schools are LinkedIn first",
+  "dailyBudgetPence": 500,
+  "days": 7,
+  "targeting": {
+    "geo_locations": {
+      "countries": [
+        "GB"
+      ]
+    },
+    "age_min": 25,
+    "age_max": 65,
+    "targeting_automation": {
+      "advantage_audience": 1
+    }
+  },
+  "advertiser": "THE SOCIAL BILLBOARD LTD",
+  "payer": "THE SOCIAL BILLBOARD LTD",
+  "note": "Placeholder copied from Guided Childhood on 12 November 2026. Not agreed with Justin: budget, audience and advertiser need his word before any upload."
+}

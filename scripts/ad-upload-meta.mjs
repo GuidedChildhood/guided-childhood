@@ -52,12 +52,19 @@ const PAUSED = 'PAUSED'
 
 const plain = (html) => String(html ?? '').replace(/<[^>]+>/g, '').replace(/&rarr;/g, '').replace(/\s+/g, ' ').trim()
 
-// The card's own link, with the UTMs the source link route keeps (shared/utm.ts,
-// migration 388). medium is paid, so the same card's organic post and its
-// advert are counted apart on the same code.
-export function linkFor(round, card) {
+// The card's own link.
+export function linkFor(round, card, funnel = `${SITE}/v/<code>`) {
+  // A brand's funnel (content/ads/brands/<id>.json) is a template: <code>,
+  // <platform>, <round> and <card> are filled in, and the UTMs the source
+  // link route keeps (shared/utm.ts, migration 388) are added if the template
+  // does not carry them. medium is paid, so the same card's organic post and
+  // its advert are counted apart on the same code.
+  const url = funnel
+    .replace('<code>', card.src).replace('<platform>', 'facebook').replace('<paid|social>', 'paid')
+    .replace('<round>', round).replace('<card>', card.name)
+  if (url.includes('utm_source=')) return url
   const q = new URLSearchParams({ utm_source: 'facebook', utm_medium: 'paid', utm_campaign: round, utm_content: card.name })
-  return `${SITE}/v/${card.src}?${q}`
+  return `${url}${url.includes('?') ? '&' : '?'}${q}`
 }
 
 // Every call a round makes, in order. `needs` names an id from an earlier
@@ -94,7 +101,7 @@ export function plan(deck, config, env) {
     },
   ]
   for (const card of deck.cards) {
-    const link = linkFor(round, card)
+    const link = linkFor(round, card, config.funnel)
     const story = {
       page_id: env.META_PAGE_ID,
       link_data: {
@@ -245,9 +252,18 @@ if (!round) { console.error('usage: npm run ad-upload -- <round> [--go]'); proce
 
 try {
   const deck = loadRound(round)
-  const config = JSON.parse(readFileSync(join(ROOT, 'content/ads/meta/config.json'), 'utf8'))
-  const env = readEnv()
-  const missing = ['META_ACCESS_TOKEN', 'META_AD_ACCOUNT_ID', 'META_PAGE_ID'].filter((k) => !env[k])
+  // A brand's deck reads its own ad set settings and its own account and Page
+  // (META_AD_ACCOUNT_ID_SB and so on, from the brand's meta_env_suffix); the
+  // access token is shared when one person runs the accounts.
+  const brandId = deck.brand || 'guided-childhood'
+  const brand = JSON.parse(readFileSync(join(ROOT, 'content/ads/brands', `${brandId}.json`), 'utf8'))
+  const configFile = brandId === 'guided-childhood' ? 'config.json' : `config-${brandId}.json`
+  const config = { ...JSON.parse(readFileSync(join(ROOT, 'content/ads/meta', configFile), 'utf8')), funnel: brand.funnel }
+  const raw = readEnv()
+  const sfx = brand.meta_env_suffix || ''
+  const env = { ...raw }
+  for (const k of ['META_ACCESS_TOKEN', 'META_AD_ACCOUNT_ID', 'META_PAGE_ID', 'META_INSTAGRAM_ID']) env[k] = raw[k + sfx] || (k === 'META_ACCESS_TOKEN' ? raw[k] : (sfx ? undefined : raw[k]))
+  const missing = ['META_ACCESS_TOKEN', 'META_AD_ACCOUNT_ID', 'META_PAGE_ID'].filter((k) => !env[k]).map((k) => k === 'META_ACCESS_TOKEN' ? k : k + sfx)
   const receiptPath = join(ROOT, 'content/ads/meta', `${round}.json`)
   const receipt = existsSync(receiptPath) ? JSON.parse(readFileSync(receiptPath, 'utf8')) : {}
   const save = (r) => { mkdirSync(dirname(receiptPath), { recursive: true }); writeFileSync(receiptPath, JSON.stringify(r, null, 2) + '\n') }
