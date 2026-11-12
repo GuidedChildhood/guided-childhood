@@ -137,7 +137,7 @@ export async function run(calls, { send, receipt, save, wait = 1000, log = conso
 }
 
 function liveSend(env) {
-  const version = env.META_API_VERSION || 'v24.0'
+  const version = env.META_API_VERSION || 'v27.0'
   return async (call, body) => {
     const form = new FormData()
     form.set('access_token', env.META_ACCESS_TOKEN)

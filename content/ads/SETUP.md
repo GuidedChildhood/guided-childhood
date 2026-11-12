@@ -75,6 +75,26 @@ user would need the Page moved first, which only Anna can do.
     META_INSTAGRAM_ID=      optional
     ```
 
+### Instagram (already linked, the key needs to see it)
+The Page already has its Instagram account linked (@guidedchildhood, 5.6K
+followers, checked 12 November). The adverts can run there too once the
+uploader knows the Instagram account's number, and the key cannot read it
+until it has one more permission:
+
+1. The app needs the Instagram use case first, or `instagram_basic` is not
+   offered (done 12 November): Dashboard, **Add use cases**, All, **Manage
+   messaging & content on Instagram**, Save; then Use cases, that use case,
+   Permissions and features, `instagram_basic`, **Add**. Then in the Graph
+   API Explorer, Permissions, open the list, the **Other** group, tick
+   `instagram_basic`. Keep the other three.
+2. **Generate Access Token**. When Facebook asks which Instagram accounts,
+   tick Guided Childhood.
+3. Access Token Debugger, paste, **Extend Access Token**, copy.
+4. Replace the token on the `META_ACCESS_TOKEN=` line in `.env.local`.
+
+Claude then reads the Instagram account number and fills in
+`META_INSTAGRAM_ID` itself.
+
 If the upload is refused because of who owns the Page, nothing is lost: the
 five cards, their words and their links are in
 `content/packs/2026-11-11-round-1/`, and loading them by hand in Ads Manager
