@@ -650,6 +650,18 @@
           "teaching_point": "Keep the sentence. The lesson weighs both sides before anyone writes a rule."
         }
       ]
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Says ask, say, tell without prompting, gives one good bit and one worry, and names a place to be extra careful.",
+        "developing": "Says ask first, but treats the light as the same as asking, or needs the card to say please stop.",
+        "revisit": "Says smart glasses are only for spying, or keeps quiet about being filmed because saying no feels rude."
+      }
     }
   },
   "sort_order": 902,

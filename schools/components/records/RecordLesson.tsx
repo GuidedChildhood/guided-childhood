@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
 import {
-  canUndo, cleanGroups, JUDGEMENT_LABEL, JUDGEMENTS, levelsIn, shareAtFourOrAbove,
-  type Delivery, type Judgement, type LevelCount, type Subject,
+  canUndo, cleanGroups, cleanQuizCounts, JUDGEMENT_LABEL, JUDGEMENTS, levelsIn, quizCountsIn, shareAtFourOrAbove,
+  type Delivery, type Descriptors, type Judgement, type LevelCount, type Subject,
 } from '@gc/shared/lesson-records'
 import { assessDelivery, lessonRecord, markDelivered, undoDelivery } from '@/app/records/actions'
 
@@ -27,6 +27,7 @@ import { assessDelivery, lessonRecord, markDelivered, undoDelivery } from '@/app
 // appears and holds it in state; nothing about a school is baked into a page.
 
 export type LevelStatement = { code: string; skill: string; pupil: string }
+type QuizDraft = { pupils: string; starter: string; exit: string }
 
 type Props = {
   subject: Subject
@@ -39,6 +40,9 @@ type Props = {
   levelKey?: string
   /** Digital: the lesson's "I can" statements. */
   objectives?: string[]
+  /** Digital: what each judgement looks like in THIS lesson, one line each,
+   *  from the lesson row. Absent, the buttons stand alone as they always have. */
+  descriptors?: Descriptors | null
   /** Where the whole record lives, for the link under a saved lesson. */
   recordHref?: string
 }
@@ -48,7 +52,7 @@ const CLASS_KEY = (s: Subject) => `gc_records_class_${s}`
 const longDate = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })
 
-export default function RecordLesson({ subject, lessonKey, statements = [], levelNames = ['Level 3', 'Level 4', 'Level 5'], levelKey, objectives = [], recordHref }: Props) {
+export default function RecordLesson({ subject, lessonKey, statements = [], levelNames = ['Level 3', 'Level 4', 'Level 5'], levelKey, objectives = [], descriptors = null, recordHref }: Props) {
   const [loaded, setLoaded] = useState(false)
   const [school, setSchool] = useState(true)
   const [failed, setFailed] = useState(false)
@@ -126,7 +130,7 @@ export default function RecordLesson({ subject, lessonKey, statements = [], leve
     })
   }
 
-  const assess = (payload: { judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string }, done: string) => {
+  const assess = (payload: { judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown }, done: string) => {
     if (!current) return
     setError(''); setSaved('')
     start(async () => {
@@ -212,8 +216,8 @@ export default function RecordLesson({ subject, lessonKey, statements = [], leve
             <p className="gc-rec-quiet">Nothing to assess in this lesson. That is the whole record.</p>
           )}
           {subject === 'digital' && (
-            <Judge key={current.id} objectives={objectives} delivery={current} pending={pending}
-              onSave={(judgement, objectiveMarks, note) => assess({ judgement, objectiveMarks, note }, 'Saved.')} />
+            <Judge key={current.id} objectives={objectives} descriptors={descriptors} delivery={current} pending={pending}
+              onSave={(judgement, objectiveMarks, note, quiz) => assess({ judgement, objectiveMarks, note, quiz }, 'Saved.')} />
           )}
 
           {saved && <p className="gc-rec-saved" role="status">{saved}</p>}
@@ -307,9 +311,9 @@ function Levels({ statements, levelNames, levelKey, delivery, pending, onSave }:
 }
 
 /** Digital: the teacher's judgement of the class, and by objective if wanted. */
-function Judge({ objectives, delivery, pending, onSave }: {
-  objectives: string[]; delivery: Delivery; pending: boolean
-  onSave: (judgement: string | undefined, objectiveMarks: Record<string, Judgement>, note: string) => void
+function Judge({ objectives, descriptors, delivery, pending, onSave }: {
+  objectives: string[]; descriptors: Descriptors | null; delivery: Delivery; pending: boolean
+  onSave: (judgement: string | undefined, objectiveMarks: Record<string, Judgement>, note: string, quiz: QuizDraft) => void
 }) {
   const start = (JUDGEMENTS as string[]).includes(delivery.assessment) ? delivery.assessment as Judgement : null
   const [judgement, setJudgement] = useState<Judgement | null>(start)
@@ -319,21 +323,43 @@ function Judge({ objectives, delivery, pending, onSave }: {
     return out
   })
   const [note, setNote] = useState(delivery.note ?? '')
-  const pick = (j: Judgement) => { setJudgement(j); onSave(j, marks, note) }
+  // The quiz counts ride along on every save, because a save replaces the
+  // whole assessment: a judgement tapped after the counts must not lose them.
+  const [quiz, setQuiz] = useState<QuizDraft>(() => {
+    const had = quizCountsIn(delivery.marks)
+    return { pupils: had ? String(had.pupils) : '', starter: had?.starter != null ? String(had.starter) : '', exit: had?.exit != null ? String(had.exit) : '' }
+  })
+  const setCount = (k: keyof QuizDraft, v: string) => setQuiz(q => ({ ...q, [k]: v.replace(/\D/g, '').slice(0, 3) }))
+  const quizTyped = quiz.pupils !== '' || quiz.starter !== '' || quiz.exit !== ''
+  // A count the rule would drop (larger than the room) blocks the save, so
+  // nothing a teacher typed is ever thrown away without them seeing it.
+  const cleaned = cleanQuizCounts(quiz)
+  const quizOk = !!cleaned && (quiz.starter === '' || cleaned.starter !== null) && (quiz.exit === '' || cleaned.exit !== null)
+  const pick = (j: Judgement) => { setJudgement(j); onSave(j, marks, note, quiz) }
   const pickMark = (i: number, j: Judgement) => {
     const next = { ...marks, [String(i)]: j }
     setMarks(next)
-    onSave(judgement ?? undefined, next, note)
+    onSave(judgement ?? undefined, next, note, quiz)
   }
   return (
     <div className="gc-rec-next">
       <p className="gc-rec-ask">How did the class do? <span>Optional</span></p>
-      <div className="gc-rec-judge" role="group" aria-label="How the class did">
+      {/* WHAT EACH ONE LOOKS LIKE, ON THE BUTTON (11 November 2026). Three
+          words with nothing under them ask a teacher to guess where the line
+          is, and two teachers guess differently. Each button now carries what
+          that judgement looks like in this lesson, in the lesson's own words. */}
+      <div className="gc-rec-judge" role="group" aria-label="How the class did" data-described={descriptors ? '' : undefined}>
         {JUDGEMENTS.map(j => (
-          <button key={j} type="button" className="gc-rec-choice" aria-pressed={judgement === j} onClick={() => pick(j)} disabled={pending}>{JUDGEMENT_LABEL[j]}</button>
+          <button key={j} type="button" className="gc-rec-choice" aria-pressed={judgement === j} onClick={() => pick(j)} disabled={pending}>
+            <span className="gc-rec-choice-name">{JUDGEMENT_LABEL[j]}</span>
+            {descriptors && <span className="gc-rec-desc">{descriptors[j]}</span>}
+          </button>
         ))}
       </div>
-      <p className="gc-rec-quiet" style={{ margin: 0 }}>Your judgement of the class as a whole. Leave it and the lesson reads as delivered, not assessed.</p>
+      <p className="gc-rec-quiet" style={{ margin: 0 }}>
+        {descriptors ? 'Pick the one most of the class matched. ' : 'Your judgement of the class as a whole. '}
+        Leave it and the lesson reads as delivered, not assessed.
+      </p>
 
       {objectives.length > 0 && (
         <details className="gc-rec-more">
@@ -351,6 +377,27 @@ function Judge({ objectives, delivery, pending, onSave }: {
         </details>
       )}
 
+      {/* THE TWO QUIZZES, COUNTED (11 November 2026). The lesson already opens
+          on a starter quiz and closes on an exit quiz. A show of hands on each
+          is three numbers and no names, and it is the nearest honest thing to
+          before and after that a class record can hold. */}
+      <details className="gc-rec-more" open={quizCountsIn(delivery.marks) ? true : undefined}>
+        <summary>Add the quiz counts</summary>
+        <p className="gc-rec-quiet" style={{ margin: 0 }}>A show of hands, or a count of the sheets. No names. Fill in either quiz or both.</p>
+        <div className="gc-rec-counts gc-rec-quiz">
+          {([['pupils', 'Pupils in the room'], ['starter', 'Starter quiz, most right'], ['exit', 'Exit quiz, most right']] as const).map(([k, label]) => (
+            <label key={k}>
+              <span className="gc-rec-label">{label}</span>
+              <input inputMode="numeric" pattern="[0-9]*" value={quiz[k]} onChange={e => setCount(k, e.target.value)} placeholder="0" />
+            </label>
+          ))}
+        </div>
+        {quizTyped && !quizOk && <p className="gc-rec-quiet" style={{ margin: 0 }}>Add how many pupils were in the room, and a count no larger than that.</p>}
+        <div className="gc-rec-row">
+          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz)} disabled={pending || (quizTyped && !quizOk)}>Save the counts</button>
+        </div>
+      </details>
+
       <details className="gc-rec-more">
         <summary>Add a note</summary>
         <label className="gc-rec-field">
@@ -358,7 +405,7 @@ function Judge({ objectives, delivery, pending, onSave }: {
           <span id="gc-rec-note-help" className="gc-rec-help">For your own record. No pupil names. {280 - note.length} characters left.</span>
         </label>
         <div className="gc-rec-row">
-          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note)} disabled={pending}>Save the note</button>
+          <button type="button" className="btn btn-outline" onClick={() => onSave(judgement ?? undefined, marks, note, quiz)} disabled={pending}>Save the note</button>
         </div>
       </details>
     </div>
@@ -393,10 +440,14 @@ function RecordStyles() {
       .gc-rec-levels legend { padding: 0 var(--space-1); font-family: var(--font-body); font-weight: 700; font-size: var(--text-base); color: var(--ink); line-height: 1.4; }
       .gc-rec-code { display: block; font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--terracotta-dark); }
       .gc-rec-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
-      .gc-rec-counts label { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+      .gc-rec-counts label { display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-1); min-width: 0; }
       .gc-rec-counts input { text-align: center; }
       .gc-rec-judge { display: flex; flex-wrap: wrap; gap: var(--space-2); }
       .gc-rec-choice { min-height: 56px; padding: 0 var(--space-4); cursor: pointer; background: var(--white); color: var(--ink); border: 1.5px solid var(--border); border-radius: var(--radius-btn); font-family: var(--font-display); font-weight: 800; font-size: var(--text-base); transition: background-color .15s ease, border-color .15s ease; }
+      .gc-rec-judge[data-described] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+      .gc-rec-judge[data-described] .gc-rec-choice { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: var(--space-1); padding: var(--space-3); text-align: left; }
+      .gc-rec-desc { font-family: var(--font-body); font-weight: 400; font-size: var(--text-sm); line-height: 1.45; color: var(--ink-muted); }
+      .gc-rec-choice[aria-pressed="true"] .gc-rec-desc { color: var(--white); }
       .gc-rec-choice-sm { min-height: 44px; padding: 0 var(--space-3); font-size: var(--text-sm); }
       .gc-rec-choice:hover { border-color: var(--terracotta); }
       .gc-rec-choice[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
@@ -407,6 +458,8 @@ function RecordStyles() {
       .gc-rec-error { margin: 0; font-family: var(--font-body); font-weight: 600; font-size: var(--text-sm); color: var(--ink); background: var(--warm); border-left: 4px solid var(--terracotta-dark); padding: var(--space-2) var(--space-3); border-radius: var(--radius-tile); }
       .gc-rec-saved { margin: 0; font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--ink); }
       @keyframes gc-rec-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+      @media (max-width: 720px) { .gc-rec-judge[data-described] { grid-template-columns: minmax(0, 1fr); } }
+      @media (max-width: 560px) { .gc-rec-quiz { grid-template-columns: minmax(0, 1fr); } .gc-rec-quiz label { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--space-3); } .gc-rec-quiz input { width: 96px; flex: none; } }
       @media (max-width: 560px) { .gc-rec-main { align-self: stretch; } .gc-rec-choice { flex: 1 1 100%; } .gc-rec-choice-sm { flex: 1 1 0; padding: 0 var(--space-1); } .gc-rec-done { padding: var(--space-3); } }
       @media (prefers-reduced-motion: reduce) { .gc-rec-done { animation: none; } .gc-rec-choice { transition: none; } }
       @media print { .gc-rec { display: none !important; } }

@@ -5,6 +5,9 @@ import { sendEmail, starterCtaUrl } from '@/lib/email'
 import { unsuppressAddress } from '@/lib/email/address-guard'
 import { magnetEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
+import { readUtm, UTM_COOKIE, utmFromCookie, utmColumns, type Utm } from '@/lib/video/utm'
+import { cleanUtmValue, hasUtm } from '@gc/shared/utm'
+import { tasterFromMagnetSlug } from '@/lib/magnets/tasters'
 
 // A parent asked for a free printable in exchange for their email. Save
 // the lead onto the same list the starter quiz fills (tagged by which
@@ -15,7 +18,7 @@ import { sendPush } from '@/lib/push/send'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string; slug?: string }
+  let body: { email?: string; slug?: string; src?: unknown } & Record<string, unknown>
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
@@ -26,6 +29,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid email' }, { status: 400 })
   }
   if (!magnet) return NextResponse.json({ error: 'unknown magnet' }, { status: 400 })
+
+  // Which post sent them (11 November 2026, the free tasters). The gate posts
+  // the page's src and utm_* in the body; a visitor who came through a /v/
+  // source link carries the UTMs in its cookie instead. Every value is cleaned
+  // to a slug about the post, so nothing about the person is ever kept.
+  const bodyUtm: Utm = readUtm(body)
+  const utm: Utm = hasUtm(bodyUtm) ? bodyUtm : utmFromCookie(req.cookies.get(UTM_COOKIE)?.value)
+  const src = cleanUtmValue(body.src)
+  const taster = tasterFromMagnetSlug(magnet.slug)
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
   // A full product magnet hands over its ready made PDF from public; a one
@@ -49,12 +61,35 @@ export async function POST(req: NextRequest) {
     // the newer one is not respecting their wishes, it is ignoring them.
     await unsuppressAddress(email)
 
-    await supabase
+    const { data: lead } = await supabase
       .from('starter_leads')
       .upsert(
         { email, source: `magnet:${magnet.slug}`, updated_at: new Date().toISOString() },
         { onConflict: 'email' },
       )
+      .select('id')
+      .maybeSingle()
+
+    // A taster starts the taster nurture clock (day 1 the stage check, day 7
+    // the full pack), once: the first taster a lead claims is the one the
+    // emails talk about, and a second taster next month does not restart it.
+    if (taster) {
+      await supabase
+        .from('starter_leads')
+        .update({ taster_slug: taster.slug, taster_at: new Date().toISOString() })
+        .eq('email', email)
+        .is('taster_at', null)
+    }
+
+    // One counted row per claim, so each Saturday post earns its own number.
+    // Slugs only; lead_id goes null if the lead is ever erased.
+    await supabase.from('free_download_events').insert({
+      slug: magnet.slug,
+      lead_id: lead?.id ?? null,
+      new_lead: !existing,
+      src,
+      ...utmColumns(utm),
+    })
 
     // Is this address already one of ours? A member taking a printable from
     // the website is common (it is the quickest way to the PDF), and the email

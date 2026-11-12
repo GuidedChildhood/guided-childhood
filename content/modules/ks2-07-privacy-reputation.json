@@ -463,7 +463,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, this one mirrors the quiz app evidence. Silent, independent, no conferring, this is where you find out who owns the learning. A wrong answer here tells you exactly who to mark as working towards on the register.",
+      "script": "First of two exit checks, this one mirrors the quiz app evidence. Silent, independent, no conferring, this is where you find out who owns the learning. A wrong answer here tells you exactly who to note down and revisit before next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -562,7 +562,7 @@
         "Your story is brilliant, and it belongs to you. Keep editing it well. See you next mission!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in book bags with the parent note.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson, and the commitment cards go home in book bags with the parent note.",
       "heading": "DiGi closes the mission",
       "minutes": 1
     }
@@ -593,12 +593,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Runs the three share test questions before a verdict without prompting and explains why deleted is not the same as gone.",
+        "developing": "Names the private list but needs the bookmark to run the share test, or gives a verdict without a reason.",
+        "revisit": "Says deleting removes it from the internet, that only strangers are a risk, or that being private means sharing nothing."
+      }
     }
   },
   "sort_order": 7,
@@ -682,7 +685,7 @@
         "teaching_point": "Delete removes your copy. Screenshots and forwards are already gone from your reach."
       },
       {
-        "answer": "Answers should name the vault items taught in the lesson, such as your address, your school, your password and where you will be.",
+        "answer": "Who you are, where you are, what unlocks things, and photos you cannot take back. Accept an example of each, such as an address or school for where you are.",
         "format": "short_answer",
         "question": "What are the four things on the private list?",
         "teaching_point": "Accept the lesson's own four. The point is that the list is short, not that privacy means silence."

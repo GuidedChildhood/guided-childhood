@@ -1,0 +1,104 @@
+{
+  "name": "pinterest-01",
+  "size": "pin",
+  "numbered": false,
+  "ground": "cream",
+  "cards": [
+    {
+      "name": "earn-your-screen-time",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "Screen time,<br><mark>earned</mark> on paper.",
+      "image": "public/printables/earn-your-screen-time.png",
+      "width": 600
+    },
+    {
+      "name": "jobs-board",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "The jobs board<br>that does <mark>the nagging.</mark>",
+      "image": "public/printables/jobs-board.png",
+      "width": 600
+    },
+    {
+      "name": "where-phones-sleep",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "Where the phones<br><mark>sleep</mark> tonight.",
+      "image": "public/printables/where-phones-sleep.png",
+      "width": 600
+    },
+    {
+      "name": "christmas-countdown",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Print at home",
+      "headline": "A countdown<br>with <mark>no screen</mark> in it.",
+      "image": "public/printables/christmas-countdown.png",
+      "width": 600
+    },
+    {
+      "name": "family-phone-agreement",
+      "type": "printable",
+      "lead": null,
+      "tag": "Free",
+      "eyebrow": "Before the first phone",
+      "headline": "The phone deal,<br><mark>signed</mark> by everyone.",
+      "image": "public/printables/family-phone-agreement.png",
+      "width": 600
+    },
+    {
+      "name": "the-room",
+      "type": "text",
+      "lead": "orbit",
+      "eyebrow": "The usual rows",
+      "headline": "The bedroom is a planned talk, <mark>not a Monday</mark> morning one.",
+      "body": "Agree a ten minute reset at a time that is not the morning. They pick the time and the music. The door stays shut on the rest.",
+      "friend": true
+    },
+    {
+      "name": "sunday-homework",
+      "type": "text",
+      "lead": "nova",
+      "eyebrow": "The usual rows",
+      "headline": "Sunday night is too late to <mark>teach planning.</mark>",
+      "body": "Tonight, help with the first step only. Then a ten minute chat on Friday where they map the weekend's work.",
+      "friend": true
+    },
+    {
+      "name": "after-school",
+      "type": "text",
+      "lead": "pebble",
+      "eyebrow": "The usual rows",
+      "headline": "Fine at school, explodes at home? They save it <mark>for you.</mark>",
+      "body": "You are the safe place. Snack first, quiet first, questions about the day later.",
+      "friend": true
+    },
+    {
+      "name": "first-phone-guide",
+      "type": "question",
+      "lead": "orbit",
+      "eyebrow": "The first phone",
+      "headline": "When should my child get a phone?",
+      "body": "Not an age. A set of things they can already do. The free guide walks through them.",
+      "friend": true
+    },
+    {
+      "name": "stage-check",
+      "type": "cta",
+      "lead": "digi",
+      "eyebrow": "Free stage check",
+      "headline": "What stage is your child <mark>at?</mark>",
+      "body": "Three questions, no sign up. Then the next step for their age.",
+      "pill": "Take the stage check",
+      "friend": true
+    }
+  ]
+}

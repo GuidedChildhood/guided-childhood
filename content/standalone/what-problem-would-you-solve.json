@@ -631,6 +631,18 @@
           "teaching_point": "This is the first move. Keep the sentence, because the lesson builds on it."
         }
       ]
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Names a problem with no fix in it, asks about the last time, and plans a paper prototype for one person.",
+        "developing": "Tells a problem from a fix on the board, but their own questions still start with would you.",
+        "revisit": "Names an app or a website as the problem, or says friends saying yes proves the idea."
+      }
     }
   },
   "sort_order": 900,

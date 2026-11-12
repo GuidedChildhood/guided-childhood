@@ -8,6 +8,8 @@
 // route and the capture API both read from this registry, so a slug can
 // never drift between the download, the email and the page.
 
+import { TASTERS, tasterMagnet } from './tasters'
+
 export type MagnetItem = { h: string; b: string }
 
 export type Magnet = {
@@ -156,6 +158,14 @@ export const MAGNETS: Record<string, Magnet> = {
   },
 }
 
+// THE FREE TASTERS (11 November 2026): two or three pages of every paid pack,
+// one magnet each, made from content/printables/free-tasters.json by
+// lib/magnets/tasters.ts rather than typed out here thirty times. The slug is
+// taster-<slug>, so the lead is saved as magnet:taster-<slug>.
+const TASTER_MAGNETS: Record<string, Magnet> = Object.fromEntries(
+  TASTERS.map(t => { const m = tasterMagnet(t); return [m.slug, m] }),
+)
+
 export function getMagnet(slug: string): Magnet | null {
-  return MAGNETS[slug] ?? null
+  return MAGNETS[slug] ?? TASTER_MAGNETS[slug] ?? null
 }

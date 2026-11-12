@@ -410,7 +410,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, still silent and alone. This is the one that matters most for wellbeing, because it tests whether pupils have stopped blaming themselves. Collect both answers on the printed exit quiz as your evidence for the register.",
+      "script": "Second exit check, still silent and alone. This is the one that matters most for wellbeing, because it tests whether pupils have stopped blaming themselves. Collect both answers on the printed exit quiz as your note of who to revisit.",
       "minutes": 2,
       "options": [
         {
@@ -516,12 +516,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the choices behind a polished image, says who profits when we feel worse, and runs the image check on the feeling.",
+        "developing": "Spots editing in an image but cannot say who profits, or runs the image check on the picture, not the feeling.",
+        "revisit": "Says you can always tell when a photo is edited, or that feeling worse means something is wrong with you."
+      }
     }
   },
   "sort_order": 14,

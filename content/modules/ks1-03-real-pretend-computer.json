@@ -211,8 +211,8 @@
             "handle": "Case 2"
           },
           {
-            "why": "Apply. It looks like a photo but could not happen. Looks real plus could not happen equals computer made.",
-            "text": "A picture that looks just like a photo of a little dog on the moon wearing a tiny space helmet.",
+            "why": "Apply. No silly clue, so looking cannot tell you. Not sure is allowed. A grown up checked: computer made.",
+            "text": "A picture that looks just like a photo of a puppy asleep in a shoe. No silly clues at all.",
             "answer": 2,
             "avatar": "🎨",
             "handle": "Case 3"
@@ -248,7 +248,7 @@
         "doneEmoji": "⭐",
         "doneTitle": "All six sorted"
       },
-      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer. Once you tap, the wall shows the answer and its reason. Read the reason out before you tap Next card. The answers: the football photo is real, the cartoon mouse is pretend, the dog on the moon is computer made, the rainbow is real, the purple elephant is computer made, and Pebble's flying cat is computer made, because looking clear is not proof. If the class picks wrong, do not correct them flatly: give the reason and ask what they think now.",
+      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer. Once you tap, the wall shows the answer and its reason. Read the reason out before you tap Next card. The answers: the football photo is real, the cartoon mouse is pretend, the puppy in the shoe is computer made though nothing in it is silly, so not sure and ask a grown up is the best answer there, the rainbow is real, the purple elephant is computer made, and Pebble's flying cat is computer made, because looking clear is not proof. If the class picks wrong, do not correct them flatly: give the reason and ask what they think now.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
       "component": "verdict-sort"
@@ -393,12 +393,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Sorts pictures into real, pretend or computer made, gives the clue, and asks the detective question before believing a WOW picture.",
+        "developing": "Says the detective question with the class and sorts real from pretend, but puts computer made with pretend.",
+        "revisit": "Believes a picture because it looks like a photo, or says computer made pictures are bad or scary."
+      }
     }
   },
   "sort_order": 3,
@@ -593,8 +596,8 @@
       },
       {
         "n": 3,
-        "item": "A picture that looks just like a photo of a little dog on the moon wearing a tiny space helmet.",
-        "teaching_point": "Apply. It looks like a photo but could not happen. Looks real plus could not happen equals computer made.",
+        "item": "A picture that looks just like a photo of a puppy asleep in a shoe. No silly clues at all.",
+        "teaching_point": "Apply. No silly clue, so looking cannot tell you. Not sure is allowed. A grown up checked: computer made.",
         "expected_verdict": "Computer made"
       },
       {

@@ -100,9 +100,9 @@
       "minutes": 3,
       "options": [
         {
-          "text": "Stop and ask: how would my friend feel, and would I be happy for anyone at all to see this?",
+          "text": "Stop and ask: would I shout it in assembly, does it give away where I am, could it hurt future me?",
           "correct": true,
-          "feedback": "That is the share test. Funny to you is not the test. How the person in the photo feels, and who could end up seeing it, that is the test."
+          "feedback": "That is the share test. Funny to you is not the test. Three questions before anything leaves your hands, and if any question fails, hold it back."
         },
         {
           "text": "Post it quickly before someone else posts it first",
@@ -538,7 +538,7 @@
         "And remember: in this squad, nobody faces it alone. Not ever. See you next mission!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the lines appear on their own. Exit quizzes go out as this plays, named copies from the print room, and exit cards get the commitment line filled in. Collect both, they are your evidence for the register, and read the exit cards yourself before filing: occasionally one carries something a pupil could not say out loud.",
+      "script": "Let DiGi land the ending, the lines appear on their own. Exit quizzes go out as this plays, named copies from the print room, and exit cards get the commitment line filled in. Collect both, they show you who to revisit next lesson, and read the exit cards yourself before filing: occasionally one carries something a pupil could not say out loud.",
       "heading": "DiGi closes the mission",
       "minutes": 1
     }
@@ -569,12 +569,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Says the three moves in order without the board and names a real adult at school and one at home.",
+        "developing": "Tells one unkind moment from bullying using the three tells but misses a move, most often saving the evidence.",
+        "revisit": "Says telling an adult is snitching, that staying silent means not involved, or that deleting the messages makes it go away."
+      }
     }
   },
   "sort_order": 8,

@@ -182,13 +182,13 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "prompt": "Breathe in as Pebble grows. Breathe out as Pebble shrinks. Then tell the person next to you one thing you found out today, and draw or write it on your sheet.",
+        "prompt": "Breathe in as Pebble grows. Breathe out as Pebble shrinks. Then tell the person next to you one thing you found out today.",
         "heading": "Half time! Everyone together",
         "seconds": 4,
         "register": "bouncy",
         "character": "pebble"
       },
-      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing they have found out so far, and two or three tell you theirs. Nothing is marked and nobody has to speak. Then straight into the practise.",
       "minutes": 1,
       "component": "star-breath",
       "together_prompt": "Stand up and do the breath together. Then they tell you one thing they have found out so far."
@@ -397,12 +397,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Sorts real from made up and, when unsure, does Stop, look, ask a grown up without prompting.",
+        "developing": "Joins in Stop, look, ask a grown up, but does not yet choose ask for the singing cat or spider.",
+        "revisit": "Says a picture is real because they saw it on a screen, or thinks asking a grown up means trouble."
+      }
     }
   },
   "sort_order": 1,

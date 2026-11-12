@@ -602,7 +602,7 @@
     },
     "exit_quiz": {
       "title": "Before you go",
-      "instructions": "Four questions on today. Keep this in your book.",
+      "instructions": "Five questions on today. Keep this in your book.",
       "questions": [
         {
           "q": "Something distressing appears in your feed. What does it say about you?",
@@ -639,6 +639,15 @@
             "Only mention it if it still bothers you"
           ],
           "answer": 1
+        },
+        {
+          "q": "An offer pays far more than the task is worth. What is the money paying for?",
+          "options": [
+            "A risk that has not been named",
+            "Being quick and reliable",
+            "Nothing, you got lucky"
+          ],
+          "answer": 0
         }
       ]
     },
@@ -652,9 +661,16 @@
       "note": "Collected on the learning record. Deliberately a fact finding commitment rather than a promise about behaviour, because it can be completed inside a minute and it removes the commonest practical barrier to reporting, which is not knowing who."
     },
     "teacher_judgement": {
-      "secure": "Explains why a feed is not a verdict, separates what content does from what people fear it does, and gives the three moves in order with a reason for the order.",
-      "developing": "Has the three moves and still talks about the content as something that causes behaviour, which leaves the self blame in place underneath.",
-      "needs_support": "Believes seeing something means they did something, or cannot name anybody they would tell. Both need following up individually rather than reteaching to the class."
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Explains why a feed is not a verdict, and gives the three moves in order with a reason for the order.",
+        "developing": "Has the three moves but still talks about the content as something that causes behaviour.",
+        "revisit": "Believes seeing something means they did something, or cannot name anybody they would tell."
+      }
     }
   },
   "parent_note": {
@@ -790,7 +806,7 @@
     },
     "exit_quiz": {
       "title": "Before you go",
-      "instructions": "Four questions on today. Keep this in your book.",
+      "instructions": "Five questions on today. Keep this in your book.",
       "questions": [
         {
           "q": "Something distressing appears in your feed. What does it say about you?",
@@ -827,6 +843,15 @@
             "Only mention it if it still bothers you"
           ],
           "answer": 1
+        },
+        {
+          "q": "An offer pays far more than the task is worth. What is the money paying for?",
+          "options": [
+            "A risk that has not been named",
+            "Being quick and reliable",
+            "Nothing, you got lucky"
+          ],
+          "answer": 0
         }
       ]
     },

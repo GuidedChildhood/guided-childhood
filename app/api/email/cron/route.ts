@@ -10,6 +10,9 @@ import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7Founder
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
+import { tasterStageEmail, tasterFullPackEmail } from '@/lib/email/templates'
+import { getTaster, etsyUrl } from '@/lib/magnets/tasters'
+import { tasterEmailDue, TASTER_STAGE_KEY, TASTER_STAGE_DAY, TASTER_NURTURE_WINDOW_DAYS } from '@/lib/magnets/taster-nurture'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -183,7 +186,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -691,6 +694,81 @@ async function handler(req: NextRequest) {
           await deliver(profile.id, profile.email, key, content, counter)
         }
         break // one per run, never a catch up burst
+      }
+    }
+  }
+
+  // THE TASTER NURTURE (11 November 2026). A lead who took a free taster on
+  // /free/<slug> gets the stage check on day 1 and the rest of the pack on day
+  // 7 (lib/magnets/taster-nurture.ts), the taster itself having gone at once.
+  // It runs BEFORE the generic nurture and the teasers on purpose: on day 1 a
+  // taster lead must get the stage check, not the generic "start your trial"
+  // note as well, so this block stamps nurtured_at and the generic one passes
+  // them by. The teasers after it are held by the floor until a week later.
+  //
+  // Deduped in lead_email_log like the teasers. Anyone with an account drops
+  // out. If migration 392 is not applied yet the read errors and the block is
+  // skipped, which leaves every other lead email exactly as it was.
+  {
+    const windowStart = new Date(Date.now() - TASTER_NURTURE_WINDOW_DAYS * 86400000).toISOString()
+    const tasterQuery = () => supabase
+      .from('starter_leads')
+      .select('email, taster_slug, taster_at, nurtured_at')
+      .not('taster_at', 'is', null)
+      .gte('taster_at', windowStart)
+      .lte('taster_at', new Date(Date.now() - TASTER_STAGE_DAY * 86400000).toISOString())
+      .limit(500)
+    let { data: tasterLeads, error: tasterErr } = await tasterQuery().is('unsubscribed_at', null)
+    if (tasterErr) ({ data: tasterLeads, error: tasterErr } = await tasterQuery())
+    const rows = tasterErr ? [] : (tasterLeads ?? []).filter(l => !!l.email && !!l.taster_slug)
+    if (rows.length > 0) {
+      const originals = rows.map(l => l.email as string)
+      const [{ data: accounts }, { data: sentLog }] = await Promise.all([
+        supabase.from('profiles').select('email').in('email', originals),
+        supabase.from('lead_email_log').select('email, email_key').in('email', originals),
+      ])
+      const hasAccount = new Set((accounts ?? []).map(p => identityKey(p.email as string)).filter(Boolean))
+      const sentByEmail = new Map<string, Set<string>>()
+      for (const l of sentLog ?? []) {
+        const k = (l.email as string).toLowerCase()
+        if (!sentByEmail.has(k)) sentByEmail.set(k, new Set())
+        sentByEmail.get(k)!.add(l.email_key as string)
+      }
+
+      for (const lead of rows) {
+        const email = lead.email as string
+        if (hasAccount.has(identityKey(email))) continue
+        const taster = getTaster(lead.taster_slug as string)
+        if (!taster) continue
+        const due = tasterEmailDue(daysSince(lead.taster_at as string), sentByEmail.get(email.toLowerCase()) ?? new Set())
+        if (!due) continue
+
+        // The generic day 1 nudge says the same thing less well. Stamped
+        // whatever happens next, so it never reaches a taster lead.
+        if (!lead.nurtured_at) {
+          await supabase.from('starter_leads').update({ nurtured_at: new Date().toISOString() })
+            .eq('email', email).is('nurtured_at', null)
+        }
+
+        const unsub = leadUnsubscribeUrl(email)
+        const content = due === TASTER_STAGE_KEY
+          ? tasterStageEmail({ tasterTitle: taster.title, unsubscribe: unsub, cta: starterCtaUrl(email) })
+          : tasterFullPackEmail({
+            tasterTitle: taster.title, pageCount: taster.pageCount, tasterPages: taster.pages.length,
+            etsyUrl: etsyUrl(taster), inApp: taster.inApp, unsubscribe: unsub, joinUrl: `${APP_ORIGIN}/join`,
+          })
+
+        const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: due })
+        if (logErr) continue // another run got here first
+        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key: due })
+        if (sent.ok) {
+          if (due === TASTER_STAGE_KEY) results.tasterStage += 1
+          else results.tasterFullPack += 1
+        } else {
+          if (sent.skipped) results.throttled += 1
+          else results.errors += 1
+          await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', due)
+        }
       }
     }
   }

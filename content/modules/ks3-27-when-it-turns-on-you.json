@@ -643,9 +643,16 @@
       "note": "Collected on the learning record. Deliberately a fact finding commitment rather than a promise about behaviour, because it can be completed the same day and it removes the commonest barrier to reporting."
     },
     "teacher_judgement": {
-      "secure": "Names the three missing brakes without prompting, distinguishes a row from harassment, and gives a specific person rather than an adult when asked who to tell.",
-      "developing": "Knows the three moves and still describes online conflict as being about people being nastier, which leaves them without a plan.",
-      "needs_support": "Uses the four names loosely as insults, or reads the coercive control scenario as someone caring a lot. The second of those is worth a quiet conversation afterwards."
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Names the three missing brakes without prompting, tells a row from harassment, and gives a specific person to tell.",
+        "developing": "Knows the three moves but still says online conflict is about people being nastier, which leaves them without a plan.",
+        "revisit": "Uses the four names loosely as insults, or reads the coercive control scenario as someone caring a lot."
+      }
     }
   },
   "parent_note": {
@@ -714,7 +721,9 @@
       "That coercive control looks like anger. From the inside it often looks like being cared about very intensely, which is exactly why it needs teaching rather than discovering."
     ],
     "i_can": [
-      "I can name what is happening, and say the thing that ends it."
+      "I can name the three brakes that are missing online, and say why it is the place rather than the people.",
+      "I can tell a bad day from bullying, harassment, stalking and coercive control.",
+      "I can use the three moves in order, and name a person who can act."
     ],
     "commitment_stem": "Before the end of today I will find out the name of ______, so I already have it.",
     "teacher_tip": "Assume somebody in the room is living one of these right now, and teach accordingly: no real examples, no asking who has experienced it, no volunteering of stories. The lesson is deliberately built so that a pupil who needs it can take everything they need without saying a word. Stand by the door at the end. That is when you will be told.",

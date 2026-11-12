@@ -58,10 +58,21 @@ function sheet(rec) {
     for (const [k, why] of declined) line(`  ${k}: ${plain(why)}`)
     line()
   }
-  line('IMAGE')
+  line('VISUAL AND MOTION')
   const assets = pack.visual?.assetsUsed || []
-  line(assets.length ? `  Approved assets named: ${assets.join(', ')}` : '  Text only. No approved asset was named, so there is no card.')
+  const made = rec.assets || []
+  const vd = rec.visualDecision
+  line(vd ? `  Decision: ${vd.choice}. ${plain(vd.reason)}` : '  Decision: not recorded for this pack.')
+  line(assets.length ? `  Approved assets named in the pack: ${assets.join(', ')}` : '  The pack itself names no asset. It is cleared as text only.')
   if (pack.visual?.brief) line(`  Brief: ${plain(pack.visual.brief)}`)
+  for (const a of made) {
+    if (a.failed) { line(`  ${a.kind.toUpperCase()}, ${a.role}: PRODUCTION FAILED. ${plain(a.failure)} Nothing was put in its place.`); continue }
+    const f = a.facts || {}
+    line(`  ${a.kind.toUpperCase()}, ${a.role}: ${a.file}`)
+    if (a.kind === 'motion') line(`    ${f.seconds} seconds, ${f.width} by ${f.height}, ${f.codec}, sound: ${f.audio}. Plays from first frame to last: ${f.playsThrough ? 'yes' : 'NO'}.`)
+    line(`    Checked: ${a.verified ? 'yes' : `NO. ${(a.problems || []).join('; ')}`}. Looked at: ${a.review ? `${a.review.verdict}. ${plain(a.review.notes)}` : 'not yet'}`)
+    line(`    To watch or download: ${a.drive?.verified ? `https://drive.google.com/file/d/${a.drive.fileId}/view (${a.drive.level})` : 'NOT in Drive yet. It is in GitHub at the path above.'}`)
+  }
   line()
   line('EVIDENCE AND OVERCLAIM NOTES')
   line(`  Confidence: ${plain(review.evidenceConfidence || 'not recorded')}`)
@@ -82,7 +93,7 @@ function sheet(rec) {
   line('  1. Read it aloud once. If a line is not how you would say it, change it or send it back.')
   line('  2. Post the LinkedIn copy with no link in the body.')
   line('  3. Add the first comment straight away. It carries the source.')
-  line(`  4. ${assets.length ? 'Attach the named image.' : 'No image goes with this one.'}`)
+  line(`  4. ${made.some((a) => a.kind === 'motion' && a.verified && a.role === 'optional') ? 'The film is optional. The post is cleared without it. If you use it, upload the MP4 itself to the post, never a link to it.' : made.some((a) => a.verified) ? 'Upload the file named under VISUAL AND MOTION to the post itself.' : assets.length ? 'Attach the named image.' : 'No image goes with this one.'}`)
   line('  5. Send Claude the link to the live post. It is marked PUBLISHED only once that link answers.')
   line('  6. The row in the post register moves to POSTED on your word, not before.')
   line()
@@ -100,6 +111,8 @@ export function approvalDesk() {
   const L = []; const line = (s = '') => L.push(s)
   line('GDC APPROVAL DESK')
   line('Everything that is waiting for Justin, in one place. GitHub is the authority. This is a copy.')
+  line(`The folder this sits in never moves: https://drive.google.com/drive/folders/${DRIVE.APPROVAL_DESK_FOLDER}`)
+  line('Nothing is shown here while it is a draft. A pack appears only once every check, the review and the Drive save have passed.')
   line()
   line('THE FOUR STATUSES')
   line('  READY FOR JUSTIN    passed every check and Claude\'s review. Yours to read.')

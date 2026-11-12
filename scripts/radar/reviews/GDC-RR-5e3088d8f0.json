@@ -1,0 +1,86 @@
+{
+  "studyId": "GDC-RR-5e3088d8f0",
+  "reviewedAt": "2026-11-11T11:40:15Z",
+  "reviewedBy": "Claude Code, scheduled morning run, 11 November 2026",
+  "verdict": "REJECT",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Rejected.",
+  "reviewBasis": "The full text, read in this run from the publisher PDF at lnep.ewapub.com/article/view/38894.pdf (six pages, pages 119 to 124 of volume 161), together with the publisher landing page. Read in full: abstract, methods, results, discussion and conclusion. The page footer of the PDF identifies it as a paper in the proceedings of a conference, and the author affiliation is given as a high school in Beijing.",
+  "claims": [
+    {
+      "claim": "A better relationship between parent and child protects a teenager from the mental health effects of problematic social media use.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper does not show this and says so. Its discussion states that the findings do not show that improving communication will change either outcome, and that the design cannot establish the order of influence. This is the reading that would flatter our own position that connection is the protection, so it was checked hardest. One survey of 115 students at one point in time cannot carry it."
+    },
+    {
+      "claim": "Among the students surveyed, higher problematic use scores went with poorer reported communication with parents, and better communication went with higher self esteem.",
+      "status": "QUALIFIED",
+      "basis": "Results section: correlations and a mediation model on all 115 participants, adjusted for age, gender and socioeconomic status. Qualified because every measure is self report from the same student in the same sitting, the sample is small and its recruitment is not described, and the model is a mediation analysis on cross sectional data, which the paper itself cites as a known source of bias."
+    },
+    {
+      "claim": "The same indirect pathway was found for depressive symptoms.",
+      "status": "UNSUPPORTED",
+      "basis": "The paper reports the opposite. The indirect estimate for depressive symptoms had a confidence interval that included zero, and the association between relationship quality and depressive symptoms was not significant."
+    },
+    {
+      "claim": "The study measured problematic social media use.",
+      "status": "QUALIFIED",
+      "basis": "Methods section 2.3.1: the instrument was the Mobile Phone Addiction Index, whose items ask about time on a mobile phone in general. The title and abstract call this problematic social media use. The measure and the label do not match."
+    },
+    {
+      "claim": "This is peer reviewed journal research.",
+      "status": "QUALIFIED",
+      "basis": "Crossref lists it as a journal article and the dossier therefore marked it peer reviewed. The PDF shows it is a conference proceedings paper in a lecture notes series, by a single author whose affiliation is a high school, received on 8 October 2026 and published on 10 November 2026. What review it had is not stated."
+    }
+  ],
+  "notQuotable": [
+    "every figure in the paper, including the sample size, the correlations and the mediation estimates: the study is rejected and nothing from it is cleared",
+    "any statement that talking with your child protects their mental health, on the strength of this paper",
+    "any statement that this is a study of social media: the instrument asks about mobile phones",
+    "the standard error printed for the depressive symptom coefficient, which is negative in the paper and so is a misprint at best"
+  ],
+  "evidenceConfidence": "HIGH that the paper says what is written here: it was read in full. VERY LOW as evidence about families. One small self report survey, one time point, an instrument that does not match the title, in a proceedings series.",
+  "limitations": [
+    "115 students aged 15 to 18. How and where they were recruited is not described.",
+    "Cross sectional. The paper itself says it cannot show which came first.",
+    "Every variable is self report from the same student in one questionnaire of five to ten minutes, so shared method bias is likely.",
+    "The exposure was measured with a mobile phone addiction index, not a social media measure.",
+    "Mediation was tested on data from a single time point, a method the paper own reference list flags as biased.",
+    "A conference proceedings paper by a single author affiliated to a high school. The review process is not stated.",
+    "The methods give the survey period as between April and June of the following year without saying which year.",
+    "One reported standard error is negative, which is not possible.",
+    "China only. Nothing on the UK and nothing on children under 15."
+  ],
+  "contradictoryEvidence": [
+    "From the same paper: the indirect pathway through the relationship with parents was not supported for depressive symptoms, and relationship quality was not significantly associated with depressive symptoms once adjusted.",
+    "From the same paper: the discussion says the findings do not show that improving communication will, by itself, change either outcome.",
+    "The paper cites Maxwell and Cole, 2007, on bias in cross sectional analyses of longitudinal mediation, which is a direct methodological objection to its own main analysis. That reference was seen in the reference list and not read in this run."
+  ],
+  "whatThisDoesNotProve": [
+    "That a close relationship with a parent protects a child from harm online.",
+    "That phone or social media use damages the relationship with a parent, or the reverse.",
+    "Anything about children younger than 15, or about families in the UK.",
+    "Anything about what a parent should do."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run. None is expected for a proceedings paper of this size.",
+  "gdcBeliefs": [
+    "Evidence or silence. A finding that agrees with us is held to a higher standard, and this one does not meet it.",
+    "Connection is the protection is our position on other grounds. This paper adds nothing to it and must not be cited for it."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody. Not for use.",
+  "unresolvedQuestions": [
+    "Whether the dossier should treat a Crossref journal article in a proceedings or lecture notes series as peer reviewed. It marked this one so, and the PDF says conference proceedings."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-5e3088d8f0.json"
+}

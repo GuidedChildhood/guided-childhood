@@ -6,6 +6,8 @@ import { section, LEGAL_VERSION, LEGAL_DATED, type LegalDoc } from './types'
 // 1.1, 10 November 2026: the school's lesson record (migration 391) is named
 // in section 2, given its role in section 3, and its safeguards in the annexes.
 // Justin reads this wording before the record ships (decision E, 9 November).
+// 1.2, 11 November 2026: section 2 also names the quiz counts, which are
+// counts about a class like the level counts, and are new.
 //
 // The data protection pack promised "a short data processing agreement
 // covering that contact data, available for signature with the licence"
@@ -38,7 +40,7 @@ export const DPA: LegalDoc = {
     ]),
     section(2, 'data', 'What personal data is involved', [
       `Pupils: none. The Service holds no personal data about pupils. It has no pupil accounts, names, photographs, dates of birth, contact details, special category data, or record of which pupil saw which lesson or how any one pupil did. Where a pupil's name appears in the teaching, it is handwritten on paper that stays in the School.`,
-      `The School's lesson record: when a member of the School's staff presses "Mark lesson delivered", the Service keeps, for the School, which lesson it was, the date, and the class label that member of staff typed, such as 4B. If they choose to add it, the Service also keeps their judgement of the class as a whole, a count of how many pupils are at each level, and a note of up to 280 characters. The record is about a class, never about a pupil. Staff must not put a pupil's name, or anything else that identifies a pupil or another person, in a class label or a note, and the Service says so beside both boxes.`,
+      `The School's lesson record: when a member of the School's staff presses "Mark lesson delivered", the Service keeps, for the School, which lesson it was, the date, and the class label that member of staff typed, such as 4B. If they choose to add it, the Service also keeps their judgement of the class as a whole, a count of how many pupils are at each level, a count of how many pupils got most of the starter quiz or the exit quiz right, and a note of up to 280 characters. The record is about a class, never about a pupil. Staff must not put a pupil's name, or anything else that identifies a pupil or another person, in a class label or a note, and the Service says so beside both boxes.`,
       `Staff: the contact data a member of the School's staff gives Guided Childhood to run a pilot or a licence, set out in Annex 1.`,
       `Records held only on the School's own devices, such as the AI governance reviews the School writes, are never sent to Guided Childhood and are outside this agreement.`,
     ]),

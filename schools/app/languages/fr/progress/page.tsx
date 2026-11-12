@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import {
-  academicYear, classesIn, cleanGroup, deliveredLessons, forClass, frLessonKey, latestLevels, shareAtFourOrAbove,
+  academicYear, classesIn, cleanGroup, cleanYear, deliveredLessons, forClass, frLessonKey, latestLevels, shareAtFourOrAbove, yearLabel,
 } from '@gc/shared/lesson-records'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
 import { assessedCodes, CODE_ORDER, FRENCH_UNITS, FRENCH_YEARS, SKILL_LABEL, teachingLessons } from '@/lib/languages/french'
-import { readDeliveries } from '@/lib/records'
+import { readDeliveries, recordYears } from '@/lib/records'
 import { body, card, langEyebrow, small } from '../_ui'
 
 // /languages/fr/progress: WHERE EACH CLASS IS (10 November 2026).
@@ -34,11 +34,17 @@ export const dynamic = 'force-dynamic'
 
 const shortDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
 
-export default async function FrenchProgress({ searchParams }: { searchParams: Promise<{ class?: string }> }) {
-  const year = academicYear(new Date())
+export default async function FrenchProgress({ searchParams }: { searchParams: Promise<{ class?: string; year?: string }> }) {
+  const sp = await searchParams
+  // Last year's record is still the school's. Only years it has rows in are
+  // offered, and a year in the address that is not one of them shows this year.
+  const thisYear = academicYear(new Date())
+  const recordedYears = await recordYears('fr', thisYear)
+  const year = cleanYear(sp.year, recordedYears) ?? thisYear
+  const yearQuery = year !== thisYear ? `year=${year}` : ''
   const { school, deliveries, failed } = await readDeliveries('fr', year)
   const classes = classesIn(deliveries)
-  const asked = cleanGroup((await searchParams).class)
+  const asked = cleanGroup(sp.class)
   // One class at a time. Progress through a fixed sequence is a fact about a
   // class, and a page that merged 3A with 4B would describe no real room.
   const group = asked && classes.includes(asked) ? asked : classes[0] ?? null
@@ -59,9 +65,14 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
       <div>
         <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: 'var(--space-3)' }}>
           <Link href="/languages/fr/plan" style={{ ...eyebrow, color: 'var(--ink-muted)', textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>‹ Plan and assess</Link>
-          {deliveries.length > 0 && <PrintButton label="Print for the head" />}
+          {deliveries.length > 0 && (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+              <a href={`/languages/fr/progress/export${yearQuery ? `?${yearQuery}` : ''}`} style={{ ...small, fontWeight: 700, color: 'var(--terracotta-dark)', textUnderlineOffset: '3px', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Download as a spreadsheet</a>
+              <PrintButton label="Print this record" />
+            </span>
+          )}
         </div>
-        <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>KS2 French · {year.replace('-', ' to ')}</p>
+        <p style={{ ...langEyebrow, marginBottom: 'var(--space-2)' }}>KS2 French · {yearLabel(year)}</p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-2)' }}>
           {group ? `Progress, ${group}` : 'Progress'}
         </h1>
@@ -71,10 +82,18 @@ export default async function FrenchProgress({ searchParams }: { searchParams: P
         </p>
       </div>
 
+      {recordedYears.length > 1 && (
+        <nav aria-label="School year" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+          {recordedYears.map(y => (
+            <Link key={y} href={`/languages/fr/progress${y !== thisYear ? `?year=${y}` : ''}`} style={chip(year === y)} aria-current={year === y ? 'true' : undefined}>{yearLabel(y)}</Link>
+          ))}
+        </nav>
+      )}
+
       {classes.length > 1 && (
         <nav aria-label="Class" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
           {classes.map(c => (
-            <Link key={c} href={`/languages/fr/progress?class=${encodeURIComponent(c)}`} style={chip(group === c)} aria-current={group === c ? 'true' : undefined}>{c}</Link>
+            <Link key={c} href={`/languages/fr/progress?class=${encodeURIComponent(c)}${yearQuery ? `&${yearQuery}` : ''}`} style={chip(group === c)} aria-current={group === c ? 'true' : undefined}>{c}</Link>
           ))}
         </nav>
       )}

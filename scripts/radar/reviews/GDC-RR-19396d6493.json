@@ -1,0 +1,81 @@
+{
+  "studyId": "GDC-RR-19396d6493",
+  "reviewedAt": "2026-11-11T12:33:19Z",
+  "reviewedBy": "Claude Code, scheduled morning run, second firing, 11 November 2026",
+  "verdict": "HOLD",
+  "editorialPriority": "LOW",
+  "proposedTitle": null,
+  "proposedAngle": null,
+  "verifiedStatistics": [],
+  "recommendedPlatforms": [],
+  "urgency": "None. Held. Nothing of it has been read beyond its title.",
+  "reviewBasis": "The bibliographic records only, read in this run: the PubMed record 43008758 and the Crossref record for DOI 10.1016/S2352-4642(26)00301-9. Neither carries an abstract. The Lancet page answered 403 to the container and to the fetch tool, the ScienceDirect page answered 403, and the Elsevier text mining address refused the request. So the title, the journal, the five author surnames, three affiliations, the received and accepted dates and a reference count of 7 were read, and not one sentence of the article.",
+  "claims": [
+    {
+      "claim": "Policy on young people and social media should be built on how ready a child is, not on an age limit.",
+      "status": "REQUIRES SOURCE",
+      "basis": "This is the title, and it is the argument we sell: a pathway to readiness and not a ban by birthday. That is exactly why it gets more scrutiny and not less. The article text was not read, so what the authors mean by readiness, what they propose and what they concede are unknown."
+    },
+    {
+      "claim": "This is research evidence that readiness matters more than age.",
+      "status": "UNSUPPORTED",
+      "basis": "Nothing read supports calling it evidence. Crossref gives it 7 references and no abstract, and PubMed gives no abstract, which is the shape of a comment or viewpoint. That is an inference from the record and the article type was not seen. An opinion in a good journal is still an opinion."
+    },
+    {
+      "claim": "The Lancet backs a readiness approach over age limits.",
+      "status": "UNSUPPORTED",
+      "basis": "A piece published in a journal is the view of its authors. Nothing read says otherwise, and the journal name must not be used as an endorsement."
+    },
+    {
+      "claim": "The article was peer reviewed.",
+      "status": "REQUIRES SOURCE",
+      "basis": "PubMed lists received and accepted dates, 7 September and 29 October 2026. Whether that reflects external peer review or editorial review is not stated in anything read."
+    }
+  ],
+  "notQuotable": [
+    "anything at all from the article: no sentence of it was read",
+    "the title used as a finding, a headline claim or a proof point for the product",
+    "the journal name used to lend weight to our position",
+    "any statement that experts, researchers or the Lancet say readiness beats age"
+  ],
+  "evidenceConfidence": "NONE as evidence: the text was not read and the record points to an opinion piece. HIGH only that an article with this title exists in this journal with this DOI, which the dossier confirmed and two records repeat.",
+  "limitations": [
+    "No part of the article was read. Every route to the text was refused.",
+    "No abstract exists in PubMed or Crossref.",
+    "A reference count of 7 and no abstract point to a comment or viewpoint, which reports no data of its own. That is inferred, not seen.",
+    "It agrees with our commercial position, so it carries the highest risk of being overread by us.",
+    "What the authors mean by digital readiness may not be what we mean by it.",
+    "Declarations of interest were not seen.",
+    "The dossier and the register describe it as a journal article, which is how PubMed labels it. That label says nothing about whether it holds data."
+  ],
+  "contradictoryEvidence": [
+    "The case for age based limits, which this title argues against, is held by governments that have legislated on it. Our own position is ban neutral, and a piece that argues against age limits is not neutral.",
+    "Our own register holds a cleared story on age assurance (GDC-057, research commissioned by the ICO and Ofcom) which treats age checks as something families already live with, and a cleared story (GDC-055) in which a government feasibility study says the decisive experiment on harm has not been run. Neither supports a confident claim for or against age limits.",
+    "No outside source was read against it in this run, and the article own counter arguments, if it gives any, are unread."
+  ],
+  "whatThisDoesNotProve": [
+    "That readiness predicts how a child fares online better than age does.",
+    "That age limits do not work.",
+    "That any programme which builds readiness works, ours included.",
+    "Anything about any child."
+  ],
+  "mediaMisrepresentation": "Coverage was not searched in this run.",
+  "gdcBeliefs": [
+    "Evidence or silence, and hardest of all when the title says what we would like to hear.",
+    "We are ban neutral. A deadline is not a plan, and an opinion piece is not a proof of that."
+  ],
+  "productImplications": {
+    "digitalPathwayOS": "No change.",
+    "schoolLesson": "No change.",
+    "parentTool": "No change.",
+    "digi": "No change.",
+    "historyChecker": "No change."
+  },
+  "recommendedAudience": "Nobody yet.",
+  "unresolvedQuestions": [
+    "The text. If Justin wants this considered, the PDF needs to be left in Drive, and the review is then redone from the article.",
+    "Whether it is a Comment, a Viewpoint or Correspondence.",
+    "What the 7 references are, and whether any of them is evidence we should be reading directly."
+  ],
+  "storedAt": "scripts/radar/reviews/GDC-RR-19396d6493.json"
+}

@@ -1456,6 +1456,7 @@ export default function LessonPlayer({
   schoolLead = null,
   scriptFolded = false,
   onFinish,
+  recordHref,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -1533,6 +1534,11 @@ export default function LessonPlayer({
   // passes its curriculum page, and once the products live on separate
   // domains it becomes an absolute URL. No href, no CTA.
   classCtaHref?: string
+  // Where a school records that this lesson was taught, when it has a record
+  // to save to (the schools teach route, with a school code). The finish then
+  // leads with that one button, so the hour ends in the record instead of in
+  // a link back to a list. Omit and the finish is exactly as it was.
+  recordHref?: string
   // Open at a given slide (dev fixtures and deep links).
   initialIndex?: number
   // Size everything for a room rather than a hand, WITHOUT the showcase
@@ -2371,6 +2377,11 @@ export default function LessonPlayer({
             : 'Counted towards your stage progress. The best next step is trying it at home tonight, and you can run it again any time.'}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
+          {isSchool && recordHref && (
+            <Link href={recordHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
+              Record this lesson
+            </Link>
+          )}
           {digiPrompt && (
             <Link href={digiHeldHref()} onClick={() => holdDigiPrompt(digiPrompt)} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
               Talk it through with DiGi

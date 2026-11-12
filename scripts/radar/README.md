@@ -290,3 +290,31 @@ Investigated on 10 November 2026 against the published documentation.
 - A LinkedIn link that answers proves the URL exists. It does not prove the
   post is ours or says what was approved.
 - There is no Story Bible in Drive. Nothing should be told to read one.
+
+## Visuals, motion and the numbers that come back
+
+Added 11 November 2026, on Justin's brief of that day.
+
+- **The visual decision is recorded, with its reason** (`assets.mjs`,
+  `decideVisual`): text only, still image, carousel or motion. Text only is a
+  real answer and the default while the numbers are silent.
+- **A film is checked before it is called ready** (`recordAsset`): the file
+  exists, is H.264 a phone can play, decodes from first frame to last, and has
+  a written review of the frames somebody looked at. Anything less holds the
+  pack. A failed render is recorded as a failure and nothing is put in its
+  place. `npm run radar-assets-test`, 41 checks.
+- **The Founder Approval Desk is one Drive folder** (`DRIVE.APPROVAL_DESK_FOLDER`)
+  whose link never changes. The sheet inside is replaced by a new file each
+  time, because a Doc cannot be rewritten through the connector. Nothing is in
+  it while it is a draft.
+- **LinkedIn numbers come in by a checked import, not a feed**
+  (`scripts/analytics/linkedin.mjs`). No connector reaches LinkedIn's post
+  analytics, so Justin pastes the Top performing posts screen into the
+  analytics inbox folder and the morning run reads it. One reading per post per
+  paste, aimed at 24 hours, 72 hours and 7 days. Publication times are read
+  from the post's own id. The report refuses to compare a partial count, to
+  rank a group under five posts, or to say why anything happened.
+- **What the numbers say reaches ChatGPT** through
+  `content/analytics/what-is-working.json`, printed in the start here document.
+- **The post number register is never changed from the numbers.** A post that
+  is live while its row says retired is listed for Justin and left alone.
