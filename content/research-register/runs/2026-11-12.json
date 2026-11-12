@@ -4,68 +4,6 @@
  "startedAt": "2026-11-12T09:21:08.023Z",
  "stages": [
   {
-   "stage": "PREFLIGHT",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": null,
-   "at": "2026-11-12T09:21:08.023Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
-   "stage": "INBOX",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "documents": 0,
-    "note": "the inbox held no new document"
-   },
-   "at": "2026-11-12T09:21:08.054Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
-   "stage": "DISCOVER",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "newRecords": 21,
-    "total": 52
-   },
-   "at": "2026-11-12T09:21:43.349Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
-   "stage": "DOSSIER",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "built": 9,
-    "confirmed": 9,
-    "unconfirmed": []
-   },
-   "at": "2026-11-12T09:21:45.445Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
-   "stage": "REVIEW",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "3 reviewed from full text: GDC-RR-34b3878324 HOLD (EU Eurobarometer preprint, approximated, no uncertainty), GDC-RR-b3cbb73e58 REJECT (28 person qualitative preprint, abstract claims cause), GDC-RR-cc7b7da589 HOLD (F1000 review, one reviewer Not Approved, dossier wrongly marked it peer reviewed). 4 wait: bf6c483886, 7e9b72deec, 925d3c951a, ba1fec0984. Nothing came through the inbox."
-   ],
-   "detail": null,
-   "at": "2026-11-12T09:24:26.393Z",
-   "commit": "4dfeaf0d",
-   "attempts": 2
-  },
-  {
    "stage": "LINKEDIN NUMBERS",
    "verdict": "SKIPPED",
    "by": "claude",
@@ -74,28 +12,6 @@
    ],
    "detail": null,
    "at": "2026-11-12T09:24:26.505Z",
-   "commit": "4dfeaf0d",
-   "attempts": 1
-  },
-  {
-   "stage": "HANDOFFS",
-   "verdict": "PASS",
-   "by": "script",
-   "reasons": [],
-   "detail": {
-    "built": [],
-    "alreadyCurrent": [
-     "GDC-RR-e923851b08",
-     "GDC-RR-e22bd17322",
-     "GDC-RR-86c1075a30"
-    ],
-    "queue": [
-     "GDC-RR-e923851b08",
-     "GDC-RR-e22bd17322",
-     "GDC-RR-86c1075a30"
-    ]
-   },
-   "at": "2026-11-12T09:24:26.642Z",
    "commit": "4dfeaf0d",
    "attempts": 1
   },
@@ -203,7 +119,113 @@
    "at": "2026-11-12T12:46:38.085Z",
    "commit": "df950292",
    "attempts": 2
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.585Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 1,
+    "batches": [
+     {
+      "file": "1skj6zOxucXsdWdlyaDHa5O1UvUOiwBwH__candidates",
+      "verdict": "PASS",
+      "batchId": "2026-11-12-chatgpt-manual-1433",
+      "alreadyIngested": false,
+      "results": [
+       {
+        "candidateId": "C-2026-11-12-01",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-1cc16e84d3",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-12-02",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-f0fb8386cd",
+        "reasons": []
+       }
+      ]
+     }
+    ],
+    "postingPackRead": false
+   },
+   "at": "2026-11-12T14:45:32.754Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "SKIPPED",
+   "by": "script",
+   "reasons": [
+    "run with the network switched off"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.782Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "SKIPPED",
+   "by": "script",
+   "reasons": [
+    "run with the network switched off"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.807Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "2 reviewed from the inbox: GDC-RR-f0fb8386cd EDIT from the full text, GDC-RR-1cc16e84d3 HOLD because only the abstract could be read; 4 older records still wait"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:46:59.403Z",
+   "commit": "217ae67b",
+   "attempts": 4
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-f0fb8386cd",
+      "gdcPostNumber": "059",
+      "handoffVersion": 1
+     }
+    ],
+    "alreadyCurrent": [],
+    "duplicateCheck": {
+     "GDC-RR-f0fb8386cd": "NEW"
+    },
+    "queue": [
+     "GDC-RR-f0fb8386cd"
+    ]
+   },
+   "at": "2026-11-12T14:46:59.660Z",
+   "commit": "217ae67b",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-12T12:46:38.116Z"
+ "updatedAt": "2026-11-12T14:46:59.691Z"
 }
