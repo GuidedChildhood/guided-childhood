@@ -85,11 +85,12 @@ This is a read only check. Report facts and nothing else.
 
 3. If any GDC number has more than one draft, list all of them. Do not delete any.
 
-4. From now on, before you create any Metricool draft, open the file
-   content/publication/metricool-handoff-GDC-NNN.json for that post in the
-   GuidedChildhood/guided-childhood repository, or ask Justin for it. Create a draft only if
-   draftCreationPermitted is true. Add a date only if schedulingPermitted is true AND Justin has
-   given you the time in his own words. Use finalText and firstComment exactly as written.
+4. From now on, before you create any Metricool draft, open this Google Drive folder:
+   https://drive.google.com/drive/folders/1VAk2598afXaJWz2OvCVgd7mAHSaNfmPU
+   and read the file titled METRICOOL HANDOFF GDC-NNN for that post. If there is no such file,
+   do not create a draft. Create a draft only if draftCreationPermitted is true. Add a date only
+   if schedulingPermitted is true AND Justin has given you the time in his own words. Use
+   finalText and firstComment exactly as written, and attach only the assets it lists.
 
 5. A Metricool draft is not approval. Only Justin approves. Never mark anything approved,
    scheduled or published on his behalf.

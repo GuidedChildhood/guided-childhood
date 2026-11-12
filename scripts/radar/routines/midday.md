@@ -111,6 +111,21 @@ he has given you.**
 3. Rebuild and publish the Radar Desk.
 4. `node scripts/radar/daily.mjs log "APPROVAL DESK" PASS "<what is on it>"`.
 
+## 5a. The Metricool handoff, in Drive where ChatGPT can read it
+
+ChatGPT cannot read this repository. For every pack that reached READY FOR
+JUSTIN or APPROVED in this run, and for any whose status changed:
+
+    node scripts/radar/metricool.mjs handoff <researchId>
+    npm run radar-reconcile
+
+Copy content/publication/metricool-handoff-GDC-NNN.json into the Founder
+Approval Desk folder as a document titled `METRICOOL HANDOFF GDC-NNN`, replacing
+the earlier one (retitle the old one with ZZ in front, never leave two). Read
+it back. The file says whether a draft may be made and whether it may be
+scheduled, and both are no until Justin has approved. Never change those two
+lines by hand.
+
 ## 6. Finish
 
 ```
