@@ -1,7 +1,7 @@
 {
   "schema": "gdc.publication-register/1.0",
-  "generatedAt": "2026-11-12T12:22:44.953Z",
-  "sourceCommit": "325bbf6711190570638b6cfe18f6e455fc72c5c1",
+  "generatedAt": "2026-11-12T12:24:33.602Z",
+  "sourceCommit": "ce529df1be19872b5fcd37f9a7d739298922fc52",
   "scheduleObservedAt": "2026-11-12",
   "scheduleStanding": "Reported by Justin. Claude cannot read LinkedIn or Metricool.",
   "rows": [
@@ -22,9 +22,10 @@
       "postRegisterState": "NO ROW",
       "registerMatchNote": "Probably GDC-048, The chatbot confidant, which the register holds as RETIRED 9 Nov. Not confirmed.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
         }
       ]
@@ -46,9 +47,10 @@
       "postRegisterState": "NO ROW",
       "registerMatchNote": "Probably GDC-047, Half of UK children have an AI toy, which the register holds as RETIRED 9 Nov. Not confirmed.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
         }
       ]
@@ -70,9 +72,10 @@
       "postRegisterState": "NO ROW",
       "registerMatchNote": "No row found in the post register.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
         }
       ]
@@ -97,13 +100,14 @@
       "postRegisterState": "CLAIMED",
       "registerMatchNote": "GDC-054, research GDC-RR-0754a1641c, READY FOR JUSTIN.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
           "blocking": true,
           "what": "scheduled in LinkedIn for 2026-11-16T08:00 and also held as a Metricool draft. One of the two has to go, and that is Justin's choice."
         },
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with an image that was never checked. Our record for this post has no image."
         },
         {
@@ -136,6 +140,7 @@
       "postRegisterState": "CLAIMED",
       "registerMatchNote": "GDC-058, research GDC-RR-3d31eb1683, READY FOR JUSTIN.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
           "blocking": true,
@@ -172,9 +177,10 @@
       "postRegisterState": "NO ROW",
       "registerMatchNote": "Not identified.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
         }
       ]
@@ -196,9 +202,10 @@
       "postRegisterState": "NO ROW",
       "registerMatchNote": "Not identified.",
       "scheduleObservedAt": "2026-11-12",
+      "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\"",
       "issues": [
         {
-          "blocking": true,
+          "blocking": false,
           "what": "scheduled with no reviewed record. Nobody has checked this copy against a source."
         }
       ]
@@ -220,6 +227,7 @@
       "postRegisterState": "CLAIMED",
       "registerMatchNote": null,
       "scheduleObservedAt": null,
+      "acceptedByJustin": null,
       "issues": []
     },
     {
@@ -239,6 +247,7 @@
       "postRegisterState": "CLAIMED",
       "registerMatchNote": null,
       "scheduleObservedAt": null,
+      "acceptedByJustin": null,
       "issues": []
     },
     {
@@ -258,6 +267,7 @@
       "postRegisterState": "CLAIMED",
       "registerMatchNote": null,
       "scheduleObservedAt": null,
+      "acceptedByJustin": null,
       "issues": []
     }
   ]

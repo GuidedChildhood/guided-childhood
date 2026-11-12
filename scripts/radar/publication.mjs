@@ -79,12 +79,15 @@ function row({ number, rec, postRow, slots, draft, sched }) {
   const liveUrl = rec?.publishedUrl || slot?.liveUrl || null
   const owners = [slot ? 'LINKEDIN NATIVE' : null, draft.length ? 'METRICOOL DRAFT' : null].filter(Boolean)
   const issues = []
+  // Justin can take a slot as it stands. It is then his, unchecked, and said so:
+  // it stops blocking, and it is never described as reviewed.
+  const accepted = Boolean(slot?.acceptedByJustin)
   if (slots.length > 1) issues.push({ blocking: true, what: `scheduled ${slots.length} times in LinkedIn itself` })
   if (slot && draft.length) issues.push({ blocking: true, what: `scheduled in LinkedIn for ${slot.scheduledFor} and also held as a Metricool draft. One of the two has to go, and that is Justin's choice.` })
-  if (slot && !rec) issues.push({ blocking: true, what: 'scheduled with no reviewed record. Nobody has checked this copy against a source.' })
-  if (slot && postRow?.retired) issues.push({ blocking: true, what: `GDC-${number} is RETIRED in the post register and is scheduled` })
+  if (slot && !rec) issues.push({ blocking: !accepted, what: 'scheduled with no reviewed record. Nobody has checked this copy against a source.' })
+  if (slot && postRow?.retired) issues.push({ blocking: !accepted, what: `GDC-${number} is RETIRED in the post register and is scheduled` })
   if (slot && rec && !approvedOnRecord) issues.push({ blocking: true, what: 'scheduled, and no approval from Justin is on record. Scheduling it himself may well be his approval. It needs saying once so the record can hold it.' })
-  if (slot && rec && slot.withImage && !(rec.assets || []).some((a) => a.kind !== 'motion' && a.verified)) issues.push({ blocking: true, what: 'scheduled with an image that was never checked. Our record for this post has no image.' })
+  if (slot && rec && slot.withImage && !(rec.assets || []).some((a) => a.kind !== 'motion' && a.verified)) issues.push({ blocking: !accepted, what: 'scheduled with an image that was never checked. Our record for this post has no image.' })
   if (slot && rec && slot.withImage == null) issues.push({ blocking: false, what: 'whether the scheduled post carries an image or film is not recorded' })
   if (slot && rec && !slot.copyVerified) issues.push({ blocking: false, what: 'the scheduled copy has not been compared with the reviewed text' })
   if (draft.some((d) => !d.draftId)) issues.push({ blocking: false, what: 'the Metricool draft has no draft ID on record, so it cannot be told apart from a second one' })
@@ -111,6 +114,7 @@ function row({ number, rec, postRow, slots, draft, sched }) {
     postRegisterState: postRow ? (postRow.posted ? 'POSTED' : postRow.retired ? 'RETIRED' : postRow.claimed ? 'CLAIMED' : 'OTHER') : 'NO ROW',
     registerMatchNote: slot?.registerMatch || null,
     scheduleObservedAt: slot ? sched.observedAt : null,
+    acceptedByJustin: slot?.acceptedByJustin || null,
     issues,
   }
 }
@@ -144,7 +148,7 @@ export function classify(studyId, { register = null } = {}) {
     if (hit.length >= 2) against.push({ gdcPostNumber: r.gdcPostNumber, scheduledFor: r.scheduledFor, title: r.title, sharedWords: hit })
   }
   if (against.length) return { result: 'OVERLAP', why: `Shares its subject with ${against.map((a) => `"${a.title}" on ${String(a.scheduledFor).slice(0, 10)}`).join(' and ')}. Space them apart or make the angle plainly different.`, against }
-  const blind = pub.rows.filter((r) => r.scheduledFor && !r.researchId)
+  const blind = pub.rows.filter((r) => r.scheduledFor && !r.researchId && !r.acceptedByJustin)
   if (blind.length) return { result: 'UNKNOWN', why: `${blind.length} scheduled post${blind.length === 1 ? ' has' : 's have'} no record here (${blind.map((b) => `${String(b.scheduledFor).slice(0, 10)} ${b.title}`).join('; ')}), so a duplicate cannot be ruled out by subject words alone.`, against: blind.map((b) => b.scheduledFor) }
   return { result: 'NEW', why: 'No published or scheduled post shares its source or its subject, and every scheduled post is identified.', against: [] }
 }

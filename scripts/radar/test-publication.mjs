@@ -49,6 +49,10 @@ rc = reconcile(o)
 ok('a slot with no record blocks', rc.blocking >= 1 && rc.register.rows.some((r) => r.status === 'NO RECORD, SLOT REPORTED'))
 ok('with an unidentified slot nothing is called NEW', classify(B, { register: rc.register }).result === 'UNKNOWN')
 
+write([{ scheduledFor: '2026-11-15T08:45', subject: 'Bradford trial', gdcNumber: null, acceptedByJustin: 'his words' }])
+rc = reconcile(o)
+ok('a slot Justin accepted stops blocking and is still listed as unchecked', rc.verdict === 'PASS' && rc.issues.some((i) => /no reviewed record/.test(i.what)))
+
 write([])
 rc = reconcile(o)
 ok('an empty schedule passes', rc.verdict === 'PASS')
