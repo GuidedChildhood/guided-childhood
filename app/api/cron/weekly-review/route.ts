@@ -102,6 +102,7 @@ async function handler(request: Request) {
           body: review.summary.slice(0, 120),
           // The week page is where the whole week is read back.
           url: '/dashboard/week',
+          nudge: true,
         }).catch(() => {})
 
       // The same review as an email, so the clever weekly read also reaches a

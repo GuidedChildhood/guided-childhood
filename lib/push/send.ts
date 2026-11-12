@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { oneRowPerDevice, DEVICE_COLUMNS, LEGACY_COLUMNS, isMissingColumn, type PushRow } from '@/lib/push/devices'
 import { inChildQuietHours } from '@/lib/push/quiet-hours'
+import { DAILY_NUDGE_CAP, londonDay } from '@/lib/push/nudge-cap'
 
 // Sending a push, in process.
 //
@@ -46,6 +47,12 @@ export type SendPushInput = {
   slot?: string | null
   /** The handful of alerts a parent has to ACT on rather than read later. */
   urgent?: boolean
+  /**
+   * A scheduled nudge that invites the parent back. Counts toward the two a
+   * day ceiling in lib/push/nudge-cap.ts and is held once the parent has had
+   * theirs. Needs userId; never for kids, never for an event or an ask.
+   */
+  nudge?: boolean
 }
 
 export type SendPushResult = {
@@ -63,6 +70,8 @@ export type SendPushResult = {
    * quiet night from an empty subscription table.
    */
   quietHours?: boolean
+  /** Held because this parent has had today's nudges. Not an error either. */
+  capped?: boolean
 }
 
 /**
@@ -88,7 +97,7 @@ const PERMANENT = new Set([404, 410])
  * returning three numbers rather than one.
  */
 export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
-  const { title, body, url = '/dashboard', userId, audience, slot, urgent, childId } = input
+  const { title, body, url = '/dashboard', userId, audience, slot, urgent, childId, nudge } = input
 
   // Night time, for children only. Checked before anything else is read or
   // configured, so a held push costs one clock lookup rather than a round trip
@@ -170,6 +179,18 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   // Asserted, because the column list is a variable and supabase-js can only
   // infer a row type from a literal. Safe while both lists name these fields.
   const devices = oneRowPerDevice(subs as unknown as PushRow[])
+
+  // The daily ceiling, claimed only once there is a device to reach, so a
+  // parent with no phone subscribed never uses up a slot. A failed claim (the
+  // migration not applied yet) lets the nudge through: see nudge-cap.ts.
+  if (nudge === true && userId && audience !== 'kids') {
+    const { data: allowed, error: capError } = await supabase.rpc('claim_parent_nudge', {
+      p_user: userId,
+      p_day: londonDay(),
+      p_cap: DAILY_NUDGE_CAP,
+    })
+    if (!capError && allowed === false) return { sent: 0, failed: 0, pruned: 0, capped: true }
+  }
 
   const payload = JSON.stringify({ title, body, url, urgent: urgent === true })
 
