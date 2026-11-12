@@ -71,7 +71,7 @@ async function handler(req: NextRequest) {
     if (!reengageDue(quietDays, profile.last_reengage_push_at ? daysSince(profile.last_reengage_push_at) : null)) continue
 
     try {
-      const res = await sendPush({ userId: profile.id, title: message.title, body: message.body, url: '/dashboard' })
+      const res = await sendPush({ userId: profile.id, title: message.title, body: message.body, url: '/dashboard', nudge: true })
       const result = res
       if (result.sent > 0) {
         sent++

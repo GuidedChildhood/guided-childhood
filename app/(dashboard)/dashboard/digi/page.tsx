@@ -61,7 +61,7 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [profileResult, childResult, convResult, feedbackResult] = await Promise.all([
+  const [profileResult, childResult, convResult, feedbackResult, memoryResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
     // In the same wave as before: getChildren returns a promise like any
     // other read, so honouring ?child= costs no extra round trip.
@@ -78,6 +78,15 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
       .eq('user_id', user.id)
       .eq('feedback_date', today)
       .maybeSingle(),
+    // What DiGi kept from this family, newest first, for the "What I remember"
+    // line. A handful so the selected child's own can be picked below.
+    supabase.from('digi_memory')
+      .select('content, child_id, kind')
+      .eq('user_id', user.id)
+      .eq('active', true)
+      .in('kind', ['concern', 'context', 'preference', 'observation', 'win'])
+      .order('created_at', { ascending: false })
+      .limit(8),
   ])
 
   // The same question the route asks, asked the same way, so the badge in the
@@ -135,6 +144,14 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
       content: m.role === 'assistant' ? (m.content.split(/\n\s*---\s*\n/)[0]?.trim() || m.content) : m.content,
     }))
 
+  // The selected child's newest memory, else a family wide one. Never another
+  // child's: a note about the teenager does not belong on the seven year old's
+  // page.
+  type MemRow = { content: string | null; child_id: string | null }
+  const mems = (memoryResult.data ?? []) as MemRow[]
+  const selectedId = childResult.child?.id ?? null
+  const remembered = (mems.find(m => m.child_id && m.child_id === selectedId) ?? mems.find(m => !m.child_id))?.content?.trim() || null
+
   const todayFeedback = feedbackResult.data
   const pendingReflection = todayFeedback
     ? { question: todayFeedback.question, answered: !!todayFeedback.parent_response }
@@ -159,6 +176,7 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
       // Every child we have, so a name in the conversation that is not one of
       // them can be offered as a new one (lib/digi/new-name.ts).
       knownNames={(childResult.kids ?? []).map(k => k.name).filter((n): n is string => Boolean(n))}
+      remembered={remembered}
     />
   )
 }

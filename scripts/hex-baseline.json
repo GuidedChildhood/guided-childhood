@@ -23,9 +23,6 @@
  "app/(dashboard)/dashboard/admin/schools/SchoolLinks.tsx": {
   "#fff": 2
  },
- "app/(dashboard)/dashboard/admin/videos/VideoLinks.tsx": {
-  "#fff": 2
- },
  "app/(dashboard)/dashboard/admin/wisdom/page.tsx": {
   "#fff": 1
  },
@@ -93,9 +90,6 @@
  "app/(dashboard)/dashboard/layout.tsx": {
   "#fff": 1
  },
- "app/(dashboard)/dashboard/learning/LearningYear.tsx": {
-  "#fff": 5
- },
  "app/(dashboard)/dashboard/lessons/LessonsBrowser.tsx": {
   "#1f7a54": 1,
   "#2f8f6b": 1,
@@ -126,10 +120,6 @@
   "#fceac0": 1,
   "#fff": 5,
   "#fff7ea": 1
- },
- "app/(dashboard)/dashboard/pathway/page.tsx": {
-  "#c9ddd5": 1,
-  "#fff": 1
  },
  "app/(dashboard)/dashboard/phone-setup/page.tsx": {
   "#fff": 3
@@ -255,9 +245,6 @@
  },
  "app/(marketing)/digitalwellbeing/page.tsx": {
   "#fdfbf8": 2,
-  "#fff": 1
- },
- "app/(marketing)/free/page.tsx": {
   "#fff": 1
  },
  "app/(marketing)/free/planet-post/page.tsx": {
@@ -728,9 +715,6 @@
   "#fef7e0": 1,
   "#fff": 5
  },
- "components/daily/DayCompleteFlow.tsx": {
-  "#fff": 2
- },
  "components/daily/DayTickFlow.tsx": {
   "#fff": 6
  },
@@ -740,7 +724,7 @@
  "components/daily/TodayPathBig.tsx": {
   "#236f52": 1,
   "#2f8f6b": 1,
-  "#fff": 10
+  "#fff": 2
  },
  "components/daily/TodayPathStrip.tsx": {
   "#fff": 3
@@ -1679,7 +1663,7 @@
   "#6b6b80": 1,
   "#9a9ab0": 2,
   "#c9c9d6": 1,
-  "#fff": 14
+  "#fff": 3
  },
  "components/printables/news/PlanetPostSheets.tsx": {
   "#fff": 3
@@ -2096,9 +2080,6 @@
  "schools/app/hub/year-plan/page.tsx": {
   "#fff": 1
  },
- "schools/app/languages/page.tsx": {
-  "#fff": 1
- },
  "schools/app/languages/unlock/LanguagesUnlockForm.tsx": {
   "#fff": 1
  },
@@ -2144,9 +2125,6 @@
  },
  "schools/app/print/[module]/record/page.tsx": {
   "#fff": 1
- },
- "schools/app/print/page.tsx": {
-  "#fff": 3
  },
  "schools/app/print/passport/[stage]/page.tsx": {
   "#fff": 6

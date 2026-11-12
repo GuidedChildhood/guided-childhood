@@ -10,7 +10,8 @@ import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7Founder
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
-import { tasterStageEmail, tasterFullPackEmail } from '@/lib/email/templates'
+import { tasterStageEmail, tasterFullPackEmail, turnsFourEmail } from '@/lib/email/templates'
+import { TURNS_FOUR_KEY, londonMonth } from '@/lib/starter/turns-four'
 import { getTaster, etsyUrl } from '@/lib/magnets/tasters'
 import { tasterEmailDue, TASTER_STAGE_KEY, TASTER_STAGE_DAY, TASTER_NURTURE_WINDOW_DAYS } from '@/lib/magnets/taster-nurture'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -186,7 +187,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, tasterStage: 0, tasterFullPack: 0, turnsFour: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -768,6 +769,45 @@ async function handler(req: NextRequest) {
           if (sent.skipped) results.throttled += 1
           else results.errors += 1
           await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', due)
+        }
+      }
+    }
+  }
+
+  // The under 4 list (lib/starter/turns-four.ts): one email, the month the
+  // child turns 4. Leads saved from the "We start at 4" card carry the month in
+  // answers.turnsFour; an existing lead who added a month is read the same way.
+  // Logged under TURNS_FOUR_KEY first, so a second run that month sends nothing.
+  {
+    const month = londonMonth()
+    const fourQuery = () => supabase
+      .from('starter_leads')
+      .select('email, answers')
+      .eq('answers->>turnsFour', month)
+      .limit(500)
+    let { data: fourLeads, error: fourErr } = await fourQuery().is('unsubscribed_at', null)
+    if (fourErr) ({ data: fourLeads, error: fourErr } = await fourQuery())
+    const rows = fourErr ? [] : (fourLeads ?? []).filter(l => !!l.email)
+    if (rows.length > 0) {
+      const emails = rows.map(l => l.email as string)
+      const [{ data: accounts }, { data: sentLog }] = await Promise.all([
+        supabase.from('profiles').select('email').in('email', emails),
+        supabase.from('lead_email_log').select('email').in('email', emails).eq('email_key', TURNS_FOUR_KEY),
+      ])
+      const hasAccount = new Set((accounts ?? []).map(p => identityKey(p.email as string)).filter(Boolean))
+      const sent = new Set((sentLog ?? []).map(l => (l.email as string).toLowerCase()))
+      for (const lead of rows) {
+        const email = lead.email as string
+        if (hasAccount.has(identityKey(email)) || sent.has(email.toLowerCase())) continue
+        const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: TURNS_FOUR_KEY })
+        if (logErr) continue
+        const content = turnsFourEmail({ unsubscribe: leadUnsubscribeUrl(email), cta: starterCtaUrl(email) })
+        const r = await sendEmail({ to: email, subject: content.subject, html: content.html, key: TURNS_FOUR_KEY })
+        if (r.ok) results.turnsFour += 1
+        else {
+          if (r.skipped) results.throttled += 1
+          else results.errors += 1
+          await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', TURNS_FOUR_KEY)
         }
       }
     }

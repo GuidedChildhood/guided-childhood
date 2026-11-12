@@ -23,7 +23,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
   }, [])
 
   return (
-    <div className="placard-grid">
+    <div className={`placard-grid${cards.length === 4 ? ' placard-grid-4' : ''}`}>
       {cards.map((card, i) => {
         const isFlipped = flipped.has(i)
         return (
