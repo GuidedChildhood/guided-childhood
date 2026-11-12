@@ -46,6 +46,52 @@
         "business-running": "Get main green again: add a migration granting the seven Guided Planet tables to the right roles, apply it before Supabase's 30 October change, and fix the failing Vercel builds on main's head."
       },
       "skeptic": {}
+    },
+    {
+      "date": "2026-11-12",
+      "report": "plans/review-board/runs/2026-11-12.md",
+      "one_thing": "Send the 30 warm ring messages and get five real families signed up and running one week, because nothing else we built this month is proven until someone uses it.",
+      "roundup": "A huge week for building and a quiet one for families. 142 pull requests merged, only one is open and it is a day old, and main is green again after a red patch on 9 November. Almost every task the board set on 13 October was built within three days, but the board never ran again to tick them off, so for a month the list said 23 things were late when 21 were done. The Friday board routine fired every week and wrote nothing, and the Wednesday walkthrough has never saved a report. Fixing that comes first.\n\nWhat is stuck is the bit that matters. Most of the week went into schools, French, Etsy and ads. We had 4 stage checks in 30 days, nobody has signed up since 28 September, no family has finished a day since then, and revenue is £0. The 30 warm messages from the first 20 sign ups plan were drafted in Gmail on 6 November and, as far as the repo knows, never sent.\n\nThe one thing: five real families signed up and running one week.\n\nWhat I need from you. Send the 30 warm ring messages this week. Tell me whether the founder checkout went through with a real card. Pay the ICO fee or tell me it is paid, it has been snoozed for four weeks. Pick the real Vercel project. And say whether new school and Etsy builds can pause until those five families are in.",
+      "scores": {
+        "value-above-ai": 9,
+        "solves-problem": 8,
+        "right-audience": 7,
+        "will-pay": 7,
+        "simplicity-flow": 6,
+        "keeps-coming-back": 8,
+        "marketing": 7,
+        "ux-expert": 7,
+        "competitor-watch": 8,
+        "ai-tools-watch": 7,
+        "business-running": 5
+      },
+      "headlines": {
+        "value-above-ai": "The four things a chatbot cannot do are now named in a parent's words on the home page, the choose screen and the upgrade page, and each one has a proof path in code. What is still missing is proof that a real family feels three of them in week one.",
+        "solves-problem": "The gap from last time is closed: phones, seen something and controller fights now all hand the parent the right words tonight, but there is no proof yet that any real family has seen a worry get smaller.",
+        "right-audience": "The customer is right, named and now holds at the young edge with an honest 'come back at 4', but the home page still describes itself in our words and nothing yet proves this parent can be reached.",
+        "will-pay": "The ask is now honest, safe and says what a free chatbot cannot do, but nobody real has paid and checkout is not proven end to end by a real family.",
+        "simplicity-flow": "The journey page now has one name in the menu and its heading, but the home screen keeps stacking cards beside the lead and the route still carries the old word.",
+        "keeps-coming-back": "The pull is now well built for parent and child, and the evening nudge stops when a parent goes quiet, but no family has finished a day since 28 September, so none of it is proven to hold anyone.",
+        "marketing": "The funnel, the guard and the per channel number are all built, but nothing shows the number is being read, and many pieces in the walkthrough campaign and the 9 November week do not end at the stage check.",
+        "ux-expert": "The tap target and focus ring gap from October is closed and guarded, so the system now meets the 7 row, but about 1,400 raw hex colours remain and I could not walk the screens in a browser to judge empty, loading and error states.",
+        "competitor-watch": "A quiet fortnight: nobody has shipped our core loop, Kairoo is still only a waitlist, and last time's wrong Jigsaw price is now fixed.",
+        "ai-tools-watch": "The model ladder is now current and caching and batching are in use, but a new Fable is reported out and DiGi still defaults to 5.1, and the weekly board routine does nothing.",
+        "business-running": "Claude's work moves fast and clean, but the board went silent for a month, the walkthrough never saves, two of Justin's tasks have been snoozed for four weeks, and almost none of the week pointed at getting a real family to the stage check."
+      },
+      "top_gap": {
+        "value-above-ai": "Make three of the four things visible in the first 48 hours without the parent hunting for them. After the first worry check in, show 'Day 1 is your starting point, we will show you where it moves' on Home. After the first DiGi answer, show 'last time you told me X' as a quoted line. Send a child app first-open nudge that names the child. Then count 'first week, three felt' in the product pulse.",
+        "solves-problem": "Make the first week payoff real. When a worry has only one or two ratings, What is working and the weekly review email should say plainly 'here is where you started, here is the next look', and show the start point against the first words you tried. Then check it with one seeded family on a fortnight of check ins, so that a parent sees the line move.",
+        "right-audience": "Rewrite the home page title, description and Open Graph text, and the FaqAccordion 'what do I get' answer, in the parent's words (the nightly fight, the phone coming, what to say tonight) instead of 'evidence informed', 'Digital Passport', 'wellbeing tracker' and a 15 item feature list. Also add the plain child age beside the stage names Shaper and Independent in the stage cards.",
+        "will-pay": "Get one real paying family, or write down the named reason there is none yet. Today there are no day to day users, the last completed day was 28 September, and the only payer is Justin. The first 20 signups plan is the route.",
+        "simplicity-flow": "Cap the parent home at the lead plus one slot: fold the sticker news, catch up, DiGi word, DiGi question, phone bridge, school ahead, term preview and school window cards into one rotating slot chosen through lib/home/next-up.ts, and keep the rest in the More menu.",
+        "keeps-coming-back": "Show the lifetime days shown up beside the flame, and put one warm line on the dashboard after a restart, so a missed day never reads as zero. This respects the decision of no grace day. Today streak.total is read in only one place.",
+        "marketing": "Make the stage check the last line of every parent facing piece in the walkthrough campaign and the 9 November week (the Robux DiGi piece, and playlists 03, 08 and 13), add a guard like check-live-domain that fails if a parent facing file in content/ lacks a starter-pack link or the hook line, and mark the school pieces (02, 06, 11, 15) as a different audience in schedule.md.",
+        "ux-expert": "Move raw hex values in components and pages onto tokens, starting with the most repeated colours, and add a guard that fails on new hex outside shared/tokens.css, with a baseline file like larger-text-baseline.json.",
+        "competitor-watch": "Add a new sightings entry for TAP: Tech Activity Pact (iPhone and iPad app, agreements teens propose and parents sign, daily check ins, family streak, renegotiation, from $9.99 a month, ages 9 to 17). It is a second Kairoo style agreement app already live in the App Store, so the sightings log's 'Kairoo is the only one' framing needs updating. Nothing to borrow beyond the renegotiate a rule idea, which fits the existing protected time ask in lib/quests/time-tiers.ts.",
+        "ai-tools-watch": "Fix the weekly board routine so it saves a run file and scorecard (it last 'succeeded' in 71 seconds on 6 November having written nothing), and make the Wednesday UX walkthrough save its report to plans/review-board/walkthroughs/. Both are routines that run and leave no result.",
+        "business-running": "Make the Friday board routine save its run every week: give it an instructions file in plans/review-board/routines/ read from origin/main, have it find what it needs with git rather than listing pull requests (the cause of the 09:17 radar run doing nothing on 11 November), and commit runs/<date>.md or print the report and say it could not save."
+      },
+      "skeptic": {}
     }
   ]
 }
