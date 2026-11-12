@@ -81,8 +81,12 @@ followers, checked 12 November). The adverts can run there too once the
 uploader knows the Instagram account's number, and the key cannot read it
 until it has one more permission:
 
-1. Graph API Explorer, GC ad uploader, Permissions, **Add a Permission**,
-   add `instagram_basic`. Keep the other three.
+1. The app needs the Instagram use case first, or `instagram_basic` is not
+   offered (done 12 November): Dashboard, **Add use cases**, All, **Manage
+   messaging & content on Instagram**, Save; then Use cases, that use case,
+   Permissions and features, `instagram_basic`, **Add**. Then in the Graph
+   API Explorer, Permissions, open the list, the **Other** group, tick
+   `instagram_basic`. Keep the other three.
 2. **Generate Access Token**. When Facebook asks which Instagram accounts,
    tick Guided Childhood.
 3. Access Token Debugger, paste, **Extend Access Token**, copy.
