@@ -112,3 +112,19 @@ ready to upload to.
   expired card and Etsy campaigns in it. The Google Ads login opens another
   business's account. Guided Childhood needs its own of each:
   `content/ads/SETUP.md`, rewritten to what is actually there.
+
+## 12 November: the second talk, and the loop
+
+Justin brought a second talk (the seven new rules, https://youtu.be/xsdoHywBD0I)
+and asked for the best of both in a routine that reads the results and keeps
+us ahead of the competitors. Weighed in `plans/2026-11-12-second-ad-video-weighed.md`.
+
+- **Step 3 is built**: `npm run ad-results`, Meta's reach and spend per
+  advert (reads only) joined with our own counts per link code, judged by the
+  results log rule.
+- **The loop is written down**: ad studio Phase 7, every Monday. Read, log,
+  keep the winner and make segment versions of it (two or three words
+  changed, the second talk's rule 1), look at the competitors, once a month
+  ask the chatbots who they recommend, make next week's round.
+- **Declined from the second talk**: rewarding people for reviews (unlawful
+  when hidden in the UK) and handing the ad account to a third party MCP.

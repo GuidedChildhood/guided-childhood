@@ -45,6 +45,25 @@ the winner is what gets the budget.
    run 75 days for Balance Phone. Ours stands, and differs where it matters:
    we name the stage and the next step, never ready or not ready.
 
+## From the second talk (12 November 2026)
+
+These come from an agency founder's talk, not from adverts we watched run, so
+they are advice we agree with rather than evidence. Weighed in
+`plans/2026-11-12-second-ad-video-weighed.md`.
+
+10. **The words are the targeting.** Run to a broad audience and let the copy
+    say who it is for. Once a card wins, make segment versions of it that
+    change two or three words and nothing else: "your ten year old" for "your
+    child", "in Year 6" added, "before secondary school". Meta finds the
+    people each version speaks to.
+11. **One niche until it is exhausted.** Ours is UK parents of children 8 to
+    13 in the first phone years, through one funnel, the stage check. No
+    second audience until cost per stage check rises week on week with
+    frequency above 3.
+12. **Reviews are asked for, never paid for.** The talk says reward people for
+    reviews; in the UK that is unlawful when hidden (Digital Markets,
+    Competition and Consumers Act 2024), and Google and Trustpilot forbid it.
+
 ## Not proven
 
 - **Generated families** (Kairoo's whole campaign, 5 to 11 days old). It may

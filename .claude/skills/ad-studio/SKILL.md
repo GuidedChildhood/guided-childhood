@@ -269,6 +269,63 @@ date, round, hook, format, link code, reached, stage checks begun, signups,
 verdict (winner, loser, too early). Add one line of what we learned. The
 next round reads this first.
 
+## Phase 7 · The weekly loop, every Monday
+
+Both talks Justin brought (11 and 12 November 2026) end on the same loop, and
+it is what keeps our adverts ahead of the competitors' rather than level with
+them: make, test, read, keep the winner, vary it, again. One pass a week, in
+this order, about forty minutes. Nothing in it posts, switches on or spends.
+
+1. **Read the numbers.** Run this with the Supabase connector (project
+   `zgkdfiwtnzqmtfgfsxzo`), with the round's code prefix:
+
+   ```sql
+   select l.code,
+     count(*) filter (where e.kind = 'opened')  as opened,
+     count(*) filter (where e.kind = 'started') as started,
+     (select count(*) from public.profiles p where p.video_link = l.code) as signups,
+     (select count(*) from public.profiles p where p.video_link = l.code
+        and p.subscription_status in ('active','trialing')) as paying
+   from public.video_links l
+   left join public.video_link_events e on e.code = l.code
+   where l.code like 'r1-%'
+   group by l.code order by l.code;
+   ```
+
+   Save the rows as JSON in the scratchpad and run
+   `npm run ad-results -- <round> --counts <that file>`. It adds Meta's reach,
+   clicks and spend for any advert the uploader loaded, judges each card by
+   the results log rule (most stage checks begun per thousand reached, at
+   least 300 reached) and saves `content/ads/results/<round>.json`. For
+   organic posts, Meta has no ids for them: ask Justin for each post's reach
+   from its insights, or add `reach` to the counts file.
+2. **Log it.** One row per card in `content/ads/results-log.md`, and one line
+   under "What we learned". A card with a verdict never changes it later.
+3. **Keep the winner, vary it.** For a winner: write segment versions that
+   change two or three words and nothing else (`content/ads/proven-rules.md`
+   rule 10), one per segment from the stages and the moments, each with its
+   own `src`. For a loser: retire it, and say in the log why the next card
+   is different. Too early: leave it running.
+4. **Look at the competitors.** Open the watchlist links in Justin's browser,
+   a handful of pages (Phase 1). Anything new past 30 days goes in
+   `content/ads/swipe/ads.json`; anything past 90 that does something we do
+   not, write up against the rules. Note any competitor now saying what our
+   cards say (as Kairoo did with "Jobs first" on 6 November): that card's
+   hook gets rewritten.
+5. **Once a month, the chatbot check** (proven rule 12 and the second talk's
+   rule 4): ask ChatGPT, Claude and Gemini "what is the best way to get my
+   child ready for a phone in the UK" and "best app to help with screen time
+   arguments UK", and log who each names, in `content/ads/swipe/ai-answers.md`.
+   We are named or we are not; the trend is the point.
+6. **Make next week's round.** The new variants and any new hooks, through the
+   gate, the vision pass and the claim gates (Phase 4), rendered and packed.
+7. **Hand over** in three lines: what won, what is new for this week, and
+   what Justin needs to do (post, switch on, or nothing).
+
+Stop the loop and say so if the read shows something wrong rather than slow:
+links counting nothing after a post went out, a card refused by Meta, a
+competitor copying a card word for word.
+
 ## Hand over
 
 Tell Justin in three parts and stop: what is in the pack (with the path), which
