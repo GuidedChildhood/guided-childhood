@@ -149,6 +149,34 @@
         "image": "content/ads/scenes/earned-time-dog-bowl.jpg",
         "x": 0.68
       }
+    },
+    {
+      "name": "mid-match-simple",
+      "src": "r1-mid-match-simple",
+      "headline": "They cannot stop in the middle of <mark>a match.</mark>",
+      "screen": {
+        "image": "content/ads/screens/say-mid-match-365.png",
+        "points": 335.1,
+        "crop": [
+          1.9,
+          324.6,
+          331.3,
+          154
+        ],
+        "maxWidth": 560
+      },
+      "ad": {
+        "text": "You say it is time to come off. They go from fine to furious in about four seconds, because walking out in the middle of a match costs them something real.\n\nThere are words for that moment. Agree how many matches before the game starts, and they stop at the end of the last one.\n\nGuided Childhood gives you the words for your child's stage, and the plan from here to sixteen. Start with three questions.",
+        "headline": "What stage is your child?",
+        "description": "Three questions, no sign up."
+      },
+      "pill": "What stage is your child? &rarr;",
+      "small": "Three questions, no sign up.",
+      "scene": {
+        "image": "content/ads/scenes/mid-match-sofa.jpg",
+        "x": 0.66
+      },
+      "cta": "text"
     }
   ]
 }

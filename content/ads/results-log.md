@@ -20,6 +20,7 @@ A verdict needs at least 300 reached; below that it is too early.
 | paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | left out | Everyone is on Snapchat. They are not. | stacked, free script | r1-left-out | | | | |
 | paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | before the box | Plan the first phone before the box is opened. | stacked, free script | r1-before-the-box | | | | |
 | paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | earned time | They earn their screen time. You set the rate. | stacked, My time screen | r1-earned-time | | | | |
+| paid test live 12 Nov to 19 Nov | round 1 (11 Nov) | mid match simple | They cannot stop in the middle of a match. | stacked, one line of the script, hook as words not a button | r1-mid-match-simple | | | | |
 
 ## What we learned
 
