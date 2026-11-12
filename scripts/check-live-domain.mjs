@@ -20,7 +20,9 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
-const ROOTS = ['content', 'tools/social-cards']
+// The two plans Justin copies straight into outreach messages joined on
+// 12 November 2026: both still sent parents to the dead .co.uk.
+const ROOTS = ['content', 'tools/social-cards', 'plans/creator-outreach-kit.md', 'plans/DISTRIBUTION-PLAYBOOK-step-by-step.md']
 const OLD = /guidedchildhood\.co\.uk/i
 const SKIP_DIRS = new Set(['node_modules', '.git'])
 
@@ -37,7 +39,7 @@ const hits = []
 let checked = 0
 
 for (const root of ROOTS) {
-  for (const path of files(root)) {
+  for (const path of statSync(root).isDirectory() ? files(root) : [root]) {
     const buf = readFileSync(path)
     // Images and PDFs are skipped: a NUL byte means it is not text.
     if (buf.includes(0)) continue

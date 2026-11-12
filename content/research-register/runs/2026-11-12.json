@@ -1,0 +1,200 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-12",
+ "startedAt": "2026-11-12T09:21:08.023Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-12T09:21:08.023Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 0,
+    "note": "the inbox held no new document"
+   },
+   "at": "2026-11-12T09:21:08.054Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 21,
+    "total": 52
+   },
+   "at": "2026-11-12T09:21:43.349Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 9,
+    "confirmed": 9,
+    "unconfirmed": []
+   },
+   "at": "2026-11-12T09:21:45.445Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed from full text: GDC-RR-34b3878324 HOLD (EU Eurobarometer preprint, approximated, no uncertainty), GDC-RR-b3cbb73e58 REJECT (28 person qualitative preprint, abstract claims cause), GDC-RR-cc7b7da589 HOLD (F1000 review, one reviewer Not Approved, dossier wrongly marked it peer reviewed). 4 wait: bf6c483886, 7e9b72deec, 925d3c951a, ba1fec0984. Nothing came through the inbox."
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:26.393Z",
+   "commit": "4dfeaf0d",
+   "attempts": 2
+  },
+  {
+   "stage": "LINKEDIN NUMBERS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "the analytics inbox holds only its read me, nothing pasted"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:26.505Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-12T09:24:26.642Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "PACKS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting: GDC-054 v2 and GDC-058 v2 are READY FOR JUSTIN and left alone; ChatGPT wrote no pack for GDC-055, 056 or 057 yesterday"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:43.020Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "nothing new to copy: sync state shows manifest, post register, start here and both handoffs current (BYTE IDENTICAL and TEXT IDENTICAL from earlier verified saves), approvalDeskCurrent true; no story cleared today so no new handoff"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:07.736Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "unchanged: GDC-054 v2 and GDC-058 v2 READY FOR JUSTIN on the Post Desk and in the Founder Approval Desk folder; nothing new reached ASSETS READY so the Post Desk was not republished"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:30.449Z",
+   "commit": "a9d4c4fc",
+   "attempts": 1
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "rebuilt and published to the one Radar Desk, version 8"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:57.723Z",
+   "commit": "2b0c1bd1",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting in the Stage 2 folder; every PACK document already carries CLAUDE REVIEWED or READY FOR JUSTIN"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:26:35.673Z",
+   "commit": "eddc1f5b",
+   "attempts": 1
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting to review"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:26:35.771Z",
+   "commit": "eddc1f5b",
+   "attempts": 1
+  },
+  {
+   "stage": "PATCH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "commits 4dfeaf0d to eddc1f5b saved to Drive as FOR JUSTIN, radar run 2026-11-12 ... NOT FOR STAGE 2.patch, id 1WT7VqPddHirZMxrQ4HBoRqutpWNEUZaR, read back BYTE IDENTICAL, 410429 bytes, sha256 4f720d90; this last commit is in a second small patch beside it"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:26:35.890Z",
+   "commit": "eddc1f5b",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "The scheduled run could not push for the third time: the repository is not attached to the routine. Its five commits were taken from the two Drive patches, applied unchanged by a session at about 12:10 UTC and pushed. Two records, GDC-RR-e1a6cd5229 and GDC-RR-19396d6493, went from HOLD back to VERIFIED in this run with no new review: the dossier step overrode yesterday's review verdict, which is a fault to fix."
+   ],
+   "detail": null,
+   "at": "2026-11-12T11:56:50.710Z",
+   "commit": "efbedb46",
+   "attempts": 2
+  }
+ ],
+ "updatedAt": "2026-11-12T11:56:50.734Z"
+}

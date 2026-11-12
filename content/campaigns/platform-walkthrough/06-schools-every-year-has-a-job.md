@@ -3,6 +3,7 @@
 | | |
 |---|---|
 | Run | Schools, 2 of 4 |
+| Audience | Schools: heads and safeguarding leads. Ends at the schools site, not the parent stage check |
 | Service | The curriculum map, Reception to Year 13 |
 | Format | Carousel, 8 pages, 1080 by 1350, and a PDF for LinkedIn. **Built** |
 | Channels | Justin's LinkedIn as a document post, the Guided Childhood LinkedIn page |

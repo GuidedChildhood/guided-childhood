@@ -13,7 +13,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import {
   LENSES, ingest, alerts, answer, addTask, renderDashboard, loadState, saveState, addDays, daysBetween,
-  recordAnswer, readAnswers, pulseLine, pulseFromRows, renderReport,
+  recordAnswer, readAnswers, pulseLine, pulseFromRows, stageCheckLine, firstWeekLine, renderReport,
 } from './review-board.mjs'
 
 const SCRIPT = new URL('./review-board.mjs', import.meta.url).pathname
@@ -263,6 +263,21 @@ test('the rows become the line the product pulse would give, through the product
   assert.match(line, /second check in 1;/)
   assert.match(line, /three of the five value signals 2 of 4 families\./)
   assert.doesNotMatch(line, /[–—]|\s-\s/, 'no dashes')
+})
+
+test('first week, three felt, counts only the families past their first week', async () => {
+  const pulse = await pulseFromRows({ ...pulseRows(), firstWeekFamilies: ['a', 'b'] })
+  assert.match(pulseLine(pulse), /First week, three felt: 1 of 2 families past their first week\./, 'a has three signals, b one')
+  assert.match(firstWeekLine({ families: 0, reachedThree: 0 }), /no family finished a first week/)
+  assert.match(pulseLine(await pulseFromRows(pulseRows())), /First week, three felt: unknown\./, 'an older rows file is unknown, not zero')
+})
+
+test('the weekly stage check number per channel rides on the pulse line', async () => {
+  const pulse = await pulseFromRows({ ...pulseRows(), stageChecksWeek: [{ channel: 'linkedin', n: 2 }, { channel: 'facebook', n: 1 }] })
+  assert.match(pulseLine(pulse), /by channel: 3 \(linkedin 2, facebook 1\)\.$/)
+  assert.match(stageCheckLine([]), /none through a link/)
+  assert.match(stageCheckLine(undefined), /by channel: unknown\./, 'an older rows file is unknown, not zero')
+  assert.match(pulseLine(await pulseFromRows(pulseRows())), /by channel: unknown\./)
 })
 
 test('anything the pulse cannot give prints unknown, never zero', async () => {

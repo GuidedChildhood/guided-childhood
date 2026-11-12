@@ -1,0 +1,46 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-12T11:55:42.281Z",
+  "sourceCommit": "056860022404f8c6d0fb209fb079de7d0896d280",
+  "gdcPostNumber": "054",
+  "researchId": "GDC-RR-0754a1641c",
+  "title": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "A new study landed that would make my argument easier to sell.\n\nI am not going to use it that way.\n\nThe paper is a peer reviewed meta analysis of social media use and adolescent mental health. It reports a pooled correlation of r = 0.308.\n\nIf you already believe social media is harming children that might sound like the confirmation you have been waiting for, and I build something for parents who are worried about exactly this, so a number like that would suit me.\n\nWhich is why I read past it.\n\nThe analysis pools 12 studies contributing 15 effect sizes, and it reports heterogeneity of I squared = 93.85 percent. Put plainly, the studies inside it disagree with each other so much that averaging them tells you very little about any one of them, and nothing about your own child.\n\nTwo more things.\n\nA correlation is not proof that social media caused anything. And one pooled measure of social media use cannot tell us what a particular child watched, who they spoke to, what happened at bedtime, or what else was going on in their life.\n\nThe authors also report differences across school stages. That is worth investigating. It is not a sound basis for calling younger children the most vulnerable.\n\nThe summary does not say which countries the studies come from, so I would not carry any of it across to children here.\n\nNone of that makes the paper wrong. It deserves to be read and set beside the other evidence. But a result that points the way I would like deserves the same scrutiny as one that does not. Probably more.\n\nIt is the reason the stage check we built asks three questions about one child, yours, and promises nothing about what happens next.\n\nThe paper is linked in the comments.\n\nIf this is how you want evidence handled, repost it. The response should be in proportion to the evidence, and that has to cut both ways.\n\nWhen did you last turn down a number that suited you?",
+  "firstComment": "The paper: https://doi.org/10.1177/13591045261487468\n\nThe strongest objection is that a peer reviewed meta analysis is still useful evidence even when its studies differ. Agreed. I am not rejecting the paper or the correlation it reports. My caution is about treating a pool of correlational studies that disagree this much as a settled answer about any one child.",
+  "sources": [
+    "https://doi.org/10.1177/13591045261487468"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/15dJoSU0vNuG2FSnHI3cVVeW7X2vkcLm7fsU3D1vWf14/edit",
+  "visualDecision": {
+    "choice": "text only",
+    "reason": "The pack asks for a card only if an approved brand asset is identified, and none has been. Justin's numbers of 11 November do not show that an image helps: the best post of the week carried none."
+  },
+  "assets": [],
+  "approvalStatus": "READY FOR JUSTIN",
+  "duplicateCheck": {
+    "result": "DUPLICATE",
+    "why": "This post is already scheduled in LinkedIn itself for 2026-11-16T08:00."
+  },
+  "linkedinNativeSchedule": {
+    "scheduledFor": "2026-11-16T08:00",
+    "withImage": true,
+    "observedAt": "2026-11-12",
+    "standing": "reported by Justin from screenshots, not checked again since"
+  },
+  "metricool": {
+    "draftCreationPermitted": false,
+    "schedulingPermitted": false,
+    "autoPublishPermitted": false,
+    "why": [
+      "already scheduled in LinkedIn itself for 2026-11-16T08:00 (observed 2026-11-12). A second copy through Metricool would be a duplicate.",
+      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    ],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

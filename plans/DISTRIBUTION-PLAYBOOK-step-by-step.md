@@ -16,7 +16,7 @@ Every step says **what to do**, **how**, and **done when**. Work top to bottom. 
 
 **The number:** 2,500 free signups a month. That is what £10k MRR needs at a 4 percent conversion (from `plans/mrr-10k-review.md`). Every action below exists to feed that number. When you are unsure what to do, ask "does this get more parents to the stage check," and if it does not, drop it.
 
-**The hook, used everywhere, the same every time:** *What stage is your child? Three questions, no sign up.* This is your version of Early's push ups to turn off your alarm. It is showable in fifteen seconds, it is personal, and it routes to the one page that already works with no login. Every post, every video, every link ends there: **guidedchildhood.co.uk/starter-pack**.
+**The hook, used everywhere, the same every time:** *What stage is your child? Three questions, no sign up.* This is your version of Early's push ups to turn off your alarm. It is showable in fifteen seconds, it is personal, and it routes to the one page that already works with no login. Every post, every video, every link ends there: **guidedchildhood.com/starter-pack**.
 
 Do not vary the hook while you are still learning what works. One hook, everywhere, until the numbers tell you to change it.
 

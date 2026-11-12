@@ -354,12 +354,22 @@ export default function KidFiveADay({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // The three steps that tick themselves (jobs, ask, move) try ONCE per visit.
+  // See autoTry below the move effect for why.
+  const autoTried = useRef<Set<StepKey>>(new Set())
+  const autoTry = (step: StepKey) => {
+    if (autoTried.current.has(step)) return false
+    autoTried.current.add(step)
+    return true
+  }
+
   // Jobs is the one step the child does not tick here: it is true when every job
   // due today is ticked, which the board already knows. Marked through on its
   // own so a child never has to claim something the app can see for itself.
   useEffect(() => {
     if (!state || !jobsAllDone) return
     if (!state.steps.includes('jobs') || state.done.includes('jobs')) return
+    if (!autoTry('jobs')) return
     // On a day with nothing on the board the step marks itself the same way,
     // and the note says why, so the record never claims jobs were done.
     void mark('jobs', true, jobsProgress && jobsProgress.total === 0 ? 'No jobs today' : null)
@@ -370,6 +380,7 @@ export default function KidFiveADay({
   useEffect(() => {
     if (!state || asksPending <= 0) return
     if (!state.steps.includes('ask') || state.done.includes('ask')) return
+    if (!autoTry('ask')) return
     void mark('ask', true, 'Idea already with your grown up')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, asksPending])
@@ -381,9 +392,17 @@ export default function KidFiveADay({
   // that paid them for it has plainly moved about, and asking them to confirm
   // it again in a different box is how a list teaches a child that some of its
   // rows are pretend.
+  //
+  // ONCE PER VISIT, for all three self ticking steps (12 November 2026, the
+  // board's 390 and 1280 walkthrough). A failed save takes the optimistic tick
+  // back, which changes state, which ran the effect again, which saved again: on /ref-kid-home with the API down
+  // it posted to /api/kid/day over a thousand times a minute. On a child's
+  // phone that is a flood every time the server has a bad moment. One try per
+  // mount; the next visit tries again.
   useEffect(() => {
     if (!state || !moveJobs || !moveJobs.done) return
     if (!state.steps.includes('move') || state.done.includes('move')) return
+    if (!autoTry('move')) return
     void mark('move', true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, moveJobs])
