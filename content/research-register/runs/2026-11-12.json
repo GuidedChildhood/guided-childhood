@@ -54,18 +54,6 @@
    "attempts": 1
   },
   {
-   "stage": "PUSH",
-   "verdict": "ERROR",
-   "by": "claude",
-   "reasons": [
-    "Push refused. add_repo is not in this session: ToolSearch for add_repo, claude-code-remote add_repo and select of both full names returned no matching tool, so it could not be called. Git proxy answered twice: remote: access denied by the git proxy: GuidedChildhood/guided-childhood is not in this session's authorized repository set, so the proxy will not inject a credential for it. To fix, add the repository to the session's sources. (HTTP 403)"
-   ],
-   "detail": null,
-   "at": "2026-11-12T09:21:56.513Z",
-   "commit": "85863bda",
-   "attempts": 1
-  },
-  {
    "stage": "REVIEW",
    "verdict": "PASS",
    "by": "claude",
@@ -194,7 +182,19 @@
    "at": "2026-11-12T09:26:35.890Z",
    "commit": "eddc1f5b",
    "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "ERROR",
+   "by": "claude",
+   "reasons": [
+    "The scheduled run could not push for the third time: the repository is not attached to the routine. Its five commits were taken from the two Drive patches, applied unchanged by a session at about 12:10 UTC and pushed. Two records, GDC-RR-e1a6cd5229 and GDC-RR-19396d6493, went from HOLD back to VERIFIED in this run with no new review: the dossier step overrode yesterday's review verdict, which is a fault to fix."
+   ],
+   "detail": null,
+   "at": "2026-11-12T11:56:50.710Z",
+   "commit": "efbedb46",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-12T09:26:35.920Z"
+ "updatedAt": "2026-11-12T11:56:50.734Z"
 }
