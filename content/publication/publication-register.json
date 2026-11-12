@@ -1,7 +1,7 @@
 {
   "schema": "gdc.publication-register/1.0",
-  "generatedAt": "2026-11-12T12:14:19.016Z",
-  "sourceCommit": "02b90b8f09d3cb8166a91424a71b91934b157e10",
+  "generatedAt": "2026-11-12T12:20:32.034Z",
+  "sourceCommit": "4db054026a3c0cfa1c1a1ee2924a3f391befd1c0",
   "scheduleObservedAt": "2026-11-12",
   "scheduleStanding": "Reported by Justin. Claude cannot read LinkedIn or Metricool.",
   "rows": [
@@ -82,12 +82,15 @@
       "title": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
       "researchId": "GDC-RR-0754a1641c",
       "account": "Justin Phillips, personal LinkedIn profile",
-      "status": "READY FOR JUSTIN, SLOT REPORTED",
+      "status": "APPROVED",
       "slotOwner": "CONFLICT",
       "scheduledFor": "2026-11-16T08:00",
       "metricoolDraftId": null,
       "metricoolDraft": "reported",
-      "approval": null,
+      "approval": {
+        "by": "Justin",
+        "at": null
+      },
       "reviewedPack": "https://docs.google.com/document/d/15dJoSU0vNuG2FSnHI3cVVeW7X2vkcLm7fsU3D1vWf14/edit",
       "visual": "text only",
       "liveUrl": null,
@@ -98,10 +101,6 @@
         {
           "blocking": true,
           "what": "scheduled in LinkedIn for 2026-11-16T08:00 and also held as a Metricool draft. One of the two has to go, and that is Justin's choice."
-        },
-        {
-          "blocking": true,
-          "what": "scheduled, and no approval from Justin is on record. Scheduling it himself may well be his approval. It needs saying once so the record can hold it."
         },
         {
           "blocking": true,
@@ -122,12 +121,15 @@
       "title": "A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock.",
       "researchId": "GDC-RR-3d31eb1683",
       "account": "Justin Phillips, personal LinkedIn profile",
-      "status": "READY FOR JUSTIN, SLOT REPORTED",
+      "status": "APPROVED",
       "slotOwner": "CONFLICT",
       "scheduledFor": "2026-11-18T07:30",
       "metricoolDraftId": null,
       "metricoolDraft": "reported",
-      "approval": null,
+      "approval": {
+        "by": "Justin",
+        "at": null
+      },
       "reviewedPack": "https://docs.google.com/document/d/1mfGQKorFe0b4mXz8MKcPq20CwspkGN0NOzWH6aHphP8/edit",
       "visual": "text only",
       "liveUrl": null,
@@ -138,10 +140,6 @@
         {
           "blocking": true,
           "what": "scheduled in LinkedIn for 2026-11-18T07:30 and also held as a Metricool draft. One of the two has to go, and that is Justin's choice."
-        },
-        {
-          "blocking": true,
-          "what": "scheduled, and no approval from Justin is on record. Scheduling it himself may well be his approval. It needs saying once so the record can hold it."
         },
         {
           "blocking": false,

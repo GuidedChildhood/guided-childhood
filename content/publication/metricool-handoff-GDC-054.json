@@ -1,7 +1,7 @@
 {
   "schema": "gdc.metricool-handoff/1.0",
-  "generatedAt": "2026-11-12T12:14:18.830Z",
-  "sourceCommit": "02b90b8f09d3cb8166a91424a71b91934b157e10",
+  "generatedAt": "2026-11-12T12:20:19.428Z",
+  "sourceCommit": "4db054026a3c0cfa1c1a1ee2924a3f391befd1c0",
   "gdcPostNumber": "054",
   "researchId": "GDC-RR-0754a1641c",
   "title": "A new meta-analysis says the effect is much bigger. Here is how I decided not to use it.",
@@ -17,7 +17,7 @@
     "reason": "The pack asks for a card only if an approved brand asset is identified, and none has been. Justin's numbers of 11 November do not show that an image helps: the best post of the week carried none."
   },
   "assets": [],
-  "approvalStatus": "READY FOR JUSTIN",
+  "approvalStatus": "APPROVED",
   "duplicateCheck": {
     "result": "DUPLICATE",
     "why": "This post is already scheduled in LinkedIn itself for 2026-11-16T08:00."
@@ -33,8 +33,7 @@
     "schedulingPermitted": false,
     "autoPublishPermitted": false,
     "why": [
-      "already scheduled in LinkedIn itself for 2026-11-16T08:00 (observed 2026-11-12). A second copy through Metricool would be a duplicate.",
-      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+      "already scheduled in LinkedIn itself for 2026-11-16T08:00 (observed 2026-11-12). A second copy through Metricool would be a duplicate."
     ],
     "rules": [
       "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
