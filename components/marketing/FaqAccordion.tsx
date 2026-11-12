@@ -4,7 +4,9 @@ import { useState } from 'react'
 const FAQS = [
   {
     q: 'What exactly do I get?',
-    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. 100 lessons for digital home schooling. The digital passport your child fills stage by stage, weighted toward the lessons they complete. Family quests where real jobs earn stars and stars buy the screen time you agree, with a printable contract you both sign. Printable bucket lists and crafts in English and Spanish, every finished sheet worth stars. 24 age gated learning games. DiGi, your evidence led guide trained on the research, available at 11pm. Device setting checklists per device and per age. The wellbeing tracker with weekly check ins. The family agreement builder. And school reminders: forward the school\'s emails and the dates appear as alerts.',
+    // In the parent's words first, the parts list after (the board's audience
+    // lens, 12 November 2026). It used to be fifteen features in one breath.
+    a: 'Help with the moments that actually happen in your house. The words to say tonight when the screen will not go off, the phone ask comes, or the group chat goes wrong. A plan for your child\'s age, from 4 to 16, so you know what to do this week and what is coming next. A quick check in that shows you, week by week, whether things are getting better. Your child gets their own app, where real jobs earn the screen time you agree. And DiGi, who remembers your family and is there at 11pm. Inside that: 160 scripts for the hard conversations, lessons by age, device setting guides, printables, and school reminders from your inbox.',
   },
   {
     q: 'Does this prepare my child for the under 16 social media ban?',
