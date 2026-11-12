@@ -76,16 +76,19 @@
       "acceptedByJustin": "2026-11-12: \"dont need to woryy abotu already posted on lknkin in so ginore checking those\""
     }
   ],
-  "metricoolDrafts": [
+  "metricoolDrafts": [],
+  "metricoolDraftsRemoved": [
     {
       "gdcNumber": "054",
       "draftId": null,
-      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 16 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it."
+      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 16 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it.",
+      "removed": "Justin, 12 November 2026: \"i have deleted teh scehduled ones tht were put i metorsol as duplicates\". Reported by him, not seen by Claude."
     },
     {
       "gdcNumber": "058",
       "draftId": null,
-      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 18 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it."
+      "standing": "Reported by Justin: created by ChatGPT on 12 November. Duplicate of the native slot on 18 November. Must not be scheduled or published while that slot stands. Justin, 12 November: the LinkedIn copy is the one that goes. The Metricool draft is surplus and stays undated until he or ChatGPT on his word removes it.",
+      "removed": "Justin, 12 November 2026: \"i have deleted teh scehduled ones tht were put i metorsol as duplicates\". Reported by him, not seen by Claude."
     }
   ]
 }
