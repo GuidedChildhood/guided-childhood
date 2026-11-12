@@ -668,9 +668,16 @@
       "note": "Collected on the learning record. Deliberately a costing task rather than a promise to stop, because nothing in this lesson asks a pupil to give anything up, and a commitment that can be finished on the bus home is one that gets finished."
     },
     "teacher_judgement": {
-      "secure": "Converts a game currency back into pounds without prompting, explains why eight reds changes nothing, and uses speed of the loop rather than amount of money to compare two products.",
-      "developing": "Knows the house edge exists and still talks about being due or about a system, which means the independence idea has not landed and the rest sits on top of that.",
-      "needs_support": "Reads the lesson as being told not to play anything, or cannot convert a currency price back into money. Reteach the two conversions with the gem at a penny before anything else, because every later idea rests on it."
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Converts a game currency into pounds without prompting, explains why eight reds changes nothing, and compares products by speed of the loop.",
+        "developing": "Knows the house edge exists but still talks about being due or about a system.",
+        "revisit": "Reads the lesson as being told not to play anything, or cannot convert a currency price back into money."
+      }
     }
   },
   "parent_note": {

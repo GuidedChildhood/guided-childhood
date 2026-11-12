@@ -481,7 +481,7 @@
         "Orbit says the pattern is the answer, and Orbit is right. Nobody else gets your data. Nobody else makes your call. See you next lesson!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in bags to start the week of audits tonight.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson, and the commitment cards go home in bags to start the week of audits tonight.",
       "heading": "DiGi closes the study",
       "minutes": 1
     }
@@ -512,12 +512,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Explains that raw hours barely predict wellbeing, gives better, worse or nothing with a reason, and names one calibrated move.",
+        "developing": "Sorts connecting from comparing, but skips nothing as a verdict or gives a verdict without a reason.",
+        "revisit": "Says hours decide your mood, or takes screens are harmless or delete every app as the answer."
+      }
     }
   },
   "sort_order": 10,
@@ -633,10 +636,10 @@
         "teaching_point": "The condition on the whole tool. Without it the audit is decoration."
       },
       {
-        "answer": "Any specific change with a reason drawn from their own pattern.",
+        "answer": "Any one calibrated move with a reason: mute the source, move the time, or change the use.",
         "format": "short_answer",
-        "question": "Name one thing you would change after a week of the mood audit, and why.",
-        "teaching_point": "The lesson's real outcome. Vague answers mean the audit was not run honestly."
+        "question": "After a week of the mood audit, one app comes back worse four times out of five. Name one change you would make, and why.",
+        "teaching_point": "The lesson's real outcome, asked about a given week because their own has not run yet. Deleting every app is not a calibrated move."
       }
     ],
     "worksheet": {

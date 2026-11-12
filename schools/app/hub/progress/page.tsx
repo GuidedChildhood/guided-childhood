@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 import {
-  academicYear, classesIn, cleanGroup, forClass, JUDGEMENT_LABEL, JUDGEMENTS, type Delivery, type Judgement,
+  academicYear, classesIn, cleanGroup, cleanYear, forClass, JUDGEMENT_LABEL, JUDGEMENTS, quizCountsIn, quizShares, yearLabel, type Delivery, type Judgement,
 } from '@gc/shared/lesson-records'
 import { AREA_ORDER, AREAS, areaOf } from '@gc/shared/passport-areas'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER, positionOf } from '@gc/shared/schools-curriculum'
+import { suggestedYear, yearName } from '@gc/shared/schools-progression'
 import PrintButton from '@/components/PrintButton'
 import { asList } from '@/lib/notes'
-import { readDeliveries } from '@/lib/records'
+import { readDeliveries, recordYears } from '@/lib/records'
 import { db as supabase } from '@/lib/supabase/server-db'
 
 // /hub/progress: WHERE EACH CLASS IS IN THE DIGITAL SCHEME (11 November 2026).
@@ -33,6 +34,16 @@ import { db as supabase } from '@/lib/supabase/server-db'
 //
 // The tracker (/hub/tracker) is still this laptop's own run sheet ticks. This
 // is the school's record, the same on every laptop.
+//
+// THREE THINGS A SUBJECT LEAD ASKED OF IT (11 November 2026, the progression
+// review, amendment 5):
+//   - EVERY CLASS AT ONCE. One class at a time answers a teacher. A lead wants
+//     the grid: each lesson down the side, each class across, so the class that
+//     is three lessons behind is a gap you can see. ?class=all.
+//   - LAST YEAR. The record is kept by academic year and only this year's was
+//     reachable. ?year= offers the years the school has rows in, nothing else.
+//   - OUT OF THE PAGE. One spreadsheet file of the school's own rows
+//     (./export), for the school that already keeps its evidence somewhere.
 
 export const metadata = { title: 'Class progress' }
 export const dynamic = 'force-dynamic'
@@ -48,13 +59,26 @@ const panel: React.CSSProperties = { background: 'var(--white)', border: '1px so
 const shortDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
 const isJudgement = (v: unknown): v is Judgement => typeof v === 'string' && (JUDGEMENTS as string[]).includes(v)
 
-export default async function ClassProgress({ searchParams }: { searchParams: Promise<{ class?: string }> }) {
-  const year = academicYear(new Date())
+export default async function ClassProgress({ searchParams }: { searchParams: Promise<{ class?: string; year?: string }> }) {
+  const sp = await searchParams
+  const thisYear = academicYear(new Date())
+  const years = await recordYears('digital', thisYear)
+  const year = cleanYear(sp.year, years) ?? thisYear
   const { school, deliveries, failed } = await readDeliveries('digital', year)
   const classes = classesIn(deliveries)
-  const asked = cleanGroup((await searchParams).class)
-  const group = asked && classes.includes(asked) ? asked : classes[0] ?? null
+  const everyClass = sp.class === 'all' && classes.length > 1
+  const asked = cleanGroup(sp.class)
+  const group = everyClass ? null : asked && classes.includes(asked) ? asked : classes[0] ?? null
   const rows = forClass(deliveries, group)
+  const here = (to: { class?: string; year?: string }) => {
+    const q = new URLSearchParams()
+    const c = to.class ?? (everyClass ? 'all' : group ?? '')
+    const y = to.year ?? year
+    if (c) q.set('class', c)
+    if (y !== thisYear) q.set('year', y)
+    const tail = q.toString()
+    return tail ? `/hub/progress?${tail}` : '/hub/progress'
+  }
 
   // The latest record of each lesson for this class: the date it was first
   // taught, and the judgement from the most recent time.
@@ -65,6 +89,18 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
   }
   const stages = KEY_STAGE_ORDER.filter(ks => CURRICULUM.some(m => m.keyStage === ks && byLesson.has(m.moduleId)))
   const inScope = CURRICULUM.filter(m => stages.includes(m.keyStage))
+
+  // EVERY CLASS: the latest record of each lesson, class by class. A lesson
+  // taught to two classes together counts for both, which is what happened.
+  const grid = new Map<string, Map<string, Delivery>>()
+  if (everyClass) {
+    for (const d of deliveries) for (const g of d.groups) {
+      const row = grid.get(d.lessonKey) ?? new Map<string, Delivery>()
+      row.set(g, d)
+      grid.set(d.lessonKey, row)
+    }
+  }
+  const taughtBy = (c: string) => inScope.filter(m => grid.get(m.moduleId)?.has(c)).length
 
   // The objectives, read once, only for the lessons that carry a mark.
   const marked = [...byLesson.values()].filter(v => Object.values(v.latest.marks).some(m => m === 'revisit')).map(v => v.latest.lessonKey)
@@ -94,6 +130,9 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
   }
   const all = tally(inScope)
   const judged = all.secure + all.developing + all.revisit
+  // The two quizzes, where a teacher counted them: the latest record of each
+  // lesson for this class, so a lesson taught twice is counted once.
+  const quiz = quizShares([...byLesson.values()].map(v => v.latest))
 
   const chip = (on: boolean): React.CSSProperties => ({
     ...mono, display: 'inline-flex', alignItems: 'center', minHeight: 44, padding: '0 var(--space-3)',
@@ -108,26 +147,89 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
       <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
         <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>← The Hub</Link>
-          {deliveries.length > 0 && <PrintButton label="Print for your subject lead" />}
+          {deliveries.length > 0 && (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+              <a href={`/hub/progress/export${year !== thisYear ? `?year=${year}` : ''}`} className="gc-prog-get">Download as a spreadsheet</a>
+              <PrintButton label="Print this record" />
+            </span>
+          )}
         </div>
 
         <div>
-          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: 'var(--space-1)' }}>Your school&apos;s record · {year.replace('-', ' to ')}</div>
+          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: 'var(--space-1)' }}>Your school&apos;s record · {yearLabel(year)}</div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-2)' }}>
-            {group ? `Progress, ${group}` : 'Class progress'}
+            {everyClass ? 'Progress, every class' : group ? `Progress, ${group}` : 'Class progress'}
           </h1>
           <p style={{ ...bodyText, maxWidth: '640px', margin: 0 }}>
-            Where this class is in the scheme, how each lesson went, and what to teach again. It fills itself in
-            from the Mark lesson delivered button, and it is the same on every laptop.
+            {everyClass
+              ? 'Every lesson down the side and every class across, so a gap is something you can see. It fills itself in from the Mark lesson delivered button, and it is the same on every laptop.'
+              : 'Where this class is in the scheme, how each lesson went, and what to teach again. It fills itself in from the Mark lesson delivered button, and it is the same on every laptop.'}
           </p>
         </div>
+
+        {years.length > 1 && (
+          <nav aria-label="School year" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+            {years.map(y => (
+              <Link key={y} href={here({ year: y, class: '' })} style={chip(year === y)} aria-current={year === y ? 'true' : undefined}>{yearLabel(y)}</Link>
+            ))}
+          </nav>
+        )}
 
         {classes.length > 1 && (
           <nav aria-label="Class" className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
             {classes.map(c => (
-              <Link key={c} href={`/hub/progress?class=${encodeURIComponent(c)}`} style={chip(group === c)} aria-current={group === c ? 'true' : undefined}>{c}</Link>
+              <Link key={c} href={here({ class: c })} style={chip(group === c)} aria-current={group === c ? 'true' : undefined}>{c}</Link>
             ))}
+            <Link href={here({ class: 'all' })} style={chip(everyClass)} aria-current={everyClass ? 'true' : undefined}>Every class</Link>
           </nav>
+        )}
+
+        {everyClass && stages.map(ks => {
+          const list = CURRICULUM.filter(m => m.keyStage === ks)
+          const cols = classes.filter(c => list.some(m => grid.get(m.moduleId)?.has(c)))
+          if (cols.length === 0) return null
+          return (
+            <section key={ks} aria-labelledby={`all-${ks}`}>
+              <h2 id={`all-${ks}`} style={{ ...mono, margin: '0 0 var(--space-2)' }}>{KEY_STAGE_META[ks].label} · {KEY_STAGE_META[ks].years}</h2>
+              <div style={{ ...panel, padding: 0, overflowX: 'auto' }} tabIndex={0} role="region" aria-label={`${KEY_STAGE_META[ks].label}, every class`}>
+                <table className="gc-prog-grid">
+                  <thead>
+                    <tr>
+                      <th scope="col">Lesson</th>
+                      {cols.map(c => <th key={c} scope="col"><Link href={here({ class: c })}>{c}</Link></th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {list.map(m => (
+                      <tr key={m.moduleId}>
+                        <th scope="row"><Link href={`/lesson/${m.moduleId}`}>{m.title}</Link></th>
+                        {cols.map(c => {
+                          const d = grid.get(m.moduleId)?.get(c)
+                          const j = d && isJudgement(d.assessment) ? d.assessment : null
+                          return (
+                            <td key={c} data-j={d ? j ?? 'none' : undefined}>
+                              {d ? <><b>{shortDate(d.deliveredOn)}</b><span>{j ? JUDGEMENT_LABEL[j] : 'Not assessed'}</span></> : <span className="gc-prog-gap">Not taught</span>}
+                            </td>
+                          )
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row">Delivered</th>
+                      {cols.map(c => <td key={c}><b>{list.filter(m => grid.get(m.moduleId)?.has(c)).length} of {list.length}</b></td>)}
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </section>
+          )
+        })}
+        {everyClass && (
+          <p style={{ ...smallText, margin: 0 }}>
+            {classes.map(c => `${c}: ${taughtBy(c)} delivered`).join(' · ')}. Pick a class above for what it needs teaching again.
+          </p>
         )}
 
         {!school && <section style={panel}><p style={{ ...bodyText, margin: 0 }}>Your school&apos;s record opens with your school code.</p></section>}
@@ -143,7 +245,7 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           </section>
         )}
 
-        {all.delivered > 0 && (
+        {!everyClass && all.delivered > 0 && (
           <section aria-label="How the lessons went" style={panel}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: 0 }}>
@@ -168,7 +270,27 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           </section>
         )}
 
-        {revisit.length > 0 && (
+        {!everyClass && quiz.lessons > 0 && (
+          <section aria-labelledby="quizzes" style={panel}>
+            <h2 id="quizzes" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>What the class arrived with, and left with</h2>
+            <p style={{ ...smallText, margin: '0 0 var(--space-3)' }}>
+              From the quiz counts on {quiz.lessons} {quiz.lessons === 1 ? 'lesson' : 'lessons'}. The starter looks back at earlier lessons and the exit quiz is about the lesson
+              just taught, so these are two different quizzes and not a gain score.
+            </p>
+            <div className="gc-prog-two">
+              <div>
+                <b>{quiz.starter === null ? 'Not counted' : `${quiz.starter}%`}</b>
+                <span>got most of the starter quiz right: the earlier learning was still there</span>
+              </div>
+              <div>
+                <b>{quiz.exit === null ? 'Not counted' : `${quiz.exit}%`}</b>
+                <span>got most of the exit quiz right: the lesson landed</span>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {!everyClass && revisit.length > 0 && (
           <section aria-labelledby="revisit" style={{ ...panel, borderLeft: '4px solid var(--coral-dark)' }}>
             <h2 id="revisit" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>To teach again</h2>
             <p style={{ ...smallText, margin: '0 0 var(--space-3)' }}>What this class was judged to need again. This list is the reason to record a judgement at all.</p>
@@ -188,7 +310,7 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           </section>
         )}
 
-        {stages.map(ks => {
+        {!everyClass && stages.map(ks => {
           const list = CURRICULUM.filter(m => m.keyStage === ks)
           const t = tally(list)
           return (
@@ -201,12 +323,14 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
                 {list.map(m => {
                   const rec = byLesson.get(m.moduleId)
                   const j = rec && isJudgement(rec.latest.assessment) ? rec.latest.assessment : null
+                  const q = rec ? quizCountsIn(rec.latest.marks) : null
+                  const counted = q ? [q.starter !== null ? `starter ${q.starter} of ${q.pupils}` : '', q.exit !== null ? `exit ${q.exit} of ${q.pupils}` : ''].filter(Boolean).join(', ') : ''
                   return (
                     <li key={m.moduleId} data-on={rec ? '' : undefined}>
                       <span aria-hidden className="gc-prog-n">{rec ? '✓' : positionOf(m.moduleId)?.index ?? ''}</span>
                       <span style={{ flex: '1 1 auto', minWidth: 0 }}>
                         <Link href={`/lesson/${m.moduleId}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: rec ? 'var(--ink)' : 'var(--ink-muted)', textDecoration: 'none' }}>{m.title}</Link>
-                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}` : 'Not taught yet'}</span>
+                        <span style={{ ...smallText, display: 'block' }}>{rec ? `Taught ${shortDate(rec.first)}${counted ? ` · ${counted}` : ''}` : `Not taught yet${suggestedYear(m.moduleId) === null ? '' : ` · suggested for ${yearName(suggestedYear(m.moduleId)!)}`}`}</span>
                       </span>
                       {rec && <span className="gc-prog-j" data-j={j ?? 'none'}>{j ? JUDGEMENT_LABEL[j] : 'Not assessed'}</span>}
                     </li>
@@ -217,7 +341,7 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
           )
         })}
 
-        {all.delivered > 0 && (
+        {!everyClass && all.delivered > 0 && (
           <section aria-labelledby="areas">
             <h2 id="areas" style={{ ...mono, margin: '0 0 var(--space-2)' }}>By the four things the passport records</h2>
             <div style={{ ...panel, padding: 0, overflowX: 'auto' }}>
@@ -240,6 +364,14 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
               </table>
             </div>
           </section>
+        )}
+
+        {!everyClass && group && all.delivered > 0 && (
+          <p className="no-print" style={{ ...smallText, margin: 0, color: 'var(--ink)' }}>
+            End of term?{' '}
+            <Link href={`/print/look-back?class=${encodeURIComponent(group)}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Print a look back quiz for {group}</Link>,
+            drawn from the lessons above, with one more question on anything judged developing or needing revisiting.
+          </p>
         )}
 
         {deliveries.length > 0 && (
@@ -273,8 +405,29 @@ export default async function ClassProgress({ searchParams }: { searchParams: Pr
         .gc-prog-areas th, .gc-prog-areas td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); text-align: left; font-weight: 400; }
         .gc-prog-areas thead th { border-top: 0; font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
         .gc-prog-areas tbody th { font-weight: 700; }
+        .gc-prog-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+        .gc-prog-two > div { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-tile); padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
+        .gc-prog-two b { font-family: var(--font-display); font-weight: 900; font-size: var(--text-2xl); color: var(--ink); line-height: 1.1; }
+        .gc-prog-two span { font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink-muted); line-height: 1.5; }
+        @media (max-width: 560px) { .gc-prog-two { grid-template-columns: minmax(0, 1fr); } }
+        .gc-prog-get { font-family: var(--font-body); font-weight: 700; font-size: var(--text-sm); color: var(--terracotta-dark); text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+        .gc-prog-grid { border-collapse: collapse; width: 100%; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink); }
+        .gc-prog-grid th, .gc-prog-grid td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); border-left: 1px solid var(--border); text-align: left; vertical-align: top; font-weight: 400; }
+        .gc-prog-grid th:first-child { border-left: 0; position: sticky; left: 0; background: var(--white); min-width: 180px; max-width: 280px; font-weight: 700; }
+        .gc-prog-grid thead th { border-top: 0; font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); white-space: nowrap; }
+        .gc-prog-grid a { color: var(--ink); text-decoration: none; }
+        .gc-prog-grid a:hover, .gc-prog-grid a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+        .gc-prog-grid td { min-width: 104px; }
+        .gc-prog-grid td b, .gc-prog-grid td span { display: block; }
+        .gc-prog-grid td span { font-size: var(--text-xs); color: var(--ink-muted); }
+        .gc-prog-grid td[data-j="secure"] { background: var(--terracotta); }
+        .gc-prog-grid td[data-j="secure"] span { color: var(--ink); }
+        .gc-prog-grid td[data-j="developing"] { background: var(--butter-lt); }
+        .gc-prog-grid td[data-j="revisit"] { background: var(--warm); box-shadow: inset 4px 0 0 var(--coral-dark); }
+        .gc-prog-grid td[data-j="revisit"] span { color: var(--ink); font-weight: 700; }
+        .gc-prog-grid tfoot th, .gc-prog-grid tfoot td { background: var(--cream); }
         @media (max-width: 560px) { .gc-prog-list > li { padding: var(--space-2) var(--space-3); flex-wrap: wrap; } .gc-prog-j { margin-left: calc(32px + var(--space-3)); } }
-        @media print { .gc-prog-list > li, section { break-inside: avoid; } .gc-prog-bar span, .gc-prog-n, .gc-prog-j { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+        @media print { .gc-prog-list > li, section { break-inside: avoid; } .gc-prog-bar span, .gc-prog-n, .gc-prog-j, .gc-prog-grid td { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
       `}</style>
     </main>
   )

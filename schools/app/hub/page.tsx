@@ -76,9 +76,19 @@ const DOCS: Doc[] = [
     body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
   },
   {
+    href: '/hub/progression', icon: 'compass', disc: 'pink', accent: 'var(--green-dark)',
+    title: 'The progression map',
+    body: 'What each year teaches, from Reception to Year 13, with the earlier lessons each one builds on and the later ones it leads to. The page for the question a subject lead is asked first.',
+  },
+  {
+    href: '/print/look-back', icon: 'quiz', disc: 'teal', accent: 'var(--green-dark)',
+    title: 'The look back quiz',
+    body: 'One sheet for the end of a term, drawn from the exit questions of the lessons a class has already been taught, with an answer copy that names the lesson each question came from.',
+  },
+  {
     href: '/hub/year-plan', icon: 'calendar', disc: 'green', accent: 'var(--green-dark)',
     title: 'The year at a glance',
-    body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
+    body: 'A suggested year and term for every lesson. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
     href: '/hub/passport', icon: 'passport', disc: 'teal', accent: 'var(--gold-dark)',
@@ -145,7 +155,7 @@ export default async function HubPage() {
           boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
         }}>
           <span style={{ ...eyebrow, color: 'var(--green-dark)', display: 'block', marginBottom: '6px' }}>
-            Start here · your coverage record
+            Start here · this laptop&apos;s checklist
           </span>
           <span style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
             <span aria-hidden style={{ fontSize: 'var(--text-3xl)', flexShrink: 0, lineHeight: 1 }}>✅</span>
@@ -159,7 +169,7 @@ export default async function HubPage() {
               </span>
               <span style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
                 {[
-                  ['Achieves', 'a printable coverage record of the whole scheme'],
+                  ['Achieves', 'a printable checklist of the whole scheme, lesson by lesson'],
                   ['Helps', 'answers a deep dive on one page, no spreadsheet'],
                   ['Never', 'who was in the room. No pupil data, no accounts'],
                 ].map(([k, v]) => (
@@ -172,6 +182,36 @@ export default async function HubPage() {
             </span>
           </span>
         </Link>
+
+        {/* THE SCHOOL'S RECORD, ONE CLICK FROM THE HUB (11 November 2026). The
+            tracker above is this laptop's own ticks. The record is what the
+            Mark lesson delivered button saves for the whole school: which
+            class had which lesson, when, and how it went. It was reachable
+            only from a link inside the tracker and from the foot of a lesson,
+            so a subject lead who opened the Hub never met it. Named for what
+            it is, so "the record" means one thing on this page. */}
+        <Link className="gc-tap" href="/hub/progress" style={{
+          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-2)',
+          background: 'var(--white)', border: '1px solid var(--border)', borderTop: '4px solid var(--terracotta-dark)',
+          borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
+          boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
+        }}>
+          <span style={{ ...eyebrow, color: 'var(--terracotta-dark)', display: 'block', marginBottom: 'var(--space-1)' }}>
+            Your school&apos;s record · the same on every laptop
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 'var(--space-1)' }}>
+            Class progress →
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+            Which class has had which lesson, when, how it went and what to teach again. Every class side by
+            side, last year&apos;s record, and one spreadsheet to download. It fills itself in from the Mark lesson
+            delivered button. No pupil is named.
+          </span>
+        </Link>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-4)' }}>
+          The same record, read against the statutory content:{' '}
+          <Link href="/hub/coverage" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what has been taught, requirement by requirement</Link>.
+        </p>
 
         {/* THE ONE THING ONLY THE SCHOOL CAN SAY. The lessons teach that
             there is somebody in this building whose job is safeguarding;

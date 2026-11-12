@@ -22,11 +22,15 @@ today, say so in one line, log the INBOX stage as it is, and carry on.
 
 ## 0. Tooling and the one register rule
 
-1. Google Drive must be in the session. If it is not, say so in one line and
-   stop. Never review from memory.
-2. List open pull requests. **If one touches `content/research-register/`,
-   check out its branch and carry on from it.** Never start a second register
-   from main. Otherwise work from the latest main on a `claude/` branch.
+1. Google Drive must be in the session. If it is not, log `DRIVE SYNC` as
+   ERROR, do every step that needs no Drive, push, and say so. Never stop
+   without a run log: a run that leaves no log looks like a run that never
+   happened.
+2. Start from the branch the task's own message tells you how to find, with
+   git alone. A scheduled run has no tool that lists pull requests: on 11
+   November that instruction stopped the run in three minutes. **Never start a
+   second register from main while a branch ahead of it holds register
+   changes.**
 3. `git fetch origin main` and merge it in if the branch is behind.
 
 ## 1. Read the inbox and the briefs
@@ -47,6 +51,29 @@ today, say so in one line, log the INBOX stage as it is, and carry on.
    `.claude/skills/feedback-filter`. If the brief names research that is not
    in the inbox document, that is ChatGPT not using the inbox: say so in the
    summary, and do not carry the item across by hand.
+
+## 1a. The LinkedIn numbers, when Justin has left them
+
+List the analytics inbox (`DRIVE.ANALYTICS_INBOX`). For each document that is
+not the read me and not titled `ZZ`: read it, save the text with `drive-text.py`, then
+
+```
+node scripts/analytics/linkedin.mjs import-paste <file> --at <when it was copied, ISO> --source "<the title>"
+node scripts/analytics/linkedin.mjs report --out content/analytics/linkedin-report-<date>.md
+node scripts/analytics/linkedin.mjs due
+```
+
+Tag any new post (`linkedin-post-tags.json`, then `tag`): its topic, how it
+opens, evidence led or product led, what it carried. Then rewrite
+`content/analytics/what-is-working.json` from the report, in a few lines, and
+only as far as the report allows: it will not rank a group under five posts and
+neither do you. That file is printed in the start here document, which is how
+tomorrow's packs learn from last week's numbers. Retitle the document
+`ZZ IMPORTED <date>`. Put what `due` prints in the message to Justin: those
+are the posts worth one more paste today.
+
+There is no automatic feed from LinkedIn and none is claimed. If the inbox is
+empty, say so in one line.
 
 ## 2. The deterministic stages
 
@@ -112,7 +139,8 @@ Drive copy is stamped with a commit that exists in GitHub. Then, following
    Create it as a Google Doc titled as `stage2Brief` returns with `, CURRENT`
    on the end, verify with `verifyDocExport`, record with `acceptBrief`.
 3. `node scripts/radar/approval.mjs approval.txt`. If `approvalDeskCurrent`
-   says the Drive copy differs, create a new Doc titled as it returns with
+   says the Drive copy differs, create a new Doc in the Founder Approval Desk
+   folder (`DRIVE.APPROVAL_DESK_FOLDER`) titled as it returns with
    `, CURRENT, for Justin`, verify, record with `acceptApprovalDesk`.
 4. Retitle everything replaced `ZZ SUPERSEDED`, with where the current one is.
 5. Never compare by eye and never retype base64.

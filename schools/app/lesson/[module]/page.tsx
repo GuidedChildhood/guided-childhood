@@ -13,6 +13,7 @@ import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import RecordLesson from '@/components/records/RecordLesson'
+import { descriptorsOf } from '@gc/shared/lesson-records'
 import { LessonOpened } from '@/components/tracker/signals'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { evidenceStatus } from '@gc/shared/evidence-status'
@@ -114,6 +115,7 @@ type Lesson = {
   efcw_strands: number[] | null
   statutory_hooks: string[] | null
   evidence_anchor: string | null
+  assessment: unknown
 }
 
 const mono: React.CSSProperties = {
@@ -155,7 +157,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note, efcw_strands, statutory_hooks, evidence_anchor')
+    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note, efcw_strands, statutory_hooks, evidence_anchor, assessment')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -781,12 +783,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {/* The one tap that says it was taught, saved for the school and not
             for this laptop (10 November 2026). Only with a school code. */}
         {access && (
-          <section style={{ marginTop: '28px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)' }}>
+          <section id="record" style={{ marginTop: '28px', scrollMarginTop: 'var(--space-4)', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4)' }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>Taught it? Record it for your school</h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 var(--space-3)' }}>
               The class and the date, saved on every laptop. No pupil is named.
             </p>
-            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} recordHref="/hub/progress" />
+            <RecordLesson subject="digital" lessonKey={lesson.module_id} objectives={asList(notes.i_can)} descriptors={descriptorsOf(lesson.assessment)} recordHref="/hub/progress" />
           </section>
         )}
 

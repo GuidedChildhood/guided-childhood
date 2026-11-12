@@ -472,12 +472,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Shows the right sign for each voice, says a machine can be wrong, and says a secret is a tell.",
+        "developing": "Shows the three signs with the class, but needs prompting to say what to do for each one.",
+        "revisit": "Says a friendly player who is seven too is a friend, the speaker has feelings, or would keep the secret."
+      }
     }
   },
   "parent_note": {

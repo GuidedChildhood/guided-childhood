@@ -467,7 +467,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks. This mirrors evidence item three, so a wrong answer here tells you exactly who to mark as working towards on the register.",
+      "script": "First of two exit checks. This mirrors evidence item three, so a wrong answer here tells you exactly who to note down and come back to next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -602,7 +602,7 @@
         "Most people scroll and share without thinking. You are no longer most people. See you next lesson!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson.",
       "heading": "DiGi closes the case",
       "minutes": 2
     }
@@ -633,12 +633,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Runs the three checks in order, gives believe, pause or do not share with a reason, and defends pause as a verdict.",
+        "developing": "Recites the three checks but gives verdicts without a reason, or skips check three when a post hits hard.",
+        "revisit": "Says it looks real so it is real, that AI made means a lie, or that checking means distrusting everything."
+      }
     }
   },
   "sort_order": 12,
@@ -769,7 +772,7 @@
         "teaching_point": "The three words of the lesson. The difference between the first two is intent, not accuracy."
       },
       {
-        "answer": "Who made it, what is the source, and what does it want from me?",
+        "answer": "Who made this, what do other places say, and how is it trying to make me feel?",
         "format": "short_answer",
         "question": "What are the three checks?",
         "teaching_point": "The tool they leave with. Three, in order, and the third one is the one people skip."
@@ -899,7 +902,7 @@
     "key_learning_points": [
       "Content can be manufactured: images, audio and video, not only text.",
       "Looking real is no longer evidence that something is real.",
-      "The three checks are: who made it, what is the source, and what does it want from me?",
+      "The three checks are: who made this, what do other places say, and how is it trying to make me feel?",
       "Pause is a verdict, not a failure to reach one.",
       "A fake travels further than its correction, so the decision that matters is made before you share."
     ],

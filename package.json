@@ -30,6 +30,7 @@
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
     "share-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/auth/safe-next.test.ts lib/school/share.test.ts",
+    "tasters-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/magnets/taster-nurture.test.ts",
     "utm-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/video/utm.test.ts",
     "privacy-links-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test lib/email/link-token.test.ts",
     "pii-url-guard": "node scripts/check-no-pii-in-urls.mjs",
@@ -78,6 +79,7 @@
     "social-week": "node tools/social-cards/week.mjs",
     "languages-guard": "node --experimental-strip-types scripts/check-languages-door.mjs",
     "lesson-records-guard": "node --experimental-strip-types scripts/check-lesson-records.mjs",
+    "progression-guard": "node scripts/check-progression.mjs",
     "planet": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs publishing/cli.ts",
     "planet-test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs --test publishing/tests/*.test.ts",
     "review-board": "node scripts/review-board.mjs",
@@ -89,7 +91,9 @@
     "sitemap-guard": "node scripts/check-sitemap-coverage.mjs",
     "android-build": "bash scripts/app-stores/build-android.sh",
     "play-fingerprint": "node scripts/app-stores/add-play-fingerprint.mjs",
-    "app-icons": "node scripts/app-stores/make-maskable-icons.mjs"
+    "app-icons": "node scripts/app-stores/make-maskable-icons.mjs",
+    "radar-assets-test": "node scripts/radar/test-assets.mjs",
+    "linkedin-analytics": "node scripts/analytics/linkedin.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

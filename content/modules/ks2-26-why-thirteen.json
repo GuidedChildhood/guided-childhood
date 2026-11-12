@@ -606,11 +606,11 @@
           "answer": 0
         },
         {
-          "q": "How many protections are wired to your age?",
+          "q": "Which two of these are protections wired to your age?",
           "options": [
-            "One",
-            "Four",
-            "None"
+            "A strong password and only using it at weekends",
+            "What you see and who can reach you",
+            "How hard the game is and how much it costs"
           ],
           "answer": 1
         },
@@ -644,9 +644,16 @@
       "note": "Collected on the learning record. The app is theirs to choose and the person at home is theirs to choose, which is what makes it get done."
     },
     "teacher_judgement": {
-      "secure": "Can say that the age decides which version of the app you get, and can name at least two of the four protections without prompting.",
-      "developing": "Knows the number matters and describes it as a rule about being allowed rather than as a protection that switches things on.",
-      "needs_support": "Reads the age rule as a judgement about them personally, or as a rule that can be earned by being sensible."
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Says the age decides which version of the app you get and names at least two of the four protections without prompting.",
+        "developing": "Says the number matters but describes it as a rule about being allowed, not a protection that switches things on.",
+        "revisit": "Reads the age rule as a judgement about them personally, or as a rule that can be earned by being sensible."
+      }
     }
   },
   "parent_note": {
@@ -787,11 +794,11 @@
           "answer": 0
         },
         {
-          "q": "How many protections are wired to your age?",
+          "q": "Which two of these are protections wired to your age?",
           "options": [
-            "One",
-            "Four",
-            "None"
+            "A strong password and only using it at weekends",
+            "What you see and who can reach you",
+            "How hard the game is and how much it costs"
           ],
           "answer": 1
         },

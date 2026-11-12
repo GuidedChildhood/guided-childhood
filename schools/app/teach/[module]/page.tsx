@@ -163,6 +163,10 @@ export default async function TeachLessonPage({
           lessonSource="school_lesson"
           slides={slides}
           backHref={isStandaloneModule(moduleId) ? `/lesson/${moduleId}` : '/curriculum'}
+          // The hour ends in the record: one button on the finish that opens
+          // the run sheet at Mark lesson delivered. Only with a school code,
+          // because a free sample visitor has no school to save it for.
+          recordHref={access ? `/lesson/${lesson.module_id}/run#record` : undefined}
           teacherView
           projector
           completeEndpoint={null}

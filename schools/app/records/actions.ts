@@ -2,8 +2,8 @@
 
 import { createHash } from 'node:crypto'
 import {
-  academicYear, canUndo, cleanDeliveredOn, cleanGroups, cleanJudgement, cleanLevels, cleanNote, cleanObjectiveMarks, frLessonKey, isoDate,
-  parseFrLessonKey, yearGroupsOf, type Assessment, type Delivery, type Subject,
+  academicYear, canUndo, cleanDeliveredOn, cleanGroups, cleanJudgement, cleanLevels, cleanNote, cleanObjectiveMarks, cleanQuizCounts, frLessonKey, isoDate,
+  parseFrLessonKey, QUIZ_KEY, yearGroupsOf, type Assessment, type Delivery, type Subject,
 } from '@gc/shared/lesson-records'
 import { cleanModuleId } from '@gc/shared/parent-share'
 import { codesToRecord, frenchLesson, frenchUnit } from '@/lib/languages/french'
@@ -118,7 +118,7 @@ export async function markDelivered(input: { subject: Subject; lessonKey: string
 }
 
 export async function assessDelivery(input: {
-  subject: Subject; id: string; judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string
+  subject: Subject; id: string; judgement?: string; objectiveMarks?: unknown; levels?: unknown; note?: string; quiz?: unknown
 }): Promise<RecordResult> {
   if (!isSubject(input?.subject)) return { ok: false, error: NOT_SAVED }
   const ref = await recordsSchool(input.subject)
@@ -136,6 +136,10 @@ export async function assessDelivery(input: {
   } else {
     marks = cleanObjectiveMarks(input.objectiveMarks, lesson.objectives)
     assessment = cleanJudgement(input.judgement) ?? 'not_assessed'
+    // The class counts on the starter and exit quizzes, when given. Three
+    // whole numbers, cleaned by the shared rule, kept beside the judgements.
+    const quiz = cleanQuizCounts(input.quiz)
+    if (quiz) marks[QUIZ_KEY] = quiz
   }
   const note = cleanNote(input.note)
   const after = { assessment, objective_marks: marks, note }

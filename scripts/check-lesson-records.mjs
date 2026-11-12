@@ -18,7 +18,7 @@
 // was taught, and a class's level counts never added to themselves.
 //
 // Run: node --experimental-strip-types scripts/check-lesson-records.mjs
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 
 let failed = 0
 const ok = (name, cond, detail = '') => {
@@ -113,6 +113,47 @@ ok('a class\'s level is its latest count, not the sum of its counts', latest?.le
 const both = R.latestLevels(rows, 'y3-ht2', 'S1')
 ok('a count shared by two classes is added once', both?.levels.s3 === 4 + 20 && both?.levels.s4 === 20 + 30 && both?.levels.s5 === 6 + 10)
 ok('a statement nobody counted has no level', R.latestLevels(rows, 'y3-ht2', 'R1') === null && R.latestLevels(rows, 'y4-ht2', 'S1') === null)
+
+// WHAT GOOD LOOKS LIKE, ON EVERY LESSON (11 November 2026). The three
+// judgement buttons each carry a line saying what that judgement looks like
+// in this lesson. A lesson without them leaves a teacher guessing where the
+// line is, which is the gap the progression review found on 33 of 37.
+const lessonFiles = ['content/modules', 'content/standalone'].flatMap(d => readdirSync(d).filter(f => f.endsWith('.json')).map(f => `${d}/${f}`))
+for (const f of lessonFiles) {
+  const m = JSON.parse(read(f))
+  const d = R.descriptorsOf(m.assessment)
+  ok(`${m.module_id} says what secure, developing and needs revisiting look like`, !!d, 'assessment.teacher_judgement.descriptors needs all three lines')
+  if (!d) continue
+  ok(`${m.module_id} uses the one judgement scale`, JSON.stringify(m.assessment.teacher_judgement.scale) === '["secure","developing","revisit"]')
+  for (const j of R.JUDGEMENTS) {
+    const n = d[j].trim().split(/\s+/).length
+    ok(`${m.module_id} ${j} descriptor is one line a teacher can read on a button`, n >= 6 && n <= 22, `${n} words`)
+    ok(`${m.module_id} ${j} descriptor carries no dash`, !/[‐-―]| - /.test(d[j]))
+  }
+}
+ok('a lesson with two descriptor lines shows none', R.descriptorsOf({ teacher_judgement: { descriptors: { secure: 'a', developing: 'b' } } }) === null)
+ok('the older shape is still read', R.descriptorsOf({ teacher_judgement: { secure: 'a', developing: 'b', needs_support: 'c' } })?.revisit === 'c')
+
+// The spreadsheet file: a note a teacher typed can never run as a formula.
+ok('a cell that would open as a formula is made text', R.csvCell('=SUM(A1)') === "'=SUM(A1)" && R.csvCell('+44') === "'+44" && R.csvCell('@x') === "'@x")
+ok('a comma or a quote is quoted', R.csvCell('Gaming: time, spend') === '"Gaming: time, spend"' && R.csvCell('say "no"') === '"say ""no"""')
+ok('a year in the address is only ever one the school has', R.cleanYear('2025-26', ['2026-27', '2025-26']) === '2025-26' && R.cleanYear('1999-00', ['2026-27']) === null && R.cleanYear("x' or 1=1", ['2026-27']) === null)
+for (const route of ['schools/app/hub/progress/export/route.ts', 'schools/app/languages/fr/progress/export/route.ts']) {
+  const src = code(read(route))
+  ok(`${route} reads the school from the cookie and takes none from the address`, /readDeliveries\(/.test(src) && !/school_ref|schoolRef/.test(src))
+  ok(`${route} refuses a caller with no school`, /if \(!school\) return new Response\([^)]*status: 403/.test(src))
+  ok(`${route} is never cached`, /no-store/.test(src))
+}
+
+// The quiz counts: three whole numbers, and a count can never exceed the room.
+ok('quiz counts need the pupils and at least one count', R.cleanQuizCounts({ pupils: '30' }) === null && R.cleanQuizCounts({ starter: 4 }) === null)
+ok('a count larger than the room is dropped', R.cleanQuizCounts({ pupils: 30, starter: 31, exit: 20 })?.starter === null && R.cleanQuizCounts({ pupils: 30, starter: 31 }) === null)
+ok('quiz counts hold nothing but numbers', JSON.stringify(R.cleanQuizCounts({ pupils: '30', starter: '18', exit: '26', name: 'a child' })) === '{"pupils":30,"starter":18,"exit":26}')
+ok('a room over 120 is not a class', R.cleanQuizCounts({ pupils: 500, exit: 3 }) === null)
+const quizRows = [row('q1', 'ks2-04', '2026-11-03', ['6B'], { _quiz: { pupils: 30, starter: 15, exit: 27 } }), row('q2', 'ks2-05', '2026-11-10', ['6B'], { _quiz: { pupils: 20, starter: null, exit: 13 } }), row('q3', 'ks2-06', '2026-11-11', ['6B'])]
+const shares = R.quizShares(quizRows)
+ok('quiz shares are over the pupils counted for that quiz', shares.starter === 50 && shares.exit === 80 && shares.lessons === 2)
+ok('the quiz counts do not read as a judgement by objective', Object.keys(R.cleanObjectiveMarks({ _quiz: { pupils: 3 }, 0: 'secure' }, 3)).join() === '0')
 
 // The legal text has to say what the product now does.
 const dpa = read('schools/lib/legal/dpa.ts'); const privacy = read('schools/lib/legal/privacy.ts')

@@ -101,7 +101,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Hands down, three seconds of thinking time, then fingers up, one, two or three, everyone at once. The options land in a different order on every run, so name them by their words, never by their number. The answer that says it was your idea is where most of the class lives and you must not squash it. Their idea is real. Say that first, then separate having the idea from doing the making. That separation is the lesson.",
+      "script": "Hands down, three seconds of thinking time, then fingers up, one, two or three, everyone at once. The options shuffle on every run, so name them by their words. Most of the class will say it was your idea, and you must not squash it. Their idea is real. Say that first, then separate having the idea from doing the making. That separation is the lesson. If they did the copyright lesson, I made this with an AI tool is still the honest line. Today asks who did the making.",
       "minutes": 2,
       "options": [
         {
@@ -642,6 +642,18 @@
         }
       ],
       "instructions": "Four questions. Nobody marks these and nobody sees them but you."
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Turns a do it all ask into a help me ask and explains a piece of work back with the book shut.",
+        "developing": "Sorts helper from took over on the cards but cannot yet say what the job was on their own work.",
+        "revisit": "Says I made it because I asked for it, or hears the lesson as a rule against using a helper."
+      }
     }
   },
   "sort_order": 25,
@@ -857,7 +869,7 @@
     },
     "prior_knowledge": [
       "Children have asked a computer or an assistant to make something for them at least once, which is true of most of this age group.",
-      "Children know what it means to be told what a piece of work is for, from ks2-06 on how algorithms work."
+      "Children can say where an AI picture really comes from, and that I made this with an AI tool is the honest line, from ks2-09."
     ],
     "worksheet_items": [
       {

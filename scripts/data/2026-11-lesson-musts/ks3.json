@@ -1,0 +1,517 @@
+[
+  {
+    "module_id": "ks3-10-mood-and-screens",
+    "file": "content/modules/ks3-10-mood-and-screens.json",
+    "descriptors": {
+      "secure": "Explains that raw hours barely predict wellbeing, gives better, worse or nothing with a reason, and names one calibrated move.",
+      "developing": "Sorts connecting from comparing, but skips nothing as a verdict or gives a verdict without a reason.",
+      "revisit": "Says hours decide your mood, or takes screens are harmless or delete every app as the answer."
+    },
+    "edits": [
+      {
+        "why": "Pupils have not run their own week of the audit when they sit the exit quiz, so the question now gives them a week to work from.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          4,
+          "question"
+        ],
+        "old": "Name one thing you would change after a week of the mood audit, and why.",
+        "new": "After a week of the mood audit, one app comes back worse four times out of five. Name one change you would make, and why."
+      },
+      {
+        "why": "The answer key now matches a question pupils can answer at the end of the lesson, in the lesson's own words for a calibrated move.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          4,
+          "answer"
+        ],
+        "old": "Any specific change with a reason drawn from their own pattern.",
+        "new": "Any one calibrated move with a reason: mute the source, move the time, or change the use."
+      },
+      {
+        "why": "The marking note no longer blames a vague answer on an audit the pupil has not had the chance to run.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          4,
+          "teaching_point"
+        ],
+        "old": "The lesson's real outcome. Vague answers mean the audit was not run honestly.",
+        "new": "The lesson's real outcome, asked about a given week because their own has not run yet. Deleting every app is not a calibrated move."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          28,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in bags to start the week of audits tonight.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson, and the commitment cards go home in bags to start the week of audits tonight."
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-11-social-workarounds",
+    "file": "content/modules/ks3-11-social-workarounds.json",
+    "descriptors": {
+      "secure": "Names the protection behind a rule, says what a workaround skips, and explains why it is a trade, never a free win.",
+      "developing": "Says a workaround is a trade but cannot name the protection lost, or treats a giant group chat as private.",
+      "revisit": "Says an age setting only unlocks features, a workaround just skips an annoying rule, or a borrowed account is safe."
+    },
+    "edits": [
+      {
+        "why": "The lesson builds on the primary lesson Why thirteen?, so the notes now name it for the teacher.",
+        "column": "teacher_notes",
+        "path": [
+          "prior_knowledge",
+          1
+        ],
+        "old": "A pupil knows that platforms have minimum ages and can name one.",
+        "new": "A pupil can say what the number on an app is protecting, and that four protections are wired to it, from ks2-26."
+      },
+      {
+        "why": "The starter now brings back the four protections from primary, so the teacher can see whether cycle one is new or a reminder.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          1,
+          "question"
+        ],
+        "old": "Name one platform and the minimum age it sets.",
+        "new": "From Why thirteen? in primary: name two of the protections wired to your age on an app."
+      },
+      {
+        "why": "The answer key gives the four protections as the primary lesson taught them.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          1,
+          "answer"
+        ],
+        "old": "Any platform with a plausible minimum age.",
+        "new": "Any two of: content filtering, who can make contact, advertising and profiling, how a report is handled."
+      },
+      {
+        "why": "The marking note tells the teacher what the answers mean for cycle one.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          1,
+          "teaching_point"
+        ],
+        "old": "They know these. Getting them said out loud stops the lesson feeling theoretical.",
+        "new": "Carried forward from ks2-26. If the class can name them, cycle one is a reminder, and the new learning is what a workaround trades away."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "First of two exit checks, and it mirrors evidence item one, so a wrong answer here tells you exactly who to mark as working towards on the register. Silent, independent, no conferring, this pair of questions is the printed exit quiz.",
+        "new": "First of two exit checks, and it mirrors evidence item one, so a wrong answer here tells you exactly who to note down and come back to next lesson. Silent, independent, no conferring, this pair of questions is the printed exit quiz."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          30,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card. Collect them in, they are your evidence for the register.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card. Collect them in, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-12-misinfo-deepfakes",
+    "file": "content/modules/ks3-12-misinfo-deepfakes.json",
+    "descriptors": {
+      "secure": "Runs the three checks in order, gives believe, pause or do not share with a reason, and defends pause as a verdict.",
+      "developing": "Recites the three checks but gives verdicts without a reason, or skips check three when a post hits hard.",
+      "revisit": "Says it looks real so it is real, that AI made means a lie, or that checking means distrusting everything."
+    },
+    "edits": [
+      {
+        "why": "The key learning point now names the three checks in the words the slides, the bookmark and the recap teach.",
+        "column": "teacher_notes",
+        "path": [
+          "key_learning_points",
+          2
+        ],
+        "old": "The three checks are: who made it, what is the source, and what does it want from me?",
+        "new": "The three checks are: who made this, what do other places say, and how is it trying to make me feel?"
+      },
+      {
+        "why": "The exit quiz answer key now matches the three checks as taught, so a pupil who writes what the slides say is marked right.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          1,
+          "answer"
+        ],
+        "old": "Who made it, what is the source, and what does it want from me?",
+        "new": "Who made this, what do other places say, and how is it trying to make me feel?"
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          25,
+          "script"
+        ],
+        "old": "First of two exit checks. This mirrors evidence item three, so a wrong answer here tells you exactly who to mark as working towards on the register.",
+        "new": "First of two exit checks. This mirrors evidence item three, so a wrong answer here tells you exactly who to note down and come back to next lesson."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          34,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-13-scams-fraud-money",
+    "file": "content/modules/ks3-13-scams-fraud-money.json",
+    "descriptors": {
+      "secure": "Names the tell that fired, checks by a different route before acting, and says the tells judge the message, never the sender.",
+      "developing": "Recites the three tells but trusts a message from a friend's account, or calls everything a scam.",
+      "revisit": "Says scams only catch old people, or that being good with tech means they would never fall for one."
+    },
+    "edits": [
+      {
+        "why": "The reporting route is taught on the last teach slide and nothing checked it, so the exit quiz gains a sixth question in that slide's own words.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz"
+        ],
+        "old": [
+          {
+            "answer": "It rushes you, it asks for something odd, it is too good to be true.",
+            "format": "short_answer",
+            "question": "What are the three tells?",
+            "teaching_point": "The tool they leave with. Three, and any one of them is enough to stop."
+          },
+          {
+            "answer": "phishing",
+            "format": "fill_blank",
+            "question": "A fake message or login page dressed up as a real one is called ___.",
+            "teaching_point": "One word, spelled their way or ours. The idea is what counts."
+          },
+          {
+            "answer": "False",
+            "format": "true_false",
+            "question": "Scams only catch older people.",
+            "teaching_point": "Scammers deliberately target teenagers, partly because this belief lowers their guard."
+          },
+          {
+            "answer": "It can be sold, and it can scam the owner's friends",
+            "format": "tick_one",
+            "options": [
+              "It is not, they just do it for fun",
+              "It can be sold, and it can scam the owner's friends",
+              "Only to annoy you"
+            ],
+            "question": "Why is a gaming account worth stealing?",
+            "teaching_point": "Both halves matter. The second is why a message from a friend's account is not automatically safe."
+          },
+          {
+            "answer": "Stop, check, refuse.",
+            "format": "short_answer",
+            "question": "A message rushes you. What are the three steps?",
+            "teaching_point": "Checking through a different route is what breaks the script. Not replying to the message itself."
+          }
+        ],
+        "new": [
+          {
+            "answer": "It rushes you, it asks for something odd, it is too good to be true.",
+            "format": "short_answer",
+            "question": "What are the three tells?",
+            "teaching_point": "The tool they leave with. Three, and any one of them is enough to stop."
+          },
+          {
+            "answer": "phishing",
+            "format": "fill_blank",
+            "question": "A fake message or login page dressed up as a real one is called ___.",
+            "teaching_point": "One word, spelled their way or ours. The idea is what counts."
+          },
+          {
+            "answer": "False",
+            "format": "true_false",
+            "question": "Scams only catch older people.",
+            "teaching_point": "Scammers deliberately target teenagers, partly because this belief lowers their guard."
+          },
+          {
+            "answer": "It can be sold, and it can scam the owner's friends",
+            "format": "tick_one",
+            "options": [
+              "It is not, they just do it for fun",
+              "It can be sold, and it can scam the owner's friends",
+              "Only to annoy you"
+            ],
+            "question": "Why is a gaming account worth stealing?",
+            "teaching_point": "Both halves matter. The second is why a message from a friend's account is not automatically safe."
+          },
+          {
+            "answer": "Stop, check, refuse.",
+            "format": "short_answer",
+            "question": "A message rushes you. What are the three steps?",
+            "teaching_point": "Checking through a different route is what breaks the script. Not replying to the message itself."
+          },
+          {
+            "answer": "Any two of: an adult you trust, the app, the bank if money moved, Action Fraud, or Police Scotland if you are in Scotland.",
+            "format": "short_answer",
+            "question": "Fraud is a crime, and it gets reported. Name two places a scam can be reported.",
+            "teaching_point": "The person targeted is never the one in trouble. Reporting is what turns one person's bad afternoon into evidence."
+          }
+        ]
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "First of two exit checks, done silently and alone, these two are the printed quiz. This mirrors evidence item three plus the theft chain, so a wrong answer tells you exactly what to reteach and who to mark as working towards on the register.",
+        "new": "First of two exit checks, done silently and alone, these two are the printed quiz. This mirrors evidence item three plus the theft chain, so a wrong answer tells you exactly what to reteach and who to note down and come back to next lesson."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          30,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes are collected in as this plays, they are your evidence for the register. One last line to say over it: if any message this week catches you or nearly does, telling someone is the strong move, and I want to hear about it.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes are collected in as this plays, they show you who to revisit next lesson. One last line to say over it: if any message this week catches you or nearly does, telling someone is the strong move, and I want to hear about it."
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-14-bodies-image-pressure",
+    "file": "content/modules/ks3-14-bodies-image-pressure.json",
+    "descriptors": {
+      "secure": "Names the choices behind a polished image, says who profits when we feel worse, and runs the image check on the feeling.",
+      "developing": "Spots editing in an image but cannot say who profits, or runs the image check on the picture, not the feeling.",
+      "revisit": "Says you can always tell when a photo is edited, or that feeling worse means something is wrong with you."
+    },
+    "edits": [
+      {
+        "why": "There is no register and no pupil record, so the script now says to note who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "Second exit check, still silent and alone. This is the one that matters most for wellbeing, because it tests whether pupils have stopped blaming themselves. Collect both answers on the printed exit quiz as your evidence for the register.",
+        "new": "Second exit check, still silent and alone. This is the one that matters most for wellbeing, because it tests whether pupils have stopped blaming themselves. Collect both answers on the printed exit quiz as your note of who to revisit."
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-22-when-an-ai-acts-like-a-friend",
+    "file": "content/modules/ks3-22-when-an-ai-acts-like-a-friend.json",
+    "descriptors": {
+      "secure": "Holds two things at once, it is good company and it is a product, and names a person they would tell.",
+      "developing": "Names what it does to sound like it cares, but gives a category rather than a named adult to tell.",
+      "revisit": "Says it is all fake, or says it really does care, or cannot name a person to tell."
+    },
+    "edits": [
+      {
+        "why": "The notes pointed to a Year 10 lesson the class has not had; they now name the primary lesson this one grows from.",
+        "column": "teacher_notes",
+        "path": [
+          "prior_knowledge",
+          1
+        ],
+        "old": "A pupil can name a technique being used on them, from ks4-15 if taught, or from ks2-06.",
+        "new": "A pupil can name two things a real friend can do that a machine cannot, from ks2-23."
+      },
+      {
+        "why": "The starter now opens by bringing back the primary lesson on machines that talk like a friend, where before it only asked about today.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          0,
+          "q"
+        ],
+        "old": "An app says I have missed you today. What made it say that?",
+        "new": "From the friend check in primary: which of these can a real friend do that a machine cannot?"
+      },
+      {
+        "why": "The options use the primary friend check: a friend can say no to you and would miss you.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          0,
+          "options"
+        ],
+        "old": [
+          "It noticed you were gone and felt something",
+          "It was written to say that when someone returns",
+          "It says that to nobody else"
+        ],
+        "new": [
+          "Remember your name",
+          "Say no to you, and miss you if you stopped",
+          "Answer at bedtime"
+        ]
+      },
+      {
+        "why": "The starter now opens by bringing back the primary lesson on machines that talk like a friend, where before it only asked about today. Same question, held a second time in the assessment block.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          0,
+          "q"
+        ],
+        "old": "An app says I have missed you today. What made it say that?",
+        "new": "From the friend check in primary: which of these can a real friend do that a machine cannot?"
+      },
+      {
+        "why": "The same options, held a second time in the assessment block.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          0,
+          "options"
+        ],
+        "old": [
+          "It noticed you were gone and felt something",
+          "It was written to say that when someone returns",
+          "It says that to nobody else"
+        ],
+        "new": [
+          "Remember your name",
+          "Say no to you, and miss you if you stopped",
+          "Answer at bedtime"
+        ]
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-24-is-it-doing-my-thinking",
+    "file": "content/modules/ks3-24-is-it-doing-my-thinking.json",
+    "descriptors": {
+      "secure": "Runs the thinking test on a task, says which part must stay with them, and explains why the answers group did worse.",
+      "developing": "Sorts a ramp from a swap on the easy cases, but asks am I allowed, not what is this task teaching me.",
+      "revisit": "Says the lesson is about cheating, that using AI more is the problem, or that making sense means it was learned."
+    },
+    "edits": [
+      {
+        "why": "The notes named no earlier lesson; they now name Stay the maker, where the class first met the explain it back test.",
+        "column": "teacher_notes",
+        "path": [
+          "prior_knowledge"
+        ],
+        "old": [
+          "Pupils have used a chatbot for schoolwork at least once, which is true of roughly six in ten of this age group.",
+          "Pupils know what a mark scheme is and have seen one for at least one subject."
+        ],
+        "new": [
+          "Pupils have used a chatbot for schoolwork at least once, which is true of roughly six in ten of this age group.",
+          "Pupils know what a mark scheme is and have seen one for at least one subject.",
+          "Pupils who met Stay the maker in KS2 (ks2-25) have run the explain it back test and asked for a little bit less help each time."
+        ]
+      },
+      {
+        "why": "This starter question now says it is bringing back the explain it back test from primary, so it works as retrieval.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "If an explanation made complete sense to you, how much does that prove?",
+        "new": "From the explain it back test in primary: if an explanation made complete sense to you, how much does that prove?"
+      },
+      {
+        "why": "This starter question now says it is bringing back the one step less idea from primary.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          3,
+          "q"
+        ],
+        "old": "You have been using hints and can now do part of it alone. What should change?",
+        "new": "From primary: you have been using hints and can now do part of it alone. What should change?"
+      },
+      {
+        "why": "The same explain it back question, held a second time in the assessment block.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "If an explanation made complete sense to you, how much does that prove?",
+        "new": "From the explain it back test in primary: if an explanation made complete sense to you, how much does that prove?"
+      },
+      {
+        "why": "The same one step less question, held a second time in the assessment block.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          3,
+          "q"
+        ],
+        "old": "You have been using hints and can now do part of it alone. What should change?",
+        "new": "From primary: you have been using hints and can now do part of it alone. What should change?"
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-27-when-it-turns-on-you",
+    "file": "content/modules/ks3-27-when-it-turns-on-you.json",
+    "descriptors": {
+      "secure": "Names the three missing brakes without prompting, tells a row from harassment, and gives a specific person to tell.",
+      "developing": "Knows the three moves but still says online conflict is about people being nastier, which leaves them without a plan.",
+      "revisit": "Uses the four names loosely as insults, or reads the coercive control scenario as someone caring a lot."
+    },
+    "edits": [
+      {
+        "why": "The learning record printed one statement to judge; it now prints the three cycle outcomes the lesson already teaches.",
+        "column": "teacher_notes",
+        "path": [
+          "i_can"
+        ],
+        "old": [
+          "I can name what is happening, and say the thing that ends it."
+        ],
+        "new": [
+          "I can name the three brakes that are missing online, and say why it is the place rather than the people.",
+          "I can tell a bad day from bullying, harassment, stalking and coercive control.",
+          "I can use the three moves in order, and name a person who can act."
+        ]
+      }
+    ]
+  },
+  {
+    "module_id": "ks3-34-who-owns-what-you-make",
+    "file": "content/modules/ks3-34-who-owns-what-you-make.json",
+    "descriptors": {
+      "secure": "Says who owns a piece of work, runs the two fair dealing questions, and credits an AI tool, saying what they did.",
+      "developing": "Knows credit is not permission, but says fair use for fair dealing, or credits an AI tool without saying what they did.",
+      "revisit": "Says a credit or no copyright intended makes a repost fine, or that posting hands ownership to the app."
+    },
+    "edits": []
+  }
+]

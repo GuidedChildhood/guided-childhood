@@ -102,6 +102,20 @@ export async function readDeliveries(subject: Subject, academicYear: string, les
   return { school: true, deliveries: ((data ?? []) as Row[]).map(toDelivery), failed: false }
 }
 
+/** The academic years this school has a record in for one subject, newest
+ *  first, always including the current one, so a page can offer last year's
+ *  record without inventing years. Empty when nobody with a code is asking. */
+export async function recordYears(subject: Subject, current: string): Promise<string[]> {
+  const ref = await recordsSchool(subject)
+  if (!ref) return []
+  const { data, error } = await db.from('lesson_records').select('academic_year')
+    .eq('school_ref', ref).eq('subject', subject).eq('status', 'delivered').limit(5000)
+  if (error) return [current]
+  const years = new Set<string>([current])
+  for (const r of (data ?? []) as { academic_year: string }[]) if (/^\d{4}-\d{2}$/.test(r.academic_year)) years.add(r.academic_year)
+  return [...years].sort().reverse()
+}
+
 /** One delivery, only if it belongs to the given school. */
 export async function readOwnDelivery(ref: string, id: string): Promise<Delivery | null> {
   if (!/^[0-9a-f-]{36}$/.test(id)) return null

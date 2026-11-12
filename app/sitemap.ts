@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 
 import { SITE_URL as BASE_URL } from '@/lib/config/site'
 import { GUIDES } from '@/lib/content/guides'
+import { listedTasters } from '@/lib/magnets/tasters'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
@@ -32,6 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Every guide, from lib/content/guides.ts, so a new one is listed the day
     // it ships (plans/2026-11-02-guides-plan.md).
     ...GUIDES.map(g => ({ path: `/guides/${g.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
+    // Every promoted free taster, from content/printables/free-tasters.json (11
+    // November 2026), so a pack joins the sitemap the day it joins that file.
+    // Holds are left out: they work by direct link but are not promoted.
+    ...listedTasters().map(t => ({ path: `/free/${t.slug}`, priority: 0.5, changeFrequency: 'monthly' as const })),
   ]
 
   return routes.map(r => ({
