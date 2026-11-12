@@ -8,8 +8,9 @@
 //   1. All three exist, carry the shared version line, read every company
 //      fact from @gc/shared/legal rather than typing it, carry no dash, and
 //      never name the old founder address (hello@ is the one address).
-//   2. The privacy notice and the DPA name the same providers, and the four
-//      the platform actually uses.
+//   2. The privacy notice and the DPA name the same providers, and the five
+//      the platform actually uses (Mailchimp since 12 November 2026, for
+//      pilot contacts joining the schools mailing list).
 //   3. All three are open (OPEN_PATHS), in the sitemap and in the footer.
 //   4. The data protection pack links to the DPA and the privacy notice.
 //   5. No page in the schools app names the old address.
@@ -26,7 +27,7 @@ const fail = (m) => { failed = true; console.error(`check-schools-legal: ${m}`) 
 const read = (p) => readFileSync(p, 'utf8')
 
 const DOCS = ['terms', 'privacy', 'dpa']
-const PROVIDERS = ['Supabase', 'Vercel', 'Resend', 'Stripe']
+const PROVIDERS = ['Supabase', 'Vercel', 'Resend', 'Stripe', 'Mailchimp']
 
 // 1. The documents themselves.
 for (const d of DOCS) {
@@ -96,4 +97,4 @@ if (existsSync('schools/lib/legal/terms.ts')) {
 }
 
 if (failed) process.exit(1)
-console.log('schools legal: three documents, open and linked, one address, no dashes, the same four providers.')
+console.log('schools legal: three documents, open and linked, one address, no dashes, the same five providers.')
