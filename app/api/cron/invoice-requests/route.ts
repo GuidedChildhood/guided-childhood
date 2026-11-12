@@ -3,6 +3,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
 import { schoolLetter } from '@/lib/email/school-letters'
+import { addSchoolToFunnel } from '@/lib/email/mailchimp-schools'
 
 // The other half of the schools invoice letterbox (migration 195). The
 // schools site has no email code by design, so the form only inserts a row
@@ -147,6 +148,22 @@ async function handler(request: Request) {
     }
 
     if (r.notified_at) continue
+
+    // THE SCHOOL FUNNEL (12 November 2026). A pilot request joins the school
+    // funnel in Mailchimp, once, beside the note to Justin, and the note says
+    // whether it worked. Off until the Mailchimp settings exist; never stops
+    // either email (lib/email/mailchimp-schools.ts).
+    let funnel = ''
+    if (r.band === 'pilot') {
+      const added = await addSchoolToFunnel({ email: r.email, contactName: r.contact_name, schoolName: r.school_name })
+      funnel = 'skipped' in added
+        ? 'Not added to the Mailchimp school funnel: Mailchimp is not connected yet (MAILCHIMP_API_KEY and MAILCHIMP_SCHOOLS_AUDIENCE_ID on the app project).'
+        : added.ok
+          ? 'Added to the Mailchimp school funnel.'
+          : `Not added to the Mailchimp school funnel: ${added.error}. Add them by hand.`
+      if (!('skipped' in added) && !added.ok) console.error('[invoice-requests] mailchimp:', added.error)
+    }
+
     const result = await sendEmail({
       to: FOUNDER_EMAIL,
       subject: lead
@@ -170,6 +187,7 @@ async function handler(request: Request) {
           : lead
             ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'
             : 'Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow. The school has already had a confirmation saying the invoice is on its way.'}</p>
+        ${funnel ? `<p style="margin-top:12px">${esc(funnel)}</p>` : ''}
       `,
     })
     if (result.ok) {

@@ -5,7 +5,7 @@ import { section, LEGAL_VERSION, LEGAL_DATED, type LegalDoc } from './types'
 //
 // Written from what the schools app actually does (13 September 2026): two
 // tables, one signed cookie, no pupil data, no accounts, no trackers, no
-// model calls, and four providers. Section 2 is the data map; if the code
+// model calls, and five providers. Section 2 is the data map; if the code
 // starts collecting something new, this file is the second place it has to
 // change, and scripts/check-schools-legal.mjs holds the provider list here
 // and in the DPA to the same four names.
@@ -31,6 +31,7 @@ export const PRIVACY: LegalDoc = {
       `When a school code is entered, we set one cookie, gc_schools_access. It holds the code and an expiry date, signed so that it cannot be forged, and it lasts 180 days. It holds no name and no email address. It is strictly necessary for the Service to work, so no consent banner is needed under the Privacy and Electronic Communications Regulations.`,
       `When you give your email to open a free standalone lesson, we set one more cookie, gc_free_lesson, so you are not asked again. It holds nothing but the fact that you have been asked, no name and no email address, and it lasts a year. It is strictly necessary to give you the lesson you asked for, so it needs no consent banner either.`,
       `We send a confirmation email to the address you gave, and a copy of each request to the founder, so that nothing waits. Our basis is the same as in 2.1.`,
+      `When you ask for a pilot, we also add your name, work email address and school to our schools mailing list, which sends a short series of emails about running the pilot and what comes after it. Every email has a link to stop them, and one click takes you off the list. Our basis is our legitimate interest in helping a school that asked for a pilot make use of it.`,
       `Our hosting provider keeps short lived technical logs of requests to the site, which include an IP address, the time and the page requested. They exist to keep the Service secure and running. We do not use them to identify anyone, and our basis is our legitimate interest in running a secure service.`,
       `Some things live only in your browser and never reach us: the AI governance reviews your school writes, which may name a member of staff, the record of which passport pages a classroom screen has filled, and the name of your safeguarding lead if you type it into the Hub so the lessons can say it. They are stored on that device and never sent to us. The reviews can be exported as a file or printed, and clearing the browser clears all of them.`,
       `The classroom player sends us nothing while a lesson is taught. If a member of your staff presses "Mark lesson delivered", we keep your school's lesson record: which lesson, the date, the class label they typed, and anything they chose to add about how the class as a whole did, which can be a judgement, a count of pupils at each level, a count of pupils who got most of a quiz right, and a short note. It is kept so that your school has one record across every laptop. There is no record of which teacher taught it or how any one pupil answered, and no pupil is named.`,
@@ -47,6 +48,7 @@ export const PRIVACY: LegalDoc = {
           `Supabase, which hosts our database in Ireland, where the requests in 2.1 are stored.`,
           `Vercel, which hosts the website and sends the pages to your browser.`,
           `Resend, which sends our emails.`,
+          `Mailchimp, which holds our schools mailing list and sends its emails, for a school that asked for a pilot.`,
           `Stripe, in which we raise your invoice, so it holds the School's billing contact and the invoice itself.`,
         ],
       },
