@@ -175,3 +175,15 @@ Before switching on, in Ads Manager: the ad set's end date was written as
 19 November (seven days from loading), so move it to seven days from the day
 it is switched on; and check the audience (UK, 25 and over, Advantage+) and
 the budget (£5 a day).
+
+## Switched on: the paid test (12 November 2026)
+
+Justin chose the paid test and said yes to the exact terms: the five adverts,
+one ad set, £5 a day until 19 November at about 11:08, about £35 at most, on
+the Visa ending 2258, paid as THE SOCIAL BILLBOARD LTD. Meta had passed all
+five in review. Campaign, ad set and adverts switched on and confirmed ACTIVE.
+This breaks the free first rule knowingly, at a capped cost; the uploader
+still only ever creates adverts switched off.
+
+The Monday loop on 16 November reads it first; the verdict needs 300 reached
+per card. The test ends on its own on 19 November.
