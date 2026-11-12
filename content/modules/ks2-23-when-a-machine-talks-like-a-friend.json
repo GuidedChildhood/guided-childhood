@@ -100,26 +100,26 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Thirty seconds of quiet thinking before hands. Take the reasoning, not the letter. The parrot is the example that lands, so use it.",
+      "script": "Retrieval from KS1, Who is on the other side. Thirty seconds of quiet thinking before hands. Take the reasoning, not the letter. Use the parrot.",
       "minutes": 2,
       "options": [
         {
-          "text": "It can talk to you",
+          "text": "Yes, it talks to me",
           "correct": false,
-          "feedback": "A parrot can talk and does not mean it. A recording can talk. Talking is not the test."
+          "feedback": "A parrot can talk and does not mean it. A recording can talk. Talking does not make a friend."
         },
         {
-          "text": "It grows, and needs food and rest",
+          "text": "No, it is a machine with no feelings",
           "correct": true,
-          "feedback": "Yes. Growing, eating, sleeping, feeling. A machine does none of those, however friendly it sounds."
+          "feedback": "A talking speaker is a machine. It can say friendly words, but it is not alive and has no feelings."
         },
         {
-          "text": "It knows your name",
+          "text": "Yes, it knows me",
           "correct": false,
-          "feedback": "Your school register knows your name. A label on your coat knows your name. Knowing a name is not being alive."
+          "feedback": "Your school register knows your name. A label on your coat knows your name. Knowing a name is not knowing you."
         }
       ],
-      "question": "Which of these is a sign that something is alive?"
+      "question": "A talking speaker says: I am your best friend! Is it?"
     },
     {
       "body": "Every kind thing it says was written by a person, before you ever opened it. Nobody was thinking about you when they wrote it. They were thinking about everybody.",
@@ -708,12 +708,12 @@
           ]
         },
         {
-          "q": "Which of these is a sign something is alive?",
+          "q": "A talking speaker says: I am your best friend! Is it?",
           "answer": 1,
           "options": [
-            "It can talk",
-            "It grows and needs food and rest",
-            "It knows your name"
+            "Yes, it talks to me",
+            "No, it is a machine with no feelings",
+            "Yes, it knows me"
           ]
         },
         {
@@ -736,7 +736,18 @@
       ],
       "instructions": "Four questions. Nobody marks these. Just have a think."
     },
-    "teacher_judgement": "It has landed if a child can hold two things at once: it is fun to use AND it is a machine. A child who says it is all rubbish has not got it, and neither has one who says it really is a friend. Watch the close: the outcome that matters is that every child can name a person, and any child who cannot is the one to follow up with before they leave the room."
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Holds two things at once, it is fun to use and it is a machine, and names a person they would tell.",
+        "developing": "Says a person chose the friendly words but needs the friend check strip to name what a real friend can do.",
+        "revisit": "Says it is all rubbish, or that it really is a friend, or cannot name a person to tell."
+      }
+    }
   },
   "sort_order": 23,
   "parent_note": {
@@ -876,12 +887,12 @@
           ]
         },
         {
-          "q": "Which of these is a sign something is alive?",
+          "q": "A talking speaker says: I am your best friend! Is it?",
           "answer": 1,
           "options": [
-            "It can talk",
-            "It grows and needs food and rest",
-            "It knows your name"
+            "Yes, it talks to me",
+            "No, it is a machine with no feelings",
+            "Yes, it knows me"
           ]
         },
         {
@@ -964,7 +975,8 @@
     "prior_knowledge": [
       "A pupil can sort real, pretend and computer made pictures, from ks1-03.",
       "A pupil can say that an app is following a recipe somebody wrote, from ks2-06.",
-      "A pupil can name a trusted adult, from ks2-08."
+      "A pupil can name a trusted adult, from ks2-08.",
+      "A pupil can say that a talking machine is not a person and can be wrong, from ks1-33."
     ],
     "worksheet_items": [
       {

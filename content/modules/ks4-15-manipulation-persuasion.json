@@ -460,7 +460,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check. The second wrong option is the myth from the start of the lesson, so watch who still picks it. Collect both answers on the printed exit quiz, they are your evidence for the register.",
+      "script": "Second exit check. The second wrong option is the myth from the start of the lesson, so watch who still picks it. Collect both answers on the printed exit quiz, they show you who to revisit next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -570,12 +570,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the technique, urgency, outrage, flattery or FOMO, without prompting, and says who profits from the feeling.",
+        "developing": "Names the technique with the bookmark in front of them, but cannot yet say where the money goes.",
+        "revisit": "Says adverts do not work on them, or that a creator with a discount code is just sharing things they like."
+      }
     }
   },
   "sort_order": 15,

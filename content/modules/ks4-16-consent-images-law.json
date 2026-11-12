@@ -97,7 +97,7 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Thirty seconds of silent thinking, then take answers. Last lesson you learned to name the technique: urgency, outrage, flattery, FOMO. Land the bridge clearly: today those same techniques show up in a much more personal place, in messages asking for images. Naming the technique works exactly the same way there.",
+      "script": "Thirty seconds of silent thinking, then take answers. In the manipulation lesson you learned to name the technique: urgency, outrage, flattery, FOMO. Land the bridge clearly: today those same techniques show up in a much more personal place, in messages asking for images. Naming the technique works exactly the same way there.",
       "minutes": 3,
       "options": [
         {
@@ -116,7 +116,7 @@
           "feedback": "Close. FOMO points at what everyone else has and you are missing. This one is a countdown on your decision. That is urgency."
         }
       ],
-      "question": "Retrieval from last lesson. A message says you must decide right now, this second, or you will lose your chance. Which persuasion technique is that?"
+      "question": "Retrieval from the manipulation lesson. A message says you must decide right now, this second, or you will lose your chance. Which persuasion technique is that?"
     },
     {
       "body": "Consent is a free, genuine yes, given without pressure, and it is specific: yes to one thing is not yes to everything. Consent is also ongoing. Saying yes once does not mean yes forever, and anyone can change their mind at any point. A yes that came from guilt, fear, wearing someone down or a threat is not consent at all. If any of those are in the room, whatever was said out loud, the real answer was no.",
@@ -268,7 +268,7 @@
       "avatar": "🌙",
       "handle": "Alex",
       "prompt": "Read it once in silence. How many pressure techniques can you name in these four sentences?",
-      "script": "Give the room a silent read, then work through it line by line, naming techniques like last lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day.",
+      "script": "Give the room a silent read, then work through it line by line, naming techniques like the manipulation lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day.",
       "minutes": 2,
       "platform": "message",
       "extension": true
@@ -609,12 +609,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the four properties of real consent, states the law has no both agreed exception, and gives a friend Report Remove.",
+        "developing": "Reaches Report Remove for a friend but skips the two reassurances: it is not your fault, you are not in trouble.",
+        "revisit": "Says it is legal if both are under 18 and agree, or that nothing can be done once an image is out."
+      }
     }
   },
   "sort_order": 16,

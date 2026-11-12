@@ -458,12 +458,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Spots a pop up or advert, does paws off, look up, ask a grown up, and still taps the page turn.",
+        "developing": "Does the paws off move when you call pop up, but cannot yet tell fine taps from taps that want something.",
+        "revisit": "Says the pop up is part of the game, taps yes to make it go, or would hide a mistaken tap."
+      }
     }
   },
   "parent_note": {

@@ -666,6 +666,9 @@ jobs:
       # The school's record of what it taught (migration 391): the school is
       # read from the cookie, no pupil can be recorded, and a lesson counts once.
       - run: node --experimental-strip-types scripts/check-lesson-records.mjs
+      # The suggested year for each lesson and what it builds on, held to the
+      # manifest and to each lesson's own prior knowledge lines.
+      - run: node scripts/check-progression.mjs
       # Every safeguarding flagged module has a staff briefing, and every page
       # counts them from the manifest rather than by hand. Header of
       # check-flagged-briefings.mjs.

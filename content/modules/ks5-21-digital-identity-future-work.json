@@ -488,12 +488,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Splits one career into tasks that compress and tasks that expand, and names a human skill they are choosing to build.",
+        "developing": "Runs the endurance test on the worksheet items but gives job level verdicts, such as medicine is safe or coding is doomed.",
+        "revisit": "Says AI will take all the jobs so there is no point preparing, or that a blank search result is safest."
+      }
     }
   },
   "sort_order": 21,

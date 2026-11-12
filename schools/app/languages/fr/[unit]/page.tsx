@@ -63,7 +63,14 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
           {d && <Link href={`/languages/fr/print#${u.key}`} className="btn btn-outline">Print the sheets</Link>}
           {d && <Link href={`/languages/fr/${u.key}/plans`} className="btn btn-outline">Lesson plans</Link>}
         </div>
-        {!d && <p style={{ ...small, marginTop: 'var(--space-3)' }}>The plan for this unit is ready. Its slides and sheets are still being made, and each lesson gains a play button as they arrive.</p>}
+        {!d && <p style={{ ...small, marginTop: 'var(--space-3)' }}><b style={{ color: 'var(--ink)' }}>Plan only.</b> This unit is the author&apos;s plan: a title and one line for each lesson. It has no slides, sheets or assessment plan yet, so it needs a teacher confident to build the lessons from the plan. Each lesson gains a play button when its slides arrive.</p>}
+        {codes.length > 0 && (
+          <p style={{ ...small, marginTop: 'var(--space-3)' }}>
+            Keeping a record by name?{' '}
+            <a href={`/languages/fr/${u.key}/tracker`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Download the class tracker</a>:
+            a spreadsheet with this unit&apos;s {codes.length} statements across the top, for your school to fill in and keep. Names stay on your computer and never reach us.
+          </p>
+        )}
       </div>
 
       <section aria-labelledby="lessons">

@@ -1,0 +1,495 @@
+[
+  {
+    "module_id": "ks2-04-screen-routines",
+    "file": "content/modules/ks2-04-screen-routines.json",
+    "descriptors": {
+      "secure": "Says agree, finish, swap in order and explains that the end is agreed while calm, so stopping is the plan.",
+      "developing": "Names agree, finish, swap but cannot say why agreeing the end first makes stopping easier.",
+      "revisit": "Says stopping is easy if you really try, or treats a routine as a ban or a punishment adults hand out."
+    },
+    "edits": [
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          22,
+          "script"
+        ],
+        "old": "First of two exit checks, these two are the printed exit quiz, so pupils answer alone, no partner talk. A wrong answer here tells you who to mark as working towards on the register. The second option is the one to watch: any pupil who thinks routine means ban has missed the heart of the module.",
+        "new": "First of two exit checks, these two are the printed exit quiz, so pupils answer alone, no partner talk. A wrong answer here tells you who to note down and revisit before next lesson. The second option is the one to watch: any pupil who thinks routine means ban has missed the heart of the module."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          28,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes and commitment cards go out as this plays, named copies from the print room. Collect the exit quizzes in, they are your evidence for the register. The commitment card goes home in the bag with the parent note.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes and commitment cards go out as this plays, named copies from the print room. Collect the exit quizzes in, they show you who to revisit next lesson. The commitment card goes home in the bag with the parent note."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-05-gaming-time-spend",
+    "file": "content/modules/ks2-05-gaming-time-spend.json",
+    "descriptors": {
+      "secure": "Runs the three spend spotters on an offer without prompting and explains that a loot box sells a chance, not a thing.",
+      "developing": "Spots the countdown clock or the mystery chest but needs the bookmark to name all three spotters or turn gems into pounds.",
+      "revisit": "Says the timer means a great deal, that all game spending is a scam, or that only weak willed people get hooked."
+    },
+    "edits": [
+      {
+        "why": "The answer key now gives the three spend spotters in the words on the wall, the bookmark and the recap, so a pupil who writes what was taught matches the key.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          3,
+          "answer"
+        ],
+        "old": "What is the real price, what am I actually getting, and what is the rush?",
+        "new": "Is it rushing me? Is it hiding the price? Is it random like a raffle?"
+      },
+      {
+        "why": "The key learning point now states the spend spotters as the lesson teaches them, the same three questions as the wall and the exit quiz key.",
+        "column": "teacher_notes",
+        "path": [
+          "key_learning_points",
+          4
+        ],
+        "old": "The spend spotters ask: what is the real price, what am I actually getting, and what is the rush?",
+        "new": "The spend spotters ask: is it rushing me, is it hiding the price, is it random like a raffle?"
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          30,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card before they leave. Collect them in, they are your evidence for the register.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card before they leave. Collect them in, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-06-how-algorithms-work",
+    "file": "content/modules/ks2-06-how-algorithms-work.json",
+    "descriptors": {
+      "secure": "Says the feed loop, you watch, it learns, it serves more, and uses it to explain why a feed never ends.",
+      "developing": "Says the loop with the bookmark in front of them but cannot yet use it to explain a real feed.",
+      "revisit": "Says the app reads minds, the feed is a lucky coincidence, or the feed learns nothing unless you like or comment."
+    },
+    "edits": [
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          23,
+          "script"
+        ],
+        "old": "Second exit check, same rules, silent and independent. This one tests the bottomless bowl idea. Both exit checks go home on the printed quiz, so collect them in, they are your evidence for the register.",
+        "new": "Second exit check, same rules, silent and independent. This one tests the bottomless bowl idea. Both exit checks go home on the printed quiz, so collect them in, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-07-privacy-reputation",
+    "file": "content/modules/ks2-07-privacy-reputation.json",
+    "descriptors": {
+      "secure": "Runs the three share test questions before a verdict without prompting and explains why deleted is not the same as gone.",
+      "developing": "Names the private list but needs the bookmark to run the share test, or gives a verdict without a reason.",
+      "revisit": "Says deleting removes it from the internet, that only strangers are a risk, or that being private means sharing nothing."
+    },
+    "edits": [
+      {
+        "why": "The answer key now lists the four kinds on the private list exactly as the slide and the recap teach them, so a pupil who writes the taught four matches the key.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          1,
+          "answer"
+        ],
+        "old": "Answers should name the vault items taught in the lesson, such as your address, your school, your password and where you will be.",
+        "new": "Who you are, where you are, what unlocks things, and photos you cannot take back. Accept an example of each, such as an address or school for where you are."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          22,
+          "script"
+        ],
+        "old": "First of two exit checks, this one mirrors the quiz app evidence. Silent, independent, no conferring, this is where you find out who owns the learning. A wrong answer here tells you exactly who to mark as working towards on the register.",
+        "new": "First of two exit checks, this one mirrors the quiz app evidence. Silent, independent, no conferring, this is where you find out who owns the learning. A wrong answer here tells you exactly who to note down and revisit before next lesson."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          28,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in book bags with the parent note.",
+        "new": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they show you who to revisit next lesson, and the commitment cards go home in book bags with the parent note."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-08-kind-safe-online",
+    "file": "content/modules/ks2-08-kind-safe-online.json",
+    "descriptors": {
+      "secure": "Says the three moves in order without the board and names a real adult at school and one at home.",
+      "developing": "Tells one unkind moment from bullying using the three tells but misses a move, most often saving the evidence.",
+      "revisit": "Says telling an adult is snitching, that staying silent means not involved, or that deleting the messages makes it go away."
+    },
+    "edits": [
+      {
+        "why": "The warm up now gives the share test as the privacy lesson taught it, three questions, so pupils retrieve the tool they actually learned.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "text"
+        ],
+        "old": "Stop and ask: how would my friend feel, and would I be happy for anyone at all to see this?",
+        "new": "Stop and ask: would I shout it in assembly, does it give away where I am, could it hurt future me?"
+      },
+      {
+        "why": "The feedback on the right answer now matches the three share test questions, in the words of the privacy lesson.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "feedback"
+        ],
+        "old": "That is the share test. Funny to you is not the test. How the person in the photo feels, and who could end up seeing it, that is the test.",
+        "new": "That is the share test. Funny to you is not the test. Three questions before anything leaves your hands, and if any question fails, hold it back."
+      },
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          29,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the lines appear on their own. Exit quizzes go out as this plays, named copies from the print room, and exit cards get the commitment line filled in. Collect both, they are your evidence for the register, and read the exit cards yourself before filing: occasionally one carries something a pupil could not say out loud.",
+        "new": "Let DiGi land the ending, the lines appear on their own. Exit quizzes go out as this plays, named copies from the print room, and exit cards get the commitment line filled in. Collect both, they show you who to revisit next lesson, and read the exit cards yourself before filing: occasionally one carries something a pupil could not say out loud."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-09-copyright-ownership",
+    "file": "content/modules/ks2-09-copyright-ownership.json",
+    "descriptors": {
+      "secure": "Chooses credit or ask first for a case with a reason, and says AI pictures come from makers who were not asked.",
+      "developing": "Says make it, credit it, ask first but blurs credit and permission, naming the maker when the case needs a yes.",
+      "revisit": "Says anything online is free to use, or refuses to use anyone else’s work at all, which is fear, not fairness."
+    },
+    "edits": [
+      {
+        "why": "There is no register and no pupil record, so the script now tells the teacher to note who to revisit.",
+        "column": "slides",
+        "path": [
+          23,
+          "script"
+        ],
+        "old": "The thinking question, and the one a visitor to your classroom would love: it proves pupils are reasoning, not reciting. If anyone answered true with a clever argument during the discussion, honour that here, then land the line that settles it: the ownership argument is not finished, the honesty rule is. Collect both exit checks in, they are your evidence for the register.",
+        "new": "The thinking question, and the one a visitor to your classroom would love: it proves pupils are reasoning, not reciting. If anyone answered true with a clever argument during the discussion, honour that here, then land the line that settles it: the ownership argument is not finished, the honesty rule is. Collect both exit checks in, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-23-when-a-machine-talks-like-a-friend",
+    "file": "content/modules/ks2-23-when-a-machine-talks-like-a-friend.json",
+    "descriptors": {
+      "secure": "Holds two things at once, it is fun to use and it is a machine, and names a person they would tell.",
+      "developing": "Says a person chose the friendly words but needs the friend check strip to name what a real friend can do.",
+      "revisit": "Says it is all rubbish, or that it really is a friend, or cannot name a person to tell."
+    },
+    "edits": [
+      {
+        "why": "Prior knowledge now names the Key Stage 1 lesson on talking machines, which is the lesson this one builds on most directly.",
+        "column": "teacher_notes",
+        "path": [
+          "prior_knowledge"
+        ],
+        "old": [
+          "A pupil can sort real, pretend and computer made pictures, from ks1-03.",
+          "A pupil can say that an app is following a recipe somebody wrote, from ks2-06.",
+          "A pupil can name a trusted adult, from ks2-08."
+        ],
+        "new": [
+          "A pupil can sort real, pretend and computer made pictures, from ks1-03.",
+          "A pupil can say that an app is following a recipe somebody wrote, from ks2-06.",
+          "A pupil can name a trusted adult, from ks2-08.",
+          "A pupil can say that a talking machine is not a person and can be wrong, from ks1-33."
+        ]
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "question"
+        ],
+        "old": "Which of these is a sign that something is alive?",
+        "new": "A talking speaker says: I am your best friend! Is it?"
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "text"
+        ],
+        "old": "It can talk to you",
+        "new": "Yes, it talks to me"
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "feedback"
+        ],
+        "old": "A parrot can talk and does not mean it. A recording can talk. Talking is not the test.",
+        "new": "A parrot can talk and does not mean it. A recording can talk. Talking does not make a friend."
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          1,
+          "text"
+        ],
+        "old": "It grows, and needs food and rest",
+        "new": "No, it is a machine with no feelings"
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          1,
+          "feedback"
+        ],
+        "old": "Yes. Growing, eating, sleeping, feeling. A machine does none of those, however friendly it sounds.",
+        "new": "A talking speaker is a machine. It can say friendly words, but it is not alive and has no feelings."
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          2,
+          "text"
+        ],
+        "old": "It knows your name",
+        "new": "Yes, it knows me"
+      },
+      {
+        "why": "The starter now retrieves the Key Stage 1 lesson this one builds on, Who is on the other side, in that lesson’s own question.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          2,
+          "feedback"
+        ],
+        "old": "Your school register knows your name. A label on your coat knows your name. Knowing a name is not being alive.",
+        "new": "Your school register knows your name. A label on your coat knows your name. Knowing a name is not knowing you."
+      },
+      {
+        "why": "The script tells the teacher this is a look back at the Key Stage 1 lesson, and keeps the thinking time and the parrot.",
+        "column": "slides",
+        "path": [
+          5,
+          "script"
+        ],
+        "old": "Thirty seconds of quiet thinking before hands. Take the reasoning, not the letter. The parrot is the example that lands, so use it.",
+        "new": "Retrieval from KS1, Who is on the other side. Thirty seconds of quiet thinking before hands. Take the reasoning, not the letter. Use the parrot."
+      },
+      {
+        "why": "The printed starter quiz carries the same question as the starter slide, so the paper and the wall stay equal.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "Which of these is a sign something is alive?",
+        "new": "A talking speaker says: I am your best friend! Is it?"
+      },
+      {
+        "why": "The printed starter quiz carries the same question as the starter slide, so the paper and the wall stay equal.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          "questions",
+          1,
+          "options"
+        ],
+        "old": [
+          "It can talk",
+          "It grows and needs food and rest",
+          "It knows your name"
+        ],
+        "new": [
+          "Yes, it talks to me",
+          "No, it is a machine with no feelings",
+          "Yes, it knows me"
+        ]
+      },
+      {
+        "why": "The printed starter quiz carries the same question as the starter slide, so the paper and the wall stay equal.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "Which of these is a sign something is alive?",
+        "new": "A talking speaker says: I am your best friend! Is it?"
+      },
+      {
+        "why": "The printed starter quiz carries the same question as the starter slide, so the paper and the wall stay equal.",
+        "column": "assessment",
+        "path": [
+          "retrieval_starter",
+          "questions",
+          1,
+          "options"
+        ],
+        "old": [
+          "It can talk",
+          "It grows and needs food and rest",
+          "It knows your name"
+        ],
+        "new": [
+          "Yes, it talks to me",
+          "No, it is a machine with no feelings",
+          "Yes, it knows me"
+        ]
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-25-stay-the-maker",
+    "file": "content/modules/ks2-25-stay-the-maker.json",
+    "descriptors": {
+      "secure": "Turns a do it all ask into a help me ask and explains a piece of work back with the book shut.",
+      "developing": "Sorts helper from took over on the cards but cannot yet say what the job was on their own work.",
+      "revisit": "Says I made it because I asked for it, or hears the lesson as a rule against using a helper."
+    },
+    "edits": [
+      {
+        "why": "Prior knowledge now names the copyright lesson, which is where the class last met an AI picture, in place of a line the algorithms lesson does not teach.",
+        "column": "teacher_notes",
+        "path": [
+          "prior_knowledge",
+          1
+        ],
+        "old": "Children know what it means to be told what a piece of work is for, from ks2-06 on how algorithms work.",
+        "new": "Children can say where an AI picture really comes from, and that I made this with an AI tool is the honest line, from ks2-09."
+      },
+      {
+        "why": "The script now links this question to the copyright lesson, so a class taught to say I made this with an AI tool hears how that fits with the computer being the maker.",
+        "column": "slides",
+        "path": [
+          6,
+          "script"
+        ],
+        "old": "Hands down, three seconds of thinking time, then fingers up, one, two or three, everyone at once. The options land in a different order on every run, so name them by their words, never by their number. The answer that says it was your idea is where most of the class lives and you must not squash it. Their idea is real. Say that first, then separate having the idea from doing the making. That separation is the lesson.",
+        "new": "Hands down, three seconds of thinking time, then fingers up, one, two or three, everyone at once. The options shuffle on every run, so name them by their words. Most of the class will say it was your idea, and you must not squash it. Their idea is real. Say that first, then separate having the idea from doing the making. That separation is the lesson. If they did the copyright lesson, I made this with an AI tool is still the honest line. Today asks who did the making."
+      }
+    ]
+  },
+  {
+    "module_id": "ks2-26-why-thirteen",
+    "file": "content/modules/ks2-26-why-thirteen.json",
+    "descriptors": {
+      "secure": "Says the age decides which version of the app you get and names at least two of the four protections without prompting.",
+      "developing": "Says the number matters but describes it as a rule about being allowed, not a protection that switches things on.",
+      "revisit": "Reads the age rule as a judgement about them personally, or as a rule that can be earned by being sensible."
+    },
+    "edits": [
+      {
+        "why": "The question now asks pupils to pick out two real protections, because answering four showed the count and not whether they know what the shield does.",
+        "column": "assessment",
+        "path": [
+          "exit_quiz",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "How many protections are wired to your age?",
+        "new": "Which two of these are protections wired to your age?"
+      },
+      {
+        "why": "The question now asks pupils to pick out two real protections, because answering four showed the count and not whether they know what the shield does.",
+        "column": "assessment",
+        "path": [
+          "exit_quiz",
+          "questions",
+          1,
+          "options"
+        ],
+        "old": [
+          "One",
+          "Four",
+          "None"
+        ],
+        "new": [
+          "A strong password and only using it at weekends",
+          "What you see and who can reach you",
+          "How hard the game is and how much it costs"
+        ]
+      },
+      {
+        "why": "The question now asks pupils to pick out two real protections, because answering four showed the count and not whether they know what the shield does.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          "questions",
+          1,
+          "q"
+        ],
+        "old": "How many protections are wired to your age?",
+        "new": "Which two of these are protections wired to your age?"
+      },
+      {
+        "why": "The question now asks pupils to pick out two real protections, because answering four showed the count and not whether they know what the shield does.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          "questions",
+          1,
+          "options"
+        ],
+        "old": [
+          "One",
+          "Four",
+          "None"
+        ],
+        "new": [
+          "A strong password and only using it at weekends",
+          "What you see and who can reach you",
+          "How hard the game is and how much it costs"
+        ]
+      }
+    ]
+  }
+]

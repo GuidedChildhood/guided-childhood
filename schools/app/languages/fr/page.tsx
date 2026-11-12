@@ -58,7 +58,10 @@ export default async function FrenchHome({ searchParams }: { searchParams: Promi
                 <span style={{ ...small, display: 'block' }}>
                   {u.en}
                   {u.ready ? ` · ${n} lessons` : ''}
-                  {u.ready && !u.deck ? ' · slides on the way' : ''}
+                  {/* PLAN ONLY, SAID PLAINLY (11 November 2026). "Slides on the way"
+                      read like a date. These units are the author's plan, a title and
+                      a line per lesson, with no slides or sheets yet. */}
+                  {u.ready && !u.deck ? ' · plan only, no slides yet' : ''}
                 </span>
               </span>
               {u.ready

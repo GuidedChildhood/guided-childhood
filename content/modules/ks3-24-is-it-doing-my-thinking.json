@@ -614,7 +614,7 @@
           ]
         },
         {
-          "q": "If an explanation made complete sense to you, how much does that prove?",
+          "q": "From the explain it back test in primary: if an explanation made complete sense to you, how much does that prove?",
           "answer": 1,
           "options": [
             "That you have learned it",
@@ -632,7 +632,7 @@
           ]
         },
         {
-          "q": "You have been using hints and can now do part of it alone. What should change?",
+          "q": "From primary: you have been using hints and can now do part of it alone. What should change?",
           "answer": 1,
           "options": [
             "Stop using it completely",
@@ -642,6 +642,18 @@
         }
       ],
       "instructions": "Four questions. Nobody marks these and nobody sees them but you."
+    },
+    "teacher_judgement": {
+      "scale": [
+        "secure",
+        "developing",
+        "revisit"
+      ],
+      "descriptors": {
+        "secure": "Runs the thinking test on a task, says which part must stay with them, and explains why the answers group did worse.",
+        "developing": "Sorts a ramp from a swap on the easy cases, but asks am I allowed, not what is this task teaching me.",
+        "revisit": "Says the lesson is about cheating, that using AI more is the problem, or that making sense means it was learned."
+      }
     }
   },
   "sort_order": 24,
@@ -778,7 +790,7 @@
           ]
         },
         {
-          "q": "If an explanation made complete sense to you, how much does that prove?",
+          "q": "From the explain it back test in primary: if an explanation made complete sense to you, how much does that prove?",
           "answer": 1,
           "options": [
             "That you have learned it",
@@ -796,7 +808,7 @@
           ]
         },
         {
-          "q": "You have been using hints and can now do part of it alone. What should change?",
+          "q": "From primary: you have been using hints and can now do part of it alone. What should change?",
           "answer": 1,
           "options": [
             "Stop using it completely",
@@ -877,7 +889,8 @@
     },
     "prior_knowledge": [
       "Pupils have used a chatbot for schoolwork at least once, which is true of roughly six in ten of this age group.",
-      "Pupils know what a mark scheme is and have seen one for at least one subject."
+      "Pupils know what a mark scheme is and have seen one for at least one subject.",
+      "Pupils who met Stay the maker in KS2 (ks2-25) have run the explain it back test and asked for a little bit less help each time."
     ],
     "worksheet_items": [
       {

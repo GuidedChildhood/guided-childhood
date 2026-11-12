@@ -404,7 +404,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions: thirty seconds of silence, then everyone answers on their own device or sheet, nobody calls out. This one tests the full pathway. A pupil who picks delete and block has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Mark anyone who misses this for a quiet revisit, this is the module where working towards is not a label you leave until next term.",
+      "script": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions: thirty seconds of silence, then everyone answers on their own device or sheet, nobody calls out. This one tests the full pathway. A pupil who picks delete and block has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Note anyone who misses this for a quiet revisit, this is the module where a wrong answer is not one you leave until next term.",
       "minutes": 2,
       "options": [
         {
@@ -428,7 +428,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "The most important ninety seconds of the hour. This question is the outcome of the lesson in exam form: it is not my fault and I know who to tell. If even one pupil answers true, address it to the whole room without looking at anyone: the belief that it is your fault is the blackmailer's best weapon, and it is false in the eyes of the law and everyone who will help you. Collect the exit quizzes in yourself, they are your evidence for the register and your radar for follow up.",
+      "script": "The most important ninety seconds of the hour. This question is the outcome of the lesson in exam form: it is not my fault and I know who to tell. If even one pupil answers true, address it to the whole room without looking at anyone: the belief that it is your fault is the blackmailer's best weapon, and it is false in the eyes of the law and everyone who will help you. Collect the exit quizzes in yourself, they show you who to revisit and are your radar for follow up.",
       "minutes": 2,
       "options": [
         {
@@ -535,12 +535,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Gives the three lifelines unprompted, do not pay, do not keep it secret, report it, and says the blackmailer committed the crime.",
+        "developing": "Knows the three lifelines but still picks delete, block and say nothing, or cannot name Report Remove, CEOP or Childline.",
+        "revisit": "Says sending the image makes it the victim's fault, that paying once makes it stop, or names nobody they would tell."
+      }
     }
   },
   "sort_order": 17,

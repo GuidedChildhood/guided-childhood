@@ -27,6 +27,28 @@ export const JUDGEMENT_LABEL: Record<Judgement, string> = {
   revisit: 'Needs revisiting',
 }
 
+/** What each judgement looks like in ONE lesson: a line a teacher can see or
+ *  hear in the room. Written per lesson, from that lesson's own misconceptions
+ *  and check questions, and kept in the lesson row at
+ *  assessment.teacher_judgement.descriptors (migration 392). */
+export type Descriptors = Record<Judgement, string>
+
+/** The three descriptor lines out of a lesson's assessment block, or null when
+ *  the lesson has none. Reads the one shape migration 392 writes, and the older
+ *  shape four lessons carried before it (secure, developing, needs_support at
+ *  the top), so a row that has not been migrated still shows what it has.
+ *  All three or nothing: two lines beside three buttons would read as a slip. */
+export function descriptorsOf(assessment: unknown): Descriptors | null {
+  if (!assessment || typeof assessment !== 'object') return null
+  const tj = (assessment as Record<string, unknown>).teacher_judgement
+  if (!tj || typeof tj !== 'object' || Array.isArray(tj)) return null
+  const held = (tj as Record<string, unknown>).descriptors
+  const from = (held && typeof held === 'object' && !Array.isArray(held) ? held : tj) as Record<string, unknown>
+  const line = (v: unknown) => (typeof v === 'string' && v.trim() ? v.replace(/\s+/g, ' ').trim() : null)
+  const secure = line(from.secure), developing = line(from.developing), revisit = line(from.revisit ?? from.needs_support)
+  return secure && developing && revisit ? { secure, developing, revisit } : null
+}
+
 /** Pupils at each level of the French scheme's own model, for one statement. */
 export type LevelCount = { s3: number; s4: number; s5: number }
 
@@ -50,6 +72,17 @@ export type Delivery = {
 export function academicYear(d: Date): string {
   const y = d.getUTCMonth() >= 8 ? d.getUTCFullYear() : d.getUTCFullYear() - 1
   return `${y}-${String((y + 1) % 100).padStart(2, '0')}`
+}
+
+/** "2026-27" as a page says it: "2026 to 27". */
+export function yearLabel(academicYearKey: string): string {
+  return academicYearKey.replace('-', ' to ')
+}
+
+/** An academic year a page was asked for, or null. Only ever one of the years
+ *  the school has rows in: a made up year in the address shows the current one. */
+export function cleanYear(raw: unknown, known: string[]): string | null {
+  return typeof raw === 'string' && /^\d{4}-\d{2}$/.test(raw) && known.includes(raw) ? raw : null
 }
 
 /** A date as the table stores it. */
@@ -153,6 +186,52 @@ export function cleanObjectiveMarks(raw: unknown, count: number): Record<string,
   return out
 }
 
+/** HOW MANY, ON THE TWO QUIZZES THE LESSON ALREADY HAS (11 November 2026).
+ *  A lesson opens on a starter quiz that looks back and closes on an exit
+ *  quiz about today. A teacher who counts hands on each has two honest facts
+ *  about the class: how many still had the earlier learning, and how many
+ *  left with today's. Three numbers, no names, and never subtracted from each
+ *  other: they are two different quizzes, so the pair is not a gain score.
+ *  Kept inside the marks under one reserved key, beside the judgements. */
+export type QuizCounts = { pupils: number; starter: number | null; exit: number | null }
+export const QUIZ_KEY = '_quiz'
+
+/** Quiz counts as typed. Pupils is 1 to 120; each count is 0 to pupils or
+ *  left empty. Null unless there are pupils and at least one count, because
+ *  a class size alone says nothing. */
+export function cleanQuizCounts(raw: unknown): QuizCounts | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const n = (v: unknown) => {
+    const x = typeof v === 'string' && v.trim() !== '' ? Number(v) : v
+    return typeof x === 'number' && Number.isInteger(x) && x >= 0 && x <= MAX_PUPILS ? x : null
+  }
+  const r = raw as Record<string, unknown>
+  const pupils = n(r.pupils)
+  if (pupils === null || pupils < 1) return null
+  const within = (v: unknown) => { const x = n(v); return x !== null && x <= pupils ? x : null }
+  const starter = within(r.starter), exit = within(r.exit)
+  return starter === null && exit === null ? null : { pupils, starter, exit }
+}
+
+/** The quiz counts read back out of a stored mark, or null. */
+export function quizCountsIn(marks: Record<string, unknown>): QuizCounts | null {
+  return cleanQuizCounts(marks[QUIZ_KEY])
+}
+
+/** The two shares across a set of deliveries, each over the pupils counted
+ *  for that quiz. Null for a quiz nobody counted. */
+export function quizShares(list: Delivery[]): { starter: number | null; exit: number | null; lessons: number } {
+  let sp = 0, sr = 0, ep = 0, er = 0, lessons = 0
+  for (const d of list) {
+    const q = quizCountsIn(d.marks)
+    if (!q) continue
+    lessons += 1
+    if (q.starter !== null) { sp += q.pupils; sr += q.starter }
+    if (q.exit !== null) { ep += q.pupils; er += q.exit }
+  }
+  return { starter: sp > 0 ? Math.round((sr / sp) * 100) : null, exit: ep > 0 ? Math.round((er / ep) * 100) : null, lessons }
+}
+
 export function cleanJudgement(raw: unknown): Judgement | null {
   return typeof raw === 'string' && (JUDGEMENTS as string[]).includes(raw) ? raw as Judgement : null
 }
@@ -247,4 +326,22 @@ export function latestLevels(deliveries: Delivery[], unitKey: string, code: stri
     sum.s3 += v.levels.s3; sum.s4 += v.levels.s4; sum.s5 += v.levels.s5
   }
   return { levels: sum, on }
+}
+
+// ------------------------------------------------------------------- csv ---
+
+/** One cell of a spreadsheet file. Quoted when it must be, and a cell that
+ *  would open as a formula (it starts with = + - or @, which a note typed by a
+ *  teacher can) is given a leading apostrophe so a spreadsheet shows it as
+ *  text and runs nothing. */
+export function csvCell(raw: unknown): string {
+  let s = raw === null || raw === undefined ? '' : String(raw).replace(/\r?\n/g, ' ')
+  if (/^[=+\-@\t]/.test(s)) s = `'${s}`
+  return /[",]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
+}
+
+/** Rows as a file a spreadsheet opens, with the mark that makes Excel read
+ *  it as UTF-8 so an accent in a class or lesson name survives. */
+export function csvFile(rows: unknown[][]): string {
+  return '\uFEFF' + rows.map(r => r.map(csvCell).join(',')).join('\r\n') + '\r\n'
 }

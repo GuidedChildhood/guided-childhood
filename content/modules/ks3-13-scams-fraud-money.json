@@ -453,7 +453,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, done silently and alone, these two are the printed quiz. This mirrors evidence item three plus the theft chain, so a wrong answer tells you exactly what to reteach and who to mark as working towards on the register.",
+      "script": "First of two exit checks, done silently and alone, these two are the printed quiz. This mirrors evidence item three plus the theft chain, so a wrong answer tells you exactly what to reteach and who to note down and come back to next lesson.",
       "minutes": 2,
       "options": [
         {
@@ -552,7 +552,7 @@
         "Scammers are counting on you never having this lesson. You just had it. See you next time!"
       ],
       "phase": "close",
-      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes are collected in as this plays, they are your evidence for the register. One last line to say over it: if any message this week catches you or nearly does, telling someone is the strong move, and I want to hear about it.",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes are collected in as this plays, they show you who to revisit next lesson. One last line to say over it: if any message this week catches you or nearly does, telling someone is the strong move, and I want to hear about it.",
       "heading": "DiGi closes the case",
       "minutes": 1
     }
@@ -581,12 +581,15 @@
     },
     "teacher_judgement": {
       "scale": [
-        "working_towards",
-        "met",
-        "exceeded"
+        "secure",
+        "developing",
+        "revisit"
       ],
-      "default": "met",
-      "one_tap": true
+      "descriptors": {
+        "secure": "Names the tell that fired, checks by a different route before acting, and says the tells judge the message, never the sender.",
+        "developing": "Recites the three tells but trusts a message from a friend's account, or calls everything a scam.",
+        "revisit": "Says scams only catch old people, or that being good with tech means they would never fall for one."
+      }
     }
   },
   "sort_order": 13,
@@ -697,6 +700,12 @@
         "format": "short_answer",
         "question": "A message rushes you. What are the three steps?",
         "teaching_point": "Checking through a different route is what breaks the script. Not replying to the message itself."
+      },
+      {
+        "answer": "Any two of: an adult you trust, the app, the bank if money moved, Action Fraud, or Police Scotland if you are in Scotland.",
+        "format": "short_answer",
+        "question": "Fraud is a crime, and it gets reported. Name two places a scam can be reported.",
+        "teaching_point": "The person targeted is never the one in trouble. Reporting is what turns one person's bad afternoon into evidence."
       }
     ],
     "worksheet": {

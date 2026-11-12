@@ -62,5 +62,7 @@ export function section(n: number, id: string, title: string, clauses: ClauseInp
 // 1.1, 10 November 2026: the school's lesson record (migration 391). The DPA
 // and the privacy notice both said the classroom player sends nothing to the
 // server, which stopped being true the day Mark lesson delivered shipped.
-export const LEGAL_VERSION = '1.1'
-export const LEGAL_DATED = '10 November 2026'
+// 1.2, 11 November 2026: the record can also hold how many pupils got most of
+// the starter quiz or the exit quiz right. A count about a class, no names.
+export const LEGAL_VERSION = '1.2'
+export const LEGAL_DATED = '11 November 2026'

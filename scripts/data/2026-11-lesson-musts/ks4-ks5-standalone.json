@@ -1,0 +1,568 @@
+[
+  {
+    "module_id": "ks4-29-did-not-go-looking",
+    "file": "content/modules/ks4-29-did-not-go-looking.json",
+    "descriptors": {
+      "secure": "Explains why a feed is not a verdict, and gives the three moves in order with a reason for the order.",
+      "developing": "Has the three moves but still talks about the content as something that causes behaviour.",
+      "revisit": "Believes seeing something means they did something, or cannot name anybody they would tell."
+    },
+    "edits": [
+      {
+        "why": "Nothing in the exit quiz checked the offer, the half of the lesson about being recruited, so one question now asks its tool: money out of proportion to the task.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          "questions"
+        ],
+        "old": [
+          {
+            "q": "Something distressing appears in your feed. What does it say about you?",
+            "options": [
+              "That you looked at something",
+              "Nothing, it is a guess about attention",
+              "That you were targeted"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What does repeated exposure to this content actually do?",
+            "options": [
+              "Makes people go and do it",
+              "Makes a serious thing seem more ordinary than it is",
+              "Nothing at all"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What are the three moves, in order?",
+            "options": [
+              "Stop it, report it, say it",
+              "Report it, say it, stop it",
+              "Say it, stop it, report it"
+            ],
+            "answer": 0
+          },
+          {
+            "q": "You saw something two weeks ago and told nobody. What is true?",
+            "options": [
+              "It is too late now",
+              "You can still tell someone and you are still not in trouble",
+              "Only mention it if it still bothers you"
+            ],
+            "answer": 1
+          }
+        ],
+        "new": [
+          {
+            "q": "Something distressing appears in your feed. What does it say about you?",
+            "options": [
+              "That you looked at something",
+              "Nothing, it is a guess about attention",
+              "That you were targeted"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What does repeated exposure to this content actually do?",
+            "options": [
+              "Makes people go and do it",
+              "Makes a serious thing seem more ordinary than it is",
+              "Nothing at all"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What are the three moves, in order?",
+            "options": [
+              "Stop it, report it, say it",
+              "Report it, say it, stop it",
+              "Say it, stop it, report it"
+            ],
+            "answer": 0
+          },
+          {
+            "q": "You saw something two weeks ago and told nobody. What is true?",
+            "options": [
+              "It is too late now",
+              "You can still tell someone and you are still not in trouble",
+              "Only mention it if it still bothers you"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "An offer pays far more than the task is worth. What is the money paying for?",
+            "options": [
+              "A risk that has not been named",
+              "Being quick and reliable",
+              "Nothing, you got lucky"
+            ],
+            "answer": 0
+          }
+        ]
+      },
+      {
+        "why": "The exit quiz now has five questions, so the line pupils read has to say five.",
+        "column": "teacher_notes",
+        "path": [
+          "exit_quiz",
+          "instructions"
+        ],
+        "old": "Four questions on today. Keep this in your book.",
+        "new": "Five questions on today. Keep this in your book."
+      },
+      {
+        "why": "Nothing in the exit quiz checked the offer, the half of the lesson about being recruited, so one question now asks its tool: money out of proportion to the task.",
+        "column": "assessment",
+        "path": [
+          "exit_quiz",
+          "questions"
+        ],
+        "old": [
+          {
+            "q": "Something distressing appears in your feed. What does it say about you?",
+            "options": [
+              "That you looked at something",
+              "Nothing, it is a guess about attention",
+              "That you were targeted"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What does repeated exposure to this content actually do?",
+            "options": [
+              "Makes people go and do it",
+              "Makes a serious thing seem more ordinary than it is",
+              "Nothing at all"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What are the three moves, in order?",
+            "options": [
+              "Stop it, report it, say it",
+              "Report it, say it, stop it",
+              "Say it, stop it, report it"
+            ],
+            "answer": 0
+          },
+          {
+            "q": "You saw something two weeks ago and told nobody. What is true?",
+            "options": [
+              "It is too late now",
+              "You can still tell someone and you are still not in trouble",
+              "Only mention it if it still bothers you"
+            ],
+            "answer": 1
+          }
+        ],
+        "new": [
+          {
+            "q": "Something distressing appears in your feed. What does it say about you?",
+            "options": [
+              "That you looked at something",
+              "Nothing, it is a guess about attention",
+              "That you were targeted"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What does repeated exposure to this content actually do?",
+            "options": [
+              "Makes people go and do it",
+              "Makes a serious thing seem more ordinary than it is",
+              "Nothing at all"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "What are the three moves, in order?",
+            "options": [
+              "Stop it, report it, say it",
+              "Report it, say it, stop it",
+              "Say it, stop it, report it"
+            ],
+            "answer": 0
+          },
+          {
+            "q": "You saw something two weeks ago and told nobody. What is true?",
+            "options": [
+              "It is too late now",
+              "You can still tell someone and you are still not in trouble",
+              "Only mention it if it still bothers you"
+            ],
+            "answer": 1
+          },
+          {
+            "q": "An offer pays far more than the task is worth. What is the money paying for?",
+            "options": [
+              "A risk that has not been named",
+              "Being quick and reliable",
+              "Nothing, you got lucky"
+            ],
+            "answer": 0
+          }
+        ]
+      },
+      {
+        "why": "The exit quiz now has five questions, so the line pupils read has to say five.",
+        "column": "assessment",
+        "path": [
+          "exit_quiz",
+          "instructions"
+        ],
+        "old": "Four questions on today. Keep this in your book.",
+        "new": "Five questions on today. Keep this in your book."
+      }
+    ]
+  },
+  {
+    "module_id": "ks4-15-manipulation-persuasion",
+    "file": "content/modules/ks4-15-manipulation-persuasion.json",
+    "descriptors": {
+      "secure": "Names the technique, urgency, outrage, flattery or FOMO, without prompting, and says who profits from the feeling.",
+      "developing": "Names the technique with the bookmark in front of them, but cannot yet say where the money goes.",
+      "revisit": "Says adverts do not work on them, or that a creator with a discount code is just sharing things they like."
+    },
+    "edits": [
+      {
+        "why": "There is no register or pupil record, so the script now says what the answers are for: knowing who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "Second exit check. The second wrong option is the myth from the start of the lesson, so watch who still picks it. Collect both answers on the printed exit quiz, they are your evidence for the register.",
+        "new": "Second exit check. The second wrong option is the myth from the start of the lesson, so watch who still picks it. Collect both answers on the printed exit quiz, they show you who to revisit next lesson."
+      }
+    ]
+  },
+  {
+    "module_id": "ks4-28-the-money-and-the-odds",
+    "file": "content/modules/ks4-28-the-money-and-the-odds.json",
+    "descriptors": {
+      "secure": "Converts a game currency into pounds without prompting, explains why eight reds changes nothing, and compares products by speed of the loop.",
+      "developing": "Knows the house edge exists but still talks about being due or about a system.",
+      "revisit": "Reads the lesson as being told not to play anything, or cannot convert a currency price back into money."
+    },
+    "edits": []
+  },
+  {
+    "module_id": "ks4-16-consent-images-law",
+    "file": "content/modules/ks4-16-consent-images-law.json",
+    "descriptors": {
+      "secure": "Names the four properties of real consent, states the law has no both agreed exception, and gives a friend Report Remove.",
+      "developing": "Reaches Report Remove for a friend but skips the two reassurances: it is not your fault, you are not in trouble.",
+      "revisit": "Says it is legal if both are under 18 and agree, or that nothing can be done once an image is out."
+    },
+    "edits": [
+      {
+        "why": "The money and the odds now sits between this lesson and the manipulation lesson, so \"last lesson\" points pupils at the wrong one.",
+        "column": "slides",
+        "path": [
+          5,
+          "question"
+        ],
+        "old": "Retrieval from last lesson. A message says you must decide right now, this second, or you will lose your chance. Which persuasion technique is that?",
+        "new": "Retrieval from the manipulation lesson. A message says you must decide right now, this second, or you will lose your chance. Which persuasion technique is that?"
+      },
+      {
+        "why": "The money and the odds now sits between this lesson and the manipulation lesson, so \"last lesson\" points pupils at the wrong one.",
+        "column": "slides",
+        "path": [
+          5,
+          "script"
+        ],
+        "old": "Thirty seconds of silent thinking, then take answers. Last lesson you learned to name the technique: urgency, outrage, flattery, FOMO. Land the bridge clearly: today those same techniques show up in a much more personal place, in messages asking for images. Naming the technique works exactly the same way there.",
+        "new": "Thirty seconds of silent thinking, then take answers. In the manipulation lesson you learned to name the technique: urgency, outrage, flattery, FOMO. Land the bridge clearly: today those same techniques show up in a much more personal place, in messages asking for images. Naming the technique works exactly the same way there."
+      },
+      {
+        "why": "The money and the odds now sits between this lesson and the manipulation lesson, so \"last lesson\" points pupils at the wrong one.",
+        "column": "slides",
+        "path": [
+          13,
+          "script"
+        ],
+        "old": "Give the room a silent read, then work through it line by line, naming techniques like last lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day.",
+        "new": "Give the room a silent read, then work through it line by line, naming techniques like the manipulation lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day."
+      }
+    ]
+  },
+  {
+    "module_id": "ks4-17-sextortion",
+    "file": "content/modules/ks4-17-sextortion.json",
+    "descriptors": {
+      "secure": "Gives the three lifelines unprompted, do not pay, do not keep it secret, report it, and says the blackmailer committed the crime.",
+      "developing": "Knows the three lifelines but still picks delete, block and say nothing, or cannot name Report Remove, CEOP or Childline.",
+      "revisit": "Says sending the image makes it the victim's fault, that paying once makes it stop, or names nobody they would tell."
+    },
+    "edits": [
+      {
+        "why": "There is no register and no working towards label to give a pupil, so the script now asks you to note who to revisit.",
+        "column": "slides",
+        "path": [
+          23,
+          "script"
+        ],
+        "old": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions: thirty seconds of silence, then everyone answers on their own device or sheet, nobody calls out. This one tests the full pathway. A pupil who picks delete and block has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Mark anyone who misses this for a quiet revisit, this is the module where working towards is not a label you leave until next term.",
+        "new": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions: thirty seconds of silence, then everyone answers on their own device or sheet, nobody calls out. This one tests the full pathway. A pupil who picks delete and block has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Note anyone who misses this for a quiet revisit, this is the module where a wrong answer is not one you leave until next term."
+      },
+      {
+        "why": "There is no register or pupil record, so the script now says what the exit quizzes are for: knowing who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "The most important ninety seconds of the hour. This question is the outcome of the lesson in exam form: it is not my fault and I know who to tell. If even one pupil answers true, address it to the whole room without looking at anyone: the belief that it is your fault is the blackmailer's best weapon, and it is false in the eyes of the law and everyone who will help you. Collect the exit quizzes in yourself, they are your evidence for the register and your radar for follow up.",
+        "new": "The most important ninety seconds of the hour. This question is the outcome of the lesson in exam form: it is not my fault and I know who to tell. If even one pupil answers true, address it to the whole room without looking at anyone: the belief that it is your fault is the blackmailer's best weapon, and it is false in the eyes of the law and everyone who will help you. Collect the exit quizzes in yourself, they show you who to revisit and are your radar for follow up."
+      }
+    ]
+  },
+  {
+    "module_id": "ks4-18-radicalisation-misogyny",
+    "file": "content/modules/ks4-18-radicalisation-misogyny.json",
+    "descriptors": {
+      "secure": "Runs the pipeline check on a new clip and gives a verdict with a reason, naming the supplied enemy and who profits.",
+      "developing": "Says the three check questions back but gives verdicts without a reason, or cannot spot isolate, flatter, escalate in a message.",
+      "revisit": "Says it is just jokes, that only loners get radicalised, or hears the lesson as an attack on boys."
+    },
+    "edits": [
+      {
+        "why": "The last lesson was sextortion, and this question retrieves the four techniques from the manipulation lesson, as its own teaching point says.",
+        "column": "teacher_notes",
+        "path": [
+          "starter_quiz",
+          0,
+          "question"
+        ],
+        "old": "Name two persuasion techniques from the last lesson.",
+        "new": "Name two persuasion techniques from the manipulation lesson."
+      },
+      {
+        "why": "There is no register and no working towards mark, so the script now asks you to note who to revisit.",
+        "column": "slides",
+        "path": [
+          23,
+          "script"
+        ],
+        "old": "First of the two exit checks, these two questions are the printed exit quiz. Silent, individual answers. A wrong answer here tells you who to mark as working towards on the register.",
+        "new": "First of the two exit checks, these two questions are the printed exit quiz. Silent, individual answers. A wrong answer here tells you who to note down for a quiet revisit next lesson."
+      },
+      {
+        "why": "There is no register or pupil record, so the script now says what the quizzes are for: knowing who to revisit.",
+        "column": "slides",
+        "path": [
+          24,
+          "script"
+        ],
+        "old": "Second exit check, silent and individual. Together the two questions prove the outcome: recognising escalation from the outside, and recognising grooming by its signature. Collect the printed quizzes as evidence for the register.",
+        "new": "Second exit check, silent and individual. Together the two questions prove the outcome: recognising escalation from the outside, and recognising grooming by its signature. Collect the printed quizzes, they show you who to revisit."
+      }
+    ]
+  },
+  {
+    "module_id": "ks4-19-readiness-at-16",
+    "file": "content/modules/ks4-19-readiness-at-16.json",
+    "descriptors": {
+      "secure": "Writes an arrival plan with all three parts, defaults, first week audit, exit rule, and explains why habits beat rules.",
+      "developing": "Names the three parts of the arrival plan but needs the sentence starters to write their own.",
+      "revisit": "Says the ban makes social media safe by 16, or that a workaround is early access to the same experience."
+    },
+    "edits": [
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "question"
+        ],
+        "old": "Warm up from last module. A post lands in your feed looking like it was made just for you. What does the pipeline check ask?",
+        "new": "Warm up from last module. The pipeline check asks who wants me angry, and what happens if I keep watching. What is its third question?"
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "text"
+        ],
+        "old": "Whether the post is true or false",
+        "new": "Is this post true or false?"
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          0,
+          "feedback"
+        ],
+        "old": "True or false is a different toolkit. The pipeline check is about the delivery, not the claim: how did this reach you, and who profited at each step?",
+        "new": "True or false is a different toolkit. The pipeline check is about what content is doing to you. Its third question: who am I being turned against?"
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          1,
+          "text"
+        ],
+        "old": "How it reached you, and what every stage of that journey wanted from you",
+        "new": "Who am I being turned against?"
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          1,
+          "feedback"
+        ],
+        "old": "Exactly. Creator, algorithm, advertiser, your attention. Nothing arrives in a feed by accident, and the pipeline check traces the route. It matters today more than ever.",
+        "new": "Exactly. Content that hands you an enemy is recruiting you, not informing you. That is the pipeline's signature, and it matters today more than ever."
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          2,
+          "text"
+        ],
+        "old": "Whether the person posting has a big following",
+        "new": "Does the person posting have a big following?"
+      },
+      {
+        "why": "The radicalisation lesson taught the pipeline check as three questions (who wants me angry, what happens if I keep watching, who am I being turned against), and this retrieval marked a different answer correct.",
+        "column": "slides",
+        "path": [
+          5,
+          "options",
+          2,
+          "feedback"
+        ],
+        "old": "Follower count is one detail in the pipeline, not the check itself. The check traces the whole route to your eyes and asks what each stage wanted.",
+        "new": "Follower count is not one of the three questions. The third asks who you are being turned against, because content that hands you an enemy is recruiting you."
+      },
+      {
+        "why": "There is no register or pupil record, so the script now says what the two checks are for: knowing who to revisit.",
+        "column": "slides",
+        "path": [
+          27,
+          "script"
+        ],
+        "old": "First of two exit checks. Run it in silence, no conferring: everyone answers on their own device, or writes the letter on their question card, and the options shuffle so nobody copies a neighbour. These two checks go on the register alongside the printed exit quiz. A pupil picking the borrowed account option has not connected the workaround cost to arrival day, note them for a quiet follow up, without any suggestion that the answer was autobiographical.",
+        "new": "First of two exit checks. Run it in silence, no conferring: everyone answers on their own device, or writes the letter on their question card, and the options shuffle so nobody copies a neighbour. These two checks and the printed exit quiz show you who to revisit. A pupil picking the borrowed account option has not connected the workaround cost to arrival day, note them for a quiet follow up, without any suggestion that the answer was autobiographical."
+      },
+      {
+        "why": "There is no register and no working towards mark, so the script now asks you to list who to revisit.",
+        "column": "slides",
+        "path": [
+          28,
+          "script"
+        ],
+        "old": "Second exit check, still silent and independent: everyone on their own device or question card, ten seconds of thinking before anyone taps. This is the thesis question: it proves whether pupils leave with the honest position or with one of the two easy ones, the ban fixed everything or the ban is pointless. Anyone choosing either wrong option gets marked working towards on the register, the distinction is the whole module.",
+        "new": "Second exit check, still silent and independent: everyone on their own device or question card, ten seconds of thinking before anyone taps. This is the thesis question: it proves whether pupils leave with the honest position or with one of the two easy ones, the ban fixed everything or the ban is pointless. Anyone choosing either wrong option goes on your list to revisit next lesson, the distinction is the whole module."
+      },
+      {
+        "why": "There is no register or pupil record, so the script now says what the exit quizzes are for: knowing who to revisit.",
+        "column": "slides",
+        "path": [
+          33,
+          "script"
+        ],
+        "old": "Let DiGi land the ending, the lines appear on their own. Exit quizzes are collected as this plays, they are your evidence for the register. If you collected a brilliant exit rule during practice, read it out now with the writer's permission, it is the perfect final note.",
+        "new": "Let DiGi land the ending, the lines appear on their own. Exit quizzes are collected as this plays, they show you who to revisit next lesson. If you collected a brilliant exit rule during practice, read it out now with the writer's permission, it is the perfect final note."
+      }
+    ]
+  },
+  {
+    "module_id": "ks5-20-ai-mastery-data-rights",
+    "file": "content/modules/ks5-20-ai-mastery-data-rights.json",
+    "descriptors": {
+      "secure": "Checks a claim somewhere the AI did not write, defends the verdict aloud, and names the data trade behind a free tool.",
+      "developing": "Says use it, check it, own it, but still reads a fluent answer as an accurate one.",
+      "revisit": "Says hallucinations will be fixed by the next update, or that companies have their data anyway so it does not matter."
+    },
+    "edits": [
+      {
+        "why": "No student ever wrote a brief, so the first I can statement was never seen. This pair talk repeated the finger vote on the slide before, and now it is the rewrite.",
+        "column": "slides",
+        "path": [
+          8,
+          "prompt"
+        ],
+        "old": "Most people stop at the first of those four. Tell your partner which one you actually stop at, and be honest.",
+        "new": "Take the last thing you asked an AI tool. Rewrite it as a brief: context, constraints, a clear job."
+      },
+      {
+        "why": "No student ever wrote a brief, so the first I can statement was never seen. This pair talk repeated the finger vote on the slide before, and now it is the rewrite.",
+        "column": "slides",
+        "path": [
+          8,
+          "script"
+        ],
+        "old": "Sixty seconds, and be honest with each other rather than with me. Which of those four do you actually get to. The next two slides explain why the answer matters more than it used to.",
+        "new": "Sixty seconds in pairs. They rewrite the prompt they named at the start as a brief: context, constraints, a clear job. Hear one rewrite aloud. The next two slides explain why a good brief is only half of it."
+      },
+      {
+        "why": "No student ever wrote a brief, so the first I can statement was never seen. This pair talk repeated the finger vote on the slide before, and now it is the rewrite.",
+        "column": "slides",
+        "path": [
+          8,
+          "lookFor"
+        ],
+        "old": "Nearly everyone stops at using it. The gap between using and checking is the whole lesson, and it lands harder when they hear themselves say it.",
+        "new": "All three parts in the rewrite: context, constraints, a clear job. A vague prompt gets the average of the internet, a precise one something worth editing."
+      }
+    ]
+  },
+  {
+    "module_id": "ks5-21-digital-identity-future-work",
+    "file": "content/modules/ks5-21-digital-identity-future-work.json",
+    "descriptors": {
+      "secure": "Splits one career into tasks that compress and tasks that expand, and names a human skill they are choosing to build.",
+      "developing": "Runs the endurance test on the worksheet items but gives job level verdicts, such as medicine is safe or coding is doomed.",
+      "revisit": "Says AI will take all the jobs so there is no point preparing, or that a blank search result is safest."
+    },
+    "edits": []
+  },
+  {
+    "module_id": "could-you-be-an-entrepreneur",
+    "file": "content/standalone/could-you-be-an-entrepreneur.json",
+    "descriptors": {
+      "secure": "Uses the real figures to weigh up working for yourself, and plans a small try with an adult who knows.",
+      "developing": "Recalls the figures on how long businesses last and what they pay, but plans a try with no adult in it.",
+      "revisit": "Says most new businesses fail in their first year, or that working for yourself always pays more than a job."
+    },
+    "edits": []
+  },
+  {
+    "module_id": "should-people-wear-smart-glasses",
+    "file": "content/standalone/should-people-wear-smart-glasses.json",
+    "descriptors": {
+      "secure": "Says ask, say, tell without prompting, gives one good bit and one worry, and names a place to be extra careful.",
+      "developing": "Says ask first, but treats the light as the same as asking, or needs the card to say please stop.",
+      "revisit": "Says smart glasses are only for spying, or keeps quiet about being filmed because saying no feels rude."
+    },
+    "edits": []
+  },
+  {
+    "module_id": "what-problem-would-you-solve",
+    "file": "content/standalone/what-problem-would-you-solve.json",
+    "descriptors": {
+      "secure": "Names a problem with no fix in it, asks about the last time, and plans a paper prototype for one person.",
+      "developing": "Tells a problem from a fix on the board, but their own questions still start with would you.",
+      "revisit": "Names an app or a website as the problem, or says friends saying yes proves the idea."
+    },
+    "edits": []
+  }
+]
