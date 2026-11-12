@@ -78,6 +78,15 @@ function qualified(raw) {
 }
 
 /**
+ * pg_temp objects live only for the session that made them. Migration 394
+ * builds its helper as pg_temp.gc_set, and it is gone the moment the migration
+ * commits, so asking the database for it can only ever say missing. The daily
+ * sweep on 12 November 2026 reported 394 as unapplied for exactly this reason
+ * while every lesson edit it makes was already live.
+ */
+const sessionOnly = name => name.startsWith('pg_temp.')
+
+/**
  * Follow every file in order. Returns the objects that should exist at the
  * end: Map of key -> { kind, object, file }, where file is the migration that
  * (last) made it. Keys: table `t:schema.name`, column `c:schema.name.col`,
@@ -96,6 +105,7 @@ export function liveObjects(migrations) {
 
     push(/\bcreate\s+(?:unlogged\s+)?table\s+(?:if\s+not\s+exists\s+)?([\w."]+)/gi, x => {
       const name = qualified(x[1])
+      if (sessionOnly(name)) return
       // A backup snapshot is proof its migration ran, but housekeeping may drop
       // it on purpose, so a missing one is reported softly (see report()).
       if (!live.has(`t:${name}`)) live.set(`t:${name}`, { kind: 'table', object: name, file: m.file, soft: /backup/.test(name) })
@@ -127,6 +137,7 @@ export function liveObjects(migrations) {
     })
     push(/\bcreate\s+(?:or\s+replace\s+)?function\s+([\w."]+)\s*\(/gi, x => {
       const name = qualified(x[1])
+      if (sessionOnly(name)) return
       live.set(`f:${name}`, { kind: 'function', object: name, file: m.file })
     })
     push(/\bdrop\s+function\s+(?:if\s+exists\s+)?([\w."]+)/gi, x => live.delete(`f:${qualified(x[1])}`))

@@ -123,3 +123,13 @@ test('it runs on the real migrations folder without throwing', () => {
   assert.ok(p.wanted.length > 0 && p.inWindow <= 45)
   assert.ok(migrations.length > 300)
 })
+
+test('a pg_temp helper is never asked about, because it cannot outlive its migration', () => {
+  const live = liveObjects([{ file: '394_x.sql', sql: `
+    create function pg_temp.gc_set(m text) returns void language plpgsql as $fn$ begin end $fn$;
+    create table pg_temp.scratch (id int);
+    create function public.kept(m text) returns void language sql as $$ select 1 $$;
+  ` }])
+  assert.ok(live.has('f:public.kept'))
+  assert.ok(![...live.keys()].some(k => k.includes('pg_temp')))
+})
