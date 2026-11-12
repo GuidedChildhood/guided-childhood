@@ -37,3 +37,19 @@ built on the platform). Discreet footer URL on every page.
 3. Phonics edition with the UK animal stage guides for the early years lane.
 4. Laminate and shoot the two real hands videos (listing video and reel).
 5. Mockup photos (kitchen table hero, flat lay) from real prints.
+
+## Etsy edition, 11 November 2026
+
+Listed on Etsy with the Canva look photo set (`listing/images.html`, built by
+`node content/printables/build-pack.mjs a-to-z-showdown listing`). Two things differ
+from the July build:
+
+- **The last page was swapped.** It promised a bonus of its own at
+  /etsy-bonus that the page does not give. `node content/printables/cut-pack.mjs
+  a-to-z-showdown` replaces it, in all three product PDFs, with the thank you page from
+  `../pack-finish.js`: the Starter Pack for an email, which is what the page
+  really gives. `print.html` still carries the old last sheet, so rerun that
+  command after any rebuild, until the sheet itself is changed.
+- **Previews for the photos** are in `images/preview/`, made straight from the
+  A4 PDF by `../pdf-previews.mjs`. The older `images/preview-page-N.png` files
+  are the July renders and still show the old last page.

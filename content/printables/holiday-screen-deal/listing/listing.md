@@ -11,14 +11,12 @@ Holiday Screen Time Planner Printable | Christmas Holiday Kids Routine Chart | A
 
 ## Price and listing setup
 
-- List price: £4.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £4.99 crossed out and pay
-  £3.74.
-- £3.74 sits under the £4 floor on purpose. This is the entry offer of the
-  paid line: a small, seasonal first purchase that a family can make without
-  thinking twice, and the last page hands them the free Starter Pack and the
-  Passport stickers, which is where the next purchase comes from.
+- List price: £2.49, set on 11 November 2026 (it was £4.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £2.99.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £2.24.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Seasonal: list by mid November, push hardest from the first week of
   December to the end of term. Relist for February half term, Easter and the
   summer with the same files (the copy names no single holiday on the working

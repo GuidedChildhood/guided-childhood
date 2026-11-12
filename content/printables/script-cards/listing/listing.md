@@ -20,14 +20,12 @@ the same day: Now £5.99, was £7.99.
 
 ## Price and listing setup
 
-- List price on Etsy: £6.66. Etsy adds 20 percent UK VAT to digital
-  downloads, so the list price is the target divided by 0.9 (the sale times
-  VAT), the shop's rule since 5 November 2026 (see the Passport's
-  listing.md). UK buyers see £7.99 crossed out and pay £5.99.
-- The 25 percent sale is the shop wide sale in Marketing, Sales and
-  discounts. Etsy caps a sale at 30 days, so it is started again each month.
-- £5.99 sits above the £4 floor. 60 cards across all five stages is more
-  than a single pack and the same as the Passport.
+- List price: £3.99, set on 11 November 2026 (it was £6.66). Etsy adds
+  20 percent UK VAT, so UK buyers see £4.79.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £3.59.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen, with peaks at Christmas, the new school year and Year 6.
 - Type: digital download. Files: the three PDFs in `product/` plus a zip of
   the five phone screens in `phone/`.

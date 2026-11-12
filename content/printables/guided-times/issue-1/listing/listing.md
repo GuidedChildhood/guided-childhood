@@ -23,8 +23,12 @@ which is £4.49 and £5.99 with VAT added.
 
 ## Price and listing setup
 
-- List price: £5.99.
-- The shop's 25 percent sale makes it £4.49, above the £4 floor.
+- List price: £3.99, set on 11 November 2026 (it was £5.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £4.79.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £3.59.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Season window: list by 20 November, sell to Christmas, then keep it live as
   a back issue. It goes in the Winter Season bundle (Issues 1 to 3, £13.99
   list) once Issue 3 exists.

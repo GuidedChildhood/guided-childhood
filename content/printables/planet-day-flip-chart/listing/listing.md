@@ -12,10 +12,12 @@ Routine Flip Chart Printable for Kids | 120 Picture Cards, Morning and Bedtime R
 
 ## Price and listing setup
 
-- List price: £6.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £6.99 crossed out and pay
-  £5.24.
+- List price: £4.99, set on 11 November 2026 (it was £6.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £5.99.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £4.49.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen, with pushes in January (new year routines), the Easter holidays
   and the end of August (back to school).
 - Type: digital download. Files: the three PDFs in `product/`.

@@ -19,14 +19,15 @@ First Phone Bundle Printable | Phone Kit, Phone Agreement, Christmas Treasure Hu
 
 ## Price and listing setup
 
-- List price: £14.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £14.99 crossed out and pay
-  £11.24.
-- Bought one by one the four packs list at £27.96, so the bundle is the
-  better deal without the listing having to say so. The treasure hunt joined
-  on 6 November 2026 (PR 1425) at the same price: the research's bundle rule
-  is roughly two singles, and the Kit plus the Agreement list at £14.98.
+- List price: £12.99, set on 11 November 2026 (it was £14.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £15.59.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £11.69.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
+- Bought one by one the four packs list at £16.96 (the Kit £6.99, the
+  treasure hunt £4.49, the Agreement £2.49, the Calm Down Corner Kit £2.99), so
+  the bundle is about 23 percent under the parts.
 - Season: from now to Christmas Eve, then again before the summer holidays and
   secondary school.
 - Type: digital download. Attach one zip per pack: `first-phone-kit.zip`,

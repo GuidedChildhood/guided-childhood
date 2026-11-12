@@ -67,6 +67,21 @@ const PACKS = {
   'whole-system-bundle': { bundle: true },
   'star-swap-shop': { file: 'star-swap-shop', app: 'star-swap-shop' },
   'where-phones-sleep': { file: 'where-phones-sleep', app: 'where-phones-sleep' },
+  // PDF ONLY: listing photos only, from page previews made straight from the
+  // product PDFs (pdf-previews.mjs). The older games have build scripts of
+  // their own; the spin offs are pages cut from a bigger pack (cut-pack.mjs).
+  'a-to-z-showdown': { pdfOnly: true },
+  'ice-cream-shop': { pdfOnly: true },
+  'school-year-planner': { pdfOnly: true },
+  'word-fishing': { pdfOnly: true },
+  'star-breathing-poster': { pdfOnly: true },
+  'feelings-cards': { pdfOnly: true },
+  'weekly-routine-chart': { pdfOnly: true },
+  'routine-picture-cards': { pdfOnly: true },
+  'car-bingo': { pdfOnly: true },
+  'devices-sleep-here-sign': { pdfOnly: true },
+  'family-tech-rules': { pdfOnly: true },
+  'screen-time-tokens': { pdfOnly: true },
 }
 
 // FILLABLE FIELDS. A pack with fields: true gets a typing layer over its
@@ -125,6 +140,10 @@ if (!PACKS[pack]) {
   process.exit(1)
 }
 const cfg = PACKS[pack]
+if (cfg.pdfOnly && only !== 'listing') {
+  console.error(`${pack} is PDF only: node build-pack.mjs ${pack} listing (its PDFs come from its own build script or cut-pack.mjs)`)
+  process.exit(1)
+}
 const DIR = join(ROOT, pack)
 const SRC = join(ROOT, cfg.source ?? pack)
 

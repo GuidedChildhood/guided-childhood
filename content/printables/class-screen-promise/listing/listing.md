@@ -11,10 +11,12 @@ Class Screen Promise Poster | KS1 KS2 Online Safety Classroom Display | Pupil Sl
 
 ## Price and listing setup
 
-- List price: £6.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £6.99 crossed out and pay
-  £5.24.
+- List price: £3.99, set on 11 November 2026 (it was £6.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £4.79.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £3.59.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
 - Evergreen for schools, with pushes at back to school (September, the class
   charter weeks) and Safer Internet Day in February.
 - Type: digital download. Files: the three PDFs in `product/`. No phone

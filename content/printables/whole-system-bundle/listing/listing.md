@@ -17,12 +17,15 @@ Screen Time Bundle Printable | Star Chart, Reward Chart, Calm Down Kit, Script C
 
 ## Price and listing setup
 
-- List price: £24.99.
-- In Etsy, Shop Manager, Marketing, Sales and discounts: run a 25 percent off
-  sale on this listing with no end date. Buyers see £24.99 crossed out and pay
-  £18.74.
-- Bought one by one the five packs list at £33.45, so the bundle is the better
-  deal without the listing having to say so.
+- List price: £12.99, set on 11 November 2026 (it was £24.99). Etsy adds
+  20 percent UK VAT, so UK buyers see £15.59.
+- The shop wide 25 percent sale runs to 30 November 2026, so until then they
+  pay about £11.69.
+- The £4 floor is retired: the charts and contracts this competes with sell
+  at £1.40 to £4.68 (`plans/decisions.md`, 11 November 2026).
+- Bought one by one the five packs list at £16.95 (the Star Chart £2.49, Earn
+  Your Screen Time £2.99, the Calm Down Corner Kit £2.99, Say This £3.99, the
+  30 Day Journal £4.49), so the bundle is about 23 percent under the parts.
 - Type: digital download. Etsy allows five files. The live listing
   (4611189376, listed 6 November 2026) ships these five zips, not one per
   pack, because the Say This zip (15.5 MB, three 6 MB PDFs plus phone
