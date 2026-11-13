@@ -42,18 +42,18 @@ If the law only reaches the worst content, what prepares a child for the rest of
 ---
 
 ## POST 5 (run order), You cannot build a report button for a child who will not tell you.
-**News peg:** Internet Matters, 7 in 10 children harmed online, fewer than 1 in 5 tell a trusted adult.
+**News peg:** Internet Matters, 7 in 10 children say they have experienced harm online, 36 percent of those reported it to the platform. CORRECTED 13 November 2026: the report measures reporting to the platform, not telling an adult. See `correction-2026-11-13.md`.
 **Service:** DiGi as the askable guide, the family agreement, Knibbs already inside it.
 
 **Post text:**
 
-Seven in ten children have met something harmful online. Fewer than one in five told a trusted adult.
+Seven in ten children say they have run into some kind of harm online. Only about a third of them reported it to the platform.
 
-That is Internet Matters, a survey of a thousand UK children. Sit with the second number. The harm is happening, and the child is not telling you.
+That is Internet Matters, a survey of a thousand UK children aged 9 to 17. The list of harms is a broad one, from contact from strangers to misinformation. Sit with the second number. The harm is happening, and the report button is mostly not being pressed.
 
-Catherine Knibbs found the same thing from inside the therapy room. The children in her study had worked out that parents "don't get it, they're not kids." One group of Year 5s had quietly ruled out teachers too, or feared that telling one just meant it went straight home.
+Catherine Knibbs heard something that sits beside it from inside the therapy room. The children in her study had worked out that parents "don't get it, they're not kids." One group of Year 5s had quietly ruled out teachers too, or feared that telling one just meant it went straight home.
 
-This is the uncomfortable part for everyone building in this space, me included. The whole online safety industry is built on the child reporting. The button. The flag. The worry box. And the children have already decided not to use it. An absence of complaints is not an absence of harm. It is a measurement failure.
+This is the uncomfortable part for everyone building in this space, me included. The whole online safety industry is built on the child reporting. The button. The flag. The worry box. And most children are not using it. An absence of complaints is not an absence of harm. It is a measurement failure.
 
 You do not fix silence with a better button. So I built the opposite. DiGi, the guide we made, is for the parent, not the child, because the child is not going to type it into anything. It hands a parent the calm words for the moment a child does start to talk, and it runs on one rule I took straight from Knibbs's own work and wrote into the product months ago. Speak to the state under the behaviour. Keep yourself the safe person to tell. Never make the child the problem.
 
@@ -61,7 +61,7 @@ Silence is not solved by a form. It is solved by one adult a child decides is sa
 
 When your child finally tells you something hard, what do they need you to do in the first ten seconds?
 
-**First comment:** The stat is Internet Matters, 2025, a thousand UK children, fewer than one in five who were harmed told a trusted adult. The rule I built into DiGi is Catherine Knibbs's, and she has been in our research bank since before these reports came out.
+**First comment:** The stat is Internet Matters, May 2025, a thousand UK children aged 9 to 17: 71 percent said they had experienced at least one harm from a broad list, and 36 percent of those reported it to the platform. It measures reporting to platforms, not telling a parent. The rule I built into DiGi is Catherine Knibbs's, and she has been in our research bank since before these reports came out.
 
 ---
 
