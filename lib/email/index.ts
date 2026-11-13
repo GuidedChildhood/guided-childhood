@@ -129,8 +129,17 @@ export function starterCtaUrl(email: string): string {
  *                 skip the floor but NOT suppression, so an unsubscribe still
  *                 holds, and they record the send so the weekly programme
  *                 counts on from them. The cron decides which sends qualify.
+ *
+ * 'series'        a short series the parent asked for by name, by ticking "send
+ *                 me the 5 day series" on a free taster page: one page and one
+ *                 tip a day, then the stage check, then the rest of the pack.
+ *                 Justin, 13 November 2026: "Yes, daily for the series". Like
+ *                 'trial' it skips the floor but NOT suppression, so the stop
+ *                 link still ends it, and it records each send, so the weekly
+ *                 programme counts on from the last one. Only the taster block
+ *                 of the email cron sends it, only to a ticked box.
  */
-export type EmailKind = 'programme' | 'trial' | 'transactional' | 'operational'
+export type EmailKind = 'programme' | 'trial' | 'series' | 'transactional' | 'operational'
 
 export async function sendEmail(params: {
   to: string
@@ -155,7 +164,7 @@ export async function sendEmail(params: {
   // to the callers: a programme that treats a failed send as "try again
   // tomorrow" will roll its own ledger back and retry, which is precisely the
   // right behaviour here. It is not an error, it is a not yet.
-  if (kind === 'programme' || kind === 'trial') {
+  if (kind === 'programme' || kind === 'trial' || kind === 'series') {
     const verdict = await maySendProgramme(params.to, { floor: kind === 'programme' })
     if (!verdict.allowed) return { ok: false, skipped: verdict.reason, error: verdict.reason }
   }
@@ -168,7 +177,7 @@ export async function sendEmail(params: {
       html: params.html,
     })
     if (error) return { ok: false, error: error.message }
-    if (kind === 'programme' || kind === 'trial') await recordProgrammeSend(params.to, params.key)
+    if (kind === 'programme' || kind === 'trial' || kind === 'series') await recordProgrammeSend(params.to, params.key)
     return { ok: true }
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : 'send failed' }
