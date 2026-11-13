@@ -141,18 +141,6 @@
    "attempts": 1
   },
   {
-   "stage": "DRIVE SYNC",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "start here document regenerated with today's candidate outcomes and verified TEXT IDENTICAL by code; queue, number mirror, both handoffs and the approval sheet were already current and untouched; three stale copies retitled ZZ SUPERSEDED, the inbox document ZZ INGESTED"
-   ],
-   "detail": null,
-   "at": "2026-11-13T09:26:58.043Z",
-   "commit": "c23a3acc",
-   "attempts": 1
-  },
-  {
    "stage": "PACKS",
    "verdict": "SKIPPED",
    "by": "claude",
@@ -232,7 +220,19 @@
    "at": "2026-11-13T15:38:35.522Z",
    "commit": "c7944ad7",
    "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon: GDC-059 v2 pack, METRICOOL HANDOFF GDC-059, the approval sheet and the start here document each verified TEXT IDENTICAL by code, the queue (now 0 stories) BYTE IDENTICAL; the copies they replace retitled ZZ SUPERSEDED; morning sync stands for the number mirror and handoffs"
+   ],
+   "detail": null,
+   "at": "2026-11-13T15:40:39.670Z",
+   "commit": "aed4b6a1",
+   "attempts": 2
   }
  ],
- "updatedAt": "2026-11-13T15:38:35.562Z"
+ "updatedAt": "2026-11-13T15:40:39.701Z"
 }
