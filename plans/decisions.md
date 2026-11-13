@@ -391,3 +391,7 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 - Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
 - This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
 - Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
+
+## 13 November 2026: the French sync stops going red, and her checkpoint model is ours
+
+Three nights of `languages-sync` failed because the repository refuses a job's pull request; the changes were already on the sync branch. The job now leaves one issue with the link and passes. Her site moved to one formal judgement per code per year at a checkpoint, with task descriptors, so the French assessment page is rebuilt around that map and the unit, lesson and progress pages label formal against formative. Also brought in: answer sheets beside every sheet, wall displays, sheets for every class, her pupil games (linked, not embedded). Her "In short" box is now a shared component and opens the digital class progress page too. Declined: her twenty link menu and her colours. Verdicts and the digital principles not yet built are in `plans/2026-11-13-french-scheme-review-plan.md`. PR 1532.

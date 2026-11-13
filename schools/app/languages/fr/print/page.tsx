@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import { eyebrow } from '@/components/ui'
 import {
-  FRENCH_UNITS, LEVEL_LABEL, lessonLabel, lessonsOf, mediaUrl, sheetList,
+  EVERY_CLASS, extrasUrl, FRENCH_UNITS, LEVEL_LABEL, lessonLabel, lessonsOf, mediaUrl, PUPIL_GAMES_QR, pupilGames, sheetList,
   type FrenchUnit, type Level, type SheetFile,
 } from '@/lib/languages/french'
 import { body, card, langEyebrow, small } from '../_ui'
@@ -29,7 +29,8 @@ const LEVELS: Level[] = ['class', 'challenge', 'adapted', 'inclusion']
 const isLevel = (v: string | undefined): v is Level => !!v && (LEVELS as string[]).includes(v)
 const levelOf = (f: SheetFile): Level => f.lv ?? 'class'
 
-type Group = { label: string; files: SheetFile[] }
+// `shared` marks a group whose files are in the scheme's shared extras folder.
+type Group = { label: string; files: SheetFile[]; shared?: boolean }
 
 /** Everything printable in one unit, in the order a teacher meets it. */
 function groupsOf(u: FrenchUnit): Group[] {
@@ -42,6 +43,8 @@ function groupsOf(u: FrenchUnit): Group[] {
     { label: 'Extra activities', files: sheetList(d.activities) },
     { label: 'Assessment', files: sheetList(d.assessment) },
     { label: 'For the teacher', files: sheetList(d.teacher) },
+    { label: 'Extra mats for pupils', files: d.extras ?? [], shared: true },
+    { label: 'For the wall', files: d.displays ?? [], shared: true },
   ].filter(g => g.files.length > 0)
 }
 
@@ -58,6 +61,7 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
   const show = (f: SheetFile) => !only || levelOf(f) === only
   const units = FRENCH_UNITS.filter(u => u.deck && u.slug)
   const waiting = FRENCH_UNITS.filter(u => u.ready && !u.deck)
+  const gameYears = [...new Set(units.map(u => u.year))].map(y => [y, pupilGames(y)] as const).filter((x): x is readonly [number, string] => !!x[1])
   const total = units.reduce((n, u) => n + groupsOf(u).reduce((m, g) => m + g.files.filter(show).length, 0), 0)
 
   return (
@@ -68,8 +72,9 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
           French print room
         </h1>
         <p style={{ ...body, maxWidth: '660px' }}>
-          Word mats, worksheets, games, assessments and the teacher sheets for every unit that has its slides.
-          Most come in three versions: for the class, adapted, and inclusion. Each opens ready to print.
+          Word mats, worksheets, games, assessments, wall displays and the teacher sheets for every unit that has
+          its slides. Most come in three versions: for the class, adapted, and inclusion. Where a sheet has
+          answers, they are right under it.
         </p>
       </div>
 
@@ -114,15 +119,20 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 var(--space-2)' }}>{g.label}</h3>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-2)' }}>
                   {g.files.map(f => (
-                    <li key={f.f}>
-                      <a href={mediaUrl(u.slug!, f.f, 'sheet')} target="_blank" rel="noopener" className="gc-fr-sheet" style={{
-                        display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 56, height: '100%',
+                    <li key={f.f} style={{ display: 'flex', flexDirection: 'column' }}>
+                      <a href={g.shared ? extrasUrl(f.f) : mediaUrl(u.slug!, f.f, 'sheet')} target="_blank" rel="noopener" className="gc-fr-sheet" style={{
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 56, flex: '1 1 auto',
                         background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)',
                         padding: 'var(--space-2) var(--space-3)', textDecoration: 'none',
                       }}>
                         <span style={{ ...eyebrow, color: levelOf(f) === 'class' ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>{LEVEL_LABEL[levelOf(f)]}</span>
                         <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.4 }}>{f.t}</span>
                       </a>
+                      {f.ans && (
+                        <a href={mediaUrl(u.slug!, f.ans, 'sheet')} target="_blank" rel="noopener" aria-label={`Answers for ${f.t}`} style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, padding: '0 var(--space-3)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                          Answers
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -146,6 +156,40 @@ export default async function FrenchPrintRoom({ searchParams }: { searchParams: 
           </section>
         )
       })}
+
+      {!only && EVERY_CLASS.length > 0 && (
+        <section id="every-class" style={{ ...card, scrollMarginTop: 'var(--space-7)' }}>
+          <div style={langEyebrow}>Both years</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: 'var(--space-1) 0 0' }}>For every class</h2>
+          <p style={{ ...small, margin: 'var(--space-1) 0 0' }}>Sheets that belong to no single unit. The sound cards and posters leave a space for the picture and action your class uses.</p>
+          {EVERY_CLASS.map(g => (
+            <div key={g.label} style={{ borderTop: '1px solid var(--border)', marginTop: 'var(--space-3)', paddingTop: 'var(--space-3)' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 var(--space-2)' }}>{g.label}</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-2)' }}>
+                {g.files.map(f => (
+                  <li key={f.f}>
+                    <a href={extrasUrl(f.f)} target="_blank" rel="noopener" className="gc-fr-sheet" style={{
+                      display: 'flex', alignItems: 'center', minHeight: 56, height: '100%', background: 'var(--warm)', border: '1px solid var(--border)',
+                      borderRadius: 'var(--radius-tile)', padding: 'var(--space-2) var(--space-3)', textDecoration: 'none',
+                      fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.4,
+                    }}>{f.t}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          {gameYears.length > 0 && (
+            <div style={{ borderTop: '1px solid var(--border)', marginTop: 'var(--space-3)', paddingTop: 'var(--space-3)' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 var(--space-1)' }}>Games for pupils</h3>
+              <p style={{ ...small, margin: '0 0 var(--space-2)' }}>The author&apos;s own games site: practice at home, or for a group on the class tablets, with only what each class has learnt.</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', alignItems: 'center' }}>
+                {gameYears.map(([y, url]) => <a key={y} href={url} target="_blank" rel="noopener" className="btn btn-outline">Year {y} games</a>)}
+                {PUPIL_GAMES_QR && <a href={extrasUrl(PUPIL_GAMES_QR)} target="_blank" rel="noopener" style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'var(--terracotta-dark)', fontWeight: 700 }}>QR codes for the tablets, to print</a>}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {waiting.length > 0 && (
         <p style={small}>

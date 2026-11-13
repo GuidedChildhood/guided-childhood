@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation'
 import { PAGE } from '@gc/shared/page-scale'
 import { eyebrow } from '@/components/ui'
 import {
-  assessedCodes, cultureLessons, FRENCH_UNITS, frenchUnit, KS2_STATEMENTS, mediaUrl, sheetList, SKILL_LABEL, soloName,
+  assessedCodes, checkpointOf, checkpointTasks, cultureLessons, FRENCH_UNITS, frenchUnit, HAS_CHECKPOINTS, KS2_STATEMENTS, mediaUrl, pupilGames, sheetList, SKILL_LABEL, soloName,
   teachingLessons, type SheetFile,
 } from '@/lib/languages/french'
-import { body, Crumbs, Fold, FoldStyles, langEyebrow, LessonRow, LessonRowStyles, Sheets, small, Words } from '../_ui'
+import { body, Crumbs, ExtraSheets, Fold, FoldStyles, langEyebrow, LessonRow, LessonRowStyles, Sheets, small, Words } from '../_ui'
 
 // /languages/fr/[unit]: one half term.
 //
@@ -48,6 +48,11 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
     { label: 'For the teacher', files: sheetList(d.teacher) },
   ].filter(x => x.files.length > 0) : []
   const sheetCount = paperwork.reduce((n, g) => n + g.files.length, 0)
+  const extras = d?.extras ?? []
+  const displays = d?.displays ?? []
+  const games = d ? pupilGames(u.year) : null
+  const formal = checkpointTasks(u)
+  const formalCodes = new Set(formal.map(t => t.code))
   const about = [p.sound && 'the sound', p.grammar && 'the grammar', p.culture && 'the culture', p.ican?.length && 'what pupils can do by the end'].filter(Boolean) as string[]
 
   return (
@@ -140,7 +145,16 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
           )}
 
           {codes.length > 0 && (
-            <Fold label="Assessment" hint={`${codes.map(c => c.code).join(' · ')} · what each looks like at SOLO 3, 4 and 5`}>
+            <Fold label="Assessment" hint={HAS_CHECKPOINTS
+              ? (formal.length > 0 ? `Formal checkpoint this half term: ${formal.map(t => t.code).join(' · ')}` : 'No formal checkpoint this half term · everything here is formative')
+              : `${codes.map(c => c.code).join(' · ')} · what each looks like at SOLO 3, 4 and 5`}>
+              {HAS_CHECKPOINTS && (
+                <p style={{ ...small, margin: '0 0 var(--space-4)', color: 'var(--ink)' }}>
+                  {formal.length > 0
+                    ? <>Each code is formally judged once a year. This half term is the checkpoint for <b>{formal.map(t => t.code).join(', ')}</b>. Any other code below is practised here and judged in its own half term.</>
+                    : <>Each code is formally judged once a year, and none has its checkpoint this half term. The codes below are practised here: use them to shape teaching, not as a recorded judgement.</>}
+                </p>
+              )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                 {codes.map((c, i) => {
                   const plan = d?.assessPlan?.find(a => a.code === c.code)
@@ -150,6 +164,9 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
                       <div style={langEyebrow}>
                         {c.code} · {SKILL_LABEL[c.code[0]] ?? 'Statement'}
                         {plan && <span style={{ color: 'var(--ink-muted)' }}> · {plan.how === 'written' ? 'Written' : 'Observed'}{when ? `, ${when}` : ''}</span>}
+                        {HAS_CHECKPOINTS && (
+                          <span style={{ color: 'var(--ink-muted)' }}> · {formalCodes.has(c.code) ? 'Formal checkpoint' : checkpointOf(u.year, c.code) ? `Formative here, judged in ${checkpointOf(u.year, c.code)}` : 'Formative'}</span>
+                        )}
                       </div>
                       <p style={{ ...body, fontWeight: 700, color: 'var(--ink)', margin: 'var(--space-1) 0' }}>{c.pupil}</p>
                       <p style={{ ...small, margin: 0 }}>National curriculum: {KS2_STATEMENTS[c.code] ?? c.nc}</p>
@@ -184,6 +201,36 @@ export default async function FrenchUnitPage({ params }: { params: Promise<{ uni
               <Link href={`/languages/fr/print#${u.key}`} style={{ ...small, display: 'inline-flex', alignItems: 'center', minHeight: 44, marginTop: 'var(--space-2)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                 Every sheet for this unit, lesson by lesson, in the print room
               </Link>
+            </Fold>
+          )}
+
+          {(extras.length > 0 || displays.length > 0) && (
+            <Fold label="Extra mats and the French wall" hint={[extras.length > 0 && `${extras.length} extra mats`, displays.length > 0 && `${displays.length} for display`].filter(Boolean).join(' · ')}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-4)' }}>
+                {extras.length > 0 && (
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: 'var(--space-2)' }}>Extra mats for pupils</div>
+                    <ExtraSheets files={extras} />
+                  </div>
+                )}
+                {displays.length > 0 && (
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: 'var(--space-2)' }}>For the wall</div>
+                    <ExtraSheets files={displays} />
+                  </div>
+                )}
+              </div>
+            </Fold>
+          )}
+
+          {games && (
+            <Fold label="Practice at home" hint="The author's games site for pupils, with only what the class has learnt">
+              <p style={{ ...body, margin: 0 }}>
+                Games, picture word mats and songs for Year {u.year}, on the scheme author&apos;s own site. It works on a
+                phone or a tablet, so it suits home practice and a group on the class tablets.
+              </p>
+              <a href={games} target="_blank" rel="noopener" className="btn btn-outline" style={{ marginTop: 'var(--space-3)' }}>Open the Year {u.year} games</a>
+              <p style={{ ...small, margin: 'var(--space-2) 0 0' }}>Opens in a new tab on the author&apos;s site. No login, and nothing about a pupil is asked for.</p>
             </Fold>
           )}
 

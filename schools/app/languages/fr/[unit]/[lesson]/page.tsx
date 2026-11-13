@@ -5,7 +5,7 @@ import { frLessonKey } from '@gc/shared/lesson-records'
 import RecordLesson from '@/components/records/RecordLesson'
 import { eyebrow } from '@/components/ui'
 import {
-  activitiesFor, assessedIn, codesToRecord, deckSequence, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
+  activitiesFor, assessedIn, checkpointTasks, codesToRecord, deckSequence, HAS_CHECKPOINTS, FR_PAGE, FRENCH_UNITS, frenchLesson, frenchUnit, lessonLabel, lessonsOf, mediaUrl,
   sheetList, SKILL_LABEL, soloName, teachingLessons,
 } from '@/lib/languages/french'
 import { body, card, Crumbs, Fold, FoldStyles, langEyebrow, Sheets, small } from '../../_ui'
@@ -71,6 +71,13 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
   const next = l.culture ? undefined : all.find(x => x.n === l.n + 1)
   const assess = l.culture ? [] : assessedIn(u, l.n)
   const toRecord = codesToRecord(u, l)
+  // The scheme judges each code formally once a year, at a checkpoint half
+  // term. A count taken in any other half term is still worth having, and is
+  // formative: say which this is, so nobody reads a practice count as the judgement.
+  const formal = checkpointTasks(u).map(t => t.code)
+  const formalNote = !HAS_CHECKPOINTS || toRecord.length === 0 ? ''
+    : formal.length > 0 ? ` This half term is the formal checkpoint for ${formal.join(', ')}.`
+    : ' No code has its formal checkpoint this half term, so these counts are formative.'
   const deck = l.deck
   const songs = deck?.songs?.map(i => u.deck?.songs?.[i]).filter((s): s is NonNullable<typeof s> => !!s) ?? []
   const order = deckSequence(deck?.slides)
@@ -227,7 +234,7 @@ export default async function FrenchLessonPage({ params }: { params: Promise<{ u
           lessonKey={frLessonKey(u.key, l.n)}
           statements={toRecord.map(c => ({ code: c.code, skill: SKILL_LABEL[c.code[0]] ?? 'Statement', pupil: c.pupil }))}
           levelNames={['Below SOLO 4', 'SOLO 4', 'SOLO 5']}
-          levelKey={`This is how the scheme reports each statement. Below SOLO 4 is ${soloName(3)}, and anyone not there yet.`}
+          levelKey={`This is how the scheme reports each statement. Below SOLO 4 is ${soloName(3)}, and anyone not there yet.${formalNote}`}
           recordHref="/languages/fr/progress"
         />
       </Step>

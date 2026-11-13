@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
+import HouseInShort from '@/components/InShort'
 import Reveal from '@/components/Reveal'
 import { eyebrow, panel } from '@/components/ui'
-import { byLevel, LEVEL_LABEL, mediaUrl, type SheetFile } from '@/lib/languages/french'
+import { byLevel, extrasUrl, LEVEL_LABEL, mediaUrl, type SheetFile } from '@/lib/languages/french'
 
 // The French pages' few shared pieces, in the house dialect (components/ui.ts).
 // The section colour for languages is terracotta, so the area reads as a
@@ -89,6 +90,14 @@ export function Sheets({ slug, files }: { slug: string; files: SheetFile[] }) {
                   <span aria-hidden style={{ color: 'var(--terracotta-dark)' }}>⎙</span>
                   <span style={{ borderBottom: '1px solid var(--border)' }}>{f.t}</span>
                 </a>
+                {f.ans && (
+                  <a href={mediaUrl(slug, f.ans, 'sheet')} target="_blank" rel="noopener" aria-label={`Answers for ${f.t}`} style={{
+                    display: 'inline-flex', alignItems: 'center', minHeight: 44, marginLeft: 'var(--space-5)',
+                    fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)',
+                  }}>
+                    Answers
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -96,6 +105,31 @@ export function Sheets({ slug, files }: { slug: string; files: SheetFile[] }) {
       ))}
     </div>
   )
+}
+
+/** Sheets from the scheme's shared extras folder: mats, display cards, posters. */
+export function ExtraSheets({ files }: { files: SheetFile[] }) {
+  if (files.length === 0) return null
+  return (
+    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+      {files.map(f => (
+        <li key={f.f}>
+          <a href={extrasUrl(f.f)} target="_blank" rel="noopener" style={{
+            display: 'flex', alignItems: 'center', gap: 'var(--space-2)', minHeight: 44,
+            fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'none',
+          }}>
+            <span aria-hidden style={{ color: 'var(--terracotta-dark)' }}>⎙</span>
+            <span style={{ borderBottom: '1px solid var(--border)' }}>{f.t}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** The short version of a long page, first (components/InShort), in the French colour. */
+export function InShort({ points }: { points: ReactNode[] }) {
+  return <HouseInShort points={points} accent="var(--terracotta)" ink="var(--terracotta-dark)" />
 }
 
 /** A grid of short cards: a heading and a sentence or two. The handbook is mostly these. */

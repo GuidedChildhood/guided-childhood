@@ -177,9 +177,44 @@ let page = null
 try { page = globalsOf(await fetchText(PAGE_FILE)).CURRIC_PAGE ?? null } catch { /* kept below */ }
 let bank = ''
 try { bank = await fetchText(BANK_FILE) } catch { /* kept below */ }
+// FOR EVERY CLASS (13 November 2026). Her "Useful resources and displays" page
+// opens with the sheets that belong to no single unit: a classroom phrases
+// mat, sound cards, posters for the wall. They are written straight into the
+// page script as d("file.pdf", "Title") inside box("Heading", [...]), so they
+// are read as text here, by pattern, and never run. Only a plain PDF name in
+// the shared extras folder is accepted.
+function everyClassOf(src) {
+  const at = src.indexOf('block("For every class"')
+  if (at < 0) return null
+  const end = src.indexOf('U4.map(', at)
+  const chunk = src.slice(at, end < 0 ? at + 4000 : end)
+  const groups = []
+  for (const m of chunk.matchAll(/box\("([^"]+)",\s*\[([^\]]*)\]\)/g)) {
+    const files = [...m[2].matchAll(/d\("([A-Za-z0-9_-]+\.pdf)",\s*"([^"]+)"\)/g)].map(x => ({ t: x[2], f: x[1] }))
+    if (files.length) groups.push({ label: m[1], files })
+  }
+  return groups.length ? groups : null
+}
+
+/** The pupil games sites she links from her menu, one per year, and the sheet
+ *  of QR codes that opens them on the class tablets. */
+function pupilGamesOf(src) {
+  const sites = [...src.matchAll(/\["(https:\/\/lets-play-french-y(\d)\.pages\.dev\/)",\s*"[^"]*"\]/g)]
+    .map(m => ({ year: Number(m[2]), url: m[1] }))
+  if (sites.length === 0) return null
+  const qr = src.match(/units\/extras\/([A-Za-z0-9_-]*QR[A-Za-z0-9_-]*\.pdf)/)
+  return { sites, qr: qr ? qr[1] : null }
+}
+
 const handbook = {
   think: or('her reasons', lifted(bank, 'const THINK = '), before.handbook?.think),
-  grow: or('how each statement grows', lifted(bank, 'const GROW = '), before.handbook?.grow),
+  // How each statement grows used to be a short table in her script (GROW).
+  // Since 13 November it is the end of year statements, worked out from
+  // page.formalAssessment, so a missing GROW is the new normal and is not
+  // carried forward from an old sync.
+  grow: lifted(bank, 'const GROW = '),
+  everyClass: or('the sheets for every class', everyClassOf(bank), before.handbook?.everyClass),
+  pupilGames: or('the pupil games', pupilGamesOf(bank), before.handbook?.pupilGames),
   marie: or('Marie and Pierre', lifted(bank, 'const R = ', 'function marie()'), before.handbook?.marie),
   levels: or('the four levels', lifted(bank, 'const L = ', 'function inclusion()'), before.handbook?.levels),
   progressShows: or('how progress shows', lifted(bank, 'block("How progress shows", cards('), before.handbook?.progressShows),
@@ -237,7 +272,23 @@ function shapeProblems(d) {
       if (pg.culture && pg.culture[y] !== undefined && !pairs(pg.culture[y])) out.push(`page.culture.${y} is not a list of rows`)
     }
   }
+  // The checkpoint map: every task names its checkpoint and code, and every
+  // descriptor has the three levels a teacher judges against.
+  const fa = pg?.formalAssessment
+  if (fa) {
+    if (!Array.isArray(fa.checkpoints) || fa.checkpoints.some(y => !Number.isFinite(y.year) || !Array.isArray(y.tasks) || y.tasks.some(t => !/^HT\d$/.test(t.checkpoint ?? '') || typeof t.code !== 'string' || typeof t.task !== 'string'))) out.push('page.formalAssessment.checkpoints is not a list of years with tasks')
+    if (!Array.isArray(fa.descriptors) || fa.descriptors.some(x => !Number.isFinite(x.year) || typeof x.code !== 'string' || ['solo3', 'solo4', 'solo5'].some(k => typeof x[k] !== 'string'))) out.push('page.formalAssessment.descriptors is not a list of three level descriptors')
+  }
+  for (const k of ['directAssociation', 'pupilResources']) if (pg?.[k] !== undefined && !pairs(pg[k])) out.push(`page.${k} is not a list of rows`)
+  // A file name reaches a URL, so it has to be a plain name.
+  const plain = f => typeof f === 'string' && /^[A-Za-z0-9_-]+\.(pdf|zip)$/.test(f)
+  for (const [slug, u] of Object.entries(d.units ?? {})) {
+    for (const k of ['extras', 'displays']) if (u[k] !== undefined && (!Array.isArray(u[k]) || u[k].some(x => !plain(x.f) || typeof x.t !== 'string'))) out.push(`${slug}: ${k} is not a list of named files`)
+    for (const l of u.lessons ?? []) for (const x of l.files ?? []) if (x.ans !== undefined && !plain(x.ans)) out.push(`${slug}: an answer sheet has an unsafe name`)
+  }
   const hb = d.handbook ?? {}
+  if (hb.everyClass && hb.everyClass.some(g => typeof g.label !== 'string' || g.files.some(x => !plain(x.f)))) out.push('handbook.everyClass is not groups of named files')
+  if (hb.pupilGames && hb.pupilGames.sites.some(x => !/^https:\/\/lets-play-french-y\d\.pages\.dev\/$/.test(x.url))) out.push('handbook.pupilGames has an address that is not a pupil games site')
   for (const k of ['think', 'marie', 'levels', 'progressShows']) if (hb[k] && !pairs(hb[k])) out.push(`handbook.${k} is not a list of rows`)
   if (hb.grow && (typeof hb.grow !== 'object' || Object.values(hb.grow).some(v => typeof v !== 'string'))) out.push('handbook.grow is not code to text')
   return out

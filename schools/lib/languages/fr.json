@@ -85,13 +85,25 @@
    "assessLesson": 6,
    "assessPlan": [
     {
+     "code": "L1",
+     "lessons": [
+      6
+     ],
+     "how": "observed",
+     "s5": "Responds flexibly and independently, adapting answers or adding relevant information.",
+     "what": "Lesson 6 Guess Who?: listen to each pupil as they respond to their partner's questions (couleur préférée, âge, ça va).",
+     "files": [
+      "Y3_HT2_L6_Qui_est-ce_Guess_Who.pdf"
+     ]
+    },
+    {
      "code": "S1",
      "lessons": [
       5,
       6
      ],
      "how": "observed",
-     "s5": "Holds a short conversation without prompts: asks and answers about colour, age and ça va, adds « Et toi ? » and keeps it going with a new partner.",
+     "s5": "Extends the conversation by adapting questions and responses and adding relevant information.",
      "what": "Lesson 5 class survey, or Lesson 6 Guess Who!: listen to each pair as they ask and answer (couleur préférée, âge, ça va).",
      "files": [
       "Y3_HT2_Class_survey.pdf",
@@ -104,22 +116,11 @@
       6
      ],
      "how": "written",
-     "s5": "Reads a short new text (for example a character described by colour, age and ça va) and shows they understand it, working out new words from what they already know.",
+     "s5": "Applies reading knowledge to unfamiliar combinations of familiar colour vocabulary and taught structures.",
      "what": "Mon bilan, part 1: read and colour.",
      "files": [
       "Y3_HT2_L6_Mon_bilan_v2.pdf"
      ]
-    },
-    {
-     "code": "R2",
-     "lessons": [
-      1,
-      2,
-      4
-     ],
-     "how": "observed",
-     "s5": "Sings the songs confidently, changes a line to use their own favourite colour, and notices French sounds such as « oi » in the words.",
-     "what": "Songs: note who sings along and points to the colours they hear."
     },
     {
      "code": "W1",
@@ -127,7 +128,7 @@
       6
      ],
      "how": "written",
-     "s5": "Writes several sentences from memory (colour, age, ça va), joins them with « et », and adapts them to describe someone new, such as a friend or a Guess Who! character.",
+     "s5": "Adapts familiar language to create new phrases or sentences in a different context.",
      "what": "Mon bilan, parts 2 and 3: Camille's three sentences, then three about me, with nothing on display.",
      "files": [
       "Y3_HT2_L6_Mon_bilan_v2.pdf",
@@ -149,26 +150,8 @@
      "songs": [
       0
      ],
-     "book": "Colour the splats on the Snap sheet and write the colour words. Cut out and play Snap: say the French word every time you turn a card. Or play a memory game with the cards (face down, say each colour as you turn it). ★ Challenge: On the back, write the 5 colours from memory.",
-     "files": [
-      {
-       "kind": "game",
-       "t": "Snap cards",
-       "f": "Y3_HT2_Snap_card_templates.pdf"
-      },
-      {
-       "lv": "adapted",
-       "kind": "game",
-       "t": "Snap cards",
-       "f": "Y3_HT2_Snap_card_templates_Inclusion.pdf"
-      },
-      {
-       "lv": "adapted",
-       "kind": "game",
-       "t": "Snap cards (owls)",
-       "f": "Y3_HT2_Snap_card_templates_Inclusion_Owls.pdf"
-      }
-     ]
+     "book": "No book work in this lesson: the colours are practised orally, with the song and games.",
+     "files": []
     },
     {
      "n": 2,
@@ -180,26 +163,8 @@
      "songs": [
       2
      ],
-     "book": "Same Snap sheet: colour 5 more splats and write the colour words. Cut out and play Snap: say the French word every time you turn a card. Or play a memory game with the cards. ★ Challenge: On the back, write all 10 colours from memory.",
-     "files": [
-      {
-       "kind": "game",
-       "t": "Snap cards",
-       "f": "Y3_HT2_Snap_card_templates.pdf"
-      },
-      {
-       "lv": "adapted",
-       "kind": "game",
-       "t": "Snap cards",
-       "f": "Y3_HT2_Snap_card_templates_Inclusion.pdf"
-      },
-      {
-       "lv": "adapted",
-       "kind": "game",
-       "t": "Snap cards (owls)",
-       "f": "Y3_HT2_Snap_card_templates_Inclusion_Owls.pdf"
-      }
-     ]
+     "book": "In your book: draw a splat of each colour and write its name next to it, all 10 colours. ★ Challenge: mark the silent letters and the sounds you know (oi, ou).",
+     "files": []
     },
     {
      "n": 3,
@@ -232,7 +197,8 @@
       {
        "kind": "sheet",
        "t": "Quelle couleur ? aliens",
-       "f": "Y3_HT2_L3_Quelle_couleur_aliens.pdf"
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens.pdf",
+       "ans": "Y3_HT2_L3_Quelle_couleur_aliens_Answers.pdf"
       },
       {
        "kind": "sheet",
@@ -243,7 +209,8 @@
        "lv": "adapted",
        "kind": "sheet",
        "t": "Alien strips with C'est … lines and colour help (4 per page)",
-       "f": "Y3_HT2_L3_Aliens_to_cut_out_Adapted.pdf"
+       "f": "Y3_HT2_L3_Aliens_to_cut_out_Adapted.pdf",
+       "ans": "Y3_HT2_L3_Aliens_to_cut_out_Adapted_Answers.pdf"
       },
       {
        "kind": "game",
@@ -254,7 +221,8 @@
        "lv": "adapted",
        "kind": "sheet",
        "t": "Quelle couleur ? aliens (word box)",
-       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Adapted.pdf"
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Adapted.pdf",
+       "ans": "Y3_HT2_L3_Quelle_couleur_aliens_Adapted_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -266,7 +234,8 @@
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Quelle couleur ? join the alien to its colour",
-       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Inclusion_join.pdf"
+       "f": "Y3_HT2_L3_Quelle_couleur_aliens_Inclusion_join.pdf",
+       "ans": "Y3_HT2_L3_Quelle_couleur_aliens_Inclusion_join_Answers.pdf"
       }
      ]
     },
@@ -286,13 +255,15 @@
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence cards",
-       "f": "Y3_HT2_L4_Cut_and_stick_Inclusion.pdf"
+       "f": "Y3_HT2_L4_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y3_HT2_L4_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence pieces",
-       "f": "Y3_HT2_L4_Cut_and_stick_words_Inclusion.pdf"
+       "f": "Y3_HT2_L4_Cut_and_stick_words_Inclusion.pdf",
+       "ans": "Y3_HT2_L4_Cut_and_stick_words_Inclusion_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -359,19 +330,22 @@
       {
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y3_HT2_L6_Mon_bilan_v2.pdf"
+       "f": "Y3_HT2_L6_Mon_bilan_v2.pdf",
+       "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+       "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf",
+       "ans": "Y3_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf"
+       "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf",
+       "ans": "Y3_HT2_L6_Mon_bilan_v2_Inclusion_Answers.pdf"
       },
       {
        "kind": "game",
@@ -420,13 +394,15 @@
        "lv": "adapted",
        "kind": "sheet",
        "t": "Fact file: photos and sentences to finish",
-       "f": "Y3_HT2_Noel_fact_file_Adapted.pdf"
+       "f": "Y3_HT2_Noel_fact_file_Adapted.pdf",
+       "ans": "Y3_HT2_Noel_fact_file_Adapted_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: photo to word",
-       "f": "Y3_HT2_Noel_cut_and_stick_Inclusion.pdf"
+       "f": "Y3_HT2_Noel_cut_and_stick_Inclusion.pdf",
+       "ans": "Y3_HT2_Noel_cut_and_stick_Inclusion_Answers.pdf"
       }
      ]
     }
@@ -435,6 +411,26 @@
     "t": "What I can do",
     "f": "Y3_HT2_What_I_can_do.pdf"
    },
+   "extras": [
+    {
+     "t": "Very easy picture word mat",
+     "f": "Y3_HT2_Easy_word_mat.pdf"
+    },
+    {
+     "t": "Sentence builder mat (with the grammar explained)",
+     "f": "Y3_HT2_Sentence_builder.pdf"
+    }
+   ],
+   "displays": [
+    {
+     "t": "Vocabulary cards: one big picture and word per page",
+     "f": "Y3_HT2_Display_vocabulary_cards.pdf"
+    },
+    {
+     "t": "Grammar posters",
+     "f": "Y3_HT2_Display_grammar.pdf"
+    }
+   ],
    "wordMats": [
     {
      "t": "Word mat (colour)",
@@ -457,8 +453,8 @@
      "kind": "activity",
      "t": "Colours: colour, trace, join and cut-and-stick (4 pages, uses the 10-colour word mat)",
      "f": "Y3_HT2_Word_mat_Inclusion_colours_activities.pdf",
+     "ans": "Y3_HT2_Word_mat_Inclusion_colours_activities_Answers.pdf",
      "lessons": [
-      1,
       2
      ]
     }
@@ -467,19 +463,22 @@
     {
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y3_HT2_L6_Mon_bilan_v2.pdf"
+     "f": "Y3_HT2_L6_Mon_bilan_v2.pdf",
+     "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "adapted",
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+     "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf",
+     "ans": "Y3_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
     },
     {
      "lv": "inclusion",
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf"
+     "f": "Y3_HT2_L6_Mon_bilan_v2_Inclusion.pdf",
+     "ans": "Y3_HT2_L6_Mon_bilan_v2_Inclusion_Answers.pdf"
     }
    ],
    "teacher": [
@@ -494,6 +493,10 @@
     {
      "t": "SOLO table",
      "f": "Y3_HT2_SOLO_table.pdf"
+    },
+    {
+     "t": "Answer sheets (all lessons)",
+     "f": "Y3_HT2_Answer_sheets.pdf"
     }
    ],
    "songs": [
@@ -530,7 +533,7 @@
       6
      ],
      "how": "observed",
-     "s5": "Speaks in extended sentences mixing je peux, je ne peux pas, et and mais, adds detail, and asks and answers « Tu peux … ? » spontaneously.",
+     "s5": "Independently adapts and links familiar ability structures to communicate a wider range of information, choosing language to suit the presentation.",
      "what": "Guess Who! « Tu peux … ? » and longer sentences with et / mais."
     },
     {
@@ -544,7 +547,7 @@
       6
      ],
      "how": "observed",
-     "s5": "Uses the word mat independently to find new verbs (including extension verbs), works out new sentences and checks their own spellings without being asked.",
+     "s5": "Independently selects and applies vocabulary from the word mat, including extension verbs, in a new sentence or context.",
      "what": "Every lesson: who uses the word mat to find and check verbs in book work and games.",
      "files": [
       "Y4_HT2_Word_mat_colour.pdf"
@@ -557,7 +560,7 @@
       6
      ],
      "how": "written",
-     "s5": "Explains the pattern (ne … pas around peux; the verb after peux stays in the infinitive) and applies it to new verbs and to questions such as « Tu peux … ? ».",
+     "s5": "Independently applies the negative pattern in new ability sentences and explains how the structure works.",
      "what": "Lesson 4: make a sentence negative and explain ne … pas. Lesson 6: Mon bilan ✓ / ✗ part.",
      "files": [
       "Y4_HT2_L6_Mon_bilan_v2.pdf"
@@ -569,7 +572,7 @@
       6
      ],
      "how": "written",
-     "s5": "Writes a short paragraph from memory about what they and others can and can't do, using et and mais and new verbs from the word mat.",
+     "s5": "Independently adapts familiar structures to create a linked set of sentences about different abilities, using appropriate positive and negative forms.",
      "what": "Mon bilan, parts 2 to 4: write Je peux / Je ne peux pas sentences from memory, then about themselves (Moi !), nothing on display.",
      "files": [
       "Y4_HT2_L6_Mon_bilan_v2.pdf",
@@ -597,7 +600,8 @@
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: picture to word",
-       "f": "Y4_HT2_L1_Cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_L1_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_L1_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -629,7 +633,8 @@
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: picture to word",
-       "f": "Y4_HT2_L2_Cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_L2_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_L2_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -662,7 +667,8 @@
       {
        "kind": "sheet",
        "t": "Picture sentences: Je peux …",
-       "f": "Y4_HT2_L3_Picture_sentences.pdf"
+       "f": "Y4_HT2_L3_Picture_sentences.pdf",
+       "ans": "Y4_HT2_L3_Picture_sentences_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -680,13 +686,15 @@
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence cards",
-       "f": "Y4_HT2_L3_Cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_L3_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_L3_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: word cards",
-       "f": "Y4_HT2_L3_Cut_and_stick_words_Inclusion.pdf"
+       "f": "Y4_HT2_L3_Cut_and_stick_words_Inclusion.pdf",
+       "ans": "Y4_HT2_L3_Cut_and_stick_words_Inclusion_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -714,30 +722,35 @@
        "lv": "adapted",
        "kind": "sheet",
        "t": "Picture strips with writing lines and help",
-       "f": "Y4_HT2_L4_Picture_strips_Adapted.pdf"
+       "f": "Y4_HT2_L4_Picture_strips_Adapted.pdf",
+       "ans": "Y4_HT2_L4_Picture_strips_Adapted_Answers.pdf"
       },
       {
        "kind": "sheet",
        "t": "Picture sentences: Je peux … / Je ne peux pas …",
-       "f": "Y4_HT2_L4_Picture_sentences.pdf"
+       "f": "Y4_HT2_L4_Picture_sentences.pdf",
+       "ans": "Y4_HT2_L4_Picture_sentences_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "sheet",
        "t": "Je ne peux pas…",
-       "f": "Y4_HT2_L4_Je_ne_peux_pas_Inclusion.pdf"
+       "f": "Y4_HT2_L4_Je_ne_peux_pas_Inclusion.pdf",
+       "ans": "Y4_HT2_L4_Je_ne_peux_pas_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence cards",
-       "f": "Y4_HT2_L4_Cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_L4_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_L4_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: word cards",
-       "f": "Y4_HT2_L4_Cut_and_stick_words_Inclusion.pdf"
+       "f": "Y4_HT2_L4_Cut_and_stick_words_Inclusion.pdf",
+       "ans": "Y4_HT2_L4_Cut_and_stick_words_Inclusion_Answers.pdf"
       },
       {
        "lv": "adapted",
@@ -768,25 +781,29 @@
        "lv": "adapted",
        "kind": "sheet",
        "t": "Picture strips with sentence frames and help",
-       "f": "Y4_HT2_L5_Picture_strips_Adapted.pdf"
+       "f": "Y4_HT2_L5_Picture_strips_Adapted.pdf",
+       "ans": "Y4_HT2_L5_Picture_strips_Adapted_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "sheet",
        "t": "et / mais",
-       "f": "Y4_HT2_L5_Et_mais_Inclusion.pdf"
+       "f": "Y4_HT2_L5_Et_mais_Inclusion.pdf",
+       "ans": "Y4_HT2_L5_Et_mais_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence cards",
-       "f": "Y4_HT2_L5_Cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_L5_Cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_L5_Cut_and_stick_Inclusion_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: sentence pieces",
-       "f": "Y4_HT2_L5_Cut_and_stick_chunks_Inclusion.pdf"
+       "f": "Y4_HT2_L5_Cut_and_stick_chunks_Inclusion.pdf",
+       "ans": "Y4_HT2_L5_Cut_and_stick_chunks_Inclusion_Answers.pdf"
       }
      ]
     },
@@ -802,19 +819,22 @@
       {
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y4_HT2_L6_Mon_bilan_v2.pdf"
+       "f": "Y4_HT2_L6_Mon_bilan_v2.pdf",
+       "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+       "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf",
+       "ans": "Y4_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "assess",
        "t": "Mon bilan",
-       "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf"
+       "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf",
+       "ans": "Y4_HT2_L6_Mon_bilan_Inclusion_2_Answers.pdf"
       },
       {
        "kind": "game",
@@ -840,22 +860,24 @@
      "culture": "Christmas",
      "fr": "Joyeux Noël !",
      "en": "Happy Christmas!",
-     "ican": "Say Joyeux Noël and name some Christmas traditions in France.",
-     "words": "Saint-Nicolas, les treize desserts, les santons",
+     "ican": "Say Joyeux Noël and name Christmas traditions from French-speaking countries.",
+     "words": "la Saint-Nicolas (Belgium), la tourtière (Québec), les fanals (Senegal)",
      "slides": "Je_peux_7.html",
-     "book": "Make a fact file about Christmas in France: write about Saint-Nicolas, les treize desserts and les santons, with the French word and what it is, then draw a picture for each. ★ Challenge: what is the same in the UK, and what is different?",
+     "book": "Make a fact file about Christmas in French-speaking countries: write about Belgium, Québec and Senegal, with the French word and what it is, then draw a picture for each. ★ Challenge: what is the same in the UK, and what is different?",
      "files": [
       {
        "lv": "adapted",
        "kind": "sheet",
        "t": "Fact file: photos and sentences to finish",
-       "f": "Y4_HT2_Noel_fact_file_Adapted.pdf"
+       "f": "Y4_HT2_Noel_fact_file_Adapted.pdf",
+       "ans": "Y4_HT2_Noel_fact_file_Adapted_Answers.pdf"
       },
       {
        "lv": "inclusion",
        "kind": "sheet",
        "t": "Cut and stick: photo to word",
-       "f": "Y4_HT2_Noel_cut_and_stick_Inclusion.pdf"
+       "f": "Y4_HT2_Noel_cut_and_stick_Inclusion.pdf",
+       "ans": "Y4_HT2_Noel_cut_and_stick_Inclusion_Answers.pdf"
       }
      ]
     }
@@ -864,6 +886,26 @@
     "t": "What I can do",
     "f": "Y4_HT2_What_I_can_do.pdf"
    },
+   "extras": [
+    {
+     "t": "Very easy picture word mat",
+     "f": "Y4_HT2_Easy_word_mat.pdf"
+    },
+    {
+     "t": "Sentence builder mat (with the grammar explained)",
+     "f": "Y4_HT2_Sentence_builder.pdf"
+    }
+   ],
+   "displays": [
+    {
+     "t": "Vocabulary cards: one big picture and word per page",
+     "f": "Y4_HT2_Display_vocabulary_cards.pdf"
+    },
+    {
+     "t": "Grammar posters",
+     "f": "Y4_HT2_Display_grammar.pdf"
+    }
+   ],
    "wordMats": [
     {
      "t": "Word mat (colour)",
@@ -890,19 +932,22 @@
     {
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y4_HT2_L6_Mon_bilan_v2.pdf"
+     "f": "Y4_HT2_L6_Mon_bilan_v2.pdf",
+     "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "adapted",
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf"
+     "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf",
+     "ans": "Y4_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
     },
     {
      "lv": "inclusion",
      "kind": "assess",
      "t": "Mon bilan",
-     "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf"
+     "f": "Y4_HT2_L6_Mon_bilan_Inclusion_2.pdf",
+     "ans": "Y4_HT2_L6_Mon_bilan_Inclusion_2_Answers.pdf"
     }
    ],
    "teacher": [
@@ -917,6 +962,10 @@
     {
      "t": "SOLO table",
      "f": "Y4_HT2_SOLO_table.pdf"
+    },
+    {
+     "t": "Answer sheets (all lessons)",
+     "f": "Y4_HT2_Answer_sheets.pdf"
     }
    ],
    "songs": [
@@ -946,7 +995,7 @@
     "theme": "Ourselves and Humankind",
     "summary": "Greetings, feelings, name, numbers 1 to 10 and age (j'ai … ans). Lesson 1 Bienvenue au Monde Francophone (not assessed). Useful words: merci, oui, non. Extension: à plus tard, bonsoir, très bien / très mal; 11 to 20 as a challenge only.",
     "sound": "ou",
-    "soundHint": "as in bonjour, vous, nous",
+    "soundHint": "as in bonjour, nous, tout",
     "soundSays": "like “oo” in soup, never “ow”",
     "phonicsNote": "One sound this half-term. About 3 sound words and 1 to 2 traps per lesson; retrieval only covers what has been taught so far. Lesson 5: nous, tout, toujours + trap “bon”. Silent final letters noticed informally (nous, trois); in six and dix the final x IS pronounced (/s/). Transcription: choice of 2.",
     "grammar": "Chunks only.",
@@ -1336,35 +1385,35 @@
     ],
     "codes": [
      {
+      "code": "L1",
+      "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+      "pupil": "Listen carefully and show I understand by joining in and responding.",
+      "s3": "Understands some familiar questions and responds with relevant words or short phrases, sometimes needing repetition or support.",
+      "s4": "Independently understands familiar questions and responds appropriately, maintaining the exchange.",
+      "idea": "Lesson 6 Guess Who?: listen to each pupil as they respond to their partner's questions."
+     },
+     {
       "code": "S1",
       "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
       "pupil": "Have a conversation: ask and answer questions.",
-      "s3": "Asks the question or answers Ma couleur préférée, c'est le … with a prompt card or model.",
-      "s4": "Asks and answers the question in the class survey, adds Et toi ? and keeps the exchange going without the prompt.",
+      "s3": "Asks and answers familiar questions using learned phrases, with prompting.",
+      "s4": "Independently asks and answers familiar questions and maintains a short linked conversation.",
       "idea": "Lesson 5 class survey: listen to each pair as they ask and answer."
      },
      {
       "code": "R1",
       "nc": "Read carefully and show understanding of words, phrases and simple writing.",
       "pupil": "Read carefully and show I understand words, phrases and simple writing.",
-      "s3": "Matches several colour words to pictures or colour blobs, with some errors.",
-      "s4": "Reads all 10 colour words and short sentences (C'est rouge. Ma couleur préférée, c'est le bleu.) and matches them correctly.",
+      "s3": "Recognises and matches several familiar colour words to pictures, with some support or errors.",
+      "s4": "Independently reads and matches familiar colour words and short phrases accurately.",
       "idea": "Lesson 6 Mon bilan, part 1 (read and colour). Back-up: Lesson 7 colour-by-number tree or the Lesson 3 read-and-match."
-     },
-     {
-      "code": "R2",
-      "nc": "Appreciate stories, songs, poems and rhymes in the language.",
-      "pupil": "Enjoy stories, songs and rhymes in French.",
-      "s3": "Joins in parts of the colour songs and recognises several colour words in them.",
-      "s4": "Sings whole verses and picks out the colours and the question when they hear them in the songs.",
-      "idea": "The songs in Lessons 1, 2 and 4: note who sings along and can point to the colours they hear."
      },
      {
       "code": "W1",
       "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
       "pupil": "Write phrases from memory and change them to make new sentences.",
-      "s3": "Writes several colour words from memory, some misspelt.",
-      "s4": "Writes Ma couleur préférée, c'est le … from memory with a correctly spelt colour.",
+      "s3": "Writes several familiar words or phrases from memory, with some errors.",
+      "s4": "Independently writes familiar words and phrases accurately enough to communicate the intended information, adapting personal details.",
       "idea": "Lesson 6 Mon bilan, part 2 (Coco's 4 questions), written with nothing on display."
      }
     ],
@@ -1694,7 +1743,7 @@
     "soundHint": "as in chat, chien, cheval",
     "soundSays": "like “sh”",
     "phonicsNote": "Transcription: choice of 2.",
-    "grammar": "un / une + je suis. Colour AFTER the animal (noun, adjective order) is the grammar point. Adjective agreement is NOT taught; a feminine animal (une souris) only with same-sound colours.",
+    "grammar": "un / une + je suis. Colour after the animal (noun, adjective order) is the grammar point. Adjective agreement is not taught; a feminine animal (une souris) only with same-sound colours.",
     "culture": "What animals say in French: ouaf ouaf, miaou, coin-coin.",
     "codes": [
      {
@@ -1729,6 +1778,52 @@
       "s4": "Writes several sentences describing animals (Je suis un poisson orange) with correct word order.",
       "idea": "Write and draw your own animal; book scrutiny."
      }
+    ],
+    "vocab": [
+     [
+      "un chat",
+      "a cat"
+     ],
+     [
+      "un chien",
+      "a dog"
+     ],
+     [
+      "un cheval",
+      "a horse"
+     ],
+     [
+      "un canard",
+      "a duck"
+     ],
+     [
+      "un poisson",
+      "a fish"
+     ],
+     [
+      "un ours",
+      "a bear"
+     ],
+     [
+      "une souris",
+      "a mouse"
+     ],
+     [
+      "Je suis …",
+      "I am …"
+     ],
+     [
+      "un / une",
+      "a"
+     ]
+    ],
+    "ican": [
+     "I can name 7 animals in French.",
+     "I can say un or une with each animal.",
+     "I can say what animal I am: Je suis un chat.",
+     "I can put the colour after the animal: un chien bleu.",
+     "I can describe an animal in a full sentence.",
+     "I can play the dice game and describe the animal I roll."
     ]
    },
    "y3-ht4": {
@@ -1739,7 +1834,7 @@
     "en": "Brown Bear, Brown Bear",
     "theme": "Exploration and Discovery",
     "summary": "Je vois / tu vois with the HT3 animals. Guess Who board: « Tu vois un chien bleu ? Oui. / Non. » (not “tu es”). New colour brun (blanc and violet were taught in HT2), used only with masculine animals. Pupils write their own version of the book.",
-    "sound": "Checkpoint 1: ou, oi, ch",
+    "sound": "Phonics progress check 1: ou, oi, ch",
     "soundHint": "",
     "soundSays": "",
     "phonicsNote": "Phonics checkpoint 1 (ou, oi, ch): reading aloud and transcription, choice of 2.",
@@ -1778,6 +1873,40 @@
       "s4": "Retells or predicts the next page using the pattern, showing they enjoy and understand the story.",
       "idea": "Story sessions: predict the next animal and colour."
      }
+    ],
+    "vocab": [
+     [
+      "Ours brun, ours brun, que vois-tu ?",
+      "Brown bear, brown bear, what do you see?"
+     ],
+     [
+      "Je vois …",
+      "I see …"
+     ],
+     [
+      "Tu vois … ?",
+      "Do you see …?"
+     ],
+     [
+      "qui me regarde",
+      "looking at me"
+     ],
+     [
+      "brun",
+      "brown"
+     ],
+     [
+      "oui / non",
+      "yes / no"
+     ]
+    ],
+    "ican": [
+     "I can join in with the story Ours brun, ours brun, que vois-tu ?",
+     "I can say what I see: Je vois un chien bleu.",
+     "I can ask « Tu vois … ? » and answer oui or non.",
+     "I can put the colour after the animal.",
+     "I can write my own page of the story.",
+     "I can read my page to a partner."
     ]
    },
    "y3-ht5": {
@@ -1827,6 +1956,89 @@
       "s4": "Joins two opinions with mais / et and uses the negative correctly in new sentences.",
       "idea": "Sentence-building cards with mais / et."
      }
+    ],
+    "vocab": [
+     [
+      "le football",
+      "football"
+     ],
+     [
+      "le rugby",
+      "rugby"
+     ],
+     [
+      "le tennis",
+      "tennis"
+     ],
+     [
+      "la natation",
+      "swimming"
+     ],
+     [
+      "la danse",
+      "dance"
+     ],
+     [
+      "le judo",
+      "judo"
+     ],
+     [
+      "le ski",
+      "skiing"
+     ],
+     [
+      "la gymnastique",
+      "gymnastics"
+     ],
+     [
+      "l'équitation",
+      "horse riding"
+     ],
+     [
+      "le badminton",
+      "badminton"
+     ],
+     [
+      "le surf",
+      "surfing"
+     ],
+     [
+      "le volley",
+      "volleyball"
+     ],
+     [
+      "J'aime …",
+      "I like …"
+     ],
+     [
+      "J'adore …",
+      "I love …"
+     ],
+     [
+      "Je n'aime pas …",
+      "I don't like …"
+     ],
+     [
+      "Je déteste …",
+      "I hate …"
+     ],
+     [
+      "et / mais",
+      "and / but"
+     ],
+     [
+      "Tu aimes … ?",
+      "Do you like …?"
+     ]
+    ],
+    "ican": [
+     "I can name 6 sports in French.",
+     "I can name 6 more sports.",
+     "I can say what I like and love: j'aime, j'adore.",
+     "I can say what I don't like and hate: je n'aime pas, je déteste.",
+     "I can join two opinions with et or mais.",
+     "I can ask « Tu aimes … ? » and answer in Guess Who.",
+     "I can use a word list to find and understand new sports words."
     ]
    },
    "y3-ht6": {
@@ -1837,7 +2049,7 @@
     "en": "The funny zoo",
     "theme": "Ourselves and Humankind",
     "summary": "End-of-year performance using all Year 3 language.",
-    "sound": "Checkpoint 2: all Y3 sounds",
+    "sound": "Phonics progress check 2: all Y3 sounds",
     "soundHint": "",
     "soundSays": "",
     "phonicsNote": "Phonics checkpoint 2 (all Year 3 sounds): reading aloud and transcription, choice of 3 to 4.",
@@ -1876,6 +2088,24 @@
       "s4": "Writes several sentences describing animals and what they like, with correct word order.",
       "idea": "Programme or zoo poster writing."
      }
+    ],
+    "vocab": [
+     [
+      "All Year 3 language",
+      "greetings, feelings, name, age, numbers 1 to 10, colours, animals, je vois, sports and opinions"
+     ],
+     [
+      "Le Zoo Rigolo !",
+      "The funny zoo"
+     ]
+    ],
+    "ican": [
+     "I can introduce myself: name, age and how I feel.",
+     "I can describe an animal with a colour.",
+     "I can say what I like and don't like.",
+     "I can learn my part for Le Zoo Rigolo !",
+     "I can perform in French to an audience, saying the sounds clearly.",
+     "I can write sentences describing animals."
     ]
    },
    "y4-ht1": {
@@ -2272,32 +2502,32 @@
       "code": "S2",
       "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
       "pupil": "Speak in sentences using words and phrases I know.",
-      "s3": "Says several je peux + verb sentences, sometimes needing the word mat.",
-      "s4": "Says longer sentences joining can and can't with et / mais (Je peux nager mais je ne peux pas patiner).",
+      "s3": "Says several je peux + infinitive sentences, sometimes relying on the word mat or prompts.",
+      "s4": "Independently presents sentences about abilities, combining positive and negative forms where taught.",
       "idea": "Guess Who « Tu peux … ? » and Lesson 6 speaking task."
      },
      {
       "code": "R3",
       "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
       "pupil": "Use a word list to understand new words.",
-      "s3": "Uses the word mat to find the verb they need, with help.",
-      "s4": "Uses the word mat independently every lesson to find and check verbs and sentences, including extension verbs.",
+      "s3": "Uses the word mat with help to find a verb needed for the task.",
+      "s4": "Independently locates and checks unfamiliar verbs in the word mat and uses them appropriately in a sentence.",
       "idea": "Observed daily: book work and games with the word mat."
      },
      {
       "code": "W1",
       "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
       "pupil": "Write phrases from memory and change them to make new sentences.",
-      "s3": "Writes one or two je peux sentences from memory, with errors.",
-      "s4": "Writes je peux / je ne peux pas sentences from memory, adapting the verb to talk about themselves.",
+      "s3": "Writes one or two familiar je peux sentences from memory, with errors.",
+      "s4": "Independently writes je peux / je ne peux pas sentences from memory, adapting the verb to communicate personal abilities.",
       "idea": "Lesson 6 Mon bilan, nothing on display."
      },
      {
       "code": "G1",
       "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
       "pupil": "Understand and use a grammar pattern.",
-      "s3": "Recognises ne … pas and makes a negative with support.",
-      "s4": "Applies ne … pas around peux in new sentences and knows the verb after peux stays in the infinitive.",
+      "s3": "Recognises ne…pas and constructs a negative sentence with support.",
+      "s4": "Independently places ne…pas around peux and keeps the following verb in the infinitive.",
       "idea": "Lesson 4 sentence-builder: make it negative and explain."
      }
     ],
@@ -2804,7 +3034,7 @@
     "en": "The Very Hungry Caterpillar",
     "theme": "Exploration and Discovery",
     "summary": "Vocabulary from the book: core fruit une pomme, des poires, des prunes, des fraises, des oranges, and the days of the week (lundi to dimanche); the other foods receptively. Receptive past tense and partitive articles.",
-    "sound": "Checkpoint 3",
+    "sound": "Phonics progress check 3",
     "soundHint": "",
     "soundSays": "",
     "phonicsNote": "Phonics checkpoint 3: reading aloud and free transcription (no scaffold).",
@@ -2835,6 +3065,72 @@
       "s4": "Retells or predicts the story using its pattern, showing understanding of the receptive past tense.",
       "idea": "Story sessions: sequence the pages."
      }
+    ],
+    "vocab": [
+     [
+      "une pomme",
+      "an apple"
+     ],
+     [
+      "des poires",
+      "pears"
+     ],
+     [
+      "des prunes",
+      "plums"
+     ],
+     [
+      "des fraises",
+      "strawberries"
+     ],
+     [
+      "des oranges",
+      "oranges"
+     ],
+     [
+      "lundi",
+      "Monday"
+     ],
+     [
+      "mardi",
+      "Tuesday"
+     ],
+     [
+      "mercredi",
+      "Wednesday"
+     ],
+     [
+      "jeudi",
+      "Thursday"
+     ],
+     [
+      "vendredi",
+      "Friday"
+     ],
+     [
+      "samedi",
+      "Saturday"
+     ],
+     [
+      "dimanche",
+      "Sunday"
+     ],
+     [
+      "la chenille",
+      "the caterpillar"
+     ],
+     [
+      "le papillon",
+      "the butterfly"
+     ]
+    ],
+    "ican": [
+     "I can name 5 fruits in French.",
+     "I can say the days of the week in order.",
+     "I can follow the story La Chenille qui fait des trous.",
+     "I can join in with the parts of the story that repeat.",
+     "I can read a page of the story aloud clearly.",
+     "I can say what the caterpillar eats on each day."
     ]
    },
    "y4-ht5": {
@@ -2884,6 +3180,80 @@
       "s4": "Chooses tu or vous correctly for the situation and explains why.",
       "idea": "Tu or vous? sorting task."
      }
+    ],
+    "vocab": [
+     [
+      "un orangina",
+      "an Orangina"
+     ],
+     [
+      "un jus de pomme",
+      "an apple juice"
+     ],
+     [
+      "un jus d'orange",
+      "an orange juice"
+     ],
+     [
+      "un diabolo menthe",
+      "a mint diabolo"
+     ],
+     [
+      "de l'eau",
+      "some water"
+     ],
+     [
+      "une limonade",
+      "a lemonade"
+     ],
+     [
+      "un croissant",
+      "a croissant"
+     ],
+     [
+      "un pain au chocolat",
+      "a pain au chocolat"
+     ],
+     [
+      "des chips",
+      "crisps"
+     ],
+     [
+      "des biscuits",
+      "biscuits"
+     ],
+     [
+      "des raisins",
+      "grapes"
+     ],
+     [
+      "une gaufre",
+      "a waffle"
+     ],
+     [
+      "dix, vingt, trente … cent",
+      "10, 20, 30 … 100"
+     ],
+     [
+      "Je voudrais …",
+      "I would like …"
+     ],
+     [
+      "s'il vous plaît",
+      "please (polite)"
+     ],
+     [
+      "merci",
+      "thank you"
+     ]
+    ],
+    "ican": [
+     "I can name 6 drinks in French.",
+     "I can name 6 foods in French.",
+     "I can count in tens to 100 for prices.",
+     "I can order politely: « Je voudrais …, s'il vous plaît. »",
+     "I can use vous when I speak to an adult or a waiter.",
+     "I can order in our French café with Year 7 visitors."
     ]
    },
    "y4-ht6": {
@@ -2933,6 +3303,56 @@
       "s4": "Reads a profile written in the third person and answers questions about it correctly.",
       "idea": "Guess whose profile it is (il / elle …)."
      }
+    ],
+    "vocab": [
+     [
+      "Je m'appelle …",
+      "My name is …"
+     ],
+     [
+      "J'ai … ans",
+      "I am … years old"
+     ],
+     [
+      "Je suis anglais / anglaise",
+      "I am English"
+     ],
+     [
+      "Mon anniversaire, c'est en …",
+      "My birthday is in …"
+     ],
+     [
+      "janvier … décembre",
+      "January … December"
+     ],
+     [
+      "J'ai un chien",
+      "I have a dog"
+     ],
+     [
+      "Je peux … / Je ne peux pas …",
+      "I can … / I can't …"
+     ],
+     [
+      "J'aime …",
+      "I like …"
+     ],
+     [
+      "il / elle s'appelle",
+      "his / her name is (understood)"
+     ],
+     [
+      "il / elle a …",
+      "he / she has (understood)"
+     ]
+    ],
+    "ican": [
+     "I can say the month of my birthday.",
+     "I can talk about my pets and what I can do.",
+     "I can say what I like and don't like.",
+     "I can write a connected personal profile.",
+     "I can present my profile to the class or a visitor.",
+     "I can read a classmate's profile with il / elle and answer questions."
     ]
    }
   },
@@ -3008,35 +3428,35 @@
    "en": "Colours",
    "codes": [
     {
+     "code": "L1",
+     "nc": "Listen attentively to spoken language and show understanding by joining in and responding.",
+     "pupil": "Listen carefully and show I understand by joining in and responding.",
+     "s3": "Understands some familiar questions and responds with relevant words or short phrases, sometimes needing repetition or support.",
+     "s4": "Independently understands familiar questions and responds appropriately, maintaining the exchange.",
+     "idea": "Lesson 6 Guess Who?: listen to each pupil as they respond to their partner's questions."
+    },
+    {
      "code": "S1",
      "nc": "Engage in conversations; ask and answer questions; express opinions and respond to those of others.",
      "pupil": "Have a conversation: ask and answer questions.",
-     "s3": "Asks the question or answers Ma couleur préférée, c'est le … with a prompt card or model.",
-     "s4": "Asks and answers the question in the class survey, adds Et toi ? and keeps the exchange going without the prompt.",
+     "s3": "Asks and answers familiar questions using learned phrases, with prompting.",
+     "s4": "Independently asks and answers familiar questions and maintains a short linked conversation.",
      "idea": "Lesson 5 class survey: listen to each pair as they ask and answer."
     },
     {
      "code": "R1",
      "nc": "Read carefully and show understanding of words, phrases and simple writing.",
      "pupil": "Read carefully and show I understand words, phrases and simple writing.",
-     "s3": "Matches several colour words to pictures or colour blobs, with some errors.",
-     "s4": "Reads all 10 colour words and short sentences (C'est rouge. Ma couleur préférée, c'est le bleu.) and matches them correctly.",
+     "s3": "Recognises and matches several familiar colour words to pictures, with some support or errors.",
+     "s4": "Independently reads and matches familiar colour words and short phrases accurately.",
      "idea": "Lesson 6 Mon bilan, part 1 (read and colour). Back-up: Lesson 7 colour-by-number tree or the Lesson 3 read-and-match."
-    },
-    {
-     "code": "R2",
-     "nc": "Appreciate stories, songs, poems and rhymes in the language.",
-     "pupil": "Enjoy stories, songs and rhymes in French.",
-     "s3": "Joins in parts of the colour songs and recognises several colour words in them.",
-     "s4": "Sings whole verses and picks out the colours and the question when they hear them in the songs.",
-     "idea": "The songs in Lessons 1, 2 and 4: note who sings along and can point to the colours they hear."
     },
     {
      "code": "W1",
      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
      "pupil": "Write phrases from memory and change them to make new sentences.",
-     "s3": "Writes several colour words from memory, some misspelt.",
-     "s4": "Writes Ma couleur préférée, c'est le … from memory with a correctly spelt colour.",
+     "s3": "Writes several familiar words or phrases from memory, with some errors.",
+     "s4": "Independently writes familiar words and phrases accurately enough to communicate the intended information, adapting personal details.",
      "idea": "Lesson 6 Mon bilan, part 2 (Coco's 4 questions), written with nothing on display."
     }
    ]
@@ -3239,32 +3659,32 @@
      "code": "S2",
      "nc": "Speak in sentences, using familiar vocabulary, phrases and basic language structures.",
      "pupil": "Speak in sentences using words and phrases I know.",
-     "s3": "Says several je peux + verb sentences, sometimes needing the word mat.",
-     "s4": "Says longer sentences joining can and can't with et / mais (Je peux nager mais je ne peux pas patiner).",
+     "s3": "Says several je peux + infinitive sentences, sometimes relying on the word mat or prompts.",
+     "s4": "Independently presents sentences about abilities, combining positive and negative forms where taught.",
      "idea": "Guess Who « Tu peux … ? » and Lesson 6 speaking task."
     },
     {
      "code": "R3",
      "nc": "Broaden vocabulary and understand new words in familiar written material, including through a word list (dictionary skills come in Years 5 to 6).",
      "pupil": "Use a word list to understand new words.",
-     "s3": "Uses the word mat to find the verb they need, with help.",
-     "s4": "Uses the word mat independently every lesson to find and check verbs and sentences, including extension verbs.",
+     "s3": "Uses the word mat with help to find a verb needed for the task.",
+     "s4": "Independently locates and checks unfamiliar verbs in the word mat and uses them appropriately in a sentence.",
      "idea": "Observed daily: book work and games with the word mat."
     },
     {
      "code": "W1",
      "nc": "Write phrases from memory, and adapt these to create new sentences, to express ideas clearly.",
      "pupil": "Write phrases from memory and change them to make new sentences.",
-     "s3": "Writes one or two je peux sentences from memory, with errors.",
-     "s4": "Writes je peux / je ne peux pas sentences from memory, adapting the verb to talk about themselves.",
+     "s3": "Writes one or two familiar je peux sentences from memory, with errors.",
+     "s4": "Independently writes je peux / je ne peux pas sentences from memory, adapting the verb to communicate personal abilities.",
      "idea": "Lesson 6 Mon bilan, nothing on display."
     },
     {
      "code": "G1",
      "nc": "Understand basic grammar: gender, high-frequency verbs, key patterns and how they differ from English.",
      "pupil": "Understand and use a grammar pattern.",
-     "s3": "Recognises ne … pas and makes a negative with support.",
-     "s4": "Applies ne … pas around peux in new sentences and knows the verb after peux stays in the infinitive.",
+     "s3": "Recognises ne…pas and constructs a negative sentence with support.",
+     "s4": "Independently places ne…pas around peux and keeps the following verb in the infinitive.",
      "idea": "Lesson 4 sentence-builder: make it negative and explain."
     }
    ]
@@ -3461,10 +3881,6 @@
     1
    ],
    [
-    "Worksheet",
-    0
-   ],
-   [
     "How did it go?",
     0
    ],
@@ -3511,20 +3927,40 @@
     0
    ],
    [
-    "Remember!",
-    0
-   ],
-   [
-    "Listen and choose",
-    0
-   ],
-   [
     "Splat !",
     0
    ],
    [
-    "Worksheet",
+    "WALT",
     0
+   ],
+   [
+    "LQ",
+    0
+   ],
+   [
+    "LI",
+    0
+   ],
+   [
+    "LO",
+    0
+   ],
+   [
+    "Title",
+    0
+   ],
+   [
+    "My book",
+    0
+   ],
+   [
+    "Remember!",
+    1
+   ],
+   [
+    "Listen and choose",
+    1
    ],
    [
     "How did it go?",
@@ -4539,15 +4975,19 @@
     0
    ],
    [
-    "Saint-Nicolas",
+    "Le français dans le monde",
     0
    ],
    [
-    "Les treize desserts",
+    "La Belgique",
     0
    ],
    [
-    "Les santons",
+    "Le Québec",
+    0
+   ],
+   [
+    "Le Sénégal",
     0
    ],
    [
@@ -4664,10 +5104,6 @@
     "The statutory programme of study: listening, speaking, reading, writing and grammar. Every unit is assessed against its codes."
    ],
    [
-    "Teaching Schools Council: MFL Pedagogy Review (2016)",
-    "Phonics, vocabulary and grammar taught explicitly and practised often, which is why they are the three strands of every unit."
-   ],
-   [
     "NCELP (National Centre for Excellence for Language Pedagogy)",
     "Teaching sound, vocabulary and grammar systematically, and revisiting earlier language through spaced retrieval."
    ],
@@ -4693,7 +5129,7 @@
    ],
    [
     "Association for Language Learning (Sue Cave)",
-    "The phonics games used every day: Pause and Say, Phonic Bingo…"
+    "Sue Cave’s primary phonics guidance informs the practical phonics activity bank, including Pause and Say, Phonic Bingo, Phonic Happy Families and Find Your Group. The scheme’s Fire and Hire routine is an adapted classroom variation."
    ]
   ],
   "vocabulary": [
@@ -4702,12 +5138,16 @@
     "A small, useful core set (anchored to the words pupils will need later at GCSE). Every pupil is taught and assessed on it."
    ],
    [
-    "Pupil-chosen extension",
-    "A few extra words each pupil chooses, kept in a 'mes mots' corner of the word mat. A deliberate way to keep every pupil, including boys and disadvantaged pupils, interested."
+    "Pupil-chosen extension: mes mots",
+    "Each pupil has a dedicated mes mots section to add additional French vocabulary linked to their own interests. This sits alongside the shared core vocabulary and gives pupils ownership of extending their language. It also helps keep every pupil interested."
    ],
    [
-    "Revisited, not listed",
-    "Words are revisited, connected and reused across units rather than taught as one-off topic lists."
+    "A personalised working document",
+    "Pupils can add notes, reminders and examples, highlight the digraphs being studied, mark silent letters, and use their own colours or symbols to notice sound, spelling patterns. Teachers model useful annotation. Pupils are encouraged to retrieve language from memory and use the mat selectively as their independence grows."
+   ],
+   [
+    "How we choose vocabulary",
+    "Core words are chosen because pupils can use them straight away to talk about themselves (name, age, feelings, likes, what they can do). We favour high-frequency words and verbs that come back in later units, so pupils keep using them, and words that contain the sounds being taught, so phonics and vocabulary support each other. Topic words are kept to a small, useful set."
    ]
   ],
   "activities": {
@@ -4731,15 +5171,15 @@
    ],
    "lesson": [
     [
-     "Fire and Hire",
-     "Point at a picture on the board and say a word. If it is the right word for the picture, the class repeats it; if it is the wrong word, they stay silent. Sometimes a child leads at the board."
+     "Fire and Hire (scheme adaptation)",
+     "In this classroom variation, point at a picture on the board and say a word. If it matches, the class repeats it; if it does not, pupils stay silent. Sometimes a child leads at the board. This is the scheme’s adapted routine, not a claim that it is identical to every published version of Fire and Hire."
     ],
     [
      "Marie and Pierre",
      "Two real toys with their own personalities, who only speak French. Marie (a teddy) is shy, timid, calm and quiet. Her best friend Pierre (a toy duck) is loud, cheeky and outgoing. Hold one up and pupils speak or sing to match: quiet for Marie, loud for Pierre, especially during songs. Pupils talk to them and ask them questions in French. A child who is upset or feeling down can keep Marie or Pierre at their table. Pierre also hides for the game « Où est Pierre ? », which pupils love."
     ],
     [
-     "Guess Who!",
+     "Guess Who?",
      "Ask yes/no questions to find a hidden character: on the board first, then in pairs."
     ],
     [
@@ -4789,20 +5229,16 @@
     [
      "Word search and Dobble",
      "Retrieval games to recall vocabulary quickly."
-    ],
-    [
-     "Treasure hunt",
-     "Find French clues around the room or playground."
     ]
    ],
    "assess": [
     [
      "Mon bilan",
-     "The end-of-unit written check (Lesson 6), done with nothing on display, in Class, Adapted and Inclusion versions. It gives the written evidence for the unit's reading, writing and grammar codes."
+     "The end-of-unit review (Lesson 6), done with nothing on display, in Class, Adapted and Inclusion versions. Pupils show and reflect on what they can do. In HT2, HT4 and HT6 it also gives written evidence for the formal checkpoint codes; in HT1, HT3 and HT5 it is formative."
     ],
     [
      "Observed tasks",
-     "Speaking and listening codes are judged during planned activities: the survey, Guess Who!, songs, conversations and performances."
+     "Speaking and listening codes are judged during planned activities: the survey, Guess Who?, songs, conversations and performances."
     ],
     [
      "Circulate and observe",
@@ -4813,7 +5249,7 @@
      "Pupils rate themselves on the What I can do sheet."
     ],
     [
-     "Phonics checkpoints",
+     "Phonics progress checks",
      "Reading aloud and transcription checks, three times across the two years."
     ],
     [
@@ -4841,7 +5277,7 @@
     ],
     [
      "HT4",
-     "Checkpoint 1: ou, oi, ch",
+     "Phonics progress check 1: ou, oi, ch",
      "Choice of 2"
     ],
     [
@@ -4851,7 +5287,7 @@
     ],
     [
      "HT6",
-     "Checkpoint 2: all Year 3 sounds",
+     "Phonics progress check 2: all Year 3 sounds",
      "Choice of 3 to 4"
     ]
    ],
@@ -4873,7 +5309,7 @@
     ],
     [
      "HT4",
-     "Checkpoint 3",
+     "Phonics progress check 3",
      "Free transcription"
     ],
     [
@@ -4887,19 +5323,19 @@
      "Free transcription"
     ]
    ],
-   "note": "About 3 sound words and 1 to 2 traps per lesson. No 'tricky word' lists: those words are learnt by heart. The phonics apps also bring back sounds from earlier half terms so they are not forgotten."
+   "note": "From Year 3, every time new vocabulary is written, pupils look for the sounds they know and the silent letters. About three sound words and one or two traps per lesson. Do not create separate tricky-word lists: those words are learnt by heart. The phonics apps bring back sounds from earlier half-terms so pupils revisit previously taught patterns."
   },
   "grammar": {
    "y3": "Chunks (HT1 to 2) → un / une with je suis (HT3) → the colour after the noun (HT3 to 4) → je vois / tu vois (HT4) → opinions joined with et / mais (HT5). No adjective agreement.",
    "y4": "Je peux / tu peux + infinitive and ne … pas (HT2) → j'ai + noun, with qui s'appelle and je n'ai pas de as chunks (HT3) → partitive and past tense heard, not produced (HT4) → polite vous (HT5) → il / elle understood (HT6)."
   },
   "audience": "Partner → small group → whole class → parents or assembly (Le Zoo Rigolo !) → older pupils (Le Café Français) → a new teacher (Tout sur moi, handed on at the end of Year 4).",
-  "books": "Two picture books anchor the two years, both in Spring 2 (HT4): Ours brun, ours brun, que vois-tu ? in Year 3 (short and repetitive) and La Chenille qui fait des trous in Year 4 (a step up, with the past tense heard). The same slot also holds a phonics checkpoint.",
+  "books": "Two picture books anchor the two years, both in Spring 2 (HT4): Ours brun, ours brun, que vois-tu ? in Year 3 (short and repetitive) and La Chenille qui fait des trous in Year 4 (a step up, with the past tense heard). The same half term also holds a phonics progress check.",
   "culture": {
    "y3": [
     [
      "HT1",
-     "Bienvenue au monde francophone: flags and countries where French is spoken"
+     "Bienvenue au monde francophone: countries where French is spoken, and how people greet each other in France, Belgium and Québec (la bise, a handshake)"
     ],
     [
      "HT2",
@@ -4907,7 +5343,7 @@
     ],
     [
      "HT3",
-     "What animals say in French (ouaf ouaf, miaou, coin-coin)"
+     "What animals say in French (ouaf ouaf, miaou, coin-coin), and animals you might see in other French-speaking countries (a moose in Québec, a lion in Senegal)"
     ],
     [
      "HT4",
@@ -4915,11 +5351,11 @@
     ],
     [
      "HT5",
-     "French sport and French sportspeople"
+     "French sport, sportspeople from different French-speaking countries, and Wednesday afternoons: many French primary pupils have no school, so it is time for clubs and sport"
     ],
     [
      "HT6",
-     "Birthdays: « Joyeux anniversaire », the birthday song, French birthday cards"
+     "Birthdays: « Joyeux anniversaire », the birthday song, French birthday cards, and le goûter, the after-school snack in France and Belgium"
     ]
    ],
    "y4": [
@@ -4929,11 +5365,11 @@
     ],
     [
      "HT2",
-     "Christmas in France: Saint-Nicolas, the 13 desserts, santons"
+     "Christmas in French-speaking countries: Saint-Nicolas in Belgium, le réveillon in Québec, the fanal lanterns in Senegal"
     ],
     [
      "HT3",
-     "Geography and landmarks: the Eiffel Tower, French regions and cities"
+     "Geography and landmarks: the Eiffel Tower, French regions and cities, a couple of fun facts about two other French-speaking countries, and la cantine: lunch at a French school"
     ],
     [
      "HT4",
@@ -4945,7 +5381,7 @@
     ],
     [
      "HT6",
-     "La Fête nationale (14 juillet)"
+     "La Fête nationale (14 juillet), a glimpse of Québec's own fête nationale (24 June), and les grandes vacances: the long summer holiday"
     ]
    ]
   },
@@ -4955,12 +5391,16 @@
     "The fixed core only, more scaffolding held for longer, more repetition and spaced retrieval, fewer choices at once. Use the Adapted sheets."
    ],
    [
-    "Pupils who need individual support",
-    "No single template: resources follow the child's interests and needs, with manipulatives and picture support. Pupils may step back from fast spontaneous games such as Guess Who. Use the Inclusion sheets and simple word mats."
+    "Pupils with SEN",
+    "Individual support, with no single template: resources follow the child's interests and needs, with manipulatives and picture support. Pupils may step back from fast spontaneous games such as Guess Who. Use the Inclusion sheets and simple word mats."
+   ],
+   [
+    "Disadvantaged pupils, boys and engagement",
+    "Ofsted's languages research review (2021) found that the proportion of boys, disadvantaged pupils and pupils with SEND who carry on with languages after Key Stage 3 is low. So engagement is planned from Year 3, for every pupil: games and songs, Marie and Pierre, a real purpose and a growing audience, and personal choice through the mes mots section of the word mat, where pupils add French linked to their own interests. Teachers notice who is losing interest and respond to each pupil's actual needs."
    ],
    [
     "Greater depth",
-    "An extension vocabulary bank and a ★ Challenge in each lesson."
+    "An extension vocabulary bank, and challenge provided within the Class work."
    ],
    [
     "Pupils already fluent in French",
@@ -4969,46 +5409,475 @@
   ],
   "assessment": [
    [
-    "SOLO levels",
-    "Judged at SOLO 3 (multistructural), 4 (relational) or 5 (extended abstract); below 3 is recorded as 'not yet' with a note."
+    "Formal judgements",
+    "Each of the 12 assessment codes receives one formal SOLO judgement per academic year, at the planned checkpoint. Other unit activities and day-to-day checks provide formative evidence and inform teaching; they do not create additional annual judgements."
    ],
    [
-    "Twice a year",
-    "Each National Curriculum code is logged twice a year (R3 once): about 4 judgements per half term, 23 per pupil per year."
+    "SOLO levels",
+    "Formal judgements use task-specific descriptors at SOLO 3 (multistructural), SOLO 4 (relational) or SOLO 5 (extended abstract). A pupil not yet at SOLO 3 is assessed as SOLO 2 (unistructural) or SOLO 1 (prestructural). Do not use a generic level description in place of the descriptor for the actual task."
+   ],
+   [
+    "Mon bilan",
+    "The pupil-facing end-of-unit review, normally in Lesson 6, gives pupils an opportunity to reflect using I’ve got it, Nearly there and Not yet. Self-assessment is valuable but is not the teacher’s formal SOLO judgement."
+   ],
+   [
+    "Written and digital evidence",
+    "Reading, writing and grammar evidence comes from the task matched to the objective. When recall from memory is assessed, prompts must not give away the answer; when using a word list or word mat is the skill being assessed, that resource should be available."
+   ],
+   [
+    "Teacher observation",
+    "Speaking and listening are assessed through planned interactions, conversations, games and performances. The teacher records each pupil’s own contribution; a partner’s response or success is not a substitute for the pupil’s evidence."
+   ],
+   [
+    "R2: appreciating stories",
+    "During book work, note observable evidence: recognising familiar language, following events, joining in with repeated phrases, anticipating familiar patterns, making connections and responding to characters or events. Responses may be spoken, gestural, by pointing, choosing or sequencing. Do not assess personality or outward enthusiasm."
+   ],
+   [
+    "L2 and S3",
+    "L2 connects spelling, sound and meaning. S3 assesses accurate sound production and pronunciation. They are related but distinct; pronunciation evidence gathered during phonics practice can also be formative S3 evidence."
+   ],
+   [
+    "Formative checks",
+    "Teacher circulation, mini-whiteboards, hands and thumbs, retrieval and phonics practice help teachers respond during lessons. These checks are not extra formal SOLO judgements."
    ],
    [
     "Reporting",
-    "For each code, report the number of pupils below SOLO 4, at SOLO 4 and at SOLO 5."
-   ],
-   [
-    "Every lesson",
-    "Quick checks (circulating, mini-whiteboards, thumbs) are not recorded; they shape the lesson there and then."
+    "Use the formal checkpoint evidence to review how many pupils are below SOLO 4, at SOLO 4 and at SOLO 5 for each code, alongside the quality of the work and any support used."
    ]
   ],
   "impact": [
    [
     "SOLO trend data",
-    "Does each pupil's level rise between the two logged moments for the same code?"
+    "Compare each pupil’s evidence for the same assessment code across Year 3 and Year 4. Consider the task demands and independence shown, not just the numerical SOLO level."
    ],
    [
-    "Phonics checkpoint trend",
-    "The same reading-aloud and transcription check three times across two years: a fair before/after comparison."
+    "Phonics progress-check trend",
+    "Use the three common reading-aloud and transcription progress checks to review development across the two-year sequence. Record the level of scaffold used; raw scores alone are not a fair comparison when scaffolding changes."
    ],
    [
     "Book scrutiny",
-    "Dated work in books: Mon bilan, the Ours brun book, birthday cards, the Tout sur moi profile."
+    "Review dated work over time, including Mon bilan, the Ours brun book, birthday cards and the Tout sur moi profile. Look for retrieval, increasing accuracy and independent application."
    ],
    [
     "Pupil voice",
-    "Self-assessment faces and the words pupils choose for 'mes mots'."
+    "Use What I can do reflections and pupils’ mes mots choices. Ask pupils what they are learning, which strategies help them remember French and what they can now do independently."
    ],
    [
     "Transition",
-    "Tout sur moi goes to the next teacher: real evidence of what each pupil can do at the end of Year 4."
+    "Tout sur moi is handed on to the next teacher at the end of Year 4 as a tangible example of each pupil’s language learning."
    ],
    [
     "Moderation",
-    "Keep exemplar work each term and re-check a sample of SOLO judgements against it."
+    "Keep exemplar work and assessment evidence from each term. Revisit a sample of SOLO judgements against task-specific descriptors so expectations are understood consistently."
+   ],
+   [
+    "Curriculum response",
+    "Use patterns in assessment, work scrutiny and pupil voice to decide what to revisit, reteach or adapt. Review tasks that do not provide valid evidence for their intended objective."
+   ]
+  ],
+  "formalAssessment": {
+   "checkpoints": [
+    {
+     "year": 3,
+     "tasks": [
+      {
+       "checkpoint": "HT2",
+       "code": "L1",
+       "task": "Guess Who?, listen and respond to familiar questions."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "S1",
+       "task": "Guess Who?, ask and answer familiar questions."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "R1",
+       "task": "Match written colour words to pictures."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "W1",
+       "task": "Write familiar words and phrases from memory."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "S2",
+       "task": "Animal and colour dice game, construct sentences."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "G1",
+       "task": "Apply un/une and adjective position."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "S4",
+       "task": "Qui suis-je ?, pupils receive varied character cards (animal, colour, age, feeling and favourite colour), describe the character without showing the card, and let a partner guess. Both pupils speak and are assessed individually; assess the speaker, not whether the partner guesses correctly. Cards vary so pupils adapt language rather than recite a memorised script."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "R2",
+       "task": "Engage with Ours brun, ours brun, que vois-tu ?, enjoy the repeated story pattern, join in with familiar phrases, recognise animals and colours, anticipate repeated language and respond to the story through words, actions or picture choices."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "L2",
+       "task": "Formal phonics assessment: recognise taught sound patterns in written and spoken words, identify the spelling that represents the sound and connect the word with its meaning."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "S3",
+       "task": "Pronunciation during Le Zoo Rigolo !"
+      },
+      {
+       "checkpoint": "HT5",
+       "code": "R3",
+       "task": "Word-list challenge with new sports vocabulary."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "W2",
+       "task": "Independently write animal descriptions."
+      }
+     ]
+    },
+    {
+     "year": 4,
+     "tasks": [
+      {
+       "checkpoint": "HT2",
+       "code": "S2",
+       "task": "Je peux…, short oral presentation."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "R3",
+       "task": "Word-mat challenge while verbs are new."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "W1",
+       "task": "Write Je peux… sentences from memory."
+      },
+      {
+       "checkpoint": "HT2",
+       "code": "G1",
+       "task": "Write Je ne peux pas… sentences."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "L1",
+       "task": "Listen to pet descriptions and complete a grid. Uses the pets language from HT3 (As-tu un animal ?), done early in HT4."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "S1",
+       "task": "Paired conversation about pets. Uses the pets language from HT3 (As-tu un animal ?), done early in HT4."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "S3",
+       "task": "Read a page of La Chenille qui fait des trous aloud."
+      },
+      {
+       "checkpoint": "HT4",
+       "code": "R2",
+       "task": "Engage with La Chenille qui fait des trous, enjoy and follow the story, recognise recurring language, anticipate familiar parts, notice key events and respond to the story through words, actions or picture sequencing."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "L2",
+       "task": "End-of-year phonics review: recognise taught sound patterns, link spelling to sound and connect familiar words with their meanings, including patterns taught in HT5."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "S4",
+       "task": "Present a developed personal profile."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "W2",
+       "task": "Write a personal profile."
+      },
+      {
+       "checkpoint": "HT6",
+       "code": "R1",
+       "task": "Read a classmate profile and identify information."
+      }
+     ]
+    }
+   ],
+   "descriptors": [
+    {
+     "year": 3,
+     "code": "L1",
+     "task": "Guess Who? listening",
+     "solo3": "Understands some familiar questions and responds with relevant words or short phrases, sometimes needing repetition or support.",
+     "solo4": "Independently understands familiar questions and responds appropriately, maintaining the exchange.",
+     "solo5": "Responds flexibly and independently, adapting answers or adding relevant information."
+    },
+    {
+     "year": 3,
+     "code": "S1",
+     "task": "Guess Who? conversation",
+     "solo3": "Asks and answers familiar questions using learned phrases, with prompting.",
+     "solo4": "Independently asks and answers familiar questions and maintains a short linked conversation.",
+     "solo5": "Extends the conversation by adapting questions and responses and adding relevant information."
+    },
+    {
+     "year": 3,
+     "code": "R1",
+     "task": "Match written colour words to pictures",
+     "solo3": "Recognises and matches several familiar colour words to pictures, with some support or errors.",
+     "solo4": "Independently reads and matches familiar colour words and short phrases accurately.",
+     "solo5": "Applies reading knowledge to unfamiliar combinations of familiar colour vocabulary and taught structures."
+    },
+    {
+     "year": 3,
+     "code": "W1",
+     "task": "Write familiar words and phrases from memory",
+     "solo3": "Writes several familiar words or phrases from memory, with some errors.",
+     "solo4": "Independently writes familiar words and phrases accurately enough to communicate the intended information, adapting personal details.",
+     "solo5": "Adapts familiar language to create new phrases or sentences in a different context."
+    },
+    {
+     "year": 3,
+     "code": "S2",
+     "task": "Animal and colour dice game",
+     "solo3": "Names animals or colours and produces some simple sentences with support.",
+     "solo4": "Independently combines animal and colour vocabulary to construct complete sentences with appropriate word order.",
+     "solo5": "Independently adapts the familiar sentence structure to describe new combinations of animals and colours."
+    },
+    {
+     "year": 3,
+     "code": "G1",
+     "task": "Apply un/une and adjective position",
+     "solo3": "Uses some correct articles or adjective positions, but inconsistently or with support.",
+     "solo4": "Independently selects un/une and places familiar colour adjectives correctly in descriptions.",
+     "solo5": "Independently applies the patterns to unfamiliar animal descriptions or new combinations of taught vocabulary."
+    },
+    {
+     "year": 3,
+     "code": "S4",
+     "task": "Qui suis-je ? reverse Guess Who? oral description",
+     "solo3": "Communicates some relevant details from the character card using familiar words or short phrases, with prompts or support; the description may be a list rather than connected sentences.",
+     "solo4": "Independently combines relevant details from the character card into connected, understandable sentences, using familiar vocabulary and structures so the partner can identify the character.",
+     "solo5": "Independently selects, combines and adapts familiar language to give a fuller, coherent description of a different character card, adding relevant detail or varying sentence structures without relying on a memorised script."
+    },
+    {
+     "year": 3,
+     "code": "R2",
+     "task": "Engage with and appreciate Ours brun, ours brun, que vois-tu ?",
+     "solo3": "Recognises some familiar animals, colours or repeated words and joins in with selected parts of the repeated language, usually after a model or prompt.",
+     "solo4": "Follows the familiar story by connecting repeated language and illustrations with what is happening; independently joins in with familiar phrases or gives a relevant response to a character or event.",
+     "solo5": "Independently uses a pattern or detail from the story to make a new, relevant connection, for example, relating the repeated question to a different familiar animal or colour, or explaining a preference by referring to a character, illustration or event."
+    },
+    {
+     "year": 3,
+     "code": "L2",
+     "task": "Formal phonics assessment: link spelling, sound and meaning",
+     "solo3": "Recognises some familiar taught sound patterns in written or spoken words and connects some of those words to their meanings, with support or occasional errors.",
+     "solo4": "Independently identifies taught spelling patterns, recognises the sounds they represent and connects familiar words containing those patterns to their meanings.",
+     "solo5": "Independently applies taught spelling, sound knowledge to less familiar combinations of familiar language and uses context or visual clues to connect the words accurately with meaning."
+    },
+    {
+     "year": 3,
+     "code": "S3",
+     "task": "Pronunciation during Le Zoo Rigolo !",
+     "solo3": "Pronounces some familiar words and phrases clearly, but applies taught sounds inconsistently.",
+     "solo4": "Clearly pronounces familiar words and phrases, applying taught sound patterns accurately.",
+     "solo5": "Independently applies taught sound patterns accurately when pronouncing less familiar combinations of familiar language."
+    },
+    {
+     "year": 3,
+     "code": "R3",
+     "task": "Word-list challenge with new sports vocabulary",
+     "solo3": "Uses the word list with support to locate and understand some unfamiliar sports vocabulary.",
+     "solo4": "Independently locates unfamiliar sports vocabulary, understands its meaning and uses it appropriately.",
+     "solo5": "Independently uses the word list to interpret unfamiliar vocabulary and apply it in a new sentence or context."
+    },
+    {
+     "year": 3,
+     "code": "W2",
+     "task": "Independent animal descriptions",
+     "solo3": "Writes relevant descriptive words or simple sentences using familiar vocabulary, with some support.",
+     "solo4": "Independently writes complete descriptive sentences, combining familiar vocabulary and grammatical structures.",
+     "solo5": "Independently adapts familiar language to create a fuller description in a new context, selecting appropriate vocabulary and structures."
+    },
+    {
+     "year": 4,
+     "code": "S2",
+     "task": "Je peux… short oral presentation",
+     "solo3": "Says several je peux + infinitive sentences, sometimes relying on the word mat or prompts.",
+     "solo4": "Independently presents sentences about abilities, combining positive and negative forms where taught.",
+     "solo5": "Independently adapts and links familiar ability structures to communicate a wider range of information, choosing language to suit the presentation."
+    },
+    {
+     "year": 4,
+     "code": "R3",
+     "task": "Word-mat challenge while verbs are new",
+     "solo3": "Uses the word mat with help to find a verb needed for the task.",
+     "solo4": "Independently locates and checks unfamiliar verbs in the word mat and uses them appropriately in a sentence.",
+     "solo5": "Independently selects and applies vocabulary from the word mat, including extension verbs, in a new sentence or context."
+    },
+    {
+     "year": 4,
+     "code": "W1",
+     "task": "Write Je peux… sentences from memory",
+     "solo3": "Writes one or two familiar je peux sentences from memory, with errors.",
+     "solo4": "Independently writes je peux / je ne peux pas sentences from memory, adapting the verb to communicate personal abilities.",
+     "solo5": "Independently adapts familiar structures to create a linked set of sentences about different abilities, using appropriate positive and negative forms."
+    },
+    {
+     "year": 4,
+     "code": "G1",
+     "task": "Write and explain Je ne peux pas… sentences",
+     "solo3": "Recognises ne…pas and constructs a negative sentence with support.",
+     "solo4": "Independently places ne…pas around peux and keeps the following verb in the infinitive.",
+     "solo5": "Independently applies the negative pattern in new ability sentences and explains how the structure works."
+    },
+    {
+     "year": 4,
+     "code": "L1",
+     "task": "Listen to pet descriptions and complete a grid (pets language from HT3)",
+     "solo3": "Understands several pet words and simple j'ai sentences when heard, with picture support.",
+     "solo4": "Independently understands longer spoken pet descriptions containing familiar connectives or names and records the correct information.",
+     "solo5": "Independently interprets new combinations of familiar pet vocabulary and structures to complete the grid accurately."
+    },
+    {
+     "year": 4,
+     "code": "S1",
+     "task": "Paired conversation about pets (pets language from HT3)",
+     "solo3": "Answers As-tu un animal ? with J'ai… or Non, using prompts.",
+     "solo4": "Independently asks and answers the question in a linked exchange, adding relevant details about the pet.",
+     "solo5": "Extends the exchange by adapting questions and answers and adding further relevant information about pets."
+    },
+    {
+     "year": 4,
+     "code": "S3",
+     "task": "Read a page of La Chenille qui fait des trous aloud",
+     "solo3": "Reads part of the text aloud; some taught sounds or silent letters are not yet secure.",
+     "solo4": "Reads the page clearly, applying taught sounds, silent letters and liaison where taught.",
+     "solo5": "Independently applies taught pronunciation patterns to less familiar words and maintains clear pronunciation and intonation across the passage."
+    },
+    {
+     "year": 4,
+     "code": "R2",
+     "task": "Engage with and appreciate La Chenille qui fait des trous",
+     "solo3": "Recognises some familiar words, repeated language, illustrations or key events and responds to selected parts of the story, with support.",
+     "solo4": "Independently follows the sequence of the familiar story, connects recurring language and illustrations with events, and responds relevantly to characters or key details.",
+     "solo5": "Independently makes a supported interpretation or connection beyond identifying events, for example, connects a repeated pattern or detail to another part of the story, or gives a reasoned personal response using evidence from the language, illustrations or events."
+    },
+    {
+     "year": 4,
+     "code": "L2",
+     "task": "End-of-year phonics review: link spelling, sound and meaning",
+     "solo3": "Recognises some of the taught Year 3 and Year 4 spelling patterns and their sounds, and connects some familiar words with their meanings, with support.",
+     "solo4": "Independently recognises and distinguishes the taught sound, spelling patterns across the two years and connects familiar words containing them with their meanings.",
+     "solo5": "Independently applies the taught sound, spelling patterns, including less familiar combinations of familiar language, and uses contextual or visual clues to interpret the words accurately."
+    },
+    {
+     "year": 4,
+     "code": "S4",
+     "task": "Present Tout sur moi profile",
+     "solo3": "Presents a few personal facts, relying on notes or prompts.",
+     "solo4": "Independently presents a connected personal profile clearly to the class or a visitor, without reading every word.",
+     "solo5": "Independently adapts the profile for the audience, adding relevant detail and combining familiar structures flexibly."
+    },
+    {
+     "year": 4,
+     "code": "W2",
+     "task": "Write Tout sur moi personal profile",
+     "solo3": "Writes a few relevant sentences about themselves, with support.",
+     "solo4": "Independently writes a connected personal profile using familiar vocabulary, structures and connectives.",
+     "solo5": "Independently adapts and extends the profile, selecting and combining familiar structures to communicate additional relevant information."
+    },
+    {
+     "year": 4,
+     "code": "R1",
+     "task": "Read a classmate's profile and identify information",
+     "solo3": "Reads a profile and identifies some familiar facts, with support.",
+     "solo4": "Independently reads a classmate's profile, including third-person forms, and answers questions accurately.",
+     "solo5": "Independently interprets a new profile and uses grammatical and contextual clues, including il / elle, to infer and identify information."
+    }
+   ],
+   "phonicsChecks": [
+    {
+     "year": 3,
+     "timing": "HT4",
+     "purpose": "Formative progress check: revisit ou, oi and ch."
+    },
+    {
+     "year": 3,
+     "timing": "HT6",
+     "purpose": "Cumulative Year 3 progress check: revisit all Year 3 sounds. This contributes to the formal Year 3 L2 judgement."
+    },
+    {
+     "year": 4,
+     "timing": "HT4",
+     "purpose": "Formative progress check: cumulative reading-aloud and free transcription."
+    }
+   ],
+   "annualL2": [
+    {
+     "year": 3,
+     "timing": "HT6",
+     "purpose": "One formal Year 3 L2 judgement, using cumulative evidence including the HT6 progress check."
+    },
+    {
+     "year": 4,
+     "timing": "HT6",
+     "purpose": "One formal Year 4 L2 judgement, through the end-of-year review, including HT5 eau and liaison teaching and HT6 consolidation."
+    }
+   ]
+  },
+  "directAssociation": [
+   [
+    "Meaning directly to French",
+    "Use pictures, objects, actions and meaningful contexts so pupils connect the concept directly with the French word. For example, show an apple, say une pomme, and use it in context. English is not an obligatory intermediate step."
+   ],
+   [
+    "Purposeful links with English",
+    "Make explicit comparisons when they help pupils understand how languages work: sounds, spelling, word order, nouns, determiners, adjectives, verbs and sentence structures. English is a useful point of comparison, not the default route for introducing French vocabulary."
+   ],
+   [
+    "Four connected skills",
+    "Listening, speaking, reading and writing are all developed. Writing is a core skill, not an afterthought to oracy. Pupils decode written French, connect it directly with meaning, write from memory and adapt familiar structures."
+   ],
+   [
+    "Audio modelling",
+    "Audio should be embedded in teaching slides wherever French words, questions or answers are presented. This supports accurate pronunciation and helps non-specialist teachers model and revisit spoken French."
+   ],
+   [
+    "Mistakes and misconceptions",
+    "Mistakes are a normal part of learning. Anticipate likely misconceptions, model clearly, use small steps and guided practice, and check understanding frequently so that teaching can respond."
+   ]
+  ],
+  "pupilResources": [
+   [
+    "What I can do",
+    "A pupil-facing record of progressive learning statements, built across the unit. For example, pupils may first learn five colours, then five more, and then use them to ask and answer questions. Pupils reflect using I’ve got it, Nearly there and Not yet."
+   ],
+   [
+    "Sound focus and culture",
+    "The What I can do sheet records the half-term sound focus. The cultural learning for that unit appears directly underneath the sound focus, so both are visible within the same pupil learning journey."
+   ],
+   [
+    "Teacher assessment area",
+    "The sheet includes space for the relevant assessment codes, the formal SOLO judgement and teacher notes. Pupil reflection and teacher assessment are connected but are not the same thing."
+   ],
+   [
+    "Progressive word mat",
+    "The word mat grows lesson by lesson. It contains the shared core vocabulary, useful phrases and sentence structures pupils have learnt so far; it is not a static translation list."
+   ],
+   [
+    "Personal ownership: mes mots",
+    "Each pupil adds extra French vocabulary connected to their own interests in the mes mots section. They can also add notes, reminders and examples, highlight the digraphs being studied, mark silent letters and use their own colours or symbols to notice patterns."
+   ],
+   [
+    "Increasing independence",
+    "Teachers model how to use and annotate the mat. Pupils use it to retrieve, select and combine language, then increasingly rely on memory and consult the mat selectively as their independence grows."
    ]
   ]
  },
@@ -5024,7 +5893,7 @@
    ],
    [
     "Why does every lesson follow the same shape?",
-    "Routines help children feel safe and stop them feeling overwhelmed. Because the routine takes care of itself, children can concentrate on the new content."
+    "Routines help children feel safe and stop them feeling overwhelmed. The slides are clear and show what is expected, so every child knows what they are doing at all times. Because the routine takes care of itself, children can concentrate on the new content."
    ],
    [
     "Why do pupils see the picture before the word?",
@@ -5039,8 +5908,16 @@
     "It helps children understand how a sentence works, and remember it."
    ],
    [
+    "Why are the worksheets laid out so clearly?",
+    "To avoid cognitive overload, not to make the work easy. Often the sheet is just a picture to prompt the writing, so pupils focus on the French rather than deciding what to write. One clear task, a calm layout, picture prompts and the question at the top mean pupils put their effort into the French, not into working out what to do. The challenge is in the language."
+   ],
+   [
     "Why write first and draw afterwards?",
     "Pupils do the hard work first and then draw, so that more of their time is spent thinking about the new content."
+   ],
+   [
+    "Why does writing matter?",
+    "Written tasks are not only there for the writing objectives. When pupils write, they have to retrieve the words, notice the sounds and spellings, and put the grammar into practice. Writing gives pupils the time to stop, reflect and consolidate what they have learnt, which helps them remember the language and use it more securely. It is part of how pupils learn French, not just a final outcome."
    ],
    [
     "What makes a good game?",
@@ -5052,11 +5929,11 @@
    ],
    [
     "Why are there different levels of work?",
-    "We think of all our pupils. Most work at Class level. Adapted is the same work with scaffolding. A Challenge is always offered, as there are no limits. Inclusion is for those who cannot access what the rest of the class is doing, and they still feel part of the group because their work links to each day's objective."
+    "We think of all our pupils. Most work at Class level. Adapted is the same work with scaffolding. Challenge is provided within the Class work, as there are no limits. Inclusion is for those who cannot access what the rest of the class is doing, and they still feel part of the group because their work links to each day's objective."
    ],
    [
-    "Why so much cut and stick and joining in the Inclusion work?",
-    "The Inclusion work is designed for pupils with special educational needs (SEN). These pupils find the work accessible and more fun, so they engage. We can talk as they work, and they can discuss their learning with support staff. The same work as the rest of the class may be overwhelming, and they may not engage."
+    "Why is there cut and stick and joining in the Inclusion work?",
+    "Inclusion work is adapted to the individual pupil: the task, presentation, scaffolding and resources change, while the learning stays meaningful and linked to the day's objective. Practical formats such as cut and stick and joining often work well, because they reduce the writing load and let pupils talk about their learning with support staff as they work. They are chosen for each pupil, not assumed for all pupils with special educational needs (SEN)."
    ],
    [
     "Why SOLO?",
@@ -5064,22 +5941,63 @@
    ],
    [
     "Why Mon bilan?",
-    "It is structured and can be done under controlled conditions, so it gives clear written evidence. Speaking and listening are observed during planned activities."
+    "It is structured and can be done under controlled conditions. Pupils show and reflect on what they can do, and in HT2, HT4 and HT6 it gives clear written evidence for the formal checkpoint. Speaking and listening are observed during planned activities."
    ]
   ],
-  "grow": {
-   "L1": "From short questions answered with short phrases, to longer sentences with et, mais and qui s'appelle, answered in full sentences.",
-   "L2": "From reading new words with ou, oi and ch, to reading and spelling unseen words using every sound learnt, with free transcription.",
-   "S1": "From a short exchange about name, age and feelings, to longer linked conversations with extra detail and their own forms (anglais / anglaise).",
-   "S2": "From single descriptive sentences, to longer sentences joined with et / mais and full sentences with polite forms (s'il vous plaît).",
-   "S3": "From reading a page aloud with ou, oi and ch, to speaking fluently with en/an, silent letters and liaison.",
-   "S4": "From reading to the class, to performing for parents, then serving visiting Year 7s and presenting without reading every word.",
-   "R1": "From matching words and short sentences, to reading a profile in the third person and answering questions about it.",
-   "R2": "From picking out words in a song or patterned book, to retelling a story that includes the past tense.",
-   "R3": "From using the word list to find new words with support, to using the word mat independently every lesson, including extension verbs.",
-   "W1": "From one learnt sentence with a correctly spelt word, to adapting sentences about themselves (can / can't, a café order).",
-   "W2": "From describing animals with correct word order, to a full profile joined with connectives.",
-   "G1": "From adjective position and un / une, to ne … pas around peux, the infinitive, and choosing tu or vous with a reason."
+  "grow": null,
+  "everyClass": [
+   {
+    "label": "Pupil mats",
+    "files": [
+     {
+      "t": "Classroom phrases mat (En classe)",
+      "f": "KS2_Classroom_phrases_mat.pdf"
+     }
+    ]
+   },
+   {
+    "label": "Phonics",
+    "files": [
+     {
+      "t": "Year 3 sound cards",
+      "f": "Y3_Phonics_sound_cards.pdf"
+     },
+     {
+      "t": "Year 4 sound cards",
+      "f": "Y4_Phonics_sound_cards.pdf"
+     }
+    ]
+   },
+   {
+    "label": "Display",
+    "files": [
+     {
+      "t": "Greetings and classroom phrases posters",
+      "f": "KS2_Display_greetings_and_classroom_phrases.pdf"
+     },
+     {
+      "t": "Year 3 phonics posters",
+      "f": "Y3_Display_phonics_posters.pdf"
+     },
+     {
+      "t": "Year 4 phonics posters",
+      "f": "Y4_Display_phonics_posters.pdf"
+     }
+    ]
+   }
+  ],
+  "pupilGames": {
+   "sites": [
+    {
+     "year": 3,
+     "url": "https://lets-play-french-y3.pages.dev/"
+    },
+    {
+     "year": 4,
+     "url": "https://lets-play-french-y4.pages.dev/"
+    }
+   ],
+   "qr": "KS2_Lets_play_French_QR_codes.pdf"
   },
   "marie": [
    [
@@ -5110,11 +6028,7 @@
   "levels": [
    [
     "Class",
-    "Most pupils work at this level."
-   ],
-   [
-    "★ Challenge",
-    "Always offered, as there are no limits."
+    "Most pupils work at this level. Challenge provided."
    ],
    [
     "Adapted",
@@ -5132,7 +6046,7 @@
    ],
    [
     "More at the same SOLO level",
-    "Each code has its own SOLO descriptors for each unit. SOLO 4 in Year 4 asks for longer, linked sentences and more independence than SOLO 4 in Year 3 (see the table below)."
+    "Each checkpoint task has its own SOLO descriptors. SOLO 4 in Year 4 asks for longer, linked sentences and more independence than SOLO 4 in Year 3 (see the end-of-year statements below)."
    ],
    [
     "Less support",
@@ -5144,7 +6058,7 @@
    ],
    [
     "Tracked over time",
-    "Each code is logged twice a year, so a pupil's SOLO level for the same code can be compared across both years."
+    "Each code is judged once a year, so a pupil's SOLO level for the same code can be compared across both years."
    ]
   ],
   "shortAnswer": "The code stays the same, but the French gets harder and the SOLO level asks for more. A Year 4 pupil at SOLO 4 in S1 is doing much more than a Year 3 pupil at SOLO 4 in S1.",
