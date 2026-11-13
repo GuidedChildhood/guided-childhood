@@ -370,3 +370,10 @@ Justin asked for the ad system for The Social Billboard and Guided Childhood Sch
 ## 12 November 2026: The Social Billboard's first ad round, built
 
 Justin chose The Social Billboard for the next round. Five cards in its own look (theme `tsb`: near black, Montserrat, its yellow and red mark), every screen real: three product pickers and two captures of the live landing page. The hook is the page's own button and closing line ("Create your first playlist", "Free on one playlist. No card."), and the live page confirms what free includes, so the hook is no longer only proposed. Gate passed with the brand's own rules; benchmark 7 to 8 of 8 against Super Me Show's 471 day banner at 2. Adverts link to the bare domain: www.thesocialbillboard.com fails to connect. Not uploaded: the brand has no ad account, Page link or agreed budget yet. `content/packs/2026-11-12-sb-round-1/`.
+
+## 13 November 2026: creator radar brief, plan before build
+
+- Justin pasted a fifteen phase brief for a creator research radar and a unified LinkedIn, Reels and YouTube engine.
+- Verdict through the feedback filter: most of it extends the existing research register. No second database, no scraping (decided 14 October, PR 1293), Roblox pilot first.
+- Six decisions wait on him, the main one being whether named clinicians may be challenged in public, which the house rule forbids.
+- Plan: `plans/week-of-2026-11-09-creator-radar-and-unified-engine-plan.md`. Nothing is built until he says go.
