@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PAGE } from '@gc/shared/page-scale'
 import PrintButton from '@/components/PrintButton'
 import { eyebrow } from '@/components/ui'
-import { assessedCodes, flowSteps, FR_HANDBOOK, FR_PAGE, FRENCH_UNITS, FRENCH_YEARS } from '@/lib/languages/french'
+import { assessedCodes, checkpointTasks, flowSteps, HAS_CHECKPOINTS, FR_HANDBOOK, FR_PAGE, FRENCH_UNITS, FRENCH_YEARS } from '@/lib/languages/french'
 import { body, Callout, card, Cards, Crumbs, Flow, langEyebrow, Part, small } from '../_ui'
 
 // /languages/fr/curriculum: THE TWO YEAR CURRICULUM ON ONE PAGE (11 November 2026).
@@ -50,7 +50,8 @@ export default function FrenchCurriculum() {
                 const p = u.plan
                 const vocab = (p.vocab ?? []).map(v => v[0]).slice(0, 14).join(', ')
                 const checkpoint = /^Checkpoint/.test(phonics[`HT${u.ht}`] ?? '')
-                const codes = assessedCodes(u).map(c => c.code).join(' · ')
+                // The formal checkpoint codes where the scheme has its map; before that, what the unit touches.
+                const codes = (HAS_CHECKPOINTS ? checkpointTasks(u).map(t => t.code) : assessedCodes(u).map(c => c.code)).join(' · ')
                 return (
                   <article key={u.key} className="gc-fr-ltp" style={{ ...card, background: u.ready ? 'var(--white)' : 'transparent', boxShadow: u.ready ? card.boxShadow : 'none', borderStyle: u.ready ? 'solid' : 'dashed' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: 'var(--space-2)' }}>
@@ -68,7 +69,7 @@ export default function FrenchCurriculum() {
                       {p.grammar && <div style={row}><dt style={eyebrow}>Grammar</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{p.grammar}</dd></div>}
                       {(p.sound || checkpoint) && <div style={row}><dt style={eyebrow}>Sound</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{checkpoint ? 'Phonics checkpoint' : <><b lang="fr">{p.sound}</b> {p.soundHint}</>}</dd></div>}
                       {culture[`HT${u.ht}`] && <div style={row}><dt style={eyebrow}>Culture</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{culture[`HT${u.ht}`]}</dd></div>}
-                      {codes && <div style={row}><dt style={eyebrow}>Assessed</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{codes}</dd></div>}
+                      {codes && <div style={row}><dt style={eyebrow}>{HAS_CHECKPOINTS ? 'Formal assessment' : 'Assessed'}</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{codes}</dd></div>}
                       {p.ican && p.ican.length > 0 && <div style={row}><dt style={eyebrow}>By the end</dt><dd style={{ ...small, margin: 0, color: 'var(--ink)' }}>{p.ican.join(' ')}</dd></div>}
                     </dl>
                   </article>

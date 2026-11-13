@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { LANGUAGES_COOKIE, languagesTokenAccess } from '@/lib/languages-access'
-import { FR_ORIGIN, FRENCH_UNITS } from '@/lib/languages/french'
+import { EXTRAS_FOLDER, FR_ORIGIN, FRENCH_UNITS } from '@/lib/languages/french'
 
 // /languages/fr/media/<unit folder>/<file>: every French deck, song and sheet.
 //
@@ -45,7 +45,11 @@ function redirect(url: string, maxAge: number) {
 export async function GET(_req: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const [slug, ...rest] = (await params).path
   const file = rest.join('/')
-  if (!slug || !FRENCH_UNITS.some(u => u.slug === slug) || !SAFE.test(file)) return gone()
+  // The shared extras folder (mats, display cards, posters) is one more
+  // folder beside the units, and holds PDFs only.
+  const extras = slug === EXTRAS_FOLDER
+  if (!slug || !(extras || FRENCH_UNITS.some(u => u.slug === slug)) || !SAFE.test(file)) return gone()
+  if (extras && !/^[A-Za-z0-9_-]+\.pdf$/.test(file)) return gone()
 
   const base = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '')
   const ours = base ? `${base}/storage/v1/object/public/${BUCKET}/fr/${slug}/${file}` : null
