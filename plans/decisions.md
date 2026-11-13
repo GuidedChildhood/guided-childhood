@@ -370,6 +370,24 @@ Justin asked for the ad system for The Social Billboard and Guided Childhood Sch
 ## 12 November 2026: The Social Billboard's first ad round, built
 
 Justin chose The Social Billboard for the next round. Five cards in its own look (theme `tsb`: near black, Montserrat, its yellow and red mark), every screen real: three product pickers and two captures of the live landing page. The hook is the page's own button and closing line ("Create your first playlist", "Free on one playlist. No card."), and the live page confirms what free includes, so the hook is no longer only proposed. Gate passed with the brand's own rules; benchmark 7 to 8 of 8 against Super Me Show's 471 day banner at 2. Adverts link to the bare domain: www.thesocialbillboard.com fails to connect. Not uploaded: the brand has no ad account, Page link or agreed budget yet. `content/packs/2026-11-12-sb-round-1/`.
+
+## 13 November 2026: creator radar brief, plan before build
+
+- Justin pasted a fifteen phase brief for a creator research radar and a unified LinkedIn, Reels and YouTube engine.
+- Verdict through the feedback filter: most of it extends the existing research register. No second database, no scraping (decided 14 October, PR 1293), Roblox pilot first.
+- Six decisions wait on him, the main one being whether named clinicians may be challenged in public, which the house rule forbids.
+- Plan: `plans/week-of-2026-11-09-creator-radar-and-unified-engine-plan.md`. Nothing is built until he says go.
 ## 13 November 2026: ChatGPT's feedback on the visual report, weighed
 
 Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-feedback-weighed.md`). Adopted: the two post Australia comparison is an association, not a test, and the report now says so; any figure card carries what the figure counts and its source; every proposed visual stays optional until reviewed. Parked for Justin: the look for evidence posts, a handwritten GDC-056, the 12 November screenshot we do not hold, and whether the Manchester post was a newsletter. No pack, handoff or schedule changed.
+## 13 November 2026: Roblox pilot, the verified research pack
+
+- Justin said go on the Roblox pilot. Six lenses, then 33 sources checked against their primary: 21 confirmed, 12 corrected, none demoted.
+- Position the evidence supports: not ban, not shrug. Who can message my child, where does it go next, will they tell me. No trial backs a staged path over a ban, and the pack says so.
+- Dr Becky Kennedy has no sourced Roblox position. Catherine Knibbs has one descriptive statement, no view on banning. Family IT Guy says skip it. No named person goes into copy until Justin decides.
+- Nothing written from it yet and no GDC number claimed. `briefings/2026-11-13-roblox-predators-ban-v2.html`.
+## 13 November 2026: collecting from one creator's Instagram is allowed, for analysis
+
+- Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
+- This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
+- Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.

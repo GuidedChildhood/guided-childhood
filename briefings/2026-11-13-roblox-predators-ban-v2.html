@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox, predators and the ban question · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>Is Roblox a place for predators, and should parents ban it?</h1>
+    <p style="color:var(--ink-soft);max-width:640px">Justin, this is the pilot story for the unified engine. It is written so that one verified pack can feed the post, the Reel, the explainer and the parent checklist. Nothing here is copy yet, and no named person goes into copy until you decide.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">13 November 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Nobody has published a rate. Every headline number about Roblox and predators is a raw count with nothing underneath it, and the one party that could publish the real rate, Roblox, has not. So "full of predators" and "safe" are both unproven.</p>
+      <p>What is proven is narrower and it is enough to act on. Adults and older teenagers have reached and harmed children through Roblox, including UK children. The route usually runs from the game to a private app such as Discord, Snapchat or WhatsApp, and Roblox's own lawyers say that move is the step they cannot see or report.</p>
+      <p>Roblox in November 2026 is not the Roblox that was tested in 2025. Chat now needs an age check, accounts are split into age tiers, and chat is off by default for the youngest. Those changes are real. They were also forced by regulators, they rest on a face estimate with a stated error of 1.4 years, and Ofcom's own panel found a 9 year old registered as 16 to 17.</p>
+      <p>Playing with people they have never met is the normal condition of children's gaming in the UK. More than half of children who game online do it. Fewer than half of parents set any rule about who their child plays with. That gap, not the app, is where a parent's plan does its work.</p>
+      <p>A ban lowers exposure. It also has a cost the evidence keeps pointing at: children say they stay quiet because they fear losing the device, and a child who is somewhere they are not meant to be is the child least likely to tell. No study has tested a staged, supervised path against a ban, so our position rests on reasoning and on what children say, not on a trial.</p>
+      <p>The honest answer for a parent is not yes or no. It is: who can message my child, where does that conversation go next, and will my child tell me when it goes wrong. That is a pathway question, and it is the one the product already answers.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>1. The platform changed in 2026, and most public advice still describes the old one</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Roblox now splits accounts by checked age: Roblox Kids for ages 5 to 8, Roblox Select for 9 to 15, standard from 16. On Kids accounts all communication is off by default. On Select accounts direct chat is off by default. Chat needs an age check by face estimate or ID, voluntary from 19 November 2025 and enforced worldwide from early January 2026. If chat is on, a child aged 5 to 8 can chat with under 13s, a child aged 9 to 12 with under 16s, and a child aged 13 to 15 with ages 9 to 17. Note what that means: a 9 year old's band reaches 15 year olds. Roblox says every setting varies by region and does not state the UK position by name.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist, Clinician, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: Child (beaten in practice)</span></div>
+      <div class="cite">Sources: S2, S3, S4, S5, S6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>2. The route is game first, private app second, and Roblox says it cannot see the second step</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>CEOP tells parents that gifts and trades in games can be used to build trust and to move a child to another platform, and that once chat moves off a monitored platform nobody is moderating it. Roblox's own letter to a US senator in April 2026 says a suggestion to move off platform "would likely not be reportable by Roblox". A UK case shows the path: in June 2026 an 18 year old was sentenced at Sheffield Crown Court after first contact on Roblox and a move to Discord. This is case evidence and guidance, not a measured rate.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Historian, Skeptic, Academic, Child</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S7, S16, S17</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>3. Nobody has published a rate, so neither "full of predators" nor "safe" is supported</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The numbers in circulation are counts: 24,522 reports from Roblox to the US clearing house in 2024, 664 UK police reports mentioning the word Roblox in 2025, around 170 lawsuits. They sit on a base of 138 million daily accounts. Roblox's reassurance that its reports are 0.12 percent of the total is equally empty, because that total is dominated by automated image matches on services that allow image sharing, which Roblox chat does not. No source gives a like for like rate for Roblox against Snapchat, Discord or Fortnite.</p>
+      <div class="lens-tags"><span class="supported">Supported: Skeptic, Academic, Clinician, Historian</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S1, S8, S15</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>4. Safety and growth now pull in opposite directions inside Roblox's own accounts</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In the third quarter of 2026 Roblox reported 138 million daily active users, down 9 percent on the year, and 30 million monthly payers, down 16 percent. It recorded 140 million dollars of legal settlement expenses in nine months, covering settlements and settlement negotiations with states and territories over youth safety matters. The same letter says users who sent a chat message or connected to voice grew 24 percent in the quarter, that adults in the US spend more than 50 percent above under 18s by Roblox's own estimate, and that marketing aimed at adults rose nearly three times. Of users who had passed an age check, 34 percent were under 13. Only 64 percent of daily users worldwide had been checked, 75 percent in the UK.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S1</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>5. Playing with people they have never met is the norm, and it is the rule parents set least</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Ofcom reported in October 2026 that 55 percent of children who game online play at least sometimes with people they have never met offline, and 20 percent do so all or most of the time. 64 percent of parents of children who game online are concerned about them talking to strangers, the top concern. Only 43 percent set rules about who their child can play with, against 56 percent who set time limits. In the Children's Commissioner's April 2026 poll of 2,000 UK children aged 6 to 17, 51 percent of the 13 to 17 year olds who play video games had been sent a message or chat by someone they did not know while playing. Most of those strangers are other children. This is exposure, not grooming.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic, Clinician, Skeptic, Child</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S9, S20</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>6. UK police data neither convicts nor clears Roblox</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>The NSPCC's request to police found 7,263 Sexual Communication with a Child offences recorded in 2024/25 by 44 UK forces. Police knew the platform in only 2,111 of them. Of those, 40 percent were Snapchat, 9 percent WhatsApp, 9 percent Facebook and Instagram. Roblox is not named. That does not clear it: the platform recorded is where the messages were sent, not where the child was found. The one Roblox figure, from ITV News in July 2026, is a keyword count: 664 reports mentioning Roblox in 2025 against 355 in 2024, from 31 of 43 forces, with 46 percent of the police logs ITV obtained describing sexual offences against a child and alleged victims from age 5. ITV does not say how many logs that was.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Skeptic, Academic, Historian</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S14, S15, S23</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>7. Children beat the age checks and the controls, and friends show them how</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>In Ofcom's Children's Media Lives 2026, a panel of 17 children, a 9 year old had his Roblox age set to 16 to 17 after, by his own account, someone else did the face scan. He had over 150 Roblox friends, many unknown offline. He said he friended people "so I don't feel that lonely". A 13 year old held an account registered as 21 to unlock voice chat. In a government survey of 2,299 children aged 11 to 17, 39 percent said they had got around an age check at least once, and most of those learned how from friends their own age: the report gives 59 percent in its body and 50 percent in its summary. The panel shows how it happens. It cannot show how often.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Academic, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: Economist (rules as written)</span></div>
+      <div class="cite">Sources: S10, S21</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>8. The stranger is not always a stranger, and not always an adult</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>In the ONS survey of adults in England and Wales, 33.2 percent of those sexually abused as children named a stranger, rising to 44.2 percent for non contact abuse by adults and falling to 12.2 percent for rape or assault by penetration. For online offences recorded by police in 2024, a stranger was the suspect in 35 percent where the relationship was known. A US national survey of 2,639 young adults recalling childhood found that, across the 494 episodes of online child sexual abuse they reported, the perpetrator was under 18 in 29.9 percent and known offline in 62.0 percent. So "it is always someone they know" is wrong, and so is the middle aged stranger as the only picture.</p>
+      <div class="lens-tags"><span class="supported">Supported: Historian, Academic, Clinician</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S23, S24, S25</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>9. Roblox is outside the UK social media ban and inside a second, separate restriction</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>The government's progress statement says social media companies will be banned from offering services to under 16s and names six, none of them Roblox. Roblox is named once, as one of the services most used by UK children that sits outside that list because it is a gaming service. Separately it says under 16s "will not have access to risky functions on services like gaming services", meaning communication with strangers, and that this will not stop children playing multiplayer games. The first social media restrictions are expected in spring 2027. No date is given for the gaming measure and the regulations are not yet laid. Ofcom wrote to six platforms including Roblox in March 2026 demanding stronger child protections, and in May reported that Roblox had committed to give parents the ability to switch off direct chat entirely for under 16s. The commitment is voluntary. We found no formal Ofcom investigation or fine, and could not read Ofcom's enforcement bulletin to rule one out.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist, Clinician</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S12, S30</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>10. Children say fear of losing the device keeps them quiet, but nobody has counted it</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>The Children's Commissioner's December 2025 guide, built from focus groups with 38 children aged 13 to 18, reports that children "worry about losing their phones or having them taken away as punishment, and that stops them asking for help". CEOP's advice to a parent after disclosure is to lead with "I don't blame you in any way; I blame the abuser". The only behavioural figure we found is from a Roblox funded study of neurodivergent young people aged 12 to 17, published in April 2024: 39 percent of those who had a problem while gaming told a parent. There is no UK percentage for children staying silent for fear of losing the game, and no study of disclosure after a device is removed. Do not publish a number for this.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Child, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: Academic (qualitative, teenagers only)</span></div>
+      <div class="cite">Sources: S18, S19, S31</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>11. Restriction lowers exposure and costs something, and the staged path has never been trialled against a ban</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>A survey of 6,400 parents in eight European countries found restrictive mediation went with fewer online risks and fewer opportunities. A 2023 review of 40 studies found little support for parental controls as a stand alone strategy. History adds case studies, not measurements: when MSN closed its chat rooms in 2003 the contact moved to private messaging, and when a default was changed, as the US regulator required of Fortnite in 2022 when it ordered voice and text chat off by default for children and teenagers, the specific fault was addressed. Where meeting strangers was the whole product, as with Omegle, closure was right. Anyone who says bans do not work is overclaiming as much as anyone who says they solve it.</p>
+      <div class="lens-tags"><span class="supported">Supported: Historian, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic (case studies only)</span></div>
+      <div class="cite">Sources: S27, S28, S36</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>12. Asked what would make them feel safer, children put a ban last</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>In the Children's Commissioner's April 2026 polling children chose: an adult to talk to if I see something bad 35 percent, not being able to talk to strangers 34 percent, child only apps and websites 32 percent, clear rules about what I can watch and play 27 percent, not having content suggested 18 percent, no access to social media 10 percent. The report does not state the age base for this question. Children are not saying it is fine. A third want stranger chat gone. They are saying they want an adult and a rule before they want the door shut.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child</span><span class="sep">·</span><span class="challenged">Challenged: Clinician (children underrate risk)</span></div>
+      <div class="cite">Sources: S20</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>13. What the three public voices have actually said about Roblox</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Family IT Guy has a sourced position: "I'd skip Roblox", with the fallback that if a child plays anyway "the only way to keep them safe on Roblox is to supervise 100% of their time on the platform". He discloses commission on a parental control product he also cites as a source. For Dr Becky Kennedy we found NO SOURCED ROBLOX POSITION. Her nearest material is a December 2025 paid collaboration with Xbox, three videos with no direct quote and no mention of Roblox or strangers. Dr Catherine Knibbs has one sourced Roblox statement, from an August 2025 podcast, and it describes how Roblox works without saying whether children should use it: she likens it to a shopping centre and says "It is not Roblox who creates the ratings" for the shops inside. That is from a machine transcript and the audio should be checked before it is quoted. On disclosure in general she said in June 2024: "shame is the reason why they can be exploited further". Do not attribute a view on banning Roblox to either.</p>
+      <div class="lens-tags"><span class="supported">Supported: Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: S33, S34, S35, S37</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Did the 2026 age checks fix stranger contact?</td>
+          <td>Economist: chat is now age banded and off by default for the youngest, and 75 percent of UK daily users are checked.</td>
+          <td>Child and Academic: a 9 year old sat in the 16 to 17 band within weeks, and 39 percent of 11 to 17s have beaten an age check somewhere.</td>
+          <td class="leans coral">B, with limits</td>
+        </tr>
+        <tr>
+          <td>Does Roblox's absence from the police platform table clear it?</td>
+          <td>A reading the Skeptic warns against: Snapchat is 40 percent, Roblox is not named, so the panic is misplaced.</td>
+          <td>Clinician, Academic, Historian: the platform is unknown in 71 percent of offences and the record shows where the messages were sent, not where the child was found.</td>
+          <td class="leans green">B</td>
+        </tr>
+        <tr>
+          <td>Is it usually someone the child knows?</td>
+          <td>Academic: 62.0 percent of online abuse involved someone known offline (US, 2022).</td>
+          <td>Historian: 33.2 percent named a stranger overall and 44.2 percent for non contact abuse by adults (ONS).</td>
+          <td class="leans green">Both, by type of abuse</td>
+        </tr>
+        <tr>
+          <td>Which age carries the risk?</td>
+          <td>Academic: 81.8 percent of victims in the US study were aged 13 to 17.</td>
+          <td>Clinician: UK police logs mentioning Roblox show alleged victims from age 5, with age 11 most frequent.</td>
+          <td class="leans coral">Unresolved</td>
+        </tr>
+        <tr>
+          <td>Should a parent ban it?</td>
+          <td>Family IT Guy: skip it, or supervise 100 percent of the time.</td>
+          <td>Clinician, Child, Historian: a ban lowers exposure but can cost the conversation, and the contact pattern exists across games.</td>
+          <td class="leans coral">B on reasoning, no trial</td>
+        </tr>
+        <tr>
+          <td>Are children at more risk than a generation ago?</td>
+          <td>Recorded crime and reports are rising steeply.</td>
+          <td>Historian and Skeptic: recorded crime tracks recording practice. Contact abuse probably fell to around 2010. Image and non contact abuse of girls appears to have risen since.</td>
+          <td class="leans coral">Nobody can say</td>
+        </tr>
+        <tr>
+          <td>Is Robux the grooming tool?</td>
+          <td>CEOP names gifts and currency as a way to build trust.</td>
+          <td>Clinician: neither UK court case we found mentions Robux.</td>
+          <td class="leans coral">Plausible, unproven</td>
+        </tr>
+        <tr>
+          <td>What worries children most on Roblox?</td>
+          <td>Parents: strangers, 64 percent.</td>
+          <td>Child: in one sample children ranked becoming addicted (35 percent) and data collection (33 percent) above stranger contact (29 percent).</td>
+          <td class="leans green">Both true</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>The variable a parent controls is whether the child will tell them</h3>
+        <p>Children say they stay silent because they fear the phone being taken. CEOP says lead with no blame. The police chiefs say support children who report, do not punish them. A ban imposed after an incident removes the place the parent can see and teaches the child not to disclose next time. I found no study measuring that, only children and practitioners saying it.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Real, smaller and differently shaped than the headlines</h3>
+        <p>About one in eight young people report online sexual solicitation in a year across global studies, and that includes requests from peers. No peer reviewed study measures grooming on Roblox, the effect of its 2026 controls, or the age at which a child is ready for multiplayer chat. Any age threshold we give is a judgement call and should be labelled as one.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>The same number is misused in both directions</h3>
+        <p>Critics quote 24,522 reports as an epidemic. Roblox quotes it as 0.12 percent of the total. Both are wrong uses of one figure. Everyone in this debate has an interest: a short seller, law firms, elected attorneys general, a parental control company, creators on commission, and Roblox. That is a reason to check each number, not to dismiss any of them.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The controls are real and they were extracted, not offered</h3>
+        <p>Chat is the growth engine and adults are the profit target, on a platform where a third of checked users are under 13. Age banded chat is what keeps those facts apart. It protects a child whose age has been checked and whose parent has linked an account. There is no published safety budget: the line is blended with servers, and its recent growth is put down to AI.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Past panics were wrong about the monster and right about the mechanism</h3>
+        <p>MSN chat rooms, Habbo, Fortnite, Omegle. Each time the thing that mattered was whether an unknown adult could open a private, unmoderated channel to a child by default. Where that was the whole product, closing it was right. Where it was a setting inside a play space, changing the default fixed most of it. Count defaults, not features.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>They are not saying it is fine. They are saying it is theirs.</h3>
+        <p>Adults say strangers and mean predators. Children say people I do not know and mostly mean other players. A 13 year old said roleplay would be "completely pointless if you weren't doing it with anyone else". The child adding 150 strangers was the lonely one. So friendship is a protective lever as much as settings are, and a ban lands hardest on the child with the fewest friends offline.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">The position</span>
+          <strong>Not ban, not shrug: who can message my child, where does it go next, and will they tell me.</strong> This is the never allow or deny rule applied to the loudest question in the category. It is supported by findings 2, 5, 10 and 11, and it is honest about finding 11: we cannot claim a trial behind it.
+        </li>
+        <li>
+          <span class="tag">Stages</span>
+          <strong>The Roblox guide in the product needs a refresh, for your approval, not an automatic change.</strong> The live guide still speaks of a Parental PIN and of settings for under 13s. Roblox now runs Kids accounts (5 to 8), Select accounts (9 to 15), Trusted Friends and age banded chat. The first setting to check for a child aged 13 to 15 is Trusted Friends, because that is where the text filter comes off. Menu paths must be checked by hand in the app before anything ships, because Roblox's help pages blocked us.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>DiGi's Roblox answer should ask three things before it advises: the child's checked age tier, whether a parent account is linked, and which room the child plays in.</strong> For primary age the CEOP line is to play in a shared space. DiGi should never say a setting makes Roblox safe, only what it switches off.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>One new script, the telling promise.</strong> Said before anything goes wrong: "If anyone asks you to move to another app, or asks for a photo, or gives you something for free, come and tell me. You will not lose the game for telling me." Finding 2 gives the trigger and finding 10 gives the promise. It claims a calmer conversation, never an outcome.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>One rule most parents have not set: who you play with.</strong> 43 percent of parents have this rule against 56 percent with a time limit (finding 5). This is the star quest candidate for the story, because the family can agree it in one evening.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>For Year 5 and 6: the move off the game is the moment to tell an adult.</strong> It is the one behaviour that every source agrees on and that a 10 year old can recognise.
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Safe to say:</strong> more than half of children who game online play with people they have never met (Ofcom, October 2026). Fewer than half of parents set a rule about who their child plays with. Roblox is not in the under 16 social media ban but stranger chat in games is covered by a separate restriction that is still to be set out in regulations. Roblox chat now needs an age check, and children get around it.
+        </li>
+        <li>
+          <span class="tag">Do not quote</span>
+          <strong>Never in any asset:</strong> the 18.7 percent "unsafe chat" figure (a classifier that was right about one time in three). "Ofcom is investigating Roblox". Any "safety spend" figure. "40 million under 13s". The 47 percent and 29 percent parent statistics on the Family IT Guy page, which have no source. "Hellscape" or any attorney general's phrase as a finding. Any number for children who stay silent for fear of losing the device. The 25 percent Ofcom harmful content figure until the Ofcom table is read. Any view on banning Roblox for Knibbs or Kennedy. "Ofcom sent Roblox a binding information request".
+        </li>
+        <li>
+          <span class="tag">Response classes</span>
+          <strong>How the engine should class each voice on this story.</strong> Family IT Guy, "I'd skip Roblox": AGREE WITH CONTEXT on the worry, EVIDENCE CHALLENGE on "the only way is to supervise 100 percent", ALTERNATIVE INTERPRETATION on reports "accelerating", INSUFFICIENT EVIDENCE on his unsourced parent statistics. Knibbs on shame and silence: AGREE, as a general point. Her one Roblox statement is a description, so there is no position on banning to respond to. Kennedy: INSUFFICIENT EVIDENCE, nothing on Roblox to respond to. No disagreement is being forced here: on Knibbs and Kennedy there is nothing to disagree with.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Parents will assume the 2027 ban covers Roblox. It does not, as described.</strong> That is a clear, checkable thing to tell them, and it routes to the stage check: the plan for games is still theirs to make.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Roblox's own pages for every setting, undated and marked "vary by region", with the UK never named. Roblox's help centre, Ofcom and the NSPCC all refused automated reading, so several UK figures were first read through trade press or mirrors and then sent for checking. The disclosure argument rests on focus groups with teenagers, not on primary age children, who are Roblox's core. No independent test of Roblox has been published since the January 2026 age checks. And the central recommendation, a staged path with the conversation kept open, has never been tested against a ban on any abuse outcome.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>A serving UK police online investigator or CEOP officer. They would know what share of cases begin in a game, whether the January 2026 changes moved offenders elsewhere, and what a parent should do with the device after a disclosure: keep it safe for the police, or leave it with the child. We found no official guidance on that last point, and it changes the script we would write.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S1</strong> <a href="https://s27.q4cdn.com/984876518/files/content_files/Q3-2026-Earnings-Shareholder-Letter.pdf">Roblox Q3 2026 Shareholder Letter</a> · Roblox Corporation, 29 October 2026
+          <span class="note">Read page by page. Every figure matches. Corrected: the 140 million dollars is &#x27;legal settlement expenses&#x27; covering settlements and settlement negotiations with states and territories, and the UK figure is 75 percent, not about 75. The 50 percent plus figure is Roblox&#x27;s own estimate.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S2</strong> <a href="https://about.roblox.com/newsroom/2026/04/introducing-roblox-kids-and-select-accounts">Introducing Roblox Kids and Select accounts</a> · Roblox newsroom, 13 April 2026
+          <span class="note">Page dated 13 April 2026 says exactly this, including that ages, games and features vary by region.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S3</strong> <a href="https://about.roblox.com/safety-faqs">Roblox Safety FAQs</a> · Roblox, undated, read 13 November 2026
+          <span class="note">Age bands, the Direct Chat default and the parent visibility list all match. The page nowhere says a parent can or cannot read chat content. It also carries the line that ages 13 plus can chat without filters with trusted friends in party chat.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S4</strong> <a href="https://about.roblox.com/newsroom/2025/11/roblox-requires-age-checks-limits-minor-and-adult-chat">Roblox requires age checks, limits minor and adult chat</a> · Roblox newsroom, 19 November 2025
+          <span class="note">Matches. The ID route is for 13 plus only. The January 2026 date is a forward statement in a November 2025 post. The 1.4 year figure is on the age estimation page, from UK Age Check Certification Scheme testing of the vendor&#x27;s model.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S5</strong> <a href="https://about.roblox.com/parental-controls">Roblox Parental Controls</a> · Roblox, undated, read 13 November 2026
+          <span class="note">Controls confirmed. Corrected: friend chat can be set to all friends, trusted friends or no one, and for ages 13 to 15 only to trusted friends or all friends. &#x27;Trusted friends or no one&#x27; is the voice setting.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S6</strong> <a href="https://about.roblox.com/newsroom/2026/04/expanding-trusted-friends">Expanding Trusted Friends</a> · Roblox newsroom, 2 April 2026
+          <span class="note">Rename and parent approval confirmed. The unfiltered chat line is not on this page. It is on the Safety FAQs (S3).</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S7</strong> <a href="https://www.grassley.senate.gov/download/roblox-to-grassley_-ncmec?download=1">Roblox letter to Senator Grassley</a> · Roblox Corporation, 22 April 2026
+          <span class="note">Quote verbatim on page 4. It is about sadistic online exploitation specifically.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S8</strong> <a href="https://about.roblox.com/newsroom/2025/08/how-roblox-partners-law-enforcement">How Roblox partners with law enforcement</a> · Roblox newsroom, 7 August 2025
+          <span class="note">24,522 and 0.12 percent of 20.3 million, as stated. The arithmetic checks.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S9</strong> <a href="https://www.ofcom.org.uk/online-safety/protecting-children/stranger-danger-tops-parents-online-gaming-worries">Stranger danger tops parents&#x27; online gaming worries (Growing Up Gaming)</a> · Ofcom, 13 October 2026
+          <span class="note">All five figures match the official mirror of Ofcom&#x27;s press release. Ofcom&#x27;s own page refused automated reading. No age band is given for the 55 percent, so none should be attached.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S10</strong> <a href="https://revealingreality.co.uk/wp-content/uploads/2026/05/childrens-media-lives-2026-summary-report.pdf">Children&#x27;s Media Lives 2026</a> · Revealing Reality for Ofcom, May 2026
+          <span class="note">Quotes verbatim. The report gives the friend count as over 150 and the child himself says 160. The bypass is the child&#x27;s own account and the report says &#x27;apparently&#x27;. The 13 year old with the account registered as 21 is a different child from the one quoted on roleplay.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S12</strong> <a href="https://www.ofcom.org.uk/online-safety/protecting-children/tech-firms-commit-to-stronger-anti-grooming-measures-in-response-to-ofcom-demands">Tech firms commit to stronger anti grooming measures</a> · Ofcom, 21 May 2026
+          <span class="note">The 21 May commitments are confirmed from the indexed Ofcom text and The Record. The claim that Ofcom sent Roblox binding information requests on 12 March could not be traced to Ofcom&#x27;s own words and has been removed. What is supported is a letter to six platforms on 12 March with replies due by 30 April. No formal investigation found, enforcement bulletin unread.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S14</strong> <a href="https://www.nspcc.org.uk/about-us/news-opinion/2025/data-shows-how-criminals-are-using-private-messaging-platforms-to-manipulate-and-groom-children/">NSPCC police data on online grooming</a> · NSPCC, November 2025
+          <span class="note">Matches verbatim reproductions of the NSPCC release (the NSPCC page refused automated reading). Roblox and gaming platforms are not named. The percentages are of the 2,111 with a platform identified.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S15</strong> <a href="https://www.itv.com/news/2026-07-08/its-where-predators-get-children-mums-roblox-warning-over-grooming-risks">ITV News investigation into Roblox police reports</a> · ITV News, 8 July 2026
+          <span class="note">Matches the STV syndication of the ITV piece. The 46 percent is of the logs ITV obtained from some forces, number not stated. These are reports mentioning the word Roblox, not confirmed offences.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S16</strong> <a href="https://www.cps.gov.uk/node/29393">CPS release on a Sheffield Crown Court sentencing</a> · Crown Prosecution Service, 18 June 2026
+          <span class="note">CPS page read. He is &#x27;now 18&#x27;, so that is his age at sentence. The sentence also carries 4 years on extended licence.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S17</strong> <a href="https://www.ceopeducation.co.uk/parents/articles/gaming/">Gaming: what parents and carers need to know</a> · CEOP Education, National Crime Agency, undated
+          <span class="note">All four statements verbatim. The page hedges with &#x27;Whilst not always the case&#x27;.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S18</strong> <a href="https://ceopeducation.co.uk/parents/articles/Finding-out-your-child-has-been-sexually-abused-or-exploited">Finding out your child has been sexually abused</a> · CEOP Education, undated
+          <span class="note">Quote verbatim, offered as something a parent should say.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S19</strong> <a href="https://assets.childrenscommissioner.gov.uk/wpuploads/2025/12/cc-what-i-wish-parent-guide-single-pages.pdf">What I wish my parents or carers knew</a> · Children&#x27;s Commissioner for England, December 2025
+          <span class="note">PDF read. Quote exact, 38 children aged 13 to 18. Teenagers only, so it cannot carry a claim about under 13s.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S20</strong> <a href="https://assets.childrenscommissioner.gov.uk/wpuploads/2026/06/cc-social-media-consultation-response-report.pdf">Response to the national consultation on growing up in the online world</a> · Children&#x27;s Commissioner for England, June 2026
+          <span class="note">Percentages match. Poll is OnePoll, 2,000 UK children aged 6 to 17, 10 to 17 April 2026. The age base for the &#x27;feel safer&#x27; question is not stated. The draft omitted &#x27;not having content suggested&#x27; at 18 percent.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S21</strong> <a href="https://www.gov.uk/government/publications/childrens-circumvention-behaviours-online/childrens-circumvention-behaviours-online">Children&#x27;s circumvention behaviours online</a> · BMG Research for DSIT, 14 July 2026
+          <span class="note">39 percent of all 2,299 confirmed. The peer learning figure is 59 percent in the body (base 823) and 50 percent in the executive summary. Both are now shown.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S23</strong> <a href="https://www.csacentre.org.uk/app/uploads/2026/07/The-scale-and-nature-of-child-sexual-abuse-2026.pdf">The scale and nature of child sexual abuse</a> · Centre of expertise on child sexual abuse, July 2026
+          <span class="note">Matches. The CSA Centre is reporting police data here and gives no platform percentages.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S24</strong> <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/bulletins/abuseduringchildhoodinenglandandwales/march2024">Abuse during childhood in England and Wales: March 2024</a> · Office for National Statistics, 5 November 2025
+          <span class="note">Matches. Both figures are for abuse by adults, and respondents could name more than one perpetrator, so a stranger was among them, not necessarily the only one.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S25</strong> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9568794">Prevalence of online sexual offenses against children in the US</a> · Finkelhor, Turner and Colburn, JAMA Network Open, 2022
+          <span class="note">Figures are right but they are shares of 494 reported episodes, not of the 2,639 respondents. US, retrospective, mostly before today&#x27;s Roblox.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S26</strong> <a href="https://www.research.ed.ac.uk/en/publications/prevalence-estimates-and-nature-of-online-child-sexual-exploitati/">Prevalence estimates and nature of online child sexual exploitation and abuse</a> · Fry et al, Lancet Child and Adolescent Health, 2025
+          <span class="note">12.5 percent, past year, confirmed on the abstract. Not used in the findings, kept as context in the Academic panel.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S27</strong> <a href="https://researchonline.lse.ac.uk/id/eprint/120219/">Do parental control tools fulfil family expectations for child protection?</a> · Stoilova, Bulger and Livingstone, Journal of Children and Media, 2023
+          <span class="note">Exact phrase is &#x27;little support for advocating parental controls as a stand alone strategy&#x27;. Parents valued them inside a wider approach.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S28</strong> <a href="https://researchonline.lse.ac.uk/id/eprint/68612">Maximizing opportunities and minimizing risks for children online</a> · Livingstone et al, Journal of Communication, 2017
+          <span class="note">6,400 parents, eight countries, as stated. Cross sectional, so not causal.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S29</strong> <a href="https://arxiv.org/abs/2605.04491">An Evaluation of Chat Safety Moderations in Roblox</a> · Kaushik et al, arXiv preprint, May 2026
+          <span class="note">DO NOT QUOTE stands. The 18.7 percent is not printed in the paper. It is our arithmetic on 7,254 of 38,856 blocks, at 31.39 percent precision. The classifier is the researchers&#x27; own, not Roblox&#x27;s.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S30</strong> <a href="https://www.gov.uk/government/consultations/growing-up-in-the-online-world-a-national-consultation/outcome/growing-up-in-the-online-world-progress-statement">Growing up in the online world: progress statement</a> · GOV.UK, updated 19 August 2026
+          <span class="note">Sentences verbatim. Corrected: Roblox is named once, as a most used service outside the six. Spring 2027 is stated for the social media restrictions, not for the gaming measure.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S31</strong> <a href="https://www.internetmatters.org/wp-content/uploads/2026/04/Roblox-Neuro-Report-Web-Final.pdf">More than a Game</a> · Internet Matters, supported by Roblox, April 2024
+          <span class="note">The report is April 2024, not April 2026 (the 2026 in the address is an upload path). Fieldwork September to October 2023. Figures confirmed. UK and US combined, ages 12 to 17.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S33</strong> <a href="https://www.familyitguy.com/roblox-safety-guide.html">Roblox safety guide</a> · Family IT Guy, updated 27 October 2026
+          <span class="note">Both quotes verbatim. Published 23 March 2026, updated 27 October 2026. Commission disclosure appears twice.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S34</strong> <a href="https://www.buzzsprout.com/2120058/episodes/15280232-ep-078-catherine-knibbs-human-behaviour-technologist-parenting-in-the-digital-age-protecting-your-kids-online">The Security Circle podcast, episode 78</a> · 19 June 2024, machine transcript
+          <span class="note">Spoken by Knibbs, not the host. Roblox is not mentioned in this episode. Machine transcript.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <strong>S35</strong> <a href="https://news.xbox.com/en-us/2025/12/17/dr-becky-xbox-kids-gaming-parenting/">Xbox Wire on a collaboration with Dr Becky Kennedy</a> · Xbox Wire, 17 December 2025
+          <span class="note">No direct quote, no mention of Roblox, strangers or chat. A paid brand partnership of three videos.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S36</strong> <a href="https://www.ftc.gov/news-events/news/press-releases/2022/12/fortnite-video-game-maker-epic-games-pay-total-520-million-over-ftc-allegations">Historical cases: MSN chat rooms 2003, Fortnite and the FTC 2022, Omegle 2023</a> · FTC 2022, Reuters 2003, NPR 2023
+          <span class="note">FTC release read: 520 million dollars across two settlements, voice and text chat off by default for children and teens. The MSN closure in 28 countries from 14 October 2003 is supported by Reuters as carried in the Taipei Times, not by the Register page first cited. Omegle closed 8 November 2023.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <strong>S37</strong> <a href="https://www.buzzsprout.com/1882538/episodes/17606088-teens-screens-and-mobiles-bans-and-boundaries">Parenting Teenagers Untangled, season 4 episode 48</a> · 13 August 2025, machine transcript
+          <span class="note">Found by the checker, not in the first draft. Knibbs describes Roblox as like a shopping centre and says &#x27;It is not Roblox who creates the ratings&#x27;. A description, not a position. Speaker attribution rests on a machine transcript, so check the audio before quoting.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 13 November 2026
+  </footer>
+
+</div>
+</body>
+</html>
