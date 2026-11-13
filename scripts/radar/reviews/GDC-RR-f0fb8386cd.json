@@ -1,0 +1,126 @@
+{
+ "studyId": "GDC-RR-f0fb8386cd",
+ "reviewedAt": "2026-11-12T14:46:59Z",
+ "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+ "reviewBasis": "The full text, read twice: the article page on the JAMA Network site and the PubMed Central copy PMC13728953, with the Crossref and Europe PMC records. It is a Research Letter in JAMA Pediatrics, published online 2 November 2026, online ahead of print with no volume or issue yet.",
+ "verdict": "EDIT",
+ "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+ "proposedAngle": "Open on the journal and the finding with its numbers. Then be exact about what was asked: one hypothetical question about AI led behavioural therapy, in an opt in sample of parents in the United States. It is not a verdict on AI and children in general. I build a parent tool with an AI guide in it, so say that plainly, and say where the line is: guidance for a parent is not therapy for a child, and nothing we make diagnoses or treats. Then give parents what the survey says they would look for.",
+ "oneStory": "A survey published in JAMA Pediatrics asked parents in the United States how comfortable they would be with a therapy session for their child led by AI. Of 572 who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.",
+ "oneTension": "The parents most at ease were the ones who would accept AI therapy for themselves, and using AI day to day made no difference. So this looks less like fear of something unfamiliar and more like a judgement about where AI belongs.",
+ "oneBelief": "A parent should be able to tell what a tool is for and where it stops. An AI that helps a parent think is a different thing from an AI treating a child, and a product should say which it is.",
+ "oneTakeaway": "Before your child uses any AI tool for something that matters, ask what the survey's parents said they would ask: is it accurate, who is overseeing it, and where does what my child says go.",
+ "claims": [
+  {
+   "claim": "Of 3,102 respondents, 584 had at least one child aged 5 to 17, and 572 answered the main question about comfort.",
+   "status": "VERIFIED",
+   "basis": "Results, full text: among 3102 respondents, 584 had at least 1 child aged 5 to 17 years, and 572 responded to the primary outcome."
+  },
+  {
+   "claim": "Weighted, 47.2 percent were not comfortable at all, 28.8 percent not too comfortable, 16.2 percent somewhat comfortable and 7.8 percent very comfortable with a therapy session for their child led by AI.",
+   "status": "VERIFIED",
+   "basis": "Results, full text, with 95 percent intervals of 42.1 to 52.3, 24.5 to 33.6, 12.7 to 20.5 and 5.3 to 11.3. The intervals are wide and should be mentioned in words."
+  },
+  {
+   "claim": "Three in four parents were not comfortable.",
+   "status": "QUALIFIED",
+   "basis": "47.2 plus 28.8 is 76.0. The paper does not print the sum, so it is ours and is written as about three in four, never as a figure the study reported."
+  },
+  {
+   "claim": "Parents most often chose accuracy of diagnosis (58.5 percent), level of empathy (49.4 percent), recommendation from a medical professional (46.8 percent) and confidentiality and privacy (43.7 percent) as what would matter most.",
+   "status": "QUALIFIED",
+   "basis": "Verified in the full text, with a correction to the candidate: this item was answered by 546 parents, not 572, and parents could choose more than one."
+  },
+  {
+   "claim": "It was a cross sectional survey of adults in the United States in November 2025, using a nonprobability sample.",
+   "status": "VERIFIED",
+   "basis": "Methods: a cross sectional survey of US adults in November 2025 through a participatory surveillance platform, a nonprobability river sample, weighted towards census targets."
+  },
+  {
+   "claim": "Everyday use of AI by parents and children was not associated with comfort.",
+   "status": "VERIFIED",
+   "basis": "Stated in the results. Comfort tracked the parent's comfort with AI led therapy for themselves, which the authors concede may be the same underlying attitude measured twice."
+  },
+  {
+   "claim": "Parents do not trust AI with their children.",
+   "status": "UNSUPPORTED",
+   "basis": "Too wide. The question was about AI led behavioural therapy only. Nothing was asked about chatbots, companions, schoolwork or tools for parents."
+  },
+  {
+   "claim": "AI led therapy is unsafe or does not work for children.",
+   "status": "UNSUPPORTED",
+   "basis": "The survey measured stated comfort with a hypothetical. It did not measure safety, effectiveness, use or any outcome for a child."
+  }
+ ],
+ "verifiedStatistics": [
+  "572 parents answered the main question",
+  "47.2 percent were not comfortable at all",
+  "28.8 percent were not too comfortable",
+  "16.2 percent were somewhat comfortable",
+  "7.8 percent were very comfortable",
+  "58.5 percent chose accuracy of diagnosis, of 546 parents",
+  "49.4 percent chose level of empathy",
+  "46.8 percent chose recommendation from a medical professional",
+  "43.7 percent chose confidentiality and privacy",
+  "a survey in November 2025, published online 2 November 2026 in JAMA Pediatrics",
+  "children aged 5 to 17"
+ ],
+ "notQuotable": [
+  "76 percent as a figure the study reported: it is our sum, write about three in four",
+  "any odds ratio: the intervals are very wide and the largest one may measure the same attitude twice",
+  "3,102 as the number of parents: that is all respondents, 584 were parents and 572 answered",
+  "any figure about UK parents",
+  "any statement that parents do not trust AI with children in general",
+  "any statement that AI therapy is unsafe, ineffective or harmful",
+  "any statement that this survey supports DiGi, Guided Childhood or tools of our kind",
+  "the names of the authors: some are practising clinicians and the house rule is that no living clinician is named",
+  "any age specific finding: ages 5 to 17 were pooled"
+ ],
+ "evidenceConfidence": "HIGH that the paper says what is written here: the full text was read. MODERATE as a picture of parents in the United States: an opt in sample of modest size from a health surveillance platform, weighted, with wide intervals. LOW as a guide to UK parents, who were not asked.",
+ "limitations": [
+  "Nonprobability, opt in sample. Weighting does not make it a random one.",
+  "Modest size, 572, with wide intervals and no reliable subgroup results.",
+  "Stated comfort with a hypothetical. It may not reflect what parents would do, or what is appropriate or safe. The authors say this themselves.",
+  "Cross sectional, so nothing causal.",
+  "United States only.",
+  "Familiarity with AI in health care was not measured.",
+  "A Research Letter, so short, with limited detail on the questions asked."
+ ],
+ "contradictoryEvidence": [
+  "From the paper: about a quarter of parents, 16.2 plus 7.8 percent, were somewhat or very comfortable. Acceptance is not negligible.",
+  "From the paper: comfort for the child rose sharply among parents comfortable with AI led therapy for themselves and among those who expect AI to do better than professionals. Attitudes may shift as use spreads.",
+  "From the paper: everyday AI use by parents and children made no difference, which cuts against the easy story that people fear what they do not know.",
+  "From the paper: the authors concede that comfort for self and comfort for child may be one attitude measured twice."
+ ],
+ "whatThisDoesNotProve": [
+  "That AI led therapy is unsafe or does not work for children.",
+  "That parents distrust AI with their children in general.",
+  "That UK parents feel the same way.",
+  "That children share their parents' view. Children were not asked.",
+  "That anything we build is trusted, safe or better. It was not studied."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The predictable errors are 'three in four parents reject AI for their kids' and 'parents do not trust AI with children'. The question was about AI leading a behavioural therapy session, and nothing wider.",
+ "gdcBeliefs": [
+  "Never allow or deny. DiGi returns a calibrated pathway and is guidance for a parent, not treatment for a child.",
+  "A serious worry goes to a GP or a professional. We say so and we do not diagnose.",
+  "Evidence or silence: we hold no outcome evidence for our own product and say so."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "parentTool": "The proof path is the stage check: three questions about one child and a starting point, with no promise about what happens next, answered by the parent and not by a machine acting on the child.",
+  "digi": "The survey names what parents look for: accuracy, a professional in the loop, privacy. DiGi already declines to diagnose and points a serious worry to a professional. It must not cite this survey as evidence that parents prefer tools like ours.",
+  "historyChecker": "No change."
+ },
+ "recommendedAudience": "Parents, and school and safeguarding leads who are being offered AI wellbeing tools.",
+ "recommendedPlatforms": [
+  "LinkedIn post"
+ ],
+ "urgency": "Medium. Published ten days ago and current, and the subject is live.",
+ "unresolvedQuestions": [
+  "The exact wording of the comfort question, which the letter summarises.",
+  "Whether any comparable survey of UK parents exists. Not searched in this run.",
+  "Whether the two posts already scheduled on AI and teenagers on 13 and 14 November make this a third on one theme in a fortnight."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-f0fb8386cd.json"
+}

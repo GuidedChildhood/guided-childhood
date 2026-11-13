@@ -61,7 +61,9 @@ export function buildHandoff(rec, { claudeReview, gdcPostNumber = null, priority
 
     // the evidence, with the exact figures that may be used and no others
     research: {
-      title: rec.title,
+      // A paper's own title can carry a dash. Nothing ChatGPT reads does, so it
+      // is written with a space here; the DOI beside it identifies the paper.
+      title: String(rec.title || '').replace(new RegExp('\\s*[\\u2010-\\u2015\\u2212]\\s*', 'g'), ' '),
       authors: rec.authors || null,
       journal: rec.journal || null,
       doi: rec.doi || null,

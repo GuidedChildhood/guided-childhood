@@ -1,0 +1,100 @@
+{
+ "studyId": "GDC-RR-1cc16e84d3",
+ "reviewedAt": "2026-11-12T14:46:59Z",
+ "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+ "reviewBasis": "The abstract and the metadata only. The publisher's page refused every request with a 403, so the full text was NOT read. Read: the Crossref record for DOI 10.1177/21582440261505080 including the full abstract, the OpenAlex and DOAJ records, and the first author's own blog post about the paper, which is the author speaking and not the paper. Europe PMC holds no copy. The article is open access, so a person with a browser can open it.",
+ "verdict": "HOLD",
+ "proposedTitle": "A new study says social media use came before higher self esteem in teenage girls. I have not read enough of it to write about it yet.",
+ "proposedAngle": "Held. This is a finding that suits our argument, from a paper whose title is itself an argument, and only its abstract could be read. The sample, the attrition, the size of the effect and the authors' own limits all sit in a full text that was not reached. It is not written from until that text has been read.",
+ "oneStory": "Researchers followed 653 adolescents for three years and report that social media use in early adolescence came before increases in self esteem for girls, with no significant relationship for boys.",
+ "oneTension": "It flatters the position we already hold. That is the reason to read all of it before using any of it.",
+ "oneBelief": "The response should be in proportion to the evidence, and that cuts both ways. A result we like gets more scrutiny, not less.",
+ "oneTakeaway": "None until the full text is read.",
+ "claims": [
+  {
+   "claim": "The study followed 653 adolescents from grades 8 to 9 to grades 11 to 12 over three years.",
+   "status": "VERIFIED",
+   "basis": "The abstract, as held by Crossref: a three year longitudinal study following 653 adolescents from grades 8 to 9 to 11 to 12."
+  },
+  {
+   "claim": "The study had two waves spanning 2019 to 2022 and was carried out in Michigan.",
+   "status": "REQUIRES SOURCE",
+   "basis": "Not in the abstract or the metadata. Michigan appears only on the author's blog. The wave count and the years were not found anywhere that was read."
+  },
+  {
+   "claim": "For girls, earlier social media use was associated with higher later self esteem, and there was no significant relationship for boys.",
+   "status": "QUALIFIED",
+   "basis": "The direction and the split by sex are in the abstract, with the controls it names: change in extracurricular activities and in person socialising, in a cross lagged panel model. Qualified because the design is observational, the outcome is self esteem and not mental health, and the size could not be read in the paper."
+  },
+  {
+   "claim": "The effect for girls was beta = .11, p < .05.",
+   "status": "REQUIRES SOURCE",
+   "basis": "The beta appears only on the author's blog and was not traced to the paper's tables. The p value was not found anywhere that was read."
+  },
+  {
+   "claim": "The first survey had 1,273 students, 653 completed the second wave (51.3 percent), attrition was 48.7 percent, and the sample was a nonrandom one of 18 Michigan schools.",
+   "status": "REQUIRES SOURCE",
+   "basis": "None of these figures is in the abstract, Crossref, OpenAlex, DOAJ or the author's blog. The arithmetic is consistent, which is not verification. An earlier paper by the same first author reports a different, larger Michigan sample, so there is a real risk of mixing the two."
+  },
+  {
+   "claim": "Social media protects teenage girls' mental health, or restricting it will harm them.",
+   "status": "UNSUPPORTED",
+   "basis": "The study measured self esteem and tested no restriction. The policy line in the abstract is the authors' inference."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "any figure at all until the full text is read",
+  "beta = .11, which is from the author's blog and not the paper",
+  "p < .05, which was not found",
+  "1,273, 51.3 percent, 48.7 percent and 18 schools, none of which was found in a primary source",
+  "2019 to 2022 and the number of waves",
+  "any statement about mental health: the outcome is self esteem",
+  "any statement about primary age children: the youngest were in grade 8"
+ ],
+ "evidenceConfidence": "MODERATE that the paper exists as described and reports this direction of finding: the DOI resolves, the title, authors, journal and online date of 5 November 2026 are confirmed. LOW on everything a post would need, because the sample, the attrition, the effect size and the limitations were not read.",
+ "limitations": [
+  "Abstract and metadata only. The full text was refused.",
+  "Observational. A cross lagged panel model shows what came before what, not what caused what.",
+  "The outcome is self esteem. Depression, anxiety, self harm, sleep and harmful content were not measured, on the evidence of the abstract.",
+  "One state in the United States, and the youngest participants were in grade 8, so it says nothing about under 13s or about the UK.",
+  "The study window overlaps the pandemic, which changed how adolescents spent time.",
+  "The title is an argument and the recorded funder is a Michigan research and education network. Both should be said if this is ever written."
+ ],
+ "contradictoryEvidence": [
+  "From the abstract itself: social media use was associated with later decreases in time with family, though not with friends.",
+  "From the abstract itself: no significant relationship for boys.",
+  "From this register: GDC-RR-0754a1641c is a recent meta analysis reporting a large pooled correlation in the other direction. It was judged weak on design, and it exists.",
+  "From this register: the government commissioned review GDC-RR-e22bd17322 found a small consistent link between more time on social media and poorer adolescent mental health, with low certainty about cause."
+ ],
+ "whatThisDoesNotProve": [
+  "That social media is good for teenage girls.",
+  "That social media causes higher self esteem.",
+  "That an age restriction would remove a buffer. No restriction was tested.",
+  "Anything about children under 13 or about UK adolescents.",
+  "Anything about mental health as distinct from self esteem."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The predictable errors are 'social media is good for teenage girls' and 'study proves bans will harm girls'. The abstract supports neither.",
+ "gdcBeliefs": [
+  "The Wrong Villain: the response should be in proportion to the evidence, and that cuts both ways.",
+  "A finding that flatters what we sell gets more scrutiny, not less."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "None while the review is on hold.",
+  "schoolLesson": "None.",
+  "parentTool": "None.",
+  "digi": "DiGi must not cite this study.",
+  "historyChecker": "None."
+ },
+ "recommendedAudience": "Nobody yet.",
+ "recommendedPlatforms": [],
+ "urgency": "Low. Nothing is lost by waiting for the full text.",
+ "unresolvedQuestions": [
+  "The first wave sample, the retention and how the schools were chosen.",
+  "The effect size and its interval, from the paper's own tables.",
+  "The years of the two waves.",
+  "The limitations the authors state.",
+  "The conflicts and funding statement in the paper."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-1cc16e84d3.json"
+}

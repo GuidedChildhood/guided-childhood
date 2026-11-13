@@ -1,6 +1,6 @@
 {
  "schemaVersion": "1.1.0",
- "generatedAt": "2026-11-12T09:24:26.638Z",
+ "generatedAt": "2026-11-12T14:47:59.880Z",
  "purpose": "Stage 1 to Stage 2 queue. Take queue[0], open its handoffDoc, produce the pack, save it back to Drive. Nothing publishes without Justin.",
  "rules": [
   "Do not assign a GDC post number here. content/gdc-post-register.md is the only place a number is claimed.",
@@ -9,95 +9,42 @@
   "Mark PUBLISHED only after a live URL has been checked. scripts/radar/posted.mjs does that check."
  ],
  "counts": {
-  "total": 52,
+  "total": 54,
   "byStatus": {
    "DISCOVERED": 34,
-   "ASSETS READY": 2,
-   "HOLD": 3,
-   "EDITORIAL READY": 3,
+   "APPROVED": 2,
+   "HOLD": 4,
+   "ASSETS READY": 3,
    "REJECTED": 4,
-   "VERIFIED": 6
+   "VERIFIED": 6,
+   "EDITORIAL READY": 1
   }
  },
  "queue": [
   {
-   "researchId": "GDC-RR-e923851b08",
-   "title": "Decoding Digital Risk: Comparing Parent and Teen Reports of Teens' Online Activities.",
-   "proposedTitle": "How much do you really know about what your child does online? A new study suggests less than you think. I include myself.",
+   "researchId": "GDC-RR-f0fb8386cd",
+   "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+   "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
    "editorialPriority": "BANK",
-   "urgency": "Medium. Published four days ago, so it is current, and nothing in it expires.",
+   "urgency": "Medium. Published ten days ago and current, and the subject is live.",
    "claudeStatus": "CLAUDE REVIEWED",
    "claudeVerdict": "EDIT",
    "recommendedPlatforms": [
-    "LinkedIn post",
-    "Instagram caption",
-    "Facebook caption"
+    "LinkedIn post"
    ],
-   "gdcPostNumber": "056",
-   "primaryUrl": "https://pubmed.ncbi.nlm.nih.gov/42992549/",
-   "doi": "10.1177/00333549261480962",
-   "publishedDate": "2026-11-06",
-   "design": "survey",
-   "figuresCleared": 2,
+   "gdcPostNumber": "059",
+   "primaryUrl": "https://doi.org/10.1001/jamapediatrics.2026.4939",
+   "doi": "10.1001/jamapediatrics.2026.4939",
+   "publishedDate": "2026-11-02",
+   "design": "cross-sectional",
+   "figuresCleared": 11,
    "handoffDoc": null,
    "handoffJsonDriveFileId": null,
-   "handoffVersion": 2,
-   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-e923851b08.json",
-   "firstFound": "2026-11-09T14:11:15.659Z",
-   "registerVersion": 17
-  },
-  {
-   "researchId": "GDC-RR-e22bd17322",
-   "title": "Feasibility Study of Methods and Data to Understand the Impact of Smartphones and Social Media on Children and Young People",
-   "proposedTitle": "The government asked its own scientists whether social media harms children. Their answer was that nobody has run the experiment.",
-   "editorialPriority": "BANK",
-   "urgency": "Medium. The report is ten months old as a publication, so it is not news, but it is UK, official, and directly relevant to the argument about the under 16 restriction. It does not expire.",
-   "claudeStatus": "CLAUDE REVIEWED",
-   "claudeVerdict": "EDIT",
-   "recommendedPlatforms": [
-    "LinkedIn post",
-    "Newsletter"
-   ],
-   "gdcPostNumber": "055",
-   "primaryUrl": "https://www.gov.uk/government/publications/understand-the-impact-of-smartphones-and-social-media-on-children-and-young-people",
-   "doi": null,
-   "publishedDate": "2026-01-20",
-   "design": null,
-   "figuresCleared": 7,
-   "handoffDoc": null,
-   "handoffJsonDriveFileId": null,
-   "handoffVersion": 2,
-   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-e22bd17322.json",
-   "firstFound": "2026-11-10T09:19:14.418Z",
-   "registerVersion": 20
-  },
-  {
-   "researchId": "GDC-RR-86c1075a30",
-   "title": "Families’ attitudes towards age assurance: research commissioned by the ICO and Ofcom",
-   "proposedTitle": "The regulators asked families about age checks. They found that parents were often the ones helping children past them.",
-   "editorialPriority": "BANK",
-   "urgency": "Low to medium. The research is from 2022 and must be dated in the first lines. Its relevance comes from the restriction that is on its way, so it does not expire soon.",
-   "claudeStatus": "CLAUDE REVIEWED",
-   "claudeVerdict": "EDIT",
-   "recommendedPlatforms": [
-    "LinkedIn post",
-    "Facebook caption"
-   ],
-   "gdcPostNumber": "057",
-   "primaryUrl": "https://www.gov.uk/government/publications/families-attitudes-towards-age-assurance-research-commissioned-by-the-ico-and-ofcom",
-   "doi": null,
-   "publishedDate": "2022-10-11",
-   "design": null,
-   "figuresCleared": 5,
-   "handoffDoc": null,
-   "handoffJsonDriveFileId": null,
-   "handoffVersion": 2,
-   "handoffSourceCommit": "28867af5a0a57efa64bd3155beb3f75ff7c0d332",
-   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-86c1075a30.json",
-   "firstFound": "2026-11-10T09:23:10.230Z",
-   "registerVersion": 16
+   "handoffVersion": 3,
+   "handoffSourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+   "handoffJsonInRepo": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
+   "firstFound": "2026-11-12T14:45:32.751Z",
+   "registerVersion": 14
   }
  ],
  "blockedSources": "see scripts/radar/sources.mjs BLOCKED_SOURCES for what the radar cannot reach and why"

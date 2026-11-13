@@ -112,6 +112,30 @@
    "attempts": 1
   },
   {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "unchanged: GDC-054 v2 and GDC-058 v2 READY FOR JUSTIN on the Post Desk and in the Founder Approval Desk folder; nothing new reached ASSETS READY so the Post Desk was not republished"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:30.449Z",
+   "commit": "a9d4c4fc",
+   "attempts": 1
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "rebuilt and published to the one Radar Desk, version 8"
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:25:57.723Z",
+   "commit": "2b0c1bd1",
+   "attempts": 1
+  },
+  {
    "stage": "PATCH",
    "verdict": "PASS",
    "by": "claude",
@@ -122,6 +146,51 @@
    "at": "2026-11-12T09:26:35.890Z",
    "commit": "eddc1f5b",
    "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "push access test after the repository was attached"
+   ],
+   "detail": null,
+   "at": "2026-11-12T12:13:16.179Z",
+   "commit": "618acea6",
+   "attempts": 3
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "packs": 1,
+    "results": [
+     {
+      "file": "PACK GDC-RR-86c1075a30 GDC-057 DRAFT v2.txt",
+      "researchId": "GDC-RR-86c1075a30",
+      "verdict": "PASS",
+      "failed": 0,
+      "checked": 29
+     }
+    ]
+   },
+   "at": "2026-11-12T12:43:24.356Z",
+   "commit": "df950292",
+   "attempts": 3
+  },
+  {
+   "stage": "PACK REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-056, 055 and 057 written by Claude at Justin's instruction, checked, reviewed PASS, saved to Drive TEXT IDENTICAL, now ASSETS READY"
+   ],
+   "detail": null,
+   "at": "2026-11-12T12:46:38.085Z",
+   "commit": "df950292",
+   "attempts": 2
   },
   {
    "stage": "PACK QA",
@@ -145,19 +214,6 @@
    "detail": null,
    "at": "2026-11-12T13:26:43.905Z",
    "commit": "6fade810",
-   "attempts": 2
-  },
-  {
-   "stage": "PACK REVIEW",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "GDC-056, 055 and 057 written by Claude at Justin's instruction, checked, reviewed PASS, saved to Drive TEXT IDENTICAL, now ASSETS READY",
-    "afternoon run 13:27: no further pack was waiting, nothing more to review"
-   ],
-   "detail": null,
-   "at": "2026-11-12T12:46:38.085Z",
-   "commit": "df950292",
    "attempts": 2
   },
   {
@@ -207,6 +263,124 @@
    "at": "2026-11-12T13:27:12.103Z",
    "commit": "b26000a1",
    "attempts": 4
+  },
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.585Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 1,
+    "batches": [
+     {
+      "file": "1skj6zOxucXsdWdlyaDHa5O1UvUOiwBwH__candidates",
+      "verdict": "PASS",
+      "batchId": "2026-11-12-chatgpt-manual-1433",
+      "alreadyIngested": false,
+      "results": [
+       {
+        "candidateId": "C-2026-11-12-01",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-1cc16e84d3",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-12-02",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-f0fb8386cd",
+        "reasons": []
+       }
+      ]
+     }
+    ],
+    "postingPackRead": false
+   },
+   "at": "2026-11-12T14:45:32.754Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "SKIPPED",
+   "by": "script",
+   "reasons": [
+    "run with the network switched off"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.782Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "SKIPPED",
+   "by": "script",
+   "reasons": [
+    "run with the network switched off"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:45:32.807Z",
+   "commit": "217ae67b",
+   "attempts": 2
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "2 reviewed from the inbox: GDC-RR-f0fb8386cd EDIT from the full text, GDC-RR-1cc16e84d3 HOLD because only the abstract could be read; 4 older records still wait"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:46:59.403Z",
+   "commit": "217ae67b",
+   "attempts": 4
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [
+     {
+      "researchId": "GDC-RR-f0fb8386cd",
+      "gdcPostNumber": "059",
+      "handoffVersion": 3
+     }
+    ],
+    "alreadyCurrent": [],
+    "duplicateCheck": {
+     "GDC-RR-f0fb8386cd": "NEW"
+    },
+    "queue": [
+     "GDC-RR-f0fb8386cd"
+    ]
+   },
+   "at": "2026-11-12T14:47:59.882Z",
+   "commit": "34962187",
+   "attempts": 3
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "queue, number mirror and GDC-059 handoff BYTE IDENTICAL; start here document TEXT IDENTICAL; the four files they replace retitled ZZ"
+   ],
+   "detail": null,
+   "at": "2026-11-12T14:52:39.914Z",
+   "commit": "468426d3",
+   "attempts": 2
   }
  ],
  "updatedAt": "2026-11-12T13:27:12.133Z"

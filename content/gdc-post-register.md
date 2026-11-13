@@ -92,7 +92,9 @@ Claimed means a number is spoken for, whatever state the post is in.
 
 | 058 | A regulator has said out loud what the time limit debate keeps missing. It is the feed, not the clock. | **CLAIMED 10 Nov for the Research Radar handoff GDC-RR-3d31eb1683.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-3d31eb1683.json |
 
-**Next free number: 059.**
+| 059 | Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable. | **CLAIMED 12 Nov for the Research Radar handoff GDC-RR-f0fb8386cd.** Claude reviewed, verdict EDIT, filed BANK. ChatGPT writes it at Stage 2 | research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json |
+
+**Next free number: 060.**
 
 **Why Claude claimed 054 rather than leaving it to ChatGPT.** The handoff tells
 Stage 2 to claim the next free number here before writing. ChatGPT cannot write

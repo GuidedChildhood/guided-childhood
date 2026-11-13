@@ -48,6 +48,37 @@
      ]
     }
    ]
+  },
+  "3e075e36a8e4cba1f3247d79ce2f4d1048cdbd05c1b049832e6b93fa24f4e181": {
+   "batchId": "2026-11-12-chatgpt-manual-1433",
+   "createdBy": "chatgpt-manual-run-of-scheduled-research",
+   "createdAt": "2026-11-12T14:33:00Z",
+   "readAs": "as sent",
+   "driveFileId": "1skj6zOxucXsdWdlyaDHa5O1UvUOiwBwH",
+   "driveTitle": "1skj6zOxucXsdWdlyaDHa5O1UvUOiwBwH__candidates",
+   "ingestedAt": "2026-11-12T14:45:32.754Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-12-01",
+     "title": "The Constrained Generation: A Longitudinal Study of Adolescent Self-Esteem and the Misattribution of Harm to Social Media",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-1cc16e84d3",
+     "band": "ADJACENT",
+     "score": 8,
+     "reasons": [],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-12-02",
+     "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-f0fb8386cd",
+     "band": "ADJACENT",
+     "score": 4,
+     "reasons": [],
+     "warnings": []
+    }
+   ]
   }
  },
  "candidates": {
@@ -93,6 +124,30 @@
    ],
    "batchId": "2026-11-10-relay-test-01",
    "at": "2026-11-10T17:11:04.724Z"
+  },
+  "2026-11-12-chatgpt-manual-1433/C-2026-11-12-01": {
+   "candidateId": "C-2026-11-12-01",
+   "title": "The Constrained Generation: A Longitudinal Study of Adolescent Self-Esteem and the Misattribution of Harm to Social Media",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-1cc16e84d3",
+   "band": "ADJACENT",
+   "score": 8,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-12-chatgpt-manual-1433",
+   "at": "2026-11-12T14:45:32.746Z"
+  },
+  "2026-11-12-chatgpt-manual-1433/C-2026-11-12-02": {
+   "candidateId": "C-2026-11-12-02",
+   "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-f0fb8386cd",
+   "band": "ADJACENT",
+   "score": 4,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-12-chatgpt-manual-1433",
+   "at": "2026-11-12T14:45:32.754Z"
   }
  }
 }

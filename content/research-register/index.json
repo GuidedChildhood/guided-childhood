@@ -5309,6 +5309,528 @@
    "lastChecked": "2026-11-12T09:21:43.335Z",
    "changeReason": "discovery run, streams 09,19,22",
    "changedBy": "radar:discover"
+  },
+  "GDC-RR-1cc16e84d3": {
+   "title": "The Constrained Generation: A Longitudinal Study of Adolescent Self-Esteem and the Misattribution of Harm to Social Media",
+   "doi": "10.1177/21582440261505080",
+   "url": "https://doi.org/10.1177/21582440261505080",
+   "journal": "SAGE Open",
+   "published": "2026-11-05",
+   "authors": "Keith N. Hampton, Gabriel E. Hales",
+   "abstract": "A longitudinal analysis followed Michigan students from early to late adolescence across two waves spanning 2019 to 2022. Greater earlier social media use predicted higher subsequent self-esteem among girls after accounting for baseline self-esteem and changes in other social activities; the association was not significant for boys. Authors argue social media may sometimes compensate for restricted offline social opportunities, an interpretation requiring scrutiny. The study followed 653 adolescents from grades 8–9 to grades 11–12 over three years. For girls, earlier social media use was associated with higher subsequent self-esteem after accounting for baseline self-esteem and changes in other social activities. The initial survey included 1,273 students in grades 8 or 9, of whom 653 completed the second wave.",
+   "isPreprint": false,
+   "peerReviewed": null,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "HOLD",
+   "candidate": {
+    "candidateId": "C-2026-11-12-01",
+    "batchId": "2026-11-12-chatgpt-manual-1433",
+    "sentBy": "chatgpt-manual-run-of-scheduled-research",
+    "sentAt": "2026-11-12T14:33:00Z",
+    "sourceType": "journal-article",
+    "otherUrls": [
+     "https://journals.sagepub.com/doi/full/10.1177/21582440261505080"
+    ],
+    "claims": [
+     {
+      "claim": "The study followed 653 adolescents from grades 8–9 to grades 11–12 over three years.",
+      "figure": "653",
+      "whereInSource": "abstract and Method: Sample"
+     },
+     {
+      "claim": "For girls, earlier social media use was associated with higher subsequent self-esteem after accounting for baseline self-esteem and changes in other social activities.",
+      "figure": "β=.11, p<.05",
+      "whereInSource": "Findings: Self-Esteem"
+     },
+     {
+      "claim": "The initial survey included 1,273 students in grades 8 or 9, of whom 653 completed the second wave.",
+      "figure": "51.3%",
+      "whereInSource": "Method: Sample"
+     }
+    ],
+    "limitations": [
+     "Two waves and a nonrandom sample of 18 Michigan schools cannot establish causation or generalize to all UK adolescents.",
+     "Attrition between waves was 48.7%, and the COVID-19 period may have affected time use and social opportunities.",
+     "Self-esteem is not a clinical mental-health diagnosis; results must not be portrayed as proof that social media protects children."
+    ],
+    "whyItMatters": "Directly challenges simple screen-time narratives while foregrounding offline freedom, friendships and parental choices. Important to present counterarguments and avoid claiming causation.",
+    "ukRelevance": "US state-level sample, not a UK estimate; developmental framing may inform UK parent and school discussion but requires local qualification.",
+    "suggestedFormats": [
+     "linkedin",
+     "image",
+     "newsletter"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 8,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+5 \\bsocial media\\b"
+    ],
+    "method": [
+     "+3 \\blongitudinal|cohort|prospective|"
+    ],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": true,
+   "studyId": "GDC-RR-1cc16e84d3",
+   "version": 4,
+   "firstFound": "2026-11-12T14:45:32.743Z",
+   "lastChecked": "2026-11-12T14:46:59.265Z",
+   "changeReason": "REVIEW: PASS",
+   "changedBy": "radar:pipeline",
+   "dossier": {
+    "studyId": "GDC-RR-1cc16e84d3",
+    "checkedAt": "2026-11-12T14:45:43.314Z",
+    "doi": "10.1177/21582440261505080",
+    "doiResolves": true,
+    "canonicalTitle": "The Constrained Generation: A Longitudinal Study of Adolescent Self-Esteem and the Misattribution of Harm to Social Media",
+    "indexedDate": "2026-11-05",
+    "crossrefOnlineDate": "2026-11-05",
+    "datesAgree": true,
+    "peerReviewed": null,
+    "isPreprint": false,
+    "journal": "SAGE Open",
+    "sampleSize": 653,
+    "ageRange": "not stated, described as adolescent",
+    "country": null,
+    "design": "longitudinal cohort",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": []
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [
+     "Merit Networks"
+    ],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": true,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-1cc16e84d3",
+    "reviewedAt": "2026-11-12T14:46:59Z",
+    "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+    "reviewBasis": "The abstract and the metadata only. The publisher's page refused every request with a 403, so the full text was NOT read. Read: the Crossref record for DOI 10.1177/21582440261505080 including the full abstract, the OpenAlex and DOAJ records, and the first author's own blog post about the paper, which is the author speaking and not the paper. Europe PMC holds no copy. The article is open access, so a person with a browser can open it.",
+    "verdict": "HOLD",
+    "proposedTitle": "A new study says social media use came before higher self esteem in teenage girls. I have not read enough of it to write about it yet.",
+    "proposedAngle": "Held. This is a finding that suits our argument, from a paper whose title is itself an argument, and only its abstract could be read. The sample, the attrition, the size of the effect and the authors' own limits all sit in a full text that was not reached. It is not written from until that text has been read.",
+    "oneStory": "Researchers followed 653 adolescents for three years and report that social media use in early adolescence came before increases in self esteem for girls, with no significant relationship for boys.",
+    "oneTension": "It flatters the position we already hold. That is the reason to read all of it before using any of it.",
+    "oneBelief": "The response should be in proportion to the evidence, and that cuts both ways. A result we like gets more scrutiny, not less.",
+    "oneTakeaway": "None until the full text is read.",
+    "claims": [
+     {
+      "claim": "The study followed 653 adolescents from grades 8 to 9 to grades 11 to 12 over three years.",
+      "status": "VERIFIED",
+      "basis": "The abstract, as held by Crossref: a three year longitudinal study following 653 adolescents from grades 8 to 9 to 11 to 12."
+     },
+     {
+      "claim": "The study had two waves spanning 2019 to 2022 and was carried out in Michigan.",
+      "status": "REQUIRES SOURCE",
+      "basis": "Not in the abstract or the metadata. Michigan appears only on the author's blog. The wave count and the years were not found anywhere that was read."
+     },
+     {
+      "claim": "For girls, earlier social media use was associated with higher later self esteem, and there was no significant relationship for boys.",
+      "status": "QUALIFIED",
+      "basis": "The direction and the split by sex are in the abstract, with the controls it names: change in extracurricular activities and in person socialising, in a cross lagged panel model. Qualified because the design is observational, the outcome is self esteem and not mental health, and the size could not be read in the paper."
+     },
+     {
+      "claim": "The effect for girls was beta = .11, p < .05.",
+      "status": "REQUIRES SOURCE",
+      "basis": "The beta appears only on the author's blog and was not traced to the paper's tables. The p value was not found anywhere that was read."
+     },
+     {
+      "claim": "The first survey had 1,273 students, 653 completed the second wave (51.3 percent), attrition was 48.7 percent, and the sample was a nonrandom one of 18 Michigan schools.",
+      "status": "REQUIRES SOURCE",
+      "basis": "None of these figures is in the abstract, Crossref, OpenAlex, DOAJ or the author's blog. The arithmetic is consistent, which is not verification. An earlier paper by the same first author reports a different, larger Michigan sample, so there is a real risk of mixing the two."
+     },
+     {
+      "claim": "Social media protects teenage girls' mental health, or restricting it will harm them.",
+      "status": "UNSUPPORTED",
+      "basis": "The study measured self esteem and tested no restriction. The policy line in the abstract is the authors' inference."
+     }
+    ],
+    "verifiedStatistics": [],
+    "notQuotable": [
+     "any figure at all until the full text is read",
+     "beta = .11, which is from the author's blog and not the paper",
+     "p < .05, which was not found",
+     "1,273, 51.3 percent, 48.7 percent and 18 schools, none of which was found in a primary source",
+     "2019 to 2022 and the number of waves",
+     "any statement about mental health: the outcome is self esteem",
+     "any statement about primary age children: the youngest were in grade 8"
+    ],
+    "evidenceConfidence": "MODERATE that the paper exists as described and reports this direction of finding: the DOI resolves, the title, authors, journal and online date of 5 November 2026 are confirmed. LOW on everything a post would need, because the sample, the attrition, the effect size and the limitations were not read.",
+    "limitations": [
+     "Abstract and metadata only. The full text was refused.",
+     "Observational. A cross lagged panel model shows what came before what, not what caused what.",
+     "The outcome is self esteem. Depression, anxiety, self harm, sleep and harmful content were not measured, on the evidence of the abstract.",
+     "One state in the United States, and the youngest participants were in grade 8, so it says nothing about under 13s or about the UK.",
+     "The study window overlaps the pandemic, which changed how adolescents spent time.",
+     "The title is an argument and the recorded funder is a Michigan research and education network. Both should be said if this is ever written."
+    ],
+    "contradictoryEvidence": [
+     "From the abstract itself: social media use was associated with later decreases in time with family, though not with friends.",
+     "From the abstract itself: no significant relationship for boys.",
+     "From this register: GDC-RR-0754a1641c is a recent meta analysis reporting a large pooled correlation in the other direction. It was judged weak on design, and it exists.",
+     "From this register: the government commissioned review GDC-RR-e22bd17322 found a small consistent link between more time on social media and poorer adolescent mental health, with low certainty about cause."
+    ],
+    "whatThisDoesNotProve": [
+     "That social media is good for teenage girls.",
+     "That social media causes higher self esteem.",
+     "That an age restriction would remove a buffer. No restriction was tested.",
+     "Anything about children under 13 or about UK adolescents.",
+     "Anything about mental health as distinct from self esteem."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The predictable errors are 'social media is good for teenage girls' and 'study proves bans will harm girls'. The abstract supports neither.",
+    "gdcBeliefs": [
+     "The Wrong Villain: the response should be in proportion to the evidence, and that cuts both ways.",
+     "A finding that flatters what we sell gets more scrutiny, not less."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "None while the review is on hold.",
+     "schoolLesson": "None.",
+     "parentTool": "None.",
+     "digi": "DiGi must not cite this study.",
+     "historyChecker": "None."
+    },
+    "recommendedAudience": "Nobody yet.",
+    "recommendedPlatforms": [],
+    "urgency": "Low. Nothing is lost by waiting for the full text.",
+    "unresolvedQuestions": [
+     "The first wave sample, the retention and how the schools were chosen.",
+     "The effect size and its interval, from the paper's own tables.",
+     "The years of the two waves.",
+     "The limitations the authors state.",
+     "The conflicts and funding statement in the paper."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-1cc16e84d3.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "REVIEW",
+    "reasons": [],
+    "at": "2026-11-12T14:46:59.263Z"
+   }
+  },
+  "GDC-RR-f0fb8386cd": {
+   "title": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+   "doi": "10.1001/jamapediatrics.2026.4939",
+   "pmid": "42970283",
+   "url": "https://doi.org/10.1001/jamapediatrics.2026.4939",
+   "journal": "JAMA Pediatrics",
+   "published": "2026-11-02",
+   "authors": "Rosemary A. Martoma, Jonathan H. Cantor, Ryan K. McBain, et al.",
+   "abstract": "A cross-sectional survey asked US parents of children aged 5 to 17 about their comfort with AI-led behavioural therapy for a child. Most reported low comfort, particularly around diagnosis, empathy, clinical oversight and privacy. This concerns AI-delivered therapy specifically, not all AI chatbots or parent-facing guidance assistants. Of 3,102 respondents, 584 had a child aged 5 to 17 and 572 answered the main comfort question. Survey-weighted percentages were 47.2% not comfortable at all, 28.8% not too comfortable, 16.2% somewhat comfortable and 7.8% very comfortable with AI-led behavioural therapy for their child. Parents most frequently prioritised diagnostic accuracy, empathy, professional recommendation, and privacy when considering AI-led therapy.",
+   "isPreprint": false,
+   "peerReviewed": null,
+   "isOfficial": false,
+   "streams": [
+    "inbox"
+   ],
+   "foundBy": [
+    "chatgpt-inbox"
+   ],
+   "status": "EDITORIAL READY",
+   "candidate": {
+    "candidateId": "C-2026-11-12-02",
+    "batchId": "2026-11-12-chatgpt-manual-1433",
+    "sentBy": "chatgpt-manual-run-of-scheduled-research",
+    "sentAt": "2026-11-12T14:33:00Z",
+    "sourceType": "journal-article",
+    "otherUrls": [
+     "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2856091",
+     "https://pubmed.ncbi.nlm.nih.gov/42970283/"
+    ],
+    "claims": [
+     {
+      "claim": "Of 3,102 respondents, 584 had a child aged 5 to 17 and 572 answered the main comfort question.",
+      "figure": "572",
+      "whereInSource": "Results"
+     },
+     {
+      "claim": "Survey-weighted percentages were 47.2% not comfortable at all, 28.8% not too comfortable, 16.2% somewhat comfortable and 7.8% very comfortable with AI-led behavioural therapy for their child.",
+      "figure": "47.2%; 28.8%; 16.2%; 7.8%",
+      "whereInSource": "Results"
+     },
+     {
+      "claim": "Parents most frequently prioritised diagnostic accuracy, empathy, professional recommendation, and privacy when considering AI-led therapy.",
+      "figure": "58.5%; 49.4%; 46.8%; 43.7%",
+      "whereInSource": "Results"
+     }
+    ],
+    "limitations": [
+     "Nonprobability US sample and modest size limit generalizability, including to UK parents.",
+     "Cross-sectional stated comfort does not measure effectiveness, safety, actual uptake or causal effects of AI therapy.",
+     "Do not equate clinical AI-led behavioural therapy with DiGi or general-purpose AI support tools."
+    ],
+    "whyItMatters": "Shows a concrete parental trust and oversight challenge as AI moves into children's sensitive contexts; relevant to distinguishing guidance from clinical care.",
+    "ukRelevance": "US parental attitudes only; UK practice, regulation and NHS clinical pathways differ.",
+    "suggestedFormats": [
+     "linkedin",
+     "image",
+     "newsletter"
+    ],
+    "standing": "UNVERIFIED. These are the sender's claims about the source. None may be quoted until the directed review has checked it against the source itself."
+   },
+   "relevanceScore": 4,
+   "relevanceBand": "ADJACENT",
+   "relevanceParts": {
+    "core": [
+     "+4 \\bAI companion|chatbot|conversatio"
+    ],
+    "method": [],
+    "penalty": [],
+    "uk": []
+   },
+   "childIsTheSubject": true,
+   "studyId": "GDC-RR-f0fb8386cd",
+   "version": 14,
+   "firstFound": "2026-11-12T14:45:32.751Z",
+   "lastChecked": "2026-11-12T14:47:59.876Z",
+   "changeReason": "handoff tied to the review it was built from",
+   "changedBy": "radar:daily",
+   "dossier": {
+    "studyId": "GDC-RR-f0fb8386cd",
+    "checkedAt": "2026-11-12T14:45:43.557Z",
+    "doi": "10.1001/jamapediatrics.2026.4939",
+    "doiResolves": true,
+    "canonicalTitle": "Parent Comfort With Artificial Intelligence–Led Behavioral Therapy for Their Child",
+    "indexedDate": "2026-11-02",
+    "crossrefOnlineDate": "2026-11-02",
+    "datesAgree": true,
+    "peerReviewed": null,
+    "isPreprint": false,
+    "journal": "JAMA Pediatrics",
+    "sampleSize": 3102,
+    "ageRange": "5 to 17",
+    "country": "US",
+    "design": "cross-sectional",
+    "followUp": null,
+    "exposureStated": null,
+    "statistics": {
+     "hasConfidenceInterval": false,
+     "hasPValue": false,
+     "hasEffectSize": true,
+     "hasAbsoluteRisk": false,
+     "quotedNumbers": [
+      "47.2%",
+      "28.8%",
+      "16.2%",
+      "7.8%"
+     ]
+    },
+    "limitationsStated": false,
+    "attritionStated": false,
+    "funding": [],
+    "conflictsStated": false,
+    "preregistered": false,
+    "abstractClaimsCause": false,
+    "abstractHedges": false,
+    "abstractAvailable": true,
+    "fullTextChecked": false,
+    "automaticChecks": [
+     "DOI resolved through Crossref",
+     "a dated, identifiable primary record exists"
+    ],
+    "requiresClaude": [
+     "C. whether the causal inference is justified",
+     "D. the strongest contradictory or null study",
+     "E. whether media coverage overstates the finding",
+     "G. UK relevance, policy status and safeguarding implications",
+     "H. a claim by claim VERIFIED / QUALIFIED / UNSUPPORTED / REQUIRES SOURCE verdict"
+    ],
+    "claudeStatus": "PENDING",
+    "notes": [
+     "this record came through the candidate inbox. Its summary and claims are the sender's wording, not the source's, so nothing extracted from them above is a fact about the source.",
+     "no confidence interval found: do not present the estimate as precise"
+    ],
+    "citedBy": 0,
+    "automaticVerdict": "RECORD CONFIRMED"
+   },
+   "claudeStatus": "CLAUDE REVIEWED",
+   "claudeReview": {
+    "studyId": "GDC-RR-f0fb8386cd",
+    "reviewedAt": "2026-11-12T14:46:59Z",
+    "reviewedBy": "Claude Code, directed run, session 01MJgNZKdzAVnFyXvJQND2rn",
+    "reviewBasis": "The full text, read twice: the article page on the JAMA Network site and the PubMed Central copy PMC13728953, with the Crossref and Europe PMC records. It is a Research Letter in JAMA Pediatrics, published online 2 November 2026, online ahead of print with no volume or issue yet.",
+    "verdict": "EDIT",
+    "proposedTitle": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+    "proposedAngle": "Open on the journal and the finding with its numbers. Then be exact about what was asked: one hypothetical question about AI led behavioural therapy, in an opt in sample of parents in the United States. It is not a verdict on AI and children in general. I build a parent tool with an AI guide in it, so say that plainly, and say where the line is: guidance for a parent is not therapy for a child, and nothing we make diagnoses or treats. Then give parents what the survey says they would look for.",
+    "oneStory": "A survey published in JAMA Pediatrics asked parents in the United States how comfortable they would be with a therapy session for their child led by AI. Of 572 who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.",
+    "oneTension": "The parents most at ease were the ones who would accept AI therapy for themselves, and using AI day to day made no difference. So this looks less like fear of something unfamiliar and more like a judgement about where AI belongs.",
+    "oneBelief": "A parent should be able to tell what a tool is for and where it stops. An AI that helps a parent think is a different thing from an AI treating a child, and a product should say which it is.",
+    "oneTakeaway": "Before your child uses any AI tool for something that matters, ask what the survey's parents said they would ask: is it accurate, who is overseeing it, and where does what my child says go.",
+    "claims": [
+     {
+      "claim": "Of 3,102 respondents, 584 had at least one child aged 5 to 17, and 572 answered the main question about comfort.",
+      "status": "VERIFIED",
+      "basis": "Results, full text: among 3102 respondents, 584 had at least 1 child aged 5 to 17 years, and 572 responded to the primary outcome."
+     },
+     {
+      "claim": "Weighted, 47.2 percent were not comfortable at all, 28.8 percent not too comfortable, 16.2 percent somewhat comfortable and 7.8 percent very comfortable with a therapy session for their child led by AI.",
+      "status": "VERIFIED",
+      "basis": "Results, full text, with 95 percent intervals of 42.1 to 52.3, 24.5 to 33.6, 12.7 to 20.5 and 5.3 to 11.3. The intervals are wide and should be mentioned in words."
+     },
+     {
+      "claim": "Three in four parents were not comfortable.",
+      "status": "QUALIFIED",
+      "basis": "47.2 plus 28.8 is 76.0. The paper does not print the sum, so it is ours and is written as about three in four, never as a figure the study reported."
+     },
+     {
+      "claim": "Parents most often chose accuracy of diagnosis (58.5 percent), level of empathy (49.4 percent), recommendation from a medical professional (46.8 percent) and confidentiality and privacy (43.7 percent) as what would matter most.",
+      "status": "QUALIFIED",
+      "basis": "Verified in the full text, with a correction to the candidate: this item was answered by 546 parents, not 572, and parents could choose more than one."
+     },
+     {
+      "claim": "It was a cross sectional survey of adults in the United States in November 2025, using a nonprobability sample.",
+      "status": "VERIFIED",
+      "basis": "Methods: a cross sectional survey of US adults in November 2025 through a participatory surveillance platform, a nonprobability river sample, weighted towards census targets."
+     },
+     {
+      "claim": "Everyday use of AI by parents and children was not associated with comfort.",
+      "status": "VERIFIED",
+      "basis": "Stated in the results. Comfort tracked the parent's comfort with AI led therapy for themselves, which the authors concede may be the same underlying attitude measured twice."
+     },
+     {
+      "claim": "Parents do not trust AI with their children.",
+      "status": "UNSUPPORTED",
+      "basis": "Too wide. The question was about AI led behavioural therapy only. Nothing was asked about chatbots, companions, schoolwork or tools for parents."
+     },
+     {
+      "claim": "AI led therapy is unsafe or does not work for children.",
+      "status": "UNSUPPORTED",
+      "basis": "The survey measured stated comfort with a hypothetical. It did not measure safety, effectiveness, use or any outcome for a child."
+     }
+    ],
+    "verifiedStatistics": [
+     "572 parents answered the main question",
+     "47.2 percent were not comfortable at all",
+     "28.8 percent were not too comfortable",
+     "16.2 percent were somewhat comfortable",
+     "7.8 percent were very comfortable",
+     "58.5 percent chose accuracy of diagnosis, of 546 parents",
+     "49.4 percent chose level of empathy",
+     "46.8 percent chose recommendation from a medical professional",
+     "43.7 percent chose confidentiality and privacy",
+     "a survey in November 2025, published online 2 November 2026 in JAMA Pediatrics",
+     "children aged 5 to 17"
+    ],
+    "notQuotable": [
+     "76 percent as a figure the study reported: it is our sum, write about three in four",
+     "any odds ratio: the intervals are very wide and the largest one may measure the same attitude twice",
+     "3,102 as the number of parents: that is all respondents, 584 were parents and 572 answered",
+     "any figure about UK parents",
+     "any statement that parents do not trust AI with children in general",
+     "any statement that AI therapy is unsafe, ineffective or harmful",
+     "any statement that this survey supports DiGi, Guided Childhood or tools of our kind",
+     "the names of the authors: some are practising clinicians and the house rule is that no living clinician is named",
+     "any age specific finding: ages 5 to 17 were pooled"
+    ],
+    "evidenceConfidence": "HIGH that the paper says what is written here: the full text was read. MODERATE as a picture of parents in the United States: an opt in sample of modest size from a health surveillance platform, weighted, with wide intervals. LOW as a guide to UK parents, who were not asked.",
+    "limitations": [
+     "Nonprobability, opt in sample. Weighting does not make it a random one.",
+     "Modest size, 572, with wide intervals and no reliable subgroup results.",
+     "Stated comfort with a hypothetical. It may not reflect what parents would do, or what is appropriate or safe. The authors say this themselves.",
+     "Cross sectional, so nothing causal.",
+     "United States only.",
+     "Familiarity with AI in health care was not measured.",
+     "A Research Letter, so short, with limited detail on the questions asked."
+    ],
+    "contradictoryEvidence": [
+     "From the paper: about a quarter of parents, 16.2 plus 7.8 percent, were somewhat or very comfortable. Acceptance is not negligible.",
+     "From the paper: comfort for the child rose sharply among parents comfortable with AI led therapy for themselves and among those who expect AI to do better than professionals. Attitudes may shift as use spreads.",
+     "From the paper: everyday AI use by parents and children made no difference, which cuts against the easy story that people fear what they do not know.",
+     "From the paper: the authors concede that comfort for self and comfort for child may be one attitude measured twice."
+    ],
+    "whatThisDoesNotProve": [
+     "That AI led therapy is unsafe or does not work for children.",
+     "That parents distrust AI with their children in general.",
+     "That UK parents feel the same way.",
+     "That children share their parents' view. Children were not asked.",
+     "That anything we build is trusted, safe or better. It was not studied."
+    ],
+    "mediaMisrepresentation": "Coverage was not searched in this run. The predictable errors are 'three in four parents reject AI for their kids' and 'parents do not trust AI with children'. The question was about AI leading a behavioural therapy session, and nothing wider.",
+    "gdcBeliefs": [
+     "Never allow or deny. DiGi returns a calibrated pathway and is guidance for a parent, not treatment for a child.",
+     "A serious worry goes to a GP or a professional. We say so and we do not diagnose.",
+     "Evidence or silence: we hold no outcome evidence for our own product and say so."
+    ],
+    "productImplications": {
+     "digitalPathwayOS": "No change.",
+     "schoolLesson": "No change.",
+     "parentTool": "The proof path is the stage check: three questions about one child and a starting point, with no promise about what happens next, answered by the parent and not by a machine acting on the child.",
+     "digi": "The survey names what parents look for: accuracy, a professional in the loop, privacy. DiGi already declines to diagnose and points a serious worry to a professional. It must not cite this survey as evidence that parents prefer tools like ours.",
+     "historyChecker": "No change."
+    },
+    "recommendedAudience": "Parents, and school and safeguarding leads who are being offered AI wellbeing tools.",
+    "recommendedPlatforms": [
+     "LinkedIn post"
+    ],
+    "urgency": "Medium. Published ten days ago and current, and the subject is live.",
+    "unresolvedQuestions": [
+     "The exact wording of the comfort question, which the letter summarises.",
+     "Whether any comparable survey of UK parents exists. Not searched in this run.",
+     "Whether the two posts already scheduled on AI and teenagers on 13 and 14 November make this a third on one theme in a fortnight."
+    ],
+    "storedAt": "scripts/radar/reviews/GDC-RR-f0fb8386cd.json"
+   },
+   "editorialPriority": "BANK",
+   "gate": {
+    "verdict": "PASS",
+    "stage": "HANDOFF",
+    "reasons": [],
+    "at": "2026-11-12T14:47:59.870Z"
+   },
+   "gdcPostNumber": "059",
+   "handoff": {
+    "json": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.json",
+    "doc": "content/research-register/handoffs/handoff-GDC-RR-f0fb8386cd.txt",
+    "version": 3,
+    "schemaVersion": "1.1.0",
+    "sourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+    "builtAt": "2026-11-12T14:47:59.855Z",
+    "reviewDigest": "ff0e1a1fc996e324",
+    "gdcPostNumber": "059"
+   }
   }
  },
  "keys": {
@@ -5486,6 +6008,13 @@
   "doi:10.21203/rs.3.rs-11386436/v1": "GDC-RR-19eb1d5d25",
   "url:doi.org/10.21203/rs.3.rs-11386436/v1": "GDC-RR-19eb1d5d25",
   "title:effectiveness of a social media based peer support intervention for improving medication adherence and": "GDC-RR-19eb1d5d25",
-  "url:doi.org/10.1016/s2352-4642(26)00301-9": "GDC-RR-19396d6493"
+  "url:doi.org/10.1016/s2352-4642(26)00301-9": "GDC-RR-19396d6493",
+  "doi:10.1177/21582440261505080": "GDC-RR-1cc16e84d3",
+  "url:doi.org/10.1177/21582440261505080": "GDC-RR-1cc16e84d3",
+  "title:the constrained generation a longitudinal study of adolescent self esteem and the misattribution of": "GDC-RR-1cc16e84d3",
+  "doi:10.1001/jamapediatrics.2026.4939": "GDC-RR-f0fb8386cd",
+  "pmid:42970283": "GDC-RR-f0fb8386cd",
+  "url:doi.org/10.1001/jamapediatrics.2026.4939": "GDC-RR-f0fb8386cd",
+  "title:parent comfort with artificial intelligence led behavioral therapy for their child": "GDC-RR-f0fb8386cd"
  }
 }
