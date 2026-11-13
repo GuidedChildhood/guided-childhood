@@ -1,0 +1,75 @@
+{
+ "studyId": "GDC-RR-bf6c483886",
+ "reviewedAt": "2026-11-13T09:24:26Z",
+ "reviewedBy": "Claude Code, scheduled morning run, session 014MKeZYLSroNs52Qq1rExKf",
+ "reviewBasis": "The abstract only, read in this run on PubMed (record 43006751) and checked against Europe PMC. The full text in the Journal of Paediatrics and Child Health is behind a subscription. The abstract is enough to decide that this is not our story, so the full text was not pursued.",
+ "verdict": "REJECT",
+ "proposedTitle": "Rejected: YouTube videos on infant choking",
+ "proposedAngle": "None. It is a careful small audit of first aid videos for babies under one. Our parent has a child aged 4 to 16 and our subject is getting a child ready for a phone. Nothing in the product gives this a proof path, and a first aid finding borrowed to make a point about YouTube would be a stretch a hostile reader would see at once.",
+ "oneStory": "Not ours to tell.",
+ "oneTension": "Not ours to tell.",
+ "oneBelief": "Not ours to tell.",
+ "oneTakeaway": "Not ours to tell.",
+ "claims": [
+  {
+   "claim": "Of the first 200 videos returned by one YouTube search on 20 January 2026, 40 met the criteria and were scored.",
+   "status": "VERIFIED",
+   "basis": "Abstract, methods, as written."
+  },
+  {
+   "claim": "Only 18.8 percent of videos warned against blind finger sweeps.",
+   "status": "QUALIFIED",
+   "basis": "Abstract, results. With 40 videos, 18.8 percent is not a whole number of videos, so the denominator for this item is something other than 40 and the abstract does not say what."
+  },
+  {
+   "claim": "Popularity was not associated with quality.",
+   "status": "QUALIFIED",
+   "basis": "Abstract: engagement metrics were not associated with any content score. In 40 videos, finding no association is weak evidence that there is none."
+  },
+  {
+   "claim": "YouTube is unsafe for parents looking for health advice.",
+   "status": "UNSUPPORTED",
+   "basis": "The videos were rated moderate in quality and reliability, and the technique steps were almost always shown. One search, one day, one topic."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "every figure: the story is rejected, so nothing from it is cleared",
+  "any statement about children and YouTube in general",
+  "any statement about what parents rely on: the study scored videos and asked no parent anything"
+ ],
+ "evidenceConfidence": "MODERATE that the abstract describes the study fairly. Not relevant to what we publish.",
+ "limitations": [
+  "Only the abstract was read.",
+  "40 videos from one search on one day.",
+  "A checklist built by the authors, with no account in the abstract of how raters agreed.",
+  "Infants under one year, which is outside the ages we serve."
+ ],
+ "contradictoryEvidence": [
+  "From the abstract: quality was moderate and technique steps were almost always demonstrated, which cuts against any alarm story.",
+  "From the abstract: official health institutions were 22.5 percent of uploaders, so vetted material is present on the platform."
+ ],
+ "whatThisDoesNotProve": [
+  "That parents are harmed by these videos.",
+  "Anything about children using YouTube themselves.",
+  "Anything about screens, phones or readiness."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched. Not relevant once rejected.",
+ "gdcBeliefs": [
+  "Every claim needs a proof path in the product. This has none."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "historyChecker": "No change.",
+  "parentTool": "None.",
+  "digi": "None."
+ },
+ "recommendedAudience": "None.",
+ "recommendedPlatforms": [],
+ "urgency": "None.",
+ "unresolvedQuestions": [
+  "Why the discovery scoring put this in the CORE band. It matched on YouTube and parents. Worth a look at the scoring when someone is next in that file."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-bf6c483886.json"
+}

@@ -1,0 +1,205 @@
+{
+ "schemaVersion": "1.0.0",
+ "date": "2026-11-13",
+ "startedAt": "2026-11-13T09:20:04.174Z",
+ "stages": [
+  {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-13T09:20:04.174Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 1,
+    "batches": [
+     {
+      "file": "1B7T64PoFunezV-jSbazno2BrbE-8e0pfa68EBYYhlyY__candidates",
+      "verdict": "PASS",
+      "batchId": "2026-11-13-chatgpt-0800",
+      "alreadyIngested": false,
+      "results": [
+       {
+        "candidateId": "C-2026-11-13-01",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-45a302c73d",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-13-02",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-f7d48b70f5",
+        "reasons": []
+       },
+       {
+        "candidateId": "C-2026-11-13-03",
+        "outcome": "INGESTED",
+        "researchId": "GDC-RR-24de8a2c51",
+        "reasons": []
+       }
+      ]
+     }
+    ],
+    "postingPackRead": true
+   },
+   "at": "2026-11-13T09:20:04.245Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 15,
+    "total": 72
+   },
+   "at": "2026-11-13T09:20:45.366Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 9,
+    "confirmed": 8,
+    "unconfirmed": [
+     "GDC-RR-09aa0524ad"
+    ]
+   },
+   "at": "2026-11-13T09:20:47.213Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed, none cleared: GDC-RR-f7d48b70f5 HOLD (inbox, phone use and teenage sleep, abstract only, full text behind a subscription), GDC-RR-9f47c61d8e HOLD (UK trends in 10 to 15 year olds 2009 to 2024, abstract only, worth the full text), GDC-RR-bf6c483886 REJECT (YouTube infant choking videos, no proof path). Two more inbox candidates could not be reviewed because the dossier did not confirm them and the review gate refuses a record with no confirmed dossier: GDC-RR-45a302c73d, the 5Rights and LSE report on EdTech and AI in UK schools, which ChatGPT marked official but whose host is a charity and not a public body, and GDC-RR-24de8a2c51, an arXiv paper describing a research platform. Both were read in full in this run and stay DISCOVERED. 6 verified records wait for tomorrow."
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:24:33.873Z",
+   "commit": "fa96ca7a",
+   "attempts": 2
+  },
+  {
+   "stage": "LINKEDIN NUMBERS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "the analytics inbox holds only its read me, nothing pasted"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:24:34.005Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-f0fb8386cd"
+    ],
+    "duplicateCheck": {
+     "GDC-RR-f0fb8386cd": "NEW"
+    },
+    "queue": [
+     "GDC-RR-f0fb8386cd"
+    ]
+   },
+   "at": "2026-11-13T09:24:34.236Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "FEEDBACK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "ChatGPT's feedback on the visual performance report weighed, twelve points: 4 adopted, 3 adapted, 2 already there, 3 parked for Justin. Reply written to Drive and read back, feedback document retitled ZZ READ. No pack, handoff or schedule changed."
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:26:02.048Z",
+   "commit": "fa96ca7a",
+   "attempts": 1
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "start here document regenerated with today's candidate outcomes and verified TEXT IDENTICAL by code; queue, number mirror, both handoffs and the approval sheet were already current and untouched; three stale copies retitled ZZ SUPERSEDED, the inbox document ZZ INGESTED"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:26:58.043Z",
+   "commit": "c23a3acc",
+   "attempts": 1
+  },
+  {
+   "stage": "PACKS",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "no pack waiting: ChatGPT has not yet written GDC-059, which was queued after its 11:00 run yesterday; every other PACK document is READY FOR JUSTIN, CLAUDE REVIEWED or ZZ"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:26:58.136Z",
+   "commit": "c23a3acc",
+   "attempts": 1
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "unchanged: GDC-055, 056 and 057 READY FOR JUSTIN and GDC-054 and 058 APPROVED; approval sheet in Drive matches by digest; Post Desk not republished because nothing on it moved"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:26:58.242Z",
+   "commit": "c23a3acc",
+   "attempts": 1
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "rebuilt from a clean commit and published to the one Radar Desk, version 10"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:27:11.183Z",
+   "commit": "431bf471",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "dry run push accepted at 09:18, branch claude/radar-2026-11-13 pushed, draft pull request 1530 open"
+   ],
+   "detail": null,
+   "at": "2026-11-13T09:27:11.300Z",
+   "commit": "431bf471",
+   "attempts": 1
+  }
+ ],
+ "updatedAt": "2026-11-13T09:27:11.334Z"
+}
