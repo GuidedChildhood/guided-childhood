@@ -22,6 +22,7 @@ the next round. You decide what goes live and what money is spent.
 | "Make versions of the winner" | Segment versions of the winning card, two or three words changed for each group of parents. |
 | "Check the competitors" | A fresh look at the Ad Library for anything new that is working. |
 | "Make the video ad" | The cut of ad video 1 once your clips are in. |
+| "Do a Social Billboard ad round" or "Do a schools ad round" | The same, for that brand, with its own look, hook and rules. |
 
 ## What happens on its own
 

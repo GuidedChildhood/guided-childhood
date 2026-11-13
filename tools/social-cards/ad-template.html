@@ -44,6 +44,8 @@
                under every advert. The words are the same and the gate still
                checks them.
     screen.maxWidth  a narrower screen inside a scene, so more of the scene shows
+    theme      deck or card: "tsb" draws The Social Billboard's own look
+               (near black, Montserrat, its yellow and its red mark)
     src        the card's own link code (the ledger; not drawn)
 
   Deck fields: "round": "yyyy-mm-dd-name" makes the deck an ad round, which
@@ -51,6 +53,7 @@
 -->
 <style>
 @font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;src:url('../../app/fonts/nunito-latin-wght-normal.woff2') format('woff2');}
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url('../tsb-playlist-card/fonts/Montserrat-latin-variable.woff2') format('woff2');}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;src:url('../../app/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;src:url('../../app/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');}
 
@@ -151,6 +154,21 @@ mark::after{content:'';position:absolute;left:-4px;right:-6px;bottom:2px;height:
 .stacked .cta.plain .pill{background:none;box-shadow:none;color:var(--ink);padding:0;font-size:40px;}
 .stacked .cta.plain .small{margin-top:14px;}
 .stacked .small{font-family:'Nunito',sans-serif;font-weight:700;font-size:30px;letter-spacing:0;color:var(--ink-soft);margin-top:24px;}
+
+/* theme "tsb": The Social Billboard (its own brand, never mixed with ours).
+   From its brand.md and the live site: near black, white headings, grey body,
+   one yellow accent with black text on it, Montserrat 800, sentence case,
+   8px buttons with no chunky shadow, the red mark on the logo only. */
+.stacked.tsb{background:#0A0A0A;color:#fff;font-family:'Montserrat',sans-serif;}
+.stacked.tsb h1{font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.05;color:#fff;}
+.stacked.tsb mark::after{background:#FFCE1B;}
+.stacked.tsb .top .word{font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;}
+.stacked.tsb .tsbmark{display:flex;align-items:flex-end;gap:4px;height:34px;}
+.stacked.tsb .tsbmark b{display:block;width:8px;border-radius:2px;background:#E8112D;}
+.stacked.tsb .flat{border-color:#3A3A3A;}
+.stacked.tsb .pill{font-family:'Montserrat',sans-serif;background:#FFCE1B;color:#0A0A0A;box-shadow:none;border-radius:8px;font-weight:800;}
+.stacked.tsb .cta.plain .pill{background:none;color:#FFCE1B;}
+.stacked.tsb .small{font-family:'Montserrat',sans-serif;color:#A1A1A1;font-weight:600;}
 </style>
 </head>
 <body>
@@ -204,10 +222,15 @@ function flatHTML(sc){
     background-position:${-x * z}px ${-y * z}px"></div></div>`;
 }
 
-function stackedHTML(c){
+const TSB_MARK = `<div class="tsbmark"><b style="height:14px"></b><b style="height:24px"></b><b style="height:34px"></b></div>`;
+function stackedHTML(c, deck = {}){
+  const theme = c.theme || deck.theme || '';
   const top = SLOT_TOP, bottom = SLOT_BOTTOM;
-  return `<div class="ad cream stacked" style="${c.h ? '--h:' + c.h + 'px' : ''}" data-name="${c.name}">
-    <div class="top">${MARK}<div class="word">Guided Childhood</div></div>
+  const brandTop = theme === 'tsb'
+    ? `<div class="top">${TSB_MARK}<div class="word">The Social Billboard</div></div>`
+    : `<div class="top">${MARK}<div class="word">Guided Childhood</div></div>`;
+  return `<div class="ad cream stacked ${theme}" style="${c.h ? '--h:' + c.h + 'px' : ''}" data-name="${c.name}">
+    ${brandTop}
     <div class="head" style="height:${top - 120 - 40}px"><h1>${c.headline}</h1></div>
     ${c.scene
       ? `<div class="slot scene" style="top:${top}px;height:${H - top - bottom}px;background-image:url('${ROOT + c.scene.image}')">${flatHTML({ ...c.screen, inset: 24, left: ((c.scene.x ?? 0.72) * 100) + '%' })}</div>`
@@ -217,7 +240,7 @@ function stackedHTML(c){
 }
 
 function adHTML(c, deck){
-  if ((c.layout || deck.layout) === 'stacked') return stackedHTML(c);
+  if ((c.layout || deck.layout) === 'stacked') return stackedHTML(c, deck);
   const ground = c.ground || deck.ground || 'cream';
   const layout = c.layout || 'right';
   const pathColour = ground === 'butter' ? '#FEF7E0' : '#EDC35F';

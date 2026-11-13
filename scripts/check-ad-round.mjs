@@ -61,6 +61,21 @@ const SCENES = 'content/ads/scenes/'
 const HOOK_ASK = 'What stage is your child?'
 const HOOK_LINE = 'Three questions, no sign up.'
 
+// BRANDS (12 November 2026, Justin: build this for The Social Billboard and
+// Guided Childhood Schools too). A deck names its brand with "brand"; no
+// brand means Guided Childhood. Each brand's hook and its own banned words
+// live in content/ads/brands/<id>.json, so one gate serves all three.
+export function loadBrand(id = 'guided-childhood') {
+  const file = join(ROOT, 'content/ads/brands', `${id}.json`)
+  if (!existsSync(file)) throw new Error(`no brand profile at content/ads/brands/${id}.json`)
+  const b = JSON.parse(readFileSync(file, 'utf8'))
+  return {
+    ...b,
+    banned: (b.extra_banned || []).map((r) => ({ re: new RegExp(r.re, 'i'), why: r.why })),
+  }
+}
+const GC = { hook: { ask: HOOK_ASK, line: HOOK_LINE }, banned: [], id: 'guided-childhood' }
+
 // The same shape the database holds a link code to (migration 372), so a code
 // that passes here can be made on the founder links page as it is.
 const CODE = /^[a-z0-9]+(-[a-z0-9]+)*$/
@@ -107,7 +122,8 @@ function images(card) {
 }
 
 // One card against every rule. Returns the breaks as plain sentences.
-export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) } = {}) {
+export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)), brand = GC } = {}) {
+  const ASK = brand.hook.ask, LINE = brand.hook.line
   const breaks = []
 
   // A link code, in the shape the database will take.
@@ -116,8 +132,8 @@ export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) 
   else if (RESERVED.has(card.src)) breaks.push(`src "${card.src}" is reserved for links that carry no code`)
 
   // The hook, whole, on every card.
-  if (!plain(card.pill).includes(HOOK_ASK)) breaks.push(`the button must say "${HOOK_ASK}"`)
-  if (plain(card.small) !== HOOK_LINE) breaks.push(`the line under the button must be exactly "${HOOK_LINE}"`)
+  if (!plain(card.pill).includes(ASK)) breaks.push(`the button must say "${ASK}"`)
+  if (plain(card.small) !== LINE) breaks.push(`the line under the button must be exactly "${LINE}"`)
 
   // Real screens only.
   for (const [where, path] of images(card)) {
@@ -146,7 +162,7 @@ export function checkCard(card, { fileExists = (p) => existsSync(join(ROOT, p)) 
     if (!raw) continue
     const text = plain(raw)
     if (DASH.test(raw) || DASH.test(text)) breaks.push(`${field} has a dash: "${text}"`)
-    for (const rule of BANNED) {
+    for (const rule of BANNED.concat(brand.banned || [])) {
       if (rule.unless && card[rule.unless]) continue
       const hit = text.match(rule.re)
       if (hit) breaks.push(`${field} says "${hit[0]}": ${rule.why}`)
@@ -173,17 +189,19 @@ function loadDecks() {
 }
 
 function checkDeck({ path, deck }, seen) {
+  const brand = deck.brand ? loadBrand(deck.brand) : GC
   const breaks = []
   if (deck.round && !ROUND.test(deck.round)) breaks.push(`round "${deck.round}" must be dated: yyyy-mm-dd-name`)
   for (const [i, card] of (deck.cards || []).entries()) {
     const label = `card ${i + 1} (${card.name || 'unnamed'})`
-    for (const b of checkCard(card)) breaks.push(`${label}: ${b}`)
+    for (const b of checkCard(card, { brand })) breaks.push(`${label}: ${b}`)
     // A round card carries the words that run beside it, so the deck is the
     // whole advert and the uploader (scripts/ad-upload-meta.mjs) invents nothing.
     if (deck.round) {
       if (!card.ad?.text) breaks.push(`${label}: no ad.text, the words that run above the card`)
-      if (plain(card.ad?.headline) !== HOOK_ASK) breaks.push(`${label}: ad.headline must be "${HOOK_ASK}"`)
-      if (plain(card.ad?.description) !== HOOK_LINE) breaks.push(`${label}: ad.description must be "${HOOK_LINE}"`)
+      if (plain(card.ad?.headline) !== brand.hook.ask) breaks.push(`${label}: ad.headline must be "${brand.hook.ask}"`)
+      if (plain(card.ad?.description) !== brand.hook.line) breaks.push(`${label}: ad.description must be "${brand.hook.line}"`)
+      if (brand.hook_status && /PROPOSED/.test(brand.hook_status)) breaks.push(`${label}: ${brand.name}'s hook is not agreed yet (${brand.hook_status})`)
     }
     if (card.src) {
       const where = `${relative(ROOT, path)} ${label}`
@@ -214,8 +232,12 @@ function selfTest() {
   const missed = want.filter((w) => !b.includes(w))
   if (g.length) console.error('self test: the good card broke:\n  ' + g.join('\n  '))
   if (missed.length) console.error('self test: the bad card was not caught on: ' + missed.join(', '))
-  if (g.length || missed.length) process.exit(1)
-  console.log(`ad gate self test: the good card passes, the bad card is caught on all ${want.length} rules`)
+  const sb = loadBrand('social-billboard')
+  const sbBad = checkCard({ ...good, pill: sb.hook.ask, small: sb.hook.line, sub: 'Age-appropriate videos, rated 9/10, no ads.' }, { fileExists: exists, brand: sb }).join('\n')
+  const sbMissed = ['age banded', 'numeric scores', 'pre roll'].filter((w) => !sbBad.includes(w))
+  if (sbMissed.length) console.error('self test: the Social Billboard rules missed: ' + sbMissed.join(', '))
+  if (g.length || missed.length || sbMissed.length) process.exit(1)
+  console.log(`ad gate self test: the good card passes, the bad card is caught on all ${want.length} rules, and a brand's own rules apply to its decks`)
 }
 
 const args = process.argv.slice(2)
