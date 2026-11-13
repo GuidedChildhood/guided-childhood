@@ -5,7 +5,7 @@ Status: DRAFT awaiting Justin's yes. Nothing is scheduled or posted.
 - Slot: Saturday 14 November 2026, 10:00, Guided Childhood Instagram and Facebook (asset 1560723440917227). The slot is free in `Carousels/_build/scheduled-ledger.json`.
 - Deck: `tools/social-cards/decks/free-saturday-2026-11-14-christmas-countdown.json` (7 cards). Render: `node tools/social-cards/render.mjs <deck>`.
 - Taster: `/free/christmas-countdown` (the tree poster and doors 1 to 6, 3 of 11 pages). Etsy listing 4611164377. Every pack is free in the app during the four free days.
-- The link everywhere is `/free/this-week`, which opens this taster from today until the next Free Saturday.
+- Links: this first post uses the countdown page directly (`/free/christmas-countdown`, live since PR 1498), because `/free/this-week` only goes live when PR 1535 merges. From the next Free Saturday every link is `/free/this-week`.
 
 ## Instagram caption
 
@@ -30,7 +30,7 @@ Free Christmas countdown printable for kids, with no screens in it.
 December fills up fast. This is 24 doors, one a day, and behind each one is a small thing to do together, mostly with things already in your house. A paper chain as long as your family can make it. Hot chocolate and a story, everyone doing the voices. Paper snowflakes for the window. A card for someone who lives on their own.
 
 The tree poster and the first six doors are free to print this weekend, just your email. Pop it in and the pages come straight to your inbox:
-https://www.guidedchildhood.com/free/this-week?src=fb&utm_source=facebook&utm_medium=social&utm_campaign=1114-countdown
+https://www.guidedchildhood.com/free/christmas-countdown?src=fb&utm_source=facebook&utm_medium=social&utm_campaign=1114-countdown
 
 All 24 doors and the sticker sheet are free in the Guided Childhood app for four days, no card needed, along with most of our other printable packs.
 
@@ -39,11 +39,14 @@ What is the one December thing your family does every year?
 ## Story (same evening, 19:00, link sticker)
 
 Card 1 of the deck, with a link sticker reading "Free countdown" to:
-https://www.guidedchildhood.com/free/this-week?src=ig-story&utm_source=instagram&utm_medium=story&utm_campaign=1114-countdown
+https://www.guidedchildhood.com/free/christmas-countdown?src=ig-story&utm_source=instagram&utm_medium=story&utm_campaign=1114-countdown
 
-## Bio link (once, then it never changes)
+## Bio link
 
-Add as a second bio link, titled "Free printable this week":
+Add a second bio link titled "Free printable this week". Until PR 1535 merges:
+https://www.guidedchildhood.com/free/christmas-countdown?src=ig-bio&utm_source=instagram&utm_medium=bio
+
+Once it merges, change it once to the link that never needs changing again:
 https://www.guidedchildhood.com/free/this-week?src=ig-bio&utm_source=instagram&utm_medium=bio
 
 ## Alt text
