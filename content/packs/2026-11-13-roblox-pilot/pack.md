@@ -74,7 +74,17 @@ Roblox did change this year. Chat now needs an age check, and chat is off by def
 
 A ban does lower the exposure. I will not pretend otherwise. But teenagers told the Children's Commissioner why they stay quiet when something goes wrong. They are afraid the phone gets taken away, and that stops them asking for help.
 
-So I would set three things before I set one.
+I have heard Roblox compared to putting your child in the ring with Mike Tyson.
+
+I understand the fear behind that. I do not think it holds. Nobody wants that fight, and in a ring you can at least see who you are facing. A child in a game cannot.
+
+What plenty of children do want is to learn to box. With gloves, a coach and rules, a bit at a time. That is a long way from being thrown in.
+
+And if we close this ring, another one opens. One we have not heard of, with no famous name on the door.
+
+So I would rather prepare them than scare them. Teach them to spot the moment, and make it easy to tell me when it comes.
+
+Here is where I would start.
 
 Who you play with.
 
@@ -126,6 +136,23 @@ pace.
 Caption: The rule most of us have not set is who they play with. Sources in
 the comments.
 
+### Reel B, the boxing ring, silent, 22 seconds
+
+Answers the analogy without naming who made it. The on screen lines are longer
+than Reel A, so time each one against the reading rule before it is cut.
+
+| Time | On screen text | Picture |
+| --- | --- | --- |
+| 0 to 3s | Is Roblox like putting your child in the ring with Mike Tyson? | Text on plain background |
+| 3 to 7s | Nobody wants that fight. And in a ring you can see who you are facing. | Same |
+| 7 to 11s | Children do want to learn to box. Gloves, a coach, rules. | Real footage: a child's hands on a tablet, face not shown |
+| 11 to 15s | Close one ring and another opens. One you have not heard of. | The kitchen table |
+| 15 to 19s | Prepare them. Do not scare them. "You will not lose the game for telling me." | The real script card from the app |
+| 19 to 22s | What stage is your child? Three questions, no sign up. | The stage check, real screen |
+
+Caption: We can teach them to spot it and to tell us. That travels to the next
+game too.
+
 ---
 
 ## 3. Short, 45 seconds, founder to camera
@@ -142,7 +169,13 @@ your child to move to a private app. Once that happens, nobody is watching.
 
 Roblox tightened up this year, and that helps. Children still get round it.
 
-So here is what I would do tonight. Agree who they play with. Keep the game in
+I have heard it compared to putting your child in the ring with Mike Tyson.
+I do not think that holds. Nobody wants that fight. But lots of children want
+to learn to box, with gloves and a coach and rules. And if you close this
+ring, another one opens that you have never heard of.
+
+So I would prepare them, not scare them. Here is what I would do tonight.
+Agree who they play with. Keep the game in
 a room you are in. And tell them this before anything goes wrong: if anyone
 asks you to move to another app, come and tell me. You will not lose the game
 for telling me.
@@ -217,7 +250,9 @@ a generated image standing in for a shot that was not filmed.
 
 ## What is still open
 
-1. Naming. Nobody is named in this pack.
+1. Naming. Nobody is named in this pack. The boxing ring analogy is answered
+   as "I have heard", because we have not yet found where it was said. It
+   must not be attributed to anyone until we hold the link and the exact words.
 2. Which account carries a founder Reel.
 3. Whether Justin films.
 4. The look.
