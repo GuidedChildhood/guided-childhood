@@ -396,6 +396,6 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 
 - Justin said start. Two draft packs: boundaries (kind and firm when the tablet goes off) and disclosure (what to say when a child tells you something scary happened online).
 - No person is named in any copy. The 29 July rule held: the clinicians' public work is cited only in each pack's `sources.md`, and the copy stands on independent evidence and on NSPCC, CEOP and Ofcom.
-- Found on the way: the August cybertrauma series credits "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it. Flagged for correction, not changed.
+- Found on the way: the August cybertrauma series credited "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it (it measures reporting to the platform, 36 percent). Justin said fix it: the live LinkedIn post was edited and a correction comment added, and the pack and briefing were corrected. The newsletter had never been sent.
 - Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
 - Nothing posted, no GDC number claimed. PR 1533.

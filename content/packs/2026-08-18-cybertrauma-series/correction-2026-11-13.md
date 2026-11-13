@@ -1,6 +1,10 @@
 # Correction to post 5 and the newsletter, 13 November 2026
 
-FOR JUSTIN TO APPLY. Nothing has been edited on LinkedIn or Substack.
+APPLIED 13 November 2026, on Justin's say in chat.
+
+- LinkedIn: the post was edited (it now shows as Edited) and the correction comment below was added under it. The original first comment had never been posted, so there was nothing else to edit. The image on the post does not carry the figure.
+- Substack: the August newsletter was never published. The public archive and the drafts list were both checked and neither holds it, so nothing needed correcting there. The corrected text is in `newsletter.md` for whenever it does go out.
+- The two Ofcom figures in the comment (92 percent would tell someone, 56 percent would always tell) were read in the Ofcom 2025 report itself before the comment was posted.
 
 ## What was wrong
 
