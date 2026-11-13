@@ -15,6 +15,11 @@
       "pages": [1, 4, 5],
       "pageCount": 11,
       "blurb": "24 days of something to do together, away from a screen. The taster is the tree poster and the first six doors.",
+      "series": [
+        { "subject": "How the countdown works", "tip": "One door a day, from 1 to 24 December. Each one takes ten to twenty minutes, mostly with things already in your house, and a different Planet Friend leads each day." },
+        { "subject": "Put the tree where they can reach it", "tip": "Pin the poster up at child height. Then finding today's door is theirs to do: find the door, do its card together, stick on its sticker." },
+        { "subject": "Doors 1 to 6, ready to cut out", "tip": "Cut the six cards out and keep them in an envelope by the poster. Each card says what you need, so glance at tomorrow's the night before." }
+      ],
       "pageNotes": [
         { "h": "The cover", "b": "One door a day, 1 to 24 December, with a Planet Friend on every one." },
         { "h": "The countdown tree", "b": "Pin it up, find today's door, do its card together, stick on its sticker." },
@@ -75,6 +80,11 @@
       "pages": [1, 2, 3],
       "pageCount": 12,
       "blurb": "The phone arrives with a plan, and the plan is made together. The taster includes the readiness check your child fills in.",
+      "series": [
+        { "subject": "A phone that arrives with a plan", "tip": "Four steps, in this order: an honest check, a deal your child writes, one evening of setup, and a month of small practice. The check works best a few weeks before the phone, not the night it arrives." },
+        { "subject": "Ten minutes before anything else", "tip": "Read this page on your own first. A first phone usually turns up in a rush and the rules come later, one argument at a time. The order on this page turns that round." },
+        { "subject": "Your child's side of the readiness check", "tip": "Let them colour it in on their own, then read it together. Not yet is a good answer: every line comes with one thing to practise for a week, like the screen going face down the moment someone starts talking. Grown ups too." }
+      ],
       "pageNotes": [
         { "h": "The cover", "b": "The readiness check, the phone deal, setup night, the first 30 days and the words for the wobbles." },
         { "h": "Read this first", "b": "Ten minutes before anything else, because a first phone usually turns up in a rush." },
@@ -95,6 +105,11 @@
       "pages": [1, 2, 3],
       "pageCount": 8,
       "blurb": "House rules that travel. The same screen deal, in a different house, with a card for the grown ups there.",
+      "series": [
+        { "subject": "House rules that travel", "tip": "Fill it in together before you go, and hand the card over with the first cup of tea." },
+        { "subject": "Same deal, different house", "tip": "The golden rule on this page: same deal, different house, and the host is always the boss of their own house. Ten minutes together the week before you go is enough." },
+        { "subject": "The three kinds of time, at Granny's", "tip": "Read it with your child before the visit, so the rules they take with them are the ones they already know. If they really want a screen at the dinner table, they ask, and they always get an answer and a next step." }
+      ],
       "pageNotes": [
         { "h": "The cover", "b": "A card for the grown ups, your child's deal card, a visit tally and thank you notes." },
         { "h": "Before you pack the car", "b": "Why your screen deal should travel with you, so nobody is the bad guy at Granny's." },
@@ -115,6 +130,11 @@
       "pages": [1, 2, 3],
       "pageCount": 9,
       "blurb": "Two weeks off school, one deal made together. Agreed on day one, so nobody argues on day six.",
+      "series": [
+        { "subject": "Agreed on day one, so nobody argues on day six", "tip": "It works for any school holiday, two weeks at a time. Put it out on the first morning, before anyone has asked for a screen." },
+        { "subject": "Ten minutes on day one", "tip": "Three kinds of time: a small core that is theirs every day, earned time where one star is five minutes, and protected times no stars can buy. Agree all three once, at the kitchen table, and the deal does the arguing." },
+        { "subject": "Read it out loud, then both sign", "tip": "The last line is the one that keeps it working: you look at the deal again on day seven and change one thing together if you need to." }
+      ],
       "pageNotes": [
         { "h": "The cover", "b": "Our holiday deal, my daily core, the jobs board and the two week grid." },
         { "h": "Ten minutes on day one", "b": "Holidays take away the shape of the day. This puts a simple one back." },
@@ -135,6 +155,11 @@
       "pages": [1, 2, 3],
       "pageCount": 32,
       "blurb": "The words for every screen moment. The taster is the list of all fifty moments and the first sheet of cards.",
+      "series": [
+        { "subject": "Every moment in the deck", "tip": "Start at your child's level, then read the level before it too. The moments do not wait for birthdays." },
+        { "subject": "Read it before you need it", "tip": "The words land best practised at the kettle, not found in the middle of a meltdown. Read one card tonight, before the moment comes." },
+        { "subject": "Say it your way", "tip": "Keep the meaning and change the words until they sound like you. No card is a yes or a no: each one is where to go next." }
+      ],
       "pageNotes": [
         { "h": "Every moment in the deck", "b": "Fifty hard screen moments, from the first tablet to the last rule, across five levels." },
         { "h": "Sheet 1, the fronts", "b": "How to use the cards, and the first cards to cut out." },
@@ -255,6 +280,11 @@
       "pages": [1, 2, 3],
       "pageCount": 16,
       "blurb": "One small change a day, five faces each night, then your family decides what stays.",
+      "series": [
+        { "subject": "A reset, not a ban", "tip": "One small change a day for thirty days. The whole family tries each change, grown ups too, ten minutes every evening." },
+        { "subject": "Pick a quiet week", "tip": "Start on a quiet week, not the night before a big trip. A missed day is just a missed day: leave the tick empty and carry on tomorrow." },
+        { "subject": "Where we start", "tip": "Fill in day zero together, the grown ups' screens included. Day thirty asks the same question, so you can put the two side by side." }
+      ],
       "pageNotes": [
         { "h": "The cover", "b": "Thirty small changes and five faces to colour each evening." },
         { "h": "Ten minutes, every evening", "b": "Nothing gets taken away for good and nobody is on trial." },

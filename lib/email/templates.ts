@@ -605,6 +605,8 @@ export function magnetEmail(params: {
   files?: { label: string; url: string }[]
   /** A member gets the way back into their app, never the starter pack pitch. */
   reader?: Reader
+  /** They ticked the box for the five day series (13 November 2026): say what comes tomorrow. */
+  seriesNext?: boolean
 }): EmailContent {
   const { magnetTitle, downloadUrl } = params
   const reader = params.reader ?? 'lead'
@@ -619,6 +621,7 @@ export function magnetEmail(params: {
       heading('Here is your download.') +
       p(`Thanks for grabbing <strong>${magnetTitle}</strong>. ${blurb}`) +
       button('Download the printable', downloadUrl) +
+      (params.seriesNext ? p(`Tomorrow morning, page 1 comes to your inbox with one tip for using it. Five short emails, one a day, and the stop link is at the bottom of every one.`) : '') +
       more +
       p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
       (reader === 'member'
@@ -1033,6 +1036,37 @@ export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB, cta: string
 // about what a child will become; the pack and the plan are described, not
 // promised.
 
+// One page of the taster series (13 November 2026): the page itself, readable
+// on a phone, one tip from the pack's own guide, and what comes tomorrow.
+// Short on purpose, a minute to read. The PDF link is there for printing, but
+// the email is the thing, so nothing depends on finding a file later.
+export function tasterSeriesPageEmail(params: {
+  tasterTitle: string
+  page: number
+  pages: number
+  subject: string
+  tip: string
+  imageUrl: string
+  pdfUrl: string
+  /** What tomorrow's email brings, in a few words. */
+  next: string
+  unsubscribe: string
+}): EmailContent {
+  const { tasterTitle, page, pages, subject, tip, imageUrl, pdfUrl, next, unsubscribe } = params
+  return {
+    subject,
+    html: wrapper(
+      `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin:0 0 10px">${tasterTitle} · page ${page} of ${pages}</div>` +
+      heading(subject) +
+      p(tip) +
+      `<img src="${imageUrl}" alt="${tasterTitle}, page ${page}" width="476" style="display:block;width:100%;max-width:476px;height:auto;border:1px solid ${BORDER};border-radius:12px;margin:8px 0 4px">` +
+      button('Print the free pages', pdfUrl) +
+      p(`Tomorrow: ${next}.`),
+      unsubscribe
+    ),
+  }
+}
+
 export function tasterStageEmail(params: {
   tasterTitle: string
   unsubscribe: string
@@ -1082,13 +1116,16 @@ export function tasterFullPackEmail(params: {
   unsubscribe: string
   /** The membership page. */
   joinUrl: string
+  /** When they took it, for the opening line. "Last week" after the taster week, "This week" at the end of the series. */
+  when?: string
 }): EmailContent {
   const { tasterTitle, pageCount, tasterPages, etsyUrl, inApp, unsubscribe, joinUrl } = params
+  const when = params.when ?? 'Last week'
   const rest = pageCount - tasterPages
   const etsyBlock = etsyUrl
-    ? p(`Last week you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. If they earned their place on the fridge, the other ${rest} pages are in the full pack on Etsy, ready to print at home.`) +
+    ? p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. If they earned their place on the fridge, the other ${rest} pages are in the full pack on Etsy, ready to print at home.`) +
       button('See the full pack on Etsy', etsyUrl)
-    : p(`Last week you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. I hope they earned their place on the fridge.`)
+    : p(`${when} you picked up ${tasterPages} pages of <strong>${tasterTitle}</strong>. I hope they earned their place on the fridge.`)
   const appLine = inApp
     ? p(etsyUrl
       ? `Or print it free inside Guided Childhood. Every pack in the shop is in the app too, this one included, during the four free days and for members.`

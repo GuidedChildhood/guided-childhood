@@ -3,14 +3,14 @@
 Justin, 13 November 2026: carousels that offer a free resource each week and
 get our Instagram followers to leave an email or sign in for the free
 downloads. This is the format for the Happy News Saturday printable strand,
-every week from 14 November 2026 at 10:00. The Saturday engine
+every week from 28 November 2026 at 10:00 (14 November was already booked with The Planet Post). The Saturday engine
 (`~/.claude/scheduled-tasks/gc-weekly-promise`) builds from it; the schedule
 is `content/printables/free-saturdays.json`, the tasters
 `content/printables/free-tasters.json`.
 
 ## Why it is built this way (research, 13 November 2026)
 
-Full report and sources: `content/packs/2026-11-14-free-saturday/research.md`.
+Full report and sources: `content/packs/2026-11-28-free-saturday/research.md`.
 
 - **The bio link is the leak.** 3 bio link opens a week (`Carousels/_build/what-works-live.md`). Every extra tap loses people, so the offer goes where they already are: the post, a Story the same evening, and a single bio link that never changes.
 - **The big parenting accounts ask for a comment keyword** and send the link by DM (Big Life Journal, Talking Point Cards, through 2025). It is the strongest lever found, but every conversion number for it is vendor data. **It is off until Justin rules on it** (the 6 November fix pack bans comment keywords; see "The keyword question").
@@ -36,8 +36,9 @@ Full report and sources: `content/packs/2026-11-14-free-saturday/research.md`.
    - Facebook post body: `?src=fb&utm_source=facebook&utm_medium=social&utm_campaign=<mmdd-slug>`
    Never anything about the person in a link.
 6. **Captions**: line 1 is the search phrase ("Free Christmas countdown printable for kids…"); a short warm body in the family voice; "just your email"; the app line when true; "Free <thing>: link in bio."; one real question; exactly three specific hashtags. Facebook gets card 1 only, the longer text and the real link.
-7. **Two doors, both free**: the taster page asks for an email (the printable comes whether or not the optional tips box is ticked), and its "Get all N pages free" button goes through the stage check into the four free days, where every in app pack is free.
-8. **Consent (PECR)**: the download never depends on marketing. The tips box on the gate is optional and unticked; only a tick enrols the address in the lead emails (migration 396).
+7. **Two doors, both free**: the taster page asks for an email (the printable comes whether or not the optional box is ticked), and its "Get all N pages free" button goes through the stage check into the four free days, where every in app pack is free.
+8. **Consent (PECR)**: the download never depends on marketing. The box on the gate is optional and unticked; only a tick enrols the address in any lead email (migration 396).
+9. **The five day series** (Justin, 13 November 2026: "Yes, daily for the series", after a talk on why a PDF alone gets left unread). The box on a taster page reads "Also send me the 5 day series". A tick gets one short email a day: page 1, page 2 and page 3 of the taster inside the email with one tip each, then the stage check, then the rest of the pack (free in the app for four days, or Etsy to keep). It sends as kind `series`: no weekly floor for those days, the stop link still wins, and the weekly programme counts on from the last one. Tips come from the pack's own guide pages (`series` in `free-tasters.json`; the first six Saturday packs have their own, the rest use their page notes). From the next deck on, card 6 and the caption say what the series is: "Tick the box and a page comes each morning for five days, with a tip for using it." 
 
 ## The keyword question (waiting for Justin)
 

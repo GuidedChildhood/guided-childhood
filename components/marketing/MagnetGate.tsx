@@ -32,11 +32,13 @@ function pageAttribution(): Record<string, string> {
 }
 
 export default function MagnetGate({
-  slug, heading, sub,
+  slug, heading, sub, consentLabel,
 }: {
   slug: string
   heading: string
   sub: string
+  /** The words beside the optional box. A taster page names its five day series. */
+  consentLabel?: string
 }) {
   const [email, setEmail] = useState('')
   // Optional and unticked (PECR, 13 November 2026): the printable goes out
@@ -144,7 +146,7 @@ export default function MagnetGate({
           style={{ width: 22, height: 22, flex: 'none', marginTop: 1, accentColor: 'var(--ink)' }}
         />
         <span style={{ fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink-soft)' }}>
-          Send me a few emails with ideas like this too. Optional, and you can stop them any time.
+          {consentLabel ?? 'Send me a few emails with ideas like this too. Optional, and you can stop them any time.'}
         </span>
       </label>
       {error && (

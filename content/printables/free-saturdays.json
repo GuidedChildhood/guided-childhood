@@ -1,18 +1,75 @@
 {
-  "about": "Free Saturday (13 November 2026). Justin: carousels that offer a free resource each week and get followers to leave an email or sign in for the free downloads. One taster a Saturday, in this order, from content/printables/free-tasters.json (live or no-listing only, never a hold). guidedchildhood.com/free/this-week always opens the taster of the most recent Saturday on or before today (London time), so the Instagram bio link and every Story link sticker stay the same week after week. The Saturday engine (Carousels, gc-weekly-promise) builds each week's carousel from the row whose date is that Saturday. 21 November is the reserved Paris post, so it carries no printable and the link keeps pointing at the countdown. No taster repeats within eight weeks.",
+  "about": "Free Saturday (13 November 2026). Justin: carousels that offer a free resource each week and get followers to leave an email or sign in for the free downloads. One taster a Saturday, in this order, from content/printables/free-tasters.json (live or no-listing only, never a hold). guidedchildhood.com/free/this-week always opens the taster of the most recent Saturday on or before today (London time), so the Instagram bio link and every Story link sticker stay the same week after week. The Saturday engine (Carousels, gc-weekly-promise) builds each week's carousel from the row whose date is that Saturday. 14 November was already booked with The Planet Post (its own page, /free/planet-post) and 21 November is the reserved Paris post, so neither carries a taster and the link opens /free until 28 November. No taster repeats within eight weeks.",
   "saturdays": [
-    { "date": "2026-11-14", "slug": "christmas-countdown", "why": "Three weeks before 1 December, while families plan December." },
-    { "date": "2026-11-21", "slug": null, "why": "Reserved: the Paris half term Happy News post. The link keeps the countdown." },
-    { "date": "2026-11-28", "slug": "first-phone-kit", "why": "Before a phone goes under the tree." },
-    { "date": "2026-12-05", "slug": "holiday-screen-deal", "why": "Two weeks before the school holidays start." },
-    { "date": "2026-12-12", "slug": "say-this", "why": "The words for the screen rows the holidays bring." },
-    { "date": "2026-12-19", "slug": "screens-at-grannys", "why": "The weekend families travel to grandparents." },
-    { "date": "2026-12-26", "slug": "are-we-nearly-there", "why": "Boxing Day journeys." },
-    { "date": "2027-01-02", "slug": "screen-reset-journal", "why": "A fresh start for the new year." },
-    { "date": "2027-01-09", "slug": "passport", "why": "Pebble's stage page, the brief's January taster." },
-    { "date": "2027-01-16", "slug": "where-phones-sleep", "why": "Back to school routines and bedtimes." },
-    { "date": "2027-01-23", "slug": "earn-your-screen-time", "why": "The everyday deal, once term has settled." },
-    { "date": "2027-01-30", "slug": "star-swap-shop", "why": "Follows the earn chart with what stars can buy." },
-    { "date": "2027-02-06", "slug": "guided-times-3", "why": "Safer Internet Day is Tuesday 9 February 2027." }
+    {
+      "date": "2026-11-14",
+      "slug": null,
+      "why": "Booked before this schedule: The Planet Post, which has its own page at /free/planet-post."
+    },
+    {
+      "date": "2026-11-21",
+      "slug": null,
+      "why": "Reserved: the Paris half term Happy News post."
+    },
+    {
+      "date": "2026-11-28",
+      "slug": "christmas-countdown",
+      "why": "Two days before 1 December (Justin, 13 November 2026)."
+    },
+    {
+      "date": "2026-12-05",
+      "slug": "first-phone-kit",
+      "why": "Before a phone goes under the tree."
+    },
+    {
+      "date": "2026-12-12",
+      "slug": "holiday-screen-deal",
+      "why": "The week before the school holidays start."
+    },
+    {
+      "date": "2026-12-19",
+      "slug": "screens-at-grannys",
+      "why": "The weekend families travel to grandparents."
+    },
+    {
+      "date": "2026-12-26",
+      "slug": "say-this",
+      "why": "The words for the screen rows the holidays bring."
+    },
+    {
+      "date": "2027-01-02",
+      "slug": "screen-reset-journal",
+      "why": "A fresh start for the new year."
+    },
+    {
+      "date": "2027-01-09",
+      "slug": "passport",
+      "why": "Pebble's stage page, the brief's January taster."
+    },
+    {
+      "date": "2027-01-16",
+      "slug": "where-phones-sleep",
+      "why": "Back to school routines and bedtimes."
+    },
+    {
+      "date": "2027-01-23",
+      "slug": "earn-your-screen-time",
+      "why": "The everyday deal, once term has settled."
+    },
+    {
+      "date": "2027-01-30",
+      "slug": "star-swap-shop",
+      "why": "Follows the earn chart with what stars can buy."
+    },
+    {
+      "date": "2027-02-06",
+      "slug": "guided-times-3",
+      "why": "Safer Internet Day is Tuesday 9 February 2027."
+    },
+    {
+      "date": "2027-02-13",
+      "slug": "are-we-nearly-there",
+      "why": "The February half term journeys."
+    }
   ]
 }

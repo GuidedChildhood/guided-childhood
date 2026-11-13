@@ -97,6 +97,7 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
         slug={src}
         heading="Get the free taster"
         sub={`${n} pages, A4, ready to print. We email it to you too.`}
+        consentLabel={`Also send me the 5 day series: one page a day with a tip for using it, then which stage your child is at. Optional, and every email has a stop link.`}
       />
 
       {(etsy || t.inApp) && (

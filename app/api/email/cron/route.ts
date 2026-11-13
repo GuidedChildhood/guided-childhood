@@ -10,10 +10,10 @@ import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7Founder
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
-import { tasterStageEmail, tasterFullPackEmail, turnsFourEmail } from '@/lib/email/templates'
+import { tasterStageEmail, tasterFullPackEmail, tasterSeriesPageEmail, turnsFourEmail } from '@/lib/email/templates'
 import { TURNS_FOUR_KEY, londonMonth } from '@/lib/starter/turns-four'
-import { getTaster, etsyUrl } from '@/lib/magnets/tasters'
-import { tasterEmailDue, TASTER_STAGE_KEY, TASTER_STAGE_DAY, TASTER_NURTURE_WINDOW_DAYS } from '@/lib/magnets/taster-nurture'
+import { getTaster, etsyUrl, seriesPage, tasterPdf, tasterPreview } from '@/lib/magnets/tasters'
+import { tasterEmailDue, TASTER_STAGE_KEY, TASTER_STAGE_DAY, TASTER_NURTURE_WINDOW_DAYS, seriesEmailDue, seriesPageNumber, SERIES_STAGE_KEY, SERIES_FULL_PACK_KEY, SERIES_ORDER } from '@/lib/magnets/taster-nurture'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { TRIAL_DAYS } from '@/lib/access'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -719,7 +719,7 @@ async function handler(req: NextRequest) {
     const windowStart = new Date(Date.now() - TASTER_NURTURE_WINDOW_DAYS * 86400000).toISOString()
     const tasterQuery = () => supabase
       .from('starter_leads')
-      .select('email, taster_slug, taster_at, nurtured_at')
+      .select('*') // every column, so this read works before and after 396 adds marketing_consent
       .not('taster_at', 'is', null)
       .gte('taster_at', windowStart)
       .lte('taster_at', new Date(Date.now() - TASTER_STAGE_DAY * 86400000).toISOString())
@@ -748,7 +748,13 @@ async function handler(req: NextRequest) {
         if (hasAccount.has(identityKey(email))) continue
         const taster = getTaster(lead.taster_slug as string)
         if (!taster) continue
-        const due = tasterEmailDue(daysSince(lead.taster_at as string), sentByEmail.get(email.toLowerCase()) ?? new Set())
+        // A ticked box (migration 396) gets the five day series, daily, as kind
+        // 'series' (Justin, 13 November 2026: "Yes, daily for the series").
+        // Anyone captured before the box keeps the taster week: day 1 and day 7.
+        const onSeries = lead.marketing_consent === true
+        const sentKeys = sentByEmail.get(email.toLowerCase()) ?? new Set<string>()
+        const age = daysSince(lead.taster_at as string)
+        const due: string | null = onSeries ? seriesEmailDue(age, sentKeys) : tasterEmailDue(age, sentKeys)
         if (!due) continue
 
         // The generic day 1 nudge says the same thing less well. Stamped
@@ -759,18 +765,30 @@ async function handler(req: NextRequest) {
         }
 
         const unsub = leadUnsubscribeUrl(email)
-        const content = due === TASTER_STAGE_KEY
-          ? tasterStageEmail({ tasterTitle: taster.title, unsubscribe: unsub, cta: starterCtaUrl(email) })
-          : tasterFullPackEmail({
-            tasterTitle: taster.title, pageCount: taster.pageCount, tasterPages: taster.pages.length,
-            etsyUrl: etsyUrl(taster), inApp: taster.inApp, unsubscribe: unsub, joinUrl: `${APP_ORIGIN}/join`,
+        const fullPack = (when?: string) => tasterFullPackEmail({
+          tasterTitle: taster.title, pageCount: taster.pageCount, tasterPages: taster.pages.length,
+          etsyUrl: etsyUrl(taster), inApp: taster.inApp, unsubscribe: unsub, joinUrl: `${APP_ORIGIN}/join`, when,
+        })
+        const stage = () => tasterStageEmail({ tasterTitle: taster.title, unsubscribe: unsub, cta: starterCtaUrl(email) })
+        const page = onSeries ? seriesPageNumber(due as (typeof SERIES_ORDER)[number]) : null
+        const content = page
+          ? tasterSeriesPageEmail({
+            tasterTitle: taster.title, page, pages: taster.pages.length,
+            ...seriesPage(taster, page),
+            imageUrl: `${APP_ORIGIN}${tasterPreview(taster.slug, page)}`,
+            pdfUrl: `${APP_ORIGIN}${tasterPdf(taster.slug)}`,
+            next: page < taster.pages.length ? `page ${page + 1}, and a tip for it` : 'which stage your child is at, in three questions',
+            unsubscribe: unsub,
           })
+          : due === TASTER_STAGE_KEY || due === SERIES_STAGE_KEY ? stage()
+          : fullPack(due === SERIES_FULL_PACK_KEY ? 'This week' : undefined)
 
         const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: due })
         if (logErr) continue // another run got here first
-        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key: due })
+        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key: due, kind: onSeries ? 'series' : 'programme' })
         if (sent.ok) {
-          if (due === TASTER_STAGE_KEY) results.tasterStage += 1
+          if (onSeries) results.tasterSeries += 1
+          else if (due === TASTER_STAGE_KEY) results.tasterStage += 1
           else results.tasterFullPack += 1
         } else {
           if (sent.skipped) results.throttled += 1

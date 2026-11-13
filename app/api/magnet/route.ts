@@ -120,6 +120,8 @@ export async function POST(req: NextRequest) {
         magnetTitle: magnet.title, downloadUrl, blurb: magnet.emailBlurb,
         files: (magnet.files ?? []).map(f => ({ label: f.label, url: `${origin}${f.href}` })),
         reader: member?.id ? 'member' : 'lead',
+        // A taster with the box ticked starts the five day series tomorrow.
+        seriesNext: Boolean(taster) && body.consent === true && !member?.id,
         // A lead gets the signed link that checks again on the tap, so a
         // parent who joins the morning after this lands in their app, not on
         // the pitch. See app/api/go/starter.
