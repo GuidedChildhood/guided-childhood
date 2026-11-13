@@ -207,3 +207,35 @@ feed. Google's picture adverts (Demand Gen, on YouTube, Discover and Gmail)
 want a 1.91 by 1 landscape, a square and a logo, with up to five short
 headlines and descriptions it mixes itself. Those versions are made when the
 uploader is, around whichever hook wins Round 1.
+
+## The Social Billboard (added 12 November 2026)
+
+Same shape as Guided Childhood, in The Social Billboard's own portfolio, so
+the two brands' billing and adverts stay apart. One key serves both brands.
+
+1. **Its portfolio.** A portfolio called **thesocialbillboardco** already
+   exists (the "The Social Billboard API" app belongs to it). At
+   business.facebook.com open the portfolio menu at the top left and switch
+   to it. If it is not in the list, create a portfolio called The Social
+   Billboard. Meta may first ask you to confirm it is you with Google: do
+   that yourself.
+2. **Its Page and Instagram.** In that portfolio: Settings, Accounts, Pages,
+   Add, Add an existing Facebook Page, The Social Billboard. Then Instagram
+   accounts, Add. If either already sits in another portfolio, it says so.
+3. **A new ad account.** Settings, Accounts, Ad accounts, Add, Create a new
+   ad account. Name **The Social Billboard**, Europe/London, GBP, for My
+   business, full control to yourself. Add a card under Billing and
+   payments. Nothing is charged until an advert is switched on.
+4. **Advertiser and payer.** THE SOCIAL BILLBOARD LTD is already verified, so
+   it can be chosen on the ad set as for Guided Childhood.
+5. **The key.** Graph API Explorer, app **GC ad uploader**, the same four
+   permissions, **Generate Access Token**, **Edit settings**, and this time
+   also tick The Social Billboard's Page, its Instagram and the new ad
+   account (keep Guided Childhood's ticked). Extend it in the Access Token
+   Debugger and replace the token in `.env.local`. One token covers both.
+6. **Three lines in `.env.local`**: `META_AD_ACCOUNT_ID_SB=` (the number after
+   act_), `META_PAGE_ID_SB=` and `META_INSTAGRAM_ID_SB=`. Or just say done and
+   Claude finds the Page and Instagram numbers from the key.
+
+Then `npm run ad-upload -- 2026-11-12-sb-round-1` shows what it would send,
+everything paused.

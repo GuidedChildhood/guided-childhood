@@ -4,6 +4,68 @@
  "startedAt": "2026-11-12T09:21:08.023Z",
  "stages": [
   {
+   "stage": "PREFLIGHT",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": null,
+   "at": "2026-11-12T09:21:08.023Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "INBOX",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "documents": 0,
+    "note": "the inbox held no new document"
+   },
+   "at": "2026-11-12T09:21:08.054Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DISCOVER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "newRecords": 21,
+    "total": 52
+   },
+   "at": "2026-11-12T09:21:43.349Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "DOSSIER",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": 9,
+    "confirmed": 9,
+    "unconfirmed": []
+   },
+   "at": "2026-11-12T09:21:45.445Z",
+   "commit": "85863bda",
+   "attempts": 1
+  },
+  {
+   "stage": "REVIEW",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "3 reviewed from full text: GDC-RR-34b3878324 HOLD (EU Eurobarometer preprint, approximated, no uncertainty), GDC-RR-b3cbb73e58 REJECT (28 person qualitative preprint, abstract claims cause), GDC-RR-cc7b7da589 HOLD (F1000 review, one reviewer Not Approved, dossier wrongly marked it peer reviewed). 4 wait: bf6c483886, 7e9b72deec, 925d3c951a, ba1fec0984. Nothing came through the inbox."
+   ],
+   "detail": null,
+   "at": "2026-11-12T09:24:26.393Z",
+   "commit": "4dfeaf0d",
+   "attempts": 2
+  },
+  {
    "stage": "LINKEDIN NUMBERS",
    "verdict": "SKIPPED",
    "by": "claude",
@@ -12,6 +74,28 @@
    ],
    "detail": null,
    "at": "2026-11-12T09:24:26.505Z",
+   "commit": "4dfeaf0d",
+   "attempts": 1
+  },
+  {
+   "stage": "HANDOFFS",
+   "verdict": "PASS",
+   "by": "script",
+   "reasons": [],
+   "detail": {
+    "built": [],
+    "alreadyCurrent": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ],
+    "queue": [
+     "GDC-RR-e923851b08",
+     "GDC-RR-e22bd17322",
+     "GDC-RR-86c1075a30"
+    ]
+   },
+   "at": "2026-11-12T09:24:26.642Z",
    "commit": "4dfeaf0d",
    "attempts": 1
   },
@@ -107,6 +191,78 @@
    "at": "2026-11-12T12:46:38.085Z",
    "commit": "df950292",
    "attempts": 2
+  },
+  {
+   "stage": "PACK QA",
+   "verdict": "SKIPPED",
+   "by": "claude",
+   "reasons": [
+    "afternoon run: no pack was waiting in the Stage 2 folder. The only PACK documents there are the two v1 drafts already titled CLAUDE REVIEWED. GDC-055, 056 and 057 were written and checked at 12:43 and are in the Founder Approval Desk folder"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:24:16.837Z",
+   "commit": "217ae67b",
+   "attempts": 4
+  },
+  {
+   "stage": "DRIVE SYNC",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon: the queue and the start here document were stale, still telling ChatGPT to write GDC-055, 056 and 057. Queue re written with 0 stories (id 1V5m3hCNEjjgu-9ZcwOJew_0M-W72fsE5, BYTE IDENTICAL), start here re written saying write nothing and what happened to each pack (id 10qiziWGulst80JDE7MaPfXuyTItIZNmzw0yAfTinTmY, TEXT IDENTICAL), approval sheet re written with five packs (id 1ewQ1fDM4pY8ivvUvzRGfAV_tksIuTAErYdJX8IFZsfs, TEXT IDENTICAL). The three replaced copies retitled ZZ SUPERSEDED. Stamped at commit 6fade810"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:26:43.905Z",
+   "commit": "6fade810",
+   "attempts": 2
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-055, 056 and 057 READY FOR JUSTIN and GDC-054 and 058 APPROVED are all on the one Post Desk (version 19, checked at phone width) and on the new approval sheet in the Founder Approval Desk folder. Metricool handoffs for all five are in that folder from 12:47 and no status has changed since, so none was re written"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:27:11.816Z",
+   "commit": "b26000a1",
+   "attempts": 2
+  },
+  {
+   "stage": "RADAR DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "rebuilt from commit after the sync and published to the one Radar Desk, version 9"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:27:11.913Z",
+   "commit": "b26000a1",
+   "attempts": 2
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "HOLD",
+   "by": "claude",
+   "reasons": [
+    "1 no: ChatGPT left no CANDIDATES 2026-11-12 file in the inbox (ChatGPT, 08:00). 2 yes: the morning stages are in the log and the start here document ending CURRENT is dated today. 3 no: ChatGPT wrote no pack for GDC-055, 056 or 057 at 11:00; Claude wrote them at 12:43 at Justin's instruction. 4 yes: no pack is unchecked and all five have a METRICOOL HANDOFF in the Approval Desk folder. 5 cannot be seen from here: yesterday's 14:30 ChatGPT step"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:27:12.010Z",
+   "commit": "b26000a1",
+   "attempts": 1
+  },
+  {
+   "stage": "PUSH",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "afternoon: dry run push accepted at 13:22, branch claude/radar-2026-11-12 pushed"
+   ],
+   "detail": null,
+   "at": "2026-11-12T13:27:12.103Z",
+   "commit": "b26000a1",
+   "attempts": 4
   },
   {
    "stage": "PREFLIGHT",
@@ -227,5 +383,5 @@
    "attempts": 2
   }
  ],
- "updatedAt": "2026-11-12T14:52:39.941Z"
+ "updatedAt": "2026-11-12T13:27:12.133Z"
 }
