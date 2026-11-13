@@ -153,18 +153,6 @@
    "attempts": 1
   },
   {
-   "stage": "APPROVAL DESK",
-   "verdict": "PASS",
-   "by": "claude",
-   "reasons": [
-    "unchanged: GDC-055, 056 and 057 READY FOR JUSTIN and GDC-054 and 058 APPROVED; approval sheet in Drive matches by digest; Post Desk not republished because nothing on it moved"
-   ],
-   "detail": null,
-   "at": "2026-11-13T09:26:58.242Z",
-   "commit": "c23a3acc",
-   "attempts": 1
-  },
-  {
    "stage": "RADAR DESK",
    "verdict": "PASS",
    "by": "claude",
@@ -232,7 +220,31 @@
    "at": "2026-11-13T15:40:39.670Z",
    "commit": "aed4b6a1",
    "attempts": 2
+  },
+  {
+   "stage": "APPROVAL DESK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "GDC-059 v2 added as READY FOR JUSTIN beside GDC-055, 056 and 057, with GDC-054 and 058 APPROVED: on the one Post Desk (version 20, checked at phone width), on the new approval sheet in the Founder Approval Desk folder (TEXT IDENTICAL), and METRICOOL HANDOFF GDC-059 is in that folder, draft permitted, scheduling not permitted until Justin approves. Reconcile PASS, 0 to settle. Putting it on the desk is not approval."
+   ],
+   "detail": null,
+   "at": "2026-11-13T15:41:32.512Z",
+   "commit": "ca602f4c",
+   "attempts": 2
+  },
+  {
+   "stage": "FLOW CHECK",
+   "verdict": "PASS",
+   "by": "claude",
+   "reasons": [
+    "1 yes: ChatGPT left CANDIDATES 2026-11-13 in the inbox at 08:10. 2 yes: the morning stages are in the log and a start here document ending CURRENT is dated today. 3 yes: the one story under WHAT TO WRITE, GDC-059, had a pack in the Stage 2 folder at 11:00. 4 yes: that pack was checked and every READY FOR JUSTIN pack has a METRICOOL HANDOFF in the Approval Desk folder, though this run fired at 15:33 and not 13:17. 5 cannot be seen from here: whether ChatGPT made any Metricool draft at 14:30 yesterday is not visible and is not reported as done."
+   ],
+   "detail": null,
+   "at": "2026-11-13T15:41:32.640Z",
+   "commit": "ca602f4c",
+   "attempts": 1
   }
  ],
- "updatedAt": "2026-11-13T15:40:39.701Z"
+ "updatedAt": "2026-11-13T15:41:32.684Z"
 }
