@@ -1,0 +1,94 @@
+{
+ "studyId": "GDC-RR-f7d48b70f5",
+ "reviewedAt": "2026-11-13T09:24:26Z",
+ "reviewedBy": "Claude Code, scheduled morning run, session 014MKeZYLSroNs52Qq1rExKf",
+ "reviewBasis": "The abstract only, read in this run on PubMed (record 42998067) and checked against the Crossref and Europe PMC records. The full text in the Journal of Adolescent Health is behind a subscription: the journal page refused the request and Europe PMC lists it as subscription required with no open copy. Published online 6 November 2026, ahead of print.",
+ "verdict": "HOLD",
+ "proposedTitle": "Held: phone use measured on the phone itself, and what teenagers said about their sleep",
+ "proposedAngle": "None yet. The design is the interesting part, because phone use was logged by a meter on the phone and not recalled by the teenager. But the abstract gives every result as a range across several models, so no single figure can be tied to evening use, night use or social media use without the tables. It also flatters a feature we sell, protected time at bedtime, which is a reason to read the whole paper before writing a word.",
+ "oneStory": "A study of 218 teenagers in the United States logged their phone use with a meter on the phone and asked them about their sleep.",
+ "oneTension": "The phone use was measured. The sleep was not. It was reported by the teenagers in a survey.",
+ "oneBelief": "Not written until the full text has been read.",
+ "oneTakeaway": "Not written until the full text has been read.",
+ "claims": [
+  {
+   "claim": "The sample was 218 adolescents aged 13 to 18 in the United States, recruited online, half of them female.",
+   "status": "VERIFIED",
+   "basis": "Abstract, methods: Adolescents (n = 218; 13 to 18 years old) from across the U.S. were recruited online. Participants (50% F)."
+  },
+  {
+   "claim": "Phone use was monitored passively for an average of 17.5 days.",
+   "status": "QUALIFIED",
+   "basis": "Abstract: a passive sensing meter on their personal smartphones for at least 3 days (M = 17.5). The candidate left out the floor of 3 days. How many participants sat near that floor is not in the abstract."
+  },
+  {
+   "claim": "Evening, night time and social media use had the strongest associations with later sleep onset, shorter sleep and more variable sleep.",
+   "status": "QUALIFIED",
+   "basis": "The abstract says the strongest associations were for evening, nighttime and social media use. It reports each outcome as a range of coefficients across models, so which coefficient belongs to which exposure cannot be read from it."
+  },
+  {
+   "claim": "Each extra hour of phone use costs a stated number of minutes of sleep.",
+   "status": "REQUIRES SOURCE",
+   "basis": "The abstract gives b from minus 1.38 to minus 0.17 hours for sleep duration across models. The single figure for any one kind of use is in the tables, which were not reached."
+  },
+  {
+   "claim": "Using a phone in the evening causes worse sleep.",
+   "status": "UNSUPPORTED",
+   "basis": "Linear regression on observational data, with sleep reported by survey. A teenager who cannot sleep may pick up the phone. The abstract itself says associated throughout."
+  },
+  {
+   "claim": "Several associations were stronger among girls.",
+   "status": "QUALIFIED",
+   "basis": "Abstract: several associations with sleep onset time and duration were stronger among females. Which ones, and by how much, is not given."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "any coefficient or range from the abstract: each is a range across several models and cannot be tied to one kind of phone use",
+  "218 or 17.5 days in a post, until the full text confirms how the sample and the monitoring period were arrived at",
+  "any statement that phones cause poor sleep",
+  "any statement about UK teenagers",
+  "any statement that this supports a bedtime rule, protected time or anything we sell",
+  "the names of the authors: the house rule is that no living clinician is named, and at least one author works in a children's hospital"
+ ],
+ "evidenceConfidence": "HIGH that the abstract says what is written here. NOT ASSESSED for the paper as a whole, because only the abstract was read. LOW as a guide to UK families.",
+ "limitations": [
+  "Only the abstract was read. Limitations, funding, conflicts and the tables are unseen.",
+  "Sleep timing and quality were reported by the teenagers in a survey, not measured.",
+  "Observational, so the direction cannot be known.",
+  "218 teenagers recruited online in the United States, who agreed to a meter on their phone. They may not be typical.",
+  "Monitoring ran for as little as 3 days for some.",
+  "Many models were run, across three time windows, two app categories and several sleep outcomes. The abstract does not say whether that was corrected for."
+ ],
+ "contradictoryEvidence": [
+  "From the abstract itself: sleep was self reported while phone use was measured, so one side of every association carries recall error.",
+  "Not searched in this run: whether studies that measured sleep with a device, and not by survey, find the same thing. That search belongs with the full text review.",
+  "The reverse reading is open: poor sleepers may reach for the phone at night. Nothing in the abstract rules it out."
+ ],
+ "whatThisDoesNotProve": [
+  "That phone use in the evening causes later or shorter sleep.",
+  "That taking the phone away at bedtime improves sleep. No intervention was tested.",
+  "That the same holds for UK teenagers or for children under 13.",
+  "That protected time, or anything we build, does anything for sleep."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The predictable error is a headline that phones at night cost teenagers a stated amount of sleep, taken from one end of a range.",
+ "gdcBeliefs": [
+  "Evidence or silence. A finding that flatters protected time at bedtime gets the full text read before it is used."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "historyChecker": "No change.",
+  "parentTool": "None claimed. Protected time at bedtime already exists and this abstract is not evidence for it.",
+  "digi": "No change. DiGi must not cite this."
+ },
+ "recommendedAudience": "None until cleared.",
+ "recommendedPlatforms": [],
+ "urgency": "Low. It will keep. It needs the full text.",
+ "unresolvedQuestions": [
+  "The full text. If Justin can put the PDF in Drive, a new review can clear or reject it.",
+  "Which coefficient belongs to evening use, night use and social media use.",
+  "Whether any figure survives correction for the number of models."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-f7d48b70f5.json"
+}

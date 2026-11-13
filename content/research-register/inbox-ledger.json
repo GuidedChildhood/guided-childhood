@@ -79,6 +79,47 @@
      "warnings": []
     }
    ]
+  },
+  "b72fd4a72c25cde1c5efc42349ecb1a5712b7d910de276bc652ee8d5feb8bcd5": {
+   "batchId": "2026-11-13-chatgpt-0800",
+   "createdBy": "chatgpt-scheduled-0800",
+   "createdAt": "2026-11-13T08:08:33Z",
+   "readAs": "as sent",
+   "driveFileId": "1B7T64PoFunezV-jSbazno2BrbE-8e0pfa68EBYYhlyY",
+   "driveTitle": "1B7T64PoFunezV-jSbazno2BrbE-8e0pfa68EBYYhlyY__candidates",
+   "ingestedAt": "2026-11-13T09:20:04.244Z",
+   "results": [
+    {
+     "candidateId": "C-2026-11-13-01",
+     "title": "Growing up in the digital classroom: Experiences of AI and EdTech in UK schools",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-45a302c73d",
+     "band": "PERIPHERAL",
+     "score": 6,
+     "reasons": [],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-13-02",
+     "title": "Objectively Measured Smartphone Use Is Associated With Worse Sleep Health Among Adolescents: The Stony Brook University MEDiA Study",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-f7d48b70f5",
+     "band": "CORE",
+     "score": 11,
+     "reasons": [],
+     "warnings": []
+    },
+    {
+     "candidateId": "C-2026-11-13-03",
+     "title": "AYO: A Safe and Privacy-Preserving Platform for Studying Children's Interaction with LLMs",
+     "outcome": "INGESTED",
+     "researchId": "GDC-RR-24de8a2c51",
+     "band": "PERIPHERAL",
+     "score": -2,
+     "reasons": [],
+     "warnings": []
+    }
+   ]
   }
  },
  "candidates": {
@@ -148,6 +189,42 @@
    "warnings": [],
    "batchId": "2026-11-12-chatgpt-manual-1433",
    "at": "2026-11-12T14:45:32.754Z"
+  },
+  "2026-11-13-chatgpt-0800/C-2026-11-13-01": {
+   "candidateId": "C-2026-11-13-01",
+   "title": "Growing up in the digital classroom: Experiences of AI and EdTech in UK schools",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-45a302c73d",
+   "band": "PERIPHERAL",
+   "score": 6,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-13-chatgpt-0800",
+   "at": "2026-11-13T09:20:04.222Z"
+  },
+  "2026-11-13-chatgpt-0800/C-2026-11-13-02": {
+   "candidateId": "C-2026-11-13-02",
+   "title": "Objectively Measured Smartphone Use Is Associated With Worse Sleep Health Among Adolescents: The Stony Brook University MEDiA Study",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-f7d48b70f5",
+   "band": "CORE",
+   "score": 11,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-13-chatgpt-0800",
+   "at": "2026-11-13T09:20:04.235Z"
+  },
+  "2026-11-13-chatgpt-0800/C-2026-11-13-03": {
+   "candidateId": "C-2026-11-13-03",
+   "title": "AYO: A Safe and Privacy-Preserving Platform for Studying Children's Interaction with LLMs",
+   "outcome": "INGESTED",
+   "researchId": "GDC-RR-24de8a2c51",
+   "band": "PERIPHERAL",
+   "score": -2,
+   "reasons": [],
+   "warnings": [],
+   "batchId": "2026-11-13-chatgpt-0800",
+   "at": "2026-11-13T09:20:04.244Z"
   }
  }
 }
