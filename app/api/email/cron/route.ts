@@ -699,6 +699,11 @@ async function handler(req: NextRequest) {
     }
   }
 
+  // CONSENT (13 November 2026, migration 396). Every lead read below skips
+  // marketing_consent = false: someone who took a free printable and left the
+  // optional tips box empty gets the printable and nothing else. null (before
+  // the box, or the stage check) is treated as before. If the column is not
+  // there yet, each read falls back to its unfiltered form, as for 104.
   // THE TASTER NURTURE (11 November 2026). A lead who took a free taster on
   // /free/<slug> gets the stage check on day 1 and the rest of the pack on day
   // 7 (lib/magnets/taster-nurture.ts), the taster itself having gone at once.
@@ -719,7 +724,9 @@ async function handler(req: NextRequest) {
       .gte('taster_at', windowStart)
       .lte('taster_at', new Date(Date.now() - TASTER_STAGE_DAY * 86400000).toISOString())
       .limit(500)
-    let { data: tasterLeads, error: tasterErr } = await tasterQuery().is('unsubscribed_at', null)
+    let { data: tasterLeads, error: tasterErr } = await tasterQuery().is('unsubscribed_at', null).not('marketing_consent', 'is', false)
+    // Before 396 the consent column is missing: keep the stop filter, drop only consent.
+    if (tasterErr) ({ data: tasterLeads, error: tasterErr } = await tasterQuery().is('unsubscribed_at', null))
     if (tasterErr) ({ data: tasterLeads, error: tasterErr } = await tasterQuery())
     const rows = tasterErr ? [] : (tasterLeads ?? []).filter(l => !!l.email && !!l.taster_slug)
     if (rows.length > 0) {
@@ -831,7 +838,9 @@ async function handler(req: NextRequest) {
     .is('nurtured_at', null)
     .lte('created_at', dayAgo)
     .limit(200)
-  let { data: leads, error: leadsErr } = await nurtureQuery().is('unsubscribed_at', null)
+  let { data: leads, error: leadsErr } = await nurtureQuery().is('unsubscribed_at', null).not('marketing_consent', 'is', false)
+  // Before 396 the consent column is missing: keep the stop filter, drop only consent.
+  if (leadsErr) ({ data: leads, error: leadsErr } = await nurtureQuery().is('unsubscribed_at', null))
   if (leadsErr) ({ data: leads } = await nurtureQuery())
 
   const leadEmails = (leads ?? []).map(l => l.email as string).filter(Boolean)
@@ -895,7 +904,9 @@ async function handler(req: NextRequest) {
       .gte('created_at', monthAgo)
       .lte('created_at', dayAgo)
       .limit(500)
-    let { data: teaserLeads, error: teaserErr } = await teaserQuery().is('unsubscribed_at', null)
+    let { data: teaserLeads, error: teaserErr } = await teaserQuery().is('unsubscribed_at', null).not('marketing_consent', 'is', false)
+    // Before 396 the consent column is missing: keep the stop filter, drop only consent.
+    if (teaserErr) ({ data: teaserLeads, error: teaserErr } = await teaserQuery().is('unsubscribed_at', null))
     if (teaserErr) ({ data: teaserLeads } = await teaserQuery())
     const rows = (teaserLeads ?? []).filter(l => !!l.email)
     if (rows.length > 0) {

@@ -103,15 +103,26 @@ export default async function TasterPage({ params }: { params: Promise<{ slug: s
         <div style={CARD}>
           <p style={CARD_H}>Want the whole pack?</p>
           <p style={{ ...P, margin: '0 auto 16px', maxWidth: 480 }}>
-            {etsy
-              ? <>All {t.pageCount} pages are on Etsy, ready to print at home.{t.inApp ? ' Members print every pack free inside the app.' : ''}</>
-              : <>All {t.pageCount} pages are free to print inside the Guided Childhood app, during the four free days and for members.</>}
+            {t.inApp
+              ? <>All {t.pageCount} pages are free to print inside the Guided Childhood app, during the four free days and for members. No card needed to start.{etsy ? ' Or buy the pack on Etsy to keep.' : ''}</>
+              : <>All {t.pageCount} pages are on Etsy, ready to print at home.</>}
           </p>
-          {etsy && (
-            <a href={etsy} target="_blank" rel="noopener noreferrer" className="btn" style={{ padding: '13px 26px', fontSize: 'var(--text-md)', border: '1.5px solid var(--border)' }}>
-              See the full pack on Etsy
-            </a>
-          )}
+          {/* Free Saturday (13 November 2026): the second door Justin asked for,
+              signing in for the free downloads. It goes through the stage check,
+              where every free thing ends (non negotiable 9's spirit), and the
+              sign up after it opens the four free days with every pack in them. */}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {t.inApp && (
+              <Link href={`/starter-pack?src=${src}-app`} className="btn btn-gold" style={{ padding: '13px 26px', fontSize: 'var(--text-md)' }}>
+                Get all {t.pageCount} pages free
+              </Link>
+            )}
+            {etsy && (
+              <a href={etsy} target="_blank" rel="noopener noreferrer" className="btn" style={{ padding: '13px 26px', fontSize: 'var(--text-md)', border: '1.5px solid var(--border)' }}>
+                See the pack on Etsy
+              </a>
+            )}
+          </div>
         </div>
       )}
 

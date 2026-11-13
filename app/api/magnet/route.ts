@@ -18,7 +18,7 @@ import { tasterFromMagnetSlug } from '@/lib/magnets/tasters'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string; slug?: string; src?: unknown } & Record<string, unknown>
+  let body: { email?: string; slug?: string; src?: unknown; consent?: unknown } & Record<string, unknown>
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
@@ -69,6 +69,20 @@ export async function POST(req: NextRequest) {
       )
       .select('id')
       .maybeSingle()
+
+    // The optional tips box (migration 396, PECR). Ticked: consent, dated.
+    // Unticked: false, but only where nothing is recorded yet, because leaving
+    // a box empty on a second download is not withdrawing an earlier yes.
+    if (body.consent === true) {
+      await supabase.from('starter_leads')
+        .update({ marketing_consent: true, marketing_consent_at: new Date().toISOString() })
+        .eq('email', email)
+    } else {
+      await supabase.from('starter_leads')
+        .update({ marketing_consent: false })
+        .eq('email', email)
+        .is('marketing_consent', null)
+    }
 
     // A taster starts the taster nurture clock (day 1 the stage check, day 7
     // the full pack), once: the first taster a lead claims is the one the

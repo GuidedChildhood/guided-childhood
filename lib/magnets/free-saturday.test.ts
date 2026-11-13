@@ -70,3 +70,26 @@ test('the weekly link carries only the post, never the person', () => {
   assert.match(route, /utmQuery\(readUtm\(req\.nextUrl\.searchParams\)\)/)
   assert.match(route, /'Cache-Control', 'no-store'/)
 })
+
+// PECR (13 November 2026, migration 396): the download never depends on the
+// tips box, the box starts unticked, an empty box never undoes a yes, and every
+// lead programme skips a no while keeping the stop filter if 396 is missing.
+test('the tips box is optional, unticked, and never gates the download', () => {
+  const gate = readFileSync('components/marketing/MagnetGate.tsx', 'utf8')
+  assert.match(gate, /useState\(false\)/)
+  assert.match(gate, /type="checkbox"/)
+  assert.match(gate, /consent: tips/)
+  assert.match(gate, /Free, just your email\. The printable comes either way\./)
+  assert.ok(!/required/.test(gate.slice(gate.indexOf('type="checkbox"') - 200, gate.indexOf('type="checkbox"') + 300)), 'the box must not be required')
+  const api = readFileSync('app/api/magnet/route.ts', 'utf8')
+  assert.match(api, /body\.consent === true/)
+  assert.match(api, /\.update\(\{ marketing_consent: false \}\)[\s\S]{0,80}\.is\('marketing_consent', null\)/)
+})
+
+test('every lead programme skips a no, and keeps the stop filter before 396', () => {
+  const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
+  for (const q of ['tasterQuery', 'nurtureQuery', 'teaserQuery']) {
+    assert.match(cron, new RegExp(`${q}\\(\\)\\.is\\('unsubscribed_at', null\\)\\.not\\('marketing_consent', 'is', false\\)`), `${q} skips a no`)
+    assert.match(cron, new RegExp(`= await ${q}\\(\\)\\.is\\('unsubscribed_at', null\\)\\)`), `${q} keeps the stop filter on its fallback`)
+  }
+})
