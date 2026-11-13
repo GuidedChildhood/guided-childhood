@@ -391,3 +391,8 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 - Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
 - This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
 - Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
+## 13 November 2026: Family IT Guy may be named in the Roblox story
+
+- Justin said to name him. He is not a clinician, so the rule about clinicians is untouched.
+- He is named for his published advice to skip Roblox and for the Mike Tyson comparison. The first is sourced. The second is on Justin's word until we hold the video link and his exact words, and nothing attributing it goes out before then.
+- The copy says what he gets right before it disagrees.
