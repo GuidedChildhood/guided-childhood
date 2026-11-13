@@ -17,7 +17,7 @@ This weekend the tree poster and the first six doors are free to print, just you
 
 Want all 24? They are free in the Guided Childhood app for four days, no card, along with most of our other printable packs.
 
-Free Christmas countdown: link in bio.
+Want the free pages? Send us the word COUNTDOWN and we'll message you the link.
 
 What is the one December thing your family does every year?
 
@@ -35,6 +35,13 @@ https://www.guidedchildhood.com/free/christmas-countdown?src=fb&utm_source=faceb
 All 24 doors and the sticker sheet are free in the Guided Childhood app for four days, no card needed, along with most of our other printable packs.
 
 What is the one December thing your family does every year?
+
+## The DM keyword (Justin, 13 November 2026: "Yes, set it up")
+
+Business Suite, Inbox, Automations, a keyword reply for Instagram messages. Keywords: COUNTDOWN, Countdown, countdown (Meta matches exactly). The reply:
+
+Here are your free Christmas countdown pages: https://www.guidedchildhood.com/free/christmas-countdown?src=ig-dm&utm_source=instagram&utm_medium=dm&utm_campaign=1128-countdown
+Pop your email in and the tree poster and doors 1 to 6 come straight to your inbox.
 
 ## Story (same evening, 19:00, link sticker)
 
@@ -57,7 +64,7 @@ https://www.guidedchildhood.com/free/this-week?src=ig-bio&utm_source=instagram&u
 4. A numbered list of the first six doors: a paper chain, hot chocolate and a story, paper snowflakes, a kitchen disco, a card for someone who lives on their own, a winter lights walk.
 5. The real printable page of activity cards for 1 to 6 December, ready to cut out.
 6. Text: Free, just your email. The tree and the first six doors. Print them this weekend. All 24 doors and the sticker sheet are free in the Guided Childhood app for four days, no card, or on Etsy to keep.
-7. Text: Send this to the parent planning December. Free Christmas countdown, just your email: link in bio.
+7. Text: Send this to the parent planning December. Want the free pages? Send us the word COUNTDOWN and we'll message you the link.
 
 ## Proof path
 

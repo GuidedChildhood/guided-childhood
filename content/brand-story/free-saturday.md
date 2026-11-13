@@ -40,9 +40,11 @@ Full report and sources: `content/packs/2026-11-28-free-saturday/research.md`.
 8. **Consent (PECR)**: the download never depends on marketing. The box on the gate is optional and unticked; only a tick enrols the address in any lead email (migration 396).
 9. **The five day series** (Justin, 13 November 2026: "Yes, daily for the series", after a talk on why a PDF alone gets left unread). The box on a taster page reads "Also send me the 5 day series". A tick gets one short email a day: page 1, page 2 and page 3 of the taster inside the email with one tip each, then the stage check, then the rest of the pack (free in the app for four days, or Etsy to keep). It sends as kind `series`: no weekly floor for those days, the stop link still wins, and the weekly programme counts on from the last one. Tips come from the pack's own guide pages (`series` in `free-tasters.json`; the first six Saturday packs have their own, the rest use their page notes). From the next deck on, card 6 and the caption say what the series is: "Tick the box and a page comes each morning for five days, with a tip for using it." 
 
-## The keyword question (waiting for Justin)
+## The keyword (Justin, 13 November 2026: "Yes, set it up")
 
-If Justin lifts the fix pack ban for Saturday posts, the cover gets a small badge and the send card a second line, both with one topical word in capitals that changes every week (COUNTDOWN, PHONE, CALM; never LINK or FREE):
+Asked how a follower could get the link without the bio, Justin chose the DM keyword, lifting the fix pack ban for Free Saturday posts only. Each post asks followers to send one topical word in capitals (COUNTDOWN, PHONE, CALM; never LINK or FREE), and a free Business Suite keyword reply for Instagram messages sends the tagged link back (`?src=ig-dm&utm_source=instagram&utm_medium=dm`). The send card's pill reads "DM us <WORD>", its body "Want the free pages? Send us the word <WORD> and we'll message you the link.", and the caption carries the same line in place of "link in bio". Meta matches keywords exactly, so each reply lists the word in capitals, title case and lower case. The engine adds each week's reply in Business Suite when it schedules the post.
+
+The comment version below needs ManyChat, which only Justin can connect, so it stays a later step:
 
 - Card 7: "Comment COUNTDOWN and we'll send it to your DMs."
 - Caption line 2: the same, plus "Not following us? Check your message requests."
