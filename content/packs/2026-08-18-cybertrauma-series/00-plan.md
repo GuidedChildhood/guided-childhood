@@ -18,7 +18,7 @@ answer.
 | Post | Knibbs finding | News peg (2026) | What we built |
 |------|----------------|-----------------|---------------|
 | 1 | Harm sits beneath the OSA threshold | Ofcom's first fine, 4chan, 450k | Pathway from age 4, teach before exposure |
-| 2 | The silent child, ruled out adults | Internet Matters, fewer than 1 in 5 tell | DiGi the askable guide, family agreement, Knibbs already inside it |
+| 2 | The silent child, ruled out adults | Internet Matters, 36 percent report to the platform (corrected 13 Nov) | DiGi the askable guide, family agreement, Knibbs already inside it |
 | 3 | Cybertrauma is adversity, off every checklist | Children's Commissioner, 1m+ referrals | Whole child pathway, the hidden thread (thesis post) |
 | 4 | Broken ratings and the seeking loop | Roblox face scans leak (BBC test) | Teach the machine, DiGi never rubber stamps a rating, balance reads the pattern |
 | 5 | One askable adult changes the arithmetic | Australia ban evaded, 8 in 10 online | The whole platform, connection is the protection, CTA |

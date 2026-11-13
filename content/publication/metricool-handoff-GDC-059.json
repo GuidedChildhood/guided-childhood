@@ -1,0 +1,40 @@
+{
+  "schema": "gdc.metricool-handoff/1.0",
+  "generatedAt": "2026-11-13T15:38:35.649Z",
+  "sourceCommit": "c7944ad751ea79c70a26b0df0b44e4565335f370",
+  "gdcPostNumber": "059",
+  "researchId": "GDC-RR-f0fb8386cd",
+  "title": "Researchers asked parents how they would feel about an AI leading their child's therapy session. Three in four were not comfortable.",
+  "account": "Justin Phillips, personal LinkedIn profile",
+  "finalText": "A survey in JAMA Pediatrics asked parents in the United States how comfortable they would be with an AI leading a behavioural therapy session for their child. About three in four were not.\n\nOf the 572 parents who answered, 47.2 percent were not comfortable at all and 28.8 percent were not too comfortable.\n\nThe headline version would be that parents do not trust AI with children. The study does not say that.\n\nIt asked one hypothetical question about AI led behavioural therapy, in an opt in sample, and it measured stated comfort, not what parents would choose in practice, whether the therapy was effective, or whether it helped or harmed a child. The children, aged 5 to 17, were not asked. Neither were parents in the UK.\n\nEveryday use of AI by parents and children made no difference to comfort. That cuts against the easy explanation that people fear what is unfamiliar.\n\nThis looks more like a judgement about where AI belongs.\n\nI build a parent tool with an AI guide in it, so I am not neutral. The boundary matters. Guidance that helps a parent think through a situation is not therapy delivered to a child. Our stage check is three questions about one child, and it is the parent who answers them. Nothing we make diagnoses or treats, and a serious worry belongs with a professional.\n\nThe survey also asked what would matter most, and 546 parents answered. They could choose more than one. Accuracy of diagnosis was chosen by 58.5 percent, empathy by 49.4 percent, recommendation from a medical professional by 46.8 percent, and confidentiality and privacy by 43.7 percent.\n\nThat list is more useful than a broad argument about whether AI is good or bad. Before a child uses an AI tool for something that matters, ask what it is for, who oversees it, and where what the child says goes.\n\nThe source is in the comments.\n\nIf more parents and school leaders need a clearer line between guidance and treatment, repost this. The boundary should be visible before trust is requested.\n\nWhen an AI tool is offered for a child's wellbeing, what would you need to see before you trusted the boundary it claims to keep?",
+  "firstComment": "The paper, published online in JAMA Pediatrics on 2 November 2026:\n\nhttps://doi.org/10.1001/jamapediatrics.2026.4939\n\nThe strongest objection is that stated comfort with a hypothetical does not tell us whether AI led therapy is safe, effective or what parents would actually choose. Agreed. The useful point is narrower. Parents were drawing a boundary around a high stakes role, and the factors they selected show what they would want made visible before considering it.",
+  "sources": [
+    "https://doi.org/10.1001/jamapediatrics.2026.4939"
+  ],
+  "reviewedCopy": "https://docs.google.com/document/d/1E4O9_utKmiCehiAwx-oj2l6ZL-Juxt_8dDTwvDoyyYY/edit",
+  "visualDecision": {
+    "choice": "text only",
+    "reason": "The handoff asks for a LinkedIn post and nothing else. The visual report of 12 November ranks no format because every group is under five posts, and the best post of the last measured week carried no image, so the evidence is silent and text only is the default. ChatGPT proposed a static card with no figure on it. No approved brand asset is verified for one, so it is not made. No film: the optional film made for GDC-058 has not been posted, so there is still no motion reading on the account, and a second untested film would add work without adding evidence."
+  },
+  "assets": [],
+  "approvalStatus": "READY FOR JUSTIN",
+  "duplicateCheck": {
+    "result": "UNKNOWN",
+    "why": "Published LinkedIn activity and Metricool drafts cannot be read from GitHub. Checked: the post register, the research register and the recorded LinkedIn schedule."
+  },
+  "linkedinNativeSchedule": null,
+  "metricool": {
+    "draftCreationPermitted": true,
+    "schedulingPermitted": false,
+    "autoPublishPermitted": false,
+    "why": [
+      "Justin has not approved it. A draft is not approval and a date on a draft is not an approved date."
+    ],
+    "rules": [
+      "Use finalText and firstComment exactly. A change goes back through Claude, never into the draft.",
+      "Do not create a second draft if one exists for this GDC number.",
+      "Check the draft and autoPublish settings yourself and report both. autoPublish false is not a guarantee.",
+      "Never schedule, publish, delete or reschedule unless schedulingPermitted is true and Justin has given the time."
+    ]
+  }
+}

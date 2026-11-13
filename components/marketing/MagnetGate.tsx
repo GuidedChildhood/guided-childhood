@@ -32,13 +32,18 @@ function pageAttribution(): Record<string, string> {
 }
 
 export default function MagnetGate({
-  slug, heading, sub,
+  slug, heading, sub, consentLabel,
 }: {
   slug: string
   heading: string
   sub: string
+  /** The words beside the optional box. A taster page names its five day series. */
+  consentLabel?: string
 }) {
   const [email, setEmail] = useState('')
+  // Optional and unticked (PECR, 13 November 2026): the printable goes out
+  // either way; only a tick enrols the address in the tips emails.
+  const [tips, setTips] = useState(false)
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [download, setDownload] = useState('')
@@ -55,7 +60,7 @@ export default function MagnetGate({
       const res = await fetch('/api/magnet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: clean, slug, ...pageAttribution() }),
+        body: JSON.stringify({ email: clean, slug, consent: tips, ...pageAttribution() }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) { setError('Something went wrong. Try again in a moment.'); setState('idle'); return }
@@ -133,11 +138,22 @@ export default function MagnetGate({
           {state === 'sending' ? 'Sending...' : 'Send it to me'}
         </button>
       </form>
+      <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', justifyContent: 'center', maxWidth: 440, margin: '14px auto 0', textAlign: 'left', cursor: 'pointer' }}>
+        <input
+          type="checkbox"
+          checked={tips}
+          onChange={(e) => setTips(e.target.checked)}
+          style={{ width: 22, height: 22, flex: 'none', marginTop: 1, accentColor: 'var(--ink)' }}
+        />
+        <span style={{ fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink-soft)' }}>
+          {consentLabel ?? 'Send me a few emails with ideas like this too. Optional, and you can stop them any time.'}
+        </span>
+      </label>
       {error && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--danger)', margin: '10px 0 0' }}>{error}</p>
       )}
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', margin: '12px 0 0' }}>
-        One printable, no spam. Unsubscribe any time.
+        Free, just your email. The printable comes either way.
       </p>
     </div>
   )

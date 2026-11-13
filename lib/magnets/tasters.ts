@@ -34,6 +34,12 @@ export type Taster = {
   pageCount: number
   blurb: string
   pageNotes: { h: string; b: string }[]
+  /**
+   * The taster series (13 November 2026): one email per taster page, a subject
+   * and one tip, written from the pack's own guide pages. Packs without it get
+   * a plain version built from pageNotes, so every taster has a series.
+   */
+  series?: { subject: string; tip: string }[]
 }
 
 export const TASTERS: Taster[] = (data as { tasters: Taster[] }).tasters
@@ -80,6 +86,17 @@ export function listedTasters(): Taster[] {
     .map((t, i) => ({ t, i }))
     .sort((a, b) => rank[a.t.status] - rank[b.t.status] || a.i - b.i)
     .map(x => x.t)
+}
+
+/** The subject and tip for page n (1 based) of a taster's series. */
+export function seriesPage(t: Taster, n: number): { subject: string; tip: string } {
+  const own = t.series?.[n - 1]
+  if (own) return own
+  const note = t.pageNotes[n - 1]
+  return {
+    subject: `${t.title}, page ${n}: ${note?.h ?? 'your next page'}`,
+    tip: note?.b ?? 'Print it, and do it together.',
+  }
 }
 
 /** Where the rest of the pack lives, in one plain line. Never promises what is not there. */

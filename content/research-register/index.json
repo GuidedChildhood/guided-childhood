@@ -5660,7 +5660,7 @@
    "foundBy": [
     "chatgpt-inbox"
    ],
-   "status": "EDITORIAL READY",
+   "status": "ASSETS READY",
    "candidate": {
     "candidateId": "C-2026-11-12-02",
     "batchId": "2026-11-12-chatgpt-manual-1433",
@@ -5714,11 +5714,11 @@
    },
    "childIsTheSubject": true,
    "studyId": "GDC-RR-f0fb8386cd",
-   "version": 14,
+   "version": 27,
    "firstFound": "2026-11-12T14:45:32.751Z",
-   "lastChecked": "2026-11-12T14:47:59.876Z",
-   "changeReason": "handoff tied to the review it was built from",
-   "changedBy": "radar:daily",
+   "lastChecked": "2026-11-13T15:38:23.763Z",
+   "changeReason": "ASSETS READY: PASS",
+   "changedBy": "radar:pipeline",
    "dossier": {
     "studyId": "GDC-RR-f0fb8386cd",
     "checkedAt": "2026-11-12T14:45:43.557Z",
@@ -5907,9 +5907,9 @@
    "editorialPriority": "BANK",
    "gate": {
     "verdict": "PASS",
-    "stage": "HANDOFF",
+    "stage": "ASSETS READY",
     "reasons": [],
-    "at": "2026-11-12T14:47:59.870Z"
+    "at": "2026-11-13T15:38:23.759Z"
    },
    "gdcPostNumber": "059",
    "handoff": {
@@ -5921,6 +5921,39 @@
     "builtAt": "2026-11-12T14:47:59.855Z",
     "reviewDigest": "ff0e1a1fc996e324",
     "gdcPostNumber": "059"
+   },
+   "pack": {
+    "file": "content/research-register/packs/pack-GDC-RR-f0fb8386cd.json",
+    "submittedAt": "2026-11-13T15:38:07.243Z",
+    "sourceCommit": "3496218754ea6c65604192c2ce00471d897e11d1",
+    "gdcPostNumber": "059",
+    "digest": "af42cd0a523e3da4",
+    "driveFile": "1E4O9_utKmiCehiAwx-oj2l6ZL-Juxt_8dDTwvDoyyYY__pack.txt"
+   },
+   "packQa": {
+    "verdict": "PASS",
+    "checked": 29,
+    "failedCount": 0,
+    "failures": [],
+    "checkedAt": "2026-11-13T15:38:07.239Z"
+   },
+   "packReview": {
+    "verdict": "PASS",
+    "notes": "ChatGPT v1 was sound on the evidence and passed all 29 automatic checks as written: only cleared figures, about three in four in words and never 76 percent, 546 for the factors question, no author named, no odds ratio, no claim about UK parents, no claim that the survey supports our product, the conflict of interest said plainly, the other formats correctly declined, a first comment with the source and the strongest objection, the question last.\nv2 is my edit of it under the standing rule that every Drive post gets a Claude review (drive-post-review). The argument, the order, the first comment and nearly every sentence are ChatGPT's. What changed:\n1. The opening. v1 named the journal and the date in the first paragraph and reached the finding in the second and third. The working guide from Justin's numbers of 11 November puts the named study and its finding together at the top. v2 opens on the survey and about three in four in two sentences, and the publication date moves to the first comment, where it already was.\n2. Not UK (check 7): one sentence, that parents in the UK were not asked. It is in the handoff's own list of what this does not prove.\n3. A proof path (check 4): one sentence naming the stage check as three questions about one child that the parent answers, from the handoff's product note and THE-STORY.md. It is worded differently from the GDC-058 sentence so the line does not become a refrain. It claims nothing from the survey.\n4. Accuracy: the factors question allowed more than one choice, which the review verified and v1 left out of the post, so four percentages that pass 100 are explained.\n5. Voice: removed \"There is another detail worth keeping\" and \"simply\", and let the limits run as one long sentence. Sentence spread 54 percent in v1, 59 in v2, against his 79.\n6. The visual brief asked for a static card. The handoff asks for a LinkedIn post only and no approved asset is verified, so v2 says text only.\nLimits of this review, stated because gate J applies to it: the editor and the reviewer of v2 are the same. The 29 mechanical checks are independent of me. Whether it sounds like Justin is his to judge. One thing for him to weigh from the evidence review: GDC-059 is a further post on AI and children close to others already planned, so when it goes out is his call.",
+    "reviewedBy": "Claude Code, scheduled afternoon run of 13 November. Reviewer is also the editor of v2.",
+    "reviewedAt": "2026-11-13T15:38:23.607Z"
+   },
+   "packDrive": {
+    "verified": true,
+    "fileId": "1E4O9_utKmiCehiAwx-oj2l6ZL-Juxt_8dDTwvDoyyYY",
+    "level": "TEXT IDENTICAL",
+    "at": "2026-11-13T15:38:23.630Z"
+   },
+   "visualDecision": {
+    "choice": "text only",
+    "reason": "The handoff asks for a LinkedIn post and nothing else. The visual report of 12 November ranks no format because every group is under five posts, and the best post of the last measured week carried no image, so the evidence is silent and text only is the default. ChatGPT proposed a static card with no figure on it. No approved brand asset is verified for one, so it is not made. No film: the optional film made for GDC-058 has not been posted, so there is still no motion reading on the account, and a second untested film would add work without adding evidence.",
+    "decidedBy": "Claude Code, directed run",
+    "at": "2026-11-13T15:38:23.591Z"
    }
   },
   "GDC-RR-45a302c73d": {
