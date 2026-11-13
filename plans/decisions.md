@@ -391,3 +391,11 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 - Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
 - This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
 - Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
+
+## 13 November 2026: creator radar pilots 2 and 3, draft packs
+
+- Justin said start. Two draft packs: boundaries (kind and firm when the tablet goes off) and disclosure (what to say when a child tells you something scary happened online).
+- No person is named in any copy. The 29 July rule held: the clinicians' public work is cited only in each pack's `sources.md`, and the copy stands on independent evidence and on NSPCC, CEOP and Ofcom.
+- Found on the way: the August cybertrauma series credits "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it. Flagged for correction, not changed.
+- Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
+- Nothing posted, no GDC number claimed. PR 1533.
