@@ -386,3 +386,8 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 - Position the evidence supports: not ban, not shrug. Who can message my child, where does it go next, will they tell me. No trial backs a staged path over a ban, and the pack says so.
 - Dr Becky Kennedy has no sourced Roblox position. Catherine Knibbs has one descriptive statement, no view on banning. Family IT Guy says skip it. No named person goes into copy until Justin decides.
 - Nothing written from it yet and no GDC number claimed. `briefings/2026-11-13-roblox-predators-ban-v2.html`.
+## 13 November 2026: collecting from one creator's Instagram is allowed, for analysis
+
+- Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
+- This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
+- Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
