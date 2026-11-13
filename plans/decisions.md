@@ -377,3 +377,6 @@ Justin chose The Social Billboard for the next round. Five cards in its own look
 - Verdict through the feedback filter: most of it extends the existing research register. No second database, no scraping (decided 14 October, PR 1293), Roblox pilot first.
 - Six decisions wait on him, the main one being whether named clinicians may be challenged in public, which the house rule forbids.
 - Plan: `plans/week-of-2026-11-09-creator-radar-and-unified-engine-plan.md`. Nothing is built until he says go.
+## 13 November 2026: ChatGPT's feedback on the visual report, weighed
+
+Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-feedback-weighed.md`). Adopted: the two post Australia comparison is an association, not a test, and the report now says so; any figure card carries what the figure counts and its source; every proposed visual stays optional until reviewed. Parked for Justin: the look for evidence posts, a handwritten GDC-056, the 12 November screenshot we do not hold, and whether the Manchester post was a newsletter. No pack, handoff or schedule changed.

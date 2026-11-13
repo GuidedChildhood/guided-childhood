@@ -1,0 +1,94 @@
+{
+ "studyId": "GDC-RR-9f47c61d8e",
+ "reviewedAt": "2026-11-13T09:24:26Z",
+ "reviewedBy": "Claude Code, scheduled morning run, session 014MKeZYLSroNs52Qq1rExKf",
+ "reviewBasis": "The abstract only, read in this run on PubMed (record 43015558) and checked against Europe PMC. The full text in the European Journal of Epidemiology is behind a sign in: the publisher page redirected to its login and Europe PMC lists it as subscription required with no open copy. Published online 11 November 2026.",
+ "verdict": "HOLD",
+ "proposedTitle": "Held: fifteen years of UK data on 10 to 15 year olds, where worry rose and conflict with parents fell",
+ "proposedAngle": "None yet, but this is the one to get. It is UK data on our age group over fifteen years, and the abstract holds a result that cuts against an easy line of ours: conflict with parents went down over the period, alongside drinking, smoking and staying out late, while emotional problems more than doubled. The paper measured social media use and the abstract gives no figure for it and draws no link. Until the full text is read we do not know how any of it was defined, so nothing is cleared.",
+ "oneStory": "A UK household survey followed 10 to 15 year olds from 2009 to 2024. Emotional problems more than doubled. Conduct problems, drinking, smoking and conflict with parents all fell.",
+ "oneTension": "The same years that are blamed for a crisis are years in which teenagers argued less with their parents and took fewer of the old risks.",
+ "oneBelief": "Not written until the full text has been read.",
+ "oneTakeaway": "Not written until the full text has been read.",
+ "claims": [
+  {
+   "claim": "16,356 participants provided 46,218 observations between 2009 and 2024.",
+   "status": "VERIFIED",
+   "basis": "Abstract, as written. The survey is described only as a household based UK survey. Its name is not in the abstract."
+  },
+  {
+   "claim": "Emotional problems rose from 11.4 percent in 2009 to 27.1 percent in 2024.",
+   "status": "QUALIFIED",
+   "basis": "Abstract, as written, measured with the Strengths and Difficulties Questionnaire. The cut off that defines a problem is not in the abstract, and neither is any interval. This is a share above a questionnaire score, not a rate of diagnosis."
+  },
+  {
+   "claim": "In 2024 the figure was 38.9 percent in girls and 15.8 percent in boys.",
+   "status": "QUALIFIED",
+   "basis": "Abstract, as written, with the same caveat about the cut off."
+  },
+  {
+   "claim": "Conduct problems fell from 13.6 percent to 11.4 percent, and alcohol, tobacco, staying out late and conflict with parents all declined.",
+   "status": "QUALIFIED",
+   "basis": "Abstract. The two conduct figures are given. No figures are given for the other declines, and how conflict with parents was asked is not stated."
+  },
+  {
+   "claim": "Social media drove the rise in emotional problems.",
+   "status": "UNSUPPORTED",
+   "basis": "The abstract lists social media use among the behaviours tracked and reports nothing about it. It describes trends and says they point to specific mechanisms without naming one."
+  },
+  {
+   "claim": "Family conflict over screens is falling.",
+   "status": "UNSUPPORTED",
+   "basis": "The abstract says conflict with parents declined. It does not say what the conflict was about, and screens are not mentioned."
+  }
+ ],
+ "verifiedStatistics": [],
+ "notQuotable": [
+  "every percentage, until the full text gives the questionnaire cut off and the intervals",
+  "the phrase epidemic scale: it is a word from the conclusion of the paper, not a measured quantity",
+  "any link between these trends and social media, phones or screens",
+  "any statement that this is a rate of mental illness or of diagnosis",
+  "the names of the authors"
+ ],
+ "evidenceConfidence": "HIGH that the abstract says what is written here. NOT ASSESSED for the paper as a whole. The design, a long running UK household survey with repeated measures, is a strong one for describing trends and a weak one for explaining them.",
+ "limitations": [
+  "Only the abstract was read. Definitions, intervals, attrition, weighting and the limitations section are unseen.",
+  "Self reported by 10 to 15 year olds on a screening questionnaire.",
+  "Descriptive. It reports what changed, not why.",
+  "Changes in how young people talk about and report feelings over fifteen years could move a questionnaire score without the same change in distress. Whether the paper addresses this is not in the abstract.",
+  "The period includes the pandemic, and the abstract notes an acceleration after 2019."
+ ],
+ "contradictoryEvidence": [
+  "From the abstract: conduct problems, alcohol, tobacco, staying out late and conflict with parents all fell, which does not fit a simple story of a generation in decline.",
+  "From the abstract: conflict with parents declined. Our own line that families fight nightly rests on survey figures about screen arguments, and this trend should be read beside them before either is used.",
+  "From the abstract: the rise accelerated after 2014 and again after 2019. Two break points invite two different explanations and the abstract offers neither.",
+  "Not searched in this run: other UK series over the same years. That belongs with the full text review."
+ ],
+ "whatThisDoesNotProve": [
+  "That social media, phones or screens caused the rise.",
+  "That more children have a diagnosable condition.",
+  "That anything a parent does at home would change the trend.",
+  "That anything we build helps."
+ ],
+ "mediaMisrepresentation": "Coverage was not searched in this run. The predictable error is to print the doubling beside a picture of a phone.",
+ "gdcBeliefs": [
+  "Evidence or silence. The most useful thing in this abstract is the part that does not suit us, and it is used only once the paper has been read."
+ ],
+ "productImplications": {
+  "digitalPathwayOS": "No change.",
+  "schoolLesson": "No change.",
+  "historyChecker": "No change.",
+  "parentTool": "None claimed.",
+  "digi": "No change. DiGi must not cite this."
+ },
+ "recommendedAudience": "None until cleared.",
+ "recommendedPlatforms": [],
+ "urgency": "Medium. UK, two days old, and likely to be reported. Worth the full text this week.",
+ "unresolvedQuestions": [
+  "The full text. If Justin can put the PDF in Drive, a new review can clear or reject it.",
+  "What the paper found on social media use over the period, which the abstract lists and does not report.",
+  "How conflict with parents was asked.",
+  "The questionnaire cut off behind every percentage."
+ ],
+ "storedAt": "scripts/radar/reviews/GDC-RR-9f47c61d8e.json"
+}

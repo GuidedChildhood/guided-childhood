@@ -52,13 +52,16 @@ and a partial 72) and one video (1,164).
 
 ## Five lessons, each marked
 
-1. **Measured, small sample:** the opening line moves reach far more than
-   anything we can attribute to the visual. Two Australia posts, same story,
-   same month: 15,186 against under 1,154, on the opening alone.
+1. **Measured, two posts, an association and not a test:** two Australia
+   posts on the same story in the same month reached 15,186 and under 1,154.
+   Their openings differed. So may their timing, image and distribution,
+   which were not recorded, so this does not show the opening caused the gap.
+   (Reworded 13 November after ChatGPT's feedback.)
 2. **Measured, one post:** a single large verified figure on a calm card
    travelled with the best post we have.
 3. **Measured, small sample:** a post with no image can lead a week. The
-   Manchester post carried none.
+   Manchester post carried none. If it went out as a newsletter edition its
+   reach is not comparable with a feed post. Justin to confirm which it was.
 4. **Hypothesis:** documents and carousels underperform on this account. Two
    posts, both product led, so topic and format cannot be separated.
 5. **Hypothesis:** video is weak here. One post, a year old, on a personal
