@@ -238,13 +238,13 @@
    "verdict": "PASS",
    "by": "claude",
    "reasons": [
-    "afternoon: dry run push accepted at 15:34, branch claude/radar-2026-11-13 pushed, draft pull request 1530 carries the run"
+    "afternoon: dry run push accepted at 15:34, branch claude/radar-2026-11-13 pushed. Pull request 1530 had already merged, so the afternoon work is in a new draft pull request, 1536"
    ],
    "detail": null,
-   "at": "2026-11-13T15:41:53.851Z",
-   "commit": "ebbb67d0",
-   "attempts": 2
+   "at": "2026-11-13T15:42:20.914Z",
+   "commit": "74ac14d1",
+   "attempts": 3
   }
  ],
- "updatedAt": "2026-11-13T15:41:53.882Z"
+ "updatedAt": "2026-11-13T15:42:20.955Z"
 }
