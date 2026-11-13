@@ -34,6 +34,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -64,6 +65,30 @@ jobs:
           Merging this puts them on the French pages. The file is generated, so there is nothing to edit by hand: to change the content, change it on the author's site and the next night's sync refreshes this pull request."
           if [ -n "$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')" ]; then
             echo "::notice::Refreshed the open French sync pull request."
-          else
-            gh pr create --base main --head "$branch" --title "French: nightly sync from the scheme" --body "$body"
+            exit 0
           fi
+          if gh pr create --base main --head "$branch" --title "French: nightly sync from the scheme" --body "$body"; then
+            exit 0
+          fi
+          # THE REPOSITORY MAY REFUSE A JOB'S PULL REQUEST (13 November 2026).
+          # Three nights went red on "GitHub Actions is not permitted to create
+          # or approve pull requests", a repository setting. The branch is
+          # already pushed by then, so the changes are safe and only the pull
+          # request is missing. Rather than fail every night, leave one open
+          # issue holding the link that opens it in a click, kept up to date.
+          link="https://github.com/${GITHUB_REPOSITORY}/compare/main...${branch}?expand=1"
+          note="The nightly sync found changes on the French scheme's own site and pushed them to the branch ${branch}, but this repository does not let a job open a pull request.
+
+          ${summary}
+
+          Open the pull request here: ${link}
+
+          To let the job open it itself: Settings, Actions, General, Workflow permissions, tick Allow GitHub Actions to create and approve pull requests."
+          title="French sync: changes are waiting for a pull request"
+          open="$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number')"
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --body "$note"
+          else
+            gh issue create --title "$title" --body "$note"
+          fi
+          echo "::warning::The French scheme changed. The pull request could not be opened by the job: ${link}"
