@@ -701,7 +701,7 @@ export default function StarterPackPage() {
   // thing. See lib/starter/finish-setup.ts for why the birthday has to travel
   // with it rather than be looked up from the older keys.
   function pendingNow(): PendingSetup {
-    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, parentName: name.trim(), dob }
+    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, parentName: name.trim(), dob, ageYears }
   }
 
   // Write the account through: onboarding complete, the trial, the child. One
