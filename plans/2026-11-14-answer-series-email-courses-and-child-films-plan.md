@@ -36,7 +36,7 @@ topic, not a post. Each topic produces:
 | The answer post (LinkedIn) | The daily pipeline, with a GDC number as normal |
 | The research pop Reel and a Short | The family account and Shorts, same GDC number, own asset id |
 | The carousel | The ladder session |
-| A five email course | The email programme (Mailchimp journey by tag) |
+| A seven day email course, one short email a day | The email programme (Mailchimp journey by tag) |
 | One child lesson film with a parent note | The lesson player, and released publicly once chosen |
 | A refreshed product guide or script | The app, on Justin's approval only |
 
@@ -232,10 +232,14 @@ Step 3. Write every format from that list and nothing else:
      one thing to do, ending at the stage check. Time every line to the
      reading rule.
   d. A 45 second Short to camera for Justin.
-  e. A five email course: day 0 what is actually going on, day 2 what the
-     evidence says, day 4 the words to say, day 7 the rule to agree together,
-     day 10 what to do when it goes wrong. Each email teaches one thing and
-     can be acted on that evening.
+  e. A seven day email course, one email a day. Each one reads in 60 to 90
+     seconds, teaches one thing, gives one thing to do that evening, and
+     stands alone with at most one link, to the product. Day 1 what is
+     actually going on. Day 2 what the evidence says, calmly. Day 3 the words
+     to say. Day 4 the rule to agree together. Day 5 what to do when it goes
+     wrong, and the first plain mention of what the product adds. Day 6 the
+     child's side of it. Day 7 what comes next, and the offer once more. No
+     invented urgency and no pressure lines.
   f. A child lesson film brief with a parent note: what the child learns to
      recognise, the routine they practise, and the line the parent says.
   g. A parent checklist, marked NOT READY until any menu path in it has been
@@ -283,10 +287,10 @@ is Justin's decision and is not yet made.
 4. **James Smith on email funnels:** https://youtu.be/nv1s7QrpUwQ . Justin
    pasted the transcript on 14 November. The speaker is addressed as Sabri and
    the video does not mention email sequences over downloads. Weighed in
-   `plans/2026-11-14-seven-rules-video-weighed.md`. Earlier note, kept: not yet
-   read: YouTube refused automated reading on 14 November. Until someone has
-   watched it or pasted the transcript, the email course follows our own
-   reasoning in this plan and claims nothing about what he said.
+   `plans/2026-11-14-seven-rules-video-weighed.md`. The video he meant came
+   later the same day: no PDF, a short email a day. It is weighed in
+   `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md` and changed the
+   course from five emails to seven daily ones.
 5. **Child films are released everywhere:** YouTube, the family account and
    inside the product.
 6. **The Mike Tyson comparison:** https://www.instagram.com/p/DNs4HIXYjFu/ .
