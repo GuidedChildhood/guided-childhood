@@ -92,6 +92,57 @@
         "business-running": "Make the Friday board routine save its run every week: give it an instructions file in plans/review-board/routines/ read from origin/main, have it find what it needs with git rather than listing pull requests (the cause of the 09:17 radar run doing nothing on 11 November), and commit runs/<date>.md or print the report and say it could not save."
       },
       "skeptic": {}
+    },
+    {
+      "date": "2026-11-14",
+      "report": "plans/review-board/runs/2026-11-14.md",
+      "one_thing": "Get strangers through the new one tap stage check by posting the walkthrough campaign from 17 November and rerunning the Left out ad at round 1's size, while Claude finds out why no family has had a day marked done since 28 September.",
+      "roundup": "Big week for the build. All eight steps of the ten out of ten plan merged on Thursday: two reminders a day at most, Home down to the lead plus one card, the paywall quoting the family's own history, checkout tested on every push, and every parent piece ending at the stage check. The ad test did its job. It reached 9,210 parents for £10.64 and nobody started the stage check, because question one asked a stranger for a name and a birth month. We paused it and fixed it the same day. Question one is now one tap. Nothing has been sitting open for more than a day.\n\nWhat is stuck. No family has finished a day in the app since 28 September, and there were 3 stage checks this week. The Friday board routine ran and saved nothing again. The open work list in THE STORY is a month old. The ICO fee and the Vercel project have waited four weeks.\n\nThe one thing: get strangers through the new one tap stage check, and find out why no day is being marked done.\n\nWhat I need to do. Post the walkthrough campaign from Tuesday, and rerun the Left out ad at the same small budget, counting starts per 100 page loads. Tell the board whether the five families are really using the app. Sit with one parent for their first day. Pay the ICO fee or say it is paid, and pick the Vercel project. When there is a minute, run the Fable 5.2 compare.",
+      "scores": {
+        "value-above-ai": 9,
+        "solves-problem": 8,
+        "right-audience": 8,
+        "will-pay": 7,
+        "simplicity-flow": 7,
+        "keeps-coming-back": 8,
+        "marketing": 8,
+        "ux-expert": 7,
+        "competitor-watch": 8,
+        "ai-tools-watch": 7,
+        "business-running": 6
+      },
+      "headlines": {
+        "value-above-ai": "The family's memory, the child's own app, tracked worries and tested scripts all exist in code. Two of the three first 48 hours moments are now visible, and the weekly email still does not show the start point.",
+        "solves-problem": "The loop from naming a worry to tonight's words to a daily number is built for the top three problems, and What is working now shows week one honestly, but the weekly review email still says nothing until a worry has two ratings.",
+        "right-audience": "The home page now speaks to the burned UK parent in her own words, with plain ages and a real first step for 14 to 16. The FAQ answer and other public pages still drift into our language, and reaching her is unproven.",
+        "will-pay": "The ask is honest, the founder cap is enforced in code and checkout is tested in CI, but the free tier is not shown to hold back the loop and the only payer is Justin.",
+        "simplicity-flow": "Home now has one lead and one rotating slot, so a tired parent sees one thing to do, but the app still has 83 dashboard routes and the word pathway still means three things.",
+        "keeps-coming-back": "The pull is built on both sides and the missed day now reads warmly, but the real week shows no family finished a day, so the return loop is proven in code and not yet in behaviour.",
+        "marketing": "Every parent piece now ends at the stage check and a guard keeps it that way, the channel number is measured, and the paid test found the real leak (question one) and fixed it the same day, but only 3 checks were begun this week.",
+        "ux-expert": "The guard now stops new hex colours and the pathway is ready page is calm, well ordered and token based, but nearly 3,000 old hex values remain and the passport uses off scale 9px labels and hand typed gold rgba colours.",
+        "competitor-watch": "A quiet fortnight: nothing new shipped that does our core loop or that we lack, and last time's gap is now closed in the sightings log.",
+        "ai-tools-watch": "The model setup is current and well built, but the Friday board routine still saved nothing on 13 November, and the Fable 5.2 trial is still waiting on Justin.",
+        "business-running": "Work moved fast this week and most of it pointed at the goal, but the Friday board routine saved nothing again, the open work list in THE STORY is a month old, two of Justin's tasks are four weeks late, and no family has finished a day."
+      },
+      "top_gap": {
+        "value-above-ai": "Put the start point and the next look into the weekly review email, for example 'You started at really tough on bedtime on 3 November, your next look is Sunday'.",
+        "solves-problem": "Pass the one look worries into weeklyReviewEmail as a 'where you started, the next look is Sunday' block with the start word and the first words tried, so a week one email is not silent.",
+        "right-audience": "Rewrite the home FAQ answer to 'what do I get' in the parent's words (what to say tonight, how screen time stops being a fight, one stage check) and move the inventory of scripts, games and lessons lower.",
+        "will-pay": "Write the named reason in the Control Room and decisions: no family has paid because none has completed a day since 28 September. Then run one real paid conversion by hand, a family Justin knows paying through live Stripe, so the payer count is more than Justin.",
+        "simplicity-flow": "Finish one word for one thing (THE-STORY section 11). Pathway means the stages road, today's list and the starter result. Pick one name for each, rename the road route and its nav label, and add a guard for the retired word.",
+        "keeps-coming-back": "Find out why no family has finished a day since 28 September, and put a first-day finish moment in front of the families who are running. The day-done event should show tomorrow's reason (the next stop on the path and what the child unlocks) on the finish screen, and be logged so the pulse can count it. Check that the five-families claim and the day-done event agree.",
+        "marketing": "Name the month's one bet with a measure: after the one tap stage check, put the 'Left out' hook back on a small test, measured as stage checks begun per 100 page loads with a bar such as 5 per 100, read from Meta landing page views.",
+        "ux-expert": "Burn the hex debt down in batches, starting with repeated #fff and the admin pages, and add tokens for the passport gold (rgba 237,195,95 at several alphas) and use them in InsideBlocks.tsx. Lower the baseline in each PR.",
+        "competitor-watch": "Re-read Kairoo's live Meta ads and App Store notes on 2 December, log whether the 'Jobs first' ads survived, and add Qustodio's app store notes to the standing watch list.",
+        "ai-tools-watch": "Make the Friday board routine commit its run file and scorecard as its last step and fail loudly if the file is missing; the 13 November run finished in under three minutes and saved nothing. Same for the Wednesday UX walkthrough.",
+        "business-running": "Make the Friday board routine write and push a stub runs/<date>.md as its first act, before any lens runs, so a silent run is impossible; the 13 November run left no file and no claude/review-board-2026-11-13 branch even after the PR 1509 runbook."
+      },
+      "skeptic": {
+        "competitor-watch": {
+          "from": 9,
+          "reason": "The rise rests only on a log edit, and that log gets TAP's price wrong, cites an agreed deal line that no page now renders, and leaves out Ginko, an AI parenting copilot for screen time in the lens's named field."
+        }
+      }
     }
   ]
 }

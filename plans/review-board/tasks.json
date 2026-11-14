@@ -227,14 +227,14 @@
     },
     {
       "id": "confirm-ico-fee-paid",
-      "title": "Pay the ICO data protection fee for the controller entity (about £52) or tell the board it is already paid.",
+      "title": "Step to ten for business running: pay the ICO data protection fee for the controller entity (about £52) or tell the board it is already paid.",
       "owner": "justin",
       "size": "small",
       "priority": 2,
       "lenses": [
         "business-running"
       ],
-      "proof": "plans/review-board/answers: snoozed repeatedly between 14 October and 11 November",
+      "proof": "plans/go-live-safety-checklist.md",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
@@ -245,14 +245,14 @@
     },
     {
       "id": "decide-vercel-project",
-      "title": "Decide which Vercel project is the parent app and retire the duplicate.",
+      "title": "Step to ten for business running: decide which Vercel project is the parent app and retire the duplicate.",
       "owner": "justin",
       "size": "small",
       "priority": 2,
       "lenses": [
         "business-running"
       ],
-      "proof": "plans/review-board/answers: snoozed or not yet repeatedly between 14 October and 11 November",
+      "proof": "plans/review-board/tasks.json",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
@@ -398,12 +398,12 @@
       ],
       "proof": "app/(dashboard)/dashboard/page.tsx (2,069 lines, about 20 conditional cards)",
       "due": "2026-10-27",
-      "status": "open",
+      "status": "done",
       "created": "2026-10-13",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1513: lib/home/home-slot.ts and scripts/check-home-slot.mjs; the page.tsx split is parked, see declined"
     },
     {
       "id": "tonight-tap-closes-loop",
@@ -498,7 +498,7 @@
     },
     {
       "id": "ux-walkthrough-report-in-repo",
-      "title": "Make the Wednesday UX walkthrough actually save its report: drop the 'open a pull request' step a scheduled run cannot do, commit walkthroughs/<date>.md to its branch with git, and have each report walk the phone ask, switch off fight and bedtime loops with a seeded family at 390 by 844 and 1280 by 800, screenshots included.",
+      "title": "Step to ten for ux expert and ai tools watch: PR 1519 saved one walkthrough by hand, but the Wednesday routine has still never saved its own. Make it push walkthroughs/<date>.md to its branch with git and walk the phone ask, the switch off fight and the bedtime loops with a seeded family at 390 and 1280, screenshots included.",
       "owner": "claude",
       "size": "small",
       "priority": 2,
@@ -508,7 +508,7 @@
         "ux-expert",
         "business-running"
       ],
-      "proof": "plans/review-board/walkthroughs/ holds only README.md; plans/review-board/routines/ux-walkthrough.md tells the run to open a pull request",
+      "proof": "plans/review-board/walkthroughs/2026-11-12.md (a session pass, not the routine); plans/review-board/routines/ux-walkthrough.md",
       "due": "2026-10-20",
       "status": "open",
       "created": "2026-10-13",
@@ -622,24 +622,25 @@
       ],
       "proof": "plans/week-of-2026-11-02-first-20-signups-plan.md lines 138 and 387; product pulse 12 November (day done rate 0%, last completed day 28 September, revenue £0)",
       "due": "2026-11-19",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
-      "asked": null,
+      "asked": "2026-11-14",
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "Justin, 14 November: done"
     },
     {
       "id": "board-routine-saves-its-run",
-      "title": "Make the Friday board routine save its run: add plans/review-board/routines/weekly-board.md read from origin/main, have it find branches and PRs with git instead of listing pull requests, and always commit runs/<date>.md, scorecard.json and tasks.json, or print the report and say plainly it could not save.",
+      "title": "Step to ten for business running and ai tools watch: the 13 November Friday run still saved nothing after the PR 1509 runbook, so make the routine's first act write and push a stub runs/<date>.md before any lens runs, put the real behaviour line and stage checks by channel at the top of the run, and check that the 20 November run left a file.",
       "owner": "claude",
       "size": "small",
       "priority": 1,
       "lenses": [
         "ai-tools-watch",
-        "business-running"
+        "business-running",
+        "marketing"
       ],
-      "proof": "plans/review-board/runs/ holds only 2026-10-13.md; last fired 6 November, 71 seconds, no output; plans/decisions.md 11 November (a scheduled run cannot list pull requests)",
+      "proof": "plans/review-board/runs/ has no 2026-11-13.md; no claude/review-board-2026-11-13 branch on origin; plans/review-board/routines/weekly-board.md",
       "due": "2026-11-19",
       "status": "open",
       "created": "2026-11-12",
@@ -659,12 +660,12 @@
       ],
       "proof": "content/campaigns/platform-walkthrough/03-playlists-who-chose-the-next-one.md; plans/decisions.md 10 November (the walkthrough runs from 17 November)",
       "due": "2026-11-16",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1511: scripts/check-stage-check-ending.mjs wired in .github/workflows/wiring.yml, school pieces marked for another audience; the marketing lens confirms it passes on main"
     },
     {
       "id": "friday-number-by-channel",
@@ -679,12 +680,12 @@
       ],
       "proof": "app/(dashboard)/dashboard/admin/videos/page.tsx (the number exists but nothing reads it); supabase/migrations/379_stage_checks_by_source.sql and 388_utm_and_the_video_channels.sql",
       "due": "2026-11-19",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1511: stageChecksWeek in plans/review-board/product-pulse.sql, stageCheckLine in scripts/review-board.mjs, the month's bet and measure at the top of plans/2026-10-01-marketing-master-plan.md (sign ups by channel parked, see declined)"
     },
     {
       "id": "outreach-plans-live-domain",
@@ -697,23 +698,23 @@
       ],
       "proof": "plans/creator-outreach-kit.md line 57; scripts/check-live-domain.mjs line 23",
       "due": "2026-11-19",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1511: plans/creator-outreach-kit.md and plans/DISTRIBUTION-PLAYBOOK-step-by-step.md moved to .com and added to ROOTS in scripts/check-live-domain.mjs"
     },
     {
       "id": "merged-pr-closes-its-task",
-      "title": "Have scripts/review-board.mjs mark a task done, with the PR number as proof, when a merge on origin/main names its id, so built work stops showing as late and the session start alert stops asking about it.",
+      "title": "Step to ten for business running: have scripts/review-board.mjs mark a task done, with the PR number as proof, when a merge on origin/main names its id, so built work stops showing as late.",
       "owner": "claude",
       "size": "small",
       "priority": 2,
       "lenses": [
         "business-running"
       ],
-      "proof": "plans/review-board/tasks.json: 21 tasks built 14 to 16 October still open and LATE in npm run review-board -- list",
+      "proof": "scripts/review-board.mjs (no merge closer); seven tasks built 12 November still open on main",
       "due": "2026-11-19",
       "status": "open",
       "created": "2026-11-12",
@@ -724,14 +725,14 @@
     },
     {
       "id": "story-open-work-true-in-november",
-      "title": "Rewrite THE-STORY section 12 against main today: move the October decisions, the live checkout, count by source, the paywall and the first week work into built, and list what is really open (real families, the board and walkthrough routines, ICO fee, Vercel project).",
+      "title": "Step to ten for business running: rewrite THE STORY section 12 against main today. Move the grants, count by source, the paywall, the first week work and the 12 November plan into built, and list what is really open: finished days, real families, the board and walkthrough routines, the ICO fee and the Vercel project.",
       "owner": "claude",
       "size": "small",
       "priority": 2,
       "lenses": [
         "business-running"
       ],
-      "proof": "THE-STORY.md lines 339 to 384, 'Checked against the code on main, 16 October 2026'",
+      "proof": "THE-STORY.md section 12 (still 'checked 16 October')",
       "due": "2026-11-19",
       "status": "open",
       "created": "2026-11-12",
@@ -742,7 +743,7 @@
     },
     {
       "id": "home-page-in-parents-words",
-      "title": "Rewrite the home page title, description, Open Graph text and the FaqAccordion 'what do I get' answer in the parent's words (the nightly fight, the phone coming, what to say tonight), put the plain age beside each stage name so a 15 year old fits a stage, and add one line that the rules are agreed together, not imposed.",
+      "title": "Step to ten for right audience: PR 1514 rewrote the title, the Open Graph text and the FaqAccordion answer, but the home page's own FAQ entry still opens with the fifteen feature inventory, so give it the same answer in the parent's words and put the parts list after it.",
       "owner": "claude",
       "size": "small",
       "priority": 2,
@@ -750,7 +751,7 @@
         "right-audience",
         "competitor-watch"
       ],
-      "proof": "app/page.tsx lines 30 to 48 and 93 to 101; components/marketing/FaqAccordion.tsx line 7; briefings/notes/competitor-sightings.md 16 October",
+      "proof": "app/page.tsx line 197; components/marketing/FaqAccordion.tsx",
       "due": "2026-11-19",
       "status": "open",
       "created": "2026-11-12",
@@ -761,7 +762,7 @@
     },
     {
       "id": "first-48-hours-shows-three",
-      "title": "Show three of the four things a chatbot cannot do in a new family's first 48 hours: 'Day 1 is your starting point' on Home after the first worry check in, a quoted 'last time you told me' after the first DiGi answer, the start point and next look in the weekly review email when a worry has one or two ratings, and a 'three felt in week one' count in the product pulse.",
+      "title": "Step to ten for value above AI and solves problem: PR 1512 put the starting point on the check in and 'What I remember' on DiGi; still to do, put the start word, the first words tried and 'your next look is Sunday' into the weekly review email when a worry has one or two ratings, show 'Day 1 is your starting point' on Home after the first check in, and tie a 'last time you told me' line to the parent's first DiGi answer.",
       "owner": "claude",
       "size": "medium",
       "priority": 2,
@@ -769,7 +770,7 @@
         "value-above-ai",
         "solves-problem"
       ],
-      "proof": "components/home/DayCheckup.tsx; app/api/cron/weekly-review/route.ts; product pulse 12 November (1 of 32 families reach three of five value signals)",
+      "proof": "app/api/cron/weekly-review/route.ts; lib/email/templates.ts; app/(dashboard)/dashboard/what-is-working/page.tsx; app/api/digi/route.ts",
       "due": "2026-11-26",
       "status": "open",
       "created": "2026-11-12",
@@ -789,12 +790,12 @@
       ],
       "proof": "lib/pathway/streak.ts (total returned, read in one place); app/(dashboard)/dashboard/page.tsx",
       "due": "2026-11-19",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1512: components/digi/DigiStreakWidget.tsx lifetime total and restart line, total={streak.total} on the dashboard"
     },
     {
       "id": "push-daily-ceiling",
@@ -807,12 +808,12 @@
       ],
       "proof": "lib/push/send.ts (no per day ceiling); lib/push/flashpoint-heads-up.ts; lib/push/reengage.ts",
       "due": "2026-11-26",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
       "asked": null,
       "snooze_until": null,
-      "closed": null,
-      "note": ""
+      "closed": "2026-11-14",
+      "note": "PR 1512: lib/push/nudge-cap.ts (DAILY_NUDGE_CAP = 2), lib/push/send.ts, supabase/migrations/395_parent_nudge_cap.sql applied live (PR 1522), scripts/check-nudge-cap.mjs"
     },
     {
       "id": "tap-in-competitor-sightings",
@@ -825,8 +826,327 @@
       ],
       "proof": "https://apps.apple.com/app/id6759011242 (read 12 November 2026 by the competitor lens); briefings/notes/competitor-sightings.md",
       "due": "2026-11-19",
-      "status": "open",
+      "status": "done",
       "created": "2026-11-12",
+      "asked": null,
+      "snooze_until": null,
+      "closed": "2026-11-14",
+      "note": "PR 1514: briefings/notes/competitor-sightings.md 12 November TAP entry; the price correction is the new task competitor-log-tap-ginko"
+    },
+    {
+      "id": "post-walkthrough-and-retest-left-out",
+      "title": "Step to ten for marketing and right audience: post the walkthrough campaign from Tuesday 17 November (the month's written bet, 80 stage checks by 20 December) and rerun the Left out ad at round 1's size against the new one tap stage check, reading stage checks begun per 100 page loads.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 1,
+      "lenses": [
+        "marketing",
+        "right-audience",
+        "business-running"
+      ],
+      "proof": "content/ads/results-log.md; plans/2026-10-01-marketing-master-plan.md; plans/2026-11-14-stage-check-one-tap.md; content/campaigns/platform-walkthrough",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "day-done-why-zero",
+      "title": "Step to ten for keeps coming back, and the proof every other lens is waiting on: find out why no day has been recorded done since 28 September by ticking Home's lead on a phone and tracing the write the pulse reads, fix it if it is broken, then show tomorrow's next stop and what the child unlocks on the finish screen, logged so the pulse counts it.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 1,
+      "lenses": [
+        "keeps-coming-back",
+        "solves-problem",
+        "value-above-ai",
+        "will-pay",
+        "business-running"
+      ],
+      "proof": "product pulse 2026-11-14 (newest session 2026-09-28, day done rate 0%); components/daily/TodayPathBig.tsx; plans/review-board/product-pulse.sql",
+      "due": "2026-11-28",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "reminders-promise-matches-cap",
+      "title": "Step to ten for keeps coming back: the reminder prompt promises 'Three gentle nudges a day' while the cap is two, so make PushPrompt, the install prompt and the home screen setup step say plainly that there are at most two reminders a day, at the moments screens come up, easing off if you go quiet; read the number from DAILY_NUDGE_CAP and add the copy to the nudge cap guard.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "keeps-coming-back",
+        "simplicity-flow"
+      ],
+      "proof": "components/push/PushPrompt.tsx line 572; lib/push/nudge-cap.ts; lib/setup/steps.ts (homeScreen); scripts/check-nudge-cap.mjs",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "home-says-follow-the-path",
+      "title": "Step to ten for simplicity and flow: Home's lead and the next up picker already drive each day, but the promise is only on the marketing page ('We drive') and folded away on the passport tab, so say it once inside the app on a new family's first day and in the welcome email: you just follow the path, and each day we bring the next step and the words for it.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "simplicity-flow",
+        "solves-problem"
+      ],
+      "proof": "app/page.tsx (We drive section); components/pathway/PathwayIntro.tsx; lib/home/first-run.ts; lib/home/next-up.ts; lib/email/templates.ts",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "child-link-said-plainly",
+      "title": "Step to ten for value above AI: the handover link already works (QR, WhatsApp, copy and email in ChildLinkShare, built from SITE_URL, 8 families linked), so make the setup step say it in the parent's words, 'Send them their own link. It opens their app, nothing to download, no password', and add a check that a fresh child link opens with no sign in.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "value-above-ai",
+        "simplicity-flow"
+      ],
+      "proof": "lib/setup/steps.ts (childLink says 'Show them the code'); components/quests/ChildLinkShare.tsx; app/k/[token]; product pulse childLink 8",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "watch-one-family-day-one",
+      "title": "Step to ten for solves problem: the advice is already proactive in code (flashpoint heads ups, the school window push, the week brief, Tonight's words), but nobody has been seen using it, so sit beside one real parent for their first day on their own phone and note where they stop, so we know it solves a problem rather than adding a chore.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "solves-problem",
+        "simplicity-flow",
+        "keeps-coming-back"
+      ],
+      "proof": "lib/push/flashpoint-heads-up.ts; app/api/push/cron/route.ts; product pulse 2026-11-14 (0 finished days)",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "free-tier-line-on-price",
+      "title": "Step to ten for will pay: on the price card and the upgrade page, add one plain line saying where free stops (the daily DiGi limit and the starter scripts) and what only paying keeps after the four days, with the limits read from platform_config and only naming what lib/access.ts really gates.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "will-pay"
+      ],
+      "proof": "app/(dashboard)/dashboard/upgrade/page.tsx; lib/access.ts; THE-STORY.md section 9",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "first-real-paying-family",
+      "title": "Step to ten for will pay: ask one family you know who is using the app to take the founder rate through live Stripe this week, or tell the board the reason none will, so the payer count is more than you.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "will-pay",
+        "business-running"
+      ],
+      "proof": "plans/2026-09-30-control-room.md section 1; product pulse 2026-11-14",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "result-page-save-near-top",
+      "title": "Step to ten for simplicity and flow: on the pathway is ready page (about 5,400px at 390 after PR 1546), put the save button near the top as well as after the price card, so a parent who is ready does not have to scroll the whole page to act.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 2,
+      "lenses": [
+        "simplicity-flow",
+        "will-pay"
+      ],
+      "proof": "app/(marketing)/starter-pack/ResultScreen.tsx",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "one-word-for-pathway",
+      "title": "Step to ten for simplicity and flow: apply the 15 October decision (Passport everywhere, Road to sixteen as its subtitle, pathway only DiGi's word and never a page name) to the road and pathway routes and nav labels, keep the old URLs as redirects, and add a guard against pathway as a page name.",
+      "owner": "claude",
+      "size": "medium",
+      "priority": 3,
+      "lenses": [
+        "simplicity-flow"
+      ],
+      "proof": "app/(dashboard)/dashboard/road/page.tsx; app/(dashboard)/dashboard/pathway/page.tsx; tasks.json decide-journey-page-name note",
+      "due": "2026-11-28",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "passport-tokens-and-type",
+      "title": "Step to ten for ux expert: add tokens for the passport gold (rgba 237,195,95 at its alphas) and use them in InsideBlocks.tsx, raise its 9px labels to var(--text-xs), and lower the hex baseline in the same PR.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ux-expert"
+      ],
+      "proof": "components/starter/InsideBlocks.tsx; scripts/hex-baseline.json",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "result-page-in-walkthrough",
+      "title": "Step to ten for ux expert: walk /starter-pack?preview=result at 390 and 1280 with the webapp testing skill, tap every button, and add it as a ref fixture so the saved walkthrough covers it.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ux-expert"
+      ],
+      "proof": "plans/review-board/walkthroughs/2026-11-12.md does not cover the PR 1546 page",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "child-win-on-finish-and-weekly",
+      "title": "Step to ten for keeps coming back: show the child's side of the pull on the parent's finish screen and in the weekly review email (this week's Planet Friends progress and five a day count), so the payoff a parent sees is the child's own.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "keeps-coming-back"
+      ],
+      "proof": "components/daily/TodayPathBig.tsx; app/api/cron/weekly-review/route.ts",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "competitor-log-tap-ginko",
+      "title": "Step to ten for competitor watch: correct TAP to its free tier and $14.99 a year founding waves and say what our founder rate buys that theirs does not, drop the agreed deal citation that no page renders, and log Ginko against DiGi and the tested words, then sweep the AI parenting assistant field from primary sources.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "competitor-watch"
+      ],
+      "proof": "briefings/notes/competitor-sightings.md; components/starter/WhatYouGet.tsx (imported nowhere); https://apps.apple.com/app/id6759011242",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "kairoo-recheck-2-december",
+      "title": "Step to ten for competitor watch: on 2 December reread Kairoo's live Meta ads and App Store notes, log whether the 'Jobs first' ads survived, and add Qustodio's app store notes to the standing watch list.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "competitor-watch"
+      ],
+      "proof": "briefings/notes/competitor-sightings.md",
+      "due": "2026-12-02",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "fable-5-2-compare",
+      "title": "Step to ten for ai tools watch: run the Fable 5.2 compare button, and if it passes with no safety breach, switch DIGI_MODEL and DIGI_MODEL_CHAT in Vercel.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "ai-tools-watch"
+      ],
+      "proof": "lib/config/digi.ts (DIGI_MODEL_CANDIDATE); components/insights/InsightsBoard.tsx",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "pathway-title-and-investor-noindex",
+      "title": "Step to ten for right audience: rewrite the /pathway marketing title and description in the parent's words with the current module count, and confirm /investor, /investor-deck and /connectors are noindex and out of parent navigation.",
+      "owner": "claude",
+      "size": "small",
+      "priority": 3,
+      "lenses": [
+        "right-audience"
+      ],
+      "proof": "app/(marketing)/pathway/page.tsx; app/(marketing)/investor/page.tsx",
+      "due": "2026-11-21",
+      "status": "open",
+      "created": "2026-11-14",
       "asked": null,
       "snooze_until": null,
       "closed": null,
