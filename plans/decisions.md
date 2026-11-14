@@ -432,3 +432,9 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - The transcript Justin pasted is by a speaker addressed as Sabri and does not say email sequences over downloads. The email course stays on our own reasoning.
 - Adopted: every piece must give what a chatbot cannot. Adapted: a stage named in an ad's first line, tested free first. Parked: PR and cloned funnels. Declined: rewarded reviews.
 - `plans/2026-11-14-seven-rules-video-weighed.md`. No spend, no new funnel.
+## 14 November 2026: James Smith on lead magnets, weighed
+
+- The right video this time: no PDF as the price of an email address, a short email a day instead.
+- Adopted in adapted form: the topic email course is seven daily emails of about a minute each, one thing to do, the offer on days five and seven. Declined: pressure lines and a thirty day run.
+- Adopted: name our own bottleneck with real numbers before building more content.
+- `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md`.
