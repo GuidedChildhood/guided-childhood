@@ -139,6 +139,12 @@
    "sound": "oi",
    "soundHint": "says “wa”: moi, toi, trois, noir",
    "phonics": "y3_ht2_phonics_oi.html",
+   "phonicsMats": [
+    {
+     "f": "Y3_HT2_Phonics_mat.pdf",
+     "t": "Phonics mat (support): Lessons 1 and 2"
+    }
+   ],
    "lessons": [
     {
      "n": 1,
@@ -329,16 +335,16 @@
      "files": [
       {
        "kind": "assess",
-       "t": "Mon bilan",
-       "f": "Y3_HT2_L6_Mon_bilan_v2.pdf",
+       "t": "Mon bilan (strips: 4 per A4, pupils write in their books)",
+       "f": "Y3_HT2_L6_Mon_bilan_strips.pdf",
        "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "assess",
-       "t": "Mon bilan",
-       "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf",
-       "ans": "Y3_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
+       "t": "Mon bilan help card (sentence starters and word box)",
+       "f": "Y3_HT2_L6_Mon_bilan_help_cards.pdf",
+       "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "inclusion",
@@ -415,20 +421,12 @@
     {
      "t": "Very easy picture word mat",
      "f": "Y3_HT2_Easy_word_mat.pdf"
-    },
-    {
-     "t": "Sentence builder mat (with the grammar explained)",
-     "f": "Y3_HT2_Sentence_builder.pdf"
     }
    ],
    "displays": [
     {
      "t": "Vocabulary cards: one big picture and word per page",
      "f": "Y3_HT2_Display_vocabulary_cards.pdf"
-    },
-    {
-     "t": "Grammar posters",
-     "f": "Y3_HT2_Display_grammar.pdf"
     }
    ],
    "wordMats": [
@@ -462,16 +460,16 @@
    "assessment": [
     {
      "kind": "assess",
-     "t": "Mon bilan",
-     "f": "Y3_HT2_L6_Mon_bilan_v2.pdf",
+     "t": "Mon bilan (strips: 4 per A4, pupils write in their books)",
+     "f": "Y3_HT2_L6_Mon_bilan_strips.pdf",
      "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "adapted",
      "kind": "assess",
-     "t": "Mon bilan",
-     "f": "Y3_HT2_L6_Mon_bilan_v2_Adapted.pdf",
-     "ans": "Y3_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
+     "t": "Mon bilan help card (sentence starters and word box)",
+     "f": "Y3_HT2_L6_Mon_bilan_help_cards.pdf",
+     "ans": "Y3_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "inclusion",
@@ -583,6 +581,12 @@
    "sound": "eu",
    "soundHint": "like the “u” in “fur”: peux, deux, bleu",
    "phonics": "y4_ht2_phonics_eu.html",
+   "phonicsMats": [
+    {
+     "f": "Y4_HT2_Phonics_mat.pdf",
+     "t": "Phonics mat (support): Lessons 1 and 2"
+    }
+   ],
    "lessons": [
     {
      "n": 1,
@@ -818,16 +822,16 @@
      "files": [
       {
        "kind": "assess",
-       "t": "Mon bilan",
-       "f": "Y4_HT2_L6_Mon_bilan_v2.pdf",
+       "t": "Mon bilan (strips: 3 per A4, pupils write in their books)",
+       "f": "Y4_HT2_L6_Mon_bilan_strips.pdf",
        "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "adapted",
        "kind": "assess",
-       "t": "Mon bilan",
-       "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf",
-       "ans": "Y4_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
+       "t": "Mon bilan help card (sentence starters and word box)",
+       "f": "Y4_HT2_L6_Mon_bilan_help_cards.pdf",
+       "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
       },
       {
        "lv": "inclusion",
@@ -890,20 +894,12 @@
     {
      "t": "Very easy picture word mat",
      "f": "Y4_HT2_Easy_word_mat.pdf"
-    },
-    {
-     "t": "Sentence builder mat (with the grammar explained)",
-     "f": "Y4_HT2_Sentence_builder.pdf"
     }
    ],
    "displays": [
     {
      "t": "Vocabulary cards: one big picture and word per page",
      "f": "Y4_HT2_Display_vocabulary_cards.pdf"
-    },
-    {
-     "t": "Grammar posters",
-     "f": "Y4_HT2_Display_grammar.pdf"
     }
    ],
    "wordMats": [
@@ -931,16 +927,16 @@
    "assessment": [
     {
      "kind": "assess",
-     "t": "Mon bilan",
-     "f": "Y4_HT2_L6_Mon_bilan_v2.pdf",
+     "t": "Mon bilan (strips: 3 per A4, pupils write in their books)",
+     "f": "Y4_HT2_L6_Mon_bilan_strips.pdf",
      "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "adapted",
      "kind": "assess",
-     "t": "Mon bilan",
-     "f": "Y4_HT2_L6_Mon_bilan_v2_Adapted.pdf",
-     "ans": "Y4_HT2_L6_Mon_bilan_v2_Adapted_Answers.pdf"
+     "t": "Mon bilan help card (sentence starters and word box)",
+     "f": "Y4_HT2_L6_Mon_bilan_help_cards.pdf",
+     "ans": "Y4_HT2_L6_Mon_bilan_v2_Answers.pdf"
     },
     {
      "lv": "inclusion",
@@ -5074,7 +5070,7 @@
    ],
    [
     "Retrieval",
-    "Tu te souviens ?",
+    "Every lesson",
     "Picture → say the French. Spaced and mixed so pupils know more and remember more."
    ],
    [
@@ -5095,7 +5091,7 @@
    [
     "Consolidate",
     "Review",
-    "How did it go? What's next? « Au revoir ! » and « Où est Pierre ? »."
+    "How did it go? What's next? (« Où est Pierre ? » and optional games for spare time.)"
    ]
   ],
   "research": [
@@ -5929,7 +5925,7 @@
    ],
    [
     "Why are there different levels of work?",
-    "We think of all our pupils. Most work at Class level. Adapted is the same work with scaffolding. Challenge is provided within the Class work, as there are no limits. Inclusion is for those who cannot access what the rest of the class is doing, and they still feel part of the group because their work links to each day's objective."
+    "We think of all our pupils. Most work at Class level. Adapted is the same work with scaffolding. Challenge is provided within the Class work. Inclusion is for those who cannot access what the rest of the class is doing, and they still feel part of the group because their work links to each day's objective."
    ],
    [
     "Why is there cut and stick and joining in the Inclusion work?",
