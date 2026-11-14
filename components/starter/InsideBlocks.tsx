@@ -53,6 +53,7 @@ function Head({ eyebrow, title, id }: { eyebrow: string; title: string; id: stri
 
 /** The road: five stages, a Planet Friend at each, the child's own stage marked. */
 export function Passport({ here, kid }: { here: number; kid?: string }) {
+  const current = STAGES.find(s => s.id === here)
   return (
     <section aria-labelledby="ready-passport" data-ready-passport>
       <Head eyebrow="The passport" title="One road, from 4 to 16." id="ready-passport" />
@@ -62,7 +63,7 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
         <img src="/shop/passport_printed.webp" alt="The printed Digital Literacy Passport, open on its stamped pages" width={168} height={168} loading="lazy"
           style={{ width: 168, height: 168, borderRadius: 'var(--radius-card)', border: '1.5px solid var(--border)', boxShadow: '0 10px 30px rgba(26,26,46,0.10)', objectFit: 'cover' }} />
       </div>
-      <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, position: 'relative', textAlign: 'center' }}>
+      <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 4, position: 'relative', textAlign: 'center' }}>
         <span aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: 29, height: 2, background: 'var(--border)' }} />
         {STAGES.map(s => {
           const friend = STAGE_CHARACTERS.find(c => c.stageId === s.id)
@@ -70,33 +71,27 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
           return (
             <li key={s.id} aria-current={on ? 'step' : undefined} style={{ position: 'relative', minWidth: 0 }}>
               <span style={{
-                display: 'inline-flex', width: 58, height: 58, maxWidth: '100%', borderRadius: '50%', overflow: 'hidden',
+                display: 'inline-flex', width: '100%', maxWidth: 58, aspectRatio: '1 / 1', borderRadius: '50%', overflow: 'hidden',
                 border: on ? '3px solid var(--ink)' : 'var(--edge)', boxSizing: 'border-box',
                 background: `var(--stage-${s.id}-bold)`, boxShadow: on ? 'var(--lift)' : 'none',
                 opacity: on ? 1 : 0.85,
               }}>
                 {friend && <img src={friend.img} alt="" width={58} height={58} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: on ? 900 : 700, fontSize: 'var(--text-xs)', color: 'var(--ink)', marginTop: 6, lineHeight: 1.2 }}>
-                {s.name}
-              </span>
-              <span style={{ display: 'block', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', lineHeight: 1.3 }}>
+              {/* Ages only under each friend. The stage names were wider than
+                  their slot on a 320px phone ("Independent") and pushed the page
+                  sideways; the child's own stage is named in the line below. */}
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: on ? 900 : 700, fontSize: 'var(--text-xs)', color: on ? 'var(--ink)' : 'var(--ink-muted)', marginTop: 6, lineHeight: 1.2, whiteSpace: 'nowrap' }}>
                 {s.ageBand === '16+' ? '16+' : s.ageBand.replace('-', ' to ')}
               </span>
-              {on && (
-                <span style={{
-                  display: 'inline-block', marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700,
-                  letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)',
-                  border: '1.5px solid var(--ink)', padding: '2px 6px', borderRadius: 'var(--radius-pill)',
-                }}>
-                  {kid ? kid : 'Here'}
-                </span>
-              )}
             </li>
           )
         })}
       </ol>
-      <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '18px 0 0', textAlign: 'center' }}>
+      <p className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4, margin: '18px 0 2px', textAlign: 'center' }}>
+        {kid || 'Your child'} is at {current?.name ?? 'their stage'}, stage {here} of 5.
+      </p>
+      <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, textAlign: 'center' }}>
         Safe, ready and taught, one stage at a time.
       </p>
     </section>
