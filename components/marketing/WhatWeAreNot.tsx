@@ -26,7 +26,10 @@ const NOT = [
   { label: 'Not done to them.', line: 'Your child has their own app, earns their own stars and helps write the family rules.' },
 ]
 
-export default function WhatWeAreNot() {
+// `example={false}` drops the quoted script: the stage check intro now has a
+// demo above this block that shows the words for tonight (14 November 2026),
+// and the same promise twice on one page reads as padding.
+export default function WhatWeAreNot({ example = true }: { example?: boolean }) {
   return (
     <section aria-label="What this is not" data-what-we-are-not style={{
       marginTop: '30px', background: 'var(--white)', border: '1.5px solid var(--border)',
@@ -42,7 +45,7 @@ export default function WhatWeAreNot() {
           </li>
         ))}
       </ul>
-      <div style={{ marginTop: '16px', background: 'var(--tint-butter)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
+      {example && <div style={{ marginTop: '16px', background: 'var(--tint-butter)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 6px' }}>
           What you get is the words for tonight.
         </p>
@@ -52,7 +55,7 @@ export default function WhatWeAreNot() {
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
           &ldquo;{EXAMPLE.script.sayThis}&rdquo;
         </p>
-      </div>
+      </div>}
     </section>
   )
 }

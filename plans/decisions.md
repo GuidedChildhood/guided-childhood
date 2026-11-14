@@ -258,3 +258,15 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 - New: WhatsApp parent managed accounts for under 13s (March) and teen controls (September). UK availability unconfirmed, so every asset says so.
 - The pack: answer post, second angle, Reel, Short, seven daily emails (Justin's change the same day), child film brief, checklist marked NOT READY. Every post ends at the stage check, no clinician named.
 - No GDC number claimed. The register takes one study per record and a topic pack does not fit it yet. Nothing posted or sent.
+
+## 14 November 2026: the stage check intro shows the product
+
+Justin: the first page should show exactly what a parent gets, and it looked
+messy and confusing. The intro was three cards about the quiz and a box about
+what we are not; the product was nowhere on it. Now the first screen is the
+outcome and the button ("Find my child's stage"), and below it a one tap demo
+(pick a worry, see our answer and one thing for tonight), three services each
+beside the problem it answers with the drawn product, the rest as one list,
+how it works in three lines, and what this is not. Nothing invented: every line
+reads from ANSWERS and the Builder stage. No statistic, no price, no free days
+on this screen. Plan: plans/2026-11-14-stage-check-intro-shows-the-product.md.
