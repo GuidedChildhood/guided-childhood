@@ -21,6 +21,13 @@ Nothing here was uploaded, released or published.
    landscape only, none ends at the stage check, and each closes on a line that
    promises something for the child.
 
+## Justin's decisions, 14 November
+
+1. The first five go out in the look they have now. A remake can replace them later.
+2. The closing promise to the grown up is cut from the public versions.
+3. One full test on 1.3 first: `content/child-films/1.3-release-test/`.
+4. Remakes start after the first five are out, with 1.6 first.
+
 ## How these were checked, and the limit of it
 
 - Every file was downloaded from where the live product plays it, and the links
