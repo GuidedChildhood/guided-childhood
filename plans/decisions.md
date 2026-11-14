@@ -421,3 +421,9 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - He extended Instagram collection for analysis to the other two accounts, same limits as 13 November.
 - Six decisions wait on him, the main two being where the email course sits in the funnel and whether the two clinicians may be named.
 - Plan and the four prompts: `plans/2026-11-14-answer-series-email-courses-and-child-films-plan.md`. Nothing is built until he says go.
+## 14 November 2026: Justin's answers on the answer series
+
+- Twice a week. Stage check stays the call to action on every post, with the topic email course offered on the result page.
+- The two clinicians are not named: our own posts, built off their subject material. Family IT Guy may be named.
+- Child films are released everywhere: YouTube, the family account and the product.
+- He gave the James Smith video and the Instagram post with the Mike Tyson comparison. Neither could be read by machine (both sites refused), so the Roblox post stays held until the exact words are read.

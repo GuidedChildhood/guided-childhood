@@ -258,7 +258,10 @@ a generated image standing in for a shot that was not filmed.
 
 ## What is still open
 
-1. The link to the video where Family IT Guy makes the Mike Tyson comparison.
+1. The exact words of the Mike Tyson comparison. Justin gave the link on 14
+   November, https://www.instagram.com/p/DNs4HIXYjFu/ , but Instagram refused
+   automated reading, so the words have not been read yet.
+   Was: the link to the video where Family IT Guy makes the comparison.
    He is named on Justin's decision, but the comparison is attributed on
    Justin's word alone until we hold the link and his exact words.
 2. Which account carries a founder Reel.

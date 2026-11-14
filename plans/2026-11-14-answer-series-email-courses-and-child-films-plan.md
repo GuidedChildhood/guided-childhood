@@ -269,12 +269,26 @@ Do not release, upload or publish anything. Where the films would be released
 is Justin's decision and is not yet made.
 ```
 
-## What is needed from Justin
+## Justin's answers, 14 November
 
-1. Twice a week, or once a fortnight.
-2. The funnel: stage check first with the course on the result page (my
-   recommendation), or posts straight to a course sign up.
-3. Whether the two clinicians may be named. Until then they are not.
-4. The link to what James Smith said about email funnels.
-5. Where child films are released.
-6. The Mike Tyson video link, still needed for the Roblox post.
+1. **Twice a week.**
+2. **The funnel: as recommended.** Every post ends at the stage check, and the
+   topic email course is offered on the result page, matched to the stage.
+3. **The two clinicians are not named.** We build our own posts off the back
+   of their subject material. Family IT Guy may still be named.
+4. **James Smith on email funnels:** https://youtu.be/nv1s7QrpUwQ . Not yet
+   read: YouTube refused automated reading on 14 November. Until someone has
+   watched it or pasted the transcript, the email course follows our own
+   reasoning in this plan and claims nothing about what he said.
+5. **Child films are released everywhere:** YouTube, the family account and
+   inside the product.
+6. **The Mike Tyson comparison:** https://www.instagram.com/p/DNs4HIXYjFu/ .
+   Not yet read: Instagram refused automated reading on 14 November. The hold
+   on the Roblox post stays until the exact words have been read from that
+   post, which the creator breakdown in Justin's own browser can do first.
+
+## Still needed
+
+1. Someone to open the Instagram post above and paste the caption and what is
+   said, or run Prompt A, which reads it first.
+2. The transcript or a summary of the James Smith video.
