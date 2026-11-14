@@ -89,7 +89,7 @@ new reports he is reading was designed into the guide months ago.
 | Knibbs finding | The news hook | What we built (founder update) |
 |----------------|---------------|-------------------------------|
 | Harm beneath the threshold | Ofcom's first OSA fine (4chan, £450k, Mar 2026), bites on illegal content, misses the everyday | The pathway starts at age 4 and teaches before exposure, for the age band the law misses |
-| The silent child | Internet Matters, 7 in 10 children harmed online, fewer than 1 in 5 tell a trusted adult (2025) | DiGi as the askable guide, the family agreement that builds trust, scripts for the disclosure moment |
+| The silent child | Internet Matters, 7 in 10 children say they have experienced harm online, 36 percent of those reported it to the platform (2025, corrected 13 Nov 2026) | DiGi as the askable guide, the family agreement that builds trust, scripts for the disclosure moment |
 | Cybertrauma as adversity | Children's Commissioner, over a million children referred to mental health services, highest on record (Jun 2026) | The whole child, trauma informed pathway and the hidden thread, this is the mental health story, upstream |
 | The seeking loop and broken ratings | Roblox mandatory face scans (Jan 2026), BBC's own test showed the gate leaking | We teach kids to see the machinery (module 1, module 10), DiGi never rubber stamps a rating, the balance report reads the pattern |
 | The one askable adult | Australia's under 16 ban evaded, 8 in 10 still online (Aug 2026) | The whole platform, preparation plus trust, connection is the protection, the CTA close |
@@ -101,8 +101,10 @@ new reports he is reading was designed into the guide months ago.
   Source: SCL and multiple outlets. Shows the Act bites on illegal, priority content and leaves the
   everyday harm to young children untouched.
 - **Internet Matters silent harm:** 7 in 10 UK children (survey of 1,000, ages 9 to 17) experienced
-  online harm, only about 36 percent took any action, fewer than 1 in 5 told a trusted adult, 27
-  May 2025. Dated 2025, pair with KCSIE 2026 if strict recency is needed.
+  online harm from a broad list, and 36 percent of those reported it to the platform, 27
+  May 2025. CORRECTED 13 November 2026: an earlier version said fewer than 1 in 5 told a trusted
+  adult. The report does not measure that. Its 18 percent is platform reporting of dangerous
+  stunts content. Dated 2025, pair with KCSIE 2026 if strict recency is needed.
 - **Children's Commissioner:** 1,048,965 children with an active mental health referral in England
   2024 to 25, nearly double 2018 to 19, over 60,000 waiting more than two years, ~June 2026. The
   authoritative upstream spine.

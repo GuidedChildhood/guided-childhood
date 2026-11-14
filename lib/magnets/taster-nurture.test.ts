@@ -127,7 +127,7 @@ test('the src a Saturday post carries is kept, and an email address is not', () 
 
 test('the gate posts attribution in the body, never the email in an address', () => {
   const gate = readFileSync('components/marketing/MagnetGate.tsx', 'utf8')
-  assert.match(gate, /body: JSON\.stringify\(\{ email: clean, slug, \.\.\.pageAttribution\(\) \}\)/)
+  assert.match(gate, /body: JSON\.stringify\(\{ email: clean, slug, consent: tips, \.\.\.pageAttribution\(\) \}\)/)
   assert.ok(!/[?&]email=/.test(gate))
   const api = readFileSync('app/api/magnet/route.ts', 'utf8')
   assert.match(api, /from\('free_download_events'\)\.insert/)

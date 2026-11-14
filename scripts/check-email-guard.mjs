@@ -116,7 +116,9 @@ const ALLOWED_OPT_OUTS = {
   // The past due card warning (transactional), and since 25 September 2026
   // the trial clock (trial): the welcome, days two to four and the trial
   // ending note, inside the free days only. Justin: "yes, on the trial clock".
-  'app/api/email/cron/route.ts': 'transactional and trial',
+  // And since 13 November 2026 the taster series (series): five emails a
+  // parent asked for by ticking the box on a free page. "Yes, daily for the series".
+  'app/api/email/cron/route.ts': 'series and transactional and trial',
 }
 
 const EXT = new Set(['.ts', '.tsx'])
@@ -146,7 +148,7 @@ for (const file of [...walk('app'), ...walk('lib')]) {
   // due warning, which opts out by passing 'transactional' positionally to a
   // local deliver helper. A detector that only sees one spelling of an opt out
   // is a detector that reports a clean sheet while an opt out sits in the file.
-  const kinds = [...source.matchAll(/'(operational|transactional|trial)'/g)].map(m => m[1])
+  const kinds = [...source.matchAll(/'(operational|transactional|trial|series)'/g)].map(m => m[1])
   if (kinds.length > 0) optOuts.set(file, [...new Set(kinds)].sort().join(' and '))
 }
 
@@ -173,13 +175,13 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
   const idx = readFileSync('lib/email/index.ts', 'utf8')
   const guard = readFileSync('lib/email/address-guard.ts', 'utf8')
   check('trial mail still passes the suppression check',
-    /kind === 'programme' \|\| kind === 'trial'\) \{\s*const verdict = await maySendProgramme/.test(idx))
+    /kind === 'programme' \|\| kind === 'trial' \|\| kind === 'series'\) \{\s*const verdict = await maySendProgramme/.test(idx))
   check('and only the floor is lifted for it',
     /floor: kind === 'programme'/.test(idx) && /if \(floor && !dueAgain/.test(guard))
   check('suppression is read before the floor',
     guard.indexOf('suppressed_at) return') < guard.indexOf('if (floor && !dueAgain'))
   check('and a trial send is recorded so the weekly programme counts on from it',
-    /kind === 'programme' \|\| kind === 'trial'\) await recordProgrammeSend/.test(idx))
+    /kind === 'programme' \|\| kind === 'trial' \|\| kind === 'series'\) await recordProgrammeSend/.test(idx))
 
   const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
   const TRIAL_KEYS = ['welcome', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
@@ -192,6 +194,23 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
   check('on the last day trial ending runs before Pass A so a drip cannot take its slot',
     /if \(trialEndingDue && trialEndingLeft <= 1\) await sendTrialEnding\(\)/.test(cron)
       && cron.indexOf('trialEndingLeft <= 1) await sendTrialEnding') < cron.indexOf('// ── Pass A'))
+}
+
+// ── THE TASTER SERIES: FIVE EMAILS, ONLY TO A TICKED BOX ────────────────────
+//
+// Justin, 13 November 2026: "Yes, daily for the series". The series skips the
+// floor for its five days, so it must stay exactly five emails, sent only to an
+// address that ticked the box on the free page, and nowhere else in the cron.
+{
+  const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
+  const nurture = readFileSync('lib/magnets/taster-nurture.ts', 'utf8')
+  const keys = [...nurture.matchAll(/export const SERIES_([A-Z_0-9]+)_KEY = '([a-z0-9-]+)'/g)].map(m => m[2])
+  check('the series is exactly five agreed emails',
+    keys.length === 5 && ['series-1', 'series-2', 'series-3', 'series-stage', 'series-full-pack'].every(k => keys.includes(k)), keys.join(', '))
+  const seriesSends = [...cron.matchAll(/kind: [^,}\n]*'series'/g)].length
+  check('the series kind is sent from one place in the cron', seriesSends === 1, String(seriesSends))
+  check('and only when the box was ticked',
+    /const onSeries = lead\.marketing_consent === true/.test(cron) && /kind: onSeries \? 'series' : 'programme'/.test(cron))
 }
 
 // ── AND THE DEFAULT IS THE SAFE ONE ─────────────────────────────────────────

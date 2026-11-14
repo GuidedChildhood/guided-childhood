@@ -30,9 +30,9 @@ That is the gap I built for. Our pathway does not start at 13 when the apps arri
 
 ### The child will not tell you
 
-Internet Matters surveyed a thousand UK children and found seven in ten had met something harmful online, and fewer than one in five told a trusted adult. Knibbs found the same from inside the therapy room. Her 7 to 10 year olds had decided parents "don't get it," and one group of Year 5s had quietly ruled out teachers too, or feared that telling one just meant it went straight home.
+Internet Matters surveyed a thousand UK children and found seven in ten said they had experienced some kind of harm online, and only about a third of those reported it to the platform. Knibbs heard something that sits beside it from inside the therapy room. Her 7 to 10 year olds had decided parents "don't get it," and one group of Year 5s had quietly ruled out teachers too, or feared that telling one just meant it went straight home.
 
-This should stop everyone building in this space, me included, because the whole industry is built on the child reporting. The button, the flag, the worry box. And the children have already decided not to use them. An absence of complaints is not an absence of harm. It is a measurement failure.
+This should stop everyone building in this space, me included, because the whole industry is built on the child reporting. The button, the flag, the worry box. And most children are not using them. An absence of complaints is not an absence of harm. It is a measurement failure.
 
 You cannot fix silence with a better form. So I built the opposite, a guide for the parent, not the child, because the child is not going to type it into anything. And I built it on one rule I took straight from Knibbs's own work and wrote into the product months before these reports landed. Speak to the state under the behaviour. Keep yourself the safe person to tell. Never make the child the problem.
 
@@ -66,7 +66,7 @@ Reply and tell me, who was the one askable adult in your own childhood.
 
 - Catherine Knibbs, four 2026 special reports, and her doctoral research (child trauma psychotherapist, 20+ years). Held as qualitative, mechanism not prevalence.
 - Ofcom's first Online Safety Act fine, 4chan, ~450,000 pounds, March 2026.
-- Internet Matters, 7 in 10 children harmed online, fewer than 1 in 5 tell a trusted adult, 2025.
+- Internet Matters, 7 in 10 children say they have experienced harm online, 36 percent of those reported it to the platform, May 2025. Corrected 13 November 2026.
 - Children's Commissioner for England, over a million children referred to mental health services, 2024 to 25, published June 2026.
 - Roblox mandatory facial age estimation, January 2026, and the BBC's own test of the age banding.
 - Australia's under 16 social media ban evasion, eSafety Commissioner, August 2026.

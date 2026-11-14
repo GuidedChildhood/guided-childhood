@@ -1,0 +1,72 @@
+{
+  "name": "free-saturday-2026-11-28-christmas-countdown",
+  "size": "portrait",
+  "lead": "digi",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "printable",
+      "eyebrow": "Free Saturday · ages 4 to 11",
+      "headline": "24 December evenings.<br><mark>None</mark> of them on a screen.",
+      "image": "tools/social-cards/assets/free-saturday/christmas-countdown-christmas-table.jpg",
+      "width": 640,
+      "scale": "h-m"
+    },
+    {
+      "name": "second-hook",
+      "type": "big",
+      "eyebrow": "Not another chocolate",
+      "headline": "One door a day.<br>One thing to do<br>together.",
+      "body": "Find today's door, do its card together, stick on its sticker. Ten to twenty minutes, mostly with things already in your house.",
+      "scale": "h-l"
+    },
+    {
+      "name": "on-the-fridge",
+      "type": "photo",
+      "eyebrow": "The poster",
+      "image": "tools/social-cards/assets/free-saturday/christmas-countdown-christmas-fridge.jpg",
+      "caption": "Pin it up at child height"
+    },
+    {
+      "name": "first-six",
+      "type": "list",
+      "eyebrow": "The first six doors",
+      "headline": "What the free pages hold",
+      "items": [
+        "A paper chain as long as your family can make it",
+        "Hot chocolate and a story, everyone doing the voices",
+        "Paper snowflakes for the window",
+        "A kitchen disco. The grown ups dance too",
+        "A card for someone who lives on their own",
+        "A winter lights walk after dark"
+      ]
+    },
+    {
+      "name": "the-page",
+      "type": "printable",
+      "eyebrow": "The real page",
+      "headline": "Doors 1 to 6, ready to cut out",
+      "image": "public/printables/free/tasters/christmas-countdown-taster-p3.png",
+      "width": 440,
+      "scale": "h-s"
+    },
+    {
+      "name": "free",
+      "type": "text",
+      "tone": "ink",
+      "eyebrow": "Free, just your email",
+      "headline": "The tree and<br>the first six doors",
+      "body": "Print them this weekend. All 24 doors and the sticker sheet are free in the Guided Childhood app for four days, no card. Or on Etsy to keep.",
+      "scale": "h-m"
+    },
+    {
+      "name": "send",
+      "type": "cta",
+      "eyebrow": "Before you go",
+      "headline": "Send this to the parent planning December.",
+      "body": "Want the free pages? Send us the word COUNTDOWN and we'll message you the link.",
+      "pill": "DM us COUNTDOWN"
+    }
+  ]
+}
