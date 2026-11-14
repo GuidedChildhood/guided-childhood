@@ -174,7 +174,7 @@ export function visibleSteps(opts: { about?: boolean } = {}): SetupStep[] {
 export const ABOUT_STEP: SetupStep = {
   key: 'aboutChild',
   title: 'Tell us about your child',
-  what: 'Their first name and the month they were born. It gives them their school year, and moves their stage up on its own as they grow, so nothing is left behind.',
+  what: 'Anything we do not have yet, their first name or the month they were born. The month gives them their school year and moves their stage up on its own as they grow.',
   href: '/dashboard/setup#about',
 }
 
