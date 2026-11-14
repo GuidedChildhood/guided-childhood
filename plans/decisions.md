@@ -427,3 +427,8 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - The two clinicians are not named: our own posts, built off their subject material. Family IT Guy may be named.
 - Child films are released everywhere: YouTube, the family account and the product.
 - He gave the James Smith video and the Instagram post with the Mike Tyson comparison. Neither could be read by machine (both sites refused), so the Roblox post stays held until the exact words are read.
+## 14 November 2026: the seven rules marketing video, weighed
+
+- The transcript Justin pasted is by a speaker addressed as Sabri and does not say email sequences over downloads. The email course stays on our own reasoning.
+- Adopted: every piece must give what a chatbot cannot. Adapted: a stage named in an ad's first line, tested free first. Parked: PR and cloned funnels. Declined: rewarded reviews.
+- `plans/2026-11-14-seven-rules-video-weighed.md`. No spend, no new funnel.

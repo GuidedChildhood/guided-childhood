@@ -133,6 +133,10 @@ block, given once here and referred to as THE RULES.
    claimed only through the register.
 9. Report in three parts: what changed, whether it worked, what is needed
    from Justin.
+10. Every piece must pass this test: could a parent get this from a chatbot,
+    shorter and just as good? If yes, it is the wrong piece. What we have
+    that a chatbot does not is a checked figure list, a real product screen
+    and Justin's own vantage point.
 ```
 
 ### Prompt A, the creator breakdown (run per account)
@@ -276,7 +280,10 @@ is Justin's decision and is not yet made.
    topic email course is offered on the result page, matched to the stage.
 3. **The two clinicians are not named.** We build our own posts off the back
    of their subject material. Family IT Guy may still be named.
-4. **James Smith on email funnels:** https://youtu.be/nv1s7QrpUwQ . Not yet
+4. **James Smith on email funnels:** https://youtu.be/nv1s7QrpUwQ . Justin
+   pasted the transcript on 14 November. The speaker is addressed as Sabri and
+   the video does not mention email sequences over downloads. Weighed in
+   `plans/2026-11-14-seven-rules-video-weighed.md`. Earlier note, kept: not yet
    read: YouTube refused automated reading on 14 November. Until someone has
    watched it or pasted the transcript, the email course follows our own
    reasoning in this plan and claims nothing about what he said.
