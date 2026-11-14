@@ -6,20 +6,19 @@ import { starterNext, SETUP_HREF } from '@/lib/starter/next'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Celebration from '@/components/ui/Celebration'
-import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
+import { getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
 import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
-import SolveLoop from '@/components/starter/SolveLoop'
 import Fold from '@/components/starter/Fold'
 import StickyJoin from '@/components/starter/StickyJoin'
-import WhatYouGet from '@/components/starter/WhatYouGet'
+import { Passport, Fixes, DigiLearns, AlsoInside } from '@/components/starter/InsideBlocks'
 import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import ShareStage from '@/components/starter/ShareStage'
 import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
-import { MockAsk, MockJars, MockKidApp } from './Mocks'
+import { MockJars } from './Mocks'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -256,12 +255,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   const told = (worries ?? [])
     .map(w => (w === CATCH_ALL_ID ? own : worryLabel(w)))
     .filter(Boolean)
-  const rollCall = told.length ? told : [concern]
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
   const headline = kid ? `${kid}'s pathway is ready.` : 'Your pathway is ready.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
-  const quote = stage.parentQuote
   // The term time pair, so the number on this page is the number the app will
   // set and the fridge sheet will print. Term time rather than holiday relaxed:
   // a figure on a sales page should not move under the reader in August.
@@ -427,26 +424,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               four things are labelled. Cut for an easier read, 15 October 2026. */}
           <div style={{ height: 6 }} />
 
-          {/* The roll call, in butter rather than the old black card. */}
-          <div className="wow-fu" style={{
-            background: 'var(--terracotta-lt)',
-            border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-            boxShadow: 'var(--lift-deep)',
-            padding: '14px 16px 16px', marginBottom: 24,
-          }}>
-            {/* The chips went. Every worry was printed here and then again as
-                the heading of its own card immediately underneath, so the top
-                of the most valuable section on the page was spent repeating
-                itself. What is left is the part the cards do not say: that
-                these are ordinary, and that none of it means you are late. */}
-            <div style={{ ...EYEBROW, marginBottom: 7 }}>You told us</div>
-            <p style={{ ...BODY, color: 'var(--ink)', margin: 0 }}>
-              {/* The card under this one now says the same reassurance with
-                  other parents' numbers behind it, which is worth more than us
-                  saying it. This keeps the count and the age and stops. */}
-              {rollCall.length > 1 ? `${rollCall.length} things` : 'One thing'}, at ages {ages}. Not a sign you are behind.
-            </p>
-          </div>
+          {/* The You told us card went, 14 November 2026: it counted the
+              worries the cards underneath already name, and the page had to
+              get shorter. */}
 
           {/* Order matters more than it looks. Default is ticked worries, then
               help, then the worry they typed: a parent who typed something
@@ -487,247 +467,71 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           )}
         </section>
 
-        {/* ── How it works ─────────────────────────────────────────────── */}
-        <section id="how" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>How it works</div>
-          <Problem>Taking the device away works for one evening. The row is worse the next.</Problem>
-          <h2 className="wow-fu" style={H2}>Not another blocking app. A plan you follow together.</h2>
-          {/* ONE SENTENCE VISIBLE, the rest one tap in. The four beats and the
-              five minutes card are the reasoning a careful parent wants before
-              they hand over a card, and printing all of it here is why a parent
-              sold on screen three still had nine screens to go. See Fold. */}
-          <p className="wow-fu" style={LEAD}>
-            Five minutes a day, and you can catch up on any day you miss.
-          </p>
-          <div className="wow-fu">
-            <Fold label="What the five minutes actually is" tone="card">
-              <p style={{ ...BODY, fontSize: 'var(--text-base)', margin: '0 0 14px' }}>
-                Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round.
-              </p>
-              <SolveLoop />
-              <div style={{ marginTop: 18, background: 'var(--tint-green)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 15px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
-                <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
-              </div>
-            </Fold>
-          </div>
-        </section>
+        {/* ── THE MIDDLE OF THE PAGE, IN PICTURES (14 November 2026) ────
+            Justin, on this page: "super slick and much less wordy and
+            obvious", show what we offer and solve, the passport that gets
+            them safe, ready and taught, and DiGi with how it learns. It was
+            three sections of sentences (how it works, devices and time, also
+            included) at about 6,400px on a phone. Now four blocks, a picture
+            and a few words each. See components/starter/InsideBlocks.
 
-        {/* ── Screen time and balance ──────────────────────────────────── */}
-        <section id="time" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>Devices, time and balance</div>
-          <Problem>Every evening is the same negotiation, and you are guessing at how much is too much.</Problem>
-          <h2 className="wow-fu" style={H2}>A number you agreed this morning, not one you defend at six.</h2>
+            Nothing honest was cut. The time number, where it comes from, the
+            three kinds of time and the "we do not read the device" disclosure
+            all sit one tap in, under the stars, because a parent paying for
+            the star system should be able to read them before they do. */}
+        <div style={SECTION}><Passport here={stage.id} kid={kid} /></div>
 
-          {/* ── THE NUMBER, SAID OUT LOUD ──────────────────────────────────
-              Justin, 9 September 2026: "based on scientific data research we
-              have already done add a recommended set time, note we need to
-              calculate with the star system in mind."
-
-              The page talked about how time works and never once said how
-              much. A parent deciding whether to pay wants the number, and we
-              have one, sourced, in lib/quests/screen-balance. Two numbers in
-              fact, and the gap between them IS the product: the base is theirs
-              at breakfast, the rest arrives with the day. */}
-          <div className="wow-fu" style={{
-            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-            boxShadow: 'var(--lift-deep)', padding: '18px 18px 20px', marginTop: 20,
-          }}>
-            {/* Short enough not to orphan the second number onto its own line at 390. */}
-            <div style={{ ...EYEBROW, marginBottom: 8 }}>Our steer for ages {ages}</div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
-                {base} minutes
-              </span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>
-                to start the day
-              </span>
-              {/* On the number, not only in the paragraph below it. A scanning
-                  parent takes away "60 minutes" and nothing else, and the
-                  honest sixty words underneath never get read. */}
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', width: '100%' }}>
-                A starting point, not a safe limit.
-              </span>
-            </div>
-            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10 }}>
-              Theirs at breakfast, without asking. The day reaches {guide} minutes, and the last {guide - base} arrive with jobs, reading and time outside. Both numbers are yours to move.
-            </p>
-            {/* ── SAY WHAT THE EVIDENCE ACTUALLY SAYS ────────────────────────
-                The page used to give the number and leave it at that, which
-                invites the reader to assume a medical threshold behind it.
-                There is not one, and our own source list says so: the RCPCH
-                looked in 2019 and declined to set a limit, and the AAP dropped
-                its numeric rule for over fives in favour of a family plan. The
-                WHO figure people quote covers under fives and does not apply
-                to this age at all. Naming that is not a weakness, it is the
-                difference between a claim a paediatrician would accept and one
-                they would take apart. */}
-            {/* Folded, never cut. This paragraph is the difference between a
-                claim a paediatrician would accept and one they would take
-                apart, and the parent who wants it is the parent who will press
-                for it. The "starting point, not a safe limit" line stays on the
-                number itself above, where a scanning reader cannot miss it. */}
-            <Fold label="Where that number comes from">
-              <p style={{ ...BODY, color: 'var(--ink-soft)', margin: 0 }}>
-                The RCPCH looked at the evidence in 2019 and decided there was not enough of it to set a limit, and the American Academy of Pediatrics dropped its old rule for this age in favour of a family plan, which is what this is. What the evidence is clearer about is sleep, meals and time outside, which is why those are the parts nobody can buy.
-              </p>
-            </Fold>
-          </div>
-
-          {/* The jars picture used to sit open between the number and the
-              fold. It is the mechanism, not the number, and the number is what
-              a parent deciding whether to pay wants from this screen, so the
-              picture now opens the fold rather than the section. */}
-          <div className="wow-fu" style={{ marginTop: 14 }}>
-          <Fold label="How the time works, and what it will not do" tone="card">
-          <div style={{ margin: '4px 0 16px' }}><MockJars /></div>
-          <div style={{ display: 'grid', gap: 16 }}>
-            {/* ── NOT "EARN YOUR SCREEN TIME" ───────────────────────────────
-                The 9 September research briefing is blunt about this: the
-                mechanic is fine, the word is not. "Earn your screen time"
-                invites every objection in the reward literature; "planned, not
-                won" survives them. Same product, and a parent who has read one
-                article about rewards does not bounce off it. */}
-            <Point icon="checkin" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
-            {/* A child whose mood is already low, put on a system where a good
-                evening is earned and can be lost, is a plausible route to more
-                conflict rather than less. The page sells the mechanic to
-                exactly that parent, so it should say this. */}
-            <Point icon="digi" title="If the mood is the worry, start without the stars">Use the check in and the scripts for a fortnight first. A child who feels they have to earn a good evening will not thank you for a chart.</Point>
-            <Point icon="balance" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
-          </div>
-
-          {/* ── HOW THE TRACKING ACTUALLY WORKS, BEFORE THEY PAY ───────────
-              Justin: "we suggest the device tracking system we have to manage
-              this and it is manual, not system tracking (child's app)."
-
-              Said here rather than discovered in week two. A parent who thinks
-              they are buying screen time software and finds out later is a
-              refund and a bad review; a parent who is told the honest version
-              up front and buys anyway is the one this product is for. It is
-              also a genuine advantage, and the paragraph says so rather than
-              apologising. */}
-          <div style={{
-            background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
-            borderRadius: 'var(--radius-card)', padding: '16px 18px', marginTop: 18,
-          }}>
-            <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
-            <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
-              {`We do not read the device. ${they.charAt(0).toUpperCase() + they.slice(1)} asks in their own app, one tap agrees it. That is why it covers a Switch, a telly and a cousin's iPad, which no screen time app can see.`}
-            </p>
-            <MockAsk kid={kid || 'Your child'} />
-            {/* The disclosure argued the upside of manual tracking and never
-                the cost. A parent paying because a device is being used
-                secretly at 1am needs to know this will not see that BEFORE
-                they pay, not in week two. */}
-            {/* The page holds this principle and never applied it to the one
-                feature where it matters most: a daily mood record kept on an
-                11 to 13 year old. A covert log found later is precisely the
-                rupture this product exists to prevent. Written as the part we
-                can guarantee today, which is our position rather than a claim
-                about a screen in the child's app. */}
-            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
-              The check in is not a secret file kept on {they}, and we would not build one. If you
-              are not willing for {they} to know you are keeping it, this is the wrong tool.
-            </p>
-            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
-              Because {they} tells us, this works when you are working with them rather than around them. If you think a device is being used secretly at night, that is a different problem, and taking it out of the bedroom will do more than any app.
-            </p>
-          </div>
-          </Fold>
-          </div>
-
-        </section>
-
-        {/* ── What else is included ────────────────────────────────────
-            Justin, 9 September 2026: "can we simplify this page but keep
-            important parts."
-
-            This was three sections: the child's app, the road to 16, and And
-            for you. Nine headings on one page is a page a parent scrolls
-            rather than reads, and by this point they have already been given
-            the thing they came for (their worry, answered) and the mechanism
-            (four steps). What is left is the answer to "and what else do I
-            get", which is one question and so is one section.
-
-            Cut in the merge: the four Points under And for you, because the
-            scripts, the passport and the weekly check in are already named as
-            proof chips on the cards that answer their actual worries, where
-            they mean something. Naming them again as features is the kind of
-            list this page was rebuilt to stop being. */}
-        <section id="kid" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>Also included</div>
-          <Problem>All of this is done TO {they} rather than with them, so nothing sticks once you are not in the room.</Problem>
-          <h2 className="wow-fu" style={H2}>{kid ? `${kid} gets their own app, and it grows with them.` : 'Your child gets their own app, and it grows with them.'}</h2>
-          <p className="wow-fu" style={LEAD}>
-            A link, no login, and nothing buzzes their phone at night.
-          </p>
-          <div className="wow-fu"><MockKidApp kid={kid || 'My'} /></div>
-
-          {/* ── EVERYTHING ELSE, AS ICONS ──────────────────────────────────
-              Justin, 10 September 2026: "just make the other information after
-              that a collection of happy news design icons so we can shrink the
-              scroll and too much text ... they can all live under icons ...
-              we've got you, not another blocking app, our philosophy, all in
-              pretty happy news icons."
-
-              This was three long Points here and, further down the page, three
-              more sections doing the same job. Ten headings is ten screens
-              whatever the words say. Stake's plan grid is the shape: two up,
-              an icon, a bold line, one line under it, detail on tap. A parent
-              scanning ten tiles has seen the whole product in two screens,
-              which is the thing ten sections cannot do however well each one is
-              written. See WhatYouGet. */}
-          <div className="wow-fu" style={{ marginTop: 26 }}>
-            <WhatYouGet childName={kid} />
-          </div>
-
-          {/* The road, one row. It was a heading, a line, the five stage list
-              and the parent quote, all open, after the tiles had already said
-              One road from 4 to 16 in one line. Now the row says it and the
-              list and the quote wait behind the chevron for the parent who
-              wants to see where Stage {stage.id} sits. Same happy news row as
-              the Good to know group above, so the page has one shape for
-              "more, if you want it" from top to bottom. */}
-          <div className="wow-fu" style={{ marginTop: 14 }}>
-            {/* Renamed: the passport tile just above already says "One road,
-                from 4 to 16", and two rows with the same words read as a
-                mistake. This one is about where THEIR child is on it. */}
-            <Fold icon="passport" label={`Where ${kid || 'your child'} is on the road`} line={`Stage ${stage.id} of 5, and what comes next.`}>
-          <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', overflow: 'hidden' }}>
-            {STAGES.map((s, i) => {
-              const here = s.id === stage.id
-              const a = s.ageBand === '16+' ? '16 and up' : s.ageBand.replace('-', ' to ')
-              return (
-                <div key={s.id} style={{ display: 'flex', gap: 13, padding: '13px 16px', borderTop: i === 0 ? 'none' : '1.5px solid var(--border)', background: here ? 'var(--terracotta-lt)' : '#fff', alignItems: 'center' }}>
-                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: `var(--stage-${s.id}-bold)`, color: `var(--stage-${s.id}-text)`, border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>{s.id}</span>
-                  <div style={{ minWidth: 0, flex: 1, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{s.name}</span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{a}</span>
-                    {here && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', border: '1.5px solid var(--ink)', padding: '2px 8px', borderRadius: 'var(--radius-pill)' }}>You are here</span>}
-                  </div>
+        <div style={SECTION}>
+          <Fixes
+            kid={kid || 'Your child'}
+            words={stage.script.sayThis}
+            concern={concern}
+            afterStars={
+              <Fold label={`How the time works, and the ${base} minute start`} tone="card">
+                <div style={{ ...EYEBROW, marginBottom: 6 }}>Our steer for ages {ages}</div>
+                <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 6px' }}>
+                  <strong>{base} minutes to start the day.</strong> A starting point, not a safe limit.
+                </p>
+                <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 12px' }}>
+                  Theirs at breakfast, without asking. The day reaches {guide} minutes, and the last {guide - base} arrive with jobs, reading and time outside. Both numbers are yours to move.
+                </p>
+                {/* Said rather than implied: there is no medical threshold
+                    behind the number, and our own sources say so. */}
+                <p style={{ ...BODY, color: 'var(--ink-soft)', margin: '0 0 16px' }}>
+                  The RCPCH looked at the evidence in 2019 and decided there was not enough of it to set a limit, and the American Academy of Pediatrics dropped its old rule for this age in favour of a family plan, which is what this is. What the evidence is clearer about is sleep, meals and time outside, which is why those are the parts nobody can buy.
+                </p>
+                <div style={{ margin: '4px 0 16px' }}><MockJars /></div>
+                <div style={{ display: 'grid', gap: 16 }}>
+                  <Point icon="checkin" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
+                  <Point icon="digi" title="If the mood is the worry, start without the stars">Use the check in and the scripts for a fortnight first. A child who feels they have to earn a good evening will not thank you for a chart.</Point>
+                  <Point icon="balance" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
                 </div>
-              )
-            })}
-          </div>
+                {/* Before they pay, not in week two: this is manual, and it is
+                    not a secret file on the child. */}
+                <div style={{
+                  background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
+                  borderRadius: 'var(--radius-card)', padding: '16px 18px', marginTop: 18,
+                }}>
+                  <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
+                  <p style={{ ...BODY, color: 'var(--ink)', margin: 0 }}>
+                    {`We do not read the device. ${they.charAt(0).toUpperCase() + they.slice(1)} asks in their own app, one tap agrees it. That is why it covers a Switch, a telly and a cousin's iPad, which no screen time app can see.`}
+                  </p>
+                  <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
+                    The check in is not a secret file kept on {they}, and we would not build one. If you
+                    are not willing for {they} to know you are keeping it, this is the wrong tool.
+                  </p>
+                  <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
+                    Because {they} tells us, this works when you are working with them rather than around them. If you think a device is being used secretly at night, that is a different problem, and taking it out of the bedroom will do more than any app.
+                  </p>
+                </div>
+              </Fold>
+            }
+          />
+        </div>
 
-          <div style={{ marginTop: 16, padding: '14px 18px', borderLeft: '4px solid var(--terracotta)', background: 'var(--cream)', borderRadius: '0 16px 16px 0' }}>
-            {/* stage.parentQuote is shown as written EXCEPT where it makes a
-                causal claim about screens and mood. The Stage 3 quote read
-                "her mood was dropping every Sunday evening, it took me a month
-                to connect it to Instagram", which is the last emotional beat
-                before the button and teaches exactly the inference we do not
-                want a parent making: a Sunday dip in an eleven to thirteen
-                year old has an obvious rival explanation the quote never
-                names, which is Monday. A page that models "the dip was
-                Instagram" trains parents toward the reading that lets them
-                miss school refusal while feeling they have solved it. */}
-            <p style={{ ...BODY, color: 'var(--ink)', fontStyle: 'italic' }}>{quote}</p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', margin: '8px 0 0', letterSpacing: '0.04em' }}>Parent, Stage {stage.id}</p>
-          </div>
-            </Fold>
-          </div>
-        </section>
+        <div style={SECTION}><DigiLearns /></div>
+
+        <div style={SECTION}><AlsoInside /></div>
 
         {/* ── The door ─────────────────────────────────────────────────── */}
         <div id="chapter-cta" className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>

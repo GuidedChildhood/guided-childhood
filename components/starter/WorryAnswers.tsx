@@ -200,19 +200,16 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
                 <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.45, color: 'var(--ink)' }}>
                   {tonight}
                 </p>
+                {/* Your own phone, one tap in (14 November 2026, the page had
+                    to get shorter). Still there for the parent who wants it. */}
                 {yourPhone && (
-                  <>
-                    <div style={{
-                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                      letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
-                      margin: '12px 0 5px', paddingTop: 10, borderTop: '1px solid var(--border)',
-                    }}>
-                      Your own phone
-                    </div>
-                    <p style={{ margin: 0, fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink)' }}>
-                      {yourPhone}
-                    </p>
-                  </>
+                  <div style={{ marginTop: 6 }}>
+                    <Fold label="And your own phone">
+                      <p style={{ margin: 0, fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink)' }}>
+                        {yourPhone}
+                      </p>
+                    </Fold>
+                  </div>
                 )}
               </div>
             )}
@@ -228,39 +225,30 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
                 the drawing, its name, and one line written for this worry.
                 Same rows on every card, so by the second card a parent knows
                 the shape: the problem, then the four things we do about it. */}
+            {/* ── WHAT WE DO, AS LABELS (14 November 2026) ──────────────
+                Justin, on this page: cut the worry cards, "much less wordy".
+                The four rows each carried a line written for this worry; the
+                labels keep which parts of the product pick it up, and the full
+                lines stay in lib/content/proof.ts, where DiGi and the app read
+                them. The guard that every worry has a line per part still
+                holds the data. */}
             {a.how.length > 0 && (
-              <div style={{ marginTop: 14 }}>
-                <div style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
-                  marginBottom: 6,
-                }}>
-                  What we do, each time
-                </div>
-                <div style={{ border: 'var(--edge)', borderRadius: 'var(--radius-btn)', background: '#fff', overflow: 'hidden' }}>
-                  {a.how.map((h, j) => (
-                    <div key={h.id} style={{
-                      display: 'flex', alignItems: 'flex-start', gap: 10, padding: '9px 11px',
-                      borderTop: j === 0 ? 'none' : '1.5px solid var(--border)',
+              <div aria-label="What we do, each time" style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {a.how.map(h => (
+                  <span key={h.id} title={h.line} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 11px 4px 4px',
+                    background: 'var(--white)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                  }}>
+                    <span aria-hidden style={{
+                      width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: METHOD[h.id].tint,
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                     }}>
-                      <span aria-hidden style={{
-                        width: 30, height: 30, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                        background: METHOD[h.id].tint, border: 'var(--edge)', boxSizing: 'border-box',
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <MethodIcon id={h.id} size={17} />
-                      </span>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.25 }}>
-                          {METHOD[h.id].label}
-                        </div>
-                        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>
-                          {h.line}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      <MethodIcon id={h.id} size={15} />
+                    </span>
+                    {METHOD[h.id].label}
+                  </span>
+                ))}
               </div>
             )}
             {/* The counted number, back on the card.
@@ -282,51 +270,20 @@ export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFi
         )
       })}
 
+      {/* The chips of every other worry went (14 November 2026): the
+          "Also inside" block further down the page already says the rest is
+          covered. The serious line stays, folded, with what to do on the row
+          itself, because those do not wait for a script. */}
       {rest.length > 0 && (
-        <div className="wow-fu" style={{
-          marginTop: 16, padding: '15px 17px 17px',
-          background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
-        }}>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-            marginBottom: 10,
-          }}>
-            {theirs ? 'Also covered, when it comes up' : 'And the rest of it'}
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-            {rest.map(w => (
-              <span key={w.id} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
-                padding: '5px 11px 5px 6px',
-                fontFamily: 'var(--font-display)', fontWeight: 700,
-                fontSize: 'var(--text-sm)', color: 'var(--ink)',
-              }}>
-                <span aria-hidden style={{
-                  width: 24, height: 24, borderRadius: 8, flexShrink: 0,
-                  background: w.tint, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--ink)',
-                }}>
-                  <WorryIcon name={w.icon} size={15} />
-                </span>
-                {w.label}
-              </span>
-            ))}
-          </div>
-          {/* "What they come across online" sits between Morning TV and AI
-              chatbots and quietly covers pornography, pro suicide content and
-              adult contact. Those do not wait for a script, and a chip in a
-              list is the wrong size for them. */}
-          <p style={{
-            margin: '12px 0 0', fontSize: 'var(--text-sm)', lineHeight: 1.55,
-            color: 'var(--ink-soft)',
-          }}>
-            If someone has contacted your child who should not have, report it to CEOP at
-            ceop.police.uk and tell the school the same day. If it is self harm or suicide
-            content in a feed, report it in the app and get the account out of the feed. The
-            scripts are for the conversation afterwards, not instead of it.
-          </p>
+        <div className="wow-fu" style={{ marginTop: 14 }}>
+          <Fold label="If something serious has happened online" line="Report it first. CEOP for contact, the app for harmful content.">
+            <p style={{ margin: 0, fontSize: 'var(--text-sm)', lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+              If someone has contacted your child who should not have, report it to CEOP at
+              ceop.police.uk and tell the school the same day. If it is self harm or suicide
+              content in a feed, report it in the app and get the account out of the feed. The
+              scripts are for the conversation afterwards, not instead of it.
+            </p>
+          </Fold>
         </div>
       )}
     </div>
