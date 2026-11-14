@@ -251,6 +251,13 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 - Adopted: name our own bottleneck with real numbers before building more content.
 - `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md`.
 
+## 14 November 2026: the child film inventory (Prompt D)
+
+- Ten finished child films exist: the Stage 1 watch together films, ages 4 to 7, all live. Everything else is a script or a clip of 5 to 12 seconds.
+- First five to release, in journey order: 1.1, 1.5, 1.2, 1.4, 1.3. Remake: 1.6 (frightening picture), 1.9 (miscounts, DiGi off model), 1.10 (three patched stretches).
+- None is ready for YouTube or the family account: landscape only, no stage check ending, and each closes on a promise about the child.
+- Not reached: the languages films, the music video, Drive beyond one search, the channels.
+- `content/child-films/2026-11-14-inventory-and-release-list.md`. Nothing uploaded or published.
 ## 14 November 2026: the first WhatsApp group pack, and the August briefing no longer stands alone
 
 - Topic production for the first WhatsApp group, Prompt C. The August briefing was re checked first: of 37 lines, 12 confirmed, 17 corrected, 7 removed, 1 not reached. `content/packs/2026-11-14-first-whatsapp-group/recheck.md`.
