@@ -10,7 +10,9 @@ import { gsap } from 'gsap'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
 import PushPrompt from '@/components/push/PushPrompt'
-import { STEPS, type SetupFlags, type SetupStep } from '@/lib/setup/steps'
+import { STEPS, birthYearFromAge, type SetupFlags, type SetupStep } from '@/lib/setup/steps'
+import { createClient } from '@/lib/supabase/client'
+import { getStageFromAgeBand } from '@/lib/content/stages'
 import { recommendedDailyMinutes, baseDailyMinutes, SCREEN_GUIDE_SOURCES } from '@/lib/quests/screen-balance'
 
 // THE SETUP QUEST. Three numbered steps, revealed one at a time.
@@ -57,13 +59,15 @@ import { recommendedDailyMinutes, baseDailyMinutes, SCREEN_GUIDE_SOURCES } from 
 // The anchors the steps' own hrefs point at, so a step that finishes on this
 // page can be linked to from the floating next step bar and land on itself.
 const ANCHOR: Partial<Record<keyof SetupFlags, string>> = {
+  aboutChild: 'about',
   childLink: 'share',
   homeScreen: 'home-screen',
   children: 'children',
   coreTime: 'core-time',
 }
 
-type SetupChild = { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean }
+type SetupChild = { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean; dob?: string | null }
+type SignupAge = { years: number; on: string } | null
 
 type Props = {
   flags: SetupFlags
@@ -76,16 +80,22 @@ type Props = {
    *  The finished card used to assume it was not, and told a parent to go and
    *  do a thing they had already done. */
   checkInDone?: boolean
+  /** The steps this family sees, in order (lib/setup/flags.ts). Defaults to
+   *  the four; a family that joined without a name or birth month has the
+   *  Tell us about your child step first. */
+  steps?: SetupStep[]
+  /** The age tapped at sign up, so a birth month alone gives the year. */
+  signupAge?: SignupAge
 }
 
-export default function SetupQuest({ flags, child, children = [], userId, checkInDone = false }: Props) {
+export default function SetupQuest({ flags, child, children = [], userId, checkInDone = false, steps = STEPS, signupAge = null }: Props) {
   const listRef = useRef<HTMLDivElement>(null)
 
   // Every step is drawn, in list order. `state` is what changes, not presence:
   // done keeps its place at the top with a tick, the first undone one is live,
   // everything after it waits quietly.
-  const firstUndone = STEPS.findIndex(s => !flags[s.key])
-  const rows = STEPS.map((step, i) => ({
+  const firstUndone = steps.findIndex(s => !flags[s.key])
+  const rows = steps.map((step, i) => ({
     step,
     number: i + 1,
     state: (flags[step.key] ? 'done' : i === firstUndone ? 'live' : 'waiting') as StepState,
@@ -114,7 +124,7 @@ export default function SetupQuest({ flags, child, children = [], userId, checkI
 
   return (
     <>
-      <Progress done={doneCount} total={STEPS.length} steps={STEPS} flags={flags} />
+      <Progress done={doneCount} total={steps.length} steps={steps} flags={flags} />
 
       {/* Done steps are the BAR now, not cards. Only the live step and the ones
           still waiting are drawn, so the thing a parent can act on is always the
@@ -129,6 +139,7 @@ export default function SetupQuest({ flags, child, children = [], userId, checkI
             child={child}
             childList={children}
             userId={userId}
+            signupAge={signupAge}
           />
         ))}
       </div>
@@ -193,13 +204,14 @@ function Progress({ done, total, steps, flags }: {
 
 // ── ONE STEP ────────────────────────────────────────────────────────────────
 
-function StepCard({ step, number, state, child, childList, userId }: {
+function StepCard({ step, number, state, child, childList, userId, signupAge = null }: {
   step: SetupStep
   number: number
   state: StepState
   child: { id: string; name: string | null } | null
   childList: SetupChild[]
   userId: string
+  signupAge?: SignupAge
 }) {
   const live = state === 'live'
   const done = state === 'done'
@@ -308,7 +320,7 @@ function StepCard({ step, number, state, child, childList, userId }: {
             {step.what}
           </p>
           <div style={{ marginTop: '18px' }}>
-            <StepAction step={step} child={child} childList={childList} userId={userId} />
+            <StepAction step={step} child={child} childList={childList} userId={userId} signupAge={signupAge} />
           </div>
         </div>
       )}
@@ -328,12 +340,15 @@ function StepCard({ step, number, state, child, childList, userId }: {
 // a real piece of work with its own page, and on 18 August it left setup
 // altogether for the first quest. See lib/setup/steps.ts.
 
-function StepAction({ step, child, childList, userId }: {
+function StepAction({ step, child, childList, userId, signupAge = null }: {
   step: SetupStep
   child: { id: string; name: string | null } | null
   childList: SetupChild[]
   userId: string
+  signupAge?: SignupAge
 }) {
+  if (step.key === 'aboutChild') return <AboutChildStep childList={childList} signupAge={signupAge} />
+
   if (step.key === 'childLink') {
     // No child on the account yet, which onboarding normally prevents. Send
     // them to add one rather than showing a share button with nothing to share.
@@ -506,6 +521,123 @@ type TimeSettings = {
   protectSchoolHours: boolean
   starMinutes: number
 }
+
+// ── TELL US ABOUT YOUR CHILD (14 November 2026) ────────────────────────────
+//
+// The name and the birth month a one tap sign up may have skipped, asked now
+// the parent has joined (lib/setup/steps.ts ABOUT_STEP). One card per child
+// still missing either. The first child's year comes from the age tapped at
+// sign up, so only the month is asked; any other child, or a run with no age
+// saved, is asked the year as well. Saving writes the birthday and re-derives
+// the band and stage from it, the same three columns the settings page writes,
+// so the monthly age up takes them from here.
+function AboutChildStep({ childList, signupAge }: { childList: SetupChild[]; signupAge: SignupAge }) {
+  const router = useRouter()
+  const missing = childList.filter(c => !c.dob || !c.name || c.name.trim() === '' || c.name === 'Your child')
+  const [forms, setForms] = useState<Record<string, { name: string; month: number | null; year: number | null }>>(() =>
+    Object.fromEntries(missing.map(c => [c.id, {
+      name: c.name && c.name !== 'Your child' ? c.name : '',
+      month: c.dob ? Number(c.dob.slice(5, 7)) : null,
+      year: c.dob ? Number(c.dob.slice(0, 4)) : null,
+    }])))
+  const [busy, setBusy] = useState<string | null>(null)
+  const [failed, setFailed] = useState('')
+
+  if (missing.length === 0) return null
+  // The age they tapped belongs to the child the stage check was about, which
+  // is the first child on the account (primary first, then oldest).
+  const ageFor = (id: string) => (childList[0]?.id === id ? signupAge : null)
+
+  function yearOf(id: string): number | null {
+    const f = forms[id]
+    if (!f) return null
+    if (f.year != null) return f.year
+    const age = ageFor(id)
+    return age && f.month != null ? birthYearFromAge(age, f.month) : null
+  }
+
+  async function save(id: string) {
+    const f = forms[id]
+    const year = yearOf(id)
+    if (!f || f.month == null || year == null || !f.name.trim()) return
+    setBusy(id); setFailed('')
+    const dob = dobFrom(f.month, year)
+    const band = bandFrom(f.month, year)
+    const update: Record<string, string> = { name: f.name.trim(), date_of_birth: dob! }
+    if (band) { update.age_band = band; update.stage_id = getStageFromAgeBand(band).name.toLowerCase() }
+    const { error } = await createClient().from('children').update(update).eq('id', id)
+    setBusy(null)
+    if (error) { setFailed('That did not save. Try again in a moment.'); return }
+    router.refresh()
+  }
+
+  const field: React.CSSProperties = {
+    width: '100%', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+    border: '1.5px solid var(--border)', fontSize: 'var(--text-md)', fontFamily: 'var(--font-body)', background: 'var(--white)', color: 'var(--ink)',
+  }
+
+  return (
+    <div id="about" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      {missing.map(c => {
+        const f = forms[c.id] ?? { name: '', month: null, year: null }
+        const age = ageFor(c.id)
+        const year = yearOf(c.id)
+        const ready = f.month != null && year != null && f.name.trim() !== ''
+        const set = (patch: Partial<typeof f>) => setForms(prev => ({ ...prev, [c.id]: { ...f, ...patch } }))
+        return (
+          <div key={c.id} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '14px' }}>
+            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+              Their first name
+            </label>
+            <input
+              type="text"
+              autoComplete="off"
+              value={f.name}
+              onChange={e => set({ name: e.target.value })}
+              placeholder="First name"
+              maxLength={40}
+              style={{ ...field, marginBottom: '12px' }}
+            />
+            {age ? (
+              <>
+                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+                  Which month were they born
+                </label>
+                <select
+                  aria-label="Birth month"
+                  value={f.month ?? ''}
+                  onChange={e => set({ month: e.target.value ? Number(e.target.value) : null })}
+                  style={field}
+                >
+                  <option value="">Month</option>
+                  {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                </select>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '6px 0 0', lineHeight: 1.5 }}>
+                  You told us they are {age.years}, so the month is all we need for their school year.
+                </p>
+              </>
+            ) : (
+              <BirthdayFields month={f.month} year={f.year} onChange={(month, yr) => set({ month, year: yr })} fieldStyle={field} name={f.name} />
+            )}
+            <button
+              type="button"
+              className="btn"
+              disabled={!ready || busy === c.id}
+              onClick={() => save(c.id)}
+              style={{ marginTop: '14px', width: '100%', justifyContent: 'center', opacity: ready ? 1 : 0.55 }}
+            >
+              {busy === c.id ? 'Saving' : f.name.trim() ? `Save ${f.name.trim()}` : 'Save'}
+            </button>
+          </div>
+        )
+      })}
+      {failed && <p role="alert" style={{ color: 'var(--danger)', fontSize: 'var(--text-sm)', margin: 0 }}>{failed}</p>}
+    </div>
+  )
+}
+
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'] as const
 
 function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
   const router = useRouter()
