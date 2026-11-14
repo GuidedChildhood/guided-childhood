@@ -64,8 +64,9 @@ GPT Image 2.6, styled as faded 1980s film prints, and no full face is shown in
 either:
 
 - `01-porsche-a.jpg` (first pick) and `01-porsche-b.jpg`: the white 1973 Carrera
-  RS with the blue script mid rebuild, his dad leaning into the engine bay, a
-  small boy on a crate handing up a spanner.
+  RS with the blue script and blue wheel centres mid rebuild, his dad leaning
+  into the engine bay, the boy beside him handing up a spanner. The boy is
+  seven, matching the caption (Justin confirmed seven, 14 November).
 - `01-guitar-a.jpg` (first pick, the pinker red) and `01-guitar-b.jpg`: both
   in paper masks, his dad spraying a Jaguar style guitar body in the original
   pinky red. The colour came from Justin on 14 November; the context file only
@@ -76,9 +77,9 @@ Two rules for using them:
 1. **Say they are recreations.** Tick Instagram's AI label, and put a small
    plate on the image: "Recreated from memory with AI." Never let them read as
    a real family photo.
-2. **The car is close, not exact.** The engine lid in both is a standard 911
-   lid rather than the RS ducktail. A Porsche person will spot it. If that
-   matters, regenerate before posting.
+2. **The car is close, not exact.** The prompt asked for the RS ducktail, but
+   with the lid raised it still reads as a plain 911 engine lid. A Porsche
+   person may spot it.
 
 If an old real photo turns up, it wins and these go.
 
