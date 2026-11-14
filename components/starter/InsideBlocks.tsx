@@ -54,15 +54,48 @@ function Head({ eyebrow, title, id }: { eyebrow: string; title: string; id: stri
 /** The road: five stages, a Planet Friend at each, the child's own stage marked. */
 export function Passport({ here, kid }: { here: number; kid?: string }) {
   const current = STAGES.find(s => s.id === here)
+  const friend = STAGE_CHARACTERS.find(c => c.stageId === here)
   return (
     <section aria-labelledby="ready-passport" data-ready-passport>
       <Head eyebrow="The passport" title="One road, from 4 to 16." id="ready-passport" />
-      {/* The printed passport, the real one from the shop (public/shop), so
-          the road has a thing at the end of it a parent can picture. */}
-      <div className="wow-fu" style={{ display: 'flex', justifyContent: 'center', margin: '-4px 0 22px' }}>
-        <img src="/shop/passport_printed.webp" alt="The printed Digital Literacy Passport, open on its stamped pages" width={168} height={168} loading="lazy"
-          style={{ width: 168, height: 168, borderRadius: 'var(--radius-card)', border: '1.5px solid var(--border)', boxShadow: '0 10px 30px rgba(26,26,46,0.10)', objectFit: 'cover' }} />
-      </div>
+      {/* ── THE PASSPORT PAGE, AS THE APP DRAWS IT ──────────────────────
+          Justin: check the passport image matches the app. The shop photo of
+          the printed booklet did not: a yellow cover titled "Digital Literacy
+          Passport", where the app's passport (components/pathway/PassportBook)
+          is a cream stage page with the Planet Friend in a gold ring, the
+          stage name and the ages. So this is a small drawing of that page, for
+          the child's own stage, in the same tokens: the thing they will
+          actually open inside. */}
+      {current && (
+        <div className="wow-fu" aria-hidden style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0 24px' }}>
+          <div style={{
+            width: 210, background: `var(--stage-${here})`, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift-deep)', padding: '14px 16px 16px', textAlign: 'center',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginBottom: 12 }}>
+              <span>Stage {here}</span><span>P{here} of 5</span>
+            </div>
+            <span style={{
+              display: 'inline-flex', width: 96, height: 96, borderRadius: '50%', boxSizing: 'border-box',
+              border: `9px solid var(--stage-${here}-bold)`, background: 'var(--white)', overflow: 'hidden',
+              boxShadow: '0 0 0 2px var(--ink)',
+            }}>
+              {friend && <img src={friend.img} alt="" width={78} height={78} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+            </span>
+            {friend && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginTop: 10 }}>
+                With {friend.name}
+              </div>
+            )}
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1, marginTop: 4 }}>
+              {current.name}
+            </div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginTop: 4 }}>
+              {current.ageBand === '16+' ? '16 and up' : `Ages ${current.ageBand.replace('-', ' to ')}`}
+            </div>
+          </div>
+        </div>
+      )}
       <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 4, position: 'relative', textAlign: 'center' }}>
         <span aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: 29, height: 2, background: 'var(--border)' }} />
         {STAGES.map(s => {
