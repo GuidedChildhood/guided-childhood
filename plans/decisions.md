@@ -414,3 +414,10 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - Found on the way: the August cybertrauma series credited "fewer than one in five told a trusted adult" to Internet Matters, and the report does not say it (it measures reporting to the platform, 36 percent). Justin said fix it: the live LinkedIn post was edited and a correction comment added, and the pack and briefing were corrected. The newsletter had never been sent.
 - Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
 - Nothing posted, no GDC number claimed. PR 1533.
+## 14 November 2026: the answer series, email courses and child films, plan before build
+
+- Justin asked for a twice weekly post answering Family IT Guy, Dr Becky Kennedy and Catherine Knibbs, an email course per topic in place of downloads, a parent problem sweep, child lesson films released, and a research pop Reel.
+- Verdict: one verified topic pack feeds every format, as the Roblox pilot did. One new topic a week, two posts from it.
+- He extended Instagram collection for analysis to the other two accounts, same limits as 13 November.
+- Six decisions wait on him, the main two being where the email course sits in the funnel and whether the two clinicians may be named.
+- Plan and the four prompts: `plans/2026-11-14-answer-series-email-courses-and-child-films-plan.md`. Nothing is built until he says go.
