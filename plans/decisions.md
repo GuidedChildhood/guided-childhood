@@ -251,6 +251,13 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 - Adopted: name our own bottleneck with real numbers before building more content.
 - `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md`.
 
+## 14 November 2026: the child film inventory (Prompt D)
+
+- Ten finished child films exist: the Stage 1 watch together films, ages 4 to 7, all live. Everything else is a script or a clip of 5 to 12 seconds.
+- First five to release, in journey order: 1.1, 1.5, 1.2, 1.4, 1.3. Remake: 1.6 (frightening picture), 1.9 (miscounts, DiGi off model), 1.10 (three patched stretches).
+- None is ready for YouTube or the family account: landscape only, no stage check ending, and each closes on a promise about the child.
+- Not reached: the languages films, the music video, Drive beyond one search, the channels.
+- `content/child-films/2026-11-14-inventory-and-release-list.md`. Nothing uploaded or published.
 ## 14 November 2026: the first WhatsApp group pack, and the August briefing no longer stands alone
 
 - Topic production for the first WhatsApp group, Prompt C. The August briefing was re checked first: of 37 lines, 12 confirmed, 17 corrected, 7 removed, 1 not reached. `content/packs/2026-11-14-first-whatsapp-group/recheck.md`.
@@ -270,3 +277,6 @@ beside the problem it answers with the drawn product, the rest as one list,
 how it works in three lines, and what this is not. Nothing invented: every line
 reads from ANSWERS and the Builder stage. No statistic, no price, no free days
 on this screen. Plan: plans/2026-11-14-stage-check-intro-shows-the-product.md.
+## 14 November 2026: Tell us about your child, asked after joining
+
+The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.

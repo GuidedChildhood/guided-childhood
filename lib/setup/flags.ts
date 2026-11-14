@@ -1,4 +1,4 @@
-import { visibleSteps, type SetupFlags, type SetupStep } from './steps'
+import { visibleSteps, aboutChildState, signupAge, type SetupFlags, type SetupStep } from './steps'
 import { getFamilyHandover, offerableChildren, familySettled } from '@/lib/handover/settled'
 
 // The setup state in one place, so the Home entry, the floating next step bar
@@ -48,7 +48,9 @@ export type SetupState = {
    * three children could share with one of them and the other two had no route
    * at all from setup.
    */
-  children: { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean }[]
+  children: { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean; dob: string | null }[]
+  /** The age tapped at sign up, for the Tell us about your child step. */
+  signupAge: { years: number; on: string } | null
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
@@ -71,11 +73,11 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // Every child now, ordered primary first then oldest, so the share step can
     // list them all and the first of the list is still the primary for the
     // surfaces that only want one.
-    supabase.from('children').select('id, name, age_band, is_primary, created_at, no_phone').eq('parent_id', userId)
+    supabase.from('children').select('id, name, age_band, is_primary, created_at, no_phone, date_of_birth').eq('parent_id', userId)
       .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
-    supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at, setup_completed_at').eq('id', userId).maybeSingle(),
+    supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at, setup_completed_at, onboarding_answers').eq('id', userId).maybeSingle(),
     supabase.from('children').select('id', { count: 'exact', head: true }).eq('parent_id', userId),
     // A row here means the parent answered the free time question for that
     // child (0 is an answer). The table has no row until they do.
@@ -134,11 +136,18 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     age_band: (r.age_band as string | null) ?? null,
     linked: linkedIds.has(r.id as string),
     noPhone: r.no_phone === true,
+    dob: (r.date_of_birth as string | null) ?? null,
   }))
 
   const answeredTime = new Set(((timeRows.data ?? []) as { child_id: string }[]).map(r => r.child_id))
 
+  const answers = (profile.data as { onboarding_answers?: unknown } | null)?.onboarding_answers
+  const about = aboutChildState(childRows.map(c => ({ name: c.name, date_of_birth: c.dob })), answers)
+
   const flags: SetupFlags = {
+    // DONE WHEN: every child has a birthday and a real name, or the family was
+    // never asked (lib/setup/steps.ts ABOUT_STEP).
+    aboutChild: !about.show || about.done,
     // DONE WHEN: every child has a time settings row. Saving the chips writes
     // one whatever the value, so "none" counts and a family is never nagged
     // for choosing earned only. A new child added later reopens it, which is
@@ -230,7 +239,7 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
   // coming back.
   const stamped = !!(profile.data as { setup_completed_at?: string | null } | null)?.setup_completed_at
 
-  const steps = visibleSteps()
+  const steps = visibleSteps({ about: about.show && !stamped })
   const doneCount = stamped ? steps.length : steps.filter(s => flags[s.key]).length
   const current = stamped ? null : (steps.find(s => !flags[s.key]) ?? null)
 
@@ -272,6 +281,7 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     handoverSettled,
     child: childRows[0] ? { id: childRows[0].id, name: childRows[0].name } : null,
     children: childRows,
+    signupAge: signupAge(answers),
   }
 }
 
