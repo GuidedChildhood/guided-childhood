@@ -54,48 +54,68 @@ function Head({ eyebrow, title, id }: { eyebrow: string; title: string; id: stri
 /** The road: five stages, a Planet Friend at each, the child's own stage marked. */
 export function Passport({ here, kid }: { here: number; kid?: string }) {
   const current = STAGES.find(s => s.id === here)
-  const friend = STAGE_CHARACTERS.find(c => c.stageId === here)
   return (
     <section aria-labelledby="ready-passport" data-ready-passport>
       <Head eyebrow="The passport" title="One road, from 4 to 16." id="ready-passport" />
-      {/* ── THE PASSPORT PAGE, AS THE APP DRAWS IT ──────────────────────
-          Justin: check the passport image matches the app. The shop photo of
-          the printed booklet did not: a yellow cover titled "Digital Literacy
-          Passport", where the app's passport (components/pathway/PassportBook)
-          is a cream stage page with the Planet Friend in a gold ring, the
-          stage name and the ages. So this is a small drawing of that page, for
-          the child's own stage, in the same tokens: the thing they will
-          actually open inside. */}
-      {current && (
-        <div className="wow-fu" aria-hidden style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0 24px' }}>
-          <div style={{
-            width: 210, background: `var(--stage-${here})`, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-            boxShadow: 'var(--lift-deep)', padding: '14px 16px 16px', textAlign: 'center',
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginBottom: 12 }}>
-              <span>Stage {here}</span><span>P{here} of 5</span>
+      {/* ── THE PASSPORT COVER, AS THE APP DRAWS IT ─────────────────────
+          Justin: check the image matches the app, then "it's the cover that
+          looks like a real passport". So this is the app's own cover
+          (components/pathway/PassportBook, page 0) at a smaller size: the
+          burgundy book, the gold foil rules and crest, the formal titling,
+          the child's name, and the five friends along the bottom in foil,
+          because none is stamped yet for a family that has just arrived.
+          The shop photo of the printed booklet was a different object with a
+          different title, so it went. */}
+      <div className="wow-fu" aria-hidden style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0 26px' }}>
+        <div style={{
+          width: 214, minHeight: 290, boxSizing: 'border-box',
+          background: 'linear-gradient(160deg, var(--passport-cover-hi) 0%, var(--passport-cover) 55%, var(--passport-cover-lo) 100%)',
+          borderRadius: '12px 16px 16px 12px', padding: '24px 16px 18px', textAlign: 'center',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
+          boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 10px 0 20px rgba(0,0,0,0.25), 0 14px 30px rgba(26,26,46,0.18)',
+          transform: 'rotate(-2deg)',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              Digital Childhood Passport
             </div>
-            <span style={{
-              display: 'inline-flex', width: 96, height: 96, borderRadius: '50%', boxSizing: 'border-box',
-              border: `9px solid var(--stage-${here}-bold)`, background: 'var(--white)', overflow: 'hidden',
-              boxShadow: '0 0 0 2px var(--ink)',
+            <div style={{ width: 36, height: 1.5, background: 'rgba(237,195,95,0.55)', margin: '8px auto 0' }} />
+          </div>
+          <div>
+            <div style={{
+              width: 58, height: 58, borderRadius: '50%', margin: '0 auto 12px',
+              border: '2px solid rgba(237,195,95,0.85)', boxShadow: 'inset 0 0 0 3px rgba(237,195,95,0.18)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {friend && <img src={friend.img} alt="" width={78} height={78} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-            </span>
-            {friend && (
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginTop: 10 }}>
-                With {friend.name}
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 24 }}>
+                {[5, 9, 14, 8].map((h, i) => (
+                  <div key={i} style={{ width: 4.5, height: (h / 14) * 24, background: 'var(--terracotta)', borderRadius: 2 }} />
+                ))}
               </div>
-            )}
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1, marginTop: 4 }}>
-              {current.name}
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: `var(--stage-${here}-text)`, marginTop: 4 }}>
-              {current.ageBand === '16+' ? '16 and up' : `Ages ${current.ageBand.replace('-', ' to ')}`}
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta)', lineHeight: 1.15, letterSpacing: '0.02em', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {kid || 'Our family'}
+            </div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: 6 }}>
+              The journey to 16
             </div>
           </div>
+          <div style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
+            {STAGE_CHARACTERS.map(c => (
+              <span key={c.key} style={{
+                width: 24, height: 24, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                background: 'rgba(237,195,95,0.10)', border: '1.5px solid rgba(237,195,95,0.45)',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <img src={c.cutout} alt="" width={24} height={24} style={{
+                  width: '100%', height: '100%', objectFit: 'contain',
+                  filter: 'grayscale(1) brightness(1.35) sepia(0.7) hue-rotate(-8deg) opacity(0.42)',
+                }} />
+              </span>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
       <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 4, position: 'relative', textAlign: 'center' }}>
         <span aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: 29, height: 2, background: 'var(--border)' }} />
         {STAGES.map(s => {

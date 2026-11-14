@@ -31,6 +31,11 @@
 
   /* ── ACCENT (butter gold) ── */
   --terracotta:        #EDC35F;   /* butter, softened a step toward pastel (was #E9B949) */
+  /* The passport cover's burgundy, from components/pathway/PassportBook, named
+     so the starter page can draw the same book (14 November 2026). */
+  --passport-cover-hi: #6B2333;
+  --passport-cover:    #571C2A;
+  --passport-cover-lo: #4A1723;
   --terracotta-dark:   #C99A28;
   /* The one red in the system, used sparingly and never decoratively: the
      last check in ring on the concern dial. Added 8 Aug on Justin's ask for
