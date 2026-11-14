@@ -90,3 +90,27 @@ picks it up. The balance is the mechanism itself, so it is shown, not preached.
 Rail pattern from MacroFactor and Deepstash on Mobbin. The demo now follows the
 day, and the three quiz steps sit with the last button. Fade up on scroll with
 GSAP, off for reduced motion.
+
+## Third pass, the same day
+
+Justin: "super slick and much less wordy and obvious", highlight what we offer
+and solve and the passport (safe, ready, taught), "the best look of any
+starter page". Then: include a DiGi example and how it learns from what
+parents say works.
+
+Five ideas, a picture and a handful of words each:
+
+1. The passport: five stages with their Planet Friend and ages, one line.
+2. What it fixes: three "instead of" lines, each with the product drawn
+   (the ask on your phone, tap a worry for tonight's one thing, the line
+   over the weeks).
+3. DiGi: one drawn exchange, its advice and words taken from the Builder
+   stage's own online safety line, and the loop in four icons (you ask, you
+   try it, did it work, it remembers). The loops are the real ones in
+   digi/00-how-digi-works.md. No count of families and no success rate,
+   because the counted outcomes table is still filling.
+4. Also inside, as labels.
+5. Not a blocking app, we never read their chats, then the button.
+
+The day rail, the long demo card and the full "what this is not" block went.
+WhatWeAreNot.tsx is unchanged and still used elsewhere.

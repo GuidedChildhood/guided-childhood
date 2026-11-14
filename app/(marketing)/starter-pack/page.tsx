@@ -871,7 +871,7 @@ export default function StarterPackPage() {
             {/* The four free days are told on the account screen, where they
                 apply, not here before the parent has seen anything. */}
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', marginBottom: '24px', lineHeight: 1.5, textAlign: 'center' }}>
-              Answer three questions. See their stage, one thing to try tonight and the words to say.
+              Three questions. Their stage, and what to do tonight.
             </p>
             <button
               onClick={() => setStep('q1')}
