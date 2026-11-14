@@ -391,6 +391,11 @@ Twelve points, through the feedback filter (`plans/2026-11-13-chatgpt-visual-fee
 - Justin said scraping is fine to get the information and analyse it, for the Family IT Guy Instagram account, from his own logged in browser.
 - This is an exception to the 14 October no scraping decision (PR 1293), for analysis of one named public account. It is not a general change.
 - Still holds: nothing collected is republished, no video is reposted or reused, no person is named in copy until he decides, and a post that could not be seen is logged as not seen.
+## 13 November 2026: Family IT Guy may be named in the Roblox story
+
+- Justin said to name him. He is not a clinician, so the rule about clinicians is untouched.
+- He is named for his published advice to skip Roblox and for the Mike Tyson comparison. The first is sourced. The second is on Justin's word until we hold the video link and his exact words, and nothing attributing it goes out before then.
+- The copy says what he gets right before it disagrees.
 
 ## 13 November 2026: the French sync stops going red, and her checkpoint model is ours
 
@@ -416,3 +421,27 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - Top of the list by threads read: coming off the screen (12), the first phone (9), Roblox and games at primary age (8), the phone in the bedroom at night (7). Weeks 1 to 3 of the plan are supported as they stand.
 - Proposed for week 4 onward: the bedroom at night, Snapchat before 13, homework on the screen. Coming off the screen needs a refresh, not new research.
 - Limits: every thread is Mumsnet bar two. Reddit, Netmums and public Facebook pages gave nothing readable without a login, so they are not covered. Quotes need a person to check them against the page before use. Messenger is NOT OURS for now. PR 1538.
+## 14 November 2026: the answer series, email courses and child films, plan before build
+
+- Justin asked for a twice weekly post answering Family IT Guy, Dr Becky Kennedy and Catherine Knibbs, an email course per topic in place of downloads, a parent problem sweep, child lesson films released, and a research pop Reel.
+- Verdict: one verified topic pack feeds every format, as the Roblox pilot did. One new topic a week, two posts from it.
+- He extended Instagram collection for analysis to the other two accounts, same limits as 13 November.
+- Six decisions wait on him, the main two being where the email course sits in the funnel and whether the two clinicians may be named.
+- Plan and the four prompts: `plans/2026-11-14-answer-series-email-courses-and-child-films-plan.md`. Nothing is built until he says go.
+## 14 November 2026: Justin's answers on the answer series
+
+- Twice a week. Stage check stays the call to action on every post, with the topic email course offered on the result page.
+- The two clinicians are not named: our own posts, built off their subject material. Family IT Guy may be named.
+- Child films are released everywhere: YouTube, the family account and the product.
+- He gave the James Smith video and the Instagram post with the Mike Tyson comparison. Neither could be read by machine (both sites refused), so the Roblox post stays held until the exact words are read.
+## 14 November 2026: the seven rules marketing video, weighed
+
+- The transcript Justin pasted is by a speaker addressed as Sabri and does not say email sequences over downloads. The email course stays on our own reasoning.
+- Adopted: every piece must give what a chatbot cannot. Adapted: a stage named in an ad's first line, tested free first. Parked: PR and cloned funnels. Declined: rewarded reviews.
+- `plans/2026-11-14-seven-rules-video-weighed.md`. No spend, no new funnel.
+## 14 November 2026: James Smith on lead magnets, weighed
+
+- The right video this time: no PDF as the price of an email address, a short email a day instead.
+- Adopted in adapted form: the topic email course is seven daily emails of about a minute each, one thing to do, the offer on days five and seven. Declined: pressure lines and a thirty day run.
+- Adopted: name our own bottleneck with real numbers before building more content.
+- `plans/2026-11-14-james-smith-lead-magnet-video-weighed.md`.
