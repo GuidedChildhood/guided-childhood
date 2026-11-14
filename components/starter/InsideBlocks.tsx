@@ -56,6 +56,12 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
   return (
     <section aria-labelledby="ready-passport" data-ready-passport>
       <Head eyebrow="The passport" title="One road, from 4 to 16." id="ready-passport" />
+      {/* The printed passport, the real one from the shop (public/shop), so
+          the road has a thing at the end of it a parent can picture. */}
+      <div className="wow-fu" style={{ display: 'flex', justifyContent: 'center', margin: '-4px 0 22px' }}>
+        <img src="/shop/passport_printed.webp" alt="The printed Digital Literacy Passport, open on its stamped pages" width={168} height={168} loading="lazy"
+          style={{ width: 168, height: 168, borderRadius: 'var(--radius-card)', border: '1.5px solid var(--border)', boxShadow: '0 10px 30px rgba(26,26,46,0.10)', objectFit: 'cover' }} />
+      </div>
       <ol className="wow-fu" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, position: 'relative', textAlign: 'center' }}>
         <span aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: 29, height: 2, background: 'var(--border)' }} />
         {STAGES.map(s => {
