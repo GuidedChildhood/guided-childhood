@@ -273,4 +273,4 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 
 - The first five go out in the look they have now. The closing promise to the grown up is cut from public versions. Remakes wait until the five are out, 1.6 first.
 - Film 1.3 built in both public shapes as the test: YouTube 3:58 with the stage check end card, a 1:23 vertical cut with full captions, a thumbnail and subtitles.
-- Not listened to by ear. Nothing uploaded. `content/child-films/1.3-release-test/`. PR 1545.
+- Not listened to by ear. Nothing uploaded. `content/child-films/1.3-release-test/`. PR 1547.
