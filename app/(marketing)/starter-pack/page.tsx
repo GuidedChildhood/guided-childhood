@@ -17,8 +17,7 @@ const SavingPathway = dynamic(() => import('@/components/starter/SavingPathway')
 import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
 import { enabledProviders } from '@/lib/auth/providers'
 import { rememberStarterNext, starterNext, takeAfterSignupHref } from '@/lib/starter/next'
-import { bandForAge, isTooYoung } from '@/lib/children/age'
-import StartsAtFour from '@/components/children/StartsAtFour'
+import { bandForYears, YOUNGEST_AGE } from '@/lib/children/age'
 import { track } from '@/components/Analytics'
 import { readUtm, opensOnQuestionOne, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
@@ -109,6 +108,24 @@ export default function StarterPackPage() {
   // It also stops a child silently ageing out of a band nobody updated.
   const [dobMonth, setDobMonth] = useState<number | null>(null)
   const [dobYear, setDobYear] = useState<number | null>(null)
+  // ── ONE TAP FIRST, THE BIRTHDAY AT THE SAVE (14 November 2026) ──────────────
+  //
+  // The month and year question above was right about what we need and wrong
+  // about when to ask it. The first paid adverts (round 1, 12 to 14 November)
+  // brought 136 parents to this page and not one of them answered question
+  // one: a stranger from an advert promised "three questions, no sign up" was
+  // met with a name box and two dropdowns before getting anything back.
+  // Justin: "Pause and fix it".
+  //
+  // So question one is their age, one tap, which is all the stage needs. The
+  // birth month is asked on the save screen, where the parent has seen their
+  // pathway and is making the account anyway, which is also where THE-STORY
+  // always put it ("date of birth, asked once at signup"). With the age and
+  // the month the year is exact, so the school year still comes out right.
+  const [ageYears, setAgeYears] = useState<number | null>(null)
+  // Once the parent touches the birthday on the save screen it stays on that
+  // screen, so a choice does not make the box it was made in disappear.
+  const [birthdayHere, setBirthdayHere] = useState(false)
   // ── THE WORRIES THE PARENT TICKED ─────────────────────────────────────────
   //
   // Justin, 9 September 2026, on the live quiz: "You said we were changing to
@@ -279,7 +296,7 @@ export default function StarterPackPage() {
   // A brother or sister starts from a blank quiz, but the parent is the same
   // person, so their name and email stay and they are not asked twice.
   function resetChild() {
-    setAgeBand(null); setDobMonth(null); setDobYear(null)
+    setAgeBand(null); setAgeYears(null); setBirthdayHere(false); setDobMonth(null); setDobYear(null)
     setPicks([]); setWorryOther(''); setFeeling('unsure'); setTimeCommitment(null)
     setChildName('')
   }
@@ -359,9 +376,14 @@ export default function StarterPackPage() {
       const saved = raw && QUIZ_STEPS.includes((JSON.parse(raw) as { step?: string }).step ?? '') ? raw : null
       if (raw && !saved) localStorage.removeItem('gc_starter_progress')
       if (saved) {
-        setResumed(true)
-        const parsed = JSON.parse(saved) as { step: Step | 'details' | 'q3' | 'email'; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step | 'details' | 'q3' | 'email'; ageBand: AgeBand | null; ageYears?: number | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        // Not you? Start fresh is for somebody who really did answer something
+        // here before. A saved run with no answer in it (the save writes the
+        // moment question one shows) is a visit, not a person, and a new parent
+        // from an advert was being asked "Not you?" on their first screen.
+        if (parsed.ageBand || parsed.picks?.length) setResumed(true)
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
+        if (parsed.ageYears) setAgeYears(parsed.ageYears)
         // A parent part way through keeps the birthday they already gave, and
         // an older saved run has no birthday at all, which is why the band is
         // restored on its own line above rather than derived from this.
@@ -426,9 +448,9 @@ export default function StarterPackPage() {
   useEffect(() => {
     if (!restored || (step !== 'q1' && step !== 'q2' && step !== 'q4')) return
     try {
-      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment }))
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, ageYears, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment }))
     } catch {}
-  }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
+  }, [restored, step, ageBand, ageYears, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
   // ── ?src= AND THE UTMs, READ (migrations 379 and 388) ───────────────────
   //
@@ -511,27 +533,26 @@ export default function StarterPackPage() {
 
   /** The first of the month they were born, which is all we ask for and all the
    *  school year cutoff needs. Stored as YYYY-MM-DD because every reader of
-   *  date_of_birth slices the first ten characters. */
-  const dob = dobMonth != null && dobYear != null
-    ? `${dobYear}-${String(dobMonth).padStart(2, '0')}-01`
+   *  date_of_birth slices the first ten characters. Since 14 November the year
+   *  usually comes from the age they tapped plus the month given at the save:
+   *  a child who is nine and born in a month already reached this year was
+   *  born nine years ago, otherwise ten. A parent resuming an older run keeps
+   *  the year they typed. */
+  const birthYear = dobYear ?? (ageYears != null && dobMonth != null
+    ? THIS_YEAR - ageYears - (dobMonth <= new Date().getMonth() + 1 ? 0 : 1)
+    : null)
+  const dob = dobMonth != null && birthYear != null
+    ? `${birthYear}-${String(dobMonth).padStart(2, '0')}-01`
     : null
 
-  /** Both halves answered, so derive the band and walk on. The band is never
-   *  asked for now, only worked out, which is why nothing downstream changes. */
-  function setBirthday(month: number | null, year: number | null) {
-    setDobMonth(month)
-    setDobYear(year)
-    if (month == null || year == null) return
-    // We start at 4 (Justin, 16 October 2026). A 2 or 3 year old used to be
-    // clamped into ages 4 to 7 here and walked on to a stage written for a
-    // child twice their age. Now the page stays put and StartsAtFour, under
-    // the birthday, says so and says when to come back.
-    if (isTooYoung(`${year}-${String(month).padStart(2, '0')}-01`)) { setAgeBand(null); return }
-    const derived = bandForAge(`${year}-${String(month).padStart(2, '0')}-01`)
-    if (!derived) return
-    setAgeBand(derived)
-    setTimeout(() => setStep('q2'), 420)
+  /** Question one: their age, one tap, then on to the worries. */
+  function chooseAge(years: number) {
+    setAgeYears(years)
+    setDobYear(null)
+    setAgeBand(bandForYears(years))
+    setTimeout(() => setStep('q2'), 280)
   }
+
   // Tap adds or removes a worry. The first one ticked is the one tomorrow
   // opens on, said once on that tile and once under the grid.
   //
@@ -680,7 +701,7 @@ export default function StarterPackPage() {
   // thing. See lib/starter/finish-setup.ts for why the birthday has to travel
   // with it rather than be looked up from the older keys.
   function pendingNow(): PendingSetup {
-    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, parentName: name.trim(), dob }
+    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, parentName: name.trim(), dob, ageYears }
   }
 
   // Write the account through: onboarding complete, the trial, the child. One
@@ -920,6 +941,48 @@ export default function StarterPackPage() {
 
                 Draws nothing at all until a provider is switched on, so this
                 screen is byte for byte what merged in PR 1036 until then. */}
+            {/* THE BIRTHDAY, ASKED HERE (14 November 2026). Question one is
+                their age now, one tap; the month is what turns that into a
+                real birthday and so a real school year (the 31 August cutoff,
+                lib/learning/term.ts). Above the providers so the one tap way in
+                carries it too. A select, not a box: nothing here can refuse to
+                go on (scripts/check-starter-order.mjs). Shown only while the
+                birthday is still missing. */}
+            {(!dob || birthdayHere) && (
+              <div style={{ marginBottom: '18px' }}>
+                <label htmlFor="birth-month" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                  {childName.trim() ? `Which month was ${childName.trim()} born?` : 'Which month were they born?'}
+                </label>
+                <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                  Just the month. With their age it gives us their school year, so what we send always matches where they are.
+                </p>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <select
+                    id="birth-month"
+                    className="input"
+                    value={dobMonth ?? ''}
+                    onChange={e => { setBirthdayHere(true); setDobMonth(e.target.value ? Number(e.target.value) : null) }}
+                    style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
+                  >
+                    <option value="">Month</option>
+                    {MONTHS.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                  </select>
+                  {ageYears == null && (
+                    <select
+                      className="input"
+                      aria-label="Birth year"
+                      value={dobYear ?? ''}
+                      onChange={e => { setBirthdayHere(true); setDobYear(e.target.value ? Number(e.target.value) : null) }}
+                      style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
+                    >
+                      <option value="">Year</option>
+                      {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                  )}
+                </div>
+              </div>
+            )}
+
             <ProviderButtons
               redirectTo="/starter-pack?finish=1"
               onBeforeRedirect={() => keepPendingSetup(pendingNow())}
@@ -1034,7 +1097,7 @@ export default function StarterPackPage() {
           </div>
         )}
 
-        {/* Q1 — Age */}
+        {/* Q1: their age, one tap (14 November 2026, see ageYears above) */}
         {step === 'q1' && !showCard && (
           <>
             <h1 style={{
@@ -1042,56 +1105,46 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
-              Tell us about your child
+              How old is your child?
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
-              Their first name and age, so everything that follows is about them. This maps your stage.
+            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '18px', lineHeight: 1.55 }}>
+              Tap their age. That sets their stage.
             </p>
+            {/* Optional, and above the ages so the tap that moves on comes
+                last. Nothing waits on it: a parent who skips it is called
+                "your child" until the save screen, which asks again. */}
             <input
               className="input"
               type="text"
               autoComplete="off"
-              placeholder="Your child's first name"
+              aria-label="Your child's first name, if you like"
+              placeholder="Their first name, if you like"
               value={childName}
               onChange={e => { setChildName(e.target.value); try { localStorage.setItem('gc_starter_child_name', e.target.value.trim()) } catch {} }}
-              style={{ fontSize: 'var(--text-md)', marginBottom: '22px' }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: '16px' }}
             />
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
-              When were they born?
-            </p>
-            {/* THE REASON, ON THE SCREEN. An unexplained date question at signup
-                is where a parent stops, and this one earns its place twice: it
-                sets the stage, and it is the only way to know which school year
-                they are in, which the 31 August cutoff decides. Month and year
-                only, so nothing has to be looked up. */}
-            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.55, marginBottom: '14px' }}>
-              Just the month and year. It sets their stage and their school year, so what we send you always matches where they actually are.
-            </p>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
-              <select
-                className="input"
-                aria-label="Birth month"
-                value={dobMonth ?? ''}
-                onChange={e => setBirthday(e.target.value ? Number(e.target.value) : null, dobYear)}
-                style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
-              >
-                <option value="">Month</option>
-                {MONTHS.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
-              </select>
-              <select
-                className="input"
-                aria-label="Birth year"
-                value={dobYear ?? ''}
-                onChange={e => setBirthday(dobMonth, e.target.value ? Number(e.target.value) : null)}
-                style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
-              >
-                <option value="">Year</option>
-                {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
-              </select>
+            <div role="group" aria-label="Their age" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '8px', marginBottom: '12px' }}>
+              {Array.from({ length: 16 - YOUNGEST_AGE + 1 }, (_, i) => YOUNGEST_AGE + i).map(years => (
+                <button
+                  key={years}
+                  type="button"
+                  onClick={() => chooseAge(years)}
+                  aria-pressed={ageYears === years}
+                  style={{
+                    minHeight: 52, borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
+                    color: 'var(--ink)',
+                    background: ageYears === years ? 'var(--terracotta-lt)' : 'var(--white)',
+                    border: ageYears === years ? '2.5px solid var(--ink)' : '1.5px solid var(--border)',
+                  }}
+                >
+                  {years}
+                </button>
+              ))}
             </div>
-            {dob && isTooYoung(dob) && (
-              <StartsAtFour dob={dob} name={childName} capture after="Got an older child as well? Put their birthday in instead." />
-            )}
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.5, margin: '0 0 6px' }}>
+              We start at {YOUNGEST_AGE}, the age the first stage is written for.
+            </p>
 
             {/* THE STAGE IS NOT ANNOUNCED HERE ANY MORE.
 

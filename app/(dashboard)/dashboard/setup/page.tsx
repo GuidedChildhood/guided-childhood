@@ -21,7 +21,8 @@ export default async function SetupPage() {
   const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
-  const { flags, child, children, complete } = await getSetupState(supabase, user.id)
+  const { flags, child, children, complete, steps, signupAge } = await getSetupState(supabase, user.id)
+  const howMany = ['', 'One thing', 'Two things', 'Three things', 'Four things', 'Five things'][steps.length] ?? `${steps.length} things`
 
   // Is today's check in genuinely still waiting? The finished card says one of
   // two different things depending on the answer, and getting it wrong is what
@@ -35,7 +36,7 @@ export default async function SetupPage() {
       <div style={{ marginBottom: '18px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Setting up</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
-          {complete ? 'Setup Quest' : 'Four things and you are set'}
+          {complete ? 'Setup Quest' : `${howMany} and you are set`}
         </h1>
         {!complete && (
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
@@ -44,7 +45,7 @@ export default async function SetupPage() {
         )}
       </div>
 
-      <SetupQuest flags={flags} child={child} children={children} userId={user.id} checkInDone={checkInDone} />
+      <SetupQuest flags={flags} child={child} children={children} userId={user.id} checkInDone={checkInDone} steps={steps} signupAge={signupAge} />
     </div>
   )
 }

@@ -213,6 +213,16 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - Three house lines in `digi/07` and `digi/02` outrun the evidence. Listed in the boundaries sheet, not changed.
 - Nothing posted, no GDC number claimed. PR 1533.
 
+## 14 November 2026: round 1 paused; the stage check opens on one tap
+
+Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage check was begun; the counter was proved working. Question one asked a stranger for the child's name and birth month and year before anything, with no button. Justin: "Pause and fix it". Campaign paused. Question one is now the child's age, one tap (4 to 16); the birth month moves to the save screen, where with the age it gives the exact year; "Not you? Start fresh" shows only to a real returning visit. Left out was the clear winner on clicks (117 of 216). `plans/2026-11-14-stage-check-one-tap.md`.
+## 14 November 2026: the parent problem sweep, first ranked log
+
+- Prompt B of the answer series plan, run on open pages only. 15 problems ranked in `content/parent-problem-log.md`, beside the radar log. No usernames stored, nothing published.
+- Top of the list by threads read: coming off the screen (12), the first phone (9), Roblox and games at primary age (8), the phone in the bedroom at night (7). Weeks 1 to 3 of the plan are supported as they stand.
+- Proposed for week 4 onward: the bedroom at night, Snapchat before 13, homework on the screen. Coming off the screen needs a refresh, not new research.
+- Limits: every thread is Mumsnet bar two. Reddit, Netmums and public Facebook pages gave nothing readable without a login, so they are not covered. Quotes need a person to check them against the page before use. Messenger is NOT OURS for now. PR 1538.
+
 ## 14 November 2026: the answer series, email courses and child films, plan before build
 
 - Justin asked for a twice weekly post answering Family IT Guy, Dr Becky Kennedy and Catherine Knibbs, an email course per topic in place of downloads, a parent problem sweep, child lesson films released, and a research pop Reel.
@@ -248,3 +258,14 @@ Justin passed on a talk arguing a PDF alone goes unread and a short email a day 
 - None is ready for YouTube or the family account: landscape only, no stage check ending, and each closes on a promise about the child.
 - Not reached: the languages films, the music video, Drive beyond one search, the channels.
 - `content/child-films/2026-11-14-inventory-and-release-list.md`. Nothing uploaded or published.
+## 14 November 2026: the first WhatsApp group pack, and the August briefing no longer stands alone
+
+- Topic production for the first WhatsApp group, Prompt C. The August briefing was re checked first: of 37 lines, 12 confirmed, 17 corrected, 7 removed, 1 not reached. `content/packs/2026-11-14-first-whatsapp-group/recheck.md`.
+- Withdrawn: "the blockers cannot see inside WhatsApp" (Bark's own page says it can), three untraceable Ofcom figures, and every teenage sleep or trajectory figure as a claim about a 10 or 11 year old. The briefing carries a notice at the top.
+- New: WhatsApp parent managed accounts for under 13s (March) and teen controls (September). UK availability unconfirmed, so every asset says so.
+- The pack: answer post, second angle, Reel, Short, seven daily emails (Justin's change the same day), child film brief, checklist marked NOT READY. Every post ends at the stage check, no clinician named.
+- No GDC number claimed. The register takes one study per record and a topic pack does not fit it yet. Nothing posted or sent.
+
+## 14 November 2026: Tell us about your child, asked after joining
+
+The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.
