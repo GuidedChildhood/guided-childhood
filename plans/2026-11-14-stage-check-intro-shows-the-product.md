@@ -74,3 +74,19 @@ anything yet.
 390 and 1280 in the browser, every chip tapped, the button reaches question
 one, `starter-order-guard`, `hex-guard`, `tap-guard`, `token-guard`, tsc.
 No migration.
+
+## Second pass, the same day
+
+Justin on the first version: polish it to Apple level, make it flow the way
+the services work, show an example of it fixing the problem, and encourage the
+balance between online and offline.
+
+The three service boxes became one ordinary day with one child, on a rail:
+breakfast (the day agreed, the three jars), after school (life first, then
+screens: jobs and time outside add stars), teatime (she asks, you tap yes),
+evening (the words), bedtime (ten seconds, and the line over the weeks). Each
+beat names what used to go wrong there and shows the part of the product that
+picks it up. The balance is the mechanism itself, so it is shown, not preached.
+Rail pattern from MacroFactor and Deepstash on Mobbin. The demo now follows the
+day, and the three quiz steps sit with the last button. Fade up on scroll with
+GSAP, off for reduced motion.

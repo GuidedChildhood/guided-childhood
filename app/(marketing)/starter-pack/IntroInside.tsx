@@ -7,7 +7,8 @@ import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, challengeFor } from '@/lib/onboarding/worries'
 import { ANSWERS } from '@/lib/content/proof'
 import { getStageFromAgeBand } from '@/lib/content/stages'
-import { MockAsk, MockKidApp, MockProgress, MockToday } from './Mocks'
+import gsap from 'gsap'
+import { MockAsk, MockJars, MockKidApp, MockProgress } from './Mocks'
 
 // WHAT IS INSIDE, UNDER THE FIRST BUTTON.
 //
@@ -161,31 +162,103 @@ function TryIt() {
   )
 }
 
-/** One service: the problem in a parent's words, the answer, the product drawn. */
-function Row({ when, title, line, children }: { when: string; title: string; line: string; children: ReactNode }) {
+// ── THE DAY, AS ONE RAIL (the second pass, 14 November 2026) ────────────────
+//
+// Justin, on the first version: polish it to Apple level, make it flow the way
+// the services actually work, show an example of it fixing the problem, and
+// encourage the balance between life on a screen and life off one.
+//
+// The first version listed services in boxes inside boxes. A list does not
+// say what happens WHEN. So this is one ordinary day, top to bottom, with one
+// child: each beat is a time of day, the thing that used to go wrong there in
+// a parent's words, and the part of the product that picks it up. The rail is
+// the pattern the best onboarding uses for "what happens next" (MacroFactor,
+// First 30 days; Deepstash, How your free trial works):
+// https://mobbin.com/screens/a23e6bee-a4df-4db1-a6d1-cbb91410960d
+// https://mobbin.com/screens/a276b33b-25f4-4af8-a600-4813a2501089
+//
+// One frame per beat at most, and nothing wrapped around the frame, so the
+// drawing is the only box on screen. The evening beat has no drawing at all:
+// the sentence is the product there.
+//
+// The balance is the mechanism, not a slogan: time that is theirs, time added
+// by jobs and time outside, and time nobody can buy (lib/quests/screen-balance,
+// the three jars), and a five a day that is mostly not on a screen.
+
+type BeatT = { when: string; icon: MethodId; before: string; title: string; line: string; art?: ReactNode }
+
+function Beat({ b, last }: { b: BeatT; last: boolean }) {
   return (
-    <li style={{ ...CARD, padding: '16px 14px 14px', listStyle: 'none' }}>
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '0 0 4px', padding: '0 2px' }}>
-        {when}
-      </p>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.02em', margin: '0 0 4px', padding: '0 2px' }}>
-        {title}
-      </h3>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px', padding: '0 2px' }}>
-        {line}
-      </p>
-      {children}
+    <li data-reveal style={{ display: 'grid', gridTemplateColumns: '40px 1fr', columnGap: 14, listStyle: 'none' }}>
+      <div aria-hidden style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <span style={{
+          flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: METHOD[b.icon].tint,
+          border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <MethodIcon id={b.icon} size={22} />
+        </span>
+        {!last && <span style={{ flex: 1, width: 2, background: 'var(--border)', margin: '6px 0', borderRadius: 2 }} />}
+      </div>
+      <div style={{ minWidth: 0, paddingBottom: b.art ? 14 : last ? 0 : 34 }}>
+        <p style={{ ...EYEBROW, color: 'var(--ink-muted)', margin: '10px 0 8px' }}>{b.when}</p>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.18, letterSpacing: '-0.02em', margin: '0 0 6px' }}>
+          {b.title}
+        </h3>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+          <span style={{ color: 'var(--ink-muted)' }}>{b.before}</span>{' '}{b.line}
+        </p>
+      </div>
+      {/* The drawing takes the full width under the words. Beside the rail it
+          had 300px on a phone, and the child's app and the jars both wrapped. */}
+      {b.art && <div style={{ gridColumn: '1 / -1', paddingBottom: last ? 0 : 30 }}>{b.art}</div>}
     </li>
   )
 }
 
-function Tag({ children }: { children: ReactNode }) {
-  return (
-    <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 2px 6px' }}>
-      {children}
-    </p>
-  )
-}
+const DAY: BeatT[] = [
+  {
+    when: 'Breakfast', icon: 'balance',
+    title: 'The day is agreed before anyone asks',
+    before: 'No more deciding in the middle of a row.',
+    line: 'Some time is simply theirs. More is added by jobs and time outside. Bedtime, meals and school are not for sale.',
+    art: <MockJars />,
+  },
+  {
+    when: 'After school', icon: 'kidapp',
+    title: 'Life first, then screens',
+    before: 'No more nagging.',
+    line: 'Ava has her own app. A tidy room, twenty minutes outside, a short lesson together: each one adds stars, and stars become minutes.',
+    art: <MockKidApp kid="Ava" />,
+  },
+  {
+    when: 'Teatime', icon: 'moment',
+    title: 'She asks. You tap yes.',
+    before: 'No more five more minutes.',
+    line: 'She can see what she has earned, so the answer is never a surprise, and the ending was agreed before it started.',
+    art: <MockAsk kid="Ava" />,
+  },
+  {
+    when: 'Evening', icon: 'script',
+    title: 'When it does go wrong, you have the words',
+    before: 'No more making it up on the spot.',
+    line: 'One thing to try tonight and the sentence to say, written for her age.',
+    art: (
+      <p style={{
+        margin: 0, background: 'var(--tint-butter)', borderRadius: 'var(--radius-card)', padding: '16px 18px',
+        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45,
+      }}>
+        &ldquo;{SAMPLE.script.sayThis}&rdquo;
+      </p>
+    ),
+  },
+  {
+    when: 'Bedtime', icon: 'checkin',
+    title: 'Ten seconds, and you can see it easing',
+    before: 'No more guessing whether any of it works.',
+    line: 'Tap how today went. Each worry gets its own line over the weeks.',
+    art: <MockProgress concern="Coming off screens" />,
+  },
+]
 
 /** The rest, as one plain list (the 13 September rule: rows, nothing to open). */
 const ALSO: { icon: MethodId; title: string; line: string }[] = [
@@ -222,44 +295,41 @@ export default function IntroInside({ onStart }: { onStart: () => void }) {
     return () => io.disconnect()
   }, [])
 
+  // Motion rule: GSAP only, a subtle fade up, once. Only what starts below the
+  // screen is hidden, and only after this runs, so with no script or with
+  // reduced motion everything is simply there.
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const els = Array.from(document.querySelectorAll<HTMLElement>('#inside [data-reveal]'))
+      .filter(el => el.getBoundingClientRect().top > window.innerHeight)
+    if (!els.length) return
+    gsap.set(els, { opacity: 0, y: 18 })
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue
+        gsap.to(e.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'transform' })
+        io.unobserve(e.target)
+      }
+    }, { rootMargin: '0px 0px -8% 0px' })
+    els.forEach(el => io.observe(el))
+    return () => { io.disconnect(); gsap.set(els, { clearProps: 'opacity,transform' }) }
+  }, [])
+
   return (
-    <div id="inside" style={{ marginTop: 44, display: 'flex', flexDirection: 'column', gap: 44, scrollMarginTop: 16 }}>
-      <TryIt />
-
-      <section aria-labelledby="intro-get" data-intro-services>
-        <p style={EYEBROW}>What you get</p>
-        <h2 id="intro-get" style={H2}>Three problems you know, and what we do about each.</h2>
-        <ul style={{ margin: '14px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <Row
-            when="When every evening ends in a row about more time"
-            title="Stars, not arguments"
-            line="Your child has their own app. Jobs earn stars, stars become screen minutes, and bedtime is never for sale."
-          >
-            <Tag>Their app</Tag>
-            <MockKidApp kid="Ava" />
-            <div style={{ height: 10 }} />
-            <MockAsk kid="Ava" />
-          </Row>
-
-          <Row
-            when="When you never know what to say"
-            title="The words, ready before the moment"
-            line="One thing to do today and the sentence to say, written for their age."
-          >
-            <MockToday action={SAMPLE.action} words={SAMPLE.script.sayThis} />
-          </Row>
-
-          <Row
-            when="When you cannot tell if any of it is working"
-            title="Ten seconds a day"
-            line="Tap how it went. Each worry gets its own line, so you can watch it ease over the weeks."
-          >
-            <MockProgress concern="Coming off screens" />
-          </Row>
-        </ul>
+    <div id="inside" style={{ marginTop: 52, display: 'flex', flexDirection: 'column', gap: 60, scrollMarginTop: 16 }}>
+      <section aria-labelledby="intro-day" data-intro-day>
+        <p style={EYEBROW}>How it works</p>
+        <h2 id="intro-day" style={H2}>One ordinary day, with Ava, who is nine.</h2>
+        <p style={LEAD}>Screens get their place. The rest of the day gets its place back.</p>
+        <ol style={{ margin: '22px 0 0', padding: 0 }}>
+          {DAY.map((b, i) => <Beat key={b.when} b={b} last={i === DAY.length - 1} />)}
+        </ol>
       </section>
 
-      <section aria-labelledby="intro-also">
+      <div data-reveal><TryIt /></div>
+
+      <section aria-labelledby="intro-also" data-reveal>
         <p style={EYEBROW}>Also inside</p>
         <h2 id="intro-also" style={H2}>Everything else, in one place.</h2>
         <ul style={{ ...CARD, listStyle: 'none', margin: '14px 0 0', padding: '0 14px' }}>
@@ -280,8 +350,8 @@ export default function IntroInside({ onStart }: { onStart: () => void }) {
         </ul>
       </section>
 
-      <section aria-labelledby="intro-how">
-        <p style={EYEBROW}>How it works</p>
+      <section aria-labelledby="intro-how" data-reveal>
+        <p style={EYEBROW}>Your turn</p>
         <h2 id="intro-how" style={H2}>Two minutes, then you have a plan.</h2>
         <ol style={{ listStyle: 'none', margin: '14px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {STEPS.map((s, i) => (
