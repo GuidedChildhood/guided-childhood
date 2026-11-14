@@ -114,3 +114,24 @@ Five ideas, a picture and a handful of words each:
 
 The day rail, the long demo card and the full "what this is not" block went.
 WhatWeAreNot.tsx is unchanged and still used elsewhere.
+
+## Correction: it was the page after the questions
+
+Justin, later the same day, with screenshots of the flow: "it was just the
+pathway is ready page that needs fixing ... it starts like this flow, don't
+change." Every pass above was built on the intro, the screen BEFORE question
+one. That work is reverted: `starter-pack/page.tsx` is back to main and
+`IntroInside.tsx` is gone.
+
+What shipped instead, on `ResultScreen.tsx` (the "pathway is ready" page):
+
+- Kept, untouched: the arrival, their worry card with tonight's answer, the
+  Good to know rows (Childline and 999 on the line), the urgent block, the
+  one floating door, the price card with four days and the founder cap, the
+  share card. All of these are held by guards.
+- Replaced: how it works, devices and time, and also included, with the
+  four blocks in `components/starter/InsideBlocks.tsx`: the passport road with
+  their stage marked, three fixes, DiGi and its loop, the rest as labels.
+- Moved one tap in, not cut: the time number, where it comes from, the three
+  kinds of time and the "we do not read the device" disclosure.
+- Cut: the You told us card, which counted the worries the cards name.

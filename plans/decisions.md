@@ -266,17 +266,17 @@ Round 1 reached 9,210 parents, 216 clicks, 136 page loads, £10.64, and no stage
 - The pack: answer post, second angle, Reel, Short, seven daily emails (Justin's change the same day), child film brief, checklist marked NOT READY. Every post ends at the stage check, no clinician named.
 - No GDC number claimed. The register takes one study per record and a topic pack does not fit it yet. Nothing posted or sent.
 
-## 14 November 2026: the stage check intro shows the product
+## 14 November 2026: the pathway is ready page, in pictures
 
-Justin: the first page should show exactly what a parent gets, and it looked
-messy and confusing. The intro was three cards about the quiz and a box about
-what we are not; the product was nowhere on it. Now the first screen is the
-outcome and the button ("Find my child's stage"), and below it a one tap demo
-(pick a worry, see our answer and one thing for tonight), three services each
-beside the problem it answers with the drawn product, the rest as one list,
-how it works in three lines, and what this is not. Nothing invented: every line
-reads from ANSWERS and the Builder stage. No statistic, no price, no free days
-on this screen. Plan: plans/2026-11-14-stage-check-intro-shows-the-product.md.
+Justin, on the page after the three questions ("Ava's pathway is ready"): show
+what a parent gets, far less wordy, the passport, DiGi and how it learns. The
+three middle sections of sentences became four picture blocks
+(components/starter/InsideBlocks.tsx): the road with their stage marked, three
+fixes with the product drawn, DiGi with its learning loop (no counts, no
+success rate), the rest as labels. The time number, its evidence and the
+"we do not read the device" note moved one tap in under the stars. The intro
+before the questions is unchanged; an earlier pass on it was reverted the same
+day because it was the wrong page. PR 1546.
 ## 14 November 2026: Tell us about your child, asked after joining
 
 The one tap stage check (PR 1541) lets a parent join without a name or a birth month. Audited: nothing breaks, but a child with no birthday never ages up (the age up cron reads only children with one) and a skipped name shows as "Your child". Justin: ask for it after they join, to avoid blocks. So finish-setup keeps the age tapped and the day (onboarding_answers.ageYears, ageOn) and marks the family (askAbout) when either is missing; that family's Setup Quest leads with "Tell us about your child": the name and the birth month, the year worked out from the age. Saving writes the birthday and re-derives the band and stage, so the age up takes over. Shown only to marked families, so step numbers never shift. Round 1 adverts back on the same day at Justin's word.

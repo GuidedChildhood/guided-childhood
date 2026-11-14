@@ -22,7 +22,7 @@ import { track } from '@/components/Analytics'
 import { readUtm, opensOnQuestionOne, VIA_PARAM, VIA_LINK } from '@/lib/video/utm'
 import { hasUtm } from '@gc/shared/utm'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import IntroInside from './IntroInside'
+import WhatWeAreNot from '@/components/marketing/WhatWeAreNot'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
   FEELING_OPTIONS,
@@ -835,15 +835,11 @@ export default function StarterPackPage() {
           />
         )}
 
-        {/* Intro. The first screen is the outcome, one line and the button;
-            what is inside (the demo, the services, how it works) is below it
-            in IntroInside, so nothing delays a start. Justin, 14 November
-            2026: show exactly what they get, without the mess.
-            plans/2026-11-14-stage-check-intro-shows-the-product.md */}
+        {/* Intro — the story of what happens */}
         {step === 'intro' && !showCard && (
           <>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
-              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <img src="/digi-squad/DiGi-star-3d.png" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             {schoolName && (
               <p data-school-welcome style={{
@@ -854,45 +850,45 @@ export default function StarterPackPage() {
                 For families at {schoolName}
               </p>
             )}
-            <p style={{
-              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-              letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
-              textAlign: 'center', margin: '0 0 8px',
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)',
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
+              color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
               Your free stage check
-            </p>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 7vw, 2.5rem)',
-              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08,
-              color: 'var(--ink)', marginBottom: '12px', textAlign: 'center',
-            }}>
-              A plan for screens, written for your child&apos;s age.
             </h1>
-            {/* The four free days are told on the account screen, where they
-                apply, not here before the parent has seen anything. */}
-            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', marginBottom: '24px', lineHeight: 1.5, textAlign: 'center' }}>
-              Three questions. Their stage, and what to do tonight.
+            {/* The words the posts use (funnel audit, fix 4). The four free
+                days are told on the account screen, where they apply, not
+                here before the parent has seen anything. */}
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
+              Three questions, two minutes. See your child&apos;s stage before you make an account.
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
+              {[
+                { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen battle you are facing right now' },
+                { n: '2', title: 'We build their pathway', sub: 'A plan for their exact age, step by step to a safe, capable 16' },
+                { n: '3', title: 'Start tonight, free', sub: 'The words to say, lessons for their age, and a plan for both of you' },
+              ].map(item => (
+                <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px' }}>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{item.title}</div>
+                    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.5 }}>{item.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
             <button
               onClick={() => setStep('q1')}
               className="btn btn-gold"
-              id="intro-start"
               style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px' }}
             >
-              Find my child&apos;s stage
+              Start, it is free
             </button>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
-              Free. Two minutes. No sign up.
+              No commitment. Built on the research.
             </p>
-            <p style={{ textAlign: 'center', margin: '6px 0 0' }}>
-              <a href="#inside" style={{
-                display: 'inline-block', padding: '12px 14px', fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'var(--text-sm)', color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: '3px',
-              }}>
-                See what is inside first
-              </a>
-            </p>
-            <IntroInside onStart={() => { setStep('q1'); window.scrollTo({ top: 0 }) }} />
+            <WhatWeAreNot />
           </>
         )}
 
