@@ -95,6 +95,7 @@ export const FOUNDING = {
 export const LICENCE_INCLUDES = [
   `All ${MODULE_COUNT} modules, Reception to Year 13, and every update through the year`,
   'The word for word teacher script on every slide',
+  'Included at no extra cost: KS2 French for Years 3 and 4, with slides, songs, sheets and assessment, growing each half term',
   'Every printable pack, pupil booklet and knowledge organiser',
   'The compliance Hub: RSHE 2025 mapping, policy text, DPIA support, DSL notes',
   'Staff CPD briefings for every sensitive module',

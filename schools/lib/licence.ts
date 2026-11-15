@@ -27,12 +27,13 @@ export async function currentAccess(): Promise<Access | null> {
 
 /** What the nav needs: the two rooms for any code, and the right word on
  *  the chip. A pilot school is named as one, never as licensed. The
- *  languages tab shows for a languages code, or for everyone once
- *  LANGUAGES_LIVE is on; a scheme code alone never shows it. */
+ *  languages tab shows for any school with a code (French is in every
+ *  licence), for a languages code, or for everyone once LANGUAGES_LIVE is on. */
 export async function navAccess(): Promise<{ licensed: boolean; pilot: boolean; languages: boolean }> {
   const access = await currentAccess()
   const store = await cookies()
-  const languages = languagesLive() || (await languagesTokenAccess(store.get(LANGUAGES_COOKIE)?.value)) !== null
+  // French is in every school's licence (15 November 2026), so a scheme code shows the tab too.
+  const languages = access !== null || languagesLive() || (await languagesTokenAccess(store.get(LANGUAGES_COOKIE)?.value)) !== null
   return { licensed: access !== null, pilot: access?.tier === 'pilot', languages }
 }
 

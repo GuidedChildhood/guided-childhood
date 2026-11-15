@@ -48,8 +48,10 @@ const NAV = join('schools', 'components', 'SiteNav.tsx')
   ok('the Languages tab renders only inside a `languages && (` block', !!block && /href="\/languages"/.test(block[1]))
   ok('SiteNav names /languages nowhere else', !/["'`(]\/languages(\/|["'`?#)])/.test(outside))
   const licence = readFileSync(join('schools', 'lib', 'licence.ts'), 'utf8')
-  ok('navAccess sets languages only from the languages cookie or LANGUAGES_LIVE',
-    /const languages = languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
+  // Since 15 November 2026 French is in every school's licence, so a scheme
+  // code shows the tab too. A stranger with no code still never sees it.
+  ok('navAccess sets languages only from a scheme code, the languages cookie or LANGUAGES_LIVE',
+    /const languages = access !== null \|\| languagesLive\(\) \|\| \(await languagesTokenAccess\(store\.get\(LANGUAGES_COOKIE\)\?\.value\)\) !== null/.test(licence))
 }
 
 // THE MEDIA ROUTE GATES ITSELF (10 November 2026). Its paths all carry a dot,
@@ -69,6 +71,9 @@ const NAV = join('schools', 'components', 'SiteNav.tsx')
 for (const root of ['schools', 'app', 'components', 'shared', 'lib']) {
   for (const file of walk(root)) {
     if (inside(file) || file === NAV) continue
+    // The Hub is behind a scheme code, and since 15 November 2026 every school
+    // with one has French, so its tile may link there. Nothing public may.
+    if (file === join('schools', 'app', 'hub', 'page.tsx')) continue
     const src = readFileSync(file, 'utf8')
     ok(`no link to /languages in ${file}`, !/["'`(]\/languages(\/|["'`?#)])/.test(src),
       'languages are hidden until LANGUAGES_LIVE is switched on; link to them only once they launch')
@@ -113,6 +118,33 @@ ok('a bare code opens both languages', JSON.stringify((await L.languagesTokenAcc
 ok('a Spanish code opens Spanish only', JSON.stringify((await L.languagesTokenAccess(es))?.langs) === '["es"]')
 ok('a scheme cookie never opens languages', (await L.languagesTokenAccess(scheme)) === null)
 ok('a languages cookie never opens the scheme', (await tokenAccess(both)) === null)
+
+// FRENCH IS IN EVERY SCHOOL'S LICENCE (15 November 2026). The proxy mints a
+// French cookie from a valid scheme cookie. It opens French only, never
+// Spanish, never the scheme, and it dies with the scheme code.
+const fromScheme = await L.issueSchemeLanguagesToken('scheme-code')
+const viaScheme = await L.languagesTokenAccess(fromScheme)
+ok('a school with a scheme code is given French', viaScheme !== null && viaScheme.langs.join() === 'fr')
+ok('the French cookie given to a scheme school does not open the scheme', (await tokenAccess(fromScheme)) === null)
+ok('a code that is on no scheme list is given nothing', (await L.languagesTokenAccess(await L.issueSchemeLanguagesToken('not-a-code'))) === null)
+{
+  const keep = process.env.SCHOOLS_ACCESS_CODES
+  process.env.SCHOOLS_ACCESS_CODES = 'another-school'
+  ok('pulling the scheme code closes French on the next request', (await L.languagesTokenAccess(fromScheme)) === null)
+  process.env.SCHOOLS_ACCESS_CODES = keep
+}
+// THE FREE TASTER (15 November 2026): one French lesson and its teach screen
+// are open to anyone. Exact paths only, so nothing beside them opens.
+ok('the taster is one lesson and its teach screen', L.isFrenchTasterPath(L.FRENCH_TASTER_PATH) && L.isFrenchTasterPath(L.FRENCH_TASTER_PATH + '/teach'))
+for (const shut of ['/languages', '/languages/fr', '/languages/fr/print', `/languages/fr/${L.FRENCH_TASTER.unit}`, `/languages/fr/${L.FRENCH_TASTER.unit}/2`, L.FRENCH_TASTER_PATH + '/teach/x', L.FRENCH_TASTER_PATH + '0', '/languages/fr/progress']) {
+  ok(`the taster does not open ${shut}`, !L.isFrenchTasterPath(shut))
+}
+ok('the proxy opens only the taster paths to a stranger', /if \(isFrenchTasterPath\(pathname\)\) return pass\(\)/.test(proxy))
+{
+  const media = readFileSync('schools/app/languages/fr/media/[...path]/route.ts', 'utf8')
+  ok('only the taster lesson\'s own deck is served without a code', /const isTaster = !!tasterUnit && slug === tasterUnit\.slug && !!tasterDeck && file === tasterDeck/.test(media) && /if \(!isTaster\) \{/.test(media))
+}
+ok('the proxy gives French to a scheme school before the door', /issueSchemeLanguagesToken\(/.test(proxy) && proxy.indexOf('issueSchemeLanguagesToken(') < proxy.lastIndexOf('if (pathname === LANGUAGES_DOOR) return pass()'))
 ok('a forged languages cookie fails', (await L.languagesTokenAccess(both.replace(/.$/, c => (c === 'a' ? 'b' : 'a')))) === null)
 process.env.SCHOOLS_LANGUAGES_CODES = 'both-code,fr-code:fr'
 ok('a code pulled from the env stops at once', (await L.languagesTokenAccess(es)) === null)

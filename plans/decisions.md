@@ -263,6 +263,9 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - "You just follow the path" on a family's first day on Home and in the welcome email. The price card and upgrade page say the four free days carry DiGi a few times a day and the starter scripts.
 - Later the same day: Rachael (her spelling) signed in once on 10 November and never chose a plan, so the choose screen is the last thing she saw and she never reached Home. Her free days were reset to 19 November on Justin's yes. Whether the choice moves later is Justin's to decide.
 - Justin kept school, French and Etsy builds going (no pause). Five questions for Rachel in `plans/2026-11-15-rachel-five-questions.md`.
+## 15 November 2026: French sync issue 1537 closed by hand, and her new progression tables
+
+The sync could not open its own pull request (the repository setting is still off), so it left issue 1537. Her data is brought in here instead. Her site also changed its "grow" table into one sentence growing half term by half term, plus a lesson by lesson table for one unit; the old shape check would have turned tonight's run red, so the sync now reads both as rows of three and the curriculum page shows them. The unit page links the new phonics mat. PR to follow.
 ## 15 November 2026: "our guide", never "healthy", across the app
 
 - Justin said yes to finishing the wording. About 45 lines in 23 files (timer, pushes, pace card, parent report, DiGi's context, the child's timer card, three emails, one quiz option) now say "our guide" or "today's guide" where they said healthy guide, amount, level or range.
@@ -275,3 +278,10 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Justin: capture the questions, keep nudging if unanswered, alert him on his phone. `/tell-us` opens from a signed email link with no sign in; question one is one tap. Answers go to `parent_answers` (migration 397, applied live), push to Justin's phone and show at the top of the founder asks page.
 - Three emails, then silence: day three, four days later, a week after that. Any answer, a first check in or a finished day stops them. Accounts under 45 days old only. They ride the one programme email a week floor.
 - Plan in `plans/2026-11-15-ask-the-parent-who-stopped.md`. PR 1558.
+## 15 November 2026: French is in every school's licence, and the gaps against the paid schemes
+
+Justin: "all schools get french", the author agreed, under our branding. A school's scheme code now opens French with no second code: the proxy mints the French cookie from the scheme cookie, French only, rechecked against the scheme list on every request. It is on the pricing list and the Hub. From the review of Oak, Kapow, Jigsaw, Project Evolve, Twinkl and Language Angels: a subject lead kit (deep dive questions with the page that answers each, a pupil voice sheet, a staff audit, how the lessons are designed), an end of year "can say" list per year on the year plan from each lesson's own outcome, In short on nine long Hub pages, and the SEND page corrected. Not built: adapted versions of the printable sheets (each needs writing), pupil voice recorded online (needs a legal version), songs and a home practice site. PR 1557.
+
+## 15 November 2026: one French lesson is free to open
+
+Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach screen open with no code, and the media route serves that one lesson's deck. Everything beside it still needs a code: exact paths, checked in `scripts/check-languages-door.mjs`. A visitor sees a line saying what it is and gets no record step and no links into gated pages. Linked from the pricing page. PR 1557.

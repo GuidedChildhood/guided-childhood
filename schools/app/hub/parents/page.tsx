@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import InShort from '@/components/InShort'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
@@ -43,6 +44,15 @@ export default async function ParentPackPage() {
           open. This pack shows you every topic in the programme, what your child will be able to do
           after each lesson, and the question that comes home so the conversation continues at your table.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <>Every topic your child will meet, and what they will be able to do after each lesson.</>,
+            <>The <b>question that comes home</b>, so the conversation carries on at your table.</>,
+            <>You have a <b>right to see the materials</b>. This pack and the open curriculum map are how.</>,
+            <>No login needed. Share it freely.</>,
+          ]} />
+        </div>
 
         <div style={{ border: '2px solid var(--gold)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
           <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Your right to see the materials</p>

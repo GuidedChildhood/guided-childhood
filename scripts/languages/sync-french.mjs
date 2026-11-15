@@ -196,23 +196,47 @@ function everyClassOf(src) {
   return groups.length ? groups : null
 }
 
-/** The pupil games sites she links from her menu, one per year, and the sheet
- *  of QR codes that opens them on the class tablets. */
+/** Rows of three strings, or null if the value is anything else. */
+function rows3(v) {
+  return Array.isArray(v) && v.length > 0 && v.every(r => Array.isArray(r) && r.length === 3 && r.every(x => typeof x === 'string')) ? v : null
+}
+
+/** The pupil games sites she links from her menu, one per year (and since 15
+ *  November an inclusion version of each, the -plus sites), her phonics check
+ *  app, and the sheet of QR codes that opens the games on the class tablets. */
 function pupilGamesOf(src) {
-  const sites = [...src.matchAll(/\["(https:\/\/lets-play-french-y(\d)\.pages\.dev\/)",\s*"[^"]*"\]/g)]
-    .map(m => ({ year: Number(m[2]), url: m[1] }))
+  const sites = [...src.matchAll(/\["(https:\/\/lets-play-french-y(\d)(-plus)?\.pages\.dev\/)",\s*"[^"]*"\]/g)]
+    .map(m => ({ year: Number(m[2]), url: m[1], inclusion: !!m[3] }))
   if (sites.length === 0) return null
   const qr = src.match(/units\/extras\/([A-Za-z0-9_-]*QR[A-Za-z0-9_-]*\.pdf)/)
-  return { sites, qr: qr ? qr[1] : null }
+  const check = src.match(/"(https:\/\/french-phonics-check\.pages\.dev\/)"/)
+  return { sites, qr: qr ? qr[1] : null, phonicsCheck: check ? check[1] : null }
+}
+
+/** A string constant in the page script, as text: const NAME = "..."; */
+function liftString(src, name) {
+  const m = src.match(new RegExp(`const ${name} = ("(?:[^"\\\\]|\\\\.)*")`))
+  if (!m) return null
+  try { const v = JSON.parse(m[1]); return typeof v === 'string' && v.length > 0 ? v : null } catch { return null }
 }
 
 const handbook = {
   think: or('her reasons', lifted(bank, 'const THINK = '), before.handbook?.think),
-  // How each statement grows used to be a short table in her script (GROW).
-  // Since 13 November it is the end of year statements, worked out from
-  // page.formalAssessment, so a missing GROW is the new normal and is not
-  // carried forward from an old sync.
-  grow: lifted(bank, 'const GROW = '),
+  // HOW LEARNING BUILDS (15 November 2026). Her GROW table used to map each
+  // code to a note. It is now one sentence growing half term by half term
+  // ([unit, sentence, what it adds]), and UNIT is the same inside one unit,
+  // lesson by lesson. The old code to note shape is no longer read: the
+  // end of year statements on the assessment page replaced it.
+  sentenceGrows: or('one sentence grows', rows3(lifted(bank, 'const GROW = ')), before.handbook?.sentenceGrows),
+  unitGrows: or('inside one unit', rows3(lifted(bank, 'const UNIT = ')), before.handbook?.unitGrows),
+  // AVOIDING OVERLOAD (15 November 2026): her page on small steps, pictures and
+  // actions, clear worksheets and clear slides. Its text sits in three
+  // constants in the page script.
+  overload: or('avoiding overload', (() => {
+    const steps = lifted(bank, 'const COGLOAD = ')
+    const worksheets = liftString(bank, 'WORKSHEETS'), slides = liftString(bank, 'SLIDES')
+    return Array.isArray(steps) && steps.every(x => typeof x === 'string') && worksheets && slides ? { steps, worksheets, slides } : null
+  })(), before.handbook?.overload),
   everyClass: or('the sheets for every class', everyClassOf(bank), before.handbook?.everyClass),
   pupilGames: or('the pupil games', pupilGamesOf(bank), before.handbook?.pupilGames),
   marie: or('Marie and Pierre', lifted(bank, 'const R = ', 'function marie()'), before.handbook?.marie),
@@ -283,14 +307,18 @@ function shapeProblems(d) {
   // A file name reaches a URL, so it has to be a plain name.
   const plain = f => typeof f === 'string' && /^[A-Za-z0-9_-]+\.(pdf|zip)$/.test(f)
   for (const [slug, u] of Object.entries(d.units ?? {})) {
-    for (const k of ['extras', 'displays']) if (u[k] !== undefined && (!Array.isArray(u[k]) || u[k].some(x => !plain(x.f) || typeof x.t !== 'string'))) out.push(`${slug}: ${k} is not a list of named files`)
+    for (const k of ['extras', 'displays', 'phonicsMats']) if (u[k] !== undefined && (!Array.isArray(u[k]) || u[k].some(x => !plain(x.f) || typeof x.t !== 'string'))) out.push(`${slug}: ${k} is not a list of named files`)
     for (const l of u.lessons ?? []) for (const x of l.files ?? []) if (x.ans !== undefined && !plain(x.ans)) out.push(`${slug}: an answer sheet has an unsafe name`)
   }
   const hb = d.handbook ?? {}
   if (hb.everyClass && hb.everyClass.some(g => typeof g.label !== 'string' || g.files.some(x => !plain(x.f)))) out.push('handbook.everyClass is not groups of named files')
-  if (hb.pupilGames && hb.pupilGames.sites.some(x => !/^https:\/\/lets-play-french-y\d\.pages\.dev\/$/.test(x.url))) out.push('handbook.pupilGames has an address that is not a pupil games site')
+  if (hb.pupilGames && hb.pupilGames.sites.some(x => !/^https:\/\/lets-play-french-y\d(-plus)?\.pages\.dev\/$/.test(x.url))) out.push('handbook.pupilGames has an address that is not a pupil games site')
+  if (hb.pupilGames?.phonicsCheck && hb.pupilGames.phonicsCheck !== 'https://french-phonics-check.pages.dev/') out.push('handbook.pupilGames.phonicsCheck is not the phonics check site')
+  if (hb.overload && (!Array.isArray(hb.overload.steps) || typeof hb.overload.worksheets !== 'string' || typeof hb.overload.slides !== 'string')) out.push('handbook.overload is not steps, worksheets and slides')
+  const eoy = d.page?.endOfYear
+  if (eoy !== undefined && (!Array.isArray(eoy) || eoy.some(y => !Number.isFinite(y.year) || !Array.isArray(y.strands) || y.strands.some(s => typeof s.strand !== 'string' || !Array.isArray(s.items) || s.items.some(i => typeof i.code !== 'string' || typeof i.statement !== 'string'))))) out.push('page.endOfYear is not years of strands of statements')
   for (const k of ['think', 'marie', 'levels', 'progressShows']) if (hb[k] && !pairs(hb[k])) out.push(`handbook.${k} is not a list of rows`)
-  if (hb.grow && (typeof hb.grow !== 'object' || Object.values(hb.grow).some(v => typeof v !== 'string'))) out.push('handbook.grow is not code to text')
+  for (const k of ['sentenceGrows', 'unitGrows']) if (hb[k] && !rows3(hb[k])) out.push(`handbook.${k} is not rows of three`)
   return out
 }
 const problems = shapeProblems(data)
