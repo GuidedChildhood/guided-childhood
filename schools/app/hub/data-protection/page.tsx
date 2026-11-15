@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import InShort from '@/components/InShort'
 import { COMPANY } from '@gc/shared/legal'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -37,6 +38,15 @@ export default async function DataProtectionPage() {
           addresses and no profiles. This document gives your DPO what a data protection impact
           assessment needs.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <><b>No pupil data.</b> Pupils have no accounts, logins, names or profiles.</>,
+            <>A school signs in with a code that identifies the school and nothing else.</>,
+            <>Class records hold counts for a class, never a named pupil.</>,
+            <>Everything a <b>DPIA</b> needs is below, section by section.</>,
+          ]} />
+        </div>
 
         <div style={block}>
           <h2 style={h2}>1. What pupil data is processed, and why</h2>

@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import InShort from '@/components/InShort'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -176,6 +177,15 @@ export default async function CpdBriefingsPage() {
           for in the room, and exactly what to do with a disclosure. All{' '}{FLAGGED_MODULES.length}{' '}safeguarding flagged modules have one. Read the one you need the night before, or run them as a staff meeting
           before the scheme starts, alongside the induction page in the Hub.
         </p>
+
+        <div style={{ margin: '0 0 22px' }}>
+          <InShort points={[
+            <>A <b>ten minute briefing</b> for each safeguarding flagged lesson, read the night before or run as a staff meeting.</>,
+            <>The tone to hold, what to watch for in the room, and <b>exactly what to do with a disclosure</b>.</>,
+            <>Your school&apos;s own DSL details appear under every disclosure paragraph.</>,
+            <>Every slide already has a word for word script, so nobody teaches these unsupported.</>,
+          ]} />
+        </div>
 
         {/* The school's own details, typed once on the Hub: at the top of the
             page, and under every disclosure paragraph, so a briefing handed

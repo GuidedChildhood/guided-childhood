@@ -34,7 +34,7 @@ export default function AccessibilityPage() {
           projector, no sound, a class with every kind of learner in it. That is why every lesson has
           a complete paper fallback and why the teacher, never the platform, holds the room. This
           statement covers the interactive player and the printed materials, says what works today,
-          and names what we are still improving. Last reviewed 6 September 2026.
+          and names what we are still improving. Last reviewed 15 November 2026.
         </p>
 
         <div style={block}>
@@ -65,8 +65,10 @@ export default function AccessibilityPage() {
         <div style={block}>
           <h2 style={h2}>What we are still improving</h2>
           <p style={body}>
-            Named adaptations for specific SEND profiles per module are being written into the
-            teacher notes, following the same pattern as the misconceptions. Some decorative text in
+            Every lesson now carries named adaptations in its teacher notes, shown on the lesson page
+            as SEND and EAL adaptations: for EAL, sensory needs, attention and communication on most
+            lessons, as one paragraph on the rest. What is still to come is an adapted version of the
+            printable sheets themselves, so a pupil with a scaffold has it on paper too. Some decorative text in
             the player still uses fixed sizes we are converting to scale with device settings. We
             review this statement as the product moves, and the date above changes when it does.
           </p>
