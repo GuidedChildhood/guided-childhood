@@ -1041,7 +1041,7 @@ export default function HomePage() {
                   ['✓', 'Your age stage roadmap'],
                 ],
                 cta: 'Start free trial', href: '/starter-pack',
-                note: 'The founder rate is claimed at sign up, first 50 families only. Start your trial now and it is yours.',
+                note: 'The founder rate is offered after your first check in, first 50 families only. Start free and see it working first.',
                 ctaBg: 'transparent', ctaColor: 'var(--ink)', ctaBorder: '2px solid var(--border)', ctaShadow: 'none',
                 cardStyle: {},
               },

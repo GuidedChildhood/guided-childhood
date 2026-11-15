@@ -285,3 +285,9 @@ Justin: "all schools get french", the author agreed, under our branding. A schoo
 ## 15 November 2026: one French lesson is free to open
 
 Justin said yes to a French taster. `/languages/fr/y3-ht2/1` and its teach screen open with no code, and the media route serves that one lesson's deck. Everything beside it still needs a code: exact paths, checked in `scripts/check-languages-door.mjs`. A visitor sees a line saying what it is and gets no record step and no links into gated pages. Linked from the pricing page. PR 1557.
+
+## 15 November 2026: the plan choice waits for the first check in
+
+- Justin's yes. A new parent now goes straight in free and lands on setup, whose first step is the home screen and reminders. The founder or free choice is owed only after their first check in (`needsPlanChoice`). It reverses the 14 August placement at the end of sign up, because the one live family left at that screen before seeing the product.
+- Still its own route behind the middleware, so once owed it cannot be skipped. A parent who never checks in meets the upgrade page when the free days end.
+- Homepage line and THE STORY section 9 changed to match. No migration.

@@ -16,3 +16,9 @@ create table if not exists public.parent_answers (
 alter table public.parent_answers enable row level security;
 
 create index if not exists parent_answers_created_idx on public.parent_answers (created_at desc);
+
+-- Written and read by the server only (service role), like migration 392.
+-- Named out loud because Supabase no longer grants new public tables by
+-- default (check-migration-grants).
+revoke all on public.parent_answers from anon, authenticated;
+grant select, insert, update, delete on public.parent_answers to service_role;

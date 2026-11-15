@@ -38,7 +38,7 @@ export type AccessProfile = {
   trial_ends_at?: string | null
   /** Which path they took: 'founder', 'free', or null while still owed. */
   plan_choice?: string | null
-  /** Setup finished, which is what makes the choice owed. */
+  /** Setup finished. With a first check in, that makes the choice owed. */
   onboarding_complete?: boolean | null
   /** Their first ever check in. */
   first_checkin_at?: string | null
@@ -257,6 +257,24 @@ export function needsPlanChoice(profile: AccessProfile | null | undefined): bool
   // being asked for a card in the middle of it, and the wizard's own routes
   // are not behind this gate anyway.
   if (!profile.onboarding_complete) return false
+  // ── AFTER THE FIRST CHECK IN, NOT BEFORE THE PRODUCT (15 November 2026) ──
+  //
+  // Justin, yes to: "let a new parent straight in for free, and show the
+  // founder offer after their first check in."
+  //
+  // The evidence was the one live family. She made an account on 10 November,
+  // met this screen before she had seen a single page of the product, chose
+  // neither door and never came back. Her four free days ran out behind a
+  // question she had no way to answer yet: nobody can weigh £7.99 against a
+  // thing they have not opened.
+  //
+  // So the choice waits for the first check in, the first moment a parent has
+  // told us something and got something back. Everything that made the offer
+  // unskippable is kept: it is still its own route with the middleware in
+  // front of it, so once it is owed no reload or closed tab can lose it. A
+  // parent who never checks in meets the upgrade page when the free days end,
+  // which carries the same founder offer.
+  if (!profile.first_checkin_at) return false
   // Already paying, by any route. The question answers itself.
   if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return false
   return true
