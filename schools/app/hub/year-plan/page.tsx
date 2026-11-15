@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import InShort from '@/components/InShort'
 import PrintButton from '@/components/PrintButton'
 import { KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 import { lessonsForYear, yearName, YEARS_OF } from '@gc/shared/schools-progression'
@@ -35,6 +36,15 @@ export default async function YearPlanPage() {
           looks back at an earlier lesson), but every lesson stands alone, so reordering around your
           timetable loses nothing except that look back.
         </p>
+
+        <div style={{ marginBottom: '22px' }}>
+          <InShort points={[
+            <>A <b>suggested</b> year and term for every lesson, Reception to Year 13.</>,
+            <>Every lesson stands alone, so <b>reorder freely</b>. Only the starter&apos;s look back changes.</>,
+            <>What each lesson builds on and leads to is on the <Link href="/hub/progression">progression map</Link>.</>,
+            <>What each class has actually had is on <Link href="/hub/progress">class progress</Link>.</>,
+          ]} />
+        </div>
 
         {KEY_STAGE_ORDER.map(ks => {
           const meta = KEY_STAGE_META[ks]
