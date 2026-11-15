@@ -275,9 +275,10 @@ code. Standard £12.99 a month. Annual £99. Free tier: four day trial, three
 DiGi messages a day, five free scripts, the starter pack. Schools £495 to
 £1,995 a year on invoice.
 
-**The paywall.** The plan choice sits at the end of sign up, as decided on
-14 August 2026: when setup finishes the parent chooses one of exactly two
-doors, on its own route (`/dashboard/choose`) so a reload cannot delete the
+**The paywall.** The plan choice comes after the first check in (15 November
+2026; it sat at the end of sign up from 14 August, and the one live family
+left at that screen before seeing the product). The parent then chooses one of
+exactly two doors, on its own route (`/dashboard/choose`) so a reload cannot delete the
 offer. Founder with a card now (four day trial, then £7.99 held for ever), or
 the free trial with no card. Both get the same four days, capped to a starter
 sample of scripts and a daily DiGi limit read from `platform_config`, and the
