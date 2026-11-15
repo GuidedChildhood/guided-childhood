@@ -256,7 +256,7 @@ export function buildMonthPace(input: {
     // The average is not repeated here. The email prints it three times the
     // size directly above this sentence, and a paragraph that opens by saying
     // the number again reads as filler rather than as an explanation of it.
-    const opener = `Against a healthy guide of ${dailyGuide} minutes a day for their age.`
+    const opener = `Against our guide of ${dailyGuide} minutes a day for their age.`
 
     const move = (() => {
       if (previousAverage == null || direction == null) return ''

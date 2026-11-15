@@ -262,3 +262,9 @@ The one tap stage check (PR 1541) lets a parent join without a name or a birth m
 - Setup's child step says "Send them their own link. It opens their app, nothing to download, no password", held by the new `check-child-link-open`.
 - "You just follow the path" on a family's first day on Home and in the welcome email. The price card and upgrade page say the four free days carry DiGi a few times a day and the starter scripts.
 - Justin kept school, French and Etsy builds going (no pause). Five questions for Rachel in `plans/2026-11-15-rachel-five-questions.md`.
+## 15 November 2026: "our guide", never "healthy", across the app
+
+- Justin said yes to finishing the wording. About 45 lines in 23 files (timer, pushes, pace card, parent report, DiGi's context, the child's timer card, three emails, one quiz option) now say "our guide" or "today's guide" where they said healthy guide, amount, level or range.
+- Reason: the daily minutes are our own steer set under the published guidance. WHO 2020 gives no screen number for ages 5 to 17, so "healthy" claimed more than we can show. The three emails now say "set under what the WHO, AAP, Canadian guidelines and RCPCH say", not "drawn straight from".
+- The area name "Healthy balance" (passport, lessons) is a title, not a claim about a number, and stays.
+- Board tasks due 21 November (walkthrough campaign, one family's first day, first paying family, Fable 5.2 compare) snoozed a week at his word.

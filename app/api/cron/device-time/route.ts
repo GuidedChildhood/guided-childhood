@@ -10,7 +10,7 @@ import { sendPush } from '@/lib/push/send'
 // The parent's eyes on device time, every minute. Two jobs:
 //
 // 1. Sessions whose time is up but still marked active get closed, and the
-//    parent is told the block finished (or that today's healthy amount is now
+//    parent is told the block finished (or that today's guide is now
 //    reached, when that is the news).
 // 2. Sessions still RUNNING that have just crossed the day's healthy amount
 //    for the child's age get flagged once (guide_alerted_at) and the parent
@@ -93,7 +93,7 @@ async function handler(request: Request) {
         await push(
           s.user_id as string,
           `${kid.name} has had their screen time today 🌱`,
-          `That is the healthy amount for their age. Their stars keep earning for tomorrow.`,
+          `That is our guide for their age. Their stars keep earning for tomorrow.`,
           true,
         )
       } else {
@@ -163,14 +163,14 @@ async function handler(request: Request) {
 
       await push(
         s.user_id as string,
-        `${kid.name} has reached the healthy amount for today 🌱`,
+        `${kid.name} has reached the guide for today 🌱`,
         `The ${deviceLabel(s.device as string)} timer is wrapping up with some offline ideas. A lot of screen can slow their passport stamp a little, so a quieter day or an outside job keeps it moving. Anything more today is a treat you can grant from the board.`,
       )
       try {
         await pushToChild(
           admin, s.user_id as string, cid,
           'Nearly time to wrap up 🌱',
-          'You have reached the healthy amount for today. A lot of screen can slow your passport stamp a little, so a job or something fun offline keeps it growing.',
+          'You have reached the guide for today. A lot of screen can slow your passport stamp a little, so a job or something fun offline keeps it growing.',
         )
       } catch { /* best effort per session */ }
       alerted += 1

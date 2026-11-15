@@ -55,7 +55,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
     {
       icon: 'balance',
       title: 'You see the balance as it happens',
-      body: `Time on, time off screen, and whether it is sitting at a healthy level for ${name ? `${name}'s` : 'their'} age.`,
+      body: `Time on, time off screen, and whether it is sitting inside our guide for ${name ? `${name}'s` : 'their'} age.`,
     },
     {
       icon: 'print',

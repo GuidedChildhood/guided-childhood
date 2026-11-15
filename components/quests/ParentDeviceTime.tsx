@@ -74,7 +74,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
           before the tap so the parent grants it knowingly. Never a block. */}
       {exceedsGuide && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-          This takes {childName}{' '}past today&apos;s healthy amount for their age, so it goes down as a treat.
+          This takes {childName}{' '}past today&apos;s guide for their age, so it goes down as a treat.
         </p>
       )}
       {/* The deal, said at the yes. The same two lines the child sees while
@@ -569,7 +569,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
             below it. Never a block: the grown up decides. */}
         {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, minutes) && (
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-            This takes {kid.name} past today's healthy amount for their age, so it goes down as a treat.
+            This takes {kid.name} past today's guide for their age, so it goes down as a treat.
           </p>
         )}
 
@@ -811,7 +811,7 @@ export function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMi
             ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
             : g.status === 'reached'
             ? `They have had their recommended time today. More is a treat, your call.`
-            : `This takes ${name} past today's healthy amount for their age, so it goes down as a treat.`}
+            : `This takes ${name} past today's guide for their age, so it goes down as a treat.`}
         </p>
       )}
     </div>
