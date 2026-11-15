@@ -31,6 +31,19 @@ git checkout -B claude/review-board-<date> origin/main
 git push --dry-run origin HEAD:refs/heads/claude/review-board-<date>
 ```
 
+Then, still before any lens runs, save a stub so a silent run is impossible
+(review board, 14 November 2026: the 13 November run fired and left no file and
+no branch):
+
+```
+printf '# Review board <date>\nStarted. If this line is all there is, the run stopped early.\n' > plans/review-board/runs/<date>.md
+git add plans/review-board/runs/<date>.md
+git commit -m "Review board <date>: started"
+git push -u origin claude/review-board-<date>
+```
+
+Ingest overwrites the stub with the full report at step 4.
+
 If the dry run is refused, call `add_repo` again with access `push` and try
 once more. If it is still refused, do the whole run anyway and print the full
 report in the reply (step 5).

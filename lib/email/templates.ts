@@ -159,7 +159,7 @@ export function welcomeEmail(params: {
       heading(parentName ? `Thank you for joining, ${parentName}.` : 'Thank you for joining.') +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
       p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
-      p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +
+      p(`<strong>You just follow the path.</strong> Each day we bring the next step and the words for it, matched to their stage. About ten minutes, not a course, and nothing to catch up on if you miss a day.`) +
       p(`What is waiting for you inside:`) +
       bullets([
         `<strong>Jobs and chores earn the screen time.</strong> They do something real, they earn stars, stars become minutes, and you set the rate. This is the part nobody else has.`,

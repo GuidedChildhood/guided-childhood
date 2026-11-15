@@ -569,10 +569,16 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               component and this screen is a client one. If they move, the
               guard in scripts/check-price-copy will fail. */}
           <p style={{ textAlign: 'center', marginTop: 12, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55 }}>
-            Everything open for four days. No card to start, so nothing can charge you by accident.
-            After that it is <strong>£7.99 a month</strong> at the founder rate, held for life and
-            limited to the first fifty, then £12.99. We will email you before the four days are up,
-            not after.
+            {/* Where free stops, said plainly (Justin, 15 November 2026). The
+                four days carry DiGi on a daily limit and the starter scripts
+                (lib/access.ts inStarterTrial, lib/config/trial.ts), so
+                "everything open" overclaimed. No number for the DiGi limit:
+                it lives in platform_config and this is a client screen. */}
+            Free for four days, with DiGi a few times a day and the starter scripts. No card to start,
+            so nothing can charge you by accident. After that it is <strong>£7.99 a month</strong> at
+            the founder rate, held for life and limited to the first fifty, then £12.99, and that keeps
+            everything: DiGi whenever you need it, every script and the whole road to sixteen. We will
+            email you before the four days are up, not after.
           </p>
           <p style={{ textAlign: 'center', marginTop: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
             Already have an account? <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>

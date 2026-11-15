@@ -72,19 +72,19 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
           background: 'linear-gradient(160deg, var(--passport-cover-hi) 0%, var(--passport-cover) 55%, var(--passport-cover-lo) 100%)',
           borderRadius: '12px 16px 16px 12px', padding: '24px 16px 18px', textAlign: 'center',
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
-          boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 10px 0 20px rgba(0,0,0,0.25), 0 14px 30px rgba(26,26,46,0.18)',
+          boxShadow: 'inset 0 0 0 2px var(--passport-foil-rule), inset 0 0 0 5px var(--passport-foil-line), inset 10px 0 20px rgba(0,0,0,0.25), 0 14px 30px rgba(26,26,46,0.18)',
           transform: 'rotate(-2deg)',
         }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               Digital Childhood Passport
             </div>
-            <div style={{ width: 36, height: 1.5, background: 'rgba(237,195,95,0.55)', margin: '8px auto 0' }} />
+            <div style={{ width: 36, height: 1.5, background: 'var(--passport-foil-rule)', margin: '8px auto 0' }} />
           </div>
           <div>
             <div style={{
               width: 58, height: 58, borderRadius: '50%', margin: '0 auto 12px',
-              border: '2px solid rgba(237,195,95,0.85)', boxShadow: 'inset 0 0 0 3px rgba(237,195,95,0.18)',
+              border: '2px solid var(--passport-foil)', boxShadow: 'inset 0 0 0 3px var(--passport-foil-wash)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 24 }}>
@@ -96,7 +96,7 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta)', lineHeight: 1.15, letterSpacing: '0.02em', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {kid || 'Our family'}
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: 6 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--passport-foil-text)', marginTop: 6 }}>
               The journey to 16
             </div>
           </div>
@@ -104,7 +104,7 @@ export function Passport({ here, kid }: { here: number; kid?: string }) {
             {STAGE_CHARACTERS.map(c => (
               <span key={c.key} style={{
                 width: 24, height: 24, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
-                background: 'rgba(237,195,95,0.10)', border: '1.5px solid rgba(237,195,95,0.45)',
+                background: 'var(--passport-foil-fill)', border: '1.5px solid var(--passport-foil-soft)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <img src={c.cutout} alt="" width={24} height={24} style={{

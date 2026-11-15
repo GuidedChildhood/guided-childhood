@@ -1151,6 +1151,54 @@
       "snooze_until": null,
       "closed": null,
       "note": ""
+    },
+    {
+      "id": "get-rachel-the-one-live-family",
+      "title": "Get Rachel, the one live family, through one full week of finished days, then invite four more families she or Justin know. Reopened 15 Nov: five real families was marked done, but no finished day since 28 Sept (Justin, 15 Nov: Rachel first).",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [],
+      "proof": "added by hand",
+      "due": "2026-11-22",
+      "status": "open",
+      "created": "2026-11-15",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "ask-rachel-the-five-short-questions",
+      "title": "Ask Rachel the five short questions Claude drafted (plans/2026-11-15-rachel-five-questions.md) and paste her answers into a session, so her stops become the next fixes.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [],
+      "proof": "added by hand",
+      "due": "2026-11-22",
+      "status": "open",
+      "created": "2026-11-15",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
+    },
+    {
+      "id": "give-the-friday-board-and-wednesday",
+      "title": "Give the Friday board and Wednesday walkthrough routines write access to GuidedChildhood/guided-childhood in their environment sources, so a scheduled run can push its file.",
+      "owner": "justin",
+      "size": "small",
+      "priority": 2,
+      "lenses": [],
+      "proof": "added by hand",
+      "due": "2026-11-22",
+      "status": "open",
+      "created": "2026-11-15",
+      "asked": null,
+      "snooze_until": null,
+      "closed": null,
+      "note": ""
     }
   ]
 }
