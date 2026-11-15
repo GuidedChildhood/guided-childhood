@@ -60,11 +60,11 @@ Send this to the parent who feels guilty every time they look at the screen time
 
 Fair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.
 
-But the same study found something the headlines rarely carry. Researchers at Oxford asked 120,115 fifteen year olds in England about their screens and how they were feeling. The ones with moderate screen time reported slightly better wellbeing than the ones with none at all.
+But the same study found something the headlines rarely carry. Researchers surveyed 120,115 fifteen year olds in England about their screens and how they were feeling. Moderate screen time went with wellbeing that was no lower than none at all, and for some activities it was slightly higher.
 
-The line only turned downward past a point. On a school day that was around 1 hour 40 minutes for video games, just under 2 hours for a smartphone, and around 3 hours 40 minutes for watching videos. Past those points the link was small.
+The line only turned downward past a point. On a school day that was 1 hour 40 minutes for video games, 1 hour 57 minutes for a smartphone, and 3 hours 41 minutes for watching videos. Past those points the link was there, and the researchers put it at about a third as strong as the link between wellbeing and eating breakfast.
 
-The honest reading: this is a snapshot, the teenagers reported their own time, and it cannot show that screens caused anything. The researchers say the turning points describe these teenagers. They are not limits for your child.
+The honest reading: it was a one off survey, so it shows a link and not a cause. It was published in 2017, so the screens it measured are not today's. And those times are averages for fifteen year olds. We would not treat them as limits for any one child.
 
 Tonight: swap the clock question for a curious one. Not "How long have you been on that?" but "What are you in the middle of? Show me the best bit."
 
@@ -78,11 +78,11 @@ Send this to the parent who feels guilty every time they look at the screen time
 
 Fair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.
 
-But the same study found something the headlines rarely carry. Researchers at Oxford asked 120,115 fifteen year olds in England about their screens and how they were feeling. The ones with moderate screen time reported slightly better wellbeing than the ones with none at all.
+But the same study found something the headlines rarely carry. Researchers surveyed 120,115 fifteen year olds in England about their screens and how they were feeling. Moderate screen time went with wellbeing that was no lower than none at all, and for some activities it was slightly higher.
 
-The line only turned downward past a point. On a school day that was around 1 hour 40 minutes for video games, just under 2 hours for a smartphone, and around 3 hours 40 minutes for watching videos. Past those points the link was small.
+The line only turned downward past a point. On a school day that was 1 hour 40 minutes for video games, 1 hour 57 minutes for a smartphone, and 3 hours 41 minutes for watching videos. Past those points the link was there, and the researchers put it at about a third as strong as the link between wellbeing and eating breakfast.
 
-The honest reading: this is a snapshot, the teenagers reported their own time, and it cannot show that screens caused anything. The researchers say the turning points describe these teenagers. They are not limits for your child.
+The honest reading: it was a one off survey, so it shows a link and not a cause. It was published in 2017, so the screens it measured are not today's. And those times are averages for fifteen year olds. We would not treat them as limits for any one child.
 
 Tonight: swap the clock question for a curious one. Not "How long have you been on that?" but "What are you in the middle of? Show me the best bit."
 
@@ -92,7 +92,7 @@ What stage is your child? Three questions, no sign up: guidedchildhood.com/v/fb-
 
 **First comment**
 
-Source: Przybylski and Weinstein, A Large Scale Test of the Goldilocks Hypothesis, Psychological Science, 2017. A cross sectional study with self reported screen time, so it shows associations, not cause.
+Source: Przybylski and Weinstein, A Large Scale Test of the Goldilocks Hypothesis, Psychological Science, 2017. A survey of 120,115 fifteen year olds in England. One survey at one point in time, so it shows a link, not a cause. The times are weekday turning points for that group, not recommended limits. The breakfast comparison is from the journal's own press release.
 
 **Alt text**
 

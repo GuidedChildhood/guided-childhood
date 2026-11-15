@@ -27,23 +27,23 @@
       "eyebrow": "What the researchers found",
       "value": "120,115",
       "unit": " teenagers",
-      "body": "All aged 15, in England. Those with moderate screen time reported slightly better wellbeing than those with none."
+      "body": "All aged 15, in England. Moderate screen time went with wellbeing that was no lower than none at all, and for some activities slightly higher."
     },
     {
       "name": "turning",
       "type": "big",
       "tone": "ink",
       "eyebrow": "Where the line turned",
-      "headline": "Just under<br>2 hours.",
-      "body": "On a school day, that is where the smartphone line turned downward. Video games, about 1 hour 40. Watching videos, about 3 hours 40.",
+      "headline": "1 hour<br>57 minutes.",
+      "body": "On a school day, that is where the smartphone line turned downward. Video games, 1 hour 40. Watching videos, 3 hours 41.",
       "scale": "h-lg"
     },
     {
       "name": "reading",
       "type": "quote",
       "eyebrow": "The honest reading",
-      "quote": "A turning point describes those teenagers. It is not a limit for your child.",
-      "attrib": "A snapshot, self reported. It cannot show cause."
+      "quote": "These are averages from one survey of 15 year olds. Not limits for your child.",
+      "attrib": "One survey, published in 2017. A link, not a cause."
     },
     {
       "name": "tonight",
@@ -70,9 +70,9 @@
       "Instagram",
       "Facebook"
     ],
-    "instagram": "Send this to the parent who feels guilty every time they look at the screen time number.\n\nFair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.\n\nBut the same study found something the headlines rarely carry. Researchers at Oxford asked 120,115 fifteen year olds in England about their screens and how they were feeling. The ones with moderate screen time reported slightly better wellbeing than the ones with none at all.\n\nThe line only turned downward past a point. On a school day that was around 1 hour 40 minutes for video games, just under 2 hours for a smartphone, and around 3 hours 40 minutes for watching videos. Past those points the link was small.\n\nThe honest reading: this is a snapshot, the teenagers reported their own time, and it cannot show that screens caused anything. The researchers say the turning points describe these teenagers. They are not limits for your child.\n\nTonight: swap the clock question for a curious one. Not \"How long have you been on that?\" but \"What are you in the middle of? Show me the best bit.\"\n\nWhat do you find yourself counting at your house, the minutes or what the minutes are for?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
-    "facebook": "Send this to the parent who feels guilty every time they look at the screen time number.\n\nFair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.\n\nBut the same study found something the headlines rarely carry. Researchers at Oxford asked 120,115 fifteen year olds in England about their screens and how they were feeling. The ones with moderate screen time reported slightly better wellbeing than the ones with none at all.\n\nThe line only turned downward past a point. On a school day that was around 1 hour 40 minutes for video games, just under 2 hours for a smartphone, and around 3 hours 40 minutes for watching videos. Past those points the link was small.\n\nThe honest reading: this is a snapshot, the teenagers reported their own time, and it cannot show that screens caused anything. The researchers say the turning points describe these teenagers. They are not limits for your child.\n\nTonight: swap the clock question for a curious one. Not \"How long have you been on that?\" but \"What are you in the middle of? Show me the best bit.\"\n\nWhat do you find yourself counting at your house, the minutes or what the minutes are for?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
+    "instagram": "Send this to the parent who feels guilty every time they look at the screen time number.\n\nFair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.\n\nBut the same study found something the headlines rarely carry. Researchers surveyed 120,115 fifteen year olds in England about their screens and how they were feeling. Moderate screen time went with wellbeing that was no lower than none at all, and for some activities it was slightly higher.\n\nThe line only turned downward past a point. On a school day that was 1 hour 40 minutes for video games, 1 hour 57 minutes for a smartphone, and 3 hours 41 minutes for watching videos. Past those points the link was there, and the researchers put it at about a third as strong as the link between wellbeing and eating breakfast.\n\nThe honest reading: it was a one off survey, so it shows a link and not a cause. It was published in 2017, so the screens it measured are not today's. And those times are averages for fifteen year olds. We would not treat them as limits for any one child.\n\nTonight: swap the clock question for a curious one. Not \"How long have you been on that?\" but \"What are you in the middle of? Show me the best bit.\"\n\nWhat do you find yourself counting at your house, the minutes or what the minutes are for?\n\nWhat stage is your child? Three questions, no sign up, link in bio.",
+    "facebook": "Send this to the parent who feels guilty every time they look at the screen time number.\n\nFair point first: past a certain point, more screen time did go with teenagers feeling a little worse. That part is real.\n\nBut the same study found something the headlines rarely carry. Researchers surveyed 120,115 fifteen year olds in England about their screens and how they were feeling. Moderate screen time went with wellbeing that was no lower than none at all, and for some activities it was slightly higher.\n\nThe line only turned downward past a point. On a school day that was 1 hour 40 minutes for video games, 1 hour 57 minutes for a smartphone, and 3 hours 41 minutes for watching videos. Past those points the link was there, and the researchers put it at about a third as strong as the link between wellbeing and eating breakfast.\n\nThe honest reading: it was a one off survey, so it shows a link and not a cause. It was published in 2017, so the screens it measured are not today's. And those times are averages for fifteen year olds. We would not treat them as limits for any one child.\n\nTonight: swap the clock question for a curious one. Not \"How long have you been on that?\" but \"What are you in the middle of? Show me the best bit.\"\n\nWhat do you find yourself counting at your house, the minutes or what the minutes are for?\n\nWhat stage is your child? Three questions, no sign up: guidedchildhood.com/starter-pack",
     "alt": "Card one of seven. A large headline asks whether there is a right amount of screen time, with the purple planet friend Nova beside it. The later cards give the fair point, the finding from 120,115 fifteen year olds in England, where the line turned, an honest reading, and one question to ask tonight.",
-    "first_comment": "Source: Przybylski and Weinstein, A Large Scale Test of the Goldilocks Hypothesis, Psychological Science, 2017. A cross sectional study with self reported screen time, so it shows associations, not cause."
+    "first_comment": "Source: Przybylski and Weinstein, A Large Scale Test of the Goldilocks Hypothesis, Psychological Science, 2017. A survey of 120,115 fifteen year olds in England. One survey at one point in time, so it shows a link, not a cause. The times are weekday turning points for that group, not recommended limits. The breakfast comparison is from the journal's own press release."
   }
 }
