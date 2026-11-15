@@ -36,7 +36,7 @@ const BY_EMOJI: Record<string, HappyIconName> = {
   // Screens, which is the whole point of the product
   '🔌': 'plug', '📵': 'phone', '📱': 'phone', '📲': 'phone', '💻': 'phone',
   '📺': 'tv', '🎮': 'games', '🎲': 'games',
-  // Out there, which pays the most
+  // Out there, which leads every list
   '🌳': 'tree', '☀️': 'sun', '⚽': 'ball', '🚲': 'bike', '🎨': 'paint',
   // Bed, kindness and the rest
   '🛏️': 'bed', '🌙': 'bed', '💛': 'kind', '🤝': 'kind', '🐾': 'paw',

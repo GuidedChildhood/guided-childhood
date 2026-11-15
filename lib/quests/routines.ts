@@ -82,7 +82,7 @@ export const ROUTINE_PACKS: RoutinePack[] = [
       { title: 'Clean bedroom top to bottom', emoji: '🧹', stars: 3, schedule: 'weekend' },
       { title: 'Put your washing away', emoji: '🧺', stars: 1, schedule: 'weekend' },
       { title: 'Water the plants', emoji: '🪴', stars: 1, schedule: 'weekend' },
-      { title: 'Family game played together', emoji: '🎲', stars: 4, schedule: 'weekend' },
+      { title: 'Family game played together', emoji: '🎲', stars: 2, schedule: 'weekend' },
     ],
   },
   {
@@ -91,7 +91,7 @@ export const ROUTINE_PACKS: RoutinePack[] = [
     emoji: '☀️',
     blurb: 'A gentler holiday shape: more play, a little structure, the morning screen time earned.',
     tasks: [
-      { title: 'One hour of outside play', emoji: '🌳', stars: 4, schedule: 'daily' },
+      { title: 'One hour of outside play', emoji: '🌳', stars: 2, schedule: 'daily' },
       { title: 'Build, draw or make something real', emoji: '🎨', stars: 3, schedule: 'daily' },
       { title: 'Help with a meal', emoji: '🍳', stars: 2, schedule: 'daily' },
       { title: 'Twenty minutes of reading', emoji: '📚', stars: 2, schedule: 'daily' },

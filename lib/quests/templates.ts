@@ -3,10 +3,21 @@
 // that make screen free time the fun option. Stars are defaults, parents
 // adjust per family.
 //
-// PLAY PAYS BEST, on purpose. The real risk with screens is what they
-// crowd out: sleep, movement, real play, boredom that turns into ideas.
-// So the deal pays the most stars for exactly those things. Screen time
-// earned by outside play is screen time that already did its job.
+// PLAY COMES FIRST, AND PAYS THE SAME (Justin, 15 November 2026).
+//
+// Until then play paid the top stars, 3 to 5 against 1 or 2 for a chore, on
+// the reasoning that the risk with screens is what they crowd out. That part
+// still stands, and it is why play still leads every list. What changed is the
+// premium. The best evidence on rewards (Deci, Koestner and Ryan 1999, 128
+// studies) is that an expected, tangible reward for something a person already
+// enjoys lowers their own interest in it, more so in children, while specific
+// praise raises it. Reading and running about are the two things on this
+// board most children already like, so they were the one place the deal was
+// paying in exactly the way the research warns about.
+//
+// So a play job earns what any job its size earns, and the approve step asks
+// the parent to say what they saw. These are defaults for NEW jobs only. A
+// family's existing jobs keep the stars the parent gave them.
 
 export type QuestTemplate = {
   title: string
@@ -27,26 +38,26 @@ export const STAR_MINUTES = (() => {
   return Number.isFinite(raw) && raw >= 1 && raw <= 60 ? Math.round(raw) : 5
 })()
 
-// Why play pays best, in the parent's language. Shown next to the
-// templates so the star values read as a philosophy, not an accident.
-export const PLAY_PAYS_WHY =
-  'Play pays best on purpose. The research risk with screens is what they crowd out: sleep, movement, real play and the boredom that turns into ideas. So outside and play quests earn the top stars. Screen time earned that way has already done its job.'
+// Why play leads the list and pays the same, in the parent's language. Shown
+// next to the templates so the star values read as a decision, not an accident.
+export const PLAY_FIRST_WHY =
+  'Play and outside come first on purpose. The risk with screens is what they crowd out: sleep, movement, real play and the boredom that turns into ideas. They earn the same stars as any other job, because paying extra for something a child already enjoys can make it feel like work. What you say when you agree it does more than the stars: name the thing you saw.'
 
 // Same idea in kid language, for the quest page.
-export const PLAY_PAYS_WHY_KID =
-  'Outside and play quests pay the best stars. Screens are brilliant, but your body and brain grow strongest running about, making things and playing for real. That is why out there earns the most in here.'
+export const PLAY_FIRST_WHY_KID =
+  'Outside and play quests come first on the list. Screens are brilliant, but your body and brain grow strongest running about, making things and playing for real.'
 
 export const QUEST_TEMPLATES: QuestTemplate[] = [
-  // Play and outside first: the top of the pay scale. Football and reading
-  // sit up here on purpose: a kickabout is the movement and the mates, and a
-  // book is the deepest screen free attention a child can practise.
-  { title: 'One hour of outside play',          emoji: '🌳', stars: 4, schedule: 'daily',    play: true },
-  { title: 'Football, a proper kickabout',      emoji: '⚽', stars: 4, schedule: 'daily',    play: true },
-  { title: 'Twenty minutes lost in a book',     emoji: '📚', stars: 3, schedule: 'daily',    play: true },
-  { title: 'Bike, scoot or run about',          emoji: '🚲', stars: 3, schedule: 'daily',    play: true },
-  { title: 'Build, draw or make something real', emoji: '🎨', stars: 3, schedule: 'daily',   play: true },
-  { title: 'Family game played together',       emoji: '🎲', stars: 4, schedule: 'weekend',  play: true },
-  { title: 'A whole screen free Saturday morning', emoji: '☀️', stars: 5, schedule: 'weekend', play: true },
+  // Play and outside first: the top of the list, not of the pay scale. Football
+  // and reading sit up here on purpose: a kickabout is the movement and the
+  // mates, and a book is the deepest screen free attention a child can practise.
+  { title: 'One hour of outside play',          emoji: '🌳', stars: 2, schedule: 'daily',    play: true },
+  { title: 'Football, a proper kickabout',      emoji: '⚽', stars: 2, schedule: 'daily',    play: true },
+  { title: 'Twenty minutes lost in a book',     emoji: '📚', stars: 2, schedule: 'daily',    play: true },
+  { title: 'Bike, scoot or run about',          emoji: '🚲', stars: 2, schedule: 'daily',    play: true },
+  { title: 'Build, draw or make something real', emoji: '🎨', stars: 2, schedule: 'daily',   play: true },
+  { title: 'Family game played together',       emoji: '🎲', stars: 2, schedule: 'weekend',  play: true },
+  { title: 'A whole screen free Saturday morning', emoji: '☀️', stars: 3, schedule: 'weekend', play: true },
 
   // The daily jobs families already fight about
   { title: 'Shoes away in the hallway',   emoji: '👟', stars: 1, schedule: 'daily' },

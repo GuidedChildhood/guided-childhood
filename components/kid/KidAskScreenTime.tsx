@@ -371,7 +371,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
                     <HappyIcon name="move" size={30} />
                     <span style={{ flex: 1, minWidth: 0 }}>
                       <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: HAPPY.ink }}>Your five a day: {fiveLeft.length} left</span>
-                      <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>{fiveLeft.slice(0, 3).join(', ')}. Outside pays best, and {friend.name} loves it.</span>
+                      <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>{fiveLeft.slice(0, 3).join(', ')}. Outside comes first, and {friend.name} loves it.</span>
                     </span>
                     <span aria-hidden style={{ fontWeight: 900 }}>›</span>
                   </a>
